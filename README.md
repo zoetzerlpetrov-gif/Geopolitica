@@ -1,0 +1,2 @@
+# Geopolitica
+Mapa visual Geopolítico
