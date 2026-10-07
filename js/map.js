@@ -1,0 +1,170 @@
+// Mapa con MapLibre GL (WebGL). Todo lo que se dibuja vive en la GPU:
+// no se crean elementos HTML por marcador, por eso escala a decenas de miles de puntos.
+/* global maplibregl */
+
+const OFM = {
+  light: "https://tiles.openfreemap.org/styles/positron",
+  dark: "https://tiles.openfreemap.org/styles/dark",
+};
+const GLYPHS = "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf";
+const FONT = ["Noto Sans Regular"];
+
+async function fetchTimeout(url, ms) {
+  const ctrl = new AbortController();
+  const t = setTimeout(() => ctrl.abort(), ms);
+  try { return await fetch(url, { signal: ctrl.signal }); } finally { clearTimeout(t); }
+}
+
+/** Estilo local de respaldo: solo fondo y países de Natural Earth (sin depender de terceros). */
+function estiloRespaldo(theme) {
+  const dark = theme === "dark";
+  return {
+    version: 8,
+    glyphs: GLYPHS,
+    sources: { paises: { type: "geojson", data: "data/base/countries.geojson" } },
+    layers: [
+      { id: "fondo", type: "background", paint: { "background-color": dark ? "#0d1b24" : "#dfe8ee" } },
+      { id: "paises-relleno", type: "fill", source: "paises", paint: { "fill-color": dark ? "#1f2a31" : "#f7f7f4" } },
+      { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": dark ? "#3b4b56" : "#b9c2c9", "line-width": 0.6 } },
+    ],
+  };
+}
+
+/** Descarga el estilo de OpenFreeMap; si no responde en 6 s usa el respaldo local. */
+export async function estiloBase(theme) {
+  try {
+    const r = await fetchTimeout(OFM[theme], 6000);
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    return { style: await r.json(), remoto: true };
+  } catch (e) {
+    console.warn("OpenFreeMap no disponible, se usa el mapa base local:", e.message);
+    return { style: estiloRespaldo(theme), remoto: false };
+  }
+}
+
+/**
+ * Crea el mapa y devuelve una API mínima para el resto de la app.
+ * @param {object} o
+ * @param {HTMLElement} o.container
+ * @param {object} o.style            estilo inicial
+ * @param {Record<string,string>} o.colores  id de área -> color
+ * @param {object} o.chokepoints      GeoJSON
+ * @param {"light"|"dark"} o.tema
+ * @param {(id:string)=>void} o.onSelect
+ */
+export function crearMapa({ container, style, colores, chokepoints, tema: temaInicial, onSelect }) {
+  const map = new maplibregl.Map({
+    container, style, center: [-20, 22], zoom: container.clientWidth < 600 ? 0.6 : 1.6, minZoom: 0.5, maxZoom: 12,
+    attributionControl: { compact: true }, renderWorldCopies: true,
+    // Menos trabajo por cuadro en equipos modestos:
+    fadeDuration: 0, maxTileCacheSize: 200,
+  });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
+
+  let datos = { type: "FeatureCollection", features: [] };
+  let seleccion = "";
+  let tema = temaInicial;
+  let chokeVisible = true;
+
+  const colorArea = ["match", ["get", "a"]];
+  for (const [id, c] of Object.entries(colores)) colorArea.push(id, c);
+  colorArea.push("#888888");
+
+  function agregarCapas() {
+    const dark = tema === "dark";
+    const halo = dark ? "#0f1418" : "#ffffff";
+    const texto = dark ? "#e4e9ed" : "#1c2329";
+
+    map.addSource("chokepoints", { type: "geojson", data: chokepoints });
+    map.addLayer({
+      id: "choke-anillo", type: "circle", source: "chokepoints",
+      layout: { visibility: chokeVisible ? "visible" : "none" },
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 6, 6, 12],
+        "circle-color": "rgba(0,0,0,0)", "circle-stroke-width": 2,
+        "circle-stroke-color": ["match", ["get", "tipo"], "ruta_alternativa", "#8a8f94", "#2E6F8E"],
+      },
+    });
+    map.addLayer({
+      id: "choke-texto", type: "symbol", source: "chokepoints", minzoom: 2.2,
+      layout: {
+        visibility: chokeVisible ? "visible" : "none",
+        "text-field": ["get", "nombre"], "text-font": FONT, "text-size": 11,
+        "text-offset": [0, 1.3], "text-anchor": "top", "text-optional": true,
+      },
+      paint: { "text-color": texto, "text-halo-color": halo, "text-halo-width": 1.4 },
+    });
+
+    // Agrupación (clusters) calculada en un Web Worker por MapLibre (supercluster).
+    map.addSource("eventos", {
+      type: "geojson", data: datos, cluster: true, clusterRadius: 42, clusterMaxZoom: 7,
+      clusterProperties: { sev_max: ["max", ["get", "s"]] },
+    });
+    map.addLayer({
+      id: "clusters", type: "circle", source: "eventos", filter: ["has", "point_count"],
+      paint: {
+        "circle-color": dark ? "#2a3640" : "#ffffff",
+        "circle-radius": ["step", ["get", "point_count"], 13, 10, 17, 50, 22, 200, 28],
+        "circle-stroke-width": 3,
+        "circle-stroke-color": ["step", ["get", "sev_max"], "#7c8b96", 3, "#d08a1a", 4, "#c0392b"],
+      },
+    });
+    map.addLayer({
+      id: "clusters-num", type: "symbol", source: "eventos", filter: ["has", "point_count"],
+      layout: { "text-field": ["get", "point_count_abbreviated"], "text-font": FONT, "text-size": 12, "text-allow-overlap": true },
+      paint: { "text-color": texto },
+    });
+    map.addLayer({
+      id: "evento", type: "circle", source: "eventos", filter: ["!", ["has", "point_count"]],
+      paint: {
+        "circle-color": colorArea,
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, ["+", 3, ["get", "s"]], 8, ["+", 6, ["*", 2, ["get", "s"]]]],
+        "circle-stroke-width": 1.5, "circle-stroke-color": "#ffffff",
+      },
+    });
+    map.addLayer({
+      id: "evento-sel", type: "circle", source: "eventos",
+      filter: ["==", ["get", "id"], seleccion],
+      paint: {
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 12, 8, 22],
+        "circle-color": "rgba(0,0,0,0)", "circle-stroke-width": 3, "circle-stroke-color": dark ? "#ffffff" : "#111111",
+      },
+    });
+  }
+
+  // Cada vez que cambia el estilo base (tema claro/oscuro) se vuelven a montar las capas propias.
+  map.on("style.load", agregarCapas);
+
+  // Interacción
+  const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 10 });
+  map.on("click", "clusters", async (e) => {
+    const f = e.features[0];
+    const zoom = await map.getSource("eventos").getClusterExpansionZoom(f.properties.cluster_id);
+    map.easeTo({ center: f.geometry.coordinates, zoom });
+  });
+  map.on("click", "evento", (e) => onSelect(e.features[0].properties.id));
+  for (const capa of ["clusters", "evento"]) {
+    map.on("mouseenter", capa, () => { map.getCanvas().style.cursor = "pointer"; });
+    map.on("mouseleave", capa, () => { map.getCanvas().style.cursor = ""; popup.remove(); });
+  }
+  map.on("mousemove", "evento", (e) => {
+    popup.setLngLat(e.features[0].geometry.coordinates).setText(e.features[0].properties.t).addTo(map);
+  });
+
+  return {
+    map,
+    /** Reemplaza los puntos visibles. El reagrupado ocurre en el worker, sin bloquear la página. */
+    setDatos(fc) { datos = fc; map.getSource("eventos")?.setData(fc); },
+    setSeleccion(id) {
+      seleccion = id || "";
+      if (map.getLayer("evento-sel")) map.setFilter("evento-sel", ["==", ["get", "id"], seleccion]);
+    },
+    setChokepoints(visible) {
+      chokeVisible = visible;
+      for (const l of ["choke-anillo", "choke-texto"]) if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", visible ? "visible" : "none");
+    },
+    setTema(nuevo, style) { tema = nuevo; map.setStyle(style); },
+    volarA(lon, lat) { map.flyTo({ center: [lon, lat], zoom: Math.max(map.getZoom(), 4), essential: true }); },
+  };
+}

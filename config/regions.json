@@ -1,0 +1,17 @@
+{
+  "descripcion": "Asignación de cada país (ISO 3166-1 alfa-3) a una de las 12 regiones del área 10. Es una convención de este proyecto: algunos países admiten más de una región (p. ej. Afganistán, Turquía, Sudán); aquí se elige una sola para que el filtro sea predecible.",
+  "regiones": {
+    "norteamerica": {"nombre": "Norteamérica", "paises": ["USA", "CAN", "MEX", "BMU", "SPM"]},
+    "centroamerica_caribe": {"nombre": "Centroamérica y Caribe", "paises": ["GTM", "BLZ", "SLV", "HND", "NIC", "CRI", "PAN", "CUB", "HTI", "DOM", "JAM", "BHS", "TTO", "BRB", "PRI", "LCA", "VCT", "GRD", "ATG", "DMA", "KNA", "ABW", "CUW", "SXM", "MAF", "BLM", "VGB", "VIR", "AIA", "MSR", "CYM", "TCA", "GLP", "MTQ"]},
+    "sudamerica": {"nombre": "Sudamérica", "paises": ["COL", "VEN", "ECU", "PER", "BOL", "CHL", "ARG", "URY", "PRY", "BRA", "GUY", "SUR", "GUF", "FLK", "SGS"]},
+    "europa_occidental": {"nombre": "Europa Occidental", "paises": ["GBR", "IRL", "FRA", "ESP", "PRT", "ITA", "DEU", "NLD", "BEL", "LUX", "CHE", "AUT", "DNK", "NOR", "SWE", "FIN", "ISL", "MLT", "GRC", "CYP", "AND", "MCO", "LIE", "SMR", "VAT", "GIB", "IMN", "JEY", "GGY", "FRO", "ALA"]},
+    "europa_este_rusia": {"nombre": "Europa del Este y Rusia", "paises": ["RUS", "UKR", "BLR", "POL", "CZE", "SVK", "HUN", "ROU", "BGR", "MDA", "EST", "LVA", "LTU", "SVN", "HRV", "BIH", "SRB", "MNE", "MKD", "ALB", "XKX", "GEO", "ARM", "AZE"]},
+    "medio_oriente": {"nombre": "Medio Oriente", "paises": ["TUR", "SYR", "LBN", "ISR", "PSE", "JOR", "IRQ", "IRN", "SAU", "YEM", "OMN", "ARE", "QAT", "BHR", "KWT"]},
+    "africa_norte_sahel": {"nombre": "África del Norte y Sahel", "paises": ["EGY", "LBY", "TUN", "DZA", "MAR", "ESH", "MRT", "MLI", "NER", "TCD", "SDN", "BFA", "SEN", "GMB"]},
+    "africa_subsahariana": {"nombre": "África Subsahariana", "paises": ["NGA", "GHA", "CIV", "LBR", "SLE", "GIN", "GNB", "CPV", "TGO", "BEN", "CMR", "CAF", "GNQ", "GAB", "COG", "COD", "AGO", "ZMB", "ZWE", "MOZ", "MWI", "TZA", "KEN", "UGA", "RWA", "BDI", "SSD", "ETH", "ERI", "DJI", "SOM", "NAM", "BWA", "ZAF", "LSO", "SWZ", "MDG", "MUS", "SYC", "COM", "STP", "REU", "MYT", "SHN", "ATF", "IOT"]},
+    "asia_central": {"nombre": "Asia Central", "paises": ["KAZ", "UZB", "TKM", "KGZ", "TJK", "MNG"]},
+    "asia_sur": {"nombre": "Asia del Sur", "paises": ["IND", "PAK", "BGD", "NPL", "BTN", "LKA", "MDV", "AFG"]},
+    "indopacifico_taiwan": {"nombre": "Indo-Pacífico y Taiwán", "paises": ["CHN", "TWN", "HKG", "MAC", "JPN", "KOR", "PRK", "PHL", "VNM", "LAO", "KHM", "THA", "MMR", "MYS", "SGP", "IDN", "BRN", "TLS", "AUS", "NZL", "PNG", "FJI", "SLB", "VUT", "NCL", "PYF", "WSM", "TON", "KIR", "FSM", "MHL", "PLW", "NRU", "TUV", "GUM", "MNP", "ASM", "COK", "NIU", "WLF", "PCN", "NFK", "HMD", "CXR", "CCK", "UMI"]},
+    "artico": {"nombre": "Ártico", "paises": ["GRL", "SJM"]}
+  }
+}

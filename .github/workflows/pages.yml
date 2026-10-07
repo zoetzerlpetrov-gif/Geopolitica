@@ -1,0 +1,54 @@
+name: Publicar en GitHub Pages
+
+# Publica el sitio SOLO si las pruebas y la validación del esquema pasan.
+# Requisito único: Settings → Pages → Build and deployment → Source: "GitHub Actions".
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  workflow_call:   # la ingesta horaria (Fase 2) lo llamará después de actualizar data/
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  pruebas:
+    uses: ./.github/workflows/ci.yml
+
+  publicar:
+    needs: pruebas
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - name: Clonar repositorio
+        uses: actions/checkout@v4
+        with:
+          # Punta de la rama (no el commit que disparó el workflow): así, cuando la ingesta
+          # horaria llama a este workflow tras commitear data/, se publica el dato nuevo.
+          ref: ${{ github.ref }}
+
+      - name: Armar el sitio (solo archivos públicos)
+        run: |
+          mkdir -p _site
+          cp -r index.html taxonomia.html css js vendor config data schema _site/
+          cp SOURCES.md _site/ 2>/dev/null || true
+          touch _site/.nojekyll
+          du -sh _site
+
+      - name: Empaquetar
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Publicar
+        id: deploy
+        uses: actions/deploy-pages@v4

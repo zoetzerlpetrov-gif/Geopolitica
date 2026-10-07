@@ -1,0 +1,1657 @@
+{
+ "descripcion": "Centroide aproximado (anillo más grande), nombres y región por país. Generado por tools/build_countries.mjs desde Natural Earth 1:50m. Se usa para geocodificar eventos sin coordenadas.",
+ "paises": {
+  "ABW": {
+   "es": "Aruba",
+   "en": "Aruba",
+   "lat": 12.45,
+   "lon": -69.9,
+   "region": "centroamerica_caribe"
+  },
+  "AFG": {
+   "es": "Afganistán",
+   "en": "Afghanistan",
+   "lat": 33.84,
+   "lon": 66,
+   "region": "asia_sur"
+  },
+  "AGO": {
+   "es": "Angola",
+   "en": "Angola",
+   "lat": -12.33,
+   "lon": 17.56,
+   "region": "africa_subsahariana"
+  },
+  "AIA": {
+   "es": "Anguila",
+   "en": "Anguilla",
+   "lat": 18.22,
+   "lon": -63,
+   "region": "centroamerica_caribe"
+  },
+  "ALA": {
+   "es": "Islas Åland",
+   "en": "Åland Islands",
+   "lat": 60.23,
+   "lon": 19.98,
+   "region": "europa_occidental"
+  },
+  "ALB": {
+   "es": "Albania",
+   "en": "Albania",
+   "lat": 41.15,
+   "lon": 20.05,
+   "region": "europa_este_rusia"
+  },
+  "AND": {
+   "es": "Andorra",
+   "en": "Andorra",
+   "lat": 42.5,
+   "lon": 1.7,
+   "region": "europa_occidental"
+  },
+  "ARE": {
+   "es": "Emiratos Árabes Unidos",
+   "en": "United Arab Emirates",
+   "lat": 23.9,
+   "lon": 54.3,
+   "region": "medio_oriente"
+  },
+  "ARG": {
+   "es": "Argentina",
+   "en": "Argentina",
+   "lat": -35.19,
+   "lon": -65.16,
+   "region": "sudamerica"
+  },
+  "ARM": {
+   "es": "Armenia",
+   "en": "Armenia",
+   "lat": 40.3,
+   "lon": 44.92,
+   "region": "europa_este_rusia"
+  },
+  "ASM": {
+   "es": "Samoa Americana",
+   "en": "American Samoa",
+   "lat": -14.35,
+   "lon": -170.73,
+   "region": "indopacifico_taiwan"
+  },
+  "ATF": {
+   "es": "Tierras Australes Francesas",
+   "en": "French Southern Territories",
+   "lat": -49.3,
+   "lon": 69.49,
+   "region": "africa_subsahariana"
+  },
+  "ATG": {
+   "es": "Antigua y Barbuda",
+   "en": "Antigua and Barbuda",
+   "lat": 17.04,
+   "lon": -61.72,
+   "region": "centroamerica_caribe"
+  },
+  "AUS": {
+   "es": "Australia",
+   "en": "Australia",
+   "lat": -25.57,
+   "lon": 134.35,
+   "region": "indopacifico_taiwan"
+  },
+  "AUT": {
+   "es": "Austria",
+   "en": "Austria",
+   "lat": 47.59,
+   "lon": 14.12,
+   "region": "europa_occidental"
+  },
+  "AZE": {
+   "es": "Azerbaiyán",
+   "en": "Azerbaijan",
+   "lat": 40.34,
+   "lon": 47.67,
+   "region": "europa_este_rusia"
+  },
+  "BDI": {
+   "es": "Burundi",
+   "en": "Burundi",
+   "lat": -3.36,
+   "lon": 29.88,
+   "region": "africa_subsahariana"
+  },
+  "BEL": {
+   "es": "Bélgica",
+   "en": "Belgium",
+   "lat": 50.64,
+   "lon": 4.64,
+   "region": "europa_occidental"
+  },
+  "BEN": {
+   "es": "Benin",
+   "en": "Benin",
+   "lat": 9.64,
+   "lon": 2.33,
+   "region": "africa_subsahariana"
+  },
+  "BFA": {
+   "es": "Burkina Faso",
+   "en": "Burkina Faso",
+   "lat": 12.26,
+   "lon": -1.77,
+   "region": "africa_norte_sahel"
+  },
+  "BGD": {
+   "es": "Bangladesh",
+   "en": "Bangladesh",
+   "lat": 23.89,
+   "lon": 90.22,
+   "region": "asia_sur"
+  },
+  "BGR": {
+   "es": "Bulgaria",
+   "en": "Bulgaria",
+   "lat": 42.78,
+   "lon": 25.22,
+   "region": "europa_este_rusia"
+  },
+  "BHR": {
+   "es": "Bahrein",
+   "en": "Bahrain",
+   "lat": 26.03,
+   "lon": 50.55,
+   "region": "medio_oriente"
+  },
+  "BHS": {
+   "es": "Bahamas",
+   "en": "Bahamas",
+   "lat": 24.68,
+   "lon": -78.05,
+   "region": "centroamerica_caribe"
+  },
+  "BIH": {
+   "es": "Bosnia y Herzegovina",
+   "en": "Bosnia and Herzegovina",
+   "lat": 44.18,
+   "lon": 17.76,
+   "region": "europa_este_rusia"
+  },
+  "BLM": {
+   "es": "Saint Barthélemy",
+   "en": "Saint Barthélemy",
+   "lat": 17.88,
+   "lon": -62.83,
+   "region": "centroamerica_caribe"
+  },
+  "BLR": {
+   "es": "Bielorrusia",
+   "en": "Belarus",
+   "lat": 53.53,
+   "lon": 28.03,
+   "region": "europa_este_rusia"
+  },
+  "BLZ": {
+   "es": "Belice",
+   "en": "Belize",
+   "lat": 17.19,
+   "lon": -88.73,
+   "region": "centroamerica_caribe"
+  },
+  "BMU": {
+   "es": "Bermudas",
+   "en": "Bermuda",
+   "lat": 32.29,
+   "lon": -64.73,
+   "region": "norteamerica"
+  },
+  "BOL": {
+   "es": "Bolivia",
+   "en": "Bolivia",
+   "lat": -16.71,
+   "lon": -64.68,
+   "region": "sudamerica"
+  },
+  "BRA": {
+   "es": "Brasil",
+   "en": "Brazil",
+   "lat": -10.84,
+   "lon": -53.12,
+   "region": "sudamerica"
+  },
+  "BRB": {
+   "es": "Barbados",
+   "en": "Barbados",
+   "lat": 13.08,
+   "lon": -59.49,
+   "region": "centroamerica_caribe"
+  },
+  "BRN": {
+   "es": "Brunei Darussalam",
+   "en": "Brunei Darussalam",
+   "lat": 4.5,
+   "lon": 114.57,
+   "region": "indopacifico_taiwan"
+  },
+  "BTN": {
+   "es": "Bután",
+   "en": "Bhutan",
+   "lat": 27.41,
+   "lon": 90.41,
+   "region": "asia_sur"
+  },
+  "BWA": {
+   "es": "Botswana",
+   "en": "Botswana",
+   "lat": -22.19,
+   "lon": 23.79,
+   "region": "africa_subsahariana"
+  },
+  "CAF": {
+   "es": "República Centroafricana",
+   "en": "Central African Republic",
+   "lat": 6.57,
+   "lon": 20.47,
+   "region": "africa_subsahariana"
+  },
+  "CAN": {
+   "es": "Canadá",
+   "en": "Canada",
+   "lat": 57.93,
+   "lon": -102.36,
+   "region": "norteamerica"
+  },
+  "CHE": {
+   "es": "Suiza",
+   "en": "Switzerland",
+   "lat": 46.8,
+   "lon": 8.22,
+   "region": "europa_occidental"
+  },
+  "CHL": {
+   "es": "Chile",
+   "en": "Chile",
+   "lat": -35.77,
+   "lon": -71.31,
+   "region": "sudamerica"
+  },
+  "CHN": {
+   "es": "China",
+   "en": "People's Republic of China",
+   "lat": 36.62,
+   "lon": 103.81,
+   "region": "indopacifico_taiwan"
+  },
+  "CIV": {
+   "es": "Costa de Marfil",
+   "en": "Cote d'Ivoire",
+   "lat": 7.62,
+   "lon": -5.57,
+   "region": "africa_subsahariana"
+  },
+  "CMR": {
+   "es": "Camerún",
+   "en": "Cameroon",
+   "lat": 5.7,
+   "lon": 12.74,
+   "region": "africa_subsahariana"
+  },
+  "COD": {
+   "es": "Congo (República Democrática del)",
+   "en": "Democratic Republic of the Congo",
+   "lat": -2.88,
+   "lon": 23.64,
+   "region": "africa_subsahariana"
+  },
+  "COG": {
+   "es": "Congo",
+   "en": "Republic of the Congo",
+   "lat": -0.84,
+   "lon": 15.23,
+   "region": "africa_subsahariana"
+  },
+  "COK": {
+   "es": "Islas Cook",
+   "en": "Cook Islands",
+   "lat": -21.25,
+   "lon": -159.74,
+   "region": "indopacifico_taiwan"
+  },
+  "COL": {
+   "es": "Colombia",
+   "en": "Colombia",
+   "lat": 3.92,
+   "lon": -73.09,
+   "region": "sudamerica"
+  },
+  "COM": {
+   "es": "Comoras",
+   "en": "Comoros",
+   "lat": -11.69,
+   "lon": 43.36,
+   "region": "africa_subsahariana"
+  },
+  "CPV": {
+   "es": "Cabo Verde",
+   "en": "Cape Verde",
+   "lat": 15.14,
+   "lon": -23.66,
+   "region": "africa_subsahariana"
+  },
+  "CRI": {
+   "es": "Costa Rica",
+   "en": "Costa Rica",
+   "lat": 9.98,
+   "lon": -84.19,
+   "region": "centroamerica_caribe"
+  },
+  "CUB": {
+   "es": "Cuba",
+   "en": "Cuba",
+   "lat": 21.62,
+   "lon": -78.95,
+   "region": "centroamerica_caribe"
+  },
+  "CUW": {
+   "es": "Curaçao",
+   "en": "Curaçao",
+   "lat": 12.06,
+   "lon": -68.75,
+   "region": "centroamerica_caribe"
+  },
+  "CXR": {
+   "es": "Isla de Navidad",
+   "en": "Christmas Island",
+   "lat": -10.49,
+   "lon": 105.72,
+   "region": "indopacifico_taiwan"
+  },
+  "CYM": {
+   "es": "Islas Caimán",
+   "en": "Cayman Islands",
+   "lat": 19.35,
+   "lon": -81.37,
+   "region": "centroamerica_caribe"
+  },
+  "CYP": {
+   "es": "Chipre",
+   "en": "Cyprus",
+   "lat": 35.27,
+   "lon": 33.54,
+   "region": "europa_occidental"
+  },
+  "CZE": {
+   "es": "República Checa",
+   "en": "Czech Republic",
+   "lat": 49.73,
+   "lon": 15.3,
+   "region": "europa_este_rusia"
+  },
+  "DEU": {
+   "es": "Alemania",
+   "en": "Germany",
+   "lat": 51.09,
+   "lon": 10.37,
+   "region": "europa_occidental"
+  },
+  "DJI": {
+   "es": "Yibuti",
+   "en": "Djibouti",
+   "lat": 11.75,
+   "lon": 42.55,
+   "region": "africa_subsahariana"
+  },
+  "DMA": {
+   "es": "Dominica",
+   "en": "Dominica",
+   "lat": 15.45,
+   "lon": -61.36,
+   "region": "centroamerica_caribe"
+  },
+  "DNK": {
+   "es": "Dinamarca",
+   "en": "Denmark",
+   "lat": 56.24,
+   "lon": 9.37,
+   "region": "europa_occidental"
+  },
+  "DOM": {
+   "es": "República Dominicana",
+   "en": "Dominican Republic",
+   "lat": 18.9,
+   "lon": -70.53,
+   "region": "centroamerica_caribe"
+  },
+  "DZA": {
+   "es": "Argelia",
+   "en": "Algeria",
+   "lat": 28.16,
+   "lon": 2.62,
+   "region": "africa_norte_sahel"
+  },
+  "ECU": {
+   "es": "Ecuador",
+   "en": "Ecuador",
+   "lat": -1.44,
+   "lon": -78.39,
+   "region": "sudamerica"
+  },
+  "EGY": {
+   "es": "Egipto",
+   "en": "Egypt",
+   "lat": 26.49,
+   "lon": 29.86,
+   "region": "africa_norte_sahel"
+  },
+  "ERI": {
+   "es": "Eritrea",
+   "en": "Eritrea",
+   "lat": 15.37,
+   "lon": 38.82,
+   "region": "africa_subsahariana"
+  },
+  "ESH": {
+   "es": "Sahara Occidental",
+   "en": "Western Sahara",
+   "lat": 24.22,
+   "lon": -12.21,
+   "region": "africa_norte_sahel"
+  },
+  "ESP": {
+   "es": "España",
+   "en": "Spain",
+   "lat": 40.4,
+   "lon": -3.57,
+   "region": "europa_occidental"
+  },
+  "EST": {
+   "es": "Estonia",
+   "en": "Estonia",
+   "lat": 58.68,
+   "lon": 25.81,
+   "region": "europa_este_rusia"
+  },
+  "ETH": {
+   "es": "Etiopía",
+   "en": "Ethiopia",
+   "lat": 8.62,
+   "lon": 39.61,
+   "region": "africa_subsahariana"
+  },
+  "FIN": {
+   "es": "Finlandia",
+   "en": "Finland",
+   "lat": 64.51,
+   "lon": 26.29,
+   "region": "europa_occidental"
+  },
+  "FJI": {
+   "es": "Fiji",
+   "en": "Fiji",
+   "lat": -16.52,
+   "lon": -29.23,
+   "region": "indopacifico_taiwan"
+  },
+  "FLK": {
+   "es": "Islas Malvinas",
+   "en": "Falkland Islands (Malvinas)",
+   "lat": -51.75,
+   "lon": -58.78,
+   "region": "sudamerica"
+  },
+  "FRA": {
+   "es": "Francia",
+   "en": "France",
+   "lat": 46.61,
+   "lon": 2.46,
+   "region": "europa_occidental"
+  },
+  "FRO": {
+   "es": "Islas Feroe",
+   "en": "Faroe Islands",
+   "lat": 62.17,
+   "lon": -6.84,
+   "region": "europa_occidental"
+  },
+  "FSM": {
+   "es": "Micronesia",
+   "en": "Micronesia, Federated States of",
+   "lat": 5.32,
+   "lon": 162.98,
+   "region": "indopacifico_taiwan"
+  },
+  "GAB": {
+   "es": "Gabón",
+   "en": "Gabon",
+   "lat": -0.59,
+   "lon": 11.79,
+   "region": "africa_subsahariana"
+  },
+  "GBR": {
+   "es": "Reino Unido",
+   "en": "United Kingdom",
+   "lat": 53.95,
+   "lon": -2.52,
+   "region": "europa_occidental"
+  },
+  "GEO": {
+   "es": "Georgia",
+   "en": "Georgia",
+   "lat": 42.17,
+   "lon": 43.5,
+   "region": "europa_este_rusia"
+  },
+  "GGY": {
+   "es": "Guernsey",
+   "en": "Guernsey",
+   "lat": 49.49,
+   "lon": -2.51,
+   "region": "europa_occidental"
+  },
+  "GHA": {
+   "es": "Ghana",
+   "en": "Ghana",
+   "lat": 7.95,
+   "lon": -1.22,
+   "region": "africa_subsahariana"
+  },
+  "GIN": {
+   "es": "Guinea",
+   "en": "Guinea",
+   "lat": 10.43,
+   "lon": -10.93,
+   "region": "africa_subsahariana"
+  },
+  "GMB": {
+   "es": "Gambia",
+   "en": "Republic of The Gambia",
+   "lat": 13.44,
+   "lon": -15.4,
+   "region": "africa_norte_sahel"
+  },
+  "GNB": {
+   "es": "Guinea Bissau",
+   "en": "Guinea-Bissau",
+   "lat": 12.07,
+   "lon": -14.94,
+   "region": "africa_subsahariana"
+  },
+  "GNQ": {
+   "es": "Guinea Ecuatorial",
+   "en": "Equatorial Guinea",
+   "lat": 1.57,
+   "lon": 10.48,
+   "region": "africa_subsahariana"
+  },
+  "GRC": {
+   "es": "Grecia",
+   "en": "Greece",
+   "lat": 39.49,
+   "lon": 22.56,
+   "region": "europa_occidental"
+  },
+  "GRD": {
+   "es": "Granada",
+   "en": "Grenada",
+   "lat": 12.01,
+   "lon": -61.72,
+   "region": "centroamerica_caribe"
+  },
+  "GRL": {
+   "es": "Groenlandia",
+   "en": "Greenland",
+   "lat": 74.71,
+   "lon": -41.36,
+   "region": "artico"
+  },
+  "GTM": {
+   "es": "Guatemala",
+   "en": "Guatemala",
+   "lat": 15.69,
+   "lon": -90.36,
+   "region": "centroamerica_caribe"
+  },
+  "GUM": {
+   "es": "Guam",
+   "en": "Guam",
+   "lat": 13.42,
+   "lon": 144.78,
+   "region": "indopacifico_taiwan"
+  },
+  "GUY": {
+   "es": "Guyana",
+   "en": "Guyana",
+   "lat": 4.79,
+   "lon": -58.98,
+   "region": "sudamerica"
+  },
+  "HKG": {
+   "es": "Hong Kong",
+   "en": "Hong Kong",
+   "lat": 22.43,
+   "lon": 114.13,
+   "region": "indopacifico_taiwan"
+  },
+  "HMD": {
+   "es": "Heard e Islas McDonald",
+   "en": "Heard Island and McDonald Islands",
+   "lat": -53.1,
+   "lon": 73.47,
+   "region": "indopacifico_taiwan"
+  },
+  "HND": {
+   "es": "Honduras",
+   "en": "Honduras",
+   "lat": 14.82,
+   "lon": -86.62,
+   "region": "centroamerica_caribe"
+  },
+  "HRV": {
+   "es": "Croacia",
+   "en": "Croatia",
+   "lat": 45.16,
+   "lon": 16.43,
+   "region": "europa_este_rusia"
+  },
+  "HTI": {
+   "es": "Haití",
+   "en": "Haiti",
+   "lat": 18.92,
+   "lon": -72.66,
+   "region": "centroamerica_caribe"
+  },
+  "HUN": {
+   "es": "Hungría",
+   "en": "Hungary",
+   "lat": 47.16,
+   "lon": 19.4,
+   "region": "europa_este_rusia"
+  },
+  "IDN": {
+   "es": "Indonesia",
+   "en": "Indonesia",
+   "lat": -0.19,
+   "lon": 114.01,
+   "region": "indopacifico_taiwan"
+  },
+  "IMN": {
+   "es": "Isla de Man",
+   "en": "Isle of Man",
+   "lat": 54.21,
+   "lon": -4.57,
+   "region": "europa_occidental"
+  },
+  "IND": {
+   "es": "India",
+   "en": "India",
+   "lat": 22.91,
+   "lon": 79.6,
+   "region": "asia_sur"
+  },
+  "IOT": {
+   "es": "Territorio Británico del Océano Índico",
+   "en": "British Indian Ocean Territory",
+   "lat": -7.38,
+   "lon": 72.49,
+   "region": "africa_subsahariana"
+  },
+  "IRL": {
+   "es": "Irlanda",
+   "en": "Ireland",
+   "lat": 53.17,
+   "lon": -8.13,
+   "region": "europa_occidental"
+  },
+  "IRN": {
+   "es": "Irán",
+   "en": "Islamic Republic of Iran",
+   "lat": 32.57,
+   "lon": 54.27,
+   "region": "medio_oriente"
+  },
+  "IRQ": {
+   "es": "Iraq",
+   "en": "Iraq",
+   "lat": 33.03,
+   "lon": 43.75,
+   "region": "medio_oriente"
+  },
+  "ISL": {
+   "es": "Islandia",
+   "en": "Iceland",
+   "lat": 64.99,
+   "lon": -18.57,
+   "region": "europa_occidental"
+  },
+  "ISR": {
+   "es": "Israel",
+   "en": "Israel",
+   "lat": 31.47,
+   "lon": 35.01,
+   "region": "medio_oriente"
+  },
+  "ITA": {
+   "es": "Italia",
+   "en": "Italy",
+   "lat": 43.53,
+   "lon": 12.17,
+   "region": "europa_occidental"
+  },
+  "JAM": {
+   "es": "Jamaica",
+   "en": "Jamaica",
+   "lat": 18.15,
+   "lon": -77.31,
+   "region": "centroamerica_caribe"
+  },
+  "JEY": {
+   "es": "Jersey",
+   "en": "Jersey",
+   "lat": 49.23,
+   "lon": -2.02,
+   "region": "europa_occidental"
+  },
+  "JOR": {
+   "es": "Jordania",
+   "en": "Jordan",
+   "lat": 31.25,
+   "lon": 36.78,
+   "region": "medio_oriente"
+  },
+  "JPN": {
+   "es": "Japón",
+   "en": "Japan",
+   "lat": 36.65,
+   "lon": 138.01,
+   "region": "indopacifico_taiwan"
+  },
+  "KAZ": {
+   "es": "Kazajistán",
+   "en": "Kazakhstan",
+   "lat": 48.16,
+   "lon": 67.29,
+   "region": "asia_central"
+  },
+  "KEN": {
+   "es": "Kenia",
+   "en": "Kenya",
+   "lat": 0.6,
+   "lon": 37.79,
+   "region": "africa_subsahariana"
+  },
+  "KGZ": {
+   "es": "Kirguistán",
+   "en": "Kyrgyzstan",
+   "lat": 41.46,
+   "lon": 74.54,
+   "region": "asia_central"
+  },
+  "KHM": {
+   "es": "Camboya",
+   "en": "Cambodia",
+   "lat": 12.73,
+   "lon": 104.91,
+   "region": "indopacifico_taiwan"
+  },
+  "KIR": {
+   "es": "Kiribati",
+   "en": "Kiribati",
+   "lat": 3.13,
+   "lon": 172.97,
+   "region": "indopacifico_taiwan"
+  },
+  "KNA": {
+   "es": "Saint Kitts y Nevis",
+   "en": "Saint Kitts and Nevis",
+   "lat": 17.12,
+   "lon": -62.53,
+   "region": "centroamerica_caribe"
+  },
+  "KOR": {
+   "es": "República de Corea",
+   "en": "South Korea",
+   "lat": 36.45,
+   "lon": 127.86,
+   "region": "indopacifico_taiwan"
+  },
+  "KWT": {
+   "es": "Kuwait",
+   "en": "Kuwait",
+   "lat": 29.31,
+   "lon": 47.57,
+   "region": "medio_oriente"
+  },
+  "LAO": {
+   "es": "República Democrática Popular de Lao",
+   "en": "Lao People's Democratic Republic",
+   "lat": 18.51,
+   "lon": 103.72,
+   "region": "indopacifico_taiwan"
+  },
+  "LBN": {
+   "es": "Líbano",
+   "en": "Lebanon",
+   "lat": 33.92,
+   "lon": 35.86,
+   "region": "medio_oriente"
+  },
+  "LBR": {
+   "es": "Liberia",
+   "en": "Liberia",
+   "lat": 6.46,
+   "lon": -9.32,
+   "region": "africa_subsahariana"
+  },
+  "LBY": {
+   "es": "Libia",
+   "en": "Libya",
+   "lat": 27.03,
+   "lon": 18.01,
+   "region": "africa_norte_sahel"
+  },
+  "LCA": {
+   "es": "Santa Lucía",
+   "en": "Saint Lucia",
+   "lat": 13.82,
+   "lon": -60.9,
+   "region": "centroamerica_caribe"
+  },
+  "LIE": {
+   "es": "Liechtenstein",
+   "en": "Liechtenstein",
+   "lat": 47.06,
+   "lon": 9.58,
+   "region": "europa_occidental"
+  },
+  "LKA": {
+   "es": "Sri Lanka",
+   "en": "Sri Lanka",
+   "lat": 7.62,
+   "lon": 80.7,
+   "region": "asia_sur"
+  },
+  "LSO": {
+   "es": "Lesoto",
+   "en": "Lesotho",
+   "lat": -29.58,
+   "lon": 28.23,
+   "region": "africa_subsahariana"
+  },
+  "LTU": {
+   "es": "Lituania",
+   "en": "Lithuania",
+   "lat": 55.33,
+   "lon": 23.88,
+   "region": "europa_este_rusia"
+  },
+  "LUX": {
+   "es": "Luxemburgo",
+   "en": "Luxembourg",
+   "lat": 49.77,
+   "lon": 6.08,
+   "region": "europa_occidental"
+  },
+  "LVA": {
+   "es": "Letonia",
+   "en": "Latvia",
+   "lat": 56.85,
+   "lon": 24.91,
+   "region": "europa_este_rusia"
+  },
+  "MAC": {
+   "es": "Macao",
+   "en": "Macao",
+   "lat": 22.2,
+   "lon": 113.48,
+   "region": "indopacifico_taiwan"
+  },
+  "MAF": {
+   "es": "Saint Martin (francesa)",
+   "en": "Saint Martin (French part)",
+   "lat": 18.07,
+   "lon": -63.01,
+   "region": "centroamerica_caribe"
+  },
+  "MAR": {
+   "es": "Marruecos",
+   "en": "Morocco",
+   "lat": 29.84,
+   "lon": -8.46,
+   "region": "africa_norte_sahel"
+  },
+  "MCO": {
+   "es": "Mónaco",
+   "en": "Monaco",
+   "lat": 43.75,
+   "lon": 7.44,
+   "region": "europa_occidental"
+  },
+  "MDA": {
+   "es": "Moldavia",
+   "en": "Moldova, Republic of",
+   "lat": 47.21,
+   "lon": 28.46,
+   "region": "europa_este_rusia"
+  },
+  "MDG": {
+   "es": "Madagascar",
+   "en": "Madagascar",
+   "lat": -19.37,
+   "lon": 46.7,
+   "region": "africa_subsahariana"
+  },
+  "MDV": {
+   "es": "Maldivas",
+   "en": "Maldives",
+   "lat": 3.23,
+   "lon": 73.42,
+   "region": "asia_sur"
+  },
+  "MEX": {
+   "es": "México",
+   "en": "Mexico",
+   "lat": 23.94,
+   "lon": -102.5,
+   "region": "norteamerica"
+  },
+  "MHL": {
+   "es": "Islas Marshall",
+   "en": "Marshall Islands",
+   "lat": 5.83,
+   "lon": 169.64,
+   "region": "indopacifico_taiwan"
+  },
+  "MKD": {
+   "es": "Macedonia del Norte",
+   "en": "The Republic of North Macedonia",
+   "lat": 41.59,
+   "lon": 21.7,
+   "region": "europa_este_rusia"
+  },
+  "MLI": {
+   "es": "Malí",
+   "en": "Mali",
+   "lat": 17.34,
+   "lon": -3.54,
+   "region": "africa_norte_sahel"
+  },
+  "MLT": {
+   "es": "Malta",
+   "en": "Malta",
+   "lat": 35.85,
+   "lon": 14.57,
+   "region": "europa_occidental"
+  },
+  "MMR": {
+   "es": "Myanmar",
+   "en": "Myanmar",
+   "lat": 21.22,
+   "lon": 96.49,
+   "region": "indopacifico_taiwan"
+  },
+  "MNE": {
+   "es": "Montenegro",
+   "en": "Montenegro",
+   "lat": 42.8,
+   "lon": 19.23,
+   "region": "europa_este_rusia"
+  },
+  "MNG": {
+   "es": "Mongolia",
+   "en": "Mongolia",
+   "lat": 46.83,
+   "lon": 103.05,
+   "region": "asia_central"
+  },
+  "MNP": {
+   "es": "Islas Marianas del Norte",
+   "en": "Northern Mariana Islands",
+   "lat": 18.76,
+   "lon": 145.71,
+   "region": "indopacifico_taiwan"
+  },
+  "MOZ": {
+   "es": "Mozambique",
+   "en": "Mozambique",
+   "lat": -17.28,
+   "lon": 35.53,
+   "region": "africa_subsahariana"
+  },
+  "MRT": {
+   "es": "Mauritania",
+   "en": "Mauritania",
+   "lat": 20.25,
+   "lon": -10.35,
+   "region": "africa_norte_sahel"
+  },
+  "MSR": {
+   "es": "Montserrat",
+   "en": "Montserrat",
+   "lat": 16.74,
+   "lon": -62.15,
+   "region": "centroamerica_caribe"
+  },
+  "MUS": {
+   "es": "Mauricio",
+   "en": "Mauritius",
+   "lat": -20.28,
+   "lon": 57.59,
+   "region": "africa_subsahariana"
+  },
+  "MWI": {
+   "es": "Malaui",
+   "en": "Malawi",
+   "lat": -13.22,
+   "lon": 34.28,
+   "region": "africa_subsahariana"
+  },
+  "MYS": {
+   "es": "Malasia",
+   "en": "Malaysia",
+   "lat": 3.62,
+   "lon": 114.74,
+   "region": "indopacifico_taiwan"
+  },
+  "NAM": {
+   "es": "Namibia",
+   "en": "Namibia",
+   "lat": -22.13,
+   "lon": 17.21,
+   "region": "africa_subsahariana"
+  },
+  "NCL": {
+   "es": "Nueva Caledonia",
+   "en": "New Caledonia",
+   "lat": -21.33,
+   "lon": 165.5,
+   "region": "indopacifico_taiwan"
+  },
+  "NER": {
+   "es": "Níger",
+   "en": "Niger",
+   "lat": 17.42,
+   "lon": 9.39,
+   "region": "africa_norte_sahel"
+  },
+  "NFK": {
+   "es": "Isla Norfolk",
+   "en": "Norfolk Island",
+   "lat": -29.02,
+   "lon": 167.94,
+   "region": "indopacifico_taiwan"
+  },
+  "NGA": {
+   "es": "Nigeria",
+   "en": "Nigeria",
+   "lat": 9.59,
+   "lon": 8.08,
+   "region": "africa_subsahariana"
+  },
+  "NIC": {
+   "es": "Nicaragua",
+   "en": "Nicaragua",
+   "lat": 12.84,
+   "lon": -85.03,
+   "region": "centroamerica_caribe"
+  },
+  "NIU": {
+   "es": "Niue",
+   "en": "Niue",
+   "lat": -19.08,
+   "lon": -169.8,
+   "region": "indopacifico_taiwan"
+  },
+  "NLD": {
+   "es": "Países Bajos",
+   "en": "Netherlands",
+   "lat": 52.29,
+   "lon": 5.64,
+   "region": "europa_occidental"
+  },
+  "NOR": {
+   "es": "Noruega",
+   "en": "Norway",
+   "lat": 64.22,
+   "lon": 13.87,
+   "region": "europa_occidental"
+  },
+  "NPL": {
+   "es": "Nepal",
+   "en": "Nepal",
+   "lat": 28.24,
+   "lon": 83.93,
+   "region": "asia_sur"
+  },
+  "NRU": {
+   "es": "Nauru",
+   "en": "Nauru",
+   "lat": -0.52,
+   "lon": 166.96,
+   "region": "indopacifico_taiwan"
+  },
+  "NZL": {
+   "es": "Nueva Zelanda",
+   "en": "New Zealand",
+   "lat": -43.98,
+   "lon": 170.52,
+   "region": "indopacifico_taiwan"
+  },
+  "OMN": {
+   "es": "Omán",
+   "en": "Oman",
+   "lat": 20.58,
+   "lon": 56.08,
+   "region": "medio_oriente"
+  },
+  "PAK": {
+   "es": "Pakistán",
+   "en": "Pakistan",
+   "lat": 29.95,
+   "lon": 69.33,
+   "region": "asia_sur"
+  },
+  "PAN": {
+   "es": "Panamá",
+   "en": "Panama",
+   "lat": 8.52,
+   "lon": -80.13,
+   "region": "centroamerica_caribe"
+  },
+  "PCN": {
+   "es": "Pitcairn",
+   "en": "Pitcairn",
+   "lat": -24.4,
+   "lon": -128.29,
+   "region": "indopacifico_taiwan"
+  },
+  "PER": {
+   "es": "Perú",
+   "en": "Peru",
+   "lat": -9.15,
+   "lon": -74.38,
+   "region": "sudamerica"
+  },
+  "PHL": {
+   "es": "Filipinas",
+   "en": "Philippines",
+   "lat": 15.97,
+   "lon": 121.42,
+   "region": "indopacifico_taiwan"
+  },
+  "PLW": {
+   "es": "Palau",
+   "en": "Palau",
+   "lat": 3.03,
+   "lon": 131.17,
+   "region": "indopacifico_taiwan"
+  },
+  "PNG": {
+   "es": "Papua Nueva Guinea",
+   "en": "Papua New Guinea",
+   "lat": -6.61,
+   "lon": 144.24,
+   "region": "indopacifico_taiwan"
+  },
+  "POL": {
+   "es": "Polonia",
+   "en": "Poland",
+   "lat": 52.12,
+   "lon": 19.38,
+   "region": "europa_este_rusia"
+  },
+  "PRI": {
+   "es": "Puerto Rico",
+   "en": "Puerto Rico",
+   "lat": 18.23,
+   "lon": -66.5,
+   "region": "centroamerica_caribe"
+  },
+  "PRK": {
+   "es": "República Popular Democrática de Corea",
+   "en": "North Korea",
+   "lat": 40.15,
+   "lon": 127.2,
+   "region": "indopacifico_taiwan"
+  },
+  "PRT": {
+   "es": "Portugal",
+   "en": "Portugal",
+   "lat": 39.66,
+   "lon": -7.99,
+   "region": "europa_occidental"
+  },
+  "PRY": {
+   "es": "Paraguay",
+   "en": "Paraguay",
+   "lat": -23.23,
+   "lon": -58.4,
+   "region": "sudamerica"
+  },
+  "PSE": {
+   "es": "Palestina",
+   "en": "State of Palestine",
+   "lat": 31.97,
+   "lon": 35.28,
+   "region": "medio_oriente"
+  },
+  "PYF": {
+   "es": "Polinesia Francesa",
+   "en": "French Polynesia",
+   "lat": -17.65,
+   "lon": -149.5,
+   "region": "indopacifico_taiwan"
+  },
+  "QAT": {
+   "es": "Catar",
+   "en": "Qatar",
+   "lat": 25.31,
+   "lon": 51.18,
+   "region": "medio_oriente"
+  },
+  "ROU": {
+   "es": "Rumanía",
+   "en": "Romania",
+   "lat": 45.86,
+   "lon": 24.97,
+   "region": "europa_este_rusia"
+  },
+  "RUS": {
+   "es": "Rusia",
+   "en": "Russian Federation",
+   "lat": 56.38,
+   "lon": 193.25,
+   "region": "europa_este_rusia"
+  },
+  "RWA": {
+   "es": "Ruanda",
+   "en": "Rwanda",
+   "lat": -1.98,
+   "lon": 29.92,
+   "region": "africa_subsahariana"
+  },
+  "SAU": {
+   "es": "Arabia Saudita",
+   "en": "Saudi Arabia",
+   "lat": 24.12,
+   "lon": 44.54,
+   "region": "medio_oriente"
+  },
+  "SDN": {
+   "es": "Sudán",
+   "en": "Sudan",
+   "lat": 15.99,
+   "lon": 29.94,
+   "region": "africa_norte_sahel"
+  },
+  "SEN": {
+   "es": "Senegal",
+   "en": "Senegal",
+   "lat": 14.35,
+   "lon": -14.47,
+   "region": "africa_norte_sahel"
+  },
+  "SGP": {
+   "es": "Singapur",
+   "en": "Singapore",
+   "lat": 1.33,
+   "lon": 103.97,
+   "region": "indopacifico_taiwan"
+  },
+  "SGS": {
+   "es": "Georgia del Sur y las Islas Sandwich del Sur",
+   "en": "South Georgia and the South Sandwich Islands",
+   "lat": -54.39,
+   "lon": -36.59,
+   "region": "sudamerica"
+  },
+  "SHN": {
+   "es": "Santa Helena, Ascensión y Tristán de Acuña",
+   "en": "Saint Helena",
+   "lat": -16,
+   "lon": -5.69,
+   "region": "africa_subsahariana"
+  },
+  "SLB": {
+   "es": "Islas Salomón",
+   "en": "Solomon Islands",
+   "lat": -9.62,
+   "lon": 160.14,
+   "region": "indopacifico_taiwan"
+  },
+  "SLE": {
+   "es": "Sierra Leona",
+   "en": "Sierra Leone",
+   "lat": 8.57,
+   "lon": -11.79,
+   "region": "africa_subsahariana"
+  },
+  "SLV": {
+   "es": "El Salvador",
+   "en": "El Salvador",
+   "lat": 13.74,
+   "lon": -88.88,
+   "region": "centroamerica_caribe"
+  },
+  "SMR": {
+   "es": "San Marino",
+   "en": "San Marino",
+   "lat": 43.9,
+   "lon": 12.49,
+   "region": "europa_occidental"
+  },
+  "SOM": {
+   "es": "Somalia",
+   "en": "Somalia",
+   "lat": 4.76,
+   "lon": 45.71,
+   "region": "africa_subsahariana"
+  },
+  "SPM": {
+   "es": "San Pedro y Miquelón",
+   "en": "Saint Pierre and Miquelon",
+   "lat": 46.76,
+   "lon": -56.15,
+   "region": "norteamerica"
+  },
+  "SRB": {
+   "es": "Serbia",
+   "en": "Serbia",
+   "lat": 44.22,
+   "lon": 20.78,
+   "region": "europa_este_rusia"
+  },
+  "SSD": {
+   "es": "Sudán del Sur",
+   "en": "South Sudan",
+   "lat": 7.31,
+   "lon": 30.25,
+   "region": "africa_subsahariana"
+  },
+  "STP": {
+   "es": "Santo Tomé y Príncipe",
+   "en": "Sao Tome and Principe",
+   "lat": 0.25,
+   "lon": 6.6,
+   "region": "africa_subsahariana"
+  },
+  "SUR": {
+   "es": "Suriname",
+   "en": "Suriname",
+   "lat": 4.12,
+   "lon": -55.91,
+   "region": "sudamerica"
+  },
+  "SVK": {
+   "es": "Eslovaquia",
+   "en": "Slovakia",
+   "lat": 48.71,
+   "lon": 19.48,
+   "region": "europa_este_rusia"
+  },
+  "SVN": {
+   "es": "Eslovenia",
+   "en": "Slovenia",
+   "lat": 46.11,
+   "lon": 14.8,
+   "region": "europa_este_rusia"
+  },
+  "SWE": {
+   "es": "Suecia",
+   "en": "Sweden",
+   "lat": 62.82,
+   "lon": 16.73,
+   "region": "europa_occidental"
+  },
+  "SWZ": {
+   "es": "Esuatini",
+   "en": "Eswatini",
+   "lat": -26.55,
+   "lon": 31.49,
+   "region": "africa_subsahariana"
+  },
+  "SXM": {
+   "es": "Sint Maarten (neerlandesa)",
+   "en": "Sint Maarten (Dutch part)",
+   "lat": 18.07,
+   "lon": -63.12,
+   "region": "centroamerica_caribe"
+  },
+  "SYC": {
+   "es": "Seychelles",
+   "en": "Seychelles",
+   "lat": -4.69,
+   "lon": 55.54,
+   "region": "africa_subsahariana"
+  },
+  "SYR": {
+   "es": "República Árabe Siria",
+   "en": "Syrian Arab Republic",
+   "lat": 35.02,
+   "lon": 38.51,
+   "region": "medio_oriente"
+  },
+  "TCA": {
+   "es": "Islas Turcas y Caicos",
+   "en": "Turks and Caicos Islands",
+   "lat": 21.76,
+   "lon": -71.66,
+   "region": "centroamerica_caribe"
+  },
+  "TCD": {
+   "es": "Chad",
+   "en": "Chad",
+   "lat": 15.33,
+   "lon": 18.64,
+   "region": "africa_norte_sahel"
+  },
+  "TGO": {
+   "es": "Togo",
+   "en": "Togo",
+   "lat": 8.54,
+   "lon": 0.96,
+   "region": "africa_subsahariana"
+  },
+  "THA": {
+   "es": "Tailandia",
+   "en": "Thailand",
+   "lat": 15.14,
+   "lon": 101.01,
+   "region": "indopacifico_taiwan"
+  },
+  "TJK": {
+   "es": "Tayikistán",
+   "en": "Tajikistan",
+   "lat": 38.53,
+   "lon": 71.03,
+   "region": "asia_central"
+  },
+  "TKM": {
+   "es": "Turkmenistán",
+   "en": "Turkmenistan",
+   "lat": 39.12,
+   "lon": 59.36,
+   "region": "asia_central"
+  },
+  "TLS": {
+   "es": "Timor-Leste",
+   "en": "Timor-Leste",
+   "lat": -8.81,
+   "lon": 125.93,
+   "region": "indopacifico_taiwan"
+  },
+  "TON": {
+   "es": "Tonga",
+   "en": "Tonga",
+   "lat": -21.17,
+   "lon": -175.16,
+   "region": "indopacifico_taiwan"
+  },
+  "TTO": {
+   "es": "Trinidad y Tobago",
+   "en": "Trinidad and Tobago",
+   "lat": 10.43,
+   "lon": -61.29,
+   "region": "centroamerica_caribe"
+  },
+  "TUN": {
+   "es": "Túnez",
+   "en": "Tunisia",
+   "lat": 34.13,
+   "lon": 9.55,
+   "region": "africa_norte_sahel"
+  },
+  "TUR": {
+   "es": "Turquía",
+   "en": "Türkiye",
+   "lat": 38.99,
+   "lon": 35.43,
+   "region": "medio_oriente"
+  },
+  "TWN": {
+   "es": "Taiwán",
+   "en": "Taiwan",
+   "lat": 23.75,
+   "lon": 120.96,
+   "region": "indopacifico_taiwan"
+  },
+  "TZA": {
+   "es": "Tanzania",
+   "en": "United Republic of Tanzania",
+   "lat": -6.28,
+   "lon": 34.8,
+   "region": "africa_subsahariana"
+  },
+  "UGA": {
+   "es": "Uganda",
+   "en": "Uganda",
+   "lat": 1.28,
+   "lon": 32.37,
+   "region": "africa_subsahariana"
+  },
+  "UKR": {
+   "es": "Ucrania",
+   "en": "Ukraine",
+   "lat": 49.16,
+   "lon": 31.25,
+   "region": "europa_este_rusia"
+  },
+  "URY": {
+   "es": "Uruguay",
+   "en": "Uruguay",
+   "lat": -32.8,
+   "lon": -56.02,
+   "region": "sudamerica"
+  },
+  "USA": {
+   "es": "Estados Unidos",
+   "en": "United States of America",
+   "lat": 39.53,
+   "lon": -99.14,
+   "region": "norteamerica"
+  },
+  "UZB": {
+   "es": "Uzbekistán",
+   "en": "Uzbekistan",
+   "lat": 41.75,
+   "lon": 63.14,
+   "region": "asia_central"
+  },
+  "VAT": {
+   "es": "Santa Sede",
+   "en": "Holy See (Vatican City State)",
+   "lat": 41.9,
+   "lon": 12.44,
+   "region": "europa_occidental"
+  },
+  "VCT": {
+   "es": "San Vicente y las Granadinas",
+   "en": "Saint Vincent and the Grenadines",
+   "lat": 13.16,
+   "lon": -61.17,
+   "region": "centroamerica_caribe"
+  },
+  "VEN": {
+   "es": "Venezuela",
+   "en": "Venezuela",
+   "lat": 7.12,
+   "lon": -66.19,
+   "region": "sudamerica"
+  },
+  "VGB": {
+   "es": "Islas Vírgenes británicas",
+   "en": "Virgin Islands, British",
+   "lat": 18.46,
+   "lon": -64.4,
+   "region": "centroamerica_caribe"
+  },
+  "VIR": {
+   "es": "Islas Vírgenes de los Estados Unidos",
+   "en": "Virgin Islands, U.S.",
+   "lat": 18.33,
+   "lon": -64.85,
+   "region": "centroamerica_caribe"
+  },
+  "VNM": {
+   "es": "Vietnam",
+   "en": "Vietnam",
+   "lat": 16.65,
+   "lon": 106.31,
+   "region": "indopacifico_taiwan"
+  },
+  "VUT": {
+   "es": "Vanuatu",
+   "en": "Vanuatu",
+   "lat": -15.25,
+   "lon": 166.86,
+   "region": "indopacifico_taiwan"
+  },
+  "WLF": {
+   "es": "Wallis y Futuna",
+   "en": "Wallis and Futuna",
+   "lat": -13.33,
+   "lon": -176.16,
+   "region": "indopacifico_taiwan"
+  },
+  "WSM": {
+   "es": "Samoa",
+   "en": "Samoa",
+   "lat": -13.63,
+   "lon": -172.47,
+   "region": "indopacifico_taiwan"
+  },
+  "XKX": {
+   "es": "Kosovo",
+   "en": "Kosovo",
+   "lat": 42.57,
+   "lon": 20.88,
+   "region": "europa_este_rusia"
+  },
+  "YEM": {
+   "es": "Yemen",
+   "en": "Yemen",
+   "lat": 15.94,
+   "lon": 47.54,
+   "region": "medio_oriente"
+  },
+  "ZAF": {
+   "es": "Sudáfrica",
+   "en": "South Africa",
+   "lat": -29.01,
+   "lon": 25.16,
+   "region": "africa_subsahariana"
+  },
+  "ZMB": {
+   "es": "Zambia",
+   "en": "Zambia",
+   "lat": -13.46,
+   "lon": 27.77,
+   "region": "africa_subsahariana"
+  },
+  "ZWE": {
+   "es": "Zimbabue",
+   "en": "Zimbabwe",
+   "lat": -19,
+   "lon": 29.85,
+   "region": "africa_subsahariana"
+  }
+ }
+}

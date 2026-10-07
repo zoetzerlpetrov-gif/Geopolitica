@@ -1,0 +1,18 @@
+{
+  "descripcion": "Puntos de estrangulamiento marítimo (chokepoints). Coordenadas aproximadas del punto más estrecho, redondeadas a 2 decimales. Lista curada por este proyecto.",
+  "referencia": {
+    "nombre": "U.S. Energy Information Administration — World Oil Transit Chokepoints",
+    "url": "https://www.eia.gov/international/analysis/special-topics/World_Oil_Transit_Chokepoints"
+  },
+  "chokepoints": [
+    {"id": "ormuz", "nombre": "Estrecho de Ormuz", "lat": 26.57, "lon": 56.25, "conecta": "Golfo Pérsico ↔ Golfo de Omán y mar Arábigo", "paises_ribereños": ["IRN", "OMN"], "tipo": "estrecho"},
+    {"id": "malaca", "nombre": "Estrecho de Malaca", "lat": 2.5, "lon": 101.3, "conecta": "Océano Índico ↔ mar de China Meridional", "paises_ribereños": ["MYS", "IDN", "SGP"], "tipo": "estrecho"},
+    {"id": "suez", "nombre": "Canal de Suez", "lat": 30.6, "lon": 32.33, "conecta": "Mar Mediterráneo ↔ Mar Rojo", "paises_ribereños": ["EGY"], "tipo": "canal"},
+    {"id": "panama", "nombre": "Canal de Panamá", "lat": 9.08, "lon": -79.68, "conecta": "Océano Atlántico (Caribe) ↔ Océano Pacífico", "paises_ribereños": ["PAN"], "tipo": "canal"},
+    {"id": "bab_el_mandeb", "nombre": "Estrecho de Bab el-Mandeb", "lat": 12.58, "lon": 43.33, "conecta": "Mar Rojo ↔ Golfo de Adén y océano Índico", "paises_ribereños": ["YEM", "DJI", "ERI"], "tipo": "estrecho"},
+    {"id": "bosforo", "nombre": "Estrecho del Bósforo", "lat": 41.12, "lon": 29.07, "conecta": "Mar Negro ↔ Mar de Mármara (y Dardanelos al Egeo)", "paises_ribereños": ["TUR"], "tipo": "estrecho"},
+    {"id": "gibraltar", "nombre": "Estrecho de Gibraltar", "lat": 35.97, "lon": -5.5, "conecta": "Océano Atlántico ↔ Mar Mediterráneo", "paises_ribereños": ["ESP", "MAR", "GBR"], "tipo": "estrecho"},
+    {"id": "taiwan", "nombre": "Estrecho de Taiwán", "lat": 24.5, "lon": 119.5, "conecta": "Mar de China Oriental ↔ mar de China Meridional", "paises_ribereños": ["CHN", "TWN"], "tipo": "estrecho"},
+    {"id": "cabo_buena_esperanza", "nombre": "Cabo de Buena Esperanza", "lat": -34.36, "lon": 18.47, "conecta": "Ruta alternativa Asia ↔ Europa cuando Suez o el Mar Rojo se cierran", "paises_ribereños": ["ZAF"], "tipo": "ruta_alternativa"}
+  ]
+}
