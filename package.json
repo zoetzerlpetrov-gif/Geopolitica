@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "type": "module",
+  "description": "Marca los archivos js/ como módulos ES para las pruebas con node --test. El sitio no usa npm."
+}

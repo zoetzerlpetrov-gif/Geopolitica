@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taxonomía Geopolítica</title>
+  <meta name="description" content="Las 11 áreas de la geopolítica usadas por el monitor: subtemas, preguntas guía, ejemplos y palabras clave del clasificador.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .tx-wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .tx-intro { color: var(--text-2); max-width: 70ch; }
+    .tx-indice { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0 20px; padding: 0; list-style: none; }
+    .tx-area { background: var(--surface); border: 1px solid var(--line); border-left: 8px solid var(--c); border-radius: var(--radius); padding: 14px 16px; margin-bottom: 16px; }
+    .tx-area h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 0 0 4px; }
+    .tx-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 10px 16px; margin: 10px 0; }
+    .tx-grid div { background: var(--surface-2); border-radius: 6px; padding: 8px 10px; }
+    .tx-grid b { display: block; font-size: 11px; text-transform: uppercase; color: var(--text-2); }
+    .kw { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 8px; }
+    .kw span { font: 12px var(--mono); border: 1px solid var(--line); border-radius: 4px; padding: 1px 6px; }
+    .kw .en { border-style: dashed; }
+    details { border-top: 1px solid var(--line); padding: 6px 0; }
+    summary { cursor: pointer; font-weight: 600; }
+    .leyenda-kw { font-size: 12px; color: var(--text-2); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Taxonomía: 11 áreas de la geopolítica</h1>
+  </header>
+  <main class="tx-wrap">
+    <p class="tx-intro">Cada evento del mapa se clasifica en <b>1 área principal</b> y hasta <b>3 secundarias</b>.
+      Las palabras clave de esta página alimentan el clasificador por reglas: se comparan sin acentos y sin distinguir mayúsculas.
+      <span class="leyenda-kw">Borde continuo = español · borde punteado = inglés.</span></p>
+    <ul id="indice" class="tx-indice"></ul>
+    <div id="areas">Cargando…</div>
+  </main>
+  <script type="module">
+    import { esc } from "./js/util.js";
+    const kw = (o) => `<div class="kw">${o.es.map((k) => `<span lang="es">${esc(k)}</span>`).join("")}${o.en.map((k) => `<span class="en" lang="en">${esc(k)}</span>`).join("")}</div>`;
+    const t = await (await fetch("config/taxonomy.json")).json();
+    document.getElementById("indice").innerHTML = t.areas.map((a) =>
+      `<li><a class="chip" href="#${esc(a.id)}"><span class="swatch" style="background:${esc(a.color)}"></span>${a.numero}. ${esc(a.nombre)}</a></li>`).join("");
+    document.getElementById("areas").innerHTML = t.areas.map((a) => `
+      <section class="tx-area" id="${esc(a.id)}" style="--c:${esc(a.color)}">
+        <h2>${a.numero}. ${esc(a.nombre)} <code>${esc(a.color)}</code></h2>
+        <p>${esc(a.que_estudia)}</p>
+        <div class="tx-grid">
+          <div><b>Pregunta guía</b>${esc(a.pregunta_guia)}</div>
+          <div><b>Ejemplo</b>${esc(a.ejemplo)}</div>
+          <div><b>México</b>${esc(a.ejemplo_mexico)}</div>
+          ${a.nota ? `<div><b>Nota</b>${esc(a.nota)}</div>` : ""}
+        </div>
+        <b>Palabras clave del área</b>${kw(a.palabras_clave)}
+        ${a.subtemas.map((s) => `<details><summary>${esc(s.nombre)} <code>${esc(s.id)}</code></summary>${kw(s.palabras_clave)}</details>`).join("")}
+      </section>`).join("");
+  </script>
+</body>
+</html>

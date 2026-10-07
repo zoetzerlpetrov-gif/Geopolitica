@@ -1,0 +1,1130 @@
+{
+ "version_esquema": "1.0",
+ "generado_utc": "2026-10-07T22:36:11Z",
+ "modo": "ejemplo",
+ "total": 28,
+ "eventos": [
+  {
+   "id": "tmec-revision-2026",
+   "fecha_utc": "2026-07-01T12:00:00Z",
+   "titulo": "Fecha prevista de la revisión conjunta del T-MEC",
+   "resumen": "El artículo 34.7 del tratado prevé una revisión conjunta en el sexto aniversario de su entrada en vigor (1 de julio de 2026). En ella los tres países deciden si extienden su vigencia.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Tratado+entre+M%C3%A9xico%2C+Estados+Unidos+y+Canad%C3%A1",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MEX",
+   "region": "norteamerica",
+   "lat": 19.43,
+   "lon": -99.13,
+   "area_principal": "geoeconomia",
+   "areas_secundarias": [
+    "instituciones",
+    "riesgo"
+   ],
+   "subtemas": [
+    "tratados_comerciales",
+    "aranceles"
+   ],
+   "actores": [
+    "México",
+    "Estados Unidos",
+    "Canadá"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Define reglas de origen, aranceles y certidumbre para la inversión exportadora.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Tratado+entre+M%C3%A9xico%2C+Estados+Unidos+y+Canad%C3%A1",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2026-07-01T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "tratado-aguas-1944-ciclo-2025",
+   "fecha_utc": "2025-10-24T12:00:00Z",
+   "titulo": "Cierra el ciclo 2020–2025 del Tratado de Aguas de 1944 con entregas pendientes de México",
+   "resumen": "El ciclo quinquenal de entregas de agua del río Bravo a EUA terminó con un déficit de México, en medio de sequía en Chihuahua. El tema se mezcla con la agenda comercial bilateral.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Tratado+de+Aguas+de+1944",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MEX",
+   "region": "norteamerica",
+   "lat": 27.54,
+   "lon": -105.41,
+   "area_principal": "energia",
+   "areas_secundarias": [
+    "clima",
+    "instituciones"
+   ],
+   "subtemas": [
+    "agua_transfronteriza",
+    "sequias_agua"
+   ],
+   "actores": [
+    "México",
+    "Estados Unidos",
+    "CILA/IBWC",
+    "Productores de Chihuahua"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Riesgo de presión comercial de EUA y de conflicto local por agua en el norte.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Tratado+de+Aguas+de+1944",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2025-10-24T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "aranceles-eua-mexico-2025",
+   "fecha_utc": "2025-02-01T12:00:00Z",
+   "titulo": "EUA ordena aranceles de 25 % a importaciones de México y Canadá",
+   "resumen": "Una orden ejecutiva impuso aranceles citando fentanilo y migración. El 3 de febrero se pausaron 30 días tras acuerdos de seguridad fronteriza.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Aranceles+de+Estados+Unidos+a+M%C3%A9xico+2025",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "USA",
+   "region": "norteamerica",
+   "lat": 38.9,
+   "lon": -77.04,
+   "area_principal": "geoeconomia",
+   "areas_secundarias": [
+    "riesgo",
+    "seguridad"
+   ],
+   "subtemas": [
+    "aranceles",
+    "tratados_comerciales"
+   ],
+   "actores": [
+    "Estados Unidos",
+    "México",
+    "Canadá"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Riesgo directo para exportadores: costo arancelario, reglas de origen y continuidad de contratos.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Aranceles+de+Estados+Unidos+a+M%C3%A9xico+2025",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2025-02-01T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "groenlandia-eua-2025",
+   "fecha_utc": "2025-01-07T12:00:00Z",
+   "titulo": "El gobierno entrante de EUA reitera su interés en Groenlandia",
+   "resumen": "Donald Trump, entonces presidente electo, no descartó medidas económicas ni militares para obtener Groenlandia. Dinamarca y el gobierno groenlandés rechazaron la idea.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Groenlandia+Estados+Unidos+2025",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "GRL",
+   "region": "artico",
+   "lat": 64.18,
+   "lon": -51.72,
+   "area_principal": "geografia",
+   "areas_secundarias": [
+    "seguridad",
+    "regional",
+    "energia"
+   ],
+   "subtemas": [
+    "artico",
+    "disputas_fronterizas"
+   ],
+   "actores": [
+    "Estados Unidos",
+    "Dinamarca",
+    "Groenlandia"
+   ],
+   "severidad": 2,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Groenlandia+Estados+Unidos+2025",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2025-01-07T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "cables-baltico-2024",
+   "fecha_utc": "2024-11-18T12:00:00Z",
+   "titulo": "Dañan dos cables submarinos de telecomunicaciones en el mar Báltico",
+   "resumen": "Se cortaron los cables Finlandia–Alemania y Lituania–Suecia en menos de 24 horas. Las autoridades investigaron a un buque de carga que pasó por la zona.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Cables+submarinos+mar+B%C3%A1ltico+2024",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "SWE",
+   "region": "europa_occidental",
+   "lat": 56.9,
+   "lon": 18.9,
+   "area_principal": "tecnologia",
+   "areas_secundarias": [
+    "seguridad",
+    "geografia"
+   ],
+   "subtemas": [
+    "cables_submarinos",
+    "guerra_hibrida"
+   ],
+   "actores": [
+    "Finlandia",
+    "Alemania",
+    "Lituania",
+    "Suecia",
+    "China"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Cables+submarinos+mar+B%C3%A1ltico+2024",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-11-18T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "taiwan-ejercicios-2024",
+   "fecha_utc": "2024-05-23T12:00:00Z",
+   "titulo": "China realiza ejercicios militares alrededor de Taiwán (Joint Sword-2024A)",
+   "resumen": "El Ejército Popular de Liberación desplegó buques y aviones alrededor de la isla días después de la investidura del presidente Lai Ching-te.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Estrecho+de+Taiw%C3%A1n+ejercicios+militares+2024",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "TWN",
+   "region": "indopacifico_taiwan",
+   "lat": 23.7,
+   "lon": 121.0,
+   "area_principal": "seguridad",
+   "areas_secundarias": [
+    "geografia",
+    "identidad"
+   ],
+   "subtemas": [
+    "ejercicios_despliegues",
+    "islas_mares_disputa"
+   ],
+   "actores": [
+    "China",
+    "Taiwán",
+    "Estados Unidos"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Inferencia: un bloqueo del estrecho afectaría el abasto de semiconductores a la industria automotriz y electrónica en México.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Estrecho+de+Taiw%C3%A1n+ejercicios+militares+2024",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-05-23T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "georgia-agentes-extranjeros-2024",
+   "fecha_utc": "2024-05-14T12:00:00Z",
+   "titulo": "Georgia aprueba la ley de 'agentes extranjeros' entre protestas masivas",
+   "resumen": "El Parlamento aprobó la ley pese a manifestaciones en Tiflis. Críticos la comparan con la legislación rusa y la UE advirtió que afecta la candidatura de Georgia.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Ley+de+transparencia+de+la+influencia+extranjera+Georgia",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "GEO",
+   "region": "europa_este_rusia",
+   "lat": 41.72,
+   "lon": 44.79,
+   "area_principal": "identidad",
+   "areas_secundarias": [
+    "instituciones"
+   ],
+   "subtemas": [
+    "protestas",
+    "censura_prensa"
+   ],
+   "actores": [
+    "Gobierno de Georgia",
+    "Manifestantes",
+    "Unión Europea",
+    "Rusia"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Ley+de+transparencia+de+la+influencia+extranjera+Georgia",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-05-14T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "suecia-otan-2024",
+   "fecha_utc": "2024-03-07T12:00:00Z",
+   "titulo": "Suecia completa su adhesión a la OTAN",
+   "resumen": "Suecia entró a la alianza después de que Turquía y Hungría ratificaran su ingreso. Con ello casi todo el litoral del mar Báltico queda en países de la OTAN.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Suecia+OTAN+adhesi%C3%B3n",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "SWE",
+   "region": "europa_occidental",
+   "lat": 59.33,
+   "lon": 18.07,
+   "area_principal": "seguridad",
+   "areas_secundarias": [
+    "instituciones",
+    "geografia"
+   ],
+   "subtemas": [
+    "alianzas"
+   ],
+   "actores": [
+    "Suecia",
+    "OTAN",
+    "Turquía",
+    "Hungría",
+    "Rusia"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Suecia+OTAN+adhesi%C3%B3n",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-03-07T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "remesas-mexico-2023",
+   "fecha_utc": "2024-02-01T12:00:00Z",
+   "titulo": "Remesas a México superan los 60 mil millones de dólares en 2023 (Banxico)",
+   "resumen": "Banco de México reportó ingresos por remesas por encima de 60 mil millones de USD en 2023, la mayoría desde EUA.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Remesas+en+M%C3%A9xico",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MEX",
+   "region": "norteamerica",
+   "lat": 19.43,
+   "lon": -99.13,
+   "area_principal": "demografia",
+   "areas_secundarias": [
+    "geoeconomia"
+   ],
+   "subtemas": [
+    "remesas",
+    "migracion_refugiados"
+   ],
+   "actores": [
+    "Banxico",
+    "Migrantes mexicanos en EUA"
+   ],
+   "severidad": 2,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Fuente relevante de divisas y consumo en estados con alta migración.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Remesas+en+M%C3%A9xico",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-02-01T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "sahel-cedeao-2024",
+   "fecha_utc": "2024-01-28T12:00:00Z",
+   "titulo": "Mali, Burkina Faso y Níger anuncian su salida de la CEDEAO",
+   "resumen": "Las tres juntas militares del Sahel anunciaron su retiro del bloque regional de África Occidental y luego formaron la Alianza de Estados del Sahel.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Alianza+de+Estados+del+Sahel",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MLI",
+   "region": "africa_norte_sahel",
+   "lat": 14.5,
+   "lon": -2.0,
+   "area_principal": "regional",
+   "areas_secundarias": [
+    "instituciones",
+    "seguridad"
+   ],
+   "subtemas": [
+    "africa_norte_sahel",
+    "cumbres"
+   ],
+   "actores": [
+    "Mali",
+    "Burkina Faso",
+    "Níger",
+    "CEDEAO",
+    "Rusia"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Alianza+de+Estados+del+Sahel",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-01-28T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "mar-rojo-huties-2023",
+   "fecha_utc": "2023-12-15T12:00:00Z",
+   "titulo": "Ataques hutíes en el Mar Rojo desvían navieras de Suez al Cabo de Buena Esperanza",
+   "resumen": "Tras ataques a buques comerciales cerca de Bab el-Mandeb, varias navieras suspendieron el tránsito por el Mar Rojo y rodearon África. El desvío alarga los viajes Asia–Europa y encarece fletes y seguros.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Crisis+del+mar+Rojo",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "YEM",
+   "region": "medio_oriente",
+   "lat": 12.58,
+   "lon": 43.33,
+   "area_principal": "geografia",
+   "areas_secundarias": [
+    "seguridad",
+    "geoeconomia",
+    "identidad"
+   ],
+   "subtemas": [
+    "chokepoints",
+    "actores_no_estatales",
+    "cadenas_suministro"
+   ],
+   "actores": [
+    "Hutíes (Ansar Allah)",
+    "Navieras internacionales",
+    "Estados Unidos",
+    "Reino Unido",
+    "Irán"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Insumos asiáticos con más días de tránsito y fletes más caros para manufactura en México.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Crisis+del+mar+Rojo",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-12-15T12:00:00Z"
+    },
+    {
+     "fuente": "Wikipedia (búsqueda, inglés)",
+     "url": "https://en.wikipedia.org/w/index.php?search=Red+Sea+crisis",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-12-15T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "cop28-2023",
+   "fecha_utc": "2023-12-13T12:00:00Z",
+   "titulo": "La COP28 acuerda 'transitar fuera' de los combustibles fósiles",
+   "resumen": "La cumbre de Dubái cerró con un texto que por primera vez llama a alejarse de los combustibles fósiles en los sistemas energéticos, sin fijar una eliminación obligatoria.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Conferencia+de+las+Naciones+Unidas+sobre+el+Cambio+Clim%C3%A1tico+de+2023",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "ARE",
+   "region": "medio_oriente",
+   "lat": 25.2,
+   "lon": 55.27,
+   "area_principal": "clima",
+   "areas_secundarias": [
+    "instituciones",
+    "energia"
+   ],
+   "subtemas": [
+    "acuerdos_climaticos",
+    "transicion_energetica"
+   ],
+   "actores": [
+    "ONU",
+    "Emiratos Árabes Unidos",
+    "OPEP"
+   ],
+   "severidad": 2,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Conferencia+de+las+Naciones+Unidas+sobre+el+Cambio+Clim%C3%A1tico+de+2023",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-12-13T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "gaza-guerra-2023",
+   "fecha_utc": "2023-10-07T12:00:00Z",
+   "titulo": "Ataque de Hamás contra Israel inicia la guerra en Gaza",
+   "resumen": "Tras el ataque del 7 de octubre, Israel lanzó una ofensiva sobre Gaza. La guerra tuvo efectos regionales, entre ellos los ataques hutíes en el Mar Rojo.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Guerra+de+Israel+y+Ham%C3%A1s",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "PSE",
+   "region": "medio_oriente",
+   "lat": 31.5,
+   "lon": 34.47,
+   "area_principal": "seguridad",
+   "areas_secundarias": [
+    "identidad",
+    "instituciones"
+   ],
+   "subtemas": [
+    "conflictos_activos",
+    "actores_no_estatales"
+   ],
+   "actores": [
+    "Israel",
+    "Hamás",
+    "Estados Unidos",
+    "Irán"
+   ],
+   "severidad": 5,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Guerra+de+Israel+y+Ham%C3%A1s",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-10-07T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "panama-sequia-2023",
+   "fecha_utc": "2023-08-01T12:00:00Z",
+   "titulo": "Sequía obliga a limitar tránsitos y calado en el Canal de Panamá",
+   "resumen": "Desde mediados de 2023, el bajo nivel del lago Gatún llevó a la Autoridad del Canal a reducir tránsitos diarios y el calado permitido. Navieras ajustaron rutas y cargas.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Canal+de+Panam%C3%A1+sequ%C3%ADa+2023",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "PAN",
+   "region": "centroamerica_caribe",
+   "lat": 9.08,
+   "lon": -79.68,
+   "area_principal": "clima",
+   "areas_secundarias": [
+    "geografia",
+    "geoeconomia"
+   ],
+   "subtemas": [
+    "sequias_agua",
+    "chokepoints"
+   ],
+   "actores": [
+    "Autoridad del Canal de Panamá",
+    "Navieras"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Inferencia: rutas Asia–Golfo de México más lentas; los puertos mexicanos del Pacífico y el ferrocarril ganan peso como alternativa.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Canal+de+Panam%C3%A1+sequ%C3%ADa+2023",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-08-01T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "titulo-42-fin-2023",
+   "fecha_utc": "2023-05-11T12:00:00Z",
+   "titulo": "Termina el Título 42 en la frontera EUA–México",
+   "resumen": "Concluyó la medida sanitaria que permitía expulsiones rápidas de migrantes. EUA volvió a aplicar el Título 8 con nuevas restricciones de asilo.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=T%C3%ADtulo+42+Estados+Unidos",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "USA",
+   "region": "norteamerica",
+   "lat": 31.76,
+   "lon": -106.48,
+   "area_principal": "demografia",
+   "areas_secundarias": [
+    "instituciones",
+    "seguridad"
+   ],
+   "subtemas": [
+    "migracion_refugiados"
+   ],
+   "actores": [
+    "Estados Unidos",
+    "México",
+    "Migrantes"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Mayor presión sobre ciudades fronterizas mexicanas y albergues.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=T%C3%ADtulo+42+Estados+Unidos",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-05-11T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "india-poblacion-2023",
+   "fecha_utc": "2023-04-30T12:00:00Z",
+   "titulo": "India supera a China como el país más poblado (estimación ONU)",
+   "resumen": "Según estimaciones de la ONU, India superó a China en población hacia finales de abril de 2023. China, en cambio, registra caída de población desde 2022.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Demograf%C3%ADa+de+India",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "IND",
+   "region": "asia_sur",
+   "lat": 28.61,
+   "lon": 77.21,
+   "area_principal": "demografia",
+   "areas_secundarias": [
+    "geoeconomia"
+   ],
+   "subtemas": [
+    "bono_demografico"
+   ],
+   "actores": [
+    "India",
+    "China",
+    "ONU"
+   ],
+   "severidad": 2,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Demograf%C3%ADa+de+India",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-04-30T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "sudan-guerra-2023",
+   "fecha_utc": "2023-04-15T12:00:00Z",
+   "titulo": "Estalla la guerra entre el ejército de Sudán y las Fuerzas de Apoyo Rápido",
+   "resumen": "Los combates comenzaron en Jartum y se extendieron a Darfur. El conflicto generó una de las mayores crisis de desplazamiento del mundo.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Guerra+civil+de+Sud%C3%A1n+2023",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "SDN",
+   "region": "africa_norte_sahel",
+   "lat": 15.5,
+   "lon": 32.56,
+   "area_principal": "seguridad",
+   "areas_secundarias": [
+    "demografia",
+    "regional"
+   ],
+   "subtemas": [
+    "conflictos_activos",
+    "desplazados_internos"
+   ],
+   "actores": [
+    "Fuerzas Armadas de Sudán",
+    "Fuerzas de Apoyo Rápido"
+   ],
+   "severidad": 5,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Guerra+civil+de+Sud%C3%A1n+2023",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-04-15T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "finlandia-otan-2023",
+   "fecha_utc": "2023-04-04T12:00:00Z",
+   "titulo": "Finlandia ingresa formalmente a la OTAN",
+   "resumen": "Finlandia se convirtió en el miembro 31 de la alianza tras abandonar su política de no alineamiento después de la invasión rusa de Ucrania. La frontera terrestre OTAN–Rusia se alarga unos 1,300 km.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Finlandia+OTAN+adhesi%C3%B3n",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "FIN",
+   "region": "europa_occidental",
+   "lat": 60.17,
+   "lon": 24.94,
+   "area_principal": "seguridad",
+   "areas_secundarias": [
+    "instituciones",
+    "geografia"
+   ],
+   "subtemas": [
+    "alianzas"
+   ],
+   "actores": [
+    "Finlandia",
+    "OTAN",
+    "Rusia"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Finlandia+OTAN+adhesi%C3%B3n",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-04-04T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "opep-recortes-2023",
+   "fecha_utc": "2023-04-02T12:00:00Z",
+   "titulo": "Países de la OPEP+ anuncian recortes voluntarios de producción de petróleo",
+   "resumen": "Arabia Saudita y otros productores anunciaron recortes adicionales por más de un millón de barriles diarios. El precio del crudo subió tras el anuncio.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=OPEP%2B+recorte+producci%C3%B3n+2023",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "SAU",
+   "region": "medio_oriente",
+   "lat": 24.71,
+   "lon": 46.68,
+   "area_principal": "energia",
+   "areas_secundarias": [
+    "geoeconomia"
+   ],
+   "subtemas": [
+    "petroleo_gas"
+   ],
+   "actores": [
+    "Arabia Saudita",
+    "OPEP+",
+    "Rusia"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Afecta precios de combustibles importados y los ingresos petroleros del gobierno.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=OPEP%2B+recorte+producci%C3%B3n+2023",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-04-02T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "cpi-putin-2023",
+   "fecha_utc": "2023-03-17T12:00:00Z",
+   "titulo": "La Corte Penal Internacional emite orden de arresto contra Vladímir Putin",
+   "resumen": "La CPI acusa la deportación ilegal de niños ucranianos. Rusia no reconoce la jurisdicción de la Corte.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Orden+de+arresto+de+la+Corte+Penal+Internacional+contra+Vlad%C3%ADmir+Putin",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "NLD",
+   "region": "europa_occidental",
+   "lat": 52.08,
+   "lon": 4.31,
+   "area_principal": "instituciones",
+   "areas_secundarias": [
+    "seguridad",
+    "identidad"
+   ],
+   "subtemas": [
+    "cortes_internacionales"
+   ],
+   "actores": [
+    "Corte Penal Internacional",
+    "Rusia",
+    "Ucrania"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Orden+de+arresto+de+la+Corte+Penal+Internacional+contra+Vlad%C3%ADmir+Putin",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-03-17T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "tesla-nuevo-leon-2023",
+   "fecha_utc": "2023-03-01T12:00:00Z",
+   "titulo": "Tesla anuncia una planta en Nuevo León",
+   "resumen": "La empresa anunció una fábrica en Santa Catarina, uno de los casos más citados del nearshoring en México.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Tesla+Nuevo+Le%C3%B3n",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MEX",
+   "region": "norteamerica",
+   "lat": 25.68,
+   "lon": -100.46,
+   "area_principal": "geoeconomia",
+   "areas_secundarias": [
+    "riesgo",
+    "energia"
+   ],
+   "subtemas": [
+    "nearshoring"
+   ],
+   "actores": [
+    "Tesla",
+    "Gobierno de México",
+    "Gobierno de Nuevo León"
+   ],
+   "severidad": 2,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Muestra el atractivo del norte para inversión y la presión sobre agua y energía.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Tesla+Nuevo+Le%C3%B3n",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2023-03-01T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "chips-controles-2022",
+   "fecha_utc": "2022-10-07T12:00:00Z",
+   "titulo": "EUA restringe la venta de chips avanzados y equipo de fabricación a China",
+   "resumen": "El Departamento de Comercio de EUA impuso controles de exportación sobre semiconductores avanzados y herramientas para producirlos con destino a China. Las reglas se ampliaron en 2023 y 2024.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Controles+de+exportaci%C3%B3n+de+semiconductores+Estados+Unidos+China",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "USA",
+   "region": "norteamerica",
+   "lat": 38.9,
+   "lon": -77.04,
+   "area_principal": "tecnologia",
+   "areas_secundarias": [
+    "geoeconomia",
+    "seguridad"
+   ],
+   "subtemas": [
+    "semiconductores",
+    "controles_exportacion"
+   ],
+   "actores": [
+    "Estados Unidos",
+    "China",
+    "Nvidia",
+    "TSMC"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Inferencia: puede favorecer ensamble y pruebas de electrónica en México si las reglas de origen se alinean con EUA.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Controles+de+exportaci%C3%B3n+de+semiconductores+Estados+Unidos+China",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2022-10-07T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "nord-stream-2022",
+   "fecha_utc": "2022-09-26T12:00:00Z",
+   "titulo": "Explosiones dañan los gasoductos Nord Stream en el mar Báltico",
+   "resumen": "Fugas por explosiones submarinas inutilizaron tres de las cuatro líneas de Nord Stream 1 y 2 cerca de la isla de Bornholm. La autoría sigue en disputa.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Sabotaje+de+los+gasoductos+Nord+Stream",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "DNK",
+   "region": "europa_occidental",
+   "lat": 55.5,
+   "lon": 15.7,
+   "area_principal": "energia",
+   "areas_secundarias": [
+    "seguridad",
+    "geoeconomia"
+   ],
+   "subtemas": [
+    "petroleo_gas",
+    "seguridad_energetica"
+   ],
+   "actores": [
+    "Rusia",
+    "Alemania",
+    "Dinamarca",
+    "Suecia"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Sabotaje+de+los+gasoductos+Nord+Stream",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2022-09-26T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "monterrey-agua-2022",
+   "fecha_utc": "2022-06-15T12:00:00Z",
+   "titulo": "Crisis de agua en Monterrey obliga a cortes de suministro",
+   "resumen": "La sequía dejó presas en niveles muy bajos y el área metropolitana operó con horarios de suministro. El uso industrial del agua entró al debate público.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Crisis+del+agua+en+Monterrey+2022",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MEX",
+   "region": "norteamerica",
+   "lat": 25.67,
+   "lon": -100.31,
+   "area_principal": "riesgo",
+   "areas_secundarias": [
+    "clima",
+    "energia"
+   ],
+   "subtemas": [
+    "continuidad_negocio",
+    "escenarios_impacto"
+   ],
+   "actores": [
+    "Gobierno de Nuevo León",
+    "Industria",
+    "CONAGUA"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Caso de continuidad de negocio: plantas del norte con dependencia de agua y riesgo reputacional.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Crisis+del+agua+en+Monterrey+2022",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2022-06-15T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "mexico-litio-2022",
+   "fecha_utc": "2022-04-20T12:00:00Z",
+   "titulo": "México declara el litio de utilidad pública y reserva su explotación al Estado",
+   "resumen": "Una reforma a la Ley Minera publicada en abril de 2022 declaró el litio de utilidad pública y creó las bases para un organismo estatal que lo explote.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Litio+para+M%C3%A9xico",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "MEX",
+   "region": "norteamerica",
+   "lat": 29.8,
+   "lon": -109.14,
+   "area_principal": "energia",
+   "areas_secundarias": [
+    "geoeconomia",
+    "tecnologia"
+   ],
+   "subtemas": [
+    "minerales_criticos"
+   ],
+   "actores": [
+    "Gobierno de México",
+    "Empresas mineras"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Define quién puede explotar el litio en México y condiciona la inversión privada en la cadena de baterías.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Litio+para+M%C3%A9xico",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2022-04-20T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "reservas-rusia-2022",
+   "fecha_utc": "2022-02-28T12:00:00Z",
+   "titulo": "Congelan reservas del banco central de Rusia",
+   "resumen": "EUA, la UE y aliados bloquearon el acceso del Banco de Rusia a buena parte de sus reservas en el extranjero y excluyeron bancos rusos de SWIFT. Es un caso de referencia del uso del sistema financiero como arma.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Sanciones+internacionales+durante+la+invasi%C3%B3n+rusa+de+Ucrania",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "RUS",
+   "region": "europa_este_rusia",
+   "lat": 55.75,
+   "lon": 37.62,
+   "area_principal": "geoeconomia",
+   "areas_secundarias": [
+    "seguridad",
+    "instituciones"
+   ],
+   "subtemas": [
+    "sanciones_financieras",
+    "monedas_reserva"
+   ],
+   "actores": [
+    "Rusia",
+    "Estados Unidos",
+    "Unión Europea",
+    "Banco de Rusia"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Due diligence de proveedores con vínculos rusos y revisión de listas de sanciones en operaciones de comercio exterior.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Sanciones+internacionales+durante+la+invasi%C3%B3n+rusa+de+Ucrania",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2022-02-28T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "colonial-pipeline-2021",
+   "fecha_utc": "2021-05-07T12:00:00Z",
+   "titulo": "Ciberataque de ransomware detiene el oleoducto Colonial en EUA",
+   "resumen": "La empresa paró el ducto que abastece de combustibles a la costa este de EUA durante varios días. El caso se volvió referencia de riesgo cibernético en infraestructura crítica.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Ciberataque+a+Colonial+Pipeline",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "USA",
+   "region": "norteamerica",
+   "lat": 34.07,
+   "lon": -84.29,
+   "area_principal": "tecnologia",
+   "areas_secundarias": [
+    "energia",
+    "seguridad"
+   ],
+   "subtemas": [
+    "ciberataques"
+   ],
+   "actores": [
+    "Colonial Pipeline",
+    "DarkSide"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Ciberataque+a+Colonial+Pipeline",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2021-05-07T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "omc-apelacion-2019",
+   "fecha_utc": "2019-12-11T12:00:00Z",
+   "titulo": "El Órgano de Apelación de la OMC queda paralizado",
+   "resumen": "Al vencer el mandato de sus miembros sin reemplazo, por el bloqueo de EUA a los nombramientos, el órgano se quedó sin quórum. Las disputas comerciales ya no tienen una segunda instancia operativa.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=%C3%93rgano+de+Apelaci%C3%B3n+de+la+OMC",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "CHE",
+   "region": "europa_occidental",
+   "lat": 46.22,
+   "lon": 6.14,
+   "area_principal": "instituciones",
+   "areas_secundarias": [
+    "geoeconomia"
+   ],
+   "subtemas": [
+    "omc_controversias"
+   ],
+   "actores": [
+    "OMC",
+    "Estados Unidos"
+   ],
+   "severidad": 2,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": null,
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=%C3%93rgano+de+Apelaci%C3%B3n+de+la+OMC",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2019-12-11T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  }
+ ]
+}
