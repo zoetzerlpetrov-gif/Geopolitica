@@ -9,4 +9,4 @@ const filas = process.argv.slice(2).map((f) => {
 });
 const md = ["", "### Lighthouse (laboratorio)", "", "| Corrida | Puntaje | FCP ms | LCP ms | TBT ms | CLS | Speed Index ms | TTI ms | Peso total KB | Tiempo de ejecución JS ms |", "|---|---|---|---|---|---|---|---|---|---|", ...filas].join("\n");
 console.log(md);
-appendFileSync("resultados/medicion.md", md + "\n");
+appendFileSync(process.env.RESUMEN || "resultados/medicion.md", md + "\n");

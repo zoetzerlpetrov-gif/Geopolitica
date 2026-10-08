@@ -1,5 +1,5 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
-import { getJSON, esc, fecha, debounce, storage } from "./util.js";
+import { getJSON, esc, fecha, storage } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
@@ -18,6 +18,17 @@ function temaActual() {
   return matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 }
 
+/** LITE: activo por defecto en celular o pantallas táctiles; el usuario puede cambiarlo (se recuerda). */
+function modoLite() {
+  const guardado = storage.get("gp_lite");
+  if (guardado != null) return guardado === "1";
+  return matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+}
+
+// El gazetteer (nombres de países) solo se usa en la ficha: se descarga la primera vez que se abre una.
+let gazPromesa = null;
+const cargarPaises = () => (gazPromesa ??= getJSON("config/gazetteer.json").then((g) => (paises = g.paises)));
+
 function prepararTaxonomia(t) {
   const areas = new Map(t.areas.map((a) => [a.id, a]));
   const subtemas = new Map();
@@ -33,29 +44,66 @@ function pasaFiltros(ev, ignorarArea = false) {
   return true;
 }
 
-/** GeoJSON mínimo para la GPU: solo id, área, severidad y título (el resto se busca por id). */
-function aGeoJSON(lista) {
-  const features = [];
-  for (const ev of lista) {
-    if (ev.lat == null || ev.lon == null) continue;
-    features.push({
+// Cada evento se convierte a texto GeoJSON una sola vez (propiedades mínimas: id, área, severidad,
+// título). Al filtrar solo se unen los textos visibles en un Blob y MapLibre lo lee y lo agrupa en
+// su Web Worker. Así el hilo principal no copia decenas de miles de objetos en cada cambio de filtro.
+const featureTxt = new Map();
+function textoFeature(ev) {
+  let t = featureTxt.get(ev.id);
+  if (t === undefined) {
+    t = ev.lat == null || ev.lon == null ? "" : JSON.stringify({
       type: "Feature",
       geometry: { type: "Point", coordinates: [ev.lon, ev.lat] },
       properties: { id: ev.id, a: ev.area_principal, s: ev.severidad, t: ev.titulo },
     });
+    featureTxt.set(ev.id, t);
   }
-  return { type: "FeatureCollection", features };
+  return t;
 }
 
-function aplicarFiltros() {
+let blobActual = null;
+function publicarEnMapa(partes) {
+  const anterior = blobActual;
+  blobActual = URL.createObjectURL(new Blob(['{"type":"FeatureCollection","features":[', partes.join(","), "]}"], { type: "application/json" }));
+  api.setDatos(blobActual);
+  // La URL anterior se libera cuando el worker ya terminó de leer la nueva.
+  if (anterior) setTimeout(() => URL.revokeObjectURL(anterior), 5000);
+}
+
+const BLOQUE = 5000;            // eventos por bloque antes de ceder el hilo principal
+let generacion = 0;              // si llega un filtro nuevo, el recorrido anterior se abandona
+const ceder = () => new Promise((r) => setTimeout(r, 0));
+
+async function aplicarFiltros() {
+  const mia = ++generacion;
   const t0 = performance.now();
-  const visibles = eventos.filter((ev) => pasaFiltros(ev));
-  api.setDatos(aGeoJSON(visibles));
-  pintarConteos();
+  const visibles = [];
+  const partes = [];
+  const conteo = {};
+  for (let i = 0; i < eventos.length; i++) {
+    if (i && i % BLOQUE === 0) { await ceder(); if (mia !== generacion) return; }
+    const ev = eventos[i];
+    if (!pasaFiltros(ev, true)) continue;
+    conteo[ev.area_principal] = (conteo[ev.area_principal] || 0) + 1;
+    if (!estado.areas.has(ev.area_principal)) continue;
+    visibles.push(ev);
+    const t = textoFeature(ev);
+    if (t) partes.push(t);
+  }
+  publicarEnMapa(partes);
+  for (const el of document.querySelectorAll("[data-num]")) el.textContent = conteo[el.dataset.num] || 0;
   pintarLista(visibles);
   console.info(`filtros: ${visibles.length}/${eventos.length} eventos en ${Math.round(performance.now() - t0)} ms`);
 }
-const aplicarFiltrosDebounced = debounce(aplicarFiltros, 60);
+
+// Ceder el turno: primero se pinta el cambio del control (casilla, menú) y después se filtra.
+// Así la interfaz responde de inmediato aunque haya decenas de miles de eventos.
+let pendiente = false;
+function programarFiltros() {
+  if (pendiente) return;
+  pendiente = true;
+  requestAnimationFrame(() => setTimeout(() => { pendiente = false; aplicarFiltros(); }, 0));
+}
 
 // ---------- Panel ----------
 function pintarAreas() {
@@ -71,14 +119,8 @@ function pintarAreas() {
     const id = e.target.dataset.area;
     if (!id) return;
     e.target.checked ? estado.areas.add(id) : estado.areas.delete(id);
-    aplicarFiltrosDebounced();
+    programarFiltros();
   });
-}
-
-function pintarConteos() {
-  const n = {};
-  for (const ev of eventos) if (pasaFiltros(ev, true)) n[ev.area_principal] = (n[ev.area_principal] || 0) + 1;
-  for (const el of document.querySelectorAll("[data-num]")) el.textContent = n[el.dataset.num] || 0;
 }
 
 function pintarLista(visibles) {
@@ -98,10 +140,11 @@ function pintarLista(visibles) {
 
 // ---------- Ficha ----------
 let focoPrevio = null;
-function abrirFicha(id, { volar = false } = {}) {
+async function abrirFicha(id, { volar = false } = {}) {
   const ev = porId.get(id);
   if (!ev) return;
   focoPrevio = document.activeElement;
+  if (!paises) await cargarPaises().catch(() => (paises = {}));
   $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises);
   $("ficha").hidden = false;
   api.setSeleccion(id);
@@ -146,16 +189,16 @@ function eventosSinteticos(n) {
 
 async function main() {
   const tema = temaActual();
-  const [taxonomia, choke, gaz, runLog, base] = await Promise.all([
+  const lite = modoLite();
+  document.documentElement.classList.toggle("lite", lite);
+  const [taxonomia, choke, runLog, base] = await Promise.all([
     getJSON("config/taxonomy.json"),
     getJSON("config/chokepoints.json"),
-    getJSON("config/gazetteer.json"),
     getJSON("data/run-log.json", { bust: true }),
-    estiloBase(tema),
+    estiloBase(tema, { lite }),
     cargarEventos(),
   ]);
   tax = prepararTaxonomia(taxonomia);
-  paises = gaz.paises;
   estado.areas = new Set(tax.lista.map((a) => a.id));
 
   if (!base.remoto) {
@@ -170,7 +213,7 @@ async function main() {
   };
 
   api = crearMapa({
-    container: $("map"), style: base.style, tema, chokepoints: chokeGeo,
+    container: $("map"), style: base.style, tema, lite, chokepoints: chokeGeo,
     colores: Object.fromEntries(tax.lista.map((a) => [a.id, a.color])),
     onSelect: (id) => abrirFicha(id),
   });
@@ -187,10 +230,10 @@ async function main() {
   $("areas-ninguna").onclick = () => { estado.areas.clear(); pintarAreas2(); };
   function pintarAreas2() {
     for (const cb of document.querySelectorAll("[data-area]")) cb.checked = estado.areas.has(cb.dataset.area);
-    aplicarFiltros();
+    programarFiltros();
   }
-  $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; aplicarFiltros(); };
-  $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); aplicarFiltros(); };
+  $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
+  $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("capa-chokepoints").onchange = (e) => api.setChokepoints(e.target.checked);
   $("lista-eventos").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-id]");
@@ -211,15 +254,25 @@ async function main() {
     const nuevo = temaActual() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = nuevo;
     storage.set("gp_theme", nuevo);
-    const b = await estiloBase(nuevo);
+    const b = await estiloBase(nuevo, { lite });
     api.setTema(nuevo, b.style);
     api.map.once("style.load", () => aplicarFiltros());
   };
 
+  const btnLite = $("btn-lite");
+  btnLite.setAttribute("aria-pressed", String(lite));
+  btnLite.onclick = () => { storage.set("gp_lite", lite ? "0" : "1"); location.reload(); };
+
   iniciarRefresco({
     runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"),
-    onNuevosDatos: async () => { await cargarEventos(); aplicarFiltros(); },
+    onNuevosDatos: async () => { await cargarEventos(); featureTxt.clear(); aplicarFiltros(); },
   });
+}
+
+// Service worker: guarda MapLibre, estilos, fuentes y mosaicos del mapa base para que la segunda
+// visita no los vuelva a descargar. Los datos (events.json, run-log.json) siempre se piden a la red primero.
+if ("serviceWorker" in navigator && location.protocol === "https:") {
+  navigator.serviceWorker.register("sw.js").catch((e) => console.warn("service worker:", e.message));
 }
 
 main().catch((e) => {

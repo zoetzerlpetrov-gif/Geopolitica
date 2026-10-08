@@ -16,6 +16,7 @@ import { mkdirSync, writeFileSync } from "node:fs";
 const args = Object.fromEntries(process.argv.slice(2).map((a, i, all) => a.startsWith("--") ? [a.slice(2), all[i + 1]?.startsWith("--") || all[i + 1] === undefined ? true : all[i + 1]] : null).filter(Boolean));
 const URL_BASE = String(args.url || "https://zoetzerlpetrov-gif.github.io/Geopolitica/");
 const RAPIDO = Boolean(args.rapido);
+const SALIDA = String(args.salida || "medicion");
 const ESPERA_HEAP_MS = RAPIDO ? 15000 : 120000;
 
 // 4G simulado: mismos valores que usa Lighthouse para móvil (150 ms RTT, ~1.6 Mbps de bajada).
@@ -149,7 +150,8 @@ async function medir(browser, esc, carga) {
     fps_paneo: paneo.fps, peor_cuadro_paneo_ms: paneo.peor_cuadro_ms,
     fps_zoom: zoom.fps, peor_cuadro_zoom_ms: zoom.peor_cuadro_ms,
     long_tasks_carga: longAntes, long_tasks_navegacion: lt.length - longAntes,
-    long_task_max_ms: Math.max(0, ...lt), interaccion_max_ms: interaccion,
+    long_task_max_ms: Math.max(0, ...lt), long_task_max_nav_ms: Math.max(0, ...lt.slice(longAntes)),
+    interaccion_max_ms: interaccion,
     heap_mb_2min: +(heap / 1048576).toFixed(1),
     bytes_por_categoria: Object.fromEntries(Object.entries(bytes).sort((a, b) => b[1] - a[1]).map(([k, v]) => [k, { kb: Math.round(v / 1024), peticiones: conteo[k] }])),
   };
@@ -166,12 +168,12 @@ for (const esc of ESCENARIOS) for (const carga of [false, true]) {
 }
 await browser.close();
 
-const fila = (r) => `| ${r.escenario} | ${r.carga || "—"} | ${r.mapa_usable_ms ?? "n/d"} | ${r.fps_paneo} (${r.peor_cuadro_paneo_ms}) | ${r.fps_zoom} (${r.peor_cuadro_zoom_ms}) | ${r.long_tasks_carga} / ${r.long_tasks_navegacion} | ${r.long_task_max_ms} | ${r.interaccion_max_ms} | ${r.heap_mb_2min} |`;
+const fila = (r) => `| ${r.escenario} | ${r.carga || "—"} | ${r.mapa_usable_ms ?? "n/d"} | ${r.fps_paneo} (${r.peor_cuadro_paneo_ms}) | ${r.fps_zoom} (${r.peor_cuadro_zoom_ms}) | ${r.long_tasks_carga} / ${r.long_tasks_navegacion} | ${r.long_task_max_ms} / ${r.long_task_max_nav_ms} | ${r.interaccion_max_ms} | ${r.heap_mb_2min} |`;
 const pesos = (r) => Object.entries(r.bytes_por_categoria).map(([k, v]) => `| ${r.escenario}${r.carga ? " +50k" : ""} | ${k} | ${v.kb} | ${v.peticiones} |`).join("\n");
 const md = [
-  `## Medición ${new Date().toISOString()} · ${URL_BASE}`,
+  `## Medición «${SALIDA}» ${new Date().toISOString()} · ${URL_BASE}`,
   "",
-  "| Escenario | Carga | Mapa usable (ms) | FPS paneo (peor cuadro ms) | FPS zoom (peor cuadro ms) | Long tasks carga / navegación | Long task máx (ms) | Interacción máx (ms) | Heap tras espera (MB) |",
+  "| Escenario | Carga | Mapa usable (ms) | FPS paneo (peor cuadro ms) | FPS zoom (peor cuadro ms) | Long tasks carga / navegación | Long task máx carga / navegación (ms) | Interacción máx (ms) | Heap tras espera (MB) |",
   "|---|---|---|---|---|---|---|---|---|",
   ...resultados.map(fila),
   "",
@@ -180,6 +182,6 @@ const md = [
   ...resultados.map(pesos),
 ].join("\n");
 mkdirSync("resultados", { recursive: true });
-writeFileSync("resultados/medicion.json", JSON.stringify(resultados, null, 2));
-writeFileSync("resultados/medicion.md", md + "\n");
+writeFileSync(`resultados/${SALIDA}.json`, JSON.stringify(resultados, null, 2));
+writeFileSync(`resultados/${SALIDA}.md`, md + "\n");
 console.log("\n" + md);

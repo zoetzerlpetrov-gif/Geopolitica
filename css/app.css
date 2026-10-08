@@ -60,6 +60,7 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 }
 .txt-btn { min-height: 26px; padding: 2px 8px; font-size: 12px; }
 .icon-btn:hover, .link-btn:hover, .txt-btn:hover { border-color: var(--accent); }
+.icon-btn[aria-pressed="true"] { background: var(--accent); color: var(--surface); border-color: var(--accent); }
 
 /* ---------- Distribución ---------- */
 .layout { position: relative; display: grid; grid-template-columns: 300px 1fr; min-height: 0; }

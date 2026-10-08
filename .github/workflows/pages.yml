@@ -39,7 +39,7 @@ jobs:
       - name: Armar el sitio (solo archivos públicos)
         run: |
           mkdir -p _site
-          cp -r index.html taxonomia.html css js vendor config data schema _site/
+          cp -r index.html taxonomia.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           du -sh _site
