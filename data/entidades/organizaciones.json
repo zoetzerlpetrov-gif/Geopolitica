@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-08T01:48:57Z",
+ "generado_utc": "2026-10-08T05:17:26Z",
  "fuente": "Wikidata (CC0)",
  "registros": [
   {
@@ -5756,8 +5756,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q24237654",
-    "Q108444479"
+    "Q108444479",
+    "Q24237654"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -5824,8 +5824,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q1951896",
-    "Q57655"
+    "Q57655",
+    "Q1951896"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -5874,8 +5874,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q17177542"
+    "Q17177542",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -5942,8 +5942,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q27329764",
-    "Q107136851"
+    "Q107136851",
+    "Q27329764"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -5976,10 +5976,10 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q24951128",
     "Q29035",
     "Q3241966",
-    "Q16669148"
+    "Q16669148",
+    "Q24951128"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -5995,8 +5995,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q114341246",
-    "Q114835874"
+    "Q114835874",
+    "Q114341246"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6012,8 +6012,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q116763154",
-    "Q7686199"
+    "Q7686199",
+    "Q116763154"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6063,8 +6063,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q7183082"
+    "Q7183082",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6198,8 +6198,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57376",
-    "Q7849613"
+    "Q7849613",
+    "Q57376"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6231,8 +6231,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57758",
-    "Q88310768"
+    "Q88310768",
+    "Q57758"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6314,8 +6314,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57413",
-    "Q3434569"
+    "Q3434569",
+    "Q57413"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6331,8 +6331,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57272",
-    "Q60441515"
+    "Q60441515",
+    "Q57272"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6348,8 +6348,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q29032770",
-    "Q63967715"
+    "Q63967715",
+    "Q29032770"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6365,8 +6365,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57418",
-    "Q4752077"
+    "Q4752077",
+    "Q57418"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6414,8 +6414,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57649",
-    "Q139594211"
+    "Q139594211",
+    "Q57649"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6514,9 +6514,9 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57390",
     "Q57683",
-    "Q10522744"
+    "Q10522744",
+    "Q57390"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6532,8 +6532,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q122208779",
-    "Q57823"
+    "Q57823",
+    "Q122208779"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6749,8 +6749,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q122067521",
-    "Q57856"
+    "Q57856",
+    "Q122067521"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6817,8 +6817,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q108418519",
-    "Q22209348"
+    "Q22209348",
+    "Q108418519"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6850,10 +6850,10 @@
    "sede": null,
    "indices": [],
    "personas": [
+    "Q627337",
     "Q57424",
     "Q16855164",
-    "Q16908893",
-    "Q627337"
+    "Q16908893"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6869,8 +6869,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57385",
-    "Q129263796"
+    "Q129263796",
+    "Q57385"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6903,8 +6903,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q112679881"
+    "Q112679881",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -6986,8 +6986,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q124846311",
-    "Q131140314"
+    "Q131140314",
+    "Q124846311"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7070,8 +7070,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q2919350",
-    "Q5933752"
+    "Q5933752",
+    "Q2919350"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7087,8 +7087,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q115579547",
-    "Q3700793"
+    "Q3700793",
+    "Q115579547"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7121,8 +7121,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q983258",
-    "Q43723"
+    "Q43723",
+    "Q983258"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7155,8 +7155,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q505200"
+    "Q505200",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7172,8 +7172,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57464",
-    "Q97011032"
+    "Q97011032",
+    "Q57464"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7239,9 +7239,9 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q25597826",
     "Q4060344",
     "Q23810819",
+    "Q25597826",
     "Q29865128",
     "Q37777535",
     "Q96338578",
@@ -7296,8 +7296,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q113443525"
+    "Q113443525",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7313,8 +7313,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q12612463",
-    "Q55082182"
+    "Q55082182",
+    "Q12612463"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7330,8 +7330,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q12243161",
-    "Q12219691"
+    "Q12219691",
+    "Q12243161"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7347,8 +7347,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q58323",
-    "Q104914585"
+    "Q104914585",
+    "Q58323"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7364,8 +7364,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q29033962",
-    "Q638463"
+    "Q638463",
+    "Q29033962"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7397,8 +7397,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q105319610",
-    "Q105319569"
+    "Q105319569",
+    "Q105319610"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7414,8 +7414,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q7184214"
+    "Q7184214",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7448,8 +7448,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q4777855",
-    "Q98298397"
+    "Q98298397",
+    "Q4777855"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7465,8 +7465,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57537",
-    "Q114588964"
+    "Q114588964",
+    "Q57537"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7533,8 +7533,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57553",
-    "Q1638114"
+    "Q1638114",
+    "Q57553"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7584,8 +7584,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q136500275",
-    "Q138678989"
+    "Q138678989",
+    "Q136500275"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7666,8 +7666,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q98497406",
-    "Q113577661"
+    "Q113577661",
+    "Q98497406"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7700,8 +7700,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q3331362",
-    "Q3462649"
+    "Q3462649",
+    "Q3331362"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7751,8 +7751,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q97058466",
-    "Q6761049"
+    "Q6761049",
+    "Q97058466"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7768,8 +7768,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q12241106",
-    "Q66793577"
+    "Q66793577",
+    "Q12241106"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7785,8 +7785,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q131403499",
-    "Q3401447"
+    "Q3401447",
+    "Q131403499"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7802,8 +7802,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q7176020",
-    "Q16202782"
+    "Q16202782",
+    "Q7176020"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7819,8 +7819,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q2657043",
-    "Q299574"
+    "Q299574",
+    "Q2657043"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7836,8 +7836,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q527020",
-    "Q5360975"
+    "Q5360975",
+    "Q527020"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7853,8 +7853,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q120965176",
-    "Q2646711"
+    "Q2646711",
+    "Q120965176"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7902,8 +7902,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q154952",
-    "Q28860866"
+    "Q28860866",
+    "Q154952"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -7936,8 +7936,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q3183124",
-    "Q315500"
+    "Q315500",
+    "Q3183124"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8002,8 +8002,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57373",
-    "Q2096387"
+    "Q2096387",
+    "Q57373"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8167,8 +8167,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q127998",
-    "Q20423278"
+    "Q20423278",
+    "Q127998"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8184,8 +8184,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q1855372",
-    "Q23020336"
+    "Q23020336",
+    "Q1855372"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8235,8 +8235,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q1231345",
-    "Q135454730"
+    "Q135454730",
+    "Q1231345"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8268,8 +8268,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q63111184",
-    "Q27654948"
+    "Q27654948",
+    "Q63111184"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8335,8 +8335,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q283829",
-    "Q23728768"
+    "Q23728768",
+    "Q283829"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8385,8 +8385,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q319153",
-    "Q99605101"
+    "Q99605101",
+    "Q319153"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8435,8 +8435,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q27982047",
-    "Q131749390"
+    "Q131749390",
+    "Q27982047"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8519,8 +8519,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57340",
-    "Q123342092"
+    "Q123342092",
+    "Q57340"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8586,8 +8586,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q6169516",
-    "Q4414"
+    "Q4414",
+    "Q6169516"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8603,8 +8603,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q548733",
-    "Q13026319"
+    "Q13026319",
+    "Q548733"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8620,8 +8620,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57366",
-    "Q15222839"
+    "Q15222839",
+    "Q57366"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8704,8 +8704,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q16120878",
-    "Q108892374"
+    "Q108892374",
+    "Q16120878"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8754,8 +8754,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q3847080",
-    "Q5116472"
+    "Q5116472",
+    "Q3847080"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8787,8 +8787,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57274",
-    "Q62481397"
+    "Q62481397",
+    "Q57274"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8920,8 +8920,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q10831196",
-    "Q10806940"
+    "Q10806940",
+    "Q10831196"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8972,8 +8972,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q13036897",
-    "Q441633"
+    "Q441633",
+    "Q13036897"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -8989,8 +8989,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q12213376",
-    "Q68837007"
+    "Q68837007",
+    "Q12213376"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -9022,8 +9022,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q717185",
-    "Q18352991"
+    "Q18352991",
+    "Q717185"
    ],
    "fuente": "wikidata",
    "url_fuente": null
