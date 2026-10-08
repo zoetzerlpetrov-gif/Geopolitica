@@ -11,7 +11,7 @@
 //     adelante; después se congela. Por eso estado_dato = "retrasado".
 //   - Satélites: SGP4 en un Web Worker que entrega GeoJSON ya armado.
 /* global maplibregl */
-import { getJSON, esc, debounce } from "./util.js";
+import { getJSON, esc, debounce, pinturaEtiqueta } from "./util.js";
 
 export const MAX_OBJETOS = 5000;
 const PROYECCION_MAX_S = 300;
@@ -199,7 +199,7 @@ export class Movimiento {
     }
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, minzoom: 7,
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 1.2], "text-anchor": "top", "text-optional": true },
-      paint: { "text-color": "#333F48", "text-halo-color": "#ffffff", "text-halo-width": 1.2 } });
+      paint: pinturaEtiqueta() });
     this.map.on("click", src, (e) => this.onObjeto({ tipo, props: e.features[0].properties, generado: this.datos[tipo]?.generado,
       campos: this.datos[tipo]?.campos, coords: e.features[0].geometry.coordinates }));
     this.map.on("mouseenter", src, () => { this.map.getCanvas().style.cursor = "pointer"; });

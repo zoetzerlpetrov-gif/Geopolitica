@@ -11,7 +11,8 @@ export async function getJSON(url, { bust = false } = {}) {
   // Datos de arranque que index.html ya pidió en paralelo con MapLibre: se usan una sola vez.
   const pre = globalThis.__pre?.[url];
   if (pre) { delete globalThis.__pre[url]; return pre; }
-  const r = await fetch(bust ? `${url}?t=${Date.now()}` : url, { cache: "no-store" });
+  // El parámetro anticaché se agrega con «&» si la URL ya trae parámetros (p. ej. la API de NWS).
+  const r = await fetch(bust ? `${url}${url.includes("?") ? "&" : "?"}t=${Date.now()}` : url, { cache: "no-store" });
   if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
   return r.json();
 }
@@ -52,4 +53,20 @@ export function distanciaKm(lat1, lon1, lat2, lon2) {
   const r = (g) => (g * Math.PI) / 180;
   const a = Math.sin(r(lat2 - lat1) / 2) ** 2 + Math.cos(r(lat1)) * Math.cos(r(lat2)) * Math.sin(r(lon2 - lon1) / 2) ** 2;
   return 12742 * Math.asin(Math.sqrt(a));
+}
+
+/** ¿El mapa está en tema oscuro? (data-theme manda; si no, la preferencia del sistema). */
+export function temaOscuro() {
+  const t = document.documentElement.dataset.theme;
+  return t ? t === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+}
+
+/**
+ * Pintura de etiquetas legible sobre cualquier fondo: texto casi negro con halo blanco suave en tema claro,
+ * texto claro con halo oscuro en tema oscuro. Halo difuminado (no un contorno duro) para que no tape las letras.
+ */
+export function pinturaEtiqueta() {
+  return temaOscuro()
+    ? { "text-color": "#F4F7F9", "text-halo-color": "rgba(8,14,20,0.92)", "text-halo-width": 1.6, "text-halo-blur": 0.6 }
+    : { "text-color": "#101820", "text-halo-color": "rgba(255,255,255,0.95)", "text-halo-width": 1.6, "text-halo-blur": 0.6 };
 }

@@ -404,6 +404,294 @@
    "estado": "Nayarit",
    "lat": 21.5,
    "lon": -104.89
+  },
+  {
+   "nombre": "Zihuatanejo",
+   "estado": "Guerrero",
+   "lat": 17.64,
+   "lon": -101.55
+  },
+  {
+   "nombre": "Iguala",
+   "estado": "Guerrero",
+   "lat": 18.34,
+   "lon": -99.54
+  },
+  {
+   "nombre": "Taxco",
+   "estado": "Guerrero",
+   "lat": 18.56,
+   "lon": -99.6
+  },
+  {
+   "nombre": "Tlapa",
+   "estado": "Guerrero",
+   "lat": 17.55,
+   "lon": -98.58
+  },
+  {
+   "nombre": "Petatlán",
+   "estado": "Guerrero",
+   "lat": 17.54,
+   "lon": -101.27
+  },
+  {
+   "nombre": "Tecpan",
+   "estado": "Guerrero",
+   "lat": 17.22,
+   "lon": -100.63
+  },
+  {
+   "nombre": "Oaxaca de Juárez",
+   "estado": "Oaxaca",
+   "lat": 17.07,
+   "lon": -96.72
+  },
+  {
+   "nombre": "Juchitán",
+   "estado": "Oaxaca",
+   "lat": 16.43,
+   "lon": -95.02
+  },
+  {
+   "nombre": "Salina Cruz",
+   "estado": "Oaxaca",
+   "lat": 16.17,
+   "lon": -95.2
+  },
+  {
+   "nombre": "Poza Rica",
+   "estado": "Veracruz",
+   "lat": 20.53,
+   "lon": -97.46
+  },
+  {
+   "nombre": "Tuxpan",
+   "estado": "Veracruz",
+   "lat": 20.95,
+   "lon": -97.4
+  },
+  {
+   "nombre": "Ciudad Valles",
+   "estado": "San Luis Potosí",
+   "lat": 21.99,
+   "lon": -99.01
+  },
+  {
+   "nombre": "Lázaro Cárdenas",
+   "estado": "Michoacán",
+   "lat": 17.96,
+   "lon": -102.2
+  },
+  {
+   "nombre": "Huetamo",
+   "estado": "Michoacán",
+   "lat": 18.63,
+   "lon": -100.9
+  },
+  {
+   "nombre": "Ensenada",
+   "estado": "Baja California",
+   "lat": 31.87,
+   "lon": -116.6
+  },
+  {
+   "nombre": "Mexicali",
+   "estado": "Baja California",
+   "lat": 32.62,
+   "lon": -115.45
+  },
+  {
+   "nombre": "Nogales",
+   "estado": "Sonora",
+   "lat": 31.31,
+   "lon": -110.94
+  },
+  {
+   "nombre": "San Luis Río Colorado",
+   "estado": "Sonora",
+   "lat": 32.46,
+   "lon": -114.77
+  },
+  {
+   "nombre": "Torreón",
+   "estado": "Coahuila",
+   "lat": 25.54,
+   "lon": -103.41
+  },
+  {
+   "nombre": "Piedras Negras",
+   "estado": "Coahuila",
+   "lat": 28.7,
+   "lon": -100.52
+  },
+  {
+   "nombre": "Saltillo",
+   "estado": "Coahuila",
+   "lat": 25.42,
+   "lon": -101.0
+  },
+  {
+   "nombre": "Pachuca",
+   "estado": "Hidalgo",
+   "lat": 20.12,
+   "lon": -98.73
+  },
+  {
+   "nombre": "Tulancingo",
+   "estado": "Hidalgo",
+   "lat": 20.08,
+   "lon": -98.36
+  },
+  {
+   "nombre": "Villahermosa",
+   "estado": "Tabasco",
+   "lat": 17.99,
+   "lon": -92.93
+  },
+  {
+   "nombre": "Tuxtla Gutiérrez",
+   "estado": "Chiapas",
+   "lat": 16.75,
+   "lon": -93.12
+  },
+  {
+   "nombre": "San Cristóbal de las Casas",
+   "estado": "Chiapas",
+   "lat": 16.74,
+   "lon": -92.64
+  },
+  {
+   "nombre": "Frontera Comalapa",
+   "estado": "Chiapas",
+   "lat": 15.66,
+   "lon": -92.14
+  },
+  {
+   "nombre": "Mérida",
+   "estado": "Yucatán",
+   "lat": 20.97,
+   "lon": -89.62
+  },
+  {
+   "nombre": "Chetumal",
+   "estado": "Quintana Roo",
+   "lat": 18.5,
+   "lon": -88.3
+  },
+  {
+   "nombre": "Tulum",
+   "estado": "Quintana Roo",
+   "lat": 20.21,
+   "lon": -87.47
+  },
+  {
+   "nombre": "Los Cabos",
+   "estado": "Baja California Sur",
+   "lat": 22.89,
+   "lon": -109.91
+  },
+  {
+   "nombre": "La Paz",
+   "estado": "Baja California Sur",
+   "lat": 24.14,
+   "lon": -110.31
+  },
+  {
+   "nombre": "Hermosillo",
+   "estado": "Sonora",
+   "lat": 29.07,
+   "lon": -110.96
+  },
+  {
+   "nombre": "Guaymas",
+   "estado": "Sonora",
+   "lat": 27.92,
+   "lon": -110.9
+  },
+  {
+   "nombre": "Delicias",
+   "estado": "Chihuahua",
+   "lat": 28.19,
+   "lon": -105.47
+  },
+  {
+   "nombre": "Parral",
+   "estado": "Chihuahua",
+   "lat": 26.93,
+   "lon": -105.66
+  },
+  {
+   "nombre": "Tampico",
+   "estado": "Tamaulipas",
+   "lat": 22.25,
+   "lon": -97.86
+  },
+  {
+   "nombre": "Ciudad Victoria",
+   "estado": "Tamaulipas",
+   "lat": 23.74,
+   "lon": -99.15
+  },
+  {
+   "nombre": "Tehuacán",
+   "estado": "Puebla",
+   "lat": 18.46,
+   "lon": -97.39
+  },
+  {
+   "nombre": "Texmelucan",
+   "estado": "Puebla",
+   "lat": 19.28,
+   "lon": -98.44
+  },
+  {
+   "nombre": "Nezahualcóyotl",
+   "estado": "Estado de México",
+   "lat": 19.4,
+   "lon": -99.02
+  },
+  {
+   "nombre": "Naucalpan",
+   "estado": "Estado de México",
+   "lat": 19.48,
+   "lon": -99.24
+  },
+  {
+   "nombre": "Chalco",
+   "estado": "Estado de México",
+   "lat": 19.26,
+   "lon": -98.9
+  },
+  {
+   "nombre": "Valle de Bravo",
+   "estado": "Estado de México",
+   "lat": 19.19,
+   "lon": -100.13
+  },
+  {
+   "nombre": "Tlaquepaque",
+   "estado": "Jalisco",
+   "lat": 20.64,
+   "lon": -103.31
+  },
+  {
+   "nombre": "Zapopan",
+   "estado": "Jalisco",
+   "lat": 20.72,
+   "lon": -103.39
+  },
+  {
+   "nombre": "Lagos de Moreno",
+   "estado": "Jalisco",
+   "lat": 21.36,
+   "lon": -101.93
+  },
+  {
+   "nombre": "Tepatitlán",
+   "estado": "Jalisco",
+   "lat": 20.82,
+   "lon": -102.76
   }
  ]
 }
