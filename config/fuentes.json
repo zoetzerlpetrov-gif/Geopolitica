@@ -97,11 +97,13 @@
     "nota": "Requiere el secreto GROQ_API_KEY (console.groq.com/keys). Si un modelo se retira se usa el siguiente de la lista.",
     "url": "https://api.groq.com/openai/v1/chat/completions",
     "modelos": [
-      "llama-3.3-70b-versatile",
       "openai/gpt-oss-120b",
+      "llama-3.3-70b-versatile",
+      "meta-llama/llama-4-scout-17b-16e-instruct",
       "llama-3.1-8b-instant"
     ],
     "max_por_corrida": 40,
-    "pausa_s": 2.5
+    "pausa_s": 2.5,
+    "max_tokens": 600
   }
 }

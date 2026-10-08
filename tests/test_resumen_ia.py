@@ -87,3 +87,31 @@ def test_en_la_ingesta_nunca_se_resume_gdelt_y_se_conserva_entre_corridas():
     otra, _ = T.R.procesar(T._candidatos(), eventos, T.CFG, T.T, T.GAZ, T.PAISES, T.CLS, T.TAX)
     con_ia = [e for e in otra if e.get("resumen_origen") == "ia"]
     assert con_ia and all(e["resumen"] == BUENO for e in con_ia)
+
+
+def test_motivos_de_rechazo():
+    assert IA.motivo_rechazo(BUENO, TITULO, TEXTO) is None
+    assert IA.motivo_rechazo("Tres personas murieron tras ataques de los hutíes contra aeropuertos de Arabia Saudita,", TITULO, TEXTO) == "incompleto"
+    assert IA.motivo_rechazo("INSUFICIENTE", TITULO, TEXTO) == "insuficiente"
+    assert IA.motivo_rechazo("Houthi rebels launched drones at two airports in southern Saudi Arabia, with victims.", TITULO, TEXTO) == "copia"
+
+
+def test_modelos_que_razonan_piden_razonamiento_bajo_y_oculto(monkeypatch):
+    enviado = {}
+
+    class R:
+        def __enter__(self): return self
+        def __exit__(self, *a): return False
+        def read(self): return b'{"choices":[{"message":{"content":"ok"}}]}'
+
+    def falso_urlopen(req, timeout):
+        import json as _j
+        enviado.clear()
+        enviado.update(_j.loads(req.data))
+        return R()
+
+    monkeypatch.setattr(IA.urllib.request, "urlopen", falso_urlopen)
+    IA.pedir(TITULO, TEXTO, "BBC", {"url": "https://x.invalid"}, "k", "openai/gpt-oss-120b")
+    assert enviado["reasoning_effort"] == "low" and enviado["reasoning_format"] == "hidden" and enviado["max_tokens"] == 600
+    IA.pedir(TITULO, TEXTO, "BBC", {"url": "https://x.invalid"}, "k", "llama-3.1-8b-instant")
+    assert "reasoning_effort" not in enviado and "reasoning_format" not in enviado
