@@ -403,7 +403,7 @@ def dividir(caja):
     return [(s_, w, ml, mo), (s_, mo, ml, e), (ml, w, n, mo), (ml, mo, n, e)]
 
 
-MAX_DIVISIONES = 2  # una caja de 20°×180° puede llegar a cuartos de 5°×45°
+MAX_DIVISIONES = 3  # una caja de 20°×180° puede llegar a 2.5°×22.5°
 
 
 def overpass(selectores, familia="", salida="center"):
@@ -540,6 +540,48 @@ FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "cen
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos}
 
 
+def _punto_ref(ft):
+    """Coordenada representativa de un feature (punto, o primer vértice de una línea o polígono)."""
+    c = ft["geometry"]["coordinates"]
+    while isinstance(c[0], list):
+        c = c[0]
+    return c[0], c[1]
+
+
+def _en_caja(lon, lat, caja):
+    s_, w, n, e = caja
+    return s_ <= lat <= n and w <= lon <= e
+
+
+def ruta_crudo(fid):
+    return os.path.join(SALIDA, f"{fid}.crudo.ndjson.gz")
+
+
+def leer_crudo(fid):
+    import gzip
+    ruta = ruta_crudo(fid)
+    if not os.path.exists(ruta):
+        return []
+    with gzip.open(ruta, "rt", encoding="utf-8") as f:
+        return [json.loads(x) for x in f if x.strip()]
+
+
+def guardar_crudo(fid, feats):
+    """Copia de los objetos de la familia (no se publica en el sitio): sirve para rellenar zonas que fallen después."""
+    import gzip
+    with gzip.open(ruta_crudo(fid), "wt", encoding="utf-8") as f:
+        for ft in feats:
+            f.write(json.dumps(ft, ensure_ascii=False, separators=(",", ":")) + "\n")
+
+
+def rellenar_faltantes(feats, previos, cajas):
+    """Agrega de la corrida anterior los objetos que caen en las cajas que no respondieron ahora.
+    Devuelve (feats completos, cuántos se reusaron)."""
+    ids = {ft["properties"]["id"] for ft in feats}
+    extra = [ft for ft in previos if ft["properties"]["id"] not in ids and any(_en_caja(*_punto_ref(ft), c) for c in cajas)]
+    return feats + extra, len(extra)
+
+
 def tippecanoe(familia, ruta_ndjson, geometria):
     destino = os.path.join(SALIDA, f"{familia}.pmtiles")
     base = ["tippecanoe", "-o", destino, "--force", "-l", familia, "-Z0", "--quiet",
@@ -598,6 +640,12 @@ def main(pedidas):
                     os.remove(destino)
                 guardar()
                 continue
+            reusados = 0
+            if fid in FAMILIAS_OSM:
+                if FALTANTES.get(fid):
+                    feats, reusados = rellenar_faltantes(feats, leer_crudo(fid), FALTANTES[fid])
+                    print(f"[{fid}] {reusados} objetos reusados de la corrida anterior en {len(FALTANTES[fid])} zona(s) sin respuesta")
+                guardar_crudo(fid, feats)
             if fid in FAMILIAS_GEOJSON:
                 destino = os.path.join(SALIDA, f"{fid}.geojson")
                 with open(destino, "w", encoding="utf-8") as f:
@@ -618,7 +666,8 @@ def main(pedidas):
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
                 **({"fuentes": dict(CAM_FUENTES)} if fid == "camaras" else {}),
                 "estado": "parcial" if FALTANTES.get(fid) else "ok",
-                "error": f"sin datos en {len(FALTANTES[fid])} zona(s): {FALTANTES[fid]}" if FALTANTES.get(fid) else None,
+                "error": (f"sin respuesta en {len(FALTANTES[fid])} zona(s); se reusaron {reusados} objetos de la corrida anterior en esas zonas: {FALTANTES[fid]}"
+                          if FALTANTES.get(fid) else None),
                 "actualizado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "segundos": round(time.time() - t0),
             }
             print(f"[{fid}] {len(feats)} objetos → {os.path.getsize(destino) / 1e6:.2f} MB")
