@@ -22,11 +22,30 @@
   <link rel="modulepreload" href="js/imagenes.js">
   <link rel="modulepreload" href="js/analisis-logica.js">
   <link rel="modulepreload" href="js/linea-tiempo.js">
+  <link rel="modulepreload" href="js/cuaderno.js">
   <link rel="stylesheet" href="vendor/maplibre-gl/maplibre-gl.css">
   <link rel="stylesheet" href="css/app.css">
   <script>
     // Aplica el tema antes de pintar para evitar parpadeo.
     try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+    // Pide los datos de arranque YA, en paralelo con MapLibre (281 KB). Sin esto se pedían hasta que
+    // MapLibre terminaba de descargarse y ejecutarse (~2.9 s en 4G). js/util.js getJSON() los reutiliza.
+    (function () {
+      var pre = (window.__pre = {});
+      var pedir = function (u, bust) {
+        var p = fetch(bust ? u + "?t=" + Date.now() : u, { cache: "no-store" })
+          .then(function (r) { if (!r.ok) throw new Error(u + ": HTTP " + r.status); return r.json(); });
+        p.catch(function () {}); // si nadie lo usa, no se reporta como error
+        pre[u] = p;
+      };
+      pedir("config/taxonomy.json"); pedir("config/chokepoints.json"); pedir("config/regions.json");
+      pedir("data/events.json", true); pedir("data/run-log.json", true);
+      // Modo LITE (misma regla que js/app.js): el mapa base local también se pide desde ya.
+      var lite;
+      try { lite = localStorage.getItem("gp_lite"); } catch (e) { lite = null; }
+      lite = lite != null ? lite === "1" : matchMedia("(max-width: 760px), (pointer: coarse)").matches;
+      if (lite) { pedir("data/base/countries-110m.geojson"); pedir("data/base/etiquetas-paises.geojson"); }
+    })();
   </script>
 </head>
 <body>
@@ -150,6 +169,8 @@
   </footer>
 
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
+  <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
+  <script>try { maplibregl.prewarm(); } catch (e) {}</script>
   <script type="module" src="js/app.js"></script>
 </body>
 </html>

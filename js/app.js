@@ -237,6 +237,13 @@ async function main() {
   const pRegiones = getJSON("config/regions.json");
   const pEventos = pTax.then((t) => { tax = prepararTaxonomia(t); return cargarEventos(); });
   const base = await estiloBase(tema, { lite });
+  // LITE: si index.html ya descargó el mapa base local, se entrega como objeto (el worker no lo vuelve a pedir).
+  if (base.local) {
+    for (const [fuente, url] of [["paises", "data/base/countries-110m.geojson"], ["nombres", "data/base/etiquetas-paises.geojson"]]) {
+      const p = globalThis.__pre?.[url];
+      if (p) { delete globalThis.__pre[url]; base.style.sources[fuente].data = await p.catch(() => url); }
+    }
+  }
 
   if (!base.remoto) {
     const aviso = $("aviso-base");

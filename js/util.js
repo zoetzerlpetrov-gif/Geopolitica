@@ -8,6 +8,9 @@ export const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
 export const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "#");
 
 export async function getJSON(url, { bust = false } = {}) {
+  // Datos de arranque que index.html ya pidió en paralelo con MapLibre: se usan una sola vez.
+  const pre = globalThis.__pre?.[url];
+  if (pre) { delete globalThis.__pre[url]; return pre; }
   const r = await fetch(bust ? `${url}?t=${Date.now()}` : url, { cache: "no-store" });
   if (!r.ok) throw new Error(`${url}: HTTP ${r.status}`);
   return r.json();
