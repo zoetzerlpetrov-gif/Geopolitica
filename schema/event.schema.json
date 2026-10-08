@@ -298,6 +298,18 @@
               "description": "Solo ids de personas con rol público; nunca datos personales."
             }
           }
+        },
+        "resumen_origen": {
+          "enum": [
+            "reglas",
+            "ia"
+          ],
+          "description": "«ia»: resumen redactado con IA (ingest/resumen_ia.py); si falta, es por reglas."
+        },
+        "resumen_modelo": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "Proveedor/modelo que redactó el resumen de IA."
         }
       }
     }

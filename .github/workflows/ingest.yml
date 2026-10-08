@@ -45,6 +45,7 @@ jobs:
       - name: Ingerir, clasificar y validar
         env:
           RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 ingest/run.py --salida eventos
 
       - name: Resumen de la corrida

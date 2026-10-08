@@ -42,6 +42,7 @@ export function htmlFicha(ev, tax, paises, porId = new Map(), extra = {}) {
     </div>
 
     <p>${esc(ev.resumen)}</p>
+    ${ev.resumen_origen === "ia" ? `<p class="meta nota-ia">Resumen redactado con IA (${esc(ev.resumen_modelo || "Groq")}) a partir del título y la descripción del medio. Puede contener errores: confirma en la fuente.</p>` : ""}
 
     <div class="pregunta"><b>Pregunta guía del área</b>${esc(a.pregunta_guia)}</div>
 

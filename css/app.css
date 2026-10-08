@@ -248,6 +248,8 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 .sin-clasificar { padding-left: 18px; font-size: 13px; }
 @media (max-width: 760px) { .embudo li { grid-template-columns: 1fr 80px 50px; } }
 
+.nota-ia { font-size: 11px; color: var(--text-2); border-left: 3px solid #5B4A9E; padding-left: 6px; margin: -4px 0 8px; }
+
 /* ---------- Ficha de vuelo ---------- */
 .ruta-vuelo { display: grid; gap: 6px; background: var(--surface-2); border-radius: 6px; padding: 8px 10px; margin: 8px 0; font-size: 13px; }
 .ruta-vuelo .meta { display: block; font-size: 11px; color: var(--text-2); }

@@ -18,6 +18,7 @@ export function aEvento(r, regionDe = {}) {
     impacto_mexico: r.impacto_mexico ?? null, nivel_alerta: r.nivel_alerta,
     fuentes: [{ fuente: r.fuente, url: r.url, tipo_fuente: r.tipo_fuente || "noticia" }],
     estado_dato: "estatico", es_historial: true,
+    ...(r.resumen_origen === "ia" ? { resumen_origen: "ia", resumen_modelo: r.resumen_modelo } : {}),
   };
 }
 
