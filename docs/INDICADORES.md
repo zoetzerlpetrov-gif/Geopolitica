@@ -71,7 +71,7 @@ Ejemplo: un ataque en el Mar Rojo (Seguridad) y una alza de fletes reportada des
 
 **Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, infraestructura, salud NRBQ). La regla de socios exige además severidad 3 o más, y «New Mexico» / «Nuevo México» (estado de EUA) no cuenta como mención de México. Seguridad quedó fuera tras la primera corrida real: marcaba como impacto para México 55 de 235 eventos, casi todos hechos policiales en EUA.
 
-**Deduplicación.** Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
+**Deduplicación.** Una nota sin país detectado se compara con todos los grupos y, si se agrupa, el evento toma el país de la nota que sí lo trae. Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
 
 **Tope.** Se publican hasta 3,000 eventos de las últimas 72 h. Si hay más, quedan los de mayor severidad y con más fuentes. El historial guarda hasta 2,000 registros compactos por día durante 90 días.
 

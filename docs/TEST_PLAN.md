@@ -39,6 +39,7 @@ Regla de publicación: el workflow **Publicar en GitHub Pages** depende del job 
 | 9 | Vista México | Eventos con impacto agrupados por área en el orden de la taxonomía, semáforo por severidad (rojo ≥ 4, ámbar 3, verde ≤ 2) y resumen de conteos; clic abre la ficha | A + M | 5 ✔ |
 | 10 | Matriz de riesgo | 5 × 5 con niveles bajo, medio, alto y crítico; probabilidad inicial por regla y ajustable por evento; exporta CSV con BOM que abre bien en Excel | A + M | 5 ✔ |
 | 11 | Modo aprendizaje | Pregunta el área de un evento real (4 opciones, sin las secundarias), explica la respuesta con la pregunta guía y lleva marcador por área | A + M | 5 ✔ |
+| 11b | Calidad de datos | Pestaña con estado de cada fuente, embudo de la corrida, indicadores (sin país, confianza baja, verificados, varias fuentes, impacto México), eventos por área y muestra de títulos sin área | A (`calidad`) + M (Playwright) | ✔ |
 | 12 | Interfaz | Español; usable a 390 px de ancho; tema claro/oscuro recordado | M | 1 ✔ |
 | — | Actualización | La barra superior muestra hace cuánto se generaron los datos y la cuenta regresiva al minuto 17 de la siguiente hora; datos con más de 2.5 h se marcan como atrasados | A + M | 1 ✔; 2 ✔ (datos reales; el tooltip lista las fuentes con error) |
 | — | Base de respaldo | Si OpenFreeMap no responde en 6 s, aparece el mapa local de países y un aviso | M | 1 ✔ |

@@ -242,3 +242,19 @@ def test_feeds_deshabilitados_no_se_piden(monkeypatch):
            "rss": [{"id": "a", "nombre": "A"}, {"id": "b", "nombre": "B", "habilitada": False}]}
     _, salud = R.recolectar(cfg, "")
     assert pedidos == ["a"] and [s["id"] for s in salud] == ["a"]
+
+
+def test_nota_sin_pais_se_agrupa_con_la_que_si_lo_trae():
+    con = F.parsear_rss(RSS, FEED)[0]
+    sin = {**F.parsear_rss(RSS, {**FEED, "nombre": "Otro medio"})[0], "titulo": "Ataques con drones dejan sin electricidad a la capital", "url": "https://example.org/a2"}
+    sin["texto_clasificar"] = sin["titulo"]
+    eventos, _ = _procesar([sin, con])
+    assert len(eventos) == 1, [e["titulo"] for e in eventos]
+    assert eventos[0]["pais_iso3"] == "UKR" and len(eventos[0]["fuentes"]) == 2
+
+
+def test_calidad_de_la_corrida():
+    eventos, _ = _procesar(_candidatos())
+    q = R.calidad(eventos)
+    assert q["eventos"] == len(eventos) and sum(q["por_area"].values()) == len(eventos)
+    assert q["con_varias_fuentes"] >= 1 and 0 <= q["confianza_media"] <= 1

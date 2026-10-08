@@ -187,7 +187,14 @@ def deduplicar(eventos):
     for e in eventos:
         t = tokens(e["titulo"])
         destino = por_url.get(e["url"])  # mismo enlace: GDELT codifica varios eventos por artículo
-        for g, gt in ([] if destino else grupos.get(e["pais_iso3"], [])):
+        # Una nota sin país se compara con todos los grupos; una con país, con los de su país y los sin país.
+        if destino:
+            candidatos = []
+        elif e["pais_iso3"] is None:
+            candidatos = [x for lista in grupos.values() for x in lista]
+        else:
+            candidatos = grupos.get(e["pais_iso3"], []) + grupos.get(None, [])
+        for g, gt in candidatos:
             if (jaccard(t, gt) >= JACCARD_MIN
                     and abs((fecha(g["fecha_utc"]) - fecha(e["fecha_utc"])).total_seconds()) <= DEDUP_HORAS * 3600):
                 destino = g
@@ -202,6 +209,9 @@ def deduplicar(eventos):
             if (f["fuente"], f["url"]) not in ya:
                 destino["fuentes"].append(f)
         por_url[e["url"]] = destino
+        if destino["pais_iso3"] is None and e["pais_iso3"]:  # el grupo toma la ubicación de la nota que sí la trae
+            for k in ("pais_iso3", "region", "lat", "lon"):
+                destino[k] = e[k]
         destino["actores"] = list(dict.fromkeys(destino["actores"] + e["actores"]))[:6]
     for g in orden:
         g["verificado"] = len({f["fuente"] for f in g["fuentes"]}) >= 2
@@ -318,7 +328,8 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
     """Lógica pura (sin red): candidatos -> lista final de eventos. Se prueba en tests/test_ingesta.py."""
     nombres = {a["id"]: a["nombre"] for a in taxonomy["areas"]}
     limite = t - timedelta(hours=cfg["ventana_horas"])
-    eventos, descartados = [], {"fuera_de_ventana": 0, "sin_clasificar": 0}
+    sin_clasificar = []
+    eventos, descartados = [], {"fuera_de_ventana": 0, "sin_clasificar": 0, "ejemplos": sin_clasificar}
     for c in candidatos:
         f = fecha(c["fecha_utc"])
         if f < limite:
@@ -329,12 +340,33 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
         e = a_evento(geocodificar(c, gaz, paises), clasificador, nombres, gaz)
         if e is None:
             descartados["sin_clasificar"] += 1
+            if len(sin_clasificar) < 15:  # solo título y fuente, para revisar palabras clave faltantes
+                sin_clasificar.append({"titulo": c["titulo"], "fuente": c["fuente"], "url": c["url"]})
             continue
         eventos.append(e)
     # Se deduplica después de unir: una nota nueva puede ser la misma historia que un evento anterior.
     todos = priorizar(deduplicar(unir_con_anteriores(eventos, anteriores, limite)), cfg["max_eventos_publicados"])
     enriquecer(todos, anteriores=anteriores, estado_dato="retrasado")
     return todos, descartados
+
+
+def calidad(eventos):
+    """Indicadores de calidad de la corrida (se muestran en la pestaña «Calidad» del mapa)."""
+    n = len(eventos) or 1
+    por_area = {}
+    for e in eventos:
+        por_area[e["area_principal"]] = por_area.get(e["area_principal"], 0) + 1
+    return {
+        "eventos": len(eventos),
+        "sin_pais": sum(1 for e in eventos if not e["pais_iso3"]),
+        "confianza_baja": sum(1 for e in eventos if e["confianza_clasificacion"] < 0.3),
+        "verificados": sum(1 for e in eventos if e["verificado"]),
+        "con_varias_fuentes": sum(1 for e in eventos if len(e["fuentes"]) > 1),
+        "impacto_mexico": sum(1 for e in eventos if e["impacto_mexico"]),
+        "confianza_media": round(sum(e["confianza_clasificacion"] for e in eventos) / n, 2),
+        "por_area": dict(sorted(por_area.items(), key=lambda x: -x[1])),
+        "por_tipo_fuente": {t: sum(1 for e in eventos if e["tipo_fuente"] == t) for t in ("noticia", "base_datos", "analisis", "red_social")},
+    }
 
 
 def main(argv=None):
@@ -359,6 +391,7 @@ def main(argv=None):
 
     candidatos, salud = recolectar(cfg, os.environ.get("RELIEFWEB_APPNAME", "").strip())
     eventos, descartados = procesar(candidatos, anteriores, cfg, t, Gazetteer(), Paises(), Clasificador(taxonomy), taxonomy)
+    ejemplos = descartados.pop("ejemplos")  # títulos sin área: van aparte en el run-log
 
     data = {"version_esquema": "1.0", "generado_utc": iso(t), "modo": "produccion", "total": len(eventos), "eventos": eventos}
     errores = validar(data, taxonomy)
@@ -385,6 +418,7 @@ def main(argv=None):
         "generado_utc": iso(t), "modo": "produccion", "cron": CRON, "intervalo_minutos": 60,
         "proxima_ejecucion_utc": iso(proxima_corrida(t)), "eventos_total": len(eventos), "eventos_nuevos": nuevos,
         "candidatos": len(candidatos), "descartados": descartados, "historial_borrados": borrados,
+        "calidad": calidad(eventos), "ejemplos_sin_clasificar": ejemplos,
         "fuentes": salud, "errores": [f"{s['id']}: {s['error']}" for s in salud if s["estado"] == "error"],
     }
     with open(os.path.join(args.salida, "run-log.json"), "w", encoding="utf-8") as f:

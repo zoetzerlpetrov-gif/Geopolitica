@@ -1,7 +1,7 @@
 // Ventana «Análisis» (Fase 5): Vista México, Matriz de riesgo y Modo aprendizaje.
 // Se descarga (import dinámico) solo la primera vez que se abre: no pesa en la carga inicial.
-import { esc, fecha, storage } from "./util.js";
-import { agruparMexico, semaforo, matriz, riesgoDe, nivelRiesgo, csvRiesgo, NIVELES_RIESGO, aleatorio, eventoQuiz, opcionesQuiz, anotar } from "./analisis-logica.js";
+import { esc, fecha, storage, getJSON, safeUrl, fechaHora } from "./util.js";
+import { agruparMexico, semaforo, matriz, riesgoDe, nivelRiesgo, csvRiesgo, NIVELES_RIESGO, aleatorio, eventoQuiz, opcionesQuiz, anotar, calidad, pct } from "./analisis-logica.js";
 import * as cuaderno from "./cuaderno.js";
 
 const SEMAFORO = { rojo: "Rojo (sev. 4–5)", ambar: "Ámbar (sev. 3)", verde: "Verde (sev. 1–2)" };
@@ -42,7 +42,7 @@ export function crearAnalisis(ctx) {
     actual = tab;
     storage.set("gp_analisis_tab", tab);
     for (const t of tabs) t.setAttribute("aria-selected", String(t.dataset.tab === tab));
-    ({ mexico: vistaMexico, riesgo: vistaRiesgo, aprender: vistaAprender })[tab]();
+    ({ mexico: vistaMexico, riesgo: vistaRiesgo, aprender: vistaAprender, calidad: vistaCalidad })[tab]();
   }
 
   // ---------- Vista México ----------
@@ -161,6 +161,47 @@ export function crearAnalisis(ctx) {
         return `<li><span>${esc(a.nombre)}</span><span class="barra"><span style="width:${Math.round((100 * ok) / n)}%;background:${esc(a.color)}"></span></span><span class="num">${ok}/${n}</span></li>`;
       }).join("") || `<li class="meta">Responde para ver tu precisión por área.</li>`}</ul>
       ${m.intentos ? `<button type="button" class="txt-btn" id="quiz-reset">Reiniciar marcador</button>` : ""}`;
+  }
+
+  // ---------- Calidad de datos ----------
+  const ESTADO_FUENTE = { ok: "OK", vacia: "Vacía", error: "Error", omitida: "Omitida" };
+  async function vistaCalidad() {
+    const q = calidad(ctx.todos().filter((e) => !e.es_historial));
+    cuerpo.innerHTML = `<p class="meta">Cargando el registro de la última corrida…</p>`;
+    const log = await getJSON("data/run-log.json", { bust: true }).catch(() => null);
+    if (actual !== "calidad") return;
+    const n = q.eventos;
+    const fila = (txt, v, base, ayuda) => `<tr><td>${txt}</td><td class="num">${v.toLocaleString("es-MX")}</td><td class="num">${pct(v, base)} %</td><td class="meta">${ayuda}</td></tr>`;
+    const maxArea = Math.max(1, ...Object.values(q.por_area));
+    const embudo = log && log.candidatos != null ? [
+      ["Candidatos descargados", log.candidatos],
+      ["Fuera de la ventana de 72 h", log.descartados?.fuera_de_ventana || 0],
+      ["Sin área (ninguna palabra clave)", log.descartados?.sin_clasificar || 0],
+      ["Publicados (tras agrupar duplicados)", log.eventos_total],
+    ] : null;
+    cuerpo.innerHTML = `
+      <p class="meta">Cómo saber cuánto confiar en lo que ves. ${log ? `Última corrida: ${esc(fechaHora(log.generado_utc))} (${esc(log.modo)}).` : "No se pudo leer run-log.json."}</p>
+      ${log?.fuentes ? `<h3>Estado de las fuentes</h3><div class="tabla-scroll"><table class="tabla-cal">
+        <thead><tr><th>Fuente</th><th>Estado</th><th>Eventos</th><th>Segundos</th><th>Detalle</th></tr></thead>
+        <tbody>${log.fuentes.map((f) => `<tr><td>${esc(f.nombre)}</td><td><span class="chip fuente-${esc(f.estado)}">${esc(ESTADO_FUENTE[f.estado] || f.estado)}</span></td>
+          <td class="num">${f.eventos}</td><td class="num">${f.segundos}</td><td class="meta">${esc(f.error || "")}</td></tr>`).join("")}</tbody></table></div>` : ""}
+      ${embudo ? `<h3>Embudo de la corrida</h3><ul class="embudo">${embudo.map(([t, v]) => `<li><span>${esc(t)}</span>
+        <span class="barra"><span style="width:${pct(v, embudo[0][1])}%"></span></span><span class="num">${v.toLocaleString("es-MX")}</span></li>`).join("")}</ul>` : ""}
+      <h3>Indicadores de los ${n.toLocaleString("es-MX")} eventos cargados</h3>
+      <div class="tabla-scroll"><table class="tabla-cal"><thead><tr><th>Indicador</th><th>Eventos</th><th>%</th><th>Qué significa</th></tr></thead><tbody>
+        ${fila("Sin país", q.sin_pais, n, "No se encontró país en el título ni coordenadas: no aparecen en el mapa.")}
+        ${fila("Confianza de clasificación < 30 %", q.confianza_baja, n, "Pocas palabras clave o empate entre áreas: revisa el área (paso 7 del checklist).")}
+        ${fila("Verificados (2+ medios)", q.verificados, n, "La misma historia en al menos dos medios distintos.")}
+        ${fila("Con varias fuentes", q.con_varias_fuentes, n, "Notas agrupadas por la deduplicación.")}
+        ${fila("Con impacto para México", q.impacto_mexico, n, "Regla automática, sin verificar.")}
+      </tbody></table></div>
+      <p class="meta">Confianza media de clasificación: ${Math.round(q.confianza_media * 100)} %.</p>
+      <h3>Eventos por área</h3>
+      <ul class="quiz-areas">${ctx.tax.lista.filter((a) => q.por_area[a.id]).map((a) => `<li><span>${esc(a.nombre)}</span>
+        <span class="barra"><span style="width:${pct(q.por_area[a.id], maxArea)}%;background:${esc(a.color)}"></span></span><span class="num">${q.por_area[a.id]}</span></li>`).join("")}</ul>
+      ${log?.ejemplos_sin_clasificar?.length ? `<h3>Títulos que no se pudieron clasificar (muestra)</h3>
+        <p class="meta">Sirven para detectar palabras clave que faltan en la taxonomía.</p>
+        <ul class="sin-clasificar">${log.ejemplos_sin_clasificar.map((x) => `<li><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a> <span class="meta">· ${esc(x.fuente)}</span></li>`).join("")}</ul>` : ""}`;
   }
 
   // ---------- Eventos ----------

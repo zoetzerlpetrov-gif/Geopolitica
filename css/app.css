@@ -233,6 +233,20 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 .quiz-areas .barra { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
 .quiz-areas .barra > span { display: block; height: 100%; }
 
+.tabla-scroll { overflow-x: auto; }
+.tabla-cal { border-collapse: collapse; width: 100%; font-size: 13px; }
+.tabla-cal th, .tabla-cal td { text-align: left; padding: 5px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.tabla-cal th { font-size: 11px; text-transform: uppercase; color: var(--text-2); }
+.tabla-cal .num { font-family: var(--mono); text-align: right; white-space: nowrap; }
+.fuente-ok { border-color: #2f7a4a; } .fuente-error { border-color: #b3261e; color: #b3261e; } .fuente-vacia, .fuente-omitida { border-style: dashed; }
+.embudo { list-style: none; padding: 0; margin: 0; display: grid; gap: 4px; max-width: 620px; }
+.embudo li { display: grid; grid-template-columns: 1fr 160px 60px; gap: 8px; align-items: center; font-size: 12px; }
+.embudo .barra { height: 10px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.embudo .barra > span { display: block; height: 100%; background: var(--accent); }
+.embudo .num { font-family: var(--mono); text-align: right; }
+.sin-clasificar { padding-left: 18px; font-size: 13px; }
+@media (max-width: 760px) { .embudo li { grid-template-columns: 1fr 80px 50px; } }
+
 /* ---------- Pie / aviso legal ---------- */
 .aviso { padding: 6px 12px; font-size: 11px; color: var(--text-2); background: var(--surface); border-top: 1px solid var(--line); }
 
