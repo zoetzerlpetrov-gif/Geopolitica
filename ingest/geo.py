@@ -42,6 +42,9 @@ ALIAS = {
     "ARE": ["emiratos", "uae", "dubai", "abu dabi", "abu dhabi"],
     "VNM": ["vietnam", "viet nam"],
     "BRN": ["brunei"],
+    "CUB": ["cuba", "la habana", "havana", "guantanamo"],
+    "BRA": ["brasil", "brazil", "brasilia", "rio de janeiro", "sao paulo", "bolsonaro", "lula"],
+    "ARG": ["argentina", "buenos aires", "milei"],
     "CAF": ["republica centroafricana", "central african republic"],
 }
 

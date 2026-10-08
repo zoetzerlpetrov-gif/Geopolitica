@@ -60,8 +60,8 @@ Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen lo reda
 | El País Internacional (RSS) | Titulares (español) | Gratis | No | Términos de PRISA | Cada hora | Activa |
 | Al Jazeera (RSS) | Titulares (inglés) | Gratis | No | Términos de Al Jazeera | Cada hora | Activa |
 | International Crisis Group (RSS) | Análisis | Gratis | No | Términos de Crisis Group | Cada hora | Activa |
-| CIDOB (RSS) | Análisis (español) | Gratis | No | Términos de CIDOB | Cada hora | Por verificar en la primera corrida |
-| Real Instituto Elcano (RSS) | Análisis (español) | Gratis | No | Términos de Elcano | Cada hora | Por verificar en la primera corrida |
+| CIDOB (RSS) | Análisis (español) | Gratis | No | Términos de CIDOB | — | Deshabilitada: la URL devolvió un feed vacío; falta la URL oficial |
+| Real Instituto Elcano (RSS) | Análisis (español) | Gratis | No | Términos de Elcano | — | Deshabilitada: responde 403 al bot y no se evade el bloqueo |
 | ReliefWeb API v2 (`/reports`) | Crisis humanitarias y desastres con país ISO3 | Gratis | **Sí: `appname` preaprobado** en el secreto `RELIEFWEB_APPNAME` | Términos de ReliefWeb (OCHA) | Cada hora | Inactiva hasta que agregues el secreto |
 
 Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cualquier límite publicado. Si una fuente falla, la corrida sigue con las demás y el error queda registrado.

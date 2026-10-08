@@ -51,12 +51,12 @@ MEDIAS = ["ataque", "attack", "sanciones", "sanctions", "protestas", "protests",
 
 # Socios con efecto directo en México por área (regla simple, documentada en docs/INDICADORES.md).
 SOCIOS_MX = {"USA", "CAN", "CHN", "GTM", "BLZ", "HND", "SLV", "CUB", "VEN", "COL"}
-AREAS_MX = {"geoeconomia", "energia", "demografia", "seguridad", "infraestructura", "salud_nrbq"}
+# Seguridad no entra: con ella, casi cualquier hecho policial en EUA se marcaba como impacto para México.
+AREAS_MX = {"geoeconomia", "energia", "demografia", "infraestructura", "salud_nrbq"}
 TEXTO_MX = {
     "geoeconomia": "posible efecto en comercio, aranceles o tipo de cambio",
     "energia": "posible efecto en precios o suministro de energía",
     "demografia": "posible efecto en flujos migratorios o remesas",
-    "seguridad": "posible efecto en la agenda de seguridad bilateral",
     "infraestructura": "posible efecto en cadenas logísticas o conectividad",
     "salud_nrbq": "posible efecto en vigilancia sanitaria y fronteras",
 }
@@ -290,7 +290,7 @@ def recolectar(cfg, appname):
 
     if cfg["gdelt"]["habilitada"]:
         correr("gdelt", "GDELT 2.0", lambda: F.gdelt(cfg["gdelt"]))
-    for feed in cfg["rss"]:
+    for feed in (f for f in cfg["rss"] if f.get("habilitada", True)):
         correr(feed["id"], feed["nombre"], lambda feed=feed: F.rss(feed))
     if cfg["reliefweb"]["habilitada"]:
         if appname:

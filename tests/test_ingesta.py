@@ -211,3 +211,17 @@ def test_historial_y_poda(tmp_path):
 def test_proxima_corrida_minuto_17():
     assert R.proxima_corrida(datetime(2026, 10, 8, 12, 5, tzinfo=timezone.utc)).strftime("%H:%M") == "12:17"
     assert R.proxima_corrida(datetime(2026, 10, 8, 12, 20, tzinfo=timezone.utc)).strftime("%H:%M") == "13:17"
+
+
+def test_seguridad_en_eua_no_marca_impacto_mexico():
+    assert R.impacto_mexico("USA", "seguridad", [], "Shooting in Chicago", GAZ) is None
+    assert R.impacto_mexico("USA", "geoeconomia", [], "New tariffs on steel", GAZ).startswith("Estados Unidos")
+
+
+def test_feeds_deshabilitados_no_se_piden(monkeypatch):
+    pedidos = []
+    monkeypatch.setattr(F, "rss", lambda feed: pedidos.append(feed["id"]) or [])
+    cfg = {**CFG, "gdelt": {**CFG["gdelt"], "habilitada": False}, "reliefweb": {"habilitada": False},
+           "rss": [{"id": "a", "nombre": "A"}, {"id": "b", "nombre": "B", "habilitada": False}]}
+    _, salud = R.recolectar(cfg, "")
+    assert pedidos == ["a"] and [s["id"] for s in salud] == ["a"]

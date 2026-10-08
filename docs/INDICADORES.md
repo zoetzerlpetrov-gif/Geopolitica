@@ -69,7 +69,7 @@ Ejemplo: un ataque en el Mar Rojo (Seguridad) y una alza de fletes reportada des
 
 **Severidad de RSS y ReliefWeb.** Base 2. Sube a 3 si el título o la descripción mencionan, por ejemplo, ataque, sanciones, protestas, misil o brote. Sube a 4 si mencionan muertos, bombardeo, golpe de estado, estado de emergencia, terremoto o pandemia. La lista completa está en `ingest/run.py` (`GRAVES`, `MEDIAS`).
 
-**Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, seguridad, infraestructura, salud NRBQ).
+**Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, infraestructura, salud NRBQ). Seguridad quedó fuera tras la primera corrida real: marcaba como impacto para México 55 de 235 eventos, casi todos hechos policiales en EUA.
 
 **Deduplicación.** Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
 

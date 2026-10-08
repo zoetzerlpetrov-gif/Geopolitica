@@ -5,18 +5,82 @@
     "url_ultima": "http://data.gdeltproject.org/gdeltv2/lastupdate.txt",
     "archivos_por_corrida": 4,
     "min_articulos": 5,
-    "codigos_raiz": ["10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"],
+    "codigos_raiz": [
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16",
+      "17",
+      "18",
+      "19",
+      "20"
+    ],
     "max_eventos": 1500
   },
   "rss": [
-    {"id": "bbc", "nombre": "BBC World", "url": "https://feeds.bbci.co.uk/news/world/rss.xml", "idioma": "en", "tipo": "noticia"},
-    {"id": "dw", "nombre": "DW Español", "url": "https://rss.dw.com/rdf/rss-sp-all", "idioma": "es", "tipo": "noticia"},
-    {"id": "france24", "nombre": "France 24 Español", "url": "https://www.france24.com/es/rss", "idioma": "es", "tipo": "noticia"},
-    {"id": "elpais", "nombre": "El País Internacional", "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada", "idioma": "es", "tipo": "noticia"},
-    {"id": "aljazeera", "nombre": "Al Jazeera", "url": "https://www.aljazeera.com/xml/rss/all.xml", "idioma": "en", "tipo": "noticia"},
-    {"id": "crisisgroup", "nombre": "International Crisis Group", "url": "https://www.crisisgroup.org/rss.xml", "idioma": "en", "tipo": "analisis"},
-    {"id": "cidob", "nombre": "CIDOB", "url": "https://www.cidob.org/rss.xml", "idioma": "es", "tipo": "analisis"},
-    {"id": "elcano", "nombre": "Real Instituto Elcano", "url": "https://www.realinstitutoelcano.org/feed/", "idioma": "es", "tipo": "analisis"}
+    {
+      "id": "bbc",
+      "nombre": "BBC World",
+      "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+      "idioma": "en",
+      "tipo": "noticia"
+    },
+    {
+      "id": "dw",
+      "nombre": "DW Español",
+      "url": "https://rss.dw.com/rdf/rss-sp-all",
+      "idioma": "es",
+      "tipo": "noticia"
+    },
+    {
+      "id": "france24",
+      "nombre": "France 24 Español",
+      "url": "https://www.france24.com/es/rss",
+      "idioma": "es",
+      "tipo": "noticia"
+    },
+    {
+      "id": "elpais",
+      "nombre": "El País Internacional",
+      "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/internacional/portada",
+      "idioma": "es",
+      "tipo": "noticia"
+    },
+    {
+      "id": "aljazeera",
+      "nombre": "Al Jazeera",
+      "url": "https://www.aljazeera.com/xml/rss/all.xml",
+      "idioma": "en",
+      "tipo": "noticia"
+    },
+    {
+      "id": "crisisgroup",
+      "nombre": "International Crisis Group",
+      "url": "https://www.crisisgroup.org/rss.xml",
+      "idioma": "en",
+      "tipo": "analisis"
+    },
+    {
+      "id": "cidob",
+      "nombre": "CIDOB",
+      "url": "https://www.cidob.org/rss.xml",
+      "idioma": "es",
+      "tipo": "analisis",
+      "habilitada": false,
+      "motivo": "La URL devolvió un feed sin elementos (2026-10-08). Falta confirmar la URL oficial del RSS."
+    },
+    {
+      "id": "elcano",
+      "nombre": "Real Instituto Elcano",
+      "url": "https://www.realinstitutoelcano.org/feed/",
+      "idioma": "es",
+      "tipo": "analisis",
+      "habilitada": false,
+      "motivo": "Responde 403 al bot (primera corrida, 2026-10-08). No se evade el bloqueo; buscar un feed o API oficial."
+    }
   ],
   "reliefweb": {
     "habilitada": true,
