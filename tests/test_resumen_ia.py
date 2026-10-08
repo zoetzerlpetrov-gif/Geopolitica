@@ -115,3 +115,12 @@ def test_modelos_que_razonan_piden_razonamiento_bajo_y_oculto(monkeypatch):
     assert enviado["reasoning_effort"] == "low" and enviado["reasoning_format"] == "hidden" and enviado["max_tokens"] == 600
     IA.pedir(TITULO, TEXTO, "BBC", {"url": "https://x.invalid"}, "k", "llama-3.1-8b-instant")
     assert "reasoning_effort" not in enviado and "reasoning_format" not in enviado
+
+
+def test_repetir_el_titulo_no_es_copia_pero_la_descripcion_si():
+    titulo = "Los estudiantes franceses toman la Bastilla en un nuevo día de protestas"
+    texto = "Miles de alumnos marcharon desde la plaza de la Nación hasta la Bastilla para exigir más presupuesto para las universidades públicas."
+    reusa_titulo = "Los estudiantes franceses toman la Bastilla en un nuevo día de protestas para pedir más dinero a las universidades."
+    copia_texto = "Miles de alumnos marcharon desde la plaza de la Nación hasta la Bastilla en París."
+    assert IA.motivo_rechazo(reusa_titulo, titulo, texto) is None
+    assert IA.motivo_rechazo(copia_texto, titulo, texto) == "copia"
