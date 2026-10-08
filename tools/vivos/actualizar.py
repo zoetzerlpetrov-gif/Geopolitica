@@ -49,7 +49,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 # "last-30-days" (lanzamientos recientes) devolvió 404 en CelesTrak (oct 2026): se omite hasta confirmar su nombre actual.
-GRUPOS_SAT = ["stations", "gnss", "geo", "weather", "military", "visual", "resource", "science", "oneweb", "iridium-NEXT", "planet", "last-30-days"]
+GRUPOS_SAT = ["stations", "gnss", "geo", "weather", "military", "visual", "resource", "science", "oneweb", "iridium-NEXT", "planet"]
 GRUPOS_APARTE = ["starlink"]  # miles de satélites: archivo propio que el navegador baja solo si se activa el subtipo
 HORAS_TLE = 6
 
@@ -117,7 +117,9 @@ def satelites():
     previo = leer("satelites.json", {})
     if previo.get("generado_utc"):
         edad_h = (datetime.now(timezone.utc) - datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() / 3600
-        faltan = [g for g in GRUPOS_SAT + GRUPOS_APARTE if g not in previo.get("grupos", {}) and g not in previo.get("aparte", [])]
+        # Un grupo que falló (p. ej. 404) no fuerza otra descarga: se reintenta con el ciclo normal de 6 h.
+        faltan = [g for g in GRUPOS_SAT + GRUPOS_APARTE
+                  if g not in previo.get("grupos", {}) and g not in previo.get("aparte", []) and g not in previo.get("fallidos", {})]
         if edad_h < HORAS_TLE and not (faltan and edad_h >= 2):
             print(f"  TLE de hace {edad_h:.1f} h: se conservan (CelesTrak pide no descargar el mismo grupo más de una vez cada 2 h)")
             return sum(len(g) for g in previo["grupos"].values())
