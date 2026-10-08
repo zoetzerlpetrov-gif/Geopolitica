@@ -31,6 +31,8 @@ const SIN_ID = {
   "Siachen Glacier": "IND",
 };
 const NOMBRES_EXTRA = { XKX: { es: "Kosovo", en: "Kosovo" }, TWN: { es: "Taiwán", en: "Taiwan" } };
+// Punto de etiqueta fijo donde el cálculo cae mal (Rusia cruza el antimeridiano y el punto salía en lon 193).
+const PUNTO_FIJO = { RUS: [96.0, 62.0] };
 
 const regionDe = {};
 for (const [id, r] of Object.entries(regions)) for (const iso of r.paises) regionDe[iso] = id;
@@ -83,7 +85,8 @@ for (const f of fc.features) {
   if (!region && iso3 !== "ATA") sinRegion.push(iso3);
   out.features.push({ type: "Feature", properties: { iso3, nombre: es, region }, geometry: corregirAntimeridiano({ type: f.geometry.type, coordinates: round(f.geometry.coordinates) }) });
   if (!gaz[iso3]) {
-    const [lon, lat] = labelPoint(f.geometry);
+    let [lon, lat] = PUNTO_FIJO[iso3] || labelPoint(f.geometry);
+    lon = ((lon + 540) % 360) - 180; // siempre en [-180, 180]
     gaz[iso3] = { es, en, lat: Math.round(lat * 100) / 100, lon: Math.round(lon * 100) / 100, region };
   }
 }

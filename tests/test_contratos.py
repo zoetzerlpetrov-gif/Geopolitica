@@ -118,6 +118,11 @@ def test_cada_area_tiene_al_menos_un_evento_de_ejemplo():
     assert principales == set(AREAS)
 
 
+def test_centroides_del_gazetteer_en_rango():
+    for iso, p in load("config/gazetteer.json")["paises"].items():
+        assert -180 <= p["lon"] <= 180 and -90 <= p["lat"] <= 90, iso
+
+
 def test_paises_de_eventos_existen_en_gazetteer():
     gaz = load("config/gazetteer.json")["paises"]
     for e in EVENTS["eventos"]:

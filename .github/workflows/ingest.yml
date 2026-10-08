@@ -51,10 +51,17 @@ jobs:
         if: always()
         run: |
           python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY" || true
-          import json
-          log = json.load(open("eventos/run-log.json"))
-          print(f"### Ingesta {log['generado_utc']}\n")
-          print(f"Eventos publicados: **{log['eventos_total']}** ({log['eventos_nuevos']} nuevos) · candidatos {log['candidatos']} · descartados {log['descartados']}\n")
+          import json, os
+          if os.path.exists("eventos/corrida-fallida.json"):
+              log = json.load(open("eventos/corrida-fallida.json"))
+              print(f"### Ingesta {log['generado_utc']}: validación fallida, no se publicó\n")
+              for e in log["errores_validacion"]:
+                  print(f"- {e}")
+              print()
+          else:
+              log = json.load(open("eventos/run-log.json"))
+              print(f"### Ingesta {log['generado_utc']}\n")
+              print(f"Eventos publicados: **{log['eventos_total']}** ({log['eventos_nuevos']} nuevos) · candidatos {log['candidatos']} · descartados {log['descartados']}\n")
           print("| Fuente | Estado | Eventos | Segundos | Error |\n|---|---|---|---|---|")
           for f in log["fuentes"]:
               print(f"| {f['nombre']} | {f['estado']} | {f['eventos']} | {f['segundos']} | {f['error'] or ''} |")

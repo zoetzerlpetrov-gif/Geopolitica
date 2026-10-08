@@ -133,6 +133,8 @@ def geocodificar(c, gaz, paises):
         c["lon"], c["lat"] = lon, lat
     if c["pais_iso3"] and c["pais_iso3"] not in gaz.paises:
         c["pais_iso3"] = None
+    if c["lon"] is not None:
+        c["lon"] = round(((c["lon"] + 540) % 360) - 180, 3)  # siempre en [-180, 180]
     return c
 
 
@@ -284,7 +286,7 @@ def recolectar(cfg, appname):
         except Exception as e:  # noqa: BLE001  una fuente caída no detiene la corrida
             salud.append({"id": fid, "nombre": nombre, "estado": "error", "eventos": 0,
                           "segundos": round(time.time() - t0, 1), "error": f"{type(e).__name__}: {e}"[:300]})
-        print(f"  {fid}: {salud[-1]['estado']} ({salud[-1]['eventos']})")
+        print(f"  {fid}: {salud[-1]['estado']} ({salud[-1]['eventos']})" + (f" · {salud[-1]['error']}" if salud[-1]["error"] else ""))
 
     if cfg["gdelt"]["habilitada"]:
         correr("gdelt", "GDELT 2.0", lambda: F.gdelt(cfg["gdelt"]))
@@ -348,9 +350,12 @@ def main(argv=None):
     data = {"version_esquema": "1.0", "generado_utc": iso(t), "modo": "produccion", "total": len(eventos), "eventos": eventos}
     errores = validar(data, taxonomy)
     if errores:
-        print("✗ La validación falló; no se escribe nada:")
+        print("✗ La validación falló; no se publica nada:")
         for e in errores[:30]:
             print("  -", e)
+        # Solo para el resumen del workflow; el paso de publicación no corre si la ingesta falla.
+        with open(os.path.join(args.salida, "corrida-fallida.json"), "w", encoding="utf-8") as f:
+            json.dump({"generado_utc": iso(t), "fuentes": salud, "errores_validacion": errores[:30]}, f, ensure_ascii=False, indent=1)
         return 1
 
     with open(ruta_ev, "w", encoding="utf-8") as f:
