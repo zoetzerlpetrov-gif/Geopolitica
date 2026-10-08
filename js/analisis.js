@@ -218,7 +218,16 @@ export function crearAnalisis(ctx) {
     t.focus();
   });
   document.getElementById("analisis-cerrar").onclick = cerrar;
-  dlg.addEventListener("keydown", (e) => { if (e.key === "Escape") { e.stopPropagation(); cerrar(); } });
+  dlg.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") { e.stopPropagation(); cerrar(); return; }
+    if (e.key !== "Tab") return;
+    // El foco no sale de la ventana mientras está abierta (diálogo modal).
+    const focos = [...dlg.querySelectorAll("button:not([disabled]), select, a[href], input, textarea, [tabindex='0']")].filter((x) => x.offsetParent);
+    if (!focos.length) return;
+    const [primero, ultimo] = [focos[0], focos[focos.length - 1]];
+    if (e.shiftKey && document.activeElement === primero) { e.preventDefault(); ultimo.focus(); }
+    else if (!e.shiftKey && document.activeElement === ultimo) { e.preventDefault(); primero.focus(); }
+  });
   cuerpo.addEventListener("click", (e) => {
     const ev = e.target.closest("[data-ev]");
     if (ev) { cerrar(); ctx.abrirEvento(ev.dataset.ev); return; }
