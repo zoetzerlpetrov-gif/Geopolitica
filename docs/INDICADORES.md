@@ -62,3 +62,15 @@ Ejemplo: un ataque en el Mar Rojo (Seguridad) y una alza de fletes reportada des
 ## Relaciones
 
 `relaciones` une un evento con entidades (`chokepoint:suez`, `osm:n123`), zonas (`mar_rojo`) y personas de rol público (ids de Wikidata). Las personas nunca llevan coordenadas: ver `tests/test_privacidad.py`.
+
+## Reglas de la ingesta (Fase 2)
+
+**Severidad de GDELT (1–5).** Parte de 1; +1 si la escala Goldstein es ≤ −5; +1 si es ≤ −8; +1 con 20 artículos o más; +1 con 50 o más. Ejemplo: combate con Goldstein −10 en 40 artículos → 1 + 1 + 1 + 1 = **4**.
+
+**Severidad de RSS y ReliefWeb.** Base 2. Sube a 3 si el título o la descripción mencionan, por ejemplo, ataque, sanciones, protestas, misil o brote. Sube a 4 si mencionan muertos, bombardeo, golpe de estado, estado de emergencia, terremoto o pandemia. La lista completa está en `ingest/run.py` (`GRAVES`, `MEDIAS`).
+
+**Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, seguridad, infraestructura, salud NRBQ).
+
+**Deduplicación.** Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
+
+**Tope.** Se publican hasta 3,000 eventos de las últimas 72 h. Si hay más, quedan los de mayor severidad y con más fuentes. El historial guarda hasta 2,000 registros compactos por día durante 90 días.

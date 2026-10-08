@@ -1,0 +1,76 @@
+name: Ingesta de eventos
+
+# Cada hora en el minuto 17 (el mapa muestra la cuenta regresiva a esta hora): GDELT + RSS + ReliefWeb.
+# El resultado vive en la rama huérfana "datos-eventos", que se REESCRIBE en cada corrida (un solo
+# commit) para que el historial del repositorio no crezca con cada hora. Si la validación falla, no se
+# publica nada y el sitio sigue mostrando la última versión buena.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+  push:
+    branches-ignore: [main]
+    paths: ["ingest/**", "config/fuentes.json", ".github/workflows/ingest.yml"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ingesta
+  cancel-in-progress: false
+
+jobs:
+  ingerir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r requirements-dev.txt
+
+      - name: Recuperar la corrida anterior (eventos de 72 h e historial de 90 días)
+        run: |
+          mkdir -p eventos
+          if git fetch --depth 1 origin datos-eventos 2>/dev/null; then
+            git archive FETCH_HEAD eventos | tar -x
+          fi
+          ls eventos | head
+
+      - name: Ingerir, clasificar y validar
+        env:
+          RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
+        run: python3 ingest/run.py --salida eventos
+
+      - name: Resumen de la corrida
+        if: always()
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY" || true
+          import json
+          log = json.load(open("eventos/run-log.json"))
+          print(f"### Ingesta {log['generado_utc']}\n")
+          print(f"Eventos publicados: **{log['eventos_total']}** ({log['eventos_nuevos']} nuevos) · candidatos {log['candidatos']} · descartados {log['descartados']}\n")
+          print("| Fuente | Estado | Eventos | Segundos | Error |\n|---|---|---|---|---|")
+          for f in log["fuentes"]:
+              print(f"| {f['nombre']} | {f['estado']} | {f['eventos']} | {f['segundos']} | {f['error'] or ''} |")
+          PY
+
+      - name: Publicar en la rama datos-eventos (reescrita, sin historial)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub && cp -r eventos /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-eventos
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add eventos && git commit -q -m "eventos $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-eventos
+
+  publicar:
+    needs: ingerir
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml

@@ -1,7 +1,7 @@
 # Monitor Geopolítico
 
 Mapa mundial interactivo de eventos geopolíticos clasificados en 11 áreas, con vista de impacto para México.
-Sitio estático en GitHub Pages; los datos se actualizan cada hora con GitHub Actions (a partir de la Fase 2).
+Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub Actions (GDELT, 8 feeds RSS y ReliefWeb).
 
 - **Mapa:** `index.html`
 - **Taxonomía visual (11 áreas, subtemas y palabras clave):** `taxonomia.html`
@@ -30,7 +30,7 @@ Sitio estático en GitHub Pages; los datos se actualizan cada hora con GitHub Ac
 | `schema/` | `event.schema.json` y `entity.schema.json` (contratos de datos) |
 | `js/` | `app.js`, `map.js`, `card.js`, `capas.js` (PMTiles), `movimiento.js` + `sat-worker.js`, `imagenes.js`, `seguimiento.js`, `refresh.js` |
 | `vendor/` | MapLibre GL 5.24.0, pmtiles 4.5.0 y satellite.js 6.0.2 copiados localmente |
-| `ingest/` | `classify.py` (clasificador por reglas), `dimensiones.py` (alerta, delta, índice, correlación), validadores |
+| `ingest/` | `run.py` (ingesta horaria), `fuentes.py` (GDELT, RSS, ReliefWeb), `geo.py` (país por coordenada o por texto), `classify.py` (clasificador por reglas), `dimensiones.py` (alerta, delta, índice, correlación), validadores |
 | `tools/` | `capas/` (PMTiles), `entidades/` (Wikidata), `vivos/` (aviones, buques, satélites), `medicion/` (rendimiento) |
 | `tests/` | Pruebas de Python (`pytest`) y de JavaScript (`node --test`) |
 | `docs/` | `TEST_PLAN.md`, `INDICADORES.md` |
@@ -39,11 +39,12 @@ Sitio estático en GitHub Pages; los datos se actualizan cada hora con GitHub Ac
 
 | Dato | Dónde se guarda | Por qué |
 |---|---|---|
-| Código, configuración, eventos | rama `main` | Cambian poco o pesan poco |
+| Código y configuración (y eventos de ejemplo) | rama `main` | Cambian poco o pesan poco |
+| Eventos de 72 h, historial de 90 días, run-log, índice por país | rama huérfana `datos-eventos`, reescrita cada hora | Un commit por hora haría crecer el historial sin límite |
 | Capas PMTiles (~40 MB) | rama huérfana `datos-capas`, reescrita en cada reconstrucción | Para no sumar 40 MB al historial cada mes |
 | Aviones, buques, satélites, sanciones | rama huérfana `datos-vivos`, reescrita cada 20 min | Una instantánea cada 20 min inflaría el historial decenas de MB al día |
 
-El workflow de publicación copia ambas ramas a `data/capas/` y `data/vivos/` antes de publicar en Pages.
+El workflow de publicación copia esas ramas a `data/capas/`, `data/vivos/` y `data/` (eventos) antes de publicar en Pages. Mientras `datos-eventos` no exista, se publican los datos de ejemplo.
 
 ### Por qué es rápido con muchos datos
 
@@ -111,7 +112,7 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | C4 | Aeronaves (OpenSky, adsb.lol) y buques (AISStream con clave) | Hecha; buques requieren tu clave |
 | C5 | Recursos estratégicos e instalaciones militares públicas (OSM) | Hecha (cobertura parcial de OSM) |
 | C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas | Seguimiento e imágenes hechos; cámaras sin fuentes aprobadas |
-| 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Pendiente |
+| 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Hecha; ReliefWeb requiere tu `appname` |
 | 4–6 | Mapa de calor, línea de tiempo, checklist, lentes, vista México, matriz, aprendizaje, IA | Pendiente |
 
 ## Exclusiones

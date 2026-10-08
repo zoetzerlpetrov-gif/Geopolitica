@@ -47,9 +47,24 @@ Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen co
 | OpenSanctions | Sanciones consolidadas | Gratis no comercial | No | — | CC BY-NC 4.0 | **No** sin licencia | — | No integrada |
 | NASA GIBS | Luces nocturnas VIIRS, color verdadero MODIS | Gratis | No | — | Datos abiertos de NASA (por verificar) | Sí | Diaria (imagen de ayer) | Activa, bajo demanda |
 
-## Eventos (Fase 2, pendiente)
+## Eventos (Fase 2: ingesta horaria, `ingest/run.py`)
 
-GDELT 2.0 Events y DOC API, ReliefWeb (requiere `appname` preaprobado), RSS de BBC World, DW, France 24, El País, Al Jazeera, Crisis Group, CIDOB y Real Instituto Elcano. Se verificarán desde GitHub Actions y el resultado quedará en `data/run-log.json`.
+Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen lo redacta el sistema con una plantilla. El texto del artículo, la descripción del feed y las palabras del enlace solo se usan en memoria para clasificar (`tests/test_ingesta.py` lo comprueba). La configuración está en `config/fuentes.json`. El estado real de cada fuente en cada corrida queda en `run-log.json` y en el resumen del workflow **Ingesta de eventos**.
+
+| Fuente | Qué aporta | Costo | Registro / llave | Licencia / términos | Frecuencia | Estado |
+|---|---|---|---|---|---|---|
+| GDELT 2.0 Events (`lastupdate.txt` + 4 archivos `export.CSV.zip` de 15 min) | Eventos codificados (CAMEO 10–20: exigencias, amenazas, protestas, coerción, combate) con coordenada y número de artículos | Gratis | No | Uso libre con cita a GDELT Project | Cada hora | Activa |
+| BBC World (RSS) | Titulares internacionales (inglés) | Gratis | No | Términos de BBC: titular y enlace | Cada hora | Activa |
+| DW Español (RDF) | Titulares (español) | Gratis | No | Términos de DW | Cada hora | Activa |
+| France 24 Español (RSS) | Titulares (español) | Gratis | No | Términos de France 24 | Cada hora | Activa |
+| El País Internacional (RSS) | Titulares (español) | Gratis | No | Términos de PRISA | Cada hora | Activa |
+| Al Jazeera (RSS) | Titulares (inglés) | Gratis | No | Términos de Al Jazeera | Cada hora | Activa |
+| International Crisis Group (RSS) | Análisis | Gratis | No | Términos de Crisis Group | Cada hora | Activa |
+| CIDOB (RSS) | Análisis (español) | Gratis | No | Términos de CIDOB | Cada hora | Por verificar en la primera corrida |
+| Real Instituto Elcano (RSS) | Análisis (español) | Gratis | No | Términos de Elcano | Cada hora | Por verificar en la primera corrida |
+| ReliefWeb API v2 (`/reports`) | Crisis humanitarias y desastres con país ISO3 | Gratis | **Sí: `appname` preaprobado** en el secreto `RELIEFWEB_APPNAME` | Términos de ReliefWeb (OCHA) | Cada hora | Inactiva hasta que agregues el secreto |
+
+Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cualquier límite publicado. Si una fuente falla, la corrida sigue con las demás y el error queda registrado.
 
 ## Exclusiones (no se integran)
 

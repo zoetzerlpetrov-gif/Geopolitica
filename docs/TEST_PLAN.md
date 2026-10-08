@@ -16,6 +16,7 @@ Cómo leer este documento: cada funcionalidad tiene criterios de aceptación ver
 | `tests/js/estilo.test.mjs` | Etiquetas del mapa base sin alfabetos no latinos, sin cursivas, carreteras y pueblos desde zoom 9, LITE más ligero |
 | `tests/js/capas.test.mjs` | Solo categorías dibujables; una capa de personas declarada a propósito no se dibuja; disponibilidad según manifiesto; zoom mínimo por subtipo |
 | `tests/js/movimiento.test.mjs` | Proyección de posición (incluido el antimeridiano), recorte a la vista con tope de 5,000, URL de NASA GIBS |
+| `tests/test_ingesta.py` | Filas sintéticas de GDELT (filtros CAMEO, mínimo de artículos, severidad), RSS 2.0, Atom y RDF; país por texto y por coordenada; deduplicación con varias fuentes; ventana de 72 h; delta entre corridas; tope de eventos; historial y poda de 90 días; que no se guarde texto del medio |
 | `ingest/validate_entities.py` | Catálogo de entidades y registros de Wikidata contra `schema/entity.schema.json` |
 | Workflow **Medición de rendimiento** | Mide el sitio publicado («antes») y la rama («después»); falla si no se cumple una meta obligatoria |
 
@@ -38,7 +39,7 @@ Regla de publicación: el workflow **Publicar en GitHub Pages** depende del job 
 | 10 | Matriz de riesgo | Probabilidad × impacto; exporta CSV | — | 5 |
 | 11 | Modo aprendizaje | Pregunta el área de un evento real y califica | — | 5 |
 | 12 | Interfaz | Español; usable a 390 px de ancho; tema claro/oscuro recordado | M | 1 ✔ |
-| — | Actualización | La barra superior muestra hace cuánto se generaron los datos y la cuenta regresiva al minuto 17 de la siguiente hora; datos con más de 2.5 h se marcan como atrasados | A + M | 1 ✔ (datos reales en 2) |
+| — | Actualización | La barra superior muestra hace cuánto se generaron los datos y la cuenta regresiva al minuto 17 de la siguiente hora; datos con más de 2.5 h se marcan como atrasados | A + M | 1 ✔; 2 ✔ (datos reales; el tooltip lista las fuentes con error) |
 | — | Base de respaldo | Si OpenFreeMap no responde en 6 s, aparece el mapa local de países y un aviso | M | 1 ✔ |
 | — | Accesibilidad | Todo operable con teclado (Tab, Enter, Esc); enlace "saltar a la lista"; foco visible; textos con contraste AA | M | 1 ✔ |
 

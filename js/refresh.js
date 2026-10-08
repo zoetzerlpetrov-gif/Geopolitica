@@ -35,7 +35,8 @@ export function iniciarRefresco({ runLog, elDatos, elProxima, onNuevosDatos }) {
       ? `Datos de ejemplo (${log.eventos_total} eventos) · ingesta automática desde la Fase 2`
       : `Actualizado ${hace(log.generado_utc, now)} · ${log.eventos_total} eventos (${log.eventos_nuevos} nuevos)`;
     elDatos.className = atrasado ? "atrasado" : "";
-    elDatos.title = `Generado: ${fechaHora(log.generado_utc)}`;
+    const caidas = (log.fuentes || []).filter((f) => f.estado === "error").map((f) => f.nombre);
+    elDatos.title = `Generado: ${fechaHora(log.generado_utc)}` + (caidas.length ? `\nFuentes con error en esta corrida: ${caidas.join(", ")}` : "");
 
     const prox = proximaCorrida(now, minuto);
     elProxima.textContent = `Próxima actualización ≈ ${hora(prox)} · en ${mmss(prox - now)}`;
