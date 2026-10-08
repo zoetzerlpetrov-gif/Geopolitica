@@ -4,7 +4,7 @@ name: Entidades (Wikidata)
 on:
   workflow_dispatch:
   schedule:
-    - cron: "29 5 * * 1"
+    - cron: "29 5 * * 1"  # horario en UTC; se vuelve a registrar en main el 2026-10-08 (GitHub no lo había activado)
   push:
     branches-ignore: [main]
     paths: ["tools/entidades/**", ".github/workflows/entidades.yml"]
