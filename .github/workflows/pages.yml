@@ -52,7 +52,7 @@ jobs:
           # Datos en movimiento: viven en la rama huérfana "datos-vivos" (workflow "Datos en movimiento").
           mkdir -p _site/data/vivos
           if git fetch --depth 1 origin datos-vivos 2>/dev/null; then
-            git archive FETCH_HEAD vivos | tar -x -C /tmp && cp /tmp/vivos/* _site/data/vivos/
+            git archive FETCH_HEAD vivos | tar -x -C /tmp && cp -r /tmp/vivos/* _site/data/vivos/
           else
             echo "Aún no existe la rama datos-vivos"
           fi

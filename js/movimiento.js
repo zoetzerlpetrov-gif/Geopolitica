@@ -152,7 +152,8 @@ export class Movimiento {
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, minzoom: 7,
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 1.2], "text-anchor": "top", "text-optional": true },
       paint: { "text-color": "#333F48", "text-halo-color": "#ffffff", "text-halo-width": 1.2 } });
-    this.map.on("click", src, (e) => this.onObjeto({ tipo, props: e.features[0].properties, generado: this.datos[tipo]?.generado }));
+    this.map.on("click", src, (e) => this.onObjeto({ tipo, props: e.features[0].properties, generado: this.datos[tipo]?.generado,
+      campos: this.datos[tipo]?.campos, coords: e.features[0].geometry.coordinates }));
     this.map.on("mouseenter", src, () => { this.map.getCanvas().style.cursor = "pointer"; });
     this.map.on("mouseleave", src, () => { this.map.getCanvas().style.cursor = ""; });
   }
@@ -218,7 +219,7 @@ export class Movimiento {
         if (tipo === "satelites") continue;
         const antes = this.datos[tipo]?.generado;
         await this.#cargar(tipo).catch(() => null);
-        if (this.datos[tipo]?.generado !== antes) this.#redibujar(tipo);
+        if (this.datos[tipo]?.generado !== antes) { if (tipo === "aeronaves") dispatchEvent(new Event("vivos-actualizados")); this.#redibujar(tipo); }
       }
     }, 300000);
     requestAnimationFrame(paso);
@@ -235,7 +236,14 @@ function avionesSinteticos(n) {
   return { generado_utc: new Date().toISOString(), campos: ["hex", "indicativo", "lon", "lat", "alt_m", "rumbo", "vel_kmh", "subtipo", "pais", "edad_s"], a };
 }
 
-const SUB = (cat, id) => cat?.subtipos.find((s) => s.id === id || s.grupo === id)?.nombre.es || id;
+/** Fila compacta + nombres de campo → objeto (las instantáneas viejas traen menos campos). */
+export function vueloDeFila(f, campos) {
+  const v = {};
+  campos.forEach((c, i) => { v[c] = f[i]; });
+  return v;
+}
+
+export const SUB = (cat, id) => cat?.subtipos.find((s) => s.id === id || s.grupo === id)?.nombre.es || id;
 
 /** Ficha de un objeto en movimiento. Sin propietarios ni vínculos con personas. */
 export function htmlFichaMovil({ tipo, props, generado }, catalogo) {
