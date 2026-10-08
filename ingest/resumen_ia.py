@@ -6,7 +6,8 @@ partir del título y la descripción del feed. El texto del medio se envía a Gr
 no se guarda.
 
 Salvaguardas:
-  - Se rechaza el resumen si copia 6 o más palabras seguidas del título o la descripción, si es muy
+  - Se rechaza el resumen si copia 6 o más palabras seguidas de la descripción del medio (repetir el
+    título, que ya se publica con su fuente, sí se permite), si es muy
     corto o muy largo, si incluye enlaces o si el modelo responde INSUFICIENTE. En ese caso queda
     el resumen por reglas (ingest/resumen.py).
   - Nunca se resume GDELT: no hay texto del artículo y el modelo podría inventar.
@@ -52,7 +53,9 @@ def motivo_rechazo(resumen, titulo, texto, n=6, min_palabras=8, max_palabras=50)
         return "enlace"
     if not re.search(r"[.!?…)»”]$", resumen.strip()):
         return "incompleto"  # cortado a media frase (p. ej. se agotaron los tokens)
-    if _ngramas(resumen, n) & _ngramas(f"{titulo} {texto}", n):
+    # Solo cuenta como copia lo que viene de la descripción del medio: el título ya se publica tal cual
+    # (con su fuente), así que repetir una frase del título no copia texto protegido.
+    if _ngramas(resumen, n) & (_ngramas(texto, n) - _ngramas(titulo, n)):
         return "copia"
     return None
 
