@@ -7,7 +7,7 @@ import { iniciarRefresco } from "./refresh.js";
 import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js";
 import * as seg from "./seguimiento.js";
 import { Movimiento, htmlFichaMovil, vueloDeFila, proyectar, SUB } from "./movimiento.js";
-import { Imagenes, IMAGENES, ayerUTC } from "./imagenes.js";
+import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
 
@@ -191,6 +191,7 @@ let trayectoria = null;
 async function abrirObjetoMovil(o, catalogo) {
   entidadAbierta = null;
   if (o.tipo === "buques" && o.campos?.includes("estado_nav")) return abrirBuque(o, catalogo);
+  if (o.tipo === "satelites") return abrirSatelite(o, catalogo);
   if (o.tipo !== "aeronaves" || !o.campos) { trayectoria?.limpiar(); abrirFichaHtml(htmlFichaMovil(o, catalogo)); return; }
   const V = await import("./vuelos.js");
   const v = vueloDeFila(JSON.parse(o.props.f), o.campos);
@@ -233,6 +234,24 @@ async function abrirBuque(o, catalogo) {
   const gj = B.geojsonBuque(b, extra, proyectar);
   trayectoria.mostrar(gj);
   encuadrar(V.limites(gj), 10);
+}
+
+async function abrirSatelite(o, catalogo) {
+  const [S, V] = await Promise.all([import("./satelites.js"), import("./vuelos.js")]);
+  const cat = catalogo.categorias.find((c) => c.id === "satelites");
+  const norad = String(o.props.id).replace("sat:", "");
+  const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), alt: o.props.alt };
+  abrirFichaHtml(S.htmlSatelite(base, null));
+  const orb = await mov.orbita(norad);
+  if (!orb || orb.error || $("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(o.props.n)) return;
+  $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb);
+  trayectoria ??= new V.Trayectoria(api.map);
+  const gj = S.geojsonOrbita(orb, [...o.coords, o.props.alt]);
+  trayectoria.mostrar(gj);
+  // Una órbita completa rodea el planeta: se centra en el satélite (libre de la ficha) en vez de encuadrarla toda.
+  const movil = matchMedia("(max-width: 760px)").matches;
+  api.map.easeTo({ center: o.coords, zoom: Math.min(api.map.getZoom(), 2.2),
+    padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 0, right: 0 } : { top: 0, bottom: 0, left: 0, right: 440 }, duration: lite ? 0 : 800 });
 }
 
 function cerrarFicha() {
@@ -485,11 +504,15 @@ function iniciarImagenes() {
   const cont = $("img-capas");
   if (lite) { cont.innerHTML = `<p class="meta">Desactivadas en modo LITE.</p>`; return; }
   img = new Imagenes(api.map);
-  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span><span class="chip estado-retrasado">${ayerUTC()}</span></label>`).join("")
-    + `<p class="nota-capas">NASA GIBS, imagen del día anterior (UTC). Se descarga solo al activarla.</p>`;
+  let fecha = ayerUTC();
+  const dias = [1, 2, 3, 5, 7].map((d) => haceDias(d));
+  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>`).join("")
+    + `<label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
+    + `<p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p>`;
   cont.addEventListener("change", (e) => {
+    if (e.target.id === "img-fecha") { fecha = e.target.value; img.setFecha(fecha); return; }
     const id = e.target.dataset.img;
-    if (id) { e.target.checked ? img.activar(id) : img.desactivar(id); avisarPresupuesto(); }
+    if (id) { e.target.checked ? img.activar(id, fecha) : img.desactivar(id); avisarPresupuesto(); }
   });
 }
 

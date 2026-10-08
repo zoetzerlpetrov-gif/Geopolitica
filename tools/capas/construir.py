@@ -255,7 +255,90 @@ def enlace_responde(url, robots=None, abrir=None):
         return type(e).__name__
 
 
-def camaras(revisar=enlace_responde):
+def robots_permite(url, robots=None):
+    import urllib.robotparser
+    p = urllib.parse.urlparse(url)
+    rp = urllib.robotparser.RobotFileParser()
+    try:
+        texto = robots(url) if robots else get(f"{p.scheme}://{p.netloc}/robots.txt", timeout=20, intentos=1).decode("utf-8", "replace")
+        rp.parse(texto.splitlines())
+    except Exception:  # noqa: BLE001
+        rp.parse([])
+    return rp.can_fetch("Geopolitica-monitor", url)
+
+
+# Cámaras de carretera publicadas como datos abiertos (sin clave). Las imágenes NO se descargan: la ficha
+# las enlaza desde el servidor del operador, con su atribución.
+DIGITRAFFIC = "https://tie.digitraffic.fi/api/weathercam/v1/stations"
+DIGITRAFFIC_IMG = "https://weathercam.digitraffic.fi/{}.jpg"
+CALTRANS = "https://cwwp2.dot.ca.gov/data/d{d}/cctv/cctvStatusD{d:02d}.json"
+CAM_FUENTES = {}  # fuente -> "ok (n)" o el error, para el manifiesto
+
+
+def camaras_digitraffic(d):
+    """GeoJSON de estaciones de Digitraffic → puntos con hasta 4 imágenes (una por dirección)."""
+    out = []
+    for f in d.get("features", []):
+        pr, g = f.get("properties") or {}, f.get("geometry") or {}
+        coords = g.get("coordinates") or []
+        presets = [x["id"] for x in pr.get("presets", []) if x.get("id") and x.get("inCollection", True)]
+        if len(coords) < 2 or not presets or pr.get("collectionStatus", "GATHERING") != "GATHERING":
+            continue
+        out.append(feat(punto(coords[0], coords[1]), {
+            "id": f"dt:{pr.get('id') or f.get('id')}", "n": (pr.get("name") or "").replace("_", " "), "st": "trafico", "p": "FIN",
+            "x": "https://www.digitraffic.fi/en/road-traffic/", "o": "Fintraffic / digitraffic.fi", "t": "organismo_publico",
+            "imgs": [DIGITRAFFIC_IMG.format(x) for x in presets[:4]], "lic": "CC BY 4.0", "nota": "Cámara de clima y tráfico en carretera."}, 5))
+    return out
+
+
+def camaras_caltrans(d):
+    """cctvStatusDxx.json de Caltrans → puntos de cámaras en servicio con su imagen fija actual."""
+    out = []
+    for item in d.get("data", []):
+        c = item.get("cctv") or {}
+        loc = c.get("location") or {}
+        img = ((c.get("imageData") or {}).get("static") or {}).get("currentImageURL") or ""
+        try:
+            lon, lat = float(loc["longitude"]), float(loc["latitude"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if str(c.get("inService", "true")).lower() != "true" or not img.startswith("https://"):
+            continue
+        nombre = " · ".join(x for x in (loc.get("route"), loc.get("locationName") or loc.get("nearbyPlace")) if x)
+        out.append(feat(punto(lon, lat), {
+            "id": f"ct:{loc.get('district', '')}-{c.get('index', len(out))}", "n": nombre or "Cámara de Caltrans", "st": "trafico", "p": "USA",
+            "x": "https://quickmap.dot.ca.gov/", "o": "Caltrans (Departamento de Transporte de California)", "t": "organismo_publico",
+            "imgs": [img], "lic": "Datos públicos de Caltrans", "nota": "Cámara de tráfico en carretera estatal."}, 5))
+    return out
+
+
+def get_json_gzip(url):
+    """JSON con Accept-Encoding: gzip (Digitraffic lo pide) e identificación del cliente."""
+    import gzip
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip", "Digitraffic-User": "Geopolitica-monitor"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        datos = r.read()
+        if r.headers.get("Content-Encoding") == "gzip" or datos[:2] == b"\x1f\x8b":
+            datos = gzip.decompress(datos)
+    return json.loads(datos)
+
+
+def _fuente_camaras(nombre, urls, parser, leer=None):
+    """Lee cada URL de una fuente; una URL caída no detiene las demás ni la capa."""
+    feats, errores = [], []
+    for u in urls:
+        try:
+            if not robots_permite(u):
+                raise PermissionError("robots.txt no lo permite")
+            feats += parser((leer or get_json_gzip)(u))
+        except Exception as e:  # noqa: BLE001
+            errores.append(f"{u.rsplit('/', 1)[-1]}: {e}"[:120])
+    CAM_FUENTES[nombre] = (f"ok ({len(feats)})" if feats else "error") + (f"; fallaron {len(errores)} de {len(urls)}: {errores[0]}" if errores else "")
+    print(f"   cámaras {nombre}: {CAM_FUENTES[nombre]}")
+    return feats
+
+
+def camaras(revisar=enlace_responde, externas=True):
     cfg = json.load(open(os.path.join(ROOT, "config", "camaras.json"), encoding="utf-8"))
     hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     revisados = {}
@@ -268,6 +351,10 @@ def camaras(revisar=enlace_responde):
             "id": f"cam:{c['id']}", "n": c["nombre"], "st": c["subtipo"], "p": c.get("pais_iso3", ""), "x": c["url"],
             "o": c["operador"], "t": c["tipo_operador"], "nota": c.get("nota", ""),
             "v": f"{estado} ({hoy})"}, 2))
+    CAM_FUENTES["curadas"] = f"ok ({len(out)})"
+    if externas:
+        out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
+        out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
     return out
 
 
@@ -492,6 +579,7 @@ def main(pedidas):
                 "archivo": f"data/capas/{os.path.basename(destino)}", "objetos": len(feats), "por_subtipo": subtipos,
                 **({"formato": "geojson"} if fid in FAMILIAS_GEOJSON else {}),
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
+                **({"fuentes": dict(CAM_FUENTES)} if fid == "camaras" else {}),
                 "estado": "parcial" if FALTANTES.get(fid) else "ok",
                 "error": f"sin datos en {len(FALTANTES[fid])} zona(s): {FALTANTES[fid]}" if FALTANTES.get(fid) else None,
                 "actualizado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "segundos": round(time.time() - t0),

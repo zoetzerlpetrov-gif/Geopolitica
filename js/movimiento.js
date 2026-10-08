@@ -100,7 +100,10 @@ export class Movimiento {
     if (tipo === "satelites") {
       const d = await getJSON("data/vivos/satelites.json", { bust: true });
       this.worker ??= new Worker("js/sat-worker.js");
-      this.worker.onmessage = (e) => this.#pintarSatelites(e.data);
+      this.worker.onmessage = (e) => {
+        if (e.data.tipo === "orbita") { this.#esperas.get(e.data.id)?.(e.data); this.#esperas.delete(e.data.id); return; }
+        this.#pintarSatelites(e.data);
+      };
       this.worker.postMessage({ tipo: "tle", grupos: d.grupos });
       this.datos.satelites = { generado: d.generado_utc };
       this.activas.set(tipo, subtipos);
@@ -123,6 +126,18 @@ export class Movimiento {
     if (this.map.getSource(`mov-${tipo}`)) this.map.removeSource(`mov-${tipo}`);
     if (![...this.activas.keys()].some((t) => t !== "satelites")) { clearInterval(this.reloj); this.reloj = null; }
     this.onCambio(this.activas.size);
+  }
+
+  #esperas = new Map();
+
+  /** Traza en tierra y elementos orbitales de un satélite (los calcula el worker). */
+  orbita(id) {
+    if (!this.worker) return Promise.resolve(null);
+    return new Promise((ok) => {
+      this.#esperas.set(id, ok);
+      this.worker.postMessage({ tipo: "orbita", id });
+      setTimeout(() => { if (this.#esperas.delete(id)) ok(null); }, 5000);
+    });
   }
 
   setSubtipos(tipo, ids) {

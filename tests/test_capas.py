@@ -31,7 +31,7 @@ def test_cables_tiene_constructor_y_esta_habilitada():
 
 
 def test_camaras_solo_enlace_y_con_revision():
-    out = c.camaras(revisar=lambda url: "ok")
+    out = c.camaras(revisar=lambda url: "ok", externas=False)
     assert out and all(f["properties"]["x"].startswith("https://") for f in out)
     assert all(f["properties"]["t"] in ("organismo_publico", "operador_turistico") for f in out)
     assert all(f["properties"]["v"].startswith("ok (") for f in out)
@@ -44,3 +44,42 @@ def test_camaras_solo_enlace_y_con_revision():
 def test_enlace_responde_respeta_robots():
     assert c.enlace_responde("https://x.org/cam", robots=lambda u: "User-agent: *\nDisallow: /cam", abrir=lambda u: b"") == "robots.txt no permite revisarlo"
     assert c.enlace_responde("https://x.org/cam", robots=lambda u: "", abrir=lambda u: b"") == "ok"
+
+
+DT = {"type": "FeatureCollection", "features": [
+    {"type": "Feature", "id": "C01502", "geometry": {"type": "Point", "coordinates": [24.7, 60.2, 0]},
+     "properties": {"id": "C01502", "name": "vt1_Espoo_Hirvisuo", "collectionStatus": "GATHERING",
+                    "presets": [{"id": "C0150200", "inCollection": True}, {"id": "C0150201", "inCollection": False}]}},
+    {"type": "Feature", "id": "C09999", "geometry": {"type": "Point", "coordinates": [25, 61]},
+     "properties": {"id": "C09999", "name": "x", "collectionStatus": "REMOVED_TEMPORARILY", "presets": [{"id": "C0999900"}]}},
+]}
+CT = {"data": [
+    {"cctv": {"index": "1", "inService": "true", "location": {"district": "7", "locationName": "I-5 at Main St", "route": "I-5", "longitude": "-118.2", "latitude": "34.05"},
+              "imageData": {"static": {"currentImageURL": "https://cwwp2.dot.ca.gov/data/d7/cctv/image/a/a.jpg"}}}},
+    {"cctv": {"index": "2", "inService": "false", "location": {"longitude": "-118", "latitude": "34"}, "imageData": {"static": {"currentImageURL": "https://x/y.jpg"}}}},
+    {"cctv": {"index": "3", "inService": "true", "location": {"longitude": "", "latitude": "34"}}},
+]}
+
+
+def test_camaras_digitraffic_solo_activas_con_imagen_del_operador():
+    out = c.camaras_digitraffic(DT)
+    assert len(out) == 1
+    p = out[0]["properties"]
+    assert p["imgs"] == ["https://weathercam.digitraffic.fi/C0150200.jpg"] and p["lic"] == "CC BY 4.0" and p["st"] == "trafico"
+    assert p["n"] == "vt1 Espoo Hirvisuo"
+
+
+def test_camaras_caltrans_en_servicio():
+    out = c.camaras_caltrans(CT)
+    assert [f["properties"]["n"] for f in out] == ["I-5 · I-5 at Main St"]
+    assert out[0]["geometry"]["coordinates"] == [-118.2, 34.05]
+
+
+def test_fuente_de_camaras_tolera_fallas(monkeypatch):
+    monkeypatch.setattr(c, "robots_permite", lambda u, robots=None: True)
+    def leer(u):
+        if "D02" in u:
+            raise OSError("caída")
+        return CT
+    out = c._fuente_camaras("caltrans", [c.CALTRANS.format(d=1), c.CALTRANS.format(d=2)], c.camaras_caltrans, leer=leer)
+    assert len(out) == 1 and c.CAM_FUENTES["caltrans"].startswith("ok (1); fallaron 1 de 2")

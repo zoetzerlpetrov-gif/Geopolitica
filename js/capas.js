@@ -210,14 +210,22 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
 /** Ficha de una cámara: solo enlace a la página oficial del operador (la imagen no se copia). */
 export function htmlFichaCamara(props, sub) {
   const oficial = props.t === "organismo_publico";
-  const ok = String(props.v || "").startsWith("ok");
+  // MapLibre entrega los arreglos de propiedades como texto JSON.
+  let imgs = props.imgs || [];
+  if (typeof imgs === "string") { try { imgs = JSON.parse(imgs); } catch (e) { imgs = []; } }
+  imgs = imgs.filter((u) => /^https:\/\//.test(u)).slice(0, 4);
+  const ok = imgs.length > 0 || String(props.v || "").startsWith("ok");
+  const t = Math.floor(Date.now() / 300000); // evita la caché del navegador: imagen de los últimos 5 min
+  const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}?t=${t}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
+    <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio.</p>` : "";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
     <div class="chips"><span class="chip">${oficial ? "Organismo público" : "Operador turístico (publicación intencional)"}</span>
       ${ok ? "" : `<span class="chip alerta">Enlace sin confirmar en la última revisión</span>`}</div>
-    <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">Ver la cámara en el sitio oficial ↗</a></p>
+    ${galeria}
+    <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">${imgs.length ? "Sitio del operador" : "Ver la cámara en el sitio oficial"} ↗</a></p>
     ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
-    <dl><dt>Revisión del enlace</dt><dd>${esc(props.v || "—")}</dd></dl>
-    <p class="meta">El mapa solo enlaza a la página del operador; no copia ni retransmite la imagen. Solo se incluyen cámaras publicadas para verse en abierto.</p>`;
+    ${props.v ? `<dl><dt>Revisión del enlace</dt><dd>${esc(props.v)}</dd></dl>` : ""}
+    <p class="meta">Solo se incluyen cámaras que su operador publica para verse en abierto; nunca cámaras expuestas por error. La imagen se muestra desde el servidor del operador, sin copiarla.</p>`;
 }
