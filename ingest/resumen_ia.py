@@ -37,16 +37,29 @@ def _ngramas(texto, n):
     return {" ".join(p[i:i + n]) for i in range(len(p) - n + 1)}
 
 
-def valida(resumen, titulo, texto, n=6, min_palabras=8, max_palabras=50):
-    """True si el resumen es propio (sin 6 palabras seguidas del medio), de largo razonable y sin enlaces."""
-    if not resumen or resumen.strip().upper().startswith("INSUFICIENTE"):
-        return False
+def motivo_rechazo(resumen, titulo, texto, n=6, min_palabras=8, max_palabras=50):
+    """None si el resumen sirve; si no, el motivo: vacio, insuficiente, corto, largo, enlace, incompleto o copia."""
+    if not resumen:
+        return "vacio"
+    if resumen.strip().upper().startswith("INSUFICIENTE"):
+        return "insuficiente"
     palabras = resumen.split()
-    if not (min_palabras <= len(palabras) <= max_palabras) or len(resumen) > 400:
-        return False
+    if len(palabras) < min_palabras:
+        return "corto"
+    if len(palabras) > max_palabras or len(resumen) > 400:
+        return "largo"
     if re.search(r"https?://|www\.", resumen):
-        return False
-    return not (_ngramas(resumen, n) & _ngramas(f"{titulo} {texto}", n))
+        return "enlace"
+    if not re.search(r"[.!?…)»”]$", resumen.strip()):
+        return "incompleto"  # cortado a media frase (p. ej. se agotaron los tokens)
+    if _ngramas(resumen, n) & _ngramas(f"{titulo} {texto}", n):
+        return "copia"
+    return None
+
+
+def valida(resumen, titulo, texto, **kw):
+    """True si el resumen es propio (sin 6 palabras seguidas del medio), completo, de largo razonable y sin enlaces."""
+    return motivo_rechazo(resumen, titulo, texto, **kw) is None
 
 
 def limpiar(texto):
@@ -65,12 +78,16 @@ class ModeloNoDisponible(Exception):
 def pedir(titulo, texto, fuente, cfg, clave, modelo):
     """Una llamada a /chat/completions. Devuelve el texto del modelo."""
     cuerpo = {
-        "model": modelo, "temperature": 0.2, "max_tokens": 160,
+        "model": modelo, "temperature": 0.2, "max_tokens": cfg.get("max_tokens", 600),
         "messages": [
             {"role": "system", "content": INSTRUCCIONES},
             {"role": "user", "content": f"Fuente: {fuente}\nTítulo: {titulo}\nTexto del medio (solo para entender, no copiar): {texto[:1200]}"},
         ],
     }
+    if "gpt-oss" in modelo or "qwen" in modelo:
+        # Modelos que razonan antes de responder: poco razonamiento y oculto, para que no se coma la respuesta.
+        cuerpo["reasoning_effort"] = "low"
+        cuerpo["reasoning_format"] = "hidden"
     req = urllib.request.Request(cfg["url"], data=json.dumps(cuerpo).encode(),
                                  headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json", "User-Agent": UA})
     try:
@@ -96,7 +113,7 @@ def elegir(eventos, textos, maximo):
 
 def resumir(eventos, textos, cfg, clave, pedir_fn=pedir, dormir=time.sleep):
     """Pone resumen de IA en los eventos elegidos (modifica en sitio). Devuelve estadísticas para el run-log."""
-    est = {"proveedor": cfg.get("proveedor", "groq"), "modelo": None, "resumidos": 0, "rechazados": 0, "errores": [], "pendientes": 0}
+    est = {"proveedor": cfg.get("proveedor", "groq"), "modelo": None, "resumidos": 0, "rechazados": 0, "motivos": {}, "errores": [], "pendientes": 0}
     modelos = list(cfg["modelos"])
     elegidos = elegir(eventos, textos, cfg["max_por_corrida"])
     for i, ev in enumerate(elegidos):
@@ -121,12 +138,14 @@ def resumir(eventos, textos, cfg, clave, pedir_fn=pedir, dormir=time.sleep):
             est["pendientes"] = len(elegidos) - i
             return est
         est["modelo"] = modelos[0]
-        if salida and valida(salida, titulo, texto):
+        motivo = motivo_rechazo(salida, titulo, texto) if salida is not None else None
+        if salida is not None and motivo is None:
             ev["resumen"] = salida
             ev["resumen_origen"] = "ia"
             ev["resumen_modelo"] = f"{est['proveedor']}/{modelos[0]}"
             est["resumidos"] += 1
         elif salida is not None:
             est["rechazados"] += 1
+            est["motivos"][motivo] = est["motivos"].get(motivo, 0) + 1
         dormir(cfg.get("pausa_s", 2.5))
     return est
