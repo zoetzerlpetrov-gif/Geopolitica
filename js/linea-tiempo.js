@@ -25,7 +25,7 @@ export class LineaTiempo {
           <select id="lt-ventana">
             <option value="0">Todo</option><option value="6">6 h</option><option value="24">24 h</option>
             <option value="72">72 h</option><option value="168">7 días</option>
-            ${cargarHistorial ? `<option value="720">30 días (historial)</option>${permitir90 ? `<option value="2160">90 días (historial, sev. ≥ 3)</option>` : ""}` : ""}
+            ${cargarHistorial ? `<option value="720" title="Descarga el historial">30 días</option>${permitir90 ? `<option value="2160" title="Descarga el historial; solo severidad 3 o más">90 días (sev. ≥ 3)</option>` : ""}` : ""}
           </select>
         </label>
         <button type="button" id="lt-play" class="txt-btn" aria-pressed="false" title="Recorre el periodo de lo más antiguo a lo más reciente">▶ Reproducir</button>

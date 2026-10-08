@@ -6,7 +6,7 @@ import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
 import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js";
 import * as seg from "./seguimiento.js";
-import { Movimiento, htmlFichaMovil } from "./movimiento.js";
+import { Movimiento, htmlFichaMovil, vueloDeFila, proyectar, SUB } from "./movimiento.js";
 import { Imagenes, IMAGENES, ayerUTC } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
@@ -170,6 +170,7 @@ async function abrirFicha(id, { volar = false } = {}) {
   if (!analisisCfg) await cargarAnalisisCfg();
   fichaEvento = id;
   entidadAbierta = null;
+  trayectoria?.limpiar();
   $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises, porId, { analisis: analisisCfg, cuaderno: cuaderno.leer(id) });
   $("ficha").hidden = false;
   api.setSeleccion(id);
@@ -185,7 +186,36 @@ function abrirFichaHtml(html) {
   $("ficha-cerrar").focus();
 }
 
+// Ficha de un avión con origen, destino y trayectoria (js/vuelos.js, se descarga al abrir la primera).
+let trayectoria = null;
+async function abrirObjetoMovil(o, catalogo) {
+  entidadAbierta = null;
+  if (o.tipo !== "aeronaves" || !o.campos) { trayectoria?.limpiar(); abrirFichaHtml(htmlFichaMovil(o, catalogo)); return; }
+  const V = await import("./vuelos.js");
+  const v = vueloDeFila(JSON.parse(o.props.f), o.campos);
+  if (o.coords) [v.lon, v.lat] = o.coords; // posición proyectada que se ve en el mapa
+  const cat = catalogo.categorias.find((c) => c.id === "aeronaves");
+  const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
+  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
+  const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
+  const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
+  if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(v.indicativo || v.hex)) return; // el usuario ya cerró o cambió de ficha
+  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en });
+  trayectoria ??= new V.Trayectoria(api.map);
+  if (!V.CON_TRAYECTORIA.has(v.subtipo)) { trayectoria.limpiar(); return; } // aviación general: nada se dibuja
+  const gj = V.geojsonTrayectoria(v, extra, proyectar);
+  trayectoria.mostrar(gj);
+  // Encuadra recorrido, rumbo y destino a la vista, dejando libre el espacio de la ficha.
+  const caja = V.limites(gj);
+  if (caja) {
+    const movil = matchMedia("(max-width: 760px)").matches;
+    api.map.fitBounds(caja, { padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 30, right: 30 } : { top: 60, bottom: 60, left: 60, right: 460 },
+      maxZoom: 7, duration: lite ? 0 : 800 });
+  }
+}
+
 function cerrarFicha() {
+  trayectoria?.limpiar();
   $("ficha").hidden = true;
   api.setSeleccion("");
   history.replaceState(null, "", location.pathname + location.search);
@@ -331,7 +361,7 @@ async function main() {
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));
-  api.map.on("style.load", () => { capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); });
+  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); });
   iniciarImagenes();
   // Cuaderno del analista: checklist y notas del evento abierto (solo en este navegador).
   $("ficha-cuerpo").addEventListener("change", (e) => {
@@ -455,7 +485,7 @@ async function iniciarMovimiento(catalogo) {
     catalogo,
     onCambio: () => avisarPresupuesto(),
     onAviso: (tipo, texto) => { avisos[tipo] = texto; const a = $("aviso-mov"); a.textContent = Object.values(avisos).filter(Boolean).join(" "); a.hidden = !a.textContent; },
-    onObjeto: (o) => { entidadAbierta = null; abrirFichaHtml(htmlFichaMovil(o, catalogo)); },
+    onObjeto: (o) => abrirObjetoMovil(o, catalogo),
   });
   const pasoDe = { aeronaves: "aeronaves", buques: "buques", satelites: "satelites" };
   cont.innerHTML = ["aeronaves", "buques", "satelites"].map((tipo) => {

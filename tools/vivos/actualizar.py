@@ -10,12 +10,20 @@ no acumular historial; el workflow de Pages la copia a data/vivos/):
   vivos/estado.json      qué fuente respondió, cuántos objetos y cuándo
 
 Formato compacto (arreglos, no objetos) para que el archivo pese poco:
-  aeronaves: [hex, indicativo, lon, lat, alt_m, rumbo, vel_kmh, subtipo, pais_origen, edad_s]
+  aeronaves: [hex, indicativo, lon, lat, alt_m, rumbo, vel_kmh, subtipo, pais_origen, edad_s,
+              vs_ms, squawk, cat, tipo_av, matricula, ruta]
+    vs_ms: velocidad vertical (m/s, + sube); cat: categoría ADS-B (A1…C3); ruta: "ORIG-DEST" en OACI.
+  vivos/rutas.json            caché de rutas por indicativo (12 h) y aeropuertos (nombre, ciudad, país, lat, lon)
+  vivos/aeropuertos-ruta.json solo los aeropuertos de las rutas actuales (lo pide la ficha del avión)
+  vivos/rastros/0-f.json      últimas posiciones (cada 20 min, hasta 3 h) por avión, en 16 archivos por
+                              el primer carácter del código ICAO: la ficha descarga solo uno.
   buques:    [mmsi, nombre, lon, lat, rumbo, vel_nudos, subtipo, imo, edad_s]
 
 Privacidad (en código):
   - Se excluyen aeronaves marcadas por sus dueños como privadas (banderas PIA/LADD de adsb.lol).
   - No se guarda propietario ni se vincula ninguna aeronave o buque a personas.
+  - Rutas y trayectorias SOLO para vuelos de aerolínea, carga, militares y de Estado; nunca para
+    aviación general (avionetas y jets privados), para no permitir seguir a particulares.
 Uso: python3 tools/vivos/actualizar.py [satelites] [aeronaves] [buques] [sanciones]
 """
 import asyncio
@@ -40,6 +48,16 @@ HORAS_TLE = 6
 CARGA_SOLO = {"FDX", "UPS", "GTI", "CLX", "ABW", "CKS", "BOX", "DHK", "DHL", "BCS", "CAO", "CKK", "AJT", "ATN", "MPH", "NCA", "SQC", "TAY", "LCO", "MXY", "ABX", "PAC", "WGN"}
 # Indicativos de vuelos de Estado conocidos públicamente (misiones VIP de fuerzas aéreas y gobiernos).
 ESTADO = ("SAM", "EXEC", "VENUS", "CFC0", "GAF6", "RRR", "FAF", "IAM", "CTM", "ASY", "MMF", "FAM", "SPAR")
+# Subtipos con ruta y trayectoria (nunca aviación general: ver «Privacidad» arriba).
+CON_RUTA = {"civil_comercial", "carga"}
+CON_RASTRO = {"civil_comercial", "carga", "militar", "estado", "sancionada"}
+RASTRO_MAX = 10            # posiciones por avión (cada 20 min ≈ 3 h)
+RASTRO_HORAS = 3
+RUTAS_TTL_H = 12           # una ruta encontrada se reutiliza 12 h; una no encontrada, 6 h
+RUTAS_NUEVAS_MAX = 2000    # consultas nuevas por corrida (lotes de 100), por cortesía con adsb.lol
+# Categorías de OpenSky (número) → código ADS-B (letra+número), el mismo que da adsb.lol.
+CAT_OPENSKY = {2: "A1", 3: "A2", 4: "A3", 5: "A4", 6: "A5", 7: "A6", 8: "A7", 9: "B1", 10: "B2", 11: "B3", 12: "B4",
+               14: "B6", 15: "B7", 16: "C1", 17: "C2", 18: "C3", 19: "C3", 20: "C3"}
 AIS_TIPO = [((30, 30), "pesca"), ((31, 32), "remolque_servicio"), ((35, 35), "militares"), ((36, 37), "vela_recreo"),
             ((52, 52), "remolque_servicio"), ((60, 69), "pasaje"), ((70, 79), "carga"), ((80, 89), "tanqueros")]
 
@@ -128,19 +146,47 @@ def _subtipo_avion(indicativo, militar, en_tierra, matricula, sancionadas):
     return "aviacion_general"
 
 
+CAMPOS_AVION = ["hex", "indicativo", "lon", "lat", "alt_m", "rumbo", "vel_kmh", "subtipo", "pais", "edad_s",
+                "vs_ms", "squawk", "cat", "tipo_av", "matricula", "ruta"]
+
+
+def fila_opensky(s, t, sanc):
+    """Vector de estado de OpenSky (con ?extended=1) → fila compacta, o None sin posición."""
+    if s[5] is None or s[6] is None:
+        return None
+    alt = s[13] if s[13] is not None else s[7]
+    cat = CAT_OPENSKY.get(s[17], "") if len(s) > 17 and s[17] is not None else ""
+    return [s[0], (s[1] or "").strip(), round(s[5], 3), round(s[6], 3), round(alt or 0), round(s[10] or 0),
+            round((s[9] or 0) * 3.6), _subtipo_avion(s[1], False, s[8], None, sanc), s[2] or "", int(t - (s[4] or t)),
+            round(s[11] or 0, 1), s[14] or "", cat, "", "", ""]
+
+
+def fila_adsblol(a, sanc):
+    """Aeronave de adsb.lol → fila compacta, o None si no tiene posición o pidió privacidad (PIA/LADD)."""
+    if a.get("lat") is None or a.get("lon") is None:
+        return None
+    banderas = a.get("dbFlags") or 0
+    if banderas & 4 or banderas & 8:  # PIA / LADD: se pidió privacidad → se excluye
+        return None
+    en_tierra = a.get("alt_baro") == "ground"
+    alt = 0 if en_tierra else round((a.get("alt_geom") or a.get("alt_baro") or 0) * 0.3048)
+    vs = a.get("baro_rate") if a.get("baro_rate") is not None else a.get("geom_rate")
+    return [a["hex"], (a.get("flight") or "").strip(), round(a["lon"], 3), round(a["lat"], 3), alt, round(a.get("track") or 0),
+            round((a.get("gs") or 0) * 1.852), _subtipo_avion(a.get("flight"), True, en_tierra, a.get("r"), sanc), "",
+            round(a.get("seen_pos") or 0), round((vs or 0) * 0.00508, 1), a.get("squawk") or "", a.get("category") or "",
+            a.get("t") or "", a.get("r") or "", ""]
+
+
 def aeronaves():
     sanc = set(leer("sanciones.json", {}).get("matriculas", []))
     t = time.time()
     filas, fuentes = {}, {}
     try:
-        d = json.loads(get("https://opensky-network.org/api/states/all", timeout=90))
+        d = json.loads(get("https://opensky-network.org/api/states/all?extended=1", timeout=90))
         for s in d.get("states") or []:
-            if s[5] is None or s[6] is None:
-                continue
-            hexid = s[0]
-            alt = s[13] if s[13] is not None else s[7]
-            filas[hexid] = [hexid, (s[1] or "").strip(), round(s[5], 3), round(s[6], 3), round(alt or 0), round(s[10] or 0),
-                            round((s[9] or 0) * 3.6), _subtipo_avion(s[1], False, s[8], None, sanc), s[2] or "", int(t - (s[4] or t))]
+            f = fila_opensky(s, t, sanc)
+            if f:
+                filas[f[0]] = f
         fuentes["opensky"] = len(filas)
     except Exception as e:  # noqa: BLE001
         fuentes["opensky"] = f"error: {e}"
@@ -148,24 +194,140 @@ def aeronaves():
         d = json.loads(get("https://api.adsb.lol/v2/mil", timeout=60))
         n = 0
         for a in d.get("ac") or []:
-            if a.get("lat") is None or a.get("lon") is None:
-                continue
-            banderas = a.get("dbFlags") or 0
-            if banderas & 4 or banderas & 8:  # PIA / LADD: el dueño pidió privacidad → se excluye
-                continue
-            en_tierra = a.get("alt_baro") == "ground"
-            alt = 0 if en_tierra else round((a.get("alt_geom") or a.get("alt_baro") or 0) * 0.3048)
-            filas[a["hex"]] = [a["hex"], (a.get("flight") or "").strip(), round(a["lon"], 3), round(a["lat"], 3), alt, round(a.get("track") or 0),
-                               round((a.get("gs") or 0) * 1.852), _subtipo_avion(a.get("flight"), True, en_tierra, a.get("r"), sanc), "", round(a.get("seen_pos") or 0)]
-            n += 1
+            f = fila_adsblol(a, sanc)
+            if f:
+                filas[f[0]] = f
+                n += 1
         fuentes["adsb.lol (militares)"] = n
     except Exception as e:  # noqa: BLE001
         fuentes["adsb.lol (militares)"] = f"error: {e}"
     if not filas:
         raise RuntimeError(f"ninguna fuente respondió: {fuentes}")
-    escribir("aeronaves.json", {"generado_utc": ahora(), "campos": ["hex", "indicativo", "lon", "lat", "alt_m", "rumbo", "vel_kmh", "subtipo", "pais", "edad_s"],
-                                "fuentes": fuentes, "a": list(filas.values())})
+    try:
+        fuentes["rutas (adsb.lol)"] = asignar_rutas(filas)
+    except Exception as e:  # noqa: BLE001  sin rutas el mapa sigue funcionando
+        fuentes["rutas (adsb.lol)"] = f"error: {e}"
+    try:
+        actualizar_rastros(filas, t)
+    except Exception as e:  # noqa: BLE001
+        fuentes["rastros"] = f"error: {e}"
+    escribir("aeronaves.json", {"generado_utc": ahora(), "campos": CAMPOS_AVION, "fuentes": fuentes, "a": list(filas.values())})
     return len(filas)
+
+
+# ------------------------------------------------------------------ rutas (origen y destino)
+def _dist_km(lat1, lon1, lat2, lon2):
+    import math
+    r = math.radians
+    a = math.sin(r(lat2 - lat1) / 2) ** 2 + math.cos(r(lat1)) * math.cos(r(lat2)) * math.sin(r(lon2 - lon1) / 2) ** 2
+    return 12742 * math.asin(math.sqrt(a))
+
+
+def elegir_tramo(codigos, aeropuertos, lat, lon):
+    """Ruta con escalas (A-B-C): el tramo donde el desvío por pasar por la posición actual es menor."""
+    if len(codigos) < 2:
+        return None
+    mejor = None
+    for a, b in zip(codigos, codigos[1:]):
+        pa, pb = aeropuertos.get(a), aeropuertos.get(b)
+        if not pa or not pb:
+            continue
+        desvio = _dist_km(pa[3], pa[4], lat, lon) + _dist_km(lat, lon, pb[3], pb[4]) - _dist_km(pa[3], pa[4], pb[3], pb[4])
+        if mejor is None or desvio < mejor[0]:
+            mejor = (desvio, a, b)
+    return (mejor[1], mejor[2]) if mejor else (codigos[0], codigos[1])
+
+
+def parsear_routeset(respuesta):
+    """Respuesta de POST /api/0/routeset de adsb.lol → ({indicativo: [códigos OACI]}, {OACI: aeropuerto})."""
+    rutas, aeropuertos = {}, {}
+    for r in respuesta or []:
+        cs = (r.get("callsign") or "").strip().upper()
+        codigos = [c for c in (r.get("airport_codes") or "").split("-") if c and c != "unknown"]
+        for ap in r.get("_airports") or []:
+            icao = ap.get("icao")
+            if icao and ap.get("lat") is not None and ap.get("lon") is not None:
+                aeropuertos[icao] = [ap.get("name") or icao, ap.get("location") or "", ap.get("countryiso2") or "",
+                                     round(float(ap["lat"]), 4), round(float(ap["lon"]), 4), ap.get("iata") or ""]
+        if cs:
+            rutas[cs] = codigos if r.get("plausible", True) not in (False, 0) else []
+    return rutas, aeropuertos
+
+
+def asignar_rutas(filas):
+    """Pone "ORIG-DEST" en las filas de vuelos de aerolínea y carga; consulta solo indicativos sin caché."""
+    cache = leer("rutas.json", {"rutas": {}, "aeropuertos": {}})
+    ahora_s = time.time()
+    vigentes = {cs: r for cs, r in cache["rutas"].items() if ahora_s - r[1] < RUTAS_TTL_H * 3600 * (1 if r[0] else 0.5)}
+    aeropuertos = cache["aeropuertos"]
+    pendientes = []
+    for f in filas.values():
+        cs = f[1].upper()
+        if f[7] in CON_RUTA and cs and cs not in vigentes:
+            pendientes.append({"callsign": cs, "lat": f[3], "lng": f[2]})
+    consultados, fallos = 0, 0
+    for i in range(0, min(len(pendientes), RUTAS_NUEVAS_MAX), 100):
+        lote = pendientes[i:i + 100]
+        try:
+            req = urllib.request.Request("https://api.adsb.lol/api/0/routeset", data=json.dumps({"planes": lote}).encode(),
+                                         headers={"User-Agent": UA, "Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                rutas, aps = parsear_routeset(json.loads(r.read()))
+        except Exception as e:  # noqa: BLE001
+            fallos += 1
+            print(f"  routeset: {e}")
+            if fallos >= 3:
+                break
+            continue
+        aeropuertos.update(aps)
+        for p in lote:
+            vigentes[p["callsign"]] = [rutas.get(p["callsign"], []), ahora_s]
+        consultados += len(lote)
+        time.sleep(1)
+    usados, con_ruta = {}, 0
+    for f in filas.values():
+        r = vigentes.get(f[1].upper())
+        if f[7] not in CON_RUTA or not r or len(r[0]) < 2:
+            continue
+        tramo = elegir_tramo(r[0], aeropuertos, f[3], f[2])
+        if tramo:
+            f[15] = f"{tramo[0]}-{tramo[1]}"
+            con_ruta += 1
+            for c in tramo:
+                if c in aeropuertos:
+                    usados[c] = aeropuertos[c]
+    escribir("rutas.json", {"generado_utc": ahora(), "fuente": "adsb.lol routeset (base comunitaria de rutas)", "rutas": vigentes, "aeropuertos": aeropuertos})
+    escribir("aeropuertos-ruta.json", {"generado_utc": ahora(), "campos": ["nombre", "ciudad", "pais_iso2", "lat", "lon", "iata"], "aeropuertos": usados})
+    return f"{con_ruta} con ruta ({consultados} consultas nuevas)"
+
+
+# ------------------------------------------------------------------ rastros (trayectoria reciente)
+def actualizar_rastros(filas, t):
+    """Agrega la posición actual al rastro de cada avión permitido y descarta lo de más de 3 h."""
+    carpeta = os.path.join(OUT, "rastros")
+    os.makedirs(carpeta, exist_ok=True)
+    minuto = int(t // 60)
+    limite = minuto - RASTRO_HORAS * 60
+    for clave in "0123456789abcdef":
+        ruta = os.path.join(carpeta, f"{clave}.json")
+        previos = {}
+        if os.path.exists(ruta):
+            with open(ruta, encoding="utf-8") as fh:
+                previos = json.load(fh).get("r", {})
+        nuevo = {}
+        for hexid, puntos in previos.items():
+            puntos = [p for p in puntos if p[3] >= limite]
+            if puntos:
+                nuevo[hexid] = puntos
+        for f in filas.values():
+            if f[0][:1].lower() != clave or f[7] not in CON_RASTRO:
+                continue
+            puntos = nuevo.get(f[0], [])
+            if not puntos or puntos[-1][3] != minuto:
+                puntos.append([f[2], f[3], f[4], minuto])
+            nuevo[f[0]] = puntos[-RASTRO_MAX:]
+        with open(ruta, "w", encoding="utf-8") as fh:
+            json.dump({"campos": ["lon", "lat", "alt_m", "minuto_unix"], "r": nuevo}, fh, separators=(",", ":"))
 
 
 # ------------------------------------------------------------------ buques (AISStream)
