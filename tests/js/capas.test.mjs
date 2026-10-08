@@ -51,3 +51,15 @@ test("enlaces a la fuente original", () => {
   assert.equal(urlFuente("ourairports:MMMX"), "https://ourairports.com/airports/MMMX/");
   assert.equal(urlFuente("raro:1"), null);
 });
+
+test("una capa cuya actualización falló sigue visible con su versión anterior", async () => {
+  const { familiasDibujables } = await import("../../js/capas.js");
+  const catalogo = JSON.parse((await import("node:fs")).readFileSync(new URL("../../config/entities.json", import.meta.url)));
+  const capas = JSON.parse((await import("node:fs")).readFileSync(new URL("../../config/capas.json", import.meta.url)));
+  const fam = capas.familias.find((f) => f.habilitada && f.id === "recursos");
+  const man = { familias: { recursos: { estado: "desactualizada", archivo: "data/capas/recursos.pmtiles", objetos: 10, bytes: 1, error: "falló" } } };
+  const f = familiasDibujables(catalogo, capas, man).find((x) => x.id === fam.id);
+  assert.equal(f.disponible, true);
+  const sinArchivo = { familias: { recursos: { estado: "error", error: "falló" } } };
+  assert.equal(familiasDibujables(catalogo, capas, sinArchivo).find((x) => x.id === fam.id).disponible, false);
+});
