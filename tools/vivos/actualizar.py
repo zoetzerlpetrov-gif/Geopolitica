@@ -58,7 +58,7 @@ RASTRO_HORAS = 3
 RUTAS_TTL_H = 12           # una ruta encontrada se reutiliza 12 h; una no encontrada, 6 h
 RUTAS_NUEVAS_MAX = 2000    # consultas nuevas por corrida (lotes de 20), por cortesía con adsb.lol
 RUTAS_LOTE = 20
-ADSBDB_MAX = 150           # respaldo: consultas individuales a adsbdb.com si adsb.lol no responde
+ADSBDB_MAX = 300           # respaldo: consultas individuales a adsbdb.com si adsb.lol no responde (≈ 15 por minuto)
 # Categorías de OpenSky (número) → código ADS-B (letra+número), el mismo que da adsb.lol.
 CAT_OPENSKY = {2: "A1", 3: "A2", 4: "A3", 5: "A4", 6: "A5", 7: "A6", 8: "A7", 9: "B1", 10: "B2", 11: "B3", 12: "B4",
                14: "B6", 15: "B7", 16: "C1", 17: "C2", 18: "C3", 19: "C3", 20: "C3"}
@@ -305,8 +305,7 @@ def asignar_rutas(filas):
         except Exception as e:  # noqa: BLE001
             fallos += 1
             print(f"  routeset: {e}")
-            if fallos >= 3:
-                break
+            break  # adsb.lol no está respondiendo: se pasa directo al respaldo
             continue
         aeropuertos.update(aps)
         for p in lote:
