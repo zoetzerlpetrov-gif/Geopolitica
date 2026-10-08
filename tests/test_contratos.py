@@ -98,8 +98,9 @@ def test_chokepoints_requeridos():
     assert {"ormuz", "malaca", "suez", "panama", "bab_el_mandeb", "bosforo", "gibraltar", "taiwan"} <= ids
 
 
-def test_paises_sin_lineas_que_crucen_el_mapa():
-    fc = load("data/base/countries.geojson")
+@pytest.mark.parametrize("archivo", ["data/base/countries.geojson", "data/base/countries-110m.geojson"])
+def test_paises_sin_lineas_que_crucen_el_mapa(archivo):
+    fc = load(archivo)
     for f in fc["features"]:
         g = f["geometry"]
         anillos = g["coordinates"] if g["type"] == "Polygon" else [r for p in g["coordinates"] for r in p]

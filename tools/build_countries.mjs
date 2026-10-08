@@ -89,6 +89,23 @@ for (const f of fc.features) {
 }
 
 writeFileSync("../data/base/countries.geojson", JSON.stringify(out));
+
+// Versión ligera 1:110m para el modo LITE (celular): sin simplificar más, solo redondeo.
+const topo110 = require("world-atlas/countries-110m.json");
+const lite = { type: "FeatureCollection", features: [] };
+for (const f of feature(topo110, topo110.objects.countries).features) {
+  if (!f.geometry || f.id === "010") continue;
+  const iso3 = f.id ? countries.numericToAlpha3(f.id) : SIN_ID[f.properties.name];
+  if (!iso3) continue;
+  lite.features.push({ type: "Feature", properties: { iso3 }, geometry: corregirAntimeridiano({ type: f.geometry.type, coordinates: round(f.geometry.coordinates) }) });
+}
+writeFileSync("../data/base/countries-110m.geojson", JSON.stringify(lite));
+
+// Etiquetas de países (punto dentro del territorio principal) para el mapa base local.
+writeFileSync("../data/base/etiquetas-paises.geojson", JSON.stringify({
+  type: "FeatureCollection",
+  features: Object.entries(gaz).map(([iso3, g]) => ({ type: "Feature", properties: { n: g.es, iso3 }, geometry: { type: "Point", coordinates: [g.lon, g.lat] } })),
+}));
 writeFileSync("../config/gazetteer.json", JSON.stringify({
   descripcion: "Centroide aproximado (anillo más grande), nombres y región por país. Generado por tools/build_countries.mjs desde Natural Earth 1:50m. Se usa para geocodificar eventos sin coordenadas.",
   paises: Object.fromEntries(Object.entries(gaz).sort()),

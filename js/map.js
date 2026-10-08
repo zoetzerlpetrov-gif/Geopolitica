@@ -15,17 +15,27 @@ async function fetchTimeout(url, ms) {
   try { return await fetch(url, { signal: ctrl.signal }); } finally { clearTimeout(t); }
 }
 
-/** Estilo local de respaldo: solo fondo y países de Natural Earth (sin depender de terceros). */
-function estiloRespaldo(theme) {
+/**
+ * Estilo local (sin depender de terceros salvo las fuentes de texto): países de Natural Earth y sus nombres.
+ * - Respaldo cuando OpenFreeMap no responde: escala 1:50m.
+ * - Modo LITE (celular): escala 1:110m (48 KB comprimido), para que el mapa sea usable en < 3 s con 4G.
+ */
+export function estiloLocal(theme, { ligero = false } = {}) {
   const dark = theme === "dark";
   return {
     version: 8,
     glyphs: GLYPHS,
-    sources: { paises: { type: "geojson", data: "data/base/countries.geojson" } },
+    sources: {
+      paises: { type: "geojson", data: ligero ? "data/base/countries-110m.geojson" : "data/base/countries.geojson" },
+      nombres: { type: "geojson", data: "data/base/etiquetas-paises.geojson" },
+    },
     layers: [
       { id: "fondo", type: "background", paint: { "background-color": dark ? "#0d1b24" : "#dfe8ee" } },
       { id: "paises-relleno", type: "fill", source: "paises", paint: { "fill-color": dark ? "#1f2a31" : "#f7f7f4" } },
       { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": dark ? "#3b4b56" : "#b9c2c9", "line-width": 0.6 } },
+      { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5,
+        layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-optional": true },
+        paint: { "text-color": dark ? "#8fa1ad" : "#6f7d87", "text-halo-color": dark ? "#0d1b24" : "#ffffff", "text-halo-width": 1 } },
     ],
   };
 }
@@ -70,15 +80,16 @@ export function aligerarEstilo(style, { lite = false } = {}) {
   return { ...style, layers, sources };
 }
 
-/** Descarga el estilo de OpenFreeMap; si no responde en 6 s usa el respaldo local. */
+/** LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local. */
 export async function estiloBase(theme, { lite = false } = {}) {
+  if (lite) return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };
   try {
     const r = await fetchTimeout(OFM[theme], 6000);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return { style: aligerarEstilo(await r.json(), { lite }), remoto: true };
   } catch (e) {
     console.warn("OpenFreeMap no disponible, se usa el mapa base local:", e.message);
-    return { style: estiloRespaldo(theme), remoto: false };
+    return { style: estiloLocal(theme), remoto: false };
   }
 }
 
@@ -112,6 +123,7 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
   let seleccion = "";
   let tema = temaInicial;
   let chokeVisible = true;
+  let chokeDatos = chokepoints || { type: "FeatureCollection", features: [] };
 
   const colorArea = ["match", ["get", "a"]];
   for (const [id, c] of Object.entries(colores)) colorArea.push(id, c);
@@ -122,7 +134,7 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
     const halo = dark ? "#0f1418" : "#ffffff";
     const texto = dark ? "#e4e9ed" : "#1c2329";
 
-    map.addSource("chokepoints", { type: "geojson", data: chokepoints });
+    map.addSource("chokepoints", { type: "geojson", data: chokeDatos });
     map.addLayer({
       id: "choke-anillo", type: "circle", source: "chokepoints",
       layout: { visibility: chokeVisible ? "visible" : "none" },
@@ -211,6 +223,8 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
       seleccion = id || "";
       if (map.getLayer("evento-sel")) map.setFilter("evento-sel", ["==", ["get", "id"], seleccion]);
     },
+    /** Los chokepoints pueden llegar después de crear el mapa (el mapa no espera a los JSON). */
+    setChokepointsDatos(fc) { chokeDatos = fc; map.getSource("chokepoints")?.setData(fc); },
     setChokepoints(visible) {
       chokeVisible = visible;
       for (const l of ["choke-anillo", "choke-texto"]) if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", visible ? "visible" : "none");

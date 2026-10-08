@@ -53,7 +53,13 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 .estado .proxima { font-family: var(--mono); }
 .estado .atrasado { color: #b3261e; font-weight: 600; }
 .acciones { display: flex; gap: 6px; align-items: center; }
-.region-rapida select { font: inherit; background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: var(--radius); min-height: 34px; padding: 2px 6px; max-width: 190px; }
+.plegable > summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+.plegable > summary::after { content: "▸"; color: var(--text-2); }
+.plegable[open] > summary::after { content: "▾"; }
+.plegable > summary h2 { margin: 0; }
+.plegable[open] > summary { margin-bottom: 6px; }
+/* Ancho fijo: si el selector se ajustara a la opción más larga, la barra "saltaría" al cargar (CLS). */
+.region-rapida select { width: 190px; font: inherit; background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: var(--radius); min-height: 34px; padding: 2px 6px; max-width: 190px; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .icon-btn, .link-btn, .txt-btn {
   background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: var(--radius);
@@ -162,7 +168,7 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
   h1 { font-size: 15px; }
   .topbar { flex-wrap: wrap; gap: 6px 8px; }
   .estado { order: 3; flex-basis: 100%; }
-  .region-rapida select { max-width: 130px; }
+  .region-rapida select { width: 130px; }
   .layout { grid-template-columns: 1fr; }
   .panel {
     position: absolute; inset: auto 0 0 0; max-height: 55%; z-index: 6; border-right: 0;

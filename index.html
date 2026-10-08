@@ -9,6 +9,17 @@
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232E6F8E'/%3E%3Cpath d='M2 16h28M16 2c5 5 5 23 0 28M16 2c-5 5-5 23 0 28' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E">
   <!-- Abre la conexión con el servidor del mapa base mientras se descarga MapLibre (ahorra 1–2 viajes de red). -->
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
+  <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
+  <link rel="preload" href="https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf" as="fetch" crossorigin>
+  <link rel="modulepreload" href="js/app.js">
+  <link rel="modulepreload" href="js/util.js">
+  <link rel="modulepreload" href="js/map.js">
+  <link rel="modulepreload" href="js/card.js">
+  <link rel="modulepreload" href="js/refresh.js">
+  <link rel="modulepreload" href="js/capas.js">
+  <link rel="modulepreload" href="js/seguimiento.js">
+  <link rel="modulepreload" href="js/movimiento.js">
+  <link rel="modulepreload" href="js/imagenes.js">
   <link rel="stylesheet" href="vendor/maplibre-gl/maplibre-gl.css">
   <link rel="stylesheet" href="css/app.css">
   <script>
@@ -65,30 +76,30 @@
         <label class="fila"><input type="checkbox" id="capa-chokepoints" checked> Chokepoints marítimos</label>
       </section>
 
-      <section class="bloque">
-        <h2>Capas de entidades</h2>
+      <details class="bloque plegable">
+        <summary><h2>Capas de entidades</h2></summary>
         <p class="nota-capas">Se descargan solo al activarlas. <span class="leyenda-estado">Dato: <span class="chip estado-estatico">estático</span> <span class="chip estado-retrasado">retrasado</span> <span class="chip estado-estimado">estimado</span> <span class="chip estado-tiempo_real">tiempo real</span></span></p>
         <div id="aviso-capas" class="aviso-capas" role="status" hidden></div>
         <div id="capas-entidades" class="capas-entidades">Cargando catálogo…</div>
-      </section>
+      </details>
 
-      <section class="bloque">
-        <h2>Capas en movimiento</h2>
+      <details class="bloque plegable">
+        <summary><h2>Capas en movimiento</h2></summary>
         <p class="nota-capas">Aeronaves y buques: instantánea cada 20 min, solo lo visible (máx. 5,000). Satélites: posición calculada en tu navegador.</p>
         <div id="aviso-mov" class="aviso-capas" role="status" hidden></div>
         <div id="mov-capas" class="capas-entidades">Cargando…</div>
-      </section>
+      </details>
 
-      <section class="bloque">
-        <h2>Imágenes y cámaras</h2>
+      <details class="bloque plegable">
+        <summary><h2>Imágenes y cámaras</h2></summary>
         <div id="img-capas" class="capas-entidades"></div>
         <p class="nota-capas">Cámaras públicas: pendientes de aprobar fuentes oficiales (ver SOURCES.md). No se usan cámaras privadas ni expuestas por error.</p>
-      </section>
+      </details>
 
       <section class="bloque">
         <h2>Seguimiento <span id="seg-total" class="contador"></span></h2>
         <p class="nota-capas">Marca "Seguir" en la ficha de un lugar. Se guarda solo en este navegador.</p>
-        <ul id="lista-seguimiento" class="lista-seguimiento"></ul>
+        <ul id="lista-seguimiento" class="lista-seguimiento"><li class="meta">Todavía no sigues ningún lugar.</li></ul>
       </section>
 
       <section class="bloque bloque-lista">

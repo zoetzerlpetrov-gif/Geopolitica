@@ -204,12 +204,14 @@ async function main() {
   const tema = temaActual();
   lite = modoLite();
   document.documentElement.classList.toggle("lite", lite);
-  // Todas las descargas arrancan a la vez; la taxonomía se espera primero porque los eventos
-  // sintéticos de la prueba de carga la usan.
-  const pendientes = [getJSON("config/chokepoints.json"), getJSON("data/run-log.json", { bust: true }), estiloBase(tema, { lite }), getJSON("config/regions.json")];
-  tax = prepararTaxonomia(await getJSON("config/taxonomy.json"));
-  const [choke, runLog, base, regiones] = await Promise.all([...pendientes, cargarEventos()]);
-  estado.areas = new Set(tax.lista.map((a) => a.id));
+  // El mapa se crea en cuanto hay estilo (en LITE es local e inmediato); los JSON llegan en paralelo
+  // y se aplican cuando estén. Así MapLibre arranca su worker y pide fuentes sin esperar a los datos.
+  const pTax = getJSON("config/taxonomy.json");
+  const pChoke = getJSON("config/chokepoints.json");
+  const pRunLog = getJSON("data/run-log.json", { bust: true });
+  const pRegiones = getJSON("config/regions.json");
+  const pEventos = pTax.then((t) => { tax = prepararTaxonomia(t); return cargarEventos(); });
+  const base = await estiloBase(tema, { lite });
 
   if (!base.remoto) {
     const aviso = $("aviso-base");
@@ -217,23 +219,29 @@ async function main() {
     aviso.hidden = false;
   }
 
-  const chokeGeo = {
-    type: "FeatureCollection",
-    features: choke.chokepoints.map((c) => ({ type: "Feature", geometry: { type: "Point", coordinates: [c.lon, c.lat] }, properties: { id: c.id, nombre: c.nombre, tipo: c.tipo } })),
-  };
-
+  // Colores de área: se conocen hasta tener la taxonomía; mientras tanto el mapa ya dibuja el fondo.
+  const t = await pTax;
+  tax ??= prepararTaxonomia(t);
   api = crearMapa({
-    container: $("map"), style: base.style, tema, lite, chokepoints: chokeGeo,
+    container: $("map"), style: base.style, tema, lite, chokepoints: null,
     colores: Object.fromEntries(tax.lista.map((a) => [a.id, a.color])),
     onSelect: (id) => abrirFicha(id),
   });
+  const [choke, runLog, regiones] = await Promise.all([pChoke, pRunLog, pRegiones, pEventos]);
+  estado.areas = new Set(tax.lista.map((a) => a.id));
+  api.setChokepointsDatos({
+    type: "FeatureCollection",
+    features: choke.chokepoints.map((c) => ({ type: "Feature", geometry: { type: "Point", coordinates: [c.lon, c.lat] }, properties: { id: c.id, nombre: c.nombre, tipo: c.tipo } })),
+  });
 
   pintarAreas();
-  api.map.once("load", () => {
+  const alCargar = () => {
     aplicarFiltros();
     const m = location.hash.match(/^#evento=(.+)$/);
     if (m) abrirFicha(decodeURIComponent(m[1]), { volar: true });
-  });
+  };
+  // Si el mapa ya terminó de cargar mientras llegaban los datos, se aplica de inmediato.
+  api.map.loaded() ? alCargar() : api.map.once("load", alCargar);
 
   // Controles
   $("areas-todas").onclick = () => { estado.areas = new Set(tax.lista.map((a) => a.id)); pintarAreas2(); };
