@@ -216,6 +216,21 @@ def test_proxima_corrida_minuto_17():
 def test_seguridad_en_eua_no_marca_impacto_mexico():
     assert R.impacto_mexico("USA", "seguridad", [], "Shooting in Chicago", GAZ) is None
     assert R.impacto_mexico("USA", "geoeconomia", [], "New tariffs on steel", GAZ).startswith("Estados Unidos")
+    # Hechos menores (severidad 1-2) en un socio no cuentan.
+    assert R.impacto_mexico("USA", "geoeconomia", [], "Bank fined in New York", GAZ, severidad=2) is None
+
+
+@pytest.mark.parametrize("texto,esperado", [
+    ("Agresión: New Mexico (New Mexico, United States)", None),
+    ("Wildfire spreads in Nuevo México", None),
+    ("Mexican peso falls after tariff threat", "Menciona a México de forma directa."),
+])
+def test_new_mexico_no_es_mexico(texto, esperado):
+    assert R.impacto_mexico("USA", "seguridad", [], texto, GAZ, severidad=4) == esperado
+
+
+def test_new_mexico_se_geocodifica_en_eua():
+    assert GAZ.pais_en_texto("Governor of New Mexico signs water bill") == "USA"
 
 
 def test_feeds_deshabilitados_no_se_piden(monkeypatch):

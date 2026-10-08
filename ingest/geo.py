@@ -14,7 +14,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # Formas cortas o habituales en titulares que no coinciden con el nombre oficial del gazetteer.
 ALIAS = {
-    "USA": ["eua", "ee uu", "eeuu", "estados unidos", "us", "u s", "usa", "united states", "washington", "casa blanca", "white house", "pentagono", "pentagon"],
+    "USA": ["new mexico", "nuevo mexico", "eua", "ee uu", "eeuu", "estados unidos", "us", "u s", "usa", "united states", "washington", "casa blanca", "white house", "pentagono", "pentagon"],
     "RUS": ["rusia", "russia", "kremlin", "moscu", "moscow"],
     "GBR": ["reino unido", "uk", "u k", "britain", "gran bretana", "londres", "london"],
     "IRN": ["iran", "teheran", "tehran"],

@@ -99,13 +99,16 @@ def severidad_texto(texto):
     return 2
 
 
-def impacto_mexico(iso3, area, secundarias, texto, gaz):
-    """Regla: evento en México, que lo menciona, o en un socio directo en un área sensible."""
+def impacto_mexico(iso3, area, secundarias, texto, gaz, severidad=3):
+    """Regla: evento en México, que lo menciona, o en un socio directo, en un área sensible y con
+    severidad ≥ 3 (con severidad 1–2 la regla marcaba decenas de hechos menores en EUA)."""
     if iso3 == "MEX":
         return "Ocurre en México."
-    if gaz.pais_en_texto(texto) == "MEX" or " mexico " in normalizar(texto):
+    # "New Mexico" / "Nuevo México" es un estado de EUA, no una mención de México.
+    t = re.sub(r"(?<= )(new|nuevo) mexico(?= )", "", normalizar(texto))
+    if " mexico " in t or " mexicano " in t or " mexican " in t:
         return "Menciona a México de forma directa."
-    if iso3 in SOCIOS_MX:
+    if iso3 in SOCIOS_MX and severidad >= 3:
         for a in [area, *secundarias]:
             if a in AREAS_MX:
                 nombre = gaz.paises.get(iso3, {}).get("es", iso3)
@@ -168,7 +171,7 @@ def a_evento(c, clasificador, nombres, gaz):
         "area_principal": cls["area_principal"], "areas_secundarias": cls["areas_secundarias"],
         "subtemas": cls["subtemas"], "actores": c["actores"][:6], "severidad": int(sev),
         "confianza_clasificacion": cls["confianza"], "verificado": False,
-        "impacto_mexico": impacto_mexico(c["pais_iso3"], cls["area_principal"], cls["areas_secundarias"], c["texto_clasificar"], gaz),
+        "impacto_mexico": impacto_mexico(c["pais_iso3"], cls["area_principal"], cls["areas_secundarias"], c["texto_clasificar"], gaz, int(sev)),
         "fuentes": [{"fuente": c["fuente"], "url": c["url"], "tipo_fuente": c["tipo_fuente"], "fecha_utc": c["fecha_utc"]}],
         "estado_dato": "retrasado",
     }
