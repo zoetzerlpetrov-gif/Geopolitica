@@ -65,6 +65,7 @@ Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen (~30 pa
 | International Crisis Group (RSS) | Análisis | Gratis | No | Términos de Crisis Group | Cada hora | Activa |
 | CIDOB (RSS) | Análisis (español) | Gratis | No | Términos de CIDOB | — | Deshabilitada: la URL devolvió un feed vacío; falta la URL oficial |
 | Real Instituto Elcano (RSS) | Análisis (español) | Gratis | No | Términos de Elcano | — | Deshabilitada: responde 403 al bot y no se evade el bloqueo |
+| Groq (API compatible con OpenAI) | Resumen redactado con IA (~35 palabras, español) de hasta 40 notas por corrida, FLASH y PRIORIDAD primero | Gratis (plan gratuito con límites por minuto y por día) | **Sí: secreto `GROQ_API_KEY`** | 429 al pasar el límite: la ronda se detiene y sigue en la próxima corrida | Términos de Groq | Revisar sus términos | Cada hora | Activa si existe el secreto |
 | ReliefWeb API v2 (`/reports`) | Crisis humanitarias y desastres con país ISO3 | Gratis | **Sí: `appname` preaprobado** en el secreto `RELIEFWEB_APPNAME` | Términos de ReliefWeb (OCHA) | Cada hora | Inactiva hasta que agregues el secreto |
 
 Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cualquier límite publicado. Si una fuente falla, la corrida sigue con las demás y el error queda registrado.

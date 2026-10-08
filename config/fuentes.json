@@ -90,5 +90,18 @@
   },
   "ventana_horas": 72,
   "historial_dias": 90,
-  "max_eventos_publicados": 3000
+  "max_eventos_publicados": 3000,
+  "ia": {
+    "habilitada": true,
+    "proveedor": "groq",
+    "nota": "Requiere el secreto GROQ_API_KEY (console.groq.com/keys). Si un modelo se retira se usa el siguiente de la lista.",
+    "url": "https://api.groq.com/openai/v1/chat/completions",
+    "modelos": [
+      "llama-3.3-70b-versatile",
+      "openai/gpt-oss-120b",
+      "llama-3.1-8b-instant"
+    ],
+    "max_por_corrida": 40,
+    "pausa_s": 2.5
+  }
 }

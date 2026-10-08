@@ -174,3 +174,10 @@ test("calidad: conteos y porcentajes coinciden con la ingesta", async () => {
   assert.equal(pct(1, 3), 33);
   assert.equal(pct(5, 0), 0);
 });
+
+test("la ficha marca el resumen redactado con IA y su modelo", () => {
+  const tax = { areas: new Map(TAX.areas.map((a) => [a.id, a])), subtemas: new Map() };
+  const html = htmlFicha(ev({ resumen_origen: "ia", resumen_modelo: "groq/llama-3.3-70b-versatile" }), tax, {}, new Map());
+  assert.match(html, /Resumen redactado con IA \(groq\/llama-3.3-70b-versatile\)/);
+  assert.doesNotMatch(htmlFicha(ev(), tax, {}, new Map()), /redactado con IA/);
+});

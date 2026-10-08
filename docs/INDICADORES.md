@@ -105,3 +105,9 @@ Rojo = severidad 4 o 5; ámbar = 3; verde = 1 o 2. Cada área toma el color de s
 > Seguridad y poder militar · Actores no estatales en Arabia Saudita (Medio Oriente): 3 muertos y 12 heridos. Involucra a Arabia Saudita, Yemen, los hutíes y la ONU. Nota en inglés de Al Jazeera.
 
 En GDELT el título se traduce («Combate: Rusia → Ucrania (Kyiv, Ucrania)») y el resumen agrega las palabras del enlace de origen, que suelen ser el titular del artículo. Una prueba automática verifica que ninguna secuencia de 5 palabras de la descripción del medio aparezca en el resumen. Límite: es una frase armada con reglas; un resumen redactado (con IA) queda para la Fase 6.
+
+## Resumen con IA (Groq, opcional)
+
+Si existe el secreto `GROQ_API_KEY`, `ingest/resumen_ia.py` pide a Groq un resumen propio en español (máximo 35 palabras) de hasta 40 notas por corrida, en orden FLASH → PRIORIDAD → mayor severidad. Solo se usan el título y la descripción del feed; el texto no se guarda.
+
+Salvaguardas: se rechaza el resumen si copia 6 o más palabras seguidas del medio, si tiene menos de 8 o más de 50 palabras, si incluye enlaces o si el modelo responde «INSUFICIENTE»; en esos casos queda el resumen por reglas. GDELT nunca se resume con IA (no hay texto del artículo). La ficha marca el resumen como «redactado con IA» con el nombre del modelo. Si un modelo se retira, se usa el siguiente de `config/fuentes.json`; un error 429 detiene la ronda hasta la siguiente corrida. El run-log registra resumidos, rechazados y errores.

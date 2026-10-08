@@ -33,6 +33,7 @@ from classify import Clasificador, normalizar  # noqa: E402
 from dimensiones import enriquecer, indice_inestabilidad  # noqa: E402
 from geo import Gazetteer, Paises  # noqa: E402
 from resumen import resumen_gdelt, resumen_noticia, titulo_gdelt  # noqa: E402
+import resumen_ia  # noqa: E402
 import fuentes as F  # noqa: E402
 from validate import validar  # noqa: E402
 
@@ -242,6 +243,10 @@ def unir_con_anteriores(nuevos, anteriores, limite):
             ya = {(f["fuente"], f["url"]) for f in e["fuentes"]}
             e["fuentes"] += [f for f in previo["fuentes"] if (f["fuente"], f["url"]) not in ya]
             e["verificado"] = len({f["fuente"] for f in e["fuentes"]}) >= 2
+            if previo.get("resumen_origen") == "ia" and e.get("resumen_origen") != "ia":
+                # El resumen de IA de una corrida anterior se conserva (misma nota, mismo enlace).
+                for k in ("resumen", "resumen_origen", "resumen_modelo"):
+                    e[k] = previo[k]
         por_id[e["id"]] = e
     return list(por_id.values())
 
@@ -255,7 +260,8 @@ def priorizar(eventos, maximo):
 
 def compacto(e):
     return {k: e[k] for k in ("id", "fecha_utc", "titulo", "resumen", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
-                              "area_principal", "severidad", "nivel_alerta", "impacto_mexico")}
+                              "area_principal", "severidad", "nivel_alerta", "impacto_mexico")} | (
+        {"resumen_origen": "ia", "resumen_modelo": e["resumen_modelo"]} if e.get("resumen_origen") == "ia" else {})
 
 
 def indice_historial(carpeta):
@@ -339,8 +345,10 @@ def recolectar(cfg, appname):
     return candidatos, salud
 
 
-def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy):
-    """Lógica pura (sin red): candidatos -> lista final de eventos. Se prueba en tests/test_ingesta.py."""
+def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy, resumidor=None):
+    """Lógica pura (sin red): candidatos -> lista final de eventos. Se prueba en tests/test_ingesta.py.
+    `resumidor(eventos, textos)` es opcional (resumen con IA); recibe el texto del medio solo en memoria."""
+    textos = {}  # id -> (título, texto del medio, fuente), solo notas de esta corrida y nunca GDELT
     nombres = {a["id"]: a["nombre"] for a in taxonomy["areas"]}
     nombre_subtema = {s["id"]: s["nombre"] for a in taxonomy["areas"] for s in a["subtemas"]}
     limite = t - timedelta(hours=cfg["ventana_horas"])
@@ -365,10 +373,14 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
             if len(sin_clasificar) < 15:  # solo título y fuente, para revisar palabras clave faltantes
                 sin_clasificar.append({"titulo": c["titulo"], "fuente": c["fuente"], "url": c["url"]})
             continue
+        if not c.get("gdelt"):
+            textos[e["id"]] = (c["titulo"], c["texto_clasificar"], c["fuente"])
         eventos.append(e)
     # Se deduplica después de unir: una nota nueva puede ser la misma historia que un evento anterior.
     todos = priorizar(deduplicar(unir_con_anteriores(eventos, anteriores, limite)), cfg["max_eventos_publicados"])
     enriquecer(todos, anteriores=anteriores, estado_dato="retrasado")
+    if resumidor:
+        descartados["ia"] = resumidor(todos, textos)
     return todos, descartados
 
 
@@ -412,7 +424,14 @@ def main(argv=None):
     print(f"Corrida {iso(t)} · eventos anteriores: {len(anteriores)}")
 
     candidatos, salud = recolectar(cfg, os.environ.get("RELIEFWEB_APPNAME", "").strip())
-    eventos, descartados = procesar(candidatos, anteriores, cfg, t, Gazetteer(), Paises(), Clasificador(taxonomy), taxonomy)
+    clave_ia = os.environ.get("GROQ_API_KEY", "").strip()
+    ia_cfg = cfg.get("ia", {})
+    resumidor = None
+    if ia_cfg.get("habilitada") and clave_ia:
+        resumidor = lambda evs, textos: resumen_ia.resumir(evs, textos, ia_cfg, clave_ia)  # noqa: E731
+    eventos, descartados = procesar(candidatos, anteriores, cfg, t, Gazetteer(), Paises(), Clasificador(taxonomy), taxonomy, resumidor)
+    est_ia = descartados.pop("ia", {"omitido": "sin el secreto GROQ_API_KEY" if not clave_ia else "deshabilitado en config/fuentes.json"})
+    print(f"IA: {est_ia}")
     ejemplos = descartados.pop("ejemplos")  # títulos sin área: van aparte en el run-log
 
     data = {"version_esquema": "1.0", "generado_utc": iso(t), "modo": "produccion", "total": len(eventos), "eventos": eventos}
@@ -440,7 +459,7 @@ def main(argv=None):
         "generado_utc": iso(t), "modo": "produccion", "cron": CRON, "intervalo_minutos": 60,
         "proxima_ejecucion_utc": iso(proxima_corrida(t)), "eventos_total": len(eventos), "eventos_nuevos": nuevos,
         "candidatos": len(candidatos), "descartados": descartados, "historial_borrados": borrados,
-        "calidad": calidad(eventos), "ejemplos_sin_clasificar": ejemplos,
+        "calidad": calidad(eventos), "ejemplos_sin_clasificar": ejemplos, "resumen_ia": est_ia,
         "fuentes": salud, "errores": [f"{s['id']}: {s['error']}" for s in salud if s["estado"] == "error"],
     }
     with open(os.path.join(args.salida, "run-log.json"), "w", encoding="utf-8") as f:
