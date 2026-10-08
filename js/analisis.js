@@ -176,6 +176,7 @@ export function crearAnalisis(ctx) {
     const embudo = log && log.candidatos != null ? [
       ["Candidatos descargados", log.candidatos],
       ["Fuera de la ventana de 72 h", log.descartados?.fuera_de_ventana || 0],
+      ["Fuera de tema (deportes, espectáculos)", log.descartados?.fuera_de_tema || 0],
       ["Sin área (ninguna palabra clave)", log.descartados?.sin_clasificar || 0],
       ["Publicados (tras agrupar duplicados)", log.eventos_total],
     ] : null;

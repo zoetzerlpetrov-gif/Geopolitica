@@ -90,3 +90,10 @@ Los ajustes del analista se guardan solo en su navegador y el CSV indica en la c
 ## Vista México: semáforo
 
 Rojo = severidad 4 o 5; ámbar = 3; verde = 1 o 2. Cada área toma el color de su evento más grave.
+
+## Ajustes del clasificador con datos reales (8 oct 2026)
+
+- **Siglas solo en mayúsculas:** UN (Naciones Unidas), WHO (OMS), COP (cumbre climática) y AI (inteligencia artificial) cuentan solo si el texto original las escribe en mayúsculas. Antes, el artículo español «un» sumaba a Instituciones y el pronombre inglés «who» a Salud.
+- **«mine»** (también «mío» en inglés) se reemplazó por «copper/lithium/gold/coal mine». Se agregaron «COP29», «COP30» y «COP31».
+- **Fuera de tema:** notas de deportes o espectáculos (cricket, fútbol, tenis, cine, conciertos…) se descartan, salvo que el texto sea grave (muertos, ataque, etc.). Se cuentan en el run-log como `fuera_de_tema`.
+- **País por texto:** se agregaron gentilicios (ruso, israelí, alemán…), regiones (Texas, Cataluña, Tigray, Donbás…) y líderes (Putin, Netanyahu, Macron…). Límite conocido: el primer país mencionado gana, así que «Russian missile kills 19 in Kyiv» queda en Rusia.

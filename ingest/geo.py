@@ -46,7 +46,42 @@ ALIAS = {
     "BRA": ["brasil", "brazil", "brasilia", "rio de janeiro", "sao paulo", "bolsonaro", "lula"],
     "ARG": ["argentina", "buenos aires", "milei"],
     "CAF": ["republica centroafricana", "central african republic"],
+    # Gentilicios, regiones y líderes frecuentes en titulares (revisión con la ingesta real del 8 oct 2026).
+    # Límite conocido: «Russian missile kills 19 in Kyiv» queda en Rusia porque el gentilicio va primero.
+    "ESP": ["espanol", "espanola", "espanoles", "spanish", "madrid", "barcelona", "cataluna", "catalonia", "andalucia"],
+    "DEU": ["aleman", "alemana", "alemanes", "german", "berlin", "sajonia", "saxony", "baviera", "bavaria"],
+    "FRA": ["frances", "francesa", "franceses", "french", "paris", "macron", "lecornu"],
+    "ETH": ["etiope", "etiopes", "ethiopian", "tigray", "adis abeba", "addis ababa"],
+    "SDN": ["sudanes", "sudanese", "darfur", "jartum", "khartoum"],
+    "ITA": ["italiano", "italiana", "italian", "rome", "meloni"],
+    "JPN": ["japones", "japonesa", "japanese", "tokio", "tokyo"],
+    "IND": ["nueva delhi", "new delhi", "modi"],
+    "PAK": ["paquistani", "pakistani", "islamabad"],
+    "AFG": ["afgano", "afgana", "afghan", "kabul", "taliban", "talibanes"],
+    "IRQ": ["iraqui", "iraqi", "bagdad", "baghdad"],
+    "LBN": ["libanes", "libanesa", "lebanese", "beirut", "hezbollah", "hezbola"],
+    "EGY": ["egipcio", "egipcia", "egyptian", "el cairo", "cairo"],
 }
+# Gentilicios y líderes de países que ya tienen alias arriba (se agregan a su lista).
+EXTRA = {
+    "USA": ["estadounidense", "estadounidenses", "trump", "texas", "california", "florida", "nueva york", "new york"],
+    "RUS": ["ruso", "rusa", "rusos", "rusas", "russian", "russians", "putin", "siberia"],
+    "UKR": ["ucraniano", "ucraniana", "ucranianos", "ukrainian", "ukrainians", "zelensky", "zelenski", "donbas", "donbass", "jarkov", "kharkiv", "crimea"],
+    "ISR": ["israeli", "israelies", "israelis", "netanyahu"],
+    "IRN": ["irani", "iranies", "iranian", "iranians", "jamenei", "khamenei"],
+    "CHN": ["chino", "chinos", "chinese", "xi jinping"],
+    "GBR": ["britanico", "britanica", "british", "starmer"],
+    "PSE": ["palestino", "palestina", "palestinos", "palestinian", "palestinians", "hamas"],
+    "SYR": ["sirio", "siria", "sirios", "syrian"],
+    "TUR": ["turco", "turca", "turkish", "erdogan"],
+    "VEN": ["venezolano", "venezolana", "venezuelan", "maduro"],
+    "BRA": ["brasileno", "brasilena", "brazilian"],  # "rio" no: en español es «río»
+    "ARG": ["argentino", "argentina", "argentine"],
+    "CUB": ["cubano", "cubana", "cuban"],
+    "MEX": ["mexicano", "mexicana", "mexicanos", "mexican"],
+}
+for _iso, _lista in EXTRA.items():
+    ALIAS.setdefault(_iso, []).extend(_lista)
 
 # Palabras de 2 letras o muy comunes que no deben confundirse con un país.
 IGNORAR = {"us", "u s"}  # "us" solo cuenta si va en mayúsculas en el original (se revisa aparte)

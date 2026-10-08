@@ -49,6 +49,20 @@ GRAVES = ["muertos", "muertes", "asesinados", "killed", "dead", "deaths", "masac
 MEDIAS = ["ataque", "attack", "sanciones", "sanctions", "protestas", "protests", "misil", "missile", "huelga",
           "strike", "aranceles", "tariffs", "evacuación", "evacuation", "brote", "outbreak", "ciberataque", "cyberattack"]
 
+# Notas fuera de tema (deportes, espectáculos) que los feeds generales mezclan con lo internacional.
+# Se descartan salvo que el título sea grave (muertos, ataque…): «Ataque en un estadio deja 20 muertos» sí pasa.
+FUERA_DE_TEMA = ["cricket", "futbol", "football", "soccer", "rugby", "tenis", "tennis", "golf", "nba", "nfl", "mlb",
+                 "formula 1", "grand prix", "gran premio", "boxeo", "boxing", "ufc", "liga mx", "champions league",
+                 "premier league", "seleccion de futbol", "pelicula", "peliculas", "film festival", "box office", "taquilla",
+                 "album", "concierto", "cantante", "singer", "actriz", "actress", "celebrity", "reality show", "grammy", "emmy",
+                 "messi", "ronaldo"]
+
+
+def fuera_de_tema(titulo, texto):
+    t = normalizar(titulo)
+    return any(f" {normalizar(p).strip()} " in t for p in FUERA_DE_TEMA) and severidad_texto(texto) < 4
+
+
 # Socios con efecto directo en México por área (regla simple, documentada en docs/INDICADORES.md).
 SOCIOS_MX = {"USA", "CAN", "CHN", "GTM", "BLZ", "HND", "SLV", "CUB", "VEN", "COL"}
 # Seguridad no entra: con ella, casi cualquier hecho policial en EUA se marcaba como impacto para México.
@@ -329,7 +343,7 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
     nombres = {a["id"]: a["nombre"] for a in taxonomy["areas"]}
     limite = t - timedelta(hours=cfg["ventana_horas"])
     sin_clasificar = []
-    eventos, descartados = [], {"fuera_de_ventana": 0, "sin_clasificar": 0, "ejemplos": sin_clasificar}
+    eventos, descartados = [], {"fuera_de_ventana": 0, "fuera_de_tema": 0, "sin_clasificar": 0, "ejemplos": sin_clasificar}
     for c in candidatos:
         f = fecha(c["fecha_utc"])
         if f < limite:
@@ -337,6 +351,9 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
             continue
         if f > t + timedelta(minutes=10):  # relojes mal configurados en algunos feeds
             c["fecha_utc"] = iso(t)
+        if not c["fuente"].startswith("GDELT") and fuera_de_tema(c["titulo"], c["texto_clasificar"]):
+            descartados["fuera_de_tema"] += 1
+            continue
         e = a_evento(geocodificar(c, gaz, paises), clasificador, nombres, gaz)
         if e is None:
             descartados["sin_clasificar"] += 1

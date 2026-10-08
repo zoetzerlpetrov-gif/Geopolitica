@@ -258,3 +258,35 @@ def test_calidad_de_la_corrida():
     q = R.calidad(eventos)
     assert q["eventos"] == len(eventos) and sum(q["por_area"].values()) == len(eventos)
     assert q["con_varias_fuentes"] >= 1 and 0 <= q["confianza_media"] <= 1
+
+
+@pytest.mark.parametrize("titulo,fuera", [
+    ("Harmanpreet Kaur: The captain who changed how India's women played cricket", True),
+    ("Messi llora, Ronaldo huye: adiós a la selección", True),
+    ("Ataque en un estadio de fútbol deja 20 muertos", False),   # grave: no se descarta
+    ("Golfo de México: nueva ruta comercial", False),            # «golfo» no es «golf»
+    ("Actor estatal detrás del ciberataque", False),             # «actor» no está en la lista
+])
+def test_fuera_de_tema(titulo, fuera):
+    assert R.fuera_de_tema(titulo, titulo) is fuera
+
+
+@pytest.mark.parametrize("texto,area", [
+    ("Sébastien Lecornu: la responsabilidad del parlamento es darle al país un presupuesto", None),  # "un" no es UN
+    ("She made India fall in love with women's cricket", None),                                        # "who" no es WHO
+    ("UN Security Council meets on Sudan", "instituciones"),
+    ("WHO declares mpox emergency", "salud_nrbq"),
+    ("COP30 talks stall in Belem", "clima"),
+])
+def test_siglas_solo_en_mayusculas(texto, area):
+    assert CLS.clasificar(texto)["area_principal"] == area
+
+
+@pytest.mark.parametrize("titulo,iso", [
+    ("Berlín recuerda a las víctimas", "DEU"),
+    ("Tropas en la región etíope de Tigray", "ETH"),
+    ("¿Qué advertencias recibió Netanyahu?", "ISR"),
+    ("Guatemala: crecida de río Pinula", "GTM"),   # «río» no es Brasil
+])
+def test_gentilicios_regiones_y_lideres(titulo, iso):
+    assert GAZ.pais_en_texto(titulo) == iso
