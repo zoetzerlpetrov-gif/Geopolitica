@@ -105,3 +105,15 @@ def test_presas_y_ductos_desde_osm(monkeypatch):
     cat = json.load(open(os.path.join(ROOT, "config", "entities.json"), encoding="utf-8"))
     ids = {s["id"] for k in cat["categorias"] for s in k["subtipos"]}
     assert {"presa_hidro", "presa_otros", "ductos_gas", "ductos_petroleo"} <= ids
+
+
+def test_rellenar_zonas_sin_respuesta_con_la_corrida_anterior(tmp_path, monkeypatch):
+    monkeypatch.setattr(c, "SALIDA", str(tmp_path))
+    punto = lambda i, lon, lat: c.feat(c.punto(lon, lat), {"id": f"osm:n{i}", "n": "", "st": "presa_otros", "p": "", "x": ""}, 6)  # noqa: E731
+    linea = c.feat({"type": "LineString", "coordinates": [[-95, 20], [-94, 21]]}, {"id": "osm:w9", "n": "", "st": "ductos_gas", "p": "", "x": ""}, 3)
+    c.guardar_crudo("presas", [punto(1, -99, 19), punto(2, 10, 50), linea])
+    assert len(c.leer_crudo("presas")) == 3
+    nuevos = [punto(2, 10, 50)]
+    todos, n = c.rellenar_faltantes(nuevos, c.leer_crudo("presas"), [[15, -100, 22.5, -90]])
+    assert n == 2 and {f["properties"]["id"] for f in todos} == {"osm:n1", "osm:n2", "osm:w9"}
+    assert c.rellenar_faltantes(nuevos, [], [[15, -100, 22.5, -90]])[1] == 0

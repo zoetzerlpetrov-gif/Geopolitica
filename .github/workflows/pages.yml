@@ -45,7 +45,7 @@ jobs:
           # Capas PMTiles: rama huérfana "datos-capas" (workflow "Construir capas").
           mkdir -p _site/data/capas
           if git fetch --depth 1 origin datos-capas 2>/dev/null; then
-            git archive FETCH_HEAD capas | tar -x -C /tmp && cp /tmp/capas/* _site/data/capas/
+            git archive FETCH_HEAD capas | tar -x -C /tmp && cp /tmp/capas/manifest.json /tmp/capas/*.pmtiles /tmp/capas/*.geojson _site/data/capas/ 2>/dev/null || true
           else
             echo "Aún no existe la rama datos-capas"
           fi
