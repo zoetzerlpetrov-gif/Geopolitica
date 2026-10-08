@@ -1,0 +1,53 @@
+name: Reloj (respaldo del cron)
+
+# Respaldo mientras GitHub no ejecute los horarios ("schedule") de los workflows.
+# Cada corrida espera hasta el siguiente horario (minuto 17: ingesta; minutos 0, 20 y 40: datos vivos),
+# lanza ese workflow con workflow_dispatch y se vuelve a lanzar a sí misma. GitHub permite que el
+# GITHUB_TOKEN dispare workflow_dispatch (es la excepción a la regla de no encadenar workflows).
+# Se apaga sola en cuanto el cron de GitHub funciona (hay corridas con evento "schedule" en la última hora).
+# Para detenerla a mano: Actions → «Reloj (respaldo del cron)» → cancelar la corrida en curso.
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+  contents: read
+
+concurrency:
+  group: reloj
+  cancel-in-progress: false
+
+jobs:
+  tic:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - name: ¿Ya funciona el cron de GitHub?
+        id: cron
+        run: |
+          desde=$(date -u -d '-70 minutes' +%Y-%m-%dT%H:%M:%SZ)
+          n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?event=schedule&created=%3E${desde}&per_page=1" --jq '.total_count')
+          echo "Corridas programadas en los últimos 70 min: $n"
+          echo "n=$n" >> "$GITHUB_OUTPUT"
+
+      - name: Esperar al siguiente horario y lanzar el workflow que toca
+        if: steps.cron.outputs.n == '0'
+        run: |
+          ahora=$(date -u +%s)
+          min=$(( (ahora / 60) % 60 ))
+          # Próximo minuto objetivo dentro de la hora: 0, 17, 20, 40 (o 0 de la siguiente hora).
+          for m in 0 17 20 40 60; do if [ "$m" -gt "$min" ]; then objetivo=$m; break; fi; done
+          espera=$(( (objetivo - min) * 60 - (ahora % 60) ))
+          echo "Minuto actual $min; siguiente horario en el minuto $((objetivo % 60)) (espera ${espera}s)"
+          sleep "$espera"
+          case $((objetivo % 60)) in
+            17) gh workflow run ingest.yml --ref main ;;
+            *)  gh workflow run vivos.yml --ref main ;;
+          esac
+
+      - name: Programar el siguiente tic
+        if: steps.cron.outputs.n == '0'
+        run: gh workflow run reloj.yml --ref main
