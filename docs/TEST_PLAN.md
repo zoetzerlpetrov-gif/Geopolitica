@@ -7,8 +7,17 @@ Cómo leer este documento: cada funcionalidad tiene criterios de aceptación ver
 | Archivo | Qué cubre |
 |---|---|
 | `ingest/validate.py` | `data/events.json` contra `schema/event.schema.json` + reglas de negocio (ids únicos, principal ≠ secundaria, subtemas de sus áreas, lat/lon juntas, fechas UTC) |
-| `tests/test_contratos.py` | 11 áreas exactas con colores; palabras clave ES/EN; regiones; chokepoints; polígonos sin líneas cruzadas; caso Mar Rojo; 11 pruebas negativas del validador |
+| `tests/test_contratos.py` | 13 áreas exactas con colores (y el esquema enumera las mismas); palabras clave ES/EN; regiones; chokepoints; polígonos sin líneas cruzadas; caso Mar Rojo; 11 pruebas negativas del validador |
 | `tests/js/refresh.test.mjs` | Cálculo de la próxima corrida (minuto 17, cambio de hora y de día); escape de HTML; bloqueo de enlaces `javascript:` |
+| `tests/test_clasificador.py` + `tests/titulares.json` | 26 titulares (2 por cada una de las 13 áreas), plurales, palabra completa, subtemas válidos, caso Mar Rojo |
+| `tests/test_dimensiones.py` | Reglas de nivel_alerta (7 casos), delta (5), índice de inestabilidad (fórmula, vida media, ventana) y correlación (radio, ventana, áreas distintas) |
+| `tests/test_privacidad.py` | Ninguna persona tiene coordenadas, domicilio, contacto, familiares, aeronave ni cartera; el esquema las rechaza (15 campos prohibidos); el código del mapa no dibuja categorías no dibujables |
+| `tests/test_vivos.py` | Clasificación de aeronaves (sancionada, en tierra, Estado, militar, carga, comercial, general) y buques por código AIS; sin campo de propietario |
+| `tests/js/estilo.test.mjs` | Etiquetas del mapa base sin alfabetos no latinos, sin cursivas, carreteras y pueblos desde zoom 9, LITE más ligero |
+| `tests/js/capas.test.mjs` | Solo categorías dibujables; una capa de personas declarada a propósito no se dibuja; disponibilidad según manifiesto; zoom mínimo por subtipo |
+| `tests/js/movimiento.test.mjs` | Proyección de posición (incluido el antimeridiano), recorte a la vista con tope de 5,000, URL de NASA GIBS |
+| `ingest/validate_entities.py` | Catálogo de entidades y registros de Wikidata contra `schema/entity.schema.json` |
+| Workflow **Medición de rendimiento** | Mide el sitio publicado («antes») y la rama («después»); falla si no se cumple una meta obligatoria |
 
 Regla de publicación: el workflow **Publicar en GitHub Pages** depende del job de pruebas. Si alguna falla, no se publica y el sitio conserva la última versión buena.
 
@@ -32,6 +41,20 @@ Regla de publicación: el workflow **Publicar en GitHub Pages** depende del job 
 | — | Actualización | La barra superior muestra hace cuánto se generaron los datos y la cuenta regresiva al minuto 17 de la siguiente hora; datos con más de 2.5 h se marcan como atrasados | A + M | 1 ✔ (datos reales en 2) |
 | — | Base de respaldo | Si OpenFreeMap no responde en 6 s, aparece el mapa local de países y un aviso | M | 1 ✔ |
 | — | Accesibilidad | Todo operable con teclado (Tab, Enter, Esc); enlace "saltar a la lista"; foco visible; textos con contraste AA | M | 1 ✔ |
+
+## Metas de rendimiento (verificadas en CI por `tools/medicion/metas.mjs`)
+
+| Meta | Objetivo | Tipo |
+|---|---|---|
+| Mapa usable en móvil 4G simulado (CPU 4x más lenta) | < 3 s | Obligatoria |
+| Latencia al cambiar filtros (peor escenario, incluye 50,000 eventos) | < 200 ms | Obligatoria |
+| Carga inicial sin mosaicos del mapa base | < 1.5 MB | Obligatoria |
+| JS heap tras la espera | < 350 MB | Obligatoria |
+| CLS de Lighthouse móvil | < 0.1 | Obligatoria |
+| Ninguna long task > 200 ms al navegar | — | Informativa: el runner no tiene GPU |
+| ≥ 50 FPS en paneo y zoom | — | Informativa: el runner dibuja con CPU (SwiftShader) |
+
+Prueba de carga manual: `index.html?carga=50000&aviones=5000&mov=aeronaves&capas=aeropuertos,centrales,zonas` (requiere que existan las capas).
 
 ## Caso de aceptación de referencia
 

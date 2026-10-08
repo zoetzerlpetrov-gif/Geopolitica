@@ -66,7 +66,8 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 
 /* ---------- Distribución ---------- */
 .layout { position: relative; display: grid; grid-template-columns: 300px 1fr; min-height: 0; }
-.layout.sin-panel { grid-template-columns: 0 1fr; }
+/* Sin panel, el mapa ocupa todo: con "0 1fr" el mapa caía en la columna de ancho 0. */
+.layout.sin-panel { grid-template-columns: 1fr; }
 .layout.sin-panel .panel { display: none; }
 .panel {
   background: var(--surface); border-right: 1px solid var(--line); overflow-y: auto; min-height: 0;

@@ -1,7 +1,8 @@
 name: Construir capas (PMTiles)
 
 # Descarga las fuentes estáticas habilitadas en config/capas.json, las convierte a PMTiles con
-# tippecanoe y commitea data/capas/. Corre el día 1 de cada mes, a mano, o al cambiar el constructor.
+# tippecanoe y las publica en la rama huérfana "datos-capas" (reescrita en cada corrida, sin historial),
+# de donde Pages las copia a data/capas/. Corre el día 1 de cada mes, a mano, o al cambiar el constructor.
 on:
   workflow_dispatch:
     inputs:
@@ -17,6 +18,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 concurrency:
   group: capas-${{ github.ref }}
@@ -50,23 +53,31 @@ jobs:
           make -C /tmp/tippecanoe -j"$(nproc)"
           mkdir -p ~/tippecanoe-bin && cp /tmp/tippecanoe/tippecanoe /tmp/tippecanoe/tile-join ~/tippecanoe-bin/
 
+      - name: Recuperar capas anteriores (si una familia falla, se conserva su versión previa)
+        run: |
+          mkdir -p capas
+          if git fetch --depth 1 origin datos-capas 2>/dev/null; then git archive FETCH_HEAD capas | tar -x; fi
+          ls -la capas
+
       - name: Construir capas
         run: |
           export PATH="$HOME/tippecanoe-bin:$PATH"
           tippecanoe --version
           python3 tools/capas/construir.py ${{ github.event.inputs.familias }}
-          ls -la data/capas/
-          cat data/capas/manifest.json
+          ls -la capas/
+          cat capas/manifest.json
 
-      - name: Commitear data/capas
+      - name: Publicar en la rama datos-capas (reescrita, sin historial)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git config user.name  "geopolitica-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/capas/
-          if git diff --staged --quiet; then
-            echo "Sin cambios en las capas."
-          else
-            git commit -m "capas: reconstrucción $(date -u +'%Y-%m-%d %H:%MZ')"
-            git pull --rebase origin "${GITHUB_REF_NAME}"
-            git push origin "HEAD:${GITHUB_REF_NAME}"
-          fi
+          mkdir /tmp/pub && cp -r capas /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-capas
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add capas && git commit -q -m "capas $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-capas
+
+  publicar:
+    needs: construir
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml

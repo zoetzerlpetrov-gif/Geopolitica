@@ -5,6 +5,8 @@ import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
 import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js";
 import * as seg from "./seguimiento.js";
+import { Movimiento, htmlFichaMovil } from "./movimiento.js";
+import { Imagenes, IMAGENES, ayerUTC } from "./imagenes.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -12,7 +14,8 @@ const $ = (id) => document.getElementById(id);
 const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "" };
 let eventos = [];
 let porId = new Map();
-let tax, paises, api, gestor;
+let tax, paises, api, gestor, mov, img;
+let lite = false;
 
 function temaActual() {
   const t = document.documentElement.dataset.theme;
@@ -199,7 +202,7 @@ function eventosSinteticos(n) {
 
 async function main() {
   const tema = temaActual();
-  const lite = modoLite();
+  lite = modoLite();
   document.documentElement.classList.toggle("lite", lite);
   // Todas las descargas arrancan a la vez; la taxonomía se espera primero porque los eventos
   // sintéticos de la prueba de carga la usan.
@@ -244,7 +247,7 @@ async function main() {
   selRegion.onchange = (e) => { estado.region = e.target.value; programarFiltros(); };
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
-  $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); if (gestor) avisarPresupuesto(gestor.totalActivas()); };
+  $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
   $("lista-eventos").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-id]");
     if (b) abrirFicha(b.dataset.id, { volar: true });
@@ -271,7 +274,8 @@ async function main() {
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));
-  api.map.on("style.load", () => gestor?.reinstalar());
+  api.map.on("style.load", () => { img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); });
+  iniciarImagenes();
   $("ficha-cuerpo").addEventListener("click", (e) => {
     const a = e.target.closest("[data-evento]");
     if (a) { e.preventDefault(); abrirFicha(a.dataset.evento, { volar: true }); return; }
@@ -307,18 +311,23 @@ async function main() {
 // ---------- Capas de entidades ----------
 let entidadAbierta = null;
 async function iniciarCapas() {
-  const [catalogo, capasCfg, manifest] = await Promise.all([
+  const sinDatos = () => ({ familias: {} });
+  const [catalogo, capasCfg, mCapas, mEntidades] = await Promise.all([
     getJSON("config/entities.json"), getJSON("config/capas.json"),
-    getJSON("data/capas/manifest.json", { bust: true }).catch(() => ({ familias: {} })),
+    getJSON("data/capas/manifest.json", { bust: true }).catch(sinDatos),
+    getJSON("data/entidades/manifest.json", { bust: true }).catch(sinDatos),
   ]);
+  // Dos constructores (PMTiles mensual y Wikidata semanal) escriben manifiestos separados; aquí se combinan.
+  const manifest = { familias: { ...mCapas.familias, ...mEntidades.familias } };
   const familias = familiasDibujables(catalogo, capasCfg, manifest);
   gestor = new GestorCapas(api.map, {
     chokepointsActivos: () => $("capa-chokepoints").checked,
     onCambio: avisarPresupuesto,
-    onEntidad: (ent) => {
+    onEntidad: async (ent) => {
       entidadAbierta = ent;
       const cercanos = eventos.filter((ev) => ev.lat != null && distanciaKm(ent.lngLat.lat, ent.lngLat.lng, ev.lat, ev.lon) <= 300);
-      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, seguido: seg.sigue(ent.props.id) }));
+      const personas = ent.familia.id === "organismos" ? await personasDe(ent.props.id.replace(/^wd:/, "")) : [];
+      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) }));
     },
   });
   gestor.registrar(familias);
@@ -338,9 +347,84 @@ async function iniciarCapas() {
     const famSub = e.target.dataset.famSub;
     if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
   });
+  await iniciarMovimiento(catalogo);
+  // Enlaces compartibles y pruebas de carga: ?capas=aeropuertos,centrales&mov=aeronaves activa capas al abrir.
+  const q = new URLSearchParams(location.search);
+  for (const id of (q.get("capas") || "").split(",").filter(Boolean)) {
+    const cb = cont.querySelector(`[data-fam="${CSS.escape(id)}"]`);
+    if (cb && !cb.disabled) { cb.checked = true; await gestor.activar(id); }
+  }
+  for (const t of (q.get("mov") || "").split(",").filter(Boolean)) {
+    const cb = $("mov-capas").querySelector(`[data-mov="${CSS.escape(t)}"]`);
+    if (cb && (!cb.disabled || (t === "aeronaves" && q.get("aviones")))) { cb.disabled = false; cb.checked = true; await mov?.activar(t); }
+  }
 }
 
-function avisarPresupuesto(n) {
+// ---------- Imágenes satelitales ----------
+function iniciarImagenes() {
+  const cont = $("img-capas");
+  if (lite) { cont.innerHTML = `<p class="meta">Desactivadas en modo LITE.</p>`; return; }
+  img = new Imagenes(api.map);
+  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span><span class="chip estado-retrasado">${ayerUTC()}</span></label>`).join("")
+    + `<p class="nota-capas">NASA GIBS, imagen del día anterior (UTC). Se descarga solo al activarla.</p>`;
+  cont.addEventListener("change", (e) => {
+    const id = e.target.dataset.img;
+    if (id) { e.target.checked ? img.activar(id) : img.desactivar(id); avisarPresupuesto(); }
+  });
+}
+
+// ---------- Capas en movimiento ----------
+async function iniciarMovimiento(catalogo) {
+  const cont = $("mov-capas");
+  if (lite) {
+    cont.innerHTML = `<p class="meta">Desactivadas en modo LITE (ahorran batería y datos). Pulsa «LITE» arriba para usarlas.</p>`;
+    return;
+  }
+  const estado = await getJSON("data/vivos/estado.json", { bust: true }).catch(() => ({ pasos: {} }));
+  const avisos = {};
+  mov = new Movimiento(api.map, {
+    catalogo,
+    onCambio: () => avisarPresupuesto(),
+    onAviso: (tipo, texto) => { avisos[tipo] = texto; const a = $("aviso-mov"); a.textContent = Object.values(avisos).filter(Boolean).join(" "); a.hidden = !a.textContent; },
+    onObjeto: (o) => { entidadAbierta = null; abrirFichaHtml(htmlFichaMovil(o, catalogo)); },
+  });
+  const pasoDe = { aeronaves: "aeronaves", buques: "buques", satelites: "satelites" };
+  cont.innerHTML = ["aeronaves", "buques", "satelites"].map((tipo) => {
+    const cat = catalogo.categorias.find((c) => c.id === tipo);
+    const p = estado.pasos[pasoDe[tipo]];
+    const ok = p && (p.estado === "ok" || p.objetos);
+    const vistos = new Set();
+    const subs = cat.subtipos.filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
+    return `<div class="capa-fam ${ok ? "" : "capa-off"}">
+      <label class="fila"><span><input type="checkbox" data-mov="${tipo}" ${ok ? "" : "disabled"}> ${esc(cat.nombre.es)}</span>
+        <span class="chip estado-${esc(cat.subtipos[0].estado_dato)}">${tipo === "satelites" ? "Estimado" : "Retrasado"}</span></label>
+      <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
+        : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
+      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" checked><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}</label>`).join("")}</details>` : ""}
+    </div>`;
+  }).join("");
+  cont.addEventListener("change", async (e) => {
+    const t = e.target.dataset.mov;
+    if (t) { try { e.target.checked ? await mov.activar(t) : mov.desactivar(t); } catch (err) { e.target.checked = false; alert(`No se pudo cargar: ${err.message}`); } return; }
+    const ts = e.target.dataset.movSub;
+    if (ts) mov.setSubtipos(ts, [...cont.querySelectorAll(`[data-mov-sub="${ts}"]:checked`)].map((x) => x.value));
+  });
+}
+
+// Personas (rol público) y organizaciones: índices ligeros que se descargan la primera vez que se abre
+// la ficha de una organización. Las personas nunca se dibujan en el mapa.
+let indicesEntidades = null;
+async function personasDe(orgId) {
+  indicesEntidades ??= Promise.all([
+    getJSON("data/entidades/organizaciones.json").catch(() => ({ registros: [] })),
+    getJSON("data/entidades/personas.json").catch(() => ({ registros: [] })),
+  ]).then(([o, p]) => ({ orgs: new Map(o.registros.map((x) => [x.id, x])), personas: new Map(p.registros.map((x) => [x.id, x])) }));
+  const { orgs, personas } = await indicesEntidades;
+  return (orgs.get(orgId)?.personas || []).map((id) => personas.get(id)).filter(Boolean);
+}
+
+function avisarPresupuesto() {
+  const n = (gestor ? gestor.totalActivas() : 1) + (mov ? mov.activas.size : 0) + (img ? img.activas.size : 0);
   const aviso = $("aviso-capas");
   aviso.hidden = n <= PRESUPUESTO_CAPAS;
   aviso.textContent = `Tienes ${n} capas activas. Más de ${PRESUPUESTO_CAPAS} puede hacer lento el mapa en equipos modestos.`;

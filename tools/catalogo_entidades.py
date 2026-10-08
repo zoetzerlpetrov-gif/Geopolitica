@@ -73,8 +73,8 @@ CATEGORIAS = [
             sub("empresas", "Empresas (por sector)", "Companies (by sector)", "🏢", "#7A6A2F", "gleif", "mensual", "ficha", "estatico", None, ["geoeconomia", "riesgo"], nota="Sin marcador propio: se ven en fichas; la sede se usa solo para relacionarla con eventos."),
             sub("gobiernos_ministerios", "Gobiernos y ministerios", "Governments and ministries", "🏛", "#4A6B8A", "wikidata", "mensual", "ficha", "estatico", None, ["instituciones"]),
             sub("embajadas_consulados", "Embajadas y consulados", "Embassies and consulates", "🏳", "#4A6B8A", "osm", "mensual", "estatica", "estatico", 7, ["instituciones"], familia="embajadas"),
-            sub("organismos_internacionales", "Organismos internacionales", "International organizations", "🌐", "#4A6B8A", "wikidata", "mensual", "estatica", "estatico", 3, ["instituciones"]),
-            sub("bolsas_valores", "Bolsas de valores (sede e índices)", "Stock exchanges", "📈", "#7A6A2F", "wikidata", "mensual", "estatica", "estatico", 2, ["geoeconomia"]),
+            sub("organismos_internacionales", "Organismos internacionales", "International organizations", "🌐", "#4A6B8A", "wikidata", "semanal", "estatica", "estatico", 2, ["instituciones"], familia="organismos"),
+            sub("bolsas_valores", "Bolsas de valores (sede e índices)", "Stock exchanges", "📈", "#7A6A2F", "wikidata", "semanal", "estatica", "estatico", 2, ["geoeconomia"], familia="organismos"),
         ],
     },
     {

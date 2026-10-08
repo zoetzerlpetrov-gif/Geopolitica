@@ -42,6 +42,20 @@ jobs:
           cp -r index.html taxonomia.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
+          # Capas PMTiles: rama huérfana "datos-capas" (workflow "Construir capas").
+          mkdir -p _site/data/capas
+          if git fetch --depth 1 origin datos-capas 2>/dev/null; then
+            git archive FETCH_HEAD capas | tar -x -C /tmp && cp /tmp/capas/* _site/data/capas/
+          else
+            echo "Aún no existe la rama datos-capas"
+          fi
+          # Datos en movimiento: viven en la rama huérfana "datos-vivos" (workflow "Datos en movimiento").
+          mkdir -p _site/data/vivos
+          if git fetch --depth 1 origin datos-vivos 2>/dev/null; then
+            git archive FETCH_HEAD vivos | tar -x -C /tmp && cp /tmp/vivos/* _site/data/vivos/
+          else
+            echo "Aún no existe la rama datos-vivos"
+          fi
           du -sh _site
 
       - name: Empaquetar

@@ -1,0 +1,62 @@
+name: Datos en movimiento
+
+# Cada 20 min: aeronaves (OpenSky + adsb.lol), buques (AISStream, si hay clave), satélites (TLE cada 6 h)
+# y lista SDN (diaria). El resultado vive en la rama huérfana "datos-vivos", que se REESCRIBE en cada
+# corrida (un solo commit): así el historial del repo no crece con cada instantánea.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "*/20 * * * *"
+  push:
+    branches-ignore: [main]
+    paths: ["tools/vivos/**", ".github/workflows/vivos.yml"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: vivos
+  cancel-in-progress: true
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install websockets==15.0.1
+
+      - name: Recuperar la instantánea anterior (para TLE y sanciones)
+        run: |
+          mkdir -p vivos
+          if git fetch --depth 1 origin datos-vivos 2>/dev/null; then
+            git archive FETCH_HEAD vivos | tar -x
+          fi
+          ls -la vivos
+
+      - name: Actualizar
+        env:
+          AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
+        run: python3 tools/vivos/actualizar.py
+
+      - name: Publicar en la rama datos-vivos (reescrita, sin historial)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub && cp -r vivos /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-vivos
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add vivos && git commit -q -m "datos vivos $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-vivos
+
+  publicar:
+    needs: actualizar
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml

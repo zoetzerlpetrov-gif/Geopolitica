@@ -28,7 +28,9 @@ import zipfile
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
-SALIDA = os.path.join(ROOT, "data", "capas")
+# Salida en capas/ (no en data/): el workflow la publica en la rama huérfana "datos-capas", que se
+# reescribe en cada reconstrucción, y Pages la copia a data/capas/. Así los binarios no inflan main.
+SALIDA = os.path.join(ROOT, "capas")
 TMP = os.environ.get("RUNNER_TEMP", "/tmp")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]
@@ -48,8 +50,15 @@ def get(url, data=None, timeout=300, intentos=3):
             time.sleep(10 * (i + 1))
 
 
+ZOOM_MAX_PUNTOS = 8   # mosaicos hasta z8; arriba MapLibre amplía (overzoom) sin descargar más
+ZOOM_MAX_AREAS = 6
+
+
 def feat(geom, props, minzoom):
-    return {"type": "Feature", "geometry": geom, "properties": props, "tippecanoe": {"minzoom": int(minzoom)}}
+    """El zoom mínimo real va en la propiedad "z" (la GPU filtra con ella). En el mosaico se acota a
+    ZOOM_MAX_PUNTOS para que objetos de zoom 9-11 (aeródromos, helipuertos) existan en los mosaicos z8."""
+    return {"type": "Feature", "geometry": geom, "properties": {**props, "z": int(minzoom)},
+            "tippecanoe": {"minzoom": min(int(minzoom), ZOOM_MAX_PUNTOS)}}
 
 
 def punto(lon, lat):
@@ -120,6 +129,8 @@ def zonas():
     fc = json.loads(get(NE + "ne_50m_geography_regions_polys.geojson"))
     for i, f in enumerate(fc["features"]):
         pr = f["properties"]
+        if pr_(pr, "featurecla").lower() in ("continent", "island group"):
+            continue  # polígonos enormes: su etiqueta se repetiría en cada mosaico
         st, z = terrestres.get(pr_(pr, "featurecla").lower(), ("regiones", 3))
         out.append(feat(f["geometry"], {"id": f"ne:reg{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": st, "p": ""}, z))
     fc = json.loads(get(NE + "ne_50m_lakes.geojson"))
@@ -183,16 +194,35 @@ def centrales():
     return out
 
 
-def overpass(consulta):
-    q = f"[out:json][timeout:900][maxsize:1073741824];{consulta}out center tags;"
-    ultimo = None
-    for url in OVERPASS:
-        try:
-            return json.loads(get(url, data=urllib.parse.urlencode({"data": q}).encode(), timeout=1000, intentos=2))["elements"]
-        except Exception as e:  # noqa: BLE001
-            ultimo = e
-            print(f"   overpass {url} falló: {e}")
-    raise ultimo
+# El mundo en 8 cajas (sur, oeste, norte, este): una consulta global pesada provoca error 500 en Overpass.
+CAJAS = [(-60, -180, 0, 0), (-60, 0, 0, 180), (0, -180, 30, 0), (0, 0, 30, 180),
+         (30, -180, 50, 0), (30, 0, 50, 180), (50, -180, 85, 0), (50, 0, 85, 180)]
+
+
+def overpass(selectores):
+    """selectores: lista como ['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'].
+    Se consultan como UNIÓN ( a; b; ) caja por caja y se eliminan duplicados por tipo+id."""
+    vistos, out = set(), []
+    for s_, w, n, e in CAJAS:
+        union = "".join(f"{sel}({s_},{w},{n},{e});" for sel in selectores)
+        q = f"[out:json][timeout:300];({union});out center tags;"
+        ultimo = None
+        for url in OVERPASS:
+            try:
+                els = json.loads(get(url, data=urllib.parse.urlencode({"data": q}).encode(), timeout=360, intentos=2))["elements"]
+                break
+            except Exception as ex:  # noqa: BLE001
+                ultimo = ex
+                print(f"   overpass {url} caja {(s_, w, n, e)} falló: {ex}")
+        else:
+            raise ultimo
+        for el in els:
+            k = (el["type"], el["id"])
+            if k not in vistos:
+                vistos.add(k)
+                out.append(el)
+        time.sleep(5)  # cortesía con la API pública
+    return out
 
 
 def _osm(elementos, subtipo_de, z_de, extra=lambda t: "", pa=None):
@@ -215,14 +245,14 @@ HIPERESCALA = ("google", "amazon", "aws", "microsoft", "azure", "meta", "faceboo
 
 
 def centros_datos():
-    els = overpass('nwr["telecom"="data_center"];')
+    els = overpass(['nwr["telecom"="data_center"]'])
     hip = lambda t: any(h in (t.get("operator", "") + " " + t.get("name", "")).lower() for h in HIPERESCALA)  # noqa: E731
     return _osm(els, lambda t: "datacenter_hiperescala" if hip(t) else "datacenter_otros",
                 lambda st, t: 4 if st == "datacenter_hiperescala" else 8, lambda t: t.get("operator", ""), Paises())
 
 
 def embajadas():
-    els = overpass('nwr["office"="diplomatic"];nwr["amenity"="embassy"];')
+    els = overpass(['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'])
     return _osm(els, lambda t: "embajadas_consulados", lambda st, t: 7 if t.get("diplomatic", "embassy") == "embassy" else 9,
                 lambda t: (t.get("diplomatic") or "embassy") + "|" + (t.get("country") or ""), Paises())
 
@@ -231,23 +261,22 @@ def recursos():
     pa = Paises()
     out = []
     consultas = [
-        ('nwr["industrial"="refinery"];nwr["man_made"="works"]["product"~"petroleum|oil"];', lambda t: "energia_yacimientos", 4),
-        ('nwr["industrial"="terminal"]["substance"~"gas|lng"];nwr["man_made"="storage_tank"]["content"="lng"];', lambda t: "energia_yacimientos", 5),
-        ('nwr["landuse"="quarry"]["resource"~"lithium|copper|cobalt|nickel|rare_earth|graphite|uranium|tungsten|tin"];', lambda t: "mineria", 5),
-        ('nwr["man_made"="works"]["product"~"semiconductor|chip|wafer",i];', lambda t: "semiconductores", 3),
-        ('nwr["man_made"="works"]["product"~"fertili[sz]er",i];', lambda t: "agronomia", 5),
-        ('nwr["man_made"="works"]["product"~"steel|aluminium|aluminum|cement",i];', lambda t: "industria_pesada", 6),
+        (['nwr["industrial"="refinery"]', 'nwr["man_made"="works"]["product"~"petroleum|oil"]'], lambda t: "energia_yacimientos", 4),
+        (['nwr["industrial"="terminal"]["substance"~"gas|lng"]'], lambda t: "energia_yacimientos", 5),
+        (['nwr["landuse"="quarry"]["resource"~"lithium|copper|cobalt|nickel|rare_earth|graphite|uranium|tungsten|tin"]'], lambda t: "mineria", 5),
+        (['nwr["man_made"="works"]["product"~"semiconductor|chip|wafer",i]'], lambda t: "semiconductores", 3),
+        (['nwr["man_made"="works"]["product"~"fertili[sz]er",i]'], lambda t: "agronomia", 5),
+        (['nwr["man_made"="works"]["product"~"steel|aluminium|aluminum|cement",i]'], lambda t: "industria_pesada", 6),
     ]
-    for q, st, z in consultas:
-        out += _osm(overpass(q), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or t.get("operator", ""), pa)
-        time.sleep(20)  # cortesía con la API pública de Overpass
+    for sel, st, z in consultas:
+        out += _osm(overpass(sel), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or t.get("operator", ""), pa)
     return out
 
 
 def militar():
     tipos = {"headquarters": ("cuarteles_mando", 5), "naval_base": ("bases_navales", 4), "airfield": ("bases_aereas", 4),
              "base": ("bases_terrestres", 6), "barracks": ("bases_terrestres", 7), "nuclear_explosion_site": ("instalaciones_nucleares", 3)}
-    els = overpass('nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"];')
+    els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'])
     # Solo nombre, tipo, país y operador: no se copian otras etiquetas de OSM.
     return _osm(els, lambda t: tipos.get(t.get("military"), (None,))[0], lambda st, t: tipos[t["military"]][1],
                 lambda t: t.get("operator", ""), Paises())
@@ -262,9 +291,9 @@ def tippecanoe(familia, ruta_ndjson, geometria):
     base = ["tippecanoe", "-o", destino, "--force", "-l", familia, "-Z0", "--quiet",
             "--maximum-tile-bytes=600000", "--attribution=Ver SOURCES.md"]
     if geometria == "punto":
-        cmd = base + ["-z11", "-r1", "--no-feature-limit", "--drop-densest-as-needed"]
+        cmd = base + [f"-z{ZOOM_MAX_PUNTOS}", "-r1", "--no-feature-limit", "--drop-densest-as-needed"]
     else:
-        cmd = base + ["-z8", "--simplification=6", "--coalesce-densest-as-needed", "--detect-shared-borders"]
+        cmd = base + [f"-z{ZOOM_MAX_AREAS}", "--simplification=10", "--coalesce-densest-as-needed", "--detect-shared-borders"]
     subprocess.run(cmd + [ruta_ndjson], check=True)
     return destino
 

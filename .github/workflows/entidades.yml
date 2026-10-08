@@ -1,0 +1,46 @@
+name: Entidades (Wikidata)
+
+# Organizaciones y personas de rol público desde Wikidata (CC0). Semanal, a mano o al cambiar el extractor.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "29 5 * * 1"
+  push:
+    branches-ignore: [main]
+    paths: ["tools/entidades/**", ".github/workflows/entidades.yml"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: entidades-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  extraer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements-dev.txt
+      - name: Extraer de Wikidata
+        run: python3 tools/entidades/wikidata.py
+      - name: Validar (esquema cerrado de personas, sin coordenadas)
+        run: |
+          python3 ingest/validate_entities.py
+          python3 -m pytest -q tests/test_privacidad.py
+      - name: Commitear data/entidades
+        run: |
+          git config user.name  "geopolitica-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add data/entidades/
+          if git diff --staged --quiet; then echo "Sin cambios."; else
+            git commit -m "entidades: Wikidata $(date -u +'%Y-%m-%d %H:%MZ')"
+            git pull --rebase origin "${GITHUB_REF_NAME}"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi

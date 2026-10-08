@@ -1,16 +1,115 @@
 {
-  "descripcion": "Familias de capas estáticas convertidas a PMTiles por tools/capas/construir.py (GitHub Actions, workflow 'Construir capas'). 'habilitada': false = fuente sin licencia verificada o pendiente de aprobación; no se descarga ni se publica.",
-  "familias": [
-    {"id": "zonas", "nombre": "Zonas geográficas", "categoria": "zonas", "geometria": "mixta", "fuente": "natural_earth", "habilitada": true, "zoom_etiquetas": 2},
-    {"id": "aeropuertos", "nombre": "Aeropuertos", "categoria": "infraestructura", "geometria": "punto", "fuente": "ourairports", "habilitada": true, "zoom_etiquetas": 6},
-    {"id": "puertos", "nombre": "Puertos", "categoria": "infraestructura", "geometria": "punto", "fuente": "wpi", "habilitada": true, "zoom_etiquetas": 5},
-    {"id": "centrales", "nombre": "Centrales eléctricas", "categoria": "infraestructura", "geometria": "punto", "fuente": "gppd", "habilitada": true, "zoom_etiquetas": 7},
-    {"id": "centros_datos", "nombre": "Centros de datos", "categoria": "infraestructura", "geometria": "punto", "fuente": "osm", "habilitada": true, "zoom_etiquetas": 8},
-    {"id": "embajadas", "nombre": "Embajadas y consulados", "categoria": "organizaciones", "geometria": "punto", "fuente": "osm", "habilitada": true, "zoom_etiquetas": 10},
-    {"id": "recursos", "nombre": "Recursos estratégicos", "categoria": "recursos", "geometria": "punto", "fuente": "osm", "habilitada": true, "zoom_etiquetas": 7},
-    {"id": "militar", "nombre": "Instalaciones militares (públicas)", "categoria": "militar", "geometria": "punto", "fuente": "osm", "habilitada": true, "zoom_etiquetas": 7},
-    {"id": "cables", "nombre": "Cables submarinos", "categoria": "infraestructura", "geometria": "linea", "fuente": "telegeography", "habilitada": false, "motivo": "Licencia CC BY-NC-SA: solo uso no comercial. Requiere tu aprobación."},
-    {"id": "presas", "nombre": "Presas", "categoria": "infraestructura", "geometria": "punto", "fuente": "grand", "habilitada": false, "motivo": "La descarga de GRanD/GOODD requiere registro; licencia por confirmar."},
-    {"id": "ductos", "nombre": "Ductos de petróleo y gas", "categoria": "infraestructura", "geometria": "linea", "fuente": "gem", "habilitada": false, "motivo": "Global Energy Monitor entrega los datos tras un formulario; no se puede automatizar."}
-  ]
+ "descripcion": "Familias de capas estáticas convertidas a PMTiles por tools/capas/construir.py (GitHub Actions, workflow 'Construir capas'). 'habilitada': false = fuente sin licencia verificada o pendiente de aprobación; no se descarga ni se publica.",
+ "familias": [
+  {
+   "id": "zonas",
+   "nombre": "Zonas geográficas",
+   "categoria": "zonas",
+   "geometria": "mixta",
+   "fuente": "natural_earth",
+   "habilitada": true,
+   "zoom_etiquetas": 2
+  },
+  {
+   "id": "aeropuertos",
+   "nombre": "Aeropuertos",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "ourairports",
+   "habilitada": true,
+   "zoom_etiquetas": 6
+  },
+  {
+   "id": "puertos",
+   "nombre": "Puertos",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "wpi",
+   "habilitada": true,
+   "zoom_etiquetas": 5
+  },
+  {
+   "id": "centrales",
+   "nombre": "Centrales eléctricas",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "gppd",
+   "habilitada": true,
+   "zoom_etiquetas": 7
+  },
+  {
+   "id": "centros_datos",
+   "nombre": "Centros de datos",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 8
+  },
+  {
+   "id": "organismos",
+   "nombre": "Organismos internacionales y bolsas",
+   "categoria": "organizaciones",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "formato": "geojson",
+   "zoom_etiquetas": 3,
+   "constructor": "tools/entidades/wikidata.py"
+  },
+  {
+   "id": "embajadas",
+   "nombre": "Embajadas y consulados",
+   "categoria": "organizaciones",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 10
+  },
+  {
+   "id": "recursos",
+   "nombre": "Recursos estratégicos",
+   "categoria": "recursos",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 7
+  },
+  {
+   "id": "militar",
+   "nombre": "Instalaciones militares (públicas)",
+   "categoria": "militar",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 7
+  },
+  {
+   "id": "cables",
+   "nombre": "Cables submarinos",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "telegeography",
+   "habilitada": false,
+   "motivo": "Licencia CC BY-NC-SA: solo uso no comercial. Requiere tu aprobación."
+  },
+  {
+   "id": "presas",
+   "nombre": "Presas",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "grand",
+   "habilitada": false,
+   "motivo": "La descarga de GRanD/GOODD requiere registro; licencia por confirmar."
+  },
+  {
+   "id": "ductos",
+   "nombre": "Ductos de petróleo y gas",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "gem",
+   "habilitada": false,
+   "motivo": "Global Energy Monitor entrega los datos tras un formulario; no se puede automatizar."
+  }
+ ]
 }

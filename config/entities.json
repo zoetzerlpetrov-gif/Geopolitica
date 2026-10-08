@@ -383,13 +383,14 @@
      "color": "#4A6B8A",
      "fuente": "wikidata",
      "licencia": "CC0 1.0",
-     "frecuencia": "mensual",
+     "frecuencia": "semanal",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 2,
      "areas": [
       "instituciones"
-     ]
+     ],
+     "familia": "organismos"
     },
     {
      "id": "bolsas_valores",
@@ -401,13 +402,14 @@
      "color": "#7A6A2F",
      "fuente": "wikidata",
      "licencia": "CC0 1.0",
-     "frecuencia": "mensual",
+     "frecuencia": "semanal",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
      "zoom_min": 2,
      "areas": [
       "geoeconomia"
-     ]
+     ],
+     "familia": "organismos"
     }
    ]
   },

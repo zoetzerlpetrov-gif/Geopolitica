@@ -4,3 +4,7 @@ __pycache__/
 *.pyc
 .venv/
 .DS_Store
+
+# Salidas que se publican en ramas huérfanas (datos-capas, datos-vivos), no en main
+/capas/
+/vivos/

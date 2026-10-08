@@ -88,7 +88,7 @@ export class GestorCapas {
   async activar(id) {
     const f = this.familias.get(id);
     if (!f || !f.disponible || this.activas.has(id)) return;
-    await asegurarPMTiles();
+    if (f.manifest.formato !== "geojson") await asegurarPMTiles();
     this.activas.set(id, new Set(f.subtipos.map((s) => s.id)));
     this.#instalar(f);
     this.onCambio(this.totalActivas());
@@ -118,7 +118,9 @@ export class GestorCapas {
     return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-punto`, `cap-${id}-texto`];
   }
 
-  #filtroCapa(capa, filtroSubtipos) {
+  #filtroCapa(capa, filtroSubtiposBase) {
+    // Zoom mínimo por objeto (propiedad "z"): los mosaicos llegan hasta z8 y la GPU oculta lo que no toca.
+    const filtroSubtipos = ["all", filtroSubtiposBase, [">=", ["zoom"], ["coalesce", ["get", "z"], 0]]];
     if (capa.endsWith("-relleno")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"], ["in", ["get", "st"], ["literal", ["desiertos", "cordilleras", "peninsulas"]]]];
     if (capa.endsWith("-linea")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "LineString"]];
     if (capa.endsWith("-punto")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "Point"]];
@@ -128,30 +130,32 @@ export class GestorCapas {
   #instalar(f) {
     const src = `cap-${f.id}`;
     if (this.map.getSource(src)) return;
-    this.map.addSource(src, { type: "vector", url: `pmtiles://${new URL(f.manifest.archivo, location.href).href}` });
+    const geojson = f.manifest.formato === "geojson";
+    // Familias pequeñas (cientos de puntos) se sirven como GeoJSON; las grandes, como PMTiles por rangos.
+    this.map.addSource(src, geojson ? { type: "geojson", data: f.manifest.archivo } : { type: "vector", url: `pmtiles://${new URL(f.manifest.archivo, location.href).href}` });
     const color = ["match", ["get", "st"]];
     for (const s of f.subtipos) color.push(s.id, s.color);
     color.push("#888888");
     const filtro = ["in", ["get", "st"], ["literal", [...this.activas.get(f.id)]]];
     const antes = this.map.getLayer("clusters") ? "clusters" : undefined; // los eventos siempre quedan encima
-    const sl = f.id;
+    const sl = geojson ? {} : { "source-layer": f.id };
 
     if (f.geometria !== "punto") {
-      this.map.addLayer({ id: `${src}-relleno`, type: "fill", source: src, "source-layer": sl, filter: this.#filtroCapa("-relleno", filtro),
+      this.map.addLayer({ id: `${src}-relleno`, type: "fill", source: src, ...sl, filter: this.#filtroCapa("-relleno", filtro),
         paint: { "fill-color": color, "fill-opacity": 0.08 } }, antes);
-      this.map.addLayer({ id: `${src}-linea`, type: "line", source: src, "source-layer": sl, filter: this.#filtroCapa("-linea", filtro),
+      this.map.addLayer({ id: `${src}-linea`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-linea", filtro),
         paint: { "line-color": color, "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.6, 8, 1.6], "line-opacity": 0.8 } }, antes);
     }
-    this.map.addLayer({ id: `${src}-punto`, type: "circle", source: src, "source-layer": sl, filter: this.#filtroCapa("-punto", filtro),
+    this.map.addLayer({ id: `${src}-punto`, type: "circle", source: src, ...sl, filter: this.#filtroCapa("-punto", filtro),
       paint: {
         "circle-color": color,
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.5, 8, 5, 12, 7],
         "circle-stroke-width": 1, "circle-stroke-color": "#ffffff",
       } }, antes);
     // Etiquetas solo desde cierto zoom y con detección de colisiones (no se encimen).
-    this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, "source-layer": sl, minzoom: f.zoom_etiquetas ?? 6, filter: filtro,
+    this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, ...sl, minzoom: f.zoom_etiquetas ?? 6, filter: this.#filtroCapa("-texto", filtro),
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 0.9], "text-anchor": "top",
-        "text-optional": true, "symbol-sort-key": ["get", "z"] },
+        "text-optional": true, "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true },
       paint: { "text-color": "#333F48", "text-halo-color": "#ffffff", "text-halo-width": 1.2 } }, antes);
 
     for (const capa of [`${src}-punto`, `${src}-linea`]) {
@@ -173,11 +177,12 @@ export function urlFuente(id) {
   if (ns === "gppd") return "https://datasets.wri.org/dataset/globalpowerplantdatabase";
   if (ns === "wpi") return "https://msi.nga.mil/Publications/WPI";
   if (ns === "ne") return "https://www.naturalearthdata.com";
+  if (ns === "wd") return `https://www.wikidata.org/wiki/${encodeURIComponent(v)}`;
   return null;
 }
 
 /** Ficha de una entidad del mapa (aeropuerto, puerto, central, zona…). */
-export function htmlFichaEntidad({ familia, props, cercanos, seguido }) {
+export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas = [] }) {
   const sub = familia.subtipos.find((s) => s.id === props.st);
   const url = urlFuente(props.id);
   const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
@@ -191,6 +196,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido }) {
       <dt>Licencia</dt><dd>${esc(familia.licencia)}</dd>
       <dt>Actualizado</dt><dd>${esc(familia.manifest?.actualizado_utc?.slice(0, 10) || "—")}</dd>
     </dl>
+    ${personas.length ? `<h4>Personas con rol público</h4><ul class="fuentes">${personas.map((p) => `<li>${esc(p.nombre)} · ${esc(p.cargo)} · <a href="${esc(p.wikidata)}" target="_blank" rel="noopener noreferrer">Wikidata</a></li>`).join("")}</ul>` : ""}
     <button type="button" class="link-btn" id="btn-seguir" data-id="${esc(props.id)}" aria-pressed="${seguido}">${seguido ? "★ Siguiendo" : "☆ Seguir"}</button>
     <h4>Eventos a menos de 300 km (${cercanos.length})</h4>
     <ul class="fuentes">${cercanos.slice(0, 8).map((ev) => `<li><a href="#evento=${esc(ev.id)}" data-evento="${esc(ev.id)}">${esc(ev.titulo)}</a></li>`).join("") || "<li>Ninguno en los datos actuales.</li>"}</ul>

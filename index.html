@@ -73,6 +73,19 @@
       </section>
 
       <section class="bloque">
+        <h2>Capas en movimiento</h2>
+        <p class="nota-capas">Aeronaves y buques: instantánea cada 20 min, solo lo visible (máx. 5,000). Satélites: posición calculada en tu navegador.</p>
+        <div id="aviso-mov" class="aviso-capas" role="status" hidden></div>
+        <div id="mov-capas" class="capas-entidades">Cargando…</div>
+      </section>
+
+      <section class="bloque">
+        <h2>Imágenes y cámaras</h2>
+        <div id="img-capas" class="capas-entidades"></div>
+        <p class="nota-capas">Cámaras públicas: pendientes de aprobar fuentes oficiales (ver SOURCES.md). No se usan cámaras privadas ni expuestas por error.</p>
+      </section>
+
+      <section class="bloque">
         <h2>Seguimiento <span id="seg-total" class="contador"></span></h2>
         <p class="nota-capas">Marca "Seguir" en la ficha de un lugar. Se guarda solo en este navegador.</p>
         <ul id="lista-seguimiento" class="lista-seguimiento"></ul>
