@@ -18,6 +18,7 @@ import os
 import re
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import urllib.robotparser
@@ -27,12 +28,23 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "ingest"))
 from classify import normalizar  # noqa: E402
 from geo import Gazetteer  # noqa: E402
+import fuentes as F  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "crimen.geojson")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 API = "https://api.gdeltproject.org/api/v2/doc/doc"
-PAUSA_S = 6          # GDELT pide no más de 1 consulta cada 5 s
+PAUSA_S = 12         # GDELT pide no más de 1 consulta cada 5 s; desde IPs compartidas de GitHub conviene más margen
+ESPERA_429_S = 45    # ante «demasiadas solicitudes» se espera y se reintenta una vez
 MIN_ENTRE_CORRIDAS = 55
+
+# Respaldo si GDELT no responde: Google News RSS (búsquedas públicas por región), respetando su robots.txt.
+GNEWS = "https://news.google.com/rss/search?{q}"
+CONSULTAS_RSS = [
+    ("mx", "cártel OR narco OR \"crimen organizado\" OR sicarios OR \"fosa clandestina\" when:1d", "es-419", "MX", "MX:es-419"),
+    ("latam", "narcotráfico OR \"crimen organizado\" OR pandillas OR \"Tren de Aragua\" when:1d", "es-419", "CO", "CO:es-419"),
+    ("mundo", "terrorist attack OR \"Islamic State\" OR jihadist OR \"car bomb\" when:1d", "en-US", "US", "US:en"),
+    ("mundo", "mafia OR \"organized crime\" OR \"drug cartel\" when:1d", "en-US", "US", "US:en"),
+]
 
 CONSULTAS = [
     # México (prioridad)
@@ -142,10 +154,16 @@ def a_feature(art, origen, estados, gaz):
                            "precision": precision, "origen": origen}}
 
 
-def get_json(url):
+def get_json(url, reintentos=1):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=60) as r:
-        texto = r.read().decode("utf-8", "replace")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            texto = r.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as e:
+        if e.code == 429 and reintentos > 0:
+            time.sleep(ESPERA_429_S)
+            return get_json(url, reintentos - 1)
+        raise
     return json.loads(texto) if texto.strip().startswith("{") else {}
 
 
@@ -176,7 +194,30 @@ def main():
                     feats.append(f)
         except Exception as e:  # noqa: BLE001  una consulta caída no detiene las demás
             errores.append(f"{origen}: {e}"[:160])
+            if sum("429" in x for x in errores) >= 2:
+                errores.append("GDELT limita las consultas desde este servidor: se pasa al respaldo")
+                break
         time.sleep(PAUSA_S)
+    # Respaldo: si GDELT no dio nada para una región, Google News RSS (título, enlace, medio y fecha).
+    con_datos = {f["properties"]["origen"] for f in feats}
+    for origen, q, hl, gl, ceid in CONSULTAS_RSS:
+        if origen in con_datos:
+            continue
+        url = GNEWS.format(q=urllib.parse.urlencode({"q": q, "hl": hl, "gl": gl, "ceid": ceid}))
+        try:
+            if not F.permitido_por_robots(url):
+                errores.append(f"{origen} (Google News): robots.txt no lo permite")
+                continue
+            for c in F.parsear_rss(F.get(url, timeout=40), {"nombre": "Google News", "tipo": "noticia"}):
+                titulo, medio = (c["titulo"].rsplit(" - ", 1) + [""])[:2]
+                f = a_feature({"title": titulo, "url": c["url"], "domain": medio,
+                               "seendate": c["fecha_utc"].replace("-", "").replace(":", "")}, origen, estados, gaz)
+                if f:
+                    f["properties"]["via"] = "Google News RSS"
+                    feats.append(f)
+        except Exception as e:  # noqa: BLE001
+            errores.append(f"{origen} (Google News): {e}"[:160])
+        time.sleep(2)
     feats.sort(key=lambda f: f["properties"]["date"] or "", reverse=True)
     feats = deduplicar(feats)
     if not feats and errores:
