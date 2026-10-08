@@ -40,7 +40,7 @@ Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub 
 | Dato | Dónde se guarda | Por qué |
 |---|---|---|
 | Código y configuración (y eventos de ejemplo) | rama `main` | Cambian poco o pesan poco |
-| Eventos de 72 h, historial de 90 días, run-log, índice por país | rama huérfana `datos-eventos`, reescrita cada hora | Un commit por hora haría crecer el historial sin límite |
+| Eventos de 72 h, historial de 90 días (un archivo por día, se descarga solo al pedir 30 o 90 días), run-log, índice por país | rama huérfana `datos-eventos`, reescrita cada hora | Un commit por hora haría crecer el historial sin límite |
 | Capas PMTiles (~40 MB) | rama huérfana `datos-capas`, reescrita en cada reconstrucción | Para no sumar 40 MB al historial cada mes |
 | Aviones, buques, satélites, sanciones | rama huérfana `datos-vivos`, reescrita cada 20 min | Una instantánea cada 20 min inflaría el historial decenas de MB al día |
 

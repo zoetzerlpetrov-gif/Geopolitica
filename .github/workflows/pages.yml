@@ -57,10 +57,15 @@ jobs:
             echo "Aún no existe la rama datos-vivos"
           fi
           # Eventos reales: rama huérfana "datos-eventos" (workflow "Ingesta de eventos"). Reemplazan a los
-          # datos de ejemplo. El historial de 90 días se queda en la rama (la línea de tiempo llega en la Fase 4).
+          # datos de ejemplo.
           if git fetch --depth 1 origin datos-eventos 2>/dev/null; then
             git archive FETCH_HEAD eventos | tar -x -C /tmp
             cp /tmp/eventos/events.json /tmp/eventos/run-log.json /tmp/eventos/indice-paises.json _site/data/
+            # Historial de 90 días (un archivo por día): el mapa lo pide solo al elegir 30 o 90 días.
+            if [ -d /tmp/eventos/historial ]; then
+              mkdir -p _site/data/historial && cp /tmp/eventos/historial/*.json _site/data/historial/
+              cp /tmp/eventos/historial-indice.json _site/data/ 2>/dev/null || true
+            fi
           else
             echo "Aún no existe la rama datos-eventos: se publican los datos de ejemplo"
           fi

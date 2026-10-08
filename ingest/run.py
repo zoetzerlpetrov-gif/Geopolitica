@@ -229,8 +229,18 @@ def priorizar(eventos, maximo):
 
 
 def compacto(e):
-    return {k: e[k] for k in ("id", "fecha_utc", "titulo", "url", "fuente", "pais_iso3", "lat", "lon",
-                              "area_principal", "severidad", "nivel_alerta")}
+    return {k: e[k] for k in ("id", "fecha_utc", "titulo", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
+                              "area_principal", "severidad", "nivel_alerta", "impacto_mexico")}
+
+
+def indice_historial(carpeta):
+    """Lista de días disponibles (para que el mapa los pida bajo demanda): [{dia, total, bytes}]."""
+    dias = []
+    for ruta in sorted(glob.glob(os.path.join(carpeta, "*.json"))):
+        with open(ruta, encoding="utf-8") as f:
+            total = json.load(f)["total"]
+        dias.append({"dia": os.path.basename(ruta)[:10], "total": total, "bytes": os.path.getsize(ruta)})
+    return dias
 
 
 def actualizar_historial(carpeta, eventos, hoy, dias):
@@ -364,6 +374,8 @@ def main(argv=None):
     with open(ruta_ev, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, separators=(",", ":"))
     borrados = actualizar_historial(os.path.join(args.salida, "historial"), eventos, t, cfg["historial_dias"])
+    with open(os.path.join(args.salida, "historial-indice.json"), "w", encoding="utf-8") as f:
+        json.dump({"generado_utc": iso(t), "dias": indice_historial(os.path.join(args.salida, "historial"))}, f, ensure_ascii=False)
     recientes = leer_historial(os.path.join(args.salida, "historial"), (t - timedelta(days=30)).strftime("%Y-%m-%d"))
     with open(os.path.join(args.salida, "indice-paises.json"), "w", encoding="utf-8") as f:
         json.dump({"generado_utc": iso(t), "nota": "Indicador propio (docs/INDICADORES.md). Base: historial de 30 días.",

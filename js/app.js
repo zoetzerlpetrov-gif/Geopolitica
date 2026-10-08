@@ -18,6 +18,9 @@ const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "", desde: 
 let eventos = [];
 let visiblesActuales = [];
 let linea, capaIndice, analisis;
+let historialEv = [];            // eventos del historial ya descargados (sobreviven a la recarga horaria)
+const diasHistorial = new Set(); // días del historial descargados completos
+let regionDe = {};
 let porId = new Map();
 let tax, paises, api, gestor, mov, img;
 let lite = false;
@@ -196,6 +199,10 @@ async function cargarEventos() {
   const n = Number(new URLSearchParams(location.search).get("carga"));
   if (n > 0) eventos = eventos.concat(eventosSinteticos(Math.min(n, 200000)));
   for (const ev of eventos) ev._t = Date.parse(ev.fecha_utc); // para la línea de tiempo (no se publica)
+  if (historialEv.length) {
+    const ids = new Set(eventos.map((e) => e.id));
+    eventos = eventos.concat(historialEv.filter((e) => !ids.has(e.id)));
+  }
   porId = new Map(eventos.map((e) => [e.id, e]));
 }
 
@@ -253,7 +260,9 @@ async function main() {
   });
 
   pintarAreas();
-  linea = new LineaTiempo($("linea-tiempo"), (v) => { estado.desde = v.desde; estado.hasta = v.hasta; programarFiltros(); });
+  for (const [id, r] of Object.entries(regiones.regiones)) for (const iso of r.paises) regionDe[iso] = id;
+  linea = new LineaTiempo($("linea-tiempo"), (v) => { estado.desde = v.desde; estado.hasta = v.hasta; programarFiltros(); },
+    { cargarHistorial: anexarHistorial, permitir90: !lite });
   linea.setEventos(eventos);
   const alCargar = () => {
     aplicarFiltros();
@@ -474,6 +483,27 @@ async function personasDe(orgId) {
   ]).then(([o, p]) => ({ orgs: new Map(o.registros.map((x) => [x.id, x])), personas: new Map(p.registros.map((x) => [x.id, x])) }));
   const { orgs, personas } = await indicesEntidades;
   return (orgs.get(orgId)?.personas || []).map((id) => personas.get(id)).filter(Boolean);
+}
+
+// ---------- Historial (30 o 90 días, bajo demanda) ----------
+async function anexarHistorial(horas, avisar) {
+  const { cargarHistorial } = await import("./historial.js");
+  try {
+    const r = await cargarHistorial({
+      dias: Math.round(horas / 24), existentes: new Set(eventos.map((e) => e.id)), cargados: diasHistorial, regionDe,
+      onProgreso: (h, t) => avisar(t ? `Cargando historial: ${h} de ${t} días…` : "Historial ya cargado."),
+    });
+    if (r.nuevos.length) {
+      historialEv = historialEv.concat(r.nuevos);
+      eventos = eventos.concat(r.nuevos);
+      for (const e of r.nuevos) porId.set(e.id, e);
+      linea.setEventos(eventos);
+    }
+    console.info(`historial: +${r.nuevos.length} eventos (${r.dias} días publicados, severidad ≥ ${r.sevMin})`);
+  } catch (e) {
+    avisar(`No hay historial publicado todavía (${e.message}).`);
+    await new Promise((ok) => setTimeout(ok, 2500));
+  }
 }
 
 // ---------- Mapa de calor por país (índice de inestabilidad) ----------

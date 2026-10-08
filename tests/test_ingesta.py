@@ -203,8 +203,10 @@ def test_historial_y_poda(tmp_path):
     assert borrados == 1 and not (carpeta / "2026-06-01.json").exists()
     dia = json.loads((carpeta / "2026-10-08.json").read_text())
     assert dia["total"] == len(eventos)
-    assert set(dia["eventos"][0]) == {"id", "fecha_utc", "titulo", "url", "fuente", "pais_iso3", "lat", "lon",
-                                      "area_principal", "severidad", "nivel_alerta"}
+    assert set(dia["eventos"][0]) == {"id", "fecha_utc", "titulo", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
+                                      "area_principal", "severidad", "nivel_alerta", "impacto_mexico"}
+    ind = R.indice_historial(str(carpeta))
+    assert [d["dia"] for d in ind] == ["2026-10-08"] and ind[0]["total"] == len(eventos) and ind[0]["bytes"] > 0
     assert len(R.leer_historial(str(carpeta), (T - timedelta(days=30)).strftime("%Y-%m-%d"))) == len(eventos)
 
 
