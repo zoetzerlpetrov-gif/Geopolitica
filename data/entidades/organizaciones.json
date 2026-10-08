@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-08T01:31:51Z",
+ "generado_utc": "2026-10-08T01:39:01Z",
  "fuente": "Wikidata (CC0)",
  "registros": [
   {
@@ -5742,6 +5742,3305 @@
    "sede": null,
    "indices": [],
    "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AFG",
+   "nombre": "Gobierno (AFG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AFG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q108444479",
+    "Q24237654"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AGO",
+   "nombre": "Gobierno (AGO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AGO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q28650390"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ALB",
+   "nombre": "Gobierno (ALB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ALB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q107422711",
+    "Q316901"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AND",
+   "nombre": "Gobierno (AND)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AND",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3052772",
+    "Q93244592",
+    "Q21001195"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ARE",
+   "nombre": "Gobierno (ARE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ARE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57655",
+    "Q1951896"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ARG",
+   "nombre": "Gobierno (ARG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ARG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q52395487"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ARM",
+   "nombre": "Gobierno (ARM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ARM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3553274",
+    "Q7035479"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ATG",
+   "nombre": "Gobierno (ATG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ATG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17177542",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AUS",
+   "nombre": "Gobierno (AUS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AUS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q335697"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AUT",
+   "nombre": "Gobierno (AUT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AUT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q78869",
+    "Q64576653"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AZE",
+   "nombre": "Gobierno (AZE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AZE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57371",
+    "Q12850075"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BDI",
+   "nombre": "Gobierno (BDI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BDI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q107136851",
+    "Q27329764"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BEL",
+   "nombre": "Gobierno (BEL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BEL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q155004",
+    "Q336599"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BEN",
+   "nombre": "Gobierno (BEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q29035",
+    "Q3241966",
+    "Q16669148",
+    "Q24951128"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BFA",
+   "nombre": "Gobierno (BFA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BFA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q114835874",
+    "Q114341246"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BGD",
+   "nombre": "Gobierno (BGD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BGD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7686199",
+    "Q116763154"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BGR",
+   "nombre": "Gobierno (BGR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BGR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q433338",
+    "Q26257557"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BHR",
+   "nombre": "Gobierno (BHR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BHR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57352",
+    "Q58140"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BHS",
+   "nombre": "Gobierno (BHS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BHS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7183082",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BIH",
+   "nombre": "Gobierno (BIH)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BIH",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q297825",
+    "Q5528031",
+    "Q13081568",
+    "Q387491"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BLR",
+   "nombre": "Gobierno (BLR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BLR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2866",
+    "Q56235580"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BLZ",
+   "nombre": "Gobierno (BLZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BLZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q6266369"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BOL",
+   "nombre": "Gobierno (BOL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BOL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q110520817"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BRA",
+   "nombre": "Gobierno (BRA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BRA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q37181"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BRB",
+   "nombre": "Gobierno (BRB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BRB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q9333540",
+    "Q6827147"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BRN",
+   "nombre": "Gobierno (BRN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BRN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57327"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BTN",
+   "nombre": "Gobierno (BTN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BTN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7849613",
+    "Q57376"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BWA",
+   "nombre": "Gobierno (BWA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BWA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q18618881"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CAF",
+   "nombre": "Gobierno (CAF)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CAF",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q88310768",
+    "Q57758"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CAN",
+   "nombre": "Gobierno (CAN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CAN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q192533"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CHE",
+   "nombre": "Gobierno (CHE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CHE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q30917"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CHL",
+   "nombre": "Gobierno (CHL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CHL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5937916"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CHN",
+   "nombre": "Gobierno (CHN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15031",
+    "Q4414390"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CIV",
+   "nombre": "Gobierno (CIV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CIV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3434569",
+    "Q57413"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CMR",
+   "nombre": "Gobierno (CMR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CMR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q60441515",
+    "Q57272"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COD",
+   "nombre": "Gobierno (COD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q63967715",
+    "Q29032770"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COG",
+   "nombre": "Gobierno (COG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q4752077",
+    "Q57418"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COL",
+   "nombre": "Gobierno (COL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q137204778"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COM",
+   "nombre": "Gobierno (COM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q515602"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CPV",
+   "nombre": "Gobierno (CPV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CPV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q139594211",
+    "Q57649"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CRI",
+   "nombre": "Gobierno (CRI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CRI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q114705150"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CUB",
+   "nombre": "Gobierno (CUB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CUB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1932603",
+    "Q79358625"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CYP",
+   "nombre": "Gobierno (CYP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CYP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q48905549"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CZE",
+   "nombre": "Gobierno (CZE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CZE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2080040",
+    "Q10819807"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DEU",
+   "nombre": "Gobierno (DEU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q76658",
+    "Q566257"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DJI",
+   "nombre": "Gobierno (DJI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DJI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57683",
+    "Q10522744",
+    "Q57390"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DMA",
+   "nombre": "Gobierno (DMA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DMA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57823",
+    "Q122208779"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DOM",
+   "nombre": "Gobierno (DOM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DOM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16594097"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DZA",
+   "nombre": "Gobierno (DZA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DZA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2821166",
+    "Q133540883"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ECU",
+   "nombre": "Gobierno (ECU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ECU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q112075625"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:EGY",
+   "nombre": "Gobierno (EGY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "EGY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q307871",
+    "Q54901515"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ERI",
+   "nombre": "Gobierno (ERI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ERI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57348"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ESP",
+   "nombre": "Gobierno (ESP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ESP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q191045",
+    "Q6070218"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:EST",
+   "nombre": "Gobierno (EST)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "EST",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12358575",
+    "Q1789192"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ETH",
+   "nombre": "Gobierno (ETH)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ETH",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q124831090",
+    "Q50365049"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FIN",
+   "nombre": "Gobierno (FIN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FIN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q503143",
+    "Q6029546"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FJI",
+   "nombre": "Gobierno (FJI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FJI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q109012733",
+    "Q981549"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FRA",
+   "nombre": "Gobierno (FRA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FRA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3052772",
+    "Q20089181"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FSM",
+   "nombre": "Gobierno (FSM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FSM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7984081"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GAB",
+   "nombre": "Gobierno (GAB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GAB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57856",
+    "Q122067521"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GBR",
+   "nombre": "Gobierno (GBR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q269909"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GEO",
+   "nombre": "Gobierno (GEO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GEO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q711893",
+    "Q27885302"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GHA",
+   "nombre": "Gobierno (GHA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GHA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q50678",
+    "Q718601"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GIN",
+   "nombre": "Gobierno (GIN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GIN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q22209348",
+    "Q108418519"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GMB",
+   "nombre": "Gobierno (GMB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GMB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27917049"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GNB",
+   "nombre": "Gobierno (GNB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GNB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q627337",
+    "Q57424",
+    "Q16855164",
+    "Q16908893"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GNQ",
+   "nombre": "Gobierno (GNQ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GNQ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q129263796",
+    "Q57385"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GRC",
+   "nombre": "Gobierno (GRC)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GRC",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20995518",
+    "Q552751"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GRD",
+   "nombre": "Gobierno (GRD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GRD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q112679881",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GTM",
+   "nombre": "Gobierno (GTM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GTM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q107254030"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GUY",
+   "nombre": "Gobierno (GUY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GUY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q64840184",
+    "Q98053664"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HND",
+   "nombre": "Gobierno (HND)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HND",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16146159"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HRV",
+   "nombre": "Gobierno (HRV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HRV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57687",
+    "Q11685764"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HTI",
+   "nombre": "Gobierno (HTI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HTI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q131140314",
+    "Q124846311"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HUN",
+   "nombre": "Gobierno (HUN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HUN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q788903",
+    "Q124488292"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IDN",
+   "nombre": "Gobierno (IDN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IDN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2107268"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IND",
+   "nombre": "Gobierno (IND)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q19901232",
+    "Q1058"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IRL",
+   "nombre": "Gobierno (IRL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IRL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5052598",
+    "Q920403"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IRN",
+   "nombre": "Gobierno (IRN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IRN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5933752",
+    "Q2919350"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IRQ",
+   "nombre": "Gobierno (IRQ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IRQ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3700793",
+    "Q115579547"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ISL",
+   "nombre": "Gobierno (ISL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ISL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q24494577",
+    "Q108856371"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ISR",
+   "nombre": "Gobierno (ISR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ISR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43723",
+    "Q983258"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ITA",
+   "nombre": "Gobierno (ITA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ITA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3956186",
+    "Q451791"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:JAM",
+   "nombre": "Gobierno (JAM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "JAM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q505200",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:JOR",
+   "nombre": "Gobierno (JOR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "JOR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q97011032",
+    "Q57464"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:JPN",
+   "nombre": "Gobierno (JPN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q217096",
+    "Q1705028"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KAZ",
+   "nombre": "Gobierno (KAZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KAZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q200881",
+    "Q124436646"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KEN",
+   "nombre": "Gobierno (KEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q195725"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KGZ",
+   "nombre": "Gobierno (KGZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KGZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q4060344",
+    "Q23810819",
+    "Q25597826",
+    "Q29865128",
+    "Q37777535",
+    "Q96338578",
+    "Q101751482",
+    "Q105277058",
+    "Q112703041"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KHM",
+   "nombre": "Gobierno (KHM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KHM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57319",
+    "Q13024351"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KIR",
+   "nombre": "Gobierno (KIR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KIR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q23034482"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KNA",
+   "nombre": "Gobierno (KNA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KNA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113443525",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KOR",
+   "nombre": "Gobierno (KOR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q55082182",
+    "Q12612463"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KWT",
+   "nombre": "Gobierno (KWT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KWT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12219691",
+    "Q12243161"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LAO",
+   "nombre": "Gobierno (LAO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LAO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q104914585",
+    "Q58323"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LBN",
+   "nombre": "Gobierno (LBN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LBN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q638463",
+    "Q29033962"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LBR",
+   "nombre": "Gobierno (LBR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LBR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2630483"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LBY",
+   "nombre": "Gobierno (LBY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LBY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q105319569",
+    "Q105319610"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LCA",
+   "nombre": "Gobierno (LCA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LCA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7184214",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LIE",
+   "nombre": "Gobierno (LIE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LIE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57454",
+    "Q129676165"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LKA",
+   "nombre": "Gobierno (LKA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LKA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q98298397",
+    "Q4777855"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LSO",
+   "nombre": "Gobierno (LSO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LSO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q114588964",
+    "Q57537"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LTU",
+   "nombre": "Gobierno (LTU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LTU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q9268379",
+    "Q1936326"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LUX",
+   "nombre": "Gobierno (LUX)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LUX",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q161319",
+    "Q592101"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LVA",
+   "nombre": "Gobierno (LVA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LVA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3047551",
+    "Q115604300"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MAR",
+   "nombre": "Gobierno (MAR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MAR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1638114",
+    "Q57553"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MCO",
+   "nombre": "Gobierno (MCO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MCO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3910",
+    "Q29934395"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MDA",
+   "nombre": "Gobierno (MDA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MDA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15071069",
+    "Q140480413"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MDG",
+   "nombre": "Gobierno (MDG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MDG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q138678989",
+    "Q136500275"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MDV",
+   "nombre": "Gobierno (MDV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MDV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q116293030"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MEX",
+   "nombre": "Gobierno (MEX)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MEX",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5771800"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MHL",
+   "nombre": "Gobierno (MHL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MHL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20090884"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MKD",
+   "nombre": "Gobierno (MKD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MKD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12277168",
+    "Q46675558"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MLI",
+   "nombre": "Gobierno (MLI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MLI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113577661",
+    "Q98497406"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MLT",
+   "nombre": "Gobierno (MLT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MLT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1647394",
+    "Q37860840"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MMR",
+   "nombre": "Gobierno (MMR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MMR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3462649",
+    "Q3331362"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MNE",
+   "nombre": "Gobierno (MNE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MNE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q104417661",
+    "Q101225458"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MNG",
+   "nombre": "Gobierno (MNG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MNG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27058418",
+    "Q110962738"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MOZ",
+   "nombre": "Gobierno (MOZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MOZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q6761049",
+    "Q97058466"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MRT",
+   "nombre": "Gobierno (MRT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MRT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q66793577",
+    "Q12241106"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MUS",
+   "nombre": "Gobierno (MUS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MUS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3401447",
+    "Q131403499"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MWI",
+   "nombre": "Gobierno (MWI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MWI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16202782",
+    "Q7176020"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MYS",
+   "nombre": "Gobierno (MYS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MYS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q299574",
+    "Q2657043"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NAM",
+   "nombre": "Gobierno (NAM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NAM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5360975",
+    "Q527020"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NER",
+   "nombre": "Gobierno (NER)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NER",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2646711",
+    "Q120965176"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NGA",
+   "nombre": "Gobierno (NGA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NGA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3510872"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NIC",
+   "nombre": "Gobierno (NIC)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NIC",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57402"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NLD",
+   "nombre": "Gobierno (NLD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NLD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q28860866",
+    "Q154952"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NOR",
+   "nombre": "Gobierno (NOR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NOR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q165241",
+    "Q467948"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NPL",
+   "nombre": "Gobierno (NPL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NPL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q315500",
+    "Q3183124"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NRU",
+   "nombre": "Gobierno (NRU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NRU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q58096"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NZL",
+   "nombre": "Gobierno (NZL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NZL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q74370310"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:OMN",
+   "nombre": "Gobierno (OMN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "OMN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12250314"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PAK",
+   "nombre": "Gobierno (PAK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PAK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2096387",
+    "Q57373"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PAN",
+   "nombre": "Gobierno (PAN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PAN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q108454869"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PER",
+   "nombre": "Gobierno (PER)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PER",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q235137"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PHL",
+   "nombre": "Gobierno (PHL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PHL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q983324"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PLW",
+   "nombre": "Gobierno (PLW)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PLW",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q26703072"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PNG",
+   "nombre": "Gobierno (PNG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PNG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q6138903"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:POL",
+   "nombre": "Gobierno (POL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "POL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17704749",
+    "Q946"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PRK",
+   "nombre": "Gobierno (PRK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PRK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q56226",
+    "Q16905281"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PRT",
+   "nombre": "Gobierno (PRT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PRT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1580316",
+    "Q11764394"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PRY",
+   "nombre": "Gobierno (PRY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PRY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q22695687"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PSE",
+   "nombre": "Gobierno (PSE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PSE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20423278",
+    "Q127998"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:QAT",
+   "nombre": "Gobierno (QAT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "QAT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q23020336",
+    "Q1855372"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ROU",
+   "nombre": "Gobierno (ROU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ROU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q11163124",
+    "Q18538164"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:RUS",
+   "nombre": "Gobierno (RUS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7747",
+    "Q4298520"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:RWA",
+   "nombre": "Gobierno (RWA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "RWA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q135454730",
+    "Q1231345"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SAU",
+   "nombre": "Gobierno (SAU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SAU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q367825"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SDN",
+   "nombre": "Gobierno (SDN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SDN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27654948",
+    "Q63111184"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SEN",
+   "nombre": "Gobierno (SEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q124382437"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SGP",
+   "nombre": "Gobierno (SGP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SGP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q983752",
+    "Q6504758"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SLB",
+   "nombre": "Gobierno (SLB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SLB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q6180897"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SLE",
+   "nombre": "Gobierno (SLE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SLE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q23728768",
+    "Q283829"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SLV",
+   "nombre": "Gobierno (SLV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SLV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17712353"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SMR",
+   "nombre": "Gobierno (SMR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SMR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57546",
+    "Q1353628"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SOM",
+   "nombre": "Gobierno (SOM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SOM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q99605101",
+    "Q319153"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SRB",
+   "nombre": "Gobierno (SRB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SRB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q26258815",
+    "Q42478807"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SSD",
+   "nombre": "Gobierno (SSD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SSD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57315"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:STP",
+   "nombre": "Gobierno (STP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "STP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q131749390",
+    "Q27982047"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SUR",
+   "nombre": "Gobierno (SUR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SUR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q440403"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SVK",
+   "nombre": "Gobierno (SVK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SVK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17330556",
+    "Q57606"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SVN",
+   "nombre": "Gobierno (SVN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SVN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12797332",
+    "Q57627"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SWE",
+   "nombre": "Gobierno (SWE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SWE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q45068",
+    "Q1780398"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SWZ",
+   "nombre": "Gobierno (SWZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SWZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q123342092",
+    "Q57340"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SYC",
+   "nombre": "Gobierno (SYC)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SYC",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16190544"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SYR",
+   "nombre": "Gobierno (SYR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SYR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7934206"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TCD",
+   "nombre": "Gobierno (TCD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TCD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16206405",
+    "Q57350",
+    "Q4710950"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TGO",
+   "nombre": "Gobierno (TGO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TGO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q4414",
+    "Q6169516"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:THA",
+   "nombre": "Gobierno (THA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "THA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q13026319",
+    "Q548733"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TJK",
+   "nombre": "Gobierno (TJK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TJK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15222839",
+    "Q57366"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TKM",
+   "nombre": "Gobierno (TKM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TKM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q51874548"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TLS",
+   "nombre": "Gobierno (TLS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TLS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q11665",
+    "Q11509"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TON",
+   "nombre": "Gobierno (TON)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TON",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q208497",
+    "Q5437258"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TTO",
+   "nombre": "Gobierno (TTO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TTO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57712",
+    "Q97400315"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TUN",
+   "nombre": "Gobierno (TUN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TUN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q108892374",
+    "Q16120878"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TUR",
+   "nombre": "Gobierno (TUR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TUR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q39259"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TUV",
+   "nombre": "Gobierno (TUV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TUV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q5441662"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TWN",
+   "nombre": "Gobierno (TWN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TWN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5116472",
+    "Q3847080"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TZA",
+   "nombre": "Gobierno (TZA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TZA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16193885"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:UGA",
+   "nombre": "Gobierno (UGA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "UGA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q62481397",
+    "Q57274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:UKR",
+   "nombre": "Gobierno (UKR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "UKR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3874799",
+    "Q124101558"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:URY",
+   "nombre": "Gobierno (URY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "URY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q19946921"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:USA",
+   "nombre": "Gobierno (USA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q22686"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:UZB",
+   "nombre": "Gobierno (UZB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "UZB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57808",
+    "Q28002959"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VAT",
+   "nombre": "Gobierno (VAT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VAT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q6109517",
+    "Q109385659"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VCT",
+   "nombre": "Gobierno (VCT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VCT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q28319076",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VEN",
+   "nombre": "Gobierno (VEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15081116"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VNM",
+   "nombre": "Gobierno (VNM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VNM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q10806940",
+    "Q10831196"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VUT",
+   "nombre": "Gobierno (VUT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VUT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113239716",
+    "Q16190741"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:WSM",
+   "nombre": "Gobierno (WSM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "WSM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q32014514",
+    "Q57723",
+    "Q5446290"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:XKS",
+   "nombre": "Gobierno (XKS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "XKS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q441633",
+    "Q13036897"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:YEM",
+   "nombre": "Gobierno (YEM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "YEM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q68837007",
+    "Q12213376"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ZAF",
+   "nombre": "Gobierno (ZAF)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ZAF",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1148669"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ZMB",
+   "nombre": "Gobierno (ZMB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ZMB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q18352991",
+    "Q717185"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ZWE",
+   "nombre": "Gobierno (ZWE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ZWE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q510523"
+   ],
    "fuente": "wikidata",
    "url_fuente": null
   }
