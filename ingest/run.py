@@ -32,6 +32,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from classify import Clasificador, normalizar  # noqa: E402
 from dimensiones import enriquecer, indice_inestabilidad  # noqa: E402
 from geo import Gazetteer, Paises  # noqa: E402
+from resumen import resumen_gdelt, resumen_noticia, titulo_gdelt  # noqa: E402
 import fuentes as F  # noqa: E402
 from validate import validar  # noqa: E402
 
@@ -130,14 +131,14 @@ def impacto_mexico(iso3, area, secundarias, texto, gaz, severidad=3):
     return None
 
 
-def resumen_sistema(c, cls, gaz):
-    """Resumen propio de máximo 2 frases. Nunca copia texto del artículo."""
+def resumen_sistema(c, cls, gaz, nombre_subtema=None):
+    """Resumen propio de ~30 palabras (ingest/resumen.py). Nunca copia oraciones del artículo."""
     if c.get("resumen"):
         return c["resumen"][:400]
-    pais = gaz.paises.get(c["pais_iso3"], {}).get("es") if c["pais_iso3"] else None
-    lugar = f" sobre {pais}" if pais else ""
-    return (f"Nota de {c['fuente']}{lugar} clasificada automáticamente en el área "
-            f"«{cls['nombre_area']}». Abre el enlace para leer la fuente original.")[:400]
+    g = c.get("gdelt")
+    if g:
+        return resumen_gdelt(c, gaz, g["articulos"], g["fuentes"], g["goldstein"], g["desc"], g["a1"], g["a2"], g["lugar"], g.get("slug", ""))
+    return resumen_noticia(c, cls, gaz, nombre_subtema or {})
 
 
 def geocodificar(c, gaz, paises):
@@ -171,14 +172,14 @@ def clasificar(c, clasificador, nombres):
             "confianza": confianza, "nombre_area": nombres[principal]}
 
 
-def a_evento(c, clasificador, nombres, gaz):
+def a_evento(c, clasificador, nombres, gaz, nombre_subtema=None):
     cls = clasificar(c, clasificador, nombres)
     if cls is None:
         return None
     sev = c["severidad"] or severidad_texto(c["texto_clasificar"])
     return {
         "id": id_evento(c), "fecha_utc": c["fecha_utc"], "titulo": c["titulo"],
-        "resumen": resumen_sistema(c, cls, gaz), "fuente": c["fuente"], "url": c["url"],
+        "resumen": resumen_sistema(c, cls, gaz, nombre_subtema), "fuente": c["fuente"], "url": c["url"],
         "tipo_fuente": c["tipo_fuente"], "pais_iso3": c["pais_iso3"],
         "region": gaz.region(c["pais_iso3"]) if c["pais_iso3"] else None,
         "lat": c["lat"], "lon": c["lon"],
@@ -253,7 +254,7 @@ def priorizar(eventos, maximo):
 
 
 def compacto(e):
-    return {k: e[k] for k in ("id", "fecha_utc", "titulo", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
+    return {k: e[k] for k in ("id", "fecha_utc", "titulo", "resumen", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
                               "area_principal", "severidad", "nivel_alerta", "impacto_mexico")}
 
 
@@ -341,6 +342,7 @@ def recolectar(cfg, appname):
 def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy):
     """Lógica pura (sin red): candidatos -> lista final de eventos. Se prueba en tests/test_ingesta.py."""
     nombres = {a["id"]: a["nombre"] for a in taxonomy["areas"]}
+    nombre_subtema = {s["id"]: s["nombre"] for a in taxonomy["areas"] for s in a["subtemas"]}
     limite = t - timedelta(hours=cfg["ventana_horas"])
     sin_clasificar = []
     eventos, descartados = [], {"fuera_de_ventana": 0, "fuera_de_tema": 0, "sin_clasificar": 0, "ejemplos": sin_clasificar}
@@ -354,7 +356,10 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
         if not c["fuente"].startswith("GDELT") and fuera_de_tema(c["titulo"], c["texto_clasificar"]):
             descartados["fuera_de_tema"] += 1
             continue
-        e = a_evento(geocodificar(c, gaz, paises), clasificador, nombres, gaz)
+        c = geocodificar(c, gaz, paises)
+        if c.get("gdelt"):
+            c["titulo"] = titulo_gdelt(c["gdelt"], gaz, c["pais_iso3"])
+        e = a_evento(c, clasificador, nombres, gaz, nombre_subtema)
         if e is None:
             descartados["sin_clasificar"] += 1
             if len(sin_clasificar) < 15:  # solo título y fuente, para revisar palabras clave faltantes

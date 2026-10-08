@@ -97,3 +97,11 @@ Rojo = severidad 4 o 5; ámbar = 3; verde = 1 o 2. Cada área toma el color de s
 - **«mine»** (también «mío» en inglés) se reemplazó por «copper/lithium/gold/coal mine». Se agregaron «COP29», «COP30» y «COP31».
 - **Fuera de tema:** notas de deportes o espectáculos (cricket, fútbol, tenis, cine, conciertos…) se descartan, salvo que el texto sea grave (muertos, ataque, etc.). Se cuentan en el run-log como `fuera_de_tema`.
 - **País por texto:** se agregaron gentilicios (ruso, israelí, alemán…), regiones (Texas, Cataluña, Tigray, Donbás…) y líderes (Putin, Netanyahu, Macron…). Límite conocido: el primer país mencionado gana, así que «Russian missile kills 19 in Kyiv» queda en Rusia.
+
+## Resumen propio de cada evento (~30 palabras, sin IA)
+
+`ingest/resumen.py` lee el título y la descripción del feed solo en memoria y extrae **hechos**: países (en orden de aparición), organismos (ONU, OTAN, UE, OMS, FMI, hutíes, Hamás…), cifras con unidad (muertos, heridos, desplazados, detenidos, drones, misiles, hogares afectados, montos y porcentajes) y el tipo de hecho (área y subtema del clasificador). Con eso redacta su propia frase en español:
+
+> Seguridad y poder militar · Actores no estatales en Arabia Saudita (Medio Oriente): 3 muertos y 12 heridos. Involucra a Arabia Saudita, Yemen, los hutíes y la ONU. Nota en inglés de Al Jazeera.
+
+En GDELT el título se traduce («Combate: Rusia → Ucrania (Kyiv, Ucrania)») y el resumen agrega las palabras del enlace de origen, que suelen ser el titular del artículo. Una prueba automática verifica que ninguna secuencia de 5 palabras de la descripción del medio aparezca en el resumen. Límite: es una frase armada con reglas; un resumen redactado (con IA) queda para la Fase 6.

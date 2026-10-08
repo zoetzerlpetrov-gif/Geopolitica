@@ -149,7 +149,7 @@ function pintarLista(visibles) {
   $("contador").textContent = `(${visibles.length})`;
   const html = visibles.slice(0, MAX_LISTA).map((ev) => {
     const a = tax.areas.get(ev.area_principal);
-    return `<li><button type="button" data-id="${esc(ev.id)}">
+    return `<li><button type="button" data-id="${esc(ev.id)}" title="${esc(ev.resumen)}">
       <span class="punto" style="background:${esc(a.color)}" aria-hidden="true"></span>
       <span>${esc(ev.titulo)}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)} · sev. ${ev.severidad}</span></span>
     </button></li>`;

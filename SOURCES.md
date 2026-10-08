@@ -49,7 +49,7 @@ Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen co
 
 ## Eventos (Fase 2: ingesta horaria, `ingest/run.py`)
 
-Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen lo redacta el sistema con una plantilla. El texto del artículo, la descripción del feed y las palabras del enlace solo se usan en memoria para clasificar (`tests/test_ingesta.py` lo comprueba). La configuración está en `config/fuentes.json`. El estado real de cada fuente en cada corrida queda en `run-log.json` y en el resumen del workflow **Ingesta de eventos**.
+Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen (~30 palabras) lo redacta el sistema con reglas a partir de hechos extraídos (países, organismos, cifras, tipo de hecho); no copia oraciones del medio (ver docs/INDICADORES.md). El texto del artículo, la descripción del feed y las palabras del enlace solo se usan en memoria para clasificar (`tests/test_ingesta.py` lo comprueba). La configuración está en `config/fuentes.json`. El estado real de cada fuente en cada corrida queda en `run-log.json` y en el resumen del workflow **Ingesta de eventos**.
 
 | Fuente | Qué aporta | Costo | Registro / llave | Licencia / términos | Frecuencia | Estado |
 |---|---|---|---|---|---|---|

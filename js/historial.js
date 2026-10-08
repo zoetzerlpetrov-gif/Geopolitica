@@ -10,7 +10,7 @@ export const SEV_MIN_90 = 3;
 export function aEvento(r, regionDe = {}) {
   return {
     id: r.id, fecha_utc: r.fecha_utc, _t: Date.parse(r.fecha_utc), titulo: r.titulo,
-    resumen: "Registro del historial: solo se conservan título, fuente, fecha y enlace. Abre la fuente original para el detalle.",
+    resumen: r.resumen || "Registro del historial: solo se conservan título, fuente, fecha y enlace. Abre la fuente original para el detalle.",
     fuente: r.fuente, url: r.url, tipo_fuente: r.tipo_fuente || "noticia",
     pais_iso3: r.pais_iso3, region: regionDe[r.pais_iso3] || null, lat: r.lat, lon: r.lon,
     area_principal: r.area_principal, areas_secundarias: [], subtemas: [], actores: [],
