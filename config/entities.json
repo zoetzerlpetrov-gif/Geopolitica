@@ -1005,25 +1005,6 @@
       "tecnologia"
      ],
      "grupo": "visual"
-    },
-    {
-     "id": "lanzamientos",
-     "nombre": {
-      "es": "Misiones y lanzamientos recientes",
-      "en": "Recent launches"
-     },
-     "icono": "🚀",
-     "color": "#5B4A9E",
-     "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
-     "frecuencia": "cada 6 h",
-     "tipo_capa": "movimiento",
-     "estado_dato": "estimado",
-     "zoom_min": 0,
-     "areas": [
-      "tecnologia"
-     ],
-     "grupo": "last-30-days"
     }
    ]
   },

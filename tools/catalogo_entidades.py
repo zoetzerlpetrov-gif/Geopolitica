@@ -119,7 +119,6 @@ CATEGORIAS = [
             sub("geoestacionarios", "Geoestacionarios (TV y comunicaciones, fijos sobre el Ecuador)", "Geostationary", "🛰", "#4A6B8A", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="geo"),
             sub("militares", "Militares (solo catalogados públicamente)", "Military (publicly cataloged only)", "🛰", "#A3392F", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["seguridad", "tecnologia"], grupo="military"),
             sub("visibles", "Más brillantes / visibles", "Brightest", "🛰", "#C27C1E", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="visual"),
-            sub("lanzamientos", "Misiones y lanzamientos recientes", "Recent launches", "🚀", "#5B4A9E", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="last-30-days"),
         ],
     },
     {
