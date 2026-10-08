@@ -27,13 +27,13 @@ ENDPOINT = "https://query.wikidata.org/sparql"
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica; datos de rol público)"
 CAMPOS_PERSONA = ("id", "nombre", "cargo", "organizacion_id", "pais_iso3", "wikidata", "subtipo", "fuente", "actualizado_utc")
 
+# Declaraciones "verdaderas" (wdt:): Wikidata marca como preferida la vigente, así que no hace falta
+# filtrar por fecha de fin. La versión con calificadores excedía el límite de 60 s del servicio.
 Q_JEFES = """
 SELECT ?iso3 ?persona ?personaLabel ?rol WHERE {
   ?pais wdt:P31 wd:Q3624078; wdt:P298 ?iso3.
-  { ?pais p:P35 ?st. ?st ps:P35 ?persona. BIND("estado" AS ?rol) }
-  UNION { ?pais p:P6 ?st. ?st ps:P6 ?persona. BIND("gobierno" AS ?rol) }
-  FILTER NOT EXISTS { ?st pq:P582 ?fin }
-  ?st wikibase:rank ?rango. FILTER(?rango != wikibase:DeprecatedRank)
+  { ?pais wdt:P35 ?persona. BIND("estado" AS ?rol) }
+  UNION { ?pais wdt:P6 ?persona. BIND("gobierno" AS ?rol) }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
 }"""
 

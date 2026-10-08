@@ -90,9 +90,14 @@ def satelites():
         if edad_h < HORAS_TLE:
             print(f"  TLE de hace {edad_h:.1f} h: se conservan (CelesTrak pide no descargar el mismo grupo más de una vez cada 2 h)")
             return sum(len(g) for g in previo["grupos"].values())
-    grupos = {}
+    grupos, fallidos = {}, {}
     for g in GRUPOS_SAT:
-        texto = get(f"https://celestrak.org/NORAD/elements/gp.php?GROUP={g}&FORMAT=tle").decode("utf-8").strip().splitlines()
+        try:
+            texto = get(f"https://celestrak.org/NORAD/elements/gp.php?GROUP={g}&FORMAT=tle").decode("utf-8").strip().splitlines()
+        except Exception as e:  # noqa: BLE001  un grupo inexistente no debe tumbar a los demás
+            fallidos[g] = str(e)
+            print(f"  grupo {g}: {e}")
+            continue
         sats = []
         for i in range(0, len(texto) - 2, 3):
             nombre, l1, l2 = texto[i].strip(), texto[i + 1].strip(), texto[i + 2].strip()
@@ -100,7 +105,9 @@ def satelites():
                 sats.append([nombre, l1, l2])
         grupos[g] = sats
         time.sleep(2)
-    escribir("satelites.json", {"generado_utc": ahora(), "fuente": "CelesTrak", "grupos": grupos})
+    if not grupos:
+        raise RuntimeError(f"ningún grupo respondió: {fallidos}")
+    escribir("satelites.json", {"generado_utc": ahora(), "fuente": "CelesTrak", "grupos": grupos, "fallidos": fallidos})
     return sum(len(g) for g in grupos.values())
 
 
