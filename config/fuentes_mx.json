@@ -1,15 +1,72 @@
 {
   "descripcion": "Feeds RSS de medios mexicanos para la capa de crimen, ataques y deslaves (tools/crimen/crimen.py). Solo se guarda título, enlace, medio, fecha y lugar aproximado; nunca el texto. Se respeta robots.txt; las URL que no respondan quedan anotadas en vivos/crimen.geojson (fuentes_mx).",
   "feeds": [
-    {"id": "el_sur", "nombre": "El Sur de Acapulco", "url": "https://suracapulco.mx/feed/"},
-    {"id": "quadratin_guerrero", "nombre": "Quadratín Guerrero", "url": "https://guerrero.quadratin.com.mx/feed/"},
-    {"id": "aristegui", "nombre": "Aristegui Noticias", "url": "https://aristeguinoticias.com/feed/"},
-    {"id": "animal_politico", "nombre": "Animal Político", "url": "https://www.animalpolitico.com/feed/"},
-    {"id": "infobae_mx", "nombre": "Infobae México", "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/"},
-    {"id": "proceso", "nombre": "Proceso", "url": "https://www.proceso.com.mx/rss/"},
-    {"id": "jornada_estados", "nombre": "La Jornada (estados)", "url": "https://www.jornada.com.mx/rss/estados.xml?v=1"},
-    {"id": "el_universal", "nombre": "El Universal", "url": "https://www.eluniversal.com.mx/arc/outboundfeeds/rss/?outputType=xml"},
-    {"id": "milenio", "nombre": "Milenio", "url": "https://www.milenio.com/rss"},
-    {"id": "excelsior", "nombre": "Excélsior", "url": "https://www.excelsior.com.mx/rss.xml"}
+    {
+      "id": "quadratin_guerrero",
+      "nombre": "Quadratín Guerrero",
+      "url": "https://guerrero.quadratin.com.mx/feed/"
+    },
+    {
+      "id": "aristegui",
+      "nombre": "Aristegui Noticias",
+      "url": "https://aristeguinoticias.com/feed/"
+    },
+    {
+      "id": "infobae_mx",
+      "nombre": "Infobae México",
+      "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/"
+    },
+    {
+      "id": "jornada_estados",
+      "nombre": "La Jornada (estados)",
+      "url": "https://www.jornada.com.mx/rss/estados.xml?v=1"
+    },
+    {
+      "id": "infobae_america",
+      "nombre": "Infobae América",
+      "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/america/"
+    },
+    {
+      "id": "sinembargo",
+      "nombre": "SinEmbargo",
+      "url": "https://www.sinembargo.mx/feed"
+    },
+    {
+      "id": "jornada_politica",
+      "nombre": "La Jornada (política)",
+      "url": "https://www.jornada.com.mx/rss/politica.xml?v=1"
+    }
+  ],
+  "descartadas": [
+    {
+      "id": "el_sur",
+      "url": "https://suracapulco.mx/feed/",
+      "motivo": "robots.txt no lo permite (corrida del 2026-10-08)"
+    },
+    {
+      "id": "animal_politico",
+      "url": "https://www.animalpolitico.com/feed/",
+      "motivo": "404 (corrida del 2026-10-08)"
+    },
+    {
+      "id": "proceso",
+      "url": "https://www.proceso.com.mx/rss/",
+      "motivo": "403 (corrida del 2026-10-08)"
+    },
+    {
+      "id": "el_universal",
+      "url": "https://www.eluniversal.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+      "motivo": "robots.txt no lo permite (corrida del 2026-10-08)"
+    },
+    {
+      "id": "milenio",
+      "url": "https://www.milenio.com/rss",
+      "motivo": "404 (corrida del 2026-10-08)"
+    },
+    {
+      "id": "excelsior",
+      "url": "https://www.excelsior.com.mx/rss.xml",
+      "motivo": "404 (corrida del 2026-10-08)"
+    }
   ]
 }

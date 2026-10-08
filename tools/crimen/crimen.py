@@ -275,7 +275,7 @@ def get_json(url, reintentos=1):
 
 
 # ---------------------------------------------------------------- feeds RSS de medios mexicanos
-DESLAVE = r"deslave|derrumbe|deslizamiento|desgajamiento|socav[oó]n|alud|landslide|mudslide|corrimiento de tierra"
+DESLAVE = r"\b(deslaves?|derrumbes? de (tierra|cerro|roca)|deslizamientos? de (tierra|ladera)|desgajamientos?|socav[oó]n|alud(es)?|landslides?|mudslides?|corrimientos? de tierra)\b"
 CRIMEN_TXT = r"c[aá]rtel|narco|crimen organizado|sicari|balacera|enfrentamiento|ejecutad|asesinad|homicid|secuestr|extorsi|cobro de piso|fosa|levant(ad|on)|desaparec|huachicol|halcones|emboscada"
 
 
@@ -302,7 +302,13 @@ def rss_mexico(estados, gaz):
             if not F.permitido_por_robots(fuente["url"]):
                 estado_fuentes[fuente["id"]] = "robots.txt no lo permite"
                 continue
-            cands = F.parsear_rss(F.get(fuente["url"], timeout=40), {"nombre": fuente["nombre"], "tipo": "noticia"})
+            datos = F.get(fuente["url"], timeout=40)
+            try:
+                cands = F.parsear_rss(datos, {"nombre": fuente["nombre"], "tipo": "noticia"})
+            except Exception:  # noqa: BLE001  XML con prefijos sin declarar (p. ej. «media:»): se quitan y se reintenta
+                limpio = re.sub(rb"<(/?)([A-Za-z0-9_]+):", rb"<\1\2_", datos)
+                limpio = re.sub(rb'\s[A-Za-z0-9_]+:([A-Za-z0-9_]+)="', rb' \1="', limpio)
+                cands = F.parsear_rss(limpio, {"nombre": fuente["nombre"], "tipo": "noticia"})
         except Exception as e:  # noqa: BLE001
             estado_fuentes[fuente["id"]] = f"error: {e}"[:120]
             continue
@@ -312,7 +318,8 @@ def rss_mexico(estados, gaz):
             if not clase:
                 continue
             lugar = ubicar(c["titulo"], estados, gaz, "mx")
-            if not lugar:
+            # En medios nacionales, una nota sin lugar en el título no se pinta en el centro del país.
+            if not lugar or lugar[4] == "país":
                 continue
             lon, lat, nombre, iso, precision = lugar
             props = {"title": c["titulo"][:220], "url": c["url"], "source": fuente["nombre"], "date": c["fecha_utc"], "lugar": nombre,
