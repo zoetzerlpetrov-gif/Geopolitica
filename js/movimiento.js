@@ -4,7 +4,8 @@
 //   - Nada se descarga hasta activar la capa; en modo LITE estas capas están apagadas.
 //   - Aviones y buques: solo se dibuja lo que cae en el área visible (+20 % de margen), recalculado
 //     500 ms después de terminar de mover el mapa, con un tope de MAX_OBJETOS y aviso si se recorta.
-//   - Íconos: una sola flecha SDF que la GPU colorea y rota según el rumbo (sin imágenes por objeto).
+//   - Íconos: una flecha (aviones) y una silueta de barco (buques) SDF que la GPU colorea y rota según el
+//     rumbo (sin imágenes por objeto).
 //   - Proyección: entre instantáneas (cada 20 min) la posición se proyecta con rumbo y velocidad a 4 Hz
 //     (1 Hz si hay más de 2,000 visibles; en pausa mientras se mueve el mapa), como máximo 5 min hacia
 //     adelante; después se congela. Por eso estado_dato = "retrasado".
@@ -27,6 +28,24 @@ function imagenFlecha(tam = 32) {
   g.fillStyle = "#fff";
   g.beginPath();
   g.moveTo(tam / 2, 2); g.lineTo(tam - 6, tam - 4); g.lineTo(tam / 2, tam - 10); g.lineTo(6, tam - 4);
+  g.closePath(); g.fill();
+  return g.getImageData(0, 0, tam, tam);
+}
+
+/** Silueta de barco vista desde arriba (proa arriba): casco con proa en punta y popa recta. También SDF. */
+function imagenBarco(tam = 32) {
+  const c = document.createElement("canvas");
+  c.width = c.height = tam;
+  const g = c.getContext("2d");
+  const m = tam / 2;
+  g.fillStyle = "#fff";
+  g.beginPath();
+  g.moveTo(m, 1);                                   // proa
+  g.quadraticCurveTo(m + 9, 8, m + 7, 16);          // costado de estribor
+  g.lineTo(m + 6, tam - 3);
+  g.lineTo(m - 6, tam - 3);                         // popa recta
+  g.lineTo(m - 7, 16);
+  g.quadraticCurveTo(m - 9, 8, m, 1);               // costado de babor
   g.closePath(); g.fill();
   return g.getImageData(0, 0, tam, tam);
 }
@@ -129,6 +148,7 @@ export class Movimiento {
     const src = `mov-${tipo}`;
     if (this.map.getSource(src)) return;
     if (!this.map.hasImage("flecha")) this.map.addImage("flecha", imagenFlecha(), { sdf: true });
+    if (!this.map.hasImage("barco")) this.map.addImage("barco", imagenBarco(), { sdf: true });
     this.map.addSource(src, { type: "geojson", data: { type: "FeatureCollection", features: [] } });
     const subtipos = this.cat[tipo].subtipos;
     const color = ["match", ["get", "st"]];
@@ -145,7 +165,7 @@ export class Movimiento {
         paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 0, 2, 6, 4], "circle-color": color, "circle-stroke-width": 0.8, "circle-stroke-color": "#ffffff" } });
     } else {
       this.map.addLayer({ id: src, type: "symbol", source: src,
-        layout: { "icon-image": "flecha", "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.35, 8, 0.6], "icon-rotate": ["get", "r"],
+        layout: { "icon-image": tipo === "buques" ? "barco" : "flecha", "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.35, 8, tipo === "buques" ? 0.75 : 0.6], "icon-rotate": ["get", "r"],
           "icon-rotation-alignment": "map", "icon-allow-overlap": true, "icon-ignore-placement": true },
         paint: { "icon-color": color, "icon-halo-color": "#ffffff", "icon-halo-width": 0.8 } });
     }
@@ -219,7 +239,7 @@ export class Movimiento {
         if (tipo === "satelites") continue;
         const antes = this.datos[tipo]?.generado;
         await this.#cargar(tipo).catch(() => null);
-        if (this.datos[tipo]?.generado !== antes) { if (tipo === "aeronaves") dispatchEvent(new Event("vivos-actualizados")); this.#redibujar(tipo); }
+        if (this.datos[tipo]?.generado !== antes) { dispatchEvent(new Event("vivos-actualizados")); this.#redibujar(tipo); }
       }
     }, 300000);
     requestAnimationFrame(paso);

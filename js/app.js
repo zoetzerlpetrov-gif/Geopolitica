@@ -190,6 +190,7 @@ function abrirFichaHtml(html) {
 let trayectoria = null;
 async function abrirObjetoMovil(o, catalogo) {
   entidadAbierta = null;
+  if (o.tipo === "buques" && o.campos?.includes("estado_nav")) return abrirBuque(o, catalogo);
   if (o.tipo !== "aeronaves" || !o.campos) { trayectoria?.limpiar(); abrirFichaHtml(htmlFichaMovil(o, catalogo)); return; }
   const V = await import("./vuelos.js");
   const v = vueloDeFila(JSON.parse(o.props.f), o.campos);
@@ -206,12 +207,32 @@ async function abrirObjetoMovil(o, catalogo) {
   const gj = V.geojsonTrayectoria(v, extra, proyectar);
   trayectoria.mostrar(gj);
   // Encuadra recorrido, rumbo y destino a la vista, dejando libre el espacio de la ficha.
-  const caja = V.limites(gj);
-  if (caja) {
-    const movil = matchMedia("(max-width: 760px)").matches;
-    api.map.fitBounds(caja, { padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 30, right: 30 } : { top: 60, bottom: 60, left: 60, right: 460 },
-      maxZoom: 7, duration: lite ? 0 : 800 });
-  }
+  encuadrar(V.limites(gj), 7);
+}
+
+/** Encuadra lo dibujado dejando libre el espacio de la ficha. */
+function encuadrar(caja, maxZoom) {
+  if (!caja) return;
+  const movil = matchMedia("(max-width: 760px)").matches;
+  api.map.fitBounds(caja, { padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 30, right: 30 } : { top: 60, bottom: 60, left: 60, right: 460 },
+    maxZoom, duration: lite ? 0 : 800 });
+}
+
+async function abrirBuque(o, catalogo) {
+  const [B, V] = await Promise.all([import("./buques.js"), import("./vuelos.js")]);
+  const b = vueloDeFila(JSON.parse(o.props.f), o.campos);
+  if (o.coords) [b.lon, b.lat] = o.coords;
+  const cat = catalogo.categorias.find((c) => c.id === "buques");
+  const comunes = { subtipoNombre: SUB(cat, b.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
+  abrirFichaHtml(B.htmlBuque(b, null, comunes));
+  trayectoria ??= new V.Trayectoria(api.map);
+  if (B.SIN_TRAYECTORIA.has(b.subtipo)) { trayectoria.limpiar(); return; } // recreo: nada se dibuja
+  const extra = await B.datosBuque(b);
+  if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(b.nombre || "MMSI " + b.mmsi)) return;
+  $("ficha-cuerpo").innerHTML = B.htmlBuque(b, extra, comunes);
+  const gj = B.geojsonBuque(b, extra, proyectar);
+  trayectoria.mostrar(gj);
+  encuadrar(V.limites(gj), 10);
 }
 
 function cerrarFicha() {

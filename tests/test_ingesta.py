@@ -305,3 +305,78 @@ def test_gentilicios_regiones_y_lideres(titulo, iso):
 ])
 def test_pais_por_preposicion_de_lugar(titulo, iso):
     assert GAZ.pais_en_texto(titulo) == iso
+
+
+# ---------------- Bluesky, YouTube y Mastodon ----------------
+BSKY = b"""<?xml version="1.0"?><rss version="2.0"><channel><title>CIDOB</title>
+<item><link>https://bsky.app/profile/cidobbarcelona.bsky.social/post/3abc</link>
+<description>Nuevo an\xc3\xa1lisis: las elecciones en Moldavia y la presi\xc3\xb3n de Rusia sobre la frontera oriental de la UE. Lee el informe completo aqu\xc3\xad.</description>
+<pubDate>08 Oct 2026 10:00 +0000</pubDate></item></channel></rss>"""
+
+YOUTUBE = b"""<?xml version="1.0" encoding="UTF-8"?><feed xmlns:yt="http://www.youtube.com/xml/schemas/2015"
+ xmlns:media="http://search.yahoo.com/mrss/" xmlns="http://www.w3.org/2005/Atom"><title>Elcano</title>
+<entry><title>Seminario: la OTAN y el flanco sur</title><link rel="alternate" href="https://www.youtube.com/watch?v=abc123"/>
+<published>2026-10-08T09:00:00+00:00</published><updated>2026-10-08T11:00:00+00:00</updated>
+<media:group><media:title>x</media:title><media:description>Debate sobre seguridad en el Mediterr\xc3\xa1neo y el Sahel.</media:description></media:group>
+</entry></feed>"""
+
+MASTODON = b"""<?xml version="1.0"?><rss version="2.0"><channel><title>#geopolitics</title>
+<item><guid>https://mastodon.social/@persona/1</guid><link>https://mastodon.social/@persona/1</link>
+<pubDate>Thu, 08 Oct 2026 10:00:00 +0000</pubDate>
+<description>&lt;p&gt;Opini\xc3\xb3n personal: Taiwan and China naval drills raise tension near the strait&lt;/p&gt;</description></item>
+<item><link>https://mastodon.social/@otra/2</link><pubDate>Thu, 08 Oct 2026 10:00:00 +0000</pubDate>
+<description>Geopolitics is fascinating, no place mentioned</description></item>
+</channel></rss>"""
+
+
+def test_bluesky_sin_titulo_usa_la_primera_frase():
+    c = F.parsear_rss(BSKY, {"nombre": "CIDOB (Bluesky)", "tipo": "analisis", "modo": "titulo_desde_texto"})[0]
+    assert c["titulo"] == "Nuevo análisis: las elecciones en Moldavia y la presión de Rusia sobre la frontera oriental de la UE."
+    assert c["url"].startswith("https://bsky.app/") and c["fecha_utc"] == "2026-10-08T10:00:00Z"
+
+
+def test_primera_frase_corta_en_palabra_completa():
+    assert F.primera_frase("palabra " * 40, maximo=30).endswith("…")
+    assert len(F.primera_frase("palabra " * 40, maximo=30)) <= 31
+
+
+def test_youtube_atom_con_descripcion_media_y_fecha_de_publicacion():
+    c = F.parsear_rss(YOUTUBE, {"nombre": "Elcano (YouTube)", "tipo": "analisis", "max_items": 15})[0]
+    assert c["url"] == "https://www.youtube.com/watch?v=abc123"
+    assert c["fecha_utc"] == "2026-10-08T09:00:00Z"
+    assert "Sahel" in c["texto_clasificar"]
+
+
+def test_mastodon_solo_enlace_sin_texto_ni_autor_publicado():
+    feed = {"nombre": "Mastodon #geopolitics", "tipo": "red_social", "modo": "solo_enlace", "etiqueta": "geopolitics", "idioma": "en"}
+    cands = F.parsear_rss(MASTODON, feed)
+    assert len(cands) == 2 and all(c["anonimo"] for c in cands)
+    eventos, desc = _procesar(cands)
+    assert len(eventos) == 1 and desc["red_social_sin_pais"] == 1
+    e = eventos[0]
+    assert e["titulo"].startswith("Publicación pública en Mastodon con #geopolitics sobre ")
+    assert e["tipo_fuente"] == "red_social" and e["actores"] == []
+    publicado = json.dumps(e, ensure_ascii=False)
+    assert "Opinión personal" not in publicado and "naval drills" not in publicado and "persona" not in e["titulo"]
+
+
+def test_mastodon_nunca_va_a_la_ia():
+    feed = {"nombre": "Mastodon #geopolitics", "tipo": "red_social", "modo": "solo_enlace", "etiqueta": "geopolitics"}
+    vistos = {}
+    R.procesar(F.parsear_rss(MASTODON, feed), [], CFG, T, GAZ, PAISES, CLS, TAX, resumidor=lambda ev, textos: vistos.update(textos))
+    assert vistos == {}
+
+
+def test_robots_txt_se_respeta():
+    F._ROBOTS.clear()
+    reglas = "User-agent: *\nDisallow: /privado/\n"
+    assert F.permitido_por_robots("https://ej.org/feed.xml", leer=lambda u: reglas)
+    assert not F.permitido_por_robots("https://ej.org/privado/feed.xml", leer=lambda u: reglas)
+    F._ROBOTS.clear()
+
+
+def test_feeds_nuevos_configurados():
+    ids = {f["id"]: f for f in CFG["rss"]}
+    assert ids["mastodon_geopolitics"]["modo"] == "solo_enlace"
+    assert ids["cidob_bluesky"]["modo"] == "titulo_desde_texto"
+    assert "youtube.com/feeds" in ids["elcano_youtube"]["url"]

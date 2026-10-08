@@ -35,7 +35,7 @@ FUENTES = {
     "marine_regions": {"nombre": "Marine Regions", "url": "https://www.marineregions.org", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": False},
     "gibs": {"nombre": "NASA GIBS", "url": "https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/gibs-api", "licencia": "Datos abiertos de la NASA, sin llave", "uso_comercial": True, "licencia_verificada": False},
     "chokepoints": {"nombre": "Lista curada del proyecto (config/chokepoints.json)", "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica", "licencia": "Propia", "uso_comercial": True, "licencia_verificada": True},
-    "camaras_publicas": {"nombre": "Cámaras publicadas por organismos públicos (por definir)", "url": "", "licencia": "Según cada organismo", "uso_comercial": None, "licencia_verificada": False},
+    "camaras_publicas": {"nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)", "url": "", "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador", "uso_comercial": None, "licencia_verificada": False},
 }
 
 
@@ -197,15 +197,18 @@ CATEGORIAS = [
     {
         "id": "camaras", "nombre": {"es": "Cámaras públicas", "en": "Public cameras"}, "fase": "C6", "dibujable": True,
         "reglas": [
-            "Solo cámaras que un gobierno u organismo publica para verse en abierto (tráfico, incendios forestales, clima, volcanes).",
+            "Solo cámaras que un gobierno u organismo publica para verse en abierto (tráfico, incendios forestales, clima, volcanes, canales), o que un operador turístico publica de forma intencional en su propio sitio.",
             "Nunca cámaras privadas, cámaras expuestas por error de configuración ni enlaces obtenidos por escaneo.",
+            "El mapa solo enlaza a la página oficial del operador; no se copia ni se retransmite la imagen.",
             "Estado visible: en_vivo, disponible_24h, repeticion o inactiva (con tiempo de inactividad).",
         ],
         "estados": ["en_vivo", "disponible_24h", "repeticion", "inactiva"],
         "subtipos": [
-            sub("trafico", "Tráfico", "Traffic", "📷", "#333F48", "camaras_publicas", "5 min", "estatica", "retrasado", 6, ["infraestructura"]),
-            sub("incendios", "Vigilancia de incendios forestales", "Wildfire watch", "📷", "#b5523b", "camaras_publicas", "5 min", "estatica", "retrasado", 5, ["clima"]),
-            sub("volcanes_clima", "Volcanes y clima", "Volcanoes and weather", "📷", "#1F8A8A", "camaras_publicas", "5 min", "estatica", "retrasado", 5, ["clima"]),
+            sub("trafico", "Tráfico", "Traffic", "📷", "#333F48", "camaras_publicas", "5 min", "estatica", "retrasado", 6, ["infraestructura"], familia="camaras"),
+            sub("incendios", "Vigilancia de incendios forestales", "Wildfire watch", "📷", "#b5523b", "camaras_publicas", "5 min", "estatica", "retrasado", 5, ["clima"], familia="camaras"),
+            sub("volcanes_clima", "Volcanes y clima", "Volcanoes and weather", "📷", "#1F8A8A", "camaras_publicas", "5 min", "estatica", "retrasado", 2, ["clima"], familia="camaras"),
+            sub("canales_puertos", "Canales y puertos", "Canals and ports", "📷", "#2E6F8E", "camaras_publicas", "5 min", "estatica", "retrasado", 2, ["infraestructura", "geoeconomia"], familia="camaras"),
+            sub("turismo", "Turismo y paisaje", "Tourism and landscape", "📷", "#7A6A2F", "camaras_publicas", "5 min", "estatica", "retrasado", 2, ["infraestructura"], familia="camaras"),
         ],
     },
 ]

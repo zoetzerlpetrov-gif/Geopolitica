@@ -70,7 +70,7 @@
       "idioma": "es",
       "tipo": "analisis",
       "habilitada": false,
-      "motivo": "La URL devolvió un feed sin elementos (2026-10-08). Falta confirmar la URL oficial del RSS."
+      "motivo": "Sustituida por las fuentes cidob_bluesky y cidob_youtube: la web no publica un RSS con elementos (2026-10-08)."
     },
     {
       "id": "elcano",
@@ -80,6 +80,45 @@
       "tipo": "analisis",
       "habilitada": false,
       "motivo": "Responde 403 al bot (primera corrida, 2026-10-08). No se evade el bloqueo; buscar un feed o API oficial."
+    },
+    {
+      "id": "cidob_bluesky",
+      "nombre": "CIDOB (Bluesky)",
+      "url": "https://bsky.app/profile/cidobbarcelona.bsky.social/rss",
+      "idioma": "es",
+      "tipo": "analisis",
+      "modo": "titulo_desde_texto",
+      "max_items": 20,
+      "nota": "Cuenta institucional. Bluesky publica RSS oficial por perfil; X, Facebook, Instagram y LinkedIn no tienen feed público y no se usan."
+    },
+    {
+      "id": "cidob_youtube",
+      "nombre": "CIDOB (YouTube)",
+      "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCD71Ad1FcumiuTVMBousZ2w",
+      "idioma": "es",
+      "tipo": "analisis",
+      "max_items": 15,
+      "nota": "Feed Atom oficial de YouTube del canal."
+    },
+    {
+      "id": "elcano_youtube",
+      "nombre": "Real Instituto Elcano (YouTube)",
+      "url": "https://www.youtube.com/feeds/videos.xml?user=RealInstitutoElcano",
+      "idioma": "es",
+      "tipo": "analisis",
+      "max_items": 15,
+      "nota": "Feed Atom oficial de YouTube. La web responde 403 al bot y no se evade ese bloqueo."
+    },
+    {
+      "id": "mastodon_geopolitics",
+      "nombre": "Mastodon #geopolitics",
+      "url": "https://mastodon.social/tags/geopolitics.rss",
+      "idioma": "en",
+      "tipo": "red_social",
+      "modo": "solo_enlace",
+      "etiqueta": "geopolitics",
+      "max_items": 20,
+      "nota": "RSS público de la etiqueta en mastodon.social. Solo se guarda el enlace público; texto y autor se usan en memoria para ubicar el país y no se publican ni se envían a la IA."
     }
   ],
   "reliefweb": {

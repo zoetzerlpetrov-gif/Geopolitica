@@ -365,6 +365,16 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
             descartados["fuera_de_tema"] += 1
             continue
         c = geocodificar(c, gaz, paises)
+        if c.get("anonimo"):
+            # Publicación de una persona usuaria (Mastodon): solo se publica si menciona un país, con un
+            # título generado; su texto y su autor no se guardan (solo el enlace público).
+            c["pais_iso3"] = c["pais_iso3"] or gaz.pais_en_texto(c["texto_clasificar"])
+            if not c["pais_iso3"] or c["pais_iso3"] not in gaz.paises:
+                descartados["red_social_sin_pais"] = descartados.get("red_social_sin_pais", 0) + 1
+                continue
+            c["lon"], c["lat"] = gaz.centroide(c["pais_iso3"])
+            c["titulo"] = f"Publicación pública en Mastodon con #{c['etiqueta']} sobre {gaz.paises[c['pais_iso3']]['es']}"
+            c["actores"] = []
         if c.get("gdelt"):
             c["titulo"] = titulo_gdelt(c["gdelt"], gaz, c["pais_iso3"])
         e = a_evento(c, clasificador, nombres, gaz, nombre_subtema)
@@ -373,7 +383,7 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
             if len(sin_clasificar) < 15:  # solo título y fuente, para revisar palabras clave faltantes
                 sin_clasificar.append({"titulo": c["titulo"], "fuente": c["fuente"], "url": c["url"]})
             continue
-        if not c.get("gdelt"):
+        if not c.get("gdelt") and not c.get("anonimo"):  # a la IA nunca van publicaciones de personas
             textos[e["id"]] = (c["titulo"], c["texto_clasificar"], c["fuente"])
         eventos.append(e)
     # Se deduplica después de unir: una nota nueva puede ser la misma historia que un evento anterior.

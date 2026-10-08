@@ -22,6 +22,7 @@ import os
 import subprocess
 import sys
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
@@ -196,6 +197,83 @@ def centrales():
     return out
 
 
+# ------------------------------------------------------------ cables submarinos (TeleGeography)
+# Archivos GeoJSON públicos del Submarine Cable Map (sin clave). Licencia CC BY-NC-SA 3.0: uso no
+# comercial, con atribución a TeleGeography; las rutas son esquemáticas, no el trazado exacto.
+TELEGEOGRAPHY = "https://www.submarinecablemap.com/api/v3"
+
+
+def _redondear(coords):
+    if coords and isinstance(coords[0], (int, float)):
+        return [round(float(coords[0]), 4), round(float(coords[1]), 4)]
+    return [_redondear(c) for c in coords]
+
+
+def cables_de_geojson(cables, aterrizajes):
+    """GeoJSON de TeleGeography → features de la familia (líneas de cables y puntos de aterrizaje)."""
+    out = []
+    for f in cables.get("features", []):
+        g, pr = f.get("geometry") or {}, f.get("properties") or {}
+        if g.get("type") not in ("LineString", "MultiLineString") or not pr.get("id"):
+            continue
+        out.append(feat({"type": g["type"], "coordinates": _redondear(g["coordinates"])},
+                        {"id": f"tgc:{pr['id']}", "n": pr.get("name") or pr["id"], "st": "cables_submarinos", "p": "", "x": ""}, 0))
+    for f in aterrizajes.get("features", []):
+        g, pr = f.get("geometry") or {}, f.get("properties") or {}
+        if g.get("type") != "Point" or not pr.get("id"):
+            continue
+        lon, lat = g["coordinates"][:2]
+        out.append(feat(punto(lon, lat), {"id": f"tgl:{pr['id']}", "n": pr.get("name") or pr["id"], "st": "aterrizajes_cable", "p": "", "x": ""}, 4))
+    return out
+
+
+def cables():
+    c = json.loads(get(f"{TELEGEOGRAPHY}/cable/cable-geo.json", timeout=120))
+    a = json.loads(get(f"{TELEGEOGRAPHY}/landing-point/landing-point-geo.json", timeout=120))
+    return cables_de_geojson(c, a)
+
+
+# ------------------------------------------------------------ cámaras públicas (lista curada)
+def enlace_responde(url, robots=None, abrir=None):
+    """'ok' si la página responde (< 400) y robots.txt lo permite; si no, el motivo. Sin reintentos."""
+    import urllib.robotparser
+    p = urllib.parse.urlparse(url)
+    rp = urllib.robotparser.RobotFileParser()
+    try:
+        texto = robots(url) if robots else get(f"{p.scheme}://{p.netloc}/robots.txt", timeout=20, intentos=1).decode("utf-8", "replace")
+        rp.parse(texto.splitlines())
+    except Exception:  # noqa: BLE001  sin robots.txt: sin reglas
+        rp.parse([])
+    if not rp.can_fetch("Geopolitica-monitor", url):
+        return "robots.txt no permite revisarlo"
+    try:
+        (abrir or (lambda u: get(u, timeout=30, intentos=1)))(url)
+        return "ok"
+    except urllib.error.HTTPError as e:
+        return f"HTTP {e.code}"
+    except Exception as e:  # noqa: BLE001
+        return type(e).__name__
+
+
+def camaras(revisar=enlace_responde):
+    cfg = json.load(open(os.path.join(ROOT, "config", "camaras.json"), encoding="utf-8"))
+    hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    revisados = {}
+    out = []
+    for c in cfg["camaras"]:
+        if c["url"] not in revisados:
+            revisados[c["url"]] = revisar(c["url"])
+        estado = revisados[c["url"]]
+        out.append(feat(punto(c["lon"], c["lat"]), {
+            "id": f"cam:{c['id']}", "n": c["nombre"], "st": c["subtipo"], "p": c.get("pais_iso3", ""), "x": c["url"],
+            "o": c["operador"], "t": c["tipo_operador"], "nota": c.get("nota", ""),
+            "v": f"{estado} ({hoy})"}, 2))
+    return out
+
+
+FAMILIAS_GEOJSON = {"camaras"}  # pocas decenas de puntos: GeoJSON directo, sin tippecanoe
+
+
 # El mundo en 8 cajas (sur, oeste, norte, este): una consulta global pesada provoca error 500 en Overpass.
 CAJAS = [(-60, -180, 0, 0), (-60, 0, 0, 180), (0, -180, 30, 0), (0, 0, 30, 180),
          (30, -180, 50, 0), (30, 0, 50, 180), (50, -180, 85, 0), (50, 0, 85, 180)]
@@ -334,7 +412,8 @@ def militar():
 
 
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
-            "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar}
+            "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
+            "cables": cables, "camaras": camaras}
 
 
 def tippecanoe(familia, ruta_ndjson, geometria):
@@ -395,16 +474,23 @@ def main(pedidas):
                     os.remove(destino)
                 guardar()
                 continue
-            ruta = os.path.join(TMP, f"{fid}.ndjson")
-            with open(ruta, "w", encoding="utf-8") as f:
-                for ft in feats:
-                    f.write(json.dumps(ft, ensure_ascii=False) + "\n")
-            destino = tippecanoe(fid, ruta, fam["geometria"])
+            if fid in FAMILIAS_GEOJSON:
+                destino = os.path.join(SALIDA, f"{fid}.geojson")
+                with open(destino, "w", encoding="utf-8") as f:
+                    json.dump({"type": "FeatureCollection", "features": [{k: v for k, v in ft.items() if k != "tippecanoe"} for ft in feats]},
+                              f, ensure_ascii=False, separators=(",", ":"))
+            else:
+                ruta = os.path.join(TMP, f"{fid}.ndjson")
+                with open(ruta, "w", encoding="utf-8") as f:
+                    for ft in feats:
+                        f.write(json.dumps(ft, ensure_ascii=False) + "\n")
+                destino = tippecanoe(fid, ruta, fam["geometria"])
             subtipos = {}
             for ft in feats:
                 subtipos[ft["properties"]["st"]] = subtipos.get(ft["properties"]["st"], 0) + 1
             manifest["familias"][fid] = {
-                "archivo": f"data/capas/{fid}.pmtiles", "objetos": len(feats), "por_subtipo": subtipos,
+                "archivo": f"data/capas/{os.path.basename(destino)}", "objetos": len(feats), "por_subtipo": subtipos,
+                **({"formato": "geojson"} if fid in FAMILIAS_GEOJSON else {}),
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
                 "estado": "parcial" if FALTANTES.get(fid) else "ok",
                 "error": f"sin datos en {len(FALTANTES[fid])} zona(s): {FALTANTES[fid]}" if FALTANTES.get(fid) else None,
