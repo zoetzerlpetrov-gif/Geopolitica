@@ -105,3 +105,12 @@ def test_rastro_descarta_posiciones_de_mas_de_3_horas(tmp_path, monkeypatch):
     v.actualizar_rastros({"b00001": f}, 0)
     v.actualizar_rastros({}, 4 * 3600)
     assert json.load(open(tmp_path / "rastros" / "b.json"))["r"] == {}
+
+
+def test_parsear_adsbdb():
+    d = {"response": {"flightroute": {"callsign": "AMX410",
+         "origin": {"icao_code": "MMMX", "iata_code": "MEX", "name": "Mexico City Intl", "municipality": "Mexico City", "country_iso_name": "MX", "latitude": 19.43, "longitude": -99.07},
+         "destination": {"icao_code": "KJFK", "iata_code": "JFK", "name": "JFK Intl", "municipality": "New York", "country_iso_name": "US", "latitude": 40.64, "longitude": -73.78}}}}
+    codigos, aps = v.parsear_adsbdb(d)
+    assert codigos == ["MMMX", "KJFK"] and aps["KJFK"][1] == "New York"
+    assert v.parsear_adsbdb({"response": "unknown callsign"}) == ([], {})

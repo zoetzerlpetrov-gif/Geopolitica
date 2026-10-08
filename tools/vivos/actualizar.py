@@ -34,6 +34,8 @@ import os
 import re
 import sys
 import time
+import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 
@@ -54,7 +56,9 @@ CON_RASTRO = {"civil_comercial", "carga", "militar", "estado", "sancionada"}
 RASTRO_MAX = 10            # posiciones por avión (cada 20 min ≈ 3 h)
 RASTRO_HORAS = 3
 RUTAS_TTL_H = 12           # una ruta encontrada se reutiliza 12 h; una no encontrada, 6 h
-RUTAS_NUEVAS_MAX = 2000    # consultas nuevas por corrida (lotes de 100), por cortesía con adsb.lol
+RUTAS_NUEVAS_MAX = 2000    # consultas nuevas por corrida (lotes de 20), por cortesía con adsb.lol
+RUTAS_LOTE = 20
+ADSBDB_MAX = 150           # respaldo: consultas individuales a adsbdb.com si adsb.lol no responde
 # Categorías de OpenSky (número) → código ADS-B (letra+número), el mismo que da adsb.lol.
 CAT_OPENSKY = {2: "A1", 3: "A2", 4: "A3", 5: "A4", 6: "A5", 7: "A6", 8: "A7", 9: "B1", 10: "B2", 11: "B3", 12: "B4",
                14: "B6", 15: "B7", 16: "C1", 17: "C2", 18: "C3", 19: "C3", 20: "C3"}
@@ -254,6 +258,34 @@ def parsear_routeset(respuesta):
     return rutas, aeropuertos
 
 
+def parsear_adsbdb(d):
+    """Respuesta de api.adsbdb.com/v0/callsign/<indicativo> → ([orig, dest], {OACI: aeropuerto})."""
+    fr = ((d or {}).get("response") or {}).get("flightroute") if isinstance((d or {}).get("response"), dict) else None
+    if not fr:
+        return [], {}
+    aeropuertos, codigos = {}, []
+    for clave in ("origin", "destination"):
+        ap = fr.get(clave) or {}
+        icao = ap.get("icao_code")
+        if not icao or ap.get("latitude") is None:
+            return [], {}
+        codigos.append(icao)
+        aeropuertos[icao] = [ap.get("name") or icao, ap.get("municipality") or "", ap.get("country_iso_name") or "",
+                             round(float(ap["latitude"]), 4), round(float(ap["longitude"]), 4), ap.get("iata_code") or ""]
+    return codigos, aeropuertos
+
+
+def _routeset(lote):
+    req = urllib.request.Request("https://api.adsb.lol/api/0/routeset", data=json.dumps({"planes": lote}).encode(),
+                                 headers={"User-Agent": UA, "Content-Type": "application/json", "Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        cuerpo = r.read()
+        try:
+            return parsear_routeset(json.loads(cuerpo))
+        except ValueError:
+            raise RuntimeError(f"HTTP {r.status} {r.headers.get('Content-Type')} sin JSON: {cuerpo[:200]!r}") from None
+
+
 def asignar_rutas(filas):
     """Pone "ORIG-DEST" en las filas de vuelos de aerolínea y carga; consulta solo indicativos sin caché."""
     cache = leer("rutas.json", {"rutas": {}, "aeropuertos": {}})
@@ -265,14 +297,11 @@ def asignar_rutas(filas):
         cs = f[1].upper()
         if f[7] in CON_RUTA and cs and cs not in vigentes:
             pendientes.append({"callsign": cs, "lat": f[3], "lng": f[2]})
-    consultados, fallos = 0, 0
-    for i in range(0, min(len(pendientes), RUTAS_NUEVAS_MAX), 100):
-        lote = pendientes[i:i + 100]
+    consultados, fallos, respaldo = 0, 0, 0
+    for i in range(0, min(len(pendientes), RUTAS_NUEVAS_MAX), RUTAS_LOTE):
+        lote = pendientes[i:i + RUTAS_LOTE]
         try:
-            req = urllib.request.Request("https://api.adsb.lol/api/0/routeset", data=json.dumps({"planes": lote}).encode(),
-                                         headers={"User-Agent": UA, "Content-Type": "application/json"})
-            with urllib.request.urlopen(req, timeout=60) as r:
-                rutas, aps = parsear_routeset(json.loads(r.read()))
+            rutas, aps = _routeset(lote)
         except Exception as e:  # noqa: BLE001
             fallos += 1
             print(f"  routeset: {e}")
@@ -284,6 +313,25 @@ def asignar_rutas(filas):
             vigentes[p["callsign"]] = [rutas.get(p["callsign"], []), ahora_s]
         consultados += len(lote)
         time.sleep(1)
+    if consultados == 0 and pendientes:
+        # Respaldo: adsbdb.com, una consulta por indicativo (los primeros ADSBDB_MAX pendientes).
+        for p in pendientes[:ADSBDB_MAX]:
+            try:
+                d = json.loads(get(f"https://api.adsbdb.com/v0/callsign/{urllib.parse.quote(p['callsign'])}", timeout=20))
+            except urllib.error.HTTPError as e:
+                if e.code == 404:  # indicativo sin ruta conocida
+                    vigentes[p["callsign"]] = [[], ahora_s]
+                    continue
+                print(f"  adsbdb: {e}")
+                break
+            except Exception as e:  # noqa: BLE001
+                print(f"  adsbdb: {e}")
+                break
+            codigos, aps = parsear_adsbdb(d)
+            aeropuertos.update(aps)
+            vigentes[p["callsign"]] = [codigos, ahora_s]
+            respaldo += 1
+            time.sleep(0.3)
     usados, con_ruta = {}, 0
     for f in filas.values():
         r = vigentes.get(f[1].upper())
@@ -298,7 +346,7 @@ def asignar_rutas(filas):
                     usados[c] = aeropuertos[c]
     escribir("rutas.json", {"generado_utc": ahora(), "fuente": "adsb.lol routeset (base comunitaria de rutas)", "rutas": vigentes, "aeropuertos": aeropuertos})
     escribir("aeropuertos-ruta.json", {"generado_utc": ahora(), "campos": ["nombre", "ciudad", "pais_iso2", "lat", "lon", "iata"], "aeropuertos": usados})
-    return f"{con_ruta} con ruta ({consultados} consultas nuevas)"
+    return f"{con_ruta} con ruta ({consultados} consultas nuevas a adsb.lol, {respaldo} a adsbdb, {fallos} fallos)"
 
 
 # ------------------------------------------------------------------ rastros (trayectoria reciente)
