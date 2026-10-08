@@ -191,7 +191,9 @@ CATEGORIAS = [
         "id": "imagenes", "nombre": {"es": "Imágenes satelitales (bajo demanda)", "en": "Satellite imagery (on demand)"}, "fase": "C6", "dibujable": True,
         "subtipos": [
             sub("viirs_noche", "Luces nocturnas VIIRS (apagones)", "VIIRS night lights", "🌃", "#333F48", "gibs", "diaria", "raster", "retrasado", 0, ["infraestructura", "energia"]),
-            sub("modis_color", "Color verdadero MODIS", "MODIS true color", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
+            sub("viirs_color", "Color verdadero VIIRS (NOAA-20)", "VIIRS true color (NOAA-20)", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
+            sub("modis_color", "Color verdadero MODIS Terra", "MODIS Terra true color", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
+            sub("modis_aqua", "Color verdadero MODIS Aqua", "MODIS Aqua true color", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
         ],
     },
     {

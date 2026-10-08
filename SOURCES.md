@@ -45,10 +45,10 @@ Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen co
 | adsbdb.com (`/v0/callsign`) | Respaldo de rutas si adsb.lol no responde | Gratis | No | Máximo 300 consultas por corrida, 0.3 s entre cada una | Términos de adsbdb (por verificar) | Por verificar | Cada 20 min, solo si falla adsb.lol | Activa (en oct 2026 adsb.lol responde vacío) |
 | OpenSky (`/api/tracks/all`), desde el navegador | Trayectoria detallada del vuelo en curso al abrir su ficha | Gratis | No (puede negarse sin cuenta) | Una petición por ficha abierta | Términos de OpenSky (no comercial) | **No** | Al abrir la ficha | Opcional: si no responde se usan las posiciones de las instantáneas |
 | AISStream.io | Buques (AIS): posición, rumbo, velocidad, estado de navegación; datos estáticos (indicativo, IMO, tipo, eslora, manga, calado, destino y ETA declarados) | Gratis | **Sí: clave gratuita** en el secreto `AISSTREAM_API_KEY` | Por verificar | Términos de AISStream | Por verificar | Ventana de 75 s cada 20 min; datos estáticos en caché 72 h; rastro de 6 h (nunca para recreo) | Activa. El AIS no transmite puerto de origen; la bandera se deduce del MID del MMSI (tabla de la UIT) |
-| CelesTrak (grupos GP en TLE) | Satélites | Gratis | No | No descargar el mismo grupo más de una vez cada 2 h (se descarga cada 6 h) | Uso libre con atribución (por verificar) | Por verificar | Cada 6 h; posición calculada en el navegador | Activa |
+| CelesTrak (grupos GP en TLE) | Satélites: posición, traza en tierra (media vuelta atrás y una adelante), zona de cobertura, tipo de órbita, perigeo/apogeo, inclinación, lanzamiento | Gratis | No | No descargar el mismo grupo más de una vez cada 2 h (se descarga cada 6 h) | Uso libre con atribución (por verificar) | Por verificar | Cada 6 h; posición calculada en el navegador con SGP4 (error típico de 1 a 3 km en órbita baja con TLE de menos de un día) | Activa. Los puntos alineados sobre el Ecuador son geoestacionarios: es su posición real |
 | OFAC SDN (`sdn.csv`) | Aeronaves y buques sancionados (matrícula, IMO) | Gratis | No | — | Dominio público, gobierno de EUA | Sí | Diaria | Activa |
 | OpenSanctions | Sanciones consolidadas | Gratis no comercial | No | — | CC BY-NC 4.0 | **No** sin licencia | — | No integrada |
-| NASA GIBS | Luces nocturnas VIIRS, color verdadero MODIS | Gratis | No | — | Datos abiertos de NASA (por verificar) | Sí | Diaria (imagen de ayer) | Activa, bajo demanda |
+| NASA GIBS (WMTS en EPSG:3857) | Luces nocturnas VIIRS; color verdadero VIIRS NOAA-20 (sin huecos), MODIS Terra y MODIS Aqua (con cuñas negras entre órbitas cerca del Ecuador: es lo que el satélite no vio) | Gratis | No | — | Datos abiertos de NASA (por verificar) | Sí | Diaria (ayer por defecto; se puede elegir hasta 7 días atrás) | Activa, bajo demanda |
 
 ## Eventos (Fase 2: ingesta horaria, `ingest/run.py`)
 
@@ -90,15 +90,19 @@ X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrec
 
 ## Cámaras públicas
 
-Lista curada en `config/camaras.json`. El mapa muestra un punto por cámara con un botón a la página oficial del operador; no copia ni retransmite imágenes. Cada mes el workflow **Construir capas** revisa que la página responda (respetando `robots.txt`) y la ficha muestra el resultado de esa revisión.
+Lista curada en `config/camaras.json` más dos fuentes de datos abiertos de cámaras de carretera. Solo se incluyen cámaras que su operador publica para verse en abierto. La ficha muestra la imagen fija enlazada desde el servidor del operador (no se copia ni se guarda) y un botón a su sitio. El workflow **Construir capas** las actualiza cada mes, respeta `robots.txt` y deja el estado de cada fuente en el manifiesto.
 
-| Cámara | Operador | Tipo | Página |
-|---|---|---|---|
-| Volcán Kīlauea | USGS · Observatorio Vulcanológico de Hawái | Organismo público | usgs.gov/volcanoes/kilauea/webcams |
-| Monte Santa Helena | USGS · Observatorio Vulcanológico de las Cascadas | Organismo público | usgs.gov/volcanoes/mount-st.-helens/multimedia/webcams |
-| Etna; Estrómboli y Vulcano | INGV · Osservatorio Etneo | Organismo público | ct.ingv.it |
-| Popocatépetl (reporte diario y monitoreo) | CENAPRED | Organismo público | gob.mx/cenapred |
-| Popocatépetl desde Altzomoni; Volcán de Colima | Webcams de México | Operador turístico | webcamsdemexico.com |
-| Canal de Panamá (esclusas) | Autoridad del Canal de Panamá | Organismo público | pancanal.com («Cámaras Web») |
+| Cámaras | Operador | Tipo | Cómo se obtienen | Licencia |
+|---|---|---|---|---|
+| Volcán Kīlauea | USGS · Observatorio Vulcanológico de Hawái | Organismo público | Enlace curado: usgs.gov/volcanoes/kilauea/webcams | Dominio público (EUA) |
+| Monte Santa Helena | USGS · Observatorio Vulcanológico de las Cascadas | Organismo público | Enlace curado | Dominio público (EUA) |
+| Etna; Estrómboli y Vulcano | INGV · Osservatorio Etneo | Organismo público | Enlace curado: ct.ingv.it | Términos del INGV |
+| Popocatépetl (reporte diario y monitoreo) | CENAPRED | Organismo público | Enlace curado: gob.mx/cenapred | Términos de gob.mx |
+| Popocatépetl desde Altzomoni; Volcán de Colima | Webcams de México | Operador turístico | Enlace curado: webcamsdemexico.com | Términos del operador |
+| Canal de Panamá (esclusas) | Autoridad del Canal de Panamá | Organismo público | Enlace curado: pancanal.com («Cámaras Web») | Términos de la ACP |
+| ~470 cámaras de clima y tráfico en carreteras de Finlandia | Fintraffic (Digitraffic) | Organismo público | API abierta `tie.digitraffic.fi/api/weathercam/v1/stations`, sin clave | CC BY 4.0 («Fuente: Fintraffic / digitraffic.fi») |
+| Cámaras de tráfico de carreteras estatales de California | Caltrans | Organismo público | Archivos `cwwp2.dot.ca.gov/data/dN/cctv/cctvStatusDNN.json` (12 distritos), sin clave | Datos públicos de Caltrans |
 
-Para agregar una cámara: operador que la publica, página donde la ofrece al público, coordenada aproximada del punto que muestra y subtipo (`volcanes_clima`, `canales_puertos`, `turismo`, `trafico`, `incendios`). Candidatas por revisar: cámaras de tráfico de Caltrans (portal de datos abiertos) y de la SICT/CAPUFE en México.
+No se incluyen cámaras «abiertas» por error (sin contraseña o mal configuradas), aunque se puedan ver: no hay forma de saber si su dueño quiere publicarlas, suelen grabar casas y personas (imágenes que la Ley Federal de Protección de Datos Personales en Posesión de los Particulares trata como datos personales), y entrar a un equipo ajeno sin autorización puede encuadrar en leyes de acceso ilícito a sistemas según el país. Tampoco se usan directorios que las recopilan.
+
+Candidatas para más adelante: Windy Webcams (decenas de miles de cámaras publicadas a propósito, requiere clave gratuita), cámaras de tráfico de Nueva York (NYC DOT), Ontario 511 y Statens vegvesen (Noruega, requiere registro). En México no se encontró un catálogo abierto de cámaras de tráfico de la SICT o CAPUFE.

@@ -74,3 +74,13 @@ test("ficha de cámara: enlace oficial, tipo de operador y sin imagen copiada", 
   const mala = htmlFichaCamara({ n: "x", t: "operador_turistico", x: "javascript:alert(1)", v: "HTTP 404 (2026-10-08)" });
   assert.ok(mala.includes('href="#"') && mala.includes("sin confirmar") && mala.includes("Operador turístico"));
 });
+
+test("ficha de cámara de tráfico: imágenes del operador (también como texto JSON) y licencia", async () => {
+  const { htmlFichaCamara } = await import("../../js/capas.js");
+  const html = htmlFichaCamara({ n: "vt1", st: "trafico", o: "Fintraffic / digitraffic.fi", t: "organismo_publico", x: "https://www.digitraffic.fi/en/road-traffic/",
+    imgs: JSON.stringify(["https://weathercam.digitraffic.fi/C0150200.jpg", "http://inseguro/x.jpg"]), lic: "CC BY 4.0" });
+  assert.match(html, /<img src="https:\/\/weathercam.digitraffic.fi\/C0150200.jpg\?t=\d+"/);
+  assert.equal((html.match(/<img /g) || []).length, 1); // la URL http se descarta
+  assert.match(html, /licencia CC BY 4.0/);
+  assert.doesNotMatch(html, /sin confirmar/);
+});

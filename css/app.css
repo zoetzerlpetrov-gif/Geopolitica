@@ -289,3 +289,5 @@ a.boton:hover, a.boton:focus-visible { filter: brightness(1.1); }
   .aviso { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+.cam-imgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; margin: 8px 0; }
+.cam-imgs img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: var(--surface-2); display: block; }

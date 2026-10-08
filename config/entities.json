@@ -2184,10 +2184,46 @@
      ]
     },
     {
+     "id": "viirs_color",
+     "nombre": {
+      "es": "Color verdadero VIIRS (NOAA-20)",
+      "en": "VIIRS true color (NOAA-20)"
+     },
+     "icono": "🌍",
+     "color": "#1F8A8A",
+     "fuente": "gibs",
+     "licencia": "Datos abiertos de la NASA, sin llave",
+     "frecuencia": "diaria",
+     "tipo_capa": "raster",
+     "estado_dato": "retrasado",
+     "zoom_min": 0,
+     "areas": [
+      "clima"
+     ]
+    },
+    {
      "id": "modis_color",
      "nombre": {
-      "es": "Color verdadero MODIS",
-      "en": "MODIS true color"
+      "es": "Color verdadero MODIS Terra",
+      "en": "MODIS Terra true color"
+     },
+     "icono": "🌍",
+     "color": "#1F8A8A",
+     "fuente": "gibs",
+     "licencia": "Datos abiertos de la NASA, sin llave",
+     "frecuencia": "diaria",
+     "tipo_capa": "raster",
+     "estado_dato": "retrasado",
+     "zoom_min": 0,
+     "areas": [
+      "clima"
+     ]
+    },
+    {
+     "id": "modis_aqua",
+     "nombre": {
+      "es": "Color verdadero MODIS Aqua",
+      "en": "MODIS Aqua true color"
      },
      "icono": "🌍",
      "color": "#1F8A8A",
