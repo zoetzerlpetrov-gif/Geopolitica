@@ -126,7 +126,8 @@ export const CAPAS = [
     estilo: (p) => ({ c: { Terrorismo: "#8E1B1B", Narcotráfico: "#B4451F", Mafia: "#5B3A8E", "Crimen organizado": "#C27C1E" }[p.tipo] || C.rojo, r: 3 + (p.severidad || 3) }),
     ficha: (p) => ({ titulo: p.title, chip: `${p.tipo || "Crimen"} · señal de noticias, verifica`,
       filas: [["Lugar", `${p.lugar || "—"}${p.precision === "país" ? " (ubicación aproximada: país)" : p.precision === "estado" ? " (aprox.: centro del estado)" : ""}`],
-        ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"]], url: p.url, fuente: p.source || "Noticia" }),
+        ...(p.actores ? [["Actores (GDELT)", p.actores]] : []), ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
+        ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
   },
   {
     id: "nws", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",

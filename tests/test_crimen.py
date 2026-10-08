@@ -48,6 +48,19 @@ def test_feature_y_duplicados():
     assert c.a_feature({**art, "url": "javascript:x"}, "mx", EST, GAZ) is None
 
 
-def test_respaldo_google_news_configurado():
-    assert {o for o, *_ in c.CONSULTAS_RSS} == {"mx", "latam", "mundo"}
-    assert all(q.endswith("when:1d") for _, q, *_ in c.CONSULTAS_RSS)
+def test_evento_gdelt_criminal_y_violento():
+    from geo import Paises
+    f = [""] * 61
+    f[6], f[12], f[16], f[28], f[33], f[51] = "SINALOA CARTEL", "CRM", "MEXICO", "19", "4", "4"
+    f[52], f[56], f[57], f[59] = "Culiacan, Sinaloa, Mexico", "24.8", "-107.39", "20261008220000"
+    f[60] = "https://www.medio.mx/seguridad/2026/10/08/enfrentamiento-armado-deja-cinco-muertos-en-culiacan"
+    pa = Paises()
+    p = c.evento_gdelt(f, GAZ, pa)["properties"]
+    assert (p["tipo"], p["severidad"], p["pais_iso3"], p["precision"], p["date"]) == ("Narcotráfico", 4, "MEX", "ciudad", "2026-10-08T22:00:00Z")
+    assert "enfrentamiento armado" in p["title"].lower()
+    g = list(f); g[12] = ""  # sin actor criminal/armado: no entra
+    assert c.evento_gdelt(g, GAZ, pa) is None
+    h = list(f); h[28] = "04"  # acción no violenta (consulta): no entra
+    assert c.evento_gdelt(h, GAZ, pa) is None
+    k = list(f); k[12] = "INS"; k[6] = "ISLAMIC STATE"; k[60] = "https://news.example/2026/10/08/isis-suicide-bomber-attack"; k[52] = "Kabul, Afghanistan"; k[56], k[57] = "34.5", "69.2"
+    assert c.evento_gdelt(k, GAZ, pa)["properties"]["tipo"] == "Terrorismo"
