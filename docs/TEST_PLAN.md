@@ -15,6 +15,7 @@ Cómo leer este documento: cada funcionalidad tiene criterios de aceptación ver
 | `tests/test_vivos.py` | Clasificación de aeronaves (sancionada, en tierra, Estado, militar, carga, comercial, general) y buques por código AIS; sin campo de propietario |
 | `tests/js/estilo.test.mjs` | Etiquetas del mapa base sin alfabetos no latinos, sin cursivas, carreteras y pueblos desde zoom 9, LITE más ligero |
 | `tests/js/capas.test.mjs` | Solo categorías dibujables; una capa de personas declarada a propósito no se dibuja; disponibilidad según manifiesto; zoom mínimo por subtipo |
+| `tests/js/analisis.test.mjs` | Línea de tiempo (rango, histograma, ventana), 10 pasos y 7 lentes válidas, orden de lentes, regla de probabilidad, niveles 5 × 5, ajustes del usuario, CSV, semáforo y agrupación México, quiz (opciones, preferencia por confianza, marcador), índice por país y ficha con checklist |
 | `tests/js/movimiento.test.mjs` | Proyección de posición (incluido el antimeridiano), recorte a la vista con tope de 5,000, URL de NASA GIBS |
 | `tests/test_ingesta.py` | Filas sintéticas de GDELT (filtros CAMEO, mínimo de artículos, severidad), RSS 2.0, Atom y RDF; país por texto y por coordenada; deduplicación con varias fuentes; ventana de 72 h; delta entre corridas; tope de eventos; historial y poda de 90 días; que no se guarde texto del medio |
 | `ingest/validate_entities.py` | Catálogo de entidades y registros de Wikidata contra `schema/entity.schema.json` |
@@ -28,16 +29,16 @@ Regla de publicación: el workflow **Publicar en GitHub Pages** depende del job 
 |---|---|---|---|---|
 | 1 | Marcadores y clusters | Cada evento usa el color de su área principal; al alejar se agrupa en círculos con número; clic en un grupo acerca el mapa | M | 1 ✔ |
 | 1b | Rendimiento | Con `?carga=50000`: el filtro tarda menos de 50 ms y el mapa sigue fluido al moverlo | M (consola) | 1 ✔ |
-| 2 | Filtros | Áreas, severidad mínima y "solo México" cambian mapa, lista y contadores a la vez | M | 1 parcial; resto en 4 |
-| 3 | Capas fijas | La capa de chokepoints se enciende y apaga; aparecen los 8 + Cabo de Buena Esperanza | A + M | 1 ✔ (otras capas en 4) |
-| 4 | Mapa de calor por país | Color por número y severidad de eventos en 7/30 días | — | 4 |
-| 5 | Línea de tiempo | Deslizar cambia los eventos visibles por fecha | — | 4 |
-| 6 | Ficha del evento | Muestra título, fuentes con enlace, áreas, subtemas, pregunta guía, actores, severidad, impacto México; se cierra con Esc | M | 1 ✔ (checklist en 4) |
-| 7 | Checklist de 10 pasos | Se puede marcar y se conserva por evento | — | 4 |
-| 8 | Lentes teóricas | Siete lecturas por evento | — | 4 |
-| 9 | Vista México | Eventos con impacto agrupados por área y semáforo | — | 5 |
-| 10 | Matriz de riesgo | Probabilidad × impacto; exporta CSV | — | 5 |
-| 11 | Modo aprendizaje | Pregunta el área de un evento real y califica | — | 5 |
+| 2 | Filtros | Áreas, región, severidad mínima, "solo México" y ventana de tiempo cambian mapa, lista y contadores a la vez | M | 4 ✔ |
+| 3 | Capas fijas | Chokepoints e índice por país se encienden y apagan; aparecen los 8 chokepoints + Cabo de Buena Esperanza | A + M | 4 ✔ |
+| 4 | Mapa de calor por país | Coropleta del Índice de Inestabilidad (30 días, vida media 7 días); países sin eventos transparentes; clic muestra valor y número de eventos; leyenda de 4 escalones | A (`unirIndice`) + M | 4 ✔ |
+| 5 | Línea de tiempo | Ventana (todo, 6 h, 24 h, 72 h, 7 días) y deslizador hacia el pasado cambian los eventos visibles; histograma de 48 barras resalta la ventana; «Reproducir» recorre el periodo; con datos nuevos se queda en «ahora» | A (`ventana`, `histograma`) + M | 4 ✔ |
+| 6 | Ficha del evento | Muestra título, fuentes con enlace, áreas, subtemas, pregunta guía, actores, severidad, impacto México; se cierra con Esc | M | 1 ✔; 4 ✔ (checklist, notas y lentes) |
+| 7 | Checklist de 10 pasos | Se puede marcar, muestra el avance (n/10) y se conserva por evento al recargar, junto con las notas (solo en el navegador, máximo 300 eventos) | A (ficha) + M (Playwright) | 4 ✔ |
+| 8 | Lentes teóricas | Siete lentes con autores, idea central y preguntas con los actores y el país del evento; las afines al área van primero | A | 4 ✔ |
+| 9 | Vista México | Eventos con impacto agrupados por área en el orden de la taxonomía, semáforo por severidad (rojo ≥ 4, ámbar 3, verde ≤ 2) y resumen de conteos; clic abre la ficha | A + M | 5 ✔ |
+| 10 | Matriz de riesgo | 5 × 5 con niveles bajo, medio, alto y crítico; probabilidad inicial por regla y ajustable por evento; exporta CSV con BOM que abre bien en Excel | A + M | 5 ✔ |
+| 11 | Modo aprendizaje | Pregunta el área de un evento real (4 opciones, sin las secundarias), explica la respuesta con la pregunta guía y lleva marcador por área | A + M | 5 ✔ |
 | 12 | Interfaz | Español; usable a 390 px de ancho; tema claro/oscuro recordado | M | 1 ✔ |
 | — | Actualización | La barra superior muestra hace cuánto se generaron los datos y la cuenta regresiva al minuto 17 de la siguiente hora; datos con más de 2.5 h se marcan como atrasados | A + M | 1 ✔; 2 ✔ (datos reales; el tooltip lista las fuentes con error) |
 | — | Base de respaldo | Si OpenFreeMap no responde en 6 s, aparece el mapa local de países y un aviso | M | 1 ✔ |

@@ -1,5 +1,6 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
-import { getJSON, esc, fecha, storage, distanciaKm } from "./util.js";
+/* global maplibregl */
+import { getJSON, esc, fecha, storage, distanciaKm, debounce } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
@@ -7,12 +8,16 @@ import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRES
 import * as seg from "./seguimiento.js";
 import { Movimiento, htmlFichaMovil } from "./movimiento.js";
 import { Imagenes, IMAGENES, ayerUTC } from "./imagenes.js";
+import { LineaTiempo } from "./linea-tiempo.js";
+import * as cuaderno from "./cuaderno.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
 const $ = (id) => document.getElementById(id);
-const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "" };
+const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "", desde: -Infinity, hasta: Infinity };
 let eventos = [];
+let visiblesActuales = [];
+let linea, capaIndice, analisis;
 let porId = new Map();
 let tax, paises, api, gestor, mov, img;
 let lite = false;
@@ -30,9 +35,13 @@ function modoLite() {
   return matchMedia("(max-width: 760px), (pointer: coarse)").matches;
 }
 
-// El gazetteer (nombres de países) solo se usa en la ficha: se descarga la primera vez que se abre una.
+// El gazetteer (nombres de países) y el contenido de análisis solo se usan en la ficha:
+// se descargan la primera vez que se abre una.
 let gazPromesa = null;
 const cargarPaises = () => (gazPromesa ??= getJSON("config/gazetteer.json").then((g) => (paises = g.paises)));
+let analisisCfg = null;
+let analisisPromesa = null;
+const cargarAnalisisCfg = () => (analisisPromesa ??= getJSON("config/analisis.json").then((a) => (analisisCfg = a)).catch(() => null));
 
 function prepararTaxonomia(t) {
   const areas = new Map(t.areas.map((a) => [a.id, a]));
@@ -47,6 +56,7 @@ function pasaFiltros(ev, ignorarArea = false) {
   if (estado.mexico && !ev.impacto_mexico) return false;
   if (ev.severidad < estado.sevMin) return false;
   if (estado.region && ev.region !== estado.region) return false;
+  if (ev._t < estado.desde || ev._t > estado.hasta) return false;
   return true;
 }
 
@@ -97,6 +107,8 @@ async function aplicarFiltros() {
     if (t) partes.push(t);
   }
   publicarEnMapa(partes);
+  visiblesActuales = visibles;
+  analisis?.refrescar();
   for (const el of document.querySelectorAll("[data-num]")) el.textContent = conteo[el.dataset.num] || 0;
   pintarLista(visibles);
   console.info(`filtros: ${visibles.length}/${eventos.length} eventos en ${Math.round(performance.now() - t0)} ms`);
@@ -146,12 +158,16 @@ function pintarLista(visibles) {
 
 // ---------- Ficha ----------
 let focoPrevio = null;
+let fichaEvento = null; // id del evento abierto (para guardar checklist y notas)
 async function abrirFicha(id, { volar = false } = {}) {
   const ev = porId.get(id);
   if (!ev) return;
   focoPrevio = document.activeElement;
   if (!paises) await cargarPaises().catch(() => (paises = {}));
-  $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises, porId);
+  if (!analisisCfg) await cargarAnalisisCfg();
+  fichaEvento = id;
+  entidadAbierta = null;
+  $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises, porId, { analisis: analisisCfg, cuaderno: cuaderno.leer(id) });
   $("ficha").hidden = false;
   api.setSeleccion(id);
   if (volar && ev.lat != null) api.volarA(ev.lon, ev.lat);
@@ -160,6 +176,7 @@ async function abrirFicha(id, { volar = false } = {}) {
 }
 function abrirFichaHtml(html) {
   focoPrevio = document.activeElement;
+  fichaEvento = null;
   $("ficha-cuerpo").innerHTML = html;
   $("ficha").hidden = false;
   $("ficha-cerrar").focus();
@@ -178,6 +195,7 @@ async function cargarEventos() {
   eventos = data.eventos;
   const n = Number(new URLSearchParams(location.search).get("carga"));
   if (n > 0) eventos = eventos.concat(eventosSinteticos(Math.min(n, 200000)));
+  for (const ev of eventos) ev._t = Date.parse(ev.fecha_utc); // para la línea de tiempo (no se publica)
   porId = new Map(eventos.map((e) => [e.id, e]));
 }
 
@@ -235,6 +253,8 @@ async function main() {
   });
 
   pintarAreas();
+  linea = new LineaTiempo($("linea-tiempo"), (v) => { estado.desde = v.desde; estado.hasta = v.hasta; programarFiltros(); });
+  linea.setEventos(eventos);
   const alCargar = () => {
     aplicarFiltros();
     const m = location.hash.match(/^#evento=(.+)$/);
@@ -256,6 +276,19 @@ async function main() {
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
+  $("capa-indice").onchange = (e) => alternarIndice(e.target.checked).catch((err) => {
+    e.target.checked = false;
+    $("leyenda-indice").hidden = false;
+    $("leyenda-indice").textContent = `No se pudo cargar el índice: ${err.message}`;
+  });
+  $("btn-analisis").onclick = async () => {
+    const m = await import("./analisis.js");
+    analisis ??= m.crearAnalisis({
+      todos: () => eventos, visibles: () => visiblesActuales, tax,
+      abrirEvento: (id) => abrirFicha(id, { volar: true }),
+    });
+    analisis.abrir();
+  };
   $("lista-eventos").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-id]");
     if (b) abrirFicha(b.dataset.id, { volar: true });
@@ -282,8 +315,20 @@ async function main() {
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));
-  api.map.on("style.load", () => { img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); });
+  api.map.on("style.load", () => { capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); });
   iniciarImagenes();
+  // Cuaderno del analista: checklist y notas del evento abierto (solo en este navegador).
+  $("ficha-cuerpo").addEventListener("change", (e) => {
+    const cb = e.target.closest("[data-check]");
+    if (!cb || !fichaEvento) return;
+    const c = [...$("ficha-cuerpo").querySelectorAll("[data-check]:checked")].map((x) => x.dataset.check);
+    cuaderno.actualizar(fichaEvento, { c });
+    $("check-avance").textContent = `${c.length}/${analisisCfg.checklist.length}`;
+  });
+  const guardarNotas = debounce((id, n) => cuaderno.actualizar(id, { n }), 400);
+  $("ficha-cuerpo").addEventListener("input", (e) => {
+    if (e.target.id === "notas-evento" && fichaEvento) guardarNotas(fichaEvento, e.target.value);
+  });
   $("ficha-cuerpo").addEventListener("click", (e) => {
     const a = e.target.closest("[data-evento]");
     if (a) { e.preventDefault(); abrirFicha(a.dataset.evento, { volar: true }); return; }
@@ -312,7 +357,7 @@ async function main() {
 
   iniciarRefresco({
     runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"),
-    onNuevosDatos: async () => { await cargarEventos(); featureTxt.clear(); aplicarFiltros(); pintarSeguimiento(); },
+    onNuevosDatos: async () => { await cargarEventos(); featureTxt.clear(); porId = new Map(eventos.map((e) => [e.id, e])); linea.setEventos(eventos); aplicarFiltros(); pintarSeguimiento(); },
   });
 }
 
@@ -431,8 +476,28 @@ async function personasDe(orgId) {
   return (orgs.get(orgId)?.personas || []).map((id) => personas.get(id)).filter(Boolean);
 }
 
+// ---------- Mapa de calor por país (índice de inestabilidad) ----------
+async function alternarIndice(activar) {
+  const ley = $("leyenda-indice");
+  if (!activar) { capaIndice?.desactivar(); ley.hidden = true; avisarPresupuesto(); return; }
+  const { CapaIndice, ESCALA } = await import("./indice.js");
+  capaIndice ??= new CapaIndice(api.map, {
+    onClic: async (p, lngLat) => {
+      if (!paises) await cargarPaises().catch(() => (paises = {}));
+      const nombre = paises[p.iso3]?.es || p.iso3;
+      const txt = p.indice >= 0 ? `${nombre}: índice ${p.indice} (${p.eventos} eventos en 30 días)` : `${nombre}: sin eventos en 30 días`;
+      new maplibregl.Popup({ closeButton: true }).setLngLat(lngLat).setText(txt).addTo(api.map);
+    },
+  });
+  const info = await capaIndice.activar();
+  ley.hidden = false;
+  ley.innerHTML = `<div class="escala">${ESCALA.map((e) => `<span><span class="mr-muestra" style="background:${e.color}"></span>${e.etiqueta}</span>`).join("")}</div>
+    <div class="meta">${info.paises ? `${info.paises} países con eventos en 30 días` : "Sin países con eventos en 30 días todavía"} · indicador propio (docs/INDICADORES.md) · clic en un país para ver su valor</div>`;
+  avisarPresupuesto();
+}
+
 function avisarPresupuesto() {
-  const n = (gestor ? gestor.totalActivas() : 1) + (mov ? mov.activas.size : 0) + (img ? img.activas.size : 0);
+  const n = (gestor ? gestor.totalActivas() : 1) + (mov ? mov.activas.size : 0) + (img ? img.activas.size : 0) + (capaIndice?.activa ? 1 : 0);
   const aviso = $("aviso-capas");
   aviso.hidden = n <= PRESUPUESTO_CAPAS;
   aviso.textContent = `Tienes ${n} capas activas. Más de ${PRESUPUESTO_CAPAS} puede hacer lento el mapa en equipos modestos.`;

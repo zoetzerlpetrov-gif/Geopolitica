@@ -1,10 +1,10 @@
 # Monitor Geopolítico
 
-Mapa mundial interactivo de eventos geopolíticos clasificados en 11 áreas, con vista de impacto para México.
+Mapa mundial interactivo de eventos geopolíticos clasificados en 13 áreas, con vista de impacto para México.
 Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub Actions (GDELT, 8 feeds RSS y ReliefWeb).
 
 - **Mapa:** `index.html`
-- **Taxonomía visual (11 áreas, subtemas y palabras clave):** `taxonomia.html`
+- **Taxonomía visual (13 áreas, subtemas y palabras clave):** `taxonomia.html`
 - **Plan de pruebas:** [`docs/TEST_PLAN.md`](docs/TEST_PLAN.md)
 - **Fuentes y licencias:** [`SOURCES.md`](SOURCES.md)
 
@@ -25,10 +25,10 @@ Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub 
 
 | Carpeta | Contenido |
 |---|---|
-| `config/` | `taxonomy.json` (13 áreas, Eje 1), `entities.json` (12 categorías de entidades, Eje 2), `capas.json` (familias de capas y su estado), `regions.json`, `chokepoints.json`, `gazetteer.json` |
+| `config/` | `taxonomy.json` (13 áreas, Eje 1), `entities.json` (12 categorías de entidades, Eje 2), `capas.json` (familias de capas y su estado), `regions.json`, `chokepoints.json`, `gazetteer.json`, `fuentes.json` (ingesta), `analisis.json` (checklist y lentes) |
 | `data/` | `events.json`, `run-log.json`, `indice-paises.json`, `entidades/` (Wikidata), `base/countries.geojson`, `history/` |
 | `schema/` | `event.schema.json` y `entity.schema.json` (contratos de datos) |
-| `js/` | `app.js`, `map.js`, `card.js`, `capas.js` (PMTiles), `movimiento.js` + `sat-worker.js`, `imagenes.js`, `seguimiento.js`, `refresh.js` |
+| `js/` | `app.js`, `map.js`, `card.js`, `capas.js` (PMTiles), `movimiento.js` + `sat-worker.js`, `imagenes.js`, `seguimiento.js`, `refresh.js`, `linea-tiempo.js`, `indice.js`, `analisis.js` (se descarga al abrir «Análisis»), `analisis-logica.js`, `cuaderno.js` |
 | `vendor/` | MapLibre GL 5.24.0, pmtiles 4.5.0 y satellite.js 6.0.2 copiados localmente |
 | `ingest/` | `run.py` (ingesta horaria), `fuentes.py` (GDELT, RSS, ReliefWeb), `geo.py` (país por coordenada o por texto), `classify.py` (clasificador por reglas), `dimensiones.py` (alerta, delta, índice, correlación), validadores |
 | `tools/` | `capas/` (PMTiles), `entidades/` (Wikidata), `vivos/` (aviones, buques, satélites), `medicion/` (rendimiento) |
@@ -113,7 +113,9 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | C5 | Recursos estratégicos e instalaciones militares públicas (OSM) | Hecha (cobertura parcial de OSM) |
 | C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas | Seguimiento e imágenes hechos; cámaras sin fuentes aprobadas |
 | 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Hecha; ReliefWeb requiere tu `appname` |
-| 4–6 | Mapa de calor, línea de tiempo, checklist, lentes, vista México, matriz, aprendizaje, IA | Pendiente |
+| 4 | Línea de tiempo, mapa de calor por país, checklist de 10 pasos con notas, 7 lentes teóricas | Hecha |
+| 5 | Vista México con semáforo, matriz de riesgo 5 × 5 con CSV, modo aprendizaje | Hecha |
+| 6 | Redes sociales e IA opcional | Pendiente de tu decisión (fuentes y llave) |
 
 ## Exclusiones
 

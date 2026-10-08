@@ -69,8 +69,24 @@ Ejemplo: un ataque en el Mar Rojo (Seguridad) y una alza de fletes reportada des
 
 **Severidad de RSS y ReliefWeb.** Base 2. Sube a 3 si el título o la descripción mencionan, por ejemplo, ataque, sanciones, protestas, misil o brote. Sube a 4 si mencionan muertos, bombardeo, golpe de estado, estado de emergencia, terremoto o pandemia. La lista completa está en `ingest/run.py` (`GRAVES`, `MEDIAS`).
 
-**Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, infraestructura, salud NRBQ). Seguridad quedó fuera tras la primera corrida real: marcaba como impacto para México 55 de 235 eventos, casi todos hechos policiales en EUA.
+**Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, infraestructura, salud NRBQ). La regla de socios exige además severidad 3 o más, y «New Mexico» / «Nuevo México» (estado de EUA) no cuenta como mención de México. Seguridad quedó fuera tras la primera corrida real: marcaba como impacto para México 55 de 235 eventos, casi todos hechos policiales en EUA.
 
 **Deduplicación.** Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
 
 **Tope.** Se publican hasta 3,000 eventos de las últimas 72 h. Si hay más, quedan los de mayor severidad y con más fuentes. El historial guarda hasta 2,000 registros compactos por día durante 90 días.
+
+## Matriz de riesgo (Fase 5)
+
+Escala 5 × 5 según la práctica de ISO 31000: **probabilidad** de que el hecho escale o tenga consecuencias en 30 días (1–5) × **impacto** (1–5).
+
+- Impacto inicial = severidad del evento.
+- Probabilidad inicial **por regla**, como punto de partida para el analista (no es un pronóstico): base 2; +2 si escaló frente a la corrida anterior; +1 si es nuevo con severidad ≥ 4; −1 si desescala; +1 si está verificado por 2 o más medios; +1 si tiene 3 o más eventos correlacionados. Límite 1–5.
+- Niveles por puntaje (probabilidad × impacto): 1–4 bajo, 5–9 medio, 10–15 alto, 16–25 crítico.
+
+Ejemplo resuelto: un evento que escaló (+2) y está verificado (+1) → probabilidad 2 + 2 + 1 = 5. Con severidad 4 → puntaje 20 → **crítico**.
+
+Los ajustes del analista se guardan solo en su navegador y el CSV indica en la columna `origen` si el valor viene de la regla o del usuario.
+
+## Vista México: semáforo
+
+Rojo = severidad 4 o 5; ámbar = 3; verde = 1 o 2. Cada área toma el color de su evento más grave.
