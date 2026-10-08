@@ -33,7 +33,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SALIDA = os.path.join(ROOT, "capas")
 TMP = os.environ.get("RUNNER_TEMP", "/tmp")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter"]
+# Instancias públicas de Overpass (se prueban en orden; cada una tiene sus propios límites de uso).
+OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
+            "https://overpass.kumi.systems/api/interpreter"]
 NE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/"
 
 
@@ -360,6 +362,19 @@ def main(pedidas):
         print(f"[{fid}] descargando… (quedan {queda() / 60:.0f} min de plazo)")
         try:
             feats = FAMILIAS[fid]()
+            if not feats:
+                # Sin objetos (p. ej. el plazo se agotó antes de la primera caja): tippecanoe fallaría y
+                # dejaría un archivo inválido. Se conserva la versión anterior y la familia queda pendiente.
+                print(f"[{fid}] sin objetos en esta corrida; se conserva la versión anterior")
+                previo = manifest["familias"].get(fid, {})
+                if not previo.get("archivo"):
+                    previo = {"estado": "pendiente", "error": "Aún sin datos: Overpass no respondió a tiempo; se reintenta en la próxima corrida."}
+                manifest["familias"][fid] = previo
+                destino = os.path.join(SALIDA, f"{fid}.pmtiles")
+                if not previo.get("archivo") and os.path.exists(destino):
+                    os.remove(destino)
+                guardar()
+                continue
             ruta = os.path.join(TMP, f"{fid}.ndjson")
             with open(ruta, "w", encoding="utf-8") as f:
                 for ft in feats:
