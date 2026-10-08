@@ -1,0 +1,55 @@
+name: Medición de rendimiento
+
+# Mide el sitio publicado con un navegador real (Playwright) y con Lighthouse.
+# Solo observa: no cambia el sitio. El resumen aparece en la pestaña del run (Summary).
+on:
+  workflow_dispatch:
+  push:
+    paths: ["tools/medicion/**", ".github/workflows/medicion.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SITIO: https://zoetzerlpetrov-gif.github.io/Geopolitica/
+    defaults:
+      run:
+        working-directory: tools/medicion
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Instalar Playwright, Chromium y Lighthouse
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Medir con navegador (escritorio y móvil 4G, con y sin 50,000 eventos)
+        run: node medir.mjs --url "$SITIO"
+
+      - name: Lighthouse (móvil y escritorio, con y sin carga)
+        run: |
+          export CHROME_PATH=$(node -e "import('playwright').then(p=>console.log(p.chromium.executablePath()))")
+          FLAGS="--headless=new --no-sandbox"
+          npx lighthouse "$SITIO" --chrome-flags="$FLAGS" --only-categories=performance --output=json --output-path=resultados/lh-movil.json --quiet
+          npx lighthouse "${SITIO}?carga=50000" --chrome-flags="$FLAGS" --only-categories=performance --output=json --output-path=resultados/lh-movil-50k.json --quiet
+          npx lighthouse "$SITIO" --preset=desktop --chrome-flags="$FLAGS" --only-categories=performance --output=json --output-path=resultados/lh-escritorio.json --quiet
+          npx lighthouse "${SITIO}?carga=50000" --preset=desktop --chrome-flags="$FLAGS" --only-categories=performance --output=json --output-path=resultados/lh-escritorio-50k.json --quiet
+          node resumen_lighthouse.mjs resultados/lh-movil.json resultados/lh-movil-50k.json resultados/lh-escritorio.json resultados/lh-escritorio-50k.json
+
+      - name: Publicar resumen
+        if: always()
+        run: cat resultados/medicion.md >> "$GITHUB_STEP_SUMMARY" || true
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: medicion
+          path: tools/medicion/resultados/

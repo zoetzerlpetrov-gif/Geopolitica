@@ -1,0 +1,10 @@
+{
+  "name": "geopolitica-medicion",
+  "private": true,
+  "type": "module",
+  "description": "Medición de rendimiento (Fase A). No se publica en el sitio.",
+  "devDependencies": {
+    "lighthouse": "13.4.1",
+    "playwright": "1.56.1"
+  }
+}
