@@ -32,7 +32,8 @@ from datetime import datetime, timezone
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-GRUPOS_SAT = ["stations", "gnss", "geo", "weather", "military", "visual", "last-30-days"]
+# "last-30-days" (lanzamientos recientes) devolvió 404 en CelesTrak (oct 2026): se omite hasta confirmar su nombre actual.
+GRUPOS_SAT = ["stations", "gnss", "geo", "weather", "military", "visual"]
 HORAS_TLE = 6
 
 # Prefijos OACI de aerolíneas de carga (indicativo de 3 letras).
