@@ -36,7 +36,7 @@ export function familiasDibujables(catalogo, capasCfg, manifest) {
         ...f,
         subtipos: subtiposDe[f.id] || [],
         // "parcial": alguna zona del mundo no respondió (p. ej. límite de Overpass); se muestra con aviso.
-        disponible: Boolean(f.habilitada && m && (m.estado === "ok" || m.estado === "parcial") && m.archivo),
+        disponible: Boolean(f.habilitada && m && ["ok", "parcial", "desactualizada"].includes(m.estado) && m.archivo),
         manifest: m || null,
         licencia: fuente.licencia || "",
         estado_dato: (subtiposDe[f.id] || [])[0]?.estado_dato || "estatico",

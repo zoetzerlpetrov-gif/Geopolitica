@@ -414,7 +414,11 @@ def main(pedidas):
         except Exception as e:  # noqa: BLE001
             print(f"[{fid}] ERROR: {e}")
             previo = manifest["familias"].get(fid, {})
-            previo.update({"estado": "error", "error": str(e)[:300]})  # se conserva el archivo anterior, si existe
+            if previo.get("archivo") and previo.get("estado") in ("ok", "parcial", "desactualizada"):
+                # Hay una versión anterior buena: sigue visible en el mapa, marcada como desactualizada.
+                previo.update({"estado": "desactualizada", "error": f"La actualización del {datetime.now(timezone.utc):%Y-%m-%d} falló: {e}"[:300]})
+            else:
+                previo.update({"estado": "error", "error": str(e)[:300]})
             manifest["familias"][fid] = previo
         guardar()  # tras cada familia: si el job muere, lo ya construido no se pierde
     guardar()
