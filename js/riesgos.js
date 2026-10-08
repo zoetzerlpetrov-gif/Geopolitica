@@ -7,12 +7,15 @@
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
 import { getJSON, esc, safeUrl } from "./util.js";
-import { clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, PARPADEO_MS, NUEVO_MS, SEVERIDADES } from "./amenazas.js";
+import { clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES } from "./amenazas.js";
 
 export const BASES = [
   "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/data/",
   "https://raw.githubusercontent.com/zoetzerlpetrov-gif/WarRoomViajero/main/data/",
 ];
+/** Orden e ícono de los subgrupos del panel. */
+export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"]];
+
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
 const C = { verde: "#2E9E6E", ambar: "#E0A100", naranja: "#E2711D", rojo: "#D23B3B", violeta: "#8E4FD1", cian: "#1F8A8A", gris: "#6f8a82" };
@@ -25,7 +28,7 @@ const fecha = (t) => { const d = new Date(t); return Number.isNaN(d.getTime()) ?
  */
 export const CAPAS = [
   {
-    id: "sismos", nombre: "Sismos M2.5+ (24 h, en vivo)", url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
+    id: "sismos", grupo: "Desastres naturales", nombre: "Sismos M2.5+ (24 h, en vivo)", url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
     refresco_s: 300, fuente: "USGS",
     // Agrega posibles enjambres en México y radios estimados de tsunami (1, 2 y 3 h) para sismos con bandera de tsunami.
     derivar: (fc) => ({ ...fc, features: [...fc.features, ...enjambres(fc.features), ...fc.features.filter((f) => f.properties.tsunami).flatMap(radiosTsunami)] }),
@@ -43,7 +46,8 @@ export const CAPAS = [
     }),
   },
   {
-    id: "ciclones", nombre: "Ciclones y huracanes (cono y trayectoria)", archivos: ["storms.geojson", "storm_tracks.geojson"], fuente: "NOAA NHC",
+    id: "ciclones", grupo: "Desastres naturales", nombre: "Ciclones, tifones y tormentas tropicales (todo el mundo)", archivos: ["storms.geojson", "storm_tracks.geojson"],
+    locales: ["data/vivos/ciclones_mundo.geojson"], fuente: "NOAA NHC, GDACS e IBTrACS",
     // storms: posición actual. storm_tracks: trayectoria pasada (gris), pronóstico (ámbar) y radios de viento
     // de 34, 50 y 64 nudos (polígonos, más rojos cuanto más fuerte el viento).
     estilo: (p) => {
@@ -60,13 +64,14 @@ export const CAPAS = [
         titulo: p.name || p.storm_name || "Ciclón", chip: p.class_label || p.category || tipo || "",
         filas: [...(tipo ? [["Elemento", tipo]] : []), ...(p.label || p.valid_text ? [["Momento", [p.label, p.valid_text].filter(Boolean).join(" · ")]] : []),
           ["Viento", kt ? `${kt} nudos (${Math.round(kt * 1.852)} km/h)` : "—"], ...(p.pressure_mb ? [["Presión", `${p.pressure_mb} hPa`]] : []),
-          ...(p.movement ? [["Movimiento", p.movement]] : []), ...(p.last_update ? [["Actualizado", fecha(p.last_update)]] : [])],
-        url: "https://www.nhc.noaa.gov/", fuente: "NOAA National Hurricane Center",
+          ...(p.movement ? [["Movimiento", p.movement]] : []), ...(p.basin ? [["Cuenca / zona", p.basin]] : []), ...(p.alertlevel ? [["Alerta GDACS", p.alertlevel]] : []),
+          ...(p.last_update ? [["Actualizado", fecha(p.last_update)]] : [])],
+        url: p.url || "https://www.nhc.noaa.gov/", fuente: p.fuente || "NOAA National Hurricane Center",
       };
     },
   },
   {
-    id: "incendios", nombre: "Incendios activos (focos VIIRS, 24 h)", archivos: ["fires.geojson"], fuente: "NASA FIRMS",
+    id: "incendios", grupo: "Desastres naturales", nombre: "Incendios activos (focos VIIRS, 24 h)", archivos: ["fires.geojson"], fuente: "NASA FIRMS",
     estilo: (p) => ({ c: p.frp >= 100 ? C.rojo : p.frp >= 20 ? C.naranja : C.ambar, r: p.frp >= 100 ? 5 : 3 }),
     ficha: (p) => ({
       titulo: "Foco de calor", chip: `${Math.round(p.frp || 0)} MW de potencia radiativa`,
@@ -76,13 +81,13 @@ export const CAPAS = [
     }),
   },
   {
-    id: "gdacs", nombre: "Alertas de desastre GDACS (ONU/UE)", archivos: ["gdacs.geojson"], fuente: "GDACS",
+    id: "gdacs", grupo: "Desastres naturales", nombre: "Alertas de desastre GDACS (ONU/UE)", archivos: ["gdacs.geojson"], fuente: "GDACS",
     estilo: (p) => { const l = String(p.alertlevel || "green").toLowerCase(); return { c: l === "red" ? C.rojo : l === "orange" ? C.naranja : C.verde, r: 8 }; },
     ficha: (p) => ({ titulo: p.name || p.title || p.eventname || "Evento", chip: `${p.type_label || p.eventtype || ""} · ${p.alertlevel || ""}`,
       filas: [["País", p.country || "—"], ["Desde", p.fromdate ? fecha(p.fromdate) : "—"]], url: p.url || "https://www.gdacs.org", fuente: "GDACS" }),
   },
   {
-    id: "pronostico", nombre: "Pronóstico 7 días: lluvia, viento y temperatura", archivos: ["forecast.geojson"], fuente: "Open-Meteo",
+    id: "pronostico", grupo: "Clima y ambiente", nombre: "Pronóstico 7 días: lluvia, viento y temperatura", archivos: ["forecast.geojson"], fuente: "Open-Meteo",
     estilo: (p) => ({ c: NIVEL[Math.min(4, p.level || 0)], r: 3 + (p.level || 0) * 2 }),
     ficha: (p) => ({ titulo: p.name, chip: p.level_label || "",
       filas: [["Lluvia máxima diaria", `${p.max_rain_mm ?? "—"} mm`], ["Ráfaga máxima", `${p.max_gust_kmh ?? "—"} km/h`],
@@ -90,47 +95,66 @@ export const CAPAS = [
       url: "https://open-meteo.com", fuente: "Open-Meteo (modelos numéricos)" }),
   },
   {
-    id: "aire", nombre: "Calidad del aire (US AQI)", archivos: ["airquality.geojson"], fuente: "Open-Meteo Air Quality",
+    id: "aire", grupo: "Clima y ambiente", nombre: "Calidad del aire (US AQI)", archivos: ["airquality.geojson"], fuente: "Open-Meteo Air Quality",
     estilo: (p) => ({ c: /^#[0-9a-f]{6}$/i.test(p.color || "") ? p.color : NIVEL[Math.min(4, p.level || 0)], r: 4 + Math.min(4, p.level || 0) }),
     ficha: (p) => ({ titulo: p.name, chip: `${p.level_label || ""} · AQI ${p.us_aqi ?? "—"}`,
       filas: [["PM2.5", `${p.pm2_5 ?? "—"} µg/m³`], ["PM10", `${p.pm10 ?? "—"} µg/m³`], ["Ozono", `${p.ozone ?? "—"} µg/m³`], ["NO₂", `${p.no2 ?? "—"} µg/m³`]],
       url: "https://open-meteo.com/en/docs/air-quality-api", fuente: "Open-Meteo Air Quality (modelo CAMS)" }),
   },
   {
-    id: "volcanes", nombre: "Volcanes vigilados", archivos: ["volcanoes.geojson"], fuente: "CENAPRED / Smithsonian",
+    id: "volcanes", grupo: "Desastres naturales", nombre: "Volcanes vigilados", archivos: ["volcanoes.geojson"], fuente: "CENAPRED / Smithsonian",
     estilo: (p) => ({ c: p.ash_active ? C.rojo : C.violeta, r: 6 }),
     ficha: (p) => ({ titulo: p.name, chip: `${p.status || ""}${p.ash_active ? " · ceniza reportada" : ""}`,
       filas: [["País", p.country || "—"], ["Nota", p.note || "—"], ["Ceniza", p.ash_note || "—"]], url: p.url, fuente: "Fuente oficial del volcán" }),
   },
   {
-    id: "seguridad", nombre: "Señales de seguridad en noticias (verificar)", archivos: ["security_map.geojson"], fuente: "Google News / GDELT",
+    id: "seguridad", grupo: "Seguridad y ataques", nombre: "Señales de seguridad en noticias (verificar)", archivos: ["security_map.geojson"], fuente: "Google News / GDELT",
+    // Además se ubican los titulares del feed de seguridad por la ciudad o el estado que mencionan (como en Clima Táctico).
+    complementar: async (fc, leer) => {
+      const [feed, estados] = await Promise.all([leer("security_feed.json").catch(() => null), getJSON("config/mx_estados.json").catch(() => null)]);
+      if (!feed || !estados) return fc;
+      const ya = new Set(fc.features.map((f) => f.properties.title));
+      return { ...fc, features: [...fc.features, ...feedAPuntos(feed.items, estados).filter((f) => !ya.has(f.properties.title))] };
+    },
     estilo: () => ({ c: C.rojo, r: 5 }), senal: true,
     ficha: (p) => ({ titulo: p.title, chip: `${p.kind || "SEÑAL"} · señal de noticias, verifica`,
-      filas: [["Estado / zona", p.state || "—"], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"]], url: p.url, fuente: p.source || "Noticias" }),
+      filas: [["Estado / zona", `${p.state || "—"}${p.precision ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
+        ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
-    id: "severo", nombre: "Granizo, tornados y tormentas en noticias (verificar)", archivos: ["severe_weather_map.geojson"], fuente: "Google News / GDELT",
+    id: "severo", grupo: "Clima y ambiente", nombre: "Granizo, tornados y tormentas en noticias (verificar)", archivos: ["severe_weather_map.geojson"], fuente: "Google News / GDELT",
     estilo: (p) => ({ c: p.severe ? C.rojo : C.cian, r: 5 }), senal: true,
     ficha: (p) => ({ titulo: p.title, chip: `${p.kind || ""}${p.severe ? " · severo" : ""} · señal de noticias, verifica`,
       filas: [["Estado / zona", p.state || "—"], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"]], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
-    id: "deslaves", nombre: "Deslaves y movimientos de masa (noticias)", archivos: ["mass_movements.geojson"], fuente: "Noticias", senal: true,
+    id: "deslaves", grupo: "Desastres naturales", nombre: "Deslaves y movimientos de masa (noticias)", archivos: ["mass_movements.geojson"], locales: ["data/vivos/deslaves.geojson"], fuente: "Noticias", senal: true,
     estilo: () => ({ c: C.naranja, r: 5 }),
     ficha: (p) => ({ titulo: p.title || p.name || "Deslave", chip: "señal de noticias, verifica",
-      filas: [["Zona", p.state || p.country || "—"], ["Fecha", p.date ? fecha(p.date) : "—"]], url: p.url, fuente: p.source || "Noticias" }),
+      filas: [["Zona", `${p.state || p.lugar || p.country || "—"}${p.precision && p.precision !== "ciudad" ? ` (aprox.: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
+        ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
-    id: "crimen", nombre: "Terrorismo, narcotráfico y crimen organizado (noticias 24 h, verificar)", url: "data/vivos/crimen.geojson", refresco_s: 1200,
+    id: "crimen", grupo: "Seguridad y ataques", nombre: "Terrorismo, narcotráfico y crimen organizado (noticias 24 h, verificar)", url: "data/vivos/crimen.geojson", refresco_s: 1200,
     fuente: "GDELT (noticias)", senal: true,
     estilo: (p) => ({ c: { Terrorismo: "#8E1B1B", Narcotráfico: "#B4451F", Mafia: "#5B3A8E", "Crimen organizado": "#C27C1E" }[p.tipo] || C.rojo, r: 3 + (p.severidad || 3) }),
     ficha: (p) => ({ titulo: p.title, chip: `${p.tipo || "Crimen"} · señal de noticias, verifica`,
       filas: [["Lugar", `${p.lugar || "—"}${p.precision === "país" ? " (ubicación aproximada: país)" : p.precision === "estado" ? " (aprox.: centro del estado)" : ""}`],
+        ...(p.arma ? [["Arma o método", p.arma]] : []),
         ...(p.actores ? [["Actores (GDELT)", p.actores]] : []), ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
   },
   {
-    id: "nws", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",
+    id: "ataques", grupo: "Seguridad y ataques", nombre: "Ataques: misiles, drones, bombas y artillería (48 h)", url: "data/vivos/ataques.geojson", refresco_s: 1200,
+    fuente: "GDELT (códigos CAMEO de ataque) y medios mexicanos", senal: true,
+    estilo: (p) => ({ c: p.severidad >= 5 ? "#7B1E1E" : p.severidad >= 4 ? C.rojo : C.naranja, r: 3 + (p.severidad || 3) }),
+    ficha: (p) => ({ titulo: p.title, chip: `${p.arma || "Ataque"} · señal, verifica`,
+      filas: [["Arma o método", p.arma || "—"], ["Lugar", `${p.lugar || "—"}${p.precision && p.precision !== "ciudad" ? ` (aprox.: ${p.precision})` : ""}`],
+        ...(p.actores ? [["Actores (GDELT)", p.actores]] : []), ...(p.cameo ? [["Código CAMEO", p.cameo]] : []), ["Medio", p.source || "—"],
+        ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
+  },
+  {
+    id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",
     refresco_s: 300, fuente: "NOAA National Weather Service",
     estilo: (p) => ({ c: { Extreme: C.violeta, Severe: C.rojo, Moderate: C.naranja, Minor: C.ambar }[p.severity] || C.gris, r: 4 }),
     ficha: (p) => ({ titulo: p.event || "Alerta", chip: `${p.severity || ""} · ${p.urgency || ""}`,
@@ -138,7 +162,7 @@ export const CAPAS = [
       url: p["@id"] || "https://alerts.weather.gov", fuente: "NOAA NWS (aviso oficial)" }),
   },
   {
-    id: "auroras", nombre: "Auroras: hasta dónde se verían según el Kp", generar: async (leer) => { const s = await leer("space.json"); return lineasAurora(Number(s?.kp?.value || 0)); },
+    id: "auroras", grupo: "Clima y ambiente", nombre: "Auroras: hasta dónde se verían según el Kp", generar: async (leer) => { const s = await leer("space.json"); return lineasAurora(Number(s?.kp?.value || 0)); },
     fuente: "NOAA SWPC (índice Kp)",
     estilo: (p) => ({ c: p.actual ? "#2ECC71" : "#7FB89A", r: 0 }),
     ficha: (p) => ({ titulo: `Borde de aurora con Kp ${p.kp}`, chip: p.actual ? "nivel actual" : "referencia",
@@ -261,9 +285,12 @@ export class Riesgos {
     if (capa.generar) fc = await capa.generar(leerArchivo);
     else if (capa.url) fc = await getJSON(capa.url, { bust: true });
     else {
-      const partes = await Promise.all(capa.archivos.map(leerArchivo));
-      fc = { type: "FeatureCollection", features: partes.flatMap((p) => p.features || []) };
+      // Archivos de Clima Táctico + archivos propios (data/vivos/…); uno que falte no impide los demás.
+      const partes = await Promise.all([...capa.archivos.map((a) => leerArchivo(a).catch(() => null)), ...(capa.locales || []).map((u) => getJSON(u, { bust: true }).catch(() => null))]);
+      if (partes.every((p) => !p)) throw new Error("sin datos");
+      fc = { type: "FeatureCollection", features: partes.flatMap((p) => p?.features || []) };
     }
+    if (capa.complementar) fc = await capa.complementar(fc, leerArchivo);
     return capa.derivar ? capa.derivar(fc) : fc;
   }
 

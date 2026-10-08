@@ -53,9 +53,18 @@ export function clasificar(capa, p = {}, geom = null) {
       return { sev: s, tipo: `Alerta EUA: ${p.event || "aviso"}`, ic: "" };
     }
     case "auroras": return { sev: p.actual ? 2 : 1, tipo: "Aurora", ic: "" };
-    case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
+    case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: iconoArma(p.arma) || { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
+    case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };
     default: return { sev: 1, tipo: capa, ic: "" };
   }
+}
+
+/** Ícono según el tipo de arma detectado (misiles, drones, bombas…). */
+export function iconoArma(arma) {
+  if (!arma) return "";
+  const a = arma.toLowerCase();
+  return a.includes("misil") ? "🚀" : a.includes("dron") ? "🛸" : a.includes("suicida") ? "💥" : a.includes("coche") ? "🚗" : a.includes("bomba") || a.includes("explosivo") || a.includes("ied") ? "💣"
+    : a.includes("aéreo") ? "✈️" : a.includes("artiller") ? "🎯" : a.includes("nuclear") || a.includes("química") || a.includes("destrucción") ? "☢️" : "💥";
 }
 
 /** País de una descripción de USGS («12 km SW of Tecpan, Mexico» → «Mexico»). */
@@ -153,7 +162,8 @@ export function lineasAurora(kpActual) {
     const lat = latAurora(kp);
     for (const signo of [1, -1]) {
       const coords = [];
-      for (let lon = -180; lon <= 180; lon += 5) coords.push([lon, signo * lat]);
+      // De −540° a 540°: cubre las copias del mundo que MapLibre dibuja al alejar el mapa (la línea no se corta).
+      for (let lon = -540; lon <= 540; lon += 5) coords.push([lon, signo * lat]);
       feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: coords },
         properties: { kp, actual: kp === niveles[0], hemisferio: signo > 0 ? "norte" : "sur", lat_min: Math.round(lat), place: `Borde de aurora con Kp ${kp} (~${Math.round(lat)}° ${signo > 0 ? "N" : "S"})` } });
     }
@@ -211,4 +221,40 @@ export function filtrar(lista, { pais = "", tipo = "", sevMin = 1, zona = null }
 /** Orden de la lista: nuevas primero, luego severidad y lo más reciente. */
 export function ordenar(lista, nuevas = new Set()) {
   return [...lista].sort((a, b) => (nuevas.has(b.k) - nuevas.has(a.k)) || (b.sev - a.sev) || ((b.t || 0) - (a.t || 0)));
+}
+
+// ---------------------------------------------------------------- titulares → lugar en México
+const normal = (t) => ` ${String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, " ").trim()} `;
+const AMBIGUOS = new Set(["Hidalgo", "Morelos", "Guerrero", "Colima", "Durango", "Campeche", "Tabasco", "Zacatecas"]);
+
+/**
+ * Ubica un titular en México por ciudad o estado mencionado (config/mx_estados.json).
+ * Nombres que también son apellidos (Hidalgo, Morelos…) solo cuentan tras «en», «de» o «estado de».
+ * Devuelve {lon, lat, lugar, precision} o null.
+ */
+export function ubicarTitulo(titulo, estados) {
+  const t = normal(titulo);
+  for (const c of estados.ciudades || []) if (t.includes(normal(c.nombre))) return { lon: c.lon, lat: c.lat, lugar: `${c.nombre}, ${c.estado}`, precision: "ciudad" };
+  for (const e of estados.estados || []) {
+    for (const n of [e.nombre, ...(e.alias || [])]) {
+      const nn = normal(n).trim();
+      const ok = AMBIGUOS.has(n) ? new RegExp(` (en|de|del estado de|estado de) ${nn} `).test(t) : t.includes(` ${nn} `);
+      if (ok) return { lon: e.lon, lat: e.lat, lugar: e.nombre, precision: "estado" };
+    }
+  }
+  return null;
+}
+
+/** Titulares del feed de seguridad (sin coordenadas) → puntos aproximados en México. */
+export function feedAPuntos(items, estados) {
+  const out = [];
+  for (const it of items || []) {
+    const u = ubicarTitulo(it.title || "", estados);
+    if (!u) continue;
+    const kind = /bloqueo/i.test(it.title) ? "BLOQUEO" : /secuestr/i.test(it.title) ? "SECUESTRO" : /asalt|robo/i.test(it.title) ? "ASALTO"
+      : /extorsi|cobro de piso/i.test(it.title) ? "EXTORSION" : /balacera|ataque|enfrentamiento|asesin|ejecut|homicid/i.test(it.title) ? "VIOLENCIA" : "OTRO";
+    out.push({ type: "Feature", geometry: { type: "Point", coordinates: [u.lon, u.lat] },
+      properties: { title: it.title, url: it.url, source: it.source || "", date: it.date || it.published || "", state: u.lugar, kind, precision: u.precision, via: "Feed de seguridad (ubicado por el título)" } });
+  }
+  return out;
 }

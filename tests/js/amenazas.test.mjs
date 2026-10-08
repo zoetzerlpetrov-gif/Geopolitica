@@ -80,3 +80,32 @@ test("clave estable, filtros y orden", () => {
   assert.deepEqual(filtrar(L, { zona: { lat: 19.4, lon: -99.1, radio_km: 100 } }).map((a) => a.k), ["a"]);
   assert.deepEqual(ordenar(L, new Set(["a"])).map((a) => a.k), ["a", "b", "c"]);
 });
+
+test("titulares del feed → lugar en México (ciudad antes que estado; apellidos no cuentan)", async () => {
+  const { ubicarTitulo, feedAPuntos } = await import("../../js/amenazas.js");
+  const est = JSON.parse(readFileSync(new URL("../../config/mx_estados.json", import.meta.url)));
+  assert.equal(ubicarTitulo("Deslave bloquea la carretera Acapulco-Zihuatanejo", est).lugar, "Acapulco, Guerrero");
+  assert.equal(ubicarTitulo("Bloqueo en la México-Toluca", est).lugar, "Toluca, Estado de México");
+  assert.equal(ubicarTitulo("Balacera en Michoacán deja tres heridos", est).precision, "estado");
+  assert.equal(ubicarTitulo("Miguel Hidalgo inauguró la obra", est), null);
+  assert.equal(ubicarTitulo("Enfrentamiento en Hidalgo", est).lugar, "Hidalgo");
+  const pts = feedAPuntos([{ title: "Secuestran a comerciante en Celaya", url: "https://x" }, { title: "Sin lugar", url: "https://y" }], est);
+  assert.equal(pts.length, 1);
+  assert.equal(pts[0].properties.kind, "SECUESTRO");
+});
+
+test("auroras: líneas de −540° a 540° para no cortarse en las copias del mundo", () => {
+  const c = lineasAurora(5).features[0].geometry.coordinates;
+  assert.equal(c[0][0], -540); assert.equal(c[c.length - 1][0], 540);
+});
+
+test("ataques: ícono y tipo por arma", async () => {
+  const { iconoArma } = await import("../../js/amenazas.js");
+  assert.equal(iconoArma("Misiles o cohetes"), "🚀");
+  assert.equal(iconoArma("Drones"), "🛸");
+  assert.equal(iconoArma("Coche bomba"), "🚗");
+  assert.equal(iconoArma("Bomba en carretera (IED)"), "💣");
+  assert.equal(iconoArma(null), "");
+  assert.deepEqual(clasificar("ataques", { arma: "Drones", severidad: 4 }), { sev: 4, tipo: "Ataque: Drones", ic: "🛸" });
+  assert.equal(clasificar("crimen", { tipo: "Narcotráfico", arma: "Drones" }).ic, "🛸");
+});

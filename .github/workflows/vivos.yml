@@ -51,6 +51,11 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/gfs.py
 
+      - name: Ciclones de todo el mundo (GDACS + IBTrACS, cada 3 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/clima/ciclones.py
+
       - name: Terrorismo, narcotráfico y crimen organizado (GDELT, cada hora; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 5

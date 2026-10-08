@@ -5,7 +5,7 @@
 // - Solo se dibujan categorías "dibujable": true y subtipos con tipo_capa distinto de "ficha".
 //   Las personas (rol público) nunca tienen capa: viven solo dentro de las fichas.
 /* global maplibregl, pmtiles */
-import { esc, safeUrl } from "./util.js";
+import { esc, safeUrl, pinturaEtiqueta } from "./util.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -161,9 +161,9 @@ export class GestorCapas {
       } }, antes);
     // Etiquetas solo desde cierto zoom y con detección de colisiones (no se encimen).
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, ...sl, minzoom: f.zoom_etiquetas ?? 6, filter: this.#filtroCapa("-texto", filtro),
-      layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 0.9], "text-anchor": "top",
+      layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-offset": [0, 0.9], "text-anchor": "top",
         "text-optional": true, "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true },
-      paint: { "text-color": "#333F48", "text-halo-color": "#ffffff", "text-halo-width": 1.2 } }, antes);
+      paint: pinturaEtiqueta() }, antes);
 
     for (const capa of [`${src}-punto`, `${src}-linea`, ...(f.relleno ? [`${src}-relleno`] : [])]) {
       this.map.on("click", capa, (e) => this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat }));
@@ -224,7 +224,7 @@ export function htmlFichaCamara(props, sub) {
   imgs = imgs.filter((u) => /^https:\/\//.test(u)).slice(0, 4);
   const ok = imgs.length > 0 || String(props.v || "").startsWith("ok");
   const t = Math.floor(Date.now() / 300000); // evita la caché del navegador: imagen de los últimos 5 min
-  const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}?t=${t}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
+  const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}${u.includes("?") ? "&" : "?"}t=${t}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
     <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio.</p>` : "";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>

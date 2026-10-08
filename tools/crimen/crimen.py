@@ -143,7 +143,7 @@ def a_feature(art, origen, estados, gaz):
     lon, lat, nombre, iso, precision = lugar
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
             "properties": {"title": titulo[:220], "url": url, "source": art.get("domain") or "", "date": fecha_gdelt(art.get("seendate")),
-                           "tipo": tipo_de(titulo), "severidad": severidad_de(titulo), "lugar": nombre, "pais_iso3": iso,
+                           "tipo": tipo_de(titulo), "severidad": severidad_de(titulo), "lugar": nombre, "pais_iso3": iso, "arma": arma_de(titulo),
                            "precision": precision, "origen": origen}}
 
 
@@ -152,8 +152,52 @@ ULTIMA = "http://data.gdeltproject.org/gdeltv2/lastupdate.txt"
 TIPOS_ACTOR = {"CRM": "Crimen organizado", "INS": "Insurgencia", "REB": "Grupo rebelde", "UAF": "Grupo armado", "SEP": "Separatistas"}
 RAICES_VIOLENTAS = {"13", "14", "15", "17", "18", "19", "20"}  # amenazas, protestas violentas, fuerza, coerción, asalto, combate, violencia masiva
 # Índices de columnas del formato de eventos de GDELT 2.0 (61 columnas).
-C = {"a1": 6, "a1t": (12, 13, 14), "a2": 16, "a2t": (22, 23, 24), "raiz": 28, "articulos": 33, "geo_tipo": 51, "lugar": 52,
+C = {"a1": 6, "a1t": (12, 13, 14), "a2": 16, "a2t": (22, 23, 24), "codigo": 26, "raiz": 28, "articulos": 33, "geo_tipo": 51, "lugar": 52,
      "lat": 56, "lon": 57, "fecha": 59, "url": 60}
+
+
+# Ataques por código CAMEO exacto (columna EventCode) y por palabras del enlace o el título.
+ARMAS_CAMEO = {"1831": "Atentado suicida", "1832": "Coche bomba", "1833": "Bomba en carretera (IED)", "1834": "Bomba", "183": "Bomba",
+               "194": "Artillería y tanques", "195": "Ataque aéreo", "1951": "Misiles o munición guiada", "1952": "Drones",
+               "204": "Armas de destrucción masiva", "2041": "Armas químicas, biológicas o radiológicas", "2042": "Arma nuclear"}
+ARMAS_TEXTO = [("Misiles o cohetes", r"misil|missile|cohete|rocket|bal[ií]stic"), ("Drones", r"\bdron|drone|uav|kamikaze"),
+               ("Coche bomba", r"coche bomba|car bomb|vehicle bomb"), ("Atentado suicida", r"suicid.{0,12}(bomb|atent)|suicide bomb"),
+               ("Bomba o explosivo", r"bomba|bomb|explosiv|granada|grenade|ied\b|artefacto explosivo|mina terrestre|landmine"),
+               ("Ataque aéreo", r"bombardeo|airstrike|air strike|ataque a[eé]reo"), ("Artillería", r"artiller|shelling|mortero|mortar|tanque|tank")]
+
+
+def arma_de(texto, codigo=""):
+    """Tipo de arma: primero por palabras (más específicas), luego por código CAMEO. None si no hay."""
+    t = (texto or "").lower()
+    for nombre, rx in ARMAS_TEXTO:
+        if re.search(rx, t):
+            return nombre
+    return ARMAS_CAMEO.get(codigo) or ARMAS_CAMEO.get(codigo[:3]) if codigo[:3] in ("183", "194", "195", "204") else None
+
+
+def evento_ataque(f, paises, min_articulos=3):
+    """Fila de eventos de GDELT → feature si el código CAMEO es un ataque con bombas, artillería, aéreo o con drones/misiles.
+    No exige actor criminal: incluye ataques militares entre Estados."""
+    if len(f) < 61 or f[C["codigo"]][:3] not in ("183", "194", "195", "204"):
+        return None
+    try:
+        lat, lon, articulos = float(f[C["lat"]]), float(f[C["lon"]]), int(f[C["articulos"]])
+    except ValueError:
+        return None
+    if articulos < min_articulos or not f[C["url"]].startswith("http"):
+        return None
+    slug = F.palabras_de_url(f[C["url"]])
+    arma = arma_de(slug, f[C["codigo"]]) or "Ataque armado"
+    actores = " → ".join(a.title() for a in (f[C["a1"]], f[C["a2"]]) if a)
+    sev = 5 if f[C["codigo"]].startswith("204") or articulos >= 50 else 4 if articulos >= 10 or f[C["codigo"]] in ("1831", "1832") else 3
+    titulo = slug.capitalize() if len(slug.split()) >= 4 else f"{arma}: {actores or 'actor no identificado'} ({f[C['lugar']]})"
+    iso = paises.de(lon, lat)
+    fecha = datetime.strptime(f[C["fecha"]], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
+            "properties": {"title": titulo[:220], "url": f[C["url"]], "source": urllib.parse.urlparse(f[C["url"]]).netloc, "date": fecha,
+                           "tipo": "Ataque", "arma": arma, "cameo": f[C["codigo"]], "severidad": sev, "lugar": f[C["lugar"]], "pais_iso3": iso or "",
+                           "precision": {"1": "país", "2": "estado", "5": "estado"}.get(f[C["geo_tipo"]], "ciudad"), "actores": actores,
+                           "articulos": articulos, "via": "GDELT 2.0 (evento codificado; el título sale del enlace)"}}
 
 
 def evento_gdelt(f, gaz, paises, min_articulos=2):
@@ -176,6 +220,7 @@ def evento_gdelt(f, gaz, paises, min_articulos=2):
     if tipo == "Crimen organizado" and actor_tipo != "Crimen organizado":
         tipo = "Terrorismo" if re.search(TIPOS[0][1], texto.lower()) else actor_tipo
     sev = max(severidad_de(slug), {"20": 5, "19": 4, "18": 4}.get(f[C["raiz"]], 3))
+    arma = arma_de(slug, f[C["codigo"]])
     actores = " → ".join(a.title() for a in (f[C["a1"]], f[C["a2"]]) if a)
     titulo = slug.capitalize() if len(slug.split()) >= 4 else f"{tipo}: {actores or 'actor no identificado'} ({f[C['lugar']]})"
     iso = paises.de(lon, lat)
@@ -184,7 +229,7 @@ def evento_gdelt(f, gaz, paises, min_articulos=2):
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
             "properties": {"title": titulo[:220], "url": f[C["url"]], "source": urllib.parse.urlparse(f[C["url"]]).netloc, "date": fecha,
                            "tipo": tipo, "severidad": sev, "lugar": f[C["lugar"]], "pais_iso3": iso or "", "precision": precision,
-                           "origen": "mx" if iso == "MEX" else "mundo", "actores": actores, "articulos": articulos,
+                           "origen": "mx" if iso == "MEX" else "mundo", "actores": actores, "articulos": articulos, "arma": arma,
                            "via": "GDELT 2.0 (evento codificado; el título sale del enlace)"}}
 
 
@@ -197,7 +242,7 @@ def eventos_gdelt(gaz, archivos=4):
     ultima = F.get(ULTIMA).decode().split("\n")[0].split()[2]
     marca = re.search(r"(\d{14})\.export", ultima).group(1)
     t = datetime.strptime(marca, "%Y%m%d%H%M%S")
-    out = []
+    out, ataques = [], []
     for k in range(archivos):
         url = ultima.replace(marca, (t - timedelta(minutes=15 * k)).strftime("%Y%m%d%H%M%S"))
         try:
@@ -210,7 +255,10 @@ def eventos_gdelt(gaz, archivos=4):
                 ft = evento_gdelt(fila, gaz, paises)
                 if ft:
                     out.append(ft)
-    return out
+                at = evento_ataque(fila, paises)
+                if at:
+                    ataques.append(at)
+    return out, ataques
 
 
 def get_json(url, reintentos=1):
@@ -226,60 +274,128 @@ def get_json(url, reintentos=1):
     return json.loads(texto) if texto.strip().startswith("{") else {}
 
 
-def main():
+# ---------------------------------------------------------------- feeds RSS de medios mexicanos
+DESLAVE = r"deslave|derrumbe|deslizamiento|desgajamiento|socav[oó]n|alud|landslide|mudslide|corrimiento de tierra"
+CRIMEN_TXT = r"c[aá]rtel|narco|crimen organizado|sicari|balacera|enfrentamiento|ejecutad|asesinad|homicid|secuestr|extorsi|cobro de piso|fosa|levant(ad|on)|desaparec|huachicol|halcones|emboscada"
+
+
+def clasificar_titular(titulo):
+    """('deslave'|'ataque'|'crimen'|None, arma) para un titular de un medio mexicano."""
+    t = titulo.lower()
+    if re.search(DESLAVE, t):
+        return "deslave", None
+    arma = arma_de(t)
+    if arma and re.search(r"ataque|atentado|explot|lanz|deton|ataca|attack|strike", t):
+        return "ataque", arma
+    if re.search(CRIMEN_TXT, t):
+        return "crimen", arma
+    return None, None
+
+
+def rss_mexico(estados, gaz):
+    """Titulares de medios mexicanos (config/fuentes_mx.json) → features de crimen, ataques y deslaves."""
+    cfg = json.load(open(os.path.join(ROOT, "config", "fuentes_mx.json"), encoding="utf-8"))
+    salida = {"crimen": [], "ataque": [], "deslave": []}
+    estado_fuentes = {}
+    for fuente in cfg["feeds"]:
+        try:
+            if not F.permitido_por_robots(fuente["url"]):
+                estado_fuentes[fuente["id"]] = "robots.txt no lo permite"
+                continue
+            cands = F.parsear_rss(F.get(fuente["url"], timeout=40), {"nombre": fuente["nombre"], "tipo": "noticia"})
+        except Exception as e:  # noqa: BLE001
+            estado_fuentes[fuente["id"]] = f"error: {e}"[:120]
+            continue
+        n = 0
+        for c in cands:
+            clase, arma = clasificar_titular(c["titulo"])
+            if not clase:
+                continue
+            lugar = ubicar(c["titulo"], estados, gaz, "mx")
+            if not lugar:
+                continue
+            lon, lat, nombre, iso, precision = lugar
+            props = {"title": c["titulo"][:220], "url": c["url"], "source": fuente["nombre"], "date": c["fecha_utc"], "lugar": nombre,
+                     "pais_iso3": iso, "precision": precision, "origen": "mx", "via": f"RSS de {fuente['nombre']}"}
+            if clase == "deslave":
+                props.update({"name": c["titulo"][:220], "state": nombre, "kind": "DESLAVE"})
+            else:
+                props.update({"tipo": "Ataque" if clase == "ataque" else tipo_de(c["titulo"]), "severidad": severidad_de(c["titulo"]), "arma": arma})
+            salida[clase].append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]}, "properties": props})
+            n += 1
+        estado_fuentes[fuente["id"]] = f"ok ({n} de {len(cands)})"
+        time.sleep(1)
+    return salida, estado_fuentes
+
+
+def guardar(ruta, nuevos, horas, fuente, extra=None):
+    """Une con lo anterior (sin repetir enlaces), conserva las últimas `horas` y escribe el GeoJSON."""
     previos = []
+    if os.path.exists(ruta):
+        previos = json.load(open(ruta, encoding="utf-8")).get("features", [])
+    urls = {f["properties"]["url"] for f in nuevos}
+    feats = nuevos + [f for f in previos if f["properties"]["url"] not in urls]
+    limite = (datetime.now(timezone.utc) - timedelta(hours=horas)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    feats = [f for f in feats if (f["properties"].get("date") or "") >= limite]
+    feats.sort(key=lambda f: f["properties"].get("date") or "", reverse=True)
+    feats = deduplicar(feats)
+    os.makedirs(os.path.dirname(ruta), exist_ok=True)
+    json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "fuente": fuente,
+               **(extra or {}), "features": feats}, open(ruta, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    return feats
+
+
+def main():
     if os.path.exists(OUT):
-        previo = json.load(open(OUT, encoding="utf-8"))
-        previos = previo.get("features", [])
-        gen = previo.get("generado_utc")
+        gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc")
         if gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(minutes=MIN_ENTRE_CORRIDAS):
             print("crimen: datos de hace menos de 1 h; se conservan")
             return 0
+    estados = json.load(open(os.path.join(ROOT, "config", "mx_estados.json"), encoding="utf-8"))
+    gaz = Gazetteer()
+    crimen, ataques, deslaves, errores = [], [], [], []
+    # 1) API de búsqueda de GDELT (suele limitar desde GitHub: una sola consulta de prueba).
     rp = urllib.robotparser.RobotFileParser("https://api.gdeltproject.org/robots.txt")
     try:
         rp.read()
     except Exception:  # noqa: BLE001
         rp.parse([])
-    if not rp.can_fetch("Geopolitica-monitor", API):
-        print("crimen: robots.txt de GDELT no permite la consulta; se omite")
-        return 0
-    estados = json.load(open(os.path.join(ROOT, "config", "mx_estados.json"), encoding="utf-8"))
-    gaz = Gazetteer()
-    feats, errores = [], []
-    for origen, q in CONSULTAS:
-        url = API + "?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "format": "json", "maxrecords": 150, "timespan": "24h", "sort": "datedesc"})
-        try:
-            for art in get_json(url).get("articles", []):
-                f = a_feature(art, origen, estados, gaz)
-                if f:
-                    feats.append(f)
-        except Exception as e:  # noqa: BLE001  una consulta caída no detiene las demás
-            errores.append(f"{origen}: {e}"[:160])
-            if "429" in str(e):
-                errores.append("La API de búsqueda de GDELT limita las consultas desde este servidor; se usan sus archivos de eventos")
-                break
-        time.sleep(PAUSA_S)
-    # Fuente principal: archivos de eventos de GDELT 2.0 (cada 15 min, sin límite de consultas).
+    if rp.can_fetch("Geopolitica-monitor", API):
+        for origen, q in CONSULTAS:
+            url = API + "?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "format": "json", "maxrecords": 150, "timespan": "24h", "sort": "datedesc"})
+            try:
+                for art in get_json(url).get("articles", []):
+                    f = a_feature(art, origen, estados, gaz)
+                    if f:
+                        crimen.append(f)
+            except Exception as e:  # noqa: BLE001
+                errores.append(f"{origen}: {e}"[:160])
+                if "429" in str(e):
+                    errores.append("La API de búsqueda de GDELT limita las consultas desde este servidor; se usan sus archivos de eventos")
+                    break
+            time.sleep(PAUSA_S)
+    # 2) Archivos de eventos de GDELT 2.0 (sin límite): crimen organizado y ataques con armas.
     try:
-        nuevos = eventos_gdelt(gaz)
-        feats += nuevos
-        print(f"crimen: {len(nuevos)} eventos codificados de GDELT en la última hora")
+        c2, a2 = eventos_gdelt(gaz)
+        crimen += c2
+        ataques += a2
+        print(f"crimen: {len(c2)} eventos criminales y {len(a2)} ataques en la última hora (GDELT)")
     except Exception as e:  # noqa: BLE001
         errores.append(f"eventos GDELT: {e}"[:160])
-    # Se acumulan 24 h: lo de corridas anteriores que siga vigente y no esté repetido.
-    feats += [f for f in previos if f["properties"]["url"] not in {g["properties"]["url"] for g in feats}]
-    limite = (datetime.now(timezone.utc) - timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%SZ")
-    feats = [f for f in feats if (f["properties"]["date"] or "") >= limite]
-    feats.sort(key=lambda f: f["properties"]["date"] or "", reverse=True)
-    feats = deduplicar(feats)
-    if not feats and errores:
-        print(f"crimen: sin datos nuevos ({errores}); se conservan los anteriores")
-        return 0
-    os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "fuente": "GDELT DOC 2.0 (señales de noticias, verificar)", "errores": errores, "features": feats},
-              open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    print(f"crimen: {len(feats)} señales ({sum(1 for f in feats if f['properties']['pais_iso3'] == 'MEX')} en México); errores: {errores}")
+    # 3) Medios mexicanos por RSS (titulares): crimen, ataques y deslaves.
+    fuentes_mx = {}
+    try:
+        rss, fuentes_mx = rss_mexico(estados, gaz)
+        crimen += rss["crimen"]
+        ataques += rss["ataque"]
+        deslaves += rss["deslave"]
+        print(f"crimen: RSS de México {fuentes_mx}")
+    except Exception as e:  # noqa: BLE001
+        errores.append(f"RSS México: {e}"[:160])
+    fc = guardar(OUT, crimen, 24, "GDELT y medios mexicanos (señales de noticias, verificar)", {"errores": errores, "fuentes_mx": fuentes_mx})
+    fa = guardar(os.path.join(os.path.dirname(OUT), "ataques.geojson"), ataques, 48, "GDELT 2.0 (códigos CAMEO de ataque) y medios mexicanos")
+    fd = guardar(os.path.join(os.path.dirname(OUT), "deslaves.geojson"), deslaves, 72, "Medios mexicanos (titulares, verificar)")
+    print(f"crimen: {len(fc)} señales ({sum(1 for f in fc if f['properties']['pais_iso3'] == 'MEX')} en México); ataques: {len(fa)}; deslaves: {len(fd)}; errores: {errores}")
     return 0
 
 

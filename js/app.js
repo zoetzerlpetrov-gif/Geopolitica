@@ -473,7 +473,13 @@ async function iniciarCapas() {
   });
   gestor.registrar(familias);
   const cont = $("capas-entidades");
-  cont.innerHTML = familias.map((f) => `
+  // Subtítulo por categoría del catálogo (Infraestructura, Conflictos, Religiones…), en el orden del catálogo.
+  const ordenCat = catalogo.categorias.map((c) => c.id);
+  const nombreCat = Object.fromEntries(catalogo.categorias.map((c) => [c.id, c.nombre.es]));
+  familias.sort((a, b) => ordenCat.indexOf(a.categoria) - ordenCat.indexOf(b.categoria));
+  let catPrevia = null;
+  const subtitulo = (f) => { if (f.categoria === catPrevia) return ""; catPrevia = f.categoria; return `<div class="subgrupo"><span class="punto" style="--c:${esc(f.subtipos[0]?.color || "#888")}"></span>${esc(nombreCat[f.categoria] || f.categoria)}</div>`; };
+  cont.innerHTML = familias.map((f) => subtitulo(f) + `
     <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
       <label class="fila"><span><input type="checkbox" data-fam="${esc(f.id)}" ${f.disponible ? "" : "disabled"}> ${esc(f.nombre)}</span>
         <span class="chip estado-${esc(f.estado_dato)}" title="Estado del dato">${esc(etiquetaEstado(f.estado_dato))}</span></label>
@@ -562,8 +568,8 @@ async function iniciarClima() {
 }
 
 // ---------- Riesgos naturales y clima (Clima Táctico / WarRoomViajero) ----------
-const FUENTE_MANIFIESTO = { ciclones: "storms", incendios: "fires", gdacs: "gdacs", pronostico: "forecast", aire: "airquality", volcanes: "volcanoes",
-  seguridad: "security", severo: "severe_weather", deslaves: "mass_movements" };
+const FUENTE_MANIFIESTO = { incendios: "fires", gdacs: "gdacs", pronostico: "forecast", aire: "airquality", volcanes: "volcanoes",
+  severo: "severe_weather" };
 
 async function iniciarRiesgos() {
   const cont = $("riesgos-capas");
@@ -608,7 +614,8 @@ async function iniciarRiesgos() {
     onCambio: () => pintar(),
     onObjeto: (capa, props, geom) => { entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom)); },
   });
-  cont.innerHTML = R.CAPAS.map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>`).join("");
+  cont.innerHTML = R.GRUPOS.map(([g, ic, color]) => `<div class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}</div>`
+    + R.CAPAS.filter((c) => c.grupo === g).map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>`).join("")).join("");
   $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
     <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
     <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>`;
@@ -654,7 +661,7 @@ async function iniciarRiesgos() {
     for (const [id, k] of Object.entries(FUENTE_MANIFIESTO)) {
       const n = man.sources?.[k]?.count;
       const cb = cont.querySelector(`[data-riesgo="${id}"]`);
-      if (n === 0 && cb) { cb.closest("label").classList.add("capa-off"); $(`rg-n-${id}`).textContent = "0 hoy"; }
+      if (n === 0 && cb) $(`rg-n-${id}`).textContent = "0 hoy";  // se puede activar igual; solo se avisa que hoy no hay eventos
     }
   }
   const txt = R.textoEspacial(esp);

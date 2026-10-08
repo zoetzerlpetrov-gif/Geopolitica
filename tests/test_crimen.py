@@ -42,7 +42,7 @@ def test_feature_y_duplicados():
     f = c.a_feature(art, "mx", EST, GAZ)
     p = f["properties"]
     assert (p["tipo"], p["severidad"], p["lugar"], p["date"]) == ("Crimen organizado", 4, "Uruapan, Michoacán", "2026-10-08T12:00:00Z")
-    assert set(p) == {"title", "url", "source", "date", "tipo", "severidad", "lugar", "pais_iso3", "precision", "origen"}  # sin texto del artículo
+    assert set(p) == {"title", "url", "source", "date", "tipo", "severidad", "lugar", "pais_iso3", "precision", "origen", "arma"}  # sin texto del artículo
     g = c.a_feature({**art, "url": "https://otro.mx/b", "title": "Ataque armado en Uruapan deja 3 muertos - Otro"}, "mx", EST, GAZ)
     assert len(c.deduplicar([f, g])) == 1
     assert c.a_feature({**art, "url": "javascript:x"}, "mx", EST, GAZ) is None
@@ -64,3 +64,26 @@ def test_evento_gdelt_criminal_y_violento():
     assert c.evento_gdelt(h, GAZ, pa) is None
     k = list(f); k[12] = "INS"; k[6] = "ISLAMIC STATE"; k[60] = "https://news.example/2026/10/08/isis-suicide-bomber-attack"; k[52] = "Kabul, Afghanistan"; k[56], k[57] = "34.5", "69.2"
     assert c.evento_gdelt(k, GAZ, pa)["properties"]["tipo"] == "Terrorismo"
+
+
+def test_ataques_por_codigo_cameo_y_palabras():
+    from geo import Paises
+    f = [""] * 61
+    f[6], f[16], f[26], f[28], f[33], f[51] = "RUSSIA", "UKRAINE", "1952", "19", "12", "4"
+    f[52], f[56], f[57], f[59] = "Kyiv, Ukraine", "50.45", "30.52", "20261008220000"
+    f[60] = "https://news.example/2026/10/08/overnight-attack-on-kyiv-power-grid"
+    p = c.evento_ataque(f, Paises())["properties"]
+    assert (p["arma"], p["tipo"], p["severidad"], p["pais_iso3"]) == ("Drones", "Ataque", 4, "UKR")
+    g = list(f); g[26] = "190"  # fuerza militar genérica: no es un ataque con arma identificada
+    assert c.evento_ataque(g, Paises()) is None
+    assert c.arma_de("Russia fires ballistic missiles at Kharkiv") == "Misiles o cohetes"
+    assert c.arma_de("", "1832") == "Coche bomba"
+
+
+def test_titulares_de_medios_mexicanos():
+    assert c.clasificar_titular("Deslave bloquea la carretera Acapulco-Zihuatanejo") == ("deslave", None)
+    assert c.clasificar_titular("Atacan con drones explosivos a comunidad de Michoacán") == ("ataque", "Drones")
+    assert c.clasificar_titular("Balacera en Celaya deja dos muertos")[0] == "crimen"
+    assert c.clasificar_titular("Inauguran feria del libro") == (None, None)
+    cfg = json.load(open(os.path.join(ROOT, "config", "fuentes_mx.json"), encoding="utf-8"))
+    assert all(x["url"].startswith("https://") for x in cfg["feeds"]) and len({x["id"] for x in cfg["feeds"]}) == len(cfg["feeds"])
