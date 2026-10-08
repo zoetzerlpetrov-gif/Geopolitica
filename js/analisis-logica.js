@@ -174,3 +174,26 @@ export function anotar(marcador, area, acierto) {
   m.intentos += 1;
   return m;
 }
+
+// ---------- Calidad de datos ----------
+/** Mismos indicadores que ingest/run.py `calidad()`, calculados en el navegador sobre los eventos cargados. */
+export function calidad(eventos) {
+  const por_area = {};
+  let sin_pais = 0, confianza_baja = 0, verificados = 0, varias = 0, mx = 0, suma = 0;
+  for (const e of eventos) {
+    por_area[e.area_principal] = (por_area[e.area_principal] || 0) + 1;
+    if (!e.pais_iso3) sin_pais++;
+    if (e.confianza_clasificacion < 0.3) confianza_baja++;
+    if (e.verificado) verificados++;
+    if (e.fuentes.length > 1) varias++;
+    if (e.impacto_mexico) mx++;
+    suma += e.confianza_clasificacion;
+  }
+  return {
+    eventos: eventos.length, sin_pais, confianza_baja, verificados, con_varias_fuentes: varias, impacto_mexico: mx,
+    confianza_media: eventos.length ? Math.round((100 * suma) / eventos.length) / 100 : 0, por_area,
+  };
+}
+
+/** Porcentaje entero seguro (0 si no hay base). */
+export const pct = (n, base) => (base ? Math.round((100 * n) / base) : 0);

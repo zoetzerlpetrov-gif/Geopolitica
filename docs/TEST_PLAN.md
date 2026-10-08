@@ -32,13 +32,14 @@ Regla de publicación: el workflow **Publicar en GitHub Pages** depende del job 
 | 2 | Filtros | Áreas, región, severidad mínima, "solo México" y ventana de tiempo cambian mapa, lista y contadores a la vez | M | 4 ✔ |
 | 3 | Capas fijas | Chokepoints e índice por país se encienden y apagan; aparecen los 8 chokepoints + Cabo de Buena Esperanza | A + M | 4 ✔ |
 | 4 | Mapa de calor por país | Coropleta del Índice de Inestabilidad (30 días, vida media 7 días); países sin eventos transparentes; clic muestra valor y número de eventos; leyenda de 4 escalones | A (`unirIndice`) + M | 4 ✔ |
-| 5 | Línea de tiempo | Ventana (todo, 6 h, 24 h, 72 h, 7 días) y deslizador hacia el pasado cambian los eventos visibles; histograma de 48 barras resalta la ventana; «Reproducir» recorre el periodo; con datos nuevos se queda en «ahora» | A (`ventana`, `histograma`) + M | 4 ✔ |
+| 5 | Línea de tiempo | Ventana (todo, 6 h, 24 h, 72 h, 7 días) y deslizador hacia el pasado cambian los eventos visibles; histograma de 48 barras resalta la ventana; «Reproducir» recorre el periodo; con datos nuevos se queda en «ahora». «30 días» y «90 días» descargan el historial bajo demanda (90 días solo severidad ≥ 3; no se ofrece en LITE) | A (`ventana`, `histograma`, `historial.test.mjs`) + M (Playwright) | 4 ✔ |
 | 6 | Ficha del evento | Muestra título, fuentes con enlace, áreas, subtemas, pregunta guía, actores, severidad, impacto México; se cierra con Esc | M | 1 ✔; 4 ✔ (checklist, notas y lentes) |
 | 7 | Checklist de 10 pasos | Se puede marcar, muestra el avance (n/10) y se conserva por evento al recargar, junto con las notas (solo en el navegador, máximo 300 eventos) | A (ficha) + M (Playwright) | 4 ✔ |
 | 8 | Lentes teóricas | Siete lentes con autores, idea central y preguntas con los actores y el país del evento; las afines al área van primero | A | 4 ✔ |
 | 9 | Vista México | Eventos con impacto agrupados por área en el orden de la taxonomía, semáforo por severidad (rojo ≥ 4, ámbar 3, verde ≤ 2) y resumen de conteos; clic abre la ficha | A + M | 5 ✔ |
 | 10 | Matriz de riesgo | 5 × 5 con niveles bajo, medio, alto y crítico; probabilidad inicial por regla y ajustable por evento; exporta CSV con BOM que abre bien en Excel | A + M | 5 ✔ |
 | 11 | Modo aprendizaje | Pregunta el área de un evento real (4 opciones, sin las secundarias), explica la respuesta con la pregunta guía y lleva marcador por área | A + M | 5 ✔ |
+| 11b | Calidad de datos | Pestaña con estado de cada fuente, embudo de la corrida, indicadores (sin país, confianza baja, verificados, varias fuentes, impacto México), eventos por área y muestra de títulos sin área | A (`calidad`) + M (Playwright) | ✔ |
 | 12 | Interfaz | Español; usable a 390 px de ancho; tema claro/oscuro recordado | M | 1 ✔ |
 | — | Actualización | La barra superior muestra hace cuánto se generaron los datos y la cuenta regresiva al minuto 17 de la siguiente hora; datos con más de 2.5 h se marcan como atrasados | A + M | 1 ✔; 2 ✔ (datos reales; el tooltip lista las fuentes con error) |
 | — | Base de respaldo | Si OpenFreeMap no responde en 6 s, aparece el mapa local de países y un aviso | M | 1 ✔ |

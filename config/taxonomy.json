@@ -1167,7 +1167,10 @@
               "concesión minera"
             ],
             "en": [
-              "mine",
+              "copper mine",
+              "lithium mine",
+              "gold mine",
+              "coal mine",
               "deposit",
               "mining concession"
             ]
@@ -1769,13 +1772,19 @@
               "cop",
               "acuerdo de parís",
               "cumbre del clima",
-              "emisiones"
+              "emisiones",
+              "cop29",
+              "cop30",
+              "cop31"
             ],
             "en": [
               "cop",
               "paris agreement",
               "climate summit",
-              "emissions"
+              "emissions",
+              "cop29",
+              "cop30",
+              "cop31"
             ]
           }
         },

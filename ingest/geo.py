@@ -46,7 +46,42 @@ ALIAS = {
     "BRA": ["brasil", "brazil", "brasilia", "rio de janeiro", "sao paulo", "bolsonaro", "lula"],
     "ARG": ["argentina", "buenos aires", "milei"],
     "CAF": ["republica centroafricana", "central african republic"],
+    # Gentilicios, regiones y líderes frecuentes en titulares (revisión con la ingesta real del 8 oct 2026).
+    # Límite conocido: «Russian missile kills 19 in Kyiv» queda en Rusia porque el gentilicio va primero.
+    "ESP": ["espanol", "espanola", "espanoles", "spanish", "madrid", "barcelona", "cataluna", "catalonia", "andalucia"],
+    "DEU": ["aleman", "alemana", "alemanes", "german", "berlin", "sajonia", "saxony", "baviera", "bavaria"],
+    "FRA": ["frances", "francesa", "franceses", "french", "paris", "macron", "lecornu"],
+    "ETH": ["etiope", "etiopes", "ethiopian", "tigray", "adis abeba", "addis ababa"],
+    "SDN": ["sudanes", "sudanese", "darfur", "jartum", "khartoum"],
+    "ITA": ["italiano", "italiana", "italian", "rome", "meloni"],
+    "JPN": ["japones", "japonesa", "japanese", "tokio", "tokyo"],
+    "IND": ["nueva delhi", "new delhi", "modi"],
+    "PAK": ["paquistani", "pakistani", "islamabad"],
+    "AFG": ["afgano", "afgana", "afghan", "kabul", "taliban", "talibanes"],
+    "IRQ": ["iraqui", "iraqi", "bagdad", "baghdad"],
+    "LBN": ["libanes", "libanesa", "lebanese", "beirut", "hezbollah", "hezbola"],
+    "EGY": ["egipcio", "egipcia", "egyptian", "el cairo", "cairo"],
 }
+# Gentilicios y líderes de países que ya tienen alias arriba (se agregan a su lista).
+EXTRA = {
+    "USA": ["estadounidense", "estadounidenses", "trump", "texas", "california", "florida", "nueva york", "new york"],
+    "RUS": ["ruso", "rusa", "rusos", "rusas", "russian", "russians", "putin", "siberia"],
+    "UKR": ["ucraniano", "ucraniana", "ucranianos", "ukrainian", "ukrainians", "zelensky", "zelenski", "donbas", "donbass", "jarkov", "kharkiv", "crimea"],
+    "ISR": ["israeli", "israelies", "israelis", "netanyahu"],
+    "IRN": ["irani", "iranies", "iranian", "iranians", "jamenei", "khamenei"],
+    "CHN": ["chino", "chinos", "chinese", "xi jinping"],
+    "GBR": ["britanico", "britanica", "british", "starmer"],
+    "PSE": ["palestino", "palestina", "palestinos", "palestinian", "palestinians", "hamas"],
+    "SYR": ["sirio", "siria", "sirios", "syrian"],
+    "TUR": ["turco", "turca", "turkish", "erdogan"],
+    "VEN": ["venezolano", "venezolana", "venezuelan", "maduro"],
+    "BRA": ["brasileno", "brasilena", "brazilian"],  # "rio" no: en español es «río»
+    "ARG": ["argentino", "argentina", "argentine"],
+    "CUB": ["cubano", "cubana", "cuban"],
+    "MEX": ["mexicano", "mexicana", "mexicanos", "mexican"],
+}
+for _iso, _lista in EXTRA.items():
+    ALIAS.setdefault(_iso, []).extend(_lista)
 
 # Palabras de 2 letras o muy comunes que no deben confundirse con un país.
 IGNORAR = {"us", "u s"}  # "us" solo cuenta si va en mayúsculas en el original (se revisa aparte)
@@ -73,17 +108,28 @@ class Gazetteer:
         self._claves = sorted(nombres, key=len, reverse=True)
         self._nombres = nombres
 
-    def pais_en_texto(self, texto):
-        """ISO3 del país mencionado primero en el texto, o None."""
+    def paises_en_texto(self, texto):
+        """ISO3 de todos los países mencionados, en orden de aparición y sin repetir."""
         t = normalizar(texto)
-        mejor = None
-        for k in self._claves:
+        hallados = {}
+        ocupado = []  # tramos ya usados: "republica dominicana" no cuenta también como "dominica"
+        for k in self._claves:  # más largos primero
             if k in IGNORAR and not re.search(r"\b(US|U\.S\.)\b", texto):
                 continue
-            i = t.find(f" {k} ")
-            if i >= 0 and (mejor is None or i < mejor[0]):
-                mejor = (i, self._nombres[k])
-        return mejor[1] if mejor else None
+            ini = 0
+            while (i := t.find(f" {k} ", ini)) >= 0:
+                fin = i + len(k) + 1
+                if not any(a <= i < b or a < fin <= b for a, b in ocupado):
+                    ocupado.append((i, fin))
+                    iso = self._nombres[k]
+                    hallados[iso] = min(i, hallados.get(iso, i))
+                ini = i + 1
+        return [iso for iso, _ in sorted(hallados.items(), key=lambda x: x[1])]
+
+    def pais_en_texto(self, texto):
+        """ISO3 del país mencionado primero en el texto, o None."""
+        lista = self.paises_en_texto(texto)
+        return lista[0] if lista else None
 
     def centroide(self, iso3):
         p = self.paises.get(iso3)

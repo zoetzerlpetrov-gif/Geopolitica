@@ -37,7 +37,7 @@ NUEVOS_SUBTEMAS = {
     "energia": [
         st("precios_energia", "Precios de energía (EIA)", ["precio del petróleo", "precio del gas", "brent", "wti", "gasolina"], ["oil price", "gas price", "brent", "wti", "gasoline prices"]),
         st("centrales_combustible", "Centrales por tipo de combustible", ["central eléctrica", "termoeléctrica", "central nuclear", "parque solar", "parque eólico", "hidroeléctrica"], ["power plant", "thermal plant", "nuclear plant", "solar farm", "wind farm", "hydropower"]),
-        st("minas_minerales", "Minas de minerales críticos", ["mina", "yacimiento", "concesión minera"], ["mine", "deposit", "mining concession"]),
+        st("minas_minerales", "Minas de minerales críticos", ["mina", "yacimiento", "concesión minera"], ["copper mine", "lithium mine", "gold mine", "coal mine", "deposit", "mining concession"]),
         st("petroleros", "Petroleros", ["petrolero", "buque tanque", "flota fantasma", "tanquero"], ["oil tanker", "tanker", "shadow fleet"]),
     ],
     "tecnologia": [

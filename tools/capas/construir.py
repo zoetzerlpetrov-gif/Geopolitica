@@ -212,10 +212,10 @@ def queda():
     return PLAZO - time.time()
 
 
-def _overpass_caja(q):
+def _overpass_caja(q, intentos=3):
     """Una consulta con espera respetuosa: ante 429 (límite) o 504 (saturación) espera 60-120 s."""
     ultimo = TimeoutError("plazo interno agotado")
-    for intento in range(3):
+    for intento in range(intentos):
         for url in OVERPASS:
             if queda() < 240:
                 raise ultimo
@@ -226,22 +226,42 @@ def _overpass_caja(q):
             except Exception as ex:  # noqa: BLE001
                 ultimo = ex
                 print(f"   overpass {url} intento {intento + 1}: {ex}")
-        time.sleep(max(0, min(60 * (intento + 1), queda() - 240)))
+        if intento + 1 < intentos:
+            time.sleep(max(0, min(60 * (intento + 1), queda() - 240)))
     raise ultimo
+
+
+def dividir(caja):
+    """Parte una caja (sur, oeste, norte, este) en 4 cuartos iguales."""
+    s_, w, n, e = caja
+    ml, mo = (s_ + n) / 2, (w + e) / 2
+    return [(s_, w, ml, mo), (s_, mo, ml, e), (ml, w, n, mo), (ml, mo, n, e)]
+
+
+MAX_DIVISIONES = 2  # una caja de 20°×180° puede llegar a cuartos de 5°×45°
 
 
 def overpass(selectores, familia=""):
     """selectores: lista como ['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'].
     Se consultan como UNIÓN ( a; b; ) caja por caja y se eliminan duplicados por tipo+id.
-    Si una caja no responde se conservan las demás y se anota en FALTANTES."""
+    Si una caja no responde (consulta demasiado pesada), se parte en 4 cuartos y se reintenta,
+    hasta 2 veces. Lo que siga sin responder se anota en FALTANTES."""
     vistos, out, fallidas = set(), [], []
-    for s_, w, n, e in CAJAS:
+    pendientes = [(c, 0) for c in CAJAS]
+    while pendientes:
+        caja, nivel = pendientes.pop(0)
+        s_, w, n, e = caja
         union = "".join(f"{sel}({s_},{w},{n},{e});" for sel in selectores)
         try:
-            els = _overpass_caja(f"[out:json][timeout:180];({union});out center tags;")
+            # Las cajas divididas son más ligeras: basta un intento por instancia antes de volver a dividir.
+            els = _overpass_caja(f"[out:json][timeout:180];({union});out center tags;", intentos=3 if nivel == 0 else 1)
         except Exception as ex:  # noqa: BLE001
-            fallidas.append([s_, w, n, e])
-            print(f"   caja {(s_, w, n, e)} sin datos: {ex}")
+            if nivel < MAX_DIVISIONES and not isinstance(ex, TimeoutError):
+                print(f"   caja {caja} sin datos ({ex}); se divide en 4")
+                pendientes[:0] = [(c, nivel + 1) for c in dividir(caja)]
+            else:
+                fallidas.append(list(caja))
+                print(f"   caja {caja} sin datos: {ex}")
             continue
         for el in els:
             k = (el["type"], el["id"])
@@ -249,7 +269,7 @@ def overpass(selectores, familia=""):
                 vistos.add(k)
                 out.append(el)
         time.sleep(15)  # cortesía con la API pública
-    if len(fallidas) == len(CAJAS):
+    if not out and fallidas:
         raise RuntimeError("Overpass no respondió en ninguna caja (límite de uso o saturación)")
     if fallidas:
         FALTANTES.setdefault(familia, []).extend(fallidas)

@@ -161,3 +161,16 @@ test("la ficha muestra checklist marcado, notas escapadas y lentes", () => {
   assert.match(html, /Lentes teóricas \(7\)/);
   assert.match(html, /¿Qué poder relativo gana o pierde EUA con este hecho\?/);
 });
+
+test("calidad: conteos y porcentajes coinciden con la ingesta", async () => {
+  const { calidad, pct } = await import("../../js/analisis-logica.js");
+  const q = calidad([
+    ev({ id: "a", pais_iso3: null, confianza_clasificacion: 0.2 }),
+    ev({ id: "b", verificado: true, impacto_mexico: "x", fuentes: [{}, {}] }),
+  ]);
+  assert.deepEqual([q.eventos, q.sin_pais, q.confianza_baja, q.verificados, q.con_varias_fuentes, q.impacto_mexico], [2, 1, 1, 1, 1, 1]);
+  assert.equal(q.confianza_media, 0.45);
+  assert.deepEqual(q.por_area, { geoeconomia: 2 });
+  assert.equal(pct(1, 3), 33);
+  assert.equal(pct(5, 0), 0);
+});

@@ -203,8 +203,10 @@ def test_historial_y_poda(tmp_path):
     assert borrados == 1 and not (carpeta / "2026-06-01.json").exists()
     dia = json.loads((carpeta / "2026-10-08.json").read_text())
     assert dia["total"] == len(eventos)
-    assert set(dia["eventos"][0]) == {"id", "fecha_utc", "titulo", "url", "fuente", "pais_iso3", "lat", "lon",
-                                      "area_principal", "severidad", "nivel_alerta"}
+    assert set(dia["eventos"][0]) == {"id", "fecha_utc", "titulo", "resumen", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
+                                      "area_principal", "severidad", "nivel_alerta", "impacto_mexico"}
+    ind = R.indice_historial(str(carpeta))
+    assert [d["dia"] for d in ind] == ["2026-10-08"] and ind[0]["total"] == len(eventos) and ind[0]["bytes"] > 0
     assert len(R.leer_historial(str(carpeta), (T - timedelta(days=30)).strftime("%Y-%m-%d"))) == len(eventos)
 
 
@@ -240,3 +242,51 @@ def test_feeds_deshabilitados_no_se_piden(monkeypatch):
            "rss": [{"id": "a", "nombre": "A"}, {"id": "b", "nombre": "B", "habilitada": False}]}
     _, salud = R.recolectar(cfg, "")
     assert pedidos == ["a"] and [s["id"] for s in salud] == ["a"]
+
+
+def test_nota_sin_pais_se_agrupa_con_la_que_si_lo_trae():
+    con = F.parsear_rss(RSS, FEED)[0]
+    sin = {**F.parsear_rss(RSS, {**FEED, "nombre": "Otro medio"})[0], "titulo": "Ataques con drones dejan sin electricidad a la capital", "url": "https://example.org/a2"}
+    sin["texto_clasificar"] = sin["titulo"]
+    eventos, _ = _procesar([sin, con])
+    assert len(eventos) == 1, [e["titulo"] for e in eventos]
+    assert eventos[0]["pais_iso3"] == "UKR" and len(eventos[0]["fuentes"]) == 2
+
+
+def test_calidad_de_la_corrida():
+    eventos, _ = _procesar(_candidatos())
+    q = R.calidad(eventos)
+    assert q["eventos"] == len(eventos) and sum(q["por_area"].values()) == len(eventos)
+    assert q["con_varias_fuentes"] >= 1 and 0 <= q["confianza_media"] <= 1
+
+
+@pytest.mark.parametrize("titulo,fuera", [
+    ("Harmanpreet Kaur: The captain who changed how India's women played cricket", True),
+    ("Messi llora, Ronaldo huye: adiós a la selección", True),
+    ("Ataque en un estadio de fútbol deja 20 muertos", False),   # grave: no se descarta
+    ("Golfo de México: nueva ruta comercial", False),            # «golfo» no es «golf»
+    ("Actor estatal detrás del ciberataque", False),             # «actor» no está en la lista
+])
+def test_fuera_de_tema(titulo, fuera):
+    assert R.fuera_de_tema(titulo, titulo) is fuera
+
+
+@pytest.mark.parametrize("texto,area", [
+    ("Sébastien Lecornu: la responsabilidad del parlamento es darle al país un presupuesto", None),  # "un" no es UN
+    ("She made India fall in love with women's cricket", None),                                        # "who" no es WHO
+    ("UN Security Council meets on Sudan", "instituciones"),
+    ("WHO declares mpox emergency", "salud_nrbq"),
+    ("COP30 talks stall in Belem", "clima"),
+])
+def test_siglas_solo_en_mayusculas(texto, area):
+    assert CLS.clasificar(texto)["area_principal"] == area
+
+
+@pytest.mark.parametrize("titulo,iso", [
+    ("Berlín recuerda a las víctimas", "DEU"),
+    ("Tropas en la región etíope de Tigray", "ETH"),
+    ("¿Qué advertencias recibió Netanyahu?", "ISR"),
+    ("Guatemala: crecida de río Pinula", "GTM"),   # «río» no es Brasil
+])
+def test_gentilicios_regiones_y_lideres(titulo, iso):
+    assert GAZ.pais_en_texto(titulo) == iso

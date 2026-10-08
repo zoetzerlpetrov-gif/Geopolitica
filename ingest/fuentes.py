@@ -80,7 +80,9 @@ def fila_gdelt(f, cfg):
         "fecha_utc": _iso(fecha), "pais_iso3": None, "lat": round(lat, 3), "lon": round(lon, 3),
         "actores": [a for a in (a1, a2) if a and a != "Actor no identificado"],
         "texto_clasificar": f"{titulo} {palabras_de_url(f[G['url']])}",
-        "resumen": f"Evento detectado por GDELT en {articulos} artículos de {f[G['fuentes']]} fuentes. Escala Goldstein {gold:+.1f} (de -10 conflicto a +10 cooperación).",
+        "resumen": None,  # lo redacta ingest/resumen.py con los países ya traducidos
+        "gdelt": {"desc": desc, "a1": f[G["actor1"]], "a2": f[G["actor2"]], "lugar": f[G["lugar"]], "articulos": articulos,
+                  "fuentes": int(f[G["fuentes"]] or 0), "goldstein": gold, "slug": palabras_de_url(f[G["url"]])},
         "area_sugerida": area, "severidad": severidad_gdelt(gold, articulos), "articulos": articulos,
     }
 
@@ -141,7 +143,7 @@ def parsear_rss(xml_bytes, feed):
         out.append({
             "titulo": re.sub(r"\s+", " ", titulo)[:300], "fuente": feed["nombre"], "url": link, "tipo_fuente": feed["tipo"],
             "fecha_utc": _iso(fecha), "pais_iso3": None, "lat": None, "lon": None, "actores": [],
-            "texto_clasificar": f"{titulo} {re.sub('<[^>]+>', ' ', desc)[:500]}",
+            "texto_clasificar": f"{titulo} {re.sub('<[^>]+>', ' ', desc)[:500]}", "idioma": feed.get("idioma"),
             "resumen": None, "area_sugerida": None, "severidad": None, "articulos": 1,
         })
     return out
@@ -165,7 +167,7 @@ def reliefweb(cfg, appname):
             "titulo": f["title"][:300], "fuente": "ReliefWeb (OCHA)", "url": f.get("url") or f"https://reliefweb.int/node/{d['id']}",
             "tipo_fuente": "base_datos", "fecha_utc": f["date"]["created"][:19] + "Z", "pais_iso3": iso, "lat": None, "lon": None,
             "actores": [s["shortname"] for s in f.get("source", []) if s.get("shortname")][:3],
-            "texto_clasificar": f"{f['title']} {tipos} humanitarian crisis", "resumen": None,
+            "texto_clasificar": f"{f['title']} {tipos} humanitarian crisis", "resumen": None, "idioma": "en",
             "area_sugerida": "demografia", "severidad": None, "articulos": 1,
         })
     return out

@@ -9,10 +9,14 @@ export class LineaTiempo {
   /**
    * @param {HTMLElement} cont   contenedor vacío en el panel
    * @param {(v:{desde:number,hasta:number}) => void} onCambio
+   * @param {object} [o]
+   * @param {(horas:number, avisar:(t:string)=>void) => Promise<void>} [o.cargarHistorial]  pide días anteriores
+   * @param {boolean} [o.permitir90]  la ventana de 90 días (pesada) se ofrece fuera del modo LITE
    */
-  constructor(cont, onCambio) {
+  constructor(cont, onCambio, { cargarHistorial, permitir90 = true } = {}) {
     this.cont = cont;
     this.onCambio = onCambio;
+    this.cargarHistorial = cargarHistorial;
     this.rango = null;
     this.timer = null;
     cont.innerHTML = `
@@ -21,6 +25,7 @@ export class LineaTiempo {
           <select id="lt-ventana">
             <option value="0">Todo</option><option value="6">6 h</option><option value="24">24 h</option>
             <option value="72">72 h</option><option value="168">7 días</option>
+            ${cargarHistorial ? `<option value="720">30 días (historial)</option>${permitir90 ? `<option value="2160">90 días (historial, sev. ≥ 3)</option>` : ""}` : ""}
           </select>
         </label>
         <button type="button" id="lt-play" class="txt-btn" aria-pressed="false" title="Recorre el periodo de lo más antiguo a lo más reciente">▶ Reproducir</button>
@@ -33,7 +38,18 @@ export class LineaTiempo {
     this.svg = cont.querySelector("#lt-hist");
     this.texto = cont.querySelector("#lt-texto");
     this.btn = cont.querySelector("#lt-play");
-    this.sel.onchange = () => this.#emitir();
+    this.sel.onchange = async () => {
+      const horas = Number(this.sel.value);
+      if (horas > 168 && this.cargarHistorial) {
+        this.sel.disabled = true;
+        try {
+          await this.cargarHistorial(horas, (t) => { this.texto.textContent = t; });
+        } finally {
+          this.sel.disabled = false;
+        }
+      }
+      this.#emitir();
+    };
     // La posición del deslizador es «horas antes del evento más nuevo»; a la derecha = ahora.
     this.rng.oninput = () => this.#emitir();
     this.btn.onclick = () => (this.timer ? this.detener() : this.reproducir());

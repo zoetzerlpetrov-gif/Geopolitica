@@ -36,6 +36,13 @@ def normalizar(texto):
     return f" {re.sub(r' +', ' ', t).strip()} "
 
 
+# Siglas que coinciden con palabras comunes: solo cuentan si en el texto original van en MAYÚSCULAS.
+#   "un" (artículo en español) ≠ UN (Naciones Unidas); "who" (pronombre) ≠ WHO (OMS);
+#   "cop" (policía en inglés) ≠ COP29; "ai" ≠ AI (inteligencia artificial).
+SOLO_MAYUSCULAS = {"un": re.compile(r"(?<![A-Za-z])UN(?![a-z])"), "who": re.compile(r"(?<![A-Za-z])WHO(?![a-z])"),
+                   "cop": re.compile(r"(?<![A-Za-z])COP(?![a-z])"), "ai": re.compile(r"(?<![A-Za-z])AI(?![a-z])")}
+
+
 def _peso(frase, base):
     return base + 0.5 * (len(frase.split()) - 1)
 
@@ -69,10 +76,13 @@ class Clasificador:
 
     def puntuar(self, texto):
         t = normalizar(texto)
+        siglas_ok = {k for k, rx in SOLO_MAYUSCULAS.items() if rx.search(texto)}
         puntajes, subtemas, evidencia = {}, {}, {}
         for area, reglas in self.reglas.items():
             total = 0.0
             for frase, peso, sub in reglas:
+                if frase.strip() in SOLO_MAYUSCULAS and frase.strip() not in siglas_ok:
+                    continue
                 if frase in t or (" " not in frase.strip() and (frase[:-1] + "s " in t or frase[:-1] + "es " in t)):
                     total += peso
                     evidencia.setdefault(area, []).append(frase.strip())

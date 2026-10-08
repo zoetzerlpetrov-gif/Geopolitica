@@ -71,7 +71,7 @@ Ejemplo: un ataque en el Mar Rojo (Seguridad) y una alza de fletes reportada des
 
 **Impacto para México (regla automática, sin verificar).** Hay texto de impacto si el evento ocurre en México, si lo menciona, o si ocurre en un socio o vecino directo (EUA, Canadá, China, Guatemala, Belice, Honduras, El Salvador, Cuba, Venezuela, Colombia) en un área sensible (geoeconomía, energía, demografía, infraestructura, salud NRBQ). La regla de socios exige además severidad 3 o más, y «New Mexico» / «Nuevo México» (estado de EUA) no cuenta como mención de México. Seguridad quedó fuera tras la primera corrida real: marcaba como impacto para México 55 de 235 eventos, casi todos hechos policiales en EUA.
 
-**Deduplicación.** Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
+**Deduplicación.** Una nota sin país detectado se compara con todos los grupos y, si se agrupa, el evento toma el país de la nota que sí lo trae. Dos notas son la misma historia si comparten país, están a menos de 36 h y sus títulos tienen un Jaccard ≥ 0.6 (palabras de más de 3 letras). Se conserva la de mayor severidad y se suman las fuentes. `verificado` = 2 o más medios distintos.
 
 **Tope.** Se publican hasta 3,000 eventos de las últimas 72 h. Si hay más, quedan los de mayor severidad y con más fuentes. El historial guarda hasta 2,000 registros compactos por día durante 90 días.
 
@@ -90,3 +90,18 @@ Los ajustes del analista se guardan solo en su navegador y el CSV indica en la c
 ## Vista México: semáforo
 
 Rojo = severidad 4 o 5; ámbar = 3; verde = 1 o 2. Cada área toma el color de su evento más grave.
+
+## Ajustes del clasificador con datos reales (8 oct 2026)
+
+- **Siglas solo en mayúsculas:** UN (Naciones Unidas), WHO (OMS), COP (cumbre climática) y AI (inteligencia artificial) cuentan solo si el texto original las escribe en mayúsculas. Antes, el artículo español «un» sumaba a Instituciones y el pronombre inglés «who» a Salud.
+- **«mine»** (también «mío» en inglés) se reemplazó por «copper/lithium/gold/coal mine». Se agregaron «COP29», «COP30» y «COP31».
+- **Fuera de tema:** notas de deportes o espectáculos (cricket, fútbol, tenis, cine, conciertos…) se descartan, salvo que el texto sea grave (muertos, ataque, etc.). Se cuentan en el run-log como `fuera_de_tema`.
+- **País por texto:** se agregaron gentilicios (ruso, israelí, alemán…), regiones (Texas, Cataluña, Tigray, Donbás…) y líderes (Putin, Netanyahu, Macron…). Límite conocido: el primer país mencionado gana, así que «Russian missile kills 19 in Kyiv» queda en Rusia.
+
+## Resumen propio de cada evento (~30 palabras, sin IA)
+
+`ingest/resumen.py` lee el título y la descripción del feed solo en memoria y extrae **hechos**: países (en orden de aparición), organismos (ONU, OTAN, UE, OMS, FMI, hutíes, Hamás…), cifras con unidad (muertos, heridos, desplazados, detenidos, drones, misiles, hogares afectados, montos y porcentajes) y el tipo de hecho (área y subtema del clasificador). Con eso redacta su propia frase en español:
+
+> Seguridad y poder militar · Actores no estatales en Arabia Saudita (Medio Oriente): 3 muertos y 12 heridos. Involucra a Arabia Saudita, Yemen, los hutíes y la ONU. Nota en inglés de Al Jazeera.
+
+En GDELT el título se traduce («Combate: Rusia → Ucrania (Kyiv, Ucrania)») y el resumen agrega las palabras del enlace de origen, que suelen ser el titular del artículo. Una prueba automática verifica que ninguna secuencia de 5 palabras de la descripción del medio aparezca en el resumen. Límite: es una frase armada con reglas; un resumen redactado (con IA) queda para la Fase 6.

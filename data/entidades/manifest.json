@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-08T01:48:57Z",
+ "generado_utc": "2026-10-08T05:17:26Z",
  "pasos": {
   "jefes": {
    "estado": "ok",
@@ -9,7 +9,7 @@
   "organismos": {
    "estado": "ok",
    "registros": 74,
-   "segundos": 1
+   "segundos": 2
   },
   "bolsas": {
    "estado": "ok",
@@ -19,7 +19,7 @@
   "empresas": {
    "estado": "ok",
    "registros": 120,
-   "segundos": 1
+   "segundos": 3
   }
  },
  "familias": {
@@ -31,7 +31,7 @@
    "fuente": "wikidata",
    "estado": "ok",
    "error": null,
-   "actualizado_utc": "2026-10-08T01:48:57Z"
+   "actualizado_utc": "2026-10-08T05:17:26Z"
   }
  }
 }
