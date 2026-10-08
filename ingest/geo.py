@@ -83,6 +83,24 @@ EXTRA = {
 for _iso, _lista in EXTRA.items():
     ALIAS.setdefault(_iso, []).extend(_lista)
 
+# Alias que nombran a un ACTOR (gentilicio, líder, grupo, sede de gobierno), no a un LUGAR. Para ubicar
+# el hecho gana un lugar: «ataques rusos en el norte de Ucrania» → Ucrania; «Houthi strikes on Saudi
+# airports» → Arabia Saudita. Un actor solo cuenta si el texto no menciona ningún lugar.
+ACTORES = {
+    "huties", "houthi", "houthis", "hamas", "hezbollah", "hezbola", "taliban", "talibanes", "kremlin", "casa blanca",
+    "white house", "pentagono", "pentagon", "sheinbaum", "trump", "putin", "zelensky", "zelenski", "netanyahu", "jamenei",
+    "khamenei", "xi jinping", "starmer", "erdogan", "maduro", "macron", "lecornu", "meloni", "modi", "milei", "bolsonaro", "lula",
+    "estadounidense", "estadounidenses", "ruso", "rusa", "rusos", "rusas", "russian", "russians", "ucraniano", "ucraniana",
+    "ucranianos", "ukrainian", "ukrainians", "israeli", "israelies", "israelis", "irani", "iranies", "iranian", "iranians",
+    "chino", "chinos", "chinese", "britanico", "britanica", "british", "palestino", "palestinos", "palestinian", "palestinians",
+    "sirio", "sirios", "syrian", "turco", "turca", "turkish", "venezolano", "venezolana", "venezuelan", "brasileno",
+    "brasilena", "brazilian", "argentino", "argentine", "cubano", "cubana", "cuban", "mexicano", "mexicana", "mexicanos",
+    "mexican", "espanol", "espanola", "espanoles", "spanish", "aleman", "alemana", "alemanes", "german", "frances", "francesa",
+    "franceses", "french", "etiope", "etiopes", "ethiopian", "sudanes", "sudanese", "italiano", "italiana", "italian",
+    "japones", "japonesa", "japanese", "paquistani", "pakistani", "afgano", "afgana", "afghan", "iraqui", "iraqi",
+    "libanes", "libanesa", "lebanese", "egipcio", "egipcia", "egyptian",
+}
+
 # Palabras de 2 letras o muy comunes que no deben confundirse con un país.
 IGNORAR = {"us", "u s"}  # "us" solo cuenta si va en mayúsculas en el original (se revisa aparte)
 
@@ -108,7 +126,7 @@ class Gazetteer:
         self._claves = sorted(nombres, key=len, reverse=True)
         self._nombres = nombres
 
-    def paises_en_texto(self, texto):
+    def paises_en_texto(self, texto, con_posicion=False):
         """ISO3 de todos los países mencionados, en orden de aparición y sin repetir."""
         t = normalizar(texto)
         hallados = {}
@@ -122,14 +140,32 @@ class Gazetteer:
                 if not any(a <= i < b or a < fin <= b for a, b in ocupado):
                     ocupado.append((i, fin))
                     iso = self._nombres[k]
-                    hallados[iso] = min(i, hallados.get(iso, i))
+                    previo = hallados.get(iso)
+                    lugar = k not in ACTORES
+                    # Por país se guarda la primera mención y si alguna mención es un lugar.
+                    hallados[iso] = (min(i, previo[0]) if previo else i, lugar or (previo[1] if previo else False),
+                                     min([x for x in (previo[2] if previo else None, i if lugar else None) if x is not None], default=None))
                 ini = i + 1
-        return [iso for iso, _ in sorted(hallados.items(), key=lambda x: x[1])]
+        orden = sorted(hallados.items(), key=lambda x: x[1][0])
+        if con_posicion:  # [(iso, primera_posicion, es_lugar, posicion_como_lugar)]
+            return [(iso, v[0], v[1], v[2]) for iso, v in orden]
+        return [iso for iso, _ in orden]
+
+    # Preposiciones de lugar: «… kills 19 in Kyiv», «refinería en Rusia», «tanker hit off Qatar».
+    RX_LUGAR = re.compile(r" (in|en|near|off|at|cerca de|frente a|coast of|costa de|costas de) $")
 
     def pais_en_texto(self, texto):
-        """ISO3 del país mencionado primero en el texto, o None."""
-        lista = self.paises_en_texto(texto)
-        return lista[0] if lista else None
+        """País donde ocurre el hecho: el primero precedido por una preposición de lugar
+        («in», «en», «near», «off»…); si no hay, el primero mencionado. None si no hay país."""
+        lista = self.paises_en_texto(texto, con_posicion=True)
+        if not lista:
+            return None
+        t = normalizar(texto)
+        lugares = sorted([(pos, iso) for iso, _, es_lugar, pos in lista if es_lugar])
+        for pos, iso in lugares:
+            if self.RX_LUGAR.search(t[max(0, pos - 12):pos + 1]):
+                return iso
+        return lugares[0][1] if lugares else lista[0][0]
 
     def centroide(self, iso3):
         p = self.paises.get(iso3)

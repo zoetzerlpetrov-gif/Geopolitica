@@ -290,3 +290,18 @@ def test_siglas_solo_en_mayusculas(texto, area):
 ])
 def test_gentilicios_regiones_y_lideres(titulo, iso):
     assert GAZ.pais_en_texto(titulo) == iso
+
+
+@pytest.mark.parametrize("titulo,iso", [
+    ("Russian missile kills 19 in Kyiv", "UKR"),                 # el lugar gana al gentilicio
+    ("Ucrania ataca una refinería en Rusia", "RUS"),
+    ("Tanker hit by projectiles off Qatar, UKMTO says", "QAT"),
+    ("Israel y Hamás negocian una tregua", "ISR"),               # sin preposición: el primero
+    ("Saudi Arabia confirms three dead in Houthi strikes on its airports", "SAU"),   # «Houthi» es actor, no lugar
+    ("Más de una veintena de muertos por ataques rusos en el norte de Ucrania", "UKR"),
+    ("Pro-Palestine groups march in London on October 7 anniversary", "GBR"),
+    ("Tanker hit by multiple projectiles off north coast of Qatar", "QAT"),
+    ("Children killed as Russian missile kills 19 in block of flats", "RUS"),       # solo hay actor: se usa
+])
+def test_pais_por_preposicion_de_lugar(titulo, iso):
+    assert GAZ.pais_en_texto(titulo) == iso

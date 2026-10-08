@@ -96,7 +96,7 @@ Rojo = severidad 4 o 5; ámbar = 3; verde = 1 o 2. Cada área toma el color de s
 - **Siglas solo en mayúsculas:** UN (Naciones Unidas), WHO (OMS), COP (cumbre climática) y AI (inteligencia artificial) cuentan solo si el texto original las escribe en mayúsculas. Antes, el artículo español «un» sumaba a Instituciones y el pronombre inglés «who» a Salud.
 - **«mine»** (también «mío» en inglés) se reemplazó por «copper/lithium/gold/coal mine». Se agregaron «COP29», «COP30» y «COP31».
 - **Fuera de tema:** notas de deportes o espectáculos (cricket, fútbol, tenis, cine, conciertos…) se descartan, salvo que el texto sea grave (muertos, ataque, etc.). Se cuentan en el run-log como `fuera_de_tema`.
-- **País por texto:** se agregaron gentilicios (ruso, israelí, alemán…), regiones (Texas, Cataluña, Tigray, Donbás…) y líderes (Putin, Netanyahu, Macron…). Límite conocido: el primer país mencionado gana, así que «Russian missile kills 19 in Kyiv» queda en Rusia.
+- **País por texto:** se agregaron gentilicios (ruso, israelí, alemán…), regiones (Texas, Cataluña, Tigray, Donbás…) y líderes (Putin, Netanyahu, Macron…). Para ubicar el hecho gana un **lugar** (país, ciudad, región) sobre un **actor** (gentilicio, líder, grupo): «ataques rusos en el norte de Ucrania» → Ucrania. Entre lugares gana el que va después de una preposición de lugar («in», «en», «near», «off», «coast of»): «Russian missile kills 19 in Kyiv» → Ucrania. Si solo hay actores, se usa el primero.
 
 ## Resumen propio de cada evento (~30 palabras, sin IA)
 
