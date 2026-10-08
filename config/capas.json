@@ -120,6 +120,30 @@
    "habilitada": true,
    "zoom_etiquetas": 5,
    "nota": "Lista curada en config/camaras.json: solo enlaces a páginas oficiales de cada operador."
+  },
+  {
+   "id": "conflicto",
+   "nombre": "Dominio y disputa de grupos armados (violencia registrada, 24 meses)",
+   "categoria": "conflicto",
+   "geometria": "poligono",
+   "fuente": "ucdp",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.45,
+   "zoom_etiquetas": 5,
+   "nota": "UCDP (Universidad de Uppsala), CC BY 4.0: eventos de violencia organizada en celdas de 1°. Violencia registrada, no control territorial."
+  },
+  {
+   "id": "religiones",
+   "nombre": "Religiones por país (mayoritaria y composición)",
+   "categoria": "religiones",
+   "geometria": "poligono",
+   "fuente": "pew_owid",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.5,
+   "zoom_etiquetas": 3,
+   "nota": "Pew Research Center 2020 vía Our World in Data (CC BY 4.0)."
   }
  ]
 }

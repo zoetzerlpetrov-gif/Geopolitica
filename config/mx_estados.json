@@ -1,0 +1,409 @@
+{
+ "descripcion": "Estados de México y ciudades frecuentes en noticias de seguridad. Coordenadas aproximadas de la capital o del centro urbano (no del centroide del estado): sirven para ubicar noticias de forma aproximada.",
+ "estados": [
+  {
+   "nombre": "Aguascalientes",
+   "lat": 21.88,
+   "lon": -102.29,
+   "alias": []
+  },
+  {
+   "nombre": "Baja California",
+   "lat": 32.62,
+   "lon": -115.45,
+   "alias": [
+    "BC"
+   ]
+  },
+  {
+   "nombre": "Baja California Sur",
+   "lat": 24.14,
+   "lon": -110.31,
+   "alias": [
+    "BCS"
+   ]
+  },
+  {
+   "nombre": "Campeche",
+   "lat": 19.85,
+   "lon": -90.53,
+   "alias": []
+  },
+  {
+   "nombre": "Chiapas",
+   "lat": 16.75,
+   "lon": -93.12,
+   "alias": []
+  },
+  {
+   "nombre": "Chihuahua",
+   "lat": 28.63,
+   "lon": -106.09,
+   "alias": []
+  },
+  {
+   "nombre": "Ciudad de México",
+   "lat": 19.43,
+   "lon": -99.13,
+   "alias": [
+    "CDMX",
+    "Distrito Federal",
+    "Mexico City"
+   ]
+  },
+  {
+   "nombre": "Coahuila",
+   "lat": 25.42,
+   "lon": -101.0,
+   "alias": [
+    "Coahuila de Zaragoza"
+   ]
+  },
+  {
+   "nombre": "Colima",
+   "lat": 19.24,
+   "lon": -103.72,
+   "alias": []
+  },
+  {
+   "nombre": "Durango",
+   "lat": 24.02,
+   "lon": -104.66,
+   "alias": []
+  },
+  {
+   "nombre": "Guanajuato",
+   "lat": 21.02,
+   "lon": -101.26,
+   "alias": []
+  },
+  {
+   "nombre": "Guerrero",
+   "lat": 17.55,
+   "lon": -99.5,
+   "alias": []
+  },
+  {
+   "nombre": "Hidalgo",
+   "lat": 20.12,
+   "lon": -98.73,
+   "alias": []
+  },
+  {
+   "nombre": "Jalisco",
+   "lat": 20.67,
+   "lon": -103.35,
+   "alias": []
+  },
+  {
+   "nombre": "Estado de México",
+   "lat": 19.29,
+   "lon": -99.66,
+   "alias": [
+    "Edomex",
+    "México (estado)",
+    "State of Mexico"
+   ]
+  },
+  {
+   "nombre": "Michoacán",
+   "lat": 19.7,
+   "lon": -101.19,
+   "alias": [
+    "Michoacan de Ocampo"
+   ]
+  },
+  {
+   "nombre": "Morelos",
+   "lat": 18.92,
+   "lon": -99.23,
+   "alias": []
+  },
+  {
+   "nombre": "Nayarit",
+   "lat": 21.5,
+   "lon": -104.89,
+   "alias": []
+  },
+  {
+   "nombre": "Nuevo León",
+   "lat": 25.69,
+   "lon": -100.32,
+   "alias": []
+  },
+  {
+   "nombre": "Oaxaca",
+   "lat": 17.07,
+   "lon": -96.72,
+   "alias": []
+  },
+  {
+   "nombre": "Puebla",
+   "lat": 19.04,
+   "lon": -98.21,
+   "alias": []
+  },
+  {
+   "nombre": "Querétaro",
+   "lat": 20.59,
+   "lon": -100.39,
+   "alias": []
+  },
+  {
+   "nombre": "Quintana Roo",
+   "lat": 18.5,
+   "lon": -88.3,
+   "alias": []
+  },
+  {
+   "nombre": "San Luis Potosí",
+   "lat": 22.15,
+   "lon": -100.98,
+   "alias": []
+  },
+  {
+   "nombre": "Sinaloa",
+   "lat": 24.8,
+   "lon": -107.39,
+   "alias": []
+  },
+  {
+   "nombre": "Sonora",
+   "lat": 29.07,
+   "lon": -110.96,
+   "alias": []
+  },
+  {
+   "nombre": "Tabasco",
+   "lat": 17.99,
+   "lon": -92.93,
+   "alias": []
+  },
+  {
+   "nombre": "Tamaulipas",
+   "lat": 23.74,
+   "lon": -99.15,
+   "alias": []
+  },
+  {
+   "nombre": "Tlaxcala",
+   "lat": 19.32,
+   "lon": -98.24,
+   "alias": []
+  },
+  {
+   "nombre": "Veracruz",
+   "lat": 19.54,
+   "lon": -96.91,
+   "alias": [
+    "Veracruz de Ignacio de la Llave"
+   ]
+  },
+  {
+   "nombre": "Yucatán",
+   "lat": 20.97,
+   "lon": -89.62,
+   "alias": []
+  },
+  {
+   "nombre": "Zacatecas",
+   "lat": 22.77,
+   "lon": -102.58,
+   "alias": []
+  }
+ ],
+ "ciudades": [
+  {
+   "nombre": "Tijuana",
+   "estado": "Baja California",
+   "lat": 32.53,
+   "lon": -117.04
+  },
+  {
+   "nombre": "Ciudad Juárez",
+   "estado": "Chihuahua",
+   "lat": 31.69,
+   "lon": -106.42
+  },
+  {
+   "nombre": "Culiacán",
+   "estado": "Sinaloa",
+   "lat": 24.8,
+   "lon": -107.39
+  },
+  {
+   "nombre": "Mazatlán",
+   "estado": "Sinaloa",
+   "lat": 23.25,
+   "lon": -106.41
+  },
+  {
+   "nombre": "Acapulco",
+   "estado": "Guerrero",
+   "lat": 16.86,
+   "lon": -99.88
+  },
+  {
+   "nombre": "Cancún",
+   "estado": "Quintana Roo",
+   "lat": 21.16,
+   "lon": -86.85
+  },
+  {
+   "nombre": "Playa del Carmen",
+   "estado": "Quintana Roo",
+   "lat": 20.63,
+   "lon": -87.08
+  },
+  {
+   "nombre": "Reynosa",
+   "estado": "Tamaulipas",
+   "lat": 26.08,
+   "lon": -98.28
+  },
+  {
+   "nombre": "Nuevo Laredo",
+   "estado": "Tamaulipas",
+   "lat": 27.48,
+   "lon": -99.52
+  },
+  {
+   "nombre": "Matamoros",
+   "estado": "Tamaulipas",
+   "lat": 25.87,
+   "lon": -97.5
+  },
+  {
+   "nombre": "Uruapan",
+   "estado": "Michoacán",
+   "lat": 19.42,
+   "lon": -102.06
+  },
+  {
+   "nombre": "Apatzingán",
+   "estado": "Michoacán",
+   "lat": 19.09,
+   "lon": -102.35
+  },
+  {
+   "nombre": "Zamora",
+   "estado": "Michoacán",
+   "lat": 19.98,
+   "lon": -102.28
+  },
+  {
+   "nombre": "Celaya",
+   "estado": "Guanajuato",
+   "lat": 20.52,
+   "lon": -100.81
+  },
+  {
+   "nombre": "Irapuato",
+   "estado": "Guanajuato",
+   "lat": 20.67,
+   "lon": -101.35
+  },
+  {
+   "nombre": "León",
+   "estado": "Guanajuato",
+   "lat": 21.12,
+   "lon": -101.68
+  },
+  {
+   "nombre": "Salamanca",
+   "estado": "Guanajuato",
+   "lat": 20.57,
+   "lon": -101.19
+  },
+  {
+   "nombre": "Manzanillo",
+   "estado": "Colima",
+   "lat": 19.05,
+   "lon": -104.32
+  },
+  {
+   "nombre": "Guadalajara",
+   "estado": "Jalisco",
+   "lat": 20.67,
+   "lon": -103.35
+  },
+  {
+   "nombre": "Puerto Vallarta",
+   "estado": "Jalisco",
+   "lat": 20.65,
+   "lon": -105.23
+  },
+  {
+   "nombre": "Monterrey",
+   "estado": "Nuevo León",
+   "lat": 25.69,
+   "lon": -100.32
+  },
+  {
+   "nombre": "Tapachula",
+   "estado": "Chiapas",
+   "lat": 14.9,
+   "lon": -92.26
+  },
+  {
+   "nombre": "Ecatepec",
+   "estado": "Estado de México",
+   "lat": 19.6,
+   "lon": -99.05
+  },
+  {
+   "nombre": "Toluca",
+   "estado": "Estado de México",
+   "lat": 19.29,
+   "lon": -99.66
+  },
+  {
+   "nombre": "Fresnillo",
+   "estado": "Zacatecas",
+   "lat": 23.17,
+   "lon": -102.87
+  },
+  {
+   "nombre": "Ciudad Obregón",
+   "estado": "Sonora",
+   "lat": 27.49,
+   "lon": -109.94
+  },
+  {
+   "nombre": "Caborca",
+   "estado": "Sonora",
+   "lat": 30.71,
+   "lon": -112.16
+  },
+  {
+   "nombre": "Coatzacoalcos",
+   "estado": "Veracruz",
+   "lat": 18.13,
+   "lon": -94.46
+  },
+  {
+   "nombre": "Chilpancingo",
+   "estado": "Guerrero",
+   "lat": 17.55,
+   "lon": -99.5
+  },
+  {
+   "nombre": "Morelia",
+   "estado": "Michoacán",
+   "lat": 19.7,
+   "lon": -101.19
+  },
+  {
+   "nombre": "Cuernavaca",
+   "estado": "Morelos",
+   "lat": 18.92,
+   "lon": -99.23
+  },
+  {
+   "nombre": "Tepic",
+   "estado": "Nayarit",
+   "lat": 21.5,
+   "lon": -104.89
+  }
+ ]
+}

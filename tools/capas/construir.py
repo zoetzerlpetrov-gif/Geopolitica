@@ -29,6 +29,7 @@ import zipfile
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # Salida en capas/ (no en data/): el workflow la publica en la rama huérfana "datos-capas", que se
 # reescribe en cada reconstrucción, y Pages la copia a data/capas/. Así los binarios no inflan main.
 SALIDA = os.path.join(ROOT, "capas")
@@ -358,7 +359,54 @@ def camaras(revisar=enlace_responde, externas=True):
     return out
 
 
-FAMILIAS_GEOJSON = {"camaras"}  # pocas decenas de puntos: GeoJSON directo, sin tippecanoe
+FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones"}  # GeoJSON directo, sin tippecanoe
+
+
+def conflicto():
+    """Dominio o disputa de grupos armados no estatales (UCDP, últimos 24 meses, celdas de 1°)."""
+    import dominio as D
+    if not robots_permite(D.UCDP_PAGINA):
+        raise PermissionError("robots.txt de UCDP no permite la descarga")
+    ged, candidatos = D.enlaces_ucdp(get(D.UCDP_PAGINA, timeout=60).decode("utf-8", "replace"))
+    if not ged and not candidatos:
+        raise RuntimeError("no se encontraron enlaces de descarga en la página de UCDP")
+    textos = []
+    if ged:
+        print(f"   UCDP GED: {ged}")
+        textos += D.textos_de_zip(get(ged, timeout=600))
+    for u in candidatos[-14:]:
+        try:
+            textos.append(get(u, timeout=300).decode("utf-8", "replace"))
+            print(f"   UCDP Candidate: {u}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   UCDP Candidate {u}: {e}")
+    eventos = list(D.leer_eventos(textos, D.desde_ventana()))
+    print(f"   {len(eventos)} eventos en la ventana de {D.VENTANA_MESES} meses")
+    return D.cobertura_dominio(D.agregar_celdas(eventos))
+
+
+def religiones():
+    """Composición religiosa por país (Pew 2020 vía Our World in Data)."""
+    import dominio as D
+    if not robots_permite(D.OWID_RELIGION):
+        raise PermissionError("robots.txt de Our World in Data no lo permite")
+    slugs = D.slugs_religion(get(D.OWID_RELIGION, timeout=60).decode("utf-8", "replace"))
+    print(f"   gráficos de OWID: {slugs}")
+    por_pais = {}
+    for slug in slugs:
+        try:
+            texto = get(f"https://ourworldindata.org/grapher/{slug}.csv?v=1&csvType=full&useColumnShortNames=false", timeout=60).decode("utf-8", "replace")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {slug}: {e}")
+            continue
+        for iso, cats in D.leer_csv_owid(texto, slug).items():
+            for cat, v in cats.items():
+                por_pais.setdefault(iso, {}).setdefault(cat, v)
+        time.sleep(1)
+    if not por_pais:
+        raise RuntimeError("OWID no devolvió datos de religión")
+    paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
+    return D.features_religion(paises, por_pais)
 
 
 # El mundo en 8 cajas (sur, oeste, norte, este): una consulta global pesada provoca error 500 en Overpass.
@@ -537,7 +585,7 @@ def militar():
 
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
-            "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos}
+            "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones}
 
 
 def _punto_ref(ft):

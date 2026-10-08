@@ -1,6 +1,6 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
 /* global maplibregl */
-import { getJSON, esc, fecha, storage, distanciaKm, debounce } from "./util.js";
+import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
@@ -517,11 +517,18 @@ function iniciarImagenes() {
   const dias = [1, 2, 3, 5, 7].map((d) => haceDias(d));
   cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>`).join("")
     + `<label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
-    + `<p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p>`;
-  cont.addEventListener("change", (e) => {
-    if (e.target.id === "img-fecha") { fecha = e.target.value; img.setFecha(fecha); return; }
+    + `<p class="nota-capas" id="img-noche-nota"></p><p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p>`;
+  const notaNoche = (r, error) => {
+    $("img-noche-nota").textContent = r === undefined ? "" : r ? `Luces nocturnas: ${r.etiqueta} (${r.fecha}). Zonas de día salen oscuras: el sensor solo ve luz artificial de noche.` : `Luces nocturnas: ${error || "sin imagen"}`;
+  };
+  cont.addEventListener("change", async (e) => {
+    if (e.target.id === "img-fecha") { fecha = e.target.value; const r = await img.setFecha(fecha); if ("viirs_noche" in r) notaNoche(r.viirs_noche); return; }
     const id = e.target.dataset.img;
-    if (id) { e.target.checked ? img.activar(id, fecha) : img.desactivar(id); avisarPresupuesto(); }
+    if (!id) return;
+    if (!e.target.checked) { img.desactivar(id); if (id === "viirs_noche") notaNoche(undefined); avisarPresupuesto(); return; }
+    if (id === "viirs_noche") $("img-noche-nota").textContent = "Buscando la imagen disponible más reciente…";
+    try { const r = await img.activar(id, fecha); if (id === "viirs_noche") notaNoche(r); } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
+    avisarPresupuesto();
   });
 }
 
@@ -561,9 +568,68 @@ const FUENTE_MANIFIESTO = { ciclones: "storms", incendios: "fires", gdacs: "gdac
 async function iniciarRiesgos() {
   const cont = $("riesgos-capas");
   if (!cont) return;
-  const R = await import("./riesgos.js");
-  riesgos = new R.Riesgos(api.map, { onObjeto: (capa, props, geom) => { entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom)); } });
+  const [R, A] = await Promise.all([import("./riesgos.js"), import("./amenazas.js")]);
+  // País de cada objeto: polígonos de países (110m) + nombres del gazetteer.
+  const [fronteras] = await Promise.all([getJSON("data/base/countries-110m.geojson").catch(() => null), paises ? null : cargarPaises().catch(() => (paises = {}))]);
+  const porNombre = {};
+  for (const [iso, p] of Object.entries(paises || {})) { porNombre[(p.en || "").toLowerCase()] = iso; porNombre[(p.es || "").toLowerCase()] = iso; }
+  Object.assign(porNombre, { mexico: "MEX", "méxico": "MEX", "united states": "USA", usa: "USA", "puerto rico": "PRI" });
+  const nombrePais = (iso) => paises?.[iso]?.es || iso || "Mar / sin país";
+  let zona = null;
+  const pintar = () => {
+    const todas = riesgos.amenazas();
+    // Opciones de país y tipo según lo cargado.
+    const selP = $("rg-pais"), selT = $("rg-tipo");
+    const opts = (sel, valores, etiqueta) => {
+      const prev = sel.value;
+      sel.innerHTML = `<option value="">${etiqueta}</option>` + valores.map(([v, n]) => `<option value="${esc(v)}">${esc(n)}</option>`).join("");
+      sel.value = valores.some(([v]) => v === prev) ? prev : "";
+    };
+    opts(selP, [...new Set(todas.map((a) => a.pais).filter(Boolean))].map((v) => [v, nombrePais(v)]).sort((a, b) => a[1].localeCompare(b[1], "es")), "Todos los países");
+    opts(selT, [...new Set(todas.map((a) => a.tipo))].sort((a, b) => a.localeCompare(b, "es")).map((v) => [v, v]), "Todos los tipos");
+    const filtro = { pais: selP.value, tipo: selT.value, sevMin: Number($("rg-sev").value) };
+    riesgos.setFiltro(filtro);
+    const lista = A.ordenar(A.filtrar(todas, { ...filtro, zona }), new Set(todas.filter((a) => a.nuevo).map((a) => a.k)));
+    $("riesgos-amenazas").innerHTML = todas.length ? `<h3>Amenazas activas <span class="contador">${lista.length}</span>${zona ? ` <button class="mini" id="rg-zona-quitar">✕ ${esc(zona.nombre)}</button>` : ""}</h3>
+      <ul class="lista-amenazas">${lista.slice(0, 40).map((a, n) => `<li><button data-am="${n}"><span class="sev sev-${a.sev}">${a.sev}</span>${a.nuevo ? `<span class="chip nuevo">NUEVO</span>` : ""}
+        <span class="ttl">${esc(String(a.titulo).slice(0, 90))}</span><span class="meta">${esc(a.tipo)} · ${esc(nombrePais(a.pais))}</span></button></li>`).join("")}</ul>
+      ${lista.length > 40 ? `<p class="meta">Mostrando 40 de ${lista.length}. Usa los filtros para acotar.</p>` : ""}` : "";
+    $("riesgos-amenazas").onclick = (e) => {
+      if (e.target.id === "rg-zona-quitar") { zona = null; pintar(); return; }
+      const b = e.target.closest("[data-am]");
+      if (!b) return;
+      const a = lista[Number(b.dataset.am)];
+      api.map.flyTo({ center: [a.lon, a.lat], zoom: Math.max(api.map.getZoom(), 6), duration: lite ? 0 : 800 });
+      riesgos.abrir(a);
+    };
+  };
+  riesgos = new R.Riesgos(api.map, {
+    ctx: { indice: fronteras ? A.indicePaises(fronteras) : null, porNombre },
+    onCambio: () => pintar(),
+    onObjeto: (capa, props, geom) => { entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom)); },
+  });
   cont.innerHTML = R.CAPAS.map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>`).join("");
+  $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
+    <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
+    <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>`;
+  $("riesgos-filtros").addEventListener("change", pintar);
+  // Consola de zona: país o estado de México → filtra la lista de amenazas.
+  $("riesgos-zona").innerHTML = `<form id="rg-zona-form" class="fila"><input id="rg-zona-q" placeholder="País o estado de México…" autocomplete="off" aria-label="Consultar zona"><button>Ver zona</button></form><p class="meta" id="rg-zona-res"></p>`;
+  $("rg-zona-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const q = $("rg-zona-q").value.trim().toLowerCase();
+    if (!q) { zona = null; pintar(); return; }
+    const estados = await getJSON("config/mx_estados.json").catch(() => ({ estados: [] }));
+    const norm = (x) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+    const est = estados.estados.find((x) => norm(x.nombre) === norm(q) || (x.alias || []).some((a) => norm(a) === norm(q)));
+    const iso = porNombre[q] || Object.entries(paises || {}).find(([, p]) => norm(p.es || "") === norm(q))?.[0];
+    if (est) zona = { nombre: est.nombre, lat: est.lat, lon: est.lon, radio_km: 200 };
+    else if (iso) zona = { nombre: nombrePais(iso), iso3: iso };
+    else { $("rg-zona-res").textContent = "No encontré esa zona. Escribe un país o un estado de México."; return; }
+    $("rg-zona-res").textContent = est ? `Amenazas a menos de 200 km del centro aproximado de ${est.nombre}.` : `Amenazas en ${nombrePais(iso)}.`;
+    if (est) api.map.flyTo({ center: [est.lon, est.lat], zoom: 6, duration: lite ? 0 : 800 });
+    pintar();
+  });
   cont.addEventListener("change", async (e) => {
     const id = e.target.dataset.riesgo;
     if (!id) return;
@@ -572,9 +638,19 @@ async function iniciarRiesgos() {
     marca.textContent = "cargando…";
     try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
   });
-  const [man, esp] = await Promise.all([riesgos.manifiesto(), riesgos.espacial()]);
+  // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX (Clima Táctico).
+  const hnc = A.hoyNoCircula();
+  $("riesgos-vdm").innerHTML = `<b>Valle de México · Hoy No Circula:</b> ${esc(hnc.texto)} <span id="rg-vdm-aire"></span>
+    El Doble No Circula solo aplica con contingencia declarada por la <a href="https://www.gob.mx/comisionambiental" target="_blank" rel="noopener noreferrer">CAMe</a>.`;
+  const [man, esp, aire, feed] = await Promise.all([riesgos.manifiesto(), riesgos.espacial(),
+    getJSON(R.BASES[0] + "airquality.geojson").catch(() => null), getJSON(R.BASES[0] + "security_feed.json").catch(() => null)]);
+  const cdmx = aire?.features?.find((f) => /ciudad de m[eé]xico/i.test(f.properties.name || ""));
+  if (cdmx) $("rg-vdm-aire").innerHTML = `Calidad del aire en la CDMX: <b>${esc(cdmx.properties.level_label)}</b> (US AQI ${esc(cdmx.properties.us_aqi ?? "—")})${cdmx.properties.level >= 3 ? " · ⚠ posible contingencia: verifica en la CAMe" : ""}.`;
+  if (feed?.items?.length) {
+    $("riesgos-feed").innerHTML = `<details><summary>Feed de seguridad (titulares, verificar) · ${feed.items.length}</summary><ul class="fuentes">${feed.items.slice(0, 12).map((it) => `<li><a href="${esc(safeUrl(it.url))}" target="_blank" rel="noopener noreferrer">${esc(String(it.title).slice(0, 140))}</a></li>`).join("")}</ul></details>`;
+  }
   if (man) {
-    $("riesgos-nota").textContent = `Datos horneados por Clima Táctico el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos en vivo desde USGS.`;
+    $("riesgos-nota").textContent = `Datos horneados por Clima Táctico el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos y alertas de EUA en vivo. Los eventos nuevos parpadean 1 min y llevan la marca NUEVO 1 h.`;
     for (const [id, k] of Object.entries(FUENTE_MANIFIESTO)) {
       const n = man.sources?.[k]?.count;
       const cb = cont.querySelector(`[data-riesgo="${id}"]`);

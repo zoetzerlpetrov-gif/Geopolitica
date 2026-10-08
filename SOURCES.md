@@ -86,6 +86,15 @@ X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrec
 | Clima Táctico (repositorio WarRoomViajero), leído desde su GitHub Pages | Ciclones (cono, trayectoria y radios de viento), incendios, GDACS, pronóstico 7 días por ciudad, calidad del aire, volcanes, señales de seguridad y de granizo/tornado en noticias, deslaves y clima espacial | Gratis | No | Las de cada fuente original (NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, Google News/GDELT, NOAA SWPC) | 2 veces al día (6:00 y 18:00 de CDMX) | Activa. No se copian datos: se leen al activar cada capa. Las capas de noticias son señales por verificar |
 | USGS (feed `2.5_day.geojson`) | Sismos M2.5+ de las últimas 24 h | Gratis | No | Dominio público | En vivo desde el navegador, cada 5 min | Activa |
 
+## Seguridad, conflictos y religión
+
+| Fuente | Qué aporta | Costo | Registro / llave | Licencia / términos | Frecuencia | Estado |
+|---|---|---|---|---|---|---|
+| GDELT DOC 2.0 API | Señales de noticias de terrorismo, narcotráfico, mafias y crimen organizado (24 h), con prioridad en México: búsquedas en español con medios de México y nombres de grupos, más búsquedas mundiales en inglés y español. Ubicación aproximada por ciudad o estado de México (`config/mx_estados.json`) o por país | Gratis | No | Uso libre con cita a GDELT; 1 consulta cada 6 s | Cada hora | Activa (`tools/crimen/crimen.py`). Se guarda título, enlace, medio, fecha, tipo, severidad estimada y lugar; nunca el texto. Son señales por verificar |
+| UCDP GED + Candidate Events (Universidad de Uppsala) | Dominio o disputa de grupos armados no estatales (cárteles, insurgencias, yihadistas, milicias) en celdas de 1°, últimos 24 meses | Gratis | No | CC BY 4.0; citar Sundberg y Melander (2013) y Hegre et al. (2020) | Mensual | Activa. Mide violencia registrada (eventos con al menos una muerte), no control territorial |
+| Pew Research Center 2020 vía Our World in Data | Religión mayoritaria y composición por país: cristianismo, islam, hinduismo, budismo, judaísmo, populares o tradicionales (chamanismo, animismo), otras (bahaí, sij, wicca…) y sin afiliación (ateos, agnósticos) | Gratis | No (el archivo original de Pew pide cuenta; OWID lo republica) | CC BY 4.0 (OWID) | Anual | Activa. Brujería y esoterismo no se miden por separado |
+| DEA National Drug Threat Assessment (mapa de presencia de cárteles) | Presencia de cárteles por estado | Gratis | No | Dominio público (EUA) | Anual | No usada: el mapa es una imagen dentro de un PDF, sin datos descargables |
+
 ## Exclusiones (no se integran)
 
 | Excluido | Motivo |

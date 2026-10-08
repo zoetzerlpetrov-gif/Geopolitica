@@ -122,7 +122,12 @@ export class GestorCapas {
   #filtroCapa(capa, filtroSubtiposBase) {
     // Zoom mínimo por objeto (propiedad "z"): los mosaicos llegan hasta z8 y la GPU oculta lo que no toca.
     const filtroSubtipos = ["all", filtroSubtiposBase, [">=", ["zoom"], ["coalesce", ["get", "z"], 0]]];
-    if (capa.endsWith("-relleno")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"], ["in", ["get", "st"], ["literal", ["desiertos", "cordilleras", "peninsulas"]]]];
+    if (capa.endsWith("-relleno")) {
+      // Familias de coropleta (relleno: true en config/capas.json) se rellenan completas; en «zonas» solo algunas.
+      const fam = this.familias.get(capa.replace(/^cap-/, "").replace(/-relleno$/, ""));
+      return fam?.relleno ? ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"]]
+        : ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"], ["in", ["get", "st"], ["literal", ["desiertos", "cordilleras", "peninsulas"]]]];
+    }
     if (capa.endsWith("-linea")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "LineString"]];
     if (capa.endsWith("-punto")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "Point"]];
     return filtroSubtipos;
@@ -142,8 +147,9 @@ export class GestorCapas {
     const sl = geojson ? {} : { "source-layer": f.id };
 
     if (f.geometria !== "punto") {
-      this.map.addLayer({ id: `${src}-relleno`, type: "fill", source: src, ...sl, filter: this.#filtroCapa("-relleno", filtro),
-        paint: { "fill-color": color, "fill-opacity": 0.08 } }, antes);
+      this.map.addLayer({ id: `${src}-relleno`, type: "fill", source: src, ...sl, filter: this.#filtroCapa(`${src}-relleno`, filtro),
+        paint: { "fill-color": f.relleno ? ["coalesce", ["get", "color"], color] : color, "fill-opacity": f.opacidad_relleno ?? 0.08,
+          ...(f.relleno ? { "fill-outline-color": "rgba(255,255,255,0.35)" } : {}) } }, antes);
       this.map.addLayer({ id: `${src}-linea`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-linea", filtro),
         paint: { "line-color": color, "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.6, 8, 1.6], "line-opacity": 0.8 } }, antes);
     }
@@ -159,7 +165,7 @@ export class GestorCapas {
         "text-optional": true, "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true },
       paint: { "text-color": "#333F48", "text-halo-color": "#ffffff", "text-halo-width": 1.2 } }, antes);
 
-    for (const capa of [`${src}-punto`, `${src}-linea`]) {
+    for (const capa of [`${src}-punto`, `${src}-linea`, ...(f.relleno ? [`${src}-relleno`] : [])]) {
       this.map.on("click", capa, (e) => this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat }));
       this.map.on("mouseenter", capa, () => { this.map.getCanvas().style.cursor = "pointer"; });
       this.map.on("mouseleave", capa, () => { this.map.getCanvas().style.cursor = ""; });
@@ -188,6 +194,8 @@ export function urlFuente(id) {
 export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas = [] }) {
   const sub = familia.subtipos.find((s) => s.id === props.st);
   if (familia.id === "camaras") return htmlFichaCamara(props, sub);
+  if (familia.id === "conflicto") return htmlFichaConflicto(props, sub);
+  if (familia.id === "religiones") return htmlFichaReligion(props, familia);
   const url = urlFuente(props.id);
   const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
   return `
@@ -228,4 +236,32 @@ export function htmlFichaCamara(props, sub) {
     ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
     ${props.v ? `<dl><dt>Revisión del enlace</dt><dd>${esc(props.v)}</dd></dl>` : ""}
     <p class="meta">Solo se incluyen cámaras que su operador publica para verse en abierto; nunca cámaras expuestas por error. La imagen se muestra desde el servidor del operador, sin copiarla.</p>`;
+}
+
+const jsonDe = (v, def) => { if (typeof v !== "string") return v ?? def; try { return JSON.parse(v); } catch (e) { return def; } };
+
+/** Ficha de una celda de conflicto (UCDP): actores con su parte de la violencia registrada. */
+export function htmlFichaConflicto(props, sub) {
+  const actores = jsonDe(props.actores, []);
+  return `<h3 id="ficha-titulo">${esc(props.n)}</h3>
+    <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.p || "")}</div>
+    <div class="barras">${actores.map(([a, pct]) => `<div class="barra-fila"><span>${esc(a)}</span><span class="barra"><i style="width:${Number(pct) || 0}%"></i></span><b>${esc(pct)} %</b></div>`).join("")}</div>
+    <dl><dt>Eventos</dt><dd>${esc(props.eventos)} en 24 meses</dd><dt>Muertes estimadas</dt><dd>${esc(props.muertes)}</dd><dt>Último evento</dt><dd>${esc(props.ultima || "—")}</dd>
+      <dt>Fuente</dt><dd><a href="https://ucdp.uu.se/" target="_blank" rel="noopener noreferrer">UCDP, Universidad de Uppsala</a> (CC BY 4.0)</dd></dl>
+    <p class="meta">Celda de 1° (~110 km). El porcentaje es la parte de la violencia registrada (eventos + muertes) atribuida a cada grupo no estatal. Mide violencia, no control: un grupo puede dominar sin violencia visible, y UCDP solo registra hechos con al menos una muerte.</p>`;
+}
+
+const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],
+  ["populares", "Populares o tradicionales"], ["otras", "Otras religiones"], ["sin_religion", "Sin afiliación"]];
+
+/** Ficha de un país en la capa de religiones: composición en barras. */
+export function htmlFichaReligion(props, familia) {
+  const pct = jsonDe(props.porcentajes, {});
+  const color = Object.fromEntries((familia.subtipos || []).map((s) => [s.id.replace("religion_", ""), s.color]));
+  const filas = RELIGIONES.filter(([k]) => pct[k] != null).sort((a, b) => pct[b[0]] - pct[a[0]]);
+  return `<h3 id="ficha-titulo">${esc(props.n)}</h3>
+    <div class="fecha">Composición religiosa · ${esc(props.anio || "2020")}</div>
+    <div class="barras">${filas.map(([k, n]) => `<div class="barra-fila"><span>${esc(n)}</span><span class="barra"><i style="width:${Math.min(100, pct[k])}%;background:${esc(color[k] || "#888")}"></i></span><b>${esc(pct[k])} %</b></div>`).join("")}</div>
+    <p class="meta">«Populares o tradicionales» incluye religiones indígenas, chamanismo y animismo; «Otras», bahaí, sij, jainismo, sintoísmo, taoísmo, wicca y otras. Brujería y esoterismo no se miden por separado. «Sin afiliación» reúne a ateos, agnósticos y quienes no se identifican con ninguna.</p>
+    <dl><dt>Fuente</dt><dd><a href="https://ourworldindata.org/religion" target="_blank" rel="noopener noreferrer">Pew Research Center vía Our World in Data</a> (CC BY 4.0)</dd></dl>`;
 }

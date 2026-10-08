@@ -10,7 +10,7 @@ const pt = (props, coords = [-99, 19]) => ({ type: "Feature", geometry: { type: 
 test("las capas leen el mismo dominio primero y GitHub como respaldo", () => {
   assert.match(BASES[0], /^https:\/\/zoetzerlpetrov-gif\.github\.io\/WarRoomViajero\/data\/$/);
   assert.match(BASES[1], /raw\.githubusercontent\.com/);
-  assert.ok(CAPAS.every((c) => c.url || c.archivos?.length));
+  assert.ok(CAPAS.every((c) => c.url || c.archivos?.length || c.generar));
 });
 
 test("sismos: color y tamaño crecen con la magnitud; la ficha trae profundidad", () => {
@@ -48,4 +48,19 @@ test("clima espacial en texto", () => {
   assert.equal(textoEspacial({ G: { scale: 1 }, kp: { value: 5.67 }, flare: { class: "M6.7" }, R: { scale: 0 }, S: { scale: 0 } }),
     "Tormenta geomagnética G1 (menor) · Kp 5.7 · última llamarada M6.7");
   assert.equal(textoEspacial(null), null);
+});
+
+test("preparar agrega severidad, tipo, ícono, país y clave; sismos derivan enjambres y tsunami", async () => {
+  const { indicePaises } = await import("../../js/amenazas.js");
+  const { readFileSync } = await import("node:fs");
+  const idx = indicePaises(JSON.parse(readFileSync(new URL("../../data/base/countries-110m.geojson", import.meta.url))));
+  const c = capa("sismos");
+  const fc = c.derivar({ features: [pt({ mag: 6.1, place: "10 km S of X, Mexico", tsunami: 1, time: 5 }, [-99, 17])] });
+  const gj = preparar(c, fc, { indice: idx, porNombre: { mexico: "MEX" } });
+  const sismo = gj.features[0].properties;
+  assert.deepEqual([sismo._sev, sismo._tipo, sismo._ic, sismo._pais, sismo._t], [5, "Tsunami", "emoji:🌊", "MEX", 5]);
+  assert.equal(gj.features.filter((f) => f.properties._tsunami_radio).length, 3);
+  const nws = preparar(capa("nws"), { features: [{ type: "Feature", geometry: { type: "Polygon", coordinates: [[[-97, 35], [-96, 35], [-96, 36], [-97, 35]]] }, properties: { severity: "Severe", event: "Tornado Warning" } }] }, { indice: idx });
+  assert.equal(nws.features[0].properties._pais, "USA");
+  assert.equal(nws.features[0].properties._sev, 4);
 });

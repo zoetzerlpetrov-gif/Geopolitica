@@ -117,3 +117,54 @@ def test_rellenar_zonas_sin_respuesta_con_la_corrida_anterior(tmp_path, monkeypa
     todos, n = c.rellenar_faltantes(nuevos, c.leer_crudo("presas"), [[15, -100, 22.5, -90]])
     assert n == 2 and {f["properties"]["id"] for f in todos} == {"osm:n1", "osm:n2", "osm:w9"}
     assert c.rellenar_faltantes(nuevos, [], [[15, -100, 22.5, -90]])[1] == 0
+
+
+# ---------------- Dominio de grupos armados (UCDP) y religiones (Pew/OWID) ----------------
+import json  # noqa: E402
+
+import dominio as D  # noqa: E402
+
+
+def test_enlaces_ucdp():
+    html = '<a href="/downloads/ged/ged241-csv.zip">x</a><a href="ged/ged251-csv.zip">y</a><a href="candidateged/GEDEvent_v26_0_3.csv">c</a><a href="/x.pdf">p</a>'
+    ged, cand = D.enlaces_ucdp(html)
+    assert ged == "https://ucdp.uu.se/downloads/ged/ged251-csv.zip"
+    assert cand == ["https://ucdp.uu.se/downloads/candidateged/GEDEvent_v26_0_3.csv"]
+
+
+def test_actores_no_estatales():
+    assert D.actores_no_estatales({"type_of_violence": "1", "side_a": "Government of Mali", "side_b": "JNIM"}) == ["JNIM"]
+    assert D.actores_no_estatales({"type_of_violence": "2", "side_a": "CJNG", "side_b": "Sinaloa Cartel"}) == ["CJNG", "Sinaloa Cartel"]
+    assert D.actores_no_estatales({"type_of_violence": "3", "side_a": "Government of X", "side_b": "Civilians"}) == []
+
+
+def test_dominio_y_disputa_por_celda():
+    import datetime as dt
+    filas = ["id,date_start,latitude,longitude,type_of_violence,side_a,side_b,best,country"]
+    # Celda A (Sinaloa): 4 eventos, todos del mismo grupo → dominio
+    filas += [f"a{i},2026-01-0{i + 1},24.8,-107.4,3,Sinaloa Cartel - Chapitos,Civilians,1,Mexico" for i in range(4)]
+    # Celda B (Michoacán): dos grupos que pelean → disputa
+    filas += [f"b{i},2026-02-0{i + 1},19.4,-102.1,2,CJNG,Carteles Unidos,2,Mexico" for i in range(3)]
+    # Fuera de ventana
+    filas += ["c1,2020-01-01,19.4,-102.1,2,X,Y,50,Mexico"]
+    ev = list(D.leer_eventos(["\n".join(filas)], dt.date(2025, 1, 1)))
+    assert len(ev) == 7
+    feats = D.cobertura_dominio(D.agregar_celdas(ev))
+    por_estado = {f["properties"]["st"]: f["properties"] for f in feats}
+    assert por_estado["conflicto_dominio"]["n"] == "Sinaloa Cartel - Chapitos"
+    assert por_estado["conflicto_disputa"]["n"].startswith("Disputa: ")
+    assert json.loads(por_estado["conflicto_disputa"]["actores"])[0][1] == 50
+    assert all(f["geometry"]["type"] == "Polygon" for f in feats)
+
+
+def test_religiones_desde_csv_owid():
+    html = '<a href="/grapher/share-of-population-christian">a</a><a href="/grapher/share-folk-religions?x=1">b</a><a href="/grapher/gdp">c</a>'
+    assert D.slugs_religion(html) == ["share-folk-religions", "share-of-population-christian"]
+    csv_ = "Entity,Code,Year,Christians share\nMexico,MEX,2010,0.9\nMexico,MEX,2020,0.88\nWorld,OWID_WRL,2020,0.29\n"
+    datos = D.leer_csv_owid(csv_, "share-of-population-christian")
+    assert datos == {"MEX": {"cristianismo": 0.88}}
+    paises = {"features": [{"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [[[0, 0], [1, 0], [1, 1], [0, 0]]]}, "properties": {"iso3": "MEX", "nombre": "México"}}]}
+    f = D.features_religion(paises, {"MEX": {"cristianismo": 0.88, "sin_religion": 0.1, "populares": 0.01}})[0]["properties"]
+    assert f["st"] == "religion_cristianismo" and json.loads(f["porcentajes"])["cristianismo"] == 88.0
+    assert D.categoria_de("Share of population with folk religions") == "populares"
+    assert D.categoria_de("Religiously unaffiliated") == "sin_religion"

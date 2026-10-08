@@ -294,3 +294,25 @@ a.boton:hover, a.boton:focus-visible { filter: brightness(1.1); }
 .clima-leyenda { margin: 6px 0; font-size: 11px; }
 .clima-leyenda .barra { height: 8px; border-radius: 4px; }
 .clima-leyenda .marcas { display: flex; justify-content: space-between; color: var(--text-2); }
+/* Riesgos: filtros, amenazas activas y marcas */
+.riesgos-filtros, .riesgos-zona { margin: 8px 0; }
+.riesgos-zona form { gap: 6px; }
+.riesgos-zona input { flex: 1; min-width: 0; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); }
+.riesgos-amenazas h3 { font-size: 13px; margin: 10px 0 4px; display: flex; gap: 6px; align-items: center; }
+.lista-amenazas { list-style: none; margin: 0; padding: 0; max-height: 320px; overflow: auto; }
+.lista-amenazas button { display: grid; grid-template-columns: auto auto 1fr; grid-template-rows: auto auto; gap: 0 6px; width: 100%; text-align: left;
+  background: none; border: 0; border-bottom: 1px solid var(--line); padding: 5px 2px; color: var(--text); cursor: pointer; font: inherit; font-size: 12px; }
+.lista-amenazas button:hover { background: var(--surface-2); }
+.lista-amenazas .ttl { grid-column: 3; }
+.lista-amenazas .meta { grid-column: 1 / -1; font-size: 11px; color: var(--text-2); }
+.sev { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; color: #fff; font-weight: 700; font-size: 11px; }
+.sev-1 { background: #6f8a82; } .sev-2 { background: #2E9E6E; } .sev-3 { background: #B08000; } .sev-4 { background: #C2611A; } .sev-5 { background: #C03030; }
+.chip.sev-1, .chip.sev-2, .chip.sev-3, .chip.sev-4, .chip.sev-5 { color: #fff; border: 0; }
+.chip.nuevo { background: #ffe600; color: #1a1a00; border: 0; font-weight: 700; font-size: 10px; padding: 0 6px; animation: parpadeo 1.4s ease-in-out infinite; }
+@keyframes parpadeo { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .chip.nuevo { animation: none; } }
+button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1px solid var(--line); background: var(--surface-2); color: var(--text); cursor: pointer; }
+.barras { margin: 8px 0; }
+.barra-fila { display: grid; grid-template-columns: minmax(90px, 40%) 1fr auto; gap: 6px; align-items: center; font-size: 12px; margin: 3px 0; }
+.barra-fila .barra { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
+.barra-fila .barra i { display: block; height: 100%; background: var(--accent); }
