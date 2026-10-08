@@ -1,8 +1,8 @@
 name: Datos en movimiento
 
-# Cada 20 min: aeronaves (OpenSky + adsb.lol), buques (AISStream, si hay clave), satélites (TLE cada 6 h)
-# y lista SDN (diaria). El resultado vive en la rama huérfana "datos-vivos", que se REESCRIBE en cada
-# corrida (un solo commit): así el historial del repo no crece con cada instantánea.
+# Cada 20 min: aeronaves (OpenSky + adsb.lol), buques (AISStream, si hay clave), satélites (TLE cada 6 h),
+# lista SDN (diaria) y clima del modelo GFS (cada 6 h, tools/clima/gfs.py). El resultado vive en la rama
+# huérfana "datos-vivos", que se REESCRIBE en cada corrida (un solo commit): así el historial del repo no crece con cada instantánea.
 on:
   workflow_dispatch:
   schedule:
@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install websockets==15.0.1
+      - run: pip install websockets==15.0.1 numpy==2.3.3 pillow==11.3.0 pygrib==2.1.6
 
       - name: Recuperar la instantánea anterior (para TLE y sanciones)
         run: |
@@ -45,6 +45,11 @@ jobs:
         env:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: python3 tools/vivos/actualizar.py
+
+      - name: Clima (modelo GFS de NOAA, cada 6 h; si falla se conservan los datos anteriores)
+        continue-on-error: true
+        timeout-minutes: 6
+        run: python3 tools/clima/gfs.py
 
       - name: Publicar en la rama datos-vivos (reescrita, sin historial)
         env:

@@ -78,6 +78,14 @@ Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cu
 
 X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrecen un feed público y leerlos con scraping viola sus términos.
 
+## Clima y riesgos naturales
+
+| Fuente | Qué aporta | Costo | Registro / llave | Licencia / términos | Frecuencia | Estado |
+|---|---|---|---|---|---|---|
+| NOAA GFS 1° vía filtro GRIB de NOMADS (`filter_gfs_1p00.pl`) | Viento a 10 m (animado con partículas), temperatura a 2 m y lluvia (mm/h); horizontes ≈ ahora, +12, +24, +48 y +72 h | Gratis | No | Dominio público (gobierno de EUA) | Cada 6 h (4 variables, 5 archivos pequeños por corrida; pausa de 2 s entre descargas) | Activa (`tools/clima/gfs.py` en el workflow «Datos en movimiento») |
+| Clima Táctico (repositorio WarRoomViajero), leído desde su GitHub Pages | Ciclones (cono, trayectoria y radios de viento), incendios, GDACS, pronóstico 7 días por ciudad, calidad del aire, volcanes, señales de seguridad y de granizo/tornado en noticias, deslaves y clima espacial | Gratis | No | Las de cada fuente original (NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, Google News/GDELT, NOAA SWPC) | 2 veces al día (6:00 y 18:00 de CDMX) | Activa. No se copian datos: se leen al activar cada capa. Las capas de noticias son señales por verificar |
+| USGS (feed `2.5_day.geojson`) | Sismos M2.5+ de las últimas 24 h | Gratis | No | Dominio público | En vivo desde el navegador, cada 5 min | Activa |
+
 ## Exclusiones (no se integran)
 
 | Excluido | Motivo |

@@ -22,7 +22,7 @@ let historialEv = [];            // eventos del historial ya descargados (sobrev
 const diasHistorial = new Set(); // días del historial descargados completos
 let regionDe = {};
 let porId = new Map();
-let tax, paises, api, gestor, mov, img;
+let tax, paises, api, gestor, mov, img, riesgos, clima;
 let lite = false;
 
 function temaActual() {
@@ -401,8 +401,10 @@ async function main() {
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));
-  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); });
+  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); });
   iniciarImagenes();
+  iniciarClima();
+  iniciarRiesgos();
   // Cuaderno del analista: checklist y notas del evento abierto (solo en este navegador).
   $("ficha-cuerpo").addEventListener("change", (e) => {
     const cb = e.target.closest("[data-check]");
@@ -521,6 +523,66 @@ function iniciarImagenes() {
     const id = e.target.dataset.img;
     if (id) { e.target.checked ? img.activar(id, fecha) : img.desactivar(id); avisarPresupuesto(); }
   });
+}
+
+// ---------- Clima tipo Windy (modelo GFS de NOAA) ----------
+async function iniciarClima() {
+  const cont = $("clima-capas");
+  if (!cont) return;
+  if (lite) { cont.innerHTML = `<p class="meta">Desactivado en modo LITE (la animación del viento gasta batería).</p>`; return; }
+  const K = await import("./clima.js");
+  clima = new K.Clima(api.map);
+  let meta;
+  try { meta = await clima.cargar(); } catch (e) { cont.innerHTML = `<p class="meta">Aún no hay datos del modelo (los prepara el workflow «Datos en movimiento» cada 6 h).</p>`; return; }
+  if (!meta.pasos?.length) { cont.innerHTML = `<p class="meta">Sin horizontes de pronóstico en la última corrida.</p>`; return; }
+  const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"]];
+  cont.innerHTML = capas.map(([id, n]) => `<label class="fila"><span><input type="checkbox" data-clima="${id}"> ${esc(n)}</span></label>`).join("")
+    + `<label class="fila"><span>Momento</span><select id="clima-paso">${meta.pasos.map((p, i) => `<option value="${i}">${esc(K.etiquetaPaso(p.valido_utc))}</option>`).join("")}</select></label>`
+    + `<div id="clima-leyendas"></div>`
+    + `<p class="nota-capas">Modelo GFS de NOAA (1°, ~110 km), corrida ${esc(meta.corrida)}. Es un pronóstico numérico, no una medición: para avisos oficiales consulta al SMN o a tu servicio meteorológico.</p>`;
+  const leyendas = () => {
+    $("clima-leyendas").innerHTML = [clima.activas.has("viento") ? K.leyenda(K.VELOCIDADES.map(([v, c]) => [Math.round(v * 3.6), c]), "km/h") : "",
+      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : ""].join("");
+  };
+  cont.addEventListener("change", async (e) => {
+    if (e.target.id === "clima-paso") { await clima.setPaso(Number(e.target.value)); return; }
+    const t = e.target.dataset.clima;
+    if (!t) return;
+    try { e.target.checked ? await clima.activar(t) : clima.desactivar(t); } catch (err) { e.target.checked = false; alert(`No se pudo cargar: ${err.message}`); }
+    leyendas();
+    avisarPresupuesto();
+  });
+}
+
+// ---------- Riesgos naturales y clima (Clima Táctico / WarRoomViajero) ----------
+const FUENTE_MANIFIESTO = { ciclones: "storms", incendios: "fires", gdacs: "gdacs", pronostico: "forecast", aire: "airquality", volcanes: "volcanoes",
+  seguridad: "security", severo: "severe_weather", deslaves: "mass_movements" };
+
+async function iniciarRiesgos() {
+  const cont = $("riesgos-capas");
+  if (!cont) return;
+  const R = await import("./riesgos.js");
+  riesgos = new R.Riesgos(api.map, { onObjeto: (capa, props, geom) => { entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom)); } });
+  cont.innerHTML = R.CAPAS.map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>`).join("");
+  cont.addEventListener("change", async (e) => {
+    const id = e.target.dataset.riesgo;
+    if (!id) return;
+    const marca = $(`rg-n-${id}`);
+    if (!e.target.checked) { riesgos.desactivar(id); marca.textContent = ""; return; }
+    marca.textContent = "cargando…";
+    try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
+  });
+  const [man, esp] = await Promise.all([riesgos.manifiesto(), riesgos.espacial()]);
+  if (man) {
+    $("riesgos-nota").textContent = `Datos horneados por Clima Táctico el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos en vivo desde USGS.`;
+    for (const [id, k] of Object.entries(FUENTE_MANIFIESTO)) {
+      const n = man.sources?.[k]?.count;
+      const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+      if (n === 0 && cb) { cb.closest("label").classList.add("capa-off"); $(`rg-n-${id}`).textContent = "0 hoy"; }
+    }
+  }
+  const txt = R.textoEspacial(esp);
+  if (txt) $("riesgos-espacial").innerHTML = `<b>Clima espacial (NOAA SWPC):</b> ${esc(txt)}. <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener noreferrer">Fuente ↗</a>`;
 }
 
 // ---------- Capas en movimiento ----------
