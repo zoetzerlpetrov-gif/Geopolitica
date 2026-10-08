@@ -811,13 +811,34 @@
      "grupo": "gnss"
     },
     {
-     "id": "comunicaciones",
+     "id": "starlink",
      "nombre": {
-      "es": "Comunicaciones",
-      "en": "Communications"
+      "es": "Starlink (≈8,000; apagado al inicio)",
+      "en": "Starlink"
      },
      "icono": "🛰",
-     "color": "#5B4A9E",
+     "color": "#8a8f94",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "seguridad"
+     ],
+     "grupo": "starlink",
+     "inicial": false
+    },
+    {
+     "id": "oneweb",
+     "nombre": {
+      "es": "Internet satelital OneWeb",
+      "en": "OneWeb"
+     },
+     "icono": "🛰",
+     "color": "#6B5BA8",
      "fuente": "celestrak",
      "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
      "frecuencia": "cada 6 h",
@@ -827,7 +848,85 @@
      "areas": [
       "tecnologia"
      ],
-     "grupo": "geo"
+     "grupo": "oneweb"
+    },
+    {
+     "id": "iridium",
+     "nombre": {
+      "es": "Telefonía satelital Iridium",
+      "en": "Iridium"
+     },
+     "icono": "🛰",
+     "color": "#8a7fb8",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "iridium-NEXT"
+    },
+    {
+     "id": "observacion",
+     "nombre": {
+      "es": "Observación de la Tierra y recursos",
+      "en": "Earth resources"
+     },
+     "icono": "🛰",
+     "color": "#2F7A4A",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "clima",
+      "energia"
+     ],
+     "grupo": "resource"
+    },
+    {
+     "id": "planet",
+     "nombre": {
+      "es": "Imágenes comerciales (Planet)",
+      "en": "Planet imaging"
+     },
+     "icono": "🛰",
+     "color": "#4F8A3A",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "seguridad"
+     ],
+     "grupo": "planet"
+    },
+    {
+     "id": "cientificos",
+     "nombre": {
+      "es": "Científicos",
+      "en": "Science"
+     },
+     "icono": "🛰",
+     "color": "#1F6FB2",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "science"
     },
     {
      "id": "meteorologicos_eo",
@@ -852,7 +951,7 @@
     {
      "id": "geoestacionarios",
      "nombre": {
-      "es": "Geoestacionarios",
+      "es": "Geoestacionarios (TV y comunicaciones, fijos sobre el Ecuador)",
       "en": "Geostationary"
      },
      "icono": "🛰",
@@ -1405,12 +1504,12 @@
      },
      "icono": "▲",
      "color": "#1f6fb2",
-     "fuente": "grand",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "anual",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 6,
+     "zoom_min": 5,
      "areas": [
       "infraestructura",
       "energia",
@@ -1427,9 +1526,9 @@
      },
      "icono": "▲",
      "color": "#1f6fb2",
-     "fuente": "grand",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "anual",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
      "zoom_min": 6,
@@ -1442,82 +1541,16 @@
      "uso": "riego"
     },
     {
-     "id": "presa_abastecimiento",
-     "nombre": {
-      "es": "Presas: abastecimiento",
-      "en": "Dams: water supply"
-     },
-     "icono": "▲",
-     "color": "#1f6fb2",
-     "fuente": "grand",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "anual",
-     "tipo_capa": "estatica",
-     "estado_dato": "estatico",
-     "zoom_min": 6,
-     "areas": [
-      "infraestructura",
-      "energia",
-      "clima"
-     ],
-     "familia": "presas",
-     "uso": "abastecimiento"
-    },
-    {
-     "id": "presa_avenidas",
-     "nombre": {
-      "es": "Presas: control de avenidas",
-      "en": "Dams: flood control"
-     },
-     "icono": "▲",
-     "color": "#1f6fb2",
-     "fuente": "grand",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "anual",
-     "tipo_capa": "estatica",
-     "estado_dato": "estatico",
-     "zoom_min": 6,
-     "areas": [
-      "infraestructura",
-      "energia",
-      "clima"
-     ],
-     "familia": "presas",
-     "uso": "avenidas"
-    },
-    {
-     "id": "presa_navegacion",
-     "nombre": {
-      "es": "Presas: navegación",
-      "en": "Dams: navigation"
-     },
-     "icono": "▲",
-     "color": "#1f6fb2",
-     "fuente": "grand",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "anual",
-     "tipo_capa": "estatica",
-     "estado_dato": "estatico",
-     "zoom_min": 6,
-     "areas": [
-      "infraestructura",
-      "energia",
-      "clima"
-     ],
-     "familia": "presas",
-     "uso": "navegacion"
-    },
-    {
      "id": "presa_otros",
      "nombre": {
-      "es": "Presas: otros",
-      "en": "Dams: other"
+      "es": "Presas: otros usos o sin dato",
+      "en": "Dams: other or unknown"
      },
      "icono": "▲",
      "color": "#1f6fb2",
-     "fuente": "grand",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "anual",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
      "zoom_min": 6,
@@ -1577,9 +1610,9 @@
      },
      "icono": "〰",
      "color": "#7a4b1e",
-     "fuente": "gem",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "semestral",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
      "zoom_min": 3,
@@ -1598,9 +1631,9 @@
      },
      "icono": "〰",
      "color": "#C27C1E",
-     "fuente": "gem",
-     "licencia": "CC BY 4.0",
-     "frecuencia": "semestral",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
      "zoom_min": 3,
@@ -2273,7 +2306,7 @@
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
-     "zoom_min": 6,
+     "zoom_min": 5,
      "areas": [
       "infraestructura"
      ],
@@ -2311,7 +2344,7 @@
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
-     "zoom_min": 2,
+     "zoom_min": 1,
      "areas": [
       "clima"
      ],
@@ -2330,7 +2363,7 @@
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
-     "zoom_min": 2,
+     "zoom_min": 1,
      "areas": [
       "infraestructura",
       "geoeconomia"
@@ -2350,7 +2383,7 @@
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
-     "zoom_min": 2,
+     "zoom_min": 1,
      "areas": [
       "infraestructura"
      ],
