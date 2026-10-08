@@ -486,6 +486,13 @@ async function iniciarCapas() {
     const famSub = e.target.dataset.famSub;
     if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
   });
+  // «Imágenes y cámaras» tiene un atajo a la capa de cámaras: ambas casillas quedan sincronizadas.
+  const espejo = $("cam-espejo"), camCb = cont.querySelector('[data-fam="camaras"]');
+  if (espejo && camCb && !camCb.disabled) {
+    espejo.disabled = false;
+    espejo.addEventListener("change", () => { camCb.checked = espejo.checked; camCb.dispatchEvent(new Event("change", { bubbles: true })); });
+    camCb.addEventListener("change", () => { espejo.checked = camCb.checked; });
+  }
   await iniciarMovimiento(catalogo);
   // Enlaces compartibles y pruebas de carga: ?capas=aeropuertos,centrales&mov=aeronaves activa capas al abrir.
   const q = new URLSearchParams(location.search);
@@ -543,7 +550,7 @@ async function iniciarMovimiento(catalogo) {
         <span class="chip estado-${esc(cat.subtipos[0].estado_dato)}">${tipo === "satelites" ? "Estimado" : "Retrasado"}</span></label>
       <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
         : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
-      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" checked><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}</label>`).join("")}</details>` : ""}
+      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}</label>`).join("")}</details>` : ""}
     </div>`;
   }).join("");
   cont.addEventListener("change", async (e) => {

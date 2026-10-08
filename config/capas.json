@@ -98,18 +98,18 @@
    "nombre": "Presas",
    "categoria": "infraestructura",
    "geometria": "punto",
-   "fuente": "grand",
-   "habilitada": false,
-   "motivo": "La descarga de GRanD/GOODD requiere registro; licencia por confirmar."
+   "fuente": "osm",
+   "habilitada": true,
+   "nota": "OpenStreetMap: presas con ficha en Wikidata. GRanD/GOODD requieren registro; si se obtienen, sustituirían a OSM."
   },
   {
    "id": "ductos",
    "nombre": "Ductos de petróleo y gas",
    "categoria": "infraestructura",
    "geometria": "linea",
-   "fuente": "gem",
-   "habilitada": false,
-   "motivo": "Global Energy Monitor entrega los datos tras un formulario; no se puede automatizar."
+   "fuente": "osm",
+   "habilitada": true,
+   "nota": "OpenStreetMap: oleoductos y gasoductos con nombre. Global Energy Monitor (más completo) exige formulario."
   },
   {
    "id": "camaras",

@@ -96,7 +96,8 @@ export class Movimiento {
 
   async activar(tipo) {
     if (this.activas.has(tipo)) return;
-    const subtipos = new Set(this.cat[tipo].subtipos.map((s) => (tipo === "satelites" ? s.grupo : s.id)));
+    // Subtipos con inicial:false (p. ej. Starlink, ~8,000 satélites) empiezan apagados.
+    const subtipos = new Set(this.cat[tipo].subtipos.filter((s) => s.inicial !== false).map((s) => (tipo === "satelites" ? s.grupo : s.id)));
     if (tipo === "satelites") {
       const d = await getJSON("data/vivos/satelites.json", { bust: true });
       this.worker ??= new Worker("js/sat-worker.js");
@@ -105,7 +106,7 @@ export class Movimiento {
         this.#pintarSatelites(e.data);
       };
       this.worker.postMessage({ tipo: "tle", grupos: d.grupos });
-      this.datos.satelites = { generado: d.generado_utc };
+      this.datos.satelites = { generado: d.generado_utc, aparte: new Set(d.aparte || []), cargados: new Set() };
       this.activas.set(tipo, subtipos);
       this.#instalar(tipo);
       this.worker.postMessage({ tipo: "grupos", activos: [...subtipos], intervalo: 2000 });
@@ -143,8 +144,17 @@ export class Movimiento {
   setSubtipos(tipo, ids) {
     if (!this.activas.has(tipo)) return;
     this.activas.set(tipo, new Set(ids));
-    if (tipo === "satelites") this.worker.postMessage({ tipo: "grupos", activos: ids });
-    else this.#redibujar(tipo);
+    if (tipo === "satelites") {
+      // Grupos grandes en archivo propio: se descargan la primera vez que se activan.
+      const d = this.datos.satelites;
+      for (const g of ids.filter((x) => d.aparte.has(x) && !d.cargados.has(x))) {
+        d.cargados.add(g);
+        getJSON(`data/vivos/satelites-${g}.json`, { bust: true })
+          .then((x) => this.worker.postMessage({ tipo: "tle", agregar: true, grupos: x.grupos, activos: [...this.activas.get("satelites")] }))
+          .catch(() => d.cargados.delete(g));
+      }
+      this.worker.postMessage({ tipo: "grupos", activos: ids });
+    } else this.#redibujar(tipo);
   }
 
   reinstalar() { for (const t of this.activas.keys()) { this.#instalar(t); if (t !== "satelites") this.#redibujar(t); } }
@@ -177,7 +187,10 @@ export class Movimiento {
     color.push("#888888");
     if (tipo === "satelites") {
       this.map.addLayer({ id: src, type: "circle", source: src,
-        paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 0, 2, 6, 4], "circle-color": color, "circle-stroke-width": 0.8, "circle-stroke-color": "#ffffff" } });
+        // Geoestacionarios y Starlink más pequeños y sin borde: son muchos y no deben tapar al resto.
+        paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 0, ["match", ["get", "st"], ["geo", "starlink"], 1.3, 2], 6, ["match", ["get", "st"], ["geo", "starlink"], 2.5, 4]],
+          "circle-color": color, "circle-opacity": ["match", ["get", "st"], ["geo", "starlink"], 0.7, 1],
+          "circle-stroke-width": ["match", ["get", "st"], ["geo", "starlink"], 0, 0.8], "circle-stroke-color": "#ffffff" } });
     } else {
       this.map.addLayer({ id: src, type: "symbol", source: src,
         layout: { "icon-image": tipo === "buques" ? "barco" : "flecha", "icon-size": ["interpolate", ["linear"], ["zoom"], 1, 0.35, 8, tipo === "buques" ? 0.75 : 0.6], "icon-rotate": ["get", "r"],

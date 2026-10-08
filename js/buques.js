@@ -122,6 +122,7 @@ export function htmlBuque(b, extra, { subtipoNombre, edadMin }) {
       ${sart ? `<span class="chip alerta alerta-FLASH">${esc(est)}</span>` : ""}</div>
     ${destino}
     <dl>
+      ${b.edad_s > 300 ? `<dt>Última señal</dt><dd>hace ${num(Math.round(b.edad_s / 60 + (edadMin || 0)))} min (no se oyó en la última ventana; en zonas con pocas antenas es normal)</dd>` : ""}
       ${est && !sart ? `<dt>Estado</dt><dd>${esc(est)}</dd>` : ""}
       <dt>Velocidad</dt><dd>${num(b.vel_nudos)} nudos · ${num(Math.round(b.vel_nudos * 1.852))} km/h</dd>
       <dt>Rumbo</dt><dd>${esc(b.rumbo)}° (${esc(cardinal(b.rumbo || 0))})</dd>

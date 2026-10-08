@@ -5,7 +5,7 @@ Salida en vivos/ (se publica en la rama huérfana "datos-vivos", que se reescrib
 no acumular historial; el workflow de Pages la copia a data/vivos/):
   vivos/satelites.json   TLE por grupo de CelesTrak (se refresca como máximo cada 6 h, según su guía de uso)
   vivos/aeronaves.json   posiciones ADS-B: OpenSky (global, anónimo) + adsb.lol (militares)
-  vivos/buques.json      posiciones AIS de AISStream (solo si existe el secreto AISSTREAM_API_KEY)
+  vivos/buques.json      posiciones AIS de AISStream: ventana de 3 min y buques no oídos se conservan 2 h
   vivos/sanciones.json   matrículas de aeronaves e IMO de buques en la lista SDN de OFAC (diaria)
   vivos/estado.json      qué fuente respondió, cuántos objetos y cuándo
 
@@ -49,7 +49,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 # "last-30-days" (lanzamientos recientes) devolvió 404 en CelesTrak (oct 2026): se omite hasta confirmar su nombre actual.
-GRUPOS_SAT = ["stations", "gnss", "geo", "weather", "military", "visual"]
+GRUPOS_SAT = ["stations", "gnss", "geo", "weather", "military", "visual", "resource", "science", "oneweb", "iridium-NEXT", "planet", "last-30-days"]
+GRUPOS_APARTE = ["starlink"]  # miles de satélites: archivo propio que el navegador baja solo si se activa el subtipo
 HORAS_TLE = 6
 
 # Prefijos OACI de aerolíneas de carga (indicativo de 3 letras).
@@ -116,11 +117,12 @@ def satelites():
     previo = leer("satelites.json", {})
     if previo.get("generado_utc"):
         edad_h = (datetime.now(timezone.utc) - datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() / 3600
-        if edad_h < HORAS_TLE:
+        faltan = [g for g in GRUPOS_SAT + GRUPOS_APARTE if g not in previo.get("grupos", {}) and g not in previo.get("aparte", [])]
+        if edad_h < HORAS_TLE and not (faltan and edad_h >= 2):
             print(f"  TLE de hace {edad_h:.1f} h: se conservan (CelesTrak pide no descargar el mismo grupo más de una vez cada 2 h)")
             return sum(len(g) for g in previo["grupos"].values())
     grupos, fallidos = {}, {}
-    for g in GRUPOS_SAT:
+    for g in GRUPOS_SAT + GRUPOS_APARTE:
         try:
             texto = get(f"https://celestrak.org/NORAD/elements/gp.php?GROUP={g}&FORMAT=tle").decode("utf-8").strip().splitlines()
         except Exception as e:  # noqa: BLE001  un grupo inexistente no debe tumbar a los demás
@@ -136,8 +138,13 @@ def satelites():
         time.sleep(2)
     if not grupos:
         raise RuntimeError(f"ningún grupo respondió: {fallidos}")
-    escribir("satelites.json", {"generado_utc": ahora(), "fuente": "CelesTrak", "grupos": grupos, "fallidos": fallidos})
-    return sum(len(g) for g in grupos.values())
+    aparte = [g for g in GRUPOS_APARTE if g in grupos]
+    for g in aparte:
+        escribir(f"satelites-{g}.json", {"generado_utc": ahora(), "fuente": "CelesTrak", "grupos": {g: grupos[g]}})
+    total = sum(len(x) for x in grupos.values())
+    escribir("satelites.json", {"generado_utc": ahora(), "fuente": "CelesTrak", "grupos": {g: x for g, x in grupos.items() if g not in aparte},
+                                "aparte": aparte, "fallidos": fallidos})
+    return total
 
 
 # ------------------------------------------------------------------ aeronaves
@@ -529,7 +536,36 @@ def actualizar_rastros_buques(filas, t):
                        RASTRO_BUQUE_HORAS, RASTRO_BUQUE_MAX, ["lon", "lat", "vel_nudos", "minuto_unix"])
 
 
-def buques(segundos=75):
+BUQUES_VENTANA_S = 180     # los buques fondeados o amarrados transmiten su posición cada 3 min
+BUQUES_CONSERVAR_S = 7200  # un buque no oído en esta corrida se conserva 2 h con su última posición
+
+
+def conservar_buques(nuevas, previo, t, maximo=BUQUES_CONSERVAR_S):
+    """Agrega las filas de la instantánea anterior que no se oyeron ahora, si tienen menos de `maximo` s.
+
+    La cobertura de AISStream depende de antenas en tierra de voluntarios: en zonas con pocas antenas
+    (México, Centroamérica) un buque puede no oírse en una ventana de 3 min aunque siga ahí.
+    """
+    if not previo or not previo.get("b") or not previo.get("generado_utc"):
+        return nuevas
+    campos = previo.get("campos", [])
+    if campos != CAMPOS_BUQUE:
+        return nuevas  # formato viejo: no se mezcla
+    t_prev = datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp()
+    transcurrido = max(0, t - t_prev)
+    vistos = {f[0] for f in nuevas}
+    out = list(nuevas)
+    for f in previo["b"]:
+        edad = (f[8] or 0) + transcurrido
+        if f[0] not in vistos and edad < maximo:
+            g = list(f)
+            g[8] = round(edad)
+            out.append(g)
+    return out
+
+
+def buques(segundos=None):
+    segundos = segundos or int(os.environ.get("BUQUES_VENTANA_S", BUQUES_VENTANA_S))
     clave = os.environ.get("AISSTREAM_API_KEY")
     if not clave:
         raise RuntimeError("falta el secreto AISSTREAM_API_KEY (registro gratuito en aisstream.io)")
@@ -566,11 +602,13 @@ def buques(segundos=75):
     asyncio.run(escuchar())
     t = time.time()
     cache = depurar_estaticos(cache, t)
-    filas = [fila_buque(mmsi, nombre, p, round(t - recibido), cache.get(str(mmsi)), sanc) for mmsi, (nombre, p, recibido) in pos.items()]
+    frescas = [fila_buque(mmsi, nombre, p, round(t - recibido), cache.get(str(mmsi)), sanc) for mmsi, (nombre, p, recibido) in pos.items()]
+    filas = conservar_buques(frescas, leer("buques.json", {}), t)
     escribir("buques-estatico.json", {"generado_utc": ahora(), "ttl_h": ESTATICO_TTL_H, "b": cache})
     escribir("buques.json", {"generado_utc": ahora(), "campos": CAMPOS_BUQUE,
-                             "fuentes": {"aisstream": len(filas)}, "ventana_s": segundos, "con_estaticos": sum(1 for f in filas if f[10]), "b": filas})
-    actualizar_rastros_buques(filas, t)
+                             "fuentes": {"aisstream": len(filas)}, "ventana_s": segundos, "oidos_ahora": len(frescas),
+                             "conservados_s": BUQUES_CONSERVAR_S, "con_estaticos": sum(1 for f in filas if f[10]), "b": filas})
+    actualizar_rastros_buques(frescas, t)
     return len(filas)
 
 

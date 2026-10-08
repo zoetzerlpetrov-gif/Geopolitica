@@ -62,3 +62,8 @@ test("ficha: recreo sin trayectoria; SDN y SART como alerta; sin estáticos no f
   assert.match(vacio, /MMSI 345070300/);
   assert.match(vacio, /aún no llegan/);
 });
+
+test("ficha: buque conservado de una instantánea anterior muestra su última señal", () => {
+  assert.match(htmlBuque(b({ edad_s: 1800 }), null, { subtipoNombre: "Carga", edadMin: 5 }), /Última señal<\/dt><dd>hace 35 min/);
+  assert.doesNotMatch(htmlBuque(b({ edad_s: 30 }), null, { subtipoNombre: "Carga", edadMin: 5 }), /Última señal/);
+});

@@ -1,6 +1,7 @@
 """Reglas de clasificación de aeronaves y buques y privacidad de las instantáneas en movimiento."""
 import os
 import sys
+from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 sys.path.insert(0, os.path.join(ROOT, "tools", "vivos"))
@@ -164,3 +165,17 @@ def test_rastros_de_buques_sin_recreo(tmp_path, monkeypatch):
     assert list(r) == ["345070301"] and r["345070301"][0] == [-104.3, 19.05, 12.5, 10000]
     v.actualizar_rastros_buques([], 600000 + 7 * 3600)
     assert json.load(open(tmp_path / "rastros-buques" / "1.json"))["r"] == {}
+
+
+def test_conservar_buques_no_oidos_hasta_2_horas():
+    nueva = v.fila_buque(1, "A", (0.1, 0.1, 0, 5, 0), 10, None, set())
+    viejo_cerca = v.fila_buque(2, "B", (1, 1, 0, 0, 1), 600, None, set())
+    viejo_lejos = v.fila_buque(3, "C", (2, 2, 0, 0, 5), 6900, None, set())
+    repetido = v.fila_buque(1, "A", (9, 9, 0, 5, 0), 100, None, set())
+    previo = {"generado_utc": "2026-10-08T12:00:00Z", "campos": v.CAMPOS_BUQUE, "b": [viejo_cerca, viejo_lejos, repetido]}
+    t = datetime(2026, 10, 8, 12, 20, tzinfo=timezone.utc).timestamp()
+    out = v.conservar_buques([nueva], previo, t)
+    assert [f[0] for f in out] == [1, 2]
+    assert out[0][2] == 0.1          # la posición nueva gana a la vieja
+    assert out[1][8] == 600 + 1200   # la edad crece con el tiempo transcurrido
+    assert v.conservar_buques([nueva], {**previo, "campos": ["mmsi"]}, t) == [nueva]

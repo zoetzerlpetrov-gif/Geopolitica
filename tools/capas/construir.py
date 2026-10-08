@@ -350,7 +350,7 @@ def camaras(revisar=enlace_responde, externas=True):
         out.append(feat(punto(c["lon"], c["lat"]), {
             "id": f"cam:{c['id']}", "n": c["nombre"], "st": c["subtipo"], "p": c.get("pais_iso3", ""), "x": c["url"],
             "o": c["operador"], "t": c["tipo_operador"], "nota": c.get("nota", ""),
-            "v": f"{estado} ({hoy})"}, 2))
+            "v": f"{estado} ({hoy})"}, 1))
     CAM_FUENTES["curadas"] = f"ok ({len(out)})"
     if externas:
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
@@ -370,7 +370,7 @@ FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifie
 # Plazo interno: el job de Actions muere a los 90 min y se perdería todo. Al agotarse el plazo ya no se
 # hacen consultas nuevas; lo construido se publica y lo pendiente conserva su versión anterior.
 PLAZO = time.time() + 60 * float(os.environ.get("PLAZO_MIN", "70"))
-FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar"}
+FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar", "presas", "ductos"}
 
 
 def queda():
@@ -406,7 +406,7 @@ def dividir(caja):
 MAX_DIVISIONES = 2  # una caja de 20°×180° puede llegar a cuartos de 5°×45°
 
 
-def overpass(selectores, familia=""):
+def overpass(selectores, familia="", salida="center"):
     """selectores: lista como ['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'].
     Se consultan como UNIÓN ( a; b; ) caja por caja y se eliminan duplicados por tipo+id.
     Si una caja no responde (consulta demasiado pesada), se parte en 4 cuartos y se reintenta,
@@ -419,7 +419,7 @@ def overpass(selectores, familia=""):
         union = "".join(f"{sel}({s_},{w},{n},{e});" for sel in selectores)
         try:
             # Las cajas divididas son más ligeras: basta un intento por instancia antes de volver a dividir.
-            els = _overpass_caja(f"[out:json][timeout:180];({union});out center tags;", intentos=3 if nivel == 0 else 1)
+            els = _overpass_caja(f"[out:json][timeout:180];({union});out {salida} tags;", intentos=3 if nivel == 0 else 1)
         except Exception as ex:  # noqa: BLE001
             if nivel < MAX_DIVISIONES and not isinstance(ex, TimeoutError):
                 print(f"   caja {caja} sin datos ({ex}); se divide en 4")
@@ -489,6 +489,43 @@ def recursos():
     return out
 
 
+def presas():
+    """Presas con ficha en Wikidata (filtro de relevancia: OSM tiene cientos de miles de bordos y diques)."""
+    els = overpass(['nwr["waterway"="dam"]["wikidata"]'], "presas")
+    def uso(t):
+        txt = " ".join(t.get(k, "") for k in ("name", "name:es", "name:en", "operator", "description")).lower()
+        if t.get("power") or "hydro" in txt or "hidroel" in txt or "hidroeléc" in txt:
+            return "presa_hidro"
+        if "irrigat" in txt or "riego" in txt:
+            return "presa_riego"
+        return "presa_otros"
+    return _osm(els, uso, lambda st, t: 5 if st == "presa_hidro" else 6, lambda t: t.get("height", "") and f"{t['height']} m de altura", Paises())
+
+
+def _linea_osm(el):
+    """Way de Overpass con `out geom` → LineString (redondeado) o None."""
+    g = el.get("geometry") or []
+    pts = [[round(p["lon"], 4), round(p["lat"], 4)] for p in g if p]
+    return {"type": "LineString", "coordinates": pts} if len(pts) >= 2 else None
+
+
+def ductos():
+    """Oleoductos y gasoductos con nombre en OSM (suelen ser los troncales; los sin nombre son locales)."""
+    els = overpass(['way["man_made"="pipeline"]["substance"~"^(oil|crude_oil|gas|natural_gas|lng|fuel|petroleum)$"]["name"]'], "ductos", salida="geom")
+    pa = Paises()
+    out = []
+    for el in els:
+        geom = _linea_osm(el)
+        if not geom:
+            continue
+        t = el.get("tags", {})
+        st = "ductos_gas" if "gas" in t.get("substance", "") or t.get("substance") == "lng" else "ductos_petroleo"
+        lon, lat = geom["coordinates"][len(geom["coordinates"]) // 2]
+        out.append(feat(geom, {"id": f"osm:w{el['id']}", "n": t.get("name:es") or t.get("name", ""), "st": st, "p": pa.de(lon, lat),
+                               "x": t.get("operator", "")}, 3))
+    return out
+
+
 def militar():
     tipos = {"headquarters": ("cuarteles_mando", 5), "naval_base": ("bases_navales", 4), "airfield": ("bases_aereas", 4),
              "base": ("bases_terrestres", 6), "barracks": ("bases_terrestres", 7), "nuclear_explosion_site": ("instalaciones_nucleares", 3)}
@@ -500,7 +537,7 @@ def militar():
 
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
-            "cables": cables, "camaras": camaras}
+            "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos}
 
 
 def tippecanoe(familia, ruta_ndjson, geometria):
