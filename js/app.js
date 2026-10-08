@@ -1,8 +1,10 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
-import { getJSON, esc, fecha, storage } from "./util.js";
+import { getJSON, esc, fecha, storage, distanciaKm } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
+import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js";
+import * as seg from "./seguimiento.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -10,7 +12,7 @@ const $ = (id) => document.getElementById(id);
 const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "" };
 let eventos = [];
 let porId = new Map();
-let tax, paises, api;
+let tax, paises, api, gestor;
 
 function temaActual() {
   const t = document.documentElement.dataset.theme;
@@ -146,13 +148,20 @@ async function abrirFicha(id, { volar = false } = {}) {
   if (!ev) return;
   focoPrevio = document.activeElement;
   if (!paises) await cargarPaises().catch(() => (paises = {}));
-  $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises);
+  $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises, porId);
   $("ficha").hidden = false;
   api.setSeleccion(id);
   if (volar && ev.lat != null) api.volarA(ev.lon, ev.lat);
   history.replaceState(null, "", `#evento=${encodeURIComponent(id)}`);
   $("ficha-cerrar").focus();
 }
+function abrirFichaHtml(html) {
+  focoPrevio = document.activeElement;
+  $("ficha-cuerpo").innerHTML = html;
+  $("ficha").hidden = false;
+  $("ficha-cerrar").focus();
+}
+
 function cerrarFicha() {
   $("ficha").hidden = true;
   api.setSeleccion("");
@@ -235,7 +244,7 @@ async function main() {
   selRegion.onchange = (e) => { estado.region = e.target.value; programarFiltros(); };
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
-  $("capa-chokepoints").onchange = (e) => api.setChokepoints(e.target.checked);
+  $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); if (gestor) avisarPresupuesto(gestor.totalActivas()); };
   $("lista-eventos").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-id]");
     if (b) abrirFicha(b.dataset.id, { volar: true });
@@ -260,14 +269,89 @@ async function main() {
     api.map.once("style.load", () => aplicarFiltros());
   };
 
+  // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
+  api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));
+  api.map.on("style.load", () => gestor?.reinstalar());
+  $("ficha-cuerpo").addEventListener("click", (e) => {
+    const a = e.target.closest("[data-evento]");
+    if (a) { e.preventDefault(); abrirFicha(a.dataset.evento, { volar: true }); return; }
+    const b = e.target.closest("#btn-seguir");
+    if (b && entidadAbierta) {
+      const ok = seg.alternar({ id: entidadAbierta.props.id, n: entidadAbierta.props.n, familia: entidadAbierta.familia.id, lon: entidadAbierta.lngLat.lng, lat: entidadAbierta.lngLat.lat });
+      b.setAttribute("aria-pressed", String(ok));
+      b.textContent = ok ? "★ Siguiendo" : "☆ Seguir";
+      pintarSeguimiento();
+    }
+  });
+  $("lista-seguimiento").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-seg]");
+    if (!b) return;
+    const x = seg.leer().find((y) => y.id === b.dataset.seg);
+    if (!x) return;
+    seg.marcarVisto(x.id);
+    api.volarA(x.lon, x.lat);
+    pintarSeguimiento();
+  });
+  pintarSeguimiento();
+
   const btnLite = $("btn-lite");
   btnLite.setAttribute("aria-pressed", String(lite));
   btnLite.onclick = () => { storage.set("gp_lite", lite ? "0" : "1"); location.reload(); };
 
   iniciarRefresco({
     runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"),
-    onNuevosDatos: async () => { await cargarEventos(); featureTxt.clear(); aplicarFiltros(); },
+    onNuevosDatos: async () => { await cargarEventos(); featureTxt.clear(); aplicarFiltros(); pintarSeguimiento(); },
   });
+}
+
+// ---------- Capas de entidades ----------
+let entidadAbierta = null;
+async function iniciarCapas() {
+  const [catalogo, capasCfg, manifest] = await Promise.all([
+    getJSON("config/entities.json"), getJSON("config/capas.json"),
+    getJSON("data/capas/manifest.json", { bust: true }).catch(() => ({ familias: {} })),
+  ]);
+  const familias = familiasDibujables(catalogo, capasCfg, manifest);
+  gestor = new GestorCapas(api.map, {
+    chokepointsActivos: () => $("capa-chokepoints").checked,
+    onCambio: avisarPresupuesto,
+    onEntidad: (ent) => {
+      entidadAbierta = ent;
+      const cercanos = eventos.filter((ev) => ev.lat != null && distanciaKm(ent.lngLat.lat, ent.lngLat.lng, ev.lat, ev.lon) <= 300);
+      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, seguido: seg.sigue(ent.props.id) }));
+    },
+  });
+  gestor.registrar(familias);
+  const cont = $("capas-entidades");
+  cont.innerHTML = familias.map((f) => `
+    <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
+      <label class="fila"><span><input type="checkbox" data-fam="${esc(f.id)}" ${f.disponible ? "" : "disabled"}> ${esc(f.nombre)}</span>
+        <span class="chip estado-${esc(f.estado_dato)}" title="Estado del dato">${esc(etiquetaEstado(f.estado_dato))}</span></label>
+      <div class="meta">${f.disponible ? `${f.manifest.objetos.toLocaleString("es-MX")} objetos · ${(f.manifest.bytes / 1e6).toFixed(1)} MB en mosaicos (solo se baja lo visible) · ${esc(f.licencia)}`
+        : esc(f.habilitada ? (f.manifest?.estado === "error" ? "Error al construir: " + f.manifest.error : "Aún no se construye (workflow «Construir capas»)") : f.motivo || "Deshabilitada")}</div>
+      ${f.disponible && f.subtipos.length > 1 ? `<details><summary>Subtipos (${f.subtipos.length})</summary>${f.subtipos.map((st) => `
+        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" checked><span class="swatch" style="background:${esc(st.color)}"></span>${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
+    </div>`).join("");
+  cont.addEventListener("change", async (e) => {
+    const fam = e.target.dataset.fam;
+    if (fam) { e.target.checked ? await gestor.activar(fam) : gestor.desactivar(fam); return; }
+    const famSub = e.target.dataset.famSub;
+    if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
+  });
+}
+
+function avisarPresupuesto(n) {
+  const aviso = $("aviso-capas");
+  aviso.hidden = n <= PRESUPUESTO_CAPAS;
+  aviso.textContent = `Tienes ${n} capas activas. Más de ${PRESUPUESTO_CAPAS} puede hacer lento el mapa en equipos modestos.`;
+}
+
+function pintarSeguimiento() {
+  const items = seg.resumen(eventos);
+  $("seg-total").textContent = items.length ? `(${items.length})` : "";
+  $("lista-seguimiento").innerHTML = items.map((x) => `<li><button type="button" class="txt-btn" data-seg="${esc(x.id)}">${esc(x.n || x.id)}</button>
+    <span>${x.eventos.length} eventos ${x.nuevos ? `<span class="badge-nuevo">${x.nuevos} nuevos</span>` : ""}</span></li>`).join("")
+    || `<li class="meta">Todavía no sigues ningún lugar.</li>`;
 }
 
 // Service worker: guarda MapLibre, estilos, fuentes y mosaicos del mapa base para que la segunda

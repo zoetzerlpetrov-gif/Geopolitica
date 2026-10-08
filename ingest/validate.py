@@ -65,6 +65,10 @@ def validar(data, taxonomy=None):
             errores.append(f"{eid}: subtemas {ajenos} no pertenecen a sus áreas")
         if ev["fuentes"][0]["url"] != ev["url"]:
             errores.append(f"{eid}: fuentes[0].url debe ser igual a url")
+    for ev in data["eventos"]:
+        rotas = [c for c in ev.get("correlaciones", []) if c not in vistos]
+        if rotas:
+            errores.append(f"{ev['id']}: correlaciones apuntan a eventos inexistentes {rotas}")
     return errores
 
 

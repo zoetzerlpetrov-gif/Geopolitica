@@ -1,6 +1,6 @@
 {
  "version_esquema": "1.0",
- "generado_utc": "2026-10-08T00:43:16Z",
+ "generado_utc": "2026-10-08T00:47:53Z",
  "modo": "ejemplo",
  "total": 30,
  "eventos": [
@@ -42,7 +42,16 @@
      "fecha_utc": "2026-07-01T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "tratado-aguas-1944-ciclo-2025",
@@ -83,7 +92,16 @@
      "fecha_utc": "2025-10-24T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "apagon-iberico-2025",
@@ -124,7 +142,16 @@
      "fecha_utc": "2025-04-28T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "aranceles-eua-mexico-2025",
@@ -164,7 +191,16 @@
      "fecha_utc": "2025-02-01T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "groenlandia-eua-2025",
@@ -205,7 +241,16 @@
      "fecha_utc": "2025-01-07T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "RUTINA",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "cables-baltico-2024",
@@ -247,7 +292,18 @@
      "fecha_utc": "2024-11-18T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [
+     "mar_baltico"
+    ],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "mpox-oms-2024",
@@ -286,7 +342,16 @@
      "fecha_utc": "2024-08-14T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "taiwan-ejercicios-2024",
@@ -326,7 +391,20 @@
      "fecha_utc": "2024-05-23T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [
+     "chokepoint:taiwan"
+    ],
+    "zonas": [
+     "estrecho_de_taiwan"
+    ],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "georgia-agentes-extranjeros-2024",
@@ -366,7 +444,16 @@
      "fecha_utc": "2024-05-14T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "suecia-otan-2024",
@@ -407,7 +494,16 @@
      "fecha_utc": "2024-03-07T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "remesas-mexico-2023",
@@ -445,7 +541,16 @@
      "fecha_utc": "2024-02-01T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "sahel-cedeao-2024",
@@ -487,7 +592,16 @@
      "fecha_utc": "2024-01-28T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "mar-rojo-huties-2023",
@@ -537,7 +651,23 @@
      "fecha_utc": "2023-12-15T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [
+     "chokepoint:bab_el_mandeb",
+     "chokepoint:suez",
+     "chokepoint:cabo_buena_esperanza"
+    ],
+    "zonas": [
+     "mar_rojo",
+     "golfo_de_aden"
+    ],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "cop28-2023",
@@ -577,7 +707,16 @@
      "fecha_utc": "2023-12-13T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "RUTINA",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "gaza-guerra-2023",
@@ -618,7 +757,16 @@
      "fecha_utc": "2023-10-07T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "FLASH",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "panama-sequia-2023",
@@ -657,7 +805,20 @@
      "fecha_utc": "2023-08-01T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [
+     "chokepoint:panama"
+    ],
+    "zonas": [
+     "lago_gatun"
+    ],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "titulo-42-fin-2023",
@@ -696,7 +857,16 @@
      "fecha_utc": "2023-05-11T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "india-poblacion-2023",
@@ -734,7 +904,16 @@
      "fecha_utc": "2023-04-30T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "RUTINA",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "sudan-guerra-2023",
@@ -773,7 +952,16 @@
      "fecha_utc": "2023-04-15T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "FLASH",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "finlandia-otan-2023",
@@ -812,7 +1000,16 @@
      "fecha_utc": "2023-04-04T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "opep-recortes-2023",
@@ -850,7 +1047,16 @@
      "fecha_utc": "2023-04-02T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "cpi-putin-2023",
@@ -889,7 +1095,16 @@
      "fecha_utc": "2023-03-17T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "tesla-nuevo-leon-2023",
@@ -928,7 +1143,16 @@
      "fecha_utc": "2023-03-01T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "chips-controles-2022",
@@ -969,7 +1193,16 @@
      "fecha_utc": "2022-10-07T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "nord-stream-2022",
@@ -1010,7 +1243,18 @@
      "fecha_utc": "2022-09-26T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [
+     "mar_baltico"
+    ],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "monterrey-agua-2022",
@@ -1050,7 +1294,16 @@
      "fecha_utc": "2022-06-15T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "mexico-litio-2022",
@@ -1088,7 +1341,16 @@
      "fecha_utc": "2022-04-20T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "reservas-rusia-2022",
@@ -1129,7 +1391,16 @@
      "fecha_utc": "2022-02-28T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "colonial-pipeline-2021",
@@ -1167,7 +1438,16 @@
      "fecha_utc": "2021-05-07T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "PRIORIDAD",
+   "estado_dato": "estatico",
+   "correlaciones": []
   },
   {
    "id": "omc-apelacion-2019",
@@ -1204,7 +1484,16 @@
      "fecha_utc": "2019-12-11T12:00:00Z"
     }
    ],
-   "es_ejemplo": true
+   "es_ejemplo": true,
+   "relaciones": {
+    "entidades": [],
+    "zonas": [],
+    "personas": []
+   },
+   "delta": "nuevo",
+   "nivel_alerta": "RUTINA",
+   "estado_dato": "estatico",
+   "correlaciones": []
   }
  ]
 }

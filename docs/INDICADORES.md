@@ -1,0 +1,64 @@
+# Indicadores y dimensiones transversales
+
+Todas son reglas fijas, sin IA. Código: `ingest/dimensiones.py`. Pruebas: `tests/test_dimensiones.py`.
+
+## Nivel de alerta (`nivel_alerta`)
+
+| Nivel | Regla |
+|---|---|
+| **FLASH** | Severidad 5; o severidad 4 en un área crítica (Seguridad, Salud NRBQ, Infraestructura) confirmada por 3 o más fuentes |
+| **PRIORIDAD** | Severidad 3 o más; o severidad 2 con impacto para México; o el evento escaló respecto de la corrida anterior |
+| **RUTINA** | Todo lo demás |
+
+Ejemplo: un ciberataque (Tecnología) de severidad 4 con 5 fuentes es PRIORIDAD, no FLASH, porque Tecnología no es un área crítica en esta regla. Si se quiere que lo sea, se agrega a `AREAS_CRITICAS`.
+
+## Delta (`delta`)
+
+Compara cada evento con el mismo `id` en la corrida anterior (una hora antes).
+
+| Valor | Regla |
+|---|---|
+| `nuevo` | No existía en la corrida anterior |
+| `escala` | Subió la severidad, o se sumaron 2 o más fuentes |
+| `desescala` | Bajó la severidad |
+| `sin_cambio` | Ninguna de las anteriores |
+
+## Estado del dato (`estado_dato`)
+
+| Valor | Significado | Ejemplos |
+|---|---|---|
+| `tiempo_real` | Llega al navegador directo de la fuente, segundos de retraso | (reservado) |
+| `retrasado` | Instantánea generada por GitHub Actions; minutos u horas de retraso | eventos de noticias, aviones y buques |
+| `estimado` | Calculado, no observado | posición de satélites (SGP4) |
+| `estatico` | Catálogo que cambia poco | aeropuertos, centrales, zonas, eventos de ejemplo |
+
+## Índice de Inestabilidad por País (0–100)
+
+**Indicador propio de este proyecto.** No es comparable con índices académicos ni de agencias de riesgo; sirve para ordenar países según la actividad reciente que capta el monitor.
+
+```
+A = Σ  severidad² × peso_área × 0.5^(edad_en_días / 7)        (eventos del país en los últimos 30 días)
+índice = 100 × (1 − e^(−A / 25))
+```
+
+| Área | Peso | Área | Peso |
+|---|---|---|---|
+| Seguridad | 1.0 | Geoeconomía | 0.4 |
+| Identidad (protestas) | 0.6 | Energía, Clima, Tecnología, Geografía | 0.3 |
+| Instituciones (elecciones, golpes) | 0.6 | Regional, Riesgo aplicado | 0.2 |
+| Salud NRBQ, Infraestructura | 0.5 | | |
+| Demografía | 0.4 | | |
+
+Ejemplo resuelto: un solo evento de Seguridad, severidad 5, de hoy: A = 5² × 1.0 × 1 = 25 → índice = 100 × (1 − e⁻¹) = **63**. El mismo evento de hace 7 días: A = 12.5 → **39**.
+
+Límites conocidos: depende de cuánta cobertura de prensa tenga cada país (sesgo de cobertura), y un país sin eventos en el monitor aparece sin valor, no como "estable".
+
+## Correlación entre áreas
+
+Dos eventos se correlacionan si tienen **áreas principales distintas**, ocurren a **menos de 300 km** y con **menos de 72 h** de diferencia. Cada evento guarda hasta 10 correlacionados (los más cercanos). Se usa una rejilla de 3° × 3° para no comparar todos contra todos.
+
+Ejemplo: un ataque en el Mar Rojo (Seguridad) y una alza de fletes reportada desde Yibuti (Geoeconomía) el mismo día se correlacionan; dos ataques en la misma zona (ambos Seguridad), no.
+
+## Relaciones
+
+`relaciones` une un evento con entidades (`chokepoint:suez`, `osm:n123`), zonas (`mar_rojo`) y personas de rol público (ids de Wikidata). Las personas nunca llevan coordenadas: ver `tests/test_privacidad.py`.

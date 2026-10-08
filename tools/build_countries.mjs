@@ -92,6 +92,8 @@ writeFileSync("../data/base/countries.geojson", JSON.stringify(out));
 writeFileSync("../config/gazetteer.json", JSON.stringify({
   descripcion: "Centroide aproximado (anillo más grande), nombres y región por país. Generado por tools/build_countries.mjs desde Natural Earth 1:50m. Se usa para geocodificar eventos sin coordenadas.",
   paises: Object.fromEntries(Object.entries(gaz).sort()),
+  // Para fuentes que usan códigos de 2 letras (OurAirports, OSM): ISO 3166-1 alfa-2 -> alfa-3.
+  iso2_a_iso3: Object.fromEntries(Object.entries(countries.getAlpha2Codes()).map(([a2]) => [a2, countries.alpha2ToAlpha3(a2)]).sort()),
 }, null, 1));
 console.log(`países: ${out.features.length} · gazetteer: ${Object.keys(gaz).length}`);
 if (sinRegion.length) console.log("sin región asignada:", sinRegion.join(", "));

@@ -43,3 +43,10 @@ export const storage = {
   get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* modo privado: se ignora */ } },
 };
+
+/** Distancia en km entre dos puntos (fórmula del haversine). */
+export function distanciaKm(lat1, lon1, lat2, lon2) {
+  const r = (g) => (g * Math.PI) / 180;
+  const a = Math.sin(r(lat2 - lat1) / 2) ** 2 + Math.cos(r(lat1)) * Math.cos(r(lat2)) * Math.sin(r(lon2 - lon1) / 2) ** 2;
+  return 12742 * Math.asin(Math.sqrt(a));
+}

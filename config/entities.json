@@ -1,0 +1,2281 @@
+{
+ "version": "1.0.0",
+ "descripcion": "Catálogo de entidades (Eje 2: qué es). tipo_capa: estatica | movimiento | indicador | raster | ficha (ficha = solo aparece dentro de otras fichas, sin marcador).",
+ "fuentes": {
+  "wikidata": {
+   "nombre": "Wikidata",
+   "url": "https://www.wikidata.org",
+   "licencia": "CC0 1.0",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "gleif": {
+   "nombre": "GLEIF (Legal Entity Identifier)",
+   "url": "https://www.gleif.org",
+   "licencia": "CC0 1.0",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "osm": {
+   "nombre": "OpenStreetMap (vía Overpass API)",
+   "url": "https://www.openstreetmap.org/copyright",
+   "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "ourairports": {
+   "nombre": "OurAirports",
+   "url": "https://ourairports.com/data/",
+   "licencia": "Dominio público",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "wpi": {
+   "nombre": "World Port Index (NGA, Pub. 150)",
+   "url": "https://msi.nga.mil/Publications/WPI",
+   "licencia": "Dominio público (gobierno de EUA)",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "gppd": {
+   "nombre": "Global Power Plant Database (WRI) v1.3.0",
+   "url": "https://datasets.wri.org/dataset/globalpowerplantdatabase",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": true,
+   "nota": "Última versión publicada en 2021; no incluye centrales posteriores."
+  },
+  "gem": {
+   "nombre": "Global Energy Monitor (trackers)",
+   "url": "https://globalenergymonitor.org",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": false,
+   "nota": "La descarga exige llenar un formulario; no se puede automatizar sin acuerdo."
+  },
+  "iaea_pris": {
+   "nombre": "OIEA PRIS (reactores nucleares)",
+   "url": "https://pris.iaea.org",
+   "licencia": "Términos del OIEA",
+   "uso_comercial": null,
+   "licencia_verificada": false
+  },
+  "epoch": {
+   "nombre": "Epoch AI (supercomputadoras de IA)",
+   "url": "https://epoch.ai/data",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "grand": {
+   "nombre": "GRanD / GOODD (Global Dam Watch)",
+   "url": "https://www.globaldamwatch.org",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "telegeography": {
+   "nombre": "TeleGeography Submarine Cable Map",
+   "url": "https://www.submarinecablemap.com",
+   "licencia": "CC BY-NC-SA 3.0",
+   "uso_comercial": false,
+   "licencia_verificada": false,
+   "nota": "No comercial: si el proyecto se vuelve comercial hay que retirarla o licenciarla."
+  },
+  "opensky": {
+   "nombre": "OpenSky Network",
+   "url": "https://opensky-network.org",
+   "licencia": "Términos de OpenSky (uso no comercial y de investigación)",
+   "uso_comercial": false,
+   "licencia_verificada": false
+  },
+  "adsblol": {
+   "nombre": "adsb.lol",
+   "url": "https://adsb.lol",
+   "licencia": "ODbL 1.0",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "aisstream": {
+   "nombre": "AISStream.io",
+   "url": "https://aisstream.io",
+   "licencia": "Términos de AISStream (clave gratuita)",
+   "uso_comercial": null,
+   "licencia_verificada": false
+  },
+  "celestrak": {
+   "nombre": "CelesTrak (grupos GP/OMM)",
+   "url": "https://celestrak.org",
+   "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "ofac": {
+   "nombre": "OFAC SDN (Tesoro de EUA)",
+   "url": "https://ofac.treasury.gov",
+   "licencia": "Dominio público (gobierno de EUA)",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "opensanctions": {
+   "nombre": "OpenSanctions",
+   "url": "https://www.opensanctions.org",
+   "licencia": "CC BY-NC 4.0 (uso comercial requiere licencia)",
+   "uso_comercial": false,
+   "licencia_verificada": true
+  },
+  "mrds": {
+   "nombre": "USGS Mineral Resources Data System",
+   "url": "https://mrdata.usgs.gov/mrds/",
+   "licencia": "Dominio público (gobierno de EUA)",
+   "uso_comercial": true,
+   "licencia_verificada": true,
+   "nota": "Base histórica: USGS dejó de actualizarla."
+  },
+  "natural_earth": {
+   "nombre": "Natural Earth",
+   "url": "https://www.naturalearthdata.com",
+   "licencia": "Dominio público",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "marine_regions": {
+   "nombre": "Marine Regions",
+   "url": "https://www.marineregions.org",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "gibs": {
+   "nombre": "NASA GIBS",
+   "url": "https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/gibs-api",
+   "licencia": "Datos abiertos de la NASA, sin llave",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "chokepoints": {
+   "nombre": "Lista curada del proyecto (config/chokepoints.json)",
+   "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica",
+   "licencia": "Propia",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "camaras_publicas": {
+   "nombre": "Cámaras publicadas por organismos públicos (por definir)",
+   "url": "",
+   "licencia": "Según cada organismo",
+   "uso_comercial": null,
+   "licencia_verificada": false
+  }
+ },
+ "categorias": [
+  {
+   "id": "personas",
+   "nombre": {
+    "es": "Personas (rol público)",
+    "en": "People (public role)"
+   },
+   "fase": "C2",
+   "dibujable": false,
+   "reglas": [
+    "Solo datos de rol público: nombre, cargo, organización, país y enlace a Wikidata.",
+    "No se guardan coordenadas, domicilios, ubicaciones en tiempo real, familiares, datos de contacto ni vida personal.",
+    "No se vinculan aeronaves ni carteras de criptomonedas privadas a personas con nombre.",
+    "No tienen marcador en el mapa: aparecen solo en la ficha de organizaciones y eventos donde participan."
+   ],
+   "campos_permitidos": [
+    "id",
+    "nombre",
+    "cargo",
+    "organizacion_id",
+    "pais_iso3",
+    "wikidata",
+    "subtipo",
+    "fuente",
+    "actualizado_utc"
+   ],
+   "subtipos": [
+    {
+     "id": "jefes_estado_gobierno",
+     "nombre": {
+      "es": "Jefes de Estado y de gobierno",
+      "en": "Heads of state and government"
+     },
+     "icono": "👤",
+     "color": "#4A6B8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "instituciones",
+      "seguridad"
+     ]
+    },
+    {
+     "id": "ministros_legisladores",
+     "nombre": {
+      "es": "Ministros y legisladores",
+      "en": "Ministers and legislators"
+     },
+     "icono": "👤",
+     "color": "#4A6B8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "instituciones"
+     ]
+    },
+    {
+     "id": "lideres_organismos",
+     "nombre": {
+      "es": "Líderes de organismos internacionales",
+      "en": "Leaders of international organizations"
+     },
+     "icono": "👤",
+     "color": "#4A6B8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "instituciones"
+     ]
+    },
+    {
+     "id": "ceos_directivos",
+     "nombre": {
+      "es": "CEOs y directivos de empresas",
+      "en": "CEOs and executives"
+     },
+     "icono": "👤",
+     "color": "#7A6A2F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ]
+    },
+    {
+     "id": "inversionistas",
+     "nombre": {
+      "es": "Inversionistas y multimillonarios",
+      "en": "Investors and billionaires"
+     },
+     "icono": "👤",
+     "color": "#7A6A2F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "geoeconomia"
+     ]
+    },
+    {
+     "id": "otras_figuras",
+     "nombre": {
+      "es": "Otras figuras públicas",
+      "en": "Other public figures"
+     },
+     "icono": "👤",
+     "color": "#9E4A7A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "identidad"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "organizaciones",
+   "nombre": {
+    "es": "Organizaciones",
+    "en": "Organizations"
+   },
+   "fase": "C2",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "empresas",
+     "nombre": {
+      "es": "Empresas (por sector)",
+      "en": "Companies (by sector)"
+     },
+     "icono": "🏢",
+     "color": "#7A6A2F",
+     "fuente": "gleif",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "nota": "Sin marcador propio: se ven en fichas; la sede se usa solo para relacionarla con eventos."
+    },
+    {
+     "id": "gobiernos_ministerios",
+     "nombre": {
+      "es": "Gobiernos y ministerios",
+      "en": "Governments and ministries"
+     },
+     "icono": "🏛",
+     "color": "#4A6B8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "ficha",
+     "estado_dato": "estatico",
+     "zoom_min": null,
+     "areas": [
+      "instituciones"
+     ]
+    },
+    {
+     "id": "embajadas_consulados",
+     "nombre": {
+      "es": "Embajadas y consulados",
+      "en": "Embassies and consulates"
+     },
+     "icono": "🏳",
+     "color": "#4A6B8A",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "embajadas"
+    },
+    {
+     "id": "organismos_internacionales",
+     "nombre": {
+      "es": "Organismos internacionales",
+      "en": "International organizations"
+     },
+     "icono": "🌐",
+     "color": "#4A6B8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "instituciones"
+     ]
+    },
+    {
+     "id": "bolsas_valores",
+     "nombre": {
+      "es": "Bolsas de valores (sede e índices)",
+      "en": "Stock exchanges"
+     },
+     "icono": "📈",
+     "color": "#7A6A2F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "geoeconomia"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "aeronaves",
+   "nombre": {
+    "es": "Aeronaves",
+    "en": "Aircraft"
+   },
+   "fase": "C4",
+   "dibujable": true,
+   "reglas": [
+    "\"De Estado\" solo para aeronaves registradas a gobiernos.",
+    "No se vinculan aviones privados a personas con nombre."
+   ],
+   "subtipos": [
+    {
+     "id": "civil_comercial",
+     "nombre": {
+      "es": "Civil comercial",
+      "en": "Commercial airliner"
+     },
+     "icono": "✈",
+     "color": "#3b82c4",
+     "fuente": "adsblol",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "1 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 5,
+     "areas": [
+      "geografia",
+      "geoeconomia"
+     ]
+    },
+    {
+     "id": "carga",
+     "nombre": {
+      "es": "Carga",
+      "en": "Cargo"
+     },
+     "icono": "✈",
+     "color": "#7A6A2F",
+     "fuente": "adsblol",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "1 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 5,
+     "areas": [
+      "geoeconomia"
+     ]
+    },
+    {
+     "id": "aviacion_general",
+     "nombre": {
+      "es": "Aviación general",
+      "en": "General aviation"
+     },
+     "icono": "✈",
+     "color": "#8a8f94",
+     "fuente": "adsblol",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "1 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 7,
+     "areas": [
+      "geografia"
+     ]
+    },
+    {
+     "id": "militar",
+     "nombre": {
+      "es": "Militar",
+      "en": "Military"
+     },
+     "icono": "✈",
+     "color": "#A3392F",
+     "fuente": "adsblol",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "1 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 3,
+     "areas": [
+      "seguridad"
+     ]
+    },
+    {
+     "id": "estado",
+     "nombre": {
+      "es": "De Estado (gobiernos)",
+      "en": "State aircraft (governments)"
+     },
+     "icono": "✈",
+     "color": "#4A6B8A",
+     "fuente": "adsblol",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "1 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 3,
+     "areas": [
+      "instituciones",
+      "seguridad"
+     ]
+    },
+    {
+     "id": "en_tierra",
+     "nombre": {
+      "es": "En tierra",
+      "en": "On ground"
+     },
+     "icono": "✈",
+     "color": "#b9c2c9",
+     "fuente": "adsblol",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "1 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 9,
+     "areas": [
+      "geografia"
+     ]
+    },
+    {
+     "id": "sancionada",
+     "nombre": {
+      "es": "Sancionada",
+      "en": "Sanctioned"
+     },
+     "icono": "✈",
+     "color": "#c0392b",
+     "fuente": "ofac",
+     "licencia": "Dominio público (gobierno de EUA)",
+     "frecuencia": "diaria",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 2,
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "buques",
+   "nombre": {
+    "es": "Buques",
+    "en": "Vessels"
+   },
+   "fase": "C4",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "carga",
+     "nombre": {
+      "es": "Carga",
+      "en": "Cargo"
+     },
+     "icono": "🚢",
+     "color": "#7A6A2F",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 4,
+     "areas": [
+      "geoeconomia",
+      "geografia"
+     ],
+     "ais": [
+      70,
+      79
+     ]
+    },
+    {
+     "id": "pasaje",
+     "nombre": {
+      "es": "Pasaje",
+      "en": "Passenger"
+     },
+     "icono": "🚢",
+     "color": "#3b82c4",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 5,
+     "areas": [
+      "geografia"
+     ],
+     "ais": [
+      60,
+      69
+     ]
+    },
+    {
+     "id": "tanqueros",
+     "nombre": {
+      "es": "Petroleros y tanqueros",
+      "en": "Tankers"
+     },
+     "icono": "🚢",
+     "color": "#C27C1E",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 3,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "ais": [
+      80,
+      89
+     ]
+    },
+    {
+     "id": "vela_recreo",
+     "nombre": {
+      "es": "Vela y recreo",
+      "en": "Sailing and pleasure"
+     },
+     "icono": "⛵",
+     "color": "#8a8f94",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 8,
+     "areas": [
+      "geografia"
+     ],
+     "ais": [
+      36,
+      37
+     ]
+    },
+    {
+     "id": "pesca",
+     "nombre": {
+      "es": "Pesca",
+      "en": "Fishing"
+     },
+     "icono": "🚢",
+     "color": "#1F8A8A",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 6,
+     "areas": [
+      "energia",
+      "clima"
+     ],
+     "ais": [
+      30,
+      30
+     ]
+    },
+    {
+     "id": "militares",
+     "nombre": {
+      "es": "Militares",
+      "en": "Military"
+     },
+     "icono": "🚢",
+     "color": "#A3392F",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 3,
+     "areas": [
+      "seguridad"
+     ],
+     "ais": [
+      35,
+      35
+     ]
+    },
+    {
+     "id": "remolque_servicio",
+     "nombre": {
+      "es": "Remolque y servicio",
+      "en": "Tug and service"
+     },
+     "icono": "🚢",
+     "color": "#556B2F",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 8,
+     "areas": [
+      "geografia"
+     ],
+     "ais": [
+      31,
+      32
+     ]
+    },
+    {
+     "id": "otros",
+     "nombre": {
+      "es": "Otros",
+      "en": "Other"
+     },
+     "icono": "🚢",
+     "color": "#b9c2c9",
+     "fuente": "aisstream",
+     "licencia": "Términos de AISStream (clave gratuita)",
+     "frecuencia": "15 min",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 7,
+     "areas": [
+      "geografia"
+     ]
+    },
+    {
+     "id": "sancionados",
+     "nombre": {
+      "es": "Sancionados",
+      "en": "Sanctioned"
+     },
+     "icono": "🚢",
+     "color": "#c0392b",
+     "fuente": "ofac",
+     "licencia": "Dominio público (gobierno de EUA)",
+     "frecuencia": "diaria",
+     "tipo_capa": "movimiento",
+     "estado_dato": "retrasado",
+     "zoom_min": 2,
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "satelites",
+   "nombre": {
+    "es": "Satélites",
+    "en": "Satellites"
+   },
+   "fase": "C3",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "estaciones",
+     "nombre": {
+      "es": "Estaciones espaciales e ISS",
+      "en": "Space stations and ISS"
+     },
+     "icono": "🛰",
+     "color": "#5B4A9E",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h (posición calculada en el navegador)",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "stations"
+    },
+    {
+     "id": "gnss",
+     "nombre": {
+      "es": "Navegación GNSS (GPS, Galileo, GLONASS, BeiDou)",
+      "en": "GNSS navigation"
+     },
+     "icono": "🛰",
+     "color": "#2E6F8E",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "seguridad"
+     ],
+     "grupo": "gnss"
+    },
+    {
+     "id": "comunicaciones",
+     "nombre": {
+      "es": "Comunicaciones",
+      "en": "Communications"
+     },
+     "icono": "🛰",
+     "color": "#5B4A9E",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "geo"
+    },
+    {
+     "id": "meteorologicos_eo",
+     "nombre": {
+      "es": "Meteorológicos y observación de la Tierra",
+      "en": "Weather and Earth observation"
+     },
+     "icono": "🛰",
+     "color": "#1F8A8A",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "clima",
+      "tecnologia"
+     ],
+     "grupo": "weather"
+    },
+    {
+     "id": "geoestacionarios",
+     "nombre": {
+      "es": "Geoestacionarios",
+      "en": "Geostationary"
+     },
+     "icono": "🛰",
+     "color": "#4A6B8A",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "geo"
+    },
+    {
+     "id": "militares",
+     "nombre": {
+      "es": "Militares (solo catalogados públicamente)",
+      "en": "Military (publicly cataloged only)"
+     },
+     "icono": "🛰",
+     "color": "#A3392F",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "seguridad",
+      "tecnologia"
+     ],
+     "grupo": "military"
+    },
+    {
+     "id": "visibles",
+     "nombre": {
+      "es": "Más brillantes / visibles",
+      "en": "Brightest"
+     },
+     "icono": "🛰",
+     "color": "#C27C1E",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "visual"
+    },
+    {
+     "id": "lanzamientos",
+     "nombre": {
+      "es": "Misiones y lanzamientos recientes",
+      "en": "Recent launches"
+     },
+     "icono": "🚀",
+     "color": "#5B4A9E",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "last-30-days"
+    }
+   ]
+  },
+  {
+   "id": "infraestructura",
+   "nombre": {
+    "es": "Infraestructura",
+    "en": "Infrastructure"
+   },
+   "fase": "C1",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "aeropuerto_internacional",
+     "nombre": {
+      "es": "Aeropuertos internacionales",
+      "en": "International airports"
+     },
+     "icono": "✈",
+     "color": "#6B5B3E",
+     "fuente": "ourairports",
+     "licencia": "Dominio público",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "infraestructura",
+      "geografia"
+     ],
+     "familia": "aeropuertos"
+    },
+    {
+     "id": "aeropuerto_regional",
+     "nombre": {
+      "es": "Aeropuertos regionales",
+      "en": "Regional airports"
+     },
+     "icono": "✈",
+     "color": "#6B5B3E",
+     "fuente": "ourairports",
+     "licencia": "Dominio público",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "aeropuertos"
+    },
+    {
+     "id": "aerodromo",
+     "nombre": {
+      "es": "Aeródromos",
+      "en": "Airfields"
+     },
+     "icono": "✈",
+     "color": "#8a7a5a",
+     "fuente": "ourairports",
+     "licencia": "Dominio público",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "aeropuertos"
+    },
+    {
+     "id": "helipuerto",
+     "nombre": {
+      "es": "Helipuertos",
+      "en": "Heliports"
+     },
+     "icono": "H",
+     "color": "#8a7a5a",
+     "fuente": "ourairports",
+     "licencia": "Dominio público",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 11,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "aeropuertos"
+    },
+    {
+     "id": "puerto_grande",
+     "nombre": {
+      "es": "Puertos grandes",
+      "en": "Large ports"
+     },
+     "icono": "⚓",
+     "color": "#2E6F8E",
+     "fuente": "wpi",
+     "licencia": "Dominio público (gobierno de EUA)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura",
+      "geografia",
+      "geoeconomia"
+     ],
+     "familia": "puertos"
+    },
+    {
+     "id": "puerto_mediano",
+     "nombre": {
+      "es": "Puertos medianos",
+      "en": "Medium ports"
+     },
+     "icono": "⚓",
+     "color": "#2E6F8E",
+     "fuente": "wpi",
+     "licencia": "Dominio público (gobierno de EUA)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "infraestructura",
+      "geografia"
+     ],
+     "familia": "puertos"
+    },
+    {
+     "id": "puerto_pequeno",
+     "nombre": {
+      "es": "Puertos pequeños",
+      "en": "Small ports"
+     },
+     "icono": "⚓",
+     "color": "#6f97ab",
+     "fuente": "wpi",
+     "licencia": "Dominio público (gobierno de EUA)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "puertos"
+    },
+    {
+     "id": "central_solar",
+     "nombre": {
+      "es": "Centrales: solar",
+      "en": "Power plants: solar"
+     },
+     "icono": "⚡",
+     "color": "#e0b100",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "solar",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_hidro",
+     "nombre": {
+      "es": "Centrales: hidroeléctrica",
+      "en": "Power plants: hydro"
+     },
+     "icono": "⚡",
+     "color": "#1f6fb2",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "hidro",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_eolica",
+     "nombre": {
+      "es": "Centrales: eólica",
+      "en": "Power plants: wind"
+     },
+     "icono": "⚡",
+     "color": "#62b0c9",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "eolica",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_gas",
+     "nombre": {
+      "es": "Centrales: gas",
+      "en": "Power plants: gas"
+     },
+     "icono": "⚡",
+     "color": "#C27C1E",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "gas",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_carbon",
+     "nombre": {
+      "es": "Centrales: carbón",
+      "en": "Power plants: coal"
+     },
+     "icono": "⚡",
+     "color": "#4a4a4a",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "carbon",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_petroleo",
+     "nombre": {
+      "es": "Centrales: petróleo",
+      "en": "Power plants: oil"
+     },
+     "icono": "⚡",
+     "color": "#7a4b1e",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "petroleo",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_biomasa",
+     "nombre": {
+      "es": "Centrales: biomasa",
+      "en": "Power plants: biomass"
+     },
+     "icono": "⚡",
+     "color": "#5d8a3a",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "biomasa",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_residuos",
+     "nombre": {
+      "es": "Centrales: residuos",
+      "en": "Power plants: waste"
+     },
+     "icono": "⚡",
+     "color": "#8a6d5a",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "residuos",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_nuclear",
+     "nombre": {
+      "es": "Centrales: nuclear",
+      "en": "Power plants: nuclear"
+     },
+     "icono": "⚡",
+     "color": "#8A3A5C",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "nuclear",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_geotermica",
+     "nombre": {
+      "es": "Centrales: geotérmica",
+      "en": "Power plants: geothermal"
+     },
+     "icono": "⚡",
+     "color": "#b5523b",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "geotermica",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_almacenamiento",
+     "nombre": {
+      "es": "Centrales: almacenamiento",
+      "en": "Power plants: storage"
+     },
+     "icono": "⚡",
+     "color": "#5B4A9E",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "almacenamiento",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "central_otros",
+     "nombre": {
+      "es": "Centrales: otros",
+      "en": "Power plants: other"
+     },
+     "icono": "⚡",
+     "color": "#8a8f94",
+     "fuente": "gppd",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "estática (2021)",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "centrales",
+     "combustible": "otros",
+     "zoom_min_grandes": 3
+    },
+    {
+     "id": "datacenter_ia",
+     "nombre": {
+      "es": "Centros de datos: IA de frontera",
+      "en": "Data centers: frontier AI"
+     },
+     "icono": "🖥",
+     "color": "#5B4A9E",
+     "fuente": "epoch",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "tecnologia",
+      "infraestructura"
+     ],
+     "familia": "centros_datos"
+    },
+    {
+     "id": "datacenter_hiperescala",
+     "nombre": {
+      "es": "Centros de datos: hiperescala",
+      "en": "Data centers: hyperscale"
+     },
+     "icono": "🖥",
+     "color": "#5B4A9E",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "tecnologia",
+      "infraestructura"
+     ],
+     "familia": "centros_datos"
+    },
+    {
+     "id": "datacenter_otros",
+     "nombre": {
+      "es": "Centros de datos: otros",
+      "en": "Data centers: other"
+     },
+     "icono": "🖥",
+     "color": "#8a7fb8",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "centros_datos"
+    },
+    {
+     "id": "presa_hidro",
+     "nombre": {
+      "es": "Presas: hidroeléctrica",
+      "en": "Dams: hydropower"
+     },
+     "icono": "▲",
+     "color": "#1f6fb2",
+     "fuente": "grand",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura",
+      "energia",
+      "clima"
+     ],
+     "familia": "presas",
+     "uso": "hidro"
+    },
+    {
+     "id": "presa_riego",
+     "nombre": {
+      "es": "Presas: riego",
+      "en": "Dams: irrigation"
+     },
+     "icono": "▲",
+     "color": "#1f6fb2",
+     "fuente": "grand",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura",
+      "energia",
+      "clima"
+     ],
+     "familia": "presas",
+     "uso": "riego"
+    },
+    {
+     "id": "presa_abastecimiento",
+     "nombre": {
+      "es": "Presas: abastecimiento",
+      "en": "Dams: water supply"
+     },
+     "icono": "▲",
+     "color": "#1f6fb2",
+     "fuente": "grand",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura",
+      "energia",
+      "clima"
+     ],
+     "familia": "presas",
+     "uso": "abastecimiento"
+    },
+    {
+     "id": "presa_avenidas",
+     "nombre": {
+      "es": "Presas: control de avenidas",
+      "en": "Dams: flood control"
+     },
+     "icono": "▲",
+     "color": "#1f6fb2",
+     "fuente": "grand",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura",
+      "energia",
+      "clima"
+     ],
+     "familia": "presas",
+     "uso": "avenidas"
+    },
+    {
+     "id": "presa_navegacion",
+     "nombre": {
+      "es": "Presas: navegación",
+      "en": "Dams: navigation"
+     },
+     "icono": "▲",
+     "color": "#1f6fb2",
+     "fuente": "grand",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura",
+      "energia",
+      "clima"
+     ],
+     "familia": "presas",
+     "uso": "navegacion"
+    },
+    {
+     "id": "presa_otros",
+     "nombre": {
+      "es": "Presas: otros",
+      "en": "Dams: other"
+     },
+     "icono": "▲",
+     "color": "#1f6fb2",
+     "fuente": "grand",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura",
+      "energia",
+      "clima"
+     ],
+     "familia": "presas",
+     "uso": "otros"
+    },
+    {
+     "id": "cables_submarinos",
+     "nombre": {
+      "es": "Cables submarinos",
+      "en": "Submarine cables"
+     },
+     "icono": "〰",
+     "color": "#5B4A9E",
+     "fuente": "telegeography",
+     "licencia": "CC BY-NC-SA 3.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "tecnologia",
+      "infraestructura"
+     ],
+     "familia": "cables",
+     "geometria": "linea"
+    },
+    {
+     "id": "aterrizajes_cable",
+     "nombre": {
+      "es": "Puntos de aterrizaje de cables",
+      "en": "Cable landing points"
+     },
+     "icono": "•",
+     "color": "#5B4A9E",
+     "fuente": "telegeography",
+     "licencia": "CC BY-NC-SA 3.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "cables"
+    },
+    {
+     "id": "ductos_petroleo",
+     "nombre": {
+      "es": "Oleoductos",
+      "en": "Oil pipelines"
+     },
+     "icono": "〰",
+     "color": "#7a4b1e",
+     "fuente": "gem",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "semestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "ductos",
+     "geometria": "linea"
+    },
+    {
+     "id": "ductos_gas",
+     "nombre": {
+      "es": "Gasoductos",
+      "en": "Gas pipelines"
+     },
+     "icono": "〰",
+     "color": "#C27C1E",
+     "fuente": "gem",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "semestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "energia",
+      "infraestructura"
+     ],
+     "familia": "ductos",
+     "geometria": "linea"
+    }
+   ]
+  },
+  {
+   "id": "recursos",
+   "nombre": {
+    "es": "Recursos estratégicos",
+    "en": "Strategic resources"
+   },
+   "fase": "C5",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "mineria",
+     "nombre": {
+      "es": "Minería (minerales críticos, metales)",
+      "en": "Mining"
+     },
+     "icono": "⛏",
+     "color": "#C27C1E",
+     "fuente": "mrds",
+     "licencia": "Dominio público (gobierno de EUA)",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "recursos"
+    },
+    {
+     "id": "energia_yacimientos",
+     "nombre": {
+      "es": "Energía (yacimientos, refinerías, terminales de GNL)",
+      "en": "Energy (fields, refineries, LNG terminals)"
+     },
+     "icono": "🛢",
+     "color": "#7a4b1e",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "energia"
+     ],
+     "familia": "recursos"
+    },
+    {
+     "id": "agronomia",
+     "nombre": {
+      "es": "Agronomía (granos y fertilizantes)",
+      "en": "Agronomy (grains, fertilizers)"
+     },
+     "icono": "🌾",
+     "color": "#5d8a3a",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "energia",
+      "demografia"
+     ],
+     "familia": "recursos"
+    },
+    {
+     "id": "semiconductores",
+     "nombre": {
+      "es": "Fábricas de semiconductores",
+      "en": "Semiconductor fabs"
+     },
+     "icono": "▣",
+     "color": "#5B4A9E",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "recursos"
+    },
+    {
+     "id": "estrechos_canales",
+     "nombre": {
+      "es": "Estrechos y canales",
+      "en": "Straits and canals"
+     },
+     "icono": "◎",
+     "color": "#2E6F8E",
+     "fuente": "chokepoints",
+     "licencia": "Propia",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "chokepoints"
+    },
+    {
+     "id": "industria_pesada",
+     "nombre": {
+      "es": "Industria pesada",
+      "en": "Heavy industry"
+     },
+     "icono": "🏭",
+     "color": "#4a4a4a",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recursos"
+    },
+    {
+     "id": "otros",
+     "nombre": {
+      "es": "Otros",
+      "en": "Other"
+     },
+     "icono": "•",
+     "color": "#8a8f94",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recursos"
+    }
+   ]
+  },
+  {
+   "id": "militar",
+   "nombre": {
+    "es": "Instalaciones militares (solo información pública)",
+    "en": "Military facilities (public only)"
+   },
+   "fase": "C5",
+   "dibujable": true,
+   "reglas": [
+    "Solo nombre, tipo, país, operador y enlace a la fuente pública.",
+    "No se publican detalles operativos más allá de lo ya publicado por la fuente."
+   ],
+   "campos_permitidos": [
+    "id",
+    "nombre",
+    "subtipo",
+    "pais_iso3",
+    "operador",
+    "fuente",
+    "url_fuente",
+    "lat",
+    "lon"
+   ],
+   "subtipos": [
+    {
+     "id": "cuarteles_mando",
+     "nombre": {
+      "es": "Cuarteles generales de mando",
+      "en": "Command headquarters"
+     },
+     "icono": "★",
+     "color": "#A3392F",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "militar"
+    },
+    {
+     "id": "bases_navales",
+     "nombre": {
+      "es": "Bases navales",
+      "en": "Naval bases"
+     },
+     "icono": "⚓",
+     "color": "#A3392F",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "seguridad",
+      "geografia"
+     ],
+     "familia": "militar"
+    },
+    {
+     "id": "bases_aereas",
+     "nombre": {
+      "es": "Bases aéreas",
+      "en": "Air bases"
+     },
+     "icono": "✈",
+     "color": "#A3392F",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "militar"
+    },
+    {
+     "id": "bases_terrestres",
+     "nombre": {
+      "es": "Bases terrestres",
+      "en": "Army bases"
+     },
+     "icono": "■",
+     "color": "#A3392F",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "militar"
+    },
+    {
+     "id": "instalaciones_nucleares",
+     "nombre": {
+      "es": "Instalaciones nucleares",
+      "en": "Nuclear facilities"
+     },
+     "icono": "☢",
+     "color": "#8A3A5C",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "seguridad",
+      "salud_nrbq"
+     ],
+     "familia": "militar"
+    },
+    {
+     "id": "industria_defensa",
+     "nombre": {
+      "es": "Fábricas e industria de defensa",
+      "en": "Defense industry"
+     },
+     "icono": "🏭",
+     "color": "#A3392F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "seguridad",
+      "geoeconomia"
+     ],
+     "familia": "militar"
+    }
+   ]
+  },
+  {
+   "id": "zonas",
+   "nombre": {
+    "es": "Zonas geográficas",
+    "en": "Geographic zones"
+   },
+   "fase": "C1",
+   "dibujable": true,
+   "uso": "Etiquetas, búsqueda y relación de eventos con zonas (\"cerca del Golfo de México\").",
+   "subtipos": [
+    {
+     "id": "paises",
+     "nombre": {
+      "es": "Países",
+      "en": "Countries"
+     },
+     "icono": "▭",
+     "color": "#556B2F",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "regional",
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "oceanos",
+     "nombre": {
+      "es": "Océanos",
+      "en": "Oceans"
+     },
+     "icono": "〜",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "mares",
+     "nombre": {
+      "es": "Mares",
+      "en": "Seas"
+     },
+     "icono": "〜",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "golfos_bahias",
+     "nombre": {
+      "es": "Golfos y bahías",
+      "en": "Gulfs and bays"
+     },
+     "icono": "〜",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "estrechos",
+     "nombre": {
+      "es": "Estrechos",
+      "en": "Straits"
+     },
+     "icono": "〜",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "lagos",
+     "nombre": {
+      "es": "Lagos y lagunas",
+      "en": "Lakes"
+     },
+     "icono": "〜",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "rios",
+     "nombre": {
+      "es": "Ríos",
+      "en": "Rivers"
+     },
+     "icono": "〜",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "peninsulas",
+     "nombre": {
+      "es": "Penínsulas",
+      "en": "Peninsulas"
+     },
+     "icono": "▲",
+     "color": "#7a6a50",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "desiertos",
+     "nombre": {
+      "es": "Desiertos",
+      "en": "Deserts"
+     },
+     "icono": "▲",
+     "color": "#7a6a50",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "cordilleras",
+     "nombre": {
+      "es": "Cordilleras",
+      "en": "Mountain ranges"
+     },
+     "icono": "▲",
+     "color": "#7a6a50",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    },
+    {
+     "id": "regiones",
+     "nombre": {
+      "es": "Regiones",
+      "en": "Regions"
+     },
+     "icono": "▲",
+     "color": "#7a6a50",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas"
+    }
+   ]
+  },
+  {
+   "id": "seguimiento",
+   "nombre": {
+    "es": "Seguimiento (listas personales)",
+    "en": "Watchlists"
+   },
+   "fase": "C6",
+   "dibujable": false,
+   "uso": "El usuario marca una entidad o zona y ve sus eventos y cambios recientes. Se guarda solo en el navegador (localStorage).",
+   "subtipos": [
+    {
+     "id": "lista_personal",
+     "nombre": {
+      "es": "Lista personal",
+      "en": "Personal watchlist"
+     },
+     "icono": "☆",
+     "color": "#333F48",
+     "fuente": "chokepoints",
+     "licencia": "Propia",
+     "frecuencia": "al momento",
+     "tipo_capa": "ficha",
+     "estado_dato": "tiempo_real",
+     "zoom_min": null,
+     "areas": [
+      "riesgo"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "imagenes",
+   "nombre": {
+    "es": "Imágenes satelitales (bajo demanda)",
+    "en": "Satellite imagery (on demand)"
+   },
+   "fase": "C6",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "viirs_noche",
+     "nombre": {
+      "es": "Luces nocturnas VIIRS (apagones)",
+      "en": "VIIRS night lights"
+     },
+     "icono": "🌃",
+     "color": "#333F48",
+     "fuente": "gibs",
+     "licencia": "Datos abiertos de la NASA, sin llave",
+     "frecuencia": "diaria",
+     "tipo_capa": "raster",
+     "estado_dato": "retrasado",
+     "zoom_min": 0,
+     "areas": [
+      "infraestructura",
+      "energia"
+     ]
+    },
+    {
+     "id": "modis_color",
+     "nombre": {
+      "es": "Color verdadero MODIS",
+      "en": "MODIS true color"
+     },
+     "icono": "🌍",
+     "color": "#1F8A8A",
+     "fuente": "gibs",
+     "licencia": "Datos abiertos de la NASA, sin llave",
+     "frecuencia": "diaria",
+     "tipo_capa": "raster",
+     "estado_dato": "retrasado",
+     "zoom_min": 0,
+     "areas": [
+      "clima"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "camaras",
+   "nombre": {
+    "es": "Cámaras públicas",
+    "en": "Public cameras"
+   },
+   "fase": "C6",
+   "dibujable": true,
+   "reglas": [
+    "Solo cámaras que un gobierno u organismo publica para verse en abierto (tráfico, incendios forestales, clima, volcanes).",
+    "Nunca cámaras privadas, cámaras expuestas por error de configuración ni enlaces obtenidos por escaneo.",
+    "Estado visible: en_vivo, disponible_24h, repeticion o inactiva (con tiempo de inactividad)."
+   ],
+   "estados": [
+    "en_vivo",
+    "disponible_24h",
+    "repeticion",
+    "inactiva"
+   ],
+   "subtipos": [
+    {
+     "id": "trafico",
+     "nombre": {
+      "es": "Tráfico",
+      "en": "Traffic"
+     },
+     "icono": "📷",
+     "color": "#333F48",
+     "fuente": "camaras_publicas",
+     "licencia": "Según cada organismo",
+     "frecuencia": "5 min",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 6,
+     "areas": [
+      "infraestructura"
+     ]
+    },
+    {
+     "id": "incendios",
+     "nombre": {
+      "es": "Vigilancia de incendios forestales",
+      "en": "Wildfire watch"
+     },
+     "icono": "📷",
+     "color": "#b5523b",
+     "fuente": "camaras_publicas",
+     "licencia": "Según cada organismo",
+     "frecuencia": "5 min",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 5,
+     "areas": [
+      "clima"
+     ]
+    },
+    {
+     "id": "volcanes_clima",
+     "nombre": {
+      "es": "Volcanes y clima",
+      "en": "Volcanoes and weather"
+     },
+     "icono": "📷",
+     "color": "#1F8A8A",
+     "fuente": "camaras_publicas",
+     "licencia": "Según cada organismo",
+     "frecuencia": "5 min",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 5,
+     "areas": [
+      "clima"
+     ]
+    }
+   ]
+  }
+ ]
+}

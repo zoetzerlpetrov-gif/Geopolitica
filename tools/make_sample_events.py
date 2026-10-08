@@ -10,10 +10,22 @@ Uso:  python3 tools/make_sample_events.py
 """
 import json
 import os
+import sys
 import urllib.parse
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.join(os.path.dirname(__file__), "..")
+sys.path.insert(0, os.path.join(ROOT, "ingest"))
+from dimensiones import enriquecer, indice_inestabilidad  # noqa: E402
+
+# Relaciones de ejemplo: evento -> zonas y entidades del catálogo (sin personas con datos privados).
+RELACIONES = {
+    "mar-rojo-huties-2023": {"entidades": ["chokepoint:bab_el_mandeb", "chokepoint:suez", "chokepoint:cabo_buena_esperanza"], "zonas": ["mar_rojo", "golfo_de_aden"], "personas": []},
+    "panama-sequia-2023": {"entidades": ["chokepoint:panama"], "zonas": ["lago_gatun"], "personas": []},
+    "taiwan-ejercicios-2024": {"entidades": ["chokepoint:taiwan"], "zonas": ["estrecho_de_taiwan"], "personas": []},
+    "cables-baltico-2024": {"entidades": [], "zonas": ["mar_baltico"], "personas": []},
+    "nord-stream-2022": {"entidades": [], "zonas": ["mar_baltico"], "personas": []},
+}
 
 
 def wiki(q):
@@ -228,6 +240,10 @@ def build():
             "actores": actores, "severidad": sev, "confianza_clasificacion": 1.0,
             "verificado": True, "impacto_mexico": impacto, "fuentes": fuentes, "es_ejemplo": True,
         })
+    for ev in eventos:
+        ev["relaciones"] = RELACIONES.get(ev["id"], {"entidades": [], "zonas": [], "personas": []})
+    # Los ejemplos son hechos históricos: estado_dato = estatico. delta = nuevo (no hay corrida anterior).
+    enriquecer(eventos, anteriores=None, estado_dato="estatico")
     eventos.sort(key=lambda e: e["fecha_utc"], reverse=True)
     now = datetime.now(timezone.utc).replace(microsecond=0)
     stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -248,6 +264,9 @@ def build():
                          "estado": "ok", "eventos": len(eventos), "segundos": 0, "error": None}],
             "errores": [],
         }, f, ensure_ascii=False, indent=2)
+    with open(os.path.join(ROOT, "data", "indice-paises.json"), "w", encoding="utf-8") as f:
+        json.dump({"generado_utc": stamp, "nota": "Indicador propio (docs/INDICADORES.md). Ventana de 30 días: con datos de ejemplo históricos casi no hay países con valor.",
+                   "paises": indice_inestabilidad(eventos)}, f, ensure_ascii=False, indent=1)
     print(f"events.json: {len(eventos)} eventos de ejemplo")
 
 

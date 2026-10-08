@@ -239,6 +239,65 @@
         },
         "es_ejemplo": {
           "type": "boolean"
+        },
+        "nivel_alerta": {
+          "enum": [
+            "FLASH",
+            "PRIORIDAD",
+            "RUTINA"
+          ],
+          "description": "Reglas en ingest/dimensiones.py y docs/INDICADORES.md."
+        },
+        "delta": {
+          "enum": [
+            "nuevo",
+            "escala",
+            "desescala",
+            "sin_cambio"
+          ],
+          "description": "Cambio frente a la corrida anterior."
+        },
+        "estado_dato": {
+          "enum": [
+            "tiempo_real",
+            "retrasado",
+            "estimado",
+            "estatico"
+          ]
+        },
+        "correlaciones": {
+          "type": "array",
+          "maxItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          },
+          "description": "ids de eventos de otras áreas a menos de 300 km y 72 h."
+        },
+        "relaciones": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "entidades": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "zonas": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "personas": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Solo ids de personas con rol público; nunca datos personales."
+            }
+          }
         }
       }
     }
