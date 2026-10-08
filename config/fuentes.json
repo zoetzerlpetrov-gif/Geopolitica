@@ -98,7 +98,9 @@
       "idioma": "es",
       "tipo": "analisis",
       "max_items": 15,
-      "nota": "Feed Atom oficial de YouTube del canal."
+      "nota": "Feed Atom oficial de YouTube del canal.",
+      "habilitada": false,
+      "motivo": "El robots.txt de youtube.com no permite a bots leer /feeds (comprobado en la corrida del 2026-10-08). Se respeta."
     },
     {
       "id": "elcano_youtube",
@@ -107,7 +109,9 @@
       "idioma": "es",
       "tipo": "analisis",
       "max_items": 15,
-      "nota": "Feed Atom oficial de YouTube. La web responde 403 al bot y no se evade ese bloqueo."
+      "nota": "Feed Atom oficial de YouTube. La web responde 403 al bot y no se evade ese bloqueo.",
+      "habilitada": false,
+      "motivo": "El robots.txt de youtube.com no permite a bots leer /feeds (comprobado en la corrida del 2026-10-08). Se respeta."
     },
     {
       "id": "mastodon_geopolitics",
