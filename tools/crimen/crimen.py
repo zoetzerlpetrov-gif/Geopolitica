@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Capa «Terrorismo, narcotráfico y crimen organizado»: señales de noticias de las últimas 24 h.
 
-Fuente: GDELT DOC 2.0 API (gratuita, sin llave; monitorea medios de 100+ idiomas cada 15 min).
+Fuente principal: archivos de eventos de GDELT 2.0 (cada 15 min): eventos violentos con un actor criminal
+(CRM), insurgente (INS), rebelde (REB), armado (UAF) o separatista (SEP), con coordenadas. Se acumulan 24 h.
+Complemento: GDELT DOC 2.0 API (gratuita, sin llave; monitorea medios de 100+ idiomas cada 15 min).
 Prioridad México: búsquedas en español con medios de México y nombres de grupos que operan en el país;
 además, búsquedas mundiales de terrorismo, mafias y crimen organizado (inglés y español).
 
@@ -34,17 +36,8 @@ OUT = os.path.join(ROOT, "vivos", "crimen.geojson")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 API = "https://api.gdeltproject.org/api/v2/doc/doc"
 PAUSA_S = 12         # GDELT pide no más de 1 consulta cada 5 s; desde IPs compartidas de GitHub conviene más margen
-ESPERA_429_S = 45    # ante «demasiadas solicitudes» se espera y se reintenta una vez
+ESPERA_429_S = 30    # ante «demasiadas solicitudes» se espera y se reintenta una vez
 MIN_ENTRE_CORRIDAS = 55
-
-# Respaldo si GDELT no responde: Google News RSS (búsquedas públicas por región), respetando su robots.txt.
-GNEWS = "https://news.google.com/rss/search?{q}"
-CONSULTAS_RSS = [
-    ("mx", "cártel OR narco OR \"crimen organizado\" OR sicarios OR \"fosa clandestina\" when:1d", "es-419", "MX", "MX:es-419"),
-    ("latam", "narcotráfico OR \"crimen organizado\" OR pandillas OR \"Tren de Aragua\" when:1d", "es-419", "CO", "CO:es-419"),
-    ("mundo", "terrorist attack OR \"Islamic State\" OR jihadist OR \"car bomb\" when:1d", "en-US", "US", "US:en"),
-    ("mundo", "mafia OR \"organized crime\" OR \"drug cartel\" when:1d", "en-US", "US", "US:en"),
-]
 
 CONSULTAS = [
     # México (prioridad)
@@ -154,6 +147,72 @@ def a_feature(art, origen, estados, gaz):
                            "precision": precision, "origen": origen}}
 
 
+# ---------------------------------------------------------------- archivos de eventos de GDELT 2.0
+ULTIMA = "http://data.gdeltproject.org/gdeltv2/lastupdate.txt"
+TIPOS_ACTOR = {"CRM": "Crimen organizado", "INS": "Insurgencia", "REB": "Grupo rebelde", "UAF": "Grupo armado", "SEP": "Separatistas"}
+RAICES_VIOLENTAS = {"13", "14", "15", "17", "18", "19", "20"}  # amenazas, protestas violentas, fuerza, coerción, asalto, combate, violencia masiva
+# Índices de columnas del formato de eventos de GDELT 2.0 (61 columnas).
+C = {"a1": 6, "a1t": (12, 13, 14), "a2": 16, "a2t": (22, 23, 24), "raiz": 28, "articulos": 33, "geo_tipo": 51, "lugar": 52,
+     "lat": 56, "lon": 57, "fecha": 59, "url": 60}
+
+
+def evento_gdelt(f, gaz, paises, min_articulos=2):
+    """Fila de eventos de GDELT → feature si un actor es criminal, insurgente o armado y la acción es violenta."""
+    if len(f) < 61 or f[C["raiz"]] not in RAICES_VIOLENTAS:
+        return None
+    tipos = {f[i] for i in (*C["a1t"], *C["a2t"]) if f[i]}
+    actor_tipo = next((TIPOS_ACTOR[t] for t in ("CRM", "INS", "REB", "UAF", "SEP") if t in tipos), None)
+    if not actor_tipo:
+        return None
+    try:
+        lat, lon, articulos = float(f[C["lat"]]), float(f[C["lon"]]), int(f[C["articulos"]])
+    except ValueError:
+        return None
+    if articulos < min_articulos or not f[C["url"]].startswith("http"):
+        return None
+    slug = F.palabras_de_url(f[C["url"]])
+    texto = f"{slug} {f[C['a1']]} {f[C['a2']]}"
+    tipo = tipo_de(texto)
+    if tipo == "Crimen organizado" and actor_tipo != "Crimen organizado":
+        tipo = "Terrorismo" if re.search(TIPOS[0][1], texto.lower()) else actor_tipo
+    sev = max(severidad_de(slug), {"20": 5, "19": 4, "18": 4}.get(f[C["raiz"]], 3))
+    actores = " → ".join(a.title() for a in (f[C["a1"]], f[C["a2"]]) if a)
+    titulo = slug.capitalize() if len(slug.split()) >= 4 else f"{tipo}: {actores or 'actor no identificado'} ({f[C['lugar']]})"
+    iso = paises.de(lon, lat)
+    fecha = datetime.strptime(f[C["fecha"]], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    precision = {"1": "país", "2": "estado", "5": "estado", "3": "ciudad", "4": "ciudad"}.get(f[C["geo_tipo"]], "ciudad")
+    return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
+            "properties": {"title": titulo[:220], "url": f[C["url"]], "source": urllib.parse.urlparse(f[C["url"]]).netloc, "date": fecha,
+                           "tipo": tipo, "severidad": sev, "lugar": f[C["lugar"]], "pais_iso3": iso or "", "precision": precision,
+                           "origen": "mx" if iso == "MEX" else "mundo", "actores": actores, "articulos": articulos,
+                           "via": "GDELT 2.0 (evento codificado; el título sale del enlace)"}}
+
+
+def eventos_gdelt(gaz, archivos=4):
+    import csv
+    import io
+    import zipfile
+    from geo import Paises
+    paises = Paises()
+    ultima = F.get(ULTIMA).decode().split("\n")[0].split()[2]
+    marca = re.search(r"(\d{14})\.export", ultima).group(1)
+    t = datetime.strptime(marca, "%Y%m%d%H%M%S")
+    out = []
+    for k in range(archivos):
+        url = ultima.replace(marca, (t - timedelta(minutes=15 * k)).strftime("%Y%m%d%H%M%S"))
+        try:
+            z = zipfile.ZipFile(io.BytesIO(F.get(url, timeout=120)))
+        except Exception as e:  # noqa: BLE001
+            print(f"  gdelt {url}: {e}")
+            continue
+        with z.open(z.namelist()[0]) as fh:
+            for fila in csv.reader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"), delimiter="\t"):
+                ft = evento_gdelt(fila, gaz, paises)
+                if ft:
+                    out.append(ft)
+    return out
+
+
 def get_json(url, reintentos=1):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
@@ -168,8 +227,10 @@ def get_json(url, reintentos=1):
 
 
 def main():
+    previos = []
     if os.path.exists(OUT):
         previo = json.load(open(OUT, encoding="utf-8"))
+        previos = previo.get("features", [])
         gen = previo.get("generado_utc")
         if gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(minutes=MIN_ENTRE_CORRIDAS):
             print("crimen: datos de hace menos de 1 h; se conservan")
@@ -194,34 +255,25 @@ def main():
                     feats.append(f)
         except Exception as e:  # noqa: BLE001  una consulta caída no detiene las demás
             errores.append(f"{origen}: {e}"[:160])
-            if sum("429" in x for x in errores) >= 2:
-                errores.append("GDELT limita las consultas desde este servidor: se pasa al respaldo")
+            if "429" in str(e):
+                errores.append("La API de búsqueda de GDELT limita las consultas desde este servidor; se usan sus archivos de eventos")
                 break
         time.sleep(PAUSA_S)
-    # Respaldo: si GDELT no dio nada para una región, Google News RSS (título, enlace, medio y fecha).
-    con_datos = {f["properties"]["origen"] for f in feats}
-    for origen, q, hl, gl, ceid in CONSULTAS_RSS:
-        if origen in con_datos:
-            continue
-        url = GNEWS.format(q=urllib.parse.urlencode({"q": q, "hl": hl, "gl": gl, "ceid": ceid}))
-        try:
-            if not F.permitido_por_robots(url):
-                errores.append(f"{origen} (Google News): robots.txt no lo permite")
-                continue
-            for c in F.parsear_rss(F.get(url, timeout=40), {"nombre": "Google News", "tipo": "noticia"}):
-                titulo, medio = (c["titulo"].rsplit(" - ", 1) + [""])[:2]
-                f = a_feature({"title": titulo, "url": c["url"], "domain": medio,
-                               "seendate": c["fecha_utc"].replace("-", "").replace(":", "")}, origen, estados, gaz)
-                if f:
-                    f["properties"]["via"] = "Google News RSS"
-                    feats.append(f)
-        except Exception as e:  # noqa: BLE001
-            errores.append(f"{origen} (Google News): {e}"[:160])
-        time.sleep(2)
+    # Fuente principal: archivos de eventos de GDELT 2.0 (cada 15 min, sin límite de consultas).
+    try:
+        nuevos = eventos_gdelt(gaz)
+        feats += nuevos
+        print(f"crimen: {len(nuevos)} eventos codificados de GDELT en la última hora")
+    except Exception as e:  # noqa: BLE001
+        errores.append(f"eventos GDELT: {e}"[:160])
+    # Se acumulan 24 h: lo de corridas anteriores que siga vigente y no esté repetido.
+    feats += [f for f in previos if f["properties"]["url"] not in {g["properties"]["url"] for g in feats}]
+    limite = (datetime.now(timezone.utc) - timedelta(hours=24)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    feats = [f for f in feats if (f["properties"]["date"] or "") >= limite]
     feats.sort(key=lambda f: f["properties"]["date"] or "", reverse=True)
     feats = deduplicar(feats)
     if not feats and errores:
-        print(f"crimen: ninguna consulta respondió ({errores}); se conservan los datos anteriores")
+        print(f"crimen: sin datos nuevos ({errores}); se conservan los anteriores")
         return 0
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
