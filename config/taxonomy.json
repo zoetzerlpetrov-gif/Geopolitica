@@ -1,6 +1,6 @@
 {
-  "version": "1.0.0",
-  "descripcion": "Taxonomía de 11 áreas de la geopolítica. Cada evento tiene 1 área principal y hasta 3 secundarias. Las palabras clave alimentan el clasificador por reglas (Fase 3); se comparan sin acentos y sin distinguir mayúsculas.",
+  "version": "2.0.0",
+  "descripcion": "Taxonomía de 13 áreas de la geopolítica (Eje 1: por qué importa). Cada evento tiene 1 área principal y hasta 3 secundarias. Las palabras clave alimentan el clasificador por reglas (ingest/classify.py); se comparan sin acentos y sin distinguir mayúsculas.",
   "areas": [
     {
       "id": "geografia",
@@ -12,17 +12,267 @@
       "ejemplo": "Rusia sin barreras naturales en la llanura europea busca zonas de amortiguamiento.",
       "ejemplo_mexico": "~3,100 km de frontera con EUA; costas en Pacífico y Atlántico; puente comercial de Norteamérica.",
       "palabras_clave": {
-        "es": ["frontera", "territorio", "soberanía territorial", "anexión", "ocupación", "estrecho", "canal", "paso marítimo", "ruta marítima", "mar territorial", "zona económica exclusiva", "isla", "archipiélago", "península", "cordillera", "zona de amortiguamiento", "corredor", "enclave"],
-        "en": ["border", "territory", "territorial", "annexation", "occupation", "strait", "canal", "chokepoint", "shipping lane", "sea lane", "territorial waters", "exclusive economic zone", "island", "archipelago", "peninsula", "buffer zone", "corridor", "enclave"]
+        "es": [
+          "frontera",
+          "territorio",
+          "soberanía territorial",
+          "anexión",
+          "ocupación",
+          "estrecho",
+          "canal",
+          "paso marítimo",
+          "ruta marítima",
+          "mar territorial",
+          "zona económica exclusiva",
+          "isla",
+          "archipiélago",
+          "península",
+          "cordillera",
+          "zona de amortiguamiento",
+          "corredor",
+          "enclave"
+        ],
+        "en": [
+          "border",
+          "territory",
+          "territorial",
+          "annexation",
+          "occupation",
+          "strait",
+          "canal",
+          "chokepoint",
+          "shipping lane",
+          "sea lane",
+          "territorial waters",
+          "exclusive economic zone",
+          "island",
+          "archipelago",
+          "peninsula",
+          "buffer zone",
+          "corridor",
+          "enclave"
+        ]
       },
       "subtemas": [
-        {"id": "fronteras_naturales", "nombre": "Fronteras naturales (montañas, ríos, desiertos)", "palabras_clave": {"es": ["cordillera", "río fronterizo", "desierto", "frontera natural"], "en": ["mountain range", "border river", "desert", "natural border"]}},
-        {"id": "disputas_fronterizas", "nombre": "Disputas fronterizas y territoriales", "palabras_clave": {"es": ["disputa fronteriza", "disputa territorial", "reclamo territorial", "anexión", "línea de control", "referéndum de anexión"], "en": ["border dispute", "territorial dispute", "territorial claim", "annexation", "line of control", "disputed territory"]}},
-        {"id": "chokepoints", "nombre": "Chokepoints (Ormuz, Malaca, Suez, Panamá, Bab el-Mandeb, Bósforo, Gibraltar, Taiwán)", "palabras_clave": {"es": ["estrecho de ormuz", "ormuz", "estrecho de malaca", "malaca", "canal de suez", "suez", "canal de panamá", "bab el-mandeb", "bab al-mandab", "mar rojo", "bósforo", "dardanelos", "estrecho de gibraltar", "estrecho de taiwán", "cabo de buena esperanza"], "en": ["strait of hormuz", "hormuz", "strait of malacca", "malacca", "suez canal", "suez", "panama canal", "bab el-mandeb", "bab al-mandab", "red sea", "bosphorus", "dardanelles", "strait of gibraltar", "taiwan strait", "cape of good hope"]}},
-        {"id": "salida_al_mar", "nombre": "Salida al mar", "palabras_clave": {"es": ["salida al mar", "sin litoral", "acceso al mar", "puerto de aguas profundas"], "en": ["access to the sea", "landlocked", "sea access", "deep-water port"]}},
-        {"id": "profundidad_estrategica", "nombre": "Profundidad estratégica", "palabras_clave": {"es": ["profundidad estratégica", "zona de amortiguamiento", "estado tapón"], "en": ["strategic depth", "buffer zone", "buffer state"]}},
-        {"id": "zee", "nombre": "Zonas Económicas Exclusivas (200 millas náuticas)", "palabras_clave": {"es": ["zona económica exclusiva", "zee", "200 millas", "plataforma continental", "convemar"], "en": ["exclusive economic zone", "eez", "200 nautical miles", "continental shelf", "unclos"]}},
-        {"id": "islas_mares_disputa", "nombre": "Islas y mares en disputa", "palabras_clave": {"es": ["mar de china meridional", "islas spratly", "islas paracel", "senkaku", "diaoyu", "malvinas", "kuriles", "mar egeo", "isla en disputa"], "en": ["south china sea", "spratly", "paracel", "senkaku", "diaoyu", "falklands", "kuril", "aegean", "disputed island", "scarborough shoal"]}}
+        {
+          "id": "fronteras_naturales",
+          "nombre": "Fronteras naturales (montañas, ríos, desiertos)",
+          "palabras_clave": {
+            "es": [
+              "cordillera",
+              "río fronterizo",
+              "desierto",
+              "frontera natural"
+            ],
+            "en": [
+              "mountain range",
+              "border river",
+              "desert",
+              "natural border"
+            ]
+          }
+        },
+        {
+          "id": "disputas_fronterizas",
+          "nombre": "Disputas fronterizas y territoriales",
+          "palabras_clave": {
+            "es": [
+              "disputa fronteriza",
+              "disputa territorial",
+              "reclamo territorial",
+              "anexión",
+              "línea de control",
+              "referéndum de anexión"
+            ],
+            "en": [
+              "border dispute",
+              "territorial dispute",
+              "territorial claim",
+              "annexation",
+              "line of control",
+              "disputed territory"
+            ]
+          }
+        },
+        {
+          "id": "chokepoints",
+          "nombre": "Chokepoints (Ormuz, Malaca, Suez, Panamá, Bab el-Mandeb, Bósforo, Gibraltar, Taiwán)",
+          "palabras_clave": {
+            "es": [
+              "estrecho de ormuz",
+              "ormuz",
+              "estrecho de malaca",
+              "malaca",
+              "canal de suez",
+              "suez",
+              "canal de panamá",
+              "bab el-mandeb",
+              "bab al-mandab",
+              "mar rojo",
+              "bósforo",
+              "dardanelos",
+              "estrecho de gibraltar",
+              "estrecho de taiwán",
+              "cabo de buena esperanza"
+            ],
+            "en": [
+              "strait of hormuz",
+              "hormuz",
+              "strait of malacca",
+              "malacca",
+              "suez canal",
+              "suez",
+              "panama canal",
+              "bab el-mandeb",
+              "bab al-mandab",
+              "red sea",
+              "bosphorus",
+              "dardanelles",
+              "strait of gibraltar",
+              "taiwan strait",
+              "cape of good hope"
+            ]
+          }
+        },
+        {
+          "id": "salida_al_mar",
+          "nombre": "Salida al mar",
+          "palabras_clave": {
+            "es": [
+              "salida al mar",
+              "sin litoral",
+              "acceso al mar",
+              "puerto de aguas profundas"
+            ],
+            "en": [
+              "access to the sea",
+              "landlocked",
+              "sea access",
+              "deep-water port"
+            ]
+          }
+        },
+        {
+          "id": "profundidad_estrategica",
+          "nombre": "Profundidad estratégica",
+          "palabras_clave": {
+            "es": [
+              "profundidad estratégica",
+              "zona de amortiguamiento",
+              "estado tapón"
+            ],
+            "en": [
+              "strategic depth",
+              "buffer zone",
+              "buffer state"
+            ]
+          }
+        },
+        {
+          "id": "zee",
+          "nombre": "Zonas Económicas Exclusivas (200 millas náuticas)",
+          "palabras_clave": {
+            "es": [
+              "zona económica exclusiva",
+              "zee",
+              "200 millas",
+              "plataforma continental",
+              "convemar"
+            ],
+            "en": [
+              "exclusive economic zone",
+              "eez",
+              "200 nautical miles",
+              "continental shelf",
+              "unclos"
+            ]
+          }
+        },
+        {
+          "id": "islas_mares_disputa",
+          "nombre": "Islas y mares en disputa",
+          "palabras_clave": {
+            "es": [
+              "mar de china meridional",
+              "islas spratly",
+              "islas paracel",
+              "senkaku",
+              "diaoyu",
+              "malvinas",
+              "kuriles",
+              "mar egeo",
+              "isla en disputa"
+            ],
+            "en": [
+              "south china sea",
+              "spratly",
+              "paracel",
+              "senkaku",
+              "diaoyu",
+              "falklands",
+              "kuril",
+              "aegean",
+              "disputed island",
+              "scarborough shoal"
+            ]
+          }
+        },
+        {
+          "id": "puertos_aeropuertos",
+          "nombre": "Puertos y aeropuertos estratégicos",
+          "palabras_clave": {
+            "es": [
+              "puerto",
+              "terminal portuaria",
+              "aeropuerto",
+              "puerto de aguas profundas"
+            ],
+            "en": [
+              "port",
+              "seaport",
+              "port terminal",
+              "airport"
+            ]
+          }
+        },
+        {
+          "id": "estrechos_trafico",
+          "nombre": "Estrechos con tráfico en tiempo real",
+          "palabras_clave": {
+            "es": [
+              "tráfico marítimo",
+              "tránsitos",
+              "congestión portuaria",
+              "buques en espera"
+            ],
+            "en": [
+              "shipping traffic",
+              "transits",
+              "port congestion",
+              "vessels waiting"
+            ]
+          }
+        },
+        {
+          "id": "zonas_exclusion",
+          "nombre": "Zonas de exclusión aérea y marítima",
+          "palabras_clave": {
+            "es": [
+              "zona de exclusión",
+              "espacio aéreo cerrado",
+              "zona de exclusión aérea",
+              "bloqueo naval",
+              "notam"
+            ],
+            "en": [
+              "exclusion zone",
+              "no-fly zone",
+              "airspace closed",
+              "naval blockade",
+              "notam"
+            ]
+          }
+        }
       ]
     },
     {
@@ -35,19 +285,338 @@
       "ejemplo": "Tras la invasión de Ucrania (2022), Finlandia (2023) y Suecia (2024) entraron a la OTAN.",
       "ejemplo_mexico": "Cooperación de seguridad con EUA sobre crimen organizado y fentanilo ligada a la agenda comercial.",
       "palabras_clave": {
-        "es": ["ataque", "ofensiva", "bombardeo", "misil", "dron", "ejército", "fuerzas armadas", "militar", "tropas", "guerra", "conflicto armado", "alto el fuego", "tregua", "insurgencia", "milicia", "armas", "defensa", "invasión"],
-        "en": ["attack", "offensive", "airstrike", "missile", "drone", "army", "armed forces", "military", "troops", "war", "armed conflict", "ceasefire", "truce", "insurgency", "militia", "weapons", "defense", "invasion"]
+        "es": [
+          "ataque",
+          "ofensiva",
+          "bombardeo",
+          "misil",
+          "dron",
+          "ejército",
+          "fuerzas armadas",
+          "militar",
+          "tropas",
+          "guerra",
+          "conflicto armado",
+          "alto el fuego",
+          "tregua",
+          "insurgencia",
+          "milicia",
+          "armas",
+          "defensa",
+          "invasión"
+        ],
+        "en": [
+          "attack",
+          "offensive",
+          "airstrike",
+          "missile",
+          "drone",
+          "army",
+          "armed forces",
+          "military",
+          "troops",
+          "war",
+          "armed conflict",
+          "ceasefire",
+          "truce",
+          "insurgency",
+          "militia",
+          "weapons",
+          "defense",
+          "invasion",
+          "missile strike",
+          "drone strike",
+          "air strike",
+          "strike on",
+          "strikes on"
+        ]
       },
       "subtemas": [
-        {"id": "conflictos_activos", "nombre": "Conflictos armados activos", "palabras_clave": {"es": ["guerra", "combates", "frente de batalla", "ofensiva", "bombardeo", "alto el fuego"], "en": ["war", "fighting", "frontline", "offensive", "shelling", "ceasefire"]}},
-        {"id": "disuasion_nuclear", "nombre": "Disuasión nuclear", "palabras_clave": {"es": ["nuclear", "ojiva", "arsenal nuclear", "prueba nuclear", "misil balístico", "enriquecimiento de uranio"], "en": ["nuclear", "warhead", "nuclear arsenal", "nuclear test", "ballistic missile", "uranium enrichment"]}},
-        {"id": "alianzas", "nombre": "Alianzas (OTAN, AUKUS, otras)", "palabras_clave": {"es": ["otan", "aukus", "alianza militar", "artículo 5", "pacto de defensa", "quad"], "en": ["nato", "aukus", "military alliance", "article 5", "defense pact", "quad"]}},
-        {"id": "bases_extranjero", "nombre": "Bases militares en el extranjero", "palabras_clave": {"es": ["base militar", "base naval", "presencia militar"], "en": ["military base", "naval base", "military presence"]}},
-        {"id": "ejercicios_despliegues", "nombre": "Ejercicios y despliegues", "palabras_clave": {"es": ["ejercicios militares", "maniobras", "despliegue", "portaaviones", "flota"], "en": ["military drills", "exercises", "deployment", "aircraft carrier", "fleet"]}},
-        {"id": "gasto_militar", "nombre": "Gasto militar", "palabras_clave": {"es": ["gasto militar", "presupuesto de defensa", "venta de armas", "compra de armas"], "en": ["military spending", "defense budget", "arms sale", "arms deal"]}},
-        {"id": "guerra_hibrida", "nombre": "Guerra híbrida", "palabras_clave": {"es": ["guerra híbrida", "sabotaje", "zona gris", "mercenarios"], "en": ["hybrid warfare", "sabotage", "gray zone", "grey zone", "mercenaries"]}},
-        {"id": "actores_no_estatales", "nombre": "Actores no estatales (milicias, cárteles, grupos insurgentes)", "palabras_clave": {"es": ["cártel", "crimen organizado", "narcotráfico", "fentanilo", "hutíes", "hezbolá", "hamás", "milicia", "grupo armado", "guerrilla"], "en": ["cartel", "organized crime", "drug trafficking", "fentanyl", "houthi", "hezbollah", "hamas", "militia", "armed group", "guerrilla"]}},
-        {"id": "terrorismo", "nombre": "Terrorismo", "palabras_clave": {"es": ["terrorismo", "atentado", "estado islámico", "al qaeda", "yihadista"], "en": ["terrorism", "terrorist attack", "islamic state", "isis", "al-qaeda", "jihadist"]}}
+        {
+          "id": "conflictos_activos",
+          "nombre": "Conflictos armados activos",
+          "palabras_clave": {
+            "es": [
+              "guerra",
+              "combates",
+              "frente de batalla",
+              "ofensiva",
+              "bombardeo",
+              "alto el fuego"
+            ],
+            "en": [
+              "war",
+              "fighting",
+              "frontline",
+              "offensive",
+              "shelling",
+              "ceasefire"
+            ]
+          }
+        },
+        {
+          "id": "disuasion_nuclear",
+          "nombre": "Disuasión nuclear",
+          "palabras_clave": {
+            "es": [
+              "nuclear",
+              "ojiva",
+              "arsenal nuclear",
+              "prueba nuclear",
+              "misil balístico",
+              "enriquecimiento de uranio"
+            ],
+            "en": [
+              "nuclear",
+              "warhead",
+              "nuclear arsenal",
+              "nuclear test",
+              "ballistic missile",
+              "uranium enrichment"
+            ]
+          }
+        },
+        {
+          "id": "alianzas",
+          "nombre": "Alianzas (OTAN, AUKUS, otras)",
+          "palabras_clave": {
+            "es": [
+              "otan",
+              "aukus",
+              "alianza militar",
+              "artículo 5",
+              "pacto de defensa",
+              "quad"
+            ],
+            "en": [
+              "nato",
+              "aukus",
+              "military alliance",
+              "article 5",
+              "defense pact",
+              "quad"
+            ]
+          }
+        },
+        {
+          "id": "bases_extranjero",
+          "nombre": "Bases militares en el extranjero",
+          "palabras_clave": {
+            "es": [
+              "base militar",
+              "base naval",
+              "presencia militar"
+            ],
+            "en": [
+              "military base",
+              "naval base",
+              "military presence"
+            ]
+          }
+        },
+        {
+          "id": "ejercicios_despliegues",
+          "nombre": "Ejercicios y despliegues",
+          "palabras_clave": {
+            "es": [
+              "ejercicios militares",
+              "maniobras",
+              "despliegue",
+              "portaaviones",
+              "flota"
+            ],
+            "en": [
+              "military drills",
+              "exercises",
+              "deployment",
+              "aircraft carrier",
+              "fleet"
+            ]
+          }
+        },
+        {
+          "id": "gasto_militar",
+          "nombre": "Gasto militar",
+          "palabras_clave": {
+            "es": [
+              "gasto militar",
+              "presupuesto de defensa",
+              "venta de armas",
+              "compra de armas"
+            ],
+            "en": [
+              "military spending",
+              "defense budget",
+              "arms sale",
+              "arms deal"
+            ]
+          }
+        },
+        {
+          "id": "guerra_hibrida",
+          "nombre": "Guerra híbrida",
+          "palabras_clave": {
+            "es": [
+              "guerra híbrida",
+              "sabotaje",
+              "zona gris",
+              "mercenarios"
+            ],
+            "en": [
+              "hybrid warfare",
+              "sabotage",
+              "gray zone",
+              "grey zone",
+              "mercenaries"
+            ]
+          }
+        },
+        {
+          "id": "actores_no_estatales",
+          "nombre": "Actores no estatales (milicias, cárteles, grupos insurgentes)",
+          "palabras_clave": {
+            "es": [
+              "cártel",
+              "crimen organizado",
+              "narcotráfico",
+              "fentanilo",
+              "hutíes",
+              "hezbolá",
+              "hamás",
+              "milicia",
+              "grupo armado",
+              "guerrilla"
+            ],
+            "en": [
+              "cartel",
+              "organized crime",
+              "drug trafficking",
+              "fentanyl",
+              "houthi",
+              "hezbollah",
+              "hamas",
+              "militia",
+              "armed group",
+              "guerrilla"
+            ]
+          }
+        },
+        {
+          "id": "terrorismo",
+          "nombre": "Terrorismo",
+          "palabras_clave": {
+            "es": [
+              "terrorismo",
+              "atentado",
+              "estado islámico",
+              "al qaeda",
+              "yihadista"
+            ],
+            "en": [
+              "terrorism",
+              "terrorist attack",
+              "islamic state",
+              "isis",
+              "al-qaeda",
+              "jihadist"
+            ]
+          }
+        },
+        {
+          "id": "instalaciones_militares",
+          "nombre": "Bases e instalaciones militares públicas",
+          "palabras_clave": {
+            "es": [
+              "instalación militar",
+              "cuartel",
+              "base aérea",
+              "base naval"
+            ],
+            "en": [
+              "military installation",
+              "garrison",
+              "air base",
+              "naval base"
+            ]
+          }
+        },
+        {
+          "id": "vuelos_militares",
+          "nombre": "Vuelos militares",
+          "palabras_clave": {
+            "es": [
+              "aviones militares",
+              "vuelo de reconocimiento",
+              "bombarderos",
+              "cazas",
+              "incursión aérea"
+            ],
+            "en": [
+              "military aircraft",
+              "reconnaissance flight",
+              "bombers",
+              "fighter jets",
+              "air incursion"
+            ]
+          }
+        },
+        {
+          "id": "buques_guerra",
+          "nombre": "Buques de guerra",
+          "palabras_clave": {
+            "es": [
+              "buque de guerra",
+              "destructor",
+              "fragata",
+              "submarino",
+              "grupo de ataque"
+            ],
+            "en": [
+              "warship",
+              "destroyer",
+              "frigate",
+              "submarine",
+              "strike group"
+            ]
+          }
+        },
+        {
+          "id": "protestas_disturbios",
+          "nombre": "Protestas y disturbios",
+          "palabras_clave": {
+            "es": [
+              "disturbios",
+              "enfrentamientos con la policía",
+              "saqueos",
+              "toque de queda"
+            ],
+            "en": [
+              "riots",
+              "unrest",
+              "clashes with police",
+              "looting",
+              "curfew"
+            ]
+          }
+        },
+        {
+          "id": "pruebas_misiles",
+          "nombre": "Pruebas de misiles",
+          "palabras_clave": {
+            "es": [
+              "prueba de misil",
+              "lanzamiento de misil",
+              "misil hipersónico",
+              "icbm"
+            ],
+            "en": [
+              "missile test",
+              "missile launch",
+              "hypersonic missile",
+              "icbm"
+            ]
+          }
+        }
       ]
     },
     {
@@ -60,18 +629,302 @@
       "ejemplo": "Congelamiento de reservas del banco central ruso en 2022.",
       "ejemplo_mexico": "T-MEC (en vigor desde 2020, revisión conjunta prevista en 2026); reglas de origen; aranceles.",
       "palabras_clave": {
-        "es": ["arancel", "aranceles", "comercio", "exportaciones", "importaciones", "sanciones", "embargo", "inversión extranjera", "tratado comercial", "cadena de suministro", "nearshoring", "deuda", "dólar", "flete", "navieras"],
-        "en": ["tariff", "tariffs", "trade", "exports", "imports", "sanctions", "embargo", "foreign investment", "trade agreement", "supply chain", "nearshoring", "debt", "dollar", "freight", "shipping companies"]
+        "es": [
+          "arancel",
+          "aranceles",
+          "comercio",
+          "exportaciones",
+          "importaciones",
+          "sanciones",
+          "embargo",
+          "inversión extranjera",
+          "tratado comercial",
+          "cadena de suministro",
+          "nearshoring",
+          "deuda",
+          "dólar",
+          "flete",
+          "navieras"
+        ],
+        "en": [
+          "tariff",
+          "tariffs",
+          "trade",
+          "exports",
+          "imports",
+          "sanctions",
+          "embargo",
+          "foreign investment",
+          "trade agreement",
+          "supply chain",
+          "nearshoring",
+          "debt",
+          "dollar",
+          "freight",
+          "shipping companies"
+        ]
       },
       "subtemas": [
-        {"id": "aranceles", "nombre": "Aranceles y guerras comerciales", "palabras_clave": {"es": ["arancel", "aranceles", "guerra comercial", "represalia comercial", "cuota de importación"], "en": ["tariff", "tariffs", "trade war", "retaliatory", "import quota", "duties"]}},
-        {"id": "tratados_comerciales", "nombre": "Tratados comerciales", "palabras_clave": {"es": ["t-mec", "tmec", "usmca", "tratado de libre comercio", "acuerdo comercial", "reglas de origen", "mercosur"], "en": ["usmca", "cusma", "free trade agreement", "trade deal", "rules of origin", "mercosur"]}},
-        {"id": "sanciones_financieras", "nombre": "Sanciones financieras (SWIFT, reservas, listas OFAC/UE)", "palabras_clave": {"es": ["sanciones", "swift", "congelamiento de activos", "reservas congeladas", "ofac", "lista negra"], "en": ["sanctions", "swift", "asset freeze", "frozen reserves", "ofac", "blacklist", "sdn list"]}},
-        {"id": "controles_exportacion", "nombre": "Controles de exportación", "palabras_clave": {"es": ["control de exportaciones", "restricción a exportaciones", "lista de entidades"], "en": ["export controls", "export ban", "entity list"]}},
-        {"id": "cadenas_suministro", "nombre": "Cadenas de suministro", "palabras_clave": {"es": ["cadena de suministro", "escasez", "fletes", "contenedores", "transporte marítimo", "logística"], "en": ["supply chain", "shortage", "freight rates", "containers", "shipping", "logistics"]}},
-        {"id": "nearshoring", "nombre": "Nearshoring y friendshoring", "palabras_clave": {"es": ["nearshoring", "relocalización", "friendshoring", "nueva planta", "inversión extranjera directa"], "en": ["nearshoring", "reshoring", "friendshoring", "new plant", "foreign direct investment"]}},
-        {"id": "monedas_reserva", "nombre": "Dólar y monedas de reserva", "palabras_clave": {"es": ["dólar", "desdolarización", "yuan", "moneda de reserva", "tipo de cambio"], "en": ["dollar", "de-dollarization", "yuan", "renminbi", "reserve currency", "exchange rate"]}},
-        {"id": "deuda_soberana", "nombre": "Deuda soberana", "palabras_clave": {"es": ["deuda soberana", "impago", "fmi", "reestructuración de deuda", "calificación crediticia"], "en": ["sovereign debt", "default", "imf", "debt restructuring", "credit rating"]}}
+        {
+          "id": "aranceles",
+          "nombre": "Aranceles y guerras comerciales",
+          "palabras_clave": {
+            "es": [
+              "arancel",
+              "aranceles",
+              "guerra comercial",
+              "represalia comercial",
+              "cuota de importación"
+            ],
+            "en": [
+              "tariff",
+              "tariffs",
+              "trade war",
+              "retaliatory",
+              "import quota",
+              "duties"
+            ]
+          }
+        },
+        {
+          "id": "tratados_comerciales",
+          "nombre": "Tratados comerciales",
+          "palabras_clave": {
+            "es": [
+              "t-mec",
+              "tmec",
+              "usmca",
+              "tratado de libre comercio",
+              "acuerdo comercial",
+              "reglas de origen",
+              "mercosur"
+            ],
+            "en": [
+              "usmca",
+              "cusma",
+              "free trade agreement",
+              "trade deal",
+              "rules of origin",
+              "mercosur"
+            ]
+          }
+        },
+        {
+          "id": "sanciones_financieras",
+          "nombre": "Sanciones financieras (SWIFT, reservas, listas OFAC/UE)",
+          "palabras_clave": {
+            "es": [
+              "sanciones",
+              "swift",
+              "congelamiento de activos",
+              "reservas congeladas",
+              "ofac",
+              "lista negra"
+            ],
+            "en": [
+              "sanctions",
+              "swift",
+              "asset freeze",
+              "frozen reserves",
+              "ofac",
+              "blacklist",
+              "sdn list"
+            ]
+          }
+        },
+        {
+          "id": "controles_exportacion",
+          "nombre": "Controles de exportación",
+          "palabras_clave": {
+            "es": [
+              "control de exportaciones",
+              "restricción a exportaciones",
+              "lista de entidades"
+            ],
+            "en": [
+              "export controls",
+              "export ban",
+              "entity list"
+            ]
+          }
+        },
+        {
+          "id": "cadenas_suministro",
+          "nombre": "Cadenas de suministro",
+          "palabras_clave": {
+            "es": [
+              "cadena de suministro",
+              "escasez",
+              "fletes",
+              "contenedores",
+              "transporte marítimo",
+              "logística"
+            ],
+            "en": [
+              "supply chain",
+              "shortage",
+              "freight rates",
+              "containers",
+              "shipping",
+              "logistics"
+            ]
+          }
+        },
+        {
+          "id": "nearshoring",
+          "nombre": "Nearshoring y friendshoring",
+          "palabras_clave": {
+            "es": [
+              "nearshoring",
+              "relocalización",
+              "friendshoring",
+              "nueva planta",
+              "inversión extranjera directa"
+            ],
+            "en": [
+              "nearshoring",
+              "reshoring",
+              "friendshoring",
+              "new plant",
+              "foreign direct investment"
+            ]
+          }
+        },
+        {
+          "id": "monedas_reserva",
+          "nombre": "Dólar y monedas de reserva",
+          "palabras_clave": {
+            "es": [
+              "dólar",
+              "desdolarización",
+              "yuan",
+              "moneda de reserva",
+              "tipo de cambio"
+            ],
+            "en": [
+              "dollar",
+              "de-dollarization",
+              "yuan",
+              "renminbi",
+              "reserve currency",
+              "exchange rate"
+            ]
+          }
+        },
+        {
+          "id": "deuda_soberana",
+          "nombre": "Deuda soberana",
+          "palabras_clave": {
+            "es": [
+              "deuda soberana",
+              "impago",
+              "fmi",
+              "reestructuración de deuda",
+              "calificación crediticia"
+            ],
+            "en": [
+              "sovereign debt",
+              "default",
+              "imf",
+              "debt restructuring",
+              "credit rating"
+            ]
+          }
+        },
+        {
+          "id": "mercados",
+          "nombre": "Mercados (índices, divisas, materias primas)",
+          "palabras_clave": {
+            "es": [
+              "bolsa",
+              "índice bursátil",
+              "divisas",
+              "materias primas",
+              "peso mexicano",
+              "caída de mercados"
+            ],
+            "en": [
+              "stock market",
+              "stock index",
+              "currencies",
+              "commodities",
+              "market selloff"
+            ]
+          }
+        },
+        {
+          "id": "bolsas_valores",
+          "nombre": "Bolsas de valores",
+          "palabras_clave": {
+            "es": [
+              "bolsa de valores",
+              "bmv",
+              "wall street",
+              "nasdaq"
+            ],
+            "en": [
+              "stock exchange",
+              "wall street",
+              "nasdaq",
+              "nyse"
+            ]
+          }
+        },
+        {
+          "id": "indicadores_riesgo_financiero",
+          "nombre": "VIX, diferencial de alto rendimiento y GSCPI",
+          "palabras_clave": {
+            "es": [
+              "índice de volatilidad",
+              "vix",
+              "diferencial de alto rendimiento",
+              "presión de cadenas de suministro"
+            ],
+            "en": [
+              "vix",
+              "volatility index",
+              "high-yield spread",
+              "gscpi",
+              "supply chain pressure"
+            ]
+          }
+        },
+        {
+          "id": "listas_sanciones",
+          "nombre": "Sanciones (OFAC SDN, UE, OpenSanctions)",
+          "palabras_clave": {
+            "es": [
+              "lista sdn",
+              "ofac",
+              "sanciones de la ue",
+              "opensanctions"
+            ],
+            "en": [
+              "sdn list",
+              "ofac",
+              "eu sanctions",
+              "opensanctions"
+            ]
+          }
+        },
+        {
+          "id": "comercio_comtrade",
+          "nombre": "Comercio (UN Comtrade)",
+          "palabras_clave": {
+            "es": [
+              "balanza comercial",
+              "déficit comercial",
+              "superávit comercial",
+              "comtrade"
+            ],
+            "en": [
+              "trade balance",
+              "trade deficit",
+              "trade surplus",
+              "comtrade"
+            ]
+          }
+        }
       ]
     },
     {
@@ -84,16 +937,259 @@
       "ejemplo": "Corte del gas ruso a Europa en 2022 y alza de precios.",
       "ejemplo_mexico": "Tratado de Aguas de 1944 con EUA; litio declarado de utilidad pública en 2022; dependencia de gas natural importado de EUA.",
       "palabras_clave": {
-        "es": ["petróleo", "gas natural", "gasoducto", "oleoducto", "opep", "crudo", "refinería", "gnl", "minerales críticos", "litio", "cobre", "tierras raras", "electricidad", "apagón", "trigo", "fertilizantes", "agua"],
-        "en": ["oil", "natural gas", "gas pipeline", "pipeline", "opec", "crude", "refinery", "lng", "critical minerals", "lithium", "copper", "rare earths", "electricity", "blackout", "wheat", "fertilizer", "water"]
+        "es": [
+          "petróleo",
+          "gas natural",
+          "gasoducto",
+          "oleoducto",
+          "opep",
+          "crudo",
+          "refinería",
+          "gnl",
+          "minerales críticos",
+          "litio",
+          "cobre",
+          "tierras raras",
+          "electricidad",
+          "apagón",
+          "trigo",
+          "fertilizantes",
+          "agua"
+        ],
+        "en": [
+          "oil",
+          "natural gas",
+          "gas pipeline",
+          "pipeline",
+          "opec",
+          "crude",
+          "refinery",
+          "lng",
+          "critical minerals",
+          "lithium",
+          "copper",
+          "rare earths",
+          "electricity",
+          "blackout",
+          "wheat",
+          "fertilizer",
+          "water"
+        ]
       },
       "subtemas": [
-        {"id": "petroleo_gas", "nombre": "Petróleo y gas (producción, OPEP+, ductos)", "palabras_clave": {"es": ["petróleo", "crudo", "gas natural", "opep", "opep+", "gasoducto", "oleoducto", "gnl", "pemex"], "en": ["oil", "crude", "natural gas", "opec", "opec+", "pipeline", "lng", "nord stream"]}},
-        {"id": "minerales_criticos", "nombre": "Minerales críticos (litio, cobre, cobalto, tierras raras)", "palabras_clave": {"es": ["litio", "cobre", "cobalto", "tierras raras", "níquel", "minerales críticos", "minería"], "en": ["lithium", "copper", "cobalt", "rare earths", "nickel", "critical minerals", "mining"]}},
-        {"id": "seguridad_energetica", "nombre": "Seguridad energética", "palabras_clave": {"es": ["seguridad energética", "suministro de gas", "reservas estratégicas", "dependencia energética"], "en": ["energy security", "gas supply", "strategic reserves", "energy dependence"]}},
-        {"id": "electricidad", "nombre": "Electricidad", "palabras_clave": {"es": ["electricidad", "red eléctrica", "apagón", "central eléctrica", "nuclear civil"], "en": ["electricity", "power grid", "blackout", "power plant", "nuclear power"]}},
-        {"id": "seguridad_alimentaria", "nombre": "Seguridad alimentaria (trigo, maíz, fertilizantes)", "palabras_clave": {"es": ["trigo", "maíz", "fertilizantes", "granos", "hambruna", "seguridad alimentaria", "corredor de granos"], "en": ["wheat", "corn", "maize", "fertilizer", "grain", "famine", "food security", "grain corridor"]}},
-        {"id": "agua_transfronteriza", "nombre": "Agua transfronteriza", "palabras_clave": {"es": ["tratado de aguas", "río bravo", "presa", "cuenca", "agua transfronteriza", "nilo", "presa del renacimiento"], "en": ["water treaty", "rio grande", "dam", "river basin", "transboundary water", "nile", "gerd"]}}
+        {
+          "id": "petroleo_gas",
+          "nombre": "Petróleo y gas (producción, OPEP+, ductos)",
+          "palabras_clave": {
+            "es": [
+              "petróleo",
+              "crudo",
+              "gas natural",
+              "opep",
+              "opep+",
+              "gasoducto",
+              "oleoducto",
+              "gnl",
+              "pemex"
+            ],
+            "en": [
+              "oil",
+              "crude",
+              "natural gas",
+              "opec",
+              "opec+",
+              "pipeline",
+              "lng",
+              "nord stream"
+            ]
+          }
+        },
+        {
+          "id": "minerales_criticos",
+          "nombre": "Minerales críticos (litio, cobre, cobalto, tierras raras)",
+          "palabras_clave": {
+            "es": [
+              "litio",
+              "cobre",
+              "cobalto",
+              "tierras raras",
+              "níquel",
+              "minerales críticos",
+              "minería"
+            ],
+            "en": [
+              "lithium",
+              "copper",
+              "cobalt",
+              "rare earths",
+              "nickel",
+              "critical minerals",
+              "mining"
+            ]
+          }
+        },
+        {
+          "id": "seguridad_energetica",
+          "nombre": "Seguridad energética",
+          "palabras_clave": {
+            "es": [
+              "seguridad energética",
+              "suministro de gas",
+              "reservas estratégicas",
+              "dependencia energética"
+            ],
+            "en": [
+              "energy security",
+              "gas supply",
+              "strategic reserves",
+              "energy dependence"
+            ]
+          }
+        },
+        {
+          "id": "electricidad",
+          "nombre": "Electricidad",
+          "palabras_clave": {
+            "es": [
+              "electricidad",
+              "red eléctrica",
+              "apagón",
+              "central eléctrica",
+              "nuclear civil"
+            ],
+            "en": [
+              "electricity",
+              "power grid",
+              "blackout",
+              "power plant",
+              "nuclear power"
+            ]
+          }
+        },
+        {
+          "id": "seguridad_alimentaria",
+          "nombre": "Seguridad alimentaria (trigo, maíz, fertilizantes)",
+          "palabras_clave": {
+            "es": [
+              "trigo",
+              "maíz",
+              "fertilizantes",
+              "granos",
+              "hambruna",
+              "seguridad alimentaria",
+              "corredor de granos"
+            ],
+            "en": [
+              "wheat",
+              "corn",
+              "maize",
+              "fertilizer",
+              "grain",
+              "famine",
+              "food security",
+              "grain corridor"
+            ]
+          }
+        },
+        {
+          "id": "agua_transfronteriza",
+          "nombre": "Agua transfronteriza",
+          "palabras_clave": {
+            "es": [
+              "tratado de aguas",
+              "río bravo",
+              "presa",
+              "cuenca",
+              "agua transfronteriza",
+              "nilo",
+              "presa del renacimiento"
+            ],
+            "en": [
+              "water treaty",
+              "rio grande",
+              "dam",
+              "river basin",
+              "transboundary water",
+              "nile",
+              "gerd"
+            ]
+          }
+        },
+        {
+          "id": "precios_energia",
+          "nombre": "Precios de energía (EIA)",
+          "palabras_clave": {
+            "es": [
+              "precio del petróleo",
+              "precio del gas",
+              "brent",
+              "wti",
+              "gasolina"
+            ],
+            "en": [
+              "oil price",
+              "gas price",
+              "brent",
+              "wti",
+              "gasoline prices"
+            ]
+          }
+        },
+        {
+          "id": "centrales_combustible",
+          "nombre": "Centrales por tipo de combustible",
+          "palabras_clave": {
+            "es": [
+              "central eléctrica",
+              "termoeléctrica",
+              "central nuclear",
+              "parque solar",
+              "parque eólico",
+              "hidroeléctrica"
+            ],
+            "en": [
+              "power plant",
+              "thermal plant",
+              "nuclear plant",
+              "solar farm",
+              "wind farm",
+              "hydropower"
+            ]
+          }
+        },
+        {
+          "id": "minas_minerales",
+          "nombre": "Minas de minerales críticos",
+          "palabras_clave": {
+            "es": [
+              "mina",
+              "yacimiento",
+              "concesión minera"
+            ],
+            "en": [
+              "mine",
+              "deposit",
+              "mining concession"
+            ]
+          }
+        },
+        {
+          "id": "petroleros",
+          "nombre": "Petroleros",
+          "palabras_clave": {
+            "es": [
+              "petrolero",
+              "buque tanque",
+              "flota fantasma",
+              "tanquero"
+            ],
+            "en": [
+              "oil tanker",
+              "tanker",
+              "shadow fleet"
+            ]
+          }
+        }
       ]
     },
     {
@@ -106,17 +1202,237 @@
       "ejemplo": "Taiwán (TSMC) y restricciones de EUA a la venta de chips avanzados a China desde 2022.",
       "ejemplo_mexico": "Plantas de electrónica y centros de datos en el Bajío y el norte.",
       "palabras_clave": {
-        "es": ["semiconductores", "chips", "inteligencia artificial", "ciberataque", "hackeo", "ransomware", "cable submarino", "satélite", "espacio", "5g", "datos", "tecnológica"],
-        "en": ["semiconductors", "chips", "artificial intelligence", "cyberattack", "hack", "ransomware", "undersea cable", "subsea cable", "satellite", "space", "5g", "data", "tech"]
+        "es": [
+          "semiconductores",
+          "chips",
+          "inteligencia artificial",
+          "ciberataque",
+          "hackeo",
+          "ransomware",
+          "cable submarino",
+          "satélite",
+          "espacio",
+          "5g",
+          "datos",
+          "tecnológica"
+        ],
+        "en": [
+          "semiconductors",
+          "chips",
+          "artificial intelligence",
+          "cyberattack",
+          "hack",
+          "ransomware",
+          "undersea cable",
+          "subsea cable",
+          "satellite",
+          "space",
+          "5g",
+          "data",
+          "tech"
+        ]
       },
       "subtemas": [
-        {"id": "semiconductores", "nombre": "Semiconductores y controles de exportación", "palabras_clave": {"es": ["semiconductores", "chips", "tsmc", "nvidia", "litografía", "asml"], "en": ["semiconductors", "chips", "tsmc", "nvidia", "lithography", "asml", "chipmaker"]}},
-        {"id": "ia_computo", "nombre": "Inteligencia artificial y cómputo", "palabras_clave": {"es": ["inteligencia artificial", "ia", "centro de datos", "supercomputadora"], "en": ["artificial intelligence", "ai", "data center", "supercomputer"]}},
-        {"id": "cables_submarinos", "nombre": "Cables submarinos", "palabras_clave": {"es": ["cable submarino", "cables submarinos"], "en": ["undersea cable", "subsea cable", "submarine cable"]}},
-        {"id": "satelites_espacio", "nombre": "Satélites y espacio", "palabras_clave": {"es": ["satélite", "starlink", "lanzamiento espacial", "antisatélite", "gps"], "en": ["satellite", "starlink", "space launch", "anti-satellite", "gps jamming"]}},
-        {"id": "ciberataques", "nombre": "Ciberataques", "palabras_clave": {"es": ["ciberataque", "hackeo", "ransomware", "ciberespionaje", "filtración de datos"], "en": ["cyberattack", "hack", "ransomware", "cyber espionage", "data breach"]}},
-        {"id": "soberania_datos", "nombre": "Soberanía de datos", "palabras_clave": {"es": ["soberanía de datos", "protección de datos", "localización de datos"], "en": ["data sovereignty", "data protection", "data localization"]}},
-        {"id": "telecom_5g", "nombre": "5G/telecomunicaciones", "palabras_clave": {"es": ["5g", "huawei", "telecomunicaciones", "espectro"], "en": ["5g", "huawei", "telecommunications", "spectrum"]}}
+        {
+          "id": "semiconductores",
+          "nombre": "Semiconductores y controles de exportación",
+          "palabras_clave": {
+            "es": [
+              "semiconductores",
+              "chips",
+              "tsmc",
+              "nvidia",
+              "litografía",
+              "asml"
+            ],
+            "en": [
+              "semiconductors",
+              "chips",
+              "tsmc",
+              "nvidia",
+              "lithography",
+              "asml",
+              "chipmaker"
+            ]
+          }
+        },
+        {
+          "id": "ia_computo",
+          "nombre": "Inteligencia artificial y cómputo",
+          "palabras_clave": {
+            "es": [
+              "inteligencia artificial",
+              "ia",
+              "centro de datos",
+              "supercomputadora"
+            ],
+            "en": [
+              "artificial intelligence",
+              "ai",
+              "data center",
+              "supercomputer"
+            ]
+          }
+        },
+        {
+          "id": "cables_submarinos",
+          "nombre": "Cables submarinos",
+          "palabras_clave": {
+            "es": [
+              "cable submarino",
+              "cables submarinos"
+            ],
+            "en": [
+              "undersea cable",
+              "subsea cable",
+              "submarine cable"
+            ]
+          }
+        },
+        {
+          "id": "satelites_espacio",
+          "nombre": "Satélites y espacio",
+          "palabras_clave": {
+            "es": [
+              "satélite",
+              "starlink",
+              "lanzamiento espacial",
+              "antisatélite",
+              "gps"
+            ],
+            "en": [
+              "satellite",
+              "starlink",
+              "space launch",
+              "anti-satellite",
+              "gps jamming"
+            ]
+          }
+        },
+        {
+          "id": "ciberataques",
+          "nombre": "Ciberataques",
+          "palabras_clave": {
+            "es": [
+              "ciberataque",
+              "hackeo",
+              "ransomware",
+              "ciberespionaje",
+              "filtración de datos"
+            ],
+            "en": [
+              "cyberattack",
+              "hack",
+              "ransomware",
+              "cyber espionage",
+              "data breach"
+            ]
+          }
+        },
+        {
+          "id": "soberania_datos",
+          "nombre": "Soberanía de datos",
+          "palabras_clave": {
+            "es": [
+              "soberanía de datos",
+              "protección de datos",
+              "localización de datos"
+            ],
+            "en": [
+              "data sovereignty",
+              "data protection",
+              "data localization"
+            ]
+          }
+        },
+        {
+          "id": "telecom_5g",
+          "nombre": "5G/telecomunicaciones",
+          "palabras_clave": {
+            "es": [
+              "5g",
+              "huawei",
+              "telecomunicaciones",
+              "espectro"
+            ],
+            "en": [
+              "5g",
+              "huawei",
+              "telecommunications",
+              "spectrum"
+            ]
+          }
+        },
+        {
+          "id": "vulnerabilidades",
+          "nombre": "Vulnerabilidades explotadas (CISA KEV, NVD)",
+          "palabras_clave": {
+            "es": [
+              "vulnerabilidad",
+              "día cero",
+              "parche de seguridad",
+              "cve"
+            ],
+            "en": [
+              "vulnerability",
+              "zero-day",
+              "security patch",
+              "cve",
+              "exploited"
+            ]
+          }
+        },
+        {
+          "id": "lanzamientos",
+          "nombre": "Satélites y lanzamientos",
+          "palabras_clave": {
+            "es": [
+              "lanzamiento",
+              "cohete",
+              "puesta en órbita",
+              "constelación"
+            ],
+            "en": [
+              "launch",
+              "rocket",
+              "into orbit",
+              "constellation"
+            ]
+          }
+        },
+        {
+          "id": "clima_espacial",
+          "nombre": "Clima espacial (NOAA SWPC)",
+          "palabras_clave": {
+            "es": [
+              "tormenta solar",
+              "tormenta geomagnética",
+              "llamarada solar"
+            ],
+            "en": [
+              "solar storm",
+              "geomagnetic storm",
+              "solar flare"
+            ]
+          }
+        },
+        {
+          "id": "centros_datos_tipo",
+          "nombre": "Centros de datos por tipo",
+          "palabras_clave": {
+            "es": [
+              "centro de datos",
+              "hiperescala",
+              "nube"
+            ],
+            "en": [
+              "data center",
+              "datacenter",
+              "hyperscale",
+              "cloud region"
+            ]
+          }
+        }
       ]
     },
     {
@@ -129,17 +1445,188 @@
       "ejemplo": "India superó a China como el país más poblado en 2023 (estimación ONU).",
       "ejemplo_mexico": "País de origen, tránsito y destino migratorio; remesas superiores a 60 mil millones de USD anuales en 2023–2024 (Banxico).",
       "palabras_clave": {
-        "es": ["migración", "migrantes", "refugiados", "desplazados", "asilo", "deportación", "remesas", "población", "natalidad", "envejecimiento", "caravana migrante"],
-        "en": ["migration", "migrants", "refugees", "displaced", "asylum", "deportation", "remittances", "population", "birth rate", "aging", "migrant caravan"]
+        "es": [
+          "migración",
+          "migrantes",
+          "refugiados",
+          "desplazados",
+          "asilo",
+          "deportación",
+          "remesas",
+          "población",
+          "natalidad",
+          "envejecimiento",
+          "caravana migrante"
+        ],
+        "en": [
+          "migration",
+          "migrants",
+          "refugees",
+          "displaced",
+          "asylum",
+          "deportation",
+          "remittances",
+          "population",
+          "birth rate",
+          "aging",
+          "migrant caravan"
+        ]
       },
       "subtemas": [
-        {"id": "bono_demografico", "nombre": "Bono demográfico", "palabras_clave": {"es": ["bono demográfico", "población joven", "fuerza laboral"], "en": ["demographic dividend", "youth bulge", "labor force"]}},
-        {"id": "envejecimiento", "nombre": "Envejecimiento", "palabras_clave": {"es": ["envejecimiento", "pensiones", "población envejecida"], "en": ["aging", "ageing", "pensions", "elderly population"]}},
-        {"id": "natalidad", "nombre": "Natalidad", "palabras_clave": {"es": ["natalidad", "tasa de fecundidad", "nacimientos"], "en": ["birth rate", "fertility rate", "births"]}},
-        {"id": "migracion_refugiados", "nombre": "Migración y refugiados", "palabras_clave": {"es": ["migración", "migrantes", "refugiados", "asilo", "deportación", "frontera sur", "caravana"], "en": ["migration", "migrants", "refugees", "asylum", "deportation", "caravan", "title 42"]}},
-        {"id": "remesas", "nombre": "Remesas", "palabras_clave": {"es": ["remesas", "envíos de dinero"], "en": ["remittances", "money transfers"]}},
-        {"id": "urbanizacion", "nombre": "Urbanización", "palabras_clave": {"es": ["urbanización", "megaciudad", "crecimiento urbano"], "en": ["urbanization", "megacity", "urban growth"]}},
-        {"id": "desplazados_internos", "nombre": "Desplazados internos", "palabras_clave": {"es": ["desplazados internos", "desplazamiento forzado"], "en": ["internally displaced", "idp", "forced displacement"]}}
+        {
+          "id": "bono_demografico",
+          "nombre": "Bono demográfico",
+          "palabras_clave": {
+            "es": [
+              "bono demográfico",
+              "población joven",
+              "fuerza laboral"
+            ],
+            "en": [
+              "demographic dividend",
+              "youth bulge",
+              "labor force"
+            ]
+          }
+        },
+        {
+          "id": "envejecimiento",
+          "nombre": "Envejecimiento",
+          "palabras_clave": {
+            "es": [
+              "envejecimiento",
+              "pensiones",
+              "población envejecida"
+            ],
+            "en": [
+              "aging",
+              "ageing",
+              "pensions",
+              "elderly population"
+            ]
+          }
+        },
+        {
+          "id": "natalidad",
+          "nombre": "Natalidad",
+          "palabras_clave": {
+            "es": [
+              "natalidad",
+              "tasa de fecundidad",
+              "nacimientos"
+            ],
+            "en": [
+              "birth rate",
+              "fertility rate",
+              "births"
+            ]
+          }
+        },
+        {
+          "id": "migracion_refugiados",
+          "nombre": "Migración y refugiados",
+          "palabras_clave": {
+            "es": [
+              "migración",
+              "migrantes",
+              "refugiados",
+              "asilo",
+              "deportación",
+              "frontera sur",
+              "caravana"
+            ],
+            "en": [
+              "migration",
+              "migrants",
+              "refugees",
+              "asylum",
+              "deportation",
+              "caravan",
+              "title 42"
+            ]
+          }
+        },
+        {
+          "id": "remesas",
+          "nombre": "Remesas",
+          "palabras_clave": {
+            "es": [
+              "remesas",
+              "envíos de dinero"
+            ],
+            "en": [
+              "remittances",
+              "money transfers"
+            ]
+          }
+        },
+        {
+          "id": "urbanizacion",
+          "nombre": "Urbanización",
+          "palabras_clave": {
+            "es": [
+              "urbanización",
+              "megaciudad",
+              "crecimiento urbano"
+            ],
+            "en": [
+              "urbanization",
+              "megacity",
+              "urban growth"
+            ]
+          }
+        },
+        {
+          "id": "desplazados_internos",
+          "nombre": "Desplazados internos",
+          "palabras_clave": {
+            "es": [
+              "desplazados internos",
+              "desplazamiento forzado"
+            ],
+            "en": [
+              "internally displaced",
+              "idp",
+              "forced displacement"
+            ]
+          }
+        },
+        {
+          "id": "desplazamientos_forzados",
+          "nombre": "Desplazamientos forzados",
+          "palabras_clave": {
+            "es": [
+              "desplazamiento forzado",
+              "huyen",
+              "éxodo",
+              "evacuación masiva"
+            ],
+            "en": [
+              "forced displacement",
+              "fleeing",
+              "exodus",
+              "mass evacuation"
+            ]
+          }
+        },
+        {
+          "id": "crisis_humanitarias",
+          "nombre": "Crisis humanitarias (ReliefWeb)",
+          "palabras_clave": {
+            "es": [
+              "crisis humanitaria",
+              "ayuda humanitaria",
+              "hambruna",
+              "inseguridad alimentaria aguda"
+            ],
+            "en": [
+              "humanitarian crisis",
+              "humanitarian aid",
+              "famine",
+              "acute food insecurity"
+            ]
+          }
+        }
       ]
     },
     {
@@ -153,16 +1640,216 @@
       "ejemplo_mexico": "Sequías en el norte que afectan agricultura, industria y el tratado de aguas.",
       "nota": "Aquí se reutiliza como contexto la capa meteorológica del repositorio WarRoomViajero.",
       "palabras_clave": {
-        "es": ["sequía", "inundación", "huracán", "ola de calor", "incendio forestal", "cambio climático", "emisiones", "cop", "deshielo", "ártico", "transición energética", "desastre"],
-        "en": ["drought", "flood", "hurricane", "heatwave", "wildfire", "climate change", "emissions", "cop", "melting", "arctic", "energy transition", "disaster"]
+        "es": [
+          "sequía",
+          "inundación",
+          "huracán",
+          "ola de calor",
+          "incendio forestal",
+          "cambio climático",
+          "emisiones",
+          "cop",
+          "deshielo",
+          "ártico",
+          "transición energética",
+          "desastre"
+        ],
+        "en": [
+          "drought",
+          "flood",
+          "hurricane",
+          "heatwave",
+          "wildfire",
+          "climate change",
+          "emissions",
+          "cop",
+          "melting",
+          "arctic",
+          "energy transition",
+          "disaster"
+        ]
       },
       "subtemas": [
-        {"id": "sequias_agua", "nombre": "Sequías y conflictos por agua", "palabras_clave": {"es": ["sequía", "escasez de agua", "estrés hídrico"], "en": ["drought", "water shortage", "water stress"]}},
-        {"id": "artico_rutas", "nombre": "Deshielo del Ártico y nuevas rutas", "palabras_clave": {"es": ["deshielo", "ruta del mar del norte", "paso del noroeste", "ártico"], "en": ["ice melt", "northern sea route", "northwest passage", "arctic"]}},
-        {"id": "desastres_extremos", "nombre": "Desastres extremos con efecto político", "palabras_clave": {"es": ["huracán", "inundación", "terremoto", "ola de calor", "incendio forestal", "ciclón"], "en": ["hurricane", "flood", "earthquake", "heatwave", "wildfire", "cyclone", "typhoon"]}},
-        {"id": "transicion_energetica", "nombre": "Transición energética", "palabras_clave": {"es": ["transición energética", "renovables", "energía solar", "eólica", "vehículos eléctricos"], "en": ["energy transition", "renewables", "solar power", "wind power", "electric vehicles"]}},
-        {"id": "migracion_climatica", "nombre": "Migración climática", "palabras_clave": {"es": ["migración climática", "refugiados climáticos"], "en": ["climate migration", "climate refugees"]}},
-        {"id": "acuerdos_climaticos", "nombre": "Acuerdos climáticos (COP)", "palabras_clave": {"es": ["cop", "acuerdo de parís", "cumbre del clima", "emisiones"], "en": ["cop", "paris agreement", "climate summit", "emissions"]}}
+        {
+          "id": "sequias_agua",
+          "nombre": "Sequías y conflictos por agua",
+          "palabras_clave": {
+            "es": [
+              "sequía",
+              "escasez de agua",
+              "estrés hídrico"
+            ],
+            "en": [
+              "drought",
+              "water shortage",
+              "water stress"
+            ]
+          }
+        },
+        {
+          "id": "artico_rutas",
+          "nombre": "Deshielo del Ártico y nuevas rutas",
+          "palabras_clave": {
+            "es": [
+              "deshielo",
+              "ruta del mar del norte",
+              "paso del noroeste",
+              "ártico"
+            ],
+            "en": [
+              "ice melt",
+              "northern sea route",
+              "northwest passage",
+              "arctic"
+            ]
+          }
+        },
+        {
+          "id": "desastres_extremos",
+          "nombre": "Desastres extremos con efecto político",
+          "palabras_clave": {
+            "es": [
+              "huracán",
+              "inundación",
+              "terremoto",
+              "ola de calor",
+              "incendio forestal",
+              "ciclón"
+            ],
+            "en": [
+              "hurricane",
+              "flood",
+              "earthquake",
+              "heatwave",
+              "wildfire",
+              "cyclone",
+              "typhoon"
+            ]
+          }
+        },
+        {
+          "id": "transicion_energetica",
+          "nombre": "Transición energética",
+          "palabras_clave": {
+            "es": [
+              "transición energética",
+              "renovables",
+              "energía solar",
+              "eólica",
+              "vehículos eléctricos"
+            ],
+            "en": [
+              "energy transition",
+              "renewables",
+              "solar power",
+              "wind power",
+              "electric vehicles"
+            ]
+          }
+        },
+        {
+          "id": "migracion_climatica",
+          "nombre": "Migración climática",
+          "palabras_clave": {
+            "es": [
+              "migración climática",
+              "refugiados climáticos"
+            ],
+            "en": [
+              "climate migration",
+              "climate refugees"
+            ]
+          }
+        },
+        {
+          "id": "acuerdos_climaticos",
+          "nombre": "Acuerdos climáticos (COP)",
+          "palabras_clave": {
+            "es": [
+              "cop",
+              "acuerdo de parís",
+              "cumbre del clima",
+              "emisiones"
+            ],
+            "en": [
+              "cop",
+              "paris agreement",
+              "climate summit",
+              "emissions"
+            ]
+          }
+        },
+        {
+          "id": "incendios_firms",
+          "nombre": "Incendios (NASA FIRMS)",
+          "palabras_clave": {
+            "es": [
+              "incendio forestal",
+              "incendios",
+              "focos de calor"
+            ],
+            "en": [
+              "wildfire",
+              "wildfires",
+              "bushfire",
+              "hotspots"
+            ]
+          }
+        },
+        {
+          "id": "sismos",
+          "nombre": "Sismos (USGS)",
+          "palabras_clave": {
+            "es": [
+              "sismo",
+              "terremoto",
+              "temblor",
+              "tsunami"
+            ],
+            "en": [
+              "earthquake",
+              "quake",
+              "tsunami",
+              "seismic"
+            ]
+          }
+        },
+        {
+          "id": "eventos_naturales",
+          "nombre": "Eventos naturales (NASA EONET, GDACS)",
+          "palabras_clave": {
+            "es": [
+              "erupción volcánica",
+              "volcán",
+              "deslave",
+              "inundaciones"
+            ],
+            "en": [
+              "volcanic eruption",
+              "volcano",
+              "landslide",
+              "floods"
+            ]
+          }
+        },
+        {
+          "id": "calidad_aire",
+          "nombre": "Calidad del aire",
+          "palabras_clave": {
+            "es": [
+              "calidad del aire",
+              "contingencia ambiental",
+              "smog",
+              "partículas pm2.5"
+            ],
+            "en": [
+              "air quality",
+              "smog",
+              "air pollution",
+              "pm2.5"
+            ]
+          }
+        }
       ]
     },
     {
@@ -175,17 +1862,240 @@
       "ejemplo": "El órgano de apelación de la OMC está paralizado desde 2019.",
       "ejemplo_mexico": "Doctrina Estrada y principios del artículo 89 constitucional.",
       "palabras_clave": {
-        "es": ["onu", "consejo de seguridad", "omc", "corte internacional de justicia", "corte penal internacional", "tratado", "resolución", "cumbre", "elecciones", "golpe de estado", "derecho internacional", "veto"],
-        "en": ["un", "united nations", "security council", "wto", "international court of justice", "international criminal court", "treaty", "resolution", "summit", "elections", "coup", "international law", "veto"]
+        "es": [
+          "onu",
+          "consejo de seguridad",
+          "omc",
+          "corte internacional de justicia",
+          "corte penal internacional",
+          "tratado",
+          "resolución",
+          "cumbre",
+          "elecciones",
+          "golpe de estado",
+          "derecho internacional",
+          "veto"
+        ],
+        "en": [
+          "un",
+          "united nations",
+          "security council",
+          "wto",
+          "international court of justice",
+          "international criminal court",
+          "treaty",
+          "resolution",
+          "summit",
+          "elections",
+          "coup",
+          "international law",
+          "veto"
+        ]
       },
       "subtemas": [
-        {"id": "onu_consejo", "nombre": "ONU y Consejo de Seguridad (veto)", "palabras_clave": {"es": ["onu", "naciones unidas", "consejo de seguridad", "veto", "asamblea general"], "en": ["united nations", "security council", "veto", "general assembly"]}},
-        {"id": "omc_controversias", "nombre": "OMC y controversias", "palabras_clave": {"es": ["omc", "panel de controversias", "órgano de apelación"], "en": ["wto", "dispute panel", "appellate body"]}},
-        {"id": "cortes_internacionales", "nombre": "Corte Internacional de Justicia y Corte Penal Internacional", "palabras_clave": {"es": ["corte internacional de justicia", "cij", "corte penal internacional", "cpi", "orden de arresto"], "en": ["international court of justice", "icj", "international criminal court", "icc", "arrest warrant"]}},
-        {"id": "tratados", "nombre": "Tratados y su cumplimiento", "palabras_clave": {"es": ["tratado", "ratificación", "retiro del tratado", "incumplimiento"], "en": ["treaty", "ratification", "withdrawal from treaty", "non-compliance"]}},
-        {"id": "soberania_no_intervencion", "nombre": "Soberanía y no intervención", "palabras_clave": {"es": ["soberanía", "no intervención", "injerencia", "doctrina estrada"], "en": ["sovereignty", "non-intervention", "interference"]}},
-        {"id": "elecciones_gobierno", "nombre": "Elecciones y cambios de gobierno", "palabras_clave": {"es": ["elecciones", "presidente electo", "golpe de estado", "junta militar", "renuncia"], "en": ["election", "president-elect", "coup", "military junta", "resignation"]}},
-        {"id": "cumbres", "nombre": "Cumbres (G7, G20, BRICS, APEC)", "palabras_clave": {"es": ["cumbre", "g7", "g20", "brics", "apec", "celac", "cedeao"], "en": ["summit", "g7", "g20", "brics", "apec", "ecowas"]}}
+        {
+          "id": "onu_consejo",
+          "nombre": "ONU y Consejo de Seguridad (veto)",
+          "palabras_clave": {
+            "es": [
+              "onu",
+              "naciones unidas",
+              "consejo de seguridad",
+              "veto",
+              "asamblea general"
+            ],
+            "en": [
+              "united nations",
+              "security council",
+              "veto",
+              "general assembly"
+            ]
+          }
+        },
+        {
+          "id": "omc_controversias",
+          "nombre": "OMC y controversias",
+          "palabras_clave": {
+            "es": [
+              "omc",
+              "panel de controversias",
+              "órgano de apelación"
+            ],
+            "en": [
+              "wto",
+              "dispute panel",
+              "appellate body"
+            ]
+          }
+        },
+        {
+          "id": "cortes_internacionales",
+          "nombre": "Corte Internacional de Justicia y Corte Penal Internacional",
+          "palabras_clave": {
+            "es": [
+              "corte internacional de justicia",
+              "cij",
+              "corte penal internacional",
+              "cpi",
+              "orden de arresto"
+            ],
+            "en": [
+              "international court of justice",
+              "icj",
+              "international criminal court",
+              "icc",
+              "arrest warrant"
+            ]
+          }
+        },
+        {
+          "id": "tratados",
+          "nombre": "Tratados y su cumplimiento",
+          "palabras_clave": {
+            "es": [
+              "tratado",
+              "ratificación",
+              "retiro del tratado",
+              "incumplimiento"
+            ],
+            "en": [
+              "treaty",
+              "ratification",
+              "withdrawal from treaty",
+              "non-compliance"
+            ]
+          }
+        },
+        {
+          "id": "soberania_no_intervencion",
+          "nombre": "Soberanía y no intervención",
+          "palabras_clave": {
+            "es": [
+              "soberanía",
+              "no intervención",
+              "injerencia",
+              "doctrina estrada"
+            ],
+            "en": [
+              "sovereignty",
+              "non-intervention",
+              "interference"
+            ]
+          }
+        },
+        {
+          "id": "elecciones_gobierno",
+          "nombre": "Elecciones y cambios de gobierno",
+          "palabras_clave": {
+            "es": [
+              "elecciones",
+              "presidente electo",
+              "golpe de estado",
+              "junta militar",
+              "renuncia"
+            ],
+            "en": [
+              "election",
+              "president-elect",
+              "coup",
+              "military junta",
+              "resignation"
+            ]
+          }
+        },
+        {
+          "id": "cumbres",
+          "nombre": "Cumbres (G7, G20, BRICS, APEC)",
+          "palabras_clave": {
+            "es": [
+              "cumbre",
+              "g7",
+              "g20",
+              "brics",
+              "apec",
+              "celac",
+              "cedeao"
+            ],
+            "en": [
+              "summit",
+              "g7",
+              "g20",
+              "brics",
+              "apec",
+              "ecowas"
+            ]
+          }
+        },
+        {
+          "id": "elecciones",
+          "nombre": "Elecciones",
+          "palabras_clave": {
+            "es": [
+              "elecciones",
+              "votación",
+              "segunda vuelta",
+              "resultados electorales"
+            ],
+            "en": [
+              "elections",
+              "vote",
+              "runoff",
+              "election results"
+            ]
+          }
+        },
+        {
+          "id": "cumbres_detalle",
+          "nombre": "Cumbres",
+          "palabras_clave": {
+            "es": [
+              "cumbre",
+              "reunión de líderes",
+              "jefes de estado"
+            ],
+            "en": [
+              "summit",
+              "leaders meeting",
+              "heads of state"
+            ]
+          }
+        },
+        {
+          "id": "votaciones_onu",
+          "nombre": "Votaciones en la ONU",
+          "palabras_clave": {
+            "es": [
+              "resolución de la asamblea general",
+              "votación en la onu",
+              "abstención"
+            ],
+            "en": [
+              "general assembly resolution",
+              "un vote",
+              "abstained"
+            ]
+          }
+        },
+        {
+          "id": "embajadas",
+          "nombre": "Embajadas",
+          "palabras_clave": {
+            "es": [
+              "embajada",
+              "embajador",
+              "consulado",
+              "relaciones diplomáticas",
+              "expulsa diplomáticos"
+            ],
+            "en": [
+              "embassy",
+              "ambassador",
+              "consulate",
+              "diplomatic relations",
+              "expels diplomats"
+            ]
+          }
+        }
       ]
     },
     {
@@ -198,16 +2108,197 @@
       "ejemplo": "Disputas China–Japón cargadas de memoria de la Segunda Guerra Mundial.",
       "ejemplo_mexico": "Narrativas de soberanía energética y discursos sobre migración.",
       "palabras_clave": {
-        "es": ["protesta", "manifestación", "nacionalismo", "religión", "étnico", "propaganda", "desinformación", "censura", "libertad de prensa", "solidaridad", "memoria histórica"],
-        "en": ["protest", "demonstration", "nationalism", "religious", "ethnic", "propaganda", "disinformation", "censorship", "press freedom", "solidarity", "historical memory"]
+        "es": [
+          "protesta",
+          "manifestación",
+          "nacionalismo",
+          "religión",
+          "étnico",
+          "propaganda",
+          "desinformación",
+          "censura",
+          "libertad de prensa",
+          "solidaridad",
+          "memoria histórica"
+        ],
+        "en": [
+          "protest",
+          "demonstration",
+          "nationalism",
+          "religious",
+          "ethnic",
+          "propaganda",
+          "disinformation",
+          "censorship",
+          "press freedom",
+          "solidarity",
+          "historical memory"
+        ]
       },
       "subtemas": [
-        {"id": "nacionalismo_memoria", "nombre": "Nacionalismo y memoria histórica", "palabras_clave": {"es": ["nacionalismo", "memoria histórica", "aniversario", "patriótico"], "en": ["nationalism", "historical memory", "anniversary", "patriotic"]}},
-        {"id": "religion_etnicidad", "nombre": "Religión y etnicidad", "palabras_clave": {"es": ["religioso", "étnico", "sectario", "minoría", "chiíta", "suní"], "en": ["religious", "ethnic", "sectarian", "minority", "shia", "sunni"]}},
-        {"id": "protestas", "nombre": "Protestas y movimientos sociales", "palabras_clave": {"es": ["protesta", "manifestantes", "manifestación", "huelga", "movimiento social"], "en": ["protest", "protesters", "demonstration", "strike", "social movement"]}},
-        {"id": "desinformacion", "nombre": "Desinformación y operaciones de influencia", "palabras_clave": {"es": ["desinformación", "propaganda", "operación de influencia", "noticias falsas", "bots"], "en": ["disinformation", "propaganda", "influence operation", "fake news", "bots"]}},
-        {"id": "poder_blando", "nombre": "Poder blando", "palabras_clave": {"es": ["poder blando", "diplomacia cultural", "becas"], "en": ["soft power", "cultural diplomacy"]}},
-        {"id": "censura_prensa", "nombre": "Censura y libertad de prensa", "palabras_clave": {"es": ["censura", "libertad de prensa", "periodistas", "agentes extranjeros"], "en": ["censorship", "press freedom", "journalists", "foreign agents"]}}
+        {
+          "id": "nacionalismo_memoria",
+          "nombre": "Nacionalismo y memoria histórica",
+          "palabras_clave": {
+            "es": [
+              "nacionalismo",
+              "memoria histórica",
+              "aniversario",
+              "patriótico"
+            ],
+            "en": [
+              "nationalism",
+              "historical memory",
+              "anniversary",
+              "patriotic"
+            ]
+          }
+        },
+        {
+          "id": "religion_etnicidad",
+          "nombre": "Religión y etnicidad",
+          "palabras_clave": {
+            "es": [
+              "religioso",
+              "étnico",
+              "sectario",
+              "minoría",
+              "chiíta",
+              "suní"
+            ],
+            "en": [
+              "religious",
+              "ethnic",
+              "sectarian",
+              "minority",
+              "shia",
+              "sunni"
+            ]
+          }
+        },
+        {
+          "id": "protestas",
+          "nombre": "Protestas y movimientos sociales",
+          "palabras_clave": {
+            "es": [
+              "protesta",
+              "manifestantes",
+              "manifestación",
+              "huelga",
+              "movimiento social"
+            ],
+            "en": [
+              "protest",
+              "protesters",
+              "demonstration",
+              "general strike",
+              "social movement",
+              "labor strike",
+              "workers strike"
+            ]
+          }
+        },
+        {
+          "id": "desinformacion",
+          "nombre": "Desinformación y operaciones de influencia",
+          "palabras_clave": {
+            "es": [
+              "desinformación",
+              "propaganda",
+              "operación de influencia",
+              "noticias falsas",
+              "bots"
+            ],
+            "en": [
+              "disinformation",
+              "propaganda",
+              "influence operation",
+              "fake news",
+              "bots"
+            ]
+          }
+        },
+        {
+          "id": "poder_blando",
+          "nombre": "Poder blando",
+          "palabras_clave": {
+            "es": [
+              "poder blando",
+              "diplomacia cultural",
+              "becas"
+            ],
+            "en": [
+              "soft power",
+              "cultural diplomacy"
+            ]
+          }
+        },
+        {
+          "id": "censura_prensa",
+          "nombre": "Censura y libertad de prensa",
+          "palabras_clave": {
+            "es": [
+              "censura",
+              "libertad de prensa",
+              "periodistas",
+              "agentes extranjeros"
+            ],
+            "en": [
+              "censorship",
+              "press freedom",
+              "journalists",
+              "foreign agents"
+            ]
+          }
+        },
+        {
+          "id": "telegram_publico",
+          "nombre": "Canales públicos de Telegram",
+          "palabras_clave": {
+            "es": [
+              "canal de telegram",
+              "telegram"
+            ],
+            "en": [
+              "telegram channel",
+              "telegram"
+            ]
+          }
+        },
+        {
+          "id": "bluesky",
+          "nombre": "Bluesky y redes abiertas",
+          "palabras_clave": {
+            "es": [
+              "bluesky",
+              "mastodon",
+              "redes sociales"
+            ],
+            "en": [
+              "bluesky",
+              "mastodon",
+              "social media"
+            ]
+          }
+        },
+        {
+          "id": "mercados_prediccion",
+          "nombre": "Mercados de predicción (expectativa agregada, no hecho)",
+          "palabras_clave": {
+            "es": [
+              "mercado de predicción",
+              "polymarket",
+              "manifold",
+              "probabilidad implícita"
+            ],
+            "en": [
+              "prediction market",
+              "polymarket",
+              "manifold",
+              "implied probability"
+            ]
+          }
+        }
       ]
     },
     {
@@ -219,24 +2310,232 @@
       "pregunta_guia": "¿Cuáles son las 3 tensiones principales de esta región?",
       "ejemplo": "Sahel: Mali, Burkina Faso y Níger anunciaron en enero de 2024 su salida de la CEDEAO.",
       "ejemplo_mexico": "Norteamérica: comercio (T-MEC), migración y seguridad en la frontera norte; Centroamérica: flujos migratorios por la frontera sur.",
-      "nota": "Cada subtema es un filtro de región. La región de un evento se asigna por su país (config/regions.json); el área 10 es principal solo cuando el hecho trata de la dinámica de la región en conjunto.",
+      "nota": "Cada subtema es un filtro de región (también en la barra superior). La región de un evento se asigna por su país (config/regions.json); el área 10 es principal solo cuando el hecho trata de la dinámica de la región en conjunto.",
       "palabras_clave": {
-        "es": ["regional", "bloque regional", "integración regional", "vecinos", "cedeao", "asean", "unión africana", "liga árabe", "celac", "otca"],
-        "en": ["regional", "regional bloc", "regional integration", "neighbors", "ecowas", "asean", "african union", "arab league", "celac"]
+        "es": [
+          "regional",
+          "bloque regional",
+          "integración regional",
+          "vecinos",
+          "cedeao",
+          "asean",
+          "unión africana",
+          "liga árabe",
+          "celac",
+          "otca"
+        ],
+        "en": [
+          "regional",
+          "regional bloc",
+          "regional integration",
+          "neighbors",
+          "ecowas",
+          "asean",
+          "african union",
+          "arab league",
+          "celac"
+        ]
       },
       "subtemas": [
-        {"id": "norteamerica", "nombre": "Norteamérica", "palabras_clave": {"es": ["norteamérica", "américa del norte"], "en": ["north america"]}},
-        {"id": "centroamerica_caribe", "nombre": "Centroamérica y Caribe", "palabras_clave": {"es": ["centroamérica", "caribe", "sica"], "en": ["central america", "caribbean", "caricom"]}},
-        {"id": "sudamerica", "nombre": "Sudamérica", "palabras_clave": {"es": ["sudamérica", "suramérica", "mercosur", "amazonía"], "en": ["south america", "mercosur", "amazon"]}},
-        {"id": "europa_occidental", "nombre": "Europa Occidental", "palabras_clave": {"es": ["unión europea", "bruselas", "eurozona"], "en": ["european union", "brussels", "eurozone"]}},
-        {"id": "europa_este_rusia", "nombre": "Europa del Este y Rusia", "palabras_clave": {"es": ["europa del este", "báltico", "balcanes", "cáucaso", "mar negro"], "en": ["eastern europe", "baltic", "balkans", "caucasus", "black sea"]}},
-        {"id": "medio_oriente", "nombre": "Medio Oriente", "palabras_clave": {"es": ["medio oriente", "oriente medio", "golfo pérsico", "levante"], "en": ["middle east", "persian gulf", "gulf states", "levant"]}},
-        {"id": "africa_norte_sahel", "nombre": "África del Norte y Sahel", "palabras_clave": {"es": ["sahel", "magreb", "norte de áfrica"], "en": ["sahel", "maghreb", "north africa"]}},
-        {"id": "africa_subsahariana", "nombre": "África Subsahariana", "palabras_clave": {"es": ["áfrica subsahariana", "cuerno de áfrica", "grandes lagos", "unión africana"], "en": ["sub-saharan africa", "horn of africa", "great lakes", "african union"]}},
-        {"id": "asia_central", "nombre": "Asia Central", "palabras_clave": {"es": ["asia central"], "en": ["central asia"]}},
-        {"id": "asia_sur", "nombre": "Asia del Sur", "palabras_clave": {"es": ["asia del sur", "cachemira", "subcontinente"], "en": ["south asia", "kashmir", "subcontinent"]}},
-        {"id": "indopacifico_taiwan", "nombre": "Indo-Pacífico y Taiwán", "palabras_clave": {"es": ["indo-pacífico", "indopacífico", "taiwán", "mar de china", "asean"], "en": ["indo-pacific", "taiwan", "south china sea", "asean"]}},
-        {"id": "artico", "nombre": "Ártico", "palabras_clave": {"es": ["ártico", "groenlandia", "svalbard", "consejo ártico"], "en": ["arctic", "greenland", "svalbard", "arctic council"]}}
+        {
+          "id": "norteamerica",
+          "nombre": "Norteamérica",
+          "palabras_clave": {
+            "es": [
+              "norteamérica",
+              "américa del norte"
+            ],
+            "en": [
+              "north america"
+            ]
+          }
+        },
+        {
+          "id": "centroamerica_caribe",
+          "nombre": "Centroamérica y Caribe",
+          "palabras_clave": {
+            "es": [
+              "centroamérica",
+              "caribe",
+              "sica"
+            ],
+            "en": [
+              "central america",
+              "caribbean",
+              "caricom"
+            ]
+          }
+        },
+        {
+          "id": "sudamerica",
+          "nombre": "Sudamérica",
+          "palabras_clave": {
+            "es": [
+              "sudamérica",
+              "suramérica",
+              "mercosur",
+              "amazonía"
+            ],
+            "en": [
+              "south america",
+              "mercosur",
+              "amazon"
+            ]
+          }
+        },
+        {
+          "id": "europa_occidental",
+          "nombre": "Europa Occidental",
+          "palabras_clave": {
+            "es": [
+              "unión europea",
+              "bruselas",
+              "eurozona"
+            ],
+            "en": [
+              "european union",
+              "brussels",
+              "eurozone"
+            ]
+          }
+        },
+        {
+          "id": "europa_este_rusia",
+          "nombre": "Europa del Este y Rusia",
+          "palabras_clave": {
+            "es": [
+              "europa del este",
+              "báltico",
+              "balcanes",
+              "cáucaso",
+              "mar negro"
+            ],
+            "en": [
+              "eastern europe",
+              "baltic",
+              "balkans",
+              "caucasus",
+              "black sea"
+            ]
+          }
+        },
+        {
+          "id": "medio_oriente",
+          "nombre": "Medio Oriente",
+          "palabras_clave": {
+            "es": [
+              "medio oriente",
+              "oriente medio",
+              "golfo pérsico",
+              "levante"
+            ],
+            "en": [
+              "middle east",
+              "persian gulf",
+              "gulf states",
+              "levant"
+            ]
+          }
+        },
+        {
+          "id": "africa_norte_sahel",
+          "nombre": "África del Norte y Sahel",
+          "palabras_clave": {
+            "es": [
+              "sahel",
+              "magreb",
+              "norte de áfrica"
+            ],
+            "en": [
+              "sahel",
+              "maghreb",
+              "north africa"
+            ]
+          }
+        },
+        {
+          "id": "africa_subsahariana",
+          "nombre": "África Subsahariana",
+          "palabras_clave": {
+            "es": [
+              "áfrica subsahariana",
+              "cuerno de áfrica",
+              "grandes lagos",
+              "unión africana"
+            ],
+            "en": [
+              "sub-saharan africa",
+              "horn of africa",
+              "great lakes",
+              "african union"
+            ]
+          }
+        },
+        {
+          "id": "asia_central",
+          "nombre": "Asia Central",
+          "palabras_clave": {
+            "es": [
+              "asia central"
+            ],
+            "en": [
+              "central asia"
+            ]
+          }
+        },
+        {
+          "id": "asia_sur",
+          "nombre": "Asia del Sur",
+          "palabras_clave": {
+            "es": [
+              "asia del sur",
+              "cachemira",
+              "subcontinente"
+            ],
+            "en": [
+              "south asia",
+              "kashmir",
+              "subcontinent"
+            ]
+          }
+        },
+        {
+          "id": "indopacifico_taiwan",
+          "nombre": "Indo-Pacífico y Taiwán",
+          "palabras_clave": {
+            "es": [
+              "indo-pacífico",
+              "indopacífico",
+              "taiwán",
+              "mar de china",
+              "asean"
+            ],
+            "en": [
+              "indo-pacific",
+              "taiwan",
+              "south china sea",
+              "asean"
+            ]
+          }
+        },
+        {
+          "id": "artico",
+          "nombre": "Ártico",
+          "palabras_clave": {
+            "es": [
+              "ártico",
+              "groenlandia",
+              "svalbard",
+              "consejo ártico"
+            ],
+            "en": [
+              "arctic",
+              "greenland",
+              "svalbard",
+              "arctic council"
+            ]
+          }
+        }
       ]
     },
     {
@@ -249,16 +2548,479 @@
       "ejemplo": "El desvío de rutas por el Mar Rojo (2023–2024) obligó a importadores a revisar inventarios de seguridad y tiempos de entrega.",
       "ejemplo_mexico": "Exportadora que evalúa aranceles, reglas de origen, seguridad carretera, agua y energía.",
       "palabras_clave": {
-        "es": ["riesgo país", "continuidad de negocio", "cadena de suministro", "debida diligencia", "lista de sanciones", "aseguradoras", "primas de seguro", "calificación de riesgo", "plan de contingencia", "interrupción de operaciones", "paro de planta"],
-        "en": ["country risk", "business continuity", "supply chain", "due diligence", "sanctions list", "insurers", "insurance premiums", "risk rating", "contingency plan", "operational disruption", "plant shutdown"]
+        "es": [
+          "riesgo país",
+          "continuidad de negocio",
+          "cadena de suministro",
+          "debida diligencia",
+          "lista de sanciones",
+          "aseguradoras",
+          "primas de seguro",
+          "calificación de riesgo",
+          "plan de contingencia",
+          "interrupción de operaciones",
+          "paro de planta"
+        ],
+        "en": [
+          "country risk",
+          "business continuity",
+          "supply chain",
+          "due diligence",
+          "sanctions list",
+          "insurers",
+          "insurance premiums",
+          "risk rating",
+          "contingency plan",
+          "operational disruption",
+          "plant shutdown"
+        ]
       },
       "subtemas": [
-        {"id": "riesgo_pais", "nombre": "Riesgo país", "palabras_clave": {"es": ["riesgo país", "calificación soberana", "prima de riesgo"], "en": ["country risk", "sovereign rating", "risk premium"]}},
-        {"id": "escenarios_impacto", "nombre": "Escenarios e impacto", "palabras_clave": {"es": ["escenario", "impacto económico", "pérdidas"], "en": ["scenario", "economic impact", "losses"]}},
-        {"id": "continuidad_negocio", "nombre": "Continuidad de negocio (ISO 22301)", "palabras_clave": {"es": ["continuidad de negocio", "interrupción", "paro de planta", "cierre de operaciones"], "en": ["business continuity", "disruption", "plant shutdown", "halt operations"]}},
-        {"id": "cadena_suministro_iso28000", "nombre": "Cadena de suministro (ISO 28000)", "palabras_clave": {"es": ["seguridad de la cadena de suministro", "robo de carga", "seguridad carretera", "desabasto"], "en": ["supply chain security", "cargo theft", "road security", "stockout"]}},
-        {"id": "due_diligence_sanciones", "nombre": "Due diligence de proveedores y listas de sanciones", "palabras_clave": {"es": ["debida diligencia", "lista de sanciones", "cumplimiento", "proveedor sancionado"], "en": ["due diligence", "sanctions list", "compliance", "sanctioned supplier"]}},
-        {"id": "matriz_riesgo", "nombre": "Matriz de riesgo (ISO 31000, COSO ERM)", "palabras_clave": {"es": ["matriz de riesgo", "apetito de riesgo", "mapa de calor de riesgos"], "en": ["risk matrix", "risk appetite", "risk heat map"]}}
+        {
+          "id": "riesgo_pais",
+          "nombre": "Riesgo país",
+          "palabras_clave": {
+            "es": [
+              "riesgo país",
+              "calificación soberana",
+              "prima de riesgo"
+            ],
+            "en": [
+              "country risk",
+              "sovereign rating",
+              "risk premium"
+            ]
+          }
+        },
+        {
+          "id": "escenarios_impacto",
+          "nombre": "Escenarios e impacto",
+          "palabras_clave": {
+            "es": [
+              "escenario",
+              "impacto económico",
+              "pérdidas"
+            ],
+            "en": [
+              "scenario",
+              "economic impact",
+              "losses"
+            ]
+          }
+        },
+        {
+          "id": "continuidad_negocio",
+          "nombre": "Continuidad de negocio (ISO 22301)",
+          "palabras_clave": {
+            "es": [
+              "continuidad de negocio",
+              "interrupción",
+              "paro de planta",
+              "cierre de operaciones"
+            ],
+            "en": [
+              "business continuity",
+              "disruption",
+              "plant shutdown",
+              "halt operations"
+            ]
+          }
+        },
+        {
+          "id": "cadena_suministro_iso28000",
+          "nombre": "Cadena de suministro (ISO 28000)",
+          "palabras_clave": {
+            "es": [
+              "seguridad de la cadena de suministro",
+              "robo de carga",
+              "seguridad carretera",
+              "desabasto"
+            ],
+            "en": [
+              "supply chain security",
+              "cargo theft",
+              "road security",
+              "stockout"
+            ]
+          }
+        },
+        {
+          "id": "due_diligence_sanciones",
+          "nombre": "Due diligence de proveedores y listas de sanciones",
+          "palabras_clave": {
+            "es": [
+              "debida diligencia",
+              "lista de sanciones",
+              "cumplimiento",
+              "proveedor sancionado"
+            ],
+            "en": [
+              "due diligence",
+              "sanctions list",
+              "compliance",
+              "sanctioned supplier"
+            ]
+          }
+        },
+        {
+          "id": "matriz_riesgo",
+          "nombre": "Matriz de riesgo (ISO 31000, COSO ERM)",
+          "palabras_clave": {
+            "es": [
+              "matriz de riesgo",
+              "apetito de riesgo",
+              "mapa de calor de riesgos"
+            ],
+            "en": [
+              "risk matrix",
+              "risk appetite",
+              "risk heat map"
+            ]
+          }
+        },
+        {
+          "id": "indice_inestabilidad",
+          "nombre": "Índice de Inestabilidad por País",
+          "palabras_clave": {
+            "es": [
+              "índice de inestabilidad",
+              "inestabilidad política"
+            ],
+            "en": [
+              "instability index",
+              "political instability"
+            ]
+          }
+        },
+        {
+          "id": "alertas",
+          "nombre": "Alertas",
+          "palabras_clave": {
+            "es": [
+              "alerta",
+              "nivel de alerta",
+              "advertencia de viaje"
+            ],
+            "en": [
+              "alert",
+              "alert level",
+              "travel advisory"
+            ]
+          }
+        },
+        {
+          "id": "listas_seguimiento",
+          "nombre": "Listas de seguimiento",
+          "palabras_clave": {
+            "es": [
+              "lista de seguimiento",
+              "vigilancia"
+            ],
+            "en": [
+              "watchlist",
+              "monitoring list"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "infraestructura",
+      "numero": 12,
+      "nombre": "Infraestructura crítica y conectividad",
+      "color": "#6B5B3E",
+      "que_estudia": "Activos físicos y digitales de los que dependen millones de personas y las cadenas de suministro.",
+      "pregunta_guia": "¿Qué infraestructura, si falla, afecta a millones de personas o a una cadena de suministro?",
+      "ejemplo": "Apagón del 28 de abril de 2025 en España y Portugal, que detuvo trenes, telecomunicaciones y pagos durante horas.",
+      "ejemplo_mexico": "Gasoductos que traen gas natural de Texas a la red eléctrica; puertos de Manzanillo y Lázaro Cárdenas; cruces fronterizos de carga.",
+      "palabras_clave": {
+        "es": [
+          "infraestructura crítica",
+          "apagón",
+          "corte de energía",
+          "caída de internet",
+          "cable submarino",
+          "gasoducto",
+          "oleoducto",
+          "presa",
+          "puerto",
+          "aeropuerto",
+          "centro de datos",
+          "red eléctrica",
+          "falla masiva",
+          "interrupción del servicio",
+          "sin electricidad",
+          "apagón masivo"
+        ],
+        "en": [
+          "critical infrastructure",
+          "blackout",
+          "power outage",
+          "internet outage",
+          "undersea cable",
+          "gas pipeline",
+          "pipeline",
+          "dam",
+          "port",
+          "airport",
+          "data center",
+          "power grid",
+          "massive failure",
+          "service disruption",
+          "without power",
+          "massive blackout"
+        ]
+      },
+      "subtemas": [
+        {
+          "id": "cables_submarinos_infra",
+          "nombre": "Cables submarinos",
+          "palabras_clave": {
+            "es": [
+              "cable submarino",
+              "punto de aterrizaje"
+            ],
+            "en": [
+              "undersea cable",
+              "subsea cable",
+              "landing station"
+            ]
+          }
+        },
+        {
+          "id": "ductos",
+          "nombre": "Ductos de petróleo y gas",
+          "palabras_clave": {
+            "es": [
+              "gasoducto",
+              "oleoducto",
+              "ducto"
+            ],
+            "en": [
+              "gas pipeline",
+              "oil pipeline",
+              "pipeline"
+            ]
+          }
+        },
+        {
+          "id": "centrales_infra",
+          "nombre": "Centrales eléctricas",
+          "palabras_clave": {
+            "es": [
+              "central eléctrica",
+              "subestación",
+              "red eléctrica"
+            ],
+            "en": [
+              "power plant",
+              "substation",
+              "power grid"
+            ]
+          }
+        },
+        {
+          "id": "presas",
+          "nombre": "Presas",
+          "palabras_clave": {
+            "es": [
+              "presa",
+              "embalse",
+              "represa"
+            ],
+            "en": [
+              "dam",
+              "reservoir"
+            ]
+          }
+        },
+        {
+          "id": "puertos_infra",
+          "nombre": "Puertos",
+          "palabras_clave": {
+            "es": [
+              "puerto",
+              "terminal de contenedores"
+            ],
+            "en": [
+              "port",
+              "container terminal"
+            ]
+          }
+        },
+        {
+          "id": "aeropuertos_infra",
+          "nombre": "Aeropuertos",
+          "palabras_clave": {
+            "es": [
+              "aeropuerto",
+              "pista",
+              "cierre del aeropuerto"
+            ],
+            "en": [
+              "airport",
+              "runway",
+              "airport closure"
+            ]
+          }
+        },
+        {
+          "id": "centros_datos_infra",
+          "nombre": "Centros de datos",
+          "palabras_clave": {
+            "es": [
+              "centro de datos"
+            ],
+            "en": [
+              "data center",
+              "datacenter"
+            ]
+          }
+        },
+        {
+          "id": "caidas_internet",
+          "nombre": "Caídas de internet",
+          "palabras_clave": {
+            "es": [
+              "caída de internet",
+              "apagón digital",
+              "corte de internet",
+              "sin conexión"
+            ],
+            "en": [
+              "internet outage",
+              "internet shutdown",
+              "connectivity loss",
+              "network outage"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "salud_nrbq",
+      "numero": 13,
+      "nombre": "Salud pública y riesgos NRBQ",
+      "color": "#8A3A5C",
+      "que_estudia": "Brotes, emergencias sanitarias y riesgos nucleares, radiológicos, biológicos y químicos que cruzan fronteras.",
+      "pregunta_guia": "¿Hay un riesgo sanitario o radiológico que cruce fronteras?",
+      "ejemplo": "La OMS declaró el mpox emergencia de salud pública de importancia internacional el 14 de agosto de 2024.",
+      "ejemplo_mexico": "Brotes de dengue y sarampión con impacto en la frontera y el turismo; resguardo de fuentes radiactivas robadas (alertas de Protección Civil).",
+      "palabras_clave": {
+        "es": [
+          "brote",
+          "epidemia",
+          "pandemia",
+          "oms",
+          "emergencia sanitaria",
+          "contagios",
+          "radiación",
+          "fuga radiactiva",
+          "accidente nuclear",
+          "derrame químico",
+          "fuente radiactiva",
+          "gripe aviar",
+          "vacunación",
+          "cuarentena"
+        ],
+        "en": [
+          "outbreak",
+          "epidemic",
+          "pandemic",
+          "who",
+          "health emergency",
+          "infections",
+          "radiation",
+          "radioactive leak",
+          "nuclear accident",
+          "chemical spill",
+          "radioactive source",
+          "bird flu",
+          "vaccination",
+          "quarantine"
+        ]
+      },
+      "subtemas": [
+        {
+          "id": "brotes",
+          "nombre": "Brotes de enfermedades",
+          "palabras_clave": {
+            "es": [
+              "brote",
+              "casos confirmados",
+              "dengue",
+              "sarampión",
+              "cólera",
+              "mpox",
+              "ébola",
+              "gripe aviar"
+            ],
+            "en": [
+              "outbreak",
+              "confirmed cases",
+              "dengue",
+              "measles",
+              "cholera",
+              "mpox",
+              "ebola",
+              "bird flu",
+              "h5n1"
+            ]
+          }
+        },
+        {
+          "id": "alertas_oms",
+          "nombre": "Alertas OMS",
+          "palabras_clave": {
+            "es": [
+              "emergencia de salud pública de importancia internacional",
+              "alerta de la oms",
+              "reglamento sanitario internacional"
+            ],
+            "en": [
+              "public health emergency of international concern",
+              "pheic",
+              "who alert",
+              "international health regulations"
+            ]
+          }
+        },
+        {
+          "id": "radiacion_ambiental",
+          "nombre": "Radiación ambiental",
+          "palabras_clave": {
+            "es": [
+              "radiación",
+              "niveles de radiación",
+              "fuente radiactiva"
+            ],
+            "en": [
+              "radiation",
+              "radiation levels",
+              "radioactive source"
+            ]
+          }
+        },
+        {
+          "id": "incidentes_nucleares_quimicos",
+          "nombre": "Incidentes nucleares o químicos",
+          "palabras_clave": {
+            "es": [
+              "accidente nuclear",
+              "fuga radiactiva",
+              "derrame químico",
+              "arma química",
+              "fuga de gas tóxico"
+            ],
+            "en": [
+              "nuclear accident",
+              "radioactive leak",
+              "chemical spill",
+              "chemical weapon",
+              "toxic gas leak"
+            ]
+          }
+        }
       ]
     }
   ]

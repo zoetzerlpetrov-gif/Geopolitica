@@ -1,0 +1,85 @@
+name: Construir capas (PMTiles)
+
+# Descarga las fuentes estáticas habilitadas en config/capas.json, las convierte a PMTiles con
+# tippecanoe y las publica en la rama huérfana "datos-capas" (reescrita en cada corrida, sin historial),
+# de donde Pages las copia a data/capas/. Corre el día 1 de cada mes, a mano, o al cambiar el constructor.
+on:
+  workflow_dispatch:
+    inputs:
+      familias:
+        description: "Familias a construir separadas por espacio (vacío = todas las habilitadas)"
+        required: false
+        default: ""
+  schedule:
+    - cron: "41 6 1 * *"
+  push:
+    branches-ignore: [main]
+    paths: ["tools/capas/**", "config/capas.json", ".github/workflows/capas.yml"]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: capas-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Caché de tippecanoe
+        id: cache-tip
+        uses: actions/cache@v4
+        with:
+          path: ~/tippecanoe-bin
+          key: tippecanoe-${{ runner.os }}-v1
+
+      - name: Compilar tippecanoe (solo si no está en caché)
+        if: steps.cache-tip.outputs.cache-hit != 'true'
+        run: |
+          sudo apt-get update -q && sudo apt-get install -y -q build-essential libsqlite3-dev zlib1g-dev
+          git clone --depth 1 https://github.com/felt/tippecanoe.git /tmp/tippecanoe
+          make -C /tmp/tippecanoe -j"$(nproc)"
+          mkdir -p ~/tippecanoe-bin && cp /tmp/tippecanoe/tippecanoe /tmp/tippecanoe/tile-join ~/tippecanoe-bin/
+
+      - name: Recuperar capas anteriores (si una familia falla, se conserva su versión previa)
+        run: |
+          mkdir -p capas
+          if git fetch --depth 1 origin datos-capas 2>/dev/null; then git archive FETCH_HEAD capas | tar -x; fi
+          ls -la capas
+
+      - name: Construir capas
+        env:
+          PLAZO_MIN: "70"   # el job muere a los 90 min; deja 20 para tippecanoe y publicar
+        run: |
+          export PATH="$HOME/tippecanoe-bin:$PATH"
+          tippecanoe --version
+          python3 -u tools/capas/construir.py ${{ github.event.inputs.familias }}
+          ls -la capas/
+          cat capas/manifest.json
+
+      - name: Publicar en la rama datos-capas (reescrita, sin historial)
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub && cp -r capas /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-capas
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add capas && git commit -q -m "capas $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-capas
+
+  publicar:
+    needs: construir
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml

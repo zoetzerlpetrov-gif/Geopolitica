@@ -23,7 +23,7 @@ TAX = load("config/taxonomy.json")
 EVENTS = load("data/events.json")
 AREAS = {a["id"]: a for a in TAX["areas"]}
 
-# Requisito del usuario: exactamente estas 11 áreas, en este orden y con estos colores.
+# Requisito del usuario: exactamente estas 13 áreas, en este orden y con estos colores.
 ESPERADO = [
     ("geografia", "Geografía y territorio", "#2E6F8E"),
     ("seguridad", "Seguridad y poder militar", "#A3392F"),
@@ -36,14 +36,21 @@ ESPERADO = [
     ("identidad", "Identidad, ideología y narrativa", "#9E4A7A"),
     ("regional", "Geopolítica regional", "#556B2F"),
     ("riesgo", "Riesgo geopolítico aplicado", "#333F48"),
+    ("infraestructura", "Infraestructura crítica y conectividad", "#6B5B3E"),
+    ("salud_nrbq", "Salud pública y riesgos NRBQ", "#8A3A5C"),
 ]
 
 
 # ---------------- Taxonomía ----------------
-def test_taxonomia_tiene_las_11_areas_exactas():
+def test_taxonomia_tiene_las_13_areas_exactas():
     obtenido = [(a["id"], a["nombre"], a["color"]) for a in TAX["areas"]]
     assert obtenido == ESPERADO
-    assert [a["numero"] for a in TAX["areas"]] == list(range(1, 12))
+    assert [a["numero"] for a in TAX["areas"]] == list(range(1, 14))
+
+
+def test_esquema_enumera_las_mismas_areas():
+    enum = load("schema/event.schema.json")["$defs"]["area_id"]["enum"]
+    assert enum == [a for a, _, _ in ESPERADO]
 
 
 @pytest.mark.parametrize("area", TAX["areas"], ids=lambda a: a["id"])
@@ -91,8 +98,9 @@ def test_chokepoints_requeridos():
     assert {"ormuz", "malaca", "suez", "panama", "bab_el_mandeb", "bosforo", "gibraltar", "taiwan"} <= ids
 
 
-def test_paises_sin_lineas_que_crucen_el_mapa():
-    fc = load("data/base/countries.geojson")
+@pytest.mark.parametrize("archivo", ["data/base/countries.geojson", "data/base/countries-110m.geojson"])
+def test_paises_sin_lineas_que_crucen_el_mapa(archivo):
+    fc = load(archivo)
     for f in fc["features"]:
         g = f["geometry"]
         anillos = g["coordinates"] if g["type"] == "Polygon" else [r for p in g["coordinates"] for r in p]
@@ -108,6 +116,11 @@ def test_events_json_cumple_esquema_y_reglas():
 def test_cada_area_tiene_al_menos_un_evento_de_ejemplo():
     principales = {e["area_principal"] for e in EVENTS["eventos"]}
     assert principales == set(AREAS)
+
+
+def test_centroides_del_gazetteer_en_rango():
+    for iso, p in load("config/gazetteer.json")["paises"].items():
+        assert -180 <= p["lon"] <= 180 and -90 <= p["lat"] <= 90, iso
 
 
 def test_paises_de_eventos_existen_en_gazetteer():

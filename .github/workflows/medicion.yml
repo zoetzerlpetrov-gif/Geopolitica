@@ -1,0 +1,77 @@
+name: Medición de rendimiento
+
+# Compara el sitio publicado ("antes") con el código de la rama ("después") y verifica las metas.
+#   - "antes": https://zoetzerlpetrov-gif.github.io/Geopolitica/ (lo que hoy ve la gente)
+#   - "rama":  el código de este commit, servido con compresión gzip como lo hace GitHub Pages
+# Falla si una meta obligatoria no se cumple (ver tools/medicion/metas.mjs).
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches-ignore: [main]
+    paths: ["tools/medicion/**", ".github/workflows/medicion.yml", "js/**", "css/**", "index.html", "sw.js", "vendor/**", "data/**", "config/**"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: medicion-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  medir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      SITIO: https://zoetzerlpetrov-gif.github.io/Geopolitica/
+      RAMA: http://localhost:8080/
+    defaults:
+      run:
+        working-directory: tools/medicion
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Instalar Playwright, Chromium y Lighthouse
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+
+      - name: Servir la rama con gzip
+        run: |
+          nohup node servidor.mjs ../.. 8080 > servidor.log 2>&1 &
+          sleep 2 && curl -sf -o /dev/null "$RAMA"
+
+      - name: Medir «antes» (sitio publicado)
+        continue-on-error: true
+        run: node medir.mjs --url "$SITIO" --salida antes
+
+      - name: Medir «rama» (este commit)
+        run: node medir.mjs --url "$RAMA" --salida rama
+
+      - name: Lighthouse móvil y escritorio
+        run: |
+          export CHROME_PATH=$(node -e "import('playwright').then(p=>console.log(p.chromium.executablePath()))")
+          F="--headless=new --no-sandbox"
+          lh() { npx lighthouse "$1" $3 --chrome-flags="$F" --only-categories=performance --output=json --output-path="resultados/lh-$2.json" --quiet || true; }
+          lh "$SITIO" antes-movil;      lh "$SITIO" antes-escritorio "--preset=desktop"
+          lh "$RAMA"  rama-movil;       lh "$RAMA"  rama-escritorio  "--preset=desktop"
+          lh "${RAMA}?carga=50000" rama-movil-50k
+          RESUMEN=resultados/rama.md node resumen_lighthouse.mjs resultados/lh-*.json
+
+      - name: Resumen
+        if: always()
+        run: |
+          for f in antes rama; do [ -f "resultados/$f.md" ] && cat "resultados/$f.md" >> "$GITHUB_STEP_SUMMARY"; done; true
+
+      - name: Verificar metas (falla si una obligatoria no se cumple)
+        run: node metas.mjs resultados/rama.json resultados/lh-rama-movil.json
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: medicion
+          path: tools/medicion/resultados/

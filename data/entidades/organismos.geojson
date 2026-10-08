@@ -1,0 +1,3558 @@
+{
+"type": "FeatureCollection",
+"features": [
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.7267,
+47.4992
+]
+},
+"properties": {
+"id": "wd:Q107569",
+"n": "Club de Roma",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Winterthur"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0403,
+38.8929
+]
+},
+"properties": {
+"id": "wd:Q123759",
+"n": "Organización de los Estados Americanos",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Casa de las Américas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.2358,
+30.0444
+]
+},
+"properties": {
+"id": "wd:Q133207",
+"n": "Hermanos Musulmanes",
+"st": "organismos_internacionales",
+"p": "",
+"x": "El Cairo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+11.5751,
+48.1449
+]
+},
+"properties": {
+"id": "wd:Q157033",
+"n": "Goethe-Institut",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Goethe-Institut Central Office Munich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q170424",
+"n": "Organización Meteorológica Mundial",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6392,
+55.7603
+]
+},
+"properties": {
+"id": "wd:Q318693",
+"n": "Organización del Tratado de la Seguridad Colectiva",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Sverchkov Lane"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q136402081",
+"n": "Junta de Paz",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q6867",
+"n": "Unión Astronómica Internacional",
+"st": "organismos_internacionales",
+"p": "",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.2347,
+30.0442
+]
+},
+"properties": {
+"id": "wd:Q7172",
+"n": "Liga Árabe",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Headquarters of the Arab League"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.1497,
+46.2239
+]
+},
+"properties": {
+"id": "wd:Q7825",
+"n": "Organización Mundial del Comercio",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Centro William Rappard"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.835,
+45.7675
+]
+},
+"properties": {
+"id": "wd:Q8475",
+"n": "Interpol",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Lyon"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+39.1611,
+21.5292
+]
+},
+"properties": {
+"id": "wd:Q47543",
+"n": "Organización para la Cooperación Islámica",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Yeda"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q123209",
+"n": "Unión Latina",
+"st": "organismos_internacionales",
+"p": "",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q132551",
+"n": "Oficina del Alto Comisionado de las Naciones Unidas para los Refugiados",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+12.5689,
+55.6761
+]
+},
+"properties": {
+"id": "wd:Q146165",
+"n": "Consejo Nórdico",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Copenhague"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+11.65,
+48.25
+]
+},
+"properties": {
+"id": "wd:Q151991",
+"n": "Observatorio Europeo del Sur",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Garching bei München"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.1,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q157169",
+"n": "Asociación Cristiana de Jóvenes",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Vernier"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q166546",
+"n": "Asociación Europea de Libre Comercio",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q189946",
+"n": "Unión Europea Occidental",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+88.3908,
+23.425
+]
+},
+"properties": {
+"id": "wd:Q190193",
+"n": "Asociación Internacional para la Conciencia de Krishna",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Māyāpur"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q191582",
+"n": "Consejo de Ayuda Mutua Económica",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+38.7525,
+9.0358
+]
+},
+"properties": {
+"id": "wd:Q191703",
+"n": "Organización para la Unidad Africana",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Adís Abeba"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-58.1508,
+6.8058
+]
+},
+"properties": {
+"id": "wd:Q205995",
+"n": "Comunidad del Caribe",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Georgetown"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q215613",
+"n": "Organización de Naciones y Pueblos No Representados",
+"st": "organismos_internacionales",
+"p": "",
+"x": "La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q218868",
+"n": "Comisión Trilateral",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.2108,
+48.8231
+]
+},
+"properties": {
+"id": "wd:Q229478",
+"n": "Oficina Internacional de Pesas y Medidas",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Sèvres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q252420",
+"n": "Oficina Internacional por la Paz",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.929,
+41.8328
+]
+},
+"properties": {
+"id": "wd:Q270029",
+"n": "Club de Leones",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Oak Brook"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+7.5906,
+47.5606
+]
+},
+"properties": {
+"id": "wd:Q309195",
+"n": "Banco de Pagos Internacionales",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Basilea"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q325523",
+"n": "Campaña Internacional para la Prohibición de las Minas Antipersona",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+36.6833,
+-3.3667
+]
+},
+"properties": {
+"id": "wd:Q337456",
+"n": "Comunidad Africana Oriental",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Arusha"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+28.9603,
+41.01
+]
+},
+"properties": {
+"id": "wd:Q380340",
+"n": "Cooperación Económica del Mar Negro",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Estambul"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q461736",
+"n": "Club de París",
+"st": "organismos_internacionales",
+"p": "",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-73.9674,
+40.7496
+]
+},
+"properties": {
+"id": "wd:Q477328",
+"n": "Grupo de los 77",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Sede de la Organización de las Naciones Unidas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+28.9503,
+41.0114
+]
+},
+"properties": {
+"id": "wd:Q596850",
+"n": "Organización de Estados Túrquicos",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Fatih"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q663492",
+"n": "Eurocontrol",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+25.9086,
+-24.6569
+]
+},
+"properties": {
+"id": "wd:Q816706",
+"n": "Comunidad de Desarrollo de África Austral",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Gaborone"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.6278,
+41.8819
+]
+},
+"properties": {
+"id": "wd:Q1046722",
+"n": "Industrial Workers of the World",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Chicago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+32.8387,
+39.9358
+]
+},
+"properties": {
+"id": "wd:Q1993710",
+"n": "Organización Internacional de la Cultura Túrquica",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ankara"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q4173083",
+"n": "Unión Económica Eurasiática",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q1065",
+"n": "Organización de las Naciones Unidas",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+28.0416,
+-26.2044
+]
+},
+"properties": {
+"id": "wd:Q7159",
+"n": "Unión Africana",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Johannesburgo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q7184",
+"n": "OTAN",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+27.5618,
+53.9022
+]
+},
+"properties": {
+"id": "wd:Q7779",
+"n": "Comunidad de Estados Independientes",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Minsk"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.37,
+48.2097
+]
+},
+"properties": {
+"id": "wd:Q7795",
+"n": "Organización de Países Exportadores de Petróleo",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Innere Stadt"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q7817",
+"n": "Organización Mundial de la Salud",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3525,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q8919",
+"n": "Comunidad Europea de la Energía Atómica",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.151,
+46.2149
+]
+},
+"properties": {
+"id": "wd:Q38130",
+"n": "Sociedad de las Naciones",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Palais Wilson"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q41550",
+"n": "Organización para la Cooperación y el Desarrollo Económico",
+"st": "organismos_internacionales",
+"p": "",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q41644",
+"n": "Pacto de Varsovia",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q42262",
+"n": "Agencia Espacial Europea",
+"st": "organismos_internacionales",
+"p": "",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.0819,
+46.2556
+]
+},
+"properties": {
+"id": "wd:Q42944",
+"n": "Organización Europea para la Investigación Nuclear",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Prévessin-Moëns"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q45433",
+"n": "British Council",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q54129",
+"n": "Organización Internacional del Trabajo",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+21.4317,
+41.9961
+]
+},
+"properties": {
+"id": "wd:Q2073220",
+"n": "Macedonian Stock Exchange",
+"st": "bolsas_valores",
+"p": "MKD",
+"x": "Skopie"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.9333,
+31.95
+]
+},
+"properties": {
+"id": "wd:Q2122308",
+"n": "Bolsa de Amán",
+"st": "bolsas_valores",
+"p": "JOR",
+"x": "Amán"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+105.8412,
+21.0245
+]
+},
+"properties": {
+"id": "wd:Q2227403",
+"n": "Hanoi Stock Exchange",
+"st": "bolsas_valores",
+"p": "VNM",
+"x": "Hanói"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.5369,
+55.7483
+]
+},
+"properties": {
+"id": "wd:Q2306284",
+"n": "SPB Exchange - All Markets",
+"st": "bolsas_valores",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+79.8606,
+6.9267
+]
+},
+"properties": {
+"id": "wd:Q2359996",
+"n": "Colombo Stock Exchange",
+"st": "bolsas_valores",
+"p": "LKA",
+"x": "Colombo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+25.9086,
+-24.6569
+]
+},
+"properties": {
+"id": "wd:Q2380000",
+"n": "Botswana Stock Exchange",
+"st": "bolsas_valores",
+"p": "BWA",
+"x": "Gaborone"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0314,
+-12.0486
+]
+},
+"properties": {
+"id": "wd:Q2380045",
+"n": "Bolsa de Valores de Lima",
+"st": "bolsas_valores",
+"p": "PER",
+"x": "Edificio de la Bolsa de Valores de Lima"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.18,
+36.8008
+]
+},
+"properties": {
+"id": "wd:Q2380163",
+"n": "Bolsa de Túnez",
+"st": "bolsas_valores",
+"p": "TUN",
+"x": "Túnez"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-23.5175,
+14.9067
+]
+},
+"properties": {
+"id": "wd:Q2381261",
+"n": "Cape Verde Stock Exchange",
+"st": "bolsas_valores",
+"p": "CPV",
+"x": "Praia"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+9.7,
+4.05
+]
+},
+"properties": {
+"id": "wd:Q2381309",
+"n": "Douala Stock Exchange",
+"st": "bolsas_valores",
+"p": "CMR",
+"x": "Duala"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-64.7831,
+32.295
+]
+},
+"properties": {
+"id": "wd:Q2382352",
+"n": "Bermuda Stock Exchange Ltd",
+"st": "bolsas_valores",
+"p": "GBR",
+"x": "Hamilton"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+17.1925,
+44.7725
+]
+},
+"properties": {
+"id": "wd:Q2384000",
+"n": "Banja Luka Stock Exchange",
+"st": "bolsas_valores",
+"p": "BIH",
+"x": "Banja Luka"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+36.8172,
+-1.2864
+]
+},
+"properties": {
+"id": "wd:Q2384385",
+"n": "Bolsa de Valores de Nairobi",
+"st": "bolsas_valores",
+"p": "KEN",
+"x": "Nairobi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.2464,
+48.8906
+]
+},
+"properties": {
+"id": "wd:Q2385849",
+"n": "Euronext Paris",
+"st": "bolsas_valores",
+"p": "FRA",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0817,
+4.6097
+]
+},
+"properties": {
+"id": "wd:Q2387368",
+"n": "Bolsa de Valores de Colombia",
+"st": "bolsas_valores",
+"p": "COL",
+"x": "Bogotá"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-9.139,
+38.708
+]
+},
+"properties": {
+"id": "wd:Q2415561",
+"n": "Euronext Lisboa",
+"st": "bolsas_valores",
+"p": "PRT",
+"x": "Lisboa"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+49.8822,
+40.3953
+]
+},
+"properties": {
+"id": "wd:Q2480956",
+"n": "Bolsa de Bakú",
+"st": "bolsas_valores",
+"p": "AZE",
+"x": "Bakú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.2358,
+30.0444
+]
+},
+"properties": {
+"id": "wd:Q2509254",
+"n": "Bolsa de Egipto",
+"st": "bolsas_valores",
+"p": "EGY",
+"x": "El Cairo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-7.62,
+33.5992
+]
+},
+"properties": {
+"id": "wd:Q2602796",
+"n": "Bolsa de Casablanca",
+"st": "bolsas_valores",
+"p": "MAR",
+"x": "Casablanca"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q2632892",
+"n": "Bolsa de Moscú",
+"st": "bolsas_valores",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.6278,
+41.8819
+]
+},
+"properties": {
+"id": "wd:Q2633007",
+"n": "Chicago Stock Exchange",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Chicago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-71.0578,
+42.3603
+]
+},
+"properties": {
+"id": "wd:Q2636119",
+"n": "NASDAQ OMX BX",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Boston"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+33.365,
+35.1725
+]
+},
+"properties": {
+"id": "wd:Q2888321",
+"n": "Bolsa de Chipre",
+"st": "bolsas_valores",
+"p": "CYP",
+"x": "Nicosia"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.5117,
+35.8951
+]
+},
+"properties": {
+"id": "wd:Q2922440",
+"n": "Bolsa de Malta",
+"st": "bolsas_valores",
+"p": "MLT",
+"x": "Garrison Chapel (Malta)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+102.63,
+17.98
+]
+},
+"properties": {
+"id": "wd:Q2922448",
+"n": "Bolsa de Laos",
+"st": "bolsas_valores",
+"p": "LAO",
+"x": "Vientián"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+106.7019,
+10.7756
+]
+},
+"properties": {
+"id": "wd:Q2922455",
+"n": "Hochiminh Stock Exchange",
+"st": "bolsas_valores",
+"p": "VNM",
+"x": "Ciudad Ho Chi Minh"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+88.37,
+22.5675
+]
+},
+"properties": {
+"id": "wd:Q2997295",
+"n": "Calcutta Stock Exchange",
+"st": "bolsas_valores",
+"p": "IND",
+"x": "Calcuta"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+91.8325,
+22.335
+]
+},
+"properties": {
+"id": "wd:Q3349831",
+"n": "Chittagong Stock Exchange Ltd.",
+"st": "bolsas_valores",
+"p": "BGD",
+"x": "Chitagón"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.5131,
+33.8869
+]
+},
+"properties": {
+"id": "wd:Q4081230",
+"n": "Bourse De Beyrouth - Beirut Stock Exchange",
+"st": "bolsas_valores",
+"p": "LBN",
+"x": "Beirut"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+58.5922,
+23.6139
+]
+},
+"properties": {
+"id": "wd:Q4117996",
+"n": "Muscat Securities Market",
+"st": "bolsas_valores",
+"p": "OMN",
+"x": "Mascate"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+54.3507,
+24.485
+]
+},
+"properties": {
+"id": "wd:Q4119825",
+"n": "Abu Dhabi Securities Exchange",
+"st": "bolsas_valores",
+"p": "ARE",
+"x": "Abu Dhabi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+47.98,
+29.375
+]
+},
+"properties": {
+"id": "wd:Q4164626",
+"n": "Bolsa de Kuwait",
+"st": "bolsas_valores",
+"p": "KWT",
+"x": "Ciudad de Kuwait"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.0522,
+-17.8292
+]
+},
+"properties": {
+"id": "wd:Q4191917",
+"n": "Bolsa de Valores de Zimbabue",
+"st": "bolsas_valores",
+"p": "ZWE",
+"x": "Harare"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.167,
+41.39
+]
+},
+"properties": {
+"id": "wd:Q4202960",
+"n": "Bolsa de Barcelona",
+"st": "bolsas_valores",
+"p": "ESP",
+"x": "Barcelona"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+69.2797,
+41.3111
+]
+},
+"properties": {
+"id": "wd:Q4393626",
+"n": "Tashkent Stock Exchange",
+"st": "bolsas_valores",
+"p": "UZB",
+"x": "Taskent"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.139,
+-26.3307
+]
+},
+"properties": {
+"id": "wd:Q4409921",
+"n": "Swaziland Stock Exchange",
+"st": "bolsas_valores",
+"p": "SWZ",
+"x": "Mbabane"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+30.5236,
+50.45
+]
+},
+"properties": {
+"id": "wd:Q4470480",
+"n": "Ukrainian Exchange",
+"st": "bolsas_valores",
+"p": "UKR",
+"x": "Kiev"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+57.4989,
+-20.1619
+]
+},
+"properties": {
+"id": "wd:Q4491713",
+"n": "Bolsa de Valores de Mauricio",
+"st": "bolsas_valores",
+"p": "MUS",
+"x": "Port Louis"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+19.2628,
+42.4414
+]
+},
+"properties": {
+"id": "wd:Q4513926",
+"n": "Montenegro Stock Exchange",
+"st": "bolsas_valores",
+"p": "MNE",
+"x": "Podgorica"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.2628,
+32.2208
+]
+},
+"properties": {
+"id": "wd:Q4992224",
+"n": "Bolsa de Palestina",
+"st": "bolsas_valores",
+"p": "PSE",
+"x": "Nablus"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+104.921,
+11.5696
+]
+},
+"properties": {
+"id": "wd:Q5025115",
+"n": "Cambodia Securities Exchange",
+"st": "bolsas_valores",
+"p": "KHM",
+"x": "Nom Pen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+130.4017,
+33.5901
+]
+},
+"properties": {
+"id": "wd:Q5507703",
+"n": "Bolsa de Fukuoka",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "Fukuoka"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+85.32,
+27.698
+]
+},
+"properties": {
+"id": "wd:Q6529599",
+"n": "Nepal Stock Exchange",
+"st": "bolsas_valores",
+"p": "NPL",
+"x": "Katmandú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.4,
+63.44
+]
+},
+"properties": {
+"id": "wd:Q7050551",
+"n": "Nord Pool Spot AS",
+"st": "bolsas_valores",
+"p": "NOR",
+"x": "Trondheim"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+30.115,
+-1.9525
+]
+},
+"properties": {
+"id": "wd:Q7383727",
+"n": "Bolsa de Valores de Ruanda",
+"st": "bolsas_valores",
+"p": "RWA",
+"x": "Kigali"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-8.2147,
+43.2804
+]
+},
+"properties": {
+"id": "wd:Q9598744",
+"n": "Abanca",
+"st": "bolsas_valores",
+"p": "ESP",
+"x": "Betanzos"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+139.7774,
+35.6808
+]
+},
+"properties": {
+"id": "wd:Q11507487",
+"n": "Japan Exchange Group",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "日本橋兜町"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+36.0667,
+33.5333
+]
+},
+"properties": {
+"id": "wd:Q12217405",
+"n": "Bolsa de Damasco",
+"st": "bolsas_valores",
+"p": "SYR",
+"x": "Yaafour"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+96.1591,
+16.7715
+]
+},
+"properties": {
+"id": "wd:Q20992132",
+"n": "Yangon Stock Exchange",
+"st": "bolsas_valores",
+"p": "MMR",
+"x": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+67.01,
+24.86
+]
+},
+"properties": {
+"id": "wd:Q22907578",
+"n": "Bolsa de Valores de Pakistán",
+"st": "bolsas_valores",
+"p": "PAK",
+"x": "Karachi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0111,
+40.7069
+]
+},
+"properties": {
+"id": "wd:Q13677",
+"n": "Bolsa de Nueva York",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "New York Stock Exchange Building"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0112,
+40.707
+]
+},
+"properties": {
+"id": "wd:Q13683",
+"n": "NYSE Euronext",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "New York Stock Exchange Building"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+101.7012,
+3.1485
+]
+},
+"properties": {
+"id": "wd:Q43335",
+"n": "Bolsa de Malasia",
+"st": "bolsas_valores",
+"p": "MYS",
+"x": "Exchange Square"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+18.4131,
+43.8564
+]
+},
+"properties": {
+"id": "wd:Q47057",
+"n": "Sarajevo Stock Exchange",
+"st": "bolsas_valores",
+"p": "BIH",
+"x": "Sarajevo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+21.0111,
+52.23
+]
+},
+"properties": {
+"id": "wd:Q59551",
+"n": "Bolsa de Varsovia",
+"st": "bolsas_valores",
+"p": "POL",
+"x": "Varsovia"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-43.1741,
+-22.9023
+]
+},
+"properties": {
+"id": "wd:Q1978239",
+"n": "Bolsa de Valores de Río de Janeiro",
+"st": "bolsas_valores",
+"p": "BRA",
+"x": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+46.71,
+24.65
+]
+},
+"properties": {
+"id": "wd:Q2006583",
+"n": "Tadawul",
+"st": "bolsas_valores",
+"p": "SAU",
+"x": "Riad"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+19.8181,
+41.3283
+]
+},
+"properties": {
+"id": "wd:Q2024538",
+"n": "Bolsa de Tirana",
+"st": "bolsas_valores",
+"p": "ALB",
+"x": "Tirana"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+27.5618,
+53.9022
+]
+},
+"properties": {
+"id": "wd:Q2068453",
+"n": "Belarus Currency And Stock Exchange",
+"st": "bolsas_valores",
+"p": "BLR",
+"x": "Minsk"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+121.0765,
+14.5605
+]
+},
+"properties": {
+"id": "wd:Q1526647",
+"n": "Bolsa de Filipinas",
+"st": "bolsas_valores",
+"p": "PHL",
+"x": "Pásig"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+24.1069,
+56.9475
+]
+},
+"properties": {
+"id": "wd:Q1624698",
+"n": "Nasdaq Riga",
+"st": "bolsas_valores",
+"p": "LVA",
+"x": "Riga"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+51.5294,
+25.2861
+]
+},
+"properties": {
+"id": "wd:Q1648198",
+"n": "Qatar Exchange",
+"st": "bolsas_valores",
+"p": "QAT",
+"x": "Doha"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+106.8269,
+-6.1753
+]
+},
+"properties": {
+"id": "wd:Q1661737",
+"n": "Bolsa de Indonesia",
+"st": "bolsas_valores",
+"p": "IDN",
+"x": "Yakarta"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-21.935,
+64.1475
+]
+},
+"properties": {
+"id": "wd:Q1674303",
+"n": "Bolsa de Islandia",
+"st": "bolsas_valores",
+"p": "ISL",
+"x": "Reikiavik"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+139.772,
+35.6706
+]
+},
+"properties": {
+"id": "wd:Q1683760",
+"n": "Tokyo Stock Exchange Jasdaq",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "Chūō"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+76.915,
+43.24
+]
+},
+"properties": {
+"id": "wd:Q1734773",
+"n": "Kazakhstan Stock Exchange",
+"st": "bolsas_valores",
+"p": "KAZ",
+"x": "Alma Ata"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.4214,
+50.0875
+]
+},
+"properties": {
+"id": "wd:Q1752646",
+"n": "Bolsa de Praga",
+"st": "bolsas_valores",
+"p": "CZE",
+"x": "Praga"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+106.9055,
+47.9214
+]
+},
+"properties": {
+"id": "wd:Q1752885",
+"n": "Mongolian Stock Exchange",
+"st": "bolsas_valores",
+"p": "MNG",
+"x": "Ulán Bator"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q1797919",
+"n": "LCH",
+"st": "bolsas_valores",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+51.4111,
+35.693
+]
+},
+"properties": {
+"id": "wd:Q1805567",
+"n": "Bolsa de Teherán",
+"st": "bolsas_valores",
+"p": "IRN",
+"x": "Tehran Stock Exchange Tower"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.5061,
+46.0514
+]
+},
+"properties": {
+"id": "wd:Q1866749",
+"n": "Ljubljana Stock Exchange",
+"st": "bolsas_valores",
+"p": "SVN",
+"x": "Liubliana"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+28.2833,
+-15.4167
+]
+},
+"properties": {
+"id": "wd:Q1877680",
+"n": "Bolsa de Valores de Lusaka",
+"st": "bolsas_valores",
+"p": "ZMB",
+"x": "Lusaka"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q1930860",
+"n": "OTC Markets Group",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+50.5733,
+26.2378
+]
+},
+"properties": {
+"id": "wd:Q1972649",
+"n": "Bolsa de Baréin",
+"st": "bolsas_valores",
+"p": "BHR",
+"x": "Bahrain Financial Harbour"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+55.3094,
+25.2697
+]
+},
+"properties": {
+"id": "wd:Q1973019",
+"n": "Dubai Financial Market",
+"st": "bolsas_valores",
+"p": "ARE",
+"x": "Dubái"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+90.4173,
+23.836
+]
+},
+"properties": {
+"id": "wd:Q1974408",
+"n": "Dhaka Stock Exchange",
+"st": "bolsas_valores",
+"p": "BGD",
+"x": "Daca"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+44.7925,
+41.7225
+]
+},
+"properties": {
+"id": "wd:Q1975312",
+"n": "Georgian Stock Exchange",
+"st": "bolsas_valores",
+"p": "GEO",
+"x": "Tiflis"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+112.7378,
+-7.2463
+]
+},
+"properties": {
+"id": "wd:Q1975332",
+"n": "Surabaya Stock Exchange",
+"st": "bolsas_valores",
+"p": "IDN",
+"x": "Surabaya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+72.5797,
+23.0219
+]
+},
+"properties": {
+"id": "wd:Q1976823",
+"n": "Ahmedabad Stock Exchange",
+"st": "bolsas_valores",
+"p": "IND",
+"x": "Ahmedabad"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.0058,
+-15.7861
+]
+},
+"properties": {
+"id": "wd:Q1976933",
+"n": "Malawi Stock Exchange",
+"st": "bolsas_valores",
+"p": "MWI",
+"x": "Blantire"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+67.01,
+24.86
+]
+},
+"properties": {
+"id": "wd:Q1977283",
+"n": "Karachi Stock Exchange",
+"st": "bolsas_valores",
+"p": "PAK",
+"x": "Karachi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8957,
+52.3742
+]
+},
+"properties": {
+"id": "wd:Q478720",
+"n": "Bolsa de Ámsterdam",
+"st": "bolsas_valores",
+"p": "",
+"x": "Beursplein 5, Amsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+17.1093,
+48.1517
+]
+},
+"properties": {
+"id": "wd:Q74603",
+"n": "Bolsa de Bratislava",
+"st": "bolsas_valores",
+"p": "SVK",
+"x": "Bratislava"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.13,
+49.6114
+]
+},
+"properties": {
+"id": "wd:Q74662",
+"n": "Bolsa de Luxemburgo",
+"st": "bolsas_valores",
+"p": "LUX",
+"x": "Luxemburgo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-73.9858,
+40.7565
+]
+},
+"properties": {
+"id": "wd:Q82059",
+"n": "Nasdaq",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "One Liberty Plaza"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q120233",
+"n": "New York Mercantile Exchange",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+15.9772,
+45.8131
+]
+},
+"properties": {
+"id": "wd:Q140388",
+"n": "Bolsa de Zagreb",
+"st": "bolsas_valores",
+"p": "HRV",
+"x": "Zagreb"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-6.2603,
+53.3497
+]
+},
+"properties": {
+"id": "wd:Q144458",
+"n": "Euronext Dublin",
+"st": "bolsas_valores",
+"p": "IRL",
+"x": "Dublín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.6822,
+50.1106
+]
+},
+"properties": {
+"id": "wd:Q151139",
+"n": "Bolsa de Fráncfort",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Fráncfort del Meno"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+11.5736,
+48.1449
+]
+},
+"properties": {
+"id": "wd:Q152106",
+"n": "BayernLB",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Múnich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.6744,
+50.1112
+]
+},
+"properties": {
+"id": "wd:Q157617",
+"n": "Commerzbank",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Torre Commerzbank"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.569,
+50.1437
+]
+},
+"properties": {
+"id": "wd:Q157852",
+"n": "Deutsche Börse",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Eschborn"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.0992,
+51.5153
+]
+},
+"properties": {
+"id": "wd:Q171240",
+"n": "Bolsa de Londres",
+"st": "bolsas_valores",
+"p": "GBR",
+"x": "City de Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0144,
+40.7147
+]
+},
+"properties": {
+"id": "wd:Q193326",
+"n": "Goldman Sachs",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "200 West Street"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+139.7789,
+35.6826
+]
+},
+"properties": {
+"id": "wd:Q217475",
+"n": "Bolsa de Tokio",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "日本橋兜町"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q438511",
+"n": "Alternative Investment Market",
+"st": "bolsas_valores",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+9.18,
+48.7775
+]
+},
+"properties": {
+"id": "wd:Q451814",
+"n": "Landesbank Baden-Württemberg",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Stuttgart"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+39.2892,
+-6.8136
+]
+},
+"properties": {
+"id": "wd:Q490028",
+"n": "Bolsa de Valores de Dar es Salaam",
+"st": "bolsas_valores",
+"p": "TZA",
+"x": "Dar es-Salaam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+32.5811,
+0.3136
+]
+},
+"properties": {
+"id": "wd:Q492316",
+"n": "Bolsa de Valores de Uganda",
+"st": "bolsas_valores",
+"p": "UGA",
+"x": "Kampala"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+129.075,
+35.18
+]
+},
+"properties": {
+"id": "wd:Q495372",
+"n": "Bolsa de Corea del Sur",
+"st": "bolsas_valores",
+"p": "KOR",
+"x": "Busan"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+114.1592,
+22.285
+]
+},
+"properties": {
+"id": "wd:Q496672",
+"n": "Bolsa de Hong Kong",
+"st": "bolsas_valores",
+"p": "CHN",
+"x": "International Finance Centre"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.5347,
+47.3651
+]
+},
+"properties": {
+"id": "wd:Q502421",
+"n": "Vontobel",
+"st": "bolsas_valores",
+"p": "CHE",
+"x": "Zúrich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+114.0544,
+22.5467
+]
+},
+"properties": {
+"id": "wd:Q517750",
+"n": "Bolsa de Shenzhen",
+"st": "bolsas_valores",
+"p": "CHN",
+"x": "Shenzhen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+121.5647,
+25.0336
+]
+},
+"properties": {
+"id": "wd:Q548621",
+"n": "Bolsa de Taiwán",
+"st": "bolsas_valores",
+"p": "TWN",
+"x": "Taipei 101"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+20.4569,
+44.8178
+]
+},
+"properties": {
+"id": "wd:Q550050",
+"n": "Bolsa de Belgrado",
+"st": "bolsas_valores",
+"p": "SRB",
+"x": "Belgrado"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+9.1754,
+48.7799
+]
+},
+"properties": {
+"id": "wd:Q558524",
+"n": "Bolsa de Valores de Stuttgart",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Stuttgart"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+9.9911,
+53.5497
+]
+},
+"properties": {
+"id": "wd:Q558551",
+"n": "Boerse Hamburg - Regulierter Markt",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Hamburgo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+13.3833,
+52.5167
+]
+},
+"properties": {
+"id": "wd:Q571760",
+"n": "Boerse Berlin",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Berlín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+24.9492,
+60.1683
+]
+},
+"properties": {
+"id": "wd:Q581755",
+"n": "Bolsa de Helsinki",
+"st": "bolsas_valores",
+"p": "FIN",
+"x": "Helsinki Stock Exchange Building"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+25.28,
+54.6872
+]
+},
+"properties": {
+"id": "wd:Q600958",
+"n": "NASDAQ OMX Vilnius",
+"st": "bolsas_valores",
+"p": "LTU",
+"x": "Vilna"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-3.7033,
+40.4169
+]
+},
+"properties": {
+"id": "wd:Q609159",
+"n": "Bolsas y Mercados Españoles",
+"st": "bolsas_valores",
+"p": "ESP",
+"x": "Madrid"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-3.6921,
+40.4169
+]
+},
+"properties": {
+"id": "wd:Q617426",
+"n": "Bolsa de Madrid",
+"st": "bolsas_valores",
+"p": "ESP",
+"x": "Palacio de la Bolsa de Madrid"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+174.7772,
+-41.2889
+]
+},
+"properties": {
+"id": "wd:Q627019",
+"n": "Bolsa de Nueva Zelanda",
+"st": "bolsas_valores",
+"p": "NZL",
+"x": "Wellington"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+28.0416,
+-26.2044
+]
+},
+"properties": {
+"id": "wd:Q627514",
+"n": "Bolsa de Johannesburgo",
+"st": "bolsas_valores",
+"p": "ZAF",
+"x": "Johannesburgo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+72.8775,
+19.0758
+]
+},
+"properties": {
+"id": "wd:Q638398",
+"n": "Bolsa de Valores de Bombay",
+"st": "bolsas_valores",
+"p": "IND",
+"x": "Bombay"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+72.8775,
+19.0758
+]
+},
+"properties": {
+"id": "wd:Q638740",
+"n": "Bolsa Nacional de Valores de India",
+"st": "bolsas_valores",
+"p": "IND",
+"x": "Bombay"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.5318,
+47.3711
+]
+},
+"properties": {
+"id": "wd:Q661834",
+"n": "SIX Swiss Exchange",
+"st": "bolsas_valores",
+"p": "CHE",
+"x": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+11.5548,
+48.1429
+]
+},
+"properties": {
+"id": "wd:Q681683",
+"n": "Börse München",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Múnich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+44.5144,
+40.1814
+]
+},
+"properties": {
+"id": "wd:Q683787",
+"n": "Bolsa de Armenia",
+"st": "bolsas_valores",
+"p": "ARM",
+"x": "Ereván"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
+"id": "wd:Q698535",
+"n": "Bolsa de Viena",
+"st": "bolsas_valores",
+"p": "AUT",
+"x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+151.21,
+-33.8678
+]
+},
+"properties": {
+"id": "wd:Q732670",
+"n": "Australian Securities Exchange",
+"st": "bolsas_valores",
+"p": "AUS",
+"x": "Sídney"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+121.4692,
+31.2325
+]
+},
+"properties": {
+"id": "wd:Q739514",
+"n": "Bolsa de Shanghái",
+"st": "bolsas_valores",
+"p": "CHN",
+"x": "Shanghái"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.7286,
+37.9903
+]
+},
+"properties": {
+"id": "wd:Q755341",
+"n": "Bolsa de Atenas",
+"st": "bolsas_valores",
+"p": "GRC",
+"x": "Atenas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-46.6339,
+-23.5504
+]
+},
+"properties": {
+"id": "wd:Q796297",
+"n": "B3",
+"st": "bolsas_valores",
+"p": "BRA",
+"x": "São Paulo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-79.3867,
+43.6703
+]
+},
+"properties": {
+"id": "wd:Q818723",
+"n": "Bolsa de Toronto",
+"st": "bolsas_valores",
+"p": "CAN",
+"x": "Toronto"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.6822,
+50.1106
+]
+},
+"properties": {
+"id": "wd:Q819468",
+"n": "Xetra",
+"st": "bolsas_valores",
+"p": "DEU",
+"x": "Fráncfort del Meno"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+3.3936,
+6.4561
+]
+},
+"properties": {
+"id": "wd:Q838766",
+"n": "Bolsa de Valores de Nigeria",
+"st": "bolsas_valores",
+"p": "NGA",
+"x": "Lagos"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+139.7728,
+35.6817
+]
+},
+"properties": {
+"id": "wd:Q843944",
+"n": "Nomura Securities",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "Nihonbashi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q846626",
+"n": "American Stock Exchange",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+19.0408,
+47.4983
+]
+},
+"properties": {
+"id": "wd:Q851259",
+"n": "Bolsa de Budapest",
+"st": "bolsas_valores",
+"p": "HUN",
+"x": "Budapest"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-99.1359,
+19.3538
+]
+},
+"properties": {
+"id": "wd:Q891559",
+"n": "Bolsa Mexicana de Valores",
+"st": "bolsas_valores",
+"p": "MEX",
+"x": "Ciudad de México"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-66.9144,
+10.5061
+]
+},
+"properties": {
+"id": "wd:Q891563",
+"n": "Bolsa de Valores de Caracas",
+"st": "bolsas_valores",
+"p": "VEN",
+"x": "Caracas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-58.3707,
+-34.6039
+]
+},
+"properties": {
+"id": "wd:Q891560",
+"n": "Bolsa de Comercio de Buenos Aires",
+"st": "bolsas_valores",
+"p": "ARG",
+"x": "Buenos Aires"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-70.6517,
+-33.4427
+]
+},
+"properties": {
+"id": "wd:Q891561",
+"n": "Bolsa de Comercio de Santiago",
+"st": "bolsas_valores",
+"p": "CHL",
+"x": "Edificio de la Bolsa de Comercio de Santiago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.7479,
+59.909
+]
+},
+"properties": {
+"id": "wd:Q909158",
+"n": "Bolsa de Oslo",
+"st": "bolsas_valores",
+"p": "NOR",
+"x": "Børsen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+9.19,
+45.4669
+]
+},
+"properties": {
+"id": "wd:Q936563",
+"n": "Bolsa de Italia",
+"st": "bolsas_valores",
+"p": "ITA",
+"x": "Milán"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+26.0978,
+44.4134
+]
+},
+"properties": {
+"id": "wd:Q1003245",
+"n": "Bolsa de Bucarest",
+"st": "bolsas_valores",
+"p": "ROU",
+"x": "Bucarest"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.3217,
+42.6979
+]
+},
+"properties": {
+"id": "wd:Q1003968",
+"n": "Bolsa de Bulgaria",
+"st": "bolsas_valores",
+"p": "BGR",
+"x": "Sofía"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+12.5689,
+55.6761
+]
+},
+"properties": {
+"id": "wd:Q1019983",
+"n": "Bolsa de Copenhague",
+"st": "bolsas_valores",
+"p": "DNK",
+"x": "Copenhague"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+17.0836,
+-22.57
+]
+},
+"properties": {
+"id": "wd:Q1019981",
+"n": "Bolsa de Valores de Namibia",
+"st": "bolsas_valores",
+"p": "NAM",
+"x": "Windhoek"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+18.0686,
+59.3294
+]
+},
+"properties": {
+"id": "wd:Q1019992",
+"n": "Bolsa de Estocolmo",
+"st": "bolsas_valores",
+"p": "SWE",
+"x": "Estocolmo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.6278,
+41.8819
+]
+},
+"properties": {
+"id": "wd:Q1023876",
+"n": "CME Group",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Chicago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3503,
+50.8481
+]
+},
+"properties": {
+"id": "wd:Q1146518",
+"n": "Bolsa de Bruselas",
+"st": "bolsas_valores",
+"p": "BEL",
+"x": "Palacio de la Bolsa"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+136.9064,
+35.1802
+]
+},
+"properties": {
+"id": "wd:Q1188840",
+"n": "Bolsa de Nagoya",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "Prefectura de Aichi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+100.5677,
+13.7639
+]
+},
+"properties": {
+"id": "wd:Q1330208",
+"n": "Bolsa de Tailandia",
+"st": "bolsas_valores",
+"p": "THA",
+"x": ""
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q1344438",
+"n": "Russian Trading System",
+"st": "bolsas_valores",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+44.3661,
+33.3153
+]
+},
+"properties": {
+"id": "wd:Q1369913",
+"n": "Bolsa de Irak",
+"st": "bolsas_valores",
+"p": "IRQ",
+"x": "Bagdad"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q1391676",
+"n": "OTC Bulletin Board",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+29.0384,
+41.11
+]
+},
+"properties": {
+"id": "wd:Q1407995",
+"n": "Borsa Istanbul",
+"st": "bolsas_valores",
+"p": "TUR",
+"x": "Estambul"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q1421543",
+"n": "Moscow Interbank Currency Exchange",
+"st": "bolsas_valores",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+24.745,
+59.4372
+]
+},
+"properties": {
+"id": "wd:Q1433248",
+"n": "Bolsa de Tallin",
+"st": "bolsas_valores",
+"p": "EST",
+"x": "Tallin"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+34.7703,
+32.0645
+]
+},
+"properties": {
+"id": "wd:Q1507974",
+"n": "Bolsa de Tel-Aviv",
+"st": "bolsas_valores",
+"p": "ISR",
+"x": "Tel Aviv"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+103.8,
+1.3
+]
+},
+"properties": {
+"id": "wd:Q1515558",
+"n": "Bolsa de Singapur",
+"st": "bolsas_valores",
+"p": "SGP",
+"x": "Singapur"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.5376,
+47.3675
+]
+},
+"properties": {
+"id": "wd:Q1516125",
+"n": "Asociación Internacional de Mercados de Capitales",
+"st": "bolsas_valores",
+"p": "CHE",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.2022,
+5.5556
+]
+},
+"properties": {
+"id": "wd:Q1521374",
+"n": "Bolsa de Valores de Ghana",
+"st": "bolsas_valores",
+"p": "GHA",
+"x": "Acra"
+}
+}
+]
+}

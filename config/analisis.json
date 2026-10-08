@@ -1,0 +1,67 @@
+{
+  "version": "1.0",
+  "descripcion": "Contenido de análisis de la ficha (Fase 4). El checklist sigue la lógica de una lista de verificación de piloto: pasos cortos, en orden, verificables. Las lentes son lecturas teóricas de relaciones internacionales; las preguntas usan {actor}, {pais}, {region} y {area} del evento.",
+  "checklist": [
+    {"id": "fuente", "titulo": "Fuente y fecha", "pregunta": "¿Quién lo publica, cuándo y es fuente primaria (gobierno, organismo, testigo) o secundaria (medio que cita a otro)?", "ayuda": "Abre el enlace original. Anota la hora UTC del hecho, no la de la publicación."},
+    {"id": "corroboracion", "titulo": "Corroboración", "pregunta": "¿Hay al menos una segunda fuente independiente que diga lo mismo?", "ayuda": "La etiqueta «verificado» de la ficha significa 2 o más medios distintos; aun así, revisa que no se citen entre sí."},
+    {"id": "hechos", "titulo": "Hechos y juicios", "pregunta": "¿Qué parte es un hecho comprobable y qué parte es opinión o estimación?", "ayuda": "Subraya cifras, fechas y nombres (hechos). Marca como juicio todo lo que lleve «podría», «se espera», «analistas creen»."},
+    {"id": "lugar", "titulo": "Ubicación", "pregunta": "¿Dónde ocurre exactamente y qué rasgo geográfico importa (frontera, estrecho, ruta, recurso)?", "ayuda": "Activa capas de zonas, puertos o chokepoints para ver qué hay a menos de 300 km."},
+    {"id": "actores", "titulo": "Actores e intereses", "pregunta": "¿Quién actúa, sobre quién y qué quiere obtener o evitar cada uno?", "ayuda": "Escribe una línea por actor: «{actor} quiere… porque…»."},
+    {"id": "antecedentes", "titulo": "Antecedentes", "pregunta": "¿Es un hecho nuevo o parte de una secuencia? ¿Qué pasó en los días previos?", "ayuda": "Mira el delta (nuevo, escala, desescala) y los eventos correlacionados de la ficha."},
+    {"id": "clasificacion", "titulo": "Área y clasificación", "pregunta": "¿El área principal asignada es la correcta? ¿Falta alguna área secundaria?", "ayuda": "La clasificación es automática por palabras clave. Usa la pregunta guía del área para comprobarla."},
+    {"id": "lentes", "titulo": "Lentes teóricas", "pregunta": "¿Cómo lo leería un realista y cómo alguien de otra escuela? ¿En qué difieren?", "ayuda": "Usa al menos dos lentes de la sección de abajo; si coinciden, el diagnóstico es más sólido."},
+    {"id": "escenarios", "titulo": "Escenarios", "pregunta": "¿Cuál es el escenario mejor, base y peor en los próximos 30 días, y qué probabilidad le das a cada uno?", "ayuda": "Las tres probabilidades deben sumar 100 %. Regístralas en la matriz de riesgo (botón «Análisis»)."},
+    {"id": "indicadores", "titulo": "Impacto e indicadores", "pregunta": "¿Qué efecto tendría en México y qué 2 o 3 señales observables confirmarían cada escenario?", "ayuda": "Una buena señal es concreta y fechable: «si el precio del flete sube más de 20 % en dos semanas…»."}
+  ],
+  "lentes": [
+    {
+      "id": "realismo", "nombre": "Realismo",
+      "autores": "Hans Morgenthau (Politics Among Nations, 1948); Kenneth Waltz (Theory of International Politics, 1979); John Mearsheimer (The Tragedy of Great Power Politics, 2001)",
+      "idea": "No hay una autoridad por encima de los Estados (anarquía internacional). Cada Estado busca seguridad y poder relativo frente a los demás.",
+      "preguntas": ["¿Qué poder relativo gana o pierde {actor} con este hecho?", "¿Cambia el equilibrio de poder en {region}? ¿Quién podría formar una alianza para compensarlo?"],
+      "areas_afines": ["seguridad", "geografia", "regional", "energia"]
+    },
+    {
+      "id": "liberalismo", "nombre": "Liberalismo institucional",
+      "autores": "Robert Keohane y Joseph Nye (Power and Interdependence, 1977)",
+      "idea": "La interdependencia económica y las instituciones internacionales hacen que cooperar sea más barato que pelear.",
+      "preguntas": ["¿Qué organismo, tratado o tribunal interviene o podría mediar?", "¿Qué costos de romper la interdependencia frenan la escalada para {actor}?"],
+      "areas_afines": ["instituciones", "geoeconomia", "clima", "salud_nrbq"]
+    },
+    {
+      "id": "constructivismo", "nombre": "Constructivismo",
+      "autores": "Alexander Wendt («Anarchy is what States Make of it», International Organization, 1992)",
+      "idea": "Las identidades, normas y narrativas definen qué consideran los actores una amenaza o un aliado.",
+      "preguntas": ["¿Qué narrativa usa cada actor para justificar su acción?", "¿Qué norma internacional se refuerza o se rompe con este hecho?"],
+      "areas_afines": ["identidad", "instituciones", "tecnologia"]
+    },
+    {
+      "id": "geopolitica_clasica", "nombre": "Geopolítica clásica",
+      "autores": "Alfred T. Mahan (The Influence of Sea Power upon History, 1890); Halford Mackinder («The Geographical Pivot of History», 1904); Nicholas Spykman (America's Strategy in World Politics, 1942)",
+      "idea": "La geografía (mares, estrechos, masas continentales, costas) condiciona el poder: quien controla rutas y pasos clave tiene ventaja.",
+      "preguntas": ["¿Qué ruta, estrecho, frontera o recurso geográfico está en juego en {pais}?", "¿El hecho afecta el control de un paso marítimo o terrestre (chokepoint)?"],
+      "areas_afines": ["geografia", "seguridad", "infraestructura", "energia"]
+    },
+    {
+      "id": "economia_politica", "nombre": "Economía política internacional",
+      "autores": "Susan Strange (States and Markets, 1988); Robert Gilpin (The Political Economy of International Relations, 1987)",
+      "idea": "El poder también es estructural: quién controla la producción, el crédito, la seguridad y el conocimiento.",
+      "preguntas": ["¿Qué cadena de suministro, mercado o flujo financiero se altera?", "¿Quién gana y quién paga los costos económicos del hecho?"],
+      "areas_afines": ["geoeconomia", "energia", "tecnologia", "infraestructura"]
+    },
+    {
+      "id": "seguridad_humana", "nombre": "Seguridad humana",
+      "autores": "PNUD, Informe sobre Desarrollo Humano 1994",
+      "idea": "La unidad de análisis es la persona, no el Estado: libertad del miedo y libertad de la necesidad.",
+      "preguntas": ["¿Cómo afecta a la población: vida, salud, alimento, vivienda, desplazamiento?", "¿Qué grupos de {pais} son más vulnerables a este hecho?"],
+      "areas_afines": ["demografia", "salud_nrbq", "clima", "riesgo"]
+    },
+    {
+      "id": "disuasion", "nombre": "Disuasión y teoría de juegos",
+      "autores": "Thomas Schelling (The Strategy of Conflict, 1960; Arms and Influence, 1966)",
+      "idea": "Los actores negocian con amenazas y promesas; lo que cuenta es si la señal es creíble y si el otro tiene una salida.",
+      "preguntas": ["¿Qué señal envía {actor} y es creíble (tiene capacidad y voluntad de cumplirla)?", "¿Qué salida tiene cada parte sin perder prestigio?"],
+      "areas_afines": ["seguridad", "riesgo", "regional"]
+    }
+  ]
+}

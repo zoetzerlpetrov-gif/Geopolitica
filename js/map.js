@@ -15,30 +15,81 @@ async function fetchTimeout(url, ms) {
   try { return await fetch(url, { signal: ctrl.signal }); } finally { clearTimeout(t); }
 }
 
-/** Estilo local de respaldo: solo fondo y países de Natural Earth (sin depender de terceros). */
-function estiloRespaldo(theme) {
+/**
+ * Estilo local (sin depender de terceros salvo las fuentes de texto): países de Natural Earth y sus nombres.
+ * - Respaldo cuando OpenFreeMap no responde: escala 1:50m.
+ * - Modo LITE (celular): escala 1:110m (48 KB comprimido), para que el mapa sea usable en < 3 s con 4G.
+ */
+export function estiloLocal(theme, { ligero = false } = {}) {
   const dark = theme === "dark";
   return {
     version: 8,
     glyphs: GLYPHS,
-    sources: { paises: { type: "geojson", data: "data/base/countries.geojson" } },
+    sources: {
+      paises: { type: "geojson", data: ligero ? "data/base/countries-110m.geojson" : "data/base/countries.geojson" },
+      nombres: { type: "geojson", data: "data/base/etiquetas-paises.geojson" },
+    },
     layers: [
       { id: "fondo", type: "background", paint: { "background-color": dark ? "#0d1b24" : "#dfe8ee" } },
       { id: "paises-relleno", type: "fill", source: "paises", paint: { "fill-color": dark ? "#1f2a31" : "#f7f7f4" } },
       { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": dark ? "#3b4b56" : "#b9c2c9", "line-width": 0.6 } },
+      { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5,
+        layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-optional": true },
+        paint: { "text-color": dark ? "#8fa1ad" : "#6f7d87", "text-halo-color": dark ? "#0d1b24" : "#ffffff", "text-halo-width": 1 } },
     ],
   };
 }
 
-/** Descarga el estilo de OpenFreeMap; si no responde en 6 s usa el respaldo local. */
-export async function estiloBase(theme) {
+// Zoom mínimo de las etiquetas del mapa base. Colocar texto (colisiones, glifos) es lo más caro
+// que hace MapLibre al mover el mapa; el estilo "dark" de OpenFreeMap trae 13 capas de etiquetas
+// activas desde zoom 0 (carreteras, colonias, pueblos). Aquí se retrasan hasta donde aportan.
+const MINZOOM_ETIQUETAS = [
+  [/highway|road|transportation_name|shield|oneway/, 9],
+  [/village|suburb|place_other|label_other/, 9],
+  [/airport|aerodrome/, 10],
+  [/waterway/, 10],
+  [/town/, 6],
+];
+// En modo LITE además se quitan capas que casi no se ven a la escala de un monitor mundial.
+const QUITAR_EN_LITE = /highway|road|transportation_name|shield|oneway|village|suburb|place_other|label_other|airport|aerodrome|waterway|building|aeroway-(taxiway|runway)/;
+
+// Etiquetas en español; si no hay, nombre en alfabeto latino. El estilo original concatena el nombre
+// latino con el original (chino, árabe, cirílico…), y cada alfabeto obliga a descargar otro bloque de
+// fuentes: en la medición base eran 1.5 MB en 31 peticiones solo de fuentes.
+const NOMBRE_ES = ["coalesce", ["get", "name:es"], ["get", "name:latin"], ["get", "name"]];
+
+/** Ajusta el estilo de OpenFreeMap para que pese menos al moverse. No cambia su aspecto a zoom mundial. */
+export function aligerarEstilo(style, { lite = false } = {}) {
+  const layers = [];
+  for (const l of style.layers) {
+    if (lite && QUITAR_EN_LITE.test(l.id)) continue;
+    if (l.type === "symbol" && l.layout) {
+      if (JSON.stringify(l.layout["text-field"] || "").includes("name:latin")) l.layout["text-field"] = NOMBRE_ES;
+      // Una sola familia tipográfica menos: la cursiva (nombres de mares) pasa a regular.
+      if (JSON.stringify(l.layout["text-font"] || "").includes("Italic")) l.layout["text-font"] = ["Noto Sans Regular"];
+    }
+    if (l.type === "symbol") {
+      const regla = MINZOOM_ETIQUETAS.find(([re]) => re.test(l.id));
+      if (regla && (l.minzoom ?? 0) < regla[1]) l.minzoom = regla[1];
+    }
+    layers.push(l);
+  }
+  // Fuentes declaradas que ninguna capa usa (p. ej. el relieve "ne2_shaded"): se eliminan.
+  const usadas = new Set(layers.map((l) => l.source).filter(Boolean));
+  const sources = Object.fromEntries(Object.entries(style.sources).filter(([id]) => usadas.has(id)));
+  return { ...style, layers, sources };
+}
+
+/** LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local. */
+export async function estiloBase(theme, { lite = false } = {}) {
+  if (lite) return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };
   try {
     const r = await fetchTimeout(OFM[theme], 6000);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return { style: await r.json(), remoto: true };
+    return { style: aligerarEstilo(await r.json(), { lite }), remoto: true };
   } catch (e) {
     console.warn("OpenFreeMap no disponible, se usa el mapa base local:", e.message);
-    return { style: estiloRespaldo(theme), remoto: false };
+    return { style: estiloLocal(theme), remoto: false };
   }
 }
 
@@ -50,14 +101,20 @@ export async function estiloBase(theme) {
  * @param {Record<string,string>} o.colores  id de área -> color
  * @param {object} o.chokepoints      GeoJSON
  * @param {"light"|"dark"} o.tema
+ * @param {boolean} o.lite            modo LITE: menos píxeles, sin copias del mundo, sin animaciones
  * @param {(id:string)=>void} o.onSelect
  */
-export function crearMapa({ container, style, colores, chokepoints, tema: temaInicial, onSelect }) {
+export function crearMapa({ container, style, colores, chokepoints, tema: temaInicial, lite = false, onSelect }) {
   const map = new maplibregl.Map({
     container, style, center: [-20, 22], zoom: container.clientWidth < 600 ? 0.6 : 1.6, minZoom: 0.5, maxZoom: 12,
-    attributionControl: { compact: true }, renderWorldCopies: true,
-    // Menos trabajo por cuadro en equipos modestos:
-    fadeDuration: 0, maxTileCacheSize: 200,
+    attributionControl: { compact: true },
+    // Un celular con pantalla 3x dibuja 9 veces más píxeles que una 1x. Por encima de 2x la
+    // diferencia casi no se nota en un mapa, pero el costo para la GPU sí: se limita.
+    pixelRatio: Math.min(window.devicePixelRatio || 1, lite ? 1.5 : 2),
+    // Las copias del mundo a izquierda y derecha triplican mosaicos a zoom bajo.
+    renderWorldCopies: !lite,
+    fadeDuration: 0, maxTileCacheSize: lite ? 80 : 200,
+    refreshExpiredTiles: false,
   });
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
   map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
@@ -66,6 +123,7 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
   let seleccion = "";
   let tema = temaInicial;
   let chokeVisible = true;
+  let chokeDatos = chokepoints || { type: "FeatureCollection", features: [] };
 
   const colorArea = ["match", ["get", "a"]];
   for (const [id, c] of Object.entries(colores)) colorArea.push(id, c);
@@ -76,7 +134,7 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
     const halo = dark ? "#0f1418" : "#ffffff";
     const texto = dark ? "#e4e9ed" : "#1c2329";
 
-    map.addSource("chokepoints", { type: "geojson", data: chokepoints });
+    map.addSource("chokepoints", { type: "geojson", data: chokeDatos });
     map.addLayer({
       id: "choke-anillo", type: "circle", source: "chokepoints",
       layout: { visibility: chokeVisible ? "visible" : "none" },
@@ -148,23 +206,33 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
     map.on("mouseenter", capa, () => { map.getCanvas().style.cursor = "pointer"; });
     map.on("mouseleave", capa, () => { map.getCanvas().style.cursor = ""; popup.remove(); });
   }
+  let ultimoHover = "";
   map.on("mousemove", "evento", (e) => {
-    popup.setLngLat(e.features[0].geometry.coordinates).setText(e.features[0].properties.t).addTo(map);
+    const f = e.features[0];
+    if (f.properties.id === ultimoHover) return; // no recalcula el globo mientras sigue sobre el mismo punto
+    ultimoHover = f.properties.id;
+    popup.setLngLat(f.geometry.coordinates).setText(f.properties.t).addTo(map);
   });
+  map.on("mouseleave", "evento", () => { ultimoHover = ""; });
 
   return {
     map,
-    /** Reemplaza los puntos visibles. El reagrupado ocurre en el worker, sin bloquear la página. */
+    /** Reemplaza los puntos visibles (objeto GeoJSON o URL). El reagrupado ocurre en el worker. */
     setDatos(fc) { datos = fc; map.getSource("eventos")?.setData(fc); },
     setSeleccion(id) {
       seleccion = id || "";
       if (map.getLayer("evento-sel")) map.setFilter("evento-sel", ["==", ["get", "id"], seleccion]);
     },
+    /** Los chokepoints pueden llegar después de crear el mapa (el mapa no espera a los JSON). */
+    setChokepointsDatos(fc) { chokeDatos = fc; map.getSource("chokepoints")?.setData(fc); },
     setChokepoints(visible) {
       chokeVisible = visible;
       for (const l of ["choke-anillo", "choke-texto"]) if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", visible ? "visible" : "none");
     },
     setTema(nuevo, style) { tema = nuevo; map.setStyle(style); },
-    volarA(lon, lat) { map.flyTo({ center: [lon, lat], zoom: Math.max(map.getZoom(), 4), essential: true }); },
+    volarA(lon, lat) {
+      const destino = { center: [lon, lat], zoom: Math.max(map.getZoom(), 4) };
+      lite ? map.jumpTo(destino) : map.flyTo({ ...destino, essential: true });
+    },
   };
 }

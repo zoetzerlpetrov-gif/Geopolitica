@@ -31,6 +31,8 @@ const SIN_ID = {
   "Siachen Glacier": "IND",
 };
 const NOMBRES_EXTRA = { XKX: { es: "Kosovo", en: "Kosovo" }, TWN: { es: "Taiwán", en: "Taiwan" } };
+// Punto de etiqueta fijo donde el cálculo cae mal (Rusia cruza el antimeridiano y el punto salía en lon 193).
+const PUNTO_FIJO = { RUS: [96.0, 62.0] };
 
 const regionDe = {};
 for (const [id, r] of Object.entries(regions)) for (const iso of r.paises) regionDe[iso] = id;
@@ -83,15 +85,35 @@ for (const f of fc.features) {
   if (!region && iso3 !== "ATA") sinRegion.push(iso3);
   out.features.push({ type: "Feature", properties: { iso3, nombre: es, region }, geometry: corregirAntimeridiano({ type: f.geometry.type, coordinates: round(f.geometry.coordinates) }) });
   if (!gaz[iso3]) {
-    const [lon, lat] = labelPoint(f.geometry);
+    let [lon, lat] = PUNTO_FIJO[iso3] || labelPoint(f.geometry);
+    lon = ((lon + 540) % 360) - 180; // siempre en [-180, 180]
     gaz[iso3] = { es, en, lat: Math.round(lat * 100) / 100, lon: Math.round(lon * 100) / 100, region };
   }
 }
 
 writeFileSync("../data/base/countries.geojson", JSON.stringify(out));
+
+// Versión ligera 1:110m para el modo LITE (celular): sin simplificar más, solo redondeo.
+const topo110 = require("world-atlas/countries-110m.json");
+const lite = { type: "FeatureCollection", features: [] };
+for (const f of feature(topo110, topo110.objects.countries).features) {
+  if (!f.geometry || f.id === "010") continue;
+  const iso3 = f.id ? countries.numericToAlpha3(f.id) : SIN_ID[f.properties.name];
+  if (!iso3) continue;
+  lite.features.push({ type: "Feature", properties: { iso3 }, geometry: corregirAntimeridiano({ type: f.geometry.type, coordinates: round(f.geometry.coordinates) }) });
+}
+writeFileSync("../data/base/countries-110m.geojson", JSON.stringify(lite));
+
+// Etiquetas de países (punto dentro del territorio principal) para el mapa base local.
+writeFileSync("../data/base/etiquetas-paises.geojson", JSON.stringify({
+  type: "FeatureCollection",
+  features: Object.entries(gaz).map(([iso3, g]) => ({ type: "Feature", properties: { n: g.es, iso3 }, geometry: { type: "Point", coordinates: [g.lon, g.lat] } })),
+}));
 writeFileSync("../config/gazetteer.json", JSON.stringify({
   descripcion: "Centroide aproximado (anillo más grande), nombres y región por país. Generado por tools/build_countries.mjs desde Natural Earth 1:50m. Se usa para geocodificar eventos sin coordenadas.",
   paises: Object.fromEntries(Object.entries(gaz).sort()),
+  // Para fuentes que usan códigos de 2 letras (OurAirports, OSM): ISO 3166-1 alfa-2 -> alfa-3.
+  iso2_a_iso3: Object.fromEntries(Object.entries(countries.getAlpha2Codes()).map(([a2]) => [a2, countries.alpha2ToAlpha3(a2)]).sort()),
 }, null, 1));
 console.log(`países: ${out.features.length} · gazetteer: ${Object.keys(gaz).length}`);
 if (sinRegion.length) console.log("sin región asignada:", sinRegion.join(", "));

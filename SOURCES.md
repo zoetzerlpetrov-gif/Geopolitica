@@ -2,32 +2,82 @@
 
 Regla del proyecto: de cada nota o publicación solo se guarda **título, fuente, fecha, enlace y un resumen propio de máximo 2 frases**. Nunca el texto completo. El mapa muestra siempre la fuente y el enlace original.
 
-## En uso (Fase 1)
+"Verificada" = la licencia se confirmó contra la página de la fuente. "Por verificar" = se tomó de documentación secundaria o de memoria y hay que confirmarla antes de depender de ella.
 
-| Recurso | Para qué | Licencia / términos | Atribución mostrada |
-|---|---|---|---|
-| [MapLibre GL JS](https://maplibre.org/) 5.24.0 | Motor del mapa (WebGL) | BSD 3-Clause (`vendor/maplibre-gl/LICENSE.txt`) | Automática en el control del mapa |
-| [OpenFreeMap](https://openfreemap.org/) estilos *positron* y *dark* | Mapa base vectorial | Servicio gratuito, sin llave ni límites publicados; se ofrece "tal cual" y puede cambiar | "OpenFreeMap © OpenMapTiles, datos © OpenStreetMap" |
-| [OpenMapTiles](https://openmaptiles.org/) | Esquema y diseño de los mosaicos | Código BSD 3-Clause, diseño CC BY 4.0 | Incluida arriba |
-| [OpenStreetMap](https://www.openstreetmap.org/copyright) | Datos del mapa base | ODbL 1.0 | Incluida arriba |
-| [Natural Earth](https://www.naturalearthdata.com/) 1:50m vía paquete [world-atlas](https://github.com/topojson/world-atlas) 2.0.2 | Polígonos de países (`data/base/countries.geojson`), mapa base de respaldo y futuro mapa de calor | Dominio público (world-atlas: ISC) | Pie de página |
-| [i18n-iso-countries](https://github.com/michaelwittig/node-i18n-iso-countries) 7.14.0 | Nombres de países en español e inglés | MIT | — |
-| EIA, *World Oil Transit Chokepoints* | Referencia para la lista de chokepoints | Información pública del gobierno de EUA | En `config/chokepoints.json` |
-| Wikipedia (enlaces de búsqueda) | Enlace de los 28 eventos de ejemplo | Solo se enlaza; no se copia contenido | En cada ficha |
+## Bibliotecas y mapa base (en uso)
 
-Por qué no CARTO: desde 2026 sus mapas base exigen una llave de API; sin ella los mosaicos salen con la marca de agua "API KEY REQUIRED" ([CARTO](https://www.carto.com/basemaps/apikey/)). OpenFreeMap no pide llave. Si deja de responder, el sitio cambia solo al mapa local de Natural Earth.
+| Recurso | Uso | Licencia |
+|---|---|---|
+| MapLibre GL JS 5.24.0 | Motor del mapa (WebGL) | BSD 3-Clause |
+| pmtiles 4.5.0 (Protomaps) | Lectura de archivos .pmtiles por rangos HTTP | BSD 3-Clause |
+| satellite.js 6.0.2 | Propagación orbital SGP4 en el navegador | MIT |
+| OpenFreeMap (estilos *positron* y *dark*) | Mapa base vectorial, sin llave | Servicio gratuito "tal cual"; mosaicos © OpenMapTiles (CC BY 4.0 diseño), datos © OpenStreetMap (ODbL) |
+| Natural Earth vía world-atlas 2.0.2 | Países (respaldo y relación con eventos) | Dominio público |
+| i18n-iso-countries 7.14.0 | Nombres de países ES/EN, códigos ISO | MIT |
 
-## Planeadas (Fase 2 en adelante): estado por verificar
+Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen con la marca "API KEY REQUIRED" ([CARTO](https://www.carto.com/basemaps/apikey/)).
 
-La disponibilidad real de cada feed la comprobará el workflow de ingesta desde GitHub Actions y quedará registrada en `data/run-log.json`.
+## Capas de entidades
 
-| Fuente | Costo | Registro / llave | Coordenadas | Estado |
-|---|---|---|---|---|
-| GDELT 2.0 Events (CSV cada 15 min) | Gratis | No | Sí | Fase 2 |
-| GDELT DOC 2.0 API | Gratis | No | No (país de la fuente) | Fase 2 |
-| ReliefWeb API (OCHA) | Gratis | `appname` preaprobado obligatorio desde el 1 nov 2025 | País | Fase 2: hay que solicitar el appname |
-| RSS: BBC World, DW, France 24, El País, Al Jazeera, Crisis Group, CIDOB, Real Instituto Elcano | Gratis | No | No (gazetteer) | Fase 2 |
-| Bluesky, Mastodon | Gratis | Bluesky: *app password* | No | Fase 6 |
-| ACLED | Nivel Open gratis | Registro (myACLED) | Sí | Pospuesto: sus términos limitan publicar datos crudos |
-| X/Twitter | De pago (~0.005 USD por post leído, según fuentes secundarias) | Sí | — | Descartado por costo |
-| OFAC SDN, lista consolidada UE, Banco Mundial | Gratis | No | No | Fase 5 |
+| Fuente | Capa | Costo | Registro / llave | Límites | Licencia | ¿Uso comercial? | Cobertura | Frecuencia en el proyecto | Estado |
+|---|---|---|---|---|---|---|---|---|---|
+| Natural Earth (GitHub nvkelso) | Zonas: océanos, mares, golfos, estrechos, lagos, ríos, desiertos, cordilleras, penínsulas | Gratis | No | — | Dominio público (verificada) | Sí | Mundial, escala 1:10m/1:50m | Mensual | **Activa** |
+| OurAirports | Aeropuertos y helipuertos | Gratis | No | — | Dominio público (verificada) | Sí | Mundial, ~71,000 sitios | Mensual | **Activa** |
+| World Port Index (NGA Pub. 150) | Puertos | Gratis | No | — | Dominio público, gobierno de EUA (verificada) | Sí | Mundial, ~3,800 puertos | Mensual | **Activa** |
+| Global Power Plant Database (WRI) v1.3.0 | Centrales por combustible | Gratis | No | — | CC BY 4.0 (verificada) | Sí, con atribución | Mundial, ~35,000 centrales; **última versión 2021** | Mensual (no cambia) | **Activa** |
+| OpenStreetMap vía Overpass API | Centros de datos, embajadas, recursos estratégicos, instalaciones militares públicas | Gratis | No | Uso razonable; consultas pesadas devuelven error 500/504 y 429 por límite; se divide el mundo en 8 cajas, se esperan 15 s entre cajas y se usan 3 instancias públicas (overpass-api.de, private.coffee, kumi.systems) con un plazo de 70 min por corrida | ODbL 1.0 (verificada) | Sí, con atribución y "compartir igual" para bases derivadas | Variable: depende de lo que la comunidad haya mapeado | Mensual | **Activa** (cobertura parcial) |
+| Wikidata (SPARQL) | Jefes de Estado y de gobierno, organismos internacionales, bolsas, empresas y sus líderes | Gratis | No | 60 s por consulta | CC0 (verificada) | Sí | Mundial | Semanal | **Activa** |
+| GLEIF (LEI) | Identificador legal de empresas | Gratis | No | — | CC0 (verificada) | Sí | Mundial | — | Preparada en el esquema; sin conector aún |
+| Epoch AI | Centros de datos de IA de frontera | Gratis | No | — | CC BY 4.0 (por verificar) | Sí, con atribución | Selección de grandes clústeres | — | Pendiente: falta URL estable de descarga |
+| GRanD / GOODD (Global Dam Watch) | Presas por uso | Gratis | Registro para descargar | — | CC BY 4.0 (por verificar) | Por verificar | Mundial, ~7,000 grandes presas | — | **Deshabilitada** |
+| TeleGeography Submarine Cable Map | Cables submarinos y aterrizajes | Gratis | No | — | CC BY-NC-SA 3.0 | **No** | Mundial | — | **Deshabilitada: requiere tu aprobación** (no comercial) |
+| Global Energy Monitor | Ductos de petróleo y gas | Gratis | Formulario por descarga | — | CC BY 4.0 (por verificar) | Sí, con atribución | Mundial | — | **Deshabilitada**: no se puede automatizar |
+| OIEA PRIS | Reactores nucleares | Gratis | No | — | Términos del OIEA (por verificar) | Por verificar | Mundial | — | No integrada (se usan las centrales nucleares de GPPD) |
+| USGS MRDS | Minas | Gratis | No | — | Dominio público | Sí | Histórica; USGS dejó de actualizarla | — | No integrada (se usa OSM) |
+
+## Capas en movimiento
+
+| Fuente | Capa | Costo | Registro / llave | Límites | Licencia | ¿Uso comercial? | Frecuencia | Estado |
+|---|---|---|---|---|---|---|---|---|
+| OpenSky Network (`/api/states/all`) | Aeronaves (mundial) | Gratis | No (anónimo) | ~400 créditos/día anónimo (por verificar); puede bloquear IPs de nube | Términos de OpenSky: uso no comercial y de investigación | **No** | Cada 20 min | Activa; si falla, solo quedan militares de adsb.lol |
+| adsb.lol (`/v2/mil`) | Aeronaves militares | Gratis | No | Por verificar | ODbL (por verificar) | Por verificar | Cada 20 min | Activa |
+| AISStream.io | Buques (AIS) | Gratis | **Sí: clave gratuita** en el secreto `AISSTREAM_API_KEY` | Por verificar | Términos de AISStream | Por verificar | Ventana de 75 s cada 20 min | Inactiva hasta que agregues la clave |
+| CelesTrak (grupos GP en TLE) | Satélites | Gratis | No | No descargar el mismo grupo más de una vez cada 2 h (se descarga cada 6 h) | Uso libre con atribución (por verificar) | Por verificar | Cada 6 h; posición calculada en el navegador | Activa |
+| OFAC SDN (`sdn.csv`) | Aeronaves y buques sancionados (matrícula, IMO) | Gratis | No | — | Dominio público, gobierno de EUA | Sí | Diaria | Activa |
+| OpenSanctions | Sanciones consolidadas | Gratis no comercial | No | — | CC BY-NC 4.0 | **No** sin licencia | — | No integrada |
+| NASA GIBS | Luces nocturnas VIIRS, color verdadero MODIS | Gratis | No | — | Datos abiertos de NASA (por verificar) | Sí | Diaria (imagen de ayer) | Activa, bajo demanda |
+
+## Eventos (Fase 2: ingesta horaria, `ingest/run.py`)
+
+Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen lo redacta el sistema con una plantilla. El texto del artículo, la descripción del feed y las palabras del enlace solo se usan en memoria para clasificar (`tests/test_ingesta.py` lo comprueba). La configuración está en `config/fuentes.json`. El estado real de cada fuente en cada corrida queda en `run-log.json` y en el resumen del workflow **Ingesta de eventos**.
+
+| Fuente | Qué aporta | Costo | Registro / llave | Licencia / términos | Frecuencia | Estado |
+|---|---|---|---|---|---|---|
+| GDELT 2.0 Events (`lastupdate.txt` + 4 archivos `export.CSV.zip` de 15 min) | Eventos codificados (CAMEO 10–20: exigencias, amenazas, protestas, coerción, combate) con coordenada y número de artículos | Gratis | No | Uso libre con cita a GDELT Project | Cada hora | Activa |
+| BBC World (RSS) | Titulares internacionales (inglés) | Gratis | No | Términos de BBC: titular y enlace | Cada hora | Activa |
+| DW Español (RDF) | Titulares (español) | Gratis | No | Términos de DW | Cada hora | Activa |
+| France 24 Español (RSS) | Titulares (español) | Gratis | No | Términos de France 24 | Cada hora | Activa |
+| El País Internacional (RSS) | Titulares (español) | Gratis | No | Términos de PRISA | Cada hora | Activa |
+| Al Jazeera (RSS) | Titulares (inglés) | Gratis | No | Términos de Al Jazeera | Cada hora | Activa |
+| International Crisis Group (RSS) | Análisis | Gratis | No | Términos de Crisis Group | Cada hora | Activa |
+| CIDOB (RSS) | Análisis (español) | Gratis | No | Términos de CIDOB | — | Deshabilitada: la URL devolvió un feed vacío; falta la URL oficial |
+| Real Instituto Elcano (RSS) | Análisis (español) | Gratis | No | Términos de Elcano | — | Deshabilitada: responde 403 al bot y no se evade el bloqueo |
+| ReliefWeb API v2 (`/reports`) | Crisis humanitarias y desastres con país ISO3 | Gratis | **Sí: `appname` preaprobado** en el secreto `RELIEFWEB_APPNAME` | Términos de ReliefWeb (OCHA) | Cada hora | Inactiva hasta que agregues el secreto |
+
+Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cualquier límite publicado. Si una fuente falla, la corrida sigue con las demás y el error queda registrado.
+
+## Exclusiones (no se integran)
+
+| Excluido | Motivo |
+|---|---|
+| Domicilios, ubicaciones en tiempo real, familiares, datos de contacto y vida personal de cualquier persona, incluidas las figuras públicas | Riesgo de acoso o daño físico. Las personas solo aparecen con su rol público y nunca en el mapa (`tests/test_privacidad.py`). |
+| Vincular aviones privados o carteras de criptomonedas a personas con nombre | Mismo motivo. Se excluyen además las aeronaves cuyos dueños pidieron privacidad (banderas PIA/LADD). |
+| Rastreo de carteras de criptomonedas de personas | Solo se muestran direcciones que OFAC publica dentro de la ficha de entidades sancionadas. |
+| Cámaras privadas, expuestas por error de configuración o halladas por escaneo | Solo se aceptan cámaras que un organismo público publica para verse en abierto; ninguna está aprobada todavía. |
+| Escaneo de puertos o reconocimiento de redes de terceros | Ilegal o contrario a términos de uso en la mayoría de jurisdicciones. |
+| Detalles operativos de instalaciones militares | Solo nombre, tipo, país, operador y enlace a la fuente pública. |
+| Scraping que viole términos de servicio (X/Twitter, TikTok y similares) | X cobra ~0.005 USD por post leído (fuentes secundarias); 100 posts/hora ≈ 360 USD/mes. |
+
+## Cámaras públicas: candidatas por aprobar
+
+No hay ninguna integrada. Para proponer una fuente se necesita: organismo que la publica, página donde la ofrece al público, términos de uso que permitan mostrarla o enlazarla, y forma de saber si está en vivo. Las candidatas se verificarán una por una (por ejemplo, las cámaras de tráfico que Caltrans publica en su portal de datos abiertos).

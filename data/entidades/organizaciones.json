@@ -1,0 +1,9048 @@
+{
+ "generado_utc": "2026-10-08T01:48:57Z",
+ "fuente": "Wikidata (CC0)",
+ "registros": [
+  {
+   "id": "Q1003245",
+   "nombre": "Bolsa de Bucarest",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ROU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1003245",
+   "sede": {
+    "lat": 44.4134,
+    "lon": 26.0978,
+    "ciudad": "Bucarest"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1003968",
+   "nombre": "Bolsa de Bulgaria",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BGR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1003968",
+   "sede": {
+    "lat": 42.6979,
+    "lon": 23.3217,
+    "ciudad": "Sofía"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1019981",
+   "nombre": "Bolsa de Valores de Namibia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "NAM",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1019981",
+   "sede": {
+    "lat": -22.57,
+    "lon": 17.0836,
+    "ciudad": "Windhoek"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1019983",
+   "nombre": "Bolsa de Copenhague",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DNK",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1019983",
+   "sede": {
+    "lat": 55.6761,
+    "lon": 12.5689,
+    "ciudad": "Copenhague"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1019992",
+   "nombre": "Bolsa de Estocolmo",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SWE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1019992",
+   "sede": {
+    "lat": 59.3294,
+    "lon": 18.0686,
+    "ciudad": "Estocolmo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1023876",
+   "nombre": "CME Group",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1023876",
+   "sede": {
+    "lat": 41.8819,
+    "lon": -87.6278,
+    "ciudad": "Chicago"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q102673",
+   "nombre": "Gazprom",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q102673",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q467644"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1046722",
+   "nombre": "Industrial Workers of the World",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1046722",
+   "sede": {
+    "lat": 41.8819,
+    "lon": -87.6278,
+    "ciudad": "Chicago"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q105557",
+   "nombre": "Embraer",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "BRA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q105557",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1065",
+   "nombre": "Organización de las Naciones Unidas",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1065",
+   "sede": {
+    "lat": 40.7128,
+    "lon": -74.0061,
+    "ciudad": "Nueva York"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q107569",
+   "nombre": "Club de Roma",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q107569",
+   "sede": {
+    "lat": 47.4992,
+    "lon": 8.7267,
+    "ciudad": "Winterthur"
+   },
+   "indices": [],
+   "personas": [
+    "Q2637050"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q108393997",
+   "nombre": "Beijing Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q108393997",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q11463",
+   "nombre": "Adobe Inc.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q11463",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2622748"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1146518",
+   "nombre": "Bolsa de Bruselas",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BEL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1146518",
+   "sede": {
+    "lat": 50.8481,
+    "lon": 4.3503,
+    "ciudad": "Palacio de la Bolsa"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q11507487",
+   "nombre": "Japan Exchange Group",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q11507487",
+   "sede": {
+    "lat": 35.6808,
+    "lon": 139.7774,
+    "ciudad": "日本橋兜町"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1188840",
+   "nombre": "Bolsa de Nagoya",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1188840",
+   "sede": {
+    "lat": 35.1802,
+    "lon": 136.9064,
+    "ciudad": "Prefectura de Aichi"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q120233",
+   "nombre": "New York Mercantile Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q120233",
+   "sede": {
+    "lat": 40.7128,
+    "lon": -74.0061,
+    "ciudad": "Nueva York"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1218180",
+   "nombre": "Nikon",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1218180",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q12217405",
+   "nombre": "Bolsa de Damasco",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SYR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q12217405",
+   "sede": {
+    "lat": 33.5333,
+    "lon": 36.0667,
+    "ciudad": "Yaafour"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q123209",
+   "nombre": "Unión Latina",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q123209",
+   "sede": {
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q123759",
+   "nombre": "Organización de los Estados Americanos",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q123759",
+   "sede": {
+    "lat": 38.8929,
+    "lon": -77.0403,
+    "ciudad": "Casa de las Américas"
+   },
+   "indices": [],
+   "personas": [
+    "Q1871549"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q132551",
+   "nombre": "Oficina del Alto Comisionado de las Naciones Unidas para los Refugiados",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q132551",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1330208",
+   "nombre": "Bolsa de Tailandia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "THA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1330208",
+   "sede": {
+    "lat": 13.7639,
+    "lon": 100.5677,
+    "ciudad": ""
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q133207",
+   "nombre": "Hermanos Musulmanes",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q133207",
+   "sede": {
+    "lat": 30.0444,
+    "lon": 31.2358,
+    "ciudad": "El Cairo"
+   },
+   "indices": [],
+   "personas": [
+    "Q113274814"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1344438",
+   "nombre": "Russian Trading System",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1344438",
+   "sede": {
+    "lat": 55.7506,
+    "lon": 37.6175,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1359568",
+   "nombre": "alibaba.com",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1359568",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q18165291"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q136402081",
+   "nombre": "Junta de Paz",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q136402081",
+   "sede": {
+    "lat": 38.895,
+    "lon": -77.0367,
+    "ciudad": "Washington D. C."
+   },
+   "indices": [],
+   "personas": [
+    "Q22686"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q13677",
+   "nombre": "Bolsa de Nueva York",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q13677",
+   "sede": {
+    "lat": 40.7069,
+    "lon": -74.0111,
+    "ciudad": "New York Stock Exchange Building"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q13683",
+   "nombre": "NYSE Euronext",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q13683",
+   "sede": {
+    "lat": 40.707,
+    "lon": -74.0112,
+    "ciudad": "New York Stock Exchange Building"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1369913",
+   "nombre": "Bolsa de Irak",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IRQ",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1369913",
+   "sede": {
+    "lat": 33.3153,
+    "lon": 44.3661,
+    "ciudad": "Bagdad"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1391676",
+   "nombre": "OTC Bulletin Board",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1391676",
+   "sede": {
+    "lat": 38.895,
+    "lon": -77.0367,
+    "ciudad": "Washington D. C."
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q140388",
+   "nombre": "Bolsa de Zagreb",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "HRV",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q140388",
+   "sede": {
+    "lat": 45.8131,
+    "lon": 15.9772,
+    "ciudad": "Zagreb"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1407995",
+   "nombre": "Borsa Istanbul",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "TUR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1407995",
+   "sede": {
+    "lat": 41.11,
+    "lon": 29.0384,
+    "ciudad": "Estambul"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1418",
+   "nombre": "Nokia",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "FIN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1418",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q115735574"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1421543",
+   "nombre": "Moscow Interbank Currency Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1421543",
+   "sede": {
+    "lat": 55.7506,
+    "lon": 37.6175,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1422",
+   "nombre": "Juventus",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "ITA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1422",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1433248",
+   "nombre": "Bolsa de Tallin",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "EST",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1433248",
+   "sede": {
+    "lat": 59.4372,
+    "lon": 24.745,
+    "ciudad": "Tallin"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q144458",
+   "nombre": "Euronext Dublin",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IRL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q144458",
+   "sede": {
+    "lat": 53.3497,
+    "lon": -6.2603,
+    "ciudad": "Dublín"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q146165",
+   "nombre": "Consejo Nórdico",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q146165",
+   "sede": {
+    "lat": 55.6761,
+    "lon": 12.5689,
+    "ciudad": "Copenhague"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q14647",
+   "nombre": "Sun Microsystems",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q14647",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q713734"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q14772",
+   "nombre": "Baidu",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q14772",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q14799",
+   "nombre": "Lenovo",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q14799",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q740364"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1507974",
+   "nombre": "Bolsa de Tel-Aviv",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ISR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1507974",
+   "sede": {
+    "lat": 32.0645,
+    "lon": 34.7703,
+    "ciudad": "Tel Aviv"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q151139",
+   "nombre": "Bolsa de Fráncfort",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q151139",
+   "sede": {
+    "lat": 50.1106,
+    "lon": 8.6822,
+    "ciudad": "Fráncfort del Meno"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1515558",
+   "nombre": "Bolsa de Singapur",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SGP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1515558",
+   "sede": {
+    "lat": 1.3,
+    "lon": 103.8,
+    "ciudad": "Singapur"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1516125",
+   "nombre": "Asociación Internacional de Mercados de Capitales",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1516125",
+   "sede": {
+    "lat": 47.3675,
+    "lon": 8.5376,
+    "ciudad": "Londres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q151991",
+   "nombre": "Observatorio Europeo del Sur",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q151991",
+   "sede": {
+    "lat": 48.25,
+    "lon": 11.65,
+    "ciudad": "Garching bei München"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q152051",
+   "nombre": "Bayer",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q152051",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q121148056"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q152057",
+   "nombre": "BP",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q152057",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q130611962"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q152106",
+   "nombre": "BayernLB",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q152106",
+   "sede": {
+    "lat": 48.1449,
+    "lon": 11.5736,
+    "ciudad": "Múnich"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1521374",
+   "nombre": "Bolsa de Valores de Ghana",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GHA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1521374",
+   "sede": {
+    "lat": 5.5556,
+    "lon": -0.2022,
+    "ciudad": "Acra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1526647",
+   "nombre": "Bolsa de Filipinas",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "PHL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1526647",
+   "sede": {
+    "lat": 14.5605,
+    "lon": 121.0765,
+    "ciudad": "Pásig"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1531570",
+   "nombre": "Infraestructura Mundial de Información en Biodiversidad",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1531570",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1538507",
+   "nombre": "Jack in the Box",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1538507",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q154950",
+   "nombre": "Shell",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q154950",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113988833"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q156238",
+   "nombre": "ExxonMobil",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q156238",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q28018191"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q156578",
+   "nombre": "Grupo Volkswagen",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q156578",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q21032599"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q157033",
+   "nombre": "Goethe-Institut",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q157033",
+   "sede": {
+    "lat": 48.1449,
+    "lon": 11.5751,
+    "ciudad": "Goethe-Institut Central Office Munich"
+   },
+   "indices": [],
+   "personas": [
+    "Q1044238"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q157062",
+   "nombre": "Unilever",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "NLD",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q157062",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q204277"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q157064",
+   "nombre": "Puma",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q157064",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q119785889"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q157169",
+   "nombre": "Asociación Cristiana de Jóvenes",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q157169",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.1,
+    "ciudad": "Vernier"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q157617",
+   "nombre": "Commerzbank",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q157617",
+   "sede": {
+    "lat": 50.1112,
+    "lon": 8.6744,
+    "ciudad": "Torre Commerzbank"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q157852",
+   "nombre": "Deutsche Börse",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q157852",
+   "sede": {
+    "lat": 50.1437,
+    "lon": 8.569,
+    "ciudad": "Eschborn"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q158888",
+   "nombre": "Yamaha Motor Company",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q158888",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q159766",
+   "nombre": "Compañía Neerlandesa de las Indias Orientales",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q159766",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q160746",
+   "nombre": "Nestlé",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "CHE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q160746",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q136051736"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1624698",
+   "nombre": "Nasdaq Riga",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "LVA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1624698",
+   "sede": {
+    "lat": 56.9475,
+    "lon": 24.1069,
+    "ciudad": "Riga"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q163810",
+   "nombre": "AB Volvo",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "SWE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q163810",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15544602"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1648198",
+   "nombre": "Qatar Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "QAT",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1648198",
+   "sede": {
+    "lat": 25.2861,
+    "lon": 51.5294,
+    "ciudad": "Doha"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q166110",
+   "nombre": "Unión de Rusia y Bielorrusia",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q166110",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1661737",
+   "nombre": "Bolsa de Indonesia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IDN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1661737",
+   "sede": {
+    "lat": -6.1753,
+    "lon": 106.8269,
+    "ciudad": "Yakarta"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q166546",
+   "nombre": "Asociación Europea de Libre Comercio",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q166546",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1674303",
+   "nombre": "Bolsa de Islandia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ISL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1674303",
+   "sede": {
+    "lat": 64.1475,
+    "lon": -21.935,
+    "ciudad": "Reikiavik"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1683760",
+   "nombre": "Tokyo Stock Exchange Jasdaq",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1683760",
+   "sede": {
+    "lat": 35.6706,
+    "lon": 139.772,
+    "ciudad": "Chūō"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q170416",
+   "nombre": "Philips",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q170416",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113636437"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q170424",
+   "nombre": "Organización Meteorológica Mundial",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q170424",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [
+    "Q108858791"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q170614",
+   "nombre": "Ryanair",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "IRL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q170614",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q24795213"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q171240",
+   "nombre": "Bolsa de Londres",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q171240",
+   "sede": {
+    "lat": 51.5153,
+    "lon": -0.0992,
+    "ciudad": "City de Londres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q173395",
+   "nombre": "Cisco Systems",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q173395",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q21041473"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1734773",
+   "nombre": "Kazakhstan Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "KAZ",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1734773",
+   "sede": {
+    "lat": 43.24,
+    "lon": 76.915,
+    "ciudad": "Alma Ata"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q173941",
+   "nombre": "Electronic Arts",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q173941",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15064277"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q174769",
+   "nombre": "United Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q174769",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q21072926"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1752646",
+   "nombre": "Bolsa de Praga",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CZE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1752646",
+   "sede": {
+    "lat": 50.0875,
+    "lon": 14.4214,
+    "ciudad": "Praga"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1752885",
+   "nombre": "Mongolian Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MNG",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1752885",
+   "sede": {
+    "lat": 47.9214,
+    "lon": 106.9055,
+    "ciudad": "Ulán Bator"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1764511",
+   "nombre": "G-7",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1764511",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1797919",
+   "nombre": "LCH",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1797919",
+   "sede": {
+    "lat": 51.5072,
+    "lon": -0.1275,
+    "ciudad": "Londres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1805567",
+   "nombre": "Bolsa de Teherán",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IRN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1805567",
+   "sede": {
+    "lat": 35.693,
+    "lon": 51.4111,
+    "ciudad": "Tehran Stock Exchange Tower"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q181642",
+   "nombre": "Suzuki",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q181642",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q182477",
+   "nombre": "Nvidia",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q182477",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q305177"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q185339",
+   "nombre": "Air Canada",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "CAN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q185339",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q186012",
+   "nombre": "HTC",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "TWN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q186012",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1866749",
+   "nombre": "Ljubljana Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SVN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1866749",
+   "sede": {
+    "lat": 46.0514,
+    "lon": 14.5061,
+    "ciudad": "Liubliana"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1877680",
+   "nombre": "Bolsa de Valores de Lusaka",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ZMB",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1877680",
+   "sede": {
+    "lat": -15.4167,
+    "lon": 28.2833,
+    "ciudad": "Lusaka"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q187854",
+   "nombre": "Scandinavian Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DNK",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q187854",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q188326",
+   "nombre": "H&M",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "SWE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q188326",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1719952"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q188514",
+   "nombre": "Tata Motors",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q188514",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q188822",
+   "nombre": "Banco Asiático de Desarrollo",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "PHL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q188822",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q188920",
+   "nombre": "Delta Air Lines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q188920",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q32374551"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q189946",
+   "nombre": "Unión Europea Occidental",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q189946",
+   "sede": {
+    "lat": 50.8467,
+    "lon": 4.3517,
+    "ciudad": "Bruselas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q190193",
+   "nombre": "Asociación Internacional para la Conciencia de Krishna",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q190193",
+   "sede": {
+    "lat": 23.425,
+    "lon": 88.3908,
+    "ciudad": "Māyāpur"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q190464",
+   "nombre": "HSBC",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q190464",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q66477676"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q191551",
+   "nombre": "easyJet",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q191551",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q47545530"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q191582",
+   "nombre": "Consejo de Ayuda Mutua Económica",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q191582",
+   "sede": {
+    "lat": 55.7506,
+    "lon": 37.6175,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q191703",
+   "nombre": "Organización para la Unidad Africana",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q191703",
+   "sede": {
+    "lat": 9.0358,
+    "lon": 38.7525,
+    "ciudad": "Adís Abeba"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1930860",
+   "nombre": "OTC Markets Group",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1930860",
+   "sede": {
+    "lat": 40.7128,
+    "lon": -74.0061,
+    "ciudad": "Nueva York"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q193136",
+   "nombre": "Prada",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "ITA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q193136",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q193326",
+   "nombre": "Goldman Sachs",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q193326",
+   "sede": {
+    "lat": 40.7147,
+    "lon": -74.0144,
+    "ciudad": "200 West Street"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q193701",
+   "nombre": "SpaceX",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q193701",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q317521"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q194284",
+   "nombre": "GATT",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q194284",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1972649",
+   "nombre": "Bolsa de Baréin",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BHR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1972649",
+   "sede": {
+    "lat": 26.2378,
+    "lon": 50.5733,
+    "ciudad": "Bahrain Financial Harbour"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1973019",
+   "nombre": "Dubai Financial Market",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ARE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1973019",
+   "sede": {
+    "lat": 25.2697,
+    "lon": 55.3094,
+    "ciudad": "Dubái"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1974408",
+   "nombre": "Dhaka Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BGD",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1974408",
+   "sede": {
+    "lat": 23.836,
+    "lon": 90.4173,
+    "ciudad": "Daca"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1975312",
+   "nombre": "Georgian Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GEO",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1975312",
+   "sede": {
+    "lat": 41.7225,
+    "lon": 44.7925,
+    "ciudad": "Tiflis"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1975332",
+   "nombre": "Surabaya Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IDN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1975332",
+   "sede": {
+    "lat": -7.2463,
+    "lon": 112.7378,
+    "ciudad": "Surabaya"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1976823",
+   "nombre": "Ahmedabad Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1976823",
+   "sede": {
+    "lat": 23.0219,
+    "lon": 72.5797,
+    "ciudad": "Ahmedabad"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1976933",
+   "nombre": "Malawi Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MWI",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1976933",
+   "sede": {
+    "lat": -15.7861,
+    "lon": 35.0058,
+    "ciudad": "Blantire"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q19771",
+   "nombre": "G20",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q19771",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1977283",
+   "nombre": "Karachi Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "PAK",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1977283",
+   "sede": {
+    "lat": 24.86,
+    "lon": 67.01,
+    "ciudad": "Karachi"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1978239",
+   "nombre": "Bolsa de Valores de Río de Janeiro",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BRA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1978239",
+   "sede": {
+    "lat": -22.9023,
+    "lon": -43.1741,
+    "ciudad": ""
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q19900",
+   "nombre": "Oracle Corporation",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q19900",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q1993710",
+   "nombre": "Organización Internacional de la Cultura Túrquica",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q1993710",
+   "sede": {
+    "lat": 39.9358,
+    "lon": 32.8387,
+    "ciudad": "Ankara"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2006583",
+   "nombre": "Tadawul",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SAU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2006583",
+   "sede": {
+    "lat": 24.65,
+    "lon": 46.71,
+    "ciudad": "Riad"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q20165",
+   "nombre": "Nissan",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q20165",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q70092183"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2024538",
+   "nombre": "Bolsa de Tirana",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ALB",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2024538",
+   "sede": {
+    "lat": 41.3283,
+    "lon": 19.8181,
+    "ciudad": "Tirana"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q202622",
+   "nombre": "G-14",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q202622",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q205995",
+   "nombre": "Comunidad del Caribe",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q205995",
+   "sede": {
+    "lat": 6.8058,
+    "lon": -58.1508,
+    "ciudad": "Georgetown"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2068453",
+   "nombre": "Belarus Currency And Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BLR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2068453",
+   "sede": {
+    "lat": 53.9022,
+    "lon": 27.5618,
+    "ciudad": "Minsk"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q206921",
+   "nombre": "Pfizer",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q206921",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q63400080"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q20718",
+   "nombre": "Samsung Electronics",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q20718",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q71984413",
+    "Q66606804",
+    "Q624109",
+    "Q71984243"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2073220",
+   "nombre": "Macedonian Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MKD",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2073220",
+   "sede": {
+    "lat": 41.9961,
+    "lon": 21.4317,
+    "ciudad": "Skopie"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q20800404",
+   "nombre": "Alphabet Inc.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q20800404",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3503829"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q208019",
+   "nombre": "Asociación Oriental",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q208019",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q20992132",
+   "nombre": "Yangon Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MMR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q20992132",
+   "sede": {
+    "lat": 16.7715,
+    "lon": 96.1591,
+    "ciudad": ""
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2122308",
+   "nombre": "Bolsa de Amán",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2122308",
+   "sede": {
+    "lat": 31.95,
+    "lon": 35.9333,
+    "ciudad": "Amán"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q212405",
+   "nombre": "Procter & Gamble",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q212405",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16195693"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q213140",
+   "nombre": "Japan Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q213140",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q124321858"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q215613",
+   "nombre": "Organización de Naciones y Pueblos No Representados",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q215613",
+   "sede": {
+    "lat": 52.08,
+    "lon": 4.31,
+    "ciudad": "La Haya"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q217475",
+   "nombre": "Bolsa de Tokio",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q217475",
+   "sede": {
+    "lat": 35.6826,
+    "lon": 139.7789,
+    "ciudad": "日本橋兜町"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q218868",
+   "nombre": "Comisión Trilateral",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q218868",
+   "sede": {
+    "lat": 38.895,
+    "lon": -77.0367,
+    "ciudad": "Washington D. C."
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q219575",
+   "nombre": "fuerzas de paz de las Naciones Unidas",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q219575",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2227403",
+   "nombre": "Hanoi Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "VNM",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2227403",
+   "sede": {
+    "lat": 21.0245,
+    "lon": 105.8412,
+    "ciudad": "Hanói"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2283",
+   "nombre": "Microsoft",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2283",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7426870"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q22907578",
+   "nombre": "Bolsa de Valores de Pakistán",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "PAK",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q22907578",
+   "sede": {
+    "lat": 24.86,
+    "lon": 67.01,
+    "ciudad": "Karachi"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q229478",
+   "nombre": "Oficina Internacional de Pesas y Medidas",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q229478",
+   "sede": {
+    "lat": 48.8231,
+    "lon": 2.2108,
+    "ciudad": "Sèvres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2306284",
+   "nombre": "SPB Exchange - All Markets",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2306284",
+   "sede": {
+    "lat": 55.7483,
+    "lon": 37.5369,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q23317",
+   "nombre": "Audi",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q23317",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q123358938"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q234803",
+   "nombre": "Rolls-Royce",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q234803",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2359996",
+   "nombre": "Colombo Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "LKA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2359996",
+   "sede": {
+    "lat": 6.9267,
+    "lon": 79.8606,
+    "ciudad": "Colombo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2380000",
+   "nombre": "Botswana Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BWA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2380000",
+   "sede": {
+    "lat": -24.6569,
+    "lon": 25.9086,
+    "ciudad": "Gaborone"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2380045",
+   "nombre": "Bolsa de Valores de Lima",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "PER",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2380045",
+   "sede": {
+    "lat": -12.0486,
+    "lon": -77.0314,
+    "ciudad": "Edificio de la Bolsa de Valores de Lima"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2380163",
+   "nombre": "Bolsa de Túnez",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "TUN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2380163",
+   "sede": {
+    "lat": 36.8008,
+    "lon": 10.18,
+    "ciudad": "Túnez"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2381261",
+   "nombre": "Cape Verde Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CPV",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2381261",
+   "sede": {
+    "lat": 14.9067,
+    "lon": -23.5175,
+    "ciudad": "Praia"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2381309",
+   "nombre": "Douala Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CMR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2381309",
+   "sede": {
+    "lat": 4.05,
+    "lon": 9.7,
+    "ciudad": "Duala"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2382352",
+   "nombre": "Bermuda Stock Exchange Ltd",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2382352",
+   "sede": {
+    "lat": 32.295,
+    "lon": -64.7831,
+    "ciudad": "Hamilton"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2384000",
+   "nombre": "Banja Luka Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BIH",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2384000",
+   "sede": {
+    "lat": 44.7725,
+    "lon": 17.1925,
+    "ciudad": "Banja Luka"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2384385",
+   "nombre": "Bolsa de Valores de Nairobi",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "KEN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2384385",
+   "sede": {
+    "lat": -1.2864,
+    "lon": 36.8172,
+    "ciudad": "Nairobi"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2385849",
+   "nombre": "Euronext Paris",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "FRA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2385849",
+   "sede": {
+    "lat": 48.8906,
+    "lon": 2.2464,
+    "ciudad": "París"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2387368",
+   "nombre": "Bolsa de Valores de Colombia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "COL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2387368",
+   "sede": {
+    "lat": 4.6097,
+    "lon": -74.0817,
+    "ciudad": "Bogotá"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2415561",
+   "nombre": "Euronext Lisboa",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "PRT",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2415561",
+   "sede": {
+    "lat": 38.708,
+    "lon": -9.139,
+    "ciudad": "Lisboa"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q243630",
+   "nombre": "BRICS",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q243630",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q248",
+   "nombre": "Intel",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q248",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q131981722"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2480956",
+   "nombre": "Bolsa de Bakú",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "AZE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2480956",
+   "sede": {
+    "lat": 40.3953,
+    "lon": 49.8822,
+    "ciudad": "Bakú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2509254",
+   "nombre": "Bolsa de Egipto",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "EGY",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2509254",
+   "sede": {
+    "lat": 30.0444,
+    "lon": 31.2358,
+    "ciudad": "El Cairo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q252420",
+   "nombre": "Oficina Internacional por la Paz",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q252420",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2602796",
+   "nombre": "Bolsa de Casablanca",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MAR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2602796",
+   "sede": {
+    "lat": 33.5992,
+    "lon": -7.62,
+    "ciudad": "Casablanca"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2632892",
+   "nombre": "Bolsa de Moscú",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2632892",
+   "sede": {
+    "lat": 55.7506,
+    "lon": 37.6175,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2633007",
+   "nombre": "Chicago Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2633007",
+   "sede": {
+    "lat": 41.8819,
+    "lon": -87.6278,
+    "ciudad": "Chicago"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2636119",
+   "nombre": "NASDAQ OMX BX",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2636119",
+   "sede": {
+    "lat": 42.3603,
+    "lon": -71.0578,
+    "ciudad": "Boston"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q26678",
+   "nombre": "BMW Group",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q26678",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20243418"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q270029",
+   "nombre": "Club de Leones",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q270029",
+   "sede": {
+    "lat": 41.8328,
+    "lon": -87.929,
+    "ciudad": "Oak Brook"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q27074",
+   "nombre": "Aston Martin",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q27074",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q460593"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q27224",
+   "nombre": "Bentley",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q27224",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q27530",
+   "nombre": "Mercedes-Benz Group",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q27530",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q19297571"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2888321",
+   "nombre": "Bolsa de Chipre",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CYP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2888321",
+   "sede": {
+    "lat": 35.1725,
+    "lon": 33.365,
+    "ciudad": "Nicosia"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2922440",
+   "nombre": "Bolsa de Malta",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MLT",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2922440",
+   "sede": {
+    "lat": 35.8951,
+    "lon": 14.5117,
+    "ciudad": "Garrison Chapel (Malta)"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2922448",
+   "nombre": "Bolsa de Laos",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "LAO",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2922448",
+   "sede": {
+    "lat": 17.98,
+    "lon": 102.63,
+    "ciudad": "Vientián"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2922455",
+   "nombre": "Hochiminh Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "VNM",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2922455",
+   "sede": {
+    "lat": 10.7756,
+    "lon": 106.7019,
+    "ciudad": "Ciudad Ho Chi Minh"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q295875",
+   "nombre": "ANZUS",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q295875",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q2997295",
+   "nombre": "Calcutta Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q2997295",
+   "sede": {
+    "lat": 22.5675,
+    "lon": 88.37,
+    "ciudad": "Calcuta"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q30873",
+   "nombre": "Dell",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q30873",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q218630"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q308952",
+   "nombre": "Malaysia Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "MYS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q308952",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q309195",
+   "nombre": "Banco de Pagos Internacionales",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q309195",
+   "sede": {
+    "lat": 47.5606,
+    "lon": 7.5906,
+    "ciudad": "Basilea"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q312",
+   "nombre": "Apple Inc.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q312",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q106028933"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q318693",
+   "nombre": "Organización del Tratado de la Seguridad Colectiva",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q318693",
+   "sede": {
+    "lat": 55.7603,
+    "lon": 37.6392,
+    "ciudad": "Sverchkov Lane"
+   },
+   "indices": [],
+   "personas": [
+    "Q2866"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q319642",
+   "nombre": "Chevron Corporation",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q319642",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q48562446"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q32245",
+   "nombre": "Singapore Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "SGP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q32245",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5577535"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q32396",
+   "nombre": "American Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q32396",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5300803"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q32491",
+   "nombre": "Qantas",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "AUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q32491",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q118220135"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q325523",
+   "nombre": "Campaña Internacional para la Prohibición de las Minas Antipersona",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q325523",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q328840",
+   "nombre": "Visa Inc.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q328840",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q114837486"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q3295867",
+   "nombre": "The Coca-Cola Company",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q3295867",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27839505"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q334800",
+   "nombre": "PepsiCo",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "BEL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q334800",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q56042353"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q3349831",
+   "nombre": "Chittagong Stock Exchange Ltd.",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BGD",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q3349831",
+   "sede": {
+    "lat": 22.335,
+    "lon": 91.8325,
+    "ciudad": "Chitagón"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q337456",
+   "nombre": "Comunidad Africana Oriental",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q337456",
+   "sede": {
+    "lat": -3.3667,
+    "lon": 36.6833,
+    "ciudad": "Arusha"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q35339",
+   "nombre": "WWE",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q35339",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2861138"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q35349",
+   "nombre": "Kia",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q35349",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q35476",
+   "nombre": "AT&T",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q35476",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q61985799"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q359",
+   "nombre": "WikiLeaks",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q359",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q35996",
+   "nombre": "Mazda",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q35996",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15255950"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q36033",
+   "nombre": "Mitsubishi Motors",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q36033",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q37156",
+   "nombre": "IBM",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q37156",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q84053114"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q380",
+   "nombre": "Meta Platforms",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q380",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q36215"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q380340",
+   "nombre": "Cooperación Económica del Mar Negro",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q380340",
+   "sede": {
+    "lat": 41.01,
+    "lon": 28.9603,
+    "ciudad": "Estambul"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q38076",
+   "nombre": "McDonald's",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q38076",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q73426541"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q38130",
+   "nombre": "Sociedad de las Naciones",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q38130",
+   "sede": {
+    "lat": 46.2149,
+    "lon": 6.151,
+    "ciudad": "Palais Wilson"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q3884",
+   "nombre": "Amazon.com, Inc.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q3884",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q41812531"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q38903",
+   "nombre": "Universal Music Group",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q38903",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3265178"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q3895",
+   "nombre": "Adidas AG",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q3895",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q370191"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4081230",
+   "nombre": "Bourse De Beyrouth - Beirut Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "LBN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4081230",
+   "sede": {
+    "lat": 33.8869,
+    "lon": 35.5131,
+    "ciudad": "Beirut"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q40993",
+   "nombre": "Porsche",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q40993",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q21032599"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4117996",
+   "nombre": "Muscat Securities Market",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "OMN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4117996",
+   "sede": {
+    "lat": 23.6139,
+    "lon": 58.5922,
+    "ciudad": "Mascate"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q41187",
+   "nombre": "Sony",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q41187",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q64783806"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4119825",
+   "nombre": "Abu Dhabi Securities Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ARE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4119825",
+   "sede": {
+    "lat": 24.485,
+    "lon": 54.3507,
+    "ciudad": "Abu Dhabi"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q41550",
+   "nombre": "Organización para la Cooperación y el Desarrollo Económico",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q41550",
+   "sede": {
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q41644",
+   "nombre": "Pacto de Varsovia",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q41644",
+   "sede": {
+    "lat": 55.7506,
+    "lon": 37.6175,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4164626",
+   "nombre": "Bolsa de Kuwait",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "KWT",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4164626",
+   "sede": {
+    "lat": 29.375,
+    "lon": 47.98,
+    "ciudad": "Ciudad de Kuwait"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4173083",
+   "nombre": "Unión Económica Eurasiática",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4173083",
+   "sede": {
+    "lat": 55.7506,
+    "lon": 37.6175,
+    "ciudad": "Moscú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4191917",
+   "nombre": "Bolsa de Valores de Zimbabue",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ZWE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4191917",
+   "sede": {
+    "lat": -17.8292,
+    "lon": 31.0522,
+    "ciudad": "Harare"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4202960",
+   "nombre": "Bolsa de Barcelona",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ESP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4202960",
+   "sede": {
+    "lat": 41.39,
+    "lon": 2.167,
+    "ciudad": "Barcelona"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q42262",
+   "nombre": "Agencia Espacial Europea",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q42262",
+   "sede": {
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q42944",
+   "nombre": "Organización Europea para la Investigación Nuclear",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q42944",
+   "sede": {
+    "lat": 46.2556,
+    "lon": 6.0819,
+    "ciudad": "Prévessin-Moëns"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q43335",
+   "nombre": "Bolsa de Malasia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MYS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q43335",
+   "sede": {
+    "lat": 3.1485,
+    "lon": 101.7012,
+    "ciudad": "Exchange Square"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q438511",
+   "nombre": "Alternative Investment Market",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q438511",
+   "sede": {
+    "lat": 51.5072,
+    "lon": -0.1275,
+    "ciudad": "Londres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4393626",
+   "nombre": "Tashkent Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "UZB",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4393626",
+   "sede": {
+    "lat": 41.3111,
+    "lon": 69.2797,
+    "ciudad": "Taskent"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4409921",
+   "nombre": "Swaziland Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SWZ",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4409921",
+   "sede": {
+    "lat": -26.3307,
+    "lon": 31.139,
+    "ciudad": "Mbabane"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q44294",
+   "nombre": "Ford Motor Company",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q44294",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q18921712"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4470480",
+   "nombre": "Ukrainian Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "UKR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4470480",
+   "sede": {
+    "lat": 50.45,
+    "lon": 30.5236,
+    "ciudad": "Kiev"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4491713",
+   "nombre": "Bolsa de Valores de Mauricio",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4491713",
+   "sede": {
+    "lat": -20.1619,
+    "lon": 57.4989,
+    "ciudad": "Port Louis"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4513926",
+   "nombre": "Montenegro Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MNE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4513926",
+   "sede": {
+    "lat": 42.4414,
+    "lon": 19.2628,
+    "ciudad": "Podgorica"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q451814",
+   "nombre": "Landesbank Baden-Württemberg",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q451814",
+   "sede": {
+    "lat": 48.7775,
+    "lon": 9.18,
+    "ciudad": "Stuttgart"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q45433",
+   "nombre": "British Council",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q45433",
+   "sede": {
+    "lat": 51.5072,
+    "lon": -0.1275,
+    "ciudad": "Londres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4548",
+   "nombre": "Turkish Airlines",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "TUR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4548",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q60056285"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q461736",
+   "nombre": "Club de París",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q461736",
+   "sede": {
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q47057",
+   "nombre": "Sarajevo Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BIH",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q47057",
+   "sede": {
+    "lat": 43.8564,
+    "lon": 18.4131,
+    "ciudad": "Sarajevo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q47099",
+   "nombre": "Grupo Televisa",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "MEX",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q47099",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q47543",
+   "nombre": "Organización para la Cooperación Islámica",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q47543",
+   "sede": {
+    "lat": 21.5292,
+    "lon": 39.1611,
+    "ciudad": "Yeda"
+   },
+   "indices": [],
+   "personas": [
+    "Q27662545"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q477328",
+   "nombre": "Grupo de los 77",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q477328",
+   "sede": {
+    "lat": 40.7496,
+    "lon": -73.9674,
+    "ciudad": "Sede de la Organización de las Naciones Unidas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q478720",
+   "nombre": "Bolsa de Ámsterdam",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q478720",
+   "sede": {
+    "lat": 52.3742,
+    "lon": 4.8957,
+    "ciudad": "Beursplein 5, Amsterdam"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q483551",
+   "nombre": "Walmart",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q483551",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16196595"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q483915",
+   "nombre": "Nike",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q483915",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q130612644"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q485593",
+   "nombre": "Red Hat",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q485593",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113136626"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q486269",
+   "nombre": "Kodak",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q486269",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q6173583"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q489921",
+   "nombre": "Mastercard",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q489921",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q115735747"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q490028",
+   "nombre": "Bolsa de Valores de Dar es Salaam",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "TZA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q490028",
+   "sede": {
+    "lat": -6.8136,
+    "lon": 39.2892,
+    "ciudad": "Dar es-Salaam"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q492316",
+   "nombre": "Bolsa de Valores de Uganda",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "UGA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q492316",
+   "sede": {
+    "lat": 0.3136,
+    "lon": 32.5811,
+    "ciudad": "Kampala"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q495372",
+   "nombre": "Bolsa de Corea del Sur",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q495372",
+   "sede": {
+    "lat": 35.18,
+    "lon": 129.075,
+    "ciudad": "Busan"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q496672",
+   "nombre": "Bolsa de Hong Kong",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q496672",
+   "sede": {
+    "lat": 22.285,
+    "lon": 114.1592,
+    "ciudad": "International Finance Centre"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q4992224",
+   "nombre": "Bolsa de Palestina",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "PSE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q4992224",
+   "sede": {
+    "lat": 32.2208,
+    "lon": 35.2628,
+    "ciudad": "Nablus"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q499962",
+   "nombre": "Coursera",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q499962",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q30323730"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q502421",
+   "nombre": "Vontobel",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q502421",
+   "sede": {
+    "lat": 47.3651,
+    "lon": 8.5347,
+    "ciudad": "Zúrich"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q5025115",
+   "nombre": "Cambodia Securities Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "KHM",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q5025115",
+   "sede": {
+    "lat": 11.5696,
+    "lon": 104.921,
+    "ciudad": "Nom Pen"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q517750",
+   "nombre": "Bolsa de Shenzhen",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q517750",
+   "sede": {
+    "lat": 22.5467,
+    "lon": 114.0544,
+    "ciudad": "Shenzhen"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q524757",
+   "nombre": "KFC",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q524757",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q128222124"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q52618",
+   "nombre": "Ericsson",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "SWE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q52618",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5629910"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q5281",
+   "nombre": "Yandex",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q5281",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q53238",
+   "nombre": "Hitachi, Ltd.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q53238",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q56349725"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q53247",
+   "nombre": "Panasonic Corporation",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q53247",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q11556379"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q53268",
+   "nombre": "Toyota",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q53268",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q116935918"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q54129",
+   "nombre": "Organización Internacional del Trabajo",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q54129",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q548621",
+   "nombre": "Bolsa de Taiwán",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "TWN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q548621",
+   "sede": {
+    "lat": 25.0336,
+    "lon": 121.5647,
+    "ciudad": "Taipei 101"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q550050",
+   "nombre": "Bolsa de Belgrado",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SRB",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q550050",
+   "sede": {
+    "lat": 44.8178,
+    "lon": 20.4569,
+    "ciudad": "Belgrado"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q5507703",
+   "nombre": "Bolsa de Fukuoka",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q5507703",
+   "sede": {
+    "lat": 33.5901,
+    "lon": 130.4017,
+    "ciudad": "Fukuoka"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q552581",
+   "nombre": "SAP SE",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q552581",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q70623824"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q558524",
+   "nombre": "Bolsa de Valores de Stuttgart",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q558524",
+   "sede": {
+    "lat": 48.7799,
+    "lon": 9.1754,
+    "ciudad": "Stuttgart"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q558551",
+   "nombre": "Boerse Hamburg - Regulierter Markt",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q558551",
+   "sede": {
+    "lat": 53.5497,
+    "lon": 9.9911,
+    "ciudad": "Hamburgo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q55931",
+   "nombre": "Hyundai Motor Company",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q55931",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5116286"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q571760",
+   "nombre": "Boerse Berlin",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q571760",
+   "sede": {
+    "lat": 52.5167,
+    "lon": 13.3833,
+    "ciudad": "Berlín"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q58024",
+   "nombre": "eBay",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q58024",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q90569739"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q581755",
+   "nombre": "Bolsa de Helsinki",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "FIN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q581755",
+   "sede": {
+    "lat": 60.1683,
+    "lon": 24.9492,
+    "ciudad": "Helsinki Stock Exchange Building"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q58707",
+   "nombre": "Aeroflot",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q58707",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q4448394"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q59551",
+   "nombre": "Bolsa de Varsovia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "POL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q59551",
+   "sede": {
+    "lat": 52.23,
+    "lon": 21.0111,
+    "ciudad": "Varsovia"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q596850",
+   "nombre": "Organización de Estados Túrquicos",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q596850",
+   "sede": {
+    "lat": 41.0114,
+    "lon": 28.9503,
+    "ciudad": "Fatih"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q600958",
+   "nombre": "NASDAQ OMX Vilnius",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "LTU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q600958",
+   "sede": {
+    "lat": 54.6872,
+    "lon": 25.28,
+    "ciudad": "Vilna"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q609159",
+   "nombre": "Bolsas y Mercados Españoles",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ESP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q609159",
+   "sede": {
+    "lat": 40.4169,
+    "lon": -3.7033,
+    "ciudad": "Madrid"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q617426",
+   "nombre": "Bolsa de Madrid",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ESP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q617426",
+   "sede": {
+    "lat": 40.4169,
+    "lon": -3.6921,
+    "ciudad": "Palacio de la Bolsa de Madrid"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q62621",
+   "nombre": "Canon Inc.",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q62621",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q627019",
+   "nombre": "Bolsa de Nueva Zelanda",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "NZL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q627019",
+   "sede": {
+    "lat": -41.2889,
+    "lon": 174.7772,
+    "ciudad": "Wellington"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q627514",
+   "nombre": "Bolsa de Johannesburgo",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ZAF",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q627514",
+   "sede": {
+    "lat": -26.2044,
+    "lon": 28.0416,
+    "ciudad": "Johannesburgo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q638398",
+   "nombre": "Bolsa de Valores de Bombay",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q638398",
+   "sede": {
+    "lat": 19.0758,
+    "lon": 72.8775,
+    "ciudad": "Bombay"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q638740",
+   "nombre": "Bolsa Nacional de Valores de India",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q638740",
+   "sede": {
+    "lat": 19.0758,
+    "lon": 72.8775,
+    "ciudad": "Bombay"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q6529599",
+   "nombre": "Nepal Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "NPL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q6529599",
+   "sede": {
+    "lat": 27.698,
+    "lon": 85.32,
+    "ciudad": "Katmandú"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q66",
+   "nombre": "Boeing",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q66",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q109767256"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q66048",
+   "nombre": "Deutsche Bank",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q66048",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q51641672"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q661834",
+   "nombre": "SIX Swiss Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHE",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q661834",
+   "sede": {
+    "lat": 47.3711,
+    "lon": 8.5318,
+    "ciudad": ""
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q663492",
+   "nombre": "Eurocontrol",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q663492",
+   "sede": {
+    "lat": 50.8467,
+    "lon": 4.3517,
+    "ciudad": "Bruselas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q679322",
+   "nombre": "Saudi Aramco",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "SAU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q679322",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q19938961"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q681683",
+   "nombre": "Börse München",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q681683",
+   "sede": {
+    "lat": 48.1429,
+    "lon": 11.5548,
+    "ciudad": "Múnich"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q683787",
+   "nombre": "Bolsa de Armenia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ARM",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q683787",
+   "sede": {
+    "lat": 40.1814,
+    "lon": 44.5144,
+    "ciudad": "Ereván"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q6867",
+   "nombre": "Unión Astronómica Internacional",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q6867",
+   "sede": {
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
+   },
+   "indices": [],
+   "personas": [
+    "Q19543937"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q698535",
+   "nombre": "Bolsa de Viena",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "AUT",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q698535",
+   "sede": {
+    "lat": 48.2083,
+    "lon": 16.3725,
+    "ciudad": "Viena"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7050551",
+   "nombre": "Nord Pool Spot AS",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "NOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7050551",
+   "sede": {
+    "lat": 63.44,
+    "lon": 10.4,
+    "ciudad": "Trondheim"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7159",
+   "nombre": "Unión Africana",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7159",
+   "sede": {
+    "lat": -26.2044,
+    "lon": 28.0416,
+    "ciudad": "Johannesburgo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7172",
+   "nombre": "Liga Árabe",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7172",
+   "sede": {
+    "lat": 30.0442,
+    "lon": 31.2347,
+    "ciudad": "Headquarters of the Arab League"
+   },
+   "indices": [],
+   "personas": [
+    "Q12247944"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7184",
+   "nombre": "OTAN",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7184",
+   "sede": {
+    "lat": 50.8467,
+    "lon": 4.3517,
+    "ciudad": "Bruselas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7240",
+   "nombre": "Lockheed Martin",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7240",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q110610881"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q732670",
+   "nombre": "Australian Securities Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "AUS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q732670",
+   "sede": {
+    "lat": -33.8678,
+    "lon": 151.21,
+    "ciudad": "Sídney"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7383727",
+   "nombre": "Bolsa de Valores de Ruanda",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "RWA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7383727",
+   "sede": {
+    "lat": -1.9525,
+    "lon": 30.115,
+    "ciudad": "Kigali"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q739514",
+   "nombre": "Bolsa de Shanghái",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q739514",
+   "sede": {
+    "lat": 31.2325,
+    "lon": 121.4692,
+    "ciudad": "Shanghái"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7414",
+   "nombre": "The Walt Disney Company",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7414",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q69598904"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q74603",
+   "nombre": "Bolsa de Bratislava",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "SVK",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q74603",
+   "sede": {
+    "lat": 48.1517,
+    "lon": 17.1093,
+    "ciudad": "Bratislava"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q74662",
+   "nombre": "Bolsa de Luxemburgo",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "LUX",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q74662",
+   "sede": {
+    "lat": 49.6114,
+    "lon": 6.13,
+    "ciudad": "Luxemburgo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q755341",
+   "nombre": "Bolsa de Atenas",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "GRC",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q755341",
+   "sede": {
+    "lat": 37.9903,
+    "lon": 23.7286,
+    "ciudad": "Atenas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7779",
+   "nombre": "Comunidad de Estados Independientes",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7779",
+   "sede": {
+    "lat": 53.9022,
+    "lon": 27.5618,
+    "ciudad": "Minsk"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7795",
+   "nombre": "Organización de Países Exportadores de Petróleo",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7795",
+   "sede": {
+    "lat": 48.2097,
+    "lon": 16.37,
+    "ciudad": "Innere Stadt"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q780442",
+   "nombre": "Uber",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q780442",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5221979"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7817",
+   "nombre": "Organización Mundial de la Salud",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7817",
+   "sede": {
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q7825",
+   "nombre": "Organización Mundial del Comercio",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q7825",
+   "sede": {
+    "lat": 46.2239,
+    "lon": 6.1497,
+    "ciudad": "Centro William Rappard"
+   },
+   "indices": [],
+   "personas": [
+    "Q289350"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q796297",
+   "nombre": "B3",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "BRA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q796297",
+   "sede": {
+    "lat": -23.5504,
+    "lon": -46.6339,
+    "ciudad": "São Paulo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q8093",
+   "nombre": "Nintendo",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q8093",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q52177144"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q816706",
+   "nombre": "Comunidad de Desarrollo de África Austral",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q816706",
+   "sede": {
+    "lat": -24.6569,
+    "lon": 25.9086,
+    "ciudad": "Gaborone"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q818723",
+   "nombre": "Bolsa de Toronto",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CAN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q818723",
+   "sede": {
+    "lat": 43.6703,
+    "lon": -79.3867,
+    "ciudad": "Toronto"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q81888",
+   "nombre": "Ajax de Ámsterdam",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q81888",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q819468",
+   "nombre": "Xetra",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q819468",
+   "sede": {
+    "lat": 50.1106,
+    "lon": 8.6822,
+    "ciudad": "Fráncfort del Meno"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q81965",
+   "nombre": "General Motors",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q81965",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q6779013"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q82059",
+   "nombre": "Nasdaq",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q82059",
+   "sede": {
+    "lat": 40.7565,
+    "lon": -73.9858,
+    "ciudad": "One Liberty Plaza"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q83201",
+   "nombre": "Movimiento de Países No Alineados",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q83201",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q838766",
+   "nombre": "Bolsa de Valores de Nigeria",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "NGA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q838766",
+   "sede": {
+    "lat": 6.4561,
+    "lon": 3.3936,
+    "ciudad": "Lagos"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q843944",
+   "nombre": "Nomura Securities",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q843944",
+   "sede": {
+    "lat": 35.6817,
+    "lon": 139.7728,
+    "ciudad": "Nihonbashi"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q846626",
+   "nombre": "American Stock Exchange",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q846626",
+   "sede": {
+    "lat": 40.7128,
+    "lon": -74.0061,
+    "ciudad": "Nueva York"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q8475",
+   "nombre": "Interpol",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q8475",
+   "sede": {
+    "lat": 45.7675,
+    "lon": 4.835,
+    "ciudad": "Lyon"
+   },
+   "indices": [],
+   "personas": [
+    "Q106782689"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q851259",
+   "nombre": "Bolsa de Budapest",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "HUN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q851259",
+   "sede": {
+    "lat": 47.4983,
+    "lon": 19.0408,
+    "ciudad": "Budapest"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q852242",
+   "nombre": "Colegio cardenalicio",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q852242",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q8766",
+   "nombre": "British Airways",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q8766",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q104862847"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q891559",
+   "nombre": "Bolsa Mexicana de Valores",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "MEX",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q891559",
+   "sede": {
+    "lat": 19.3538,
+    "lon": -99.1359,
+    "ciudad": "Ciudad de México"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q891560",
+   "nombre": "Bolsa de Comercio de Buenos Aires",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ARG",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q891560",
+   "sede": {
+    "lat": -34.6039,
+    "lon": -58.3707,
+    "ciudad": "Buenos Aires"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q891561",
+   "nombre": "Bolsa de Comercio de Santiago",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "CHL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q891561",
+   "sede": {
+    "lat": -33.4427,
+    "lon": -70.6517,
+    "ciudad": "Edificio de la Bolsa de Comercio de Santiago"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q891563",
+   "nombre": "Bolsa de Valores de Caracas",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "VEN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q891563",
+   "sede": {
+    "lat": 10.5061,
+    "lon": -66.9144,
+    "ciudad": "Caracas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q8919",
+   "nombre": "Comunidad Europea de la Energía Atómica",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q8919",
+   "sede": {
+    "lat": 50.8467,
+    "lon": 4.3525,
+    "ciudad": "Bruselas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q909158",
+   "nombre": "Bolsa de Oslo",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "NOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q909158",
+   "sede": {
+    "lat": 59.909,
+    "lon": 10.7479,
+    "ciudad": "Børsen"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q928831",
+   "nombre": "Seoul Broadcasting System",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q928831",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q9325",
+   "nombre": "Lufthansa",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q9325",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1045681"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q936563",
+   "nombre": "Bolsa de Italia",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ITA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q936563",
+   "sede": {
+    "lat": 45.4669,
+    "lon": 9.19,
+    "ciudad": "Milán"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q95",
+   "nombre": "Google",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q95",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3503829"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q9584",
+   "nombre": "Honda",
+   "subtipo": "empresas",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q9584",
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20855800"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q9598744",
+   "nombre": "Abanca",
+   "subtipo": "bolsas_valores",
+   "sector": "finanzas",
+   "pais_iso3": "ESP",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q9598744",
+   "sede": {
+    "lat": 43.2804,
+    "lon": -8.2147,
+    "ciudad": "Betanzos"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q993160",
+   "nombre": "Comunidades Europeas",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": null,
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q993160",
+   "sede": null,
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AFG",
+   "nombre": "Gobierno (AFG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AFG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q24237654",
+    "Q108444479"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AGO",
+   "nombre": "Gobierno (AGO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AGO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q28650390"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ALB",
+   "nombre": "Gobierno (ALB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ALB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q107422711",
+    "Q316901"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AND",
+   "nombre": "Gobierno (AND)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AND",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3052772",
+    "Q93244592",
+    "Q21001195"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ARE",
+   "nombre": "Gobierno (ARE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ARE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1951896",
+    "Q57655"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ARG",
+   "nombre": "Gobierno (ARG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ARG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q52395487"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ARM",
+   "nombre": "Gobierno (ARM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ARM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3553274",
+    "Q7035479"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ATG",
+   "nombre": "Gobierno (ATG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ATG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q17177542"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AUS",
+   "nombre": "Gobierno (AUS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AUS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q335697"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AUT",
+   "nombre": "Gobierno (AUT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AUT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q78869",
+    "Q64576653"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:AZE",
+   "nombre": "Gobierno (AZE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "AZE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57371",
+    "Q12850075"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BDI",
+   "nombre": "Gobierno (BDI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BDI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27329764",
+    "Q107136851"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BEL",
+   "nombre": "Gobierno (BEL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BEL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q155004",
+    "Q336599"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BEN",
+   "nombre": "Gobierno (BEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q24951128",
+    "Q29035",
+    "Q3241966",
+    "Q16669148"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BFA",
+   "nombre": "Gobierno (BFA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BFA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q114341246",
+    "Q114835874"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BGD",
+   "nombre": "Gobierno (BGD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BGD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q116763154",
+    "Q7686199"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BGR",
+   "nombre": "Gobierno (BGR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BGR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q433338",
+    "Q26257557"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BHR",
+   "nombre": "Gobierno (BHR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BHR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57352",
+    "Q58140"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BHS",
+   "nombre": "Gobierno (BHS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BHS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q7183082"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BIH",
+   "nombre": "Gobierno (BIH)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BIH",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q297825",
+    "Q5528031",
+    "Q13081568",
+    "Q387491"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BLR",
+   "nombre": "Gobierno (BLR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BLR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2866",
+    "Q56235580"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BLZ",
+   "nombre": "Gobierno (BLZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BLZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q6266369"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BOL",
+   "nombre": "Gobierno (BOL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BOL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q110520817"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BRA",
+   "nombre": "Gobierno (BRA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BRA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q37181"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BRB",
+   "nombre": "Gobierno (BRB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BRB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q9333540",
+    "Q6827147"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BRN",
+   "nombre": "Gobierno (BRN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BRN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57327"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BTN",
+   "nombre": "Gobierno (BTN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BTN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57376",
+    "Q7849613"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:BWA",
+   "nombre": "Gobierno (BWA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "BWA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q18618881"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CAF",
+   "nombre": "Gobierno (CAF)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CAF",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57758",
+    "Q88310768"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CAN",
+   "nombre": "Gobierno (CAN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CAN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q192533"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CHE",
+   "nombre": "Gobierno (CHE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CHE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q30917"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CHL",
+   "nombre": "Gobierno (CHL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CHL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5937916"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CHN",
+   "nombre": "Gobierno (CHN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CHN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15031",
+    "Q4414390"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CIV",
+   "nombre": "Gobierno (CIV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CIV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57413",
+    "Q3434569"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CMR",
+   "nombre": "Gobierno (CMR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CMR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57272",
+    "Q60441515"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COD",
+   "nombre": "Gobierno (COD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q29032770",
+    "Q63967715"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COG",
+   "nombre": "Gobierno (COG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57418",
+    "Q4752077"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COL",
+   "nombre": "Gobierno (COL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q137204778"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:COM",
+   "nombre": "Gobierno (COM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "COM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q515602"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CPV",
+   "nombre": "Gobierno (CPV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CPV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57649",
+    "Q139594211"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CRI",
+   "nombre": "Gobierno (CRI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CRI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q114705150"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CUB",
+   "nombre": "Gobierno (CUB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CUB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1932603",
+    "Q79358625"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CYP",
+   "nombre": "Gobierno (CYP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CYP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q48905549"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:CZE",
+   "nombre": "Gobierno (CZE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "CZE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2080040",
+    "Q10819807"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DEU",
+   "nombre": "Gobierno (DEU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q76658",
+    "Q566257"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DJI",
+   "nombre": "Gobierno (DJI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DJI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57390",
+    "Q57683",
+    "Q10522744"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DMA",
+   "nombre": "Gobierno (DMA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DMA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q122208779",
+    "Q57823"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DOM",
+   "nombre": "Gobierno (DOM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DOM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16594097"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:DZA",
+   "nombre": "Gobierno (DZA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "DZA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2821166",
+    "Q133540883"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ECU",
+   "nombre": "Gobierno (ECU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ECU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q112075625"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:EGY",
+   "nombre": "Gobierno (EGY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "EGY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q307871",
+    "Q54901515"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ERI",
+   "nombre": "Gobierno (ERI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ERI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57348"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ESP",
+   "nombre": "Gobierno (ESP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ESP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q191045",
+    "Q6070218"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:EST",
+   "nombre": "Gobierno (EST)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "EST",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12358575",
+    "Q1789192"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ETH",
+   "nombre": "Gobierno (ETH)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ETH",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q124831090",
+    "Q50365049"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FIN",
+   "nombre": "Gobierno (FIN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FIN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q503143",
+    "Q6029546"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FJI",
+   "nombre": "Gobierno (FJI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FJI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q109012733",
+    "Q981549"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FRA",
+   "nombre": "Gobierno (FRA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FRA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3052772",
+    "Q20089181"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:FSM",
+   "nombre": "Gobierno (FSM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "FSM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7984081"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GAB",
+   "nombre": "Gobierno (GAB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GAB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q122067521",
+    "Q57856"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GBR",
+   "nombre": "Gobierno (GBR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GBR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q269909"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GEO",
+   "nombre": "Gobierno (GEO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GEO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q711893",
+    "Q27885302"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GHA",
+   "nombre": "Gobierno (GHA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GHA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q50678",
+    "Q718601"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GIN",
+   "nombre": "Gobierno (GIN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GIN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q108418519",
+    "Q22209348"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GMB",
+   "nombre": "Gobierno (GMB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GMB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27917049"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GNB",
+   "nombre": "Gobierno (GNB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GNB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57424",
+    "Q16855164",
+    "Q16908893",
+    "Q627337"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GNQ",
+   "nombre": "Gobierno (GNQ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GNQ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57385",
+    "Q129263796"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GRC",
+   "nombre": "Gobierno (GRC)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GRC",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20995518",
+    "Q552751"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GRD",
+   "nombre": "Gobierno (GRD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GRD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q112679881"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GTM",
+   "nombre": "Gobierno (GTM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GTM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q107254030"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:GUY",
+   "nombre": "Gobierno (GUY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "GUY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q64840184",
+    "Q98053664"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HND",
+   "nombre": "Gobierno (HND)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HND",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16146159"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HRV",
+   "nombre": "Gobierno (HRV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HRV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57687",
+    "Q11685764"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HTI",
+   "nombre": "Gobierno (HTI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HTI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q124846311",
+    "Q131140314"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:HUN",
+   "nombre": "Gobierno (HUN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "HUN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q788903",
+    "Q124488292"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IDN",
+   "nombre": "Gobierno (IDN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IDN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2107268"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IND",
+   "nombre": "Gobierno (IND)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IND",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q19901232",
+    "Q1058"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IRL",
+   "nombre": "Gobierno (IRL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IRL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5052598",
+    "Q920403"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IRN",
+   "nombre": "Gobierno (IRN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IRN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2919350",
+    "Q5933752"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:IRQ",
+   "nombre": "Gobierno (IRQ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "IRQ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q115579547",
+    "Q3700793"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ISL",
+   "nombre": "Gobierno (ISL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ISL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q24494577",
+    "Q108856371"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ISR",
+   "nombre": "Gobierno (ISR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ISR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q983258",
+    "Q43723"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ITA",
+   "nombre": "Gobierno (ITA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ITA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3956186",
+    "Q451791"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:JAM",
+   "nombre": "Gobierno (JAM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "JAM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q505200"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:JOR",
+   "nombre": "Gobierno (JOR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "JOR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57464",
+    "Q97011032"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:JPN",
+   "nombre": "Gobierno (JPN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "JPN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q217096",
+    "Q1705028"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KAZ",
+   "nombre": "Gobierno (KAZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KAZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q200881",
+    "Q124436646"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KEN",
+   "nombre": "Gobierno (KEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q195725"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KGZ",
+   "nombre": "Gobierno (KGZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KGZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q25597826",
+    "Q4060344",
+    "Q23810819",
+    "Q29865128",
+    "Q37777535",
+    "Q96338578",
+    "Q101751482",
+    "Q105277058",
+    "Q112703041"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KHM",
+   "nombre": "Gobierno (KHM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KHM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57319",
+    "Q13024351"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KIR",
+   "nombre": "Gobierno (KIR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KIR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q23034482"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KNA",
+   "nombre": "Gobierno (KNA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KNA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q113443525"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KOR",
+   "nombre": "Gobierno (KOR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KOR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12612463",
+    "Q55082182"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:KWT",
+   "nombre": "Gobierno (KWT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "KWT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12243161",
+    "Q12219691"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LAO",
+   "nombre": "Gobierno (LAO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LAO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q58323",
+    "Q104914585"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LBN",
+   "nombre": "Gobierno (LBN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LBN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q29033962",
+    "Q638463"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LBR",
+   "nombre": "Gobierno (LBR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LBR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2630483"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LBY",
+   "nombre": "Gobierno (LBY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LBY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q105319610",
+    "Q105319569"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LCA",
+   "nombre": "Gobierno (LCA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LCA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q7184214"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LIE",
+   "nombre": "Gobierno (LIE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LIE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57454",
+    "Q129676165"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LKA",
+   "nombre": "Gobierno (LKA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LKA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q4777855",
+    "Q98298397"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LSO",
+   "nombre": "Gobierno (LSO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LSO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57537",
+    "Q114588964"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LTU",
+   "nombre": "Gobierno (LTU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LTU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q9268379",
+    "Q1936326"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LUX",
+   "nombre": "Gobierno (LUX)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LUX",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q161319",
+    "Q592101"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:LVA",
+   "nombre": "Gobierno (LVA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "LVA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3047551",
+    "Q115604300"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MAR",
+   "nombre": "Gobierno (MAR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MAR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57553",
+    "Q1638114"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MCO",
+   "nombre": "Gobierno (MCO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MCO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3910",
+    "Q29934395"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MDA",
+   "nombre": "Gobierno (MDA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MDA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15071069",
+    "Q140480413"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MDG",
+   "nombre": "Gobierno (MDG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MDG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q136500275",
+    "Q138678989"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MDV",
+   "nombre": "Gobierno (MDV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MDV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q116293030"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MEX",
+   "nombre": "Gobierno (MEX)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MEX",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q5771800"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MHL",
+   "nombre": "Gobierno (MHL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MHL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q20090884"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MKD",
+   "nombre": "Gobierno (MKD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MKD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12277168",
+    "Q46675558"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MLI",
+   "nombre": "Gobierno (MLI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MLI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q98497406",
+    "Q113577661"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MLT",
+   "nombre": "Gobierno (MLT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MLT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1647394",
+    "Q37860840"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MMR",
+   "nombre": "Gobierno (MMR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MMR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3331362",
+    "Q3462649"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MNE",
+   "nombre": "Gobierno (MNE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MNE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q104417661",
+    "Q101225458"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MNG",
+   "nombre": "Gobierno (MNG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MNG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27058418",
+    "Q110962738"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MOZ",
+   "nombre": "Gobierno (MOZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MOZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q97058466",
+    "Q6761049"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MRT",
+   "nombre": "Gobierno (MRT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MRT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12241106",
+    "Q66793577"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MUS",
+   "nombre": "Gobierno (MUS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MUS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q131403499",
+    "Q3401447"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MWI",
+   "nombre": "Gobierno (MWI)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MWI",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7176020",
+    "Q16202782"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:MYS",
+   "nombre": "Gobierno (MYS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "MYS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q2657043",
+    "Q299574"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NAM",
+   "nombre": "Gobierno (NAM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NAM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q527020",
+    "Q5360975"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NER",
+   "nombre": "Gobierno (NER)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NER",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q120965176",
+    "Q2646711"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NGA",
+   "nombre": "Gobierno (NGA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NGA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3510872"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NIC",
+   "nombre": "Gobierno (NIC)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NIC",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57402"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NLD",
+   "nombre": "Gobierno (NLD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NLD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q154952",
+    "Q28860866"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NOR",
+   "nombre": "Gobierno (NOR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NOR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q165241",
+    "Q467948"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NPL",
+   "nombre": "Gobierno (NPL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NPL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3183124",
+    "Q315500"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NRU",
+   "nombre": "Gobierno (NRU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NRU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q58096"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:NZL",
+   "nombre": "Gobierno (NZL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "NZL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q74370310"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:OMN",
+   "nombre": "Gobierno (OMN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "OMN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12250314"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PAK",
+   "nombre": "Gobierno (PAK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PAK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57373",
+    "Q2096387"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PAN",
+   "nombre": "Gobierno (PAN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PAN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q108454869"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PER",
+   "nombre": "Gobierno (PER)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PER",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q235137"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PHL",
+   "nombre": "Gobierno (PHL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PHL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q983324"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PLW",
+   "nombre": "Gobierno (PLW)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PLW",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q26703072"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PNG",
+   "nombre": "Gobierno (PNG)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PNG",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q6138903"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:POL",
+   "nombre": "Gobierno (POL)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "POL",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17704749",
+    "Q946"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PRK",
+   "nombre": "Gobierno (PRK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PRK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q56226",
+    "Q16905281"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PRT",
+   "nombre": "Gobierno (PRT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PRT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1580316",
+    "Q11764394"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PRY",
+   "nombre": "Gobierno (PRY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PRY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q22695687"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:PSE",
+   "nombre": "Gobierno (PSE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "PSE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q127998",
+    "Q20423278"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:QAT",
+   "nombre": "Gobierno (QAT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "QAT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1855372",
+    "Q23020336"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ROU",
+   "nombre": "Gobierno (ROU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ROU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q11163124",
+    "Q18538164"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:RUS",
+   "nombre": "Gobierno (RUS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "RUS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7747",
+    "Q4298520"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:RWA",
+   "nombre": "Gobierno (RWA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "RWA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1231345",
+    "Q135454730"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SAU",
+   "nombre": "Gobierno (SAU)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SAU",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q367825"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SDN",
+   "nombre": "Gobierno (SDN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SDN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q63111184",
+    "Q27654948"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SEN",
+   "nombre": "Gobierno (SEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q124382437"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SGP",
+   "nombre": "Gobierno (SGP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SGP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q983752",
+    "Q6504758"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SLB",
+   "nombre": "Gobierno (SLB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SLB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q6180897"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SLE",
+   "nombre": "Gobierno (SLE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SLE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q283829",
+    "Q23728768"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SLV",
+   "nombre": "Gobierno (SLV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SLV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17712353"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SMR",
+   "nombre": "Gobierno (SMR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SMR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57546",
+    "Q1353628"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SOM",
+   "nombre": "Gobierno (SOM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SOM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q319153",
+    "Q99605101"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SRB",
+   "nombre": "Gobierno (SRB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SRB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q26258815",
+    "Q42478807"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SSD",
+   "nombre": "Gobierno (SSD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SSD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57315"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:STP",
+   "nombre": "Gobierno (STP)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "STP",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q27982047",
+    "Q131749390"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SUR",
+   "nombre": "Gobierno (SUR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SUR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q440403"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SVK",
+   "nombre": "Gobierno (SVK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SVK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q17330556",
+    "Q57606"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SVN",
+   "nombre": "Gobierno (SVN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SVN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12797332",
+    "Q57627"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SWE",
+   "nombre": "Gobierno (SWE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SWE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q45068",
+    "Q1780398"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SWZ",
+   "nombre": "Gobierno (SWZ)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SWZ",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57340",
+    "Q123342092"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SYC",
+   "nombre": "Gobierno (SYC)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SYC",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16190544"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:SYR",
+   "nombre": "Gobierno (SYR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "SYR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q7934206"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TCD",
+   "nombre": "Gobierno (TCD)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TCD",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16206405",
+    "Q57350",
+    "Q4710950"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TGO",
+   "nombre": "Gobierno (TGO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TGO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q6169516",
+    "Q4414"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:THA",
+   "nombre": "Gobierno (THA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "THA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q548733",
+    "Q13026319"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TJK",
+   "nombre": "Gobierno (TJK)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TJK",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57366",
+    "Q15222839"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TKM",
+   "nombre": "Gobierno (TKM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TKM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q51874548"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TLS",
+   "nombre": "Gobierno (TLS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TLS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q11665",
+    "Q11509"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TON",
+   "nombre": "Gobierno (TON)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TON",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q208497",
+    "Q5437258"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TTO",
+   "nombre": "Gobierno (TTO)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TTO",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57712",
+    "Q97400315"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TUN",
+   "nombre": "Gobierno (TUN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TUN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16120878",
+    "Q108892374"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TUR",
+   "nombre": "Gobierno (TUR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TUR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q39259"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TUV",
+   "nombre": "Gobierno (TUV)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TUV",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q43274",
+    "Q5441662"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TWN",
+   "nombre": "Gobierno (TWN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TWN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3847080",
+    "Q5116472"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:TZA",
+   "nombre": "Gobierno (TZA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "TZA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q16193885"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:UGA",
+   "nombre": "Gobierno (UGA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "UGA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57274",
+    "Q62481397"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:UKR",
+   "nombre": "Gobierno (UKR)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "UKR",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q3874799",
+    "Q124101558"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:URY",
+   "nombre": "Gobierno (URY)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "URY",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q19946921"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:USA",
+   "nombre": "Gobierno (USA)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "USA",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q22686"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:UZB",
+   "nombre": "Gobierno (UZB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "UZB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q57808",
+    "Q28002959"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VAT",
+   "nombre": "Gobierno (VAT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VAT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q6109517",
+    "Q109385659"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VCT",
+   "nombre": "Gobierno (VCT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VCT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q28319076",
+    "Q43274"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VEN",
+   "nombre": "Gobierno (VEN)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VEN",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q15081116"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VNM",
+   "nombre": "Gobierno (VNM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VNM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q10831196",
+    "Q10806940"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:VUT",
+   "nombre": "Gobierno (VUT)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "VUT",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q113239716",
+    "Q16190741"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:WSM",
+   "nombre": "Gobierno (WSM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "WSM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q32014514",
+    "Q57723",
+    "Q5446290"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:XKS",
+   "nombre": "Gobierno (XKS)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "XKS",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q13036897",
+    "Q441633"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:YEM",
+   "nombre": "Gobierno (YEM)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "YEM",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q12213376",
+    "Q68837007"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ZAF",
+   "nombre": "Gobierno (ZAF)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ZAF",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q1148669"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ZMB",
+   "nombre": "Gobierno (ZMB)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ZMB",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q717185",
+    "Q18352991"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "gob:ZWE",
+   "nombre": "Gobierno (ZWE)",
+   "subtipo": "gobiernos_ministerios",
+   "sector": null,
+   "pais_iso3": "ZWE",
+   "lei": null,
+   "wikidata": null,
+   "sede": null,
+   "indices": [],
+   "personas": [
+    "Q510523"
+   ],
+   "fuente": "wikidata",
+   "url_fuente": null
+  }
+ ]
+}

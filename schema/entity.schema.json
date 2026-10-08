@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zoetzerlpetrov-gif.github.io/Geopolitica/schema/entity.schema.json",
+  "title": "Entidades: catálogo (config/entities.json) y registros (data/entidades/*.json)",
+  "description": "Se valida en cada ejecución de CI. Los registros de personas no admiten coordenadas, domicilios, contactos, familiares ni ubicaciones: additionalProperties=false lo impide por diseño.",
+  "$defs": {
+    "area_id": {"enum": ["geografia", "seguridad", "geoeconomia", "energia", "tecnologia", "demografia", "clima", "instituciones", "identidad", "regional", "riesgo", "infraestructura", "salud_nrbq"]},
+    "tipo_capa": {"enum": ["estatica", "movimiento", "indicador", "raster", "ficha"]},
+    "estado_dato": {"enum": ["tiempo_real", "retrasado", "estimado", "estatico"]},
+    "nombre_bilingue": {
+      "type": "object", "required": ["es", "en"], "additionalProperties": false,
+      "properties": {"es": {"type": "string", "minLength": 1}, "en": {"type": "string", "minLength": 1}}
+    },
+    "fuente": {
+      "type": "object", "required": ["nombre", "url", "licencia", "uso_comercial", "licencia_verificada"],
+      "additionalProperties": false,
+      "properties": {
+        "nombre": {"type": "string"}, "url": {"type": "string"}, "licencia": {"type": "string"},
+        "uso_comercial": {"type": ["boolean", "null"]}, "licencia_verificada": {"type": "boolean"}, "nota": {"type": "string"}
+      }
+    },
+    "subtipo": {
+      "type": "object",
+      "required": ["id", "nombre", "icono", "color", "fuente", "licencia", "frecuencia", "tipo_capa", "estado_dato", "zoom_min", "areas"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "nombre": {"$ref": "#/$defs/nombre_bilingue"},
+        "icono": {"type": "string", "minLength": 1},
+        "color": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+        "fuente": {"type": "string"},
+        "licencia": {"type": "string"},
+        "frecuencia": {"type": "string"},
+        "tipo_capa": {"$ref": "#/$defs/tipo_capa"},
+        "estado_dato": {"$ref": "#/$defs/estado_dato"},
+        "zoom_min": {"type": ["number", "null"], "minimum": 0, "maximum": 22},
+        "areas": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/area_id"}}
+      }
+    },
+    "categoria": {
+      "type": "object", "required": ["id", "nombre", "fase", "dibujable", "subtipos"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9_]+$"},
+        "nombre": {"$ref": "#/$defs/nombre_bilingue"},
+        "fase": {"type": "string"},
+        "dibujable": {"type": "boolean"},
+        "reglas": {"type": "array", "items": {"type": "string"}},
+        "campos_permitidos": {"type": "array", "items": {"type": "string"}},
+        "subtipos": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/subtipo"}}
+      }
+    },
+    "catalogo": {
+      "type": "object", "required": ["version", "fuentes", "categorias"],
+      "properties": {
+        "version": {"type": "string"},
+        "fuentes": {"type": "object", "additionalProperties": {"$ref": "#/$defs/fuente"}},
+        "categorias": {"type": "array", "items": {"$ref": "#/$defs/categoria"}}
+      }
+    },
+    "persona": {
+      "description": "Solo rol público. Sin ningún campo de ubicación, contacto o vida privada.",
+      "type": "object",
+      "required": ["id", "nombre", "cargo", "pais_iso3", "subtipo", "fuente"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string", "pattern": "^(Q[0-9]+|p-[a-z0-9-]+)$"},
+        "nombre": {"type": "string", "minLength": 1},
+        "cargo": {"type": "string"},
+        "organizacion_id": {"type": ["string", "null"]},
+        "pais_iso3": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "wikidata": {"type": ["string", "null"], "pattern": "^https://www\\.wikidata\\.org/wiki/Q[0-9]+$"},
+        "subtipo": {"enum": ["jefes_estado_gobierno", "ministros_legisladores", "lideres_organismos", "ceos_directivos", "inversionistas", "otras_figuras"]},
+        "fuente": {"type": "string"},
+        "actualizado_utc": {"type": "string"}
+      }
+    },
+    "organizacion": {
+      "type": "object",
+      "required": ["id", "nombre", "subtipo", "pais_iso3", "fuente"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"},
+        "nombre": {"type": "string", "minLength": 1},
+        "subtipo": {"enum": ["empresas", "gobiernos_ministerios", "embajadas_consulados", "organismos_internacionales", "bolsas_valores"]},
+        "sector": {"type": ["string", "null"]},
+        "pais_iso3": {"type": ["string", "null"], "pattern": "^[A-Z]{3}$"},
+        "lei": {"type": ["string", "null"], "pattern": "^[A-Z0-9]{20}$"},
+        "wikidata": {"type": ["string", "null"]},
+        "sede": {"type": ["object", "null"], "properties": {"lat": {"type": "number"}, "lon": {"type": "number"}, "ciudad": {"type": "string"}}},
+        "indices": {"type": "array", "items": {"type": "string"}},
+        "personas": {"type": "array", "items": {"type": "string"}, "description": "ids de personas con rol en la organización"},
+        "fuente": {"type": "string"},
+        "url_fuente": {"type": ["string", "null"]}
+      }
+    },
+    "instalacion_militar": {
+      "description": "Solo información pública: nombre, tipo, país, operador y enlace.",
+      "type": "object",
+      "required": ["id", "nombre", "subtipo", "pais_iso3", "fuente", "lat", "lon"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {"type": "string"}, "nombre": {"type": "string"},
+        "subtipo": {"enum": ["cuarteles_mando", "bases_navales", "bases_aereas", "bases_terrestres", "instalaciones_nucleares", "industria_defensa"]},
+        "pais_iso3": {"type": ["string", "null"]}, "operador": {"type": ["string", "null"]},
+        "fuente": {"type": "string"}, "url_fuente": {"type": ["string", "null"]},
+        "lat": {"type": "number"}, "lon": {"type": "number"}
+      }
+    }
+  },
+  "oneOf": [{"$ref": "#/$defs/catalogo"}]
+}

@@ -1,10 +1,10 @@
 # Monitor Geopolítico
 
-Mapa mundial interactivo de eventos geopolíticos clasificados en 11 áreas, con vista de impacto para México.
-Sitio estático en GitHub Pages; los datos se actualizan cada hora con GitHub Actions (a partir de la Fase 2).
+Mapa mundial interactivo de eventos geopolíticos clasificados en 13 áreas, con vista de impacto para México.
+Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub Actions (GDELT, 8 feeds RSS y ReliefWeb).
 
 - **Mapa:** `index.html`
-- **Taxonomía visual (11 áreas, subtemas y palabras clave):** `taxonomia.html`
+- **Taxonomía visual (13 áreas, subtemas y palabras clave):** `taxonomia.html`
 - **Plan de pruebas:** [`docs/TEST_PLAN.md`](docs/TEST_PLAN.md)
 - **Fuentes y licencias:** [`SOURCES.md`](SOURCES.md)
 
@@ -25,14 +25,26 @@ Sitio estático en GitHub Pages; los datos se actualizan cada hora con GitHub Ac
 
 | Carpeta | Contenido |
 |---|---|
-| `config/` | `taxonomy.json` (11 áreas), `regions.json` (país → región), `chokepoints.json`, `gazetteer.json` (centroide por país) |
-| `data/` | `events.json` (eventos vigentes), `run-log.json` (bitácora de la última corrida), `history/` (archivo diario, 90 días), `base/countries.geojson` |
-| `schema/` | `event.schema.json`: contrato de datos de cada evento |
-| `js/`, `css/` | Interfaz. Sin frameworks ni compilación |
-| `vendor/` | MapLibre GL 5.24.0 copiado localmente (no depende de un CDN) |
-| `ingest/` | Scripts de Python (validador hoy; ingesta en la Fase 2) |
+| `config/` | `taxonomy.json` (13 áreas, Eje 1), `entities.json` (12 categorías de entidades, Eje 2), `capas.json` (familias de capas y su estado), `regions.json`, `chokepoints.json`, `gazetteer.json`, `fuentes.json` (ingesta), `analisis.json` (checklist y lentes) |
+| `data/` | `events.json`, `run-log.json`, `indice-paises.json`, `entidades/` (Wikidata), `base/countries.geojson`, `history/` |
+| `schema/` | `event.schema.json` y `entity.schema.json` (contratos de datos) |
+| `js/` | `app.js`, `map.js`, `card.js`, `capas.js` (PMTiles), `movimiento.js` + `sat-worker.js`, `imagenes.js`, `seguimiento.js`, `refresh.js`, `linea-tiempo.js`, `indice.js`, `analisis.js` (se descarga al abrir «Análisis»), `analisis-logica.js`, `cuaderno.js` |
+| `vendor/` | MapLibre GL 5.24.0, pmtiles 4.5.0 y satellite.js 6.0.2 copiados localmente |
+| `ingest/` | `run.py` (ingesta horaria), `fuentes.py` (GDELT, RSS, ReliefWeb), `geo.py` (país por coordenada o por texto), `classify.py` (clasificador por reglas), `dimensiones.py` (alerta, delta, índice, correlación), validadores |
+| `tools/` | `capas/` (PMTiles), `entidades/` (Wikidata), `vivos/` (aviones, buques, satélites), `medicion/` (rendimiento) |
 | `tests/` | Pruebas de Python (`pytest`) y de JavaScript (`node --test`) |
-| `tools/` | Generadores de una sola vez: capa de países, copia de MapLibre, datos de ejemplo |
+| `docs/` | `TEST_PLAN.md`, `INDICADORES.md` |
+
+### Dónde vive cada dato
+
+| Dato | Dónde se guarda | Por qué |
+|---|---|---|
+| Código y configuración (y eventos de ejemplo) | rama `main` | Cambian poco o pesan poco |
+| Eventos de 72 h, historial de 90 días, run-log, índice por país | rama huérfana `datos-eventos`, reescrita cada hora | Un commit por hora haría crecer el historial sin límite |
+| Capas PMTiles (~40 MB) | rama huérfana `datos-capas`, reescrita en cada reconstrucción | Para no sumar 40 MB al historial cada mes |
+| Aviones, buques, satélites, sanciones | rama huérfana `datos-vivos`, reescrita cada 20 min | Una instantánea cada 20 min inflaría el historial decenas de MB al día |
+
+El workflow de publicación copia esas ramas a `data/capas/`, `data/vivos/` y `data/` (eventos) antes de publicar en Pages. Mientras `datos-eventos` no exista, se publican los datos de ejemplo.
 
 ### Por qué es rápido con muchos datos
 
@@ -43,7 +55,14 @@ Igual que los mapas OSINT que manejan miles de íconos, este mapa no crea un ele
 3. Los colores por área y el tamaño por severidad son *expresiones* de estilo que evalúa la GPU.
 4. Los filtros recorren un arreglo en memoria (unos 10 ms con 50,000 eventos) y reemplazan los datos de una sola vez.
 
-Prueba de carga: abre `index.html?carga=50000` y mira la consola del navegador (F12). Cada cambio de filtro imprime cuántos milisegundos tardó.
+5. Las capas estáticas son **PMTiles**: el navegador pide por rangos HTTP solo los mosaicos visibles (en la prueba: 45 KB de 41 MB).
+6. Aviones y buques: solo lo que cae en la vista, máximo 5,000, recalculado 500 ms después de mover el mapa; flechas SDF que la GPU rota y colorea.
+7. Satélites: SGP4 en un Web Worker. Modo **LITE** (por defecto en celular): sin capas en movimiento ni imágenes, menos píxeles y sin animaciones.
+
+Pruebas de carga (consola del navegador, F12):
+- `?carga=50000` agrega 50,000 eventos sintéticos.
+- `?aviones=5000&mov=aeronaves` agrega 5,000 aviones sintéticos y activa la capa.
+- `?capas=aeropuertos,centrales,zonas` activa capas estáticas al abrir.
 
 ## Ver el sitio en tu computadora
 
@@ -83,9 +102,21 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | Fase | Contenido | Estado |
 |---|---|---|
 | 0 | Lectura del repo de clima y propuesta | Hecha |
-| 1 | `taxonomy.json`, mapa con datos de ejemplo, esquema, pruebas, publicación | Hecha (palabras clave pendientes de aprobación) |
-| 2 | Ingesta GDELT, ReliefWeb y RSS cada hora con GitHub Actions | Pendiente |
-| 3 | Clasificador por reglas + pruebas con ≥22 titulares | Pendiente |
-| 4 | Filtros completos, capas fijas, mapa de calor, línea de tiempo, checklist, lentes teóricas | Pendiente |
-| 5 | Vista México, matriz de riesgo, modo aprendizaje | Pendiente |
-| 6 | Redes sociales y clasificación con IA (opcional) | Pendiente |
+| 1 | `taxonomy.json`, mapa con datos de ejemplo, esquema, pruebas, publicación | Hecha |
+| A | Diagnóstico y corrección de rendimiento; metas en CI | Hecha |
+| B | 13 áreas, clasificador por reglas, 26 titulares | Hecha |
+| C0 | Catálogo de entidades, esquemas, alerta/delta/índice/correlación, privacidad | Hecha |
+| C1 | Zonas e infraestructura estática en PMTiles | Hecha (cables, presas y ductos esperan aprobación) |
+| C2 | Organizaciones y personas de rol público (Wikidata) | Hecha |
+| C3 | Satélites (CelesTrak + SGP4 en worker) | Hecha |
+| C4 | Aeronaves (OpenSky, adsb.lol) y buques (AISStream con clave) | Hecha; buques requieren tu clave |
+| C5 | Recursos estratégicos e instalaciones militares públicas (OSM) | Hecha (cobertura parcial de OSM) |
+| C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas | Seguimiento e imágenes hechos; cámaras sin fuentes aprobadas |
+| 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Hecha; ReliefWeb requiere tu `appname` |
+| 4 | Línea de tiempo, mapa de calor por país, checklist de 10 pasos con notas, 7 lentes teóricas | Hecha |
+| 5 | Vista México con semáforo, matriz de riesgo 5 × 5 con CSV, modo aprendizaje | Hecha |
+| 6 | Redes sociales e IA opcional | Pendiente de tu decisión (fuentes y llave) |
+
+## Exclusiones
+
+No se integran: domicilios, ubicaciones en tiempo real, familiares, contactos o vida personal de personas (incluidas figuras públicas); vínculos entre aviones privados o carteras de criptomonedas y personas con nombre; cámaras privadas o expuestas por error; escaneo de puertos o reconocimiento de redes; detalles operativos de instalaciones militares; scraping que viole términos de servicio. Detalle y motivos en [`SOURCES.md`](SOURCES.md#exclusiones-no-se-integran).

@@ -30,7 +30,10 @@ jobs:
       - name: Validar data/events.json contra el esquema
         run: python3 ingest/validate.py
 
-      - name: Pruebas de Python (contratos, esquema, caso Mar Rojo)
+      - name: Validar catálogo y registros de entidades
+        run: python3 ingest/validate_entities.py
+
+      - name: Pruebas de Python (contratos, clasificador, dimensiones, privacidad)
         run: python3 -m pytest -q
 
       - name: Configurar Node
@@ -38,5 +41,5 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Pruebas de JavaScript (cuenta regresiva, escape de HTML)
+      - name: Pruebas de JavaScript (cuenta regresiva, estilo, capas, escape de HTML)
         run: node --test "tests/js/*.test.mjs"

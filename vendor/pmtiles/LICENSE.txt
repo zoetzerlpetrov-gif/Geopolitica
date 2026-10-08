@@ -1,0 +1,2 @@
+pmtiles (Protomaps) - BSD 3-Clause License
+https://github.com/protomaps/PMTiles/blob/main/LICENSE
