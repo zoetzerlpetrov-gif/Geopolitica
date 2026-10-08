@@ -32,6 +32,8 @@ test("una familia solo está disponible si está habilitada y construida sin err
   assert.equal(ok.find((f) => f.id === "puertos").disponible, false);
   const err = familiasDibujables(catalogo, capasCfg, { familias: { aeropuertos: { estado: "error" } } });
   assert.equal(err.find((f) => f.id === "aeropuertos").disponible, false);
+  const parcial = familiasDibujables(catalogo, capasCfg, { familias: { militar: { estado: "parcial", archivo: "data/capas/militar.pmtiles" } } });
+  assert.equal(parcial.find((f) => f.id === "militar").disponible, true, "parcial se muestra con aviso");
   const desh = familiasDibujables(catalogo, capasCfg, { familias: { cables: { estado: "ok" } } });
   assert.equal(desh.find((f) => f.id === "cables").disponible, false, "cables está deshabilitada en capas.json");
 });

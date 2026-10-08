@@ -199,29 +199,48 @@ CAJAS = [(-60, -180, 0, 0), (-60, 0, 0, 180), (0, -180, 30, 0), (0, 0, 30, 180),
          (30, -180, 50, 0), (30, 0, 50, 180), (50, -180, 85, 0), (50, 0, 85, 180)]
 
 
-def overpass(selectores):
-    """selectores: lista como ['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'].
-    Se consultan como UNIÓN ( a; b; ) caja por caja y se eliminan duplicados por tipo+id."""
-    vistos, out = set(), []
-    for s_, w, n, e in CAJAS:
-        union = "".join(f"{sel}({s_},{w},{n},{e});" for sel in selectores)
-        q = f"[out:json][timeout:300];({union});out center tags;"
-        ultimo = None
+FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifiesto como "parcial")
+
+
+def _overpass_caja(q):
+    """Una consulta con espera respetuosa: ante 429 (límite) o 504 (saturación) espera 60-120 s."""
+    ultimo = None
+    for intento in range(3):
         for url in OVERPASS:
             try:
-                els = json.loads(get(url, data=urllib.parse.urlencode({"data": q}).encode(), timeout=360, intentos=2))["elements"]
-                break
+                req = urllib.request.Request(url, data=urllib.parse.urlencode({"data": q}).encode(), headers={"User-Agent": UA})
+                with urllib.request.urlopen(req, timeout=360) as r:
+                    return json.loads(r.read())["elements"]
             except Exception as ex:  # noqa: BLE001
                 ultimo = ex
-                print(f"   overpass {url} caja {(s_, w, n, e)} falló: {ex}")
-        else:
-            raise ultimo
+                print(f"   overpass {url} intento {intento + 1}: {ex}")
+        time.sleep(60 * (intento + 1))
+    raise ultimo
+
+
+def overpass(selectores, familia=""):
+    """selectores: lista como ['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'].
+    Se consultan como UNIÓN ( a; b; ) caja por caja y se eliminan duplicados por tipo+id.
+    Si una caja no responde se conservan las demás y se anota en FALTANTES."""
+    vistos, out, fallidas = set(), [], []
+    for s_, w, n, e in CAJAS:
+        union = "".join(f"{sel}({s_},{w},{n},{e});" for sel in selectores)
+        try:
+            els = _overpass_caja(f"[out:json][timeout:300];({union});out center tags;")
+        except Exception as ex:  # noqa: BLE001
+            fallidas.append([s_, w, n, e])
+            print(f"   caja {(s_, w, n, e)} sin datos: {ex}")
+            continue
         for el in els:
             k = (el["type"], el["id"])
             if k not in vistos:
                 vistos.add(k)
                 out.append(el)
-        time.sleep(5)  # cortesía con la API pública
+        time.sleep(15)  # cortesía con la API pública
+    if len(fallidas) == len(CAJAS):
+        raise RuntimeError("Overpass no respondió en ninguna caja (límite de uso o saturación)")
+    if fallidas:
+        FALTANTES.setdefault(familia, []).extend(fallidas)
     return out
 
 
@@ -245,14 +264,14 @@ HIPERESCALA = ("google", "amazon", "aws", "microsoft", "azure", "meta", "faceboo
 
 
 def centros_datos():
-    els = overpass(['nwr["telecom"="data_center"]'])
+    els = overpass(['nwr["telecom"="data_center"]'], "centros_datos")
     hip = lambda t: any(h in (t.get("operator", "") + " " + t.get("name", "")).lower() for h in HIPERESCALA)  # noqa: E731
     return _osm(els, lambda t: "datacenter_hiperescala" if hip(t) else "datacenter_otros",
                 lambda st, t: 4 if st == "datacenter_hiperescala" else 8, lambda t: t.get("operator", ""), Paises())
 
 
 def embajadas():
-    els = overpass(['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'])
+    els = overpass(['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'], "embajadas")
     return _osm(els, lambda t: "embajadas_consulados", lambda st, t: 7 if t.get("diplomatic", "embassy") == "embassy" else 9,
                 lambda t: (t.get("diplomatic") or "embassy") + "|" + (t.get("country") or ""), Paises())
 
@@ -269,14 +288,14 @@ def recursos():
         (['nwr["man_made"="works"]["product"~"steel|aluminium|aluminum|cement",i]'], lambda t: "industria_pesada", 6),
     ]
     for sel, st, z in consultas:
-        out += _osm(overpass(sel), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or t.get("operator", ""), pa)
+        out += _osm(overpass(sel, "recursos"), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or t.get("operator", ""), pa)
     return out
 
 
 def militar():
     tipos = {"headquarters": ("cuarteles_mando", 5), "naval_base": ("bases_navales", 4), "airfield": ("bases_aereas", 4),
              "base": ("bases_terrestres", 6), "barracks": ("bases_terrestres", 7), "nuclear_explosion_site": ("instalaciones_nucleares", 3)}
-    els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'])
+    els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'], "militar")
     # Solo nombre, tipo, país y operador: no se copian otras etiquetas de OSM.
     return _osm(els, lambda t: tipos.get(t.get("military"), (None,))[0], lambda st, t: tipos[t["military"]][1],
                 lambda t: t.get("operator", ""), Paises())
@@ -326,7 +345,9 @@ def main(pedidas):
                 subtipos[ft["properties"]["st"]] = subtipos.get(ft["properties"]["st"], 0) + 1
             manifest["familias"][fid] = {
                 "archivo": f"data/capas/{fid}.pmtiles", "objetos": len(feats), "por_subtipo": subtipos,
-                "bytes": os.path.getsize(destino), "fuente": fam["fuente"], "estado": "ok", "error": None,
+                "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
+                "estado": "parcial" if FALTANTES.get(fid) else "ok",
+                "error": f"sin datos en {len(FALTANTES[fid])} zona(s): {FALTANTES[fid]}" if FALTANTES.get(fid) else None,
                 "actualizado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "segundos": round(time.time() - t0),
             }
             print(f"[{fid}] {len(feats)} objetos → {os.path.getsize(destino) / 1e6:.2f} MB")
