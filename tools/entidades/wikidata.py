@@ -34,7 +34,7 @@ SELECT ?iso3 ?persona ?personaLabel ?rol WHERE {
   ?pais wdt:P31 wd:Q3624078; wdt:P298 ?iso3.
   { ?pais wdt:P35 ?persona. BIND("estado" AS ?rol) }
   UNION { ?pais wdt:P6 ?persona. BIND("gobierno" AS ?rol) }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
 }"""
 
 Q_ORGANISMOS = """
@@ -42,7 +42,7 @@ SELECT ?org ?orgLabel ?coord ?ciudadLabel ?lider ?liderLabel WHERE {
   ?org wdt:P31 wd:Q484652; wikibase:sitelinks ?links. FILTER(?links >= 40)
   OPTIONAL { ?org wdt:P159 ?ciudad. ?ciudad wdt:P625 ?coord. }
   OPTIONAL { ?org p:P488 ?s. ?s ps:P488 ?lider. FILTER NOT EXISTS { ?s pq:P582 ?f } }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
 }"""
 
 Q_BOLSAS = """
@@ -52,7 +52,7 @@ SELECT ?org ?orgLabel ?coord ?ciudadLabel ?iso3 WHERE {
   OPTIONAL { ?org wdt:P159 ?ciudad. ?ciudad wdt:P625 ?c2. }
   BIND(COALESCE(?c1, ?c2) AS ?coord)
   OPTIONAL { ?org wdt:P17 ?pais. ?pais wdt:P298 ?iso3. }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
 }"""
 
 Q_EMPRESAS = """
@@ -60,7 +60,7 @@ SELECT ?org ?orgLabel ?iso3 ?ceo ?ceoLabel WHERE {
   ?org wdt:P31 wd:Q891723; wikibase:sitelinks ?links. FILTER(?links >= 60)
   OPTIONAL { ?org wdt:P17 ?pais. ?pais wdt:P298 ?iso3. }
   OPTIONAL { ?org p:P169 ?s. ?s ps:P169 ?ceo. FILTER NOT EXISTS { ?s pq:P582 ?f } }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
 }"""
 
 
@@ -93,6 +93,11 @@ def coord(wkt):
     return {"lat": round(float(lat), 4), "lon": round(float(lon), 4)}
 
 
+def con_nombre(texto, qid_):
+    """El servicio de etiquetas devuelve el propio QID cuando no hay nombre en es/mul/en: se descarta."""
+    return texto if texto and texto != qid_ else None
+
+
 def persona(id_, nombre, cargo, org, iso3, subtipo, ahora):
     p = {"id": id_, "nombre": nombre, "cargo": cargo, "organizacion_id": org, "pais_iso3": iso3 or None,
          "wikidata": f"https://www.wikidata.org/wiki/{id_}", "subtipo": subtipo, "fuente": "wikidata", "actualizado_utc": ahora}
@@ -119,6 +124,8 @@ def main():
         n = 0
         for f in sparql(Q_JEFES):
             iso3, pid = val(f, "iso3"), qid(val(f, "persona"))
+            if not con_nombre(val(f, "personaLabel"), pid):
+                continue
             org = f"gob:{iso3}"
             orgs.setdefault(org, {"id": org, "nombre": f"Gobierno ({iso3})", "subtipo": "gobiernos_ministerios", "sector": None,
                                   "pais_iso3": iso3, "lei": None, "wikidata": None, "sede": None, "indices": [], "personas": [],
@@ -144,7 +151,7 @@ def main():
             c = coord(val(f, "coord"))
             if c and not o["sede"]:
                 o["sede"] = {**c, "ciudad": val(f, "ciudadLabel") or ""}
-            if val(f, "lider"):
+            if val(f, "lider") and con_nombre(val(f, "liderLabel"), qid(val(f, "lider"))):
                 lid = qid(val(f, "lider"))
                 if lid not in personas:
                     personas[lid] = persona(lid, val(f, "liderLabel"), f"Liderazgo de {o['nombre']}", oid, None, "lideres_organismos", ahora)
@@ -173,7 +180,7 @@ def main():
             o = orgs.setdefault(oid, {"id": oid, "nombre": val(f, "orgLabel"), "subtipo": "empresas", "sector": None,
                                       "pais_iso3": val(f, "iso3"), "lei": None, "wikidata": f"https://www.wikidata.org/wiki/{oid}",
                                       "sede": None, "indices": [], "personas": [], "fuente": "wikidata", "url_fuente": None})
-            if val(f, "ceo"):
+            if val(f, "ceo") and con_nombre(val(f, "ceoLabel"), qid(val(f, "ceo"))):
                 cid = qid(val(f, "ceo"))
                 if cid not in personas:
                     personas[cid] = persona(cid, val(f, "ceoLabel"), f"Dirección general de {o['nombre']}", oid, val(f, "iso3"), "ceos_directivos", ahora)
