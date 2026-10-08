@@ -46,3 +46,8 @@ def test_feature_y_duplicados():
     g = c.a_feature({**art, "url": "https://otro.mx/b", "title": "Ataque armado en Uruapan deja 3 muertos - Otro"}, "mx", EST, GAZ)
     assert len(c.deduplicar([f, g])) == 1
     assert c.a_feature({**art, "url": "javascript:x"}, "mx", EST, GAZ) is None
+
+
+def test_respaldo_google_news_configurado():
+    assert {o for o, *_ in c.CONSULTAS_RSS} == {"mx", "latam", "mundo"}
+    assert all(q.endswith("when:1d") for _, q, *_ in c.CONSULTAS_RSS)

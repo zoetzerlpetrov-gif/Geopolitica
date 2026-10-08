@@ -53,7 +53,7 @@ jobs:
 
       - name: Terrorismo, narcotráfico y crimen organizado (GDELT, cada hora; si falla se conservan los anteriores)
         continue-on-error: true
-        timeout-minutes: 4
+        timeout-minutes: 5
         run: python3 tools/crimen/crimen.py
 
       - name: Publicar en la rama datos-vivos (reescrita, sin historial)
