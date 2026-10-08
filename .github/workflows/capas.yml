@@ -11,7 +11,7 @@ on:
         required: false
         default: ""
   schedule:
-    - cron: "41 6 1 * *"
+    - cron: "41 6 1 * *"  # horario en UTC; se vuelve a registrar en main el 2026-10-08 (GitHub no lo había activado)
   push:
     branches-ignore: [main]
     paths: ["tools/capas/**", "config/capas.json", ".github/workflows/capas.yml"]

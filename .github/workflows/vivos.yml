@@ -6,7 +6,7 @@ name: Datos en movimiento
 on:
   workflow_dispatch:
   schedule:
-    - cron: "*/20 * * * *"
+    - cron: "*/20 * * * *"  # horario en UTC; se vuelve a registrar en main el 2026-10-08 (GitHub no lo había activado)
   push:
     branches-ignore: [main]
     paths: ["tools/vivos/**", ".github/workflows/vivos.yml"]

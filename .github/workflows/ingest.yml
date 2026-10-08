@@ -7,7 +7,7 @@ name: Ingesta de eventos
 on:
   workflow_dispatch:
   schedule:
-    - cron: "17 * * * *"
+    - cron: "17 * * * *"  # horario en UTC; se vuelve a registrar en main el 2026-10-08 (GitHub no lo había activado)
   push:
     branches-ignore: [main]
     paths: ["ingest/**", "config/fuentes.json", ".github/workflows/ingest.yml"]

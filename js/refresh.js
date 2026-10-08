@@ -32,7 +32,7 @@ export function iniciarRefresco({ runLog, elDatos, elProxima, onNuevosDatos }) {
     const edadMin = (now - new Date(log.generado_utc).getTime()) / 60000;
     const atrasado = log.modo !== "ejemplo" && edadMin > ATRASO_MAX_MIN;
     elDatos.textContent = log.modo === "ejemplo"
-      ? `Datos de ejemplo (${log.eventos_total} eventos) · ingesta automática desde la Fase 2`
+      ? `Datos de ejemplo (${log.eventos_total} eventos) · la ingesta automática los reemplaza en la siguiente corrida`
       : `Actualizado ${hace(log.generado_utc, now)} · ${log.eventos_total} eventos (${log.eventos_nuevos} nuevos)`;
     elDatos.className = atrasado ? "atrasado" : "";
     const caidas = (log.fuentes || []).filter((f) => f.estado === "error").map((f) => f.nombre);

@@ -6,6 +6,210 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
+8.7267,
+47.4992
+]
+},
+"properties": {
+"id": "wd:Q107569",
+"n": "Club de Roma",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Winterthur"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0403,
+38.8929
+]
+},
+"properties": {
+"id": "wd:Q123759",
+"n": "Organización de los Estados Americanos",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Casa de las Américas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.2358,
+30.0444
+]
+},
+"properties": {
+"id": "wd:Q133207",
+"n": "Hermanos Musulmanes",
+"st": "organismos_internacionales",
+"p": "",
+"x": "El Cairo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+11.5751,
+48.1449
+]
+},
+"properties": {
+"id": "wd:Q157033",
+"n": "Goethe-Institut",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Goethe-Institut Central Office Munich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q170424",
+"n": "Organización Meteorológica Mundial",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6392,
+55.7603
+]
+},
+"properties": {
+"id": "wd:Q318693",
+"n": "Organización del Tratado de la Seguridad Colectiva",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Sverchkov Lane"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q136402081",
+"n": "Junta de Paz",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q6867",
+"n": "Unión Astronómica Internacional",
+"st": "organismos_internacionales",
+"p": "",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.2347,
+30.0442
+]
+},
+"properties": {
+"id": "wd:Q7172",
+"n": "Liga Árabe",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Headquarters of the Arab League"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.1497,
+46.2239
+]
+},
+"properties": {
+"id": "wd:Q7825",
+"n": "Organización Mundial del Comercio",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Centro William Rappard"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.835,
+45.7675
+]
+},
+"properties": {
+"id": "wd:Q8475",
+"n": "Interpol",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Lyon"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+39.1611,
+21.5292
+]
+},
+"properties": {
+"id": "wd:Q47543",
+"n": "Organización para la Cooperación Islámica",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Yeda"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
 2.3522,
 48.8567
 ]
@@ -713,210 +917,6 @@
 "st": "organismos_internacionales",
 "p": "",
 "x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-8.7267,
-47.4992
-]
-},
-"properties": {
-"id": "wd:Q107569",
-"n": "Club de Roma",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Winterthur"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0403,
-38.8929
-]
-},
-"properties": {
-"id": "wd:Q123759",
-"n": "Organización de los Estados Americanos",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Casa de las Américas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-31.2358,
-30.0444
-]
-},
-"properties": {
-"id": "wd:Q133207",
-"n": "Hermanos Musulmanes",
-"st": "organismos_internacionales",
-"p": "",
-"x": "El Cairo"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-11.5751,
-48.1449
-]
-},
-"properties": {
-"id": "wd:Q157033",
-"n": "Goethe-Institut",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Goethe-Institut Central Office Munich"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q170424",
-"n": "Organización Meteorológica Mundial",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-37.6392,
-55.7603
-]
-},
-"properties": {
-"id": "wd:Q318693",
-"n": "Organización del Tratado de la Seguridad Colectiva",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Sverchkov Lane"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q136402081",
-"n": "Junta de Paz",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.3522,
-48.8567
-]
-},
-"properties": {
-"id": "wd:Q6867",
-"n": "Unión Astronómica Internacional",
-"st": "organismos_internacionales",
-"p": "",
-"x": "París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-31.2347,
-30.0442
-]
-},
-"properties": {
-"id": "wd:Q7172",
-"n": "Liga Árabe",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Headquarters of the Arab League"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.1497,
-46.2239
-]
-},
-"properties": {
-"id": "wd:Q7825",
-"n": "Organización Mundial del Comercio",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Centro William Rappard"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.835,
-45.7675
-]
-},
-"properties": {
-"id": "wd:Q8475",
-"n": "Interpol",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Lyon"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-39.1611,
-21.5292
-]
-},
-"properties": {
-"id": "wd:Q47543",
-"n": "Organización para la Cooperación Islámica",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Yeda"
 }
 },
 {
