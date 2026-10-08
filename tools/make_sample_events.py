@@ -194,6 +194,18 @@ E = [
      "MEX", "norteamerica", 25.68, -100.46, "geoeconomia", ["riesgo", "energia"],
      ["nearshoring"], ["Tesla", "Gobierno de México", "Gobierno de Nuevo León"], 2,
      "Muestra el atractivo del norte para inversión y la presión sobre agua y energía.", "Tesla Nuevo León"),
+    ("apagon-iberico-2025", "2025-04-28T12:00:00Z",
+     "Apagón masivo deja sin electricidad a España y Portugal",
+     "Una caída de la red eléctrica ibérica detuvo trenes, telecomunicaciones y pagos durante horas. Las causas se investigaron durante meses.",
+     "ESP", "europa_occidental", 40.42, -3.70, "infraestructura", ["energia", "tecnologia"],
+     ["centrales_infra", "caidas_internet", "electricidad"], ["Red Eléctrica de España", "REN (Portugal)", "Gobierno de España"], 4,
+     "Referencia para planes de continuidad de plantas mexicanas ante fallas de la red eléctrica.", "Apagón eléctrico en la península ibérica de 2025"),
+    ("mpox-oms-2024", "2024-08-14T12:00:00Z",
+     "La OMS declara el mpox emergencia de salud pública de importancia internacional",
+     "La declaración respondió al aumento de casos de una nueva variante en la República Democrática del Congo y países vecinos.",
+     "COD", "africa_subsahariana", -4.32, 15.31, "salud_nrbq", ["instituciones", "demografia"],
+     ["brotes", "alertas_oms"], ["OMS", "República Democrática del Congo"], 3,
+     "Activa vigilancia epidemiológica en puertos y aeropuertos mexicanos.", "Mpox emergencia de salud pública 2024"),
 ]
 
 

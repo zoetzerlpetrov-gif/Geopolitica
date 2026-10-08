@@ -7,7 +7,7 @@ import { iniciarRefresco } from "./refresh.js";
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
 const $ = (id) => document.getElementById(id);
-const estado = { areas: new Set(), mexico: false, sevMin: 1 };
+const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "" };
 let eventos = [];
 let porId = new Map();
 let tax, paises, api;
@@ -41,6 +41,7 @@ function pasaFiltros(ev, ignorarArea = false) {
   if (!ignorarArea && !estado.areas.has(ev.area_principal)) return false;
   if (estado.mexico && !ev.impacto_mexico) return false;
   if (ev.severidad < estado.sevMin) return false;
+  if (estado.region && ev.region !== estado.region) return false;
   return true;
 }
 
@@ -170,7 +171,7 @@ async function cargarEventos() {
 
 /** Prueba de carga: ?carga=50000 agrega N eventos ficticios (marcados como ejemplo) para medir rendimiento. */
 function eventosSinteticos(n) {
-  const ids = ["geografia", "seguridad", "geoeconomia", "energia", "tecnologia", "demografia", "clima", "instituciones", "identidad", "regional", "riesgo"];
+  const ids = tax ? tax.lista.map((a) => a.id) : ["geografia"];
   const out = [];
   for (let i = 0; i < n; i++) {
     const area = ids[i % ids.length];
@@ -191,14 +192,11 @@ async function main() {
   const tema = temaActual();
   const lite = modoLite();
   document.documentElement.classList.toggle("lite", lite);
-  const [taxonomia, choke, runLog, base] = await Promise.all([
-    getJSON("config/taxonomy.json"),
-    getJSON("config/chokepoints.json"),
-    getJSON("data/run-log.json", { bust: true }),
-    estiloBase(tema, { lite }),
-    cargarEventos(),
-  ]);
-  tax = prepararTaxonomia(taxonomia);
+  // Todas las descargas arrancan a la vez; la taxonomía se espera primero porque los eventos
+  // sintéticos de la prueba de carga la usan.
+  const pendientes = [getJSON("config/chokepoints.json"), getJSON("data/run-log.json", { bust: true }), estiloBase(tema, { lite }), getJSON("config/regions.json")];
+  tax = prepararTaxonomia(await getJSON("config/taxonomy.json"));
+  const [choke, runLog, base, regiones] = await Promise.all([...pendientes, cargarEventos()]);
   estado.areas = new Set(tax.lista.map((a) => a.id));
 
   if (!base.remoto) {
@@ -232,6 +230,9 @@ async function main() {
     for (const cb of document.querySelectorAll("[data-area]")) cb.checked = estado.areas.has(cb.dataset.area);
     programarFiltros();
   }
+  const selRegion = $("f-region");
+  for (const [id, r] of Object.entries(regiones.regiones)) selRegion.add(new Option(r.nombre, id));
+  selRegion.onchange = (e) => { estado.region = e.target.value; programarFiltros(); };
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("capa-chokepoints").onchange = (e) => api.setChokepoints(e.target.checked);

@@ -1,8 +1,8 @@
 {
  "version_esquema": "1.0",
- "generado_utc": "2026-10-07T22:36:11Z",
+ "generado_utc": "2026-10-08T00:43:16Z",
  "modo": "ejemplo",
- "total": 28,
+ "total": 30,
  "eventos": [
   {
    "id": "tmec-revision-2026",
@@ -81,6 +81,47 @@
      "url": "https://es.wikipedia.org/w/index.php?search=Tratado+de+Aguas+de+1944",
      "tipo_fuente": "analisis",
      "fecha_utc": "2025-10-24T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "apagon-iberico-2025",
+   "fecha_utc": "2025-04-28T12:00:00Z",
+   "titulo": "Apagón masivo deja sin electricidad a España y Portugal",
+   "resumen": "Una caída de la red eléctrica ibérica detuvo trenes, telecomunicaciones y pagos durante horas. Las causas se investigaron durante meses.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Apag%C3%B3n+el%C3%A9ctrico+en+la+pen%C3%ADnsula+ib%C3%A9rica+de+2025",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "ESP",
+   "region": "europa_occidental",
+   "lat": 40.42,
+   "lon": -3.7,
+   "area_principal": "infraestructura",
+   "areas_secundarias": [
+    "energia",
+    "tecnologia"
+   ],
+   "subtemas": [
+    "centrales_infra",
+    "caidas_internet",
+    "electricidad"
+   ],
+   "actores": [
+    "Red Eléctrica de España",
+    "REN (Portugal)",
+    "Gobierno de España"
+   ],
+   "severidad": 4,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Referencia para planes de continuidad de plantas mexicanas ante fallas de la red eléctrica.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Apag%C3%B3n+el%C3%A9ctrico+en+la+pen%C3%ADnsula+ib%C3%A9rica+de+2025",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2025-04-28T12:00:00Z"
     }
    ],
    "es_ejemplo": true
@@ -204,6 +245,45 @@
      "url": "https://es.wikipedia.org/w/index.php?search=Cables+submarinos+mar+B%C3%A1ltico+2024",
      "tipo_fuente": "analisis",
      "fecha_utc": "2024-11-18T12:00:00Z"
+    }
+   ],
+   "es_ejemplo": true
+  },
+  {
+   "id": "mpox-oms-2024",
+   "fecha_utc": "2024-08-14T12:00:00Z",
+   "titulo": "La OMS declara el mpox emergencia de salud pública de importancia internacional",
+   "resumen": "La declaración respondió al aumento de casos de una nueva variante en la República Democrática del Congo y países vecinos.",
+   "fuente": "Wikipedia (búsqueda)",
+   "url": "https://es.wikipedia.org/w/index.php?search=Mpox+emergencia+de+salud+p%C3%BAblica+2024",
+   "tipo_fuente": "analisis",
+   "pais_iso3": "COD",
+   "region": "africa_subsahariana",
+   "lat": -4.32,
+   "lon": 15.31,
+   "area_principal": "salud_nrbq",
+   "areas_secundarias": [
+    "instituciones",
+    "demografia"
+   ],
+   "subtemas": [
+    "brotes",
+    "alertas_oms"
+   ],
+   "actores": [
+    "OMS",
+    "República Democrática del Congo"
+   ],
+   "severidad": 3,
+   "confianza_clasificacion": 1.0,
+   "verificado": true,
+   "impacto_mexico": "Activa vigilancia epidemiológica en puertos y aeropuertos mexicanos.",
+   "fuentes": [
+    {
+     "fuente": "Wikipedia (búsqueda)",
+     "url": "https://es.wikipedia.org/w/index.php?search=Mpox+emergencia+de+salud+p%C3%BAblica+2024",
+     "tipo_fuente": "analisis",
+     "fecha_utc": "2024-08-14T12:00:00Z"
     }
    ],
    "es_ejemplo": true

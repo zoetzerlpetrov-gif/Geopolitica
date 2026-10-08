@@ -23,7 +23,7 @@ TAX = load("config/taxonomy.json")
 EVENTS = load("data/events.json")
 AREAS = {a["id"]: a for a in TAX["areas"]}
 
-# Requisito del usuario: exactamente estas 11 áreas, en este orden y con estos colores.
+# Requisito del usuario: exactamente estas 13 áreas, en este orden y con estos colores.
 ESPERADO = [
     ("geografia", "Geografía y territorio", "#2E6F8E"),
     ("seguridad", "Seguridad y poder militar", "#A3392F"),
@@ -36,14 +36,21 @@ ESPERADO = [
     ("identidad", "Identidad, ideología y narrativa", "#9E4A7A"),
     ("regional", "Geopolítica regional", "#556B2F"),
     ("riesgo", "Riesgo geopolítico aplicado", "#333F48"),
+    ("infraestructura", "Infraestructura crítica y conectividad", "#6B5B3E"),
+    ("salud_nrbq", "Salud pública y riesgos NRBQ", "#8A3A5C"),
 ]
 
 
 # ---------------- Taxonomía ----------------
-def test_taxonomia_tiene_las_11_areas_exactas():
+def test_taxonomia_tiene_las_13_areas_exactas():
     obtenido = [(a["id"], a["nombre"], a["color"]) for a in TAX["areas"]]
     assert obtenido == ESPERADO
-    assert [a["numero"] for a in TAX["areas"]] == list(range(1, 12))
+    assert [a["numero"] for a in TAX["areas"]] == list(range(1, 14))
+
+
+def test_esquema_enumera_las_mismas_areas():
+    enum = load("schema/event.schema.json")["$defs"]["area_id"]["enum"]
+    assert enum == [a for a, _, _ in ESPERADO]
 
 
 @pytest.mark.parametrize("area", TAX["areas"], ids=lambda a: a["id"])

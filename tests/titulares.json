@@ -1,0 +1,31 @@
+{
+  "descripcion": "Titulares de prueba del clasificador (ficticios, redactados para la prueba; 2 por área). 'secundarias_incluye' es opcional y solo exige que esas áreas aparezcan.",
+  "casos": [
+    {"titulo": "Ataques hutíes en el Mar Rojo obligan a las navieras a desviar buques de Suez al Cabo de Buena Esperanza y suben los fletes", "principal": "geografia", "secundarias_incluye": ["seguridad", "geoeconomia"]},
+    {"titulo": "China and the Philippines trade accusations over the Scarborough Shoal in the South China Sea territorial dispute", "principal": "geografia"},
+    {"titulo": "La OTAN despliega tropas y aviones de combate en el flanco este tras ejercicios militares rusos", "principal": "seguridad"},
+    {"titulo": "North Korea fires ballistic missile in latest missile test, warheads remain a concern", "principal": "seguridad"},
+    {"titulo": "Estados Unidos anuncia aranceles del 25 % a importaciones de acero y México advierte represalias comerciales", "principal": "geoeconomia"},
+    {"titulo": "EU adopts new sanctions package and asset freeze against Russian banks, adds entities to SDN-like list", "principal": "geoeconomia"},
+    {"titulo": "La OPEP+ recorta la producción de petróleo y el precio del Brent sube 6 %", "principal": "energia"},
+    {"titulo": "Chile and Argentina race to expand lithium and copper mining as demand for critical minerals grows", "principal": "energia"},
+    {"titulo": "Nuevo ciberataque de ransomware paraliza hospitales; atribuyen el hackeo a un grupo estatal", "principal": "tecnologia"},
+    {"titulo": "US tightens export controls on advanced semiconductors and chips to China, hitting Nvidia", "principal": "tecnologia"},
+    {"titulo": "Caravana de migrantes avanza hacia la frontera sur de México mientras EUA endurece las reglas de asilo", "principal": "demografia"},
+    {"titulo": "Japan's birth rate hits record low as population aging strains pensions", "principal": "demografia"},
+    {"titulo": "La sequía y la ola de calor reducen las presas del norte de México a niveles históricos", "principal": "clima"},
+    {"titulo": "Magnitude 7.4 earthquake triggers tsunami warning; wildfires and floods compound climate disaster", "principal": "clima"},
+    {"titulo": "El Consejo de Seguridad de la ONU no aprueba la resolución por el veto de Rusia", "principal": "instituciones"},
+    {"titulo": "International Criminal Court issues arrest warrant; runoff election results contested at the ICJ", "principal": "instituciones"},
+    {"titulo": "Miles de manifestantes protestan contra la censura y la ley de agentes extranjeros", "principal": "identidad"},
+    {"titulo": "Researchers expose disinformation campaign and propaganda bots in influence operation targeting elections abroad", "principal": "identidad"},
+    {"titulo": "Cumbre de la CEDEAO y la Unión Africana discute la integración regional del Sahel", "principal": "regional"},
+    {"titulo": "ASEAN leaders seek regional integration as Indo-Pacific bloc tensions rise", "principal": "regional"},
+    {"titulo": "Aseguradoras elevan primas de seguro y empresas activan planes de continuidad de negocio por riesgo país", "principal": "riesgo"},
+    {"titulo": "Companies run due diligence on suppliers against sanctions list to manage country risk and business continuity", "principal": "riesgo"},
+    {"titulo": "Apagón masivo deja sin electricidad a millones: falla en la red eléctrica y caída de internet en todo el país", "principal": "infraestructura"},
+    {"titulo": "Two undersea cables cut in the Baltic; internet outage and data center disruption reported", "principal": "infraestructura"},
+    {"titulo": "La OMS declara emergencia de salud pública de importancia internacional por brote de mpox", "principal": "salud_nrbq"},
+    {"titulo": "Radioactive leak at nuclear plant raises radiation levels; authorities warn of chemical spill risk nearby", "principal": "salud_nrbq"}
+  ]
+}

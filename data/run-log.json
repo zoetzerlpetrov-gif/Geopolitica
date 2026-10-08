@@ -1,17 +1,17 @@
 {
-  "generado_utc": "2026-10-07T22:36:11Z",
+  "generado_utc": "2026-10-08T00:43:16Z",
   "modo": "ejemplo",
   "cron": "17 * * * *",
   "intervalo_minutos": 60,
-  "proxima_ejecucion_utc": "2026-10-07T23:17:00Z",
-  "eventos_total": 28,
-  "eventos_nuevos": 28,
+  "proxima_ejecucion_utc": "2026-10-08T01:17:00Z",
+  "eventos_total": 30,
+  "eventos_nuevos": 30,
   "fuentes": [
     {
       "id": "ejemplo",
       "nombre": "Datos de ejemplo (tools/make_sample_events.py)",
       "estado": "ok",
-      "eventos": 28,
+      "eventos": 30,
       "segundos": 0,
       "error": null
     }
