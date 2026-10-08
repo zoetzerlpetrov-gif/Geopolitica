@@ -24,8 +24,7 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 import fuentes as F  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "ciclones_mundo.geojson")
-GDACS_LISTA = ("https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=TC&fromDate={desde}&toDate={hasta}"
-               "&alertlevel=Green;Orange;Red")
+GDACS_LISTA = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=TC&fromdate={desde}&todate={hasta}&alertlevel={nivel}"
 GDACS_GEOM = "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid={e}&episodeid={ep}"
 IBTRACS = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ACTIVE.list.v04r01.csv"
 CADA_H = 3
@@ -145,10 +144,20 @@ def main():
     ahora = datetime.now(timezone.utc)
     feats, nombres, estado = [], set(), {}
     try:
-        url = GDACS_LISTA.format(desde=(ahora - timedelta(days=10)).strftime("%Y-%m-%d"), hasta=ahora.strftime("%Y-%m-%d"))
-        if not F.permitido_por_robots(url):
-            raise PermissionError("robots.txt no lo permite")
-        evs = eventos_gdacs(get_json(url), ahora)
+        # Un nivel de alerta por consulta (el filtro combinado no es confiable) y sin repetir eventos.
+        evs, vistos = [], set()
+        for nivel in ("red", "orange", "green"):
+            url = GDACS_LISTA.format(desde=(ahora - timedelta(days=10)).strftime("%Y-%m-%d"), hasta=ahora.strftime("%Y-%m-%d"), nivel=nivel)
+            if not F.permitido_por_robots(url):
+                raise PermissionError("robots.txt no lo permite")
+            try:
+                for ev in eventos_gdacs(get_json(url), ahora):
+                    if ev["eventid"] not in vistos:
+                        vistos.add(ev["eventid"])
+                        evs.append(ev)
+            except Exception as e:  # noqa: BLE001  un nivel sin eventos puede responder con error
+                print(f"  GDACS nivel {nivel}: {e}")
+            time.sleep(1)
         for ev in evs[:15]:
             geom = None
             try:
