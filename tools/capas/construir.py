@@ -200,21 +200,31 @@ CAJAS = [(-60, -180, 0, 0), (-60, 0, 0, 180), (0, -180, 30, 0), (0, 0, 30, 180),
 
 
 FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifiesto como "parcial")
+# Plazo interno: el job de Actions muere a los 90 min y se perdería todo. Al agotarse el plazo ya no se
+# hacen consultas nuevas; lo construido se publica y lo pendiente conserva su versión anterior.
+PLAZO = time.time() + 60 * float(os.environ.get("PLAZO_MIN", "70"))
+FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar"}
+
+
+def queda():
+    return PLAZO - time.time()
 
 
 def _overpass_caja(q):
     """Una consulta con espera respetuosa: ante 429 (límite) o 504 (saturación) espera 60-120 s."""
-    ultimo = None
+    ultimo = TimeoutError("plazo interno agotado")
     for intento in range(3):
         for url in OVERPASS:
+            if queda() < 240:
+                raise ultimo
             try:
                 req = urllib.request.Request(url, data=urllib.parse.urlencode({"data": q}).encode(), headers={"User-Agent": UA})
-                with urllib.request.urlopen(req, timeout=360) as r:
+                with urllib.request.urlopen(req, timeout=200) as r:
                     return json.loads(r.read())["elements"]
             except Exception as ex:  # noqa: BLE001
                 ultimo = ex
                 print(f"   overpass {url} intento {intento + 1}: {ex}")
-        time.sleep(60 * (intento + 1))
+        time.sleep(max(0, min(60 * (intento + 1), queda() - 240)))
     raise ultimo
 
 
@@ -226,7 +236,7 @@ def overpass(selectores, familia=""):
     for s_, w, n, e in CAJAS:
         union = "".join(f"{sel}({s_},{w},{n},{e});" for sel in selectores)
         try:
-            els = _overpass_caja(f"[out:json][timeout:300];({union});out center tags;")
+            els = _overpass_caja(f"[out:json][timeout:180];({union});out center tags;")
         except Exception as ex:  # noqa: BLE001
             fallidas.append([s_, w, n, e])
             print(f"   caja {(s_, w, n, e)} sin datos: {ex}")
@@ -322,7 +332,19 @@ def main(pedidas):
     cfg = json.load(open(os.path.join(ROOT, "config", "capas.json"), encoding="utf-8"))
     ruta_manifest = os.path.join(SALIDA, "manifest.json")
     manifest = json.load(open(ruta_manifest, encoding="utf-8")) if os.path.exists(ruta_manifest) else {"familias": {}}
-    for fam in cfg["familias"]:
+
+    def guardar():
+        manifest["generado_utc"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        with open(ruta_manifest, "w", encoding="utf-8") as f:
+            json.dump(manifest, f, ensure_ascii=False, indent=1)
+
+    # Primero las familias rápidas; luego las de Overpass, de la más antigua a la más reciente,
+    # para que cada corrida avance aunque el plazo no alcance para todas.
+    def orden(fam):
+        osm = fam["id"] in FAMILIAS_OSM
+        return (osm, manifest["familias"].get(fam["id"], {}).get("actualizado_utc", "") if osm else "")
+
+    for fam in sorted(cfg["familias"], key=orden):
         fid = fam["id"]
         if pedidas and fid not in pedidas:
             continue
@@ -331,8 +353,11 @@ def main(pedidas):
                 manifest["familias"].pop(fid, None)  # una familia deshabilitada no se anuncia en el mapa
             print(f"[{fid}] omitida ({fam.get('motivo', 'sin constructor')})")
             continue
+        if fid in FAMILIAS_OSM and queda() < 600:
+            print(f"[{fid}] pendiente: el plazo interno no alcanza; se conserva la versión anterior")
+            continue
         t0 = time.time()
-        print(f"[{fid}] descargando…")
+        print(f"[{fid}] descargando… (quedan {queda() / 60:.0f} min de plazo)")
         try:
             feats = FAMILIAS[fid]()
             ruta = os.path.join(TMP, f"{fid}.ndjson")
@@ -356,9 +381,8 @@ def main(pedidas):
             previo = manifest["familias"].get(fid, {})
             previo.update({"estado": "error", "error": str(e)[:300]})  # se conserva el archivo anterior, si existe
             manifest["familias"][fid] = previo
-    manifest["generado_utc"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-    with open(ruta_manifest, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, ensure_ascii=False, indent=1)
+        guardar()  # tras cada familia: si el job muere, lo ya construido no se pierde
+    guardar()
     return 0
 
 

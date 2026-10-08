@@ -60,10 +60,12 @@ jobs:
           ls -la capas
 
       - name: Construir capas
+        env:
+          PLAZO_MIN: "70"   # el job muere a los 90 min; deja 20 para tippecanoe y publicar
         run: |
           export PATH="$HOME/tippecanoe-bin:$PATH"
           tippecanoe --version
-          python3 tools/capas/construir.py ${{ github.event.inputs.familias }}
+          python3 -u tools/capas/construir.py ${{ github.event.inputs.familias }}
           ls -la capas/
           cat capas/manifest.json
 
