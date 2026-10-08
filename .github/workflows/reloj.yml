@@ -4,8 +4,9 @@ name: Reloj (respaldo del cron)
 # Cada corrida espera hasta el siguiente horario (minuto 17: ingesta; minutos 0, 20 y 40: datos vivos),
 # lanza ese workflow con workflow_dispatch y se vuelve a lanzar a sí misma. GitHub permite que el
 # GITHUB_TOKEN dispare workflow_dispatch (es la excepción a la regla de no encadenar workflows).
-# Se apaga sola en cuanto el cron de GitHub funciona (hay corridas con evento "schedule" en la última hora).
-# Para detenerla a mano: Actions → «Reloj (respaldo del cron)» → cancelar la corrida en curso.
+# No se apaga sola: el cron de GitHub en este repositorio se dispara de forma irregular (una vez a las
+# 12:02 del 8 oct y luego nada). En cada horario lanza el workflow solo si no corrió ya.
+# Para detenerla: Actions → «Reloj (respaldo del cron)» → cancelar la corrida en curso.
 on:
   workflow_dispatch:
 
@@ -26,16 +27,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}  # gh necesita el repositorio: el job no clona el código
     steps:
-      - name: ¿Ya funciona el cron de GitHub?
-        id: cron
-        run: |
-          desde=$(date -u -d '-70 minutes' +%Y-%m-%dT%H:%M:%SZ)
-          n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/runs?event=schedule&created=%3E${desde}&per_page=1" --jq '.total_count')
-          echo "Corridas programadas en los últimos 70 min: $n"
-          echo "n=$n" >> "$GITHUB_OUTPUT"
-
-      - name: Esperar al siguiente horario y lanzar el workflow que toca
-        if: steps.cron.outputs.n == '0'
+      - name: Esperar al siguiente horario y lanzar el workflow que toca (si no corrió ya)
         run: |
           ahora=$(date -u +%s)
           min=$(( (ahora / 60) % 60 ))
@@ -44,11 +36,17 @@ jobs:
           espera=$(( (objetivo - min) * 60 - (ahora % 60) ))
           echo "Minuto actual $min; siguiente horario en el minuto $((objetivo % 60)) (espera ${espera}s)"
           sleep "$espera"
+          # El cron de GitHub a veces se dispara y a veces no: se lanza solo si el workflow no corrió
+          # en los últimos minutos (por horario, por push o a mano), para no duplicar.
           case $((objetivo % 60)) in
-            17) gh workflow run ingest.yml --ref main ;;
-            *)  gh workflow run vivos.yml --ref main ;;
+            17) wf=ingest.yml; ventana=25 ;;
+            *)  wf=vivos.yml;  ventana=12 ;;
           esac
+          sleep 60  # margen para que una corrida programada aparezca en la API
+          desde=$(date -u -d "-${ventana} minutes" +%Y-%m-%dT%H:%M:%SZ)
+          n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/${wf}/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 0)
+          if [ "$n" = "0" ]; then echo "Lanzando $wf"; gh workflow run "$wf" --ref main; else echo "$wf ya corrió en los últimos ${ventana} min: no se duplica"; fi
 
       - name: Programar el siguiente tic
-        if: steps.cron.outputs.n == '0'
+        if: always()
         run: gh workflow run reloj.yml --ref main
