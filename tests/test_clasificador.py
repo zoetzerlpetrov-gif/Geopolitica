@@ -57,3 +57,12 @@ def test_subtemas_pertenecen_a_sus_areas():
         r = CLF.clasificar(c["titulo"])
         permitidos = set().union(*(sub_de[a] for a in [r["area_principal"], *r["areas_secundarias"]]))
         assert set(r["subtemas"]) <= permitidos
+
+
+@pytest.mark.parametrize("titulo,area", [
+    # Casos reales de la primera ingesta (2026-10-08): "strike" es ataque o huelga según el contexto.
+    ("Saudi Arabia confirms three dead in Houthi strikes on its airports", "seguridad"),
+    ("Workers strike paralyses French ports", "identidad"),
+])
+def test_strike_ataque_o_huelga(titulo, area):
+    assert CLF.clasificar(titulo)["area_principal"] == area

@@ -323,7 +323,12 @@
           "militia",
           "weapons",
           "defense",
-          "invasion"
+          "invasion",
+          "missile strike",
+          "drone strike",
+          "air strike",
+          "strike on",
+          "strikes on"
         ]
       },
       "subtemas": [
@@ -2186,8 +2191,10 @@
               "protest",
               "protesters",
               "demonstration",
-              "strike",
-              "social movement"
+              "general strike",
+              "social movement",
+              "labor strike",
+              "workers strike"
             ]
           }
         },
