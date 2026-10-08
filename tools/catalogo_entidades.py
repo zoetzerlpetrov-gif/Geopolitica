@@ -35,6 +35,9 @@ FUENTES = {
     "marine_regions": {"nombre": "Marine Regions", "url": "https://www.marineregions.org", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": False},
     "gibs": {"nombre": "NASA GIBS", "url": "https://www.earthdata.nasa.gov/engage/open-data-services-software/earthdata-developer-portal/gibs-api", "licencia": "Datos abiertos de la NASA, sin llave", "uso_comercial": True, "licencia_verificada": False},
     "chokepoints": {"nombre": "Lista curada del proyecto (config/chokepoints.json)", "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica", "licencia": "Propia", "uso_comercial": True, "licencia_verificada": True},
+    "ucdp": {"nombre": "UCDP Georeferenced Event Dataset y Candidate Events (Universidad de Uppsala)", "url": "https://ucdp.uu.se/downloads/", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": True,
+             "nota": "Citar: Sundberg y Melander (2013); Hegre et al. (2020) para Candidate."},
+    "pew_owid": {"nombre": "Pew Research Center, composición religiosa 2020 (vía Our World in Data)", "url": "https://ourworldindata.org/religion", "licencia": "CC BY 4.0 (OWID)", "uso_comercial": True, "licencia_verificada": False},
     "camaras_publicas": {"nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)", "url": "", "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador", "uso_comercial": None, "licencia_verificada": False},
 }
 
@@ -197,6 +200,29 @@ CATEGORIAS = [
             sub("viirs_color", "Color verdadero VIIRS (NOAA-20)", "VIIRS true color (NOAA-20)", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
             sub("modis_color", "Color verdadero MODIS Terra", "MODIS Terra true color", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
             sub("modis_aqua", "Color verdadero MODIS Aqua", "MODIS Aqua true color", "🌍", "#1F8A8A", "gibs", "diaria", "raster", "retrasado", 0, ["clima"]),
+        ],
+    },
+    {
+        "id": "conflicto", "nombre": {"es": "Dominio y disputa de grupos armados", "en": "Armed group dominance and contestation"}, "fase": "C7", "dibujable": True,
+        "reglas": ["Violencia organizada registrada por UCDP (eventos con al menos una muerte), no control territorial.",
+                   "Solo actores no estatales (cárteles, insurgencias, yihadistas, milicias); los gobiernos no se colorean."],
+        "subtipos": [
+            sub("conflicto_dominio", "Zona con un grupo dominante (≥ 70 % de la violencia)", "Dominated by one group", "▣", "#C0392B", "ucdp", "mensual", "estatica", "retrasado", 1, ["seguridad", "regional"], familia="conflicto"),
+            sub("conflicto_disputa", "Zona en disputa (dos o más grupos)", "Contested", "▣", "#4D4D4D", "ucdp", "mensual", "estatica", "retrasado", 1, ["seguridad", "regional"], familia="conflicto"),
+        ],
+    },
+    {
+        "id": "religiones", "nombre": {"es": "Religiones", "en": "Religions"}, "fase": "C7", "dibujable": True,
+        "reglas": ["Composición por país según Pew Research Center (2020). Brujería y esoterismo no se miden por separado: quedan en «populares» u «otras»."],
+        "subtipos": [
+            sub("religion_cristianismo", "Mayoría cristiana", "Christian majority", "✝", "#3B6FB6", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_islam", "Mayoría musulmana", "Muslim majority", "☪", "#1E8449", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_hinduismo", "Mayoría hindú", "Hindu majority", "ॐ", "#E67E22", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_budismo", "Mayoría budista", "Buddhist majority", "☸", "#F1C40F", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_judaismo", "Mayoría judía", "Jewish majority", "✡", "#5DADE2", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_populares", "Mayoría de religiones populares o tradicionales", "Folk religion majority", "◉", "#A0522D", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_otras", "Mayoría de otras religiones", "Other religions majority", "◇", "#8E44AD", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+            sub("religion_sin_religion", "Mayoría sin afiliación religiosa", "Unaffiliated majority", "○", "#95A5A6", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
         ],
     },
     {

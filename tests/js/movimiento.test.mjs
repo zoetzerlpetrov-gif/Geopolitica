@@ -43,3 +43,24 @@ test("GIBS: URL con la fecha de ayer y la matriz de cada capa", () => {
   assert.equal(urlGIBS(IMAGENES.modis_color, "2026-10-07"),
     "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2026-10-07/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg");
 });
+
+test("luces nocturnas: usa la primera candidata con imagen real; la anual tiene fecha fija", async () => {
+  const { elegirCandidata } = await import("../../js/imagenes.js");
+  const def = IMAGENES.viirs_noche;
+  const vistos = [];
+  const pedir = async (url) => {
+    vistos.push(url);
+    if (url.includes("VIIRS_SNPP_DayNightBand_ENCC")) return { ok: true, tipo: "image/png", bytes: 800 }; // transparente: no sirve
+    if (url.includes("NOAA20_DayNightBand")) return { ok: false, tipo: "text/xml", bytes: 300 };
+    if (url.includes("At_Sensor_Radiance")) throw new Error("red");
+    return { ok: true, tipo: "image/png", bytes: 52000 };
+  };
+  const r = await elegirCandidata(def, "2026-10-07", pedir);
+  assert.equal(r.capa, "VIIRS_Black_Marble");
+  assert.equal(r.fecha, "2016-01-01");
+  assert.ok(vistos.some((u) => u.includes("/2026-10-07/") && u.includes("/2/1/1.png")));
+  const diaria = await elegirCandidata(def, "2026-10-07", async () => ({ ok: true, tipo: "image/png", bytes: 9000 }));
+  assert.equal(diaria.capa, "VIIRS_SNPP_DayNightBand_ENCC");
+  assert.equal(diaria.fecha, "2026-10-07");
+  assert.equal(await elegirCandidata(def, "2026-10-07", async () => ({ ok: false })), null);
+});

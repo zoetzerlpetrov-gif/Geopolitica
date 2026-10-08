@@ -160,6 +160,21 @@
    "uso_comercial": true,
    "licencia_verificada": true
   },
+  "ucdp": {
+   "nombre": "UCDP Georeferenced Event Dataset y Candidate Events (Universidad de Uppsala)",
+   "url": "https://ucdp.uu.se/downloads/",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": true,
+   "nota": "Citar: Sundberg y Melander (2013); Hegre et al. (2020) para Candidate."
+  },
+  "pew_owid": {
+   "nombre": "Pew Research Center, composición religiosa 2020 (vía Our World in Data)",
+   "url": "https://ourworldindata.org/religion",
+   "licencia": "CC BY 4.0 (OWID)",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
   "camaras_publicas": {
    "nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)",
    "url": "",
@@ -2250,6 +2265,227 @@
      "areas": [
       "clima"
      ]
+    }
+   ]
+  },
+  {
+   "id": "conflicto",
+   "nombre": {
+    "es": "Dominio y disputa de grupos armados",
+    "en": "Armed group dominance and contestation"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Violencia organizada registrada por UCDP (eventos con al menos una muerte), no control territorial.",
+    "Solo actores no estatales (cárteles, insurgencias, yihadistas, milicias); los gobiernos no se colorean."
+   ],
+   "subtipos": [
+    {
+     "id": "conflicto_dominio",
+     "nombre": {
+      "es": "Zona con un grupo dominante (≥ 70 % de la violencia)",
+      "en": "Dominated by one group"
+     },
+     "icono": "▣",
+     "color": "#C0392B",
+     "fuente": "ucdp",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 1,
+     "areas": [
+      "seguridad",
+      "regional"
+     ],
+     "familia": "conflicto"
+    },
+    {
+     "id": "conflicto_disputa",
+     "nombre": {
+      "es": "Zona en disputa (dos o más grupos)",
+      "en": "Contested"
+     },
+     "icono": "▣",
+     "color": "#4D4D4D",
+     "fuente": "ucdp",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 1,
+     "areas": [
+      "seguridad",
+      "regional"
+     ],
+     "familia": "conflicto"
+    }
+   ]
+  },
+  {
+   "id": "religiones",
+   "nombre": {
+    "es": "Religiones",
+    "en": "Religions"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Composición por país según Pew Research Center (2020). Brujería y esoterismo no se miden por separado: quedan en «populares» u «otras»."
+   ],
+   "subtipos": [
+    {
+     "id": "religion_cristianismo",
+     "nombre": {
+      "es": "Mayoría cristiana",
+      "en": "Christian majority"
+     },
+     "icono": "✝",
+     "color": "#3B6FB6",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_islam",
+     "nombre": {
+      "es": "Mayoría musulmana",
+      "en": "Muslim majority"
+     },
+     "icono": "☪",
+     "color": "#1E8449",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_hinduismo",
+     "nombre": {
+      "es": "Mayoría hindú",
+      "en": "Hindu majority"
+     },
+     "icono": "ॐ",
+     "color": "#E67E22",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_budismo",
+     "nombre": {
+      "es": "Mayoría budista",
+      "en": "Buddhist majority"
+     },
+     "icono": "☸",
+     "color": "#F1C40F",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_judaismo",
+     "nombre": {
+      "es": "Mayoría judía",
+      "en": "Jewish majority"
+     },
+     "icono": "✡",
+     "color": "#5DADE2",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_populares",
+     "nombre": {
+      "es": "Mayoría de religiones populares o tradicionales",
+      "en": "Folk religion majority"
+     },
+     "icono": "◉",
+     "color": "#A0522D",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_otras",
+     "nombre": {
+      "es": "Mayoría de otras religiones",
+      "en": "Other religions majority"
+     },
+     "icono": "◇",
+     "color": "#8E44AD",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
+    },
+    {
+     "id": "religion_sin_religion",
+     "nombre": {
+      "es": "Mayoría sin afiliación religiosa",
+      "en": "Unaffiliated majority"
+     },
+     "icono": "○",
+     "color": "#95A5A6",
+     "fuente": "pew_owid",
+     "licencia": "CC BY 4.0 (OWID)",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "religiones"
     }
    ]
   },

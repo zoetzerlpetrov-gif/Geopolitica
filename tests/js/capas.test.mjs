@@ -84,3 +84,15 @@ test("ficha de cámara de tráfico: imágenes del operador (también como texto 
   assert.match(html, /licencia CC BY 4.0/);
   assert.doesNotMatch(html, /sin confirmar/);
 });
+
+test("fichas de conflicto y religión: barras con porcentajes y textos escapados", async () => {
+  const { htmlFichaConflicto, htmlFichaReligion } = await import("../../js/capas.js");
+  const c = htmlFichaConflicto({ n: "Disputa: CJNG, Cárteles Unidos", st: "conflicto_disputa", p: "Mexico", actores: JSON.stringify([["CJNG", 55], ["<b>X</b>", 45]]), eventos: 12, muertes: 30, ultima: "2026-03-01" },
+    { nombre: { es: "Zona en disputa" } });
+  assert.match(c, /width:55%/);
+  assert.ok(c.includes("&lt;b&gt;X") && /Mide violencia, no control/.test(c));
+  const r = htmlFichaReligion({ n: "México", porcentajes: JSON.stringify({ cristianismo: 88, sin_religion: 10, populares: 1 }), anio: "2020" },
+    { subtipos: [{ id: "religion_cristianismo", color: "#3B6FB6" }] });
+  assert.ok(r.indexOf("Cristianismo") < r.indexOf("Sin afiliación") && r.indexOf("Sin afiliación") < r.indexOf("Populares"));
+  assert.match(r, /background:#3B6FB6/);
+});
