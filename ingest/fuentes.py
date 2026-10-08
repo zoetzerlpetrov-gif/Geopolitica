@@ -10,8 +10,10 @@ import csv
 import io
 import json
 import re
+import urllib.error
 import urllib.parse
 import urllib.request
+import urllib.robotparser
 import xml.etree.ElementTree as ET
 import zipfile
 from datetime import datetime, timedelta, timezone
@@ -118,24 +120,54 @@ def _texto(el, *nombres):
     return ""
 
 
+ATOM = "{http://www.w3.org/2005/Atom}"
+MEDIA = "{http://search.yahoo.com/mrss/}"
+
+
+def primera_frase(texto, maximo=140):
+    """Primera oración de un texto (para publicaciones sin título), cortada en palabra completa."""
+    t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", texto or "")).strip()
+    m = re.match(r"(.+?[.!?])(\s|$)", t)
+    frase = m.group(1) if m else t
+    if len(frase) > maximo:
+        frase = frase[:maximo].rsplit(" ", 1)[0].rstrip(",;:") + "…"
+    return frase
+
+
 def parsear_rss(xml_bytes, feed):
-    """RSS 2.0, RDF/RSS 1.0 o Atom. Devuelve candidatos sin país (se geocodifican después)."""
+    """RSS 2.0, RDF/RSS 1.0 o Atom (incluye YouTube). Devuelve candidatos sin país (se geocodifican después).
+
+    Modos opcionales del feed (config/fuentes.json):
+      "modo": "titulo_desde_texto"  publicaciones sin título de una cuenta institucional (Bluesky): el
+                                    título es la primera frase de la propia publicación.
+      "modo": "solo_enlace"         publicaciones de personas usuarias (Mastodon): no se guarda texto
+                                    ni autor; el texto se usa solo en memoria para ubicar y clasificar,
+                                    y el título lo genera el sistema (ingest/run.py).
+      "max_items": n                tope de publicaciones por corrida.
+    """
     raiz = ET.fromstring(xml_bytes)
     items = (raiz.findall(".//item") or raiz.findall(".//{http://purl.org/rss/1.0/}item")
-             or raiz.findall(".//{http://www.w3.org/2005/Atom}entry"))
+             or raiz.findall(f".//{ATOM}entry"))
+    modo = feed.get("modo")
     out = []
-    for it in items:
-        titulo = _texto(it, "title", "{http://purl.org/rss/1.0/}title", "{http://www.w3.org/2005/Atom}title")
+    for it in items[: feed.get("max_items") or len(items)]:
+        titulo = _texto(it, "title", "{http://purl.org/rss/1.0/}title", f"{ATOM}title")
         link = _texto(it, "link", "{http://purl.org/rss/1.0/}link")
         if not link:
-            a = it.find("{http://www.w3.org/2005/Atom}link")
+            a = it.find(f"{ATOM}link[@rel='alternate']")
+            a = a if a is not None else it.find(f"{ATOM}link")
             link = a.get("href") if a is not None else ""
-        fecha_txt = _texto(it, "pubDate", "{http://purl.org/dc/elements/1.1/}date", "{http://www.w3.org/2005/Atom}updated")
-        desc = _texto(it, "description", "{http://purl.org/rss/1.0/}description", "{http://www.w3.org/2005/Atom}summary")
+        fecha_txt = _texto(it, "pubDate", "{http://purl.org/dc/elements/1.1/}date", f"{ATOM}published", f"{ATOM}updated")
+        desc = _texto(it, "description", "{http://purl.org/rss/1.0/}description", f"{ATOM}summary", f"{MEDIA}group/{MEDIA}description")
+        if modo == "titulo_desde_texto" and not titulo:
+            titulo = primera_frase(desc)
+        if modo == "solo_enlace":
+            titulo = titulo or "publicación"  # provisional: ingest/run.py lo reemplaza; nunca se publica el texto
         if not titulo or not link.startswith("http"):
             continue
         try:
-            fecha = parsedate_to_datetime(fecha_txt) if "," in fecha_txt else datetime.fromisoformat(fecha_txt.replace("Z", "+00:00"))
+            # RFC 822 con o sin día de la semana («Thu, 08 Oct 2026 …», «08 Oct 2026 10:00 +0000» de Bluesky) o ISO 8601.
+            fecha = datetime.fromisoformat(fecha_txt.replace("Z", "+00:00")) if re.match(r"\d{4}-", fecha_txt) else parsedate_to_datetime(fecha_txt)
             if fecha.tzinfo is None:
                 fecha = fecha.replace(tzinfo=timezone.utc)
         except Exception:  # noqa: BLE001
@@ -145,11 +177,37 @@ def parsear_rss(xml_bytes, feed):
             "fecha_utc": _iso(fecha), "pais_iso3": None, "lat": None, "lon": None, "actores": [],
             "texto_clasificar": f"{titulo} {re.sub('<[^>]+>', ' ', desc)[:500]}", "idioma": feed.get("idioma"),
             "resumen": None, "area_sugerida": None, "severidad": None, "articulos": 1,
+            **({"anonimo": True, "etiqueta": feed.get("etiqueta", "")} if modo == "solo_enlace" else {}),
         })
     return out
 
 
+_ROBOTS = {}
+
+
+def permitido_por_robots(url, leer=None):
+    """True si el robots.txt del sitio permite a nuestro bot leer `url`. Sin robots.txt (404) = permitido.
+
+    Se consulta una vez por sitio y corrida. `leer` permite probar sin red.
+    """
+    p = urllib.parse.urlparse(url)
+    base = f"{p.scheme}://{p.netloc}"
+    if base not in _ROBOTS:
+        rp = urllib.robotparser.RobotFileParser()
+        try:
+            texto = leer(base + "/robots.txt") if leer else get(base + "/robots.txt", timeout=20).decode("utf-8", "replace")
+            rp.parse(texto.splitlines())
+        except urllib.error.HTTPError as e:
+            rp.parse([] if e.code >= 400 and e.code not in (401, 403) else ["User-agent: *", "Disallow: /"])
+        except Exception:  # noqa: BLE001  robots.txt inaccesible por red: se trata como sin reglas
+            rp.parse([])
+        _ROBOTS[base] = rp
+    return _ROBOTS[base].can_fetch("Geopolitica-monitor", url)
+
+
 def rss(feed):
+    if not permitido_por_robots(feed["url"]):
+        raise PermissionError("el robots.txt del sitio no permite leer este feed: se omite")
     return parsear_rss(get(feed["url"], timeout=40), feed)
 
 

@@ -154,7 +154,10 @@ def resumen_noticia(c, cls, gaz, nombre_subtema):
     if otros:
         partes.append(f"Involucra a {_lista(([pais] if pais else []) + otros[:3])}.")
     idioma = IDIOMA.get(c.get("idioma") or "", "")
-    partes.append(f"Nota {idioma + ' ' if idioma else ''}de {c['fuente']}.")
+    if c.get("tipo_fuente") == "red_social":
+        partes.append(f"Publicación de una persona usuaria en {c['fuente']}; abre el enlace para leerla.")
+    else:
+        partes.append(f"Nota {idioma + ' ' if idioma else ''}de {c['fuente']}.")
     return recortar(" ".join(partes))[:400]
 
 

@@ -1,0 +1,30 @@
+{
+  "descripcion": "Lista curada de cámaras que su operador publica para verse en abierto. El mapa muestra un punto con enlace a la página oficial; no copia ni retransmite imágenes. tipo_operador: organismo_publico | operador_turistico. Cada mes el workflow «Construir capas» revisa que el enlace responda (respetando robots.txt) y guarda el resultado en el manifiesto.",
+  "revisado": "2026-10-08",
+  "camaras": [
+    {"id": "kilauea", "nombre": "Volcán Kīlauea (cámaras del USGS)", "operador": "USGS · Observatorio Vulcanológico de Hawái", "tipo_operador": "organismo_publico",
+     "subtipo": "volcanes_clima", "pais_iso3": "USA", "lat": 19.406, "lon": -155.283, "url": "https://www.usgs.gov/volcanoes/kilauea/webcams",
+     "nota": "Varias cámaras (cumbre y zonas de rift), algunas térmicas y con transmisión en vivo."},
+    {"id": "st_helens", "nombre": "Monte Santa Helena (cámara del USGS)", "operador": "USGS · Observatorio Vulcanológico de las Cascadas", "tipo_operador": "organismo_publico",
+     "subtipo": "volcanes_clima", "pais_iso3": "USA", "lat": 46.191, "lon": -122.195, "url": "https://www.usgs.gov/volcanoes/mount-st.-helens/multimedia/webcams",
+     "nota": "Imagen fija que se renueva; la cámara está en Johnston Ridge, al norte del volcán."},
+    {"id": "etna", "nombre": "Etna (cámaras del INGV)", "operador": "INGV · Osservatorio Etneo", "tipo_operador": "organismo_publico",
+     "subtipo": "volcanes_clima", "pais_iso3": "ITA", "lat": 37.751, "lon": 14.993, "url": "https://www.ct.ingv.it",
+     "nota": "Canal de video en tiempo real del portal del observatorio (cámaras visibles y térmicas)."},
+    {"id": "stromboli", "nombre": "Estrómboli y Vulcano (cámaras del INGV)", "operador": "INGV · Osservatorio Etneo", "tipo_operador": "organismo_publico",
+     "subtipo": "volcanes_clima", "pais_iso3": "ITA", "lat": 38.789, "lon": 15.213, "url": "https://www.ct.ingv.it",
+     "nota": "Canal de las islas Eolias en el mismo portal."},
+    {"id": "popocatepetl_cenapred", "nombre": "Popocatépetl (monitoreo del CENAPRED)", "operador": "Centro Nacional de Prevención de Desastres (CENAPRED)", "tipo_operador": "organismo_publico",
+     "subtipo": "volcanes_clima", "pais_iso3": "MEX", "lat": 19.023, "lon": -98.622, "url": "https://www.gob.mx/cenapred",
+     "nota": "Portal oficial: reporte diario del Popocatépetl, semáforo de alerta volcánica y enlaces a su monitoreo."},
+    {"id": "popocatepetl_altzomoni", "nombre": "Popocatépetl desde Altzomoni", "operador": "Webcams de México", "tipo_operador": "operador_turistico",
+     "subtipo": "volcanes_clima", "pais_iso3": "MEX", "lat": 19.118, "lon": -98.655, "url": "https://webcamsdemexico.com",
+     "nota": "Red de cámaras turísticas que se publican para verse en abierto; varias vistas del volcán."},
+    {"id": "colima", "nombre": "Volcán de Colima", "operador": "Webcams de México", "tipo_operador": "operador_turistico",
+     "subtipo": "volcanes_clima", "pais_iso3": "MEX", "lat": 19.512, "lon": -103.617, "url": "https://webcamsdemexico.com",
+     "nota": "Busca «Volcán de Colima» en el sitio del operador."},
+    {"id": "canal_panama", "nombre": "Canal de Panamá (esclusas)", "operador": "Autoridad del Canal de Panamá", "tipo_operador": "organismo_publico",
+     "subtipo": "canales_puertos", "pais_iso3": "PAN", "lat": 8.997, "lon": -79.592, "url": "https://pancanal.com",
+     "nota": "Enlace «Cámaras Web» del sitio oficial (esclusas de Miraflores, Pedro Miguel, Gatún, Cocolí y Agua Clara)."}
+  ]
+}

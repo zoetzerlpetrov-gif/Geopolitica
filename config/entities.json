@@ -161,9 +161,9 @@
    "licencia_verificada": true
   },
   "camaras_publicas": {
-   "nombre": "Cámaras publicadas por organismos públicos (por definir)",
+   "nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)",
    "url": "",
-   "licencia": "Según cada organismo",
+   "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
    "uso_comercial": null,
    "licencia_verificada": false
   }
@@ -2212,8 +2212,9 @@
    "fase": "C6",
    "dibujable": true,
    "reglas": [
-    "Solo cámaras que un gobierno u organismo publica para verse en abierto (tráfico, incendios forestales, clima, volcanes).",
+    "Solo cámaras que un gobierno u organismo publica para verse en abierto (tráfico, incendios forestales, clima, volcanes, canales), o que un operador turístico publica de forma intencional en su propio sitio.",
     "Nunca cámaras privadas, cámaras expuestas por error de configuración ni enlaces obtenidos por escaneo.",
+    "El mapa solo enlaza a la página oficial del operador; no se copia ni se retransmite la imagen.",
     "Estado visible: en_vivo, disponible_24h, repeticion o inactiva (con tiempo de inactividad)."
    ],
    "estados": [
@@ -2232,14 +2233,15 @@
      "icono": "📷",
      "color": "#333F48",
      "fuente": "camaras_publicas",
-     "licencia": "Según cada organismo",
+     "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
      "zoom_min": 6,
      "areas": [
       "infraestructura"
-     ]
+     ],
+     "familia": "camaras"
     },
     {
      "id": "incendios",
@@ -2250,14 +2252,15 @@
      "icono": "📷",
      "color": "#b5523b",
      "fuente": "camaras_publicas",
-     "licencia": "Según cada organismo",
+     "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
      "zoom_min": 5,
      "areas": [
       "clima"
-     ]
+     ],
+     "familia": "camaras"
     },
     {
      "id": "volcanes_clima",
@@ -2268,14 +2271,54 @@
      "icono": "📷",
      "color": "#1F8A8A",
      "fuente": "camaras_publicas",
-     "licencia": "Según cada organismo",
+     "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
      "frecuencia": "5 min",
      "tipo_capa": "estatica",
      "estado_dato": "retrasado",
-     "zoom_min": 5,
+     "zoom_min": 2,
      "areas": [
       "clima"
-     ]
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "canales_puertos",
+     "nombre": {
+      "es": "Canales y puertos",
+      "en": "Canals and ports"
+     },
+     "icono": "📷",
+     "color": "#2E6F8E",
+     "fuente": "camaras_publicas",
+     "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
+     "frecuencia": "5 min",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura",
+      "geoeconomia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "turismo",
+     "nombre": {
+      "es": "Turismo y paisaje",
+      "en": "Tourism and landscape"
+     },
+     "icono": "📷",
+     "color": "#7A6A2F",
+     "fuente": "camaras_publicas",
+     "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
+     "frecuencia": "5 min",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "camaras"
     }
    ]
   }

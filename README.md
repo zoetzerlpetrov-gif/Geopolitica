@@ -109,9 +109,9 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | C1 | Zonas e infraestructura estática en PMTiles | Hecha (cables, presas y ductos esperan aprobación) |
 | C2 | Organizaciones y personas de rol público (Wikidata) | Hecha |
 | C3 | Satélites (CelesTrak + SGP4 en worker) | Hecha |
-| C4 | Aeronaves (OpenSky, adsb.lol) y buques (AISStream con clave) | Hecha; buques requieren tu clave |
+| C4 | Aeronaves (OpenSky, adsb.lol) y buques (AISStream con clave): ficha con ruta o destino declarado, bandera y trayectoria | Hecha |
 | C5 | Recursos estratégicos e instalaciones militares públicas (OSM) | Hecha (cobertura parcial de OSM) |
-| C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas | Seguimiento e imágenes hechos; cámaras sin fuentes aprobadas |
+| C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas (solo enlace a la página oficial) | Hecha: 8 cámaras curadas en `config/camaras.json` |
 | 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Hecha; ReliefWeb requiere tu `appname` |
 | 4 | Línea de tiempo, mapa de calor por país, checklist de 10 pasos con notas, 7 lentes teóricas | Hecha |
 | 5 | Vista México con semáforo, matriz de riesgo 5 × 5 con CSV, modo aprendizaje | Hecha |

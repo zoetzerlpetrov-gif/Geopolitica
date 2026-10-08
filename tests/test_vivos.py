@@ -114,3 +114,53 @@ def test_parsear_adsbdb():
     codigos, aps = v.parsear_adsbdb(d)
     assert codigos == ["MMMX", "KJFK"] and aps["KJFK"][1] == "New York"
     assert v.parsear_adsbdb({"response": "unknown callsign"}) == ([], {})
+
+
+# ---------------- Buques: datos estáticos, bandera, valores «no disponible» y rastros ----------------
+def test_bandera_por_mid_del_mmsi():
+    assert v.bandera_mmsi(345070300) == "MX"
+    assert v.bandera_mmsi(636019825) == "LR"
+    assert v.bandera_mmsi(353136000) == "PA"
+    assert v.bandera_mmsi(111345678) == ""   # aeronave SAR, no buque
+    assert v.bandera_mmsi(99123) == ""
+
+
+def test_posicion_ais_con_valores_no_disponibles():
+    assert v.posicion_de_mensaje({"Longitude": 181, "Latitude": 91}) is None
+    p = v.posicion_de_mensaje({"Longitude": -96.1234, "Latitude": 19.2, "TrueHeading": 511, "Cog": 87.6, "Sog": 102.3, "NavigationalStatus": 1})
+    assert p == (-96.123, 19.2, 88, 0, 1)
+    assert v.posicion_de_mensaje({"Longitude": 1, "Latitude": 1, "TrueHeading": 511, "Cog": 360})[2] == 0
+
+
+def test_estatico_y_fila_de_buque():
+    s = {"Name": "MAR@@@@", "CallSign": "XCAB ", "ImoNumber": 9187629, "Type": 70, "Dimension": {"A": 150, "B": 30, "C": 14, "D": 14},
+         "MaximumStaticDraught": 9.4, "Destination": "MX ZLO@@@", "Eta": {"Month": 10, "Day": 9, "Hour": 24, "Minute": 60}}
+    e = v.estatico_de_mensaje(s, 1000)
+    assert (e["nombre"], e["indicativo"], e["eslora"], e["manga"], e["destino"], e["eta"]) == ("MAR", "XCAB", 180, 28, "MX ZLO", "10-09")
+    f = v.fila_buque(345070300, "", (-104.3, 19.05, 90, 12.5, 0), 30, e, set())
+    d = dict(zip(v.CAMPOS_BUQUE, f))
+    assert d["subtipo"] == "carga" and d["nombre"] == "MAR" and d["bandera"] == "MX" and d["calado_m"] == 9.4
+    assert len(f) == len(v.CAMPOS_BUQUE)
+    # Sin datos estáticos: campos vacíos, nunca error
+    assert dict(zip(v.CAMPOS_BUQUE, v.fila_buque(1, "X", (0.1, 0.1, 0, 0, 15), 0, None, set())))["subtipo"] == "otros"
+
+
+def test_eta_ais():
+    assert v.eta_ais({"Month": 0, "Day": 0, "Hour": 24, "Minute": 60}) == ""
+    assert v.eta_ais({"Month": 3, "Day": 7, "Hour": 5, "Minute": 30}) == "03-07 05:30"
+
+
+def test_cache_estatica_caduca():
+    c = {"1": {"t": 0}, "2": {"t": 100 * 3600}}
+    assert list(v.depurar_estaticos(c, 100 * 3600)) == ["2"]
+
+
+def test_rastros_de_buques_sin_recreo(tmp_path, monkeypatch):
+    monkeypatch.setattr(v, "OUT", str(tmp_path))
+    carga = v.fila_buque(345070301, "A", (-104.3, 19.05, 90, 12.5, 0), 0, {"tipo": 70}, set())
+    yate = v.fila_buque(345070311, "B", (-104.3, 19.05, 90, 5, 0), 0, {"tipo": 37}, set())
+    v.actualizar_rastros_buques([carga, yate], 600000)
+    r = json.load(open(tmp_path / "rastros-buques" / "1.json"))["r"]
+    assert list(r) == ["345070301"] and r["345070301"][0] == [-104.3, 19.05, 12.5, 10000]
+    v.actualizar_rastros_buques([], 600000 + 7 * 3600)
+    assert json.load(open(tmp_path / "rastros-buques" / "1.json"))["r"] == {}

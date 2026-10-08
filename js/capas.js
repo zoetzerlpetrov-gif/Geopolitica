@@ -5,7 +5,7 @@
 // - Solo se dibujan categorías "dibujable": true y subtipos con tipo_capa distinto de "ficha".
 //   Las personas (rol público) nunca tienen capa: viven solo dentro de las fichas.
 /* global maplibregl, pmtiles */
-import { esc } from "./util.js";
+import { esc, safeUrl } from "./util.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -178,6 +178,8 @@ export function urlFuente(id) {
   if (ns === "gppd") return "https://datasets.wri.org/dataset/globalpowerplantdatabase";
   if (ns === "wpi") return "https://msi.nga.mil/Publications/WPI";
   if (ns === "ne") return "https://www.naturalearthdata.com";
+  if (ns === "tgc") return `https://www.submarinecablemap.com/submarine-cable/${encodeURIComponent(v)}`;
+  if (ns === "tgl") return `https://www.submarinecablemap.com/landing-point/${encodeURIComponent(v)}`;
   if (ns === "wd") return `https://www.wikidata.org/wiki/${encodeURIComponent(v)}`;
   return null;
 }
@@ -185,6 +187,7 @@ export function urlFuente(id) {
 /** Ficha de una entidad del mapa (aeropuerto, puerto, central, zona…). */
 export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas = [] }) {
   const sub = familia.subtipos.find((s) => s.id === props.st);
+  if (familia.id === "camaras") return htmlFichaCamara(props, sub);
   const url = urlFuente(props.id);
   const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
   return `
@@ -202,4 +205,19 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <h4>Eventos a menos de 300 km (${cercanos.length})</h4>
     <ul class="fuentes">${cercanos.slice(0, 8).map((ev) => `<li><a href="#evento=${esc(ev.id)}" data-evento="${esc(ev.id)}">${esc(ev.titulo)}</a></li>`).join("") || "<li>Ninguno en los datos actuales.</li>"}</ul>
   `;
+}
+
+/** Ficha de una cámara: solo enlace a la página oficial del operador (la imagen no se copia). */
+export function htmlFichaCamara(props, sub) {
+  const oficial = props.t === "organismo_publico";
+  const ok = String(props.v || "").startsWith("ok");
+  return `
+    <h3 id="ficha-titulo">${esc(props.n)}</h3>
+    <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
+    <div class="chips"><span class="chip">${oficial ? "Organismo público" : "Operador turístico (publicación intencional)"}</span>
+      ${ok ? "" : `<span class="chip alerta">Enlace sin confirmar en la última revisión</span>`}</div>
+    <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">Ver la cámara en el sitio oficial ↗</a></p>
+    ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
+    <dl><dt>Revisión del enlace</dt><dd>${esc(props.v || "—")}</dd></dl>
+    <p class="meta">El mapa solo enlaza a la página del operador; no copia ni retransmite la imagen. Solo se incluyen cámaras publicadas para verse en abierto.</p>`;
 }

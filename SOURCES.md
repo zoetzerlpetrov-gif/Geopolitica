@@ -30,7 +30,7 @@ Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen co
 | GLEIF (LEI) | Identificador legal de empresas | Gratis | No | — | CC0 (verificada) | Sí | Mundial | — | Preparada en el esquema; sin conector aún |
 | Epoch AI | Centros de datos de IA de frontera | Gratis | No | — | CC BY 4.0 (por verificar) | Sí, con atribución | Selección de grandes clústeres | — | Pendiente: falta URL estable de descarga |
 | GRanD / GOODD (Global Dam Watch) | Presas por uso | Gratis | Registro para descargar | — | CC BY 4.0 (por verificar) | Por verificar | Mundial, ~7,000 grandes presas | — | **Deshabilitada** |
-| TeleGeography Submarine Cable Map | Cables submarinos y aterrizajes | Gratis | No | — | CC BY-NC-SA 3.0 | **No** | Mundial | — | **Deshabilitada: requiere tu aprobación** (no comercial) |
+| TeleGeography Submarine Cable Map (`api/v3/cable/cable-geo.json` y `landing-point/landing-point-geo.json`) | Cables submarinos (líneas) y puntos de aterrizaje | Gratis | No | — | CC BY-NC-SA 3.0, con atribución | **No** | Mundial | Mensual | Activa (aprobada el 2026-10-08). Rutas esquemáticas, no el trazado exacto. Si el proyecto se vuelve comercial hay que retirarla o licenciarla |
 | Global Energy Monitor | Ductos de petróleo y gas | Gratis | Formulario por descarga | — | CC BY 4.0 (por verificar) | Sí, con atribución | Mundial | — | **Deshabilitada**: no se puede automatizar |
 | OIEA PRIS | Reactores nucleares | Gratis | No | — | Términos del OIEA (por verificar) | Por verificar | Mundial | — | No integrada (se usan las centrales nucleares de GPPD) |
 | USGS MRDS | Minas | Gratis | No | — | Dominio público | Sí | Histórica; USGS dejó de actualizarla | — | No integrada (se usa OSM) |
@@ -44,7 +44,7 @@ Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen co
 | adsb.lol (`/api/0/routeset`) | Origen y destino de vuelos de aerolínea y carga (ruta habitual del indicativo) | Gratis | No | Lotes de 100, máximo 2,000 consultas nuevas por corrida, caché de 12 h | Base comunitaria de rutas (por verificar) | Por verificar | Cada 20 min (solo indicativos nuevos) | Activa; nunca para aviación general |
 | adsbdb.com (`/v0/callsign`) | Respaldo de rutas si adsb.lol no responde | Gratis | No | Máximo 300 consultas por corrida, 0.3 s entre cada una | Términos de adsbdb (por verificar) | Por verificar | Cada 20 min, solo si falla adsb.lol | Activa (en oct 2026 adsb.lol responde vacío) |
 | OpenSky (`/api/tracks/all`), desde el navegador | Trayectoria detallada del vuelo en curso al abrir su ficha | Gratis | No (puede negarse sin cuenta) | Una petición por ficha abierta | Términos de OpenSky (no comercial) | **No** | Al abrir la ficha | Opcional: si no responde se usan las posiciones de las instantáneas |
-| AISStream.io | Buques (AIS) | Gratis | **Sí: clave gratuita** en el secreto `AISSTREAM_API_KEY` | Por verificar | Términos de AISStream | Por verificar | Ventana de 75 s cada 20 min | Inactiva hasta que agregues la clave |
+| AISStream.io | Buques (AIS): posición, rumbo, velocidad, estado de navegación; datos estáticos (indicativo, IMO, tipo, eslora, manga, calado, destino y ETA declarados) | Gratis | **Sí: clave gratuita** en el secreto `AISSTREAM_API_KEY` | Por verificar | Términos de AISStream | Por verificar | Ventana de 75 s cada 20 min; datos estáticos en caché 72 h; rastro de 6 h (nunca para recreo) | Activa. El AIS no transmite puerto de origen; la bandera se deduce del MID del MMSI (tabla de la UIT) |
 | CelesTrak (grupos GP en TLE) | Satélites | Gratis | No | No descargar el mismo grupo más de una vez cada 2 h (se descarga cada 6 h) | Uso libre con atribución (por verificar) | Por verificar | Cada 6 h; posición calculada en el navegador | Activa |
 | OFAC SDN (`sdn.csv`) | Aeronaves y buques sancionados (matrícula, IMO) | Gratis | No | — | Dominio público, gobierno de EUA | Sí | Diaria | Activa |
 | OpenSanctions | Sanciones consolidadas | Gratis no comercial | No | — | CC BY-NC 4.0 | **No** sin licencia | — | No integrada |
@@ -63,12 +63,18 @@ Qué se guarda de cada nota: título, fuente, fecha y enlace. El resumen (~30 pa
 | El País Internacional (RSS) | Titulares (español) | Gratis | No | Términos de PRISA | Cada hora | Activa |
 | Al Jazeera (RSS) | Titulares (inglés) | Gratis | No | Términos de Al Jazeera | Cada hora | Activa |
 | International Crisis Group (RSS) | Análisis | Gratis | No | Términos de Crisis Group | Cada hora | Activa |
-| CIDOB (RSS) | Análisis (español) | Gratis | No | Términos de CIDOB | — | Deshabilitada: la URL devolvió un feed vacío; falta la URL oficial |
-| Real Instituto Elcano (RSS) | Análisis (español) | Gratis | No | Términos de Elcano | — | Deshabilitada: responde 403 al bot y no se evade el bloqueo |
+| CIDOB (RSS de la web) | Análisis (español) | Gratis | No | Términos de CIDOB | — | Deshabilitada: la URL devolvió un feed vacío. Sustituida por Bluesky y YouTube |
+| CIDOB (RSS de su perfil de Bluesky) | Publicaciones institucionales; el título es la primera frase de la publicación (los posts no tienen título) | Gratis | No | Términos de Bluesky | Cada hora (máx. 20) | Activa |
+| CIDOB (feed Atom de su canal de YouTube) | Videos de análisis | Gratis | No | Términos de YouTube | Cada hora (máx. 15) | Activa |
+| Real Instituto Elcano (RSS de la web) | Análisis (español) | Gratis | No | Términos de Elcano | — | Deshabilitada: responde 403 al bot y no se evade el bloqueo |
+| Real Instituto Elcano (feed Atom de su canal de YouTube) | Videos de análisis | Gratis | No | Términos de YouTube | Cada hora (máx. 15) | Activa |
+| Mastodon `#geopolitics` (RSS público de la etiqueta en mastodon.social) | Publicaciones de personas usuarias que mencionan un país | Gratis | No | Términos de mastodon.social | Cada hora (máx. 20) | Activa en modo «solo enlace»: se guarda el enlace público y un título generado («Publicación pública en Mastodon con #geopolitics sobre Taiwán»); el texto y el autor se usan solo en memoria para ubicar el país, no se publican ni se envían a la IA. Sin país, se descarta |
 | Groq (API compatible con OpenAI) | Resumen redactado con IA (~35 palabras, español) de hasta 40 notas por corrida, FLASH y PRIORIDAD primero | Gratis (plan gratuito con límites por minuto y por día) | **Sí: secreto `GROQ_API_KEY`** | 429 al pasar el límite: la ronda se detiene y sigue en la próxima corrida | Términos de Groq | Revisar sus términos | Cada hora | Activa si existe el secreto |
 | ReliefWeb API v2 (`/reports`) | Crisis humanitarias y desastres con país ISO3 | Gratis | **Sí: `appname` preaprobado** en el secreto `RELIEFWEB_APPNAME` | Términos de ReliefWeb (OCHA) | Cada hora | Inactiva hasta que agregues el secreto |
 
-Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cualquier límite publicado. Si una fuente falla, la corrida sigue con las demás y el error queda registrado.
+Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cualquier límite publicado. Antes de leer un feed se consulta el `robots.txt` del sitio (una vez por sitio y corrida); si no lo permite, la fuente queda en error con ese motivo. Si una fuente falla, la corrida sigue con las demás y el error queda registrado.
+
+X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrecen un feed público y leerlos con scraping viola sus términos.
 
 ## Exclusiones (no se integran)
 
@@ -77,11 +83,22 @@ Una corrida hace 1 petición por feed y 5 a GDELT por hora, muy por debajo de cu
 | Domicilios, ubicaciones en tiempo real, familiares, datos de contacto y vida personal de cualquier persona, incluidas las figuras públicas | Riesgo de acoso o daño físico. Las personas solo aparecen con su rol público y nunca en el mapa (`tests/test_privacidad.py`). |
 | Vincular aviones privados o carteras de criptomonedas a personas con nombre | Mismo motivo. Se excluyen además las aeronaves cuyos dueños pidieron privacidad (banderas PIA/LADD). |
 | Rastreo de carteras de criptomonedas de personas | Solo se muestran direcciones que OFAC publica dentro de la ficha de entidades sancionadas. |
-| Cámaras privadas, expuestas por error de configuración o halladas por escaneo | Solo se aceptan cámaras que un organismo público publica para verse en abierto; ninguna está aprobada todavía. |
+| Cámaras privadas, expuestas por error de configuración o halladas por escaneo | Solo se aceptan cámaras que un organismo público, o un operador turístico en su propio sitio, publica para verse en abierto. Lista curada en `config/camaras.json`. |
 | Escaneo de puertos o reconocimiento de redes de terceros | Ilegal o contrario a términos de uso en la mayoría de jurisdicciones. |
 | Detalles operativos de instalaciones militares | Solo nombre, tipo, país, operador y enlace a la fuente pública. |
 | Scraping que viole términos de servicio (X/Twitter, TikTok y similares) | X cobra ~0.005 USD por post leído (fuentes secundarias); 100 posts/hora ≈ 360 USD/mes. |
 
-## Cámaras públicas: candidatas por aprobar
+## Cámaras públicas
 
-No hay ninguna integrada. Para proponer una fuente se necesita: organismo que la publica, página donde la ofrece al público, términos de uso que permitan mostrarla o enlazarla, y forma de saber si está en vivo. Las candidatas se verificarán una por una (por ejemplo, las cámaras de tráfico que Caltrans publica en su portal de datos abiertos).
+Lista curada en `config/camaras.json`. El mapa muestra un punto por cámara con un botón a la página oficial del operador; no copia ni retransmite imágenes. Cada mes el workflow **Construir capas** revisa que la página responda (respetando `robots.txt`) y la ficha muestra el resultado de esa revisión.
+
+| Cámara | Operador | Tipo | Página |
+|---|---|---|---|
+| Volcán Kīlauea | USGS · Observatorio Vulcanológico de Hawái | Organismo público | usgs.gov/volcanoes/kilauea/webcams |
+| Monte Santa Helena | USGS · Observatorio Vulcanológico de las Cascadas | Organismo público | usgs.gov/volcanoes/mount-st.-helens/multimedia/webcams |
+| Etna; Estrómboli y Vulcano | INGV · Osservatorio Etneo | Organismo público | ct.ingv.it |
+| Popocatépetl (reporte diario y monitoreo) | CENAPRED | Organismo público | gob.mx/cenapred |
+| Popocatépetl desde Altzomoni; Volcán de Colima | Webcams de México | Operador turístico | webcamsdemexico.com |
+| Canal de Panamá (esclusas) | Autoridad del Canal de Panamá | Organismo público | pancanal.com («Cámaras Web») |
+
+Para agregar una cámara: operador que la publica, página donde la ofrece al público, coordenada aproximada del punto que muestra y subtipo (`volcanes_clima`, `canales_puertos`, `turismo`, `trafico`, `incendios`). Candidatas por revisar: cámaras de tráfico de Caltrans (portal de datos abiertos) y de la SICT/CAPUFE en México.

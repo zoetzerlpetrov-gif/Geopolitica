@@ -63,3 +63,14 @@ test("una capa cuya actualización falló sigue visible con su versión anterior
   const sinArchivo = { familias: { recursos: { estado: "error", error: "falló" } } };
   assert.equal(familiasDibujables(catalogo, capas, sinArchivo).find((x) => x.id === fam.id).disponible, false);
 });
+
+test("ficha de cámara: enlace oficial, tipo de operador y sin imagen copiada", async () => {
+  const { htmlFichaCamara } = await import("../../js/capas.js");
+  const html = htmlFichaCamara({ n: "Etna", st: "volcanes_clima", o: "INGV", t: "organismo_publico", x: "https://www.ct.ingv.it", v: "ok (2026-10-08)", nota: "<b>x</b>" }, { nombre: { es: "Volcanes y clima" } });
+  assert.match(html, /href="https:\/\/www.ct.ingv.it"/);
+  assert.match(html, /Organismo público/);
+  assert.ok(!html.includes("<img") && html.includes("&lt;b&gt;"));
+  assert.doesNotMatch(html, /sin confirmar/);
+  const mala = htmlFichaCamara({ n: "x", t: "operador_turistico", x: "javascript:alert(1)", v: "HTTP 404 (2026-10-08)" });
+  assert.ok(mala.includes('href="#"') && mala.includes("sin confirmar") && mala.includes("Operador turístico"));
+});

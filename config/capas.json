@@ -90,8 +90,8 @@
    "categoria": "infraestructura",
    "geometria": "linea",
    "fuente": "telegeography",
-   "habilitada": false,
-   "motivo": "Licencia CC BY-NC-SA: solo uso no comercial. Requiere tu aprobación."
+   "habilitada": true,
+   "nota": "TeleGeography Submarine Cable Map, CC BY-NC-SA 3.0: uso no comercial con atribución. Rutas esquemáticas. Habilitada a petición de quien administra el proyecto (2026-10-08)."
   },
   {
    "id": "presas",
@@ -110,6 +110,16 @@
    "fuente": "gem",
    "habilitada": false,
    "motivo": "Global Energy Monitor entrega los datos tras un formulario; no se puede automatizar."
+  },
+  {
+   "id": "camaras",
+   "nombre": "Cámaras públicas",
+   "categoria": "camaras",
+   "geometria": "punto",
+   "fuente": "camaras_publicas",
+   "habilitada": true,
+   "zoom_etiquetas": 5,
+   "nota": "Lista curada en config/camaras.json: solo enlaces a páginas oficiales de cada operador."
   }
  ]
 }
