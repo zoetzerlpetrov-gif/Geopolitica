@@ -9,8 +9,14 @@
 // suelen borrarlo al publicar; una foto descargada de ahí casi nunca trae ubicación.
 
 const TIPOS = { 1: 1, 2: 1, 3: 2, 4: 4, 5: 8, 7: 1, 9: 4, 10: 8 }; // tamaño en bytes por tipo TIFF
-const ETIQUETAS = { 0x010f: "marca", 0x0110: "modelo", 0x0132: "fecha_archivo", 0x9003: "fecha_toma", 0x8825: "_gps", 0x8769: "_exif", 0x0131: "software" };
-const GPS = { 1: "lat_ref", 2: "lat", 3: "lon_ref", 4: "lon", 5: "alt_ref", 6: "alt", 7: "hora_gps", 0x10: "dir_ref", 0x11: "direccion", 0x1d: "fecha_gps" };
+const ETIQUETAS = {
+  0x010e: "descripcion", 0x010f: "marca", 0x0110: "modelo", 0x0112: "orientacion", 0x0131: "software", 0x0132: "fecha_archivo",
+  0x013b: "autor", 0x8298: "derechos", 0x0100: "ancho", 0x0101: "alto", 0xa002: "ancho", 0xa003: "alto",
+  0x829a: "exposicion", 0x829d: "apertura", 0x8827: "iso", 0x9003: "fecha_toma", 0x9004: "fecha_digital", 0x9011: "zona_toma",
+  0x9209: "flash", 0x920a: "focal", 0xa405: "focal_35", 0xa431: "serie", 0xa433: "lente_marca", 0xa434: "lente_modelo",
+  0x8825: "_gps", 0x8769: "_exif",
+};
+const GPS = { 1: "lat_ref", 2: "lat", 3: "lon_ref", 4: "lon", 5: "alt_ref", 6: "alt", 7: "hora_gps", 0x10: "dir_ref", 0x11: "direccion", 0x1d: "fecha_gps", 0x1f: "error_gps" };
 
 function leerValor(v, pos, tipo, n, le, base) {
   const tam = (TIPOS[tipo] || 1) * n;
@@ -197,5 +203,7 @@ function coordenadas(g) {
   if (Number.isFinite(g.alt)) out.altitud = g.alt_ref === 1 ? -g.alt : g.alt;
   if (Number.isFinite(g.direccion)) out.direccion = g.direccion;
   if (g.fecha_gps) out.fecha_gps = g.fecha_gps;
+  if (Array.isArray(g.hora_gps) && g.hora_gps.length === 3) out.hora_gps = g.hora_gps.map((x, i) => String(i === 2 ? Math.floor(x) : x).padStart(2, "0")).join(":");
+  if (Number.isFinite(g.error_gps)) out.error_gps = g.error_gps;
   return out;
 }

@@ -95,12 +95,7 @@ cd tools && npm ci
 npm run countries   # data/base/countries.geojson y config/gazetteer.json desde Natural Earth
 npm run vendor      # copia MapLibre a vendor/
 cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
-python3 tools/monumentos/construir.py           # config/monumentos.json (lugares famosos, Wikidata + curados)
 ```
-
-Si cambia `config/monumentos.json` o las frases de `js/reconocer.js`, hay que regenerar `config/monumentos_vec.json`
-con `node tools/monumentos/vectores.mjs` (necesita `npm i @huggingface/transformers@3.0.2` y acceso a Hugging Face).
-Mientras no se regenere, el navegador nota que la huella no coincide y calcula los vectores él mismo (más lento).
 
 ## Fases
 
