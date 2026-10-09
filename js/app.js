@@ -358,6 +358,8 @@ function eventosSinteticos(n) {
 async function main() {
   const tema = temaActual();
   lite = modoLite();
+  // La herramienta de fotos no depende de los datos: se activa ya, para que responda aunque el resto siga cargando.
+  import("./foto.js").then((F) => F.iniciarFoto({ mapa: () => api?.map, lite: () => lite })).catch((e) => console.error("foto", e));
   document.documentElement.classList.toggle("lite", lite);
   // El mapa se crea en cuanto hay estilo (en LITE es local e inmediato); los JSON llegan en paralelo
   // y se aplican cuando estén. Así MapLibre arranca su worker y pide fuentes sin esperar a los datos.
@@ -446,7 +448,6 @@ async function main() {
     pintarAreas2();
   };
   menu = iniciarMenu($("panel"));
-  import("./foto.js").then((F) => F.iniciarFoto({ map: api.map, lite })).catch(() => {});
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
   $("capa-indice").onchange = (e) => alternarIndice(e.target.checked).catch((err) => {
     e.target.checked = false;

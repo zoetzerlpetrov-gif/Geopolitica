@@ -283,6 +283,11 @@ a.boton:hover, a.boton:focus-visible { filter: brightness(1.1); }
   .topbar { flex-wrap: wrap; gap: 6px 8px; }
   .estado { order: 3; flex-basis: 100%; }
   .region-rapida select { width: 130px; }
+  /* Botones de vista en una cuadrícula de 3 columnas que ocupa todo el ancho: antes iban en una sola fila y
+     «Tema» quedaba fuera de la pantalla en celulares de ~390 px. */
+  .acciones { order: 4; flex-basis: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .acciones > * { width: 100%; min-width: 0; max-width: none; }
+  .acciones .sel-vista { max-width: none; font-size: 13px; }
   .layout { grid-template-columns: 1fr; }
   .panel {
     position: absolute; inset: auto 0 0 0; max-height: 55%; z-index: 6; border-right: 0;
@@ -444,7 +449,6 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 :root { color-scheme: light; }
 :root[data-theme="dark"] { color-scheme: dark; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
-@media (max-width: 760px) { .sel-vista { max-width: 92px; font-size: 11px; } }
 .mapa-tsunami { width: 100%; border-radius: 6px; margin: 4px 0; }
 /* Pronóstico de 7 días en la ficha */
 .pronostico-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 6px 0 2px; text-align: center; font-size: 11px; }

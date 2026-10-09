@@ -54,45 +54,60 @@ export function htmlFoto(d, archivo = {}) {
       y con imágenes editadas o exportadas sin conservarlos. Sin metadatos no hay forma de saber desde el archivo dónde ni cuándo se tomó.</p>`;
   }
   const gps = d.lat != null;
-  return `${cab}<dl class="foto-meta">${filas.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(String(v))}</dd>`).join("")}</dl>
-    ${gps ? `<button type="button" class="foto-ir" id="foto-ir">📍 Ir a la localización</button>
-      <p class="meta">Es la posición del GPS del dispositivo al tomar la foto. En exteriores suele acertar a 5–20 m; en interiores o sin señal de satélite puede errar por cientos de metros.
-      Los metadatos se pueden editar: no prueban por sí solos dónde se tomó la foto.</p>`
-    : `<p class="meta">La foto tiene metadatos, pero <b>no trae ubicación GPS</b> (el teléfono tenía desactivada la ubicación para la cámara o se borró al compartirla).</p>`}`;
+  // El botón va antes de la lista: en el celular el panel es bajo y una lista larga lo dejaría fuera de vista.
+  return `${cab}${gps ? `<button type="button" class="foto-ir" id="foto-ir">📍 Ir a la localización</button>`
+      : `<p class="foto-sin">La foto tiene metadatos, pero <b>no trae ubicación GPS</b> (el teléfono tenía desactivada la ubicación para la cámara o se borró al compartirla).</p>`}
+    <dl class="foto-meta">${filas.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(String(v))}</dd>`).join("")}</dl>
+    ${gps ? `<p class="meta">Es la posición del GPS del dispositivo al tomar la foto. En exteriores suele acertar a 5–20 m; en interiores o sin señal de satélite puede errar por cientos de metros.
+      Los metadatos se pueden editar: no prueban por sí solos dónde se tomó la foto.</p>` : ""}`;
 }
 
-/** Herramientas → «Ubicar una foto». */
-export function iniciarFoto({ map, lite = false }) {
+/**
+ * Herramientas → «Ubicar una foto». Se activa al abrir la página, sin esperar al mapa ni a los datos:
+ * `mapa()` y `lite()` se consultan solo al pulsar «Ir a la localización».
+ */
+export function iniciarFoto({ mapa, lite = () => false }) {
   const entrada = $("foto-exif"), res = $("foto-exif-res"), prev = $("foto-prev");
   if (!entrada) return;
-  let url = null;
+  let url = null, actual = null;
 
-  const marcar = (pts) => {
+  const marcar = (map, pts) => {
     const datos = { type: "FeatureCollection", features: pts.map(([lon, lat]) => ({ type: "Feature", geometry: { type: "Point", coordinates: [lon, lat] }, properties: {} })) };
     if (map.getSource(PUNTO)) { map.getSource(PUNTO).setData(datos); return; }
     map.addSource(PUNTO, { type: "geojson", data: datos });
     map.addLayer({ id: `${PUNTO}-c`, type: "circle", source: PUNTO, paint: { "circle-radius": 9, "circle-color": "#E0A100", "circle-stroke-width": 3, "circle-stroke-color": "#fff" } });
   };
 
+  // Un solo escucha para el botón (el resultado se vuelve a pintar con cada foto).
+  res.addEventListener("click", (e) => {
+    if (!e.target.closest("#foto-ir") || !actual) return;
+    const map = mapa();
+    if (!map) { res.insertAdjacentHTML("afterbegin", `<p class="meta">El mapa aún está cargando; intenta de nuevo en unos segundos.</p>`); return; }
+    try { marcar(map, [[actual.lon, actual.lat]]); } catch (err) { /* el estilo aún carga: se vuela igual */ }
+    const layout = document.querySelector(".layout");
+    if (matchMedia("(max-width: 760px)").matches && layout && !layout.classList.contains("sin-panel")) $("btn-panel")?.click();  // en el celular el menú tapa el mapa
+    map.flyTo({ center: [actual.lon, actual.lat], zoom: 17, duration: lite() ? 0 : 1200 });
+  });
+
   entrada.addEventListener("change", async () => {
     const archivo = entrada.files?.[0];
     if (!archivo) return;
+    actual = null;
+    res.innerHTML = `<p class="meta">⏳ Leyendo los metadatos…</p>`;
+    res.scrollIntoView({ block: "nearest", behavior: "smooth" });
+    let d;
+    try { d = leerExif(await archivo.arrayBuffer()); } catch (err) { d = { error: `No se pudo leer el archivo (${err?.message || err}).` }; }
     entrada.value = ""; // se puede volver a elegir la misma foto
+    try { const map = mapa(); if (map?.getSource(PUNTO)) marcar(map, []); } catch (err) { /* sin mapa todavía */ }
+    actual = d.lat != null ? d : null;
+    res.innerHTML = htmlFoto(d, archivo);
+    res.scrollIntoView({ block: "start", behavior: "smooth" });
+    // Vista previa debajo del resultado. HEIC fuera de Safari, TIFF y DNG no se pueden dibujar; los metadatos sí se leen.
     if (url) URL.revokeObjectURL(url);
     url = URL.createObjectURL(archivo);
-    marcar([]);
-    let d;
-    try { d = leerExif(await archivo.arrayBuffer()); } catch (err) { d = { error: "No se pudo leer el archivo." }; }
-    res.innerHTML = htmlFoto(d, archivo);
-    // Vista previa: HEIC fuera de Safari, TIFF y DNG no se pueden dibujar en el navegador; los metadatos sí se leen.
+    prev.hidden = true;
     prev.onload = () => { prev.hidden = false; };
     prev.onerror = () => { prev.hidden = true; };
     prev.src = url;
-    $("foto-ir")?.addEventListener("click", () => {
-      marcar([[d.lon, d.lat]]);
-      const layout = document.querySelector(".layout");
-      if (matchMedia("(max-width: 760px)").matches && layout && !layout.classList.contains("sin-panel")) $("btn-panel")?.click();  // en el celular el menú tapa el mapa
-      map.flyTo({ center: [d.lon, d.lat], zoom: 17, duration: lite ? 0 : 1200 });
-    });
   });
 }
