@@ -12,13 +12,11 @@ jobs:
       - run: |
           UA="Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
           p() { echo "=== $1"; curl -s -m 30 -A "$UA" -w "\n[HTTP %{http_code} %{content_type} %{size_download}B]\n" "$1" | head -c ${2:-1500}; echo; }
-          p https://volcanoes.usgs.gov/hans-public/api/volcano/getVolcano/getElevatedVolcanoes 2500
-          p https://volcanoes.usgs.gov/hans-public/api/volcano/getMonitoredVolcanoes 1500
-          p https://www.gob.mx/cenapred 1200
-          p "https://www.gob.mx/cenapred/es/archivo/prensa" 1500
-          curl -s -m 30 -A "$UA" "https://www.gob.mx/cenapred/es/archivo/prensa" | grep -io '[^"<>]*popocat[^"<>]*' | head -20
-          curl -s -m 30 -A "$UA" "https://www.gob.mx/cenapred" | grep -io 'href="[^"]*"' | grep -i "popo\|volc\|prensa\|articulo" | head -20
-          p https://www.gob.mx/cenapred/articulos/reporte-del-monitoreo-de-cenapred-al-volcan-popocatepetl 800
-          p https://www.cenapred.gob.mx/ 300
-          p https://www.cenapred.gob.mx/reportesVolcanGobMX/ 300
-          p https://volcano.si.edu/news/WeeklyVolcanoRSS.xml 400
+          A="https://www.gob.mx/cenapred/articulos/monitoreo-del-volcan-popocatepetl-hoy-8-de-octubre-de-2026?idiom=es"
+          curl -s -m 30 -A "$UA" "$A" | sed 's/<[^>]*>/ /g' | tr -s ' \n' | grep -i -m 15 -o '.\{0,200\}sem[aá]foro.\{0,200\}'
+          echo ---; curl -s -m 30 -A "$UA" "$A" | grep -io '<meta[^>]*description[^>]*>' | head -3
+          echo ---; curl -s -m 30 -A "$UA" "https://www.gob.mx/cenapred/archivo/articulos?idiom=es" | grep -io 'href=\\\?"[^"]*popocatepetl-hoy[^"]*"' | head -5
+          p https://volcanoes.usgs.gov/hans-public/api/volcano/getElevatedVolcanoes 1500
+          p https://volcanoes.usgs.gov/hans-public/api/volcano/getVolcano/332010 1500
+          curl -s -m 30 https://volcanoes.usgs.gov/hans-public/api/volcano/getMonitoredVolcanoes | python3 -c "import json,sys;d=json.load(sys.stdin);print(len(d));import collections;print(collections.Counter(x['color_code'] for x in d));print([x['volcano_name']+':'+x['alert_level'] for x in d if x['color_code']!='GREEN'])"
+          exit 0
