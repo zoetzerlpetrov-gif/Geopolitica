@@ -79,3 +79,13 @@ export function hayObjetoEncima(map, punto) {
   return map.queryRenderedFeatures(punto).some((f) => ["circle", "symbol", "line"].includes(f.layer.type)
     && /^(rg-|mov-|cap-|evento|clusters|chokepoints)/.test(f.layer.id) && !/-(texto|pulso)$/.test(f.layer.id));
 }
+
+/** Texto sin acentos y en minúsculas, para buscar «Mexico» y encontrar «México». */
+export const sinAcentos = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
+/** Consulta → palabras a buscar (todas deben aparecer). Lo que va entre comillas se busca como frase. */
+export function palabrasDe(q) {
+  const out = [];
+  String(q || "").replace(/"([^"]+)"|(\S+)/g, (_, frase, palabra) => { const x = sinAcentos(frase || palabra).trim(); if (x.length >= 2) out.push(x); return ""; });
+  return out;
+}

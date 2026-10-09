@@ -1,4 +1,5 @@
-// Lector mínimo de metadatos EXIF de fotos JPEG y HEIC (iPhone), sin bibliotecas externas.
+// Lector mínimo de metadatos EXIF de fotos JPEG, HEIC/HEIF (iPhone, Samsung, Huawei), AVIF, WebP, PNG, TIFF y DNG (RAW),
+// sin bibliotecas externas.
 //
 // Privacidad: el archivo se lee en la memoria de tu navegador con FileReader; no se sube a ningún
 // servidor ni se guarda. Al cerrar o recargar la página desaparece.
@@ -118,26 +119,68 @@ function exifHeif(v) {
   return null;
 }
 
-/** ArrayBuffer de un JPEG o HEIC → objeto con los campos encontrados ({} si no hay EXIF). */
+/** WebP (contenedor RIFF): el EXIF va en el fragmento «EXIF», a veces precedido de «Exif\0\0». */
+function exifWebp(v) {
+  let p = 12;
+  while (p + 8 <= v.byteLength) {
+    const tipo = tipo4(v, p), tam = v.getUint32(p + 4, true);
+    if (tipo === "EXIF") return p + 8 + (v.getUint32(p + 8) === 0x45786966 ? 6 : 0);
+    p += 8 + tam + (tam % 2);
+  }
+  return null;
+}
+
+/** PNG: el EXIF va en el fragmento «eXIf» (estándar desde 2017; pocos programas lo escriben). */
+function exifPng(v) {
+  let p = 8;
+  while (p + 12 <= v.byteLength) {
+    const tam = v.getUint32(p), tipo = tipo4(v, p + 4);
+    if (tipo === "eXIf") return p + 8;
+    if (tipo === "IEND") break;
+    p += 12 + tam;
+  }
+  return null;
+}
+
+/** Formato por los primeros bytes (no por la extensión, que puede mentir). */
+export function formatoDe(buffer) {
+  const v = new DataView(buffer);
+  if (v.byteLength < 12) return "desconocido";
+  if (v.getUint16(0) === 0xffd8) return "jpeg";
+  if (tipo4(v, 4) === "ftyp") return tipo4(v, 8) === "avif" || tipo4(v, 8) === "avis" ? "avif" : "heic";
+  if (tipo4(v, 0) === "RIFF" && tipo4(v, 8) === "WEBP") return "webp";
+  if (v.getUint32(0) === 0x89504e47) return "png";
+  if (v.getUint16(0) === 0x4949 && v.getUint16(2, true) === 42) return "tiff";  // también DNG (RAW de Android y ProRAW de iPhone)
+  if (v.getUint16(0) === 0x4d4d && v.getUint16(2) === 42) return "tiff";
+  if (tipo4(v, 0) === "GIF8") return "gif";
+  if (v.getUint16(0) === 0x424d) return "bmp";
+  return "desconocido";
+}
+
+export const NOMBRE_FORMATO = { jpeg: "JPEG", heic: "HEIC/HEIF", avif: "AVIF", webp: "WebP", png: "PNG", tiff: "TIFF o RAW (DNG)", gif: "GIF", bmp: "BMP", desconocido: "formato desconocido" };
+
+/** ArrayBuffer de una foto (JPEG, HEIC/HEIF, AVIF, WebP, PNG, TIFF o DNG) → campos encontrados ({} si no hay EXIF). */
 export function leerExif(buffer) {
   const v = new DataView(buffer);
-  if (v.byteLength >= 12 && tipo4(v, 4) === "ftyp" && /^(heic|heix|hevc|heim|heis|mif1|msf1|avif)$/.test(tipo4(v, 8))) {
-    try {
-      const base = exifHeif(v);
-      return base == null ? {} : leerTiff(v, base);
-    } catch (e) {
-      return { error: "No se pudo leer el HEIC (archivo incompleto o variante no soportada)." };
-    }
+  const f = formatoDe(buffer);
+  try {
+    if (f === "heic" || f === "avif") { const b = exifHeif(v); return b == null ? { formato: f } : { formato: f, ...leerTiff(v, b) }; }
+    if (f === "webp") { const b = exifWebp(v); return b == null ? { formato: f } : { formato: f, ...leerTiff(v, b) }; }
+    if (f === "png") { const b = exifPng(v); return b == null ? { formato: f } : { formato: f, ...leerTiff(v, b) }; }
+    if (f === "tiff") return { formato: f, ...leerTiff(v, 0) };
+  } catch (e) {
+    return { formato: f, error: `No se pudo leer el ${NOMBRE_FORMATO[f]} (archivo incompleto o variante no soportada).` };
   }
-  if (v.byteLength < 4 || v.getUint16(0) !== 0xffd8) return { error: "No es un JPEG ni un HEIC (PNG y capturas de pantalla no traen EXIF)." };
+  if (f === "gif" || f === "bmp") return { formato: f, error: `Los ${NOMBRE_FORMATO[f]} no guardan metadatos de ubicación.` };
+  if (f !== "jpeg") return { formato: f, error: "No reconozco el formato. Prueba con JPEG, HEIC, AVIF, WebP, PNG, TIFF o DNG." };
   let p = 2;
   while (p + 4 < v.byteLength) {
     const marca = v.getUint16(p), largo = v.getUint16(p + 2);
-    if (marca === 0xffe1 && v.getUint32(p + 4) === 0x45786966) return leerTiff(v, p + 10); // «Exif»
+    if (marca === 0xffe1 && v.getUint32(p + 4) === 0x45786966) return { formato: f, ...leerTiff(v, p + 10) }; // «Exif»
     if ((marca & 0xff00) !== 0xff00) break;
     p += 2 + largo;
   }
-  return {};
+  return { formato: f };
 }
 
 /** [grados, minutos, segundos] + referencia (N/S/E/W) → grados decimales. */

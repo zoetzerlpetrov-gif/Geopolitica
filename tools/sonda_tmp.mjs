@@ -59,3 +59,4 @@ for (const k of ["viejo", "nuevo"]) {
 const [[, u1]] = await commons("Statue of Liberty, NY", 1), [[, u2]] = await commons("Statue of Liberty souvenir", 1);
 writeFileSync("/tmp/real.jpg", Buffer.from(await (await fetch(u1, { headers: UA })).arrayBuffer()));
 writeFileSync("/tmp/souvenir.jpg", Buffer.from(await (await fetch(u2, { headers: UA })).arrayBuffer()));
+
