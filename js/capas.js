@@ -215,8 +215,8 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <div class="chips"><span class="chip estado-${esc(familia.estado_dato)}">Dato ${esc(etiquetaEstado(familia.estado_dato))}</span></div>
     <dl>
       ${extra ? `<dt>Detalle</dt><dd>${extra}</dd>` : ""}
-      <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(familia.fuente)}</a>` : esc(familia.fuente)}</dd>
-      <dt>Licencia</dt><dd>${esc(familia.licencia)}</dd>
+      <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente || familia.fuente)}</a>` : esc(sub?.fuente || familia.fuente)}</dd>
+      <dt>Licencia</dt><dd>${esc(sub?.licencia || familia.licencia)}</dd>
       <dt>Actualizado</dt><dd>${esc(familia.manifest?.actualizado_utc?.slice(0, 10) || "—")}</dd>
     </dl>
     ${personas.length ? `<h4>Personas con rol público</h4><ul class="fuentes">${personas.map((p) => `<li>${esc(p.nombre)} · ${esc(p.cargo)} · <a href="${esc(p.wikidata)}" target="_blank" rel="noopener noreferrer">Wikidata</a></li>`).join("")}</ul>` : ""}

@@ -506,7 +506,8 @@ FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifie
 # Plazo interno: el job de Actions muere a los 90 min y se perdería todo. Al agotarse el plazo ya no se
 # hacen consultas nuevas; lo construido se publica y lo pendiente conserva su versión anterior.
 PLAZO = time.time() + 60 * float(os.environ.get("PLAZO_MIN", "70"))
-FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar", "presas", "ductos"}
+FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar", "presas", "ductos", "farmaceuticas", "petroleo_gas",
+                "fronteras", "desaladoras"}
 
 
 def queda():
@@ -702,11 +703,59 @@ def _sitios_wikidata(fid, ajustar=None):
     return S.features(registros, feat, punto, ajustar)
 
 
+def nuclear():
+    """Centrales nucleares (en operación, en construcción, cerradas) y reactores de investigación (Wikidata)."""
+    import sitios as S
+    return _sitios_wikidata("nuclear", lambda r: S.subtipo_nuclear(r) if r["st"] == "nuclear_operacion" else r["st"])
+
+
+def investigacion():
+    """Institutos de investigación con artículo en ≥ 4 Wikipedias y aceleradores de partículas (Wikidata)."""
+    return _sitios_wikidata("investigacion")
+
+
+def espacio():
+    """Puertos espaciales y sitios de lanzamiento (Wikidata)."""
+    return _sitios_wikidata("espacio")
+
+
+def farmaceuticas():
+    """Sedes de farmacéuticas (Wikidata) y plantas farmacéuticas o de vacunas mapeadas en OSM."""
+    out = _sitios_wikidata("farmaceuticas")
+    els = overpass(['nwr["man_made"="works"]["product"~"pharma|vaccin|medic|drug",i]', 'nwr["industrial"="pharmaceutical"]'], "farmaceuticas")
+    return out + _osm(els, lambda t: "farma_planta", lambda st, t: 7, lambda t: t.get("operator") or t.get("product", ""), Paises())
+
+
+def petroleo_gas():
+    """Campos de petróleo y gas y plataformas marinas (Wikidata), más plataformas marinas de OSM.
+    Los pozos individuales (≈ 340 mil en OSM) no se incluyen: a escala mundial son ruido y pesan demasiado."""
+    out = _sitios_wikidata("petroleo_gas")
+    els = overpass(['nwr["man_made"="offshore_platform"]'], "petroleo_gas")
+    # Se omiten las subestaciones de parques eólicos marinos (también son «offshore_platform» en OSM).
+    eolica = lambda t: bool(t.get("power")) or "wind" in (t.get("name", "") + t.get("operator", "")).lower()  # noqa: E731
+    return out + _osm(els, lambda t: None if eolica(t) else "plataforma_marina", lambda st, t: 6,
+                      lambda t: t.get("operator", ""), Paises())
+
+
+def fronteras():
+    """Cruces fronterizos con nombre (OSM barrier=border_control)."""
+    els = overpass(['nwr["barrier"="border_control"]["name"]'], "fronteras")
+    return _osm(els, lambda t: "cruce_fronterizo", lambda st, t: 6, lambda t: t.get("operator", ""), Paises())
+
+
+def desaladoras():
+    """Plantas desaladoras (OSM)."""
+    els = overpass(['nwr["water_works"="desalination"]', 'nwr["man_made"="water_works"]["name"~"desal",i]'], "desaladoras")
+    return _osm(els, lambda t: "desaladora", lambda st, t: 5, lambda t: t.get("operator", ""), Paises())
+
+
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
-            "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas}
+            "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
+            "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
+            "petroleo_gas": petroleo_gas, "fronteras": fronteras, "desaladoras": desaladoras}
 
 
 def _punto_ref(ft):

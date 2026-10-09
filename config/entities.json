@@ -1639,6 +1639,329 @@
      ],
      "familia": "ductos",
      "geometria": "linea"
+    },
+    {
+     "id": "ferrocarril_electrificado",
+     "nombre": {
+      "es": "Vías férreas electrificadas",
+      "en": "Electrified railways"
+     },
+     "icono": "🚆",
+     "color": "#7b3fa0",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura",
+      "geoeconomia"
+     ],
+     "familia": "ferrocarriles",
+     "geometria": "linea"
+    },
+    {
+     "id": "ferrocarril_sin_electrificar",
+     "nombre": {
+      "es": "Vías férreas sin electrificar o sin dato",
+      "en": "Non-electrified railways"
+     },
+     "icono": "🚆",
+     "color": "#a2789c",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura",
+      "geoeconomia"
+     ],
+     "familia": "ferrocarriles",
+     "geometria": "linea"
+    },
+    {
+     "id": "ferrocarril_transbordador",
+     "nombre": {
+      "es": "Transbordadores de trenes",
+      "en": "Railway ferries"
+     },
+     "icono": "⛴",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "ferrocarriles",
+     "geometria": "linea"
+    },
+    {
+     "id": "autopista",
+     "nombre": {
+      "es": "Autopistas (vías rápidas)",
+      "en": "Motorways / expressways"
+     },
+     "icono": "🛣",
+     "color": "#d0602a",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura",
+      "geoeconomia"
+     ],
+     "familia": "autopistas",
+     "geometria": "linea"
+    },
+    {
+     "id": "carretera_troncal",
+     "nombre": {
+      "es": "Carreteras troncales",
+      "en": "Major highways"
+     },
+     "icono": "🛣",
+     "color": "#c9a227",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "autopistas",
+     "geometria": "linea"
+    },
+    {
+     "id": "nuclear_operacion",
+     "nombre": {
+      "es": "Centrales nucleares en operación o sin dato",
+      "en": "Nuclear power plants: operating or unknown"
+     },
+     "icono": "☢",
+     "color": "#8A3A5C",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "energia",
+      "salud_nrbq",
+      "seguridad"
+     ],
+     "familia": "nuclear"
+    },
+    {
+     "id": "nuclear_construccion",
+     "nombre": {
+      "es": "Centrales nucleares en construcción o planeadas",
+      "en": "Nuclear power plants: under construction"
+     },
+     "icono": "☢",
+     "color": "#d17aa0",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "energia",
+      "salud_nrbq"
+     ],
+     "familia": "nuclear"
+    },
+    {
+     "id": "nuclear_cerrada",
+     "nombre": {
+      "es": "Centrales nucleares cerradas o en desmantelamiento",
+      "en": "Nuclear power plants: closed"
+     },
+     "icono": "☢",
+     "color": "#8a8f94",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "energia",
+      "salud_nrbq"
+     ],
+     "familia": "nuclear"
+    },
+    {
+     "id": "reactor_investigacion",
+     "nombre": {
+      "es": "Reactores nucleares de investigación",
+      "en": "Research reactors"
+     },
+     "icono": "☢",
+     "color": "#5B4A9E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "tecnologia",
+      "salud_nrbq"
+     ],
+     "familia": "nuclear"
+    },
+    {
+     "id": "centro_investigacion",
+     "nombre": {
+      "es": "Institutos y centros de investigación",
+      "en": "Research institutes"
+     },
+     "icono": "🔬",
+     "color": "#1F8A8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "acelerador_particulas",
+     "nombre": {
+      "es": "Aceleradores de partículas",
+      "en": "Particle accelerators"
+     },
+     "icono": "⚛",
+     "color": "#5B4A9E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "farma_sede",
+     "nombre": {
+      "es": "Farmacéuticas: sede corporativa",
+      "en": "Pharmaceutical companies: headquarters"
+     },
+     "icono": "💊",
+     "color": "#2a8f5a",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "salud_nrbq",
+      "geoeconomia"
+     ],
+     "familia": "farmaceuticas"
+    },
+    {
+     "id": "farma_planta",
+     "nombre": {
+      "es": "Farmacéuticas: plantas de medicamentos y vacunas",
+      "en": "Pharmaceutical and vaccine plants"
+     },
+     "icono": "💊",
+     "color": "#6fbf8f",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "salud_nrbq",
+      "geoeconomia"
+     ],
+     "familia": "farmaceuticas"
+    },
+    {
+     "id": "puerto_espacial",
+     "nombre": {
+      "es": "Puertos espaciales y sitios de lanzamiento",
+      "en": "Spaceports and launch sites"
+     },
+     "icono": "🚀",
+     "color": "#333F48",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "tecnologia",
+      "seguridad"
+     ],
+     "familia": "espacio"
+    },
+    {
+     "id": "cruce_fronterizo",
+     "nombre": {
+      "es": "Cruces fronterizos",
+      "en": "Border crossings"
+     },
+     "icono": "⛩",
+     "color": "#7a6a50",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "demografia",
+      "seguridad",
+      "regional"
+     ],
+     "familia": "fronteras"
+    },
+    {
+     "id": "desaladora",
+     "nombre": {
+      "es": "Plantas desaladoras",
+      "en": "Desalination plants"
+     },
+     "icono": "💧",
+     "color": "#2E6F8E",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "clima",
+      "infraestructura"
+     ],
+     "familia": "desaladoras"
     }
    ]
   },
@@ -1748,6 +2071,66 @@
       "geografia"
      ],
      "familia": "chokepoints"
+    },
+    {
+     "id": "campo_petrolero",
+     "nombre": {
+      "es": "Campos petroleros",
+      "en": "Oil fields"
+     },
+     "icono": "🛢",
+     "color": "#7a4b1e",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "petroleo_gas"
+    },
+    {
+     "id": "campo_gas",
+     "nombre": {
+      "es": "Campos de gas natural",
+      "en": "Gas fields"
+     },
+     "icono": "🛢",
+     "color": "#C27C1E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "petroleo_gas"
+    },
+    {
+     "id": "plataforma_marina",
+     "nombre": {
+      "es": "Plataformas marinas de petróleo y gas",
+      "en": "Offshore oil and gas platforms"
+     },
+     "icono": "🛢",
+     "color": "#3d5a80",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "energia",
+      "geografia"
+     ],
+     "familia": "petroleo_gas"
     },
     {
      "id": "industria_pesada",

@@ -38,7 +38,32 @@ SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?sedeEs ?sedeEn WHERE {
 }"""
 
 # familia → [(QID clase, subtipo, mínimo de sitelinks, "lugar" | "sede", zoom mínimo)]
-FAMILIAS = {}
+# Conteos medidos en Wikidata el 2026-10-09 (con coordenada): plantas nucleares 379, institutos de
+# investigación 4,694 (1,265 con ≥ 3 Wikipedias), farmacéuticas con sede ubicada 169, campos petroleros
+# 5,760, puertos espaciales 92.
+FAMILIAS = {
+    "nuclear": [
+        ("Q134447", "nuclear_operacion", 1, "lugar", 3),     # central nuclear (el subtipo se ajusta por estado)
+        ("Q1438105", "reactor_investigacion", 1, "lugar", 5),
+    ],
+    "investigacion": [
+        ("Q31855", "centro_investigacion", 4, "lugar", 6),   # instituto de investigación
+        ("Q130825", "acelerador_particulas", 2, "lugar", 5),
+    ],
+    "farmaceuticas": [
+        ("Q19644607", "farma_sede", 1, "sede", 5),
+        ("Q12099571", "farma_sede", 1, "sede", 5),
+    ],
+    "petroleo_gas": [
+        ("Q211748", "campo_petrolero", 1, "lugar", 5),
+        ("Q1349255", "campo_gas", 1, "lugar", 5),
+        ("Q689880", "plataforma_marina", 1, "lugar", 5),
+    ],
+    "espacio": [
+        ("Q194188", "puerto_espacial", 1, "lugar", 2),
+        ("Q1933026", "puerto_espacial", 1, "lugar", 2),
+    ],
+}
 
 # Estado de uso (P5817) en inglés → subtipo de planta nuclear. Sin dato se toma como «en operación»
 # solo si no hay fecha de cierre; el texto del estado se muestra tal cual en la ficha.
