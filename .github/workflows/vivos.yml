@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install websockets==15.0.1 numpy==2.3.3 pillow==11.3.0 pygrib==2.1.6
+      - run: pip install websockets==15.0.1 numpy==2.3.3 pillow==11.3.0 pygrib==2.1.6 shapely==2.1.1
 
       - name: Recuperar la instantánea anterior (para TLE y sanciones)
         run: |

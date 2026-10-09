@@ -37,7 +37,76 @@ FEEDS = {"PTWC": "https://www.tsunami.gov/events/xml/PHEBAtom.xml", "NTWC": "htt
 NS = {"a": "http://www.w3.org/2005/Atom", "geo": "http://www.w3.org/2003/01/geo/wgs84_pos#"}
 HORAS_VIGENCIA = 48
 VEL_KMH = 700           # ≈ √(9.8 m/s² × 4,000 m) = 198 m/s
-HORAS_FRENTE = 12       # frentes de 1 a 12 h (≈ 8,400 km)
+HORAS_FRENTE = 12       # frentes de 1 a 12 h (≈ 8,400 km) como máximo
+BANDAS = 6              # el área de alcance se pinta en 6 bandas que se desvanecen con la distancia
+
+
+def alcance_km(magnitud, radio_boletin=None):
+    """Hasta dónde es probable que lleguen olas peligrosas. Si el boletín da la zona de amenaza, esa; si no, los
+    umbrales con que el PTWC clasificaba la amenaza por magnitud (aproximados): M6.5-7.0 local (≈ 100 km),
+    M7.1-7.5 regional (≈ 300 km), M7.6-7.8 regional amplia (≈ 1,000 km), M7.9+ toda la cuenca oceánica."""
+    if radio_boletin:
+        return float(radio_boletin)
+    m = magnitud or 0
+    if m >= 7.9:
+        return VEL_KMH * HORAS_FRENTE
+    if m >= 7.6:
+        return 1000.0
+    if m >= 7.1:
+        return 300.0
+    if m >= 6.5:
+        return 100.0
+    return 0.0
+
+
+_TIERRA = None
+
+
+def tierra():
+    """Polígono de tierra firme (países de Natural Earth 1:50m, repetidos a ±360° para las longitudes continuas)."""
+    global _TIERRA
+    if _TIERRA is None:
+        try:
+            from shapely.affinity import translate
+            from shapely.geometry import shape
+            from shapely.ops import unary_union
+            fc = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
+            base = unary_union([shape(f["geometry"]).buffer(0) for f in fc["features"]])
+            _TIERRA = unary_union([base, translate(base, 360), translate(base, -360)])
+        except Exception as e:  # noqa: BLE001  sin shapely se dibuja sin recortar la tierra
+            print(f"   sin recorte de tierra: {e}")
+            _TIERRA = False
+    return _TIERRA
+
+
+def mar_conectado(lon, lat, km):
+    """Mar alcanzable desde el epicentro: el disco de `km` sin la tierra, y de sus pedazos solo el más cercano
+    al epicentro. Así un sismo del lado del Pacífico no pinta el Caribe al otro lado del istmo de Panamá."""
+    t = tierra()
+    if not t:
+        return None
+    from shapely.geometry import Point, Polygon
+    mar = Polygon(circulo(lon, lat, km)).buffer(0).difference(t)
+    if mar.is_empty:
+        return None
+    partes = list(getattr(mar, "geoms", [mar]))
+    epi = Point(lon, lat)
+    return min(partes, key=lambda g: g.distance(epi))
+
+
+def solo_mar(geom, mar=None):
+    """Quita la tierra firme de un polígono o línea GeoJSON (el tsunami no avanza sobre el continente) y, si se
+    da `mar`, recorta a ese mar conectado con el epicentro."""
+    t = tierra()
+    if not t:
+        return geom
+    from shapely.geometry import mapping, shape
+    g = shape(geom).buffer(0) if geom["type"] == "Polygon" else shape(geom)
+    r = g.intersection(mar) if mar is not None else g.difference(t)
+    if r.is_empty:
+        return None
+    r = r.simplify(0.02, preserve_topology=True)
+    return json.loads(json.dumps(mapping(r)))  # tuplas → listas
 R = 6371.0
 
 # Orden de gravedad de las categorías (en inglés, como las publica la NOAA) y su nombre en español.
@@ -209,12 +278,28 @@ def features_evento(clave, ev, ahora):
                              "alturas": datos.get("alturas", []), "mapa_tiempos": next((b["mapa_tiempos"] for b in bs if b.get("mapa_tiempos")), ""),
                              "boletines": [{k: b[k] for k in ("centro", "titulo", "categoria", "actualizado", "boletin")} for b in bs[:8]],
                              "origen_utc": origen.strftime("%Y-%m-%dT%H:%M:%SZ"), "horas_desde": round(horas_desde, 1)}}]
-    if datos.get("radio_km"):
-        feats.append({"type": "Feature", "geometry": {"type": "Polygon", "coordinates": [circulo(lon, lat, datos["radio_km"])]},
-                      "properties": {**comun, "k": "zona", "titulo": f"Zona de amenaza: costas a menos de {datos['radio_km']} km del epicentro"}})
-    if peor["nivel"] >= 1 and (mag or 0) >= 6.5:
-        for h in range(1, HORAS_FRENTE + 1):
-            feats.append({"type": "Feature", "geometry": {"type": "LineString", "coordinates": circulo(lon, lat, VEL_KMH * h)},
+    alcance = alcance_km(mag, datos.get("radio_km")) if peor["nivel"] >= 1 else 0
+    feats[0]["properties"]["alcance_km"] = round(alcance)
+    feats[0]["properties"]["alcance_fuente"] = "boletín" if datos.get("radio_km") else "magnitud"
+    # Área probable en bandas: la más cercana, más intensa; se desvanece hacia el borde del alcance. Solo el mar
+    # conectado con el epicentro.
+    mar = mar_conectado(lon, lat, alcance) if alcance else None
+    for i in range(BANDAS if alcance else 0):
+        r0, r1 = alcance * i / BANDAS, alcance * (i + 1) / BANDAS
+        anillo = circulo(lon, lat, r1)
+        coords = [anillo] if i == 0 else [anillo, list(reversed(circulo(lon, lat, r0)))]
+        geom = solo_mar({"type": "Polygon", "coordinates": coords}, mar)
+        if geom:
+            feats.append({"type": "Feature", "geometry": geom,
+                          "properties": {**comun, "k": "zona", "banda": i + 1, "opacidad": round(0.5 - 0.42 * i / max(1, BANDAS - 1), 2),
+                                         "titulo": f"Alcance probable: {round(r0):,} a {round(r1):,} km del epicentro"}})
+    # Frentes de onda cada hora, solo dentro del alcance y sobre el mar.
+    for h in range(1, HORAS_FRENTE + 1):
+        if VEL_KMH * h > alcance:
+            break
+        geom = solo_mar({"type": "LineString", "coordinates": circulo(lon, lat, VEL_KMH * h)}, mar)
+        if geom:
+            feats.append({"type": "Feature", "geometry": geom,
                           "properties": {**comun, "k": "frente", "horas": h, "pasado": h <= horas_desde,
                                          "titulo": f"Frente estimado a {h} h ({VEL_KMH * h:,} km)"}})
     for l in datos.get("llegadas", []):
