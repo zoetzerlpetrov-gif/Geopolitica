@@ -285,7 +285,8 @@ async function abrirSatelite(o, catalogo) {
   const norad = String(o.props.id).replace("sat:", "");
   const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), alt: o.props.alt };
   abrirFichaHtml(S.htmlSatelite(base, null));
-  const orb = await mov.orbita(norad);
+  const [orb, catalogoSat] = await Promise.all([mov.orbita(norad), S.fichaCatalogo(norad).catch(() => null)]);
+  base.catalogo = catalogoSat;
   if (!orb || orb.error || $("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(o.props.n)) return;
   $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb);
   trayectoria ??= new V.Trayectoria(api.map);
@@ -295,6 +296,35 @@ async function abrirSatelite(o, catalogo) {
   const movil = matchMedia("(max-width: 760px)").matches;
   api.map.easeTo({ center: o.coords, zoom: Math.min(api.map.getZoom(), 2.2),
     padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 0, right: 0 } : { top: 0, bottom: 0, left: 0, right: 440 }, duration: lite ? 0 : 800 });
+}
+
+/** Herramienta «Ubicar una foto»: lee EXIF en el navegador y marca el punto en el mapa. */
+function iniciarFotoExif() {
+  const entrada = $("foto-exif"), res = $("foto-exif-res");
+  if (!entrada) return;
+  entrada.addEventListener("change", async () => {
+    const archivo = entrada.files?.[0];
+    if (!archivo) return;
+    const { leerExif } = await import("./exif.js");
+    let d;
+    try { d = leerExif(await archivo.arrayBuffer()); } catch (err) { d = { error: "No se pudo leer el archivo." }; }
+    const m = api.map, src = "foto-exif-punto";
+    const datos = { type: "FeatureCollection", features: d.lat != null ? [{ type: "Feature", geometry: { type: "Point", coordinates: [d.lon, d.lat] }, properties: {} }] : [] };
+    if (m.getSource(src)) m.getSource(src).setData(datos);
+    else {
+      m.addSource(src, { type: "geojson", data: datos });
+      m.addLayer({ id: `${src}-c`, type: "circle", source: src, paint: { "circle-radius": 9, "circle-color": "#E0A100", "circle-stroke-width": 3, "circle-stroke-color": "#fff" } });
+    }
+    const filas = [["Cámara", [d.marca, d.modelo].filter(Boolean).join(" ")], ["Tomada", d.fecha_toma || d.fecha_archivo], ["Programa", d.software],
+      ["Coordenadas", d.lat != null ? `${d.lat.toFixed(5)}, ${d.lon.toFixed(5)}` : ""], ["Altitud", d.altitud != null ? `${Math.round(d.altitud)} m` : ""],
+      ["Orientación", d.direccion != null ? `${Math.round(d.direccion)}° (0° = norte)` : ""]].filter(([, v]) => v);
+    res.innerHTML = d.error ? `<p class="meta">${esc(d.error)}</p>`
+      : `${filas.length ? `<dl>${filas.map(([k, v]) => `<dt>${k}</dt><dd>${esc(String(v))}</dd>`).join("")}</dl>` : ""}
+        <p class="meta">${d.lat != null ? "Ubicación del GPS del dispositivo al tomar la foto. Su precisión típica es de 5 a 20 m en exteriores y puede ser de cientos de metros en interiores o si el teléfono usó solo antenas o wifi. Los metadatos se pueden editar: no prueban por sí solos dónde se tomó la foto."
+          : "La foto no trae coordenadas GPS. Para ubicarla habría que comparar lo que se ve (edificios, señales, montañas, sombras) con mapas e imágenes satelitales: es la geolocalización visual que usan los verificadores."}</p>`;
+    if (d.lat != null) m.flyTo({ center: [d.lon, d.lat], zoom: 15, duration: lite ? 0 : 900 });
+    entrada.value = ""; // se puede volver a elegir la misma foto; no queda referencia al archivo
+  });
 }
 
 function cerrarFicha() {
@@ -421,6 +451,7 @@ async function main() {
     pintarAreas2();
   };
   menu = iniciarMenu($("panel"));
+  iniciarFotoExif();
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
   $("capa-indice").onchange = (e) => alternarIndice(e.target.checked).catch((err) => {
     e.target.checked = false;

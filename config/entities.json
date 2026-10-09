@@ -82,6 +82,20 @@
    "licencia_verificada": false,
    "nota": "No comercial: si el proyecto se vuelve comercial hay que retirarla o licenciarla."
   },
+  "satnogs": {
+   "nombre": "SatNOGS DB (Libre Space Foundation)",
+   "url": "https://db.satnogs.org",
+   "licencia": "CC BY-SA 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "gcat": {
+   "nombre": "GCAT, catálogo de objetos espaciales (J. McDowell)",
+   "url": "https://planet4589.org/space/gcat",
+   "licencia": "CC BY 4.0 (citar GCAT)",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
   "opensky": {
    "nombre": "OpenSky Network",
    "url": "https://opensky-network.org",
@@ -104,9 +118,9 @@
    "licencia_verificada": false
   },
   "celestrak": {
-   "nombre": "CelesTrak (grupos GP/OMM)",
+   "nombre": "CelesTrak (grupos GP/OMM) · descarga automática en pausa por su robots.txt; se usa la última copia renovada con SatNOGS",
    "url": "https://celestrak.org",
-   "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+   "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
    "uso_comercial": true,
    "licencia_verificada": false
   },
@@ -174,6 +188,13 @@
    "licencia": "CC BY 4.0 (OWID)",
    "uso_comercial": true,
    "licencia_verificada": false
+  },
+  "banco_mundial": {
+   "nombre": "Banco Mundial, Indicadores del Desarrollo Mundial (API v2)",
+   "url": "https://data.worldbank.org",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": true
   },
   "camaras_publicas": {
    "nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)",
@@ -795,7 +816,7 @@
      "icono": "🛰",
      "color": "#5B4A9E",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h (posición calculada en el navegador)",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -814,7 +835,7 @@
      "icono": "🛰",
      "color": "#2E6F8E",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -834,7 +855,7 @@
      "icono": "🛰",
      "color": "#8a8f94",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -855,7 +876,7 @@
      "icono": "🛰",
      "color": "#6B5BA8",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -874,7 +895,7 @@
      "icono": "🛰",
      "color": "#8a7fb8",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -893,7 +914,7 @@
      "icono": "🛰",
      "color": "#2F7A4A",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -913,7 +934,7 @@
      "icono": "🛰",
      "color": "#4F8A3A",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -933,7 +954,7 @@
      "icono": "🛰",
      "color": "#1F6FB2",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -952,7 +973,7 @@
      "icono": "🛰",
      "color": "#1F8A8A",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -972,7 +993,7 @@
      "icono": "🛰",
      "color": "#4A6B8A",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -991,7 +1012,7 @@
      "icono": "🛰",
      "color": "#A3392F",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -1011,7 +1032,7 @@
      "icono": "🛰",
      "color": "#C27C1E",
      "fuente": "celestrak",
-     "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
      "frecuencia": "cada 6 h",
      "tipo_capa": "movimiento",
      "estado_dato": "estimado",
@@ -1020,6 +1041,45 @@
       "tecnologia"
      ],
      "grupo": "visual"
+    },
+    {
+     "id": "telescopios",
+     "nombre": {
+      "es": "Telescopios espaciales (Hubble, Chandra, XMM…)",
+      "en": "Space telescopes"
+     },
+     "icono": "🔭",
+     "color": "#E0A100",
+     "fuente": "celestrak",
+     "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "telescopios"
+    },
+    {
+     "id": "satnogs",
+     "nombre": {
+      "es": "Pequeños, universitarios y de radioaficionados (SatNOGS)",
+      "en": "Small, university and amateur (SatNOGS)"
+     },
+     "icono": "🛰",
+     "color": "#7a8a3a",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs",
+     "inicial": false
     }
    ]
   },
@@ -2869,6 +2929,190 @@
       "identidad"
      ],
      "familia": "religiones"
+    }
+   ]
+  },
+  {
+   "id": "sociedad",
+   "nombre": {
+    "es": "Población y turismo",
+    "en": "Population and tourism"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "subtipos": [
+    {
+     "id": "densidad_1",
+     "nombre": {
+      "es": "Menos de 10 hab/km²",
+      "en": "Under 10 per km²"
+     },
+     "icono": "▦",
+     "color": "#f7f4c8",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "demografia"
+     ],
+     "familia": "densidad_poblacion"
+    },
+    {
+     "id": "densidad_2",
+     "nombre": {
+      "es": "10 a 50 hab/km²",
+      "en": "10–50 per km²"
+     },
+     "icono": "▦",
+     "color": "#f5d98b",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "demografia"
+     ],
+     "familia": "densidad_poblacion"
+    },
+    {
+     "id": "densidad_3",
+     "nombre": {
+      "es": "50 a 100 hab/km²",
+      "en": "50–100 per km²"
+     },
+     "icono": "▦",
+     "color": "#efa95a",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "demografia"
+     ],
+     "familia": "densidad_poblacion"
+    },
+    {
+     "id": "densidad_4",
+     "nombre": {
+      "es": "100 a 300 hab/km²",
+      "en": "100–300 per km²"
+     },
+     "icono": "▦",
+     "color": "#e0713a",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "demografia"
+     ],
+     "familia": "densidad_poblacion"
+    },
+    {
+     "id": "densidad_5",
+     "nombre": {
+      "es": "300 a 1,000 hab/km²",
+      "en": "300–1,000 per km²"
+     },
+     "icono": "▦",
+     "color": "#c03a2b",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "demografia"
+     ],
+     "familia": "densidad_poblacion"
+    },
+    {
+     "id": "densidad_6",
+     "nombre": {
+      "es": "Más de 1,000 hab/km²",
+      "en": "Over 1,000 per km²"
+     },
+     "icono": "▦",
+     "color": "#7a1022",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "demografia"
+     ],
+     "familia": "densidad_poblacion"
+    },
+    {
+     "id": "patrimonio_mundial",
+     "nombre": {
+      "es": "Patrimonio Mundial de la UNESCO",
+      "en": "UNESCO World Heritage"
+     },
+     "icono": "🏛",
+     "color": "#b5523b",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "parque_nacional",
+     "nombre": {
+      "es": "Parques nacionales relevantes",
+      "en": "Notable national parks"
+     },
+     "icono": "🌲",
+     "color": "#2F7A4A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "atraccion_turistica",
+     "nombre": {
+      "es": "Atracciones turísticas relevantes",
+      "en": "Notable tourist attractions"
+     },
+     "icono": "📍",
+     "color": "#C27C1E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "turismo"
     }
    ]
   },

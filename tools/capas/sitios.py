@@ -37,6 +37,9 @@ SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?sedeEs ?sedeEn WHERE {
   OPTIONAL { ?sede rdfs:label ?sedeEn FILTER(lang(?sedeEn) = "en") }
 }"""
 
+# Patrimonio Mundial: no es una clase («instancia de») sino una declaratoria (P1435 = Q9259).
+Q_PATRIMONIO = Q_LUGAR.replace("?x wdt:P31 wd:%s ;", "?x wdt:P1435 wd:%s ;")
+
 # familia → [(QID clase, subtipo, mínimo de sitelinks, "lugar" | "sede", zoom mínimo)]
 # Conteos medidos en Wikidata el 2026-10-09 (con coordenada): plantas nucleares 379, institutos de
 # investigación 4,694 (1,265 con ≥ 3 Wikipedias), farmacéuticas con sede ubicada 169, campos petroleros
@@ -58,6 +61,11 @@ FAMILIAS = {
         ("Q211748", "campo_petrolero", 1, "lugar", 5),
         ("Q1349255", "campo_gas", 1, "lugar", 5),
         ("Q689880", "plataforma_marina", 1, "lugar", 5),
+    ],
+    "turismo": [
+        ("Q9259", "patrimonio_mundial", 0, "patrimonio", 3),   # 3,378 sitios con coordenada (oct 2026)
+        ("Q46169", "parque_nacional", 5, "lugar", 5),
+        ("Q570116", "atraccion_turistica", 4, "lugar", 5),
     ],
     "espacio": [
         ("Q194188", "puerto_espacial", 1, "lugar", 2),

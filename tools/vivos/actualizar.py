@@ -3,7 +3,8 @@
 
 Salida en vivos/ (se publica en la rama huérfana "datos-vivos", que se reescribe en cada corrida para
 no acumular historial; el workflow de Pages la copia a data/vivos/):
-  vivos/satelites.json   TLE por grupo de CelesTrak (se refresca como máximo cada 6 h, según su guía de uso)
+  vivos/satelites.json   TLE por grupo (ver satelites()): SatNOGS DB + última copia de CelesTrak, cada 6 h
+  vivos/satcat/0-9.json  ficha de cada satélite (GCAT, CC BY 4.0) por último dígito del NORAD; diaria
   vivos/aeronaves.json   posiciones ADS-B: OpenSky (global, anónimo) + adsb.lol (militares)
   vivos/buques.json      posiciones AIS de AISStream: ventana de 3 min y buques no oídos se conservan 2 h
   vivos/sanciones.json   matrículas de aeronaves e IMO de buques en la lista SDN de OFAC (diaria)
@@ -46,6 +47,7 @@ import urllib.request
 from datetime import datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "vivos")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 # "last-30-days" (lanzamientos recientes) devolvió 404 en CelesTrak (oct 2026): se omite hasta confirmar su nombre actual.
@@ -113,7 +115,80 @@ def sanciones():
 
 
 # ------------------------------------------------------------------ satélites (CelesTrak)
+CELESTRAK_PERMITIDO = os.environ.get("CELESTRAK_PERMITIDO") == "1"
+
+
 def satelites():
+    """TLE para el mapa. Sin permiso de CelesTrak (ver tools/vivos/satcat.py) se conserva la última copia
+    de sus grupos, se renuevan con SatNOGS DB los satélites que esta tenga y se descartan los TLE de más
+    de 30 días. Aparte, el catálogo GCAT para la ficha (una vez al día)."""
+    n = satelites_celestrak() if CELESTRAK_PERMITIDO else satelites_sin_celestrak()
+    try:
+        catalogo_satelites()
+    except Exception as e:  # noqa: BLE001  la ficha puede vivir sin catálogo un día
+        print(f"  catálogo GCAT: {e}")
+    return n
+
+
+def _jd_ahora():
+    return datetime.now(timezone.utc).timestamp() / 86400 + 2440587.5
+
+
+def satelites_sin_celestrak():
+    import satcat as SC
+    previo = leer("satelites.json", {})
+    if previo.get("generado_utc") and previo.get("satnogs_utc"):
+        edad_h = (datetime.now(timezone.utc) - datetime.strptime(previo["satnogs_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() / 3600
+        if edad_h < HORAS_TLE:
+            print(f"  TLE de SatNOGS de hace {edad_h:.1f} h: se conservan")
+            return sum(len(g) for g in previo["grupos"].values())
+    frescos = SC.tle_satnogs(json.loads(get(SC.SATNOGS_TLE, timeout=180)))
+    print(f"  SatNOGS DB: {len(frescos)} TLE")
+    jd = _jd_ahora()
+    grupos = {g: x for g, x in previo.get("grupos", {}).items() if g not in ("satnogs", "telescopios")}
+    grupos, renov, desc = SC.renovar(grupos, frescos, jd)
+    grupos["satnogs"] = list(frescos.values())
+    grupos["telescopios"] = SC.telescopios(grupos)
+    aparte = []
+    for g in previo.get("aparte", []):
+        x = leer(f"satelites-{g}.json", {}).get("grupos", {}).get(g, [])
+        nuevos, r2, d2 = SC.renovar({g: x}, frescos, jd)
+        renov, desc = renov + r2, desc + d2
+        escribir(f"satelites-{g}.json", {"generado_utc": ahora(), "fuente": "CelesTrak (copia anterior) + SatNOGS DB", "grupos": nuevos})
+        aparte.append(g)
+    print(f"  {renov} TLE renovados con SatNOGS; {desc} descartados por tener más de 30 días")
+    escribir("satelites.json", {"generado_utc": previo.get("generado_utc") or ahora(), "satnogs_utc": ahora(),
+                                "fuente": "SatNOGS DB (CC BY-SA 4.0) y última copia de CelesTrak; descarga de CelesTrak en pausa por su robots.txt",
+                                "grupos": grupos, "aparte": aparte, "fallidos": {}})
+    return sum(len(x) for x in grupos.values())
+
+
+def catalogo_satelites():
+    """GCAT → vivos/satcat/0-9.json (solo los objetos que el mapa puede dibujar). Una vez al día."""
+    import satcat as SC
+    meta = leer("satcat/meta.json", {})
+    if meta.get("generado_utc", "")[:10] == ahora()[:10]:
+        return
+    d = leer("satelites.json", {})
+    noradas = set()
+    for g in d.get("grupos", {}).values():
+        noradas.update(SC.norad(t) for t in g)
+    for g in d.get("aparte", []):
+        for lista in leer(f"satelites-{g}.json", {}).get("grupos", {}).values():
+            noradas.update(SC.norad(t) for t in lista)
+    filas = SC.leer_tsv(get(SC.GCAT_SATCAT, timeout=300).decode("utf-8", "replace"))
+    time.sleep(2)
+    orgs = SC.nombres_orgs(SC.leer_tsv(get(SC.GCAT_ORGS, timeout=120).decode("utf-8", "replace")))
+    partes, usados = SC.catalogo_para(filas, noradas)
+    os.makedirs(os.path.join(OUT, "satcat"), exist_ok=True)
+    for k, v in partes.items():
+        escribir(f"satcat/{k}.json", v)
+    escribir("satcat/meta.json", {"generado_utc": ahora(), "fuente": SC.CITA_GCAT, "orgs": {c: orgs[c] for c in sorted(usados) if c in orgs},
+                                  "objetos": sum(len(v) for v in partes.values())})
+    print(f"  GCAT: {sum(len(v) for v in partes.values())} de {len(noradas)} satélites del mapa con ficha")
+
+
+def satelites_celestrak():
     previo = leer("satelites.json", {})
     if previo.get("generado_utc"):
         edad_h = (datetime.now(timezone.utc) - datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() / 3600

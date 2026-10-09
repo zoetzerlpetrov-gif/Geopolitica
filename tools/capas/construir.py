@@ -359,7 +359,7 @@ def camaras(revisar=enlace_responde, externas=True):
     return out
 
 
-FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion"}  # GeoJSON directo, sin tippecanoe
+FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -689,7 +689,7 @@ def _sitios_wikidata(fid, ajustar=None):
     import sitios as S
     registros = {}
     for clase in S.FAMILIAS[fid]:
-        plantilla = S.Q_SEDE if clase[3] == "sede" else S.Q_LUGAR
+        plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO}.get(clase[3], S.Q_LUGAR)
         try:
             nuevos = S.leer(_sparql(plantilla % (clase[0], clase[2])), clase)
             for q, r in nuevos.items():
@@ -703,6 +703,17 @@ def _sitios_wikidata(fid, ajustar=None):
     return S.features(registros, feat, punto, ajustar)
 
 
+def densidad_poblacion():
+    """Habitantes por km² de tierra, valor más reciente de cada país (Banco Mundial EN.POP.DNST, CC BY 4.0)."""
+    import indicadores as I
+    paginas = [json.loads(get(I.API.format(ind="EN.POP.DNST"), timeout=120))]
+    valores = I.leer_api(paginas)
+    if not valores:
+        raise RuntimeError("El Banco Mundial no devolvió densidades")
+    paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
+    return I.features_indicador(paises, valores, I.DENSIDAD, "dens", lambda v: f"{I.num(v, 1)} hab/km²")
+
+
 def nuclear():
     """Centrales nucleares (en operación, en construcción, cerradas) y reactores de investigación (Wikidata)."""
     import sitios as S
@@ -712,6 +723,11 @@ def nuclear():
 def investigacion():
     """Institutos de investigación con artículo en ≥ 4 Wikipedias y aceleradores de partículas (Wikidata)."""
     return _sitios_wikidata("investigacion")
+
+
+def turismo():
+    """Patrimonio Mundial de la UNESCO, parques nacionales y atracciones turísticas con artículo en varias Wikipedias."""
+    return _sitios_wikidata("turismo")
 
 
 def espacio():
@@ -755,7 +771,8 @@ FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "cen
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "fronteras": fronteras, "desaladoras": desaladoras}
+            "petroleo_gas": petroleo_gas, "fronteras": fronteras, "desaladoras": desaladoras,
+            "densidad_poblacion": densidad_poblacion, "turismo": turismo}
 
 
 def _punto_ref(ft):
