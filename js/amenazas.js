@@ -223,10 +223,10 @@ export function lineasAurora(kpActual) {
   for (const kp of niveles) {
     const lat = latAurora(kp);
     for (const signo of [1, -1]) {
-      const coords = [];
-      // De −540° a 540°: cubre las copias del mundo que MapLibre dibuja al alejar el mapa (la línea no se corta).
-      for (let lon = -540; lon <= 540; lon += 5) coords.push([lon, signo * lat]);
-      feats.push({ type: "Feature", geometry: { type: "LineString", coordinates: coords },
+      // Cuatro tramos de 90° (una vuelta): MapLibre los repite en cada copia del mundo. Probado en el navegador:
+      // una sola línea de −180° a 180° (o de −540° a 540°) se recorta en las teselas y deja huecos.
+      const tramos = [-180, -90, 0, 90].map((a) => { const c = []; for (let lon = a; lon <= a + 90; lon += 2.5) c.push([lon, signo * lat]); return c; });
+      feats.push({ type: "Feature", geometry: { type: "MultiLineString", coordinates: tramos },
         properties: { kp, actual: kp === niveles[0], hemisferio: signo > 0 ? "norte" : "sur", lat_min: Math.round(lat), place: `Borde de aurora con Kp ${kp} (~${Math.round(lat)}° ${signo > 0 ? "N" : "S"})` } });
     }
   }
