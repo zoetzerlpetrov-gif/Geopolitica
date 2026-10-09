@@ -16,7 +16,7 @@ export function clasificar(capa, p = {}, geom = null) {
       const m = p.mag || 0;
       if (p._enjambre) return { sev: 3, tipo: "Enjambre sísmico", ic: "🔁" };
       if (p._tsunami_radio) return { sev: 4, tipo: "Tsunami (alcance estimado)", ic: "" };
-      return { sev: p.tsunami ? 5 : m >= 7 ? 5 : m >= 6 ? 4 : m >= 5 ? 3 : m >= 4 ? 2 : 1, tipo: p.tsunami ? "Tsunami" : "Sismo", ic: p.tsunami ? "🌊" : m >= 4.5 ? "🫨" : "" };
+      return { sev: p.tsunami ? 5 : m >= 7 ? 5 : m >= 6 ? 4 : m >= 5 ? 3 : m >= 4 ? 2 : 1, tipo: p.tsunami ? "Tsunami" : "Sismo", ic: p.tsunami ? "🌊" : "" };
     }
     case "ciclones": {
       const kt = Number(p.intensity_kt || p.wind_kt || 0);
@@ -40,7 +40,7 @@ export function clasificar(capa, p = {}, geom = null) {
       return { sev, tipo, ic: lv >= 1 ? ["🌤️", "🌧️", "⛈️", "🔴", "🟣"][Math.min(4, lv)] : "" };
     }
     case "aire": return { sev: lim(1 + Math.min(4, Number(p.level || 0))), tipo: "Calidad del aire", ic: "" };
-    case "volcanes": return { sev: p.ash_active ? 4 : 2, tipo: "Volcán", ic: "🌋" };
+    case "volcanes": return { sev: Math.max(p.ash_active ? 4 : 1, sevAlertaVolcan(p) || 2), tipo: "Volcán", ic: "🌋" };
     case "seguridad": {
       const k = String(p.kind || "OTRO").toUpperCase();
       const ics = { BLOQUEO: "🚧", SECUESTRO: "❗", VIOLENCIA: "💥", ASALTO: "🛑", EXTORSION: "💰" };
@@ -57,6 +57,68 @@ export function clasificar(capa, p = {}, geom = null) {
     case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };
     default: return { sev: 1, tipo: capa, ic: "" };
   }
+}
+
+// ---------------------------------------------------------------- sismos, ciclones y volcanes
+/** Escala visual de sismos por magnitud: [desde, color, radio px, etiqueta]. La energía crece ~32 veces por grado. */
+export const ESCALA_SISMO = [
+  [7, "#6A1B9A", 26, "M7+ · mayor"], [6, "#C62828", 19, "M6–6.9 · fuerte"], [5, "#EF6C00", 13, "M5–5.9 · moderado"],
+  [4, "#F9A825", 9, "M4–4.9 · ligero"], [3, "#9CCC65", 6, "M3–3.9 · menor"], [-9, "#B0BEC5", 4, "M<3 · micro"],
+];
+export function estiloSismo(mag) {
+  const m = Number(mag) || 0;
+  const [, c, r] = ESCALA_SISMO.find(([desde]) => m >= desde);
+  return { c, r };
+}
+
+/** Categoría Saffir-Simpson por viento sostenido (nudos). n: 0 depresión, 0.5 tormenta, 1–5 categoría. */
+export function categoriaCiclon(kt) {
+  const v = Number(kt) || 0;
+  if (!v) return null;
+  if (v >= 137) return { n: 5, texto: "Categoría 5" };
+  if (v >= 113) return { n: 4, texto: "Categoría 4" };
+  if (v >= 96) return { n: 3, texto: "Categoría 3" };
+  if (v >= 83) return { n: 2, texto: "Categoría 2" };
+  if (v >= 64) return { n: 1, texto: "Categoría 1" };
+  if (v >= 34) return { n: 0.5, texto: "Tormenta tropical" };
+  return { n: 0, texto: "Depresión tropical" };
+}
+
+/**
+ * Severidad 1–5 a partir de la alerta oficial del volcán: semáforo de CENAPRED (Verde, Amarillo Fase 1–3,
+ * Rojo Fase 1–2) o nivel de USGS (NORMAL, ADVISORY, WATCH, WARNING). null si no hay alerta.
+ */
+export function sevAlertaVolcan(p = {}) {
+  const sem = String(p.semaforo || "").toLowerCase(), fase = Number(p.fase) || 1;
+  if (sem === "verde") return 1;
+  if (sem === "amarillo") return fase >= 3 ? 4 : fase === 2 ? 3 : 2;
+  if (sem === "rojo") return 5;
+  return { NORMAL: 1, ADVISORY: 2, WATCH: 4, WARNING: 5 }[String(p.nivel_usgs || "").toUpperCase()] || null;
+}
+
+/** Punto a `km` de [lon, lat] con rumbo `grados` (0 = norte, 90 = este), sobre la esfera. */
+export function destino([lon, lat], grados, km) {
+  const d = km / 6371, b = (grados * Math.PI) / 180, f1 = (lat * Math.PI) / 180, l1 = (lon * Math.PI) / 180;
+  const f2 = Math.asin(Math.sin(f1) * Math.cos(d) + Math.cos(f1) * Math.sin(d) * Math.cos(b));
+  const l2 = l1 + Math.atan2(Math.sin(b) * Math.sin(d) * Math.cos(f1), Math.cos(d) - Math.sin(f1) * Math.sin(f2));
+  return [+((l2 * 180) / Math.PI).toFixed(4), +((f2 * 180) / Math.PI).toFixed(4)];
+}
+
+/** Rumbo hacia donde va el viento (el viento meteorológico se reporta «desde»). */
+export const haciaDonde = (desde) => (Number(desde) + 180) % 360;
+const RUMBOS = ["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"];
+export const nombreRumbo = (g) => RUMBOS[Math.round((((g % 360) + 360) % 360) / 45) % 8];
+
+/**
+ * Cono por donde se movería la ceniza si llega a esa altura: desde el cráter, hacia donde sopla el viento,
+ * con abertura de ±`abertura`° y largo = velocidad × horas. Es una aproximación de trayectoria, no un modelo
+ * de dispersión (no considera cambios de viento en el tiempo, caída de partículas ni mezcla entre capas).
+ */
+export function conoCeniza(origen, vientoDesde, kmh, horas, abertura = 15) {
+  const rumbo = haciaDonde(vientoDesde), largo = Math.max(1, kmh * horas);
+  const arco = [];
+  for (let a = -abertura; a <= abertura; a += 5) arco.push(destino(origen, rumbo + a, largo));
+  return { type: "Polygon", coordinates: [[origen, ...arco, origen]], rumbo, largo };
 }
 
 /** Ícono según el tipo de arma detectado (misiles, drones, bombas…). */
