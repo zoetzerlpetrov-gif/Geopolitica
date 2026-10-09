@@ -21,7 +21,8 @@ def test_grupos_sede_y_paises():
     ]}}
     grupos = G.leer_grupos(res, dict(G.CLASES))
     assert grupos["Q1"]["paises"] == {"DEU", "AUS"} and grupos["Q1"]["sede"] == (16.3, 38.9)
-    assert G.tipo_principal(grupos["Q2"]["tipos"]) == "terrorismo"
+    assert G.tipo_principal(grupos["Q2"]["tipos"]) == "mafia"  # también criminal: se dibuja como mafia y la ficha menciona la clase terrorista
+    assert G.tipo_principal({"terrorismo"}) == "terrorismo" and G.tipo_principal({"terrorismo", "cartel"}) == "cartel"
     centro = {"DEU": (10.0, 51.0), "AUS": (134.0, -25.0), "SYR": (38.5, 35.0), "IRQ": (43.7, 33.2), "ITA": (12.5, 42.5)}
     feat = lambda g, p, z: {"geometry": g, "properties": {**p, "z": z}}  # noqa: E731
     punto = lambda lon, lat: {"type": "Point", "coordinates": [lon, lat]}  # noqa: E731
@@ -32,6 +33,6 @@ def test_grupos_sede_y_paises():
     assert all(f["properties"]["st"].startswith("grupo_") for f in out)
     # Dos grupos en el mismo país no quedan en el mismo punto.
     g2 = {"A": {"qid": "A", "nombre": "A", "n": 5, "tipos": {"mafia"}, "sede": None, "sede_iso": None, "paises": {"DEU"}},
-          "B": {"qid": "B", "nombre": "B", "n": 4, "tipos": {"mafia"}, "sede": None, "sede_iso": None, "paises": {"DEU"}}}
+          "B": {"qid": "B", "nombre": "B", "n": 4, "tipos": {"mafia"}, "sede": None, "sede_iso": None, "paises": set(), "pais_base": {"DEU"}}}
     c = [f["geometry"]["coordinates"] for f in G.features_grupos(g2, centro, lambda i: i, feat, punto)]
     assert c[0] != c[1]

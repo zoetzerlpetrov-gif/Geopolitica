@@ -463,7 +463,7 @@ def grupos_criminales():
         try:
             for k, g in G.leer_grupos(_sparql(G.Q_GRUPOS % q), tipo_de).items():
                 if k in grupos:
-                    grupos[k]["tipos"] |= g["tipos"]; grupos[k]["paises"] |= g["paises"]
+                    grupos[k]["tipos"] |= g["tipos"]; grupos[k]["paises"] |= g["paises"]; grupos[k]["pais_base"] |= g["pais_base"]
                     grupos[k]["sede"] = grupos[k]["sede"] or g["sede"]; grupos[k]["sede_iso"] = grupos[k]["sede_iso"] or g["sede_iso"]
                 else:
                     grupos[k] = g
