@@ -15,6 +15,9 @@ import re
 
 CLASES = [  # (QID, subtipo)
     ("Q1260006", "cartel"),
+    ("Q21234891", "cartel"),      # cártel mexicano
+    ("Q11090465", "mafia"),       # crimen organizado japonés (yakuza)
+    ("Q107974746", "mafia"),      # megabanda criminal (Tren de Aragua…)
     ("Q4335775", "mafia"),
     ("Q1788992", "mafia"),
     ("Q275186", "pandilla"),
@@ -24,10 +27,11 @@ CLASES = [  # (QID, subtipo)
 ]
 NOMBRE_TIPO = {"cartel": "Cártel de drogas", "mafia": "Mafia u organización criminal", "pandilla": "Pandilla o club de motociclistas fuera de la ley",
                "terrorismo": "Organización terrorista (según Wikidata)"}
-PRIORIDAD = ["terrorismo", "cartel", "mafia", "pandilla"]
+# Un cártel que algún gobierno designó como terrorista sigue dibujándose como cártel (la ficha lo menciona).
+PRIORIDAD = ["cartel", "mafia", "pandilla", "terrorismo"]
 
 Q_GRUPOS = """
-SELECT ?x ?xEs ?xEn ?n ?clase ?coord ?sedeIso ?areaIso WHERE {
+SELECT ?x ?xEs ?xEn ?n ?clase ?coord ?sedeIso ?areaIso ?paisIso WHERE {
   BIND(wd:%s AS ?clase)
   ?x wdt:P31 ?clase ; wikibase:sitelinks ?n .
   FILTER(?n >= 3)
@@ -37,6 +41,7 @@ SELECT ?x ?xEs ?xEn ?n ?clase ?coord ?sedeIso ?areaIso WHERE {
   OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
   OPTIONAL { ?x wdt:P159|wdt:P740 ?sede . ?sede wdt:P625 ?coord . OPTIONAL { ?sede wdt:P17/wdt:P298 ?sedeIso } }
   OPTIONAL { ?x wdt:P2541 ?area . ?area wdt:P298 ?areaIso }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?paisIso }
 }"""
 
 
@@ -58,13 +63,15 @@ def leer_grupos(res, tipo_de_clase):
         if not q:
             continue
         g = out.setdefault(q, {"qid": q, "nombre": _v(f, "xEs") or _v(f, "xEn") or q, "n": int(_v(f, "n") or 0), "tipos": set(),
-                               "sede": None, "sede_iso": None, "paises": set()})
+                               "sede": None, "sede_iso": None, "paises": set(), "pais_base": set()})
         g["tipos"].add(tipo_de_clase.get((_v(f, "clase") or "").rsplit("/", 1)[-1], "mafia"))
         c = coord(_v(f, "coord"))
         if c and not g["sede"]:
             g["sede"], g["sede_iso"] = c, _v(f, "sedeIso")
         if _v(f, "areaIso"):
             g["paises"].add(_v(f, "areaIso"))
+        if _v(f, "paisIso"):
+            g.setdefault("pais_base", set()).add(_v(f, "paisIso"))
     return out
 
 
@@ -90,8 +97,10 @@ def features_grupos(grupos, centro, nombre_pais, feat, punto):
     por_pais = {}
     for g in sorted(grupos.values(), key=lambda g: -g["n"]):
         tipo = tipo_principal(g["tipos"])
-        paises = sorted(g["paises"])
-        resumen = f"{NOMBRE_TIPO[tipo]} · {g['n']} Wikipedias" + (f" · opera en: {', '.join(nombre_pais(p) for p in paises[:12])}" if paises else "")
+        # Sin países de operación registrados, se usa el país del grupo (P17) como presencia.
+        paises = sorted(g["paises"] or g.get("pais_base", set()))
+        terror = " · también clasificado como terrorista en Wikidata" if tipo != "terrorismo" and "terrorismo" in g["tipos"] else ""
+        resumen = f"{NOMBRE_TIPO[tipo]}{terror} · {g['n']} Wikipedias" + (f" · opera en: {', '.join(nombre_pais(p) for p in paises[:12])}" if paises else "")
         zoom = 2 if g["n"] >= 30 else 4 if g["n"] >= 10 else 6
         if g["sede"]:
             out.append(feat(punto(*g["sede"]), {"id": f"wd:{g['qid']}", "n": g["nombre"], "st": f"grupo_{tipo}", "p": g["sede_iso"] or "",
