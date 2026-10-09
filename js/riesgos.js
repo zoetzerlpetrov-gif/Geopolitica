@@ -259,7 +259,7 @@ export const CAPAS = [
       { t: "Relleno intenso: aviso ya vigente; tenue: empieza en las próximas 48 h. 38 países de Europa e Israel." }],
     ficha: (p) => ({ titulo: `${p.region} (${p.pais_iso2})`, chip: `${["", "", "Amarilla", "Naranja", "Roja"][p.nivel]} · ${lista(p.tipos).join(", ")}`,
       filas: [...lista(p.avisos).map((a) => [`${["", "", "Amarillo", "Naranja", "Rojo"][a.nivel]} · ${a.tipo}`, `${a.desde ? fecha(a.desde) : "—"} a ${a.hasta ? fecha(a.hasta) : "—"}`]),
-        ["Estado", p.en_curso ? "Vigente" : "Empieza más tarde"]],
+        ["Estado", p.en_curso ? "Vigente" : "Empieza más tarde"], ["Leído de MeteoAlarm", p.leido_utc ? `${fecha(p.leido_utc)} (se actualiza cada ~20 min; el aviso pudo cambiar)` : "—"]],
       url: p.url, fuente: "MeteoAlarm (EUMETNET): consulta el texto oficial del servicio nacional" }),
   },
   {

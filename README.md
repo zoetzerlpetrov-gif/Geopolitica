@@ -106,16 +106,16 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | A | Diagnóstico y corrección de rendimiento; metas en CI | Hecha |
 | B | 13 áreas, clasificador por reglas, 26 titulares | Hecha |
 | C0 | Catálogo de entidades, esquemas, alerta/delta/índice/correlación, privacidad | Hecha |
-| C1 | Zonas e infraestructura estática en PMTiles | Hecha (cables, presas y ductos esperan aprobación) |
+| C1 | Zonas e infraestructura estática en PMTiles | Hecha: 34 familias, incluidas cables, presas y ductos (OSM); las de Overpass a veces quedan «parcial» y se reintentan |
 | C2 | Organizaciones y personas de rol público (Wikidata) | Hecha |
-| C3 | Satélites (CelesTrak + SGP4 en worker) | Hecha |
+| C3 | Satélites (SGP4 en worker), ficha GCAT, pases visibles y telescopios | Hecha; CelesTrak en pausa por su robots.txt (pendiente de permiso); órbitas de SatNOGS |
 | C4 | Aeronaves (OpenSky, adsb.lol) y buques (AISStream con clave): ficha con ruta o destino declarado, bandera y trayectoria | Hecha |
 | C5 | Recursos estratégicos e instalaciones militares públicas (OSM) | Hecha (cobertura parcial de OSM) |
 | C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas (solo enlace a la página oficial) | Hecha: 8 cámaras curadas en `config/camaras.json` |
 | 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Hecha; ReliefWeb requiere tu `appname` |
 | 4 | Línea de tiempo, mapa de calor por país, checklist de 10 pasos con notas, 7 lentes teóricas | Hecha |
 | 5 | Vista México con semáforo, matriz de riesgo 5 × 5 con CSV, modo aprendizaje | Hecha |
-| 6 | Redes sociales e IA opcional | Pendiente de tu decisión (fuentes y llave) |
+| 6 | Redes sociales e IA opcional | Parcial: resúmenes con IA (Groq) cuando hay clave; algunas fuentes de redes sociales públicas |
 
 ## Exclusiones
 

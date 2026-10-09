@@ -186,6 +186,20 @@
 
       <details class="grupo" id="g-herramientas" data-grupo="herramientas">
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
+        <section class="bloque" data-grupo="herramientas" id="alerta-sismos">
+          <h3 class="bloque-tit">🚨 Alerta de sismos cerca de ti</h3>
+          <p class="meta">Suena y se ve solo con sismos que pueden sacudir fuerte donde estás (por magnitud y distancia). Los menores o lejanos se ignoran. Llega minutos después del sismo: <b>no es alerta temprana</b> (abajo están los sistemas oficiales).</p>
+          <label class="fila"><span><input type="checkbox" id="as-activa"> Activar alerta mientras el mapa esté abierto</span></label>
+          <form id="as-form" class="fila"><input id="as-q" list="as-sug" placeholder="Tu ciudad…" autocomplete="off" aria-label="Ciudad para la alerta"><datalist id="as-sug"></datalist><button>Usar ciudad</button></form>
+          <button type="button" class="mini" id="as-gps">📍 Usar mi ubicación (GPS)</button>
+          <p class="meta" id="as-donde"></p>
+          <label class="fila"><span>Sensibilidad</span><select id="as-sens"><option value="baja">Baja: solo muy cerca</option><option value="normal">Normal</option><option value="alta">Alta: también algo más lejos</option></select></label>
+          <label class="fila"><span><input type="checkbox" id="as-sonido" checked> Con sonido</span></label>
+          <button type="button" class="mini" id="as-probar">🔊 Probar la alarma</button>
+          <p class="meta" id="as-estado"></p><p class="meta" id="as-ultima"></p>
+          <div id="as-oficiales"></div>
+          <p class="meta">Tu ubicación se guarda solo en este navegador, redondeada a ~5 km, y no se envía a ningún servidor. No se usa tu dirección IP.</p>
+        </section>
         <section class="bloque" data-grupo="herramientas">
           <h3 class="bloque-tit">📷 Ubicar una foto por sus metadatos</h3>
           <label class="fila"><span>Elige una foto JPEG o HEIC</span><input type="file" id="foto-exif" accept="image/jpeg,image/heic,image/heif,.heic,.heif"></label>
