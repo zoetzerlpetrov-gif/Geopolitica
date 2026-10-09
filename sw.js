@@ -3,11 +3,13 @@
 // Estrategias:
 //   CacheFirst   vendor/ (MapLibre), fuentes y sprites de OpenFreeMap, mosaicos del mapa base
 //                (sus URL llevan la fecha de la versión del planeta, así que no cambian).
-//   StaleWhileRevalidate  HTML, CSS, JS y config/ propios, estilos y TileJSON de OpenFreeMap:
-//                responde al instante con la copia guardada y la actualiza en segundo plano.
+//   NetworkFirst HTML, CSS, JS y config/ propios: siempre la versión publicada (revalidando la caché HTTP);
+//                la copia guardada solo se usa sin conexión. Antes era StaleWhileRevalidate y, tras publicar
+//                un cambio, el navegador podía mezclar un app.js nuevo con un foto.js viejo y romper la página.
+//   StaleWhileRevalidate  estilos y TileJSON de OpenFreeMap.
 //   NetworkFirst data/*.json (eventos, run-log): siempre intenta lo más reciente; sin red usa la copia.
 // No intercepta peticiones con encabezado Range (archivos .pmtiles): el navegador las cachea solo.
-const VERSION = "v8"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
+const VERSION = "v9"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
 const C_ESTATICO = `estatico-${VERSION}`;
 const C_APP = `app-${VERSION}`;
 const C_MOSAICOS = `mosaicos-${VERSION}`;
@@ -43,10 +45,11 @@ async function staleWhileRevalidate(req, nombre, evento) {
   return red;
 }
 
-async function networkFirst(req, nombre) {
+async function networkFirst(req, nombre, opciones) {
   const cache = await caches.open(nombre);
   try {
-    const res = await fetch(req);
+    // Con opciones se pide por URL: una petición de navegación no se puede copiar con opciones nuevas.
+    const res = await (opciones ? fetch(req.url, opciones) : fetch(req));
     if (res.ok) cache.put(stripQuery(req.url), res.clone());
     return res;
   } catch (e) {
@@ -73,7 +76,7 @@ self.addEventListener("fetch", (e) => {
     const p = url.pathname;
     if (p.includes("/data/") && p.endsWith(".json")) return e.respondWith(networkFirst(req, C_DATOS));
     if (p.includes("/vendor/")) return e.respondWith(cacheFirst(req, C_ESTATICO));
-    if (/\.(html|css|js|json|geojson)$|\/$/.test(p)) return e.respondWith(staleWhileRevalidate(req, C_APP, e));
+    if (/\.(html|css|js|json|geojson)$|\/$/.test(p)) return e.respondWith(networkFirst(req, C_APP, { cache: "no-cache" }));
     return;
   }
   if (url.hostname === "tiles.openfreemap.org") {

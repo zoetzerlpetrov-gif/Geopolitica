@@ -1112,6 +1112,12 @@ function pintarSeguimiento() {
 // visita no los vuelva a descargar. Los datos (events.json, run-log.json) siempre se piden a la red primero.
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("sw.js").catch((e) => console.warn("service worker:", e.message));
+  // Si ya había un service worker y se instala uno nuevo (se publicó una versión), se recarga una vez para que
+  // toda la página use la versión nueva y no una mezcla de archivos viejos y nuevos.
+  if (navigator.serviceWorker.controller) {
+    let recargado = false;
+    navigator.serviceWorker.addEventListener("controllerchange", () => { if (!recargado) { recargado = true; location.reload(); } });
+  }
 }
 
 main().catch((e) => {
