@@ -37,3 +37,29 @@ def test_tromba_marina_y_union():
     repetido = {"type": "Feature", "geometry": {}, "properties": {"title": "Waterspout spotted off Catania coast!", "url": "u2", "date": "2026-10-09T10:00:00Z"}}
     out = T.unir([viejo, repetido], [f], datetime(2026, 10, 9, 13, tzinfo=timezone.utc))
     assert [x["properties"]["url"] for x in out] == [f["properties"]["url"]]
+
+
+def test_lugar_del_titulo_y_gentilicios():
+    locs = "1#German#GM#GM##51.5#10.5#GM#5;4#Rome, Lazio, Italy#IT#IT07##41.9#12.483#-1#60;4#Marsala, Sicilia, Italy#IT#IT15##37.8#12.433#-3#300"
+    f = T.fila_a_feature(fila("Tromba d'aria a Marsala, feriti 4 bambini", locs=locs), "traducido")
+    assert f["properties"]["state"].startswith("Marsala")
+    locs2 = "4#Rome, Lazio, Italy#IT#IT07##41.9#12.483#-1#60;4#Trapani, Sicilia, Italy#IT#IT15##38.017#12.5#-4#400"
+    assert T.fila_a_feature(fila("Doppia tromba d'aria nel Trapanese", locs=locs2), "traducido")["properties"]["state"].startswith("Trapani")
+
+
+def test_descarta_pronosticos_y_ayudas():
+    assert T.fila_a_feature(fila("Why Hurricane Isaias could spawn tornadoes across north Florida"), "ingles") is None
+    assert T.fila_a_feature(fila("How to apply for FEMA tornado relief funds"), "ingles") is None
+
+
+def test_agrupa_un_fenomeno():
+    def nota(lugar, c, fecha, titulo, sev=False, prec="ciudad", url=None):
+        return {"type": "Feature", "geometry": {"type": "Point", "coordinates": c},
+                "properties": {"title": titulo, "url": url or titulo, "source": "x", "date": fecha, "kind": "TORNADO", "severe": sev,
+                               "state": lugar, "precision": prec}}
+    notas = [nota("Marsala", [12.433, 37.8], "2026-10-09T10:00:00Z", "a"), nota("Marsala", [12.433, 37.8], "2026-10-09T11:00:00Z", "b", sev=True),
+             nota("Sicilia", [14.25, 37.75], "2026-10-09T12:00:00Z", "c", prec="estado"), nota("Florida", [-81.7, 27.8], "2026-10-09T12:00:00Z", "d")]
+    g = T.agrupar(notas)
+    assert len(g) == 2
+    sic = next(x for x in g if x["properties"]["notas"] == 3)["properties"]
+    assert sic["state"] == "Marsala" and sic["severe"] is True and sic["title"] == "b" and len(sic["enlaces"]) == 3
