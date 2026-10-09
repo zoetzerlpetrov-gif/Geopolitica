@@ -1,34 +1,27 @@
-// Sonda temporal: valida CLIP (Transformers.js 3.0.2, q8) con fotos de Wikimedia Commons.
-import { readFileSync } from "node:fs";
+// Sonda temporal: compara frases de CLIP con fotos de Wikimedia Commons y baja 2 fotos para la prueba en navegador.
+import { readFileSync, writeFileSync } from "node:fs";
 import * as T from "@huggingface/transformers";
-import { clasificar, frase, FRASES_REPLICA, FRASES_REAL, MODELO, TRANSFORMERS } from "../js/reconocer.js";
+import * as R from "../js/reconocer.js";
 
 const UA = { "User-Agent": "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)" };
-for (const u of [TRANSFORMERS, `${TRANSFORMERS}/dist/transformers.min.js`, `${TRANSFORMERS}/+esm`]) {
-  const r = await fetch(u, { headers: UA }); const t = await r.text();
-  console.log("CDN", u, r.status, r.headers.get("content-type"), t.length, /\bexport\b/.test(t.slice(-3000)) ? "ESM" : "no-ESM", t.slice(0, 80).replace(/\n/g, " "));
-}
+for (const u of [R.TRANSFORMERS + "/+esm"]) { const t = await (await fetch(u, { headers: UA })).text(); console.log("CDN +esm export{:", t.includes("export{"), "import.meta:", t.includes("import.meta")); }
 const lista = JSON.parse(readFileSync("config/monumentos.json", "utf8")).monumentos;
-const proc = await T.AutoProcessor.from_pretrained(MODELO);
-const vision = await T.CLIPVisionModelWithProjection.from_pretrained(MODELO, { dtype: "q8" });
-const tok = await T.AutoTokenizer.from_pretrained(MODELO);
-const texto = await T.CLIPTextModelWithProjection.from_pretrained(MODELO, { dtype: "q8" });
-const norma = (v) => { const n = Math.hypot(...v); return v.map((x) => x / n); };
+const proc = await T.AutoProcessor.from_pretrained(R.MODELO);
+const vision = await T.CLIPVisionModelWithProjection.from_pretrained(R.MODELO, { dtype: "q8" });
+const tok = await T.AutoTokenizer.from_pretrained(R.MODELO);
+const texto = await T.CLIPTextModelWithProjection.from_pretrained(R.MODELO, { dtype: "q8" });
 async function vecs(frases) {
   const out = [];
   for (let i = 0; i < frases.length; i += 64) {
     const e = (await texto(tok(frases.slice(i, i + 64), { padding: true, truncation: true }))).text_embeds;
     const [n, d] = e.dims;
-    for (let k = 0; k < n; k++) out.push(norma(Array.from(e.data.slice(k * d, (k + 1) * d))));
+    for (let k = 0; k < n; k++) out.push(R.norma(Array.from(e.data.slice(k * d, (k + 1) * d))));
   }
   return out;
 }
-const variantes = {
-  A: lista.map(frase),
-  B: lista.map((m) => `a photo of the ${m[0]}${m[8] ? `, ${m[8]}` : ""}`),
-};
-const V = {}; for (const [k, f] of Object.entries(variantes)) V[k] = await vecs(f);
-const vRep = await vecs(FRASES_REPLICA), vReal = await vecs(FRASES_REAL);
+const E = R.agrupar(await vecs(R.frasesDe(lista)), lista.length);
+const A = await vecs(lista.map((m) => `a photo of the ${m[0]}`));
+const viejoRep = await vecs(R.FRASES_REPLICA.slice(0, 3)), viejoReal = await vecs(R.FRASES_REAL.slice(0, 2));
 
 async function commons(q, n = 3) {
   const u = "https://commons.wikimedia.org/w/api.php?" + new URLSearchParams({ action: "query", format: "json", generator: "search", gsrsearch: `${q} filetype:bitmap`,
@@ -39,24 +32,30 @@ async function commons(q, n = 3) {
 const casos = [["Statue of Liberty", "Statue of Liberty"], ["Eiffel Tower Paris", "Eiffel Tower"], ["Chichen Itza El Castillo", "Chichen Itza"],
   ["Angel de la Independencia", "Angel of Independence in Mexico City"], ["Taj Mahal", "Taj Mahal"], ["Colosseum Rome exterior", "Colosseum"],
   ["Palacio de Bellas Artes Mexico", "Palacio de Bellas Artes in Mexico City"], ["Christ the Redeemer Rio", "Christ the Redeemer"],
-  ["Sydney Opera House", "Sydney Opera House"], ["Golden Gate Bridge", "Golden Gate Bridge"],
-  ["Statue of Liberty souvenir", "RÉPLICA"], ["Eiffel Tower souvenir miniature", "RÉPLICA"], ["souvenir figurine monument", "RÉPLICA"],
-  ["New York-New York Hotel Las Vegas Statue of Liberty", "Las Vegas"], ["Statue of Liberty replica Paris Ile aux Cygnes", "réplica París"]];
-const aciertos = { A: 0, B: 0 }; let total = 0;
+  ["Sydney Opera House", "Sydney Opera House"], ["Golden Gate Bridge", "Golden Gate Bridge"], ["Big Ben London", "Big Ben"],
+  ["Teotihuacan Pyramid of the Sun", "Pyramid of the Sun"], ["Machu Picchu", "Machu Picchu"], ["Sagrada Familia", "Sagrada Família"],
+  ["Statue of Liberty souvenir", "RÉPLICA"], ["Eiffel Tower souvenir miniature", "RÉPLICA"], ["souvenir figurine monument", "RÉPLICA"], ["miniature Eiffel Tower model", "RÉPLICA"]];
+const ac = { A: 0, E: 0 }; let total = 0; const rep = { viejo: [], nuevo: [] };
 for (const [q, esperado] of casos) {
   for (const [titulo, url] of await commons(q, 3)) {
     await new Promise((r) => setTimeout(r, 300));
     let img;
-    try { const raw = await T.RawImage.fromBlob(await (await fetch(url, { headers: UA })).blob()); img = (await vision(await proc(raw))).image_embeds.data; }
+    try { img = (await vision(await proc(await T.RawImage.fromBlob(await (await fetch(url, { headers: UA })).blob())))).image_embeds.data; }
     catch (e) { console.log("ERR", titulo, e.message); continue; }
-    const linea = [];
-    for (const k of Object.keys(V)) {
-      const r = clasificar(img, V[k], lista, vRep, vReal);
-      linea.push(`${k}: ${r.candidatos.slice(0, 3).map((c) => `${c.m[0]} ${(c.p * 100).toFixed(0)}%`).join(" | ")} · réplica ${(r.replica * 100).toFixed(0)}%`);
-      if (r.candidatos[0].m[0] === esperado) aciertos[k]++;
-    }
-    if (!/RÉPLICA|Vegas|París/i.test(esperado)) total++;
-    console.log(`\n[${esperado}] ${titulo}\n  ${linea.join("\n  ")}`);
+    const a = R.clasificar(img, A, lista, viejoRep, viejoReal), e = R.clasificar(img, E.lugares, lista, E.replica, E.real);
+    const esRep = esperado === "RÉPLICA";
+    if (!esRep) { total++; if (a.candidatos[0].m[0] === esperado) ac.A++; if (e.candidatos[0].m[0] === esperado) ac.E++; }
+    rep.viejo.push([esRep, a.replica]); rep.nuevo.push([esRep, e.replica]);
+    const f = (r) => r.candidatos.slice(0, 2).map((c) => `${c.m[0]} ${(c.p * 100).toFixed(0)}%`).join(" | ") + ` · rép ${(r.replica * 100).toFixed(0)}%`;
+    console.log(`[${esperado}] ${titulo.slice(5, 60)}\n  A ${f(a)}\n  E ${f(e)}`);
   }
 }
-console.log("\nACIERTOS top-1 sobre", total, aciertos);
+console.log("\nACIERTOS top-1 sobre", total, ac);
+for (const k of ["viejo", "nuevo"]) {
+  const r = rep[k], real = r.filter((x) => !x[0]).map((x) => x[1]).sort((a, b) => a - b), sv = r.filter((x) => x[0]).map((x) => x[1]).sort((a, b) => a - b);
+  console.log(`réplica ${k}: reales máx ${(real.at(-1) * 100).toFixed(0)} p90 ${(real[Math.floor(real.length * 0.9)] * 100).toFixed(0)} · souvenirs ${sv.map((x) => (x * 100).toFixed(0)).join(",")}`);
+}
+// Fotos para la prueba en navegador
+const [[, u1]] = await commons("Statue of Liberty, NY", 1), [[, u2]] = await commons("Statue of Liberty souvenir", 1);
+writeFileSync("/tmp/real.jpg", Buffer.from(await (await fetch(u1, { headers: UA })).arrayBuffer()));
+writeFileSync("/tmp/souvenir.jpg", Buffer.from(await (await fetch(u2, { headers: UA })).arrayBuffer()));

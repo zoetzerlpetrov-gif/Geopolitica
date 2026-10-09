@@ -1,6 +1,6 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
 /* global maplibregl */
-import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce } from "./util.js";
+import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
@@ -15,7 +15,7 @@ import { iniciarMenu } from "./menu.js";
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
 const $ = (id) => document.getElementById(id);
-const estado = { areas: new Set(), mexico: false, sevMin: 1, sevSolo: 0, pais: "", orden: "sev", region: "", desde: -Infinity, hasta: Infinity };
+const estado = { areas: new Set(), mexico: false, sevMin: 1, sevSolo: 0, pais: "", orden: "sev", region: "", desde: -Infinity, hasta: Infinity, palabras: [] };
 let eventos = [];
 let visiblesActuales = [];
 let linea, capaIndice, analisis;
@@ -54,8 +54,21 @@ function prepararTaxonomia(t) {
   return { areas, subtemas, lista: t.areas };
 }
 
+// ---------- Búsqueda por texto ----------
+// Sin acentos ni mayúsculas: «Mexico» encuentra «México». Se busca en título, resumen, fuente, país y actores.
+const textoBusqueda = new Map();
+function textoDe(ev) {
+  let t = textoBusqueda.get(ev.id);
+  if (t == null) {
+    t = sinAcentos([ev.titulo, ev.resumen, ev.fuente, ev.pais_iso3, paises?.[ev.pais_iso3]?.es, paises?.[ev.pais_iso3]?.en,
+      ...(ev.actores || []).map((a) => (typeof a === "string" ? a : a?.nombre))].filter(Boolean).join(" "));
+    textoBusqueda.set(ev.id, t);
+  }
+  return t;
+}
 // ---------- Filtros ----------
 function pasaFiltros(ev, ignorarArea = false, ignorarPais = false) {
+  if (estado.palabras.length) { const t = textoDe(ev); if (!estado.palabras.every((w) => t.includes(w))) return false; }
   if (!ignorarArea && !estado.areas.has(ev.area_principal)) return false;
   if (!ignorarPais && estado.pais && ev.pais_iso3 !== estado.pais) return false;
   if (estado.mexico && !ev.impacto_mexico) return false;
@@ -160,6 +173,7 @@ function resumenFiltros() {
   if (estado.region) partes.push($("ev-region").selectedOptions[0]?.textContent || estado.region);
   if (estado.mexico) partes.push("impacto en México");
   if (estado.leyes) partes.push("leyes y reformas");
+  if (estado.palabras.length) partes.push(`texto «${estado.palabras.join(" ")}»`);
   if (tax && estado.areas.size < tax.lista.length) partes.push(`${estado.areas.size} de ${tax.lista.length} áreas`);
   $("ev-resumen").textContent = partes.length ? partes.join(" · ") : "sin filtros";
   $("ev-resumen").classList.toggle("activo", partes.length > 0);
@@ -300,35 +314,6 @@ async function abrirSatelite(o, catalogo) {
     padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 0, right: 0 } : { top: 0, bottom: 0, left: 0, right: 440 }, duration: lite ? 0 : 800 });
 }
 
-/** Herramienta «Ubicar una foto»: lee EXIF en el navegador y marca el punto en el mapa. */
-function iniciarFotoExif() {
-  const entrada = $("foto-exif"), res = $("foto-exif-res");
-  if (!entrada) return;
-  entrada.addEventListener("change", async () => {
-    const archivo = entrada.files?.[0];
-    if (!archivo) return;
-    const { leerExif } = await import("./exif.js");
-    let d;
-    try { d = leerExif(await archivo.arrayBuffer()); } catch (err) { d = { error: "No se pudo leer el archivo." }; }
-    const m = api.map, src = "foto-exif-punto";
-    const datos = { type: "FeatureCollection", features: d.lat != null ? [{ type: "Feature", geometry: { type: "Point", coordinates: [d.lon, d.lat] }, properties: {} }] : [] };
-    if (m.getSource(src)) m.getSource(src).setData(datos);
-    else {
-      m.addSource(src, { type: "geojson", data: datos });
-      m.addLayer({ id: `${src}-c`, type: "circle", source: src, paint: { "circle-radius": 9, "circle-color": "#E0A100", "circle-stroke-width": 3, "circle-stroke-color": "#fff" } });
-    }
-    const filas = [["Cámara", [d.marca, d.modelo].filter(Boolean).join(" ")], ["Tomada", d.fecha_toma || d.fecha_archivo], ["Programa", d.software],
-      ["Coordenadas", d.lat != null ? `${d.lat.toFixed(5)}, ${d.lon.toFixed(5)}` : ""], ["Altitud", d.altitud != null ? `${Math.round(d.altitud)} m` : ""],
-      ["Orientación", d.direccion != null ? `${Math.round(d.direccion)}° (0° = norte)` : ""]].filter(([, v]) => v);
-    res.innerHTML = d.error ? `<p class="meta">${esc(d.error)}</p>`
-      : `${filas.length ? `<dl>${filas.map(([k, v]) => `<dt>${k}</dt><dd>${esc(String(v))}</dd>`).join("")}</dl>` : ""}
-        <p class="meta">${d.lat != null ? "Ubicación del GPS del dispositivo al tomar la foto. Su precisión típica es de 5 a 20 m en exteriores y puede ser de cientos de metros en interiores o si el teléfono usó solo antenas o wifi. Los metadatos se pueden editar: no prueban por sí solos dónde se tomó la foto."
-          : "La foto no trae coordenadas GPS. Para ubicarla habría que comparar lo que se ve (edificios, señales, montañas, sombras) con mapas e imágenes satelitales: es la geolocalización visual que usan los verificadores."}</p>`;
-    if (d.lat != null) m.flyTo({ center: [d.lon, d.lat], zoom: 15, duration: lite ? 0 : 900 });
-    entrada.value = ""; // se puede volver a elegir la misma foto; no queda referencia al archivo
-  });
-}
-
 function cerrarFicha() {
   trayectoria?.limpiar();
   $("ficha").hidden = true;
@@ -444,9 +429,15 @@ async function main() {
   cargarPaises().then(() => { firmaPaises = ""; programarFiltros(); }).catch(() => {});
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-leyes").onchange = (e) => { estado.leyes = e.target.checked; programarFiltros(); };
+  let tBusca = 0;
+  $("ev-q").addEventListener("input", (e) => {
+    clearTimeout(tBusca);
+    tBusca = setTimeout(() => { estado.palabras = palabrasDe(e.target.value); programarFiltros(); }, 180);  // filtra mientras escribes
+  });
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("ev-limpiar").onclick = () => {
-    Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false, leyes: false });
+    Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false, leyes: false, palabras: [] });
+    $("ev-q").value = "";
     for (const [id, v] of [["f-severidad", "1"], ["ev-sev", "0"], ["ev-pais", ""], ["f-region", ""], ["ev-region", ""]]) $(id).value = v;
     $("f-mexico").checked = false;
     $("f-leyes").checked = false;
@@ -455,7 +446,7 @@ async function main() {
     pintarAreas2();
   };
   menu = iniciarMenu($("panel"));
-  iniciarFotoExif();
+  import("./foto.js").then((F) => F.iniciarFoto({ map: api.map, lite })).catch(() => {});
   Promise.all([import("./alerta-sismos-ui.js"), cargarPaises().catch(() => ({}))])
     .then(([m]) => m.iniciarAlertaSismos({ map: api.map, paises: paises || {} })).catch(() => {});
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
