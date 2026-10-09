@@ -56,6 +56,15 @@ def test_partido_vigente_e_inferencia_de_forma():
     assert G.forma_principal(["super-presidential republic"]) == "presidencial"
 
 
+def test_anticomunismo_no_es_comunismo():
+    gop = {"alineaciones_en": ["right-wing"], "ideologias_en": ["conservatism", "anti-communism", "anticommunism"]}
+    assert G.corrientes(gop["ideologias_en"]) == ["conservadora"]
+    misma = {"estado": [{"qid": "Q9"}], "gobierno": [{"qid": "Q9"}]}
+    assert G.inferir_forma("otra", ["constitutional republic"], misma, gop) == ("presidencial", True)
+    assert G.espectro_de(gop, "presidencial") == "derecha"
+    assert G.valor_ideologias(["anticommunism"]) is None
+
+
 def test_corrientes():
     assert G.corrientes(["Marxism–Leninism"]) == ["comunista o marxista"]
     assert "socialista" in G.corrientes(["socialism"])

@@ -136,9 +136,14 @@ IDEOLOGIA_VALOR = [
 ]
 
 
+def _sin_anti(ideologias_en):
+    """Quita las posturas «anti…» (anticomunismo, antifascismo…): nombran lo que el partido rechaza."""
+    return [i for i in ideologias_en if i and not re.match(r"\s*anti", i, re.I)]
+
+
 def valor_ideologias(ideologias_en):
     vals = []
-    for i in ideologias_en:
+    for i in _sin_anti(ideologias_en):
         t = (i or "").strip().lower()
         for rx, v in IDEOLOGIA_VALOR:
             if re.search(rx, t):
@@ -149,7 +154,7 @@ def valor_ideologias(ideologias_en):
 
 def corrientes(ideologias_en):
     """Rasgos de la ideología del partido: comunista, socialista, socialdemócrata, etc."""
-    t = " | ".join(ideologias_en).lower()
+    t = " | ".join(_sin_anti(ideologias_en)).lower()
     out = []
     if re.search(r"communis|marxism|leninis|maois|juche|chavism|bolivarian", t):
         out.append("comunista o marxista")
@@ -199,6 +204,10 @@ def _redondear(m):
     v = abs(m)
     r = int(v) if v - int(v) == 0.5 else int(v + 0.5)
     return _POR_VALOR[r * (1 if m >= 0 else -1)]
+
+
+# «Político independiente» aparece en Wikidata como si fuera un partido (P102); se trata como sin partido.
+INDEPENDIENTE = {"Q327591"}
 
 
 # ---------------------------------------------------------------- lectura de respuestas
@@ -295,6 +304,8 @@ def features_gobierno(paises_fc, formas, jefes, partidos, fecha):
         roles = jefes.get(iso, {})
         persona, rol, pq = elegir_gobierno(forma, roles, partidos)
         partido = partidos.get(pq) if pq else None
+        if pq in INDEPENDIENTE:
+            pq, partido = None, None
         forma, inferida = inferir_forma(forma, info["formas_en"], roles, partido)
         esp, origen = espectro_y_origen(partido, forma) if persona else ("sin_dato", "")
         jefe_e = roles.get("estado", [{}])[0] if roles.get("estado") else {}
