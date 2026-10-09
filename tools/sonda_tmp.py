@@ -8,6 +8,6 @@ subprocess.run([sys.executable, "-u", "tools/clima/tornados.py", "96"], check=Fa
 print("segundos", round(time.time() - t))
 import json
 d = json.load(open("vivos/tornados.geojson"))
-print("errores", d["errores"])
+print("errores", d["errores"], "notas", len(d["notas"]))
 for f in d["features"]:
-    p = f["properties"]; print("T", p["date"], p["kind"], p["severe"], p["state"], f["geometry"]["coordinates"], p["source"], "|", p["title"][:120])
+    p = f["properties"]; print("T", p["date"], p["kind"], p["severe"], p["state"], f["geometry"]["coordinates"], p.get("notas"), p["source"], "|", p["title"][:110])
