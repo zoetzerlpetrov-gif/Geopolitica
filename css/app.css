@@ -463,3 +463,19 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .pr-d { color: var(--text-2, var(--text)); text-transform: capitalize; white-space: nowrap; }
 .pr-ley-t, .pr-ley-l { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; }
 .pr-ley-t { background: linear-gradient(to top, #1F6FB2, #C0392B); } .pr-ley-l { background: #1F8A8A; }
+
+/* Alerta de sismos: pantalla completa, roja (alarma) o ámbar (aviso). Sin parpadeo si se pidió menos movimiento. */
+.alerta-sismo { position: fixed; inset: 0; z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(120, 0, 0, 0.55); }
+.alerta-sismo.aviso { background: rgba(120, 80, 0, 0.45); }
+.alerta-sismo .as-caja { max-width: 560px; width: 100%; background: #fff; color: #111; border: 6px solid #C62828; border-radius: 10px; padding: 18px 20px; box-shadow: 0 10px 40px rgba(0,0,0,.5); }
+.alerta-sismo.aviso .as-caja { border-color: #E0A100; }
+.alerta-sismo.fuerte .as-caja { animation: as-latido 1s ease-in-out infinite; }
+.alerta-sismo h2 { margin: 0 0 6px; color: #B71C1C; font-size: 1.35rem; }
+.alerta-sismo.aviso h2 { color: #7a5200; }
+.alerta-sismo .as-mag { font-size: 1.2rem; font-weight: 700; margin: 4px 0; }
+.alerta-sismo .as-que-hacer { margin: 6px 0 6px 18px; }
+.alerta-sismo .as-botones { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-top: 10px; }
+.alerta-sismo .as-botones button { padding: 8px 14px; font-weight: 600; cursor: pointer; }
+.alerta-sismo .meta { color: #444; }
+@keyframes as-latido { 50% { border-color: #ff8a80; box-shadow: 0 0 0 8px rgba(198, 40, 40, .35); } }
+@media (prefers-reduced-motion: reduce) { .alerta-sismo.fuerte .as-caja { animation: none; } }

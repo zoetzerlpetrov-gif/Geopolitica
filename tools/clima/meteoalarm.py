@@ -180,7 +180,7 @@ def features(avisos, regiones, ahora, centroides=None):
         props = {"id": f"emma:{cod}", "codigo": cod if not cod.startswith(("POL:", "PAIS:")) else "", "region": r["n"], "pais_iso2": r["p"], "nivel": nivel, "en_curso": en_curso,
                  "tipos": sorted({a["tipo"] for a in lista if a["nivel"] == nivel}),
                  "url": f"https://meteoalarm.org?geocode=EMMA_ID:{cod}" if ":" not in cod else f"https://meteoalarm.org?region={r['p']}",
-                 "fecha_utc": min((a["desde"] for a in lista), default=""),
+                 "fecha_utc": min((a["desde"] for a in lista), default=""), "leido_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"),
                  "avisos": [{k: a[k] for k in ("tipo", "nivel", "desde", "hasta", "severidad_cap")} for a in lista[:8]]}
         if r["g"]:
             out.append({"type": "Feature", "geometry": r["g"], "properties": {**props, "k": "zona", "opacidad": 0.42 if en_curso else 0.22}})

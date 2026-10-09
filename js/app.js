@@ -456,6 +456,8 @@ async function main() {
   };
   menu = iniciarMenu($("panel"));
   iniciarFotoExif();
+  Promise.all([import("./alerta-sismos-ui.js"), cargarPaises().catch(() => ({}))])
+    .then(([m]) => m.iniciarAlertaSismos({ map: api.map, paises: paises || {} })).catch(() => {});
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
   $("capa-indice").onchange = (e) => alternarIndice(e.target.checked).catch((err) => {
     e.target.checked = false;
