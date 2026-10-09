@@ -1,27 +1,32 @@
-import json, time, urllib.request, urllib.parse
-from collections import defaultdict
-UA = {"User-Agent": "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)", "Accept": "application/sparql-results+json"}
-def q(s):
+import sys, json
+sys.path.insert(0, "tools/capas")
+import gobiernos as G, construir as C
+r = C._sparql(G.Q_INSTITUCIONES); d = G.leer_instituciones(r)
+print("instituciones", len(d), {k: d.get(k) for k in ["MEX", "USA", "ESP", "BRA", "DEU", "JPN"]})
+import json, sys, time
+from collections import Counter
+sys.path.insert(0, "tools/capas")
+import construir as C
+for fid in ["fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin"]:
     t = time.time()
     try:
-        r = json.load(urllib.request.urlopen(urllib.request.Request("https://query.wikidata.org/sparql?" + urllib.parse.urlencode({"query": s, "format": "json"}), headers=UA), timeout=120))
-        print(f"  {time.time() - t:.1f}s {len(r['results']['bindings'])} filas"); return r
+        fs = C.FAMILIAS[fid]()
+        print(fid, round(time.time() - t, 1), "s", len(fs), Counter(f["properties"]["st"] for f in fs))
+        for f in fs[:3]: print("   ", f["properties"]["n"], "|", f["properties"]["x"])
+        if fid == "tasas_bc":
+            for iso in ["MEX", "USA", "BRA", "DEU", "TUR", "ARG", "JPN", "GBR"]:
+                print("   ", iso, next((f["properties"]["x"] for f in fs if f["properties"]["p"] == iso), "—"))
+        if fid == "nodos_bitcoin":
+            for f in sorted(fs, key=lambda f: -int(f["properties"]["x"].split()[0].replace(",", "")))[:8]: print("   ", f["properties"]["n"], f["properties"]["x"])
     except Exception as e:
-        print(f"  {time.time() - t:.1f}s ERROR {e}"); return None
-isos = ["MEX", "USA", "ESP", "FRA", "DEU", "BRA", "ARG", "COL", "CHN", "IND", "JPN", "GBR", "ITA", "CAN", "RUS", "ZAF", "NGA", "EGY", "TUR", "IRN"]
-V = " ".join(f'"{x}"' for x in isos)
-G = """SELECT ?iso ?gab ?gabEn ?ini ?persona ?personaEs ?personaEn ?cargo ?cargoEs ?cargoEn WHERE { VALUES ?iso { %s }
- ?pais wdt:P298 ?iso ; wdt:P31 wd:Q3624078 .
- ?gab wdt:P31/wdt:P279? wd:Q640506 ; wdt:P17 ?pais ; wdt:P571|wdt:P580 ?ini . FILTER NOT EXISTS { ?gab wdt:P576|wdt:P582 ?f } FILTER(?ini >= "2014-01-01T00:00:00Z"^^xsd:dateTime)
- OPTIONAL { ?gab rdfs:label ?gabEn FILTER(lang(?gabEn) = "en") }
- ?persona p:P39 ?st . ?st pq:P5054 ?gab ; ps:P39 ?cargo . FILTER NOT EXISTS { ?st pq:P582 ?fin }
- OPTIONAL { ?cargo rdfs:label ?cargoEs FILTER(lang(?cargoEs) = "es") } OPTIONAL { ?cargo rdfs:label ?cargoEn FILTER(lang(?cargoEn) = "en") }
- OPTIONAL { ?persona rdfs:label ?personaEs FILTER(lang(?personaEs) = "es") } OPTIONAL { ?persona rdfs:label ?personaEn FILTER(lang(?personaEn) = "en" || lang(?personaEn) = "mul") } }""" % V
-print("gabinetes"); r = q(G)
-por = defaultdict(list)
-for f in (r or {}).get("results", {}).get("bindings", []):
-    g = lambda k: f.get(k, {}).get("value", "")
-    por[g("iso")].append((g("gabEn")[:40], (g("cargoEs") or g("cargoEn"))[:50], g("personaEs") or g("personaEn")))
-print({k: len(v) for k, v in por.items()})
-for iso in ["MEX", "USA", "ESP", "DEU", "BRA", "JPN", "GBR", "FRA", "ARG"]:
-    print(iso, sorted(set(por.get(iso, [])), key=str)[:30])
+        import traceback; traceback.print_exc()
+import urllib.request, re
+UA = {"User-Agent": "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"}
+for u in ["https://ll.thespacedevs.com/robots.txt", "https://thespacedevs.com/llapi", "https://thespacedevs.com/terms", "https://thespacedevs.com/tos"]:
+    try:
+        t = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=40).read().decode("utf-8", "replace")
+        t = re.sub(r"<script.*?</script>|<style.*?</style>", " ", t, flags=re.S); t = re.sub(r"<[^>]+>", " ", t); t = re.sub(r"\s+", " ", t)
+        i = max(0, t.lower().find("licen") - 600) if "licen" in t.lower() else 0
+        print("-----", u, len(t)); print(t[-700:] if "robots" in u else t[i:i + 2500])
+    except Exception as e:
+        print("-----", u, e)
