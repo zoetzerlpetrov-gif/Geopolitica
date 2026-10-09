@@ -137,4 +137,4 @@ def test_instituciones_ejecutivo_con_sitio_y_legislativo():
     ]}}
     d = G.leer_instituciones(res)
     assert d["MEX"]["ejecutivo"] == ["Gobierno de México", "E1", "https://www.gob.mx/"]
-    assert d["MEX"]["legislativo"] == ["Congreso de la Unión", "L1"] and d["XXX"] == {}
+    assert d["MEX"]["legislativo"] == [["Congreso de la Unión", "L1"]] and d["XXX"] == {}

@@ -297,7 +297,7 @@ export function htmlInstituciones(inst) {
   if (!e && !l) return "";
   return `<h4>Instituciones</h4><dl>
     ${e ? `<dt>Poder ejecutivo</dt><dd>${wdl(e[1], e[0])}${e[2] ? ` · <a href="${esc(safeUrl(e[2]))}" target="_blank" rel="noopener noreferrer">sitio oficial (gabinete al día)</a>` : ""}</dd>` : ""}
-    ${l ? `<dt>Poder legislativo</dt><dd>${wdl(l[1], l[0])}</dd>` : ""}</dl>`;
+    ${l?.length ? `<dt>Poder legislativo</dt><dd>${(Array.isArray(l[0]) ? l : [l]).map(([n, q]) => wdl(q, n)).join(" · ")}</dd>` : ""}</dl>`;
 }
 
 const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],

@@ -71,7 +71,7 @@ SELECT ?iso ?ejec ?ejecEs ?ejecEn ?web ?leg ?legEs ?legEn WHERE {
 
 
 def leer_instituciones(res):
-    """{iso: {"ejecutivo": [nombre, qid, web], "legislativo": [nombre, qid]}} (el primero de cada uno)."""
+    """{iso: {"ejecutivo": [nombre, qid, web], "legislativo": [[nombre, qid], …]}} (un ejecutivo; todas las cámaras)."""
     out = {}
     for f in res["results"]["bindings"]:
         iso = _v(f, "iso")
@@ -82,8 +82,8 @@ def leer_instituciones(res):
             d["ejecutivo"] = [_v(f, "ejecEs") or _v(f, "ejecEn") or _qid(_v(f, "ejec")), _qid(_v(f, "ejec")), ""]
         if _v(f, "web") and d.get("ejecutivo") and not d["ejecutivo"][2] and _v(f, "web").startswith("https://"):
             d["ejecutivo"][2] = _v(f, "web")
-        if _v(f, "leg") and "legislativo" not in d:
-            d["legislativo"] = [_v(f, "legEs") or _v(f, "legEn") or _qid(_v(f, "leg")), _qid(_v(f, "leg"))]
+        if _v(f, "leg") and _qid(_v(f, "leg")) not in [x[1] for x in d.get("legislativo", [])]:
+            d.setdefault("legislativo", []).append([_v(f, "legEs") or _v(f, "legEn") or _qid(_v(f, "leg")), _qid(_v(f, "leg"))])
     return out
 
 
