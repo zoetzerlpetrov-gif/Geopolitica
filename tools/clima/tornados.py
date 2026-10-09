@@ -39,7 +39,7 @@ TEMA = re.compile(r"NATURAL_DISASTER_(TORNADO|WATERSPOUT)")
 # El título debe nombrar el fenómeno (en el idioma original del medio). «Tornado» también es un avión de combate
 # (Panavia Tornado) y un nombre comercial; esos casos se descartan.
 TITULO = re.compile(r"tornad|twister|waterspout|landspout|tromb[ae] d.?aria|tromb[ae] marin|trompa marina|manga de agua|"
-                    r"tornade|trombe|смерч|торнадо|hortum|tornádo|trąba powietrzna|windhose|wasserhose|tromba", re.I)
+                    r"tornade|смерч|торнадо|hortum|tornádo|trąba powietrzna|windhose|wasserhose", re.I)
 NO_ES = re.compile(r"panavia|eurofighter|fighter jet|caza tornado|jet tornado|tornado gr4|tornado ids|cash tornado|tornado cash|"
                    r"tornado de (goles|críticas)|minnesota|kenny|cyclone weather", re.I)
 SEVERO = re.compile(r"muert|dead|died|killed|morti|vittim|heridos|injur|feriti|destro|devast|dañ|damage|danni|evacu|"
