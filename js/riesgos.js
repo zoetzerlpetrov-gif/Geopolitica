@@ -104,7 +104,7 @@ export const CAPAS = [
       url: "https://open-meteo.com", fuente: "Open-Meteo (modelos numéricos)" }),
   },
   {
-    id: "aire", grupo: "Clima y ambiente", nombre: "Calidad del aire (US AQI, ~500 ciudades)", archivos: ["airquality.geojson"], locales: ["data/vivos/aire_ciudades.geojson"],
+    id: "aire", grupo: "Clima y ambiente", nombre: "Calidad del aire (US AQI)", archivos: ["airquality.geojson"], locales: ["data/vivos/aire_ciudades.geojson"],
     fuente: "Open-Meteo Air Quality",
     derivar: (fc) => ({ ...fc, features: sinCiudadesRepetidas(fc.features) }),
     leyenda: BANDAS_AQI.map(([max, t, c]) => ({ c, r: 6, t: `${t}${Number.isFinite(max) ? ` (hasta ${max})` : " (301+)"}` })),

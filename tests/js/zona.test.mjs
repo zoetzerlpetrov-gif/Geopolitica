@@ -86,3 +86,11 @@ test("ceniza: el cono apunta hacia donde sopla el viento y su largo es velocidad
   assert.equal(c.rumbo, 90);
   assert.ok(c.coordinates[0].every(([x]) => x >= -98.63));
 });
+
+test("ceniza: dirección meteorológica desde U y V", async () => {
+  const { vientoDeUV } = await import("../../js/ceniza.js");
+  const oeste = vientoDeUV(10, 0);   // sopla hacia el este → viene del oeste
+  assert.equal(Math.round(oeste.desde), 270);
+  assert.equal(Math.round(oeste.kmh), 36);
+  assert.equal(Math.round(vientoDeUV(0, -5).desde), 0);  // sopla hacia el sur → viene del norte
+});

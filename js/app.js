@@ -847,7 +847,7 @@ async function iniciarRiesgos() {
         <span class="aqi-ciudad" style="background:${x.b.color};color:${x.b.texto}">${esc(x.f.properties.us_aqi)}</span>
         <span>${esc(x.f.properties.name)}<span class="meta"> · ${esc(x.pais)}</span></span></label>
         <button type="button" class="mini" data-aire-ir="${x.f.geometry.coordinates.slice(0, 2).join(",")}" title="Ver en el mapa">📍</button></li>`).join("")}</ul>
-      <p class="meta">Índice US AQI de la EPA calculado con el modelo CAMS (Open-Meteo), cada 3 h. Las casillas deciden qué ciudades se dibujan en el mapa.</p>`;
+      <p class="meta">Índice US AQI de la EPA calculado con el modelo CAMS (vía Open-Meteo) por Clima Táctico, 2 veces al día. Las casillas deciden qué ciudades se dibujan en el mapa.</p>`;
     const aplicar = () => { storage.set(LS, JSON.stringify([...ocultas])); riesgos.setOcultos("aire", ocultas); };
     const cbCapa = cont.querySelector('[data-riesgo="aire"]');
     $("aire-mapa").checked = cbCapa?.checked || false;

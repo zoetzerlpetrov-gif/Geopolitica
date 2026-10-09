@@ -27,6 +27,12 @@ OUT = os.path.join(ROOT, "vivos", "clima")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 FILTRO = ("https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl?dir=%2Fgfs.{fecha}%2F{hh}%2Fatmos&file=gfs.t{hh}z.pgrb2.1p00.f{f:03d}"
           "&var_UGRD=on&var_VGRD=on&var_TMP=on&var_PRATE=on&lev_10_m_above_ground=on&lev_2_m_above_ground=on&lev_surface=on")
+# Viento en altura (para estimar hacia dónde va la ceniza volcánica): 500, 300 y 200 hPa ≈ 5.5, 9 y 12 km.
+FILTRO_ALTURA = ("https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl?dir=%2Fgfs.{fecha}%2F{hh}%2Fatmos&file=gfs.t{hh}z.pgrb2.1p00.f{f:03d}"
+                 "&var_UGRD=on&var_VGRD=on&lev_500_mb=on&lev_300_mb=on&lev_200_mb=on")
+NIVELES_ALTURA = {500: 5.5, 300: 9.2, 200: 11.8}   # hPa → km aproximados en atmósfera estándar
+VIENTO_ALTURA_MAX = 90.0             # m/s (las corrientes en chorro superan los 70 m/s)
+HORIZONTES_ALTURA = 2                # solo ≈ ahora y +12 h (la ceniza se estima a pocas horas)
 OBJETIVOS_H = [0, 12, 24, 48, 72]   # horas desde ahora
 VIENTO_MAX = 40.0                    # m/s representables en la textura (±40 m/s = ±144 km/h)
 ALTO_MERCATOR = 720                  # px de las imágenes proyectadas (mundo completo, cuadrado)
@@ -134,6 +140,20 @@ def leer_grib(datos):
     return campos
 
 
+def leer_grib_altura(datos):
+    """Bytes GRIB2 con U y V en niveles de presión → {hPa: (u, v)} en rejilla −180…179."""
+    import pygrib
+    tmp = os.path.join(os.environ.get("RUNNER_TEMP", "/tmp"), "gfs_altura.grib2")
+    with open(tmp, "wb") as f:
+        f.write(datos)
+    campos = {}
+    with pygrib.open(tmp) as g:
+        for m in g:
+            if m.typeOfLevel == "isobaricInhPa" and m.level in NIVELES_ALTURA and m.shortName in ("u", "v"):
+                campos.setdefault(m.level, {})[m.shortName] = a_180(np.array(m.values, dtype=float))
+    return {lev: (c["u"], c["v"]) for lev, c in campos.items() if "u" in c and "v" in c}
+
+
 def guardar_png(arr, ruta):
     from PIL import Image
     Image.fromarray(arr).save(ruta, optimize=True)
@@ -169,18 +189,29 @@ def main():
                 pasos.append({"f": f, "valido_utc": (corrida + timedelta(hours=f)).strftime("%Y-%m-%dT%H:%M:%SZ"),
                               "viento": f"viento_{nombre}.png", "temp": f"temp_{nombre}.png", "lluvia": f"lluvia_{nombre}.png",
                               "viento_max_ms": round(float(np.max(np.hypot(c["u"], c["v"]))), 1)})
+                if len(pasos) <= HORIZONTES_ALTURA:
+                    try:
+                        time.sleep(2)
+                        alt = leer_grib_altura(get(FILTRO_ALTURA.format(fecha=corrida.strftime("%Y%m%d"), hh=corrida.strftime("%H"), f=f)))
+                        pasos[-1]["alturas"] = {}
+                        for lev, (u, v) in sorted(alt.items(), reverse=True):
+                            archivo = f"viento{lev}_{nombre}.png"
+                            guardar_png(codificar_viento(u, v, VIENTO_ALTURA_MAX), os.path.join(OUT, archivo))
+                            pasos[-1]["alturas"][str(lev)] = {"archivo": archivo, "km": NIVELES_ALTURA[lev]}
+                    except Exception as e:  # noqa: BLE001  sin viento en altura la capa de clima sigue igual
+                        print(f"clima: viento en altura f{f:03d} no disponible ({e})")
                 print(f"clima: {etiqueta} f{f:03d} listo")
                 time.sleep(2)  # cortesía con NOMADS
         except (urllib.error.URLError, FileNotFoundError) as e:
             print(f"clima: corrida {etiqueta} no disponible ({e}); se prueba la anterior")
             continue
         # Se borran los PNG de corridas anteriores que ya no se usan.
-        vigentes = {p[k] for p in pasos for k in ("viento", "temp", "lluvia")}
+        vigentes = {p[k] for p in pasos for k in ("viento", "temp", "lluvia")} | {a["archivo"] for p in pasos for a in p.get("alturas", {}).values()}
         for a in os.listdir(OUT):
             if a.endswith(".png") and a not in vigentes:
                 os.remove(os.path.join(OUT, a))
         json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "corrida": etiqueta, "fuente": "NOAA GFS 1° vía NOMADS",
-                   "viento_escala_ms": VIENTO_MAX, "rejilla_viento": {"lon0": -180, "lat0": 90, "paso": 1, "ancho": 360, "alto": 181},
+                   "viento_escala_ms": VIENTO_MAX, "viento_altura_escala_ms": VIENTO_ALTURA_MAX, "rejilla_viento": {"lon0": -180, "lat0": 90, "paso": 1, "ancho": 360, "alto": 181},
                    "mercator_lat_max": LAT_MAX, "pasos": pasos,
                    "leyendas": {"temp": [[v, "#%02x%02x%02x" % c[:3]] for v, c in PALETA_TEMP],
                                 "lluvia": [[v, "#%02x%02x%02x" % c[:3]] for v, c in PALETA_LLUVIA[1:]]}},
