@@ -220,7 +220,7 @@ export const CAPAS = [
     leyenda: [{ c: "#6A1B9A", r: 9, t: "Servidores de mando y control (C2) activos reportados; el tamaño crece con la cantidad" },
       { t: "Un C2 alojado en un país casi nunca indica dónde está el atacante: suele ser un servidor rentado. No se publica ninguna dirección IP." }],
     ficha: (p) => ({ titulo: `${p.n} servidores C2 de botnets en ${p.pais}`, chip: `${p.n_familias} familia(s) de malware`,
-      filas: [["Familias más vistas", lista(p.familias).map(([f, n]) => `${f} (${n})`).join(" · ") || "—"],
+      filas: [["Familias más vistas", lista(p.familias).map(([f, n]) => `${/^unknown/i.test(f) ? "Sin identificar" : f} (${n})`).join(" · ") || "—"],
         ["Ventana", "IOC reportados a ThreatFox en las últimas 48 h + lista recomendada de Feodo Tracker"],
         ["País de cada IP", "Base IP to Country Lite de DB-IP (CC BY 4.0). Puede fallar con redes anycast o VPN"],
         ["Para qué sirve", "Ver qué países y proveedores alojan más infraestructura criminal. Para bloquear, usa las listas originales de abuse.ch"]],
