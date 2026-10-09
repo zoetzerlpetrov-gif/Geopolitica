@@ -2,7 +2,8 @@
 """Calidad del aire (US AQI) en ~490 ciudades: todas las capitales nacionales, las capitales estatales y
 ciudades principales de México y las ciudades de más de 1.5 millones de habitantes del mundo.
 
-Fuente: Open-Meteo Air Quality API (modelo CAMS de Copernicus; sin llave, uso no comercial). Es un modelo
+Fuente: Open-Meteo Air Quality API (modelo CAMS de Copernicus; sin llave, uso no comercial). EN PAUSA: su
+robots.txt dice «Disallow: /» (2026-10-09); se respeta y el script no descarga nada mientras siga así. Es un modelo
 numérico, no una estación de medición: para la CDMX la fuente oficial es el SIMAT (aire.cdmx.gob.mx).
 Una consulta trae muchas coordenadas a la vez; se piden en bloques de 100 con una pausa entre bloques.
 Salida: vivos/aire_ciudades.geojson (cada 3 h como máximo; lo llama «Datos en movimiento»).
