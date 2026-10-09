@@ -3046,6 +3046,98 @@
    ]
   },
   {
+   "id": "grupos_criminales",
+   "nombre": {
+    "es": "Grupos criminales y terroristas (presencia documentada)",
+    "en": "Criminal and terrorist groups (documented presence)"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Organizaciones vigentes registradas en Wikidata con sede o lugar de origen y países donde operan. Solo el grupo, nunca personas.",
+    "La presencia por país se dibuja en el centro aproximado del país: indica que opera ahí, no un lugar exacto.",
+    "«Terrorista» es la clase que asigna Wikidata; las designaciones cambian según el gobierno que las hace."
+   ],
+   "subtipos": [
+    {
+     "id": "grupo_terrorismo",
+     "nombre": {
+      "es": "Organización terrorista",
+      "en": "Terrorist organization"
+     },
+     "icono": "💣",
+     "color": "#922B21",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "grupos_criminales"
+    },
+    {
+     "id": "grupo_cartel",
+     "nombre": {
+      "es": "Cártel de drogas",
+      "en": "Drug cartel"
+     },
+     "icono": "💊",
+     "color": "#6C3483",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "grupos_criminales"
+    },
+    {
+     "id": "grupo_mafia",
+     "nombre": {
+      "es": "Mafia u organización criminal",
+      "en": "Mafia or criminal organization"
+     },
+     "icono": "🎩",
+     "color": "#1F3A5F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "grupos_criminales"
+    },
+    {
+     "id": "grupo_pandilla",
+     "nombre": {
+      "es": "Pandilla o club de motociclistas fuera de la ley",
+      "en": "Gang or outlaw motorcycle club"
+     },
+     "icono": "🏍",
+     "color": "#B9770E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "seguridad"
+     ],
+     "familia": "grupos_criminales"
+    }
+   ]
+  },
+  {
    "id": "camaras",
    "nombre": {
     "es": "Cámaras públicas",

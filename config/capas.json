@@ -178,6 +178,16 @@
    "habilitada": true,
    "zoom_etiquetas": 7,
    "nota": "Wikidata (CC0): lugares con artículo en varias Wikipedias o Patrimonio Mundial."
+  },
+  {
+   "id": "grupos_criminales",
+   "nombre": "Grupos criminales y terroristas: sede y países donde operan",
+   "categoria": "grupos_criminales",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 4,
+   "nota": "Wikidata (CC0): mafias, cárteles, pandillas y organizaciones terroristas vigentes, con sede y área de operaciones (P2541)."
   }
  ]
 }

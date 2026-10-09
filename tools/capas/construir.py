@@ -454,6 +454,18 @@ def gobierno_orientacion():
     return _gobiernos()[1]
 
 
+def grupos_criminales():
+    """Mafias, cárteles, pandillas y organizaciones terroristas vigentes con sede y países de operación."""
+    import grupos as G
+    tipo_de = {q: t for q, t in G.CLASES}
+    res = _sparql(G.Q_GRUPOS % " ".join(f"wd:{q}" for q, _ in G.CLASES))
+    grupos = G.leer_grupos(res, tipo_de)
+    print(f"   Wikidata: {len(grupos)} grupos")
+    paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
+    gaz = json.load(open(os.path.join(ROOT, "config", "gazetteer.json"), encoding="utf-8"))["paises"]
+    return G.features_grupos(grupos, G.centroides(paises), lambda iso: (gaz.get(iso) or {}).get("es") or iso, feat, punto)
+
+
 def lugares_religiosos():
     """Catedrales, mezquitas, templos, sinagogas… con artículo en varias Wikipedias o Patrimonio Mundial."""
     import lugares_religiosos as L
@@ -649,7 +661,8 @@ def militar():
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
-            "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos}
+            "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
+            "grupos_criminales": grupos_criminales}
 
 
 def _punto_ref(ft):
