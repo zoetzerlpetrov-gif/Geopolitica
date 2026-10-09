@@ -550,7 +550,14 @@ async function iniciarCapas() {
     </div>`).join("");
   cont.addEventListener("change", async (e) => {
     const fam = e.target.dataset.fam;
-    if (fam) { e.target.checked ? await gestor.activar(fam) : gestor.desactivar(fam); return; }
+    if (fam) {
+      if (!e.target.checked) { gestor.desactivar(fam); return; }
+      await gestor.activar(fam);
+      // Al encender (o volver a encender) la familia se respetan los subtipos que dejaste marcados.
+      const subs = [...cont.querySelectorAll(`[data-fam-sub="${fam}"]`)];
+      if (subs.length && subs.some((x) => !x.checked)) gestor.setSubtipos(fam, subs.filter((x) => x.checked).map((x) => x.value));
+      return;
+    }
     const famSub = e.target.dataset.famSub;
     if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
   });
@@ -646,25 +653,36 @@ async function iniciarRiesgos() {
   let ultimaFirma = "";
   const pintar = () => {
     const todas = riesgos.amenazas();
-    // Opciones de país y tipo: lo cargado en el mapa + lo que traen las capas apagadas (se activan al elegir).
+    // Opciones de país y tipo con conteos que respetan los OTROS filtros (severidad, país o tipo, zona).
+    // Tipo: también cuenta lo de capas apagadas (elegirlo enciende esa sola capa). País: solo lo encendido,
+    // con un aviso de cuánto hay en capas apagadas (elegir un país no enciende nada por sí solo).
     const selP = $("rg-pais"), selT = $("rg-tipo");
-    const conteo = (lista, clave) => {
+    const sevMin = Number($("rg-sev").value), prevP = selP.value, prevT = selT.value;
+    const pasa = (a, { sinPais = false, sinTipo = false } = {}) => (a.sev || 1) >= sevMin && (sinPais || !prevP || a.pais === prevP)
+      && (sinTipo || !prevT || a.tipo === prevT) && (!zona || A.filtrar([a], { zona }).length);
+    const contar = (lista, clave, opc) => {
       const m = new Map();
-      for (const a of lista) { const v = a[clave]; if (!v) continue; const c = m.get(v) || { n: 0, off: 0, capa: a.capa }; c.n++; if (a.apagada) c.off++; m.set(v, c); }
+      for (const a of lista) { if (!a[clave] || !pasa(a, opc)) continue; const c = m.get(a[clave]) || { n: 0, off: 0, capa: a.capa }; c.n++; if (a.apagada) c.off++; m.set(a[clave], c); }
       return m;
     };
-    const etiqueta = (n, c) => `${n} (${c.n})${c.off === c.n ? " · capa apagada" : ""}`;
-    const prevP = selP.value, prevT = selT.value;
-    const cp = conteo([...todas, ...apagadas], "pais"), ct = conteo([...todas, ...apagadas], "tipo");
-    selP.innerHTML = `<option value="">Todos los países</option>` + [...cp].map(([v, c]) => [v, nombrePais(v), c]).sort((a, b) => a[1].localeCompare(b[1], "es"))
-      .map(([v, n, c]) => `<option value="${esc(v)}">${esc(etiqueta(n, c))}</option>`).join("");
+    const cp = contar(todas, "pais", { sinPais: true }), cpOff = contar(apagadas, "pais", { sinPais: true });
+    const ct = contar([...todas, ...apagadas], "tipo", { sinTipo: true });
+    const paisesOpc = new Set([...cp.keys(), ...cpOff.keys(), ...(prevP ? [prevP] : [])]);
+    selP.innerHTML = `<option value="">Todos los países</option>` + [...paisesOpc].map((v) => [v, nombrePais(v)]).sort((x, y) => x[1].localeCompare(y[1], "es"))
+      .map(([v, n]) => { const on = cp.get(v)?.n || 0, off = cpOff.get(v)?.n || 0;
+        return `<option value="${esc(v)}">${esc(`${n} (${on}${off ? ` · +${off} en capas apagadas` : ""})`)}</option>`; }).join("");
     selT.innerHTML = `<option value="">Todos los tipos</option>` + R.CAPAS.map((capa) => {
-      const tipos = [...ct].filter(([, c]) => c.capa === capa.id).sort((a, b) => a[0].localeCompare(b[0], "es"));
-      return tipos.length ? `<optgroup label="${esc(capa.nombre)}">${tipos.map(([v, c]) => `<option value="${esc(v)}">${esc(etiqueta(v, c))}</option>`).join("")}</optgroup>` : "";
+      const tipos = [...ct].filter(([, c]) => c.capa === capa.id).sort((x, y) => x[0].localeCompare(y[0], "es"));
+      if (prevT && !tipos.some(([v]) => v === prevT) && todas.concat(apagadas).some((a) => a.tipo === prevT && a.capa === capa.id)) tipos.push([prevT, { n: 0, off: 0 }]);
+      return tipos.length ? `<optgroup label="${esc(capa.nombre)}">${tipos.map(([v, c]) => `<option value="${esc(v)}">${esc(`${v} (${c.n})${c.n && c.off === c.n ? " · se enciende al elegirlo" : ""}`)}</option>`).join("")}</optgroup>` : "";
     }).join("");
-    selP.value = cp.has(prevP) ? prevP : "";
-    selT.value = ct.has(prevT) ? prevT : "";
+    selP.value = paisesOpc.has(prevP) ? prevP : "";
+    selT.value = [...selT.options].some((o) => o.value === prevT) ? prevT : "";
     if (!apagadas.length && !riesgos.catalogo) $("rg-filtro-nota").textContent = "Abre un filtro para ver también los países y tipos de las capas apagadas.";
+    else if (prevP && cpOff.get(prevP)?.n) {
+      const capasOff = [...new Set(apagadas.filter((a) => a.pais === prevP && pasa(a, { sinPais: true })).map((a) => a.capa))];
+      $("rg-filtro-nota").innerHTML = `Hay ${cpOff.get(prevP).n} amenazas más en ${esc(nombrePais(prevP))} en ${capasOff.length} capa(s) apagada(s). <button type="button" class="txt-btn" id="rg-encender" data-capas="${esc(capasOff.join(","))}">Encenderlas</button>`;
+    } else if (apagadas.length) $("rg-filtro-nota").textContent = "Elegir un tipo de una capa apagada la enciende; elegir un país no enciende nada.";
     const filtro = { pais: selP.value, tipo: selT.value, sevMin: Number($("rg-sev").value) };
     riesgos.setFiltro(filtro);
     const lista = A.ordenar(A.filtrar(todas, { ...filtro, zona }), new Set(todas.filter((a) => a.nuevo).map((a) => a.k)));
@@ -715,17 +733,21 @@ async function iniciarRiesgos() {
   };
   cont.closest("details")?.addEventListener("toggle", (e) => { if (e.target.open) explorar(); });
   $("riesgos-filtros").addEventListener("focusin", explorar);
+  $("riesgos-filtros").addEventListener("click", (e) => {
+    if (e.target.id !== "rg-encender") return;
+    for (const id of e.target.dataset.capas.split(",").filter(Boolean)) {
+      const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+      if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
+    }
+  });
   $("riesgos-filtros").addEventListener("change", async (e) => {
-    if (e.target.id === "rg-pais" || e.target.id === "rg-tipo") {
-      const pais = $("rg-pais").value, tipo = $("rg-tipo").value;
-      if (pais || tipo) {
-        const capas = new Set(apagadas.filter((a) => (!pais || a.pais === pais) && (!tipo || a.tipo === tipo)).map((a) => a.capa));
-        for (const id of capas) {
-          const cb = cont.querySelector(`[data-riesgo="${id}"]`);
-          if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
-        }
-        if (capas.size) $("rg-filtro-nota").textContent = `Se activaron: ${[...capas].map((id) => R.CAPAS.find((c) => c.id === id).nombre).join("; ")}.`;
+    if (e.target.id === "rg-tipo" && e.target.value) {
+      const capas = new Set(apagadas.filter((a) => a.tipo === e.target.value).map((a) => a.capa));
+      for (const id of capas) {
+        const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+        if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
       }
+      if (capas.size) $("rg-filtro-nota").textContent = `Se encendió: ${[...capas].map((id) => R.CAPAS.find((c) => c.id === id).nombre).join("; ")}.`;
     }
     pintar();
   });
@@ -922,7 +944,15 @@ async function iniciarMovimiento(catalogo) {
   }).join("");
   cont.addEventListener("change", async (e) => {
     const t = e.target.dataset.mov;
-    if (t) { try { e.target.checked ? await mov.activar(t) : mov.desactivar(t); } catch (err) { e.target.checked = false; alert(`No se pudo cargar: ${err.message}`); } return; }
+    if (t) {
+      try {
+        if (!e.target.checked) { mov.desactivar(t); return; }
+        await mov.activar(t);
+        // Se respetan los subtipos marcados (activar() usa los iniciales del catálogo).
+        mov.setSubtipos(t, [...cont.querySelectorAll(`[data-mov-sub="${t}"]:checked`)].map((x) => x.value));
+      } catch (err) { e.target.checked = false; alert(`No se pudo cargar: ${err.message}`); }
+      return;
+    }
     const ts = e.target.dataset.movSub;
     if (ts) mov.setSubtipos(ts, [...cont.querySelectorAll(`[data-mov-sub="${ts}"]:checked`)].map((x) => x.value));
   });
