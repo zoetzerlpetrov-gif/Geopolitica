@@ -1,0 +1,21 @@
+name: Sonda temporal de fuentes (se borra después)
+on:
+  push:
+    branches: [claude/pensive-ptolemy-bkwcue]
+    paths: [".github/workflows/sonda.yml"]
+permissions:
+  contents: read
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          UA="Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
+          p() { echo "=== $1"; curl -sL -m 30 -A "$UA" -w "\n[HTTP %{http_code} %{content_type} %{size_download}B]\n" "$1" | head -c ${2:-900}; echo; }
+          for h in reliefweb.int news.un.org www.who.int goadmin.ifrc.org go.ifrc.org www.gdacs.org; do p "https://$h/robots.txt" 700; done
+          p https://reliefweb.int/updates/rss.xml 1200
+          p https://reliefweb.int/disasters/rss.xml 1200
+          p "https://reliefweb.int/updates/rss.xml?search=country.exact:%22Mexico%22" 600
+          p https://news.un.org/feed/subscribe/es/news/all/rss.xml 1000
+          p "https://www.who.int/api/news/diseaseoutbreaknews?sf_culture=en&\$orderby=PublicationDateAndTime%20desc&\$top=3" 1200
+          p "https://goadmin.ifrc.org/api/v2/event/?limit=2&ordering=-disaster_start_date" 1500
