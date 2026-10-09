@@ -46,7 +46,11 @@ export function clasificar(capa, p = {}, geom = null) {
       const ics = { BLOQUEO: "🚧", SECUESTRO: "❗", VIOLENCIA: "💥", ASALTO: "🛑", EXTORSION: "💰" };
       return { sev: ["VIOLENCIA", "SECUESTRO"].includes(k) ? 4 : 3, tipo: `Seguridad: ${k.toLowerCase()}`, ic: ics[k] || "📍" };
     }
-    case "severo": return { sev: p.severe ? 4 : 2, tipo: String(p.kind || "").toUpperCase() === "TORNADO" ? "Tornado" : "Granizo", ic: String(p.kind || "").toUpperCase() === "TORNADO" ? "🌪️" : "🧊" };
+    case "severo": {
+      const k = String(p.kind || "").toUpperCase();
+      if (k === "TORNADO" || k === "TROMBA MARINA") return { sev: p.severe ? 4 : 3, tipo: k === "TORNADO" ? "Tornado" : "Tromba marina", ic: "🌪️" };
+      return { sev: p.severe ? 4 : 2, tipo: "Granizo y tormenta", ic: "🧊" };
+    }
     case "deslaves": return { sev: 3, tipo: "Deslave", ic: "⛰️" };
     case "nws": {
       const s = { Extreme: 5, Severe: 4, Moderate: 3, Minor: 2 }[p.severity] || 1;

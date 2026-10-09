@@ -145,10 +145,14 @@ export const CAPAS = [
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
-    id: "severo", grupo: "Clima y ambiente", nombre: "Granizo, tornados y tormentas en noticias (verificar)", archivos: ["severe_weather_map.geojson"], fuente: "Google News / GDELT",
-    estilo: (p) => ({ c: p.severe ? C.rojo : C.cian, r: 5 }), senal: true,
-    ficha: (p) => ({ titulo: p.title, chip: `${p.kind || ""}${p.severe ? " · severo" : ""} · señal de noticias, verifica`,
-      filas: [["Estado / zona", p.state || "—"], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"]], url: p.url, fuente: p.source || "Noticias" }),
+    id: "severo", grupo: "Clima y ambiente", nombre: "Tornados, trombas marinas, granizo y tormentas (noticias del mundo, verificar)", archivos: ["severe_weather_map.geojson"],
+    locales: ["data/vivos/tornados.geojson"], fuente: "GDELT GKG (mundo) y Google News / GDELT (México)",
+    estilo: (p) => (/TORNADO|TROMBA/i.test(p.kind || "") ? { c: p.severe ? "#7B1E1E" : "#6A1B9A", r: p.severe ? 7 : 6 } : { c: p.severe ? C.rojo : C.cian, r: 5 }), senal: true,
+    etiqueta: (p) => (/TORNADO|TROMBA/i.test(p.kind || "") ? (p.kind === "TORNADO" ? "Tornado" : "Tromba marina") : ""),
+    ficha: (p) => ({ titulo: p.title, chip: `${p.kind || ""}${p.severe ? " · con daños o víctimas en el título" : ""} · señal de noticias, verifica`,
+      filas: [["Lugar", `${p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
+        ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.notas > 1 ? [["Notas", `${p.notas} notas desde ${fecha(p.desde)}`], ["Otros medios", otrosMedios(p.enlaces, p.url)]] : []),
+        ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
     id: "deslaves", grupo: "Desastres naturales", nombre: "Deslaves y movimientos de masa (noticias)", archivos: ["mass_movements.geojson"], locales: ["data/vivos/deslaves.geojson"], fuente: "Noticias", senal: true,
@@ -316,6 +320,13 @@ function masCercano(m, e) {
     if (d < d0) { d0 = d; mejor = f; }
   }
   return mejor;
+}
+
+/** «medio1, medio2…» a partir de los enlaces agrupados (MapLibre entrega los arreglos como texto JSON). */
+function otrosMedios(enlaces, principal) {
+  let l = enlaces || [];
+  if (typeof l === "string") { try { l = JSON.parse(l); } catch (e) { l = []; } }
+  return [...new Set(l.filter((x) => x.url !== principal).map((x) => x.source))].slice(0, 7).join(", ") || "—";
 }
 
 export async function leerArchivo(nombre) {
