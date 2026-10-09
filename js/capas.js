@@ -196,6 +196,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
   if (familia.id === "camaras") return htmlFichaCamara(props, sub);
   if (familia.id === "conflicto") return htmlFichaConflicto(props, sub);
   if (familia.id === "religiones") return htmlFichaReligion(props, familia);
+  if (familia.id === "gobierno_forma" || familia.id === "gobierno_orientacion") return htmlFichaGobierno(props, familia);
   const url = urlFuente(props.id);
   const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
   return `
@@ -249,6 +250,32 @@ export function htmlFichaConflicto(props, sub) {
     <dl><dt>Eventos</dt><dd>${esc(props.eventos)} en 24 meses</dd><dt>Muertes estimadas</dt><dd>${esc(props.muertes)}</dd><dt>Último evento</dt><dd>${esc(props.ultima || "—")}</dd>
       <dt>Fuente</dt><dd><a href="https://ucdp.uu.se/" target="_blank" rel="noopener noreferrer">UCDP, Universidad de Uppsala</a> (CC BY 4.0)</dd></dl>
     <p class="meta">Celda de 1° (~110 km). El porcentaje es la parte de la violencia registrada (eventos + muertes) atribuida a cada grupo no estatal. Mide violencia, no control: un grupo puede dominar sin violencia visible, y UCDP solo registra hechos con al menos una muerte.</p>`;
+}
+
+/** Ficha de un país en las capas de gobierno: forma, quién gobierna, su partido y la orientación según Wikidata. */
+export function htmlFichaGobierno(props, familia) {
+  const wd = (q, txt) => (q ? `<a href="https://www.wikidata.org/wiki/${encodeURIComponent(q)}" target="_blank" rel="noopener noreferrer">${esc(txt || q)}</a>` : esc(txt || "—"));
+  const lista = (v) => jsonDe(v, []).join(", ");
+  const color = (pre, id) => (familia.subtipos || []).find((s) => s.id === `${pre}${id}`)?.color || "#888";
+  const otra = familia.id === "gobierno_forma" ? "gobierno_orientacion" : "gobierno_forma";
+  return `<h3 id="ficha-titulo">${esc(props.n)}</h3>
+    <div class="fecha">${esc(familia.nombre)} · según Wikidata (${esc(props.fecha || "")})</div>
+    <div class="chips">
+      <span class="chip" style="border-color:${esc(familia.id === "gobierno_forma" ? color("gobforma_", props.forma) : "#888")}">🏛 ${esc(props.forma_txt)}${props.federal === true || props.federal === "true" ? " · federal" : ""}</span>
+      <span class="chip" style="border-color:${esc(familia.id === "gobierno_orientacion" ? color("gobor_", props.espectro) : "#888")}">🧭 ${esc(props.espectro_txt)}</span>
+    </div>
+    <dl>
+      <dt>Formas registradas</dt><dd>${esc(lista(props.formas_wd) || "—")}</dd>
+      <dt>Jefe de Estado</dt><dd>${wd(props.jefe_estado_wd, props.jefe_estado)}</dd>
+      <dt>Jefe de gobierno</dt><dd>${wd(props.jefe_gobierno_wd, props.jefe_gobierno)}</dd>
+      <dt>Se clasifica por</dt><dd>${props.gobierna === "gobierno" ? "el jefe de gobierno" : props.gobierna === "estado" ? "el jefe de Estado" : "—"}</dd>
+      <dt>Partido</dt><dd>${props.partido_wd ? wd(props.partido_wd, props.partido) : "Sin partido registrado"}</dd>
+      <dt>Alineación del partido</dt><dd>${esc(lista(props.alineacion) || "sin dato")}</dd>
+      <dt>Corrientes</dt><dd>${esc(lista(props.corrientes) || "—")}</dd>
+      <dt>Ideologías</dt><dd>${esc(lista(props.ideologias) || "—")}</dd>
+      <dt>Fuente</dt><dd>${wd(props.wd, "Wikidata")} (CC0)</dd>
+    </dl>
+    <p class="meta">La orientación es la del partido de quien encabeza el gobierno (primer ministro en sistemas parlamentarios y monarquías constitucionales; presidente o monarca en los demás), según lo registrado en Wikidata, que cualquiera puede editar y cuyas fuentes varían. No es una opinión de este sitio. Un gobierno de coalición se clasifica por el partido de su jefe. Para la otra vista activa «${esc(otra === "gobierno_forma" ? "Forma de gobierno" : "Orientación política")}».</p>`;
 }
 
 const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],

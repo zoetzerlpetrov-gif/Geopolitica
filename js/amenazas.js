@@ -183,6 +183,93 @@ export function hoyNoCircula(fecha = new Date()) {
   return { aplica: false, texto: "Domingo: no aplica." };
 }
 
+/** Colores de los engomados (para dibujarlos); `claro` = texto oscuro encima. */
+export const COLOR_ENGOMADO = { Amarillo: ["#F2C200", true], Rosa: ["#E8609E", false], Rojo: ["#D23B3B", false], Verde: ["#2E9E6E", false], Azul: ["#2471A3", false] };
+
+/** Semana del programa (lunes a viernes) con el día de hoy marcado. */
+export function semanaHNC(fecha = new Date()) {
+  const hoy = hoyNoCircula(fecha);
+  return [1, 2, 3, 4, 5].map((d) => ({ dia: ["", "Lun", "Mar", "Mié", "Jue", "Vie"][d], engomado: HNC[d][0], placas: HNC[d][1],
+    color: COLOR_ENGOMADO[HNC[d][0]][0], claro: COLOR_ENGOMADO[HNC[d][0]][1], hoy: hoy.engomado === HNC[d][0] }));
+}
+
+/** Bandas del índice US AQI (EPA): [máximo, etiqueta, color, texto claro]. */
+export const BANDAS_AQI = [
+  [50, "Buena", "#00E400", false], [100, "Moderada", "#FFFF00", false], [150, "Dañina para grupos sensibles", "#FF7E00", false],
+  [200, "Dañina", "#FF0000", true], [300, "Muy dañina", "#8F3F97", true], [Infinity, "Peligrosa", "#7E0023", true],
+];
+export function bandaAQI(aqi) {
+  const v = Number(aqi);
+  if (!Number.isFinite(v)) return null;
+  const i = BANDAS_AQI.findIndex(([max]) => v <= max);
+  const [, etiqueta, color, textoClaro] = BANDAS_AQI[i];
+  return { i, etiqueta, color, texto: textoClaro ? "#fff" : "#1a1a1a", pos: Math.min(v, 350) / 350 };
+}
+
+// ---------------------------------------------------------------- consola de zona
+export const RADIO_ZONA_KM = 200;
+export const normalizar = (x) => String(x || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+const TIPO_CIUDAD = { capital: "capital del país", capital_estatal: "capital estatal o provincial", principal: "ciudad principal", ciudad: "ciudad" };
+
+/**
+ * Candidatos de zona para un texto: estados de México, países y ciudades (las de México primero, luego
+ * capitales, capitales estatales y ciudades por población). Acepta «Ciudad, País» para desambiguar.
+ * @param {object} fuentes {estados, ciudadesMx, ciudades (filas de config/ciudades.json), paises (gazetteer)}
+ * @returns {Array<{nombre, etiqueta, lat?, lon?, iso3?, radio_km?}>}
+ */
+export function candidatosZona(q, { estados = [], ciudadesMx = [], ciudades = [], paises = {} } = {}, max = 10) {
+  const [qc, qp] = String(q).split(",").map(normalizar);
+  if (!qc) return [];
+  const isoDe = (txt) => Object.entries(paises).find(([iso, p]) => normalizar(p.es) === txt || normalizar(p.en) === txt || normalizar(iso) === txt)?.[0];
+  const isoFiltro = qp ? isoDe(qp) : null;
+  const nombreP = (iso) => paises[iso]?.es || iso;
+  const exacto = [], parcial = [];
+  const meter = (c, nombres) => {
+    const ns = nombres.map(normalizar);
+    if (ns.includes(qc)) exacto.push(c); else if (qc.length >= 3 && ns.some((n) => n.startsWith(qc))) parcial.push(c);
+  };
+  if (!qp || isoFiltro === "MEX") {
+    for (const e of estados) meter({ nombre: e.nombre, etiqueta: `${e.nombre} (entidad de México)`, lat: e.lat, lon: e.lon, radio_km: RADIO_ZONA_KM, clase: "estado" }, [e.nombre, ...(e.alias || [])]);
+    for (const c of ciudadesMx) meter({ nombre: c.nombre, etiqueta: `${c.nombre}, ${c.estado} (México)`, lat: c.lat, lon: c.lon, radio_km: RADIO_ZONA_KM, clase: "ciudad" }, [c.nombre]);
+  }
+  if (!qp) for (const [iso, p] of Object.entries(paises)) meter({ nombre: p.es || iso, etiqueta: `${p.es || iso} (país completo)`, iso3: iso, clase: "pais" }, [p.es, p.en].filter(Boolean));
+  for (const [n, es, iso, lat, lon, tipo] of ciudades) {
+    if (isoFiltro && iso !== isoFiltro) continue;
+    meter({ nombre: es || n, etiqueta: `${es || n}, ${nombreP(iso)} · ${TIPO_CIUDAD[tipo] || "ciudad"}`, lat, lon, radio_km: RADIO_ZONA_KM, clase: "ciudad" }, [n, es].filter(Boolean));
+  }
+  // Sin duplicados (la misma ciudad puede venir de la lista de México y de Natural Earth).
+  const vistos = new Set();
+  return [...exacto, ...parcial].filter((c) => {
+    const k = c.iso3 ? `p:${c.iso3}` : `${normalizar(c.nombre)}:${Math.round(c.lat)}:${Math.round(c.lon)}`;
+    if (vistos.has(k)) return false;
+    vistos.add(k);
+    return true;
+  }).slice(0, max);
+}
+
+// ---------------------------------------------------------------- feed de seguridad por tipo
+/** Grupos del feed de titulares: [id, nombre, ícono, patrón]. El primero que coincide gana; el orden importa. */
+export const GRUPOS_FEED = [
+  ["deslave", "Deslaves y derrumbes", "⛰️", /\b(deslaves?|derrumbes?|desgajamientos?|desprendimientos?|socav[oó]n|aludes?|landslides?|mudslides?)\b/i],
+  ["clima", "Clima: lluvias, inundaciones, tormentas, calor", "🌧️", /\b(lluvias?|inundaci[oó]n|inundaciones|tormentas?|hurac[aá]n|cicl[oó]n|granizo|tornado|nevadas?|heladas?|ola de calor|frente fr[ií]o|flood|storm|hurricane|typhoon|tif[oó]n|heatwave)\b/i],
+  ["ataque", "Ataques, bombardeos y terrorismo", "💥", /\b(ataques?|bombardeos?|misil(es)?|drones?|explosi[oó]n|explosivos?|bomba|terroris\w*|strikes?|airstrikes?|missiles?|attacks?|bombing)\b/i],
+  ["violencia", "Violencia, homicidios y enfrentamientos", "🔫", /\b(asesin\w*|homicidios?|balacera|balean|enfrentamientos?|ejecutad\w*|muertos?|disparos?|killing|killed|murder|shooting)\b/i],
+  ["secuestro", "Secuestros y desapariciones", "❗", /\b(secuestr\w*|desaparecid\w*|desaparici[oó]n|privad\w* de la libertad|kidnap\w*)\b/i],
+  ["bloqueo", "Bloqueos, cierres y protestas", "🚧", /\b(bloque\w*|cierres?|cierre total|protestas?|manifestaci\w*|marchas?|paros?|huelgas?|protest\w*|blockade)\b/i],
+  ["crimen", "Crimen: robos, extorsión, cárteles", "🕴️", /\b(robos?|asaltos?|extorsi\w*|c[aá]rtel\w*|narco\w*|huachicol\w*|crimen|delincuen\w*|detenid\w*|detien\w*|arrest\w*)\b/i],
+];
+
+/** Agrupa titulares por tipo; los que no coinciden van a «Otros». Devuelve [[grupo, items]] sin grupos vacíos. */
+export function agruparFeed(items) {
+  const grupos = new Map([...GRUPOS_FEED.map((g) => [g[0], []]), ["otro", []]]);
+  for (const it of items) {
+    const g = GRUPOS_FEED.find(([, , , rx]) => rx.test(it.title || ""));
+    grupos.get(g ? g[0] : "otro").push(it);
+  }
+  const info = Object.fromEntries([...GRUPOS_FEED.map(([id, n, ic]) => [id, { id, nombre: n, ic }]), ["otro", { id: "otro", nombre: "Otros titulares", ic: "📰" }]]);
+  return [...grupos].filter(([, l]) => l.length).map(([id, l]) => [info[id], l]);
+}
+
 // ---------------------------------------------------------------- eventos nuevos
 export const PARPADEO_MS = 60000;
 export const NUEVO_MS = 3600000;

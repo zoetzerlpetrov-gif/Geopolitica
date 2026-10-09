@@ -237,7 +237,7 @@ export function htmlRiesgo(capa, props, geom) {
     <p class="meta">Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. No sustituye a Protección Civil ni a los avisos oficiales.</p>`;
 }
 
-async function leerArchivo(nombre) {
+export async function leerArchivo(nombre) {
   let ultimo;
   for (const base of BASES) {
     try { return await getJSON(base + nombre, { bust: true }); } catch (e) { ultimo = e; }
@@ -340,16 +340,34 @@ export class Riesgos {
   /** Lista de amenazas de todas las capas activas (puntos), con lo necesario para el panel. */
   amenazas() {
     const out = [];
-    for (const [id, gj] of this.activas) {
-      const capa = CAPAS.find((c) => c.id === id);
-      for (const f of gj.features) {
-        const p = f.properties;
-        if (f.geometry.type !== "Point" || p._tsunami_radio) continue;
-        const ficha = capa.ficha(p, f.geometry);
-        out.push({ capa: id, k: p._k, sev: p._sev, tipo: p._tipo, pais: p._pais, t: p._t, titulo: ficha.titulo || capa.nombre,
-          lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1], i: p._i, nuevo: p._nuevo || this.nuevas.has(p._k) });
-      }
+    for (const [id, gj] of this.activas) out.push(...this.#puntos(id, gj));
+    return out;
+  }
+
+  #puntos(id, gj) {
+    const capa = CAPAS.find((c) => c.id === id);
+    const out = [];
+    for (const f of gj.features) {
+      const p = f.properties;
+      if (f.geometry.type !== "Point" || p._tsunami_radio) continue;
+      const ficha = capa.ficha(p, f.geometry);
+      out.push({ capa: id, k: p._k, sev: p._sev, tipo: p._tipo, pais: p._pais, t: p._t, titulo: ficha.titulo || capa.nombre,
+        lon: f.geometry.coordinates[0], lat: f.geometry.coordinates[1], i: p._i, nuevo: p._nuevo || this.nuevas.has(p._k) });
     }
+    return out;
+  }
+
+  /**
+   * Tipos y países de TODAS las capas, también las apagadas (para llenar los filtros). Se descarga una
+   * sola vez, la primera vez que se abre un filtro; no dibuja nada ni marca eventos como vistos.
+   */
+  async explorar() {
+    this.catalogo ??= Promise.all(CAPAS.map(async (c) => {
+      try { return [c.id, preparar(c, await this.#datos(c), this.ctx)]; } catch (e) { return null; }
+    })).then((r) => new Map(r.filter(Boolean)));
+    const cat = await this.catalogo;
+    const out = [];
+    for (const [id, gj] of cat) if (!this.activas.has(id)) out.push(...this.#puntos(id, gj).map((a) => ({ ...a, apagada: true })));
     return out;
   }
 

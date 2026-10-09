@@ -142,7 +142,7 @@
         <div id="riesgos-filtros" class="riesgos-filtros"></div>
         <div id="riesgos-zona" class="riesgos-zona"></div>
         <div id="riesgos-amenazas" class="riesgos-amenazas"></div>
-        <div id="riesgos-vdm" class="nota-capas"></div>
+        <div id="riesgos-vdm"></div>
         <div id="riesgos-feed" class="riesgos-feed"></div>
         <p class="nota-capas" id="riesgos-espacial"></p>
         <p class="nota-capas" id="riesgos-nota">Capas de <a href="https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" target="_blank" rel="noopener noreferrer">Clima Táctico</a>: se descargan solo al activarlas.</p>
@@ -157,6 +157,12 @@
 
       <section class="bloque bloque-lista" data-grupo="eventos">
         <h2>Eventos <span id="contador" class="contador"></span></h2>
+        <div class="ev-filtros">
+          <label>Orden<select id="ev-orden"><option value="sev">Severidad: mayor a menor</option><option value="fecha">Más recientes primero</option></select></label>
+          <label>Severidad<select id="ev-sev"><option value="0">Todas</option><option value="5">Solo 5 · Extrema</option><option value="4">Solo 4 · Alta</option><option value="3">Solo 3 · Media</option><option value="2">Solo 2 · Baja</option><option value="1">Solo 1 · Informativa</option></select></label>
+          <label>País<select id="ev-pais"><option value="">Todos los países</option></select></label>
+          <label>Región<select id="ev-region"><option value="">Todas las regiones</option></select></label>
+        </div>
         <ol id="lista-eventos" class="lista-eventos" tabindex="-1"></ol>
       </section>
     </aside>

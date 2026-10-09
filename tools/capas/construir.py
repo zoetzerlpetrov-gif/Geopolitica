@@ -359,7 +359,7 @@ def camaras(revisar=enlace_responde, externas=True):
     return out
 
 
-FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones"}  # GeoJSON directo, sin tippecanoe
+FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -407,6 +407,69 @@ def religiones():
         raise RuntimeError("OWID no devolvió datos de religión")
     paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
     return D.features_religion(paises, por_pais)
+
+
+def _sparql(consulta):
+    url = "https://query.wikidata.org/sparql?" + urllib.parse.urlencode({"query": consulta, "format": "json"})
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/sparql-results+json"})
+    for i in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=120) as r:
+                return json.load(r)
+        except Exception as e:  # noqa: BLE001
+            print(f"   Wikidata reintento {i + 1}: {e}")
+            time.sleep(20 * (i + 1))
+    raise RuntimeError("Wikidata no respondió")
+
+
+_GOBIERNOS = None
+
+
+def _gobiernos():
+    """Una sola descarga de Wikidata para las dos capas de gobierno (forma y orientación)."""
+    global _GOBIERNOS
+    if _GOBIERNOS is None:
+        import gobiernos as G
+        formas = G.leer_formas(_sparql(G.Q_FORMAS))
+        time.sleep(2)
+        jefes = G.leer_jefes(_sparql(G.Q_JEFES))
+        partidos = {}
+        lista = G.partidos_de(jefes)
+        for i in range(0, len(lista), 150):
+            time.sleep(2)
+            partidos.update(G.leer_partidos(_sparql(G.Q_PARTIDOS % " ".join(f"wd:{q}" for q in lista[i:i + 150]))))
+        print(f"   Wikidata: {len(formas)} países, {len(jefes)} con jefes, {len(partidos)} partidos")
+        paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
+        _GOBIERNOS = G.features_gobierno(paises, formas, jefes, partidos, datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+    return _GOBIERNOS
+
+
+def gobierno_forma():
+    """Forma de gobierno por país (Wikidata P122)."""
+    return _gobiernos()[0]
+
+
+def gobierno_orientacion():
+    """Orientación política del partido que encabeza el gobierno (Wikidata P1387/P1142)."""
+    return _gobiernos()[1]
+
+
+def lugares_religiosos():
+    """Catedrales, mezquitas, templos, sinagogas… con artículo en varias Wikipedias o Patrimonio Mundial."""
+    import lugares_religiosos as L
+    registros = {}
+    for clase in L.CLASES:
+        try:
+            nuevos = L.leer_clase(_sparql(L.Q_CLASE % (clase[0], clase[3])), clase)
+            for q, r in nuevos.items():
+                registros.setdefault(q, r)  # la primera clase gana (catedral antes que iglesia)
+            print(f"   {clase[1]}: {len(nuevos)}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {clase[1]}: {e}")
+        time.sleep(2)
+    if not registros:
+        raise RuntimeError("Wikidata no devolvió lugares religiosos")
+    return L.features_lugares(registros, feat, punto)
 
 
 # El mundo en 8 cajas (sur, oeste, norte, este): una consulta global pesada provoca error 500 en Overpass.
@@ -585,7 +648,8 @@ def militar():
 
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
-            "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones}
+            "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
+            "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos}
 
 
 def _punto_ref(ft):
