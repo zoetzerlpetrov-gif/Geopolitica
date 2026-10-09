@@ -359,3 +359,54 @@ button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1p
 .feed-grupo > summary { cursor: pointer; font-size: 12px; font-weight: 600; }
 .feed-deslave { --c: #8B5A2B; } .feed-clima { --c: #2471A3; } .feed-ataque { --c: #C03030; } .feed-violencia { --c: #922B21; }
 .feed-secuestro { --c: #D35400; } .feed-bloqueo { --c: #E0A100; } .feed-crimen { --c: #6C3483; } .feed-otro { --c: #7A8691; }
+
+/* ---- Menú reorganizado: barra superior, grupos plegables, resúmenes ---- */
+.panel-barra { position: sticky; top: 0; z-index: 3; background: var(--surface); border-bottom: 1px solid var(--line); padding: 8px 10px; display: grid; gap: 6px; }
+.panel-herr { display: flex; gap: 6px; align-items: center; }
+.panel-herr input { flex: 1; min-width: 0; padding: 5px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); color: var(--text); font: inherit; font-size: 12px; }
+.activas { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; font-size: 11px; }
+.chip-activa { border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 12px; padding: 1px 8px; font: inherit; font-size: 11px; cursor: pointer; }
+.chip-activa:hover { border-color: var(--text-2); }
+details.grupo { border-bottom: 1px solid var(--line); }
+details.grupo > summary.grupo-tit { list-style: none; cursor: pointer; position: static; }
+details.grupo > summary.grupo-tit::-webkit-details-marker { display: none; }
+details.grupo > summary.grupo-tit::after { content: "▸"; margin-left: auto; font-size: 12px; }
+details.grupo[open] > summary.grupo-tit::after { content: "▾"; }
+details.grupo > summary .contador { color: #fff; opacity: .9; font-weight: 600; }
+.plegable > summary { gap: 8px; }
+.plegable > summary::-webkit-details-marker { display: none; }
+.plegable > summary .resumen { margin-left: auto; font-size: 11px; color: var(--text-2); text-align: right; max-width: 55%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.plegable > summary .resumen.activo { color: var(--accent, #2E6F8E); font-weight: 600; }
+.plegable > summary::after { flex: none; }
+.ev-check { grid-column: 1 / -1; flex-direction: row !important; align-items: center; color: var(--text) !important; font-size: 12px !important; }
+.bloque-lista[open] { flex: 1; }
+[hidden] { display: none !important; }
+
+/* Leyendas de las capas de amenazas */
+.ley-wrap { margin: 2px 0 8px 22px; }
+.leyenda-capa { display: grid; gap: 3px; font-size: 11px; color: var(--text-2); }
+.leyenda-capa > div { display: flex; gap: 6px; align-items: center; }
+.ley-c { display: inline-block; flex: none; border-radius: 50%; border: 1px solid rgba(255,255,255,.7); box-shadow: 0 0 0 1px rgba(0,0,0,.15); }
+.ley-ic { width: 16px; text-align: center; flex: none; }
+
+/* Amenazas activas: cabecera con conteo que destella al cambiar */
+.am-cab { padding: 6px 8px; border-radius: 6px; background: var(--surface-2); margin: 6px 0; font-size: 12px; }
+.am-cab.destello { animation: destello 1s ease-out; }
+@keyframes destello { from { background: color-mix(in srgb, var(--g-riesgos) 35%, transparent); } to { background: var(--surface-2); } }
+@media (prefers-reduced-motion: reduce) { .am-cab.destello { animation: none; } }
+
+/* Calidad del aire por ciudad */
+.aire-barra { display: flex; height: 10px; border-radius: 5px; overflow: hidden; margin: 4px 0; }
+.aire-cuentas { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 11px; color: var(--text-2); margin-bottom: 4px; }
+.aire-cuentas i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.aire-herr { display: flex; gap: 6px; margin: 6px 0; }
+.aire-herr input { flex: 1; min-width: 0; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); font: inherit; font-size: 12px; }
+.aire-lista { list-style: none; margin: 6px 0; padding: 0; max-height: 300px; overflow: auto; border: 1px solid var(--line); border-radius: 6px; }
+.aire-lista li { display: flex; align-items: center; gap: 4px; padding: 2px 6px; border-bottom: 1px solid var(--line); font-size: 12px; }
+.aire-lista label { display: flex; align-items: center; gap: 6px; flex: 1; cursor: pointer; min-width: 0; }
+.aire-lista .aqi-ciudad { min-width: 30px; text-align: center; font-family: var(--mono); }
+
+/* Ceniza volcánica */
+.tabla-ceniza { width: 100%; border-collapse: collapse; font-size: 12px; margin: 6px 0; }
+.tabla-ceniza th, .tabla-ceniza td { border-bottom: 1px solid var(--line); padding: 3px 4px; text-align: left; }
+.tabla-ceniza th { font-size: 11px; color: var(--text-2); font-weight: 600; }

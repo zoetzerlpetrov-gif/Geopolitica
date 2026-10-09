@@ -56,6 +56,16 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/clima/ciclones.py
 
+      - name: Calidad del aire en ~490 ciudades (Open-Meteo, cada 3 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/clima/aire.py
+
+      - name: Alertas volcánicas oficiales (CENAPRED y USGS, cada 3 h; si falla se conservan las anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/clima/volcanes.py
+
       - name: Terrorismo, narcotráfico y crimen organizado (GDELT, cada hora; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 5

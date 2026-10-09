@@ -11,7 +11,7 @@ const pt = (props, c) => ({ type: "Feature", geometry: { type: "Point", coordina
 
 test("severidad por capa", () => {
   assert.equal(clasificar("sismos", { mag: 7.2 }).sev, 5);
-  assert.equal(clasificar("sismos", { mag: 4.6 }).ic, "🫨");
+  assert.equal(clasificar("sismos", { mag: 4.6 }).ic, "");  // los sismos se ven como círculos por magnitud; ícono solo tsunami y enjambre
   assert.equal(clasificar("sismos", { mag: 3, tsunami: 1 }).tipo, "Tsunami");
   assert.equal(clasificar("ciclones", { layer: "storm", intensity_kt: 120 }).sev, 5);
   assert.equal(clasificar("ciclones", { layer: "storm", intensity_kt: 40 }).sev, 2);

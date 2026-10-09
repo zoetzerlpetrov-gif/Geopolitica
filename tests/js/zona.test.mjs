@@ -50,3 +50,39 @@ test("bandas del índice de calidad del aire (EPA)", () => {
   assert.equal(bandaAQI(400).pos, 1);
   assert.equal(bandaAQI("x"), null);
 });
+
+import { estiloSismo, categoriaCiclon, sevAlertaVolcan, destino, conoCeniza, nombreRumbo, haciaDonde } from "../../js/amenazas.js";
+
+test("sismos: color y tamaño crecen con la magnitud", () => {
+  const a = estiloSismo(2.7), b = estiloSismo(7.9), c = estiloSismo(4.5);
+  assert.ok(b.r > c.r && c.r > a.r);
+  assert.notEqual(a.c, b.c);
+  assert.equal(estiloSismo(7.9).c, "#6A1B9A");
+});
+
+test("ciclones: categoría Saffir-Simpson por viento", () => {
+  assert.equal(categoriaCiclon(30).texto, "Depresión tropical");
+  assert.equal(categoriaCiclon(50).texto, "Tormenta tropical");
+  assert.equal(categoriaCiclon(85).texto, "Categoría 2");
+  assert.equal(categoriaCiclon(140).n, 5);
+  assert.equal(categoriaCiclon(0), null);
+});
+
+test("volcanes: severidad desde el semáforo de CENAPRED o el nivel de USGS", () => {
+  assert.equal(sevAlertaVolcan({ semaforo: "Amarillo", fase: 2 }), 3);
+  assert.equal(sevAlertaVolcan({ semaforo: "Amarillo", fase: 3 }), 4);
+  assert.equal(sevAlertaVolcan({ semaforo: "Rojo", fase: 1 }), 5);
+  assert.equal(sevAlertaVolcan({ nivel_usgs: "WATCH" }), 4);
+  assert.equal(sevAlertaVolcan({}), null);
+});
+
+test("ceniza: el cono apunta hacia donde sopla el viento y su largo es velocidad × horas", () => {
+  assert.equal(haciaDonde(270), 90);  // viento del oeste → la ceniza va al este
+  assert.equal(nombreRumbo(90), "este");
+  const [lon, lat] = destino([-98.62, 19.02], 90, 111.2);
+  assert.ok(Math.abs(lon - -97.56) < 0.05 && Math.abs(lat - 19.02) < 0.05);
+  const c = conoCeniza([-98.62, 19.02], 270, 20, 6);
+  assert.equal(c.largo, 120);
+  assert.equal(c.rumbo, 90);
+  assert.ok(c.coordinates[0].every(([x]) => x >= -98.63));
+});
