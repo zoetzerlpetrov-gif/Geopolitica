@@ -435,6 +435,31 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .lista-seguimiento .lista-seguimiento { padding-left: 4px; }
 .lista-pases { margin: 4px 0; padding-left: 16px; max-height: 260px; overflow-y: auto; font-size: 12px; }
 .lista-pases li { margin: 2px 0; }
-.sel-vista { font-size: 12px; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--borde, #ccd); background: var(--fondo-panel, #fff); color: inherit; max-width: 130px; }
+/* Selectores de vista: mismos colores que los botones del encabezado, en claro y en oscuro. */
+.sel-vista { font: inherit; font-size: 13px; min-height: 34px; padding: 4px 8px; border-radius: var(--radius); border: 1px solid var(--line);
+  background: var(--surface-2, var(--surface)); color: var(--text); max-width: 140px; cursor: pointer; }
+.sel-vista:hover { border-color: var(--accent); }
+.sel-vista:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.sel-vista option { background: var(--surface); color: var(--text); }
+:root { color-scheme: light; }
+:root[data-theme="dark"] { color-scheme: dark; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }
 @media (max-width: 760px) { .sel-vista { max-width: 92px; font-size: 11px; } }
 .mapa-tsunami { width: 100%; border-radius: 6px; margin: 4px 0; }
+/* Pronóstico de 7 días en la ficha */
+.pronostico-7 { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 6px 0 2px; text-align: center; font-size: 11px; }
+.pr-dia { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.pr-ic { font-size: 16px; line-height: 1; }
+.pr-tmax { color: #C0392B; font-weight: 700; }
+.pr-tmin { color: #1F6FB2; font-weight: 700; }
+:root[data-theme="dark"] .pr-tmax { color: #FF8A80; } :root[data-theme="dark"] .pr-tmin { color: #82B1FF; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pr-tmax { color: #FF8A80; } :root:not([data-theme="light"]) .pr-tmin { color: #82B1FF; } }
+.pr-t, .pr-l { position: relative; width: 14px; background: var(--surface-2); border-radius: 4px; }
+.pr-t span { position: absolute; left: 0; right: 0; border-radius: 4px; background: linear-gradient(to top, #1F6FB2, #E0A100 55%, #C0392B); }
+.pr-l { display: flex; align-items: flex-end; }
+.pr-l span { width: 100%; border-radius: 3px 3px 0 0; background: #1F8A8A; }
+.pr-mm { color: var(--text); font-variant-numeric: tabular-nums; }
+.pr-pop { color: var(--text-2, var(--text)); font-variant-numeric: tabular-nums; }
+.pr-d { color: var(--text-2, var(--text)); text-transform: capitalize; white-space: nowrap; }
+.pr-ley-t, .pr-ley-l { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; }
+.pr-ley-t { background: linear-gradient(to top, #1F6FB2, #C0392B); } .pr-ley-l { background: #1F8A8A; }

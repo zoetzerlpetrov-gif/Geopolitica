@@ -49,11 +49,24 @@ def test_objetos_del_mapa():
     assert len(estado) == 1  # los dos centros, un solo evento
     fs = [f for k, ev in estado.items() for f in T.features_evento(k, ev, ahora)]
     tipos = [f["properties"]["k"] for f in fs]
-    assert tipos.count("epicentro") == 1 and tipos.count("zona") == 1 and tipos.count("frente") == T.HORAS_FRENTE
+    # Zona de 1,000 km del boletín en 6 bandas; solo cabe el frente de 1 h (700 km).
+    assert tipos.count("epicentro") == 1 and tipos.count("zona") == T.BANDAS and tipos.count("frente") == 1
     assert tipos.count("llegada") == 2 and tipos.count("observacion") == 1
     ep = fs[0]["properties"]
     assert ep["categoria"] == "Amenaza de tsunami" and ep["horas_desde"] == 2.6 and ep["profundidad_km"] == 34
     frentes = [f["properties"] for f in fs if f["properties"]["k"] == "frente"]
-    assert frentes[1]["pasado"] is True and frentes[2]["pasado"] is False  # 2 h ya pasaron; 3 h todavía no
-    viejo = T.actualizar_estado(estado, [], datetime(2026, 10, 12, tzinfo=timezone.utc))
-    assert viejo == {}
+    assert frentes[0]["pasado"] is True  # 1 h ya pasó
+    bandas = [f["properties"]["opacidad"] for f in fs if f["properties"]["k"] == "zona"]
+    assert bandas == sorted(bandas, reverse=True) and bandas[0] == 0.5  # se desvanece hacia afuera
+    # Solo mar: la Ciudad de Panamá (tierra) no queda dentro de ninguna banda.
+    from shapely.geometry import Point, shape
+    assert not any(shape(f["geometry"]).contains(Point(-79.52, 8.98)) for f in fs if f["properties"]["k"] == "zona")
+    assert any(shape(f["geometry"]).contains(Point(-80.0, 6.5)) for f in fs if f["properties"]["k"] == "zona")  # mar al sur
+    # El Caribe (al otro lado del istmo) no se pinta: el sismo es del lado del Pacífico.
+    assert not any(shape(f["geometry"]).contains(Point(-79.5, 10.5)) for f in fs if f["properties"]["k"] == "zona")
+    assert T.actualizar_estado(estado, [], datetime(2026, 10, 12, tzinfo=timezone.utc)) == {}  # vence a las 48 h
+
+
+def test_alcance_por_magnitud():
+    assert T.alcance_km(6.0) == 0 and T.alcance_km(6.8) == 100 and T.alcance_km(7.3) == 300
+    assert T.alcance_km(7.6) == 1000 and T.alcance_km(8.2) == T.VEL_KMH * T.HORAS_FRENTE and T.alcance_km(7.0, 450) == 450

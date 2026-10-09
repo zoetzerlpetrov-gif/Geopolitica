@@ -102,6 +102,7 @@ export const CAPAS = [
       filas: [["Lluvia máxima diaria", `${p.max_rain_mm ?? "—"} mm`], ["Ráfaga máxima", `${p.max_gust_kmh ?? "—"} km/h`],
         ["Temperatura", `${p.min_tmin_c ?? "—"} a ${p.max_tmax_c ?? "—"} °C`], ...(p.temp_label ? [["Aviso de temperatura", p.temp_label]] : [])],
       url: "https://open-meteo.com", fuente: "Open-Meteo (modelos numéricos)" }),
+    extra: (p) => graficaPronostico(lista(p.days)),
   },
   {
     id: "aire", grupo: "Clima y ambiente", nombre: "Calidad del aire (US AQI)", archivos: ["airquality.geojson"], locales: ["data/vivos/aire_ciudades.geojson"],
@@ -148,11 +149,11 @@ export const CAPAS = [
     id: "tsunamis", grupo: "Desastres naturales", nombre: "Tsunamis: boletines oficiales, zona de amenaza, frentes de onda y llegadas (NOAA)",
     url: "data/vivos/tsunamis.geojson", refresco_s: 300, fuente: "NOAA tsunami.gov (PTWC y NTWC)",
     estilo: (p) => ({ epicentro: { c: ["#9aa5ad", "#2E6F8E", "#C27C1E", "#E07B00", "#C62828", "#7B1E1E"][p.nivel ?? 1], r: 11 },
-      zona: { c: "#C62828", r: 0 }, frente: { c: p.pasado ? "#9cc3dc" : "#1f6fb2", r: 0 }, llegada: { c: "#E07B00", r: 5 },
+      zona: { c: ["#B71C1C", "#C62828", "#D84315", "#EF6C00", "#F9A825", "#FBC02D"][Math.max(0, (p.banda || 1) - 1)], r: 0 }, frente: { c: p.pasado ? "#9cc3dc" : "#1f6fb2", r: 0 }, llegada: { c: "#E07B00", r: 5 },
       observacion: { c: p.amplitud_m >= 1 ? "#7B1E1E" : p.amplitud_m >= 0.3 ? "#C62828" : "#E07B00", r: 6 } }[p.k] || { c: C.cian, r: 5 }),
     etiqueta: (p) => (p.k === "epicentro" ? `${p.categoria} · M${p.magnitud ?? "?"}` : p.k === "llegada" ? p.hora_utc?.slice(-5) || "" : p.k === "observacion" ? `${p.amplitud_m} m` : ""),
     leyenda: [{ ic: "🌊", t: "Epicentro con boletín oficial (color según la categoría: información, vigilancia, aviso, amenaza, alerta)" },
-      { c: "#C62828", r: 6, t: "Zona de amenaza que indica el boletín (costas a menos de N km)" }, { c: "#1f6fb2", r: 3, t: "Frente de onda estimado cada hora (claro: ya pasó)" },
+      { c: "#C62828", r: 6, t: "Alcance probable (solo mar), más intenso cerca del epicentro: zona del boletín o, si no la da, estimada por magnitud" }, { c: "#1f6fb2", r: 3, t: "Frente de onda estimado cada hora (claro: ya pasó)" },
       { c: "#E07B00", r: 5, t: "Llegada estimada (hora UTC) · ola medida en mareógrafo (metros)" }],
     ficha: (p) => fichaTsunami(p),
     // Mapa oficial de tiempos de viaje (imagen de la NOAA): considera la batimetría, a diferencia de los círculos.
@@ -314,13 +315,28 @@ export function htmlLeyenda(capa) {
   return `<div class="leyenda-capa">${capa.leyenda.map((x) => `<div>${x.ic ? `<span class="ley-ic">${x.ic}</span>` : x.c ? `<span class="ley-c" style="background:${x.c};width:${x.r * 2}px;height:${x.r * 2}px"></span>` : ""}<span>${esc(x.t)}</span></div>`).join("")}</div>`;
 }
 
+// Colores de los niveles de alerta por su nombre («Morada (extraordinario)», «Amarilla (vigilancia)», «Amarillo Fase 2»…).
+const COLOR_NOMBRE = [[/morad|violet|p[uú]rpura/i, "#7B3FB8"], [/\broj[oa]|\bred\b/i, "#C62828"], [/naranja|orange/i, "#E2711D"],
+  [/amarill|yellow/i, "#F2C230"], [/\bverde|green/i, "#2E9E6E"]];
+export function colorDeNivel(texto) {
+  const m = COLOR_NOMBRE.find(([rx]) => rx.test(texto || ""));
+  return m ? m[1] : null;
+}
+/** Negro o blanco, el que tenga más contraste con el fondo (luminancia relativa de la WCAG 2.1). */
+export function textoSobre(hex) {
+  const c = hex.replace("#", "").match(/../g).map((x) => parseInt(x, 16) / 255).map((v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4));
+  const L = 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+  return (L + 0.05) / 0.05 >= 1.05 / (L + 0.05) ? "#111111" : "#ffffff";
+}
+
 export function htmlRiesgo(capa, props, geom) {
   const f = capa.ficha(props, geom);
+  const colorChip = f.chip ? colorDeNivel(f.chip) : null;
   const sev = props._sev ? SEVERIDADES.find(([n]) => n === props._sev) : null;
   return `<h3 id="ficha-titulo">${esc(f.titulo || capa.nombre)}</h3>
     <div class="fecha">${esc(props._tipo || capa.nombre)}</div>
     <div class="chips">${props._nuevo ? `<span class="chip nuevo">NUEVO</span>` : ""}${sev ? `<span class="chip sev-${sev[0]}">Severidad ${sev[0]}/5 · ${esc(sev[1])}</span>` : ""}
-      ${f.chip ? `<span class="chip ${capa.senal ? "alerta" : ""}">${esc(f.chip)}</span>` : ""}</div>
+      ${f.chip ? `<span class="chip ${capa.senal ? "alerta" : ""}"${colorChip ? ` style="background:${colorChip};color:${textoSobre(colorChip)};border-color:${colorChip}"` : ""}>${esc(f.chip)}</span>` : ""}</div>
     <dl>${f.filas.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}
@@ -340,11 +356,42 @@ function masCercano(m, e) {
 
 const lista = (v) => { if (typeof v === "string") { try { return JSON.parse(v); } catch (e) { return []; } } return v || []; };
 
+const ICONO_WMO = (c) => (c >= 95 ? "⛈️" : c >= 80 ? "🌦️" : c >= 71 ? "🌨️" : c >= 61 ? "🌧️" : c >= 51 ? "🌦️" : c >= 45 ? "🌫️" : c >= 2 ? "⛅" : c === 1 ? "🌤️" : "☀️");
+const DIA = (iso) => { const d = new Date(`${iso}T12:00:00Z`); return `${d.toLocaleDateString("es-MX", { weekday: "short", timeZone: "UTC" }).replace(".", "")} ${iso.slice(8, 10)}`; };
+
+/**
+ * Gráfica de 7 días (como en Clima Táctico / WarRoomViajero, ampliada): por día, una barra flotante de la
+ * temperatura mínima a la máxima (escala común de la semana), una barra de lluvia en mm y la probabilidad de
+ * lluvia. HTML y CSS, sin bibliotecas: los números van escritos para no depender del color.
+ */
+export function graficaPronostico(dias) {
+  if (!dias?.length) return "";
+  const tmin = Math.min(...dias.map((d) => d.tmin)), tmax = Math.max(...dias.map((d) => d.tmax));
+  const rango = Math.max(1, tmax - tmin), maxLluvia = Math.max(1, ...dias.map((d) => d.rain || 0));
+  const ALTO_T = 64, ALTO_L = 44;
+  const col = (d) => {
+    const base = ((d.tmin - tmin) / rango) * ALTO_T, alto = Math.max(4, ((d.tmax - d.tmin) / rango) * ALTO_T);
+    const lluvia = Math.max(d.rain > 0 ? 3 : 1, ((d.rain || 0) / maxLluvia) * ALTO_L);
+    return `<div class="pr-dia" title="${esc(d.date)}: máx ${d.tmax} °C, mín ${d.tmin} °C, lluvia ${d.rain ?? 0} mm, probabilidad ${d.pop ?? "—"} %, ráfagas ${d.gust ?? "—"} km/h">
+      <div class="pr-ic">${ICONO_WMO(d.code ?? 0)}</div>
+      <div class="pr-tmax">${Math.round(d.tmax)}°</div>
+      <div class="pr-t" style="height:${ALTO_T}px"><span style="bottom:${base}px;height:${alto}px"></span></div>
+      <div class="pr-tmin">${Math.round(d.tmin)}°</div>
+      <div class="pr-l" style="height:${ALTO_L}px"><span style="height:${lluvia}px;opacity:${(0.35 + 0.65 * (d.pop ?? 100) / 100).toFixed(2)}"></span></div>
+      <div class="pr-mm">${(d.rain ?? 0) >= 10 ? Math.round(d.rain) : (d.rain ?? 0).toFixed(1)} mm</div>
+      <div class="pr-pop">${d.pop ?? "—"}%</div>
+      <div class="pr-d">${esc(DIA(d.date))}</div></div>`;
+  };
+  return `<h4>Pronóstico de 7 días</h4><div class="pronostico-7">${dias.map(col).join("")}</div>
+    <p class="meta pr-ley"><span class="pr-ley-t"></span> temperatura mínima a máxima (°C) · <span class="pr-ley-l"></span> lluvia del día (mm) · % probabilidad de lluvia (barra más intensa = más probable)</p>`;
+}
+
 /** Ficha de un objeto de la capa de tsunamis (epicentro, zona, frente, llegada u observación). */
 function fichaTsunami(p) {
   const oficial = { url: "https://www.tsunami.gov/", fuente: "NOAA tsunami.gov: consulta siempre el boletín oficial y a tu protección civil" };
   if (p.k === "frente") return { ...oficial, titulo: p.titulo, chip: "estimación", filas: [["Evento", p.region], ["Supuesto", "≈ 700 km/h en mar abierto (√(g·h) con 4 km de profundidad). La batimetría real deforma el frente y la tierra lo bloquea; la hora oficial es la del boletín"], ["Estado", p.pasado ? "Ya debió pasar" : "Aún no llega a esta distancia"]] };
-  if (p.k === "zona") return { ...oficial, titulo: p.titulo, chip: p.categoria, filas: [["Evento", p.region]] };
+  if (p.k === "zona") return { ...oficial, titulo: p.titulo, chip: p.categoria, filas: [["Evento", p.region],
+    ["Cómo se calcula", "Zona de amenaza del boletín; si no la trae, umbrales del PTWC por magnitud: M6.5–7.0 ≈ 100 km, M7.1–7.5 ≈ 300 km, M7.6–7.8 ≈ 1,000 km, M7.9+ toda la cuenca. El color se desvanece con la distancia y la tierra firme se recorta"]] };
   if (p.k === "llegada") return { ...oficial, titulo: p.titulo, chip: "hora estimada por la NOAA", filas: [["Hora (UTC, mes/día)", p.hora_utc], ["Evento", p.region]] };
   if (p.k === "observacion") return { ...oficial, titulo: p.titulo, chip: "medido en mareógrafo", filas: [["Hora (UTC)", p.hora_utc], ["Amplitud", `${p.amplitud_m} m sobre el nivel de marea`], ["Evento", p.region]] };
   const bols = lista(p.boletines), alturas = lista(p.alturas);
@@ -353,6 +400,7 @@ function fichaTsunami(p) {
     filas: [["Magnitud preliminar", p.magnitud != null ? `M${p.magnitud}` : "—"], ["Profundidad", p.profundidad_km ? `${p.profundidad_km} km` : "—"],
       ["Hora del sismo", p.origen_utc ? fecha(p.origen_utc) : "—"],
       ...(p.radio_km ? [["Zona de amenaza", `Costas a menos de ${p.radio_km} km del epicentro`]] : []),
+      ...(p.alcance_km && !p.radio_km ? [["Alcance probable", `≈ ${Number(p.alcance_km).toLocaleString("es-MX")} km (estimado por la magnitud; el boletín no da zona)`]] : []),
       ...alturas.map((a) => [`Olas de ${a.altura.replace("meters", "m").replace(" to ", " a ")}`, a.costas]),
       ...(p.primer_impacto ? [["Primer impacto posible", p.primer_impacto]] : []),
       ...(p.nota ? [["Evaluación", p.nota]] : []),
@@ -539,7 +587,9 @@ export class Riesgos {
     if (capaId.endsWith("-toque")) return [...base, ["==", ["geometry-type"], "Point"]];
     if (capaId.endsWith("-texto")) return [...base, ["==", ["geometry-type"], "Point"], ["!=", ["coalesce", ["get", "_lbl"], ""], ""]];
     if (capaId.endsWith("-area")) return [...base, ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]]];
-    if (capaId.endsWith("-linea")) return [...base, ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString", "Polygon", "MultiPolygon"]]]];
+    // Los polígonos con «opacidad» (bandas de un degradado) van sin borde: el contorno de cada banda ensuciaría el degradado.
+    if (capaId.endsWith("-linea")) return [...base, ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString", "Polygon", "MultiPolygon"]]],
+      ["!", ["all", ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]], ["has", "opacidad"]]]];
     if (capaId.endsWith("-icono")) return [...base, ["==", ["geometry-type"], "Point"], ["!=", ["get", "_ic"], ""]];
     if (capaId.endsWith("-punto")) return [...base, ["==", ["geometry-type"], "Point"], ["==", ["get", "_ic"], ""]];
     // pulso: solo lo que apareció hace menos de 1 min
@@ -562,7 +612,7 @@ export class Riesgos {
     m.addSource(src, { type: "geojson", data: gj, attribution: capa.url || capa.generar ? capa.fuente : "Clima Táctico" });
     this.#asegurarIconos(gj);
     const antes = m.getLayer("clusters") ? "clusters" : undefined;
-    m.addLayer({ id: `${src}-area`, type: "fill", source: src, filter: this.#filtroDe(`${src}-area`), paint: { "fill-color": ["get", "_c"], "fill-opacity": 0.15 } }, antes);
+    m.addLayer({ id: `${src}-area`, type: "fill", source: src, filter: this.#filtroDe(`${src}-area`), paint: { "fill-color": ["get", "_c"], "fill-opacity": ["coalesce", ["get", "opacidad"], 0.15] } }, antes);
     m.addLayer({ id: `${src}-linea`, type: "line", source: src, filter: this.#filtroDe(`${src}-linea`),
       paint: { "line-color": ["get", "_c"], "line-width": 2, "line-opacity": 0.85, "line-dasharray": capa.id === "auroras" || capa.id === "sismos" ? [3, 2] : [1, 0] } }, antes);
     m.addLayer({ id: `${src}-pulso`, type: "circle", source: src, filter: this.#filtroDe(`${src}-pulso`),
