@@ -9,7 +9,7 @@ def q(s):
         print(f"  {time.time() - t:.1f}s ERROR {e}"); return None
 isos = ["MEX", "USA", "ESP", "FRA", "DEU", "BRA", "ARG", "COL", "CHN", "IND", "JPN", "GBR", "ITA", "CAN", "RUS", "ZAF", "NGA", "EGY", "TUR", "IRN"]
 V = " ".join(f'"{x}"' for x in isos)
-A = """SELECT DISTINCT ?iso ?cargo WHERE { VALUES ?iso { %s } ?pais wdt:P298 ?iso ; wdt:P31 wd:Q3624078 . ?cargo wdt:P1001 ?pais .
+A = """SELECT DISTINCT ?iso ?cargo WHERE { VALUES ?iso { %s } ?pais wdt:P298 ?iso ; wdt:P31 wd:Q3624078 . { ?cargo wdt:P1001 ?pais } UNION { ?cargo wdt:P17 ?pais }
  { ?cargo wdt:P31 wd:Q83307 } UNION { ?cargo wdt:P31/wdt:P279 wd:Q83307 } UNION { ?cargo wdt:P31/wdt:P279/wdt:P279 wd:Q83307 } }""" % V
 print("A cargos"); ra = q(A)
 cargos = sorted({f["cargo"]["value"].rsplit("/", 1)[1] for f in ra["results"]["bindings"]}) if ra else []
@@ -31,4 +31,4 @@ for f in filas:
     por[cargo_iso.get(c)].append((f.get("cargoEs", f.get("cargoEn", {})).get("value"), f.get("personaEs", f.get("personaEn", {})).get("value"), f["ini"]["value"][:10]))
 print({k: len(v) for k, v in por.items()})
 for iso in ["MEX", "USA", "ESP", "DEU", "BRA", "JPN"]:
-    print(iso, sorted(por.get(iso, []))[:40])
+    print(iso, sorted(por.get(iso, []), key=str)[:40])
