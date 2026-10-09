@@ -53,6 +53,9 @@ def test_partido_vigente_e_inferencia_de_forma():
     pcc = {"ideologias_en": ["communism"]}
     assert G.inferir_forma("otra", ["people's republic"], {"estado": [{"qid": "A"}], "gobierno": [{"qid": "B"}]}, pcc) == ("partido_unico", True)
     assert G.inferir_forma("parlamentaria", ["parliamentary republic"], misma, pcc) == ("parlamentaria", False)
+    # República multipartidista gobernada por un partido marxista (Sri Lanka): no se deduce partido único.
+    assert G.inferir_forma("otra", ["republic"], {"estado": [{"qid": "A"}], "gobierno": [{"qid": "B"}]}, pcc) == ("otra", False)
+    assert G.forma_principal(["people's republic", "communist dictatorship"]) == "partido_unico"
     assert G.forma_principal(["super-presidential republic"]) == "presidencial"
 
 
