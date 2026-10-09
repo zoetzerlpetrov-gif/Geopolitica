@@ -2104,6 +2104,39 @@
               "expels diplomats"
             ]
           }
+        },
+        {
+          "id": "leyes_reformas",
+          "nombre": "Leyes, reformas y decretos",
+          "palabras_clave": {
+            "es": [
+              "aprueba ley",
+              "aprobó la ley",
+              "aprueban ley",
+              "nueva ley",
+              "reforma constitucional",
+              "reforma a la ley",
+              "promulga",
+              "publica decreto",
+              "decreto presidencial",
+              "entra en vigor",
+              "diario oficial"
+            ],
+            "en": [
+              "passes law",
+              "passed a law",
+              "signs law",
+              "signed into law",
+              "bill passed",
+              "passes bill",
+              "new law",
+              "constitutional amendment",
+              "executive order",
+              "decree",
+              "takes effect",
+              "comes into force"
+            ]
+          }
         }
       ]
     },

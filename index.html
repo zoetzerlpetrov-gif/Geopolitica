@@ -95,6 +95,7 @@
             <label>País<select id="ev-pais"><option value="">Todos los países</option></select></label>
             <label>Región<select id="ev-region"><option value="">Todas las regiones</option></select></label>
             <label class="ev-check"><span><input type="checkbox" id="f-mexico"> Solo con impacto en México</span></label>
+            <label class="ev-check"><span><input type="checkbox" id="f-leyes"> Solo leyes, reformas y decretos</span></label>
           </div>
           <button type="button" id="ev-limpiar" class="txt-btn">Quitar filtros</button>
         </details>
@@ -187,7 +188,7 @@
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
         <section class="bloque" data-grupo="herramientas">
           <h3 class="bloque-tit">📷 Ubicar una foto por sus metadatos</h3>
-          <label class="fila"><span>Elige una foto JPEG</span><input type="file" id="foto-exif" accept="image/jpeg"></label>
+          <label class="fila"><span>Elige una foto JPEG o HEIC</span><input type="file" id="foto-exif" accept="image/jpeg,image/heic,image/heif,.heic,.heif"></label>
           <p class="meta">La foto se lee solo en tu navegador: no se sube ni se guarda. Funciona si la cámara o el teléfono tenía el GPS activo y la foto no pasó por redes sociales (WhatsApp, Facebook o X borran la ubicación).</p>
           <div id="foto-exif-res"></div>
         </section>

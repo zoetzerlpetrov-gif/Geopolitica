@@ -258,6 +258,54 @@
    "nota": "Wikidata (CC0): sitios con declaratoria de Patrimonio Mundial de la UNESCO (P1435), parques nacionales con 5 o más Wikipedias y atracciones turísticas con 4 o más."
   },
   {
+   "id": "fiscal_ue",
+   "nombre": "Lista fiscal de la UE: jurisdicciones no cooperativas (paraísos fiscales)",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "lista_ue",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.6,
+   "zoom_etiquetas": 3,
+   "nota": "Consejo de la UE, situación al 9 de octubre de 2026. Anexo I: no cooperativas; Anexo II: con compromisos pendientes. Es una lista política: no evalúa a países de la UE."
+  },
+  {
+   "id": "recaudacion",
+   "nombre": "Recaudación de impuestos (% del PIB)",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "banco_mundial",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Banco Mundial (CC BY 4.0), indicador GC.TAX.TOTL.GD.ZS: impuestos del gobierno central como % del PIB, último año disponible."
+  },
+  {
+   "id": "tasas_bc",
+   "nombre": "Tasa de interés de los bancos centrales",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "bis",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "BIS, serie WS_CBPOL (fin de mes). La zona euro usa la tasa del BCE."
+  },
+  {
+   "id": "nodos_bitcoin",
+   "nombre": "Nodos de Bitcoin por país",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "bitnodes",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Bitnodes: nodos alcanzables; país por DB-IP Lite (CC BY 4.0). Mide infraestructura de la red, no dinero ni usuarios."
+  },
+  {
    "id": "gobierno_forma",
    "nombre": "Forma de gobierno por país (república, monarquía…)",
    "categoria": "gobierno_forma",

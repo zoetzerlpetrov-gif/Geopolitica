@@ -285,15 +285,18 @@ export function htmlFichaGobierno(props, familia) {
       <dt>Ideologías</dt><dd>${esc(lista(props.ideologias) || "—")}</dd>
       <dt>Fuente</dt><dd>${wd(props.wd, "Wikidata")} (CC0)</dd>
     </dl>
-    ${htmlGabinete(jsonDe(props.gabinete, []))}
+    ${htmlInstituciones(jsonDe(props.instituciones, {}))}
     <p class="meta">La orientación es la del partido de quien encabeza el gobierno (primer ministro en sistemas parlamentarios y monarquías constitucionales; presidente o monarca en los demás), según lo registrado en Wikidata, que cualquiera puede editar y cuyas fuentes varían. No es una opinión de este sitio. Un gobierno de coalición se clasifica por el partido de su jefe. «Deducida»: Wikidata solo dice «república»; si la misma persona encabeza Estado y gobierno se toma como presidencial, y si gobierna un partido comunista, como partido único. «Estimada por ideología»: el partido no tiene alineación registrada y se ubica con sus ideologías. Si hay dos alineaciones a medio camino (p. ej. «derecha» y «extrema derecha»), se toma la más cercana al centro. Para la otra vista activa «${esc(otra === "gobierno_forma" ? "Forma de gobierno" : "Orientación política")}».</p>`;
 }
 
-/** Gabinete vigente según Wikidata: [[cargo, nombre, qid, desde]]. Solo nombre y cargo público, con enlace a la ficha. */
-export function htmlGabinete(gab) {
-  if (!gab.length) return `<h4>Gabinete</h4><p class="meta">Wikidata no tiene ministros vigentes registrados con fecha de inicio para este país.</p>`;
-  return `<h4>Gabinete (${gab.length} cargos)</h4><ul class="fuentes gabinete">${gab.map(([c, n, q, d]) => `<li><b>${esc(c)}</b>: <a href="https://www.wikidata.org/wiki/${encodeURIComponent(q)}" target="_blank" rel="noopener noreferrer">${esc(n)}</a>${d ? ` <span class="meta">desde ${esc(d)}</span>` : ""}</li>`).join("")}</ul>
-    <p class="meta">Ministros con cargo vigente en Wikidata: inicio desde 2015, sin fecha de fin ni sucesor registrado. Puede faltar alguno o seguir uno que ya dejó el cargo si nadie lo actualizó; confirma en el sitio oficial del gobierno.</p>`;
+/** Poder ejecutivo (con sitio oficial) y legislativo según Wikidata. */
+export function htmlInstituciones(inst) {
+  const wdl = (q, t) => `<a href="https://www.wikidata.org/wiki/${encodeURIComponent(q)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`;
+  const e = inst?.ejecutivo, l = inst?.legislativo;
+  if (!e && !l) return "";
+  return `<h4>Instituciones</h4><dl>
+    ${e ? `<dt>Poder ejecutivo</dt><dd>${wdl(e[1], e[0])}${e[2] ? ` · <a href="${esc(safeUrl(e[2]))}" target="_blank" rel="noopener noreferrer">sitio oficial (gabinete al día)</a>` : ""}</dd>` : ""}
+    ${l ? `<dt>Poder legislativo</dt><dd>${wdl(l[1], l[0])}</dd>` : ""}</dl>`;
 }
 
 const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],
