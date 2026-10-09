@@ -145,6 +145,22 @@ export const CAPAS = [
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
+    id: "tsunamis", grupo: "Desastres naturales", nombre: "Tsunamis: boletines oficiales, zona de amenaza, frentes de onda y llegadas (NOAA)",
+    url: "data/vivos/tsunamis.geojson", refresco_s: 300, fuente: "NOAA tsunami.gov (PTWC y NTWC)",
+    estilo: (p) => ({ epicentro: { c: ["#9aa5ad", "#2E6F8E", "#C27C1E", "#E07B00", "#C62828", "#7B1E1E"][p.nivel ?? 1], r: 11 },
+      zona: { c: "#C62828", r: 0 }, frente: { c: p.pasado ? "#9cc3dc" : "#1f6fb2", r: 0 }, llegada: { c: "#E07B00", r: 5 },
+      observacion: { c: p.amplitud_m >= 1 ? "#7B1E1E" : p.amplitud_m >= 0.3 ? "#C62828" : "#E07B00", r: 6 } }[p.k] || { c: C.cian, r: 5 }),
+    etiqueta: (p) => (p.k === "epicentro" ? `${p.categoria} · M${p.magnitud ?? "?"}` : p.k === "llegada" ? p.hora_utc?.slice(-5) || "" : p.k === "observacion" ? `${p.amplitud_m} m` : ""),
+    leyenda: [{ ic: "🌊", t: "Epicentro con boletín oficial (color según la categoría: información, vigilancia, aviso, amenaza, alerta)" },
+      { c: "#C62828", r: 6, t: "Zona de amenaza que indica el boletín (costas a menos de N km)" }, { c: "#1f6fb2", r: 3, t: "Frente de onda estimado cada hora (claro: ya pasó)" },
+      { c: "#E07B00", r: 5, t: "Llegada estimada (hora UTC) · ola medida en mareógrafo (metros)" }],
+    ficha: (p) => fichaTsunami(p),
+    // Mapa oficial de tiempos de viaje (imagen de la NOAA): considera la batimetría, a diferencia de los círculos.
+    extra: (p) => (p.k === "epicentro" && p.mapa_tiempos ? `<h4>Tiempos de viaje calculados por la NOAA</h4>
+      <a href="${esc(safeUrl(p.mapa_tiempos))}" target="_blank" rel="noopener noreferrer"><img class="mapa-tsunami" src="${esc(safeUrl(p.mapa_tiempos))}" alt="Mapa de tiempos de viaje del tsunami (NOAA)" loading="lazy"></a>
+      <p class="meta">Cada contorno es una hora de viaje de la onda. Las horas oficiales de llegada a cada costa están en el boletín.</p>` : ""),
+  },
+  {
     id: "severo", grupo: "Clima y ambiente", nombre: "Tornados, trombas marinas, granizo y tormentas (noticias del mundo, verificar)", archivos: ["severe_weather_map.geojson"],
     locales: ["data/vivos/tornados.geojson"], fuente: "GDELT GKG (mundo) y Google News / GDELT (México)",
     estilo: (p) => (/TORNADO|TROMBA/i.test(p.kind || "") ? { c: p.severe ? "#7B1E1E" : "#6A1B9A", r: p.severe ? 7 : 6 } : { c: p.severe ? C.rojo : C.cian, r: 5 }), senal: true,
@@ -309,7 +325,7 @@ export function htmlRiesgo(capa, props, geom) {
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}
     ${capa.senal ? `<p class="meta">Señal detectada en cobertura noticiosa y ubicada de forma aproximada: no es un incidente confirmado. Verifica en la fuente y con autoridades locales.</p>` : ""}
-    <p class="meta">Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. No sustituye a Protección Civil ni a los avisos oficiales.</p>`;
+    <p class="meta">${capa.archivos ? `Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. ` : ""}No sustituye a Protección Civil ni a los avisos oficiales.</p>`;
 }
 
 /** De los objetos bajo el clic, el más cercano al punto exacto. */
@@ -320,6 +336,29 @@ function masCercano(m, e) {
     if (d < d0) { d0 = d; mejor = f; }
   }
   return mejor;
+}
+
+const lista = (v) => { if (typeof v === "string") { try { return JSON.parse(v); } catch (e) { return []; } } return v || []; };
+
+/** Ficha de un objeto de la capa de tsunamis (epicentro, zona, frente, llegada u observación). */
+function fichaTsunami(p) {
+  const oficial = { url: "https://www.tsunami.gov/", fuente: "NOAA tsunami.gov: consulta siempre el boletín oficial y a tu protección civil" };
+  if (p.k === "frente") return { ...oficial, titulo: p.titulo, chip: "estimación", filas: [["Evento", p.region], ["Supuesto", "≈ 700 km/h en mar abierto (√(g·h) con 4 km de profundidad). La batimetría real deforma el frente y la tierra lo bloquea; la hora oficial es la del boletín"], ["Estado", p.pasado ? "Ya debió pasar" : "Aún no llega a esta distancia"]] };
+  if (p.k === "zona") return { ...oficial, titulo: p.titulo, chip: p.categoria, filas: [["Evento", p.region]] };
+  if (p.k === "llegada") return { ...oficial, titulo: p.titulo, chip: "hora estimada por la NOAA", filas: [["Hora (UTC, mes/día)", p.hora_utc], ["Evento", p.region]] };
+  if (p.k === "observacion") return { ...oficial, titulo: p.titulo, chip: "medido en mareógrafo", filas: [["Hora (UTC)", p.hora_utc], ["Amplitud", `${p.amplitud_m} m sobre el nivel de marea`], ["Evento", p.region]] };
+  const bols = lista(p.boletines), alturas = lista(p.alturas);
+  return {
+    titulo: p.titulo, chip: `${p.categoria}${p.horas_desde != null ? ` · hace ${p.horas_desde} h` : ""}`,
+    filas: [["Magnitud preliminar", p.magnitud != null ? `M${p.magnitud}` : "—"], ["Profundidad", p.profundidad_km ? `${p.profundidad_km} km` : "—"],
+      ["Hora del sismo", p.origen_utc ? fecha(p.origen_utc) : "—"],
+      ...(p.radio_km ? [["Zona de amenaza", `Costas a menos de ${p.radio_km} km del epicentro`]] : []),
+      ...alturas.map((a) => [`Olas de ${a.altura.replace("meters", "m").replace(" to ", " a ")}`, a.costas]),
+      ...(p.primer_impacto ? [["Primer impacto posible", p.primer_impacto]] : []),
+      ...(p.nota ? [["Evaluación", p.nota]] : []),
+      ["Boletines", bols.map((b) => `${b.centro}: ${b.categoria} (${fecha(b.actualizado)})`).join(" · ") || "—"]],
+    url: bols[0]?.boletin || "https://www.tsunami.gov/", fuente: "Boletín oficial (NOAA)",
+  };
 }
 
 /** «medio1, medio2…» a partir de los enlaces agrupados (MapLibre entrega los arreglos como texto JSON). */
