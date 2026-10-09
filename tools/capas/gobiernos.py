@@ -58,7 +58,7 @@ SELECT ?partido ?partidoEs ?partidoEn ?alin ?alinEn ?ideo ?ideoEn ?ideoEs WHERE 
 FORMAS = [
     ("militar", "Junta o gobierno militar", r"military (junta|dictatorship|government|rule)|stratocracy"),
     ("teocracia", "Teocracia", r"theocra|islamic republic|islamic emirate"),
-    ("partido_unico", "Estado de partido único", r"one-party|single-party|communist state|marxist.leninist state|socialist state"),
+    ("partido_unico", "Estado de partido único", r"one-party|single-party|communist state|communist dictatorship|marxist.leninist state|socialist state"),
     ("monarquia_absoluta", "Monarquía absoluta", r"absolute monarchy"),
     ("monarquia_constitucional", "Monarquía constitucional o parlamentaria", r"constitutional monarchy|parliamentary monarchy|commonwealth realm|semi-constitutional monarchy|elective monarchy"),
     ("semipresidencial", "República semipresidencial", r"semi-presidential"),
@@ -70,12 +70,13 @@ NOMBRE_FORMA = {f[0]: f[1] for f in FORMAS} | {"otra": "República u otra forma 
 
 def inferir_forma(forma, etiquetas_en, roles, partido):
     """Cuando Wikidata solo dice «república» (EUA, China, Argentina…), se deduce con lo que sí registra:
-    partido comunista gobernante → partido único; la misma persona encabeza Estado y gobierno → presidencial.
+    partido comunista gobernante en una «república popular», «socialista» o «Estado unitario» → partido único
+    (una república multipartidista gobernada por un partido marxista, como Sri Lanka, no lo es); la misma persona encabeza Estado y gobierno → presidencial.
     Devuelve (forma, inferida)."""
     if forma != "otra":
         return forma, False
     if partido and "comunista o marxista" in corrientes(partido.get("ideologias_en", [])) and any(
-            re.search(r"people's republic|socialist|unitary state|republic", e or "", re.I) for e in etiquetas_en):
+            re.search(r"people's republic|socialist|unitary state", e or "", re.I) for e in etiquetas_en):
         return "partido_unico", True
     estado = {j["qid"] for j in roles.get("estado", [])}
     gobierno = {j["qid"] for j in roles.get("gobierno", [])}
