@@ -438,9 +438,16 @@ def _gobiernos():
         for i in range(0, len(lista), 150):
             time.sleep(2)
             partidos.update(G.leer_partidos(_sparql(G.Q_PARTIDOS % " ".join(f"wd:{q}" for q in lista[i:i + 150]))))
-        print(f"   Wikidata: {len(formas)} países, {len(jefes)} con jefes, {len(partidos)} partidos")
+        gabinetes, isos = {}, sorted(formas)
+        for i in range(0, len(isos), 20):
+            time.sleep(2)
+            try:
+                gabinetes.update(G.leer_gabinete(_sparql(G.Q_GABINETE % " ".join(f'"{x}"' for x in isos[i:i + 20]))))
+            except RuntimeError as e:  # un lote que no responde deja esos países sin gabinete, no tumba la capa
+                print(f"   gabinete {isos[i]}–{isos[min(i + 19, len(isos) - 1)]}: {e}")
+        print(f"   Wikidata: {len(formas)} países, {len(jefes)} con jefes, {len(partidos)} partidos, {len(gabinetes)} con gabinete")
         paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
-        _GOBIERNOS = G.features_gobierno(paises, formas, jefes, partidos, datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+        _GOBIERNOS = G.features_gobierno(paises, formas, jefes, partidos, datetime.now(timezone.utc).strftime("%Y-%m-%d"), gabinetes)
     return _GOBIERNOS
 
 

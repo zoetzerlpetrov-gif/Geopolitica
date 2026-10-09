@@ -60,7 +60,7 @@ def features_tormenta(t, cono_fc, avisos_fc):
     out = []
     for f in (cono_fc or {}).get("features", []):
         if f.get("geometry"):
-            out.append({"type": "Feature", "geometry": f["geometry"], "properties": {**base, "kind": "cono", "opacidad": 0.16}})
+            out.append({"type": "Feature", "geometry": f["geometry"], "properties": {**base, "kind": "cono"}})
     for f in (avisos_fc or {}).get("features", []):
         cod = codigo_aviso(f.get("properties") or {})
         if f.get("geometry") and cod:

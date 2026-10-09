@@ -125,3 +125,17 @@ def test_lugares_religiosos():
     assert L.religion_de(["Sunni Islam"], None) == "islam"
     assert L.religion_de([], None) == "otras"
     assert L.nivel_de(20, False) == "alta"
+
+
+def test_gabinete_un_titular_por_cargo_sin_viceministros():
+    W = "http://www.wikidata.org/entity/"
+    fila = lambda **k: {c: {"value": v} for c, v in k.items()}  # noqa: E731
+    res = {"results": {"bindings": [
+        fila(iso="MEX", cargo=W + "C1", cargoEs="Secretaría de Hacienda", persona=W + "P1", personaEs="Titular viejo", ini="2018-12-01T00:00:00Z"),
+        fila(iso="MEX", cargo=W + "C1", cargoEs="Secretaría de Hacienda", persona=W + "P2", personaEs="Titular nuevo", ini="2024-10-01T00:00:00Z"),
+        fila(iso="MEX", cargo=W + "C2", cargoEn="Deputy Minister of Finance", persona=W + "P3", personaEn="Vice", ini="2024-10-01T00:00:00Z"),
+        fila(iso="ESP", cargo=W + "C3", cargoEn="Minister of Defence", persona=W + "P4", personaEn="Ministra", ini="2023-11-21T00:00:00Z"),
+    ]}}
+    g = G.leer_gabinete(res)
+    assert [m["nombre"] for m in g["MEX"]] == ["Titular nuevo"] and g["MEX"][0]["desde"] == "2024-10-01"
+    assert g["ESP"][0]["cargo"] == "Minister of Defence" and g["ESP"][0]["wd"] == "P4"

@@ -53,6 +53,45 @@ SELECT ?partido ?partidoEs ?partidoEn ?alin ?alinEn ?ideo ?ideoEn ?ideoEs WHERE 
              OPTIONAL { ?ideo rdfs:label ?ideoEs FILTER(lang(?ideoEs) = "es") } }
 }"""
 
+# Gabinete vigente: cargos de ministro (clase Q83307 o subclases) cuyo ámbito (P1001) es el país, con inicio desde
+# 2015, sin fecha de fin ni sucesor registrado y con titular vivo. Sin esos filtros salen ministros del siglo XIX.
+# Se consulta por lotes de países (con todos a la vez el servicio agota el tiempo).
+Q_GABINETE = """
+SELECT ?iso ?cargo ?cargoEs ?cargoEn ?persona ?personaEs ?personaEn ?ini WHERE {
+  VALUES ?iso { %s }
+  ?pais wdt:P298 ?iso ; wdt:P31 wd:Q3624078 .
+  ?cargo wdt:P1001 ?pais ; wdt:P31/wdt:P279* wd:Q83307 .
+  ?persona p:P39 ?st . ?st ps:P39 ?cargo ; pq:P580 ?ini .
+  FILTER(?ini >= "2015-01-01T00:00:00Z"^^xsd:dateTime)
+  FILTER NOT EXISTS { ?st pq:P582 ?fin }
+  FILTER NOT EXISTS { ?st pq:P1366 ?sucesor }
+  FILTER NOT EXISTS { ?persona wdt:P570 ?muerte }
+  OPTIONAL { ?cargo rdfs:label ?cargoEs FILTER(lang(?cargoEs) = "es") }
+  OPTIONAL { ?cargo rdfs:label ?cargoEn FILTER(lang(?cargoEn) = "en") }
+  OPTIONAL { ?persona rdfs:label ?personaEs FILTER(lang(?personaEs) = "es") }
+  OPTIONAL { ?persona rdfs:label ?personaEn FILTER(lang(?personaEn) = "en" || lang(?personaEn) = "mul") }
+}"""
+# Viceministros, subsecretarios y ministros adjuntos no son titulares del gabinete.
+NO_TITULAR = re.compile(r"(?i)\b(deputy|vice|junior|assistant|under.?secretary|state secretary|parliamentary secretary|shadow|viceministr|subsecretari|adjunt)")
+
+
+def leer_gabinete(res):
+    """{iso: [{cargo, cargo_wd, nombre, wd, desde}]}: un titular por cargo (el de inicio más reciente)."""
+    por = defaultdict(dict)
+    for f in res["results"]["bindings"]:
+        iso, cargo, persona = _v(f, "iso"), _qid(_v(f, "cargo")), _qid(_v(f, "persona"))
+        en = _v(f, "cargoEn") or ""
+        if not iso or not cargo or NO_TITULAR.search(en) or NO_TITULAR.search(_v(f, "cargoEs") or ""):
+            continue
+        desde = (_v(f, "ini") or "")[:10]
+        previo = por[iso].get(cargo)
+        if previo and previo["desde"] >= desde:
+            continue
+        por[iso][cargo] = {"cargo": _v(f, "cargoEs") or en or cargo, "cargo_wd": cargo, "nombre": _v(f, "personaEs") or _v(f, "personaEn") or persona,
+                           "wd": persona, "desde": desde}
+    return {iso: sorted(d.values(), key=lambda x: x["cargo"].lower()) for iso, d in por.items()}
+
+
 # ---------------------------------------------------------------- forma de gobierno
 # (id, nombre, patrón sobre la etiqueta en inglés). El orden es la prioridad cuando hay varias formas.
 FORMAS = [
@@ -293,7 +332,7 @@ def elegir_gobierno(forma, roles, partidos=None):
 
 
 # ---------------------------------------------------------------- features
-def features_gobierno(paises_fc, formas, jefes, partidos, fecha):
+def features_gobierno(paises_fc, formas, jefes, partidos, fecha, gabinetes=None):
     """Dos juegos de polígonos (forma de gobierno y orientación) con la misma ficha."""
     forma_fc, orient_fc = [], []
     for f in paises_fc["features"]:
@@ -322,6 +361,8 @@ def features_gobierno(paises_fc, formas, jefes, partidos, fecha):
             "ideologias": json.dumps((partido or {}).get("ideologias_es", [])[:8], ensure_ascii=False),
             "corrientes": json.dumps(corrientes((partido or {}).get("ideologias_en", [])), ensure_ascii=False),
             "fecha": fecha, "z": 0,
+            # [[cargo, nombre, qid, desde]] (máx. 40): personas con cargo público vigente, solo nombre y cargo.
+            "gabinete": json.dumps([[m["cargo"], m["nombre"], m["wd"], m["desde"]] for m in (gabinetes or {}).get(iso, [])[:40]], ensure_ascii=False),
         }
         forma_fc.append({"type": "Feature", "geometry": f["geometry"], "properties": {**props, "id": f"gobf:{iso}", "st": f"gobforma_{forma}", "x": NOMBRE_FORMA[forma]}})
         orient_fc.append({"type": "Feature", "geometry": f["geometry"], "properties": {**props, "id": f"gobo:{iso}", "st": f"gobor_{esp}",

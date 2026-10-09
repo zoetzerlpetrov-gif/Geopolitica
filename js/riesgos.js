@@ -52,10 +52,12 @@ export const CAPAS = [
   },
   {
     id: "ciclones", grupo: "Desastres naturales", nombre: "Ciclones, tifones y tormentas tropicales (todo el mundo)", archivos: ["storms.geojson", "storm_tracks.geojson"],
-    locales: ["data/vivos/ciclones_mundo.geojson"], fuente: "NOAA NHC, GDACS e IBTrACS",
+    locales: ["data/vivos/ciclones_mundo.geojson", "data/vivos/nhc_conos.geojson"], fuente: "NOAA NHC, GDACS e IBTrACS",
     // storms: posición actual. storm_tracks: trayectoria pasada (gris), pronóstico (ámbar) y radios de viento
     // de 34, 50 y 64 nudos (polígonos, más rojos cuanto más fuerte el viento).
     estilo: (p) => {
+      if (p.kind === "cono") return { c: "#E0A100", r: 0 };
+      if (p.kind === "aviso_costa") return { c: { 4: "#C62828", 3: "#E2711D", 2: "#F2C230" }[p.aviso_nivel] || "#E0A100", r: 0 };
       if (p.layer === "storm") { const k = categoriaCiclon(p.intensity_kt || p.wind_kt); return { c: !k ? C.rojo : k.n >= 3 ? "#6A1B9A" : k.n >= 1 ? C.rojo : C.naranja, r: 8 + Math.round((k?.n || 0) * 2.4) }; }
       if (String(p.kind).startsWith("past")) return { c: C.gris, r: 2.5 };
       if (String(p.kind).startsWith("wind_radii")) return { c: p.wind_kt >= 64 ? C.rojo : p.wind_kt >= 50 ? C.naranja : C.ambar, r: 0 };
@@ -64,8 +66,14 @@ export const CAPAS = [
     etiqueta: (p) => { if (p.layer !== "storm") return ""; const k = categoriaCiclon(p.intensity_kt || p.wind_kt); return `${p.name || p.storm_name || ""}${k ? ` · ${k.texto}` : ""}`; },
     leyenda: [{ c: "#6A1B9A", r: 10, t: "Categoría 3 a 5 (huracán o tifón mayor)" }, { c: C.rojo, r: 8, t: "Categoría 1 o 2" }, { c: C.naranja, r: 6, t: "Tormenta o depresión tropical" },
       { c: C.gris, r: 3, t: "Trayectoria recorrida" }, { c: C.ambar, r: 4, t: "Pronóstico y radios de viento" },
+      { c: "#E0A100", r: 6, t: "Cono del NHC: por dónde podría pasar el CENTRO en 5 días (no es el tamaño del huracán)" },
+      { c: "#C62828", r: 3, t: "Costa con aviso de huracán · naranja: vigilancia de huracán o aviso de tormenta · amarillo: vigilancia de tormenta" },
       { t: "La severidad 1–5 del panel se calcula con la categoría: cat. 4–5 = 5, cat. 2–3 = 4, cat. 1 = 3, tormenta = 2." }],
     ficha: (p) => {
+      if (p.kind === "cono") return { titulo: `Cono de pronóstico · ${p.name}`, chip: p.clase || "ciclón", filas: [["Qué es", "Zona por donde podría pasar el centro del ciclón en los próximos 5 días. Se traza con los errores del NHC de los últimos 5 años: el centro queda dentro unas 2 de cada 3 veces"],
+        ["Qué no es", "El tamaño del ciclón: viento, lluvia y marea de tormenta pueden afectar muy lejos del cono"], ["Aviso núm.", p.aviso_num || "—"], ["Actualizado", p.last_update ? fecha(p.last_update) : "—"]], url: p.url, fuente: "NOAA National Hurricane Center" };
+      if (p.kind === "aviso_costa") return { titulo: `${p.aviso} · ${p.name}`, chip: p.aviso, filas: [["Aviso", "Se esperan esas condiciones en la costa marcada, en general en 36 h"], ["Vigilancia", "Esas condiciones son posibles, en general en 48 h"],
+        ["Actualizado", p.last_update ? fecha(p.last_update) : "—"]], url: p.url, fuente: "NOAA National Hurricane Center" };
       const kt = p.intensity_kt || p.wind_kt;
       const cat = p.layer === "storm" ? categoriaCiclon(kt) : null;
       const tipo = { past: "Trayectoria recorrida", past_point: "Posición pasada", forecast: "Trayectoria pronosticada", forecast_point: "Posición pronosticada",
@@ -240,6 +248,19 @@ export const CAPAS = [
       url: "https://www.cisa.gov/news-events/cybersecurity-advisories?f%5B0%5D=advisory_type%3A95", fuente: "CISA (dominio público, EUA)" }),
     extra: (p) => `<h4>Avisos más recientes</h4><ul class="fuentes">${lista(p.avisos).map((a) => `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.id)}</a> · ${esc(a.titulo)} · ${esc(a.fecha)}${a.cvss != null ? ` · CVSS ${esc(a.cvss)}` : ""}${a.explotado ? " · <b>explotación conocida</b>" : ""}</li>`).join("")}</ul>
       <p class="meta">CVSS mide la gravedad técnica de 0 a 10. Un aviso no significa un ataque: es una vulnerabilidad publicada con su parche o mitigación.</p>`,
+  },
+  {
+    id: "avisos_europa", grupo: "Clima y ambiente", nombre: "Avisos meteorológicos oficiales de Europa (MeteoAlarm)", url: "data/vivos/meteoalarm.geojson", refresco_s: 1200,
+    fuente: "MeteoAlarm (EUMETNET) y servicios meteorológicos nacionales",
+    estilo: (p) => ({ c: { 2: "#F2C230", 3: "#E2711D", 4: "#C62828" }[p.nivel] || "#F2C230", r: p.k === "region" ? 4 : 0 }),
+    etiqueta: (p) => (p.k === "region" && p.nivel >= 4 ? `${p.region}` : ""),
+    leyenda: [{ c: "#C62828", r: 6, t: "Rojo: peligro extraordinario, actúa según las autoridades" }, { c: "#E2711D", r: 6, t: "Naranja: peligroso, mantente al tanto y prepárate" },
+      { c: "#F2C230", r: 6, t: "Amarillo: potencialmente peligroso en actividades expuestas" },
+      { t: "Relleno intenso: aviso ya vigente; tenue: empieza en las próximas 48 h. 38 países de Europa e Israel." }],
+    ficha: (p) => ({ titulo: `${p.region} (${p.pais_iso2})`, chip: `${["", "", "Amarilla", "Naranja", "Roja"][p.nivel]} · ${lista(p.tipos).join(", ")}`,
+      filas: [...lista(p.avisos).map((a) => [`${["", "", "Amarillo", "Naranja", "Rojo"][a.nivel]} · ${a.tipo}`, `${a.desde ? fecha(a.desde) : "—"} a ${a.hasta ? fecha(a.hasta) : "—"}`]),
+        ["Estado", p.en_curso ? "Vigente" : "Empieza más tarde"]],
+      url: p.url, fuente: "MeteoAlarm (EUMETNET): consulta el texto oficial del servicio nacional" }),
   },
   {
     id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",
