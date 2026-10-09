@@ -112,6 +112,96 @@
    "nota": "OpenStreetMap: oleoductos y gasoductos con nombre. Global Energy Monitor (más completo) exige formulario."
   },
   {
+   "id": "ferrocarriles",
+   "nombre": "Vías férreas",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "natural_earth",
+   "habilitada": true,
+   "zoom_etiquetas": 8,
+   "nota": "Natural Earth 1:10 m (dominio público): red ferroviaria generalizada para mapa mundial, sin nombres de línea; distingue tramos electrificados y de vía doble."
+  },
+  {
+   "id": "autopistas",
+   "nombre": "Autopistas y carreteras troncales",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "natural_earth",
+   "habilitada": true,
+   "zoom_etiquetas": 6,
+   "nota": "Natural Earth 1:10 m (dominio público): autopistas (vías rápidas) y carreteras troncales; el nombre suele ser el número de ruta."
+  },
+  {
+   "id": "nuclear",
+   "nombre": "Plantas nucleares y reactores de investigación",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 5,
+   "nota": "Wikidata (CC0): centrales nucleares (P31 Q134447) con su estado de uso (P5817) y operador, y reactores de investigación (Q1438105). Complementa las centrales nucleares de GPPD (2021)."
+  },
+  {
+   "id": "investigacion",
+   "nombre": "Centros de investigación relevantes",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 7,
+   "nota": "Wikidata (CC0): institutos de investigación con artículo en 4 o más Wikipedias y aceleradores de partículas."
+  },
+  {
+   "id": "farmaceuticas",
+   "nombre": "Farmacéuticas: sedes y plantas",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 7,
+   "nota": "Wikidata (CC0) para sedes corporativas; OpenStreetMap (ODbL) para plantas de medicamentos y vacunas. La cobertura de plantas es baja (≈ 360 en OSM)."
+  },
+  {
+   "id": "petroleo_gas",
+   "nombre": "Campos de petróleo y gas, plataformas marinas",
+   "categoria": "recursos",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 7,
+   "nota": "Wikidata (CC0) para campos y plataformas con ficha; OpenStreetMap (ODbL) para plataformas marinas. No incluye pozos individuales (≈ 340 mil en OSM)."
+  },
+  {
+   "id": "espacio",
+   "nombre": "Puertos espaciales y sitios de lanzamiento",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 3,
+   "nota": "Wikidata (CC0): puertos espaciales (Q194188) y sitios de lanzamiento de cohetes (Q1933026)."
+  },
+  {
+   "id": "fronteras",
+   "nombre": "Cruces fronterizos",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 8,
+   "nota": "OpenStreetMap (ODbL): puestos de control fronterizo con nombre (barrier=border_control)."
+  },
+  {
+   "id": "desaladoras",
+   "nombre": "Plantas desaladoras",
+   "categoria": "infraestructura",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 7,
+   "nota": "OpenStreetMap (ODbL): water_works=desalination o plantas de agua con «desal» en el nombre."
+  },
+  {
    "id": "camaras",
    "nombre": "Cámaras públicas",
    "categoria": "camaras",

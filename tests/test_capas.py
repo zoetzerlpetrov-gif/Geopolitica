@@ -174,3 +174,33 @@ def test_religiones_conteos_a_porcentaje():
     import dominio as D
     assert D.normalizar_porcentajes({"cristianismo": 270000.0, "sin_religion": 70000.0, "otras": 84.0, "islam": 0.0}) == {"cristianismo": 79.4, "sin_religion": 20.6, "islam": 0.0}
     assert D.normalizar_porcentajes({"cristianismo": 0.6, "islam": 0.4}) == {"cristianismo": 60.0, "islam": 40.0}
+
+
+def test_petroleo_y_farmaceuticas_combinan_wikidata_y_osm(monkeypatch):
+    def osm(selectores, familia="", salida="center"):
+        if familia == "petroleo_gas":
+            return [{"type": "node", "id": 1, "lat": 19.4, "lon": -92.0, "tags": {"name": "Akal-C", "operator": "Pemex"}},
+                    {"type": "node", "id": 2, "lat": 54.0, "lon": 7.0, "tags": {"name": "Subestación", "power": "substation"}},
+                    {"type": "node", "id": 3, "lat": 54.1, "lon": 7.1, "tags": {"name": "Wind farm platform"}}]
+        return [{"type": "way", "id": 9, "center": {"lat": 19.3, "lon": -99.1}, "tags": {"name": "Planta Birmex", "product": "vaccines"}}]
+
+    def sparql(q):
+        fila = {"x": {"value": "http://www.wikidata.org/entity/Q5"}, "xEs": {"value": "Cantarell"}, "coord": {"value": "Point(-92.2 19.6)"},
+                "n": {"value": "15"}, "sedeEs": {"value": "Ciudad de México"}}
+        return {"results": {"bindings": [fila]}}
+    monkeypatch.setattr(c, "overpass", osm)
+    monkeypatch.setattr(c, "_sparql", sparql)
+    monkeypatch.setattr(c.time, "sleep", lambda s: None)
+    monkeypatch.setattr(c, "Paises", lambda: type("P", (), {"de": lambda self, lon, lat: "MEX"})())
+    p = c.petroleo_gas()
+    assert [f["properties"]["st"] for f in p] == ["campo_petrolero", "plataforma_marina"]  # sin las plataformas eólicas
+    assert p[1]["properties"]["x"] == "Pemex"
+    f = c.farmaceuticas()
+    assert [x["properties"]["st"] for x in f] == ["farma_sede", "farma_planta"] and f[1]["properties"]["x"] == "vaccines"
+    import json
+    cat = json.load(open(os.path.join(ROOT, "config", "entities.json"), encoding="utf-8"))
+    ids = {s["id"]: s.get("familia") for k in cat["categorias"] for s in k.get("subtipos", [])}
+    capas = json.load(open(os.path.join(ROOT, "config", "capas.json"), encoding="utf-8"))["familias"]
+    for fam in ["ferrocarriles", "autopistas", "nuclear", "investigacion", "farmaceuticas", "petroleo_gas", "espacio", "fronteras", "desaladoras"]:
+        assert fam in c.FAMILIAS and any(x["id"] == fam and x["habilitada"] for x in capas)
+        assert fam in ids.values(), fam

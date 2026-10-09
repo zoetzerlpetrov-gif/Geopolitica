@@ -130,6 +130,12 @@ async function medir(browser, esc, carga) {
   // Interacción con filtros (en móvil el panel está oculto: se abre primero).
   await page.evaluate(() => { window.__m.eventos = []; });
   if (esc.movil) await page.click("#btn-panel");
+  // Los filtros viven en secciones plegables del menú: se abren todas las que los contienen.
+  await page.evaluate(() => {
+    for (const sel of ["#areas-ninguna", "#f-severidad", "#f-mexico"]) {
+      for (let d = document.querySelector(sel)?.closest("details"); d; d = d.parentElement?.closest("details")) d.open = true;
+    }
+  });
   await page.click("#areas-ninguna");
   await page.click("#areas-todas");
   await page.selectOption("#f-severidad", "3");
