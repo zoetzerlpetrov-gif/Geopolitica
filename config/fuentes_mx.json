@@ -27,11 +27,6 @@
       "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/america/"
     },
     {
-      "id": "sinembargo",
-      "nombre": "SinEmbargo",
-      "url": "https://www.sinembargo.mx/feed"
-    },
-    {
       "id": "jornada_politica",
       "nombre": "La Jornada (política)",
       "url": "https://www.jornada.com.mx/rss/politica.xml?v=1"
@@ -67,6 +62,11 @@
       "id": "excelsior",
       "url": "https://www.excelsior.com.mx/rss.xml",
       "motivo": "404 (corrida del 2026-10-08)"
+    },
+    {
+      "id": "sinembargo",
+      "url": "https://www.sinembargo.mx/feed",
+      "motivo": "robots.txt no permite leer el feed (comprobado el 2026-10-09)"
     }
   ]
 }

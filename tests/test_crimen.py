@@ -87,3 +87,23 @@ def test_titulares_de_medios_mexicanos():
     assert c.clasificar_titular("Inauguran feria del libro") == (None, None)
     cfg = json.load(open(os.path.join(ROOT, "config", "fuentes_mx.json"), encoding="utf-8"))
     assert all(x["url"].startswith("https://") for x in cfg["feeds"]) and len({x["id"] for x in cfg["feeds"]}) == len(cfg["feeds"])
+
+
+def test_cartelera_no_es_cartel():
+    assert c.tipo_de("Canelo vs Mbilli: Cartelera oficial de las funciones") != "Narcotráfico"
+    assert c.clasificar_titular("Cartelera de cine del fin de semana")[0] is None
+    assert c.clasificar_titular("Cártel de Sinaloa ataca a policías en Culiacán")[0] == "crimen"
+    assert c.tipo_de("US designates cartels as terrorist groups") in ("Narcotráfico", "Terrorismo")
+
+
+def test_guardar_quita_falsos_positivos_anteriores(tmp_path):
+    import json
+    from datetime import datetime, timezone
+    ahora = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    ruta = tmp_path / "deslaves.geojson"
+    viejo = lambda t, prec="ciudad": {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]},  # noqa: E731
+                                      "properties": {"title": t, "url": t, "date": ahora, "origen": "mx", "precision": prec}}
+    ruta.write_text(json.dumps({"features": [viejo("CNDH alerta fallas de salud en penales"), viejo("Deslave en la carretera Acapulco-Zihuatanejo"),
+                                             viejo("Deslave sin lugar", "país")]}))
+    out = c.guardar(str(ruta), [], 72, "prueba", clase="deslave")
+    assert [f["properties"]["title"] for f in out] == ["Deslave en la carretera Acapulco-Zihuatanejo"]
