@@ -82,3 +82,13 @@ def test_medio_al_final_y_homonimos():
     assert N.ubicar("Tornado hits Florida panhandle")[1] > 20  # el estado de EUA, no la ciudad de Uruguay
     locs = "4#Dallas, Texas, United States#US#USTX##32.8#-96.8#-5#900;1#Italian#IT#IT##42.8#12.8#IT#10"
     assert T.fila_a_feature(fila("Doppel-Tornado in Marsala - FOX 4 Dallas", locs=locs), "ingles")["properties"]["state"] == "Marsala"
+
+
+def test_nota_de_pais_se_une_al_fenomeno():
+    def nota(lugar, c, fecha, prec, iso):
+        return {"type": "Feature", "geometry": {"type": "Point", "coordinates": c},
+                "properties": {"title": lugar + fecha, "url": lugar + fecha, "source": "x", "date": fecha, "kind": "TORNADO", "severe": False,
+                               "state": lugar, "precision": prec, "pais_iso3": iso}}
+    g = T.agrupar([nota("Italia", [12.17, 43.53], "2026-10-09T09:00:00Z", "país", "ITA"), nota("Marsala", [12.44, 37.8], "2026-10-09T10:00:00Z", "ciudad", "ITA"),
+                   nota("Francia", [2.0, 46.0], "2026-10-09T10:00:00Z", "país", "FRA")])
+    assert sorted((x["properties"]["state"], x["properties"]["notas"]) for x in g) == [("Francia", 1), ("Marsala", 2)]
