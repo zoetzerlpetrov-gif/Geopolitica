@@ -1,0 +1,12 @@
+name: sonda
+on:
+  push:
+    branches: [claude/pensive-ptolemy-bkwcue]
+    paths: [".github/workflows/sonda.yml", "tools/sonda_tmp.py"]
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: pip install shapely==2.1.1
+      - run: python3 tools/sonda_tmp.py

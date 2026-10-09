@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xmlns:cap="urn:oasis:names:tc:emergency:cap:1.2">
+  <title>MeteoAlarm - Alerting Europe for Extreme Weather</title>
+  <entry>
+    <cap:geocode><valueName>EMMA_ID</valueName><value>ES890</value></cap:geocode>
+    <link title="Costa - Ampurdán" href="https://meteoalarm.org?geocode=EMMA_ID:ES890" hreflang="en"/>
+    <cap:areaDesc>Costa - Ampurdán</cap:areaDesc>
+    <cap:event>Moderate coastalevent warning</cap:event>
+    <cap:sent>2026-10-09T09:40:09+00:00</cap:sent>
+    <cap:expires>2026-10-10T05:59:59+00:00</cap:expires>
+    <cap:effective>2026-10-09T09:37:30+00:00</cap:effective>
+    <cap:onset>2026-10-09T12:00:00+00:00</cap:onset>
+    <cap:severity>Moderate</cap:severity>
+    <cap:message_type>Update</cap:message_type>
+    <cap:status>Actual</cap:status>
+    <title>Yellow Coastalevent Warning issued for Spain - Costa - Ampurdán</title>
+  </entry>
+  <entry>
+    <cap:geocode><valueName>EMMA_ID</valueName><value>ES890</value></cap:geocode>
+    <cap:areaDesc>Costa - Ampurdán</cap:areaDesc>
+    <cap:expires>2026-10-10T05:59:59+00:00</cap:expires>
+    <cap:onset>2026-10-09T15:00:00+00:00</cap:onset>
+    <cap:severity>Severe</cap:severity>
+    <cap:status>Actual</cap:status>
+    <title>Orange Thunderstorm Warning issued for Spain - Costa - Ampurdán</title>
+  </entry>
+  <entry>
+    <cap:geocode><valueName>EMMA_ID</valueName><value>ES078</value></cap:geocode>
+    <cap:areaDesc>Sierra y Pedroches</cap:areaDesc>
+    <cap:expires>2026-10-04T05:59:59+00:00</cap:expires>
+    <cap:onset>2026-10-04T03:00:00+00:00</cap:onset>
+    <cap:status>Actual</cap:status>
+    <title>Yellow Rain Warning issued for Spain - Sierra y Pedroches</title>
+  </entry>
+  <entry>
+    <cap:geocode><valueName>NUTS3</valueName><value>FR815</value></cap:geocode>
+    <cap:areaDesc>Gard</cap:areaDesc>
+    <cap:expires>2026-10-10T05:59:59+00:00</cap:expires>
+    <cap:onset>2026-10-09T10:00:00+00:00</cap:onset>
+    <cap:status>Actual</cap:status>
+    <title>Red Rain-flood Warning issued for France - Gard</title>
+  </entry>
+  <entry>
+    <cap:geocode><valueName>EMMA_ID</valueName><value>ES612</value></cap:geocode>
+    <cap:areaDesc>Algo</cap:areaDesc>
+    <cap:status>Actual</cap:status>
+    <title>Green Wind Warning issued for Spain - Algo</title>
+  </entry>
+</feed>
