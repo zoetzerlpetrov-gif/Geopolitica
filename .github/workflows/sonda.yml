@@ -12,15 +12,13 @@ jobs:
       - run: |
           UA="Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
           p() { echo "=== $1"; curl -s -m 30 -A "$UA" -w "\n[HTTP %{http_code} %{content_type} %{size_download}B]\n" "$1" | head -c ${2:-1500}; echo; }
-          p https://www.cenapred.unam.mx/robots.txt 600
-          p https://www.gob.mx/robots.txt 800
-          p https://www.cenapred.unam.mx/reportesVolcanGobMX/ 3000
-          p "https://www.cenapred.unam.mx/reportesVolcanGobMX/Procesos?tipoProceso=detallesUltimoReporteVolcan" 2000
-          p https://volcanoes.usgs.gov/robots.txt 400
-          p https://volcanoes.usgs.gov/hans2/api/volcano/getElevatedVolcanoes 2500
-          p https://volcano.si.edu/robots.txt 600
-          p https://volcano.si.edu/news/WeeklyVolcanoRSS.xml 2500
-          p "https://api.open-meteo.com/v1/forecast?latitude=19.02&longitude=-98.62&current=wind_speed_10m&hourly=wind_speed_500hPa,wind_direction_500hPa,wind_speed_300hPa,wind_direction_300hPa,wind_speed_200hPa,wind_direction_200hPa,geopotential_height_500hPa,geopotential_height_300hPa&forecast_hours=6&timezone=UTC" 2500
-          p "https://air-quality-api.open-meteo.com/v1/air-quality?latitude=19.43,48.85&longitude=-99.13,2.35&current=us_aqi,pm2_5,pm10,ozone" 1500
-          p https://www.ssd.noaa.gov/robots.txt 400
-          p https://www.ssd.noaa.gov/VAAC/messages.html 1500
+          p https://volcanoes.usgs.gov/hans-public/api/volcano/getVolcano/getElevatedVolcanoes 2500
+          p https://volcanoes.usgs.gov/hans-public/api/volcano/getMonitoredVolcanoes 1500
+          p https://www.gob.mx/cenapred 1200
+          p "https://www.gob.mx/cenapred/es/archivo/prensa" 1500
+          curl -s -m 30 -A "$UA" "https://www.gob.mx/cenapred/es/archivo/prensa" | grep -io '[^"<>]*popocat[^"<>]*' | head -20
+          curl -s -m 30 -A "$UA" "https://www.gob.mx/cenapred" | grep -io 'href="[^"]*"' | grep -i "popo\|volc\|prensa\|articulo" | head -20
+          p https://www.gob.mx/cenapred/articulos/reporte-del-monitoreo-de-cenapred-al-volcan-popocatepetl 800
+          p https://www.cenapred.gob.mx/ 300
+          p https://www.cenapred.gob.mx/reportesVolcanGobMX/ 300
+          p https://volcano.si.edu/news/WeeklyVolcanoRSS.xml 400
