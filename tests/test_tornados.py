@@ -63,3 +63,15 @@ def test_agrupa_un_fenomeno():
     assert len(g) == 2
     sic = next(x for x in g if x["properties"]["notas"] == 3)["properties"]
     assert sic["state"] == "Marsala" and sic["severe"] is True and sic["title"] == "b" and len(sic["enlaces"]) == 3
+
+
+def test_nomenclator_del_titulo():
+    N = T.Nomenclator(ciudades=[["Marsala", "Marsala", "ITA", 37.805, 12.439, "ciudad", 80000], ["Victoria", "Victoria", "CAN", 48.4, -123.4, "capital", 300000],
+                                ["Victoria", "Victoria", "MEX", 23.7, -99.1, "capital", 330000]],
+                      admin1=[[["Trapani"], "ITA", 37.85, 12.7, "provincia"], [["Sicily", "Sicilia"], "ITA", 37.5, 14.2, "region"]],
+                      paises={"ITA": {"es": "Italia", "en": "Italy", "lat": 42.8, "lon": 12.8}, "CAN": {"es": "Canadá", "en": "Canada", "lat": 56, "lon": -100}})
+    assert N.ubicar("Tromba d'aria a Marsala, feriti")[0] == "Marsala"
+    assert N.ubicar("Doppia tromba d'aria nel Trapanese")[:1] == ("Trapani",) and N.ubicar("Doppia tromba nel Trapanese")[3] == "estado"
+    assert N.ubicar("Sicilian tornado")[0] == "Sicily"
+    assert N.ubicar("Tornado hits Victoria, Canada")[1:3] == (48.4, -123.4)  # la ciudad del país mencionado
+    assert N.ubicar("tornado activity is shifting across the country") is None

@@ -115,17 +115,28 @@ def elegir_lugar(locs, pos_tema, titulo=""):
     return min(locs, key=lambda l: (prioridad.get(l[0], 3), abs(l[5] - (pos_tema or 0)) if pos_tema is not None else 0))
 
 
-def fila_a_feature(f, flujo):
+def fila_a_feature(f, flujo, nom=None):
     """Fila del GKG → feature o None."""
     if len(f) < 27 or not TEMA.search(f[8] or f[7] or ""):
         return None
     titulo = titulo_de(f[26])
     if not titulo or not TITULO.search(titulo) or NO_ES.search(titulo) or NO_OCURRIDO.search(titulo):
         return None
-    lugar = elegir_lugar(lugares(f[10]), offset_tema(f[8]), titulo)
-    if not lugar or not (-90 <= lugar[3] <= 90 and -180 <= lugar[4] <= 180):
+    # Ubicación: 1) un lugar de GDELT que el título nombra (coordenada precisa); 2) el nomenclátor propio sobre el
+    # título. Si el título no nombra ningún lugar, la nota se descarta: GDELT suele citar la sede del medio u otras
+    # noticias, y un punto falso confunde más que una nota de menos.
+    t = norm(titulo)
+    locs = [l for l in lugares(f[10]) if en_titulo(l[1].split(",")[0], t)]
+    if locs:
+        tipo, nombre, _, lat, lon, _ = elegir_lugar(locs, offset_tema(f[8]), titulo)
+    else:
+        u = (nom or nomenclator()).ubicar(titulo)
+        if not u:
+            return None
+        nombre, lat, lon, prec = u
+        tipo = {"ciudad": "4", "estado": "2", "país": "1"}[prec]
+    if not (-90 <= lat <= 90 and -180 <= lon <= 180):
         return None
-    tipo, nombre, _, lat, lon, _ = lugar
     try:
         fecha = datetime.strptime(f[1], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     except ValueError:
@@ -174,6 +185,89 @@ def unir(previos, nuevos, ahora, dias=DIAS):
         titulos.add(clave_t)
         out.append(f)
     return out
+
+
+class Nomenclator:
+    """Lugares nombrados en un título: ciudades (config/ciudades.json, Natural Earth), provincias y regiones
+    (config/admin1.json) y países (config/gazetteer.json). Admite gentilicios por raíz en provincias, regiones y
+    países («Trapanese» → Trapani, «Sicilian» → Sicilia). Solo cuenta si la palabra va con mayúscula en el título."""
+    COMUNES = {"nice", "split", "mobile", "reading", "bath", "hope", "union", "orange", "marina", "isla", "grande", "salt", "mar",
+               "most", "ede", "como", "bra", "aura", "dover", "tornado", "trento"}
+
+    def __init__(self, ciudades=None, admin1=None, paises=None):
+        cfg = lambda n: json.load(open(os.path.join(ROOT, "config", n), encoding="utf-8"))  # noqa: E731
+        ciudades = ciudades if ciudades is not None else cfg("ciudades.json")["ciudades"]
+        admin1 = admin1 if admin1 is not None else cfg("admin1.json")["lugares"]
+        paises = paises if paises is not None else cfg("gazetteer.json")["paises"]
+        self._por_palabra, self._por_raiz = {}, {}
+        self.lugares = []  # (nombre_normalizado, rango, iso3, lat, lon, nombre, población, admite_raíz)
+        for nom, nom_es, iso, lat, lon, _, pob in ciudades:
+            for n in {nom, nom_es}:
+                self._agregar(n, 0, iso, lat, lon, nom_es or nom, pob or 0, False)
+        for ns, iso, lat, lon, tipo in admin1:
+            for n in ns:
+                self._agregar(n, 1 if tipo == "provincia" else 2, iso, lat, lon, ns[0], 0, True)
+        for iso, p in paises.items():
+            for n in (p.get("es"), p.get("en")):
+                if n and p.get("lat") is not None:
+                    self._agregar(n, 3, iso, p["lat"], p["lon"], p.get("es") or n, 0, True)
+
+    def _agregar(self, n, rango, iso, lat, lon, nombre, pob, raiz):
+        k = norm(n).strip()
+        if len(k) >= 4 and k not in self.COMUNES:
+            self.lugares.append((k, rango, iso, lat, lon, nombre, pob, raiz))
+            # Índices: por primera palabra (nombre completo) y por las 5 primeras letras (gentilicio por raíz).
+            self._por_palabra.setdefault(k.split()[0], []).append(len(self.lugares) - 1)
+            if raiz and len(k) >= 6:
+                self._por_raiz.setdefault(k[:5], []).append(len(self.lugares) - 1)
+
+    def buscar(self, titulo):
+        """[(rango, posición, iso3, lat, lon, nombre, población)] de los lugares del título."""
+        plano = unicodedata.normalize("NFD", titulo).encode("ascii", "ignore").decode()
+        t = norm(titulo)
+        palabras = t.split()
+        candidatos = set()
+        for w in palabras:
+            candidatos.update(self._por_palabra.get(w, ()))
+            candidatos.update(self._por_raiz.get(w[:5], ()))
+        out = []
+        for i in candidatos:
+            k, rango, iso, lat, lon, nombre, pob, raiz = self.lugares[i]
+            m = re.search(rf"\b{re.escape(k)}\b", t)
+            if not m and raiz and len(k) >= 6:
+                m = re.search(rf"\b{re.escape(k[:max(5, len(k) - 2)])}", t)
+            if not m:
+                continue
+            # La misma palabra en el título original debe empezar con mayúscula (nombre propio).
+            mo = re.search(rf"(?i)\b{re.escape(k[:4])}", plano)
+            if mo and not plano[mo.start()].isupper():
+                continue
+            out.append((rango, m.start(), iso, lat, lon, nombre, pob))
+        return out
+
+    def ubicar(self, titulo):
+        """(nombre, lat, lon, precisión) o None. Gana la ciudad; si hay país o región en el título, la ciudad debe
+        ser de ese país (hay muchas «Victoria» o «Córdoba»). Entre homónimas, la más poblada."""
+        hall = self.buscar(titulo)
+        if not hall:
+            return None
+        paises = {h[2] for h in hall if h[0] >= 1}
+        ciudades = [h for h in hall if h[0] == 0 and (not paises or h[2] in paises)]
+        if ciudades:
+            h = min(ciudades, key=lambda x: (x[1], -x[6]))
+            return h[5], h[3], h[4], "ciudad"
+        h = min(hall, key=lambda x: (x[0], x[1]))
+        return h[5], h[3], h[4], "estado" if h[0] in (1, 2) else "país"
+
+
+_NOM = None
+
+
+def nomenclator():
+    global _NOM
+    if _NOM is None:
+        _NOM = Nomenclator()
+    return _NOM
 
 
 def km(a, b):
