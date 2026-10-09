@@ -2,10 +2,13 @@ name: sonda
 on:
   push:
     branches: [claude/pensive-ptolemy-bkwcue]
-    paths: [".github/workflows/sonda.yml", "tools/sonda_tmp.py"]
+    paths: [".github/workflows/sonda.yml", "tools/sonda_tmp.mjs"]
 jobs:
   sonda:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 tools/sonda_tmp.py
+      - uses: actions/setup-node@v4
+        with: { node-version: 20 }
+      - run: mkdir -p /tmp/s && cd /tmp/s && npm init -y >/dev/null && npm i @huggingface/transformers@3.0.2 >/dev/null
+      - run: cp -r js config tools /tmp/s/ && cd /tmp/s && echo '{"type":"module"}' > js/package.json && node tools/sonda_tmp.mjs
