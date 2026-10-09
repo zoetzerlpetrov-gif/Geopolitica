@@ -89,25 +89,39 @@ export function iniciarFoto({ mapa, lite = () => false }) {
     map.flyTo({ center: [actual.lon, actual.lat], zoom: 17, duration: lite() ? 0 : 1200 });
   });
 
+  // Lee el archivo como bytes; FileReader cubre navegadores donde File.arrayBuffer() no existe o falla.
+  const bytes = (archivo) => (archivo.arrayBuffer ? archivo.arrayBuffer() : Promise.reject(new Error("sin arrayBuffer"))).catch(() => new Promise((ok, mal) => {
+    const fr = new FileReader();
+    fr.onload = () => ok(fr.result);
+    fr.onerror = () => mal(fr.error || new Error("no se pudo leer"));
+    fr.readAsArrayBuffer(archivo);
+  }));
+
   entrada.addEventListener("change", async () => {
     const archivo = entrada.files?.[0];
     if (!archivo) return;
     actual = null;
     res.innerHTML = `<p class="meta">⏳ Leyendo los metadatos…</p>`;
-    res.scrollIntoView({ block: "nearest", behavior: "smooth" });
-    let d;
-    try { d = leerExif(await archivo.arrayBuffer()); } catch (err) { d = { error: `No se pudo leer el archivo (${err?.message || err}).` }; }
-    entrada.value = ""; // se puede volver a elegir la misma foto
-    try { const map = mapa(); if (map?.getSource(PUNTO)) marcar(map, []); } catch (err) { /* sin mapa todavía */ }
-    actual = d.lat != null ? d : null;
-    res.innerHTML = htmlFoto(d, archivo);
-    res.scrollIntoView({ block: "start", behavior: "smooth" });
-    // Vista previa debajo del resultado. HEIC fuera de Safari, TIFF y DNG no se pueden dibujar; los metadatos sí se leen.
-    if (url) URL.revokeObjectURL(url);
-    url = URL.createObjectURL(archivo);
-    prev.hidden = true;
-    prev.onload = () => { prev.hidden = false; };
-    prev.onerror = () => { prev.hidden = true; };
-    prev.src = url;
+    try {
+      res.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      let d;
+      try { d = leerExif(await bytes(archivo)); } catch (err) { d = { error: `No se pudo leer el archivo (${err?.message || err}).` }; }
+      try { const map = mapa(); if (map?.getSource(PUNTO)) marcar(map, []); } catch (err) { /* sin mapa todavía */ }
+      actual = d.lat != null ? d : null;
+      res.innerHTML = htmlFoto(d, archivo);
+      res.scrollIntoView({ block: "start", behavior: "smooth" });
+      // Vista previa debajo del resultado. HEIC fuera de Safari, TIFF y DNG no se pueden dibujar; los metadatos sí se leen.
+      if (url) URL.revokeObjectURL(url);
+      url = URL.createObjectURL(archivo);
+      prev.hidden = true;
+      prev.onload = () => { prev.hidden = false; };
+      prev.onerror = () => { prev.hidden = true; };
+      prev.src = url;
+    } catch (err) {
+      // Nunca quedarse callado: si algo falla, se dice qué.
+      res.innerHTML = `<p class="foto-sin">No se pudo mostrar el resultado: ${esc(err?.message || String(err))}. Recarga la página e intenta de nuevo.</p>`;
+    } finally {
+      entrada.value = ""; // se puede volver a elegir la misma foto
+    }
   });
 }
