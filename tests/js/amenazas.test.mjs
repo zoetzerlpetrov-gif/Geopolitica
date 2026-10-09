@@ -111,3 +111,13 @@ test("ataques: ícono y tipo por arma", async () => {
   assert.deepEqual(clasificar("ataques", { arma: "Drones", severidad: 4 }), { sev: 4, tipo: "Ataque: Drones", ic: "🛸" });
   assert.equal(clasificar("crimen", { tipo: "Narcotráfico", arma: "Drones" }).ic, "🛸");
 });
+
+test("red y ciberseguridad: severidad de cortes, C2 y avisos ICS", () => {
+  assert.equal(clasificar("cortes_internet", { en_curso: true, n_senales: 2 }).sev, 4);
+  assert.equal(clasificar("cortes_internet", { en_curso: true, n_senales: 1 }).sev, 3);
+  assert.equal(clasificar("cortes_internet", { en_curso: false }).sev, 2);
+  assert.equal(clasificar("c2_botnets", { n: 536 }).sev, 4);
+  assert.equal(clasificar("c2_botnets", { n: 3 }).sev, 1);
+  assert.equal(clasificar("avisos_ics", { explotados: 1 }).sev, 4);
+  assert.equal(clasificar("avisos_ics", { criticos: 2, explotados: 0 }).sev, 3);
+});

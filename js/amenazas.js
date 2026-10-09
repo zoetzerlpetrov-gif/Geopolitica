@@ -61,6 +61,9 @@ export function clasificar(capa, p = {}, geom = null) {
       const s = { Extreme: 5, Severe: 4, Moderate: 3, Minor: 2 }[p.severity] || 1;
       return { sev: s, tipo: `Alerta EUA: ${p.event || "aviso"}`, ic: "" };
     }
+    case "cortes_internet": return { sev: p.en_curso ? (p.n_senales >= 2 ? 4 : 3) : 2, tipo: "Corte de internet", ic: p.en_curso ? "📵" : "" };
+    case "c2_botnets": { const n = Number(p.n || 0); return { sev: n >= 100 ? 4 : n >= 25 ? 3 : n >= 5 ? 2 : 1, tipo: "Servidores C2 de botnets", ic: "" }; }
+    case "avisos_ics": return { sev: p.explotados ? 4 : p.criticos ? 3 : 2, tipo: "Avisos ICS/SCADA", ic: "" };
     case "auroras": return { sev: p.actual ? 2 : 1, tipo: "Aurora", ic: "" };
     case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: iconoArma(p.arma) || { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
     case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };
