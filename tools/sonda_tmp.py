@@ -20,3 +20,4 @@ for u in ["https://meteoalarm.org/en/live/page/terms-and-conditions", "https://w
         print("-----", u, len(t)); i = max(0, t.lower().find("redistribut") - 500); print(t[i:i + 4000])
     except Exception as e:
         print(u, e)
+# r
