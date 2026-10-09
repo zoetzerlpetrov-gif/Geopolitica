@@ -70,8 +70,9 @@ export function iniciarFoto({ map, lite = false }) {
     prev.onload = () => { btn.hidden = false; };
     prev.onerror = () => {
       prev.hidden = true;
-      lug.innerHTML = `<p class="meta">Este navegador no puede mostrar fotos ${esc(NOMBRE_FORMATO[d.formato] || "de este formato")}, así que no puedo reconocer el lugar.
-        Los metadatos sí se leyeron. ${d.formato === "heic" ? "Safari (iPhone, iPad, Mac) sí abre HEIC; en Android o Windows, exporta la foto como JPEG (en iPhone: Ajustes → Cámara → Formatos → «Más compatible»)." : "Exporta la foto como JPEG."}</p>`;
+      const raro = ["heic", "avif", "tiff"].includes(d.formato);
+      lug.innerHTML = `<p class="meta">${raro ? `Este navegador no puede mostrar fotos ${esc(NOMBRE_FORMATO[d.formato])}` : "No pude abrir la imagen (archivo dañado, incompleto o de un formato no soportado)"},
+        así que no puedo reconocer el lugar. Los metadatos sí se leyeron. ${d.formato === "heic" ? "Safari (iPhone, iPad, Mac) sí abre HEIC; en Android o Windows, exporta la foto como JPEG (en iPhone: Ajustes → Cámara → Formatos → «Más compatible»)." : "Prueba exportándola como JPEG."}</p>`;
     };
     prev.src = url;
   });
