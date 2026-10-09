@@ -29,13 +29,31 @@ def test_alineacion_y_espectro():
     assert G.valor_alineacion("far-right") == 3
     assert G.valor_alineacion("centre-right") == 1
     assert G.valor_alineacion("big tent") == 0
-    assert G.espectro_de({"alineaciones_en": ["centre-left", "left-wing"], "ideologias_en": []}, "presidencial") == "izquierda"
-    assert G.espectro_de({"alineaciones_en": ["right-wing", "far-right"], "ideologias_en": []}, "parlamentaria") == "extrema_derecha"
+    assert G.espectro_de({"alineaciones_en": ["centre-left", "left-wing"], "ideologias_en": []}, "presidencial") == "centroizquierda"
+    assert G.espectro_de({"alineaciones_en": ["right-wing", "far-right"], "ideologias_en": []}, "parlamentaria") == "derecha"
+    assert G.espectro_de({"alineaciones_en": ["far-right"], "ideologias_en": []}, "parlamentaria") == "extrema_derecha"
+    assert G.espectro_de({"alineaciones_en": ["alt-right", "right-libertarianism"], "ideologias_en": []}, "presidencial") == "derecha"
+    # Sin alineación: se estima con las ideologías.
+    assert G.espectro_y_origen({"alineaciones_en": [], "ideologias_en": ["social democracy", "democratic socialism"]}, "presidencial") == ("centroizquierda", "ideología")
+    assert G.espectro_de({"alineaciones_en": ["far-left politics", "left-wing"], "ideologias_en": ["communism"]}, "partido_unico") == "comunista"
     pcc = {"alineaciones_en": ["far-left"], "ideologias_en": ["communism", "socialism with Chinese characteristics"]}
     assert G.espectro_de(pcc, "partido_unico") == "comunista"
     assert G.espectro_de(pcc, "presidencial") == "extrema_izquierda"
     assert G.espectro_de(None, "monarquia_absoluta") == "sin_partido"
     assert G.espectro_de({"alineaciones_en": [], "ideologias_en": ["populism"]}, "presidencial") == "sin_dato"
+
+
+def test_partido_vigente_e_inferencia_de_forma():
+    sheinbaum = {"qid": "Q1", "partidos": ["PRD", "MORENA"], "inicio": {"MORENA": "2014-07-09T00:00:00Z"}}
+    assert G.partido_vigente(sheinbaum) == "MORENA"
+    burnham = {"qid": "Q2", "partidos": ["COOP", "LAB"], "inicio": {}}
+    assert G.partido_vigente(burnham, {"LAB": {"alineaciones_en": ["centre-left"]}, "COOP": {}}) == "LAB"
+    misma = {"estado": [{"qid": "Q9"}], "gobierno": [{"qid": "Q9"}]}
+    assert G.inferir_forma("otra", ["constitutional republic"], misma, {"ideologias_en": ["conservatism"]}) == ("presidencial", True)
+    pcc = {"ideologias_en": ["communism"]}
+    assert G.inferir_forma("otra", ["people's republic"], {"estado": [{"qid": "A"}], "gobierno": [{"qid": "B"}]}, pcc) == ("partido_unico", True)
+    assert G.inferir_forma("parlamentaria", ["parliamentary republic"], misma, pcc) == ("parlamentaria", False)
+    assert G.forma_principal(["super-presidential republic"]) == "presidencial"
 
 
 def test_corrientes():
