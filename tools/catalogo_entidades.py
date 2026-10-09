@@ -24,10 +24,12 @@ FUENTES = {
     "epoch": {"nombre": "Epoch AI (supercomputadoras de IA)", "url": "https://epoch.ai/data", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": False},
     "grand": {"nombre": "GRanD / GOODD (Global Dam Watch)", "url": "https://www.globaldamwatch.org", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": False},
     "telegeography": {"nombre": "TeleGeography Submarine Cable Map", "url": "https://www.submarinecablemap.com", "licencia": "CC BY-NC-SA 3.0", "uso_comercial": False, "licencia_verificada": False, "nota": "No comercial: si el proyecto se vuelve comercial hay que retirarla o licenciarla."},
+    "satnogs": {"nombre": "SatNOGS DB (Libre Space Foundation)", "url": "https://db.satnogs.org", "licencia": "CC BY-SA 4.0", "uso_comercial": True, "licencia_verificada": True},
+    "gcat": {"nombre": "GCAT, catálogo de objetos espaciales (J. McDowell)", "url": "https://planet4589.org/space/gcat", "licencia": "CC BY 4.0 (citar GCAT)", "uso_comercial": True, "licencia_verificada": True},
     "opensky": {"nombre": "OpenSky Network", "url": "https://opensky-network.org", "licencia": "Términos de OpenSky (uso no comercial y de investigación)", "uso_comercial": False, "licencia_verificada": False},
     "adsblol": {"nombre": "adsb.lol", "url": "https://adsb.lol", "licencia": "ODbL 1.0", "uso_comercial": True, "licencia_verificada": False},
     "aisstream": {"nombre": "AISStream.io", "url": "https://aisstream.io", "licencia": "Términos de AISStream (clave gratuita)", "uso_comercial": None, "licencia_verificada": False},
-    "celestrak": {"nombre": "CelesTrak (grupos GP/OMM)", "url": "https://celestrak.org", "licencia": "Uso libre con atribución; no más de una descarga por grupo cada 2 h", "uso_comercial": True, "licencia_verificada": False},
+    "celestrak": {"nombre": "CelesTrak (grupos GP/OMM) · descarga automática en pausa por su robots.txt; se usa la última copia renovada con SatNOGS", "url": "https://celestrak.org", "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/", "uso_comercial": True, "licencia_verificada": False},
     "ofac": {"nombre": "OFAC SDN (Tesoro de EUA)", "url": "https://ofac.treasury.gov", "licencia": "Dominio público (gobierno de EUA)", "uso_comercial": True, "licencia_verificada": True},
     "opensanctions": {"nombre": "OpenSanctions", "url": "https://www.opensanctions.org", "licencia": "CC BY-NC 4.0 (uso comercial requiere licencia)", "uso_comercial": False, "licencia_verificada": True},
     "mrds": {"nombre": "USGS Mineral Resources Data System", "url": "https://mrdata.usgs.gov/mrds/", "licencia": "Dominio público (gobierno de EUA)", "uso_comercial": True, "licencia_verificada": True, "nota": "Base histórica: USGS dejó de actualizarla."},
@@ -38,6 +40,7 @@ FUENTES = {
     "ucdp": {"nombre": "UCDP Georeferenced Event Dataset y Candidate Events (Universidad de Uppsala)", "url": "https://ucdp.uu.se/downloads/", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": True,
              "nota": "Citar: Sundberg y Melander (2013); Hegre et al. (2020) para Candidate."},
     "pew_owid": {"nombre": "Pew Research Center, composición religiosa 2020 (vía Our World in Data)", "url": "https://ourworldindata.org/religion", "licencia": "CC BY 4.0 (OWID)", "uso_comercial": True, "licencia_verificada": False},
+    "banco_mundial": {"nombre": "Banco Mundial, Indicadores del Desarrollo Mundial (API v2)", "url": "https://data.worldbank.org", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": True},
     "camaras_publicas": {"nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)", "url": "", "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador", "uso_comercial": None, "licencia_verificada": False},
 }
 
@@ -122,6 +125,8 @@ CATEGORIAS = [
             sub("geoestacionarios", "Geoestacionarios (TV y comunicaciones, fijos sobre el Ecuador)", "Geostationary", "🛰", "#4A6B8A", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="geo"),
             sub("militares", "Militares (solo catalogados públicamente)", "Military (publicly cataloged only)", "🛰", "#A3392F", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["seguridad", "tecnologia"], grupo="military"),
             sub("visibles", "Más brillantes / visibles", "Brightest", "🛰", "#C27C1E", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="visual"),
+            sub("telescopios", "Telescopios espaciales (Hubble, Chandra, XMM…)", "Space telescopes", "🔭", "#E0A100", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="telescopios"),
+            sub("satnogs", "Pequeños, universitarios y de radioaficionados (SatNOGS)", "Small, university and amateur (SatNOGS)", "🛰", "#7a8a3a", "satnogs", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="satnogs", inicial=False),
         ],
     },
     {
@@ -242,6 +247,18 @@ CATEGORIAS = [
             sub("religion_populares", "Mayoría de religiones populares o tradicionales", "Folk religion majority", "◉", "#A0522D", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
             sub("religion_otras", "Mayoría de otras religiones", "Other religions majority", "◇", "#8E44AD", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
             sub("religion_sin_religion", "Mayoría sin afiliación religiosa", "Unaffiliated majority", "○", "#95A5A6", "pew_owid", "anual", "estatica", "estatico", 0, ["identidad"], familia="religiones"),
+        ],
+    },
+    {
+        "id": "sociedad", "nombre": {"es": "Población y turismo", "en": "Population and tourism"}, "fase": "C7", "dibujable": True,
+        "subtipos": [
+            *[sub(st, n, e, "▦", col, "banco_mundial", "anual", "estatica", "estatico", 0, ["demografia"], familia="densidad_poblacion")
+              for st, n, e, col in [("densidad_1", "Menos de 10 hab/km²", "Under 10 per km²", "#f7f4c8"), ("densidad_2", "10 a 50 hab/km²", "10–50 per km²", "#f5d98b"),
+                                    ("densidad_3", "50 a 100 hab/km²", "50–100 per km²", "#efa95a"), ("densidad_4", "100 a 300 hab/km²", "100–300 per km²", "#e0713a"),
+                                    ("densidad_5", "300 a 1,000 hab/km²", "300–1,000 per km²", "#c03a2b"), ("densidad_6", "Más de 1,000 hab/km²", "Over 1,000 per km²", "#7a1022")]],
+            sub("patrimonio_mundial", "Patrimonio Mundial de la UNESCO", "UNESCO World Heritage", "🏛", "#b5523b", "wikidata", "mensual", "estatica", "estatico", 3, ["identidad", "geografia"], familia="turismo"),
+            sub("parque_nacional", "Parques nacionales relevantes", "Notable national parks", "🌲", "#2F7A4A", "wikidata", "mensual", "estatica", "estatico", 5, ["geografia", "clima"], familia="turismo"),
+            sub("atraccion_turistica", "Atracciones turísticas relevantes", "Notable tourist attractions", "📍", "#C27C1E", "wikidata", "mensual", "estatica", "estatico", 5, ["geografia"], familia="turismo"),
         ],
     },
     {

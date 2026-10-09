@@ -94,3 +94,17 @@ def test_sede_de_empresa():
     regs = S.leer(res, ("Q19644607", "farma_sede", 5, "sede", 5))
     p = S.features(regs, feat, punto)[0]["properties"]
     assert p["st"] == "farma_sede" and p["x"].startswith("sede en Nueva York") and p["z"] == 3
+
+
+def test_densidad_por_rangos():
+    import indicadores as I
+    paginas = [[{"page": 1}, [{"countryiso3code": "MEX", "value": 66.4, "date": "2023"}, {"countryiso3code": "", "value": 5, "date": "2023"},
+                              {"countryiso3code": "BGD", "value": 1329.0, "date": "2022"}, {"countryiso3code": "MNG", "value": None, "date": "2023"}]]]
+    v = I.leer_api(paginas)
+    assert v == {"MEX": (66.4, "2023"), "BGD": (1329.0, "2022")}
+    paises = {"features": [{"geometry": {"type": "Polygon", "coordinates": []}, "properties": {"iso3": "MEX", "nombre": "México"}},
+                           {"geometry": {"type": "Polygon", "coordinates": []}, "properties": {"iso3": "BGD", "nombre": "Bangladés"}},
+                           {"geometry": {"type": "Polygon", "coordinates": []}, "properties": {"iso3": "MNG", "nombre": "Mongolia"}}]}
+    fs = I.features_indicador(paises, v, I.DENSIDAD, "dens", lambda x: f"{I.num(x, 1)} hab/km²")
+    assert [(f["properties"]["p"], f["properties"]["st"]) for f in fs] == [("MEX", "densidad_3"), ("BGD", "densidad_6")]
+    assert fs[0]["properties"]["x"] == "66.4 hab/km² (2023)" and fs[1]["properties"]["color"] == "#7a1022"

@@ -236,6 +236,28 @@
    "nota": "Pew Research Center 2020 vía Our World in Data (CC BY 4.0)."
   },
   {
+   "id": "densidad_poblacion",
+   "nombre": "Densidad de población por país",
+   "categoria": "sociedad",
+   "geometria": "poligono",
+   "fuente": "banco_mundial",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Banco Mundial (CC BY 4.0), indicador EN.POP.DNST: habitantes por km² de tierra, último año disponible de cada país."
+  },
+  {
+   "id": "turismo",
+   "nombre": "Lugares turísticos: Patrimonio Mundial, parques nacionales y atracciones",
+   "categoria": "sociedad",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 6,
+   "nota": "Wikidata (CC0): sitios con declaratoria de Patrimonio Mundial de la UNESCO (P1435), parques nacionales con 5 o más Wikipedias y atracciones turísticas con 4 o más."
+  },
+  {
    "id": "gobierno_forma",
    "nombre": "Forma de gobierno por país (república, monarquía…)",
    "categoria": "gobierno_forma",

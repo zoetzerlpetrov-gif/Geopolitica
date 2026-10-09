@@ -433,3 +433,5 @@ details.subgrupo-d[open] > summary.subgrupo::after { content: "▾"; }
 details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .seg-grupo { list-style: none; }
 .lista-seguimiento .lista-seguimiento { padding-left: 4px; }
+.lista-pases { margin: 4px 0; padding-left: 16px; max-height: 260px; overflow-y: auto; font-size: 12px; }
+.lista-pases li { margin: 2px 0; }
