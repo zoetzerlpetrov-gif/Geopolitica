@@ -36,7 +36,7 @@ const casos = [["Statue of Liberty", "Statue of Liberty"], ["Eiffel Tower Paris"
   ["Teotihuacan Pyramid of the Sun", "Pyramid of the Sun"], ["Machu Picchu", "Machu Picchu"], ["Sagrada Familia", "Sagrada Família"],
   ["Statue of Liberty souvenir", "RÉPLICA"], ["Eiffel Tower souvenir miniature", "RÉPLICA"], ["souvenir figurine monument", "RÉPLICA"], ["miniature Eiffel Tower model", "RÉPLICA"]];
 const ac = { A: 0, E: 0 }; let total = 0; const rep = { viejo: [], nuevo: [] };
-for (const [q, esperado] of casos) {
+for (const [q, esperado] of (process.argv.includes("--solo-fotos") ? [] : casos)) {
   for (const [titulo, url] of await commons(q, 3)) {
     await new Promise((r) => setTimeout(r, 300));
     let img;
@@ -51,7 +51,7 @@ for (const [q, esperado] of casos) {
   }
 }
 console.log("\nACIERTOS top-1 sobre", total, ac);
-for (const k of ["viejo", "nuevo"]) {
+for (const k of (total ? ["viejo", "nuevo"] : [])) {
   const r = rep[k], real = r.filter((x) => !x[0]).map((x) => x[1]).sort((a, b) => a - b), sv = r.filter((x) => x[0]).map((x) => x[1]).sort((a, b) => a - b);
   console.log(`réplica ${k}: reales máx ${(real.at(-1) * 100).toFixed(0)} p90 ${(real[Math.floor(real.length * 0.9)] * 100).toFixed(0)} · souvenirs ${sv.map((x) => (x * 100).toFixed(0)).join(",")}`);
 }

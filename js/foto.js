@@ -27,8 +27,8 @@ function htmlExif(d) {
 
 /** Texto del aviso de réplica según la probabilidad (0–1) que da el modelo. */
 export function avisoReplica(p) {
-  if (p >= 0.6) return { nivel: "alto", texto: `Parece una réplica, maqueta o souvenir, no el lugar real (${Math.round(p * 100)} %). Si es una figura, el lugar sugerido es el monumento que representa, no donde se tomó la foto.` };
-  if (p >= 0.35) return { nivel: "medio", texto: `No está claro si es el lugar real o una réplica (${Math.round(p * 100)} % réplica). Fíjate en la escala, el fondo y si hay mesa, estante o vitrina.` };
+  if (p >= 0.75) return { nivel: "alto", texto: `Parece una réplica, maqueta o souvenir, no el lugar real (${Math.round(p * 100)} %). Si es una figura, el lugar sugerido es el monumento que representa, no donde se tomó la foto.` };
+  if (p >= 0.5) return { nivel: "medio", texto: `No está claro si es el lugar real o una réplica (${Math.round(p * 100)} % réplica). Fíjate en la escala, el fondo y si hay mesa, estante o vitrina.` };
   return null;
 }
 
