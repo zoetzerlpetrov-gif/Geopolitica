@@ -3,7 +3,7 @@
 // (traza en tierra y elementos orbitales de un satélite, para su ficha); cada `intervalo`
 // ms responde con un texto GeoJSON listo para MapLibre (así el hilo principal no arma objetos).
 /* global satellite */
-importScripts("../vendor/satellite/satellite.min.js");
+importScripts("../vendor/satellite/satellite.min.js", "sol.js");
 
 let satrecs = {};        // grupo -> [{n, id, rec}]
 let activos = new Set();
@@ -58,9 +58,60 @@ function orbita(id) {
   };
 }
 
+/**
+ * Pases visibles a simple vista desde (lat, lon) en las próximas `horas` (ver js/sol.js).
+ * Recorre cada satélite de los grupos pedidos en pasos de 30 s; un pase empieza cuando sube a más de
+ * `elevMin` grados y termina al bajar. Solo se informa si en algún momento del pase el satélite está
+ * iluminado y el observador a oscuras. El brillo real (magnitud) no se calcula: depende de la forma
+ * y orientación de cada satélite, que el TLE no trae.
+ */
+function pases({ lat, lon, horas = 24, grupos, elevMin = 10, max = 40 }) {
+  const obs = { latitude: lat * Math.PI / 180, longitude: lon * Math.PI / 180, height: 0 };
+  const inicio = Date.now(), pasoMs = 30000, n = Math.ceil((horas * 3600000) / pasoMs);
+  // Momentos y condiciones de luz (iguales para todos los satélites): se calculan una sola vez.
+  const tiempos = [];
+  for (let i = 0; i <= n; i++) {
+    const t = new Date(inicio + i * pasoMs), gmst = satellite.gstime(t);
+    tiempos.push({ t, gmst, oscuro: SOL.alturaSol(lat, lon, t, gmst) < -6, sol: SOL.solECI(t) });
+  }
+  const vistos = new Set(), out = [];
+  for (const g of grupos || Object.keys(satrecs)) {
+    for (const s of satrecs[g] || []) {
+      if (vistos.has(s.id)) continue;
+      vistos.add(s.id);
+      let pase = null;
+      for (const k of tiempos) {
+        const pv = satellite.propagate(s.rec, k.t);
+        if (!pv || !pv.position || typeof pv.position === "boolean") { pase = null; continue; }
+        const ang = satellite.ecfToLookAngles(obs, satellite.eciToEcf(pv.position, k.gmst));
+        const elev = ang.elevation * 180 / Math.PI, az = ang.azimuth * 180 / Math.PI;
+        if (elev >= elevMin) {
+          const p = pv.position, visible = k.oscuro && !SOL.enSombra([p.x, p.y, p.z], k.sol);
+          if (!pase) pase = { id: s.id, n: s.n, grupo: g, ini: k.t.getTime(), az_ini: az, elev_max: elev, t_max: k.t.getTime(), visible: false, vis_ini: null };
+          if (elev > pase.elev_max) { pase.elev_max = elev; pase.t_max = k.t.getTime(); pase.az_max = az; }
+          if (visible) { pase.visible = true; pase.vis_ini ??= k.t.getTime(); pase.vis_fin = k.t.getTime(); }
+          pase.fin = k.t.getTime(); pase.az_fin = az;
+        } else if (pase) {
+          if (pase.visible) out.push(pase);
+          pase = null;
+        }
+      }
+      if (pase?.visible) out.push(pase);
+    }
+  }
+  out.sort((a, b) => a.vis_ini - b.vis_ini);
+  return { tipo: "pases", lat, lon, horas, total: out.length, pases: out.slice(0, max).map((p) => ({ ...p,
+    elev_max: Math.round(p.elev_max), desde: SOL.rumbo(p.az_ini), hacia: SOL.rumbo(p.az_fin), dur_min: Math.max(1, Math.round((p.vis_fin - p.vis_ini) / 60000)) })) };
+}
+
 onmessage = (e) => {
   const m = e.data;
   if (m.tipo === "orbita") { postMessage(orbita(m.id)); return; }
+  if (m.tipo === "pases") {
+    if (m.grupos_tle) for (const [g, lista] of Object.entries(m.grupos_tle)) satrecs[g] ??= lista.map(([n, l1, l2]) => ({ n, l1, id: l2.slice(2, 7).trim(), rec: satellite.twoline2satrec(l1, l2) }));
+    postMessage(pases(m));
+    return;
+  }
   if (m.tipo === "tle") {
     if (!m.agregar) satrecs = {};
     for (const [g, lista] of Object.entries(m.grupos)) {

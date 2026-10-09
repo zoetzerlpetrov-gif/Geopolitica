@@ -759,7 +759,8 @@ async function iniciarRiesgos() {
   });
   // Consola de zona: país, estado de México o ciudad del mundo (radio de 200 km) → filtra la lista de amenazas.
   $("riesgos-zona").innerHTML = `<form id="rg-zona-form" class="fila"><input id="rg-zona-q" list="rg-zona-sug" placeholder="Ciudad, estado o país…" autocomplete="off" aria-label="Consultar zona"><datalist id="rg-zona-sug"></datalist><button>Ver zona</button></form>
-    <p class="meta" id="rg-zona-res">Ej.: «Acapulco», «Guerrero», «Bogotá», «Lyon, Francia». Ciudades: radio de ${A.RADIO_ZONA_KM} km.</p>`;
+    <p class="meta" id="rg-zona-res">Ej.: «Acapulco», «Guerrero», «Bogotá», «Lyon, Francia». Ciudades: radio de ${A.RADIO_ZONA_KM} km.</p>
+    <div id="rg-zona-pases"></div>`;
   let fuentesZona = null;
   const cargarFuentesZona = () => (fuentesZona ??= Promise.all([getJSON("config/mx_estados.json").catch(() => ({ estados: [], ciudades: [] })),
     getJSON("config/ciudades.json").catch(() => ({ ciudades: [] }))])
@@ -784,9 +785,21 @@ async function iniciarRiesgos() {
     zona = z;
     circuloZona(z);
     $("rg-zona-res").textContent = texto;
+    $("rg-zona-pases").innerHTML = z?.radio_km && z.lat != null ? `<button type="button" class="mini" id="rg-pases">🛰 Satélites visibles a simple vista desde aquí (24 h)</button>` : "";
     if (z?.radio_km) api.map.flyTo({ center: [z.lon, z.lat], zoom: 6, duration: lite ? 0 : 800 });
     pintar();
   };
+  $("rg-zona-pases").addEventListener("click", async (e) => {
+    if (e.target.id !== "rg-pases" || !zona) return;
+    const caja = $("rg-zona-pases"), z = zona;
+    caja.innerHTML = `<p class="meta">Calculando pases de ${esc(z.nombre)} (estaciones espaciales y satélites más brillantes)…</p>`;
+    try {
+      const S = await import("./satelites.js");
+      const r = await S.calcularPases(z.lat, z.lon);
+      if (zona !== z) return;
+      caja.innerHTML = S.htmlPases(r, z.etiqueta || z.nombre);
+    } catch (err) { caja.innerHTML = `<p class="meta">No se pudieron calcular los pases: ${esc(err.message)}</p>`; }
+  });
   $("rg-zona-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const q = $("rg-zona-q").value.trim();

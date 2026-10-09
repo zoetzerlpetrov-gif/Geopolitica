@@ -122,3 +122,33 @@ export function htmlSatelite({ n, norad, grupo, alt }, orb) {
     ${geo ? `<p class="meta">Por eso se ve casi inmóvil: tarda lo mismo que la Tierra en dar una vuelta. Los cientos de puntos alineados sobre el Ecuador son satélites geoestacionarios (TV, comunicaciones, meteorología) y su posición es real.</p>` : ""}
     <p class="meta">Calculado en tu navegador con SGP4 a partir de los elementos orbitales públicos de CelesTrak; con datos de menos de un día el error típico es de 1 a 3 km en órbita baja.</p>`;
 }
+
+/**
+ * Pases visibles a simple vista desde (lat, lon) en las próximas 24 h. Usa un worker propio (no el de la
+ * capa del mapa) con los grupos «stations» (estaciones espaciales) y «visual» (los más brillantes): son los
+ * que se distinguen sin telescopio. Tarda unos segundos: ~175 satélites × 2,880 momentos.
+ */
+export async function calcularPases(lat, lon, horas = 24) {
+  const { getJSON } = await import("./util.js");
+  const d = await getJSON("data/vivos/satelites.json", { bust: true });
+  const grupos = ["stations", "visual"].filter((g) => d.grupos?.[g]);
+  const w = new Worker("js/sat-worker.js");
+  try {
+    return await new Promise((ok, mal) => {
+      w.onmessage = (e) => { if (e.data.tipo === "pases") ok(e.data); };
+      w.onerror = (e) => mal(new Error(e.message || "error del cálculo"));
+      w.postMessage({ tipo: "pases", lat, lon, horas, grupos, grupos_tle: Object.fromEntries(grupos.map((g) => [g, d.grupos[g]])) });
+    });
+  } finally { w.terminate(); }
+}
+
+/** Lista de pases (hora en el huso horario de quien consulta). */
+export function htmlPases(r, lugar) {
+  if (!r.pases.length) return `<p class="meta">Sin pases visibles desde ${esc(lugar)} en las próximas ${r.horas} h (puede ser de día casi todo el periodo o que ninguno quede iluminado de noche).</p>`;
+  const hora = (t) => new Date(t).toLocaleString("es-MX", { weekday: "short", hour: "2-digit", minute: "2-digit" });
+  const iss = r.pases.filter((p) => /ISS|ZARYA|TIANHE|CSS/.test(p.n));
+  return `<h4>🛰 Pases visibles desde ${esc(lugar)} · ${r.total} en ${r.horas} h</h4>
+    ${iss.length ? `<p class="meta">Estación espacial: ${iss.map((p) => `${esc(p.n)} ${hora(p.vis_ini)} (${p.elev_max}°)`).join(" · ")}</p>` : ""}
+    <ul class="lista-pases">${r.pases.map((p) => `<li><b>${hora(p.vis_ini)}</b> ${esc(p.n)} · hasta ${p.elev_max}° · de ${p.desde} a ${p.hacia} · ${p.dur_min} min visible</li>`).join("")}</ul>
+    <p class="meta">Horas en el huso horario de tu dispositivo. «Hasta 60°» es la altura máxima sobre el horizonte (90° = justo arriba). Visible = satélite iluminado por el Sol y cielo oscuro donde estás (Sol 6° bajo el horizonte); a más de 10° de altura. Las nubes y la contaminación lumínica no se consideran. Muchos nombres «R/B» son etapas de cohete en órbita, que también reflejan el Sol.</p>`;
+}
