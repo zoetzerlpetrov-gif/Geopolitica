@@ -5,7 +5,7 @@
 // - Solo se dibujan categorías "dibujable": true y subtipos con tipo_capa distinto de "ficha".
 //   Las personas (rol público) nunca tienen capa: viven solo dentro de las fichas.
 /* global maplibregl, pmtiles */
-import { esc, safeUrl, pinturaEtiqueta } from "./util.js";
+import { esc, safeUrl, pinturaEtiqueta, hayObjetoEncima } from "./util.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -116,7 +116,7 @@ export class GestorCapas {
   }
 
   #idsCapas(id) {
-    return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-punto`, `cap-${id}-texto`];
+    return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-punto`, `cap-${id}-toque`, `cap-${id}-texto`];
   }
 
   #filtroCapa(capa, filtroSubtiposBase) {
@@ -159,14 +159,21 @@ export class GestorCapas {
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.5, 8, 5, 12, 7],
         "circle-stroke-width": 1, "circle-stroke-color": "#ffffff",
       } }, antes);
+    // Zona de toque invisible para elegir puntos pequeños (miden 2.5 px a zoom bajo).
+    this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, ...sl, filter: this.#filtroCapa("-punto", filtro),
+      paint: { "circle-radius": 9, "circle-opacity": 0, "circle-stroke-width": 0 } }, antes);
     // Etiquetas solo desde cierto zoom y con detección de colisiones (no se encimen).
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, ...sl, minzoom: f.zoom_etiquetas ?? 6, filter: this.#filtroCapa("-texto", filtro),
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-offset": [0, 0.9], "text-anchor": "top",
         "text-optional": true, "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true },
       paint: pinturaEtiqueta() }, antes);
 
-    for (const capa of [`${src}-punto`, `${src}-linea`, ...(f.relleno ? [`${src}-relleno`] : [])]) {
-      this.map.on("click", capa, (e) => this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat }));
+    for (const capa of [`${src}-toque`, `${src}-linea`, ...(f.relleno ? [`${src}-relleno`] : [])]) {
+      this.map.on("click", capa, (e) => {
+        if (capa.endsWith("-relleno") && hayObjetoEncima(this.map, e.point)) return;  // el punto de encima tiene prioridad
+        if (capa.endsWith("-linea") && this.map.queryRenderedFeatures(e.point, { layers: [`${src}-toque`] }).length) return;
+        this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat });
+      });
       this.map.on("mouseenter", capa, () => { this.map.getCanvas().style.cursor = "pointer"; });
       this.map.on("mouseleave", capa, () => { this.map.getCanvas().style.cursor = ""; });
     }
@@ -281,9 +288,21 @@ export function htmlFichaGobierno(props, familia) {
 const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],
   ["populares", "Populares o tradicionales"], ["otras", "Otras religiones"], ["sin_religion", "Sin afiliación"]];
 
+/**
+ * Our World in Data publica unas series en número de personas y otras en porcentaje. Si vienen conteos
+ * (> 100), se convierten a % sobre la suma de los conteos y se descartan los porcentajes sueltos.
+ */
+export function porcentajesReligion(v) {
+  const e = Object.entries(v);
+  if (!e.some(([, x]) => x > 100)) return v;
+  const cuentas = e.filter(([, x]) => x > 100 || x === 0);
+  const total = cuentas.reduce((s, [, x]) => s + x, 0) || 1;
+  return Object.fromEntries(cuentas.map(([k, x]) => [k, Math.round((x / total) * 1000) / 10]));
+}
+
 /** Ficha de un país en la capa de religiones: composición en barras. */
 export function htmlFichaReligion(props, familia) {
-  const pct = jsonDe(props.porcentajes, {});
+  const pct = porcentajesReligion(jsonDe(props.porcentajes, {}));
   const color = Object.fromEntries((familia.subtipos || []).map((s) => [s.id.replace("religion_", ""), s.color]));
   const filas = RELIGIONES.filter(([k]) => pct[k] != null).sort((a, b) => pct[b[0]] - pct[a[0]]);
   return `<h3 id="ficha-titulo">${esc(props.n)}</h3>

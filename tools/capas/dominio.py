@@ -195,7 +195,12 @@ def leer_csv_owid(texto, slug):
 
 
 def normalizar_porcentajes(shares):
-    """Si vienen como fracciones (≤ 1) se pasan a %; se redondea a 1 decimal."""
+    """OWID mezcla series en número de personas y en porcentaje. Con conteos (> 100) se calcula el % sobre
+    la suma de los conteos y se descartan los porcentajes sueltos; con fracciones (≤ 1) se pasan a %."""
+    if any(v > 100 for v in shares.values()):
+        cuentas = {k: v for k, v in shares.items() if v > 100 or v == 0}
+        total = sum(cuentas.values()) or 1
+        return {k: round(v / total * 100, 1) for k, v in cuentas.items()}
     total = sum(shares.values())
     factor = 100 if total and total <= 1.5 else 1
     return {k: round(v * factor, 1) for k, v in shares.items()}

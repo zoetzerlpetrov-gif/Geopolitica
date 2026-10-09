@@ -168,3 +168,9 @@ def test_religiones_desde_csv_owid():
     assert f["st"] == "religion_cristianismo" and json.loads(f["porcentajes"])["cristianismo"] == 88.0
     assert D.categoria_de("Share of population with folk religions") == "populares"
     assert D.categoria_de("Religiously unaffiliated") == "sin_religion"
+
+
+def test_religiones_conteos_a_porcentaje():
+    import dominio as D
+    assert D.normalizar_porcentajes({"cristianismo": 270000.0, "sin_religion": 70000.0, "otras": 84.0, "islam": 0.0}) == {"cristianismo": 79.4, "sin_religion": 20.6, "islam": 0.0}
+    assert D.normalizar_porcentajes({"cristianismo": 0.6, "islam": 0.4}) == {"cristianismo": 60.0, "islam": 40.0}

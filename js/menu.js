@@ -10,6 +10,7 @@ const normalizar = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "
 
 /** Texto corto de la casilla: el de su etiqueta, sin contadores ni notas. */
 function nombreCasilla(cb) {
+  if (cb.dataset.nombre) return cb.dataset.nombre;
   const lbl = cb.closest("label");
   const span = lbl?.querySelector("span") || lbl;
   return (span?.textContent || cb.id || "").replace(/\s+/g, " ").trim().replace(/\s*\(.*$/, "").slice(0, 38);
@@ -19,10 +20,15 @@ export function iniciarMenu(panel) {
   // 1) Recordar qué secciones quedaron abiertas.
   let abiertos = {};
   try { abiertos = JSON.parse(storage.get(LS_ABIERTOS) || "{}"); } catch (e) { abiertos = {}; }
-  for (const d of panel.querySelectorAll("details[id]")) {
-    if (d.id in abiertos) d.open = abiertos[d.id];
-    d.addEventListener("toggle", () => { abiertos[d.id] = d.open; storage.set(LS_ABIERTOS, JSON.stringify(abiertos)); });
-  }
+  const restaurar = (raiz) => { for (const d of raiz.querySelectorAll?.("details[id]") || []) if (d.id in abiertos) d.open = abiertos[d.id]; };
+  restaurar(panel);
+  // «toggle» no burbujea: se escucha en captura para incluir las secciones que se agregan después.
+  panel.addEventListener("toggle", (e) => {
+    const d = e.target;
+    if (d.id && !buscando) { abiertos[d.id] = d.open; storage.set(LS_ABIERTOS, JSON.stringify(abiertos)); }
+  }, true);
+  new MutationObserver((ms) => { for (const m of ms) for (const n of m.addedNodes) if (n.nodeType === 1) { if (n.matches?.("details[id]") && n.id in abiertos) n.open = abiertos[n.id]; restaurar(n); } })
+    .observe(panel, { childList: true, subtree: true });
 
   // 2) Contraer todo (deja abierto solo el grupo de eventos y su lista).
   panel.querySelector("#menu-contraer")?.addEventListener("click", () => {
@@ -31,10 +37,12 @@ export function iniciarMenu(panel) {
 
   // 3) Buscador: muestra solo filas que contienen el texto y abre las secciones donde están.
   const buscar = panel.querySelector("#menu-buscar");
+  let buscando = false;
   let estadoPrevio = null;
   buscar?.addEventListener("input", () => {
     const q = normalizar(buscar.value.trim());
-    const filas = panel.querySelectorAll(".fila, .lista-areas li, .capa-fam, .subgrupo");
+    buscando = Boolean(q);
+    const filas = panel.querySelectorAll(".fila, .lista-areas li, .capa-fam, .lista-seguimiento li");
     if (!q) {
       for (const f of filas) f.hidden = false;
       if (estadoPrevio) { for (const [d, o] of estadoPrevio) d.open = o; estadoPrevio = null; }

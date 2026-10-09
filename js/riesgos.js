@@ -7,7 +7,7 @@
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
 import { getJSON, esc, safeUrl, pinturaEtiqueta } from "./util.js";
-import { clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
+import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
 export const BASES = [
@@ -189,8 +189,11 @@ export const CAPAS = [
     fuente: "NOAA SWPC (índice Kp)",
     estilo: (p) => ({ c: p.actual ? "#2ECC71" : "#7FB89A", r: 0 }),
     ficha: (p) => ({ titulo: `Borde de aurora con Kp ${p.kp}`, chip: p.actual ? "nivel actual" : "referencia",
-      filas: [["Latitud mínima aprox.", `${p.lat_min}° ${p.hemisferio === "norte" ? "N" : "S"}`], ["Fórmula", "67° − 2.5 × Kp (aproximación)"]],
+      filas: [["Latitud mínima aprox.", `${p.lat_min}° ${p.hemisferio === "norte" ? "N" : "S"}`], ["Fórmula", "67° − 2.5 × Kp (aproximación)"],
+        ["Tormenta equivalente", `G${gDeKp(p.kp)} · ${ESCALAS_NOAA.G.niveles[gDeKp(p.kp)].n}`]],
       url: "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast", fuente: "NOAA SWPC" }),
+    // Qué puede afectar una tormenta de ese tamaño (escala G de NOAA).
+    extra: (p) => { const g = gDeKp(p.kp); return `<div class="efectos" style="--c:${COLOR_ESCALA[g]}"><b>Con Kp ${esc(p.kp)} (G${g}) puede afectar:</b><ul>${ESCALAS_NOAA.G.niveles[g].ef.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p class="meta">${esc(NO_AFECTA)}</p></div>`; },
   },
 ];
 
@@ -305,6 +308,16 @@ export function htmlRiesgo(capa, props, geom) {
     <p class="meta">Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. No sustituye a Protección Civil ni a los avisos oficiales.</p>`;
 }
 
+/** De los objetos bajo el clic, el más cercano al punto exacto. */
+function masCercano(m, e) {
+  let mejor = e.features[0], d0 = Infinity;
+  for (const f of e.features) {
+    const q = m.project(f.geometry.coordinates), d = (q.x - e.point.x) ** 2 + (q.y - e.point.y) ** 2;
+    if (d < d0) { d0 = d; mejor = f; }
+  }
+  return mejor;
+}
+
 export async function leerArchivo(nombre) {
   let ultimo;
   for (const base of BASES) {
@@ -402,7 +415,7 @@ export class Riesgos {
     this.onCambio();
   }
 
-  #capasDe(id) { return ["area", "linea", "punto", "icono", "pulso", "texto"].map((s) => `rg-${id}-${s}`); }
+  #capasDe(id) { return ["area", "linea", "punto", "icono", "pulso", "texto", "toque"].map((s) => `rg-${id}-${s}`); }
 
   /** Oculta objetos de una capa por clave (p. ej. ciudades desmarcadas en «Calidad del aire por ciudad»). */
   setOcultos(id, claves) {
@@ -473,6 +486,7 @@ export class Riesgos {
     const base = this.#filtroBase();
     const oc = this.ocultos.get(capaId.replace(/^rg-/, "").replace(/-[a-z]+$/, ""));
     if (oc) base.push(["!", ["in", ["get", "_k"], ["literal", oc]]]);
+    if (capaId.endsWith("-toque")) return [...base, ["==", ["geometry-type"], "Point"]];
     if (capaId.endsWith("-texto")) return [...base, ["==", ["geometry-type"], "Point"], ["!=", ["coalesce", ["get", "_lbl"], ""], ""]];
     if (capaId.endsWith("-area")) return [...base, ["==", ["geometry-type"], "Polygon"]];
     if (capaId.endsWith("-linea")) return [...base, ["in", ["geometry-type"], ["literal", ["LineString", "Polygon"]]]];
@@ -513,8 +527,14 @@ export class Riesgos {
     m.addLayer({ id: `${src}-texto`, type: "symbol", source: src, filter: this.#filtroDe(`${src}-texto`),
       layout: { "text-field": ["get", "_lbl"], "text-font": ["Noto Sans Regular"], "text-size": 11, "text-offset": [0, 1.3], "text-anchor": "top", "text-optional": true },
       paint: pinturaEtiqueta() }, antes);
-    for (const l of [`${src}-punto`, `${src}-icono`, `${src}-linea`]) {
-      m.on("click", l, (e) => { const f = e.features[0]; this.onObjeto(capa, this.#original(capa.id, f.properties._i) || f.properties, f.geometry); });
+    // Zona de toque invisible (10 px) para elegir puntos pequeños (focos de incendio, ciudades) con facilidad.
+    m.addLayer({ id: `${src}-toque`, type: "circle", source: src, filter: this.#filtroDe(`${src}-toque`), paint: { "circle-radius": 10, "circle-opacity": 0, "circle-stroke-width": 0 } }, antes);
+    for (const l of [`${src}-toque`, `${src}-linea`]) {
+      m.on("click", l, (e) => {
+        if (l.endsWith("-linea") && m.queryRenderedFeatures(e.point, { layers: [`${src}-toque`] }).length) return;  // el punto gana a la línea
+        const f = l.endsWith("-toque") ? masCercano(m, e) : e.features[0];
+        this.onObjeto(capa, this.#original(capa.id, f.properties._i) || f.properties, f.geometry);
+      });
       m.on("mouseenter", l, () => { m.getCanvas().style.cursor = "pointer"; });
       m.on("mouseleave", l, () => { m.getCanvas().style.cursor = ""; });
     }
