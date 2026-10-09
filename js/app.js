@@ -481,14 +481,24 @@ async function main() {
   };
   if (matchMedia("(max-width: 760px)").matches) $("btn-panel").click();
 
+  // Vista: tema claro/oscuro, mapa base (temático, calles, satélite) y proyección (plano o globo 3D).
+  const cambiarBase = async () => {
+    const b = await estiloBase(temaActual(), { lite, base: $("sel-base").value });
+    api.setTema(temaActual(), b.style);
+    api.map.once("style.load", () => aplicarFiltros());
+  };
   $("btn-tema").onclick = async () => {
     const nuevo = temaActual() === "dark" ? "light" : "dark";
     document.documentElement.dataset.theme = nuevo;
     storage.set("gp_theme", nuevo);
-    const b = await estiloBase(nuevo, { lite });
-    api.setTema(nuevo, b.style);
-    api.map.once("style.load", () => aplicarFiltros());
+    await cambiarBase();
   };
+  $("sel-base").value = storage.get("gp_base") || "tematico";
+  $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
+  $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
+  $("sel-proyeccion").onchange = () => { storage.set("gp_proyeccion", $("sel-proyeccion").value); api.setProyeccion($("sel-proyeccion").value); };
+  if ($("sel-base").value !== "tematico") cambiarBase();
+  if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));

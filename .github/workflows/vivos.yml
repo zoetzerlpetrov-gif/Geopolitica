@@ -71,6 +71,11 @@ jobs:
         timeout-minutes: 5
         run: python3 tools/crimen/crimen.py
 
+      - name: Tsunamis (boletines oficiales de la NOAA, cada corrida; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/clima/tsunamis.py
+
       - name: Tornados y trombas marinas del mundo (GDELT GKG, última hora; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 6

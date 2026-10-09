@@ -52,6 +52,11 @@ export function clasificar(capa, p = {}, geom = null) {
       return { sev: p.severe ? 4 : 2, tipo: "Granizo y tormenta", ic: "🧊" };
     }
     case "deslaves": return { sev: 3, tipo: "Deslave", ic: "⛰️" };
+    case "tsunamis": {
+      if (p.k === "epicentro") return { sev: Math.max(2, Math.min(5, p.nivel ?? 2)), tipo: `Tsunami: ${p.categoria || "boletín"}`, ic: "🌊" };
+      if (p.k === "observacion") return { sev: p.amplitud_m >= 1 ? 5 : p.amplitud_m >= 0.3 ? 4 : 3, tipo: "Tsunami: ola medida", ic: "" };
+      return { sev: 3, tipo: p.k === "llegada" ? "Tsunami: llegada estimada" : "Tsunami", ic: "" };
+    }
     case "nws": {
       const s = { Extreme: 5, Severe: 4, Moderate: 3, Minor: 2 }[p.severity] || 1;
       return { sev: s, tipo: `Alerta EUA: ${p.event || "aviso"}`, ic: "" };

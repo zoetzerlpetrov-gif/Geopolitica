@@ -5,7 +5,30 @@
 const OFM = {
   light: "https://tiles.openfreemap.org/styles/positron",
   dark: "https://tiles.openfreemap.org/styles/dark",
+  calles: "https://tiles.openfreemap.org/styles/liberty",
 };
+// Imagen satelital sin llave: Sentinel-2 cloudless 2016 de EOX (mosaico sin nubes, 10 m por píxel, licencia
+// CC BY 4.0; las versiones de años posteriores son no comerciales). No es la resolución de Google Maps (fotos
+// aéreas comerciales de < 1 m): esas exigen licencia y llave, y no se pueden publicar en un sitio abierto.
+const SAT = "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg";
+const SAT_ATRIB = '<a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contiene datos modificados de Copernicus Sentinel 2016), CC BY 4.0';
+
+/** Mapa base satelital: mosaico Sentinel-2 + fronteras y nombres de países encima. */
+export function estiloSatelite() {
+  const local = estiloLocal("dark");
+  return {
+    version: 8, glyphs: GLYPHS,
+    sources: { ...local.sources, sat: { type: "raster", tiles: [SAT], tileSize: 256, maxzoom: 14, attribution: SAT_ATRIB } },
+    layers: [
+      { id: "fondo", type: "background", paint: { "background-color": "#0b1a2a" } },
+      { id: "satelite", type: "raster", source: "sat", paint: { "raster-fade-duration": 0 } },
+      { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": "rgba(255,255,255,0.55)", "line-width": 0.7 } },
+      { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5,
+        layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-optional": true },
+        paint: { "text-color": "#ffffff", "text-halo-color": "rgba(0,0,0,0.75)", "text-halo-width": 1.2 } },
+    ],
+  };
+}
 const GLYPHS = "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf";
 const FONT = ["Noto Sans Regular"];
 
@@ -80,11 +103,15 @@ export function aligerarEstilo(style, { lite = false } = {}) {
   return { ...style, layers, sources };
 }
 
-/** LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local. */
-export async function estiloBase(theme, { lite = false } = {}) {
+/**
+ * LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local.
+ * `base`: «tematico» (claro u oscuro según el tema), «calles» (OpenFreeMap Liberty) o «satelite» (Sentinel-2).
+ */
+export async function estiloBase(theme, { lite = false, base = "tematico" } = {}) {
+  if (base === "satelite") return { style: estiloSatelite(), remoto: true };
   if (lite) return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };
   try {
-    const r = await fetchTimeout(OFM[theme], 6000);
+    const r = await fetchTimeout(base === "calles" ? OFM.calles : OFM[theme], 6000);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     return { style: aligerarEstilo(await r.json(), { lite }), remoto: true };
   } catch (e) {
@@ -193,6 +220,8 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
 
   // Cada vez que cambia el estilo base (tema claro/oscuro) se vuelven a montar las capas propias.
   map.on("style.load", agregarCapas);
+  let proyeccion = "mercator";
+  map.on("style.load", () => { if (proyeccion !== "mercator") try { map.setProjection({ type: proyeccion }); } catch (e) { /* sin globo */ } });
 
   // Interacción
   const popup = new maplibregl.Popup({ closeButton: false, closeOnClick: false, offset: 10 });
@@ -230,6 +259,11 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
       for (const l of ["choke-anillo", "choke-texto"]) if (map.getLayer(l)) map.setLayoutProperty(l, "visibility", visible ? "visible" : "none");
     },
     setTema(nuevo, style) { tema = nuevo; map.setStyle(style); },
+    /** «globe» (globo 3D) o «mercator» (plano). Se vuelve a aplicar tras cada cambio de estilo. */
+    setProyeccion(tipo) {
+      proyeccion = tipo;
+      try { map.setProjection({ type: tipo }); } catch (e) { console.warn("proyección no disponible:", e.message); }
+    },
     volarA(lon, lat) {
       const destino = { center: [lon, lat], zoom: Math.max(map.getZoom(), 4) };
       lite ? map.jumpTo(destino) : map.flyTo({ ...destino, essential: true });
