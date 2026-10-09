@@ -196,6 +196,27 @@
    "uso_comercial": true,
    "licencia_verificada": true
   },
+  "lista_ue": {
+   "nombre": "Lista de la UE de jurisdicciones no cooperativas a efectos fiscales (Consejo de la UE / Comisión Europea)",
+   "url": "https://taxation-customs.ec.europa.eu/tax-common-eu-list_en",
+   "licencia": "Reutilización autorizada de documentos de la Comisión (Decisión 2011/833/UE), citando la fuente",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "bis": {
+   "nombre": "BIS, Banco de Pagos Internacionales: tasas de política monetaria (WS_CBPOL)",
+   "url": "https://data.bis.org/topics/CBPOL",
+   "licencia": "Reutilizable citando al BIS como fuente",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "bitnodes": {
+   "nombre": "Bitnodes (instantánea de nodos de Bitcoin alcanzables) + DB-IP Lite para el país",
+   "url": "https://bitnodes.io",
+   "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+   "uso_comercial": null,
+   "licencia_verificada": false
+  },
   "camaras_publicas": {
    "nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)",
    "url": "",
@@ -3113,6 +3134,427 @@
       "geografia"
      ],
      "familia": "turismo"
+    }
+   ]
+  },
+  {
+   "id": "economia",
+   "nombre": {
+    "es": "Economía y finanzas",
+    "en": "Economy and finance"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Indicadores por país con rangos fijos (el color significa lo mismo de un año a otro) y la fecha del dato en la ficha."
+   ],
+   "subtipos": [
+    {
+     "id": "ue_no_cooperativa",
+     "nombre": {
+      "es": "Anexo I: no cooperativa (lista negra)",
+      "en": "Annex I: non-cooperative"
+     },
+     "icono": "⛔",
+     "color": "#B71C1C",
+     "fuente": "lista_ue",
+     "licencia": "Reutilización autorizada de documentos de la Comisión (Decisión 2011/833/UE), citando la fuente",
+     "frecuencia": "semestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "fiscal_ue"
+    },
+    {
+     "id": "ue_compromisos",
+     "nombre": {
+      "es": "Anexo II: compromisos pendientes (lista gris)",
+      "en": "Annex II: pending commitments"
+     },
+     "icono": "⚠",
+     "color": "#E0A100",
+     "fuente": "lista_ue",
+     "licencia": "Reutilización autorizada de documentos de la Comisión (Decisión 2011/833/UE), citando la fuente",
+     "frecuencia": "semestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "fiscal_ue"
+    },
+    {
+     "id": "recaudacion_1",
+     "nombre": {
+      "es": "Menos del 10 % del PIB",
+      "en": "Under 10% of GDP"
+     },
+     "icono": "▦",
+     "color": "#f1eef6",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recaudacion"
+    },
+    {
+     "id": "recaudacion_2",
+     "nombre": {
+      "es": "10 % a 15 %",
+      "en": "10–15%"
+     },
+     "icono": "▦",
+     "color": "#d0d1e6",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recaudacion"
+    },
+    {
+     "id": "recaudacion_3",
+     "nombre": {
+      "es": "15 % a 20 %",
+      "en": "15–20%"
+     },
+     "icono": "▦",
+     "color": "#a6bddb",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recaudacion"
+    },
+    {
+     "id": "recaudacion_4",
+     "nombre": {
+      "es": "20 % a 25 %",
+      "en": "20–25%"
+     },
+     "icono": "▦",
+     "color": "#74a9cf",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recaudacion"
+    },
+    {
+     "id": "recaudacion_5",
+     "nombre": {
+      "es": "25 % a 30 %",
+      "en": "25–30%"
+     },
+     "icono": "▦",
+     "color": "#2b8cbe",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recaudacion"
+    },
+    {
+     "id": "recaudacion_6",
+     "nombre": {
+      "es": "30 % del PIB o más",
+      "en": "30% or more"
+     },
+     "icono": "▦",
+     "color": "#045a8d",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "recaudacion"
+    },
+    {
+     "id": "tasa_1",
+     "nombre": {
+      "es": "Menos de 1 %",
+      "en": "Under 1%"
+     },
+     "icono": "▦",
+     "color": "#e8f3ea",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "tasa_2",
+     "nombre": {
+      "es": "1 % a 3 %",
+      "en": "1–3%"
+     },
+     "icono": "▦",
+     "color": "#bfe0c3",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "tasa_3",
+     "nombre": {
+      "es": "3 % a 5 %",
+      "en": "3–5%"
+     },
+     "icono": "▦",
+     "color": "#f6e08a",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "tasa_4",
+     "nombre": {
+      "es": "5 % a 8 %",
+      "en": "5–8%"
+     },
+     "icono": "▦",
+     "color": "#f3b25d",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "tasa_5",
+     "nombre": {
+      "es": "8 % a 12 %",
+      "en": "8–12%"
+     },
+     "icono": "▦",
+     "color": "#e07b3c",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "tasa_6",
+     "nombre": {
+      "es": "12 % a 20 %",
+      "en": "12–20%"
+     },
+     "icono": "▦",
+     "color": "#c0392b",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "tasa_7",
+     "nombre": {
+      "es": "20 % o más",
+      "en": "20% or more"
+     },
+     "icono": "▦",
+     "color": "#6e1423",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "tasas_bc"
+    },
+    {
+     "id": "btc_1",
+     "nombre": {
+      "es": "1 a 9 nodos",
+      "en": "1–9 nodes"
+     },
+     "icono": "▦",
+     "color": "#fff3d6",
+     "fuente": "bitnodes",
+     "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "nodos_bitcoin"
+    },
+    {
+     "id": "btc_2",
+     "nombre": {
+      "es": "10 a 49",
+      "en": "10–49"
+     },
+     "icono": "▦",
+     "color": "#fde0a0",
+     "fuente": "bitnodes",
+     "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "nodos_bitcoin"
+    },
+    {
+     "id": "btc_3",
+     "nombre": {
+      "es": "50 a 199",
+      "en": "50–199"
+     },
+     "icono": "▦",
+     "color": "#f9b65a",
+     "fuente": "bitnodes",
+     "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "nodos_bitcoin"
+    },
+    {
+     "id": "btc_4",
+     "nombre": {
+      "es": "200 a 999",
+      "en": "200–999"
+     },
+     "icono": "▦",
+     "color": "#f08a24",
+     "fuente": "bitnodes",
+     "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "nodos_bitcoin"
+    },
+    {
+     "id": "btc_5",
+     "nombre": {
+      "es": "1,000 a 4,999",
+      "en": "1,000–4,999"
+     },
+     "icono": "▦",
+     "color": "#c45a10",
+     "fuente": "bitnodes",
+     "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "nodos_bitcoin"
+    },
+    {
+     "id": "btc_6",
+     "nombre": {
+      "es": "5,000 o más",
+      "en": "5,000 or more"
+     },
+     "icono": "▦",
+     "color": "#7a3305",
+     "fuente": "bitnodes",
+     "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia",
+      "geoeconomia"
+     ],
+     "familia": "nodos_bitcoin"
     }
    ]
   },

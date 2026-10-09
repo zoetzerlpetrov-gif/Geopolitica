@@ -24,7 +24,7 @@ export function familiasDibujables(catalogo, capasCfg, manifest) {
     if (!c.dibujable) continue;
     for (const s of c.subtipos) {
       if (s.tipo_capa === NO_DIBUJABLE || s.tipo_capa !== "estatica" || !s.familia) continue;
-      (subtiposDe[s.familia] ||= []).push(s);
+      (subtiposDe[s.familia] ||= []).push({ ...s, fuente_nombre: catalogo.fuentes?.[s.fuente]?.nombre || s.fuente });
     }
   }
   return capasCfg.familias
@@ -39,6 +39,7 @@ export function familiasDibujables(catalogo, capasCfg, manifest) {
         disponible: Boolean(f.habilitada && m && ["ok", "parcial", "desactualizada"].includes(m.estado) && m.archivo),
         manifest: m || null,
         licencia: fuente.licencia || "",
+        fuente_nombre: fuente.nombre || f.fuente,
         estado_dato: (subtiposDe[f.id] || [])[0]?.estado_dato || "estatico",
       };
     });
@@ -215,7 +216,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <div class="chips"><span class="chip estado-${esc(familia.estado_dato)}">Dato ${esc(etiquetaEstado(familia.estado_dato))}</span></div>
     <dl>
       ${extra ? `<dt>Detalle</dt><dd>${extra}</dd>` : ""}
-      <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente || familia.fuente)}</a>` : esc(sub?.fuente || familia.fuente)}</dd>
+      <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</a>` : esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</dd>
       <dt>Licencia</dt><dd>${esc(sub?.licencia || familia.licencia)}</dd>
       <dt>Actualizado</dt><dd>${esc(familia.manifest?.actualizado_utc?.slice(0, 10) || "—")}</dd>
     </dl>
@@ -285,7 +286,18 @@ export function htmlFichaGobierno(props, familia) {
       <dt>Ideologías</dt><dd>${esc(lista(props.ideologias) || "—")}</dd>
       <dt>Fuente</dt><dd>${wd(props.wd, "Wikidata")} (CC0)</dd>
     </dl>
+    ${htmlInstituciones(jsonDe(props.instituciones, {}))}
     <p class="meta">La orientación es la del partido de quien encabeza el gobierno (primer ministro en sistemas parlamentarios y monarquías constitucionales; presidente o monarca en los demás), según lo registrado en Wikidata, que cualquiera puede editar y cuyas fuentes varían. No es una opinión de este sitio. Un gobierno de coalición se clasifica por el partido de su jefe. «Deducida»: Wikidata solo dice «república»; si la misma persona encabeza Estado y gobierno se toma como presidencial, y si gobierna un partido comunista, como partido único. «Estimada por ideología»: el partido no tiene alineación registrada y se ubica con sus ideologías. Si hay dos alineaciones a medio camino (p. ej. «derecha» y «extrema derecha»), se toma la más cercana al centro. Para la otra vista activa «${esc(otra === "gobierno_forma" ? "Forma de gobierno" : "Orientación política")}».</p>`;
+}
+
+/** Poder ejecutivo (con sitio oficial) y legislativo según Wikidata. */
+export function htmlInstituciones(inst) {
+  const wdl = (q, t) => `<a href="https://www.wikidata.org/wiki/${encodeURIComponent(q)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`;
+  const e = inst?.ejecutivo, l = inst?.legislativo;
+  if (!e && !l) return "";
+  return `<h4>Instituciones</h4><dl>
+    ${e ? `<dt>Poder ejecutivo</dt><dd>${wdl(e[1], e[0])}${e[2] ? ` · <a href="${esc(safeUrl(e[2]))}" target="_blank" rel="noopener noreferrer">sitio oficial (gabinete al día)</a>` : ""}</dd>` : ""}
+    ${l?.length ? `<dt>Poder legislativo</dt><dd>${(Array.isArray(l[0]) ? l : [l]).map(([n, q]) => wdl(q, n)).join(" · ")}</dd>` : ""}</dl>`;
 }
 
 const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],

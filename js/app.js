@@ -59,6 +59,7 @@ function pasaFiltros(ev, ignorarArea = false, ignorarPais = false) {
   if (!ignorarArea && !estado.areas.has(ev.area_principal)) return false;
   if (!ignorarPais && estado.pais && ev.pais_iso3 !== estado.pais) return false;
   if (estado.mexico && !ev.impacto_mexico) return false;
+  if (estado.leyes && !(ev.subtemas || []).includes("leyes_reformas")) return false;
   if (ev.severidad < estado.sevMin) return false;
   if (estado.sevSolo && ev.severidad !== estado.sevSolo) return false;
   if (estado.region && ev.region !== estado.region) return false;
@@ -158,6 +159,7 @@ function resumenFiltros() {
   if (estado.pais) partes.push(paises?.[estado.pais]?.es || estado.pais);
   if (estado.region) partes.push($("ev-region").selectedOptions[0]?.textContent || estado.region);
   if (estado.mexico) partes.push("impacto en México");
+  if (estado.leyes) partes.push("leyes y reformas");
   if (tax && estado.areas.size < tax.lista.length) partes.push(`${estado.areas.size} de ${tax.lista.length} áreas`);
   $("ev-resumen").textContent = partes.length ? partes.join(" · ") : "sin filtros";
   $("ev-resumen").classList.toggle("activo", partes.length > 0);
@@ -441,11 +443,13 @@ async function main() {
   $("ev-pais").onchange = (e) => { estado.pais = e.target.value; programarFiltros(); };
   cargarPaises().then(() => { firmaPaises = ""; programarFiltros(); }).catch(() => {});
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
+  $("f-leyes").onchange = (e) => { estado.leyes = e.target.checked; programarFiltros(); };
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("ev-limpiar").onclick = () => {
-    Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false });
+    Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false, leyes: false });
     for (const [id, v] of [["f-severidad", "1"], ["ev-sev", "0"], ["ev-pais", ""], ["f-region", ""], ["ev-region", ""]]) $(id).value = v;
     $("f-mexico").checked = false;
+    $("f-leyes").checked = false;
     estado.areas = new Set(tax.lista.map((a) => a.id));
     ponerRegion("");
     pintarAreas2();

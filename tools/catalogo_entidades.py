@@ -41,6 +41,9 @@ FUENTES = {
              "nota": "Citar: Sundberg y Melander (2013); Hegre et al. (2020) para Candidate."},
     "pew_owid": {"nombre": "Pew Research Center, composición religiosa 2020 (vía Our World in Data)", "url": "https://ourworldindata.org/religion", "licencia": "CC BY 4.0 (OWID)", "uso_comercial": True, "licencia_verificada": False},
     "banco_mundial": {"nombre": "Banco Mundial, Indicadores del Desarrollo Mundial (API v2)", "url": "https://data.worldbank.org", "licencia": "CC BY 4.0", "uso_comercial": True, "licencia_verificada": True},
+    "lista_ue": {"nombre": "Lista de la UE de jurisdicciones no cooperativas a efectos fiscales (Consejo de la UE / Comisión Europea)", "url": "https://taxation-customs.ec.europa.eu/tax-common-eu-list_en", "licencia": "Reutilización autorizada de documentos de la Comisión (Decisión 2011/833/UE), citando la fuente", "uso_comercial": True, "licencia_verificada": True},
+    "bis": {"nombre": "BIS, Banco de Pagos Internacionales: tasas de política monetaria (WS_CBPOL)", "url": "https://data.bis.org/topics/CBPOL", "licencia": "Reutilizable citando al BIS como fuente", "uso_comercial": True, "licencia_verificada": False},
+    "bitnodes": {"nombre": "Bitnodes (instantánea de nodos de Bitcoin alcanzables) + DB-IP Lite para el país", "url": "https://bitnodes.io", "licencia": "Datos públicos de la API de Bitnodes; DB-IP CC BY 4.0", "uso_comercial": None, "licencia_verificada": False},
     "camaras_publicas": {"nombre": "Cámaras publicadas para verse en abierto (lista curada en config/camaras.json)", "url": "", "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador", "uso_comercial": None, "licencia_verificada": False},
 }
 
@@ -259,6 +262,25 @@ CATEGORIAS = [
             sub("patrimonio_mundial", "Patrimonio Mundial de la UNESCO", "UNESCO World Heritage", "🏛", "#b5523b", "wikidata", "mensual", "estatica", "estatico", 3, ["identidad", "geografia"], familia="turismo"),
             sub("parque_nacional", "Parques nacionales relevantes", "Notable national parks", "🌲", "#2F7A4A", "wikidata", "mensual", "estatica", "estatico", 5, ["geografia", "clima"], familia="turismo"),
             sub("atraccion_turistica", "Atracciones turísticas relevantes", "Notable tourist attractions", "📍", "#C27C1E", "wikidata", "mensual", "estatica", "estatico", 5, ["geografia"], familia="turismo"),
+        ],
+    },
+    {
+        "id": "economia", "nombre": {"es": "Economía y finanzas", "en": "Economy and finance"}, "fase": "C7", "dibujable": True,
+        "reglas": ["Indicadores por país con rangos fijos (el color significa lo mismo de un año a otro) y la fecha del dato en la ficha."],
+        "subtipos": [
+            sub("ue_no_cooperativa", "Anexo I: no cooperativa (lista negra)", "Annex I: non-cooperative", "⛔", "#B71C1C", "lista_ue", "semestral", "estatica", "estatico", 0, ["geoeconomia", "instituciones"], familia="fiscal_ue"),
+            sub("ue_compromisos", "Anexo II: compromisos pendientes (lista gris)", "Annex II: pending commitments", "⚠", "#E0A100", "lista_ue", "semestral", "estatica", "estatico", 0, ["geoeconomia", "instituciones"], familia="fiscal_ue"),
+            *[sub(st, n, e, "▦", col, "banco_mundial", "anual", "estatica", "estatico", 0, ["geoeconomia"], familia="recaudacion")
+              for st, n, e, col in [("recaudacion_1", "Menos del 10 % del PIB", "Under 10% of GDP", "#f1eef6"), ("recaudacion_2", "10 % a 15 %", "10–15%", "#d0d1e6"),
+                                    ("recaudacion_3", "15 % a 20 %", "15–20%", "#a6bddb"), ("recaudacion_4", "20 % a 25 %", "20–25%", "#74a9cf"),
+                                    ("recaudacion_5", "25 % a 30 %", "25–30%", "#2b8cbe"), ("recaudacion_6", "30 % del PIB o más", "30% or more", "#045a8d")]],
+            *[sub(st, n, e, "▦", col, "bis", "mensual", "estatica", "estatico", 0, ["geoeconomia"], familia="tasas_bc")
+              for st, n, e, col in [("tasa_1", "Menos de 1 %", "Under 1%", "#e8f3ea"), ("tasa_2", "1 % a 3 %", "1–3%", "#bfe0c3"), ("tasa_3", "3 % a 5 %", "3–5%", "#f6e08a"),
+                                    ("tasa_4", "5 % a 8 %", "5–8%", "#f3b25d"), ("tasa_5", "8 % a 12 %", "8–12%", "#e07b3c"), ("tasa_6", "12 % a 20 %", "12–20%", "#c0392b"),
+                                    ("tasa_7", "20 % o más", "20% or more", "#6e1423")]],
+            *[sub(st, n, e, "▦", col, "bitnodes", "mensual", "estatica", "estatico", 0, ["tecnologia", "geoeconomia"], familia="nodos_bitcoin")
+              for st, n, e, col in [("btc_1", "1 a 9 nodos", "1–9 nodes", "#fff3d6"), ("btc_2", "10 a 49", "10–49", "#fde0a0"), ("btc_3", "50 a 199", "50–199", "#f9b65a"),
+                                    ("btc_4", "200 a 999", "200–999", "#f08a24"), ("btc_5", "1,000 a 4,999", "1,000–4,999", "#c45a10"), ("btc_6", "5,000 o más", "5,000 or more", "#7a3305")]],
         ],
     },
     {

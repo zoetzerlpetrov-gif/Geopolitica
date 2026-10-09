@@ -40,3 +40,27 @@ test("sin EXIF o formato distinto", () => {
   assert.equal(decimal([10, 30, 0], "S"), -10.5);
   assert.equal(decimal([1, 2], "N"), null);
 });
+
+/** HEIC mínimo: ftyp + meta (iinf con un item «Exif» e iloc que apunta a él) + mdat con el bloque TIFF. */
+function heicConGps(lat, latRef, lon, lonRef) {
+  const jpg = new Uint8Array(jpegConGps(lat, latRef, lon, lonRef));
+  const tiff = jpg.slice(2 + 4 + 6, jpg.length - 2);  // quita SOI, APP1+largo, «Exif\0\0» y EOI
+  const caja = (tipo, ...partes) => { const cuerpo = partes.flat(); const n = 8 + cuerpo.length; return [n >>> 24, (n >> 16) & 255, (n >> 8) & 255, n & 255, ...[...tipo].map((c) => c.charCodeAt(0)), ...cuerpo]; };
+  const u16 = (x) => [(x >> 8) & 255, x & 255], u32 = (x) => [x >>> 24, (x >> 16) & 255, (x >> 8) & 255, x & 255];
+  const ftyp = caja("ftyp", [..."heic"].map((c) => c.charCodeAt(0)), u32(0), [..."mif1heic"].map((c) => c.charCodeAt(0)));
+  const infe = caja("infe", [2, 0, 0, 0], u16(1), u16(0), [..."Exif"].map((c) => c.charCodeAt(0)), [0]);
+  const iinf = caja("iinf", [0, 0, 0, 0], u16(1), infe);
+  const item = [...u32(6), ..."Exif\0\0".split("").map((c) => c.charCodeAt(0)), ...tiff];
+  const ilocTam = 8 + 4 + 2 + 2 + 2 + 2 + 2 + 4 + 4;
+  const metaTam = 8 + 4 + iinf.length + ilocTam;
+  const offItem = ftyp.length + metaTam + 8;
+  const iloc = caja("iloc", [0, 0, 0, 0], [0x44, 0x00], u16(1), u16(1), u16(0), u16(1), u32(offItem), u32(item.length));
+  const meta = caja("meta", [0, 0, 0, 0], iinf, iloc);
+  return new Uint8Array([...ftyp, ...meta, ...caja("mdat", item)]).buffer;
+}
+
+test("lee coordenadas GPS de un HEIC (iPhone)", () => {
+  const d = leerExif(heicConGps([40, 24, 59.3], "N", [3, 42, 13.9], "W"));
+  assert.equal(d.marca, "Foo");
+  assert.ok(Math.abs(d.lat - 40.4165) < 1e-3 && Math.abs(d.lon + 3.7039) < 1e-3, JSON.stringify(d));
+});

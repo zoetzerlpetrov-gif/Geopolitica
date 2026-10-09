@@ -53,6 +53,40 @@ SELECT ?partido ?partidoEs ?partidoEn ?alin ?alinEn ?ideo ?ideoEn ?ideoEs WHERE 
              OPTIONAL { ?ideo rdfs:label ?ideoEs FILTER(lang(?ideoEs) = "es") } }
 }"""
 
+# Instituciones: órgano ejecutivo (P208) con su sitio oficial (P856) y órgano legislativo (P194). Se intentó traer el
+# gabinete completo (ministros con cargo vigente), pero el servicio de Wikidata agota el tiempo (504) con cualquier
+# forma de esa consulta; el sitio oficial del gobierno es la fuente para ver el gabinete al día.
+Q_INSTITUCIONES = """
+SELECT ?iso ?ejec ?ejecEs ?ejecEn ?web ?leg ?legEs ?legEn WHERE {
+  ?pais wdt:P31 wd:Q3624078 ; wdt:P298 ?iso .
+  FILTER NOT EXISTS { ?pais wdt:P576 ?fin }
+  OPTIONAL { ?pais wdt:P208 ?ejec .
+             OPTIONAL { ?ejec rdfs:label ?ejecEs FILTER(lang(?ejecEs) = "es") }
+             OPTIONAL { ?ejec rdfs:label ?ejecEn FILTER(lang(?ejecEn) = "en") }
+             OPTIONAL { ?ejec wdt:P856 ?web } }
+  OPTIONAL { ?pais wdt:P194 ?leg .
+             OPTIONAL { ?leg rdfs:label ?legEs FILTER(lang(?legEs) = "es") }
+             OPTIONAL { ?leg rdfs:label ?legEn FILTER(lang(?legEn) = "en") } }
+}"""
+
+
+def leer_instituciones(res):
+    """{iso: {"ejecutivo": [nombre, qid, web], "legislativo": [[nombre, qid], …]}} (un ejecutivo; todas las cámaras)."""
+    out = {}
+    for f in res["results"]["bindings"]:
+        iso = _v(f, "iso")
+        if not iso:
+            continue
+        d = out.setdefault(iso, {})
+        if _v(f, "ejec") and "ejecutivo" not in d:
+            d["ejecutivo"] = [_v(f, "ejecEs") or _v(f, "ejecEn") or _qid(_v(f, "ejec")), _qid(_v(f, "ejec")), ""]
+        if _v(f, "web") and d.get("ejecutivo") and not d["ejecutivo"][2] and _v(f, "web").startswith("https://"):
+            d["ejecutivo"][2] = _v(f, "web")
+        if _v(f, "leg") and _qid(_v(f, "leg")) not in [x[1] for x in d.get("legislativo", [])]:
+            d.setdefault("legislativo", []).append([_v(f, "legEs") or _v(f, "legEn") or _qid(_v(f, "leg")), _qid(_v(f, "leg"))])
+    return out
+
+
 # ---------------------------------------------------------------- forma de gobierno
 # (id, nombre, patrón sobre la etiqueta en inglés). El orden es la prioridad cuando hay varias formas.
 FORMAS = [
@@ -293,7 +327,7 @@ def elegir_gobierno(forma, roles, partidos=None):
 
 
 # ---------------------------------------------------------------- features
-def features_gobierno(paises_fc, formas, jefes, partidos, fecha):
+def features_gobierno(paises_fc, formas, jefes, partidos, fecha, instituciones=None):
     """Dos juegos de polígonos (forma de gobierno y orientación) con la misma ficha."""
     forma_fc, orient_fc = [], []
     for f in paises_fc["features"]:
@@ -322,6 +356,7 @@ def features_gobierno(paises_fc, formas, jefes, partidos, fecha):
             "ideologias": json.dumps((partido or {}).get("ideologias_es", [])[:8], ensure_ascii=False),
             "corrientes": json.dumps(corrientes((partido or {}).get("ideologias_en", [])), ensure_ascii=False),
             "fecha": fecha, "z": 0,
+            "instituciones": json.dumps((instituciones or {}).get(iso, {}), ensure_ascii=False),
         }
         forma_fc.append({"type": "Feature", "geometry": f["geometry"], "properties": {**props, "id": f"gobf:{iso}", "st": f"gobforma_{forma}", "x": NOMBRE_FORMA[forma]}})
         orient_fc.append({"type": "Feature", "geometry": f["geometry"], "properties": {**props, "id": f"gobo:{iso}", "st": f"gobor_{esp}",

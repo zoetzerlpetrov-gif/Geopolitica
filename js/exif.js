@@ -1,4 +1,4 @@
-// Lector mínimo de metadatos EXIF de fotos JPEG, sin bibliotecas externas.
+// Lector mínimo de metadatos EXIF de fotos JPEG y HEIC (iPhone), sin bibliotecas externas.
 //
 // Privacidad: el archivo se lee en la memoria de tu navegador con FileReader; no se sube a ningún
 // servidor ni se guarda. Al cerrar o recargar la página desaparece.
@@ -42,23 +42,98 @@ function leerIFD(v, base, off, le, nombres, out) {
   }
 }
 
-/** ArrayBuffer de un JPEG → objeto con los campos encontrados ({} si no hay EXIF). */
+/** Bloque TIFF de EXIF que empieza en `base` → campos encontrados. */
+function leerTiff(v, base) {
+  if (base + 8 > v.byteLength) return {};
+  const le = v.getUint16(base) === 0x4949;
+  const out = {};
+  leerIFD(v, base, v.getUint32(base + 4, le), le, ETIQUETAS, out);
+  if (out._exif) leerIFD(v, base, out._exif, le, ETIQUETAS, out);
+  const gps = {};
+  if (out._gps) leerIFD(v, base, out._gps, le, GPS, gps);
+  delete out._exif; delete out._gps;
+  return { ...out, ...coordenadas(gps) };
+}
+
+const tipo4 = (v, p) => String.fromCharCode(v.getUint8(p), v.getUint8(p + 1), v.getUint8(p + 2), v.getUint8(p + 3));
+const uint = (v, p, n) => (n === 0 ? 0 : n === 2 ? v.getUint16(p) : n === 4 ? v.getUint32(p) : n === 8 ? Number(v.getBigUint64(p)) : 0);
+
+/** Cajas ISOBMFF entre `ini` y `fin` → [{tipo, ini (inicio del contenido), fin}]. */
+function cajas(v, ini, fin) {
+  const out = [];
+  let p = ini;
+  while (p + 8 <= fin) {
+    let tam = v.getUint32(p), cab = 8;
+    if (tam === 1) { tam = Number(v.getBigUint64(p + 8)); cab = 16; } else if (tam === 0) tam = fin - p;
+    if (tam < cab || p + tam > fin) break;
+    out.push({ tipo: tipo4(v, p + 4), ini: p + cab, fin: p + tam });
+    p += tam;
+  }
+  return out;
+}
+
+/**
+ * HEIC/HEIF (fotos de iPhone): el EXIF es un «item» de tipo «Exif» dentro de la caja «meta».
+ * «iinf» dice qué item es el EXIF e «iloc» dónde está en el archivo. Al inicio del item van 4 bytes con
+ * la distancia hasta la cabecera TIFF.
+ */
+function exifHeif(v) {
+  const meta = cajas(v, 0, v.byteLength).find((c) => c.tipo === "meta");
+  if (!meta) return null;
+  const hijos = cajas(v, meta.ini + 4, meta.fin);  // «meta» es una full box: 4 bytes de versión y banderas
+  const iinf = hijos.find((c) => c.tipo === "iinf"), iloc = hijos.find((c) => c.tipo === "iloc");
+  if (!iinf || !iloc) return null;
+  const vi = v.getUint8(iinf.ini);
+  let idExif = null;
+  for (const e of cajas(v, iinf.ini + 4 + (vi === 0 ? 2 : 4), iinf.fin)) {
+    if (e.tipo !== "infe") continue;
+    const ve = v.getUint8(e.ini);
+    if (ve < 2) continue;
+    const id = ve === 2 ? v.getUint16(e.ini + 4) : v.getUint32(e.ini + 4);
+    if (tipo4(v, e.ini + 4 + (ve === 2 ? 2 : 4) + 2) === "Exif") { idExif = id; break; }
+  }
+  if (idExif == null) return null;
+  const vl = v.getUint8(iloc.ini);
+  let p = iloc.ini + 4;
+  const tamOff = v.getUint8(p) >> 4, tamLar = v.getUint8(p) & 15, tamBase = v.getUint8(p + 1) >> 4, tamIdx = vl > 0 ? v.getUint8(p + 1) & 15 : 0;
+  p += 2;
+  const n = vl < 2 ? v.getUint16(p) : v.getUint32(p);
+  p += vl < 2 ? 2 : 4;
+  for (let i = 0; i < n; i++) {
+    const id = vl < 2 ? v.getUint16(p) : v.getUint32(p);
+    p += vl < 2 ? 2 : 4;
+    if (vl > 0) p += 2;  // método de construcción
+    p += 2;              // índice de referencia de datos
+    const baseOff = uint(v, p, tamBase); p += tamBase;
+    const ext = v.getUint16(p); p += 2;
+    let primero = null;
+    for (let k = 0; k < ext; k++) {
+      p += tamIdx;
+      const off = uint(v, p, tamOff); p += tamOff;
+      p += tamLar;
+      if (k === 0) primero = baseOff + off;
+    }
+    if (id === idExif && primero != null && primero + 4 <= v.byteLength) return primero + 4 + v.getUint32(primero);
+  }
+  return null;
+}
+
+/** ArrayBuffer de un JPEG o HEIC → objeto con los campos encontrados ({} si no hay EXIF). */
 export function leerExif(buffer) {
   const v = new DataView(buffer);
-  if (v.byteLength < 4 || v.getUint16(0) !== 0xffd8) return { error: "No es un JPEG (las fotos HEIC de iPhone o PNG no traen EXIF legible aquí)." };
+  if (v.byteLength >= 12 && tipo4(v, 4) === "ftyp" && /^(heic|heix|hevc|heim|heis|mif1|msf1|avif)$/.test(tipo4(v, 8))) {
+    try {
+      const base = exifHeif(v);
+      return base == null ? {} : leerTiff(v, base);
+    } catch (e) {
+      return { error: "No se pudo leer el HEIC (archivo incompleto o variante no soportada)." };
+    }
+  }
+  if (v.byteLength < 4 || v.getUint16(0) !== 0xffd8) return { error: "No es un JPEG ni un HEIC (PNG y capturas de pantalla no traen EXIF)." };
   let p = 2;
   while (p + 4 < v.byteLength) {
     const marca = v.getUint16(p), largo = v.getUint16(p + 2);
-    if (marca === 0xffe1 && v.getUint32(p + 4) === 0x45786966) { // «Exif»
-      const base = p + 10, le = v.getUint16(base) === 0x4949;
-      const out = {};
-      leerIFD(v, base, v.getUint32(base + 4, le), le, ETIQUETAS, out);
-      if (out._exif) leerIFD(v, base, out._exif, le, ETIQUETAS, out);
-      const gps = {};
-      if (out._gps) leerIFD(v, base, out._gps, le, GPS, gps);
-      delete out._exif; delete out._gps;
-      return { ...out, ...coordenadas(gps) };
-    }
+    if (marca === 0xffe1 && v.getUint32(p + 4) === 0x45786966) return leerTiff(v, p + 10); // «Exif»
     if ((marca & 0xff00) !== 0xff00) break;
     p += 2 + largo;
   }

@@ -125,3 +125,16 @@ def test_lugares_religiosos():
     assert L.religion_de(["Sunni Islam"], None) == "islam"
     assert L.religion_de([], None) == "otras"
     assert L.nivel_de(20, False) == "alta"
+
+
+def test_instituciones_ejecutivo_con_sitio_y_legislativo():
+    W = "http://www.wikidata.org/entity/"
+    fila = lambda **k: {c: {"value": v} for c, v in k.items()}  # noqa: E731
+    res = {"results": {"bindings": [
+        fila(iso="MEX", ejec=W + "E1", ejecEs="Gobierno de México", web="http://viejo.example", leg=W + "L1", legEs="Congreso de la Unión"),
+        fila(iso="MEX", ejec=W + "E1", ejecEs="Gobierno de México", web="https://www.gob.mx/"),
+        fila(iso="XXX"),
+    ]}}
+    d = G.leer_instituciones(res)
+    assert d["MEX"]["ejecutivo"] == ["Gobierno de México", "E1", "https://www.gob.mx/"]
+    assert d["MEX"]["legislativo"] == [["Congreso de la Unión", "L1"]] and d["XXX"] == {}

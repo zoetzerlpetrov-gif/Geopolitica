@@ -19,6 +19,8 @@ export function clasificar(capa, p = {}, geom = null) {
       return { sev: p.tsunami ? 5 : m >= 7 ? 5 : m >= 6 ? 4 : m >= 5 ? 3 : m >= 4 ? 2 : 1, tipo: p.tsunami ? "Tsunami" : "Sismo", ic: p.tsunami ? "🌊" : "" };
     }
     case "ciclones": {
+      if (p.kind === "cono") return { sev: 3, tipo: "Ciclón tropical", ic: "" };
+      if (p.kind === "aviso_costa") return { sev: lim(1 + (p.aviso_nivel || 2)), tipo: "Ciclón tropical", ic: "" };
       const kt = Number(p.intensity_kt || p.wind_kt || 0);
       const sev = kt >= 113 ? 5 : kt >= 83 ? 4 : kt >= 64 ? 3 : kt >= 34 ? 2 : 1;  // Saffir-Simpson: cat. 4+ (113 kt) = 5, cat. 2-3 = 4, cat. 1 = 3, tormenta tropical = 2
       const ic = p.layer === "storm" ? "🌀" : "";
@@ -64,6 +66,8 @@ export function clasificar(capa, p = {}, geom = null) {
     case "cortes_internet": return { sev: p.en_curso ? (p.n_senales >= 2 ? 4 : 3) : 2, tipo: "Corte de internet", ic: p.en_curso ? "📵" : "" };
     case "c2_botnets": { const n = Number(p.n || 0); return { sev: n >= 100 ? 4 : n >= 25 ? 3 : n >= 5 ? 2 : 1, tipo: "Servidores C2 de botnets", ic: "" }; }
     case "avisos_ics": return { sev: p.explotados ? 4 : p.criticos ? 3 : 2, tipo: "Avisos ICS/SCADA", ic: "" };
+    case "avisos_europa": return { sev: { 2: 2, 3: 4, 4: 5 }[p.nivel] || 2, tipo: `Aviso Europa: ${(Array.isArray(p.tipos) ? p.tipos[0] : "") || "clima"}`, ic: "" };
+    case "lanzamientos": return { sev: 1, tipo: "Lanzamiento espacial", ic: "🚀" };
     case "auroras": return { sev: p.actual ? 2 : 1, tipo: "Aurora", ic: "" };
     case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: iconoArma(p.arma) || { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
     case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };

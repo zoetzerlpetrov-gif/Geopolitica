@@ -26,7 +26,7 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import zipfile
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -359,7 +359,8 @@ def camaras(revisar=enlace_responde, externas=True):
     return out
 
 
-FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion"}  # GeoJSON directo, sin tippecanoe
+FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
+                    "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -438,9 +439,15 @@ def _gobiernos():
         for i in range(0, len(lista), 150):
             time.sleep(2)
             partidos.update(G.leer_partidos(_sparql(G.Q_PARTIDOS % " ".join(f"wd:{q}" for q in lista[i:i + 150]))))
-        print(f"   Wikidata: {len(formas)} países, {len(jefes)} con jefes, {len(partidos)} partidos")
+        time.sleep(2)
+        try:
+            instituciones = G.leer_instituciones(_sparql(G.Q_INSTITUCIONES))
+        except RuntimeError as e:  # sin instituciones la capa sigue: solo falta ese bloque de la ficha
+            print(f"   instituciones: {e}")
+            instituciones = {}
+        print(f"   Wikidata: {len(formas)} países, {len(jefes)} con jefes, {len(partidos)} partidos, {len(instituciones)} con instituciones")
         paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
-        _GOBIERNOS = G.features_gobierno(paises, formas, jefes, partidos, datetime.now(timezone.utc).strftime("%Y-%m-%d"))
+        _GOBIERNOS = G.features_gobierno(paises, formas, jefes, partidos, datetime.now(timezone.utc).strftime("%Y-%m-%d"), instituciones)
     return _GOBIERNOS
 
 
@@ -714,6 +721,54 @@ def densidad_poblacion():
     return I.features_indicador(paises, valores, I.DENSIDAD, "dens", lambda v: f"{I.num(v, 1)} hab/km²")
 
 
+def _paises_fc():
+    return json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
+
+
+def fiscal_ue():
+    """Lista de la UE de jurisdicciones no cooperativas (Anexo I) y con compromisos pendientes (Anexo II)."""
+    import economia as E
+    return E.features_lista_ue(_paises_fc())
+
+
+def recaudacion():
+    """Recaudación tributaria como % del PIB, último año de cada país (Banco Mundial GC.TAX.TOTL.GD.ZS, CC BY 4.0)."""
+    import economia as E
+    import indicadores as I
+    valores = I.leer_api([json.loads(get(I.API.format(ind="GC.TAX.TOTL.GD.ZS"), timeout=120))])
+    if not valores:
+        raise RuntimeError("El Banco Mundial no devolvió recaudación")
+    return I.features_indicador(_paises_fc(), valores, E.RECAUDACION, "recaudacion", lambda v: f"{I.num(v, 1)} % del PIB",
+                                "impuestos del gobierno central, sin contribuciones a la seguridad social")
+
+
+def tasas_bc():
+    """Tasa de política monetaria de cada banco central al cierre del último mes (BIS WS_CBPOL)."""
+    import economia as E
+    desde = (datetime.now(timezone.utc) - timedelta(days=430)).strftime("%Y-%m")
+    series = E.leer_bis(get(E.BIS_API.format(desde=desde), timeout=180).decode("utf-8", "replace"))
+    gaz = json.load(open(os.path.join(ROOT, "config", "gazetteer.json"), encoding="utf-8"))
+    tasas = E.tasas_por_pais(series, {k.upper(): v for k, v in gaz["iso2_a_iso3"].items()})
+    if not tasas:
+        raise RuntimeError("El BIS no devolvió tasas")
+    return E.features_tasas(_paises_fc(), tasas)
+
+
+def nodos_bitcoin():
+    """Nodos de Bitcoin alcanzables por país (Bitnodes; país por DB-IP Lite). No se publica ninguna IP."""
+    import economia as E
+    sys.path.insert(0, os.path.join(ROOT, "tools", "red"))
+    import red as R
+    ahora = datetime.now(timezone.utc)
+    geo, _ = R.cargar_dbip(ahora)
+    snap = json.loads(get(E.BITNODES, timeout=180))
+    gaz = json.load(open(os.path.join(ROOT, "config", "gazetteer.json"), encoding="utf-8"))
+    por, tor, sin = E.nodos_por_pais(snap.get("nodes") or {}, geo, {k.upper(): v for k, v in gaz["iso2_a_iso3"].items()})
+    fecha = datetime.fromtimestamp(snap.get("timestamp") or ahora.timestamp(), timezone.utc).strftime("%Y-%m-%d")
+    print(f"   Bitnodes {fecha}: {sum(por.values())} con país, {tor} Tor, {sin} sin país")
+    return E.features_nodos(_paises_fc(), por, sum(por.values()) + tor + sin, tor, fecha)
+
+
 def nuclear():
     """Centrales nucleares (en operación, en construcción, cerradas) y reactores de investigación (Wikidata)."""
     import sitios as S
@@ -772,7 +827,8 @@ FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "cen
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
             "petroleo_gas": petroleo_gas, "fronteras": fronteras, "desaladoras": desaladoras,
-            "densidad_poblacion": densidad_poblacion, "turismo": turismo}
+            "densidad_poblacion": densidad_poblacion, "turismo": turismo,
+            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin}
 
 
 def _punto_ref(ft):
