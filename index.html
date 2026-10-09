@@ -189,14 +189,11 @@
       <details class="grupo" id="g-herramientas" data-grupo="herramientas">
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
         <section class="bloque" data-grupo="herramientas">
-          <h3 class="bloque-tit">📷 Ubicar una foto</h3>
+          <h3 class="bloque-tit">📷 Metadatos y ubicación de una foto</h3>
           <label class="fila"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
-          <p class="meta">La foto se lee solo en tu navegador: no se sube ni se guarda. La ubicación por metadatos funciona si la cámara o el teléfono tenía el GPS activo y la foto no pasó por redes sociales (WhatsApp, Facebook o X borran la ubicación).</p>
+          <p class="meta">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación).</p>
           <img id="foto-prev" class="foto-prev" alt="Vista previa de la foto elegida" hidden>
-          <div id="foto-exif-res"></div>
-          <button type="button" class="mini" id="foto-reconocer" hidden>🔎 Reconocer el lugar (experimental)</button>
-          <p class="meta">El reconocimiento compara la foto con ~400 lugares famosos usando el modelo CLIP dentro de tu navegador. La primera vez descarga ~90 MB (luego queda guardado); la foto no sale de tu equipo.</p>
-          <div id="foto-lugares-res" aria-live="polite"></div>
+          <div id="foto-exif-res" aria-live="polite"></div>
         </section>
       </details>
       <details class="grupo" id="g-seguimiento" data-grupo="seguimiento">
