@@ -167,7 +167,7 @@ def catalogo_satelites():
     """GCAT → vivos/satcat/0-9.json (solo los objetos que el mapa puede dibujar). Una vez al día."""
     import satcat as SC
     meta = leer("satcat/meta.json", {})
-    if meta.get("generado_utc", "")[:10] == ahora()[:10]:
+    if meta.get("generado_utc", "")[:10] == ahora()[:10] and meta.get("version") == 2:
         return
     d = leer("satelites.json", {})
     noradas = set()
@@ -183,7 +183,7 @@ def catalogo_satelites():
     os.makedirs(os.path.join(OUT, "satcat"), exist_ok=True)
     for k, v in partes.items():
         escribir(f"satcat/{k}.json", v)
-    escribir("satcat/meta.json", {"generado_utc": ahora(), "fuente": SC.CITA_GCAT, "orgs": {c: orgs[c] for c in sorted(usados) if c in orgs},
+    escribir("satcat/meta.json", {"generado_utc": ahora(), "version": 2, "fuente": SC.CITA_GCAT, "orgs": {c: orgs[c] for c in sorted(usados) if c in orgs},
                                   "objetos": sum(len(v) for v in partes.values())})
     print(f"  GCAT: {sum(len(v) for v in partes.values())} de {len(noradas)} satélites del mapa con ficha")
 

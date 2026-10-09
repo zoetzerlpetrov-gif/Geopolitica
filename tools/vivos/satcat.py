@@ -51,7 +51,8 @@ def nombres_orgs(filas):
     for f in filas:
         cod = f.get("Code")
         if cod:
-            out[cod] = f.get("ShortEName") or f.get("EName") or f.get("ShortName") or cod
+            # GCAT escribe «-» en las columnas sin dato: se toma la primera que tenga nombre.
+            out[cod] = next((f[k] for k in ("ShortEName", "EName", "ShortName", "Name") if f.get(k) not in (None, "", "-")), cod)
     return out
 
 
