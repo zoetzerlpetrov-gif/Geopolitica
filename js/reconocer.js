@@ -131,13 +131,15 @@ let textos = null;
 async function cargarTextos(lista, avance) {
   const frases = frasesDe(lista), h = huella(frases);
   if (textos?.h === h) return textos;
-  let vecs = null;
   try {
     const pre = await (await fetch("config/monumentos_vec.json")).json();
-    if (pre.huella === h) vecs = desempacar(pre);
+    if (pre.huella === h && pre.n === lista.length) {
+      const v = desempacar(pre), n = lista.length;
+      textos = { h, lugares: v.slice(0, n), replica: v.slice(n, n + FRASES_REPLICA.length), real: v.slice(n + FRASES_REPLICA.length) };
+      return textos;
+    }
   } catch (e) { /* se calculan abajo */ }
-  vecs ??= await vectoresTexto(frases, avance);
-  textos = { h, ...agrupar(vecs, lista.length) };
+  textos = { h, ...agrupar(await vectoresTexto(frases, avance), lista.length) };
   return textos;
 }
 
