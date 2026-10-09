@@ -11,3 +11,4 @@ d = json.load(open("vivos/tornados.geojson"))
 print("errores", d["errores"], "notas", len(d["notas"]))
 for f in d["features"]:
     p = f["properties"]; print("T", p["date"], p["kind"], p["severe"], p["state"], f["geometry"]["coordinates"], p.get("notas"), p["source"], "|", p["title"][:110])
+# Fri Oct  9 17:47:31 UTC 2026
