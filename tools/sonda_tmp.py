@@ -1,25 +1,37 @@
-import json, time, urllib.request, gzip
+import json, time, urllib.request, gzip, collections, re
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-def raw(url, n=600):
+def get(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "*/*"})
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with urllib.request.urlopen(req, timeout=300) as r:
         b = r.read()
-        if b[:2] == b"\x1f\x8b": b = gzip.decompress(b)
-        return r.status, r.headers.get("Content-Type"), len(b), b[:n]
-def p(url, n=600):
-    try: print("URL", url, *raw(url, n))
-    except Exception as e: print("URL", url, "ERR", e)
-    time.sleep(1.5)
-p("https://celestrak.org/robots.txt", 5000)
-for u in ["https://db.satnogs.org/robots.txt", "https://db.satnogs.org/api/tle/?format=json&norad_cat_id=25544",
-          "https://db.satnogs.org/api/satellites/?format=json&norad_cat_id=25544",
-          "https://network.satnogs.org/robots.txt",
-          "https://tle.ivanstanojevic.me/robots.txt", "https://tle.ivanstanojevic.me/api/tle/25544",
-          "https://www.space-track.org/robots.txt",
-          "https://planet4589.org/robots.txt", "https://planet4589.org/space/gcat/tsv/cat/satcat.tsv",
-          "https://api.weather.gov/alerts/active?status=actual&severity=Extreme",
-          "https://www.ncei.noaa.gov/robots.txt", "https://www.spc.noaa.gov/robots.txt", "https://www.spc.noaa.gov/products/outlook/day1otlk_cat.lyr.geojson",
-          "https://www.nhc.noaa.gov/robots.txt", "https://www.nhc.noaa.gov/CurrentStorms.json",
-          "https://firms.modaps.eosdis.nasa.gov/robots.txt",
-          "https://hazards.fema.gov/robots.txt"]:
-    p(u)
+        return gzip.decompress(b) if b[:2] == b"\x1f\x8b" else b
+t0 = time.time()
+tle = json.loads(get("https://db.satnogs.org/api/tle/?format=json"))
+print("SATNOGS TLE", len(tle), round(time.time() - t0), "s", collections.Counter(x.get("tle_source") for x in tle).most_common(5))
+for pat in ["STARLINK", "ONEWEB", "NAVSTAR|GPS", "GALILEO|GSAT0", "BEIDOU", "COSMOS", "ISS|TIANHE|CSS", "IRIDIUM", "NOAA|GOES|METEOSAT", "USA ", "HST|HUBBLE", "FLOCK|DOVE", "DEB", "R/B"]:
+    print("  ", pat, sum(1 for x in tle if re.search(pat, x["tle0"])))
+time.sleep(3)
+sats = json.loads(get("https://db.satnogs.org/api/satellites/?format=json"))
+print("SATNOGS SATS", len(sats), collections.Counter(x.get("status") for x in sats).most_common(6))
+print("  con países", sum(1 for x in sats if x.get("countries")), "con operador", sum(1 for x in sats if x.get("operator") not in (None, "None", "")))
+time.sleep(3)
+for u in ["https://db.satnogs.org/about/", "https://db.satnogs.org/api/", "https://planet4589.org/space/gcat/web/intro/license.html", "https://planet4589.org/space/gcat/index.html"]:
+    try:
+        b = get(u).decode("utf-8", "replace")
+        for m in re.finditer(r"(?i)(licen[cs]e[^<]{0,200}|CC[- ]BY[^<]{0,120}|creative commons[^<]{0,150})", b):
+            print("LIC", u, m.group(0)[:220].replace("\n", " "))
+    except Exception as e: print("LIC", u, e)
+    time.sleep(2)
+g = get("https://planet4589.org/space/gcat/tsv/cat/satcat.tsv").decode("utf-8", "replace").splitlines()
+cab = g[0].lstrip("#").split("\t"); filas = [dict(zip(cab, l.split("\t"))) for l in g if not l.startswith("#")]
+print("GCAT", len(filas), cab)
+vivos = [f for f in filas if f["Status"].strip() in ("O", "OX", "AO", "R?", "N", "E")]
+print("  estado", collections.Counter(f["Status"].strip() for f in filas).most_common(15))
+print("  tipo en órbita", collections.Counter(f["Type"].strip()[:1] for f in filas if f["DDate"].strip() in ("-", "")).most_common(8))
+print("  dueños", collections.Counter(f["State"].strip() for f in filas if f["DDate"].strip() in ("-", "")).most_common(15))
+print("  ejemplo", {k: filas[-5][k] for k in cab[:20]})
+time.sleep(2)
+for u in ["https://planet4589.org/space/gcat/tsv/tables/orgs.tsv", "https://planet4589.org/space/gcat/tsv/tables/sites.tsv"]:
+    try: b = get(u).decode("utf-8", "replace").splitlines(); print("TAB", u, len(b), b[:3])
+    except Exception as e: print("TAB", u, e)
+    time.sleep(2)
