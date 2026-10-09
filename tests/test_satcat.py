@@ -36,7 +36,7 @@ def test_ficha_gcat():
     partes, usados = SC.catalogo_para(filas, {"25544"})
     assert partes["4"]["25544"] == ["P", "US", "NASA", "1998 Nov 20", "", "O", 419725, "73×109", "KHR", "", "ISS (Zarya)"]
     assert usados == {"US", "NASA", "KHR"} and not partes["1"]
-    assert SC.nombres_orgs(SC.leer_tsv("#Code\tShortEName\tEName\nUS\tUSA\tUnited States\n")) == {"US": "USA"}
+    assert SC.nombres_orgs(SC.leer_tsv("#Code\tShortEName\tEName\tShortName\nUS\tUSA\tUnited States\t-\nAALTO\t-\t-\tAalto Univ.\n")) == {"US": "USA", "AALTO": "Aalto Univ."}
 
 
 def test_recolector_sin_celestrak(tmp_path, monkeypatch):
