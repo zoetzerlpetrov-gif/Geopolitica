@@ -238,7 +238,7 @@ def test_new_mexico_se_geocodifica_en_eua():
 def test_feeds_deshabilitados_no_se_piden(monkeypatch):
     pedidos = []
     monkeypatch.setattr(F, "rss", lambda feed: pedidos.append(feed["id"]) or [])
-    cfg = {**CFG, "gdelt": {**CFG["gdelt"], "habilitada": False}, "reliefweb": {"habilitada": False},
+    cfg = {**CFG, "gdelt": {**CFG["gdelt"], "habilitada": False}, "reliefweb": {"habilitada": False}, "humanitarias": {},
            "rss": [{"id": "a", "nombre": "A"}, {"id": "b", "nombre": "B", "habilitada": False}]}
     _, salud = R.recolectar(cfg, "")
     assert pedidos == ["a"] and [s["id"] for s in salud] == ["a"]
@@ -380,3 +380,17 @@ def test_feeds_nuevos_configurados():
     assert ids["mastodon_geopolitics"]["modo"] == "solo_enlace"
     assert ids["cidob_bluesky"]["modo"] == "titulo_desde_texto"
     assert "youtube.com/feeds" in ids["elcano_youtube"]["url"]
+
+
+def test_fuentes_humanitarias_sin_datos_personales():
+    import fuentes as F
+    oms = F.oms_brotes({"value": [{"Title": "Ebola disease - Democratic Republic of the Congo", "UrlName": "2026-DON619",
+                                   "PublicationDateAndTime": "2026-10-08T16:06:26Z", "Summary": "texto largo que no se guarda"}]})
+    assert oms[0]["url"].endswith("/2026-DON619") and oms[0]["fecha_utc"] == "2026-10-08T16:06:26Z" and oms[0]["resumen"] is None
+    go = F.ifrc_emergencias({"results": [{"id": 7, "name": "Paraguay: Population Movement", "dtype": {"name": "Population Movement"},
+        "countries": [{"iso3": "PRY", "name": "Paraguay"}], "ifrc_severity_level_display": "Yellow", "disaster_start_date": "2026-10-09T00:00:00Z",
+        "field_reports": [{"contacts": [{"name": "Persona", "email": "a@b.org", "phone": "123"}]}]}]})
+    c = go[0]
+    assert (c["pais_iso3"], c["severidad"], c["area_sugerida"], c["url"]) == ("PRY", 2, "demografia", "https://go.ifrc.org/emergencies/7")
+    texto = str(go)
+    assert "a@b.org" not in texto and "Persona" not in texto and "123" not in texto

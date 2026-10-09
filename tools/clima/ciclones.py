@@ -16,6 +16,7 @@ import json
 import os
 import sys
 import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
@@ -135,60 +136,103 @@ def features_ibtracs(sid, s):
     return out
 
 
+# GDACS pide en su robots.txt «Request-rate: 1/60» y «Visit-time: 0400-0645» (UTC). Se respeta: solo se le
+# consulta en esa ventana y una sola vez por corrida (las corridas van cada 20 min). Primero las listas por
+# nivel de alerta y después la geometría de cada ciclón; lo obtenido se guarda en vivos/gdacs_cache.json
+# y se usa el resto del día.
+CACHE = os.path.join(ROOT, "vivos", "gdacs_cache.json")
+NIVELES = ("red", "orange", "green")
+MAX_GEOM = 6
+
+
+def en_ventana_gdacs(t):
+    return (4, 0) <= (t.hour, t.minute) < (6, 45)
+
+
+def siguiente_peticion(cache, hoy):
+    """Qué pedir a GDACS en esta corrida: ("lista", nivel), ("geom", evento) o None si ya está todo."""
+    if cache.get("fecha") != hoy:
+        return ("lista", NIVELES[0])
+    for n in NIVELES:
+        if n not in cache.get("niveles", []):
+            return ("lista", n)
+    for ev in cache.get("eventos", [])[:MAX_GEOM]:
+        if str(ev["eventid"]) not in cache.get("geom", {}):
+            return ("geom", ev)
+    return None
+
+
+def paso_gdacs(cache, ahora, pedir_json):
+    """Hace a lo más UNA petición a GDACS (si está en su ventana) y devuelve (cache, estado)."""
+    hoy = ahora.strftime("%Y-%m-%d")
+    if not en_ventana_gdacs(ahora):
+        return cache, f"fuera de la ventana de GDACS (04:00–06:45 UTC); se usan los datos del {cache.get('fecha') or '—'}"
+    sig = siguiente_peticion(cache, hoy)
+    if cache.get("fecha") != hoy:
+        cache = {"fecha": hoy, "niveles": [], "eventos": [], "geom": {}}
+    if not sig:
+        return cache, f"ok ({len(cache['eventos'])} ciclones, completo)"
+    try:
+        if sig[0] == "lista":
+            url = GDACS_LISTA.format(desde=(ahora - timedelta(days=10)).strftime("%Y-%m-%d"), hasta=hoy, nivel=sig[1])
+            try:
+                nuevos = eventos_gdacs(pedir_json(url), ahora)
+            except urllib.error.HTTPError as e:
+                if e.code != 404:  # un nivel sin eventos puede responder 404
+                    raise
+                nuevos = []
+            ids = {str(e["eventid"]) for e in cache["eventos"]}
+            cache["eventos"] += [{k: v for k, v in e.items()} for e in nuevos if str(e["eventid"]) not in ids]
+            cache["niveles"].append(sig[1])
+        else:
+            ev = sig[1]
+            cache["geom"][str(ev["eventid"])] = pedir_json(GDACS_GEOM.format(e=ev["eventid"], ep=ev["episodeid"]))
+        return cache, f"ok ({len(cache['eventos'])} ciclones; petición: {sig[0]} {sig[1] if sig[0] == 'lista' else sig[1]['nombre']})"
+    except Exception as e:  # noqa: BLE001
+        return cache, f"error: {e}"[:160]
+
+
 def main():
-    if os.path.exists(OUT):
-        gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
-        if gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(hours=CADA_H):
-            print("ciclones: datos recientes; se conservan")
-            return 0
     ahora = datetime.now(timezone.utc)
-    feats, nombres, estado = [], set(), {}
-    try:
-        # Un nivel de alerta por consulta (el filtro combinado no es confiable) y sin repetir eventos.
-        evs, vistos = [], set()
-        for nivel in ("red", "orange", "green"):
-            url = GDACS_LISTA.format(desde=(ahora - timedelta(days=10)).strftime("%Y-%m-%d"), hasta=ahora.strftime("%Y-%m-%d"), nivel=nivel)
-            if not F.permitido_por_robots(url):
+    cache = json.load(open(CACHE, encoding="utf-8")) if os.path.exists(CACHE) else {}
+    estado = {}
+    if F.permitido_por_robots(GDACS_LISTA.format(desde="2026-01-01", hasta="2026-01-02", nivel="red")):
+        cache, estado["gdacs"] = paso_gdacs(cache, ahora, get_json)
+        os.makedirs(os.path.dirname(CACHE), exist_ok=True)
+        json.dump(cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    else:
+        estado["gdacs"] = "robots.txt no lo permite"
+    previo = json.load(open(OUT, encoding="utf-8")) if os.path.exists(OUT) else {}
+    gen = previo.get("generado_utc", "")
+    reciente = gen and ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(hours=CADA_H)
+    feats, nombres = [], set()
+    for ev in cache.get("eventos", []):
+        if ahora - datetime.fromisoformat(ev["fin"].replace("Z", "+00:00")).replace(tzinfo=timezone.utc) > timedelta(days=VIGENTE_DIAS):
+            continue
+        feats += features_gdacs(ev, cache.get("geom", {}).get(str(ev["eventid"])))
+        nombres.add(ev["nombre"].lower())
+    # IBTrACS (NOAA): cada 3 h como máximo; si los datos son recientes se reusan sus ciclones.
+    if reciente:
+        feats += [f for f in previo.get("features", []) if f["properties"].get("fuente", "").startswith("IBTrACS")]
+        estado["ibtracs"] = previo.get("fuentes", {}).get("ibtracs", "datos recientes")
+    else:
+        try:
+            if not F.permitido_por_robots(IBTRACS):
                 raise PermissionError("robots.txt no lo permite")
-            try:
-                for ev in eventos_gdacs(get_json(url), ahora):
-                    if ev["eventid"] not in vistos:
-                        vistos.add(ev["eventid"])
-                        evs.append(ev)
-            except Exception as e:  # noqa: BLE001  un nivel sin eventos puede responder con error
-                print(f"  GDACS nivel {nivel}: {e}")
-            time.sleep(1)
-        for ev in evs[:15]:
-            geom = None
-            try:
-                geom = get_json(GDACS_GEOM.format(e=ev["eventid"], ep=ev["episodeid"]))
-            except Exception as e:  # noqa: BLE001
-                print(f"  GDACS geometría {ev['nombre']}: {e}")
-            feats += features_gdacs(ev, geom)
-            nombres.add(ev["nombre"].lower())
-            time.sleep(1)
-        estado["gdacs"] = f"ok ({len(evs)} ciclones)"
-    except Exception as e:  # noqa: BLE001
-        estado["gdacs"] = f"error: {e}"[:160]
-    try:
-        if not F.permitido_por_robots(IBTRACS):
-            raise PermissionError("robots.txt no lo permite")
-        tormentas = tormentas_ibtracs(F.get(IBTRACS, timeout=120).decode("utf-8", "replace"), ahora)
-        nuevos = 0
-        for sid, s in tormentas.items():
-            if s["nombre"].lower() in nombres:
-                continue  # GDACS ya lo trae (con pronóstico y zonas de viento)
-            feats += features_ibtracs(sid, s)
-            nuevos += 1
-        estado["ibtracs"] = f"ok ({len(tormentas)} activos, {nuevos} agregados)"
-    except Exception as e:  # noqa: BLE001
-        estado["ibtracs"] = f"error: {e}"[:160]
-    if not feats and all(v.startswith("error") for v in estado.values()):
-        print(f"ciclones: ninguna fuente respondió ({estado}); se conservan los anteriores")
-        return 0
+            tormentas = tormentas_ibtracs(F.get(IBTRACS, timeout=120).decode("utf-8", "replace"), ahora)
+            nuevos = 0
+            for sid, s_ in tormentas.items():
+                if s_["nombre"].lower() in nombres:
+                    continue  # GDACS ya lo trae (con pronóstico y zonas de viento)
+                feats += features_ibtracs(sid, s_)
+                nuevos += 1
+            estado["ibtracs"] = f"ok ({len(tormentas)} activos, {nuevos} agregados)"
+        except Exception as e:  # noqa: BLE001
+            estado["ibtracs"] = f"error: {e}"[:160]
+            feats += [f for f in previo.get("features", []) if f["properties"].get("fuente", "").startswith("IBTrACS")]
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump({"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "fuentes": estado, "features": feats},
-              open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    json.dump({"type": "FeatureCollection", "generado_utc": (ahora if not reciente else datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ")).strftime("%Y-%m-%dT%H:%M:%SZ"),
+               "fuentes": estado, "features": feats}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"ciclones: {sum(1 for f in feats if f['properties'].get('layer') == 'storm')} ciclones; {estado}")
     return 0
 
