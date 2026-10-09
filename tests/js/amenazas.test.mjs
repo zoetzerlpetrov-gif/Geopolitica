@@ -94,11 +94,13 @@ test("titulares del feed → lugar en México (ciudad antes que estado; apellido
   assert.equal(pts[0].properties.kind, "SECUESTRO");
 });
 
-test("auroras: líneas de −540° a 540° para no cortarse en las copias del mundo", () => {
-  const c = lineasAurora(5).features[0].geometry.coordinates;
-  assert.equal(c[0][0], -540); assert.equal(c[c.length - 1][0], 540);
+test("auroras: cuatro tramos de 90° que cubren una vuelta completa sin huecos", () => {
+  const g = lineasAurora(5).features[0].geometry;
+  assert.equal(g.type, "MultiLineString");
+  assert.equal(g.coordinates.length, 4);
+  assert.equal(g.coordinates[0][0][0], -180); assert.equal(g.coordinates[3].at(-1)[0], 180);
+  for (let i = 1; i < 4; i++) assert.equal(g.coordinates[i][0][0], g.coordinates[i - 1].at(-1)[0]);  // tramos contiguos
 });
-
 test("ataques: ícono y tipo por arma", async () => {
   const { iconoArma } = await import("../../js/amenazas.js");
   assert.equal(iconoArma("Misiles o cohetes"), "🚀");

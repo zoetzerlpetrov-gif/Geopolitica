@@ -488,8 +488,8 @@ export class Riesgos {
     if (oc) base.push(["!", ["in", ["get", "_k"], ["literal", oc]]]);
     if (capaId.endsWith("-toque")) return [...base, ["==", ["geometry-type"], "Point"]];
     if (capaId.endsWith("-texto")) return [...base, ["==", ["geometry-type"], "Point"], ["!=", ["coalesce", ["get", "_lbl"], ""], ""]];
-    if (capaId.endsWith("-area")) return [...base, ["==", ["geometry-type"], "Polygon"]];
-    if (capaId.endsWith("-linea")) return [...base, ["in", ["geometry-type"], ["literal", ["LineString", "Polygon"]]]];
+    if (capaId.endsWith("-area")) return [...base, ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]]];
+    if (capaId.endsWith("-linea")) return [...base, ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString", "Polygon", "MultiPolygon"]]]];
     if (capaId.endsWith("-icono")) return [...base, ["==", ["geometry-type"], "Point"], ["!=", ["get", "_ic"], ""]];
     if (capaId.endsWith("-punto")) return [...base, ["==", ["geometry-type"], "Point"], ["==", ["get", "_ic"], ""]];
     // pulso: solo lo que apareció hace menos de 1 min
