@@ -1,0 +1,553 @@
+{
+ "familias": {
+  "zonas": {
+   "archivo": "data/capas/zonas.pmtiles",
+   "objetos": 1610,
+   "por_subtipo": {
+    "oceanos": 7,
+    "mares": 96,
+    "golfos_bahias": 121,
+    "estrechos": 73,
+    "lagos": 421,
+    "regiones": 232,
+    "cordilleras": 129,
+    "peninsulas": 34,
+    "desiertos": 35,
+    "rios": 462
+   },
+   "bytes": 2172776,
+   "fuente": "natural_earth",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:56:16Z",
+   "segundos": 2
+  },
+  "aeropuertos": {
+   "archivo": "data/capas/aeropuertos.pmtiles",
+   "objetos": 71321,
+   "por_subtipo": {
+    "helipuerto": 23237,
+    "aerodromo": 42804,
+    "aeropuerto_regional": 4105,
+    "aeropuerto_internacional": 1175
+   },
+   "bytes": 4338763,
+   "fuente": "ourairports",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:56:20Z",
+   "segundos": 4
+  },
+  "puertos": {
+   "archivo": "data/capas/puertos.pmtiles",
+   "objetos": 3807,
+   "por_subtipo": {
+    "puerto_pequeno": 3257,
+    "puerto_mediano": 376,
+    "puerto_grande": 174
+   },
+   "bytes": 485178,
+   "fuente": "wpi",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:56:22Z",
+   "segundos": 2
+  },
+  "centrales": {
+   "archivo": "data/capas/centrales.pmtiles",
+   "objetos": 34936,
+   "por_subtipo": {
+    "central_hidro": 7156,
+    "central_solar": 10665,
+    "central_gas": 3998,
+    "central_otros": 94,
+    "central_petroleo": 2332,
+    "central_eolica": 5344,
+    "central_nuclear": 195,
+    "central_carbon": 2330,
+    "central_residuos": 1068,
+    "central_biomasa": 1430,
+    "central_geotermica": 189,
+    "central_almacenamiento": 135
+   },
+   "bytes": 3903334,
+   "fuente": "gppd",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:56:24Z",
+   "segundos": 2
+  },
+  "centros_datos": {
+   "archivo": "data/capas/centros_datos.pmtiles",
+   "objetos": 4692,
+   "por_subtipo": {
+    "datacenter_otros": 4056,
+    "datacenter_hiperescala": 636
+   },
+   "bytes": 342239,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T01:09:24Z",
+   "segundos": 706
+  },
+  "embajadas": {
+   "archivo": "data/capas/embajadas.pmtiles",
+   "objetos": 1033,
+   "por_subtipo": {
+    "embajadas_consulados": 1033
+   },
+   "bytes": 73790,
+   "fuente": "osm",
+   "estado": "parcial",
+   "error": "sin respuesta en 13 zona(s); se reusaron 0 objetos de la corrida anterior en esas zonas: [[-60, 0, -45.0, 45.0], [-60, 45.0, -45.0, 90.0], [-45.0, 0, -30.0, 45.0], [-45.0, 45.0, -30.0, 90.0], [-60, 90.0, -30.0, 180], [-30.0, 0, 0, 90.0], [-30.0, 90.0, 0, 180], [0, -180, 30, 0], [0, 0, 30, 180], [30, -180, 50, 0], [30, 0, 50, 180], [50, -180, 85, 0], [50, 0, 85, 180]]",
+   "actualizado_utc": "2026-10-09T01:35:46Z",
+   "segundos": 1582
+  },
+  "recursos": {
+   "archivo": "data/capas/recursos.pmtiles",
+   "objetos": 3662,
+   "por_subtipo": {
+    "energia_yacimientos": 1663,
+    "mineria": 700,
+    "semiconductores": 37,
+    "agronomia": 47,
+    "industria_pesada": 1215
+   },
+   "bytes": 961641,
+   "fuente": "osm",
+   "estado": "desactualizada",
+   "error": "La actualización del 2026-10-09 falló: Overpass no respondió en ninguna caja (límite de uso o saturación)",
+   "actualizado_utc": "2026-10-08T22:48:01Z",
+   "segundos": 2972
+  },
+  "militar": {
+   "archivo": "data/capas/militar.pmtiles",
+   "objetos": 122,
+   "por_subtipo": {
+    "bases_terrestres": 91,
+    "bases_aereas": 16,
+    "bases_navales": 15
+   },
+   "bytes": 24964,
+   "fuente": "osm",
+   "estado": "desactualizada",
+   "error": "La actualización del 2026-10-09 falló: Overpass no respondió en ninguna caja (límite de uso o saturación)",
+   "actualizado_utc": "2026-10-08T17:45:24Z",
+   "segundos": 3522
+  },
+  "cables": {
+   "archivo": "data/capas/cables.pmtiles",
+   "objetos": 2659,
+   "por_subtipo": {
+    "cables_submarinos": 733,
+    "aterrizajes_cable": 1926
+   },
+   "bytes": 1176998,
+   "fuente": "telegeography",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:56:25Z",
+   "segundos": 1
+  },
+  "camaras": {
+   "archivo": "data/capas/camaras.geojson",
+   "objetos": 4215,
+   "por_subtipo": {
+    "volcanes_clima": 7,
+    "canales_puertos": 1,
+    "trafico": 4207
+   },
+   "formato": "geojson",
+   "bytes": 2089897,
+   "fuente": "camaras_publicas",
+   "fuentes": {
+    "curadas": "ok (8)",
+    "digitraffic": "ok (810)",
+    "caltrans": "ok (3397)"
+   },
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:57:02Z",
+   "segundos": 37
+  },
+  "presas": {
+   "archivo": "data/capas/presas.pmtiles",
+   "objetos": 17107,
+   "por_subtipo": {
+    "presa_otros": 16713,
+    "presa_hidro": 349,
+    "presa_riego": 45
+   },
+   "bytes": 1821005,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:55:57Z",
+   "segundos": 1191
+  },
+  "ductos": {
+   "archivo": "data/capas/ductos.pmtiles",
+   "objetos": 62214,
+   "por_subtipo": {
+    "ductos_petroleo": 11516,
+    "ductos_gas": 50698
+   },
+   "bytes": 3260954,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T04:45:13Z",
+   "segundos": 881
+  },
+  "conflicto": {
+   "archivo": "data/capas/conflicto.geojson",
+   "objetos": 825,
+   "por_subtipo": {
+    "conflicto_disputa": 360,
+    "conflicto_dominio": 465
+   },
+   "formato": "geojson",
+   "bytes": 333427,
+   "fuente": "ucdp",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:57:21Z",
+   "segundos": 19
+  },
+  "religiones": {
+   "archivo": "data/capas/religiones.geojson",
+   "objetos": 199,
+   "por_subtipo": {
+    "religion_cristianismo": 120,
+    "religion_islam": 53,
+    "religion_sin_religion": 11,
+    "religion_budismo": 8,
+    "religion_otras": 2,
+    "religion_hinduismo": 4,
+    "religion_judaismo": 1
+   },
+   "formato": "geojson",
+   "bytes": 375328,
+   "fuente": "pew_owid",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:57:41Z",
+   "segundos": 20
+  },
+  "gobierno_forma": {
+   "archivo": "data/capas/gobierno_forma.geojson",
+   "objetos": 198,
+   "por_subtipo": {
+    "gobforma_otra": 62,
+    "gobforma_presidencial": 43,
+    "gobforma_partido_unico": 5,
+    "gobforma_teocracia": 4,
+    "gobforma_monarquia_constitucional": 28,
+    "gobforma_monarquia_absoluta": 4,
+    "gobforma_semipresidencial": 14,
+    "gobforma_parlamentaria": 37,
+    "gobforma_militar": 1
+   },
+   "formato": "geojson",
+   "bytes": 501848,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T20:54:59Z",
+   "segundos": 76
+  },
+  "gobierno_orientacion": {
+   "archivo": "data/capas/gobierno_orientacion.geojson",
+   "objetos": 198,
+   "por_subtipo": {
+    "gobor_izquierda": 10,
+    "gobor_centro": 35,
+    "gobor_comunista": 3,
+    "gobor_sin_partido": 45,
+    "gobor_centroizquierda": 42,
+    "gobor_derecha": 14,
+    "gobor_centroderecha": 30,
+    "gobor_sin_dato": 17,
+    "gobor_extrema_izquierda": 2
+   },
+   "formato": "geojson",
+   "bytes": 504888,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T20:54:59Z",
+   "segundos": 0
+  },
+  "lugares_religiosos": {
+   "archivo": "data/capas/lugares_religiosos.pmtiles",
+   "objetos": 14692,
+   "por_subtipo": {
+    "culto_islam": 2899,
+    "culto_hinduismo": 1241,
+    "culto_cristianismo": 6032,
+    "culto_budismo": 1103,
+    "culto_otras": 1682,
+    "culto_judaismo": 980,
+    "culto_sintoismo": 428,
+    "culto_sij": 327
+   },
+   "bytes": 2819743,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:59:31Z",
+   "segundos": 96
+  },
+  "grupos_criminales": {
+   "archivo": "data/capas/grupos_criminales.pmtiles",
+   "objetos": 630,
+   "por_subtipo": {
+    "grupo_terrorismo": 364,
+    "grupo_mafia": 155,
+    "grupo_pandilla": 76,
+    "grupo_cartel": 35
+   },
+   "bytes": 422171,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T03:59:53Z",
+   "segundos": 22
+  },
+  "ferrocarriles": {
+   "archivo": "data/capas/ferrocarriles.pmtiles",
+   "objetos": 25412,
+   "por_subtipo": {
+    "ferrocarril_electrificado": 9062,
+    "ferrocarril_sin_electrificar": 16332,
+    "ferrocarril_transbordador": 18
+   },
+   "bytes": 1280866,
+   "fuente": "natural_earth",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T05:51:31Z",
+   "segundos": 8
+  },
+  "autopistas": {
+   "archivo": "data/capas/autopistas.pmtiles",
+   "objetos": 10119,
+   "por_subtipo": {
+    "autopista": 7720,
+    "carretera_troncal": 2399
+   },
+   "bytes": 905765,
+   "fuente": "natural_earth",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T05:51:35Z",
+   "segundos": 3
+  },
+  "nuclear": {
+   "archivo": "data/capas/nuclear.pmtiles",
+   "objetos": 427,
+   "por_subtipo": {
+    "nuclear_cerrada": 94,
+    "nuclear_operacion": 226,
+    "nuclear_construccion": 44,
+    "reactor_investigacion": 63
+   },
+   "bytes": 274624,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T05:51:42Z",
+   "segundos": 7
+  },
+  "investigacion": {
+   "archivo": "data/capas/investigacion.pmtiles",
+   "objetos": 885,
+   "por_subtipo": {
+    "centro_investigacion": 870,
+    "acelerador_particulas": 15
+   },
+   "bytes": 279674,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T05:51:49Z",
+   "segundos": 7
+  },
+  "espacio": {
+   "archivo": "data/capas/espacio.pmtiles",
+   "objetos": 132,
+   "por_subtipo": {
+    "puerto_espacial": 132
+   },
+   "bytes": 114614,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T05:51:54Z",
+   "segundos": 6
+  },
+  "farmaceuticas": {
+   "archivo": "data/capas/farmaceuticas.pmtiles",
+   "objetos": 448,
+   "por_subtipo": {
+    "farma_sede": 104,
+    "farma_planta": 344
+   },
+   "bytes": 131225,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T05:56:16Z",
+   "segundos": 262
+  },
+  "petroleo_gas": {
+   "archivo": "data/capas/petroleo_gas.pmtiles",
+   "objetos": 9958,
+   "por_subtipo": {
+    "campo_gas": 290,
+    "campo_petrolero": 5600,
+    "plataforma_marina": 4068
+   },
+   "bytes": 1020337,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T06:03:52Z",
+   "segundos": 456
+  },
+  "fronteras": {
+   "archivo": "data/capas/fronteras.pmtiles",
+   "objetos": 4020,
+   "por_subtipo": {
+    "cruce_fronterizo": 4020
+   },
+   "bytes": 545936,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T06:13:57Z",
+   "segundos": 605
+  },
+  "desaladoras": {
+   "archivo": "data/capas/desaladoras.pmtiles",
+   "objetos": 144,
+   "por_subtipo": {
+    "desaladora": 144
+   },
+   "bytes": 51883,
+   "fuente": "osm",
+   "estado": "parcial",
+   "error": "sin respuesta en 13 zona(s); se reusaron 0 objetos de la corrida anterior en esas zonas: [[7.5, -180, 11.25, -157.5], [7.5, -157.5, 11.25, -135.0], [11.25, -157.5, 15.0, -135.0], [0, -90.0, 3.75, -67.5], [0, -67.5, 3.75, -45.0], [3.75, -90.0, 7.5, -67.5], [0, -22.5, 3.75, 0], [3.75, -45.0, 7.5, -22.5], [3.75, -22.5, 7.5, 0], [11.25, -90.0, 15.0, -67.5], [18.75, -135.0, 22.5, -112.5], [50, -180, 85, 0], [50, 0, 85, 180]]",
+   "actualizado_utc": "2026-10-09T06:57:54Z",
+   "segundos": 2637
+  },
+  "densidad_poblacion": {
+   "archivo": "data/capas/densidad_poblacion.geojson",
+   "objetos": 217,
+   "por_subtipo": {
+    "densidad_2": 49,
+    "densidad_3": 48,
+    "densidad_5": 29,
+    "densidad_4": 65,
+    "densidad_6": 10,
+    "densidad_1": 16
+   },
+   "formato": "geojson",
+   "bytes": 375482,
+   "fuente": "banco_mundial",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T16:03:48Z",
+   "segundos": 0
+  },
+  "turismo": {
+   "archivo": "data/capas/turismo.pmtiles",
+   "objetos": 3752,
+   "por_subtipo": {
+    "patrimonio_mundial": 1899,
+    "atraccion_turistica": 21,
+    "parque_nacional": 1832
+   },
+   "bytes": 1559720,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T16:04:00Z",
+   "segundos": 12
+  },
+  "fiscal_ue": {
+   "archivo": "data/capas/fiscal_ue.geojson",
+   "objetos": 36,
+   "por_subtipo": {
+    "ue_compromisos": 20,
+    "ue_no_cooperativa": 16
+   },
+   "formato": "geojson",
+   "bytes": 55982,
+   "fuente": "lista_ue",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T20:53:31Z",
+   "segundos": 0
+  },
+  "recaudacion": {
+   "archivo": "data/capas/recaudacion.geojson",
+   "objetos": 165,
+   "por_subtipo": {
+    "recaudacion_1": 28,
+    "recaudacion_3": 40,
+    "recaudacion_2": 42,
+    "recaudacion_5": 11,
+    "recaudacion_4": 41,
+    "recaudacion_6": 3
+   },
+   "formato": "geojson",
+   "bytes": 341854,
+   "fuente": "banco_mundial",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T20:53:31Z",
+   "segundos": 0
+  },
+  "tasas_bc": {
+   "archivo": "data/capas/tasas_bc.geojson",
+   "objetos": 61,
+   "por_subtipo": {
+    "tasa_3": 15,
+    "tasa_7": 1,
+    "tasa_2": 31,
+    "tasa_1": 1,
+    "tasa_4": 9,
+    "tasa_6": 3,
+    "tasa_5": 1
+   },
+   "formato": "geojson",
+   "bytes": 229936,
+   "fuente": "bis",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T20:53:32Z",
+   "segundos": 1
+  },
+  "nodos_bitcoin": {
+   "archivo": "data/capas/nodos_bitcoin.geojson",
+   "objetos": 92,
+   "por_subtipo": {
+    "btc_1": 45,
+    "btc_5": 2,
+    "btc_4": 6,
+    "btc_2": 25,
+    "btc_3": 14
+   },
+   "formato": "geojson",
+   "bytes": 264849,
+   "fuente": "bitnodes",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-09T20:53:43Z",
+   "segundos": 11
+  }
+ },
+ "generado_utc": "2026-10-09T22:28:18Z"
+}
