@@ -458,8 +458,21 @@ def grupos_criminales():
     """Mafias, cárteles, pandillas y organizaciones terroristas vigentes con sede y países de operación."""
     import grupos as G
     tipo_de = {q: t for q, t in G.CLASES}
-    res = _sparql(G.Q_GRUPOS % " ".join(f"wd:{q}" for q, _ in G.CLASES))
-    grupos = G.leer_grupos(res, tipo_de)
+    grupos = {}
+    for q, _ in G.CLASES:  # una consulta por clase: todas juntas exceden los 60 s del servicio
+        try:
+            for k, g in G.leer_grupos(_sparql(G.Q_GRUPOS % q), tipo_de).items():
+                if k in grupos:
+                    grupos[k]["tipos"] |= g["tipos"]; grupos[k]["paises"] |= g["paises"]
+                    grupos[k]["sede"] = grupos[k]["sede"] or g["sede"]; grupos[k]["sede_iso"] = grupos[k]["sede_iso"] or g["sede_iso"]
+                else:
+                    grupos[k] = g
+            print(f"   {q}: {len(grupos)} grupos acumulados")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {q}: {e}")
+        time.sleep(2)
+    if not grupos:
+        raise RuntimeError("Wikidata no devolvió grupos")
     print(f"   Wikidata: {len(grupos)} grupos")
     paises = json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
     gaz = json.load(open(os.path.join(ROOT, "config", "gazetteer.json"), encoding="utf-8"))["paises"]
