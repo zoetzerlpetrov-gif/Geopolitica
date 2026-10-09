@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { leerExif, decimal } from "../../js/exif.js";
+import { leerExif, decimal, formatoDe } from "../../js/exif.js";
 
 /** JPEG mínimo con un bloque EXIF (big endian) que trae marca y GPS. */
 function jpegConGps(lat, latRef, lon, lonRef) {
@@ -35,7 +35,7 @@ test("lee coordenadas GPS y marca de un JPEG", () => {
 });
 
 test("sin EXIF o formato distinto", () => {
-  assert.deepEqual(leerExif(new Uint8Array([0xff, 0xd8, 0xff, 0xd9]).buffer), {});
+  assert.deepEqual(leerExif(new Uint8Array([0xff, 0xd8, 0xff, 0xd9, 0, 0, 0, 0, 0, 0, 0, 0]).buffer), { formato: "jpeg" });
   assert.ok(leerExif(new Uint8Array([0x89, 0x50, 0x4e, 0x47]).buffer).error);
   assert.equal(decimal([10, 30, 0], "S"), -10.5);
   assert.equal(decimal([1, 2], "N"), null);
@@ -63,4 +63,23 @@ test("lee coordenadas GPS de un HEIC (iPhone)", () => {
   const d = leerExif(heicConGps([40, 24, 59.3], "N", [3, 42, 13.9], "W"));
   assert.equal(d.marca, "Foo");
   assert.ok(Math.abs(d.lat - 40.4165) < 1e-3 && Math.abs(d.lon + 3.7039) < 1e-3, JSON.stringify(d));
+});
+
+/** Bloque TIFF de la prueba (sin el envoltorio JPEG). */
+const tiffDe = () => { const j = new Uint8Array(jpegConGps([25, 12, 0], "N", [55, 16, 12], "E")); return j.slice(12, j.length - 2); };
+const u32le = (x) => [x & 255, (x >> 8) & 255, (x >> 16) & 255, x >>> 24], u32be = (x) => [x >>> 24, (x >> 16) & 255, (x >> 8) & 255, x & 255];
+const ascii = (t) => [...t].map((c) => c.charCodeAt(0));
+
+test("WebP, PNG y TIFF/DNG con GPS", () => {
+  const t = [...tiffDe()];
+  const exifChunk = [...ascii("EXIF"), ...u32le(t.length), ...t, ...(t.length % 2 ? [0] : [])];
+  const webp = new Uint8Array([...ascii("RIFF"), ...u32le(4 + exifChunk.length), ...ascii("WEBP"), ...exifChunk]).buffer;
+  const png = new Uint8Array([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a, ...u32be(t.length), ...ascii("eXIf"), ...t, 0, 0, 0, 0, ...u32be(0), ...ascii("IEND"), 0, 0, 0, 0]).buffer;
+  const tiff = new Uint8Array(t).buffer;
+  for (const [buf, f] of [[webp, "webp"], [png, "png"], [tiff, "tiff"]]) {
+    assert.equal(formatoDe(buf), f);
+    const d = leerExif(buf);
+    assert.ok(Math.abs(d.lat - 25.2) < 1e-3 && Math.abs(d.lon - 55.27) < 1e-3, `${f}: ${JSON.stringify(d)}`);
+  }
+  assert.ok(leerExif(new Uint8Array([...ascii("GIF89a"), 0, 0, 0, 0, 0, 0]).buffer).error.includes("GIF"));
 });
