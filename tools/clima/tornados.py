@@ -130,13 +130,14 @@ def fila_a_feature(f, flujo, nom=None):
     t = norm(cuerpo)
     # Solo ciudades y estados de GDELT: sus «países» incluyen adjetivos («Italian», «America»).
     locs = [l for l in lugares(f[10]) if l[0] != "1" and en_titulo(l[1].split(",")[0], t)]
+    iso = ""
     if locs:
         tipo, nombre, _, lat, lon, _ = elegir_lugar(locs, offset_tema(f[8]), cuerpo)
     else:
         u = (nom or nomenclator()).ubicar(cuerpo)
         if not u:
             return None
-        nombre, lat, lon, prec = u
+        nombre, lat, lon, prec, iso = u
         tipo = {"ciudad": "4", "estado": "2", "país": "1"}[prec]
     if not (-90 <= lat <= 90 and -180 <= lon <= 180):
         return None
@@ -151,7 +152,7 @@ def fila_a_feature(f, flujo, nom=None):
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
             "properties": {"title": titulo[:220], "url": url, "source": f[3], "date": fecha,
                            "kind": "TROMBA MARINA" if MARINA.search(titulo) else "TORNADO", "severe": bool(SEVERO.search(titulo)),
-                           "state": nombre, "precision": precision,
+                           "state": nombre, "precision": precision, "pais_iso3": iso,
                            "via": f"GDELT GKG ({'nota traducida al inglés por GDELT' if flujo == 'traducido' else 'nota en inglés'}); lugar mencionado en el texto"}}
 
 
@@ -260,14 +261,14 @@ class Nomenclator:
         ciudades = [h for h in hall if h[0] == 0 and (not paises or h[2] in paises) and (h[5].lower(), h[1]) not in admin]
         if ciudades:
             h = min(ciudades, key=lambda x: (x[1], -x[6]))
-            return h[5], h[3], h[4], "ciudad"
+            return h[5], h[3], h[4], "ciudad", h[2]
         resto = [h for h in hall if h[0] > 0]
         # Entre homónimos del mismo rango gana el país con más coincidencias (nombres en varios idiomas, país citado).
         votos = {}
         for h in hall:
             votos[h[2]] = votos.get(h[2], 0) + 1
         h = min(resto, key=lambda x: (x[0], x[1], -votos[x[2]]))
-        return h[5], h[3], h[4], "estado" if h[0] in (1, 2) else "país"
+        return h[5], h[3], h[4], "estado" if h[0] in (1, 2) else "país", h[2]
 
 
 _NOM = None
@@ -297,8 +298,14 @@ def agrupar(notas, radio_km=200, horas=36):
     for f in sorted(notas, key=lambda x: x["properties"]["date"]):
         c = f["geometry"]["coordinates"]
         t = datetime.strptime(f["properties"]["date"], "%Y-%m-%dT%H:%M:%SZ")
+        iso = f["properties"].get("pais_iso3")
+        pais = f["properties"].get("precision") == "país" and iso
         for g in grupos:
-            if abs((t - g["t"]).total_seconds()) <= horas * 3600 and any(km(c, x["geometry"]["coordinates"]) <= radio_km for x in g["notas"]):
+            # Una nota que solo nombra el país («tornado en Italia») se une al fenómeno de ese país en la ventana.
+            if abs((t - g["t"]).total_seconds()) <= horas * 3600 and any(
+                    km(c, x["geometry"]["coordinates"]) <= radio_km
+                    or (iso and x["properties"].get("pais_iso3") == iso and (pais or x["properties"].get("precision") == "país"))
+                    for x in g["notas"]):
                 g["notas"].append(f)
                 g["t"] = max(g["t"], t)
                 break
@@ -325,10 +332,12 @@ def agrupar(notas, radio_km=200, horas=36):
 
 
 def main(archivos=4):
-    previos = []
+    previos, relleno = [], False
     if os.path.exists(OUT):
-        previos = json.load(open(OUT, encoding="utf-8")).get("notas", [])
-        archivos = archivos if previos else max(archivos, 48)  # primera corrida: 12 h hacia atrás
+        d = json.load(open(OUT, encoding="utf-8"))
+        previos, relleno = d.get("notas", []), d.get("relleno_12h", False)
+    if not relleno:
+        archivos = max(archivos, 48)  # una sola vez: 12 h hacia atrás (luego solo la última hora)
     nuevos, errores = [], []
     for flujo, url in FLUJOS.items():
         try:
@@ -344,7 +353,7 @@ def main(archivos=4):
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     # «features» = un punto por fenómeno (lo que dibuja el mapa); «notas» = cada nota, para la próxima corrida.
     json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "fuente": "GDELT GKG 2.1 (noticias de todo el mundo; señales por verificar)", "errores": errores[:10], "features": feats, "notas": notas},
+               "fuente": "GDELT GKG 2.1 (noticias de todo el mundo; señales por verificar)", "errores": errores[:10], "relleno_12h": True, "features": feats, "notas": notas},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"tornados: {len(nuevos)} notas nuevas, {len(notas)} en {DIAS} días, {len(feats)} fenómenos; errores: {len(errores)}")
     for f in feats[:20]:
