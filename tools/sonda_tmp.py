@@ -30,3 +30,4 @@ for u in ["https://ll.thespacedevs.com/robots.txt", "https://thespacedevs.com/ll
         print("-----", u, len(t)); print(t[-700:] if "robots" in u else t[i:i + 2500])
     except Exception as e:
         print("-----", u, e)
+# r
