@@ -1,0 +1,246 @@
+"""Forma de gobierno y orientación política del gobierno de cada país (Wikidata, CC0).
+
+Se hacen tres consultas SPARQL pequeñas (una gigante agota el tiempo del servicio):
+  1. Formas de gobierno (P122) de cada Estado soberano (Q3624078) con su código ISO 3166-1 alfa-3 (P298).
+  2. Jefe de gobierno (P6) y jefe de Estado (P35) actuales y su partido vigente (P102 sin fecha de fin).
+  3. Para esos partidos: alineación política (P1387: extrema izquierda … extrema derecha) e ideología (P1142).
+
+Quién cuenta como «el gobierno»: en sistemas parlamentarios y monarquías constitucionales, el jefe de
+gobierno (primer ministro); en los demás, el jefe de Estado (presidente, monarca, líder supremo). Si esa
+persona no tiene partido se prueba con la otra.
+
+Orientación: promedio de las alineaciones del partido en la escala −3 (extrema izquierda) … +3 (extrema
+derecha). Si su ideología incluye comunismo o marxismo-leninismo y el país es de partido único, se marca
+«comunista (partido único)». Sin partido → «sin partido» (monarquías absolutas, juntas militares,
+independientes). Es la clasificación registrada en Wikidata (editable por cualquiera, con fuentes
+variables), no una opinión del proyecto; la ficha lo dice y enlaza cada dato.
+"""
+import json
+import re
+from collections import defaultdict
+
+SPARQL = "https://query.wikidata.org/sparql"
+
+Q_FORMAS = """
+SELECT ?iso ?pais ?paisEs ?forma ?formaEn ?formaEs WHERE {
+  ?pais wdt:P31 wd:Q3624078 ; wdt:P298 ?iso .
+  FILTER NOT EXISTS { ?pais wdt:P576 ?fin }
+  OPTIONAL { ?pais rdfs:label ?paisEs FILTER(lang(?paisEs) = "es") }
+  OPTIONAL { ?pais wdt:P122 ?forma .
+             OPTIONAL { ?forma rdfs:label ?formaEn FILTER(lang(?formaEn) = "en") }
+             OPTIONAL { ?forma rdfs:label ?formaEs FILTER(lang(?formaEs) = "es") } }
+}"""
+
+Q_JEFES = """
+SELECT ?iso ?rol ?jefe ?jefeNombre ?partido WHERE {
+  ?pais wdt:P31 wd:Q3624078 ; wdt:P298 ?iso .
+  FILTER NOT EXISTS { ?pais wdt:P576 ?fin }
+  { ?pais wdt:P6 ?jefe . BIND("gobierno" AS ?rol) } UNION { ?pais wdt:P35 ?jefe . BIND("estado" AS ?rol) }
+  OPTIONAL { ?jefe rdfs:label ?jefeNombre FILTER(lang(?jefeNombre) = "es") }
+  OPTIONAL { ?jefe p:P102 ?st . ?st ps:P102 ?partido . FILTER NOT EXISTS { ?st pq:P582 ?hasta } }
+}"""
+
+Q_PARTIDOS = """
+SELECT ?partido ?partidoEs ?partidoEn ?alin ?alinEn ?ideo ?ideoEn ?ideoEs WHERE {
+  VALUES ?partido { %s }
+  OPTIONAL { ?partido rdfs:label ?partidoEs FILTER(lang(?partidoEs) = "es") }
+  OPTIONAL { ?partido rdfs:label ?partidoEn FILTER(lang(?partidoEn) = "en") }
+  OPTIONAL { ?partido wdt:P1387 ?alin . OPTIONAL { ?alin rdfs:label ?alinEn FILTER(lang(?alinEn) = "en") } }
+  OPTIONAL { ?partido wdt:P1142 ?ideo .
+             OPTIONAL { ?ideo rdfs:label ?ideoEn FILTER(lang(?ideoEn) = "en") }
+             OPTIONAL { ?ideo rdfs:label ?ideoEs FILTER(lang(?ideoEs) = "es") } }
+}"""
+
+# ---------------------------------------------------------------- forma de gobierno
+# (id, nombre, patrón sobre la etiqueta en inglés). El orden es la prioridad cuando hay varias formas.
+FORMAS = [
+    ("militar", "Junta o gobierno militar", r"military (junta|dictatorship|government|rule)|stratocracy"),
+    ("teocracia", "Teocracia", r"theocra|islamic republic|islamic emirate"),
+    ("partido_unico", "Estado de partido único", r"one-party|single-party|communist state|marxist.leninist state|socialist state"),
+    ("monarquia_absoluta", "Monarquía absoluta", r"absolute monarchy"),
+    ("monarquia_constitucional", "Monarquía constitucional o parlamentaria", r"constitutional monarchy|parliamentary monarchy|commonwealth realm|semi-constitutional monarchy|elective monarchy"),
+    ("semipresidencial", "República semipresidencial", r"semi-presidential"),
+    ("presidencial", "República presidencial", r"presidential (system|republic)|presidentialism"),
+    ("parlamentaria", "República parlamentaria", r"parliamentary (system|republic|democracy)|directorial|assembly-independent"),
+]
+NOMBRE_FORMA = {f[0]: f[1] for f in FORMAS} | {"otra": "Otra o sin dato"}
+
+
+def forma_principal(etiquetas_en):
+    for fid, _, rx in FORMAS:
+        if any(re.search(rx, e or "", re.I) for e in etiquetas_en):
+            return fid
+    return "otra"
+
+
+def es_federal(etiquetas_en):
+    return any(re.search(r"\bfederal|federation|confedera", e or "", re.I) for e in etiquetas_en)
+
+
+# ---------------------------------------------------------------- orientación
+ESCALA = [(r"far.left|extreme.left|radical left", -3), (r"centre.left|center.left", -1), (r"left.wing|^left$", -2),
+          (r"far.right|extreme.right|radical right", 3), (r"centre.right|center.right", 1), (r"right.wing|^right$", 2),
+          (r"^cent(re|er)$|centrism|radical centre", 0), (r"big tent|syncretic", 0)]
+ESPECTRO = [  # (id, nombre, color)
+    ("comunista", "Comunista (partido único)", "#7B0A0A"),
+    ("extrema_izquierda", "Extrema izquierda", "#B71C1C"),
+    ("izquierda", "Izquierda", "#E53935"),
+    ("centroizquierda", "Centroizquierda", "#F28B82"),
+    ("centro", "Centro o amplio espectro", "#F2C94C"),
+    ("centroderecha", "Centroderecha", "#7FB3E0"),
+    ("derecha", "Derecha", "#2E6DB4"),
+    ("extrema_derecha", "Extrema derecha", "#0D2B5E"),
+    ("sin_partido", "Sin partido (monarca, militar o independiente)", "#8E8E8E"),
+    ("sin_dato", "Sin dato de orientación", "#C9C9C9"),
+]
+NOMBRE_ESPECTRO = {e[0]: e[1] for e in ESPECTRO}
+_POR_VALOR = {-3: "extrema_izquierda", -2: "izquierda", -1: "centroizquierda", 0: "centro", 1: "centroderecha", 2: "derecha", 3: "extrema_derecha"}
+
+
+def valor_alineacion(etiqueta_en):
+    t = (etiqueta_en or "").strip().lower()
+    for rx, v in ESCALA:
+        if re.search(rx, t):
+            return v
+    return None
+
+
+def corrientes(ideologias_en):
+    """Rasgos de la ideología del partido: comunista, socialista, socialdemócrata, etc."""
+    t = " | ".join(ideologias_en).lower()
+    out = []
+    if re.search(r"communis|marxism|leninis|maois|juche|chavism|bolivarian", t):
+        out.append("comunista o marxista")
+    if re.search(r"(?<!democratic )socialis(m|t)(?! market)", t) and "comunista o marxista" not in out:
+        out.append("socialista")
+    if re.search(r"social democra|democratic socialis", t):
+        out.append("socialdemócrata")
+    if re.search(r"conservatis", t):
+        out.append("conservadora")
+    if re.search(r"liberalis|libertarian", t):
+        out.append("liberal")
+    if re.search(r"nationalis", t):
+        out.append("nacionalista")
+    if re.search(r"populis", t):
+        out.append("populista")
+    if re.search(r"islamis|christian democra|religious", t):
+        out.append("religiosa")
+    if re.search(r"green politics|environmentalis", t):
+        out.append("ecologista")
+    return out
+
+
+def espectro_de(partido, forma):
+    """partido = {alineaciones_en: [...], ideologias_en: [...]} o None."""
+    if not partido:
+        return "sin_partido"
+    if forma == "partido_unico" and "comunista o marxista" in corrientes(partido.get("ideologias_en", [])):
+        return "comunista"
+    vals = [v for v in (valor_alineacion(a) for a in partido.get("alineaciones_en", [])) if v is not None]
+    if not vals:
+        return "sin_dato"
+    m = sum(vals) / len(vals)
+    return _POR_VALOR[int(abs(m) + 0.5) * (1 if m >= 0 else -1)]  # medio punto se aleja del centro («derecha a extrema derecha» → extrema)
+
+
+# ---------------------------------------------------------------- lectura de respuestas
+def _v(fila, k):
+    x = fila.get(k)
+    return x["value"] if x else None
+
+
+def _qid(uri):
+    return uri.rsplit("/", 1)[-1] if uri else None
+
+
+def leer_formas(res):
+    paises = {}
+    for f in res["results"]["bindings"]:
+        iso = _v(f, "iso")
+        if not iso or len(iso) != 3:
+            continue
+        p = paises.setdefault(iso, {"qid": _qid(_v(f, "pais")), "nombre": _v(f, "paisEs") or iso, "formas_en": [], "formas_es": []})
+        if _v(f, "forma"):
+            en, es = _v(f, "formaEn") or "", _v(f, "formaEs") or _v(f, "formaEn") or ""
+            if en not in p["formas_en"]:
+                p["formas_en"].append(en)
+            if es and es not in p["formas_es"]:
+                p["formas_es"].append(es)
+    return paises
+
+
+def leer_jefes(res):
+    """{iso: {"gobierno": [{qid, nombre, partidos:[qid]}], "estado": [...]}}"""
+    out = defaultdict(lambda: {"gobierno": {}, "estado": {}})
+    for f in res["results"]["bindings"]:
+        iso, rol, jefe = _v(f, "iso"), _v(f, "rol"), _qid(_v(f, "jefe"))
+        if not iso or not jefe:
+            continue
+        j = out[iso][rol].setdefault(jefe, {"qid": jefe, "nombre": _v(f, "jefeNombre") or jefe, "partidos": []})
+        p = _qid(_v(f, "partido"))
+        if p and p not in j["partidos"]:
+            j["partidos"].append(p)
+    return {iso: {r: list(d.values()) for r, d in roles.items()} for iso, roles in out.items()}
+
+
+def leer_partidos(res):
+    out = {}
+    for f in res["results"]["bindings"]:
+        q = _qid(_v(f, "partido"))
+        p = out.setdefault(q, {"qid": q, "nombre": _v(f, "partidoEs") or _v(f, "partidoEn") or q, "alineaciones_en": [], "ideologias_en": [], "ideologias_es": []})
+        for k, dest in (("alinEn", "alineaciones_en"), ("ideoEn", "ideologias_en")):
+            x = _v(f, k)
+            if x and x not in p[dest]:
+                p[dest].append(x)
+        es = _v(f, "ideoEs") or _v(f, "ideoEn")
+        if es and es not in p["ideologias_es"]:
+            p["ideologias_es"].append(es)
+    return out
+
+
+def partidos_de(jefes):
+    return sorted({p for roles in jefes.values() for lista in roles.values() for j in lista for p in j["partidos"]})
+
+
+def elegir_gobierno(forma, roles):
+    """(persona, rol, partido_qid) de quien encabeza el gobierno según la forma."""
+    orden = ["gobierno", "estado"] if forma in ("parlamentaria", "monarquia_constitucional") else ["estado", "gobierno"]
+    candidatos = [(j, r) for r in orden for j in roles.get(r, [])]
+    for j, r in candidatos:
+        if j["partidos"]:
+            return j, r, j["partidos"][0]
+    return (candidatos[0][0], candidatos[0][1], None) if candidatos else (None, None, None)
+
+
+# ---------------------------------------------------------------- features
+def features_gobierno(paises_fc, formas, jefes, partidos, fecha):
+    """Dos juegos de polígonos (forma de gobierno y orientación) con la misma ficha."""
+    forma_fc, orient_fc = [], []
+    for f in paises_fc["features"]:
+        iso = f["properties"].get("iso3")
+        info = formas.get(iso)
+        if not info:
+            continue
+        forma = forma_principal(info["formas_en"])
+        roles = jefes.get(iso, {})
+        persona, rol, pq = elegir_gobierno(forma, roles)
+        partido = partidos.get(pq) if pq else None
+        esp = espectro_de(partido, forma) if persona else "sin_dato"
+        jefe_e = roles.get("estado", [{}])[0] if roles.get("estado") else {}
+        jefe_g = roles.get("gobierno", [{}])[0] if roles.get("gobierno") else {}
+        props = {
+            "p": iso, "n": f["properties"].get("nombre") or info["nombre"], "wd": info["qid"],
+            "forma": forma, "forma_txt": NOMBRE_FORMA[forma], "formas_wd": json.dumps(info["formas_es"], ensure_ascii=False),
+            "federal": es_federal(info["formas_en"]), "espectro": esp, "espectro_txt": NOMBRE_ESPECTRO[esp],
+            "jefe_estado": jefe_e.get("nombre", ""), "jefe_estado_wd": jefe_e.get("qid", ""),
+            "jefe_gobierno": jefe_g.get("nombre", ""), "jefe_gobierno_wd": jefe_g.get("qid", ""),
+            "gobierna": rol or "", "partido": partido["nombre"] if partido else "", "partido_wd": pq or "",
+            "alineacion": json.dumps(partido["alineaciones_en"] if partido else [], ensure_ascii=False),
+            "ideologias": json.dumps((partido or {}).get("ideologias_es", [])[:8], ensure_ascii=False),
+            "corrientes": json.dumps(corrientes((partido or {}).get("ideologias_en", [])), ensure_ascii=False),
+            "fecha": fecha, "z": 0,
+        }
+        forma_fc.append({"type": "Feature", "geometry": f["geometry"], "properties": {**props, "id": f"gobf:{iso}", "st": f"gobforma_{forma}", "x": NOMBRE_FORMA[forma]}})
+        orient_fc.append({"type": "Feature", "geometry": f["geometry"], "properties": {**props, "id": f"gobo:{iso}", "st": f"gobor_{esp}",
+                                                                                      "x": NOMBRE_ESPECTRO[esp] + (f" · {partido['nombre']}" if partido else "")}})
+    return forma_fc, orient_fc

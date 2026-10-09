@@ -14,7 +14,7 @@ import * as cuaderno from "./cuaderno.js";
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
 const $ = (id) => document.getElementById(id);
-const estado = { areas: new Set(), mexico: false, sevMin: 1, region: "", desde: -Infinity, hasta: Infinity };
+const estado = { areas: new Set(), mexico: false, sevMin: 1, sevSolo: 0, pais: "", orden: "sev", region: "", desde: -Infinity, hasta: Infinity };
 let eventos = [];
 let visiblesActuales = [];
 let linea, capaIndice, analisis;
@@ -54,10 +54,12 @@ function prepararTaxonomia(t) {
 }
 
 // ---------- Filtros ----------
-function pasaFiltros(ev, ignorarArea = false) {
+function pasaFiltros(ev, ignorarArea = false, ignorarPais = false) {
   if (!ignorarArea && !estado.areas.has(ev.area_principal)) return false;
+  if (!ignorarPais && estado.pais && ev.pais_iso3 !== estado.pais) return false;
   if (estado.mexico && !ev.impacto_mexico) return false;
   if (ev.severidad < estado.sevMin) return false;
+  if (estado.sevSolo && ev.severidad !== estado.sevSolo) return false;
   if (estado.region && ev.region !== estado.region) return false;
   if (ev._t < estado.desde || ev._t > estado.hasta) return false;
   return true;
@@ -99,10 +101,13 @@ async function aplicarFiltros() {
   const visibles = [];
   const partes = [];
   const conteo = {};
+  const porPais = {};
   for (let i = 0; i < eventos.length; i++) {
     if (i && i % BLOQUE === 0) { await ceder(); if (mia !== generacion) return; }
     const ev = eventos[i];
-    if (!pasaFiltros(ev, true)) continue;
+    if (!pasaFiltros(ev, true, true)) continue;
+    if (ev.pais_iso3 && estado.areas.has(ev.area_principal)) porPais[ev.pais_iso3] = (porPais[ev.pais_iso3] || 0) + 1;
+    if (estado.pais && ev.pais_iso3 !== estado.pais) continue;
     conteo[ev.area_principal] = (conteo[ev.area_principal] || 0) + 1;
     if (!estado.areas.has(ev.area_principal)) continue;
     visibles.push(ev);
@@ -114,6 +119,7 @@ async function aplicarFiltros() {
   analisis?.refrescar();
   for (const el of document.querySelectorAll("[data-num]")) el.textContent = conteo[el.dataset.num] || 0;
   pintarLista(visibles);
+  opcionesPaisLista(porPais);
   console.info(`filtros: ${visibles.length}/${eventos.length} eventos en ${Math.round(performance.now() - t0)} ms`);
 }
 
@@ -144,14 +150,35 @@ function pintarAreas() {
   });
 }
 
+// Orden de la lista: severidad de mayor a menor (y dentro de cada nivel, lo más reciente primero) o solo por fecha.
+function ordenarLista(visibles) {
+  const reciente = (a, b) => (b._t ?? 0) - (a._t ?? 0);
+  return [...visibles].sort(estado.orden === "sev" ? (a, b) => b.severidad - a.severidad || reciente(a, b) : reciente);
+}
+
+// El menú de países de la lista se llena solo con los países que tienen eventos con los demás filtros.
+let firmaPaises = "";
+function opcionesPaisLista(porPais) {
+  const sel = $("ev-pais");
+  if (!sel) return;
+  const filas = Object.entries(porPais).map(([iso, n]) => [iso, paises?.[iso]?.es || iso, n]).sort((a, b) => a[1].localeCompare(b[1], "es"));
+  const firma = filas.map((f) => f.join(":")).join("|") + estado.pais;
+  if (firma === firmaPaises) return;
+  firmaPaises = firma;
+  if (estado.pais && !porPais[estado.pais]) filas.unshift([estado.pais, paises?.[estado.pais]?.es || estado.pais, 0]);
+  sel.innerHTML = `<option value="">Todos los países</option>` + filas.map(([iso, n, c]) => `<option value="${esc(iso)}">${esc(n)} (${c})</option>`).join("");
+  sel.value = estado.pais;
+}
+
 function pintarLista(visibles) {
   const ol = $("lista-eventos");
   $("contador").textContent = `(${visibles.length})`;
-  const html = visibles.slice(0, MAX_LISTA).map((ev) => {
+  const html = ordenarLista(visibles).slice(0, MAX_LISTA).map((ev) => {
     const a = tax.areas.get(ev.area_principal);
     return `<li><button type="button" data-id="${esc(ev.id)}" title="${esc(ev.resumen)}">
       <span class="punto" style="background:${esc(a.color)}" aria-hidden="true"></span>
-      <span>${esc(ev.titulo)}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)} · sev. ${ev.severidad}</span></span>
+      <span class="sev sev-${ev.severidad}" title="Severidad ${ev.severidad}">${ev.severidad}</span>
+      <span>${esc(ev.titulo)}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)}${ev.pais_iso3 ? ` · ${esc(paises?.[ev.pais_iso3]?.es || ev.pais_iso3)}` : ""}</span></span>
     </button></li>`;
   });
   if (visibles.length > MAX_LISTA) html.push(`<li class="mas">… y ${visibles.length - MAX_LISTA} más en el mapa. Usa los filtros para acotar.</li>`);
@@ -358,7 +385,15 @@ async function main() {
   }
   const selRegion = $("f-region");
   for (const [id, r] of Object.entries(regiones.regiones)) selRegion.add(new Option(r.nombre, id));
-  selRegion.onchange = (e) => { estado.region = e.target.value; programarFiltros(); };
+  const selRegionLista = $("ev-region");
+  for (const [id, r] of Object.entries(regiones.regiones)) selRegionLista.add(new Option(r.nombre, id));
+  const ponerRegion = (v) => { estado.region = v; selRegion.value = v; selRegionLista.value = v; programarFiltros(); };
+  selRegion.onchange = (e) => ponerRegion(e.target.value);
+  selRegionLista.onchange = (e) => ponerRegion(e.target.value);
+  $("ev-orden").onchange = (e) => { estado.orden = e.target.value; pintarLista(visiblesActuales); };
+  $("ev-sev").onchange = (e) => { estado.sevSolo = Number(e.target.value); programarFiltros(); };
+  $("ev-pais").onchange = (e) => { estado.pais = e.target.value; programarFiltros(); };
+  cargarPaises().then(() => { firmaPaises = ""; programarFiltros(); }).catch(() => {});
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
@@ -582,17 +617,28 @@ async function iniciarRiesgos() {
   Object.assign(porNombre, { mexico: "MEX", "méxico": "MEX", "united states": "USA", usa: "USA", "puerto rico": "PRI" });
   const nombrePais = (iso) => paises?.[iso]?.es || iso || "Mar / sin país";
   let zona = null;
+  let apagadas = [];  // amenazas de capas no activadas (solo para llenar los filtros)
   const pintar = () => {
     const todas = riesgos.amenazas();
-    // Opciones de país y tipo según lo cargado.
+    // Opciones de país y tipo: lo cargado en el mapa + lo que traen las capas apagadas (se activan al elegir).
     const selP = $("rg-pais"), selT = $("rg-tipo");
-    const opts = (sel, valores, etiqueta) => {
-      const prev = sel.value;
-      sel.innerHTML = `<option value="">${etiqueta}</option>` + valores.map(([v, n]) => `<option value="${esc(v)}">${esc(n)}</option>`).join("");
-      sel.value = valores.some(([v]) => v === prev) ? prev : "";
+    const conteo = (lista, clave) => {
+      const m = new Map();
+      for (const a of lista) { const v = a[clave]; if (!v) continue; const c = m.get(v) || { n: 0, off: 0, capa: a.capa }; c.n++; if (a.apagada) c.off++; m.set(v, c); }
+      return m;
     };
-    opts(selP, [...new Set(todas.map((a) => a.pais).filter(Boolean))].map((v) => [v, nombrePais(v)]).sort((a, b) => a[1].localeCompare(b[1], "es")), "Todos los países");
-    opts(selT, [...new Set(todas.map((a) => a.tipo))].sort((a, b) => a.localeCompare(b, "es")).map((v) => [v, v]), "Todos los tipos");
+    const etiqueta = (n, c) => `${n} (${c.n})${c.off === c.n ? " · capa apagada" : ""}`;
+    const prevP = selP.value, prevT = selT.value;
+    const cp = conteo([...todas, ...apagadas], "pais"), ct = conteo([...todas, ...apagadas], "tipo");
+    selP.innerHTML = `<option value="">Todos los países</option>` + [...cp].map(([v, c]) => [v, nombrePais(v), c]).sort((a, b) => a[1].localeCompare(b[1], "es"))
+      .map(([v, n, c]) => `<option value="${esc(v)}">${esc(etiqueta(n, c))}</option>`).join("");
+    selT.innerHTML = `<option value="">Todos los tipos</option>` + R.CAPAS.map((capa) => {
+      const tipos = [...ct].filter(([, c]) => c.capa === capa.id).sort((a, b) => a[0].localeCompare(b[0], "es"));
+      return tipos.length ? `<optgroup label="${esc(capa.nombre)}">${tipos.map(([v, c]) => `<option value="${esc(v)}">${esc(etiqueta(v, c))}</option>`).join("")}</optgroup>` : "";
+    }).join("");
+    selP.value = cp.has(prevP) ? prevP : "";
+    selT.value = ct.has(prevT) ? prevT : "";
+    if (!apagadas.length && !riesgos.catalogo) $("rg-filtro-nota").textContent = "Abre un filtro para ver también los países y tipos de las capas apagadas.";
     const filtro = { pais: selP.value, tipo: selT.value, sevMin: Number($("rg-sev").value) };
     riesgos.setFiltro(filtro);
     const lista = A.ordenar(A.filtrar(todas, { ...filtro, zona }), new Set(todas.filter((a) => a.nuevo).map((a) => a.k)));
@@ -601,7 +647,7 @@ async function iniciarRiesgos() {
         <span class="ttl">${esc(String(a.titulo).slice(0, 90))}</span><span class="meta">${esc(a.tipo)} · ${esc(nombrePais(a.pais))}</span></button></li>`).join("")}</ul>
       ${lista.length > 40 ? `<p class="meta">Mostrando 40 de ${lista.length}. Usa los filtros para acotar.</p>` : ""}` : "";
     $("riesgos-amenazas").onclick = (e) => {
-      if (e.target.id === "rg-zona-quitar") { zona = null; pintar(); return; }
+      if (e.target.id === "rg-zona-quitar") { zona = null; api.map.getSource("rg-zona-circulo")?.setData({ type: "FeatureCollection", features: [] }); $("rg-zona-res").textContent = ""; pintar(); return; }
       const b = e.target.closest("[data-am]");
       if (!b) return;
       const a = lista[Number(b.dataset.am)];
@@ -611,31 +657,87 @@ async function iniciarRiesgos() {
   };
   riesgos = new R.Riesgos(api.map, {
     ctx: { indice: fronteras ? A.indicePaises(fronteras) : null, porNombre },
-    onCambio: () => pintar(),
+    onCambio: () => { if (riesgos?.catalogo) riesgos.explorar().then((x) => { apagadas = x; pintar(); }); else pintar(); },
     onObjeto: (capa, props, geom) => { entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom)); },
   });
   cont.innerHTML = R.GRUPOS.map(([g, ic, color]) => `<div class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}</div>`
     + R.CAPAS.filter((c) => c.grupo === g).map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>`).join("")).join("");
   $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
     <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
-    <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>`;
-  $("riesgos-filtros").addEventListener("change", pintar);
-  // Consola de zona: país o estado de México → filtra la lista de amenazas.
-  $("riesgos-zona").innerHTML = `<form id="rg-zona-form" class="fila"><input id="rg-zona-q" placeholder="País o estado de México…" autocomplete="off" aria-label="Consultar zona"><button>Ver zona</button></form><p class="meta" id="rg-zona-res"></p>`;
+    <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>
+    <p class="meta" id="rg-filtro-nota"></p>`;
+  // La primera vez que se abre la sección o un filtro se leen también las capas apagadas.
+  const explorar = async () => {
+    if (riesgos.catalogo) return;
+    $("rg-filtro-nota").textContent = "Leyendo todas las capas para llenar los filtros…";
+    apagadas = await riesgos.explorar();
+    $("rg-filtro-nota").textContent = "Si eliges un país o tipo de una capa apagada, esa capa se activa sola.";
+    pintar();
+  };
+  cont.closest("details")?.addEventListener("toggle", (e) => { if (e.target.open) explorar(); });
+  $("riesgos-filtros").addEventListener("focusin", explorar);
+  $("riesgos-filtros").addEventListener("change", async (e) => {
+    if (e.target.id === "rg-pais" || e.target.id === "rg-tipo") {
+      const pais = $("rg-pais").value, tipo = $("rg-tipo").value;
+      if (pais || tipo) {
+        const capas = new Set(apagadas.filter((a) => (!pais || a.pais === pais) && (!tipo || a.tipo === tipo)).map((a) => a.capa));
+        for (const id of capas) {
+          const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+          if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
+        }
+        if (capas.size) $("rg-filtro-nota").textContent = `Se activaron: ${[...capas].map((id) => R.CAPAS.find((c) => c.id === id).nombre).join("; ")}.`;
+      }
+    }
+    pintar();
+  });
+  // Consola de zona: país, estado de México o ciudad del mundo (radio de 200 km) → filtra la lista de amenazas.
+  $("riesgos-zona").innerHTML = `<form id="rg-zona-form" class="fila"><input id="rg-zona-q" list="rg-zona-sug" placeholder="Ciudad, estado o país…" autocomplete="off" aria-label="Consultar zona"><datalist id="rg-zona-sug"></datalist><button>Ver zona</button></form>
+    <p class="meta" id="rg-zona-res">Ej.: «Acapulco», «Guerrero», «Bogotá», «Lyon, Francia». Ciudades: radio de ${A.RADIO_ZONA_KM} km.</p>`;
+  let fuentesZona = null;
+  const cargarFuentesZona = () => (fuentesZona ??= Promise.all([getJSON("config/mx_estados.json").catch(() => ({ estados: [], ciudades: [] })),
+    getJSON("config/ciudades.json").catch(() => ({ ciudades: [] }))])
+    .then(([mx, c]) => ({ estados: mx.estados || [], ciudadesMx: mx.ciudades || [], ciudades: c.ciudades || [], paises: paises || {} })));
+  const circuloZona = (z) => {
+    const m = api.map, src = "rg-zona-circulo";
+    const data = { type: "FeatureCollection", features: z?.radio_km ? [{ type: "Feature", geometry: { type: "Polygon", coordinates: [A.circuloKm([z.lon, z.lat], z.radio_km)] }, properties: {} }] : [] };
+    if (m.getSource(src)) { m.getSource(src).setData(data); return; }
+    m.addSource(src, { type: "geojson", data });
+    m.addLayer({ id: `${src}-l`, type: "line", source: src, paint: { "line-color": "#E0A100", "line-width": 1.6, "line-dasharray": [3, 2] } });
+  };
+  let sugTimer = 0, ultimos = [];
+  $("rg-zona-q").addEventListener("input", (e) => {
+    clearTimeout(sugTimer);
+    sugTimer = setTimeout(async () => {
+      const f = await cargarFuentesZona();
+      ultimos = A.candidatosZona(e.target.value, f, 12);
+      $("rg-zona-sug").innerHTML = ultimos.map((c) => `<option value="${esc(c.etiqueta)}"></option>`).join("");
+    }, 150);
+  });
+  const ponerZona = (z, texto) => {
+    zona = z;
+    circuloZona(z);
+    $("rg-zona-res").textContent = texto;
+    if (z?.radio_km) api.map.flyTo({ center: [z.lon, z.lat], zoom: 6, duration: lite ? 0 : 800 });
+    pintar();
+  };
   $("rg-zona-form").addEventListener("submit", async (e) => {
     e.preventDefault();
-    const q = $("rg-zona-q").value.trim().toLowerCase();
-    if (!q) { zona = null; pintar(); return; }
-    const estados = await getJSON("config/mx_estados.json").catch(() => ({ estados: [] }));
-    const norm = (x) => x.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-    const est = estados.estados.find((x) => norm(x.nombre) === norm(q) || (x.alias || []).some((a) => norm(a) === norm(q)));
-    const iso = porNombre[q] || Object.entries(paises || {}).find(([, p]) => norm(p.es || "") === norm(q))?.[0];
-    if (est) zona = { nombre: est.nombre, lat: est.lat, lon: est.lon, radio_km: 200 };
-    else if (iso) zona = { nombre: nombrePais(iso), iso3: iso };
-    else { $("rg-zona-res").textContent = "No encontré esa zona. Escribe un país o un estado de México."; return; }
-    $("rg-zona-res").textContent = est ? `Amenazas a menos de 200 km del centro aproximado de ${est.nombre}.` : `Amenazas en ${nombrePais(iso)}.`;
-    if (est) api.map.flyTo({ center: [est.lon, est.lat], zoom: 6, duration: lite ? 0 : 800 });
-    pintar();
+    const q = $("rg-zona-q").value.trim();
+    if (!q) { ponerZona(null, ""); return; }
+    const f = await cargarFuentesZona();
+    // Si eligió una sugerencia, se usa tal cual; si no, el mejor candidato del texto.
+    let z = ultimos.find((c) => c.etiqueta === q) || A.candidatosZona(q, f, 1)[0];
+    if (!z) {
+      // Lugares que no están en la lista (pueblos, playas): geocodificador de Open-Meteo (GeoNames), sin llave.
+      $("rg-zona-res").textContent = "Buscando el lugar…";
+      try {
+        const r = await getJSON(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(q.split(",")[0])}&count=1&language=es`);
+        const g = r.results?.[0];
+        if (g) z = { nombre: g.name, etiqueta: `${g.name}${g.admin1 ? `, ${g.admin1}` : ""}, ${g.country || ""}`, lat: g.latitude, lon: g.longitude, radio_km: A.RADIO_ZONA_KM };
+      } catch (err) { /* sin conexión al geocodificador */ }
+    }
+    if (!z) { $("rg-zona-res").textContent = "No encontré esa zona. Escribe una ciudad, un estado de México o un país."; return; }
+    ponerZona(z, z.iso3 ? `Amenazas en ${z.nombre} (todo el país).` : `Amenazas a menos de ${z.radio_km} km de ${z.etiqueta || z.nombre} (distancia en línea recta).`);
   });
   cont.addEventListener("change", async (e) => {
     const id = e.target.dataset.riesgo;
@@ -645,16 +747,36 @@ async function iniciarRiesgos() {
     marca.textContent = "cargando…";
     try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
   });
-  // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX (Clima Táctico).
+  // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX y otras ciudades (Clima Táctico).
   const hnc = A.hoyNoCircula();
-  $("riesgos-vdm").innerHTML = `<b>Valle de México · Hoy No Circula:</b> ${esc(hnc.texto)} <span id="rg-vdm-aire"></span>
-    El Doble No Circula solo aplica con contingencia declarada por la <a href="https://www.gob.mx/comisionambiental" target="_blank" rel="noopener noreferrer">CAMe</a>.`;
+  $("riesgos-vdm").innerHTML = `<div class="vdm"><h4>🚗 Hoy No Circula · Valle de México</h4>
+    <div class="hnc-semana">${A.semanaHNC().map((d) => `<div class="hnc-dia${d.claro ? " claro" : ""}${d.hoy ? " hoy" : ""}" style="--c:${d.color}" title="${esc(d.engomado)}: placas ${esc(d.placas)}">
+      ${d.hoy ? "HOY" : d.dia}<b>${esc(d.placas.replace(" y ", "·"))}</b>${esc(d.engomado)}</div>`).join("")}</div>
+    <p class="hnc-texto">${esc(hnc.texto)} El Doble No Circula solo aplica con contingencia declarada por la <a href="https://www.gob.mx/comisionambiental" target="_blank" rel="noopener noreferrer">CAMe</a>.</p>
+    <div id="rg-vdm-aire"></div></div>`;
   const [man, esp, aire, feed] = await Promise.all([riesgos.manifiesto(), riesgos.espacial(),
-    getJSON(R.BASES[0] + "airquality.geojson").catch(() => null), getJSON(R.BASES[0] + "security_feed.json").catch(() => null)]);
+    R.leerArchivo("airquality.geojson").catch(() => null), R.leerArchivo("security_feed.json").catch(() => null)]);
   const cdmx = aire?.features?.find((f) => /ciudad de m[eé]xico/i.test(f.properties.name || ""));
-  if (cdmx) $("rg-vdm-aire").innerHTML = `Calidad del aire en la CDMX: <b>${esc(cdmx.properties.level_label)}</b> (US AQI ${esc(cdmx.properties.us_aqi ?? "—")})${cdmx.properties.level >= 3 ? " · ⚠ posible contingencia: verifica en la CAMe" : ""}.`;
+  if (cdmx) {
+    const b = A.bandaAQI(cdmx.properties.us_aqi);
+    const indice = fronteras ? A.indicePaises(fronteras) : null;
+    const mx = (aire.features || []).filter((f) => f !== cdmx && f.properties.us_aqi != null && indice && A.paisEn(indice, ...f.geometry.coordinates.slice(0, 2)) === "MEX")
+      .sort((x, y) => y.properties.us_aqi - x.properties.us_aqi);
+    const chip = (f) => { const c = A.bandaAQI(f.properties.us_aqi); return `<span class="aqi-ciudad" style="background:${c.color};color:${c.texto}" title="${esc(c.etiqueta)}">${esc(f.properties.name)} ${esc(f.properties.us_aqi)}</span>`; };
+    $("rg-vdm-aire").innerHTML = b ? `<h4 style="margin-top:10px">🌫️ Calidad del aire (US AQI)</h4>
+      <div class="aqi-principal"><span class="aqi-num" style="background:${b.color};color:${b.texto}">${esc(cdmx.properties.us_aqi)}</span>
+        <span>Ciudad de México: <b>${esc(b.etiqueta)}</b>${b.i >= 2 ? " · ⚠ posible contingencia: verifica en la CAMe" : ""}<br><span class="meta">PM2.5 ${esc(cdmx.properties.pm2_5 ?? "—")} µg/m³ · ozono ${esc(cdmx.properties.ozone ?? "—")} µg/m³</span></span></div>
+      <div class="aqi-escala">${A.BANDAS_AQI.map(([, n, c]) => `<span style="background:${c}" title="${esc(n)}"></span>`).join("")}<i class="aqi-marca" style="left:${(b.pos * 100).toFixed(1)}%"></i></div>
+      <div class="aqi-ejes"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>+</span></div>
+      ${mx.length ? `<div class="meta" style="margin-top:6px">Otras ciudades de México (peor a mejor):</div><div class="aqi-ciudades">${mx.slice(0, 16).map(chip).join("")}</div>
+        ${mx.length > 16 ? `<details><summary class="meta">Ver ${mx.length - 16} más</summary><div class="aqi-ciudades">${mx.slice(16).map(chip).join("")}</div></details>` : ""}` : ""}
+      <p class="meta">Modelo de Open-Meteo (CAMS) vía Clima Táctico; no sustituye a las estaciones oficiales del SIMAT.</p>` : "";
+  }
   if (feed?.items?.length) {
-    $("riesgos-feed").innerHTML = `<details><summary>Feed de seguridad (titulares, verificar) · ${feed.items.length}</summary><ul class="fuentes">${feed.items.slice(0, 12).map((it) => `<li><a href="${esc(safeUrl(it.url))}" target="_blank" rel="noopener noreferrer">${esc(String(it.title).slice(0, 140))}</a></li>`).join("")}</ul></details>`;
+    const enlace = (it) => `<li><a href="${esc(safeUrl(it.url))}" target="_blank" rel="noopener noreferrer">${esc(String(it.title).trim().slice(0, 140))}</a>${it.source ? ` <span class="meta">· ${esc(it.source)}</span>` : ""}</li>`;
+    $("riesgos-feed").innerHTML = `<details><summary>Feed de seguridad (titulares, verificar) · ${feed.items.length}</summary>
+      ${A.agruparFeed(feed.items).map(([g, l]) => `<details class="feed-grupo feed-${g.id}"${l.length <= 6 && g.id !== "otro" ? " open" : ""}><summary>${g.ic} ${esc(g.nombre)} <span class="contador">${l.length}</span></summary><ul class="fuentes">${l.map(enlace).join("")}</ul></details>`).join("")}
+      <p class="meta">Agrupado por palabras del titular (puede equivocarse). Abre la nota original para confirmar.</p></details>`;
   }
   if (man) {
     $("riesgos-nota").textContent = `Datos horneados por Clima Táctico el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos y alertas de EUA en vivo. Los eventos nuevos parpadean 1 min y llevan la marca NUEVO 1 h.`;

@@ -97,8 +97,12 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 .lista-eventos { list-style: none; margin: 0; padding: 0; }
 .lista-eventos button {
   width: 100%; text-align: left; background: none; border: 0; border-bottom: 1px solid var(--line);
-  color: var(--text); font: inherit; padding: 7px 2px; cursor: pointer; display: grid; grid-template-columns: 10px 1fr; gap: 8px;
+  color: var(--text); font: inherit; padding: 7px 2px; cursor: pointer; display: grid; grid-template-columns: 10px 18px 1fr; gap: 8px;
 }
+.lista-eventos .sev { margin-top: 1px; }
+.ev-filtros { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 8px; margin: 6px 0 8px; }
+.ev-filtros label { display: flex; flex-direction: column; font-size: 11px; color: var(--text-2); gap: 2px; min-width: 0; }
+.ev-filtros select { width: 100%; min-width: 0; }
 .lista-eventos button:hover { background: var(--surface-2); }
 .lista-eventos .punto { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; }
 .lista-eventos .meta { display: block; font-size: 11px; color: var(--text-2); }
@@ -305,7 +309,7 @@ a.boton:hover, a.boton:focus-visible { filter: brightness(1.1); }
 .lista-amenazas button:hover { background: var(--surface-2); }
 .lista-amenazas .ttl { grid-column: 3; }
 .lista-amenazas .meta { grid-column: 1 / -1; font-size: 11px; color: var(--text-2); }
-.sev { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 4px; color: #fff; font-weight: 700; font-size: 11px; }
+.sev[class*="sev-"] { display: inline-grid; place-items: center; width: 18px; height: 18px; letter-spacing: 0; border-radius: 4px; color: #fff; font-weight: 700; font-size: 11px; }
 .sev-1 { background: #6f8a82; } .sev-2 { background: #2E9E6E; } .sev-3 { background: #B08000; } .sev-4 { background: #C2611A; } .sev-5 { background: #C03030; }
 .chip.sev-1, .chip.sev-2, .chip.sev-3, .chip.sev-4, .chip.sev-5 { color: #fff; border: 0; }
 .chip.nuevo { background: #ffe600; color: #1a1a00; border: 0; font-weight: 700; font-size: 10px; padding: 0 6px; animation: parpadeo 1.4s ease-in-out infinite; }
@@ -332,3 +336,26 @@ button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1p
 .subgrupo { margin: 10px 0 4px; padding: 3px 8px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
   color: var(--text); background: color-mix(in srgb, var(--g, #888) 14%, transparent); border-radius: 4px; display: flex; gap: 6px; align-items: center; }
 .subgrupo .punto { width: 8px; height: 8px; border-radius: 50%; background: var(--c, var(--g, #888)); }
+
+/* Valle de México: Hoy No Circula y calidad del aire */
+.vdm { border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; background: var(--surface); }
+.vdm h4 { margin: 0 0 6px; font-size: 12px; }
+.hnc-semana { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+.hnc-dia { border-radius: 6px; padding: 4px 2px; text-align: center; font-size: 10px; line-height: 1.25; color: #fff; background: var(--c); opacity: .55; }
+.hnc-dia b { display: block; font-size: 13px; }
+.hnc-dia.claro { color: #1a1a1a; }
+.hnc-dia.hoy { opacity: 1; outline: 2px solid var(--text); outline-offset: 1px; font-weight: 700; }
+.hnc-texto { font-size: 12px; margin: 6px 0 0; }
+.aqi-principal { display: flex; align-items: center; gap: 8px; margin: 8px 0 4px; }
+.aqi-num { min-width: 46px; text-align: center; border-radius: 8px; padding: 4px 6px; font: 700 18px/1.1 var(--mono); }
+.aqi-escala { position: relative; display: grid; grid-template-columns: 50fr 50fr 50fr 50fr 100fr 50fr; height: 10px; margin: 6px 0 2px; }
+.aqi-escala span:first-child { border-radius: 5px 0 0 5px; } .aqi-escala span:last-of-type { border-radius: 0 5px 5px 0; }
+.aqi-escala span { display: block; }
+.aqi-marca { position: absolute; top: -3px; width: 3px; height: 16px; background: var(--text); border-radius: 2px; transform: translateX(-1px); }
+.aqi-ejes { display: flex; justify-content: space-between; font-size: 9px; color: var(--text-2); }
+.aqi-ciudades { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.aqi-ciudad { border-radius: 10px; padding: 1px 7px; font-size: 11px; }
+.feed-grupo { margin: 4px 0 4px 6px; border-left: 3px solid var(--c, var(--line)); padding-left: 6px; }
+.feed-grupo > summary { cursor: pointer; font-size: 12px; font-weight: 600; }
+.feed-deslave { --c: #8B5A2B; } .feed-clima { --c: #2471A3; } .feed-ataque { --c: #C03030; } .feed-violencia { --c: #922B21; }
+.feed-secuestro { --c: #D35400; } .feed-bloqueo { --c: #E0A100; } .feed-crimen { --c: #6C3483; } .feed-otro { --c: #7A8691; }

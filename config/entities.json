@@ -2490,6 +2490,562 @@
    ]
   },
   {
+   "id": "gobierno_forma",
+   "nombre": {
+    "es": "Forma de gobierno",
+    "en": "Form of government"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Forma de gobierno registrada en Wikidata (P122). Si un país tiene varias, se colorea la de mayor prioridad (militar, teocracia, partido único, monarquía absoluta, monarquía constitucional, semipresidencial, presidencial, parlamentaria)."
+   ],
+   "subtipos": [
+    {
+     "id": "gobforma_militar",
+     "nombre": {
+      "es": "Junta o gobierno militar",
+      "en": "Military junta"
+     },
+     "icono": "🎖",
+     "color": "#4E5B31",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_teocracia",
+     "nombre": {
+      "es": "Teocracia",
+      "en": "Theocracy"
+     },
+     "icono": "☪",
+     "color": "#6C3483",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_partido_unico",
+     "nombre": {
+      "es": "Estado de partido único",
+      "en": "One-party state"
+     },
+     "icono": "★",
+     "color": "#8B1A1A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_monarquia_absoluta",
+     "nombre": {
+      "es": "Monarquía absoluta",
+      "en": "Absolute monarchy"
+     },
+     "icono": "👑",
+     "color": "#B7950B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_monarquia_constitucional",
+     "nombre": {
+      "es": "Monarquía constitucional o parlamentaria",
+      "en": "Constitutional monarchy"
+     },
+     "icono": "♛",
+     "color": "#D4AC0D",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_semipresidencial",
+     "nombre": {
+      "es": "República semipresidencial",
+      "en": "Semi-presidential republic"
+     },
+     "icono": "⚖",
+     "color": "#16A085",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_presidencial",
+     "nombre": {
+      "es": "República presidencial",
+      "en": "Presidential republic"
+     },
+     "icono": "🏛",
+     "color": "#2471A3",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_parlamentaria",
+     "nombre": {
+      "es": "República parlamentaria",
+      "en": "Parliamentary republic"
+     },
+     "icono": "🏛",
+     "color": "#48C9B0",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    },
+    {
+     "id": "gobforma_otra",
+     "nombre": {
+      "es": "Otra o sin dato",
+      "en": "Other or no data"
+     },
+     "icono": "?",
+     "color": "#AAB7B8",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_forma"
+    }
+   ]
+  },
+  {
+   "id": "gobierno_orientacion",
+   "nombre": {
+    "es": "Orientación política del gobierno",
+    "en": "Government political orientation"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Alineación (P1387) e ideología (P1142) del partido de quien encabeza el gobierno, según Wikidata. Es la clasificación registrada allí, editable por cualquiera; no es una opinión del proyecto.",
+    "Solo personas con rol público (jefes de Estado y de gobierno) y su partido."
+   ],
+   "subtipos": [
+    {
+     "id": "gobor_comunista",
+     "nombre": {
+      "es": "Comunista (partido único)",
+      "en": "Communist (one-party)"
+     },
+     "icono": "■",
+     "color": "#7B0A0A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_extrema_izquierda",
+     "nombre": {
+      "es": "Extrema izquierda",
+      "en": "Far left"
+     },
+     "icono": "■",
+     "color": "#B71C1C",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_izquierda",
+     "nombre": {
+      "es": "Izquierda",
+      "en": "Left"
+     },
+     "icono": "■",
+     "color": "#E53935",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_centroizquierda",
+     "nombre": {
+      "es": "Centroizquierda",
+      "en": "Centre-left"
+     },
+     "icono": "■",
+     "color": "#F28B82",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_centro",
+     "nombre": {
+      "es": "Centro o amplio espectro",
+      "en": "Centre or big tent"
+     },
+     "icono": "■",
+     "color": "#F2C94C",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_centroderecha",
+     "nombre": {
+      "es": "Centroderecha",
+      "en": "Centre-right"
+     },
+     "icono": "■",
+     "color": "#7FB3E0",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_derecha",
+     "nombre": {
+      "es": "Derecha",
+      "en": "Right"
+     },
+     "icono": "■",
+     "color": "#2E6DB4",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_extrema_derecha",
+     "nombre": {
+      "es": "Extrema derecha",
+      "en": "Far right"
+     },
+     "icono": "■",
+     "color": "#0D2B5E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_sin_partido",
+     "nombre": {
+      "es": "Sin partido (monarca, militar o independiente)",
+      "en": "No party"
+     },
+     "icono": "■",
+     "color": "#8E8E8E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    },
+    {
+     "id": "gobor_sin_dato",
+     "nombre": {
+      "es": "Sin dato de orientación",
+      "en": "No data"
+     },
+     "icono": "■",
+     "color": "#C9C9C9",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "instituciones"
+     ],
+     "familia": "gobierno_orientacion"
+    }
+   ]
+  },
+  {
+   "id": "lugares_religiosos",
+   "nombre": {
+    "es": "Lugares religiosos relevantes",
+    "en": "Notable religious sites"
+   },
+   "fase": "C7",
+   "dibujable": true,
+   "reglas": [
+    "Catedrales, basílicas, mezquitas, templos, sinagogas y santuarios con artículo en varias Wikipedias o declarados Patrimonio Mundial. Las iglesias de barrio no se incluyen."
+   ],
+   "subtipos": [
+    {
+     "id": "culto_cristianismo",
+     "nombre": {
+      "es": "Cristianismo",
+      "en": "Christian sites"
+     },
+     "icono": "✝",
+     "color": "#3B6FB6",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_islam",
+     "nombre": {
+      "es": "Islam",
+      "en": "Islamic sites"
+     },
+     "icono": "☪",
+     "color": "#1E8449",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_judaismo",
+     "nombre": {
+      "es": "Judaísmo",
+      "en": "Jewish sites"
+     },
+     "icono": "✡",
+     "color": "#5DADE2",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_hinduismo",
+     "nombre": {
+      "es": "Hinduismo",
+      "en": "Hindu sites"
+     },
+     "icono": "ॐ",
+     "color": "#E67E22",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_budismo",
+     "nombre": {
+      "es": "Budismo",
+      "en": "Buddhist sites"
+     },
+     "icono": "☸",
+     "color": "#D4AC0D",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_sintoismo",
+     "nombre": {
+      "es": "Sintoísmo",
+      "en": "Shinto sites"
+     },
+     "icono": "⛩",
+     "color": "#C0392B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_sij",
+     "nombre": {
+      "es": "Sijismo",
+      "en": "Sikh sites"
+     },
+     "icono": "☬",
+     "color": "#F39C12",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    },
+    {
+     "id": "culto_otras",
+     "nombre": {
+      "es": "Otras religiones",
+      "en": "Other sites"
+     },
+     "icono": "◇",
+     "color": "#8E44AD",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_religiosos"
+    }
+   ]
+  },
+  {
    "id": "camaras",
    "nombre": {
     "es": "Cámaras públicas",

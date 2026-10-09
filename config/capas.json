@@ -144,6 +144,40 @@
    "opacidad_relleno": 0.5,
    "zoom_etiquetas": 3,
    "nota": "Pew Research Center 2020 vía Our World in Data (CC BY 4.0)."
+  },
+  {
+   "id": "gobierno_forma",
+   "nombre": "Forma de gobierno por país (república, monarquía…)",
+   "categoria": "gobierno_forma",
+   "geometria": "poligono",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.5,
+   "zoom_etiquetas": 3,
+   "nota": "Wikidata (CC0): forma de gobierno (P122)."
+  },
+  {
+   "id": "gobierno_orientacion",
+   "nombre": "Orientación política del gobierno (izquierda, derecha…)",
+   "categoria": "gobierno_orientacion",
+   "geometria": "poligono",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Wikidata (CC0): partido del jefe de gobierno o de Estado y su alineación (P1387) e ideología (P1142)."
+  },
+  {
+   "id": "lugares_religiosos",
+   "nombre": "Lugares religiosos relevantes (catedrales, mezquitas, templos…)",
+   "categoria": "lugares_religiosos",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 7,
+   "nota": "Wikidata (CC0): lugares con artículo en varias Wikipedias o Patrimonio Mundial."
   }
  ]
 }
