@@ -50,7 +50,7 @@ SEVERO = re.compile(r"muert|dead|died|killed|morti|vittim|heridos|injur|feriti|d
 # Notas que no informan de un tornado ocurrido: pronósticos, riesgo, ayudas o aniversarios.
 NO_OCURRIDO = re.compile(r"\b(could|may|possible|possibili|posibles?|threat|risk|rischio|riesgo|forecast|pron[oó]stic|previsioni|watch|season|"
                          r"stagione|temporada|alley|relief|fema|aid|aiuti|ayudas?|how|why|perch[eé]|replant|anniversary|anniversario|aniversario|"
-                         r"years? (ago|after)|anni fa|turbulence)\b", re.I)
+                         r"years? (ago|after)|anni fa|turbulence|activity is shifting|se blinda|ahead of|prepares?|se prepara)\b", re.I)
 MARINA = re.compile(r"waterspout|tromb[ae] marin|trompa marina|manga de agua|wasserhose", re.I)
 
 
@@ -125,12 +125,15 @@ def fila_a_feature(f, flujo, nom=None):
     # Ubicación: 1) un lugar de GDELT que el título nombra (coordenada precisa); 2) el nomenclátor propio sobre el
     # título. Si el título no nombra ningún lugar, la nota se descarta: GDELT suele citar la sede del medio u otras
     # noticias, y un punto falso confunde más que una nota de menos.
-    t = norm(titulo)
-    locs = [l for l in lugares(f[10]) if en_titulo(l[1].split(",")[0], t)]
+    # El nombre del medio suele ir al final tras « | » o « - » («… | FOX 4 Dallas-Fort Worth»): no es el lugar.
+    cuerpo = re.split(r"\s[|–—-]\s(?=[^|–—-]*$)", titulo)[0] if re.search(r"\s[|–—-]\s", titulo) else titulo
+    t = norm(cuerpo)
+    # Solo ciudades y estados de GDELT: sus «países» incluyen adjetivos («Italian», «America»).
+    locs = [l for l in lugares(f[10]) if l[0] != "1" and en_titulo(l[1].split(",")[0], t)]
     if locs:
-        tipo, nombre, _, lat, lon, _ = elegir_lugar(locs, offset_tema(f[8]), titulo)
+        tipo, nombre, _, lat, lon, _ = elegir_lugar(locs, offset_tema(f[8]), cuerpo)
     else:
-        u = (nom or nomenclator()).ubicar(titulo)
+        u = (nom or nomenclator()).ubicar(cuerpo)
         if not u:
             return None
         nombre, lat, lon, prec = u
@@ -252,11 +255,18 @@ class Nomenclator:
         if not hall:
             return None
         paises = {h[2] for h in hall if h[0] >= 1}
-        ciudades = [h for h in hall if h[0] == 0 and (not paises or h[2] in paises)]
+        # Un nombre que es a la vez estado y ciudad de otro país («Florida», EUA y Uruguay) se toma como el estado.
+        admin = {(h[5].lower(), h[1]) for h in hall if h[0] in (1, 2)}
+        ciudades = [h for h in hall if h[0] == 0 and (not paises or h[2] in paises) and (h[5].lower(), h[1]) not in admin]
         if ciudades:
             h = min(ciudades, key=lambda x: (x[1], -x[6]))
             return h[5], h[3], h[4], "ciudad"
-        h = min(hall, key=lambda x: (x[0], x[1]))
+        resto = [h for h in hall if h[0] > 0]
+        # Entre homónimos del mismo rango gana el país con más coincidencias (nombres en varios idiomas, país citado).
+        votos = {}
+        for h in hall:
+            votos[h[2]] = votos.get(h[2], 0) + 1
+        h = min(resto, key=lambda x: (x[0], x[1], -votos[x[2]]))
         return h[5], h[3], h[4], "estado" if h[0] in (1, 2) else "país"
 
 

@@ -75,3 +75,10 @@ def test_nomenclator_del_titulo():
     assert N.ubicar("Sicilian tornado")[0] == "Sicily"
     assert N.ubicar("Tornado hits Victoria, Canada")[1:3] == (48.4, -123.4)  # la ciudad del país mencionado
     assert N.ubicar("tornado activity is shifting across the country") is None
+
+
+def test_medio_al_final_y_homonimos():
+    N = T.nomenclator()
+    assert N.ubicar("Tornado hits Florida panhandle")[1] > 20  # el estado de EUA, no la ciudad de Uruguay
+    locs = "4#Dallas, Texas, United States#US#USTX##32.8#-96.8#-5#900;1#Italian#IT#IT##42.8#12.8#IT#10"
+    assert T.fila_a_feature(fila("Doppel-Tornado in Marsala - FOX 4 Dallas", locs=locs), "ingles")["properties"]["state"] == "Marsala"

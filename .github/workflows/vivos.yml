@@ -71,6 +71,11 @@ jobs:
         timeout-minutes: 5
         run: python3 tools/crimen/crimen.py
 
+      - name: Tornados y trombas marinas del mundo (GDELT GKG, última hora; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 6
+        run: python3 tools/clima/tornados.py
+
       - name: Publicar en la rama datos-vivos (reescrita, sin historial)
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
