@@ -261,8 +261,8 @@ export function htmlFichaGobierno(props, familia) {
   return `<h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(familia.nombre)} · según Wikidata (${esc(props.fecha || "")})</div>
     <div class="chips">
-      <span class="chip" style="border-color:${esc(familia.id === "gobierno_forma" ? color("gobforma_", props.forma) : "#888")}">🏛 ${esc(props.forma_txt)}${props.federal === true || props.federal === "true" ? " · federal" : ""}</span>
-      <span class="chip" style="border-color:${esc(familia.id === "gobierno_orientacion" ? color("gobor_", props.espectro) : "#888")}">🧭 ${esc(props.espectro_txt)}</span>
+      <span class="chip" style="border-color:${esc(familia.id === "gobierno_forma" ? color("gobforma_", props.forma) : "#888")}">🏛 ${esc(props.forma_txt)}${props.federal === true || props.federal === "true" ? " · federal" : ""}${props.forma_inferida === true || props.forma_inferida === "true" ? " (deducida)" : ""}</span>
+      <span class="chip" style="border-color:${esc(familia.id === "gobierno_orientacion" ? color("gobor_", props.espectro) : "#888")}">🧭 ${esc(props.espectro_txt)}${props.origen_espectro === "ideología" && props.espectro !== "comunista" ? " (estimada por ideología)" : ""}</span>
     </div>
     <dl>
       <dt>Formas registradas</dt><dd>${esc(lista(props.formas_wd) || "—")}</dd>
@@ -275,7 +275,7 @@ export function htmlFichaGobierno(props, familia) {
       <dt>Ideologías</dt><dd>${esc(lista(props.ideologias) || "—")}</dd>
       <dt>Fuente</dt><dd>${wd(props.wd, "Wikidata")} (CC0)</dd>
     </dl>
-    <p class="meta">La orientación es la del partido de quien encabeza el gobierno (primer ministro en sistemas parlamentarios y monarquías constitucionales; presidente o monarca en los demás), según lo registrado en Wikidata, que cualquiera puede editar y cuyas fuentes varían. No es una opinión de este sitio. Un gobierno de coalición se clasifica por el partido de su jefe. Para la otra vista activa «${esc(otra === "gobierno_forma" ? "Forma de gobierno" : "Orientación política")}».</p>`;
+    <p class="meta">La orientación es la del partido de quien encabeza el gobierno (primer ministro en sistemas parlamentarios y monarquías constitucionales; presidente o monarca en los demás), según lo registrado en Wikidata, que cualquiera puede editar y cuyas fuentes varían. No es una opinión de este sitio. Un gobierno de coalición se clasifica por el partido de su jefe. «Deducida»: Wikidata solo dice «república»; si la misma persona encabeza Estado y gobierno se toma como presidencial, y si gobierna un partido comunista, como partido único. «Estimada por ideología»: el partido no tiene alineación registrada y se ubica con sus ideologías. Si hay dos alineaciones a medio camino (p. ej. «derecha» y «extrema derecha»), se toma la más cercana al centro. Para la otra vista activa «${esc(otra === "gobierno_forma" ? "Forma de gobierno" : "Orientación política")}».</p>`;
 }
 
 const RELIGIONES = [["cristianismo", "Cristianismo"], ["islam", "Islam"], ["hinduismo", "Hinduismo"], ["budismo", "Budismo"], ["judaismo", "Judaísmo"],
