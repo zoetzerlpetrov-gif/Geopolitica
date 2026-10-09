@@ -17,7 +17,7 @@ for (const f of ["/tmp/real.jpg", "/tmp/souvenir.jpg"]) {
   let txt = "";
   for (let i = 0; i < 40; i++) {
     await p.waitForTimeout(10000);
-    const t = await p.evaluate(() => document.getElementById("foto-lugares-res").innerText);
+    const t = await p.evaluate(() => document.getElementById("foto-lugares-res").textContent.replace(/\s+/g, " "));
     if (t !== txt) { console.log(`  [${((Date.now() - t0) / 1000).toFixed(0)} s] ${t.slice(0, 160).replace(/\n/g, " / ")}`); txt = t; }
     if (/Lugares parecidos|No se pudo/.test(t)) break;
   }
