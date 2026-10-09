@@ -175,6 +175,11 @@ def arma_de(texto, codigo=""):
     return ARMAS_CAMEO.get(codigo) or ARMAS_CAMEO.get(codigo[:3]) if codigo[:3] in ("183", "194", "195", "204") else None
 
 
+# Un evento dentro de México basta con 1 artículo (la cobertura local suele ser de un solo medio); fuera, se
+# exigen 2 (crimen) o 3 (ataques) para filtrar ruido. Con 1 artículo la severidad no sube por cobertura.
+MIN_ARTICULOS_MX = 1
+
+
 def evento_ataque(f, paises, min_articulos=3):
     """Fila de eventos de GDELT → feature si el código CAMEO es un ataque con bombas, artillería, aéreo o con drones/misiles.
     No exige actor criminal: incluye ataques militares entre Estados."""
@@ -184,14 +189,16 @@ def evento_ataque(f, paises, min_articulos=3):
         lat, lon, articulos = float(f[C["lat"]]), float(f[C["lon"]]), int(f[C["articulos"]])
     except ValueError:
         return None
-    if articulos < min_articulos or not f[C["url"]].startswith("http"):
+    if not f[C["url"]].startswith("http"):
+        return None
+    iso = paises.de(lon, lat)
+    if articulos < (MIN_ARTICULOS_MX if iso == "MEX" else min_articulos):
         return None
     slug = F.palabras_de_url(f[C["url"]])
     arma = arma_de(slug, f[C["codigo"]]) or "Ataque armado"
     actores = " → ".join(a.title() for a in (f[C["a1"]], f[C["a2"]]) if a)
     sev = 5 if f[C["codigo"]].startswith("204") or articulos >= 50 else 4 if articulos >= 10 or f[C["codigo"]] in ("1831", "1832") else 3
     titulo = slug.capitalize() if len(slug.split()) >= 4 else f"{arma}: {actores or 'actor no identificado'} ({f[C['lugar']]})"
-    iso = paises.de(lon, lat)
     fecha = datetime.strptime(f[C["fecha"]], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
             "properties": {"title": titulo[:220], "url": f[C["url"]], "source": urllib.parse.urlparse(f[C["url"]]).netloc, "date": fecha,
@@ -212,7 +219,10 @@ def evento_gdelt(f, gaz, paises, min_articulos=2):
         lat, lon, articulos = float(f[C["lat"]]), float(f[C["lon"]]), int(f[C["articulos"]])
     except ValueError:
         return None
-    if articulos < min_articulos or not f[C["url"]].startswith("http"):
+    if not f[C["url"]].startswith("http"):
+        return None
+    iso = paises.de(lon, lat)
+    if articulos < (MIN_ARTICULOS_MX if iso == "MEX" else min_articulos):
         return None
     slug = F.palabras_de_url(f[C["url"]])
     texto = f"{slug} {f[C['a1']]} {f[C['a2']]}"
@@ -223,7 +233,6 @@ def evento_gdelt(f, gaz, paises, min_articulos=2):
     arma = arma_de(slug, f[C["codigo"]])
     actores = " → ".join(a.title() for a in (f[C["a1"]], f[C["a2"]]) if a)
     titulo = slug.capitalize() if len(slug.split()) >= 4 else f"{tipo}: {actores or 'actor no identificado'} ({f[C['lugar']]})"
-    iso = paises.de(lon, lat)
     fecha = datetime.strptime(f[C["fecha"]], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     precision = {"1": "país", "2": "estado", "5": "estado", "3": "ciudad", "4": "ciudad"}.get(f[C["geo_tipo"]], "ciudad")
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},

@@ -107,3 +107,19 @@ def test_guardar_quita_falsos_positivos_anteriores(tmp_path):
                                              viejo("Deslave sin lugar", "país")]}))
     out = c.guardar(str(ruta), [], 72, "prueba", clase="deslave")
     assert [f["properties"]["title"] for f in out] == ["Deslave en la carretera Acapulco-Zihuatanejo"]
+
+
+def test_un_articulo_basta_en_mexico_pero_no_fuera():
+    from geo import Paises
+    pa = Paises()
+    f = [""] * 61
+    f[6], f[12], f[28], f[33], f[51] = "CARTEL", "CRM", "19", "1", "4"
+    f[52], f[56], f[57], f[59] = "Acapulco, Guerrero, Mexico", "16.86", "-99.88", "20261008220000"
+    f[60] = "https://www.medio.mx/2026/10/08/balacera-en-acapulco-deja-dos-heridos"
+    assert c.evento_gdelt(f, GAZ, pa)["properties"]["pais_iso3"] == "MEX"
+    g = list(f); g[52], g[56], g[57] = "Medellin, Colombia", "6.24", "-75.58"
+    assert c.evento_gdelt(g, GAZ, pa) is None  # fuera de México se piden 2 artículos
+    a = list(f); a[26], a[6], a[12] = "1833", "", ""
+    assert c.evento_ataque(a, pa)["properties"]["pais_iso3"] == "MEX"
+    b = list(a); b[52], b[56], b[57] = "Kyiv, Ukraine", "50.45", "30.52"
+    assert c.evento_ataque(b, pa) is None  # fuera de México se piden 3

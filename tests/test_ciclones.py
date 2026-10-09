@@ -44,3 +44,32 @@ def test_ibtracs_activos():
     linea = fs[1]["geometry"]["coordinates"]
     assert abs(linea[1][0] - linea[0][0]) < 5  # sin salto de 360°
     assert fs[0]["properties"]["basin"] == "Pacífico occidental"
+
+
+def test_gdacs_respeta_ventana_y_una_peticion_por_corrida():
+    from datetime import datetime, timezone
+    import ciclones as K
+    fuera = datetime(2026, 10, 9, 3, 59, tzinfo=timezone.utc)
+    dentro = datetime(2026, 10, 9, 4, 20, tzinfo=timezone.utc)
+    assert not K.en_ventana_gdacs(fuera) and K.en_ventana_gdacs(dentro) and not K.en_ventana_gdacs(datetime(2026, 10, 9, 6, 45, tzinfo=timezone.utc))
+    pedidos = []
+
+    def pedir(url):
+        pedidos.append(url)
+        if "geteventlist" in url and "alertlevel=orange" in url:
+            return {"features": [{"properties": {"eventtype": "TC", "eventid": 1, "episodeid": 2, "eventname": "KOGUMA", "alertlevel": "Orange",
+                                                 "todate": "2026-10-09T00:00:00"}, "geometry": {"type": "Point", "coordinates": [140, 20]}}]}
+        if "geteventlist" in url:
+            return {"features": []}
+        return {"features": [{"geometry": {"type": "LineString", "coordinates": [[140, 20], [138, 24]]}}]}
+
+    cache, est = K.paso_gdacs({}, fuera, pedir)
+    assert pedidos == [] and "fuera de la ventana" in est
+    cache = {}
+    for _ in range(5):
+        antes = len(pedidos)
+        cache, est = K.paso_gdacs(cache, dentro, pedir)
+        assert len(pedidos) - antes <= 1  # nunca más de una petición por corrida
+    assert cache["niveles"] == ["red", "orange", "green"] and "1" in cache["geom"]
+    assert K.siguiente_peticion(cache, "2026-10-09") is None
+    assert K.siguiente_peticion(cache, "2026-10-10") == ("lista", "red")  # día nuevo: se empieza de cero

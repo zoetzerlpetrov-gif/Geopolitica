@@ -8,6 +8,7 @@ feed). Del contenido de terceros se guarda título, fuente, fecha y enlace; el r
 """
 import csv
 import io
+import gzip
 import json
 import re
 import urllib.error
@@ -39,7 +40,9 @@ G = {"id": 0, "actor1": 6, "actor2": 16, "raiz_evento": 25, "codigo": 26, "raiz"
 def get(url, timeout=60):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     with urllib.request.urlopen(req, timeout=timeout) as r:
-        return r.read()
+        datos = r.read()
+    # Algunos servidores (p. ej. ONU Noticias) mandan gzip aunque no se pida.
+    return gzip.decompress(datos) if datos[:2] == b"\x1f\x8b" else datos
 
 
 def _iso(dt):
@@ -209,6 +212,57 @@ def rss(feed):
     if not permitido_por_robots(feed["url"]):
         raise PermissionError("el robots.txt del sitio no permite leer este feed: se omite")
     return parsear_rss(get(feed["url"], timeout=40), feed)
+
+
+# ---------------------------------------------------------------- sustitutos de ReliefWeb (sin appname)
+# Solo se guarda título, enlace, fecha, país y tipo. Nunca el texto ni datos de contacto (IFRC GO publica
+# nombres, correos y teléfonos de quien reporta: se ignoran).
+OMS_DON = "https://www.who.int/api/news/diseaseoutbreaknews?sf_culture=en&$orderby=PublicationDateAndTime%20desc&$top={n}"
+IFRC_GO = "https://goadmin.ifrc.org/api/v2/event/?limit={n}&ordering=-disaster_start_date"
+
+
+def oms_brotes(datos):
+    """Respuesta del API de brotes de la OMS (Disease Outbreak News) → candidatos."""
+    out = []
+    for d in datos.get("value", []):
+        titulo = (d.get("OverrideTitle") if d.get("UseOverrideTitle") else None) or d.get("Title") or ""
+        if not titulo or not d.get("UrlName"):
+            continue
+        out.append({
+            "titulo": titulo[:300], "fuente": "OMS · Disease Outbreak News", "url": f"https://www.who.int/emergencies/disease-outbreak-news/item/{d['UrlName']}",
+            "tipo_fuente": "base_datos", "fecha_utc": (d.get("PublicationDateAndTime") or d.get("PublicationDate") or "")[:19] + "Z", "pais_iso3": None,
+            "lat": None, "lon": None, "actores": ["OMS"], "texto_clasificar": f"{titulo} disease outbreak epidemic public health emergency",
+            "resumen": None, "idioma": "en", "area_sugerida": "salud_nrbq", "severidad": None, "articulos": 1,
+        })
+    return out
+
+
+def ifrc_emergencias(datos):
+    """Respuesta del API de emergencias de la Cruz Roja (IFRC GO) → candidatos (sin datos de contacto)."""
+    out = []
+    for e in datos.get("results", []):
+        tipo = (e.get("dtype") or {}).get("name", "")
+        paises = [c.get("iso3") for c in e.get("countries") or [] if c.get("iso3")]
+        nivel = e.get("ifrc_severity_level_display") or ""
+        titulo = e.get("name") or f"{tipo} · {', '.join(c.get('name', '') for c in e.get('countries') or [])}"
+        out.append({
+            "titulo": titulo[:300], "fuente": "Cruz Roja · IFRC GO", "url": f"https://go.ifrc.org/emergencies/{e['id']}",
+            "tipo_fuente": "base_datos", "fecha_utc": (e.get("disaster_start_date") or e.get("created_at") or "")[:19] + "Z",
+            "pais_iso3": paises[0] if len(paises) == 1 else None, "lat": None, "lon": None, "actores": ["IFRC"],
+            "texto_clasificar": f"{titulo} {tipo} humanitarian emergency disaster", "resumen": None, "idioma": "en",
+            "area_sugerida": "demografia" if tipo == "Population Movement" else "riesgo",
+            "severidad": {"Red": 4, "Orange": 3, "Yellow": 2}.get(nivel), "articulos": 1,
+        })
+    return out
+
+
+def api_humanitaria(fid, n=40):
+    """Descarga respetando robots.txt: «oms» u «ifrc»."""
+    url = (OMS_DON if fid == "oms" else IFRC_GO).format(n=n)
+    if not permitido_por_robots(url):
+        raise PermissionError("el robots.txt del sitio no lo permite: se omite")
+    datos = json.loads(get(url, timeout=40))
+    return oms_brotes(datos) if fid == "oms" else ifrc_emergencias(datos)
 
 
 def reliefweb(cfg, appname):

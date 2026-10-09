@@ -336,6 +336,10 @@ def recolectar(cfg, appname):
         correr("gdelt", "GDELT 2.0", lambda: F.gdelt(cfg["gdelt"]))
     for feed in (f for f in cfg["rss"] if f.get("habilitada", True)):
         correr(feed["id"], feed["nombre"], lambda feed=feed: F.rss(feed))
+    # Fuentes humanitarias sin llave (sustituyen a ReliefWeb mientras no haya appname).
+    for fid, nombre in (("oms", "OMS · brotes de enfermedades"), ("ifrc", "Cruz Roja · emergencias (IFRC GO)")):
+        if cfg.get("humanitarias", {}).get(fid, False):
+            correr(fid, nombre, lambda fid=fid: F.api_humanitaria(fid))
     if cfg["reliefweb"]["habilitada"]:
         if appname:
             correr("reliefweb", "ReliefWeb (OCHA)", lambda: F.reliefweb(cfg["reliefweb"], appname))
