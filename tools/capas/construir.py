@@ -671,11 +671,42 @@ def militar():
                 lambda t: t.get("operator", ""), Paises())
 
 
+def ferrocarriles():
+    """Vías férreas de Natural Earth 1:10 m (dominio público)."""
+    import redes as R
+    pa = Paises()
+    return R.features_ferrocarriles(json.loads(get(NE + "ne_10m_railroads.geojson")), feat, pa.de)
+
+
+def autopistas():
+    """Autopistas y carreteras troncales de Natural Earth 1:10 m (dominio público)."""
+    import redes as R
+    return R.features_autopistas(json.loads(get(NE + "ne_10m_roads.geojson")), feat)
+
+
+def _sitios_wikidata(fid, ajustar=None):
+    import sitios as S
+    registros = {}
+    for clase in S.FAMILIAS[fid]:
+        plantilla = S.Q_SEDE if clase[3] == "sede" else S.Q_LUGAR
+        try:
+            nuevos = S.leer(_sparql(plantilla % (clase[0], clase[2])), clase)
+            for q, r in nuevos.items():
+                registros.setdefault(q, r)  # la primera clase de la lista gana
+            print(f"   {clase[0]} ({clase[1]}): {len(nuevos)}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {clase[0]} ({clase[1]}): {e}")
+        time.sleep(2)
+    if not registros:
+        raise RuntimeError(f"Wikidata no devolvió datos para {fid}")
+    return S.features(registros, feat, punto, ajustar)
+
+
 FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
-            "grupos_criminales": grupos_criminales}
+            "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas}
 
 
 def _punto_ref(ft):

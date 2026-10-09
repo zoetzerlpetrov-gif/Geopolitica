@@ -149,6 +149,11 @@ CATEGORIAS = [
             sub("aterrizajes_cable", "Puntos de aterrizaje de cables", "Cable landing points", "•", "#5B4A9E", "telegeography", "mensual", "estatica", "estatico", 4, ["infraestructura"], familia="cables"),
             sub("ductos_petroleo", "Oleoductos", "Oil pipelines", "〰", "#7a4b1e", "osm", "mensual", "estatica", "estatico", 3, ["energia", "infraestructura"], familia="ductos", geometria="linea"),
             sub("ductos_gas", "Gasoductos", "Gas pipelines", "〰", "#C27C1E", "osm", "mensual", "estatica", "estatico", 3, ["energia", "infraestructura"], familia="ductos", geometria="linea"),
+            sub("ferrocarril_electrificado", "Vías férreas electrificadas", "Electrified railways", "🚆", "#7b3fa0", "natural_earth", "estática", "estatica", "estatico", 2, ["infraestructura", "geoeconomia"], familia="ferrocarriles", geometria="linea"),
+            sub("ferrocarril_sin_electrificar", "Vías férreas sin electrificar o sin dato", "Non-electrified railways", "🚆", "#a2789c", "natural_earth", "estática", "estatica", "estatico", 2, ["infraestructura", "geoeconomia"], familia="ferrocarriles", geometria="linea"),
+            sub("ferrocarril_transbordador", "Transbordadores de trenes", "Railway ferries", "⛴", "#2E6F8E", "natural_earth", "estática", "estatica", "estatico", 3, ["infraestructura"], familia="ferrocarriles", geometria="linea"),
+            sub("autopista", "Autopistas (vías rápidas)", "Motorways / expressways", "🛣", "#d0602a", "natural_earth", "estática", "estatica", "estatico", 2, ["infraestructura", "geoeconomia"], familia="autopistas", geometria="linea"),
+            sub("carretera_troncal", "Carreteras troncales", "Major highways", "🛣", "#c9a227", "natural_earth", "estática", "estatica", "estatico", 2, ["infraestructura"], familia="autopistas", geometria="linea"),
         ],
     },
     {

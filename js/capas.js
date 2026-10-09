@@ -116,7 +116,7 @@ export class GestorCapas {
   }
 
   #idsCapas(id) {
-    return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-punto`, `cap-${id}-toque`, `cap-${id}-texto`];
+    return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-ltoque`, `cap-${id}-punto`, `cap-${id}-toque`, `cap-${id}-texto`];
   }
 
   #filtroCapa(capa, filtroSubtiposBase) {
@@ -128,7 +128,7 @@ export class GestorCapas {
       return fam?.relleno ? ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"]]
         : ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"], ["in", ["get", "st"], ["literal", ["desiertos", "cordilleras", "peninsulas"]]]];
     }
-    if (capa.endsWith("-linea")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "LineString"]];
+    if (capa.endsWith("-linea") || capa.endsWith("-ltoque")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "LineString"]];
     if (capa.endsWith("-punto")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "Point"]];
     return filtroSubtipos;
   }
@@ -152,6 +152,9 @@ export class GestorCapas {
           ...(f.relleno ? { "fill-outline-color": "rgba(255,255,255,0.35)" } : {}) } }, antes);
       this.map.addLayer({ id: `${src}-linea`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-linea", filtro),
         paint: { "line-color": color, "line-width": ["interpolate", ["linear"], ["zoom"], 2, 0.6, 8, 1.6], "line-opacity": 0.8 } }, antes);
+      // Franja de toque invisible: las líneas miden menos de 2 px y serían casi imposibles de elegir.
+      this.map.addLayer({ id: `${src}-ltoque`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-ltoque", filtro),
+        paint: { "line-color": "#000", "line-width": 10, "line-opacity": 0 } }, antes);
     }
     this.map.addLayer({ id: `${src}-punto`, type: "circle", source: src, ...sl, filter: this.#filtroCapa("-punto", filtro),
       paint: {
@@ -168,10 +171,10 @@ export class GestorCapas {
         "text-optional": true, "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true },
       paint: pinturaEtiqueta() }, antes);
 
-    for (const capa of [`${src}-toque`, `${src}-linea`, ...(f.relleno ? [`${src}-relleno`] : [])]) {
+    for (const capa of [`${src}-toque`, ...(f.geometria !== "punto" ? [`${src}-ltoque`] : []), ...(f.relleno ? [`${src}-relleno`] : [])]) {
       this.map.on("click", capa, (e) => {
         if (capa.endsWith("-relleno") && hayObjetoEncima(this.map, e.point)) return;  // el punto de encima tiene prioridad
-        if (capa.endsWith("-linea") && this.map.queryRenderedFeatures(e.point, { layers: [`${src}-toque`] }).length) return;
+        if (capa.endsWith("-ltoque") && this.map.queryRenderedFeatures(e.point, { layers: [`${src}-toque`] }).length) return;
         this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat });
       });
       this.map.on("mouseenter", capa, () => { this.map.getCanvas().style.cursor = "pointer"; });
@@ -207,7 +210,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
   const url = urlFuente(props.id);
   const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
   return `
-    <h3 id="ficha-titulo">${esc(props.n || "(sin nombre)")}</h3>
+    <h3 id="ficha-titulo">${esc(props.n || sub?.nombre.es || "(sin nombre)")}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(familia.nombre)}${props.p ? " · " + esc(props.p) : ""}</div>
     <div class="chips"><span class="chip estado-${esc(familia.estado_dato)}">Dato ${esc(etiquetaEstado(familia.estado_dato))}</span></div>
     <dl>

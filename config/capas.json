@@ -112,6 +112,26 @@
    "nota": "OpenStreetMap: oleoductos y gasoductos con nombre. Global Energy Monitor (más completo) exige formulario."
   },
   {
+   "id": "ferrocarriles",
+   "nombre": "Vías férreas",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "natural_earth",
+   "habilitada": true,
+   "zoom_etiquetas": 8,
+   "nota": "Natural Earth 1:10 m (dominio público): red ferroviaria generalizada para mapa mundial, sin nombres de línea; distingue tramos electrificados y de vía doble."
+  },
+  {
+   "id": "autopistas",
+   "nombre": "Autopistas y carreteras troncales",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "natural_earth",
+   "habilitada": true,
+   "zoom_etiquetas": 6,
+   "nota": "Natural Earth 1:10 m (dominio público): autopistas (vías rápidas) y carreteras troncales; el nombre suele ser el número de ruta."
+  },
+  {
    "id": "camaras",
    "nombre": "Cámaras públicas",
    "categoria": "camaras",
