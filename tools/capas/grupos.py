@@ -28,8 +28,8 @@ PRIORIDAD = ["terrorismo", "cartel", "mafia", "pandilla"]
 
 Q_GRUPOS = """
 SELECT ?x ?xEs ?xEn ?n ?clase ?coord ?sedeIso ?areaIso WHERE {
-  VALUES ?clase { %s }
-  ?x wdt:P31/wdt:P279? ?clase ; wikibase:sitelinks ?n .
+  BIND(wd:%s AS ?clase)
+  ?x wdt:P31 ?clase ; wikibase:sitelinks ?n .
   FILTER(?n >= 3)
   FILTER NOT EXISTS { ?x wdt:P576 ?fin }
   FILTER NOT EXISTS { ?x wdt:P31 wd:Q6256 }
