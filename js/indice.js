@@ -1,6 +1,6 @@
 // Mapa de calor por país (Fase 4): coropleta del Índice de Inestabilidad (0–100, docs/INDICADORES.md).
 // Se descarga solo al activarla: países 1:110m (48 KB comprimido) + data/indice-paises.json.
-import { getJSON } from "./util.js";
+import { getJSON, hayObjetoEncima } from "./util.js";
 
 // Escalones del color: sin dato transparente; 1–24 amarillo pálido … 75–100 rojo.
 export const ESCALA = [
@@ -61,8 +61,8 @@ export class CapaIndice {
     if (!this.clicInstalado) {
       this.clicInstalado = true;
       m.on("click", "indice-relleno", (e) => {
-        // Si debajo del clic hay un evento, gana el evento.
-        if (m.queryRenderedFeatures(e.point, { layers: ["evento", "clusters"].filter((l) => m.getLayer(l)) }).length) return;
+        // Si en el clic hay un evento, una amenaza o cualquier otro punto, gana el punto.
+        if (hayObjetoEncima(m, e.point)) return;
         const p = e.features[0].properties;
         this.onClic?.(p, e.lngLat);
       });

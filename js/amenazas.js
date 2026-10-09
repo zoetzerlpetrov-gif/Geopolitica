@@ -309,6 +309,53 @@ export function candidatosZona(q, { estados = [], ciudadesMx = [], ciudades = []
   }).slice(0, max);
 }
 
+// ---------------------------------------------------------------- clima espacial (escalas de NOAA SWPC)
+/** Colores por nivel 0–5 (0 = sin evento). */
+export const COLOR_ESCALA = ["#2E9E6E", "#E0B000", "#F39C12", "#E2711D", "#D23B3B", "#7B1E1E"];
+/**
+ * Efectos por nivel según las escalas oficiales de NOAA (swpc.noaa.gov/noaa-scales-explanation), resumidos.
+ * G: tormenta geomagnética · R: apagón de radio por llamarada · S: tormenta de radiación solar.
+ */
+export const ESCALAS_NOAA = {
+  G: { nombre: "Tormenta geomagnética", niveles: [
+    { n: "sin tormenta", ef: ["Sin efectos en tecnología. Aurora solo en zonas polares."] },
+    { n: "menor (Kp 5)", ef: ["Fluctuaciones débiles en redes eléctricas.", "Impacto menor en operación de satélites.", "Aurora visible en latitudes altas (norte de EUA, Canadá, Escandinavia)."] },
+    { n: "moderada (Kp 6)", ef: ["Alarmas de voltaje en redes eléctricas de latitudes altas; si dura mucho, posible daño a transformadores.", "Satélites requieren correcciones de orientación.", "La radio de onda corta (HF) se desvanece en latitudes altas.", "Aurora hasta latitudes como Nueva York o Idaho."] },
+    { n: "fuerte (Kp 7)", ef: ["Correcciones de voltaje y falsas alarmas en protecciones de la red eléctrica.", "Carga eléctrica en satélites y más frenado de los de órbita baja.", "Fallas intermitentes en navegación por satélite (GPS) y radio HF.", "Aurora hasta Illinois u Oregón."] },
+    { n: "severa (Kp 8)", ef: ["Problemas de control de voltaje generalizados; algunas protecciones desconectan equipos.", "Corrientes inducidas en ductos (oleoductos, gasoductos).", "GPS degradado por horas; radio HF esporádica.", "Aurora hasta Alabama o el norte de California."] },
+    { n: "extrema (Kp 9)", ef: ["Posibles apagones y colapso de partes de la red eléctrica; daño a transformadores.", "Corrientes de cientos de amperes en ductos.", "Radio HF imposible en muchas zonas por 1–2 días; GPS degradado por días.", "Aurora hasta Florida o el sur de Texas (y posiblemente el norte de México)."] },
+  ] },
+  R: { nombre: "Apagón de radio (llamarada)", niveles: [
+    { n: "sin apagón", ef: ["Sin efectos."] },
+    { n: "menor (llamarada M1)", ef: ["Degradación débil de radio HF en el lado de día; pérdidas ocasionales de contacto."] },
+    { n: "moderado (M5)", ef: ["Apagón limitado de radio HF en el lado de día; pérdida de contacto por decenas de minutos.", "Navegación por baja frecuencia degradada."] },
+    { n: "fuerte (X1)", ef: ["Apagón amplio de radio HF por ~1 hora en el lado de día.", "Navegación por baja frecuencia degradada ~1 hora."] },
+    { n: "severo (X10)", ef: ["Apagón de radio HF en casi todo el lado de día por 1–2 horas.", "Errores menores de GPS en el lado de día."] },
+    { n: "extremo (X20)", ef: ["Apagón total de radio HF en el lado de día por horas.", "Pérdida de navegación por baja frecuencia; errores de GPS."] },
+  ] },
+  S: { nombre: "Radiación solar", niveles: [
+    { n: "sin tormenta", ef: ["Sin efectos."] },
+    { n: "menor", ef: ["Efectos menores en radio HF de las regiones polares."] },
+    { n: "moderada", ef: ["Más radiación para pasajeros y tripulación en vuelos polares.", "Fallas aisladas en electrónica de satélites."] },
+    { n: "fuerte", ef: ["Se recomienda a astronautas evitar caminatas espaciales.", "Más riesgo de radiación en vuelos a gran altitud y latitud.", "Fallas en satélites y ruido en sus cámaras."] },
+    { n: "severa", ef: ["Riesgo de radiación para astronautas y en vuelos polares.", "Problemas de memoria y orientación en satélites.", "Apagón de radio HF en zonas polares por días."] },
+    { n: "extrema", ef: ["Riesgo alto de radiación incluso dentro de aviones a gran altitud y latitud.", "Satélites pueden quedar inutilizables.", "Sin radio HF en zonas polares por días."] },
+  ] },
+};
+/** Lo que no afecta, para despejar dudas frecuentes. */
+export const NO_AFECTA = "No afecta a personas en tierra, autos, teléfonos ni electrodomésticos. Las fibras ópticas no se afectan; sí los cables largos de energía, los ductos y los equipos que dependen de GPS o radio de onda corta.";
+
+/** Nivel G que corresponde a un Kp (Kp 5 = G1 … Kp 9 = G5). */
+export const gDeKp = (kp) => Math.max(0, Math.min(5, Math.floor(Number(kp) || 0) - 4));
+
+/** Nivel R por clase de llamarada (M1 = R1, M5 = R2, X1 = R3, X10 = R4, X20 = R5). */
+export function rDeLlamarada(clase) {
+  const m = /^([ABCMX])(\d+(?:\.\d+)?)/i.exec(clase || "");
+  if (!m) return 0;
+  const v = { A: 1e-8, B: 1e-7, C: 1e-6, M: 1e-5, X: 1e-4 }[m[1].toUpperCase()] * Number(m[2]);
+  return v >= 2e-3 ? 5 : v >= 1e-3 ? 4 : v >= 1e-4 ? 3 : v >= 5e-5 ? 2 : v >= 1e-5 ? 1 : 0;
+}
+
 // ---------------------------------------------------------------- feed de seguridad por tipo
 /** Grupos del feed de titulares: [id, nombre, ícono, patrón]. El primero que coincide gana; el orden importa. */
 export const GRUPOS_FEED = [

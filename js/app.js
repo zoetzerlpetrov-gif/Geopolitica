@@ -537,9 +537,8 @@ async function iniciarCapas() {
   const ordenCat = catalogo.categorias.map((c) => c.id);
   const nombreCat = Object.fromEntries(catalogo.categorias.map((c) => [c.id, c.nombre.es]));
   familias.sort((a, b) => ordenCat.indexOf(a.categoria) - ordenCat.indexOf(b.categoria));
-  let catPrevia = null;
-  const subtitulo = (f) => { if (f.categoria === catPrevia) return ""; catPrevia = f.categoria; return `<div class="subgrupo"><span class="punto" style="--c:${esc(f.subtipos[0]?.color || "#888")}"></span>${esc(nombreCat[f.categoria] || f.categoria)}</div>`; };
-  cont.innerHTML = familias.map((f) => subtitulo(f) + `
+  // Subsección plegable por categoría del catálogo (Organizaciones, Infraestructura, Recursos…).
+  const htmlFam = (f) => `
     <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
       <label class="fila"><span><input type="checkbox" data-fam="${esc(f.id)}" ${f.disponible ? "" : "disabled"}> ${esc(f.nombre)}</span>
         <span class="chip estado-${esc(f.estado_dato)}" title="Estado del dato">${esc(etiquetaEstado(f.estado_dato))}</span></label>
@@ -547,7 +546,13 @@ async function iniciarCapas() {
         : esc(f.habilitada ? (f.manifest?.estado === "error" ? "Error al construir: " + f.manifest.error : f.manifest?.estado === "pendiente" ? f.manifest.error : "Aún no se construye (workflow «Construir capas»)") : f.motivo || "Deshabilitada")}</div>
       ${f.disponible && f.subtipos.length > 1 ? `<details><summary>Subtipos (${f.subtipos.length})</summary>${f.subtipos.map((st) => `
         <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" checked><span class="swatch" style="background:${esc(st.color)}"></span>${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
-    </div>`).join("");
+    </div>`;
+  const cats = [...new Set(familias.map((f) => f.categoria))];
+  cont.innerHTML = cats.map((c) => {
+    const fs = familias.filter((f) => f.categoria === c);
+    return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(nombreCat[c] || c)}
+      <span class="sg-n" data-sg-cat="${esc(c)}">${((n) => `${n} ${n === 1 ? "capa" : "capas"}`)(fs.filter((f) => f.disponible).length)}</span></summary>${fs.map(htmlFam).join("")}</details>`;
+  }).join("");
   cont.addEventListener("change", async (e) => {
     const fam = e.target.dataset.fam;
     if (fam) {
@@ -716,9 +721,10 @@ async function iniciarRiesgos() {
       if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
     },
   });
-  cont.innerHTML = R.GRUPOS.map(([g, ic, color]) => `<div class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}</div>`
+  cont.innerHTML = R.GRUPOS.map(([g, ic, color], i) => `<details class="subgrupo-d" id="sg-rg-${i}" open><summary class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}
+      <span class="sg-n">${R.CAPAS.filter((c) => c.grupo === g).length} capas</span></summary>`
     + R.CAPAS.filter((c) => c.grupo === g).map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>
-      ${c.leyenda ? `<div class="ley-wrap" id="rg-ley-${c.id}" hidden>${R.htmlLeyenda(c)}</div>` : ""}`).join("")).join("");
+      ${c.leyenda ? `<div class="ley-wrap" id="rg-ley-${c.id}" hidden>${R.htmlLeyenda(c)}</div>` : ""}`).join("") + `</details>`).join("");
   $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
     <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
     <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>
@@ -908,8 +914,24 @@ async function iniciarRiesgos() {
       if (n === 0 && cb) $(`rg-n-${id}`).textContent = "0 hoy";  // se puede activar igual; solo se avisa que hoy no hay eventos
     }
   }
-  const txt = R.textoEspacial(esp);
-  if (txt) $("riesgos-espacial").innerHTML = `<b>Clima espacial (NOAA SWPC):</b> ${esc(txt)}. <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener noreferrer">Fuente ↗</a>`;
+  pintarEspacial(esp);
+  // ---- Clima espacial: escalas G, R y S de NOAA con color y lo que puede afectar cada nivel ----
+  function pintarEspacial(s) {
+    if (!s?.G) { $("riesgos-espacial").innerHTML = `<p class="meta">Sin datos de clima espacial por ahora.</p>`; return; }
+    const g = s.G.scale ?? 0, r = s.R?.scale ?? 0, sv = s.S?.scale ?? 0;  // niveles actuales de NOAA
+    const kp = s.kp?.value != null ? Number(s.kp.value) : null;
+    const tarjeta = (k, nivel, extra) => `<div class="esc-tarjeta" style="--c:${A.COLOR_ESCALA[nivel]}"><b>${k}${nivel}</b><span>${esc(A.ESCALAS_NOAA[k].nombre)}</span><span class="meta">${esc(A.ESCALAS_NOAA[k].niveles[nivel].n)}${extra ? ` · ${esc(extra)}` : ""}</span></div>`;
+    const peor = Math.max(g, r, sv);
+    $("espacial-resumen").textContent = `G${g} · R${r} · S${sv}${kp != null ? ` · Kp ${kp.toFixed(1)}` : ""}`;
+    $("espacial-resumen").style.color = peor >= 2 ? A.COLOR_ESCALA[peor] : "";
+    const efectos = [["G", g], ["R", r], ["S", sv]].filter(([, n]) => n > 0)
+      .map(([k, n]) => `<div class="efectos" style="--c:${A.COLOR_ESCALA[n]}"><b>${k}${n} · ${esc(A.ESCALAS_NOAA[k].nombre)}: puede afectar</b><ul>${A.ESCALAS_NOAA[k].niveles[n].ef.map((x) => `<li>${esc(x)}</li>`).join("")}</ul></div>`).join("");
+    $("riesgos-espacial").innerHTML = `<div class="esc-fila">${tarjeta("G", g, kp != null ? `Kp ${kp.toFixed(1)}` : "")}${tarjeta("R", r, s.flare?.class ? `última llamarada ${s.flare.class} (≈R${A.rDeLlamarada(s.flare.class)}) ${(s.flare.time || "").slice(11, 16)} UTC` : "")}${tarjeta("S", sv)}</div>
+      ${kp != null ? `<div class="kp-barra">${Array.from({ length: 9 }, (_, i) => `<span style="background:${A.COLOR_ESCALA[A.gDeKp(i + 1)]};opacity:${i + 1 <= Math.round(kp) ? 1 : 0.25}">${i + 1}</span>`).join("")}</div><div class="meta">Índice Kp (0–9): desde 5 hay tormenta geomagnética.</div>` : ""}
+      ${efectos || `<p class="meta">Nivel tranquilo: sin efectos en tecnología.</p>`}
+      ${(s.predicted || []).length ? `<div class="meta" style="margin-top:6px">Pronóstico NOAA:</div><div class="esc-pron">${s.predicted.map((d) => `<span>${esc(d.date.slice(5))}: ${["G", "R", "S"].map((k) => `<i style="background:${A.COLOR_ESCALA[d[k] || 0]}">${k}${d[k] || 0}</i>`).join("")}</span>`).join("")}</div>` : ""}
+      <p class="meta">${esc(A.NO_AFECTA)} Activa «Auroras» en Amenazas para ver hasta dónde se verían. <a href="https://www.swpc.noaa.gov/noaa-scales-explanation" target="_blank" rel="noopener noreferrer">Escalas de NOAA ↗</a></p>`;
+  }
 }
 
 // ---------- Capas en movimiento ----------
@@ -934,13 +956,15 @@ async function iniciarMovimiento(catalogo) {
     const ok = p && (p.estado === "ok" || p.objetos);
     const vistos = new Set();
     const subs = cat.subtipos.filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
-    return `<div class="capa-fam ${ok ? "" : "capa-off"}">
-      <label class="fila"><span><input type="checkbox" data-mov="${tipo}" ${ok ? "" : "disabled"}> ${esc(cat.nombre.es)}</span>
+    const ic = { aeronaves: "✈️", buques: "🚢", satelites: "🛰️" }[tipo];
+    return `<details class="subgrupo-d" id="sg-mov-${tipo}" open><summary class="subgrupo"><span class="punto" style="--c:${esc(cat.subtipos[0].color)}"></span>${ic} ${esc(cat.nombre.es)}
+      <span class="sg-n">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos` : "sin datos"}</span></summary><div class="capa-fam ${ok ? "" : "capa-off"}">
+      <label class="fila"><span><input type="checkbox" data-mov="${tipo}" data-nombre="${esc(cat.nombre.es)}" ${ok ? "" : "disabled"}> Mostrar en el mapa</span>
         <span class="chip estado-${esc(cat.subtipos[0].estado_dato)}">${tipo === "satelites" ? "Estimado" : "Retrasado"}</span></label>
       <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
         : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
       ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}</label>`).join("")}</details>` : ""}
-    </div>`;
+    </div></details>`;
   }).join("");
   cont.addEventListener("change", async (e) => {
     const t = e.target.dataset.mov;
@@ -1021,9 +1045,17 @@ function avisarPresupuesto() {
 function pintarSeguimiento() {
   const items = seg.resumen(eventos);
   $("seg-total").textContent = items.length ? `(${items.length})` : "";
-  $("lista-seguimiento").innerHTML = items.map((x) => `<li><button type="button" class="txt-btn" data-seg="${esc(x.id)}">${esc(x.n || x.id)}</button>
-    <span>${x.eventos.length} eventos ${x.nuevos ? `<span class="badge-nuevo">${x.nuevos} nuevos</span>` : ""}</span></li>`).join("")
-    || `<li class="meta">Todavía no sigues ningún lugar.</li>`;
+  // Agrupado por tipo de capa (aeropuertos, puertos, embajadas…); cada grupo se pliega.
+  const fila = (x) => `<li><button type="button" class="txt-btn" data-seg="${esc(x.id)}">${esc(x.n || x.id)}</button>
+    <span>${x.eventos.length} eventos ${x.nuevos ? `<span class="badge-nuevo">${x.nuevos} nuevos</span>` : ""}</span></li>`;
+  const grupos = new Map();
+  for (const x of items) { const k = x.familia || "otros"; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(x); }
+  const nombreFam = (k) => gestor?.familias?.get(k)?.nombre || { otros: "Otros" }[k] || k;
+  $("lista-seguimiento").innerHTML = items.length ? [...grupos].sort((a, b) => nombreFam(a[0]).localeCompare(nombreFam(b[0]), "es")).map(([k, l]) =>
+    `<li class="seg-grupo"><details class="subgrupo-d" id="sg-seg-${esc(k)}" open><summary class="subgrupo">${esc(nombreFam(k))}
+      <span class="sg-n">${l.length}${l.some((x) => x.nuevos) ? ` · <span class="badge-nuevo">${l.reduce((s, x) => s + x.nuevos, 0)} nuevos</span>` : ""}</span></summary>
+      <ul class="lista-seguimiento">${l.map(fila).join("")}</ul></details></li>`).join("")
+    : `<li class="meta">Todavía no sigues ningún lugar.</li>`;
 }
 
 // Service worker: guarda MapLibre, estilos, fuentes y mosaicos del mapa base para que la segunda

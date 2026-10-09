@@ -94,3 +94,21 @@ test("ceniza: dirección meteorológica desde U y V", async () => {
   assert.equal(Math.round(oeste.kmh), 36);
   assert.equal(Math.round(vientoDeUV(0, -5).desde), 0);  // sopla hacia el sur → viene del norte
 });
+
+test("clima espacial: Kp a escala G, llamarada a escala R y efectos por nivel", async () => {
+  const A = await import("../../js/amenazas.js");
+  assert.equal(A.gDeKp(4.3), 0);
+  assert.equal(A.gDeKp(5.67), 1);
+  assert.equal(A.gDeKp(9), 5);
+  assert.equal(A.rDeLlamarada("C3.0"), 0);
+  assert.equal(A.rDeLlamarada("M6.7"), 2);
+  assert.equal(A.rDeLlamarada("X1.2"), 3);
+  for (const k of ["G", "R", "S"]) assert.equal(A.ESCALAS_NOAA[k].niveles.length, 6);
+});
+
+test("religiones: conteos de personas se convierten a porcentaje", async () => {
+  const { porcentajesReligion } = await import("../../js/capas.js");
+  const p = porcentajesReligion({ cristianismo: 270000, sin_religion: 70000, otras: 84, islam: 0 });
+  assert.deepEqual(p, { cristianismo: 79.4, sin_religion: 20.6, islam: 0 });
+  assert.deepEqual(porcentajesReligion({ cristianismo: 60, islam: 40 }), { cristianismo: 60, islam: 40 });
+});

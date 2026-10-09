@@ -123,7 +123,7 @@ export class Movimiento {
   desactivar(tipo) {
     if (!this.activas.delete(tipo)) return;
     if (tipo === "satelites") this.worker?.postMessage({ tipo: "grupos", activos: [] });
-    for (const l of [`mov-${tipo}`, `mov-${tipo}-texto`]) if (this.map.getLayer(l)) this.map.removeLayer(l);
+    for (const l of [`mov-${tipo}`, `mov-${tipo}-texto`, `mov-${tipo}-toque`]) if (this.map.getLayer(l)) this.map.removeLayer(l);
     if (this.map.getSource(`mov-${tipo}`)) this.map.removeSource(`mov-${tipo}`);
     if (![...this.activas.keys()].some((t) => t !== "satelites")) { clearInterval(this.reloj); this.reloj = null; }
     this.onCambio(this.activas.size);
@@ -200,10 +200,15 @@ export class Movimiento {
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, minzoom: 7,
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 1.2], "text-anchor": "top", "text-optional": true },
       paint: pinturaEtiqueta() });
-    this.map.on("click", src, (e) => this.onObjeto({ tipo, props: e.features[0].properties, generado: this.datos[tipo]?.generado,
-      campos: this.datos[tipo]?.campos, coords: e.features[0].geometry.coordinates }));
-    this.map.on("mouseenter", src, () => { this.map.getCanvas().style.cursor = "pointer"; });
-    this.map.on("mouseleave", src, () => { this.map.getCanvas().style.cursor = ""; });
+    // Zona de toque invisible (8 px de radio): los Starlink miden 1.3 px y serían imposibles de elegir.
+    this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, paint: { "circle-radius": 8, "circle-opacity": 0, "circle-stroke-width": 0 } });
+    this.map.on("click", `${src}-toque`, (e) => {
+      // El más cercano al clic (puede haber varios dentro de la zona de toque).
+      const f = e.features.reduce((a, x) => { const q = this.map.project(x.geometry.coordinates), d = (q.x - e.point.x) ** 2 + (q.y - e.point.y) ** 2; return !a || d < a.d ? { x, d } : a; }, null).x;
+      this.onObjeto({ tipo, props: f.properties, generado: this.datos[tipo]?.generado, campos: this.datos[tipo]?.campos, coords: f.geometry.coordinates });
+    });
+    this.map.on("mouseenter", `${src}-toque`, () => { this.map.getCanvas().style.cursor = "pointer"; });
+    this.map.on("mouseleave", `${src}-toque`, () => { this.map.getCanvas().style.cursor = ""; });
   }
 
   #redibujarTodo() { for (const t of this.activas.keys()) if (t !== "satelites") this.#redibujar(t); }

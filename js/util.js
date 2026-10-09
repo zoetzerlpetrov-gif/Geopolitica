@@ -70,3 +70,12 @@ export function pinturaEtiqueta() {
     ? { "text-color": "#F4F7F9", "text-halo-color": "rgba(8,14,20,0.92)", "text-halo-width": 1.6, "text-halo-blur": 0.6 }
     : { "text-color": "#101820", "text-halo-color": "rgba(255,255,255,0.95)", "text-halo-width": 1.6, "text-halo-blur": 0.6 };
 }
+
+/**
+ * ¿Hay en ese píxel un punto, ícono o línea de otra capa interactiva? Los rellenos por país (religiones,
+ * gobiernos, índice…) ceden el clic: sin esto, la capa encendida al último se quedaba con todos los clics.
+ */
+export function hayObjetoEncima(map, punto) {
+  return map.queryRenderedFeatures(punto).some((f) => ["circle", "symbol", "line"].includes(f.layer.type)
+    && /^(rg-|mov-|cap-|evento|clusters|chokepoints)/.test(f.layer.id) && !/-(texto|pulso)$/.test(f.layer.id));
+}
