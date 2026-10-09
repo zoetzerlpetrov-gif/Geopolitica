@@ -158,7 +158,7 @@ export const CAPAS = [
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
-    id: "crimen", grupo: "Seguridad y ataques", nombre: "Terrorismo, narcotráfico y crimen organizado (noticias 24 h, verificar)", url: "data/vivos/crimen.geojson", refresco_s: 1200,
+    id: "crimen", grupo: "Seguridad y ataques", nombre: "Terrorismo, narcotráfico y crimen organizado (noticias 72 h, verificar)", url: "data/vivos/crimen.geojson", refresco_s: 1200,
     fuente: "GDELT (noticias)", senal: true,
     estilo: (p) => ({ c: { Terrorismo: "#8E1B1B", Narcotráfico: "#B4451F", Mafia: "#5B3A8E", "Crimen organizado": "#C27C1E" }[p.tipo] || C.rojo, r: 3 + (p.severidad || 3) }),
     ficha: (p) => ({ titulo: p.title, chip: `${p.tipo || "Crimen"} · señal de noticias, verifica`,

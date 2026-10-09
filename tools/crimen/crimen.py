@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Capa «Terrorismo, narcotráfico y crimen organizado»: señales de noticias de las últimas 24 h.
+"""Capa «Terrorismo, narcotráfico y crimen organizado»: señales de noticias de las últimas 72 h.
 
 Fuente principal: archivos de eventos de GDELT 2.0 (cada 15 min): eventos violentos con un actor criminal
-(CRM), insurgente (INS), rebelde (REB), armado (UAF) o separatista (SEP), con coordenadas. Se acumulan 24 h.
+(CRM), insurgente (INS), rebelde (REB), armado (UAF) o separatista (SEP), con coordenadas. Se acumulan 72 h.
 Complemento: GDELT DOC 2.0 API (gratuita, sin llave; monitorea medios de 100+ idiomas cada 15 min).
 Prioridad México: búsquedas en español con medios de México y nombres de grupos que operan en el país;
 además, búsquedas mundiales de terrorismo, mafias y crimen organizado (inglés y español).
@@ -421,7 +421,7 @@ def main():
         print(f"crimen: RSS de México {fuentes_mx}")
     except Exception as e:  # noqa: BLE001
         errores.append(f"RSS México: {e}"[:160])
-    fc = guardar(OUT, crimen, 24, "GDELT y medios mexicanos (señales de noticias, verificar)", {"errores": errores, "fuentes_mx": fuentes_mx}, clase="crimen")
+    fc = guardar(OUT, crimen, 72, "GDELT y medios mexicanos (señales de noticias, verificar)", {"errores": errores, "fuentes_mx": fuentes_mx}, clase="crimen")
     fa = guardar(os.path.join(os.path.dirname(OUT), "ataques.geojson"), ataques, 48, "GDELT 2.0 (códigos CAMEO de ataque) y medios mexicanos", clase="ataque")
     fd = guardar(os.path.join(os.path.dirname(OUT), "deslaves.geojson"), deslaves, 72, "Medios mexicanos (titulares, verificar)", clase="deslave")
     print(f"crimen: {len(fc)} señales ({sum(1 for f in fc if f['properties']['pais_iso3'] == 'MEX')} en México); ataques: {len(fa)}; deslaves: {len(fd)}; errores: {errores}")

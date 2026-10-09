@@ -272,6 +272,19 @@ CATEGORIAS = [
         ],
     },
     {
+        "id": "grupos_criminales", "nombre": {"es": "Grupos criminales y terroristas (presencia documentada)", "en": "Criminal and terrorist groups (documented presence)"},
+        "fase": "C7", "dibujable": True,
+        "reglas": ["Organizaciones vigentes registradas en Wikidata con sede o lugar de origen y países donde operan. Solo el grupo, nunca personas.",
+                   "La presencia por país se dibuja en el centro aproximado del país: indica que opera ahí, no un lugar exacto.",
+                   "«Terrorista» es la clase que asigna Wikidata; las designaciones cambian según el gobierno que las hace."],
+        "subtipos": [
+            sub("grupo_terrorismo", "Organización terrorista", "Terrorist organization", "💣", "#922B21", "wikidata", "mensual", "estatica", "estatico", 2, ["seguridad"], familia="grupos_criminales"),
+            sub("grupo_cartel", "Cártel de drogas", "Drug cartel", "💊", "#6C3483", "wikidata", "mensual", "estatica", "estatico", 2, ["seguridad"], familia="grupos_criminales"),
+            sub("grupo_mafia", "Mafia u organización criminal", "Mafia or criminal organization", "🎩", "#1F3A5F", "wikidata", "mensual", "estatica", "estatico", 2, ["seguridad"], familia="grupos_criminales"),
+            sub("grupo_pandilla", "Pandilla o club de motociclistas fuera de la ley", "Gang or outlaw motorcycle club", "🏍", "#B9770E", "wikidata", "mensual", "estatica", "estatico", 2, ["seguridad"], familia="grupos_criminales"),
+        ],
+    },
+    {
         "id": "camaras", "nombre": {"es": "Cámaras públicas", "en": "Public cameras"}, "fase": "C6", "dibujable": True,
         "reglas": [
             "Solo cámaras que un gobierno u organismo publica para verse en abierto (tráfico, incendios forestales, clima, volcanes, canales), o que un operador turístico publica de forma intencional en su propio sitio.",
