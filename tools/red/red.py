@@ -53,7 +53,9 @@ FEODO = "https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.json"
 DBIP = "https://download.db-ip.com/free/dbip-country-lite-{mes}.csv.gz"
 DBIP_DIR = os.environ.get("DBIP_DIR", os.path.expanduser("~/.cache/dbip"))
 
-CSAF_LISTA = "https://api.github.com/repos/cisagov/CSAF/contents/csaf_files/OT/white/{anio}?ref=develop"
+# La API de contenidos corta en 1,000 archivos (cada aviso trae .json, .asc y .sha512): se usa el árbol git del año.
+CSAF_ANIOS = "https://api.github.com/repos/cisagov/CSAF/contents/csaf_files/OT/white?ref=develop"
+CSAF_ARBOL = "https://api.github.com/repos/cisagov/CSAF/git/trees/{sha}"
 CSAF_RAW = "https://raw.githubusercontent.com/cisagov/CSAF/develop/csaf_files/OT/white/{anio}/{nombre}"
 DIAS_ICS = 90
 CADA_H_C2, CADA_H_ICS = 1, 6
@@ -187,26 +189,31 @@ def paso_cortes(paises, ahora):
 # ------------------------------------------------------------------ 2. servidores C2 (abuse.ch + DB-IP)
 
 class GeoIP:
-    """País de una IPv4 con la tabla de rangos de DB-IP Lite (búsqueda binaria)."""
+    """País de una IP (v4 o v6) con la tabla de rangos de DB-IP Lite (búsqueda binaria)."""
 
     def __init__(self, filas):
-        rangos = []
+        tablas = {4: [], 6: []}
         for ini, fin, cc in filas:
-            if ":" in ini:
+            try:
+                a, b = ipaddress.ip_address(ini), ipaddress.ip_address(fin)
+            except ValueError:
                 continue
-            rangos.append((int(ipaddress.IPv4Address(ini)), int(ipaddress.IPv4Address(fin)), cc))
-        rangos.sort()
-        self.inicios = [r[0] for r in rangos]
-        self.rangos = rangos
+            tablas[a.version].append((int(a), int(b), cc))
+        self.tablas = {}
+        for v, rangos in tablas.items():
+            rangos.sort()
+            self.tablas[v] = ([r[0] for r in rangos], rangos)
 
     def pais(self, ip):
         try:
-            n = int(ipaddress.IPv4Address(ip))
+            a = ipaddress.ip_address(ip.strip("[]"))
         except ValueError:
             return None
-        i = bisect.bisect_right(self.inicios, n) - 1
-        if i >= 0 and self.rangos[i][0] <= n <= self.rangos[i][1]:
-            cc = self.rangos[i][2]
+        inicios, rangos = self.tablas[a.version]
+        n = int(a)
+        i = bisect.bisect_right(inicios, n) - 1
+        if i >= 0 and rangos[i][0] <= n <= rangos[i][1]:
+            cc = rangos[i][2]
             return None if cc in ("ZZ", "") else cc
         return None
 
@@ -328,7 +335,9 @@ def leer_csaf(doc):
     explotado = bool(re.search(r"(?i)(known|active(ly)?) (public )?exploit\w* .{0,60}(has|have) been reported|is being actively exploited", textos)) \
         and not re.search(r"(?i)no known public exploitation", textos)
     ramas = (doc.get("product_tree") or {}).get("branches") or [{}]
-    return {"id": tr.get("id") or "", "titulo": d.get("title") or "", "fabricante": ramas[0].get("name") or (d.get("title") or "").split(" ")[0], "fecha": (tr.get("initial_release_date") or "")[:10],
+    fabricante = re.sub(r"[,.]?\s+(Inc|Incorporated|GmbH|AG|SE|Ltd|Limited|LLC|Co|Corp|Corporation|S\.?A|B\.?V|plc|Oy|AB|KG|Group)\.?$", "",
+                        (ramas[0].get("name") or (d.get("title") or "").split(" ")[0]).strip(), flags=re.I)
+    return {"id": tr.get("id") or "", "titulo": d.get("title") or "", "fabricante": fabricante, "fecha": (tr.get("initial_release_date") or "")[:10],
             "actualizado": (tr.get("current_release_date") or "")[:10], "sede": nota(doc, "company headquarters location"),
             "desplegado": nota(doc, "countries/areas deployed"), "sectores": [s.strip() for s in re.split(r",|;", nota(doc, "critical infrastructure sectors")) if s.strip()],
             "cvss": max(cvss) if cvss else None, "cves": len(doc.get("vulnerabilities", [])), "explotado": explotado, "medico": (tr.get("id") or "").upper().startswith("ICSMA"),
@@ -368,10 +377,13 @@ def paso_ics(paises, ahora):
     avisos = estado.get("avisos", {})
     limite = ahora - timedelta(days=DIAS_ICS)
     nuevos = errores = 0
+    shas = {x["name"]: x["sha"] for x in get_json_github(CSAF_ANIOS) if x.get("type") == "dir"}
     for anio in sorted({limite.year, ahora.year}):
-        lista = get_json_github(CSAF_LISTA.format(anio=anio))
-        for x in lista:
-            nombre = x.get("name", "")
+        if str(anio) not in shas:
+            continue
+        arbol = get_json_github(CSAF_ARBOL.format(sha=shas[str(anio)]))
+        for x in arbol.get("tree", []):
+            nombre = x.get("path", "")
             f = fecha_de_nombre(nombre)
             if not f or f < limite or nombre in avisos:
                 continue

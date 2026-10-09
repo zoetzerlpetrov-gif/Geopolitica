@@ -81,6 +81,22 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/tornados.py
 
+      - name: Mes en curso (llave de la caché de DB-IP)
+        run: echo "MES=$(date -u +%Y-%m)" >> "$GITHUB_ENV"
+
+      - name: Caché de la base IP→país de DB-IP (una descarga al mes)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/dbip
+          key: dbip-${{ env.MES }}
+
+      - name: Red y ciberseguridad por país (IODA cada corrida, abuse.ch cada hora, CISA cada 6 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 tools/red/red.py
+
       - name: Publicar en la rama datos-vivos (reescrita, sin historial)
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}

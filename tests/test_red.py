@@ -38,6 +38,7 @@ def test_c2_solo_conteos_por_pais():
     usa = feats[0]["properties"]
     assert usa["pais_iso3"] == "USA" and usa["n"] == 2 and dict(usa["familias"]) == {"Vidar": 1, "Lumma": 1}
     assert "8.8.8.8" not in json.dumps(feats)  # nunca se publica una IP
+    assert geo.pais("2001::1") == "US" and geo.pais("[2001::2]") == "US" and geo.pais("x.onion") is None
 
 
 def test_csaf_y_agrupado_por_sede():

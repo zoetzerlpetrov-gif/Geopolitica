@@ -15,7 +15,8 @@ export const BASES = [
   "https://raw.githubusercontent.com/zoetzerlpetrov-gif/WarRoomViajero/main/data/",
 ];
 /** Orden e ícono de los subgrupos del panel. */
-export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"]];
+export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
+  ["Red y ciberseguridad", "🌐", "#1F6F8B"]];
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -198,6 +199,49 @@ export const CAPAS = [
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
   },
   {
+    id: "cortes_internet", grupo: "Red y ciberseguridad", nombre: "Cortes de internet por país (48 h, IODA)", url: "data/vivos/red_cortes.geojson", refresco_s: 1200,
+    fuente: "IODA (Georgia Tech)",
+    estilo: (p) => (p.en_curso ? { c: p.n_senales >= 2 ? "#B71C1C" : "#E2711D", r: p.n_senales >= 2 ? 11 : 9 } : { c: "#8D99A6", r: 7 }),
+    etiqueta: (p) => (p.en_curso ? `Corte · ${p.pais}` : ""),
+    leyenda: [{ c: "#B71C1C", r: 8, t: "Corte en curso visto por 2 o más señales" }, { c: "#E2711D", r: 7, t: "Corte en curso visto por 1 señal" },
+      { c: "#8D99A6", r: 6, t: "Corte terminado en las últimas 48 h" },
+      { t: "Señales de IODA: rutas BGP anunciadas, respuesta a sondeos (ping) y tráfico hacia Google. Una sola señal puede ser una falla técnica local; varias a la vez suelen indicar un corte amplio o un apagón ordenado." }],
+    ficha: (p) => ({ titulo: `Corte de internet en ${p.pais}`, chip: p.en_curso ? `En curso · ${lista(p.senales).length} señal(es)` : "Terminado",
+      filas: [["Señales que lo detectan", lista(p.senales).join(" · ") || "—"], ["Inicio", fecha(p.inicio_utc)], ["Fin", p.fin_utc ? fecha(p.fin_utc) : "sigue en curso"],
+        ["Duración", `${p.horas} h`], ["Eventos", lista(p.eventos).map((e) => `${e.senal}: ${fecha(e.inicio_utc)}, ${e.horas} h`).join(" · ") || "—"],
+        ["Qué no dice", "La causa (apagón eléctrico, cable cortado, desastre o bloqueo ordenado). Confírmala en el tablero de IODA y en noticias"]],
+      url: p.url, fuente: "IODA, Georgia Tech (abre su tablero del país)" }),
+  },
+  {
+    id: "c2_botnets", grupo: "Red y ciberseguridad", nombre: "Servidores de control de botnets por país (48 h, abuse.ch)", url: "data/vivos/red_c2.geojson", refresco_s: 3600,
+    fuente: "abuse.ch ThreatFox y Feodo Tracker; país por DB-IP",
+    estilo: (p) => ({ c: "#6A1B9A", r: Math.min(24, 4 + Math.sqrt(p.n || 1) * 1.6) }),
+    etiqueta: (p) => (p.n >= 25 ? `${p.n} C2` : ""),
+    leyenda: [{ c: "#6A1B9A", r: 9, t: "Servidores de mando y control (C2) activos reportados; el tamaño crece con la cantidad" },
+      { t: "Un C2 alojado en un país casi nunca indica dónde está el atacante: suele ser un servidor rentado. No se publica ninguna dirección IP." }],
+    ficha: (p) => ({ titulo: `${p.n} servidores C2 de botnets en ${p.pais}`, chip: `${p.n_familias} familia(s) de malware`,
+      filas: [["Familias más vistas", lista(p.familias).map(([f, n]) => `${f} (${n})`).join(" · ") || "—"],
+        ["Ventana", "IOC reportados a ThreatFox en las últimas 48 h + lista recomendada de Feodo Tracker"],
+        ["País de cada IP", "Base IP to Country Lite de DB-IP (CC BY 4.0). Puede fallar con redes anycast o VPN"],
+        ["Para qué sirve", "Ver qué países y proveedores alojan más infraestructura criminal. Para bloquear, usa las listas originales de abuse.ch"]],
+      url: "https://threatfox.abuse.ch/browse/", fuente: "abuse.ch (CC0) · IP Geolocation by DB-IP" }),
+  },
+  {
+    id: "avisos_ics", grupo: "Red y ciberseguridad", nombre: "Avisos de sistemas industriales (ICS/SCADA) por país del fabricante (90 días, CISA)", url: "data/vivos/red_ics.geojson",
+    refresco_s: 3600, fuente: "CISA ICS Advisories (CSAF)",
+    estilo: (p) => ({ c: p.explotados ? "#B71C1C" : p.criticos ? "#E2711D" : "#1F6F8B", r: Math.min(22, 5 + Math.sqrt(p.n || 1) * 2) }),
+    etiqueta: (p) => (p.n >= 5 ? `${p.n} avisos` : ""),
+    leyenda: [{ c: "#B71C1C", r: 8, t: "Algún aviso con explotación conocida" }, { c: "#E2711D", r: 7, t: "Algún aviso con CVSS 9 o más (crítico)" }, { c: "#1F6F8B", r: 6, t: "Avisos sin críticos" },
+      { t: "El punto va en el país SEDE del fabricante del equipo, no donde está instalado: casi todos se venden en todo el mundo. No se mapean equipos expuestos." }],
+    ficha: (p) => ({ titulo: `${p.n} avisos ICS de fabricantes con sede en ${p.pais}`, chip: `CVSS máximo ${p.cvss_max ?? "—"}${p.explotados ? ` · ${p.explotados} con explotación conocida` : ""}`,
+      filas: [["Críticos (CVSS ≥ 9)", String(p.criticos)], ["Equipo médico", String(p.medicos || 0)],
+        ["Fabricantes", lista(p.fabricantes).map(([f, n]) => `${f} (${n})`).join(" · ") || "—"],
+        ["Sectores", lista(p.sectores).map(([s, n]) => `${SECTOR_CISA[s] || s} (${n})`).join(" · ") || "—"]],
+      url: "https://www.cisa.gov/news-events/cybersecurity-advisories?f%5B0%5D=advisory_type%3A95", fuente: "CISA (dominio público, EUA)" }),
+    extra: (p) => `<h4>Avisos más recientes</h4><ul class="fuentes">${lista(p.avisos).map((a) => `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.id)}</a> · ${esc(a.titulo)} · ${esc(a.fecha)}${a.cvss != null ? ` · CVSS ${esc(a.cvss)}` : ""}${a.explotado ? " · <b>explotación conocida</b>" : ""}</li>`).join("")}</ul>
+      <p class="meta">CVSS mide la gravedad técnica de 0 a 10. Un aviso no significa un ataque: es una vulnerabilidad publicada con su parche o mitigación.</p>`,
+  },
+  {
     id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",
     refresco_s: 300, fuente: "NOAA National Weather Service",
     estilo: (p) => ({ c: { Extreme: C.violeta, Severe: C.rojo, Moderate: C.naranja, Minor: C.ambar }[p.severity] || C.gris, r: 4 }),
@@ -353,6 +397,12 @@ function masCercano(m, e) {
   }
   return mejor;
 }
+
+const SECTOR_CISA = { Chemical: "Químico", "Commercial Facilities": "Instalaciones comerciales", Communications: "Comunicaciones", "Critical Manufacturing": "Manufactura crítica",
+  Dams: "Presas", "Defense Industrial Base": "Industria de defensa", "Emergency Services": "Servicios de emergencia", Energy: "Energía", "Financial Services": "Servicios financieros",
+  "Food and Agriculture": "Alimentos y agricultura", "Government Facilities": "Instalaciones de gobierno", "Government Services and Facilities": "Instalaciones de gobierno",
+  "Healthcare and Public Health": "Salud", "Information Technology": "Tecnologías de la información", "Nuclear Reactors, Materials, and Waste": "Nuclear",
+  "Transportation Systems": "Transporte", "Water and Wastewater Systems": "Agua y saneamiento" };
 
 const lista = (v) => { if (typeof v === "string") { try { return JSON.parse(v); } catch (e) { return []; } } return v || []; };
 
