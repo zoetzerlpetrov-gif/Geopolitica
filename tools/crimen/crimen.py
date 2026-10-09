@@ -53,7 +53,7 @@ CONSULTAS = [
 TIPOS = [
     ("Terrorismo", r"terroris|yihad|jihad|suicide bomb|car bomb|islamic state|estado isl[aá]mico|al.?shabaab|boko haram|jnim|atentado"),
     ("Mafia", r"mafia|ndrangheta|camorra|cosa nostra|yakuza|triad|tr[ií]ada"),
-    ("Narcotráfico", r"narco|c[aá]rtel|cartel|cocaine|coca[ií]na|fentanyl|fentanilo|metanfetamina|drug traffick|chapitos|cjng|sinaloa"),
+    ("Narcotráfico", r"narco|\bc[aá]rtel(es)?\b|\bcartels?\b|cocaine|coca[ií]na|fentanyl|fentanilo|metanfetamina|drug traffick|chapitos|cjng|sinaloa"),
     ("Crimen organizado", r"crimen organizado|organized crime|pandilla|gang|maras?\b|extorsi|cobro de piso|huachicol|secuestr|sicari|tren de aragua"),
 ]
 AMBIGUOS = {"Hidalgo", "Morelos", "Guerrero", "Colima", "Durango", "Campeche", "Tabasco", "Zacatecas"}
@@ -276,7 +276,7 @@ def get_json(url, reintentos=1):
 
 # ---------------------------------------------------------------- feeds RSS de medios mexicanos
 DESLAVE = r"\b(deslaves?|derrumbes? de (tierra|cerro|roca)|deslizamientos? de (tierra|ladera)|desgajamientos?|socav[oó]n|alud(es)?|landslides?|mudslides?|corrimientos? de tierra)\b"
-CRIMEN_TXT = r"c[aá]rtel|narco|crimen organizado|sicari|balacera|enfrentamiento|ejecutad|asesinad|homicid|secuestr|extorsi|cobro de piso|fosa|levant(ad|on)|desaparec|huachicol|halcones|emboscada"
+CRIMEN_TXT = r"\bc[aá]rtel(es)?\b|narco|crimen organizado|sicari|balacera|enfrentamiento|ejecutad|asesinad|homicid|secuestr|extorsi|cobro de piso|fosa|levant(ad|on)|desaparec|huachicol|halcones|emboscada"
 
 
 def clasificar_titular(titulo):
@@ -335,11 +335,24 @@ def rss_mexico(estados, gaz):
     return salida, estado_fuentes
 
 
-def guardar(ruta, nuevos, horas, fuente, extra=None):
+def sigue_valido(f, clase):
+    """Vuelve a pasar por las reglas actuales lo guardado en corridas anteriores, para que un falso positivo
+    ya corregido (p. ej. «alud» dentro de «salud») no siga en el mapa hasta que caduque."""
+    p = f["properties"]
+    if p.get("origen") != "mx":
+        return True
+    if p.get("precision") == "país":
+        return False
+    return clasificar_titular(p.get("title") or "")[0] == clase
+
+
+def guardar(ruta, nuevos, horas, fuente, extra=None, clase=None):
     """Une con lo anterior (sin repetir enlaces), conserva las últimas `horas` y escribe el GeoJSON."""
     previos = []
     if os.path.exists(ruta):
         previos = json.load(open(ruta, encoding="utf-8")).get("features", [])
+    if clase:
+        previos = [f for f in previos if sigue_valido(f, clase)]
     urls = {f["properties"]["url"] for f in nuevos}
     feats = nuevos + [f for f in previos if f["properties"]["url"] not in urls]
     limite = (datetime.now(timezone.utc) - timedelta(hours=horas)).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -399,9 +412,9 @@ def main():
         print(f"crimen: RSS de México {fuentes_mx}")
     except Exception as e:  # noqa: BLE001
         errores.append(f"RSS México: {e}"[:160])
-    fc = guardar(OUT, crimen, 24, "GDELT y medios mexicanos (señales de noticias, verificar)", {"errores": errores, "fuentes_mx": fuentes_mx})
-    fa = guardar(os.path.join(os.path.dirname(OUT), "ataques.geojson"), ataques, 48, "GDELT 2.0 (códigos CAMEO de ataque) y medios mexicanos")
-    fd = guardar(os.path.join(os.path.dirname(OUT), "deslaves.geojson"), deslaves, 72, "Medios mexicanos (titulares, verificar)")
+    fc = guardar(OUT, crimen, 24, "GDELT y medios mexicanos (señales de noticias, verificar)", {"errores": errores, "fuentes_mx": fuentes_mx}, clase="crimen")
+    fa = guardar(os.path.join(os.path.dirname(OUT), "ataques.geojson"), ataques, 48, "GDELT 2.0 (códigos CAMEO de ataque) y medios mexicanos", clase="ataque")
+    fd = guardar(os.path.join(os.path.dirname(OUT), "deslaves.geojson"), deslaves, 72, "Medios mexicanos (titulares, verificar)", clase="deslave")
     print(f"crimen: {len(fc)} señales ({sum(1 for f in fc if f['properties']['pais_iso3'] == 'MEX')} en México); ataques: {len(fa)}; deslaves: {len(fd)}; errores: {errores}")
     return 0
 
