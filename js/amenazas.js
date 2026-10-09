@@ -67,6 +67,7 @@ export function clasificar(capa, p = {}, geom = null) {
     case "c2_botnets": { const n = Number(p.n || 0); return { sev: n >= 100 ? 4 : n >= 25 ? 3 : n >= 5 ? 2 : 1, tipo: "Servidores C2 de botnets", ic: "" }; }
     case "avisos_ics": return { sev: p.explotados ? 4 : p.criticos ? 3 : 2, tipo: "Avisos ICS/SCADA", ic: "" };
     case "avisos_europa": return { sev: { 2: 2, 3: 4, 4: 5 }[p.nivel] || 2, tipo: `Aviso Europa: ${(Array.isArray(p.tipos) ? p.tipos[0] : "") || "clima"}`, ic: "" };
+    case "lanzamientos": return { sev: 1, tipo: "Lanzamiento espacial", ic: "🚀" };
     case "auroras": return { sev: p.actual ? 2 : 1, tipo: "Aurora", ic: "" };
     case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: iconoArma(p.arma) || { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
     case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };

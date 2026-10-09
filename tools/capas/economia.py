@@ -132,7 +132,7 @@ def features_tasas(paises_fc, tasas):
             continue
         v, per, cambio, banco = tasas[iso]
         st, etq, color = _rango(v, TASAS)
-        mov = "" if cambio is None else " · sin cambio en 12 meses" if cambio == 0 else f" · {'subió' if cambio > 0 else 'bajó'} {abs(cambio):g} puntos en 12 meses"
+        mov = "" if cambio is None else " · sin cambio en 12 meses" if cambio == 0 else f" · {'subió' if cambio > 0 else 'bajó'} {abs(cambio):g} punto{'' if abs(cambio) == 1 else 's'} en 12 meses"
         out.append({"type": "Feature", "geometry": f["geometry"], "properties": {
             "id": f"tasa:{iso}", "n": f["properties"].get("nombre") or iso, "st": st, "p": iso, "color": color, "rango": etq, "z": 0,
             "x": f"{v:g} % al cierre de {per}{mov} · {banco}".strip(" ·")}})

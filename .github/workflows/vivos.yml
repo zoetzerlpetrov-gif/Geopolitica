@@ -91,6 +91,11 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/clima/nhc_conos.py
 
+      - name: Próximos lanzamientos espaciales (The Space Devs, cada 6 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/espacio/lanzamientos.py
+
       - name: Mes en curso (llave de la caché de DB-IP)
         run: echo "MES=$(date -u +%Y-%m)" >> "$GITHUB_ENV"
 

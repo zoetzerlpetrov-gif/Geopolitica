@@ -24,7 +24,7 @@ export function familiasDibujables(catalogo, capasCfg, manifest) {
     if (!c.dibujable) continue;
     for (const s of c.subtipos) {
       if (s.tipo_capa === NO_DIBUJABLE || s.tipo_capa !== "estatica" || !s.familia) continue;
-      (subtiposDe[s.familia] ||= []).push(s);
+      (subtiposDe[s.familia] ||= []).push({ ...s, fuente_nombre: catalogo.fuentes?.[s.fuente]?.nombre || s.fuente });
     }
   }
   return capasCfg.familias
@@ -39,6 +39,7 @@ export function familiasDibujables(catalogo, capasCfg, manifest) {
         disponible: Boolean(f.habilitada && m && ["ok", "parcial", "desactualizada"].includes(m.estado) && m.archivo),
         manifest: m || null,
         licencia: fuente.licencia || "",
+        fuente_nombre: fuente.nombre || f.fuente,
         estado_dato: (subtiposDe[f.id] || [])[0]?.estado_dato || "estatico",
       };
     });
@@ -215,7 +216,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <div class="chips"><span class="chip estado-${esc(familia.estado_dato)}">Dato ${esc(etiquetaEstado(familia.estado_dato))}</span></div>
     <dl>
       ${extra ? `<dt>Detalle</dt><dd>${extra}</dd>` : ""}
-      <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente || familia.fuente)}</a>` : esc(sub?.fuente || familia.fuente)}</dd>
+      <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</a>` : esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</dd>
       <dt>Licencia</dt><dd>${esc(sub?.licencia || familia.licencia)}</dd>
       <dt>Actualizado</dt><dd>${esc(familia.manifest?.actualizado_utc?.slice(0, 10) || "—")}</dd>
     </dl>

@@ -16,7 +16,7 @@ export const BASES = [
 ];
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
-  ["Red y ciberseguridad", "🌐", "#1F6F8B"]];
+  ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"]];
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -261,6 +261,19 @@ export const CAPAS = [
       filas: [...lista(p.avisos).map((a) => [`${["", "", "Amarillo", "Naranja", "Rojo"][a.nivel]} · ${a.tipo}`, `${a.desde ? fecha(a.desde) : "—"} a ${a.hasta ? fecha(a.hasta) : "—"}`]),
         ["Estado", p.en_curso ? "Vigente" : "Empieza más tarde"]],
       url: p.url, fuente: "MeteoAlarm (EUMETNET): consulta el texto oficial del servicio nacional" }),
+  },
+  {
+    id: "lanzamientos", grupo: "Espacio", nombre: "Próximos lanzamientos de cohetes (plataforma y fecha)", url: "data/vivos/lanzamientos.geojson", refresco_s: 3600,
+    fuente: "The Space Devs, Launch Library 2",
+    estilo: (p) => ({ c: { Go: "#2E9E6E", "In Flight": "#1F6FB2", Hold: "#E2711D", TBD: "#8D99A6", TBC: "#C9A227" }[p.estado_corto] || "#8D99A6", r: 6 }),
+    etiqueta: (p) => (p.estado_corto === "Go" || p.estado_corto === "In Flight" ? (p.cohete || p.nombre || "").split(" ")[0] : ""),
+    leyenda: [{ c: "#2E9E6E", r: 6, t: "Confirmado (Go)" }, { c: "#C9A227", r: 6, t: "Por confirmar" }, { c: "#8D99A6", r: 6, t: "Fecha por definir" },
+      { c: "#E2711D", r: 6, t: "En espera" }, { c: "#1F6FB2", r: 6, t: "En vuelo" }, { t: "Varias misiones pueden compartir plataforma: el punto más cercano es el siguiente. Las fechas cambian seguido." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: p.estado,
+      filas: [["Fecha prevista", `${p.fecha_utc ? fecha(p.fecha_utc) : "—"}${p.precision ? ` (precisión: ${p.precision})` : ""}`], ["Cohete", p.cohete || "—"],
+        ["Empresa o agencia", `${p.empresa || "—"}${p.tipo_empresa ? ` · ${p.tipo_empresa}` : ""}`], ["Misión", [p.mision, p.tipo_mision, p.orbita].filter(Boolean).join(" · ") || "—"],
+        ["Plataforma", `${p.plataforma || "—"}${p.lugar ? ` · ${p.lugar}` : ""}`]],
+      url: p.url, fuente: "The Space Devs, Launch Library 2" }),
   },
   {
     id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",
