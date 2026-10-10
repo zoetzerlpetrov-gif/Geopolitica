@@ -18,18 +18,32 @@ export function estiloSatelite() {
   const local = estiloLocal("dark");
   return {
     version: 8, glyphs: GLYPHS,
-    sources: { ...local.sources, sat: { type: "raster", tiles: [SAT], tileSize: 256, maxzoom: 14, attribution: SAT_ATRIB } },
+    sources: { ...local.sources, sat: { type: "raster", tiles: [SAT], tileSize: 256, maxzoom: 14, attribution: SAT_ATRIB },
+      osm: { type: "vector", url: OFM_TILES } },
     layers: [
       { id: "fondo", type: "background", paint: { "background-color": "#0b1a2a" } },
       { id: "satelite", type: "raster", source: "sat", paint: { "raster-fade-duration": 0 } },
       { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": "rgba(255,255,255,0.55)", "line-width": 0.7 } },
-      { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5,
+      { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5, maxzoom: 9,
         layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-optional": true },
         paint: { "text-color": "#ffffff", "text-halo-color": "rgba(0,0,0,0.75)", "text-halo-width": 1.2 } },
+      { id: "sat-calles", type: "line", source: "osm", "source-layer": "transportation", minzoom: 12,
+        paint: { "line-color": "rgba(255,255,255,0.55)", "line-width": ["interpolate", ["linear"], ["zoom"], 12, 0.5, 18, 3] } },
+      { id: "sat-calles-nombre", type: "symbol", source: "osm", "source-layer": "transportation_name", minzoom: 13,
+        layout: { "symbol-placement": "line", "text-field": NOMBRE_ES, "text-font": FONT, "text-size": ["interpolate", ["linear"], ["zoom"], 13, 10, 18, 14] },
+        paint: { "text-color": "#ffffff", "text-halo-color": "rgba(0,0,0,0.85)", "text-halo-width": 1.4 } },
+      { id: "sat-lugares", type: "symbol", source: "osm", "source-layer": "place", minzoom: 9,
+        layout: { "text-field": NOMBRE_ES, "text-font": FONT, "text-size": 12 },
+        paint: { "text-color": "#ffffff", "text-halo-color": "rgba(0,0,0,0.85)", "text-halo-width": 1.4 } },
     ],
   };
 }
 const GLYPHS = "https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf";
+// Zoom máximo: 19 deja ver cuadras y nombres de calles. Los mosaicos de OpenFreeMap llegan a zoom 14 y MapLibre
+// los amplía sin perder nitidez (son vectores); la imagen satelital (10 m por píxel) se ve borrosa desde ~15.
+export const ZOOM_MAX = 19;
+// Calles y sus nombres de OpenStreetMap (vía OpenFreeMap) para poner encima de la imagen satelital.
+const OFM_TILES = "https://tiles.openfreemap.org/planet";
 const FONT = ["Noto Sans Regular"];
 
 async function fetchTimeout(url, ms) {
@@ -109,11 +123,13 @@ export function aligerarEstilo(style, { lite = false } = {}) {
  */
 export async function estiloBase(theme, { lite = false, base = "tematico" } = {}) {
   if (base === "satelite") return { style: estiloSatelite(), remoto: true };
-  if (lite) return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };
+  // LITE con el mapa «Temático»: países locales, sin calles. Con «Calles» sí se carga el mapa de calles y se
+  // conservan sus nombres: quien lo elige quiere ver el detalle aunque el equipo sea lento.
+  if (lite && base !== "calles") return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };
   try {
     const r = await fetchTimeout(base === "calles" ? OFM.calles : OFM[theme], 6000);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return { style: aligerarEstilo(await r.json(), { lite }), remoto: true };
+    return { style: aligerarEstilo(await r.json(), { lite: lite && base !== "calles" }), remoto: true };
   } catch (e) {
     console.warn("OpenFreeMap no disponible, se usa el mapa base local:", e.message);
     return { style: estiloLocal(theme), remoto: false };
@@ -133,7 +149,7 @@ export async function estiloBase(theme, { lite = false, base = "tematico" } = {}
  */
 export function crearMapa({ container, style, colores, chokepoints, tema: temaInicial, lite = false, onSelect }) {
   const map = new maplibregl.Map({
-    container, style, center: [-20, 22], zoom: container.clientWidth < 600 ? 0.6 : 1.6, minZoom: 0.5, maxZoom: 12,
+    container, style, center: [-20, 22], zoom: container.clientWidth < 600 ? 0.6 : 1.6, minZoom: 0.5, maxZoom: ZOOM_MAX,
     attributionControl: { compact: true },
     // Un celular con pantalla 3x dibuja 9 veces más píxeles que una 1x. Por encima de 2x la
     // diferencia casi no se nota en un mapa, pero el costo para la GPU sí: se limita.
