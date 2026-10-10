@@ -394,3 +394,31 @@ def test_fuentes_humanitarias_sin_datos_personales():
     assert (c["pais_iso3"], c["severidad"], c["area_sugerida"], c["url"]) == ("PRY", 2, "demografia", "https://go.ifrc.org/emergencies/7")
     texto = str(go)
     assert "a@b.org" not in texto and "Persona" not in texto and "123" not in texto
+
+
+# ---------------- Medios mexicanos ----------------
+RSS_MX = b"""<?xml version="1.0"?><rss><channel>
+<item><title>Detectan toma clandestina de huachicol en ducto de Pemex en Hidalgo</title><link>https://example.mx/n1</link>
+<pubDate>Wed, 08 Oct 2026 09:00:00 GMT</pubDate></item>
+<item><title>Brasil y Argentina firman acuerdo comercial</title><link>https://example.mx/n2</link>
+<pubDate>Wed, 08 Oct 2026 09:00:00 GMT</pubDate></item>
+</channel></rss>"""
+
+
+def test_medio_mexicano_ubica_en_mexico_si_no_nombra_otro_pais():
+    feed = {**FEED, "nombre": "Medio mexicano", "pais_defecto": "MEX"}
+    eventos, _ = _procesar(F.parsear_rss(RSS_MX, feed))
+    por = {e["url"]: e for e in eventos}
+    huachicol = por["https://example.mx/n1"]
+    assert huachicol["pais_iso3"] == "MEX" and huachicol["area_principal"] == "energia"
+    assert "petroleo_gas" in huachicol["subtemas"]
+    assert por["https://example.mx/n2"]["pais_iso3"] != "MEX"
+
+
+def test_priorizar_limita_gdelt_sin_desplazar_notas():
+    base = {"severidad": 3, "fuentes": [{}], "fecha_utc": "2026-10-08T09:00:00Z"}
+    gd = [{**base, "id": f"g{i}", "fuente": "GDELT 2.0", "severidad": 4} for i in range(10)]
+    notas = [{**base, "id": f"n{i}", "fuente": "Medio"} for i in range(5)]
+    out = R.priorizar(gd + notas, 8, max_gdelt=3)
+    assert sum(e["fuente"].startswith("GDELT") for e in out) == 3
+    assert sum(not e["fuente"].startswith("GDELT") for e in out) == 5

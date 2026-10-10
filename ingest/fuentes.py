@@ -177,7 +177,7 @@ def parsear_rss(xml_bytes, feed):
             fecha = datetime.now(timezone.utc)
         out.append({
             "titulo": re.sub(r"\s+", " ", titulo)[:300], "fuente": feed["nombre"], "url": link, "tipo_fuente": feed["tipo"],
-            "fecha_utc": _iso(fecha), "pais_iso3": None, "lat": None, "lon": None, "actores": [],
+            "fecha_utc": _iso(fecha), "pais_iso3": None, "pais_defecto": feed.get("pais_defecto"), "lat": None, "lon": None, "actores": [],
             "texto_clasificar": f"{titulo} {re.sub('<[^>]+>', ' ', desc)[:500]}", "idioma": feed.get("idioma"),
             "resumen": None, "area_sugerida": None, "severidad": None, "articulos": 1,
             **({"anonimo": True, "etiqueta": feed.get("etiqueta", "")} if modo == "solo_enlace" else {}),

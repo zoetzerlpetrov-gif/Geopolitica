@@ -40,7 +40,10 @@ def normalizar(texto):
 #   "un" (artículo en español) ≠ UN (Naciones Unidas); "who" (pronombre) ≠ WHO (OMS);
 #   "cop" (policía en inglés) ≠ COP29; "ai" ≠ AI (inteligencia artificial).
 SOLO_MAYUSCULAS = {"un": re.compile(r"(?<![A-Za-z])UN(?![a-z])"), "who": re.compile(r"(?<![A-Za-z])WHO(?![a-z])"),
-                   "cop": re.compile(r"(?<![A-Za-z])COP(?![a-z])"), "ai": re.compile(r"(?<![A-Za-z])AI(?![a-z])")}
+                   "cop": re.compile(r"(?<![A-Za-z])COP(?![a-z])"), "ai": re.compile(r"(?<![A-Za-z])AI(?![a-z])"),
+                   # Siglas mexicanas que en minúsculas son otra cosa o partes de palabras.
+                   "ine": re.compile(r"(?<![A-Za-z])INE(?![a-z])"), "cfe": re.compile(r"(?<![A-Za-z])CFE(?![a-z])"),
+                   "dof": re.compile(r"(?<![A-Za-z])DOF(?![a-z])")}
 
 
 def _peso(frase, base):

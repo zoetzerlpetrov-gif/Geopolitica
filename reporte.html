@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Reportes diarios</title>
+  <meta name="description" content="Panorama diario de México y panorama geopolítico global, generados cada hora a partir de los eventos del monitor; descargables en PDF.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .rp-wrap { max-width: 920px; margin: 0 auto; padding: 16px; }
+    .rp-barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 14px; }
+    .rp-tabs { display: inline-flex; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+    .rp-tabs button { border: 0; background: var(--surface-2); color: var(--text); padding: 8px 14px; font: inherit; cursor: pointer; min-height: 38px; }
+    .rp-tabs button[aria-pressed="true"] { background: var(--accent); color: var(--surface); }
+    .rp-barra select { font: inherit; min-height: 38px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .rp-cab h2 { font-size: 24px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 4px 0; }
+    .rp-cifras { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin: 12px 0; }
+    .rp-cifras div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 10px; }
+    .rp-cifras b { display: block; font-size: 22px; }
+    .rp-cifras span { font-size: 12px; color: var(--text-2); }
+    .rp-bloque { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; margin: 12px 0; }
+    .rp-bloque h3 { margin: 0 0 6px; font-size: 17px; color: var(--text); text-transform: none; letter-spacing: 0; }
+    .rp-ia { border-left: 6px solid #6b4fbb; }
+    .rp-ia .aviso { font-size: 13px; color: var(--text-2); }
+    .rp-horizonte { margin: 10px 0 4px; font-weight: 700; }
+    .rp-esc { border-top: 1px solid var(--line); padding: 8px 0; }
+    .rp-esc h4 { margin: 0 0 4px; font-size: 15px; }
+    .prob { display: inline-block; font-size: 12px; border-radius: 10px; padding: 1px 8px; margin-left: 6px; vertical-align: middle; border: 1px solid var(--line); }
+    .prob.alta { background: rgba(198, 40, 40, .12); } .prob.media { background: rgba(224, 161, 0, .16); } .prob.baja { background: rgba(46, 125, 50, .12); }
+    .rp-esc ul { margin: 4px 0 0 18px; padding: 0; font-size: 14px; }
+    .rp-base { font-size: 13px; color: var(--text-2); }
+    .rp-sec-cab { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: baseline; }
+    .tend { font-size: 12px; border-radius: 10px; padding: 1px 8px; border: 1px solid var(--line); }
+    .tend.sube { background: rgba(198, 40, 40, .12); } .tend.baja { background: rgba(46, 125, 50, .12); }
+    .rp-ev { list-style: none; margin: 8px 0 0; padding: 0; }
+    .rp-ev li { border-top: 1px solid var(--line); padding: 8px 0; }
+    .rp-ev a { font-weight: 600; color: var(--text); }
+    .rp-ev .meta { display: block; font-size: 12px; color: var(--text-2); margin: 2px 0; }
+    .rp-ev p { margin: 2px 0 0; font-size: 14px; }
+    .sev { display: inline-block; min-width: 18px; text-align: center; border-radius: 4px; font-size: 12px; font-weight: 700; color: #fff; margin-right: 4px; }
+    .sev-5 { background: #8e1b1b; } .sev-4 { background: #c0561c; } .sev-3 { background: #b08900; } .sev-2 { background: #5b7083; } .sev-1 { background: #8a8f94; }
+    .rp-regiones { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .rp-regiones td, .rp-regiones th { border-top: 1px solid var(--line); padding: 4px 6px; text-align: left; }
+    .rp-vacio { color: var(--text-2); }
+    @media print {
+      .topbar, .rp-barra, .no-print { display: none !important; }
+      body, .rp-bloque, .rp-cifras div { background: #fff !important; color: #000 !important; }
+      .rp-bloque { break-inside: avoid-page; border-color: #bbb; }
+      .rp-ev li { break-inside: avoid; }
+      a { color: #000 !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Reportes diarios</h1>
+  </header>
+  <main class="rp-wrap">
+    <div class="rp-barra">
+      <div class="rp-tabs" role="group" aria-label="Tipo de reporte">
+        <button type="button" data-tipo="mexico" aria-pressed="true">🇲🇽 México</button>
+        <button type="button" data-tipo="global" aria-pressed="false">🌍 Global</button>
+      </div>
+      <label>Día <select id="rp-fecha" aria-label="Día del reporte"></select></label>
+      <a class="link-btn" id="rp-pdf" href="#" download hidden>⬇️ Descargar PDF</a>
+      <button type="button" class="icon-btn" id="rp-imprimir">🖨️ Imprimir o guardar como PDF</button>
+    </div>
+    <div id="rp-contenido" aria-live="polite">Cargando…</div>
+  </main>
+  <script type="module" src="js/reporte.js"></script>
+</body>
+</html>

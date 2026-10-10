@@ -328,16 +328,16 @@ button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1p
 .barra-fila .barra { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
 .barra-fila .barra i { display: block; height: 100%; background: var(--accent); }
 /* Menú izquierdo: grupos con color e ícono */
-:root { --g-eventos: #2E6F8E; --g-capas: #2E9E6E; --g-movimiento: #6B5BA8; --g-riesgos: #D2691E; --g-seguimiento: #7A8691; }
+:root { --g-eventos: #2E6F8E; --g-capas: #2E9E6E; --g-movimiento: #6B5BA8; --g-riesgos: #D2691E; --g-seguimiento: #7A8691; --g-reportes: #8A5A2B; }
 .grupo-tit { position: sticky; top: 0; z-index: 2; margin: 0; padding: 7px 12px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
   color: #fff; background: var(--g, #555); display: flex; gap: 8px; align-items: center; }
 .grupo-tit[data-grupo="eventos"] { --g: var(--g-eventos); } .grupo-tit[data-grupo="capas"] { --g: var(--g-capas); }
 .grupo-tit[data-grupo="movimiento"] { --g: var(--g-movimiento); } .grupo-tit[data-grupo="riesgos"] { --g: var(--g-riesgos); }
-.grupo-tit[data-grupo="seguimiento"] { --g: var(--g-seguimiento); }
+.grupo-tit[data-grupo="seguimiento"] { --g: var(--g-seguimiento); } .grupo-tit[data-grupo="reportes"] { --g: var(--g-reportes); }
 .bloque[data-grupo] { border-left: 4px solid var(--g, transparent); }
 .bloque[data-grupo="eventos"] { --g: var(--g-eventos); } .bloque[data-grupo="capas"] { --g: var(--g-capas); }
 .bloque[data-grupo="movimiento"] { --g: var(--g-movimiento); } .bloque[data-grupo="riesgos"] { --g: var(--g-riesgos); }
-.bloque[data-grupo="seguimiento"] { --g: var(--g-seguimiento); }
+.bloque[data-grupo="seguimiento"] { --g: var(--g-seguimiento); } .bloque[data-grupo="reportes"] { --g: var(--g-reportes); }
 .bloque[data-grupo] h2 { color: var(--text); }
 .bloque[data-grupo] h2::before { content: ""; display: inline-block; width: 8px; height: 8px; border-radius: 2px; background: var(--g); margin-right: 6px; vertical-align: 1px; }
 .subgrupo { margin: 10px 0 4px; padding: 3px 8px; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase;
@@ -480,3 +480,4 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .foto-sin { padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); }
 .foto-ir { margin: 6px 0; padding: 8px 14px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
 .lista-eventos .coincide { font-style: italic; }
+.reportes-acc { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }

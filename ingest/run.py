@@ -57,7 +57,10 @@ FUERA_DE_TEMA = ["cricket", "futbol", "football", "soccer", "rugby", "tenis", "t
                  "formula 1", "grand prix", "gran premio", "boxeo", "boxing", "ufc", "liga mx", "champions league",
                  "premier league", "seleccion de futbol", "pelicula", "peliculas", "film festival", "box office", "taquilla",
                  "album", "concierto", "cantante", "singer", "actriz", "actress", "celebrity", "reality show", "grammy", "emmy",
-                 "messi", "ronaldo"]
+                 "messi", "ronaldo",
+                 # Medios mexicanos: espectáculos, estilo de vida y autos.
+                 "vocalista", "grupo musical", "telenovela", "horoscopo", "receta", "recetas", "mascotas", "influencer",
+                 "prototipo", "concept car", "cervantino", "festival de cine", "boletos", "estreno"]
 
 
 def fuera_de_tema(titulo, texto):
@@ -147,6 +150,9 @@ def geocodificar(c, gaz, paises):
         c["pais_iso3"] = c["pais_iso3"] or paises.de(c["lon"], c["lat"])
     if not c["pais_iso3"]:
         c["pais_iso3"] = gaz.pais_en_texto(c["titulo"])
+    # Medio nacional (p. ej. mexicano): si el título no nombra otro país, la nota es de ese país.
+    if not c["pais_iso3"] and c.get("pais_defecto"):
+        c["pais_iso3"] = c["pais_defecto"]
     if c["pais_iso3"] and c["lat"] is None:
         lon, lat = gaz.centroide(c["pais_iso3"])
         c["lon"], c["lat"] = lon, lat
@@ -251,11 +257,20 @@ def unir_con_anteriores(nuevos, anteriores, limite):
     return list(por_id.values())
 
 
-def priorizar(eventos, maximo):
-    """Si hay más eventos que el máximo, quedan los más graves y, a igual severidad, los más recientes."""
-    if len(eventos) > maximo:
-        eventos = sorted(eventos, key=lambda e: (e["severidad"], len(e["fuentes"]), e["fecha_utc"]), reverse=True)[:maximo]
-    return sorted(eventos, key=lambda e: e["fecha_utc"], reverse=True)
+def priorizar(eventos, maximo, max_gdelt=None):
+    """Si hay más eventos que el máximo, quedan los más graves y, a igual severidad, los más recientes.
+    `max_gdelt` limita los eventos codificados de GDELT para que no desplacen a las notas de medios."""
+    orden = sorted(eventos, key=lambda e: (e["severidad"], len(e["fuentes"]), e["fecha_utc"]), reverse=True)
+    if max_gdelt is not None:
+        n, filtrados = 0, []
+        for e in orden:
+            if e["fuente"].startswith("GDELT"):
+                n += 1
+                if n > max_gdelt:
+                    continue
+            filtrados.append(e)
+        orden = filtrados
+    return sorted(orden[:maximo], key=lambda e: e["fecha_utc"], reverse=True)
 
 
 def compacto(e):
@@ -291,7 +306,9 @@ def actualizar_historial(carpeta, eventos, hoy, dias):
                 previos = json.load(f)["eventos"]
         todos = {r["id"]: r for r in previos}
         todos.update({r["id"]: r for r in nuevos})
-        lista = sorted(todos.values(), key=lambda r: (-r["severidad"], r["fecha_utc"]))[:HIST_MAX_DIA]
+        # Primero las notas de medios: si GDELT llena el cupo, la tendencia de los reportes compararía contra un
+        # historial casi sin notas (se recortaban por tener severidad 2).
+        lista = sorted(todos.values(), key=lambda r: (str(r.get("fuente", "")).startswith("GDELT"), -r["severidad"], r["fecha_utc"]))[:HIST_MAX_DIA]
         with open(ruta, "w", encoding="utf-8") as f:
             json.dump({"dia": dia, "total": len(lista), "eventos": lista}, f, ensure_ascii=False, separators=(",", ":"))
     borrados = 0
@@ -391,7 +408,7 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
             textos[e["id"]] = (c["titulo"], c["texto_clasificar"], c["fuente"])
         eventos.append(e)
     # Se deduplica después de unir: una nota nueva puede ser la misma historia que un evento anterior.
-    todos = priorizar(deduplicar(unir_con_anteriores(eventos, anteriores, limite)), cfg["max_eventos_publicados"])
+    todos = priorizar(deduplicar(unir_con_anteriores(eventos, anteriores, limite)), cfg["max_eventos_publicados"], cfg.get("max_gdelt_publicados"))
     enriquecer(todos, anteriores=anteriores, estado_dato="retrasado")
     if resumidor:
         descartados["ia"] = resumidor(todos, textos)
@@ -415,6 +432,24 @@ def calidad(eventos):
         "por_area": dict(sorted(por_area.items(), key=lambda x: -x[1])),
         "por_tipo_fuente": {t: sum(1 for e in eventos if e["tipo_fuente"] == t) for t in ("noticia", "base_datos", "analisis", "red_social")},
     }
+
+
+def generar_reportes(salida, eventos, t, ia_cfg, clave_ia):
+    """Reportes diarios de México y global (ingest/reporte.py). Un fallo aquí no detiene la ingesta."""
+    try:
+        import reporte
+        import panorama_ia
+        try:
+            import reporte_pdf
+            pdf_fn = reporte_pdf.escribir
+        except ImportError:  # sin fpdf2 el reporte queda solo en la web
+            pdf_fn = None
+        pan = None
+        if ia_cfg.get("habilitada"):
+            pan = lambda rep, previo: panorama_ia.panorama(rep, previo, ia_cfg, clave_ia, t)  # noqa: E731
+        return reporte.generar(salida, eventos, t, panorama_fn=pan, pdf_fn=pdf_fn)
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"[:300]}
 
 
 def main(argv=None):
@@ -476,6 +511,8 @@ def main(argv=None):
         "calidad": calidad(eventos), "ejemplos_sin_clasificar": ejemplos, "resumen_ia": est_ia,
         "fuentes": salud, "errores": [f"{s['id']}: {s['error']}" for s in salud if s["estado"] == "error"],
     }
+    log["reportes"] = generar_reportes(args.salida, eventos, t, ia_cfg, clave_ia)
+    print(f"Reportes: {log['reportes']}")
     with open(os.path.join(args.salida, "run-log.json"), "w", encoding="utf-8") as f:
         json.dump(log, f, ensure_ascii=False, indent=1)
     print(f"✓ {len(eventos)} eventos ({nuevos} nuevos) · candidatos {len(candidatos)} · descartados {descartados}")

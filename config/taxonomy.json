@@ -485,7 +485,31 @@
               "hamás",
               "milicia",
               "grupo armado",
-              "guerrilla"
+              "guerrilla",
+              "huachicol",
+              "huachicolero",
+              "huachicoleros",
+              "narcomenudeo",
+              "sicario",
+              "sicarios",
+              "cjng",
+              "cártel de sinaloa",
+              "cártel jalisco nueva generación",
+              "familia michoacana",
+              "los chapitos",
+              "célula delictiva",
+              "grupo criminal",
+              "delincuencia organizada",
+              "extorsión",
+              "cobro de piso",
+              "secuestro",
+              "fosa clandestina",
+              "personas desaparecidas",
+              "ataque armado",
+              "balacera",
+              "emboscada",
+              "narcobloqueo",
+              "homicidio doloso"
             ],
             "en": [
               "cartel",
@@ -820,7 +844,13 @@
               "impago",
               "fmi",
               "reestructuración de deuda",
-              "calificación crediticia"
+              "calificación crediticia",
+              "shcp",
+              "secretaría de hacienda",
+              "paquete económico",
+              "presupuesto de egresos",
+              "calificadora",
+              "déficit fiscal"
             ],
             "en": [
               "sovereign debt",
@@ -841,7 +871,18 @@
               "divisas",
               "materias primas",
               "peso mexicano",
-              "caída de mercados"
+              "caída de mercados",
+              "banxico",
+              "banco de méxico",
+              "tipo de cambio",
+              "superpeso",
+              "inflación",
+              "inegi",
+              "bmv",
+              "tasa de interés",
+              "tasa de referencia",
+              "inversión extranjera directa",
+              "producto interno bruto"
             ],
             "en": [
               "stock market",
@@ -990,7 +1031,20 @@
               "gasoducto",
               "oleoducto",
               "gnl",
-              "pemex"
+              "pemex",
+              "toma clandestina",
+              "tomas clandestinas",
+              "diésel",
+              "combustible",
+              "combustibles",
+              "cenagas",
+              "gas lp",
+              "gasolinera",
+              "gasolineras",
+              "refinería",
+              "dos bocas",
+              "desabasto de gasolina",
+              "desabasto de gas"
             ],
             "en": [
               "oil",
@@ -1055,7 +1109,11 @@
               "red eléctrica",
               "apagón",
               "central eléctrica",
-              "nuclear civil"
+              "nuclear civil",
+              "cfe",
+              "cenace",
+              "tarifa eléctrica",
+              "apagones"
             ],
             "en": [
               "electricity",
@@ -1124,7 +1182,12 @@
               "precio del gas",
               "brent",
               "wti",
-              "gasolina"
+              "gasolina",
+              "ieps",
+              "precio de la gasolina",
+              "precio del diésel",
+              "gasolinazo",
+              "estímulo fiscal a combustibles"
             ],
             "en": [
               "oil price",
@@ -1536,7 +1599,11 @@
               "asilo",
               "deportación",
               "frontera sur",
-              "caravana"
+              "caravana",
+              "instituto nacional de migración",
+              "deportados",
+              "repatriados",
+              "migrantes mexicanos"
             ],
             "en": [
               "migration",
@@ -1680,7 +1747,11 @@
             "es": [
               "sequía",
               "escasez de agua",
-              "estrés hídrico"
+              "estrés hídrico",
+              "conagua",
+              "corte de agua",
+              "desabasto de agua",
+              "tandeo"
             ],
             "en": [
               "drought",
@@ -1717,7 +1788,13 @@
               "terremoto",
               "ola de calor",
               "incendio forestal",
-              "ciclón"
+              "ciclón",
+              "tormenta tropical",
+              "deslave",
+              "lluvias intensas",
+              "alerta roja",
+              "protección civil",
+              "damnificados"
             ],
             "en": [
               "hurricane",
@@ -2043,7 +2120,14 @@
               "elecciones",
               "votación",
               "segunda vuelta",
-              "resultados electorales"
+              "resultados electorales",
+              "ine",
+              "instituto nacional electoral",
+              "elección judicial",
+              "proceso electoral",
+              "gubernatura",
+              "candidata",
+              "candidato"
             ],
             "en": [
               "elections",
@@ -2120,7 +2204,16 @@
               "publica decreto",
               "decreto presidencial",
               "entra en vigor",
-              "diario oficial"
+              "diario oficial",
+              "reforma judicial",
+              "suprema corte",
+              "scjn",
+              "cámara de diputados",
+              "senado de la república",
+              "iniciativa de ley",
+              "congreso de la unión",
+              "poder judicial",
+              "dof"
             ],
             "en": [
               "passes law",
@@ -2227,7 +2320,15 @@
               "manifestantes",
               "manifestación",
               "huelga",
-              "movimiento social"
+              "movimiento social",
+              "bloqueo carretero",
+              "bloqueos",
+              "marcha",
+              "plantón",
+              "cnte",
+              "transportistas",
+              "paro nacional",
+              "toma de casetas"
             ],
             "en": [
               "protest",
