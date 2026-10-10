@@ -35,7 +35,7 @@ Tarea: proponer escenarios plausibles para tres horizontes: corto plazo (próxim
 y largo plazo (1 a 5 años, tendencias estructurales).
 
 Reglas:
-- Basa cada escenario en los eventos listados y cita sus identificadores exactos en "eventos". No cites identificadores que no estén en la lista.
+- Basa cada escenario en los eventos listados y cita sus identificadores exactos solo en el campo "eventos" (nunca dentro de la descripción). No cites identificadores que no estén en la lista.
 - No inventes hechos, cifras, fechas ni declaraciones. Si usas contexto general conocido, que sea estable y no lo presentes como noticia.
 - Cada escenario: "titulo" (máximo 12 palabras), "descripcion" (40 a 90 palabras: qué podría pasar y por qué, mencionando el mecanismo),
   "probabilidad" ("alta", "media" o "baja", relativa a los otros escenarios), "senales" (2 a 4 indicadores observables que confirmarían o
@@ -48,12 +48,14 @@ Responde solo con JSON con esta forma:
 
 
 def eventos_para_ia(rep):
-    """Destacados y los principales de cada sección (notas de medios primero), sin repetir; máximo MAX_EVENTOS."""
+    """Destacados y los principales de cada sección (solo notas de medios), sin repetir; máximo MAX_EVENTOS."""
     vistos, out = set(), []
     grupos = [rep.get("destacados", [])] + [s["eventos"] for s in rep["secciones"]] + [(rep.get("entorno") or {}).get("eventos", [])]
     for grupo in grupos:
-        for e in sorted(grupo, key=lambda e: e.get("automatico", False)):
-            if e["id"] not in vistos and len(out) < MAX_EVENTOS:
+        # Solo notas de medios: las señales automáticas de GDELT son plantillas («Coerción: Australian (Baja California)»)
+        # que el modelo tomaba como hechos.
+        for e in grupo:
+            if not e.get("automatico") and e["id"] not in vistos and len(out) < MAX_EVENTOS:
                 vistos.add(e["id"])
                 out.append(e)
     return out
@@ -68,7 +70,10 @@ def mensaje_usuario(rep, eventos):
 
 
 def _texto(x, maximo):
-    x = re.sub(r"\s+", " ", str(x or "")).strip()
+    # Los identificadores van en "eventos", no en el texto: «([nt-42a7…], [gd-65a1…])» se quita.
+    x = re.sub(r"\s*\(?\[(?:nt|gd|db|an|rs)-[0-9a-f]+\](?:,\s*\[(?:nt|gd|db|an|rs)-[0-9a-f]+\])*\)?", "", str(x or ""))
+    x = re.sub(r"\s+", " ", x).strip()
+    x = re.sub(r"\s+([.,;:])", r"\1", x)
     return x if 0 < len(x) <= maximo and not re.search(r"https?://|www\.", x) else None
 
 

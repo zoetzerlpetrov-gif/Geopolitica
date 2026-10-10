@@ -147,3 +147,10 @@ def test_panorama_reintenta_429_y_salta_modelos_retirados():
     ok = P.panorama(rep, None, cfg, "clave", T, pedir_fn=pedir, dormir=esperas.append)
     assert ok["modelo"] == "groq/con_cupo" and esperas == [30]
     assert llamadas == ["retirado", "con_cupo", "con_cupo"]
+
+
+def test_ia_no_recibe_senales_automaticas_y_limpia_ids_del_texto():
+    rep = R.construir("mexico", EVENTOS, [], 0, T, R.cargar_config())
+    assert all(not e.get("automatico") for e in P.eventos_para_ia(rep))
+    assert P._texto("Choques en Sinaloa ([nt-42a772cdb7bce5]) y Baja California ([gd-65a1dd8e3e], [nt-aa11]) podrían escalar.", 500) == \
+        "Choques en Sinaloa y Baja California podrían escalar."
