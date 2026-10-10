@@ -9,7 +9,7 @@
 //   StaleWhileRevalidate  estilos y TileJSON de OpenFreeMap.
 //   NetworkFirst data/*.json (eventos, run-log): siempre intenta lo más reciente; sin red usa la copia.
 // No intercepta peticiones con encabezado Range (archivos .pmtiles): el navegador las cachea solo.
-const VERSION = "v10"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
+const VERSION = "v11"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
 const C_ESTATICO = `estatico-${VERSION}`;
 const C_APP = `app-${VERSION}`;
 const C_MOSAICOS = `mosaicos-${VERSION}`;

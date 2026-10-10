@@ -1,6 +1,6 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
 /* global maplibregl */
-import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe } from "./util.js";
+import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe, resaltar, fragmento, MIN_BUSQUEDA } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
@@ -207,15 +207,30 @@ function pintarLista(visibles) {
   resumenFiltros();
   const html = ordenarLista(visibles).slice(0, MAX_LISTA).map((ev) => {
     const a = tax.areas.get(ev.area_principal);
+    // Si la coincidencia no está en el título, se muestra dónde está (resumen, fuente o actores).
+    const titulo = resaltar(ev.titulo, estado.palabras);
+    const otro = estado.palabras.length && !titulo.includes("<mark>")
+      ? (fragmento(ev.resumen, estado.palabras) || fragmento([typeof ev.fuente === "string" ? ev.fuente : ev.fuente?.nombre, paises?.[ev.pais_iso3]?.es,
+        ...(ev.actores || []).map((x) => (typeof x === "string" ? x : x?.nombre))].filter(Boolean).join(" · "), estado.palabras)) : "";
     return `<li><button type="button" data-id="${esc(ev.id)}" title="${esc(ev.resumen)}">
       <span class="punto" style="background:${esc(a.color)}" aria-hidden="true"></span>
       <span class="sev sev-${ev.severidad}" title="Severidad ${ev.severidad}">${ev.severidad}</span>
-      <span>${esc(ev.titulo)}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)}${ev.pais_iso3 ? ` · ${esc(paises?.[ev.pais_iso3]?.es || ev.pais_iso3)}` : ""}</span></span>
+      <span>${titulo}${otro ? `<span class="meta coincide">${otro}</span>` : ""}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)}${ev.pais_iso3 ? ` · ${esc(paises?.[ev.pais_iso3]?.es || ev.pais_iso3)}` : ""}</span></span>
     </button></li>`;
   });
   if (visibles.length > MAX_LISTA) html.push(`<li class="mas">… y ${visibles.length - MAX_LISTA} más en el mapa. Usa los filtros para acotar.</li>`);
-  if (!visibles.length) html.push(`<li class="mas">Ningún evento coincide con los filtros.</li>`);
+  if (!visibles.length) html.push(`<li class="mas">${estado.palabras.length ? `Ninguna noticia contiene «${esc($("ev-q").value.trim())}» con los filtros actuales.` : "Ningún evento coincide con los filtros."}</li>`);
   ol.innerHTML = html.join("");
+  estadoBusqueda(visibles.length);
+}
+
+/** Línea bajo el buscador: cuántas noticias coinciden, o cuántas letras faltan. */
+function estadoBusqueda(n) {
+  const q = $("ev-q").value.trim(), el = $("ev-q-estado");
+  if (!q) el.textContent = "Busca desde 3 letras, mientras escribes y sin importar acentos. Con varias palabras deben aparecer todas; entre comillas, la frase exacta: \"Banco de México\".";
+  else if (q.length < MIN_BUSQUEDA) el.textContent = `Escribe ${MIN_BUSQUEDA - q.length} letra${MIN_BUSQUEDA - q.length === 1 ? "" : "s"} más para buscar.`;
+  else if (!estado.palabras.length) el.textContent = "Cada palabra debe tener al menos 3 letras.";
+  else el.textContent = `${n.toLocaleString("es-MX")} ${n === 1 ? "noticia coincide" : "noticias coinciden"} con «${q}». También se filtran en el mapa.`;
 }
 
 // ---------- Ficha ----------
@@ -432,10 +447,17 @@ async function main() {
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-leyes").onchange = (e) => { estado.leyes = e.target.checked; programarFiltros(); };
   let tBusca = 0;
+  // Filtra letra por letra desde 3 caracteres (una pausa de 120 ms evita recalcular en cada tecla al escribir rápido).
   $("ev-q").addEventListener("input", (e) => {
     clearTimeout(tBusca);
-    tBusca = setTimeout(() => { estado.palabras = palabrasDe(e.target.value); programarFiltros(); }, 180);  // filtra mientras escribes
+    tBusca = setTimeout(() => {
+      const nuevas = palabrasDe(e.target.value);
+      const cambio = nuevas.join("\u0001") !== estado.palabras.join("\u0001");
+      estado.palabras = nuevas;
+      if (cambio) programarFiltros(); else estadoBusqueda(visiblesActuales.length);
+    }, 120);
   });
+  $("ev-q").addEventListener("keydown", (e) => { if (e.key === "Enter") e.preventDefault(); });
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("ev-limpiar").onclick = () => {
     Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false, leyes: false, palabras: [] });

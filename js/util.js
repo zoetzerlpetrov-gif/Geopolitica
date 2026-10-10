@@ -83,9 +83,40 @@ export function hayObjetoEncima(map, punto) {
 /** Texto sin acentos y en minúsculas, para buscar «Mexico» y encontrar «México». */
 export const sinAcentos = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
 
+export const MIN_BUSQUEDA = 3;  // la búsqueda empieza con 3 caracteres; las palabras más cortas se ignoran
+
 /** Consulta → palabras a buscar (todas deben aparecer). Lo que va entre comillas se busca como frase. */
 export function palabrasDe(q) {
   const out = [];
-  String(q || "").replace(/"([^"]+)"|(\S+)/g, (_, frase, palabra) => { const x = sinAcentos(frase || palabra).trim(); if (x.length >= 2) out.push(x); return ""; });
+  if (String(q || "").trim().length < MIN_BUSQUEDA) return out;
+  String(q).replace(/"([^"]+)"|(\S+)/g, (_, frase, palabra) => { const x = sinAcentos(frase || palabra).trim(); if (x.length >= MIN_BUSQUEDA) out.push(x); return ""; });
   return out;
+}
+
+/** Texto → HTML escapado con <mark> en las partes que coinciden con `palabras` (sin importar acentos ni mayúsculas). */
+export function resaltar(texto, palabras) {
+  const t = String(texto || "").normalize("NFC");
+  if (!palabras?.length) return esc(t);
+  // Texto normalizado carácter por carácter, con la posición original de cada carácter.
+  let norm = ""; const pos = [];
+  for (let i = 0; i < t.length; i++) { const n = sinAcentos(t[i]); for (const c of n) { norm += c; pos.push(i); } }
+  const marca = new Array(t.length).fill(false);
+  for (const w of palabras) {
+    for (let k = norm.indexOf(w); k !== -1; k = norm.indexOf(w, k + 1)) for (let j = k; j < k + w.length; j++) marca[pos[j]] = true;
+  }
+  let html = "", abierto = false;
+  for (let i = 0; i < t.length; i++) {
+    if (marca[i] !== abierto) { html += marca[i] ? "<mark>" : "</mark>"; abierto = marca[i]; }
+    html += esc(t[i]);
+  }
+  return abierto ? `${html}</mark>` : html;
+}
+
+/** Si alguna palabra aparece en `texto`: fragmento de ~`largo` caracteres alrededor de la primera, con <mark>. Si no, "". */
+export function fragmento(texto, palabras, largo = 110) {
+  const t = String(texto || "").normalize("NFC"), n = sinAcentos(t);
+  const k = Math.min(...(palabras || []).map((w) => n.indexOf(w)).filter((i) => i >= 0));
+  if (!Number.isFinite(k)) return "";
+  const ini = Math.max(0, k - Math.floor(largo / 3)), fin = Math.min(t.length, ini + largo);
+  return `${ini > 0 ? "…" : ""}${resaltar(t.slice(ini, fin), palabras)}${fin < t.length ? "…" : ""}`;
 }
