@@ -4,6 +4,7 @@ Se genera en GitHub Actions; si fpdf2 o la fuente no están, reporte.py guarda e
 Cada evento lleva su título, fuente, fecha y enlace al original; el resumen es el propio del sistema.
 """
 import os
+import re
 
 from fpdf import FPDF
 
@@ -25,6 +26,12 @@ class Pdf(FPDF):
         self.set_auto_page_break(True, margin=16)
         self.set_margins(16, 16, 16)
         self.alias_nb_pages()
+        self.set_display_mode("default", "continuous")  # la «acción al abrir» se quita al guardar (sin_accion_al_abrir)
+        self.set_title(rep["titulo"])
+        self.set_subject(f"Reporte del {rep['fecha']}")
+        self.set_author("Monitor Geopolítico")
+        self.set_creator("Monitor Geopolítico · github.com/zoetzerlpetrov-gif/Geopolitica")
+        self.set_lang("es-MX")
 
     def multi_cell(self, w, h, text="", **kw):
         # Cada bloque empieza en el margen izquierdo de la línea siguiente (en fpdf2 el cursor queda a la derecha).
@@ -72,7 +79,9 @@ class Pdf(FPDF):
         if e.get("url"):
             self.set_font("DejaVu", "", 7.5)
             self.set_text_color(*AZUL)
-            self.multi_cell(0, 4, e["url"][:160], link=e["url"])
+            # La dirección va como texto, sin enlace activo (/URI): decenas de enlaces activos a sitios externos
+            # hacen que algunos antivirus marquen el PDF como phishing. Los lectores de PDF la detectan al tocarla.
+            self.multi_cell(0, 4, e["url"][:200])
             self.set_text_color(*NEGRO)
         self.ln(2)
 
@@ -136,4 +145,11 @@ def escribir(rep, ruta):
         pdf.parrafo("Fuentes con más eventos: " + "; ".join(f"{f} ({n})" for f, n in rep["fuentes"][:10]), 8.5, GRIS, 4.2)
     pdf.parrafo("Del contenido de los medios solo se usan título, fuente, fecha y enlace; los resúmenes son propios. "
                 "La clasificación es automática y puede tener errores. No es asesoría.", 8.5, GRIS, 4.2)
-    pdf.output(ruta)
+    with open(ruta, "wb") as f:
+        f.write(sin_accion_al_abrir(bytes(pdf.output())))
+
+
+def sin_accion_al_abrir(datos):
+    """Quita «/OpenAction [...]» del catálogo. fpdf2 la agrega siempre (solo fija el zoom), y algunos antivirus la
+    marcan como sospechosa. Se sustituye por espacios del mismo largo para no mover las posiciones de la tabla xref."""
+    return re.sub(rb"/OpenAction \[[^\]]*\]", lambda m: b" " * len(m.group(0)), datos, count=1)

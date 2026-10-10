@@ -126,7 +126,14 @@ def test_pdf_se_genera_con_acentos(tmp_path):
     rep["panorama_ia"] = {"aviso": "Hipótesis", "horizontes": P.validar(RESPUESTA, {"e1", "e3"})}
     ruta = tmp_path / "r.pdf"
     reporte_pdf.escribir(rep, str(ruta))
-    assert ruta.read_bytes()[:4] == b"%PDF" and ruta.stat().st_size > 5000
+    datos = ruta.read_bytes()
+    assert datos[:4] == b"%PDF" and ruta.stat().st_size > 5000
+    # Nada de lo que los antivirus marcan como sospechoso en un PDF: acción al abrir, enlaces activos, JavaScript…
+    for marca in (b"/OpenAction", b"/URI", b"/JavaScript", b"/JS", b"/AA", b"/Launch", b"/EmbeddedFile", b"/AcroForm"):
+        assert marca not in datos, marca
+    # Reemplazar /OpenAction por espacios no debe mover la tabla xref: el PDF sigue siendo válido.
+    from pypdf import PdfReader
+    assert len(PdfReader(str(ruta), strict=True).pages) >= 1
 
 
 def test_panorama_reintenta_429_y_salta_modelos_retirados():
