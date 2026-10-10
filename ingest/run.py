@@ -147,6 +147,9 @@ def geocodificar(c, gaz, paises):
         c["pais_iso3"] = c["pais_iso3"] or paises.de(c["lon"], c["lat"])
     if not c["pais_iso3"]:
         c["pais_iso3"] = gaz.pais_en_texto(c["titulo"])
+    # Medio nacional (p. ej. mexicano): si el título no nombra otro país, la nota es de ese país.
+    if not c["pais_iso3"] and c.get("pais_defecto"):
+        c["pais_iso3"] = c["pais_defecto"]
     if c["pais_iso3"] and c["lat"] is None:
         lon, lat = gaz.centroide(c["pais_iso3"])
         c["lon"], c["lat"] = lon, lat
@@ -251,11 +254,20 @@ def unir_con_anteriores(nuevos, anteriores, limite):
     return list(por_id.values())
 
 
-def priorizar(eventos, maximo):
-    """Si hay más eventos que el máximo, quedan los más graves y, a igual severidad, los más recientes."""
-    if len(eventos) > maximo:
-        eventos = sorted(eventos, key=lambda e: (e["severidad"], len(e["fuentes"]), e["fecha_utc"]), reverse=True)[:maximo]
-    return sorted(eventos, key=lambda e: e["fecha_utc"], reverse=True)
+def priorizar(eventos, maximo, max_gdelt=None):
+    """Si hay más eventos que el máximo, quedan los más graves y, a igual severidad, los más recientes.
+    `max_gdelt` limita los eventos codificados de GDELT para que no desplacen a las notas de medios."""
+    orden = sorted(eventos, key=lambda e: (e["severidad"], len(e["fuentes"]), e["fecha_utc"]), reverse=True)
+    if max_gdelt is not None:
+        n, filtrados = 0, []
+        for e in orden:
+            if e["fuente"].startswith("GDELT"):
+                n += 1
+                if n > max_gdelt:
+                    continue
+            filtrados.append(e)
+        orden = filtrados
+    return sorted(orden[:maximo], key=lambda e: e["fecha_utc"], reverse=True)
 
 
 def compacto(e):
@@ -391,7 +403,7 @@ def procesar(candidatos, anteriores, cfg, t, gaz, paises, clasificador, taxonomy
             textos[e["id"]] = (c["titulo"], c["texto_clasificar"], c["fuente"])
         eventos.append(e)
     # Se deduplica después de unir: una nota nueva puede ser la misma historia que un evento anterior.
-    todos = priorizar(deduplicar(unir_con_anteriores(eventos, anteriores, limite)), cfg["max_eventos_publicados"])
+    todos = priorizar(deduplicar(unir_con_anteriores(eventos, anteriores, limite)), cfg["max_eventos_publicados"], cfg.get("max_gdelt_publicados"))
     enriquecer(todos, anteriores=anteriores, estado_dato="retrasado")
     if resumidor:
         descartados["ia"] = resumidor(todos, textos)

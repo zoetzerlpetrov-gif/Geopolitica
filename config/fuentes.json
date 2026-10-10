@@ -131,6 +131,116 @@
       "idioma": "es",
       "tipo": "noticia",
       "nota": "Servicio de noticias de la ONU en español (incluye crisis humanitarias). Sustituto parcial de ReliefWeb."
+    },
+    {
+      "id": "jornada_politica",
+      "nombre": "La Jornada · Política",
+      "url": "https://www.jornada.com.mx/rss/politica.xml?v=1",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "jornada_economia",
+      "nombre": "La Jornada · Economía",
+      "url": "https://www.jornada.com.mx/rss/economia.xml?v=1",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "jornada_estados",
+      "nombre": "La Jornada · Estados",
+      "url": "https://www.jornada.com.mx/rss/estados.xml?v=1",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "infobae_mx",
+      "nombre": "Infobae México",
+      "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "eleconomista",
+      "nombre": "El Economista",
+      "url": "https://www.eleconomista.com.mx/rss/ultimas-noticias",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "elfinanciero",
+      "nombre": "El Financiero",
+      "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "expansion",
+      "nombre": "Expansión",
+      "url": "https://expansion.mx/rss",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "expansion_politica",
+      "nombre": "Expansión Política",
+      "url": "https://politica.expansion.mx/rss",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "elsoldemexico",
+      "nombre": "El Sol de México",
+      "url": "https://www.elsoldemexico.com.mx/rss.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "zeta",
+      "nombre": "Zeta Tijuana",
+      "url": "https://zetatijuana.com/feed/",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "piedepagina",
+      "nombre": "Pie de Página",
+      "url": "https://piedepagina.mx/feed/",
+      "idioma": "es",
+      "tipo": "noticia",
+      "pais_defecto": "MEX",
+      "max_items": 40,
+      "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
     }
   ],
   "reliefweb": {
@@ -141,7 +251,7 @@
   },
   "ventana_horas": 72,
   "historial_dias": 90,
-  "max_eventos_publicados": 3000,
+  "max_eventos_publicados": 3500,
   "ia": {
     "habilitada": true,
     "proveedor": "groq",
@@ -161,5 +271,6 @@
     "oms": true,
     "ifrc": true,
     "nota": "Sin llave. OMS Disease Outbreak News y Cruz Roja (IFRC GO) se usan mientras ReliefWeb no tenga appname. Solo título, enlace, fecha, país y tipo; nunca datos de contacto."
-  }
+  },
+  "max_gdelt_publicados": 1800
 }
