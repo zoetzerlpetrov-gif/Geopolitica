@@ -18,3 +18,4 @@ for tipo in ("mexico", "global"):
         print(f" - {s['nombre']}: {s['total']} (notas {s['notas']}) · " + " | ".join(e["titulo"][:60] for e in s["eventos"][:3]))
     ia = r.get("panorama_ia")
     print("IA:", json.dumps(ia, ensure_ascii=False, indent=1)[:6000] if ia else None)
+# corrida 3
