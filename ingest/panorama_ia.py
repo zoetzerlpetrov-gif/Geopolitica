@@ -13,13 +13,14 @@ Se publica con un aviso: es una hipótesis generada por un modelo de lenguaje, n
 """
 import json
 import re
+import time
 import urllib.error
 import urllib.request
 from datetime import datetime, timedelta, timezone
 
 UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 HORAS_ENTRE = 6
-MAX_EVENTOS = 40
+MAX_EVENTOS = 35
 HORIZONTES = {
     "corto_plazo": "próximas 4 semanas",
     "mediano_plazo": "de 3 a 12 meses",
@@ -62,7 +63,7 @@ def mensaje_usuario(rep, eventos):
     lineas = [f"Reporte: {rep['titulo']} ({rep['fecha']}). Resumen por reglas: {rep['panorama_reglas']}", "", "Eventos:"]
     for e in eventos:
         tipo = "señal automática" if e.get("automatico") else e.get("fuente", "")
-        lineas.append(f"[{e['id']}] ({e.get('fecha_utc', '')[:10]}, {tipo}, severidad {e.get('severidad')}) {e['titulo']} — {e.get('resumen', '')[:260]}")
+        lineas.append(f"[{e['id']}] ({e.get('fecha_utc', '')[:10]}, {tipo}, severidad {e.get('severidad')}) {e['titulo']} — {e.get('resumen', '')[:220]}")
     return "\n".join(lineas)
 
 
@@ -126,7 +127,7 @@ def reciente(previo, t):
     return p if t - gen < timedelta(hours=HORAS_ENTRE) else None
 
 
-def panorama(rep, previo, cfg, clave, t, pedir_fn=pedir):
+def panorama(rep, previo, cfg, clave, t, pedir_fn=pedir, dormir=time.sleep):
     """Panorama nuevo, el previo si es reciente o si falla la IA, o None. Nunca lanza excepción."""
     guardado = (previo or {}).get("panorama_ia")
     if reciente(previo, t) or not clave:
@@ -143,7 +144,9 @@ def panorama(rep, previo, cfg, clave, t, pedir_fn=pedir):
             except urllib.error.HTTPError as e:
                 errores.append(f"{modelo}: HTTP {e.code}")
                 if e.code == 429:
-                    return guardado
+                    # Límite por minuto del plan gratuito: cada modelo tiene el suyo. Se espera y se prueba el siguiente.
+                    dormir(20)
+                    break
                 continue
             except Exception as e:  # noqa: BLE001
                 errores.append(f"{modelo}: {type(e).__name__}")

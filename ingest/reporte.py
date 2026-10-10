@@ -127,7 +127,9 @@ def construir(tipo, eventos, base, dias_base, t, cfg, indicadores=None):
     # recorta sobre todo señales de GDELT, así que contarlas inflaría la comparación.
     base = [e for e in base if util(e) and filtro(e) and _es_nota(e)]
     textos = {e["id"]: texto_de(e) for e in ventana}
-    textos_base = [(e, texto_de(e)) for e in base]
+    # Tendencia justa: solo fuentes presentes en los dos periodos (un medio recién agregado no debe contar como «sube»).
+    fuentes_comunes = {e.get("fuente") for e in base} & {e.get("fuente") for e in ventana}
+    textos_base = [(e, texto_de(e)) for e in base if e.get("fuente") in fuentes_comunes]
     n = cfg["eventos_por_seccion"]
     secciones, usados = [], set()
     for sec in tcfg["secciones"]:
@@ -137,7 +139,7 @@ def construir(tipo, eventos, base, dias_base, t, cfg, indicadores=None):
         secciones.append({
             "id": sec["id"], "nombre": sec["nombre"], "total": len(dentro), "notas": len(notas),
             "senales_automaticas": len(dentro) - len(notas), "promedio_7d": round(prom, 1),
-            "tendencia": tendencia(len(notas), prom, dias_base),
+            "tendencia": tendencia(sum(1 for e in notas if e.get("fuente") in fuentes_comunes), prom, dias_base),
             "alta_severidad": sum(1 for e in dentro if e.get("severidad", 0) >= 4),
             "eventos": [compacto(e) for e in dentro[:n]],
         })

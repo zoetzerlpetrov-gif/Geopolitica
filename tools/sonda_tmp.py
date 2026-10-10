@@ -6,7 +6,7 @@ subprocess.run("git fetch -q --depth 1 origin datos-eventos && git archive FETCH
 import run as R
 R.main(["--salida", "/tmp/x/eventos"])
 log = json.load(open("/tmp/x/eventos/run-log.json"))
-print("REPORTES:", log.get("reportes"))
+print("REPORTES:", log.get("reportes")); print("RESUMEN_IA:", log.get("resumen_ia"))
 os.makedirs("sonda", exist_ok=True)
 for tipo in ("mexico", "global"):
     for ruta in sorted(os.listdir(f"/tmp/x/eventos/reportes/{tipo}")):
