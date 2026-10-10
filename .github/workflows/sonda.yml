@@ -19,7 +19,7 @@ jobs:
           from PIL.TiffImagePlugin import IFDRational as R
           im = Image.new("RGB", (400, 300), (70, 130, 200))
           ex = Image.Exif(); ex[0x010f] = "Apple"; ex[0x0110] = "iPhone 15"
-          g = ex.get_ifd(0x8825); g[1] = "N"; g[2] = (R(19), R(25), R(5736, 100)); g[3] = "W"; g[4] = (R(99), R(7), R(5880, 100))
+          g = ex.get_ifd(0x8825); g[1] = "N"; g[2] = (R(19), R(26), R(60)); g[3] = "W"; g[4] = (R(99), R(8), R(1140, 100))
           im.save("/tmp/con_gps.jpg", exif=ex)
           PY
       - run: mkdir -p /tmp/s && cd /tmp/s && npm init -y >/dev/null && npm i playwright@1.48.2 >/dev/null && npx playwright install --with-deps chromium >/dev/null

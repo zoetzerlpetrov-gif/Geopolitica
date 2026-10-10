@@ -6,7 +6,7 @@ import { leerExif, NOMBRE_FORMATO } from "./exif.js";
 
 const $ = (id) => document.getElementById(id);
 const PUNTO = "foto-exif-punto";
-const ZOOM_CALLE = 18;  // a este zoom se leen los nombres de las calles
+const ZOOM_CALLE = 17;  // a este zoom se leen los nombres de las calles y se ven varias cuadras alrededor
 
 const ORIENTACION = { 1: "Normal", 2: "Espejo horizontal", 3: "Girada 180°", 4: "Espejo vertical", 5: "Espejo y girada 90°",
   6: "Girada 90° a la derecha", 7: "Espejo y girada 90° a la izquierda", 8: "Girada 90° a la izquierda" };

@@ -13,4 +13,7 @@ console.log("tras el botón → base:", await p.$eval("#sel-base", (e) => e.valu
 await p.screenshot({ path: "sonda/calles.png" });
 await p.selectOption("#sel-base", "satelite"); await p.waitForTimeout(9000);
 await p.screenshot({ path: "sonda/satelite.png" });
+await p.selectOption("#sel-base", "calles"); await p.waitForTimeout(6000);
+await p.evaluate(() => {}); await p.click(".maplibregl-ctrl-zoom-in"); await p.waitForTimeout(5000);
+await p.screenshot({ path: "sonda/calles18.png" });
 await b.close();
