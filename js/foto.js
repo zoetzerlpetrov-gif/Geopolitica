@@ -6,6 +6,7 @@ import { leerExif, NOMBRE_FORMATO } from "./exif.js";
 
 const $ = (id) => document.getElementById(id);
 const PUNTO = "foto-exif-punto";
+const ZOOM_CALLE = 18;  // a este zoom se leen los nombres de las calles
 
 const ORIENTACION = { 1: "Normal", 2: "Espejo horizontal", 3: "Girada 180°", 4: "Espejo vertical", 5: "Espejo y girada 90°",
   6: "Girada 90° a la derecha", 7: "Espejo y girada 90° a la izquierda", 8: "Girada 90° a la izquierda" };
@@ -78,15 +79,29 @@ export function iniciarFoto({ mapa, lite = () => false }) {
     map.addLayer({ id: `${PUNTO}-c`, type: "circle", source: PUNTO, paint: { "circle-radius": 9, "circle-color": "#E0A100", "circle-stroke-width": 3, "circle-stroke-color": "#fff" } });
   };
 
+  // Tras un cambio de mapa base el estilo se reemplaza completo: se vuelve a poner el punto.
+  let punto = null, conEscucha = false;
+  const ponerPunto = (map) => { if (punto) try { marcar(map, [punto]); } catch (err) { /* estilo aún cargando */ } };
+
   // Un solo escucha para el botón (el resultado se vuelve a pintar con cada foto).
   res.addEventListener("click", (e) => {
     if (!e.target.closest("#foto-ir") || !actual) return;
     const map = mapa();
     if (!map) { res.insertAdjacentHTML("afterbegin", `<p class="meta">El mapa aún está cargando; intenta de nuevo en unos segundos.</p>`); return; }
-    try { marcar(map, [[actual.lon, actual.lat]]); } catch (err) { /* el estilo aún carga: se vuela igual */ }
+    if (!conEscucha) { map.on("style.load", () => ponerPunto(map)); conEscucha = true; }
+    punto = [actual.lon, actual.lat];
+    // Sin calles en el mapa actual (modo LITE con el mapa «Temático», que solo trae países): se cambia a «Calles»
+    // para que se vean cuadras y nombres. La imagen satelital ya trae calles encima.
+    const sinCalles = !Object.values(map.getStyle()?.sources || {}).some((f) => f.type === "vector");
+    const sel = $("sel-base");
+    if (sinCalles && sel && sel.value !== "calles") {
+      sel.value = "calles";
+      sel.dispatchEvent(new Event("change"));
+      $("foto-ir").insertAdjacentHTML("afterend", `<p class="meta" id="foto-aviso-calles">Se cambió el mapa base a «Calles» para ver los nombres de las calles (puedes volver a «Temático» arriba).</p>`);
+    } else ponerPunto(map);
     const layout = document.querySelector(".layout");
     if (matchMedia("(max-width: 760px)").matches && layout && !layout.classList.contains("sin-panel")) $("btn-panel")?.click();  // en el celular el menú tapa el mapa
-    map.flyTo({ center: [actual.lon, actual.lat], zoom: 17, duration: lite() ? 0 : 1200 });
+    map.flyTo({ center: punto, zoom: ZOOM_CALLE, duration: lite() ? 0 : 1200 });
   });
 
   // Lee el archivo como bytes; FileReader cubre navegadores donde File.arrayBuffer() no existe o falla.
@@ -106,6 +121,7 @@ export function iniciarFoto({ mapa, lite = () => false }) {
       res.scrollIntoView({ block: "nearest", behavior: "smooth" });
       let d;
       try { d = leerExif(await bytes(archivo)); } catch (err) { d = { error: `No se pudo leer el archivo (${err?.message || err}).` }; }
+      punto = null;
       try { const map = mapa(); if (map?.getSource(PUNTO)) marcar(map, []); } catch (err) { /* sin mapa todavía */ }
       actual = d.lat != null ? d : null;
       res.innerHTML = htmlFoto(d, archivo);
