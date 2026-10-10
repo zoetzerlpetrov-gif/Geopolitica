@@ -86,8 +86,6 @@
 
       <details class="grupo" id="g-eventos" data-grupo="eventos" open>
         <summary class="grupo-tit" data-grupo="eventos"><span aria-hidden="true">📰</span> Eventos y noticias <span id="contador" class="contador"></span></summary>
-        <div class="ev-busca"><input type="search" id="ev-q" placeholder="Buscar en las noticias: palabra, país, tema…" aria-label="Buscar en eventos y noticias" autocomplete="off">
-          <p class="meta">Muestra solo las noticias que contienen todas las palabras (sin importar acentos). Usa comillas para una frase exacta: "Banco de México".</p></div>
         <details class="bloque plegable" id="b-ev-filtros" data-grupo="eventos" open>
           <summary><h2>Filtros</h2><span class="resumen" id="ev-resumen"></span></summary>
           <div class="ev-filtros">
@@ -115,6 +113,10 @@
         </details>
         <details class="bloque plegable bloque-lista" id="b-ev-lista" data-grupo="eventos" open>
           <summary><h2>Lista de eventos</h2><span class="resumen" id="lista-resumen"></span></summary>
+          <div class="ev-busca" role="search">
+            <input type="search" id="ev-q" placeholder="Buscar en la lista: palabra, país, tema…" aria-label="Buscar en la lista de eventos" aria-describedby="ev-q-estado" autocomplete="off" enterkeyhint="search">
+            <p class="meta" id="ev-q-estado" aria-live="polite">Busca desde 3 letras, mientras escribes y sin importar acentos. Con varias palabras deben aparecer todas; entre comillas, la frase exacta: "Banco de México".</p>
+          </div>
           <ol id="lista-eventos" class="lista-eventos" tabindex="-1"></ol>
         </details>
         <details class="bloque plegable" id="b-ev-feed" data-grupo="eventos">

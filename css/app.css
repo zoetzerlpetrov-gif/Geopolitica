@@ -468,9 +468,10 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .pr-ley-t, .pr-ley-l { display: inline-block; width: 10px; height: 10px; border-radius: 2px; vertical-align: middle; }
 .pr-ley-t { background: linear-gradient(to top, #1F6FB2, #C0392B); } .pr-ley-l { background: #1F8A8A; }
 
-.ev-busca { padding: 8px 12px 4px; }
+.ev-busca { padding: 2px 0 8px; }
 .ev-busca input { width: 100%; box-sizing: border-box; padding: 7px 10px; font-size: 0.95rem; border: 1px solid var(--line); border-radius: 6px; background: var(--surface); color: var(--text); }
 .ev-busca .meta { margin: 4px 0 0; }
+.lista-eventos mark { background: #ffe066; color: #111; border-radius: 2px; padding: 0 1px; }
 
 /* Herramientas → Ubicar una foto */
 .foto-prev { display: block; max-width: 100%; max-height: 220px; margin: 6px 0; border-radius: 6px; border: 1px solid var(--line); object-fit: contain; }
@@ -478,3 +479,4 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .foto-meta dt { font-weight: 600; } .foto-meta dd { margin: 0; overflow-wrap: anywhere; }
 .foto-sin { padding: 6px 8px; border-radius: 6px; border: 1px solid var(--line); }
 .foto-ir { margin: 6px 0; padding: 8px 14px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
+.lista-eventos .coincide { font-style: italic; }
