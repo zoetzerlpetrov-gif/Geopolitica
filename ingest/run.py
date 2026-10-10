@@ -57,7 +57,10 @@ FUERA_DE_TEMA = ["cricket", "futbol", "football", "soccer", "rugby", "tenis", "t
                  "formula 1", "grand prix", "gran premio", "boxeo", "boxing", "ufc", "liga mx", "champions league",
                  "premier league", "seleccion de futbol", "pelicula", "peliculas", "film festival", "box office", "taquilla",
                  "album", "concierto", "cantante", "singer", "actriz", "actress", "celebrity", "reality show", "grammy", "emmy",
-                 "messi", "ronaldo"]
+                 "messi", "ronaldo",
+                 # Medios mexicanos: espectáculos, estilo de vida y autos.
+                 "vocalista", "grupo musical", "telenovela", "horoscopo", "receta", "recetas", "mascotas", "influencer",
+                 "prototipo", "concept car", "cervantino", "festival de cine", "boletos", "estreno"]
 
 
 def fuera_de_tema(titulo, texto):
@@ -429,6 +432,24 @@ def calidad(eventos):
     }
 
 
+def generar_reportes(salida, eventos, t, ia_cfg, clave_ia):
+    """Reportes diarios de México y global (ingest/reporte.py). Un fallo aquí no detiene la ingesta."""
+    try:
+        import reporte
+        import panorama_ia
+        try:
+            import reporte_pdf
+            pdf_fn = reporte_pdf.escribir
+        except ImportError:  # sin fpdf2 el reporte queda solo en la web
+            pdf_fn = None
+        pan = None
+        if ia_cfg.get("habilitada"):
+            pan = lambda rep, previo: panorama_ia.panorama(rep, previo, ia_cfg, clave_ia, t)  # noqa: E731
+        return reporte.generar(salida, eventos, t, panorama_fn=pan, pdf_fn=pdf_fn)
+    except Exception as e:  # noqa: BLE001
+        return {"error": f"{type(e).__name__}: {e}"[:300]}
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--salida", default="eventos", help="carpeta de salida (rama datos-eventos)")
@@ -488,6 +509,8 @@ def main(argv=None):
         "calidad": calidad(eventos), "ejemplos_sin_clasificar": ejemplos, "resumen_ia": est_ia,
         "fuentes": salud, "errores": [f"{s['id']}: {s['error']}" for s in salud if s["estado"] == "error"],
     }
+    log["reportes"] = generar_reportes(args.salida, eventos, t, ia_cfg, clave_ia)
+    print(f"Reportes: {log['reportes']}")
     with open(os.path.join(args.salida, "run-log.json"), "w", encoding="utf-8") as f:
         json.dump(log, f, ensure_ascii=False, indent=1)
     print(f"✓ {len(eventos)} eventos ({nuevos} nuevos) · candidatos {len(candidatos)} · descartados {descartados}")

@@ -373,6 +373,12 @@ function eventosSinteticos(n) {
 async function main() {
   const tema = temaActual();
   lite = modoLite();
+  // Reportes diarios: enlaces a los PDF del día (si ya se generaron).
+  getJSON("data/reportes/indice.json", { bust: true }).then((ix) => {
+    const pdf = (t) => ix[t]?.[0]?.pdf ? `<a href="data/${esc(ix[t][0].pdf)}" download>PDF ${t === "mexico" ? "México" : "global"}</a>` : "";
+    const enlaces = [pdf("mexico"), pdf("global")].filter(Boolean).join(" · ");
+    if (ix.mexico?.[0]) $("reportes-ultimo").innerHTML = `Último: ${esc(ix.mexico[0].fecha)}${enlaces ? ` · ${enlaces}` : ""}`;
+  }).catch(() => {});
   // La herramienta de fotos no depende de los datos: se activa ya, para que responda aunque el resto siga cargando.
   import("./foto.js").then((F) => F.iniciarFoto({ mapa: () => api?.map, lite: () => lite })).catch((e) => console.error("foto", e));
   document.documentElement.classList.toggle("lite", lite);

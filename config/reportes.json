@@ -1,0 +1,32 @@
+{
+  "descripcion": "Secciones de los reportes diarios (ingest/reporte.py). Un evento entra a una sección si su título, resumen, subtemas o actores contienen alguna palabra clave (sin acentos ni mayúsculas) o si su área principal está en «areas». Un evento puede estar en varias secciones.",
+  "dias_conservados": 30,
+  "eventos_por_seccion": 6,
+  "ventana_horas": 24,
+  "mexico": {
+    "titulo": "Panorama diario de México",
+    "secciones": [
+      {"id": "seguridad", "nombre": "Seguridad y crimen organizado", "palabras": ["cartel", "narco", "crimen organizado", "delincuencia organizada", "cjng", "sinaloa", "familia michoacana", "chapitos", "sicario", "homicidio", "asesinato", "asesinan", "ejecutan", "balacera", "ataque armado", "emboscada", "enfrentamiento", "secuestro", "extorsion", "cobro de piso", "desaparecid", "fosa", "guardia nacional", "sedena", "marina", "fentanilo", "narcobloqueo", "violencia"]},
+      {"id": "combustibles", "nombre": "Huachicol, gasolina, gas y combustibles", "palabras": ["huachicol", "toma clandestina", "tomas clandestinas", "gasolina", "diesel", "combustible", "gasolinera", "pemex", "refineria", "dos bocas", "gas natural", "gas lp", "cenagas", "ieps", "desabasto", "ducto", "gasoducto"]},
+      {"id": "economia", "nombre": "Economía y finanzas", "palabras": ["banxico", "banco de mexico", "tipo de cambio", "peso mexicano", "superpeso", "dolar", "inflacion", "inegi", "tasa de interes", "tasa de referencia", "bmv", "bolsa", "inversion", "nearshoring", "exportaciones", "remesas", "deuda", "calificadora", "hacienda", "shcp", "presupuesto", "paquete economico", "pib", "empleo", "recaudacion"], "areas": ["geoeconomia"]},
+      {"id": "comercio_eeuu", "nombre": "Relación con Estados Unidos, comercio y frontera", "palabras": ["estados unidos", "eua", "ee uu", "trump", "washington", "t-mec", "tmec", "usmca", "arancel", "aranceles", "frontera", "deportacion", "migrantes", "migracion", "embajada", "dea", "departamento de estado"]},
+      {"id": "politica", "nombre": "Política e instituciones", "palabras": ["sheinbaum", "presidenta", "reforma", "congreso", "senado", "camara de diputados", "diputados", "suprema corte", "scjn", "poder judicial", "ine", "eleccion", "morena", "oposicion", "gobernador", "gobernadora", "decreto", "dof", "iniciativa", "ley"], "areas": ["instituciones"]},
+      {"id": "protestas", "nombre": "Protestas, bloqueos y conflictos sociales", "palabras": ["protesta", "marcha", "bloqueo", "bloqueos", "manifestacion", "manifestantes", "planton", "paro", "huelga", "cnte", "transportistas", "toma de casetas", "disturbio"]},
+      {"id": "recursos", "nombre": "Agua, electricidad y recursos", "palabras": ["agua", "sequia", "conagua", "presa", "electricidad", "cfe", "apagon", "mineria", "mina", "litio", "energia", "renovable"], "areas": ["energia"]},
+      {"id": "desastres", "nombre": "Clima, desastres y salud", "palabras": ["sismo", "temblor", "huracan", "tormenta", "lluvias", "inundacion", "deslave", "incendio", "proteccion civil", "alerta", "dengue", "brote", "sarampion"], "areas": ["clima", "salud_nrbq"]}
+    ]
+  },
+  "global": {
+    "titulo": "Panorama geopolítico global",
+    "secciones": [
+      {"id": "conflictos", "nombre": "Guerras y conflictos armados", "palabras": ["guerra", "ofensiva", "bombardeo", "ataque", "misil", "misiles", "dron", "drones", "combates", "frente", "invasion", "alto el fuego", "tregua", "ejercito", "milicia", "war", "airstrike", "offensive", "ceasefire", "missile", "drone", "troops"], "areas": ["seguridad"]},
+      {"id": "estrechos", "nombre": "Estrechos, rutas marítimas y comercio por mar", "palabras": ["ormuz", "hormuz", "malaca", "malacca", "suez", "canal de panama", "panama canal", "bab el mandeb", "mar rojo", "red sea", "bosforo", "bosphorus", "gibraltar", "estrecho de taiwan", "taiwan strait", "huties", "houthi", "transporte maritimo", "shipping", "petrolero", "tanker", "buque", "naviera"]},
+      {"id": "disturbios", "nombre": "Protestas, disturbios e inestabilidad política", "palabras": ["protesta", "protestas", "manifestantes", "disturbios", "toque de queda", "golpe de estado", "coup", "protest", "protesters", "riot", "unrest", "huelga", "strike", "estado de emergencia"]},
+      {"id": "economia", "nombre": "Economía, comercio y sanciones", "palabras": ["arancel", "aranceles", "tariff", "sanciones", "sanctions", "comercio", "trade", "inflacion", "inflation", "banco central", "central bank", "deuda", "debt", "mercados", "markets", "fmi", "imf"], "areas": ["geoeconomia"]},
+      {"id": "energia", "nombre": "Energía y recursos estratégicos", "palabras": ["petroleo", "oil", "gas", "opep", "opec", "gnl", "lng", "minerales criticos", "critical minerals", "litio", "lithium", "tierras raras", "rare earths", "uranio", "electricidad"], "areas": ["energia"]},
+      {"id": "diplomacia", "nombre": "Diplomacia, alianzas e instituciones", "palabras": ["onu", "consejo de seguridad", "otan", "nato", "cumbre", "summit", "acuerdo", "agreement", "elecciones", "election", "tribunal", "corte penal", "icc", "union europea", "european union", "g7", "g20", "brics"], "areas": ["instituciones", "regional"]},
+      {"id": "tecnologia", "nombre": "Tecnología, ciberataques y espacio", "palabras": ["ciberataque", "cyberattack", "hackeo", "hack", "ransomware", "semiconductores", "chips", "inteligencia artificial", "satelite", "cable submarino"], "areas": ["tecnologia"]},
+      {"id": "humanitario", "nombre": "Crisis humanitarias, desastres y salud", "palabras": ["refugiados", "refugees", "desplazados", "hambruna", "famine", "brote", "outbreak", "epidemia", "terremoto", "earthquake", "huracan", "hurricane", "inundaciones", "floods", "ciclon", "cyclone"], "areas": ["demografia", "clima", "salud_nrbq"]}
+    ]
+  }
+}

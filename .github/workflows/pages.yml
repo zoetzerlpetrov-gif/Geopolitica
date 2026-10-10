@@ -39,7 +39,7 @@ jobs:
       - name: Armar el sitio (solo archivos públicos)
         run: |
           mkdir -p _site
-          cp -r index.html taxonomia.html sw.js css js vendor config data schema _site/
+          cp -r index.html taxonomia.html reporte.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Capas PMTiles: rama huérfana "datos-capas" (workflow "Construir capas").
@@ -65,6 +65,10 @@ jobs:
             if [ -d /tmp/eventos/historial ]; then
               mkdir -p _site/data/historial && cp /tmp/eventos/historial/*.json _site/data/historial/
               cp /tmp/eventos/historial-indice.json _site/data/ 2>/dev/null || true
+            fi
+            # Reportes diarios (JSON y PDF) de México y global.
+            if [ -d /tmp/eventos/reportes ]; then
+              mkdir -p _site/data/reportes && cp -r /tmp/eventos/reportes/* _site/data/reportes/
             fi
           else
             echo "Aún no existe la rama datos-eventos: se publican los datos de ejemplo"
