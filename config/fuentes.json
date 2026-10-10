@@ -265,7 +265,13 @@
     ],
     "max_por_corrida": 40,
     "pausa_s": 2.5,
-    "max_tokens": 600
+    "max_tokens": 600,
+    "modelos_panorama": [
+      "openai/gpt-oss-120b",
+      "openai/gpt-oss-20b",
+      "qwen/qwen3-32b"
+    ],
+    "nota_panorama": "Modelos para el panorama de los reportes diarios. llama-3.3-70b y llama-4-scout respondieron 404 el 2026-10-10."
   },
   "humanitarias": {
     "oms": true,

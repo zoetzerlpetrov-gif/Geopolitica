@@ -106,12 +106,12 @@ def _json_de(texto):
 
 
 def pedir(rep, eventos, cfg, clave, modelo, json_mode=True):
-    cuerpo = {"model": modelo, "temperature": 0.3, "max_tokens": 3500,
+    cuerpo = {"model": modelo, "temperature": 0.3, "max_tokens": 5000,
               "messages": [{"role": "system", "content": INSTRUCCIONES}, {"role": "user", "content": mensaje_usuario(rep, eventos)}]}
     if json_mode:
         cuerpo["response_format"] = {"type": "json_object"}
     if "gpt-oss" in modelo or "qwen" in modelo:
-        cuerpo["reasoning_effort"] = "medium"
+        cuerpo["reasoning_effort"] = "low"  # con «medium» el razonamiento agotaba los tokens y el JSON salía cortado
         cuerpo["reasoning_format"] = "hidden"
     req = urllib.request.Request(cfg["url"], data=json.dumps(cuerpo).encode(),
                                  headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json", "User-Agent": UA})
@@ -137,16 +137,21 @@ def panorama(rep, previo, cfg, clave, t, pedir_fn=pedir, dormir=time.sleep):
         return guardado
     ids = {e["id"] for e in eventos}
     errores = []
-    for modelo in cfg.get("modelos", [])[:3]:
-        for json_mode in (True, False):
+    for modelo in cfg.get("modelos_panorama") or cfg.get("modelos", [])[:3]:
+        esperas = 0
+        for json_mode in (True, False, False):
             try:
                 horizontes = validar(_json_de(pedir_fn(rep, eventos, cfg, clave, modelo, json_mode)), ids)
             except urllib.error.HTTPError as e:
-                errores.append(f"{modelo}: HTTP {e.code}")
-                if e.code == 429:
-                    # Límite por minuto del plan gratuito: cada modelo tiene el suyo. Se espera y se prueba el siguiente.
-                    dormir(20)
-                    break
+                detalle = e.read()[:160].decode("utf-8", "replace") if hasattr(e, "read") else ""
+                errores.append(f"{modelo}: HTTP {e.code} {detalle}")
+                if e.code == 429 and esperas < 2:
+                    # Límite por minuto del plan gratuito (la misma corrida ya resumió notas): se espera y se reintenta.
+                    esperas += 1
+                    dormir(30)
+                    continue
+                if e.code in (404, 429):
+                    break  # modelo retirado o sin cupo: el siguiente de la lista
                 continue
             except Exception as e:  # noqa: BLE001
                 errores.append(f"{modelo}: {type(e).__name__}")

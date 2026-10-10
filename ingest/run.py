@@ -306,7 +306,9 @@ def actualizar_historial(carpeta, eventos, hoy, dias):
                 previos = json.load(f)["eventos"]
         todos = {r["id"]: r for r in previos}
         todos.update({r["id"]: r for r in nuevos})
-        lista = sorted(todos.values(), key=lambda r: (-r["severidad"], r["fecha_utc"]))[:HIST_MAX_DIA]
+        # Primero las notas de medios: si GDELT llena el cupo, la tendencia de los reportes compararía contra un
+        # historial casi sin notas (se recortaban por tener severidad 2).
+        lista = sorted(todos.values(), key=lambda r: (str(r.get("fuente", "")).startswith("GDELT"), -r["severidad"], r["fecha_utc"]))[:HIST_MAX_DIA]
         with open(ruta, "w", encoding="utf-8") as f:
             json.dump({"dia": dia, "total": len(lista), "eventos": lista}, f, ensure_ascii=False, separators=(",", ":"))
     borrados = 0

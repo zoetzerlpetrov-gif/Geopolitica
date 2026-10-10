@@ -116,6 +116,7 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | 4 | Línea de tiempo, mapa de calor por país, checklist de 10 pasos con notas, 7 lentes teóricas | Hecha |
 | 5 | Vista México con semáforo, matriz de riesgo 5 × 5 con CSV, modo aprendizaje | Hecha |
 | 6 | Redes sociales e IA opcional | Parcial: resúmenes con IA (Groq) cuando hay clave; algunas fuentes de redes sociales públicas |
+| 7 | Reportes diarios de México y global (web y PDF) con panorama de escenarios con IA | Hecha: `ingest/reporte.py`, `reporte.html`, secciones en `config/reportes.json` |
 
 ## Exclusiones
 

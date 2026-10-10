@@ -127,3 +127,23 @@ def test_pdf_se_genera_con_acentos(tmp_path):
     ruta = tmp_path / "r.pdf"
     reporte_pdf.escribir(rep, str(ruta))
     assert ruta.read_bytes()[:4] == b"%PDF" and ruta.stat().st_size > 5000
+
+
+def test_panorama_reintenta_429_y_salta_modelos_retirados():
+    import io
+    import urllib.error
+    rep = R.construir("mexico", EVENTOS, [], 0, T, R.cargar_config())
+    cfg = {"modelos_panorama": ["retirado", "con_cupo"], "url": "http://x", "proveedor": "groq"}
+    llamadas, esperas = [], []
+
+    def pedir(rep, eventos, cfg, clave, modelo, json_mode):
+        llamadas.append(modelo)
+        if modelo == "retirado":
+            raise urllib.error.HTTPError("u", 404, "no", {}, io.BytesIO(b"model not found"))
+        if llamadas.count("con_cupo") == 1:
+            raise urllib.error.HTTPError("u", 429, "lim", {}, io.BytesIO(b"rate limit"))
+        return json.dumps(RESPUESTA)
+
+    ok = P.panorama(rep, None, cfg, "clave", T, pedir_fn=pedir, dormir=esperas.append)
+    assert ok["modelo"] == "groq/con_cupo" and esperas == [30]
+    assert llamadas == ["retirado", "con_cupo", "con_cupo"]
