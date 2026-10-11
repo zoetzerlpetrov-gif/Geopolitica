@@ -1,0 +1,143 @@
+{
+ "generado_utc": "2026-10-10T22:06:36Z",
+ "corrida": "2026-10-10T18Z",
+ "fuente": "NOAA GFS 1° vía NOMADS",
+ "viento_escala_ms": 40.0,
+ "viento_altura_escala_ms": 90.0,
+ "rejilla_viento": {
+  "lon0": -180,
+  "lat0": 90,
+  "paso": 1,
+  "ancho": 360,
+  "alto": 181
+ },
+ "mercator_lat_max": 85.05112878,
+ "pasos": [
+  {
+   "f": 3,
+   "valido_utc": "2026-10-10T21:00:00Z",
+   "viento": "viento_f003.png",
+   "temp": "temp_f003.png",
+   "lluvia": "lluvia_f003.png",
+   "viento_max_ms": 45.1,
+   "alturas": {
+    "500": {
+     "archivo": "viento500_f003.png",
+     "km": 5.5
+    },
+    "300": {
+     "archivo": "viento300_f003.png",
+     "km": 9.2
+    },
+    "200": {
+     "archivo": "viento200_f003.png",
+     "km": 11.8
+    }
+   }
+  },
+  {
+   "f": 15,
+   "valido_utc": "2026-10-11T09:00:00Z",
+   "viento": "viento_f015.png",
+   "temp": "temp_f015.png",
+   "lluvia": "lluvia_f015.png",
+   "viento_max_ms": 35.7,
+   "alturas": {
+    "500": {
+     "archivo": "viento500_f015.png",
+     "km": 5.5
+    },
+    "300": {
+     "archivo": "viento300_f015.png",
+     "km": 9.2
+    },
+    "200": {
+     "archivo": "viento200_f015.png",
+     "km": 11.8
+    }
+   }
+  },
+  {
+   "f": 27,
+   "valido_utc": "2026-10-11T21:00:00Z",
+   "viento": "viento_f027.png",
+   "temp": "temp_f027.png",
+   "lluvia": "lluvia_f027.png",
+   "viento_max_ms": 35.0
+  },
+  {
+   "f": 51,
+   "valido_utc": "2026-10-12T21:00:00Z",
+   "viento": "viento_f051.png",
+   "temp": "temp_f051.png",
+   "lluvia": "lluvia_f051.png",
+   "viento_max_ms": 28.6
+  },
+  {
+   "f": 75,
+   "valido_utc": "2026-10-13T21:00:00Z",
+   "viento": "viento_f075.png",
+   "temp": "temp_f075.png",
+   "lluvia": "lluvia_f075.png",
+   "viento_max_ms": 27.6
+  }
+ ],
+ "leyendas": {
+  "temp": [
+   [
+    -40,
+    "#6e40aa"
+   ],
+   [
+    -20,
+    "#3b4cc0"
+   ],
+   [
+    0,
+    "#6fa8dc"
+   ],
+   [
+    10,
+    "#7ccf8a"
+   ],
+   [
+    20,
+    "#f2d24b"
+   ],
+   [
+    30,
+    "#f08c3a"
+   ],
+   [
+    40,
+    "#c0392b"
+   ]
+  ],
+  "lluvia": [
+   [
+    0.3,
+    "#78beff"
+   ],
+   [
+    1,
+    "#3c78e6"
+   ],
+   [
+    4,
+    "#32b45a"
+   ],
+   [
+    10,
+    "#f0d23c"
+   ],
+   [
+    25,
+    "#dc3c28"
+   ],
+   [
+    50,
+    "#a028a0"
+   ]
+  ]
+ }
+}
