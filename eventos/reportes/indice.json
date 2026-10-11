@@ -1,0 +1,35 @@
+{
+ "generado_utc": "2026-10-11T00:22:59Z",
+ "mexico": [
+  {
+   "fecha": "2026-10-10",
+   "generado_utc": "2026-10-11T00:18:25Z",
+   "total": 180,
+   "pdf": "reportes/mexico/2026-10-10.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-09",
+   "generado_utc": "2026-10-10T05:54:12Z",
+   "total": 159,
+   "pdf": "reportes/mexico/2026-10-09.pdf",
+   "ia": true
+  }
+ ],
+ "global": [
+  {
+   "fecha": "2026-10-10",
+   "generado_utc": "2026-10-11T00:18:25Z",
+   "total": 740,
+   "pdf": "reportes/global/2026-10-10.pdf",
+   "ia": false
+  },
+  {
+   "fecha": "2026-10-09",
+   "generado_utc": "2026-10-10T05:54:12Z",
+   "total": 1021,
+   "pdf": "reportes/global/2026-10-09.pdf",
+   "ia": true
+  }
+ ]
+}

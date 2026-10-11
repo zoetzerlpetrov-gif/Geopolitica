@@ -1,0 +1,351 @@
+{
+ "generado_utc": "2026-10-11T00:18:25Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-10-11T01:17:00Z",
+ "eventos_total": 2587,
+ "eventos_nuevos": 35,
+ "candidatos": 706,
+ "descartados": {
+  "fuera_de_ventana": 101,
+  "fuera_de_tema": 15,
+  "sin_clasificar": 163,
+  "red_social_sin_pais": 1
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 2587,
+  "sin_pais": 64,
+  "confianza_baja": 256,
+  "verificados": 10,
+  "con_varias_fuentes": 743,
+  "impacto_mexico": 401,
+  "confianza_media": 0.62,
+  "por_area": {
+   "seguridad": 1799,
+   "instituciones": 186,
+   "geoeconomia": 135,
+   "clima": 116,
+   "identidad": 115,
+   "geografia": 59,
+   "energia": 56,
+   "tecnologia": 47,
+   "regional": 35,
+   "demografia": 18,
+   "riesgo": 10,
+   "salud_nrbq": 9,
+   "infraestructura": 2
+  },
+  "por_tipo_fuente": {
+   "noticia": 713,
+   "base_datos": 1804,
+   "analisis": 3,
+   "red_social": 67
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "US murderer Christa Pike discharged from hospital 10 days after failed execution",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmlyle97pqd7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Headmaster detained after BBC investigation into alleged sexual abuse of students",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cwy8lx1r2vrro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "US country music star Ella Langley cancels show due to 'security threat'",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cm79pdlywqd4o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Three men found guilty of murdering Australian brothers and US friend in Mexico",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cj5ynwnye009o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Man named Hitler Mussolini elected mayor in Peru",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmdxwn9dr42yo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Inside the room: What it was like to be with Blackpink's Lisa as race scandal erupted",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cjzxl56q30k7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Public executions in the US stopped nearly a century ago - why are they resuming now?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c6kgq7rqdql7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Fort Hood survivor supports gunman's execution by firing squad but questions livestream",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ck1wvqw4lzdvo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: 'Time for Ukraine to get a new president', says Trump",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cwkg50dgpml7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "BBC breaks down video of the aftermath of New York City ICE shooting",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cm36905w7zl4o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "How the trial of murdered Australian brothers and US friend unfolded",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cr86z34vz95yo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Thai Queen makes first solo flight in fighter jet",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cqm263x40y37o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Condenada que sobrevivió a ejecución en EEUU regresa a la cárcel",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/condenada-que-sobrevivió-a-ejecución-en-eeuu-regresa-a-la-cárcel/a-79630003?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido RB Leipzig vs. Eintracht Frankfurt",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-rb-leipzig-vs-eintracht-frankfurt/a-79629579?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Bundesliga: vuelven los derbis en la quinta jornada",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-vuelven-los-derbis-en-la-quinta-jornada/a-79618711?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "resumidos": 7,
+  "rechazados": 16,
+  "motivos": {
+   "copia": 14,
+   "insuficiente": 2
+  },
+  "errores": [
+   "límite gratuito alcanzado (429): el resto queda para la siguiente corrida"
+  ],
+  "pendientes": 17
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 183,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 32,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 19,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.6,
+   "error": "ParseError: no element found: line 1, column 0"
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 26,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.0,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 2.8,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.1,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.7,
+   "error": null
+  },
+  {
+   "id": "reliefweb",
+   "nombre": "ReliefWeb (OCHA)",
+   "estado": "omitida",
+   "eventos": 0,
+   "segundos": 0,
+   "error": "Falta el secreto RELIEFWEB_APPNAME"
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "onu_noticias: ParseError: no element found: line 1, column 0"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-10-10",
+   "total": 180,
+   "pdf": true,
+   "ia": true
+  },
+  "global": {
+   "fecha": "2026-10-10",
+   "total": 740,
+   "pdf": true,
+   "ia": false
+  }
+ }
+}
