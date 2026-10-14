@@ -106,6 +106,17 @@ export const ANOMALIAS = [
   capaAnomalia("anom_oficina", "Oficinas oficiales que investigan reportes (AARO, GEIPAN)", "Dónde reportar o consultar casos analizados.", { niveles: ["oficial"] }),
 ];
 
+/** Alertas del NWS sin geometría → punto en el promedio de los centroides de sus condados (SAME = «0» + FIPS). */
+export function ubicarPorCondados(fc, condados) {
+  return { ...fc, features: (fc.features || []).map((f) => {
+    if (f.geometry) return f;
+    const cs = (f.properties?.geocode?.SAME || []).map((s) => condados[String(s).slice(-5)]).filter(Boolean);
+    if (!cs.length) return f;
+    const lon = cs.reduce((a, c) => a + c[0], 0) / cs.length, lat = cs.reduce((a, c) => a + c[1], 0) / cs.length;
+    return { ...f, geometry: { type: "Point", coordinates: [Number(lon.toFixed(3)), Number(lat.toFixed(3))] }, properties: { ...f.properties, _aprox: cs.length } };
+  }) };
+}
+
 export const CAPAS = [
   {
     id: "sismos", grupo: "Desastres naturales", nombre: "Sismos M2.5+ (24 h, en vivo)", url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
@@ -406,10 +417,14 @@ export const CAPAS = [
   },
   {
     id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",
-    refresco_s: 300, fuente: "NOAA National Weather Service",
+    // La API rechaza parámetros que no conoce (400 con «t=»): sin anticaché.
+    sinAnticache: true, refresco_s: 300, fuente: "NOAA National Weather Service",
+    // ~90 % de las alertas no trae polígono, solo condados (códigos SAME = «0» + FIPS): se ubican en su centro.
+    complementar: async (fc) => ubicarPorCondados(fc, (await getJSON("config/us_condados.json")).condados),
     estilo: (p) => ({ c: { Extreme: C.violeta, Severe: C.rojo, Moderate: C.naranja, Minor: C.ambar }[p.severity] || C.gris, r: 4 }),
     ficha: (p) => ({ titulo: p.event || "Alerta", chip: `${p.severity || ""} · ${p.urgency || ""}`,
-      filas: [["Zonas", (p.areaDesc || "—").slice(0, 300)], ["Vigente hasta", p.expires ? fecha(p.expires) : "—"], ["Resumen", (p.headline || "—").slice(0, 300)]],
+      filas: [["Zonas", (p.areaDesc || "—").slice(0, 300)], ["Vigente hasta", p.expires ? fecha(p.expires) : "—"], ["Resumen", (p.headline || "—").slice(0, 300)],
+        ...(p._aprox ? [["Ubicación", `Aproximada: centro de ${p._aprox} condado(s) del aviso (el NWS no publica su polígono)`]] : [])],
       url: p["@id"] || "https://alerts.weather.gov", fuente: "NOAA NWS (aviso oficial)" }),
   },
   {
@@ -676,7 +691,7 @@ export class Riesgos {
   async #datos(capa) {
     let fc;
     if (capa.generar) fc = await capa.generar(leerArchivo);
-    else if (capa.url) fc = await getJSON(capa.url, { bust: true });
+    else if (capa.url) fc = await getJSON(capa.url, { bust: !capa.sinAnticache });
     else {
       // Archivos de Clima Táctico + archivos propios (data/vivos/…); uno que falte no impide los demás.
       const partes = await Promise.all([...capa.archivos.map((a) => leerArchivo(a).catch(() => null)), ...(capa.locales || []).map((u) => getJSON(u, { bust: true }).catch(() => null))]);

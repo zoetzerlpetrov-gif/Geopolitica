@@ -65,3 +65,15 @@ test("preparar agrega severidad, tipo, ícono, país y clave; sismos derivan enj
   assert.equal(nws.features[0].properties._pais, "USA");
   assert.equal(nws.features[0].properties._sev, 4);
 });
+
+test("NWS: sin anticaché y alertas sin polígono ubicadas por sus condados", async () => {
+  const { ubicarPorCondados } = await import("../../js/riesgos.js");
+  assert.equal(capa("nws").sinAnticache, true);
+  const fc = { features: [{ geometry: null, properties: { geocode: { SAME: ["020083", "020069"] } } }, { geometry: null, properties: { geocode: { SAME: ["099999"] } } },
+    { geometry: { type: "Polygon", coordinates: [] }, properties: {} }] };
+  const r = ubicarPorCondados(fc, { "20083": [-100, 38], "20069": [-102, 40] });
+  assert.deepEqual(r.features[0].geometry.coordinates, [-101, 39]);
+  assert.equal(r.features[0].properties._aprox, 2);
+  assert.equal(r.features[1].geometry, null);              // condado desconocido: sigue sin ubicación
+  assert.equal(r.features[2].geometry.type, "Polygon");
+});

@@ -110,7 +110,17 @@ def jaccard(a, b):
 
 
 # Frases que contienen palabras graves pero no describen un hecho violento («Festival del Día de Muertos»).
-NO_GRAVES = re.compile(r" (?:dia|dias|festival|desfile|ofrenda|ofrendas) de (?:los )?muertos | day of the dead | dia de los fieles difuntos ")
+NO_GRAVES = re.compile(r" (?:dia|dias|festival|desfile|ofrenda|ofrendas|altar|altares|noche|pan|calaveritas|catrinas?) de (?:los )?muertos? "
+                       r"| day of the dead | dia de los fieles difuntos | halloween | mictlan ")
+
+
+def revaluar_festivos(e):
+    """Notas de festividades guardadas en corridas anteriores (antes de existir NO_GRAVES) conservaban severidad 4:
+    si el título es de una fiesta y el texto ya no es grave, se baja a lo que da severidad_texto."""
+    titulo = f" {normalizar(e.get('titulo') or '')} "
+    if (e.get("severidad") or 0) >= 3 and NO_GRAVES.search(titulo):
+        e["severidad"] = min(e["severidad"], severidad_texto(f" {e.get('titulo', '')} {e.get('resumen') or ''} "))
+    return e
 
 
 def severidad_texto(texto):
@@ -246,7 +256,7 @@ def deduplicar(eventos):
 
 def unir_con_anteriores(nuevos, anteriores, limite):
     """Los eventos nuevos reemplazan al mismo id; los anteriores siguen si están dentro de la ventana."""
-    por_id = {e["id"]: copy.deepcopy(e) for e in anteriores if fecha(e["fecha_utc"]) >= limite}
+    por_id = {e["id"]: revaluar_festivos(copy.deepcopy(e)) for e in anteriores if fecha(e["fecha_utc"]) >= limite}
     for e in nuevos:
         previo = por_id.get(e["id"])
         if previo:  # conserva fuentes acumuladas en corridas previas (o de otro feed con el mismo enlace)
