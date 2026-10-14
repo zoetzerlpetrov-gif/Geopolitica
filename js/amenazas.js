@@ -11,6 +11,7 @@ const lim = (n) => Math.max(1, Math.min(5, Math.round(n)));
 
 /** Severidad, tipo e ícono de un objeto según su capa. */
 export function clasificar(capa, p = {}, geom = null) {
+  if (capa.startsWith("trenes")) return { sev: (p.retraso_min ?? 0) >= 30 ? 2 : 1, tipo: "Tren en circulación", ic: "" };
   switch (capa) {
     case "sismos": {
       const m = p.mag || 0;
@@ -79,7 +80,6 @@ export function clasificar(capa, p = {}, geom = null) {
     }
     case "avisos_nauticos": return { sev: lim(p.sev || 2), tipo: `Aviso náutico: ${p.categoria_texto || "seguridad"}`,
       ic: p.kind === "punto" ? { pirateria: "🏴‍☠️", minas_misiles: "💣", rescate: "🛟", gnss: "📡", militar_espacial: "🎯" }[p.categoria] || "⚓" : "" };
-    case "trenes": return { sev: 1, tipo: "Tren en circulación", ic: "" };
     case "perturbaciones": {
       const n = p.nivel_7d || p.nivel_2d;
       return { sev: n === "alta" ? 4 : n === "media" ? 3 : 2, tipo: "Perturbación tropical", ic: p.kind.startsWith("ubicacion") ? "🌀" : "" };

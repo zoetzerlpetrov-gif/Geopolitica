@@ -80,14 +80,34 @@ def test_trenes_solo_posiciones_recientes():
     assert not T.reciente(None, ahora)
 
 
-def test_trenes_graphql():
+def test_trenes_finlandia():
     ts = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.000Z")
     d = {"data": {"currentlyRunningTrains": [
         {"trainNumber": 7, "departureDate": "2026-10-14", "cancelled": False, "trainType": {"name": "IC", "trainCategory": {"name": "Long-distance"}},
          "operator": {"name": "VR"}, "trainLocations": [{"speed": 140, "timestamp": ts, "location": [29.65, 61.68]}], "timeTableRows": [{"station": {"name": "Helsinki"}}]},
         {"trainNumber": 8, "cancelled": True, "trainLocations": [{"speed": 0, "timestamp": ts, "location": [25, 60]}]}]}}
-    f = T.de_graphql(d)
-    assert len(f) == 1 and f[0]["properties"]["categoria"] == "Larga distancia" and f[0]["properties"]["origen"] == "Helsinki" and f[0]["properties"]["id"] == "tren-7"
+    f = T.finlandia_graphql(d)
+    assert len(f) == 1 and f[0]["properties"]["categoria"] == "Larga distancia" and f[0]["properties"]["origen"] == "Helsinki"
+    assert f[0]["properties"]["id"] == "finlandia-7" and f[0]["properties"]["red"] == "finlandia"
+
+
+def test_trenes_noruega_irlanda_boston_filadelfia():
+    ahora = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    no = T.noruega_graphql({"data": {"vehicles": [{"vehicleId": "525-2026-10-14", "lastUpdated": ahora, "location": {"latitude": 59.67, "longitude": 9.65},
+                                                   "speed": 20, "line": {"publicCode": "R12", "lineName": "Kongsberg-Oslo S-Eidsvoll"}, "operator": {"operatorRef": "VYG:Operator:VY"}}]}})
+    assert no[0]["properties"]["operador"] == "Vy" and no[0]["properties"]["vel_kmh"] == 72
+    xml = b"""<?xml version="1.0"?><ArrayOfObjTrainPositions xmlns="http://api.irishrail.ie/realtime/">
+      <objTrainPositions><TrainStatus>R</TrainStatus><TrainLatitude>53.35</TrainLatitude><TrainLongitude>-6.25</TrainLongitude><TrainCode>A123</TrainCode>
+      <PublicMessage>A123\\n17:30 - Dublin Connolly to Sligo (2 mins late)\\nDeparted Maynooth</PublicMessage><Direction>To Sligo</Direction></objTrainPositions>
+      <objTrainPositions><TrainStatus>N</TrainStatus><TrainLatitude>51.8</TrainLatitude><TrainLongitude>-8.2</TrainLongitude><TrainCode>P529</TrainCode></objTrainPositions>
+    </ArrayOfObjTrainPositions>"""
+    ie = T.irlanda_xml(xml)
+    assert len(ie) == 1 and ie[0]["properties"]["origen"] == "Dublin Connolly" and ie[0]["properties"]["destino"] == "Sligo" and ie[0]["properties"]["retraso_min"] == 2
+    bo = T.boston_json({"data": [{"id": "1814", "attributes": {"label": "1814", "latitude": 41.98, "longitude": -70.96, "speed": 10, "updated_at": ahora},
+                                  "relationships": {"route": {"data": {"id": "CR-NewBedford"}}}}]})
+    assert bo[0]["properties"]["linea"] == "Línea NewBedford" and bo[0]["properties"]["vel_kmh"] == 36
+    fi = T.filadelfia_json([{"lat": "40.07", "lon": "-75.30", "trainno": "2393", "dest": "Penn Medicine", "line": "Manayunk/Norristown", "late": 4, "SOURCE": "Norristown"}])
+    assert fi[0]["properties"]["retraso_min"] == 4 and fi[0]["geometry"]["coordinates"] == [-75.3, 40.07]
 
 
 def test_perturbaciones_niveles():
@@ -145,6 +165,15 @@ def test_zonas_agrega_eventos():
     fs = Z.zonas([ev(12, "Balacera en Sinaloa", sev=3), ev(13, "Bloqueos en Sinaloa", sev=5)], Z.Divisiones(POLIS), AHORA_DT)
     p = fs[0]["properties"]
     assert p["n_eventos"] == 2 and p["sev_max"] == 5 and p["eventos"][0]["severidad"] == 5 and p["id"] == "MEX-Sinaloa"
+    assert p["eventos"][0]["por_que"] == "la nota nombra «Sinaloa»"
+    assert dict(p["temas"]) == {"Violencia armada o crimen organizado": 1, "Protestas, bloqueos o disturbios": 1}
+    assert p["resumen"].startswith("Posible afectación por: ")
+
+
+def test_zonas_tema():
+    assert Z.tema_de("Huracán Simon deja dos muertos en Sinaloa") == "Huracán, ciclón o tormenta tropical"
+    assert Z.tema_de("Miles de manifestantes marchan en Nueva Delhi") == "Protestas, bloqueos o disturbios"
+    assert Z.tema_de("Reunión de gabinete", "instituciones", {"instituciones": "Instituciones"}) == "Instituciones"
 
 
 def test_contiene_con_hueco():

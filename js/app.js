@@ -881,10 +881,14 @@ async function iniciarRiesgos() {
       if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
     },
   });
+  const filaCapa = (c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>
+      ${c.leyenda ? `<div class="ley-wrap" id="rg-ley-${c.id}" hidden>${R.htmlLeyenda(c)}</div>` : ""}`;
+  const delGrupo = (g) => R.CAPAS.filter((c) => c.grupo === g && !c.menu);
   cont.innerHTML = R.GRUPOS.map(([g, ic, color], i) => `<details class="subgrupo-d" id="sg-rg-${i}" open><summary class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}
-      <span class="sg-n">${R.CAPAS.filter((c) => c.grupo === g).length} capas</span></summary>`
-    + R.CAPAS.filter((c) => c.grupo === g).map((c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>
-      ${c.leyenda ? `<div class="ley-wrap" id="rg-ley-${c.id}" hidden>${R.htmlLeyenda(c)}</div>` : ""}`).join("") + `</details>`).join("");
+      <span class="sg-n">${delGrupo(g).length} capas</span></summary>` + delGrupo(g).map(filaCapa).join("") + `</details>`).join("");
+  // Capas que viven en otro menú (los trenes, en «En movimiento → Trenes»): mismo motor, otra ubicación.
+  const contTrenes = $("trenes-capas");
+  if (contTrenes) contTrenes.innerHTML = R.CAPAS.filter((c) => c.menu === "trenes").map(filaCapa).join("");
   $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
     <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
     <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>
@@ -902,7 +906,7 @@ async function iniciarRiesgos() {
   $("riesgos-filtros").addEventListener("click", (e) => {
     if (e.target.id !== "rg-encender") return;
     for (const id of e.target.dataset.capas.split(",").filter(Boolean)) {
-      const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+      const cb = document.querySelector(`[data-riesgo="${id}"]`);
       if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
     }
   });
@@ -910,7 +914,7 @@ async function iniciarRiesgos() {
     if (e.target.id === "rg-tipo" && e.target.value) {
       const capas = new Set(apagadas.filter((a) => a.tipo === e.target.value).map((a) => a.capa));
       for (const id of capas) {
-        const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+        const cb = document.querySelector(`[data-riesgo="${id}"]`);
         if (cb && !cb.checked) { cb.checked = true; cb.dispatchEvent(new Event("change", { bubbles: true })); }
       }
       if (capas.size) $("rg-filtro-nota").textContent = `Se encendió: ${[...capas].map((id) => R.CAPAS.find((c) => c.id === id).nombre).join("; ")}.`;
@@ -979,7 +983,7 @@ async function iniciarRiesgos() {
     if (!z) { $("rg-zona-res").textContent = "No encontré esa zona. Escribe una ciudad, un estado de México o un país."; return; }
     ponerZona(z, z.iso3 ? `Amenazas en ${z.nombre} (todo el país).` : `Amenazas a menos de ${z.radio_km} km de ${z.etiqueta || z.nombre} (distancia en línea recta).`);
   });
-  cont.addEventListener("change", async (e) => {
+  const alCambiarCapa = async (e) => {
     const id = e.target.dataset.riesgo;
     if (!id) return;
     const marca = $(`rg-n-${id}`);
@@ -988,7 +992,9 @@ async function iniciarRiesgos() {
     if (!e.target.checked) { riesgos.desactivar(id); marca.textContent = ""; return; }
     marca.textContent = "cargando…";
     try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
-  });
+  };
+  cont.addEventListener("change", alCambiarCapa);
+  contTrenes?.addEventListener("change", alCambiarCapa);
   // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX y otras ciudades (Clima Táctico).
   const hnc = A.hoyNoCircula();
   $("riesgos-vdm").innerHTML = `<div class="vdm"><h4>🚗 Hoy No Circula · Valle de México</h4>
@@ -1083,7 +1089,7 @@ async function iniciarRiesgos() {
     $("riesgos-nota").textContent = `Datos horneados por Clima Táctico el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos y alertas de EUA en vivo. Los eventos nuevos parpadean 1 min y llevan la marca NUEVO 1 h.`;
     for (const [id, k] of Object.entries(FUENTE_MANIFIESTO)) {
       const n = man.sources?.[k]?.count;
-      const cb = cont.querySelector(`[data-riesgo="${id}"]`);
+      const cb = document.querySelector(`[data-riesgo="${id}"]`);
       if (n === 0 && cb) $(`rg-n-${id}`).textContent = "0 hoy";  // se puede activar igual; solo se avisa que hoy no hay eventos
     }
   }
