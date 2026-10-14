@@ -1,34 +1,27 @@
-"""Sonda temporal 3 (se borra antes del PR)."""
-import json, re, sys, urllib.request, urllib.parse
+"""Sonda temporal 4 (se borra antes del PR)."""
+import json, re, subprocess, sys, urllib.request, collections
 sys.path.insert(0, "ingest")
 import fuentes as F
-def get(url, h=None, t=40):
+def get(url, h=None, t=60):
     r = urllib.request.Request(url, headers={"User-Agent": F.UA, **(h or {})})
     with urllib.request.urlopen(r, timeout=t) as x:
-        return x.status, x.headers.get("content-type"), x.read()
-def prueba(nombre, url, h=None, n=800):
-    print(f"\n===== {nombre}\n{url}")
-    try:
-        print("robots:", F.permitido_por_robots(url))
-        st, ct, b = get(url, h)
-        print("status", st, ct, "bytes", len(b)); print(b[:n].decode("utf-8", "replace")); return b
-    except Exception as e:
-        print("ERROR", type(e).__name__, str(e)[:300])
-NHC = "https://mapservices.weather.noaa.gov/tropical/rest/services/tropical/NHC_tropical_weather_summary/MapServer"
-for c in (2, 3, 33):
-    st, ct, b = get(f"{NHC}/{c}?f=json")
-    d = json.loads(b); print(c, d.get("name"), d.get("geometryType"), [(f["name"], f.get("alias")) for f in d.get("fields", [])])
-b = prueba("NGA piracy page", "https://msi.nga.mil/Piracy", n=300)
-if b:
-    print(set(re.findall(rb"(?:api|assets)/[A-Za-z0-9_./?=&-]{3,80}", b)))
-for u in ["https://msi.nga.mil/api/publications/asam?sort=date&output=json&maxOccurDate=2026-10-14",
-          "https://msi.nga.mil/api/publications/asam/?output=json",
-          "https://msi.nga.mil/api/publications/asams?output=json",
-          "https://msi.nga.mil/api/publications/world-wide-navigational-warnings?output=json",
-          "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=A"]:
-    prueba("NGA", u, {"Accept": "application/json"}, n=400)
-prueba("UKMTO robots", "https://www.ukmto.org/robots.txt", n=600)
-prueba("UKMTO incidents", "https://www.ukmto.org/recent-incidents", n=300)
-prueba("ICC IMB robots", "https://icc-ccs.org/robots.txt", n=600)
-prueba("ReCAAP robots", "https://www.recaap.org/robots.txt", n=400)
-prueba("MSCHOA? GDACS", "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=TC&alertlevel=Green;Orange;Red&fromdate=2026-10-07", n=400)
+        return x.read()
+d = json.loads(get("https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=A"))
+w = d["broadcast-warn"]; print("avisos", len(w), "claves", list(w[0].keys()))
+print(collections.Counter(x.get("navArea") for x in w))
+claves = ["PIRACY", "PIRATE", "ARMED ROBBERY", "HIJACK", "ATTACK", "MISSILE", "ROCKET", "GUNNERY", "LIVE FIRING", "MILITARY EXERCISE", "GPS", "GNSS", "JAMMING", "DERELICT", "ADRIFT", "SUSPICIOUS", "BOARDED", "MINE", "DRONE", "UAV", "SPACE DEBRIS", "ROCKET LAUNCHING"]
+c = collections.Counter(k for x in w for k in claves if k in x.get("text", ""))
+print(c)
+for x in [x for x in w if any(k in x.get("text", "") for k in ("PIRACY", "ATTACK", "HIJACK", "GNSS", "BOARDED", "SUSPICIOUS"))][:6]:
+    print("-----", {k: v for k, v in x.items() if k != "text"}); print(x["text"][:700])
+b = get("https://www.ukmto.org/recent-incidents")
+m = re.search(rb'<script id="__NEXT_DATA__"[^>]*>(.*?)</script>', b, re.S)
+print("NEXT_DATA", bool(m))
+if m:
+    nd = json.loads(m.group(1)); s = json.dumps(nd)[:3000]; print(s)
+print(set(re.findall(rb'https?://[A-Za-z0-9./_-]*(?:api|incident)[A-Za-z0-9./_?=&-]*', b))[:20] if False else set(re.findall(rb'https?://[A-Za-z0-9./_-]*(?:api|incident)[A-Za-z0-9./_?=&-]*', b)))
+print(set(re.findall(rb'/_next/static/[A-Za-z0-9./_-]+\.js', b)))
+import os; os.makedirs("vivos", exist_ok=True)
+for s in ("tools/transporte/trenes.py", "tools/clima/perturbaciones.py", "tools/transporte/emergencias_aereas.py"):
+    print("\n#####", s); print(subprocess.run([sys.executable, s], capture_output=True, text=True, timeout=200).stdout[-1500:])
+t = json.load(open("vivos/trenes.geojson")); print(json.dumps(t["features"][:2], ensure_ascii=False)); print(collections.Counter(f["properties"]["categoria"] for f in t["features"]))
