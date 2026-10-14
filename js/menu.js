@@ -56,20 +56,24 @@ export function iniciarMenu(panel) {
     }
   });
 
-  // 4) Barra de capas activas.
+  // 4) Barra de capas activas. Tiene alto fijo para 20 chips (3 columnas): encender o apagar capas no mueve
+  //    el resto del menú; a partir de la 21.ª crece una fila por cada 3.
   const barra = panel.querySelector("#activas");
   const pintarActivas = () => {
     const activas = [...panel.querySelectorAll(SELECTOR_CAPAS)].filter((cb) => cb.checked && !cb.disabled && cb.id !== "capa-chokepoints");
-    barra.hidden = !activas.length;
-    barra.innerHTML = activas.length ? `<span class="meta">Encendidas (${activas.length}):</span> ${activas.map((cb, i) => `<button type="button" class="chip-activa" data-i="${i}" title="Apagar">${esc(nombreCasilla(cb))} ✕</button>`).join("")}` : "";
+    barra.hidden = false;
+    barra.innerHTML = `<div class="activas-tit"><span class="meta">${activas.length ? `Encendidas (${activas.length})` : "Ninguna capa encendida"}</span>`
+      + `${activas.length > 1 ? `<button type="button" class="txt-btn" data-todas>Apagar todas</button>` : ""}</div>`
+      + (activas.length ? activas.map((cb, i) => { const n = esc(nombreCasilla(cb)); return `<button type="button" class="chip-activa" data-i="${i}" title="Apagar «${n}»"><span>${n}</span>✕</button>`; }).join("")
+        : `<p class="meta activas-vacio">Las capas que enciendas aparecen aquí; su ✕ las apaga.</p>`);
+    const apagar = (cb) => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
     barra.onclick = (e) => {
+      if (e.target.closest("[data-todas]")) { activas.forEach(apagar); return; }
       const b = e.target.closest("[data-i]");
-      if (!b) return;
-      const cb = activas[Number(b.dataset.i)];
-      cb.checked = false;
-      cb.dispatchEvent(new Event("change", { bubbles: true }));
+      if (b) apagar(activas[Number(b.dataset.i)]);
     };
   };
+  pintarActivas();
   panel.addEventListener("change", (e) => { if (e.target.matches?.(SELECTOR_CAPAS)) setTimeout(pintarActivas, 0); });
   return { pintarActivas };
 }
