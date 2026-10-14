@@ -9,8 +9,16 @@ export const COLOR_SEV = { 1: "#6f8a82", 2: "#2E9E6E", 3: "#E0A100", 4: "#E2711D
 
 const lim = (n) => Math.max(1, Math.min(5, Math.round(n)));
 
+// Fenómenos anómalos (nunca cuentan como amenaza): las noticias y los casos históricos llevan ícono; el catálogo
+// curado va en círculos con el color de su nivel de respaldo.
+export function iconoAnomalia(capaId, p = {}) {
+  if (capaId !== "anom_recientes" && capaId !== "anom_historicos") return "";
+  return p.tipo === "crop" ? "🌾" : /lights/.test(p.tipo || "") ? "✨" : "🛸";
+}
+
 /** Severidad, tipo e ícono de un objeto según su capa. */
 export function clasificar(capa, p = {}, geom = null) {
+  if (capa.startsWith("anom_")) return { sev: 1, tipo: "Fenómeno anómalo (reporte)", ic: iconoAnomalia(capa, p) };
   if (capa.startsWith("trenes")) return { sev: (p.retraso_min ?? 0) >= 30 ? 2 : 1, tipo: "Tren en circulación", ic: "" };
   switch (capa) {
     case "sismos": {

@@ -709,7 +709,10 @@ async function iniciarCapas() {
     ["⛰️ Relieve (montañas, valles, mesetas…)", ["cordilleras", "montes_picos", "pasos_montana", "valles", "canones", "mesetas", "llanuras", "cuencas", "piedemonte", "glaciares", "desiertos", "tundras", "deltas_humedales"]],
     ["🌊 Mares, golfos, estrechos, lagos y ríos", ["oceanos", "mares", "golfos_bahias", "estrechos", "lagos", "rios"]],
   ];
-  const marcadoInicial = (f, st) => !(f.id === "zonas" && ZONAS_APAGADAS.has(st.id));
+  // Bienes raíces: cada subtipo es un tipo de inmueble con su propio color por cambio de precio; se ve uno a la vez.
+  const UNO_A_LA_VEZ = { inmuebles_pais: "inm_vivienda", inmuebles_mx: "mx_casa" };
+  const RAMPA_PRECIOS = [["#2166AC", "baja más de 5 %"], ["#67A9CF", "baja 1–5 %"], ["#D9D9D9", "estable (±1 %)"], ["#EF8A62", "sube 1–5 %"], ["#B2182B", "sube más de 5 %"]];
+  const marcadoInicial = (f, st) => (f.id in UNO_A_LA_VEZ ? st.id === UNO_A_LA_VEZ[f.id] : !(f.id === "zonas" && ZONAS_APAGADAS.has(st.id)));
   const htmlFam = (f) => `
     <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
       <label class="fila"><span><input type="checkbox" data-fam="${esc(f.id)}" ${f.disponible ? "" : "disabled"}> ${esc(f.nombre)}</span>
@@ -717,8 +720,9 @@ async function iniciarCapas() {
       <div class="meta">${f.disponible ? `${f.manifest.estado === "parcial" ? "⚠️ Cobertura parcial: algunas zonas del mundo no respondieron en la última actualización. " : ""}${f.manifest.estado === "desactualizada" ? `⚠️ Versión anterior (del ${esc((f.manifest.actualizado_utc || "").slice(0, 10))}): la última actualización falló. ` : ""}${f.manifest.objetos.toLocaleString("es-MX")} objetos · ${(f.manifest.bytes / 1e6).toFixed(1)} MB en mosaicos (solo se baja lo visible) · ${esc(f.licencia)}`
         : esc(f.habilitada ? (f.manifest?.estado === "error" ? "Error al construir: " + f.manifest.error : f.manifest?.estado === "pendiente" ? f.manifest.error : "Aún no se construye (workflow «Construir capas»)") : f.motivo || "Deshabilitada")}</div>
       ${f.disponible && f.id === "zonas" ? `<div class="atajos-zonas">${ZONAS_ATAJOS.map(([t], i) => `<button type="button" class="mini" data-atajo-zonas="${i}">${esc(t)}</button>`).join("")}</div>` : ""}
-      ${f.disponible && f.subtipos.length > 1 ? `<details><summary>Subtipos (${f.subtipos.length})</summary>${f.subtipos.map((st) => `
-        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}><span class="swatch" style="background:${esc(st.color)}"></span>${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
+      ${f.disponible && f.id in UNO_A_LA_VEZ ? `<div class="rampa-precios" aria-label="Cambio de precio en 12 meses">${RAMPA_PRECIOS.map(([c, t]) => `<span><i style="background:${c}"></i>${esc(t)}</span>`).join("")}</div>` : ""}
+      ${f.disponible && f.subtipos.length > 1 ? `<details${f.id in UNO_A_LA_VEZ ? " open" : ""}><summary>${f.id in UNO_A_LA_VEZ ? "Tipo de inmueble (uno a la vez)" : `Subtipos (${f.subtipos.length})`}</summary>${f.subtipos.map((st) => `
+        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
     </div>`;
   const cats = [...new Set(familias.map((f) => f.categoria))];
   cont.innerHTML = cats.map((c) => {
@@ -747,6 +751,7 @@ async function iniciarCapas() {
       return;
     }
     const famSub = e.target.dataset.famSub;
+    if (famSub in UNO_A_LA_VEZ && e.target.checked) for (const x of cont.querySelectorAll(`[data-fam-sub="${famSub}"]`)) x.checked = x === e.target;
     if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
   });
   // «Imágenes y cámaras» tiene un atajo a la capa de cámaras: ambas casillas quedan sincronizadas.
@@ -910,9 +915,11 @@ async function iniciarRiesgos() {
   const delGrupo = (g) => R.CAPAS.filter((c) => c.grupo === g && !c.menu);
   cont.innerHTML = R.GRUPOS.map(([g, ic, color], i) => `<details class="subgrupo-d" id="sg-rg-${i}" open><summary class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}
       <span class="sg-n">${delGrupo(g).length} capas</span></summary>` + delGrupo(g).map(filaCapa).join("") + `</details>`).join("");
-  // Capas que viven en otro menú (los trenes, en «En movimiento → Trenes»): mismo motor, otra ubicación.
-  const contTrenes = $("trenes-capas");
-  if (contTrenes) contTrenes.innerHTML = R.CAPAS.filter((c) => c.menu === "trenes").map(filaCapa).join("");
+  // Capas que viven en otro menú (trenes en «En movimiento → Trenes»; fenómenos anómalos en su propio grupo): mismo motor, otra ubicación.
+  for (const [menu, idCont] of [["trenes", "trenes-capas"], ["anomalias", "anomalias-capas"]]) {
+    const c = $(idCont);
+    if (c) c.innerHTML = R.CAPAS.filter((x) => x.menu === menu).map(filaCapa).join("");
+  }
   $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
     <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
     <label class="fila"><span>Tipo</span><select id="rg-tipo"><option value="">Todos los tipos</option></select></label>
@@ -1018,7 +1025,7 @@ async function iniciarRiesgos() {
     try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
   };
   cont.addEventListener("change", alCambiarCapa);
-  contTrenes?.addEventListener("change", alCambiarCapa);
+  for (const idCont of ["trenes-capas", "anomalias-capas"]) $(idCont)?.addEventListener("change", alCambiarCapa);
   // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX y otras ciudades (Clima Táctico).
   const hnc = A.hoyNoCircula();
   $("riesgos-vdm").innerHTML = `<div class="vdm"><h4>🚗 Hoy No Circula · Valle de México</h4>

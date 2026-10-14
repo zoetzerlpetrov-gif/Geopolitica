@@ -54,6 +54,55 @@ function capaTrenes(red, nombre, nota) {
   };
 }
 
+// Fenómenos anómalos: una capa por clase (todas leen vivos/anomalias.geojson). Van en su propio menú y NO entran a la
+// lista de amenazas, a los filtros de severidad ni al sonido de avisos: son reportes, no riesgos.
+export const NIVELES_ANOM = {
+  oficial: ["#1F6FB2", "Documentado por un gobierno u organismo oficial (no implica origen extraterrestre)"],
+  cientifico: ["#2E9E6E", "Estudiado con instrumentos o en publicaciones científicas"],
+  medios: ["#E0A100", "Reportado en medios o blogs; sin verificación independiente"],
+  civil: ["#8E4FD1", "Reportes civiles (testigos), sin verificación"],
+  local: ["#E2711D", "Leyenda local, blogs o turismo; no verificado"],
+  explicado: ["#6f8a82", "Hay una explicación convencional propuesta o confirmada"],
+};
+const AVISO_ANOM = "Son reportes, no hechos confirmados. El color indica qué respaldo tiene cada uno; ninguno prueba un origen extraterrestre.";
+function capaAnomalia(id, nombre, nota, extra = {}) {
+  const ids = extra.ids || [id];
+  return {
+    id, grupo: "Fenómenos anómalos", menu: "anomalias", noAmenaza: true, nombre, url: "data/vivos/anomalias.geojson", refresco_s: 21600,
+    fuente: "TrackAlien, NUFORC y catálogo propio",
+    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => ids.includes(f.properties.capa)) }),
+    estilo: (p) => (id === "anom_nuforc" ? { c: NIVELES_ANOM.civil[0], r: Math.min(16, 3 + Math.sqrt(p.n || 1) / 3) } : { c: (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[0], r: 6 }),
+    // Nombre visible solo en el catálogo curado (pocos puntos); las noticias y la densidad irían encimadas.
+    etiqueta: (p) => (["anom_lugar", "anom_triangulo", "anom_orbe", "anom_objeto", "anom_cultivo", "anom_oficina"].includes(p.capa) ? p.titulo
+      : p.precision === "país" && p.n ? `${p.n} nota${p.n === 1 ? "" : "s"} · ${p.lugar}` : ""),
+    leyenda: [...(id === "anom_nuforc" ? [{ c: NIVELES_ANOM.civil[0], r: 4, t: "Pocos reportes" }, { c: NIVELES_ANOM.civil[0], r: 12, t: "Miles de reportes" }]
+      : Object.entries(NIVELES_ANOM).filter(([k]) => (extra.niveles || Object.keys(NIVELES_ANOM)).includes(k)).map(([, [c, t]]) => ({ c, r: 5, t }))),
+      { t: `${nota} ${AVISO_ANOM}` }],
+    pie: AVISO_ANOM,
+    ficha: (p) => ({
+      titulo: p.titulo, chip: p.tipo_nombre || nombre,
+      filas: [...(p.fecha ? [["Fecha o periodo", String(p.fecha)]] : []), ...(p.desde ? [["Años con reportes", `${p.desde}–${p.hasta}`]] : []),
+        ...(p.formas ? [["Formas más reportadas", p.formas]] : []), ...(p.resumen ? [["Qué se sabe", p.resumen]] : []),
+        ["Nivel de respaldo", (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[1]], ...(p.credibilidad ? [["Credibilidad según TrackAlien", p.credibilidad]] : []),
+        ...(p.pais && !p.lugar ? [["País", p.pais]] : []), ...(p.lugar ? [["Lugar", p.lugar]] : []),
+        ...(p.aprox ? [["Ubicación", "Aproximada (pueblo o zona de referencia)"]] : []),
+        ...(p.precision === "país" ? [["Ubicación", "Centro del país: el título no nombra una ciudad"]] : p.precision === "estado" ? [["Ubicación", "Centro del estado"]] : [])],
+      url: p.url, fuente: p.fuente || "TrackAlien" }),
+    // Notas agrupadas por país: lista con enlace a cada original.
+    extra: (p) => { const ns = lista(p.notas); return ns.length ? `<h4>Notas (${ns.length}${p.n > ns.length ? ` de ${p.n}` : ""})</h4><ul class="fuentes">${ns.map((x) => `<li><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a> <span class="meta">${esc(x.fuente)} · ${esc(x.fecha)}</span></li>`).join("")}</ul>` : ""; },
+  };
+}
+export const ANOMALIAS = [
+  capaAnomalia("anom_recientes", "Noticias y blogs del último año (OVNI/UAP, luces, contactos)", "Notas que mencionan el tema en el título, de medios y blogs especializados, vía TrackAlien (se actualiza 2 veces al día). Muchas terminan explicadas (satélites, drones, cohetes).", { niveles: ["medios"] }),
+  capaAnomalia("anom_historicos", "Casos históricos conocidos (Roswell, Campeche, Nimitz…)", "Casos seleccionados en TrackAlien con su nivel de credibilidad.", { niveles: ["oficial", "medios"] }),
+  capaAnomalia("anom_nuforc", "Dónde se reporta más: reportes civiles 1910–2014 (NUFORC)", "≈ 80 mil reportes del centro civil NUFORC (EUA), contados por celdas de ~110 km. Hay muchos más en EUA porque NUFORC es estadounidense: mide dónde se reporta, no dónde ocurre más."),
+  capaAnomalia("anom_objeto", "Objetos extraños: esferas metálicas y restos caídos", "Esfera de Buga, esfera de Betz, anillo de Mukuku.", { niveles: ["medios", "explicado"] }),
+  capaAnomalia("anom_cultivo", "Figuras en cultivos (crop circles)", "La mayoría en Wiltshire, Inglaterra; desde 1991 se sabe que muchas son obra de personas.", { niveles: ["explicado"] }),
+  capaAnomalia("anom_orbe", "Orbes y luces que se repiten en el mismo lugar", "Hessdalen, Marfa, Min Min, Naga, Brown Mountain, Paulding.", { niveles: ["cientifico", "local", "explicado"] }),
+  capaAnomalia("anom_lugar", "Lugares con fama de «propensos» (oficiales y no verificados)", "Incluye sitios documentados por gobiernos y sitios conocidos solo por blogs, periódicos locales o turismo; el color dice cuál es cuál.", { ids: ["anom_lugar", "anom_triangulo"], niveles: ["oficial", "local", "explicado"] }),
+  capaAnomalia("anom_oficina", "Oficinas oficiales que investigan reportes (AARO, GEIPAN)", "Dónde reportar o consultar casos analizados.", { niveles: ["oficial"] }),
+];
+
 export const CAPAS = [
   {
     id: "sismos", grupo: "Desastres naturales", nombre: "Sismos M2.5+ (24 h, en vivo)", url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
@@ -270,6 +319,7 @@ export const CAPAS = [
       url: p.url, fuente: "NGA Maritime Safety Information (dominio público)" }),
   },
   ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
+  ...ANOMALIAS,
   {
     id: "perturbaciones", grupo: "Desastres naturales", nombre: "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
     url: "data/vivos/perturbaciones.geojson", refresco_s: 1800, fuente: "NOAA NHC, Perspectiva del Tiempo Tropical",
@@ -495,7 +545,7 @@ export function htmlRiesgo(capa, props, geom) {
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}
     ${capa.senal ? `<p class="meta">Señal detectada en cobertura noticiosa y ubicada de forma aproximada: no es un incidente confirmado. Verifica en la fuente y con autoridades locales.</p>` : ""}
-    <p class="meta">${capa.archivos ? `Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. ` : ""}No sustituye a Protección Civil ni a los avisos oficiales.</p>`;
+    <p class="meta">${capa.pie ? esc(capa.pie) : `${capa.archivos ? `Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. ` : ""}No sustituye a Protección Civil ni a los avisos oficiales.`}</p>`;
 }
 
 /** De los objetos bajo el clic, el más cercano al punto exacto. */
@@ -647,7 +697,7 @@ export class Riesgos {
       f.properties._nuevo = Boolean(visto && visto !== base && ahora - visto < NUEVO_MS);
     }
     this.activas.set(capa.id, gj);
-    if (r.nuevas.size) {
+    if (r.nuevas.size && !capa.noAmenaza) {
       this.#arrancarPulso();
       this.onNuevas(r.nuevas.size, gj.features.some((f) => r.nuevas.has(f.properties._k) && (f.properties._sev || 0) >= 4));
     }
@@ -699,6 +749,7 @@ export class Riesgos {
   #puntos(id, gj) {
     const capa = CAPAS.find((c) => c.id === id);
     const out = [];
+    if (capa.noAmenaza) return out;  // anomalías: no son amenazas
     for (const f of gj.features) {
       const p = f.properties;
       if (f.geometry.type !== "Point" || p._tsunami_radio) continue;
@@ -736,7 +787,8 @@ export class Riesgos {
     for (const id of this.activas.keys()) for (const l of this.#capasDe(id)) if (this.map.getLayer(l)) this.map.setFilter(l, this.#filtroDe(l));
   }
 
-  #filtroBase() {
+  #filtroBase(capaId = "") {
+    if (CAPAS.find((c) => c.id === capaId.replace(/^rg-/, "").replace(/-[a-z]+$/, ""))?.noAmenaza) return ["all"];
     const f = ["all", [">=", ["coalesce", ["get", "_sev"], 1], this.filtro.sevMin]];
     if (this.filtro.pais) f.push(["==", ["get", "_pais"], this.filtro.pais]);
     if (this.filtro.tipo) f.push(["==", ["get", "_tipo"], this.filtro.tipo]);
@@ -744,7 +796,7 @@ export class Riesgos {
   }
 
   #filtroDe(capaId) {
-    const base = this.#filtroBase();
+    const base = this.#filtroBase(capaId);
     const oc = this.ocultos.get(capaId.replace(/^rg-/, "").replace(/-[a-z]+$/, ""));
     if (oc) base.push(["!", ["in", ["get", "_k"], ["literal", oc]]]);
     if (capaId.endsWith("-toque")) return [...base, ["==", ["geometry-type"], "Point"]];

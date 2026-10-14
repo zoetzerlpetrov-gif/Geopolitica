@@ -316,6 +316,40 @@
    "nota": "Bitnodes: nodos alcanzables; país por DB-IP Lite (CC BY 4.0). Mide infraestructura de la red, no dinero ni usuarios."
   },
   {
+   "id": "inmuebles_pais",
+   "nombre": "Bienes raíces: dónde suben o bajan los precios, por país y tipo",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "bis",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.6,
+   "zoom_etiquetas": 3,
+   "nota": "BIS (WS_SPP, WS_DPP, WS_CPP): cambio en 12 meses del índice de precios de cada tipo de inmueble, último dato disponible. Rojo = sube, azul = baja. Elige un tipo a la vez en «Subtipos». Nominal (sin descontar inflación); la vivienda total muestra también el cambio real."
+  },
+  {
+   "id": "inmuebles_mx",
+   "nombre": "Bienes raíces en México: valor por m² por estado y tipo de vivienda",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "shf",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.6,
+   "zoom_etiquetas": 4,
+   "nota": "SHF, indicadores de inmuebles valuados (avalúos para crédito), trimestral desde 2018: mediana por m² y su cambio frente al mismo trimestre del año anterior. Rojo = sube, azul = baja. Elige un tipo a la vez en «Subtipos». Geometría: Natural Earth."
+  },
+  {
+   "id": "inmuebles_seguimiento",
+   "nombre": "Inmuebles en seguimiento (InmuebleWarRoom) con mapa de riesgo",
+   "categoria": "economia",
+   "geometria": "punto",
+   "fuente": "inmueblewarroom",
+   "habilitada": true,
+   "zoom_etiquetas": 4,
+   "nota": "Lista del repositorio InmuebleWarRoom: precio, tipo, nivel de riesgo (sismo, volcán, agua, huracán, inundación), nota legal y enlace al anuncio original, más una revisión automática de distancia a volcanes holocenos (GVP) y a límites de placas (PB2002)."
+  },
+  {
    "id": "gobierno_forma",
    "nombre": "Forma de gobierno por país (república, monarquía…)",
    "categoria": "gobierno_forma",

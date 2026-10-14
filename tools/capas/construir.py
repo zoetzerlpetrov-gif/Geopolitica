@@ -516,7 +516,7 @@ def camaras(revisar=enlace_responde, externas=True):
 
 
 FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
-                    "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin"}  # GeoJSON directo, sin tippecanoe
+                    "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -981,6 +981,62 @@ def empresas():
     return S.features_empresas(registros, feat, punto)
 
 
+def _gazetteer_iso2():
+    gaz = json.load(open(os.path.join(ROOT, "config", "gazetteer.json"), encoding="utf-8"))
+    return {k.upper(): v for k, v in gaz["iso2_a_iso3"].items()}
+
+
+def inmuebles_pais():
+    """Cambio anual de precios de inmuebles por país y tipo (BIS: vivienda, casas, departamentos, terrenos, oficinas,
+    locales, industriales y bodegas)."""
+    import inmuebles as I
+    desde = str(datetime.now(timezone.utc).year - 3)
+    spp = I.leer_series_bis(get(I.BIS_SPP.format(desde=f"{desde}-Q1"), timeout=180).decode("utf-8", "replace"))
+    dpp = I.leer_series_bis(get(I.BIS_DPP.format(desde=desde), timeout=300).decode("utf-8", "replace"))
+    cpp = I.leer_series_bis(get(I.BIS_CPP.format(desde=desde), timeout=300).decode("utf-8", "replace"))
+    datos = I.por_pais_y_tipo(spp, dpp, cpp, _gazetteer_iso2())
+    if not datos:
+        raise RuntimeError("el BIS no devolvió precios de inmuebles")
+    print(f"   BIS: {len(datos)} países, {sum(len(v) for v in datos.values())} combinaciones país-tipo")
+    return I.features_paises(_paises_fc(), datos)
+
+
+def inmuebles_mx():
+    """Valor mediano por m² de la vivienda valuada por estado y tipo (SHF), con su cambio en 12 meses."""
+    import inmuebles as I
+    if not robots_permite(I.SHF_PAGINA):
+        raise PermissionError("robots.txt de gob.mx no permite la página de SHF")
+    enlaces = I.enlaces_shf(get(I.SHF_PAGINA, timeout=60).decode("utf-8", "replace"))
+    if not enlaces:
+        raise RuntimeError("no se encontraron los Excel de indicadores en la página de SHF")
+    por_tipo = {}
+    for clave, url in enlaces.items():
+        por_tipo[clave] = I.leer_shf(I.leer_xlsx(get(url, timeout=120)))
+        print(f"   SHF {clave}: {len(por_tipo[clave])} entidades")
+    estados = json.loads(get(NE + "ne_10m_admin_1_states_provinces.geojson", timeout=300))
+    mx = {"type": "FeatureCollection", "features": [f for f in estados["features"] if f["properties"].get("iso_a2") == "MX"]}
+    return I.features_mx(mx, por_tipo)
+
+
+def inmuebles_seguimiento():
+    """Inmuebles en seguimiento del repositorio InmuebleWarRoom, con revisión automática de volcanes y placas."""
+    import inmuebles as I
+    lista = json.load(open(os.path.join(ROOT, "config", "inmuebles_seguimiento.json"), encoding="utf-8"))["inmuebles"]
+    try:
+        _, fs = volcanes_fuente()
+        volcs = [(f["geometry"]["coordinates"][0], f["geometry"]["coordinates"][1], _campo(f["properties"], "Volcano_Name", "name") or "volcán")
+                 for f in fs if (f.get("geometry") or {}).get("type") == "Point"]
+    except Exception as e:  # noqa: BLE001
+        print(f"   volcanes no disponibles: {e}")
+        volcs = []
+    try:
+        lims = [c for l in _limites_pb2002() for c in l["coords"]]
+    except Exception as e:  # noqa: BLE001
+        print(f"   límites de placas no disponibles: {e}")
+        lims = []
+    return I.features_seguimiento(lista, volcs, lims)
+
+
 def fronteras():
     """Cruces fronterizos con nombre (OSM barrier=border_control)."""
     els = overpass(['nwr["barrier"="border_control"]["name"]'], "fronteras")
@@ -1001,7 +1057,8 @@ FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "cen
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
             "petroleo_gas": petroleo_gas, "empresas": empresas, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
-            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin}
+            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
+            "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}
 
 
 def _punto_ref(ft):

@@ -215,6 +215,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
   if (familia.id === "conflicto") return htmlFichaConflicto(props, sub);
   if (familia.id === "religiones") return htmlFichaReligion(props, familia);
   if (familia.id === "gobierno_forma" || familia.id === "gobierno_orientacion") return htmlFichaGobierno(props, familia);
+  if (familia.id === "inmuebles_seguimiento") return htmlFichaInmueble(props, sub, familia);
   const url = urlFuente(props.id);
   const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
   return `
@@ -232,6 +233,28 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <h4>Eventos a menos de 300 km (${cercanos.length})</h4>
     <ul class="fuentes">${cercanos.slice(0, 8).map((ev) => `<li><a href="#evento=${esc(ev.id)}" data-evento="${esc(ev.id)}">${esc(ev.titulo)}</a></li>`).join("") || "<li>Ninguno en los datos actuales.</li>"}</ul>
   `;
+}
+
+/** Ficha de un inmueble en seguimiento (InmuebleWarRoom): precio, riesgo, revisión geológica automática y anuncio original. */
+export function htmlFichaInmueble(props, sub, familia) {
+  const m2 = (n) => (n == null || n === "" || n === "null" ? "—" : `${Number(n).toLocaleString("es-MX")} m²`);
+  const fila = (k, v) => (v ? `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>` : "");
+  const alerta = props.geo_alerta === true || props.geo_alerta === "true";
+  return `
+    <h3 id="ficha-titulo">${esc(props.n)}</h3>
+    <div class="fecha">${esc(props.pais_n)} · ${esc(familia.nombre)}</div>
+    <div class="chips"><span class="chip" style="background:${esc(sub?.color || "#999")};color:#111;border-color:${esc(sub?.color || "#999")}">${esc(sub?.nombre.es || props.st)}</span></div>
+    <dl>
+      ${fila("Precio publicado", props.x)}${fila("Tipo", props.tipo)}
+      <dt>Terreno</dt><dd>${m2(props.terreno)}</dd><dt>Construcción</dt><dd>${m2(props.construccion)}</dd>
+      ${fila("Riesgos del sitio", props.riesgo)}
+      ${props.geo ? `<dt>Revisión automática</dt><dd>${alerta ? "⚠️ " : ""}${esc(props.geo)}${alerta ? " (cerca: revisa el atlas de riesgos local)" : ""}</dd>` : ""}
+      ${fila("Precio frente al mercado", props.mercado)}${fila("Nota legal", props.legal)}
+      ${fila("Ciudad cercana", props.ciudad)}${fila("Aeropuerto", props.aeropuerto)}
+      <dt>Fuente</dt><dd><a href="https://github.com/zoetzerlpetrov-gif/inmueblewarroom" target="_blank" rel="noopener noreferrer">InmuebleWarRoom</a> (lista propia, revisada a mano)</dd>
+    </dl>
+    ${props.url ? `<p><a class="boton" href="${esc(safeUrl(props.url))}" target="_blank" rel="noopener noreferrer">Ver el anuncio original ↗</a></p>` : ""}
+    <p class="meta">El precio y la disponibilidad pueden haber cambiado desde que se registró. La revisión automática solo mide distancias a volcanes del Holoceno (Smithsonian GVP) y a límites de placas (PB2002); no sustituye un dictamen de riesgos.</p>`;
 }
 
 /** Ficha de una cámara: solo enlace a la página oficial del operador (la imagen no se copia). */
