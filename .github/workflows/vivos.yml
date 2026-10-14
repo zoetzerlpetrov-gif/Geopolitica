@@ -116,6 +116,13 @@ jobs:
         timeout-minutes: 2
         run: python3 tools/espacio/lanzamientos.py
 
+      - name: Clima Táctico propio (copia del generador de WarRoomViajero, cada 6 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
+        run: python3 tools/clima_tactico/actualizar.py
+
       - name: Fenómenos anómalos (TrackAlien, NUFORC y catálogo propio; cada 6 h; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 3

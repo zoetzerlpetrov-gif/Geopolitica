@@ -8,8 +8,9 @@ const capa = (id) => CAPAS.find((c) => c.id === id);
 const pt = (props, coords = [-99, 19]) => ({ type: "Feature", geometry: { type: "Point", coordinates: coords }, properties: props });
 
 test("las capas leen el mismo dominio primero y GitHub como respaldo", () => {
-  assert.match(BASES[0], /^https:\/\/zoetzerlpetrov-gif\.github\.io\/WarRoomViajero\/data\/$/);
-  assert.match(BASES[1], /raw\.githubusercontent\.com/);
+  assert.equal(BASES[0], "data/vivos/ct/");  // copia propia primero: no depende de WarRoomViajero
+  assert.match(BASES[1], /^https:\/\/zoetzerlpetrov-gif\.github\.io\/WarRoomViajero\/data\/$/);
+  assert.match(BASES[2], /raw\.githubusercontent\.com/);
   assert.ok(CAPAS.every((c) => c.url || c.archivos?.length || c.generar));
 });
 
