@@ -31,7 +31,7 @@ const AVIONES = [
   [/^B06$/, "Bell 206"], [/^B407$/, "Bell 407"], [/^A139$/, "AgustaWestland AW139"], [/^S76$/, "Sikorsky S-76"],
 ];
 const AVION_GENERICO = { civil_comercial: "Airliner", carga: "Cargo aircraft", aviacion_general: "General aviation", militar: "Military aircraft",
-  estado: "Air transports of heads of state and government", en_tierra: "Airliner", sancionada: "Airliner" };
+  estado: "Airliner", en_tierra: "Airliner", sancionada: "Airliner" };
 
 /** Avión: por su designador de tipo OACI; si no se conoce, por categoría ADS-B (A7 = helicóptero) o subtipo. */
 export function articuloAvion(tipo, subtipo, cat) {
@@ -44,7 +44,7 @@ export function articuloAvion(tipo, subtipo, cat) {
 
 // Tipo AIS (ITU-R M.1371) exacto → artículo; si no, por decena; si no, por subtipo del sitio.
 const BUQUE_AIS = { 30: "Fishing vessel", 31: "Tugboat", 32: "Tugboat", 33: "Dredging", 34: "Diving support vessel", 35: "Warship", 36: "Sailboat", 37: "Yacht",
-  50: "Pilot boat", 51: "Lifeboat (rescue)", 52: "Tugboat", 53: "Tender (ship)", 55: "Patrol boat", 58: "Hospital ship" };
+  50: "Pilot boat", 51: "Lifeboat (rescue)", 52: "Tugboat", 53: "Ship's tender", 55: "Patrol boat", 58: "Hospital ship" };
 const BUQUE_DECENA = { 4: "High-speed craft", 6: "Passenger ship", 7: "Cargo ship", 8: "Oil tanker" };
 const BUQUE_SUBTIPO = { carga: "Cargo ship", pasaje: "Passenger ship", tanqueros: "Oil tanker", vela_recreo: "Sailboat", pesca: "Fishing vessel",
   militares: "Warship", remolque_servicio: "Tugboat", sancionados: "Oil tanker", otros: "Ship" };
@@ -57,8 +57,8 @@ export function articuloBuque(subtipo, tipoAis) {
 const SATELITES = [
   [/^ISS\b|ZARYA/, "International Space Station"], [/^CSS\b|TIANHE/, "Tiangong space station"], [/^HST$|HUBBLE/, "Hubble Space Telescope"],
   [/STARLINK/, "Starlink"], [/ONEWEB/, "OneWeb"], [/IRIDIUM/, "Iridium satellite constellation"], [/NAVSTAR|^GPS\b/, "GPS Block IIF"],
-  [/GLONASS|COSMOS 2(4[5-9]|5)\d\d.*GLONASS/, "GLONASS"], [/GALILEO|^GSAT0\d/, "Galileo (satellite navigation)"], [/BEIDOU/, "BeiDou"],
-  [/^(FLOCK|DOVE)/, "Planet Labs"], [/SKYSAT/, "SkySat"], [/^GOES/, "Geostationary Operational Environmental Satellite"], [/METEOSAT|^MSG/, "Meteosat"],
+  [/GLONASS/, "GLONASS-M"], [/GALILEO|^GSAT0\d/, "Galileo (satellite navigation)"], [/BEIDOU/, "Satellite navigation"],
+  [/^(FLOCK|DOVE)/, "Planet Labs"], [/SKYSAT/, "Planet Labs"], [/^GOES/, "Geostationary Operational Environmental Satellite"], [/METEOSAT|^MSG/, "Meteosat"],
   [/^METOP/, "MetOp"], [/HIMAWARI/, "Himawari 8"], [/FENGYUN|^FY-/, "Fengyun"], [/^NOAA \d+/, "NOAA-19"], [/^SUOMI NPP|^NPP$/, "Suomi NPP"],
   [/LANDSAT/, "Landsat 9"], [/SENTINEL-1/, "Sentinel-1"], [/SENTINEL-2/, "Sentinel-2"], [/SENTINEL-3/, "Sentinel-3"], [/SENTINEL-6/, "Sentinel-6 Michael Freilich"],
   [/^TERRA$/, "Terra (satellite)"], [/^AQUA$/, "Aqua (satellite)"], [/TESS\b/, "Transiting Exoplanet Survey Satellite"], [/SWIFT\b/, "Neil Gehrels Swift Observatory"],
@@ -67,17 +67,20 @@ const SATELITES = [
 const SAT_GRUPO = { estaciones: "Space station", gnss: "Satellite navigation", starlink: "Starlink", oneweb: "OneWeb", iridium: "Iridium satellite constellation",
   observacion: "Earth observation satellite", planet: "Planet Labs", cientificos: "Satellite", meteorologicos_eo: "Weather satellite",
   geoestacionarios: "Communications satellite", militares: "Military satellite", visibles: "Satellite", telescopios: "Space telescope", satnogs: "CubeSat" };
+// El subtipo puede llegar como grupo de CelesTrak (así lo guarda la capa).
+const GRUPO_CELESTRAK = { stations: "estaciones", "iridium-NEXT": "iridium", resource: "observacion", science: "cientificos", weather: "meteorologicos_eo",
+  geo: "geoestacionarios", military: "militares", visual: "visibles" };
 export function articuloSatelite(nombre, subtipo) {
   const n = String(nombre || "").toUpperCase();
   const r = SATELITES.find(([re]) => re.test(n));
-  return r ? { titulo: r[1], exacto: true } : { titulo: SAT_GRUPO[subtipo] || "Satellite", exacto: false };
+  return r ? { titulo: r[1], exacto: true } : { titulo: SAT_GRUPO[GRUPO_CELESTRAK[subtipo] || subtipo] || "Satellite", exacto: false };
 }
 
 // Tren: por red y categoría (las flotas de cada red son pocas; se muestra el servicio, no la unidad).
 export function articuloTren(red, categoria, tipo) {
   if (categoria === "Carga") return { titulo: "Freight train", exacto: false };
-  const t = { irlanda: /DART/i.test(tipo || "") ? "Dublin Area Rapid Transit" : "Iarnród Éireann 22000 Class", boston: "MBTA Commuter Rail",
-    filadelfia: "SEPTA Regional Rail", noruega: "Vy (company)", finlandia: categoria === "Larga distancia" ? "VR Class Sm3" : "Helsinki commuter rail" }[red];
+  const t = { irlanda: /DART/i.test(tipo || "") ? "Dublin Area Rapid Transit" : "IE 22000 Class", boston: "MBTA Commuter Rail",
+    filadelfia: "SEPTA Regional Rail", noruega: "Rail transport in Norway", finlandia: categoria === "Larga distancia" ? "VR Class Sm3" : "Helsinki commuter rail" }[red];
   return { titulo: t || "Passenger train", exacto: false };
 }
 
@@ -85,12 +88,12 @@ export function articuloTren(red, categoria, tipo) {
 export function todosLosArticulos() {
   return [...new Set([...AVIONES.map((r) => r[1]), ...Object.values(AVION_GENERICO), "Helicopter", ...Object.values(BUQUE_AIS), ...Object.values(BUQUE_DECENA),
     ...Object.values(BUQUE_SUBTIPO), "Ship", ...SATELITES.map((r) => r[1]), ...Object.values(SAT_GRUPO), "Satellite", "Freight train", "Dublin Area Rapid Transit",
-    "Iarnród Éireann 22000 Class", "MBTA Commuter Rail", "SEPTA Regional Rail", "Vy (company)", "VR Class Sm3", "Helsinki commuter rail", "Passenger train"])];
+    "IE 22000 Class", "MBTA Commuter Rail", "SEPTA Regional Rail", "Rail transport in Norway", "VR Class Sm3", "Helsinki commuter rail", "Passenger train"])];
 }
 
-/** URL de miniatura de Commons → página del archivo (para la licencia y el autor). Otras (no libres) → null. */
+/** URL de miniatura de Commons (upload. o thumb.wikimedia.org) → página del archivo (para la licencia y el autor). Otras (no libres) → null. */
 export function paginaCommons(src) {
-  const m = /^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/]+)/.exec(String(src || ""));
+  const m = /^https:\/\/(?:upload|thumb)\.wikimedia\.org\/wikipedia\/commons\/(?:thumb\/)?[0-9a-f]\/[0-9a-f]{2}\/([^/?#]+)/.exec(String(src || ""));
   return m ? `https://commons.wikimedia.org/wiki/File:${m[1]}` : null;
 }
 
