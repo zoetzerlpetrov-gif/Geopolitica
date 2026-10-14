@@ -193,7 +193,7 @@ def zonas():
         out.append(feat(f["geometry"], {"id": f"ne:reg{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": st, "p": "",
                                         "x": pr_(pr, "featurecla")}, max(z, min(rango - 1, 7))))
     # Cumbres con altitud, pasos de montaña, cabos y cascadas (puntos).
-    for archivo in ("ne_10m_geography_regions_elevation_points.geojson", "ne_10m_geography_regions_points.geojson"):
+    for archivo, pref in (("ne_10m_geography_regions_elevation_points.geojson", "alt"), ("ne_10m_geography_regions_points.geojson", "pto")):
         fc = json.loads(get(NE + archivo))
         for i, f in enumerate(fc["features"]):
             pr = f["properties"]
@@ -202,7 +202,7 @@ def zonas():
                 continue
             alt = pr.get("elevation") or pr.get("ELEVATION")
             nombre = pr_(pr, "name_es") or pr_(pr, "name")
-            out.append(feat(f["geometry"], {"id": f"ne:{archivo[19:23]}{i}", "n": f"{nombre} ({int(alt):,} m)".replace(",", " ") if alt else nombre,
+            out.append(feat(f["geometry"], {"id": f"ne:{pref}{i}", "n": f"{nombre} ({int(alt):,} m)".replace(",", " ") if alt else nombre,
                                             "st": st, "p": "", "x": int(alt) if alt else ""}, max(z, min(int(pr_(pr, "scalerank") or 6), 8))))
     fc = json.loads(get(NE + "ne_10m_glaciated_areas.geojson"))
     for i, f in enumerate(fc["features"]):
@@ -291,6 +291,8 @@ def volcanes():
         pais = _campo(p, "Country", "country") or ""
         tipo = _campo(p, "Primary_Volcano_Type", "morphology") or ""
         ultima = _campo(p, "Last_Eruption_Year", "timeErupt", "lastEruption") or ""
+        if isinstance(ultima, (int, float)) or str(ultima).lstrip("-").isdigit():
+            ultima = f"{-int(ultima)} a. C." if int(ultima) < 0 else str(int(ultima))
         alt = _campo(p, "Elevation", "elevation")
         num = _campo(p, "Volcano_Number", "volcanoNumber", "num", "id") or i
         cf = any(_distancia_km(lon, lat, c[0], c[1]) < 450 for c in puntos_anillo if abs(c[1] - lat) < 6)
@@ -961,6 +963,23 @@ def petroleo_gas():
                       lambda t: t.get("operator", ""), Paises())
 
 
+def empresas():
+    """Sedes de empresas conocidas por sector (Wikidata, CC0): energía, alimentos, hotelería, automotriz, banca…"""
+    import sitios as S
+    registros = {}
+    for qid_clase, minimo in S.CLASES_EMPRESA:
+        try:
+            antes = len(registros)
+            S.leer_empresas(_sparql(S.Q_EMPRESAS % (qid_clase, minimo)), registros, minimo)
+            print(f"   {qid_clase} (≥ {minimo} Wikipedias): +{len(registros) - antes}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {qid_clase}: {e}")
+        time.sleep(2)
+    if not registros:
+        raise RuntimeError("Wikidata no devolvió empresas")
+    return S.features_empresas(registros, feat, punto)
+
+
 def fronteras():
     """Cruces fronterizos con nombre (OSM barrier=border_control)."""
     els = overpass(['nwr["barrier"="border_control"]["name"]'], "fronteras")
@@ -979,7 +998,7 @@ FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "cen
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "empresas": empresas, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin}
 
