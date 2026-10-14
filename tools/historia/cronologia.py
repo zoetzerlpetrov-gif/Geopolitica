@@ -99,7 +99,8 @@ def combinar(por_tipo):
         for iso, fs in por_iso.items():
             for f in fs:
                 out[iso].setdefault(f[0], f)
-    return {iso: sorted(d.values(), key=lambda f: (anio(f[2]), f[2])) for iso, d in out.items()}
+    # Fechas geológicas (p. ej. «Orogenia varisca», hace 380 millones de años) no son historia humana.
+    return {iso: sorted((f for f in d.values() if anio(f[2]) >= -100000), key=lambda f: (anio(f[2]), f[2])) for iso, d in out.items()}
 
 
 def main(salida="capas/historia"):

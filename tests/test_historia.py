@@ -25,7 +25,8 @@ def test_filas_por_pais_descarta_sin_traducir_y_sin_iso():
 
 def test_combinar_sin_repetir_y_en_orden_con_fechas_antes_de_cristo():
     por_tipo = {"Q178561": {"MEX": [["Q1", "B", "1862-05-05T00:00:00Z", 11, "batalla", 30]]},
-                "Q198": {"MEX": [["Q1", "B", "1862-05-05T00:00:00Z", 11, "guerra", 30], ["Q9", "Antigua", "-0500-01-01T00:00:00Z", 9, "guerra", 20]]}}
+                "Q198": {"MEX": [["Q1", "B", "1862-05-05T00:00:00Z", 11, "guerra", 30], ["Q9", "Antigua", "-0500-01-01T00:00:00Z", 9, "guerra", 20],
+                         ["Q7", "Orogenia", "-380000000-01-01T00:00:00Z", 9, "periodo histórico", ""]]}}
     assert [f[0] for f in H.combinar(por_tipo)["MEX"]] == ["Q9", "Q1"]
     assert H.anio("-0500-01-01T00:00:00Z") == -500 and H.anio("+1862-05-05T00:00:00Z") == 1862
 

@@ -154,6 +154,13 @@ X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrec
 | `config/anomalias.json` (catálogo propio) | Luces recurrentes, esferas, figuras en cultivos, lugares «propensos» y oficinas oficiales (AARO, GEIPAN), cada uno con nivel de respaldo y enlace (Wikipedia o sitio oficial) | — | No | Propio | Manual | Activa |
 | GEIPAN (CNES) | Casos franceses clasificados A–D | Gratis | No | — | — | Pendiente: su sitio respondió 429 (límite de consultas) y no publica un conjunto en data.gouv.fr |
 
+## Historia por país
+
+| Fuente | Qué aporta | Costo | Llave | Licencia / términos | Frecuencia | Estado |
+|---|---|---|---|---|---|---|
+| Wikipedia en español (API de MediaWiki y REST) | Resumen de la introducción y títulos de sección («grandes etapas») del artículo «Historia de …» | Gratis | No | CC BY-SA 4.0: se muestra con atribución y enlace; se consulta en el navegador al pedirla y no se guarda | Al abrir la ficha | Activa |
+| Wikidata (consulta SPARQL) | Hechos fechados por país (31 tipos: guerras, batallas, tratados, revoluciones, terremotos, pandemias, Estados históricos…) con artículo en 12 o más Wikipedias; nombre = título del artículo en es.wikipedia | Gratis | No | CC0 | Mensual (capas), una consulta por tipo con pausa de 2 s | Activa. Consultarla en vivo por país agotaba el tiempo del servicio |
+
 ## Exclusiones (no se integran)
 
 | Excluido | Motivo |

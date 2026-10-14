@@ -587,6 +587,7 @@ async function main() {
   iniciarImagenes();
   iniciarClima();
   iniciarRiesgos();
+  iniciarHistoria();
   // Cuaderno del analista: checklist y notas del evento abierto (solo en este navegador).
   $("ficha-cuerpo").addEventListener("change", (e) => {
     const cb = e.target.closest("[data-check]");
@@ -1290,6 +1291,39 @@ async function anexarHistorial(horas, avisar) {
     avisar(`No hay historial publicado todavía (${e.message}).`);
     await new Promise((ok) => setTimeout(ok, 2500));
   }
+}
+
+// ---------- Historia por país (Wikipedia + Wikidata, al pedirla) ----------
+async function abrirHistoria(iso3) {
+  if (!paises) await cargarPaises().catch(() => (paises = {}));
+  const nombre = paises?.[iso3]?.es || iso3;
+  $("hist-estado").textContent = `Consultando la historia de ${nombre}…`;
+  abrirFichaHtml(`<h3 id="ficha-titulo">📜 Historia de ${esc(nombre)}</h3><p class="meta">Consultando Wikipedia y Wikidata…</p>`);
+  const H = await import("./historia.js");
+  const d = await H.cargarHistoria(iso3, nombre);
+  abrirFichaHtml(H.htmlHistoria(nombre, d));
+  $("hist-estado").textContent = `${nombre}: ${d.articulo ? `${d.articulo.etapas.length} etapas` : "sin artículo"} · ${d.hechos ? `${d.hechos.length} hechos fechados` : "Wikidata sin respuesta"}.`;
+}
+function iniciarHistoria() {
+  const sug = $("hist-sug"), form = $("hist-form");
+  if (!form) return;
+  const llenar = async () => {
+    if (sug.childElementCount) return;
+    if (!paises) await cargarPaises().catch(() => (paises = {}));
+    sug.innerHTML = Object.values(paises).map((p) => `<option value="${esc(p.es)}">`).join("");
+  };
+  $("hist-q").addEventListener("focus", llenar);
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    await llenar();
+    const q = sinAcentos($("hist-q").value.trim());
+    const iso = Object.keys(paises).find((k) => sinAcentos(paises[k].es) === q || sinAcentos(paises[k].en) === q || k.toLowerCase() === q)
+      || Object.keys(paises).find((k) => sinAcentos(paises[k].es).startsWith(q));
+    if (!iso) { $("hist-estado").textContent = "No encontré ese país; elige uno de la lista."; return; }
+    abrirHistoria(iso);
+  });
+  // Botones «📜 Historia» dentro de otras fichas (p. ej. la de gobierno de un país).
+  document.addEventListener("click", (e) => { const b = e.target.closest("[data-historia]"); if (b) abrirHistoria(b.dataset.historia); });
 }
 
 // ---------- Mapa de calor por país (índice de inestabilidad) ----------

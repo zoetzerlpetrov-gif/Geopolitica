@@ -69,6 +69,12 @@ jobs:
           ls -la capas/
           cat capas/manifest.json
 
+      - name: Cronología histórica por país (Wikidata; en la corrida mensual o si se pide «historia»)
+        if: github.event.inputs.familias == '' || contains(github.event.inputs.familias, 'historia')
+        continue-on-error: true
+        timeout-minutes: 20
+        run: python3 -u tools/historia/cronologia.py capas/historia
+
       - name: Publicar en la rama datos-capas (reescrita, sin historial)
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
