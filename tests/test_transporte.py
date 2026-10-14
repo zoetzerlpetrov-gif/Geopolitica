@@ -145,6 +145,15 @@ def test_zonas_agrega_eventos():
     fs = Z.zonas([ev(12, "Balacera en Sinaloa", sev=3), ev(13, "Bloqueos en Sinaloa", sev=5)], Z.Divisiones(POLIS), AHORA_DT)
     p = fs[0]["properties"]
     assert p["n_eventos"] == 2 and p["sev_max"] == 5 and p["eventos"][0]["severidad"] == 5 and p["id"] == "MEX-Sinaloa"
+    assert p["eventos"][0]["por_que"] == "la nota nombra «Sinaloa»"
+    assert dict(p["temas"]) == {"Violencia armada o crimen organizado": 1, "Protestas, bloqueos o disturbios": 1}
+    assert p["resumen"].startswith("Posible afectación por: ")
+
+
+def test_zonas_tema():
+    assert Z.tema_de("Huracán Simon deja dos muertos en Sinaloa") == "Huracán, ciclón o tormenta tropical"
+    assert Z.tema_de("Miles de manifestantes marchan en Nueva Delhi") == "Protestas, bloqueos o disturbios"
+    assert Z.tema_de("Reunión de gabinete", "instituciones", {"instituciones": "Instituciones"}) == "Instituciones"
 
 
 def test_contiene_con_hueco():

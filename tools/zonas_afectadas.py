@@ -127,11 +127,11 @@ class Divisiones:
         return self._claves[iso3]
 
     def mencionadas(self, iso3, texto):
-        """Índices de divisiones nombradas en el texto (palabra completa y con mayúscula en el original)."""
+        """{índice de división: nombre tal como aparece en la nota} (palabra completa y con mayúscula en el original)."""
         t = f" {norm(texto)} "
         plano = unicodedata.normalize("NFKD", texto)
         plano = "".join(c for c in plano if not unicodedata.combining(c))
-        encontrados, usados = set(), []
+        encontrados, usados = {}, []
         for k, nombre, ids in self.claves(iso3):
             pos = t.find(f" {k} ")
             if pos < 0 or any(a <= pos < b for a, b in usados):
@@ -147,7 +147,8 @@ class Divisiones:
             if m and not plano[m.start()].isupper():
                 continue
             usados.append((pos, pos + len(k) + 1))
-            encontrados |= ids
+            for i in ids:
+                encontrados.setdefault(i, nombre)
         return encontrados
 
     def en_punto(self, iso3, lon, lat):
@@ -166,13 +167,39 @@ def _fecha(s):
         return None
 
 
+# Qué tipo de hecho afecta a la zona, según palabras del título y resumen (sin acentos). El primero que coincide gana.
+TEMAS = [
+    ("Huracán, ciclón o tormenta tropical", r"huracan|ciclon|tifon|tormenta tropical|depresion tropical|hurricane|cyclone|typhoon|tropical storm"),
+    ("Sismo o tsunami", r"sismo|terremoto|temblor|tsunami|earthquake|quake"),
+    ("Erupción volcánica", r"volcan|erupcion|ceniza|eruption|volcano"),
+    ("Inundaciones o lluvias", r"inundac|lluvias|desbord|deslave|alud|flood|landslide|heavy rain"),
+    ("Incendio", r"incendio|wildfire|\bfire\b|forest fire"),
+    ("Ataque con misiles, drones o bombardeo", r"misil|dron|bombarde|ataque aereo|missile|drone|airstrike|shelling|strikes? on"),
+    ("Terrorismo", r"terroris|atentado|explosivo|terror attack|suicide bomb"),
+    ("Violencia armada o crimen organizado", r"balacera|enfrentamiento|asesina|homicid|ejecut|cartel|sicari|tiroteo|gunman|shooting|killed|clashes|emboscada"),
+    ("Secuestro o desaparición", r"secuestr|desaparec|levanton|kidnap|abduct"),
+    ("Crisis de agua, energía o combustible", r"crisis de agua|sin agua|sequia|apagon|desabasto|huachicol|gasolina|blackout|drought|water crisis"),
+    ("Protestas, bloqueos o disturbios", r"protest|manifest|marcha|bloqueo|paro|huelga|disturbio|riot|strike|demonstrat"),
+    ("Brote o emergencia sanitaria", r"brote|epidemia|dengue|colera|sarampion|outbreak|epidemic|cholera"),
+    ("Accidente de transporte", r"descarril|choque|accidente|aterrizaje de emergencia|naufrag|crash|derail|collision"),
+]
+
+
+def tema_de(texto, area=None, nombres_area=None):
+    t = f" {norm(texto)} "
+    for nombre, patron in TEMAS:
+        if re.search(patron, t):
+            return nombre
+    return (nombres_area or {}).get(area) or "Otro hecho de severidad media o alta"
+
+
 def de_medio(e):
     """Solo notas de medios y fuentes oficiales: las señales automáticas de GDELT son plantillas («Coerción: New York
     City (India)») con ubicaciones poco fiables, y las publicaciones de redes sociales no están verificadas."""
     return not str(e.get("fuente") or "").startswith("GDELT") and e.get("tipo_fuente") != "red_social"
 
 
-def zonas(eventos, div, ahora, centroides=None, sev_min=SEV_MIN, horas=HORAS):
+def zonas(eventos, div, ahora, centroides=None, sev_min=SEV_MIN, horas=HORAS, nombres_area=None):
     centroides = centroides or {}
     desde = ahora - timedelta(hours=horas)
     agg = {}
@@ -183,27 +210,33 @@ def zonas(eventos, div, ahora, centroides=None, sev_min=SEV_MIN, horas=HORAS):
             continue
         if not de_medio(e):
             continue
-        ids = div.mencionadas(iso, f"{e.get('titulo', '')}. {e.get('resumen', '')}")
-        motivo = "mencionada en la nota"
+        texto = f"{e.get('titulo', '')}. {e.get('resumen', '')}"
+        ids = div.mencionadas(iso, texto)
+        motivo = "la nota nombra"
         if not ids and e.get("lat") is not None and e.get("lon") is not None:
             c = centroides.get(iso)
             if not c or abs(c[0] - e["lon"]) > 0.05 or abs(c[1] - e["lat"]) > 0.05:
                 i = div.en_punto(iso, e["lon"], e["lat"])
                 if i is not None:
-                    ids, motivo = {i}, "ubicación de la fuente"
-        for i in ids:
-            z = agg.setdefault(i, {"eventos": [], "motivos": set(), "sev": 0})
+                    ids, motivo = {i: None}, "las coordenadas de la fuente caen aquí"
+        tema = tema_de(texto, e.get("area_principal"), nombres_area)
+        for i, lugar in ids.items():
+            z = agg.setdefault(i, {"eventos": [], "motivos": set(), "sev": 0, "temas": {}})
             z["sev"] = max(z["sev"], e["severidad"])
             z["motivos"].add(motivo)
+            z["temas"][tema] = z["temas"].get(tema, 0) + 1
             z["eventos"].append({"id": e["id"], "titulo": e.get("titulo"), "fuente": e.get("fuente"), "url": e.get("url"),
-                                 "fecha_utc": e.get("fecha_utc"), "severidad": e["severidad"], "area": e.get("area_principal")})
+                                 "fecha_utc": e.get("fecha_utc"), "severidad": e["severidad"], "area": e.get("area_principal"), "tema": tema,
+                                 "por_que": f"{motivo} «{lugar}»" if lugar else motivo})
     feats = []
     for i, z in agg.items():
         p = div.polis[i]
         evs = sorted(sorted(z["eventos"], key=lambda x: x["fecha_utc"] or "", reverse=True), key=lambda x: -x["severidad"])
         feats.append({"type": "Feature", "geometry": p["geometry"],
                       "properties": {"id": f"{p['iso3']}-{p['nombres'][0]}", "nombre": p["nombres"][0], "iso3": p["iso3"], "tipo": p.get("tipo", ""), "sev_max": z["sev"],
-                                     "n_eventos": len(evs), "motivo": " y ".join(sorted(z["motivos"])), "eventos": evs[:MAX_EVENTOS]}})
+                                     "n_eventos": len(evs), "motivo": " y ".join(sorted(z["motivos"])), "eventos": evs[:MAX_EVENTOS],
+                                     "temas": sorted(z["temas"].items(), key=lambda x: -x[1]),
+                                     "resumen": "Posible afectación por: " + "; ".join(f"{t} ({n})" for t, n in sorted(z["temas"].items(), key=lambda x: -x[1]))}})
     feats.sort(key=lambda f: (-f["properties"]["sev_max"], -f["properties"]["n_eventos"]))
     return feats
 
@@ -220,7 +253,9 @@ def main(argv=None):
     centroides = {iso: (p["lon"], p["lat"]) for iso, p in gaz.items() if p.get("lat") is not None}
     datos = json.load(open(a.eventos, encoding="utf-8"))
     ahora = datetime.now(timezone.utc)
-    feats = zonas(datos.get("eventos", []), Divisiones(polis, nombres), ahora, centroides)
+    tax = json.load(open(os.path.join(ROOT, "config", "taxonomy.json"), encoding="utf-8"))
+    nombres_area = {a["id"]: a["nombre"] for a in tax["areas"]}
+    feats = zonas(datos.get("eventos", []), Divisiones(polis, nombres), ahora, centroides, nombres_area=nombres_area)
     json.dump({"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "criterio": f"severidad ≥ {SEV_MIN}, últimas {HORAS} h",
                "features": feats}, open(a.salida, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"zonas afectadas: {len(feats)} divisiones")

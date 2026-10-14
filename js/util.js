@@ -76,8 +76,10 @@ export function pinturaEtiqueta() {
  * gobiernos, índice…) ceden el clic: sin esto, la capa encendida al último se quedaba con todos los clics.
  */
 export function hayObjetoEncima(map, punto) {
-  return map.queryRenderedFeatures(punto).some((f) => ["circle", "symbol", "line"].includes(f.layer.type)
-    && /^(rg-|mov-|cap-|evento|clusters|chokepoints)/.test(f.layer.id) && !/-(texto|pulso)$/.test(f.layer.id));
+  return map.queryRenderedFeatures(punto).some((f) => (["circle", "symbol", "line"].includes(f.layer.type)
+    && /^(rg-|mov-|cap-|evento|clusters|chokepoints)/.test(f.layer.id) && !/-(texto|pulso)$/.test(f.layer.id))
+    // Polígonos de riesgos (zonas afectadas, avisos, conos): su interior también es tocable.
+    || (f.layer.type === "fill" && /^rg-.*-area$/.test(f.layer.id)));
 }
 
 /** Texto sin acentos y en minúsculas, para buscar «Mexico» y encontrar «México». */
