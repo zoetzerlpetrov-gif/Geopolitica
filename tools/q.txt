@@ -1,8 +1,9 @@
-SELECT ?e ?eLabel (MIN(?f) AS ?fecha) (MAX(?p) AS ?prec) (SAMPLE(?tl) AS ?tipo) (MAX(?n) AS ?wikis) WHERE {
-  ?pais wdt:P298 "MEX" .
-  ?e wdt:P17 ?pais ; wikibase:sitelinks ?n .
-  FILTER(?n >= 20)
+SELECT ?e ?eLabel ?tipo (MIN(?f) AS ?fecha) (MAX(?p) AS ?prec) (MAX(?n) AS ?wikis) WHERE {
+  VALUES ?tipo { wd:Q198 wd:Q8465 wd:Q178561 wd:Q188055 wd:Q10931 wd:Q124734 wd:Q45382 wd:Q131569 wd:Q625298 wd:Q467011 wd:Q645883 wd:Q350604 wd:Q3199915 wd:Q41397 wd:Q2223653 wd:Q273120 wd:Q7944 wd:Q7692360 wd:Q8092 wd:Q12184 wd:Q44512 wd:Q168247 wd:Q43109 wd:Q3024240 wd:Q48349 wd:Q465299 wd:Q11514315 wd:Q13418847 wd:Q1190554 wd:Q3839081 wd:Q8016240 wd:Q2001676 }
+  ?e wdt:P31 ?tipo ; wikibase:sitelinks ?n .
+  FILTER(?n >= 12)
+  ?e wdt:P17 ?pais . ?pais wdt:P298 "MEX" .
   { ?e p:P585/psv:P585 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] } UNION { ?e p:P580/psv:P580 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] }
-  OPTIONAL { ?e wdt:P31 ?t . ?t rdfs:label ?tl . FILTER(lang(?tl) = "es") }
+    UNION { ?e p:P571/psv:P571 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
-} GROUP BY ?e ?eLabel ORDER BY ?fecha LIMIT 300
+} GROUP BY ?e ?eLabel ?tipo ORDER BY ?fecha LIMIT 400
