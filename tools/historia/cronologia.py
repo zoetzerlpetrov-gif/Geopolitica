@@ -32,14 +32,17 @@ CLASES = {
 
 
 def consulta(clase, minimo=MINIMO_WIKIS):
-    return f"""SELECT ?e ?eLabel ?iso (MIN(?f) AS ?fecha) (MAX(?p) AS ?prec) (MAX(?n) AS ?wikis) WHERE {{
-  ?e wdt:P31 wd:{clase} ; wikibase:sitelinks ?n .
-  FILTER(?n >= {int(minimo)})
+    # «optimizer None»: Wikidata ejecuta las líneas en este orden (primero el tipo, unos miles de objetos); sin la pista
+    # empezaba por «país» y agotaba los 60 s. Sin GROUP BY ni servicio de etiquetas, que eran lo más costoso.
+    return f"""SELECT ?e ?iso ?f ?l WHERE {{
+  hint:Query hint:optimizer "None" .
+  ?e wdt:P31 wd:{clase} .
+  ?e wikibase:sitelinks ?n . FILTER(?n >= {int(minimo)})
   ?e wdt:P17|wdt:P3842 ?pais . ?pais wdt:P298 ?iso .
-  {{ ?e p:P585/psv:P585 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] }} UNION {{ ?e p:P580/psv:P580 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] }}
-    UNION {{ ?e p:P571/psv:P571 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] }}
-  SERVICE wikibase:label {{ bd:serviceParam wikibase:language "es,en". }}
-}} GROUP BY ?e ?eLabel ?iso"""
+  OPTIONAL {{ ?e wdt:P585 ?f1 }} OPTIONAL {{ ?e wdt:P580 ?f2 }} OPTIONAL {{ ?e wdt:P571 ?f3 }}
+  BIND(COALESCE(?f1, ?f2, ?f3) AS ?f) FILTER(BOUND(?f))
+  OPTIONAL {{ ?e rdfs:label ?l . FILTER(lang(?l) = "es") }}
+}}"""
 
 
 def pedir(q, intentos=3):
@@ -55,17 +58,25 @@ def pedir(q, intentos=3):
     raise RuntimeError("Wikidata no respondió")
 
 
+def precision(fecha):
+    """Sin la precisión de Wikidata: «1° de enero» suele significar «solo el año»."""
+    return 9 if fecha[-15:-10] == "01-01" or fecha.endswith("-01-01T00:00:00Z") else 11
+
+
 def filas(resp, tipo):
-    """Respuesta SPARQL → {iso3: [[qid, nombre, fecha, precisión, tipo, wikis]]}; descarta etiquetas sin traducir (Q123)."""
-    out = defaultdict(list)
+    """Respuesta SPARQL → {iso3: [[qid, nombre, fecha, precisión, tipo, 0]]}; sin nombre en español no se incluye."""
+    out = defaultdict(dict)
     for b in resp.get("results", {}).get("bindings", []):
         qid = b["e"]["value"].rsplit("/", 1)[-1]
-        nombre = b.get("eLabel", {}).get("value", "")
+        nombre = b.get("l", {}).get("value", "")
         iso = b.get("iso", {}).get("value", "")
-        if not nombre or nombre == qid or len(iso) != 3 or "fecha" not in b:
+        f = b.get("f", {}).get("value", "")
+        if not nombre or len(iso) != 3 or not f or "T" not in f:
             continue
-        out[iso].append([qid, nombre, b["fecha"]["value"], int(b.get("prec", {}).get("value", 9)), tipo, int(b.get("wikis", {}).get("value", 0))])
-    return out
+        previo = out[iso].get(qid)
+        if not previo or f < previo[2]:  # varias fechas: la más antigua (inicio)
+            out[iso][qid] = [qid, nombre, f, precision(f), tipo, 0]
+    return {iso: list(d.values()) for iso, d in out.items()}
 
 
 def anio(iso):

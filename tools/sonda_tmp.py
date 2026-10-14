@@ -1,11 +1,10 @@
-import json, os, subprocess, sys, time
-t0 = time.time()
-subprocess.run([sys.executable, "-u", "tools/historia/cronologia.py", "/tmp/historia"], check=True)
-print(f"TOTAL {time.time()-t0:.0f} s")
-fs = sorted(os.listdir("/tmp/historia")); print(len(fs), "archivos", sum(os.path.getsize("/tmp/historia/" + f) for f in fs) // 1024, "KB")
-for iso in ("MEX", "USA", "FRA", "CHN", "COL", "EGY"):
+import sys, time
+sys.path.insert(0, "tools/historia")
+import cronologia as C
+for clase in ("Q198", "Q178561", "Q7944", "Q3024240"):
+    t0 = time.time()
     try:
-        h = json.load(open(f"/tmp/historia/{iso}.json"))["hechos"]
-        print(f"\n## {iso} {len(h)} hechos, {os.path.getsize(f'/tmp/historia/{iso}.json')//1024} KB")
-        for f in h[:: max(1, len(h) // 25)]: print("  ", f[2][:11], f[1], "|", f[4], f[5])
-    except Exception as e: print(iso, e)
+        r = C.filas(C.pedir(C.consulta(clase), intentos=1), C.CLASES[clase])
+        print(C.CLASES[clase], f"{time.time()-t0:.1f}s", len(r), "países", sum(len(v) for v in r.values()), "filas", (r.get("MEX") or [])[:4])
+    except Exception as e:
+        print(C.CLASES[clase], "ERROR", e, f"{time.time()-t0:.1f}s")
