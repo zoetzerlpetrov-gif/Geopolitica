@@ -171,21 +171,21 @@ CLASES_EMPRESA = [("Q891723", 12), ("Q4830453", 20), ("Q783794", 20), ("Q6881511
 
 # Industria (etiqueta en inglés de Wikidata) o nombre → sector. El primero que coincide gana.
 SECTORES = [
-    ("emp_energia", r"oil|petroleum|natural gas|energy|electric|power generation|utilit|coal|nuclear|renewable|solar|wind power|pipeline"),
-    ("emp_mineria", r"mining|metal|steel|alumin|iron|copper|gold|diamond"),
     ("emp_automotriz", r"automotive|automobile|motor vehicle|car manufactur|truck|motorcycle|tyre|tire|auto parts"),
-    ("emp_aeroespacial_defensa", r"aerospace|defen[cs]e|arms industry|weapon|aircraft manufactur|shipbuilding"),
-    ("emp_transporte", r"airline|aviation|shipping|logistic|rail|transport|courier|freight|maritime|port operat|airport"),
-    ("emp_hospitalidad", r"hotel|hospitality|restaurant|fast food|tourism|travel|casino|gambling|cruise|lodging"),
-    ("emp_alimentos", r"food|beverage|drink|brew|beer|wine|spirits|dairy|agricult|agribusiness|meat|confection|tobacco|bottl|coffee|sugar"),
-    ("emp_farma_salud", r"pharma|biotech|health ?care|medical|hospital|life science|vaccine"),
-    ("emp_quimica", r"chemical|plastic|fertili|petrochemical|paint|coating"),
-    ("emp_finanzas", r"bank|financ|insurance|investment|asset management|private equity|payment|credit|stock exchange|reinsurance|holding"),
+    ("emp_aeroespacial_defensa", r"aerospace|space industry|defen[cs]e|arms industry|weapon|aircraft manufactur|shipbuilding"),
+    ("emp_farma_salud", r"pharma|biotech|health ?care|medical|\bhospitals?\b|life science|vaccine"),
+    ("emp_tecnologia", r"software|internet|semiconductor|electronics|computer|information technology|video game|e-commerce|cloud|artificial intelligence|streaming"),
     ("emp_telecom", r"telecom|mobile phone|wireless|cable television|internet service|satellite communic"),
-    ("emp_tecnologia", r"software|internet|semiconductor|electronics|computer|information technology|technology|video game|e-commerce|cloud|artificial intelligence"),
-    ("emp_comercio", r"retail|supermarket|wholesale|department store|fashion|clothing|apparel|luxury|cosmetic|consumer goods|furniture"),
+    ("emp_medios", r"media|entertainment|publishing|film|television|broadcast|music|newspaper|advertising|sport|football|animation"),
+    ("emp_energia", r"\boil\b|petroleum|natural gas|energy|electric utility|electricity|electric power|power generation|utilit|coal|nuclear|renewable|solar|wind power|pipeline"),
+    ("emp_mineria", r"mining|metal|steel|alumin|iron|copper|gold|diamond"),
+    ("emp_quimica", r"chemical|plastic|fertili|paint|coating"),
+    ("emp_transporte", r"airline|airways|air lines|aviation|shipping|logistic|rail|transport|courier|freight|maritime|port operat|airport"),
+    ("emp_hospitalidad", r"hotel|hospitality|restaurant|fast food|food service|tourism|travel|casino|gambling|cruise|lodging|amusement"),
+    ("emp_alimentos", r"food|beverage|drink|brew|beer|wine|spirits|dairy|agricult|agribusiness|meat|confection|tobacco|bottl|coffee|sugar|ice cream"),
+    ("emp_finanzas", r"bank|financ|insurance|investment|asset management|private equity|payment|credit|stock exchange|reinsurance"),
+    ("emp_comercio", r"retail|supermarket|wholesale|department store|fashion|clothing|apparel|luxury|cosmetic|consumer goods|furniture|electrical industry"),
     ("emp_construccion_inmobiliaria", r"construction|real estate|engineering|cement|building material|infrastructure|property"),
-    ("emp_medios", r"media|entertainment|publishing|film|television|broadcast|music|newspaper|advertising|sport"),
 ]
 
 
@@ -194,8 +194,11 @@ def sector_empresa(industrias, nombre=""):
     for st, patron in SECTORES:
         if re.search(patron, texto):
             return st
+    nombre = (nombre or "").lower()
+    if re.search(r"\bf\.?c\.?\b|football|fútbol|futbol|\bclub\b|calcio", nombre):
+        return "emp_medios"                 # clubes deportivos registrados como empresas
     for st, patron in SECTORES:             # sin industria declarada: se prueba con el nombre («… Petroleum», «… Bank»)
-        if re.search(patron, (nombre or "").lower()):
+        if re.search(patron, nombre):
             return st
     return "emp_otros"
 

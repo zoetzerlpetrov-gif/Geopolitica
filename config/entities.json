@@ -481,6 +481,326 @@
       "geoeconomia"
      ],
      "familia": "organismos"
+    },
+    {
+     "id": "emp_energia",
+     "nombre": {
+      "es": "Energía: petróleo, gas y electricidad",
+      "en": "Energy"
+     },
+     "icono": "⚡",
+     "color": "#E0A100",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_mineria",
+     "nombre": {
+      "es": "Minería y metales",
+      "en": "Mining and metals"
+     },
+     "icono": "⛏",
+     "color": "#8D6E63",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_automotriz",
+     "nombre": {
+      "es": "Automotriz",
+      "en": "Automotive"
+     },
+     "icono": "🚗",
+     "color": "#455A64",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_aeroespacial_defensa",
+     "nombre": {
+      "es": "Aeroespacial y defensa",
+      "en": "Aerospace and defense"
+     },
+     "icono": "✈",
+     "color": "#37474F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_transporte",
+     "nombre": {
+      "es": "Transporte y logística (aerolíneas, navieras)",
+      "en": "Transport and logistics"
+     },
+     "icono": "🚚",
+     "color": "#1F6FB2",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_hospitalidad",
+     "nombre": {
+      "es": "Hotelería, restaurantes y turismo",
+      "en": "Hospitality"
+     },
+     "icono": "🏨",
+     "color": "#D81B60",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_alimentos",
+     "nombre": {
+      "es": "Alimentos y bebidas",
+      "en": "Food and beverage"
+     },
+     "icono": "🍞",
+     "color": "#7CB342",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_farma_salud",
+     "nombre": {
+      "es": "Farmacéutica y salud",
+      "en": "Pharma and health"
+     },
+     "icono": "💊",
+     "color": "#00897B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_quimica",
+     "nombre": {
+      "es": "Química",
+      "en": "Chemicals"
+     },
+     "icono": "⚗",
+     "color": "#6A1B9A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_finanzas",
+     "nombre": {
+      "es": "Banca, seguros y finanzas",
+      "en": "Finance"
+     },
+     "icono": "🏦",
+     "color": "#2E7D32",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_telecom",
+     "nombre": {
+      "es": "Telecomunicaciones",
+      "en": "Telecommunications"
+     },
+     "icono": "📡",
+     "color": "#0277BD",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_tecnologia",
+     "nombre": {
+      "es": "Tecnología e internet",
+      "en": "Technology"
+     },
+     "icono": "💻",
+     "color": "#5E35B1",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_comercio",
+     "nombre": {
+      "es": "Comercio, moda y bienes de consumo",
+      "en": "Retail and consumer goods"
+     },
+     "icono": "🛒",
+     "color": "#F4511E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_construccion_inmobiliaria",
+     "nombre": {
+      "es": "Construcción e inmobiliarias",
+      "en": "Construction and real estate"
+     },
+     "icono": "🏗",
+     "color": "#A1887F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_medios",
+     "nombre": {
+      "es": "Medios y entretenimiento",
+      "en": "Media and entertainment"
+     },
+     "icono": "🎬",
+     "color": "#C62828",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_otros",
+     "nombre": {
+      "es": "Otros sectores o sin sector declarado",
+      "en": "Other"
+     },
+     "icono": "🏢",
+     "color": "#78909C",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
     }
    ]
   },
