@@ -153,7 +153,7 @@ export class GestorCapas {
           ...(f.relleno ? { "fill-outline-color": "rgba(255,255,255,0.35)" } : {}) } }, antes);
       this.map.addLayer({ id: `${src}-linea`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-linea", filtro),
         // El Cinturón de Fuego va más grueso que el resto de los límites de placas para distinguirlo.
-        paint: { "line-color": color, "line-width": ["*", ["match", ["get", "st"], "cinturon_fuego", 3.2, 1], ["interpolate", ["linear"], ["zoom"], 2, 0.6, 8, 1.6]], "line-opacity": 0.85 } }, antes);
+        paint: { "line-color": color, "line-width": ["interpolate", ["linear"], ["zoom"], 2, ["*", 0.6, GROSOR], 8, ["*", 1.6, GROSOR]], "line-opacity": 0.85 } }, antes);
       // Franja de toque invisible: las líneas miden menos de 2 px y serían casi imposibles de elegir.
       this.map.addLayer({ id: `${src}-ltoque`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-ltoque", filtro),
         paint: { "line-color": "#000", "line-width": 10, "line-opacity": 0 } }, antes);
@@ -188,6 +188,8 @@ export class GestorCapas {
 // Subtipos de «Zonas geográficas» que se rellenan (los demás polígonos, como mares o placas, solo llevan su nombre).
 const RELLENO_ZONAS = ["desiertos", "cordilleras", "peninsulas", "mesetas", "llanuras", "valles", "canones", "cuencas", "deltas_humedales",
   "tundras", "glaciares", "istmos", "costas", "piedemonte"];
+
+const GROSOR = ["match", ["get", "st"], "cinturon_fuego", 3.2, 1];
 
 const ESTADO = { tiempo_real: "Tiempo real", retrasado: "Retrasado", estimado: "Estimado", estatico: "Estático" };
 export const etiquetaEstado = (e) => ESTADO[e] || e;

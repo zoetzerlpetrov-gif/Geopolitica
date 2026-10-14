@@ -203,7 +203,7 @@ def zonas():
             alt = pr.get("elevation") or pr.get("ELEVATION")
             nombre = pr_(pr, "name_es") or pr_(pr, "name")
             out.append(feat(f["geometry"], {"id": f"ne:{pref}{i}", "n": f"{nombre} ({int(alt):,} m)".replace(",", " ") if alt else nombre,
-                                            "st": st, "p": "", "x": int(alt) if alt else ""}, max(z, min(int(pr_(pr, "scalerank") or 6), 8))))
+                                            "st": st, "p": "", "x": f"altitud {int(alt):,} m".replace(",", " ") if alt else ""}, max(z, min(int(pr_(pr, "scalerank") or 6), 8))))
     fc = json.loads(get(NE + "ne_10m_glaciated_areas.geojson"))
     for i, f in enumerate(fc["features"]):
         out.append(feat(f["geometry"], {"id": f"ne:hielo{i}", "n": pr_(pr := f["properties"], "name") or "Glaciar o campo de hielo", "st": "glaciares", "p": ""},
@@ -229,7 +229,8 @@ def placas_tectonicas():
         p = f["properties"]
         nombres[p["Code"]] = PLACAS_ES.get(p["PlateName"], p["PlateName"])
         # Solo la etiqueta (el contorno ya lo dibujan los límites): el polígono no se rellena.
-        out.append(feat(f["geometry"], {"id": f"pb2002:{p['Code']}", "n": f"Placa {nombres[p['Code']]}", "st": "placas_tectonicas", "p": "", "x": p["Code"]}, 1))
+        out.append(feat(f["geometry"], {"id": f"pb2002:{p['Code']}", "n": f"Placa {nombres[p['Code']]}", "st": "placas_tectonicas", "p": "",
+                                "x": f"Código {p['Code']} del modelo PB2002 (Bird, 2003). Los límites con otras placas se ven como líneas de colores."}, 1))
     for k, l in enumerate(_limites_pb2002()):
         frontera, st = l["clave"]
         if not st:
