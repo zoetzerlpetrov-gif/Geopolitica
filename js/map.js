@@ -72,7 +72,7 @@ export function estiloLocal(theme, { ligero = false } = {}) {
       { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": dark ? "#3b4b56" : "#b9c2c9", "line-width": 0.6 } },
       { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5,
         layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-optional": true },
-        paint: { "text-color": dark ? "#8fa1ad" : "#6f7d87", "text-halo-color": dark ? "#0d1b24" : "#ffffff", "text-halo-width": 1 } },
+        paint: { "text-color": dark ? "#dbe4ea" : "#2a343c", "text-halo-color": dark ? "#0d1b24" : "#ffffff", "text-halo-width": 1.2 } },
     ],
   };
 }
@@ -95,8 +95,25 @@ const QUITAR_EN_LITE = /highway|road|transportation_name|shield|oneway|village|s
 // fuentes: en la medición base eran 1.5 MB en 31 peticiones solo de fuentes.
 const NOMBRE_ES = ["coalesce", ["get", "name:es"], ["get", "name:latin"], ["get", "name"]];
 
-/** Ajusta el estilo de OpenFreeMap para que pese menos al moverse. No cambia su aspecto a zoom mundial. */
-export function aligerarEstilo(style, { lite = false } = {}) {
+// Contraste de las etiquetas del mapa base. El estilo «dark» de OpenFreeMap pinta los nombres en gris medio
+// (rgb 101,101,101) sobre negro y los mares en negro al 70 % con halo gris: casi no se leen. Aquí todas las
+// etiquetas pasan a texto claro con halo oscuro (o al revés en los estilos claros), con halo delgado y casi
+// sin difuminar para que el contorno no se coma las letras.
+export const CONTRASTE = {
+  oscuro: { texto: "#e8eef2", agua: "#9cc7e4", secundario: "#b9c6cf", halo: "rgba(5,10,15,0.9)" },
+  claro: { texto: "#141c22", agua: "#1f4f7a", secundario: "#3b4650", halo: "rgba(255,255,255,0.92)" },
+};
+function contrastar(l, tono) {
+  const c = CONTRASTE[tono];
+  const id = l.id;
+  const color = /water|ocean|sea|lake|river|marine/.test(id) ? c.agua
+    : /highway|road|path|airport|aerodrome|poi|other|suburb|village/.test(id) ? c.secundario : c.texto;
+  l.paint = { ...(l.paint || {}), "text-color": color, "text-halo-color": c.halo, "text-halo-width": 1.2, "text-halo-blur": 0.3 };
+}
+
+/** Ajusta el estilo de OpenFreeMap para que pese menos al moverse y se lea mejor. No cambia su aspecto a zoom mundial.
+ *  `tono`: «oscuro» o «claro» fuerza el contraste de las etiquetas (null las deja como vienen). */
+export function aligerarEstilo(style, { lite = false, tono = null } = {}) {
   const layers = [];
   for (const l of style.layers) {
     if (lite && QUITAR_EN_LITE.test(l.id)) continue;
@@ -105,6 +122,7 @@ export function aligerarEstilo(style, { lite = false } = {}) {
       // Una sola familia tipográfica menos: la cursiva (nombres de mares) pasa a regular.
       if (JSON.stringify(l.layout["text-font"] || "").includes("Italic")) l.layout["text-font"] = ["Noto Sans Regular"];
     }
+    if (l.type === "symbol" && tono && l.layout?.["text-field"]) contrastar(l, tono);
     if (l.type === "symbol") {
       const regla = MINZOOM_ETIQUETAS.find(([re]) => re.test(l.id));
       if (regla && (l.minzoom ?? 0) < regla[1]) l.minzoom = regla[1];
@@ -129,7 +147,9 @@ export async function estiloBase(theme, { lite = false, base = "tematico" } = {}
   try {
     const r = await fetchTimeout(base === "calles" ? OFM.calles : OFM[theme], 6000);
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
-    return { style: aligerarEstilo(await r.json(), { lite: lite && base !== "calles" }), remoto: true };
+    // «Calles» (Liberty) colorea sus etiquetas por tipo y ya se lee bien; solo se ajustan los estilos temáticos.
+    const tono = base === "calles" ? null : theme === "dark" ? "oscuro" : "claro";
+    return { style: aligerarEstilo(await r.json(), { lite: lite && base !== "calles", tono }), remoto: true };
   } catch (e) {
     console.warn("OpenFreeMap no disponible, se usa el mapa base local:", e.message);
     return { style: estiloLocal(theme), remoto: false };

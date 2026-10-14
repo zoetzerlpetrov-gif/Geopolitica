@@ -81,6 +81,8 @@
           <input id="menu-buscar" type="search" placeholder="Buscar en el menú (p. ej. sismos, aire)…" aria-label="Buscar en el menú" autocomplete="off">
           <button type="button" id="menu-contraer" class="txt-btn" title="Contraer todas las secciones">Contraer todo</button>
         </div>
+        <label class="aviso-sonido" title="Los eventos nuevos parpadean 60 s en el mapa. Con esta casilla, además suena un aviso corto (tres tonos si hay severidad 4 o 5).">
+          <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
         <div id="activas" class="activas" aria-live="polite" hidden></div>
       </div>
 
@@ -94,6 +96,7 @@
             <label>Solo una severidad<select id="ev-sev"><option value="0">Todas</option><option value="5">Solo 5 · Extrema</option><option value="4">Solo 4 · Alta</option><option value="3">Solo 3 · Media</option><option value="2">Solo 2 · Baja</option><option value="1">Solo 1 · Informativa</option></select></label>
             <label>País<select id="ev-pais"><option value="">Todos los países</option></select></label>
             <label>Región<select id="ev-region"><option value="">Todas las regiones</option></select></label>
+            <label title="Eventos cuyo título o resumen menciona la religión (iglesias, mezquitas, sinagogas, templos, comunidades, líderes)">Religión mencionada<select id="ev-religion"><option value="">Todas</option></select></label>
             <label class="ev-check"><span><input type="checkbox" id="f-mexico"> Solo con impacto en México</span></label>
             <label class="ev-check"><span><input type="checkbox" id="f-leyes"> Solo leyes, reformas y decretos</span></label>
           </div>

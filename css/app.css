@@ -89,6 +89,14 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 
 .lista-areas { list-style: none; margin: 0; padding: 0; }
 .lista-areas label { display: grid; grid-template-columns: auto 14px 1fr auto; gap: 8px; align-items: center; padding: 3px 0; cursor: pointer; }
+.lista-areas .subs { margin: 0 0 4px 30px; }
+.lista-areas .subs > summary { font-size: 12px; color: var(--text-2); cursor: pointer; padding: 1px 0; }
+.chips-sub { display: flex; flex-wrap: wrap; gap: 4px; padding: 4px 0 2px; }
+.chip-sub { font: inherit; font-size: 12px; color: var(--text); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 2px 8px; cursor: pointer; }
+.chip-sub .num { margin-left: 2px; }
+.chip-sub.cero { opacity: .7; }
+.chip-sub.activo { background: var(--accent); border-color: var(--accent); color: var(--surface); }
+.chip-sub.activo .num { color: var(--surface); }
 .swatch { width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--surface); box-shadow: 0 0 0 1px var(--line); }
 .num { font-family: var(--mono); font-size: 12px; color: var(--text-2); }
 
@@ -481,3 +489,4 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .foto-ir { margin: 6px 0; padding: 8px 14px; font-weight: 600; font-size: 0.95rem; cursor: pointer; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--text); }
 .lista-eventos .coincide { font-style: italic; }
 .reportes-acc { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+.aviso-sonido { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); padding: 4px 0; cursor: pointer; }

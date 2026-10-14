@@ -531,8 +531,8 @@ export class Riesgos {
    * @param {() => void} o.onCambio  cambió la lista de amenazas (para redibujar el panel)
    * @param {object} o.ctx  {indice, porNombre} para asignar país
    */
-  constructor(map, { onObjeto, onCambio = () => {}, ctx = {} }) {
-    this.map = map; this.onObjeto = onObjeto; this.onCambio = onCambio; this.ctx = ctx;
+  constructor(map, { onObjeto, onCambio = () => {}, onNuevas = () => {}, ctx = {} }) {
+    this.map = map; this.onObjeto = onObjeto; this.onCambio = onCambio; this.onNuevas = onNuevas; this.ctx = ctx;
     this.activas = new Map(); this.relojes = new Map();
     this.filtro = { pais: "", tipo: "", sevMin: 1 };
     this.ocultos = new Map();  // capa → claves que no se dibujan
@@ -571,7 +571,10 @@ export class Riesgos {
       f.properties._nuevo = Boolean(visto && visto !== base && ahora - visto < NUEVO_MS);
     }
     this.activas.set(capa.id, gj);
-    if (r.nuevas.size) this.#arrancarPulso();
+    if (r.nuevas.size) {
+      this.#arrancarPulso();
+      this.onNuevas(r.nuevas.size, gj.features.some((f) => r.nuevas.has(f.properties._k) && (f.properties._sev || 0) >= 4));
+    }
     return gj;
   }
 
