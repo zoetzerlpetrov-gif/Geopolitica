@@ -223,6 +223,20 @@
    "licencia": "Solo enlace: la imagen se ve en el sitio de cada operador",
    "uso_comercial": null,
    "licencia_verificada": false
+  },
+  "pb2002": {
+   "nombre": "PB2002, modelo de placas de Peter Bird (2003), GeoJSON de fraxen/tectonicplates",
+   "url": "https://github.com/fraxen/tectonicplates",
+   "licencia": "ODC-BY 1.0 (atribución)",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "gvp": {
+   "nombre": "Smithsonian Global Volcanism Program (respaldo: NOAA NCEI, dominio público)",
+   "url": "https://volcano.si.edu",
+   "licencia": "Uso libre citando la fuente (Global Volcanism Program, Smithsonian Institution)",
+   "uso_comercial": true,
+   "licencia_verificada": true
   }
  },
  "categorias": [
@@ -467,6 +481,326 @@
       "geoeconomia"
      ],
      "familia": "organismos"
+    },
+    {
+     "id": "emp_energia",
+     "nombre": {
+      "es": "Energía: petróleo, gas y electricidad",
+      "en": "Energy"
+     },
+     "icono": "⚡",
+     "color": "#E0A100",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_mineria",
+     "nombre": {
+      "es": "Minería y metales",
+      "en": "Mining and metals"
+     },
+     "icono": "⛏",
+     "color": "#8D6E63",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_automotriz",
+     "nombre": {
+      "es": "Automotriz",
+      "en": "Automotive"
+     },
+     "icono": "🚗",
+     "color": "#455A64",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_aeroespacial_defensa",
+     "nombre": {
+      "es": "Aeroespacial y defensa",
+      "en": "Aerospace and defense"
+     },
+     "icono": "✈",
+     "color": "#37474F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_transporte",
+     "nombre": {
+      "es": "Transporte y logística (aerolíneas, navieras)",
+      "en": "Transport and logistics"
+     },
+     "icono": "🚚",
+     "color": "#1F6FB2",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_hospitalidad",
+     "nombre": {
+      "es": "Hotelería, restaurantes y turismo",
+      "en": "Hospitality"
+     },
+     "icono": "🏨",
+     "color": "#D81B60",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_alimentos",
+     "nombre": {
+      "es": "Alimentos y bebidas",
+      "en": "Food and beverage"
+     },
+     "icono": "🍞",
+     "color": "#7CB342",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_farma_salud",
+     "nombre": {
+      "es": "Farmacéutica y salud",
+      "en": "Pharma and health"
+     },
+     "icono": "💊",
+     "color": "#00897B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_quimica",
+     "nombre": {
+      "es": "Química",
+      "en": "Chemicals"
+     },
+     "icono": "⚗",
+     "color": "#6A1B9A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_finanzas",
+     "nombre": {
+      "es": "Banca, seguros y finanzas",
+      "en": "Finance"
+     },
+     "icono": "🏦",
+     "color": "#2E7D32",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_telecom",
+     "nombre": {
+      "es": "Telecomunicaciones",
+      "en": "Telecommunications"
+     },
+     "icono": "📡",
+     "color": "#0277BD",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_tecnologia",
+     "nombre": {
+      "es": "Tecnología e internet",
+      "en": "Technology"
+     },
+     "icono": "💻",
+     "color": "#5E35B1",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_comercio",
+     "nombre": {
+      "es": "Comercio, moda y bienes de consumo",
+      "en": "Retail and consumer goods"
+     },
+     "icono": "🛒",
+     "color": "#F4511E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_construccion_inmobiliaria",
+     "nombre": {
+      "es": "Construcción e inmobiliarias",
+      "en": "Construction and real estate"
+     },
+     "icono": "🏗",
+     "color": "#A1887F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_medios",
+     "nombre": {
+      "es": "Medios y entretenimiento",
+      "en": "Media and entertainment"
+     },
+     "icono": "🎬",
+     "color": "#C62828",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
+    },
+    {
+     "id": "emp_otros",
+     "nombre": {
+      "es": "Otros sectores o sin sector declarado",
+      "en": "Other"
+     },
+     "icono": "🏢",
+     "color": "#78909C",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geoeconomia",
+      "riesgo"
+     ],
+     "familia": "empresas",
+     "zoom_min": 3
     }
    ]
   },
@@ -2615,6 +2949,470 @@
       "geografia"
      ],
      "familia": "zonas"
+    },
+    {
+     "id": "mesetas",
+     "nombre": {
+      "es": "Mesetas y altiplanos",
+      "en": "Plateaus"
+     },
+     "icono": "▲",
+     "color": "#9a7b4f",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
+    },
+    {
+     "id": "llanuras",
+     "nombre": {
+      "es": "Llanuras y tierras bajas",
+      "en": "Plains and lowlands"
+     },
+     "icono": "▬",
+     "color": "#8fa35a",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
+    },
+    {
+     "id": "valles",
+     "nombre": {
+      "es": "Valles",
+      "en": "Valleys"
+     },
+     "icono": "∨",
+     "color": "#6f9a4a",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 4
+    },
+    {
+     "id": "canones",
+     "nombre": {
+      "es": "Cañones y gargantas",
+      "en": "Gorges and canyons"
+     },
+     "icono": "∨",
+     "color": "#a0522d",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
+    },
+    {
+     "id": "cuencas",
+     "nombre": {
+      "es": "Cuencas y depresiones",
+      "en": "Basins and depressions"
+     },
+     "icono": "◡",
+     "color": "#7f8c6a",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
+    },
+    {
+     "id": "deltas_humedales",
+     "nombre": {
+      "es": "Deltas y humedales",
+      "en": "Deltas and wetlands"
+     },
+     "icono": "≈",
+     "color": "#3f8f7f",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 4
+    },
+    {
+     "id": "tundras",
+     "nombre": {
+      "es": "Tundras",
+      "en": "Tundra"
+     },
+     "icono": "❄",
+     "color": "#8fb3b0",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
+    },
+    {
+     "id": "glaciares",
+     "nombre": {
+      "es": "Glaciares y campos de hielo",
+      "en": "Glaciers and ice fields"
+     },
+     "icono": "❄",
+     "color": "#7fb6d9",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
+    },
+    {
+     "id": "istmos",
+     "nombre": {
+      "es": "Istmos",
+      "en": "Isthmuses"
+     },
+     "icono": "⧗",
+     "color": "#7a6a50",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 4
+    },
+    {
+     "id": "costas",
+     "nombre": {
+      "es": "Costas",
+      "en": "Coasts"
+     },
+     "icono": "〰",
+     "color": "#5f8fa8",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 4
+    },
+    {
+     "id": "piedemonte",
+     "nombre": {
+      "es": "Piedemonte (faldas de montaña)",
+      "en": "Foothills"
+     },
+     "icono": "▲",
+     "color": "#9a8a60",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
+    },
+    {
+     "id": "islas",
+     "nombre": {
+      "es": "Islas y archipiélagos",
+      "en": "Islands and archipelagos"
+     },
+     "icono": "◍",
+     "color": "#4f7f6f",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 4
+    },
+    {
+     "id": "montes_picos",
+     "nombre": {
+      "es": "Montes y picos (con altitud)",
+      "en": "Mountains and peaks"
+     },
+     "icono": "▲",
+     "color": "#6b4f2a",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
+    },
+    {
+     "id": "pasos_montana",
+     "nombre": {
+      "es": "Pasos de montaña",
+      "en": "Mountain passes"
+     },
+     "icono": "⋀",
+     "color": "#6b4f2a",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 6
+    },
+    {
+     "id": "cabos",
+     "nombre": {
+      "es": "Cabos",
+      "en": "Capes"
+     },
+     "icono": "◣",
+     "color": "#5f7f8f",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 6
+    },
+    {
+     "id": "cascadas",
+     "nombre": {
+      "es": "Cascadas",
+      "en": "Waterfalls"
+     },
+     "icono": "⇣",
+     "color": "#2E6F8E",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
+    },
+    {
+     "id": "placas_tectonicas",
+     "nombre": {
+      "es": "Placas tectónicas (nombres)",
+      "en": "Tectonic plates"
+     },
+     "icono": "⬡",
+     "color": "#5a5a5a",
+     "fuente": "pb2002",
+     "licencia": "ODC-BY 1.0",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
+     "id": "limite_subduccion",
+     "nombre": {
+      "es": "Límite de placas: subducción",
+      "en": "Plate boundary: subduction"
+     },
+     "icono": "⟋",
+     "color": "#7b3fa0",
+     "fuente": "pb2002",
+     "licencia": "ODC-BY 1.0",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
+     "id": "limite_convergente",
+     "nombre": {
+      "es": "Límite de placas: convergente (choque)",
+      "en": "Plate boundary: convergent"
+     },
+     "icono": "⟋",
+     "color": "#E2711D",
+     "fuente": "pb2002",
+     "licencia": "ODC-BY 1.0",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
+     "id": "limite_divergente",
+     "nombre": {
+      "es": "Límite de placas: divergente (dorsal o rift)",
+      "en": "Plate boundary: divergent"
+     },
+     "icono": "⟋",
+     "color": "#2E6FB2",
+     "fuente": "pb2002",
+     "licencia": "ODC-BY 1.0",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
+     "id": "limite_transformante",
+     "nombre": {
+      "es": "Límite de placas: transformante (falla lateral)",
+      "en": "Plate boundary: transform"
+     },
+     "icono": "⟋",
+     "color": "#8D99A6",
+     "fuente": "pb2002",
+     "licencia": "ODC-BY 1.0",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
+     "id": "cinturon_fuego",
+     "nombre": {
+      "es": "Cinturón (Anillo) de Fuego del Pacífico",
+      "en": "Pacific Ring of Fire"
+     },
+     "icono": "🔥",
+     "color": "#D21E1E",
+     "fuente": "pb2002",
+     "licencia": "ODC-BY 1.0",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
+     "id": "volcanes_cinturon",
+     "nombre": {
+      "es": "Volcanes del Cinturón de Fuego",
+      "en": "Ring of Fire volcanoes"
+     },
+     "icono": "🌋",
+     "color": "#C0392B",
+     "fuente": "gvp",
+     "licencia": "Uso libre citando la fuente",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
+    },
+    {
+     "id": "volcanes",
+     "nombre": {
+      "es": "Volcanes (resto del mundo)",
+      "en": "Volcanoes (rest of the world)"
+     },
+     "icono": "🌋",
+     "color": "#8E4FD1",
+     "fuente": "gvp",
+     "licencia": "Uso libre citando la fuente",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 3
     }
    ]
   },

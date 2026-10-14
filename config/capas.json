@@ -58,6 +58,16 @@
    "constructor": "tools/entidades/wikidata.py"
   },
   {
+   "id": "empresas",
+   "nombre": "Empresas: sedes por sector (energía, alimentos, hotelería, automotriz…)",
+   "categoria": "organizaciones",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 5,
+   "nota": "Wikidata (CC0): sede corporativa (P159) de empresas con artículo en muchas Wikipedias; el sector sale de su industria (P452). Es notoriedad, no tamaño: faltan empresas grandes poco documentadas. Un punto por sede, no por planta o sucursal."
+  },
+  {
    "id": "embajadas",
    "nombre": "Embajadas y consulados",
    "categoria": "organizaciones",

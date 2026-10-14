@@ -16,6 +16,7 @@ Uso:  python3 tools/capas/construir.py [familia ...]      (requiere tippecanoe e
 Diseñado para GitHub Actions: cada familia está aislada; si una falla, las demás se construyen.
 """
 import csv
+import functools
 import io
 import json
 import os
@@ -120,6 +121,57 @@ def pr_(props, clave):
     return props.get(clave) or props.get(clave.upper()) or ""
 
 
+# Relieve de Natural Earth 1:10m (featurecla → subtipo, zoom mínimo). Islas sin grupo: solo como etiqueta desde z5.
+RELIEVE = {"range/mtn": ("cordilleras", 2), "desert": ("desiertos", 2), "plateau": ("mesetas", 3), "plain": ("llanuras", 3),
+           "lowland": ("llanuras", 4), "valley": ("valles", 4), "gorge": ("canones", 5), "basin": ("cuencas", 3),
+           "depression": ("cuencas", 4), "delta": ("deltas_humedales", 4), "wetlands": ("deltas_humedales", 4), "tundra": ("tundras", 3),
+           "peninsula": ("peninsulas", 3), "pen/cape": ("peninsulas", 3), "isthmus": ("istmos", 4), "coast": ("costas", 4),
+           "foothills": ("piedemonte", 5), "island": ("islas", 5), "island group": ("islas", 4), "geoarea": ("regiones", 3), "lake": ("lagos", 4)}
+PUNTOS_RELIEVE = {"mountain": ("montes_picos", 5), "spot elevation": ("montes_picos", 6), "pass": ("pasos_montana", 6),
+                  "depression": ("cuencas", 6), "plateau": ("mesetas", 6), "cape": ("cabos", 6), "waterfall": ("cascadas", 5), "pole": ("regiones", 2)}
+PB2002 = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/GeoJSON/"
+# Clases de tramo de PB2002 (Bird, 2003) → subtipo de límite de placa.
+LIMITE = {"SUB": "limite_subduccion", "OCB": "limite_convergente", "CCB": "limite_convergente", "OSR": "limite_divergente",
+          "CRB": "limite_divergente", "OTF": "limite_transformante", "CTF": "limite_transformante"}
+TIPO_LIMITE = {"limite_subduccion": "subducción (una placa se hunde bajo otra)", "limite_convergente": "convergente (choque de placas)",
+               "limite_divergente": "divergente (dorsal o rift: las placas se separan)", "limite_transformante": "transformante (las placas se deslizan de lado)"}
+PLACAS_ES = {"Pacific": "Pacífica", "North America": "Norteamericana", "South America": "Sudamericana", "Eurasia": "Euroasiática",
+             "Africa": "Africana", "Antarctica": "Antártica", "Australia": "Australiana", "India": "India", "Nazca": "de Nazca",
+             "Cocos": "de Cocos", "Caribbean": "del Caribe", "Philippine Sea": "Filipina", "Arabia": "Arábiga", "Somalia": "Somalí",
+             "Juan de Fuca": "Juan de Fuca", "Rivera": "de Rivera", "Scotia": "de Escocia", "Sunda": "de la Sonda", "Yangtze": "del Yangtsé",
+             "Amur": "de Amur", "Okhotsk": "de Ojotsk", "Anatolia": "de Anatolia", "Aegean Sea": "del Egeo", "Burma": "Birmana"}
+
+
+def en_cinturon_fuego(lon, lat, placas=""):
+    """Tramo de subducción del Cinturón de Fuego del Pacífico: bordes del Pacífico desde Nueva Zelanda, Indonesia y
+    Japón hasta Alaska y los Andes. Se excluyen las subducciones del Atlántico (Antillas Menores, Sandwich del Sur)."""
+    if "CA" in placas.split("-") or "SC" in placas.split("-"):
+        return False
+    return lon >= 95 or lon <= -66
+
+
+@functools.lru_cache(maxsize=1)
+def _limites_pb2002():
+    pasos = json.loads(get(PB2002 + "PB2002_steps.json"))["features"]
+    pasos.sort(key=lambda f: f["properties"]["SEQNUM"])
+    lineas, actual = [], None
+    for f in pasos:
+        p = f["properties"]
+        st = LIMITE.get(p.get("STEPCLASS"))
+        a, b = [p["STARTLONG"], p["STARTLAT"]], [p["FINALLONG"], p["FINALLAT"]]
+        clave = (p.get("PLATEBOUND"), st)
+        if abs(a[0] - b[0]) > 180:
+            actual = None  # el paso cruza el antimeridiano (180°): se corta la línea para no trazarla de lado a lado del mapa
+            continue
+        # Un tramo nuevo empieza si cambia el límite o su tipo, o si no es continuo.
+        if actual and actual["clave"] == clave and actual["coords"][-1] == a:
+            actual["coords"].append(b)
+        else:
+            actual = {"clave": clave, "coords": [a, b], "cf": st == "limite_subduccion" and en_cinturon_fuego(a[0], a[1], p.get("PLATEBOUND", ""))}
+            lineas.append(actual)
+    return lineas
+
+
 def zonas():
     out = []
     marinas = {"ocean": ("oceanos", 0), "sea": ("mares", 2), "gulf": ("golfos_bahias", 3), "bay": ("golfos_bahias", 3),
@@ -129,14 +181,33 @@ def zonas():
         pr = f["properties"]
         st, z = marinas.get(pr_(pr, "featurecla").lower(), ("mares", 3))
         out.append(feat(f["geometry"], {"id": f"ne:mar{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": st, "p": ""}, z))
-    terrestres = {"desert": ("desiertos", 2), "range/mtn": ("cordilleras", 2), "peninsula": ("peninsulas", 3), "pen/cape": ("peninsulas", 3)}
-    fc = json.loads(get(NE + "ne_50m_geography_regions_polys.geojson"))
+    # Relieve: cordilleras, mesetas, valles, llanuras, cuencas, deltas, tundras… (1:10m, ~1,000 polígonos).
+    fc = json.loads(get(NE + "ne_10m_geography_regions_polys.geojson"))
     for i, f in enumerate(fc["features"]):
         pr = f["properties"]
-        if pr_(pr, "featurecla").lower() in ("continent", "island group"):
+        clase = pr_(pr, "featurecla").lower()
+        if clase in ("continent", "dragons-be-here"):
             continue  # polígonos enormes: su etiqueta se repetiría en cada mosaico
-        st, z = terrestres.get(pr_(pr, "featurecla").lower(), ("regiones", 3))
-        out.append(feat(f["geometry"], {"id": f"ne:reg{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": st, "p": ""}, z))
+        st, z = RELIEVE.get(clase, ("regiones", 3))
+        rango = int(pr_(pr, "scalerank") or 5)
+        out.append(feat(f["geometry"], {"id": f"ne:reg{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": st, "p": "",
+                                        "x": pr_(pr, "featurecla")}, max(z, min(rango - 1, 7))))
+    # Cumbres con altitud, pasos de montaña, cabos y cascadas (puntos).
+    for archivo, pref in (("ne_10m_geography_regions_elevation_points.geojson", "alt"), ("ne_10m_geography_regions_points.geojson", "pto")):
+        fc = json.loads(get(NE + archivo))
+        for i, f in enumerate(fc["features"]):
+            pr = f["properties"]
+            st, z = PUNTOS_RELIEVE.get(pr_(pr, "featurecla").lower(), (None, 0))
+            if not st or not f.get("geometry"):
+                continue
+            alt = pr.get("elevation") or pr.get("ELEVATION")
+            nombre = pr_(pr, "name_es") or pr_(pr, "name")
+            out.append(feat(f["geometry"], {"id": f"ne:{pref}{i}", "n": f"{nombre} ({int(alt):,} m)".replace(",", " ") if alt else nombre,
+                                            "st": st, "p": "", "x": f"altitud {int(alt):,} m".replace(",", " ") if alt else ""}, max(z, min(int(pr_(pr, "scalerank") or 6), 8))))
+    fc = json.loads(get(NE + "ne_10m_glaciated_areas.geojson"))
+    for i, f in enumerate(fc["features"]):
+        out.append(feat(f["geometry"], {"id": f"ne:hielo{i}", "n": pr_(pr := f["properties"], "name") or "Glaciar o campo de hielo", "st": "glaciares", "p": ""},
+                        max(3, min(int(pr_(pr, "scalerank") or 5), 7))))
     fc = json.loads(get(NE + "ne_50m_lakes.geojson"))
     for i, f in enumerate(fc["features"]):
         pr = f["properties"]
@@ -145,6 +216,91 @@ def zonas():
     for i, f in enumerate(fc["features"]):
         pr = f["properties"]
         out.append(feat(f["geometry"], {"id": f"ne:rio{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": "rios", "p": ""}, 4))
+    out += placas_tectonicas()
+    out += volcanes()
+    return out
+
+
+def placas_tectonicas():
+    """Placas y límites del modelo PB2002 (Peter Bird, 2003; GeoJSON de github.com/fraxen/tectonicplates, ODC-BY 1.0)."""
+    out = []
+    nombres = {}
+    for f in json.loads(get(PB2002 + "PB2002_plates.json"))["features"]:
+        p = f["properties"]
+        nombres[p["Code"]] = PLACAS_ES.get(p["PlateName"], p["PlateName"])
+        # Solo la etiqueta (el contorno ya lo dibujan los límites): el polígono no se rellena.
+        out.append(feat(f["geometry"], {"id": f"pb2002:{p['Code']}", "n": f"Placa {nombres[p['Code']]}", "st": "placas_tectonicas", "p": "",
+                                "x": f"Código {p['Code']} del modelo PB2002 (Bird, 2003). Los límites con otras placas se ven como líneas de colores."}, 1))
+    for k, l in enumerate(_limites_pb2002()):
+        frontera, st = l["clave"]
+        if not st:
+            continue
+        a, _, b = (frontera or "").partition("-")
+        nombre = f"Límite {nombres.get(a, a)} – {nombres.get(b, b)}"
+        out.append(feat({"type": "LineString", "coordinates": l["coords"]}, {"id": f"pb2002:l{k}", "n": nombre, "st": st, "p": "", "x": TIPO_LIMITE[st]}, 1))
+        if l["cf"]:
+            out.append(feat({"type": "LineString", "coordinates": l["coords"]}, {"id": f"pb2002:cf{k}", "n": "Cinturón de Fuego del Pacífico", "st": "cinturon_fuego", "p": "",
+                                                                                   "x": f"{nombre} · {TIPO_LIMITE[st]}"}, 1))
+    return out
+
+
+def _distancia_km(lon1, lat1, lon2, lat2):
+    import math
+    p = math.pi / 180
+    h = math.sin((lat2 - lat1) * p / 2) ** 2 + math.cos(lat1 * p) * math.cos(lat2 * p) * math.sin((lon2 - lon1) * p / 2) ** 2
+    return 12742 * math.asin(math.sqrt(min(1, h)))
+
+
+def _campo(p, *claves):
+    bajas = {k.lower(): v for k, v in p.items()}
+    for c in claves:
+        v = bajas.get(c.lower())
+        if v not in (None, "", " "):
+            return v
+    return None
+
+
+def volcanes_fuente():
+    """Volcanes del Holoceno (últimos ~12,000 años). 1) Programa Global de Vulcanismo del Smithsonian (WFS, se cita
+    como pide su página); 2) respaldo: base de ubicaciones de volcanes de NOAA NCEI (dominio público, derivada de GVP)."""
+    gvp = ("https://webservices.volcano.si.edu/geoserver/GVP-VOTW/ows?service=WFS&version=2.0.0&request=GetFeature"
+           "&typeName=GVP-VOTW:Smithsonian_VOTW_Holocene_Volcanoes&outputFormat=application%2Fjson")
+    try:
+        fs = json.loads(get(gvp, timeout=120, intentos=2))["features"]
+        if len(fs) > 500:
+            return "gvp", fs
+    except Exception as e:  # noqa: BLE001
+        print(f"   GVP no respondió ({e}); se usa NOAA NCEI")
+    d = json.loads(get("https://www.ngdc.noaa.gov/hazel/hazard-service/api/v1/volcanolocs?itemsPerPage=5000", timeout=120, intentos=2))
+    fs = [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [x["longitude"], x["latitude"]]}, "properties": x}
+          for x in d.get("items", []) if x.get("latitude") is not None]
+    return "noaa", fs
+
+
+def volcanes():
+    origen, fs = volcanes_fuente()
+    anillo = [(l["coords"][len(l["coords"]) // 2], l["coords"]) for l in _limites_pb2002() if l["cf"]]
+    puntos_anillo = [c for _, cs in anillo for c in cs[::3]]
+    out = []
+    for i, f in enumerate(fs):
+        g = f.get("geometry")
+        if not g or g.get("type") != "Point":
+            continue
+        lon, lat = g["coordinates"][:2]
+        p = f["properties"]
+        nombre = _campo(p, "Volcano_Name", "name") or "Volcán"
+        pais = _campo(p, "Country", "country") or ""
+        tipo = _campo(p, "Primary_Volcano_Type", "morphology") or ""
+        ultima = _campo(p, "Last_Eruption_Year", "timeErupt", "lastEruption") or ""
+        if isinstance(ultima, (int, float)) or str(ultima).lstrip("-").isdigit():
+            ultima = f"{-int(ultima)} a. C." if int(ultima) < 0 else str(int(ultima))
+        alt = _campo(p, "Elevation", "elevation")
+        num = _campo(p, "Volcano_Number", "volcanoNumber", "num", "id") or i
+        cf = any(_distancia_km(lon, lat, c[0], c[1]) < 450 for c in puntos_anillo if abs(c[1] - lat) < 6)
+        out.append(feat(punto(lon, lat), {"id": f"{origen}:{num}", "n": nombre, "st": "volcanes_cinturon" if cf else "volcanes", "p": "",
+                                          "x": " · ".join(str(v) for v in (pais, tipo, f"última erupción: {ultima}" if ultima else "",
+                                                                             f"{int(float(alt))} m" if alt not in (None, "") else "") if v)}, 3))
+    print(f"   volcanes ({origen}): {len(out)}, en el Cinturón de Fuego: {sum(1 for f in out if f['properties']['st'] == 'volcanes_cinturon')}")
     return out
 
 
@@ -808,6 +964,23 @@ def petroleo_gas():
                       lambda t: t.get("operator", ""), Paises())
 
 
+def empresas():
+    """Sedes de empresas conocidas por sector (Wikidata, CC0): energía, alimentos, hotelería, automotriz, banca…"""
+    import sitios as S
+    registros = {}
+    for qid_clase, minimo in S.CLASES_EMPRESA:
+        try:
+            antes = len(registros)
+            S.leer_empresas(_sparql(S.Q_EMPRESAS % (qid_clase, minimo)), registros, minimo)
+            print(f"   {qid_clase} (≥ {minimo} Wikipedias): +{len(registros) - antes}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {qid_clase}: {e}")
+        time.sleep(2)
+    if not registros:
+        raise RuntimeError("Wikidata no devolvió empresas")
+    return S.features_empresas(registros, feat, punto)
+
+
 def fronteras():
     """Cruces fronterizos con nombre (OSM barrier=border_control)."""
     els = overpass(['nwr["barrier"="border_control"]["name"]'], "fronteras")
@@ -826,7 +999,7 @@ FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "cen
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "empresas": empresas, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin}
 
