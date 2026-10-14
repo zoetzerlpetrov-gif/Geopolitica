@@ -323,6 +323,7 @@ export function htmlFichaGobierno(props, familia) {
       <dt>Fuente</dt><dd>${wd(props.wd, "Wikidata")} (CC0)</dd>
     </dl>
     ${htmlInstituciones(jsonDe(props.instituciones, {}))}
+    ${props.p ? `<p><button type="button" class="boton" data-historia="${esc(props.p)}">📜 Historia de ${esc(props.n)}</button></p>` : ""}
     <p class="meta">La orientación es la del partido de quien encabeza el gobierno (primer ministro en sistemas parlamentarios y monarquías constitucionales; presidente o monarca en los demás), según lo registrado en Wikidata, que cualquiera puede editar y cuyas fuentes varían. No es una opinión de este sitio. Un gobierno de coalición se clasifica por el partido de su jefe. «Deducida»: Wikidata solo dice «república»; si la misma persona encabeza Estado y gobierno se toma como presidencial, y si gobierna un partido comunista, como partido único. «Estimada por ideología»: el partido no tiene alineación registrada y se ubica con sus ideologías. Si hay dos alineaciones a medio camino (p. ej. «derecha» y «extrema derecha»), se toma la más cercana al centro. Para la otra vista activa «${esc(otra === "gobierno_forma" ? "Forma de gobierno" : "Orientación política")}».</p>`;
 }
 

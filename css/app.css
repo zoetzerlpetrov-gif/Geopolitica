@@ -336,13 +336,13 @@ button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1p
 .barra-fila .barra { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
 .barra-fila .barra i { display: block; height: 100%; background: var(--accent); }
 /* Menú izquierdo: grupos con color e ícono */
-:root { --g-eventos: #2E6F8E; --g-capas: #2E9E6E; --g-movimiento: #6B5BA8; --g-riesgos: #D2691E; --g-seguimiento: #7A8691; --g-reportes: #8A5A2B; --g-anomalias: #4B3F8F; }
+:root { --g-eventos: #2E6F8E; --g-capas: #2E9E6E; --g-movimiento: #6B5BA8; --g-riesgos: #D2691E; --g-seguimiento: #7A8691; --g-reportes: #8A5A2B; --g-anomalias: #4B3F8F; --g-historia: #7A5C3A; }
 .grupo-tit { position: sticky; top: 0; z-index: 2; margin: 0; padding: 7px 12px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
   color: #fff; background: var(--g, #555); display: flex; gap: 8px; align-items: center; }
 .grupo-tit[data-grupo="eventos"] { --g: var(--g-eventos); } .grupo-tit[data-grupo="capas"] { --g: var(--g-capas); }
 .grupo-tit[data-grupo="movimiento"] { --g: var(--g-movimiento); } .grupo-tit[data-grupo="riesgos"] { --g: var(--g-riesgos); }
 .grupo-tit[data-grupo="seguimiento"] { --g: var(--g-seguimiento); } .grupo-tit[data-grupo="reportes"] { --g: var(--g-reportes); }
-.grupo-tit[data-grupo="anomalias"] { --g: var(--g-anomalias); } .bloque[data-grupo="anomalias"] { --g: var(--g-anomalias); }
+.grupo-tit[data-grupo="anomalias"] { --g: var(--g-anomalias); } .grupo-tit[data-grupo="historia"] { --g: var(--g-historia); } .bloque[data-grupo="historia"] { --g: var(--g-historia); } .bloque[data-grupo="anomalias"] { --g: var(--g-anomalias); }
 .bloque[data-grupo] { border-left: 4px solid var(--g, transparent); }
 .bloque[data-grupo="eventos"] { --g: var(--g-eventos); } .bloque[data-grupo="capas"] { --g: var(--g-capas); }
 .bloque[data-grupo="movimiento"] { --g: var(--g-movimiento); } .bloque[data-grupo="riesgos"] { --g: var(--g-riesgos); }
@@ -501,3 +501,8 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .buscador-org input[type=search] { width: 100%; box-sizing: border-box; }
 .org-res { max-height: 260px; overflow: auto; margin: 4px 0 0; }
 .org-res li { margin: 3px 0; }
+/* Historia por país */
+.hist-etapas { margin: 4px 0 4px 20px; padding: 0; }
+.hist-epoca summary { cursor: pointer; font-weight: 600; margin: 6px 0 2px; }
+.hist-hechos { margin: 2px 0 6px 16px; padding: 0; }
+.hist-hechos li { margin: 2px 0; }
