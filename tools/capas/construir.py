@@ -515,6 +515,21 @@ def camaras(revisar=enlace_responde, externas=True):
     return out
 
 
+# Familias con índice de búsqueda por nombre (Organizaciones → «Buscar»): buscar_<familia>.json con
+# [nombre, subtipo, país, lon, lat, id, detalle]. Las familias en GeoJSON se buscan directo en su archivo.
+BUSCABLES = {"empresas", "embajadas"}
+
+
+def indice_busqueda(feats):
+    filas = []
+    for ft in feats:
+        p = ft["properties"]
+        if p.get("n"):
+            lon, lat = _punto_ref(ft)
+            filas.append([p["n"], p["st"], p.get("p") or "", round(lon, 5), round(lat, 5), p["id"], str(p.get("x") or "")[:80]])
+    return filas
+
+
 FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
                     "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
@@ -1178,12 +1193,16 @@ def main(pedidas):
                     for ft in feats:
                         f.write(json.dumps(ft, ensure_ascii=False) + "\n")
                 destino = tippecanoe(fid, ruta, fam["geometria"])
+            if fid in BUSCABLES:
+                with open(os.path.join(SALIDA, f"buscar_{fid}.json"), "w", encoding="utf-8") as f:
+                    json.dump(indice_busqueda(feats), f, ensure_ascii=False, separators=(",", ":"))
             subtipos = {}
             for ft in feats:
                 subtipos[ft["properties"]["st"]] = subtipos.get(ft["properties"]["st"], 0) + 1
             manifest["familias"][fid] = {
                 "archivo": f"data/capas/{os.path.basename(destino)}", "objetos": len(feats), "por_subtipo": subtipos,
                 **({"formato": "geojson"} if fid in FAMILIAS_GEOJSON else {}),
+                **({"indice": f"data/capas/buscar_{fid}.json"} if fid in BUSCABLES else {}),
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
                 **({"fuentes": dict(CAM_FUENTES)} if fid == "camaras" else {}),
                 "estado": "parcial" if FALTANTES.get(fid) else "ok",

@@ -11,6 +11,7 @@ import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
 import { iniciarMenu } from "./menu.js";
+import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
 
@@ -44,7 +45,13 @@ function modoLite() {
 // El gazetteer (nombres de países) y el contenido de análisis solo se usan en la ficha:
 // se descargan la primera vez que se abre una.
 let gazPromesa = null;
-const cargarPaises = () => (gazPromesa ??= getJSON("config/gazetteer.json").then((g) => (paises = g.paises)));
+let iso2a3 = {};  // «MX» → «MEX» (las embajadas de OSM traen el país que representan en ISO2)
+const cargarPaises = () => (gazPromesa ??= getJSON("config/gazetteer.json").then((g) => {
+  iso2a3 = Object.fromEntries(Object.entries(g.iso2_a_iso3 || {}).map(([k, v]) => [k.toUpperCase(), v]));
+  return (paises = g.paises);
+}));
+/** Nombre en español de un país dado en ISO3 o ISO2. */
+const paisNombre = (c) => (!c ? "" : paises?.[c]?.es || paises?.[iso2a3[String(c).toUpperCase()]]?.es || c);
 let analisisCfg = null;
 let analisisPromesa = null;
 const cargarAnalisisCfg = () => (analisisPromesa ??= getJSON("config/analisis.json").then((a) => (analisisCfg = a)).catch(() => null));
@@ -668,6 +675,18 @@ function pulsar(coords) {
 }
 const esNuevo = (id) => { const t = nuevosEv.get(id); return t != null && Date.now() - t < NUEVO_LISTA_MS; };
 
+/** Anillo temporal sobre un punto buscado (6 s), para ubicarlo de un vistazo. */
+function marcarPunto(m, lngLat) {
+  const src = "org-marca", datos = { type: "FeatureCollection", features: [{ type: "Feature", geometry: { type: "Point", coordinates: lngLat }, properties: {} }] };
+  if (m.getSource(src)) m.getSource(src).setData(datos);
+  else {
+    m.addSource(src, { type: "geojson", data: datos });
+    m.addLayer({ id: src, type: "circle", source: src, paint: { "circle-radius": 18, "circle-color": "rgba(0,0,0,0)", "circle-stroke-color": "#E2711D", "circle-stroke-width": 3 } });
+  }
+  clearTimeout(marcarPunto.t);
+  marcarPunto.t = setTimeout(() => m.getSource(src)?.setData({ type: "FeatureCollection", features: [] }), 6000);
+}
+
 // ---------- Capas de entidades ----------
 let entidadAbierta = null;
 async function iniciarCapas() {
@@ -730,6 +749,54 @@ async function iniciarCapas() {
     return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(nombreCat[c] || c)}
       <span class="sg-n" data-sg-cat="${esc(c)}">${((n) => `${n} ${n === 1 ? "capa" : "capas"}`)(fs.filter((f) => f.disponible).length)}</span></summary>${fs.map(htmlFam).join("")}</details>`;
   }).join("");
+  // Buscador de Organizaciones: empresas, organismos y embajadas/consulados por nombre → vuela al punto y abre la ficha.
+  const sgOrg = $("sg-capas-organizaciones");
+  if (sgOrg) {
+    const caja = document.createElement("div");
+    caja.className = "buscador-org";
+    caja.innerHTML = `<label class="fila"><span>🔎 Buscar empresa, organismo, embajada o consulado</span></label>
+      <input type="search" id="org-q" placeholder="Ej.: Pemex, OTAN, «embajada de Japón», consulado México" autocomplete="off" aria-describedby="org-estado">
+      <p class="meta" id="org-estado" aria-live="polite">Desde 3 letras, sin importar acentos. Puedes buscar por país: «embajada Francia».</p>
+      <ul id="org-res" class="fuentes org-res"></ul>`;
+    sgOrg.querySelector("summary").after(caja);
+    const famOrg = familias.filter((f) => f.categoria === "organizaciones");
+    let indice = null, resultados = [];
+    const pintarOrg = async () => {
+      const q = $("org-q").value;
+      if (palabrasDe(q).length === 0) { $("org-res").innerHTML = ""; $("org-estado").textContent = "Desde 3 letras, sin importar acentos. Puedes buscar por país: «embajada Francia»."; return; }
+      if (!indice) {
+        $("org-estado").textContent = "Cargando el índice de organizaciones…";
+        [indice] = await Promise.all([BO.cargarIndices(famOrg), paises ? null : cargarPaises().catch(() => (paises = {}))]);
+      }
+      resultados = BO.filtrar(indice, q, paisNombre);
+      const ps = palabrasDe(q);
+      $("org-estado").textContent = indice.length ? `${resultados.length === BO.MAX_RESULTADOS ? `Primeros ${BO.MAX_RESULTADOS}` : resultados.length} resultado(s) en ${indice.length.toLocaleString("es-MX")} registros.`
+        : "Aún no hay índice: se genera en la próxima construcción de capas.";
+      $("org-res").innerHTML = resultados.map((r, i) => {
+        const fam = famOrg.find((f) => f.id === r.familia);
+        const sub = fam?.subtipos.find((s) => s.id === r.st);
+        const det = BO.detalle(r, paisNombre);
+        return `<li><button type="button" class="link-btn" data-org="${i}"><span>${resaltar(r.n, ps)}</span></button>
+          <span class="meta">${esc(sub?.nombre.es || fam?.nombre || "")}${det && det !== r.n ? ` · ${resaltar(det, ps)}` : ""}${r.p ? ` · ${esc(paisNombre(r.p))}` : ""}</span></li>`;
+      }).join("");
+    };
+    $("org-q").addEventListener("input", debounce(pintarOrg, 250));
+    $("org-res").addEventListener("click", async (e) => {
+      const b = e.target.closest("[data-org]");
+      if (!b) return;
+      const r = resultados[Number(b.dataset.org)];
+      const fam = familias.find((f) => f.id === r.familia);
+      // Enciende la capa (y el subtipo del resultado, si lo habías desmarcado) para que el punto se vea.
+      const cb = cont.querySelector(`[data-fam="${r.familia}"]`);
+      if (cb && !cb.checked) { cb.checked = true; await gestor.activar(r.familia); }
+      const subs = [...cont.querySelectorAll(`[data-fam-sub="${r.familia}"]`)];
+      const subRes = subs.find((x) => x.value === r.st);
+      if (subRes && !subRes.checked) { subRes.checked = true; gestor.setSubtipos(r.familia, subs.filter((x) => x.checked).map((x) => x.value)); }
+      api.map.flyTo({ center: [r.lon, r.lat], zoom: Math.max(api.map.getZoom(), 14), duration: lite ? 0 : 1200 });
+      marcarPunto(api.map, [r.lon, r.lat]);
+      await gestor.onEntidad({ familia: fam, props: { id: r.id, n: r.n, st: r.st, p: r.p, x: r.x }, lngLat: { lng: r.lon, lat: r.lat } });
+    });
+  }
   // Atajo: deja marcados solo esos subtipos y enciende «Zonas geográficas» si estaba apagada.
   cont.addEventListener("click", async (e) => {
     const b = e.target.closest("[data-atajo-zonas]");

@@ -161,11 +161,12 @@ def _xlsx(filas):
 def test_shf_xlsx_y_estados():
     filas = [["Trimestre", "Entidad federativa", None, "Valor promedio ... por m2", None, None, "Valor mediano ... por m2"],
              ["2025.T2", "Ciudad de México", None, 40000.0, None, None, 36000.0],
-             ["2026.T2", "Ciudad de México", None, 42000.0, None, None, 39600.0],
+             ["2026.T2 /p", "Ciudad de México", None, 42000.0, None, None, 39600.0],
              ["2025.T2", "Coahuila", None, 9000.0, None, None, 10000.0],
-             ["2026.T2", "Coahuila", None, 9100.0, None, None, 9700.0]]
+             ["2026.T2 /p", "Coahuila", None, 9100.0, None, None, 9700.0],
+             ["Nota 1: 2018.T1 - 2025.T2 Cifras definitivas", None, None, None, None, None, None]]
     shf = I.leer_shf(I.leer_xlsx(_xlsx(filas)))
-    assert shf["Ciudad de México"] == [("2025.T2", 36000.0), ("2026.T2", 39600.0)]
+    assert shf["Ciudad de México"] == [("2025.T2", 36000.0, False), ("2026.T2", 39600.0, True)]
     estados = {"features": [
         {"type": "Feature", "geometry": None, "properties": {"name": "Distrito Federal"}},
         {"type": "Feature", "geometry": None, "properties": {"name": "Coahuila"}},
@@ -173,7 +174,7 @@ def test_shf_xlsx_y_estados():
     fs = I.features_mx(estados, {"casa-habitaci": shf})
     p = {f["properties"]["n"]: f["properties"] for f in fs}
     assert set(p) == {"Distrito Federal", "Coahuila"}
-    assert p["Distrito Federal"]["st"] == "mx_casa" and p["Distrito Federal"]["color"] == "#B2182B" and "+10.0 %" in p["Distrito Federal"]["x"]
+    assert p["Distrito Federal"]["st"] == "mx_casa" and p["Distrito Federal"]["color"] == "#B2182B" and "+10.0 %" in p["Distrito Federal"]["x"] and "preliminar" in p["Distrito Federal"]["x"]
     assert p["Coahuila"]["color"] == "#67A9CF"
 
 
@@ -204,3 +205,11 @@ def test_familias_de_bienes_raices_registradas():
     assert {v[0] for v in I.TIPOS_PAIS.values()} <= {k for k, v in subtipos.items() if v == "inmuebles_pais"}
     assert {v[0] for v in I.TIPOS_MX.values()} <= {k for k, v in subtipos.items() if v == "inmuebles_mx"}
     assert set(I.RIESGO_ST.values()) <= {k for k, v in subtipos.items() if v == "inmuebles_seguimiento"}
+
+
+def test_indice_de_busqueda_de_organizaciones():
+    fs = [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [-99.1712345, 19.42]},
+           "properties": {"id": "osm:n1", "n": "Embajada de Japón", "st": "embajadas_consulados", "p": "MEX", "x": "embassy|JP"}},
+          {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"id": "osm:n2", "n": "", "st": "embajadas_consulados"}}]
+    assert C.indice_busqueda(fs) == [["Embajada de Japón", "embajadas_consulados", "MEX", -99.17123, 19.42, "osm:n1", "embassy|JP"]]
+    assert {"empresas", "embajadas"} <= C.BUSCABLES
