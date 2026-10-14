@@ -211,7 +211,8 @@ def leer_xlsx(datos):
 
 
 def leer_shf(filas):
-    """Filas del Excel de SHF → {entidad: [(trimestre «2026.T2», mediana por m²)]}. Columna de mediana: la que dice «mediano»."""
+    """Filas del Excel de SHF → {entidad: [(trimestre «2026.T2», mediana por m², preliminar)]}. Columna de mediana: la que
+    dice «mediano». SHF marca las cifras preliminares con « /p» («2026.T2 /p»); la marca se separa del trimestre."""
     if not filas:
         return {}
     cab = [str(c or "").lower() for c in filas[0]]
@@ -220,7 +221,9 @@ def leer_shf(filas):
     for f in filas[1:]:
         if len(f) <= col_med or not f[0] or not f[1] or not isinstance(f[col_med], float):
             continue
-        out[str(f[1]).strip()].append((str(f[0]).strip(), f[col_med]))
+        m = re.match(r"^(\d{4}\.T[1-4])\s*(/p)?", str(f[0]).strip())
+        if m:  # las filas de notas al pie no tienen trimestre
+            out[str(f[1]).strip()].append((m.group(1), f[col_med], bool(m.group(2))))
     return {k: sorted(v) for k, v in out.items()}
 
 
@@ -254,15 +257,15 @@ def features_mx(estados_fc, shf_por_tipo):
             serie = {clave_estado(e): v for e, v in shf_por_tipo.get(clave, {}).items()}.get(k)
             if not serie:
                 continue
-            per, v = serie[-1]
-            previo = dict(serie).get(f"{int(per[:4]) - 1}{per[4:]}")
+            per, v, prelim = serie[-1]
+            previo = {x[0]: x[1] for x in serie}.get(f"{int(per[:4]) - 1}{per[4:]}")
             if not previo:
                 continue
             pct = round((v / previo - 1) * 100, 1)
             color, etq = color_cambio(pct)
             out.append({"type": "Feature", "geometry": f["geometry"], "properties": {
                 "id": f"inm_mx:{k}:{st}", "n": nombre, "st": st, "p": "MEX", "color": color, "rango": etq, "z": 0,
-                "x": f"{etq_tipo}: mediana de ${v:,.0f} por m² en {per.replace('.', ' ')} ({pct:+.1f} % frente a un año antes; nominal). "
+                "x": f"{etq_tipo}: mediana de ${v:,.0f} por m² en {per.replace('.', ' ')} ({pct:+.1f} % frente a un año antes; nominal{'; cifra preliminar' if prelim else ''}). "
                      "Valor de avalúos para crédito, no precio de oferta."}})
     return out
 

@@ -496,3 +496,8 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .rampa-precios { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 4px 0 2px; font-size: 11px; color: var(--text-2); }
 .rampa-precios span { display: inline-flex; align-items: center; gap: 4px; }
 .rampa-precios i { width: 14px; height: 10px; border-radius: 2px; border: 1px solid rgba(0,0,0,.25); }
+/* Buscador de Organizaciones */
+.buscador-org { padding: 6px 8px 8px; border-bottom: 1px solid var(--line); }
+.buscador-org input[type=search] { width: 100%; box-sizing: border-box; }
+.org-res { max-height: 260px; overflow: auto; margin: 4px 0 0; }
+.org-res li { margin: 3px 0; }

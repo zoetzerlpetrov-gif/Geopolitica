@@ -5,6 +5,7 @@
 // - Solo se dibujan categorías "dibujable": true y subtipos con tipo_capa distinto de "ficha".
 //   Las personas (rol público) nunca tienen capa: viven solo dentro de las fichas.
 /* global maplibregl, pmtiles */
+import { detalle as detalleOrg } from "./buscador_org.js";
 import { esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, hayObjetoEncima } from "./util.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
@@ -208,6 +209,10 @@ export function urlFuente(id) {
   return null;
 }
 
+// Países que representa una embajada (OSM los da en ISO2); los no listados se muestran con su código.
+const NOMBRES_ISO2 = new Intl.DisplayNames(["es"], { type: "region" });
+const nombrePaisCorto = (c) => { try { return c.length === 2 ? NOMBRES_ISO2.of(c.toUpperCase()) : c; } catch (e) { return c; } };
+
 /** Ficha de una entidad del mapa (aeropuerto, puerto, central, zona…). */
 export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas = [] }) {
   const sub = familia.subtipos.find((s) => s.id === props.st);
@@ -217,7 +222,8 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
   if (familia.id === "gobierno_forma" || familia.id === "gobierno_orientacion") return htmlFichaGobierno(props, familia);
   if (familia.id === "inmuebles_seguimiento") return htmlFichaInmueble(props, sub, familia);
   const url = urlFuente(props.id);
-  const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}` : esc(props.x || "");
+  const extra = familia.id === "centrales" ? `${esc(props.x)} MW` : familia.id === "aeropuertos" && props.x ? `IATA ${esc(props.x)}`
+    : familia.id === "embajadas" ? esc(detalleOrg({ familia: "embajadas", x: String(props.x || "") }, nombrePaisCorto)) : esc(props.x || "");
   return `
     <h3 id="ficha-titulo">${esc(props.n || sub?.nombre.es || "(sin nombre)")}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(familia.nombre)}${props.p ? " · " + esc(props.p) : ""}</div>
