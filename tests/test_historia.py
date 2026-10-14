@@ -6,18 +6,20 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "histo
 import cronologia as H  # noqa: E402
 
 
-def _b(qid, nombre, iso, fecha):
+def _b(qid, nombre, iso, fecha, wp=""):
     b = {"e": {"value": f"http://www.wikidata.org/entity/{qid}"}, "iso": {"value": iso}, "f": {"value": fecha}}
     if nombre:
         b["l"] = {"value": nombre}
+    if wp:
+        b["wp"] = {"value": wp}
     return b
 
 
 def test_filas_por_pais_descarta_sin_traducir_y_sin_iso():
-    r = H.filas({"results": {"bindings": [_b("Q1", "Batalla de Puebla", "MEX", "1862-05-05T00:00:00Z"), _b("Q1", "Batalla de Puebla", "MEX", "1863-01-01T00:00:00Z"),
+    r = H.filas({"results": {"bindings": [_b("Q1", "Batalla de ñoño", "MEX", "1862-05-05T00:00:00Z", wp="Batalla de Puebla"), _b("Q1", "Batalla de Puebla", "MEX", "1863-01-01T00:00:00Z"),
                                           _b("Q2", "", "MEX", "1900-01-01T00:00:00Z"), _b("Q3", "Batalla X", "", "1900-01-01T00:00:00Z"),
                                           _b("Q4", "Guerra de los Pasteles", "FRA", "1838-01-01T00:00:00Z")]}}, "batalla")
-    assert r["MEX"] == [["Q1", "Batalla de Puebla", "1862-05-05T00:00:00Z", 11, "batalla", 0]]
+    assert r["MEX"] == [["Q1", "Batalla de Puebla", "1862-05-05T00:00:00Z", 11, "batalla", "Batalla de Puebla"]]  # el título de Wikipedia gana
     assert r["FRA"][0][3] == 9  # 1° de enero: solo se conoce el año
 
 

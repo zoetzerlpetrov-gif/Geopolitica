@@ -3,7 +3,7 @@
 
 Consultar Wikidata en vivo por país agota su tiempo (EUA, México, Francia: 504 a los 60 s), así que aquí se hace una
 consulta POR TIPO de hecho (batallas, guerras, tratados, terremotos…) para todo el mundo y luego se reparte por país:
-capas/historia/<ISO3>.json = {"generado_utc", "hechos": [[qid, nombre, fecha ISO, precisión, tipo, wikis], …]}.
+capas/historia/<ISO3>.json = {"generado_utc", "hechos": [[qid, nombre, fecha ISO, precisión, tipo, artículo es], …]}.
 Solo hechos con artículo en 12 o más Wikipedias (relevancia internacional). País: P17 (país) o P3842 (territorio
 actual); un hecho de varios países aparece en cada uno. Si un tipo falla, se conserva lo de la corrida anterior.
 
@@ -34,7 +34,7 @@ CLASES = {
 def consulta(clase, minimo=MINIMO_WIKIS):
     # «optimizer None»: Wikidata ejecuta las líneas en este orden (primero el tipo, unos miles de objetos); sin la pista
     # empezaba por «país» y agotaba los 60 s. Sin GROUP BY ni servicio de etiquetas, que eran lo más costoso.
-    return f"""SELECT ?e ?iso ?f ?l WHERE {{
+    return f"""SELECT ?e ?iso ?f ?l ?wp WHERE {{
   hint:Query hint:optimizer "None" .
   ?e wdt:P31 wd:{clase} .
   ?e wikibase:sitelinks ?n . FILTER(?n >= {int(minimo)})
@@ -42,6 +42,7 @@ def consulta(clase, minimo=MINIMO_WIKIS):
   OPTIONAL {{ ?e wdt:P585 ?f1 }} OPTIONAL {{ ?e wdt:P580 ?f2 }} OPTIONAL {{ ?e wdt:P571 ?f3 }}
   BIND(COALESCE(?f1, ?f2, ?f3) AS ?f) FILTER(BOUND(?f))
   OPTIONAL {{ ?e rdfs:label ?l . FILTER(lang(?l) = "es") }}
+  OPTIONAL {{ ?art schema:about ?e ; schema:isPartOf <https://es.wikipedia.org/> ; schema:name ?wp }}
 }}"""
 
 
@@ -64,18 +65,21 @@ def precision(fecha):
 
 
 def filas(resp, tipo):
-    """Respuesta SPARQL → {iso3: [[qid, nombre, fecha, precisión, tipo, 0]]}; sin nombre en español no se incluye."""
+    """Respuesta SPARQL → {iso3: [[qid, nombre, fecha, precisión, tipo, artículo]]}. El nombre es el título del artículo en
+    Wikipedia en español (más vigilado que la etiqueta de Wikidata, que a veces aparece vandalizada); si no hay
+    artículo, la etiqueta en español; sin ninguno de los dos no se incluye. «artículo» = título en es.wikipedia o ""."""
     out = defaultdict(dict)
     for b in resp.get("results", {}).get("bindings", []):
         qid = b["e"]["value"].rsplit("/", 1)[-1]
-        nombre = b.get("l", {}).get("value", "")
+        wp = b.get("wp", {}).get("value", "")
+        nombre = wp or b.get("l", {}).get("value", "")
         iso = b.get("iso", {}).get("value", "")
         f = b.get("f", {}).get("value", "")
         if not nombre or len(iso) != 3 or not f or "T" not in f:
             continue
         previo = out[iso].get(qid)
         if not previo or f < previo[2]:  # varias fechas: la más antigua (inicio)
-            out[iso][qid] = [qid, nombre, f, precision(f), tipo, 0]
+            out[iso][qid] = [qid, nombre, f, precision(f), tipo, wp]
     return {iso: list(d.values()) for iso, d in out.items()}
 
 
