@@ -199,6 +199,14 @@ def de_medio(e):
     return not str(e.get("fuente") or "").startswith("GDELT") and e.get("tipo_fuente") != "red_social"
 
 
+# Fenómenos naturales: una nota de severidad 2 («lluvias fuertes en Jalisco por el huracán») ya indica afectación
+# del estado que nombra; sin esto, de un huracán solo salía el estado de la nota con muertos.
+NATURALES = {"Huracán, ciclón o tormenta tropical", "Sismo o tsunami", "Erupción volcánica", "Inundaciones o lluvias", "Incendio"}
+SEV_MIN_NATURAL = 2
+# Fiestas y eventos culturales que mencionan «muertos» o «drones» sin ser hechos graves.
+FESTIVO = re.compile(r"(dia|festival|desfile|ofrenda|altar|noche|pan|catrinas?) de (los )?muertos?|day of the dead|halloween|mictlan|show de drones|drone show")
+
+
 def zonas(eventos, div, ahora, centroides=None, sev_min=SEV_MIN, horas=HORAS, nombres_area=None):
     centroides = centroides or {}
     desde = ahora - timedelta(hours=horas)
@@ -206,11 +214,14 @@ def zonas(eventos, div, ahora, centroides=None, sev_min=SEV_MIN, horas=HORAS, no
     for e in eventos:
         f = _fecha(e.get("fecha_utc"))
         iso = e.get("pais_iso3")
-        if not iso or (e.get("severidad") or 0) < sev_min or not f or f < desde or f > ahora + timedelta(hours=1):
+        if not iso or (e.get("severidad") or 0) < min(sev_min, SEV_MIN_NATURAL) or not f or f < desde or f > ahora + timedelta(hours=1):
             continue
-        if not de_medio(e):
+        if not de_medio(e) or FESTIVO.search(norm(e.get("titulo", ""))):
             continue
         texto = f"{e.get('titulo', '')}. {e.get('resumen', '')}"
+        tema = tema_de(texto, e.get("area_principal"), nombres_area)
+        if e["severidad"] < sev_min and tema not in NATURALES:
+            continue
         ids = div.mencionadas(iso, texto)
         motivo = "la nota nombra"
         if not ids and e.get("lat") is not None and e.get("lon") is not None:
@@ -219,7 +230,6 @@ def zonas(eventos, div, ahora, centroides=None, sev_min=SEV_MIN, horas=HORAS, no
                 i = div.en_punto(iso, e["lon"], e["lat"])
                 if i is not None:
                     ids, motivo = {i: None}, "las coordenadas de la fuente caen aquí"
-        tema = tema_de(texto, e.get("area_principal"), nombres_area)
         for i, lugar in ids.items():
             z = agg.setdefault(i, {"eventos": [], "motivos": set(), "sev": 0, "temas": {}})
             z["sev"] = max(z["sev"], e["severidad"])
@@ -256,7 +266,7 @@ def main(argv=None):
     tax = json.load(open(os.path.join(ROOT, "config", "taxonomy.json"), encoding="utf-8"))
     nombres_area = {a["id"]: a["nombre"] for a in tax["areas"]}
     feats = zonas(datos.get("eventos", []), Divisiones(polis, nombres), ahora, centroides, nombres_area=nombres_area)
-    json.dump({"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "criterio": f"severidad ≥ {SEV_MIN}, últimas {HORAS} h",
+    json.dump({"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "criterio": f"severidad ≥ {SEV_MIN} (≥ {SEV_MIN_NATURAL} en huracanes, sismos, volcanes, inundaciones e incendios), últimas {HORAS} h",
                "features": feats}, open(a.salida, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"zonas afectadas: {len(feats)} divisiones")
     return 0

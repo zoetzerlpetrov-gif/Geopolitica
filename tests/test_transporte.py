@@ -196,3 +196,16 @@ def test_avisos_nauticos_descarta_socorro_antiguo():
     assert N.a_features(minas, ahora)                     # las zonas de minas siguen mientras estén vigentes
     assert N.categoria("FISHING GEAR ABANDONED IN 46-16.00N 002-18.00W") is None
     assert N.fecha_emision("xx") is None
+
+
+def test_zonas_naturales_desde_severidad_2_y_sin_festivos():
+    assert nombres([ev(20, "Huracán Simon deja lluvias fuertes en Sinaloa", sev=2)]) == ["Sinaloa"]   # natural: basta severidad 2
+    assert nombres([ev(21, "Bloqueo en Sinaloa", sev=2)]) == []                                       # no natural: sigue siendo ≥ 3
+    assert nombres([ev(22, "Festival del Día de Muertos en Sinaloa", sev=4)]) == []                   # fiesta guardada con severidad vieja
+
+
+def test_revaluar_festivos_de_corridas_anteriores():
+    e = R.revaluar_festivos({"titulo": "Festival del Día de Muertos 2026 en Guanajuato", "resumen": "Calles y túneles", "severidad": 4})
+    assert e["severidad"] == 2
+    grave = R.revaluar_festivos({"titulo": "Balacera en desfile de Día de Muertos deja tres muertos", "resumen": "", "severidad": 4})
+    assert grave["severidad"] == 4

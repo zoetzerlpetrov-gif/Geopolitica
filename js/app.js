@@ -304,6 +304,7 @@ async function abrirFicha(id, { volar = false } = {}) {
   $("ficha-cerrar").focus();
 }
 function abrirFichaHtml(html) {
+  quitarCeniza();  // otra ficha: los conos del volcán anterior ya no aplican (la de un volcán los vuelve a dibujar)
   focoPrevio = document.activeElement;
   fichaEvento = null;
   $("ficha-cuerpo").innerHTML = html;
@@ -380,8 +381,12 @@ async function abrirSatelite(o, catalogo) {
     padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 0, right: 0 } : { top: 0, bottom: 0, left: 0, right: 440 }, duration: lite ? 0 : 800 });
 }
 
+// Conos de ceniza de un volcán: se quitan al cerrar la ficha o al apagar la capa de volcanes.
+const quitarCeniza = () => { if (api?.map?.getSource("ceniza")) import("./ceniza.js").then((C) => C.limpiarCeniza(api.map)); };
+
 function cerrarFicha() {
   trayectoria?.limpiar();
+  quitarCeniza();
   $("ficha").hidden = true;
   api.setSeleccion("");
   history.replaceState(null, "", location.pathname + location.search);
@@ -1088,7 +1093,7 @@ async function iniciarRiesgos() {
     const marca = $(`rg-n-${id}`);
     const ley = $(`rg-ley-${id}`);
     if (ley) ley.hidden = !e.target.checked;
-    if (!e.target.checked) { riesgos.desactivar(id); marca.textContent = ""; return; }
+    if (!e.target.checked) { riesgos.desactivar(id); marca.textContent = ""; if (id === "volcanes") quitarCeniza(); return; }
     marca.textContent = "cargando…";
     try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
   };
