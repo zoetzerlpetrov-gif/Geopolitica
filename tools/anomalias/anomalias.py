@@ -62,6 +62,31 @@ def sin_acentos(t):
     return "".join(c for c in unicodedata.normalize("NFD", str(t or "")) if unicodedata.category(c) != "Mn").lower()
 
 
+# Tipo de TrackAlien deducido del título cuando la nota llega como «ufo» genérico (orden: lo más específico primero).
+TIPO_POR_TEXTO = (
+    ("crop", re.compile(r"\b(crop circles?|agroglifos?|figuras? en (?:los )?cultivos?)\b")),
+    ("volcano", re.compile(r"\b(volcan(?:es)?|volcano(?:es)?|popocatepetl|crater)\b")),
+    ("uso", re.compile(r"\b(usos?|submarin[oa]s?|sumergid[oa]s?|bajo el agua|underwater|underwater object|en el mar|from the (?:sea|ocean))\b")),
+    ("contact", re.compile(r"\b(abduccion(?:es)?|abduct(?:ed|ion)|humanoides?|seres|beings|encuentro cercano|close encounter|contact(?:o|ados?)|"
+                           r"alien bodies|cuerpos? (?:no humanos?|extraterrestres?)|non-human biologics?|momias?)\b")),
+    ("sound", re.compile(r"\b(sonidos?|ruidos?|estruendos?|zumbidos?|sounds?|hum|booms?|trompetas)\b")),
+    ("em", re.compile(r"\b(apagon(?:es)?|electromagnetic[oa]s?|electromagnetic|interferencias?|blackouts?|fallas? electricas?)\b")),
+    ("lights_ground", re.compile(r"\b(luces (?:en el|a ras del?) (?:suelo|campo|cerro)|ground lights?|orbes? (?:en el|sobre el) suelo)\b")),
+    ("lights_sky", re.compile(r"\b(luz|luces|luminos[oa]s?|lights?|orbes?|orbs?|bola de (?:luz|fuego)|destellos?|resplandor)\b")),
+)
+
+
+def tipo_por_texto(titulo, tipo_ta=""):
+    """Tipo de TrackAlien de una nota: el de origen si es específico; si es «ufo» o falta, se deduce del título."""
+    if tipo_ta and tipo_ta != "ufo":
+        return tipo_ta
+    t = sin_acentos(titulo)
+    for tipo, rx in TIPO_POR_TEXTO:
+        if rx.search(t):
+            return tipo
+    return "ufo"
+
+
 def es_del_tema(titulo, fuentes):
     """True si la nota es del tema: viene de un feed dedicado o su título lo menciona."""
     if any(f in FEEDS_TEMA for f in fuentes):
@@ -172,7 +197,7 @@ def de_trackalien(fc, recientes, hoy, ubicador=None):
                 continue
             capa, nivel = "anom_historicos", nivel_ta(cred)
             lugar, precision = "", "sitio"
-        tipo = p.get("type") or "ufo"
+        tipo = tipo_por_texto(titulo, p.get("type")) if recientes else (p.get("type") or "ufo")
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": {
             "id": f"ta:{p.get('id')}", "capa": capa, "tipo": tipo, "tipo_nombre": TIPOS_TA.get(tipo, "Otro"),
             "titulo": titulo[:160], "fecha": p.get("date") or "", "nivel": nivel, "credibilidad": cred[:80],
@@ -195,6 +220,7 @@ def agrupar_por_pais(feats, maximo=15):
         otras.append({"type": "Feature", "geometry": fs[0]["geometry"], "properties": {
             "id": f"ta_pais:{lugar}", "capa": "anom_recientes", "tipo": "ufo", "tipo_nombre": "Notas sin ciudad identificada",
             "titulo": f"{len(fs)} nota{'s' if len(fs) != 1 else ''} sobre {lugar} sin ciudad identificada", "fecha": p0["fecha"], "nivel": "medios",
+            "tipos": sorted({f["properties"]["tipo"] for f in fs}),
             "lugar": lugar, "precision": "país", "n": len(fs), "fuente": "Varias (ver lista)", "url": p0["url"],
             "notas": [{k: f["properties"][k] for k in ("titulo", "url", "fecha", "fuente")} for f in fs[:maximo]]}})
     return otras

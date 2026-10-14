@@ -44,7 +44,7 @@ export const anioDe = (iso) => { const m = /^([+-]?)(\d+)/.exec(String(iso || ""
 /** Filas precalculadas [qid, nombre, fecha ISO, precisión, tipo, artículo en es.wikipedia] → hechos ordenados, sin deporte. */
 export function hechos(filas) {
   const vistos = new Set();
-  return (filas || []).map(([id, nombre, iso, prec, tipo, art]) => ({ id, nombre, iso, prec: Number(prec || 9), tipo: tipo || "",
+  return (filas || []).map(([id, nombre, iso, prec, tipo, art, n]) => ({ id, nombre, iso, prec: Number(prec || 9), tipo: tipo || "", n: Number(n) || 0,
     url: typeof art === "string" && art ? `${WP}/wiki/${encodeURIComponent(art.replace(/ /g, "_"))}` : `https://www.wikidata.org/wiki/${id}` }))
     .filter((h) => h.nombre && !/^Q\d+$/.test(h.nombre) && !NO_HISTORIA.test(`${h.nombre} ${h.tipo}`) && !vistos.has(h.id) && vistos.add(h.id))
     .map((h) => ({ ...h, anio: anioDe(h.iso), fecha: fechaHistorica(h.iso, h.prec) }))
@@ -60,6 +60,38 @@ export function porEpoca(lista) {
   return EPOCAS.map(([a, b, t]) => ({ titulo: t, hechos: lista.filter((h) => h.anio >= a && h.anio <= b) })).filter((g) => g.hechos.length);
 }
 
+// Tipos de la cronología que cuentan como guerra, conflicto, revolución o independencia.
+const TIPOS_CONFLICTO = new Set(["guerra", "guerra civil", "guerra de independencia", "revolución", "rebelión", "golpe de Estado", "conflicto armado", "conflicto",
+  "invasión", "operación militar", "ofensiva"]);
+const TIPOS_TRATADO = new Set(["tratado", "tratado de paz"]);
+const urlDe = (id, art) => (typeof art === "string" && art ? `${WP}/wiki/${encodeURIComponent(art.replace(/ /g, "_"))}` : `https://www.wikidata.org/wiki/${id}`);
+
+/**
+ * Lista «representativa»: une las filas propias de la sección con los hechos de la cronología de esos tipos, quita
+ * repetidos, se queda con las `max` de más Wikipedias (relevancia) y las ordena por fecha.
+ * filas: [qid, nombre, fecha ISO, tipo, artículo, n.º de Wikipedias]
+ */
+export function listaRepresentativa(filas, hechosPais, tipos, max = 30) {
+  const vistos = new Map();
+  for (const [id, nombre, iso, tipo, art, n] of filas || []) {
+    if (!nombre || /^Q\d+$/.test(nombre) || vistos.has(id)) continue;
+    vistos.set(id, { id, nombre, iso, tipo: tipo || "", url: urlDe(id, art), n: Number(n) || 0 });
+  }
+  for (const h of hechosPais || []) if (tipos.has(h.tipo) && !vistos.has(h.id)) vistos.set(h.id, { ...h, n: h.n || 0 });
+  const todos = [...vistos.values()].map((x) => ({ ...x, anio: anioDe(x.iso), fecha: x.iso ? fechaHistorica(x.iso, 9) : "" }));
+  const elegidos = [...todos].sort((a, b) => b.n - a.n).slice(0, max)
+    .sort((a, b) => (Number.isFinite(a.anio) ? a.anio : 1e9) - (Number.isFinite(b.anio) ? b.anio : 1e9));
+  return { elegidos, total: todos.length };
+}
+
+/** Organismos y alianzas: [qid, nombre, desde ISO, artículo, n.º de Wikipedias] → ordenados por relevancia. */
+export function listaOrganismos(filas, max = 40) {
+  const vistos = new Set();
+  return (filas || []).filter(([id, nombre]) => nombre && !/^Q\d+$/.test(nombre) && !vistos.has(id) && vistos.add(id))
+    .map(([id, nombre, desde, art, n]) => ({ id, nombre, desde: desde ? fechaHistorica(desde, 9) : "", url: urlDe(id, art), n: Number(n) || 0 }))
+    .sort((a, b) => b.n - a.n).slice(0, max);
+}
+
 /** Descarga lo necesario para un país. Cada parte falla por separado (si Wikidata tarda, la de Wikipedia sigue). */
 export async function cargarHistoria(iso3, nombre) {
   const q = (u) => getJSON(u);
@@ -73,13 +105,26 @@ export async function cargarHistoria(iso3, nombre) {
       return { titulo, url: resumen?.content_urls?.desktop?.page || `${WP}/wiki/${t}`, extracto: resumen?.extract || "", etapas: etapas(secs) };
     });
   // Cronología precalculada cada mes por «Construir capas» (tools/historia/cronologia.py): un archivo pequeño por país.
-  const evs = q(`data/capas/historia/${String(iso3).replace(/[^A-Z]/g, "")}.json`).then((d) => hechos(d.hechos));
+  const evs = q(`data/capas/historia/${String(iso3).replace(/[^A-Z]/g, "")}.json`);
   const [a, e] = await Promise.allSettled([art, evs]);
-  return { articulo: a.status === "fulfilled" ? a.value : null, hechos: e.status === "fulfilled" ? e.value : null,
+  const datos = e.status === "fulfilled" ? e.value : null;
+  const hs = datos ? hechos(datos.hechos) : null;
+  return { articulo: a.status === "fulfilled" ? a.value : null, hechos: hs,
+    conflictos: datos ? listaRepresentativa(datos.conflictos, hs, TIPOS_CONFLICTO) : null,
+    tratados: datos ? listaRepresentativa(datos.tratados, hs, TIPOS_TRATADO) : null,
+    organismos: datos?.organismos ? listaOrganismos(datos.organismos) : null,
     wpError: a.status === "rejected" ? a.reason?.message || String(a.reason) : null, errores: [] };
 }
 
 const escH = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+/** Sección con los más representativos (por número de Wikipedias) en orden cronológico. */
+function htmlLista(titulo, l, nota) {
+  if (!l?.elegidos.length) return "";
+  return `<h4>${escH(titulo)} (${l.elegidos.length}${l.total > l.elegidos.length ? ` más relevantes de ${l.total}` : ""})</h4>
+    <ul class="hist-hechos">${l.elegidos.map((h) => `<li>${h.fecha ? `<b>${escH(h.fecha)}</b> · ` : ""}<a href="${escH(h.url)}" target="_blank" rel="noopener noreferrer">${escH(h.nombre)}</a>${h.tipo ? ` <span class="meta">${escH(h.tipo)}</span>` : ""}</li>`).join("")}</ul>
+    <p class="meta">${escH(nota)} «Más relevantes»: los que tienen artículo en más Wikipedias.</p>`;
+}
 
 /** Ficha de historia: resumen y etapas (Wikipedia) + línea de tiempo por épocas (Wikidata). */
 export function htmlHistoria(nombre, d) {
@@ -95,6 +140,10 @@ export function htmlHistoria(nombre, d) {
         <p class="meta">Son los capítulos del artículo, en su orden; cada uno abre la sección en Wikipedia.</p>` : ""}`
       : d.wpError ? `<p class="meta">No se pudo consultar Wikipedia en este momento (${escH(d.wpError)}). Intenta de nuevo más tarde.</p>`
       : `<p class="meta">No se encontró un artículo «Historia de ${escH(nombre)}» en Wikipedia en español.</p>`}
+    ${htmlLista("⚔️ Guerras, conflictos, revoluciones e independencia", d.conflictos, "Conflictos en los que el país participó o que ocurrieron en su territorio actual.")}
+    ${htmlLista("📜 Tratados y acuerdos firmados", d.tratados, "Tratados en los que el país aparece como firmante, o firmados en su territorio.")}
+    ${d.organismos?.length ? `<h4>🤝 Organismos y alianzas de los que es miembro (${d.organismos.length})</h4>
+      <ul class="hist-hechos">${d.organismos.map((o) => `<li><a href="${escH(o.url)}" target="_blank" rel="noopener noreferrer">${escH(o.nombre)}</a>${o.desde ? ` <span class="meta">desde ${escH(o.desde)}</span>` : ""}</li>`).join("")}</ul>` : ""}
     <h4>Línea de tiempo: hechos con relevancia internacional${d.hechos ? ` (${d.hechos.length})` : ""}</h4>
     ${d.hechos === null ? `<p class="meta">La cronología de este país aún no está disponible (se genera una vez al mes).</p>`
       : grupos.length ? grupos.map((g) => `<details class="hist-epoca"${g === grupos[grupos.length - 1] ? " open" : ""}><summary>${escH(g.titulo)} <span class="meta">(${g.hechos.length})</span></summary>

@@ -31,3 +31,19 @@ test("cada capa filtra su clase y colorea por nivel de respaldo", () => {
   const f = lugar.ficha({ titulo: "A", nivel: "local", url: "https://x", fuente: "W" });
   assert.ok(f.filas.some(([k, v]) => k === "Nivel de respaldo" && /no verificado/.test(v)));
 });
+
+test("capas por tipo de fenómeno (TrackAlien): noticias, históricos y catálogo que corresponde", async () => {
+  const { ANOMALIAS_POR_TIPO, TIPOS_ANOM } = await import("../../js/riesgos.js");
+  assert.equal(ANOMALIAS_POR_TIPO.length, 9);
+  assert.equal(TIPOS_ANOM.length, 9);
+  const f = (capa, tipo, tipos) => ({ properties: { capa, tipo, ...(tipos ? { tipos } : {}) } });
+  const fc = { type: "FeatureCollection", features: [f("anom_recientes", "lights_sky"), f("anom_historicos", "ufo"), f("anom_recientes", "ufo", ["ufo", "lights_sky"]),
+    f("anom_orbe", "orbe"), f("anom_cultivo", "cultivo"), f("anom_nuforc", "densidad"), f("anom_lugar", "lugar")] };
+  const n = (t) => ANOMALIAS_POR_TIPO.find((c) => c.id === `anom_t_${t}`).derivar(fc).features.length;
+  assert.equal(n("lights_sky"), 2); // la nota + el grupo por país que la contiene
+  assert.equal(n("ufo"), 2);
+  assert.equal(n("lights_ground"), 1); // orbes del catálogo
+  assert.equal(n("crop"), 1);
+  assert.equal(n("sound"), 0);
+  assert.ok(ANOMALIAS_POR_TIPO.every((c) => c.noAmenaza && c.menu === "anomalias" && c.subgrupo.startsWith("Por tipo")));
+});

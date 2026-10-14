@@ -74,7 +74,8 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
   return {
     id, grupo: "Fenómenos anómalos", menu: "anomalias", noAmenaza: true, nombre, url: "data/vivos/anomalias.geojson", refresco_s: 21600,
     fuente: "TrackAlien, NUFORC y catálogo propio",
-    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => ids.includes(f.properties.capa)) }),
+    subgrupo: extra.subgrupo || "Casos, lugares y reportes",
+    derivar: (fc) => ({ ...fc, features: fc.features.filter(extra.filtro || ((f) => ids.includes(f.properties.capa))) }),
     estilo: (p) => (id === "anom_nuforc" ? { c: NIVELES_ANOM.civil[0], r: Math.min(16, 3 + Math.sqrt(p.n || 1) / 3) } : { c: (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[0], r: 6 }),
     // Nombre visible solo en el catálogo curado (pocos puntos); las noticias y la densidad irían encimadas.
     etiqueta: (p) => (["anom_lugar", "anom_triangulo", "anom_orbe", "anom_objeto", "anom_cultivo", "anom_oficina"].includes(p.capa) ? p.titulo
@@ -106,6 +107,24 @@ export const ANOMALIAS = [
   capaAnomalia("anom_lugar", "Lugares con fama de «propensos» (oficiales y no verificados)", "Incluye sitios documentados por gobiernos y sitios conocidos solo por blogs, periódicos locales o turismo; el color dice cuál es cuál.", { ids: ["anom_lugar", "anom_triangulo"], niveles: ["oficial", "local", "explicado"] }),
   capaAnomalia("anom_oficina", "Oficinas oficiales que investigan reportes (AARO, GEIPAN)", "Dónde reportar o consultar casos analizados.", { niveles: ["oficial"] }),
 ];
+// Por tipo de fenómeno, con las categorías de TrackAlien: noticias + casos históricos (+ catálogo cuando aplica).
+// Las notas agrupadas por país entran en cada tipo que contienen («tipos»).
+export const TIPOS_ANOM = [
+  ["ufo", "Objetos aéreos no identificados (OVNI/UAP)", "Objetos en el cielo sin identificar: discos, cilindros, triángulos, esferas."],
+  ["lights_sky", "Luces en el cielo", "Luces, orbes o destellos en el cielo. Muchas resultan ser satélites Starlink, drones, globos o cohetes."],
+  ["lights_ground", "Luces a ras de suelo", "Luces que se repiten cerca del suelo en el mismo lugar (Hessdalen, Marfa, Min Min…).", ["anom_orbe"]],
+  ["uso", "Objetos sumergidos o en el mar (USO)", "Objetos que entran o salen del agua, o luces bajo el mar."],
+  ["contact", "Supuestos contactos, seres o abducciones", "Relatos de encuentros cercanos o seres. Ninguno ha sido verificado."],
+  ["sound", "Sonidos inexplicados", "Zumbidos, estruendos o «trompetas» sin fuente identificada."],
+  ["em", "Efectos electromagnéticos", "Apagones, fallas de aparatos o interferencias asociadas a un avistamiento."],
+  ["volcano", "Objetos sobre volcanes", "Objetos filmados cerca de cráteres (Popocatépetl, Colima…), casi siempre por cámaras de monitoreo."],
+  ["crop", "Figuras en cultivos", "Figuras en campos de cultivo; desde 1991 se sabe que muchas son obra de personas.", ["anom_cultivo"]],
+];
+const TIPO_ANOM_CAPAS = new Set(["anom_recientes", "anom_historicos"]);
+export const ANOMALIAS_POR_TIPO = TIPOS_ANOM.map(([t, nombre, nota, catalogo = []]) => capaAnomalia(`anom_t_${t}`, nombre, nota, {
+  subgrupo: "Por tipo de fenómeno (como TrackAlien)",
+  filtro: (f) => { const p = f.properties; return catalogo.includes(p.capa) || (TIPO_ANOM_CAPAS.has(p.capa) && (p.tipo === t || (p.tipos || []).includes(t))); },
+}));
 
 /** Alertas del NWS sin geometría → punto en el promedio de los centroides de sus condados (SAME = «0» + FIPS). */
 export function ubicarPorCondados(fc, condados) {
@@ -335,6 +354,7 @@ export const CAPAS = [
   },
   ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
   ...ANOMALIAS,
+  ...ANOMALIAS_POR_TIPO,
   {
     id: "perturbaciones", grupo: "Desastres naturales", nombre: "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
     url: "data/vivos/perturbaciones.geojson", refresco_s: 1800, fuente: "NOAA NHC, Perspectiva del Tiempo Tropical",

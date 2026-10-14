@@ -997,7 +997,13 @@ async function iniciarRiesgos() {
   // Capas que viven en otro menú (trenes en «En movimiento → Trenes»; fenómenos anómalos en su propio grupo): mismo motor, otra ubicación.
   for (const [menu, idCont] of [["trenes", "trenes-capas"], ["anomalias", "anomalias-capas"]]) {
     const c = $(idCont);
-    if (c) c.innerHTML = R.CAPAS.filter((x) => x.menu === menu).map(filaCapa).join("");
+    if (!c) continue;
+    const capas = R.CAPAS.filter((x) => x.menu === menu);
+    const subgrupos = [...new Set(capas.map((x) => x.subgrupo).filter(Boolean))];
+    // Con subgrupos (fenómenos anómalos: casos y lugares / por tipo), cada uno plegable como en «Amenazas».
+    c.innerHTML = subgrupos.length > 1 ? subgrupos.map((g, i) => `<details class="subgrupo-d" id="sg-${menu}-${i}"${i ? "" : " open"}><summary class="subgrupo" style="--c:var(--g-anomalias)"><span class="punto"></span>${esc(g)}
+        <span class="sg-n">${capas.filter((x) => x.subgrupo === g).length} capas</span></summary>${capas.filter((x) => x.subgrupo === g).map(filaCapa).join("")}</details>`).join("")
+      : capas.map(filaCapa).join("");
   }
   $("riesgos-filtros").innerHTML = `<label class="fila"><span>Severidad mínima</span><select id="rg-sev">${A.SEVERIDADES.map(([n, t]) => `<option value="${n}">${n} · ${t}</option>`).join("")}</select></label>
     <label class="fila"><span>País</span><select id="rg-pais"><option value="">Todos los países</option></select></label>
