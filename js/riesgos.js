@@ -7,6 +7,7 @@
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
 import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
+import { articuloTren, huecoImagen } from "./imagen_tipo.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
@@ -53,7 +54,7 @@ function capaTrenes(red, nombre, nota) {
       filas: [...(p.linea ? [["Línea o ruta", p.linea]] : []), ...(p.origen ? [["Origen", p.origen]] : []), ...(p.destino ? [["Destino", p.destino]] : []),
         ...(p.vel_kmh != null ? [["Velocidad", `${p.vel_kmh} km/h`]] : []), ...(p.retraso_min != null ? [["Retraso", `${p.retraso_min} min`]] : []),
         ...(p.estado ? [["Estado", p.estado]] : []), ["Posición de", p.hora ? fecha(p.hora) : "—"]],
-      url: p.url, fuente: p.fuente }),
+      url: p.url, fuente: p.fuente, imagen: articuloTren(red, p.categoria, p.tipo) }),
   };
 }
 
@@ -559,6 +560,7 @@ export function htmlRiesgo(capa, props, geom) {
     <div class="fecha">${esc(props._tipo || capa.nombre)}</div>
     <div class="chips">${props._nuevo ? `<span class="chip nuevo">NUEVO</span>` : ""}${sev ? `<span class="chip sev-${sev[0]}">Severidad ${sev[0]}/5 · ${esc(sev[1])}</span>` : ""}
       ${f.chip ? `<span class="chip ${capa.senal ? "alerta" : ""}"${colorChip ? ` style="background:${colorChip};color:${textoSobre(colorChip)};border-color:${colorChip}"` : ""}>${esc(f.chip)}</span>` : ""}</div>
+    ${huecoImagen(f.imagen)}
     <dl>${f.filas.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}

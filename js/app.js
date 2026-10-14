@@ -312,6 +312,12 @@ function abrirFichaHtml(html) {
   $("ficha-cerrar").focus();
 }
 
+// Imagen representativa del tipo (avión, buque, tren, satélite): las fichas dejan un hueco y aquí se completa.
+new MutationObserver(() => {
+  const c = $("ficha-cuerpo");
+  if (c.querySelector("figure[data-img-tipo]:not([data-listo])")) import("./imagen_tipo.js").then((I) => I.rellenarImagenes(c));
+}).observe($("ficha-cuerpo"), { childList: true });
+
 // Ficha de un avión con origen, destino y trayectoria (js/vuelos.js, se descarga al abrir la primera).
 let trayectoria = null;
 async function abrirObjetoMovil(o, catalogo) {
@@ -366,7 +372,7 @@ async function abrirSatelite(o, catalogo) {
   const [S, V] = await Promise.all([import("./satelites.js"), import("./vuelos.js")]);
   const cat = catalogo.categorias.find((c) => c.id === "satelites");
   const norad = String(o.props.id).replace("sat:", "");
-  const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), alt: o.props.alt };
+  const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), st: o.props.st, alt: o.props.alt };
   abrirFichaHtml(S.htmlSatelite(base, null));
   const [orb, catalogoSat] = await Promise.all([mov.orbita(norad), S.fichaCatalogo(norad).catch(() => null)]);
   base.catalogo = catalogoSat;

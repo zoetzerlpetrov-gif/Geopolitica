@@ -10,6 +10,7 @@
 // Privacidad: ruta y trayectoria solo para aerolíneas, carga, militares y vuelos de Estado; nunca
 // aviación general. No se muestra propietario.
 import { getJSON, esc, distanciaKm, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
+import { articuloAvion, huecoImagen } from "./imagen_tipo.js";
 
 // Nombres de país que usa OpenSky y no coinciden con el gazetteer (en inglés) → español.
 export const PAISES_OPENSKY = {
@@ -270,6 +271,7 @@ export function htmlVuelo(v, extra, { subtipoNombre, edadMin, paisEs = (x) => x 
     <div class="fecha">${esc(subtipoNombre)}${v.pais ? " · registrado en " + esc(paisEs(v.pais)) : ""}</div>
     <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>
       ${sq?.alerta ? `<span class="chip alerta alerta-FLASH">Squawk ${esc(v.squawk)}: ${esc(sq.texto)}</span>` : ""}</div>
+    ${huecoImagen(articuloAvion(v.tipo_av, v.subtipo, v.cat))}
     ${ruta}
     <dl>
       <dt>Altitud</dt><dd>${num(v.alt_m)} m · ${num(Math.round(v.alt_m * 3.28084))} pies${v.alt_m > 3000 ? ` (FL${String(Math.round(v.alt_m * 3.28084 / 100)).padStart(3, "0")})` : ""}</dd>

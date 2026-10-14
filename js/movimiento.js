@@ -12,6 +12,7 @@
 //   - Satélites: SGP4 en un Web Worker que entrega GeoJSON ya armado.
 /* global maplibregl */
 import { getJSON, esc, debounce, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
+import { articuloAvion, articuloBuque, articuloSatelite, huecoImagen } from "./imagen_tipo.js";
 
 export const MAX_OBJETOS = 5000;
 const PROYECCION_MAX_S = 300;
@@ -307,6 +308,7 @@ export function htmlFichaMovil({ tipo, props, generado }, catalogo) {
     return `<h3 id="ficha-titulo">${esc(props.n)}</h3>
       <div class="fecha">${esc(SUB(cat, props.st))} · NORAD ${esc(norad)}</div>
       <div class="chips"><span class="chip estado-estimado">Dato estimado (SGP4)</span></div>
+      ${huecoImagen(articuloSatelite(props.n, props.st))}
       <dl><dt>Altitud</dt><dd>${esc(props.alt)} km</dd><dt>TLE</dt><dd>${edad != null ? `de hace ${edad} min` : "—"}</dd>
       <dt>Fuente</dt><dd><a href="https://celestrak.org/satcat/search.php?CATNR=${encodeURIComponent(norad)}" target="_blank" rel="noopener noreferrer">CelesTrak</a></dd></dl>
       <p class="meta">Posición calculada en tu navegador a partir de elementos orbitales públicos; puede desviarse varios km.</p>`;
@@ -317,6 +319,7 @@ export function htmlFichaMovil({ tipo, props, generado }, catalogo) {
     return `<h3 id="ficha-titulo">${esc(cs || hex)}</h3>
       <div class="fecha">${esc(SUB(cat, st))}${pais ? " · " + esc(pais) : ""}</div>
       <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edad != null ? ` · instantánea de hace ${edad} min` : ""}</span></div>
+      ${huecoImagen(articuloAvion(null, st))}
       <dl><dt>ICAO 24 bits</dt><dd>${esc(hex)}</dd><dt>Altitud</dt><dd>${esc(alt)} m</dd><dt>Velocidad</dt><dd>${esc(vel)} km/h</dd><dt>Rumbo</dt><dd>${esc(rumbo)}°</dd>
       <dt>Ver en</dt><dd><a href="https://globe.adsb.lol/?icao=${encodeURIComponent(hex)}" target="_blank" rel="noopener noreferrer">adsb.lol</a></dd></dl>
       <p class="meta">La posición se proyecta como máximo 5 min desde la instantánea. No se muestra propietario ni se vincula con personas.</p>`;
@@ -325,5 +328,6 @@ export function htmlFichaMovil({ tipo, props, generado }, catalogo) {
   return `<h3 id="ficha-titulo">${esc(nombre || "MMSI " + mmsi)}</h3>
     <div class="fecha">${esc(SUB(cat, st))}</div>
     <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edad != null ? ` · hace ${edad} min` : ""}</span>${st === "sancionados" ? `<span class="chip alerta alerta-FLASH">En lista SDN (OFAC)</span>` : ""}</div>
+    ${huecoImagen(articuloBuque(st))}
     <dl><dt>MMSI</dt><dd>${esc(mmsi)}</dd><dt>IMO</dt><dd>${imo ? esc(imo) : "—"}</dd><dt>Velocidad</dt><dd>${esc(vel)} nudos</dd><dt>Rumbo</dt><dd>${esc(rumbo)}°</dd></dl>`;
 }
