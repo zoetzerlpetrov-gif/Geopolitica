@@ -600,6 +600,11 @@ async function main() {
   iniciarClima();
   iniciarRiesgos();
   iniciarHistoria();
+  $("verif-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const V = await import("./verificador.js");
+    $("verif-res").innerHTML = V.htmlResultado(V.analizarMensaje($("verif-texto").value));
+  });
   // Cuaderno del analista: checklist y notas del evento abierto (solo en este navegador).
   $("ficha-cuerpo").addEventListener("change", (e) => {
     const cb = e.target.closest("[data-check]");
