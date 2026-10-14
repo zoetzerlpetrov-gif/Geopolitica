@@ -1,6 +1,6 @@
 name: Datos en movimiento
 
-# Cada 20 min: aeronaves (OpenSky + adsb.lol), buques (AISStream, si hay clave), satélites (TLE cada 6 h),
+# Cada 20 min: aeronaves (OpenSky + adsb.lol) y emergencias aéreas, trenes, avisos náuticos, perturbaciones tropicales, buques (AISStream, si hay clave), satélites (TLE cada 6 h),
 # lista SDN (diaria) y clima del modelo GFS (cada 6 h, tools/clima/gfs.py). El resultado vive en la rama
 # huérfana "datos-vivos", que se REESCRIBE en cada corrida (un solo commit): así el historial del repo no crece con cada instantánea.
 on:
@@ -45,6 +45,26 @@ jobs:
         env:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: python3 tools/vivos/actualizar.py
+
+      - name: Emergencias aéreas (squawk 7700, 7600 y 7500; adsb.lol y OpenSky, cada corrida)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/transporte/emergencias_aereas.py
+
+      - name: Trenes en circulación (Finlandia, Digitraffic, cada corrida)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/transporte/trenes.py
+
+      - name: Avisos náuticos de seguridad (NGA, NAVAREA; cada corrida)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/transporte/avisos_nauticos.py
+
+      - name: Perturbaciones tropicales (NHC, posible formación en 2 y 7 días; cada corrida)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/clima/perturbaciones.py
 
       - name: Clima (modelo GFS de NOAA, cada 6 h; si falla se conservan los datos anteriores)
         continue-on-error: true

@@ -48,6 +48,19 @@ jobs:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
         run: python3 ingest/run.py --salida eventos
 
+      - name: Caché de los polígonos de estados y provincias (Natural Earth, se generan una vez)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/admin1
+          key: admin1-ne10m-v1
+
+      - name: Zonas posiblemente afectadas (estados y provincias con eventos de severidad 3+ en 48 h)
+        continue-on-error: true
+        timeout-minutes: 5
+        run: |
+          [ -f ~/.cache/admin1/poligonos.json ] || pip install shapely==2.1.1
+          if [ -f eventos/events.json ]; then python3 tools/zonas_afectadas.py --eventos eventos/events.json --salida eventos/zonas_afectadas.geojson; fi
+
       - name: Resumen de la corrida
         if: always()
         run: |
