@@ -9,7 +9,7 @@
 //   - Hacia dónde va: línea discontinua con el rumbo actual (30 min) y, con ruta, arco al destino.
 // Privacidad: ruta y trayectoria solo para aerolíneas, carga, militares y vuelos de Estado; nunca
 // aviación general. No se muestra propietario.
-import { getJSON, esc, distanciaKm } from "./util.js";
+import { getJSON, esc, distanciaKm, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 
 // Nombres de país que usa OpenSky y no coinciden con el gazetteer (en inglés) → español.
 export const PAISES_OPENSKY = {
@@ -232,8 +232,8 @@ export class Trayectoria {
     m.addLayer({ id: "tray-aeropuertos", type: "circle", source: "trayectoria", filter: ["==", ["get", "k"], "aeropuerto"],
       paint: { "circle-radius": 6, "circle-color": "#2E6F8E", "circle-stroke-color": "#ffffff", "circle-stroke-width": 2 } });
     m.addLayer({ id: "tray-aeropuertos-texto", type: "symbol", source: "trayectoria", filter: ["==", ["get", "k"], "aeropuerto"],
-      layout: { "text-field": ["get", "n"], "text-font": ["Noto Sans Regular"], "text-size": 12, "text-offset": [0, 1.2], "text-anchor": "top" },
-      paint: { "text-color": "#1c2329", "text-halo-color": "#ffffff", "text-halo-width": 1.5 } });
+      layout: { "text-field": ["get", "n"], "text-font": ["Noto Sans Regular"], "text-size": 12, "text-offset": [0, 1.2], "text-anchor": "top", ...layoutEtiqueta(m) },
+      paint: pinturaEtiqueta() });
   }
 }
 

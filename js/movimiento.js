@@ -11,7 +11,7 @@
 //     adelante; después se congela. Por eso estado_dato = "retrasado".
 //   - Satélites: SGP4 en un Web Worker que entrega GeoJSON ya armado.
 /* global maplibregl */
-import { getJSON, esc, debounce, pinturaEtiqueta } from "./util.js";
+import { getJSON, esc, debounce, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 
 export const MAX_OBJETOS = 5000;
 const PROYECCION_MAX_S = 300;
@@ -198,7 +198,7 @@ export class Movimiento {
         paint: { "icon-color": color, "icon-halo-color": "#ffffff", "icon-halo-width": 0.8 } });
     }
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, minzoom: 7,
-      layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 1.2], "text-anchor": "top", "text-optional": true },
+      layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 10, "text-offset": [0, 1.2], "text-anchor": "top", ...layoutEtiqueta(this.map) },
       paint: pinturaEtiqueta() });
     // Zona de toque invisible (8 px de radio): los Starlink miden 1.3 px y serían imposibles de elegir.
     this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, paint: { "circle-radius": 8, "circle-opacity": 0, "circle-stroke-width": 0 } });

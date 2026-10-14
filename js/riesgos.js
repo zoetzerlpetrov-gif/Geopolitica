@@ -6,7 +6,7 @@
 // Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, noticias
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
-import { getJSON, esc, safeUrl, pinturaEtiqueta } from "./util.js";
+import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
@@ -788,7 +788,7 @@ export class Riesgos {
         "icon-ignore-placement": true, "symbol-sort-key": ["-", 0, ["get", "_sev"]] } }, antes);
     // Etiquetas cortas (magnitud del sismo, categoría del ciclón, alerta del volcán).
     m.addLayer({ id: `${src}-texto`, type: "symbol", source: src, filter: this.#filtroDe(`${src}-texto`),
-      layout: { "text-field": ["get", "_lbl"], "text-font": ["Noto Sans Regular"], "text-size": 11, "text-offset": [0, 1.3], "text-anchor": "top", "text-optional": true },
+      layout: { "text-field": ["get", "_lbl"], "text-font": ["Noto Sans Regular"], "text-size": 11, "text-offset": [0, 1.3], "text-anchor": "top", ...layoutEtiqueta(m) },
       paint: pinturaEtiqueta() }, antes);
     // Zona de toque invisible (10 px) para elegir puntos pequeños (focos de incendio, ciudades) con facilidad.
     m.addLayer({ id: `${src}-toque`, type: "circle", source: src, filter: this.#filtroDe(`${src}-toque`), paint: { "circle-radius": 10, "circle-opacity": 0, "circle-stroke-width": 0 } }, antes);

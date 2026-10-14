@@ -1,6 +1,7 @@
 // Mapa con MapLibre GL (WebGL). Todo lo que se dibuja vive en la GPU:
 // no se crean elementos HTML por marcador, por eso escala a decenas de miles de puntos.
 /* global maplibregl */
+import { pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 
 const OFM = {
   light: "https://tiles.openfreemap.org/styles/positron",
@@ -100,15 +101,15 @@ const NOMBRE_ES = ["coalesce", ["get", "name:es"], ["get", "name:latin"], ["get"
 // etiquetas pasan a texto claro con halo oscuro (o al revés en los estilos claros), con halo delgado y casi
 // sin difuminar para que el contorno no se coma las letras.
 export const CONTRASTE = {
-  oscuro: { texto: "#e8eef2", agua: "#9cc7e4", secundario: "#b9c6cf", halo: "rgba(5,10,15,0.9)" },
-  claro: { texto: "#141c22", agua: "#1f4f7a", secundario: "#3b4650", halo: "rgba(255,255,255,0.92)" },
+  oscuro: { texto: "#e8eef2", agua: "#9cc7e4", secundario: "#b9c6cf", halo: "#0e1a22" },
+  claro: { texto: "#141c22", agua: "#1f4f7a", secundario: "#3b4650", halo: "#f4f5f2" },
 };
 function contrastar(l, tono) {
   const c = CONTRASTE[tono];
   const id = l.id;
   const color = /water|ocean|sea|lake|river|marine/.test(id) ? c.agua
     : /highway|road|path|airport|aerodrome|poi|other|suburb|village/.test(id) ? c.secundario : c.texto;
-  l.paint = { ...(l.paint || {}), "text-color": color, "text-halo-color": c.halo, "text-halo-width": 1.2, "text-halo-blur": 0.3 };
+  l.paint = { ...(l.paint || {}), "text-color": color, "text-halo-color": c.halo, "text-halo-width": 1, "text-halo-blur": 0 };
 }
 
 /** Ajusta el estilo de OpenFreeMap para que pese menos al moverse y se lea mejor. No cambia su aspecto a zoom mundial.
@@ -194,7 +195,6 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
 
   function agregarCapas() {
     const dark = tema === "dark";
-    const halo = dark ? "#0f1418" : "#ffffff";
     const texto = dark ? "#e4e9ed" : "#1c2329";
 
     map.addSource("chokepoints", { type: "geojson", data: chokeDatos });
@@ -212,9 +212,9 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
       layout: {
         visibility: chokeVisible ? "visible" : "none",
         "text-field": ["get", "nombre"], "text-font": FONT, "text-size": 11,
-        "text-offset": [0, 1.3], "text-anchor": "top", "text-optional": true,
+        "text-offset": [0, 1.3], "text-anchor": "top", ...layoutEtiqueta(map),
       },
-      paint: { "text-color": texto, "text-halo-color": halo, "text-halo-width": 1.4 },
+      paint: pinturaEtiqueta(),
     });
 
     // Agrupación (clusters) calculada en un Web Worker por MapLibre (supercluster).

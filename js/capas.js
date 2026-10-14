@@ -5,7 +5,7 @@
 // - Solo se dibujan categorías "dibujable": true y subtipos con tipo_capa distinto de "ficha".
 //   Las personas (rol público) nunca tienen capa: viven solo dentro de las fichas.
 /* global maplibregl, pmtiles */
-import { esc, safeUrl, pinturaEtiqueta, hayObjetoEncima } from "./util.js";
+import { esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, hayObjetoEncima } from "./util.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -170,7 +170,7 @@ export class GestorCapas {
     // Etiquetas solo desde cierto zoom y con detección de colisiones (no se encimen).
     this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, ...sl, minzoom: f.zoom_etiquetas ?? 6, filter: this.#filtroCapa("-texto", filtro),
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-offset": [0, 0.9], "text-anchor": "top",
-        "text-optional": true, "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true },
+        "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true, ...layoutEtiqueta(this.map) },
       paint: pinturaEtiqueta() }, antes);
 
     for (const capa of [`${src}-toque`, ...(f.geometria !== "punto" ? [`${src}-ltoque`] : []), ...(f.relleno ? [`${src}-relleno`] : [])]) {

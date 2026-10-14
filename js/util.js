@@ -62,13 +62,48 @@ export function temaOscuro() {
 }
 
 /**
- * Pintura de etiquetas legible sobre cualquier fondo: texto casi negro con halo blanco suave en tema claro,
- * texto claro con halo oscuro en tema oscuro. Halo difuminado (no un contorno duro) para que no tape las letras.
+ * Etiquetas de las capas: texto SIN contorno (halo) sobre una pastilla de fondo sólido. El halo alrededor de cada
+ * letra se veía como un contorno gris que ensuciaba el texto sobre rellenos de color y sobre el satélite; la
+ * pastilla da contraste fijo (≥ 12:1) sobre cualquier fondo. Regla para TODA etiqueta nueva de una capa:
+ *   layout: { ...tu layout, ...layoutEtiqueta(map) },  paint: pinturaEtiqueta()
+ * (tests/js/etiquetas.test.mjs falla si alguna capa vuelve a usar el halo de texto).
  */
+export const COLORES_ETIQUETA = {
+  claro: { texto: "#101820", fondo: [255, 255, 255], borde: [176, 186, 194] },
+  oscuro: { texto: "#F4F7F9", fondo: [16, 24, 32], borde: [70, 84, 96] },
+};
+
 export function pinturaEtiqueta() {
-  return temaOscuro()
-    ? { "text-color": "#F4F7F9", "text-halo-color": "rgba(8,14,20,0.92)", "text-halo-width": 1.3, "text-halo-blur": 0.3 }
-    : { "text-color": "#101820", "text-halo-color": "rgba(255,255,255,0.95)", "text-halo-width": 1.3, "text-halo-blur": 0.3 };
+  return { "text-color": COLORES_ETIQUETA[temaOscuro() ? "oscuro" : "claro"].texto, "icon-opacity": 0.94 };
+}
+
+/** Imagen estirable (pastilla de esquinas redondeadas) para el fondo de las etiquetas; una por tema. */
+export function asegurarFondoEtiqueta(map) {
+  const tono = temaOscuro() ? "oscuro" : "claro";
+  const id = `fondo-etiqueta-${tono}`;
+  if (map.hasImage(id)) return id;
+  const { fondo, borde } = COLORES_ETIQUETA[tono];
+  const n = 24, r = 6, datos = new Uint8Array(n * n * 4);
+  for (let y = 0; y < n; y++) {
+    for (let x = 0; x < n; x++) {
+      // Distancia a la esquina redondeada más cercana (0 dentro del rectángulo recto).
+      const dx = Math.max(r - x - 0.5, x + 0.5 - (n - r), 0), dy = Math.max(r - y - 0.5, y + 0.5 - (n - r), 0);
+      const d = Math.hypot(dx, dy);
+      if (d > r) continue;
+      const c = d > r - 1.2 ? borde : fondo;  // un borde fino y tenue, solo para separar la pastilla de un fondo igual
+      const i = (y * n + x) * 4;
+      datos.set([...c, Math.round(255 * Math.min(1, r - d + 0.5))], i);
+    }
+  }
+  map.addImage(id, { width: n, height: n, data: datos }, { pixelRatio: 2, stretchX: [[r, n - r]], stretchY: [[r, n - r]], content: [r - 2, r - 3, n - r + 2, n - r + 3] });
+  return id;
+}
+
+/** Lo que cada capa de etiquetas agrega a su «layout» para llevar la pastilla de fondo. */
+export function layoutEtiqueta(map) {
+  return { "icon-image": asegurarFondoEtiqueta(map), "icon-text-fit": "both", "icon-text-fit-padding": [1, 4, 1, 4],
+    // Texto y pastilla aparecen o desaparecen juntos (nunca una pastilla vacía).
+    "text-optional": false, "icon-optional": false };
 }
 
 /**
