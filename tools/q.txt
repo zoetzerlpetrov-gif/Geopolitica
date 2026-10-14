@@ -1,0 +1,8 @@
+SELECT ?e ?eLabel (MIN(?f) AS ?fecha) (MAX(?p) AS ?prec) (SAMPLE(?tl) AS ?tipo) (MAX(?n) AS ?wikis) WHERE {
+  ?pais wdt:P298 "MEX" .
+  ?e wdt:P17 ?pais ; wikibase:sitelinks ?n .
+  FILTER(?n >= 20)
+  { ?e p:P585/psv:P585 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] } UNION { ?e p:P580/psv:P580 [ wikibase:timeValue ?f ; wikibase:timePrecision ?p ] }
+  OPTIONAL { ?e wdt:P31 ?t . ?t rdfs:label ?tl . FILTER(lang(?tl) = "es") }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }
+} GROUP BY ?e ?eLabel ORDER BY ?fecha LIMIT 300
