@@ -32,6 +32,17 @@ CONSULTA = """{ currentlyRunningTrains { trainNumber departureDate cancelled
 } }"""
 
 
+MAX_EDAD_MIN = 30   # «en circulación» incluye locomotoras detenidas desde ayer: solo posiciones de los últimos 30 min
+
+
+def reciente(ts, ahora=None):
+    try:
+        t = datetime.strptime(ts[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+    except (TypeError, ValueError):
+        return False
+    return ((ahora or datetime.now(timezone.utc)) - t).total_seconds() <= MAX_EDAD_MIN * 60
+
+
 def pedir(url, datos=None):
     h = dict(CABECERAS)
     if datos is not None:
@@ -47,12 +58,12 @@ def de_graphql(d):
     for t in (d.get("data") or {}).get("currentlyRunningTrains") or []:
         loc = (t.get("trainLocations") or [{}])[0]
         coords = loc.get("location")
-        if not coords or t.get("cancelled"):
+        if not coords or t.get("cancelled") or not reciente(loc.get("timestamp")):
             continue
         cat = ((t.get("trainType") or {}).get("trainCategory") or {}).get("name") or ""
         origen = ((t.get("timeTableRows") or [{}])[0].get("station") or {}).get("name") or ""
         feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(coords[0], 4), round(coords[1], 4)]},
-                      "properties": {"numero": t["trainNumber"], "tipo": (t.get("trainType") or {}).get("name") or "",
+                      "properties": {"id": f"tren-{t['trainNumber']}", "numero": t["trainNumber"], "tipo": (t.get("trainType") or {}).get("name") or "",
                                      "categoria": CATEGORIA.get(cat, cat), "operador": (t.get("operator") or {}).get("name") or "",
                                      "origen": origen, "vel_kmh": loc.get("speed"), "hora": loc.get("timestamp"), "fecha_salida": t.get("departureDate"),
                                      "url": f"https://www.digitraffic.fi/en/railway-traffic/", "fuente": "Fintraffic / Digitraffic (CC BY 4.0)"}})
@@ -61,10 +72,11 @@ def de_graphql(d):
 
 def de_ubicaciones(fc):
     return [{"type": "Feature", "geometry": f["geometry"],
-             "properties": {"numero": f["properties"].get("trainNumber"), "tipo": "", "categoria": "", "operador": "", "origen": "",
+             "properties": {"id": f"tren-{f['properties'].get('trainNumber')}", "numero": f["properties"].get("trainNumber"), "tipo": "", "categoria": "", "operador": "", "origen": "",
                             "vel_kmh": f["properties"].get("speed"), "hora": f["properties"].get("timestamp"),
                             "fecha_salida": f["properties"].get("departureDate"), "url": "https://www.digitraffic.fi/en/railway-traffic/",
-                            "fuente": "Fintraffic / Digitraffic (CC BY 4.0)"}} for f in fc.get("features", []) if f.get("geometry")]
+                            "fuente": "Fintraffic / Digitraffic (CC BY 4.0)"}} for f in fc.get("features", [])
+            if f.get("geometry") and reciente(f["properties"].get("timestamp"))]
 
 
 def main():

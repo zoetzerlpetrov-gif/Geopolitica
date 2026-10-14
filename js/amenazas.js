@@ -71,6 +71,19 @@ export function clasificar(capa, p = {}, geom = null) {
     case "auroras": return { sev: p.actual ? 2 : 1, tipo: "Aurora", ic: "" };
     case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: iconoArma(p.arma) || { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
     case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };
+    case "zonas_afectadas": return { sev: lim(p.sev_max || 3), tipo: "Zona posiblemente afectada", ic: "" };
+    case "emergencias_aereas": {
+      if (p.kind === "rastro") return { sev: 3, tipo: "Emergencia aérea", ic: "" };
+      const s = p.squawk === "7500" ? 5 : p.squawk === "7700" ? 4 : 3;
+      return { sev: p.activo ? s : Math.max(2, s - 1), tipo: `Emergencia aérea: ${p.codigo_texto || p.squawk}`, ic: p.squawk === "7500" ? "🚨" : "✈️" };
+    }
+    case "avisos_nauticos": return { sev: lim(p.sev || 2), tipo: `Aviso náutico: ${p.categoria_texto || "seguridad"}`,
+      ic: p.kind === "punto" ? { pirateria: "🏴‍☠️", minas_misiles: "💣", rescate: "🛟", gnss: "📡", militar_espacial: "🎯" }[p.categoria] || "⚓" : "" };
+    case "trenes": return { sev: 1, tipo: "Tren en circulación", ic: "" };
+    case "perturbaciones": {
+      const n = p.nivel_7d || p.nivel_2d;
+      return { sev: n === "alta" ? 4 : n === "media" ? 3 : 2, tipo: "Perturbación tropical", ic: p.kind.startsWith("ubicacion") ? "🌀" : "" };
+    }
     default: return { sev: 1, tipo: capa, ic: "" };
   }
 }

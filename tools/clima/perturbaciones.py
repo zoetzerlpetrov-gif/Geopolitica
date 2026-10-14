@@ -57,7 +57,7 @@ def normalizar(f, tipo):
     riesgo2 = _campo(p, "risk2day", "risk_2day")
     riesgo7 = _campo(p, "risk7day", "risk_7day", "risk5day")
     return {"type": "Feature", "geometry": f["geometry"],
-            "properties": {"kind": tipo, "area": _campo(p, "area", "areaid", "id", "objectid"), "cuenca": _campo(p, "basin", "basin_id") or "",
+            "properties": {"id": f"{tipo}-{_campo(p, 'objectid', 'fid', 'area') or ''}-{_campo(p, 'basin') or ''}", "kind": tipo, "area": _campo(p, "area", "areaid", "id", "objectid"), "cuenca": _campo(p, "basin", "basin_id") or "",
                            "prob_2d": p2, "prob_7d": p7, "nivel_2d": n2 or (str(riesgo2).lower() if riesgo2 else None),
                            "nivel_7d": n7 or (str(riesgo7).lower() if riesgo7 else None),
                            "texto": _campo(p, "discussion", "text", "description", "comments") or "",

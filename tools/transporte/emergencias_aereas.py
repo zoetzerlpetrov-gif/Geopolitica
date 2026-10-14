@@ -91,13 +91,13 @@ def a_geojson(registros, t):
     for r in registros:
         activo = t - r["ultima_t"] < 30 * 60
         base = {k: r[k] for k in ("hex", "indicativo", "matricula", "tipo_av", "squawk", "alt_m", "vel_kmh", "rumbo", "en_tierra", "emergencia", "fuente")}
-        base.update({"codigo_texto": CODIGOS.get(r["squawk"], ""), "codigos": r.get("codigos", []), "primera_vez": iso(r["primera_t"]),
+        base.update({"id": r["hex"], "codigo_texto": CODIGOS.get(r["squawk"], ""), "codigos": r.get("codigos", []), "primera_vez": iso(r["primera_t"]),
                      "ultima_vez": iso(r["ultima_t"]), "activo": activo, "kind": "avion",
                      "url": f"https://globe.adsb.lol/?icao={r['hex']}"})
         feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [r["lon"], r["lat"]]}, "properties": base})
         if len(r.get("rastro", [])) > 1:
             feats.append({"type": "Feature", "geometry": {"type": "LineString", "coordinates": [p[:2] for p in r["rastro"]]},
-                          "properties": {"hex": r["hex"], "indicativo": r["indicativo"], "squawk": r["squawk"], "kind": "rastro"}})
+                          "properties": {"id": f"{r['hex']}-rastro", "hex": r["hex"], "indicativo": r["indicativo"], "squawk": r["squawk"], "kind": "rastro"}})
     return feats
 
 

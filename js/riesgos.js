@@ -16,7 +16,7 @@ export const BASES = [
 ];
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
-  ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"]];
+  ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"]];
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -205,6 +205,64 @@ export const CAPAS = [
       filas: [["Arma o método", p.arma || "—"], ["Lugar", `${p.lugar || "—"}${p.precision && p.precision !== "ciudad" ? ` (aprox.: ${p.precision})` : ""}`],
         ...(p.actores ? [["Actores (GDELT)", p.actores]] : []), ...(p.cameo ? [["Código CAMEO", p.cameo]] : []), ["Medio", p.source || "—"],
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
+  },
+  {
+    id: "zonas_afectadas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Zonas posiblemente afectadas: estados y provincias con eventos graves (48 h)",
+    url: "data/zonas_afectadas.geojson", refresco_s: 1800, fuente: "Eventos del monitor (medios y fuentes oficiales) + Natural Earth admin-1",
+    estilo: (p) => ({ c: p.sev_max >= 5 ? "#6A1B9A" : p.sev_max >= 4 ? "#C62828" : "#E2711D", r: 0 }),
+    leyenda: [{ c: "#6A1B9A", r: 6, t: "Algún evento de severidad 5 (extrema)" }, { c: "#C62828", r: 6, t: "Severidad 4 (alta)" }, { c: "#E2711D", r: 6, t: "Severidad 3 (media)" },
+      { t: "Se marca el estado o provincia que la nota NOMBRA (o donde caen sus coordenadas). Es una aproximación: no quiere decir que todo el estado esté afectado. Sin señales automáticas de GDELT ni redes sociales. Los polígonos oficiales (cono de huracán, tsunami, MeteoAlarm) están en sus capas." }],
+    ficha: (p) => ({ titulo: `${p.nombre}${p.iso3 ? ` (${p.iso3})` : ""}`, chip: `${p.n_eventos} evento(s) · severidad máxima ${p.sev_max}`,
+      filas: [["Por qué se marca", p.motivo || "—"], ["División", p.tipo || "estado o provincia"], ["Ventana", "Últimas 48 h, severidad 3 a 5"]],
+      url: lista(p.eventos)[0]?.url, fuente: "Abre la nota más grave; las demás van abajo" }),
+    extra: (p) => `<h4>Eventos que la marcan</h4><ul class="fuentes">${lista(p.eventos).map((e) => `<li><span class="sev sev-${e.severidad}">${e.severidad}</span> <a href="${esc(safeUrl(e.url))}" target="_blank" rel="noopener noreferrer">${esc(e.titulo)}</a> · ${esc(e.fuente || "")} · ${esc(fecha(e.fecha_utc))}</li>`).join("")}</ul>`,
+  },
+  {
+    id: "emergencias_aereas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Aviones en emergencia: squawk 7700, 7600 y 7500 (últimas 6 h)",
+    url: "data/vivos/emergencias_aereas.geojson", refresco_s: 600, fuente: "adsb.lol (ODbL) y OpenSky Network",
+    estilo: (p) => (p.kind === "rastro" ? { c: "#C62828", r: 0 } : { c: p.squawk === "7500" ? "#6A1B9A" : p.squawk === "7700" ? "#C62828" : "#E2711D", r: p.activo ? 10 : 7 }),
+    etiqueta: (p) => (p.kind === "avion" ? `${p.indicativo || p.matricula || p.hex} · ${p.squawk}` : ""),
+    leyenda: [{ ic: "✈️", t: "7700: emergencia general (falla técnica, médica, combustible…)" }, { c: "#E2711D", r: 6, t: "7600: falla de radio" },
+      { ic: "🚨", t: "7500: interferencia ilícita (posible secuestro)" }, { c: "#C62828", r: 3, t: "Rastro desde que se detectó el código" },
+      { t: "El código lo pone la tripulación en el transpondedor. Puede ser un error o una prueba: confirma con la aerolínea, la autoridad o la prensa. Se conserva 6 h tras la última señal. Se excluyen aeronaves que pidieron privacidad (PIA/LADD)." }],
+    ficha: (p) => (p.kind === "rastro" ? { titulo: `Rastro de ${p.indicativo || p.hex}`, chip: `Squawk ${p.squawk}`, filas: [], url: `https://globe.adsb.lol/?icao=${p.hex}`, fuente: "adsb.lol" } : {
+      titulo: `${p.indicativo || p.matricula || p.hex}${p.tipo_av ? ` · ${p.tipo_av}` : ""}`, chip: `Squawk ${p.squawk}: ${p.codigo_texto}${p.activo ? "" : " · ya no transmite el código"}`,
+      filas: [["Códigos vistos", lista(p.codigos).join(", ") || p.squawk], ["Matrícula", p.matricula || "—"], ["Altitud", p.en_tierra ? "en tierra" : `${Number(p.alt_m || 0).toLocaleString("es-MX")} m`],
+        ["Velocidad", `${p.vel_kmh || 0} km/h`], ["Detectado", fecha(p.primera_vez)], ["Última señal", fecha(p.ultima_vez)], ...(p.emergencia ? [["Tipo declarado (ADS-B)", p.emergencia]] : []),
+        ["Fuente", p.fuente]], url: p.url, fuente: "adsb.lol (sigue el vuelo en su mapa)" }),
+  },
+  {
+    id: "avisos_nauticos", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Avisos náuticos de seguridad: piratería, minas, barcos a la deriva, GPS (NGA)",
+    url: "data/vivos/avisos_nauticos.geojson", refresco_s: 1800, fuente: "NGA Maritime Safety Information (radioavisos NAVAREA)",
+    estilo: (p) => ({ c: { pirateria: "#6A1B9A", minas_misiles: "#C62828", rescate: "#E2711D", gnss: "#1F6FB2", militar_espacial: "#8D6E63" }[p.categoria] || C.gris, r: 6 }),
+    leyenda: [{ ic: "🏴‍☠️", t: "Piratería, robo armado o ataque" }, { ic: "💣", t: "Minas, misiles o explosivos" }, { ic: "🛟", t: "Embarcación a la deriva, naufragio o búsqueda y rescate" },
+      { ic: "📡", t: "Interferencia de GPS / GNSS" }, { ic: "🎯", t: "Tiro, ejercicios militares, cohetes o restos espaciales" },
+      { t: "Avisos de radio vigentes para navegantes (NAVAREA IV y XII, HYDROLANT, HYDROPAC, HYDROARC). La antigua base de piratería ASAM de la NGA ya no está disponible; los incidentes que reporta UKMTO llegan por las noticias (subcategoría «Incidentes marítimos»)." }],
+    ficha: (p) => ({ titulo: `${p.categoria_texto} · aviso ${p.id}`, chip: p.zona, filas: [["Emitido", p.emitido || "—"], ["Autoridad", p.autoridad || "—"], ["Texto del aviso (inglés)", p.texto]],
+      url: p.url, fuente: "NGA Maritime Safety Information (dominio público)" }),
+  },
+  {
+    id: "trenes", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Trenes en circulación en tiempo real (Finlandia)", url: "data/vivos/trenes.geojson", refresco_s: 1200,
+    fuente: "Fintraffic / Digitraffic (CC BY 4.0)",
+    estilo: (p) => ({ c: { "Larga distancia": "#1F6FB2", Cercanías: "#2E9E6E", Carga: "#8D6E63" }[p.categoria] || C.gris, r: 5 }),
+    etiqueta: (p) => (p.categoria === "Larga distancia" ? `${p.tipo} ${p.numero}` : ""),
+    leyenda: [{ c: "#1F6FB2", r: 5, t: "Larga distancia (InterCity, Pendolino)" }, { c: "#2E9E6E", r: 5, t: "Cercanías" }, { c: "#8D6E63", r: 5, t: "Carga" }, { c: C.gris, r: 5, t: "Maniobras, maquinaria o prueba" },
+      { t: "Finlandia es de los pocos países que publican la posición GPS de todos sus trenes sin registro. Las vías del mundo están en «Capas → Infraestructura → Vías férreas»; los accidentes y descarrilamientos, en la subcategoría «Trenes» de Infraestructura. Se actualiza cada ~20 min." }],
+    ficha: (p) => ({ titulo: `Tren ${p.tipo || ""} ${p.numero}`, chip: p.categoria || "tren",
+      filas: [["Operador", p.operador || "—"], ["Salió de", p.origen || "—"], ["Velocidad", p.vel_kmh != null ? `${p.vel_kmh} km/h` : "—"], ["Posición de", p.hora ? fecha(p.hora) : "—"]],
+      url: p.url, fuente: p.fuente }),
+  },
+  {
+    id: "perturbaciones", grupo: "Desastres naturales", nombre: "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
+    url: "data/vivos/perturbaciones.geojson", refresco_s: 1800, fuente: "NOAA NHC, Perspectiva del Tiempo Tropical",
+    estilo: (p) => { const n = p.nivel_7d || p.nivel_2d; return { c: n === "alta" ? "#C62828" : n === "media" ? "#E2711D" : "#F2C230", r: p.kind.startsWith("ubicacion") ? 9 : 0 }; },
+    etiqueta: (p) => (p.kind === "ubicacion_7d" && p.prob_7d != null ? `${p.prob_7d} % en 7 días` : ""),
+    leyenda: [{ c: "#C62828", r: 6, t: "Probabilidad alta (> 60 %)" }, { c: "#E2711D", r: 6, t: "Media (40–60 %)" }, { c: "#F2C230", r: 6, t: "Baja (< 40 %)" },
+      { t: "Antes de tener nombre, un sistema es una perturbación (tormentas desorganizadas u onda tropical). El punto es su ubicación actual; el área sombreada, donde podría formarse un ciclón en 7 días; la línea, hacia dónde se movería. Cubre Atlántico, Caribe, Golfo y Pacífico oriental y central. El JTWC (Pacífico occidental e Índico) no permite consultas automáticas." }],
+    ficha: (p) => ({ titulo: `Perturbación tropical${p.cuenca ? ` · ${p.cuenca}` : ""}`, chip: `48 h: ${p.prob_2d ?? "—"} % · 7 días: ${p.prob_7d ?? "—"} %`,
+      filas: [["Elemento", { ubicacion_2d: "Ubicación actual", ubicacion_7d: "Ubicación actual", region_7d: "Región de posible formación (7 días)", movimiento: "Dirección del movimiento" }[p.kind] || p.kind],
+        ["Probabilidad en 48 h", p.prob_2d != null ? `${p.prob_2d} % (${p.nivel_2d})` : "—"], ["Probabilidad en 7 días", p.prob_7d != null ? `${p.prob_7d} % (${p.nivel_7d})` : "—"],
+        ["Emitido", p.emitido || "—"]], url: p.url, fuente: p.fuente }),
   },
   {
     id: "cortes_internet", grupo: "Red y ciberseguridad", nombre: "Cortes de internet por país (48 h, IODA)", url: "data/vivos/red_cortes.geojson", refresco_s: 1200,

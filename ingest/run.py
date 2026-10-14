@@ -109,8 +109,12 @@ def jaccard(a, b):
     return len(a & b) / len(a | b) if a and b else 0.0
 
 
+# Frases que contienen palabras graves pero no describen un hecho violento («Festival del Día de Muertos»).
+NO_GRAVES = re.compile(r" (?:dia|dias|festival|desfile|ofrenda|ofrendas) de (?:los )?muertos | day of the dead | dia de los fieles difuntos ")
+
+
 def severidad_texto(texto):
-    t = normalizar(texto)
+    t = NO_GRAVES.sub(" ", normalizar(texto))
     if any(f" {normalizar(p).strip()} " in t for p in GRAVES):
         return 4
     if any(f" {normalizar(p).strip()} " in t for p in MEDIAS):

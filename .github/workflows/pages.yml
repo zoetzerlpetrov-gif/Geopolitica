@@ -61,6 +61,7 @@ jobs:
           if git fetch --depth 1 origin datos-eventos 2>/dev/null; then
             git archive FETCH_HEAD eventos | tar -x -C /tmp
             cp /tmp/eventos/events.json /tmp/eventos/run-log.json /tmp/eventos/indice-paises.json _site/data/
+            cp /tmp/eventos/zonas_afectadas.geojson _site/data/ 2>/dev/null || true
             # Historial de 90 días (un archivo por día): el mapa lo pide solo al elegir 30 o 90 días.
             if [ -d /tmp/eventos/historial ]; then
               mkdir -p _site/data/historial && cp /tmp/eventos/historial/*.json _site/data/historial/
