@@ -155,3 +155,15 @@ def test_contiene_con_hueco():
 def test_severidad_dia_de_muertos():
     assert R.severidad_texto("Festival del Día de Muertos 2026 en Guanajuato") == 2
     assert R.severidad_texto("Ataque deja cinco muertos en Guanajuato") == 4
+
+
+def test_avisos_nauticos_descarta_socorro_antiguo():
+    ahora = datetime(2026, 10, 14, tzinfo=timezone.utc)
+    viejo = {"text": "DISTRESS SIGNAL RECEIVED IN 21-28.60N 048-01.93W", "issueDate": "221325Z SEP 2023"}
+    nuevo = {"text": "DISTRESS SIGNAL RECEIVED IN 21-28.60N 048-01.93W", "issueDate": "101200Z OCT 2026"}
+    minas = {"text": "MINE DANGER AREA 21-28.60N 048-01.93W", "issueDate": "221325Z SEP 2023"}
+    assert N.a_features(viejo, ahora) == []
+    assert N.a_features(nuevo, ahora)[0]["properties"]["emitido"] == "2026-10-10T12:00Z"
+    assert N.a_features(minas, ahora)                     # las zonas de minas siguen mientras estén vigentes
+    assert N.categoria("FISHING GEAR ABANDONED IN 46-16.00N 002-18.00W") is None
+    assert N.fecha_emision("xx") is None
