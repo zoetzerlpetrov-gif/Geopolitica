@@ -59,12 +59,13 @@ def _valores(clases):
 
 
 def consulta_conflictos_participante():
-    """Conflictos con el país como participante (P710 en el conflicto o P1344 «participó en» en el país)."""
+    """Conflictos del país: participante (P710 en el conflicto o P1344 «participó en» en el país) u ocurridos en su
+    territorio (P17/P3842), con artículo en 8 o más Wikipedias (la cronología general exige 12)."""
     return f"""SELECT ?e ?c ?iso ?f ?n ?l ?le ?wp WHERE {{
   hint:Query hint:optimizer "None" .
   VALUES ?c {{ {_valores(CLASES_CONFLICTO)} }}
   ?e wdt:P31 ?c . ?e wikibase:sitelinks ?n . FILTER(?n >= 8)
-  {{ ?e wdt:P710 ?pais . }} UNION {{ ?pais wdt:P1344 ?e . }}
+  {{ ?e wdt:P710 ?pais . }} UNION {{ ?pais wdt:P1344 ?e . }} UNION {{ ?e wdt:P17|wdt:P3842 ?pais . }}
   ?pais wdt:P298 ?iso .
   OPTIONAL {{ ?e wdt:P580 ?f1 }} OPTIONAL {{ ?e wdt:P585 ?f2 }} BIND(COALESCE(?f1, ?f2) AS ?f)
   {_NOMBRES.format()}
