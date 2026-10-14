@@ -83,8 +83,8 @@
         </div>
         <label class="aviso-sonido" title="Los eventos nuevos parpadean 60 s en el mapa. Con esta casilla, además suena un aviso corto (tres tonos si hay severidad 4 o 5).">
           <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
-        <div id="activas" class="activas" aria-live="polite" hidden></div>
       </div>
+      <div id="activas" class="activas" aria-live="polite"></div>
 
       <details class="grupo" id="g-eventos" data-grupo="eventos" open>
         <summary class="grupo-tit" data-grupo="eventos"><span aria-hidden="true">📰</span> Eventos y noticias <span id="contador" class="contador"></span></summary>
@@ -207,40 +207,43 @@
 
       <details class="grupo" id="g-historia" data-grupo="historia">
         <summary class="grupo-tit" data-grupo="historia"><span aria-hidden="true">📜</span> Historia por país</summary>
-        <section class="bloque" data-grupo="historia">
+        <details class="bloque plegable" id="b-historia" data-grupo="historia" open>
+          <summary><h2>Consultar la historia de un país</h2></summary>
           <form id="hist-form" class="fila"><input id="hist-q" list="hist-sug" placeholder="País (p. ej. México, Japón)" autocomplete="off" aria-label="País"><datalist id="hist-sug"></datalist><button>Ver historia</button></form>
-          <p class="meta" id="hist-estado">Resumen y grandes etapas desde lo más antiguo registrado (Wikipedia) y una línea de tiempo de hechos con relevancia internacional (Wikidata). Se consulta al pedirla.</p>
-        </section>
+          <p class="nota-capas" id="hist-estado">Resumen y grandes etapas desde lo más antiguo registrado (Wikipedia) y una línea de tiempo de hechos con relevancia internacional (Wikidata). Se consulta al pedirla.</p>
+        </details>
       </details>
 
       <details class="grupo" id="g-reportes" data-grupo="reportes">
         <summary class="grupo-tit" data-grupo="reportes"><span aria-hidden="true">📑</span> Reportes diarios</summary>
-        <section class="bloque" data-grupo="reportes">
-          <p class="meta">Panorama del día con lo más relevante por tema, tendencia frente a los 7 días anteriores y escenarios con IA. Se actualiza cada hora; se puede descargar en PDF.</p>
+        <details class="bloque plegable" id="b-reportes" data-grupo="reportes" open>
+          <summary><h2>Panorama del día (web y PDF)</h2></summary>
+          <p class="nota-capas">Panorama del día con lo más relevante por tema, tendencia frente a los 7 días anteriores y escenarios con IA. Se actualiza cada hora; se puede descargar en PDF.</p>
           <div class="reportes-acc">
             <a class="link-btn" href="reporte.html?tipo=mexico">🇲🇽 Panorama de México</a>
             <a class="link-btn" href="reporte.html?tipo=global">🌍 Panorama global</a>
           </div>
-          <p class="meta" id="reportes-ultimo"></p>
-        </section>
+          <p class="nota-capas" id="reportes-ultimo"></p>
+        </details>
       </details>
 
       <details class="grupo" id="g-herramientas" data-grupo="herramientas">
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
-        <section class="bloque" data-grupo="herramientas">
-          <h3 class="bloque-tit">📷 Metadatos y ubicación de una foto</h3>
+        <details class="bloque plegable" id="b-herr-foto" data-grupo="herramientas" open>
+          <summary><h2>📷 Metadatos y ubicación de una foto</h2></summary>
           <label class="fila"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
-          <p class="meta">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación).</p>
+          <p class="nota-capas">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación).</p>
           <div id="foto-exif-res" aria-live="polite"></div>
           <img id="foto-prev" class="foto-prev" alt="Vista previa de la foto elegida" hidden>
-        </section>
+        </details>
       </details>
       <details class="grupo" id="g-seguimiento" data-grupo="seguimiento">
         <summary class="grupo-tit" data-grupo="seguimiento"><span aria-hidden="true">⭐</span> Seguimiento <span id="seg-total" class="contador"></span></summary>
-        <section class="bloque" data-grupo="seguimiento">
+        <details class="bloque plegable" id="b-seguimiento" data-grupo="seguimiento" open>
+          <summary><h2>Lugares que sigues</h2></summary>
           <p class="nota-capas">Marca "Seguir" en la ficha de un lugar. Se guarda solo en este navegador.</p>
           <ul id="lista-seguimiento" class="lista-seguimiento"><li class="meta">Todavía no sigues ningún lugar.</li></ul>
-        </section>
+        </details>
       </details>
     </aside>
 
