@@ -236,6 +236,13 @@
           <div id="foto-exif-res" aria-live="polite"></div>
           <img id="foto-prev" class="foto-prev" alt="Vista previa de la foto elegida" hidden>
         </details>
+        <details class="bloque plegable" id="b-herr-verif" data-grupo="herramientas">
+          <summary><h2>🛡️ Verificador de mensajes sospechosos</h2></summary>
+          <p class="nota-capas">Pega un SMS, WhatsApp o correo que te parezca raro. Busca señales de fraude, phishing, extorsión telefónica y «secuestro virtual», y revisa sus enlaces. Se analiza solo en tu navegador: no se envía ni se guarda.</p>
+          <form id="verif-form"><textarea id="verif-texto" rows="4" class="verif-texto" placeholder="Ej.: «Tu cuenta BBVA será bloqueada hoy. Confirma tu NIP en bbva-seguridad.xyz»" aria-label="Texto del mensaje"></textarea>
+            <button>Analizar</button></form>
+          <div id="verif-res" aria-live="polite"></div>
+        </details>
       </details>
       <details class="grupo" id="g-seguimiento" data-grupo="seguimiento">
         <summary class="grupo-tit" data-grupo="seguimiento"><span aria-hidden="true">⭐</span> Seguimiento <span id="seg-total" class="contador"></span></summary>

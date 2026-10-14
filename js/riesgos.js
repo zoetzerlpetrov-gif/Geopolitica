@@ -20,7 +20,8 @@ export const BASES = [
 ];
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
-  ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"]];
+  ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
+  ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"]];
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -106,6 +107,46 @@ export const VENTANAS_CRIMEN = [7, 15, 30, 60, 90].map((dias) => ({
       ["Zona", "Celda de ~55 km (posición aproximada)"]], fuente: "GDELT y medios mexicanos" }),
   extra: (p) => { const ns = lista(p.notas); return ns.length ? `<h4>Titulares recientes de la zona (${ns.length})</h4><ul class="fuentes">${ns.map(([t, u, m, f, tipo]) => `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a> <span class="meta">${esc(m)} · ${esc(String(f).slice(0, 10))} · ${esc(tipo)}</span></li>`).join("")}</ul>` : ""; },
   pie: "Conteo de señales de noticias por zona: no son incidentes confirmados ni estadística oficial de delitos. Para cifras oficiales en México, consulta SESNSP e INEGI (ENVIPE).",
+}));
+
+// Criminología: modalidades delictivas detectadas en titulares (crimen.geojson 72 h + eventos de la ingesta).
+// Solo grupos y hechos, nunca personas: no se extraen nombres ni datos personales; se muestra el titular y el enlace.
+export const MODALIDADES = [
+  ["extorsion", "Extorsión y cobro de piso", "#B4451F", /extorsi|cobro de piso|derecho de piso|extortion|racketeer/],
+  ["secuestro", "Secuestro, rapto y desaparición", "#8E1B1B", /secuestr|plagi[oa]|\blevant(on|ad[oa]s?)\b|\brapt|kidnap|abduct|desaparec|desaparicion|missing (person|people|migrants)/],
+  ["fraude", "Fraude, estafas y lavado de dinero", "#C27C1E", /fraude|estafa|\btimo\b|piramidal|ponzi|lavado de dinero|blanqueo|money laundering|\bscam|\bfraud|factureras?|empresas fantasma/],
+  ["ciber", "Ciberdelito: ransomware, phishing, hackeos y sextorsión", "#1F6F8B", /ciberataque|ciberdelit|ransomware|hacke|phishing|malware|filtracion de datos|data breach|cybercrim|cyberattack|cyber attack|sextorsi|sextortion|deepfake|robo de identidad|identity theft/],
+  ["trata", "Trata y tráfico de personas", "#5B3A8E", /trata de personas|trafico de (personas|migrantes)|human trafficking|people smuggling|migrant smuggling|explotacion sexual|polleros?|coyotes? de migrantes/],
+  ["amenazas", "Amenazas, intimidación y ataques a periodistas o autoridades", "#6D4C41", /narcomanta|amenazas? de muerte|amenazan? (a|con matar)|amenazad[oa]s? (de muerte|por)|intimidac|death threats?|threatened to kill|periodista asesinad|journalist killed|ataque a (alcalde|policia|juez|periodista)|cobro de cuota/],
+  ["robo", "Robo, asalto y robo de combustible", "#455A64", /\brobo|asalto|atraco|robber|theft|huachicol|carjack|robo de vehiculo/],
+];
+let fuenteModalidades = null; // {t, fc}: una sola descarga compartida por las 7 capas durante 10 min
+async function titularesDelito() {
+  if (fuenteModalidades && Date.now() - fuenteModalidades.t < 600e3) return fuenteModalidades.fc;
+  const crimen = await getJSON("data/vivos/crimen.geojson", { bust: true }).catch(() => ({ features: [] }));
+  const desde = Date.now() - 7 * 86400e3;
+  const evs = (globalThis.__eventosIngesta || []).filter((e) => Date.parse(e.fecha_utc) >= desde && Number.isFinite(Number(e.lat)) && Number.isFinite(Number(e.lon)) && !String(e.id).startsWith("sintetico"))
+    .map((e) => ({ type: "Feature", geometry: { type: "Point", coordinates: [Number(e.lon), Number(e.lat)] },
+      properties: { title: e.titulo, url: e.url, source: e.fuente, date: e.fecha_utc, lugar: e.pais_iso3 || "", precision: "lugar que menciona la nota", via: "Ingesta horaria del monitor" } }));
+  const vistos = new Set();
+  const fc = { type: "FeatureCollection", features: [...(crimen.features || []), ...evs].filter((f) => f.properties.title && !vistos.has(f.properties.title) && vistos.add(f.properties.title)) };
+  fuenteModalidades = { t: Date.now(), fc };
+  return fc;
+}
+/** Titulares → los de una modalidad (por palabras clave en el título, sin acentos). */
+export function filtrarModalidad(fc, rx) {
+  const norm = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+  return { ...fc, features: (fc.features || []).filter((f) => rx.test(norm(f.properties.title))) };
+}
+export const CAPAS_MODALIDADES = MODALIDADES.map(([id, nombre, color, rx]) => ({
+  id: `mod_${id}`, grupo: "Criminología: modalidades delictivas en noticias", noAmenaza: true, senal: true, nombre: `${nombre} (noticias 72 h a 7 días, verificar)`,
+  fuente: "GDELT, medios mexicanos y medios del monitor", generar: titularesDelito, derivar: (fc) => filtrarModalidad(fc, rx),
+  estilo: () => ({ c: color, r: 5 }),
+  leyenda: [{ c: color, r: 5, t: nombre }, { t: "Titulares que mencionan esta modalidad (palabras clave en español e inglés), ubicados por el lugar que nombran. Es una señal para investigar, no un delito confirmado; no se extraen nombres de personas." }],
+  ficha: (p) => ({ titulo: p.title, chip: `${nombre} · señal de noticias, verifica`,
+    filas: [["Lugar", `${p.lugar || p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (aprox.: ${p.precision})` : ""}`], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
+      ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
+  pie: "Para denunciar en México: 089 (denuncia anónima), 088 (Guardia Nacional, incluye ciberdelitos) y CONDUSEF para fraudes financieros. No sustituye a las autoridades.",
 }));
 
 // Fenómenos anómalos: una capa por clase (todas leen vivos/anomalias.geojson). Van en su propio menú y NO entran a la
@@ -366,6 +407,7 @@ export const CAPAS = [
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
   },
   ...VENTANAS_CRIMEN,
+  ...CAPAS_MODALIDADES,
   {
     id: "zonas_afectadas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Zonas posiblemente afectadas: estados y provincias con eventos graves (48 h)",
     url: "data/zonas_afectadas.geojson", refresco_s: 1800, fuente: "Eventos del monitor (medios y fuentes oficiales) + Natural Earth admin-1",
