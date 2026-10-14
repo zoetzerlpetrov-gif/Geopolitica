@@ -1,6 +1,6 @@
-// Riesgos naturales y clima: capas del proyecto «Clima Táctico» (repositorio WarRoomViajero) dentro de
-// este mapa, sin copiar sus datos. WarRoomViajero los regenera 2 veces al día con GitHub Actions y los
-// publica en su GitHub Pages (mismo dominio que este sitio); aquí solo se leen al activar cada capa.
+// Riesgos naturales y clima: capas del proyecto «Clima Táctico» (repositorio WarRoomViajero) dentro de este mapa.
+// Geopolítica genera su propia copia cada 6 h (tools/clima_tactico, en data/vivos/ct/) para no depender de ese
+// repositorio; si un archivo falta, se lee el de WarRoomViajero. Se leen solo al activar cada capa.
 // Los sismos se piden en vivo a USGS desde el navegador (CORS abierto), como en el mapa original.
 //
 // Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, noticias
@@ -10,7 +10,10 @@ import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta } from "./util.j
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
+// Primero la copia propia (tools/clima_tactico, mismo sitio: más rápida y sin depender de WarRoomViajero); si falta un
+// archivo, el sitio de WarRoomViajero y su repositorio como respaldo.
 export const BASES = [
+  "data/vivos/ct/",
   "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/data/",
   "https://raw.githubusercontent.com/zoetzerlpetrov-gif/WarRoomViajero/main/data/",
 ];

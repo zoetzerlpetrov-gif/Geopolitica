@@ -97,6 +97,9 @@ X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrec
 
 ## Clima y riesgos naturales
 
+> Independencia: Geopolítica genera su propia copia de las capas de Clima Táctico (`tools/clima_tactico/`, copia del generador de WarRoomViajero) cada 6 h en `data/vivos/ct/`, y el mapa la lee primero. WarRoomViajero queda solo como respaldo. Incendios (NASA FIRMS) requiere el secreto `FIRMS_MAP_KEY` en este repositorio; sin él se usa el archivo de WarRoomViajero mientras exista.
+
+
 | Fuente | Qué aporta | Costo | Registro / llave | Licencia / términos | Frecuencia | Estado |
 |---|---|---|---|---|---|---|
 | NOAA tsunami.gov: canales Atom `PHEBAtom.xml` (PTWC, Pacífico) y `PAAQAtom.xml` (NTWC, EUA y Canadá), boletines `.txt` y mapa de tiempos de viaje | Tsunamis: categoría oficial (información, vigilancia, aviso, amenaza, alerta), magnitud, profundidad, zona de amenaza, alturas de ola pronosticadas por costa, horas estimadas de llegada y olas medidas en mareógrafos (cuando el boletín las trae). Frentes de onda estimados cada hora (≈ 700 km/h, cálculo propio) | Gratis | No (robots.txt permite /events/) | Dominio público (gobierno de EUA) | Cada 20 min; eventos vigentes 48 h | Activa |
