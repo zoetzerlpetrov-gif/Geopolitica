@@ -8,6 +8,7 @@
 // velocidad que la Tierra a 35,786 km de altura, encima del Ecuador: desde el suelo parecen fijos.
 // Es su posición real, no un error del mapa.
 import { esc } from "./util.js";
+import { articuloSatelite, huecoImagen } from "./imagen_tipo.js";
 
 const R = 6378.137; // radio ecuatorial (km)
 const MU = 398600.4418; // km³/s²
@@ -131,7 +132,7 @@ export function htmlCatalogo(c) {
 }
 
 /** HTML de la ficha. `orb` puede ser null mientras el worker responde. */
-export function htmlSatelite({ n, norad, grupo, alt, catalogo }, orb) {
+export function htmlSatelite({ n, norad, grupo, st, alt, catalogo }, orb) {
   const e = orb?.elementos;
   const tipo = e ? tipoOrbita(e) : null;
   const lz = e ? lanzamiento(e.designador) : null;
@@ -140,6 +141,7 @@ export function htmlSatelite({ n, norad, grupo, alt, catalogo }, orb) {
   return `<h3 id="ficha-titulo">${esc(n)}</h3>
     <div class="fecha">${esc(grupo)} · NORAD ${esc(norad)}${tipo ? ` · ${esc(tipo.nombre)}` : ""}</div>
     <div class="chips"><span class="chip estado-estimado">Posición calculada (SGP4)</span></div>
+    ${huecoImagen(articuloSatelite(n, st))}
     <dl>
       <dt>Altitud</dt><dd>${num(alt)} km</dd>
       ${e?.vel_kms ? `<dt>Velocidad</dt><dd>${num(e.vel_kms, 2)} km/s · ${num(e.vel_kms * 3600)} km/h</dd>` : ""}

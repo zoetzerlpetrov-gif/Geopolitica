@@ -12,6 +12,7 @@
 // Privacidad: no se muestra propietario ni tripulación.
 import { getJSON, esc } from "./util.js";
 import { cardinal } from "./vuelos.js";
+import { articuloBuque, huecoImagen } from "./imagen_tipo.js";
 
 export const SIN_TRAYECTORIA = new Set(["vela_recreo"]);
 
@@ -120,6 +121,7 @@ export function htmlBuque(b, extra, { subtipoNombre, edadMin }) {
     <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>
       ${b.subtipo === "sancionados" ? `<span class="chip alerta alerta-FLASH">IMO en lista SDN (OFAC)</span>` : ""}
       ${sart ? `<span class="chip alerta alerta-FLASH">${esc(est)}</span>` : ""}</div>
+    ${huecoImagen(articuloBuque(b.subtipo, b.tipo_ais))}
     ${destino}
     <dl>
       ${b.edad_s > 300 ? `<dt>Última señal</dt><dd>hace ${num(Math.round(b.edad_s / 60 + (edadMin || 0)))} min (no se oyó en la última ventana; en zonas con pocas antenas es normal)</dd>` : ""}
