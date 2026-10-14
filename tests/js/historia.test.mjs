@@ -38,3 +38,30 @@ test("ficha con atribución CC BY-SA y enlaces", () => {
   assert.match(html, /&lt;b&gt;/);  // el extracto se escapa
   assert.match(html, /Historia_de_M%C3%A9xico#Virreinato/);
 });
+
+test("listas representativas: une secciones y cronología, elige por Wikipedias y ordena por fecha", async () => {
+  const H = await import("../../js/historia.js");
+  const hs = H.hechos([["Q1", "Guerra de Reforma", "+1857-12-17T00:00:00Z", 11, "guerra", "Guerra de Reforma", 30],
+    ["Q2", "Terremoto de 1985", "+1985-09-19T00:00:00Z", 11, "terremoto", "", 40]]);
+  const l = H.listaRepresentativa([["Q3", "Revolución mexicana", "+1910-11-20T00:00:00Z", "revolución", "Revolución mexicana", 90],
+    ["Q4", "Q4", "", "guerra", "", 99], ["Q5", "Guerra menor", "+1700-01-01T00:00:00Z", "guerra", "", 1]],
+    hs, new Set(["guerra", "revolución"]), 2);
+  assert.deepEqual(l.elegidos.map((x) => x.nombre), ["Guerra de Reforma", "Revolución mexicana"]); // sin terremoto ni «Q4»; corta por n y ordena por fecha
+  assert.equal(l.total, 3);
+  assert.match(l.elegidos[1].url, /es\.wikipedia\.org\/wiki\/Revoluci%C3%B3n_mexicana/);
+  const o = H.listaOrganismos([["Q1065", "Organización de las Naciones Unidas", "+1945-11-07T00:00:00Z", "Organización de las Naciones Unidas", 300],
+    ["Q7809", "UNESCO", "", "", 200], ["Q1065", "duplicado", "", "", 1]]);
+  assert.deepEqual(o.map((x) => x.nombre), ["Organización de las Naciones Unidas", "UNESCO"]);
+  assert.equal(o[0].desde, "1945");
+  assert.match(o[1].url, /wikidata\.org\/wiki\/Q7809/);
+});
+
+test("ficha de historia con secciones de conflictos, tratados y organismos", async () => {
+  const H = await import("../../js/historia.js");
+  const c = { elegidos: [{ id: "Q3", nombre: "Revolución <x>", fecha: "1910", tipo: "revolución", url: "https://es.wikipedia.org/wiki/R" }], total: 5 };
+  const h = H.htmlHistoria("México", { articulo: null, hechos: [], conflictos: c, tratados: { elegidos: [], total: 0 }, organismos: [{ nombre: "ONU", desde: "1945", url: "u" }], wpError: null, errores: [] });
+  assert.match(h, /Guerras, conflictos, revoluciones e independencia \(1 más relevantes de 5\)/);
+  assert.match(h, /Revolución &lt;x&gt;/);
+  assert.doesNotMatch(h, /Tratados y acuerdos/); // vacía: no se muestra
+  assert.match(h, /Organismos y alianzas de los que es miembro \(1\)/);
+});
