@@ -237,6 +237,20 @@
    "licencia": "Uso libre citando la fuente (Global Volcanism Program, Smithsonian Institution)",
    "uso_comercial": true,
    "licencia_verificada": true
+  },
+  "shf": {
+   "nombre": "SHF, Sociedad Hipotecaria Federal: indicadores de inmuebles valuados de vivienda",
+   "url": "https://www.gob.mx/shf/documentos/indicadores-sociedad-hipotecaria-federal",
+   "licencia": "Información pública del Gobierno de México; se cita a SHF como fuente",
+   "uso_comercial": true,
+   "licencia_verificada": false
+  },
+  "inmueblewarroom": {
+   "nombre": "InmuebleWarRoom (repositorio propio de la cuenta)",
+   "url": "https://github.com/zoetzerlpetrov-gif/inmueblewarroom",
+   "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+   "uso_comercial": false,
+   "licencia_verificada": true
   }
  },
  "categorias": [
@@ -4353,6 +4367,348 @@
       "geoeconomia"
      ],
      "familia": "nodos_bitcoin"
+    },
+    {
+     "id": "inm_vivienda",
+     "nombre": {
+      "es": "Vivienda (todas)",
+      "en": "Housing (all)"
+     },
+     "icono": "▦",
+     "color": "#B2182B",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_casas",
+     "nombre": {
+      "es": "Casas",
+      "en": "Houses"
+     },
+     "icono": "▦",
+     "color": "#D6604D",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_departamentos",
+     "nombre": {
+      "es": "Departamentos",
+      "en": "Apartments"
+     },
+     "icono": "▦",
+     "color": "#F4A582",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_terrenos",
+     "nombre": {
+      "es": "Terrenos",
+      "en": "Land"
+     },
+     "icono": "▦",
+     "color": "#8C6D31",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_oficinas",
+     "nombre": {
+      "es": "Oficinas",
+      "en": "Offices"
+     },
+     "icono": "▦",
+     "color": "#4393C3",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_locales",
+     "nombre": {
+      "es": "Locales comerciales",
+      "en": "Retail premises"
+     },
+     "icono": "▦",
+     "color": "#2166AC",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_oficinas_locales",
+     "nombre": {
+      "es": "Oficinas y locales",
+      "en": "Offices and retail"
+     },
+     "icono": "▦",
+     "color": "#5E81AC",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_bodegas",
+     "nombre": {
+      "es": "Industriales y bodegas",
+      "en": "Industrial and warehouses"
+     },
+     "icono": "▦",
+     "color": "#7F7F7F",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "inm_comercial",
+     "nombre": {
+      "es": "Comercial (todos los tipos)",
+      "en": "Commercial (all types)"
+     },
+     "icono": "▦",
+     "color": "#053061",
+     "fuente": "bis",
+     "licencia": "Reutilizable citando al BIS como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_pais"
+    },
+    {
+     "id": "mx_casa",
+     "nombre": {
+      "es": "Casa",
+      "en": "House"
+     },
+     "icono": "▦",
+     "color": "#B2182B",
+     "fuente": "shf",
+     "licencia": "Información pública del Gobierno de México; se cita a SHF como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_mx"
+    },
+    {
+     "id": "mx_departamento",
+     "nombre": {
+      "es": "Departamento",
+      "en": "Apartment"
+     },
+     "icono": "▦",
+     "color": "#F4A582",
+     "fuente": "shf",
+     "licencia": "Información pública del Gobierno de México; se cita a SHF como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_mx"
+    },
+    {
+     "id": "mx_condominio",
+     "nombre": {
+      "es": "Condominio",
+      "en": "Condominium"
+     },
+     "icono": "▦",
+     "color": "#D6604D",
+     "fuente": "shf",
+     "licencia": "Información pública del Gobierno de México; se cita a SHF como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_mx"
+    },
+    {
+     "id": "mx_economica",
+     "nombre": {
+      "es": "Vivienda económica y social",
+      "en": "Low-income housing"
+     },
+     "icono": "▦",
+     "color": "#92C5DE",
+     "fuente": "shf",
+     "licencia": "Información pública del Gobierno de México; se cita a SHF como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_mx"
+    },
+    {
+     "id": "mx_media_residencial",
+     "nombre": {
+      "es": "Vivienda media y residencial",
+      "en": "Middle and high-end housing"
+     },
+     "icono": "▦",
+     "color": "#2166AC",
+     "fuente": "shf",
+     "licencia": "Información pública del Gobierno de México; se cita a SHF como fuente",
+     "frecuencia": "trimestral",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_mx"
+    },
+    {
+     "id": "inm_riesgo_bajo",
+     "nombre": {
+      "es": "Riesgo bajo",
+      "en": "Low risk"
+     },
+     "icono": "●",
+     "color": "#3ddc84",
+     "fuente": "inmueblewarroom",
+     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_seguimiento"
+    },
+    {
+     "id": "inm_riesgo_moderado",
+     "nombre": {
+      "es": "Riesgo moderado",
+      "en": "Moderate risk"
+     },
+     "icono": "●",
+     "color": "#f5d547",
+     "fuente": "inmueblewarroom",
+     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_seguimiento"
+    },
+    {
+     "id": "inm_riesgo_medio",
+     "nombre": {
+      "es": "Riesgo medio-alto",
+      "en": "Medium-high risk"
+     },
+     "icono": "●",
+     "color": "#ff9d2f",
+     "fuente": "inmueblewarroom",
+     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_seguimiento"
+    },
+    {
+     "id": "inm_riesgo_alto",
+     "nombre": {
+      "es": "Riesgo alto",
+      "en": "High risk"
+     },
+     "icono": "●",
+     "color": "#ff4d4d",
+     "fuente": "inmueblewarroom",
+     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_seguimiento"
     }
    ]
   },

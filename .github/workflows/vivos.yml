@@ -116,6 +116,11 @@ jobs:
         timeout-minutes: 2
         run: python3 tools/espacio/lanzamientos.py
 
+      - name: Fenómenos anómalos (TrackAlien, NUFORC y catálogo propio; cada 6 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/anomalias/anomalias.py
+
       - name: Mes en curso (llave de la caché de DB-IP)
         run: echo "MES=$(date -u +%Y-%m)" >> "$GITHUB_ENV"
 
