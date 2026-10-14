@@ -48,6 +48,23 @@ def test_trackalien_historicos_sin_nuforc_y_con_nivel():
     assert [(f["properties"]["titulo"], f["properties"]["nivel"]) for f in r] == [("Roswell", "oficial"), ("Campeche", "oficial")]
 
 
+def test_tipo_de_fenomeno_como_trackalien():
+    # El tipo de origen se respeta si es específico; «ufo» genérico se afina con el título.
+    assert A.tipo_por_texto("Luces extrañas en el cielo de Monterrey", "ufo") == "lights_sky"
+    assert A.tipo_por_texto("Captan cilindro volador cerca del volcán Popocatépetl") == "volcano"
+    assert A.tipo_por_texto("Objeto sumergido frente a Veracruz", "ufo") == "uso"
+    assert A.tipo_por_texto("Apagón tras avistamiento en Puebla", "ufo") == "em"
+    assert A.tipo_por_texto("Crop circle appears in Wiltshire", "ufo") == "crop"
+    assert A.tipo_por_texto("Captan OVNI sobrevolando la CDMX", "ufo") == "ufo"
+    assert A.tipo_por_texto("Luces en el cielo", "contact") == "contact"
+    # Las notas agrupadas por país conservan los tipos que contienen.
+    fs = [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [-102, 23]}, "properties": {
+        "titulo": t, "tipo": tipo, "fecha": "2026-10-0" + str(i), "precision": "país", "lugar": "México", "url": "https://x/" + str(i), "fuente": "Medio"}}
+        for i, (t, tipo) in enumerate((("Luces extrañas", "lights_sky"), ("OVNI visto", "ufo"), ("Otro OVNI", "ufo")), 1)]
+    g = A.agrupar_por_pais(fs)
+    assert len(g) == 1 and g[0]["properties"]["tipos"] == ["lights_sky", "ufo"]
+
+
 def test_densidad_nuforc_solo_conteos_y_sin_celdas_pequenas():
     filas = ["10/10/1999 20:30,seattle,wa,us,light,60,1 min,\"texto del testigo\",1/1/2000,47.6,-122.3"] * 4
     filas += ["10/10/2001 20:30,seattle,wa,us,disk,60,1 min,\"otro texto\",1/1/2002,47.61,-122.33"]
