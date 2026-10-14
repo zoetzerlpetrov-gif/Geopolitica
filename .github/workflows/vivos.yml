@@ -23,7 +23,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20  # con Clima Táctico (cada 6 h) la corrida larga dura ~12 min
     steps:
       - uses: actions/checkout@v4
 
