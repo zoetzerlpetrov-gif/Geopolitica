@@ -29,6 +29,31 @@ const fecha = (t) => { const d = new Date(t); return Number.isNaN(d.getTime()) ?
  * Capas. `archivos` se buscan en BASES; `url` es una fuente en vivo. `estilo(props, geom)` devuelve
  * {c: color, r: radio}; `ficha(props)` devuelve {titulo, chip, filas:[[etiqueta, valor]], url, fuente}.
  */
+// Trenes en circulación: una capa por red (todas leen vivos/trenes.geojson). Van en el menú «En movimiento → Trenes».
+export const REDES_TREN = [
+  ["finlandia", "Finlandia: todos los trenes (Fintraffic)", "Pasajeros, cercanías y carga, con GPS. Licencia CC BY 4.0."],
+  ["noruega", "Noruega: trenes de pasajeros (Entur)", "Vy, Go-Ahead, SJ Norge y Flytoget. Licencia NLOD."],
+  ["irlanda", "Irlanda: trenes en marcha (Irish Rail)", "Intercity, DART y cercanías, con retraso si lo hay."],
+  ["boston", "EUA · Boston: trenes de cercanías (MBTA)", "Commuter Rail de Massachusetts."],
+  ["filadelfia", "EUA · Filadelfia: trenes regionales (SEPTA)", "Regional Rail, con retraso en minutos."],
+];
+function capaTrenes(red, nombre, nota) {
+  return {
+    id: `trenes_${red}`, grupo: "Trenes", menu: "trenes", nombre, url: "data/vivos/trenes.geojson", refresco_s: 1200,
+    fuente: { finlandia: "Fintraffic / Digitraffic (CC BY 4.0)", noruega: "Entur (NLOD)", irlanda: "Irish Rail", boston: "MBTA V3 API", filadelfia: "SEPTA TrainView" }[red],
+    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.red === red) }),
+    estilo: (p) => ({ c: p.categoria === "Larga distancia" ? "#1F6FB2" : p.categoria === "Carga" ? "#8D6E63" : ["Maniobras", "Maquinaria de vía", "Prueba", "Locomotora sola"].includes(p.categoria) ? C.gris : (p.retraso_min ?? 0) >= 10 ? C.naranja : "#2E9E6E", r: 5 }),
+    etiqueta: (p) => (p.categoria === "Larga distancia" || red === "irlanda" ? `${p.tipo ? `${p.tipo} ` : ""}${p.numero}` : ""),
+    leyenda: [{ c: "#1F6FB2", r: 5, t: "Larga distancia" }, { c: "#2E9E6E", r: 5, t: "Pasajeros o cercanías" }, { c: C.naranja, r: 5, t: "Con 10 min o más de retraso" },
+      { c: "#8D6E63", r: 5, t: "Carga" }, { c: C.gris, r: 5, t: "Maniobras, maquinaria o prueba" }, { t: `${nota} Se actualiza cada ~20 min.` }],
+    ficha: (p) => ({ titulo: `Tren ${p.tipo || ""} ${p.numero}`.replace(/\s+/g, " "), chip: [p.categoria, p.operador].filter(Boolean).join(" · ") || "tren",
+      filas: [...(p.linea ? [["Línea o ruta", p.linea]] : []), ...(p.origen ? [["Origen", p.origen]] : []), ...(p.destino ? [["Destino", p.destino]] : []),
+        ...(p.vel_kmh != null ? [["Velocidad", `${p.vel_kmh} km/h`]] : []), ...(p.retraso_min != null ? [["Retraso", `${p.retraso_min} min`]] : []),
+        ...(p.estado ? [["Estado", p.estado]] : []), ["Posición de", p.hora ? fecha(p.hora) : "—"]],
+      url: p.url, fuente: p.fuente }),
+  };
+}
+
 export const CAPAS = [
   {
     id: "sismos", grupo: "Desastres naturales", nombre: "Sismos M2.5+ (24 h, en vivo)", url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_day.geojson",
@@ -244,17 +269,7 @@ export const CAPAS = [
     ficha: (p) => ({ titulo: `${p.categoria_texto} · aviso ${p.id}`, chip: p.zona, filas: [["Emitido", p.emitido || "—"], ["Autoridad", p.autoridad || "—"], ["Texto del aviso (inglés)", p.texto]],
       url: p.url, fuente: "NGA Maritime Safety Information (dominio público)" }),
   },
-  {
-    id: "trenes", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Trenes en circulación en tiempo real (Finlandia)", url: "data/vivos/trenes.geojson", refresco_s: 1200,
-    fuente: "Fintraffic / Digitraffic (CC BY 4.0)",
-    estilo: (p) => ({ c: { "Larga distancia": "#1F6FB2", Cercanías: "#2E9E6E", Carga: "#8D6E63" }[p.categoria] || C.gris, r: 5 }),
-    etiqueta: (p) => (p.categoria === "Larga distancia" ? `${p.tipo} ${p.numero}` : ""),
-    leyenda: [{ c: "#1F6FB2", r: 5, t: "Larga distancia (InterCity, Pendolino)" }, { c: "#2E9E6E", r: 5, t: "Cercanías" }, { c: "#8D6E63", r: 5, t: "Carga" }, { c: C.gris, r: 5, t: "Maniobras, maquinaria o prueba" },
-      { t: "Finlandia es de los pocos países que publican la posición GPS de todos sus trenes sin registro. Las vías del mundo están en «Capas → Infraestructura → Vías férreas»; los accidentes y descarrilamientos, en la subcategoría «Trenes» de Infraestructura. Se actualiza cada ~20 min." }],
-    ficha: (p) => ({ titulo: `Tren ${p.tipo || ""} ${p.numero}`, chip: p.categoria || "tren",
-      filas: [["Operador", p.operador || "—"], ["Salió de", p.origen || "—"], ["Velocidad", p.vel_kmh != null ? `${p.vel_kmh} km/h` : "—"], ["Posición de", p.hora ? fecha(p.hora) : "—"]],
-      url: p.url, fuente: p.fuente }),
-  },
+  ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
   {
     id: "perturbaciones", grupo: "Desastres naturales", nombre: "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
     url: "data/vivos/perturbaciones.geojson", refresco_s: 1800, fuente: "NOAA NHC, Perspectiva del Tiempo Tropical",

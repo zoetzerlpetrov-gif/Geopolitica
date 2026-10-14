@@ -94,7 +94,8 @@ def noruega_graphql(d):
             continue
         linea = v.get("line") or {}
         op = (v.get("operator") or {}).get("operatorRef") or ""
-        out.append(tren("noruega", "NOR", v.get("vehicleId"), loc["longitude"], loc["latitude"], tipo=linea.get("publicCode"),
+        num = re.sub(r"-\d{4}-\d{2}-\d{2}$", "", str(v.get("vehicleId") or ""))   # «525-2026-10-14» → tren 525
+        out.append(tren("noruega", "NOR", num, loc["longitude"], loc["latitude"], tipo=linea.get("publicCode"),
                         categoria="Pasajeros", operador=OPERADOR_NO.get(op.split(":")[0], op), linea=linea.get("lineName"),
                         vel_kmh=round(v["speed"] * 3.6) if v.get("speed") is not None else None, hora=v.get("lastUpdated"),
                         url="https://entur.no/", fuente="Entur (NLOD)"))
