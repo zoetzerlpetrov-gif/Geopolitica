@@ -29,10 +29,14 @@ API = "https://msi.nga.mil/api/publications/broadcast-warn?output=json&status=A"
 CATEGORIAS = [
     ("pirateria", "Piratería, robo armado o ataque", 4, r"PIRAC|PIRATE|ARMED ROBBERY|HIJACK|BOARDED|BOARDING|ATTACK|SUSPICIOUS APPROACH|SUSPICIOUS VESSEL|SKIFF"),
     ("minas_misiles", "Minas, misiles o explosivos", 4, r"\bMINES?\b|MINEFIELD|MISSILE|UNEXPLODED|ORDNANCE|EXPLOSIVE"),
-    ("rescate", "Embarcación a la deriva, naufragio o búsqueda y rescate", 3, r"ADRIFT|DERELICT|CAPSIZED|SUNK|SANK|MAN OVERBOARD|PERSONS? IN (?:THE )?WATER|OVERDUE|MISSING|DISTRESS|SEARCH AND RESCUE|\bSAR\b|ABANDONED"),
+    ("rescate", "Embarcación a la deriva, naufragio o búsqueda y rescate", 3, r"ADRIFT|DERELICT|CAPSIZED|SUNK|SANK|MAN OVERBOARD|PERSONS? IN (?:THE )?WATER|OVERDUE|MISSING|DISTRESS|SEARCH AND RESCUE|\bSAR\b"),
     ("gnss", "Interferencia de GPS / GNSS", 3, r"\bGPS\b|\bGNSS\b|JAMMING|INTERFERENCE|SPOOFING"),
     ("militar_espacial", "Tiro, ejercicios militares, cohetes o restos espaciales", 2, r"GUNNERY|LIVE FIR|FIRING EXERCISE|MILITARY EXERCISE|NAVAL EXERCISE|ROCKET|SPACE DEBRIS|HAZARDOUS OPERATIONS|LAUNCH"),
 ]
+# La NGA mantiene «vigentes» avisos de socorro de hace años si nadie los cancela: los de rescate y piratería solo se
+# muestran si se emitieron en los últimos días; minas, zonas militares y GNSS siguen valiendo mientras estén vigentes.
+EDAD_MAX_DIAS = {"rescate": 30, "pirateria": 90}
+MESES = {m: i for i, m in enumerate(("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"), 1)}
 COORD = re.compile(r"(\d{1,2})-(\d{1,2}(?:\.\d+)?)\s*([NS])\s+(\d{1,3})-(\d{1,2}(?:\.\d+)?)\s*([EW])")
 ZONAS = {"P": "HYDROPAC (Pacífico)", "A": "HYDROLANT (Atlántico)", "C": "HYDROARC (Ártico)", "4": "NAVAREA IV (Atlántico occidental y Caribe)",
          "12": "NAVAREA XII (Pacífico oriental)"}
@@ -48,6 +52,18 @@ def coordenadas(texto):
     return out
 
 
+def fecha_emision(s):
+    """«221325Z SEP 2023» → datetime UTC, o None."""
+    m = re.match(r"(\d{2})(\d{2})(\d{2})Z (\w{3}) (\d{4})", str(s or "").strip())
+    if not m or m.group(4).upper() not in MESES:
+        return None
+    d, h, mi, mes, a = m.groups()
+    try:
+        return datetime(int(a), MESES[mes.upper()], int(d), int(h), int(mi), tzinfo=timezone.utc)
+    except ValueError:
+        return None
+
+
 def categoria(texto):
     for cid, nombre, sev, patron in CATEGORIAS:
         if re.search(patron, texto):
@@ -55,16 +71,20 @@ def categoria(texto):
     return None
 
 
-def a_features(aviso):
+def a_features(aviso, ahora=None):
     texto = aviso.get("text") or ""
     cat = categoria(texto)
     pts = coordenadas(texto)
     if not cat or not pts:
         return []
     cid, nombre, sev = cat
+    emitido = fecha_emision(aviso.get("issueDate"))
+    limite = EDAD_MAX_DIAS.get(cid)
+    if limite and emitido and ((ahora or datetime.now(timezone.utc)) - emitido).days > limite:
+        return []
     ident = f"{aviso.get('navArea')} {aviso.get('msgNumber')}/{aviso.get('msgYear')}"
     props = {"id": ident, "categoria": cid, "categoria_texto": nombre, "sev": sev, "zona": ZONAS.get(str(aviso.get("navArea")), f"NAVAREA {aviso.get('navArea')}"),
-             "subregion": aviso.get("subregion") or "", "emitido": aviso.get("issueDate") or "", "autoridad": aviso.get("authority") or "",
+             "subregion": aviso.get("subregion") or "", "emitido": emitido.strftime("%Y-%m-%dT%H:%MZ") if emitido else (aviso.get("issueDate") or ""), "autoridad": aviso.get("authority") or "",
              "texto": re.sub(r"\s+", " ", texto).strip()[:1200], "url": "https://msi.nga.mil/NavWarnings", "fuente": "NGA Maritime Safety Information"}
     feats = []
     if len(pts) >= 3 and re.search(r"BOUND|AREA|WITHIN", texto) and pts[0] != pts[-1]:

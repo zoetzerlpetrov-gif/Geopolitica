@@ -36,6 +36,19 @@ def iso(t):
     return datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
+def pedir(url, intentos=2):
+    """GET con un reintento: adsb.lol a veces tarda más de 40 s en responder."""
+    for i in range(intentos):
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": F.UA})
+            with urllib.request.urlopen(req, timeout=40) as r:
+                return json.loads(r.read())
+        except Exception:  # noqa: BLE001
+            if i == intentos - 1:
+                raise
+            time.sleep(5)
+
+
 def de_adsblol(a, codigo, t):
     """Aeronave de adsb.lol → registro, o None (sin posición o con privacidad pedida)."""
     if a.get("lat") is None or a.get("lon") is None or (a.get("dbFlags") or 0) & 12:
@@ -112,9 +125,7 @@ def main():
     for codigo in CODIGOS:
         url = f"https://api.adsb.lol/v2/sqk/{codigo}"
         try:
-            req = urllib.request.Request(url, headers={"User-Agent": F.UA})
-            with urllib.request.urlopen(req, timeout=40) as r:
-                d = json.loads(r.read())
+            d = pedir(url)
             vistos = [x for x in (de_adsblol(a, codigo, t) for a in d.get("ac") or []) if x]
             nuevas += vistos
             estado[f"adsb.lol {codigo}"] = len(vistos)
