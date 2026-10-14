@@ -406,6 +406,7 @@ async function cargarEventos() {
   const n = Number(new URLSearchParams(location.search).get("carga"));
   if (n > 0) eventos = eventos.concat(eventosSinteticos(Math.min(n, 200000)));
   for (const ev of eventos) ev._t = Date.parse(ev.fecha_utc); // para la línea de tiempo (no se publica)
+  globalThis.__eventosIngesta = data.eventos; // señales de seguridad del mundo en js/riesgos.js (sin otra descarga)
   if (historialEv.length) {
     const ids = new Set(eventos.map((e) => e.id));
     eventos = eventos.concat(historialEv.filter((e) => !ids.has(e.id)));

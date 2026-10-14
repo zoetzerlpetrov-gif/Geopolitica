@@ -58,6 +58,56 @@ function capaTrenes(red, nombre, nota) {
   };
 }
 
+// Eventos de la ingesta horaria (app.js los deja en globalThis.__eventosIngesta al cargarlos) para las señales del mundo.
+/** Eventos del área «seguridad», severidad 3 o más, últimas 72 h, con coordenadas → puntos de la capa de señales. */
+export function seguridadMundo(evs, ahora = Date.now()) {
+  const desde = ahora - 72 * 3600e3;
+  return (evs || []).filter((e) => e.area_principal === "seguridad" && Number(e.severidad) >= 3 && Date.parse(e.fecha_utc) >= desde
+    && Number.isFinite(Number(e.lat)) && Number.isFinite(Number(e.lon)) && !e._sintetico)
+    .map((e) => ({ type: "Feature", geometry: { type: "Point", coordinates: [Number(e.lon), Number(e.lat)] }, properties: {
+      title: e.titulo, kind: Number(e.severidad) >= 4 ? "GRAVE" : "SEGURIDAD", state: e.pais_iso3 || "", precision: "lugar que menciona la nota",
+      source: e.fuente, date: e.fecha_utc, url: e.url, via: "Ingesta horaria del monitor (medios del mundo)" } }));
+}
+
+// Crimen organizado, narcotráfico, mafias, terrorismo y grupos armados en noticias: ventanas de 7 a 90 días.
+// Todas leen vivos/crimen_90d.geojson (conteo diario por celda de ~55 km, tools/crimen/historial.py).
+export const COLOR_CRIMEN = { Terrorismo: "#8E1B1B", Narcotráfico: "#B4451F", Mafia: "#5B3A8E", "Crimen organizado": "#C27C1E",
+  "Grupo armado": "#6D4C41", "Grupo rebelde": "#455A64", Insurgencia: "#37474F", Separatistas: "#546E7A" };
+/** Suma por celda lo de los últimos `dias` días (hasta hoy). Celdas sin notas en la ventana se quitan. */
+export function ventanaCrimen(fc, dias, hoy = new Date()) {
+  const base = Date.parse(`${fc.base}T00:00:00Z`);
+  if (!Number.isFinite(base)) return { ...fc, features: [] };
+  const hoyI = Math.floor((Date.UTC(hoy.getUTCFullYear(), hoy.getUTCMonth(), hoy.getUTCDate()) - base) / 86400000);
+  const desde = hoyI - dias + 1;
+  const desdeIso = new Date(base + desde * 86400000).toISOString().slice(0, 10);
+  const tipos = fc.tipos || [];
+  const features = [];
+  for (const f of fc.features || []) {
+    const por = {};
+    let n = 0;
+    for (const [i, t, k] of f.properties.d || []) if (i >= desde && i <= hoyI) { por[tipos[t]] = (por[tipos[t]] || 0) + k; n += k; }
+    if (!n) continue;
+    const dominante = Object.entries(por).sort((a, b) => b[1] - a[1])[0][0];
+    features.push({ ...f, properties: { ...f.properties, n, por, dominante, dias, notas: (f.properties.notas || []).filter((x) => String(x[3]).slice(0, 10) >= desdeIso) } });
+  }
+  return { ...fc, features };
+}
+export const VENTANAS_CRIMEN = [7, 15, 30, 60, 90].map((dias) => ({
+  id: `crimen_${dias}d`, grupo: "Seguridad y ataques", noAmenaza: true, url: "data/vivos/crimen_90d.geojson", refresco_s: 3600,
+  nombre: `Crimen organizado, narcotráfico, mafias y terrorismo en noticias: últimos ${dias} días (conteo por zona)`,
+  fuente: "GDELT y medios mexicanos (conteo de señales de noticias)",
+  derivar: (fc) => ventanaCrimen(fc, dias),
+  estilo: (p) => ({ c: COLOR_CRIMEN[p.dominante] || C.rojo, r: Math.min(20, 3 + Math.sqrt(p.n) * 1.6) }),
+  etiqueta: (p) => (p.n >= 10 ? String(p.n) : ""),
+  leyenda: [...Object.entries(COLOR_CRIMEN).slice(0, 5).map(([t, c]) => ({ c, r: 5, t: `Predomina: ${t}` })), { c: C.gris, r: 4, t: "Pocas notas" }, { c: C.gris, r: 14, t: "Muchas notas" },
+    { t: `Cuántas notas de noticias mencionaron crimen organizado, narcotráfico, mafias, terrorismo o grupos armados en cada zona de ~55 km en los últimos ${dias} días. Mide cobertura en medios, no delitos denunciados: los países con más medios en GDELT aparecen más. El historial empezó a acumularse en octubre de 2026.` }],
+  ficha: (p) => ({ titulo: `${p.lugar || "Zona"}: ${p.n} nota${p.n === 1 ? "" : "s"} en ${dias} días`, chip: `Predomina: ${p.dominante} · conteo de noticias, verifica`,
+    filas: [...Object.entries(p.por).sort((a, b) => b[1] - a[1]).map(([t, k]) => [t, `${k} nota${k === 1 ? "" : "s"}`]), ...(p.pais ? [["País", p.pais]] : []),
+      ["Zona", "Celda de ~55 km (posición aproximada)"]], fuente: "GDELT y medios mexicanos" }),
+  extra: (p) => { const ns = lista(p.notas); return ns.length ? `<h4>Titulares recientes de la zona (${ns.length})</h4><ul class="fuentes">${ns.map(([t, u, m, f, tipo]) => `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a> <span class="meta">${esc(m)} · ${esc(String(f).slice(0, 10))} · ${esc(tipo)}</span></li>`).join("")}</ul>` : ""; },
+  pie: "Conteo de señales de noticias por zona: no son incidentes confirmados ni estadística oficial de delitos. Para cifras oficiales en México, consulta SESNSP e INEGI (ENVIPE).",
+}));
+
 // Fenómenos anómalos: una capa por clase (todas leen vivos/anomalias.geojson). Van en su propio menú y NO entran a la
 // lista de amenazas, a los filtros de severidad ni al sonido de avisos: son reportes, no riesgos.
 export const NIVELES_ANOM = {
@@ -249,13 +299,14 @@ export const CAPAS = [
       { t: "La severidad 1–5 sale de la alerta oficial: Verde 1, Amarillo F1 2, F2 3, F3 4, Rojo 5 (USGS: NORMAL 1, ADVISORY 2, WATCH 4, WARNING 5)." }],
   },
   {
-    id: "seguridad", grupo: "Seguridad y ataques", nombre: "Señales de seguridad en noticias (verificar)", archivos: ["security_map.geojson"], fuente: "Google News / GDELT",
-    // Además se ubican los titulares del feed de seguridad por la ciudad o el estado que mencionan (como en Clima Táctico).
+    id: "seguridad", grupo: "Seguridad y ataques", nombre: "Señales de seguridad en noticias: México y mundo (verificar)", archivos: ["security_map.geojson"], fuente: "Google News / GDELT y medios del monitor",
+    // México: mapa y titulares de seguridad (como en Clima Táctico), ubicados por la ciudad o el estado que mencionan.
+    // Mundo: eventos de seguridad de la ingesta horaria (ya descargados por la app; no se pide nada más).
     complementar: async (fc, leer) => {
       const [feed, estados] = await Promise.all([leer("security_feed.json").catch(() => null), getJSON("config/mx_estados.json").catch(() => null)]);
-      if (!feed || !estados) return fc;
       const ya = new Set(fc.features.map((f) => f.properties.title));
-      return { ...fc, features: [...fc.features, ...feedAPuntos(feed.items, estados).filter((f) => !ya.has(f.properties.title))] };
+      const extra = feed && estados ? feedAPuntos(feed.items, estados) : [];
+      return { ...fc, features: [...fc.features, ...[...extra, ...seguridadMundo(globalThis.__eventosIngesta)].filter((f) => !ya.has(f.properties.title) && ya.add(f.properties.title))] };
     },
     estilo: () => ({ c: C.rojo, r: 5 }), senal: true,
     ficha: (p) => ({ titulo: p.title, chip: `${p.kind || "SEÑAL"} · señal de noticias, verifica`,
@@ -314,6 +365,7 @@ export const CAPAS = [
         ...(p.actores ? [["Actores (GDELT)", p.actores]] : []), ...(p.cameo ? [["Código CAMEO", p.cameo]] : []), ["Medio", p.source || "—"],
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
   },
+  ...VENTANAS_CRIMEN,
   {
     id: "zonas_afectadas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Zonas posiblemente afectadas: estados y provincias con eventos graves (48 h)",
     url: "data/zonas_afectadas.geojson", refresco_s: 1800, fuente: "Eventos del monitor (medios y fuentes oficiales) + Natural Earth admin-1",

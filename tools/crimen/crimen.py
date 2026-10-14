@@ -31,6 +31,8 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 from classify import normalizar  # noqa: E402
 from geo import Gazetteer  # noqa: E402
 import fuentes as F  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import historial  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "crimen.geojson")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
@@ -422,6 +424,13 @@ def main():
     except Exception as e:  # noqa: BLE001
         errores.append(f"RSS México: {e}"[:160])
     fc = guardar(OUT, crimen, 72, "GDELT y medios mexicanos (señales de noticias, verificar)", {"errores": errores, "fuentes_mx": fuentes_mx}, clase="crimen")
+    # Historial de 90 días (conteos por celda y día) para las capas de 7 a 90 días.
+    ruta_h = os.path.join(os.path.dirname(OUT), "crimen_90d.geojson")
+    try:
+        h = historial.guardar(ruta_h, historial.leer(ruta_h), fc)
+        print(f"crimen: historial de 90 días con {len(h['features'])} celdas")
+    except Exception as e:  # noqa: BLE001  el historial no debe tumbar la capa de 72 h
+        errores.append(f"historial 90 días: {e}"[:160])
     fa = guardar(os.path.join(os.path.dirname(OUT), "ataques.geojson"), ataques, 48, "GDELT 2.0 (códigos CAMEO de ataque) y medios mexicanos", clase="ataque")
     fd = guardar(os.path.join(os.path.dirname(OUT), "deslaves.geojson"), deslaves, 72, "Medios mexicanos (titulares, verificar)", clase="deslave")
     print(f"crimen: {len(fc)} señales ({sum(1 for f in fc if f['properties']['pais_iso3'] == 'MEX')} en México); ataques: {len(fa)}; deslaves: {len(fd)}; errores: {errores}")
