@@ -29,3 +29,26 @@ for (const nombre of ["dark", "positron"]) {
     assert.ok(!("ne2_shaded" in lite.sources));
   });
 }
+
+// Contraste: luminancia relativa (WCAG) de un color «#rrggbb».
+const lum = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255).map((c) => (c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4));
+  return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+};
+const razon = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return (x + 0.05) / (y + 0.05); };
+
+for (const [nombre, tono, fondo] of [["dark", "oscuro", "#0d1b24"], ["positron", "claro", "#f2f3f0"]]) {
+  test(`${nombre}: todas las etiquetas del mapa base contrastan al menos 4.5:1 con el fondo`, () => {
+    const st = aligerarEstilo(carga(nombre), { tono });
+    const etiquetas = st.layers.filter((l) => l.type === "symbol" && l.layout?.["text-field"]);
+    assert.ok(etiquetas.length > 5);
+    for (const l of etiquetas) {
+      assert.ok(razon(l.paint["text-color"], fondo) >= 4.5, `${l.id}: ${l.paint["text-color"]}`);
+      assert.ok(l.paint["text-halo-width"] <= 1.3 && l.paint["text-halo-blur"] <= 0.5, l.id);
+    }
+  });
+}
+test("sin tono, los colores del estilo original no cambian", () => {
+  const st = aligerarEstilo(carga("dark"));
+  assert.equal(st.layers.find((l) => l.id === "place_city").paint["text-color"], "rgb(101,101,101)");
+});

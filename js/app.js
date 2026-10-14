@@ -11,11 +11,13 @@ import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
 import { iniciarMenu } from "./menu.js";
+import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
+import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
 const $ = (id) => document.getElementById(id);
-const estado = { areas: new Set(), mexico: false, sevMin: 1, sevSolo: 0, pais: "", orden: "sev", region: "", desde: -Infinity, hasta: Infinity, palabras: [] };
+const estado = { areas: new Set(), subtema: "", religion: "", mexico: false, sevMin: 1, sevSolo: 0, pais: "", orden: "sev", region: "", desde: -Infinity, hasta: Infinity, palabras: [] };
 let eventos = [];
 let visiblesActuales = [];
 let linea, capaIndice, analisis;
@@ -51,7 +53,7 @@ function prepararTaxonomia(t) {
   const areas = new Map(t.areas.map((a) => [a.id, a]));
   const subtemas = new Map();
   for (const a of t.areas) for (const s of a.subtemas) subtemas.set(s.id, s.nombre);
-  return { areas, subtemas, lista: t.areas };
+  return { areas, subtemas, lista: t.areas, areaDeSub: areasDeSubtemas(t.areas) };
 }
 
 // ---------- Búsqueda por texto ----------
@@ -66,10 +68,21 @@ function textoDe(ev) {
   }
   return t;
 }
+// Religiones mencionadas en título y resumen (se calcula una vez por evento).
+const religionCache = new Map();
+function religionesDe(ev) {
+  let r = religionCache.get(ev.id);
+  if (r == null) { r = religionesEn(sinAcentos(`${ev.titulo || ""} ${ev.resumen || ""}`)); religionCache.set(ev.id, r); }
+  return r;
+}
+// Con una subcategoría elegida manda ella (aunque su área esté apagada); si no, las casillas de áreas.
+const entraPorTema = (ev) => (estado.subtema ? pasaSub(ev, estado.subtema, tax.areaDeSub) : estado.areas.has(ev.area_principal));
+
 // ---------- Filtros ----------
 function pasaFiltros(ev, ignorarArea = false, ignorarPais = false) {
   if (estado.palabras.length) { const t = textoDe(ev); if (!estado.palabras.every((w) => t.includes(w))) return false; }
-  if (!ignorarArea && !estado.areas.has(ev.area_principal)) return false;
+  if (estado.religion && !religionesDe(ev).includes(estado.religion)) return false;
+  if (!ignorarArea && !entraPorTema(ev)) return false;
   if (!ignorarPais && estado.pais && ev.pais_iso3 !== estado.pais) return false;
   if (estado.mexico && !ev.impacto_mexico) return false;
   if (estado.leyes && !(ev.subtemas || []).includes("leyes_reformas")) return false;
@@ -117,14 +130,17 @@ async function aplicarFiltros() {
   const partes = [];
   const conteo = {};
   const porPais = {};
+  const conteoSub = {};
   for (let i = 0; i < eventos.length; i++) {
     if (i && i % BLOQUE === 0) { await ceder(); if (mia !== generacion) return; }
     const ev = eventos[i];
     if (!pasaFiltros(ev, true, true)) continue;
-    if (ev.pais_iso3 && estado.areas.has(ev.area_principal)) porPais[ev.pais_iso3] = (porPais[ev.pais_iso3] || 0) + 1;
+    const entra = entraPorTema(ev);
+    if (ev.pais_iso3 && entra) porPais[ev.pais_iso3] = (porPais[ev.pais_iso3] || 0) + 1;
     if (estado.pais && ev.pais_iso3 !== estado.pais) continue;
     conteo[ev.area_principal] = (conteo[ev.area_principal] || 0) + 1;
-    if (!estado.areas.has(ev.area_principal)) continue;
+    for (const k of clavesSub(ev, tax.areaDeSub)) conteoSub[k] = (conteoSub[k] || 0) + 1;
+    if (!entra) continue;
     visibles.push(ev);
     const t = textoFeature(ev);
     if (t) partes.push(t);
@@ -133,6 +149,11 @@ async function aplicarFiltros() {
   visiblesActuales = visibles;
   analisis?.refrescar();
   for (const el of document.querySelectorAll("[data-num]")) el.textContent = conteo[el.dataset.num] || 0;
+  for (const el of document.querySelectorAll("[data-subnum]")) {
+    const n = conteoSub[el.dataset.subnum] || 0;
+    el.textContent = n;
+    el.parentElement.classList.toggle("cero", n === 0);
+  }
   pintarLista(visibles);
   opcionesPaisLista(porPais);
   console.info(`filtros: ${visibles.length}/${eventos.length} eventos en ${Math.round(performance.now() - t0)} ms`);
@@ -148,6 +169,10 @@ function programarFiltros() {
 }
 
 // ---------- Panel ----------
+// Cada área lleva sus subcategorías plegadas, con conteo. Tocar una muestra solo esos eventos
+// (de cualquier área); tocarla otra vez, o «Quitar filtros», vuelve a las casillas de áreas.
+const chipSub = (clave, nombre) =>
+  `<button type="button" class="chip-sub${estado.subtema === clave ? " activo" : ""}" data-sub="${esc(clave)}" aria-pressed="${estado.subtema === clave}">${esc(nombre)} <span class="num" data-subnum="${esc(clave)}">0</span></button>`;
 function pintarAreas() {
   const ul = $("lista-areas");
   ul.innerHTML = tax.lista.map((a) => `
@@ -156,14 +181,31 @@ function pintarAreas() {
       <span class="swatch" style="background:${esc(a.color)}"></span>
       <span>${a.numero}. ${esc(a.nombre)}</span>
       <span class="num" data-num="${esc(a.id)}">0</span>
-    </label></li>`).join("");
+    </label>
+    <details class="subs"><summary>Subcategorías (${a.subtemas.length + 1})</summary>
+      <div class="chips-sub">${a.subtemas.map((s) => chipSub(s.id, s.nombre)).join("")}${chipSub(claveOtros(a.id), "Sin subcategoría")}</div>
+    </details></li>`).join("");
   ul.addEventListener("change", (e) => {
     const id = e.target.dataset.area;
     if (!id) return;
     e.target.checked ? estado.areas.add(id) : estado.areas.delete(id);
     programarFiltros();
   });
+  ul.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sub]");
+    if (b) ponerSubtema(estado.subtema === b.dataset.sub ? "" : b.dataset.sub);
+  });
 }
+function ponerSubtema(clave) {
+  estado.subtema = clave;
+  for (const b of document.querySelectorAll("[data-sub]")) {
+    const activo = b.dataset.sub === clave;
+    b.classList.toggle("activo", activo);
+    b.setAttribute("aria-pressed", activo);
+  }
+  programarFiltros();
+}
+const nombreSub = (clave) => (clave.startsWith("otros:") ? `${tax.areas.get(clave.slice(6))?.nombre || ""}: sin subcategoría` : tax.subtemas.get(clave) || clave);
 
 // Resumen de los filtros activos (se ve aunque la sección esté cerrada).
 function resumenFiltros() {
@@ -173,8 +215,10 @@ function resumenFiltros() {
   if (estado.region) partes.push($("ev-region").selectedOptions[0]?.textContent || estado.region);
   if (estado.mexico) partes.push("impacto en México");
   if (estado.leyes) partes.push("leyes y reformas");
+  if (estado.subtema) partes.push(`subcategoría «${nombreSub(estado.subtema)}»`);
+  if (estado.religion) partes.push(`religión: ${RELIGIONES[estado.religion].nombre}`);
   if (estado.palabras.length) partes.push(`texto «${estado.palabras.join(" ")}»`);
-  if (tax && estado.areas.size < tax.lista.length) partes.push(`${estado.areas.size} de ${tax.lista.length} áreas`);
+  if (tax && !estado.subtema && estado.areas.size < tax.lista.length) partes.push(`${estado.areas.size} de ${tax.lista.length} áreas`);
   $("ev-resumen").textContent = partes.length ? partes.join(" · ") : "sin filtros";
   $("ev-resumen").classList.toggle("activo", partes.length > 0);
   if (tax) $("areas-resumen").textContent = `${estado.areas.size} de ${tax.lista.length}`;
@@ -215,7 +259,7 @@ function pintarLista(visibles) {
     return `<li><button type="button" data-id="${esc(ev.id)}" title="${esc(ev.resumen)}">
       <span class="punto" style="background:${esc(a.color)}" aria-hidden="true"></span>
       <span class="sev sev-${ev.severidad}" title="Severidad ${ev.severidad}">${ev.severidad}</span>
-      <span>${titulo}${otro ? `<span class="meta coincide">${otro}</span>` : ""}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)}${ev.pais_iso3 ? ` · ${esc(paises?.[ev.pais_iso3]?.es || ev.pais_iso3)}` : ""}</span></span>
+      <span>${esNuevo(ev.id) ? `<span class="chip nuevo">NUEVO</span> ` : ""}${titulo}${otro ? `<span class="meta coincide">${otro}</span>` : ""}<span class="meta">${esc(fecha(ev.fecha_utc))} · ${esc(a.nombre)}${ev.pais_iso3 ? ` · ${esc(paises?.[ev.pais_iso3]?.es || ev.pais_iso3)}` : ""}</span></span>
     </button></li>`;
   });
   if (visibles.length > MAX_LISTA) html.push(`<li class="mas">… y ${visibles.length - MAX_LISTA} más en el mapa. Usa los filtros para acotar.</li>`);
@@ -452,6 +496,9 @@ async function main() {
   cargarPaises().then(() => { firmaPaises = ""; programarFiltros(); }).catch(() => {});
   $("f-mexico").onchange = (e) => { estado.mexico = e.target.checked; programarFiltros(); };
   $("f-leyes").onchange = (e) => { estado.leyes = e.target.checked; programarFiltros(); };
+  const selRel = $("ev-religion");
+  for (const [id, r] of Object.entries(RELIGIONES)) selRel.add(new Option(r.nombre, id));
+  selRel.onchange = (e) => { estado.religion = e.target.value; programarFiltros(); };
   let tBusca = 0;
   // Filtra letra por letra desde 3 caracteres (una pausa de 120 ms evita recalcular en cada tecla al escribir rápido).
   $("ev-q").addEventListener("input", (e) => {
@@ -466,7 +513,9 @@ async function main() {
   $("ev-q").addEventListener("keydown", (e) => { if (e.key === "Enter") e.preventDefault(); });
   $("f-severidad").onchange = (e) => { estado.sevMin = Number(e.target.value); programarFiltros(); };
   $("ev-limpiar").onclick = () => {
-    Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false, leyes: false, palabras: [] });
+    Object.assign(estado, { sevMin: 1, sevSolo: 0, pais: "", mexico: false, leyes: false, palabras: [], religion: "" });
+    $("ev-religion").value = "";
+    ponerSubtema("");
     $("ev-q").value = "";
     for (const [id, v] of [["f-severidad", "1"], ["ev-sev", "0"], ["ev-pais", ""], ["f-region", ""], ["ev-region", ""]]) $(id).value = v;
     $("f-mexico").checked = false;
@@ -476,6 +525,7 @@ async function main() {
     pintarAreas2();
   };
   menu = iniciarMenu($("panel"));
+  iniciarSonido($("aviso-sonido"));
   $("capa-chokepoints").onchange = (e) => { api.setChokepoints(e.target.checked); avisarPresupuesto(); };
   $("capa-indice").onchange = (e) => alternarIndice(e.target.checked).catch((err) => {
     e.target.checked = false;
@@ -570,9 +620,53 @@ async function main() {
 
   iniciarRefresco({
     runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"),
-    onNuevosDatos: async () => { await cargarEventos(); featureTxt.clear(); porId = new Map(eventos.map((e) => [e.id, e])); linea.setEventos(eventos); aplicarFiltros(); pintarSeguimiento(); },
+    onNuevosDatos: async () => {
+      const antes = new Set(porId.keys());
+      await cargarEventos(); featureTxt.clear(); porId = new Map(eventos.map((e) => [e.id, e])); linea.setEventos(eventos); await aplicarFiltros(); pintarSeguimiento();
+      avisarNuevos(idsNuevos(antes, eventos));
+    },
   });
 }
+
+// ---------- Eventos nuevos: parpadeo de 60 s, marca NUEVO 1 h y sonido opcional ----------
+const NUEVO_LISTA_MS = 3600000;
+const nuevosEv = new Map();   // id → hora en que llegó en esta sesión
+function avisarNuevos(ids) {
+  if (!ids.length) return;
+  const ahora = Date.now();
+  for (const id of ids) nuevosEv.set(id, ahora);
+  // Solo parpadea y suena lo que pasa los filtros actuales (lo que el usuario está mirando).
+  const vis = new Set(visiblesActuales.map((e) => e.id));
+  const evs = ids.map((id) => porId.get(id)).filter((e) => e && vis.has(e.id) && e.lat != null && e.lon != null);
+  pintarLista(visiblesActuales);
+  if (!evs.length) return;
+  pulsar(evs.map((e) => [e.lon, e.lat]));
+  sonar({ severo: evs.some((e) => e.severidad >= 4) });
+}
+let pulsoEv = null;
+function pulsar(coords) {
+  const m = api.map, src = "ev-nuevos", capa = "ev-nuevos-pulso";
+  const fc = { type: "FeatureCollection", features: coords.map((c) => ({ type: "Feature", geometry: { type: "Point", coordinates: c }, properties: {} })) };
+  if (m.getSource(src)) m.getSource(src).setData(fc);
+  else {
+    m.addSource(src, { type: "geojson", data: fc });
+    m.addLayer({ id: capa, type: "circle", source: src,
+      paint: { "circle-color": "#ffe600", "circle-opacity": 0.25, "circle-radius": 10, "circle-stroke-color": "#ffe600", "circle-stroke-width": 3, "circle-stroke-opacity": 0.95 } });
+  }
+  cancelAnimationFrame(pulsoEv);
+  const t0 = performance.now();
+  const paso = (t) => {
+    if (!m.getLayer(capa)) return;  // cambió el estilo del mapa
+    if (t - t0 > PARPADEO_EV_MS) { m.getSource(src).setData({ type: "FeatureCollection", features: [] }); return; }
+    const fase = ((t - t0) % 1000) / 1000;   // un latido por segundo
+    m.setPaintProperty(capa, "circle-radius", 8 + fase * 24);
+    m.setPaintProperty(capa, "circle-stroke-opacity", 0.95 * (1 - fase));
+    m.setPaintProperty(capa, "circle-opacity", 0.3 * (1 - fase));
+    pulsoEv = requestAnimationFrame(paso);
+  };
+  pulsoEv = requestAnimationFrame(paso);
+}
+const esNuevo = (id) => { const t = nuevosEv.get(id); return t != null && Date.now() - t < NUEVO_LISTA_MS; };
 
 // ---------- Capas de entidades ----------
 let entidadAbierta = null;
@@ -778,6 +872,7 @@ async function iniciarRiesgos() {
     };
   };
   riesgos = new R.Riesgos(api.map, {
+    onNuevas: (n, severo) => sonar({ severo }),
     ctx: { indice: fronteras ? A.indicePaises(fronteras) : null, porNombre },
     onCambio: () => { if (riesgos?.catalogo) riesgos.explorar().then((x) => { apagadas = x; pintar(); }); else pintar(); },
     onObjeto: (capa, props, geom) => {

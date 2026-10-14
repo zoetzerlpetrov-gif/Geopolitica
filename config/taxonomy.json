@@ -1498,6 +1498,35 @@
               "cloud region"
             ]
           }
+        },
+        {
+          "id": "incidentes_espaciales",
+          "nombre": "Incidentes espaciales y satélites",
+          "palabras_clave": {
+            "es": [
+              "reentrada",
+              "reingreso atmosférico",
+              "basura espacial",
+              "desechos espaciales",
+              "falla del satélite",
+              "satélite perdido",
+              "lanzamiento fallido",
+              "explotó el cohete",
+              "antisatélite"
+            ],
+            "en": [
+              "reentry",
+              "re-entry",
+              "space debris",
+              "satellite failure",
+              "lost contact with satellite",
+              "launch failure",
+              "failed launch",
+              "rocket exploded",
+              "anti-satellite",
+              "asat"
+            ]
+          }
         }
       ]
     },
@@ -1926,13 +1955,26 @@
               "calidad del aire",
               "contingencia ambiental",
               "smog",
-              "partículas pm2.5"
+              "partículas pm2.5",
+              "lluvia ácida",
+              "dióxido de azufre",
+              "nube tóxica",
+              "ceniza volcánica",
+              "polvo del Sahara",
+              "calima"
             ],
             "en": [
               "air quality",
               "smog",
               "air pollution",
-              "pm2.5"
+              "pm2.5",
+              "acid rain",
+              "sulfur dioxide",
+              "sulphur dioxide",
+              "toxic cloud",
+              "toxic plume",
+              "volcanic ash",
+              "saharan dust"
             ]
           }
         }
@@ -2439,6 +2481,64 @@
               "polymarket",
               "manifold",
               "implied probability"
+            ]
+          }
+        },
+        {
+          "id": "violencia_religiosa",
+          "nombre": "Violencia y conflictos religiosos",
+          "palabras_clave": {
+            "es": [
+              "ataque a iglesia",
+              "ataque a una iglesia",
+              "ataque a mezquita",
+              "ataque a una mezquita",
+              "ataque a sinagoga",
+              "ataque a templo",
+              "atentado contra iglesia",
+              "atentado en mezquita",
+              "violencia sectaria",
+              "enfrentamientos religiosos",
+              "antisemitismo",
+              "antisemita",
+              "islamofobia",
+              "cristianofobia",
+              "blasfemia",
+              "persecución religiosa",
+              "quema de iglesias",
+              "sacerdote asesinado",
+              "imán",
+              "rabino",
+              "peregrinos",
+              "yihadista"
+            ],
+            "en": [
+              "church attack",
+              "attack on church",
+              "mosque attack",
+              "attack on mosque",
+              "synagogue attack",
+              "attack on synagogue",
+              "temple attack",
+              "sectarian violence",
+              "sectarian clashes",
+              "communal violence",
+              "communal clashes",
+              "religious violence",
+              "antisemitism",
+              "antisemitic",
+              "islamophobia",
+              "islamophobic",
+              "blasphemy",
+              "religious persecution",
+              "church burned",
+              "priest killed",
+              "imam",
+              "rabbi",
+              "pilgrims",
+              "jihadist",
+              "hindu nationalist",
+              "mob lynching"
             ]
           }
         }
@@ -3037,6 +3137,145 @@
               "network outage"
             ]
           }
+        },
+        {
+          "id": "incidentes_aereos",
+          "nombre": "Incidentes aéreos y emergencias en vuelo",
+          "palabras_clave": {
+            "es": [
+              "aterrizaje de emergencia",
+              "aterrizaje forzoso",
+              "aterrizó de emergencia",
+              "declaró emergencia",
+              "declara emergencia",
+              "mayday",
+              "squawk 7700",
+              "vuelo desviado",
+              "desvía vuelo",
+              "turbulencia severa",
+              "accidente aéreo",
+              "avionazo",
+              "avioneta",
+              "se estrelló un avión",
+              "falla de motor",
+              "humo en cabina",
+              "secuestro de avión",
+              "incidente aéreo",
+              "pasajero disruptivo",
+              "evacuación del avión",
+              "pista cerrada",
+              "colisión en pista",
+              "aterriza de emergencia",
+              "aterrizan de emergencia",
+              "emergencia en vuelo",
+              "regresa al aeropuerto"
+            ],
+            "en": [
+              "emergency landing",
+              "forced landing",
+              "declared an emergency",
+              "declares emergency",
+              "mayday",
+              "squawk 7700",
+              "flight diverted",
+              "diverted flight",
+              "severe turbulence",
+              "plane crash",
+              "air crash",
+              "aircraft crash",
+              "engine failure",
+              "smoke in the cabin",
+              "smoke in cabin",
+              "hijacked plane",
+              "plane hijacking",
+              "near miss",
+              "near-miss",
+              "runway incursion",
+              "unruly passenger",
+              "emergency evacuation",
+              "bird strike",
+              "turned back"
+            ]
+          }
+        },
+        {
+          "id": "incidentes_maritimos",
+          "nombre": "Incidentes marítimos y piratería",
+          "palabras_clave": {
+            "es": [
+              "piratería",
+              "piratas",
+              "abordaje armado",
+              "secuestro de buque",
+              "buque secuestrado",
+              "naufragio",
+              "hundimiento",
+              "se hundió",
+              "colisión de buques",
+              "choque de barcos",
+              "encallado",
+              "encalló",
+              "derrame de petróleo",
+              "hombre al agua",
+              "barco a la deriva",
+              "incendio en buque",
+              "ferry"
+            ],
+            "en": [
+              "piracy",
+              "pirates",
+              "armed boarding",
+              "boarded by",
+              "hijacked vessel",
+              "ship hijacked",
+              "shipwreck",
+              "capsized",
+              "sank",
+              "sinking",
+              "ship collision",
+              "vessel collision",
+              "ran aground",
+              "oil spill",
+              "man overboard",
+              "adrift",
+              "ship fire",
+              "vessel fire",
+              "ferry"
+            ]
+          }
+        },
+        {
+          "id": "incidentes_ferroviarios",
+          "nombre": "Trenes: accidentes y descarrilamientos",
+          "palabras_clave": {
+            "es": [
+              "descarrilamiento",
+              "descarriló",
+              "descarrila",
+              "choque de trenes",
+              "accidente ferroviario",
+              "tren de alta velocidad",
+              "tren bala",
+              "ferrocarril",
+              "paso a nivel",
+              "arrollado por el tren",
+              "metro de",
+              "tren interurbano"
+            ],
+            "en": [
+              "derailment",
+              "derailed",
+              "train crash",
+              "train collision",
+              "rail accident",
+              "railway accident",
+              "high-speed rail",
+              "bullet train",
+              "level crossing",
+              "railway",
+              "hit by a train"
+            ]
+          }
         }
       ]
     },
@@ -3135,12 +3374,32 @@
             "es": [
               "radiación",
               "niveles de radiación",
-              "fuente radiactiva"
+              "fuente radiactiva",
+              "radiactivo",
+              "radiactiva",
+              "radiactividad",
+              "cesio",
+              "yodo radiactivo",
+              "Fukushima",
+              "Chernóbil",
+              "Zaporiyia",
+              "contaminación radiactiva",
+              "agua tratada radiactiva"
             ],
             "en": [
               "radiation",
               "radiation levels",
-              "radioactive source"
+              "radioactive source",
+              "radioactive",
+              "radioactivity",
+              "caesium",
+              "cesium",
+              "iodine-131",
+              "Fukushima",
+              "Chernobyl",
+              "Zaporizhzhia",
+              "radioactive contamination",
+              "treated water"
             ]
           }
         },

@@ -67,8 +67,8 @@ export function temaOscuro() {
  */
 export function pinturaEtiqueta() {
   return temaOscuro()
-    ? { "text-color": "#F4F7F9", "text-halo-color": "rgba(8,14,20,0.92)", "text-halo-width": 1.6, "text-halo-blur": 0.6 }
-    : { "text-color": "#101820", "text-halo-color": "rgba(255,255,255,0.95)", "text-halo-width": 1.6, "text-halo-blur": 0.6 };
+    ? { "text-color": "#F4F7F9", "text-halo-color": "rgba(8,14,20,0.92)", "text-halo-width": 1.3, "text-halo-blur": 0.3 }
+    : { "text-color": "#101820", "text-halo-color": "rgba(255,255,255,0.95)", "text-halo-width": 1.3, "text-halo-blur": 0.3 };
 }
 
 /**
