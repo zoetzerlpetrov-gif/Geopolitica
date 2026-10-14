@@ -697,14 +697,28 @@ async function iniciarCapas() {
   const nombreCat = Object.fromEntries(catalogo.categorias.map((c) => [c.id, c.nombre.es]));
   familias.sort((a, b) => ordenCat.indexOf(a.categoria) - ordenCat.indexOf(b.categoria));
   // Subsección plegable por categoría del catálogo (Organizaciones, Infraestructura, Recursos…).
+  // «Zonas geográficas» tiene 35 subtipos: los agregados después (relieve fino, placas, volcanes) empiezan apagados
+  // y hay atajos para ver de un toque el Cinturón de Fuego, las placas, el relieve o los volcanes.
+  const ZONAS_APAGADAS = new Set(["mesetas", "llanuras", "valles", "canones", "cuencas", "deltas_humedales", "tundras", "glaciares", "istmos", "costas",
+    "piedemonte", "islas", "montes_picos", "pasos_montana", "cabos", "cascadas", "placas_tectonicas", "limite_subduccion", "limite_convergente",
+    "limite_divergente", "limite_transformante", "cinturon_fuego", "volcanes_cinturon", "volcanes"]);
+  const ZONAS_ATAJOS = [
+    ["🔥 Cinturón de Fuego y sus volcanes", ["cinturon_fuego", "volcanes_cinturon"]],
+    ["⬡ Placas tectónicas y sus límites", ["placas_tectonicas", "limite_subduccion", "limite_convergente", "limite_divergente", "limite_transformante", "cinturon_fuego"]],
+    ["🌋 Todos los volcanes", ["volcanes_cinturon", "volcanes", "cinturon_fuego"]],
+    ["⛰️ Relieve (montañas, valles, mesetas…)", ["cordilleras", "montes_picos", "pasos_montana", "valles", "canones", "mesetas", "llanuras", "cuencas", "piedemonte", "glaciares", "desiertos", "tundras", "deltas_humedales"]],
+    ["🌊 Mares, golfos, estrechos, lagos y ríos", ["oceanos", "mares", "golfos_bahias", "estrechos", "lagos", "rios"]],
+  ];
+  const marcadoInicial = (f, st) => !(f.id === "zonas" && ZONAS_APAGADAS.has(st.id));
   const htmlFam = (f) => `
     <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
       <label class="fila"><span><input type="checkbox" data-fam="${esc(f.id)}" ${f.disponible ? "" : "disabled"}> ${esc(f.nombre)}</span>
         <span class="chip estado-${esc(f.estado_dato)}" title="Estado del dato">${esc(etiquetaEstado(f.estado_dato))}</span></label>
       <div class="meta">${f.disponible ? `${f.manifest.estado === "parcial" ? "⚠️ Cobertura parcial: algunas zonas del mundo no respondieron en la última actualización. " : ""}${f.manifest.estado === "desactualizada" ? `⚠️ Versión anterior (del ${esc((f.manifest.actualizado_utc || "").slice(0, 10))}): la última actualización falló. ` : ""}${f.manifest.objetos.toLocaleString("es-MX")} objetos · ${(f.manifest.bytes / 1e6).toFixed(1)} MB en mosaicos (solo se baja lo visible) · ${esc(f.licencia)}`
         : esc(f.habilitada ? (f.manifest?.estado === "error" ? "Error al construir: " + f.manifest.error : f.manifest?.estado === "pendiente" ? f.manifest.error : "Aún no se construye (workflow «Construir capas»)") : f.motivo || "Deshabilitada")}</div>
+      ${f.disponible && f.id === "zonas" ? `<div class="atajos-zonas">${ZONAS_ATAJOS.map(([t], i) => `<button type="button" class="mini" data-atajo-zonas="${i}">${esc(t)}</button>`).join("")}</div>` : ""}
       ${f.disponible && f.subtipos.length > 1 ? `<details><summary>Subtipos (${f.subtipos.length})</summary>${f.subtipos.map((st) => `
-        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" checked><span class="swatch" style="background:${esc(st.color)}"></span>${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
+        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}><span class="swatch" style="background:${esc(st.color)}"></span>${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
     </div>`;
   const cats = [...new Set(familias.map((f) => f.categoria))];
   cont.innerHTML = cats.map((c) => {
@@ -712,6 +726,16 @@ async function iniciarCapas() {
     return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(nombreCat[c] || c)}
       <span class="sg-n" data-sg-cat="${esc(c)}">${((n) => `${n} ${n === 1 ? "capa" : "capas"}`)(fs.filter((f) => f.disponible).length)}</span></summary>${fs.map(htmlFam).join("")}</details>`;
   }).join("");
+  // Atajo: deja marcados solo esos subtipos y enciende «Zonas geográficas» si estaba apagada.
+  cont.addEventListener("click", async (e) => {
+    const b = e.target.closest("[data-atajo-zonas]");
+    if (!b) return;
+    const ids = new Set(ZONAS_ATAJOS[Number(b.dataset.atajoZonas)][1]);
+    for (const x of cont.querySelectorAll('[data-fam-sub="zonas"]')) x.checked = ids.has(x.value);
+    const cb = cont.querySelector('[data-fam="zonas"]');
+    if (!cb.checked) { cb.checked = true; await gestor.activar("zonas"); }
+    gestor.setSubtipos("zonas", [...ids]);
+  });
   cont.addEventListener("change", async (e) => {
     const fam = e.target.dataset.fam;
     if (fam) {

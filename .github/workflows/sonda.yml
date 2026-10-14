@@ -1,0 +1,16 @@
+name: sonda
+on:
+  push:
+    branches-ignore: [main]
+    paths: [".github/workflows/sonda.yml", "tools/sonda_tmp.py"]
+permissions:
+  contents: read
+jobs:
+  s:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python3 tools/sonda_tmp.py
