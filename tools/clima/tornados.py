@@ -165,8 +165,31 @@ def archivos_gkg(url_ultima, n):
     return [ultima.replace(marca, (t - timedelta(minutes=15 * k)).strftime("%Y%m%d%H%M%S")) for k in range(n)]
 
 
+CACHE_GKG = os.path.join(os.environ.get("RUNNER_TEMP") or "/tmp", "gkg_cache")
+
+
+def bajar_gkg(url):
+    """Descarga un archivo GKG una sola vez por corrida: tools/clima/cortes.py lee los mismos archivos después."""
+    ruta = os.path.join(CACHE_GKG, url.rsplit("/", 1)[-1])
+    if os.path.exists(ruta):
+        return open(ruta, "rb").read()
+    datos = F.get(url, timeout=180)
+    try:
+        os.makedirs(CACHE_GKG, exist_ok=True)
+        open(ruta, "wb").write(datos)
+    except OSError:
+        pass
+    return datos
+
+
+def filas_gkg(url):
+    z = zipfile.ZipFile(io.BytesIO(bajar_gkg(url)))
+    with z.open(z.namelist()[0]) as fh:
+        yield from csv.reader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"), delimiter="\t", quoting=csv.QUOTE_NONE)
+
+
 def leer_gkg(url, flujo):
-    z = zipfile.ZipFile(io.BytesIO(F.get(url, timeout=180)))
+    z = zipfile.ZipFile(io.BytesIO(bajar_gkg(url)))
     out = []
     with z.open(z.namelist()[0]) as fh:
         for fila in csv.reader(io.TextIOWrapper(fh, encoding="utf-8", errors="replace"), delimiter="\t", quoting=csv.QUOTE_NONE):
@@ -291,7 +314,11 @@ def km(a, b):
 PRECISION = {"ciudad": 0, "estado": 1, "país": 2}
 
 
-def agrupar(notas, radio_km=200, horas=36):
+def tipo_tornado(ns):
+    return "TORNADO" if any(n["properties"]["kind"] == "TORNADO" for n in ns) else "TROMBA MARINA"
+
+
+def agrupar(notas, radio_km=200, horas=36, tipo_de=tipo_tornado):
     """Un mismo tornado sale en decenas de notas: se agrupan las que caen a menos de `radio_km` y `horas` entre sí (200 km: una nota ubica «Sicilia» al centro de la isla y otra en Marsala).
     El punto del grupo es el lugar más repetido entre sus notas de mayor precisión; se guardan hasta 8 enlaces."""
     grupos = []
@@ -325,7 +352,7 @@ def agrupar(notas, radio_km=200, horas=36):
         principal = next((n for n in recientes if n["properties"]["severe"]), recientes[0])["properties"]
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": list(coord)},
                     "properties": {**principal, "state": lugar, "severe": any(n["properties"]["severe"] for n in ns),
-                                   "kind": "TORNADO" if any(n["properties"]["kind"] == "TORNADO" for n in ns) else "TROMBA MARINA",
+                                   "kind": tipo_de(ns),
                                    "notas": len(ns), "desde": ns[0]["properties"]["date"], "date": recientes[0]["properties"]["date"],
                                    "enlaces": [{k: n["properties"][k] for k in ("title", "url", "source", "date")} for n in recientes[:8]]}})
     return sorted(out, key=lambda f: f["properties"]["date"], reverse=True)

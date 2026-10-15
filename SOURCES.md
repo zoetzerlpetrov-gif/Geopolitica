@@ -213,3 +213,7 @@ Candidatas para más adelante: Windy Webcams (decenas de miles de cámaras publi
 | LiveATC, YouTube y Google Noticias | Solo enlaces de búsqueda en la ficha; el monitor no descarga ni guarda audio ni páginas | — | Términos de cada sitio (LiveATC bloquea a programas: solo se enlaza) |
 
 Los escenarios de erupción usan modelos simplificados publicados (cono de energía de Malin y Sheridan, 1982; recorridos de máxima pendiente al estilo DOWNFLOW, Favalli y otros, 2005; IEV de Newhall y Self, 1982). Son referencia educativa, no mapas oficiales de peligros.
+
+## Apagones y cortes de agua (octubre de 2026)
+
+No hay una fuente abierta y mundial de cortes de luz o de agua. poweroutage.us (solo EUA) es de pago y su robots.txt bloquea `/api`; las empresas eléctricas y los organismos de agua publican comunicados por país. La capa usa titulares de GDELT GKG 2.1 (los mismos archivos que la capa de tornados, sin descargarlos dos veces), ubicados por el lugar que nombra el titular. Se guardan título, enlace, medio y fecha; nunca el texto. Para confirmar apagones grandes sirven las luces nocturnas VIIRS (NASA GIBS) y los cortes de internet de IODA, que ya están en el monitor.
