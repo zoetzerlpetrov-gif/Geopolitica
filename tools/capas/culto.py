@@ -127,6 +127,12 @@ class Cajas:
                     out += json.load(f)
         return out
 
+    def al_dia(self, dias=25):
+        """True si todas las cajas tienen datos de hace menos de `dias` días."""
+        from datetime import datetime, timedelta, timezone
+        limite = (datetime.now(timezone.utc) - timedelta(days=dias)).strftime("%Y-%m-%dT%H:%M:%SZ")
+        return bool(self.estado) and all(v["t"] and v["t"] >= limite for v in self.estado.values())
+
     def completas(self):
         return sum(1 for v in self.estado.values() if v["t"]), len(self.estado)
 

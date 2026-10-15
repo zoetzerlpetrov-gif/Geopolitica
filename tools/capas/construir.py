@@ -1213,6 +1213,12 @@ def main(pedidas):
     # Corrida pedida solo para lugares de culto: casi todo el plazo es para su descarga por cajas.
     if pedidas and pedidas <= {"lugares_culto", "lugares_culto_catolico", "lugares_culto_cristiano"}:
         os.environ.setdefault("PLAZO_CULTO_MIN", "58")
+        import culto as K
+        if K.Cajas(os.path.join(SALIDA, "culto_cajas")).al_dia(dias=25):
+            # Todas las cajas descargadas hace menos de 25 días: no se descarga ni se publica (corrida cada 4 h).
+            open(os.path.join(SALIDA, ".sin_cambios"), "w").close()
+            print("lugares de culto: completos y recientes; nada que hacer")
+            return 0
     cfg = json.load(open(os.path.join(ROOT, "config", "capas.json"), encoding="utf-8"))
     ruta_manifest = os.path.join(SALIDA, "manifest.json")
     manifest = json.load(open(ruta_manifest, encoding="utf-8")) if os.path.exists(ruta_manifest) else {"familias": {}}

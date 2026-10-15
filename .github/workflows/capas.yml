@@ -12,6 +12,9 @@ on:
         default: ""
   schedule:
     - cron: "41 6 1 * *"  # horario en UTC; se vuelve a registrar en main el 2026-10-08 (GitHub no lo había activado)
+    # Lugares de culto (~2 millones, por cajas): avanza la descarga cada 4 h; cuando todas las cajas están completas y
+    # tienen menos de 25 días, la corrida termina sin descargar ni publicar.
+    - cron: "20 */4 * * *"
   push:
     branches-ignore: [main]
     paths: ["tools/capas/**", "config/capas.json", ".github/workflows/capas.yml"]
@@ -62,15 +65,16 @@ jobs:
       - name: Construir capas
         env:
           PLAZO_MIN: "70"   # el job muere a los 90 min; deja 20 para tippecanoe y publicar
+          FAMILIAS: ${{ github.event.inputs.familias || (github.event.schedule == '20 */4 * * *' && 'lugares_culto lugares_culto_catolico lugares_culto_cristiano') || '' }}
         run: |
           export PATH="$HOME/tippecanoe-bin:$PATH"
           tippecanoe --version
-          python3 -u tools/capas/construir.py ${{ github.event.inputs.familias }}
+          python3 -u tools/capas/construir.py $FAMILIAS
           ls -la capas/
           cat capas/manifest.json
 
       - name: Cronología histórica por país (Wikidata; en la corrida mensual o si se pide «historia»)
-        if: github.event.inputs.familias == '' || contains(github.event.inputs.familias, 'historia')
+        if: github.event.schedule != '20 */4 * * *' && (github.event.inputs.familias == '' || contains(github.event.inputs.familias, 'historia'))
         continue-on-error: true
         timeout-minutes: 20
         run: python3 -u tools/historia/cronologia.py capas/historia
@@ -79,6 +83,7 @@ jobs:
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          if [ -f capas/.sin_cambios ]; then echo "Lugares de culto completos y recientes: nada que publicar"; exit 0; fi
           mkdir /tmp/pub && cp -r capas /tmp/pub/ && cd /tmp/pub
           git init -q && git checkout -q -b datos-capas
           git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
