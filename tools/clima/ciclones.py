@@ -25,7 +25,13 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 import fuentes as F  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "ciclones_mundo.geojson")
-GDACS_LISTA = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist=TC&fromdate={desde}&todate={hasta}&alertlevel={nivel}"
+# Todos los tipos de GDACS en la misma consulta (sismos, ciclones, inundaciones, volcanes, sequías e incendios); si GDACS
+# rechazara la lista con varios tipos, la siguiente corrida pide solo ciclones (TC) como antes.
+GDACS_LISTA = "https://www.gdacs.org/gdacsapi/api/events/geteventlist/SEARCH?eventlist={tipos}&fromdate={desde}&todate={hasta}&alertlevel={nivel}"
+TIPOS_GDACS = "EQ;TC;FL;VO;DR;WF"
+OUT_TODOS = os.path.join(ROOT, "vivos", "gdacs_mundo.geojson")
+NOMBRE_TIPO = {"EQ": "Sismo", "TC": "Ciclón tropical", "FL": "Inundación", "VO": "Volcán", "DR": "Sequía", "WF": "Incendio forestal"}
+TODOS_DIAS = 7
 GDACS_GEOM = "https://www.gdacs.org/gdacsapi/api/polygons/getgeometry?eventtype=TC&eventid={e}&episodeid={ep}"
 IBTRACS = "https://www.ncei.noaa.gov/data/international-best-track-archive-for-climate-stewardship-ibtracs/v04r01/access/csv/ibtracs.ACTIVE.list.v04r01.csv"
 CADA_H = 3
@@ -90,6 +96,30 @@ def features_gdacs(ev, geom):
     if ev.get("geom") and ev["geom"].get("type") == "Point":
         out.append({"type": "Feature", "geometry": ev["geom"], "properties": {**base, "layer": "storm", "name": ev["nombre"], "intensity_kt": kt,
                     "class_label": categoria_kt(kt) if kt else ev.get("texto", ""), "last_update": ev["fin"], "basin": ev["paises"]}})
+    return out
+
+
+def todos_gdacs(lista, ahora, dias=TODOS_DIAS):
+    """Eventos de todos los tipos (los últimos `dias`) → features de la capa «Alertas de desastre GDACS»."""
+    out = []
+    for f in lista.get("features", []):
+        p, g = f.get("properties", {}), f.get("geometry") or {}
+        if g.get("type") != "Point":
+            continue
+        fin = p.get("todate") or p.get("fromdate") or ""
+        try:
+            t = datetime.fromisoformat(fin.replace("Z", "+00:00"))
+            t = t if t.tzinfo else t.replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+        if ahora - t > timedelta(days=dias):
+            continue
+        et = str(p.get("eventtype", "")).upper()
+        out.append({"type": "Feature", "geometry": g, "properties": {
+            "layer": "gdacs", "eventid": p.get("eventid"), "eventtype": et, "type_label": NOMBRE_TIPO.get(et, et), "alertlevel": p.get("alertlevel", "Green"),
+            "name": p.get("eventname") or p.get("name") or NOMBRE_TIPO.get(et, "Evento"), "country": p.get("country", ""),
+            "fromdate": p.get("fromdate", ""), "todate": p.get("todate", ""),
+            "url": (p.get("url") or {}).get("report", "") if isinstance(p.get("url"), dict) else ""}})
     return out
 
 
@@ -169,18 +199,25 @@ def paso_gdacs(cache, ahora, pedir_json):
         return cache, f"fuera de la ventana de GDACS (04:00–06:45 UTC); se usan los datos del {cache.get('fecha') or '—'}"
     sig = siguiente_peticion(cache, hoy)
     if cache.get("fecha") != hoy:
-        cache = {"fecha": hoy, "niveles": [], "eventos": [], "geom": {}}
+        cache = {"fecha": hoy, "niveles": [], "eventos": [], "geom": {}, "todos": [], "solo_tc": cache.get("solo_tc", False)}
     if not sig:
         return cache, f"ok ({len(cache['eventos'])} ciclones, completo)"
     try:
         if sig[0] == "lista":
-            url = GDACS_LISTA.format(desde=(ahora - timedelta(days=10)).strftime("%Y-%m-%d"), hasta=hoy, nivel=sig[1])
+            tipos = "TC" if cache.get("solo_tc") else TIPOS_GDACS
+            url = GDACS_LISTA.format(tipos=tipos, desde=(ahora - timedelta(days=10)).strftime("%Y-%m-%d"), hasta=hoy, nivel=sig[1])
             try:
-                nuevos = eventos_gdacs(pedir_json(url), ahora)
+                lista = pedir_json(url)
             except urllib.error.HTTPError as e:
+                if e.code == 400 and not cache.get("solo_tc"):
+                    cache["solo_tc"] = True  # la próxima corrida pide solo ciclones
+                    return cache, "GDACS rechazó la lista con varios tipos; se pedirá solo TC"
                 if e.code != 404:  # un nivel sin eventos puede responder 404
                     raise
-                nuevos = []
+                lista = {"features": []}
+            nuevos = eventos_gdacs(lista, ahora)
+            vistos = {str(x["properties"]["eventid"]) + x["properties"]["eventtype"] for x in cache.get("todos", [])}
+            cache.setdefault("todos", []).extend(x for x in todos_gdacs(lista, ahora) if str(x["properties"]["eventid"]) + x["properties"]["eventtype"] not in vistos)
             ids = {str(e["eventid"]) for e in cache["eventos"]}
             cache["eventos"] += [{k: v for k, v in e.items()} for e in nuevos if str(e["eventid"]) not in ids]
             cache["niveles"].append(sig[1])
@@ -196,7 +233,7 @@ def main():
     ahora = datetime.now(timezone.utc)
     cache = json.load(open(CACHE, encoding="utf-8")) if os.path.exists(CACHE) else {}
     estado = {}
-    if F.permitido_por_robots(GDACS_LISTA.format(desde="2026-01-01", hasta="2026-01-02", nivel="red")):
+    if F.permitido_por_robots(GDACS_LISTA.format(tipos="TC", desde="2026-01-01", hasta="2026-01-02", nivel="red")):
         cache, estado["gdacs"] = paso_gdacs(cache, ahora, get_json)
         os.makedirs(os.path.dirname(CACHE), exist_ok=True)
         json.dump(cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
@@ -233,7 +270,12 @@ def main():
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"type": "FeatureCollection", "generado_utc": (ahora if not reciente else datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ")).strftime("%Y-%m-%dT%H:%M:%SZ"),
                "fuentes": estado, "features": feats}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    print(f"ciclones: {sum(1 for f in feats if f['properties'].get('layer') == 'storm')} ciclones; {estado}")
+    # Alertas de GDACS de todos los tipos (solo se reescribe si hay eventos: fuera de la ventana se conservan los del día).
+    todos = cache.get("todos", [])
+    if todos:
+        json.dump({"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "fecha_gdacs": cache.get("fecha"),
+                   "fuente": "GDACS (ONU y Comisión Europea)", "features": todos}, open(OUT_TODOS, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    print(f"ciclones: {sum(1 for f in feats if f['properties'].get('layer') == 'storm')} ciclones; alertas GDACS de todos los tipos: {len(todos)}; {estado}")
     return 0
 
 

@@ -425,6 +425,13 @@ GDACS_TYPE = {
 }
 
 def fetch_gdacs():
+    """GDACS pide en su robots.txt «Visit-time: 0400-0645» (UTC): fuera de esa ventana no se consulta y se conserva el
+    archivo anterior. Los eventos de todos los tipos también los junta tools/clima/ciclones.py dentro de la ventana."""
+    from datetime import datetime as _dt, timezone as _tz
+    ahora = _dt.now(_tz.utc)
+    if not ((4, 0) <= (ahora.hour, ahora.minute) < (6, 45)):
+        print("  [gdacs] fuera de la ventana permitida (04:00-06:45 UTC); se conserva el archivo anterior")
+        return write_geojson("gdacs.geojson", [], preserve_if_empty=True)
     feats = []
     try:
         raw = json.loads(http_get("https://www.gdacs.org/gdacsapi/api/events/geteventlist/MAP"))
@@ -452,7 +459,7 @@ def fetch_gdacs():
         print(f"  [gdacs] eventos: {len(feats)}")
     except Exception as e:
         print(f"  [gdacs] fallo: {e}")
-    return write_geojson("gdacs.geojson", feats)
+    return write_geojson("gdacs.geojson", feats, preserve_if_empty=True)
 
 
 # -------------------------------------------------------------------------
@@ -521,70 +528,105 @@ def temp_risk(max_tmax, min_tmin):
         return cold_lvl, cold_label, "frio"
     return 0, None, None
 
+LOTE_PRONOSTICO = 100
+
+
+def _pronostico_lote(puntos, intentos=2):
+    """Pronóstico diario de Open-Meteo para un lote de puntos [(nombre, lat, lon)]. Lista de respuestas, una por punto."""
+    url = (
+        "https://api.open-meteo.com/v1/forecast"
+        f"?latitude={','.join(str(p[1]) for p in puntos)}&longitude={','.join(str(p[2]) for p in puntos)}"
+        "&daily=precipitation_sum,precipitation_probability_max,"
+        "wind_speed_10m_max,wind_gusts_10m_max,weather_code,temperature_2m_max,temperature_2m_min"
+        "&forecast_days=7&timezone=auto"
+    )
+    for i in range(intentos):
+        texto = http_get(url)
+        try:
+            res = json.loads(texto)
+            return res if isinstance(res, list) else [res]
+        except ValueError as e:
+            # Respuesta cortada o con error: se muestra un fragmento para poder diagnosticarla y se reintenta.
+            pos = getattr(e, "pos", 0) or 0
+            print(f"  [pronostico] respuesta no válida ({e}); cerca de: {texto[max(0, pos - 80):pos + 80]!r}")
+            if i == intentos - 1:
+                raise
+            time.sleep(5)
+
+
 def fetch_forecast():
+    """Pronóstico de 7 días por lotes de 100 puntos (una sola petición con 533 llegaba malformada). Si un lote falla, se
+    conservan los puntos de ese lote del archivo anterior; si fallan todos, se conserva el archivo completo."""
     feats = []
+    previos = {}
     try:
-        lats = ",".join(f"{p[1]}" for p in GRID)
-        lons = ",".join(f"{p[2]}" for p in GRID)
-        url = (
-            "https://api.open-meteo.com/v1/forecast"
-            f"?latitude={lats}&longitude={lons}"
-            "&daily=precipitation_sum,precipitation_probability_max,"
-            "wind_speed_10m_max,wind_gusts_10m_max,weather_code,temperature_2m_max,temperature_2m_min"
-            "&forecast_days=7&timezone=auto"
-        )
-        res = json.loads(http_get(url))
-        if isinstance(res, dict):
-            res = [res]
-        for i, point in enumerate(res):
-            if i >= len(GRID):
-                break
-            name, lat, lon = GRID[i]
-            daily = point.get("daily", {})
-            rain = daily.get("precipitation_sum", []) or []
-            pop = daily.get("precipitation_probability_max", []) or []
-            gust = daily.get("wind_gusts_10m_max", []) or []
-            wind = daily.get("wind_speed_10m_max", []) or []
-            tmax = daily.get("temperature_2m_max", []) or []
-            tmin = daily.get("temperature_2m_min", []) or []
-            wcode = daily.get("weather_code", []) or []
-            dates = daily.get("time", []) or []
-            max_rain = max(rain) if rain else 0
-            max_gust = max(gust) if gust else 0
-            max_tmax = max(tmax) if tmax else None
-            min_tmin = min(tmin) if tmin else None
-            temp_lvl, temp_label, temp_kind = temp_risk(max_tmax, min_tmin)
-            lvl, label = risk_level(max_rain, max_gust)
-            days = []
-            for d in range(len(dates)):
-                days.append({
-                    "date": dates[d],
-                    "rain": rain[d] if d < len(rain) else None,
-                    "pop": pop[d] if d < len(pop) else None,
-                    "wind": wind[d] if d < len(wind) else None,
-                    "gust": gust[d] if d < len(gust) else None,
-                    "tmax": tmax[d] if d < len(tmax) else None,
-                    "tmin": tmin[d] if d < len(tmin) else None,
-                    "code": wcode[d] if d < len(wcode) else None,
-                })
-            feats.append(feature(lon, lat, {
-                "layer": "forecast",
-                "name": name,
-                "level": lvl,
-                "level_label": label,
-                "max_rain_mm": round(max_rain, 1),
-                "max_gust_kmh": round(max_gust, 1),
-                "max_tmax_c": round(max_tmax, 1) if max_tmax is not None else None,
-                "min_tmin_c": round(min_tmin, 1) if min_tmin is not None else None,
-                "temp_level": temp_lvl,
-                "temp_label": temp_label,
-                "temp_kind": temp_kind,
-                "days": days,
-            }))
-        print(f"  [pronostico] puntos: {len(feats)}")
-    except Exception as e:
-        print(f"  [pronostico] fallo: {e}")
-    return write_geojson("forecast.geojson", feats)
+        with open(os.path.join(DATA_DIR, "forecast.geojson"), encoding="utf-8") as fh:
+            previos = {f["properties"].get("name"): f for f in json.load(fh).get("features", [])}
+    except (OSError, ValueError):
+        pass
+    for ini in range(0, len(GRID), LOTE_PRONOSTICO):
+        lote = GRID[ini:ini + LOTE_PRONOSTICO]
+        try:
+            res = _pronostico_lote(lote)
+        except Exception as e:  # noqa: BLE001
+            print(f"  [pronostico] lote {ini}-{ini + len(lote) - 1} fallo: {e}")
+            feats += [previos[p[0]] for p in lote if p[0] in previos]
+            continue
+        feats += _features_pronostico(lote, res)
+        time.sleep(1)
+    print(f"  [pronostico] puntos: {len(feats)}")
+    return write_geojson("forecast.geojson", feats, preserve_if_empty=True)
+
+
+def _features_pronostico(lote, res):
+    """Respuestas de Open-Meteo de un lote → features con el resumen y los 7 días."""
+    feats = []
+    for i, point in enumerate(res):
+        if i >= len(lote):
+            break
+        name, lat, lon = lote[i]
+        daily = point.get("daily", {})
+        rain = daily.get("precipitation_sum", []) or []
+        pop = daily.get("precipitation_probability_max", []) or []
+        gust = daily.get("wind_gusts_10m_max", []) or []
+        wind = daily.get("wind_speed_10m_max", []) or []
+        tmax = daily.get("temperature_2m_max", []) or []
+        tmin = daily.get("temperature_2m_min", []) or []
+        wcode = daily.get("weather_code", []) or []
+        dates = daily.get("time", []) or []
+        max_rain = max(rain) if rain else 0
+        max_gust = max(gust) if gust else 0
+        max_tmax = max(tmax) if tmax else None
+        min_tmin = min(tmin) if tmin else None
+        temp_lvl, temp_label, temp_kind = temp_risk(max_tmax, min_tmin)
+        lvl, label = risk_level(max_rain, max_gust)
+        days = []
+        for d in range(len(dates)):
+            days.append({
+                "date": dates[d],
+                "rain": rain[d] if d < len(rain) else None,
+                "pop": pop[d] if d < len(pop) else None,
+                "wind": wind[d] if d < len(wind) else None,
+                "gust": gust[d] if d < len(gust) else None,
+                "tmax": tmax[d] if d < len(tmax) else None,
+                "tmin": tmin[d] if d < len(tmin) else None,
+                "code": wcode[d] if d < len(wcode) else None,
+            })
+        feats.append(feature(lon, lat, {
+            "layer": "forecast",
+            "name": name,
+            "level": lvl,
+            "level_label": label,
+            "max_rain_mm": round(max_rain, 1),
+            "max_gust_kmh": round(max_gust, 1),
+            "max_tmax_c": round(max_tmax, 1) if max_tmax is not None else None,
+            "min_tmin_c": round(min_tmin, 1) if min_tmin is not None else None,
+            "temp_level": temp_lvl,
+            "temp_label": temp_label,
+            "temp_kind": temp_kind,
+            "days": days,
+        }))
+    return feats
 
 
 # -------------------------------------------------------------------------
