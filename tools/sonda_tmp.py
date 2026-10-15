@@ -9,41 +9,41 @@ def get(u, t=60, h=None):
 def show(u, n=700, tail=0, grep=None):
     s, b, hd = get(u)
     t = b.decode("utf-8", "replace")
-    print(f"\n=== {u}\n status={s} len={len(b)} type={hd.get('Content-Type')} disp={hd.get('Content-Disposition')}")
+    print(f"\n=== {u}\n status={s} len={len(b)} type={hd.get('Content-Type')}")
     if grep:
         for m in sorted(set(re.findall(grep, t)))[:80]: print("  ", m)
     else:
-        print(t[:n]);
+        print(t[:n])
         if tail: print("...", t[-tail:])
-show("https://ozonewatch.gsfc.nasa.gov/meteorology/figures/ozone/to3areas_2026_toms+omi+omps.txt", 900, 500)
-show("https://ozonewatch.gsfc.nasa.gov/meteorology/figures/ozone/to3areas_10_toms+omi+omps.txt", 900, 300)
-show("https://ozonewatch.gsfc.nasa.gov/meteorology/figures/ozone/to3area_0907-1013_toms+omi+omps.txt", 900, 600)
-show("https://noaadata.apps.nsidc.org/NOAA/G02135/north/daily/data/N_seaice_extent_climatology_1981-2010_v4.0.csv", 500)
-show("https://noaadata.apps.nsidc.org/robots.txt", 300)
-for p in (134, 135, 228):
-    s, b, hd = get(f"https://usicecenter.gov/File/DownloadCurrent?pId={p}")
-    print(f"\n=== USNIC pId={p} status={s} len={len(b)} type={hd.get('Content-Type')} disp={hd.get('Content-Disposition')}")
-    print(b[:1500].decode("utf-8", "replace") if b[:1] not in (b"P", b"%") else b[:40])
-show("https://usicecenter.gov/Products/AntarcIcebergs", 0, 0, grep=r'(?i)(iceberg[^<"]{0,80})')
-show("https://download.dmi.dk/robots.txt", 300)
-show("https://download.dmi.dk/Research_Projects/polarportal/PP_GSMB/GSMB.txt", 800, 400)
-show("https://www.navcen.uscg.gov/sitemap.xml", 0, grep=r'<loc>([^<]*(?:ice|iip|IIP|Ice)[^<]*)</loc>')
-show("https://www.navcen.uscg.gov/international-ice-patrol-products", 0, grep=r'href="([^"]+)"')
-show("https://www.navcen.uscg.gov/iip-products", 0, grep=r'href="([^"]+)"')
-gvp = ("https://webservices.volcano.si.edu/geoserver/GVP-VOTW/ows?service=WFS&version=2.0.0&request=GetFeature"
-       "&typeName=GVP-VOTW:Smithsonian_VOTW_Pleistocene_Volcanoes&outputFormat=application%2Fjson&count=2")
-show(gvp, 2500)
-show("https://webservices.volcano.si.edu/geoserver/GVP-VOTW/ows?service=WFS&version=2.0.0&request=GetFeature&typeName=GVP-VOTW:Smithsonian_VOTW_Holocene_Volcanoes&outputFormat=application%2Fjson&count=1", 2500)
-show("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_antarctic_ice_shelves_polys.geojson", 300)
-show("https://services.swpc.noaa.gov/json/ovation_aurora_latest.json", 200)
-def sparql(q):
-    s, b, _ = get("https://query.wikidata.org/sparql?format=json&query=" + urllib.parse.quote(q), t=70, h={"Accept": "application/sparql-results+json"})
-    try: return json.loads(b)["results"]["bindings"]
-    except Exception: return f"ERR {s}"
-for q in [
-  "SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q749622; p:P625/psv:P625/wikibase:geoLatitude ?lat . FILTER(?lat < -60) }",
-  "SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q39816; wdt:P625 ?c0; wikibase:sitelinks ?s . FILTER(?s >= 2) }",
-  "SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q8502; wdt:P625 ?c0; wikibase:sitelinks ?s . FILTER(?s >= 4) }",
-  "SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q34038; wdt:P625 ?c0; wikibase:sitelinks ?s . FILTER(?s >= 1) }",
-  "SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q133056; wdt:P625 ?c0; wikibase:sitelinks ?s . FILTER(?s >= 2) }"]:
-    print("WD", q[40:110], sparql(q)); time.sleep(65)
+s, b, _ = get("https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/WMTSCapabilities.xml", t=90)
+t = b.decode("utf-8", "replace")
+for capa in ("AMSRU2_Sea_Ice_Concentration_12km", "OMPS_Ozone_Total_Column", "MODIS_Terra_NDSI_Snow_Cover"):
+    i = t.find(f"<ows:Identifier>{capa}</ows:Identifier>")
+    blk = t[t.rfind("<Layer>", 0, i): t.find("</Layer>", i)]
+    print("\nCAPA", capa, re.findall(r"<TileMatrixSet>([^<]+)", blk), re.findall(r"<Format>([^<]+)", blk), re.findall(r'xlink:href="([^"]+colormap[^"]*)"', blk), re.findall(r"<Default>([^<]+)", blk), re.findall(r"<Value>([^<]{0,60})", blk)[:2])
+for cm in ("AMSRU2_Sea_Ice_Concentration_12km", "OMPS_Ozone_Total_Column"):
+    s, b, _ = get(f"https://gibs.earthdata.nasa.gov/colormaps/v1.3/{cm}.xml")
+    x = b.decode("utf-8", "replace")
+    print("\nCOLORMAP", cm, s, len(x))
+    ents = re.findall(r'<ColorMapEntry rgb="([^"]+)"[^>]*?(?:transparent="([^"]+)")?[^>]*?(?:sourceValue="([^"]+)")?[^>]*?label="([^"]*)"', x)
+    print(len(ents), ents[:3], ents[len(ents)//4:len(ents)//4+2], ents[len(ents)//2:len(ents)//2+2], ents[-3:])
+    print(re.findall(r"<Legend[^>]*>", x)[:3], re.findall(r'<LegendEntry rgb="([^"]+)"[^>]*tooltip="([^"]*)"', x)[::12][:20])
+show("https://thredds.met.no/robots.txt", 400)
+show("https://thredds.met.no/thredds/catalog/osisaf/met.no/ice/index/catalog.html", 0, grep=r"href='([^']+)'")
+show("https://thredds.met.no/thredds/catalog/osisaf/met.no/ice/index/v2p3/catalog.html", 0, grep=r"href='([^']+)'")
+show("https://ads.nipr.ac.jp/robots.txt", 400)
+show("https://ads.nipr.ac.jp/vishop/data/graph/plot_extent_n_v2.csv", 400, 300)
+show("https://climatereanalyzer.org/robots.txt", 400)
+show("https://climatereanalyzer.org/clim/seaice/", 0, grep=r'(?:href|src)="([^"]+\.(?:json|csv|js))"')
+show("https://download.dmi.dk/Research_Projects/polarportal/PP_GSMB/", 0, grep=r'href="([^"]+)"')
+show("https://download.dmi.dk/Research_Projects/polarportal/", 0, grep=r'href="([^"]+)"')
+s, b, _ = get("https://download.dmi.dk/Research_Projects/polarportal/PP_GSMB/GSMB.txt"); t = b.decode("utf-8","replace")
+i = t.find("#####", 200); print("\nGSMB cabecera:", t[:2600][-1600:])
+for etiqueta in ("Tanbreez", "Camp Century", "Kangerlussuaq Airport", "Nuuk", "Port of Nuuk", "Narsarsuaq Airport", "Citronen Fjord", "Malmbjerg", "Thule Air Base", "Ilulissat Icefjord", "Jakobshavn Glacier"):
+    s, b, _ = get("https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&limit=3&search=" + urllib.parse.quote(etiqueta))
+    try:
+        for e in json.loads(b)["search"]:
+            print("ENT", etiqueta, e["id"], e.get("label"), "|", e.get("description"))
+    except Exception as ex: print("ENT", etiqueta, "ERR", ex)
+s, b, _ = get("https://query.wikidata.org/sparql?format=json&query=" + urllib.parse.quote("SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q749622; wdt:P625 ?c0 }"), t=70, h={"Accept": "application/sparql-results+json"})
+print("\nWDQS estaciones", s, b[:300])
