@@ -384,14 +384,24 @@
    "nota": "Wikidata (CC0): lugares con artículo en varias Wikipedias o Patrimonio Mundial."
   },
   {
-   "id": "lugares_culto_cristiano",
-   "nombre": "Todas las iglesias católicas y cristianas (parroquias, capillas, templos evangélicos…)",
+   "id": "lugares_culto_catolico",
+   "nombre": "Todas las iglesias católicas (parroquias, capillas, templos, catedrales)",
    "categoria": "lugares_religiosos",
    "geometria": "punto",
    "fuente": "osm",
    "habilitada": true,
    "zoom_etiquetas": 12,
-   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship cristianos (~1.4 millones), separados en catolicismo y otras denominaciones. Aparecen desde el zoom 10 (nivel ciudad). Se completan en varias corridas."
+   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship cristianos con denominación católica. Aparecen desde el zoom 10 (nivel ciudad). Se completan en varias corridas."
+  },
+  {
+   "id": "lugares_culto_cristiano",
+   "nombre": "Todas las iglesias cristianas no católicas (ortodoxas, protestantes, evangélicas…)",
+   "categoria": "lugares_religiosos",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 12,
+   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship cristianos que no son católicos (~700 mil). Aparecen desde el zoom 10 (nivel ciudad). Se completan en varias corridas."
   },
   {
    "id": "lugares_culto",
