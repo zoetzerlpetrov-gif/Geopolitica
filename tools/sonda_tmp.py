@@ -1,15 +1,15 @@
-import json, re, urllib.request, urllib.parse, time
+import json, re, urllib.request, urllib.parse
 UA = {"User-Agent": "geopolitica-monitor/1.0 (sonda; github.com/zoetzerlpetrov-gif/Geopolitica)"}
-def get(u, t=60, h=None):
+def get(u, t=60):
     try:
-        r = urllib.request.urlopen(urllib.request.Request(u, headers={**UA, **(h or {})}), timeout=t)
+        r = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=t)
         return r.status, r.read(), dict(r.headers)
     except Exception as e:
         return str(e)[:150], b"", {}
-def show(u, n=700, tail=0, grep=None):
+def show(u, n=600, tail=0, grep=None):
     s, b, hd = get(u)
     t = b.decode("utf-8", "replace")
-    print(f"\n=== {u}\n status={s} len={len(b)} type={hd.get('Content-Type')}")
+    print(f"\n=== {u}\n status={s} len={len(b)} type={hd.get('Content-Type')} disp={hd.get('Content-Disposition')}")
     if grep:
         for m in sorted(set(re.findall(grep, t)))[:80]: print("  ", m)
     else:
@@ -17,33 +17,26 @@ def show(u, n=700, tail=0, grep=None):
         if tail: print("...", t[-tail:])
 s, b, _ = get("https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/WMTSCapabilities.xml", t=90)
 t = b.decode("utf-8", "replace")
-for capa in ("AMSRU2_Sea_Ice_Concentration_12km", "OMPS_Ozone_Total_Column", "MODIS_Terra_NDSI_Snow_Cover"):
+for capa in ("GHRSST_L4_MUR_Sea_Ice_Concentration", "GHRSST_L4_MUR25_Sea_Ice_Concentration", "MODIS_Terra_Sea_Ice", "VIIRS_SNPP_Sea_Ice", "MODIS_Terra_L3_Sea_Ice_Daily", "GHRSST_L4_GAMSSA_GDS2_Sea_Ice_Concentration", "VIIRS_SNPP_L3_Sea_Ice_Daily"):
     i = t.find(f"<ows:Identifier>{capa}</ows:Identifier>")
     blk = t[t.rfind("<Layer>", 0, i): t.find("</Layer>", i)]
-    print("\nCAPA", capa, re.findall(r"<TileMatrixSet>([^<]+)", blk), re.findall(r"<Format>([^<]+)", blk), re.findall(r'xlink:href="([^"]+colormap[^"]*)"', blk), re.findall(r"<Default>([^<]+)", blk), re.findall(r"<Value>([^<]{0,60})", blk)[:2])
-for cm in ("AMSRU2_Sea_Ice_Concentration_12km", "OMPS_Ozone_Total_Column"):
-    s, b, _ = get(f"https://gibs.earthdata.nasa.gov/colormaps/v1.3/{cm}.xml")
-    x = b.decode("utf-8", "replace")
-    print("\nCOLORMAP", cm, s, len(x))
-    ents = re.findall(r'<ColorMapEntry rgb="([^"]+)"[^>]*?(?:transparent="([^"]+)")?[^>]*?(?:sourceValue="([^"]+)")?[^>]*?label="([^"]*)"', x)
-    print(len(ents), ents[:3], ents[len(ents)//4:len(ents)//4+2], ents[len(ents)//2:len(ents)//2+2], ents[-3:])
-    print(re.findall(r"<Legend[^>]*>", x)[:3], re.findall(r'<LegendEntry rgb="([^"]+)"[^>]*tooltip="([^"]*)"', x)[::12][:20])
-show("https://thredds.met.no/robots.txt", 400)
-show("https://thredds.met.no/thredds/catalog/osisaf/met.no/ice/index/catalog.html", 0, grep=r"href='([^']+)'")
-show("https://thredds.met.no/thredds/catalog/osisaf/met.no/ice/index/v2p3/catalog.html", 0, grep=r"href='([^']+)'")
-show("https://ads.nipr.ac.jp/robots.txt", 400)
-show("https://ads.nipr.ac.jp/vishop/data/graph/plot_extent_n_v2.csv", 400, 300)
-show("https://climatereanalyzer.org/robots.txt", 400)
-show("https://climatereanalyzer.org/clim/seaice/", 0, grep=r'(?:href|src)="([^"]+\.(?:json|csv|js))"')
-show("https://download.dmi.dk/Research_Projects/polarportal/PP_GSMB/", 0, grep=r'href="([^"]+)"')
-show("https://download.dmi.dk/Research_Projects/polarportal/", 0, grep=r'href="([^"]+)"')
+    vals = re.findall(r"<Value>([^<]{0,60})", blk)
+    print("CAPA", capa, re.findall(r"<TileMatrixSet>([^<]+)", blk), re.findall(r"<Default>([^<]+)", blk), vals[-1:] if vals else None, re.findall(r'href="([^"]*colormaps[^"]*)"', blk)[:2])
+for cm in ("GHRSST_L4_MUR_Sea_Ice_Concentration", "MODIS_Terra_Sea_Ice", "GHRSST_Sea_Ice_Concentration"):
+    for v in ("v1.3", "v1.2"):
+        s, b, _ = get(f"https://gibs.earthdata.nasa.gov/colormaps/{v}/{cm}.xml")
+        x = b.decode("utf-8", "replace")
+        print("COLORMAP", v, cm, s, len(x), re.findall(r"<Legend[^>]*>", x)[:3], re.findall(r'<LegendEntry rgb="([^"]+)"[^>]*tooltip="([^"]*)"', x)[::8][:16])
+show("https://masie_web.apps.nsidc.org/robots.txt", 300)
+show("https://nsidc.org/robots.txt", 1200)
+show("https://usicecenter.gov/Products/ArcticTrendGraph", 0, grep=r'(?:href|src)="([^"]+)"')
+show("https://usicecenter.gov/Products/ArcticData", 0, grep=r'href="(/File[^"]+|[^"]+\.(?:csv|txt|json))"')
+show("https://usicecenter.gov/Products/ImsData", 0, grep=r'href="(/File[^"]+|[^"]+\.(?:csv|txt|json))"')
+show("https://www.ncei.noaa.gov/robots.txt", 600)
+show("https://www.ncei.noaa.gov/access/monitoring/snow-and-ice-extent/sea-ice/G/0", 0, grep=r'(?:href|src)="([^"]+\.(?:csv|json|txt))"')
+show("https://www.ncei.noaa.gov/access/monitoring/snow-and-ice-extent/sea-ice/N/9.csv", 500, 200)
+show("https://download.dmi.dk/Research_Projects/polarportal/PP_GSMB/GSMB_MELTA.txt", 0, 600)
 s, b, _ = get("https://download.dmi.dk/Research_Projects/polarportal/PP_GSMB/GSMB.txt"); t = b.decode("utf-8","replace")
-i = t.find("#####", 200); print("\nGSMB cabecera:", t[:2600][-1600:])
-for etiqueta in ("Tanbreez", "Camp Century", "Kangerlussuaq Airport", "Nuuk", "Port of Nuuk", "Narsarsuaq Airport", "Citronen Fjord", "Malmbjerg", "Thule Air Base", "Ilulissat Icefjord", "Jakobshavn Glacier"):
-    s, b, _ = get("https://www.wikidata.org/w/api.php?action=wbsearchentities&format=json&language=en&limit=3&search=" + urllib.parse.quote(etiqueta))
-    try:
-        for e in json.loads(b)["search"]:
-            print("ENT", etiqueta, e["id"], e.get("label"), "|", e.get("description"))
-    except Exception as ex: print("ENT", etiqueta, "ERR", ex)
-s, b, _ = get("https://query.wikidata.org/sparql?format=json&query=" + urllib.parse.quote("SELECT (COUNT(*) AS ?c) WHERE { ?x wdt:P31 wd:Q749622; wdt:P625 ?c0 }"), t=70, h={"Accept": "application/sparql-results+json"})
-print("\nWDQS estaciones", s, b[:300])
+i = t.find("Please acknowledge"); print("\nGSMB tras acknowledge:", t[i:i+1500])
+show("https://download.dmi.dk/Research_Projects/polarportal/README.txt", 1500)
+show("https://ozonewatch.gsfc.nasa.gov/meteorology/figures/ozone/to3areas_2026_toms+omi+omps.txt", 0, 0, grep=r"(2026-10-1\d.*)")
