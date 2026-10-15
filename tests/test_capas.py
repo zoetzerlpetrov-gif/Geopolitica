@@ -204,3 +204,25 @@ def test_petroleo_y_farmaceuticas_combinan_wikidata_y_osm(monkeypatch):
     for fam in ["ferrocarriles", "autopistas", "nuclear", "investigacion", "farmaceuticas", "petroleo_gas", "espacio", "fronteras", "desaladoras"]:
         assert fam in c.FAMILIAS and any(x["id"] == fam and x["habilitada"] for x in capas)
         assert fam in ids.values(), fam
+
+
+def test_relieve_wikidata_agrega_valle_de_mexico_y_usa_copia_si_falla(tmp_path, monkeypatch):
+    monkeypatch.setattr(c, "RELIEVE_CACHE", str(tmp_path / "relieve.json.gz"))
+    monkeypatch.setattr(c.time, "sleep", lambda s: None)
+    monkeypatch.setattr(c, "CLASES_RELIEVE", [("Q39816", "valles", 3, 5), ("Q34038", "cascadas", 2, 6)])
+    fila = lambda q, es, en, lon, lat, n, alt=None: {"x": {"value": f"http://www.wikidata.org/entity/{q}"}, **({"xEs": {"value": es}} if es else {}),
+                                                     **({"xEn": {"value": en}} if en else {}), "coord": {"value": f"Point({lon} {lat})"},
+                                                     "n": {"value": str(n)}, "iso": {"value": "MEX"}, **({"alt": {"value": str(alt)}} if alt else {})}
+    respuestas = {"Q39816": [fila("Q50647", "Valle de México", "Valley of Mexico", -98.867, 19.667, 40), fila("Q1", "", "", 0, 0, 5),
+                             fila("Q2", "Death Valley", "Death Valley", -116.8, 36.5, 60)],
+                  "Q34038": [fila("Q3", "", "Basaseachi Falls", -108.21, 28.17, 8)]}
+    consultar = lambda q: {"results": {"bindings": respuestas[[k for k in respuestas if f"wd:{k} " in q][0]]}}
+    out = c.relieve_wikidata({("valles", "death valley")}, consultar)
+    nombres = {f["properties"]["n"]: f["properties"]["st"] for f in out}
+    assert nombres == {"Valle de México": "valles", "Basaseachi Falls": "cascadas"}  # sin nombre: fuera; Death Valley ya está en Natural Earth
+    assert out[0]["tippecanoe"]["minzoom"] == 3  # 40 Wikipedias: aparece antes
+    # Wikidata no responde: se usan los registros de la corrida anterior.
+    def falla(q):
+        raise RuntimeError("429")
+    out2 = c.relieve_wikidata(set(), falla)
+    assert {f["properties"]["n"] for f in out2} == {"Valle de México", "Death Valley", "Basaseachi Falls"}

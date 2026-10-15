@@ -55,6 +55,24 @@ def test_emergencias_desde_filas_de_opensky():
     assert [x["hex"] for x in f] == ["b1"] and f[0]["fuente"] == "OpenSky"
 
 
+def test_emergencias_aeropuertos_cercanos_con_oaci():
+    csv_ = ("id,ident,type,name,latitude_deg,longitude_deg,icao_code,gps_code\n"
+            "1,MMMX,large_airport,Aeropuerto Internacional Benito Juárez,19.4363,-99.0721,MMMX,MMMX\n"
+            "2,MMTO,medium_airport,Aeropuerto de Toluca,19.3371,-99.566,MMTO,MMTO\n"
+            "3,MX-0001,small_airport,Pista chica,19.5,-99.1,,\n"
+            "4,KJFK,large_airport,John F Kennedy International Airport,40.6398,-73.7789,KJFK,KJFK\n"
+            "5,00XX,heliport,Helipuerto,19.4,-99.1,,\n")
+    lista = E.leer_aeropuertos(csv_)
+    assert [a[0] for a in lista] == ["MMMX", "MMTO", "KJFK"]
+    cerca = E.cercanos(lista, -99.1, 19.45)
+    assert [a[0] for a in cerca] == ["MMMX", "MMTO"]  # JFK queda a más de 400 km
+    assert cerca[0][2] <= 5 and 40 <= cerca[1][2] <= 60
+    feats = E.a_geojson([{"hex": "abc123", "indicativo": "AMX123", "matricula": "", "tipo_av": "", "squawk": "7700", "alt_m": 3000, "vel_kmh": 500,
+                          "rumbo": 0, "en_tierra": False, "emergencia": "", "fuente": "adsb.lol", "primera_t": AHORA, "ultima_t": AHORA,
+                          "lon": -99.1, "lat": 19.45, "rastro": []}], AHORA, lista)
+    assert feats[0]["properties"]["aeropuertos"][0][0] == "MMMX"
+
+
 def test_avisos_nauticos_categorias_y_coordenadas():
     assert N.coordenadas("POSITION 12-30.5N 045-10.0E")[0] == [45.167, 12.508]
     assert N.coordenadas("01-15S 080-00W") == [[-80.0, -1.25]]

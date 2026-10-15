@@ -32,6 +32,24 @@ export const IMAGENES = {
       marcas: ["0", "1", "2", "3", "4", "≥ 5"],
       tramos: [["rgb(235,235,215)", "Menos de 1: aire sin aerosoles notables"], ["rgb(223,223,98)", "1 a 2: ligero (bruma, polvo leve)"], ["rgb(255,230,0)", "2 a 3: moderado"],
         ["rgb(237,83,0)", "3 a 4: denso; humo de incendios o polvo del Sahara"], ["rgb(185,0,14)", "4 a 5: muy denso"], ["rgb(115,0,25)", "5 o más: extremo; incendios enormes, tormentas de polvo o ceniza volcánica"]] } },
+  // Hielo marino diario (GHRSST MUR, ~1 km, mezcla de satélites de microondas): porcentaje del mar cubierto de hielo.
+  hielo_marino: { nombre: "Hielo marino: % del mar cubierto (GHRSST MUR, diario)", capa: "GHRSST_L4_MUR_Sea_Ice_Concentration", matriz: "GoogleMapsCompatible_Level7",
+    ext: "png", maxzoom: 7, opacidad: 0.8, retraso_dias: 2,
+    leyenda: "Porcentaje de cada punto del mar cubierto de hielo (paleta oficial de NASA GIBS). El borde del hielo se mide desde 15 %. Se publica con ~2 días de retraso; para ver los polos completos usa la vista de globo.",
+    // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/GHRSST_Sea_Ice_Concentration.xml).
+    escala: { colores: ["rgb(78,0,78)", "rgb(184,0,184)", "rgb(127,0,255)", "rgb(0,90,255)", "rgb(0,234,191)", "rgb(15,175,0)", "rgb(225,245,0)", "rgb(255,177,0)", "rgb(255,26,26)", "rgb(255,153,153)"],
+      marcas: ["0 %", "25 %", "50 %", "75 %", "100 %"],
+      tramos: [["rgb(184,0,184)", "Menos de 15 %: agua casi libre (no cuenta como «extensión de hielo»)"], ["rgb(0,90,255)", "15 a 40 %: hielo disperso"],
+        ["rgb(15,175,0)", "40 a 70 %: hielo abierto"], ["rgb(255,177,0)", "70 a 90 %: hielo cerrado"], ["rgb(255,153,153)", "Más de 90 %: banquisa casi continua"]] } },
+  // Columna total de ozono (OMPS): el «agujero» es donde baja de 220 unidades Dobson, sobre la Antártida de agosto a diciembre.
+  ozono_total: { nombre: "Capa de ozono: columna total (OMPS, diario)", capa: "OMPS_Ozone_Total_Column", matriz: "GoogleMapsCompatible_Level6", ext: "png",
+    maxzoom: 6, opacidad: 0.7,
+    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS.",
+    // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_Ozone_Total_Column.xml).
+    escala: { colores: ["rgb(71,160,179)", "rgb(130,205,164)", "rgb(195,231,159)", "rgb(240,236,146)", "rgb(253,203,121)", "rgb(249,146,84)", "rgb(231,89,72)"],
+      marcas: ["125", "200", "275", "350", "425", "≥ 500 DU"],
+      tramos: [["rgb(71,160,179)", "Menos de 220 DU: agujero de ozono (más radiación UV llega al suelo)"], ["rgb(195,231,159)", "220 a 300 DU: bajo a normal"],
+        ["rgb(253,203,121)", "300 a 400 DU: normal a alto"], ["rgb(231,89,72)", "Más de 400 DU: alto (común en latitudes altas en primavera)"]] } },
   // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB. Al activarla, el navegador prueba un
   // mosaico de cada candidata (de la diaria a la anual) y usa la primera que trae imagen de verdad.
   viirs_noche: { nombre: "Luces nocturnas VIIRS (apagones)", maxzoom: 8, opacidad: 1, candidatos: [
@@ -92,6 +110,8 @@ export class Imagenes {
     const def = IMAGENES[id];
     if (!def) return null;
     let eleccion = null;
+    // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
+    if (def.retraso_dias && fecha === ayerUTC()) fecha = haceDias(def.retraso_dias);
     if (def.candidatos) {
       eleccion = await elegirCandidata(def, fecha, pedir);
       if (!eleccion) throw new Error("NASA GIBS no devolvió imagen de luces nocturnas para esa fecha ni para la referencia anual");

@@ -17,9 +17,11 @@ Diseñado para GitHub Actions: cada familia está aislada; si una falla, las dem
 """
 import csv
 import functools
+import gzip
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -208,6 +210,14 @@ def zonas():
     for i, f in enumerate(fc["features"]):
         out.append(feat(f["geometry"], {"id": f"ne:hielo{i}", "n": pr_(pr := f["properties"], "name") or "Glaciar o campo de hielo", "st": "glaciares", "p": ""},
                         max(3, min(int(pr_(pr, "scalerank") or 5), 7))))
+    try:
+        fc = json.loads(get(NE + "ne_10m_antarctic_ice_shelves_polys.geojson"))
+        for i, f in enumerate(fc["features"]):
+            pr = f["properties"]
+            out.append(feat(f["geometry"], {"id": f"ne:plataforma{i}", "n": pr_(pr, "name") or "Plataforma de hielo", "st": "plataformas_hielo", "p": "ATA",
+                                            "x": "Hielo de glaciares que flota sobre el mar, unido a la Antártida"}, max(1, min(int(pr_(pr, "scalerank") or 3), 6))))
+    except Exception as e:  # noqa: BLE001
+        print(f"   plataformas de hielo: {e}")
     fc = json.loads(get(NE + "ne_50m_lakes.geojson"))
     for i, f in enumerate(fc["features"]):
         pr = f["properties"]
@@ -218,6 +228,89 @@ def zonas():
         out.append(feat(f["geometry"], {"id": f"ne:rio{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": "rios", "p": ""}, 4))
     out += placas_tectonicas()
     out += volcanes()
+    out += relieve_wikidata({(f["properties"]["st"], _norm(f["properties"]["n"])) for f in out})
+    return out
+
+
+def _norm(t):
+    import unicodedata
+    t = unicodedata.normalize("NFD", str(t or "").split(" (")[0].lower())
+    return "".join(c for c in t if unicodedata.category(c) != "Mn").strip()
+
+
+# Relieve con nombre de Wikidata (CC0) que Natural Earth no trae (p. ej. el Valle de México, cascadas, pasos y montañas).
+# (QID de la clase, subtipo, mínimo de Wikipedias con artículo, zoom mínimo). El mínimo filtra los miles de objetos
+# creados por bots a partir de GeoNames, que solo tienen artículo en cebuano o sueco.
+CLASES_RELIEVE = [
+    ("Q39816", "valles", 3, 5), ("Q34038", "cascadas", 2, 6), ("Q133056", "pasos_montana", 3, 6), ("Q8502", "montes_picos", 5, 6),
+    ("Q46831", "cordilleras", 4, 4), ("Q54050", "montes_picos", 6, 7), ("Q150784", "canones", 3, 6), ("Q75520", "mesetas", 3, 5),
+    ("Q160091", "llanuras", 3, 5), ("Q35666", "glaciares", 3, 6), ("Q185113", "cabos", 3, 6), ("Q34763", "peninsulas", 3, 5),
+    ("Q39594", "golfos_bahias", 4, 5), ("Q37901", "estrechos", 3, 5), ("Q8514", "desiertos", 2, 4), ("Q23397", "lagos", 6, 6),
+    ("Q187223", "lagos", 4, 6), ("Q45776", "fiordos", 2, 6), ("Q83471", "geiseres", 1, 6), ("Q177380", "geiseres", 4, 7),
+    ("Q23442", "islas", 8, 6),
+]
+Q_RELIEVE = """
+SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?alt WHERE {
+  ?x wdt:P31 wd:%s ; wikibase:sitelinks ?n ; wdt:P625 ?coord .
+  FILTER(?n >= %d)
+  OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
+  OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso }
+  OPTIONAL { ?x wdt:P2044 ?alt }
+} LIMIT 20000"""
+RELIEVE_CACHE = os.path.join(ROOT, "capas", "relieve_wikidata.json.gz")
+
+
+def filas_relieve(res, clase):
+    """Filas SPARQL → registros [qid, nombre, lon, lat, iso3, altitud, sitelinks] (sin nombre o sin coordenada: fuera)."""
+    import sitios as S
+    out = {}
+    for f in res["results"]["bindings"]:
+        q = (S._v(f, "x") or "").rsplit("/", 1)[-1]
+        c = S.coord(S._v(f, "coord"))
+        nombre = S._v(f, "xEs") or S._v(f, "xEn") or ""
+        if not q or not c or not nombre or re.fullmatch(r"Q\d+", nombre) or q in out:
+            continue
+        try:
+            alt = round(float(S._v(f, "alt"))) if S._v(f, "alt") else None
+        except ValueError:
+            alt = None
+        out[q] = [q, nombre, c[0], c[1], S._v(f, "iso") or "", alt, int(S._v(f, "n") or 0)]
+    return list(out.values())
+
+
+def relieve_wikidata(ya, consultar=None):
+    """Puntos de relieve de Wikidata. Si una clase no responde (Wikidata a veces limita a 1 consulta por minuto), se usan
+    sus registros de la corrida anterior (capas/relieve_wikidata.json.gz). `ya` = {(subtipo, nombre)} de Natural Earth."""
+    consultar = consultar or _sparql
+    try:
+        with gzip.open(RELIEVE_CACHE, "rt", encoding="utf-8") as fh:
+            cache = json.load(fh)
+    except (OSError, ValueError):
+        cache = {}
+    out, vistos = [], set()
+    for qid, st, minimo, z in CLASES_RELIEVE:
+        clave = f"{qid}:{minimo}"
+        try:
+            cache[clave] = filas_relieve(consultar(Q_RELIEVE % (qid, minimo)), (qid, st))
+            print(f"   relieve {qid} ({st}): {len(cache[clave])}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   relieve {qid} ({st}): sin respuesta ({e}); se usan {len(cache.get(clave, []))} de la corrida anterior")
+        for q, nombre, lon, lat, iso, alt, n in cache.get(clave, []):
+            if q in vistos or (st, _norm(nombre)) in ya:
+                continue
+            vistos.add(q)
+            etiqueta = f"{nombre} ({alt:,} m)".replace(",", " ") if alt and st in ("montes_picos", "pasos_montana") else nombre
+            out.append(feat(punto(lon, lat), {"id": f"wd:{q}", "n": etiqueta, "st": st, "p": iso,
+                                              "x": f"altitud {alt:,} m".replace(",", " ") if alt else ""}, z if n < 15 else max(3, z - 2)))
+        time.sleep(2)
+    try:
+        os.makedirs(os.path.dirname(RELIEVE_CACHE), exist_ok=True)
+        with gzip.open(RELIEVE_CACHE, "wt", encoding="utf-8") as fh:
+            json.dump(cache, fh, ensure_ascii=False, separators=(",", ":"))
+    except OSError as e:
+        print(f"   no se guardó la copia del relieve: {e}")
+    print(f"   relieve de Wikidata: {len(out)} puntos nuevos")
     return out
 
 
@@ -277,6 +370,40 @@ def volcanes_fuente():
     return "noaa", fs
 
 
+# Tipo de roca principal de Smithsonian (Major_Rock_Type) en español; sirve también para estimar el magma en la ficha.
+ROCAS = {"andesite / basaltic andesite": "andesita", "basalt / picro-basalt": "basalto", "dacite": "dacita", "rhyolite": "riolita",
+         "trachyandesite / basaltic trachyandesite": "traquiandesita", "trachybasalt / tephrite basanite": "traquibasalto",
+         "trachyte / trachydacite": "traquita", "phonolite": "fonolita", "foidite": "foidita", "phono-tephrite /  tephri-phonolite": "fonotefrita",
+         "tephrite basanite / trachybasalt": "basanita"}
+
+
+def _roca(p):
+    r = str(_campo(p, "Major_Rock_Type") or "").strip()
+    return ROCAS.get(r.lower(), r.lower()) if r else ""
+
+
+def volcanes_pleistoceno():
+    """Volcanes sin erupciones conocidas en el Holoceno (Pleistoceno, ~12,000 a 2.6 millones de años) del Smithsonian."""
+    url = ("https://webservices.volcano.si.edu/geoserver/GVP-VOTW/ows?service=WFS&version=2.0.0&request=GetFeature"
+           "&typeName=GVP-VOTW:Smithsonian_VOTW_Pleistocene_Volcanoes&outputFormat=application%2Fjson")
+    try:
+        fs = json.loads(get(url, timeout=120, intentos=2))["features"]
+    except Exception as e:  # noqa: BLE001
+        print(f"   volcanes del Pleistoceno: sin respuesta ({e})")
+        return []
+    out = []
+    for f in fs:
+        g, p = f.get("geometry"), f["properties"]
+        if not g or g.get("type") != "Point":
+            continue
+        alt = _campo(p, "Elevation")
+        out.append(feat(punto(*g["coordinates"][:2]), {"id": f"gvp:{p.get('Volcano_Number')}", "n": p.get("Volcano_Name") or "Volcán", "st": "volcanes_inactivos", "p": "",
+                                                      "x": " · ".join(str(v) for v in (p.get("Country") or "", p.get("Primary_Volcano_Type") or "",
+                                                                                     "sin erupciones conocidas en ~12,000 años", f"{int(float(alt))} m" if alt not in (None, "") else "") if v)}, 5))
+    print(f"   volcanes del Pleistoceno (inactivos): {len(out)}")
+    return out
+
+
 def volcanes():
     origen, fs = volcanes_fuente()
     anillo = [(l["coords"][len(l["coords"]) // 2], l["coords"]) for l in _limites_pb2002() if l["cf"]]
@@ -299,9 +426,10 @@ def volcanes():
         cf = any(_distancia_km(lon, lat, c[0], c[1]) < 450 for c in puntos_anillo if abs(c[1] - lat) < 6)
         out.append(feat(punto(lon, lat), {"id": f"{origen}:{num}", "n": nombre, "st": "volcanes_cinturon" if cf else "volcanes", "p": "",
                                           "x": " · ".join(str(v) for v in (pais, tipo, f"última erupción: {ultima}" if ultima else "",
-                                                                             f"{int(float(alt))} m" if alt not in (None, "") else "") if v)}, 3))
+                                                                             f"{int(float(alt))} m" if alt not in (None, "") else "",
+                                                                             f"roca: {_roca(p)}" if _roca(p) else "") if v)}, 3))
     print(f"   volcanes ({origen}): {len(out)}, en el Cinturón de Fuego: {sum(1 for f in out if f['properties']['st'] == 'volcanes_cinturon')}")
-    return out
+    return out + (volcanes_pleistoceno() if origen == "gvp" else [])
 
 
 def aeropuertos():
@@ -621,7 +749,8 @@ def _sparql(consulta):
                 return json.load(r)
         except Exception as e:  # noqa: BLE001
             print(f"   Wikidata reintento {i + 1}: {e}")
-            time.sleep(20 * (i + 1))
+            # 429: Wikidata limita (en sus fallas, a 1 consulta por minuto); se espera más de un minuto.
+            time.sleep(65 if getattr(e, "code", None) == 429 else 20 * (i + 1))
     raise RuntimeError("Wikidata no respondió")
 
 

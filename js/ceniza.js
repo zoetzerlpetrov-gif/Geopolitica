@@ -29,6 +29,25 @@ export function vientoDeUV(u, v) {
   return { kmh: Math.hypot(u, v) * 3.6, desde: ((Math.atan2(-u, -v) * 180) / Math.PI + 360) % 360 };
 }
 
+/** Paso del modelo GFS más cercano a ahora con viento en altura, o null si aún no hay. */
+async function pasoCercano() {
+  const meta = await getJSON(`${BASE}meta.json`, { bust: true });
+  const ahora = Date.now();
+  const paso = (meta.pasos || []).filter((p) => p.alturas && Object.keys(p.alturas).length)
+    .sort((a, b) => Math.abs(Date.parse(a.valido_utc) - ahora) - Math.abs(Date.parse(b.valido_utc) - ahora))[0];
+  return paso ? { paso, max: meta.viento_altura_escala_ms || 90 } : null;
+}
+
+/** Viento en [lon, lat] a una altura (hPa: 500, 300 o 200): {kmh, desde, km, valido_utc} o null si no hay dato. */
+export async function vientoEn(lon, lat, lev) {
+  const x = await pasoCercano();
+  const a = x?.paso.alturas[lev];
+  if (!a) return null;
+  const px = await pixel(BASE + a.archivo, lon, lat);
+  const u = (px[0] / 255) * 2 * x.max - x.max, v = (px[1] / 255) * 2 * x.max - x.max;
+  return { ...vientoDeUV(u, v), km: a.km, valido_utc: x.paso.valido_utc };
+}
+
 export function limpiarCeniza(map) {
   for (const id of [`${SRC}-relleno`, `${SRC}-borde`]) if (map.getLayer(id)) map.removeLayer(id);
   if (map.getSource(SRC)) map.removeSource(SRC);
@@ -36,12 +55,9 @@ export function limpiarCeniza(map) {
 
 export async function mostrarCeniza(map, div) {
   const lon = Number(div.dataset.lon), lat = Number(div.dataset.lat);
-  const meta = await getJSON(`${BASE}meta.json`, { bust: true });
-  const ahora = Date.now();
-  const paso = (meta.pasos || []).filter((p) => p.alturas && Object.keys(p.alturas).length)
-    .sort((a, b) => Math.abs(Date.parse(a.valido_utc) - ahora) - Math.abs(Date.parse(b.valido_utc) - ahora))[0];
-  if (!paso) { div.innerHTML = `<p class="meta">Aún no hay viento en altura del modelo GFS (se prepara cada 6 h en «Datos en movimiento»).</p>`; return; }
-  const max = meta.viento_altura_escala_ms || 90;
+  const x = await pasoCercano();
+  if (!x) { div.innerHTML = `<p class="meta">Aún no hay viento en altura del modelo GFS (se prepara cada 6 h en «Datos en movimiento»).</p>`; return; }
+  const { paso, max } = x;
   const filas = [];
   for (const [lev, a] of Object.entries(paso.alturas).sort((x, y) => Number(y[0]) - Number(x[0]))) {
     const px = await pixel(BASE + a.archivo, lon, lat);

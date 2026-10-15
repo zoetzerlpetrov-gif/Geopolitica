@@ -3124,6 +3124,25 @@
      "zoom_min": 3
     },
     {
+     "id": "plataformas_hielo",
+     "nombre": {
+      "es": "Plataformas de hielo (Antártida)",
+      "en": "Antarctic ice shelves"
+     },
+     "icono": "🧊",
+     "color": "#a9d6ef",
+     "fuente": "natural_earth",
+     "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 1
+    },
+    {
      "id": "istmos",
      "nombre": {
       "es": "Istmos",
@@ -3266,6 +3285,44 @@
      "color": "#2E6F8E",
      "fuente": "natural_earth",
      "licencia": "Dominio público",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
+    },
+    {
+     "id": "fiordos",
+     "nombre": {
+      "es": "Fiordos",
+      "en": "Fjords"
+     },
+     "icono": "〰",
+     "color": "#3f7fb0",
+     "fuente": "wikidata",
+     "licencia": "CC0 (Wikidata)",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
+    },
+    {
+     "id": "geiseres",
+     "nombre": {
+      "es": "Géiseres y aguas termales",
+      "en": "Geysers and hot springs"
+     },
+     "icono": "♨",
+     "color": "#d9822b",
+     "fuente": "wikidata",
+     "licencia": "CC0 (Wikidata)",
      "frecuencia": "estática",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
@@ -3434,6 +3491,26 @@
      ],
      "familia": "zonas",
      "zoom_min": 3
+    },
+    {
+     "id": "volcanes_inactivos",
+     "nombre": {
+      "es": "Volcanes inactivos (sin erupciones en ~12,000 años)",
+      "en": "Pleistocene volcanoes (no Holocene eruptions)"
+     },
+     "icono": "▲",
+     "color": "#8d6e63",
+     "fuente": "gvp",
+     "licencia": "Uso libre citando la fuente",
+     "frecuencia": "estática",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "areas": [
+      "geografia",
+      "clima"
+     ],
+     "familia": "zonas",
+     "zoom_min": 5
     }
    ]
   },

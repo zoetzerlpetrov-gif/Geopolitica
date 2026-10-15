@@ -77,3 +77,24 @@ test("NWS: sin anticaché y alertas sin polígono ubicadas por sus condados", as
   assert.equal(r.features[1].geometry, null);              // condado desconocido: sigue sin ubicación
   assert.equal(r.features[2].geometry.type, "Polygon");
 });
+
+test("emergencias aéreas: enlaces a LiveATC de aeropuertos cercanos y bloque de archivo de 30 min", async () => {
+  const R = await import("../../js/riesgos.js");
+  assert.equal(R.bloqueLiveATC("2026-10-15T04:43:00Z"), "15-oct-2026, 04:30–05:00 UTC");
+  assert.equal(R.bloqueLiveATC("no es fecha"), "");
+  const h = R.htmlEscucharAvion({ indicativo: "AMX123", primera_vez: "2026-10-15T04:43:00Z", aeropuertos: [["MMMX", "Benito Juárez <b>", 4]] });
+  assert.match(h, /liveatc\.net\/search\/\?icao=MMMX/);
+  assert.match(h, /Benito Juárez &lt;b&gt;/);
+  assert.match(h, /121\.5 MHz/);
+  assert.match(h, /04:30–05:00 UTC/);
+  assert.match(R.htmlEscucharAvion({ aeropuertos: [] }), /zona remota/);
+});
+
+test("avisos náuticos: frecuencias y canales mencionados en el texto", async () => {
+  const R = await import("../../js/riesgos.js");
+  assert.deepEqual(R.frecuenciasEnTexto("VESSELS CONTACT ON VHF CH 16 OR 2182 KHZ. NAVTEX, CHANNEL 70, 156,8 MHZ"),
+    ["VHF canal 16", "VHF canal 70", "2182 kHz", "156.8 MHz", "NAVTEX"]);
+  assert.deepEqual(R.frecuenciasEnTexto("DERELICT VESSEL ADRIFT"), []);
+  assert.match(R.htmlRadioNautica({ texto: "MINES IN AREA" }), /no menciona frecuencias/);
+  assert.match(R.htmlRadioNautica({ texto: "MINES IN AREA" }), /518 kHz/);
+});

@@ -1,3 +1,4 @@
+import { ICONOS_SITIO } from "./polos.js";
 // Lógica pura de las capas de riesgo (portada de Clima Táctico / WarRoomViajero y ampliada):
 // severidad 1–5, tipo, ícono y país de cada objeto; enjambres sísmicos, radios de tsunami, óvalo de
 // auroras, Hoy No Circula y registro de eventos nuevos. Sin DOM ni mapa: se prueba en node.
@@ -19,6 +20,7 @@ export function iconoAnomalia(capaId, p = {}) {
 /** Severidad, tipo e ícono de un objeto según su capa. */
 export function clasificar(capa, p = {}, geom = null) {
   if (capa.startsWith("anom_")) return { sev: 1, tipo: "Fenómeno anómalo (reporte)", ic: iconoAnomalia(capa, p) };
+  if (capa.startsWith("polos_")) return { sev: 1, tipo: "Polos", ic: capa === "polos_sitios" ? ICONOS_SITIO[p.kind] || "" : capa === "polos_icebergs" ? "🧊" : "" };
   if (capa.startsWith("trenes")) return { sev: (p.retraso_min ?? 0) >= 30 ? 2 : 1, tipo: "Tren en circulación", ic: "" };
   switch (capa) {
     case "sismos": {
