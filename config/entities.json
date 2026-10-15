@@ -5486,11 +5486,11 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 7,
+     "zoom_min": 10,
      "areas": [
       "identidad"
      ],
-     "familia": "lugares_culto"
+     "familia": "lugares_culto_cristiano"
     },
     {
      "id": "pc_cristianismo",
@@ -5505,11 +5505,11 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 7,
+     "zoom_min": 10,
      "areas": [
       "identidad"
      ],
-     "familia": "lugares_culto"
+     "familia": "lugares_culto_cristiano"
     },
     {
      "id": "pc_islam",
@@ -5524,7 +5524,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 6,
+     "zoom_min": 9,
      "areas": [
       "identidad"
      ],
@@ -5543,7 +5543,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5562,7 +5562,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 5,
+     "zoom_min": 7,
      "areas": [
       "identidad"
      ],
@@ -5581,7 +5581,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 5,
+     "zoom_min": 7,
      "areas": [
       "identidad"
      ],
@@ -5600,7 +5600,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 5,
+     "zoom_min": 7,
      "areas": [
       "identidad"
      ],
@@ -5619,7 +5619,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5638,7 +5638,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5657,7 +5657,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5676,7 +5676,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5695,7 +5695,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5714,7 +5714,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5733,7 +5733,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 3,
+     "zoom_min": 5,
      "areas": [
       "identidad"
      ],
@@ -5752,7 +5752,7 @@
      "frecuencia": "mensual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
-     "zoom_min": 7,
+     "zoom_min": 9,
      "areas": [
       "identidad"
      ],
