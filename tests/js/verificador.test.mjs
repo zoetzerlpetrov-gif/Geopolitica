@@ -40,3 +40,15 @@ test("conjunto de prueba: detecta todos los fraudes de ejemplo sin alarmar mensa
   assert.deepEqual(no, [], "fraudes no detectados");
   assert.deepEqual(fp, [], "falsas alarmas");
 });
+
+test("dominios que imitan marcas: cero por o, uno por l, rn por m y una letra de diferencia", async () => {
+  const { marcaImitada } = await import("../../js/verificador.js");
+  assert.equal(marcaImitada("icl0ud.com"), "icloud");
+  assert.equal(marcaImitada("paypa1.com"), "paypal");
+  assert.equal(marcaImitada("rnercadolibre.com.mx"), "mercadolibre");
+  assert.equal(marcaImitada("amazom.com.mx"), "amazon");
+  assert.equal(marcaImitada("www.icloud.com"), null);
+  assert.equal(marcaImitada("netflix.com"), null);
+  assert.equal(marcaImitada("ejemplo.com"), null);
+  assert.equal(analizarMensaje("Hemos bloqueado tu cuenta de ocloud, inicia sesión para desbloquear icl0ud.com").nivel, "alto");
+});
