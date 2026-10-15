@@ -215,7 +215,7 @@ def zonas():
         for i, f in enumerate(fc["features"]):
             pr = f["properties"]
             out.append(feat(f["geometry"], {"id": f"ne:plataforma{i}", "n": pr_(pr, "name") or "Plataforma de hielo", "st": "plataformas_hielo", "p": "ATA",
-                                            "x": "Hielo de glaciares que flota sobre el mar, unido a la Antártida"}, max(1, min(int(pr_(pr, "scalerank") or 3), 6))))
+                                            "x": "Hielo de glaciares que flota sobre el mar, unido a la Antártida"}, 1))
     except Exception as e:  # noqa: BLE001
         print(f"   plataformas de hielo: {e}")
     fc = json.loads(get(NE + "ne_50m_lakes.geojson"))
@@ -226,6 +226,12 @@ def zonas():
     for i, f in enumerate(fc["features"]):
         pr = f["properties"]
         out.append(feat(f["geometry"], {"id": f"ne:rio{i}", "n": pr_(pr, "name_es") or pr_(pr, "name"), "st": "rios", "p": ""}, 4))
+    # Países: contorno y nombre (data/base/countries.geojson, Natural Earth simplificado, el mismo del mapa base local).
+    with open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8") as fh:
+        for f in json.load(fh)["features"]:
+            pr = f["properties"]
+            out.append(feat(f["geometry"], {"id": f"pais:{pr.get('iso3', '')}", "n": pr.get("nombre") or pr.get("iso3", ""), "st": "paises",
+                                            "p": pr.get("iso3", ""), "x": pr.get("region", "")}, 0))
     out += placas_tectonicas()
     out += volcanes()
     out += relieve_wikidata({(f["properties"]["st"], _norm(f["properties"]["n"])) for f in out})
@@ -510,6 +516,30 @@ def cables_de_geojson(cables, aterrizajes):
         lon, lat = g["coordinates"][:2]
         out.append(feat(punto(lon, lat), {"id": f"tgl:{pr['id']}", "n": pr.get("name") or pr["id"], "st": "aterrizajes_cable", "p": "", "x": ""}, 4))
     return out
+
+
+RUTAS_MARITIMAS = "https://raw.githubusercontent.com/newzealandpaul/Shipping-Lanes/main/data/Shipping_Lanes_v1.geojson"
+TIPO_RUTA = {"Major": ("rutas_principales", 0), "Middle": ("rutas_secundarias", 2), "Minor": ("rutas_menores", 3)}
+
+
+def rutas_de_geojson(fc):
+    """Global Shipping Lanes (Benden, 2022; CC BY 4.0, trazadas del mapa de océanos de la CIA de 2012) → un tramo por línea."""
+    out = []
+    for f in fc.get("features", []):
+        g, pr = f.get("geometry") or {}, f.get("properties") or {}
+        st, z = TIPO_RUTA.get(pr.get("Type"), ("rutas_menores", 3))
+        partes = [g["coordinates"]] if g.get("type") == "LineString" else g.get("coordinates", []) if g.get("type") == "MultiLineString" else []
+        for i, coords in enumerate(partes):
+            if len(coords) < 2:
+                continue
+            out.append(feat({"type": "LineString", "coordinates": _redondear(coords)},
+                            {"id": f"ruta:{pr.get('Type', '')}:{i}", "n": {"rutas_principales": "Ruta marítima principal", "rutas_secundarias": "Ruta marítima secundaria"}.get(st, "Ruta marítima menor"),
+                             "st": st, "p": "", "x": "Trazo de referencia del mapa de océanos de la CIA (2012), no la derrota exacta de cada barco"}, z))
+    return out
+
+
+def rutas_maritimas():
+    return rutas_de_geojson(json.loads(get(RUTAS_MARITIMAS)))
 
 
 def cables():
@@ -1264,7 +1294,7 @@ def lugares_culto_cristiano():
     return _culto_solo_lectura("lugares_culto_cristiano", "pc_cristianismo")
 
 
-FAMILIAS = {"zonas": zonas, "lugares_culto": lugares_culto, "lugares_culto_cristiano": lugares_culto_cristiano,
+FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto": lugares_culto, "lugares_culto_cristiano": lugares_culto_cristiano,
             "lugares_culto_catolico": lugares_culto_catolico, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
@@ -1413,11 +1443,13 @@ def main(pedidas):
             if fid in BUSCABLES:
                 with open(os.path.join(SALIDA, f"buscar_{fid}.json"), "w", encoding="utf-8") as f:
                     json.dump(indice_busqueda(feats), f, ensure_ascii=False, separators=(",", ":"))
-            subtipos = {}
+            subtipos, zoom_st = {}, {}
             for ft in feats:
-                subtipos[ft["properties"]["st"]] = subtipos.get(ft["properties"]["st"], 0) + 1
+                st_ = ft["properties"]["st"]
+                subtipos[st_] = subtipos.get(st_, 0) + 1
+                zoom_st[st_] = min(zoom_st.get(st_, 99), int(ft["properties"].get("z", 0)))
             manifest["familias"][fid] = {
-                "archivo": f"data/capas/{os.path.basename(destino)}", "objetos": len(feats), "por_subtipo": subtipos,
+                "archivo": f"data/capas/{os.path.basename(destino)}", "objetos": len(feats), "por_subtipo": subtipos, "zoom_por_subtipo": zoom_st,
                 **({"formato": "geojson"} if fid in FAMILIAS_GEOJSON else {}),
                 **({"indice": f"data/capas/buscar_{fid}.json"} if fid in BUSCABLES else {}),
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],

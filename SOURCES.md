@@ -217,3 +217,11 @@ Los escenarios de erupción usan modelos simplificados publicados (cono de energ
 ## Apagones y cortes de agua (octubre de 2026)
 
 No hay una fuente abierta y mundial de cortes de luz o de agua. poweroutage.us (solo EUA) es de pago y su robots.txt bloquea `/api`; las empresas eléctricas y los organismos de agua publican comunicados por país. La capa usa titulares de GDELT GKG 2.1 (los mismos archivos que la capa de tornados, sin descargarlos dos veces), ubicados por el lugar que nombra el titular. Se guardan título, enlace, medio y fecha; nunca el texto. Para confirmar apagones grandes sirven las luces nocturnas VIIRS (NASA GIBS) y los cortes de internet de IODA, que ya están en el monitor.
+
+## Rutas marítimas del mundo (octubre de 2026)
+
+| Fuente | Uso | Licencia |
+|---|---|---|
+| Global Shipping Lanes v1 (P. Benden, 2022; Zenodo 10.5281/zenodo.6361763), trazadas del «Map of the World's Oceans» de la CIA (2012) | Familia «Rutas marítimas del mundo»: principales, secundarias y menores | CC BY 4.0 (excluye a Statista) |
+
+Son rutas de referencia del mapa de la CIA, no la derrota exacta de cada barco. El tráfico real se ve en «En movimiento → Buques» (AIS). Una alternativa con densidad de tráfico real es el «Global Shipping Traffic Density» del Banco Mundial y el FMI (ráster de AIS, CC BY 4.0), que pesa varios cientos de MB.

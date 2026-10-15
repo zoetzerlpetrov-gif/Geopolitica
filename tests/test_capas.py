@@ -226,3 +226,14 @@ def test_relieve_wikidata_agrega_valle_de_mexico_y_usa_copia_si_falla(tmp_path, 
         raise RuntimeError("429")
     out2 = c.relieve_wikidata(set(), falla)
     assert {f["properties"]["n"] for f in out2} == {"Valle de México", "Death Valley", "Basaseachi Falls"}
+
+
+def test_rutas_maritimas_un_tramo_por_linea_y_nivel():
+    fc = {"features": [
+        {"geometry": {"type": "MultiLineString", "coordinates": [[[-79.9, 9.1], [-79.5, 8.9]], [[32.3, 31.2], [32.5, 29.9]], [[1, 1]]]}, "properties": {"Type": "Major"}},
+        {"geometry": {"type": "LineString", "coordinates": [[100.123456, 1.2], [104, 1.3]]}, "properties": {"Type": "Minor"}},
+        {"geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"Type": "Middle"}}]}
+    out = c.rutas_de_geojson(fc)
+    assert [f["properties"]["st"] for f in out] == ["rutas_principales", "rutas_principales", "rutas_menores"]  # el tramo de 1 punto y el punto: fuera
+    assert [f["tippecanoe"]["minzoom"] for f in out] == [0, 0, 3]
+    assert out[2]["geometry"]["coordinates"][0] == [100.1235, 1.2]
