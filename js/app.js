@@ -742,10 +742,13 @@ async function iniciarCapas() {
   const ZONAS_ATAJOS = [
     ["🔥 Cinturón de Fuego y sus volcanes", ["cinturon_fuego", "volcanes_cinturon"]],
     ["⬡ Placas tectónicas y sus límites", ["placas_tectonicas", "limite_subduccion", "limite_convergente", "limite_divergente", "limite_transformante", "cinturon_fuego"]],
-    ["🌋 Todos los volcanes", ["volcanes_cinturon", "volcanes", "cinturon_fuego"]],
+    ["🌋 Todos los volcanes (incluye los vigilados en vivo)", ["volcanes_cinturon", "volcanes", "cinturon_fuego"]],
     ["⛰️ Relieve (montañas, valles, mesetas…)", ["cordilleras", "montes_picos", "pasos_montana", "valles", "canones", "mesetas", "llanuras", "cuencas", "piedemonte", "glaciares", "desiertos", "tundras", "deltas_humedales"]],
     ["🌊 Mares, golfos, estrechos, lagos y ríos", ["oceanos", "mares", "golfos_bahias", "estrechos", "lagos", "rios"]],
   ];
+  // Volcanes vigilados (capa en vivo de Amenazas) también desde los subtipos de Zonas geográficas: la casilla es un
+  // espejo de [data-riesgo="volcanes"] (mismos datos, misma ficha con alerta oficial y viento para la ceniza).
+  const ESPEJO_VOLCANES = `<label class="espejo-riesgo"><input type="checkbox" data-espejo-riesgo="volcanes"><span class="swatch" style="background:#D23B3B"></span>Volcanes vigilados en vivo (alerta oficial y ceniza) <span class="meta">también en Riesgos → Amenazas</span></label>`;
   // Bienes raíces: cada subtipo es un tipo de inmueble con su propio color por cambio de precio; se ve uno a la vez.
   const UNO_A_LA_VEZ = { inmuebles_pais: "inm_vivienda", inmuebles_mx: "mx_casa" };
   const RAMPA_PRECIOS = [["#2166AC", "baja más de 5 %"], ["#67A9CF", "baja 1–5 %"], ["#D9D9D9", "estable (±1 %)"], ["#EF8A62", "sube 1–5 %"], ["#B2182B", "sube más de 5 %"]];
@@ -759,7 +762,7 @@ async function iniciarCapas() {
       ${f.disponible && f.id === "zonas" ? `<div class="atajos-zonas">${ZONAS_ATAJOS.map(([t], i) => `<button type="button" class="mini" data-atajo-zonas="${i}">${esc(t)}</button>`).join("")}</div>` : ""}
       ${f.disponible && f.id in UNO_A_LA_VEZ ? `<div class="rampa-precios" aria-label="Cambio de precio en 12 meses">${RAMPA_PRECIOS.map(([c, t]) => `<span><i style="background:${c}"></i>${esc(t)}</span>`).join("")}</div>` : ""}
       ${f.disponible && f.subtipos.length > 1 ? `<details${f.id in UNO_A_LA_VEZ ? " open" : ""}><summary>${f.id in UNO_A_LA_VEZ ? "Tipo de inmueble (uno a la vez)" : `Subtipos (${f.subtipos.length})`}</summary>${f.subtipos.map((st) => `
-        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
+        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>${f.id === "zonas" && st.id === "volcanes" ? ESPEJO_VOLCANES : ""}`).join("")}</details>` : ""}
     </div>`;
   // Categorías que comparten sección del menú (mismo tema, datos y capas separados).
   const SECCION = { conflicto: "grupos_armados", grupos_criminales: "grupos_armados" };
@@ -818,17 +821,29 @@ async function iniciarCapas() {
       await gestor.onEntidad({ familia: fam, props: { id: r.id, n: r.n, st: r.st, p: r.p, x: r.x }, lngLat: { lng: r.lon, lat: r.lat } });
     });
   }
+  // Enciende o apaga una capa de Amenazas desde su casilla espejo (y al revés: la casilla original actualiza el espejo).
+  function espejoRiesgo(id, encender) {
+    const original = document.querySelector(`[data-riesgo="${id}"]`);
+    if (original && original.checked !== encender) { original.checked = encender; original.dispatchEvent(new Event("change", { bubbles: true })); }
+    for (const x of document.querySelectorAll(`[data-espejo-riesgo="${id}"]`)) x.checked = encender;
+  }
+  document.addEventListener("change", (e) => {
+    const id = e.target.dataset?.riesgo;
+    if (id) for (const x of document.querySelectorAll(`[data-espejo-riesgo="${id}"]`)) x.checked = e.target.checked;
+  });
   // Atajo: deja marcados solo esos subtipos y enciende «Zonas geográficas» si estaba apagada.
   cont.addEventListener("click", async (e) => {
     const b = e.target.closest("[data-atajo-zonas]");
     if (!b) return;
     const ids = new Set(ZONAS_ATAJOS[Number(b.dataset.atajoZonas)][1]);
     for (const x of cont.querySelectorAll('[data-fam-sub="zonas"]')) x.checked = ids.has(x.value);
+    if (ids.has("volcanes")) espejoRiesgo("volcanes", true);
     const cb = cont.querySelector('[data-fam="zonas"]');
     if (!cb.checked) { cb.checked = true; await gestor.activar("zonas"); }
     gestor.setSubtipos("zonas", [...ids]);
   });
   cont.addEventListener("change", async (e) => {
+    if (e.target.dataset.espejoRiesgo) { espejoRiesgo(e.target.dataset.espejoRiesgo, e.target.checked); return; }
     const fam = e.target.dataset.fam;
     if (fam) {
       if (!e.target.checked) { gestor.desactivar(fam); return; }
