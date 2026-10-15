@@ -3946,6 +3946,206 @@
       "geografia"
      ],
      "familia": "turismo"
+    },
+    {
+     "id": "pueblo_magico",
+     "nombre": {
+      "es": "Pueblos Mágicos de México",
+      "en": "Pueblos Mágicos (Mexico)"
+     },
+     "icono": "✨",
+     "color": "#C2185B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 4,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "centro_historico",
+     "nombre": {
+      "es": "Centros históricos",
+      "en": "Historic centres"
+     },
+     "icono": "🏘",
+     "color": "#8D6E63",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "sitio_arqueologico",
+     "nombre": {
+      "es": "Zonas y sitios arqueológicos",
+      "en": "Archaeological sites"
+     },
+     "icono": "🗿",
+     "color": "#A0522D",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "museo",
+     "nombre": {
+      "es": "Museos relevantes",
+      "en": "Notable museums"
+     },
+     "icono": "🖼",
+     "color": "#6A1B9A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "castillo_palacio",
+     "nombre": {
+      "es": "Castillos y palacios",
+      "en": "Castles and palaces"
+     },
+     "icono": "🏰",
+     "color": "#5D4037",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "monumento",
+     "nombre": {
+      "es": "Monumentos",
+      "en": "Monuments"
+     },
+     "icono": "🗽",
+     "color": "#455A64",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "playa",
+     "nombre": {
+      "es": "Playas",
+      "en": "Beaches"
+     },
+     "icono": "🏖",
+     "color": "#F4A300",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "cenote_cueva",
+     "nombre": {
+      "es": "Cenotes y cuevas",
+      "en": "Cenotes and caves"
+     },
+     "icono": "🕳",
+     "color": "#00838F",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "cascada_turistica",
+     "nombre": {
+      "es": "Cascadas",
+      "en": "Waterfalls"
+     },
+     "icono": "💧",
+     "color": "#1E88E5",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
+    },
+    {
+     "id": "parque_ocio",
+     "nombre": {
+      "es": "Parques temáticos, zoológicos y acuarios",
+      "en": "Theme parks, zoos and aquariums"
+     },
+     "icono": "🎡",
+     "color": "#E64A19",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad",
+      "geografia"
+     ],
+     "familia": "turismo"
     }
    ]
   },
@@ -5265,6 +5465,291 @@
       "identidad"
      ],
      "familia": "lugares_religiosos"
+    },
+    {
+     "id": "pc_catolicismo",
+     "nombre": {
+      "es": "Catolicismo (iglesias, parroquias, capillas)",
+      "en": "Catholic"
+     },
+     "icono": "✝",
+     "color": "#2E5AA8",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_cristianismo",
+     "nombre": {
+      "es": "Otras iglesias cristianas (ortodoxas, protestantes, evangélicas…)",
+      "en": "Other Christian"
+     },
+     "icono": "✝",
+     "color": "#3B6FB6",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_islam",
+     "nombre": {
+      "es": "Islam (mezquitas)",
+      "en": "Islam"
+     },
+     "icono": "☪",
+     "color": "#1E8449",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_judaismo",
+     "nombre": {
+      "es": "Judaísmo (sinagogas)",
+      "en": "Judaism"
+     },
+     "icono": "✡",
+     "color": "#5DADE2",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_hinduismo",
+     "nombre": {
+      "es": "Hinduismo (templos)",
+      "en": "Hinduism"
+     },
+     "icono": "🕉",
+     "color": "#E67E22",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_budismo",
+     "nombre": {
+      "es": "Budismo (templos, pagodas)",
+      "en": "Buddhism"
+     },
+     "icono": "☸",
+     "color": "#D4AC0D",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_sintoismo",
+     "nombre": {
+      "es": "Sintoísmo (santuarios)",
+      "en": "Shinto"
+     },
+     "icono": "⛩",
+     "color": "#C0392B",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 5,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_sijismo",
+     "nombre": {
+      "es": "Sijismo (gurdwaras)",
+      "en": "Sikhism"
+     },
+     "icono": "🪯",
+     "color": "#F39C12",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_taoismo",
+     "nombre": {
+      "es": "Taoísmo y religión tradicional china",
+      "en": "Taoism"
+     },
+     "icono": "☯",
+     "color": "#7D3C98",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_jainismo",
+     "nombre": {
+      "es": "Jainismo",
+      "en": "Jainism"
+     },
+     "icono": "🙏",
+     "color": "#B9770E",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_bahai",
+     "nombre": {
+      "es": "Fe bahá'í",
+      "en": "Bahá'í"
+     },
+     "icono": "✶",
+     "color": "#17A589",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_ocultismo",
+     "nombre": {
+      "es": "Satanismo y ocultismo",
+      "en": "Satanism and occultism"
+     },
+     "icono": "⛧",
+     "color": "#1C1C1C",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_paganismo",
+     "nombre": {
+      "es": "Paganismo y neopaganismo",
+      "en": "Paganism"
+     },
+     "icono": "☘",
+     "color": "#5D6D7E",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_afro_espiritismo",
+     "nombre": {
+      "es": "Religiones afroamericanas y espiritismo (vudú, santería, umbanda…)",
+      "en": "Afro-American religions and spiritism"
+     },
+     "icono": "✦",
+     "color": "#884EA0",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
+    },
+    {
+     "id": "pc_otras",
+     "nombre": {
+      "es": "Otras religiones o sin religión indicada",
+      "en": "Other or unspecified"
+     },
+     "icono": "✧",
+     "color": "#7F8C8D",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "identidad"
+     ],
+     "familia": "lugares_culto"
     }
    ]
   },

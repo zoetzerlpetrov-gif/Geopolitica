@@ -259,13 +259,13 @@
   },
   {
    "id": "turismo",
-   "nombre": "Lugares turísticos: Patrimonio Mundial, parques nacionales y atracciones",
+   "nombre": "Lugares turísticos: Patrimonio Mundial, Pueblos Mágicos, zonas arqueológicas, museos, playas y más",
    "categoria": "sociedad",
    "geometria": "punto",
    "fuente": "wikidata",
    "habilitada": true,
    "zoom_etiquetas": 6,
-   "nota": "Wikidata (CC0): sitios con declaratoria de Patrimonio Mundial de la UNESCO (P1435), parques nacionales con 5 o más Wikipedias y atracciones turísticas con 4 o más."
+   "nota": "Wikidata (CC0): Patrimonio Mundial (UNESCO), Pueblos Mágicos, parques nacionales, centros históricos, zonas arqueológicas, museos, castillos y palacios, monumentos, playas, cenotes y cuevas, cascadas, parques temáticos, zoológicos y acuarios. Los más conocidos (más Wikipedias) aparecen primero al alejar el mapa."
   },
   {
    "id": "fiscal_ue",
@@ -382,6 +382,16 @@
    "habilitada": true,
    "zoom_etiquetas": 7,
    "nota": "Wikidata (CC0): lugares con artículo en varias Wikipedias o Patrimonio Mundial."
+  },
+  {
+   "id": "lugares_culto",
+   "nombre": "Todos los lugares de culto por religión (iglesias, mezquitas, templos, sinagogas…)",
+   "categoria": "lugares_religiosos",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 12,
+   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship con su religión, sin importar su tamaño. Son ~2 millones: se descargan por zonas y el mapa se completa en varias corridas. Los cristianos y católicos aparecen desde el zoom 7; el resto, antes."
   },
   {
    "id": "grupos_criminales",
