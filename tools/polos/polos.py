@@ -77,8 +77,10 @@ def iso(t):
     return datetime.fromtimestamp(t, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def bajar(url, timeout=60, accept=None):
-    if not F.permitido_por_robots(url):
+def bajar(url, timeout=60, accept=None, robots=True):
+    """GET respetando robots.txt. Las API oficiales de Wikidata (SPARQL y datos de entidades) se usan con User-Agent
+    identificado según su política de uso, igual que en tools/capas y tools/entidades: su robots.txt es para rastreadores de páginas."""
+    if robots and not F.permitido_por_robots(url):
         raise PermissionError(f"robots.txt no permite {url}")
     req = urllib.request.Request(url, headers={"User-Agent": F.UA, **({"Accept": accept} if accept else {})})
     with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -248,8 +250,8 @@ def coord_entidad(datos, q):
 
 def sitios(previo, consultar_sparql=None, entidad=None):
     """Bases (SPARQL) + sitios de Groenlandia (EntityData). Si una parte falla, se conservan sus objetos anteriores."""
-    consultar_sparql = consultar_sparql or (lambda q: json.loads(bajar(SPARQL + urllib.parse.urlencode({"query": q, "format": "json"}), 120, "application/sparql-results+json")))
-    entidad = entidad or (lambda q: json.loads(bajar(ENTIDAD.format(q=q), 40)))
+    consultar_sparql = consultar_sparql or (lambda q: json.loads(bajar(SPARQL + urllib.parse.urlencode({"query": q, "format": "json"}), 120, "application/sparql-results+json", robots=False)))
+    entidad = entidad or (lambda q: json.loads(bajar(ENTIDAD.format(q=q), 40, robots=False)))
     anteriores = previo.get("features", [])
     estado = {}
     try:
@@ -345,8 +347,8 @@ def main():
         feats, estado = sitios(leer_json(OUT_SIT, {}))
         if feats:
             guardar(OUT_SIT, {"type": "FeatureCollection", "generado_utc": iso(t), "estado": estado, "features": feats})
-        # Si las bases fallaron, se reintenta en 6 h en vez de una semana.
-        ritmo["sitios"] = {"t": t if isinstance(estado.get("bases"), int) else t - CADA["sitios"] + 6 * H, "estado": estado}
+        # Si las bases fallaron, se reintenta en 1 h en vez de una semana.
+        ritmo["sitios"] = {"t": t if isinstance(estado.get("bases"), int) else t - CADA["sitios"] + H, "estado": estado}
         resumen["sitios"] = estado
 
     if toca(ritmo, "aurora", t):
