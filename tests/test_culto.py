@@ -41,3 +41,15 @@ def test_rotacion_parte_cajas_pesadas_y_conserva_lo_descargado(tmp_path):
     assert hechas > 0 and all(f[3] == "pc_judaismo" for f in cajas.todas())
     # Otra instancia lee el mismo estado (se conserva entre corridas).
     assert K.Cajas(str(tmp_path)).completas()[0] == cajas.completas()[0]
+
+
+def test_al_dia_solo_cuando_todas_las_cajas_son_recientes(tmp_path):
+    from datetime import datetime, timezone
+    cajas = K.Cajas(str(tmp_path))
+    assert not cajas.al_dia()
+    hoy = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    for k in cajas.estado:
+        cajas.estado[k]["t"] = hoy
+    assert cajas.al_dia()
+    next(iter(cajas.estado.values()))["t"] = "2020-01-01T00:00:00Z"
+    assert not cajas.al_dia()
