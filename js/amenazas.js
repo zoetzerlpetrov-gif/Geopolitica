@@ -20,6 +20,7 @@ export function iconoAnomalia(capaId, p = {}) {
 /** Severidad, tipo e ícono de un objeto según su capa. */
 export function clasificar(capa, p = {}, geom = null) {
   if (capa.startsWith("anom_")) return { sev: 1, tipo: "Fenómeno anómalo (reporte)", ic: iconoAnomalia(capa, p) };
+  if (capa === "cortes") return { sev: p.programado ? 1 : p.severe ? 3 : 2, tipo: /AGUA/.test(p.kind || "") && !/LUZ/.test(p.kind || "") ? "Corte de agua" : "Apagón", ic: /LUZ/.test(p.kind || "") ? "⚡" : "💧" };
   if (capa.startsWith("polos_")) return { sev: 1, tipo: "Polos", ic: capa === "polos_sitios" ? ICONOS_SITIO[p.kind] || "" : capa === "polos_icebergs" ? "🧊" : "" };
   if (capa.startsWith("trenes")) return { sev: (p.retraso_min ?? 0) >= 30 ? 2 : 1, tipo: "Tren en circulación", ic: "" };
   switch (capa) {

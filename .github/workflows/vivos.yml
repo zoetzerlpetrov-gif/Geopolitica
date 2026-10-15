@@ -101,6 +101,11 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/tornados.py
 
+      - name: Apagones y cortes de agua del mundo (GDELT GKG, mismos archivos que los tornados; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/clima/cortes.py
+
       - name: Avisos meteorológicos de Europa (MeteoAlarm, cada corrida; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 4
