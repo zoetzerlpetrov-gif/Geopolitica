@@ -31,10 +31,11 @@ def test_trackalien_recientes_filtra_ruido_y_exige_enlace():
         _ta("Ballenas: temporada de avistamiento en Baja California", "Diario|https://example.com/c"),
         _ta("Biden habla de illegal aliens en la frontera", "Diario|https://example.com/d"),
         _ta("The Vault Files: Tic-Tac", "The Black Vault|https://www.theblackvault.com/x"),                 # feed dedicado: pasa
-        _ta("Captan OVNI en 2019", "Diario|https://example.com/e", fecha="2019-05-01"),                     # fuera de 12 meses
+        _ta("Captan OVNI en 2019", "Diario|https://example.com/e", fecha="2019-05-01"),                     # más de 12 meses: archivo
     ]}
     r = A.de_trackalien(fc, True, HOY)
-    assert [f["properties"]["titulo"] for f in r] == ["Captan OVNI sobrevolando la Ciudad de México - Récord", "The Vault Files: Tic-Tac"]
+    assert [f["properties"]["titulo"] for f in r] == ["Captan OVNI sobrevolando la Ciudad de México - Récord", "The Vault Files: Tic-Tac", "Captan OVNI en 2019"]
+    assert r[2]["properties"]["capa"] == "anom_archivo"
     p = r[0]["properties"]
     assert p["capa"] == "anom_recientes" and p["url"] == "https://news.google.com/a" and p["fuente"] == "Récord"
     assert p["resumen"] == ""  # nunca se guarda el texto de la nota
@@ -63,6 +64,17 @@ def test_tipo_de_fenomeno_como_trackalien():
         for i, (t, tipo) in enumerate((("Luces extrañas", "lights_sky"), ("OVNI visto", "ufo"), ("Otro OVNI", "ufo")), 1)]
     g = A.agrupar_por_pais(fs)
     assert len(g) == 1 and g[0]["properties"]["tipos"] == ["lights_sky", "ufo"]
+
+
+def test_archivo_de_notas_no_pierde_lo_que_trackalien_deja_de_publicar():
+    def nota(i, fecha):
+        return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]},
+                "properties": {"id": f"ta:{i}", "titulo": f"n{i}", "fecha": fecha, "capa": "anom_recientes"}}
+    previas = [nota(1, "2026-01-01"), nota(2, "2025-01-01")]
+    unidas = A.unir_archivo(previas, [nota(3, "2026-10-01"), nota(1, "2026-01-01")], HOY)
+    assert [f["properties"]["id"] for f in unidas] == ["ta:3", "ta:1", "ta:2"]  # nada se pierde, sin repetidos
+    assert unidas[2]["properties"]["capa"] == "anom_archivo"  # más de un año
+    assert len(A.unir_archivo(unidas, [], HOY, maximo=2)) == 2
 
 
 def test_densidad_nuforc_solo_conteos_y_sin_celdas_pequenas():

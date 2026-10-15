@@ -33,6 +33,9 @@ import fuentes as F  # noqa: E402
 from geo import Gazetteer  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "anomalias.geojson")
+# Archivo acumulado de notas (sin agrupar): TrackAlien solo publica las recientes; lo que deja de publicar se conserva aquí.
+ARCHIVO = os.path.join(ROOT, "vivos", "anomalias_archivo.json")
+MAX_ARCHIVO = 20000
 CATALOGO = os.path.join(ROOT, "config", "anomalias.json")
 TA = "https://raw.githubusercontent.com/zoetzerlpetrov-gif/trackalien/main/data/"
 NUFORC = "https://raw.githubusercontent.com/planetsig/ufo-reports/master/csv-data/ufo-scrubbed-geocoded-time-standardized.csv"
@@ -185,9 +188,10 @@ def de_trackalien(fc, recientes, hoy, ubicador=None):
         titulo = str(p.get("title") or "").strip()
         cred = str(p.get("credibility") or "")
         if recientes:
-            if not url or str(p.get("date") or "") < limite or not es_del_tema(titulo, nombres):
+            if not url or not es_del_tema(titulo, nombres):
                 continue
-            capa, nivel = "anom_recientes", "medios"
+            # Las notas de más de un año van al archivo (siguen en el mapa, en su propia capa).
+            capa, nivel = ("anom_recientes" if str(p.get("date") or "") >= limite else "anom_archivo"), "medios"
             u = ubicador.ubicar(titulo, p.get("country"), nombres)
             if not u:
                 continue
@@ -208,17 +212,30 @@ def de_trackalien(fc, recientes, hoy, ubicador=None):
     return out
 
 
+def unir_archivo(previas, nuevas, hoy, maximo=MAX_ARCHIVO):
+    """Notas individuales del archivo anterior + las de esta corrida (gana la versión nueva del mismo id). Cada nota se
+    reasigna a «recientes» (último año) o «archivo» según su fecha. Nunca se borran salvo al pasar de `maximo`."""
+    limite = (hoy - timedelta(days=DIAS_RECIENTES)).strftime("%Y-%m-%d")
+    por_id = {f["properties"]["id"]: f for f in previas if f.get("properties", {}).get("id")}
+    for f in nuevas:
+        por_id[f["properties"]["id"]] = f
+    out = sorted(por_id.values(), key=lambda f: f["properties"].get("fecha") or "", reverse=True)[:maximo]
+    for f in out:
+        f["properties"]["capa"] = "anom_recientes" if (f["properties"].get("fecha") or "") >= limite else "anom_archivo"
+    return out
+
+
 def agrupar_por_pais(feats, maximo=15):
     """Notas ubicadas solo por país → un punto por país con la lista de las más recientes (si no, quedarían encimadas)."""
     otras, por_pais = [], defaultdict(list)
     for f in feats:
         p = f["properties"]
-        (por_pais[p["lugar"]] if p.get("precision") == "país" else otras).append(f)
-    for lugar, fs in por_pais.items():
+        (por_pais[(p.get("capa"), p["lugar"])] if p.get("precision") == "país" else otras).append(f)
+    for (_, lugar), fs in por_pais.items():
         fs.sort(key=lambda f: f["properties"]["fecha"], reverse=True)
         p0 = fs[0]["properties"]
         otras.append({"type": "Feature", "geometry": fs[0]["geometry"], "properties": {
-            "id": f"ta_pais:{lugar}", "capa": "anom_recientes", "tipo": "ufo", "tipo_nombre": "Notas sin ciudad identificada",
+            "id": f"ta_pais:{p0.get('capa', 'anom_recientes')}:{lugar}", "capa": p0.get("capa", "anom_recientes"), "tipo": "ufo", "tipo_nombre": "Notas sin ciudad identificada",
             "titulo": f"{len(fs)} nota{'s' if len(fs) != 1 else ''} sobre {lugar} sin ciudad identificada", "fecha": p0["fecha"], "nivel": "medios",
             "tipos": sorted({f["properties"]["tipo"] for f in fs}),
             "lugar": lugar, "precision": "país", "n": len(fs), "fuente": "Varias (ver lista)", "url": p0["url"],
@@ -275,6 +292,21 @@ def de_catalogo(cat):
     return out
 
 
+def leer_archivo(previo=None):
+    """Archivo de notas; la primera vez se siembra con las notas individuales de la corrida anterior."""
+    try:
+        return json.load(open(ARCHIVO, encoding="utf-8"))["features"]
+    except (OSError, ValueError, KeyError):
+        return [f for f in (previo or {}).get("features", []) if str(f["properties"].get("id", "")).startswith("ta:")
+                and f["properties"].get("capa") in ("anom_recientes", "anom_archivo")]
+
+
+def guardar_archivo(feats, ahora):
+    os.makedirs(os.path.dirname(ARCHIVO), exist_ok=True)
+    json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "nota": "Notas de TrackAlien acumuladas (título, medio, fecha y enlace; sin texto).",
+               "features": feats}, open(ARCHIVO, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+
+
 def _previas(previo, capas):
     return [f for f in (previo or {}).get("features", []) if f["properties"].get("capa") in capas]
 
@@ -293,9 +325,22 @@ def main():
     feats, estado = [], {}
     for nombre, recientes in (("events_recent.geojson", True), ("events_historical.geojson", False)):
         capa = "anom_recientes" if recientes else "anom_historicos"
+        if recientes:
+            # Notas: se suman al archivo acumulado (lo que TrackAlien deja de publicar no se pierde).
+            archivo = leer_archivo(previo)
+            try:
+                nuevos = de_trackalien(json.loads(F.get(TA + nombre, timeout=60)), True, ahora)
+                estado[capa] = f"ok ({len(nuevos)} notas en TrackAlien)"
+            except Exception as e:  # noqa: BLE001  se sigue con el archivo
+                nuevos = []
+                estado[capa] = f"error: {e}"
+            archivo = unir_archivo(archivo, nuevos, ahora)
+            guardar_archivo(archivo, ahora)
+            estado["anom_archivo"] = f"{len(archivo)} notas guardadas ({sum(1 for f in archivo if f['properties']['capa'] == 'anom_archivo')} de hace más de un año)"
+            feats += agrupar_por_pais(archivo)
+            continue
         try:
             nuevos = de_trackalien(json.loads(F.get(TA + nombre, timeout=60)), recientes, ahora)
-            nuevos = agrupar_por_pais(nuevos) if recientes else nuevos
             feats += nuevos
             estado[capa] = f"ok ({len(nuevos)})"
         except Exception as e:  # noqa: BLE001  se conserva lo anterior de esta fuente

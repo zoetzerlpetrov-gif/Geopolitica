@@ -31,3 +31,12 @@ test("el resultado escapa el texto y recuerda que no se guarda nada", () => {
   assert.doesNotMatch(h, /<script>/);
   assert.match(h, /no se envió ni se guardó/);
 });
+
+test("conjunto de prueba: detecta todos los fraudes de ejemplo sin alarmar mensajes normales", async () => {
+  const { readFileSync } = await import("node:fs");
+  const d = JSON.parse(readFileSync(new URL("../datos/mensajes_verificador.json", import.meta.url)));
+  const no = d.fraude.filter((m) => analizarMensaje(m).nivel === "bajo");
+  const fp = d.normal.filter((m) => analizarMensaje(m).nivel !== "bajo");
+  assert.deepEqual(no, [], "fraudes no detectados");
+  assert.deepEqual(fp, [], "falsas alarmas");
+});

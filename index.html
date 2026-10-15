@@ -209,7 +209,8 @@
         <summary class="grupo-tit" data-grupo="historia"><span aria-hidden="true">📜</span> Historia por país</summary>
         <details class="bloque plegable" id="b-historia" data-grupo="historia" open>
           <summary><h2>Consultar la historia de un país</h2></summary>
-          <form id="hist-form" class="fila"><input id="hist-q" list="hist-sug" placeholder="País (p. ej. México, Japón)" autocomplete="off" aria-label="País"><datalist id="hist-sug"></datalist><button>Ver historia</button></form>
+          <form id="hist-form" class="fila"><input id="hist-q" placeholder="País (p. ej. México, mexico, Japón)" autocomplete="off" aria-label="País" aria-controls="hist-sug"><button>Ver historia</button></form>
+          <ul id="hist-sug" class="hist-sug" hidden></ul>
           <p class="nota-capas" id="hist-estado">Resumen y grandes etapas desde lo más antiguo registrado (Wikipedia) y una línea de tiempo de hechos con relevancia internacional (Wikidata). Se consulta al pedirla.</p>
         </details>
       </details>

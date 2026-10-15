@@ -190,6 +190,7 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
 }
 export const ANOMALIAS = [
   capaAnomalia("anom_recientes", "Noticias y blogs del último año (OVNI/UAP, luces, contactos)", "Notas que mencionan el tema en el título, de medios y blogs especializados, vía TrackAlien (se actualiza 2 veces al día). Muchas terminan explicadas (satélites, drones, cohetes).", { niveles: ["medios"] }),
+  capaAnomalia("anom_archivo", "Archivo de notas: más de un año (se conservan aunque la fuente las retire)", "Notas de medios y blogs que ya no están en TrackAlien o tienen más de 12 meses; el monitor las acumula desde octubre de 2026.", { niveles: ["medios"] }),
   capaAnomalia("anom_historicos", "Casos históricos conocidos (Roswell, Campeche, Nimitz…)", "Casos seleccionados en TrackAlien con su nivel de credibilidad.", { niveles: ["oficial", "medios"] }),
   capaAnomalia("anom_nuforc", "Dónde se reporta más: reportes civiles 1910–2014 (NUFORC)", "≈ 80 mil reportes del centro civil NUFORC (EUA), contados por celdas de ~110 km. Hay muchos más en EUA porque NUFORC es estadounidense: mide dónde se reporta, no dónde ocurre más."),
   capaAnomalia("anom_objeto", "Objetos extraños: esferas metálicas y restos caídos", "Esfera de Buga, esfera de Betz, anillo de Mukuku.", { niveles: ["medios", "explicado"] }),
@@ -211,7 +212,7 @@ export const TIPOS_ANOM = [
   ["volcano", "Objetos sobre volcanes", "Objetos filmados cerca de cráteres (Popocatépetl, Colima…), casi siempre por cámaras de monitoreo."],
   ["crop", "Figuras en cultivos", "Figuras en campos de cultivo; desde 1991 se sabe que muchas son obra de personas.", ["anom_cultivo"]],
 ];
-const TIPO_ANOM_CAPAS = new Set(["anom_recientes", "anom_historicos"]);
+const TIPO_ANOM_CAPAS = new Set(["anom_recientes", "anom_archivo", "anom_historicos"]);
 export const ANOMALIAS_POR_TIPO = TIPOS_ANOM.map(([t, nombre, nota, catalogo = []]) => capaAnomalia(`anom_t_${t}`, nombre, nota, {
   subgrupo: "Por tipo de fenómeno (como TrackAlien)",
   filtro: (f) => { const p = f.properties; return catalogo.includes(p.capa) || (TIPO_ANOM_CAPAS.has(p.capa) && (p.tipo === t || (p.tipos || []).includes(t))); },

@@ -761,10 +761,13 @@ async function iniciarCapas() {
       ${f.disponible && f.subtipos.length > 1 ? `<details${f.id in UNO_A_LA_VEZ ? " open" : ""}><summary>${f.id in UNO_A_LA_VEZ ? "Tipo de inmueble (uno a la vez)" : `Subtipos (${f.subtipos.length})`}</summary>${f.subtipos.map((st) => `
         <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>`).join("")}</details>` : ""}
     </div>`;
-  const cats = [...new Set(familias.map((f) => f.categoria))];
-  cont.innerHTML = cats.map((c) => {
-    const fs = familias.filter((f) => f.categoria === c);
-    return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(nombreCat[c] || c)}
+  // Categorías que comparten sección del menú (mismo tema, datos y capas separados).
+  const SECCION = { conflicto: "grupos_armados", grupos_criminales: "grupos_armados" };
+  const NOMBRE_SECCION = { grupos_armados: "Grupos armados, criminales y terroristas: dominio, disputa y presencia" };
+  const secs = [...new Set(familias.map((f) => SECCION[f.categoria] || f.categoria))];
+  cont.innerHTML = secs.map((c) => {
+    const fs = familias.filter((f) => (SECCION[f.categoria] || f.categoria) === c);
+    return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(NOMBRE_SECCION[c] || nombreCat[c] || c)}
       <span class="sg-n" data-sg-cat="${esc(c)}">${((n) => `${n} ${n === 1 ? "capa" : "capas"}`)(fs.filter((f) => f.disponible).length)}</span></summary>${fs.map(htmlFam).join("")}</details>`;
   }).join("");
   // Buscador de Organizaciones: empresas, organismos y embajadas/consulados por nombre → vuela al punto y abre la ficha.
@@ -866,7 +869,7 @@ function iniciarImagenes() {
   img = new Imagenes(api.map);
   let fecha = ayerUTC();
   const dias = [1, 2, 3, 5, 7].map((d) => haceDias(d));
-  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>${d.leyenda ? `<p class="meta">${esc(d.leyenda)}</p>` : ""}`).join("")
+  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>${d.escala ? htmlEscalaImagen(d) : d.leyenda ? `<p class="meta">${esc(d.leyenda)}</p>` : ""}`).join("")
     + `<label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
     + `<p class="nota-capas" id="img-noche-nota"></p><p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p>`;
   const notaNoche = (r, error) => {
@@ -1328,25 +1331,47 @@ async function abrirHistoria(iso3) {
   $("hist-estado").textContent = `${nombre}: ${d.articulo ? `${d.articulo.etapas.length} etapas` : "sin artículo"} · ${d.hechos ? `${d.hechos.length} hechos fechados` : "Wikidata sin respuesta"}.`;
 }
 function iniciarHistoria() {
-  const sug = $("hist-sug"), form = $("hist-form");
+  const sug = $("hist-sug"), form = $("hist-form"), q = $("hist-q");
   if (!form) return;
-  const llenar = async () => {
-    if (sug.childElementCount) return;
-    if (!paises) await cargarPaises().catch(() => (paises = {}));
-    sug.innerHTML = Object.values(paises).map((p) => `<option value="${esc(p.es)}">`).join("");
+  const cargar = async () => { if (!paises) await cargarPaises().catch(() => (paises = {})); };
+  // Sugerencias propias (no <datalist>): ignoran acentos y mayúsculas y aceptan el nombre en inglés o el código ISO.
+  const buscar = (txt) => {
+    const t = sinAcentos(txt.trim());
+    if (!t) return [];
+    const filas = Object.entries(paises || {}).map(([iso, p]) => ({ iso, es: p.es, claves: [sinAcentos(p.es), sinAcentos(p.en), iso.toLowerCase()] }));
+    const empieza = filas.filter((f) => f.claves.some((k) => k.startsWith(t)));
+    const contiene = filas.filter((f) => !empieza.includes(f) && f.claves.some((k) => k.includes(t)));
+    return [...empieza, ...contiene].slice(0, 8);
   };
-  $("hist-q").addEventListener("focus", llenar);
+  const pintar = async () => {
+    await cargar();
+    const r = buscar(q.value);
+    sug.hidden = !r.length;
+    sug.innerHTML = r.map((f) => `<li><button type="button" data-hist-iso="${esc(f.iso)}">${esc(f.es)}</button></li>`).join("");
+  };
+  q.addEventListener("input", pintar);
+  sug.addEventListener("click", (e) => { const b = e.target.closest("[data-hist-iso]"); if (!b) return; q.value = b.textContent; sug.hidden = true; abrirHistoria(b.dataset.histIso); });
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    await llenar();
-    const q = sinAcentos($("hist-q").value.trim());
-    const iso = Object.keys(paises).find((k) => sinAcentos(paises[k].es) === q || sinAcentos(paises[k].en) === q || k.toLowerCase() === q)
-      || Object.keys(paises).find((k) => sinAcentos(paises[k].es).startsWith(q));
-    if (!iso) { $("hist-estado").textContent = "No encontré ese país; elige uno de la lista."; return; }
+    await cargar();
+    const t = sinAcentos(q.value.trim());
+    const exacto = Object.keys(paises).find((k) => sinAcentos(paises[k].es) === t || sinAcentos(paises[k].en) === t || k.toLowerCase() === t);
+    const iso = exacto || buscar(q.value)[0]?.iso;
+    sug.hidden = true;
+    if (!iso) { $("hist-estado").textContent = "No encontré ese país; revisa la escritura (con o sin acentos funciona)."; return; }
     abrirHistoria(iso);
   });
   // Botones «📜 Historia» dentro de otras fichas (p. ej. la de gobierno de un país).
   document.addEventListener("click", (e) => { const b = e.target.closest("[data-historia]"); if (b) abrirHistoria(b.dataset.historia); });
+}
+
+/** Escala de colores de una imagen satelital: barra con los colores reales de la paleta y qué significa cada tramo. */
+function htmlEscalaImagen(d) {
+  const e = d.escala;
+  return `<div class="escala-img"><div class="escala-barra" style="background:linear-gradient(90deg,${e.colores.map(esc).join(",")})"></div>
+    <div class="escala-marcas">${e.marcas.map((m) => `<span>${esc(m)}</span>`).join("")}</div>
+    <ul class="escala-tramos">${e.tramos.map(([c, t]) => `<li><i style="background:${esc(c)}"></i>${esc(t)}</li>`).join("")}</ul>
+    <p class="meta">${esc(d.leyenda || "")}</p></div>`;
 }
 
 // ---------- Mapa de calor por país (índice de inestabilidad) ----------
