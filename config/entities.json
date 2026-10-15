@@ -251,6 +251,13 @@
    "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
    "uso_comercial": false,
    "licencia_verificada": true
+  },
+  "webcamsdemexico": {
+   "nombre": "Webcams de México",
+   "url": "https://webcamsdemexico.com/",
+   "licencia": "Sin licencia abierta publicada: solo se inserta su transmisión con el reproductor oficial de YouTube, con crédito y enlace; no se copia el video",
+   "uso_comercial": false,
+   "licencia_verificada": false
   }
  },
  "categorias": [
@@ -5959,6 +5966,139 @@
      "zoom_min": 1,
      "areas": [
       "infraestructura"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_cdmx",
+     "nombre": {
+      "es": "México en vivo: Ciudad de México",
+      "en": "Mexico live: Ciudad de México"
+     },
+     "icono": "📹",
+     "color": "#C62828",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_ciudades",
+     "nombre": {
+      "es": "México en vivo: ciudades",
+      "en": "Mexico live: ciudades"
+     },
+     "icono": "📹",
+     "color": "#AD1457",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_plazas",
+     "nombre": {
+      "es": "México en vivo: plazas",
+      "en": "Mexico live: plazas"
+     },
+     "icono": "📹",
+     "color": "#8E24AA",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_pueblos_magicos",
+     "nombre": {
+      "es": "México en vivo: Pueblos Mágicos",
+      "en": "Mexico live: Pueblos Mágicos"
+     },
+     "icono": "📹",
+     "color": "#D81B60",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_playas",
+     "nombre": {
+      "es": "México en vivo: playas",
+      "en": "Mexico live: playas"
+     },
+     "icono": "📹",
+     "color": "#0288D1",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_volcanes",
+     "nombre": {
+      "es": "México en vivo: volcanes",
+      "en": "Mexico live: volcanes"
+     },
+     "icono": "📹",
+     "color": "#E65100",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "wcmx_panoramicas",
+     "nombre": {
+      "es": "México en vivo: panorámicas",
+      "en": "Mexico live: panorámicas"
+     },
+     "icono": "📹",
+     "color": "#2E7D32",
+     "fuente": "webcamsdemexico",
+     "licencia": "Transmisión de YouTube de Webcams de México (se muestra con su reproductor y crédito)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 3,
+     "areas": [
+      "geografia"
      ],
      "familia": "camaras"
     }

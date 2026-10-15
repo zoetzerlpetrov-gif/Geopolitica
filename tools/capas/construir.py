@@ -495,6 +495,36 @@ def _fuente_camaras(nombre, urls, parser, leer=None):
     return feats
 
 
+def camaras_webcams_mx():
+    """Webcams de México por su API pública de WordPress; el id del video de YouTube sale de la página de cada cámara."""
+    import webcams_mx as W
+    try:
+        cats = {c["id"]: c["slug"] for c in W.leer_json(get(W.API + "webcam_category?per_page=100&_fields=id,slug", timeout=60))}
+        posts, pag = [], 1
+        while pag <= 5:
+            lote = W.leer_json(get(W.API + f"webcammx?per_page=100&page={pag}&_fields=id,link,title,webcam_category,cmb2", timeout=60))
+            posts += lote
+            if len(lote) < 100:
+                break
+            pag += 1
+
+        def yt(url):
+            time.sleep(1)  # una página por segundo
+            try:
+                return W.youtube_de(get(url, timeout=30, intentos=1).decode("utf-8", "replace"))
+            except Exception:  # noqa: BLE001
+                return ""
+        cams = W.camaras(posts, cats, yt)
+        CAM_FUENTES["webcams_mx"] = f"ok ({len(cams)}, {sum(1 for c in cams if c['yt'])} con video)"
+    except Exception as e:  # noqa: BLE001
+        CAM_FUENTES["webcams_mx"] = f"error: {e}"[:200]
+        return []
+    print(f"   cámaras webcams_mx: {CAM_FUENTES['webcams_mx']}")
+    return [feat(punto(c["lon"], c["lat"]), {"id": c["id"], "n": c["n"], "st": c["st"], "p": "MEX", "x": c["url"], "o": "Webcams de México",
+                 "t": "operador_turistico", "yt": c["yt"], "lugar": ", ".join(x for x in (c["ciudad"], c["estado"]) if x),
+                 "nota": f"Transmisión en vivo{' desde ' + c['host'] if c['host'] else ''}."}, 3) for c in cams]
+
+
 def camaras(revisar=enlace_responde, externas=True):
     cfg = json.load(open(os.path.join(ROOT, "config", "camaras.json"), encoding="utf-8"))
     hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -510,6 +540,7 @@ def camaras(revisar=enlace_responde, externas=True):
             "v": f"{estado} ({hoy})"}, 1))
     CAM_FUENTES["curadas"] = f"ok ({len(out)})"
     if externas:
+        out += camaras_webcams_mx()
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
         out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
     return out

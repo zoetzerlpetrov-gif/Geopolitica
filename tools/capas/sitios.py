@@ -70,7 +70,6 @@ FAMILIAS = {
         # playas ≥ 2: 3,699; cascadas ≥ 3: 2,086; cuevas ≥ 4: 1,014; castillos ≥ 6: 2,324; palacios ≥ 6: 1,217;
         # monumentos ≥ 6: 1,213; zoológicos 1,049; parques de diversiones 666; acuarios 249.
         ("Q268998", "pueblo_magico", 0, "patrimonio", 4),      # Pueblos Mágicos de México (declaratoria)
-        ("Q268998", "pueblo_magico", 0, "lugar", 4),           # …o registrados como «es un» Pueblo Mágico
         ("Q676050", "centro_historico", 3, "lugar", 5),
         ("Q839954", "sitio_arqueologico", 3, "lugar", 5),
         ("Q33506", "museo", 6, "lugar", 6),

@@ -17,10 +17,21 @@ export const IMAGENES = {
   // gas que, al mezclarse con agua en la atmósfera, forma ácido sulfúrico: la causa principal de la lluvia ácida.
   so2_suelo: { nombre: "SO₂ cerca del suelo (lluvia ácida, volcanes, industria · OMPS)", capa: "OMPS_NOAA20_SO2_Planetary_Boundary_Layer",
     matriz: "GoogleMapsCompatible_Level6", ext: "png", maxzoom: 6, opacidad: 0.8,
-    leyenda: "Colores de azul (poco) a rojo (mucho SO₂, en unidades Dobson). Las manchas aisladas y fuertes suelen ser volcanes o fundidoras." },
+    leyenda: "Unidades Dobson (DU). Paleta oficial de NASA GIBS: azul marino = poco SO₂; azul claro a casi blanco = mucho. Las manchas claras aisladas suelen ser volcanes, fundidoras o centrales de carbón. Los tramos de interpretación son orientativos.",
+    // Colores tomados del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_SO2_Planetary_Boundary_Layer.xml).
+    escala: { colores: ["rgb(8,40,100)", "rgb(24,89,153)", "rgb(36,114,180)", "rgb(79,151,201)", "rgb(126,184,219)", "rgb(196,217,238)", "rgb(247,251,255)"],
+      marcas: ["< 1.5", "2", "2.5", "3", "3.5", "4", "≥ 4.5 DU"],
+      tramos: [["rgb(8,40,100)", "Menos de 1.5 DU: nivel de fondo, sin fuente cercana"], ["rgb(36,114,180)", "1.5 a 2.5 DU: algo elevado (ciudades, industria lejana)"],
+        ["rgb(109,175,213)", "2.5 a 3.5 DU: elevado; posible fundidora, refinería o central de carbón"], ["rgb(196,217,238)", "3.5 a 4.5 DU: alto"],
+        ["rgb(247,251,255)", "4.5 DU o más: muy alto; erupción volcánica o emisión industrial fuerte"]] } },
   // Índice de aerosoles: humo de incendios, polvo del Sahara y ceniza volcánica (partículas que absorben luz UV).
   aerosoles: { nombre: "Aerosoles: humo, polvo y ceniza volcánica (OMPS)", capa: "OMPS_Aerosol_Index", matriz: "GoogleMapsCompatible_Level6", ext: "png",
-    maxzoom: 6, opacidad: 0.75, leyenda: "Amarillo a rojo oscuro: más humo, polvo o ceniza en la atmósfera. No mide la calidad del aire a ras de suelo." },
+    maxzoom: 6, opacidad: 0.75, leyenda: "Índice sin unidades de NASA (paleta oficial de GIBS). Mide partículas en la columna de aire, no la calidad del aire a ras de suelo. Los tramos de interpretación son orientativos.",
+    // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_Aerosol_Index.xml).
+    escala: { colores: ["rgb(240,240,240)", "rgb(231,231,197)", "rgb(223,223,98)", "rgb(255,255,0)", "rgb(216,157,0)", "rgb(237,83,0)", "rgb(251,18,0)", "rgb(185,0,14)", "rgb(115,0,25)"],
+      marcas: ["0", "1", "2", "3", "4", "≥ 5"],
+      tramos: [["rgb(235,235,215)", "Menos de 1: aire sin aerosoles notables"], ["rgb(223,223,98)", "1 a 2: ligero (bruma, polvo leve)"], ["rgb(255,230,0)", "2 a 3: moderado"],
+        ["rgb(237,83,0)", "3 a 4: denso; humo de incendios o polvo del Sahara"], ["rgb(185,0,14)", "4 a 5: muy denso"], ["rgb(115,0,25)", "5 o más: extremo; incendios enormes, tormentas de polvo o ceniza volcánica"]] } },
   // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB. Al activarla, el navegador prueba un
   // mosaico de cada candidata (de la diaria a la anual) y usa la primera que trae imagen de verdad.
   viirs_noche: { nombre: "Luces nocturnas VIIRS (apagones)", maxzoom: 8, opacidad: 1, candidatos: [

@@ -274,12 +274,17 @@ export function htmlFichaCamara(props, sub) {
   const t = Math.floor(Date.now() / 300000); // evita la caché del navegador: imagen de los últimos 5 min
   const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}${u.includes("?") ? "&" : "?"}t=${t}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
     <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio.</p>` : "";
+  // Transmisión en vivo de YouTube (Webcams de México): reproductor oficial, sin sonido; el crédito y el enlace quedan abajo.
+  const yt = /^[\w-]{11}$/.test(String(props.yt || "")) ? props.yt : "";
+  const video = yt ? `<div class="cam-video"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=1&playsinline=1" title="En vivo: ${esc(props.n)}"
+      allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="meta">En vivo con el reproductor de YouTube · transmisión de ${esc(props.o)}${props.lugar ? ` · ${esc(props.lugar)}` : ""}. Si la transmisión cambió, ábrela en su página.</p>` : "";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
-    <div class="chips"><span class="chip">${oficial ? "Organismo público" : "Operador turístico (publicación intencional)"}</span>
+    <div class="chips"><span class="chip">${oficial ? "Organismo público" : "Operador turístico (publicación intencional)"}</span>${yt ? `<span class="chip estado-tiempo_real">En vivo</span>` : ""}
       ${ok ? "" : `<span class="chip alerta">Enlace sin confirmar en la última revisión</span>`}</div>
-    ${galeria}
+    ${galeria}${video}
     <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">${imgs.length ? "Sitio del operador" : "Ver la cámara en el sitio oficial"} ↗</a></p>
     ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
     ${props.v ? `<dl><dt>Revisión del enlace</dt><dd>${esc(props.v)}</dd></dl>` : ""}
