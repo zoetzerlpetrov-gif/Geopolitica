@@ -73,3 +73,30 @@ def test_gdacs_respeta_ventana_y_una_peticion_por_corrida():
     assert cache["niveles"] == ["red", "orange", "green"] and "1" in cache["geom"]
     assert K.siguiente_peticion(cache, "2026-10-09") is None
     assert K.siguiente_peticion(cache, "2026-10-10") == ("lista", "red")  # día nuevo: se empieza de cero
+
+
+def test_gdacs_todos_los_tipos_y_respaldo_solo_tc():
+    dentro = datetime(2026, 10, 9, 4, 20, tzinfo=timezone.utc)
+    lista = {"features": [
+        {"properties": {"eventtype": "EQ", "eventid": 7, "eventname": "", "alertlevel": "Orange", "country": "Japan", "fromdate": "2026-10-08T10:00:00",
+                        "todate": "2026-10-08T10:00:00", "url": {"report": "https://www.gdacs.org/r/7"}}, "geometry": {"type": "Point", "coordinates": [142, 38]}},
+        {"properties": {"eventtype": "FL", "eventid": 8, "eventname": "Inundación vieja", "todate": "2026-09-01T00:00:00"}, "geometry": {"type": "Point", "coordinates": [0, 0]}},
+        {"properties": {"eventtype": "TC", "eventid": 1, "episodeid": 2, "eventname": "KOGUMA", "alertlevel": "Red", "todate": "2026-10-09T00:00:00"},
+         "geometry": {"type": "Point", "coordinates": [140, 20]}}]}
+    urls = []
+    cache, est = K.paso_gdacs({}, dentro, lambda u: urls.append(u) or lista)
+    assert "eventlist=EQ;TC;FL;VO;DR;WF" in urls[0]
+    tipos = sorted((f["properties"]["eventtype"], f["properties"]["type_label"]) for f in cache["todos"])
+    assert tipos == [("EQ", "Sismo"), ("TC", "Ciclón tropical")]  # la inundación de septiembre queda fuera (más de 7 días)
+    assert cache["todos"][0]["properties"]["name"] == "Sismo" and cache["todos"][0]["properties"]["url"].endswith("/7")
+    assert [e["nombre"] for e in cache["eventos"]] == ["KOGUMA"]  # la capa de ciclones sigue recibiendo solo TC
+    # Si GDACS rechaza la lista con varios tipos (400), la siguiente corrida pide solo TC.
+    import urllib.error
+
+    def rechaza(u):
+        raise urllib.error.HTTPError(u, 400, "Bad Request", {}, None)
+    cache2, est2 = K.paso_gdacs({}, dentro, rechaza)
+    assert cache2["solo_tc"] and "solo TC" in est2
+    urls.clear()
+    K.paso_gdacs(cache2, dentro, lambda u: urls.append(u) or {"features": []})
+    assert "eventlist=TC&" in urls[0]

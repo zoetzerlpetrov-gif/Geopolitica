@@ -121,7 +121,7 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 .mapa-wrap { position: relative; min-width: 0; min-height: 0; }
 #map { position: absolute; inset: 0; }
 .aviso-base {
-  position: absolute; left: 10px; bottom: 30px; max-width: 360px; background: var(--warn-bg); color: var(--warn-text);
+  position: absolute; left: 10px; bottom: 74px; max-width: 360px; background: var(--warn-bg); color: var(--warn-text);
   padding: 8px 10px; border-radius: var(--radius); font-size: 12px; box-shadow: var(--shadow);
 }
 
@@ -544,3 +544,13 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .cam-video { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 6px 0; background: #000; border-radius: 6px; overflow: hidden; }
 .cam-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .espejo-riesgo { border-top: 1px dashed var(--line); margin-top: 4px; padding-top: 4px; }
+
+/* Zoom del mapa: abajo al centro, «−» a la izquierda y «+» a la derecha. */
+.zoom-centro { position: absolute; left: 50%; bottom: calc(26px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); z-index: 3;
+  display: flex; flex-direction: row; margin: 0; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3); }
+.maplibregl-ctrl-group.zoom-centro button { width: 44px; height: 36px; font-size: 22px; line-height: 1; font-weight: 600; color: #1f2933; }
+.maplibregl-ctrl-group.zoom-centro button + button { border-top: 0; border-left: 1px solid #ddd; }
+.maplibregl-ctrl-group.zoom-centro button:disabled { opacity: 0.35; cursor: default; }
+:root[data-theme="dark"] .maplibregl-ctrl-group.zoom-centro { background: #22303c; }
+:root[data-theme="dark"] .maplibregl-ctrl-group.zoom-centro button { color: #e6edf3; }
+:root[data-theme="dark"] .maplibregl-ctrl-group.zoom-centro button + button { border-left-color: #3a4a58; }

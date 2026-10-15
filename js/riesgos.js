@@ -302,7 +302,7 @@ export const CAPAS = [
     }),
   },
   {
-    id: "gdacs", grupo: "Desastres naturales", nombre: "Alertas de desastre GDACS (ONU/UE)", archivos: ["gdacs.geojson"], fuente: "GDACS",
+    id: "gdacs", grupo: "Desastres naturales", nombre: "Alertas de desastre GDACS (ONU/UE)", archivos: ["gdacs.geojson"], locales: ["data/vivos/gdacs_mundo.geojson"], fuente: "GDACS",
     estilo: (p) => { const l = String(p.alertlevel || "green").toLowerCase(); return { c: l === "red" ? C.rojo : l === "orange" ? C.naranja : C.verde, r: 8 }; },
     ficha: (p) => ({ titulo: p.name || p.title || p.eventname || "Evento", chip: `${p.type_label || p.eventtype || ""} · ${p.alertlevel || ""}`,
       filas: [["País", p.country || "—"], ["Desde", p.fromdate ? fecha(p.fromdate) : "—"]], url: p.url || "https://www.gdacs.org", fuente: "GDACS" }),
@@ -899,10 +899,16 @@ function otrosMedios(enlaces, principal) {
 }
 
 export async function leerArchivo(nombre) {
-  let ultimo;
+  let ultimo, vacio = null;
   for (const base of BASES) {
-    try { return await getJSON(base + nombre, { bust: true }); } catch (e) { ultimo = e; }
+    try {
+      const d = await getJSON(base + nombre, { bust: true });
+      // Una copia vacía (la fuente falló en la última corrida) no tapa a la siguiente base que sí tenga datos.
+      if (Array.isArray(d?.features) && !d.features.length) { vacio ??= d; continue; }
+      return d;
+    } catch (e) { ultimo = e; }
   }
+  if (vacio) return vacio;
   throw ultimo;
 }
 

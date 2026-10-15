@@ -157,6 +157,24 @@ export async function estiloBase(theme, { lite = false, base = "tematico" } = {}
   }
 }
 
+/** Botones de zoom abajo al centro, en fila: «−» a la izquierda y «+» a la derecha. */
+export function controlZoom(map) {
+  const div = document.createElement("div");
+  div.className = "zoom-centro maplibregl-ctrl maplibregl-ctrl-group";
+  div.setAttribute("role", "group");
+  div.setAttribute("aria-label", "Zoom del mapa");
+  div.innerHTML = `<button type="button" class="zoom-menos" aria-label="Alejar" title="Alejar">−</button><button type="button" class="zoom-mas" aria-label="Acercar" title="Acercar">+</button>`;
+  const menos = div.querySelector(".zoom-menos"), mas = div.querySelector(".zoom-mas");
+  menos.onclick = () => map.zoomOut();
+  mas.onclick = () => map.zoomIn();
+  // Se desactiva el botón al llegar al zoom mínimo o máximo (como el control original de MapLibre).
+  const actualizar = () => { menos.disabled = map.getZoom() <= map.getMinZoom() + 1e-3; mas.disabled = map.getZoom() >= map.getMaxZoom() - 1e-3; };
+  map.on("zoom", actualizar);
+  map.once("load", actualizar);
+  map.getContainer().appendChild(div);
+  return div;
+}
+
 /**
  * Crea el mapa y devuelve una API mínima para el resto de la app.
  * @param {object} o
@@ -180,7 +198,7 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
     fadeDuration: 0, maxTileCacheSize: lite ? 80 : 200,
     refreshExpiredTiles: false,
   });
-  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
+  controlZoom(map);
   map.addControl(new maplibregl.ScaleControl({ unit: "metric" }), "bottom-right");
 
   let datos = { type: "FeatureCollection", features: [] };
