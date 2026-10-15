@@ -258,6 +258,14 @@
    "licencia": "Sin licencia abierta publicada: solo se inserta su transmisión con el reproductor oficial de YouTube, con crédito y enlace; no se copia el video",
    "uso_comercial": false,
    "licencia_verificada": false
+  },
+  "shipping_lanes": {
+   "nombre": "Global Shipping Lanes (P. Benden, 2022; Zenodo 10.5281/zenodo.6361763)",
+   "url": "https://github.com/newzealandpaul/Shipping-Lanes",
+   "licencia": "CC BY 4.0 (excluye a Statista)",
+   "uso_comercial": true,
+   "licencia_verificada": true,
+   "nota": "Trazadas del «Map of the World's Oceans» de la CIA (2012) con correcciones del autor. Rutas de referencia."
   }
  },
  "categorias": [
@@ -2013,6 +2021,66 @@
       "infraestructura"
      ],
      "familia": "cables",
+     "geometria": "linea"
+    },
+    {
+     "id": "rutas_principales",
+     "nombre": {
+      "es": "Rutas marítimas principales",
+      "en": "Major shipping lanes"
+     },
+     "icono": "⛴",
+     "color": "#0B5394",
+     "fuente": "shipping_lanes",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "rutas_maritimas",
+     "geometria": "linea"
+    },
+    {
+     "id": "rutas_secundarias",
+     "nombre": {
+      "es": "Rutas marítimas secundarias",
+      "en": "Middle shipping lanes"
+     },
+     "icono": "⛴",
+     "color": "#3D85C6",
+     "fuente": "shipping_lanes",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 2,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "rutas_maritimas",
+     "geometria": "linea"
+    },
+    {
+     "id": "rutas_menores",
+     "nombre": {
+      "es": "Rutas marítimas menores",
+      "en": "Minor shipping lanes"
+     },
+     "icono": "⛴",
+     "color": "#7FB2DE",
+     "fuente": "shipping_lanes",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 3,
+     "areas": [
+      "infraestructura"
+     ],
+     "familia": "rutas_maritimas",
      "geometria": "linea"
     },
     {

@@ -128,11 +128,13 @@ export class GestorCapas {
     if (capa.endsWith("-relleno")) {
       // Familias de coropleta (relleno: true en config/capas.json) se rellenan completas; en «zonas» solo algunas.
       const fam = this.familias.get(capa.replace(/^cap-/, "").replace(/-relleno$/, ""));
-      return fam?.relleno ? ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"]]
-        : ["all", filtroSubtipos, ["==", ["geometry-type"], "Polygon"], ["in", ["get", "st"], ["literal", RELLENO_ZONAS]]];
+      return fam?.relleno ? ["all", filtroSubtipos, ES_POLIGONO]
+        : ["all", filtroSubtipos, ES_POLIGONO, ["in", ["get", "st"], ["literal", RELLENO_ZONAS]]];
     }
-    if (capa.endsWith("-linea") || capa.endsWith("-ltoque")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "LineString"]];
-    if (capa.endsWith("-punto")) return ["all", filtroSubtipos, ["==", ["geometry-type"], "Point"]];
+    // Líneas: las líneas y, de los polígonos de «zonas» que no se rellenan (países, mares, regiones…), su contorno;
+    // así cada subtipo se ve al marcarlo y no solo su nombre (que el mapa oculta si choca con otras etiquetas).
+    if (capa.endsWith("-linea") || capa.endsWith("-ltoque")) return ["all", filtroSubtipos, ["any", ES_LINEA, ["all", ES_POLIGONO, ["in", ["get", "st"], ["literal", BORDE_ZONAS]]]]];
+    if (capa.endsWith("-punto")) return ["all", filtroSubtipos, ["in", ["geometry-type"], ["literal", ["Point", "MultiPoint"]]]];
     return filtroSubtipos;
   }
 
@@ -189,7 +191,12 @@ export class GestorCapas {
 
 // Subtipos de «Zonas geográficas» que se rellenan (los demás polígonos, como mares o placas, solo llevan su nombre).
 const RELLENO_ZONAS = ["desiertos", "cordilleras", "peninsulas", "mesetas", "llanuras", "valles", "canones", "cuencas", "deltas_humedales",
-  "tundras", "glaciares", "istmos", "costas", "piedemonte"];
+  "tundras", "glaciares", "istmos", "costas", "piedemonte", "plataformas_hielo", "lagos", "islas"];
+// Polígonos de «zonas» que llevan solo contorno (rellenarlos taparía el mapa).
+const BORDE_ZONAS = ["paises", "oceanos", "mares", "golfos_bahias", "estrechos", "regiones", "placas_tectonicas"];
+// MapLibre puede dar el tipo «Multi…» en GeoJSON: se aceptan ambos.
+const ES_POLIGONO = ["in", ["geometry-type"], ["literal", ["Polygon", "MultiPolygon"]]];
+const ES_LINEA = ["in", ["geometry-type"], ["literal", ["LineString", "MultiLineString"]]];
 
 const GROSOR = ["match", ["get", "st"], "cinturon_fuego", 3.2, 1];
 

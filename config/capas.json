@@ -104,6 +104,15 @@
    "nota": "TeleGeography Submarine Cable Map, CC BY-NC-SA 3.0: uso no comercial con atribución. Rutas esquemáticas. Habilitada a petición de quien administra el proyecto (2026-10-08)."
   },
   {
+   "id": "rutas_maritimas",
+   "nombre": "Rutas marítimas del mundo",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "shipping_lanes",
+   "habilitada": true,
+   "nota": "Global Shipping Lanes (Benden, 2022), trazadas del mapa de océanos de la CIA (2012). CC BY 4.0 (excluye a Statista). Rutas de referencia, no la derrota exacta de cada barco."
+  },
+  {
    "id": "presas",
    "nombre": "Presas",
    "categoria": "infraestructura",

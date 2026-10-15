@@ -493,7 +493,7 @@ async function main() {
   pintarAreas();
   for (const [id, r] of Object.entries(regiones.regiones)) for (const iso of r.paises) regionDe[iso] = id;
   linea = new LineaTiempo($("linea-tiempo"), (v) => { estado.desde = v.desde; estado.hasta = v.hasta; programarFiltros(); },
-    { cargarHistorial: anexarHistorial, permitir90: !lite });
+    { cargarHistorial: anexarHistorial, permitir90: true });
   linea.setEventos(eventos);
   const alCargar = () => {
     aplicarFiltros();
@@ -602,7 +602,16 @@ async function main() {
   if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
-  api.map.once("idle", () => iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; }));
+  // Se arma cuando el mapa queda quieto o, a más tardar, a los 5 s: si un servicio del mapa base no responde (p. ej. las
+  // calles de OpenFreeMap en la vista satelital), el mapa nunca queda «quieto» y el menú no debe quedarse sin construir.
+  let capasIniciadas = false;
+  const arrancarCapas = () => {
+    if (capasIniciadas) return;
+    capasIniciadas = true;
+    iniciarCapas().catch((e) => { $("capas-entidades").textContent = `No se pudo cargar el catálogo: ${e.message}`; });
+  };
+  api.map.once("idle", arrancarCapas);
+  setTimeout(arrancarCapas, 5000);
   api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); });
   iniciarImagenes();
   iniciarClima();
@@ -763,6 +772,12 @@ async function iniciarCapas() {
   // Bienes raíces: cada subtipo es un tipo de inmueble con su propio color por cambio de precio; se ve uno a la vez.
   const UNO_A_LA_VEZ = { inmuebles_pais: "inm_vivienda", inmuebles_mx: "mx_casa" };
   const RAMPA_PRECIOS = [["#2166AC", "baja más de 5 %"], ["#67A9CF", "baja 1–5 %"], ["#D9D9D9", "estable (±1 %)"], ["#EF8A62", "sube 1–5 %"], ["#B2182B", "sube más de 5 %"]];
+  // Cuántos objetos tiene cada subtipo y desde qué zoom aparecen de verdad (manifiesto de la última construcción).
+  const infoSubtipo = (f, st) => {
+    const n = f.manifest?.por_subtipo?.[st.id], z = f.manifest?.zoom_por_subtipo?.[st.id] ?? st.zoom_min;
+    if (f.manifest?.por_subtipo && !n) return "sin datos en la última construcción";
+    return `${n != null ? `${n.toLocaleString("es-MX")} · ` : ""}desde zoom ${z}`;
+  };
   const marcadoInicial = (f, st) => (f.id in UNO_A_LA_VEZ ? st.id === UNO_A_LA_VEZ[f.id] : !(f.id === "zonas" && ZONAS_APAGADAS.has(st.id)));
   const htmlFam = (f) => `
     <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
@@ -773,7 +788,7 @@ async function iniciarCapas() {
       ${f.disponible && f.id === "zonas" ? `<div class="atajos-zonas">${ZONAS_ATAJOS.map(([t], i) => `<button type="button" class="mini" data-atajo-zonas="${i}">${esc(t)}</button>`).join("")}</div>` : ""}
       ${f.disponible && f.id in UNO_A_LA_VEZ ? `<div class="rampa-precios" aria-label="Cambio de precio en 12 meses">${RAMPA_PRECIOS.map(([c, t]) => `<span><i style="background:${c}"></i>${esc(t)}</span>`).join("")}</div>` : ""}
       ${f.disponible && f.subtipos.length > 1 ? `<details${f.id in UNO_A_LA_VEZ ? " open" : ""}><summary>${f.id in UNO_A_LA_VEZ ? "Tipo de inmueble (uno a la vez)" : `Subtipos (${f.subtipos.length})`}</summary>${f.subtipos.map((st) => `
-        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">desde zoom ${st.zoom_min}</span></label>${f.id === "zonas" && st.id === "volcanes" ? ESPEJO_VOLCANES : ""}`).join("")}</details>` : ""}
+        <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">${infoSubtipo(f, st)}</span></label>${f.id === "zonas" && st.id === "volcanes" ? ESPEJO_VOLCANES : ""}`).join("")}</details>` : ""}
     </div>`;
   // Categorías que comparten sección del menú (mismo tema, datos y capas separados).
   const SECCION = { conflicto: "grupos_armados", grupos_criminales: "grupos_armados" };
@@ -867,6 +882,13 @@ async function iniciarCapas() {
     const famSub = e.target.dataset.famSub;
     if (famSub in UNO_A_LA_VEZ && e.target.checked) for (const x of cont.querySelectorAll(`[data-fam-sub="${famSub}"]`)) x.checked = x === e.target;
     if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
+    // Un subtipo que solo aparece de cerca parece «no hacer nada» con el mapa lejos: se avisa desde qué zoom se ve.
+    if (famSub && e.target.checked && cont.querySelector(`[data-fam="${famSub}"]`)?.checked) {
+      const fam = familias.find((x) => x.id === famSub), st = fam?.subtipos.find((x) => x.id === e.target.value);
+      const z = fam?.manifest?.zoom_por_subtipo?.[st?.id] ?? st?.zoom_min ?? 0;
+      if (st && api.map.getZoom() < z) avisoMapa(`«${st.nombre.es}» aparece desde zoom ${z}: acércate al mapa (ahora estás en zoom ${api.map.getZoom().toFixed(1)}).`);
+      else if (st && fam.manifest?.por_subtipo && !fam.manifest.por_subtipo[st.id]) avisoMapa(`«${st.nombre.es}» no tiene datos en la última construcción de la capa.`);
+    }
   });
   // «Imágenes y cámaras» tiene un atajo a la capa de cámaras: ambas casillas quedan sincronizadas.
   const espejo = $("cam-espejo"), camCb = cont.querySelector('[data-fam="camaras"]');
@@ -891,7 +913,7 @@ async function iniciarCapas() {
 // ---------- Imágenes satelitales ----------
 function iniciarImagenes() {
   const cont = $("img-capas");
-  if (lite) { cont.innerHTML = `<p class="meta">Desactivadas en modo LITE.</p>`; return; }
+  // En LITE también: nada se descarga hasta que marcas una imagen.
   img = new Imagenes(api.map);
   let fecha = ayerUTC();
   const dias = [1, 2, 3, 5, 7].map((d) => haceDias(d));
@@ -916,7 +938,7 @@ function iniciarImagenes() {
 async function iniciarClima() {
   const cont = $("clima-capas");
   if (!cont) return;
-  if (lite) { cont.innerHTML = `<p class="meta">Desactivado en modo LITE (la animación del viento gasta batería).</p>`; return; }
+  // En LITE también: la animación solo corre si la activas (gasta batería; el aviso queda en el menú).
   const K = await import("./clima.js");
   clima = new K.Clima(api.map);
   let meta;
@@ -1038,7 +1060,7 @@ async function iniciarRiesgos() {
     if (!b) return;
     for (const x of cont.querySelectorAll('[data-riesgo^="polos_"]')) if (!x.checked) { x.checked = true; x.dispatchEvent(new Event("change", { bubbles: true })); }
     const hielo = document.querySelector('[data-img="hielo_marino"]');
-    if (hielo && !hielo.checked && !lite) { hielo.checked = true; hielo.dispatchEvent(new Event("change", { bubbles: true })); }
+    if (hielo && !hielo.checked) { hielo.checked = true; hielo.dispatchEvent(new Event("change", { bubbles: true })); }
     $("sel-proyeccion").value = "globe";
     $("sel-proyeccion").dispatchEvent(new Event("change"));
     const sur = b.dataset.polo === "sur";
@@ -1283,10 +1305,7 @@ async function iniciarRiesgos() {
 // ---------- Capas en movimiento ----------
 async function iniciarMovimiento(catalogo) {
   const cont = $("mov-capas");
-  if (lite) {
-    cont.innerHTML = `<p class="meta">Desactivadas en modo LITE (ahorran batería y datos). Pulsa «LITE» arriba para usarlas.</p>`;
-    return;
-  }
+  // En LITE también (empiezan apagadas; gastan datos y batería solo si las enciendes).
   const estado = await getJSON("data/vivos/estado.json", { bust: true }).catch(() => ({ pasos: {} }));
   const avisos = {};
   mov = new Movimiento(api.map, {
@@ -1434,6 +1453,16 @@ async function alternarIndice(activar) {
   ley.innerHTML = `<div class="escala">${ESCALA.map((e) => `<span><span class="mr-muestra" style="background:${e.color}"></span>${e.etiqueta}</span>`).join("")}</div>
     <div class="meta">${info.paises ? `${info.paises} países con eventos en 30 días` : "Sin países con eventos en 30 días todavía"} · indicador propio (docs/INDICADORES.md) · clic en un país para ver su valor</div>`;
   avisarPresupuesto();
+}
+
+/** Aviso breve sobre el mapa (desaparece solo). */
+function avisoMapa(texto, ms = 6000) {
+  let el = $("aviso-zoom");
+  if (!el) { el = document.createElement("div"); el.id = "aviso-zoom"; el.className = "aviso-base"; el.setAttribute("role", "status"); $("map").parentElement.appendChild(el); }
+  el.textContent = texto;
+  el.hidden = false;
+  clearTimeout(avisoMapa.t);
+  avisoMapa.t = setTimeout(() => { el.hidden = true; }, ms);
 }
 
 function avisarPresupuesto() {
