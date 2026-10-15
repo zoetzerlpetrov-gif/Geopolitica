@@ -384,14 +384,24 @@
    "nota": "Wikidata (CC0): lugares con artículo en varias Wikipedias o Patrimonio Mundial."
   },
   {
-   "id": "lugares_culto",
-   "nombre": "Todos los lugares de culto por religión (iglesias, mezquitas, templos, sinagogas…)",
+   "id": "lugares_culto_cristiano",
+   "nombre": "Todas las iglesias católicas y cristianas (parroquias, capillas, templos evangélicos…)",
    "categoria": "lugares_religiosos",
    "geometria": "punto",
    "fuente": "osm",
    "habilitada": true,
    "zoom_etiquetas": 12,
-   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship con su religión, sin importar su tamaño. Son ~2 millones: se descargan por zonas y el mapa se completa en varias corridas. Los cristianos y católicos aparecen desde el zoom 7; el resto, antes."
+   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship cristianos (~1.4 millones), separados en catolicismo y otras denominaciones. Aparecen desde el zoom 10 (nivel ciudad). Se completan en varias corridas."
+  },
+  {
+   "id": "lugares_culto",
+   "nombre": "Todos los lugares de culto de otras religiones (mezquitas, sinagogas, templos, santuarios…)",
+   "categoria": "lugares_religiosos",
+   "geometria": "punto",
+   "fuente": "osm",
+   "habilitada": true,
+   "zoom_etiquetas": 12,
+   "nota": "OpenStreetMap (ODbL): todos los amenity=place_of_worship no cristianos, con su religión, sin importar su tamaño (islam, judaísmo, hinduismo, budismo, sintoísmo, sijismo, taoísmo, jainismo, bahá'í, satanismo y ocultismo, paganismo, religiones afroamericanas y espiritismo, otras). Se descargan por zonas y se completan en varias corridas."
   },
   {
    "id": "grupos_criminales",

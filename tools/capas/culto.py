@@ -31,8 +31,9 @@ GRUPOS = [
     ("pc_afro_espiritismo", r"^(voodoo|vodou|santeria|candomble|umbanda|spiritis|spiritualis|ifa|yoruba|kardec)"),
 ]
 CATOLICA = re.compile(r"catholic|cat[oó]lic|maronite|chaldean|melkite|uniate", re.I)
-ZOOM_MIN = {"pc_catolicismo": 7, "pc_cristianismo": 7, "pc_islam": 6, "pc_hinduismo": 5, "pc_budismo": 5, "pc_sintoismo": 5,
-            "pc_otras": 7}
+# Zoom mínimo por subtipo: los más numerosos aparecen solo al acercarse a una ciudad (así el archivo no crece de más).
+ZOOM_MIN = {"pc_catolicismo": 10, "pc_cristianismo": 10, "pc_islam": 9, "pc_otras": 9, "pc_hinduismo": 7, "pc_budismo": 7, "pc_sintoismo": 7}
+CRISTIANOS = {"pc_catolicismo", "pc_cristianismo"}
 LATS = [-60, -30, -10, 10, 25, 35, 45, 55, 85]
 MAX_NIVEL = 3
 

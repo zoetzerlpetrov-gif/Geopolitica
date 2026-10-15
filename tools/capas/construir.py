@@ -1106,10 +1106,27 @@ def lugares_culto():
     print(f"   cajas: {hechas} descargadas, {partidas} partidas en 4, {listas}/{total} con datos; errores: {errores[:5]}")
     if listas < total:
         FALTANTES.setdefault("lugares_culto", []).append(f"{total - listas} de {total} zonas aún sin descargar (se completan en las próximas corridas)")
-    return [feat(punto(lon, lat), {"id": f"osm:{i}", "n": n, "st": st, "x": x}, K.ZOOM_MIN.get(st, 3)) for i, lon, lat, st, n, x in cajas.todas()]
+    return _feats_culto(cajas, cristianos=False)
 
 
-FAMILIAS = {"zonas": zonas, "lugares_culto": lugares_culto, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
+def _feats_culto(cajas, cristianos):
+    import culto as K
+    return [feat(punto(lon, lat), {"id": f"osm:{i}", "n": n, "st": st, "x": x}, K.ZOOM_MIN.get(st, 5))
+            for i, lon, lat, st, n, x in cajas.todas() if (st in K.CRISTIANOS) == cristianos]
+
+
+def lugares_culto_cristiano():
+    """Iglesias católicas y de otras denominaciones cristianas (~1.4 millones): misma descarga por cajas que
+    «lugares_culto» (se hace allí); aquí solo se arma su archivo, aparte para que ninguno pase de 100 MB."""
+    import culto as K
+    cajas = K.Cajas(os.path.join(SALIDA, "culto_cajas"))
+    listas, total = cajas.completas()
+    if listas < total:
+        FALTANTES.setdefault("lugares_culto_cristiano", []).append(f"{total - listas} de {total} zonas aún sin descargar (se completan en las próximas corridas)")
+    return _feats_culto(cajas, cristianos=True)
+
+
+FAMILIAS = {"zonas": zonas, "lugares_culto": lugares_culto, "lugares_culto_cristiano": lugares_culto_cristiano, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
@@ -1169,16 +1186,23 @@ def tippecanoe(familia, ruta_ndjson, geometria):
             "--maximum-tile-bytes=600000", "--attribution=Ver SOURCES.md"]
     if geometria == "punto":
         # Lugares de culto: ~2 millones; mosaicos hasta z13 para que se vean todos al acercarse a una ciudad.
-        zmax = 13 if familia == "lugares_culto" else ZOOM_MAX_PUNTOS
+        zmax = 10 if familia.startswith("lugares_culto") else ZOOM_MAX_PUNTOS
         cmd = base + [f"-z{zmax}", "-r1", "--no-feature-limit", "--drop-densest-as-needed"]
     else:
         cmd = base + [f"-z{ZOOM_MAX_AREAS}", "--simplification=10", "--coalesce-densest-as-needed", "--detect-shared-borders"]
     subprocess.run(cmd + [ruta_ndjson], check=True)
+    # GitHub rechaza archivos de más de 100 MB: si una familia grande se pasa, se rehace sin nombres ni detalle.
+    if os.path.getsize(destino) > 95e6:
+        print(f"   {familia}: {os.path.getsize(destino) / 1e6:.0f} MB; se rehace sin nombres para quedar bajo 100 MB")
+        subprocess.run(cmd + ["-x", "n", "-x", "x", ruta_ndjson], check=True)
     return destino
 
 
 def main(pedidas):
     os.makedirs(SALIDA, exist_ok=True)
+    # Corrida pedida solo para lugares de culto: casi todo el plazo es para su descarga por cajas.
+    if pedidas and pedidas <= {"lugares_culto", "lugares_culto_cristiano"}:
+        os.environ.setdefault("PLAZO_CULTO_MIN", "58")
     cfg = json.load(open(os.path.join(ROOT, "config", "capas.json"), encoding="utf-8"))
     ruta_manifest = os.path.join(SALIDA, "manifest.json")
     manifest = json.load(open(ruta_manifest, encoding="utf-8")) if os.path.exists(ruta_manifest) else {"familias": {}}
@@ -1193,7 +1217,7 @@ def main(pedidas):
     def orden(fam):
         osm = fam["id"] in FAMILIAS_OSM
         # Lugares de culto al final: usa el plazo que sobre (descarga por partes, se completa en varias corridas).
-        return (2 if fam["id"] == "lugares_culto" else int(osm), manifest["familias"].get(fam["id"], {}).get("actualizado_utc", "") if osm else "")
+        return ({"lugares_culto": 2, "lugares_culto_cristiano": 3}.get(fam["id"], int(osm)), manifest["familias"].get(fam["id"], {}).get("actualizado_utc", "") if osm else "")
 
     for fam in sorted(cfg["familias"], key=orden):
         fid = fam["id"]
