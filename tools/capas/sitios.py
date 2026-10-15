@@ -66,6 +66,23 @@ FAMILIAS = {
         ("Q9259", "patrimonio_mundial", 0, "patrimonio", 3),   # 3,378 sitios con coordenada (oct 2026)
         ("Q46169", "parque_nacional", 5, "lugar", 5),
         ("Q570116", "atraccion_turistica", 4, "lugar", 5),
+        # Ampliación (oct 2026). Conteos con coordenada medidos en Wikidata: sitios arqueológicos ≥ 3 Wikipedias 9,383;
+        # playas ≥ 2: 3,699; cascadas ≥ 3: 2,086; cuevas ≥ 4: 1,014; castillos ≥ 6: 2,324; palacios ≥ 6: 1,217;
+        # monumentos ≥ 6: 1,213; zoológicos 1,049; parques de diversiones 666; acuarios 249.
+        ("Q268998", "pueblo_magico", 0, "patrimonio", 4),      # Pueblos Mágicos de México (declaratoria)
+        ("Q676050", "centro_historico", 3, "lugar", 5),
+        ("Q839954", "sitio_arqueologico", 3, "lugar", 5),
+        ("Q33506", "museo", 6, "lugar", 6),
+        ("Q23413", "castillo_palacio", 6, "lugar", 6),
+        ("Q16560", "castillo_palacio", 6, "lugar", 6),
+        ("Q4989906", "monumento", 6, "lugar", 6),
+        ("Q40080", "playa", 2, "lugar", 6),
+        ("Q334743", "cenote_cueva", 0, "lugar", 6),
+        ("Q35509", "cenote_cueva", 4, "lugar", 6),
+        ("Q34038", "cascada_turistica", 3, "lugar", 6),
+        ("Q194195", "parque_ocio", 3, "lugar", 6),
+        ("Q43501", "parque_ocio", 3, "lugar", 6),
+        ("Q2281788", "parque_ocio", 3, "lugar", 6),
     ],
     "espacio": [
         ("Q194188", "puerto_espacial", 1, "lugar", 2),

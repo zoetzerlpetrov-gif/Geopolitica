@@ -495,6 +495,36 @@ def _fuente_camaras(nombre, urls, parser, leer=None):
     return feats
 
 
+def camaras_webcams_mx():
+    """Webcams de México por su API pública de WordPress; el id del video de YouTube sale de la página de cada cámara."""
+    import webcams_mx as W
+    try:
+        cats = {c["id"]: c["slug"] for c in W.leer_json(get(W.API + "webcam_category?per_page=100&_fields=id,slug", timeout=60))}
+        posts, pag = [], 1
+        while pag <= 5:
+            lote = W.leer_json(get(W.API + f"webcammx?per_page=100&page={pag}&_fields=id,link,title,webcam_category,cmb2", timeout=60))
+            posts += lote
+            if len(lote) < 100:
+                break
+            pag += 1
+
+        def yt(url):
+            time.sleep(1)  # una página por segundo
+            try:
+                return W.youtube_de(get(url, timeout=30, intentos=1).decode("utf-8", "replace"))
+            except Exception:  # noqa: BLE001
+                return ""
+        cams = W.camaras(posts, cats, yt)
+        CAM_FUENTES["webcams_mx"] = f"ok ({len(cams)}, {sum(1 for c in cams if c['yt'])} con video)"
+    except Exception as e:  # noqa: BLE001
+        CAM_FUENTES["webcams_mx"] = f"error: {e}"[:200]
+        return []
+    print(f"   cámaras webcams_mx: {CAM_FUENTES['webcams_mx']}")
+    return [feat(punto(c["lon"], c["lat"]), {"id": c["id"], "n": c["n"], "st": c["st"], "p": "MEX", "x": c["url"], "o": "Webcams de México",
+                 "t": "operador_turistico", "yt": c["yt"], "lugar": ", ".join(x for x in (c["ciudad"], c["estado"]) if x),
+                 "nota": f"Transmisión en vivo{' desde ' + c['host'] if c['host'] else ''}."}, 3) for c in cams]
+
+
 def camaras(revisar=enlace_responde, externas=True):
     cfg = json.load(open(os.path.join(ROOT, "config", "camaras.json"), encoding="utf-8"))
     hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -510,6 +540,7 @@ def camaras(revisar=enlace_responde, externas=True):
             "v": f"{estado} ({hoy})"}, 1))
     CAM_FUENTES["curadas"] = f"ok ({len(out)})"
     if externas:
+        out += camaras_webcams_mx()
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
         out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
     return out
@@ -1064,7 +1095,21 @@ def desaladoras():
     return _osm(els, lambda t: "desaladora", lambda st, t: 5, lambda t: t.get("operator", ""), Paises())
 
 
-FAMILIAS = {"zonas": zonas, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
+def lugares_culto():
+    """Todos los lugares de culto de OSM por religión (tools/capas/culto.py): descarga por cajas con rotación."""
+    import culto as K
+    cajas = K.Cajas(os.path.join(SALIDA, "culto_cajas"))
+    plazo = min(60 * float(os.environ.get("PLAZO_CULTO_MIN", "35")), queda() - 300)
+    ahora = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    hechas, partidas, errores = K.actualizar(cajas, lambda q: _overpass_caja(q, intentos=1), max(0, plazo), ahora)
+    listas, total = cajas.completas()
+    print(f"   cajas: {hechas} descargadas, {partidas} partidas en 4, {listas}/{total} con datos; errores: {errores[:5]}")
+    if listas < total:
+        FALTANTES.setdefault("lugares_culto", []).append(f"{total - listas} de {total} zonas aún sin descargar (se completan en las próximas corridas)")
+    return [feat(punto(lon, lat), {"id": f"osm:{i}", "n": n, "st": st, "x": x}, K.ZOOM_MIN.get(st, 3)) for i, lon, lat, st, n, x in cajas.todas()]
+
+
+FAMILIAS = {"zonas": zonas, "lugares_culto": lugares_culto, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
             "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
@@ -1123,7 +1168,9 @@ def tippecanoe(familia, ruta_ndjson, geometria):
     base = ["tippecanoe", "-o", destino, "--force", "-l", familia, "-Z0", "--quiet",
             "--maximum-tile-bytes=600000", "--attribution=Ver SOURCES.md"]
     if geometria == "punto":
-        cmd = base + [f"-z{ZOOM_MAX_PUNTOS}", "-r1", "--no-feature-limit", "--drop-densest-as-needed"]
+        # Lugares de culto: ~2 millones; mosaicos hasta z13 para que se vean todos al acercarse a una ciudad.
+        zmax = 13 if familia == "lugares_culto" else ZOOM_MAX_PUNTOS
+        cmd = base + [f"-z{zmax}", "-r1", "--no-feature-limit", "--drop-densest-as-needed"]
     else:
         cmd = base + [f"-z{ZOOM_MAX_AREAS}", "--simplification=10", "--coalesce-densest-as-needed", "--detect-shared-borders"]
     subprocess.run(cmd + [ruta_ndjson], check=True)
@@ -1145,7 +1192,8 @@ def main(pedidas):
     # para que cada corrida avance aunque el plazo no alcance para todas.
     def orden(fam):
         osm = fam["id"] in FAMILIAS_OSM
-        return (osm, manifest["familias"].get(fam["id"], {}).get("actualizado_utc", "") if osm else "")
+        # Lugares de culto al final: usa el plazo que sobre (descarga por partes, se completa en varias corridas).
+        return (2 if fam["id"] == "lugares_culto" else int(osm), manifest["familias"].get(fam["id"], {}).get("actualizado_utc", "") if osm else "")
 
     for fam in sorted(cfg["familias"], key=orden):
         fid = fam["id"]
