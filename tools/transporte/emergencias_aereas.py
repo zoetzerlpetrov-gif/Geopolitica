@@ -11,10 +11,17 @@ Fuentes (sin llave):
 Privacidad: se excluyen las aeronaves cuyo dueño pidió privacidad (banderas PIA/LADD de adsb.lol). Se guarda lo que la
 aeronave transmite (indicativo, matrícula, tipo, posición); nunca se vincula a personas.
 
+Para escuchar la frecuencia: a cada emergencia se le agregan los 3 aeropuertos grandes o medianos más cercanos
+(a menos de 400 km, código OACI) de OurAirports (dominio público; copia semanal en vivos/aeropuertos_icao.json). La ficha
+enlaza su búsqueda en LiveATC, donde voluntarios retransmiten y archivan el audio de muchas torres y centros de control.
+
 Cada emergencia se conserva 6 h desde la última vez que se vio, con hasta 40 posiciones, para que una corrida de
 20 min no la pierda si el avión ya aterrizó o cambió el código. Salida: vivos/emergencias_aereas.geojson.
 """
+import csv
+import io
 import json
+import math
 import os
 import sys
 import time
@@ -28,6 +35,8 @@ import fuentes as F  # noqa: E402
 OUT = os.path.join(ROOT, "vivos", "emergencias_aereas.geojson")
 AERONAVES = os.path.join(ROOT, "vivos", "aeronaves.json")
 CODIGOS = {"7700": "Emergencia general", "7600": "Falla de radio", "7500": "Interferencia ilícita (posible secuestro)"}
+AEROPUERTOS = os.path.join(ROOT, "vivos", "aeropuertos_icao.json")
+OURAIRPORTS = "https://davidmegginson.github.io/ourairports-data/airports.csv"
 CONSERVAR_S = 6 * 3600
 MAX_RASTRO = 40
 
@@ -99,14 +108,61 @@ def combinar(previas, nuevas, t):
     return list(por_hex.values())
 
 
-def a_geojson(registros, t):
+def leer_aeropuertos(texto):
+    """CSV de OurAirports → [[OACI, nombre, lat, lon]] de aeropuertos grandes y medianos con código OACI de 4 letras."""
+    out = []
+    for r in csv.DictReader(io.StringIO(texto)):
+        if r.get("type") not in ("large_airport", "medium_airport"):
+            continue
+        icao = (r.get("icao_code") or r.get("gps_code") or r.get("ident") or "").strip().upper()
+        if len(icao) != 4 or not icao.isalpha():
+            continue
+        try:
+            out.append([icao, r["name"][:60], round(float(r["latitude_deg"]), 3), round(float(r["longitude_deg"]), 3)])
+        except (KeyError, ValueError):
+            continue
+    return out
+
+
+def aeropuertos(t):
+    """Lista de aeropuertos (se descarga una vez por semana; si falla, se usa la copia anterior)."""
+    previo = None
+    try:
+        previo = json.load(open(AEROPUERTOS, encoding="utf-8"))
+        if t - previo.get("t", 0) < 7 * 86400 and previo.get("a"):
+            return previo["a"]
+    except (OSError, ValueError):
+        pass
+    try:
+        req = urllib.request.Request(OURAIRPORTS, headers={"User-Agent": F.UA})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            lista = leer_aeropuertos(r.read().decode("utf-8"))
+        if len(lista) > 1000:
+            json.dump({"t": t, "fuente": "OurAirports (dominio público)", "a": lista}, open(AEROPUERTOS, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+            return lista
+    except Exception as e:  # noqa: BLE001
+        print(f"OurAirports no respondió: {e}")
+    return (previo or {}).get("a", [])
+
+
+def cercanos(lista, lon, lat, n=3, max_km=400):
+    """Los n aeropuertos más cercanos a [lon, lat] (a menos de max_km): [[OACI, nombre, km]]."""
+    def km(a):
+        p = math.pi / 180
+        h = math.sin((a[2] - lat) * p / 2) ** 2 + math.cos(lat * p) * math.cos(a[2] * p) * math.sin((a[3] - lon) * p / 2) ** 2
+        return 12742 * math.asin(math.sqrt(min(1, h)))
+    cerca = sorted(((km(a), a) for a in lista if abs(a[2] - lat) < 5), key=lambda x: x[0])
+    return [[a[0], a[1], round(d)] for d, a in cerca[:n] if d <= max_km]
+
+
+def a_geojson(registros, t, lista_ap=()):
     feats = []
     for r in registros:
         activo = t - r["ultima_t"] < 30 * 60
         base = {k: r[k] for k in ("hex", "indicativo", "matricula", "tipo_av", "squawk", "alt_m", "vel_kmh", "rumbo", "en_tierra", "emergencia", "fuente")}
         base.update({"id": r["hex"], "codigo_texto": CODIGOS.get(r["squawk"], ""), "codigos": r.get("codigos", []), "primera_vez": iso(r["primera_t"]),
                      "ultima_vez": iso(r["ultima_t"]), "activo": activo, "kind": "avion",
-                     "url": f"https://globe.adsb.lol/?icao={r['hex']}"})
+                     "url": f"https://globe.adsb.lol/?icao={r['hex']}", "aeropuertos": cercanos(lista_ap, r["lon"], r["lat"]) if lista_ap else []})
         feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [r["lon"], r["lat"]]}, "properties": base})
         if len(r.get("rastro", [])) > 1:
             feats.append({"type": "Feature", "geometry": {"type": "LineString", "coordinates": [p[:2] for p in r["rastro"]]},
@@ -138,8 +194,9 @@ def main():
     except (OSError, ValueError) as e:
         estado["aeronaves.json"] = f"error: {e}"[:120]
     registros = combinar(previo.get("registros", []), nuevas, t)
+    lista_ap = aeropuertos(t) if registros else []
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump({"type": "FeatureCollection", "generado_utc": iso(t), "fuentes": estado, "registros": registros, "features": a_geojson(registros, t)},
+    json.dump({"type": "FeatureCollection", "generado_utc": iso(t), "fuentes": estado, "registros": registros, "features": a_geojson(registros, t, lista_ap)},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"emergencias aéreas: {len(registros)} aeronaves (6 h) · {estado}")
     return 0

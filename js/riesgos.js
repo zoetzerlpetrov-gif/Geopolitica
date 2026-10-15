@@ -8,6 +8,8 @@
 // confirmados, y siempre enlazan a la fuente.
 import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 import { articuloTren, huecoImagen } from "./imagen_tipo.js";
+import { htmlBloque as htmlErupcion } from "./erupcion.js";
+import * as P from "./polos.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
@@ -21,7 +23,8 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"]];
+  ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -335,7 +338,8 @@ export const CAPAS = [
         ...(p.codigo_aviacion ? [["Código de aviación", p.codigo_aviacion]] : []), ["Nota", p.note || "—"], ["Ceniza", p.ash_note || "—"]],
       url: p.alerta_url || p.url, fuente: p.alerta_fuente || "Fuente oficial del volcán" }),
     // Viento en altura (Open-Meteo): se pide al abrir la ficha y se dibuja hacia dónde iría la ceniza.
-    extra: (p, g) => `<div class="ceniza" data-lon="${g.coordinates[0]}" data-lat="${g.coordinates[1]}" data-nombre="${esc(p.name)}"><p class="meta">Calculando hacia dónde iría la ceniza…</p></div>`,
+    extra: (p, g) => `<div class="ceniza" data-lon="${g.coordinates[0]}" data-lat="${g.coordinates[1]}" data-nombre="${esc(p.name)}"><p class="meta">Calculando hacia dónde iría la ceniza…</p></div>`
+      + htmlErupcion({ lon: g.coordinates[0], lat: g.coordinates[1], nombre: p.name, tipo: p.type || "", pais: p.country || "", gvp: (String(p.url || "").match(/vn=(\d+)/) || [])[1] || "" }),
     leyenda: [{ c: COLOR_ALERTA.verde, r: 6, t: "Verde / NORMAL" }, { c: COLOR_ALERTA.amarillo, r: 6, t: "Amarillo (fases 1–3) / ADVISORY" },
       { c: COLOR_ALERTA.naranja, r: 6, t: "Naranja / WATCH" }, { c: COLOR_ALERTA.rojo, r: 6, t: "Rojo / WARNING" }, { c: C.violeta, r: 6, t: "Sin alerta automática (consultar)" },
       { t: "La severidad 1–5 sale de la alerta oficial: Verde 1, Amarillo F1 2, F2 3, F3 4, Rojo 5 (USGS: NORMAL 1, ADVISORY 2, WATCH 4, WARNING 5)." }],
@@ -436,6 +440,7 @@ export const CAPAS = [
       filas: [["Códigos vistos", lista(p.codigos).join(", ") || p.squawk], ["Matrícula", p.matricula || "—"], ["Altitud", p.en_tierra ? "en tierra" : `${Number(p.alt_m || 0).toLocaleString("es-MX")} m`],
         ["Velocidad", `${p.vel_kmh || 0} km/h`], ["Detectado", fecha(p.primera_vez)], ["Última señal", fecha(p.ultima_vez)], ...(p.emergencia ? [["Tipo declarado (ADS-B)", p.emergencia]] : []),
         ["Fuente", p.fuente]], url: p.url, fuente: "adsb.lol (sigue el vuelo en su mapa)" }),
+    extra: (p) => (p.kind === "avion" ? htmlEscucharAvion(p) : ""),
   },
   {
     id: "avisos_nauticos", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Avisos náuticos de seguridad: piratería, minas, barcos a la deriva, GPS (NGA)",
@@ -446,6 +451,7 @@ export const CAPAS = [
       { t: "Avisos de radio vigentes para navegantes (NAVAREA IV y XII, HYDROLANT, HYDROPAC, HYDROARC). La antigua base de piratería ASAM de la NGA ya no está disponible; los incidentes que reporta UKMTO llegan por las noticias (subcategoría «Incidentes marítimos»)." }],
     ficha: (p) => ({ titulo: `${p.categoria_texto} · aviso ${p.id}`, chip: p.zona, filas: [["Emitido", p.emitido || "—"], ["Autoridad", p.autoridad || "—"], ["Texto del aviso (inglés)", p.texto]],
       url: p.url, fuente: "NGA Maritime Safety Information (dominio público)" }),
+    extra: (p) => htmlRadioNautica(p),
   },
   ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
   ...ANOMALIAS,
@@ -554,6 +560,74 @@ export const CAPAS = [
     // Qué puede afectar una tormenta de ese tamaño (escala G de NOAA).
     extra: (p) => { const g = gDeKp(p.kp); return `<div class="efectos" style="--c:${COLOR_ESCALA[g]}"><b>Con Kp ${esc(p.kp)} (G${g}) puede afectar:</b><ul>${ESCALAS_NOAA.G.niveles[g].ef.map((x) => `<li>${esc(x)}</li>`).join("")}</ul><p class="meta">${esc(NO_AFECTA)}</p></div>`; },
   },
+  {
+    id: "aurora_ovation", grupo: "Clima y ambiente", nombre: "Auroras: probabilidad de verla en la próxima hora (modelo OVATION)", noAmenaza: true,
+    url: "data/vivos/aurora_ovation.geojson", refresco_s: 1800, fuente: "NOAA SWPC (modelo OVATION)",
+    estilo: (p) => ({ c: p.p >= 50 ? "#E74C3C" : p.p >= 30 ? "#F1C40F" : "#2ECC71", r: 2.5 }),
+    leyenda: [{ c: "#2ECC71", r: 4, t: "10 a 29 %" }, { c: "#F1C40F", r: 4, t: "30 a 49 %" }, { c: "#E74C3C", r: 4, t: "50 % o más" },
+      { t: "Probabilidad de ver aurora en ese punto si el cielo está despejado y oscuro. Se actualiza cada ~30 min." }],
+    ficha: (p) => ({ titulo: `Aurora: ${p.p} % de probabilidad`, chip: "modelo OVATION de NOAA",
+      filas: [["Qué significa", "Probabilidad de que la aurora se vea en este punto en los próximos 30 a 90 minutos, con cielo despejado y de noche."]],
+      url: "https://www.swpc.noaa.gov/products/aurora-30-minute-forecast", fuente: "NOAA SWPC" }),
+  },
+  {
+    id: "polos_indicadores", grupo: POLOS, nombre: "Indicadores: hielo marino, agujero de ozono y deshielo de Groenlandia", noAmenaza: true, refresco_s: 3600,
+    fuente: "NOAA NCEI (NSIDC), NASA Ozone Watch, DMI Polar Portal",
+    generar: async () => P.indicadoresFC(await getJSON("data/vivos/polos_indicadores.json", { bust: true })),
+    estilo: (p) => ({ c: { hielo_artico: "#1F6FB2", hielo_antartico: "#5DADE2", ozono: "#8E44AD", groenlandia: "#1F8A8A" }[p.kind] || C.gris, r: 9 }),
+    etiqueta: (p) => P.etiquetaIndicador(p),
+    leyenda: [{ c: "#1F6FB2", r: 6, t: "Hielo marino del Ártico (mes más reciente)" }, { c: "#5DADE2", r: 6, t: "Hielo marino de la Antártida" },
+      { c: "#8E44AD", r: 6, t: "Agujero de ozono antártico (diario, de agosto a diciembre)" }, { c: "#1F8A8A", r: 6, t: "Groenlandia: balance de masa y deshielo (diario)" },
+      { t: "Toca cada punto para ver su gráfica. Para ver bien los polos usa la vista de globo." }],
+    ficha: (p) => ({ titulo: P.NOMBRES[p.kind] || "Indicador polar", chip: P.etiquetaIndicador(p), filas: P.filasIndicador(p),
+      url: p.dato?.url || P.URL_FUENTE[p.kind], fuente: p.dato?.fuente || p.fuente }),
+    extra: (p) => P.extraIndicador(p),
+  },
+  {
+    id: "polos_icebergs", grupo: POLOS, nombre: "Icebergs antárticos de más de 18 km (semanal)", noAmenaza: true, url: "data/vivos/icebergs.geojson", refresco_s: 21600,
+    fuente: "U.S. National Ice Center",
+    estilo: (p) => ({ c: "#4FC3F7", r: Math.min(12, 4 + Math.sqrt(p.area_km2 || 0) / 8) }),
+    etiqueta: (p) => (p.area_km2 >= 500 ? p.nombre : ""),
+    leyenda: [{ c: "#4FC3F7", r: 6, t: "Iceberg (el tamaño del círculo crece con su área)" },
+      { t: "La letra dice dónde se desprendió: A = Mar de Weddell (0° a 90° O), B = 90° O a 180°, C = 90° E a 180° (Mar de Ross), D = 0° a 90° E." }],
+    ficha: (p) => ({ titulo: `Iceberg ${p.nombre}`, chip: `${(p.area_km2 || 0).toLocaleString("es-MX")} km²`,
+      filas: [["Tamaño", `${p.largo_km} × ${p.ancho_km} km`], ["Área", `${(p.area_km2 || 0).toLocaleString("es-MX")} km² (la Ciudad de México mide ~1,500 km²)`],
+        ["Posición del", p.actualizado || "—"], ["Por qué importa", "Los icebergs grandes estorban la navegación hacia las bases y, al encallar, pueden cambiar la vida marina de la zona (p. ej. el A23a cerca de Georgia del Sur)."]],
+      url: "https://usicecenter.gov/Products/AntarcIcebergs", fuente: "U.S. National Ice Center (lista semanal)" }),
+  },
+  {
+    id: "polos_reclamos", grupo: POLOS, nombre: "Antártida: reclamos territoriales (congelados por el Tratado Antártico)", noAmenaza: true, fuente: "Tratado Antártico (1959); reclamos de cada país",
+    generar: async () => P.reclamosAntartida(),
+    estilo: (p) => ({ c: p.color, r: 0 }),
+    leyenda: [...P.RECLAMOS.filter((r, i, a) => a.findIndex((x) => x[0] === r[0]) === i).map(([pais, , , , color]) => ({ c: color, r: 6, t: pais })),
+      { t: "Argentina, Chile y Reino Unido reclaman zonas que se traslapan en la Península Antártica. Ningún otro país reconoce estos reclamos." }],
+    ficha: (p) => ({ titulo: `${p.nombre}`, chip: p.pais === "Sin reclamar" ? "Sin reclamar" : `Reclamo de ${p.pais}`,
+      filas: [["Meridianos", P.meridianos(p)], ["Latitud", "Al sur de 60° S"], ["Se traslapa con", lista(p.traslapes).join(", ") || "ningún otro reclamo"]],
+      url: "https://www.ats.aq/e/antarctictreaty.html", fuente: "Secretaría del Tratado Antártico" }),
+    extra: () => `<p class="meta">El Tratado Antártico (1959, en vigor desde 1961) reserva el continente para fines pacíficos y científicos. Su artículo IV
+      «congela» los reclamos: no se reconocen ni se niegan, y no se pueden hacer nuevos. El Protocolo de Madrid (1991, en vigor desde 1998) prohíbe la
+      minería; a partir de 2048 cualquier parte puede pedir una conferencia para revisarlo, pero la prohibición no vence sola. EUA y Rusia no reclaman
+      territorio, pero se reservan el derecho de hacerlo.</p>`,
+  },
+  {
+    id: "polos_sitios", grupo: POLOS, nombre: "Bases científicas polares y sitios estratégicos de Groenlandia", noAmenaza: true, url: "data/vivos/polos_sitios.geojson", refresco_s: 86400,
+    fuente: "Wikidata (CC0); descripciones propias",
+    estilo: (p) => ({ c: p.kind === "base" && p.region === "Antártida" ? "#3A7CA5" : p.kind === "base" ? "#1F8A8A" : "#B9770E", r: 5 }),
+    etiqueta: (p) => (p.region === "Groenlandia" ? p.nombre : ""),
+    leyenda: [{ ic: "🔬", t: "Base o estación científica (Antártida o Ártico)" }, { ic: "⛏️", t: "Yacimiento minero" }, { ic: "✈️", t: "Aeropuerto (antiguas bases de EUA)" },
+      { ic: "⚓", t: "Puerto" }, { ic: "🏛️", t: "Capital" }, { ic: "🧊", t: "Glaciar o fiordo" }, { t: "Solo instalaciones; nunca personas." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: p.region,
+      filas: [...(p.pais ? [["País que la opera", p.pais]] : []), ...(p.desde ? [["Desde", p.desde]] : []), ...(p.nota ? [["Por qué importa", p.nota]] : [])],
+      url: p.url, fuente: "Wikidata" }),
+  },
+  {
+    id: "polos_rutas", grupo: POLOS, nombre: "Rutas marítimas del Ártico (trazo esquemático)", noAmenaza: true, fuente: "Trazo propio por los estrechos principales",
+    generar: async () => P.rutasArticas(),
+    estilo: (p) => ({ c: p.color, r: 0 }),
+    leyenda: P.RUTAS.map(([nombre, color]) => ({ c: color, r: 4, t: nombre })).concat([{ t: "Trazo aproximado: sirve para ver por dónde pasan, no para navegar." }]),
+    ficha: (p) => ({ titulo: p.nombre, chip: "trazo esquemático", filas: [["Recorrido", p.nota]],
+      url: "https://www.imo.org/en/OurWork/Safety/Pages/polar-code.aspx", fuente: "OMI: Código Polar (reglas para barcos en aguas polares)" }),
+  },
 ];
 
 /**
@@ -606,6 +680,56 @@ export function textoEspacial(s) {
   if ((s.R?.scale || 0) > 0) partes.push(`apagón de radio R${s.R.scale}`);
   if ((s.S?.scale || 0) > 0) partes.push(`radiación solar S${s.S.scale}`);
   return partes.join(" · ");
+}
+
+/** Bloque de 30 min (UTC) en que LiveATC archiva el audio: «15-oct-2026, 04:30–05:00 UTC». */
+export function bloqueLiveATC(iso) {
+  const t = Date.parse(iso);
+  if (!Number.isFinite(t)) return "";
+  const d = new Date(Math.floor(t / 1800000) * 1800000), f = new Date(d.getTime() + 1800000);
+  const hm = (x) => `${String(x.getUTCHours()).padStart(2, "0")}:${String(x.getUTCMinutes()).padStart(2, "0")}`;
+  const meses = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+  return `${d.getUTCDate()}-${meses[d.getUTCMonth()]}-${d.getUTCFullYear()}, ${hm(d)}–${hm(f)} UTC`;
+}
+
+/** Dónde escuchar la radio de un avión en emergencia: frecuencias de guardia, LiveATC de los aeropuertos cercanos y búsquedas. */
+export function htmlEscucharAvion(p) {
+  const aps = lista(p.aeropuertos);
+  const id = p.indicativo || p.matricula || "";
+  const enlace = (u, t) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`;
+  return `<h4>🎧 Escuchar la frecuencia</h4>
+    <ul class="fuentes">
+      <li><b>121.5 MHz</b>: frecuencia internacional de emergencia (guardia) que escuchan torres, centros de control y otros aviones; <b>243.0 MHz</b> es la militar.
+        La tripulación suele hablar en la frecuencia del centro de control o de la torre donde está; ahí declara «MAYDAY» o «PAN-PAN».</li>
+      ${aps.length ? aps.map((a) => `<li>${enlace(`https://www.liveatc.net/search/?icao=${encodeURIComponent(a[0])}`, `${a[0]} · ${a[1]}`)} <span class="meta">a ${a[2]} km: frecuencias y audio en LiveATC, si un voluntario lo retransmite</span></li>`).join("")
+        : `<li class="meta">Sin aeropuertos grandes a menos de 400 km (vuelo sobre el mar o zona remota): puede estar en una frecuencia oceánica de HF sin retransmisión pública.</li>`}
+      ${p.primera_vez ? `<li>Archivo de LiveATC: busca el bloque de <b>${esc(bloqueLiveATC(p.primera_vez))}</b> (cuando se detectó el código). LiveATC guarda bloques de 30 min por ~30 días.</li>` : ""}
+      ${id ? `<li>${enlace(`https://www.youtube.com/results?search_query=${encodeURIComponent(`${id} ATC emergency`)}`, `Grabaciones publicadas de ${id} (búsqueda en YouTube)`)} · ${enlace(`https://news.google.com/search?q=${encodeURIComponent(`${id} emergencia OR emergency`)}`, "Noticias")}</li>` : ""}
+    </ul>
+    <p class="meta">LiveATC depende de receptores de voluntarios: cubre bien EUA, Canadá y parte de Europa y América Latina, no todos los aeropuertos. El monitor solo enlaza; no descarga ni guarda audio.</p>`;
+}
+
+/** Canales y frecuencias de radio que menciona un aviso náutico («VHF CH 16», «2182 KHZ», «NAVTEX»…). */
+export function frecuenciasEnTexto(texto) {
+  const t = String(texto || "").toUpperCase();
+  const out = new Set();
+  for (const m of t.matchAll(/\b(?:VHF\s*)?(?:CH(?:ANNEL)?|CANAL)\.?\s*(\d{1,2})\b/g)) out.add(`VHF canal ${Number(m[1])}`);
+  for (const m of t.matchAll(/\b(\d{1,5}(?:[.,]\d{1,3})?)\s*(KHZ|MHZ)\b/g)) out.add(`${m[1].replace(",", ".")} ${m[2] === "KHZ" ? "kHz" : "MHz"}`);
+  for (const k of ["NAVTEX", "INMARSAT", "SAFETYNET", "DSC", "EPIRB", "AIS", "SART"]) if (new RegExp(`\\b${k}\\b`).test(t)) out.add(k);
+  return [...out];
+}
+
+/** Por qué radio llegan los avisos náuticos y qué frecuencias menciona este. */
+export function htmlRadioNautica(p) {
+  const fr = frecuenciasEnTexto(p.texto);
+  return `<h4>📻 Radio y frecuencias</h4>
+    ${fr.length ? `<p>Mencionadas en el aviso: ${fr.map((x) => `<span class="chip">${esc(x)}</span>`).join(" ")}</p>` : `<p class="meta">El aviso no menciona frecuencias ni canales.</p>`}
+    <ul class="fuentes">
+      <li><b>Avisos NAVAREA y HYDRO</b>: se transmiten como texto por <b>SafetyNET</b> (satélite Inmarsat) y radiotélex en HF, no como voz.</li>
+      <li><b>NAVTEX</b>: avisos costeros en texto por <b>518 kHz</b> (inglés) y <b>490 kHz</b> (idioma local), hasta ~400 millas náuticas de la costa.</li>
+      <li><b>Voz</b>: emergencias y llamadas de socorro por <b>VHF canal 16 (156.8 MHz)</b> y <b>2182 kHz</b>; llamada digital (DSC) por el <b>canal 70</b>.</li>
+      <li>Para escuchar en vivo onda corta y NAVTEX desde el navegador: <a href="http://websdr.ewi.utwente.nl:8901/" target="_blank" rel="noopener noreferrer">WebSDR de la Universidad de Twente</a> (receptor en Países Bajos). No existe un archivo público del audio de cada aviso.</li>
+    </ul>`;
 }
 
 /** Ficha HTML de un objeto de riesgo. */

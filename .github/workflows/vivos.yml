@@ -128,6 +128,11 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/anomalias/anomalias.py
 
+      - name: Polos (hielo marino, ozono, Groenlandia, icebergs, bases y aurora; cada parte a su ritmo; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/polos/polos.py
+
       - name: Mes en curso (llave de la caché de DB-IP)
         run: echo "MES=$(date -u +%Y-%m)" >> "$GITHUB_ENV"
 

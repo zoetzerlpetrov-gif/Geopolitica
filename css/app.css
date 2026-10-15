@@ -431,6 +431,15 @@ details.grupo > summary .contador { color: #fff; opacity: .9; font-weight: 600; 
 .tabla-ceniza { width: 100%; border-collapse: collapse; font-size: 12px; margin: 6px 0; }
 .tabla-ceniza th, .tabla-ceniza td { border-bottom: 1px solid var(--line); padding: 3px 4px; text-align: left; }
 .tabla-ceniza th { font-size: 11px; color: var(--text-2); font-weight: 600; }
+.erupcion { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 6px; }
+.erup-vei { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+.erup-vei button.mini.activo { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+.erup-que { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; margin: 6px 0; }
+.erupcion .fila-mini { display: flex; gap: 6px; align-items: center; font-size: 12px; flex-wrap: wrap; }
+.erupcion select { max-width: 100%; }
+.erup-elementos { font-size: 12px; padding-left: 18px; }
+.erup-elementos li { margin-bottom: 4px; }
+.atajos-polos { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 6px; }
 
 /* Clima espacial */
 .esc-fila { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }

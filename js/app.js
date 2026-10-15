@@ -388,7 +388,15 @@ async function abrirSatelite(o, catalogo) {
 }
 
 // Conos de ceniza de un volcán: se quitan al cerrar la ficha o al apagar la capa de volcanes.
-const quitarCeniza = () => { if (api?.map?.getSource("ceniza")) import("./ceniza.js").then((C) => C.limpiarCeniza(api.map)); };
+const quitarCeniza = () => {
+  if (api?.map?.getSource("ceniza")) import("./ceniza.js").then((C) => C.limpiarCeniza(api.map));
+  if (api?.map?.getSource("erupcion")) import("./erupcion.js").then((E) => E.limpiarErupcion(api.map));
+};
+/** Escenarios de erupción en la ficha de un volcán (Riesgos o Zonas geográficas): se conectan al abrirla. */
+const prepararErupcion = () => {
+  const div = document.querySelector("#ficha-cuerpo .erupcion");
+  if (div) import("./erupcion.js").then((E) => E.prepararErupcion(api.map, div));
+};
 
 function cerrarFicha() {
   trayectoria?.limpiar();
@@ -725,6 +733,7 @@ async function iniciarCapas() {
       const cercanos = eventos.filter((ev) => ev.lat != null && distanciaKm(ent.lngLat.lat, ent.lngLat.lng, ev.lat, ev.lon) <= 300);
       const personas = ent.familia.id === "organismos" ? await personasDe(ent.props.id.replace(/^wd:/, "")) : [];
       abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) }));
+      prepararErupcion();
     },
   });
   gestor.registrar(familias);
@@ -738,12 +747,14 @@ async function iniciarCapas() {
   // y hay atajos para ver de un toque el Cinturón de Fuego, las placas, el relieve o los volcanes.
   const ZONAS_APAGADAS = new Set(["mesetas", "llanuras", "valles", "canones", "cuencas", "deltas_humedales", "tundras", "glaciares", "istmos", "costas",
     "piedemonte", "islas", "montes_picos", "pasos_montana", "cabos", "cascadas", "placas_tectonicas", "limite_subduccion", "limite_convergente",
-    "limite_divergente", "limite_transformante", "cinturon_fuego", "volcanes_cinturon", "volcanes"]);
+    "limite_divergente", "limite_transformante", "cinturon_fuego", "volcanes_cinturon", "volcanes", "volcanes_inactivos", "plataformas_hielo", "fiordos", "geiseres"]);
   const ZONAS_ATAJOS = [
     ["🔥 Cinturón de Fuego y sus volcanes", ["cinturon_fuego", "volcanes_cinturon"]],
     ["⬡ Placas tectónicas y sus límites", ["placas_tectonicas", "limite_subduccion", "limite_convergente", "limite_divergente", "limite_transformante", "cinturon_fuego"]],
     ["🌋 Todos los volcanes (incluye los vigilados en vivo)", ["volcanes_cinturon", "volcanes", "cinturon_fuego"]],
-    ["⛰️ Relieve (montañas, valles, mesetas…)", ["cordilleras", "montes_picos", "pasos_montana", "valles", "canones", "mesetas", "llanuras", "cuencas", "piedemonte", "glaciares", "desiertos", "tundras", "deltas_humedales"]],
+    ["💤 Volcanes inactivos (por si «despertaran»)", ["volcanes_inactivos"]],
+    ["⛰️ Relieve (montañas, valles, mesetas…)", ["cordilleras", "montes_picos", "pasos_montana", "valles", "canones", "mesetas", "llanuras", "cuencas", "piedemonte", "glaciares", "desiertos", "tundras", "deltas_humedales", "cascadas", "geiseres"]],
+    ["🧊 Hielo: glaciares, plataformas antárticas y fiordos", ["glaciares", "plataformas_hielo", "fiordos", "tundras"]],
     ["🌊 Mares, golfos, estrechos, lagos y ríos", ["oceanos", "mares", "golfos_bahias", "estrechos", "lagos", "rios"]],
   ];
   // Volcanes vigilados (capa en vivo de Amenazas) también desde los subtipos de Zonas geográficas: la casilla es un
@@ -1011,13 +1022,29 @@ async function iniciarRiesgos() {
       entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom));
       const div = document.querySelector("#ficha-cuerpo .ceniza");
       if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
+      prepararErupcion();
     },
   });
   const filaCapa = (c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>
       ${c.leyenda ? `<div class="ley-wrap" id="rg-ley-${c.id}" hidden>${R.htmlLeyenda(c)}</div>` : ""}`;
   const delGrupo = (g) => R.CAPAS.filter((c) => c.grupo === g && !c.menu);
+  // Polos: atajo que enciende sus capas, pasa a la vista de globo (en el plano los polos se ven deformados) y centra el polo.
+  const ATAJO_POLOS = `<div class="atajos-polos"><button type="button" class="mini" data-polo="sur">🧊 Ver la Antártida</button>
+    <button type="button" class="mini" data-polo="norte">🧊 Ver Groenlandia y el Ártico</button></div>`;
   cont.innerHTML = R.GRUPOS.map(([g, ic, color], i) => `<details class="subgrupo-d" id="sg-rg-${i}" open><summary class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}
-      <span class="sg-n">${delGrupo(g).length} capas</span></summary>` + delGrupo(g).map(filaCapa).join("") + `</details>`).join("");
+      <span class="sg-n">${delGrupo(g).length} capas</span></summary>` + (g.startsWith("Polos") ? ATAJO_POLOS : "") + delGrupo(g).map(filaCapa).join("") + `</details>`).join("");
+  cont.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-polo]");
+    if (!b) return;
+    for (const x of cont.querySelectorAll('[data-riesgo^="polos_"]')) if (!x.checked) { x.checked = true; x.dispatchEvent(new Event("change", { bubbles: true })); }
+    const hielo = document.querySelector('[data-img="hielo_marino"]');
+    if (hielo && !hielo.checked && !lite) { hielo.checked = true; hielo.dispatchEvent(new Event("change", { bubbles: true })); }
+    $("sel-proyeccion").value = "globe";
+    $("sel-proyeccion").dispatchEvent(new Event("change"));
+    const sur = b.dataset.polo === "sur";
+    // En el globo el zoom compensa la latitud (cerca del polo, el mismo zoom se ve ~4 veces más cerca): por eso es bajo.
+    api.map.flyTo({ center: sur ? [0, -78] : [-40, 74], zoom: 0.6, duration: lite ? 0 : 1200 });
+  });
   // Capas que viven en otro menú (trenes en «En movimiento → Trenes»; fenómenos anómalos en su propio grupo): mismo motor, otra ubicación.
   for (const [menu, idCont] of [["trenes", "trenes-capas"], ["anomalias", "anomalias-capas"]]) {
     const c = $(idCont);

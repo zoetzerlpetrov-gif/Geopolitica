@@ -7,6 +7,7 @@
 /* global maplibregl, pmtiles */
 import { detalle as detalleOrg } from "./buscador_org.js";
 import { esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, hayObjetoEncima } from "./util.js";
+import { htmlBloque as htmlErupcion } from "./erupcion.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -178,7 +179,7 @@ export class GestorCapas {
       this.map.on("click", capa, (e) => {
         if (capa.endsWith("-relleno") && hayObjetoEncima(this.map, e.point)) return;  // el punto de encima tiene prioridad
         if (capa.endsWith("-ltoque") && this.map.queryRenderedFeatures(e.point, { layers: [`${src}-toque`] }).length) return;
-        this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat });
+        this.onEntidad({ familia: f, props: e.features[0].properties, lngLat: e.lngLat, geom: e.features[0].geometry });
       });
       this.map.on("mouseenter", capa, () => { this.map.getCanvas().style.cursor = "pointer"; });
       this.map.on("mouseleave", capa, () => { this.map.getCanvas().style.cursor = ""; });
@@ -213,8 +214,11 @@ export function urlFuente(id) {
 const NOMBRES_ISO2 = new Intl.DisplayNames(["es"], { type: "region" });
 const nombrePaisCorto = (c) => { try { return c.length === 2 ? NOMBRES_ISO2.of(c.toUpperCase()) : c; } catch (e) { return c; } };
 
+/** Coordenadas del objeto (si es un punto) o del clic. */
+const coordsDe = (geom, lngLat) => (geom?.type === "Point" ? { lon: geom.coordinates[0], lat: geom.coordinates[1] } : { lon: lngLat.lng, lat: lngLat.lat });
+
 /** Ficha de una entidad del mapa (aeropuerto, puerto, central, zona…). */
-export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas = [] }) {
+export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas = [], lngLat, geom }) {
   const sub = familia.subtipos.find((s) => s.id === props.st);
   if (familia.id === "camaras") return htmlFichaCamara(props, sub);
   if (familia.id === "conflicto") return htmlFichaConflicto(props, sub);
@@ -234,6 +238,8 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
       <dt>Licencia</dt><dd>${esc(sub?.licencia || familia.licencia)}</dd>
       <dt>Actualizado</dt><dd>${esc(familia.manifest?.actualizado_utc?.slice(0, 10) || "—")}</dd>
     </dl>
+    ${familia.id === "zonas" && /^volcanes/.test(props.st) && (geom || lngLat) ? htmlErupcion({ ...coordsDe(geom, lngLat), nombre: props.n || "Volcán",
+      tipo: String(props.x || "").split(" · ")[1] || "", pais: String(props.x || "").split(" · ")[0] || "", gvp: (String(props.id).match(/^gvp:(\d+)/) || [])[1] || "" }) : ""}
     ${personas.length ? `<h4>Personas con rol público</h4><ul class="fuentes">${personas.map((p) => `<li>${esc(p.nombre)} · ${esc(p.cargo)} · <a href="${esc(p.wikidata)}" target="_blank" rel="noopener noreferrer">Wikidata</a></li>`).join("")}</ul>` : ""}
     <button type="button" class="link-btn" id="btn-seguir" data-id="${esc(props.id)}" aria-pressed="${seguido}">${seguido ? "★ Siguiendo" : "☆ Seguir"}</button>
     <h4>Eventos a menos de 300 km (${cercanos.length})</h4>

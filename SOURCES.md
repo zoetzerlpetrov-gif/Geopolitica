@@ -194,3 +194,22 @@ Lista curada en `config/camaras.json` más dos fuentes de datos abiertos de cám
 No se incluyen cámaras «abiertas» por error (sin contraseña o mal configuradas), aunque se puedan ver: no hay forma de saber si su dueño quiere publicarlas, suelen grabar casas y personas (imágenes que la Ley Federal de Protección de Datos Personales en Posesión de los Particulares trata como datos personales), y entrar a un equipo ajeno sin autorización puede encuadrar en leyes de acceso ilícito a sistemas según el país. Tampoco se usan directorios que las recopilan.
 
 Candidatas para más adelante: Windy Webcams (decenas de miles de cámaras publicadas a propósito, requiere clave gratuita), cámaras de tráfico de Nueva York (NYC DOT), Ontario 511 y Statens vegvesen (Noruega, requiere registro). En México no se encontró un catálogo abierto de cámaras de tráfico de la SICT o CAPUFE.
+
+## Polos, escenarios de erupción y frecuencias de radio (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| NOAA NCEI, «Snow and Ice Extent» (`/access/monitoring/snow-and-ice-extent/sea-ice/{N,S}/{mes}.csv`) | Extensión mensual del hielo marino y su anomalía 1991-2020 | Sin llave; robots.txt lo permite | Dominio público (gobierno de EUA); datos del Sea Ice Index de NSIDC. Los archivos diarios de NSIDC (`noaadata.apps.nsidc.org`), MET Noruega (`thredds.met.no`) y Climate Reanalyzer piden en su robots.txt no ser rastreados: no se usan |
+| NASA Ozone Watch (`to3areas_AAAA_toms+omi+omps.txt`) | Área diaria del agujero de ozono y climatología 1979-2025 | Sin llave; robots.txt lo permite | Dominio público (NASA) |
+| DMI / Polar Portal (`download.dmi.dk/.../PP_GSMB/GSMB.txt` y `GSMB_MELTA.txt`) | Balance de masa superficial y área con deshielo de Groenlandia | Sin llave; ese servidor no publica robots.txt (polarportal.dk sí prohíbe rastrear su sitio, por eso solo se lee el archivo de datos) | © DMI; piden citar «DMI/Polar Portal» |
+| U.S. National Ice Center (`/File/DownloadCurrent?pId=134`) | Icebergs antárticos de más de 10 millas náuticas (semanal) | Sin llave; robots.txt lo permite | Dominio público (gobierno de EUA) |
+| NOAA SWPC, modelo OVATION | Probabilidad de ver aurora | Sin llave | Dominio público |
+| NASA GIBS: `GHRSST_L4_MUR_Sea_Ice_Concentration`, `OMPS_Ozone_Total_Column` | Imágenes de hielo marino y columna de ozono | Sin llave | Dominio público (NASA); paletas oficiales de GIBS |
+| Wikidata (SPARQL y `Special:EntityData`) | Bases científicas polares, sitios de Groenlandia, relieve (valles, cascadas, pasos, montañas, fiordos, géiseres) | Sin llave; en sus fallas limita a 1 consulta por minuto (se espera y se reusa la copia anterior) | CC0 |
+| Smithsonian GVP (WFS, `Smithsonian_VOTW_Pleistocene_Volcanoes`) | Volcanes inactivos (sin erupciones en el Holoceno) y tipo de roca | Sin llave | Uso libre citando la fuente |
+| Natural Earth `ne_10m_antarctic_ice_shelves_polys` | Plataformas de hielo antárticas | Sin llave | Dominio público |
+| AWS Terrain Tiles (Terrarium, `s3.amazonaws.com/elevation-tiles-prod`) | Relieve para los escenarios de erupción (se lee en el navegador al pulsar el botón) | Sin llave; CORS abierto | Datos SRTM, GMTED, ETOPO1 y otros, de dominio público o con atribución (ver la lista de fuentes de Mapzen/Tilezen) |
+| OurAirports (`airports.csv`, copia semanal en `vivos/aeropuertos_icao.json`) | Aeropuertos cercanos a un avión en emergencia, para enlazar LiveATC | Sin llave | Dominio público |
+| LiveATC, YouTube y Google Noticias | Solo enlaces de búsqueda en la ficha; el monitor no descarga ni guarda audio ni páginas | — | Términos de cada sitio (LiveATC bloquea a programas: solo se enlaza) |
+
+Los escenarios de erupción usan modelos simplificados publicados (cono de energía de Malin y Sheridan, 1982; recorridos de máxima pendiente al estilo DOWNFLOW, Favalli y otros, 2005; IEV de Newhall y Self, 1982). Son referencia educativa, no mapas oficiales de peligros.
