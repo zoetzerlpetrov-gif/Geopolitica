@@ -1,0 +1,12 @@
+name: Sonda temporal
+on: { push: { branches: [claude/pensive-ptolemy-bkwcue], paths: [tools/sonda_tmp.py, .github/workflows/sonda.yml] } }
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/sonda_tmp.py
+        env:
+          GFW_TOKEN: ${{ secrets.SAUL_PRIVATE_GLOBALFISHINGWATCH }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
