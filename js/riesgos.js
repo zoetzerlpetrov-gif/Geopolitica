@@ -612,8 +612,12 @@ export const CAPAS = [
     url: "data/vivos/cielo.geojson", refresco_s: 21600, fuente: "IMO (lluvias), COBS y NASA/JPL Horizons (cometas), USNO (Luna y eclipses)",
     complementar: async (fc) => { let cal = null; try { cal = await getJSON("data/vivos/cielo_calendario.json", { bust: true }); } catch { /* sin calendario */ }
       return { ...fc, features: fc.features.map((f) => ({ ...f, properties: { ...f.properties, calendario: cal } })) }; },
+    // Las franjas cubren casi todo el planeta: se dibujan solo sus bordes (líneas), para no tapar los clics de otras capas.
+    derivar: (fc) => ({ ...fc, features: fc.features.map((f) => (f.geometry.type !== "Polygon" ? f : { ...f, properties: { ...f.properties, opacidad: undefined },
+      geometry: { type: "MultiLineString", coordinates: [f.properties.lat_desde, f.properties.lat_hasta].filter((l) => Math.abs(l) < 89.5).map((l) => [[-180, l], [180, l]]) } }))
+      .filter((f) => f.geometry.type !== "MultiLineString" || f.geometry.coordinates.length) }),
     estilo: (p) => ({ c: p.kind === "cometa" ? "#1F8A8A" : "#5B6C8F", r: p.etiqueta ? 5 : 0 }),
-    etiqueta: (p) => (p.etiqueta ? `${p.kind === "cometa" ? "☄️" : "🌠"} ${p.nombre}${p.kind === "lluvia" ? ` · máx ${p.maximo.slice(5)}` : ` · mag ${p.magnitud}`}` : ""),
+    etiqueta: (p) => (p.etiqueta ? `${p.kind === "cometa" ? "Cometa" : "Lluvia"} ${p.nombre}${p.kind === "lluvia" ? ` · máx ${p.maximo.slice(5)}` : ` · mag ${p.magnitud}`}` : ""),
     leyenda: [{ c: "#5B6C8F", r: 6, t: "Lluvia de estrellas activa o con máximo en 30 días" }, { c: "#1F8A8A", r: 6, t: "Cometa de magnitud 12 o más brillante" },
       { t: "Cada franja marca las latitudes desde donde se ve (no un punto exacto). La etiqueta solo indica a qué franja pertenece. Toca una para ver fechas, Luna y el calendario de eclipses." }],
     ficha: (p) => ({ titulo: p.nombre, chip: p.kind === "lluvia" ? `Lluvia de estrellas · ZHR ${p.zhr}` : `Cometa · magnitud ${p.magnitud}`, filas: K.filasCielo(p), url: p.url,

@@ -32,7 +32,9 @@ export function filasFrente(p) {
 export function barras(serie, { umbrales = [], unidad = "", alto = 60, titulo = "" } = {}) {
   const s = (serie || []).filter((x) => Array.isArray(x) && Number.isFinite(Number(x[1])));
   if (!s.length) return "";
-  const max = Math.max(...s.map((x) => Number(x[1])), ...umbrales.map((u) => u[0]));
+  // Escala: el dato mayor (o el primer umbral) con 15 % de aire; solo se dibujan los umbrales que caben.
+  const max = Math.max(...s.map((x) => Number(x[1])), umbrales[0]?.[0] || 0) * 1.15;
+  umbrales = umbrales.filter(([u]) => u <= max);
   const ancho = 300, paso = ancho / s.length;
   const color = (v) => [...umbrales].reverse().find(([u]) => v >= u)?.[1] || "#8D99A6";
   const rects = s.map(([t, v], i) => { const h = Math.max(1, (Number(v) / max) * alto);
@@ -130,7 +132,9 @@ export function filasNeo(p) {
 export function svgTrayectoria(p) {
   const pts = (p.trayectoria_ld || []).filter((x) => Array.isArray(x) && x.length === 2);
   if (pts.length < 2) return "";
-  const lim = Math.max(1.3, Math.min(8, Math.max(...pts.map(([x, y]) => Math.max(Math.abs(x), Math.abs(y)))) * 1.05));
+  // La escala se ajusta al punto más cercano (no a toda la recta), así el paso y la órbita de la Luna siempre se ven.
+  const dmin = Math.min(...pts.map(([x, y]) => Math.hypot(x, y)));
+  const lim = Math.max(1.3, dmin * 1.4);
   const T = 120, k = (T - 6) / lim, X = (v) => (T + v * k).toFixed(1), Y = (v) => (T - v * k).toFixed(1);
   const visibles = pts.filter(([x, y]) => Math.abs(x) <= lim && Math.abs(y) <= lim);
   const ca = pts.reduce((m, q) => (q[0] ** 2 + q[1] ** 2 < m[0] ** 2 + m[1] ** 2 ? q : m));
