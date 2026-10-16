@@ -71,6 +71,8 @@
       <select id="sel-base" class="sel-vista" title="Mapa base" aria-label="Mapa base">
         <option value="tematico">Temático</option><option value="calles">Calles</option><option value="satelite">Satélite</option></select>
       <button id="btn-tema" class="icon-btn" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema claro u oscuro">Tema</button>
+      <select id="sel-idioma" class="sel-vista" title="Idioma" aria-label="Idioma" data-noi18n>
+        <option value="es">ES · Español</option><option value="en">EN · English</option><option value="fr">FR · Français</option><option value="de">DE · Deutsch</option><option value="it">IT · Italiano</option></select>
     </nav>
   </header>
 
@@ -243,6 +245,14 @@
           <form id="verif-form"><textarea id="verif-texto" rows="4" class="verif-texto" placeholder="Ej.: «Tu cuenta BBVA será bloqueada hoy. Confirma tu NIP en bbva-seguridad.xyz»" aria-label="Texto del mensaje"></textarea>
             <button>Analizar</button></form>
           <div id="verif-res" aria-live="polite"></div>
+        </details>
+        <details class="bloque plegable" id="b-herr-pwd" data-grupo="herramientas">
+          <summary><h2>🔑 ¿Mi contraseña aparece en filtraciones?</h2></summary>
+          <p class="nota-capas">Revisa si una contraseña está en las listas de filtraciones públicas de <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. Tu contraseña no sale del navegador: se calcula su huella SHA-1 y solo se envían sus primeros 5 caracteres (anonimato k). No se guarda nada.</p>
+          <form id="pwd-form" autocomplete="off"><input id="pwd-texto" type="password" class="verif-texto" autocomplete="off" aria-label="Contraseña a revisar" placeholder="Contraseña a revisar">
+            <button>Comprobar</button></form>
+          <div id="pwd-res" aria-live="polite"></div>
+          <p class="nota-capas">Para saber si tu <b>correo</b> aparece en una filtración, consúltalo directamente en <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">haveibeenpwned.com</a> (este monitor no busca datos de personas).</p>
         </details>
       </details>
       <details class="grupo" id="g-seguimiento" data-grupo="seguimiento">

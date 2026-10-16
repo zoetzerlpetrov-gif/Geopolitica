@@ -2,6 +2,7 @@
 /* global maplibregl */
 import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe, resaltar, fragmento, MIN_BUSQUEDA } from "./util.js";
 import { estiloBase, crearMapa } from "./map.js";
+import { iniciarIdioma } from "./idioma.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
 import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js";
@@ -483,6 +484,7 @@ async function main() {
     colores: Object.fromEntries(tax.lista.map((a) => [a.id, a.color])),
     onSelect: (id) => abrirFicha(id),
   });
+  iniciarIdioma({ map: api.map });
   const [choke, runLog, regiones] = await Promise.all([pChoke, pRunLog, pRegiones, pEventos]);
   estado.areas = new Set(tax.lista.map((a) => a.id));
   api.setChokepointsDatos({
@@ -621,6 +623,14 @@ async function main() {
     e.preventDefault();
     const V = await import("./verificador.js");
     $("verif-res").innerHTML = V.htmlResultado(V.analizarMensaje($("verif-texto").value));
+  });
+  $("pwd-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const X = await import("./exposicion.js"), campo = $("pwd-texto"), res = $("pwd-res");
+    if (!campo.value) return;
+    res.textContent = "Revisando…";
+    try { res.innerHTML = X.htmlResultado(await X.revisar(campo.value)); } catch (err) { res.textContent = `No se pudo consultar Have I Been Pwned (${err.message}). Intenta más tarde.`; }
+    campo.value = "";  // la contraseña no se queda en la página
   });
   // Cuaderno del analista: checklist y notas del evento abierto (solo en este navegador).
   $("ficha-cuerpo").addEventListener("change", (e) => {

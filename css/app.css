@@ -554,3 +554,7 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 :root[data-theme="dark"] .maplibregl-ctrl-group.zoom-centro { background: #22303c; }
 :root[data-theme="dark"] .maplibregl-ctrl-group.zoom-centro button { color: #e6edf3; }
 :root[data-theme="dark"] .maplibregl-ctrl-group.zoom-centro button + button { border-left-color: #3a4a58; }
+/* Gráficas de clima de temporada y cielo (js/cielo.js) */
+.graf-barras { display: block; width: 100%; height: auto; margin: 4px 0; color: var(--texto-2, #555); }
+.graf-tray { display: block; width: 100%; max-width: 260px; height: auto; margin: 4px auto; color: var(--texto-2, #555); }
+.aviso-idioma { bottom: 120px; }
