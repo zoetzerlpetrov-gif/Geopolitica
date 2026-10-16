@@ -80,3 +80,53 @@ test("chat: citas enlazadas, HTML escapado y aviso de solo Chrome", async () => 
   assert.equal(await disponibilidad(), "no-api");
   assert.match(MENSAJE_ESTADO["no-api"], /solo trabaja en Google Chrome/);
 });
+
+// Simulación de la IA de Chrome (LanguageModel) para probar fases, límites de espera y cancelación.
+import { preguntar, mensajeError } from "../../js/chat_ia.js";
+
+function simulador({ crear, trozos = [], pausaMs = 0 } = {}) {
+  return {
+    availability: async () => "available",
+    create: crear || (async () => ({
+      clone: async () => ({
+        promptStreaming: () => new ReadableStream({ async start(c) { for (const t of trozos) { await new Promise((r) => setTimeout(r, pausaMs)); c.enqueue(t); } c.close(); } }),
+        destroy() {},
+      }),
+    })),
+  };
+}
+
+test("chat: si la descarga del modelo no avanza, se corta con un mensaje claro", async () => {
+  globalThis.LanguageModel = simulador({ crear: () => new Promise(() => {}) });
+  try {
+    const fases = [];
+    await assert.rejects(preguntar("¿Ormuz?", EVENTOS, { esperaDescargaMs: 50, onFase: (f) => fases.push(f) }), (e) => e.motivo === "descarga");
+    assert.deepEqual(fases, ["preparando"]);
+    assert.match(mensajeError({ motivo: "descarga" }), /no avanzó/);
+  } finally { delete globalThis.LanguageModel; }
+});
+
+test("chat: respuesta en flujo con fases, y si se atora a medias también se corta", async () => {
+  globalThis.LanguageModel = simulador({ trozos: ["Hay ", "bloqueo [1]."] });
+  try {
+    const fases = [], textos = [];
+    const r = await preguntar("¿Ormuz?", EVENTOS, { onFase: (f) => fases.push(f), onTexto: (t) => textos.push(t) });
+    assert.equal(r.texto, "Hay bloqueo [1].");
+    assert.deepEqual(fases, ["preparando", "pensando", "escribiendo"]);
+    assert.equal(textos.at(-1), "Hay bloqueo [1].");
+  } finally { delete globalThis.LanguageModel; }
+  globalThis.LanguageModel = simulador({ trozos: ["a"], pausaMs: 300 });
+  try {
+    await assert.rejects(preguntar("¿Ormuz?", EVENTOS, { esperaRespuestaMs: 50 }), (e) => e.motivo === "respuesta");
+  } finally { delete globalThis.LanguageModel; }
+});
+
+test("chat: el botón Cancelar detiene la espera", async () => {
+  globalThis.LanguageModel = simulador({ crear: () => new Promise(() => {}) });
+  try {
+    const ctrl = new AbortController();
+    setTimeout(() => ctrl.abort(new DOMException("cancelada", "AbortError")), 30);
+    await assert.rejects(preguntar("¿Ormuz?", EVENTOS, { signal: ctrl.signal }), (e) => e.name === "AbortError");
+    assert.equal(mensajeError({ name: "AbortError" }), "Pregunta cancelada.");
+  } finally { delete globalThis.LanguageModel; }
+});

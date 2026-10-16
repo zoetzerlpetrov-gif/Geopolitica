@@ -959,19 +959,37 @@ async function iniciarChatIA() {
   const pintar = async () => { const st = await C.disponibilidad(); estado.textContent = `${st === "available" ? "✅" : "⚠️"} ${C.MENSAJE_ESTADO[st] || C.MENSAJE_ESTADO.unavailable}`; return st; };
   let st = await pintar();
   form.querySelector("button").disabled = st === "no-api" || st === "unavailable";
+  const boton = form.querySelector("button"), cancelar = $("ia-cancelar");
+  let ctrl = null;
+  cancelar.addEventListener("click", () => ctrl?.abort(new DOMException("cancelada", "AbortError")));
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const q = $("ia-texto").value.trim();
-    if (q.length < 4) return;
-    res.innerHTML = `<p class="meta">Pensando con la IA de tu equipo…</p>`;
+    if (q.length < 4 || ctrl) return;
+    ctrl = new AbortController();
+    boton.disabled = true; cancelar.hidden = false;
+    // Fase visible con segundos transcurridos, para saber que sigue trabajando.
+    const t0 = Date.now();
+    let fase = "Preparando el modelo de Chrome…", extra = "";
+    const pintarFase = () => { res.innerHTML = `<p class="meta">${esc(fase)} ${Math.round((Date.now() - t0) / 1000)} s${extra}</p>`; };
+    const reloj = setInterval(pintarFase, 1000);
+    pintarFase();
+    const FASES = { preparando: "Preparando el modelo de Chrome…", pensando: "Leyendo las noticias y pensando…", escribiendo: "" };
     try {
       const reales = eventos.filter((x) => !x.es_ejemplo);  // los de ejemplo solo si no hay otros
-      const r = await C.preguntar(q, reales.length ? reales : eventos, {
+      const r = await C.preguntar(q, reales.length ? reales : eventos, { signal: ctrl.signal,
+        onFase: (f) => { fase = FASES[f]; extra = ""; if (f === "escribiendo") clearInterval(reloj); else pintarFase(); },
         onTexto: (t) => { res.innerHTML = `<div class="ia-resp">${esc(t).replace(/\n/g, "<br>")}</div>`; },
-        onProgreso: (p) => { res.innerHTML = `<p class="meta">Chrome descarga el modelo: ${Math.round((p || 0) * 100)} %</p>`; } });
+        onProgreso: (p) => { fase = "Chrome descarga el modelo (solo la primera vez):"; extra = ` · ${Math.round((p || 0) * 100)} %`; pintarFase(); } });
       res.innerHTML = C.htmlRespuesta(r.texto, r.noticias);
-    } catch (err) { res.innerHTML = `<p class="meta">No se pudo usar la IA de Chrome: ${esc(err.message)}</p>`; }
-    st = await pintar();
+    } catch (err) {
+      const cancelada = err?.name === "AbortError";
+      res.innerHTML = `<p class="meta">⚠️ ${esc(C.mensajeError(err))}</p>${cancelada ? "" : C.AYUDA_CHROME}`;
+    } finally {
+      clearInterval(reloj); ctrl = null; cancelar.hidden = true;
+      st = await pintar();
+      boton.disabled = st === "no-api" || st === "unavailable";
+    }
   });
 }
 
