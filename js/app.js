@@ -614,7 +614,7 @@ async function main() {
   };
   api.map.once("idle", arrancarCapas);
   setTimeout(arrancarCapas, 5000);
-  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); });
+  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); timelapse?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); });
   iniciarImagenes();
   iniciarClima();
   iniciarRiesgos();
@@ -929,12 +929,15 @@ function iniciarImagenes() {
   const dias = [1, 2, 3, 5, 7].map((d) => haceDias(d));
   // Cada opción muestra solo su nombre; la escala de colores o la explicación aparece al marcarla (CSS .opcion-capa).
   cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<div class="opcion-capa"><label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>${d.escala ? `<div class="detalle-capa">${htmlEscalaImagen(d)}</div>` : d.leyenda ? `<p class="meta detalle-capa">${esc(d.leyenda)}</p>` : ""}</div>`).join("")
+    + `<div class="opcion-capa"><label class="fila"><span><input type="checkbox" data-tl> 🕰️ Cambio en el tiempo: la misma zona año por año (2018–2025)</span></label>
+      <p class="meta detalle-capa">Mosaicos sin nubes de Sentinel-2 (10 m por píxel), uno por año. Acércate a una ciudad, mina, presa, costa o bosque (zoom 10 a 14) y usa ▶ o el deslizador de la barra sobre el mapa. Cada píxel mide 10 × 10 m: se ven obras, manchas urbanas y deforestación, no autos ni personas. Fuente: EOX (s2maps.eu), uso no comercial.</p></div>`
     + `<div class="detalle-imagenes"><label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
     + `<p class="nota-capas" id="img-noche-nota"></p><p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p></div>`;
   const notaNoche = (r, error) => {
     $("img-noche-nota").textContent = r === undefined ? "" : r ? `Luces nocturnas: ${r.etiqueta} (${r.fecha}). Zonas de día salen oscuras: el sensor solo ve luz artificial de noche.` : `Luces nocturnas: ${error || "sin imagen"}`;
   };
   cont.addEventListener("change", async (e) => {
+    if (e.target.matches("[data-tl]")) { alternarTimelapse(e.target); return; }
     if (e.target.id === "img-fecha") { fecha = e.target.value; const r = await img.setFecha(fecha); if ("viirs_noche" in r) notaNoche(r.viirs_noche); return; }
     const id = e.target.dataset.img;
     if (!id) return;
@@ -943,6 +946,30 @@ function iniciarImagenes() {
     try { const r = await img.activar(id, fecha); if (id === "viirs_noche") notaNoche(r); } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
     avisarPresupuesto();
   });
+}
+
+// ---------- Cambio en el tiempo (Sentinel-2 cloudless por año) ----------
+let timelapse = null;
+async function alternarTimelapse(cb) {
+  const T = await import("./timelapse.js");
+  let barra = document.querySelector(".tl-barra");
+  if (!cb.checked) { timelapse?.desactivar(); barra?.remove(); return; }
+  if (!barra) {
+    barra = document.createElement("div");
+    barra.className = "tl-barra"; barra.setAttribute("role", "group"); barra.setAttribute("aria-label", "Cambio en el tiempo");
+    barra.innerHTML = T.htmlBarra();
+    document.querySelector(".mapa-wrap").appendChild(barra);
+    const play = barra.querySelector(".tl-play"), rango = barra.querySelector(".tl-rango"), anio = barra.querySelector(".tl-anio");
+    timelapse ??= new T.Timelapse(api.map, { onCambio: (st) => {
+      rango.value = st.i; anio.textContent = st.anio;
+      play.textContent = st.reproduciendo ? "⏸" : "▶"; play.setAttribute("aria-label", st.reproduciendo ? "Pausar" : "Reproducir");
+    } });
+    play.onclick = () => (timelapse.reloj ? timelapse.pausar() : timelapse.reproducir());
+    rango.oninput = () => { const i = Number(rango.value); timelapse.pausar(); timelapse.setIndice(i); };  // se lee antes: pausar() repinta el deslizador
+    barra.querySelector(".tl-cerrar").onclick = () => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
+  }
+  timelapse.activar();
+  avisarPresupuesto();
 }
 
 // ---------- Clima tipo Windy (modelo GFS de NOAA) ----------

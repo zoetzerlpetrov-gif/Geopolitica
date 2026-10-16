@@ -564,3 +564,10 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 #img-capas:not(:has([data-img]:checked)) .detalle-imagenes { display: none; }
 .capa-fam:not(.capa-off):not(:has(> label input:checked)) > :not(label),
 .capa-fam:not(.capa-off):not(:has(> label input:checked)) > label .chip { display: none; }
+/* Cambio en el tiempo: barra flotante arriba al centro del mapa */
+.tl-barra { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 4; display: grid; grid-template-columns: auto minmax(140px, 260px) auto auto;
+  align-items: center; gap: 4px 8px; padding: 6px 10px; background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 1px 6px rgba(0,0,0,0.3); max-width: calc(100% - 32px); }
+.tl-barra button { border: 1px solid var(--line); background: var(--surface-2); color: var(--text); border-radius: 6px; min-width: 34px; height: 30px; font-size: 15px; cursor: pointer; }
+.tl-barra .tl-rango { width: 100%; }
+.tl-barra .tl-anio { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: center; }
+.tl-barra .tl-marcas { grid-column: 2; display: flex; justify-content: space-between; font-size: 9px; color: var(--text-2); margin-top: -4px; }
