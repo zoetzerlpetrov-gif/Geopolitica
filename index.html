@@ -244,6 +244,14 @@
             <button>Analizar</button></form>
           <div id="verif-res" aria-live="polite"></div>
         </details>
+        <details class="bloque plegable" id="b-herr-ia" data-grupo="herramientas">
+          <summary><h2>🤖 Preguntar a la IA sobre las noticias (solo Chrome)</h2></summary>
+          <p class="nota-capas" id="ia-estado">⚠️ Esta función solo trabaja en Google Chrome de escritorio con la IA integrada (Gemini Nano). Comprobando…</p>
+          <form id="ia-form"><textarea id="ia-texto" rows="3" class="verif-texto" placeholder="Ej.: ¿Qué riesgos para México hay esta semana por aranceles?" aria-label="Pregunta para la IA"></textarea>
+            <button>Preguntar</button></form>
+          <div id="ia-res" aria-live="polite"></div>
+          <p class="nota-capas">Usa las noticias que el monitor tiene cargadas (título, fuente, fecha y resumen propio). La IA corre en tu equipo: la pregunta no se envía a ningún servidor.</p>
+        </details>
         <details class="bloque plegable" id="b-herr-pwd" data-grupo="herramientas">
           <summary><h2>🔑 ¿Mi contraseña aparece en filtraciones?</h2></summary>
           <p class="nota-capas">Revisa si una contraseña está en las listas de filtraciones públicas de <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. Tu contraseña no sale del navegador: se calcula su huella SHA-1 y solo se envían sus primeros 5 caracteres (anonimato k). No se guarda nada.</p>
@@ -251,6 +259,46 @@
             <button>Comprobar</button></form>
           <div id="pwd-res" aria-live="polite"></div>
           <p class="nota-capas">Para saber si tu <b>correo</b> aparece en una filtración, consúltalo directamente en <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">haveibeenpwned.com</a> (este monitor no busca datos de personas).</p>
+        </details>
+      </details>
+      <details class="grupo" id="g-investigacion" data-grupo="investigacion">
+        <summary class="grupo-tit" data-grupo="investigacion"><span aria-hidden="true">🔎</span> Investigación</summary>
+        <p class="nota-capas">Apoyo para investigar fraude, corrupción, lavado de dinero y personas buscadas con listas oficiales públicas. Nada de esto localiza ni sigue a personas; lo que captures en el cuaderno y la cadena de custodia se queda en este navegador.</p>
+        <details class="bloque plegable" id="b-inv-69b" data-grupo="investigacion">
+          <summary><h2>🧾 Empresas que facturan operaciones simuladas (SAT 69-B)</h2></summary>
+          <form id="inv-69b-form" role="search"><input type="search" id="inv-69b-q" class="verif-texto" placeholder="RFC o nombre (desde 3 letras)" aria-label="RFC o nombre a buscar" autocomplete="off">
+            <button>Buscar</button></form>
+          <div id="inv-69b-res" aria-live="polite"></div>
+        </details>
+        <details class="bloque plegable" id="b-inv-buscados" data-grupo="investigacion">
+          <summary><h2>🚨 Personas buscadas y desaparecidas (fichas oficiales)</h2></summary>
+          <form id="inv-fbi-form" role="search"><input type="search" id="inv-fbi-q" class="verif-texto" placeholder="Nombre o delito en las fichas del FBI (en inglés)" aria-label="Buscar en las fichas del FBI" autocomplete="off">
+            <button>Buscar</button></form>
+          <div id="inv-fbi-res" aria-live="polite"></div>
+          <ul id="inv-listas" class="fuentes"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-custodia" data-grupo="investigacion">
+          <summary><h2>🔐 Cadena de custodia: huella digital de evidencias</h2></summary>
+          <p class="nota-capas">Calcula la huella SHA-256 de cada archivo (foto, video, PDF, audio) en tu equipo, sin subirlo, y genera un acta para imprimir o guardar en PDF. Si alguien altera un archivo, su huella deja de coincidir.</p>
+          <label class="fila"><span>Caso o carpeta</span><input type="text" id="cus-caso" maxlength="120"></label>
+          <label class="fila"><span>Responsable</span><input type="text" id="cus-resp" maxlength="120"></label>
+          <label class="fila"><span>Descripción</span><input type="text" id="cus-desc" maxlength="300"></label>
+          <label class="fila"><span>Archivos</span><input type="file" id="cus-archivos" multiple></label>
+          <div id="cus-res" aria-live="polite"></div>
+        </details>
+        <details class="bloque plegable" id="b-inv-vinculos" data-grupo="investigacion">
+          <summary><h2>🕸️ Cuaderno de vínculos del caso</h2></summary>
+          <p class="nota-capas">Anota personas, empresas, cuentas, teléfonos, lugares o vehículos y cómo se relacionan (con la fuente de cada dato). Se guarda solo en este navegador: exporta el archivo para respaldarlo o compartirlo con tu equipo.</p>
+          <form id="vin-ent"><input type="text" id="vin-nombre" placeholder="Nombre de la entidad" aria-label="Nombre de la entidad" maxlength="120"><select id="vin-tipo" aria-label="Tipo de entidad"></select><button>Agregar</button></form>
+          <form id="vin-rel"><select id="vin-a" aria-label="Entidad A"></select><input type="text" id="vin-tipo-rel" placeholder="relación (p. ej. socio de)" aria-label="Tipo de relación" maxlength="80"><select id="vin-b" aria-label="Entidad B"></select>
+            <input type="text" id="vin-fuente" placeholder="fuente o evidencia" aria-label="Fuente o evidencia" maxlength="300"><button>Relacionar</button></form>
+          <div id="vin-grafico"></div>
+          <div id="vin-lista"></div>
+          <div class="fila-botones"><button type="button" id="vin-exportar">Exportar</button><label class="txt-btn">Importar <input type="file" id="vin-importar" accept="application/json" hidden></label><button type="button" id="vin-borrar">Borrar todo</button></div>
+        </details>
+        <details class="bloque plegable" id="b-inv-fuentes" data-grupo="investigacion">
+          <summary><h2>📚 Fuentes públicas para investigar</h2></summary>
+          <ul id="inv-fuentes" class="fuentes"></ul>
         </details>
       </details>
       <details class="grupo" id="g-seguimiento" data-grupo="seguimiento">

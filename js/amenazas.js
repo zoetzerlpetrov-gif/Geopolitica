@@ -100,6 +100,8 @@ export function clasificar(capa, p = {}, geom = null) {
     }
     case "avisos_nauticos": return { sev: lim(p.sev || 2), tipo: `Aviso náutico: ${p.categoria_texto || "seguridad"}`,
       ic: p.kind === "punto" ? { pirateria: "🏴‍☠️", minas_misiles: "💣", rescate: "🛟", gnss: "📡", militar_espacial: "🎯" }[p.categoria] || "⚓" : "" };
+    case "gfw_apagados": return { sev: p.horas >= 72 ? 3 : 2, tipo: "Barco con AIS apagado", ic: "" };
+    case "gfw_encuentros": return { sev: p.riesgo ? 3 : 2, tipo: p.transbordo ? "Posible transbordo en el mar" : "Encuentro entre barcos", ic: "" };
     case "perturbaciones": {
       const n = p.nivel_7d || p.nivel_2d;
       return { sev: n === "alta" ? 4 : n === "media" ? 3 : 2, tipo: "Perturbación tropical", ic: p.kind.startsWith("ubicacion") ? "🌀" : "" };

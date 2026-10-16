@@ -571,3 +571,17 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .tl-barra .tl-rango { width: 100%; }
 .tl-barra .tl-anio { font-weight: 700; font-variant-numeric: tabular-nums; min-width: 3.2em; text-align: center; }
 .tl-barra .tl-marcas { grid-column: 2; display: flex; justify-content: space-between; font-size: 9px; color: var(--text-2); margin-top: -4px; }
+.tl-barra .tl-opciones { grid-column: 1 / -1; display: flex; gap: 8px; align-items: center; font-size: 12px; }
+.tl-barra .tl-fuente { max-width: 100%; font-size: 12px; }
+.tl-barra .tl-aviso { grid-column: 1 / -1; margin: 0; font-size: 12px; color: var(--text); background: #fff4d6; border-radius: 6px; padding: 4px 6px; }
+:root[data-theme="dark"] .tl-barra .tl-aviso { background: #4a3b10; }
+/* Investigación y chat con IA */
+.lista-inv { margin: 6px 0; padding-left: 18px; font-size: 12px; }
+.lista-inv li { margin: 4px 0; }
+.lista-inv code { font-size: 10.5px; word-break: break-all; }
+.fila-botones { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+#vin-ent, #vin-rel { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0; }
+#vin-ent input, #vin-rel input { flex: 1 1 120px; min-width: 0; }
+.graf-vinculos { display: block; width: 100%; max-width: 320px; margin: 4px auto; color: var(--text); }
+.ia-resp { font-size: 13px; line-height: 1.45; margin: 6px 0; }
+.ia-fuentes { font-size: 12px; }

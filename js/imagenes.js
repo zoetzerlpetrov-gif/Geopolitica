@@ -50,6 +50,16 @@ export const IMAGENES = {
       marcas: ["125", "200", "275", "350", "425", "≥ 500 DU"],
       tramos: [["rgb(71,160,179)", "Menos de 220 DU: agujero de ozono (más radiación UV llega al suelo)"], ["rgb(195,231,159)", "220 a 300 DU: bajo a normal"],
         ["rgb(253,203,121)", "300 a 400 DU: normal a alto"], ["rgb(231,89,72)", "Más de 400 DU: alto (común en latitudes altas en primavera)"]] } },
+  // NO₂ (dióxido de nitrógeno): lo emiten motores, centrales, refinerías y fábricas. Sirve como indicador de actividad
+  // industrial y de tráfico (cae en paros, cuarentenas o cierres de planta; sube al reanudar).
+  // TROPOMI (Sentinel-5P): todo el planeta, una pasada al día, ~5 km. TEMPO: solo América del Norte (incluye México),
+  // cada hora de día; con fecha «default» GIBS sirve la hora más reciente.
+  no2_tropomi: { nombre: "NO₂: actividad industrial y tráfico (TROPOMI, diario, mundo)", capa: "TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column",
+    matriz: "GoogleMapsCompatible_Level6", ext: "png", maxzoom: 6, opacidad: 0.75,
+    leyenda: "Columna troposférica de NO₂ (Sentinel-5P/TROPOMI, ~5 km). Mientras más intenso el color, más NO₂: ciudades grandes, centrales, refinerías y corredores de tráfico. Compara días: una caída fuerte en una zona industrial puede indicar paro o cierre. Las nubes dejan huecos. Leyenda oficial en NASA Worldview." },
+  no2_tempo: { nombre: "NO₂ cada hora en América del Norte y México (TEMPO, hora más reciente)", capa: "TEMPO_L3_NO2_Vertical_Column_Troposphere",
+    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, fecha_fija: "default",
+    leyenda: "Satélite geoestacionario TEMPO (NASA): mide el NO₂ cada hora de día sobre América del Norte, de Canadá a México. Mientras más intenso el color, más NO₂. Muestra la última hora publicada; de noche no hay datos. Leyenda oficial en NASA Worldview." },
   // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB. Al activarla, el navegador prueba un
   // mosaico de cada candidata (de la diaria a la anual) y usa la primera que trae imagen de verdad.
   viirs_noche: { nombre: "Luces nocturnas VIIRS (apagones)", maxzoom: 8, opacidad: 1, candidatos: [
@@ -112,6 +122,7 @@ export class Imagenes {
     let eleccion = null;
     // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
     if (def.retraso_dias && fecha === ayerUTC()) fecha = haceDias(def.retraso_dias);
+    if (def.fecha_fija) fecha = def.fecha_fija;  // p. ej. «default» = lo más reciente que publique GIBS
     if (def.candidatos) {
       eleccion = await elegirCandidata(def, fecha, pedir);
       if (!eleccion) throw new Error("NASA GIBS no devolvió imagen de luces nocturnas para esa fecha ni para la referencia anual");

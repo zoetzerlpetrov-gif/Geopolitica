@@ -624,6 +624,8 @@ async function main() {
     const V = await import("./verificador.js");
     $("verif-res").innerHTML = V.htmlResultado(V.analizarMensaje($("verif-texto").value));
   });
+  iniciarInvestigacion();
+  iniciarChatIA();
   $("pwd-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
     const X = await import("./exposicion.js"), campo = $("pwd-texto"), res = $("pwd-res");
@@ -948,6 +950,88 @@ function iniciarImagenes() {
   });
 }
 
+// ---------- Chat con la IA integrada de Chrome (Gemini Nano) ----------
+async function iniciarChatIA() {
+  const form = $("ia-form");
+  if (!form) return;
+  const C = await import("./chat_ia.js");
+  const estado = $("ia-estado"), res = $("ia-res");
+  const pintar = async () => { const st = await C.disponibilidad(); estado.textContent = `${st === "available" ? "✅" : "⚠️"} ${C.MENSAJE_ESTADO[st] || C.MENSAJE_ESTADO.unavailable}`; return st; };
+  let st = await pintar();
+  form.querySelector("button").disabled = st === "no-api" || st === "unavailable";
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const q = $("ia-texto").value.trim();
+    if (q.length < 4) return;
+    res.innerHTML = `<p class="meta">Pensando con la IA de tu equipo…</p>`;
+    try {
+      const reales = eventos.filter((x) => !x.es_ejemplo);  // los de ejemplo solo si no hay otros
+      const r = await C.preguntar(q, reales.length ? reales : eventos, {
+        onTexto: (t) => { res.innerHTML = `<div class="ia-resp">${esc(t).replace(/\n/g, "<br>")}</div>`; },
+        onProgreso: (p) => { res.innerHTML = `<p class="meta">Chrome descarga el modelo: ${Math.round((p || 0) * 100)} %</p>`; } });
+      res.innerHTML = C.htmlRespuesta(r.texto, r.noticias);
+    } catch (err) { res.innerHTML = `<p class="meta">No se pudo usar la IA de Chrome: ${esc(err.message)}</p>`; }
+    st = await pintar();
+  });
+}
+
+// ---------- Investigación: SAT 69-B, fichas oficiales, cadena de custodia y cuaderno de vínculos ----------
+async function iniciarInvestigacion() {
+  if (!$("g-investigacion")) return;
+  const I = await import("./investigacion.js");
+  const lista = (pares) => pares.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("");
+  $("inv-listas").innerHTML = lista(I.LISTAS_OFICIALES);
+  $("inv-fuentes").innerHTML = lista(I.FUENTES_INVESTIGACION);
+  const cache = {};
+  const cargar = async (k, url) => (cache[k] ??= getJSON(url, { bust: true }).catch(() => null));
+  $("inv-69b-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const d = await cargar("efos", "data/vivos/efos_69b.json");
+    $("inv-69b-res").innerHTML = d ? I.html69b(I.buscar69b(d, $("inv-69b-q").value), d) : `<p class="meta">El listado aún no está disponible (se descarga una vez por semana del SAT).</p>`;
+  });
+  $("inv-fbi-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const d = await cargar("fbi", "data/vivos/buscados_fbi.json");
+    $("inv-fbi-res").innerHTML = d ? I.htmlFbi(I.buscarFbi(d, $("inv-fbi-q").value)) : `<p class="meta">Las fichas aún no están disponibles.</p>`;
+  });
+  // Cadena de custodia
+  let registros = [];
+  const descargar = (nombre, tipo, texto) => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([texto], { type: tipo })); a.download = nombre; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); };
+  const datosCaso = () => ({ caso: $("cus-caso").value, responsable: $("cus-resp").value, descripcion: $("cus-desc").value });
+  $("cus-archivos").addEventListener("change", async (e) => {
+    $("cus-res").innerHTML = `<p class="meta">Calculando huellas…</p>`;
+    registros = registros.concat(await Promise.all([...e.target.files].map((f) => I.registroEvidencia(f))));
+    e.target.value = "";
+    $("cus-res").innerHTML = `<ol class="lista-inv">${registros.map((r) => `<li>${esc(r.nombre)} <span class="meta">(${r.bytes.toLocaleString("es-MX")} bytes)</span><br><code>${esc(r.sha256)}</code></li>`).join("")}</ol>
+      <div class="fila-botones"><button type="button" id="cus-acta">Descargar acta (para imprimir o PDF)</button><button type="button" id="cus-csv">Descargar CSV</button><button type="button" id="cus-limpiar">Limpiar</button></div>`;
+  });
+  $("cus-res").addEventListener("click", (e) => {
+    const sello = new Date().toISOString().slice(0, 19).replace(/[:T]/g, "-");
+    if (e.target.id === "cus-acta") descargar(`acta-huellas-${sello}.html`, "text/html", I.htmlActa(datosCaso(), registros));
+    if (e.target.id === "cus-csv") descargar(`huellas-${sello}.csv`, "text/csv", I.csvActa(registros));
+    if (e.target.id === "cus-limpiar") { registros = []; $("cus-res").innerHTML = ""; }
+  });
+  // Cuaderno de vínculos
+  let cuaderno = I.cargarCuaderno();
+  $("vin-tipo").innerHTML = Object.entries(I.TIPOS_ENTIDAD).map(([k, [n]]) => `<option value="${k}">${esc(n)}</option>`).join("");
+  const pintarVin = () => {
+    I.guardarCuaderno(cuaderno);
+    const ops = cuaderno.entidades.map((x) => `<option value="${esc(x.id)}">${esc(x.nombre)}</option>`).join("");
+    $("vin-a").innerHTML = ops; $("vin-b").innerHTML = ops;
+    const nombre = Object.fromEntries(cuaderno.entidades.map((x) => [x.id, x.nombre])), g = I.grados(cuaderno);
+    $("vin-grafico").innerHTML = I.svgVinculos(cuaderno);
+    $("vin-lista").innerHTML = `<ul class="lista-inv">${cuaderno.entidades.map((x) => `<li><span class="swatch" style="background:${I.TIPOS_ENTIDAD[x.tipo]?.[1]}"></span>${esc(x.nombre)} <span class="meta">${esc(I.TIPOS_ENTIDAD[x.tipo]?.[0] || "")} · ${g[x.id] || 0} relaciones</span> <button type="button" class="mini" data-quitar="${esc(x.id)}" aria-label="Quitar ${esc(x.nombre)}">✕</button></li>`).join("")}</ul>
+      ${cuaderno.relaciones.length ? `<ul class="lista-inv">${cuaderno.relaciones.map((r) => `<li>${esc(nombre[r.a])} — <i>${esc(r.tipo)}</i> — ${esc(nombre[r.b])}${r.fuente ? ` <span class="meta">(${esc(r.fuente)})</span>` : ""}</li>`).join("")}</ul>` : ""}`;
+  };
+  pintarVin();
+  $("vin-ent").addEventListener("submit", (e) => { e.preventDefault(); cuaderno = I.agregarEntidad(cuaderno, $("vin-nombre").value, $("vin-tipo").value); $("vin-nombre").value = ""; pintarVin(); });
+  $("vin-rel").addEventListener("submit", (e) => { e.preventDefault(); cuaderno = I.agregarRelacion(cuaderno, $("vin-a").value, $("vin-b").value, $("vin-tipo-rel").value, $("vin-fuente").value); $("vin-tipo-rel").value = ""; $("vin-fuente").value = ""; pintarVin(); });
+  $("vin-lista").addEventListener("click", (e) => { const id = e.target.closest("[data-quitar]")?.dataset.quitar; if (id) { cuaderno = I.quitarEntidad(cuaderno, id); pintarVin(); } });
+  $("vin-exportar").onclick = () => descargar(`vinculos-${new Date().toISOString().slice(0, 10)}.json`, "application/json", JSON.stringify(cuaderno, null, 1));
+  $("vin-importar").onchange = async (e) => { try { const d = JSON.parse(await e.target.files[0].text()); if (Array.isArray(d.entidades) && Array.isArray(d.relaciones)) { cuaderno = d; pintarVin(); } } catch { alert("El archivo no es un cuaderno de vínculos válido."); } e.target.value = ""; };
+  $("vin-borrar").onclick = () => { if (confirm("¿Borrar todas las entidades y relaciones de este navegador? Exporta antes si quieres conservarlas.")) { cuaderno = { entidades: [], relaciones: [] }; pintarVin(); } };
+}
+
 // ---------- Cambio en el tiempo (Sentinel-2 cloudless por año) ----------
 let timelapse = null;
 async function alternarTimelapse(cb) {
@@ -960,12 +1044,20 @@ async function alternarTimelapse(cb) {
     barra.innerHTML = T.htmlBarra();
     document.querySelector(".mapa-wrap").appendChild(barra);
     const play = barra.querySelector(".tl-play"), rango = barra.querySelector(".tl-rango"), anio = barra.querySelector(".tl-anio");
-    timelapse ??= new T.Timelapse(api.map, { onCambio: (st) => {
-      rango.value = st.i; anio.textContent = st.anio;
-      play.textContent = st.reproduciendo ? "⏸" : "▶"; play.setAttribute("aria-label", st.reproduciendo ? "Pausar" : "Reproducir");
-    } });
+    const fuente = barra.querySelector(".tl-fuente"), dia = barra.querySelector(".tl-dia"), diaIn = barra.querySelector(".tl-dia-in"), aviso = barra.querySelector(".tl-aviso");
+    const marcas = barra.querySelector(".tl-marcas");
+    timelapse ??= new T.Timelapse(api.map, {
+      onCambio: (st) => {
+        rango.max = st.n - 1; rango.value = st.i; anio.textContent = st.anio; fuente.value = st.fuente; dia.hidden = st.fuente !== "nasa";
+        marcas.innerHTML = `<span>${T.FUENTES[st.fuente].anios[0]}</span><span>${T.FUENTES[st.fuente].anios.at(-1)}</span>`;
+        play.textContent = st.reproduciendo ? "⏸" : "▶"; play.setAttribute("aria-label", st.reproduciendo ? "Pausar" : "Reproducir");
+      },
+      onAviso: (t) => { aviso.textContent = t; aviso.hidden = false; setTimeout(() => { aviso.hidden = true; }, 10000); },
+    });
     play.onclick = () => (timelapse.reloj ? timelapse.pausar() : timelapse.reproducir());
     rango.oninput = () => { const i = Number(rango.value); timelapse.pausar(); timelapse.setIndice(i); };  // se lee antes: pausar() repinta el deslizador
+    fuente.onchange = () => timelapse.setFuente(fuente.value);
+    diaIn.onchange = () => { diaIn.value = T.diaValido(diaIn.value); timelapse.setDia(diaIn.value); };
     barra.querySelector(".tl-cerrar").onclick = () => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
   }
   timelapse.activar();

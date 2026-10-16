@@ -46,6 +46,23 @@ jobs:
           AISSTREAM_API_KEY: ${{ secrets.AISSTREAM_API_KEY }}
         run: python3 tools/vivos/actualizar.py
 
+      - name: Tráfico marítimo en puertos y estrechos (conteo con la instantánea AIS, una vez por hora)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/maritimo/trafico.py
+
+      - name: Global Fishing Watch (AIS apagado y encuentros en el mar; una vez al día; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 6
+        env:
+          GFW_TOKEN: ${{ secrets.SAUL_PRIVATE_GLOBALFISHINGWATCH }}
+        run: python3 tools/maritimo/gfw.py
+
+      - name: Listas oficiales (SAT 69-B cada semana, FBI Wanted cada día; si falla se conservan las anteriores)
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python3 tools/investigacion/listas.py
+
       - name: Emergencias aéreas (squawk 7700, 7600 y 7500; adsb.lol y OpenSky, cada corrida)
         continue-on-error: true
         timeout-minutes: 3
