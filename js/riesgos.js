@@ -10,6 +10,7 @@ import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta } from "./util.j
 import { articuloTren, huecoImagen } from "./imagen_tipo.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
 import * as P from "./polos.js";
+import * as K from "./cielo.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
@@ -317,6 +318,52 @@ export const CAPAS = [
     extra: (p) => graficaPronostico(lista(p.days)),
   },
   {
+    id: "frentes", grupo: "Clima y ambiente", nombre: "Frentes fríos y cálidos, altas y bajas presiones (América del Norte y océanos vecinos)", noAmenaza: true,
+    url: "data/vivos/frentes.geojson", refresco_s: 3600, fuente: "NOAA Weather Prediction Center (análisis de superficie)",
+    estilo: (p) => ({ c: K.COLOR_FRENTE[p.kind] || C.gris, r: p.kind === "alta" || p.kind === "baja" ? 4 : 0 }),
+    etiqueta: (p) => (p.kind === "alta" ? `A ${p.presion_hpa}` : p.kind === "baja" ? `B ${p.presion_hpa}` : p.kind === "frio" && p.toca_mexico ? "Frente frío" : ""),
+    leyenda: [{ c: K.COLOR_FRENTE.frio, r: 4, t: "Frente frío" }, { c: K.COLOR_FRENTE.calido, r: 4, t: "Frente cálido" }, { c: K.COLOR_FRENTE.estacionario, r: 4, t: "Frente estacionario" },
+      { c: K.COLOR_FRENTE.ocluido, r: 4, t: "Frente ocluido" }, { c: K.COLOR_FRENTE.vaguada, r: 4, t: "Vaguada" }, { c: K.COLOR_FRENTE.alta, r: 5, t: "A: alta presión (hPa)" },
+      { c: K.COLOR_FRENTE.baja, r: 5, t: "B: baja presión (hPa)" }, { t: "Análisis de NOAA cada 3 h; cubre de ~10° N al Ártico. El SMN numera los frentes fríos de la temporada (septiembre a mayo) en sus avisos." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: p.toca_mexico ? "sobre México" : "", filas: K.filasFrente(p), url: "https://www.wpc.ncep.noaa.gov/html/sfc-zoom.php",
+      fuente: "NOAA WPC (posiciones frontales codificadas); avisos oficiales en México: SMN" }),
+  },
+  {
+    id: "nortes", grupo: "Clima y ambiente", nombre: "Eventos de «Norte» en el Golfo de México e Istmo de Tehuantepec (estimación a 7 días)",
+    url: "data/vivos/nortes.geojson", refresco_s: 3600, fuente: "Estimación propia con el pronóstico de Open-Meteo",
+    estilo: (p) => ({ c: ["#8D99A6", "#E0A100", "#E2711D", "#C62828"][p.nivel || 0], r: 4 + 2 * (p.nivel || 0) }),
+    etiqueta: (p) => (p.nivel ? `${p.rafaga_max_kmh} km/h` : ""),
+    leyenda: [{ c: "#E0A100", r: 6, t: "Norte: ráfagas del norte de 50 a 69 km/h" }, { c: "#E2711D", r: 8, t: "Norte fuerte: 70 a 89 km/h" }, { c: "#C62828", r: 10, t: "Norte muy fuerte: 90 km/h o más" },
+      { c: "#8D99A6", r: 4, t: "Sin Norte en 7 días" }, { t: "Estimación propia (viento del NO al NE con esas ráfagas). El aviso oficial es del SMN y las capitanías de puerto." }],
+    ficha: (p) => ({ titulo: p.name, chip: K.nivelNorte(p.nivel), filas: K.filasNorte(p), url: "https://smn.conagua.gob.mx/es/pronosticos/avisos/aviso-de-frente-frio",
+      fuente: "Pronóstico Open-Meteo; aviso oficial: SMN" }),
+    extra: (p) => K.barras(p.serie, { titulo: "Ráfagas del norte (km/h)", unidad: "km/h", umbrales: [[50, "#E0A100", "50"], [70, "#E2711D", "70"], [90, "#C62828", "90"]] }),
+  },
+  {
+    id: "mar_fondo", grupo: "Clima y ambiente", nombre: "Mar de fondo: oleaje largo en costas de México y del mundo (7 días)",
+    url: "data/vivos/mar_fondo.geojson", refresco_s: 3600, fuente: "Open-Meteo Marine (estimación propia)",
+    estilo: (p) => ({ c: ["#5DADE2", "#E0A100", "#E2711D", "#C62828"][p.nivel || 0], r: p.nivel ? 4 + 2 * p.nivel : 3 }),
+    etiqueta: (p) => (p.nivel ? `${p.altura_max_m} m` : ""),
+    leyenda: [{ c: "#E0A100", r: 6, t: "Moderado: oleaje de fondo de 2 a 2.9 m (periodo de 12 s o más)" }, { c: "#E2711D", r: 8, t: "Fuerte: 3 a 3.9 m" },
+      { c: "#C62828", r: 10, t: "Muy fuerte: 4 m o más" }, { c: "#5DADE2", r: 3, t: "Sin mar de fondo en 7 días" },
+      { t: "Mar de fondo = olas largas que vienen de tormentas lejanas: corrientes de resaca y oleaje en malecones aunque no haya viento. Aviso oficial en México: SMN y SEMAR." }],
+    ficha: (p) => ({ titulo: p.name, chip: K.nivelMar(p.nivel), filas: K.filasMar(p), url: "https://open-meteo.com/en/docs/marine-weather-api", fuente: "Open-Meteo Marine (modelos de oleaje)" }),
+    extra: (p) => K.barras((p.serie || []).map(([t, h]) => [t, h]), { titulo: "Altura del oleaje de fondo (m)", unidad: "m", umbrales: [[2, "#E0A100", "2 m"], [3, "#E2711D", "3 m"], [4, "#C62828", "4 m"]] }),
+  },
+  {
+    id: "enso", grupo: "Clima y ambiente", nombre: "El Niño / La Niña: estado oficial y temperatura del mar en las regiones Niño", noAmenaza: true,
+    url: "data/vivos/enso.geojson", refresco_s: 21600, fuente: "NOAA Climate Prediction Center",
+    derivar: (fc) => ({ ...fc, features: fc.features.map((f) => ({ ...f, properties: { ...f.properties, opacidad: 0.45 } })) }),
+    estilo: (p) => ({ c: p.anomalia == null ? C.gris : p.anomalia >= 1.5 ? "#8E1B1B" : p.anomalia >= 0.5 ? "#D84315" : p.anomalia <= -1.5 ? "#0D3B66" : p.anomalia <= -0.5 ? "#1F6FB2" : "#8D99A6", r: 0 }),
+    etiqueta: (p) => `${p.nombre}: ${p.anomalia > 0 ? "+" : ""}${p.anomalia ?? "—"} °C`,
+    leyenda: [{ c: "#8E1B1B", r: 6, t: "+1.5 °C o más (cálido fuerte)" }, { c: "#D84315", r: 6, t: "+0.5 a +1.4 °C" }, { c: "#8D99A6", r: 6, t: "−0.4 a +0.4 °C (neutral)" },
+      { c: "#1F6FB2", r: 6, t: "−0.5 a −1.4 °C" }, { c: "#0D3B66", r: 6, t: "−1.5 °C o menos (frío fuerte)" },
+      { t: "Cajas del Pacífico ecuatorial que NOAA usa para medir El Niño (cálido) y La Niña (frío). Niño 3.4 es la referencia oficial. Toca una caja para ver el estado y sus efectos en México." }],
+    ficha: (p) => ({ titulo: `${p.nombre}: ${K.FASE_ENSO[p.fase_oni]?.[0] || ""}`, chip: p.estado || "", filas: K.filasEnso(p),
+      url: "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml", fuente: "NOAA CPC (discusión ENSO, índice ONI y SST semanal)" }),
+    extra: (p) => K.extraEnso(p),
+  },
+  {
     id: "aire", grupo: "Clima y ambiente", nombre: "Calidad del aire (US AQI)", archivos: ["airquality.geojson"], locales: ["data/vivos/aire_ciudades.geojson"],
     fuente: "Open-Meteo Air Quality",
     derivar: (fc) => ({ ...fc, features: sinCiudadesRepetidas(fc.features) }),
@@ -549,6 +596,37 @@ export const CAPAS = [
         ["Empresa o agencia", `${p.empresa || "—"}${p.tipo_empresa ? ` · ${p.tipo_empresa}` : ""}`], ["Misión", [p.mision, p.tipo_mision, p.orbita].filter(Boolean).join(" · ") || "—"],
         ["Plataforma", `${p.plataforma || "—"}${p.lugar ? ` · ${p.lugar}` : ""}`]],
       url: p.url, fuente: "The Space Devs, Launch Library 2" }),
+  },
+  {
+    id: "neo", grupo: "Espacio", nombre: "Asteroides que pasan cerca de la Tierra (próximos 30 días, menos de 19.5 distancias lunares)", noAmenaza: true,
+    url: "data/vivos/neo.geojson", refresco_s: 21600, fuente: "NASA/JPL CNEOS y Horizons",
+    estilo: (p) => ({ c: p.dist_ld < 1 ? "#C62828" : p.dist_ld < 5 ? "#E2711D" : "#C9A227", r: p.dist_ld < 1 ? 8 : p.dist_ld < 5 ? 6 : 5 }),
+    etiqueta: (p) => `${p.des} · ${p.dist_ld} DL`,
+    leyenda: [{ c: "#C62828", r: 8, t: "Pasa más cerca que la Luna (< 1 DL)" }, { c: "#E2711D", r: 6, t: "1 a 5 distancias lunares" }, { c: "#C9A227", r: 5, t: "5 a 19.5 distancias lunares" },
+      { t: "El punto es el lugar de la Tierra que tendrá el objeto en el cenit en su máximo acercamiento (cambia de lugar con la rotación). Toca uno para ver su trayectoria. Ninguno va a chocar: son pasos calculados." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: `${p.dist_ld} distancias lunares`, filas: K.filasNeo(p), url: p.url, fuente: "NASA/JPL (Close-Approach Data y Horizons)" }),
+    extra: (p) => K.svgTrayectoria(p),
+  },
+  {
+    id: "cielo", grupo: "Espacio", nombre: "Lluvias de estrellas y cometas visibles: desde dónde se ven", noAmenaza: true,
+    url: "data/vivos/cielo.geojson", refresco_s: 21600, fuente: "IMO (lluvias), COBS y NASA/JPL Horizons (cometas), USNO (Luna y eclipses)",
+    complementar: async (fc) => { let cal = null; try { cal = await getJSON("data/vivos/cielo_calendario.json", { bust: true }); } catch { /* sin calendario */ }
+      return { ...fc, features: fc.features.map((f) => ({ ...f, properties: { ...f.properties, calendario: cal } })) }; },
+    estilo: (p) => ({ c: p.kind === "cometa" ? "#1F8A8A" : "#5B6C8F", r: p.etiqueta ? 5 : 0 }),
+    etiqueta: (p) => (p.etiqueta ? `${p.kind === "cometa" ? "☄️" : "🌠"} ${p.nombre}${p.kind === "lluvia" ? ` · máx ${p.maximo.slice(5)}` : ` · mag ${p.magnitud}`}` : ""),
+    leyenda: [{ c: "#5B6C8F", r: 6, t: "Lluvia de estrellas activa o con máximo en 30 días" }, { c: "#1F8A8A", r: 6, t: "Cometa de magnitud 12 o más brillante" },
+      { t: "Cada franja marca las latitudes desde donde se ve (no un punto exacto). La etiqueta solo indica a qué franja pertenece. Toca una para ver fechas, Luna y el calendario de eclipses." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: p.kind === "lluvia" ? `Lluvia de estrellas · ZHR ${p.zhr}` : `Cometa · magnitud ${p.magnitud}`, filas: K.filasCielo(p), url: p.url,
+      fuente: p.kind === "lluvia" ? "Organización Internacional de Meteoros (IMO)" : "COBS y NASA/JPL Horizons" }),
+    extra: (p) => K.htmlCalendario(p.calendario),
+  },
+  {
+    id: "bolidos", grupo: "Espacio", nombre: "Bólidos: meteoros muy brillantes detectados (último año)", noAmenaza: true,
+    url: "data/vivos/bolidos.geojson", refresco_s: 86400, fuente: "NASA/JPL CNEOS (Fireball Data)",
+    estilo: (p) => ({ c: (p.energia_kt || 0) >= 1 ? "#C62828" : (p.energia_kt || 0) >= 0.3 ? "#E2711D" : "#C9A227", r: 4 + Math.min(8, Math.sqrt((p.energia_kt || 0.05) * 40)) }),
+    leyenda: [{ c: "#C9A227", r: 5, t: "Menos de 0.3 kilotones" }, { c: "#E2711D", r: 7, t: "0.3 a 1 kilotón" }, { c: "#C62828", r: 9, t: "1 kilotón o más" },
+      { t: "Energía estimada de la explosión en el aire (1 kilotón = 1000 t de TNT)." }],
+    ficha: (p) => ({ titulo: `Bólido del ${String(p.fecha_utc || "").slice(0, 10)}`, chip: p.energia_kt != null ? `${p.energia_kt} kt` : "", filas: K.filasBolido(p), url: p.url, fuente: "NASA/JPL CNEOS" }),
   },
   {
     id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",

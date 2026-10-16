@@ -116,7 +116,7 @@ def iluminacion_luna(dt):
 
 def banda_visible(dec, alt_min=20):
     """Latitudes desde donde un objeto con esa declinación sube al menos `alt_min` grados sobre el horizonte."""
-    return max(-90, dec - (90 - alt_min)), min(90, dec + (90 - alt_min))
+    return round(max(-90, dec - (90 - alt_min)), 1), round(min(90, dec + (90 - alt_min)), 1)
 
 
 def poligono_banda(s, n):
@@ -136,7 +136,8 @@ def horizons(params):
     url = f"{HORIZONS}?{urllib.parse.urlencode({**base, **params})}"
     res = get_json(url, timeout=60).get("result", "")
     if "$$SOE" not in res:
-        raise ValueError(res.strip().splitlines()[-1][:160] if res.strip() else "sin efemérides")
+        lineas = [l.strip() for l in res.splitlines() if l.strip() and not set(l.strip()) <= set("*")]
+        raise ValueError((lineas[-1] if lineas else "sin efemérides")[:160])
     cab = res.split("$$SOE")[0].strip().splitlines()
     cols = [c.strip() for c in (cab[-2] if cab[-1].startswith("*") else cab[-1]).split(",")]
     filas = [[c.strip() for c in l.split(",")] for l in res.split("$$SOE")[1].split("$$EOE")[0].strip().splitlines() if l.strip()]

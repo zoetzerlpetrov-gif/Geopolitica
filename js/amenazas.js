@@ -80,6 +80,13 @@ export function clasificar(capa, p = {}, geom = null) {
     case "avisos_ics": return { sev: p.explotados ? 4 : p.criticos ? 3 : 2, tipo: "Avisos ICS/SCADA", ic: "" };
     case "avisos_europa": return { sev: { 2: 2, 3: 4, 4: 5 }[p.nivel] || 2, tipo: `Aviso Europa: ${(Array.isArray(p.tipos) ? p.tipos[0] : "") || "clima"}`, ic: "" };
     case "lanzamientos": return { sev: 1, tipo: "Lanzamiento espacial", ic: "🚀" };
+    case "frentes": return { sev: p.kind === "frio" && p.toca_mexico ? 2 : 1, tipo: { frio: "Frente frío", calido: "Frente cálido", estacionario: "Frente estacionario", ocluido: "Frente ocluido", alta: "Alta presión", baja: "Baja presión" }[p.kind] || "Vaguada", ic: "" };
+    case "nortes": return { sev: 1 + (p.nivel || 0), tipo: p.nivel ? "Evento de Norte" : "Sin Norte", ic: "" };
+    case "mar_fondo": return { sev: 1 + (p.nivel || 0), tipo: p.nivel ? "Mar de fondo" : "Oleaje normal", ic: "" };
+    case "enso": return { sev: 1, tipo: "El Niño / La Niña", ic: "" };
+    case "neo": return { sev: p.dist_ld < 1 ? 2 : 1, tipo: "Asteroide cercano", ic: "" };
+    case "cielo": return { sev: 1, tipo: p.kind === "cometa" ? "Cometa" : "Lluvia de estrellas", ic: "" };
+    case "bolidos": return { sev: 1, tipo: "Bólido", ic: "" };
     case "auroras": return { sev: p.actual ? 2 : 1, tipo: "Aurora", ic: "" };
     case "crimen": return { sev: lim(p.severidad || 3), tipo: p.tipo || "Crimen organizado", ic: iconoArma(p.arma) || { Terrorismo: "💣", "Crimen organizado": "🕴️", Narcotráfico: "💊", Mafia: "🎩" }[p.tipo] || "🕴️" };
     case "ataques": return { sev: lim(p.severidad || 3), tipo: `Ataque: ${p.arma || "armado"}`, ic: iconoArma(p.arma) || "💥" };

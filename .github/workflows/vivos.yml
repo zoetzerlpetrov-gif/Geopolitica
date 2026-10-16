@@ -138,6 +138,26 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/polos/polos.py
 
+      - name: Frentes (NOAA WPC, cada hora) y eventos de Norte en el Golfo (Open-Meteo, cada 3 h); si falla se conservan los anteriores
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/clima/frentes.py
+
+      - name: El Niño / La Niña (NOAA CPC, diario); si falla se conserva el anterior
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/clima/enso.py
+
+      - name: Mar de fondo (Open-Meteo Marine, cada 3 h); si falla se conserva el anterior
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/clima/mar_fondo.py
+
+      - name: Cielo (asteroides cercanos y cometas cada 12 h; bólidos, Luna y eclipses diario; NASA/JPL, COBS, USNO)
+        continue-on-error: true
+        timeout-minutes: 5
+        run: python3 tools/espacio/cielo.py
+
       - name: Mes en curso (llave de la caché de DB-IP)
         run: echo "MES=$(date -u +%Y-%m)" >> "$GITHUB_ENV"
 

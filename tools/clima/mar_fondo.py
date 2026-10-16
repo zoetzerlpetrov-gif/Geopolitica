@@ -77,7 +77,7 @@ def feature(nombre, lat, lon, r, mexico):
     eventos = [i for i in validos if alt[i] >= ALTURA and (per[i] or 0) >= PERIODO]
     imax = max(validos, key=lambda i: alt[i])
     emax = max(eventos, key=lambda i: alt[i]) if eventos else None
-    paso = max(1, len(validos) // 56)
+    paso = max(1, len(validos) // 28)  # una muestra cada ~6 h
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [lon, lat]}, "properties": {
         "name": nombre, "mexico": mexico, "nivel": nivel(alt[emax]) if emax is not None else 0,
         "altura_max_m": round(alt[imax], 1), "periodo_en_max_s": round(per[imax] or 0, 1), "direccion_en_max": round(dirc[imax] or 0) if dirc else None,
