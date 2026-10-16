@@ -11,7 +11,9 @@ const num = (x, d = 1) => (x == null || Number.isNaN(Number(x)) ? "—" : Number
 // ---------------------------------------------------------------- frentes y nortes
 
 export const COLOR_FRENTE = { frio: "#1F6FB2", calido: "#C62828", estacionario: "#8E44AD", ocluido: "#6C3483", vaguada: "#B9770E",
-  linea_seca: "#A0522D", linea_turbonada: "#D35400", alta: "#1F6FB2", baja: "#C62828" };
+  linea_seca: "#A0522D", linea_turbonada: "#D35400", alta: "#1F6FB2", baja: "#C62828", tentativo_12h: "#8FB3D1" };
+/** Color de la zona de influencia y de la posición tentativa: el del frente al que pertenecen (más claro). */
+export const colorFrente = (p) => (p.kind === "zona" ? COLOR_FRENTE[p.de] || "#8D99A6" : p.kind === "tentativo_12h" ? (p.de === "calido" ? "#E3A0A0" : COLOR_FRENTE.tentativo_12h) : COLOR_FRENTE[p.kind] || "#8D99A6");
 export const QUE_ES_FRENTE = {
   frio: "Borde del aire frío que avanza y empuja al aire cálido. Al pasar: baja la temperatura, sube la presión, cambia el viento al norte y puede haber lluvias, tormentas y, en el Golfo de México, evento de «Norte».",
   calido: "Borde del aire cálido que avanza sobre aire más frío. Trae nubes en capas, lluvias ligeras y luego subida de temperatura.",
@@ -23,8 +25,25 @@ export const QUE_ES_FRENTE = {
   alta: "Centro de alta presión (A): aire que baja, cielo más despejado y, detrás de un frente frío, aire frío y seco.",
   baja: "Centro de baja presión (B): aire que sube, nubes, lluvia y viento. Las bajas profundas (< 990 hPa) son tormentas fuertes." };
 
+export function movimientoFrente(p) {
+  if (p.mov_kmh == null) return "Sin estimar todavía (se calcula al comparar con el análisis anterior de NOAA, cada 3 h)";
+  if (p.mov_kmh < 3) return "Casi estacionario (menos de 3 km/h)";
+  return `Hacia el ${p.mov_hacia}, ~${p.mov_kmh} km/h (~${Math.round(p.mov_kmh * 24)} km por día)`;
+}
+
 export function filasFrente(p) {
+  if (p.kind === "zona") {
+    const [a, b] = p.ancho_km || [];
+    return [["Qué es", "Franja aproximada donde el frente cambia el tiempo: lluvias y tormentas cerca de la línea; detrás de un frente frío, aire más frío, viento del norte y, en el Golfo de México, posible Norte."],
+      ["Ancho usado", p.con_movimiento ? `${a} km delante y ${b} km detrás del frente` : `${Math.round(Math.max(a, b) * 0.6)} km a cada lado (sin dirección clara todavía)`],
+      ["Movimiento estimado", movimientoFrente(p)], ["Aviso", "Estimación propia a partir del análisis de NOAA; no es un aviso oficial."]];
+  }
+  if (p.kind === "tentativo_12h") {
+    return [["Qué es", "Dónde estaría el frente en 12 horas si siguiera a la misma velocidad y dirección. Los frentes aceleran, frenan o se disipan: úsalo solo como referencia."],
+      ["Movimiento estimado", movimientoFrente(p)]];
+  }
   return [["Qué es", QUE_ES_FRENTE[p.kind] || "—"], ...(p.presion_hpa ? [["Presión", `${p.presion_hpa} hPa`]] : []),
+    ...(["frio", "calido", "estacionario", "ocluido"].includes(p.kind) ? [["Movimiento estimado", movimientoFrente(p)]] : []),
     ...(p.toca_mexico ? [["México", "Pasa sobre territorio mexicano o sus mares cercanos"]] : []), ["Análisis válido", p.valido_utc ? fechaCorta(p.valido_utc) : "—"]];
 }
 

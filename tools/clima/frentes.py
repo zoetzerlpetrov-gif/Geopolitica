@@ -16,6 +16,7 @@
 Salidas: vivos/frentes.geojson y vivos/nortes.geojson. Si una fuente falla se conserva el archivo anterior.
 """
 import json
+import math
 import os
 import re
 import sys
@@ -154,6 +155,134 @@ def nortes_de(respuestas, puertos=PUERTOS):
     return feats
 
 
+# ---------------------------------------------------------------- movimiento y zona de influencia
+# NOAA no publica la velocidad de cada frente en este boletín. Se ESTIMA comparando el análisis actual con el anterior
+# (cada 3 h): para cada punto del frente se busca el punto más cercano del mismo frente en el análisis previo; el
+# promedio de esos desplazamientos da dirección y velocidad. Con eso se dibuja una posición tentativa a 12 h.
+# Zona de influencia (franja aproximada, no un aviso): delante del frente frío ~150 km (lluvia y tormentas en la línea)
+# y detrás ~350 km (aire frío, viento del norte); en el cálido al revés (las nubes y lluvia van delante, ~300 km).
+FRONTALES = {"frio", "calido", "estacionario", "ocluido"}
+ANCHO_ZONA = {"frio": (150, 350), "calido": (300, 100), "estacionario": (150, 150), "ocluido": (200, 200)}  # km (delante, detrás)
+VEL_MAX_KMH = 90
+RUMBOS = ["norte", "noreste", "este", "sureste", "sur", "suroeste", "oeste", "noroeste"]
+
+
+def a_km(lon, lat, lat0):
+    return lon * 111.32 * math.cos(math.radians(lat0)), lat * 110.57
+
+
+def de_km(x, y, lat0):
+    return x / (111.32 * math.cos(math.radians(lat0))), y / 110.57
+
+
+def punto_mas_cercano(p, linea, lat0):
+    """Vector (dx, dy) en km desde el punto más cercano de `linea` hasta `p` (coordenadas lon/lat)."""
+    px, py = a_km(*p, lat0)
+    mejor = None
+    for (ax, ay), (bx, by) in zip(linea, linea[1:]):
+        ax, ay = a_km(ax, ay, lat0)
+        bx, by = a_km(bx, by, lat0)
+        dx, dy = bx - ax, by - ay
+        L = dx * dx + dy * dy
+        t = 0 if L == 0 else max(0, min(1, ((px - ax) * dx + (py - ay) * dy) / L))
+        v = (px - (ax + t * dx), py - (ay + t * dy))
+        if mejor is None or v[0] ** 2 + v[1] ** 2 < mejor[0] ** 2 + mejor[1] ** 2:
+            mejor = v
+    return mejor
+
+
+def movimiento(coords, previas, horas):
+    """→ (vx, vy) en km/h, o None si ningún frente previo corresponde a este. `previas`: listas de coordenadas."""
+    if not previas or not 0 < horas <= 12:
+        return None
+    maxd = VEL_MAX_KMH * horas
+    mejor = None
+    for prev in previas:
+        if len(prev) < 2 or abs(prev[0][0] - coords[0][0]) > 60:
+            continue
+        vs = [punto_mas_cercano(p, prev, p[1]) for p in coords]
+        cerca = [v for v in vs if math.hypot(*v) <= maxd]
+        if len(cerca) < max(2, len(coords) / 2):
+            continue
+        prom = (sum(v[0] for v in cerca) / len(cerca), sum(v[1] for v in cerca) / len(cerca))
+        err = sum(math.hypot(*v) for v in cerca) / len(cerca)
+        if mejor is None or err < mejor[0]:
+            mejor = (err, prom)
+    return (mejor[1][0] / horas, mejor[1][1] / horas) if mejor else None
+
+
+def rumbo(vx, vy):
+    """Dirección HACIA la que se mueve (0 = norte, 90 = este) y su nombre."""
+    g = (math.degrees(math.atan2(vx, vy)) + 360) % 360
+    return round(g), RUMBOS[round(g / 45) % 8]
+
+
+def zona(coords, kind, v=None):
+    """Polígono de la franja de influencia alrededor del frente (km convertidos a grados en cada vértice)."""
+    if len(coords) < 2 or max(c[0] for c in coords) - min(c[0] for c in coords) > 180:
+        return None
+    delante, detras = ANCHO_ZONA[kind]
+    if not v or math.hypot(*v) < 3:  # sin movimiento claro: franja simétrica
+        delante = detras = max(delante, detras) * 0.6
+    a, b = [], []
+    for i, (lon, lat) in enumerate(coords):
+        p0, p1 = coords[max(0, i - 1)], coords[min(len(coords) - 1, i + 1)]
+        x0, y0 = a_km(*p0, lat)
+        x1, y1 = a_km(*p1, lat)
+        tx, ty = x1 - x0, y1 - y0
+        n = math.hypot(tx, ty) or 1
+        nx, ny = -ty / n, tx / n  # normal izquierda
+        if v and nx * v[0] + ny * v[1] < 0:
+            nx, ny = -nx, -ny  # que la normal apunte hacia donde avanza el frente
+        dla, dfa = de_km(nx * delante, ny * delante, lat)
+        dlb, dfb = de_km(-nx * detras, -ny * detras, lat)
+        a.append([round(lon + dla, 2), round(max(-89, min(89, lat + dfa)), 2)])
+        b.append([round(lon + dlb, 2), round(max(-89, min(89, lat + dfb)), 2)])
+    anillo = a + b[::-1] + [a[0]]
+    return {"type": "Polygon", "coordinates": [anillo]}
+
+
+def trasladar(coords, v, horas):
+    out = []
+    for lon, lat in coords:
+        dl, df = de_km(v[0] * horas, v[1] * horas, lat)
+        out.append([round(lon + dl, 2), round(lat + df, 2)])
+    return out
+
+
+def enriquecer(feats, previo, valido):
+    """Agrega a cada frente su movimiento estimado, su zona de influencia y la posición tentativa a 12 h."""
+    horas = 0
+    try:
+        horas = (datetime.strptime(valido, "%Y-%m-%dT%H:%M:%SZ") - datetime.strptime(previo.get("valido_utc", ""), "%Y-%m-%dT%H:%M:%SZ")).total_seconds() / 3600
+    except (ValueError, AttributeError):
+        pass
+    previas = [l["coords"] for l in (previo or {}).get("lineas", [])]
+    extra = []
+    for f in feats:
+        p = f["properties"]
+        if f["geometry"]["type"] != "LineString" or p["kind"] not in FRONTALES:
+            continue
+        c = f["geometry"]["coordinates"]
+        v = movimiento(c, previas, horas)
+        if v:
+            g, nombre = rumbo(*v)
+            vel = round(math.hypot(*v))
+            p.update({"mov_kmh": vel, "mov_grados": g, "mov_hacia": nombre if vel >= 3 else "", "mov_horas_base": round(horas, 1)})
+            if vel >= 3:
+                extra.append({"type": "Feature", "geometry": {"type": "LineString", "coordinates": trasladar(c, v, 12)}, "properties": {
+                    "kind": "tentativo_12h", "de": p["kind"], "nombre": f"{p['nombre']}: posición tentativa en 12 h", "valido_utc": p["valido_utc"],
+                    "mov_kmh": vel, "mov_hacia": nombre, "toca_mexico": False}})
+        z = zona(c, p["kind"], v)
+        if z:
+            extra.append({"type": "Feature", "geometry": z, "properties": {
+                "kind": "zona", "opacidad": 0.12, "de": p["kind"], "nombre": f"Zona de influencia: {p['nombre'].lower()}", "valido_utc": p["valido_utc"],
+                "ancho_km": ANCHO_ZONA[p["kind"]], "con_movimiento": bool(v and math.hypot(*v) >= 3), "toca_mexico": p.get("toca_mexico", False),
+                **({k: p[k] for k in ("mov_kmh", "mov_hacia") if k in p})}})
+    # Zonas primero (quedan debajo de las líneas al dibujar).
+    return [f for f in extra if f["properties"]["kind"] == "zona"] + feats + [f for f in extra if f["properties"]["kind"] != "zona"]
+
+
 def actualizar_frentes(ahora):
     if not viejo(OUT_FRENTES, 1, ahora):
         return "frentes: datos recientes"
@@ -163,10 +292,25 @@ def actualizar_frentes(ahora):
     feats, valido = frentes_de(texto, ahora)
     if not any(f["geometry"]["type"] == "LineString" for f in feats):
         return "frentes: boletín sin frentes; se conserva el anterior"
+    # Análisis anterior: si el boletín cambió, el que estaba publicado pasa a ser «previo»; si es el mismo, se conserva el previo.
+    anterior = {}
+    try:
+        anterior = json.load(open(OUT_FRENTES, encoding="utf-8"))
+    except (OSError, ValueError):
+        pass
+    if anterior.get("valido_utc") and anterior.get("valido_utc") != valido:
+        previo = {"valido_utc": anterior["valido_utc"], "lineas": [{"kind": f["properties"]["kind"], "coords": f["geometry"]["coordinates"]}
+                                                               for f in anterior.get("features", []) if f["geometry"]["type"] == "LineString"
+                                                               and f["properties"].get("kind") in FRONTALES]}
+    else:
+        previo = anterior.get("previo") or {}
+    feats = enriquecer(feats, previo, valido)
     guardar(OUT_FRENTES, {"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "valido_utc": valido,
-                          "fuente": "NOAA WPC, posiciones frontales codificadas (CODSUS)", "features": feats})
+                          "fuente": "NOAA WPC, posiciones frontales codificadas (CODSUS)", "previo": previo, "features": feats})
     frios = [f for f in feats if f["properties"]["kind"] == "frio"]
-    return f"frentes: {len(feats)} objetos, {len(frios)} frentes fríos ({sum(f['properties']['toca_mexico'] for f in frios)} sobre México), válido {valido}"
+    con_mov = sum(1 for f in feats if "mov_kmh" in f["properties"] and f["geometry"]["type"] == "LineString" and f["properties"]["kind"] in FRONTALES)
+    return (f"frentes: {len(feats)} objetos, {len(frios)} frentes fríos ({sum(f['properties']['toca_mexico'] for f in frios)} sobre México), "
+            f"válido {valido}; con movimiento estimado: {con_mov} (análisis previo {previo.get('valido_utc') or 'ninguno aún'})")
 
 
 def actualizar_nortes(ahora):

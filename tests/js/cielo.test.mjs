@@ -49,3 +49,12 @@ test("calendario: fases y eclipses", () => {
   assert.match(html, /Luna llena: 2026-10-26 04:12 UTC/);
   assert.match(html, /anular del 6\/2\/2027/);
 });
+
+test("frentes: color de la zona y ficha con movimiento estimado", () => {
+  assert.equal(K.colorFrente({ kind: "zona", de: "frio" }), K.COLOR_FRENTE.frio);
+  assert.equal(K.colorFrente({ kind: "tentativo_12h", de: "frio" }), K.COLOR_FRENTE.tentativo_12h);
+  const f = K.filasFrente({ kind: "frio", mov_kmh: 22, mov_hacia: "sureste", valido_utc: "2026-10-16T00:00:00Z" });
+  assert.ok(f.find(([k]) => k === "Movimiento estimado")[1].includes("Hacia el sureste, ~22 km/h"));
+  assert.match(K.movimientoFrente({}), /Sin estimar/);
+  assert.ok(K.filasFrente({ kind: "zona", de: "frio", ancho_km: [150, 350], con_movimiento: true }).some(([, v]) => v === "150 km delante y 350 km detrás del frente"));
+});
