@@ -29,6 +29,7 @@ UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitic
 DIAS = 14
 POR_PAGINA = 500
 MAX_PAGINAS = 12
+MAX_GUARDADOS = 1500  # los más recientes; el mapa no necesita más y el archivo queda ligero
 TIPO_BARCO = {"fishing": "pesca", "carrier": "carga refrigerada (transbordo)", "cargo": "carga", "tanker": "petrolero/tanquero", "passenger": "pasaje",
               "support": "apoyo", "bunker": "abastecimiento de combustible", "gear": "arte de pesca (boya)", "other": "otro", "seismic_vessel": "sísmico"}
 
@@ -86,6 +87,8 @@ def apagados(entradas, desde_dt):
     feats = []
     for e in entradas:
         g = e.get("gap") or {}
+        if ((e.get("vessel") or {}).get("type") or "") == "gear":
+            continue  # boyas y redes con transmisor: no son barcos
         horas = num(g.get("durationHours"))
         if not g.get("intentionalDisabling") or horas is None or not 12 <= horas <= 24 * 30:
             continue
@@ -97,9 +100,9 @@ def apagados(entradas, desde_dt):
             continue
         props = {"kind": "apagado", **barco(e.get("vessel")), "apagado_utc": fecha(e.get("start")), "encendido_utc": fecha(e.get("end")),
                  "horas": round(horas), "distancia_km": round(num(g.get("distanceKm")) or 0), "vel_implicita_nudos": round(num(g.get("impliedSpeedKnots")) or 0, 1),
-                 "lon_encendido": num(on.get("lon")), "lat_encendido": num(on.get("lat")), "id": e.get("id")}
+                 "lon_encendido": num(on.get("lon")), "lat_encendido": num(on.get("lat"))}
         feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": props})
-    return feats
+    return sorted(feats, key=lambda f: f["properties"]["encendido_utc"], reverse=True)[:MAX_GUARDADOS]
 
 
 def encuentros(entradas, desde_dt):
@@ -120,6 +123,8 @@ def encuentros(entradas, desde_dt):
             continue
         tipo = enc.get("type") or ""
         transbordo = "carrier" in tipo
+        if tipo == "fishing-fishing" and not enc.get("potentialRisk"):
+            continue  # dos pesqueros juntos suele ser pesca en pareja; se dejan solo si GFW marca riesgo
         horas = None
         try:
             horas = round((datetime.fromisoformat(e["end"].replace("Z", "+00:00")) - datetime.fromisoformat(e["start"].replace("Z", "+00:00"))).total_seconds() / 3600, 1)
@@ -129,8 +134,8 @@ def encuentros(entradas, desde_dt):
         feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": {
             "kind": "encuentro", "inicio_utc": fecha(e.get("start")), "fin_utc": fecha(e.get("end")), "horas": horas, "tipo_encuentro": tipo,
             "transbordo": transbordo, "riesgo": bool(enc.get("potentialRisk")), "dist_costa_km": (e.get("distances") or {}).get("startDistanceFromShoreKm"),
-            "barco_a": a, "barco_b": b, "id": par}})
-    return feats
+            "barco_a": a, "barco_b": b}})
+    return sorted(feats, key=lambda f: f["properties"]["fin_utc"], reverse=True)[:MAX_GUARDADOS]
 
 
 def guardar(ruta, feats, ahora, nota):

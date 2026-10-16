@@ -24,8 +24,9 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
+const MAR = "Mar: tráfico de barcos y pesca ilegal";
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -515,6 +516,48 @@ export const CAPAS = [
     ficha: (p) => ({ titulo: `${p.categoria_texto} · aviso ${p.id}`, chip: p.zona, filas: [["Emitido", p.emitido || "—"], ["Autoridad", p.autoridad || "—"], ["Texto del aviso (inglés)", p.texto]],
       url: p.url, fuente: "NGA Maritime Safety Information (dominio público)" }),
     extra: (p) => htmlRadioNautica(p),
+  },
+  {
+    id: "trafico_maritimo", grupo: MAR, nombre: "Barcos en puertos y estrechos: cuántos hay y cómo cambia (AIS, cada hora)", noAmenaza: true,
+    url: "data/vivos/trafico_maritimo.geojson", refresco_s: 1800, fuente: "Conteo propio con la señal AIS de AISStream",
+    estilo: (p) => ({ c: p.vs_promedio == null ? C.gris : p.vs_promedio >= 1.3 ? C.rojo : p.vs_promedio >= 1.1 ? C.naranja : p.vs_promedio <= 0.7 ? "#1F6FB2" : C.verde,
+      r: Math.min(14, 4 + Math.sqrt(p.total || 0) / 2) }),
+    etiqueta: (p) => (p.total ? String(p.total) : ""),
+    leyenda: [{ c: C.rojo, r: 8, t: "30 % o más barcos que su promedio de 30 días (posible congestión o espera)" }, { c: C.naranja, r: 7, t: "10 a 29 % arriba del promedio" },
+      { c: C.verde, r: 6, t: "Normal" }, { c: "#1F6FB2", r: 6, t: "30 % o más por debajo del promedio (menos tráfico)" },
+      { t: "Barcos con AIS dentro de un radio de cada puerto grande y de cada estrecho. AISStream recibe sobre todo de antenas en tierra: compara cada lugar consigo mismo en el tiempo, no un lugar contra otro." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: `${p.total} barcos${p.vs_promedio != null ? ` · ${Math.round(p.vs_promedio * 100)} % de su promedio` : ""}`,
+      filas: [["Tipo", p.tipo === "estrecho" ? "Estrecho o paso estratégico" : "Puerto"], ["Radio contado", `${p.radio_km} km`],
+        ["Detenidos (menos de 1 nudo: fondeados o atracados)", p.detenidos], ["De carga", p.carga], ["Tanqueros", p.tanquero],
+        ["Promedio de 30 días", p.promedio_30d], ["Actualizado", fecha(p.actualizado_utc)]],
+      url: "https://aisstream.io/", fuente: "AISStream (conteo propio)" }),
+    extra: (p) => K.barras((p.serie || []).slice(-168).map(([t, n]) => [t, n]), { titulo: "Barcos contados (últimos 7 días, cada hora)", unidad: "barcos" }),
+  },
+  {
+    id: "gfw_apagados", grupo: MAR, nombre: "Barcos que apagaron su AIS a propósito 12 h o más (Global Fishing Watch, 14 días)",
+    url: "data/vivos/gfw_apagados.geojson", refresco_s: 21600, fuente: "Global Fishing Watch, eventos de huecos de AIS",
+    estilo: (p) => ({ c: p.horas >= 24 * 7 ? "#4A148C" : p.horas >= 72 ? "#8E4FD1" : "#B39DDB", r: p.horas >= 72 ? 6 : 4 }),
+    leyenda: [{ c: "#B39DDB", r: 4, t: "Apagado de 12 a 71 h" }, { c: "#8E4FD1", r: 6, t: "De 3 a 6 días" }, { c: "#4A148C", r: 6, t: "Una semana o más" },
+      { t: "El punto es donde el barco dejó de transmitir. Global Fishing Watch lo marca como intencional cuando había buena recepción y aun así se apagó. Es una señal para investigar (pesca ilegal, contrabando, evasión de sanciones), no una prueba: también se apaga por seguridad ante piratas." }],
+    ficha: (p) => ({ titulo: p.nombre || `Barco MMSI ${p.mmsi}`, chip: `AIS apagado ${p.horas} h`,
+      filas: [["MMSI", p.mmsi || "—"], ["Bandera", p.bandera || "—"], ["Tipo", p.tipo || "—"], ["Se apagó", fecha(p.apagado_utc)], ["Se volvió a encender", fecha(p.encendido_utc)],
+        ["Distancia entre ambos puntos", `${p.distancia_km} km`], ["Velocidad implícita", `${p.vel_implicita_nudos} nudos`],
+        ["Reapareció en", p.lat_encendido != null ? `${p.lat_encendido.toFixed(2)}, ${p.lon_encendido.toFixed(2)}` : "—"], ["Ojo", "Señal de alerta, no prueba de un delito"]],
+      url: p.mmsi ? `https://globalfishingwatch.org/map/vessel-search?query=${encodeURIComponent(p.mmsi)}` : "https://globalfishingwatch.org/map",
+      fuente: "Global Fishing Watch (CC BY-NC 4.0)" }),
+  },
+  {
+    id: "gfw_encuentros", grupo: MAR, nombre: "Encuentros entre barcos en el mar: posibles transbordos (Global Fishing Watch, 14 días)",
+    url: "data/vivos/gfw_encuentros.geojson", refresco_s: 21600, fuente: "Global Fishing Watch, eventos de encuentro",
+    estilo: (p) => ({ c: p.riesgo ? C.rojo : p.transbordo ? C.naranja : C.cian, r: p.riesgo || p.transbordo ? 6 : 4 }),
+    leyenda: [{ c: C.rojo, r: 6, t: "Global Fishing Watch lo marca con riesgo potencial" }, { c: C.naranja, r: 6, t: "Transbordo: pesquero con buque de carga refrigerada" },
+      { c: C.cian, r: 4, t: "Otro encuentro (por ejemplo, abastecimiento de combustible)" },
+      { t: "Dos barcos juntos varias horas a baja velocidad lejos de puerto. El transbordo en alta mar es legal con permiso, pero también es la vía para mezclar pesca ilegal o mover carga sin pasar por puerto." }],
+    ficha: (p) => { const b = (x) => [x.nombre || "sin nombre", x.mmsi && `MMSI ${x.mmsi}`, x.bandera, x.tipo].filter(Boolean).join(" · ");
+      return { titulo: p.transbordo ? "Posible transbordo en el mar" : "Encuentro entre barcos", chip: p.riesgo ? "Riesgo potencial (GFW)" : `${p.horas ?? "—"} h juntos`,
+        filas: [["Barco 1", b(p.barco_a || {})], ["Barco 2", b(p.barco_b || {})], ["Inicio", fecha(p.inicio_utc)], ["Fin", fecha(p.fin_utc)], ["Horas juntos", p.horas ?? "—"],
+          ["Distancia a la costa", p.dist_costa_km != null ? `${Math.round(p.dist_costa_km)} km` : "—"], ["Ojo", "Señal para investigar, no prueba de un delito"]],
+        url: "https://globalfishingwatch.org/map", fuente: "Global Fishing Watch (CC BY-NC 4.0)" }; },
   },
   ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
   ...ANOMALIAS,

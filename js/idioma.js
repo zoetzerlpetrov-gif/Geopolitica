@@ -131,6 +131,8 @@ Emergencias, zonas afectadas y transporte|Emergencies, affected areas and transp
 Red y ciberseguridad|Internet and cybersecurity|Réseau et cybersécurité|Netz und Cybersicherheit|Rete e cybersicurezza
 Espacio|Space|Espace|Weltraum|Spazio
 Criminología: modalidades delictivas en noticias|Criminology: crime types in the news|Criminologie : types de délits dans l'actualité|Kriminologie: Deliktarten in den Nachrichten|Criminologia: tipi di reato nelle notizie
+Mar: tráfico de barcos y pesca ilegal|Sea: ship traffic and illegal fishing|Mer : trafic maritime et pêche illégale|Meer: Schiffsverkehr und illegale Fischerei|Mare: traffico navale e pesca illegale
+Investigación|Investigation|Enquête|Ermittlung|Indagine
 Polos: Antártida, Groenlandia y Ártico|Poles: Antarctica, Greenland and the Arctic|Pôles : Antarctique, Groenland et Arctique|Pole: Antarktis, Grönland und Arktis|Poli: Antartide, Groenlandia e Artico
 Zonas geográficas|Geographic zones|Zones géographiques|Geografische Zonen|Zone geografiche
 Aeropuertos|Airports|Aéroports|Flughäfen|Aeroporti
