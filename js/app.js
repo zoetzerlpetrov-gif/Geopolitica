@@ -927,9 +927,10 @@ function iniciarImagenes() {
   img = new Imagenes(api.map);
   let fecha = ayerUTC();
   const dias = [1, 2, 3, 5, 7].map((d) => haceDias(d));
-  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>${d.escala ? htmlEscalaImagen(d) : d.leyenda ? `<p class="meta">${esc(d.leyenda)}</p>` : ""}`).join("")
-    + `<label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
-    + `<p class="nota-capas" id="img-noche-nota"></p><p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p>`;
+  // Cada opción muestra solo su nombre; la escala de colores o la explicación aparece al marcarla (CSS .opcion-capa).
+  cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<div class="opcion-capa"><label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>${d.escala ? `<div class="detalle-capa">${htmlEscalaImagen(d)}</div>` : d.leyenda ? `<p class="meta detalle-capa">${esc(d.leyenda)}</p>` : ""}</div>`).join("")
+    + `<div class="detalle-imagenes"><label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
+    + `<p class="nota-capas" id="img-noche-nota"></p><p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p></div>`;
   const notaNoche = (r, error) => {
     $("img-noche-nota").textContent = r === undefined ? "" : r ? `Luces nocturnas: ${r.etiqueta} (${r.fecha}). Zonas de día salen oscuras: el sensor solo ve luz artificial de noche.` : `Luces nocturnas: ${error || "sin imagen"}`;
   };
