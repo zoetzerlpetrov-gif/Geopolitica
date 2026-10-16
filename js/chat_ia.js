@@ -1,14 +1,19 @@
-// Chat de análisis con la IA integrada de Chrome (Gemini Nano, «Prompt API»). Corre DENTRO del navegador: la pregunta
-// y las noticias no salen del equipo, no hay llave ni servidor. Solo funciona en Chrome de escritorio con la IA
-// integrada disponible; en otros navegadores se muestra un aviso.
+// Chat de análisis sobre las noticias del monitor con Groq (API compatible con OpenAI), usando la LLAVE DE CADA PERSONA.
+// El sitio no tiene llave propia en el navegador: quien quiera usar el chat crea su llave gratuita en console.groq.com y
+// la pega aquí. La llave se guarda solo en su navegador (sesión o, si lo pide, de forma permanente) y solo se envía a
+// api.groq.com. La pregunta y los títulos/resúmenes de las noticias elegidas sí viajan a Groq para generar la respuesta.
 // Cómo responde: para cada pregunta se eligen las noticias del monitor más relacionadas (palabras en común con el
 // título, el resumen propio, el país y los actores) y se le pasan al modelo numeradas; se le pide citar [n]. Al final se
 // muestran esas noticias con su enlace original para verificar.
 import { esc, sinAcentos } from "./util.js";
 
-export const MAX_NOTICIAS = 8;  // menos texto = respuesta más rápida en equipos sin tarjeta de video
+export const MAX_NOTICIAS = 12;
+export const URL_GROQ = "https://api.groq.com/openai/v1/chat/completions";
+// Modelos activos en Groq (consultados el 2026-10-16). Si uno se retira, se intenta el siguiente.
+export const MODELOS = ["openai/gpt-oss-120b", "openai/gpt-oss-20b", "qwen/qwen3.8-27b"];
+export const ESPERA_MS = 60000;  // sin recibir nada de Groq en este tiempo, se corta
 const VACIAS = new Set("para como cual cuales donde cuando porque sobre entre desde hasta esta este estos estas tiene tienen pasa paso habra hacia segun puede pueden mexico".split(" "));
-export const SISTEMA = "Eres un analista de geopolítica y seguridad. Responde en español, claro y breve (máximo 8 líneas o viñetas). "
+export const SISTEMA = "Eres un analista de geopolítica y seguridad. Responde en español, claro y breve (máximo 10 líneas o viñetas). "
   + "Usa SOLO las noticias numeradas que te doy; cita cada afirmación con su número entre corchetes, por ejemplo [2]. "
   + "Si las noticias no alcanzan para responder, dilo. Separa hechos de hipótesis y no inventes datos, cifras ni nombres.";
 
@@ -37,123 +42,110 @@ export function promptUsuario(pregunta, noticias) {
   return `Noticias del monitor:\n${contexto(noticias)}\n\nPregunta: ${pregunta}`;
 }
 
-/** Estado de la IA integrada: «no-api» (otro navegador), «unavailable», «downloadable», «downloading» o «available». */
-export async function disponibilidad() {
-  if (!("LanguageModel" in globalThis)) return "no-api";
-  try { return await globalThis.LanguageModel.availability({ expectedInputs: [{ type: "text", languages: ["es"] }], expectedOutputs: [{ type: "text", languages: ["es"] }] }); }
-  catch { return "unavailable"; }
+
+// ---------------------------------------------------------------- Llave de Groq (solo en este navegador)
+
+const CLAVE = "gp_groq_llave";
+const almacen = (recordar) => { try { return recordar ? localStorage : sessionStorage; } catch { return null; } };
+
+/** Formato de las llaves de Groq: empiezan con «gsk_». */
+export const llaveValida = (k) => /^gsk_[A-Za-z0-9]{20,}$/.test(String(k || "").trim());
+
+export function leerLlave() {
+  for (const r of [false, true]) { try { const k = almacen(r)?.getItem(CLAVE); if (k) return { llave: k, recordada: r }; } catch { /* sin almacenamiento */ } }
+  return null;
 }
 
-export const MENSAJE_ESTADO = {
-  "no-api": "Esta función solo trabaja en Google Chrome de escritorio (Windows, Mac, Linux o ChromeOS) con la IA integrada Gemini Nano. En este navegador no está disponible.",
-  unavailable: "Chrome no puede usar la IA integrada en este equipo (requisitos de Google: espacio libre en disco y memoria suficientes). Esta función solo trabaja en Chrome.",
-  downloadable: "La IA integrada de Chrome está disponible pero aún no se descarga. Al hacer tu primera pregunta, Chrome descargará el modelo (puede tardar varios minutos). Solo funciona en Chrome.",
-  downloading: "Chrome está descargando el modelo de IA. Puedes preguntar cuando termine. Solo funciona en Chrome.",
-  available: "IA integrada de Chrome lista. Tus preguntas y las noticias se procesan en tu equipo; no se envían a ningún servidor.",
-};
-
-// Límites de espera: si la descarga del modelo no avanza o el modelo no escribe nada en ese tiempo, se corta y se explica
-// qué revisar (antes la pantalla se quedaba en «Pensando…» para siempre).
-export const ESPERA_DESCARGA_MS = 120000;
-export const ESPERA_RESPUESTA_MS = 180000;
-
-let sesionP = null, sesionDe = null, avisarProgreso = null;
-function crearSesion() {
-  if (sesionDe !== globalThis.LanguageModel) { sesionP = null; sesionDe = globalThis.LanguageModel; }
-  sesionP ??= globalThis.LanguageModel.create({
-    initialPrompts: [{ role: "system", content: SISTEMA }],
-    expectedInputs: [{ type: "text", languages: ["es"] }], expectedOutputs: [{ type: "text", languages: ["es"] }],
-    monitor(m) { m.addEventListener("downloadprogress", (e) => avisarProgreso?.(e.loaded)); },
-  }).catch((e) => { sesionP = null; throw e; });
-  return sesionP;
+/** `recordar` = guardarla aunque se cierre el navegador; si no, se borra al cerrar la pestaña. */
+export function guardarLlave(llave, recordar = false) {
+  borrarLlave();
+  try { almacen(recordar)?.setItem(CLAVE, String(llave).trim()); } catch { /* modo privado */ }
 }
 
-/** Corta `ctrl` si pasan `ms` sin que se llame a `latido()`. */
-function vigilante(ms, ctrl, motivo) {
-  let t;
-  const latido = () => { clearTimeout(t); t = setTimeout(() => ctrl.abort(Object.assign(new Error(motivo), { name: "TimeoutError", motivo })), ms); };
-  latido();
-  return { latido, fin: () => clearTimeout(t) };
+export function borrarLlave() {
+  for (const r of [false, true]) { try { almacen(r)?.removeItem(CLAVE); } catch { /* nada */ } }
 }
 
-/** La promesa o el aborto, lo que llegue primero. */
-function conAborto(promesa, signal) {
-  if (signal.aborted) return Promise.reject(signal.reason);
-  return new Promise((ok, mal) => {
-    const fuera = () => mal(signal.reason);
-    signal.addEventListener("abort", fuera, { once: true });
-    promesa.then((v) => { signal.removeEventListener("abort", fuera); ok(v); }, (e) => { signal.removeEventListener("abort", fuera); mal(e); });
-  });
+/** Lee el flujo SSE de Groq y llama `onDelta(texto)` con cada trozo. */
+async function leerFlujo(res, onDelta, latido, signal) {
+  const lector = res.body.getReader(), dec = new TextDecoder();
+  let buf = "";
+  try {
+    for (;;) {
+      const { done, value } = await lector.read();
+      if (done) break;
+      latido();
+      buf += dec.decode(value, { stream: true });
+      let i;
+      while ((i = buf.indexOf("\n")) >= 0) {
+        const linea = buf.slice(0, i).trim();
+        buf = buf.slice(i + 1);
+        if (!linea.startsWith("data:")) continue;
+        const dato = linea.slice(5).trim();
+        if (dato === "[DONE]") return;
+        try { const d = JSON.parse(dato).choices?.[0]?.delta?.content; if (d) onDelta(d); } catch { /* línea incompleta */ }
+      }
+    }
+  } finally { if (signal.aborted) lector.cancel().catch(() => {}); }
+}
+
+class ErrorGroq extends Error {
+  constructor(estado, cuerpo) { super(cuerpo?.error?.message || `HTTP ${estado}`); this.name = "ErrorGroq"; this.estado = estado; this.codigo = cuerpo?.error?.code || ""; }
 }
 
 /**
- * Pregunta con respuesta en flujo. `onFase("preparando"|"pensando"|"escribiendo")`, `onProgreso(0..1)` durante la
- * descarga del modelo y `onTexto(textoAcumulado)` mientras llega. `signal` permite cancelar. Devuelve {texto, noticias}.
+ * Pregunta con respuesta en flujo. `onTexto(textoAcumulado)` se llama mientras llega; `signal` permite cancelar.
+ * Devuelve {texto, noticias, modelo}. `fetchFn` es para pruebas.
  */
-export async function preguntar(pregunta, eventos, { onTexto = () => {}, onProgreso, onFase = () => {}, signal,
-  esperaDescargaMs = ESPERA_DESCARGA_MS, esperaRespuestaMs = ESPERA_RESPUESTA_MS } = {}) {
+export async function preguntar(pregunta, eventos, llave, { onTexto = () => {}, signal, esperaMs = ESPERA_MS, fetchFn = globalThis.fetch, modelos = MODELOS } = {}) {
+  if (!llaveValida(llave)) throw new ErrorGroq(401, { error: { code: "invalid_api_key" } });
   const noticias = relevantes(eventos, pregunta);
   const ctrl = new AbortController();
   signal?.addEventListener("abort", () => ctrl.abort(signal.reason), { once: true });
-  onFase("preparando");
-  let v = vigilante(esperaDescargaMs, ctrl, "descarga");
-  avisarProgreso = (p) => { v.latido(); onProgreso?.(p); };
-  let s;
-  try { s = await conAborto(crearSesion(), ctrl.signal); }
-  catch (e) { sesionP = null; throw e; }  // atorada o cancelada: el siguiente intento vuelve a pedirla a Chrome
-  finally { v.fin(); avisarProgreso = null; }
-  onFase("pensando");
-  v = vigilante(esperaRespuestaMs, ctrl, "respuesta");
-  // Cada pregunta va con su propio contexto: se clona la sesión para no acumular noticias de preguntas anteriores.
-  const uno = s.clone ? await conAborto(s.clone({ signal: ctrl.signal }), ctrl.signal) : s;
-  let texto = "";
+  let t;
+  const latido = () => { clearTimeout(t); t = setTimeout(() => ctrl.abort(Object.assign(new Error("sin respuesta"), { name: "TimeoutError" })), esperaMs); };
   try {
-    if (uno.promptStreaming) {
-      const lector = uno.promptStreaming(promptUsuario(pregunta, noticias), { signal: ctrl.signal }).getReader();
+    for (const [n, modelo] of modelos.entries()) {
+      latido();
+      const cuerpo = { model: modelo, stream: true, temperature: 0.3, max_completion_tokens: 1500,
+        messages: [{ role: "system", content: SISTEMA }, { role: "user", content: promptUsuario(pregunta, noticias) }] };
+      if (modelo.startsWith("openai/gpt-oss")) cuerpo.reasoning_effort = "low";
+      let res;
       try {
-        for (;;) {
-          const { done, value } = await conAborto(lector.read(), ctrl.signal);
-          if (done) break;
-          v.latido();
-          if (!texto) onFase("escribiendo");
-          // Chrome entrega trozos nuevos (versiones recientes) o el texto acumulado (versiones viejas).
-          texto = value.startsWith(texto) ? value : texto + value;
-          onTexto(texto);
-        }
-      } finally { if (ctrl.signal.aborted) lector.cancel().catch(() => {}); }
-    } else {
-      texto = await conAborto(uno.prompt(promptUsuario(pregunta, noticias), { signal: ctrl.signal }), ctrl.signal);
-      onTexto(texto);
+        res = await fetchFn(URL_GROQ, { method: "POST", signal: ctrl.signal, headers: { Authorization: `Bearer ${String(llave).trim()}`, "Content-Type": "application/json" }, body: JSON.stringify(cuerpo) });
+      } catch (e) { if (ctrl.signal.aborted) throw ctrl.signal.reason ?? e; throw Object.assign(new Error(e.message), { name: "RedError" }); }
+      if (!res.ok) {
+        const err = new ErrorGroq(res.status, await res.json().catch(() => null));
+        // Modelo retirado o inexistente: se intenta el siguiente.
+        if ((res.status === 404 || err.codigo === "model_decommissioned" || err.codigo === "model_not_found") && n < modelos.length - 1) continue;
+        throw err;
+      }
+      let texto = "";
+      await leerFlujo(res, (d) => { texto += d; onTexto(texto); }, latido, ctrl.signal);
+      if (ctrl.signal.aborted) throw ctrl.signal.reason;
+      return { texto, noticias, modelo };
     }
-  } finally { v.fin(); if (uno !== s) uno.destroy?.(); }
-  return { texto, noticias };
+    throw new ErrorGroq(404, { error: { code: "model_not_found" } });
+  } finally { clearTimeout(t); }
 }
-
-/** Qué revisar en Chrome cuando el modelo no se descarga o no responde. */
-export const AYUDA_CHROME = `<details class="ia-ayuda" open><summary>Qué revisar en Chrome</summary><ol>
-  <li>Abre <code>chrome://on-device-internals</code> en una pestaña nueva (cópialo y pégalo en la barra de direcciones). En «Model Status» verás si el modelo está descargado, descargándose o si tu equipo no cumple los requisitos.</li>
-  <li>Si dice que falta descargarlo, abre <code>chrome://components</code>, busca «Optimization Guide On Device Model» y presiona «Buscar actualizaciones». Pesa varios GB: puede tardar de minutos a horas.</li>
-  <li>Requisitos de Google: Windows 10/11, macOS 13 o más reciente, Linux o ChromeOS (Chromebook Plus); al menos 22 GB libres en el disco donde está tu perfil de Chrome; tarjeta de video con más de 4 GB de memoria, o 16 GB de RAM y 4 núcleos; red sin límite de datos para la descarga.</li>
-  <li>Actualiza Chrome (Menú ⋮ → Ayuda → Información de Google Chrome) y reinícialo.</li>
-  <li>Cuando el modelo ya esté descargado, recarga esta página y vuelve a preguntar.</li></ol></details>`;
 
 /** Error → mensaje en español. */
 export function mensajeError(e) {
-  if (e?.motivo === "descarga") return `La descarga del modelo de Chrome no avanzó en ${Math.round(ESPERA_DESCARGA_MS / 60000)} minutos. Chrome puede seguir descargándolo en segundo plano.`;
-  if (e?.motivo === "respuesta") return `El modelo no escribió nada en ${Math.round(ESPERA_RESPUESTA_MS / 60000)} minutos. Tu equipo puede estar muy ocupado o el modelo no terminó de instalarse.`;
-  switch (e?.name) {
-    case "AbortError": return "Pregunta cancelada.";
-    case "NotAllowedError": return "Chrome necesita que la descarga del modelo empiece con un clic tuyo: presiona «Preguntar» otra vez.";
-    case "NotSupportedError": return "Tu versión de Chrome no tiene el modelo en español. Actualiza Chrome.";
-    case "QuotaExceededError": return "La pregunta junto con las noticias es demasiado larga para el modelo. Haz una pregunta más corta.";
-    default: return `No se pudo usar la IA de Chrome: ${e?.message || e}`;
-  }
+  if (e?.name === "AbortError") return "Pregunta cancelada.";
+  if (e?.name === "TimeoutError") return `Groq no respondió en ${Math.round(ESPERA_MS / 1000)} segundos. Intenta de nuevo en un momento.`;
+  if (e?.name === "RedError") return "No hubo conexión con Groq. Revisa tu internet (o si una extensión o la red de tu trabajo bloquea api.groq.com).";
+  if (e?.estado === 401 || e?.codigo === "invalid_api_key") return "Groq no aceptó la llave. Revisa que la copiaste completa (empieza con «gsk_») o crea una nueva en console.groq.com/keys.";
+  if (e?.estado === 429) return "Llegaste al límite gratuito de Groq por minuto o por día. Espera un momento y vuelve a intentar.";
+  if (e?.estado === 413 || e?.codigo === "context_length_exceeded") return "La pregunta junto con las noticias es demasiado larga. Haz una pregunta más corta.";
+  if (e?.estado === 404) return "Los modelos configurados ya no están disponibles en Groq. Avísale a quien mantiene el monitor.";
+  if (e?.estado >= 500) return "Groq tiene una falla temporal. Intenta en unos minutos.";
+  return `No se pudo consultar a Groq: ${e?.message || e}`;
 }
 
 /** Texto del modelo → HTML seguro con las citas [n] enlazadas a la noticia. */
-export function htmlRespuesta(texto, noticias) {
+export function htmlRespuesta(texto, noticias, modelo = "") {
   const cuerpo = esc(texto).replace(/\[(\d{1,2})\]/g, (m, n) => (noticias[n - 1] ? `<a href="${esc(noticias[n - 1].url || "#")}" target="_blank" rel="noopener noreferrer" title="${esc(noticias[n - 1].titulo)}">[${n}]</a>` : m)).replace(/\n/g, "<br>");
   return `<div class="ia-resp">${cuerpo}</div>
     <details class="ia-fuentes"><summary>Noticias usadas (${noticias.length})</summary><ol>${noticias.map((e) => `<li><a href="${esc(e.url || "#")}" target="_blank" rel="noopener noreferrer">${esc(e.titulo)}</a> <span class="meta">· ${esc(e.fuente || "")} · ${esc(String(e.fecha_utc || "").slice(0, 10))}</span></li>`).join("")}</ol></details>
-    <p class="meta">Respuesta generada por un modelo de lenguaje en tu equipo: puede equivocarse u omitir hechos. Verifica en las fuentes.</p>`;
+    <p class="meta">Respuesta generada por un modelo de lenguaje (${esc(modelo || "Groq")}): puede equivocarse u omitir hechos. Verifica en las fuentes.</p>`;
 }

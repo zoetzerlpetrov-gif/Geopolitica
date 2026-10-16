@@ -245,12 +245,22 @@
           <div id="verif-res" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-herr-ia" data-grupo="herramientas">
-          <summary><h2>🤖 Preguntar a la IA sobre las noticias (solo Chrome)</h2></summary>
-          <p class="nota-capas" id="ia-estado">⚠️ Esta función solo trabaja en Google Chrome de escritorio con la IA integrada (Gemini Nano). Comprobando…</p>
+          <summary><h2>🤖 Preguntar a la IA sobre las noticias (con tu llave de Groq)</h2></summary>
+          <p class="nota-capas" id="ia-estado">🔑 Esta función usa la llave de Groq de cada persona: el monitor no paga ni comparte una. Crear la tuya es gratis.</p>
+          <details class="ia-ayuda" id="ia-como"><summary>Cómo obtener tu llave de Groq (2 minutos)</summary><ol>
+            <li>Entra a <a href="https://console.groq.com/keys" target="_blank" rel="noopener noreferrer">console.groq.com/keys</a> y crea una cuenta gratuita (con Google, GitHub o correo).</li>
+            <li>Presiona «Create API Key», ponle un nombre (por ejemplo «monitor») y presiona «Submit».</li>
+            <li>Copia la llave completa: empieza con <code>gsk_</code>. Groq solo la muestra una vez.</li>
+            <li>Pégala abajo y presiona «Guardar llave».</li></ol>
+            <p>El plan gratuito tiene límites por minuto y por día; si los alcanzas, el chat te avisa. No pongas tu llave en sitios que no conoces: quien la tenga puede usar tu cuenta.</p></details>
+          <form id="ia-llave-form" autocomplete="off"><input id="ia-llave" type="password" class="verif-texto" autocomplete="off" placeholder="Pega tu llave de Groq (gsk_…)" aria-label="Llave de Groq">
+            <label class="fila-check"><input type="checkbox" id="ia-recordar"> Recordarla en este navegador (no lo marques en computadoras compartidas)</label>
+            <button>Guardar llave</button></form>
+          <p class="meta" id="ia-llave-ok" hidden></p>
           <form id="ia-form"><textarea id="ia-texto" rows="3" class="verif-texto" placeholder="Ej.: ¿Qué riesgos para México hay esta semana por aranceles?" aria-label="Pregunta para la IA"></textarea>
             <button>Preguntar</button> <button type="button" id="ia-cancelar" hidden>Cancelar</button></form>
           <div id="ia-res" aria-live="polite"></div>
-          <p class="nota-capas">Usa las noticias que el monitor tiene cargadas (título, fuente, fecha y resumen propio). La IA corre en tu equipo: la pregunta no se envía a ningún servidor.</p>
+          <p class="nota-capas">Tu llave se guarda solo en este navegador y solo se envía a Groq (api.groq.com). Tu pregunta y los títulos y resúmenes de las noticias elegidas se envían a Groq, en Estados Unidos, para generar la respuesta: no escribas datos personales.</p>
         </details>
         <details class="bloque plegable" id="b-herr-pwd" data-grupo="herramientas">
           <summary><h2>🔑 ¿Mi contraseña aparece en filtraciones?</h2></summary>

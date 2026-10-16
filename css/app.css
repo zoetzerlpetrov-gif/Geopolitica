@@ -588,3 +588,7 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .ia-ayuda { font-size: 12px; margin: 6px 0; }
 .ia-ayuda ol { padding-left: 18px; margin: 4px 0; }
 .ia-ayuda code { user-select: all; }
+#b-herr-ia [hidden] { display: none !important; }
+#ia-llave-form .fila-check { display: flex; gap: 6px; align-items: flex-start; font-size: 12px; margin: 4px 0; }
+#ia-llave-ok, #ia-res .meta { font-size: 12px; color: var(--text-2); }
+#ia-llave-ok button { font-size: 12px; margin-left: 4px; }

@@ -950,45 +950,46 @@ function iniciarImagenes() {
   });
 }
 
-// ---------- Chat con la IA integrada de Chrome (Gemini Nano) ----------
+// ---------- Chat sobre las noticias con Groq (llave de cada persona, guardada solo en su navegador) ----------
 async function iniciarChatIA() {
   const form = $("ia-form");
   if (!form) return;
   const C = await import("./chat_ia.js");
-  const estado = $("ia-estado"), res = $("ia-res");
-  const pintar = async () => { const st = await C.disponibilidad(); estado.textContent = `${st === "available" ? "✅" : "⚠️"} ${C.MENSAJE_ESTADO[st] || C.MENSAJE_ESTADO.unavailable}`; return st; };
-  let st = await pintar();
-  form.querySelector("button").disabled = st === "no-api" || st === "unavailable";
-  const boton = form.querySelector("button"), cancelar = $("ia-cancelar");
+  const res = $("ia-res"), boton = form.querySelector("button"), cancelar = $("ia-cancelar"), ok = $("ia-llave-ok"), formLlave = $("ia-llave-form");
+  const pintarLlave = () => {
+    const g = C.leerLlave();
+    formLlave.hidden = !!g; ok.hidden = !g; boton.disabled = !g;
+    $("ia-como").open = !g;
+    if (g) ok.innerHTML = `✅ Llave guardada ${g.recordada ? "en este navegador" : "hasta que cierres la pestaña"} (…${esc(g.llave.slice(-4))}). <button type="button" id="ia-llave-borrar">Quitar llave</button>`;
+    $("ia-llave-borrar")?.addEventListener("click", () => { C.borrarLlave(); res.innerHTML = ""; pintarLlave(); });
+  };
+  formLlave.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const k = $("ia-llave").value.trim();
+    if (!C.llaveValida(k)) { res.innerHTML = `<p class="meta">⚠️ Eso no parece una llave de Groq: debe empezar con «gsk_» y no llevar espacios.</p>`; return; }
+    C.guardarLlave(k, $("ia-recordar").checked);
+    $("ia-llave").value = ""; res.innerHTML = "";
+    pintarLlave();
+  });
+  pintarLlave();
   let ctrl = null;
   cancelar.addEventListener("click", () => ctrl?.abort(new DOMException("cancelada", "AbortError")));
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const q = $("ia-texto").value.trim();
-    if (q.length < 4 || ctrl) return;
+    const q = $("ia-texto").value.trim(), g = C.leerLlave();
+    if (q.length < 4 || ctrl || !g) return;
     ctrl = new AbortController();
     boton.disabled = true; cancelar.hidden = false;
-    // Fase visible con segundos transcurridos, para saber que sigue trabajando.
-    const t0 = Date.now();
-    let fase = "Preparando el modelo de Chrome…", extra = "";
-    const pintarFase = () => { res.innerHTML = `<p class="meta">${esc(fase)} ${Math.round((Date.now() - t0) / 1000)} s${extra}</p>`; };
-    const reloj = setInterval(pintarFase, 1000);
-    pintarFase();
-    const FASES = { preparando: "Preparando el modelo de Chrome…", pensando: "Leyendo las noticias y pensando…", escribiendo: "" };
+    res.innerHTML = `<p class="meta">Consultando a Groq…</p>`;
     try {
       const reales = eventos.filter((x) => !x.es_ejemplo);  // los de ejemplo solo si no hay otros
-      const r = await C.preguntar(q, reales.length ? reales : eventos, { signal: ctrl.signal,
-        onFase: (f) => { fase = FASES[f]; extra = ""; if (f === "escribiendo") clearInterval(reloj); else pintarFase(); },
-        onTexto: (t) => { res.innerHTML = `<div class="ia-resp">${esc(t).replace(/\n/g, "<br>")}</div>`; },
-        onProgreso: (p) => { fase = "Chrome descarga el modelo (solo la primera vez):"; extra = ` · ${Math.round((p || 0) * 100)} %`; pintarFase(); } });
-      res.innerHTML = C.htmlRespuesta(r.texto, r.noticias);
+      const r = await C.preguntar(q, reales.length ? reales : eventos, g.llave, { signal: ctrl.signal,
+        onTexto: (t) => { res.innerHTML = `<div class="ia-resp">${esc(t).replace(/\n/g, "<br>")}</div>`; } });
+      res.innerHTML = C.htmlRespuesta(r.texto, r.noticias, r.modelo);
     } catch (err) {
-      const cancelada = err?.name === "AbortError";
-      res.innerHTML = `<p class="meta">⚠️ ${esc(C.mensajeError(err))}</p>${cancelada ? "" : C.AYUDA_CHROME}`;
+      res.innerHTML = `<p class="meta">⚠️ ${esc(C.mensajeError(err))}</p>`;
     } finally {
-      clearInterval(reloj); ctrl = null; cancelar.hidden = true;
-      st = await pintar();
-      boton.disabled = st === "no-api" || st === "unavailable";
+      ctrl = null; cancelar.hidden = true; boton.disabled = !C.leerLlave();
     }
   });
 }
