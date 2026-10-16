@@ -80,7 +80,9 @@ export function clasificar(capa, p = {}, geom = null) {
     case "avisos_ics": return { sev: p.explotados ? 4 : p.criticos ? 3 : 2, tipo: "Avisos ICS/SCADA", ic: "" };
     case "avisos_europa": return { sev: { 2: 2, 3: 4, 4: 5 }[p.nivel] || 2, tipo: `Aviso Europa: ${(Array.isArray(p.tipos) ? p.tipos[0] : "") || "clima"}`, ic: "" };
     case "lanzamientos": return { sev: 1, tipo: "Lanzamiento espacial", ic: "🚀" };
-    case "frentes": return { sev: p.kind === "frio" && p.toca_mexico ? 2 : 1, tipo: { frio: "Frente frío", calido: "Frente cálido", estacionario: "Frente estacionario", ocluido: "Frente ocluido", alta: "Alta presión", baja: "Baja presión" }[p.kind] || "Vaguada", ic: "" };
+    case "frentes": return { sev: (p.kind === "frio" || (p.kind === "zona" && p.de === "frio")) && p.toca_mexico ? 2 : 1,
+      tipo: { frio: "Frente frío", calido: "Frente cálido", estacionario: "Frente estacionario", ocluido: "Frente ocluido", alta: "Alta presión", baja: "Baja presión",
+        zona: "Zona de influencia de un frente", tentativo_12h: "Posición tentativa de un frente" }[p.kind] || "Vaguada", ic: "" };
     case "nortes": return { sev: 1 + (p.nivel || 0), tipo: p.nivel ? "Evento de Norte" : "Sin Norte", ic: "" };
     case "mar_fondo": return { sev: 1 + (p.nivel || 0), tipo: p.nivel ? "Mar de fondo" : "Oleaje normal", ic: "" };
     case "enso": return { sev: 1, tipo: "El Niño / La Niña", ic: "" };

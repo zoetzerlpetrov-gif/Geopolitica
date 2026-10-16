@@ -107,3 +107,25 @@ def test_astronomia_basica():
     a, b = K.diametro_m(24.0)
     assert 40 < a < 45 and 90 < b < 95
     assert K.banda_visible(58) == (-12, 90)
+
+
+def test_frente_movimiento_zona_y_tentativo():
+    actual = [[-100, 35], [-98, 32], [-97, 29]]
+    previo = [[-101, 35.3], [-99, 32.3], [-98, 29.3]]  # 3 h antes, más al oeste
+    v = Fr.movimiento(actual, [previo], 3)
+    g, hacia = Fr.rumbo(*v)
+    assert 60 <= g <= 120 and hacia == "este" and 15 < (v[0] ** 2 + v[1] ** 2) ** 0.5 < 40
+    assert Fr.movimiento(actual, [[[-60, 50], [-55, 45]]], 3) is None  # otro frente, lejos: no corresponde
+    f = [{"type": "Feature", "geometry": {"type": "LineString", "coordinates": actual},
+          "properties": {"kind": "frio", "nombre": "Frente frío", "valido_utc": "x", "toca_mexico": True}}]
+    out = Fr.enriquecer(f, {"valido_utc": "2026-10-16T00:00:00Z", "lineas": [{"kind": "frio", "coords": previo}]}, "2026-10-16T03:00:00Z")
+    kinds = [o["properties"]["kind"] for o in out]
+    assert kinds == ["zona", "frio", "tentativo_12h"]
+    zona = out[0]
+    anillo = zona["geometry"]["coordinates"][0]
+    assert anillo[0] == anillo[-1] and len(anillo) == 2 * len(actual) + 1
+    assert anillo[0][0] > actual[0][0] and anillo[len(actual)][0] < actual[-1][0]  # delante = este (150 km), detrás = oeste (350 km)
+    assert out[2]["geometry"]["coordinates"][0][0] > actual[0][0] + 2  # ~26 km/h × 12 h ≈ 3° al este
+    # Sin análisis previo: franja simétrica y sin línea tentativa.
+    sin = Fr.enriquecer([dict(f[0], properties=dict(f[0]["properties"]))], {}, "2026-10-16T03:00:00Z")
+    assert [o["properties"]["kind"] for o in sin] == ["zona", "frio"] and not sin[0]["properties"]["con_movimiento"]

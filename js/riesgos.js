@@ -320,12 +320,15 @@ export const CAPAS = [
   {
     id: "frentes", grupo: "Clima y ambiente", nombre: "Frentes fríos y cálidos, altas y bajas presiones (América del Norte y océanos vecinos)", noAmenaza: true,
     url: "data/vivos/frentes.geojson", refresco_s: 3600, fuente: "NOAA Weather Prediction Center (análisis de superficie)",
-    estilo: (p) => ({ c: K.COLOR_FRENTE[p.kind] || C.gris, r: p.kind === "alta" || p.kind === "baja" ? 4 : 0 }),
-    etiqueta: (p) => (p.kind === "alta" ? `A ${p.presion_hpa}` : p.kind === "baja" ? `B ${p.presion_hpa}` : p.kind === "frio" && p.toca_mexico ? "Frente frío" : ""),
+    estilo: (p) => ({ c: K.colorFrente(p), r: p.kind === "alta" || p.kind === "baja" ? 4 : 0 }),
+    etiqueta: (p) => (p.kind === "alta" ? `A ${p.presion_hpa}` : p.kind === "baja" ? `B ${p.presion_hpa}` : p.kind === "tentativo_12h" ? "en 12 h"
+      : p.kind === "frio" && (p.toca_mexico || p.mov_kmh >= 3) ? `Frente frío${p.mov_kmh >= 3 ? ` → ${p.mov_hacia} ${p.mov_kmh} km/h` : ""}` : ""),
     leyenda: [{ c: K.COLOR_FRENTE.frio, r: 4, t: "Frente frío" }, { c: K.COLOR_FRENTE.calido, r: 4, t: "Frente cálido" }, { c: K.COLOR_FRENTE.estacionario, r: 4, t: "Frente estacionario" },
       { c: K.COLOR_FRENTE.ocluido, r: 4, t: "Frente ocluido" }, { c: K.COLOR_FRENTE.vaguada, r: 4, t: "Vaguada" }, { c: K.COLOR_FRENTE.alta, r: 5, t: "A: alta presión (hPa)" },
-      { c: K.COLOR_FRENTE.baja, r: 5, t: "B: baja presión (hPa)" }, { t: "Análisis de NOAA cada 3 h; cubre de ~10° N al Ártico. El SMN numera los frentes fríos de la temporada (septiembre a mayo) en sus avisos." }],
-    ficha: (p) => ({ titulo: p.nombre, chip: p.toca_mexico ? "sobre México" : "", filas: K.filasFrente(p), url: "https://www.wpc.ncep.noaa.gov/html/sfc-zoom.php",
+      { c: K.COLOR_FRENTE.baja, r: 5, t: "B: baja presión (hPa)" }, { c: K.COLOR_FRENTE.tentativo_12h, r: 4, t: "Línea clara: posición tentativa en 12 h" },
+      { t: "Franja sombreada: zona de influencia estimada (en el frente frío, más ancha detrás, donde entra el aire frío). Dirección y velocidad: estimación propia comparando el análisis de NOAA con el de 3 h antes." },
+      { t: "Análisis de NOAA cada 3 h; cubre de ~10° N al Ártico. El SMN numera los frentes fríos de la temporada (septiembre a mayo) en sus avisos." }],
+    ficha: (p) => ({ titulo: p.nombre, chip: p.kind === "zona" || p.kind === "tentativo_12h" ? "estimación" : p.toca_mexico ? "sobre México" : "", filas: K.filasFrente(p), url: "https://www.wpc.ncep.noaa.gov/html/sfc-zoom.php",
       fuente: "NOAA WPC (posiciones frontales codificadas); avisos oficiales en México: SMN" }),
   },
   {
@@ -1209,6 +1212,9 @@ export class Riesgos {
       m.on("click", l, (e) => {
         if (l.endsWith("-linea") && m.queryRenderedFeatures(e.point, { layers: [`${src}-toque`] }).length) return;  // el punto gana a la línea
         if (l.endsWith("-area") && m.queryRenderedFeatures(e.point, { layers: [`${src}-toque`, `${src}-linea`] }).length) return;
+        // El interior de una zona grande (p. ej. la franja de un frente) no tapa los puntos ni las líneas de otras capas.
+        if (l.endsWith("-area") && m.queryRenderedFeatures(e.point).some((x) => x.layer.id.startsWith("rg-") && !x.layer.id.startsWith(`${src}-`)
+          && (x.layer.id.endsWith("-toque") || (x.layer.id.endsWith("-linea") && !/Polygon/.test(x.geometry.type))))) return;
         const f = l.endsWith("-toque") ? masCercano(m, e) : e.features[0];
         this.onObjeto(capa, this.#original(capa.id, f.properties._i) || f.properties, f.geometry);
       });
