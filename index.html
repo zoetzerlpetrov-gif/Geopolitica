@@ -86,8 +86,6 @@
         <label class="aviso-sonido" title="Los eventos nuevos parpadean 60 s en el mapa. Con esta casilla, además suena un aviso corto (tres tonos si hay severidad 4 o 5).">
           <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
       </div>
-      <div id="activas" class="activas" aria-live="polite"></div>
-
       <details class="grupo" id="g-eventos" data-grupo="eventos" open>
         <summary class="grupo-tit" data-grupo="eventos"><span aria-hidden="true">📰</span> Eventos y noticias <span id="contador" class="contador"></span></summary>
         <details class="bloque plegable" id="b-ev-filtros" data-grupo="eventos" open>
@@ -263,6 +261,7 @@
           <ul id="lista-seguimiento" class="lista-seguimiento"><li class="meta">Todavía no sigues ningún lugar.</li></ul>
         </details>
       </details>
+      <div id="activas" class="activas" aria-live="polite"></div>
     </aside>
 
     <div class="mapa-wrap">

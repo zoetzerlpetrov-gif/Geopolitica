@@ -172,6 +172,7 @@ Infraestructura|Infrastructure|Infrastructures|Infrastruktur|Infrastrutture
 Instalaciones militares (solo información pública)|Military facilities (public information only)|Installations militaires (informations publiques uniquement)|Militäreinrichtungen (nur öffentliche Informationen)|Installazioni militari (solo informazioni pubbliche)
 Grupos armados, criminales y terroristas: dominio, disputa y presencia|Armed, criminal and terrorist groups: control, dispute and presence|Groupes armés, criminels et terroristes : contrôle, disputes et présence|Bewaffnete, kriminelle und terroristische Gruppen: Kontrolle, Konflikte und Präsenz|Gruppi armati, criminali e terroristici: controllo, contesa e presenza
 Religiones|Religions|Religions|Religionen|Religioni
+Religión|Religion|Religion|Religion|Religione
 Población y turismo|Population and tourism|Population et tourisme|Bevölkerung und Tourismus|Popolazione e turismo
 Economía y finanzas|Economy and finance|Économie et finances|Wirtschaft und Finanzen|Economia e finanza
 Forma de gobierno|Form of government|Forme de gouvernement|Regierungsform|Forma di governo

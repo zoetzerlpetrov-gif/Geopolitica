@@ -801,8 +801,8 @@ async function iniciarCapas() {
         <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">${infoSubtipo(f, st)}</span></label>${f.id === "zonas" && st.id === "volcanes" ? ESPEJO_VOLCANES : ""}`).join("")}</details>` : ""}
     </div>`;
   // Categorías que comparten sección del menú (mismo tema, datos y capas separados).
-  const SECCION = { conflicto: "grupos_armados", grupos_criminales: "grupos_armados" };
-  const NOMBRE_SECCION = { grupos_armados: "Grupos armados, criminales y terroristas: dominio, disputa y presencia" };
+  const SECCION = { conflicto: "grupos_armados", grupos_criminales: "grupos_armados", religiones: "religion", lugares_religiosos: "religion" };
+  const NOMBRE_SECCION = { grupos_armados: "Grupos armados, criminales y terroristas: dominio, disputa y presencia", religion: "Religión" };
   const secs = [...new Set(familias.map((f) => SECCION[f.categoria] || f.categoria))];
   cont.innerHTML = secs.map((c) => {
     const fs = familias.filter((f) => (SECCION[f.categoria] || f.categoria) === c);
