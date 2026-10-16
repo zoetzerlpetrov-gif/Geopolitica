@@ -558,3 +558,9 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .graf-barras { display: block; width: 100%; height: auto; margin: 4px 0; color: var(--texto-2, #555); }
 .graf-tray { display: block; width: 100%; max-width: 260px; height: auto; margin: 4px auto; color: var(--texto-2, #555); }
 .aviso-idioma { bottom: 120px; }
+/* Menú normalizado: cada opción muestra solo su nombre; el detalle (colores, explicación, conteo, subtipos, atajos)
+   aparece al marcarla. Las capas deshabilitadas (.capa-off) siguen mostrando por qué no están disponibles. */
+.opcion-capa:not(:has(input:checked)) .detalle-capa { display: none; }
+#img-capas:not(:has([data-img]:checked)) .detalle-imagenes { display: none; }
+.capa-fam:not(.capa-off):not(:has(> label input:checked)) > :not(label),
+.capa-fam:not(.capa-off):not(:has(> label input:checked)) > label .chip { display: none; }
