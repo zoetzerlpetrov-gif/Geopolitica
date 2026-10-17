@@ -1,0 +1,36 @@
+name: Intermediario de vuelos en vivo (Cloudflare Worker)
+
+# Publica cloudflare/vuelos en Cloudflare Workers. Necesita dos secretos del repositorio:
+#   CLOUDFLARE_API_TOKEN  (token con la plantilla «Edit Cloudflare Workers»)
+#   CLOUDFLARE_ACCOUNT_ID (Account ID que aparece en el panel de Cloudflare)
+# Sin ellos el workflow termina sin hacer nada.
+on:
+  push:
+    branches: [main]
+    paths: ["cloudflare/vuelos/**", ".github/workflows/proxy-vuelos.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  publicar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Revisar secretos
+        id: s
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CUENTA: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          if [ -n "$TOKEN" ] && [ -n "$CUENTA" ]; then echo "listo=1" >> "$GITHUB_OUTPUT"; else echo "Faltan los secretos CLOUDFLARE_API_TOKEN y/o CLOUDFLARE_ACCOUNT_ID: no se publica."; fi
+      - name: Publicar el Worker
+        if: steps.s.outputs.listo == '1'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: cloudflare/vuelos
+          command: deploy
