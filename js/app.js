@@ -321,6 +321,27 @@ new MutationObserver(() => {
 
 // Ficha de un avión con origen, destino y trayectoria (js/vuelos.js, se descarga al abrir la primera).
 let trayectoria = null;
+// Animación 3D (aviones y satélites a su altura) y vista desde la cabina (js/altura3d.js, se descarga al usarla).
+let alt3d = null, cabina = null, vueloAbierto = null;
+const BOTON_CABINA = `<p><button type="button" id="btn-cabina">🎮 Vista desde la cabina (simulación)</button></p>`;
+async function iniciarCabina() {
+  if (!vueloAbierto || !api?.map) return;
+  const A = await import("./altura3d.js");
+  cabina ??= new A.Cabina(api.map);
+  const v = vueloAbierto;
+  $("ficha").hidden = true;
+  $("cabina-info").textContent = `✈️ ${v.indicativo || v.hex} · ${Math.round(v.alt_m || 0).toLocaleString("es-MX")} m · ${Math.round(v.vel_kmh || 0)} km/h · rumbo ${Math.round(v.rumbo || 0)}° · simulación con la última señal`;
+  $("cabina-barra").hidden = false;
+  cabina.iniciar(v, { onSalir: () => { $("cabina-barra").hidden = true; } });
+}
+$("cabina-salir")?.addEventListener("click", () => cabina?.detener());
+$("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
+$("chk-3d")?.addEventListener("change", async (e) => {
+  if (!api?.map) { e.target.checked = false; return; }
+  const A = await import("./altura3d.js");
+  alt3d ??= new A.Altura3D(api.map);
+  if (e.target.checked) alt3d.activar(); else alt3d.desactivar();
+});
 async function abrirObjetoMovil(o, catalogo) {
   entidadAbierta = null;
   if (o.tipo === "buques" && o.campos?.includes("estado_nav")) return abrirBuque(o, catalogo);
@@ -329,13 +350,14 @@ async function abrirObjetoMovil(o, catalogo) {
   const V = await import("./vuelos.js");
   const v = vueloDeFila(JSON.parse(o.props.f), o.campos);
   if (o.coords) [v.lon, v.lat] = o.coords; // posición proyectada que se ve en el mapa
+  vueloAbierto = v;
   const cat = catalogo.categorias.find((c) => c.id === "aeronaves");
   const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
-  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
+  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
   const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
   if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(v.indicativo || v.hex)) return; // el usuario ya cerró o cambió de ficha
-  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en });
+  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en }) + BOTON_CABINA;
   trayectoria ??= new V.Trayectoria(api.map);
   if (!V.CON_TRAYECTORIA.has(v.subtipo)) { trayectoria.limpiar(); return; } // aviación general: nada se dibuja
   const gj = V.geojsonTrayectoria(v, extra, proyectar);

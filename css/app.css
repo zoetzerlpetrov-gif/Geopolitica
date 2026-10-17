@@ -605,3 +605,8 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .forense h4 { margin: 4px 0; }
 .forense-res { border-left: 4px solid #5D6D7E; padding: 4px 8px; margin: 6px 0; }
 .forense ul { padding-left: 16px; margin: 4px 0; font-size: 12px; }
+
+/* Vista de cabina */
+.cabina-barra { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; background: rgba(15, 23, 32, .85); color: #fff;
+  padding: 6px 10px; border-radius: 8px; font-size: 13px; display: flex; gap: 8px; align-items: center; max-width: calc(100% - 24px); }
+.cabina-barra button { font-size: 12px; }
