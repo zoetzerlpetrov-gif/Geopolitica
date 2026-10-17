@@ -298,6 +298,7 @@ async function abrirFicha(id, { volar = false } = {}) {
   fichaEvento = id;
   entidadAbierta = null;
   trayectoria?.limpiar();
+  quitar3d();
   $("ficha-cuerpo").innerHTML = htmlFicha(ev, tax, paises, porId, { analisis: analisisCfg, cuaderno: cuaderno.leer(id) });
   $("ficha").hidden = false;
   api.setSeleccion(id);
@@ -307,6 +308,7 @@ async function abrirFicha(id, { volar = false } = {}) {
 }
 function abrirFichaHtml(html) {
   quitarCeniza();  // otra ficha: los conos del volcán anterior ya no aplican (la de un volcán los vuelve a dibujar)
+  if (!html.includes("nota-3d")) quitar3d(); // otra ficha sin modelo: no se deja el anterior dibujado
   focoPrevio = document.activeElement;
   fichaEvento = null;
   $("ficha-cuerpo").innerHTML = html;
@@ -342,11 +344,27 @@ async function iniciarCabina() {
 }
 $("cabina-salir")?.addEventListener("click", () => cabina?.detener());
 $("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
-// Modelo 3D animado del elemento (js/visor3d.js y three.js se descargan al abrir el primero).
-$("ficha-cuerpo").addEventListener("click", (e) => {
-  const b = e.target.closest("[data-modelo3d]");
-  if (b) import("./visor3d.js").then((V) => V.abrir(JSON.parse(b.dataset.modelo3d))).catch((err) => { b.insertAdjacentHTML("afterend", `<p class="meta">No se pudo abrir el modelo 3D: ${esc(err.message)}</p>`); });
-});
+// Modelo 3D animado dibujado en el mapa, en el lugar del elemento al que se le dio clic (js/mapa3d.js y three.js se
+// descargan con el primero). Uno a la vez: se quita al cerrar la ficha, al abrir otra o con «Quitar del mapa».
+let modelos3d = null, nota3d = "";
+const puntoDe = (geom, respaldo) => {
+  if (geom?.type === "Point") return geom.coordinates.slice(0, 2);
+  if (respaldo) return Array.isArray(respaldo) ? respaldo : [respaldo.lng, respaldo.lat];
+  let c = geom?.coordinates;
+  while (Array.isArray(c?.[0])) c = c[Math.floor(c.length / 2)];
+  return c ? c.slice(0, 2) : null;
+};
+/** Dibuja el modelo del contexto (ver js/modelos3d.js) y devuelve la nota para la ficha ("" si no hay modelo). */
+function dibujar3d(ctx, punto, geom = null) {
+  const m = M3.modeloPara(ctx);
+  if (!m || !punto || !api?.map) { modelos3d?.quitar(); nota3d = ""; return ""; }
+  nota3d = M3.notaModelo(m);
+  import("./mapa3d.js").then((D) => { modelos3d ??= new D.Modelos3D(api.map); modelos3d.mostrar(m, punto, geom); })
+    .catch((err) => console.warn("modelo 3D:", err.message));
+  return nota3d;
+}
+function quitar3d() { modelos3d?.quitar(); nota3d = ""; }
+$("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#quitar-3d")) { quitar3d(); e.target.closest(".nota-3d")?.remove(); } });
 // Coordenadas bajo el puntero (opción del usuario; se recuerda en este navegador).
 export function formatoCoords(lat, lon) {
   const g = (v, pos, neg) => `${Math.abs(v).toFixed(5)}° ${v >= 0 ? pos : neg}`;
@@ -434,7 +452,7 @@ async function abrirObjetoMovil(o, catalogo) {
   const cat = catalogo.categorias.find((c) => c.id === "aeronaves");
   const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null,
     envivo: o.envivo ? Math.round((Date.now() - new Date(o.generado).getTime()) / 1000) : null };
-  const boton3d = M3.botonModelo({ fuente: "aeronave", ...v });
+  const boton3d = dibujar3d({ fuente: "aeronave", ...v }, [v.lon, v.lat]);
   abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + boton3d + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
   const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
@@ -463,7 +481,7 @@ async function abrirBuque(o, catalogo) {
   if (o.coords) [b.lon, b.lat] = o.coords;
   const cat = catalogo.categorias.find((c) => c.id === "buques");
   const comunes = { subtipoNombre: SUB(cat, b.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
-  const boton3d = M3.botonModelo({ fuente: "buque", subtipo: b.subtipo, nombre: b.nombre });
+  const boton3d = dibujar3d({ fuente: "buque", subtipo: b.subtipo, nombre: b.nombre, rumbo: b.rumbo }, [b.lon, b.lat]);
   abrirFichaHtml(B.htmlBuque(b, null, comunes) + boton3d);
   trayectoria ??= new V.Trayectoria(api.map);
   if (B.SIN_TRAYECTORIA.has(b.subtipo)) { trayectoria.limpiar(); return; } // recreo: nada se dibuja
@@ -480,7 +498,7 @@ async function abrirSatelite(o, catalogo) {
   const cat = catalogo.categorias.find((c) => c.id === "satelites");
   const norad = String(o.props.id).replace("sat:", "");
   const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), st: o.props.st, alt: o.props.alt };
-  const boton3d = M3.botonModelo({ fuente: "satelite", st: o.props.st, nombre: o.props.n });
+  const boton3d = dibujar3d({ fuente: "satelite", st: o.props.st, nombre: o.props.n, alt: o.props.alt }, o.coords || puntoDe(o.geom));
   abrirFichaHtml(S.htmlSatelite(base, null) + boton3d);
   const [orb, catalogoSat] = await Promise.all([mov.orbita(norad), S.fichaCatalogo(norad).catch(() => null)]);
   base.catalogo = catalogoSat;
@@ -508,6 +526,7 @@ const prepararErupcion = () => {
 
 function cerrarFicha() {
   trayectoria?.limpiar();
+  quitar3d();
   quitarCeniza();
   $("ficha").hidden = true;
   api.setSeleccion("");
@@ -877,7 +896,7 @@ async function iniciarCapas() {
       const cercanos = eventos.filter((ev) => ev.lat != null && distanciaKm(ent.lngLat.lat, ent.lngLat.lng, ev.lat, ev.lon) <= 300);
       const personas = ent.familia.id === "organismos" ? await personasDe(ent.props.id.replace(/^wd:/, "")) : [];
       abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) })
-        + M3.botonModelo({ fuente: "entidad", st: ent.props.st, nombre: ent.props.n || ent.props.nombre }));
+        + dibujar3d({ fuente: "entidad", st: ent.props.st, familia: ent.familia.id, nombre: ent.props.n || ent.props.nombre }, puntoDe(ent.geom, ent.lngLat), ent.geom));
       prepararErupcion();
     },
   });
@@ -1229,22 +1248,43 @@ async function iniciarClima() {
   try { meta = await clima.cargar(); } catch (e) { cont.innerHTML = `<p class="meta">Aún no hay datos del modelo (los prepara el workflow «Datos en movimiento» cada 6 h).</p>`; return; }
   if (!meta.pasos?.length) { cont.innerHTML = `<p class="meta">Sin horizontes de pronóstico en la última corrida.</p>`; return; }
   const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"],
-    ["rayos", "⚡ Rayos en tiempo real (satélites GOES, últimos 20 min)"], ["nubes_ir", "☁️ Nubes en vivo (satélites, infrarrojo, animado)"],
+    ["polar", "🥶 Aire polar y frentes de aire frío (temperatura a ~1,500 m)"], ["rayos", "⚡ Rayos en tiempo real (satélites GOES, últimos 20 min)"], ["nubes_ir", "☁️ Nubes en vivo (satélites, infrarrojo, animado)"],
     ["geocolor", "🛰️ Color real GOES de día y de noche (América, animado)"], ["lluvia_sat", "🌧️ Lluvia medida por satélite (IMERG, animada)"]];
   cont.innerHTML = capas.map(([id, n]) => `<label class="fila"><span><input type="checkbox" data-clima="${id}"> ${esc(n)}</span></label>`).join("")
-    + `<label class="fila"><span>Momento</span><select id="clima-paso">${meta.pasos.map((p, i) => `<option value="${i}">${esc(K.etiquetaPaso(p.valido_utc))}</option>`).join("")}</select></label>`
+    + `<label class="fila"><span>Momento</span><select id="clima-paso">${meta.pasos.map((p, i) => `<option value="${i}">${esc(K.etiquetaPaso(p.valido_utc))}</option>`).join("")}</select>
+        <button type="button" class="icon-btn" id="clima-animar" aria-pressed="false" title="Recorre los momentos del pronóstico uno tras otro">▶</button></label>`
     + `<div id="clima-leyendas"></div>`
     + `<p class="nota-capas">Modelo GFS de NOAA (1°, ~110 km), corrida ${esc(meta.corrida)}. Es un pronóstico numérico, no una medición: para avisos oficiales consulta al SMN o a tu servicio meteorológico.</p>`;
   const leyendas = () => {
     $("clima-leyendas").innerHTML = [clima.activas.has("viento") ? K.leyenda(K.VELOCIDADES.map(([v, c]) => [Math.round(v * 3.6), c]), "km/h") : "",
-      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
+      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "",
+      clima.activas.has("polar") && meta.leyendas.polar ? `${K.leyenda(meta.leyendas.polar, "°C a 850 hPa")}<p class="meta">Azul y morado: aire de origen polar o ártico a ~1,500 m de altura (850 hPa), donde no influye el calor del suelo. Las líneas marcan 0, −10 y −20 °C. Usa «Momento» o ▶ para ver hacia dónde avanza en los próximos 3 días. Pronóstico numérico GFS: para avisos, el SMN.</p>` : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
       clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",
-      ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES (de noche, luces de ciudades)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`)].join("");
+      ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES (de noche, luces de ciudades)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`
+        + `<div class="carga-bucle" id="carga-${t}" role="status"><div class="carga-barra"><span></span></div><small>Descargando imágenes del satélite…</small></div>`)].join("");
+  };
+  // Avance de descarga de los cuadros: la animación arranca con los que ya llegaron y la barra se oculta al tener todos.
+  clima.onProgreso = (t, n, total) => {
+    const d = document.getElementById(`carga-${t}`);
+    if (!d) return;
+    d.hidden = n >= total;
+    d.querySelector("span").style.width = `${Math.round((n / total) * 100)}%`;
+    d.querySelector("small").textContent = n ? `Descargando imágenes del satélite: ${n} de ${total} cuadros listos (la animación usa los que ya llegaron)` : `Descargando imágenes del satélite: 0 de ${total} cuadros…`;
   };
   clima.onMomento = (t, m) => {
     const p = document.getElementById(`momento-${t}`);
     if (p) p.dataset.momento = `${m.slice(11, 16)} UTC · hace ${Math.round((Date.now() - Date.parse(m)) / 60000)} min`;
   };
+  // ▶ recorre los horizontes del pronóstico (p. ej. para ver avanzar el aire polar o una tormenta) cada 1.8 s.
+  let animacion = null;
+  cont.addEventListener("click", (e) => {
+    const b = e.target.closest("#clima-animar");
+    if (!b) return;
+    if (animacion) { clearInterval(animacion); animacion = null; b.textContent = "▶"; b.setAttribute("aria-pressed", "false"); return; }
+    b.textContent = "⏸"; b.setAttribute("aria-pressed", "true");
+    const sel = $("clima-paso");
+    animacion = setInterval(() => { sel.value = String((Number(sel.value) + 1) % sel.options.length); clima.setPaso(Number(sel.value)).catch(() => null); }, 1800);
+  });
   cont.addEventListener("change", async (e) => {
     if (e.target.id === "clima-paso") { await clima.setPaso(Number(e.target.value)); return; }
     const t = e.target.dataset.clima;
@@ -1334,7 +1374,8 @@ async function iniciarRiesgos() {
     onCambio: () => { if (riesgos?.catalogo) riesgos.explorar().then((x) => { apagadas = x; pintar(); }); else pintar(); },
     onObjeto: (capa, props, geom) => {
       entidadAbierta = null; trayectoria?.limpiar();
-      abrirFichaHtml(R.htmlRiesgo(capa, props, geom) + M3.botonModelo({ fuente: "riesgo", capa: capa.id, props: R.desanidar(props), lat: geom?.coordinates?.[1] }));
+      const punto = puntoDe(geom);
+      abrirFichaHtml(R.htmlRiesgo(capa, props, geom) + dibujar3d({ fuente: "riesgo", capa: capa.id, props: R.desanidar(props), lat: punto?.[1] }, punto, geom));
       const ce = document.querySelector("#ficha-cuerpo .conf-extra");
       if (ce) llenarConflicto(ce, R.desanidar(props));
       const div = document.querySelector("#ficha-cuerpo .ceniza");
