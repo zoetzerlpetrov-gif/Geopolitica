@@ -14,6 +14,7 @@
 import { getJSON, esc, debounce, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 import { articuloAvion, articuloBuque, articuloSatelite, huecoImagen } from "./imagen_tipo.js";
 import { htmlBandera, paisDeHex } from "./banderas.js";
+import { INTERVALO_MS, ZOOM_MIN, consulta, filaDeVivo, fusionar } from "./envivo.js";
 
 export const MAX_OBJETOS = 5000;
 const PROYECCION_MAX_S = 300;
@@ -92,6 +93,7 @@ export class Movimiento {
     this.blob = {};
     this.worker = null;
     this.reloj = null;
+    this.vivo = null;             // vuelos en vivo (envivo.js): {url, timer, hex, t, ultimo, onEstado, sanc}
     this.alMover = debounce(() => this.#redibujarTodo(), 500);
     map.on("moveend", this.alMover);
   }
@@ -132,6 +134,46 @@ export class Movimiento {
   }
 
   #esperas = new Map();
+
+  /** Vuelos en vivo por el intermediario de Cloudflare (cloudflare/vuelos). onEstado recibe un texto corto para el menú. */
+  setVivo(url, activo, onEstado = () => {}) {
+    clearInterval(this.vivo?.timer);
+    this.vivo = null;
+    if (!activo || !url) { onEstado(""); return; }
+    const v = this.vivo = { url: url.replace(/\/$/, ""), hex: new Set(), t: 0, ultimo: null, onEstado, sanc: null };
+    const paso = () => this.#pedirVivo(v).catch((e) => { if (this.vivo === v) onEstado(`sin respuesta (${e.message})`); });
+    v.timer = setInterval(paso, INTERVALO_MS);
+    paso();
+  }
+
+  async #pedirVivo(v) {
+    if (this.vivo !== v || document.hidden) return;
+    if (!this.activas.has("aeronaves") || !this.datos.aeronaves) { v.onEstado("enciende «Aeronaves» en Capas en movimiento"); return; }
+    if (this.map.getZoom() < ZOOM_MIN) { v.onEstado(`acerca el mapa (zoom ${ZOOM_MIN} o más)`); return; }
+    v.sanc ??= await getJSON("data/vivos/sanciones.json")
+      .then((x) => new Set((x.matriculas || []).map((m) => String(m).replace(/-/g, "").toUpperCase()))).catch(() => new Set());
+    const q = consulta(this.map.getCenter(), this.map.getBounds().getNorthEast());
+    const ctl = new AbortController();
+    const espera = setTimeout(() => ctl.abort(), 8000);
+    const r = await fetch(`${v.url}/punto/${q.lat}/${q.lon}/${q.nm}`, { signal: ctl.signal }).finally(() => clearTimeout(espera));
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const j = await r.json();
+    if (this.vivo !== v) return;
+    v.ultimo = { q, t: Date.now(), filas: (j.ac || []).map((a) => filaDeVivo(a, v.sanc)) };
+    this.#aplicarVivo();
+    v.onEstado(`${v.ultimo.filas.length} en vivo en ${q.nm} nm del centro · ${new Date().toLocaleTimeString("es-MX")}`);
+  }
+
+  /** Mete lo último recibido en vivo (si tiene menos de 1 min) en las filas de la instantánea y redibuja. */
+  #aplicarVivo() {
+    const v = this.vivo, d = this.datos.aeronaves;
+    if (!v?.ultimo || !d || Date.now() - v.ultimo.t > 60000) return;
+    const r = fusionar(d.filas, d.campos, v.ultimo.filas, v.ultimo.q, new Date(d.generado).getTime(), v.ultimo.t);
+    d.filas = r.filas;
+    v.hex = r.hex;
+    v.t = v.ultimo.t;
+    this.#redibujar("aeronaves");
+  }
 
   /** Traza en tierra y elementos orbitales de un satélite (los calcula el worker). */
   orbita(id) {
@@ -207,7 +249,9 @@ export class Movimiento {
     this.map.on("click", `${src}-toque`, (e) => {
       // El más cercano al clic (puede haber varios dentro de la zona de toque).
       const f = e.features.reduce((a, x) => { const q = this.map.project(x.geometry.coordinates), d = (q.x - e.point.x) ** 2 + (q.y - e.point.y) ** 2; return !a || d < a.d ? { x, d } : a; }, null).x;
-      this.onObjeto({ tipo, props: f.properties, generado: this.datos[tipo]?.generado, campos: this.datos[tipo]?.campos, coords: f.geometry.coordinates });
+      const envivo = tipo === "aeronaves" && !!this.vivo?.hex.has(f.properties.id);
+      this.onObjeto({ tipo, props: f.properties, generado: envivo ? new Date(this.vivo.t).toISOString() : this.datos[tipo]?.generado, envivo,
+        campos: this.datos[tipo]?.campos, coords: f.geometry.coordinates });
     });
     this.map.on("mouseenter", `${src}-toque`, () => { this.map.getCanvas().style.cursor = "pointer"; });
     this.map.on("mouseleave", `${src}-toque`, () => { this.map.getCanvas().style.cursor = ""; });
@@ -274,7 +318,11 @@ export class Movimiento {
         if (tipo === "satelites") continue;
         const antes = this.datos[tipo]?.generado;
         await this.#cargar(tipo).catch(() => null);
-        if (this.datos[tipo]?.generado !== antes) { dispatchEvent(new Event("vivos-actualizados")); this.#redibujar(tipo); }
+        if (this.datos[tipo]?.generado !== antes) {
+          dispatchEvent(new Event("vivos-actualizados"));
+          this.#redibujar(tipo);
+          if (tipo === "aeronaves") this.#aplicarVivo(); // la instantánea nueva no trae lo recibido en vivo
+        }
       }
     }, 300000);
     requestAnimationFrame(paso);

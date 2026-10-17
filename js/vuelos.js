@@ -243,7 +243,7 @@ export class Trayectoria {
 const num = (n) => Number(n).toLocaleString("es-MX");
 
 /** HTML de la ficha de un vuelo. `extra` = resultado de datosVuelo(); `paisEs` traduce el país de OpenSky. */
-export function htmlVuelo(v, extra, { subtipoNombre, edadMin, paisEs = (x) => x }) {
+export function htmlVuelo(v, extra, { subtipoNombre, edadMin, envivo = null, paisEs = (x) => x }) {
   const al = aerolinea(v.indicativo);
   const sq = squawkInfo(v.squawk);
   const cat = categoria(v.cat);
@@ -270,7 +270,7 @@ export function htmlVuelo(v, extra, { subtipoNombre, edadMin, paisEs = (x) => x 
         : "Aún sin posiciones anteriores para dibujar la trayectoria.";
   return `<h3 id="ficha-titulo">${htmlBandera(paisDeHex(v.hex))}${esc(v.indicativo || v.hex)}${al?.nombre ? ` · ${esc(al.nombre)}` : ""}</h3>
     <div class="fecha">${esc(subtipoNombre)}${v.pais ? " · registrado en " + esc(paisEs(v.pais)) : ""}</div>
-    <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>
+    <div class="chips">${envivo != null ? `<span class="chip estado-tiempo_real">En vivo · adsb.lol, hace ${envivo} s</span>` : `<span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>`}
       ${sq?.alerta ? `<span class="chip alerta alerta-FLASH">Squawk ${esc(v.squawk)}: ${esc(sq.texto)}</span>` : ""}</div>
     ${huecoImagen(articuloAvion(v.tipo_av, v.subtipo, v.cat))}
     ${ruta}

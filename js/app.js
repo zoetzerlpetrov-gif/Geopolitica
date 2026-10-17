@@ -363,6 +363,16 @@ $("coords-puntero")?.addEventListener("click", async () => {
   $("chk-coords").checked = true;
   ponerCoords(true);
 })();
+$("chk-envivo")?.addEventListener("change", async (e) => {
+  const est = $("envivo-estado");
+  const cfg = await getJSON("config/envivo.json").catch(() => ({}));
+  if (!cfg.proxy_vuelos || !mov) {
+    e.target.checked = false;
+    est.textContent = cfg.proxy_vuelos ? "" : "· falta publicar el intermediario (ver SOURCES)";
+    return;
+  }
+  mov.setVivo(cfg.proxy_vuelos, e.target.checked, (t) => { est.textContent = t ? `· ${t}` : ""; });
+});
 $("chk-3d")?.addEventListener("change", async (e) => {
   if (!api?.map) { e.target.checked = false; return; }
   const A = await import("./altura3d.js");
@@ -379,7 +389,8 @@ async function abrirObjetoMovil(o, catalogo) {
   if (o.coords) [v.lon, v.lat] = o.coords; // posición proyectada que se ve en el mapa
   vueloAbierto = v;
   const cat = catalogo.categorias.find((c) => c.id === "aeronaves");
-  const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
+  const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null,
+    envivo: o.envivo ? Math.round((Date.now() - new Date(o.generado).getTime()) / 1000) : null };
   abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
   const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
