@@ -1,0 +1,1100 @@
+{
+ "familias": {
+  "zonas": {
+   "archivo": "data/capas/zonas.pmtiles",
+   "objetos": 60435,
+   "por_subtipo": {
+    "oceanos": 7,
+    "mares": 96,
+    "golfos_bahias": 2402,
+    "estrechos": 848,
+    "lagos": 5497,
+    "islas": 4855,
+    "costas": 37,
+    "cordilleras": 4657,
+    "peninsulas": 2458,
+    "desiertos": 183,
+    "mesetas": 388,
+    "regiones": 46,
+    "llanuras": 420,
+    "cuencas": 20,
+    "valles": 2232,
+    "deltas_humedales": 15,
+    "canones": 352,
+    "tundras": 4,
+    "istmos": 4,
+    "piedemonte": 3,
+    "montes_picos": 17850,
+    "pasos_montana": 1913,
+    "cabos": 1362,
+    "cascadas": 3049,
+    "glaciares": 5035,
+    "plataformas_hielo": 159,
+    "rios": 462,
+    "paises": 240,
+    "placas_tectonicas": 54,
+    "limite_transformante": 714,
+    "limite_divergente": 661,
+    "limite_convergente": 135,
+    "limite_subduccion": 68,
+    "cinturon_fuego": 57,
+    "volcanes": 402,
+    "volcanes_cinturon": 812,
+    "volcanes_inactivos": 1452,
+    "fiordos": 1302,
+    "geiseres": 184
+   },
+   "zoom_por_subtipo": {
+    "oceanos": 0,
+    "mares": 2,
+    "golfos_bahias": 3,
+    "estrechos": 3,
+    "lagos": 4,
+    "islas": 4,
+    "costas": 4,
+    "cordilleras": 2,
+    "peninsulas": 3,
+    "desiertos": 2,
+    "mesetas": 3,
+    "regiones": 3,
+    "llanuras": 3,
+    "cuencas": 3,
+    "valles": 3,
+    "deltas_humedales": 4,
+    "canones": 4,
+    "tundras": 3,
+    "istmos": 4,
+    "piedemonte": 5,
+    "montes_picos": 4,
+    "pasos_montana": 4,
+    "cabos": 4,
+    "cascadas": 4,
+    "glaciares": 3,
+    "plataformas_hielo": 1,
+    "rios": 4,
+    "paises": 0,
+    "placas_tectonicas": 1,
+    "limite_transformante": 1,
+    "limite_divergente": 1,
+    "limite_convergente": 1,
+    "limite_subduccion": 1,
+    "cinturon_fuego": 1,
+    "volcanes": 3,
+    "volcanes_cinturon": 3,
+    "volcanes_inactivos": 5,
+    "fiordos": 4,
+    "geiseres": 4
+   },
+   "bytes": 7963805,
+   "fuente": "natural_earth",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:12:28Z",
+   "segundos": 121
+  },
+  "aeropuertos": {
+   "archivo": "data/capas/aeropuertos.pmtiles",
+   "objetos": 71348,
+   "por_subtipo": {
+    "helipuerto": 23248,
+    "aerodromo": 42820,
+    "aeropuerto_regional": 4104,
+    "aeropuerto_internacional": 1176
+   },
+   "zoom_por_subtipo": {
+    "helipuerto": 11,
+    "aerodromo": 9,
+    "aeropuerto_regional": 6,
+    "aeropuerto_internacional": 3
+   },
+   "bytes": 4339498,
+   "fuente": "ourairports",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:12:33Z",
+   "segundos": 4
+  },
+  "puertos": {
+   "archivo": "data/capas/puertos.pmtiles",
+   "objetos": 3807,
+   "por_subtipo": {
+    "puerto_pequeno": 3257,
+    "puerto_mediano": 376,
+    "puerto_grande": 174
+   },
+   "zoom_por_subtipo": {
+    "puerto_pequeno": 8,
+    "puerto_mediano": 5,
+    "puerto_grande": 2
+   },
+   "bytes": 485178,
+   "fuente": "wpi",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:12:34Z",
+   "segundos": 2
+  },
+  "centrales": {
+   "archivo": "data/capas/centrales.pmtiles",
+   "objetos": 34936,
+   "por_subtipo": {
+    "central_hidro": 7156,
+    "central_solar": 10665,
+    "central_gas": 3998,
+    "central_otros": 94,
+    "central_petroleo": 2332,
+    "central_eolica": 5344,
+    "central_nuclear": 195,
+    "central_carbon": 2330,
+    "central_residuos": 1068,
+    "central_biomasa": 1430,
+    "central_geotermica": 189,
+    "central_almacenamiento": 135
+   },
+   "zoom_por_subtipo": {
+    "central_hidro": 3,
+    "central_solar": 3,
+    "central_gas": 3,
+    "central_otros": 3,
+    "central_petroleo": 3,
+    "central_eolica": 3,
+    "central_nuclear": 3,
+    "central_carbon": 3,
+    "central_residuos": 5,
+    "central_biomasa": 3,
+    "central_geotermica": 3,
+    "central_almacenamiento": 5
+   },
+   "bytes": 3903334,
+   "fuente": "gppd",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:12:37Z",
+   "segundos": 2
+  },
+  "centros_datos": {
+   "archivo": "data/capas/centros_datos.pmtiles",
+   "objetos": 4565,
+   "por_subtipo": {
+    "datacenter_otros": 3949,
+    "datacenter_hiperescala": 616
+   },
+   "zoom_por_subtipo": {
+    "datacenter_otros": 8,
+    "datacenter_hiperescala": 4
+   },
+   "bytes": 336500,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T20:34:26Z",
+   "segundos": 440
+  },
+  "embajadas": {
+   "archivo": "data/capas/embajadas.pmtiles",
+   "objetos": 18833,
+   "por_subtipo": {
+    "embajadas_consulados": 18833
+   },
+   "zoom_por_subtipo": {
+    "embajadas_consulados": 7
+   },
+   "indice": "data/capas/buscar_embajadas.json",
+   "bytes": 1340152,
+   "fuente": "osm",
+   "estado": "parcial",
+   "error": "sin respuesta en 8 zona(s); se reusaron 0 objetos de la corrida anterior en esas zonas: [[15.0, 22.5, 18.75, 45.0], [18.75, 0, 22.5, 22.5], [18.75, 22.5, 22.5, 45.0], [15.0, 45.0, 18.75, 67.5], [18.75, 45.0, 22.5, 67.5], [18.75, 67.5, 22.5, 90.0], [22.5, 0, 26.25, 22.5], [26.25, 22.5, 30, 45.0]]",
+   "actualizado_utc": "2026-10-17T16:40:33Z",
+   "segundos": 1036
+  },
+  "recursos": {
+   "archivo": "data/capas/recursos.pmtiles",
+   "objetos": 3699,
+   "por_subtipo": {
+    "energia_yacimientos": 1669,
+    "mineria": 709,
+    "semiconductores": 42,
+    "agronomia": 47,
+    "industria_pesada": 1232
+   },
+   "zoom_por_subtipo": {
+    "energia_yacimientos": 4,
+    "mineria": 5,
+    "semiconductores": 3,
+    "agronomia": 5,
+    "industria_pesada": 6
+   },
+   "bytes": 970153,
+   "fuente": "osm",
+   "estado": "desactualizada",
+   "error": "La actualización del 2026-10-17 falló: Overpass no respondió en ninguna caja (límite de uso o saturación)",
+   "actualizado_utc": "2026-10-17T07:14:03Z",
+   "segundos": 3028
+  },
+  "militar": {
+   "archivo": "data/capas/militar.pmtiles",
+   "objetos": 632,
+   "por_subtipo": {
+    "bases_terrestres": 473,
+    "bases_aereas": 123,
+    "bases_navales": 23,
+    "instalaciones_nucleares": 12,
+    "cuarteles_mando": 1
+   },
+   "zoom_por_subtipo": {
+    "bases_terrestres": 6,
+    "bases_aereas": 4,
+    "bases_navales": 4,
+    "instalaciones_nucleares": 3,
+    "cuarteles_mando": 5
+   },
+   "bytes": 156192,
+   "fuente": "osm",
+   "estado": "parcial",
+   "error": "sin respuesta en 9 zona(s); se reusaron 72 objetos de la corrida anterior en esas zonas: [[-15.0, 0, -7.5, 22.5], [-30.0, 90.0, -22.5, 112.5], [-22.5, 157.5, -15.0, 180], [0, -180, 30, 0], [0, 0, 30, 180], [30, -180, 50, 0], [30, 0, 50, 180], [50, -180, 85, 0], [50, 0, 85, 180]]",
+   "actualizado_utc": "2026-10-17T18:40:35Z",
+   "segundos": 4038
+  },
+  "cables": {
+   "archivo": "data/capas/cables.pmtiles",
+   "objetos": 2658,
+   "por_subtipo": {
+    "cables_submarinos": 732,
+    "aterrizajes_cable": 1926
+   },
+   "zoom_por_subtipo": {
+    "cables_submarinos": 0,
+    "aterrizajes_cable": 4
+   },
+   "bytes": 1176964,
+   "fuente": "telegeography",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:19:09Z",
+   "segundos": 1
+  },
+  "camaras": {
+   "archivo": "data/capas/camaras.geojson",
+   "objetos": 5204,
+   "por_subtipo": {
+    "volcanes_clima": 7,
+    "canales_puertos": 1,
+    "trafico": 5196
+   },
+   "zoom_por_subtipo": {
+    "volcanes_clima": 1,
+    "canales_puertos": 1,
+    "trafico": 5
+   },
+   "formato": "geojson",
+   "bytes": 2615944,
+   "fuente": "camaras_publicas",
+   "fuentes": {
+    "curadas": "ok (8)",
+    "webcams_mx": "error: HTTP Error 522: <none>",
+    "digitraffic": "ok (812)",
+    "caltrans": "ok (3407)",
+    "nyc_dot": "ok (977)"
+   },
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:41:07Z",
+   "segundos": 178
+  },
+  "presas": {
+   "archivo": "data/capas/presas.pmtiles",
+   "objetos": 17118,
+   "por_subtipo": {
+    "presa_otros": 16724,
+    "presa_hidro": 349,
+    "presa_riego": 45
+   },
+   "zoom_por_subtipo": {
+    "presa_otros": 6,
+    "presa_hidro": 5,
+    "presa_riego": 6
+   },
+   "bytes": 1822136,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T20:43:23Z",
+   "segundos": 537
+  },
+  "ductos": {
+   "archivo": "data/capas/ductos.pmtiles",
+   "objetos": 62217,
+   "por_subtipo": {
+    "ductos_petroleo": 11519,
+    "ductos_gas": 50698
+   },
+   "zoom_por_subtipo": {
+    "ductos_petroleo": 3,
+    "ductos_gas": 3
+   },
+   "bytes": 3261402,
+   "fuente": "osm",
+   "estado": "parcial",
+   "faltantes": [
+    [
+     50,
+     0,
+     85,
+     180
+    ]
+   ],
+   "error": "sin respuesta en 1 zona(s); se reusaron 4223 objetos de la corrida anterior en esas zonas: [[50, 0, 85, 180]]",
+   "actualizado_utc": "2026-10-17T20:59:52Z",
+   "segundos": 989
+  },
+  "conflicto": {
+   "archivo": "data/capas/conflicto.geojson",
+   "objetos": 820,
+   "por_subtipo": {
+    "conflicto_disputa": 357,
+    "conflicto_dominio": 463
+   },
+   "zoom_por_subtipo": {
+    "conflicto_disputa": 1,
+    "conflicto_dominio": 1
+   },
+   "formato": "geojson",
+   "bytes": 331499,
+   "fuente": "ucdp",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:41:29Z",
+   "segundos": 22
+  },
+  "religiones": {
+   "archivo": "data/capas/religiones.geojson",
+   "objetos": 199,
+   "por_subtipo": {
+    "religion_cristianismo": 120,
+    "religion_islam": 53,
+    "religion_sin_religion": 11,
+    "religion_budismo": 8,
+    "religion_otras": 2,
+    "religion_hinduismo": 4,
+    "religion_judaismo": 1
+   },
+   "zoom_por_subtipo": {
+    "religion_cristianismo": 0,
+    "religion_islam": 0,
+    "religion_sin_religion": 0,
+    "religion_budismo": 0,
+    "religion_otras": 0,
+    "religion_hinduismo": 0,
+    "religion_judaismo": 0
+   },
+   "formato": "geojson",
+   "bytes": 375328,
+   "fuente": "pew_owid",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:41:50Z",
+   "segundos": 21
+  },
+  "gobierno_forma": {
+   "archivo": "data/capas/gobierno_forma.geojson",
+   "objetos": 198,
+   "por_subtipo": {
+    "gobforma_otra": 62,
+    "gobforma_presidencial": 43,
+    "gobforma_partido_unico": 5,
+    "gobforma_teocracia": 4,
+    "gobforma_monarquia_constitucional": 28,
+    "gobforma_monarquia_absoluta": 4,
+    "gobforma_semipresidencial": 14,
+    "gobforma_parlamentaria": 37,
+    "gobforma_militar": 1
+   },
+   "zoom_por_subtipo": {
+    "gobforma_otra": 0,
+    "gobforma_presidencial": 0,
+    "gobforma_partido_unico": 0,
+    "gobforma_teocracia": 0,
+    "gobforma_monarquia_constitucional": 0,
+    "gobforma_monarquia_absoluta": 0,
+    "gobforma_semipresidencial": 0,
+    "gobforma_parlamentaria": 0,
+    "gobforma_militar": 0
+   },
+   "formato": "geojson",
+   "bytes": 501997,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:46:49Z",
+   "segundos": 35
+  },
+  "gobierno_orientacion": {
+   "archivo": "data/capas/gobierno_orientacion.geojson",
+   "objetos": 198,
+   "por_subtipo": {
+    "gobor_izquierda": 10,
+    "gobor_centro": 36,
+    "gobor_comunista": 3,
+    "gobor_sin_partido": 44,
+    "gobor_centroizquierda": 42,
+    "gobor_derecha": 14,
+    "gobor_centroderecha": 30,
+    "gobor_sin_dato": 17,
+    "gobor_extrema_izquierda": 2
+   },
+   "zoom_por_subtipo": {
+    "gobor_izquierda": 0,
+    "gobor_centro": 0,
+    "gobor_comunista": 0,
+    "gobor_sin_partido": 0,
+    "gobor_centroizquierda": 0,
+    "gobor_derecha": 0,
+    "gobor_centroderecha": 0,
+    "gobor_sin_dato": 0,
+    "gobor_extrema_izquierda": 0
+   },
+   "formato": "geojson",
+   "bytes": 505041,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:46:49Z",
+   "segundos": 0
+  },
+  "lugares_religiosos": {
+   "archivo": "data/capas/lugares_religiosos.pmtiles",
+   "objetos": 14710,
+   "por_subtipo": {
+    "culto_islam": 2903,
+    "culto_hinduismo": 1242,
+    "culto_cristianismo": 6039,
+    "culto_budismo": 1105,
+    "culto_otras": 1686,
+    "culto_judaismo": 980,
+    "culto_sintoismo": 428,
+    "culto_sij": 327
+   },
+   "zoom_por_subtipo": {
+    "culto_islam": 1,
+    "culto_hinduismo": 1,
+    "culto_cristianismo": 1,
+    "culto_budismo": 1,
+    "culto_otras": 1,
+    "culto_judaismo": 1,
+    "culto_sintoismo": 1,
+    "culto_sij": 1
+   },
+   "bytes": 2822501,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:48:49Z",
+   "segundos": 120
+  },
+  "grupos_criminales": {
+   "archivo": "data/capas/grupos_criminales.pmtiles",
+   "objetos": 631,
+   "por_subtipo": {
+    "grupo_terrorismo": 364,
+    "grupo_mafia": 156,
+    "grupo_pandilla": 76,
+    "grupo_cartel": 35
+   },
+   "zoom_por_subtipo": {
+    "grupo_terrorismo": 2,
+    "grupo_mafia": 2,
+    "grupo_pandilla": 2,
+    "grupo_cartel": 2
+   },
+   "bytes": 422758,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:49:19Z",
+   "segundos": 30
+  },
+  "ferrocarriles": {
+   "archivo": "data/capas/ferrocarriles.pmtiles",
+   "objetos": 25412,
+   "por_subtipo": {
+    "ferrocarril_electrificado": 9062,
+    "ferrocarril_sin_electrificar": 16332,
+    "ferrocarril_transbordador": 18
+   },
+   "zoom_por_subtipo": {
+    "ferrocarril_electrificado": 2,
+    "ferrocarril_sin_electrificar": 2,
+    "ferrocarril_transbordador": 3
+   },
+   "bytes": 1280866,
+   "fuente": "natural_earth",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:19:22Z",
+   "segundos": 12
+  },
+  "autopistas": {
+   "archivo": "data/capas/autopistas.pmtiles",
+   "objetos": 10119,
+   "por_subtipo": {
+    "autopista": 7720,
+    "carretera_troncal": 2399
+   },
+   "zoom_por_subtipo": {
+    "autopista": 2,
+    "carretera_troncal": 2
+   },
+   "bytes": 905765,
+   "fuente": "natural_earth",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:19:24Z",
+   "segundos": 2
+  },
+  "nuclear": {
+   "archivo": "data/capas/nuclear.pmtiles",
+   "objetos": 427,
+   "por_subtipo": {
+    "nuclear_cerrada": 94,
+    "nuclear_operacion": 226,
+    "nuclear_construccion": 44,
+    "reactor_investigacion": 63
+   },
+   "zoom_por_subtipo": {
+    "nuclear_cerrada": 1,
+    "nuclear_operacion": 1,
+    "nuclear_construccion": 2,
+    "reactor_investigacion": 4
+   },
+   "bytes": 274624,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:19:32Z",
+   "segundos": 7
+  },
+  "investigacion": {
+   "archivo": "data/capas/investigacion.pmtiles",
+   "objetos": 18487,
+   "por_subtipo": {
+    "centro_investigacion": 10329,
+    "investigacion_tecnologia": 1740,
+    "observatorio": 2722,
+    "estacion_investigacion": 173,
+    "investigacion_salud": 1187,
+    "acelerador_particulas": 18,
+    "laboratorio": 1195,
+    "investigacion_ambiente": 1123
+   },
+   "zoom_por_subtipo": {
+    "centro_investigacion": 4,
+    "investigacion_tecnologia": 4,
+    "observatorio": 4,
+    "estacion_investigacion": 4,
+    "investigacion_salud": 4,
+    "acelerador_particulas": 3,
+    "laboratorio": 5,
+    "investigacion_ambiente": 5
+   },
+   "bytes": 2352667,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:38:01Z",
+   "segundos": 1110
+  },
+  "espacio": {
+   "archivo": "data/capas/espacio.pmtiles",
+   "objetos": 132,
+   "por_subtipo": {
+    "puerto_espacial": 132
+   },
+   "zoom_por_subtipo": {
+    "puerto_espacial": 1
+   },
+   "bytes": 114636,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:38:09Z",
+   "segundos": 8
+  },
+  "farmaceuticas": {
+   "archivo": "data/capas/farmaceuticas.pmtiles",
+   "objetos": 1246,
+   "por_subtipo": {
+    "farma_sede": 901,
+    "farma_planta": 345
+   },
+   "zoom_por_subtipo": {
+    "farma_sede": 3,
+    "farma_planta": 7
+   },
+   "bytes": 306463,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T16:49:51Z",
+   "segundos": 558
+  },
+  "petroleo_gas": {
+   "archivo": "data/capas/petroleo_gas.pmtiles",
+   "objetos": 9958,
+   "por_subtipo": {
+    "campo_gas": 290,
+    "campo_petrolero": 5600,
+    "plataforma_marina": 4068
+   },
+   "zoom_por_subtipo": {
+    "campo_gas": 3,
+    "campo_petrolero": 3,
+    "plataforma_marina": 3
+   },
+   "bytes": 1020347,
+   "fuente": "wikidata",
+   "estado": "parcial",
+   "faltantes": [
+    [
+     30,
+     0,
+     50,
+     180
+    ],
+    [
+     50,
+     -180,
+     85,
+     0
+    ],
+    [
+     50,
+     0,
+     85,
+     180
+    ]
+   ],
+   "error": "sin respuesta en 3 zona(s); se reusaron 554 objetos de la corrida anterior en esas zonas: [[30, 0, 50, 180], [50, -180, 85, 0], [50, 0, 85, 180]]",
+   "actualizado_utc": "2026-10-17T21:07:21Z",
+   "segundos": 449
+  },
+  "fronteras": {
+   "archivo": "data/capas/fronteras.pmtiles",
+   "objetos": 4022,
+   "por_subtipo": {
+    "cruce_fronterizo": 4022
+   },
+   "zoom_por_subtipo": {
+    "cruce_fronterizo": 6
+   },
+   "bytes": 548001,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:58:56Z",
+   "segundos": 577
+  },
+  "desaladoras": {
+   "archivo": "data/capas/desaladoras.pmtiles",
+   "objetos": 198,
+   "por_subtipo": {
+    "desaladora": 198
+   },
+   "zoom_por_subtipo": {
+    "desaladora": 5
+   },
+   "bytes": 72952,
+   "fuente": "osm",
+   "estado": "parcial",
+   "error": "sin respuesta en 17 zona(s); se reusaron 126 objetos de la corrida anterior en esas zonas: [[0, -180, 3.75, -157.5], [3.75, -157.5, 7.5, -135.0], [0, -135.0, 7.5, -90.0], [0, -90.0, 3.75, -67.5], [0, -67.5, 3.75, -45.0], [3.75, -90.0, 7.5, -67.5], [3.75, -67.5, 7.5, -45.0], [0, -45.0, 7.5, 0], [7.5, -90.0, 15.0, -45.0], [7.5, -45.0, 15.0, 0], [15.0, -180, 30, -90.0], [15.0, -90.0, 30, 0], [0, 0, 30, 180], [30, -180, 50, 0], [30, 0, 50, 180], [50, -180, 85, 0], [50, 0, 85, 180]]",
+   "actualizado_utc": "2026-10-17T19:57:48Z",
+   "segundos": 4026
+  },
+  "densidad_poblacion": {
+   "archivo": "data/capas/densidad_poblacion.geojson",
+   "objetos": 217,
+   "por_subtipo": {
+    "densidad_2": 49,
+    "densidad_3": 48,
+    "densidad_5": 29,
+    "densidad_4": 65,
+    "densidad_6": 10,
+    "densidad_1": 16
+   },
+   "zoom_por_subtipo": {
+    "densidad_2": 0,
+    "densidad_3": 0,
+    "densidad_5": 0,
+    "densidad_4": 0,
+    "densidad_6": 0,
+    "densidad_1": 0
+   },
+   "formato": "geojson",
+   "bytes": 375482,
+   "fuente": "banco_mundial",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:41:50Z",
+   "segundos": 0
+  },
+  "turismo": {
+   "archivo": "data/capas/turismo.pmtiles",
+   "objetos": 27090,
+   "por_subtipo": {
+    "patrimonio_mundial": 1900,
+    "museo": 2859,
+    "sitio_arqueologico": 8233,
+    "cascada_turistica": 1874,
+    "castillo_palacio": 3058,
+    "monumento": 1004,
+    "centro_historico": 127,
+    "cenote_cueva": 772,
+    "atraccion_turistica": 21,
+    "parque_nacional": 1832,
+    "playa": 3392,
+    "parque_ocio": 1842,
+    "pueblo_magico": 176
+   },
+   "zoom_por_subtipo": {
+    "patrimonio_mundial": 1,
+    "museo": 4,
+    "sitio_arqueologico": 3,
+    "cascada_turistica": 4,
+    "castillo_palacio": 4,
+    "monumento": 4,
+    "centro_historico": 3,
+    "cenote_cueva": 4,
+    "atraccion_turistica": 3,
+    "parque_nacional": 3,
+    "playa": 4,
+    "parque_ocio": 4,
+    "pueblo_magico": 2
+   },
+   "bytes": 4928803,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:45:57Z",
+   "segundos": 247
+  },
+  "fiscal_ue": {
+   "archivo": "data/capas/fiscal_ue.geojson",
+   "objetos": 36,
+   "por_subtipo": {
+    "ue_compromisos": 20,
+    "ue_no_cooperativa": 16
+   },
+   "zoom_por_subtipo": {
+    "ue_compromisos": 0,
+    "ue_no_cooperativa": 0
+   },
+   "formato": "geojson",
+   "bytes": 55982,
+   "fuente": "lista_ue",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:45:57Z",
+   "segundos": 0
+  },
+  "recaudacion": {
+   "archivo": "data/capas/recaudacion.geojson",
+   "objetos": 165,
+   "por_subtipo": {
+    "recaudacion_1": 28,
+    "recaudacion_3": 40,
+    "recaudacion_2": 42,
+    "recaudacion_5": 11,
+    "recaudacion_4": 41,
+    "recaudacion_6": 3
+   },
+   "zoom_por_subtipo": {
+    "recaudacion_1": 0,
+    "recaudacion_3": 0,
+    "recaudacion_2": 0,
+    "recaudacion_5": 0,
+    "recaudacion_4": 0,
+    "recaudacion_6": 0
+   },
+   "formato": "geojson",
+   "bytes": 341854,
+   "fuente": "banco_mundial",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:45:57Z",
+   "segundos": 0
+  },
+  "tasas_bc": {
+   "archivo": "data/capas/tasas_bc.geojson",
+   "objetos": 61,
+   "por_subtipo": {
+    "tasa_3": 16,
+    "tasa_7": 1,
+    "tasa_2": 30,
+    "tasa_1": 1,
+    "tasa_4": 9,
+    "tasa_6": 3,
+    "tasa_5": 1
+   },
+   "zoom_por_subtipo": {
+    "tasa_3": 0,
+    "tasa_7": 0,
+    "tasa_2": 0,
+    "tasa_1": 0,
+    "tasa_4": 0,
+    "tasa_6": 0,
+    "tasa_5": 0
+   },
+   "formato": "geojson",
+   "bytes": 229959,
+   "fuente": "bis",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:45:58Z",
+   "segundos": 1
+  },
+  "nodos_bitcoin": {
+   "archivo": "data/capas/nodos_bitcoin.geojson",
+   "objetos": 92,
+   "por_subtipo": {
+    "btc_1": 44,
+    "btc_5": 2,
+    "btc_4": 6,
+    "btc_2": 26,
+    "btc_3": 14
+   },
+   "zoom_por_subtipo": {
+    "btc_1": 0,
+    "btc_5": 0,
+    "btc_4": 0,
+    "btc_2": 0,
+    "btc_3": 0
+   },
+   "formato": "geojson",
+   "bytes": 263655,
+   "fuente": "bitnodes",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:46:07Z",
+   "segundos": 9
+  },
+  "empresas": {
+   "archivo": "data/capas/empresas.pmtiles",
+   "objetos": 5895,
+   "por_subtipo": {
+    "emp_tecnologia": 667,
+    "emp_automotriz": 351,
+    "emp_otros": 1630,
+    "emp_medios": 604,
+    "emp_hospitalidad": 140,
+    "emp_aeroespacial_defensa": 210,
+    "emp_alimentos": 279,
+    "emp_construccion_inmobiliaria": 164,
+    "emp_telecom": 203,
+    "emp_comercio": 362,
+    "emp_transporte": 115,
+    "emp_farma_salud": 141,
+    "emp_energia": 289,
+    "emp_finanzas": 519,
+    "emp_quimica": 78,
+    "emp_mineria": 143
+   },
+   "zoom_por_subtipo": {
+    "emp_tecnologia": 2,
+    "emp_automotriz": 2,
+    "emp_otros": 2,
+    "emp_medios": 2,
+    "emp_hospitalidad": 2,
+    "emp_aeroespacial_defensa": 2,
+    "emp_alimentos": 2,
+    "emp_construccion_inmobiliaria": 2,
+    "emp_telecom": 2,
+    "emp_comercio": 2,
+    "emp_transporte": 2,
+    "emp_farma_salud": 3,
+    "emp_energia": 3,
+    "emp_finanzas": 3,
+    "emp_quimica": 3,
+    "emp_mineria": 4
+   },
+   "indice": "data/capas/buscar_empresas.json",
+   "bytes": 1375555,
+   "fuente": "wikidata",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:19:08Z",
+   "segundos": 391
+  },
+  "inmuebles_pais": {
+   "archivo": "data/capas/inmuebles_pais.geojson",
+   "objetos": 151,
+   "por_subtipo": {
+    "inm_vivienda": 60,
+    "inm_casas": 20,
+    "inm_comercial": 7,
+    "inm_locales": 10,
+    "inm_oficinas": 9,
+    "inm_oficinas_locales": 5,
+    "inm_terrenos": 13,
+    "inm_bodegas": 4,
+    "inm_departamentos": 23
+   },
+   "zoom_por_subtipo": {
+    "inm_vivienda": 0,
+    "inm_casas": 0,
+    "inm_comercial": 0,
+    "inm_locales": 0,
+    "inm_oficinas": 0,
+    "inm_oficinas_locales": 0,
+    "inm_terrenos": 0,
+    "inm_bodegas": 0,
+    "inm_departamentos": 0
+   },
+   "formato": "geojson",
+   "bytes": 552577,
+   "fuente": "bis",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:46:10Z",
+   "segundos": 3
+  },
+  "inmuebles_mx": {
+   "archivo": "data/capas/inmuebles_mx.pmtiles",
+   "objetos": 160,
+   "por_subtipo": {
+    "mx_casa": 32,
+    "mx_departamento": 32,
+    "mx_condominio": 32,
+    "mx_economica": 32,
+    "mx_media_residencial": 32
+   },
+   "zoom_por_subtipo": {
+    "mx_casa": 0,
+    "mx_departamento": 0,
+    "mx_condominio": 0,
+    "mx_economica": 0,
+    "mx_media_residencial": 0
+   },
+   "bytes": 101135,
+   "fuente": "shf",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:46:13Z",
+   "segundos": 3
+  },
+  "inmuebles_seguimiento": {
+   "archivo": "data/capas/inmuebles_seguimiento.geojson",
+   "objetos": 17,
+   "por_subtipo": {
+    "inm_riesgo_bajo": 2,
+    "inm_riesgo_medio": 5,
+    "inm_riesgo_moderado": 9,
+    "inm_riesgo_alto": 1
+   },
+   "zoom_por_subtipo": {
+    "inm_riesgo_bajo": 2,
+    "inm_riesgo_medio": 2,
+    "inm_riesgo_moderado": 2,
+    "inm_riesgo_alto": 2
+   },
+   "formato": "geojson",
+   "bytes": 17873,
+   "fuente": "inmueblewarroom",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:46:14Z",
+   "segundos": 1
+  },
+  "lugares_culto": {
+   "archivo": "data/capas/lugares_culto.pmtiles",
+   "objetos": 623310,
+   "por_subtipo": {
+    "pc_judaismo": 7496,
+    "pc_otras": 108579,
+    "pc_budismo": 108481,
+    "pc_hinduismo": 56978,
+    "pc_afro_espiritismo": 1053,
+    "pc_islam": 286194,
+    "pc_paganismo": 186,
+    "pc_sintoismo": 40992,
+    "pc_taoismo": 10504,
+    "pc_sijismo": 1965,
+    "pc_jainismo": 690,
+    "pc_bahai": 189,
+    "pc_ocultismo": 3
+   },
+   "zoom_por_subtipo": {
+    "pc_judaismo": 5,
+    "pc_otras": 9,
+    "pc_budismo": 7,
+    "pc_hinduismo": 7,
+    "pc_afro_espiritismo": 5,
+    "pc_islam": 9,
+    "pc_paganismo": 5,
+    "pc_sintoismo": 7,
+    "pc_taoismo": 5,
+    "pc_sijismo": 5,
+    "pc_jainismo": 5,
+    "pc_bahai": 5,
+    "pc_ocultismo": 5
+   },
+   "bytes": 54482967,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T22:17:43Z",
+   "segundos": 35
+  },
+  "lugares_culto_cristiano": {
+   "archivo": "data/capas/lugares_culto_cristiano.pmtiles",
+   "objetos": 661791,
+   "por_subtipo": {
+    "pc_cristianismo": 661791
+   },
+   "zoom_por_subtipo": {
+    "pc_cristianismo": 10
+   },
+   "bytes": 62627311,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T22:18:42Z",
+   "segundos": 37
+  },
+  "lugares_culto_catolico": {
+   "archivo": "data/capas/lugares_culto_catolico.pmtiles",
+   "objetos": 303600,
+   "por_subtipo": {
+    "pc_catolicismo": 303600
+   },
+   "zoom_por_subtipo": {
+    "pc_catolicismo": 10
+   },
+   "bytes": 29091199,
+   "fuente": "osm",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T22:18:05Z",
+   "segundos": 21
+  },
+  "rutas_maritimas": {
+   "archivo": "data/capas/rutas_maritimas.pmtiles",
+   "objetos": 239,
+   "por_subtipo": {
+    "rutas_principales": 52,
+    "rutas_secundarias": 123,
+    "rutas_menores": 64
+   },
+   "zoom_por_subtipo": {
+    "rutas_principales": 0,
+    "rutas_secundarias": 2,
+    "rutas_menores": 3
+   },
+   "bytes": 376265,
+   "fuente": "shipping_lanes",
+   "estado": "ok",
+   "error": null,
+   "actualizado_utc": "2026-10-17T21:19:10Z",
+   "segundos": 0
+  }
+ },
+ "generado_utc": "2026-10-17T22:18:42Z"
+}
