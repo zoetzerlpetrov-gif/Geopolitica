@@ -123,6 +123,11 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/clima/cortes.py
 
+      - name: Salud (OMS, CDC y ECDC una vez al día; brotes en noticias de GDELT cada corrida; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/salud/salud.py
+
       - name: Avisos meteorológicos de Europa (MeteoAlarm, cada corrida; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 4
