@@ -908,19 +908,10 @@ async function iniciarCapas() {
   familias.sort((a, b) => ordenCat.indexOf(a.categoria) - ordenCat.indexOf(b.categoria));
   // Subsección plegable por categoría del catálogo (Organizaciones, Infraestructura, Recursos…).
   // «Zonas geográficas» tiene 35 subtipos: los agregados después (relieve fino, placas, volcanes) empiezan apagados
-  // y hay atajos para ver de un toque el Cinturón de Fuego, las placas, el relieve o los volcanes.
+  // y se encienden uno por uno en «Subtipos».
   const ZONAS_APAGADAS = new Set(["mesetas", "llanuras", "valles", "canones", "cuencas", "deltas_humedales", "tundras", "glaciares", "istmos", "costas",
     "piedemonte", "islas", "montes_picos", "pasos_montana", "cabos", "cascadas", "placas_tectonicas", "limite_subduccion", "limite_convergente",
     "limite_divergente", "limite_transformante", "cinturon_fuego", "volcanes_cinturon", "volcanes", "volcanes_inactivos", "plataformas_hielo", "fiordos", "geiseres"]);
-  const ZONAS_ATAJOS = [
-    ["🔥 Cinturón de Fuego y sus volcanes", ["cinturon_fuego", "volcanes_cinturon"]],
-    ["⬡ Placas tectónicas y sus límites", ["placas_tectonicas", "limite_subduccion", "limite_convergente", "limite_divergente", "limite_transformante", "cinturon_fuego"]],
-    ["🌋 Todos los volcanes (incluye los vigilados en vivo)", ["volcanes_cinturon", "volcanes", "cinturon_fuego"]],
-    ["💤 Volcanes inactivos (por si «despertaran»)", ["volcanes_inactivos"]],
-    ["⛰️ Relieve (montañas, valles, mesetas…)", ["cordilleras", "montes_picos", "pasos_montana", "valles", "canones", "mesetas", "llanuras", "cuencas", "piedemonte", "glaciares", "desiertos", "tundras", "deltas_humedales", "cascadas", "geiseres"]],
-    ["🧊 Hielo: glaciares, plataformas antárticas y fiordos", ["glaciares", "plataformas_hielo", "fiordos", "tundras"]],
-    ["🌊 Mares, golfos, estrechos, lagos y ríos", ["oceanos", "mares", "golfos_bahias", "estrechos", "lagos", "rios"]],
-  ];
   // Volcanes vigilados (capa en vivo de Amenazas) también desde los subtipos de Zonas geográficas: la casilla es un
   // espejo de [data-riesgo="volcanes"] (mismos datos, misma ficha con alerta oficial y viento para la ceniza).
   const ESPEJO_VOLCANES = `<label class="espejo-riesgo"><input type="checkbox" data-espejo-riesgo="volcanes"><span class="swatch" style="background:#D23B3B"></span>Volcanes vigilados en vivo (alerta oficial y ceniza) <span class="meta">también en Riesgos → Amenazas</span></label>`;
@@ -940,7 +931,6 @@ async function iniciarCapas() {
         <span class="chip estado-${esc(f.estado_dato)}" title="Estado del dato">${esc(etiquetaEstado(f.estado_dato))}</span></label>
       <div class="meta">${f.disponible ? `${f.manifest.estado === "parcial" ? "⚠️ Cobertura parcial: algunas zonas del mundo no respondieron en la última actualización. " : ""}${f.manifest.estado === "desactualizada" ? `⚠️ Versión anterior (del ${esc((f.manifest.actualizado_utc || "").slice(0, 10))}): la última actualización falló. ` : ""}${f.manifest.objetos.toLocaleString("es-MX")} objetos · ${(f.manifest.bytes / 1e6).toFixed(1)} MB en mosaicos (solo se baja lo visible) · ${esc(f.licencia)}`
         : esc(f.habilitada ? (f.manifest?.estado === "error" ? "Error al construir: " + f.manifest.error : f.manifest?.estado === "pendiente" ? f.manifest.error : "Aún no se construye (workflow «Construir capas»)") : f.motivo || "Deshabilitada")}</div>
-      ${f.disponible && f.id === "zonas" ? `<div class="atajos-zonas">${ZONAS_ATAJOS.map(([t], i) => `<button type="button" class="mini" data-atajo-zonas="${i}">${esc(t)}</button>`).join("")}</div>` : ""}
       ${f.disponible && f.id in UNO_A_LA_VEZ ? `<div class="rampa-precios" aria-label="Cambio de precio en 12 meses">${RAMPA_PRECIOS.map(([c, t]) => `<span><i style="background:${c}"></i>${esc(t)}</span>`).join("")}</div>` : ""}
       ${f.disponible && f.subtipos.length > 1 ? `<details${f.id in UNO_A_LA_VEZ ? " open" : ""}><summary>${f.id in UNO_A_LA_VEZ ? "Tipo de inmueble (uno a la vez)" : `Subtipos (${f.subtipos.length})`}</summary>${f.subtipos.map((st) => `
         <label><input type="checkbox" data-fam-sub="${esc(f.id)}" value="${esc(st.id)}" ${marcadoInicial(f, st) ? "checked" : ""}>${f.id in UNO_A_LA_VEZ ? "" : `<span class="swatch" style="background:${esc(st.color)}"></span>`}${esc(st.nombre.es)} <span class="meta">${infoSubtipo(f, st)}</span></label>${f.id === "zonas" && st.id === "volcanes" ? ESPEJO_VOLCANES : ""}`).join("")}</details>` : ""}
@@ -1011,17 +1001,6 @@ async function iniciarCapas() {
   document.addEventListener("change", (e) => {
     const id = e.target.dataset?.riesgo;
     if (id) for (const x of document.querySelectorAll(`[data-espejo-riesgo="${id}"]`)) x.checked = e.target.checked;
-  });
-  // Atajo: deja marcados solo esos subtipos y enciende «Zonas geográficas» si estaba apagada.
-  cont.addEventListener("click", async (e) => {
-    const b = e.target.closest("[data-atajo-zonas]");
-    if (!b) return;
-    const ids = new Set(ZONAS_ATAJOS[Number(b.dataset.atajoZonas)][1]);
-    for (const x of cont.querySelectorAll('[data-fam-sub="zonas"]')) x.checked = ids.has(x.value);
-    if (ids.has("volcanes")) espejoRiesgo("volcanes", true);
-    const cb = cont.querySelector('[data-fam="zonas"]');
-    if (!cb.checked) { cb.checked = true; await gestor.activar("zonas"); }
-    gestor.setSubtipos("zonas", [...ids]);
   });
   cont.addEventListener("change", async (e) => {
     if (e.target.dataset.espejoRiesgo) { espejoRiesgo(e.target.dataset.espejoRiesgo, e.target.checked); return; }
