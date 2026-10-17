@@ -70,13 +70,14 @@ ENFERMEDADES = [
     ("nilo", "Virus del Nilo Occidental", "vectores", r"nilo occidental|west nile"),
     ("rabia", "Rabia", "otra", r"\brabia\b|\brabies\b"),
     ("legionella", "Legionela", "otra", r"legionel"),
+    ("rickettsia", "Fiebre manchada (rickettsiosis)", "otra", r"fiebre manchada|spotted fever|rickettsi"),
     ("hepatitis", "Hepatitis", "otra", r"hepatitis"),
     ("indeterminada", "Enfermedad de causa no determinada", "grave", r"undetermined etiology|unknown (disease|illness)|enfermedad (desconocida|misteriosa)|mystery (illness|disease)"),
 ]
 _ENF = [(i, n, g, re.compile(x, re.I)) for i, n, g, x in ENFERMEDADES]
 LABORATORIO = re.compile(r"(fuga|filtraci[oó]n|escape|leak|accident|incident|accidente|incidente)\w* (de |en |at |in )?(un |a |the |el )?(laboratorio|lab\b|laboratory)|"
                          r"lab[- ]leak|laboratory[- ](leak|accident|incident|acquired)|bioseguridad|biosafety (breach|incident|lapse)|biosecurity breach", re.I)
-CONTEXTO = re.compile(r"brote|outbreak|epidemi|pandemi|casos|cases|contagi|infect|muert|deaths?\b|died|dead\b|hospitaliz|alerta|alert|emergenc|"
+CONTEXTO = re.compile(r"brote|outbreak|positiv|epidemi|pandemi|casos|cases|contagi|infect|muert|deaths?\b|died|dead\b|hospitaliz|alerta|alert|emergenc|"
                       r"aumento|surge|spike|rise in|rising|record|r[eé]cord|cluster|confirm|detect|spread|propaga|vigilancia|warning|aviso", re.I)
 NO_ES = re.compile(r"vaccine (stock|maker|shares)|acciones de|stock price|\bnfl\b|\bnba\b|football|f[uú]tbol|pel[ií]cula|\bfilm\b|serie de tv|"
                    r"videojuego|video game|flu season tips|computer virus|virus inform[aá]tico|malware|ransomware", re.I)
@@ -143,6 +144,16 @@ class Paises:
             if len(n) >= 4 and re.search(rf"\b{re.escape(n)}\b", t):
                 return self.de(self.nombres[n])
         return None
+
+
+_PAISES = None
+PAISES_GRANDES = {"RUS", "USA", "CAN", "CHN", "BRA", "AUS", "IND", "ARG", "KAZ", "IDN", "DZA", "COD", "SAU", "MEX"}
+
+
+def PAISES():  # noqa: N802  (una sola instancia por corrida)
+    global _PAISES
+    _PAISES = _PAISES or Paises()
+    return _PAISES
 
 
 def punto(lon, lat, props):
@@ -244,7 +255,9 @@ def fila_a_feature(f, flujo, nom=None):
     e = tipo_de_titulo(titulo) if titulo else None
     if not e:
         return None
-    cuerpo = re.split(r"\s[|–—-]\s(?=[^|–—-]*$)", titulo)[0] if re.search(r"\s[|–—-]\s", titulo) else titulo
+    # Lo que va después del primer « - » o « | » suele ser el nombre del medio («… - Grenada Chronicle»).
+    partes = re.split(r"\s[|–—-]\s", titulo)
+    cuerpo = partes[0] if len(partes) > 1 and len(partes[0]) >= 25 else titulo
     t = T.norm(cuerpo)
     locs = [l for l in T.lugares(f[10]) if l[0] != "1" and T.en_titulo(l[1].split(",")[0], t)]
     iso3 = ""
@@ -256,6 +269,11 @@ def fila_a_feature(f, flujo, nom=None):
             return None
         nombre, lat, lon, prec, iso3 = u
         tipo = {"ciudad": "4", "estado": "2", "país": "1"}[prec]
+    # Si el titular nombra un país y el lugar elegido queda lejos de él («Costa Rica» → «Coast»), gana el país.
+    pais = PAISES().ubicar(cuerpo)
+    if pais and T.km([lon, lat], [pais[2], pais[1]]) > (4000 if pais[4] in PAISES_GRANDES else 1800):
+        nombre, lat, lon, _, iso3 = pais
+        tipo = "1"
     if not (-90 <= lat <= 90 and -180 <= lon <= 180):
         return None
     try:

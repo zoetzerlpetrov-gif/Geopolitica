@@ -25,9 +25,18 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
+const SALUD = "Salud: brotes y enfermedades";
+// Color por grupo de enfermedad (salud): graves, respiratorias, estomacales, transmitidas por mosquitos, prevenibles con vacuna.
+const COLOR_SALUD = { grave: "#8E1B1B", laboratorio: "#4A148C", respiratoria: "#1F6FB2", gastro: "#8D6E2F", vectores: "#2E7D32", prevenible: "#C2185B", otra: "#5D6D7E" };
+const LEYENDA_SALUD = [{ c: COLOR_SALUD.grave, r: 6, t: "Graves: ébola, Marburgo, mpox, peste, polio, causa desconocida" },
+  { c: COLOR_SALUD.respiratoria, r: 6, t: "Respiratorias: gripe, gripe aviar, COVID, MERS, neumonía, tos ferina" },
+  { c: COLOR_SALUD.gastro, r: 6, t: "Estomacales: cólera, norovirus, salmonela, intoxicación alimentaria" },
+  { c: COLOR_SALUD.vectores, r: 6, t: "Por mosquitos: dengue, chikungunya, zika, malaria, fiebre amarilla" },
+  { c: COLOR_SALUD.prevenible, r: 6, t: "Prevenibles con vacuna: sarampión, difteria, meningitis" },
+  { c: COLOR_SALUD.laboratorio, r: 6, t: "Incidente de bioseguridad en un laboratorio (según noticias)" }];
 
 export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
@@ -446,6 +455,27 @@ export const CAPAS = [
       { t: "Severidad 3: el titular habla de miles o millones de afectados o de todo un país; 1: corte programado (aviso de mantenimiento)." },
       { t: "Son titulares ubicados por el lugar que nombran. Confirma con la empresa eléctrica o el organismo de agua. Para apagones grandes compara las «Luces nocturnas VIIRS» de dos días (Imágenes satelitales) y los cortes de internet de IODA (Red y ciberseguridad), que suelen acompañarlos." }],
     ficha: (p) => ({ titulo: p.title, chip: `${p.kind === "AGUA" ? "Corte de agua" : p.kind === "LUZ" ? "Apagón" : "Luz y agua"}${p.programado ? " · programado" : ""}${p.severe ? " · muchos afectados según el titular" : ""} · señal de noticias, verifica`,
+      filas: [["Lugar", `${p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
+        ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.notas > 1 ? [["Notas", `${p.notas} notas desde ${fecha(p.desde)}`], ["Otros medios", otrosMedios(p.enlaces, p.url)]] : []),
+        ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
+  },
+  {
+    id: "salud_oficial", grupo: SALUD, nombre: "Brotes y avisos oficiales: OMS, CDC (viajeros) y ECDC", url: "data/vivos/salud_oficial.geojson", refresco_s: 3600,
+    fuente: "OMS, CDC de EUA y ECDC",
+    estilo: (p) => ({ c: COLOR_SALUD[p.grupo] || COLOR_SALUD.otra, r: 4 + (p.nivel || 2) }),
+    etiqueta: (p) => (p.nivel >= 3 ? p.enfermedad : ""),
+    leyenda: [...LEYENDA_SALUD, { t: "Punto = centro del país donde la autoridad reporta el brote, no la zona exacta. Tamaño: nivel del aviso (CDC: 1 precauciones habituales, 2 precauciones extra, 3 evitar viajes no esenciales, 4 no viajar). La OMS publica los brotes que un país notifica bajo el Reglamento Sanitario Internacional." }],
+    ficha: (p) => ({ titulo: `${p.enfermedad} · ${p.lugar}`, chip: p.nivel_cdc ? `Aviso CDC nivel ${p.nivel_cdc}` : String(p.fuente || "").split(" · ")[0],
+      filas: [["Aviso", p.title], ["Organismo", p.fuente], ["Fecha", fecha(p.date)], ["País", p.lugar],
+        ["Qué hacer", "Consulta el aviso oficial y a la Secretaría de Salud o la autoridad sanitaria local antes de viajar"]], url: p.url, fuente: p.fuente }),
+  },
+  {
+    id: "salud_noticias", grupo: SALUD, nombre: "Brotes y aumentos de casos en noticias: gripe, dengue, estomacales y más (14 días, verificar)", senal: true,
+    url: "data/vivos/salud_noticias.geojson", refresco_s: 1800, fuente: "GDELT GKG (noticias de todo el mundo)",
+    estilo: (p) => ({ c: COLOR_SALUD[p.grupo] || COLOR_SALUD.otra, r: Math.min(10, (p.severe ? 6 : 4) + Math.log2(p.notas || 1)) }),
+    etiqueta: (p) => (p.severe || p.notas >= 3 ? `${p.enfermedad}${p.notas > 1 ? ` · ${p.notas}` : ""}` : ""),
+    leyenda: [...LEYENDA_SALUD, { t: "Titulares de noticias que hablan de un brote, aumento de casos o muertes, ubicados por el lugar que nombran y agrupados por enfermedad. El número es la cantidad de notas. Son señales: confirma con la autoridad sanitaria (en México, Secretaría de Salud y su boletín epidemiológico)." }],
+    ficha: (p) => ({ titulo: p.title, chip: `${p.enfermedad} · señal de noticias, verifica`,
       filas: [["Lugar", `${p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.notas > 1 ? [["Notas", `${p.notas} notas desde ${fecha(p.desde)}`], ["Otros medios", otrosMedios(p.enlaces, p.url)]] : []),
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
