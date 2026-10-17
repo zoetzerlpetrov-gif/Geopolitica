@@ -452,6 +452,12 @@ async function main() {
     if (ix.mexico?.[0]) $("reportes-ultimo").innerHTML = `Último: ${esc(ix.mexico[0].fecha)}${enlaces ? ` · ${enlaces}` : ""}`;
   }).catch(() => {});
   // La herramienta de fotos no depende de los datos: se activa ya, para que responda aunque el resto siga cargando.
+  $("docs-form")?.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const D = await import("./documentos.js");
+    const l = D.enlaces($("docs-q").value);
+    $("docs-res").innerHTML = l.length ? l.map((x) => `<li><a href="${esc(x.url)}" target="_blank" rel="noopener noreferrer">${esc(x.nombre)}</a></li>`).join("") : `<li class="meta">Escribe al menos 2 letras.</li>`;
+  });
   import("./foto.js").then((F) => F.iniciarFoto({ mapa: () => api?.map, lite: () => lite })).catch((e) => console.error("foto", e));
   document.documentElement.classList.toggle("lite", lite);
   // El mapa se crea en cuanto hay estilo (en LITE es local e inmediato); los JSON llegan en paralelo

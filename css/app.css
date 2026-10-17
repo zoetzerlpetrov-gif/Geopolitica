@@ -599,3 +599,9 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .tabla-mini { width: 100%; border-collapse: collapse; font-size: 11px; }
 .tabla-mini th, .tabla-mini td { border-bottom: 1px solid var(--line, #ccd); padding: 2px 4px; text-align: left; }
 .tabla-mini tr.con-alerta td { background: rgba(210, 59, 59, .12); }
+
+/* Foto forense */
+.forense { border-top: 1px solid var(--line, #ccd); margin-top: 8px; padding-top: 6px; }
+.forense h4 { margin: 4px 0; }
+.forense-res { border-left: 4px solid #5D6D7E; padding: 4px 8px; margin: 6px 0; }
+.forense ul { padding-left: 16px; margin: 4px 0; font-size: 12px; }
