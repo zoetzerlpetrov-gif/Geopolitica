@@ -84,7 +84,20 @@ export function iniciarFoto({ mapa, lite = () => false }) {
   const ponerPunto = (map) => { if (punto) try { marcar(map, [punto]); } catch (err) { /* estilo aún cargando */ } };
 
   // Un solo escucha para el botón (el resultado se vuelve a pintar con cada foto).
-  res.addEventListener("click", (e) => {
+  res.addEventListener("click", async (e) => {
+    if (e.target.closest("#foto-ela")) {
+      const caja = $("foto-ela-res");
+      if (prev.hidden || !prev.naturalWidth) { caja.innerHTML = `<p class="meta">Este formato no se puede dibujar en el navegador (HEIC fuera de Safari, TIFF o DNG): conviértelo a JPEG o PNG.</p>`; return; }
+      caja.innerHTML = `<p class="meta">⏳ Calculando…</p>`;
+      try {
+        const F = await import("./forense.js");
+        const c = await F.ela(prev);
+        c.className = "foto-prev";
+        caja.innerHTML = `<p class="meta">Zonas mucho más brillantes que otras parecidas (por ejemplo, un objeto que brilla y el fondo no) pueden ser pegadas o retocadas. Bordes, texto y texturas finas siempre brillan más. Una foto ya comprimida muchas veces se ve casi negra.</p>`;
+        caja.appendChild(c);
+      } catch (err) { caja.innerHTML = `<p class="meta">No se pudo calcular: ${esc(err?.message || String(err))}</p>`; }
+      return;
+    }
     if (!e.target.closest("#foto-ir") || !actual) return;
     const map = mapa();
     if (!map) { res.insertAdjacentHTML("afterbegin", `<p class="meta">El mapa aún está cargando; intenta de nuevo en unos segundos.</p>`); return; }
@@ -119,12 +132,16 @@ export function iniciarFoto({ mapa, lite = () => false }) {
     res.innerHTML = `<p class="meta">⏳ Leyendo los metadatos…</p>`;
     try {
       res.scrollIntoView({ block: "nearest", behavior: "smooth" });
-      let d;
-      try { d = leerExif(await bytes(archivo)); } catch (err) { d = { error: `No se pudo leer el archivo (${err?.message || err}).` }; }
+      let d, buf = null;
+      try { buf = await bytes(archivo); d = leerExif(buf); } catch (err) { d = { error: `No se pudo leer el archivo (${err?.message || err}).` }; }
       punto = null;
       try { const map = mapa(); if (map?.getSource(PUNTO)) marcar(map, []); } catch (err) { /* sin mapa todavía */ }
       actual = d.lat != null ? d : null;
       res.innerHTML = htmlFoto(d, archivo);
+      if (buf) {
+        try { const F = await import("./forense.js"); res.insertAdjacentHTML("beforeend", F.htmlIndicios(F.indicios(buf, d))); }
+        catch (err) { res.insertAdjacentHTML("beforeend", `<p class="meta">No se pudo hacer el análisis forense: ${esc(err?.message || String(err))}</p>`); }
+      }
       res.scrollIntoView({ block: "start", behavior: "smooth" });
       // Vista previa debajo del resultado. HEIC fuera de Safari, TIFF y DNG no se pueden dibujar; los metadatos sí se leen.
       if (url) URL.revokeObjectURL(url);

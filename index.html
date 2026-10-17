@@ -231,9 +231,9 @@
       <details class="grupo" id="g-herramientas" data-grupo="herramientas">
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
         <details class="bloque plegable" id="b-herr-foto" data-grupo="herramientas" open>
-          <summary><h2>📷 Metadatos y ubicación de una foto</h2></summary>
+          <summary><h2>📷 Foto: metadatos, ubicación y análisis forense (¿IA o editada?)</h2></summary>
           <label class="fila"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
-          <p class="nota-capas">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación).</p>
+          <p class="nota-capas">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación) y busca indicios de imagen generada con IA o editada (credenciales C2PA, marcas IPTC, parámetros de Stable Diffusion, programa de edición), más un análisis de nivel de error (ELA).</p>
           <div id="foto-exif-res" aria-live="polite"></div>
           <img id="foto-prev" class="foto-prev" alt="Vista previa de la foto elegida" hidden>
         </details>
@@ -261,6 +261,12 @@
             <button>Preguntar</button> <button type="button" id="ia-cancelar" hidden>Cancelar</button></form>
           <div id="ia-res" aria-live="polite"></div>
           <p class="nota-capas">Tu llave se guarda solo en este navegador y solo se envía a Groq (api.groq.com). Tu pregunta y los títulos y resúmenes de las noticias elegidas se envían a Groq, en Estados Unidos, para generar la respuesta: no escribas datos personales.</p>
+        </details>
+        <details class="bloque plegable" id="b-herr-docs" data-grupo="herramientas">
+          <summary><h2>📚 Buscar en archivos de documentos públicos</h2></summary>
+          <p class="nota-capas">Arma la búsqueda en archivos desclasificados y de transparencia (The Black Vault, NARA, National Security Archive, FBI Vault, WikiLeaks, Internet Archive, DocumentCloud, CIA y la Plataforma Nacional de Transparencia). Cada enlace abre el sitio original.</p>
+          <form id="docs-form"><input type="text" id="docs-q" class="verif-texto" placeholder="Ej.: Tlatelolco 1968, Roswell, Operación Cóndor" aria-label="Qué buscar" maxlength="200"><button>Buscar</button></form>
+          <ul id="docs-res" class="lista-inv"></ul>
         </details>
         <details class="bloque plegable" id="b-herr-pwd" data-grupo="herramientas">
           <summary><h2>🔑 ¿Mi contraseña aparece en filtraciones?</h2></summary>
