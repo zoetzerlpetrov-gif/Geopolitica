@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { ruta, limpiar, ORIGENES } from "../../cloudflare/vuelos/logica.js";
+import { ruta, caja, deOpensky, ORIGENES } from "../../cloudflare/vuelos/logica.js";
 import { subtipoAvion, filaDeVivo, consulta, fusionar, distanciaKm } from "../../js/envivo.js";
 
 test("intermediario: solo acepta /punto/lat/lon/radio con radios permitidos", () => {
@@ -12,19 +12,27 @@ test("intermediario: solo acepta /punto/lat/lon/radio con radios permitidos", ()
   assert.ok(ORIGENES.includes("https://zoetzerlpetrov-gif.github.io"));
 });
 
-test("intermediario: quita aviones con privacidad PIA/LADD y los campos del dueño", () => {
-  const out = limpiar({ ac: [
-    { hex: "aa2e59", flight: "N755TV  ", lat: 19.2, lon: -99.6, ownOp: "E D SANTOS & ASSOCIATES", year: "2008", dbFlags: 0, gs: 315 },
-    { hex: "a1", lat: 1, lon: 1, dbFlags: 4 },   // PIA
-    { hex: "a2", lat: 1, lon: 1, dbFlags: 8 },   // LADD
-    { hex: "ae01", lat: 30, lon: -97, dbFlags: 1 }, // militar
-    { hex: "a3" },                                  // sin posición
-  ] });
-  assert.deepEqual(out.map((a) => a.hex), ["aa2e59", "ae01"]);
-  assert.equal(out[0].ownOp, undefined);
-  assert.equal(out[0].year, undefined);
-  assert.equal(out[1].mil, 1);
-  assert.deepEqual(limpiar(null), []);
+test("intermediario: rectángulo de consulta alrededor del punto", () => {
+  const b = caja({ lat: 19.5, lon: -99.25, nm: 100 });
+  assert.ok(Math.abs(b.lamax - b.lamin - 3.327) < 0.01);              // 2 × 185.2 km / 111.32
+  assert.ok(b.lomax - b.lomin > b.lamax - b.lamin);                     // más ancho en longitud fuera del ecuador
+  assert.deepEqual(caja({ lat: 89.9, lon: 0, nm: 250 }).lamax, 90);     // no se sale del polo
+});
+
+test("intermediario: vectores de OpenSky → mismos campos y unidades que adsb.lol", () => {
+  const d = { time: 1792213253, states: [
+    ["0d12ad", "VIV1108 ", "Mexico", 1792213250, 1792213253, -99.0022, 19.4774, 3055.62, false, 98.73, 59.29, 7.15, null, 3230.88, "1234", false, 0, 4],
+    ["0d135a", "VOI105  ", "Mexico", 1792212954, 1792212954, -99.0686, 19.4412, null, true, 5.14, 239.06, null, null, null, null, false, 0, 0],
+    ["abc123", "", "United States", null, 1792213253, null, null, null, false, 0, 0, null, null, null, null, false, 0, 0]] }; // sin posición
+  const out = deOpensky(d);
+  assert.equal(out.length, 2);
+  assert.deepEqual(out[0], { hex: "0d12ad", flight: "VIV1108", lat: 19.4774, lon: -99.0022, gs: 191.9, track: 59.29, seen_pos: 3, mil: 0, pais: "Mexico",
+    alt_baro: 10025, alt_geom: 10600, baro_rate: 1407, squawk: "1234", category: "A3" });
+  assert.equal(out[1].alt_baro, "ground");
+  assert.deepEqual(deOpensky(null), []);
+  // de vuelta en el mapa: 10025 pies ≈ 3056 m y 191.9 nudos ≈ 355 km/h
+  const f = filaDeVivo(out[0], new Set());
+  assert.deepEqual([f[4], f[6], f[8]], [3231, 355, "Mexico"]);
 });
 
 test("subtipos iguales a los del servidor", () => {

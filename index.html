@@ -87,10 +87,12 @@
           <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
         <label class="aviso-sonido" title="Aviones y satélites encendidos se dibujan como columnas a su altura (escala vertical exagerada). Inclina el mapa con clic derecho y arrastre, o con dos dedos.">
           <input type="checkbox" id="chk-3d"> 🛰️ Aviones y satélites en 3D (a su altura)</label>
-        <label class="aviso-sonido" title="Con «Aeronaves» encendido y el mapa acercado (zoom 6 o más), cada 15 s se piden a adsb.lol los aviones alrededor del centro de la vista. Fuera de ese círculo sigue la instantánea de cada 20 min. Se excluyen los aviones cuyos dueños pidieron privacidad.">
+        <label class="aviso-sonido" id="lbl-envivo" hidden title="Con «Aeronaves» encendido y el mapa acercado (zoom 6 o más), cada 15 s se piden a OpenSky Network los aviones alrededor del centro de la vista. Fuera de ese círculo sigue la instantánea de cada 20 min.">
           <input type="checkbox" id="chk-envivo"> ✈️ Aviones en vivo al acercar (cada 15 s) <span id="envivo-estado" class="meta"></span></label>
         <label class="aviso-sonido" title="Muestra latitud y longitud del punto bajo el puntero. Haz clic en el recuadro para copiarlas.">
           <input type="checkbox" id="chk-coords"> 📍 Coordenadas bajo el puntero</label>
+        <label class="aviso-sonido" title="En la vista de globo, detrás de la Tierra se dibuja el cielo de este momento: estrellas, constelaciones, Vía Láctea, galaxias, planetas, la Luna con su fase y el Sol (este solo aparece al mirar el lado nocturno, donde de verdad está). No hace zoom: siempre gira con el globo.">
+          <input type="checkbox" id="chk-universo"> 🌌 Cielo real detrás del globo</label>
       </div>
       <details class="grupo" id="g-eventos" data-grupo="eventos" open>
         <summary class="grupo-tit" data-grupo="eventos"><span aria-hidden="true">📰</span> Eventos y noticias <span id="contador" class="contador"></span></summary>

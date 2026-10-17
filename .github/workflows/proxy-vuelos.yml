@@ -3,6 +3,8 @@ name: Intermediario de vuelos en vivo (Cloudflare Worker)
 # Publica cloudflare/vuelos en Cloudflare Workers. Necesita dos secretos del repositorio:
 #   CLOUDFLARE_API_TOKEN  (token con la plantilla «Edit Cloudflare Workers»)
 #   CLOUDFLARE_ACCOUNT_ID (Account ID que aparece en el panel de Cloudflare)
+# y las credenciales del cliente de API de OpenSky, que se cargan como secretos del Worker:
+#   OPENSKY_CLIENT_ID, OPENSKY_CLIENT_SECRET
 # Sin ellos el workflow termina sin hacer nada.
 on:
   push:
@@ -24,8 +26,16 @@ jobs:
         env:
           TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CUENTA: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          OS_ID: ${{ secrets.OPENSKY_CLIENT_ID }}
+          OS_SECRETO: ${{ secrets.OPENSKY_CLIENT_SECRET }}
+          OS_ID_VAR: ${{ vars.OPENSKY_CLIENT_ID }}
+          OS_SECRETO_VAR: ${{ vars.OPENSKY_CLIENT_SECRET }}
         run: |
           if [ -n "$TOKEN" ] && [ -n "$CUENTA" ]; then echo "listo=1" >> "$GITHUB_OUTPUT"; else echo "Faltan los secretos CLOUDFLARE_API_TOKEN y/o CLOUDFLARE_ACCOUNT_ID: no se publica."; fi
+          # Solo se informa si existen (nunca su valor).
+          [ -n "$OS_ID" ] && echo "OPENSKY_CLIENT_ID: secreto presente" || echo "OPENSKY_CLIENT_ID: falta como secreto"
+          [ -n "$OS_SECRETO" ] && echo "OPENSKY_CLIENT_SECRET: secreto presente" || echo "OPENSKY_CLIENT_SECRET: falta como secreto"
+          if [ -n "$OS_ID_VAR$OS_SECRETO_VAR" ]; then echo "::warning::Hay valores de OpenSky en Variables (visibles): muévelos a Secrets y borra las Variables."; fi
       - name: Publicar el Worker
         if: steps.s.outputs.listo == '1'
         uses: cloudflare/wrangler-action@v3
@@ -33,4 +43,11 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           workingDirectory: cloudflare/vuelos
+          wranglerVersion: "4"
           command: deploy
+          secrets: |
+            OPENSKY_CLIENT_ID
+            OPENSKY_CLIENT_SECRET
+        env:
+          OPENSKY_CLIENT_ID: ${{ secrets.OPENSKY_CLIENT_ID }}
+          OPENSKY_CLIENT_SECRET: ${{ secrets.OPENSKY_CLIENT_SECRET }}

@@ -1,6 +1,6 @@
-// Vuelos en vivo: al acercar el mapa, cada 15 s se piden a adsb.lol (por el intermediario de Cloudflare,
+// Vuelos en vivo: al acercar el mapa, cada 15 s se piden a OpenSky Network (por el intermediario de Cloudflare,
 // cloudflare/vuelos) los aviones alrededor del centro y reemplazan a los de la instantánea en ese círculo.
-// Mismas reglas que tools/vivos/actualizar.py: subtipos, sanciones y sin aviones con privacidad PIA/LADD.
+// Mismas reglas de subtipos y sanciones que tools/vivos/actualizar.py.
 
 export const INTERVALO_MS = 15000;
 export const ZOOM_MIN = 6;
@@ -28,7 +28,7 @@ export function filaDeVivo(a, sancionadas) {
   const vs = a.baro_rate ?? a.geom_rate ?? 0;
   const r3 = (x) => Math.round(x * 1000) / 1000;
   return [a.hex, String(a.flight || "").trim(), r3(a.lon), r3(a.lat), alt, Math.round(a.track || 0), Math.round((a.gs || 0) * 1.852),
-    subtipoAvion(a.flight, !!a.mil, enTierra, a.r, sancionadas), "", Math.round(a.seen_pos || 0), Math.round(vs * 0.00508 * 10) / 10,
+    subtipoAvion(a.flight, !!a.mil, enTierra, a.r, sancionadas), a.pais || "", Math.round(a.seen_pos || 0), Math.round(vs * 0.00508 * 10) / 10,
     a.squawk || "", a.category || "", a.t || "", a.r || "", ""];
 }
 
