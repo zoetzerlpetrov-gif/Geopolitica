@@ -32,3 +32,18 @@ test("documentos: enlaces codificados para cada archivo", () => {
   assert.ok(l.every((x) => x.url.startsWith("https://")));
   assert.deepEqual(enlaces(" a "), []);
 });
+
+import { noticiasDe, htmlVideos, enlacesVideo } from "../../js/conflictos.js";
+
+test("conflictos: noticias por palabra clave, recientes y sin ejemplos", () => {
+  const ahora = Date.parse("2026-10-17T00:00:00Z");
+  const ev = [{ titulo: "Ataque con drones en Járkov", resumen: "", fecha_utc: "2026-10-16T10:00:00Z", url: "https://a" },
+    { titulo: "Elecciones en Chile", resumen: "", fecha_utc: "2026-10-16T10:00:00Z", url: "https://b" },
+    { titulo: "Combates en Donetsk", resumen: "", fecha_utc: "2026-08-01T10:00:00Z", url: "https://c" },
+    { titulo: "Kharkiv bajo ataque", resumen: "", fecha_utc: "2026-10-15T10:00:00Z", url: "https://d", es_ejemplo: true }];
+  const r = noticiasDe({ palabras: ["járkov", "kharkiv", "donetsk"] }, ev, { ahora });
+  assert.deepEqual(r.map((e) => e.url), ["https://a"]);
+  assert.match(htmlVideos([], "Ucrania"), /youtube\.com\/results\?search_query=Ucrania/);
+  assert.match(htmlVideos([{ video: "abcdefghijk", titulo: "<b>x</b>", canal: "DW", fecha: "2026-10-16" }], "q"), /data-video="abcdefghijk"/);
+  assert.equal(enlacesVideo("a b").length, 2);
+});

@@ -1049,6 +1049,17 @@ async function iniciarChatIA() {
   });
 }
 
+// ---------- Zonas de conflicto: noticias del monitor y videos en la ficha
+let videosConf = null;
+async function llenarConflicto(div, conf) {
+  const C = await import("./conflictos.js");
+  videosConf ??= getJSON("data/vivos/conflictos_videos.json", { bust: true }).catch(() => null);
+  const v = await videosConf;
+  if (!div.isConnected) return;
+  div.innerHTML = `<h4>Noticias recientes</h4>${C.htmlNoticias(C.noticiasDe(conf, eventos))}<h4>Videos</h4>${C.htmlVideos(v?.videos?.[conf.id], conf.videos || conf.nombre)}`;
+  div.addEventListener("click", (e) => { const b = e.target.closest(".conf-video"); if (b) C.reproducir(b); });
+}
+
 // ---------- Investigación: SAT 69-B, fichas oficiales, cadena de custodia y cuaderno de vínculos ----------
 async function iniciarInvestigacion() {
   if (!$("g-investigacion")) return;
@@ -1246,6 +1257,8 @@ async function iniciarRiesgos() {
     onCambio: () => { if (riesgos?.catalogo) riesgos.explorar().then((x) => { apagadas = x; pintar(); }); else pintar(); },
     onObjeto: (capa, props, geom) => {
       entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom));
+      const ce = document.querySelector("#ficha-cuerpo .conf-extra");
+      if (ce) llenarConflicto(ce, R.desanidar(props));
       const div = document.querySelector("#ficha-cuerpo .ceniza");
       if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
       prepararErupcion();

@@ -128,6 +128,13 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/salud/salud.py
 
+      - name: Videos de zonas de conflicto (API de datos de YouTube, cada 6 h; solo si existe el secreto YOUTUBE_API_KEY)
+        continue-on-error: true
+        timeout-minutes: 3
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        run: python3 tools/conflictos/videos.py
+
       - name: Avisos meteorológicos de Europa (MeteoAlarm, cada corrida; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 4
