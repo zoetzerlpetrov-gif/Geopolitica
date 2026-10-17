@@ -25,10 +25,14 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
 const SALUD = "Salud: brotes y enfermedades";
+const SOCIEDAD = "Sociedad: creadores de contenido";
+const ICONO_RED = { YouTube: "▶️", TikTok: "🎵", Instagram: "📷" };
+/** 421000000 → «421 M»; 15300000 → «15.3 M». */
+const millones = (n) => `${(Number(n) / 1e6).toLocaleString("es-MX", { maximumFractionDigits: Number(n) >= 1e8 ? 0 : 1 })} M`;
 const PALETA_TZ = ["#E8D5B7", "#B8D8BA", "#D9B8C4", "#A8C5DA", "#F2C57C", "#C3B1E1", "#9ED2C6", "#F4A6A6", "#CFCFCF"];
 
 /** Dónde poner la hora de una franja horaria: su centro en longitud, a 15° N y 45° N si la franja llega ahí. */
@@ -506,6 +510,19 @@ export const CAPAS = [
       filas: [["Lugar", `${p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.notas > 1 ? [["Notas", `${p.notas} notas desde ${fecha(p.desde)}`], ["Otros medios", otrosMedios(p.enlaces, p.url)]] : []),
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
+  },
+  {
+    id: "creadores", grupo: SOCIEDAD, nombre: "Creadores de contenido con más seguidores: hasta 100 por plataforma en YouTube, TikTok e Instagram (Wikidata)", noAmenaza: true,
+    url: "data/vivos/creadores.geojson", refresco_s: 86400, fuente: "Wikidata (CC0), número de seguidores en redes sociales (P8687)",
+    estilo: (p) => ({ c: "#8E44AD", r: Math.min(14, 4 + Math.sqrt(p.n || 1) * 1.6) }),
+    etiqueta: (p) => `${p.pais} · ${p.n}`,
+    leyenda: [{ c: "#8E44AD", r: 6, t: "Punto = país de nacionalidad (centro del país, no donde vive la persona); tamaño = cuántos creadores tiene en los primeros 100" },
+      { t: "Solo personas, no marcas ni medios. Se muestran nombre, ocupación, cuenta oficial y seguidores con la fecha del dato que registra Wikidata, que puede estar desactualizado. Se actualiza cada semana." }],
+    ficha: (p) => ({ titulo: `Creadores de contenido · ${p.pais}`, chip: `${p.n} entre los 100 primeros de alguna plataforma`,
+      filas: [["Cómo se arma", "Por plataforma, las 100 personas con más seguidores según Wikidata; cada una con su dato más reciente"],
+        ["Ojo", "Quien tiene más de una nacionalidad aparece en cada país. Las cifras cambian cada día: confírmalas en la cuenta oficial."]],
+      url: "https://www.wikidata.org/wiki/Property:P8687", fuente: "Wikidata (abre la propiedad de seguidores)" }),
+    extra: (p) => `<h4>Creadores</h4><ol class="fuentes">${lista(p.creadores).map((c) => `<li><b><a href="https://www.wikidata.org/wiki/${esc(c.qid)}" target="_blank" rel="noopener noreferrer">${esc(c.nombre)}</a></b>${lista(c.ocupaciones).length ? ` · <span class="meta">${esc(lista(c.ocupaciones).join(", "))}</span>` : ""}<br>${lista(c.cuentas).map((k) => `${ICONO_RED[k.plataforma] || ""} <a href="${esc(safeUrl(k.url))}" target="_blank" rel="noopener noreferrer">${esc(k.plataforma)}</a> #${esc(k.puesto)} · ${millones(k.seguidores)}${k.fecha ? ` <span class="meta">(${esc(k.fecha)})</span>` : ""}`).join(" · ")}</li>`).join("")}</ol>`,
   },
   {
     id: "zonas_horarias", grupo: "Horas: zonas horarias del mundo", nombre: "Zonas horarias con la hora local actual (se actualiza cada minuto)", noAmenaza: true,
