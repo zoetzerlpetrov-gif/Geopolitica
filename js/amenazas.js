@@ -103,6 +103,8 @@ export function clasificar(capa, p = {}, geom = null) {
     case "gfw_apagados": return { sev: p.alerta ? 4 : p.horas >= 72 ? 3 : 2, tipo: "Barco con AIS apagado", ic: "" };
     case "gfw_encuentros": return { sev: p.alerta ? 4 : p.riesgo ? 3 : 2, tipo: p.transbordo ? "Posible transbordo en el mar" : "Encuentro entre barcos", ic: "" };
     case "conflictos_zonas": return { sev: p.intensidad === "alta" ? 4 : 3, tipo: "Zona de conflicto", ic: "" };
+    case "desplazamiento_origen": return { sev: 1, tipo: "Desplazamiento forzado (origen)", ic: "" };
+    case "desplazamiento_acogida": return { sev: 1, tipo: "Refugiados acogidos", ic: "" };
     case "creadores": return { sev: 1, tipo: "Creadores de contenido", ic: "" };
     case "zonas_horarias": return { sev: 1, tipo: `Zona horaria ${p.utc || ""}`.trim(), ic: "" };
     case "salud_oficial": return { sev: p.nivel >= 4 || p.grupo === "grave" ? 4 : (p.nivel || 2), tipo: `Brote: ${p.enfermedad}`, ic: "🦠" };

@@ -135,6 +135,11 @@ jobs:
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
         run: python3 tools/conflictos/videos.py
 
+      - name: Desplazamiento forzado (ACNUR, cada 30 días; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/humanitario/acnur.py
+
       - name: Creadores de contenido con más seguidores (Wikidata, cada 7 días; si falla se conserva el anterior)
         continue-on-error: true
         timeout-minutes: 5
