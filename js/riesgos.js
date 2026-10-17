@@ -25,10 +25,37 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
 const SALUD = "Salud: brotes y enfermedades";
+const PALETA_TZ = ["#E8D5B7", "#B8D8BA", "#D9B8C4", "#A8C5DA", "#F2C57C", "#C3B1E1", "#9ED2C6", "#F4A6A6", "#CFCFCF"];
+
+/** Dónde poner la hora de una franja horaria: su centro en longitud, a 15° N y 45° N si la franja llega ahí. */
+export function puntosEtiquetaZona(f) {
+  const xs = [], ys = [];
+  const rec = (c) => { if (typeof c[0] === "number") { xs.push(c[0]); ys.push(c[1]); } else c.forEach(rec); };
+  rec(f.geometry.coordinates);
+  if (!xs.length) return [];
+  const lon = (Math.min(...xs) + Math.max(...xs)) / 2, s = Math.min(...ys), n = Math.max(...ys);
+  if (Math.max(...xs) - Math.min(...xs) > 40 || n - s < 30) return [];  // zonas irregulares o pequeñas: solo la ficha
+  return [15, 45].filter((lat) => lat > s + 2 && lat < n - 2).map((lat) => [Math.round(lon * 100) / 100, lat]);
+}
+
+/** Hora con desfase fijo de la franja (sin horario de verano). */
+export function horaFija(zona, ahora = new Date()) {
+  const t = new Date(ahora.getTime() + (Number(zona) || 0) * 3600000);
+  return `${String(t.getUTCHours()).padStart(2, "0")}:${String(t.getUTCMinutes()).padStart(2, "0")}`;
+}
+
+/** Hora y desfase actuales en una zona IANA (con horario de verano si aplica), o null. */
+export function horaIana(tz, ahora = new Date()) {
+  try {
+    const hora = new Intl.DateTimeFormat("es-MX", { timeZone: tz, hour: "2-digit", minute: "2-digit", hour12: false }).format(ahora);
+    const off = new Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "shortOffset" }).formatToParts(ahora).find((x) => x.type === "timeZoneName")?.value.replace("GMT", "UTC");
+    return { hora, utc: !off || off === "UTC" ? "UTC+0" : off };
+  } catch (e) { return null; }
+}
 // Color por grupo de enfermedad (salud): graves, respiratorias, estomacales, transmitidas por mosquitos, prevenibles con vacuna.
 const COLOR_SALUD = { grave: "#8E1B1B", laboratorio: "#4A148C", respiratoria: "#1F6FB2", gastro: "#8D6E2F", vectores: "#2E7D32", prevenible: "#C2185B", otra: "#5D6D7E" };
 const LEYENDA_SALUD = [{ c: COLOR_SALUD.grave, r: 6, t: "Graves: ébola, Marburgo, mpox, peste, polio, causa desconocida" },
@@ -479,6 +506,21 @@ export const CAPAS = [
       filas: [["Lugar", `${p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.notas > 1 ? [["Notas", `${p.notas} notas desde ${fecha(p.desde)}`], ["Otros medios", otrosMedios(p.enlaces, p.url)]] : []),
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
+  },
+  {
+    id: "zonas_horarias", grupo: "Horas: zonas horarias del mundo", nombre: "Zonas horarias con la hora local actual (se actualiza cada minuto)", noAmenaza: true,
+    url: "data/base/zonas-horarias.geojson", refresco_s: 60, fuente: "Natural Earth (zonas horarias, dominio público)",
+    derivar: (fc) => ({ ...fc, features: fc.features.flatMap((f) => {
+      const props = { ...f.properties, hora: horaFija(f.properties.zona) };
+      return [{ ...f, properties: { ...props, opacidad: 0.3 } }, ...puntosEtiquetaZona(f).map((c) => ({ type: "Feature", geometry: { type: "Point", coordinates: c }, properties: { ...props, kind: "etiqueta" } }))];
+    }) }),
+    estilo: (p) => ({ c: PALETA_TZ[(Number(p.color) || 0) % PALETA_TZ.length], r: p.kind === "etiqueta" ? 1 : 0 }),
+    etiqueta: (p) => (p.kind === "etiqueta" ? `${p.hora}\n${p.utc.replace(":00", "")}` : ""),
+    leyenda: [{ t: "Cada franja es una zona horaria con su hora local actual y su desfase respecto al Tiempo Universal Coordinado (UTC). Donde el país tiene horario de verano se usa su zona oficial (base de datos IANA de tu navegador); en el mar se usa el desfase náutico. Los límites son simplificados: para un lugar exacto consulta la hora oficial del país (en México, el CENAM)." }],
+    ficha: (p) => { const v = p.lugares_dst && p.tz ? horaIana(p.tz) : null; return { titulo: `Hora local: ${horaFija(p.zona)}`, chip: p.utc,
+      filas: [["Desfase de la franja", `${p.utc} (sin horario de verano)`], ["Lugares", p.lugares || "—"],
+        ...(p.lugares_dst ? [["Con horario de verano", p.lugares_dst], ...(v ? [["Hora en esos lugares ahora", `${v.hora} (${v.utc}, referencia ${p.tz})`]] : [])] : [])],
+      url: "https://www.timeanddate.com/time/map/", fuente: "Natural Earth; hora calculada en tu navegador" }; },
   },
   {
     id: "deslaves", grupo: "Desastres naturales", nombre: "Deslaves y movimientos de masa (noticias)", archivos: ["mass_movements.geojson"], locales: ["data/vivos/deslaves.geojson"], fuente: "Noticias", senal: true,

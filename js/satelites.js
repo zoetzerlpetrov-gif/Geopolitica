@@ -9,6 +9,7 @@
 // Es su posición real, no un error del mapa.
 import { esc } from "./util.js";
 import { articuloSatelite, huecoImagen } from "./imagen_tipo.js";
+import { htmlBandera, paisDeGcat } from "./banderas.js";
 
 const R = 6378.137; // radio ecuatorial (km)
 const MU = 398600.4418; // km³/s²
@@ -124,7 +125,7 @@ export function htmlCatalogo(c) {
   if (!c) return "";
   const fila = (k, v) => (v ? `<dt>${k}</dt><dd>${esc(String(v))}</dd>` : "");
   return `<h4>Origen del objeto</h4><dl>
-    ${fila("Tipo", c.tipo)}${fila("País", c.pais)}${fila("Dueño u operador", c.org)}${fila("Nombre de la misión", c.carga)}
+    ${fila("Tipo", c.tipo)}${c.pais ? `<dt>País</dt><dd>${htmlBandera(paisDeGcat(c.pais_cod))}${esc(String(c.pais))}</dd>` : ""}${fila("Dueño u operador", c.org)}${fila("Nombre de la misión", c.carga)}
     ${fila("Lanzamiento", c.lanz)}${fila("Estado", c.estado)}${fila("Reingreso", c.reing)}
     ${fila("Masa", c.masa ? `${Number(c.masa).toLocaleString("es-MX")} kg` : "")}${fila("Medidas", c.dims ? `${c.dims} m` : "")}
     ${fila("Fabricante", c.fab)}${fila("Plataforma", c.bus)}</dl>

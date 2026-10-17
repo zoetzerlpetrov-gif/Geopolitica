@@ -336,6 +336,33 @@ async function iniciarCabina() {
 }
 $("cabina-salir")?.addEventListener("click", () => cabina?.detener());
 $("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
+// Coordenadas bajo el puntero (opción del usuario; se recuerda en este navegador).
+export function formatoCoords(lat, lon) {
+  const g = (v, pos, neg) => `${Math.abs(v).toFixed(5)}° ${v >= 0 ? pos : neg}`;
+  return `${g(lat, "N", "S")}, ${g(((lon + 540) % 360) - 180, "E", "O")}`;
+}
+let coordsUlt = null;
+const alMoverPuntero = (e) => { coordsUlt = e.lngLat; $("coords-puntero").textContent = `📍 ${formatoCoords(e.lngLat.lat, e.lngLat.lng)}`; };
+function ponerCoords(on) {
+  const caja = $("coords-puntero");
+  if (!api?.map || !caja) return;
+  caja.hidden = !on;
+  api.map[on ? "on" : "off"]("mousemove", alMoverPuntero);
+  if (on) caja.textContent = "📍 Mueve el puntero sobre el mapa";
+  storage.set("gp_coords", on ? "1" : "0");
+}
+$("chk-coords")?.addEventListener("change", (e) => ponerCoords(e.target.checked));
+$("coords-puntero")?.addEventListener("click", async () => {
+  if (!coordsUlt) return;
+  const t = `${coordsUlt.lat.toFixed(5)}, ${coordsUlt.lng.toFixed(5)}`;
+  try { await navigator.clipboard.writeText(t); $("coords-puntero").textContent = `✅ Copiado: ${t}`; } catch { $("coords-puntero").textContent = t; }
+});
+(function restaurarCoords(n = 0) {
+  if (storage.get("gp_coords") !== "1") return;
+  if (!api?.map) { if (n < 60) setTimeout(() => restaurarCoords(n + 1), 500); return; }
+  $("chk-coords").checked = true;
+  ponerCoords(true);
+})();
 $("chk-3d")?.addEventListener("change", async (e) => {
   if (!api?.map) { e.target.checked = false; return; }
   const A = await import("./altura3d.js");

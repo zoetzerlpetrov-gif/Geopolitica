@@ -13,6 +13,7 @@
 /* global maplibregl */
 import { getJSON, esc, debounce, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 import { articuloAvion, articuloBuque, articuloSatelite, huecoImagen } from "./imagen_tipo.js";
+import { htmlBandera, paisDeHex } from "./banderas.js";
 
 export const MAX_OBJETOS = 5000;
 const PROYECCION_MAX_S = 300;
@@ -316,7 +317,7 @@ export function htmlFichaMovil({ tipo, props, generado }, catalogo) {
   const f = JSON.parse(props.f);
   if (tipo === "aeronaves") {
     const [hex, cs, , , alt, rumbo, vel, st, pais] = f;
-    return `<h3 id="ficha-titulo">${esc(cs || hex)}</h3>
+    return `<h3 id="ficha-titulo">${htmlBandera(paisDeHex(hex))}${esc(cs || hex)}</h3>
       <div class="fecha">${esc(SUB(cat, st))}${pais ? " · " + esc(pais) : ""}</div>
       <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edad != null ? ` · instantánea de hace ${edad} min` : ""}</span></div>
       ${huecoImagen(articuloAvion(null, st))}
