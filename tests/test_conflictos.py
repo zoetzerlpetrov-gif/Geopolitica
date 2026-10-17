@@ -38,9 +38,15 @@ def test_lista_real_completa():
     assert {f["properties"]["id"] for f in fc["features"]} == set(ids)
 
 
-def test_videos_solo_de_canales_de_noticias():
-    items = [{"id": {"videoId": "abcdefghijk"}, "snippet": {"channelId": "UCT4Jg8h03dD0iN3Pb5L0PMA", "title": "Reportaje  desde Járkov", "publishedAt": "2026-10-16T10:00:00Z"}},
-             {"id": {"videoId": "zzzzzzzzzzz"}, "snippet": {"channelId": "UCdesconocido000000000000", "title": "Video anónimo", "publishedAt": "2026-10-16T11:00:00Z"}},
-             {"id": {"videoId": "yyyyyyyyyyy"}, "snippet": {"channelId": "UChqUTb7kYRX8-EiaN3XFrSQ", "title": "Próximo en vivo", "publishedAt": "2026-10-17T11:00:00Z", "liveBroadcastContent": "upcoming"}}]
-    v = V.filtrar(items)
-    assert v == [{"video": "abcdefghijk", "titulo": "Reportaje desde Járkov", "canal": "DW Español", "fecha": "2026-10-16T10:00:00Z"}]
+def test_videos_asignados_por_palabras_y_solo_recientes():
+    it = lambda vid, t, f, d="": {"snippet": {"title": t, "description": d, "publishedAt": f, "resourceId": {"videoId": vid}}}  # noqa: E731
+    conflictos = [{"id": "ucrania", "palabras": ["járkov", "kharkiv", "ucrania"]}, {"id": "sudan", "palabras": ["darfur", "sudán"]}]
+    videos = [("UCT4Jg8h03dD0iN3Pb5L0PMA", it("a1", "Ataque en Járkov", "2026-10-16T10:00:00Z")),
+              ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a2", "Fighting in Darfur displaces thousands", "2026-10-16T11:00:00Z"))
+              , ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a5", "Market update", "2026-10-16T12:00:00Z", "Also: Ukraine talks")),
+              ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a3", "Ucrania: archivo", "2026-09-01T10:00:00Z")),
+              ("UCT4Jg8h03dD0iN3Pb5L0PMA", it("a1", "Ataque en Járkov", "2026-10-16T10:00:00Z")),
+              ("UCT4Jg8h03dD0iN3Pb5L0PMA", it("a4", "Private video", "2026-10-16T10:00:00Z"))]
+    r = V.asignar(videos, conflictos, "2026-10-10T00:00:00Z")
+    assert [v["video"] for v in r["ucrania"]] == ["a1"] and r["ucrania"][0]["canal"] == "DW Español"
+    assert [v["video"] for v in r["sudan"]] == ["a2"] and r["sudan"][0]["canal"] == "Reuters"

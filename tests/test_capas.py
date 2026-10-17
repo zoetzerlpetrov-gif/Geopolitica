@@ -75,6 +75,18 @@ def test_camaras_caltrans_en_servicio():
     assert out[0]["geometry"]["coordinates"] == [-118.2, 34.05]
 
 
+def test_camaras_nyc_solo_en_linea_con_imagen():
+    lista = [{"id": "a1", "name": "Central Park West @ 86 St", "area": "Manhattan", "latitude": 40.7853, "longitude": -73.96935, "isOnline": "true",
+              "imageUrl": "https://webcams.nyctmc.org/api/cameras/a1/image"},
+             {"id": "b2", "name": "Apagada", "latitude": 40.7, "longitude": -74, "isOnline": "false", "imageUrl": "https://webcams.nyctmc.org/api/cameras/b2/image"},
+             {"id": "c3", "name": "Sin posición", "latitude": None, "longitude": -74, "isOnline": "true", "imageUrl": "https://x/i"}]
+    out = c.camaras_nyc(lista)
+    assert len(out) == 1 and c.camaras_nyc({"error": 1}) == []
+    p = out[0]["properties"]
+    assert p["id"] == "ny:a1" and p["imgs"] == ["https://webcams.nyctmc.org/api/cameras/a1/image"] and p["lugar"] == "Manhattan"
+    assert out[0]["geometry"]["coordinates"] == [-73.96935, 40.7853]
+
+
 def test_fuente_de_camaras_tolera_fallas(monkeypatch):
     monkeypatch.setattr(c, "robots_permite", lambda u, robots=None: True)
     def leer(u):
