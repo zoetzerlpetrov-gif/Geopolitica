@@ -44,23 +44,36 @@ test("GIBS: URL con la fecha de ayer y la matriz de cada capa", () => {
     "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/MODIS_Terra_CorrectedReflectance_TrueColor/default/2026-10-07/GoogleMapsCompatible_Level9/{z}/{y}/{x}.jpg");
 });
 
-test("luces nocturnas: usa la primera candidata con imagen real; la anual tiene fecha fija", async () => {
+test("luces nocturnas: usa la primera candidata con imagen completa; la anual tiene fecha fija", async () => {
   const { elegirCandidata } = await import("../../js/imagenes.js");
   const def = IMAGENES.viirs_noche;
   const vistos = [];
   const pedir = async (url) => {
     vistos.push(url);
-    if (url.includes("VIIRS_SNPP_DayNightBand_ENCC")) return { ok: true, tipo: "image/png", bytes: 800 }; // transparente: no sirve
+    if (url.includes("NOAA20_GapFilled")) return { ok: true, tipo: "image/png", bytes: 2200 };       // día a medio publicar: no sirve
     if (url.includes("NOAA20_DayNightBand")) return { ok: false, tipo: "text/xml", bytes: 300 };
-    if (url.includes("At_Sensor_Radiance")) throw new Error("red");
+    if (url.includes("SNPP")) throw new Error("red");
     return { ok: true, tipo: "image/png", bytes: 52000 };
   };
   const r = await elegirCandidata(def, "2026-10-07", pedir);
   assert.equal(r.capa, "VIIRS_Black_Marble");
   assert.equal(r.fecha, "2016-01-01");
   assert.ok(vistos.some((u) => u.includes("/2026-10-07/") && u.includes("/2/1/1.png")));
-  const diaria = await elegirCandidata(def, "2026-10-07", async () => ({ ok: true, tipo: "image/png", bytes: 9000 }));
-  assert.equal(diaria.capa, "VIIRS_SNPP_DayNightBand_ENCC");
+  const diaria = await elegirCandidata(def, "2026-10-07", async () => ({ ok: true, tipo: "image/png", bytes: 18000 }));
+  assert.equal(diaria.capa, "VIIRS_NOAA20_GapFilled_BRDF_Corrected_DayNightBand_Radiance");
   assert.equal(diaria.fecha, "2026-10-07");
+  // con varios días posibles, si el primero está incompleto se usa el siguiente
+  const dos = await elegirCandidata(def, "2026-10-07", async (u) => ({ ok: true, tipo: "image/png", bytes: u.includes("/2026-10-07/") ? 2000 : 30000 }), ["2026-10-07", "2026-10-06"]);
+  assert.equal(dos.fecha, "2026-10-06");
   assert.equal(await elegirCandidata(def, "2026-10-07", async () => ({ ok: false })), null);
+});
+
+test("productos diarios: se elige el día más completo de los últimos 3 (no el de ayer a medias)", async () => {
+  const { mejorDia } = await import("../../js/imagenes.js");
+  const tam = { "2026-10-16": 18000, "2026-10-15": 57000, "2026-10-14": 66000 };   // NO₂ medido: ayer incompleto
+  const pedir = async (u) => ({ ok: true, tipo: "image/png", bytes: tam[u.match(/default\/([\d-]+)\//)[1]] / 2 });
+  assert.equal(await mejorDia(IMAGENES.no2_tropomi, pedir, new Date("2026-10-17T16:00:00Z")), "2026-10-14");
+  const iguales = async () => ({ ok: true, tipo: "image/png", bytes: 30000 });
+  assert.equal(await mejorDia(IMAGENES.no2_tropomi, iguales, new Date("2026-10-17T16:00:00Z")), "2026-10-16");  // a igual tamaño, el más reciente
+  assert.equal(await mejorDia(IMAGENES.no2_tropomi, async () => ({ ok: false }), new Date("2026-10-17T16:00:00Z")), "2026-10-16");
 });

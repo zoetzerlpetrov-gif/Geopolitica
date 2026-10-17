@@ -77,7 +77,7 @@ def fila_a_feature(f, flujo, nom=None):
     if not url:
         return None
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
-            "properties": {"title": titulo[:220], "url": url, "source": f[3], "date": fecha, "kind": kind,
+            "properties": {"title": titulo[:220], "url": url, "source": f[3], "date": fecha, "kind": kind, "image": T.imagen_de(f),
                            "severe": bool(GRANDE.search(titulo)), "programado": bool(PROGRAMADO.search(titulo)),
                            "state": nombre, "precision": {"1": "país", "2": "estado", "5": "estado"}.get(tipo, "ciudad"), "pais_iso3": iso,
                            "via": f"GDELT GKG ({'nota traducida al inglés por GDELT' if flujo == 'traducido' else 'nota en inglés'}); lugar nombrado en el titular"}}

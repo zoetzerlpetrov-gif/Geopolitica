@@ -669,3 +669,9 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
   background: rgba(15, 23, 32, .88); color: #fff; pointer-events: none; white-space: nowrap; animation: copiado 1.6s ease forwards; }
 @keyframes copiado { 0% { opacity: 0; } 10% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
 @media (prefers-reduced-motion: reduce) { .aviso-copiado { animation: none; } .icon-btn:hover, .link-btn:hover { transform: none; } }
+
+/* Imagen de la nota (del propio medio) */
+.img-medio { margin: 8px 0; }
+.img-medio img { display: block; width: 100%; max-height: 220px; object-fit: cover; border-radius: 10px; background: var(--surface-2); }
+.img-medio figcaption { font-size: 11px; color: var(--text-2); margin-top: 3px; }
+[id^="momento-"][data-momento]::after { content: " · " attr(data-momento); font-family: var(--mono); }

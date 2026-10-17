@@ -210,6 +210,7 @@ def a_evento(c, clasificador, nombres, gaz, nombre_subtema=None):
         "impacto_mexico": impacto_mexico(c["pais_iso3"], cls["area_principal"], cls["areas_secundarias"], c["texto_clasificar"], gaz, int(sev)),
         "fuentes": [{"fuente": c["fuente"], "url": c["url"], "tipo_fuente": c["tipo_fuente"], "fecha_utc": c["fecha_utc"]}],
         "estado_dato": "retrasado",
+        **({"imagen": c["imagen"]} if (c.get("imagen") or "").startswith("https://") else {}),
     }
 
 

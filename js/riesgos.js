@@ -6,8 +6,8 @@
 // Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, noticias
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
-import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
-import { articuloTren, huecoImagen } from "./imagen_tipo.js";
+import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, htmlImagenMedio } from "./util.js";
+import { articuloTren, articuloWikipedia, huecoImagen } from "./imagen_tipo.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
 import * as P from "./polos.js";
 import * as K from "./cielo.js";
@@ -229,7 +229,7 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
         ...(p.pais && !p.lugar ? [["País", p.pais]] : []), ...(p.lugar ? [["Lugar", p.lugar]] : []),
         ...(p.aprox ? [["Ubicación", "Aproximada (pueblo o zona de referencia)"]] : []),
         ...(p.precision === "país" ? [["Ubicación", "Centro del país: el título no nombra una ciudad"]] : p.precision === "estado" ? [["Ubicación", "Centro del estado"]] : [])],
-      url: p.url, fuente: p.fuente || "TrackAlien" }),
+      url: p.url, fuente: p.fuente || "TrackAlien", imagen: articuloWikipedia(p.url) }),
     // Notas agrupadas por país: lista con enlace a cada original.
     extra: (p) => { const ns = lista(p.notas); return ns.length ? `<h4>Notas (${ns.length}${p.n > ns.length ? ` de ${p.n}` : ""})</h4><ul class="fuentes">${ns.map((x) => `<li><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a> <span class="meta">${esc(x.fuente)} · ${esc(x.fecha)}</span></li>`).join("")}</ul>` : ""; },
   };
@@ -1132,7 +1132,7 @@ export function htmlRiesgo(capa, props0, geom) {
     <div class="fecha">${esc(props._tipo || capa.nombre)}</div>
     <div class="chips">${props._nuevo ? `<span class="chip nuevo">NUEVO</span>` : ""}${sev ? `<span class="chip sev-${sev[0]}">Severidad ${sev[0]}/5 · ${esc(sev[1])}</span>` : ""}
       ${f.chip ? `<span class="chip ${capa.senal ? "alerta" : ""}"${colorChip ? ` style="background:${colorChip};color:${textoSobre(colorChip)};border-color:${colorChip}"` : ""}>${esc(f.chip)}</span>` : ""}</div>
-    ${huecoImagen(f.imagen)}
+    ${huecoImagen(f.imagen)}${htmlImagenMedio(props.image || props.imagen, props.source || f.fuente, props.url || f.url)}
     <dl>${f.filas.map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}

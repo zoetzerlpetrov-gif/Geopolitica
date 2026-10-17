@@ -173,7 +173,7 @@ class Particulas {
 }
 
 export class Clima {
-  constructor(map) { this.map = map; this.meta = null; this.paso = 0; this.activas = new Set(); this.particulas = null; }
+  constructor(map) { this.map = map; this.meta = null; this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; }
 
   async cargar() { this.meta = await getJSON(`${BASE}meta.json`, { bust: true }); return this.meta; }
 
@@ -186,6 +186,8 @@ export class Clima {
   }
 
   async activar(tipo) {
+    if (tipo === "rayos") { const r = new Rayos(this.map); this.extras.set(tipo, r); this.activas.add(tipo); await r.cargar(); return; }
+    if (BUCLES[tipo]) { this.extras.set(tipo, new BucleSatelite(this.map, tipo, (m) => this.onMomento?.(tipo, m))); this.activas.add(tipo); return; }
     if (!this.meta) await this.cargar();
     this.activas.add(tipo);
     if (tipo === "viento") {
@@ -196,12 +198,18 @@ export class Clima {
 
   desactivar(tipo) {
     this.activas.delete(tipo);
+    if (this.extras.has(tipo)) { this.extras.get(tipo).destruir(); this.extras.delete(tipo); return; }
     if (tipo === "viento") { this.particulas?.destruir(); this.particulas = null; return; }
     if (this.map.getLayer(`clima-${tipo}`)) this.map.removeLayer(`clima-${tipo}`);
     if (this.map.getSource(`clima-${tipo}`)) this.map.removeSource(`clima-${tipo}`);
   }
 
-  reinstalar() { for (const t of this.activas) if (t !== "viento") this.#instalar(t); }
+  reinstalar() {
+    for (const t of this.activas) {
+      if (this.extras.has(t)) { this.extras.get(t).destruir(); this.extras.delete(t); this.activas.delete(t); this.activar(t).catch(() => null); }
+      else if (t !== "viento") this.#instalar(t);
+    }
+  }
 
   #instalar(tipo) {
     const id = `clima-${tipo}`;
@@ -217,4 +225,165 @@ export function leyenda(paradas, unidad) {
   const grad = paradas.map(([, c], i) => `${c} ${Math.round((i / (paradas.length - 1)) * 100)}%`).join(", ");
   return `<div class="clima-leyenda"><div class="barra" style="background:linear-gradient(90deg, ${grad})"></div>
     <div class="marcas">${paradas.map(([v]) => `<span>${v}</span>`).join("")}<span>${unidad}</span></div></div>`;
+}
+
+// ------------------------------------------------------------------ rayos reales (GOES GLM)
+/** Color de una celda de rayos según los minutos desde el último destello (blanco = ahora, rojo = hace 20 min). */
+export function colorRayo(minutos) { return minutos <= 2 ? "#FFFFFF" : minutos <= 5 ? "#FFF176" : minutos <= 10 ? "#FFB300" : minutos <= 15 ? "#FF7043" : "#C62828"; }
+export const LEYENDA_RAYOS = [[0, "#FFFFFF"], [5, "#FFF176"], [10, "#FFB300"], [15, "#FF7043"], [20, "#C62828"]];
+
+/** Rayo ramificado de `largo` px hacia abajo desde (x, y): puntos del tronco y de 0-2 ramas. Determinista con `azar`. */
+export function trazoRayo(x, y, largo, azar = Math.random) {
+  const tronco = [[x, y]];
+  let cx = x, cy = y;
+  const pasos = 6 + Math.floor(azar() * 4);
+  for (let i = 0; i < pasos; i++) { cx += (azar() - 0.5) * largo * 0.35; cy += largo / pasos; tronco.push([cx, cy]); }
+  const ramas = [];
+  for (let r = 0; r < Math.floor(azar() * 3); r++) {
+    const [bx, by] = tronco[1 + Math.floor(azar() * (tronco.length - 2))];
+    const rama = [[bx, by]];
+    let rx = bx, ry = by;
+    for (let i = 0; i < 3; i++) { rx += (azar() - 0.5) * largo * 0.4 + (azar() < 0.5 ? -1 : 1) * largo * 0.08; ry += largo / 8; rama.push([rx, ry]); }
+    ramas.push(rama);
+  }
+  return { tronco, ramas };
+}
+
+class Rayos {
+  constructor(map) {
+    this.map = map;
+    this.datos = null;
+    this.vivos = [];       // destellos dibujándose: {x, y, t0, trazo}
+    this.canvas = document.createElement("canvas");
+    this.canvas.className = "clima-rayos";
+    Object.assign(this.canvas.style, { position: "absolute", inset: "0", pointerEvents: "none" });
+    map.getCanvasContainer().appendChild(this.canvas);
+    this.ctx = this.canvas.getContext("2d");
+    this.activo = true;
+    this.ultimo = 0;
+    requestAnimationFrame((t) => this.#cuadro(t));
+  }
+
+  async cargar() {
+    this.datos = await getJSON(`${BASE.replace("clima/", "")}rayos.json`, { bust: true });
+    const fc = { type: "FeatureCollection", features: this.datos.celdas.map(([lon, lat, n, m]) => ({ type: "Feature", geometry: { type: "Point", coordinates: [lon, lat] },
+      properties: { n, m, c: colorRayo(m) } })) };
+    if (this.map.getSource("clima-rayos")) this.map.getSource("clima-rayos").setData(fc);
+    else {
+      this.map.addSource("clima-rayos", { type: "geojson", data: fc });
+      this.map.addLayer({ id: "clima-rayos", type: "circle", source: "clima-rayos", paint: {
+        "circle-color": ["get", "c"], "circle-opacity": 0.85, "circle-blur": 0.35,
+        "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, ["+", 1.5, ["*", 0.5, ["ln", ["+", 1, ["get", "n"]]]]], 7, ["+", 3, ["*", 1.6, ["ln", ["+", 1, ["get", "n"]]]]]],
+        "circle-stroke-width": 0.5, "circle-stroke-color": "rgba(0,0,0,0.4)" } });
+    }
+    clearTimeout(this.reloj);
+    this.reloj = setTimeout(() => this.cargar().catch(() => null), 5 * 60000); // el servidor actualiza cada 20 min
+    return this.datos;
+  }
+
+  #cuadro(t) {
+    if (!this.activo) return;
+    requestAnimationFrame((tt) => this.#cuadro(tt));
+    const dt = Math.min(0.1, (t - this.ultimo) / 1000 || 0);
+    this.ultimo = t;
+    const r = this.map.getCanvas().getBoundingClientRect(), dpr = Math.min(2, devicePixelRatio || 1);
+    if (this.canvas.width !== Math.round(r.width * dpr)) { this.canvas.width = Math.round(r.width * dpr); this.canvas.height = Math.round(r.height * dpr);
+      this.canvas.style.width = `${r.width}px`; this.canvas.style.height = `${r.height}px`; }
+    const g = this.ctx;
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, r.width, r.height);
+    if (!this.datos || document.hidden || this.map.isMoving()) { this.vivos = []; return; }
+    // Nuevos destellos: cada celda reciente dispara al ritmo real de su conteo (destellos / 20 min), acelerado ×20 para que se vea.
+    const globo = (this.map.getProjection?.()?.type ?? "mercator") === "globe";
+    for (const [lon, lat, n, m] of this.datos.celdas) {
+      if (m > 10 || this.vivos.length > 60) continue;
+      if (Math.random() > (n / (this.datos.ventana_min * 60)) * 20 * dt) continue;
+      const q = this.map.project([lon, lat]);
+      if (q.x < 0 || q.y < 0 || q.x > r.width || q.y > r.height) continue;
+      if (globo) { const b = this.map.unproject(q); if (Math.abs(b.lat - lat) > 0.5 || Math.abs(((b.lng - lon + 540) % 360) - 180) > 0.5) continue; }
+      const largo = 10 + Math.min(40, this.map.getZoom() * 5);
+      this.vivos.push({ x: q.x, y: q.y - largo, t0: t, trazo: trazoRayo(q.x, q.y - largo, largo) });
+    }
+    // Dibujo: resplandor + rayo, que se apagan en 0.35 s con un parpadeo.
+    this.vivos = this.vivos.filter((v) => t - v.t0 < 350);
+    for (const v of this.vivos) {
+      const k = (t - v.t0) / 350, a = (1 - k) * (k < 0.15 || (k > 0.3 && k < 0.45) ? 1 : 0.55);
+      const gr = g.createRadialGradient(v.x, v.y + 20, 0, v.x, v.y + 20, 38);
+      gr.addColorStop(0, `rgba(255,255,240,${0.55 * a})`); gr.addColorStop(1, "rgba(180,200,255,0)");
+      g.fillStyle = gr; g.beginPath(); g.arc(v.x, v.y + 20, 38, 0, 2 * Math.PI); g.fill();
+      g.strokeStyle = `rgba(255,255,255,${a})`; g.shadowColor = "rgba(190,210,255,0.9)"; g.shadowBlur = 8; g.lineWidth = 1.6;
+      for (const linea of [v.trazo.tronco, ...v.trazo.ramas]) {
+        g.beginPath(); linea.forEach(([x, y], i) => (i ? g.lineTo(x, y) : g.moveTo(x, y))); g.stroke(); g.lineWidth = 1;
+      }
+      g.shadowBlur = 0;
+    }
+  }
+
+  destruir() {
+    this.activo = false;
+    clearTimeout(this.reloj);
+    this.canvas.remove();
+    if (this.map.getLayer("clima-rayos")) this.map.removeLayer("clima-rayos");
+    if (this.map.getSource("clima-rayos")) this.map.removeSource("clima-rayos");
+  }
+}
+
+// ------------------------------------------------------------------ bucles animados de satélite (NASA GIBS)
+// Imágenes reales de satélites geoestacionarios (cada 10 min) y lluvia IMERG (cada 30 min). Se pide una serie de
+// momentos recientes y se pasan en bucle. «retraso» = cuánto tarda GIBS en publicar (medido en oct 2026).
+export const BUCLES = {
+  nubes_ir: { capas: [["Himawari_AHI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"], ["GOES-West_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"],
+    ["GOES-East_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"]], paso: 10, cuadros: 8, retraso: 70, opacidad: 0.75, maxzoom: 6 },
+  geocolor: { capas: [["GOES-West_ABI_GeoColor", "GoogleMapsCompatible_Level7"], ["GOES-East_ABI_GeoColor", "GoogleMapsCompatible_Level7"]],
+    paso: 10, cuadros: 8, retraso: 80, opacidad: 0.9, maxzoom: 7 },
+  lluvia_sat: { capas: [["IMERG_Precipitation_Rate_30min", "GoogleMapsCompatible_Level6"]], paso: 30, cuadros: 6, retraso: 420, opacidad: 0.8, maxzoom: 6 },
+};
+
+/** Momentos (ISO, UTC) del bucle: del más antiguo al más reciente publicado, en múltiplos del paso. */
+export function momentosBucle(def, ahora = new Date()) {
+  const paso = def.paso * 60000;
+  const ultimo = Math.floor((ahora.getTime() - def.retraso * 60000) / paso) * paso;
+  return Array.from({ length: def.cuadros }, (_, i) => new Date(ultimo - (def.cuadros - 1 - i) * paso).toISOString().replace(/\.\d{3}Z$/, "Z"));
+}
+
+export const urlBucle = (capa, matriz, momento) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${capa}/default/${momento}/${matriz}/{z}/{y}/{x}.png`;
+
+class BucleSatelite {
+  constructor(map, id, onMomento) {
+    this.map = map; this.id = id; this.def = BUCLES[id]; this.onMomento = onMomento;
+    this.momentos = momentosBucle(this.def);
+    this.i = this.momentos.length - 1;
+    const antes = ["choke-anillo", "clusters"].find((l) => map.getLayer(l));
+    this.momentos.forEach((m, k) => this.def.capas.forEach(([capa, matriz], j) => {
+      const sid = `bucle-${id}-${k}-${j}`;
+      map.addSource(sid, { type: "raster", tiles: [urlBucle(capa, matriz, m)], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
+      map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
+        "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
+    }));
+    this.onMomento?.(this.momentos[this.i]);
+    this.reloj = setInterval(() => this.#siguiente(), 700);
+  }
+
+  #siguiente() {
+    if (document.hidden || this.map.isMoving()) return;
+    const anterior = this.i;
+    this.i = (this.i + 1) % this.momentos.length;
+    // Pausa más larga en el cuadro más reciente: es el que importa.
+    if (anterior === this.momentos.length - 1 && (this.pausa = (this.pausa || 0) + 1) < 3) { this.i = anterior; return; }
+    this.pausa = 0;
+    this.def.capas.forEach((_, j) => {
+      this.map.setPaintProperty(`bucle-${this.id}-${anterior}-${j}`, "raster-opacity", 0);
+      this.map.setPaintProperty(`bucle-${this.id}-${this.i}-${j}`, "raster-opacity", this.def.opacidad);
+    });
+    this.onMomento?.(this.momentos[this.i]);
+  }
+
+  destruir() {
+    clearInterval(this.reloj);
+    this.momentos.forEach((_, k) => this.def.capas.forEach((__, j) => {
+      const sid = `bucle-${this.id}-${k}-${j}`;
+      if (this.map.getLayer(sid)) this.map.removeLayer(sid);
+      if (this.map.getSource(sid)) this.map.removeSource(sid);
+    }));
+  }
 }

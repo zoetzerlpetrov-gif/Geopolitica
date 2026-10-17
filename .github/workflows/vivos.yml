@@ -118,6 +118,11 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/tornados.py
 
+      - name: Rayos reales (GOES GLM de NOAA en AWS, últimos 20 min; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 5
+        run: pip install -q h5py==3.13.0 && python3 tools/clima/rayos.py
+
       - name: Apagones y cortes de agua del mundo (GDELT GKG, mismos archivos que los tornados; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 4

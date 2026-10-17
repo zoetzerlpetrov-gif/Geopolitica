@@ -313,6 +313,8 @@ function abrirFichaHtml(html) {
   $("ficha-cerrar").focus();
 }
 
+// Imágenes de medios: si el servidor del medio no la entrega (bloqueo, 404), se quita el recuadro en vez de dejar un hueco.
+$("ficha-cuerpo").addEventListener("error", (e) => { if (e.target.matches?.("img[data-quitar-si-falla]")) e.target.closest("figure")?.remove(); }, true);
 // Imagen representativa del tipo (avión, buque, tren, satélite): las fichas dejan un hueco y aquí se completa.
 new MutationObserver(() => {
   const c = $("ficha-cuerpo");
@@ -1216,14 +1218,22 @@ async function iniciarClima() {
   let meta;
   try { meta = await clima.cargar(); } catch (e) { cont.innerHTML = `<p class="meta">Aún no hay datos del modelo (los prepara el workflow «Datos en movimiento» cada 6 h).</p>`; return; }
   if (!meta.pasos?.length) { cont.innerHTML = `<p class="meta">Sin horizontes de pronóstico en la última corrida.</p>`; return; }
-  const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"]];
+  const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"],
+    ["rayos", "⚡ Rayos en tiempo real (satélites GOES, últimos 20 min)"], ["nubes_ir", "☁️ Nubes en vivo (satélites, infrarrojo, animado)"],
+    ["geocolor", "🛰️ Color real GOES de día y de noche (América, animado)"], ["lluvia_sat", "🌧️ Lluvia medida por satélite (IMERG, animada)"]];
   cont.innerHTML = capas.map(([id, n]) => `<label class="fila"><span><input type="checkbox" data-clima="${id}"> ${esc(n)}</span></label>`).join("")
     + `<label class="fila"><span>Momento</span><select id="clima-paso">${meta.pasos.map((p, i) => `<option value="${i}">${esc(K.etiquetaPaso(p.valido_utc))}</option>`).join("")}</select></label>`
     + `<div id="clima-leyendas"></div>`
     + `<p class="nota-capas">Modelo GFS de NOAA (1°, ~110 km), corrida ${esc(meta.corrida)}. Es un pronóstico numérico, no una medición: para avisos oficiales consulta al SMN o a tu servicio meteorológico.</p>`;
   const leyendas = () => {
     $("clima-leyendas").innerHTML = [clima.activas.has("viento") ? K.leyenda(K.VELOCIDADES.map(([v, c]) => [Math.round(v * 3.6), c]), "km/h") : "",
-      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : ""].join("");
+      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
+      clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",
+      ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES (de noche, luces de ciudades)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`)].join("");
+  };
+  clima.onMomento = (t, m) => {
+    const p = document.getElementById(`momento-${t}`);
+    if (p) p.dataset.momento = `${m.slice(11, 16)} UTC · hace ${Math.round((Date.now() - Date.parse(m)) / 60000)} min`;
   };
   cont.addEventListener("change", async (e) => {
     if (e.target.id === "clima-paso") { await clima.setPaso(Number(e.target.value)); return; }

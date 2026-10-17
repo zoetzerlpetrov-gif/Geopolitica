@@ -60,3 +60,21 @@ test("hueco y HTML escapados, con aviso de que no es la unidad", () => {
   assert.match(h, /&lt;X&gt;/);
   assert.ok(todosLosArticulos().length > 100);
 });
+
+test("foto real del avión: elige el archivo de Commons que corresponde y limpia el autor", async () => {
+  const { elegirArchivo, autorPlano, CON_FOTO_REAL, fotoAvionReal } = await import("../../js/imagen_tipo.js");
+  const res = [{ title: "File:XA-VLE cockpit.pdf" }, { title: "File:Airbus A320 - XA-VLE - Volaris in Guatemala City.jpg" }, { title: "File:XA-VLA.jpg" }];
+  const norm = "XAVLE";
+  assert.equal(elegirArchivo(res, (t) => t.replace(/[^A-Z0-9]/gi, "").toUpperCase().includes(norm)), "File:Airbus A320 - XA-VLE - Volaris in Guatemala City.jpg");
+  assert.equal(elegirArchivo([], () => true), null);
+  assert.equal(autorPlano('<a href="//commons.wikimedia.org/wiki/User:X">MHernandezp05</a>'), "MHernandezp05");
+  assert.ok(CON_FOTO_REAL.has("civil_comercial") && !CON_FOTO_REAL.has("aviacion_general"));
+  assert.equal(await fotoAvionReal({ hex: "abc", subtipo: "aviacion_general" }), null);   // privacidad: no se consulta
+});
+
+test("anomalías del catálogo: enlace de Wikipedia en cualquier idioma → imagen del artículo", async () => {
+  const { articuloWikipedia } = await import("../../js/imagen_tipo.js");
+  assert.deepEqual(articuloWikipedia("https://en.wikipedia.org/wiki/Hessdalen_lights"), { titulo: "Hessdalen lights", exacto: true });
+  assert.deepEqual(articuloWikipedia("https://es.wikipedia.org/wiki/Caso_Roswell"), { titulo: "es:Caso Roswell", exacto: true });
+  assert.equal(articuloWikipedia("https://www.aaro.mil/"), null);
+});
