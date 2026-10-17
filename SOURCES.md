@@ -11,6 +11,7 @@ Regla del proyecto: de cada nota o publicación solo se guarda **título, fuente
 | MapLibre GL JS 5.24.0 | Motor del mapa (WebGL) | BSD 3-Clause |
 | pmtiles 4.5.0 (Protomaps) | Lectura de archivos .pmtiles por rangos HTTP | BSD 3-Clause |
 | satellite.js 6.0.2 | Propagación orbital SGP4 en el navegador | MIT |
+| three.js r170 (`vendor/three`: módulo, OrbitControls y RoomEnvironment) | Visor de modelos 3D animados al dar clic (`js/visor3d.js`); se descarga solo al abrir el primer modelo. Los modelos son procedurales, hechos en el código: no se usan archivos 3D de terceros | MIT |
 | OpenFreeMap (estilos *positron* y *dark*) | Mapa base vectorial, sin llave | Servicio gratuito "tal cual"; mosaicos © OpenMapTiles (CC BY 4.0 diseño), datos © OpenStreetMap (ODbL) |
 | Natural Earth vía world-atlas 2.0.2 | Países (respaldo y relación con eventos) | Dominio público |
 | i18n-iso-countries 7.14.0 | Nombres de países ES/EN, códigos ISO | MIT |

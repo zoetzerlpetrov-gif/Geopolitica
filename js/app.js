@@ -15,6 +15,7 @@ import { iniciarMenu } from "./menu.js";
 import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
+import * as M3 from "./modelos3d.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -341,6 +342,11 @@ async function iniciarCabina() {
 }
 $("cabina-salir")?.addEventListener("click", () => cabina?.detener());
 $("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
+// Modelo 3D animado del elemento (js/visor3d.js y three.js se descargan al abrir el primero).
+$("ficha-cuerpo").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-modelo3d]");
+  if (b) import("./visor3d.js").then((V) => V.abrir(JSON.parse(b.dataset.modelo3d))).catch((err) => { b.insertAdjacentHTML("afterend", `<p class="meta">No se pudo abrir el modelo 3D: ${esc(err.message)}</p>`); });
+});
 // Coordenadas bajo el puntero (opción del usuario; se recuerda en este navegador).
 export function formatoCoords(lat, lon) {
   const g = (v, pos, neg) => `${Math.abs(v).toFixed(5)}° ${v >= 0 ? pos : neg}`;
@@ -428,12 +434,13 @@ async function abrirObjetoMovil(o, catalogo) {
   const cat = catalogo.categorias.find((c) => c.id === "aeronaves");
   const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null,
     envivo: o.envivo ? Math.round((Date.now() - new Date(o.generado).getTime()) / 1000) : null };
-  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
+  const boton3d = M3.botonModelo({ fuente: "aeronave", ...v });
+  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + boton3d + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
   const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
   if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(v.indicativo || v.hex)) return; // el usuario ya cerró o cambió de ficha
   v.destino = extra.destino || null; // la cabina muestra distancia y hora estimada de llegada
-  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en }) + BOTON_CABINA;
+  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en }) + BOTON_CABINA + boton3d;
   trayectoria ??= new V.Trayectoria(api.map);
   if (!V.CON_TRAYECTORIA.has(v.subtipo)) { trayectoria.limpiar(); return; } // aviación general: nada se dibuja
   const gj = V.geojsonTrayectoria(v, extra, proyectar);
@@ -456,12 +463,13 @@ async function abrirBuque(o, catalogo) {
   if (o.coords) [b.lon, b.lat] = o.coords;
   const cat = catalogo.categorias.find((c) => c.id === "buques");
   const comunes = { subtipoNombre: SUB(cat, b.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
-  abrirFichaHtml(B.htmlBuque(b, null, comunes));
+  const boton3d = M3.botonModelo({ fuente: "buque", subtipo: b.subtipo, nombre: b.nombre });
+  abrirFichaHtml(B.htmlBuque(b, null, comunes) + boton3d);
   trayectoria ??= new V.Trayectoria(api.map);
   if (B.SIN_TRAYECTORIA.has(b.subtipo)) { trayectoria.limpiar(); return; } // recreo: nada se dibuja
   const extra = await B.datosBuque(b);
   if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(b.nombre || "MMSI " + b.mmsi)) return;
-  $("ficha-cuerpo").innerHTML = B.htmlBuque(b, extra, comunes);
+  $("ficha-cuerpo").innerHTML = B.htmlBuque(b, extra, comunes) + boton3d;
   const gj = B.geojsonBuque(b, extra, proyectar);
   trayectoria.mostrar(gj);
   encuadrar(V.limites(gj), 10);
@@ -472,11 +480,12 @@ async function abrirSatelite(o, catalogo) {
   const cat = catalogo.categorias.find((c) => c.id === "satelites");
   const norad = String(o.props.id).replace("sat:", "");
   const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), st: o.props.st, alt: o.props.alt };
-  abrirFichaHtml(S.htmlSatelite(base, null));
+  const boton3d = M3.botonModelo({ fuente: "satelite", st: o.props.st, nombre: o.props.n });
+  abrirFichaHtml(S.htmlSatelite(base, null) + boton3d);
   const [orb, catalogoSat] = await Promise.all([mov.orbita(norad), S.fichaCatalogo(norad).catch(() => null)]);
   base.catalogo = catalogoSat;
   if (!orb || orb.error || $("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(o.props.n)) return;
-  $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb);
+  $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb) + boton3d;
   trayectoria ??= new V.Trayectoria(api.map);
   const gj = S.geojsonOrbita(orb, [...o.coords, o.props.alt]);
   trayectoria.mostrar(gj);
@@ -867,7 +876,8 @@ async function iniciarCapas() {
       entidadAbierta = ent;
       const cercanos = eventos.filter((ev) => ev.lat != null && distanciaKm(ent.lngLat.lat, ent.lngLat.lng, ev.lat, ev.lon) <= 300);
       const personas = ent.familia.id === "organismos" ? await personasDe(ent.props.id.replace(/^wd:/, "")) : [];
-      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) }));
+      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) })
+        + M3.botonModelo({ fuente: "entidad", st: ent.props.st, nombre: ent.props.n || ent.props.nombre }));
       prepararErupcion();
     },
   });
@@ -1323,7 +1333,8 @@ async function iniciarRiesgos() {
     ctx: { indice: fronteras ? A.indicePaises(fronteras) : null, porNombre },
     onCambio: () => { if (riesgos?.catalogo) riesgos.explorar().then((x) => { apagadas = x; pintar(); }); else pintar(); },
     onObjeto: (capa, props, geom) => {
-      entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom));
+      entidadAbierta = null; trayectoria?.limpiar();
+      abrirFichaHtml(R.htmlRiesgo(capa, props, geom) + M3.botonModelo({ fuente: "riesgo", capa: capa.id, props: R.desanidar(props), lat: geom?.coordinates?.[1] }));
       const ce = document.querySelector("#ficha-cuerpo .conf-extra");
       if (ce) llenarConflicto(ce, R.desanidar(props));
       const div = document.querySelector("#ficha-cuerpo .ceniza");
