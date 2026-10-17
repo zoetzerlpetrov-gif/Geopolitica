@@ -10,9 +10,14 @@ def pedir(path, origen, metodo="GET"):
 O = "https://zoetzerlpetrov-gif.github.io"
 s, h, b = pedir("/punto/19.5/-99.25/50", O)
 d = json.loads(b) if s == 200 else {}
+print("cuerpo:", b[:300])
 print("CDMX:", s, h.get("Access-Control-Allow-Origin"), len(d.get("ac", [])), "aviones")
 print("campos:", sorted({k for a in d.get("ac", []) for k in a}))
 print("ejemplo:", json.dumps(d.get("ac", [{}])[:2])[:400])
 print("otro origen:", pedir("/punto/19.5/-99.25/50", "https://otro.com")[0])
 print("ruta mala:", pedir("/v2/mil", O)[0])
 print("preflight:", pedir("/punto/19.5/-99.25/50", O, "OPTIONS")[0])
+
+import time
+for path in ["/punto/40.75/-73.75/50", "/punto/51.5/0/25"]:
+    time.sleep(1); s, h, b = pedir(path, O); print(path, s, b[:200])
