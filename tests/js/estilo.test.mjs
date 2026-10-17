@@ -52,3 +52,16 @@ test("sin tono, los colores del estilo original no cambian", () => {
   const st = aligerarEstilo(carga("dark"));
   assert.equal(st.layers.find((l) => l.id === "place_city").paint["text-color"], "rgb(101,101,101)");
 });
+
+test("satélite: sin llave solo Sentinel-2; con llave, Esri nítido de cerca y su atribución", async () => {
+  const { estiloSatelite, ESRI_DESDE } = await import("../../js/map.js");
+  const sin = estiloSatelite();
+  assert.ok(!sin.sources.esri && !sin.layers.some((l) => l.id === "satelite-esri"));
+  const con = estiloSatelite("abc/123");
+  assert.equal(con.sources.esri.maxzoom, 19);
+  assert.match(con.sources.esri.tiles[0], /World_Imagery.*token=abc%2F123$/);
+  assert.match(con.sources.esri.attribution, /Powered by Esri/);
+  const capa = con.layers.find((l) => l.id === "satelite-esri");
+  assert.equal(capa.minzoom, ESRI_DESDE);
+  assert.ok(con.layers.indexOf(capa) === con.layers.findIndex((l) => l.id === "satelite") + 1, "va justo encima de Sentinel-2");
+});

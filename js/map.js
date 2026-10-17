@@ -9,21 +9,31 @@ const OFM = {
   calles: "https://tiles.openfreemap.org/styles/liberty",
 };
 // Imagen satelital sin llave: Sentinel-2 cloudless 2016 de EOX (mosaico sin nubes, 10 m por píxel, licencia
-// CC BY 4.0; las versiones de años posteriores son no comerciales). No es la resolución de Google Maps (fotos
-// aéreas comerciales de < 1 m): esas exigen licencia y llave, y no se pueden publicar en un sitio abierto.
+// CC BY 4.0; las versiones de años posteriores son no comerciales). Se ve borrosa desde zoom ~15; de cerca entra
+// Esri (abajo) si hay llave.
 const SAT = "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg";
 const SAT_ATRIB = '<a href="https://s2maps.eu" target="_blank" rel="noopener">Sentinel-2 cloudless</a> by EOX IT Services GmbH (contiene datos modificados de Copernicus Sentinel 2016), CC BY 4.0';
 
-/** Mapa base satelital: mosaico Sentinel-2 + fronteras y nombres de países encima. */
-export function estiloSatelite() {
+// Imagen nítida de cerca (< 1 m por píxel en buena parte del mundo): Esri World Imagery con la llave pública de
+// ArcGIS Location Platform. La llave no vive en el repositorio: el workflow de Pages escribe config/satelite.json
+// desde el secreto ESRI_API_KEY. La llave queda visible en el navegador (así funcionan todos los mapas web);
+// se protege restringiéndola al dominio del sitio en el panel de ArcGIS. Sin llave, solo Sentinel-2.
+const ESRI = "https://ibasemaps-api.arcgis.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}?token=";
+const ESRI_ATRIB = '<a href="https://www.esri.com" target="_blank" rel="noopener">Powered by Esri</a> | Esri, Maxar, Earthstar Geographics y la comunidad de usuarios de SIG';
+export const ESRI_DESDE = 11; // por debajo, el mosaico de Sentinel-2 sin nubes se ve mejor y no gasta cuota
+
+/** Mapa base satelital: mosaico Sentinel-2 (+ Esri de cerca si hay llave) + fronteras y nombres de países encima. */
+export function estiloSatelite(llaveEsri = "") {
   const local = estiloLocal("dark");
+  const esri = llaveEsri ? { esri: { type: "raster", tiles: [ESRI + encodeURIComponent(llaveEsri)], tileSize: 256, minzoom: ESRI_DESDE, maxzoom: 19, attribution: ESRI_ATRIB } } : {};
   return {
     version: 8, glyphs: GLYPHS,
-    sources: { ...local.sources, sat: { type: "raster", tiles: [SAT], tileSize: 256, maxzoom: 14, attribution: SAT_ATRIB },
+    sources: { ...local.sources, sat: { type: "raster", tiles: [SAT], tileSize: 256, maxzoom: 14, attribution: SAT_ATRIB }, ...esri,
       osm: { type: "vector", url: OFM_TILES } },
     layers: [
       { id: "fondo", type: "background", paint: { "background-color": "#0b1a2a" } },
       { id: "satelite", type: "raster", source: "sat", paint: { "raster-fade-duration": 0 } },
+      ...(llaveEsri ? [{ id: "satelite-esri", type: "raster", source: "esri", minzoom: ESRI_DESDE, paint: { "raster-fade-duration": 0 } }] : []),
       { id: "paises-borde", type: "line", source: "paises", paint: { "line-color": "rgba(255,255,255,0.55)", "line-width": 0.7 } },
       { id: "paises-nombre", type: "symbol", source: "nombres", minzoom: 2.5, maxzoom: 9,
         layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-optional": true },
@@ -136,12 +146,22 @@ export function aligerarEstilo(style, { lite = false, tono = null } = {}) {
   return { ...style, layers, sources };
 }
 
+let llaveCache;
+/** Llave de Esri publicada en config/satelite.json (solo existe si el secreto ESRI_API_KEY está configurado). */
+async function llaveSatelite() {
+  if (llaveCache === undefined) {
+    try { const r = await fetchTimeout("config/satelite.json", 4000); llaveCache = r.ok ? String((await r.json()).esri_llave || "") : ""; }
+    catch { llaveCache = ""; }
+  }
+  return llaveCache;
+}
+
 /**
  * LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local.
- * `base`: «tematico» (claro u oscuro según el tema), «calles» (OpenFreeMap Liberty) o «satelite» (Sentinel-2).
+ * `base`: «tematico» (claro u oscuro según el tema), «calles» (OpenFreeMap Liberty) o «satelite» (Sentinel-2 y, de cerca, Esri).
  */
 export async function estiloBase(theme, { lite = false, base = "tematico" } = {}) {
-  if (base === "satelite") return { style: estiloSatelite(), remoto: true };
+  if (base === "satelite") return { style: estiloSatelite(await llaveSatelite()), remoto: true };
   // LITE con el mapa «Temático»: países locales, sin calles. Con «Calles» sí se carga el mapa de calles y se
   // conservan sus nombres: quien lo elige quiere ver el detalle aunque el equipo sea lento.
   if (lite && base !== "calles") return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };
