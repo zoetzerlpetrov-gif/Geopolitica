@@ -56,12 +56,12 @@ const TIPO_INSTALACION = [
   [/^aeropuerto_internacional$/, "aeropuerto", "grande", "aeropuerto"],
   [/^aeropuerto_regional$|^aerodromo$/, "aeropuerto", "chico", "aeropuerto"],
   [/^helipuerto$/, "aeropuerto", "helipuerto", "helipuerto"],
+  [/^puerto_espacial$/, "cohete", "puerto", "puerto espacial"], // antes que /^puerto_/: no es un puerto de barcos
   [/^puerto_/, "puerto", "", "puerto"],
   [/^farma_/, "farma", "", "planta farmacéutica"],
   [/^campo_petrolero$|^energia_yacimientos$/, "petroleo", "", "campo petrolero"],
   [/^campo_gas$/, "petroleo", "gas", "campo de gas"],
   [/^plataforma_marina$/, "plataforma", "", "plataforma marina"],
-  [/^puerto_espacial$/, "cohete", "", "puerto espacial"],
   [/^cruce_fronterizo$/, "frontera", "", "cruce fronterizo"],
   [/^desaladora$/, "desaladora", "", "planta desaladora"],
   [/^mineria$/, "mina", "", "mina"],

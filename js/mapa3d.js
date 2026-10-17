@@ -670,9 +670,44 @@ function construirIncendio() {
 }
 
 // ---------- Cohete ----------
-function construirCohete() {
+/** Pila del transbordador sobre su plataforma: tanque externo naranja, dos cohetes sólidos y el orbitador. */
+function transbordador(x, z) {
+  const g = new THREE.Group(), blanco = mat("#f2f2f2", { roughness: 0.4 }), negro = mat("#1c1c1c");
+  g.add(caja(9, 1.2, 9, "#8d8d8d", 0, 0, 0));
+  const tanque = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 19, 32), mat("#c8641e", { roughness: 0.7 })); tanque.position.y = 11; g.add(tanque);
+  const ojiva = new THREE.Mesh(new THREE.ConeGeometry(1.4, 3.2, 32), mat("#c8641e", { roughness: 0.7 })); ojiva.position.y = 22.1; g.add(ojiva);
+  for (const s of [-1, 1]) {
+    const srb = new THREE.Mesh(new THREE.CylinderGeometry(0.6, 0.6, 18, 24), blanco); srb.position.set(0, 10.5, s * 2.1); g.add(srb);
+    const punta = new THREE.Mesh(new THREE.ConeGeometry(0.6, 1.6, 24), blanco); punta.position.set(0, 20.3, s * 2.1); g.add(punta);
+  }
+  // Orbitador: fuselaje, nariz negra, ala delta y deriva, pegado al tanque por el lado +X.
+  const orb = new THREE.Group();
+  const fus = new THREE.Mesh(new THREE.CylinderGeometry(0.9, 0.9, 12, 24), blanco); orb.add(fus);
+  const nariz = new THREE.Mesh(new THREE.ConeGeometry(0.9, 2.2, 24), negro); nariz.position.y = 7.1; orb.add(nariz);
+  const ala = new THREE.Shape(); ala.moveTo(0, -6); ala.lineTo(4, -6); ala.lineTo(0.6, 2); ala.closePath();
+  for (const s of [-1, 1]) { const m = new THREE.Mesh(new THREE.ExtrudeGeometry(ala, { depth: 0.25, bevelEnabled: false }), blanco); m.rotation.y = s > 0 ? -Math.PI / 2 : Math.PI / 2; m.position.x = 0.4; orb.add(m); }
+  const der = new THREE.Shape(); der.moveTo(0, -6); der.lineTo(2.6, -6.4); der.lineTo(2.6, -4.6); der.lineTo(0, -2.6); der.closePath();
+  const deriva = new THREE.Mesh(new THREE.ExtrudeGeometry(der, { depth: 0.2, bevelEnabled: false }), blanco); deriva.position.z = -0.1; orb.add(deriva);
+  orb.position.set(2.4, 11.5, 0); g.add(orb);
+  g.position.set(x, 1.2, z);
+  return sombras(g);
+}
+
+function construirCohete(m = {}) {
   const raiz = new THREE.Group();
   raiz.add(sombras(caja(12, 1.2, 12, "#9b9b9b", 0, 0, 0)));
+  if (m.variante === "puerto") {
+    // Puerto espacial: además de la plataforma con el cohete, edificio de ensamblaje, segunda plataforma
+    // con transbordador, depósito de agua para el diluvio sonoro y el camino de oruga entre ellos.
+    raiz.add(sombras(caja(70, 0.3, 46, "#7d8a6a", 0, -0.2, 0)));
+    const vab = caja(14, 30, 12, "#e6e6e6", 22, 0, -12, { roughness: 0.8 }); raiz.add(sombras(vab));
+    raiz.add(caja(3, 26, 0.2, "#3b3b3b", 20, 0, -5.9));
+    raiz.add(caja(4, 8, 0.2, "#1f3a93", 25.5, 18, -5.9));
+    raiz.add(caja(3.5, 0.15, 40, "#bdb39b", 22, 0, 8));
+    raiz.add(transbordador(22, 26));
+    raiz.add(sombras(cil(2, 2, 10, "#dfe4ea", -10, 0, 9)));
+    raiz.add(sombras(new THREE.Mesh(new THREE.SphereGeometry(2.6, 24, 16), mat("#dfe4ea"))).translateX(-10).translateY(11.5).translateZ(9));
+  }
   const torre = new THREE.Group();
   for (const [x, z] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { const c = new THREE.Mesh(new THREE.BoxGeometry(0.2, 26, 0.2), mat("#c0392b", { metalness: 0.6 })); c.position.set(x, 13, z); torre.add(c); }
   for (let y = 2; y < 26; y += 2) torre.add(caja(2.2, 0.15, 2.2, "#a93226", 0, y, 0));
@@ -701,7 +736,7 @@ function construirCohete() {
     mover: (p, dt) => { p.x += p.vx * dt; p.z += p.vz * dt; p.y += p.vy * dt; p.vx *= 0.98; p.vz *= 0.98; const e = edad(p); p.tam = 4 + e * 16; p.alfa = (altura < 40 ? empuje : 0.2 * empuje) * Math.min(1, e * 4) * (1 - e) * 0.8; } });
   raiz.add(humo.obj, fuego.obj);
   sol(raiz, 30, 50, 20, 2.4);
-  return { grupo: raiz, metros: 2.5, zoom: 17, pitch: 65,
+  return { grupo: raiz, metros: 2.5, zoom: m.variante === "puerto" ? 16.9 : 17, pitch: 65,
     animar: (t, dt) => {
       const ciclo = t % 14;
       empuje = ciclo < 2 ? 0 : ciclo < 3 ? (ciclo - 2) : 1;

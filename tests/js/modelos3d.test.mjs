@@ -40,6 +40,9 @@ test("riesgos e instalaciones con modelo", () => {
   assert.equal(modeloPara({ fuente: "entidad", st: "ductos_gas" }).tipo, "flujo");
   assert.equal(modeloPara({ fuente: "entidad", st: "ferrocarril_electrificado" }).variante, "tren");
   assert.equal(modeloPara({ fuente: "entidad", st: "reactor_investigacion" }).variante, "investigacion");
+  const espacial = modeloPara({ fuente: "entidad", st: "puerto_espacial" });
+  assert.equal(espacial.tipo, "cohete"); assert.equal(espacial.variante, "puerto");
+  assert.equal(modeloPara({ fuente: "entidad", st: "puerto_grande" }).tipo, "puerto");
   for (const st of ["puerto_grande", "farma_planta", "campo_petrolero", "plataforma_marina", "puerto_espacial", "cruce_fronterizo", "desaladora", "mineria", "datacenter_hiperescala"])
     assert.ok(modeloPara({ fuente: "entidad", st }), st);
   assert.equal(modeloPara({ fuente: "satelite", st: "estaciones" }).forma, "estacion");
