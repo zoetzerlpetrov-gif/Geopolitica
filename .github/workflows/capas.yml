@@ -15,6 +15,9 @@ on:
     # Lugares de culto (~2 millones, por cajas): avanza la descarga cada 4 h; cuando todas las cajas están completas y
     # tienen menos de 25 días, la corrida termina sin descargar ni publicar.
     - cron: "20 */4 * * *"
+    # Familias que dependen de Overpass (OpenStreetMap): corrida propia el día 2, con todo el plazo para ellas
+    # (en la corrida completa del día 1 se quedaban sin tiempo y salían incompletas).
+    - cron: "47 6 2 * *"
   push:
     branches-ignore: [main]
     paths: ["tools/capas/**", "config/capas.json", ".github/workflows/capas.yml"]
@@ -65,7 +68,7 @@ jobs:
       - name: Construir capas
         env:
           PLAZO_MIN: "70"   # el job muere a los 90 min; deja 20 para tippecanoe y publicar
-          FAMILIAS: ${{ github.event.inputs.familias || (github.event.schedule == '20 */4 * * *' && 'lugares_culto lugares_culto_catolico lugares_culto_cristiano') || '' }}
+          FAMILIAS: ${{ github.event.inputs.familias || (github.event.schedule == '20 */4 * * *' && 'lugares_culto lugares_culto_catolico lugares_culto_cristiano') || (github.event.schedule == '47 6 2 * *' && 'embajadas desaladoras farmaceuticas investigacion fronteras centros_datos militar recursos') || '' }}
         run: |
           export PATH="$HOME/tippecanoe-bin:$PATH"
           tippecanoe --version
@@ -74,7 +77,7 @@ jobs:
           cat capas/manifest.json
 
       - name: Cronología histórica por país (Wikidata; en la corrida mensual o si se pide «historia»)
-        if: github.event.schedule != '20 */4 * * *' && (github.event.inputs.familias == '' || contains(github.event.inputs.familias, 'historia'))
+        if: github.event.schedule != '20 */4 * * *' && github.event.schedule != '47 6 2 * *' && (github.event.inputs.familias == '' || contains(github.event.inputs.familias, 'historia'))
         continue-on-error: true
         timeout-minutes: 20
         run: python3 -u tools/historia/cronologia.py capas/historia

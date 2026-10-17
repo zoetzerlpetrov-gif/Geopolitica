@@ -2331,8 +2331,8 @@
     {
      "id": "centro_investigacion",
      "nombre": {
-      "es": "Institutos y centros de investigación",
-      "en": "Research institutes"
+      "es": "Institutos y centros de investigación: ciencias (general)",
+      "en": "Research institutes: sciences (general)"
      },
      "icono": "🔬",
      "color": "#1F8A8A",
@@ -2361,6 +2361,120 @@
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
      "zoom_min": 5,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "investigacion_salud",
+     "nombre": {
+      "es": "Investigación en salud y biomedicina",
+      "en": "Health and biomedical research"
+     },
+     "icono": "🧬",
+     "color": "#C0392B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "salud_nrbq"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "investigacion_ambiente",
+     "nombre": {
+      "es": "Investigación agrícola, marina, climática y ambiental",
+      "en": "Agricultural, marine, climate and environmental research"
+     },
+     "icono": "🌱",
+     "color": "#2E8B57",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "investigacion_tecnologia",
+     "nombre": {
+      "es": "Investigación en tecnología, energía, física e ingeniería",
+      "en": "Technology, energy, physics and engineering research"
+     },
+     "icono": "⚙",
+     "color": "#2F5D8A",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "laboratorio",
+     "nombre": {
+      "es": "Laboratorios de investigación",
+      "en": "Research laboratories"
+     },
+     "icono": "🧪",
+     "color": "#7D3C98",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "observatorio",
+     "nombre": {
+      "es": "Observatorios astronómicos",
+      "en": "Astronomical observatories"
+     },
+     "icono": "🔭",
+     "color": "#34495E",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "tecnologia"
+     ],
+     "familia": "investigacion"
+    },
+    {
+     "id": "estacion_investigacion",
+     "nombre": {
+      "es": "Estaciones de investigación de campo y polares",
+      "en": "Field and polar research stations"
+     },
+     "icono": "⛺",
+     "color": "#8E6E3B",
+     "fuente": "wikidata",
+     "licencia": "CC0 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
      "areas": [
       "tecnologia"
      ],

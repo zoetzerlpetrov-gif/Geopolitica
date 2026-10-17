@@ -74,7 +74,8 @@
    "geometria": "punto",
    "fuente": "osm",
    "habilitada": true,
-   "zoom_etiquetas": 10
+   "zoom_etiquetas": 10,
+   "nota": "OpenStreetMap (ODbL, ubicación exacta) más Wikidata (CC0): embajadas, consulados, altos comisionados y misiones permanentes. Si Wikidata solo registra la ciudad sede, la ficha lo indica como ubicación aproximada. Se omiten los registros de Wikidata que ya están en OSM (mismo país a menos de 25 km)."
   },
   {
    "id": "recursos",
@@ -162,13 +163,13 @@
   },
   {
    "id": "investigacion",
-   "nombre": "Centros de investigación relevantes",
+   "nombre": "Centros de investigación: ciencias, salud, ambiente, tecnología, laboratorios y observatorios",
    "categoria": "infraestructura",
    "geometria": "punto",
    "fuente": "wikidata",
    "habilitada": true,
    "zoom_etiquetas": 7,
-   "nota": "Wikidata (CC0): institutos de investigación con artículo en 4 o más Wikipedias y aceleradores de partículas."
+   "nota": "Wikidata (CC0): institutos y centros de investigación (clasificados por área según su nombre), laboratorios, observatorios astronómicos, estaciones de campo y aceleradores de partículas, sin mínimo de Wikipedias; más institutos de OpenStreetMap (ODbL, amenity=research_institute) que no estén en Wikidata. La ubicación de los que solo tienen sede registrada es la ciudad."
   },
   {
    "id": "farmaceuticas",
@@ -178,7 +179,7 @@
    "fuente": "wikidata",
    "habilitada": true,
    "zoom_etiquetas": 7,
-   "nota": "Wikidata (CC0) para sedes corporativas; OpenStreetMap (ODbL) para plantas de medicamentos y vacunas. La cobertura de plantas es baja (≈ 360 en OSM)."
+   "nota": "Wikidata (CC0) para sedes corporativas; OpenStreetMap (ODbL) para plantas de medicamentos y vacunas. La cobertura de plantas es baja (≈ 360 en OSM). Las sedes incluyen farmacéuticas y biotecnológicas y cualquier empresa con industria farmacéutica en Wikidata, sin mínimo de Wikipedias."
   },
   {
    "id": "petroleo_gas",
@@ -218,7 +219,7 @@
    "fuente": "osm",
    "habilitada": true,
    "zoom_etiquetas": 7,
-   "nota": "OpenStreetMap (ODbL): water_works=desalination o plantas de agua con «desal» en el nombre."
+   "nota": "OpenStreetMap (ODbL): water_works=desalination o plantas con «desal» en el nombre; más plantas desalinizadoras de Wikidata (CC0) que OSM no enlaza."
   },
   {
    "id": "camaras",

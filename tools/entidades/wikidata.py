@@ -45,6 +45,20 @@ SELECT ?org ?orgLabel ?coord ?ciudadLabel ?lider ?liderLabel WHERE {
   SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
 }"""
 
+# Ampliación (oct 2026): todas las clases de organismo internacional, sin mínimo de Wikipedias, con su sede ubicada.
+# Conteos con sede ubicada: organismos internacionales 565, intergubernamentales 193, ONG internacionales 142,
+# organizaciones regionales 44, agencias especializadas de la ONU 15. El país es el de la ciudad sede.
+Q_ORGANISMOS_AMPLIO = """
+SELECT ?org ?orgLabel ?coord ?ciudadLabel ?iso3 ?clase WHERE {
+  VALUES ?clase { wd:Q484652 wd:Q245065 wd:Q1194093 wd:Q15925165 wd:Q4120211 }
+  ?org wdt:P31 ?clase; wdt:P159 ?ciudad. ?ciudad wdt:P625 ?coord.
+  FILTER NOT EXISTS { ?org wdt:P576 ?fin }
+  OPTIONAL { ?ciudad wdt:P17 ?pc. ?pc wdt:P298 ?iso3. }
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
+}"""
+CLASE_ORGANISMO = {"Q1194093": "ONG internacional", "Q15925165": "Agencia especializada de la ONU", "Q4120211": "Organización regional",
+                   "Q245065": "Organización intergubernamental"}
+
 Q_BOLSAS = """
 SELECT ?org ?orgLabel ?coord ?ciudadLabel ?iso3 WHERE {
   ?org wdt:P31 wd:Q11691; wikibase:sitelinks ?links. FILTER(?links >= 8)
@@ -160,6 +174,26 @@ def main():
             n += 1
         return n
 
+    def organismos_amplio():
+        n = 0
+        for f in sparql(Q_ORGANISMOS_AMPLIO):
+            oid = qid(val(f, "org"))
+            if not con_nombre(val(f, "orgLabel"), oid):
+                continue
+            o = orgs.setdefault(oid, {"id": oid, "nombre": val(f, "orgLabel"), "subtipo": "organismos_internacionales", "sector": None,
+                                      "pais_iso3": None, "lei": None, "wikidata": f"https://www.wikidata.org/wiki/{oid}",
+                                      "sede": None, "indices": [], "personas": [], "fuente": "wikidata", "url_fuente": None})
+            c = coord(val(f, "coord"))
+            if c and not o["sede"]:
+                o["sede"] = {**c, "ciudad": val(f, "ciudadLabel") or ""}
+            if not o["pais_iso3"] and val(f, "iso3"):
+                o["pais_iso3"] = val(f, "iso3")
+            clase = CLASE_ORGANISMO.get(qid(val(f, "clase")))
+            if clase and not o.get("clase"):
+                o["clase"] = clase
+            n += 1
+        return n
+
     def bolsas():
         n = 0
         for f in sparql(Q_BOLSAS):
@@ -189,7 +223,7 @@ def main():
             n += 1
         return n
 
-    for nombre, fn in [("jefes", jefes), ("organismos", organismos), ("bolsas", bolsas), ("empresas", empresas)]:
+    for nombre, fn in [("jefes", jefes), ("organismos", organismos), ("organismos_amplio", organismos_amplio), ("bolsas", bolsas), ("empresas", empresas)]:
         paso(nombre, fn)
 
     if not personas and not orgs:
@@ -199,7 +233,8 @@ def main():
     for o in orgs.values():
         if o["sede"] and o["subtipo"] in ("organismos_internacionales", "bolsas_valores"):
             geo.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [o["sede"]["lon"], o["sede"]["lat"]]},
-                        "properties": {"id": f"wd:{o['id']}", "n": o["nombre"], "st": o["subtipo"], "p": o["pais_iso3"] or "", "x": o["sede"]["ciudad"]}})
+                        "properties": {"id": f"wd:{o['id']}", "n": o["nombre"], "st": o["subtipo"], "p": o["pais_iso3"] or "",
+                                       "x": " · ".join(x for x in (o.get("clase"), o["sede"]["ciudad"]) if x)}})
 
     def escribir(nombre, datos):
         with open(os.path.join(DESTINO, nombre), "w", encoding="utf-8") as f:

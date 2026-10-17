@@ -993,9 +993,31 @@ def centros_datos():
 
 
 def embajadas():
-    els = overpass(['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'], "embajadas")
-    return _osm(els, lambda t: "embajadas_consulados", lambda st, t: 7 if t.get("diplomatic", "embassy") == "embassy" else 9,
-                lambda t: (t.get("diplomatic") or "embassy") + "|" + (t.get("country") or ""), Paises())
+    """Embajadas, consulados y misiones: OpenStreetMap (ubicación exacta) + Wikidata (≈ 9 mil, muchas solo con la ciudad
+    sede). Si Overpass no responde en algunas zonas, Wikidata cubre esos países."""
+    import sitios as S
+    pa = Paises()
+    try:
+        els = overpass(['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'], "embajadas")
+    except Exception as e:  # noqa: BLE001
+        print(f"   OSM sin datos: {e}")
+        els = []
+    osm = _osm(els, lambda t: "embajadas_consulados", lambda st, t: 7 if t.get("diplomatic", "embassy") == "embassy" else 9,
+               lambda t: (t.get("diplomatic") or "embassy") + "|" + (t.get("country") or ""), pa)
+    registros = {}
+    for qid_clase, tipo in S.CLASES_DIPLOMATICAS:
+        try:
+            antes = len(registros)
+            S.leer_diplomaticos(_sparql(S.Q_DIPLOMATICO % qid_clase)["results"]["bindings"], tipo, registros)
+            print(f"   {qid_clase} ({tipo}): +{len(registros) - antes}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   {qid_clase}: {e}")
+        time.sleep(3)
+    if not osm and not registros:
+        raise RuntimeError("ni OSM ni Wikidata devolvieron representaciones diplomáticas")
+    out = S.fusionar_diplomaticos(osm, registros, feat, punto, pa.de)
+    print(f"   OSM {len(osm)} + Wikidata {len(out) - len(osm)} sin duplicar (de {len(registros)})")
+    return out
 
 
 def recursos():
@@ -1077,7 +1099,7 @@ def _sitios_wikidata(fid, ajustar=None):
     import sitios as S
     registros = {}
     for clase in S.FAMILIAS[fid]:
-        plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO}.get(clase[3], S.Q_LUGAR)
+        plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO, "industria": S.Q_INDUSTRIA}.get(clase[3], S.Q_LUGAR)
         try:
             nuevos = S.leer(_sparql(plantilla % (clase[0], clase[2])), clase)
             for q, r in nuevos.items():
@@ -1085,7 +1107,7 @@ def _sitios_wikidata(fid, ajustar=None):
             print(f"   {clase[0]} ({clase[1]}): {len(nuevos)}")
         except Exception as e:  # noqa: BLE001
             print(f"   {clase[0]} ({clase[1]}): {e}")
-        time.sleep(2)
+        time.sleep(3)  # el servicio responde 429 si se le pide seguido
     if not registros:
         raise RuntimeError(f"Wikidata no devolvió datos para {fid}")
     return S.features(registros, feat, punto, ajustar)
@@ -1157,8 +1179,22 @@ def nuclear():
 
 
 def investigacion():
-    """Institutos de investigación con artículo en ≥ 4 Wikipedias y aceleradores de partículas (Wikidata)."""
-    return _sitios_wikidata("investigacion")
+    """Centros de investigación de todo tipo (Wikidata): institutos y centros (clasificados por área: salud, ambiente,
+    tecnología, ciencias), laboratorios, observatorios astronómicos, estaciones de campo y aceleradores; más institutos
+    de investigación mapeados en OpenStreetMap (amenity=research_institute) que no estén ya en Wikidata."""
+    import sitios as S
+    out = _sitios_wikidata("investigacion", S.subtipo_investigacion)
+    try:
+        els = overpass(['nwr["amenity"="research_institute"]["name"]'], "investigacion")
+    except Exception as e:  # noqa: BLE001
+        print(f"   OSM sin datos: {e}")
+        return out
+    con_wd = {e.get("tags", {}).get("wikidata") for e in els} & {f["properties"]["id"][3:] for f in out}
+    extra = [e for e in els if e.get("tags", {}).get("wikidata") not in con_wd]
+    osm = _osm(extra, lambda t: S.subtipo_investigacion({"st": "centro_investigacion", "nombre": t.get("name:es") or t.get("name", "")}),
+               lambda st, t: 8, lambda t: t.get("operator", ""), Paises())
+    print(f"   OSM: +{len(osm)} institutos (de {len(els)}; {len(els) - len(extra)} ya estaban por Wikidata)")
+    return out + osm
 
 
 def turismo():
@@ -1200,7 +1236,15 @@ def empresas():
             print(f"   {qid_clase} (≥ {minimo} Wikipedias): +{len(registros) - antes}")
         except Exception as e:  # noqa: BLE001
             print(f"   {qid_clase}: {e}")
-        time.sleep(2)
+        time.sleep(3)
+    for qid_pais, minimo in S.PAISES_EMPRESA:
+        try:
+            antes = len(registros)
+            S.leer_empresas(_sparql(S.Q_EMPRESAS_PAIS % (qid_pais, minimo)), registros, minimo)
+            print(f"   país {qid_pais} (≥ {minimo} Wikipedias): +{len(registros) - antes}")
+        except Exception as e:  # noqa: BLE001
+            print(f"   país {qid_pais}: {e}")
+        time.sleep(3)
     if not registros:
         raise RuntimeError("Wikidata no devolvió empresas")
     return S.features_empresas(registros, feat, punto)
@@ -1269,9 +1313,26 @@ def fronteras():
 
 
 def desaladoras():
-    """Plantas desaladoras (OSM)."""
-    els = overpass(['nwr["water_works"="desalination"]', 'nwr["man_made"="water_works"]["name"~"desal",i]'], "desaladoras")
-    return _osm(els, lambda t: "desaladora", lambda st, t: 5, lambda t: t.get("operator", ""), Paises())
+    """Plantas desaladoras: OpenStreetMap (water_works=desalination, «desal» en el nombre, en español o inglés) y Wikidata
+    (clase «planta desalinizadora»), sin duplicar las que OSM ya enlaza a Wikidata."""
+    try:
+        els = overpass(['nwr["water_works"="desalination"]', 'nwr["man_made"="water_works"]["name"~"desal",i]',
+                        'nwr["man_made"="works"]["product"~"desal|fresh_water|drinking_water",i]["name"~"desal",i]'], "desaladoras")
+    except Exception as e:  # noqa: BLE001
+        print(f"   OSM sin datos: {e}")
+        els = []
+    out = _osm(els, lambda t: "desaladora", lambda st, t: 5, lambda t: t.get("operator", ""), Paises())
+    import sitios as S
+    try:
+        en_osm = {e.get("tags", {}).get("wikidata") for e in els}
+        wd = S.leer(_sparql(S.Q_LUGAR % ("Q51932686", 0)), ("Q51932686", "desaladora", 0, "lugar", 5))
+        out += S.features({q: r for q, r in wd.items() if q not in en_osm}, feat, punto)
+        print(f"   Wikidata: {len(wd)} plantas")
+    except Exception as e:  # noqa: BLE001
+        print(f"   Wikidata: {e}")
+    if not out:
+        raise RuntimeError("sin plantas desaladoras")
+    return out
 
 
 def lugares_culto():
