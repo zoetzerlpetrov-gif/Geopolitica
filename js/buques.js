@@ -13,6 +13,7 @@
 import { getJSON, esc } from "./util.js";
 import { cardinal } from "./vuelos.js";
 import { articuloBuque, huecoImagen } from "./imagen_tipo.js";
+import { htmlBandera } from "./banderas.js";
 
 export const SIN_TRAYECTORIA = new Set(["vela_recreo"]);
 
@@ -116,7 +117,7 @@ export function htmlBuque(b, extra, { subtipoNombre, edadMin }) {
         <div><span class="meta">Destino declarado</span><b>${esc(b.destino)}</b>${pDest ? ` (${esc(paisIso2(pDest))})` : ""}${b.eta ? ` · ETA ${esc(b.eta)} UTC` : ""}</div>
         <p class="meta">Lo escribe la tripulación a mano en el equipo AIS: puede estar desactualizado o abreviado.</p></div>`
     : `<p class="meta">Sin destino declarado${b.tipo_ais ? "" : " (los datos estáticos de este buque aún no llegan; se transmiten cada 6 min)"}. El AIS no transmite el puerto de salida.</p>`;
-  return `<h3 id="ficha-titulo">${esc(b.nombre || "MMSI " + b.mmsi)}</h3>
+  return `<h3 id="ficha-titulo">${htmlBandera(b.bandera)}${esc(b.nombre || "MMSI " + b.mmsi)}</h3>
     <div class="fecha">${esc(subtipoNombre)}${bandera ? ` · bandera de ${esc(bandera)}` : ""}</div>
     <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>
       ${b.subtipo === "sancionados" ? `<span class="chip alerta alerta-FLASH">IMO en lista SDN (OFAC)</span>` : ""}

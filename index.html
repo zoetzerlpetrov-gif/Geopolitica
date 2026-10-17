@@ -87,6 +87,8 @@
           <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
         <label class="aviso-sonido" title="Aviones y satélites encendidos se dibujan como columnas a su altura (escala vertical exagerada). Inclina el mapa con clic derecho y arrastre, o con dos dedos.">
           <input type="checkbox" id="chk-3d"> 🛰️ Aviones y satélites en 3D (a su altura)</label>
+        <label class="aviso-sonido" title="Muestra latitud y longitud del punto bajo el puntero. Haz clic en el recuadro para copiarlas.">
+          <input type="checkbox" id="chk-coords"> 📍 Coordenadas bajo el puntero</label>
       </div>
       <details class="grupo" id="g-eventos" data-grupo="eventos" open>
         <summary class="grupo-tit" data-grupo="eventos"><span aria-hidden="true">📰</span> Eventos y noticias <span id="contador" class="contador"></span></summary>
@@ -333,6 +335,7 @@
     <div class="mapa-wrap">
       <div id="map" role="region" aria-label="Mapa mundial de eventos. Usa la lista de eventos del panel para navegar con teclado."></div>
       <div id="aviso-base" class="aviso-base" hidden></div>
+      <button type="button" id="coords-puntero" class="coords-puntero" hidden title="Clic para copiar"></button>
       <div id="cabina-barra" class="cabina-barra" hidden><span id="cabina-info"></span> <button type="button" id="cabina-salir">Salir de la cabina</button></div>
     </div>
 

@@ -11,6 +11,7 @@
 // aviación general. No se muestra propietario.
 import { getJSON, esc, distanciaKm, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 import { articuloAvion, huecoImagen } from "./imagen_tipo.js";
+import { htmlBandera, paisDeHex } from "./banderas.js";
 
 // Nombres de país que usa OpenSky y no coinciden con el gazetteer (en inglés) → español.
 export const PAISES_OPENSKY = {
@@ -267,7 +268,7 @@ export function htmlVuelo(v, extra, { subtipoNombre, edadMin, paisEs = (x) => x 
     : fuenteRastro === "opensky" ? `Trayectoria detallada del vuelo en curso (OpenSky, ${rastro.length} puntos).`
       : rastro.length ? `Trayectoria aproximada: ${rastro.length} posiciones de las instantáneas (cada 20 min, hasta 3 h).`
         : "Aún sin posiciones anteriores para dibujar la trayectoria.";
-  return `<h3 id="ficha-titulo">${esc(v.indicativo || v.hex)}${al?.nombre ? ` · ${esc(al.nombre)}` : ""}</h3>
+  return `<h3 id="ficha-titulo">${htmlBandera(paisDeHex(v.hex))}${esc(v.indicativo || v.hex)}${al?.nombre ? ` · ${esc(al.nombre)}` : ""}</h3>
     <div class="fecha">${esc(subtipoNombre)}${v.pais ? " · registrado en " + esc(paisEs(v.pais)) : ""}</div>
     <div class="chips"><span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>
       ${sq?.alerta ? `<span class="chip alerta alerta-FLASH">Squawk ${esc(v.squawk)}: ${esc(sq.texto)}</span>` : ""}</div>
