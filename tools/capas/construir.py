@@ -898,8 +898,20 @@ FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar", "presas", "
                 "fronteras", "desaladoras"}
 
 
+# Plazo por familia: sin él, una familia lenta (cajas que no responden y se dividen) se come el plazo de las
+# siguientes, cuyas cajas grandes ya ni se consultan. Con él, cada una avanza un poco en cada corrida.
+PLAZO_FAMILIA = 60 * float(os.environ.get("PLAZO_FAMILIA_MIN", "20"))
+HASTA = [PLAZO]  # fin del plazo de la familia en curso (lo fija overpass())
+PREVIAS = {}  # familia -> cajas que no respondieron en la corrida anterior (del manifiesto); se consultan primero
+
+
 def queda():
-    return PLAZO - time.time()
+    return min(PLAZO, HASTA[0]) - time.time()
+
+
+def _cruza(a, b):
+    """¿Se tocan dos cajas (sur, oeste, norte, este)?"""
+    return a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
 
 
 def _overpass_caja(q, intentos=3):
@@ -931,13 +943,16 @@ def dividir(caja):
 MAX_DIVISIONES = 3  # una caja de 20°×180° puede llegar a 2.5°×22.5°
 
 
-def overpass(selectores, familia="", salida="center"):
+def overpass(selectores, familia="", salida="center", cajas=None):
     """selectores: lista como ['nwr["office"="diplomatic"]', 'nwr["amenity"="embassy"]'].
     Se consultan como UNIÓN ( a; b; ) caja por caja y se eliminan duplicados por tipo+id.
     Si una caja no responde (consulta demasiado pesada), se parte en 4 cuartos y se reintenta,
     hasta 2 veces. Lo que siga sin responder se anota en FALTANTES."""
     vistos, out, fallidas = set(), [], []
-    pendientes = [(c, 0) for c in CAJAS]
+    previas = PREVIAS.get(familia, [])
+    # Primero las cajas que fallaron la vez anterior: así cada corrida completa lo que faltaba antes de repetir lo que ya hay.
+    pendientes = [(c, 0) for c in sorted(cajas or CAJAS, key=lambda c: not any(_cruza(c, p) for p in previas))]
+    HASTA[0] = time.time() + PLAZO_FAMILIA
     while pendientes:
         caja, nivel = pendientes.pop(0)
         s_, w, n, e = caja
@@ -959,6 +974,7 @@ def overpass(selectores, familia="", salida="center"):
                 vistos.add(k)
                 out.append(el)
         time.sleep(15)  # cortesía con la API pública
+    HASTA[0] = PLAZO
     if not out and fallidas:
         raise RuntimeError("Overpass no respondió en ninguna caja (límite de uso o saturación)")
     if fallidas:
@@ -1076,7 +1092,9 @@ def ductos():
 def militar():
     tipos = {"headquarters": ("cuarteles_mando", 5), "naval_base": ("bases_navales", 4), "airfield": ("bases_aereas", 4),
              "base": ("bases_terrestres", 6), "barracks": ("bases_terrestres", 7), "nuclear_explosion_site": ("instalaciones_nucleares", 3)}
-    els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'], "militar")
+    # Cajas 4 veces más chicas desde el inicio: con las 8 grandes, la mitad no respondía y al dividirlas se agotaba el plazo.
+    els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'], "militar",
+                   cajas=[c for caja in CAJAS for c in dividir(caja)])
     # Solo nombre, tipo, país y operador: no se copian otras etiquetas de OSM.
     return _osm(els, lambda t: tipos.get(t.get("military"), (None,))[0], lambda st, t: tipos[t["military"]][1],
                 lambda t: t.get("operator", ""), Paises())
@@ -1315,9 +1333,14 @@ def fronteras():
 def desaladoras():
     """Plantas desaladoras: OpenStreetMap (water_works=desalination, «desal» en el nombre, en español o inglés) y Wikidata
     (clase «planta desalinizadora»), sin duplicar las que OSM ya enlaza a Wikidata."""
+    # Selectores sin expresiones regulares sobre etiquetas muy comunes y cajas 4 veces más chicas desde el inicio:
+    # la consulta anterior (regex de «product» sobre todos los man_made=works del mundo) no terminaba en 5 de las 8
+    # cajas grandes y se comía el plazo interno.
     try:
-        els = overpass(['nwr["water_works"="desalination"]', 'nwr["man_made"="water_works"]["name"~"desal",i]',
-                        'nwr["man_made"="works"]["product"~"desal|fresh_water|drinking_water",i]["name"~"desal",i]'], "desaladoras")
+        els = overpass(['nwr["water_works"="desalination"]', 'nwr["man_made"="desalination_plant"]',
+                        'nwr["industrial"="desalination"]', 'nwr["man_made"="water_works"]["name"~"desal",i]',
+                        'nwr["man_made"="works"]["name"~"desal",i]'], "desaladoras",
+                       cajas=[c for caja in CAJAS for c in dividir(caja)])
     except Exception as e:  # noqa: BLE001
         print(f"   OSM sin datos: {e}")
         els = []
@@ -1422,6 +1445,17 @@ def guardar_crudo(fid, feats):
             f.write(json.dumps(ft, ensure_ascii=False, separators=(",", ":")) + "\n")
 
 
+def cajas_previas(info):
+    """Cajas sin respuesta en la corrida anterior: campo «faltantes» o, en manifiestos viejos, la lista al final del error."""
+    if info.get("faltantes"):
+        return [tuple(c) for c in info["faltantes"]]
+    m = re.search(r"(\[\[.*\]\])\s*$", info.get("error") or "")
+    try:
+        return [tuple(c) for c in json.loads(m.group(1))] if m else []
+    except ValueError:
+        return []
+
+
 def rellenar_faltantes(feats, previos, cajas):
     """Agrega de la corrida anterior los objetos que caen en las cajas que no respondieron ahora.
     Devuelve (feats completos, cuántos se reusaron)."""
@@ -1475,6 +1509,8 @@ def main(pedidas):
         # Lugares de culto al final: usa el plazo que sobre (descarga por partes, se completa en varias corridas).
         return ({"lugares_culto": 2, "lugares_culto_catolico": 3, "lugares_culto_cristiano": 3}.get(fam["id"], int(osm)), manifest["familias"].get(fam["id"], {}).get("actualizado_utc", "") if osm else "")
 
+    for fid_, info in manifest["familias"].items():
+        PREVIAS[fid_] = cajas_previas(info)
     for fam in sorted(cfg["familias"], key=orden):
         fid = fam["id"]
         if pedidas and fid not in pedidas:
@@ -1536,6 +1572,7 @@ def main(pedidas):
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
                 **({"fuentes": dict(CAM_FUENTES)} if fid == "camaras" else {}),
                 "estado": "parcial" if FALTANTES.get(fid) else "ok",
+                **({"faltantes": FALTANTES[fid]} if FALTANTES.get(fid) else {}),
                 "error": (f"sin respuesta en {len(FALTANTES[fid])} zona(s); se reusaron {reusados} objetos de la corrida anterior en esas zonas: {FALTANTES[fid]}"
                           if FALTANTES.get(fid) else None),
                 "actualizado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "segundos": round(time.time() - t0),
