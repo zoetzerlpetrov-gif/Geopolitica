@@ -587,6 +587,7 @@ def robots_permite(url, robots=None):
 DIGITRAFFIC = "https://tie.digitraffic.fi/api/weathercam/v1/stations"
 DIGITRAFFIC_IMG = "https://weathercam.digitraffic.fi/{}.jpg"
 CALTRANS = "https://cwwp2.dot.ca.gov/data/d{d}/cctv/cctvStatusD{d:02d}.json"
+NYC_DOT = "https://webcams.nyctmc.org/api/cameras"
 CAM_FUENTES = {}  # fuente -> "ok (n)" o el error, para el manifiesto
 
 
@@ -624,6 +625,24 @@ def camaras_caltrans(d):
             "id": f"ct:{loc.get('district', '')}-{c.get('index', len(out))}", "n": nombre or "Cámara de Caltrans", "st": "trafico", "p": "USA",
             "x": "https://quickmap.dot.ca.gov/", "o": "Caltrans (Departamento de Transporte de California)", "t": "organismo_publico",
             "imgs": [img], "lic": "Datos públicos de Caltrans", "nota": "Cámara de tráfico en carretera estatal."}, 5))
+    return out
+
+
+def camaras_nyc(lista):
+    """Lista de cámaras de NYC DOT → puntos de las cámaras en línea con su imagen fija (se renueva cada pocos segundos)."""
+    out = []
+    for c in lista if isinstance(lista, list) else []:
+        img = str(c.get("imageUrl") or "")
+        try:
+            lon, lat = float(c["longitude"]), float(c["latitude"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if str(c.get("isOnline", "true")).lower() != "true" or not img.startswith("https://"):
+            continue
+        out.append(feat(punto(lon, lat), {
+            "id": f"ny:{c.get('id') or len(out)}", "n": c.get("name") or "Cámara de NYC DOT", "st": "trafico", "p": "USA",
+            "x": "https://webcams.nyctmc.org/", "o": "NYC DOT (Departamento de Transporte de Nueva York)", "t": "organismo_publico",
+            "imgs": [img], "lic": "Información pública de NYC DOT", "lugar": c.get("area") or "", "nota": "Cámara de tráfico de la ciudad de Nueva York."}, 5))
     return out
 
 
@@ -701,6 +720,7 @@ def camaras(revisar=enlace_responde, externas=True):
         out += camaras_webcams_mx()
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
         out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
+        out += _fuente_camaras("nyc_dot", [NYC_DOT], camaras_nyc)
     return out
 
 

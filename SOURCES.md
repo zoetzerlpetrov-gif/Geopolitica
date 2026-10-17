@@ -218,10 +218,11 @@ Lista curada en `config/camaras.json` más dos fuentes de datos abiertos de cám
 | Canal de Panamá (esclusas) | Autoridad del Canal de Panamá | Organismo público | Enlace curado: pancanal.com («Cámaras Web») | Términos de la ACP |
 | ~470 cámaras de clima y tráfico en carreteras de Finlandia | Fintraffic (Digitraffic) | Organismo público | API abierta `tie.digitraffic.fi/api/weathercam/v1/stations`, sin clave | CC BY 4.0 («Fuente: Fintraffic / digitraffic.fi») |
 | Cámaras de tráfico de carreteras estatales de California | Caltrans | Organismo público | Archivos `cwwp2.dot.ca.gov/data/dN/cctv/cctvStatusDNN.json` (12 distritos), sin clave | Datos públicos de Caltrans |
+| ~980 cámaras de tráfico de la ciudad de Nueva York | NYC DOT | Organismo público | Lista abierta `webcams.nyctmc.org/api/cameras`, sin clave (solo las que están en línea) | Información pública de NYC DOT |
 
 No se incluyen cámaras «abiertas» por error (sin contraseña o mal configuradas), aunque se puedan ver: no hay forma de saber si su dueño quiere publicarlas, suelen grabar casas y personas (imágenes que la Ley Federal de Protección de Datos Personales en Posesión de los Particulares trata como datos personales), y entrar a un equipo ajeno sin autorización puede encuadrar en leyes de acceso ilícito a sistemas según el país. Tampoco se usan directorios que las recopilan.
 
-Candidatas para más adelante: Windy Webcams (decenas de miles de cámaras publicadas a propósito, requiere clave gratuita), cámaras de tráfico de Nueva York (NYC DOT), Ontario 511 y Statens vegvesen (Noruega, requiere registro). En México no se encontró un catálogo abierto de cámaras de tráfico de la SICT o CAPUFE.
+Candidatas para más adelante: Windy Webcams (decenas de miles de cámaras publicadas a propósito, requiere clave gratuita), Ontario 511 (requiere clave) y Statens vegvesen (Noruega, requiere registro). En México no se encontró un catálogo abierto de cámaras de tráfico de la SICT o CAPUFE.
 
 ## Polos, escenarios de erupción y frecuencias de radio (octubre de 2026)
 
