@@ -8,3 +8,4 @@ __pycache__/
 # Salidas que se publican en ramas huérfanas (datos-capas, datos-vivos), no en main
 /capas/
 /vivos/
+config/satelite.json

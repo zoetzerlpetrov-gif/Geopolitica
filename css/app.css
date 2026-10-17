@@ -510,7 +510,6 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .lista-eventos .coincide { font-style: italic; }
 .reportes-acc { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
 .aviso-sonido { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-2); padding: 4px 0; cursor: pointer; }
-.atajos-zonas { display: flex; flex-wrap: wrap; gap: 4px; margin: 4px 0 6px; }
 /* Bienes raíces: rampa de colores del cambio de precio */
 .rampa-precios { display: flex; flex-wrap: wrap; gap: 4px 10px; margin: 4px 0 2px; font-size: 11px; color: var(--text-2); }
 .rampa-precios span { display: inline-flex; align-items: center; gap: 4px; }

@@ -37,11 +37,18 @@ jobs:
           ref: ${{ github.ref }}
 
       - name: Armar el sitio (solo archivos públicos)
+        env:
+          ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
           cp -r index.html taxonomia.html reporte.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
+          # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
+          # Vive en el secreto ESRI_API_KEY, nunca en el repositorio; sin secreto no se escribe el archivo.
+          if [ -n "$ESRI_API_KEY" ]; then
+            python3 -c 'import json,os; print(json.dumps({"esri_llave": os.environ["ESRI_API_KEY"]}))' > _site/config/satelite.json
+          fi
           # Capas PMTiles: rama huérfana "datos-capas" (workflow "Construir capas").
           mkdir -p _site/data/capas
           if git fetch --depth 1 origin datos-capas 2>/dev/null; then

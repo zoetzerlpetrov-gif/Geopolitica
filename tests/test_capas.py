@@ -291,3 +291,24 @@ def test_plantillas_de_consulta_por_industria_y_por_pais():
     cat = json.load(open(os.path.join(ROOT, "config", "entities.json"), encoding="utf-8"))
     subtipos = {s["id"] for k in cat["categorias"] for s in k["subtipos"]}
     assert {c[1] for c in S.FAMILIAS["investigacion"]} | {a for a, _ in S.AREAS_INVESTIGACION} <= subtipos
+
+
+def test_overpass_consulta_primero_las_zonas_que_fallaron_y_respeta_su_plazo(monkeypatch):
+    pedidas = []
+
+    def caja(q, intentos=3):
+        pedidas.append(q)
+        return [{"type": "node", "id": len(pedidas), "lat": 0, "lon": 0}]
+    monkeypatch.setattr(c, "_overpass_caja", caja)
+    monkeypatch.setattr(c.time, "sleep", lambda s: None)
+    monkeypatch.setattr(c, "PREVIAS", {"militar": [(30, 0, 50, 180)]})
+    out = c.overpass(['nwr["military"]'], "militar", cajas=[(-60, -180, 0, 0), (35, 10, 40, 20), (0, 0, 30, 180)])
+    assert "(35,10,40,20)" in pedidas[0] and len(out) == 3
+    assert c.HASTA[0] == c.PLAZO  # al terminar, el plazo vuelve al de la corrida
+
+
+def test_cajas_previas_del_manifiesto():
+    assert c.cajas_previas({"faltantes": [[0, 0, 30, 180]]}) == [(0, 0, 30, 180)]
+    viejo = {"error": "sin respuesta en 2 zona(s); se reusaron 5 objetos de la corrida anterior en esas zonas: [[0, 0, 30, 180], [30.0, -180, 50, 0]]"}
+    assert c.cajas_previas(viejo) == [(0, 0, 30, 180), (30.0, -180, 50, 0)]
+    assert c.cajas_previas({"error": None}) == []
