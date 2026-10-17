@@ -49,3 +49,24 @@ def test_paletas():
     assert rgba[0, 0, 3] == 0 and rgba[0, 1, 3] > 0 and rgba[0, 2].tolist()[:3] == [192, 57, 43]
     lluvia = gfs.colorear(np.array([[0.0, 0.05, 2.0]]), gfs.PALETA_LLUVIA)
     assert lluvia[0, 0, 3] == 0 and lluvia[0, 1, 3] == 0 and lluvia[0, 2, 3] > 100
+
+
+def test_isolineas_cierran_una_vuelta_por_hemisferio_y_se_cortan_en_la_linea_de_cambio_de_fecha():
+    lat = np.linspace(90, -90, 181)[:, None]
+    campo = 30 - 0.8 * np.abs(lat) + np.zeros((1, 360))  # 0 °C en ±37.5°
+    lineas = gfs.isolineas(campo, 0)
+    assert len(lineas) == 2
+    for l in lineas:
+        lats = {round(p[1], 1) for p in l}
+        assert lats <= {37.5, -37.5}
+        lons = [p[0] for p in l]
+        assert min(lons) >= -180 and max(lons) <= 180 and len(l) > 300
+
+
+def test_aire_polar_transparente_arriba_de_cero():
+    campo = np.array([[5.0, -12.0], [0.5, -35.0]])
+    arr = gfs.colorear_polar(campo)
+    assert arr[0, 0, 3] == 0 and arr[1, 0, 3] == 0
+    assert arr[0, 1, 3] > 100 and arr[1, 1, 3] > 150
+    gj = gfs.geojson_isotermas(np.tile(np.linspace(10, -30, 181)[:, None], (1, 360)))
+    assert {f["properties"]["t"] for f in gj["features"]} == {0, -10, -20}

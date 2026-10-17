@@ -676,17 +676,14 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .img-medio figcaption { font-size: 11px; color: var(--text-2); margin-top: 3px; }
 [id^="momento-"][data-momento]::after { content: " · " attr(data-momento); font-family: var(--mono); }
 
-/* Visor de modelos 3D animados (js/visor3d.js) */
-.btn-3d { background: var(--marca, linear-gradient(135deg, #2b6cb0, #7b3fb5)); color: #fff; border: 0; border-radius: 10px; padding: 8px 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 14px rgba(43, 108, 176, 0.35); }
-.btn-3d:hover { filter: brightness(1.08); }
-.visor3d { position: fixed; inset: 0; z-index: 3000; display: grid; place-items: center; background: rgba(6, 10, 18, 0.55); backdrop-filter: blur(4px); }
-.visor3d[hidden] { display: none; }
-.visor3d-caja { width: min(1100px, 94vw); height: min(780px, 88vh); display: flex; flex-direction: column; background: var(--surface); color: var(--text);
-  border-radius: 16px; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45); overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.25); }
-.visor3d-caja header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 14px; }
-.visor3d-caja h3 { margin: 0; font-size: 1.05rem; }
-.visor3d-lienzo { flex: 1; min-height: 0; position: relative; }
-.visor3d-lienzo canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
-.visor3d-caja .meta { margin: 6px 14px; }
-.visor3d-ayuda { opacity: 0.75; margin-bottom: 10px !important; }
-@media (max-width: 760px) { .visor3d-caja { width: 100vw; height: 100dvh; border-radius: 0; } }
+/* Nota del modelo 3D dibujado en el mapa (js/mapa3d.js) */
+.nota-3d { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.nota-3d .icon-btn { padding: 2px 8px; }
+
+/* Avance de descarga de los bucles de satélite (Clima) */
+.carga-bucle { margin: 2px 0 8px; }
+.carga-bucle[hidden] { display: none; }
+.carga-barra { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; }
+.carga-barra span { display: block; height: 100%; width: 0; background: var(--marca, var(--accent)); transition: width .3s; }
+.carga-bucle small { color: var(--text-2, var(--text)); }
+.graf-ioda svg { width: 100%; height: auto; color: var(--text); } .graf-ioda { margin: 6px 0; }

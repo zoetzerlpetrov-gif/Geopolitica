@@ -123,14 +123,14 @@ export function cargarImagen(titulo) {
 
 const escH = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 /** Hueco en la ficha que `rellenarImagenes` completa. */
-export const huecoImagen = (ref, avion = null) => (ref ? `<figure class="img-tipo" data-img-tipo="${escH(ref.titulo)}" data-exacto="${ref.exacto ? 1 : 0}"${avion
+export const huecoImagen = (ref, avion = null) => (ref ? `<figure class="img-tipo" data-img-tipo="${escH(ref.titulo)}" data-exacto="${ref.exacto ? 1 : 0}"${ref.ilustrativa ? " data-ilustrativa" : ""}${avion
   ? ` data-hex="${escH(avion.hex)}" data-indicativo="${escH(avion.indicativo || "")}" data-subtipo="${escH(avion.subtipo || "")}"` : ""}></figure>` : "");
 
-export function htmlImagen(img, exacto) {
+export function htmlImagen(img, exacto, ilustrativa = false) {
   return `<a href="${escH(img.archivo)}" target="_blank" rel="noopener noreferrer"><img src="${escH(img.src)}" alt="${escH(img.titulo)}" loading="lazy" decoding="async"
       width="${Number(img.ancho) || ""}" height="${Number(img.alto) || ""}"></a>
-    <figcaption>${exacto ? "Modelo" : "Tipo"}: <a href="${escH(img.articulo)}" target="_blank" rel="noopener noreferrer">${escH(img.titulo)}</a>.
-      Imagen representativa, no es esta unidad. <a href="${escH(img.archivo)}" target="_blank" rel="noopener noreferrer">Autor y licencia en Wikimedia Commons</a>.</figcaption>`;
+    <figcaption>${ilustrativa ? "Imagen ilustrativa, no es de este evento" : exacto ? "Modelo" : "Tipo"}: <a href="${escH(img.articulo)}" target="_blank" rel="noopener noreferrer">${escH(img.titulo)}</a>.
+      ${ilustrativa ? "" : "Imagen representativa, no es esta unidad."} <a href="${escH(img.archivo)}" target="_blank" rel="noopener noreferrer">Autor y licencia en Wikimedia Commons</a>.</figcaption>`;
 }
 
 /** Completa los huecos de imagen dentro de `raiz` (si falla la consulta, el hueco se quita). */
@@ -149,7 +149,7 @@ export async function rellenarImagenes(raiz) {
     }
     const img = await cargarImagen(fig.dataset.imgTipo);
     if (!fig.isConnected) continue;
-    if (img) fig.innerHTML = htmlImagen(img, fig.dataset.exacto === "1"); else fig.remove();
+    if (img) fig.innerHTML = htmlImagen(img, fig.dataset.exacto === "1", "ilustrativa" in fig.dataset); else fig.remove();
   }
 }
 

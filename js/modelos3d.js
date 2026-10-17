@@ -1,6 +1,6 @@
-// Qué modelo 3D corresponde a cada elemento del mapa (avión, barco, satélite, presa, central, volcán, tornado, ciclón,
-// tormenta, sismo, incendio, cohete). Solo decide forma, colores y parámetros; el dibujo vive en js/visor3d.js, que se
-// descarga (con three.js) la primera vez que alguien abre un modelo. Todo es ilustrativo: no es el objeto real ni está a escala.
+// Qué modelo 3D corresponde a cada elemento del mapa (vehículos, instalaciones y fenómenos). Solo decide forma, colores y
+// parámetros; el dibujo vive en js/mapa3d.js, que se descarga (con three.js) la primera vez que se dibuja un modelo sobre el
+// mapa. Todo es ilustrativo: no es el objeto real.
 import { esc } from "./util.js";
 
 // Colores aproximados de la cola por código OACI de la aerolínea (solo color; sin logotipos ni marcas).
@@ -37,9 +37,45 @@ export function colaAerolinea(indicativo, subtipo) {
 
 const FORMA_BUQUE = { carga: "carga", tanqueros: "tanquero", pasaje: "pasaje", pesca: "pesca", militares: "militar", vela_recreo: "vela",
   remolque_servicio: "remolcador", sancionados: "tanquero", otros: "carga" };
+// Subtipo de las capas (o «familia:…») → [tipo de modelo, variante, cómo se nombra]. El primero que coincida gana.
+const TIPO_INSTALACION = [
+  [/^presa_|^central_hidro$/, "presa", "", "presa"],
+  [/^central_nuclear$|^nuclear_operacion$|^instalaciones_nucleares$/, "nuclear", "", "central nuclear"],
+  [/^nuclear_cerrada$/, "nuclear", "cerrada", "central nuclear cerrada"],
+  [/^nuclear_construccion$/, "nuclear", "construccion", "central nuclear en construcción"],
+  [/^reactor_investigacion$/, "nuclear", "investigacion", "reactor de investigación"],
+  [/^central_eolica$/, "eolica", "", "parque eólico"],
+  [/^central_solar$/, "solar", "", "planta solar"],
+  [/^central_carbon$/, "termica", "carbon", "central de carbón"],
+  [/^central_(gas|petroleo)$/, "termica", "gas", "central térmica"],
+  [/^central_(residuos|biomasa|otros)$/, "termica", "biomasa", "central térmica"],
+  [/^central_geotermica$/, "termica", "geotermica", "central geotérmica"],
+  [/^central_almacenamiento$/, "termica", "baterias", "almacenamiento de energía"],
+  [/^industria_pesada$/, "termica", "industria", "industria pesada"],
+  [/^datacenter_|^semiconductores$/, "datacenter", "", "centro de datos"],
+  [/^aeropuerto_internacional$/, "aeropuerto", "grande", "aeropuerto"],
+  [/^aeropuerto_regional$|^aerodromo$/, "aeropuerto", "chico", "aeropuerto"],
+  [/^helipuerto$/, "aeropuerto", "helipuerto", "helipuerto"],
+  [/^puerto_/, "puerto", "", "puerto"],
+  [/^farma_/, "farma", "", "planta farmacéutica"],
+  [/^campo_petrolero$|^energia_yacimientos$/, "petroleo", "", "campo petrolero"],
+  [/^campo_gas$/, "petroleo", "gas", "campo de gas"],
+  [/^plataforma_marina$/, "plataforma", "", "plataforma marina"],
+  [/^puerto_espacial$/, "cohete", "", "puerto espacial"],
+  [/^cruce_fronterizo$/, "frontera", "", "cruce fronterizo"],
+  [/^desaladora$/, "desaladora", "", "planta desaladora"],
+  [/^mineria$/, "mina", "", "mina"],
+  [/^volcanes/, "volcan", "", "volcán"],
+  [/^ductos_gas$/, "flujo", "gas", "gasoducto"],
+  [/^ductos_/, "flujo", "petroleo", "oleoducto"],
+  [/^ferrocarril_/, "flujo", "tren", "vía férrea"],
+  [/^autopista$|^carretera_troncal$/, "flujo", "autos", "carretera"],
+];
+// Modelos alrededor de los cuales se levantan los edificios reales de OpenStreetMap.
+const REAL_OSM = new Set(["aeropuerto", "puerto", "nuclear", "termica", "datacenter", "farma", "desaladora", "frontera"]);
 const FORMA_SAT = { estaciones: "estacion", starlink: "plano", oneweb: "plano", telescopios: "telescopio" };
 const NIVEL_VOLCAN = { verde: 1, amarillo: 3, naranja: 4, rojo: 5, green: 1, yellow: 3, orange: 4, red: 5 };
-const AVISO = "Representación ilustrativa generada por el monitor: no es el objeto real ni está a escala.";
+const AVISO = "Representación ilustrativa generada por el monitor: no es el objeto real.";
 
 /**
  * Contexto del clic → modelo {tipo, forma, titulo, nota, …} o null si no hay modelo para ese elemento.
@@ -50,21 +86,23 @@ export function modeloPara(c) {
   if (c.fuente === "aeronave") {
     if (c.subtipo === "aviacion_general") return null; // aviación general: sin imagen ni modelo (privacidad)
     const forma = formaAvion(c.tipo_av, c.cat, c.subtipo);
-    return { tipo: "avion", forma, cola: colaAerolinea(c.indicativo, c.subtipo), titulo: `${c.indicativo || "Avión"}${c.tipo_av ? ` · ${c.tipo_av}` : ""}`,
-      nota: `${AVISO} Forma según el tipo de avión${c.tipo_av ? ` (${c.tipo_av})` : ""}; color de cola aproximado de la aerolínea, sin logotipos.` };
+    return { tipo: "avion", forma, cola: colaAerolinea(c.indicativo, c.subtipo), rumbo: Number(c.rumbo) || 0, alt_m: Number(c.alt_m) || 0, titulo: `${c.indicativo || "Avión"}${c.tipo_av ? ` · ${c.tipo_av}` : ""}`,
+      nota: `${AVISO} Tamaño exagerado para que se vea; va a su altitud y rumbo de la última señal. Forma según el tipo de avión${c.tipo_av ? ` (${c.tipo_av})` : ""}; color de cola aproximado de la aerolínea, sin logotipos.` };
   }
   if (c.fuente === "buque") {
-    return { tipo: "barco", forma: FORMA_BUQUE[c.subtipo] || "carga", titulo: c.nombre || "Barco", nota: `${AVISO} Forma según el tipo de barco.` };
+    return { tipo: "barco", forma: FORMA_BUQUE[c.subtipo] || "carga", rumbo: Number(c.rumbo) || 0, titulo: c.nombre || "Barco", nota: `${AVISO} Tamaño exagerado para que se vea; rumbo de la última señal. Forma según el tipo de barco.` };
   }
   if (c.fuente === "satelite") {
-    return { tipo: "satelite", forma: FORMA_SAT[c.st] || "comun", titulo: c.nombre || "Satélite", nota: `${AVISO} Forma genérica del grupo del satélite.` };
+    return { tipo: "satelite", forma: FORMA_SAT[c.st] || "comun", alt_m: (Number(c.alt) || 550) * 1000, titulo: c.nombre || "Satélite", nota: `${AVISO} Tamaño muy exagerado; está a su altitud real sobre el punto de la Tierra que tiene debajo. Forma genérica del grupo.` };
   }
   if (c.fuente === "entidad") {
-    const st = String(c.st || "");
-    const forma = st.startsWith("presa_") || st === "central_hidro" ? "presa" : st === "central_nuclear" || st === "instalaciones_nucleares" ? "nuclear"
-      : st === "central_eolica" ? "eolica" : st === "central_solar" ? "solar" : st.startsWith("volcanes") ? "volcan" : null;
-    if (!forma) return null;
-    return { tipo: forma, hidro: st === "presa_hidro" || st === "central_hidro", nivel: 1, titulo: c.nombre || "Instalación", nota: `${AVISO} Modelo genérico del tipo de instalación.` };
+    const st = String(c.st || ""), fam = String(c.familia || "");
+    const t = TIPO_INSTALACION.find(([re]) => re.test(st) || re.test(`familia:${fam}`));
+    if (!t) return null;
+    const [, tipo, variante = "", que = "instalación"] = t;
+    if (tipo === "flujo") return { tipo, variante, titulo: c.nombre || que, nota: `Flujo animado sobre el trazo real de ${que} (ilustrativo: no es el flujo medido).` };
+    return { tipo, variante, hidro: st === "presa_hidro" || st === "central_hidro", nivel: 1, titulo: c.nombre || que,
+      nota: `${AVISO} Modelo genérico de ${que}${REAL_OSM.has(tipo) ? "; los edificios grises alrededor son los reales de OpenStreetMap (forma y altura registradas)" : ""}${tipo === "aeropuerto" ? "; los aviones despegan sobre la pista real si OpenStreetMap la tiene" : ""}.` };
   }
   if (c.fuente === "riesgo") {
     const p = c.props || {};
@@ -98,8 +136,7 @@ export function modeloPara(c) {
   return null;
 }
 
-/** Botón para la ficha, o "" si no hay modelo. */
-export function botonModelo(c) {
-  const m = modeloPara(c);
-  return m ? `<p><button type="button" class="btn-3d" data-modelo3d="${esc(JSON.stringify(m))}">🧊 Ver modelo 3D animado</button></p>` : "";
+/** Nota en la ficha cuando el modelo se dibujó en el mapa (con botón para quitarlo). */
+export function notaModelo(m) {
+  return m ? `<p class="meta nota-3d">🧊 ${esc(m.nota || "")} <button type="button" class="icon-btn" id="quitar-3d">Quitar del mapa</button></p>` : "";
 }

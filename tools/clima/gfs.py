@@ -2,7 +2,8 @@
 """Capa de clima tipo Windy: viento, temperatura y lluvia del modelo GFS de NOAA (1°, sin llave).
 
 Cada 6 h (el modelo corre a las 00, 06, 12 y 18 UTC y tarda ~4 h en publicarse) descarga del filtro
-GRIB de NOMADS solo 4 variables: viento a 10 m (U y V), temperatura a 2 m y tasa de precipitación.
+GRIB de NOMADS solo 4 variables: viento a 10 m (U y V), temperatura a 2 m y tasa de precipitación, más la temperatura
+a 850 hPa (aire polar: polar_fXXX.png e isotermas_fXXX.geojson de 0, −10 y −20 °C).
 Para cada horizonte de pronóstico (≈ ahora, +12 h, +24 h, +48 h, +72 h) genera en vivos/clima/:
   viento_fXXX.png  360 × 181 px, rejilla lat/lon de 1°: canal R = U, canal G = V (m/s, escala en meta.json).
                    El navegador la lee para animar partículas.
@@ -26,7 +27,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos", "clima")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 FILTRO = ("https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl?dir=%2Fgfs.{fecha}%2F{hh}%2Fatmos&file=gfs.t{hh}z.pgrb2.1p00.f{f:03d}"
-          "&var_UGRD=on&var_VGRD=on&var_TMP=on&var_PRATE=on&lev_10_m_above_ground=on&lev_2_m_above_ground=on&lev_surface=on")
+          "&var_UGRD=on&var_VGRD=on&var_TMP=on&var_PRATE=on&lev_10_m_above_ground=on&lev_2_m_above_ground=on&lev_surface=on&lev_850_mb=on")
 # Viento en altura (para estimar hacia dónde va la ceniza volcánica): 500, 300 y 200 hPa ≈ 5.5, 9 y 12 km.
 FILTRO_ALTURA = ("https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl?dir=%2Fgfs.{fecha}%2F{hh}%2Fatmos&file=gfs.t{hh}z.pgrb2.1p00.f{f:03d}"
                  "&var_UGRD=on&var_VGRD=on&lev_500_mb=on&lev_300_mb=on&lev_200_mb=on")
@@ -41,6 +42,11 @@ LAT_MAX = 85.05112878
 # Paletas: (valor, (r, g, b, a)). Entre paradas se interpola linealmente.
 PALETA_TEMP = [(-40, (110, 64, 170, 170)), (-20, (59, 76, 192, 170)), (0, (111, 168, 220, 160)), (10, (124, 207, 138, 150)),
                (20, (242, 210, 75, 150)), (30, (240, 140, 58, 165)), (40, (192, 57, 43, 180))]
+# Aire polar: temperatura a 850 hPa (~1.5 km), el indicador que usan los meteorólogos para seguir masas de aire frío
+# (no le afecta el calentamiento del suelo durante el día). Arriba de 0 °C queda transparente.
+PALETA_POLAR = [(-60, (110, 30, 160, 200)), (-30, (110, 30, 160, 190)), (-20, (60, 50, 200, 175)), (-10, (40, 110, 225, 150)),
+                (-5, (90, 165, 235, 120)), (0, (150, 205, 245, 70))]
+ISOTERMAS_850 = (0, -10, -20)
 PALETA_LLUVIA = [(0.1, (120, 190, 255, 0)), (0.3, (120, 190, 255, 120)), (1, (60, 120, 230, 170)), (4, (50, 180, 90, 190)),
                  (10, (240, 210, 60, 200)), (25, (220, 60, 40, 210)), (50, (160, 40, 160, 220))]
 
@@ -107,6 +113,73 @@ def a_mercator(campo, alto=ALTO_MERCATOR):
     return a * (1 - tf) + b * tf
 
 
+def isolineas(campo, nivel, lat0=90.0, lon0=-180.0, paso=1.0, dec=2):
+    """Líneas donde `campo` (fila 0 = lat0, columna 0 = lon0, da la vuelta en longitud) vale `nivel`: cuadrados
+    marchantes con interpolación lineal y segmentos unidos en polilíneas. → lista de listas [[lon, lat], …]."""
+    filas, cols = campo.shape
+    segs = []
+    for i in range(filas - 1):
+        for j in range(cols):
+            j1 = (j + 1) % cols
+            a, b, c, d = campo[i, j], campo[i, j1], campo[i + 1, j1], campo[i + 1, j]
+            if np.isnan([a, b, c, d]).any():
+                continue
+            s = [a >= nivel, b >= nivel, c >= nivel, d >= nivel]
+            if all(s) or not any(s):
+                continue
+            lat_a, lat_b = lat0 - i * paso, lat0 - (i + 1) * paso
+            lon_a, lon_b = lon0 + j * paso, lon0 + (j + 1) * paso
+
+            def cruce(v1, v2, p1, p2):
+                t = (nivel - v1) / (v2 - v1)
+                return (round(p1[0] + t * (p2[0] - p1[0]), dec), round(p1[1] + t * (p2[1] - p1[1]), dec))
+            esquinas = [(lon_a, lat_a), (lon_b, lat_a), (lon_b, lat_b), (lon_a, lat_b)]
+            vals = [a, b, c, d]
+            pts = [cruce(vals[k], vals[(k + 1) % 4], esquinas[k], esquinas[(k + 1) % 4]) for k in range(4) if s[k] != s[(k + 1) % 4]]
+            if len(pts) == 2:
+                segs.append((pts[0], pts[1]))
+            elif len(pts) == 4:  # punto de silla: se decide con el valor del centro
+                centro = (a + b + c + d) / 4 >= nivel
+                segs += [(pts[0], pts[1]), (pts[2], pts[3])] if centro == s[0] else [(pts[0], pts[3]), (pts[1], pts[2])]
+    # Unir segmentos que comparten extremo.
+    vecinos = {}
+    for k, (p, q) in enumerate(segs):
+        vecinos.setdefault(p, []).append(k)
+        vecinos.setdefault(q, []).append(k)
+    usado = [False] * len(segs)
+    lineas = []
+    for k in range(len(segs)):
+        if usado[k]:
+            continue
+        usado[k] = True
+        linea = list(segs[k])
+        for extremo in (1, 0):  # crecer hacia adelante y luego hacia atrás
+            while True:
+                punta = linea[-1] if extremo else linea[0]
+                sig = next((m for m in vecinos.get(punta, []) if not usado[m]), None)
+                if sig is None:
+                    break
+                usado[sig] = True
+                p, q = segs[sig]
+                nuevo = q if p == punta else p
+                linea.append(nuevo) if extremo else linea.insert(0, nuevo)
+        if len(linea) >= 3:
+            lineas.append([list(pt) for pt in linea])
+    return lineas
+
+
+def geojson_isotermas(campo, niveles=ISOTERMAS_850):
+    return {"type": "FeatureCollection", "features": [
+        {"type": "Feature", "properties": {"t": n}, "geometry": {"type": "LineString", "coordinates": l}}
+        for n in niveles for l in isolineas(campo, n)]}
+
+
+def colorear_polar(campo_merc):
+    arr = colorear(campo_merc, PALETA_POLAR)
+    arr[campo_merc > 0] = 0
+    return arr
+
+
 def colorear(campo, paleta):
     """Valores → RGBA uint8 interpolando la paleta; por debajo del primer valor queda transparente."""
     vals = np.array([p[0] for p in paleta], dtype=float)
@@ -129,7 +202,10 @@ def leer_grib(datos):
     campos = {}
     with pygrib.open(tmp) as g:
         for m in g:
-            clave = claves.get(m.shortName)
+            if m.shortName == "t" and m.typeOfLevel == "isobaricInhPa" and m.level == 850 and "t850" not in campos:
+                campos["t850"] = a_180(np.array(m.values, dtype=float)) - 273.15  # opcional: sin él no hay capa de aire polar
+                continue
+            clave = claves.get(m.shortName) if m.typeOfLevel != "isobaricInhPa" else None
             if clave and clave not in campos:
                 campos[clave] = a_180(np.array(m.values, dtype=float))
     faltan = {"u", "v", "temp", "lluvia"} - set(campos)
@@ -189,6 +265,12 @@ def main():
                 pasos.append({"f": f, "valido_utc": (corrida + timedelta(hours=f)).strftime("%Y-%m-%dT%H:%M:%SZ"),
                               "viento": f"viento_{nombre}.png", "temp": f"temp_{nombre}.png", "lluvia": f"lluvia_{nombre}.png",
                               "viento_max_ms": round(float(np.max(np.hypot(c["u"], c["v"]))), 1)})
+                if "t850" in c:
+                    guardar_png(colorear_polar(a_mercator(c["t850"])), os.path.join(OUT, f"polar_{nombre}.png"))
+                    with open(os.path.join(OUT, f"isotermas_{nombre}.geojson"), "w", encoding="utf-8") as fh:
+                        json.dump(geojson_isotermas(c["t850"]), fh, separators=(",", ":"))
+                    pasos[-1].update(polar=f"polar_{nombre}.png", isotermas=f"isotermas_{nombre}.geojson",
+                                     t850_min=round(float(np.min(c["t850"])), 1))
                 if len(pasos) <= HORIZONTES_ALTURA:
                     try:
                         time.sleep(2)
@@ -206,14 +288,15 @@ def main():
             print(f"clima: corrida {etiqueta} no disponible ({e}); se prueba la anterior")
             continue
         # Se borran los PNG de corridas anteriores que ya no se usan.
-        vigentes = {p[k] for p in pasos for k in ("viento", "temp", "lluvia")} | {a["archivo"] for p in pasos for a in p.get("alturas", {}).values()}
+        vigentes = {p[k] for p in pasos for k in ("viento", "temp", "lluvia", "polar", "isotermas") if k in p} | {a["archivo"] for p in pasos for a in p.get("alturas", {}).values()}
         for a in os.listdir(OUT):
-            if a.endswith(".png") and a not in vigentes:
+            if a.endswith((".png", ".geojson")) and a not in vigentes:
                 os.remove(os.path.join(OUT, a))
         json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "corrida": etiqueta, "fuente": "NOAA GFS 1° vía NOMADS",
                    "viento_escala_ms": VIENTO_MAX, "viento_altura_escala_ms": VIENTO_ALTURA_MAX, "rejilla_viento": {"lon0": -180, "lat0": 90, "paso": 1, "ancho": 360, "alto": 181},
                    "mercator_lat_max": LAT_MAX, "pasos": pasos,
                    "leyendas": {"temp": [[v, "#%02x%02x%02x" % c[:3]] for v, c in PALETA_TEMP],
+                                "polar": [[v, "#%02x%02x%02x" % c[:3]] for v, c in PALETA_POLAR[1:]],
                                 "lluvia": [[v, "#%02x%02x%02x" % c[:3]] for v, c in PALETA_LLUVIA[1:]]}},
                   open(ruta_meta, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
         return 0

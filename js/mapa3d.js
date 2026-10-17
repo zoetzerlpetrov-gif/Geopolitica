@@ -1,11 +1,12 @@
-// Visor de modelos 3D animados (three.js r170, vendor/three, licencia MIT). Se descarga solo al abrir el primer modelo.
-// Cada constructor arma una escena procedural (sin archivos 3D de terceros) y devuelve {grupo, animar(t, dt), camara, cielo}.
-// La forma y los parámetros vienen de js/modelos3d.js. Todo es ilustrativo: no es el objeto real ni está a escala.
+// Modelos 3D animados dibujados DENTRO del mapa, anclados a la coordenada del elemento (three.js r170, vendor/three, MIT).
+// Se usa una capa «custom» de MapLibre que comparte el WebGL del mapa: el modelo queda en su lugar real, en el globo o en el
+// plano, y se mueve con el mapa. Cada constructor arma una escena procedural (sin archivos 3D de terceros) en unidades de
+// escena y devuelve {grupo, animar(t, dt), metros (m por unidad), zoom, pitch} y, para vehículos, `pantalla` (tamaño
+// constante en pantalla). La forma y los parámetros vienen de js/modelos3d.js. Todo es ilustrativo.
 import * as THREE from "../vendor/three/three.module.min.js";
-import { OrbitControls } from "../vendor/three/OrbitControls.js";
 import { RoomEnvironment } from "../vendor/three/RoomEnvironment.js";
 
-const MOVIMIENTO_REDUCIDO = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const MOVIMIENTO_REDUCIDO = typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
 const azar = (a, b) => a + Math.random() * (b - a);
 
 // ---------- Utilidades de materiales y texturas ----------
@@ -38,16 +39,11 @@ const texturaPanelSolar = (base = "#16264a", linea = "#5d7bb8") => texturaCanvas
   for (let x = 0; x <= w; x += 16) { g.beginPath(); g.moveTo(x, 0); g.lineTo(x, h); g.stroke(); }
   for (let y = 0; y <= h; y += 16) { g.beginPath(); g.moveTo(0, y); g.lineTo(w, y); g.stroke(); }
 });
-const fondoDegradado = (arriba, abajo) => texturaCanvas(4, 256, (g, w, h) => {
-  const r = g.createLinearGradient(0, 0, 0, h);
-  r.addColorStop(0, arriba); r.addColorStop(1, abajo);
-  g.fillStyle = r; g.fillRect(0, 0, w, h);
-});
 
 // ---------- Partículas (fuego, humo, vapor, nubes, lluvia, agua) ----------
 const VERT = `attribute float tam; attribute float alfa; attribute vec3 tinte; uniform float escala; uniform float maximo;
 varying float vA; varying vec3 vC;
-void main() { vA = alfa; vC = tinte; vec4 mv = modelViewMatrix * vec4(position, 1.0); gl_PointSize = min(tam * escala / -mv.z, maximo); gl_Position = projectionMatrix * mv; }`;
+void main() { vA = alfa; vC = tinte; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); gl_PointSize = min(tam * escala / max(gl_Position.w, 1e-6), maximo); }`;
 const FRAG = `uniform sampler2D mapa; varying float vA; varying vec3 vC;
 void main() { vec4 t = texture2D(mapa, gl_PointCoord); gl_FragColor = vec4(vC * t.rgb, t.a * vA); }`;
 
@@ -97,49 +93,17 @@ class Particulas {
 const edad = (p) => 1 - p.vida / p.max;
 // Tope del tamaño en pantalla: partículas enormes llenan la GPU de trabajo (sobre todo en teléfonos).
 const MAXIMO_PX = { value: 320 };
+// Diámetro (unidades) → píxeles: lo recalcula la capa en cada cuadro según el zoom; lo comparten todas las partículas.
+const ESCALA = { value: 900 };
 
 // ---------- Piezas comunes ----------
-function suelo(color, radio = 80, rugosidad = 0.95) {
-  const s = new THREE.Mesh(new THREE.CircleGeometry(radio, 64), mat(color, { roughness: rugosidad }));
-  s.rotation.x = -Math.PI / 2; s.receiveShadow = true;
-  return s;
-}
-function sol(grupo, x = 30, y = 50, z = 20, intensidad = 2.4, tam = 40) {
+function sol(grupo, x = 30, y = 50, z = 20, intensidad = 2.4) {
   const l = new THREE.DirectionalLight(0xffffff, intensidad);
-  l.position.set(x, y, z); l.castShadow = true;
-  l.shadow.mapSize.set(1024, 1024);
-  Object.assign(l.shadow.camera, { left: -tam, right: tam, top: tam, bottom: -tam, near: 1, far: 200 });
-  l.shadow.bias = -0.0005;
+  l.position.set(x, y, z);
   grupo.add(l, new THREE.HemisphereLight(0xdfefff, 0x4a4030, 0.6));
   return l;
 }
 function sombras(o) { o.traverse((m) => { if (m.isMesh) { m.castShadow = true; m.receiveShadow = true; } }); return o; }
-/** Agua con oleaje (vértices animados). */
-function agua(tam, color = "#1d4e7a", seg = 70) {
-  const g = new THREE.PlaneGeometry(tam, tam, seg, seg);
-  g.rotateX(-Math.PI / 2);
-  const m = new THREE.Mesh(g, mat(color, { roughness: 0.18, metalness: 0.35 }));
-  m.receiveShadow = true;
-  const base = g.attributes.position.array.slice();
-  m.olas = (t, alto = 0.25) => {
-    const a = g.attributes.position.array;
-    for (let i = 0; i < a.length; i += 3) {
-      const x = base[i], z = base[i + 2];
-      a[i + 1] = alto * (Math.sin(x * 0.35 + t * 1.4) + 0.6 * Math.sin(z * 0.5 + t * 1.1) + 0.3 * Math.sin((x + z) * 0.9 + t * 2.3));
-    }
-    g.attributes.position.needsUpdate = true; g.computeVertexNormals();
-  };
-  return m;
-}
-function arbol(x, z, h = 2.2, color = "#2f6b34") {
-  const g = new THREE.Group();
-  const tronco = new THREE.Mesh(new THREE.CylinderGeometry(0.08 * h, 0.11 * h, 0.35 * h, 6), mat("#5b4026"));
-  tronco.position.y = 0.17 * h;
-  const copa = new THREE.Mesh(new THREE.ConeGeometry(0.38 * h, 0.85 * h, 7), mat(color, { roughness: 0.9 }));
-  copa.position.y = 0.72 * h;
-  g.add(tronco, copa); g.position.set(x, 0, z);
-  return g;
-}
 
 // ---------- Avión ----------
 function fuselaje(L, r, colorCuerpo) {
@@ -265,19 +229,14 @@ function construirAvion(m) {
     }
   }
   sombras(g);
-  // Nubes que pasan por debajo para dar sensación de vuelo.
-  const escala = { value: 900 };
-  const nubes = new Particulas(160, { textura: texturaHumo(), escala,
-    nacer: (p) => { p.x = azar(40, 60); p.y = azar(-9, -4); p.z = azar(-30, 30); p.vx = -azar(9, 14); p.max = 9; p.tam = azar(6, 12); p.alfa = 0.85; p.c.setRGB(1, 1, 1); },
-    mover: (p, dt) => { p.x += p.vx * dt; const e = edad(p); p.alfa = Math.min(1, e * 5, (1 - e) * 5) * 0.85; } });
-  const raiz = new THREE.Group(); raiz.add(g, nubes.obj);
-  sol(raiz, 20, 40, 25, 2.2, 15);
+  const raiz = new THREE.Group(); raiz.add(g);
+  raiz.rotation.y = rumboAGiro(m.rumbo); // la nariz (+X) apunta al rumbo de la última señal
+  sol(raiz, 20, 40, 25, 2.2);
   return {
-    grupo: raiz, escala, camara: [11, 4, 14], objetivo: [0, 0, 0], cielo: ["#3d7fc4", "#cfe6f7"],
+    grupo: raiz, pantalla: { px: 110, unidades: 14 },
     animar: (t, dt) => {
       g.rotation.x = Math.sin(t * 0.5) * 0.06; g.rotation.z = Math.sin(t * 0.35) * 0.025; g.position.y = Math.sin(t * 0.8) * 0.15;
       for (const [o, eje, v] of giran) o.rotation[eje] += v * dt;
-      nubes.actualizar(dt);
     },
   };
 }
@@ -357,19 +316,18 @@ function construirBarco(m) {
     g.add(caja(0.06, 1, 0.06, "#ddd", 0.4, y, 0));
   }
   sombras(g);
-  const mar = agua(160, "#1b4f7c");
-  const raiz = new THREE.Group(); raiz.add(mar, g);
+  const raiz = new THREE.Group(); raiz.add(g);
+  raiz.rotation.y = rumboAGiro(m.rumbo);
   // Estela blanca detrás del barco.
-  const escala = { value: 900 };
+  const escala = ESCALA;
   const estela = new Particulas(220, { textura: texturaSuave(), escala,
     nacer: (p) => { p.x = -L / 2 + azar(-0.3, 0.3); p.y = 0.15; p.z = azar(-W / 3, W / 3); p.vx = -azar(2, 3); p.vz = (p.z >= 0 ? 1 : -1) * azar(0.2, 0.6); p.max = azar(2.5, 4); p.tam = azar(0.6, 1.2); p.c.setRGB(1, 1, 1); },
     mover: (p, dt) => { p.x += p.vx * dt; p.z += p.vz * dt; p.alfa = (1 - edad(p)) * 0.7; p.tam += dt * 0.8; } });
   raiz.add(estela.obj);
-  sol(raiz, 30, 40, 20, 2.4, 14);
+  sol(raiz, 30, 40, 20, 2.4);
   return {
-    grupo: raiz, escala, camara: [14, 6, 13], objetivo: [0, 1.4, 0], cielo: ["#5d9fd6", "#e2eef6"], niebla: ["#cfe0ec", 40, 110],
+    grupo: raiz, pantalla: { px: 120, unidades: 16 },
     animar: (t, dt) => {
-      mar.olas(t, f === "vela" || f === "pesca" ? 0.22 : 0.16);
       g.position.y = Math.sin(t * 1.2) * 0.12; g.rotation.x = Math.sin(t * 0.9) * (L < 8 ? 0.06 : 0.025); g.rotation.z = Math.sin(t * 0.7) * 0.015;
       estela.actualizar(dt);
     },
@@ -377,28 +335,6 @@ function construirBarco(m) {
 }
 
 // ---------- Satélite ----------
-function tierraLejana(radio) {
-  const tex = texturaCanvas(512, 256, (g, w, h) => {
-    g.fillStyle = "#123e72"; g.fillRect(0, 0, w, h);
-    for (let i = 0; i < 70; i++) { // manchas de tierra y nubes, solo ambientación
-      g.fillStyle = i < 30 ? "rgba(70,110,60,0.85)" : "rgba(255,255,255,0.55)";
-      g.beginPath(); g.ellipse(azar(0, w), azar(h * 0.15, h * 0.85), azar(8, i < 30 ? 50 : 30), azar(4, 16), azar(0, 3), 0, Math.PI * 2); g.fill();
-    }
-  });
-  const t = new THREE.Mesh(new THREE.SphereGeometry(radio, 64, 48), mat("#ffffff", { map: tex, roughness: 0.9, metalness: 0 }));
-  const atm = new THREE.Mesh(new THREE.SphereGeometry(radio * 1.025, 64, 48), new THREE.MeshBasicMaterial({ color: "#5aa9ff", transparent: true, opacity: 0.18, side: THREE.BackSide, blending: THREE.AdditiveBlending }));
-  const g = new THREE.Group(); g.add(t, atm);
-  return g;
-}
-function estrellas(n = 1500, r = 400) {
-  const pos = new Float32Array(n * 3);
-  for (let i = 0; i < n; i++) {
-    const v = new THREE.Vector3(azar(-1, 1), azar(-1, 1), azar(-1, 1)).normalize().multiplyScalar(r);
-    pos.set([v.x, v.y, v.z], i * 3);
-  }
-  const g = new THREE.BufferGeometry(); g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-  return new THREE.Points(g, new THREE.PointsMaterial({ color: 0xffffff, size: 1.2, sizeAttenuation: false }));
-}
 function panelSolar(largo, ancho, tex) {
   const m = new THREE.Mesh(new THREE.BoxGeometry(largo, 0.05, ancho), [mat("#888"), mat("#888"), mat("#ffffff", { map: tex, metalness: 0.6, roughness: 0.3 }), mat("#3a3a3a"), mat("#888"), mat("#888")]);
   return m;
@@ -440,68 +376,45 @@ function construirSatelite(m) {
     plato.rotation.x = Math.PI; plato.position.y = -0.55; g.add(plato);
     const ant = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 1.2, 6), mat("#ddd")); ant.position.set(0.6, 1.4, 0.6); g.add(ant);
   }
-  const tierra = tierraLejana(60); tierra.position.set(0, -78, -20);
-  const raiz = new THREE.Group(); raiz.add(tierra, estrellas(), g);
+  const raiz = new THREE.Group(); raiz.add(g);
   const luz = new THREE.DirectionalLight(0xfff4e0, 3); luz.position.set(40, 30, 30);
   raiz.add(luz, new THREE.AmbientLight(0x8899aa, 0.35));
   return {
-    grupo: raiz, camara: [12, 5, 15], objetivo: [0, 0, 0], cielo: ["#01030a", "#081a33"],
-    animar: (t, dt) => {
-      g.rotation.y = t * 0.12; g.position.y = Math.sin(t * 0.4) * 0.3;
+    grupo: raiz, pantalla: { px: 120, unidades: 14 },
+    animar: (t) => {
+      g.rotation.y = t * 0.12;
       for (const p of paneles) p.rotation.z = Math.sin(t * 0.2) * 0.25;
-      tierra.rotation.y += dt * 0.01;
     },
   };
 }
 
-// ---------- Terreno con valle (presa) ----------
-function terrenoValle(tam = 140, seg = 140, ancho = 16, alto = 18) {
-  const g = new THREE.PlaneGeometry(tam, tam, seg, seg);
-  g.rotateX(-Math.PI / 2);
-  const a = g.attributes.position.array, col = new Float32Array(a.length);
-  const c = new THREE.Color();
-  for (let i = 0; i < a.length; i += 3) {
-    const x = a[i], z = a[i + 2];
-    const d = Math.abs(z + Math.sin(x * 0.04) * 4) / ancho;
-    const h = alto * Math.min(1, Math.max(0, d - 0.25) ** 1.4) + Math.sin(x * 0.2) * Math.cos(z * 0.17) * 1.2 + Math.sin(x * 0.07 + z * 0.05) * 2;
-    a[i + 1] = h - 2;
-    const u = Math.min(1, Math.max(0, h / alto));
-    c.set(u < 0.12 ? "#6b7d3a" : u < 0.7 ? "#4f6b2f" : u < 0.93 ? "#6f6a4a" : "#8a8376");
-    col.set([c.r, c.g, c.b], i);
-  }
-  g.setAttribute("color", new THREE.BufferAttribute(col, 3));
-  g.computeVertexNormals();
-  const m = new THREE.Mesh(g, new THREE.MeshStandardMaterial({ vertexColors: true, roughness: 0.95 }));
-  m.receiveShadow = true;
-  return m;
-}
+// ---------- Presa ----------
 function construirPresa(m) {
   const raiz = new THREE.Group();
-  raiz.add(terrenoValle());
   const R = 24, esp = 2.4, alto = 17, ang = 0.62;
   const s = new THREE.Shape();
   s.absarc(0, 0, R, -ang, ang, false); s.absarc(0, 0, R - esp, ang, -ang, true);
   const g = new THREE.ExtrudeGeometry(s, { depth: alto, bevelEnabled: false, curveSegments: 48 });
   g.rotateX(-Math.PI / 2);
   const cortina = new THREE.Mesh(g, mat("#c9c4b8", { roughness: 0.85 }));
-  cortina.rotation.y = Math.PI; cortina.position.set(R - 3, -3, 0); // convexa aguas arriba (−X)
+  cortina.rotation.y = Math.PI; cortina.position.set(R - 3, 0, 0); // convexa aguas arriba (−X)
   raiz.add(sombras(cortina));
-  const embalse = agua(70, "#24597a", 50); embalse.position.set(-38, alto - 4.5, 0); raiz.add(embalse);
-  const rio = agua(60, "#2f6f86", 40); rio.scale.set(1, 1, 0.25); rio.position.set(36, -1.6, 0); raiz.add(rio);
-  if (m.hidro) { raiz.add(sombras(caja(5, 3, 9, "#b8b2a6", 6, -2, 0))); }
-  const escala = { value: 900 };
+  // Agua del embalse aguas arriba, casi al ras de la corona (el embalse real se ve en el mapa).
+  const embalse = new THREE.Mesh(new THREE.RingGeometry(R, R + 16, 48, 1, Math.PI - ang, 2 * ang), mat("#2c6a8f", { roughness: 0.2, metalness: 0.3, transparent: true, opacity: 0.7, side: THREE.DoubleSide }));
+  embalse.rotation.x = -Math.PI / 2; embalse.position.set(R - 3, alto - 0.6, 0); raiz.add(embalse);
+  if (m.hidro) { raiz.add(sombras(caja(5, 3, 9, "#b8b2a6", 6, 0, 0))); }
+  const escala = ESCALA;
   // Agua del vertedor: cae desde la corona por la cara de la cortina y se vuelve espuma abajo.
   const caida = new Particulas(900, { textura: texturaSuave(), escala,
-    nacer: (p) => { p.x = -0.5; p.y = alto - 4; p.z = azar(-2.5, 2.5); p.vx = azar(2.5, 4); p.vy = 0; p.vz = 0; p.max = 2.2; p.tam = azar(0.5, 0.9); p.c.set("#dff3ff"); p.alfa = 0.9; },
+    nacer: (p) => { p.x = -0.5; p.y = alto - 0.8; p.z = azar(-2.5, 2.5); p.vx = azar(2.5, 4); p.vy = 0; p.vz = 0; p.max = 2.2; p.tam = azar(0.5, 0.9); p.c.set("#dff3ff"); p.alfa = 0.9; },
     mover: (p, dt) => {
       p.vy -= 9.8 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt;
-      if (p.y < -1.2) { p.y = -1.2; p.vy *= -0.15; p.vx *= 0.6; p.vz = azar(-3, 3); p.tam += dt * 2; p.c.set("#ffffff"); }
+      if (p.y < 0.2) { p.y = 0.2; p.vy *= -0.15; p.vx *= 0.6; p.vz = azar(-3, 3); p.tam += dt * 2; p.c.set("#ffffff"); }
       p.alfa = (1 - edad(p)) * 0.85;
     } });
   raiz.add(caida.obj);
-  sol(raiz, -30, 45, 30, 2.4, 50);
-  return { grupo: raiz, escala, camara: [58, 30, 10], objetivo: [0, 6, 0], cielo: ["#4b8fd0", "#dceaf5"], niebla: ["#d6e5f0", 70, 170],
-    animar: (t, dt) => { embalse.olas(t, 0.05); rio.olas(t * 2, 0.12); caida.actualizar(dt); } };
+  sol(raiz, -30, 45, 30, 2.4);
+  return { grupo: raiz, metros: 12, zoom: 15.6, pitch: 60, animar: (t, dt) => caida.actualizar(dt) };
 }
 
 // ---------- Central nuclear ----------
@@ -511,29 +424,31 @@ function torreEnfriamiento() {
   const t = new THREE.Mesh(new THREE.LatheGeometry(pts, 48), mat("#d5d1c8", { roughness: 0.9, side: THREE.DoubleSide }));
   return t;
 }
-function construirNuclear() {
+function construirNuclear(m) {
   const raiz = new THREE.Group();
-  raiz.add(suelo("#6f7f4a", 90));
-  const torres = [[-8, -6], [-8, 7]];
+  const v = m.variante || "";
+  const torres = v === "investigacion" ? [] : [[-8, -6], [-8, 7]];
   for (const [x, z] of torres) { const t = torreEnfriamiento(); t.position.set(x, 0, z); raiz.add(sombras(t)); }
   const cont = new THREE.Mesh(new THREE.CylinderGeometry(3, 3, 5, 40), mat("#e8e5dd")); cont.position.set(6, 2.5, -3);
   const domo = new THREE.Mesh(new THREE.SphereGeometry(3, 40, 20, 0, Math.PI * 2, 0, Math.PI / 2), mat("#e8e5dd")); domo.position.set(6, 5, -3);
   const chimenea = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.5, 12, 16), mat("#d8d4cc")); chimenea.position.set(12, 6, 9);
   raiz.add(sombras(cont), sombras(domo), sombras(caja(9, 4, 5, "#9fb0bf", 7, 0, 5)), sombras(chimenea));
-  const escala = { value: 900 };
+  const escala = ESCALA;
   const vapor = new Particulas(500, { textura: texturaHumo(), escala,
-    nacer: (p) => { const [x, z] = torres[(Math.random() * 2) | 0]; p.x = x + azar(-1.5, 1.5); p.y = 14; p.z = z + azar(-1.5, 1.5); p.vy = azar(2, 3.2); p.vx = azar(0.6, 1.4); p.max = azar(5, 8); p.tam = 3; p.c.setRGB(1, 1, 1); },
+    nacer: (p) => { const [x, z] = torres[(Math.random() * torres.length) | 0] || [0, 0]; p.x = x + azar(-1.5, 1.5); p.y = 14; p.z = z + azar(-1.5, 1.5); p.vy = azar(2, 3.2); p.vx = azar(0.6, 1.4); p.max = azar(5, 8); p.tam = 3; p.c.setRGB(1, 1, 1); },
     mover: (p, dt) => { p.x += p.vx * dt; p.y += p.vy * dt; p.vy *= 0.995; const e = edad(p); p.tam = 3 + e * 14; p.alfa = Math.min(1, e * 6) * (1 - e) * 0.75; } });
   raiz.add(vapor.obj);
-  for (let i = 0; i < 40; i++) { const a = azar(0, 6.28), r = azar(22, 60); raiz.add(arbol(Math.cos(a) * r, Math.sin(a) * r, azar(1.8, 3))); }
-  sol(raiz, 30, 45, 20, 2.4, 40);
-  return { grupo: raiz, escala, camara: [30, 16, 30], objetivo: [0, 6, 0], cielo: ["#5b98d1", "#e3eef6"], niebla: ["#dde9f2", 60, 160], animar: (t, dt) => vapor.actualizar(dt) };
+  if (v === "construccion") raiz.add(sombras(grua(12, 2, 14)));
+  sol(raiz, 30, 45, 20, 2.4);
+  // Cerrada o en construcción: sin vapor.
+  const activa = v === "" ;
+  vapor.obj.visible = activa;
+  return { grupo: raiz, metros: v === "investigacion" ? 5 : 9, zoom: v === "investigacion" ? 16.6 : 15.9, pitch: 60, animar: (t, dt) => { if (activa) vapor.actualizar(dt); } };
 }
 
 // ---------- Parque eólico ----------
 function construirEolica() {
   const raiz = new THREE.Group();
-  raiz.add(suelo("#7c9a4e", 120));
   const rotores = [];
   const blanco = mat("#f3f4f5", { roughness: 0.4 });
   for (const [x, z] of [[0, 0], [-14, -10], [14, -12], [-12, 14], [15, 12], [0, -26], [-28, 2]]) {
@@ -550,15 +465,14 @@ function construirEolica() {
     t.add(rotor); t.position.set(x, 0, z); t.rotation.y = 0.6;
     raiz.add(sombras(t)); rotores.push([rotor, azar(0.9, 1.2)]);
   }
-  sol(raiz, 30, 50, 10, 2.4, 50);
-  return { grupo: raiz, camara: [30, 14, 34], objetivo: [0, 10, 0], cielo: ["#4f93d6", "#e6f0f8"], niebla: ["#e0ebf4", 60, 180],
+  sol(raiz, 30, 50, 10, 2.4);
+  return { grupo: raiz, metros: 7, zoom: 14.6, pitch: 60,
     animar: (t, dt) => { for (const [r, v] of rotores) r.rotation.x += v * dt; } };
 }
 
 // ---------- Planta solar ----------
 function construirSolar() {
   const raiz = new THREE.Group();
-  raiz.add(suelo("#b9a57c", 90));
   const tex = texturaPanelSolar();
   const filas = [];
   for (let f = -6; f <= 6; f++) {
@@ -569,8 +483,8 @@ function construirSolar() {
     }
     fila.position.set(0, 1.4, f * 4.6); raiz.add(sombras(fila)); filas.push(fila);
   }
-  sol(raiz, 20, 50, 30, 2.6, 40);
-  return { grupo: raiz, camara: [28, 16, 30], objetivo: [0, 0, 0], cielo: ["#3f8ad6", "#eaf2f8"], niebla: ["#e8eef2", 60, 170],
+  sol(raiz, 20, 50, 30, 2.6);
+  return { grupo: raiz, metros: 4, zoom: 15.6, pitch: 55,
     animar: (t) => { for (const f of filas) f.rotation.x = -0.35 + Math.sin(t * 0.15) * 0.25; } }; // seguidores que siguen al sol
 }
 
@@ -585,14 +499,17 @@ function construirVolcan(m) {
   const pos = cono.geometry.attributes.position.array;
   for (let i = 0; i < pos.length; i += 3) { const k = 1 + 0.035 * Math.sin(Math.atan2(pos[i + 2], pos[i]) * 7 + pos[i + 1] * 0.3); pos[i] *= k; pos[i + 2] *= k; } // barrancas
   cono.geometry.computeVertexNormals();
-  raiz.add(sombras(cono), suelo("#5c6b40", 140));
+  raiz.add(sombras(cono));
   const lava = new THREE.Mesh(new THREE.CircleGeometry(2.4, 32), new THREE.MeshBasicMaterial({ color: nivel >= 3 ? "#ff5a1a" : "#7a2a12" }));
   lava.rotation.x = -Math.PI / 2; lava.position.y = 18.7; raiz.add(lava);
   const brillo = new THREE.PointLight(0xff6a2a, nivel >= 3 ? 60 : 8, 40); brillo.position.y = 21; raiz.add(brillo);
-  const escala = { value: 900 };
-  const ceniza = new Particulas(200 + nivel * 160, { textura: texturaHumo(), escala,
-    nacer: (p) => { p.x = azar(-1.5, 1.5); p.y = 20; p.z = azar(-1.5, 1.5); p.vy = azar(3, 5) * (0.5 + nivel * 0.3); p.vx = azar(0.5, 1.5); p.max = azar(5, 9); const g = azar(0.25, 0.45); p.c.setRGB(g, g * 0.95, g * 0.9); },
-    mover: (p, dt) => { p.x += p.vx * dt * (1 + p.y * 0.04); p.y += p.vy * dt; p.vy *= 0.993; const e = edad(p); p.tam = 3 + e * (8 + nivel * 3); p.alfa = Math.min(1, e * 6) * (1 - e) * 0.9; } });
+  const escala = ESCALA;
+  // Alerta baja (1–2): solo vapor blanco tenue (fumarola). Desde 3: columna de ceniza gris que crece con el nivel.
+  const fumarola = nivel <= 2;
+  const ceniza = new Particulas(fumarola ? 90 : 200 + nivel * 160, { textura: texturaHumo(), escala,
+    nacer: (p) => { p.x = azar(-1.5, 1.5); p.y = 20; p.z = azar(-1.5, 1.5); p.vy = azar(3, 5) * (fumarola ? 0.35 : 0.5 + nivel * 0.3); p.vx = azar(0.5, 1.5); p.max = azar(5, 9);
+      const g = fumarola ? azar(0.92, 1) : azar(0.25, 0.45); p.c.setRGB(g, g * 0.97, g * 0.94); },
+    mover: (p, dt) => { p.x += p.vx * dt * (1 + p.y * 0.04); p.y += p.vy * dt; p.vy *= 0.993; const e = edad(p); p.tam = 3 + e * (fumarola ? 6 : 8 + nivel * 3); p.alfa = Math.min(1, e * 6) * (1 - e) * (fumarola ? 0.45 : 0.9); } });
   raiz.add(ceniza.obj);
   let bombas = null;
   if (nivel >= 4) {
@@ -601,18 +518,15 @@ function construirVolcan(m) {
       mover: (p, dt) => { p.vy -= 9.8 * dt; p.x += p.vx * dt; p.y += p.vy * dt; p.z += p.vz * dt; p.alfa = 1 - edad(p); } });
     raiz.add(bombas.obj);
   }
-  sol(raiz, -30, 40, 25, 2.0, 60);
-  return { grupo: raiz, escala, camara: [80, 34, 80], objetivo: [0, 14, 0], cielo: nivel >= 4 ? ["#5d5a5a", "#c9b7a4"] : ["#5a93c8", "#dfe8ef"], niebla: ["#d9d6d0", 80, 220],
+  sol(raiz, -30, 40, 25, 2.0);
+  return { grupo: raiz, metros: 150, zoom: 11.2, pitch: 60,
     animar: (t, dt) => { ceniza.actualizar(dt); bombas?.actualizar(dt); brillo.intensity = (nivel >= 3 ? 60 : 8) * (0.8 + 0.3 * Math.sin(t * 7) * Math.sin(t * 3.1)); } };
 }
 
 // ---------- Tornado ----------
 function construirTornado(m) {
   const raiz = new THREE.Group();
-  const base = m.agua ? agua(160, "#3d5560") : suelo("#6a7046", 120);
-  raiz.add(base);
-  if (!m.agua) for (let i = 0; i < 50; i++) raiz.add(arbol(azar(-60, 60), azar(-60, 60), azar(1.5, 2.5)));
-  const escala = { value: 900 };
+  const escala = ESCALA;
   const H = 30;
   const embudo = new THREE.Group(); raiz.add(embudo);
   const radio = (y) => 0.8 + (y / H) ** 1.8 * 9;
@@ -624,21 +538,20 @@ function construirTornado(m) {
     mover: (p, dt) => { p.a += dt * 3; p.r += p.vr * dt; p.vy -= 3 * dt; p.y = Math.max(0, p.y + p.vy * dt); p.x = Math.cos(p.a) * p.r; p.z = Math.sin(p.a) * p.r; p.alfa = (1 - edad(p)) * 0.8; } });
   embudo.add(remolino.obj, escombros.obj);
   const nube = new Particulas(420, { textura: texturaHumo(), escala,
-    nacer: (p) => { const a = azar(0, 6.28), r = Math.sqrt(Math.random()) * 70; p.x = Math.cos(a) * r; p.z = Math.sin(a) * r; p.y = H + azar(0, 5); p.a = a; p.r = r; p.max = 1e9; p.tam = azar(14, 22); const g = azar(0.22, 0.36); p.c.setRGB(g, g, g * 1.05); p.alfa = 0.9; },
+    nacer: (p) => { const a = azar(0, 6.28), r = Math.sqrt(Math.random()) * 38; p.x = Math.cos(a) * r; p.z = Math.sin(a) * r; p.y = H + azar(0, 5); p.a = a; p.r = r; p.max = 1e9; p.tam = azar(12, 18); const g = azar(0.22, 0.36); p.c.setRGB(g, g, g * 1.05); p.alfa = 0.7; },
     mover: (p, dt) => { p.a += dt * 0.05; p.x = Math.cos(p.a) * p.r; p.z = Math.sin(p.a) * p.r; } });
   raiz.add(nube.obj);
   raiz.add(new THREE.HemisphereLight(0x9aa59a, 0x3a3a30, 1.2));
   const l = new THREE.DirectionalLight(0xd8e0d0, 0.9); l.position.set(-20, 40, 10); raiz.add(l);
-  return { grupo: raiz, escala, camara: [48, 12, 48], objetivo: [0, 14, 0], cielo: ["#3d4540", "#8a9488"], niebla: ["#6f7a70", 50, 160],
-    animar: (t, dt) => { embudo.position.set(Math.sin(t * 0.15) * 10, 0, Math.cos(t * 0.11) * 8); remolino.actualizar(dt); escombros.actualizar(dt); nube.actualizar(dt); base.olas?.(t, 0.3); } };
+  return { grupo: raiz, metros: 40, zoom: 13.2, pitch: 65,
+    animar: (t, dt) => { embudo.position.set(Math.sin(t * 0.15) * 10, 0, Math.cos(t * 0.11) * 8); remolino.actualizar(dt); escombros.actualizar(dt); nube.actualizar(dt); } };
 }
 
 // ---------- Ciclón ----------
 function construirCiclon(m) {
   const raiz = new THREE.Group();
-  const mar = agua(260, "#14466e", 60); raiz.add(mar);
   const cat = m.cat || 0, sentido = m.sur ? -1 : 1;
-  const escala = { value: 900 };
+  const escala = ESCALA;
   const nubes = new THREE.Group(); raiz.add(nubes);
   const bandas = cat >= 3 ? 3 : 2, n = 1500 + cat * 250;
   const espiral = new Particulas(n, { textura: texturaHumo(), escala,
@@ -648,14 +561,14 @@ function construirCiclon(m) {
       else if (centro) { p.r = azar(6.5, 13); p.a = azar(0, 6.28); }
       else { const k = (Math.random() * bandas) | 0, th = Math.random() * 4.2; p.r = 6.5 * Math.exp(0.42 * th) + azar(-1.2, 1.2) * (1 + th * 0.4); p.a = (k / bandas) * 6.28 - th * sentido + azar(-0.15, 0.15); }
       p.x = Math.cos(p.a) * p.r; p.z = Math.sin(p.a) * p.r;
-      p.y = 6 + azar(-1, 1.5) + (pared ? 2.5 : 0); p.max = 1e9; p.tam = pared ? azar(2.5, 3.5) : azar(3, 5.5); const g = azar(0.85, 1); p.c.setRGB(g, g, g); p.alfa = pared ? 0.9 : azar(0.5, 0.85);
+      p.y = 1.2 + azar(-0.3, 0.5) + (pared ? 0.8 : 0); p.max = 1e9; p.tam = pared ? azar(3, 4.2) : azar(3.5, 6.5); const g = azar(0.88, 1); p.c.setRGB(g, g, g); p.alfa = pared ? 0.95 : azar(0.7, 0.95);
     },
     mover: () => {} });
   espiral.actualizar(0);
   nubes.add(espiral.obj); // gira todo junto: con giro diferencial las bandas se enrollarían en una mancha
-  sol(raiz, 40, 60, 20, 2.2, 90);
-  return { grupo: raiz, escala, camara: [0, 75, 70], objetivo: [0, 0, 0], cielo: ["#0d2a4a", "#6c93b8"], niebla: ["#5f84a6", 120, 300],
-    animar: (t, dt) => { nubes.rotation.y += dt * sentido * (0.12 + cat * 0.04); mar.olas(t, 0.4); } };
+  sol(raiz, 40, 60, 20, 2.2);
+  return { grupo: raiz, metros: 9000, zoom: 5.4, pitch: 45,
+    animar: (t, dt) => { nubes.rotation.y += dt * sentido * (0.12 + cat * 0.04); } };
 }
 
 // ---------- Tormenta eléctrica ----------
@@ -678,9 +591,7 @@ function trazoRayo(desde, hasta, ramas = 3) {
 }
 function construirTormenta() {
   const raiz = new THREE.Group();
-  raiz.add(suelo("#3d4a34", 140));
-  for (let i = 0; i < 60; i++) raiz.add(arbol(azar(-70, 70), azar(-70, 70), azar(1.6, 2.6), "#2b4a2c"));
-  const escala = { value: 900 };
+  const escala = ESCALA;
   const nube = new Particulas(700, { textura: texturaHumo(), escala,
     nacer: (p) => { const y = azar(18, 42), ancho = y > 36 ? 40 : 18 + (y - 18) * 0.2; const a = azar(0, 6.28), r = Math.sqrt(Math.random()) * ancho; p.x = Math.cos(a) * r; p.z = Math.sin(a) * r; p.y = y; p.max = 1e9; p.tam = azar(10, 16); p.g = azar(0.28, 0.5); p.c.setRGB(p.g, p.g, p.g * 1.08); p.alfa = 0.85; },
     mover: () => {} });
@@ -693,7 +604,7 @@ function construirTormenta() {
   const hemi = new THREE.HemisphereLight(0x8090a0, 0x2a2a24, 0.7); raiz.add(hemi);
   const destello = new THREE.PointLight(0xdfe8ff, 0, 160, 1.2); destello.position.set(0, 25, 0); raiz.add(destello);
   let rayo = null, proximo = 0.6, vida = 0;
-  return { grupo: raiz, escala, camara: [55, 14, 55], objetivo: [0, 16, 0], cielo: ["#1d2229", "#4b5560"], niebla: ["#3a424b", 60, 180],
+  return { grupo: raiz, metros: 200, zoom: 11.2, pitch: 65,
     animar: (t, dt) => {
       const a = pl;
       for (let i = 0; i < nl; i++) { let y = a[i * 6 + 1] - dt * 22; if (y < 0) y += 18; a[i * 6 + 1] = y; a[i * 6 + 4] = y - 0.9; }
@@ -715,62 +626,52 @@ function construirTormenta() {
 }
 
 // ---------- Sismo ----------
+/** Ondas que se abren desde el epicentro (más grandes y rápidas con más magnitud) y un pulso en el epicentro. */
 function construirSismo(m) {
   const raiz = new THREE.Group();
   const mag = Math.max(2, Math.min(9.5, m.mag || 5));
-  const amp = Math.min(1.4, 0.02 * 1.75 ** (mag - 2));
-  const capas = ["#7a8b4c", "#8a6d4b", "#7b5e40", "#6b5038", "#5a4535"];
-  const bloque = (x) => {
-    const g = new THREE.Group();
-    capas.forEach((c, i) => g.add(caja(30, 2.4, 40, c, 0, -2.4 * (i + 1), 0, { roughness: 0.95 })));
-    for (let i = 0; i < 14; i++) { const h = azar(1.5, 6); g.add(caja(azar(1.5, 3), h, azar(1.5, 3), ["#d8d4cc", "#b9c2c9", "#e6dccd"][i % 3], azar(-11, 11), 0, azar(-16, 16))); }
-    for (let i = 0; i < 12; i++) g.add(arbol(azar(-13, 13), azar(-18, 18), 1.6));
-    g.position.x = x;
-    return sombras(g);
-  };
-  const a = bloque(-15.2), b = bloque(15.2);
-  raiz.add(a, b);
-  const hipo = new THREE.Mesh(new THREE.SphereGeometry(0.9, 24, 16), new THREE.MeshBasicMaterial({ color: "#ff3b30" })); hipo.position.set(0, -9, 0); raiz.add(hipo);
+  const alcance = 3 * 1.7 ** (mag - 4); // radio máximo de las ondas, en unidades (1 unidad = 1 km)
   const ondas = [];
-  for (let i = 0; i < 4; i++) {
-    const o = new THREE.Mesh(new THREE.RingGeometry(0.9, 1.3, 64), new THREE.MeshBasicMaterial({ color: "#ffb020", transparent: true, side: THREE.DoubleSide }));
-    o.rotation.x = -Math.PI / 2; o.position.y = 0.05; raiz.add(o); ondas.push(o);
+  for (let i = 0; i < 5; i++) {
+    const o = new THREE.Mesh(new THREE.RingGeometry(0.92, 1, 96), new THREE.MeshBasicMaterial({ color: i % 2 ? "#FFB020" : "#FF5A36", transparent: true, side: THREE.DoubleSide, depthWrite: false }));
+    o.rotation.x = -Math.PI / 2; o.position.y = 0.02; raiz.add(o); ondas.push(o);
   }
-  sol(raiz, 30, 45, 25, 2.4, 40);
-  return { grupo: raiz, camara: [38, 22, 46], objetivo: [0, -3, 0], cielo: ["#6aa0cf", "#e8eef3"],
+  const pulso = new THREE.Mesh(new THREE.CircleGeometry(1, 48), new THREE.MeshBasicMaterial({ color: "#FF3B30", transparent: true, opacity: 0.55, depthWrite: false }));
+  pulso.rotation.x = -Math.PI / 2; pulso.position.y = 0.03; raiz.add(pulso);
+  // Columna de luz que marca el epicentro desde lejos.
+  const haz = new THREE.Mesh(new THREE.CylinderGeometry(0.15, 0.6, alcance * 0.6, 24, 1, true),
+    new THREE.MeshBasicMaterial({ color: "#FF6A3D", transparent: true, opacity: 0.35, side: THREE.DoubleSide, blending: THREE.AdditiveBlending, depthWrite: false }));
+  haz.position.y = alcance * 0.3; raiz.add(haz);
+  const zoom = Math.max(6.5, Math.min(11, 13.6 - Math.log2(alcance * 2)));
+  return { grupo: raiz, metros: 1000, zoom, pitch: 50,
     animar: (t) => {
-      const ciclo = t % 6, fuerte = ciclo < 3.5 ? Math.sin((ciclo / 3.5) * Math.PI) : 0;
-      a.position.z = Math.sin(t * 23) * amp * fuerte; b.position.z = -Math.sin(t * 23) * amp * fuerte;
-      a.position.y = Math.sin(t * 17) * amp * 0.3 * fuerte; b.position.y = -a.position.y;
-      hipo.scale.setScalar(1 + 0.4 * Math.sin(t * 6));
-      ondas.forEach((o, i) => { const u = ((ciclo / 3.5) + i / 4) % 1; o.scale.setScalar(1 + u * 26); o.material.opacity = ciclo < 3.5 ? (1 - u) * 0.8 : 0; });
+      const ciclo = (t % 4) / 4;
+      ondas.forEach((o, i) => { const u = (ciclo + i / ondas.length) % 1; o.scale.setScalar(0.2 + u * alcance); o.material.opacity = (1 - u) * 0.85; });
+      pulso.scale.setScalar(alcance * 0.06 * (1 + 0.5 * Math.sin(t * 8)));
     } };
 }
 
 // ---------- Incendio ----------
 function construirIncendio() {
   const raiz = new THREE.Group();
-  raiz.add(suelo("#4d4a2c", 120));
-  for (let i = 0; i < 220; i++) { const x = azar(-50, 50), z = azar(-50, 50); raiz.add(arbol(x, z, azar(2, 3.4), x < -4 ? "#2f2a24" : "#335f30")); }
-  const escala = { value: 900 };
+  const escala = ESCALA;
   const frente = () => Math.sin(performance.now() / 9000) * 3; // el frente avanza y retrocede un poco
   const fuego = new Particulas(1400, { textura: texturaSuave(), aditivo: true, escala,
-    nacer: (p) => { p.x = frente() + azar(-3, 3); p.z = azar(-40, 40); p.y = azar(0, 1); p.vy = azar(3, 7); p.vx = azar(0.5, 2); p.max = azar(0.5, 1.3); p.tam = azar(1.2, 2.4); p.c.setRGB(1, azar(0.45, 0.8), 0.15); },
+    nacer: (p) => { p.x = frente() + azar(-3, 3); p.z = azar(-40, 40); p.y = azar(0, 1); p.vy = azar(3, 7); p.vx = azar(0.5, 2); p.max = azar(0.5, 1.3); p.tam = azar(2, 3.8); p.c.setRGB(1, azar(0.45, 0.8), 0.15); },
     mover: (p, dt) => { p.x += p.vx * dt; p.y += p.vy * dt; const e = edad(p); p.alfa = (1 - e) * 0.9; p.c.g = Math.max(0.15, p.c.g - dt * 0.6); p.tam *= 1 - dt * 0.6; } });
-  const humo = new Particulas(500, { textura: texturaHumo(), escala,
+  const humo = new Particulas(300, { textura: texturaHumo(), escala,
     nacer: (p) => { p.x = frente() + azar(-3, 3); p.z = azar(-40, 40); p.y = 4; p.vy = azar(2, 4); p.vx = azar(2, 4); p.max = azar(6, 10); const g = azar(0.25, 0.45); p.c.setRGB(g, g * 0.95, g * 0.9); },
-    mover: (p, dt) => { p.x += p.vx * dt; p.y += p.vy * dt; const e = edad(p); p.tam = 5 + e * 20; p.alfa = Math.min(1, e * 5) * (1 - e) * 0.65; } });
+    mover: (p, dt) => { p.x += p.vx * dt; p.y += p.vy * dt; const e = edad(p); p.tam = 5 + e * 20; p.alfa = Math.min(1, e * 5) * (1 - e) * 0.4; } });
   raiz.add(humo.obj, fuego.obj);
   const luz = new THREE.PointLight(0xff7a2a, 400, 70, 1.5); luz.position.set(0, 4, 0); raiz.add(luz);
-  sol(raiz, -30, 30, 20, 1.2, 60);
-  return { grupo: raiz, escala, camara: [55, 18, 48], objetivo: [0, 5, 0], cielo: ["#5b4a3e", "#d39a62"], niebla: ["#8a7563", 50, 170],
+  sol(raiz, -30, 30, 20, 1.2);
+  return { grupo: raiz, metros: 10, zoom: 14.2, pitch: 60,
     animar: (t, dt) => { fuego.actualizar(dt); humo.actualizar(dt); luz.intensity = 400 * (0.75 + 0.35 * Math.sin(t * 13) * Math.sin(t * 5.3)); luz.position.x = frente(); } };
 }
 
 // ---------- Cohete ----------
 function construirCohete() {
   const raiz = new THREE.Group();
-  raiz.add(suelo("#8f8a7c", 120));
   raiz.add(sombras(caja(12, 1.2, 12, "#9b9b9b", 0, 0, 0)));
   const torre = new THREE.Group();
   for (const [x, z] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) { const c = new THREE.Mesh(new THREE.BoxGeometry(0.2, 26, 0.2), mat("#c0392b", { metalness: 0.6 })); c.position.set(x, 13, z); torre.add(c); }
@@ -790,7 +691,7 @@ function construirCohete() {
   const tobera = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.95, 1.4, 24, 1, true), mat("#3b3b3b", { metalness: 0.8, side: THREE.DoubleSide })); tobera.position.y = -0.6; cohete.add(tobera);
   cohete.position.y = 2;
   raiz.add(sombras(cohete));
-  const escala = { value: 900 };
+  const escala = ESCALA;
   let altura = 0, empuje = 0;
   const fuego = new Particulas(900, { textura: texturaSuave(), aditivo: true, escala,
     nacer: (p) => { p.x = azar(-0.5, 0.5); p.z = azar(-0.5, 0.5); p.y = cohete.position.y - 1.2; p.vy = -azar(18, 30); p.vx = azar(-1.5, 1.5); p.vz = azar(-1.5, 1.5); p.max = azar(0.25, 0.6); p.tam = azar(1, 1.8); p.c.setRGB(1, azar(0.75, 0.95), azar(0.4, 0.7)); },
@@ -799,114 +700,509 @@ function construirCohete() {
     nacer: (p) => { const a = azar(0, 6.28); p.x = Math.cos(a) * 2; p.z = Math.sin(a) * 2; p.y = 1.5; const v = azar(4, 10); p.vx = Math.cos(a) * v; p.vz = Math.sin(a) * v; p.vy = azar(0.5, 2); p.max = azar(3, 6); const g = azar(0.8, 0.95); p.c.setRGB(g, g, g); },
     mover: (p, dt) => { p.x += p.vx * dt; p.z += p.vz * dt; p.y += p.vy * dt; p.vx *= 0.98; p.vz *= 0.98; const e = edad(p); p.tam = 4 + e * 16; p.alfa = (altura < 40 ? empuje : 0.2 * empuje) * Math.min(1, e * 4) * (1 - e) * 0.8; } });
   raiz.add(humo.obj, fuego.obj);
-  sol(raiz, 30, 50, 20, 2.4, 40);
-  return { grupo: raiz, escala, camara: [36, 14, 40], objetivo: [0, 12, 0], cielo: ["#3b7cc4", "#dbe9f5"], niebla: ["#dbe7f1", 80, 400],
-    animar: (t, dt, controles) => {
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 2.5, zoom: 17, pitch: 65,
+    animar: (t, dt) => {
       const ciclo = t % 14;
       empuje = ciclo < 2 ? 0 : ciclo < 3 ? (ciclo - 2) : 1;
       altura = ciclo < 3 ? 0 : 0.9 * (ciclo - 3) ** 2.2;
       cohete.position.y = 2 + altura;
-      if (controles) controles.target.y = 12 + altura * 0.85;
       fuego.actualizar(dt); humo.actualizar(dt);
+    } };
+}
+
+// ---------- Piezas para instalaciones ----------
+/** Rumbo (grados desde el norte, en sentido horario) → giro sobre el eje vertical: en la escena +X es el este y +Z el sur. */
+export function rumboAGiro(rumbo) { return ((90 - (Number(rumbo) || 0)) * Math.PI) / 180; }
+function cil(rt, rb, h, color, x, y, z, o = {}, seg = 24) {
+  const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, seg), mat(color, o));
+  m.position.set(x, y + h / 2, z);
+  return m;
+}
+/** Grúa torre: mástil, pluma y contrapluma. */
+function grua(x, z, alto) {
+  const g = new THREE.Group();
+  const amarillo = mat("#E8B004", { metalness: 0.3 });
+  const mastil = new THREE.Mesh(new THREE.BoxGeometry(0.6, alto, 0.6), amarillo); mastil.position.y = alto / 2; g.add(mastil);
+  const pluma = new THREE.Mesh(new THREE.BoxGeometry(alto * 0.9, 0.4, 0.4), amarillo); pluma.position.set(alto * 0.3, alto, 0); g.add(pluma);
+  g.add(caja(1.2, 0.8, 1, "#666", -alto * 0.12, alto - 0.2, 0));
+  g.position.set(x, 0, z);
+  return g;
+}
+/** Humo o vapor que sale de (x, y, z): color, cantidad, subida y crecimiento en unidades de la escena. */
+function humo(puntos, { n = 300, color = [0.9, 0.9, 0.9], sube = 3, tam = [2, 12], vida = [5, 8], viento = 1, alfa = 0.7, aditivo = false, textura } = {}) {
+  return new Particulas(n, { textura: textura || texturaHumo(), aditivo, escala: ESCALA,
+    nacer: (p) => { const [x, y, z] = puntos[(Math.random() * puntos.length) | 0]; p.x = x + azar(-0.5, 0.5); p.y = y; p.z = z + azar(-0.5, 0.5);
+      p.vy = sube * azar(0.7, 1.2); p.vx = viento * azar(0.5, 1.3); p.max = azar(vida[0], vida[1]); const k = azar(0.85, 1.05); p.c.setRGB(color[0] * k, color[1] * k, color[2] * k); },
+    mover: (p, dt) => { p.x += p.vx * dt; p.y += p.vy * dt; p.vy *= 0.995; const e = edad(p); p.tam = tam[0] + e * (tam[1] - tam[0]); p.alfa = Math.min(1, e * 6) * (1 - e) * alfa; } });
+}
+/** Fuego de antorcha (quemador) en (x, y, z). */
+function llama(x, y, z, tam = 2, n = 220) {
+  return new Particulas(n, { textura: texturaSuave(), aditivo: true, escala: ESCALA,
+    nacer: (p) => { p.x = x + azar(-0.3, 0.3) * tam; p.y = y; p.z = z + azar(-0.3, 0.3) * tam; p.vy = azar(2, 4) * tam; p.vx = azar(0.2, 0.8) * tam; p.max = azar(0.3, 0.7); p.tam = tam * azar(0.8, 1.4); p.c.setRGB(1, azar(0.5, 0.8), 0.15); },
+    mover: (p, dt) => { p.x += p.vx * dt; p.y += p.vy * dt; p.alfa = (1 - edad(p)) * 0.95; p.c.g = Math.max(0.2, p.c.g - dt); } });
+}
+
+// ---------- Centrales térmicas, industria y almacenamiento ----------
+function construirTermica(m) {
+  const raiz = new THREE.Group(), v = m.variante || "gas";
+  const extras = [];
+  raiz.add(caja(30, 12, 12, "#AEB6BF", 0, 0, 0), caja(12, 20, 12, "#8E9AA6", -20, 0, 0));
+  let chimeneas = [];
+  if (v === "baterias") {
+    for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) raiz.add(caja(6, 2.6, 2.4, "#E9ECEF", -22 + i * 8, 0, 10 + j * 4));
+    raiz.add(caja(6, 5, 5, "#6C7A89", 25, 0, 0));
+  } else if (v === "geotermica") {
+    for (let i = 0; i < 3; i++) raiz.add(cil(5, 6, 10, "#D5D1C8", 25 + i * 12, 0, -12, { roughness: 0.9 }));
+    for (let i = 0; i < 4; i++) { const t = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 80, 12), mat("#B0B7BE", { metalness: 0.5 })); t.rotation.z = Math.PI / 2; t.position.set(-10, 2 + i * 0.01, 18 + i * 3); raiz.add(t); }
+    chimeneas = [[25, 10, -12], [37, 10, -12], [49, 10, -12]];
+    extras.push(humo(chimeneas, { n: 260, color: [1, 1, 1], sube: 4, tam: [3, 14], alfa: 0.65 }));
+  } else {
+    const alto = v === "carbon" ? 50 : v === "industria" ? 28 : 22;
+    chimeneas = v === "carbon" ? [[-28, alto, -10], [-28, alto, 10]] : [[-28, alto, 0]];
+    for (const [x, , z] of chimeneas) {
+      raiz.add(cil(1.6, 2.4, alto, "#C9C4B8", x, 0, z, { roughness: 0.85 }));
+      for (const y of [alto - 4, alto - 7]) raiz.add(cil(1.65, 1.65, 1, "#B33A2E", x, y, z)); // franjas de señalización
+    }
+    if (v === "carbon") for (let i = 0; i < 3; i++) { const c = new THREE.Mesh(new THREE.ConeGeometry(9, 6, 20), mat("#2B2B2B", { roughness: 1 })); c.position.set(25 + i * 16, 3, 22); raiz.add(c); }
+    if (v === "biomasa") for (let i = 0; i < 3; i++) { const c = new THREE.Mesh(new THREE.ConeGeometry(8, 5, 20), mat("#7A5A33", { roughness: 1 })); c.position.set(25 + i * 15, 2.5, 22); raiz.add(c); }
+    if (v === "industria") {
+      for (let i = 0; i < 3; i++) raiz.add(cil(4, 5, 16, "#5D6D7E", 22 + i * 12, 0, -14));
+      const brillo = new THREE.PointLight(0xff7a2a, 900, 60, 1.5); brillo.position.set(30, 6, -14); raiz.add(brillo); extras.push({ brillo });
+    }
+    const gris = v === "carbon" || v === "industria";
+    extras.push(humo(chimeneas.map(([x, y, z]) => [x, y + 0.5, z]), { n: 320, color: gris ? [0.55, 0.55, 0.55] : [0.97, 0.97, 0.97], sube: 5, tam: [3, 22], alfa: gris ? 0.75 : 0.5 }));
+    for (let i = 0; i < 2; i++) raiz.add(cil(3.5, 3.5, 6, "#9AA5B1", 18 + i * 9, 0, 14)); // transformadores
+  }
+  sombras(raiz);
+  for (const e of extras) if (e.obj) raiz.add(e.obj);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 4, zoom: 16, pitch: 60, edificios: true,
+    animar: (t, dt) => { for (const e of extras) { e.actualizar?.(dt); if (e.brillo) e.brillo.intensity = 900 * (0.8 + 0.3 * Math.sin(t * 9) * Math.sin(t * 3.7)); } } };
+}
+
+// ---------- Centro de datos ----------
+function construirDatacenter() {
+  const raiz = new THREE.Group();
+  const ventiladores = [], luces = [];
+  for (let k = 0; k < 3; k++) {
+    const z = -14 + k * 14;
+    raiz.add(caja(60, 8, 11, "#D7DBDF", 0, 0, z, { roughness: 0.6 }));
+    raiz.add(caja(60, 0.6, 0.15, "#2B6CB0", 0, 6.5, z + 5.55, { emissive: "#2B6CB0", emissiveIntensity: 0.6 }));
+    for (let i = 0; i < 10; i++) {
+      const base = caja(4, 1.2, 4, "#9AA5B1", -27 + i * 6, 8, z);
+      const aspa = new THREE.Mesh(new THREE.CylinderGeometry(1.5, 1.5, 0.15, 16), mat("#3A3F46", { metalness: 0.6 }));
+      aspa.position.set(-27 + i * 6, 9.35, z); raiz.add(base, aspa); ventiladores.push(aspa);
+      const led = new THREE.Mesh(new THREE.BoxGeometry(0.4, 0.4, 0.1), new THREE.MeshBasicMaterial({ color: "#39FF88" }));
+      led.position.set(-27 + i * 6, 3, z + 5.56); raiz.add(led); luces.push(led);
+    }
+  }
+  for (let i = 0; i < 8; i++) raiz.add(caja(5, 3, 2.5, "#5D6D7E", -25 + i * 7, 0, 26)); // generadores de respaldo
+  sombras(raiz);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 3, zoom: 16, pitch: 60, edificios: true,
+    animar: (t, dt) => { for (const a of ventiladores) a.rotation.y += dt * 9; luces.forEach((l, i) => { l.visible = Math.sin(t * 6 + i * 1.7) > -0.3; }); } };
+}
+
+// ---------- Aeropuerto ----------
+/**
+ * Pista real (si OpenStreetMap la tiene en el mapa base) o una genérica, y un avión que rueda, despega y se aleja en bucle.
+ * m.pistas: [{x1, z1, x2, z2}] en metros respecto al punto del aeropuerto (se calculan en Modelos3D.#alinearPistas).
+ */
+function construirAeropuerto(m) {
+  const raiz = new THREE.Group();
+  const v = m.variante || "grande";
+  if (v === "helipuerto") {
+    const pad = new THREE.Mesh(new THREE.CircleGeometry(15, 48), mat("#3A3F46")); pad.rotation.x = -Math.PI / 2; pad.position.y = 0.2; raiz.add(pad);
+    const h = construirAvion({ forma: "helicoptero", cola: "#C0392B" });
+    const heli = h.grupo; heli.scale.setScalar(2.2); raiz.add(heli);
+    return { grupo: raiz, metros: 1, zoom: 17.6, pitch: 60, edificios: true,
+      animar: (t, dt) => { h.animar(t, dt); heli.position.y = 6 + Math.max(0, Math.sin(t * 0.3)) * 30; } };
+  }
+  let pista = m.pistas?.length ? m.pistas.reduce((a, b) => (Math.hypot(b.x2 - b.x1, b.z2 - b.z1) > Math.hypot(a.x2 - a.x1, a.z2 - a.z1) ? b : a)) : null;
+  if (!pista) {
+    const largo = v === "grande" ? 3000 : 1600, ancho = v === "grande" ? 45 : 30;
+    const asfalto = caja(largo, 0.3, ancho, "#3A3F46", 0, 0, 0, { roughness: 0.95 });
+    raiz.add(asfalto);
+    for (let x = -largo / 2 + 60; x < largo / 2 - 60; x += 60) raiz.add(caja(30, 0.32, 1.2, "#FFFFFF", x, 0, 0));
+    pista = { x1: -largo / 2, z1: 0, x2: largo / 2, z2: 0 };
+  }
+  // Avión (forma de ruedas fuera) que va de un extremo de la pista al otro y despega.
+  const a = construirAvion({ forma: v === "grande" ? "angosto" : "regional", cola: ["#0B2343", "#A12B8F", "#00A04A", "#1B3A6B"][(Math.random() * 4) | 0] });
+  const avion = a.grupo; avion.scale.setScalar(v === "grande" ? 20 : 14); // ~5× el tamaño real para que se distinga
+  const dx = pista.x2 - pista.x1, dz = pista.z2 - pista.z1, L = Math.hypot(dx, dz);
+  avion.rotation.y = Math.atan2(-dz, dx);
+  raiz.add(avion);
+  sol(raiz, 30, 50, 20, 2.4);
+  const ciclo = 30;
+  return { grupo: raiz, metros: 1, zoom: v === "grande" ? 14.3 : 15.2, pitch: 60, edificios: true,
+    animar: (t, dt) => {
+      a.animar(t, dt);
+      const u = (t % ciclo) / ciclo;
+      // 0–0.15 espera en cabecera; 0.15–0.55 carrera de despegue (acelera); 0.55–1 ascenso.
+      const carrera = u < 0.15 ? 0 : u < 0.55 ? ((u - 0.15) / 0.4) ** 2 * 0.85 : 0.85 + (u - 0.55) * 1.6;
+      avion.position.set(pista.x1 + dx * carrera, 4 + (u > 0.55 ? (u - 0.55) ** 1.6 * 900 : 0), pista.z1 + dz * carrera);
+      avion.children[0].rotation.z = u > 0.5 ? Math.min(0.18, (u - 0.5) * 2) : 0; // nariz arriba al despegar
+      avion.visible = u < 0.97 && L > 0;
+    } };
+}
+
+// ---------- Puerto de contenedores ----------
+function construirPuerto() {
+  const raiz = new THREE.Group();
+  raiz.add(caja(520, 2, 90, "#B8BCC0", 0, 0, 30, { roughness: 0.95 }));
+  const colores = ["#C0392B", "#2C6E9E", "#E2A33B", "#2E8B57", "#7A4B9C", "#D35400", "#95A5A6"];
+  for (let x = -230; x < 230; x += 14) for (let z = 40; z < 70; z += 3) {
+    const pisos = 1 + ((Math.random() * 4) | 0);
+    for (let k = 0; k < pisos; k++) raiz.add(caja(12, 2.5, 2.4, colores[(Math.random() * colores.length) | 0], x, 2 + k * 2.6, z, { roughness: 0.75 }));
+  }
+  const carros = [];
+  for (const x of [-150, -50, 50, 150]) {
+    const g = new THREE.Group(), azul = mat("#1F5FA8", { metalness: 0.3 });
+    for (const [lx, lz] of [[-9, 0], [9, 0], [-9, 18], [9, 18]]) { const pata = new THREE.Mesh(new THREE.BoxGeometry(1.5, 45, 1.5), azul); pata.position.set(lx, 24.5, lz + 4); g.add(pata); }
+    const pluma = new THREE.Mesh(new THREE.BoxGeometry(3, 3, 110), azul); pluma.position.set(0, 48, -20); g.add(pluma);
+    const carro = caja(4, 2, 4, "#E8B004", 0, 45, -20); g.add(carro); carros.push([carro, Math.random() * 6]);
+    g.position.set(x, 2, 6); raiz.add(g);
+  }
+  const b = construirBarco({ forma: "carga" });
+  const barco = b.grupo; barco.scale.setScalar(18); barco.rotation.y = 0; barco.position.set(0, 0, -45); raiz.add(barco);
+  sombras(raiz);
+  sol(raiz, 30, 60, 20, 2.4);
+  return { grupo: raiz, metros: 1, zoom: 15.8, pitch: 60, edificios: true,
+    animar: (t, dt) => { b.animar(t, dt); for (const [c, f] of carros) c.position.z = -20 + Math.sin(t * 0.6 + f) * 45; } };
+}
+
+// ---------- Planta farmacéutica ----------
+function construirFarma() {
+  const raiz = new THREE.Group();
+  for (const [x, z, w, h] of [[0, 0, 80, 15], [-60, 30, 50, 12], [40, 40, 40, 18]]) {
+    raiz.add(caja(w, h, 30, "#F4F6F7", x, 0, z, { roughness: 0.5 }));
+    raiz.add(caja(w, 1.5, 0.3, "#1F6FB2", x, h - 3, z + 15.2));
+    for (let i = 0; i < w / 12; i++) raiz.add(caja(5, 2, 5, "#BFC5CB", x - w / 2 + 6 + i * 12, h, z)); // aire limpio (HVAC)
+  }
+  for (let i = 0; i < 5; i++) raiz.add(cil(3.5, 3.5, 14, "#D9DDE1", 60 + (i % 3) * 9, 0, -20 + Math.floor(i / 3) * 9, { metalness: 0.6, roughness: 0.3 }));
+  const salida = [[0, 17, -5], [40, 20, 40]];
+  for (const [x, y, z] of salida) raiz.add(cil(0.8, 0.8, 4, "#9AA5B1", x, y - 3, z));
+  const vapor = humo(salida, { n: 120, color: [1, 1, 1], sube: 3, tam: [1.5, 8], alfa: 0.4 });
+  sombras(raiz); raiz.add(vapor.obj);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 1, zoom: 16.4, pitch: 60, edificios: true, animar: (t, dt) => vapor.actualizar(dt) };
+}
+
+// ---------- Petróleo y gas en tierra ----------
+function balancin() {
+  const g = new THREE.Group(), gris = mat("#4A4F55", { metalness: 0.5 });
+  g.add(caja(8, 0.6, 2, "#5D6D7E", 0, 0, 0));
+  for (const z of [-0.6, 0.6]) { const pata = new THREE.Mesh(new THREE.BoxGeometry(0.4, 6, 0.4), gris); pata.position.set(0, 3, z); pata.rotation.z = 0.15; g.add(pata); }
+  const viga = new THREE.Group(); viga.position.set(0, 6, 0);
+  viga.add(Object.assign(new THREE.Mesh(new THREE.BoxGeometry(9, 0.6, 0.6), mat("#D35400")), {}));
+  const cabeza = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 0.8, 16, 1, false, 0, Math.PI), mat("#D35400")); cabeza.rotation.x = Math.PI / 2; cabeza.position.x = 4.6; viga.add(cabeza);
+  g.add(viga);
+  return { g, viga };
+}
+function construirPetroleo(m) {
+  const raiz = new THREE.Group(), gas = m.variante === "gas";
+  const vigas = [], extras = [];
+  if (!gas) for (let i = 0; i < 7; i++) { const b = balancin(); b.g.position.set(-60 + (i % 4) * 40 + azar(-6, 6), 0, -30 + Math.floor(i / 4) * 50 + azar(-6, 6)); b.g.rotation.y = azar(0, 3); raiz.add(b.g); vigas.push([b.viga, azar(0, 6)]); }
+  else for (let i = 0; i < 6; i++) { const x = -50 + (i % 3) * 40, z = -25 + Math.floor(i / 3) * 45; raiz.add(cil(0.8, 0.8, 3, "#C0392B", x, 0, z), caja(2, 0.6, 2, "#7F8C8D", x, 3, z)); }
+  for (let i = 0; i < 3; i++) raiz.add(cil(7, 7, gas ? 5 : 9, "#D0D3D4", 60 + i * 17, 0, 30, { metalness: 0.4 }));
+  const antorcha = [70, 30, -30];
+  raiz.add(cil(0.7, 1, 30, "#7F8C8D", antorcha[0], 0, antorcha[2]));
+  extras.push(llama(antorcha[0], 30.5, antorcha[2], 3.2), humo([[antorcha[0], 34, antorcha[2]]], { n: 120, color: [0.35, 0.35, 0.35], sube: 4, tam: [3, 14], alfa: 0.5 }));
+  sombras(raiz); for (const e of extras) raiz.add(e.obj);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 2, zoom: 16.4, pitch: 60,
+    animar: (t, dt) => { for (const [v, f] of vigas) v.rotation.z = Math.sin(t * 1.6 + f) * 0.28; for (const e of extras) e.actualizar(dt); } };
+}
+
+// ---------- Plataforma marina ----------
+function construirPlataforma() {
+  const raiz = new THREE.Group(), acero = mat("#7F8C8D", { metalness: 0.6 });
+  for (const [x, z] of [[-16, -12], [16, -12], [-16, 12], [16, 12]]) raiz.add(cil(2, 2.4, 24, "#E8B004", x, 0, z));
+  raiz.add(caja(46, 6, 36, "#95A5A6", 0, 24, 0), caja(30, 8, 20, "#ECF0F1", -4, 30, -6), caja(14, 1, 14, "#2E4053", 14, 38, 8));
+  const torre = new THREE.Group();
+  for (const [x, z] of [[-2.5, -2.5], [2.5, -2.5], [-2.5, 2.5], [2.5, 2.5]]) { const b = new THREE.Mesh(new THREE.BoxGeometry(0.5, 34, 0.5), acero); b.position.set(x * (1 - 0.3), 17, z * (1 - 0.3)); b.rotation.set(z * 0.02, 0, -x * 0.02); torre.add(b); }
+  torre.position.set(10, 30, -8); raiz.add(torre);
+  const brazo = new THREE.Mesh(new THREE.BoxGeometry(40, 1, 1), acero); brazo.position.set(-36, 34, 10); brazo.rotation.z = -0.5; raiz.add(brazo);
+  const fuego = llama(-53, 44, 10, 3.5);
+  sombras(raiz); raiz.add(fuego.obj);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 1.5, zoom: 16.8, pitch: 60, animar: (t, dt) => fuego.actualizar(dt) };
+}
+
+// ---------- Cruce fronterizo ----------
+function construirFrontera() {
+  const raiz = new THREE.Group(), carriles = 6;
+  raiz.add(caja(100, 1, 34, "#ECF0F1", 0, 7, 0));
+  for (let i = 0; i < carriles; i++) {
+    const z = -14 + i * 5.6;
+    for (const x of [-48, 48]) raiz.add(cil(0.5, 0.5, 7, "#BDC3C7", x, 0, z));
+    raiz.add(caja(3, 3, 2, "#5D6D7E", 0, 0, z + 2.4));
+    raiz.add(caja(0.2, 0.2, 2.8, "#C0392B", 1.8, 1.2, z));
+  }
+  const colores = ["#C0392B", "#2C3E50", "#ECF0F1", "#2980B9", "#7F8C8D", "#F1C40F"];
+  const autos = [];
+  for (let i = 0; i < carriles * 6; i++) {
+    const c = caja(4.5, 1.5, 1.9, colores[i % colores.length], 0, 0, 0, { metalness: 0.5, roughness: 0.3 });
+    const carril = i % carriles;
+    autos.push({ c, z: -14 + carril * 5.6, fase: Math.floor(i / carriles) * 7 + carril * 2.3 });
+    raiz.add(c);
+  }
+  sombras(raiz);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 1, zoom: 17.2, pitch: 60, edificios: true,
+    animar: (t) => {
+      for (const a of autos) {
+        // Fila que avanza a vuelta de rueda hasta la caseta, se detiene ~4 s y cruza.
+        const u = ((t * 6 + a.fase * 6) % 160) - 120;
+        const x = u < -6 ? Math.max(u, -6 - (a.fase % 7) * 7) : u < 0 ? -6 : u * 2.2;
+        a.c.position.set(x, 0.75, a.z);
+      }
+    } };
+}
+
+// ---------- Desaladora ----------
+function construirDesaladora() {
+  const raiz = new THREE.Group();
+  for (let i = 0; i < 3; i++) {
+    raiz.add(caja(40, 4, 18, "#AEB6BF", -50 + i * 45, 0, 25));
+    const agua = new THREE.Mesh(new THREE.PlaneGeometry(38, 16), mat("#3C8DBC", { roughness: 0.2, metalness: 0.3 })); agua.rotation.x = -Math.PI / 2; agua.position.set(-50 + i * 45, 4.05, 25); raiz.add(agua);
+  }
+  raiz.add(caja(90, 12, 28, "#F2F3F4", -5, 0, -12), caja(90, 1.2, 0.3, "#1F6FB2", -5, 9, 2.2));
+  for (let i = 0; i < 4; i++) raiz.add(cil(6, 6, 12, "#D0D3D4", 70, 0, -25 + i * 14, { metalness: 0.5 }));
+  const tubo = new THREE.Mesh(new THREE.CylinderGeometry(1.4, 1.4, 260, 16), mat("#5D6D7E", { metalness: 0.6 })); tubo.rotation.x = Math.PI / 2; tubo.position.set(-5, 1.4, -150); raiz.add(tubo);
+  // Salmuera que se dispersa al final del emisor.
+  const salmuera = new Particulas(260, { textura: texturaSuave(), escala: ESCALA,
+    nacer: (p) => { p.x = -5 + azar(-2, 2); p.y = 0.5; p.z = -280; const a = azar(0, 6.28), v = azar(2, 6); p.vx = Math.cos(a) * v; p.vz = Math.sin(a) * v; p.max = azar(4, 7); p.c.setRGB(0.85, 0.95, 1); },
+    mover: (p, dt) => { p.x += p.vx * dt; p.z += p.vz * dt; const e = edad(p); p.tam = 3 + e * 14; p.alfa = (1 - e) * 0.55; } });
+  sombras(raiz); raiz.add(salmuera.obj);
+  sol(raiz, 30, 50, 20, 2.4);
+  return { grupo: raiz, metros: 1, zoom: 15.8, pitch: 60, edificios: true, animar: (t, dt) => salmuera.actualizar(dt) };
+}
+
+// ---------- Mina a cielo abierto ----------
+function construirMina() {
+  const raiz = new THREE.Group();
+  const pts = [];
+  for (let k = 0; k <= 8; k++) { const r = 300 - k * 30, y = -k * 14; pts.push(new THREE.Vector2(r, y), new THREE.Vector2(r - 12, y)); }
+  const tajo = new THREE.Mesh(new THREE.LatheGeometry(pts, 96), mat("#9C7A54", { roughness: 1, side: THREE.DoubleSide, flatShading: true }));
+  raiz.add(tajo);
+  const camiones = [];
+  for (let i = 0; i < 6; i++) { const c = caja(22, 10, 12, "#F1C40F", 0, 0, 0, { metalness: 0.3 }); raiz.add(c); camiones.push([c, i / 6]); }
+  sol(raiz, 30, 60, 20, 2.4);
+  return { grupo: raiz, metros: 1, zoom: 15, pitch: 55,
+    animar: (t) => {
+      for (const [c, f] of camiones) {
+        // Rampa en espiral: baja vacío y sube cargado.
+        const u = ((t / 60 + f) % 1), ida = u < 0.5 ? u * 2 : 2 - u * 2;
+        const ang = ida * Math.PI * 5, r = 290 - ida * 230;
+        c.position.set(Math.cos(ang) * r, -ida * 112 + 3.5, Math.sin(ang) * r);
+        c.rotation.y = -ang + (u < 0.5 ? 0 : Math.PI);
+      }
     } };
 }
 
 const CONSTRUCTORES = { avion: construirAvion, barco: construirBarco, satelite: construirSatelite, presa: construirPresa, nuclear: construirNuclear,
   eolica: construirEolica, solar: construirSolar, volcan: construirVolcan, tornado: construirTornado, ciclon: construirCiclon, tormenta: construirTormenta,
-  sismo: construirSismo, incendio: construirIncendio, cohete: construirCohete };
+  sismo: construirSismo, incendio: construirIncendio, cohete: construirCohete, termica: construirTermica, datacenter: construirDatacenter,
+  aeropuerto: construirAeropuerto, puerto: construirPuerto, farma: construirFarma, petroleo: construirPetroleo, plataforma: construirPlataforma,
+  frontera: construirFrontera, desaladora: construirDesaladora, mina: construirMina };
 export const TIPOS = Object.keys(CONSTRUCTORES);
 
-// ---------- Visor (ventana sobre el mapa) ----------
-class Visor {
-  constructor() {
-    const d = document.createElement("div");
-    d.className = "visor3d"; d.hidden = true;
-    d.setAttribute("role", "dialog"); d.setAttribute("aria-modal", "true"); d.setAttribute("aria-labelledby", "visor3d-titulo");
-    d.innerHTML = `<div class="visor3d-caja"><header><h3 id="visor3d-titulo"></h3><button type="button" class="icon-btn" id="visor3d-cerrar" aria-label="Cerrar modelo 3D">✕</button></header>
-      <div class="visor3d-lienzo"><canvas></canvas></div><p class="meta" id="visor3d-nota"></p><p class="meta visor3d-ayuda">Arrastra para girar · rueda o pellizco para acercar · Esc para cerrar</p></div>`;
-    document.body.append(d);
-    this.div = d; this.canvas = d.querySelector("canvas");
-    this.renderer = new THREE.WebGLRenderer({ canvas: this.canvas, antialias: true });
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+// ---------- Capa del mapa ----------
+/** Metros por píxel de pantalla a una latitud y zoom (mosaicos de 512 px de MapLibre). */
+export function metrosPorPixel(lat, zoom) { return (2 * Math.PI * 6378137 * Math.cos((lat * Math.PI) / 180)) / (512 * 2 ** zoom); }
+/** Desplazamiento en metros (este, sur) de `p` respecto a `origen` ([lon, lat]); aproximación local, válida a pocos km. */
+export function metrosLocales(origen, p) {
+  const k = Math.cos((origen[1] * Math.PI) / 180);
+  return [(p[0] - origen[0]) * 111320 * k, -(p[1] - origen[1]) * 110540];
+}
+
+/** Capa «custom» de MapLibre que dibuja con three.js un modelo anclado a [lon, lat] y altitud (m). */
+class CapaModelo {
+  constructor(map) { this.id = "modelo-3d"; this.type = "custom"; this.renderingMode = "3d"; this.map = map; this.escena3d = null; }
+  onAdd(map, gl) {
+    // Un solo renderizador para todos los modelos: la capa se quita y se vuelve a poner, el contexto WebGL es el mismo.
+    if (this.renderer) return;
+    this.renderer = new THREE.WebGLRenderer({ canvas: map.getCanvas(), context: gl, antialias: true });
+    this.renderer.autoClear = false;
     this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    this.renderer.shadowMap.enabled = true; this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     this.escena = new THREE.Scene();
-    const pmrem = new THREE.PMREMGenerator(this.renderer);
-    this.escena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-    this.camara = new THREE.PerspectiveCamera(40, 1, 0.1, 2000);
-    this.controles = new OrbitControls(this.camara, this.canvas);
-    Object.assign(this.controles, { enableDamping: true, autoRotate: !MOVIMIENTO_REDUCIDO, autoRotateSpeed: 0.7, maxPolarAngle: Math.PI * 0.495, minDistance: 3, maxDistance: 260 });
-    this.reloj = new THREE.Clock();
-    d.querySelector("#visor3d-cerrar").addEventListener("click", () => this.cerrar());
-    d.addEventListener("click", (e) => { if (e.target === d) this.cerrar(); });
-    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !d.hidden) this.cerrar(); });
-    new ResizeObserver(() => this.ajustar()).observe(d.querySelector(".visor3d-lienzo"));
-    this.controles.addEventListener("start", () => { this.controles.autoRotate = false; }); // el usuario toma el control
+    this.camara = new THREE.Camera();
+    this.reloj = new THREE.Clock(); this.t = 0;
   }
-  ajustar() {
-    const c = this.div.querySelector(".visor3d-lienzo"), w = c.clientWidth, h = c.clientHeight;
-    if (!w || !h) return;
-    this.renderer.setSize(w, h, false);
-    this.camara.aspect = w / h; this.camara.updateProjectionMatrix();
-    // Diámetro en unidades → píxeles: alto del lienzo / (2·tan(fov/2)).
-    const pr = this.renderer.getPixelRatio();
-    if (this.escena3d?.escala) this.escena3d.escala.value = (h * pr) / (2 * Math.tan(THREE.MathUtils.degToRad(this.camara.fov) / 2));
-    MAXIMO_PX.value = 320 * pr;
-  }
-  mostrar(m) {
-    this.limpiar();
-    const f = CONSTRUCTORES[m.tipo];
-    if (!f) return;
-    this.focoPrevio = document.activeElement;
-    this.div.querySelector("#visor3d-titulo").textContent = `🧊 ${m.titulo || ""}`;
-    this.div.querySelector("#visor3d-nota").textContent = m.nota || "";
-    this.div.hidden = false;
-    const s = f(m);
-    this.escena3d = s;
+  poner(s, lngLat, altitud) {
+    this.escena ??= new THREE.Scene();
+    if (this.escena3d) { this.escena.remove(this.escena3d.grupo); if (this.escena3d !== s) liberar(this.escena3d.grupo); }
+    this.escena3d = s; this.lngLat = lngLat; this.altitud = altitud || 0;
     this.escena.add(s.grupo);
-    this.escena.background = fondoDegradado(...(s.cielo || ["#1b2a3a", "#4a6680"]));
-    this.escena.fog = s.niebla ? new THREE.Fog(s.niebla[0], s.niebla[1], s.niebla[2]) : null;
-    this.ajustar();
-    this.controles.target.set(...(s.objetivo || [0, 0, 0]));
-    // En pantallas verticales (teléfono) la cámara se aleja para que el modelo quepa a lo ancho.
-    const k = this.camara.aspect < 1 ? Math.min(2.2, (1 / this.camara.aspect) ** 0.8) : 1;
-    this.camara.position.set(...s.camara).sub(this.controles.target).multiplyScalar(k).add(this.controles.target);
-    this.controles.autoRotate = !MOVIMIENTO_REDUCIDO;
-    this.controles.update();
-    this.reloj.start(); this.t = 0;
-    const cuadro = () => {
-      if (this.div.hidden) return;
-      this.raf = requestAnimationFrame(cuadro);
-      const dt = Math.min(0.05, this.reloj.getDelta());
-      this.t += MOVIMIENTO_REDUCIDO ? dt * 0.4 : dt;
-      s.animar?.(this.t, MOVIMIENTO_REDUCIDO ? dt * 0.4 : dt, this.controles);
-      this.controles.update();
-      this.renderer.render(this.escena, this.camara);
-    };
-    cuadro();
-    this.div.querySelector("#visor3d-cerrar").focus();
+    this.map.triggerRepaint();
   }
-  limpiar() {
-    cancelAnimationFrame(this.raf);
-    if (!this.escena3d) return;
-    this.escena.remove(this.escena3d.grupo);
-    this.escena3d.grupo.traverse((o) => {
-      o.geometry?.dispose();
-      for (const m of [].concat(o.material || [])) { for (const v of Object.values(m.uniforms || {})) v.value?.dispose?.(); m.map?.dispose(); m.dispose(); }
-    });
-    this.escena.background?.dispose?.();
+  #visible() {
+    // En el globo, el punto puede quedar del otro lado: se comprueba con la ida y vuelta pantalla ↔ coordenada.
+    try {
+      const p = this.map.project(this.lngLat), c = this.map.unproject(p);
+      return Math.abs(c.lat - this.lngLat[1]) < 0.5 && Math.abs((((c.lng - this.lngLat[0]) + 540) % 360) - 180) < 0.5;
+    } catch (e) { return true; }
+  }
+  render(gl, args) {
+    const s = this.escena3d;
+    if (!s || !this.#visible()) return;
+    if (!this.entorno) {
+      this.entorno = true;
+      try { this.escena.environment = new THREE.PMREMGenerator(this.renderer).fromScene(new RoomEnvironment(), 0.04).texture; } catch (e) { /* sin reflejos */ }
+    }
+    const dt = Math.min(0.05, this.reloj.getDelta()) * (MOVIMIENTO_REDUCIDO ? 0.4 : 1);
+    this.t += dt;
+    s.animar?.(this.t, dt);
+    let metros = s.metros || 1;
+    if (s.pantalla) metros = Math.max(1, (s.pantalla.px * metrosPorPixel(this.lngLat[1], this.map.getZoom())) / s.pantalla.unidades);
+    const mm = this.map.transform.getMatrixForModel(this.lngLat, this.altitud);
+    const mvp = new THREE.Matrix4().fromArray(args.defaultProjectionData.mainMatrix).multiply(new THREE.Matrix4().fromArray(mm).scale(new THREE.Vector3(metros, metros, metros)));
+    this.camara.projectionMatrix.copy(mvp);
+    this.camara.projectionMatrixInverse.copy(mvp).invert();
+    // Partículas: cuántos píxeles mide una unidad de la escena en el punto del modelo.
+    const W = gl.drawingBufferWidth, H = gl.drawingBufferHeight;
+    const enPantalla = (x, y, z) => { const v = new THREE.Vector4(x, y, z, 1).applyMatrix4(mvp); return [(v.x / v.w) * W / 2, (v.y / v.w) * H / 2, v.w]; };
+    const [ax, ay, aw] = enPantalla(0, 0, 0), [bx, by] = enPantalla(1, 0, 0), [cx, cy] = enPantalla(0, 0, 1);
+    ESCALA.value = Math.max(Math.hypot(bx - ax, by - ay), Math.hypot(cx - ax, cy - ay)) * aw;
+    MAXIMO_PX.value = 320 * (window.devicePixelRatio || 1);
+    this.renderer.resetState();
+    this.renderer.setViewport(0, 0, W, H);
+    this.renderer.render(this.escena, this.camara);
+    this.map.triggerRepaint();
+  }
+  vaciar() {
+    if (this.escena3d) { this.escena.remove(this.escena3d.grupo); liberar(this.escena3d.grupo); }
     this.escena3d = null;
-  }
-  cerrar() {
-    this.div.hidden = true;
-    this.limpiar();
-    this.focoPrevio?.focus?.();
   }
 }
 
-let visor = null;
-/** Abre el visor con un modelo de js/modelos3d.js. */
-export function abrir(modelo) {
-  visor ??= new Visor();
-  visor.mostrar(modelo);
+function liberar(grupo) {
+  grupo.traverse((o) => {
+    o.geometry?.dispose();
+    for (const m of [].concat(o.material || [])) { for (const v of Object.values(m.uniforms || {})) if (v.value?.isTexture) v.value.dispose(); m.map?.dispose(); m.dispose(); }
+  });
+}
+
+// ---------- Flujo animado sobre líneas reales (ductos, vías férreas, carreteras) ----------
+const ESTILO_FLUJO = {
+  petroleo: { base: "#3B2A1A", flujo: "#FF9F1C", ancho: 4 },
+  gas: { base: "#5C4A00", flujo: "#FFE14D", ancho: 4 },
+  tren: { base: "#2C3E50", flujo: "#FFFFFF", ancho: 5 },
+  autos: { base: "#7F8C8D", flujo: "#FF4D4D", ancho: 5 },
+};
+// Secuencia de trazos que, mostrada en orden, hace avanzar las rayas a lo largo de la línea.
+const PASOS_RAYA = [[0, 4, 3], [0.5, 4, 2.5], [1, 4, 2], [1.5, 4, 1.5], [2, 4, 1], [2.5, 4, 0.5], [3, 4, 0], [0, 0.5, 3, 3.5], [0, 1, 3, 3], [0, 1.5, 3, 2.5],
+  [0, 2, 3, 2], [0, 2.5, 3, 1.5], [0, 3, 3, 1], [0, 3.5, 3, 0.5]];
+
+/** Dibuja y anima modelos sobre el mapa; uno a la vez (el del último clic). */
+export class Modelos3D {
+  constructor(map) {
+    this.map = map;
+    this.capa = null; this.modelo = null; this.flujo = null;
+    map.on("style.load", () => { if (this.modelo) this.mostrar(this.modelo, this.lngLat, this.geom, { mover: false }); });
+  }
+
+  /** Construye el modelo, lo ancla en lngLat ([lon, lat]) y, para instalaciones y fenómenos, acerca e inclina la vista. */
+  mostrar(modelo, lngLat, geom = null, { mover = true } = {}) {
+    this.quitar({ restaurar: false });
+    this.modelo = modelo; this.lngLat = lngLat; this.geom = geom;
+    if (modelo.tipo === "flujo") { this.#flujo(geom, modelo.variante); return; }
+    const f = CONSTRUCTORES[modelo.tipo];
+    if (!f) return;
+    const s = f(modelo);
+    this.capa ??= new CapaModelo(this.map);
+    if (!this.map.getLayer(this.capa.id)) this.map.addLayer(this.capa);
+    this.capa.poner(s, lngLat, modelo.alt_m || 0);
+    if (s.edificios) this.#edificios();
+    if (mover && !s.pantalla) {
+      this.pitchPrevio ??= this.map.getPitch();
+      this.map.easeTo({ center: lngLat, zoom: s.zoom ?? this.map.getZoom(), pitch: s.pitch ?? 55, duration: 1400, essential: true });
+    }
+    if (modelo.tipo === "aeropuerto" && modelo.variante !== "helipuerto") this.map.once("idle", () => this.#alinearPistas());
+  }
+
+  /** Quita el modelo; con `restaurar`, regresa la vista a la inclinación que tenía antes del primer modelo. */
+  quitar({ restaurar = true } = {}) {
+    if (this.capa) { if (this.map.getLayer(this.capa.id)) this.map.removeLayer(this.capa.id); this.capa.vaciar(); }
+    for (const id of ["edificios-3d"]) if (this.map.getLayer(id)) this.map.removeLayer(id);
+    this.#quitarFlujo();
+    if (restaurar) {
+      this.modelo = null;
+      if (this.pitchPrevio != null) this.map.easeTo({ pitch: this.pitchPrevio, duration: 800 });
+      this.pitchPrevio = null;
+    }
+  }
+
+  /** Edificios reales de OpenStreetMap (mapa base de OpenFreeMap) levantados con su altura registrada. */
+  #edificios() {
+    if (this.map.getLayer("edificios-3d")) return;
+    const estilo = this.map.getStyle();
+    if (estilo.layers.some((l) => l.type === "fill-extrusion")) return; // el estilo ya los trae en 3D
+    const fuente = Object.entries(estilo.sources).find(([, v]) => v.type === "vector" && /openfreemap/.test(v.url || ""))?.[0];
+    if (!fuente) return;
+    this.map.addLayer({ id: "edificios-3d", type: "fill-extrusion", source: fuente, "source-layer": "building", minzoom: 14,
+      paint: { "fill-extrusion-color": "#CFC9BE", "fill-extrusion-opacity": 0.92,
+        "fill-extrusion-height": ["coalesce", ["get", "render_height"], 8], "fill-extrusion-base": ["coalesce", ["get", "render_min_height"], 0] } },
+    this.map.getLayer("modelo-3d") ? "modelo-3d" : undefined);
+  }
+
+  /** Pistas del aeropuerto según OpenStreetMap (capa «aeroway» del mapa base) a menos de 6 km: el avión despega sobre la real. */
+  #alinearPistas() {
+    if (this.modelo?.tipo !== "aeropuerto" || !this.capa?.escena3d) return;
+    const fuente = Object.entries(this.map.getStyle().sources).find(([, v]) => v.type === "vector" && /openfreemap/.test(v.url || ""))?.[0];
+    if (!fuente) return;
+    let feats = [];
+    try { feats = this.map.querySourceFeatures(fuente, { sourceLayer: "aeroway", filter: ["==", ["get", "class"], "runway"] }); } catch (e) { return; }
+    const pistas = pistasDe(feats, this.lngLat);
+    if (!pistas.length) return;
+    this.modelo = { ...this.modelo, pistas };
+    this.capa.poner(construirAeropuerto(this.modelo), this.lngLat, 0);
+  }
+
+  #flujo(geom, variante) {
+    if (!geom || !/LineString/.test(geom.type)) return;
+    const e = ESTILO_FLUJO[variante] || ESTILO_FLUJO.petroleo;
+    this.map.addSource("flujo-sel", { type: "geojson", data: { type: "Feature", properties: {}, geometry: geom } });
+    this.map.addLayer({ id: "flujo-sel-base", type: "line", source: "flujo-sel", layout: { "line-cap": "round", "line-join": "round" },
+      paint: { "line-color": e.base, "line-width": e.ancho + 3, "line-opacity": 0.85 } });
+    this.map.addLayer({ id: "flujo-sel", type: "line", source: "flujo-sel", layout: { "line-cap": "butt", "line-join": "round" },
+      paint: { "line-color": e.flujo, "line-width": e.ancho, "line-dasharray": PASOS_RAYA[0] } });
+    let k = 0;
+    this.flujo = setInterval(() => {
+      if (!this.map.getLayer("flujo-sel")) return;
+      k = (k + 1) % PASOS_RAYA.length;
+      this.map.setPaintProperty("flujo-sel", "line-dasharray", PASOS_RAYA[k]);
+    }, 70);
+  }
+
+  #quitarFlujo() {
+    clearInterval(this.flujo); this.flujo = null;
+    for (const id of ["flujo-sel", "flujo-sel-base"]) if (this.map.getLayer(id)) this.map.removeLayer(id);
+    if (this.map.getSource("flujo-sel")) this.map.removeSource("flujo-sel");
+  }
+}
+
+/** Rasgos «runway» del mapa base → segmentos en metros respecto al aeropuerto (los de más de 600 m y a menos de 6 km). */
+export function pistasDe(feats, origen) {
+  const out = [];
+  for (const f of feats || []) {
+    const g = f.geometry || {};
+    const lineas = g.type === "LineString" ? [g.coordinates] : g.type === "MultiLineString" ? g.coordinates
+      : g.type === "Polygon" ? [g.coordinates[0]] : g.type === "MultiPolygon" ? g.coordinates.map((p) => p[0]) : [];
+    for (const l of lineas) {
+      if (!l || l.length < 2) continue;
+      // Los dos puntos más alejados entre sí: los extremos de la pista (sirve para línea o rectángulo).
+      let a = l[0], b = l[1], d = -1;
+      for (let i = 0; i < l.length; i++) for (let j = i + 1; j < l.length; j++) {
+        const [x1, z1] = metrosLocales(origen, l[i]), [x2, z2] = metrosLocales(origen, l[j]);
+        const dd = Math.hypot(x2 - x1, z2 - z1);
+        if (dd > d) { d = dd; a = l[i]; b = l[j]; }
+      }
+      const [x1, z1] = metrosLocales(origen, a), [x2, z2] = metrosLocales(origen, b);
+      if (d >= 600 && Math.hypot((x1 + x2) / 2, (z1 + z2) / 2) < 6000) out.push({ x1, z1, x2, z2 });
+    }
+  }
+  return out;
 }

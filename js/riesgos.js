@@ -488,7 +488,9 @@ export const CAPAS = [
     ficha: (p) => ({ titulo: p.title, chip: `${p.kind === "AGUA" ? "Corte de agua" : p.kind === "LUZ" ? "Apagón" : "Luz y agua"}${p.programado ? " · programado" : ""}${p.severe ? " · muchos afectados según el titular" : ""} · señal de noticias, verifica`,
       filas: [["Lugar", `${p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (ubicación aproximada: ${p.precision})` : ""}`], ["Medio", p.source || "—"],
         ["Fecha", p.date ? fecha(p.date) : "—"], ...(p.notas > 1 ? [["Notas", `${p.notas} notas desde ${fecha(p.desde)}`], ["Otros medios", otrosMedios(p.enlaces, p.url)]] : []),
-        ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
+        ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias",
+      // Si el medio no declaró imagen (o la nota es anterior a guardarla), una ilustrativa de Wikipedia, marcada como tal.
+      imagen: p.image ? null : { titulo: p.kind === "AGUA" ? "Water scarcity" : "Power outage", ilustrativa: true } }),
   },
   {
     id: "salud_oficial", grupo: SALUD, nombre: "Brotes y avisos oficiales: OMS, CDC (viajeros) y ECDC", url: "data/vivos/salud_oficial.geojson", refresco_s: 3600,
@@ -768,7 +770,8 @@ export const CAPAS = [
       filas: [["Señales que lo detectan", lista(p.senales).join(" · ") || "—"], ["Inicio", fecha(p.inicio_utc)], ["Fin", p.fin_utc ? fecha(p.fin_utc) : "sigue en curso"],
         ["Duración", `${p.horas} h`], ["Eventos", lista(p.eventos).map((e) => `${e.senal}: ${fecha(e.inicio_utc)}, ${e.horas} h`).join(" · ") || "—"],
         ["Qué no dice", "La causa (apagón eléctrico, cable cortado, desastre o bloqueo ordenado). Confírmala en el tablero de IODA y en noticias"]],
-      url: p.url, fuente: "IODA, Georgia Tech (abre su tablero del país)" }),
+      url: p.url, fuente: "IODA, Georgia Tech (abre su tablero del país)", imagen: { titulo: "Internet outage", ilustrativa: true } }),
+    extra: (p) => graficaIoda(lista(p.eventos), p.fin_utc),
   },
   {
     id: "c2_botnets", grupo: "Red y ciberseguridad", nombre: "Servidores de control de botnets por país (48 h, abuse.ch)", url: "data/vivos/red_c2.geojson", refresco_s: 3600,
@@ -1121,6 +1124,31 @@ export function desanidar(props) {
     if (typeof v === "string" && /^[[{]/.test(v)) { try { const o = JSON.parse(v); if (o && typeof o === "object") out[k] = o; } catch (e) { /* texto normal */ } }
   }
   return out;
+}
+
+/**
+ * Gráfica de las últimas 48 h de un corte de internet: una franja por señal de IODA (BGP, sondeos, tráfico de Google)
+ * con los tramos en que cada una detectó la caída. Se dibuja con los eventos que ya trae el dato; no se pide nada más.
+ */
+export function graficaIoda(eventos, finUtc, ahora = Date.now()) {
+  const ev = (eventos || []).filter((e) => e && e.inicio_utc && Number.isFinite(Date.parse(e.inicio_utc)));
+  if (!ev.length) return "";
+  const H = 48 * 3600e3, t0 = ahora - H, W = 300;
+  const senales = [...new Set(ev.map((e) => e.senal || "señal"))];
+  const x = (t) => Math.max(0, Math.min(W, ((t - t0) / H) * W));
+  const filas = senales.map((sn, i) => {
+    const y = 6 + i * 22;
+    const barras = ev.filter((e) => (e.senal || "señal") === sn).map((e) => {
+      const ini = Date.parse(e.inicio_utc), fin = e.horas != null ? ini + Number(e.horas) * 3600e3 : ahora;
+      const a = x(ini), b = Math.max(a + 2, x(fin));
+      return `<rect x="${a.toFixed(1)}" y="${y}" width="${(b - a).toFixed(1)}" height="14" rx="3" fill="#C62828"><title>${esc(sn)}: ${esc(fecha(e.inicio_utc))}, ${esc(String(e.horas ?? "?"))} h</title></rect>`;
+    }).join("");
+    return `<text x="0" y="${y + 11}" font-size="10" fill="currentColor">${esc(sn)}</text><g transform="translate(70 0)"><rect x="0" y="${y}" width="${W}" height="14" rx="3" fill="currentColor" opacity=".08"/>${barras}</g>`;
+  }).join("");
+  const alto = 6 + senales.length * 22 + 14;
+  return `<figure class="graf-ioda"><svg viewBox="0 0 ${W + 72} ${alto}" role="img" aria-label="Tramos de caída por señal en las últimas 48 horas">${filas}
+      <g transform="translate(70 ${alto - 4})" font-size="9" fill="currentColor" opacity=".7"><text x="0">hace 48 h</text><text x="${W / 2}" text-anchor="middle">hace 24 h</text><text x="${W}" text-anchor="end">ahora</text></g></svg>
+    <figcaption>Gráfica propia con los datos de IODA: en rojo, cuándo cada señal detectó la caída${finUtc ? "" : " (sigue en curso)"}.</figcaption></figure>`;
 }
 
 export function htmlRiesgo(capa, props0, geom) {

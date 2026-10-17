@@ -6,7 +6,7 @@
 // (interpolación bilineal), se mueve unos píxeles en esa dirección y se dibuja un trazo que se desvanece.
 // Se pausa mientras el mapa se mueve y cuando la pestaña no está visible.
 // Temperatura y lluvia: imágenes ya proyectadas a Web Mercator, como fuente "image" de MapLibre.
-import { getJSON } from "./util.js";
+import { getJSON, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 
 const BASE = "data/vivos/clima/";
 const LAT_MAX = 85.05112878;
@@ -173,7 +173,7 @@ class Particulas {
 }
 
 export class Clima {
-  constructor(map) { this.map = map; this.meta = null; this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; }
+  constructor(map) { this.map = map; this.meta = null; this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; this.onProgreso = null; }
 
   async cargar() { this.meta = await getJSON(`${BASE}meta.json`, { bust: true }); return this.meta; }
 
@@ -181,27 +181,30 @@ export class Clima {
 
   async setPaso(i) {
     this.paso = i;
-    for (const t of ["temp", "lluvia"]) if (this.activas.has(t)) this.map.getSource(`clima-${t}`)?.updateImage({ url: BASE + this.pasoActual[t], coordinates: COORDS });
+    for (const t of ["temp", "lluvia", "polar"]) if (this.activas.has(t) && this.pasoActual[t]) this.map.getSource(`clima-${t}`)?.updateImage({ url: BASE + this.pasoActual[t], coordinates: COORDS });
+    if (this.activas.has("polar") && this.pasoActual.isotermas) this.map.getSource("clima-polar-lineas")?.setData(BASE + this.pasoActual.isotermas);
     if (this.activas.has("viento")) this.particulas.setCampo(await cargarViento(BASE + this.pasoActual.viento, this.meta));
   }
 
   async activar(tipo) {
     if (tipo === "rayos") { const r = new Rayos(this.map); this.extras.set(tipo, r); this.activas.add(tipo); await r.cargar(); return; }
-    if (BUCLES[tipo]) { this.extras.set(tipo, new BucleSatelite(this.map, tipo, (m) => this.onMomento?.(tipo, m))); this.activas.add(tipo); return; }
+    if (BUCLES[tipo]) { this.extras.set(tipo, new BucleSatelite(this.map, tipo, (m) => this.onMomento?.(tipo, m), (n, total) => this.onProgreso?.(tipo, n, total))); this.activas.add(tipo); return; }
     if (!this.meta) await this.cargar();
     this.activas.add(tipo);
     if (tipo === "viento") {
       this.particulas ??= new Particulas(this.map);
       this.particulas.setCampo(await cargarViento(BASE + this.pasoActual.viento, this.meta));
-    } else this.#instalar(tipo);
+    } else {
+      try { this.#instalar(tipo); } catch (e) { this.activas.delete(tipo); throw e; }
+    }
   }
 
   desactivar(tipo) {
     this.activas.delete(tipo);
     if (this.extras.has(tipo)) { this.extras.get(tipo).destruir(); this.extras.delete(tipo); return; }
     if (tipo === "viento") { this.particulas?.destruir(); this.particulas = null; return; }
-    if (this.map.getLayer(`clima-${tipo}`)) this.map.removeLayer(`clima-${tipo}`);
-    if (this.map.getSource(`clima-${tipo}`)) this.map.removeSource(`clima-${tipo}`);
+    for (const id of [`clima-${tipo}-etiquetas`, `clima-${tipo}-lineas`, `clima-${tipo}`]) if (this.map.getLayer(id)) this.map.removeLayer(id);
+    for (const id of [`clima-${tipo}-lineas`, `clima-${tipo}`]) if (this.map.getSource(id)) this.map.removeSource(id);
   }
 
   reinstalar() {
@@ -214,9 +217,20 @@ export class Clima {
   #instalar(tipo) {
     const id = `clima-${tipo}`;
     if (this.map.getSource(id)) return;
+    if (!this.pasoActual[tipo]) throw new Error("la corrida actual del modelo todavía no trae esta capa; aparecerá en la siguiente (cada 6 h)");
     this.map.addSource(id, { type: "image", url: BASE + this.pasoActual[tipo], coordinates: COORDS });
     const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.map.addLayer({ id, type: "raster", source: id, paint: { "raster-opacity": tipo === "temp" ? 0.6 : 0.85, "raster-fade-duration": 0, "raster-resampling": "linear" } }, antes);
+    if (tipo === "polar" && this.pasoActual.isotermas) {
+      // Isotermas de 0, −10 y −20 °C a 850 hPa: el borde de la masa de aire frío y su núcleo.
+      this.map.addSource(`${id}-lineas`, { type: "geojson", data: BASE + this.pasoActual.isotermas });
+      this.map.addLayer({ id: `${id}-lineas`, type: "line", source: `${id}-lineas`, paint: {
+        "line-color": ["match", ["get", "t"], 0, "#7FC8F8", -10, "#2F6FDB", "#6A1B9A"], "line-width": ["match", ["get", "t"], 0, 1.6, 2.2],
+        "line-dasharray": ["literal", [3, 1.5]] } }, antes);
+      this.map.addLayer({ id: `${id}-etiquetas`, type: "symbol", source: `${id}-lineas`, layout: { ...layoutEtiqueta(this.map), "symbol-placement": "line", "symbol-spacing": 320,
+        "text-field": ["concat", ["to-string", ["get", "t"]], " °C"], "text-size": 11, "text-font": ["Noto Sans Regular"] },
+        paint: pinturaEtiqueta() }, antes);
+    }
   }
 }
 
@@ -349,28 +363,61 @@ export function momentosBucle(def, ahora = new Date()) {
 export const urlBucle = (capa, matriz, momento) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${capa}/default/${momento}/${matriz}/{z}/{y}/{x}.png`;
 
 class BucleSatelite {
-  constructor(map, id, onMomento) {
-    this.map = map; this.id = id; this.def = BUCLES[id]; this.onMomento = onMomento;
+  constructor(map, id, onMomento, onProgreso) {
+    this.map = map; this.id = id; this.def = BUCLES[id]; this.onMomento = onMomento; this.onProgreso = onProgreso;
     this.momentos = momentosBucle(this.def);
     this.i = this.momentos.length - 1;
-    const antes = ["choke-anillo", "clusters"].find((l) => map.getLayer(l));
-    this.momentos.forEach((m, k) => this.def.capas.forEach(([capa, matriz], j) => {
-      const sid = `bucle-${id}-${k}-${j}`;
-      map.addSource(sid, { type: "raster", tiles: [urlBucle(capa, matriz, m)], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
-      map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
-        "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
-    }));
+    this.agregados = new Set();
+    // Primero el cuadro más reciente; los anteriores se piden de uno en uno cuando el previo terminó de bajar,
+    // para que no compitan entre sí y la primera imagen aparezca cuanto antes.
+    this.#agregar(this.i);
     this.onMomento?.(this.momentos[this.i]);
+    this.#avisar();
     this.reloj = setInterval(() => this.#siguiente(), 700);
   }
 
+  #agregar(k) {
+    const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+    this.def.capas.forEach(([capa, matriz], j) => {
+      const sid = `bucle-${this.id}-${k}-${j}`;
+      if (this.map.getSource(sid)) return;
+      this.map.addSource(sid, { type: "raster", tiles: [urlBucle(capa, matriz, this.momentos[k])], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
+      this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
+        "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
+    });
+    this.agregados.add(k);
+  }
+
+  /** Un cuadro está listo cuando todas sus imágenes de la vista actual ya se descargaron. */
+  #listo(k) {
+    if (!this.agregados.has(k)) return false;
+    return this.def.capas.every((_, j) => { try { return this.map.isSourceLoaded(`bucle-${this.id}-${k}-${j}`); } catch (e) { return false; } });
+  }
+
+  #avisar() {
+    // Si todo lo pedido ya bajó, se pide el siguiente cuadro hacia atrás en el tiempo.
+    if ([...this.agregados].every((k) => this.#listo(k))) {
+      const siguiente = [...this.momentos.keys()].reverse().find((k) => !this.agregados.has(k));
+      if (siguiente != null) this.#agregar(siguiente);
+    }
+    const listos = this.momentos.filter((_, k) => this.#listo(k)).length;
+    this.onProgreso?.(listos, this.momentos.length);
+    return listos;
+  }
+
   #siguiente() {
-    if (document.hidden || this.map.isMoving()) return;
+    if (document.hidden) return;
+    const listos = this.#avisar();
+    if (this.map.isMoving() || !listos) return;
     const anterior = this.i;
-    this.i = (this.i + 1) % this.momentos.length;
     // Pausa más larga en el cuadro más reciente: es el que importa.
-    if (anterior === this.momentos.length - 1 && (this.pausa = (this.pausa || 0) + 1) < 3) { this.i = anterior; return; }
+    if (anterior === this.momentos.length - 1 && this.#listo(anterior) && (this.pausa = (this.pausa || 0) + 1) < 3) return;
     this.pausa = 0;
+    // Solo se avanza a cuadros ya descargados: así la animación no se «despinta» mientras bajan las imágenes.
+    let k = anterior;
+    for (let n = 0; n < this.momentos.length; n++) { k = (k + 1) % this.momentos.length; if (this.#listo(k)) break; }
+    if (k === anterior) return;
+    this.i = k;
     this.def.capas.forEach((_, j) => {
       this.map.setPaintProperty(`bucle-${this.id}-${anterior}-${j}`, "raster-opacity", 0);
       this.map.setPaintProperty(`bucle-${this.id}-${this.i}-${j}`, "raster-opacity", this.def.opacidad);
@@ -380,7 +427,7 @@ class BucleSatelite {
 
   destruir() {
     clearInterval(this.reloj);
-    this.momentos.forEach((_, k) => this.def.capas.forEach((__, j) => {
+    this.agregados.forEach((k) => this.def.capas.forEach((__, j) => {
       const sid = `bucle-${this.id}-${k}-${j}`;
       if (this.map.getLayer(sid)) this.map.removeLayer(sid);
       if (this.map.getSource(sid)) this.map.removeSource(sid);

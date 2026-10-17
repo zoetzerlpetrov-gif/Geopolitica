@@ -98,3 +98,18 @@ test("avisos náuticos: frecuencias y canales mencionados en el texto", async ()
   assert.match(R.htmlRadioNautica({ texto: "MINES IN AREA" }), /no menciona frecuencias/);
   assert.match(R.htmlRadioNautica({ texto: "MINES IN AREA" }), /518 kHz/);
 });
+
+test("cortes de internet: gráfica propia de las señales de IODA en las últimas 48 h", async () => {
+  const { graficaIoda } = await import("../../js/riesgos.js");
+  const ahora = Date.parse("2026-10-17T12:00:00Z");
+  const svg = graficaIoda([{ senal: "BGP", inicio_utc: "2026-10-17T06:00:00Z", horas: 3 }, { senal: "ping", inicio_utc: "2026-10-17T08:00:00Z", horas: null }], null, ahora);
+  assert.match(svg, /<svg/); assert.match(svg, />BGP</); assert.match(svg, />ping</); assert.match(svg, /sigue en curso/);
+  assert.equal(graficaIoda([], null, ahora), "");
+});
+
+test("cortes de agua sin imagen del medio llevan una ilustrativa marcada", () => {
+  const c = capa("cortes");
+  assert.equal(c.ficha({ kind: "AGUA", title: "x" }).imagen.titulo, "Water scarcity");
+  assert.equal(c.ficha({ kind: "AGUA", title: "x" }).imagen.ilustrativa, true);
+  assert.equal(c.ficha({ kind: "LUZ", title: "x", image: "https://a/b.jpg" }).imagen, null);
+});
