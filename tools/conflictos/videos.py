@@ -4,8 +4,7 @@
 Solo corre si existe el secreto YOUTUBE_API_KEY (llave gratuita de Google Cloud; cuota de 10,000 unidades al día,
 cada búsqueda cuesta 100). YouTube prohíbe en su robots.txt leer sus feeds de forma automática, por eso se usa la API
 oficial y no otra vía. Cada 2 h se leen los últimos 50 videos subidos por cada canal de medios de noticias de la lista
-CANALES (playlistItems, 1 unidad por canal) y se asignan a cada conflicto por sus palabras clave en el título o la
-descripción (7 días). Así solo aparecen medios conocidos: nada de propaganda, contenido gráfico sin contexto ni
+CANALES (playlistItems, 1 unidad por canal) y se asignan a cada conflicto por sus palabras clave en el título (7 días). Así solo aparecen medios conocidos: nada de propaganda, contenido gráfico sin contexto ni
 cuentas anónimas. Se guarda el identificador del video, título, canal y fecha; el video se
 reproduce insertado con el reproductor oficial de YouTube (youtube-nocookie.com) desde la ficha.
 Salida: vivos/conflictos_videos.json.
@@ -53,7 +52,7 @@ def subidos(llave, canal):
 
 
 def asignar(videos, conflictos, desde, max_por_conflicto=6):
-    """[(canal, item)] → {conflicto: [videos]} por palabras clave en título o descripción."""
+    """[(canal, item)] → {conflicto: [videos]} por palabras clave en el título."""
     reglas = [(c["id"], re.compile(r"\b(" + "|".join(re.escape(norm(p)) for p in c.get("palabras", []) if len(p) >= 3) + r")\b")) for c in conflictos if c.get("palabras")]
     out, vistos = {c["id"]: [] for c in conflictos}, set()
     for canal, it in videos:
@@ -62,7 +61,7 @@ def asignar(videos, conflictos, desde, max_por_conflicto=6):
         fecha = (s.get("publishedAt") or "")[:19] + "Z"
         if not vid or vid in vistos or fecha < desde or s.get("title") in ("Private video", "Deleted video"):
             continue
-        texto = norm(f"{s.get('title')} {(s.get('description') or '')[:400]}")
+        texto = norm(s.get("title"))  # solo el título: las descripciones de noticieros mencionan muchos temas
         for cid, rx in reglas:
             if rx.search(texto):
                 out[cid].append({"video": vid, "titulo": " ".join((s.get("title") or "").split())[:160], "canal": CANALES[canal], "fecha": fecha})

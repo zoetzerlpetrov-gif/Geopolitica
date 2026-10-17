@@ -42,7 +42,8 @@ def test_videos_asignados_por_palabras_y_solo_recientes():
     it = lambda vid, t, f, d="": {"snippet": {"title": t, "description": d, "publishedAt": f, "resourceId": {"videoId": vid}}}  # noqa: E731
     conflictos = [{"id": "ucrania", "palabras": ["járkov", "kharkiv", "ucrania"]}, {"id": "sudan", "palabras": ["darfur", "sudán"]}]
     videos = [("UCT4Jg8h03dD0iN3Pb5L0PMA", it("a1", "Ataque en Járkov", "2026-10-16T10:00:00Z")),
-              ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a2", "Market update", "2026-10-16T11:00:00Z", "Fighting in Darfur displaces thousands")),
+              ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a2", "Fighting in Darfur displaces thousands", "2026-10-16T11:00:00Z"))
+              , ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a5", "Market update", "2026-10-16T12:00:00Z", "Also: Ukraine talks")),
               ("UChqUTb7kYRX8-EiaN3XFrSQ", it("a3", "Ucrania: archivo", "2026-09-01T10:00:00Z")),
               ("UCT4Jg8h03dD0iN3Pb5L0PMA", it("a1", "Ataque en Járkov", "2026-10-16T10:00:00Z")),
               ("UCT4Jg8h03dD0iN3Pb5L0PMA", it("a4", "Private video", "2026-10-16T10:00:00Z"))]
