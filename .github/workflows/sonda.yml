@@ -3,7 +3,7 @@ on: { push: { branches: [claude/pensive-ptolemy-bkwcue], paths: [tools/sonda_tmp
 jobs:
   sonda:
     runs-on: ubuntu-latest
-    timeout-minutes: 8
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/sonda_tmp.py
