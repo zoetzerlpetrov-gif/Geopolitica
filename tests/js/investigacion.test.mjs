@@ -120,3 +120,28 @@ test("chat Groq: errores con mensaje claro (llave, límite, cancelar, sin respue
   await assert.rejects(preguntar("¿Ormuz?", EVENTOS, LLAVE, { fetchFn: colgado, signal: ctrl.signal }), (e) => mensajeError(e) === "Pregunta cancelada.");
   await assert.rejects(preguntar("¿Ormuz?", EVENTOS, LLAVE, { fetchFn: colgado, esperaMs: 30 }), (e) => /no respondió/.test(mensajeError(e)));
 });
+
+import { filasRevision, htmlRevision, htmlVisitas } from "../../js/gfw.js";
+import { desanidar } from "../../js/riesgos.js";
+
+test("GFW: revisión del barco y visitas a puerto, con HTML escapado", () => {
+  const rev = { iuu_veces: 1, pesca_eventos: 10, pesca_anp_sin_pesca: 2, pesca_sin_autorizacion: 0, apagados_anio: 3, nombres: ["A<b>"],
+    banderas: [{ bandera: "CHN", desde: "2018-01-01", hasta: "2023-12-01" }, { bandera: "PAN", desde: "2024-01-01", hasta: "2026-10-01" }], imo: "123", duenos: [{ nombre: "NAVIERA", bandera: "PAN" }] };
+  const filas = Object.fromEntries(filasRevision(rev));
+  assert.match(filas["Listas de pesca ilegal (IUU)"], /^Sí/);
+  assert.equal(filas["Banderas (según su AIS)"], "CHN (2018-01-01 a 2023-12-01) → PAN (2024-01-01 a 2026-10-01)");
+  const h = htmlRevision([{ nombre: "X", mmsi: "1", revision: rev, alerta: "estuvo en una lista" }, { nombre: "Y" }]);
+  assert.ok(h.includes("A&lt;b&gt;") && !h.includes("A<b>"));
+  assert.match(h, /vessel-search\?query=1/);
+  assert.match(htmlRevision([{ nombre: "Y" }]), /pendiente/);
+  const t = htmlVisitas([{ nombre: "SEA ANGEL", mmsi: "3", bandera: "USA", tipo: "pesca", llegada_utc: "2026-10-12T23:15:10Z", salida_utc: "2026-10-12T23:29:15Z", alerta: "x" }]);
+  assert.match(t, /SEA ANGEL<\/a> ⚠️/);
+  assert.match(t, /2026-10-12/);
+});
+
+test("riesgos: las propiedades anidadas que MapLibre entrega como texto se recuperan", () => {
+  const p = desanidar({ barco_a: '{"nombre":"A"}', serie: "[[1,2]]", texto: "[nota] normal", n: 3 });
+  assert.equal(p.barco_a.nombre, "A");
+  assert.deepEqual(p.serie, [[1, 2]]);
+  assert.equal(p.texto, "[nota] normal");
+});

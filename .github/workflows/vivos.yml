@@ -23,7 +23,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 20  # con Clima Táctico (cada 6 h) la corrida larga dura ~12 min
+    timeout-minutes: 30  # con Clima Táctico (cada 6 h) la corrida larga dura ~12 min; GFW suma ~4 min una vez al día
     steps:
       - uses: actions/checkout@v4
 
@@ -51,9 +51,9 @@ jobs:
         timeout-minutes: 2
         run: python3 tools/maritimo/trafico.py
 
-      - name: Global Fishing Watch (AIS apagado y encuentros en el mar; una vez al día; si falla se conservan los anteriores)
+      - name: Global Fishing Watch (AIS apagado, encuentros, merodeo, pesca y puertos de México, radar y revisión de barcos; una vez al día)
         continue-on-error: true
-        timeout-minutes: 6
+        timeout-minutes: 12
         env:
           GFW_TOKEN: ${{ secrets.SAUL_PRIVATE_GLOBALFISHINGWATCH }}
         run: python3 tools/maritimo/gfw.py
