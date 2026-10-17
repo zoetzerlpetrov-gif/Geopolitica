@@ -2,8 +2,9 @@
 """Creadores de contenido con más seguidores: los 100 primeros por plataforma, según Wikidata.
 
 Fuente: servicio de consultas SPARQL de Wikidata (datos CC0). La propiedad P8687 («número de seguidores en redes
-sociales») lleva como calificador la cuenta (YouTube P2397, TikTok P7085, Instagram P2003, X P2002) y la fecha del
-dato (P585). Se toma el dato más reciente de cada persona en cada plataforma.
+sociales») lleva como calificador la cuenta (YouTube P2397, TikTok P7085, Instagram P2003) y la fecha del dato (P585).
+Se toma el dato más reciente de cada persona en cada plataforma. X (P2002) no se incluye: Wikidata casi no registra sus
+seguidores (4 personas en octubre de 2026) y la lista sería engañosa.
 
 Solo datos profesionales de figuras públicas: nombre, plataforma, enlace a la cuenta oficial, seguidores y fecha del
 dato, ocupación y país de nacionalidad (para ubicarla en el mapa, en el centro del país). No se guardan fechas de
@@ -33,7 +34,6 @@ PLATAFORMAS = {
     "YouTube": ("P2397", 15_000_000, "https://www.youtube.com/channel/{}"),
     "TikTok": ("P7085", 5_000_000, "https://www.tiktok.com/@{}"),
     "Instagram": ("P2003", 15_000_000, "https://www.instagram.com/{}/"),
-    "X": ("P2002", 3_000_000, "https://x.com/{}"),
 }
 
 

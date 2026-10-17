@@ -30,7 +30,7 @@ const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
 const SALUD = "Salud: brotes y enfermedades";
 const SOCIEDAD = "Sociedad: creadores de contenido";
-const ICONO_RED = { YouTube: "▶️", TikTok: "🎵", Instagram: "📷", X: "𝕏" };
+const ICONO_RED = { YouTube: "▶️", TikTok: "🎵", Instagram: "📷" };
 /** 421000000 → «421 M»; 15300000 → «15.3 M». */
 const millones = (n) => `${(Number(n) / 1e6).toLocaleString("es-MX", { maximumFractionDigits: Number(n) >= 1e8 ? 0 : 1 })} M`;
 const PALETA_TZ = ["#E8D5B7", "#B8D8BA", "#D9B8C4", "#A8C5DA", "#F2C57C", "#C3B1E1", "#9ED2C6", "#F4A6A6", "#CFCFCF"];
@@ -512,7 +512,7 @@ export const CAPAS = [
         ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticias" }),
   },
   {
-    id: "creadores", grupo: SOCIEDAD, nombre: "Creadores de contenido con más seguidores: hasta 100 por plataforma en YouTube, TikTok, Instagram y X (Wikidata)", noAmenaza: true,
+    id: "creadores", grupo: SOCIEDAD, nombre: "Creadores de contenido con más seguidores: hasta 100 por plataforma en YouTube, TikTok e Instagram (Wikidata)", noAmenaza: true,
     url: "data/vivos/creadores.geojson", refresco_s: 86400, fuente: "Wikidata (CC0), número de seguidores en redes sociales (P8687)",
     estilo: (p) => ({ c: "#8E44AD", r: Math.min(14, 4 + Math.sqrt(p.n || 1) * 1.6) }),
     etiqueta: (p) => `${p.pais} · ${p.n}`,
