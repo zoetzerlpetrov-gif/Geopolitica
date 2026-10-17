@@ -310,6 +310,12 @@
           "type": "string",
           "maxLength": 80,
           "description": "Proveedor/modelo que redactó el resumen de IA."
+        },
+        "imagen": {
+          "type": "string",
+          "pattern": "^https://",
+          "maxLength": 400,
+          "description": "Imagen que el propio medio publica para compartir la nota; se enlaza desde su servidor, no se copia."
         }
       }
     }

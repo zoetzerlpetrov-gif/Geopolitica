@@ -283,7 +283,7 @@ def fila_a_feature(f, flujo, nom=None):
     url = f[4] if f[4].startswith("http") else ""
     if not url:
         return None
-    return punto(lon, lat, {"title": titulo[:220], "url": url, "source": f[3], "date": fecha, "kind": e[0], "enfermedad": e[1], "grupo": e[2],
+    return punto(lon, lat, {"title": titulo[:220], "url": url, "source": f[3], "date": fecha, "image": T.imagen_de(f), "kind": e[0], "enfermedad": e[1], "grupo": e[2],
                             "severe": bool(GRAVE.search(titulo)) or e[2] in ("grave", "laboratorio"), "state": nombre,
                             "precision": {"1": "país", "2": "estado", "5": "estado"}.get(tipo, "ciudad"), "pais_iso3": iso3,
                             "via": f"GDELT GKG ({'nota traducida al inglés por GDELT' if flujo == 'traducido' else 'nota en inglés'}); lugar nombrado en el titular"})

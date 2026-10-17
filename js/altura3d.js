@@ -78,7 +78,7 @@ export class Altura3D {
   }
 
   refrescar() {
-    if (!this.activo) return;
+    if (!this.activo) return; // también se llama al apagar una capa: si ya no hay objetos, la fuente queda vacía
     try { this.#instalar(); this.map.getSource(FUENTE).setData(construir(this.objetos(), this.map.getZoom())); } catch (e) { /* estilo cambiando */ }
   }
 
@@ -99,6 +99,8 @@ export class Altura3D {
     this.map.off("style.load", this.refrescar);
     for (const l of [`${FUENTE}-poste`, `${FUENTE}-cabeza`]) if (this.map.getLayer(l)) this.map.removeLayer(l);
     if (this.map.getSource(FUENTE)) this.map.removeSource(FUENTE);
+    // Se vuelve a la vista vertical que se tenía antes de activar el modo 3D.
+    if (this.map.getPitch() > 0) this.map.easeTo({ pitch: 0, duration: 800 });
   }
 }
 
@@ -113,7 +115,7 @@ export function adelante(lon, lat, grados, km) {
 export class Cabina {
   constructor(map) { this.map = map; this.activa = false; }
 
-  iniciar(v, { onSalir } = {}) {
+  iniciar(v, { onSalir, datos = {} } = {}) {
     const m = this.map;
     this.detener(false);
     this.activa = true;
@@ -125,17 +127,22 @@ export class Cabina {
       attribution: "Relieve: Terrain Tiles (Mapzen, datos abiertos en AWS)" });
     try { m.setTerrain({ source: ID_DEM, exaggeration: 1.2 }); } catch { /* sin relieve */ }
     try { m.setSky?.({ "sky-color": "#6fa8dc", "horizon-color": "#d9e7f5", "sky-horizon-blend": 0.6, "fog-color": "#d9e7f5" }); } catch { /* sin cielo */ }
-    this.v = { lon: v.lon, lat: v.lat, alt: Math.max(300, Number(v.alt_m) || 1000), rumbo: Number(v.rumbo) || 0, kmh: Math.max(0, Number(v.vel_kmh) || 0) };
+    this.v = { lon: v.lon, lat: v.lat, alt: Math.max(300, Number(v.alt_m) || 1000), rumbo: Number(v.rumbo) || 0, kmh: Math.max(0, Number(v.vel_kmh) || 0),
+      vs: Number(v.vs_ms) || 0 };
     this.t0 = performance.now();
+    this.giro = 0;
+    this.datos = datos;
+    this.panel ??= new PanelCabina(m.getContainer());
     const paso = () => {
       if (!this.activa) return;
       const seg = (performance.now() - this.t0) / 1000;
-      const [lon, lat] = adelante(this.v.lon, this.v.lat, this.v.rumbo, (this.v.kmh * seg) / 3600);
-      const mira = adelante(lon, lat, this.v.rumbo, 25);
+      const e = estadoCabina(this.v, seg, this.giro);
+      const mira = adelante(e.lon, e.lat, this.v.rumbo, 25);
       try {
-        const cam = m.calculateCameraOptionsFromTo({ lng: lon, lat }, this.v.alt, { lng: mira[0], lat: mira[1] }, Math.max(0, this.v.alt - 2500));
+        const cam = m.calculateCameraOptionsFromTo({ lng: e.lon, lat: e.lat }, e.alt_m, { lng: mira[0], lat: mira[1] }, Math.max(0, e.alt_m - 2500));
         m.jumpTo(cam);
       } catch { /* versión sin cámara libre */ }
+      this.panel?.dibujar(e, { ...this.datos, hacia: haciaDestino(e, this.datos.destinoCoord) });
       this.raf = requestAnimationFrame(paso);
     };
     this.raf = requestAnimationFrame(paso);
@@ -144,7 +151,11 @@ export class Cabina {
   /** Nueva instantánea del mismo avión: corrige posición, altitud, rumbo y velocidad. */
   actualizar(v) {
     if (!this.activa) return;
-    Object.assign(this.v, { lon: v.lon, lat: v.lat, alt: Math.max(300, Number(v.alt_m) || this.v.alt), rumbo: Number(v.rumbo) || this.v.rumbo, kmh: Number(v.vel_kmh) || this.v.kmh });
+    const dt = (performance.now() - this.t0) / 1000, nuevo = Number(v.rumbo) || this.v.rumbo;
+    // Ritmo de giro solo con señales cercanas (≤ 2 min): con instantáneas de 20 min no dice nada del alabeo.
+    this.giro = dt > 0 && dt <= 120 ? ((((nuevo - this.v.rumbo) % 360) + 540) % 360 - 180) / dt : 0;
+    Object.assign(this.v, { lon: v.lon, lat: v.lat, alt: Math.max(300, Number(v.alt_m) || this.v.alt), rumbo: nuevo, kmh: Number(v.vel_kmh) || this.v.kmh,
+      vs: Number(v.vs_ms) || 0 });
     this.t0 = performance.now();
   }
 
@@ -152,6 +163,8 @@ export class Cabina {
     if (!this.activa) return;
     this.activa = false;
     cancelAnimationFrame(this.raf);
+    this.panel?.quitar();
+    this.panel = null;
     const m = this.map, p = this.previo;
     try { m.setTerrain(null); } catch { /* nada */ }
     if (p) {
@@ -160,5 +173,139 @@ export class Cabina {
       if (p.proy === "globe") try { m.setProjection({ type: "globe" }); } catch { /* nada */ }
     }
     if (avisar) this.onSalir?.();
+  }
+}
+
+// ------------------------------------------------------------------ panel de instrumentos (cabina)
+const G = 9.81;
+
+/**
+ * Estado del vuelo simulado `seg` segundos después de la última señal: posición y altitud avanzan con la velocidad
+ * y la velocidad vertical. La inclinación (pitch) es el ángulo de la trayectoria más ~2.5° de ángulo de ataque típico;
+ * el alabeo (bank) sale del ritmo de giro entre dos señales cercanas (si las señales están a más de 2 min, 0°).
+ */
+export function estadoCabina(v, seg, giroGradosSeg = 0) {
+  const kmh = Math.max(0, Number(v.kmh) || 0), ms = kmh / 3.6, vs = Number(v.vs) || 0;
+  const [lon, lat] = adelante(v.lon, v.lat, v.rumbo, (kmh * seg) / 3600);
+  const alt = Math.max(0, v.alt + vs * Math.min(seg, 600));
+  const trayectoria = ms > 1 ? (Math.atan2(vs, ms) * 180) / Math.PI : 0;
+  const pitch = Math.max(-25, Math.min(25, trayectoria + (alt > 50 ? 2.5 : 0)));
+  const bank = Math.max(-35, Math.min(35, (Math.atan((ms * giroGradosSeg * Math.PI) / 180 / G) * 180) / Math.PI));
+  return { lon, lat, alt_m: alt, alt_ft: alt / 0.3048, gs_kmh: kmh, gs_kt: kmh / 1.852, vs_ms: vs, vs_fpm: vs * 196.85,
+    rumbo: ((v.rumbo % 360) + 360) % 360, pitch, bank, seg };
+}
+
+/** Distancia (km) y hora estimada de llegada en línea recta a un destino [lon, lat]. */
+export function haciaDestino(e, destino) {
+  if (!destino || !(e.gs_kmh > 50)) return null;
+  const R = 6371, rad = Math.PI / 180;
+  const dLat = (destino[1] - e.lat) * rad, dLon = (destino[0] - e.lon) * rad;
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(e.lat * rad) * Math.cos(destino[1] * rad) * Math.sin(dLon / 2) ** 2;
+  const km = 2 * R * Math.asin(Math.min(1, Math.sqrt(h)));
+  return { km, min: (km / e.gs_kmh) * 60 };
+}
+
+export class PanelCabina {
+  constructor(contenedor) {
+    this.c = document.createElement("canvas");
+    this.c.className = "cabina-pfd";
+    this.c.setAttribute("aria-hidden", "true");
+    contenedor.appendChild(this.c);
+  }
+
+  quitar() { this.c.remove(); }
+
+  dibujar(e, datos = {}) {
+    const c = this.c, dpr = Math.min(2, window.devicePixelRatio || 1);
+    const W = c.clientWidth, H = c.clientHeight;
+    if (c.width !== Math.round(W * dpr)) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+    const g = c.getContext("2d");
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.clearRect(0, 0, W, H);
+    const verde = "#7CFC9A", blanco = "#F4F7FA", ambar = "#FFC857";
+    g.font = "12px ui-monospace, Menlo, monospace"; g.textBaseline = "middle"; g.lineWidth = 1.5;
+
+    // Horizonte artificial (centro).
+    const R = Math.min(W, H) * 0.22, cx = W / 2, cy = H / 2;
+    g.save();
+    g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI); g.clip();
+    g.translate(cx, cy); g.rotate((-e.bank * Math.PI) / 180);
+    const pxGrado = R / 22, dy = e.pitch * pxGrado;
+    g.fillStyle = "rgba(52,120,200,0.45)"; g.fillRect(-2 * R, -2 * R + dy, 4 * R, 2 * R);
+    g.fillStyle = "rgba(140,90,40,0.45)"; g.fillRect(-2 * R, dy, 4 * R, 2 * R);
+    g.strokeStyle = blanco; g.beginPath(); g.moveTo(-2 * R, dy); g.lineTo(2 * R, dy); g.stroke();
+    g.fillStyle = blanco; g.textAlign = "left";
+    for (let p = -20; p <= 20; p += 5) {
+      if (!p) continue;
+      const y = dy - p * pxGrado, w = p % 10 ? R * 0.18 : R * 0.32;
+      g.beginPath(); g.moveTo(-w, y); g.lineTo(w, y); g.stroke();
+      if (!(p % 10)) g.fillText(String(Math.abs(p)), w + 4, y);
+    }
+    g.restore();
+    g.strokeStyle = ambar; g.lineWidth = 3;
+    g.beginPath(); g.moveTo(cx - R * 0.55, cy); g.lineTo(cx - R * 0.18, cy); g.lineTo(cx - R * 0.12, cy + 8);
+    g.moveTo(cx + R * 0.55, cy); g.lineTo(cx + R * 0.18, cy); g.lineTo(cx + R * 0.12, cy + 8); g.stroke();
+    g.fillStyle = ambar; g.fillRect(cx - 2, cy - 2, 4, 4);
+    g.lineWidth = 1.5; g.strokeStyle = "rgba(244,247,250,0.6)"; g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI); g.stroke();
+
+    // Cintas de velocidad (izquierda) y altitud (derecha).
+    const cinta = (x, valor, paso, etiqueta, unidad2) => {
+      const h = R * 2.1, y0 = cy - h / 2, ancho = 74;
+      g.fillStyle = "rgba(10,16,24,0.55)"; g.fillRect(x, y0, ancho, h);
+      g.save(); g.beginPath(); g.rect(x, y0, ancho, h); g.clip();
+      g.strokeStyle = blanco; g.fillStyle = blanco; g.textAlign = "center";
+      const px = h / (paso * 8), base = Math.round(valor / paso) * paso;
+      for (let k = -6; k <= 6; k++) {
+        const val = base + k * paso, y = cy - (val - valor) * px;
+        g.beginPath(); g.moveTo(x, y); g.lineTo(x + 8, y); g.stroke();
+        if (val >= 0) g.fillText(Math.round(val).toLocaleString("es-MX"), x + ancho / 2 + 4, y);
+      }
+      g.restore();
+      g.fillStyle = "#0B1118"; g.fillRect(x - 2, cy - 13, ancho + 4, 26);
+      g.strokeStyle = verde; g.strokeRect(x - 2, cy - 13, ancho + 4, 26);
+      g.fillStyle = verde; g.font = "bold 15px ui-monospace, Menlo, monospace"; g.textAlign = "center";
+      g.fillText(Math.round(valor).toLocaleString("es-MX"), x + ancho / 2, cy);
+      g.font = "11px ui-monospace, Menlo, monospace"; g.fillStyle = blanco;
+      g.fillText(etiqueta, x + ancho / 2, y0 - 10); g.fillText(unidad2, x + ancho / 2, y0 + h + 10);
+      g.font = "12px ui-monospace, Menlo, monospace";
+    };
+    cinta(cx - R - 110, e.gs_kt, 20, "GS (nudos)", `${Math.round(e.gs_kmh)} km/h`);
+    cinta(cx + R + 36, e.alt_ft, 500, "ALT (pies)", `${Math.round(e.alt_m).toLocaleString("es-MX")} m`);
+
+    // Velocidad vertical.
+    const xv = cx + R + 118, hv = R * 1.6;
+    g.fillStyle = "rgba(10,16,24,0.55)"; g.fillRect(xv, cy - hv / 2, 34, hv);
+    const yv = cy - Math.max(-1, Math.min(1, e.vs_fpm / 4000)) * (hv / 2);
+    g.strokeStyle = verde; g.lineWidth = 3; g.beginPath(); g.moveTo(xv + 2, cy); g.lineTo(xv + 30, yv); g.stroke(); g.lineWidth = 1.5;
+    g.fillStyle = blanco; g.textAlign = "center";
+    g.fillText("VS", xv + 17, cy - hv / 2 - 10); g.fillText(`${Math.round(e.vs_fpm / 10) * 10}`, xv + 17, cy + hv / 2 + 10);
+
+    // Rumbo (abajo).
+    const yh = cy + R + 40, wh = R * 2.4;
+    g.fillStyle = "rgba(10,16,24,0.55)"; g.fillRect(cx - wh / 2, yh - 16, wh, 32);
+    g.save(); g.beginPath(); g.rect(cx - wh / 2, yh - 16, wh, 32); g.clip();
+    const pxH = wh / 60;
+    for (let d = Math.floor((e.rumbo - 35) / 5) * 5; d <= e.rumbo + 35; d += 5) {
+      const x = cx + (d - e.rumbo) * pxH, dd = ((d % 360) + 360) % 360;
+      g.strokeStyle = blanco; g.beginPath(); g.moveTo(x, yh - 16); g.lineTo(x, yh - (dd % 10 ? 10 : 6)); g.stroke();
+      if (!(dd % 30)) { g.fillStyle = blanco; g.fillText({ 0: "N", 90: "E", 180: "S", 270: "O" }[dd] ?? String(dd / 10), x, yh + 6); }
+    }
+    g.restore();
+    g.fillStyle = verde; g.font = "bold 14px ui-monospace, Menlo, monospace";
+    g.fillText(`${String(Math.round(e.rumbo) % 360).padStart(3, "0")}°`, cx, yh + 30);
+    g.font = "12px ui-monospace, Menlo, monospace";
+
+    // Bloque de datos (esquina superior izquierda).
+    const filas = [
+      `${datos.indicativo || "—"}${datos.tipo ? ` · ${datos.tipo}` : ""}`,
+      `Inclinación ${e.pitch >= 0 ? "+" : ""}${e.pitch.toFixed(1)}° · alabeo ${e.bank.toFixed(0)}°`,
+      `Pos ${e.lat.toFixed(3)}, ${e.lon.toFixed(3)}`,
+      datos.squawk ? `Squawk ${datos.squawk}` : "",
+      datos.destino ? `${datos.destino}${datos.hacia ? ` · ${Math.round(datos.hacia.km)} km · ${Math.round(datos.hacia.min)} min` : ""}` : "",
+      `Simulado desde la última señal: ${Math.round(e.seg)} s`,
+    ].filter(Boolean);
+    g.textAlign = "left";
+    g.fillStyle = "rgba(10,16,24,0.6)"; g.fillRect(12, 56, 300, filas.length * 17 + 12);
+    filas.forEach((t, i) => { g.fillStyle = i ? blanco : verde; g.fillText(t, 20, 68 + i * 17); });
   }
 }

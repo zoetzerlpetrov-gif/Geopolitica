@@ -97,11 +97,21 @@ export function paginaCommons(src) {
   return m ? `https://commons.wikimedia.org/wiki/File:${m[1]}` : null;
 }
 
+/** Enlace a un artículo de Wikipedia (cualquier idioma) → referencia de imagen para huecoImagen; otro enlace → null. */
+export function articuloWikipedia(url) {
+  const m = /^https:\/\/([a-z]{2,3})\.wikipedia\.org\/wiki\/([^?#]+)/.exec(String(url || ""));
+  if (!m) return null;
+  const titulo = decodeURIComponent(m[2]).replace(/_/g, " ");
+  return { titulo: m[1] === "en" ? titulo : `${m[1]}:${titulo}`, exacto: true };
+}
+
 const cache = new Map();
-/** Imagen principal del artículo (REST summary de Wikipedia, con CORS). null si no hay o no es de Commons. */
+/** Imagen principal del artículo (REST summary de Wikipedia, con CORS). «es:Título» consulta la Wikipedia en español.
+ * null si no hay o no es de Commons. */
 export function cargarImagen(titulo) {
   if (!cache.has(titulo)) {
-    cache.set(titulo, getJSON(`https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(titulo.replace(/ /g, "_"))}`)
+    const [, lang = "en", art = titulo] = /^(?:([a-z]{2,3}):)?(.+)$/.exec(titulo) || [];
+    cache.set(titulo, getJSON(`https://${lang}.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(art.replace(/ /g, "_"))}`)
       .then((d) => {
         const src = d?.thumbnail?.source;
         const archivo = paginaCommons(src);
@@ -113,7 +123,8 @@ export function cargarImagen(titulo) {
 
 const escH = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 /** Hueco en la ficha que `rellenarImagenes` completa. */
-export const huecoImagen = (ref) => (ref ? `<figure class="img-tipo" data-img-tipo="${escH(ref.titulo)}" data-exacto="${ref.exacto ? 1 : 0}"></figure>` : "");
+export const huecoImagen = (ref, avion = null) => (ref ? `<figure class="img-tipo" data-img-tipo="${escH(ref.titulo)}" data-exacto="${ref.exacto ? 1 : 0}"${avion
+  ? ` data-hex="${escH(avion.hex)}" data-indicativo="${escH(avion.indicativo || "")}" data-subtipo="${escH(avion.subtipo || "")}"` : ""}></figure>` : "");
 
 export function htmlImagen(img, exacto) {
   return `<a href="${escH(img.archivo)}" target="_blank" rel="noopener noreferrer"><img src="${escH(img.src)}" alt="${escH(img.titulo)}" loading="lazy" decoding="async"
@@ -126,8 +137,91 @@ export function htmlImagen(img, exacto) {
 export async function rellenarImagenes(raiz) {
   for (const fig of raiz?.querySelectorAll?.("figure[data-img-tipo]:not([data-listo])") || []) {
     fig.dataset.listo = "1";
+    if (fig.dataset.hex) {
+      const real = await fotoAvionReal({ hex: fig.dataset.hex, indicativo: fig.dataset.indicativo, subtipo: fig.dataset.subtipo });
+      if (!fig.isConnected) continue;
+      const datos = fig.parentElement?.querySelector(".avion-registro");
+      if (real && datos && (real.matricula || real.modelo)) {
+        datos.textContent = [real.matricula && `Matrícula ${real.matricula}`, [real.fabricante, real.modelo].filter(Boolean).join(" "), real.aerolinea].filter(Boolean).join(" · ");
+        datos.hidden = false;
+      }
+      if (real?.src) { fig.innerHTML = htmlFotoAvion(real); continue; }
+    }
     const img = await cargarImagen(fig.dataset.imgTipo);
     if (!fig.isConnected) continue;
     if (img) fig.innerHTML = htmlImagen(img, fig.dataset.exacto === "1"); else fig.remove();
   }
+}
+
+// ------------------------------------------------------------------ foto real del avión
+// Para vuelos comerciales, de carga, de Estado y militares: 1) foto de ESTA aeronave por su matrícula en Wikimedia
+// Commons; 2) si no hay, una foto de la misma aerolínea y modelo; 3) si tampoco, la imagen genérica del modelo.
+// Matrícula, tipo y aerolínea vienen de adsbdb.com (CORS abierto). Nunca se muestra el dueño registrado (para aviones
+// privados puede ser una persona) ni se consulta nada para aviación general.
+export const CON_FOTO_REAL = new Set(["civil_comercial", "carga", "estado", "militar", "en_tierra"]);
+// Designador OACI → nombre del modelo como suele aparecer en los títulos de Commons.
+const MODELO_OACI = { A19N: "A319neo", A20N: "A320neo", A21N: "A321neo", A318: "A318", A319: "A319", A320: "A320", A321: "A321", A332: "A330-200",
+  A333: "A330-300", A339: "A330-900", A359: "A350-900", A35K: "A350-1000", A388: "A380", B737: "737-700", B738: "737-800", B739: "737-900",
+  B37M: "737 MAX 7", B38M: "737 MAX 8", B39M: "737 MAX 9", B3XM: "737 MAX 10", B752: "757-200", B763: "767-300", B772: "777-200", B77W: "777-300ER",
+  B788: "787-8", B789: "787-9", B78X: "787-10", B744: "747-400", B748: "747-8", E170: "E170", E175: "E175", E190: "E190", E195: "E195",
+  E290: "E190-E2", E295: "E195-E2", AT72: "ATR 72", AT75: "ATR 72", AT76: "ATR 72", AT45: "ATR 42", AT46: "ATR 42", CRJ2: "CRJ200", CRJ7: "CRJ700",
+  CRJ9: "CRJ900", DH8D: "Dash 8-400", BCS1: "A220-100", BCS3: "A220-300", MD11: "MD-11", C130: "C-130", C30J: "C-130J", A400: "A400M" };
+
+const sinAcentosF = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const COMMONS = "https://commons.wikimedia.org/w/api.php?format=json&origin=*&";
+
+/** Primer archivo de imagen cuyo título cumple `acepta` en una búsqueda de Commons (espacio de nombres Archivo). */
+export function elegirArchivo(resultados, acepta) {
+  return (resultados || []).map((r) => r.title).find((t) => /\.(jpe?g|png|webp)$/i.test(t) && acepta(t)) || null;
+}
+
+/** Texto de autor de Commons (viene en HTML) → texto plano corto. */
+export function autorPlano(html) {
+  const d = typeof DOMParser !== "undefined" ? new DOMParser().parseFromString(String(html || ""), "text/html").body.textContent : String(html || "").replace(/<[^>]+>/g, "");
+  return d.replace(/\s+/g, " ").trim().slice(0, 80);
+}
+
+const cacheReal = new Map();
+export function fotoAvionReal({ hex, indicativo, subtipo }) {
+  if (!hex || !CON_FOTO_REAL.has(subtipo)) return Promise.resolve(null);
+  const clave = `${hex}|${indicativo || ""}`;
+  if (!cacheReal.has(clave)) cacheReal.set(clave, buscarFotoReal(hex, indicativo).catch(() => null));
+  return cacheReal.get(clave);
+}
+
+async function buscarFotoReal(hex, indicativo) {
+  const [av, ruta] = await Promise.all([
+    getJSON(`https://api.adsbdb.com/v0/aircraft/${encodeURIComponent(hex)}`).then((d) => d?.response?.aircraft || null).catch(() => null),
+    indicativo ? getJSON(`https://api.adsbdb.com/v0/callsign/${encodeURIComponent(indicativo.trim())}`).then((d) => d?.response?.flightroute || null).catch(() => null) : null,
+  ]);
+  const matricula = av?.registration || "";
+  const aerolinea = ruta?.airline?.name || "";
+  const modelo = MODELO_OACI[av?.icao_type] || av?.type || "";
+  const buscar = (q) => getJSON(`${COMMONS}action=query&list=search&srnamespace=6&srlimit=10&srsearch=${encodeURIComponent(q)}`).then((d) => d?.query?.search || []);
+  let archivo = null, nivel = null;
+  if (matricula) {
+    const norm = matricula.replace(/[^A-Z0-9]/gi, "").toUpperCase();
+    archivo = elegirArchivo(await buscar(`intitle:"${matricula}"`), (t) => t.replace(/[^A-Z0-9]/gi, "").toUpperCase().includes(norm));
+    if (archivo) nivel = "exacto";
+  }
+  if (!archivo && aerolinea && modelo) {
+    const a = sinAcentosF(aerolinea).split(" ")[0], m = sinAcentosF(modelo).replace(/[^a-z0-9]/g, "");
+    archivo = elegirArchivo(await buscar(`"${aerolinea}" "${modelo}"`), (t) => sinAcentosF(t).includes(a) && sinAcentosF(t).replace(/[^a-z0-9]/g, "").includes(m));
+    if (archivo) nivel = "aerolinea_modelo";
+  }
+  if (!archivo) return { matricula, aerolinea, modelo, fabricante: av?.manufacturer || "", src: null };
+  const info = await getJSON(`${COMMONS}action=query&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&titles=${encodeURIComponent(archivo)}`);
+  const ii = Object.values(info?.query?.pages || {})[0]?.imageinfo?.[0];
+  if (!ii?.thumburl) return { matricula, aerolinea, modelo, fabricante: av?.manufacturer || "", src: null };
+  return { matricula, aerolinea, modelo, fabricante: av?.manufacturer || "", nivel, src: ii.thumburl, ancho: ii.thumbwidth, alto: ii.thumbheight,
+    archivo: ii.descriptionurl, autor: autorPlano(ii.extmetadata?.Artist?.value), licencia: ii.extmetadata?.LicenseShortName?.value || "" };
+}
+
+export function htmlFotoAvion(f) {
+  const que = f.nivel === "exacto" ? `Foto de esta aeronave (matrícula ${escH(f.matricula)})`
+    : `Misma aerolínea y modelo (${escH(f.aerolinea)} · ${escH(f.modelo)}); no necesariamente esta unidad`;
+  return `<a href="${escH(f.archivo)}" target="_blank" rel="noopener noreferrer"><img src="${escH(f.src)}" alt="${escH(que)}" loading="lazy" decoding="async"
+      width="${Number(f.ancho) || ""}" height="${Number(f.alto) || ""}"></a>
+    <figcaption>${que}. ${f.autor ? `Foto: ${escH(f.autor)}` : ""}${f.licencia ? ` · ${escH(f.licencia)}` : ""} ·
+      <a href="${escH(f.archivo)}" target="_blank" rel="noopener noreferrer">Wikimedia Commons</a>.</figcaption>`;
 }

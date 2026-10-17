@@ -1,5 +1,5 @@
 // Ficha del evento (se abre al hacer clic en un punto o en la lista).
-import { esc, safeUrl, fecha } from "./util.js";
+import { esc, safeUrl, fecha, htmlImagenMedio } from "./util.js";
 import { ordenarLentes, rellenar } from "./analisis-logica.js";
 
 export const REGION = {
@@ -28,6 +28,7 @@ export function htmlFicha(ev, tax, paises, porId = new Map(), extra = {}) {
 
   return `
     <h3 id="ficha-titulo">${esc(ev.titulo)}</h3>
+    ${htmlImagenMedio(ev.imagen, ev.fuente, ev.url)}
     <div class="fecha">${esc(fecha(ev.fecha_utc))} · ${esc(pais)}${ev.region ? " · " + esc(REGION[ev.region] || ev.region) : ""}</div>
 
     <div class="chips" aria-label="Alerta y estado">

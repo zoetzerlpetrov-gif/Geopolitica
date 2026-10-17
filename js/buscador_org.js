@@ -22,8 +22,9 @@ export function deFeature(familia, ft) {
 /** Detalle legible: «embassy|MX» → «Embajada de México» (con `nombrePais`). */
 export function detalle(r, nombrePais = (x) => x) {
   if (r.familia === "embajadas") {
-    const [tipo, pais] = r.x.split("|");
-    return `${TIPO_DIPLOMATICO[tipo] || "Representación diplomática"}${pais ? ` de ${nombrePais(pais.length === 2 ? pais.toUpperCase() : pais)}` : ""}`;
+    const [tipo, pais, aprox] = r.x.split("|");
+    return `${TIPO_DIPLOMATICO[tipo] || "Representación diplomática"}${pais ? ` de ${nombrePais(pais.length === 2 ? pais.toUpperCase() : pais)}` : ""}`
+      + (aprox ? " (ubicación aproximada: ciudad sede)" : "");
   }
   return r.x;
 }

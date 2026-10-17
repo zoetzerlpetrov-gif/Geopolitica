@@ -54,6 +54,15 @@ NO_OCURRIDO = re.compile(r"\b(could|may|possible|possibili|posibles?|threat|risk
 MARINA = re.compile(r"waterspout|tromb[ae] marin|trompa marina|manga de agua|wasserhose", re.I)
 
 
+def imagen_de(fila):
+    """SharingImage del GKG (columna 19): la imagen que el propio medio declara para compartir la nota. Solo https y
+    con extensión o ruta de imagen; se descartan logotipos y avatares. Se enlaza desde el servidor del medio, no se copia."""
+    u = (fila[18] if len(fila) > 18 else "").strip()
+    if not u.startswith("https://") or len(u) > 400 or re.search(r"logo|avatar|icon|favicon|placeholder|default", u, re.I):
+        return ""
+    return u
+
+
 def titulo_de(extras):
     m = re.search(r"<PAGE_TITLE>(.*?)</PAGE_TITLE>", extras or "", re.S)
     return html.unescape(re.sub(r"\s+", " ", m.group(1))).strip() if m else ""
@@ -150,7 +159,7 @@ def fila_a_feature(f, flujo, nom=None):
         return None
     precision = {"1": "país", "2": "estado", "5": "estado"}.get(tipo, "ciudad")
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 3), round(lat, 3)]},
-            "properties": {"title": titulo[:220], "url": url, "source": f[3], "date": fecha,
+            "properties": {"title": titulo[:220], "url": url, "source": f[3], "date": fecha, "image": imagen_de(f),
                            "kind": "TROMBA MARINA" if MARINA.search(titulo) else "TORNADO", "severe": bool(SEVERO.search(titulo)),
                            "state": nombre, "precision": precision, "pais_iso3": iso,
                            "via": f"GDELT GKG ({'nota traducida al inglés por GDELT' if flujo == 'traducido' else 'nota en inglés'}); lugar mencionado en el texto"}}
@@ -352,6 +361,7 @@ def agrupar(notas, radio_km=200, horas=36, tipo_de=tipo_tornado):
         principal = next((n for n in recientes if n["properties"]["severe"]), recientes[0])["properties"]
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": list(coord)},
                     "properties": {**principal, "state": lugar, "severe": any(n["properties"]["severe"] for n in ns),
+                                   "image": principal.get("image") or next((n["properties"].get("image") for n in recientes if n["properties"].get("image")), ""),
                                    "kind": tipo_de(ns),
                                    "notas": len(ns), "desde": ns[0]["properties"]["date"], "date": recientes[0]["properties"]["date"],
                                    "enlaces": [{k: n["properties"][k] for k in ("title", "url", "source", "date")} for n in recientes[:8]]}})

@@ -37,6 +37,10 @@ SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?sedeEs ?sedeEn WHERE {
   OPTIONAL { ?sede rdfs:label ?sedeEn FILTER(lang(?sedeEn) = "en") }
 }"""
 
+# Empresas por industria (P452) en vez de por clase: así entran farmacéuticas que Wikidata registra como «empresa»,
+# «empresa pública», etc. Misma salida que Q_SEDE.
+Q_INDUSTRIA = Q_SEDE.replace("?x wdt:P31 wd:%s ;", "?x wdt:P452 wd:%s ;")
+
 # Patrimonio Mundial: no es una clase («instancia de») sino una declaratoria (P1435 = Q9259).
 Q_PATRIMONIO = Q_LUGAR.replace("?x wdt:P31 wd:%s ;", "?x wdt:P1435 wd:%s ;")
 
@@ -49,13 +53,29 @@ FAMILIAS = {
         ("Q134447", "nuclear_operacion", 1, "lugar", 3),     # central nuclear (el subtipo se ajusta por estado)
         ("Q1438105", "reactor_investigacion", 1, "lugar", 5),
     ],
+    # Ampliación (oct 2026): todo tipo de investigación, con o sin artículo en Wikipedia. Conteos con coordenada:
+    # institutos 4,701 (+3,433 con sede ubicada), centros de investigación 1,006, observatorios astronómicos 2,750,
+    # unidades mixtas francesas 557, estaciones de investigación 192, institutos de investigación médica 50.
+    # El subtipo final (salud, ambiente, tecnología…) lo pone subtipo_investigacion() por el nombre.
     "investigacion": [
-        ("Q31855", "centro_investigacion", 4, "lugar", 6),   # instituto de investigación
-        ("Q130825", "acelerador_particulas", 2, "lugar", 5),
+        ("Q130825", "acelerador_particulas", 1, "lugar", 5),
+        ("Q1254933", "observatorio", 0, "lugar", 6),          # observatorio astronómico
+        ("Q195339", "estacion_investigacion", 0, "lugar", 6),
+        ("Q66737615", "investigacion_salud", 0, "lugar", 6),  # instituto de investigación médica
+        ("Q66737615", "investigacion_salud", 0, "sede", 6),
+        ("Q31855", "centro_investigacion", 0, "lugar", 6),    # instituto de investigación
+        ("Q31855", "centro_investigacion", 0, "sede", 7),
+        ("Q7315155", "centro_investigacion", 0, "lugar", 6),  # centro de investigación
+        ("Q7315155", "centro_investigacion", 0, "sede", 7),
+        ("Q483242", "laboratorio", 0, "lugar", 7),
+        ("Q3550864", "laboratorio", 0, "lugar", 7),           # unidad mixta de investigación (Francia)
+        ("Q16519632", "centro_investigacion", 0, "sede", 7),  # organización científica
     ],
     "farmaceuticas": [
-        ("Q19644607", "farma_sede", 1, "sede", 5),
-        ("Q12099571", "farma_sede", 1, "sede", 5),
+        ("Q19644607", "farma_sede", 0, "sede", 5),            # farmacéutica (clase)
+        ("Q12099571", "farma_sede", 0, "sede", 5),
+        ("Q90298876", "farma_sede", 0, "sede", 6),            # empresa de biotecnología
+        ("Q507443", "farma_sede", 0, "industria", 5),         # cualquier empresa cuya industria sea la farmacéutica
     ],
     "petroleo_gas": [
         ("Q211748", "campo_petrolero", 1, "lugar", 5),
@@ -146,6 +166,96 @@ def subtipo_nuclear(r):
     return "nuclear_operacion"
 
 
+# Nombre → área de investigación. El primero que coincide gana; los demás institutos quedan como «ciencias y tecnología».
+AREAS_INVESTIGACION = [
+    ("investigacion_salud", r"salud|health|m[eé]dic|medic|biom[eé]d|c[aá]ncer|cancer|oncol|cardio|neuro|genom|gen[eé]tic|vacun|vaccin|"
+     r"epidemi|infect|virol|immun|inmun|pharma|farmac|nutri|pediatr|psiqui|psychiat|hospital|cl[ií]nic|clinic|disease|enfermedad|tropical med"),
+    ("investigacion_ambiente", r"agr[io]|agron|forest|bosque|ocean|oc[eé]an|marin|mar\b|sea\b|pesca|fisher|clima|climat|meteor|atmosf|"
+     r"atmosph|ambient|environment|ecolog|biodivers|water|agua|hidr|hydro|soil|suelo|geolog|geof[ií]s|geophys|polar|antar|glaci|volc|seism|s[ií]sm"),
+    ("investigacion_tecnologia", r"tecnol|technolog|ingenier|engineer|energ|nuclear|f[ií]sic|physic|aero|space|espacial|comput|inform|"
+     r"electr[oó]n|robot|material|qu[ií]mic|chemi|laser|fusion|quantum|cu[aá]ntic|nano|semicon|telecom|matem|math|optic|[oó]ptic"),
+]
+
+
+def subtipo_investigacion(r):
+    """Institutos y centros genéricos → área por su nombre (en español o inglés). Los demás subtipos quedan igual."""
+    if r["st"] != "centro_investigacion":
+        return r["st"]
+    t = r["nombre"].lower()
+    for st, rx in AREAS_INVESTIGACION:
+        if re.search(rx, t):
+            return st
+    return "centro_investigacion"
+
+
+# ------------------------------------------------------------------ representaciones diplomáticas
+# Embajadas, consulados y misiones (Wikidata). La coordenada es la del edificio (P625) o, si no hay, la de la ciudad
+# sede (P159 → P625): en ese caso la ubicación es aproximada y la ficha lo dice. ?envia = país que envía (P137, ISO 2).
+Q_DIPLOMATICO = """
+SELECT ?x ?xEs ?xEn ?coord ?exacta ?iso ?envia WHERE {
+  ?x wdt:P31 wd:%s .
+  { ?x wdt:P625 ?coord . BIND(true AS ?exacta) } UNION { ?x wdt:P159 ?sede . ?sede wdt:P625 ?coord . BIND(false AS ?exacta) }
+  FILTER NOT EXISTS { ?x wdt:P576 ?fin }
+  OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
+  OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso }
+  OPTIONAL { ?x wdt:P137 ?op . ?op wdt:P297 ?envia }
+}"""
+# Conteos (oct 2026): embajadas 8,091 (casi todas solo con ciudad sede), consulados generales 671, consulados 146,
+# altos comisionados, misiones permanentes 85 y misiones diplomáticas genéricas 91.
+CLASES_DIPLOMATICAS = [("Q3917681", "embassy"), ("Q372690", "consulate_general"), ("Q7843791", "consulate"),
+                       ("Q12143816", "high_commission"), ("Q2360219", "permanent_mission"), ("Q213283", "embassy")]
+
+
+def leer_diplomaticos(filas, tipo, registros):
+    """Filas SPARQL → registros {qid: {...}}; con dos coordenadas gana la exacta (P625)."""
+    for f in filas:
+        q = (_v(f, "x") or "").rsplit("/", 1)[-1]
+        c = coord(_v(f, "coord"))
+        nombre = _v(f, "xEs") or _v(f, "xEn") or ""
+        if not q or not c or not nombre or re.fullmatch(r"Q\d+", nombre):
+            continue
+        exacta = (_v(f, "exacta") or "") == "true"
+        r = registros.get(q)
+        if r and (r["exacta"] or not exacta):
+            continue
+        registros[q] = {"qid": q, "nombre": nombre, "lon": c[0], "lat": c[1], "exacta": exacta, "tipo": tipo,
+                        "iso": _v(f, "iso") or (r or {}).get("iso", ""), "envia": (_v(f, "envia") or (r or {}).get("envia", "")).upper()}
+    return registros
+
+
+def _km(a, b):
+    import math
+    la1, la2 = math.radians(a[1]), math.radians(b[1])
+    h = math.sin((la2 - la1) / 2) ** 2 + math.cos(la1) * math.cos(la2) * math.sin(math.radians(b[0] - a[0]) / 2) ** 2
+    return 12742 * math.asin(min(1, math.sqrt(h)))
+
+
+def fusionar_diplomaticos(osm, registros, feat, punto, pais_de=lambda lon, lat: ""):
+    """OSM (ubicación exacta) + Wikidata sin duplicar: se omite el registro de Wikidata si a menos de 25 km hay una
+    representación de OSM del mismo país que envía (o, sin país conocido, con el mismo nombre)."""
+    def norm(t):
+        return re.sub(r"[^a-z0-9 ]", "", (t or "").lower())
+    celdas = {}
+    for f in osm:
+        lon, lat = f["geometry"]["coordinates"]
+        celdas.setdefault((round(lat), round(lon)), []).append(f)
+    out = list(osm)
+    for r in sorted(registros.values(), key=lambda r: r["qid"]):
+        cerca = [g for dl in (-1, 0, 1) for do in (-1, 0, 1) for g in celdas.get((round(r["lat"]) + dl, round(r["lon"]) + do), [])
+                 if _km(g["geometry"]["coordinates"], (r["lon"], r["lat"])) < 25]
+        def mismo(g):
+            tipo_pais = (g["properties"].get("x") or "").split("|")
+            pais_osm = tipo_pais[1].upper() if len(tipo_pais) > 1 else ""
+            return (r["envia"] and pais_osm == r["envia"]) or norm(g["properties"].get("n")) == norm(r["nombre"])
+        if any(mismo(g) for g in cerca):
+            continue
+        x = f"{r['tipo']}|{r['envia']}" + ("" if r["exacta"] else "|aprox")
+        out.append(feat(punto(r["lon"], r["lat"]), {"id": f"wd:{r['qid']}", "n": r["nombre"], "st": "embajadas_consulados",
+                                                    "p": r["iso"] or pais_de(r["lon"], r["lat"]), "x": x}, 7 if r["tipo"] == "embassy" else 9))
+    return out
+
+
 def features(registros, feat, punto, ajustar=None):
     """Registros de todas las clases (sin duplicar) → features. «ajustar» puede cambiar el subtipo (nuclear)."""
     out = []
@@ -184,7 +294,14 @@ SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?sedeEs ?sedeEn ?indEn WHERE {
   OPTIONAL { ?x wdt:P452 ?ind . ?ind rdfs:label ?indEn FILTER(lang(?indEn) = "en") }
 }"""
 # (QID clase, mínimo de Wikipedias): empresa pública, empresa, negocio, empresa estatal, conglomerado.
-CLASES_EMPRESA = [("Q891723", 12), ("Q4830453", 20), ("Q783794", 20), ("Q6881511", 20), ("Q270791", 10), ("Q778575", 10)]
+# Mínimos bajados en oct 2026 (antes 12/20/20/20/10/10, unas 3 mil sedes) para cubrir empresas medianas conocidas.
+CLASES_EMPRESA = [("Q891723", 8), ("Q4830453", 12), ("Q783794", 12), ("Q6881511", 12), ("Q270791", 6), ("Q778575", 6)]
+
+# Países con cobertura completa (cualquier empresa con sede ubicada y al menos N Wikipedias): México primero.
+# Se usan las clases directas (sin subclases) para que la consulta no exceda los 60 s del servicio.
+PAISES_EMPRESA = [("Q96", 1)]
+Q_EMPRESAS_PAIS = Q_EMPRESAS.replace("?x wdt:P31 wd:%s ;", "VALUES ?c { " + " ".join(f"wd:{q}" for q, _ in CLASES_EMPRESA)
+                                     + " wd:Q19644607 wd:Q1589009 wd:Q22687 wd:Q46970 } ?x wdt:P31 ?c ; wdt:P17 wd:%s ;")
 
 # Industria (etiqueta en inglés de Wikidata) o nombre → sector. El primero que coincide gana.
 SECTORES = [

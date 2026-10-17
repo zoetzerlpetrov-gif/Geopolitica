@@ -7,6 +7,17 @@ export const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ESC[c]);
 /** Solo permite enlaces http(s); cualquier otro esquema (javascript:, data:) se descarta. */
 export const safeUrl = (u) => (/^https?:\/\//i.test(u || "") ? u : "#");
 
+/**
+ * Imagen que el propio medio publica para compartir su nota (RSS o GDELT «SharingImage»). Se muestra desde el
+ * servidor del medio, sin copiarla, con su crédito y enlace; si no carga, el recuadro desaparece (ver app.js).
+ */
+export function htmlImagenMedio(src, fuente, url) {
+  if (!/^https:\/\//i.test(src || "")) return "";
+  return `<figure class="img-medio"><a href="${esc(safeUrl(url || src))}" target="_blank" rel="noopener noreferrer"><img src="${esc(src)}" alt="Imagen de la nota"
+      loading="lazy" decoding="async" referrerpolicy="no-referrer" data-quitar-si-falla></a>
+    <figcaption>Imagen: ${esc(fuente || "medio de la nota")} (se muestra desde su sitio).</figcaption></figure>`;
+}
+
 export async function getJSON(url, { bust = false } = {}) {
   // Datos de arranque que index.html ya pidió en paralelo con MapLibre: se usan una sola vez.
   const pre = globalThis.__pre?.[url];

@@ -127,6 +127,23 @@ ATOM = "{http://www.w3.org/2005/Atom}"
 MEDIA = "{http://search.yahoo.com/mrss/}"
 
 
+def imagen_rss(it, desc=""):
+    """Imagen que el propio medio publica en su feed para la nota (media:content/thumbnail, enclosure o la primera
+    <img> de la descripción). Solo https; se enlaza desde su servidor, no se copia. "" si no hay."""
+    cands = []
+    for el in it.iter():
+        tag = el.tag.split("}")[-1]
+        if tag in ("content", "thumbnail") and el.tag.startswith(MEDIA) and el.get("url"):
+            if tag == "thumbnail" or (el.get("medium") in (None, "image") and not (el.get("type") or "image/").startswith(("video", "audio"))):
+                cands.append(el.get("url"))
+        elif tag == "enclosure" and (el.get("type") or "").startswith("image/") and el.get("url"):
+            cands.append(el.get("url"))
+    m = re.search(r"<img[^>]+src=[\"']([^\"']+)", desc or "")
+    if m:
+        cands.append(m.group(1))
+    return next((u for u in cands if u.startswith("https://") and len(u) <= 400 and not re.search(r"logo|avatar|favicon|pixel|1x1", u, re.I)), "")
+
+
 def primera_frase(texto, maximo=140):
     """Primera oración de un texto (para publicaciones sin título), cortada en palabra completa."""
     t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", texto or "")).strip()
@@ -177,6 +194,7 @@ def parsear_rss(xml_bytes, feed):
             fecha = datetime.now(timezone.utc)
         out.append({
             "titulo": re.sub(r"\s+", " ", titulo)[:300], "fuente": feed["nombre"], "url": link, "tipo_fuente": feed["tipo"],
+            **({} if modo == "solo_enlace" else {"imagen": imagen_rss(it, desc)}),
             "fecha_utc": _iso(fecha), "pais_iso3": None, "pais_defecto": feed.get("pais_defecto"), "lat": None, "lon": None, "actores": [],
             "texto_clasificar": f"{titulo} {re.sub('<[^>]+>', ' ', desc)[:500]}", "idioma": feed.get("idioma"),
             "resumen": None, "area_sugerida": None, "severidad": None, "articulos": 1,

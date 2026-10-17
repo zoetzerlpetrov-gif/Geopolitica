@@ -28,3 +28,18 @@ test("adelante: 111 km al norte ≈ 1° de latitud", () => {
   const [lon, lat] = adelante(-99, 19, 0, 111.2);
   assert.ok(Math.abs(lat - 20) < 0.01 && Math.abs(lon + 99) < 1e-9);
 });
+
+test("cabina: estado simulado con inclinación por velocidad vertical y alabeo por ritmo de giro", async () => {
+  const { estadoCabina, haciaDestino } = await import("../../js/altura3d.js");
+  const v = { lon: -99, lat: 19, alt: 3000, rumbo: 90, kmh: 720, vs: 10 };
+  const e = estadoCabina(v, 60);
+  assert.ok(Math.abs(e.alt_m - 3600) < 1e-6 && e.lon > -99 && Math.abs(e.lat - 19) < 0.01);   // sube 10 m/s, va al este
+  assert.ok(Math.abs(e.gs_kt - 388.8) < 0.1 && Math.abs(e.vs_fpm - 1968.5) < 0.1);
+  assert.ok(e.pitch > 5 && e.pitch < 6);                         // atan(10/200) ≈ 2.9° + 2.5°
+  assert.equal(e.bank, 0);
+  assert.ok(estadoCabina(v, 0, 3).bank > 25);                     // giro estándar (3°/s) a 200 m/s ≈ 46° → tope 35°
+  assert.equal(estadoCabina({ ...v, rumbo: -10 }, 0).rumbo, 350);
+  const d = haciaDestino({ lon: -99, lat: 19, gs_kmh: 600 }, [-99, 20]);
+  assert.ok(Math.abs(d.km - 111.2) < 0.5 && Math.abs(d.min - 11.1) < 0.1);
+  assert.equal(haciaDestino({ lon: 0, lat: 0, gs_kmh: 10 }, [1, 1]), null);  // en tierra o casi parado: sin ETA
+});

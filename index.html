@@ -70,6 +70,21 @@
         <option value="mercator">🗺️ Plano 2D</option><option value="globe">🌐 Globo 3D</option></select>
       <select id="sel-base" class="sel-vista" title="Mapa base" aria-label="Mapa base">
         <option value="tematico">Temático</option><option value="calles">Calles</option><option value="satelite">Satélite</option></select>
+      <details class="menu-opciones" id="menu-opciones">
+        <summary class="icon-btn" title="Opciones de la vista: sonido, 3D, coordenadas, cielo">⚙️ Opciones</summary>
+        <div class="menu-pop" role="group" aria-label="Opciones">
+          <label class="aviso-sonido" title="Los eventos nuevos parpadean 60 s en el mapa. Con esta casilla, además suena un aviso corto (tres tonos si hay severidad 4 o 5).">
+            <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
+          <label class="aviso-sonido" title="Aviones y satélites encendidos se dibujan como columnas a su altura (escala vertical exagerada). Inclina el mapa con clic derecho y arrastre, o con dos dedos.">
+            <input type="checkbox" id="chk-3d"> 🛰️ Aviones y satélites en 3D (a su altura)</label>
+          <label class="aviso-sonido" id="lbl-envivo" hidden title="Con «Aeronaves» encendido y el mapa acercado (zoom 6 o más), cada 15 s se piden a OpenSky Network los aviones alrededor del centro de la vista. Fuera de ese círculo sigue la instantánea de cada 20 min.">
+            <input type="checkbox" id="chk-envivo"> ✈️ Aviones en vivo al acercar (cada 15 s) <span id="envivo-estado" class="meta"></span></label>
+          <label class="aviso-sonido" title="Muestra latitud y longitud del punto bajo el puntero. Con clic derecho sobre el mapa se copian en formato «latitud, longitud», listo para pegar en Google Maps.">
+            <input type="checkbox" id="chk-coords"> 📍 Coordenadas bajo el puntero · clic derecho las copia</label>
+          <label class="aviso-sonido" title="En la vista de globo, detrás de la Tierra se dibuja el cielo de este momento: estrellas, constelaciones, Vía Láctea, galaxias, planetas, la Luna con su fase y el Sol (este solo aparece al mirar el lado nocturno, donde de verdad está). No hace zoom: siempre gira con el globo.">
+            <input type="checkbox" id="chk-universo"> 🌌 Cielo real detrás del globo</label>
+        </div>
+      </details>
       <button id="btn-tema" class="icon-btn" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema claro u oscuro">Tema</button>
       <select id="sel-idioma" class="sel-vista" title="Idioma" aria-label="Idioma" data-noi18n>
         <option value="es">ES · Español</option><option value="en">EN · English</option><option value="fr">FR · Français</option><option value="de">DE · Deutsch</option><option value="it">IT · Italiano</option></select>
@@ -83,16 +98,6 @@
           <input id="menu-buscar" type="search" placeholder="Buscar en el menú (p. ej. sismos, aire)…" aria-label="Buscar en el menú" autocomplete="off">
           <button type="button" id="menu-contraer" class="txt-btn" title="Contraer todas las secciones">Contraer todo</button>
         </div>
-        <label class="aviso-sonido" title="Los eventos nuevos parpadean 60 s en el mapa. Con esta casilla, además suena un aviso corto (tres tonos si hay severidad 4 o 5).">
-          <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
-        <label class="aviso-sonido" title="Aviones y satélites encendidos se dibujan como columnas a su altura (escala vertical exagerada). Inclina el mapa con clic derecho y arrastre, o con dos dedos.">
-          <input type="checkbox" id="chk-3d"> 🛰️ Aviones y satélites en 3D (a su altura)</label>
-        <label class="aviso-sonido" id="lbl-envivo" hidden title="Con «Aeronaves» encendido y el mapa acercado (zoom 6 o más), cada 15 s se piden a OpenSky Network los aviones alrededor del centro de la vista. Fuera de ese círculo sigue la instantánea de cada 20 min.">
-          <input type="checkbox" id="chk-envivo"> ✈️ Aviones en vivo al acercar (cada 15 s) <span id="envivo-estado" class="meta"></span></label>
-        <label class="aviso-sonido" title="Muestra latitud y longitud del punto bajo el puntero. Haz clic en el recuadro para copiarlas.">
-          <input type="checkbox" id="chk-coords"> 📍 Coordenadas bajo el puntero</label>
-        <label class="aviso-sonido" title="En la vista de globo, detrás de la Tierra se dibuja el cielo de este momento: estrellas, constelaciones, Vía Láctea, galaxias, planetas, la Luna con su fase y el Sol (este solo aparece al mirar el lado nocturno, donde de verdad está). No hace zoom: siempre gira con el globo.">
-          <input type="checkbox" id="chk-universo"> 🌌 Cielo real detrás del globo</label>
       </div>
       <details class="grupo" id="g-eventos" data-grupo="eventos" open>
         <summary class="grupo-tit" data-grupo="eventos"><span aria-hidden="true">📰</span> Eventos y noticias <span id="contador" class="contador"></span></summary>
@@ -240,7 +245,7 @@
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
         <details class="bloque plegable" id="b-herr-foto" data-grupo="herramientas" open>
           <summary><h2>📷 Foto: metadatos, ubicación y análisis forense (¿IA o editada?)</h2></summary>
-          <label class="fila"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
+          <label class="fila-apilada"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
           <p class="nota-capas">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación) y busca indicios de imagen generada con IA o editada (credenciales C2PA, marcas IPTC, parámetros de Stable Diffusion, programa de edición), más un análisis de nivel de error (ELA).</p>
           <div id="foto-exif-res" aria-live="polite"></div>
           <img id="foto-prev" class="foto-prev" alt="Vista previa de la foto elegida" hidden>

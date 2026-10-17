@@ -272,7 +272,8 @@ export function htmlVuelo(v, extra, { subtipoNombre, edadMin, envivo = null, pai
     <div class="fecha">${esc(subtipoNombre)}${v.pais ? " · registrado en " + esc(paisEs(v.pais)) : ""}</div>
     <div class="chips">${envivo != null ? `<span class="chip estado-tiempo_real">En vivo · OpenSky, hace ${envivo} s</span>` : `<span class="chip estado-retrasado">Dato retrasado${edadMin != null ? ` · instantánea de hace ${edadMin} min` : ""}</span>`}
       ${sq?.alerta ? `<span class="chip alerta alerta-FLASH">Squawk ${esc(v.squawk)}: ${esc(sq.texto)}</span>` : ""}</div>
-    ${huecoImagen(articuloAvion(v.tipo_av, v.subtipo, v.cat))}
+    <p class="meta avion-registro" hidden></p>
+    ${huecoImagen(articuloAvion(v.tipo_av, v.subtipo, v.cat), v)}
     ${ruta}
     <dl>
       <dt>Altitud</dt><dd>${num(v.alt_m)} m · ${num(Math.round(v.alt_m * 3.28084))} pies${v.alt_m > 3000 ? ` (FL${String(Math.round(v.alt_m * 3.28084 / 100)).padStart(3, "0")})` : ""}</dd>

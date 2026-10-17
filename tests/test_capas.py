@@ -249,3 +249,45 @@ def test_rutas_maritimas_un_tramo_por_linea_y_nivel():
     assert [f["properties"]["st"] for f in out] == ["rutas_principales", "rutas_principales", "rutas_menores"]  # el tramo de 1 punto y el punto: fuera
     assert [f["tippecanoe"]["minzoom"] for f in out] == [0, 0, 3]
     assert out[2]["geometry"]["coordinates"][0] == [100.1235, 1.2]
+
+
+def test_investigacion_por_area_segun_el_nombre():
+    import sitios as S
+    st = lambda n, base="centro_investigacion": S.subtipo_investigacion({"st": base, "nombre": n})  # noqa: E731
+    assert st("Instituto Nacional de Cancerología") == "investigacion_salud"
+    assert st("Instituto Nacional de Medicina Genómica") == "investigacion_salud"
+    assert st("Centro de Investigación Científica y de Educación Superior de Ensenada") == "centro_investigacion"
+    assert st("Woods Hole Oceanographic Institution") == "investigacion_ambiente"
+    assert st("Instituto Mexicano de Tecnología del Agua") == "investigacion_ambiente"   # el primero que coincide gana
+    assert st("Instituto Nacional de Investigaciones Nucleares") == "investigacion_tecnologia"
+    assert st("Observatorio Astronómico Nacional", "observatorio") == "observatorio"        # los demás subtipos no cambian
+
+
+def test_embajadas_wikidata_sin_duplicar_las_de_osm():
+    import sitios as S
+    filas = [
+        {"x": {"value": "http://www.wikidata.org/entity/Q1"}, "xEs": {"value": "Embajada de Francia en México"}, "coord": {"value": "Point(-99.13 19.43)"},
+         "exacta": {"value": "false"}, "iso": {"value": "MEX"}, "envia": {"value": "fr"}},
+        {"x": {"value": "http://www.wikidata.org/entity/Q1"}, "xEs": {"value": "Embajada de Francia en México"}, "coord": {"value": "Point(-99.19 19.42)"},
+         "exacta": {"value": "true"}, "iso": {"value": "MEX"}, "envia": {"value": "fr"}},
+        {"x": {"value": "http://www.wikidata.org/entity/Q2"}, "xEs": {"value": "Embajada de Japón en México"}, "coord": {"value": "Point(-99.13 19.43)"},
+         "exacta": {"value": "false"}, "iso": {"value": "MEX"}, "envia": {"value": "jp"}},
+        {"x": {"value": "http://www.wikidata.org/entity/Q3"}, "xEs": {"value": "Q3"}, "coord": {"value": "Point(1 1)"}},   # sin nombre
+    ]
+    reg = S.leer_diplomaticos(filas, "embassy", {})
+    assert set(reg) == {"Q1", "Q2"} and reg["Q1"]["exacta"] and reg["Q1"]["lon"] == -99.19 and reg["Q1"]["envia"] == "FR"
+    osm = [c.feat(c.punto(-99.2, 19.43), {"id": "osm:n1", "n": "Ambassade de France", "st": "embajadas_consulados", "p": "MEX", "x": "embassy|FR"}, 7)]
+    out = S.fusionar_diplomaticos(osm, reg, c.feat, c.punto)
+    assert [f["properties"]["id"] for f in out] == ["osm:n1", "wd:Q2"]               # Francia ya estaba en OSM
+    assert out[1]["properties"]["x"] == "embassy|JP|aprox"                          # solo ciudad sede: aproximada
+
+
+def test_plantillas_de_consulta_por_industria_y_por_pais():
+    import sitios as S
+    assert "?x wdt:P452 wd:Q507443 ;" in S.Q_INDUSTRIA % ("Q507443", 0)
+    q = S.Q_EMPRESAS_PAIS % ("Q96", 1)
+    assert "wdt:P17 wd:Q96" in q and "FILTER(?n >= 1)" in q and "wd:Q891723" in q
+    assert all(len(c) == 5 for c in S.FAMILIAS["investigacion"])
+    cat = json.load(open(os.path.join(ROOT, "config", "entities.json"), encoding="utf-8"))
+    subtipos = {s["id"] for k in cat["categorias"] for s in k["subtipos"]}
+    assert {c[1] for c in S.FAMILIAS["investigacion"]} | {a for a, _ in S.AREAS_INVESTIGACION} <= subtipos

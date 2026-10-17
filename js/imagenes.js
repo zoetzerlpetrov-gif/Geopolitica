@@ -35,7 +35,7 @@ export const IMAGENES = {
   // Hielo marino diario (GHRSST MUR, ~1 km, mezcla de satélites de microondas): porcentaje del mar cubierto de hielo.
   hielo_marino: { nombre: "Hielo marino: % del mar cubierto (GHRSST MUR, diario)", capa: "GHRSST_L4_MUR_Sea_Ice_Concentration", matriz: "GoogleMapsCompatible_Level7",
     ext: "png", maxzoom: 7, opacidad: 0.8, retraso_dias: 2,
-    leyenda: "Porcentaje de cada punto del mar cubierto de hielo (paleta oficial de NASA GIBS). El borde del hielo se mide desde 15 %. Se publica con ~2 días de retraso; para ver los polos completos usa la vista de globo.",
+    leyenda: "Porcentaje de cada punto del mar cubierto de hielo (paleta oficial de NASA GIBS). El borde del hielo se mide desde 15 %. Se publica con ~2 días de retraso. Ni el mapa plano ni el globo dibujan mosaicos más allá de 85° de latitud (límite de los mosaicos web), así que el centro del Ártico y de la Antártida queda sin color; el borde del hielo, que es lo que cambia, sí se ve.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/GHRSST_Sea_Ice_Concentration.xml).
     escala: { colores: ["rgb(78,0,78)", "rgb(184,0,184)", "rgb(127,0,255)", "rgb(0,90,255)", "rgb(0,234,191)", "rgb(15,175,0)", "rgb(225,245,0)", "rgb(255,177,0)", "rgb(255,26,26)", "rgb(255,153,153)"],
       marcas: ["0 %", "25 %", "50 %", "75 %", "100 %"],
@@ -60,32 +60,67 @@ export const IMAGENES = {
   no2_tempo: { nombre: "NO₂ cada hora en América del Norte y México (TEMPO, hora más reciente)", capa: "TEMPO_L3_NO2_Vertical_Column_Troposphere",
     matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, fecha_fija: "default",
     leyenda: "Satélite geoestacionario TEMPO (NASA): mide el NO₂ cada hora de día sobre América del Norte, de Canadá a México. Mientras más intenso el color, más NO₂. Muestra la última hora publicada; de noche no hay datos. Leyenda oficial en NASA Worldview." },
-  // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB. Al activarla, el navegador prueba un
-  // mosaico de cada candidata (de la diaria a la anual) y usa la primera que trae imagen de verdad.
+  // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB (las «ENCC» dejaron de publicarse en 2023). Al
+  // activarla, el navegador prueba cada candidata en los últimos días y usa la primera con imagen completa.
+  // Comprobado en GIBS (oct 2026): NOAA-20 corregida por luz de luna (Black Marble diaria) está completa al día siguiente;
+  // Suomi NPP llega con ~2 días.
   viirs_noche: { nombre: "Luces nocturnas VIIRS (apagones)", maxzoom: 8, opacidad: 1, candidatos: [
-    { capa: "VIIRS_SNPP_DayNightBand_ENCC", matriz: "GoogleMapsCompatible_Level8", ext: "png", etiqueta: "VIIRS Suomi NPP, imagen del día" },
-    { capa: "VIIRS_NOAA20_DayNightBand_ENCC", matriz: "GoogleMapsCompatible_Level8", ext: "png", etiqueta: "VIIRS NOAA-20, imagen del día" },
-    { capa: "VIIRS_SNPP_DayNightBand_At_Sensor_Radiance", matriz: "GoogleMapsCompatible_Level8", ext: "png", etiqueta: "VIIRS Black Marble diaria (radiancia)" },
+    { capa: "VIIRS_NOAA20_GapFilled_BRDF_Corrected_DayNightBand_Radiance", matriz: "GoogleMapsCompatible_Level8", ext: "png",
+      etiqueta: "Black Marble diaria NOAA-20 (corregida por luna y nubes)" },
+    { capa: "VIIRS_NOAA20_DayNightBand_At_Sensor_Radiance", matriz: "GoogleMapsCompatible_Level8", ext: "png", etiqueta: "VIIRS NOAA-20, radiancia del día" },
+    { capa: "VIIRS_SNPP_GapFilled_BRDF_Corrected_DayNightBand_Radiance", matriz: "GoogleMapsCompatible_Level8", ext: "png",
+      etiqueta: "Black Marble diaria Suomi NPP (corregida por luna y nubes)" },
+    { capa: "VIIRS_SNPP_DayNightBand_At_Sensor_Radiance", matriz: "GoogleMapsCompatible_Level8", ext: "png", etiqueta: "VIIRS Suomi NPP, radiancia del día" },
     { capa: "VIIRS_Black_Marble", matriz: "GoogleMapsCompatible_Level8", ext: "png", fecha: "2016-01-01", etiqueta: "Black Marble 2016 (promedio anual, no sirve para apagones recientes)" },
   ] },
 };
 
-/** Un mosaico con datos pesa varios KB; uno vacío o transparente pesa menos de ~1.5 KB. */
-export const MOSAICO_MINIMO = 1500;
+/** Un mosaico de z2 con el día completo pesa decenas de KB; uno vacío pesa menos de ~1.5 KB y uno de un día a medio
+ * publicar, unos pocos KB (medido en GIBS en oct 2026). Por debajo de esto se considera incompleto. */
+export const MOSAICO_MINIMO = 8000;
+const MUESTRAS = [[2, 1, 1], [2, 1, 2]];  // América y Europa/África a latitudes medias
+
+/** Bytes de los mosaicos de muestra de una capa en una fecha (0 si falla alguno). */
+async function bytesMuestra(capa, fecha, pedir) {
+  let total = 0;
+  for (const [z, y, x] of MUESTRAS) {
+    try {
+      const r = await pedir(urlGIBS(capa, fecha).replace("{z}", z).replace("{y}", y).replace("{x}", x));
+      if (!r.ok || !/^image\//.test(r.tipo || "")) return 0;
+      total += r.bytes;
+    } catch (e) { return 0; }
+  }
+  return total;
+}
+
+/**
+ * Productos diarios: el día de ayer suele estar a medio publicar (p. ej. NO₂ de TROPOMI: 37 KB contra 115-148 KB de los
+ * días anteriores). Entre los últimos `dias` se elige el más completo (más bytes en los mosaicos de muestra); a igual
+ * tamaño, el más reciente.
+ */
+export async function mejorDia(capa, pedir, ahora = new Date(), dias = 3) {
+  let mejor = null;
+  for (let d = 1; d <= dias; d++) {
+    const f = haceDias(d, ahora), b = await bytesMuestra(capa, f, pedir);
+    if (!mejor || b > mejor.bytes * 1.1) mejor = { fecha: f, bytes: b };
+  }
+  return mejor && mejor.bytes > 0 ? mejor.fecha : haceDias(1, ahora);
+}
 
 /**
  * Elige la primera candidata cuyo mosaico de prueba (z2, sobre América y Europa de noche) trae imagen.
  * `pedir(url)` devuelve {ok, tipo, bytes}; se inyecta para probar sin red.
  */
-export async function elegirCandidata(def, fecha, pedir) {
+export async function elegirCandidata(def, fecha, pedir, fechas = [fecha]) {
   for (const c of def.candidatos) {
-    const f = c.fecha || fecha;
-    const base = urlGIBS(c, f);
-    for (const [z, y, x] of [[2, 1, 1], [2, 1, 2]]) {
-      try {
-        const r = await pedir(base.replace("{z}", z).replace("{y}", y).replace("{x}", x));
-        if (r.ok && /^image\//.test(r.tipo || "") && r.bytes >= MOSAICO_MINIMO) return { ...c, fecha: f };
-      } catch (e) { /* siguiente */ }
+    for (const f of c.fecha ? [c.fecha] : fechas) {
+      const base = urlGIBS(c, f);
+      for (const [z, y, x] of MUESTRAS) {
+        try {
+          const r = await pedir(base.replace("{z}", z).replace("{y}", y).replace("{x}", x));
+          if (r.ok && /^image\//.test(r.tipo || "") && r.bytes >= MOSAICO_MINIMO) return { ...c, fecha: f };
+        } catch (e) { /* siguiente */ }
+      }
     }
   }
   return null;
@@ -121,10 +156,12 @@ export class Imagenes {
     if (!def) return null;
     let eleccion = null;
     // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
-    if (def.retraso_dias && fecha === ayerUTC()) fecha = haceDias(def.retraso_dias);
+    const porOmision = fecha === ayerUTC();
+    if (def.retraso_dias && porOmision) fecha = haceDias(def.retraso_dias);
+    else if (porOmision && def.capa && !def.fecha_fija) fecha = await mejorDia(def, pedir);  // día completo, no a medias
     if (def.fecha_fija) fecha = def.fecha_fija;  // p. ej. «default» = lo más reciente que publique GIBS
     if (def.candidatos) {
-      eleccion = await elegirCandidata(def, fecha, pedir);
+      eleccion = await elegirCandidata(def, fecha, pedir, porOmision ? [haceDias(1), haceDias(2), haceDias(3)] : [fecha]);
       if (!eleccion) throw new Error("NASA GIBS no devolvió imagen de luces nocturnas para esa fecha ni para la referencia anual");
     }
     this.activas.set(id, { fecha, eleccion });

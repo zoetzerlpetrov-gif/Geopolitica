@@ -15,6 +15,7 @@ import { iniciarMenu } from "./menu.js";
 import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
+import * as M3 from "./modelos3d.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -313,6 +314,8 @@ function abrirFichaHtml(html) {
   $("ficha-cerrar").focus();
 }
 
+// Imágenes de medios: si el servidor del medio no la entrega (bloqueo, 404), se quita el recuadro en vez de dejar un hueco.
+$("ficha-cuerpo").addEventListener("error", (e) => { if (e.target.matches?.("img[data-quitar-si-falla]")) e.target.closest("figure")?.remove(); }, true);
 // Imagen representativa del tipo (avión, buque, tren, satélite): las fichas dejan un hueco y aquí se completa.
 new MutationObserver(() => {
   const c = $("ficha-cuerpo");
@@ -332,10 +335,18 @@ async function iniciarCabina() {
   $("ficha").hidden = true;
   $("cabina-info").textContent = `✈️ ${v.indicativo || v.hex} · ${Math.round(v.alt_m || 0).toLocaleString("es-MX")} m · ${Math.round(v.vel_kmh || 0)} km/h · rumbo ${Math.round(v.rumbo || 0)}° · simulación con la última señal`;
   $("cabina-barra").hidden = false;
-  cabina.iniciar(v, { onSalir: () => { $("cabina-barra").hidden = true; } });
+  const d = vueloAbierto.destino;
+  cabina.iniciar(v, { onSalir: () => { $("cabina-barra").hidden = true; },
+    datos: { indicativo: v.indicativo || v.hex, tipo: v.tipo_av || "", squawk: v.squawk || "",
+      destino: d ? `Destino ${d.iata || d.icao || ""} ${d.ciudad || d.nombre || ""}`.trim() : "", destinoCoord: d && d.lon != null ? [d.lon, d.lat] : null } });
 }
 $("cabina-salir")?.addEventListener("click", () => cabina?.detener());
 $("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
+// Modelo 3D animado del elemento (js/visor3d.js y three.js se descargan al abrir el primero).
+$("ficha-cuerpo").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-modelo3d]");
+  if (b) import("./visor3d.js").then((V) => V.abrir(JSON.parse(b.dataset.modelo3d))).catch((err) => { b.insertAdjacentHTML("afterend", `<p class="meta">No se pudo abrir el modelo 3D: ${esc(err.message)}</p>`); });
+});
 // Coordenadas bajo el puntero (opción del usuario; se recuerda en este navegador).
 export function formatoCoords(lat, lon) {
   const g = (v, pos, neg) => `${Math.abs(v).toFixed(5)}° ${v >= 0 ? pos : neg}`;
@@ -348,8 +359,24 @@ function ponerCoords(on) {
   if (!api?.map || !caja) return;
   caja.hidden = !on;
   api.map[on ? "on" : "off"]("mousemove", alMoverPuntero);
+  api.map[on ? "on" : "off"]("contextmenu", copiarConClicDerecho);
   if (on) caja.textContent = "📍 Mueve el puntero sobre el mapa";
   storage.set("gp_coords", on ? "1" : "0");
+}
+/** Clic derecho con las coordenadas encendidas: copia «latitud, longitud» (formato que acepta Google Maps). */
+function textoCoords(lngLat) { return `${lngLat.lat.toFixed(6)}, ${lngLat.lng.toFixed(6)}`; }
+async function copiarConClicDerecho(e) {
+  e.preventDefault?.();
+  const t = textoCoords(e.lngLat);
+  let ok = true;
+  try { await navigator.clipboard.writeText(t); } catch { ok = false; }
+  const aviso = document.createElement("div");
+  aviso.className = "aviso-copiado";
+  aviso.textContent = ok ? `📋 Copiado: ${t}` : `Copia a mano: ${t}`;
+  Object.assign(aviso.style, { left: `${e.point.x}px`, top: `${e.point.y}px` });
+  api.map.getContainer().appendChild(aviso);
+  setTimeout(() => aviso.remove(), 1700);
+  $("coords-puntero").textContent = ok ? `✅ Copiado (pégalo en Google Maps): ${t}` : t;
 }
 $("chk-coords")?.addEventListener("change", (e) => ponerCoords(e.target.checked));
 $("coords-puntero")?.addEventListener("click", async () => {
@@ -407,11 +434,13 @@ async function abrirObjetoMovil(o, catalogo) {
   const cat = catalogo.categorias.find((c) => c.id === "aeronaves");
   const comunes = { subtipoNombre: SUB(cat, v.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null,
     envivo: o.envivo ? Math.round((Date.now() - new Date(o.generado).getTime()) / 1000) : null };
-  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
+  const boton3d = M3.botonModelo({ fuente: "aeronave", ...v });
+  abrirFichaHtml(V.htmlVuelo(v, null, comunes) + BOTON_CABINA + boton3d + `<p class="meta" id="vuelo-cargando">Buscando ruta y trayectoria…</p>`);
   const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
   if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(v.indicativo || v.hex)) return; // el usuario ya cerró o cambió de ficha
-  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en }) + BOTON_CABINA;
+  v.destino = extra.destino || null; // la cabina muestra distancia y hora estimada de llegada
+  $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en }) + BOTON_CABINA + boton3d;
   trayectoria ??= new V.Trayectoria(api.map);
   if (!V.CON_TRAYECTORIA.has(v.subtipo)) { trayectoria.limpiar(); return; } // aviación general: nada se dibuja
   const gj = V.geojsonTrayectoria(v, extra, proyectar);
@@ -434,12 +463,13 @@ async function abrirBuque(o, catalogo) {
   if (o.coords) [b.lon, b.lat] = o.coords;
   const cat = catalogo.categorias.find((c) => c.id === "buques");
   const comunes = { subtipoNombre: SUB(cat, b.subtipo), edadMin: o.generado ? Math.round((Date.now() - new Date(o.generado).getTime()) / 60000) : null };
-  abrirFichaHtml(B.htmlBuque(b, null, comunes));
+  const boton3d = M3.botonModelo({ fuente: "buque", subtipo: b.subtipo, nombre: b.nombre });
+  abrirFichaHtml(B.htmlBuque(b, null, comunes) + boton3d);
   trayectoria ??= new V.Trayectoria(api.map);
   if (B.SIN_TRAYECTORIA.has(b.subtipo)) { trayectoria.limpiar(); return; } // recreo: nada se dibuja
   const extra = await B.datosBuque(b);
   if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(b.nombre || "MMSI " + b.mmsi)) return;
-  $("ficha-cuerpo").innerHTML = B.htmlBuque(b, extra, comunes);
+  $("ficha-cuerpo").innerHTML = B.htmlBuque(b, extra, comunes) + boton3d;
   const gj = B.geojsonBuque(b, extra, proyectar);
   trayectoria.mostrar(gj);
   encuadrar(V.limites(gj), 10);
@@ -450,11 +480,12 @@ async function abrirSatelite(o, catalogo) {
   const cat = catalogo.categorias.find((c) => c.id === "satelites");
   const norad = String(o.props.id).replace("sat:", "");
   const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), st: o.props.st, alt: o.props.alt };
-  abrirFichaHtml(S.htmlSatelite(base, null));
+  const boton3d = M3.botonModelo({ fuente: "satelite", st: o.props.st, nombre: o.props.n });
+  abrirFichaHtml(S.htmlSatelite(base, null) + boton3d);
   const [orb, catalogoSat] = await Promise.all([mov.orbita(norad), S.fichaCatalogo(norad).catch(() => null)]);
   base.catalogo = catalogoSat;
   if (!orb || orb.error || $("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(o.props.n)) return;
-  $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb);
+  $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb) + boton3d;
   trayectoria ??= new V.Trayectoria(api.map);
   const gj = S.geojsonOrbita(orb, [...o.coords, o.props.alt]);
   trayectoria.mostrar(gj);
@@ -658,6 +689,7 @@ async function main() {
   $("ficha-cerrar").onclick = cerrarFicha;
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("ficha").hidden) cerrarFicha(); });
 
+  document.addEventListener("click", (e) => { const m = $("menu-opciones"); if (m?.open && !m.contains(e.target)) m.open = false; });
   $("btn-panel").onclick = () => {
     const layout = document.querySelector(".layout");
     const oculto = layout.classList.toggle("sin-panel");
@@ -681,7 +713,16 @@ async function main() {
   $("sel-base").value = storage.get("gp_base") || "tematico";
   $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
   $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
-  $("sel-proyeccion").onchange = () => { storage.set("gp_proyeccion", $("sel-proyeccion").value); api.setProyeccion($("sel-proyeccion").value); };
+  $("sel-proyeccion").onchange = () => {
+    const tipo = $("sel-proyeccion").value;
+    storage.set("gp_proyeccion", tipo);
+    api.setProyeccion(tipo);
+    // «Plano 2D» es plano de verdad: sin inclinación ni giro, y sin las columnas 3D (que necesitan inclinar).
+    if (tipo === "mercator") {
+      if (alt3d?.activo) { alt3d.desactivar(); $("chk-3d").checked = false; }
+      api.map.easeTo({ pitch: 0, bearing: 0, duration: 600 });
+    }
+  };
   if ($("sel-base").value !== "tematico") cambiarBase();
   if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
 
@@ -835,7 +876,8 @@ async function iniciarCapas() {
       entidadAbierta = ent;
       const cercanos = eventos.filter((ev) => ev.lat != null && distanciaKm(ent.lngLat.lat, ent.lngLat.lng, ev.lat, ev.lon) <= 300);
       const personas = ent.familia.id === "organismos" ? await personasDe(ent.props.id.replace(/^wd:/, "")) : [];
-      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) }));
+      abrirFichaHtml(htmlFichaEntidad({ ...ent, cercanos, personas, seguido: seg.sigue(ent.props.id) })
+        + M3.botonModelo({ fuente: "entidad", st: ent.props.st, nombre: ent.props.n || ent.props.nombre }));
       prepararErupcion();
     },
   });
@@ -1186,14 +1228,22 @@ async function iniciarClima() {
   let meta;
   try { meta = await clima.cargar(); } catch (e) { cont.innerHTML = `<p class="meta">Aún no hay datos del modelo (los prepara el workflow «Datos en movimiento» cada 6 h).</p>`; return; }
   if (!meta.pasos?.length) { cont.innerHTML = `<p class="meta">Sin horizontes de pronóstico en la última corrida.</p>`; return; }
-  const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"]];
+  const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"],
+    ["rayos", "⚡ Rayos en tiempo real (satélites GOES, últimos 20 min)"], ["nubes_ir", "☁️ Nubes en vivo (satélites, infrarrojo, animado)"],
+    ["geocolor", "🛰️ Color real GOES de día y de noche (América, animado)"], ["lluvia_sat", "🌧️ Lluvia medida por satélite (IMERG, animada)"]];
   cont.innerHTML = capas.map(([id, n]) => `<label class="fila"><span><input type="checkbox" data-clima="${id}"> ${esc(n)}</span></label>`).join("")
     + `<label class="fila"><span>Momento</span><select id="clima-paso">${meta.pasos.map((p, i) => `<option value="${i}">${esc(K.etiquetaPaso(p.valido_utc))}</option>`).join("")}</select></label>`
     + `<div id="clima-leyendas"></div>`
     + `<p class="nota-capas">Modelo GFS de NOAA (1°, ~110 km), corrida ${esc(meta.corrida)}. Es un pronóstico numérico, no una medición: para avisos oficiales consulta al SMN o a tu servicio meteorológico.</p>`;
   const leyendas = () => {
     $("clima-leyendas").innerHTML = [clima.activas.has("viento") ? K.leyenda(K.VELOCIDADES.map(([v, c]) => [Math.round(v * 3.6), c]), "km/h") : "",
-      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : ""].join("");
+      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
+      clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",
+      ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES (de noche, luces de ciudades)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`)].join("");
+  };
+  clima.onMomento = (t, m) => {
+    const p = document.getElementById(`momento-${t}`);
+    if (p) p.dataset.momento = `${m.slice(11, 16)} UTC · hace ${Math.round((Date.now() - Date.parse(m)) / 60000)} min`;
   };
   cont.addEventListener("change", async (e) => {
     if (e.target.id === "clima-paso") { await clima.setPaso(Number(e.target.value)); return; }
@@ -1283,7 +1333,8 @@ async function iniciarRiesgos() {
     ctx: { indice: fronteras ? A.indicePaises(fronteras) : null, porNombre },
     onCambio: () => { if (riesgos?.catalogo) riesgos.explorar().then((x) => { apagadas = x; pintar(); }); else pintar(); },
     onObjeto: (capa, props, geom) => {
-      entidadAbierta = null; trayectoria?.limpiar(); abrirFichaHtml(R.htmlRiesgo(capa, props, geom));
+      entidadAbierta = null; trayectoria?.limpiar();
+      abrirFichaHtml(R.htmlRiesgo(capa, props, geom) + M3.botonModelo({ fuente: "riesgo", capa: capa.id, props: R.desanidar(props), lat: geom?.coordinates?.[1] }));
       const ce = document.querySelector("#ficha-cuerpo .conf-extra");
       if (ce) llenarConflicto(ce, R.desanidar(props));
       const div = document.querySelector("#ficha-cuerpo .ceniza");
@@ -1579,7 +1630,14 @@ async function iniciarMovimiento(catalogo) {
     const t = e.target.dataset.mov;
     if (t) {
       try {
-        if (!e.target.checked) { mov.desactivar(t); return; }
+        if (!e.target.checked) {
+          mov.desactivar(t);
+          // Lo que dependía de esa capa también se va: trayectoria dibujada, columnas 3D y la cabina del avión.
+          if (t === "aeronaves" || t === "buques") trayectoria?.limpiar();
+          if (t === "aeronaves") { cabina?.detener(); vueloAbierto = null; }
+          alt3d?.refrescar();
+          return;
+        }
         await mov.activar(t);
         // Se respetan los subtipos marcados (activar() usa los iniciales del catálogo).
         mov.setSubtipos(t, [...cont.querySelectorAll(`[data-mov-sub="${t}"]:checked`)].map((x) => x.value));
