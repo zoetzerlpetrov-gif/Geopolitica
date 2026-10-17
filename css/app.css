@@ -85,6 +85,10 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 .bloque-tit { display: flex; justify-content: space-between; align-items: baseline; }
 .mini-acc { display: flex; gap: 4px; }
 .fila { display: flex; align-items: center; gap: 8px; padding: 3px 0; cursor: pointer; }
+/* Texto largo + control (p. ej. elegir archivo): uno debajo del otro, a todo lo ancho, para que el texto no quede en columna. */
+.fila-apilada { display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 3px 0; cursor: pointer; }
+.fila-apilada > span { line-height: 1.35; }
+.fila-apilada > input[type="file"] { width: 100%; max-width: 100%; font-size: 0.9rem; }
 .fila select { margin-left: auto; font: inherit; background: var(--surface-2); color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 2px 6px; }
 
 .lista-areas { list-style: none; margin: 0; padding: 0; }
@@ -610,6 +614,7 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .cabina-barra { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; background: rgba(15, 23, 32, .85); color: #fff;
   padding: 6px 10px; border-radius: 8px; font-size: 13px; display: flex; gap: 8px; align-items: center; max-width: calc(100% - 24px); }
 .cabina-barra button { font-size: 12px; }
+.cabina-pfd { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
 
 /* Banderas en fichas */
 img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; border: 1px solid rgba(0, 0, 0, .15); border-radius: 2px; }
@@ -624,3 +629,43 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .conf-video { display: flex; flex-direction: column; gap: 2px; text-align: left; padding: 4px; font-size: 11px; cursor: pointer; }
 .conf-video img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 4px; }
 .conf-iframe { width: 100%; aspect-ratio: 16 / 9; border: 0; border-radius: 6px; grid-column: 1 / -1; }
+
+/* ---------- Apariencia: barra superior y panel translúcidos (vidrio esmerilado) ---------- */
+:root { --vidrio: color-mix(in srgb, var(--surface) 74%, transparent); --vidrio-borde: color-mix(in srgb, var(--line) 70%, transparent);
+  --marca: linear-gradient(120deg, #2E6F8E 0%, #5B4A9E 55%, #C0392B 100%); --panel-izq: 0px; }
+.topbar { position: relative; z-index: 8; background: var(--vidrio); -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
+  border-bottom: 1px solid var(--vidrio-borde); box-shadow: 0 6px 24px rgba(10, 20, 30, .12); }
+.topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--marca); opacity: .85; }
+.topbar h1 { background: var(--marca); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: .2px; }
+.icon-btn, .link-btn, .txt-btn, .sel-vista { transition: border-color .15s, box-shadow .15s, transform .15s; }
+.icon-btn:hover, .link-btn:hover { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); transform: translateY(-1px); }
+
+/* Menú «Opciones» de la barra superior. */
+.menu-opciones { position: relative; }
+.menu-opciones > summary { list-style: none; }
+.menu-opciones > summary::-webkit-details-marker { display: none; }
+.menu-opciones[open] > summary { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.menu-pop { position: absolute; right: 0; top: calc(100% + 8px); z-index: 20; width: min(340px, 90vw); padding: 10px 12px; border-radius: 12px;
+  background: var(--vidrio); -webkit-backdrop-filter: blur(16px) saturate(160%); backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid var(--vidrio-borde); box-shadow: 0 12px 32px rgba(10, 20, 30, .25); display: grid; gap: 2px; }
+.menu-pop .aviso-sonido { font-size: 13px; color: var(--text); padding: 6px 4px; border-radius: 8px; }
+.menu-pop .aviso-sonido:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+
+/* En escritorio el panel flota sobre el mapa (el mapa ocupa todo el ancho). */
+@media (min-width: 761px) {
+  .layout { grid-template-columns: 1fr; --panel-izq: 322px; }
+  .layout.sin-panel { --panel-izq: 0px; }
+  .layout > .panel { position: absolute; top: 10px; bottom: 10px; left: 10px; width: 300px; z-index: 6; border: 1px solid var(--vidrio-borde);
+    border-radius: 14px; background: var(--vidrio); -webkit-backdrop-filter: blur(16px) saturate(150%); backdrop-filter: blur(16px) saturate(150%);
+    box-shadow: 0 16px 40px rgba(10, 20, 30, .22); overflow-x: hidden; }
+  .layout > .panel .panel-barra { background: transparent; border-bottom-color: var(--vidrio-borde); -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px); }
+  .layout > .panel .bloque { border-bottom-color: var(--vidrio-borde); }
+  .aviso-base, .coords-puntero { left: calc(var(--panel-izq) + 10px); }
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  :root { --vidrio: var(--surface); }
+}
+.aviso-copiado { position: absolute; z-index: 9; transform: translate(-50%, -130%); padding: 4px 8px; border-radius: 8px; font: 12px/1.3 ui-monospace, Menlo, monospace;
+  background: rgba(15, 23, 32, .88); color: #fff; pointer-events: none; white-space: nowrap; animation: copiado 1.6s ease forwards; }
+@keyframes copiado { 0% { opacity: 0; } 10% { opacity: 1; } 75% { opacity: 1; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .aviso-copiado { animation: none; } .icon-btn:hover, .link-btn:hover { transform: none; } }

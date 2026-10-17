@@ -174,6 +174,8 @@ def main():
             n += 1
         return n
 
+    clases_org = {}
+
     def organismos_amplio():
         n = 0
         for f in sparql(Q_ORGANISMOS_AMPLIO):
@@ -189,8 +191,8 @@ def main():
             if not o["pais_iso3"] and val(f, "iso3"):
                 o["pais_iso3"] = val(f, "iso3")
             clase = CLASE_ORGANISMO.get(qid(val(f, "clase")))
-            if clase and not o.get("clase"):
-                o["clase"] = clase
+            if clase:
+                clases_org.setdefault(oid, clase)  # aparte: el esquema de organizaciones.json no tiene este campo
             n += 1
         return n
 
@@ -234,7 +236,7 @@ def main():
         if o["sede"] and o["subtipo"] in ("organismos_internacionales", "bolsas_valores"):
             geo.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [o["sede"]["lon"], o["sede"]["lat"]]},
                         "properties": {"id": f"wd:{o['id']}", "n": o["nombre"], "st": o["subtipo"], "p": o["pais_iso3"] or "",
-                                       "x": " · ".join(x for x in (o.get("clase"), o["sede"]["ciudad"]) if x)}})
+                                       "x": " · ".join(x for x in (clases_org.get(o["id"]), o["sede"]["ciudad"]) if x)}})
 
     def escribir(nombre, datos):
         with open(os.path.join(DESTINO, nombre), "w", encoding="utf-8") as f:

@@ -332,7 +332,10 @@ async function iniciarCabina() {
   $("ficha").hidden = true;
   $("cabina-info").textContent = `✈️ ${v.indicativo || v.hex} · ${Math.round(v.alt_m || 0).toLocaleString("es-MX")} m · ${Math.round(v.vel_kmh || 0)} km/h · rumbo ${Math.round(v.rumbo || 0)}° · simulación con la última señal`;
   $("cabina-barra").hidden = false;
-  cabina.iniciar(v, { onSalir: () => { $("cabina-barra").hidden = true; } });
+  const d = vueloAbierto.destino;
+  cabina.iniciar(v, { onSalir: () => { $("cabina-barra").hidden = true; },
+    datos: { indicativo: v.indicativo || v.hex, tipo: v.tipo_av || "", squawk: v.squawk || "",
+      destino: d ? `Destino ${d.iata || d.icao || ""} ${d.ciudad || d.nombre || ""}`.trim() : "", destinoCoord: d && d.lon != null ? [d.lon, d.lat] : null } });
 }
 $("cabina-salir")?.addEventListener("click", () => cabina?.detener());
 $("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
@@ -348,8 +351,24 @@ function ponerCoords(on) {
   if (!api?.map || !caja) return;
   caja.hidden = !on;
   api.map[on ? "on" : "off"]("mousemove", alMoverPuntero);
+  api.map[on ? "on" : "off"]("contextmenu", copiarConClicDerecho);
   if (on) caja.textContent = "📍 Mueve el puntero sobre el mapa";
   storage.set("gp_coords", on ? "1" : "0");
+}
+/** Clic derecho con las coordenadas encendidas: copia «latitud, longitud» (formato que acepta Google Maps). */
+function textoCoords(lngLat) { return `${lngLat.lat.toFixed(6)}, ${lngLat.lng.toFixed(6)}`; }
+async function copiarConClicDerecho(e) {
+  e.preventDefault?.();
+  const t = textoCoords(e.lngLat);
+  let ok = true;
+  try { await navigator.clipboard.writeText(t); } catch { ok = false; }
+  const aviso = document.createElement("div");
+  aviso.className = "aviso-copiado";
+  aviso.textContent = ok ? `📋 Copiado: ${t}` : `Copia a mano: ${t}`;
+  Object.assign(aviso.style, { left: `${e.point.x}px`, top: `${e.point.y}px` });
+  api.map.getContainer().appendChild(aviso);
+  setTimeout(() => aviso.remove(), 1700);
+  $("coords-puntero").textContent = ok ? `✅ Copiado (pégalo en Google Maps): ${t}` : t;
 }
 $("chk-coords")?.addEventListener("change", (e) => ponerCoords(e.target.checked));
 $("coords-puntero")?.addEventListener("click", async () => {
@@ -411,6 +430,7 @@ async function abrirObjetoMovil(o, catalogo) {
   const [extra] = await Promise.all([V.datosVuelo(v), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombreEn = { ...Object.fromEntries(Object.values(paises || {}).map((p) => [p.en, p.es])), ...V.PAISES_OPENSKY };
   if ($("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(v.indicativo || v.hex)) return; // el usuario ya cerró o cambió de ficha
+  v.destino = extra.destino || null; // la cabina muestra distancia y hora estimada de llegada
   $("ficha-cuerpo").innerHTML = V.htmlVuelo(v, extra, { ...comunes, paisEs: (en) => porNombreEn[en] || en }) + BOTON_CABINA;
   trayectoria ??= new V.Trayectoria(api.map);
   if (!V.CON_TRAYECTORIA.has(v.subtipo)) { trayectoria.limpiar(); return; } // aviación general: nada se dibuja
@@ -658,6 +678,7 @@ async function main() {
   $("ficha-cerrar").onclick = cerrarFicha;
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("ficha").hidden) cerrarFicha(); });
 
+  document.addEventListener("click", (e) => { const m = $("menu-opciones"); if (m?.open && !m.contains(e.target)) m.open = false; });
   $("btn-panel").onclick = () => {
     const layout = document.querySelector(".layout");
     const oculto = layout.classList.toggle("sin-panel");
@@ -681,7 +702,16 @@ async function main() {
   $("sel-base").value = storage.get("gp_base") || "tematico";
   $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
   $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
-  $("sel-proyeccion").onchange = () => { storage.set("gp_proyeccion", $("sel-proyeccion").value); api.setProyeccion($("sel-proyeccion").value); };
+  $("sel-proyeccion").onchange = () => {
+    const tipo = $("sel-proyeccion").value;
+    storage.set("gp_proyeccion", tipo);
+    api.setProyeccion(tipo);
+    // «Plano 2D» es plano de verdad: sin inclinación ni giro, y sin las columnas 3D (que necesitan inclinar).
+    if (tipo === "mercator") {
+      if (alt3d?.activo) { alt3d.desactivar(); $("chk-3d").checked = false; }
+      api.map.easeTo({ pitch: 0, bearing: 0, duration: 600 });
+    }
+  };
   if ($("sel-base").value !== "tematico") cambiarBase();
   if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
 
@@ -1579,7 +1609,14 @@ async function iniciarMovimiento(catalogo) {
     const t = e.target.dataset.mov;
     if (t) {
       try {
-        if (!e.target.checked) { mov.desactivar(t); return; }
+        if (!e.target.checked) {
+          mov.desactivar(t);
+          // Lo que dependía de esa capa también se va: trayectoria dibujada, columnas 3D y la cabina del avión.
+          if (t === "aeronaves" || t === "buques") trayectoria?.limpiar();
+          if (t === "aeronaves") { cabina?.detener(); vueloAbierto = null; }
+          alt3d?.refrescar();
+          return;
+        }
         await mov.activar(t);
         // Se respetan los subtipos marcados (activar() usa los iniciales del catálogo).
         mov.setSubtipos(t, [...cont.querySelectorAll(`[data-mov-sub="${t}"]:checked`)].map((x) => x.value));

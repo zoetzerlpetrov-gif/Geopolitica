@@ -100,12 +100,36 @@ class Particulas {
   }
 
   #sembrar() {
+    this.globo = (this.map.getProjection?.()?.type ?? "mercator") === "globe";
     const n = Math.round(Math.min(matchMedia("(max-width: 760px)").matches ? 1200 : 3500, (this.ancho * this.alto) / 250));
     this.p = Array.from({ length: n }, () => this.#nueva());
     this.#limpiar();
   }
 
-  #nueva() { return { x: Math.random() * this.ancho, y: Math.random() * this.alto, edad: Math.floor(Math.random() * 80) }; }
+  /**
+   * ¿El punto geográfico se ve en pantalla? En el globo, un punto del lado oculto también tiene píxel; se descarta si al
+   * volver de píxel a coordenada no da el mismo lugar (≤ 0.5°). Fuera del globo (el espacio) nunca hay partículas.
+   */
+  #visible(lng, lat) {
+    const q = this.map.project([lng, lat]);
+    if (q.x < 0 || q.y < 0 || q.x > this.ancho || q.y > this.alto) return null;
+    if (this.globo) {
+      const r = this.map.unproject(q);
+      if (Math.abs(r.lat - lat) > 0.5 || Math.abs(((r.lng - lng + 540) % 360) - 180) > 0.5) return null;
+    }
+    return q;
+  }
+
+  #nueva() {
+    // Se siembra en un píxel al azar; si ese píxel cae fuera de la Tierra se prueba otro (hasta 8 veces).
+    for (let i = 0; i < 8; i++) {
+      const ll = this.map.unproject([Math.random() * this.ancho, Math.random() * this.alto]);
+      if (Math.abs(ll.lat) > 85) continue;
+      const q = this.#visible(ll.lng, ll.lat);
+      if (q) return { lng: ll.lng, lat: ll.lat, x: q.x, y: q.y, edad: Math.floor(Math.random() * 80) };
+    }
+    return { lng: 0, lat: 0, x: -1, y: -1, edad: 999 };
+  }
 
   #limpiar() { this.ctx.clearRect(0, 0, this.ancho, this.alto); }
 
@@ -121,18 +145,23 @@ class Particulas {
     g.globalCompositeOperation = "source-over";
     g.lineWidth = 1.3;
     const lotes = new Map();
-    const factor = 0.35; // píxeles por cuadro por m/s
+    // El avance se hace en grados (no en píxeles): así respeta la curvatura del globo y la inclinación del mapa.
+    // 0.35 px por cuadro por m/s a la escala del zoom actual (512 px por vuelta completa en zoom 0).
+    this.globo = (this.map.getProjection?.()?.type ?? "mercator") === "globe";
+    const gradosPorPaso = 0.35 * (360 / (512 * 2 ** this.map.getZoom()));
     for (const q of this.p) {
-      const ll = this.map.unproject([q.x, q.y]);
-      if (Math.abs(ll.lat) > 85) { Object.assign(q, this.#nueva(), { edad: 0 }); continue; }
-      const [u, v] = muestrear(this.campo, ll.lng, ll.lat);
+      if (q.edad > 90 || q.x < 0) { Object.assign(q, this.#nueva(), { edad: 0 }); continue; }
+      const [u, v] = muestrear(this.campo, q.lng, q.lat);
       const s = Math.hypot(u, v);
-      const nx = q.x + u * factor, ny = q.y - v * factor;
+      const lat = q.lat + v * gradosPorPaso;
+      const lng = q.lng + (u * gradosPorPaso) / Math.max(0.1, Math.cos((q.lat * Math.PI) / 180));
+      const n = Math.abs(lat) < 85 ? this.#visible(lng, lat) : null;
+      if (!n || s < 0.2) { Object.assign(q, this.#nueva(), { edad: 0 }); continue; }
       const col = colorVelocidad(s);
       if (!lotes.has(col)) lotes.set(col, []);
-      lotes.get(col).push(q.x, q.y, nx, ny);
-      q.x = nx; q.y = ny; q.edad++;
-      if (q.edad > 90 || s < 0.2 || q.x < 0 || q.y < 0 || q.x > this.ancho || q.y > this.alto) Object.assign(q, this.#nueva(), { edad: 0 });
+      lotes.get(col).push(q.x, q.y, n.x, n.y);
+      Object.assign(q, { lng: ((lng + 540) % 360) - 180, lat, x: n.x, y: n.y });
+      q.edad++;
     }
     for (const [col, seg] of lotes) {
       g.strokeStyle = col;
