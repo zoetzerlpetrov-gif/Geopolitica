@@ -26,13 +26,14 @@ UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitic
 SPARQL = "https://query.wikidata.org/sparql"
 TOP = 100
 DIAS = 7
+MAXIMO = 1_000_000_000  # nadie llega a mil millones: un dato mayor es un error de captura en Wikidata
 
 # plataforma → (calificador de la cuenta, mínimo de seguidores para la consulta, enlace)
 PLATAFORMAS = {
     "YouTube": ("P2397", 15_000_000, "https://www.youtube.com/channel/{}"),
-    "TikTok": ("P7085", 15_000_000, "https://www.tiktok.com/@{}"),
-    "Instagram": ("P2003", 40_000_000, "https://www.instagram.com/{}/"),
-    "X": ("P2002", 20_000_000, "https://x.com/{}"),
+    "TikTok": ("P7085", 5_000_000, "https://www.tiktok.com/@{}"),
+    "Instagram": ("P2003", 15_000_000, "https://www.instagram.com/{}/"),
+    "X": ("P2002", 3_000_000, "https://x.com/{}"),
 }
 
 
@@ -84,6 +85,8 @@ def mejores(filas, plataforma, top=TOP):
         try:
             seg = int(float(_v(f, "seg")))
         except ValueError:
+            continue
+        if seg > MAXIMO:
             continue
         fecha = _v(f, "fecha")[:10]
         reg = {"qid": qid, "nombre": nombre, "plataforma": plataforma, "cuenta": _v(f, "u"), "seguidores": seg, "fecha": fecha}
