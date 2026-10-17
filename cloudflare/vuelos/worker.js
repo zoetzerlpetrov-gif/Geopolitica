@@ -28,14 +28,6 @@ export default {
     if (req.method === "OPTIONS") return new Response(null, { status: 204, headers: { ...cors, "Access-Control-Allow-Methods": "GET", "Access-Control-Max-Age": "86400" } });
     if (req.method !== "GET") return new Response("solo GET", { status: 405, headers: cors });
     if (!permitido) return new Response("origen no permitido", { status: 403, headers: cors });
-    if (new URL(req.url).pathname === "/diag-temporal") { // TEMPORAL: se borra antes del PR
-      const out = {};
-      for (const [k, u] of Object.entries({ api: "https://opensky-network.org/api/states/all?lamin=19&lomin=-100&lamax=20&lomax=-98", auth: "https://auth.opensky-network.org/auth/realms/opensky-network/.well-known/openid-configuration", adsbfi: "https://opendata.adsb.fi/api/v2/lat/19.4/lon/-99.1/dist/25", airplaneslive: "https://api.airplanes.live/v2/point/19.4/-99.1/25" })) {
-        const t = Date.now();
-        try { const r = await fetch(u, { headers: { "User-Agent": "Geopolitica-monitor" }, signal: AbortSignal.timeout(15000) }); out[k] = `${r.status} en ${Date.now() - t} ms`; } catch (e) { out[k] = `error ${e.message} en ${Date.now() - t} ms`; }
-      }
-      return json(out);
-    }
     const p = ruta(new URL(req.url).pathname);
     if (!p) return new Response("uso: /punto/{lat}/{lon}/{25|50|100|150|250}", { status: 400, headers: cors });
     const clave = `${p.lat}/${p.lon}/${p.nm}`;
