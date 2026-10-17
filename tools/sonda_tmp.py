@@ -36,3 +36,5 @@ except Exception as e:
     print("error:", e)
 print("--- intermediario otra vez")
 s, h, b = pedir("/punto/19.5/-99.25/50"); print(s, b[:200])
+
+print("--- diagnóstico desde Cloudflare:", pedir("/diag-temporal")[2][:600])
