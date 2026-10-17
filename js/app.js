@@ -363,6 +363,22 @@ $("coords-puntero")?.addEventListener("click", async () => {
   $("chk-coords").checked = true;
   ponerCoords(true);
 })();
+// Cielo real detrás del globo (js/universo.js): encendido por defecto salvo en LITE o si el usuario lo apagó.
+let universo = null;
+async function ponerUniverso(si) {
+  if (!api?.map) return;
+  if (si && !universo) universo = new (await import("./universo.js")).Universo(api.map);
+  await universo?.activar(si).catch(() => null);
+}
+$("chk-universo")?.addEventListener("change", (e) => { storage.set("gp_universo", e.target.checked ? "1" : "0"); ponerUniverso(e.target.checked); });
+(function restaurarUniverso(n = 0) {
+  if (!api?.map) { if (n < 60) setTimeout(() => restaurarUniverso(n + 1), 500); return; }
+  const si = storage.get("gp_universo") ? storage.get("gp_universo") === "1" : !lite;
+  $("chk-universo").checked = si;
+  if (si) ponerUniverso(true);
+})();
+// La casilla solo aparece si hay un intermediario publicado en config/envivo.json.
+getJSON("config/envivo.json").then((c) => { if (c.proxy_vuelos) $("lbl-envivo").hidden = false; }).catch(() => null);
 $("chk-envivo")?.addEventListener("change", async (e) => {
   const est = $("envivo-estado");
   const cfg = await getJSON("config/envivo.json").catch(() => ({}));
