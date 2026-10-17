@@ -11,6 +11,7 @@ import { articuloTren, huecoImagen } from "./imagen_tipo.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
 import * as P from "./polos.js";
 import * as K from "./cielo.js";
+import * as GF from "./gfw.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
@@ -543,8 +544,8 @@ export const CAPAS = [
       filas: [["MMSI", p.mmsi || "—"], ["Bandera", p.bandera || "—"], ["Tipo", p.tipo || "—"], ["Se apagó", fecha(p.apagado_utc)], ["Se volvió a encender", fecha(p.encendido_utc)],
         ["Distancia entre ambos puntos", `${p.distancia_km} km`], ["Velocidad implícita", `${p.vel_implicita_nudos} nudos`],
         ["Reapareció en", p.lat_encendido != null ? `${p.lat_encendido.toFixed(2)}, ${p.lon_encendido.toFixed(2)}` : "—"], ["Ojo", "Señal de alerta, no prueba de un delito"]],
-      url: p.mmsi ? `https://globalfishingwatch.org/map/vessel-search?query=${encodeURIComponent(p.mmsi)}` : "https://globalfishingwatch.org/map",
-      fuente: "Global Fishing Watch (CC BY-NC 4.0)" }),
+      url: GF.enlaceGfw(p), fuente: "Global Fishing Watch (CC BY-NC 4.0)" }),
+    extra: (p) => (p.horas >= 72 ? GF.htmlRevision([p]) : ""),
   },
   {
     id: "gfw_encuentros", grupo: MAR, nombre: "Encuentros entre barcos en el mar: posibles transbordos (Global Fishing Watch, 14 días)",
@@ -558,6 +559,58 @@ export const CAPAS = [
         filas: [["Barco 1", b(p.barco_a || {})], ["Barco 2", b(p.barco_b || {})], ["Inicio", fecha(p.inicio_utc)], ["Fin", fecha(p.fin_utc)], ["Horas juntos", p.horas ?? "—"],
           ["Distancia a la costa", p.dist_costa_km != null ? `${Math.round(p.dist_costa_km)} km` : "—"], ["Ojo", "Señal para investigar, no prueba de un delito"]],
         url: "https://globalfishingwatch.org/map", fuente: "Global Fishing Watch (CC BY-NC 4.0)" }; },
+    extra: (p) => GF.htmlRevision([p.barco_a, p.barco_b]),
+  },
+  {
+    id: "gfw_merodeo", grupo: MAR, nombre: "Buques de carga refrigerada merodeando en el mar: posible espera para transbordo (Global Fishing Watch, 14 días)",
+    url: "data/vivos/gfw_merodeo.geojson", refresco_s: 21600, fuente: "Global Fishing Watch, eventos de merodeo",
+    estilo: (p) => ({ c: p.alerta ? C.rojo : p.alta_mar ? C.naranja : "#E0A100", r: p.horas >= 72 ? 6 : 4 }),
+    leyenda: [{ c: C.rojo, r: 6, t: "El buque tiene algo en su revisión (lista IUU, banderas, pesca en áreas protegidas)" }, { c: C.naranja, r: 6, t: "En alta mar (fuera de toda zona económica)" },
+      { c: "#E0A100", r: 4, t: "Dentro de la zona económica de algún país" },
+      { t: "Un buque de carga refrigerada casi quieto horas o días lejos de puerto: así esperan a los pesqueros para recibir su captura. Es legal con permiso; en alta mar es donde menos vigilancia hay. Puntos más grandes: 3 días o más." }],
+    ficha: (p) => ({ titulo: p.nombre || `Buque MMSI ${p.mmsi}`, chip: `Merodeando ${p.horas} h`,
+      filas: [["MMSI", p.mmsi || "—"], ["Bandera", p.bandera || "—"], ["Tipo", p.tipo || "—"], ["Inicio", fecha(p.inicio_utc)], ["Fin", fecha(p.fin_utc)],
+        ["Velocidad media", `${p.vel_media_nudos} nudos`], ["Distancia a la costa", `${p.dist_costa_km} km`], ["Zona", p.alta_mar ? "Alta mar" : "Zona económica de un país"],
+        ["Ojo", "Señal para investigar, no prueba de un delito"]],
+      url: GF.enlaceGfw(p), fuente: "Global Fishing Watch (CC BY-NC 4.0)" }),
+    extra: (p) => GF.htmlRevision([p]),
+  },
+  {
+    id: "gfw_pesca_mx", grupo: MAR, nombre: "Pesca en aguas de México: barcos extranjeros y en áreas protegidas sin pesca (Global Fishing Watch, 14 días)",
+    url: "data/vivos/gfw_pesca_mx.geojson", refresco_s: 21600, fuente: "Global Fishing Watch, eventos de pesca aparente",
+    estilo: (p) => ({ c: p.anp_sin_pesca ? C.violeta : p.extranjero ? C.rojo : p.alerta ? C.naranja : "#5B8DB8", r: p.anp_sin_pesca || p.extranjero ? 6 : 3 }),
+    leyenda: [{ c: C.violeta, r: 6, t: "Dentro de un área natural protegida donde no se permite pescar" }, { c: C.rojo, r: 6, t: "Barco de bandera extranjera" },
+      { c: C.naranja, r: 4, t: "Barco mexicano con algo en su revisión" }, { c: "#5B8DB8", r: 3, t: "Barco mexicano" },
+      { t: "«Pesca aparente»: Global Fishing Watch infiere por el movimiento del AIS que el barco estaba pescando. Un barco extranjero puede pescar en la zona económica de México solo con permiso (Ley General de Pesca y Acuacultura Sustentables). Muchos pesqueros pequeños no llevan AIS: no aparecen aquí." }],
+    ficha: (p) => ({ titulo: p.nombre || `Barco MMSI ${p.mmsi}`, chip: p.anp_sin_pesca ? "En área protegida sin pesca" : p.extranjero ? `Bandera extranjera: ${p.bandera}` : "Pesca aparente",
+      filas: [["MMSI", p.mmsi || "—"], ["Bandera", p.bandera || "sin dato"], ["Tipo", p.tipo || "—"], ["Inicio", fecha(p.inicio_utc)], ["Fin", fecha(p.fin_utc)],
+        ["Horas", p.horas ?? "—"], ["Autorización pública", p.autorizacion || "—"], ["Ojo", "Pesca inferida por el movimiento; confirma con CONAPESCA o SEMAR"]],
+      url: GF.enlaceGfw(p), fuente: "Global Fishing Watch (CC BY-NC 4.0)" }),
+    extra: (p) => (p.extranjero || p.anp_sin_pesca || p.revision ? GF.htmlRevision([p]) : ""),
+  },
+  {
+    id: "gfw_puertos_mx", grupo: MAR, nombre: "Puertos de México: visitas de barcos de pesca, carga refrigerada y apoyo (Global Fishing Watch, 14 días)", noAmenaza: true,
+    url: "data/vivos/gfw_puertos_mx.geojson", refresco_s: 21600, fuente: "Global Fishing Watch, visitas a puerto",
+    estilo: (p) => ({ c: p.con_alerta ? C.rojo : p.extranjeros ? C.naranja : C.cian, r: Math.min(14, 4 + Math.sqrt(p.visitas_total || 0)) }),
+    etiqueta: (p) => String(p.visitas_total || ""),
+    leyenda: [{ c: C.rojo, r: 8, t: "Llegó al menos un barco con algo en su revisión" }, { c: C.naranja, r: 7, t: "Llegaron barcos de bandera extranjera" }, { c: C.cian, r: 6, t: "Solo barcos mexicanos" },
+      { t: "El número es la cantidad de visitas en 14 días. Con el Acuerdo de la FAO sobre Medidas del Estado Rector del Puerto, un puerto puede inspeccionar o negar la entrada a barcos sospechosos de pesca ilegal." }],
+    ficha: (p) => ({ titulo: `Puerto: ${p.nombre}`, chip: `${p.visitas_total} visitas · ${p.extranjeros} extranjeras`,
+      filas: [["Banderas extranjeras", (p.banderas || []).join(", ") || "ninguna"], ["Barcos con algo en su revisión", p.con_alerta || 0]],
+      url: "https://globalfishingwatch.org/map", fuente: "Global Fishing Watch (CC BY-NC 4.0)" }),
+    extra: (p) => GF.htmlVisitas(p.visitas),
+  },
+  {
+    id: "gfw_radar_mx", grupo: MAR, nombre: "Barcos vistos por radar satelital sin AIS en aguas de México (Sentinel-1, 30 días)",
+    url: "data/vivos/gfw_radar_mx.geojson", refresco_s: 21600, fuente: "Global Fishing Watch, detecciones de radar SAR",
+    estilo: (p) => ({ c: p.detecciones >= 10 ? C.rojo : p.detecciones >= 3 ? C.naranja : "#E0A100", r: Math.min(10, 3 + Math.sqrt(p.detecciones || 0) * 1.5) }),
+    etiqueta: (p) => (p.detecciones >= 3 ? String(p.detecciones) : ""),
+    leyenda: [{ c: C.rojo, r: 8, t: "10 detecciones o más en la celda" }, { c: C.naranja, r: 6, t: "3 a 9" }, { c: "#E0A100", r: 4, t: "1 o 2" },
+      { t: "El radar del satélite Sentinel-1 ve barcos de día, de noche y con nubes. Aquí van solo los que no coincidieron con ninguna señal AIS: barcos sin transmisor (muchos legales, como pesca artesanal o barcos de gobierno) o que lo apagaron. Cada punto es una celda de unos 11 km. No hay nombre: el radar no identifica al barco." }],
+    ficha: (p) => ({ titulo: "Barcos detectados por radar sin AIS", chip: `${p.detecciones} detecciones`,
+      filas: [["Primera detección", fecha(p.primera_utc)], ["Última detección", fecha(p.ultima_utc)], ["Celda", "0.1° (unos 11 km)"],
+        ["Ojo", "El radar no identifica al barco; cruza con patrullajes o imágenes ópticas"]],
+      url: "https://globalfishingwatch.org/map", fuente: "Global Fishing Watch / Copernicus Sentinel-1" }),
   },
   ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
   ...ANOMALIAS,
@@ -932,7 +985,17 @@ export function textoSobre(hex) {
   return (L + 0.05) / 0.05 >= 1.05 / (L + 0.05) ? "#111111" : "#ffffff";
 }
 
-export function htmlRiesgo(capa, props, geom) {
+/** MapLibre entrega como texto JSON las propiedades que eran objetos o listas; se devuelven a su forma original. */
+export function desanidar(props) {
+  const out = { ...props };
+  for (const [k, v] of Object.entries(out)) {
+    if (typeof v === "string" && /^[[{]/.test(v)) { try { const o = JSON.parse(v); if (o && typeof o === "object") out[k] = o; } catch (e) { /* texto normal */ } }
+  }
+  return out;
+}
+
+export function htmlRiesgo(capa, props0, geom) {
+  const props = desanidar(props0);
   const f = capa.ficha(props, geom);
   const colorChip = f.chip ? colorDeNivel(f.chip) : null;
   const sev = props._sev ? SEVERIDADES.find(([n]) => n === props._sev) : null;

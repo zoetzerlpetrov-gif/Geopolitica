@@ -100,8 +100,13 @@ export function clasificar(capa, p = {}, geom = null) {
     }
     case "avisos_nauticos": return { sev: lim(p.sev || 2), tipo: `Aviso náutico: ${p.categoria_texto || "seguridad"}`,
       ic: p.kind === "punto" ? { pirateria: "🏴‍☠️", minas_misiles: "💣", rescate: "🛟", gnss: "📡", militar_espacial: "🎯" }[p.categoria] || "⚓" : "" };
-    case "gfw_apagados": return { sev: p.horas >= 72 ? 3 : 2, tipo: "Barco con AIS apagado", ic: "" };
-    case "gfw_encuentros": return { sev: p.riesgo ? 3 : 2, tipo: p.transbordo ? "Posible transbordo en el mar" : "Encuentro entre barcos", ic: "" };
+    case "gfw_apagados": return { sev: p.alerta ? 4 : p.horas >= 72 ? 3 : 2, tipo: "Barco con AIS apagado", ic: "" };
+    case "gfw_encuentros": return { sev: p.alerta ? 4 : p.riesgo ? 3 : 2, tipo: p.transbordo ? "Posible transbordo en el mar" : "Encuentro entre barcos", ic: "" };
+    case "gfw_merodeo": return { sev: p.alerta ? 3 : 2, tipo: "Buque refrigerado merodeando", ic: "" };
+    case "gfw_pesca_mx": return { sev: p.anp_sin_pesca ? 4 : p.extranjero ? 3 : 1, tipo: p.anp_sin_pesca ? "Pesca en área protegida sin pesca" : p.extranjero ? "Pesca de barco extranjero en aguas de México" : "Pesca aparente", ic: "" };
+    case "gfw_puertos_mx": return { sev: 1, tipo: "Puerto: visitas de barcos de pesca y carga refrigerada", ic: "" };
+    case "trafico_maritimo": return { sev: 1, tipo: p.tipo === "estrecho" ? "Estrecho: barcos contados" : "Puerto: barcos contados", ic: "" };
+    case "gfw_radar_mx": return { sev: p.detecciones >= 10 ? 3 : 2, tipo: "Barcos sin AIS vistos por radar", ic: "" };
     case "perturbaciones": {
       const n = p.nivel_7d || p.nivel_2d;
       return { sev: n === "alta" ? 4 : n === "media" ? 3 : 2, tipo: "Perturbación tropical", ic: p.kind.startsWith("ubicacion") ? "🌀" : "" };
