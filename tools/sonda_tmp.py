@@ -1,20 +1,30 @@
-import json, urllib.request, urllib.parse
-UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-O = {"Origin": "https://zoetzerlpetrov-gif.github.io", "User-Agent": UA}
-def pedir(u):
-    r = urllib.request.Request(u, headers=O)
-    try:
-        with urllib.request.urlopen(r, timeout=40) as x:
-            return x.status, dict(x.headers), x.read()
-    except urllib.error.HTTPError as e:
-        return e.code, dict(e.headers), e.read()
-for u in ["https://api.adsbdb.com/v0/aircraft/0D0A1C", "https://api.adsbdb.com/v0/callsign/AMX123", "https://hexdb.io/api/v1/aircraft/0D0A1C",
-          "https://hexdb.io/hex-reg?hex=0D0A1C", "https://hexdb.io/hex-type?hex=0D0A1C", "https://api.adsbdb.com/robots.txt", "https://hexdb.io/robots.txt"]:
-    s, h, b = pedir(u)
-    print("==", u, s, {k: v for k, v in h.items() if k.lower().startswith("access-control")}); print(b[:600].decode("utf-8", "replace"))
-q = urllib.parse.quote('intitle:"XA-VLE"')
-s, h, b = pedir(f"https://commons.wikimedia.org/w/api.php?action=query&list=search&srnamespace=6&srlimit=5&format=json&origin=*&srsearch={q}")
-print("== commons matricula", s, h.get("Access-Control-Allow-Origin"), b[:500])
-q = urllib.parse.quote("Volaris Airbus A320neo")
-s, h, b = pedir(f"https://commons.wikimedia.org/w/api.php?action=query&list=search&srnamespace=6&srlimit=5&format=json&origin=*&srsearch={q}")
-print("== commons aerolinea+modelo", s, b[:500])
+import re, urllib.request, datetime
+UA = {"User-Agent": "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"}
+def get(u, t=90):
+    r = urllib.request.Request(u, headers=UA)
+    with urllib.request.urlopen(r, timeout=t) as x:
+        return x.status, x.headers.get("Content-Type"), x.read()
+for proj in ("epsg3857", "epsg4326"):
+    _, _, cap = get(f"https://gibs.earthdata.nasa.gov/wmts/{proj}/best/wmts.cgi?SERVICE=WMTS&REQUEST=GetCapabilities", 180)
+    cap = cap.decode("utf-8", "replace")
+    capas = re.findall(r"<Layer>(.*?)</Layer>", cap, re.S)
+    print(f"== {proj}: {len(capas)} capas")
+    for c in capas:
+        ident = re.search(r"<ows:Identifier>([^<]+)</ows:Identifier>", c).group(1)
+        if re.search(r"Sea_Ice|Nitrogen|NO2|DayNight|Black_Marble|GOES-East|GOES-West|Himawari|IMERG|GeoColor|Lightning|GLM", ident, re.I):
+            tms = re.findall(r"<TileMatrixSet>([^<]+)</TileMatrixSet>", c)
+            fmt = re.findall(r"<Format>([^<]+)</Format>", c)
+            dims = re.search(r"<Default>([^<]+)</Default>", c)
+            print(f"  {ident} | {tms} | {fmt} | default={dims.group(1) if dims else ''}")
+hoy = datetime.datetime.utcnow().date()
+for capa, mat, ext, dias in [("GHRSST_L4_MUR_Sea_Ice_Concentration", "GoogleMapsCompatible_Level7", "png", 2), ("TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column", "GoogleMapsCompatible_Level6", "png", 1),
+                             ("VIIRS_SNPP_DayNightBand_ENCC", "GoogleMapsCompatible_Level8", "png", 1), ("VIIRS_NOAA20_DayNightBand_ENCC", "GoogleMapsCompatible_Level8", "png", 1),
+                             ("VIIRS_SNPP_DayNightBand_At_Sensor_Radiance", "GoogleMapsCompatible_Level8", "png", 1)]:
+    for d in (dias, dias + 1, dias + 3):
+        f = (hoy - datetime.timedelta(days=d)).isoformat()
+        for z, y, x in ((2, 1, 1), (1, 0, 0)):
+            u = f"https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/{capa}/default/{f}/{mat}/{z}/{y}/{x}.{ext}"
+            try:
+                s, t, b = get(u, 30); print(capa, f, z, s, t, len(b))
+            except Exception as e:
+                print(capa, f, z, "error", e)
