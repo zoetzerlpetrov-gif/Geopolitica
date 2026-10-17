@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-17T16:05:41Z",
+ "generado_utc": "2026-10-17T16:56:56Z",
  "pasos": {
   "jefes": {
    "estado": "ok",
@@ -9,7 +9,7 @@
   "organismos": {
    "estado": "ok",
    "registros": 74,
-   "segundos": 0
+   "segundos": 1
   },
   "organismos_amplio": {
    "estado": "ok",
@@ -19,12 +19,12 @@
   "bolsas": {
    "estado": "ok",
    "registros": 202,
-   "segundos": 1
+   "segundos": 2
   },
   "empresas": {
    "estado": "ok",
    "registros": 120,
-   "segundos": 1
+   "segundos": 35
   }
  },
  "familias": {
@@ -32,11 +32,11 @@
    "archivo": "data/entidades/organismos.geojson",
    "formato": "geojson",
    "objetos": 983,
-   "bytes": 244461,
+   "bytes": 244468,
    "fuente": "wikidata",
    "estado": "ok",
    "error": null,
-   "actualizado_utc": "2026-10-17T16:05:41Z"
+   "actualizado_utc": "2026-10-17T16:56:56Z"
   }
  }
 }
