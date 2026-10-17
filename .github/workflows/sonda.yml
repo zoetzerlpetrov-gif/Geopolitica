@@ -10,3 +10,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: python3 tools/sonda_tmp.py
+        env:
+          OS_ID: ${{ secrets.OPENSKY_CLIENT_ID }}
+          OS_SECRETO: ${{ secrets.OPENSKY_CLIENT_SECRET }}
