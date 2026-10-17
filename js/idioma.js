@@ -1,9 +1,11 @@
 /**
- * Idioma de la interfaz: español (original), inglés, francés, alemán e italiano.
+ * Idioma de la interfaz: español (original), inglés, francés, alemán, italiano, ruso, portugués, japonés, chino, griego,
+ * finés, sueco, noruego, neerlandés y danés.
  *
  * Cómo funciona:
- * 1. Diccionario propio (abajo) para la interfaz fija: barra superior, secciones del menú, filtros, grupos, familias
- *    de capas y herramientas. Se reemplaza el texto exacto de cada nodo y los atributos placeholder, title y aria-label.
+ * 1. Diccionario propio para la interfaz fija: barra superior, secciones del menú, filtros, grupos, familias de capas y
+ *    herramientas. Inglés, francés, alemán e italiano van abajo; los demás en config/i18n/<idioma>.json, que se descarga
+ *    solo si se elige ese idioma. Se reemplaza el texto exacto de cada nodo y los atributos placeholder, title y aria-label.
  * 2. El resto (fichas, descripciones largas, titulares) se traduce con el traductor integrado del navegador
  *    (Translator API, en el propio equipo: el texto no sale a ningún servidor). Hoy existe en Chrome 138+ de
  *    escritorio; en otros navegadores ese texto queda en español.
@@ -12,8 +14,14 @@
  */
 import { storage } from "./util.js";
 
-export const IDIOMAS = [["es", "Español"], ["en", "English"], ["fr", "Français"], ["de", "Deutsch"], ["it", "Italiano"]];
+// [código, nombre en su idioma, bandera (ISO alfa-2)]. Español con la bandera de México; inglés con la de EUA y portugués
+// con la de Brasil por ser los de más hablantes en América; chino simplificado (China continental).
+export const IDIOMAS = [["es", "Español", "MX"], ["en", "English", "US"], ["fr", "Français", "FR"], ["de", "Deutsch", "DE"], ["it", "Italiano", "IT"],
+  ["pt", "Português", "BR"], ["ru", "Русский", "RU"], ["zh", "中文", "CN"], ["ja", "日本語", "JP"], ["el", "Ελληνικά", "GR"],
+  ["nl", "Nederlands", "NL"], ["sv", "Svenska", "SE"], ["no", "Norsk", "NO"], ["da", "Dansk", "DK"], ["fi", "Suomi", "FI"]];
 const ORDEN = ["en", "fr", "de", "it"];
+/** Idiomas cuyo diccionario vive en config/i18n/<código>.json. */
+export const EXTERNOS = IDIOMAS.map(([k]) => k).filter((k) => k !== "es" && !ORDEN.includes(k));
 
 // es | en | fr | de | it
 const FILAS = `
@@ -135,7 +143,7 @@ Mar: tráfico de barcos y pesca ilegal|Sea: ship traffic and illegal fishing|Mer
 Investigación|Investigation|Enquête|Ermittlung|Indagine
 Salud: brotes y enfermedades|Health: outbreaks and diseases|Santé : épidémies et maladies|Gesundheit: Ausbrüche und Krankheiten|Salute: focolai e malattie
 Horas: zonas horarias del mundo|Time: world time zones|Heure : fuseaux horaires du monde|Zeit: Zeitzonen der Welt|Ora: fusi orari del mondo
-Sociedad: creadores de contenido|Society: content creators|Société : créateurs de contenu|Gesellschaft: Content-Creator|Società: creatori di contenuti
+Sociedad: idiomas y creadores de contenido|Society: languages and content creators|Société : langues et créateurs de contenu|Gesellschaft: Sprachen und Content-Creator|Società: lingue e creatori di contenuti
 Polos: Antártida, Groenlandia y Ártico|Poles: Antarctica, Greenland and the Arctic|Pôles : Antarctique, Groenland et Arctique|Pole: Antarktis, Grönland und Arktis|Poli: Antartide, Groenlandia e Artico
 Zonas geográficas|Geographic zones|Zones géographiques|Geografische Zonen|Zone geografiche
 Aeropuertos|Airports|Aéroports|Flughäfen|Aeroporti
@@ -196,9 +204,25 @@ Seguir|Follow|Suivre|Folgen|Segui
 export const DICC = Object.fromEntries(FILAS.trim().split("\n").map((l) => l.split("|")).filter((c) => c.length === 5)
   .map(([es, ...otros]) => [es, Object.fromEntries(ORDEN.map((k, i) => [k, otros[i]]))]));
 
-// Contadores del menú («8 capas», «12,592 objetos»).
-const UNIDADES = { capa: ["layer", "couche", "Ebene", "livello"], capas: ["layers", "couches", "Ebenen", "livelli"],
-  objeto: ["object", "objet", "Objekt", "oggetto"], objetos: ["objects", "objets", "Objekte", "oggetti"] };
+// Contadores del menú («8 capas», «12,592 objetos»): unidad → {idioma: palabra}.
+const UNIDADES = Object.fromEntries(Object.entries({ capa: ["layer", "couche", "Ebene", "livello"], capas: ["layers", "couches", "Ebenen", "livelli"],
+  objeto: ["object", "objet", "Objekt", "oggetto"], objetos: ["objects", "objets", "Objekte", "oggetti"] })
+  .map(([u, v]) => [u, Object.fromEntries(ORDEN.map((k, i) => [k, v[i]]))]));
+
+/** Agrega al diccionario un idioma de config/i18n ({unidades, aviso, textos: {español: traducción}}). */
+export function agregarIdioma(lang, datos) {
+  for (const [es, t] of Object.entries(datos?.textos || {})) if (t) (DICC[es] ??= {})[lang] = t;
+  for (const [u, t] of Object.entries(datos?.unidades || {})) if (UNIDADES[u]) UNIDADES[u][lang] = t;
+  if (datos?.aviso) AVISO_PARCIAL[lang] = datos.aviso;
+}
+
+async function cargarIdioma(lang) {
+  if (!EXTERNOS.includes(lang)) return;
+  try {
+    const r = await fetch(`config/i18n/${lang}.json`);
+    if (r.ok) agregarIdioma(lang, await r.json());
+  } catch { /* sin diccionario: solo el traductor del navegador, si existe */ }
+}
 
 /** Traducción del diccionario (o null). Respeta espacios y emojis al inicio y al final; traduce contadores «N capas». */
 export function traducir(texto, lang) {
@@ -209,7 +233,7 @@ export function traducir(texto, lang) {
   const e = m[2].match(/^([\p{Extended_Pictographic}\uFE0F\u200D\s]+)([\s\S]+)$/u);
   if (e && DICC[e[2]]?.[lang]) return `${m[1]}${e[1]}${DICC[e[2]][lang]}${m[3]}`;
   const c = m[2].match(/^([\d.,]+) (capas?|objetos?)$/);
-  if (c) return `${m[1]}${c[1]} ${UNIDADES[c[2]][ORDEN.indexOf(lang)]}${m[3]}`;
+  if (c && UNIDADES[c[2]][lang]) return `${m[1]}${c[1]} ${UNIDADES[c[2]][lang]}${m[3]}`;
   return null;
 }
 
@@ -228,6 +252,7 @@ export function iniciarIdioma({ map = null, raiz = document.body } = {}) {
   document.documentElement.lang = lang;
   const sel = document.getElementById("sel-idioma");
   if (sel) {
+    menuBanderas(sel, lang);
     sel.value = lang;
     sel.onchange = async () => {
       storage.set("gp_idioma", sel.value);
@@ -239,6 +264,10 @@ export function iniciarIdioma({ map = null, raiz = document.body } = {}) {
   }
   if (lang === "es") return;
   if (map) etiquetasMapa(map, lang);
+  cargarIdioma(lang).then(() => traducirDocumento(lang, raiz));
+}
+
+function traducirDocumento(lang, raiz) {
   const hechos = new WeakMap();  // nodo → texto que pusimos (para no volver a traducir lo ya traducido)
   const pendientes = new Set();
   let navegador = null;
@@ -297,6 +326,31 @@ export function iniciarIdioma({ map = null, raiz = document.body } = {}) {
       else if (c.type === "attributes") atributos(c.target);
     }
   }).observe(raiz, { childList: true, subtree: true, characterData: true, attributes: true, attributeFilter: ATRIBUTOS });
+}
+
+// Bandera (imagen de flagcdn.com, dominio público) y menú con banderas: las banderas en emoji no se ven en Windows.
+export const urlBandera = (iso2, ancho = 20) => `https://flagcdn.com/w${ancho}/${String(iso2).toLowerCase()}.png`;
+function menuBanderas(sel, lang) {
+  sel.innerHTML = IDIOMAS.map(([k, n]) => `<option value="${k}">${k.toUpperCase()} · ${n}</option>`).join("");
+  sel.value = lang;
+  const actual = IDIOMAS.find(([k]) => k === lang) || IDIOMAS[0];
+  const caja = document.createElement("details");
+  caja.className = "menu-idioma"; caja.dataset.noi18n = "";
+  caja.innerHTML = `<summary class="icon-btn" title="Idioma" aria-label="Idioma: ${actual[1]}"><img src="${urlBandera(actual[2])}" width="20" height="15" alt="">
+      <span>${actual[0].toUpperCase()}</span></summary>
+    <ul class="menu-pop lista-idiomas" role="listbox" aria-label="Idioma">${IDIOMAS.map(([k, n, b]) => `<li><button type="button" role="option" data-lang="${k}"
+      aria-selected="${k === lang}"><img src="${urlBandera(b)}" width="20" height="15" alt="" loading="lazy"> <span>${n}</span></button></li>`).join("")}</ul>`;
+  sel.hidden = true;
+  sel.after(caja);
+  caja.addEventListener("click", (e) => {
+    const b = e.target.closest("[data-lang]");
+    if (!b) return;
+    caja.open = false;
+    if (b.dataset.lang === sel.value) return;
+    sel.value = b.dataset.lang;
+    sel.dispatchEvent(new Event("change"));
+  });
+  document.addEventListener("click", (e) => { if (caja.open && !caja.contains(e.target)) caja.open = false; });
 }
 
 const AVISO_PARCIAL = {

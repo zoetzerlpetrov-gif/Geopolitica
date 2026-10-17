@@ -1,12 +1,34 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { DICC, traducir, campoNombre, IDIOMAS } from "../../js/idioma.js";
+import { readFileSync } from "node:fs";
+import { DICC, traducir, campoNombre, IDIOMAS, EXTERNOS, agregarIdioma } from "../../js/idioma.js";
 import { GRUPOS } from "../../js/riesgos.js";
 import { sha1Hex, vecesEnRango, revisar, htmlResultado } from "../../js/exposicion.js";
 
 test("diccionario: cada fila trae los cuatro idiomas", () => {
   assert.ok(Object.keys(DICC).length > 150);
-  for (const [es, t] of Object.entries(DICC)) for (const [k] of IDIOMAS.slice(1)) assert.ok(t[k], `falta ${k} en «${es}»`);
+  for (const [es, t] of Object.entries(DICC)) for (const k of ["en", "fr", "de", "it"]) assert.ok(t[k], `falta ${k} en «${es}»`);
+});
+
+test("15 idiomas con bandera; español con la de México", () => {
+  assert.equal(IDIOMAS.length, 15);
+  assert.deepEqual(IDIOMAS[0], ["es", "Español", "MX"]);
+  for (const k of ["ru", "pt", "ja", "zh", "el", "fi", "sv", "no", "nl", "da"]) assert.ok(EXTERNOS.includes(k), k);
+  for (const [, , b] of IDIOMAS) assert.match(b, /^[A-Z]{2}$/);
+});
+
+test("los 10 diccionarios externos traen todos los textos de la interfaz y los contadores", () => {
+  const claves = Object.keys(DICC);
+  for (const k of EXTERNOS) {
+    const d = JSON.parse(readFileSync(new URL(`../../config/i18n/${k}.json`, import.meta.url), "utf8"));
+    for (const es of claves) assert.ok(d.textos[es], `falta «${es}» en ${k}`);
+    assert.ok(d.unidades.capas && d.aviso, k);
+    agregarIdioma(k, d);
+  }
+  assert.equal(traducir("Herramientas", "ru"), "Инструменты");
+  assert.equal(traducir("Herramientas", "ja"), "ツール");
+  assert.equal(traducir(" 8 capas", "nl"), " 8 lagen");
+  assert.equal(traducir("🌋 Desastres naturales", "pt"), "🌋 Desastres naturais");
 });
 
 test("traducir respeta espacios y deja el español intacto", () => {

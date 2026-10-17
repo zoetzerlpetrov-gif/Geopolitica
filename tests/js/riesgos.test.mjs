@@ -113,3 +113,14 @@ test("cortes de agua sin imagen del medio llevan una ilustrativa marcada", () =>
   assert.equal(c.ficha({ kind: "AGUA", title: "x" }).imagen.ilustrativa, true);
   assert.equal(c.ficha({ kind: "LUZ", title: "x", image: "https://a/b.jpg" }).imagen, null);
 });
+
+test("idiomas por país: color por idioma principal y ficha con la lista y sus %", () => {
+  const c = capa("idiomas");
+  assert.equal(c.estilo({ principal: "es" }).c, "#D62728");
+  assert.equal(c.estilo({ principal: "kl" }).c, c.estilo({ principal: "otro" }).c);
+  const p = { pais: "México", principal_nombre: "español", principal_pct: 83, oficiales: ["español"], poblacion: 130740000,
+    idiomas: [{ nombre: "español", pct: 83, estatus: "oficial de hecho" }, { nombre: "náhuatl de la Huasteca oriental", pct: 0.39, estatus: "" }] };
+  assert.match(c.ficha(p).chip, /español \(83 %\)/);
+  const html = c.extra(p);
+  assert.match(html, /náhuatl de la Huasteca oriental/); assert.match(html, /0\.39 %/); assert.match(html, /oficial de hecho/);
+});

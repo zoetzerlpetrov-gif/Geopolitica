@@ -687,3 +687,22 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .carga-barra span { display: block; height: 100%; width: 0; background: var(--marca, var(--accent)); transition: width .3s; }
 .carga-bucle small { color: var(--text-2, var(--text)); }
 .graf-ioda svg { width: 100%; height: auto; color: var(--text); } .graf-ioda { margin: 6px 0; }
+
+/* Selector de idioma con banderas (js/idioma.js) */
+.menu-idioma { position: relative; }
+.menu-idioma > summary { list-style: none; display: inline-flex; align-items: center; gap: 6px; }
+.menu-idioma > summary::-webkit-details-marker { display: none; }
+.menu-idioma[open] > summary { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+.menu-idioma img { border-radius: 2px; box-shadow: 0 0 0 1px rgba(0, 0, 0, .15); flex: none; }
+.lista-idiomas { list-style: none; margin: 0; width: min(230px, 90vw); max-height: min(70vh, 520px); overflow-y: auto; }
+.lista-idiomas button { display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 8px; border: 0; border-radius: 8px;
+  background: none; color: var(--text); font: inherit; font-size: 14px; text-align: left; cursor: pointer; }
+.lista-idiomas button:hover, .lista-idiomas button:focus-visible { background: color-mix(in srgb, var(--accent) 12%, transparent); }
+.lista-idiomas button[aria-selected="true"] { font-weight: 700; background: color-mix(in srgb, var(--accent) 18%, transparent); }
+
+/* Ficha de idiomas por país */
+.tabla-idiomas { width: 100%; border-collapse: collapse; font-size: 13px; }
+.tabla-idiomas td { padding: 3px 4px; vertical-align: middle; }
+.tabla-idiomas td:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.barra-idioma { width: 38%; }
+.barra-idioma span { display: block; height: 8px; border-radius: 4px; background: var(--accent); min-width: 2px; }

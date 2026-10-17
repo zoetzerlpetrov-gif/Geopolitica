@@ -25,11 +25,17 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: idiomas y creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
 const SALUD = "Salud: brotes y enfermedades";
-const SOCIEDAD = "Sociedad: creadores de contenido";
+const SOCIEDAD = "Sociedad: idiomas y creadores de contenido";
+// Idioma principal de cada país → color (los más extendidos; el resto en gris).
+const COLOR_IDIOMA = { en: "#1F77B4", es: "#D62728", fr: "#2CA02C", ar: "#8C564B", pt: "#FF7F0E", ru: "#9467BD", zh: "#E377C2", de: "#BCBD22",
+  it: "#17BECF", nl: "#F4A261", sw: "#2A9D8F", el: "#457B9D", otro: "#95A5A6" };
+const NOMBRE_IDIOMA = { en: "Inglés", es: "Español", fr: "Francés", ar: "Árabe", pt: "Portugués", ru: "Ruso", zh: "Chino", de: "Alemán", it: "Italiano",
+  nl: "Neerlandés", sw: "Suajili", el: "Griego" };
+const fmtPct = (v) => `${Number(v) >= 1 ? Math.round(Number(v)) : Number(v).toLocaleString("es-MX", { maximumFractionDigits: 2 })} %`;
 const ICONO_RED = { YouTube: "▶️", TikTok: "🎵", Instagram: "📷" };
 /** 421000000 → «421 M»; 15300000 → «15.3 M». */
 const millones = (n) => `${(Number(n) / 1e6).toLocaleString("es-MX", { maximumFractionDigits: Number(n) >= 1e8 ? 0 : 1 })} M`;
@@ -538,6 +544,20 @@ export const CAPAS = [
         ["Otras con necesidad de protección", Number(p.otros_proteccion).toLocaleString("es-MX")], ["Apátridas", Number(p.apatridas).toLocaleString("es-MX")],
         ["Año del dato", `Fin de ${p.anio}`]],
       url: "https://www.unhcr.org/refugee-statistics/", fuente: "ACNUR, Refugee Data Finder" }),
+  },
+  {
+    id: "idiomas", grupo: SOCIEDAD, nombre: "Idiomas que se hablan en cada país: el principal colorea el país (Unicode CLDR)", noAmenaza: true,
+    url: "data/base/idiomas.geojson", fuente: "Unicode CLDR (territoryInfo); nombres ISO 639-3 de SIL cuando CLDR no tiene",
+    derivar: (fc) => ({ ...fc, features: fc.features.map((f) => ({ ...f, properties: { ...f.properties, opacidad: 0.42 } })) }),
+    estilo: (p) => ({ c: COLOR_IDIOMA[p.principal] || COLOR_IDIOMA.otro, r: 0 }),
+    leyenda: [...Object.entries(NOMBRE_IDIOMA).map(([k, t]) => ({ c: COLOR_IDIOMA[k], r: 6, t })), { c: COLOR_IDIOMA.otro, r: 6, t: "Otro idioma principal" },
+      { t: "Color = idioma que habla la mayor parte de la población. Al dar clic: todos los idiomas con el % de la población que los habla y si son oficiales. Una persona puede hablar varios: los % pueden sumar más de 100." }],
+    ficha: (p) => ({ titulo: `Idiomas de ${p.pais}`, chip: `Principal: ${p.principal_nombre} (${fmtPct(p.principal_pct)})`,
+      filas: [["Oficiales", lista(p.oficiales).join(", ") || "Sin idioma oficial declarado en CLDR"], ["Población (CLDR)", Number(p.poblacion || 0).toLocaleString("es-MX")]],
+      url: "https://cldr.unicode.org/", fuente: "Unicode CLDR: estimaciones a partir de censos y estudios; pueden tener varios años" }),
+    extra: (p) => `<h4>Idiomas que se hablan</h4><table class="tabla-idiomas"><tbody>${lista(p.idiomas).map((x) => `<tr><td>${esc(x.nombre)}${x.estatus ? ` <span class="chip">${esc(x.estatus)}</span>` : ""}</td>
+      <td class="barra-idioma"><span style="width:${Math.min(100, Number(x.pct) || 0)}%"></span></td><td>${fmtPct(x.pct)}</td></tr>`).join("")}</tbody></table>
+      <p class="meta">% de la población que habla cada idioma (como lengua materna o segunda lengua). Se listan los de 0.1 % o más y todos los oficiales.</p>`,
   },
   {
     id: "creadores", grupo: SOCIEDAD, nombre: "Creadores de contenido con más seguidores: hasta 100 por plataforma en YouTube, TikTok e Instagram (Wikidata)", noAmenaza: true,
@@ -1155,9 +1175,10 @@ export function htmlRiesgo(capa, props0, geom) {
   const props = desanidar(props0);
   const f = capa.ficha(props, geom);
   const colorChip = f.chip ? colorDeNivel(f.chip) : null;
-  const sev = props._sev ? SEVERIDADES.find(([n]) => n === props._sev) : null;
+  // Capas informativas (idiomas, creadores, husos horarios…): sin severidad ni aviso de Protección Civil.
+  const sev = props._sev && !capa.noAmenaza ? SEVERIDADES.find(([n]) => n === props._sev) : null;
   return `<h3 id="ficha-titulo">${esc(f.titulo || capa.nombre)}</h3>
-    <div class="fecha">${esc(props._tipo || capa.nombre)}</div>
+    <div class="fecha">${esc(capa.noAmenaza ? capa.nombre : props._tipo || capa.nombre)}</div>
     <div class="chips">${props._nuevo ? `<span class="chip nuevo">NUEVO</span>` : ""}${sev ? `<span class="chip sev-${sev[0]}">Severidad ${sev[0]}/5 · ${esc(sev[1])}</span>` : ""}
       ${f.chip ? `<span class="chip ${capa.senal ? "alerta" : ""}"${colorChip ? ` style="background:${colorChip};color:${textoSobre(colorChip)};border-color:${colorChip}"` : ""}>${esc(f.chip)}</span>` : ""}</div>
     ${huecoImagen(f.imagen)}${htmlImagenMedio(props.image || props.imagen, props.source || f.fuente, props.url || f.url)}
@@ -1165,7 +1186,7 @@ export function htmlRiesgo(capa, props0, geom) {
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}
     ${capa.senal ? `<p class="meta">Señal detectada en cobertura noticiosa y ubicada de forma aproximada: no es un incidente confirmado. Verifica en la fuente y con autoridades locales.</p>` : ""}
-    <p class="meta">${capa.pie ? esc(capa.pie) : `${capa.archivos ? `Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. ` : ""}No sustituye a Protección Civil ni a los avisos oficiales.`}</p>`;
+    <p class="meta">${capa.pie ? esc(capa.pie) : `${capa.archivos ? `Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. ` : ""}${capa.noAmenaza ? "" : "No sustituye a Protección Civil ni a los avisos oficiales."}`}</p>`;
 }
 
 /** De los objetos bajo el clic, el más cercano al punto exacto. */
