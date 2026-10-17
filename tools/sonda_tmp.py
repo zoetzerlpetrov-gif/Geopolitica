@@ -19,3 +19,4 @@ for path in ["/punto/19.5/-99.25/50", "/punto/40.75/-73.75/100", "/punto/51.5/0/
         print("  ejemplo:", json.dumps(d["ac"][0]))
     time.sleep(2)
 print("otro origen:", pedir("/punto/19.5/-99.25/50", "https://otro.com")[0])
+# 1792248742
