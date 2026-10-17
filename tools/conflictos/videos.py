@@ -3,9 +3,10 @@
 
 Solo corre si existe el secreto YOUTUBE_API_KEY (llave gratuita de Google Cloud; cuota de 10,000 unidades al día,
 cada búsqueda cuesta 100). YouTube prohíbe en su robots.txt leer sus feeds de forma automática, por eso se usa la API
-oficial y no otra vía. Cada 6 h, una búsqueda por conflicto (videos de los últimos 7 días que se pueden insertar).
-Se conservan solo los de canales de medios de noticias de la lista CANALES, para no mostrar propaganda, contenido
-gráfico sin contexto ni cuentas anónimas. Se guarda el identificador del video, título, canal y fecha; el video se
+oficial y no otra vía. Cada 2 h se leen los últimos 50 videos subidos por cada canal de medios de noticias de la lista
+CANALES (playlistItems, 1 unidad por canal) y se asignan a cada conflicto por sus palabras clave en el título o la
+descripción (7 días). Así solo aparecen medios conocidos: nada de propaganda, contenido gráfico sin contexto ni
+cuentas anónimas. Se guarda el identificador del video, título, canal y fecha; el video se
 reproduce insertado con el reproductor oficial de YouTube (youtube-nocookie.com) desde la ficha.
 Salida: vivos/conflictos_videos.json.
 """
@@ -19,8 +20,9 @@ from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 SALIDA = os.path.join(ROOT, "vivos", "conflictos_videos.json")
-API = "https://www.googleapis.com/youtube/v3/search"
-HORAS = 6
+API = "https://www.googleapis.com/youtube/v3/playlistItems"
+HORAS = 2
+DIAS = 7
 # Canales de medios de noticias (identificadores verificados el 2026-10-17).
 CANALES = {
     "UCT4Jg8h03dD0iN3Pb5L0PMA": "DW Español", "UCVHNftB4Z2juvIY1R8dRg1Q": "BBC News Mundo", "UCyoGb3SMlTlB8CLGVH4c8Rw": "Euronews Español",
@@ -35,21 +37,38 @@ def iso(dt):
     return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def filtrar(items, max_por_conflicto=6):
-    out = []
-    for it in items:
-        s, vid = it.get("snippet") or {}, (it.get("id") or {}).get("videoId")
-        if not vid or s.get("channelId") not in CANALES or s.get("liveBroadcastContent") == "upcoming":
-            continue
-        out.append({"video": vid, "titulo": " ".join((s.get("title") or "").split())[:160], "canal": CANALES[s["channelId"]], "fecha": (s.get("publishedAt") or "")[:19] + "Z"})
-    return sorted(out, key=lambda x: x["fecha"], reverse=True)[:max_por_conflicto]
+import re
+import unicodedata
 
 
-def buscar(llave, q, desde):
-    params = {"part": "snippet", "q": q, "type": "video", "order": "date", "maxResults": 50, "publishedAfter": desde, "videoEmbeddable": "true",
-              "safeSearch": "moderate", "key": llave}
+def norm(t):
+    return unicodedata.normalize("NFD", str(t or "")).encode("ascii", "ignore").decode().lower()
+
+
+def subidos(llave, canal):
+    """Últimos 50 videos subidos por un canal (lista «uploads» = UU + id del canal sin «UC»)."""
+    params = {"part": "snippet", "playlistId": "UU" + canal[2:], "maxResults": 50, "key": llave}
     with urllib.request.urlopen(f"{API}?{urllib.parse.urlencode(params)}", timeout=30) as r:
         return json.loads(r.read()).get("items", [])
+
+
+def asignar(videos, conflictos, desde, max_por_conflicto=6):
+    """[(canal, item)] → {conflicto: [videos]} por palabras clave en título o descripción."""
+    reglas = [(c["id"], re.compile(r"\b(" + "|".join(re.escape(norm(p)) for p in c.get("palabras", []) if len(p) >= 3) + r")\b")) for c in conflictos if c.get("palabras")]
+    out, vistos = {c["id"]: [] for c in conflictos}, set()
+    for canal, it in videos:
+        s = it.get("snippet") or {}
+        vid = (s.get("resourceId") or {}).get("videoId")
+        fecha = (s.get("publishedAt") or "")[:19] + "Z"
+        if not vid or vid in vistos or fecha < desde or s.get("title") in ("Private video", "Deleted video"):
+            continue
+        texto = norm(f"{s.get('title')} {(s.get('description') or '')[:400]}")
+        for cid, rx in reglas:
+            if rx.search(texto):
+                out[cid].append({"video": vid, "titulo": " ".join((s.get("title") or "").split())[:160], "canal": CANALES[canal], "fecha": fecha})
+                vistos.add(vid)
+                break
+    return {k: sorted(v, key=lambda x: x["fecha"], reverse=True)[:max_por_conflicto] for k, v in out.items()}
 
 
 def main():
@@ -66,14 +85,16 @@ def main():
     except (OSError, ValueError, KeyError):
         previo = {"videos": {}}
     cfg = json.load(open(os.path.join(ROOT, "config", "conflictos.json"), encoding="utf-8"))
-    desde, videos, errores = iso(ahora - timedelta(days=7)), {}, []
-    for c in cfg["conflictos"]:
+    desde, todos, errores = iso(ahora - timedelta(days=DIAS)), [], []
+    for canal in CANALES:
         try:
-            videos[c["id"]] = filtrar(buscar(llave, c.get("videos", c["nombre"]), desde))
+            todos += [(canal, it) for it in subidos(llave, canal)]
         except Exception as e:  # noqa: BLE001
-            errores.append(f"{c['id']}: {e}"[:120])
-            videos[c["id"]] = previo.get("videos", {}).get(c["id"], [])
-        time.sleep(0.5)
+            errores.append(f"{CANALES[canal]}: {e}"[:120])
+        time.sleep(0.3)
+    videos = asignar(todos, cfg["conflictos"], desde)
+    if not todos:  # la API no respondió: se conserva lo anterior
+        videos = previo.get("videos", {})
     os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
     json.dump({"generado_utc": iso(ahora), "fuente": "YouTube Data API v3 (canales de noticias)", "errores": errores, "videos": videos},
               open(SALIDA, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
