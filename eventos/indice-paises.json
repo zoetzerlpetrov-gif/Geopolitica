@@ -1,0 +1,946 @@
+{
+ "generado_utc": "2026-10-18T01:03:46Z",
+ "nota": "Indicador propio (docs/INDICADORES.md). Base: historial de 30 días.",
+ "paises": {
+  "ABW": {
+   "indice": 23,
+   "eventos": 1,
+   "A": 6.43
+  },
+  "AFG": {
+   "indice": 100,
+   "eventos": 65,
+   "A": 217.6
+  },
+  "AGO": {
+   "indice": 83,
+   "eventos": 11,
+   "A": 45.01
+  },
+  "ALB": {
+   "indice": 100,
+   "eventos": 53,
+   "A": 238.02
+  },
+  "ARE": {
+   "indice": 98,
+   "eventos": 30,
+   "A": 100.75
+  },
+  "ARG": {
+   "indice": 98,
+   "eventos": 44,
+   "A": 94.45
+  },
+  "ARM": {
+   "indice": 96,
+   "eventos": 21,
+   "A": 81.98
+  },
+  "ASM": {
+   "indice": 13,
+   "eventos": 1,
+   "A": 3.6
+  },
+  "AUS": {
+   "indice": 100,
+   "eventos": 386,
+   "A": 1226.88
+  },
+  "AUT": {
+   "indice": 98,
+   "eventos": 32,
+   "A": 104.53
+  },
+  "AZE": {
+   "indice": 100,
+   "eventos": 55,
+   "A": 172.56
+  },
+  "BDI": {
+   "indice": 20,
+   "eventos": 1,
+   "A": 5.6
+  },
+  "BEL": {
+   "indice": 99,
+   "eventos": 35,
+   "A": 123.44
+  },
+  "BEN": {
+   "indice": 68,
+   "eventos": 8,
+   "A": 28.28
+  },
+  "BFA": {
+   "indice": 42,
+   "eventos": 3,
+   "A": 13.57
+  },
+  "BGD": {
+   "indice": 100,
+   "eventos": 62,
+   "A": 262.99
+  },
+  "BGR": {
+   "indice": 99,
+   "eventos": 35,
+   "A": 131.51
+  },
+  "BHR": {
+   "indice": 86,
+   "eventos": 21,
+   "A": 49.32
+  },
+  "BHS": {
+   "indice": 48,
+   "eventos": 7,
+   "A": 16.57
+  },
+  "BIH": {
+   "indice": 17,
+   "eventos": 2,
+   "A": 4.73
+  },
+  "BLR": {
+   "indice": 61,
+   "eventos": 9,
+   "A": 23.77
+  },
+  "BLZ": {
+   "indice": 90,
+   "eventos": 18,
+   "A": 56.77
+  },
+  "BMU": {
+   "indice": 36,
+   "eventos": 4,
+   "A": 11.08
+  },
+  "BOL": {
+   "indice": 53,
+   "eventos": 8,
+   "A": 18.89
+  },
+  "BRA": {
+   "indice": 100,
+   "eventos": 103,
+   "A": 265.88
+  },
+  "BRB": {
+   "indice": 60,
+   "eventos": 7,
+   "A": 22.77
+  },
+  "BTN": {
+   "indice": 36,
+   "eventos": 3,
+   "A": 11.12
+  },
+  "BWA": {
+   "indice": 10,
+   "eventos": 2,
+   "A": 2.69
+  },
+  "CAF": {
+   "indice": 9,
+   "eventos": 1,
+   "A": 2.26
+  },
+  "CAN": {
+   "indice": 100,
+   "eventos": 347,
+   "A": 1114.93
+  },
+  "CHE": {
+   "indice": 96,
+   "eventos": 28,
+   "A": 78.94
+  },
+  "CHL": {
+   "indice": 91,
+   "eventos": 27,
+   "A": 59.1
+  },
+  "CHN": {
+   "indice": 100,
+   "eventos": 273,
+   "A": 708.84
+  },
+  "CIV": {
+   "indice": 1,
+   "eventos": 1,
+   "A": 0.22
+  },
+  "CMR": {
+   "indice": 60,
+   "eventos": 5,
+   "A": 23.13
+  },
+  "COD": {
+   "indice": 70,
+   "eventos": 12,
+   "A": 30.31
+  },
+  "COG": {
+   "indice": 93,
+   "eventos": 24,
+   "A": 66.47
+  },
+  "COK": {
+   "indice": 13,
+   "eventos": 2,
+   "A": 3.49
+  },
+  "COL": {
+   "indice": 100,
+   "eventos": 44,
+   "A": 135.34
+  },
+  "COM": {
+   "indice": 25,
+   "eventos": 1,
+   "A": 7.03
+  },
+  "CRI": {
+   "indice": 72,
+   "eventos": 10,
+   "A": 31.69
+  },
+  "CUB": {
+   "indice": 100,
+   "eventos": 63,
+   "A": 191.52
+  },
+  "CYP": {
+   "indice": 87,
+   "eventos": 19,
+   "A": 50.73
+  },
+  "CZE": {
+   "indice": 74,
+   "eventos": 11,
+   "A": 33.37
+  },
+  "DEU": {
+   "indice": 100,
+   "eventos": 114,
+   "A": 343.25
+  },
+  "DJI": {
+   "indice": 90,
+   "eventos": 19,
+   "A": 58.41
+  },
+  "DMA": {
+   "indice": 6,
+   "eventos": 1,
+   "A": 1.59
+  },
+  "DNK": {
+   "indice": 82,
+   "eventos": 19,
+   "A": 42.75
+  },
+  "DOM": {
+   "indice": 83,
+   "eventos": 12,
+   "A": 43.61
+  },
+  "DZA": {
+   "indice": 81,
+   "eventos": 9,
+   "A": 41.99
+  },
+  "ECU": {
+   "indice": 79,
+   "eventos": 17,
+   "A": 39.49
+  },
+  "EGY": {
+   "indice": 100,
+   "eventos": 57,
+   "A": 172.25
+  },
+  "ERI": {
+   "indice": 67,
+   "eventos": 10,
+   "A": 27.58
+  },
+  "ESP": {
+   "indice": 100,
+   "eventos": 135,
+   "A": 300.36
+  },
+  "EST": {
+   "indice": 51,
+   "eventos": 7,
+   "A": 17.82
+  },
+  "ETH": {
+   "indice": 100,
+   "eventos": 45,
+   "A": 142.94
+  },
+  "FIN": {
+   "indice": 90,
+   "eventos": 18,
+   "A": 57.65
+  },
+  "FJI": {
+   "indice": 91,
+   "eventos": 14,
+   "A": 60.57
+  },
+  "FRA": {
+   "indice": 100,
+   "eventos": 326,
+   "A": 1060.8
+  },
+  "GBR": {
+   "indice": 100,
+   "eventos": 543,
+   "A": 1745.89
+  },
+  "GEO": {
+   "indice": 74,
+   "eventos": 15,
+   "A": 33.43
+  },
+  "GGY": {
+   "indice": 39,
+   "eventos": 4,
+   "A": 12.23
+  },
+  "GHA": {
+   "indice": 100,
+   "eventos": 63,
+   "A": 165.8
+  },
+  "GIN": {
+   "indice": 12,
+   "eventos": 2,
+   "A": 3.24
+  },
+  "GMB": {
+   "indice": 67,
+   "eventos": 11,
+   "A": 27.47
+  },
+  "GNQ": {
+   "indice": 24,
+   "eventos": 3,
+   "A": 6.98
+  },
+  "GRC": {
+   "indice": 100,
+   "eventos": 57,
+   "A": 173.55
+  },
+  "GRD": {
+   "indice": 40,
+   "eventos": 2,
+   "A": 12.77
+  },
+  "GRL": {
+   "indice": 68,
+   "eventos": 11,
+   "A": 28.74
+  },
+  "GTM": {
+   "indice": 80,
+   "eventos": 14,
+   "A": 40.62
+  },
+  "GUM": {
+   "indice": 49,
+   "eventos": 7,
+   "A": 16.98
+  },
+  "GUY": {
+   "indice": 77,
+   "eventos": 13,
+   "A": 36.7
+  },
+  "HKG": {
+   "indice": 57,
+   "eventos": 5,
+   "A": 21.36
+  },
+  "HND": {
+   "indice": 54,
+   "eventos": 7,
+   "A": 19.44
+  },
+  "HRV": {
+   "indice": 19,
+   "eventos": 4,
+   "A": 5.36
+  },
+  "HTI": {
+   "indice": 84,
+   "eventos": 18,
+   "A": 46.19
+  },
+  "HUN": {
+   "indice": 39,
+   "eventos": 5,
+   "A": 12.39
+  },
+  "IDN": {
+   "indice": 100,
+   "eventos": 96,
+   "A": 321.77
+  },
+  "IND": {
+   "indice": 100,
+   "eventos": 1209,
+   "A": 3534.84
+  },
+  "IRL": {
+   "indice": 100,
+   "eventos": 139,
+   "A": 485.2
+  },
+  "IRN": {
+   "indice": 100,
+   "eventos": 292,
+   "A": 873.67
+  },
+  "IRQ": {
+   "indice": 100,
+   "eventos": 47,
+   "A": 184.82
+  },
+  "ISL": {
+   "indice": 43,
+   "eventos": 4,
+   "A": 13.85
+  },
+  "ISR": {
+   "indice": 100,
+   "eventos": 328,
+   "A": 1155.28
+  },
+  "ITA": {
+   "indice": 100,
+   "eventos": 101,
+   "A": 308.69
+  },
+  "JAM": {
+   "indice": 100,
+   "eventos": 43,
+   "A": 153.7
+  },
+  "JEY": {
+   "indice": 92,
+   "eventos": 16,
+   "A": 62.69
+  },
+  "JOR": {
+   "indice": 97,
+   "eventos": 29,
+   "A": 90.05
+  },
+  "JPN": {
+   "indice": 100,
+   "eventos": 127,
+   "A": 329.95
+  },
+  "KAZ": {
+   "indice": 44,
+   "eventos": 6,
+   "A": 14.67
+  },
+  "KEN": {
+   "indice": 100,
+   "eventos": 89,
+   "A": 252.69
+  },
+  "KGZ": {
+   "indice": 72,
+   "eventos": 10,
+   "A": 32.1
+  },
+  "KHM": {
+   "indice": 72,
+   "eventos": 7,
+   "A": 31.85
+  },
+  "KOR": {
+   "indice": 100,
+   "eventos": 77,
+   "A": 237.89
+  },
+  "KWT": {
+   "indice": 76,
+   "eventos": 16,
+   "A": 35.68
+  },
+  "LAO": {
+   "indice": 56,
+   "eventos": 9,
+   "A": 20.61
+  },
+  "LBN": {
+   "indice": 100,
+   "eventos": 55,
+   "A": 180.06
+  },
+  "LBR": {
+   "indice": 69,
+   "eventos": 13,
+   "A": 29.06
+  },
+  "LBY": {
+   "indice": 55,
+   "eventos": 6,
+   "A": 20.01
+  },
+  "LCA": {
+   "indice": 6,
+   "eventos": 1,
+   "A": 1.62
+  },
+  "LKA": {
+   "indice": 100,
+   "eventos": 79,
+   "A": 205.6
+  },
+  "LTU": {
+   "indice": 70,
+   "eventos": 13,
+   "A": 29.83
+  },
+  "LUX": {
+   "indice": 63,
+   "eventos": 5,
+   "A": 24.53
+  },
+  "LVA": {
+   "indice": 80,
+   "eventos": 12,
+   "A": 40.71
+  },
+  "MAR": {
+   "indice": 98,
+   "eventos": 29,
+   "A": 95.75
+  },
+  "MCO": {
+   "indice": 48,
+   "eventos": 4,
+   "A": 16.3
+  },
+  "MDG": {
+   "indice": 2,
+   "eventos": 2,
+   "A": 0.56
+  },
+  "MDV": {
+   "indice": 23,
+   "eventos": 2,
+   "A": 6.48
+  },
+  "MEX": {
+   "indice": 100,
+   "eventos": 2258,
+   "A": 3798.08
+  },
+  "MHL": {
+   "indice": 28,
+   "eventos": 3,
+   "A": 8.35
+  },
+  "MKD": {
+   "indice": 13,
+   "eventos": 2,
+   "A": 3.35
+  },
+  "MLI": {
+   "indice": 55,
+   "eventos": 5,
+   "A": 20.11
+  },
+  "MLT": {
+   "indice": 49,
+   "eventos": 6,
+   "A": 16.94
+  },
+  "MMR": {
+   "indice": 95,
+   "eventos": 14,
+   "A": 75.53
+  },
+  "MNE": {
+   "indice": 56,
+   "eventos": 8,
+   "A": 20.67
+  },
+  "MNG": {
+   "indice": 16,
+   "eventos": 2,
+   "A": 4.24
+  },
+  "MOZ": {
+   "indice": 48,
+   "eventos": 4,
+   "A": 16.29
+  },
+  "MRT": {
+   "indice": 38,
+   "eventos": 4,
+   "A": 12.02
+  },
+  "MUS": {
+   "indice": 86,
+   "eventos": 19,
+   "A": 48.99
+  },
+  "MWI": {
+   "indice": 88,
+   "eventos": 25,
+   "A": 52.88
+  },
+  "MYS": {
+   "indice": 100,
+   "eventos": 91,
+   "A": 235.26
+  },
+  "NAM": {
+   "indice": 91,
+   "eventos": 14,
+   "A": 61.44
+  },
+  "NER": {
+   "indice": 70,
+   "eventos": 9,
+   "A": 30.49
+  },
+  "NGA": {
+   "indice": 100,
+   "eventos": 403,
+   "A": 1344.29
+  },
+  "NIC": {
+   "indice": 48,
+   "eventos": 9,
+   "A": 16.2
+  },
+  "NIU": {
+   "indice": 2,
+   "eventos": 1,
+   "A": 0.61
+  },
+  "NLD": {
+   "indice": 100,
+   "eventos": 54,
+   "A": 137.05
+  },
+  "NOR": {
+   "indice": 99,
+   "eventos": 37,
+   "A": 121.6
+  },
+  "NPL": {
+   "indice": 98,
+   "eventos": 48,
+   "A": 104.93
+  },
+  "NZL": {
+   "indice": 100,
+   "eventos": 70,
+   "A": 187.29
+  },
+  "OMN": {
+   "indice": 96,
+   "eventos": 29,
+   "A": 82.11
+  },
+  "PAK": {
+   "indice": 100,
+   "eventos": 266,
+   "A": 1050.24
+  },
+  "PAN": {
+   "indice": 100,
+   "eventos": 69,
+   "A": 155.93
+  },
+  "PER": {
+   "indice": 89,
+   "eventos": 22,
+   "A": 56.18
+  },
+  "PHL": {
+   "indice": 100,
+   "eventos": 102,
+   "A": 327.47
+  },
+  "PLW": {
+   "indice": 4,
+   "eventos": 1,
+   "A": 1.13
+  },
+  "PNG": {
+   "indice": 83,
+   "eventos": 10,
+   "A": 44.08
+  },
+  "POL": {
+   "indice": 100,
+   "eventos": 61,
+   "A": 222.45
+  },
+  "PRI": {
+   "indice": 14,
+   "eventos": 4,
+   "A": 3.64
+  },
+  "PRK": {
+   "indice": 99,
+   "eventos": 32,
+   "A": 106.33
+  },
+  "PRT": {
+   "indice": 89,
+   "eventos": 21,
+   "A": 55.05
+  },
+  "PRY": {
+   "indice": 22,
+   "eventos": 5,
+   "A": 6.17
+  },
+  "PSE": {
+   "indice": 100,
+   "eventos": 312,
+   "A": 1189.36
+  },
+  "QAT": {
+   "indice": 86,
+   "eventos": 19,
+   "A": 49.48
+  },
+  "ROU": {
+   "indice": 99,
+   "eventos": 27,
+   "A": 124.35
+  },
+  "RUS": {
+   "indice": 100,
+   "eventos": 380,
+   "A": 1242.57
+  },
+  "RWA": {
+   "indice": 86,
+   "eventos": 12,
+   "A": 49.59
+  },
+  "SAU": {
+   "indice": 100,
+   "eventos": 281,
+   "A": 1201.78
+  },
+  "SDN": {
+   "indice": 100,
+   "eventos": 55,
+   "A": 253.14
+  },
+  "SEN": {
+   "indice": 44,
+   "eventos": 8,
+   "A": 14.28
+  },
+  "SGP": {
+   "indice": 98,
+   "eventos": 46,
+   "A": 103.4
+  },
+  "SLB": {
+   "indice": 6,
+   "eventos": 1,
+   "A": 1.53
+  },
+  "SLE": {
+   "indice": 59,
+   "eventos": 5,
+   "A": 22.35
+  },
+  "SLV": {
+   "indice": 64,
+   "eventos": 7,
+   "A": 25.84
+  },
+  "SOM": {
+   "indice": 100,
+   "eventos": 41,
+   "A": 149.63
+  },
+  "SRB": {
+   "indice": 29,
+   "eventos": 4,
+   "A": 8.69
+  },
+  "SSD": {
+   "indice": 90,
+   "eventos": 22,
+   "A": 58.51
+  },
+  "SVK": {
+   "indice": 37,
+   "eventos": 4,
+   "A": 11.46
+  },
+  "SWE": {
+   "indice": 78,
+   "eventos": 13,
+   "A": 37.74
+  },
+  "SYC": {
+   "indice": 10,
+   "eventos": 1,
+   "A": 2.66
+  },
+  "SYR": {
+   "indice": 100,
+   "eventos": 55,
+   "A": 193.91
+  },
+  "TCD": {
+   "indice": 68,
+   "eventos": 8,
+   "A": 28.67
+  },
+  "TGO": {
+   "indice": 37,
+   "eventos": 4,
+   "A": 11.58
+  },
+  "THA": {
+   "indice": 100,
+   "eventos": 70,
+   "A": 203.47
+  },
+  "TJK": {
+   "indice": 10,
+   "eventos": 1,
+   "A": 2.56
+  },
+  "TKM": {
+   "indice": 29,
+   "eventos": 3,
+   "A": 8.63
+  },
+  "TLS": {
+   "indice": 33,
+   "eventos": 2,
+   "A": 9.98
+  },
+  "TON": {
+   "indice": 6,
+   "eventos": 1,
+   "A": 1.62
+  },
+  "TTO": {
+   "indice": 59,
+   "eventos": 7,
+   "A": 22.5
+  },
+  "TUN": {
+   "indice": 74,
+   "eventos": 14,
+   "A": 33.31
+  },
+  "TUR": {
+   "indice": 100,
+   "eventos": 79,
+   "A": 225.87
+  },
+  "TWN": {
+   "indice": 99,
+   "eventos": 40,
+   "A": 108.15
+  },
+  "TZA": {
+   "indice": 72,
+   "eventos": 9,
+   "A": 32.19
+  },
+  "UGA": {
+   "indice": 97,
+   "eventos": 30,
+   "A": 85.89
+  },
+  "UKR": {
+   "indice": 100,
+   "eventos": 278,
+   "A": 1041.1
+  },
+  "URY": {
+   "indice": 19,
+   "eventos": 2,
+   "A": 5.26
+  },
+  "USA": {
+   "indice": 100,
+   "eventos": 3254,
+   "A": 10686.68
+  },
+  "UZB": {
+   "indice": 34,
+   "eventos": 4,
+   "A": 10.51
+  },
+  "VCT": {
+   "indice": 12,
+   "eventos": 2,
+   "A": 3.22
+  },
+  "VEN": {
+   "indice": 100,
+   "eventos": 57,
+   "A": 197.55
+  },
+  "VNM": {
+   "indice": 100,
+   "eventos": 37,
+   "A": 133.58
+  },
+  "VUT": {
+   "indice": 21,
+   "eventos": 2,
+   "A": 5.76
+  },
+  "WSM": {
+   "indice": 68,
+   "eventos": 6,
+   "A": 28.59
+  },
+  "XKX": {
+   "indice": 16,
+   "eventos": 1,
+   "A": 4.5
+  },
+  "YEM": {
+   "indice": 100,
+   "eventos": 161,
+   "A": 697.14
+  },
+  "ZAF": {
+   "indice": 100,
+   "eventos": 191,
+   "A": 595.78
+  },
+  "ZMB": {
+   "indice": 75,
+   "eventos": 11,
+   "A": 34.46
+  },
+  "ZWE": {
+   "indice": 100,
+   "eventos": 40,
+   "A": 149.74
+  }
+ }
+}

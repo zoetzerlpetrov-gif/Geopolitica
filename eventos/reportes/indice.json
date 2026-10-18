@@ -1,0 +1,133 @@
+{
+ "generado_utc": "2026-10-18T01:07:47Z",
+ "mexico": [
+  {
+   "fecha": "2026-10-17",
+   "generado_utc": "2026-10-18T01:03:46Z",
+   "total": 170,
+   "pdf": "reportes/mexico/2026-10-17.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-16",
+   "generado_utc": "2026-10-17T05:18:19Z",
+   "total": 284,
+   "pdf": "reportes/mexico/2026-10-16.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-15",
+   "generado_utc": "2026-10-16T05:18:16Z",
+   "total": 336,
+   "pdf": "reportes/mexico/2026-10-15.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-14",
+   "generado_utc": "2026-10-15T05:18:16Z",
+   "total": 354,
+   "pdf": "reportes/mexico/2026-10-14.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-13",
+   "generado_utc": "2026-10-14T05:18:18Z",
+   "total": 336,
+   "pdf": "reportes/mexico/2026-10-13.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-12",
+   "generado_utc": "2026-10-13T05:18:22Z",
+   "total": 220,
+   "pdf": "reportes/mexico/2026-10-12.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-11",
+   "generado_utc": "2026-10-12T05:18:17Z",
+   "total": 179,
+   "pdf": "reportes/mexico/2026-10-11.pdf",
+   "ia": false
+  },
+  {
+   "fecha": "2026-10-10",
+   "generado_utc": "2026-10-11T05:18:17Z",
+   "total": 180,
+   "pdf": "reportes/mexico/2026-10-10.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-09",
+   "generado_utc": "2026-10-10T05:54:12Z",
+   "total": 159,
+   "pdf": "reportes/mexico/2026-10-09.pdf",
+   "ia": true
+  }
+ ],
+ "global": [
+  {
+   "fecha": "2026-10-17",
+   "generado_utc": "2026-10-18T01:03:46Z",
+   "total": 864,
+   "pdf": "reportes/global/2026-10-17.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-16",
+   "generado_utc": "2026-10-17T05:18:19Z",
+   "total": 1051,
+   "pdf": "reportes/global/2026-10-16.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-15",
+   "generado_utc": "2026-10-16T05:18:16Z",
+   "total": 1190,
+   "pdf": "reportes/global/2026-10-15.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-14",
+   "generado_utc": "2026-10-15T05:18:16Z",
+   "total": 1449,
+   "pdf": "reportes/global/2026-10-14.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-13",
+   "generado_utc": "2026-10-14T05:18:18Z",
+   "total": 1407,
+   "pdf": "reportes/global/2026-10-13.pdf",
+   "ia": false
+  },
+  {
+   "fecha": "2026-10-12",
+   "generado_utc": "2026-10-13T05:18:22Z",
+   "total": 1001,
+   "pdf": "reportes/global/2026-10-12.pdf",
+   "ia": true
+  },
+  {
+   "fecha": "2026-10-11",
+   "generado_utc": "2026-10-12T05:18:17Z",
+   "total": 1081,
+   "pdf": "reportes/global/2026-10-11.pdf",
+   "ia": false
+  },
+  {
+   "fecha": "2026-10-10",
+   "generado_utc": "2026-10-11T05:18:17Z",
+   "total": 767,
+   "pdf": "reportes/global/2026-10-10.pdf",
+   "ia": false
+  },
+  {
+   "fecha": "2026-10-09",
+   "generado_utc": "2026-10-10T05:54:12Z",
+   "total": 1021,
+   "pdf": "reportes/global/2026-10-09.pdf",
+   "ia": true
+  }
+ ]
+}

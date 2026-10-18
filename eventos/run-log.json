@@ -1,0 +1,349 @@
+{
+ "generado_utc": "2026-10-18T01:03:46Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-10-18T01:17:00Z",
+ "eventos_total": 3126,
+ "eventos_nuevos": 48,
+ "candidatos": 682,
+ "descartados": {
+  "fuera_de_ventana": 126,
+  "fuera_de_tema": 13,
+  "sin_clasificar": 170,
+  "red_social_sin_pais": 3
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3126,
+  "sin_pais": 68,
+  "confianza_baja": 251,
+  "verificados": 15,
+  "con_varias_fuentes": 660,
+  "impacto_mexico": 857,
+  "confianza_media": 0.63,
+  "por_area": {
+   "seguridad": 1864,
+   "geoeconomia": 280,
+   "instituciones": 240,
+   "identidad": 203,
+   "clima": 110,
+   "tecnologia": 105,
+   "energia": 92,
+   "geografia": 79,
+   "regional": 52,
+   "demografia": 39,
+   "riesgo": 35,
+   "salud_nrbq": 18,
+   "infraestructura": 9
+  },
+  "por_tipo_fuente": {
+   "noticia": 1248,
+   "base_datos": 1801,
+   "analisis": 2,
+   "red_social": 75
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "At least 17 dead in crush at Hindu festival event in India",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c820vwq7qg2ko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Teacher fought US school attacker before armed dad shot suspect 'multiple times'",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cv98zw1k8kp3o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Three men jailed for 158 years each for murdering Australian and US surfers in Mexico",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c3kgqjkzw29wo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Nursery owner in China jailed for life after hundreds of children poisoned",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cqe9lx54g7x9o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Rare pink diamond goes on display in France 100 years after amateur heist",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c61m4zkx47vlo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Pope discharged from hospital days after lung cancer surgery",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c5x2vkddrkrko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Katie Zacharia leaving White House role less than five days into job",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c32l4ekpvzl8o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Judge throws out child sex abuse charges against actor Timothy Busfield",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c8vgxwq4q5r2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "The uncertain future of Canada's 30 rescued belugas",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c623dnn3xvpko?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Trial of German steakhouse heiress that sparked a huge spy scandal",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cwvgdn3d656vo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: Did Tesla really just unveil a flying car?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/ckly4mj1g3n9o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "'It's really hard to believe' - How Oregon primary school shooting unfolded",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cwe8r29mjd05o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Papa León regresa al Vaticano tras ser operado de cáncer de pulmón",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/papa-león-regresa-al-vaticano-tras-ser-operado-de-cáncer-de-pulmón/a-79689113?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido Bayern Múnich vs. RB Leipzig",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-bayern-múnich-vs-rb-leipzig/a-79688683?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "León XIV recibe el alta hospitalaria y regresará al Vaticano esta misma tarde",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/león-xiv-recibe-el-alta-hospitalaria-y-regresará-al-vaticano-esta-misma-tarde/a-79687284?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "resumidos": 2,
+  "rechazados": 14,
+  "motivos": {
+   "copia": 14
+  },
+  "errores": [
+   "límite gratuito alcanzado (429): el resto queda para la siguiente corrida"
+  ],
+  "pendientes": 24
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 133,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 27,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 16,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.9,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 32,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 8,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 37,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.9,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.7,
+   "error": null
+  },
+  {
+   "id": "reliefweb",
+   "nombre": "ReliefWeb (OCHA)",
+   "estado": "omitida",
+   "eventos": 0,
+   "segundos": 0,
+   "error": "Falta el secreto RELIEFWEB_APPNAME"
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-10-17",
+   "total": 170,
+   "pdf": true,
+   "ia": true
+  },
+  "global": {
+   "fecha": "2026-10-17",
+   "total": 864,
+   "pdf": true,
+   "ia": true
+  }
+ }
+}
