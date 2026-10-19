@@ -482,8 +482,8 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-7.5906,
-47.5606
+7.5878,
+47.5581
 ]
 },
 "properties": {
@@ -1082,11 +1082,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q5164808",
-"n": "Contact Point for Roma and Sinti Issues",
+"id": "wd:Q2992941",
+"n": "Office for Democratic Institutions and Human Rights",
 "st": "organismos_internacionales",
 "p": "POL",
-"x": "Organización intergubernamental · Młodziejowski Palace"
+"x": "Młodziejowski Palace"
 }
 },
 {
@@ -1099,11 +1099,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q2992941",
-"n": "Office for Democratic Institutions and Human Rights",
+"id": "wd:Q5164808",
+"n": "Contact Point for Roma and Sinti Issues",
 "st": "organismos_internacionales",
 "p": "POL",
-"x": "Młodziejowski Palace"
+"x": "Organización intergubernamental · Młodziejowski Palace"
 }
 },
 {
@@ -1949,6 +1949,23 @@
 ]
 },
 "properties": {
+"id": "wd:Q18785751",
+"n": "Organización Deportiva Panamericana de Sordos",
+"st": "organismos_internacionales",
+"p": "CAN",
+"x": "ONG internacional · Montreal"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-73.5868,
+45.5033
+]
+},
+"properties": {
 "id": "wd:Q3152127",
 "n": "Instituto de Estadística de la Unesco",
 "st": "organismos_internacionales",
@@ -1966,8 +1983,25 @@
 ]
 },
 "properties": {
-"id": "wd:Q18785751",
-"n": "Organización Deportiva Panamericana de Sordos",
+"id": "wd:Q1666533",
+"n": "Federación Internacional de Asociaciones de Pilotos de Líneas Aéreas",
+"st": "organismos_internacionales",
+"p": "CAN",
+"x": "Montreal"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-73.5868,
+45.5033
+]
+},
+"properties": {
+"id": "wd:Q1666477",
+"n": "Consejo Internacional de Asociaciones de Diseño Gráfico",
 "st": "organismos_internacionales",
 "p": "CAN",
 "x": "ONG internacional · Montreal"
@@ -2022,40 +2056,6 @@
 "st": "organismos_internacionales",
 "p": "CAN",
 "x": "Montreal"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--73.5868,
-45.5033
-]
-},
-"properties": {
-"id": "wd:Q1666533",
-"n": "Federación Internacional de Asociaciones de Pilotos de Líneas Aéreas",
-"st": "organismos_internacionales",
-"p": "CAN",
-"x": "Montreal"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--73.5868,
-45.5033
-]
-},
-"properties": {
-"id": "wd:Q1666477",
-"n": "Consejo Internacional de Asociaciones de Diseño Gráfico",
-"st": "organismos_internacionales",
-"p": "CAN",
-"x": "ONG internacional · Montreal"
 }
 },
 {
@@ -2323,8 +2323,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q351885",
-"n": "Council of International Fellowship",
+"id": "wd:Q677691",
+"n": "Gobiernos Locales por la Sostenibilidad",
 "st": "organismos_internacionales",
 "p": "DEU",
 "x": "Bonn"
@@ -2340,11 +2340,164 @@
 ]
 },
 "properties": {
-"id": "wd:Q325096",
-"n": "Asociación Mundial de Energía Eólica",
+"id": "wd:Q351885",
+"n": "Council of International Fellowship",
 "st": "organismos_internacionales",
 "p": "DEU",
 "x": "Bonn"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-3.7332,
+56.7033
+]
+},
+"properties": {
+"id": "wd:Q785701",
+"n": "Guidelines International Network",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Pitlochry"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-4.12,
+51.208
+]
+},
+"properties": {
+"id": "wd:Q7100663",
+"n": "Order of the Golden Age",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Ilfracombe"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-81.5517,
+41.4764
+]
+},
+"properties": {
+"id": "wd:Q4887478",
+"n": "Asociación Cristiana Vegetariana",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Shaker Heights"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.31,
+48.8628
+]
+},
+"properties": {
+"id": "wd:Q23198383",
+"n": "Committee of European Economic Co-operation",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Muelle de Orsay"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.0522,
+-17.8292
+]
+},
+"properties": {
+"id": "wd:Q384434",
+"n": "Organización Regional Africana de Propiedad Intelectual",
+"st": "organismos_internacionales",
+"p": "ZWE",
+"x": "Organización intergubernamental · Harare"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-122.33,
+47.605
+]
+},
+"properties": {
+"id": "wd:Q6052294",
+"n": "International Pacific Halibut Commission",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Organización intergubernamental · Seattle"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-76.615,
+39.2864
+]
+},
+"properties": {
+"id": "wd:Q6191185",
+"n": "Jhpiego",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Baltimore"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.336,
+51.755
+]
+},
+"properties": {
+"id": "wd:Q1618990",
+"n": "European Beer Consumers' Union",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "St Albans"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+11.3548,
+46.4981
+]
+},
+"properties": {
+"id": "wd:Q10532966",
+"n": "ISIA",
+"st": "organismos_internacionales",
+"p": "ITA",
+"x": "Bolzano"
 }
 },
 {
@@ -3576,312 +3729,6 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-5.8989,
-46.0339
-]
-},
-"properties": {
-"id": "wd:Q2459324",
-"n": "Coalición Europea para acabar con los experimentos con animales",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Chessenaz"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--72.73,
-41.6872
-]
-},
-"properties": {
-"id": "wd:Q1352600",
-"n": "International Amateur Radio Union",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Newington"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-18.9578,
-47.4606
-]
-},
-"properties": {
-"id": "wd:Q141130987",
-"n": "Central Hungary Regional Judo Association",
-"st": "organismos_internacionales",
-"p": "HUN",
-"x": "Organización regional · Budaörs"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0208,
-39.0024
-]
-},
-"properties": {
-"id": "wd:Q466807",
-"n": "Association for Information Science and Technology",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Silver Spring"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--84.2936,
-37.7447
-]
-},
-"properties": {
-"id": "wd:Q5570947",
-"n": "Globcal Internacional",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Richmond"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--3.5625,
-50.4353
-]
-},
-"properties": {
-"id": "wd:Q7100663",
-"n": "Order of the Golden Age",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Paignton"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-29.25,
--1.6928
-]
-},
-"properties": {
-"id": "wd:Q1331783",
-"n": "Economic Community of the Great Lakes Countries",
-"st": "organismos_internacionales",
-"p": "RWA",
-"x": "Gisenyi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--122.5697,
-38.1075
-]
-},
-"properties": {
-"id": "wd:Q106881698",
-"n": "Association of World Citizens",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Novato"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--97.7,
-26.2
-]
-},
-"properties": {
-"id": "wd:Q42709",
-"n": "Asociación Internacional de Gatos",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Harlingen"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-100.1986,
-6.4414
-]
-},
-"properties": {
-"id": "wd:Q18785526",
-"n": "Asia Pacific Deaf Sports Confederation",
-"st": "organismos_internacionales",
-"p": "MYS",
-"x": "ONG internacional · Kangar"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--118.0019,
-34.1436
-]
-},
-"properties": {
-"id": "wd:Q2594001",
-"n": "Fundación World Vision International",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Monrovia"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-54.6197,
-24.4331
-]
-},
-"properties": {
-"id": "wd:Q392739",
-"n": "Agencia Internacional de las Energías Renovables",
-"st": "organismos_internacionales",
-"p": "ARE",
-"x": "Organización intergubernamental · Masdar"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--87.929,
-41.8328
-]
-},
-"properties": {
-"id": "wd:Q1697014",
-"n": "Club Leo",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Oak Brook"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--57.4872,
--25.27
-]
-},
-"properties": {
-"id": "wd:Q3356087",
-"n": "ODESUR",
-"st": "organismos_internacionales",
-"p": "PRY",
-"x": "Luque"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-106.895,
-47.9231
-]
-},
-"properties": {
-"id": "wd:Q115206083",
-"n": "Asian Buddhist Conference for Peace",
-"st": "organismos_internacionales",
-"p": "MNG",
-"x": "Monasterio de Gandantegchinlin"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--123.0171,
-48.5343
-]
-},
-"properties": {
-"id": "wd:Q731200",
-"n": "Sea Shepherd Conservation Society",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Friday Harbor"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--2.21,
-56.96
-]
-},
-"properties": {
-"id": "wd:Q1666741",
-"n": "International Maritime Rescue Federation",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Stonehaven"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--104.9114,
-39.6158
-]
-},
-"properties": {
-"id": "wd:Q6053401",
-"n": "International Society for Prevention of Child Abuse and Neglect",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Greenwood Village"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
 7.7522,
 48.5733
 ]
@@ -3938,8 +3785,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q1251615",
-"n": "Congress of Local and Regional Authorities",
+"id": "wd:Q493210",
+"n": "Directorio Europeo para la Calidad de los Medicamentos y de los Servicios Sanitarios",
 "st": "organismos_internacionales",
 "p": "FRA",
 "x": "Estrasburgo"
@@ -3955,8 +3802,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q493210",
-"n": "Directorio Europeo para la Calidad de los Medicamentos y de los Servicios Sanitarios",
+"id": "wd:Q1251615",
+"n": "Congress of Local and Regional Authorities",
 "st": "organismos_internacionales",
 "p": "FRA",
 "x": "Estrasburgo"
@@ -4006,6 +3853,23 @@
 ]
 },
 "properties": {
+"id": "wd:Q5570485",
+"n": "Global Mayors' Forum",
+"st": "organismos_internacionales",
+"p": "CHN",
+"x": "ONG internacional · Hong Kong"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+114.1586,
+22.2783
+]
+},
+"properties": {
 "id": "wd:Q134603560",
 "n": "Centro de Arbitraje Regional AALCO-Hong Kong",
 "st": "organismos_internacionales",
@@ -4028,23 +3892,6 @@
 "st": "organismos_internacionales",
 "p": "CHN",
 "x": "Organización intergubernamental · Hong Kong"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-114.1586,
-22.2783
-]
-},
-"properties": {
-"id": "wd:Q5570485",
-"n": "Global Mayors' Forum",
-"st": "organismos_internacionales",
-"p": "CHN",
-"x": "ONG internacional · Hong Kong"
 }
 },
 {
@@ -4091,8 +3938,25 @@
 ]
 },
 "properties": {
-"id": "wd:Q131447493",
-"n": "Greater Tumen Initiative",
+"id": "wd:Q6054186",
+"n": "Instituto Internacional de Vacunas",
+"st": "organismos_internacionales",
+"p": "KOR",
+"x": "Seúl"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+126.99,
+37.56
+]
+},
+"properties": {
+"id": "wd:Q5963265",
+"n": "International Conference of Asian Political Parties",
 "st": "organismos_internacionales",
 "p": "KOR",
 "x": "Seúl"
@@ -4142,25 +4006,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q6054186",
-"n": "Instituto Internacional de Vacunas",
-"st": "organismos_internacionales",
-"p": "KOR",
-"x": "Seúl"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-126.99,
-37.56
-]
-},
-"properties": {
-"id": "wd:Q5963265",
-"n": "International Conference of Asian Political Parties",
+"id": "wd:Q131447493",
+"n": "Greater Tumen Initiative",
 "st": "organismos_internacionales",
 "p": "KOR",
 "x": "Seúl"
@@ -4210,11 +4057,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q994643",
-"n": "Federation of Associations for Hunting & Conservation of the EU",
+"id": "wd:Q605326",
+"n": "Organización Mundial de Aduanas",
 "st": "organismos_internacionales",
 "p": "BEL",
-"x": "Bruselas"
+"x": "Organización intergubernamental · Bruselas"
 }
 },
 {
@@ -4227,11 +4074,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q605326",
-"n": "Organización Mundial de Aduanas",
+"id": "wd:Q994643",
+"n": "Federation of Associations for Hunting & Conservation of the EU",
 "st": "organismos_internacionales",
 "p": "BEL",
-"x": "Organización intergubernamental · Bruselas"
+"x": "Bruselas"
 }
 },
 {
@@ -4635,11 +4482,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q2655795",
-"n": "Consejo Británico-Irlandés",
+"id": "wd:Q7053997",
+"n": "North Atlantic Salmon Conservation Organization",
 "st": "organismos_internacionales",
 "p": "GBR",
-"x": "Organización intergubernamental · Edimburgo"
+"x": "Edimburgo"
 }
 },
 {
@@ -4652,11 +4499,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q7053997",
-"n": "North Atlantic Salmon Conservation Organization",
+"id": "wd:Q2655795",
+"n": "Consejo Británico-Irlandés",
 "st": "organismos_internacionales",
 "p": "GBR",
-"x": "Edimburgo"
+"x": "Organización intergubernamental · Edimburgo"
 }
 },
 {
@@ -4720,8 +4567,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q16805",
-"n": "Scandiatransplant",
+"id": "wd:Q17083416",
+"n": "Play the Game",
 "st": "organismos_internacionales",
 "p": "DNK",
 "x": "Aarhus"
@@ -4737,8 +4584,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q17083416",
-"n": "Play the Game",
+"id": "wd:Q16805",
+"n": "Scandiatransplant",
 "st": "organismos_internacionales",
 "p": "DNK",
 "x": "Aarhus"
@@ -4805,8 +4652,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q117237596",
-"n": "Heilen Happiness",
+"id": "wd:Q16909551",
+"n": "Sunni Students Council",
 "st": "organismos_internacionales",
 "p": "IND",
 "x": "Kozhikode"
@@ -4822,8 +4669,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q16909551",
-"n": "Sunni Students Council",
+"id": "wd:Q117237596",
+"n": "Heilen Happiness",
 "st": "organismos_internacionales",
 "p": "IND",
 "x": "Kozhikode"
@@ -4992,59 +4839,25 @@
 ]
 },
 "properties": {
-"id": "wd:Q3108978",
-"n": "Global Youth Action Network",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Nueva York"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0061,
-40.7128
-]
-},
-"properties": {
-"id": "wd:Q2297150",
-"n": "World Monuments Fund",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Nueva York"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0061,
-40.7128
-]
-},
-"properties": {
-"id": "wd:Q131842288",
-"n": "Social Accountability International",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Nueva York"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0061,
-40.7128
-]
-},
-"properties": {
 "id": "wd:Q18386297",
 "n": "Campaign for World Government",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q7311277",
+"n": "Religions for Peace",
 "st": "organismos_internacionales",
 "p": "USA",
 "x": "ONG internacional · Nueva York"
@@ -5077,23 +4890,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q7311277",
-"n": "Religions for Peace",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Nueva York"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0061,
-40.7128
-]
-},
-"properties": {
 "id": "wd:Q5570568",
 "n": "Global Citizen",
 "st": "organismos_internacionales",
@@ -5111,8 +4907,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q677691",
-"n": "Gobiernos Locales por la Sostenibilidad",
+"id": "wd:Q1571188",
+"n": "World Youth Alliance",
 "st": "organismos_internacionales",
 "p": "USA",
 "x": "Nueva York"
@@ -5128,8 +4924,42 @@
 ]
 },
 "properties": {
-"id": "wd:Q1571188",
-"n": "World Youth Alliance",
+"id": "wd:Q3108978",
+"n": "Global Youth Action Network",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q131842288",
+"n": "Social Accountability International",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0061,
+40.7128
+]
+},
+"properties": {
+"id": "wd:Q2297150",
+"n": "World Monuments Fund",
 "st": "organismos_internacionales",
 "p": "USA",
 "x": "Nueva York"
@@ -5213,93 +5043,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q40358",
-"n": "Asociación Estadounidense para el Avance de la Ciencia",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q7804",
-"n": "Fondo Monetario Internacional",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Agencia especializada de la ONU · Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q4343843",
-"n": "Unión Panamericana",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Organización intergubernamental · Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q1856835",
-"n": "Organización Panamericana de la Salud",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
 "id": "wd:Q16978254",
 "n": "Children's Hospital Association",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q12318514",
-"n": "Federación Internacional de Couching",
 "st": "organismos_internacionales",
 "p": "USA",
 "x": "Washington D. C."
@@ -5337,6 +5082,159 @@
 "st": "organismos_internacionales",
 "p": "USA",
 "x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q12318514",
+"n": "Federación Internacional de Couching",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q4343843",
+"n": "Unión Panamericana",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Organización intergubernamental · Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q1665759",
+"n": "Junta Interamericana de Defensa",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Organización intergubernamental · Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q1473527",
+"n": "National Religious Broadcasters",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q40358",
+"n": "Asociación Estadounidense para el Avance de la Ciencia",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q7804",
+"n": "Fondo Monetario Internacional",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Agencia especializada de la ONU · Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q1856835",
+"n": "Organización Panamericana de la Salud",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q457528",
+"n": "Instituto Aspen",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Washington D. C."
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0367,
+38.895
+]
+},
+"properties": {
+"id": "wd:Q320863",
+"n": "Grupo del Banco Mundial",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Agencia especializada de la ONU · Washington D. C."
 }
 },
 {
@@ -5417,74 +5315,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q1665759",
-"n": "Junta Interamericana de Defensa",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Organización intergubernamental · Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q1473527",
-"n": "National Religious Broadcasters",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q457528",
-"n": "Instituto Aspen",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
-"id": "wd:Q320863",
-"n": "Grupo del Banco Mundial",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Agencia especializada de la ONU · Washington D. C."
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0367,
-38.895
-]
-},
-"properties": {
 "id": "wd:Q119945",
 "n": "Hillel Internacional",
 "st": "organismos_internacionales",
@@ -5519,8 +5349,59 @@
 ]
 },
 "properties": {
+"id": "wd:Q7674087",
+"n": "La Tecnología Táctica Colectiva",
+"st": "organismos_internacionales",
+"p": "DEU",
+"x": "ONG internacional · Berlín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+13.3833,
+52.5167
+]
+},
+"properties": {
+"id": "wd:Q3366102",
+"n": "Alianza Internacional para la Acción contra el Carbono",
+"st": "organismos_internacionales",
+"p": "DEU",
+"x": "Berlín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+13.3833,
+52.5167
+]
+},
+"properties": {
 "id": "wd:Q4728711",
 "n": "All European Academies",
+"st": "organismos_internacionales",
+"p": "DEU",
+"x": "Berlín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+13.3833,
+52.5167
+]
+},
+"properties": {
+"id": "wd:Q1782351",
+"n": "International Commission on Mathematical Instruction",
 "st": "organismos_internacionales",
 "p": "DEU",
 "x": "Berlín"
@@ -5553,45 +5434,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q7674087",
-"n": "La Tecnología Táctica Colectiva",
-"st": "organismos_internacionales",
-"p": "DEU",
-"x": "ONG internacional · Berlín"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-13.3833,
-52.5167
-]
-},
-"properties": {
 "id": "wd:Q823428",
 "n": "International Holocaust Remembrance Alliance",
 "st": "organismos_internacionales",
 "p": "DEU",
 "x": "Organización intergubernamental · Berlín"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-13.3833,
-52.5167
-]
-},
-"properties": {
-"id": "wd:Q1782351",
-"n": "International Commission on Mathematical Instruction",
-"st": "organismos_internacionales",
-"p": "DEU",
-"x": "Berlín"
 }
 },
 {
@@ -5825,159 +5672,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q49330",
-"n": "Médicos Sin Fronteras",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q28346",
-"n": "Unión Internacional de Física Pura y Aplicada",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q7178",
-"n": "Movimiento Internacional de la Cruz Roja y de la Media Luna Roja",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q170",
-"n": "Partidos Pirata Internacionales",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q4387164",
-"n": "Federación Mundial de Concursos Internacionales de Música",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q2826651",
-"n": "International Prisoners-of-War Agency",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q2822422",
-"n": "Académie Internationale d'Héraldique",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q2655368",
-"n": "Asociación Mundial de Cardiología",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q2593790",
-"n": "Asociación Mundial de Psiquiatría",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
 "id": "wd:Q17076790",
 "n": "Global Alliance on Health and Pollution",
 "st": "organismos_internacionales",
@@ -6046,161 +5740,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q1354096",
-"n": "First meeting of the Internet Governance Forum",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q1069175",
-"n": "Federación Internacional de Sociedades de la Cruz Roja y de la Media Luna Roja",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q942284",
-"n": "Federación Luterana Mundial",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q690318",
-"n": "Unión Internacional para la Protección de Nuevas Variedades de Plantas",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q689768",
-"n": "Liga Internacional de Mujeres por la Paz y la Libertad",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q688929",
-"n": "Green Cross International",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q688592",
-"n": "GAVI",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q663548",
-"n": "Defense for Children International",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "ONG internacional · Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q659012",
-"n": "Comisión Económica de las Naciones Unidas para Europa",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Ginebra"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.15,
-46.2
-]
-},
-"properties": {
-"id": "wd:Q655683",
-"n": "Federación Mundial de Asociaciones pro Naciones Unidas",
+"id": "wd:Q4387164",
+"n": "Federación Mundial de Concursos Internacionales de Música",
 "st": "organismos_internacionales",
 "p": "CHE",
 "x": "ONG internacional · Ginebra"
@@ -6335,6 +5876,261 @@
 ]
 },
 "properties": {
+"id": "wd:Q49330",
+"n": "Médicos Sin Fronteras",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q28346",
+"n": "Unión Internacional de Física Pura y Aplicada",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q7178",
+"n": "Movimiento Internacional de la Cruz Roja y de la Media Luna Roja",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q170",
+"n": "Partidos Pirata Internacionales",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q2826651",
+"n": "International Prisoners-of-War Agency",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q2822422",
+"n": "Académie Internationale d'Héraldique",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q2655368",
+"n": "Asociación Mundial de Cardiología",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q2593790",
+"n": "Asociación Mundial de Psiquiatría",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q690318",
+"n": "Unión Internacional para la Protección de Nuevas Variedades de Plantas",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q689768",
+"n": "Liga Internacional de Mujeres por la Paz y la Libertad",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q688929",
+"n": "Green Cross International",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q688592",
+"n": "GAVI",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q663548",
+"n": "Defense for Children International",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q659012",
+"n": "Comisión Económica de las Naciones Unidas para Europa",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q655683",
+"n": "Federación Mundial de Asociaciones pro Naciones Unidas",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
 "id": "wd:Q498517",
 "n": "South Centre",
 "st": "organismos_internacionales",
@@ -6374,6 +6170,57 @@
 "st": "organismos_internacionales",
 "p": "CHE",
 "x": "Agencia especializada de la ONU · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q1354096",
+"n": "First meeting of the Internet Governance Forum",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q1069175",
+"n": "Federación Internacional de Sociedades de la Cruz Roja y de la Media Luna Roja",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "ONG internacional · Ginebra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.15,
+46.2
+]
+},
+"properties": {
+"id": "wd:Q942284",
+"n": "Federación Luterana Mundial",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Ginebra"
 }
 },
 {
@@ -6454,42 +6301,25 @@
 ]
 },
 "properties": {
-"id": "wd:Q3523113",
-"n": "European Alliance of Associations for Rheumatology",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Zúrich"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-8.5411,
-47.3744
-]
-},
-"properties": {
-"id": "wd:Q2629175",
-"n": "International Association for Analytical Psychology",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Zúrich"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-8.5411,
-47.3744
-]
-},
-"properties": {
 "id": "wd:Q6126601",
 "n": "International Association for the Protection of Intellectual Property",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Zúrich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+8.5411,
+47.3744
+]
+},
+"properties": {
+"id": "wd:Q3523113",
+"n": "European Alliance of Associations for Rheumatology",
 "st": "organismos_internacionales",
 "p": "CHE",
 "x": "Zúrich"
@@ -6517,8 +6347,25 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-7.5906,
-47.5606
+8.5411,
+47.3744
+]
+},
+"properties": {
+"id": "wd:Q2629175",
+"n": "International Association for Analytical Psychology",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Zúrich"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+7.5878,
+47.5581
 ]
 },
 "properties": {
@@ -6641,198 +6488,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q48192",
-"n": "Organización Internacional del Café",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q5153868",
-"n": "Commonwealth Telecommunications Organisation",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q4442335",
-"n": "The Leprosy Mission",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q3718633",
-"n": "International Agency for the Prevention of Blindness",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q3490451",
-"n": "Pagan Federation",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q2641584",
-"n": "consumers international",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q138748901",
-"n": "Cassandra Policy",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Organización intergubernamental · Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q131842677",
-"n": "Occupational Health and Safety Assessment Series Project Group",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "ONG internacional · Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
 "id": "wd:Q20713798",
 "n": "Rory Peck Trust",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "ONG internacional · Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q15627507",
-"n": "Asociación Internacional del Teatro de Arte",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q12131037",
-"n": "Depaul International",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q8035994",
-"n": "World Nuclear Transport Institute",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Londres"
 }
 },
 {
@@ -6915,6 +6575,40 @@
 "properties": {
 "id": "wd:Q7259796",
 "n": "Pump Aid",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q3718633",
+"n": "International Agency for the Prevention of Blindness",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q3490451",
+"n": "Pagan Federation",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "Londres"
@@ -7032,25 +6726,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q1376887",
-"n": "European Piano Teachers Association",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "ONG internacional · Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q1142430",
-"n": "Junta de Normas Internacionales de Contabilidad",
+"id": "wd:Q15627507",
+"n": "Asociación Internacional del Teatro de Arte",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "Londres"
@@ -7066,8 +6743,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q1134425",
-"n": "WYSE International",
+"id": "wd:Q12131037",
+"n": "Depaul International",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "Londres"
@@ -7083,42 +6760,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q830594",
-"n": "WaterAid International",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "ONG internacional · Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q691632",
-"n": "Organización Internacional del Azúcar",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "Organización intergubernamental · Londres"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--0.1275,
-51.5072
-]
-},
-"properties": {
-"id": "wd:Q668205",
-"n": "Asociación Mundial de Operadores Nucleares",
+"id": "wd:Q8035994",
+"n": "World Nuclear Transport Institute",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "Londres"
@@ -7134,8 +6777,25 @@
 ]
 },
 "properties": {
-"id": "wd:Q624372",
-"n": "Fútbol contra el racismo en Europa",
+"id": "wd:Q5153868",
+"n": "Commonwealth Telecommunications Organisation",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q4442335",
+"n": "The Leprosy Mission",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "Londres"
@@ -7236,8 +6896,195 @@
 ]
 },
 "properties": {
+"id": "wd:Q138748901",
+"n": "Cassandra Policy",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Organización intergubernamental · Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q48192",
+"n": "Organización Internacional del Café",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q131842677",
+"n": "Occupational Health and Safety Assessment Series Project Group",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "ONG internacional · Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q2641584",
+"n": "consumers international",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q830594",
+"n": "WaterAid International",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "ONG internacional · Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q691632",
+"n": "Organización Internacional del Azúcar",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Organización intergubernamental · Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q668205",
+"n": "Asociación Mundial de Operadores Nucleares",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q624372",
+"n": "Fútbol contra el racismo en Europa",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
 "id": "wd:Q593768",
 "n": "Asociación de universidades de la Commonwealth",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q1376887",
+"n": "European Piano Teachers Association",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "ONG internacional · Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q1142430",
+"n": "Junta de Normas Internacionales de Contabilidad",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Londres"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-0.1275,
+51.5072
+]
+},
+"properties": {
+"id": "wd:Q1134425",
+"n": "WYSE International",
 "st": "organismos_internacionales",
 "p": "GBR",
 "x": "Londres"
@@ -7338,11 +7185,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q125464479",
-"n": "Arab Union for Administrative Justice",
+"id": "wd:Q6538965",
+"n": "Arab Medical Union",
 "st": "organismos_internacionales",
 "p": "EGY",
-"x": "Organización regional · El Cairo"
+"x": "El Cairo"
 }
 },
 {
@@ -7372,11 +7219,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q6538965",
-"n": "Arab Medical Union",
+"id": "wd:Q127506940",
+"n": "African Adaptation Initiative",
 "st": "organismos_internacionales",
 "p": "EGY",
-"x": "El Cairo"
+"x": "Organización intergubernamental · El Cairo"
 }
 },
 {
@@ -7384,50 +7231,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-2.3522,
-48.8567
+31.2358,
+30.0444
 ]
 },
 "properties": {
-"id": "wd:Q60464312",
-"n": "FAAAT think & do tank",
+"id": "wd:Q125464479",
+"n": "Arab Union for Administrative Justice",
 "st": "organismos_internacionales",
-"p": "FRA",
-"x": "París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.3522,
-48.8567
-]
-},
-"properties": {
-"id": "wd:Q57587699",
-"n": "Consejo Científico Internacional",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "ONG internacional · París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.3522,
-48.8567
-]
-},
-"properties": {
-"id": "wd:Q47537350",
-"n": "European Telecommunications Satellite Organization",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Organización intergubernamental · París"
+"p": "EGY",
+"x": "Organización regional · El Cairo"
 }
 },
 {
@@ -7491,8 +7304,42 @@
 ]
 },
 "properties": {
-"id": "wd:Q7809",
-"n": "UNESCO",
+"id": "wd:Q60464312",
+"n": "FAAAT think & do tank",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q57587699",
+"n": "Consejo Científico Internacional",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "ONG internacional · París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q47537350",
+"n": "European Telecommunications Satellite Organization",
 "st": "organismos_internacionales",
 "p": "FRA",
 "x": "Organización intergubernamental · París"
@@ -7559,23 +7406,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q1967903",
-"n": "European and Mediterranean Plant Protection Organization",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Organización intergubernamental · París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.3522,
-48.8567
-]
-},
-"properties": {
 "id": "wd:Q12131129",
 "n": "ISSN International Centre",
 "st": "organismos_internacionales",
@@ -7627,11 +7457,62 @@
 ]
 },
 "properties": {
-"id": "wd:Q1010514",
-"n": "Bureau international des expositions",
+"id": "wd:Q1667416",
+"n": "Organización Internacional de Metrología Legal",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Organización intergubernamental · París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q1425247",
+"n": "Consejo Internacional de Ciencias Sociales",
 "st": "organismos_internacionales",
 "p": "FRA",
 "x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q7809",
+"n": "UNESCO",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Organización intergubernamental · París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q1967903",
+"n": "European and Mediterranean Plant Protection Organization",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Organización intergubernamental · París"
 }
 },
 {
@@ -7678,40 +7559,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q1667416",
-"n": "Organización Internacional de Metrología Legal",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Organización intergubernamental · París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.3522,
-48.8567
-]
-},
-"properties": {
-"id": "wd:Q1425247",
-"n": "Consejo Internacional de Ciencias Sociales",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.3522,
-48.8567
-]
-},
-"properties": {
 "id": "wd:Q359507",
 "n": "Trade Union Advisory Committee to the OECD",
 "st": "organismos_internacionales",
@@ -7734,6 +7581,23 @@
 "st": "organismos_internacionales",
 "p": "FRA",
 "x": "ONG internacional · París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.3522,
+48.8567
+]
+},
+"properties": {
+"id": "wd:Q1010514",
+"n": "Bureau international des expositions",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "París"
 }
 },
 {
@@ -8052,11 +7916,28 @@
 ]
 },
 "properties": {
-"id": "wd:Q1192641",
-"n": "Instituto Internacional para la Unificación del Derecho Privado",
+"id": "wd:Q1766099",
+"n": "Instituto Internacional de Agricultura",
 "st": "organismos_internacionales",
 "p": "ITA",
-"x": "Organización intergubernamental · Roma"
+"x": "Roma"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+12.4828,
+41.8931
+]
+},
+"properties": {
+"id": "wd:Q1395099",
+"n": "International Union of Soil Sciences",
+"st": "organismos_internacionales",
+"p": "ITA",
+"x": "ONG internacional · Roma"
 }
 },
 {
@@ -8086,28 +7967,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q1766099",
-"n": "Instituto Internacional de Agricultura",
+"id": "wd:Q1192641",
+"n": "Instituto Internacional para la Unificación del Derecho Privado",
 "st": "organismos_internacionales",
 "p": "ITA",
-"x": "Roma"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-12.4828,
-41.8931
-]
-},
-"properties": {
-"id": "wd:Q1395099",
-"n": "International Union of Soil Sciences",
-"st": "organismos_internacionales",
-"p": "ITA",
-"x": "ONG internacional · Roma"
+"x": "Organización intergubernamental · Roma"
 }
 },
 {
@@ -8176,6 +8040,23 @@
 "st": "organismos_internacionales",
 "p": "MCO",
 "x": "Organización intergubernamental · Mónaco"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q110892229",
+"n": "ALLRAIL Alliance of Rail New Entrants",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
 }
 },
 {
@@ -8341,8 +8222,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q110892229",
-"n": "ALLRAIL Alliance of Rail New Entrants",
+"id": "wd:Q18712209",
+"n": "European Institute of Peace",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8358,25 +8239,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q13116",
-"n": "Benelux",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Organización regional · Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q5412231",
-"n": "Red europea contra la pobreza",
+"id": "wd:Q18206998",
+"n": "Marie Curie Alumni Association",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8392,8 +8256,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q5159809",
-"n": "Confederation of European Paper Industries",
+"id": "wd:Q1378028",
+"n": "Forum Atomique Européen",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8409,8 +8273,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q4816582",
-"n": "Atlantic Treaty Association",
+"id": "wd:Q7742285",
+"n": "The International Association of Music Information Centres",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8477,108 +8341,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q2622118",
-"n": "Nueva Acrópolis",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q2561760",
-"n": "Federación Bancaria Europea",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q124605561",
-"n": "International Society of the New Patrons",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q131521636",
-"n": "European Network of Agricultural Journalists",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q18712209",
-"n": "European Institute of Peace",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q18206998",
-"n": "Marie Curie Alumni Association",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
 "id": "wd:Q17011152",
 "n": "European Centre for Ecotoxicology and Toxicology of Chemicals",
 "st": "organismos_internacionales",
@@ -8601,40 +8363,6 @@
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "ONG internacional · Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q10278302",
-"n": "European Logistics Association",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3517,
-50.8467
-]
-},
-"properties": {
-"id": "wd:Q7742285",
-"n": "The International Association of Music Information Centres",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Bruselas"
 }
 },
 {
@@ -8698,8 +8426,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q1376533",
-"n": "European Digital Rights",
+"id": "wd:Q10278302",
+"n": "European Logistics Association",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8715,8 +8443,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q1376465",
-"n": "European Concert Hall Organisation",
+"id": "wd:Q5412231",
+"n": "Red europea contra la pobreza",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8732,8 +8460,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q935345",
-"n": "Foro Europeo de la Juventud",
+"id": "wd:Q5159809",
+"n": "Confederation of European Paper Industries",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8749,8 +8477,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q844554",
-"n": "International Union of Tenants",
+"id": "wd:Q4816582",
+"n": "Atlantic Treaty Association",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8817,8 +8545,93 @@
 ]
 },
 "properties": {
-"id": "wd:Q1378028",
-"n": "Forum Atomique Européen",
+"id": "wd:Q13116",
+"n": "Benelux",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Organización regional · Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q131521636",
+"n": "European Network of Agricultural Journalists",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q2622118",
+"n": "Nueva Acrópolis",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q2561760",
+"n": "Federación Bancaria Europea",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q844554",
+"n": "International Union of Tenants",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q124605561",
+"n": "International Society of the New Patrons",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Bruselas"
@@ -8856,6 +8669,57 @@
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Organización intergubernamental · Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q1376533",
+"n": "European Digital Rights",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q1376465",
+"n": "European Concert Hall Organisation",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3517,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q935345",
+"n": "Foro Europeo de la Juventud",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Bruselas"
 }
 },
 {
@@ -8953,23 +8817,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q5322748",
-"n": "European Composer and Songwriter Alliance",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Región de Bruselas-Capital"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3525,
-50.8467
-]
-},
-"properties": {
 "id": "wd:Q3356047",
 "n": "CICOPA",
 "st": "organismos_internacionales",
@@ -9004,23 +8851,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q134515205",
-"n": "International Diplomatic Union",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "ONG internacional · Región de Bruselas-Capital"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.3525,
-50.8467
-]
-},
-"properties": {
 "id": "wd:Q17075015",
 "n": "European Association of Institutions in Higher Education",
 "st": "organismos_internacionales",
@@ -9038,11 +8868,28 @@
 ]
 },
 "properties": {
-"id": "wd:Q1376562",
-"n": "Federación Europea de Industrias y Asociaciones Farmacéuticas",
+"id": "wd:Q5322748",
+"n": "European Composer and Songwriter Alliance",
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "Región de Bruselas-Capital"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3525,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q134515205",
+"n": "International Diplomatic Union",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "ONG internacional · Región de Bruselas-Capital"
 }
 },
 {
@@ -9094,6 +8941,23 @@
 "st": "organismos_internacionales",
 "p": "BEL",
 "x": "ONG internacional · Región de Bruselas-Capital"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.3525,
+50.8467
+]
+},
+"properties": {
+"id": "wd:Q1376562",
+"n": "Federación Europea de Industrias y Asociaciones Farmacéuticas",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Región de Bruselas-Capital"
 }
 },
 {
@@ -9157,11 +9021,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q2608548",
-"n": "ActionAid International",
+"id": "wd:Q7129546",
+"n": "Pan African Federation of Accountants",
 "st": "organismos_internacionales",
 "p": "ZAF",
-"x": "ONG internacional · Johannesburgo"
+"x": "Johannesburgo"
 }
 },
 {
@@ -9174,11 +9038,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q7129546",
-"n": "Pan African Federation of Accountants",
+"id": "wd:Q2608548",
+"n": "ActionAid International",
 "st": "organismos_internacionales",
 "p": "ZAF",
-"x": "Johannesburgo"
+"x": "ONG internacional · Johannesburgo"
 }
 },
 {
@@ -9288,210 +9152,6 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-6.0214,
-47.2422
-]
-},
-"properties": {
-"id": "wd:Q134571062",
-"n": "European Frequency and Time Forum",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Besanzón"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--90.1994,
-38.6264
-]
-},
-"properties": {
-"id": "wd:Q28104143",
-"n": "World Federation of Orthodontists",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "San Luis"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-178.4333,
--18.1333
-]
-},
-"properties": {
-"id": "wd:Q119847985",
-"n": "IUCN Oceania",
-"st": "organismos_internacionales",
-"p": "FJI",
-"x": "Suva"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-178.4333,
--18.1333
-]
-},
-"properties": {
-"id": "wd:Q1062121",
-"n": "Universidad del Pacífico Sur",
-"st": "organismos_internacionales",
-"p": "FJI",
-"x": "Organización intergubernamental · Suva"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-178.4333,
--18.1333
-]
-},
-"properties": {
-"id": "wd:Q757276",
-"n": "Foro de las Islas del Pacífico",
-"st": "organismos_internacionales",
-"p": "FJI",
-"x": "Organización intergubernamental · Suva"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-178.4333,
--18.1333
-]
-},
-"properties": {
-"id": "wd:Q1413357",
-"n": "Sparteca",
-"st": "organismos_internacionales",
-"p": "FJI",
-"x": "Organización intergubernamental · Suva"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--61.5167,
-10.6667
-]
-},
-"properties": {
-"id": "wd:Q1147937",
-"n": "Asociación de Estados del Caribe",
-"st": "organismos_internacionales",
-"p": "TTO",
-"x": "Organización intergubernamental · Puerto España"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--60.9894,
-14.0108
-]
-},
-"properties": {
-"id": "wd:Q392770",
-"n": "Organización de Estados del Caribe Oriental",
-"st": "organismos_internacionales",
-"p": "LCA",
-"x": "Organización intergubernamental · Castries"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--94.5833,
-39.05
-]
-},
-"properties": {
-"id": "wd:Q5464413",
-"n": "Folk Alliance International",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Kansas City"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-129.365,
-36.0322
-]
-},
-"properties": {
-"id": "wd:Q16182633",
-"n": "Association of North East Asia Regional Goverments",
-"st": "organismos_internacionales",
-"p": "KOR",
-"x": "Pohang"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--84.5125,
-39.1
-]
-},
-"properties": {
-"id": "wd:Q3489005",
-"n": "Couple to Couple League",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Cincinnati"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.4167,
-6.3667
-]
-},
-"properties": {
-"id": "wd:Q1376279",
-"n": "West African Power Pool",
-"st": "organismos_internacionales",
-"p": "BEN",
-"x": "Organización intergubernamental · Cotonú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
 -56.1913,
 -34.9059
 ]
@@ -9565,6 +9225,23 @@
 ]
 },
 "properties": {
+"id": "wd:Q1433762",
+"n": "Foro de las Naciones Unidas sobre los bosques",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Organización intergubernamental · Nueva York"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-75.0,
+43.0
+]
+},
+"properties": {
 "id": "wd:Q127989593",
 "n": "Coordinating Bureau of the Non-Aligned Movement",
 "st": "organismos_internacionales",
@@ -9587,23 +9264,6 @@
 "st": "organismos_internacionales",
 "p": "USA",
 "x": "ONG internacional · Nueva York"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--75.0,
-43.0
-]
-},
-"properties": {
-"id": "wd:Q1433762",
-"n": "Foro de las Naciones Unidas sobre los bosques",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Organización intergubernamental · Nueva York"
 }
 },
 {
@@ -9820,11 +9480,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q945574",
-"n": "Consejo de la Entente",
+"id": "wd:Q1667326",
+"n": "Organización Internacional del Cacao",
 "st": "organismos_internacionales",
 "p": "CIV",
-"x": "Organización intergubernamental · Abiyán"
+"x": "Abiyán"
 }
 },
 {
@@ -9854,11 +9514,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q1667326",
-"n": "Organización Internacional del Cacao",
+"id": "wd:Q945574",
+"n": "Consejo de la Entente",
 "st": "organismos_internacionales",
 "p": "CIV",
-"x": "Abiyán"
+"x": "Organización intergubernamental · Abiyán"
 }
 },
 {
@@ -9905,6 +9565,23 @@
 ]
 },
 "properties": {
+"id": "wd:Q748999",
+"n": "Federación Sindical Mundial",
+"st": "organismos_internacionales",
+"p": "GRC",
+"x": "Atenas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+23.7281,
+37.9842
+]
+},
+"properties": {
 "id": "wd:Q123785828",
 "n": "Acción Comunista Europea",
 "st": "organismos_internacionales",
@@ -9934,40 +9611,6 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-23.7281,
-37.9842
-]
-},
-"properties": {
-"id": "wd:Q748999",
-"n": "Federación Sindical Mundial",
-"st": "organismos_internacionales",
-"p": "GRC",
-"x": "Atenas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--66.9144,
-10.5061
-]
-},
-"properties": {
-"id": "wd:Q8874",
-"n": "Alianza Bolivariana para América",
-"st": "organismos_internacionales",
-"p": "VEN",
-"x": "Caracas"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
 -66.9144,
 10.5061
 ]
@@ -9990,11 +9633,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q1045401",
-"n": "Comunidad de Estados Latinoamericanos y Caribeños",
+"id": "wd:Q8874",
+"n": "Alianza Bolivariana para América",
 "st": "organismos_internacionales",
 "p": "VEN",
-"x": "Organización intergubernamental · Caracas"
+"x": "Caracas"
 }
 },
 {
@@ -10026,6 +9669,23 @@
 "properties": {
 "id": "wd:Q605595",
 "n": "Sistema Económico Latinoamericano y del Caribe",
+"st": "organismos_internacionales",
+"p": "VEN",
+"x": "Organización intergubernamental · Caracas"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-66.9144,
+10.5061
+]
+},
+"properties": {
+"id": "wd:Q1045401",
+"n": "Comunidad de Estados Latinoamericanos y Caribeños",
 "st": "organismos_internacionales",
 "p": "VEN",
 "x": "Organización intergubernamental · Caracas"
@@ -10160,11 +9820,62 @@
 ]
 },
 "properties": {
-"id": "wd:Q29774",
-"n": "Organización Internacional de las Entidades Fiscalizadoras Superiores",
+"id": "wd:Q18354214",
+"n": "European Academy of Neurology",
 "st": "organismos_internacionales",
 "p": "AUT",
-"x": "Organización intergubernamental · Viena"
+"x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
+"id": "wd:Q7313078",
+"n": "Renewable Energy and Energy Efficiency Partnership",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
+"id": "wd:Q6351103",
+"n": "Sustainable Energy for All",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
+"id": "wd:Q6324948",
+"n": "KAICIID Dialogue Centre",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "Viena"
 }
 },
 {
@@ -10211,6 +9922,23 @@
 ]
 },
 "properties": {
+"id": "wd:Q29774",
+"n": "Organización Internacional de las Entidades Fiscalizadoras Superiores",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "Organización intergubernamental · Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
 "id": "wd:Q1928761",
 "n": "Amigos de la Naturaleza",
 "st": "organismos_internacionales",
@@ -10245,113 +9973,28 @@
 ]
 },
 "properties": {
-"id": "wd:Q130293586",
-"n": "Vienna Center for Disarmament and Non-Proliferation",
-"st": "organismos_internacionales",
-"p": "AUT",
-"x": "ONG internacional · Viena"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-16.3725,
-48.2083
-]
-},
-"properties": {
-"id": "wd:Q18354214",
-"n": "European Academy of Neurology",
-"st": "organismos_internacionales",
-"p": "AUT",
-"x": "Viena"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-16.3725,
-48.2083
-]
-},
-"properties": {
-"id": "wd:Q7313078",
-"n": "Renewable Energy and Energy Efficiency Partnership",
-"st": "organismos_internacionales",
-"p": "AUT",
-"x": "Viena"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-16.3725,
-48.2083
-]
-},
-"properties": {
-"id": "wd:Q6324948",
-"n": "KAICIID Dialogue Centre",
-"st": "organismos_internacionales",
-"p": "AUT",
-"x": "Viena"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-16.3725,
-48.2083
-]
-},
-"properties": {
-"id": "wd:Q1376554",
-"n": "European Federation of National Youth Orchestras",
-"st": "organismos_internacionales",
-"p": "AUT",
-"x": "Viena"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-16.3725,
-48.2083
-]
-},
-"properties": {
-"id": "wd:Q1170531",
-"n": "International Press Institute",
-"st": "organismos_internacionales",
-"p": "AUT",
-"x": "Viena"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-16.3725,
-48.2083
-]
-},
-"properties": {
 "id": "wd:Q673158",
 "n": "Acuerdo de Wassenaar",
 "st": "organismos_internacionales",
 "p": "AUT",
 "x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
+"id": "wd:Q130293586",
+"n": "Vienna Center for Disarmament and Non-Proliferation",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "ONG internacional · Viena"
 }
 },
 {
@@ -10432,6 +10075,40 @@
 ]
 },
 "properties": {
+"id": "wd:Q1376554",
+"n": "European Federation of National Youth Orchestras",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
+"id": "wd:Q1170531",
+"n": "International Press Institute",
+"st": "organismos_internacionales",
+"p": "AUT",
+"x": "Viena"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+16.3725,
+48.2083
+]
+},
+"properties": {
 "id": "wd:Q146905",
 "n": "Zangger Committee",
 "st": "organismos_internacionales",
@@ -10466,8 +10143,8 @@
 ]
 },
 "properties": {
-"id": "wd:Q3374867",
-"n": "Copenhagen Malmö Port",
+"id": "wd:Q6053593",
+"n": "International Sport and Culture Association ISCA",
 "st": "organismos_internacionales",
 "p": "DNK",
 "x": "Copenhague"
@@ -10485,23 +10162,6 @@
 "properties": {
 "id": "wd:Q9256216",
 "n": "Eurofish",
-"st": "organismos_internacionales",
-"p": "DNK",
-"x": "Copenhague"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-12.5689,
-55.6761
-]
-},
-"properties": {
-"id": "wd:Q6053593",
-"n": "International Sport and Culture Association ISCA",
 "st": "organismos_internacionales",
 "p": "DNK",
 "x": "Copenhague"
@@ -10602,11 +10262,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q2020649",
-"n": "Banco Nórdico de Inversiones",
+"id": "wd:Q1563503",
+"n": "Comisión de Helsinki",
 "st": "organismos_internacionales",
 "p": "FIN",
-"x": "Helsinki"
+"x": "Organización intergubernamental · Helsinki"
 }
 },
 {
@@ -10619,11 +10279,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q1563503",
-"n": "Comisión de Helsinki",
+"id": "wd:Q2020649",
+"n": "Banco Nórdico de Inversiones",
 "st": "organismos_internacionales",
 "p": "FIN",
-"x": "Organización intergubernamental · Helsinki"
+"x": "Helsinki"
 }
 },
 {
@@ -10709,6 +10369,23 @@
 "st": "organismos_internacionales",
 "p": "HUN",
 "x": "Budapest"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+19.0408,
+47.4983
+]
+},
+"properties": {
+"id": "wd:Q141130987",
+"n": "Central Hungary Regional Judo Association",
+"st": "organismos_internacionales",
+"p": "HUN",
+"x": "Organización regional · Budapest"
 }
 },
 {
@@ -10823,11 +10500,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q42584",
-"n": "Federación Internacional Felina",
+"id": "wd:Q3606447",
+"n": "European Youth Information and Counselling Agency",
 "st": "organismos_internacionales",
 "p": "LUX",
-"x": "Luxemburgo"
+"x": "Organización intergubernamental · Luxemburgo"
 }
 },
 {
@@ -10840,11 +10517,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q3606447",
-"n": "European Youth Information and Counselling Agency",
+"id": "wd:Q42584",
+"n": "Federación Internacional Felina",
 "st": "organismos_internacionales",
 "p": "LUX",
-"x": "Organización intergubernamental · Luxemburgo"
+"x": "Luxemburgo"
 }
 },
 {
@@ -10925,11 +10602,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q4806404",
-"n": "Asia Pacific Adaptation Network",
+"id": "wd:Q6632254",
+"n": "Southeast Asian Fisheries Development Center",
 "st": "organismos_internacionales",
 "p": "THA",
-"x": "Bangkok"
+"x": "Organización intergubernamental · Bangkok"
 }
 },
 {
@@ -10959,45 +10636,45 @@
 ]
 },
 "properties": {
-"id": "wd:Q125958092",
-"n": "Caritas Asia",
-"st": "organismos_internacionales",
-"p": "THA",
-"x": "Organización regional · Bangkok"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-100.5167,
-13.75
-]
-},
-"properties": {
-"id": "wd:Q6632254",
-"n": "Southeast Asian Fisheries Development Center",
-"st": "organismos_internacionales",
-"p": "THA",
-"x": "Organización intergubernamental · Bangkok"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-100.5167,
-13.75
-]
-},
-"properties": {
 "id": "wd:Q5570097",
 "n": "Global Alliance Against Traffic in Women",
 "st": "organismos_internacionales",
 "p": "THA",
 "x": "Bangkok"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+100.5167,
+13.75
+]
+},
+"properties": {
+"id": "wd:Q4806404",
+"n": "Asia Pacific Adaptation Network",
+"st": "organismos_internacionales",
+"p": "THA",
+"x": "Bangkok"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+100.5167,
+13.75
+]
+},
+"properties": {
+"id": "wd:Q125958092",
+"n": "Caritas Asia",
+"st": "organismos_internacionales",
+"p": "THA",
+"x": "Organización regional · Bangkok"
 }
 },
 {
@@ -11231,11 +10908,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q65435529",
-"n": "Somalia-China Friendship Association",
+"id": "wd:Q111914711",
+"n": "African Union Transition Mission in Somalia",
 "st": "organismos_internacionales",
 "p": "SOM",
-"x": "Mogadiscio"
+"x": "Organización intergubernamental · Mogadiscio"
 }
 },
 {
@@ -11248,11 +10925,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q111914711",
-"n": "African Union Transition Mission in Somalia",
+"id": "wd:Q65435529",
+"n": "Somalia-China Friendship Association",
 "st": "organismos_internacionales",
 "p": "SOM",
-"x": "Organización intergubernamental · Mogadiscio"
+"x": "Mogadiscio"
 }
 },
 {
@@ -11299,40 +10976,6 @@
 ]
 },
 "properties": {
-"id": "wd:Q130461747",
-"n": "Consejo Marroquí de la Juventud para la Cooperación Diplomática e Internacional",
-"st": "organismos_internacionales",
-"p": "ESP",
-"x": "Madrid"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--3.7033,
-40.4169
-]
-},
-"properties": {
-"id": "wd:Q61923",
-"n": "ONU Turismo",
-"st": "organismos_internacionales",
-"p": "ESP",
-"x": "Agencia especializada de la ONU · Madrid"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--3.7033,
-40.4169
-]
-},
-"properties": {
 "id": "wd:Q9075403",
 "n": "Secretaría General Iberoamericana",
 "st": "organismos_internacionales",
@@ -11367,8 +11010,25 @@
 ]
 },
 "properties": {
-"id": "wd:Q1136518",
-"n": "Friends of Israel Initiative",
+"id": "wd:Q1378216",
+"n": "Centro de Astronomia Espacial",
+"st": "organismos_internacionales",
+"p": "ESP",
+"x": "Organización intergubernamental · Madrid"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-3.7033,
+40.4169
+]
+},
+"properties": {
+"id": "wd:Q130461747",
+"n": "Consejo Marroquí de la Juventud para la Cooperación Diplomática e Internacional",
 "st": "organismos_internacionales",
 "p": "ESP",
 "x": "Madrid"
@@ -11401,11 +11061,45 @@
 ]
 },
 "properties": {
-"id": "wd:Q1378216",
-"n": "Centro de Astronomia Espacial",
+"id": "wd:Q61923",
+"n": "ONU Turismo",
 "st": "organismos_internacionales",
 "p": "ESP",
-"x": "Organización intergubernamental · Madrid"
+"x": "Agencia especializada de la ONU · Madrid"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-3.7033,
+40.4169
+]
+},
+"properties": {
+"id": "wd:Q1136518",
+"n": "Friends of Israel Initiative",
+"st": "organismos_internacionales",
+"p": "ESP",
+"x": "Madrid"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0817,
+4.6097
+]
+},
+"properties": {
+"id": "wd:Q8961938",
+"n": "Fondo Latinoamericano de Reservas",
+"st": "organismos_internacionales",
+"p": "COL",
+"x": "Bogotá"
 }
 },
 {
@@ -11437,23 +11131,6 @@
 "properties": {
 "id": "wd:Q138683208",
 "n": "Academia Hispanoamericana de Doctores",
-"st": "organismos_internacionales",
-"p": "COL",
-"x": "Bogotá"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0817,
-4.6097
-]
-},
-"properties": {
-"id": "wd:Q8961938",
-"n": "Fondo Latinoamericano de Reservas",
 "st": "organismos_internacionales",
 "p": "COL",
 "x": "Bogotá"
@@ -11571,11 +11248,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q4230",
-"n": "Unión de Naciones Suramericanas",
+"id": "wd:Q18418404",
+"n": "Centro Internacional de Estudios Superiores de Comunicación para América Latina",
 "st": "organismos_internacionales",
 "p": "ECU",
-"x": "Organización intergubernamental · Quito"
+"x": "Quito"
 }
 },
 {
@@ -11588,11 +11265,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q18418404",
-"n": "Centro Internacional de Estudios Superiores de Comunicación para América Latina",
+"id": "wd:Q4230",
+"n": "Unión de Naciones Suramericanas",
 "st": "organismos_internacionales",
 "p": "ECU",
-"x": "Quito"
+"x": "Organización intergubernamental · Quito"
 }
 },
 {
@@ -11855,6 +11532,23 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
+144.9631,
+-37.8142
+]
+},
+"properties": {
+"id": "wd:Q731200",
+"n": "Sea Shepherd Conservation Society",
+"st": "organismos_internacionales",
+"p": "AUS",
+"x": "ONG internacional · Melbourne"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
 13.5167,
 43.6167
 ]
@@ -11894,11 +11588,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q1264411",
-"n": "Organización del Mundo Islámico para la Educación, la Ciencia y la Cultura",
+"id": "wd:Q370862",
+"n": "Unión del Magreb Árabe",
 "st": "organismos_internacionales",
 "p": "MAR",
-"x": "Rabat"
+"x": "Organización regional · Rabat"
 }
 },
 {
@@ -11911,11 +11605,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q370862",
-"n": "Unión del Magreb Árabe",
+"id": "wd:Q1264411",
+"n": "Organización del Mundo Islámico para la Educación, la Ciencia y la Cultura",
 "st": "organismos_internacionales",
 "p": "MAR",
-"x": "Organización regional · Rabat"
+"x": "Rabat"
 }
 },
 {
@@ -11945,11 +11639,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q4783192",
-"n": "Organización Árabe de Tecnologías de la Información y la Comunicación",
+"id": "wd:Q20726268",
+"n": "Sahara and Sahel Observatory",
 "st": "organismos_internacionales",
 "p": "TUN",
-"x": "Túnez"
+"x": "Organización intergubernamental · Túnez"
 }
 },
 {
@@ -11979,11 +11673,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q20726268",
-"n": "Sahara and Sahel Observatory",
+"id": "wd:Q4783192",
+"n": "Organización Árabe de Tecnologías de la Información y la Comunicación",
 "st": "organismos_internacionales",
 "p": "TUN",
-"x": "Organización intergubernamental · Túnez"
+"x": "Túnez"
 }
 },
 {
@@ -12013,11 +11707,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q128610633",
-"n": "Non-Aligned Movement Center for Human Rights and Cultural Diversity",
+"id": "wd:Q6402371",
+"n": "The World Forum for Proximity of Islamic Schools of Thought",
 "st": "organismos_internacionales",
 "p": "IRN",
-"x": "Organización intergubernamental · Teherán"
+"x": "Teherán"
 }
 },
 {
@@ -12030,11 +11724,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q6402371",
-"n": "The World Forum for Proximity of Islamic Schools of Thought",
+"id": "wd:Q128610633",
+"n": "Non-Aligned Movement Center for Human Rights and Cultural Diversity",
 "st": "organismos_internacionales",
 "p": "IRN",
-"x": "Teherán"
+"x": "Organización intergubernamental · Teherán"
 }
 },
 {
@@ -12200,11 +11894,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q4783148",
-"n": "Banco Árabe para el Desarrollo Económico en África",
+"id": "wd:Q13233696",
+"n": "Oficina de Patentes del Consejo de Cooperación de los Estados Árabes del Golfo",
 "st": "organismos_internacionales",
 "p": "SAU",
-"x": "Riad"
+"x": "Organización regional · Riad"
 }
 },
 {
@@ -12217,11 +11911,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q13233696",
-"n": "Oficina de Patentes del Consejo de Cooperación de los Estados Árabes del Golfo",
+"id": "wd:Q4783148",
+"n": "Banco Árabe para el Desarrollo Económico en África",
 "st": "organismos_internacionales",
 "p": "SAU",
-"x": "Organización regional · Riad"
+"x": "Riad"
 }
 },
 {
@@ -12302,6 +11996,23 @@
 ]
 },
 "properties": {
+"id": "wd:Q16002010",
+"n": "Unión Africana de Radiodifusión",
+"st": "organismos_internacionales",
+"p": "SEN",
+"x": "Dakar"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-17.432,
+14.6726
+]
+},
+"properties": {
 "id": "wd:Q2826699",
 "n": "ASECNA",
 "st": "organismos_internacionales",
@@ -12331,16 +12042,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--17.432,
-14.6726
+-0.1969,
+5.556
 ]
 },
 "properties": {
-"id": "wd:Q16002010",
-"n": "Unión Africana de Radiodifusión",
+"id": "wd:Q115802473",
+"n": "Côte d'Ivoire – Ghana Cocoa Initiative",
 "st": "organismos_internacionales",
-"p": "SEN",
-"x": "Dakar"
+"p": "GHA",
+"x": "Acra"
 }
 },
 {
@@ -12353,11 +12064,1456 @@
 ]
 },
 "properties": {
-"id": "wd:Q115802473",
-"n": "Côte d'Ivoire – Ghana Cocoa Initiative",
+"id": "wd:Q61931378",
+"n": "West African Science Service Centre on Climate Change and Adapted Land Use",
 "st": "organismos_internacionales",
 "p": "GHA",
-"x": "Acra"
+"x": "Organización intergubernamental · Acra"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.2333,
+51.95
+]
+},
+"properties": {
+"id": "wd:Q1711776",
+"n": "Organización Mundial del Comercio Justo",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Culemborg"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.7283,
+52.1411
+]
+},
+"properties": {
+"id": "wd:Q123693218",
+"n": "Observation International",
+"st": "organismos_internacionales",
+"p": "",
+"x": "ONG internacional · Aarlanderveen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.4167,
+51.95
+]
+},
+"properties": {
+"id": "wd:Q127785462",
+"n": "Global Center on Adaptation",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Róterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.3875,
+52.155
+]
+},
+"properties": {
+"id": "wd:Q16241305",
+"n": "Crime Stoppers International",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Amersfoort"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q7314907",
+"n": "Res Artis",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q1531665",
+"n": "Global Reporting Initiative",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q2106133",
+"n": "Fur Free Alliance",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q1852233",
+"n": "DutchCulture, centre for international cooperation",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q604488",
+"n": "Common Fund for Commodities",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q196232",
+"n": "Amigos de la Tierra",
+"st": "organismos_internacionales",
+"p": "",
+"x": "ONG internacional · Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8833,
+52.3667
+]
+},
+"properties": {
+"id": "wd:Q81307",
+"n": "Greenpeace International",
+"st": "organismos_internacionales",
+"p": "",
+"x": "ONG internacional · Ámsterdam"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.744,
+52.6289
+]
+},
+"properties": {
+"id": "wd:Q6942609",
+"n": "Musicians Without Borders",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Alkmaar"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.6631,
+51.9644
+]
+},
+"properties": {
+"id": "wd:Q6053530",
+"n": "International Soil Reference and Information Centre",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Wageningen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.6833,
+50.8667
+]
+},
+"properties": {
+"id": "wd:Q9256326",
+"n": "European Insitute of Public Administration",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · Maastricht"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.4842,
+51.4344
+]
+},
+"properties": {
+"id": "wd:Q141720",
+"n": "Mando Europeo de Transporte Aéreo",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Eindhoven"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.8581,
+52.3019
+]
+},
+"properties": {
+"id": "wd:Q2328638",
+"n": "Federación europea de go",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Amstelveen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.4933,
+52.0611
+]
+},
+"properties": {
+"id": "wd:Q104693488",
+"n": "Hana Human Rights Organization",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Zoetermeer"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q4130823",
+"n": "Conferencia de La Haya de Derecho Internacional Privado",
+"st": "organismos_internacionales",
+"p": "",
+"x": "La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q1667632",
+"n": "Mecanismo Residual Internacional de los Tribunales Penales",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q47488",
+"n": "Corte Penal Internacional",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q131991046",
+"n": "Grupo de La Haya",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q842490",
+"n": "Organización para la Prohibición de Armas Químicas",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q123016948",
+"n": "Register of Damage Caused by the Aggression of the Russian Federation Against Ukraine",
+"st": "organismos_internacionales",
+"p": "",
+"x": "La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q1334284",
+"n": "Federación Internacional de Asociaciones de Bibliotecarios y Bibliotecas",
+"st": "organismos_internacionales",
+"p": "",
+"x": "La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.31,
+52.08
+]
+},
+"properties": {
+"id": "wd:Q1045198",
+"n": "Corte Permanente de Arbitraje",
+"st": "organismos_internacionales",
+"p": "",
+"x": "Organización intergubernamental · La Haya"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+4.49,
+52.16
+]
+},
+"properties": {
+"id": "wd:Q17072694",
+"n": "Coastal & Marine Union (EUCC)",
+"st": "organismos_internacionales",
+"p": "",
+"x": "ONG internacional · Leiden"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+7.1022,
+50.7353
+]
+},
+"properties": {
+"id": "wd:Q325096",
+"n": "Asociación Mundial de Energía Eólica",
+"st": "organismos_internacionales",
+"p": "DEU",
+"x": "Bonn"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.7389,
+59.9133
+]
+},
+"properties": {
+"id": "wd:Q106565796",
+"n": "Basic Internet Foundation",
+"st": "organismos_internacionales",
+"p": "NOR",
+"x": "Oslo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.7389,
+59.9133
+]
+},
+"properties": {
+"id": "wd:Q3441617",
+"n": "Nordic Innovation",
+"st": "organismos_internacionales",
+"p": "NOR",
+"x": "Organización intergubernamental · Oslo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.7389,
+59.9133
+]
+},
+"properties": {
+"id": "wd:Q134992390",
+"n": "Garmeres",
+"st": "organismos_internacionales",
+"p": "NOR",
+"x": "Oslo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-9.139,
+38.708
+]
+},
+"properties": {
+"id": "wd:Q51881846",
+"n": "União dos Advogados de Língua Portuguesa",
+"st": "organismos_internacionales",
+"p": "PRT",
+"x": "ONG internacional · Lisboa"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.135,
+48.805
+]
+},
+"properties": {
+"id": "wd:Q1085984",
+"n": "Federación Internacional de Arquitectos Paisajistas",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Versalles"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-1.6808,
+48.1142
+]
+},
+"properties": {
+"id": "wd:Q10457748",
+"n": "Conferencia de Regiones Periféricas Marítimas",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Rennes"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q1548793",
+"n": "Intersputnik",
+"st": "organismos_internacionales",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q126935894",
+"n": "Movimiento \"¡Por la Libertad de las Naciones!\"",
+"st": "organismos_internacionales",
+"p": "RUS",
+"x": "ONG internacional · Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q245076",
+"n": "Comité Interestatal de Aviación",
+"st": "organismos_internacionales",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+83.0,
+22.8
+]
+},
+"properties": {
+"id": "wd:Q100714569",
+"n": "Project Encephalon",
+"st": "organismos_internacionales",
+"p": "IND",
+"x": "India"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.6333,
+46.5333
+]
+},
+"properties": {
+"id": "wd:Q56320911",
+"n": "Alliance of Independent Recognized Members of Sport",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Lausana"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.6333,
+46.5333
+]
+},
+"properties": {
+"id": "wd:Q2867530",
+"n": "Asociación de Comités Olímpicos Nacionales",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Lausana"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.6333,
+46.5333
+]
+},
+"properties": {
+"id": "wd:Q2420112",
+"n": "Asociación de Federaciones Internacionales Olímpicas de Verano",
+"st": "organismos_internacionales",
+"p": "CHE",
+"x": "Lausana"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+47.6,
+29.1667
+]
+},
+"properties": {
+"id": "wd:Q1052077",
+"n": "Organización de Países Árabes Exportadores de Petróleo",
+"st": "organismos_internacionales",
+"p": "KWT",
+"x": "Organización intergubernamental · Kuwait"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+44.1167,
+23.7167
+]
+},
+"properties": {
+"id": "wd:Q93456830",
+"n": "Supreme Council of Arab African Economy",
+"st": "organismos_internacionales",
+"p": "SAU",
+"x": "Arabia Saudí"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+54.3,
+24.4
+]
+},
+"properties": {
+"id": "wd:Q392739",
+"n": "Agencia Internacional de las Energías Renovables",
+"st": "organismos_internacionales",
+"p": "ARE",
+"x": "Organización intergubernamental · Emiratos Árabes Unidos"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+116.4075,
+39.904
+]
+},
+"properties": {
+"id": "wd:Q6052145",
+"n": "International Bamboo and Rattan Organization",
+"st": "organismos_internacionales",
+"p": "CHN",
+"x": "Organización intergubernamental · Pekín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+116.4075,
+39.904
+]
+},
+"properties": {
+"id": "wd:Q579663",
+"n": "Unión Internacional de Ciencias Geológicas",
+"st": "organismos_internacionales",
+"p": "CHN",
+"x": "Pekín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+116.4075,
+39.904
+]
+},
+"properties": {
+"id": "wd:Q485207",
+"n": "Organización de Cooperación de Shanghái",
+"st": "organismos_internacionales",
+"p": "CHN",
+"x": "Organización intergubernamental · Pekín"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+77.2089,
+28.6139
+]
+},
+"properties": {
+"id": "wd:Q5570228",
+"n": "Global Development Network",
+"st": "organismos_internacionales",
+"p": "IND",
+"x": "Nueva Delhi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+77.2089,
+28.6139
+]
+},
+"properties": {
+"id": "wd:Q333536",
+"n": "Organización Consultiva Jurídica Asiática Africana",
+"st": "organismos_internacionales",
+"p": "IND",
+"x": "Nueva Delhi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+32.39,
+1.28
+]
+},
+"properties": {
+"id": "wd:Q4689959",
+"n": "African Wildlife Foundation",
+"st": "organismos_internacionales",
+"p": "UGA",
+"x": "ONG internacional · Uganda"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.0,
+53.55
+]
+},
+"properties": {
+"id": "wd:Q14816384",
+"n": "Fanáticos del fútbol en Europa",
+"st": "organismos_internacionales",
+"p": "DEU",
+"x": "Hamburgo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.0,
+53.55
+]
+},
+"properties": {
+"id": "wd:Q821623",
+"n": "Fundación EU-LAC",
+"st": "organismos_internacionales",
+"p": "DEU",
+"x": "Organización intergubernamental · Hamburgo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.4214,
+50.0875
+]
+},
+"properties": {
+"id": "wd:Q48803070",
+"n": "CEE Bankwatch Network",
+"st": "organismos_internacionales",
+"p": "CZE",
+"x": "Praga"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.4214,
+50.0875
+]
+},
+"properties": {
+"id": "wd:Q11202105",
+"n": "Plataforma de la Memoria y de la Conciencia Europeas",
+"st": "organismos_internacionales",
+"p": "CZE",
+"x": "Praga"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.4214,
+50.0875
+]
+},
+"properties": {
+"id": "wd:Q1667016",
+"n": "Unión Internacional de Estudiantes",
+"st": "organismos_internacionales",
+"p": "CZE",
+"x": "Praga"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.4214,
+50.0875
+]
+},
+"properties": {
+"id": "wd:Q2294604",
+"n": "Slovak Institute",
+"st": "organismos_internacionales",
+"p": "CZE",
+"x": "Praga"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.7264,
+45.1869
+]
+},
+"properties": {
+"id": "wd:Q50040777",
+"n": "Auvergne-Rhone-Alpes Entreprises",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Organización regional · Grenoble"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+3.7253,
+51.0536
+]
+},
+"properties": {
+"id": "wd:Q241824",
+"n": "International Union of Radio Science",
+"st": "organismos_internacionales",
+"p": "BEL",
+"x": "Gante"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.6278,
+41.8819
+]
+},
+"properties": {
+"id": "wd:Q8035759",
+"n": "World Future Society",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Chicago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.6278,
+41.8819
+]
+},
+"properties": {
+"id": "wd:Q134311209",
+"n": "ACT for Bharat",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Chicago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+5.8989,
+46.0339
+]
+},
+"properties": {
+"id": "wd:Q2459324",
+"n": "Coalición Europea para acabar con los experimentos con animales",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Chessenaz"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-72.73,
+41.6872
+]
+},
+"properties": {
+"id": "wd:Q1352600",
+"n": "International Amateur Radio Union",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Newington"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0208,
+39.0024
+]
+},
+"properties": {
+"id": "wd:Q466807",
+"n": "Association for Information Science and Technology",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Silver Spring"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-84.2936,
+37.7447
+]
+},
+"properties": {
+"id": "wd:Q5570947",
+"n": "Globcal Internacional",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Richmond"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+29.25,
+-1.6928
+]
+},
+"properties": {
+"id": "wd:Q1331783",
+"n": "Economic Community of the Great Lakes Countries",
+"st": "organismos_internacionales",
+"p": "RWA",
+"x": "Gisenyi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-122.5697,
+38.1075
+]
+},
+"properties": {
+"id": "wd:Q106881698",
+"n": "Association of World Citizens",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Novato"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-97.7,
+26.2
+]
+},
+"properties": {
+"id": "wd:Q42709",
+"n": "Asociación Internacional de Gatos",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Harlingen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+100.1986,
+6.4414
+]
+},
+"properties": {
+"id": "wd:Q18785526",
+"n": "Asia Pacific Deaf Sports Confederation",
+"st": "organismos_internacionales",
+"p": "MYS",
+"x": "ONG internacional · Kangar"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-118.0019,
+34.1436
+]
+},
+"properties": {
+"id": "wd:Q2594001",
+"n": "Fundación World Vision International",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Monrovia"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.929,
+41.8328
+]
+},
+"properties": {
+"id": "wd:Q1697014",
+"n": "Club Leo",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Oak Brook"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-57.4872,
+-25.27
+]
+},
+"properties": {
+"id": "wd:Q3356087",
+"n": "ODESUR",
+"st": "organismos_internacionales",
+"p": "PRY",
+"x": "Luque"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+106.895,
+47.9231
+]
+},
+"properties": {
+"id": "wd:Q115206083",
+"n": "Asian Buddhist Conference for Peace",
+"st": "organismos_internacionales",
+"p": "MNG",
+"x": "Monasterio de Gandantegchinlin"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-2.21,
+56.96
+]
+},
+"properties": {
+"id": "wd:Q1666741",
+"n": "International Maritime Rescue Federation",
+"st": "organismos_internacionales",
+"p": "GBR",
+"x": "Stonehaven"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-104.9114,
+39.6158
+]
+},
+"properties": {
+"id": "wd:Q6053401",
+"n": "International Society for Prevention of Child Abuse and Neglect",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "ONG internacional · Greenwood Village"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+6.0214,
+47.2422
+]
+},
+"properties": {
+"id": "wd:Q134571062",
+"n": "European Frequency and Time Forum",
+"st": "organismos_internacionales",
+"p": "FRA",
+"x": "Besanzón"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-90.1994,
+38.6264
+]
+},
+"properties": {
+"id": "wd:Q28104143",
+"n": "World Federation of Orthodontists",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "San Luis"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+178.4333,
+-18.1333
+]
+},
+"properties": {
+"id": "wd:Q1413357",
+"n": "Sparteca",
+"st": "organismos_internacionales",
+"p": "FJI",
+"x": "Organización intergubernamental · Suva"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+178.4333,
+-18.1333
+]
+},
+"properties": {
+"id": "wd:Q757276",
+"n": "Foro de las Islas del Pacífico",
+"st": "organismos_internacionales",
+"p": "FJI",
+"x": "Organización intergubernamental · Suva"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+178.4333,
+-18.1333
+]
+},
+"properties": {
+"id": "wd:Q119847985",
+"n": "IUCN Oceania",
+"st": "organismos_internacionales",
+"p": "FJI",
+"x": "Suva"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+178.4333,
+-18.1333
+]
+},
+"properties": {
+"id": "wd:Q1062121",
+"n": "Universidad del Pacífico Sur",
+"st": "organismos_internacionales",
+"p": "FJI",
+"x": "Organización intergubernamental · Suva"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-61.5167,
+10.6667
+]
+},
+"properties": {
+"id": "wd:Q1147937",
+"n": "Asociación de Estados del Caribe",
+"st": "organismos_internacionales",
+"p": "TTO",
+"x": "Organización intergubernamental · Puerto España"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-60.9894,
+14.0108
+]
+},
+"properties": {
+"id": "wd:Q392770",
+"n": "Organización de Estados del Caribe Oriental",
+"st": "organismos_internacionales",
+"p": "LCA",
+"x": "Organización intergubernamental · Castries"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-94.5833,
+39.05
+]
+},
+"properties": {
+"id": "wd:Q5464413",
+"n": "Folk Alliance International",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Kansas City"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+129.365,
+36.0322
+]
+},
+"properties": {
+"id": "wd:Q16182633",
+"n": "Association of North East Asia Regional Goverments",
+"st": "organismos_internacionales",
+"p": "KOR",
+"x": "Pohang"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-84.5125,
+39.1
+]
+},
+"properties": {
+"id": "wd:Q3489005",
+"n": "Couple to Couple League",
+"st": "organismos_internacionales",
+"p": "USA",
+"x": "Cincinnati"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.4167,
+6.3667
+]
+},
+"properties": {
+"id": "wd:Q1376279",
+"n": "West African Power Pool",
+"st": "organismos_internacionales",
+"p": "BEN",
+"x": "Organización intergubernamental · Cotonú"
 }
 },
 {
@@ -12540,11 +13696,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q125997082",
-"n": "Caritas Middle East and North Africa",
+"id": "wd:Q743313",
+"n": "Association Najdeh",
 "st": "organismos_internacionales",
 "p": "LBN",
-"x": "Organización regional · Beirut"
+"x": "ONG internacional · Beirut"
 }
 },
 {
@@ -12557,11 +13713,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q743313",
-"n": "Association Najdeh",
+"id": "wd:Q125997082",
+"n": "Caritas Middle East and North Africa",
 "st": "organismos_internacionales",
 "p": "LBN",
-"x": "ONG internacional · Beirut"
+"x": "Organización regional · Beirut"
 }
 },
 {
@@ -12664,23 +13820,6 @@
 "st": "organismos_internacionales",
 "p": "KEN",
 "x": "Organización intergubernamental · Nairobi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-36.8172,
--1.2864
-]
-},
-"properties": {
-"id": "wd:Q4689959",
-"n": "African Wildlife Foundation",
-"st": "organismos_internacionales",
-"p": "KEN",
-"x": "ONG internacional · Nairobi"
 }
 },
 {
@@ -12994,16 +14133,186 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--3.7332,
-56.7033
+21.4317,
+41.9961
 ]
 },
 "properties": {
-"id": "wd:Q785701",
-"n": "Guidelines International Network",
-"st": "organismos_internacionales",
+"id": "wd:Q2073220",
+"n": "Macedonian Stock Exchange",
+"st": "bolsas_valores",
+"p": "MKD",
+"x": "Skopie"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.9333,
+31.95
+]
+},
+"properties": {
+"id": "wd:Q2122308",
+"n": "Bolsa de Amán",
+"st": "bolsas_valores",
+"p": "JOR",
+"x": "Amán"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+105.8412,
+21.0245
+]
+},
+"properties": {
+"id": "wd:Q2227403",
+"n": "Hanoi Stock Exchange",
+"st": "bolsas_valores",
+"p": "VNM",
+"x": "Hanói"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.5369,
+55.7483
+]
+},
+"properties": {
+"id": "wd:Q2306284",
+"n": "SPB Exchange - All Markets",
+"st": "bolsas_valores",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+79.8606,
+6.9267
+]
+},
+"properties": {
+"id": "wd:Q2359996",
+"n": "Colombo Stock Exchange",
+"st": "bolsas_valores",
+"p": "LKA",
+"x": "Colombo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+25.9086,
+-24.6569
+]
+},
+"properties": {
+"id": "wd:Q2380000",
+"n": "Botswana Stock Exchange",
+"st": "bolsas_valores",
+"p": "BWA",
+"x": "Gaborone"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-77.0314,
+-12.0486
+]
+},
+"properties": {
+"id": "wd:Q2380045",
+"n": "Bolsa de Valores de Lima",
+"st": "bolsas_valores",
+"p": "PER",
+"x": "Edificio de la Bolsa de Valores de Lima"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.18,
+36.8008
+]
+},
+"properties": {
+"id": "wd:Q2380163",
+"n": "Bolsa de Túnez",
+"st": "bolsas_valores",
+"p": "TUN",
+"x": "Túnez"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-23.5175,
+14.9067
+]
+},
+"properties": {
+"id": "wd:Q2381261",
+"n": "Cape Verde Stock Exchange",
+"st": "bolsas_valores",
+"p": "CPV",
+"x": "Praia"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+9.7,
+4.05
+]
+},
+"properties": {
+"id": "wd:Q2381309",
+"n": "Douala Stock Exchange",
+"st": "bolsas_valores",
+"p": "CMR",
+"x": "Duala"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-64.7831,
+32.295
+]
+},
+"properties": {
+"id": "wd:Q2382352",
+"n": "Bermuda Stock Exchange Ltd",
+"st": "bolsas_valores",
 "p": "GBR",
-"x": "Pitlochry"
+"x": "Hamilton"
 }
 },
 {
@@ -13011,16 +14320,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--81.5517,
-41.4764
+17.1925,
+44.7725
 ]
 },
 "properties": {
-"id": "wd:Q4887478",
-"n": "Asociación Cristiana Vegetariana",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Shaker Heights"
+"id": "wd:Q2384000",
+"n": "Banja Luka Stock Exchange",
+"st": "bolsas_valores",
+"p": "BIH",
+"x": "Banja Luka"
 }
 },
 {
@@ -13028,16 +14337,339 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-2.31,
-48.8628
+36.8172,
+-1.2864
 ]
 },
 "properties": {
-"id": "wd:Q23198383",
-"n": "Committee of European Economic Co-operation",
-"st": "organismos_internacionales",
+"id": "wd:Q2384385",
+"n": "Bolsa de Valores de Nairobi",
+"st": "bolsas_valores",
+"p": "KEN",
+"x": "Nairobi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+2.2464,
+48.8906
+]
+},
+"properties": {
+"id": "wd:Q2385849",
+"n": "Euronext Paris",
+"st": "bolsas_valores",
 "p": "FRA",
-"x": "Muelle de Orsay"
+"x": "París"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-74.0817,
+4.6097
+]
+},
+"properties": {
+"id": "wd:Q2387368",
+"n": "Bolsa de Valores de Colombia",
+"st": "bolsas_valores",
+"p": "COL",
+"x": "Bogotá"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-9.1456,
+38.721
+]
+},
+"properties": {
+"id": "wd:Q2415561",
+"n": "Euronext Lisboa",
+"st": "bolsas_valores",
+"p": "PRT",
+"x": "Lisboa"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+49.8822,
+40.3953
+]
+},
+"properties": {
+"id": "wd:Q2480956",
+"n": "Bolsa de Bakú",
+"st": "bolsas_valores",
+"p": "AZE",
+"x": "Bakú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+31.2358,
+30.0444
+]
+},
+"properties": {
+"id": "wd:Q2509254",
+"n": "Bolsa de Egipto",
+"st": "bolsas_valores",
+"p": "EGY",
+"x": "El Cairo"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-7.62,
+33.5992
+]
+},
+"properties": {
+"id": "wd:Q2602796",
+"n": "Bolsa de Casablanca",
+"st": "bolsas_valores",
+"p": "MAR",
+"x": "Casablanca"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+37.6175,
+55.7506
+]
+},
+"properties": {
+"id": "wd:Q2632892",
+"n": "Bolsa de Moscú",
+"st": "bolsas_valores",
+"p": "RUS",
+"x": "Moscú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-87.6278,
+41.8819
+]
+},
+"properties": {
+"id": "wd:Q2633007",
+"n": "Chicago Stock Exchange",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Chicago"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+-71.0578,
+42.3603
+]
+},
+"properties": {
+"id": "wd:Q2636119",
+"n": "NASDAQ OMX BX",
+"st": "bolsas_valores",
+"p": "USA",
+"x": "Boston"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+33.365,
+35.1725
+]
+},
+"properties": {
+"id": "wd:Q2888321",
+"n": "Bolsa de Chipre",
+"st": "bolsas_valores",
+"p": "CYP",
+"x": "Nicosia"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+14.5117,
+35.8951
+]
+},
+"properties": {
+"id": "wd:Q2922440",
+"n": "Bolsa de Malta",
+"st": "bolsas_valores",
+"p": "MLT",
+"x": "Garrison Chapel (Malta)"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+102.63,
+17.98
+]
+},
+"properties": {
+"id": "wd:Q2922448",
+"n": "Bolsa de Laos",
+"st": "bolsas_valores",
+"p": "LAO",
+"x": "Vientián"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+106.7019,
+10.7756
+]
+},
+"properties": {
+"id": "wd:Q2922455",
+"n": "Hochiminh Stock Exchange",
+"st": "bolsas_valores",
+"p": "VNM",
+"x": "Ciudad Ho Chi Minh"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+88.37,
+22.5675
+]
+},
+"properties": {
+"id": "wd:Q2997295",
+"n": "Calcutta Stock Exchange",
+"st": "bolsas_valores",
+"p": "IND",
+"x": "Calcuta"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+91.8325,
+22.335
+]
+},
+"properties": {
+"id": "wd:Q3349831",
+"n": "Chittagong Stock Exchange Ltd.",
+"st": "bolsas_valores",
+"p": "BGD",
+"x": "Chitagón"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.5131,
+33.8869
+]
+},
+"properties": {
+"id": "wd:Q4081230",
+"n": "Bourse De Beyrouth - Beirut Stock Exchange",
+"st": "bolsas_valores",
+"p": "LBN",
+"x": "Beirut"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+58.5922,
+23.6139
+]
+},
+"properties": {
+"id": "wd:Q4117996",
+"n": "Muscat Securities Market",
+"st": "bolsas_valores",
+"p": "OMN",
+"x": "Mascate"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+54.3507,
+24.485
+]
+},
+"properties": {
+"id": "wd:Q4119825",
+"n": "Abu Dhabi Securities Exchange",
+"st": "bolsas_valores",
+"p": "ARE",
+"x": "Abu Dhabi"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+47.98,
+29.375
+]
+},
+"properties": {
+"id": "wd:Q4164626",
+"n": "Bolsa de Kuwait",
+"st": "bolsas_valores",
+"p": "KWT",
+"x": "Ciudad de Kuwait"
 }
 },
 {
@@ -13050,11 +14682,11 @@
 ]
 },
 "properties": {
-"id": "wd:Q384434",
-"n": "Organización Regional Africana de Propiedad Intelectual",
-"st": "organismos_internacionales",
+"id": "wd:Q4191917",
+"n": "Bolsa de Valores de Zimbabue",
+"st": "bolsas_valores",
 "p": "ZWE",
-"x": "Organización intergubernamental · Harare"
+"x": "Harare"
 }
 },
 {
@@ -13062,16 +14694,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--122.33,
-47.605
+2.167,
+41.39
 ]
 },
 "properties": {
-"id": "wd:Q6052294",
-"n": "International Pacific Halibut Commission",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "Organización intergubernamental · Seattle"
+"id": "wd:Q4202960",
+"n": "Bolsa de Barcelona",
+"st": "bolsas_valores",
+"p": "ESP",
+"x": "Barcelona"
 }
 },
 {
@@ -13079,16 +14711,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--76.615,
-39.2864
+69.2797,
+41.3111
 ]
 },
 "properties": {
-"id": "wd:Q6191185",
-"n": "Jhpiego",
-"st": "organismos_internacionales",
-"p": "USA",
-"x": "ONG internacional · Baltimore"
+"id": "wd:Q4393626",
+"n": "Tashkent Stock Exchange",
+"st": "bolsas_valores",
+"p": "UZB",
+"x": "Taskent"
 }
 },
 {
@@ -13096,16 +14728,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--0.336,
-51.755
+31.139,
+-26.3307
 ]
 },
 "properties": {
-"id": "wd:Q1618990",
-"n": "European Beer Consumers' Union",
-"st": "organismos_internacionales",
-"p": "GBR",
-"x": "St Albans"
+"id": "wd:Q4409921",
+"n": "Swaziland Stock Exchange",
+"st": "bolsas_valores",
+"p": "SWZ",
+"x": "Mbabane"
 }
 },
 {
@@ -13113,16 +14745,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-11.3548,
-46.4981
+30.5236,
+50.45
 ]
 },
 "properties": {
-"id": "wd:Q10532966",
-"n": "ISIA",
-"st": "organismos_internacionales",
-"p": "ITA",
-"x": "Bolzano"
+"id": "wd:Q4470480",
+"n": "Ukrainian Exchange",
+"st": "bolsas_valores",
+"p": "UKR",
+"x": "Kiev"
 }
 },
 {
@@ -13130,16 +14762,118 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-10.7389,
-59.9133
+57.4989,
+-20.1619
 ]
 },
 "properties": {
-"id": "wd:Q106565796",
-"n": "Basic Internet Foundation",
-"st": "organismos_internacionales",
+"id": "wd:Q4491713",
+"n": "Bolsa de Valores de Mauricio",
+"st": "bolsas_valores",
+"p": "MUS",
+"x": "Port Louis"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+19.2628,
+42.4414
+]
+},
+"properties": {
+"id": "wd:Q4513926",
+"n": "Montenegro Stock Exchange",
+"st": "bolsas_valores",
+"p": "MNE",
+"x": "Podgorica"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+35.2628,
+32.2208
+]
+},
+"properties": {
+"id": "wd:Q4992224",
+"n": "Bolsa de Palestina",
+"st": "bolsas_valores",
+"p": "PSE",
+"x": "Nablus"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+104.921,
+11.5696
+]
+},
+"properties": {
+"id": "wd:Q5025115",
+"n": "Cambodia Securities Exchange",
+"st": "bolsas_valores",
+"p": "KHM",
+"x": "Nom Pen"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+130.4017,
+33.5901
+]
+},
+"properties": {
+"id": "wd:Q5507703",
+"n": "Bolsa de Fukuoka",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "Fukuoka"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+85.32,
+27.698
+]
+},
+"properties": {
+"id": "wd:Q6529599",
+"n": "Nepal Stock Exchange",
+"st": "bolsas_valores",
+"p": "NPL",
+"x": "Katmandú"
+}
+},
+{
+"type": "Feature",
+"geometry": {
+"type": "Point",
+"coordinates": [
+10.4,
+63.44
+]
+},
+"properties": {
+"id": "wd:Q7050551",
+"n": "Nord Pool Spot AS",
+"st": "bolsas_valores",
 "p": "NOR",
-"x": "Oslo"
+"x": "Trondheim"
 }
 },
 {
@@ -13147,16 +14881,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-10.7389,
-59.9133
+30.115,
+-1.9525
 ]
 },
 "properties": {
-"id": "wd:Q3441617",
-"n": "Nordic Innovation",
-"st": "organismos_internacionales",
-"p": "NOR",
-"x": "Organización intergubernamental · Oslo"
+"id": "wd:Q7383727",
+"n": "Bolsa de Valores de Ruanda",
+"st": "bolsas_valores",
+"p": "RWA",
+"x": "Kigali"
 }
 },
 {
@@ -13164,16 +14898,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-10.7389,
-59.9133
+-8.2147,
+43.2804
 ]
 },
 "properties": {
-"id": "wd:Q134992390",
-"n": "Garmeres",
-"st": "organismos_internacionales",
-"p": "NOR",
-"x": "Oslo"
+"id": "wd:Q9598744",
+"n": "Abanca",
+"st": "bolsas_valores",
+"p": "ESP",
+"x": "Betanzos"
 }
 },
 {
@@ -13181,16 +14915,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--9.139,
-38.708
+139.7774,
+35.6808
 ]
 },
 "properties": {
-"id": "wd:Q51881846",
-"n": "União dos Advogados de Língua Portuguesa",
-"st": "organismos_internacionales",
-"p": "PRT",
-"x": "ONG internacional · Lisboa"
+"id": "wd:Q11507487",
+"n": "Japan Exchange Group",
+"st": "bolsas_valores",
+"p": "JPN",
+"x": "日本橋兜町"
 }
 },
 {
@@ -13198,16 +14932,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-2.135,
-48.805
+36.0667,
+33.5333
 ]
 },
 "properties": {
-"id": "wd:Q1085984",
-"n": "Federación Internacional de Arquitectos Paisajistas",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Versalles"
+"id": "wd:Q12217405",
+"n": "Bolsa de Damasco",
+"st": "bolsas_valores",
+"p": "SYR",
+"x": "Yaafour"
 }
 },
 {
@@ -13215,16 +14949,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--1.6808,
-48.1142
+96.1591,
+16.7715
 ]
 },
 "properties": {
-"id": "wd:Q10457748",
-"n": "Conferencia de Regiones Periféricas Marítimas",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Rennes"
+"id": "wd:Q20992132",
+"n": "Yangon Stock Exchange",
+"st": "bolsas_valores",
+"p": "MMR",
+"x": ""
 }
 },
 {
@@ -13232,16 +14966,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-37.6175,
-55.7506
+67.01,
+24.86
 ]
 },
 "properties": {
-"id": "wd:Q126935894",
-"n": "Movimiento \"¡Por la Libertad de las Naciones!\"",
-"st": "organismos_internacionales",
-"p": "RUS",
-"x": "ONG internacional · Moscú"
+"id": "wd:Q22907578",
+"n": "Bolsa de Valores de Pakistán",
+"st": "bolsas_valores",
+"p": "PAK",
+"x": "Karachi"
 }
 },
 {
@@ -13249,373 +14983,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-37.6175,
-55.7506
+-74.0111,
+40.7069
 ]
 },
 "properties": {
-"id": "wd:Q1548793",
-"n": "Intersputnik",
-"st": "organismos_internacionales",
-"p": "RUS",
-"x": "Moscú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-37.6175,
-55.7506
-]
-},
-"properties": {
-"id": "wd:Q245076",
-"n": "Comité Interestatal de Aviación",
-"st": "organismos_internacionales",
-"p": "RUS",
-"x": "Moscú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-83.0,
-22.8
-]
-},
-"properties": {
-"id": "wd:Q100714569",
-"n": "Project Encephalon",
-"st": "organismos_internacionales",
-"p": "IND",
-"x": "India"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.6333,
-46.5333
-]
-},
-"properties": {
-"id": "wd:Q56320911",
-"n": "Alliance of Independent Recognized Members of Sport",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Lausana"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.6333,
-46.5333
-]
-},
-"properties": {
-"id": "wd:Q2867530",
-"n": "Asociación de Comités Olímpicos Nacionales",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Lausana"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-6.6333,
-46.5333
-]
-},
-"properties": {
-"id": "wd:Q2420112",
-"n": "Asociación de Federaciones Internacionales Olímpicas de Verano",
-"st": "organismos_internacionales",
-"p": "CHE",
-"x": "Lausana"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-47.6,
-29.1667
-]
-},
-"properties": {
-"id": "wd:Q1052077",
-"n": "Organización de Países Árabes Exportadores de Petróleo",
-"st": "organismos_internacionales",
-"p": "KWT",
-"x": "Organización intergubernamental · Kuwait"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-44.1167,
-23.7167
-]
-},
-"properties": {
-"id": "wd:Q93456830",
-"n": "Supreme Council of Arab African Economy",
-"st": "organismos_internacionales",
-"p": "SAU",
-"x": "Arabia Saudí"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-116.4075,
-39.904
-]
-},
-"properties": {
-"id": "wd:Q6052145",
-"n": "International Bamboo and Rattan Organization",
-"st": "organismos_internacionales",
-"p": "CHN",
-"x": "Organización intergubernamental · Pekín"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-116.4075,
-39.904
-]
-},
-"properties": {
-"id": "wd:Q579663",
-"n": "Unión Internacional de Ciencias Geológicas",
-"st": "organismos_internacionales",
-"p": "CHN",
-"x": "Pekín"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-116.4075,
-39.904
-]
-},
-"properties": {
-"id": "wd:Q485207",
-"n": "Organización de Cooperación de Shanghái",
-"st": "organismos_internacionales",
-"p": "CHN",
-"x": "Organización intergubernamental · Pekín"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-77.2089,
-28.6139
-]
-},
-"properties": {
-"id": "wd:Q5570228",
-"n": "Global Development Network",
-"st": "organismos_internacionales",
-"p": "IND",
-"x": "Nueva Delhi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-77.2089,
-28.6139
-]
-},
-"properties": {
-"id": "wd:Q333536",
-"n": "Organización Consultiva Jurídica Asiática Africana",
-"st": "organismos_internacionales",
-"p": "IND",
-"x": "Nueva Delhi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-10.0,
-53.55
-]
-},
-"properties": {
-"id": "wd:Q14816384",
-"n": "Fanáticos del fútbol en Europa",
-"st": "organismos_internacionales",
-"p": "DEU",
-"x": "Hamburgo"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-10.0,
-53.55
-]
-},
-"properties": {
-"id": "wd:Q821623",
-"n": "Fundación EU-LAC",
-"st": "organismos_internacionales",
-"p": "DEU",
-"x": "Organización intergubernamental · Hamburgo"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-14.4214,
-50.0875
-]
-},
-"properties": {
-"id": "wd:Q48803070",
-"n": "CEE Bankwatch Network",
-"st": "organismos_internacionales",
-"p": "CZE",
-"x": "Praga"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-14.4214,
-50.0875
-]
-},
-"properties": {
-"id": "wd:Q2294604",
-"n": "Slovak Institute",
-"st": "organismos_internacionales",
-"p": "CZE",
-"x": "Praga"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-14.4214,
-50.0875
-]
-},
-"properties": {
-"id": "wd:Q11202105",
-"n": "Plataforma de la Memoria y de la Conciencia Europeas",
-"st": "organismos_internacionales",
-"p": "CZE",
-"x": "Praga"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-14.4214,
-50.0875
-]
-},
-"properties": {
-"id": "wd:Q1667016",
-"n": "Unión Internacional de Estudiantes",
-"st": "organismos_internacionales",
-"p": "CZE",
-"x": "Praga"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-5.7264,
-45.1869
-]
-},
-"properties": {
-"id": "wd:Q50040777",
-"n": "Auvergne-Rhone-Alpes Entreprises",
-"st": "organismos_internacionales",
-"p": "FRA",
-"x": "Organización regional · Grenoble"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-3.7253,
-51.0536
-]
-},
-"properties": {
-"id": "wd:Q241824",
-"n": "International Union of Radio Science",
-"st": "organismos_internacionales",
-"p": "BEL",
-"x": "Gante"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--87.6278,
-41.8819
-]
-},
-"properties": {
-"id": "wd:Q134311209",
-"n": "ACT for Bharat",
-"st": "organismos_internacionales",
+"id": "wd:Q13677",
+"n": "Bolsa de Nueva York",
+"st": "bolsas_valores",
 "p": "USA",
-"x": "Chicago"
+"x": "New York Stock Exchange Building"
 }
 },
 {
@@ -13623,16 +15000,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
--87.6278,
-41.8819
+-74.0112,
+40.707
 ]
 },
 "properties": {
-"id": "wd:Q8035759",
-"n": "World Future Society",
-"st": "organismos_internacionales",
+"id": "wd:Q13683",
+"n": "NYSE Euronext",
+"st": "bolsas_valores",
 "p": "USA",
-"x": "Chicago"
+"x": "New York Stock Exchange Building"
 }
 },
 {
@@ -13640,16 +15017,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-5.2333,
-51.95
+101.7012,
+3.1485
 ]
 },
 "properties": {
-"id": "wd:Q1711776",
-"n": "Organización Mundial del Comercio Justo",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Culemborg"
+"id": "wd:Q43335",
+"n": "Bolsa de Malasia",
+"st": "bolsas_valores",
+"p": "MYS",
+"x": "Exchange Square"
 }
 },
 {
@@ -13657,16 +15034,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-4.7283,
-52.1411
+18.4131,
+43.8564
 ]
 },
 "properties": {
-"id": "wd:Q123693218",
-"n": "Observation International",
-"st": "organismos_internacionales",
-"p": "",
-"x": "ONG internacional · Aarlanderveen"
+"id": "wd:Q47057",
+"n": "Sarajevo Stock Exchange",
+"st": "bolsas_valores",
+"p": "BIH",
+"x": "Sarajevo"
 }
 },
 {
@@ -13674,407 +15051,16 @@
 "geometry": {
 "type": "Point",
 "coordinates": [
-4.4167,
-51.95
+21.0111,
+52.23
 ]
 },
 "properties": {
-"id": "wd:Q127785462",
-"n": "Global Center on Adaptation",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Róterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-5.3875,
-52.155
-]
-},
-"properties": {
-"id": "wd:Q16241305",
-"n": "Crime Stoppers International",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Amersfoort"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q2106133",
-"n": "Fur Free Alliance",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q1852233",
-"n": "DutchCulture, centre for international cooperation",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q7314907",
-"n": "Res Artis",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q604488",
-"n": "Common Fund for Commodities",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q1531665",
-"n": "Global Reporting Initiative",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q196232",
-"n": "Amigos de la Tierra",
-"st": "organismos_internacionales",
-"p": "",
-"x": "ONG internacional · Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8833,
-52.3667
-]
-},
-"properties": {
-"id": "wd:Q81307",
-"n": "Greenpeace International",
-"st": "organismos_internacionales",
-"p": "",
-"x": "ONG internacional · Ámsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.744,
-52.6289
-]
-},
-"properties": {
-"id": "wd:Q6942609",
-"n": "Musicians Without Borders",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Alkmaar"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-5.6631,
-51.9644
-]
-},
-"properties": {
-"id": "wd:Q6053530",
-"n": "International Soil Reference and Information Centre",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Wageningen"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-5.6833,
-50.8667
-]
-},
-"properties": {
-"id": "wd:Q9256326",
-"n": "European Insitute of Public Administration",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · Maastricht"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-5.4842,
-51.4344
-]
-},
-"properties": {
-"id": "wd:Q141720",
-"n": "Mando Europeo de Transporte Aéreo",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Eindhoven"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.8581,
-52.3019
-]
-},
-"properties": {
-"id": "wd:Q2328638",
-"n": "Federación europea de go",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Amstelveen"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.4933,
-52.0611
-]
-},
-"properties": {
-"id": "wd:Q104693488",
-"n": "Hana Human Rights Organization",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Zoetermeer"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q47488",
-"n": "Corte Penal Internacional",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q4130823",
-"n": "Conferencia de La Haya de Derecho Internacional Privado",
-"st": "organismos_internacionales",
-"p": "",
-"x": "La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q123016948",
-"n": "Register of Damage Caused by the Aggression of the Russian Federation Against Ukraine",
-"st": "organismos_internacionales",
-"p": "",
-"x": "La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q131991046",
-"n": "Grupo de La Haya",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q1334284",
-"n": "Federación Internacional de Asociaciones de Bibliotecarios y Bibliotecas",
-"st": "organismos_internacionales",
-"p": "",
-"x": "La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q1045198",
-"n": "Corte Permanente de Arbitraje",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q842490",
-"n": "Organización para la Prohibición de Armas Químicas",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.31,
-52.08
-]
-},
-"properties": {
-"id": "wd:Q1667632",
-"n": "Mecanismo Residual Internacional de los Tribunales Penales",
-"st": "organismos_internacionales",
-"p": "",
-"x": "Organización intergubernamental · La Haya"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-4.49,
-52.16
-]
-},
-"properties": {
-"id": "wd:Q17072694",
-"n": "Coastal & Marine Union (EUCC)",
-"st": "organismos_internacionales",
-"p": "",
-"x": "ONG internacional · Leiden"
+"id": "wd:Q59551",
+"n": "Bolsa de Varsovia",
+"st": "bolsas_valores",
+"p": "POL",
+"x": "Varsovia"
 }
 },
 {
@@ -15775,941 +16761,6 @@
 "st": "bolsas_valores",
 "p": "",
 "x": "Beursplein 5, Amsterdam"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-21.4317,
-41.9961
-]
-},
-"properties": {
-"id": "wd:Q2073220",
-"n": "Macedonian Stock Exchange",
-"st": "bolsas_valores",
-"p": "MKD",
-"x": "Skopie"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-35.9333,
-31.95
-]
-},
-"properties": {
-"id": "wd:Q2122308",
-"n": "Bolsa de Amán",
-"st": "bolsas_valores",
-"p": "JOR",
-"x": "Amán"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-105.8412,
-21.0245
-]
-},
-"properties": {
-"id": "wd:Q2227403",
-"n": "Hanoi Stock Exchange",
-"st": "bolsas_valores",
-"p": "VNM",
-"x": "Hanói"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-37.5369,
-55.7483
-]
-},
-"properties": {
-"id": "wd:Q2306284",
-"n": "SPB Exchange - All Markets",
-"st": "bolsas_valores",
-"p": "RUS",
-"x": "Moscú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-79.8606,
-6.9267
-]
-},
-"properties": {
-"id": "wd:Q2359996",
-"n": "Colombo Stock Exchange",
-"st": "bolsas_valores",
-"p": "LKA",
-"x": "Colombo"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-25.9086,
--24.6569
-]
-},
-"properties": {
-"id": "wd:Q2380000",
-"n": "Botswana Stock Exchange",
-"st": "bolsas_valores",
-"p": "BWA",
-"x": "Gaborone"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--77.0314,
--12.0486
-]
-},
-"properties": {
-"id": "wd:Q2380045",
-"n": "Bolsa de Valores de Lima",
-"st": "bolsas_valores",
-"p": "PER",
-"x": "Edificio de la Bolsa de Valores de Lima"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-10.18,
-36.8008
-]
-},
-"properties": {
-"id": "wd:Q2380163",
-"n": "Bolsa de Túnez",
-"st": "bolsas_valores",
-"p": "TUN",
-"x": "Túnez"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--23.5175,
-14.9067
-]
-},
-"properties": {
-"id": "wd:Q2381261",
-"n": "Cape Verde Stock Exchange",
-"st": "bolsas_valores",
-"p": "CPV",
-"x": "Praia"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-9.7,
-4.05
-]
-},
-"properties": {
-"id": "wd:Q2381309",
-"n": "Douala Stock Exchange",
-"st": "bolsas_valores",
-"p": "CMR",
-"x": "Duala"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--64.7831,
-32.295
-]
-},
-"properties": {
-"id": "wd:Q2382352",
-"n": "Bermuda Stock Exchange Ltd",
-"st": "bolsas_valores",
-"p": "GBR",
-"x": "Hamilton"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-17.1925,
-44.7725
-]
-},
-"properties": {
-"id": "wd:Q2384000",
-"n": "Banja Luka Stock Exchange",
-"st": "bolsas_valores",
-"p": "BIH",
-"x": "Banja Luka"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-36.8172,
--1.2864
-]
-},
-"properties": {
-"id": "wd:Q2384385",
-"n": "Bolsa de Valores de Nairobi",
-"st": "bolsas_valores",
-"p": "KEN",
-"x": "Nairobi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.2464,
-48.8906
-]
-},
-"properties": {
-"id": "wd:Q2385849",
-"n": "Euronext Paris",
-"st": "bolsas_valores",
-"p": "FRA",
-"x": "París"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0817,
-4.6097
-]
-},
-"properties": {
-"id": "wd:Q2387368",
-"n": "Bolsa de Valores de Colombia",
-"st": "bolsas_valores",
-"p": "COL",
-"x": "Bogotá"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--9.139,
-38.708
-]
-},
-"properties": {
-"id": "wd:Q2415561",
-"n": "Euronext Lisboa",
-"st": "bolsas_valores",
-"p": "PRT",
-"x": "Lisboa"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-49.8822,
-40.3953
-]
-},
-"properties": {
-"id": "wd:Q2480956",
-"n": "Bolsa de Bakú",
-"st": "bolsas_valores",
-"p": "AZE",
-"x": "Bakú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-31.2358,
-30.0444
-]
-},
-"properties": {
-"id": "wd:Q2509254",
-"n": "Bolsa de Egipto",
-"st": "bolsas_valores",
-"p": "EGY",
-"x": "El Cairo"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--7.62,
-33.5992
-]
-},
-"properties": {
-"id": "wd:Q2602796",
-"n": "Bolsa de Casablanca",
-"st": "bolsas_valores",
-"p": "MAR",
-"x": "Casablanca"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-37.6175,
-55.7506
-]
-},
-"properties": {
-"id": "wd:Q2632892",
-"n": "Bolsa de Moscú",
-"st": "bolsas_valores",
-"p": "RUS",
-"x": "Moscú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--87.6278,
-41.8819
-]
-},
-"properties": {
-"id": "wd:Q2633007",
-"n": "Chicago Stock Exchange",
-"st": "bolsas_valores",
-"p": "USA",
-"x": "Chicago"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--71.0578,
-42.3603
-]
-},
-"properties": {
-"id": "wd:Q2636119",
-"n": "NASDAQ OMX BX",
-"st": "bolsas_valores",
-"p": "USA",
-"x": "Boston"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-33.365,
-35.1725
-]
-},
-"properties": {
-"id": "wd:Q2888321",
-"n": "Bolsa de Chipre",
-"st": "bolsas_valores",
-"p": "CYP",
-"x": "Nicosia"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-14.5117,
-35.8951
-]
-},
-"properties": {
-"id": "wd:Q2922440",
-"n": "Bolsa de Malta",
-"st": "bolsas_valores",
-"p": "MLT",
-"x": "Garrison Chapel (Malta)"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-102.63,
-17.98
-]
-},
-"properties": {
-"id": "wd:Q2922448",
-"n": "Bolsa de Laos",
-"st": "bolsas_valores",
-"p": "LAO",
-"x": "Vientián"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-106.7019,
-10.7756
-]
-},
-"properties": {
-"id": "wd:Q2922455",
-"n": "Hochiminh Stock Exchange",
-"st": "bolsas_valores",
-"p": "VNM",
-"x": "Ciudad Ho Chi Minh"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-88.37,
-22.5675
-]
-},
-"properties": {
-"id": "wd:Q2997295",
-"n": "Calcutta Stock Exchange",
-"st": "bolsas_valores",
-"p": "IND",
-"x": "Calcuta"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-91.8325,
-22.335
-]
-},
-"properties": {
-"id": "wd:Q3349831",
-"n": "Chittagong Stock Exchange Ltd.",
-"st": "bolsas_valores",
-"p": "BGD",
-"x": "Chitagón"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-35.5131,
-33.8869
-]
-},
-"properties": {
-"id": "wd:Q4081230",
-"n": "Bourse De Beyrouth - Beirut Stock Exchange",
-"st": "bolsas_valores",
-"p": "LBN",
-"x": "Beirut"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-58.5922,
-23.6139
-]
-},
-"properties": {
-"id": "wd:Q4117996",
-"n": "Muscat Securities Market",
-"st": "bolsas_valores",
-"p": "OMN",
-"x": "Mascate"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-54.3507,
-24.485
-]
-},
-"properties": {
-"id": "wd:Q4119825",
-"n": "Abu Dhabi Securities Exchange",
-"st": "bolsas_valores",
-"p": "ARE",
-"x": "Abu Dhabi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-47.98,
-29.375
-]
-},
-"properties": {
-"id": "wd:Q4164626",
-"n": "Bolsa de Kuwait",
-"st": "bolsas_valores",
-"p": "KWT",
-"x": "Ciudad de Kuwait"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-31.0522,
--17.8292
-]
-},
-"properties": {
-"id": "wd:Q4191917",
-"n": "Bolsa de Valores de Zimbabue",
-"st": "bolsas_valores",
-"p": "ZWE",
-"x": "Harare"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-2.167,
-41.39
-]
-},
-"properties": {
-"id": "wd:Q4202960",
-"n": "Bolsa de Barcelona",
-"st": "bolsas_valores",
-"p": "ESP",
-"x": "Barcelona"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-69.2797,
-41.3111
-]
-},
-"properties": {
-"id": "wd:Q4393626",
-"n": "Tashkent Stock Exchange",
-"st": "bolsas_valores",
-"p": "UZB",
-"x": "Taskent"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-31.139,
--26.3307
-]
-},
-"properties": {
-"id": "wd:Q4409921",
-"n": "Swaziland Stock Exchange",
-"st": "bolsas_valores",
-"p": "SWZ",
-"x": "Mbabane"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-30.5236,
-50.45
-]
-},
-"properties": {
-"id": "wd:Q4470480",
-"n": "Ukrainian Exchange",
-"st": "bolsas_valores",
-"p": "UKR",
-"x": "Kiev"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-57.4989,
--20.1619
-]
-},
-"properties": {
-"id": "wd:Q4491713",
-"n": "Bolsa de Valores de Mauricio",
-"st": "bolsas_valores",
-"p": "MUS",
-"x": "Port Louis"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-19.2628,
-42.4414
-]
-},
-"properties": {
-"id": "wd:Q4513926",
-"n": "Montenegro Stock Exchange",
-"st": "bolsas_valores",
-"p": "MNE",
-"x": "Podgorica"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-35.2628,
-32.2208
-]
-},
-"properties": {
-"id": "wd:Q4992224",
-"n": "Bolsa de Palestina",
-"st": "bolsas_valores",
-"p": "PSE",
-"x": "Nablus"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-104.921,
-11.5696
-]
-},
-"properties": {
-"id": "wd:Q5025115",
-"n": "Cambodia Securities Exchange",
-"st": "bolsas_valores",
-"p": "KHM",
-"x": "Nom Pen"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-130.4017,
-33.5901
-]
-},
-"properties": {
-"id": "wd:Q5507703",
-"n": "Bolsa de Fukuoka",
-"st": "bolsas_valores",
-"p": "JPN",
-"x": "Fukuoka"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-85.32,
-27.698
-]
-},
-"properties": {
-"id": "wd:Q6529599",
-"n": "Nepal Stock Exchange",
-"st": "bolsas_valores",
-"p": "NPL",
-"x": "Katmandú"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-10.4,
-63.44
-]
-},
-"properties": {
-"id": "wd:Q7050551",
-"n": "Nord Pool Spot AS",
-"st": "bolsas_valores",
-"p": "NOR",
-"x": "Trondheim"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-30.115,
--1.9525
-]
-},
-"properties": {
-"id": "wd:Q7383727",
-"n": "Bolsa de Valores de Ruanda",
-"st": "bolsas_valores",
-"p": "RWA",
-"x": "Kigali"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--8.2147,
-43.2804
-]
-},
-"properties": {
-"id": "wd:Q9598744",
-"n": "Abanca",
-"st": "bolsas_valores",
-"p": "ESP",
-"x": "Betanzos"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-139.7774,
-35.6808
-]
-},
-"properties": {
-"id": "wd:Q11507487",
-"n": "Japan Exchange Group",
-"st": "bolsas_valores",
-"p": "JPN",
-"x": "日本橋兜町"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-36.0667,
-33.5333
-]
-},
-"properties": {
-"id": "wd:Q12217405",
-"n": "Bolsa de Damasco",
-"st": "bolsas_valores",
-"p": "SYR",
-"x": "Yaafour"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-96.1591,
-16.7715
-]
-},
-"properties": {
-"id": "wd:Q20992132",
-"n": "Yangon Stock Exchange",
-"st": "bolsas_valores",
-"p": "MMR",
-"x": ""
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-67.01,
-24.86
-]
-},
-"properties": {
-"id": "wd:Q22907578",
-"n": "Bolsa de Valores de Pakistán",
-"st": "bolsas_valores",
-"p": "PAK",
-"x": "Karachi"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0111,
-40.7069
-]
-},
-"properties": {
-"id": "wd:Q13677",
-"n": "Bolsa de Nueva York",
-"st": "bolsas_valores",
-"p": "USA",
-"x": "New York Stock Exchange Building"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
--74.0112,
-40.707
-]
-},
-"properties": {
-"id": "wd:Q13683",
-"n": "NYSE Euronext",
-"st": "bolsas_valores",
-"p": "USA",
-"x": "New York Stock Exchange Building"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-101.7012,
-3.1485
-]
-},
-"properties": {
-"id": "wd:Q43335",
-"n": "Bolsa de Malasia",
-"st": "bolsas_valores",
-"p": "MYS",
-"x": "Exchange Square"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-18.4131,
-43.8564
-]
-},
-"properties": {
-"id": "wd:Q47057",
-"n": "Sarajevo Stock Exchange",
-"st": "bolsas_valores",
-"p": "BIH",
-"x": "Sarajevo"
-}
-},
-{
-"type": "Feature",
-"geometry": {
-"type": "Point",
-"coordinates": [
-21.0111,
-52.23
-]
-},
-"properties": {
-"id": "wd:Q59551",
-"n": "Bolsa de Varsovia",
-"st": "bolsas_valores",
-"p": "POL",
-"x": "Varsovia"
 }
 }
 ]

@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-17T16:56:56Z",
+ "generado_utc": "2026-10-19T11:03:11Z",
  "fuente": "Wikidata (CC0)",
  "registros": [
   {
@@ -2367,6 +2367,24 @@
    "url_fuente": null
   },
   {
+   "id": "Q127506940",
+   "nombre": "African Adaptation Initiative",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "EGY",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q127506940",
+   "sede": {
+    "lat": 30.0444,
+    "lon": 31.2358,
+    "ciudad": "El Cairo"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
    "id": "Q127785462",
    "nombre": "Global Center on Adaptation",
    "subtipo": "organismos_internacionales",
@@ -3763,9 +3781,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q141130987",
    "sede": {
-    "lat": 47.4606,
-    "lon": 18.9578,
-    "ciudad": "Budaörs"
+    "lat": 47.4983,
+    "lon": 19.0408,
+    "ciudad": "Budapest"
    },
    "indices": [],
    "personas": [],
@@ -8876,8 +8894,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q239553",
    "sede": {
-    "lat": 47.5606,
-    "lon": 7.5906,
+    "lat": 47.5581,
+    "lon": 7.5878,
     "ciudad": "Basilea"
    },
    "indices": [],
@@ -8912,8 +8930,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q2415561",
    "sede": {
-    "lat": 38.708,
-    "lon": -9.139,
+    "lat": 38.721,
+    "lon": -9.1456,
     "ciudad": "Lisboa"
    },
    "indices": [],
@@ -10938,8 +10956,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q309195",
    "sede": {
-    "lat": 47.5606,
-    "lon": 7.5906,
+    "lat": 47.5581,
+    "lon": 7.5878,
     "ciudad": "Basilea"
    },
    "indices": [],
@@ -11420,6 +11438,24 @@
    "url_fuente": null
   },
   {
+   "id": "Q3366102",
+   "nombre": "Alianza Internacional para la Acción contra el Carbono",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "DEU",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q3366102",
+   "sede": {
+    "lat": 52.5167,
+    "lon": 13.3833,
+    "ciudad": "Berlín"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
    "id": "Q3369762",
    "nombre": "Organismo para la Proscripción de las Armas Nucleares en la América Latina y el Caribe",
    "subtipo": "organismos_internacionales",
@@ -11467,24 +11503,6 @@
     "lat": -3.3667,
     "lon": 36.6833,
     "ciudad": "Arusha"
-   },
-   "indices": [],
-   "personas": [],
-   "fuente": "wikidata",
-   "url_fuente": null
-  },
-  {
-   "id": "Q3374867",
-   "nombre": "Copenhagen Malmö Port",
-   "subtipo": "organismos_internacionales",
-   "sector": null,
-   "pais_iso3": "DNK",
-   "lei": null,
-   "wikidata": "https://www.wikidata.org/wiki/Q3374867",
-   "sede": {
-    "lat": 55.6761,
-    "lon": 12.5689,
-    "ciudad": "Copenhague"
    },
    "indices": [],
    "personas": [],
@@ -12208,9 +12226,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q392739",
    "sede": {
-    "lat": 24.4331,
-    "lon": 54.6197,
-    "ciudad": "Masdar"
+    "lat": 24.4,
+    "lon": 54.3,
+    "ciudad": "Emiratos Árabes Unidos"
    },
    "indices": [],
    "personas": [],
@@ -13204,13 +13222,13 @@
    "nombre": "African Wildlife Foundation",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "KEN",
+   "pais_iso3": "UGA",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q4689959",
    "sede": {
-    "lat": -1.2864,
-    "lon": 36.8172,
-    "ciudad": "Nairobi"
+    "lat": 1.28,
+    "lon": 32.39,
+    "ciudad": "Uganda"
    },
    "indices": [],
    "personas": [],
@@ -16260,6 +16278,24 @@
    "url_fuente": null
   },
   {
+   "id": "Q61931378",
+   "nombre": "West African Science Service Centre on Climate Change and Adapted Land Use",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "GHA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q61931378",
+   "sede": {
+    "lat": 5.556,
+    "lon": -0.1969,
+    "ciudad": "Acra"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
    "id": "Q624372",
    "nombre": "Fútbol contra el racismo en Europa",
    "subtipo": "organismos_internacionales",
@@ -16353,6 +16389,24 @@
    "pais_iso3": "AUT",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q6324948",
+   "sede": {
+    "lat": 48.2083,
+    "lon": 16.3725,
+    "ciudad": "Viena"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q6351103",
+   "nombre": "Sustainable Energy for All",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "AUT",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q6351103",
    "sede": {
     "lat": 48.2083,
     "lon": 16.3725,
@@ -16814,13 +16868,13 @@
    "nombre": "Gobiernos Locales por la Sostenibilidad",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "USA",
+   "pais_iso3": "DEU",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q677691",
    "sede": {
-    "lat": 40.7128,
-    "lon": -74.0061,
-    "ciudad": "Nueva York"
+    "lat": 50.7353,
+    "lon": 7.1022,
+    "ciudad": "Bonn"
    },
    "indices": [],
    "personas": [],
@@ -17304,9 +17358,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q7100663",
    "sede": {
-    "lat": 50.4353,
-    "lon": -3.5625,
-    "ciudad": "Paignton"
+    "lat": 51.208,
+    "lon": -4.12,
+    "ciudad": "Ilfracombe"
    },
    "indices": [],
    "personas": [],
@@ -17534,13 +17588,13 @@
    "nombre": "Sea Shepherd Conservation Society",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "USA",
+   "pais_iso3": "AUS",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q731200",
    "sede": {
-    "lat": 48.5343,
-    "lon": -123.0171,
-    "ciudad": "Friday Harbor"
+    "lat": -37.8142,
+    "lon": 144.9631,
+    "ciudad": "Melbourne"
    },
    "indices": [],
    "personas": [],
@@ -21834,8 +21888,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q28860866",
-    "Q154952"
+    "Q154952",
+    "Q28860866"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -22099,8 +22153,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q20423278",
-    "Q127998"
+    "Q127998",
+    "Q20423278"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -22200,8 +22254,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q27654948",
-    "Q63111184"
+    "Q63111184",
+    "Q27654948"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -22317,7 +22371,7 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q99605101",
+    "Q112598575",
     "Q319153"
    ],
    "fuente": "wikidata",
@@ -22451,8 +22505,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q123342092",
-    "Q57340"
+    "Q57340",
+    "Q123342092"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -22903,8 +22957,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q441633",
-    "Q13036897"
+    "Q13036897",
+    "Q441633"
    ],
    "fuente": "wikidata",
    "url_fuente": null
