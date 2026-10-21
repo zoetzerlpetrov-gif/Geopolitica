@@ -330,3 +330,11 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | Atlantic Council, CBDC Tracker; BCE (euro digital); bancos centrales | Estado de la moneda digital de cada banco central | Consulta manual | Se cita la fuente; no se copia su base de datos |
 | Biblioteca del Congreso de EUA (2021), ESMA (MiCA), Banxico y otros reguladores | Situación legal de las criptomonedas | Consulta manual | Dominio público (LoC) o documentos oficiales |
 | BCE (curso legal), leyes nacionales (Dinamarca, Noruega, Hungría, LFPIORPI de México, etc.) | Obligación de aceptar efectivo, límites y protección constitucional | Consulta manual | Documentos oficiales |
+
+## Inteligencia corporativa (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Datos ya publicados por DOMINUS: `data/events.json`, `data/indice-paises.json`, `data/vivos/{ataques,crimen,cortes,tornados,red_cortes,salud_oficial}.geojson`, `data/vivos/noticiero.json`, `config/pagos.json` | Página `corporativo.html`: eventos cerca de cada instalación, matriz 5×5, exposición por país, menciones en el noticiero | Locales | Las de cada capa |
+| `config/corporativo.json` (tabla propia) | Sanciones por país (OFAC, UE, ONU; revisadas hasta 2025, con enlace a la lista oficial), escenarios, guías de método y enlaces del radar | — | Resumen propio; verificar siempre en la lista oficial |
+| Instalaciones capturadas por la persona usuaria | Solo en el navegador (localStorage); exportables como JSON | — | No se envían a ningún servidor |

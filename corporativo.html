@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inteligencia corporativa</title>
+  <meta name="description" content="Instalaciones de una empresa cruzadas con los eventos del mapa, matriz de riesgo 5×5, escenarios, exposición por país, radar de competidores y guías de método.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .cp-wrap { max-width: 1000px; margin: 0 auto; padding: 16px; }
+    .cp-wrap h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .cp-wrap h4 { margin: 10px 0 4px; }
+    .cp-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 8px; align-items: end; }
+    .cp-form label { display: flex; flex-direction: column; font-size: 13px; color: var(--text-2); gap: 2px; }
+    .cp-form input, .cp-form select, .cp-barra select, .cp-barra input { font: inherit; min-height: 38px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); max-width: 100%; }
+    .cp-barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 10px 0; }
+    .cp-inst { border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 10px; margin: 6px 0; background: var(--surface); }
+    .cp-inst summary { cursor: pointer; }
+    .cp-sancion { background: rgba(183, 28, 28, 0.08); border-left: 3px solid #B71C1C; padding: 4px 8px; }
+    .cp-esc { border-left: 3px solid var(--line); padding: 2px 8px; margin: 6px 0; font-size: 14px; }
+    .cp-error { color: #B71C1C; min-height: 1em; }
+    .matriz { width: 100%; max-width: 320px; }
+    .matriz-n { font-size: 13px; font-weight: 700; fill: var(--text); }
+    .matriz-eje { font-size: 11px; fill: var(--text-2); }
+    .cp-aviso { font-size: 13px; color: var(--text-2); }
+    .meta { color: var(--text-2); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Inteligencia corporativa</h1>
+  </header>
+  <main class="cp-wrap">
+    <p class="cp-aviso">Qué hace esta página: cruza las instalaciones de una empresa (sedes, plantas, almacenes, proveedores, clientes, puertos)
+      con los eventos que DOMINUS ya recoge, y propone prioridades, escenarios y fuentes. Tus instalaciones se guardan <b>solo en este navegador</b>;
+      no se envían a ningún servidor. Exporta el archivo si quieres usarlas en otro equipo. Es apoyo para decidir, no un dictamen.</p>
+
+    <h2>1. Mis instalaciones</h2>
+    <form id="cp-form" class="cp-form">
+      <label>Nombre <input name="nombre" required maxlength="80" placeholder="Planta Saltillo"></label>
+      <label>Tipo <select name="tipo"><option value="sede">Sede</option><option value="planta" selected>Planta</option><option value="almacen">Almacén o centro de distribución</option><option value="proveedor">Proveedor</option><option value="cliente">Cliente clave</option><option value="puerto">Puerto o cruce usado</option></select></label>
+      <label>Ciudad (llena las coordenadas) <input id="cp-ciudad" list="cp-ciudades" placeholder="Escribe una ciudad"></label>
+      <datalist id="cp-ciudades"></datalist>
+      <label>Latitud <input id="cp-lat" name="lat" inputmode="decimal" required placeholder="25.42"></label>
+      <label>Longitud <input id="cp-lon" name="lon" inputmode="decimal" required placeholder="-101.00"></label>
+      <label>País (ISO de 3 letras) <input id="cp-iso3" name="iso3" maxlength="3" placeholder="MEX"></label>
+      <label>Impacto si se detiene (1 a 5) <select name="impacto"><option value="1">1 · menor</option><option value="2">2</option><option value="3" selected>3 · moderado</option><option value="4">4</option><option value="5">5 · paro total del negocio</option></select></label>
+      <label>Nota (opcional) <input name="nota" maxlength="200" placeholder="Único proveedor de arneses"></label>
+      <button type="submit" class="link-btn">Agregar</button>
+    </form>
+    <p id="cp-error" class="cp-error" aria-live="polite"></p>
+    <div class="cp-barra">
+      <label>Radio <select id="cp-radio"><option value="25">25 km</option><option value="50">50 km</option><option value="100" selected>100 km</option><option value="300">300 km</option></select></label>
+      <label>Periodo <select id="cp-dias"><option value="7">7 días</option><option value="30" selected>30 días</option><option value="90">90 días</option></select></label>
+      <button type="button" id="cp-exportar" class="link-btn">Exportar</button>
+      <label class="link-btn">Importar <input type="file" id="cp-importar" accept="application/json" hidden></label>
+    </div>
+    <p id="cp-fuentes" class="meta">Cargando eventos…</p>
+
+    <h2>2. Matriz de riesgo 5×5 (ISO 31000)</h2>
+    <p class="meta">Cada número es una instalación. Probabilidad: eventos cercanos (pesan más los graves y los que están a menos de 25 km) y el índice de inestabilidad del país. Impacto: lo que capturaste. Nivel = probabilidad × impacto: 1–4 bajo, 5–9 medio, 10–16 alto, 20–25 crítico.</p>
+    <div id="cp-matriz"></div>
+    <div id="cp-lista" aria-live="polite"></div>
+
+    <h2>3. Exposición por país</h2>
+    <div class="cp-barra"><select id="cp-pais" aria-label="País"></select></div>
+    <div id="cp-pais-res"></div>
+
+    <h2>4. Radar de competidores</h2>
+    <form id="cp-radar-form" class="cp-barra"><input id="cp-radar-q" placeholder="Nombre de la empresa" aria-label="Empresa"><button type="submit" class="link-btn">Buscar</button></form>
+    <div id="cp-radar-res"></div>
+    <p class="meta">Solo fuentes públicas: titulares, patentes, registros, sanciones y contratos. No se rastrea a personas.</p>
+
+    <h2>5. Guías de método</h2>
+    <div id="cp-guias"></div>
+    <p class="meta">Normas de referencia: ISO 31000 (gestión del riesgo), ISO 22301 (continuidad del negocio), ISO 28000 (seguridad de la cadena de suministro), ISO 27001 (seguridad de la información). Sanciones por país: resumen revisado hasta 2025; verifica siempre en la lista oficial.</p>
+  </main>
+  <script type="module" src="js/corporativo.js"></script>
+</body>
+</html>
