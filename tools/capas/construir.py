@@ -721,7 +721,28 @@ def camaras(revisar=enlace_responde, externas=True):
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
         out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
         out += _fuente_camaras("nyc_dot", [NYC_DOT], camaras_nyc)
+        out += camaras_youtube()
     return out
+
+
+def camaras_youtube():
+    """Cámaras en vivo de todo el mundo en YouTube (tools/capas/youtube_vivo.py); solo con el secreto YOUTUBE_API_KEY."""
+    llave = os.environ.get("YOUTUBE_API_KEY", "")
+    if not llave:
+        CAM_FUENTES["youtube"] = "sin llave (secreto YOUTUBE_API_KEY)"
+        return []
+    import youtube_vivo as Y
+    try:
+        ciudades = Y.Ciudades(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"])
+        cams = Y.camaras(llave, ciudades)
+    except Exception as e:  # noqa: BLE001
+        CAM_FUENTES["youtube"] = f"error: {e}"[:200]
+        return []
+    CAM_FUENTES["youtube"] = f"ok ({len(cams)}, {sum(1 for c in cams if not c['aprox'])} con ubicación del canal)"
+    print(f"   cámaras youtube: {CAM_FUENTES['youtube']}")
+    return [feat(punto(c["lon"], c["lat"]), {"id": f"yt:{c['id']}", "n": c["titulo"], "st": c["st"], "p": c["pais"], "x": f"https://www.youtube.com/watch?v={c['id']}",
+                 "o": "Canal de YouTube", "t": "canal_youtube", "yt": c["id"], "canal": c["canal_url"], "lugar": c["lugar"], "aprox": 1 if c["aprox"] else 0,
+                 "nota": "Ubicación aproximada: sale del nombre de la ciudad en el título." if c["aprox"] else "Ubicación publicada por el canal."}, 2) for c in cams]
 
 
 # Familias con índice de búsqueda por nombre (Organizaciones → «Buscar»): buscar_<familia>.json con

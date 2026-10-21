@@ -12,6 +12,7 @@ import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
 import { iniciarMenu } from "./menu.js";
+import { registrarAnimacion, iniciarBotonAnimar } from "./animacion.js";
 import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
@@ -629,6 +630,9 @@ async function main() {
   linea = new LineaTiempo($("linea-tiempo"), (v) => { estado.desde = v.desde; estado.hasta = v.hasta; programarFiltros(); },
     { cargarHistorial: anexarHistorial, permitir90: true });
   linea.setEventos(eventos);
+  registrarAnimacion({ id: "eventos", nombre: "eventos en la línea de tiempo", disponible: () => linea.eventos?.length > 0,
+    activa: () => Boolean(linea.timer), iniciar: () => linea.reproducir(), detener: () => linea.detener() });
+  iniciarBotonAnimar($("btn-animar"));
   const alCargar = () => {
     aplicarFiltros();
     const m = location.hash.match(/^#evento=(.+)$/);
@@ -1217,6 +1221,8 @@ async function alternarTimelapse(cb) {
     barra.querySelector(".tl-cerrar").onclick = () => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
   }
   timelapse.activar();
+  registrarAnimacion({ id: "timelapse", nombre: "cambio en el tiempo (imágenes por año)", disponible: () => Boolean(timelapse?.activo),
+    activa: () => Boolean(timelapse?.reloj), iniciar: () => timelapse.reproducir(), detener: () => timelapse.pausar() });
   avisarPresupuesto();
 }
 
@@ -1260,14 +1266,21 @@ async function iniciarClima() {
   };
   // ▶ recorre los horizontes del pronóstico (p. ej. para ver avanzar el aire polar o una tormenta) cada 1.8 s.
   let animacion = null;
-  cont.addEventListener("click", (e) => {
-    const b = e.target.closest("#clima-animar");
-    if (!b) return;
-    if (animacion) { clearInterval(animacion); animacion = null; b.textContent = "▶"; b.setAttribute("aria-pressed", "false"); return; }
-    b.textContent = "⏸"; b.setAttribute("aria-pressed", "true");
+  const pintarBoton = () => { const b = $("clima-animar"); if (b) { b.textContent = animacion ? "⏸" : "▶"; b.setAttribute("aria-pressed", String(Boolean(animacion))); } };
+  const detenerClima = () => { clearInterval(animacion); animacion = null; pintarBoton(); };
+  const iniciarClima = () => {
     const sel = $("clima-paso");
+    if (!sel || animacion) return;
     animacion = setInterval(() => { sel.value = String((Number(sel.value) + 1) % sel.options.length); clima.setPaso(Number(sel.value)).catch(() => null); }, 1800);
+    pintarBoton();
+  };
+  cont.addEventListener("click", (e) => {
+    if (!e.target.closest("#clima-animar")) return;
+    animacion ? detenerClima() : iniciarClima();
   });
+  // El pronóstico se anima desde el botón global solo si hay alguna capa del modelo encendida (con varios momentos).
+  registrarAnimacion({ id: "clima", nombre: "pronóstico del clima", disponible: () => clima.activas.size > 0 && ($("clima-paso")?.options.length || 0) > 1,
+    activa: () => Boolean(animacion), iniciar: iniciarClima, detener: detenerClima });
   cont.addEventListener("change", async (e) => {
     if (e.target.id === "clima-paso") { await clima.setPaso(Number(e.target.value)); return; }
     const t = e.target.dataset.clima;

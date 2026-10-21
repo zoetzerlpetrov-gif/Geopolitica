@@ -723,3 +723,8 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .panel::-webkit-scrollbar { width: 11px; }
 .panel::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text-2) 50%, transparent); border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
 .panel::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--text-2) 75%, transparent); }
+
+/* Botón global «▶ Animar» de la barra superior: siempre visible y con color propio. */
+.btn-animar { background: var(--accent, #2E6F8E); color: #fff; font-weight: 700; border-color: transparent; }
+.btn-animar:hover { filter: brightness(1.1); }
+.btn-animar.animando { background: #C8102E; }

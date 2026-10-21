@@ -259,6 +259,13 @@
    "uso_comercial": false,
    "licencia_verificada": false
   },
+  "youtube_en_vivo": {
+   "nombre": "Transmisiones en vivo públicas de YouTube (API de datos v3)",
+   "url": "https://developers.google.com/youtube/v3",
+   "licencia": "Términos de servicio de la API de YouTube: solo se guarda el identificador del video, su título y el enlace al canal; el video se ve con el reproductor oficial",
+   "uso_comercial": false,
+   "licencia_verificada": true
+  },
   "shipping_lanes": {
    "nombre": "Global Shipping Lanes (P. Benden, 2022; Zenodo 10.5281/zenodo.6361763)",
    "url": "https://github.com/newzealandpaul/Shipping-Lanes",
@@ -6356,6 +6363,139 @@
      "tipo_capa": "estatica",
      "estado_dato": "tiempo_real",
      "zoom_min": 3,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_ciudades",
+     "nombre": {
+      "es": "Mundo en vivo: ciudades",
+      "en": "World live: cities"
+     },
+     "icono": "📹",
+     "color": "#5E35B1",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_playas",
+     "nombre": {
+      "es": "Mundo en vivo: playas y costas",
+      "en": "World live: beaches"
+     },
+     "icono": "📹",
+     "color": "#039BE5",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_puertos",
+     "nombre": {
+      "es": "Mundo en vivo: puertos y canales",
+      "en": "World live: ports and canals"
+     },
+     "icono": "📹",
+     "color": "#00838F",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_aeropuertos",
+     "nombre": {
+      "es": "Mundo en vivo: aeropuertos",
+      "en": "World live: airports"
+     },
+     "icono": "📹",
+     "color": "#455A64",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_volcanes",
+     "nombre": {
+      "es": "Mundo en vivo: volcanes",
+      "en": "World live: volcanoes"
+     },
+     "icono": "📹",
+     "color": "#BF360C",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_montana",
+     "nombre": {
+      "es": "Mundo en vivo: montaña y nieve",
+      "en": "World live: mountains"
+     },
+     "icono": "📹",
+     "color": "#6D4C41",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
+     "areas": [
+      "geografia"
+     ],
+     "familia": "camaras"
+    },
+    {
+     "id": "yt_trafico",
+     "nombre": {
+      "es": "Mundo en vivo: calles y tráfico",
+      "en": "World live: streets and traffic"
+     },
+     "icono": "📹",
+     "color": "#37474F",
+     "fuente": "youtube_en_vivo",
+     "licencia": "Transmisión pública en YouTube (se muestra con su reproductor y enlace al canal)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "tiempo_real",
+     "zoom_min": 2,
      "areas": [
       "geografia"
      ],
