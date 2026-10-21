@@ -150,7 +150,7 @@ function construirAvion(m) {
   const forma = m.forma;
   const militar = forma === "caza" || m.cola === "#4B5560";
   const cuerpo = militar ? "#7d868f" : "#f4f6f8";
-  const cola = mat(m.cola || "#2B4C7E", { metalness: 0.3, roughness: 0.35 });
+  const cola = mat(m.cola || "#9AA3AD", { metalness: 0.3, roughness: 0.35 });
   const gris = mat("#b7bec6", { metalness: 0.5, roughness: 0.35 });
   const giran = [];
   if (forma === "helicoptero") {

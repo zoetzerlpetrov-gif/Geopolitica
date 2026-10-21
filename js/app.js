@@ -902,6 +902,9 @@ async function iniciarCapas() {
   });
   gestor.registrar(familias);
   const cont = $("capas-entidades");
+  // Las casillas de las familias viven en «Infraestructura…», salvo Cámaras públicas, que se mueve a «Imágenes satelitales
+  // y cámaras»: por eso los eventos y búsquedas usan la sección completa (raiz) y no solo este contenedor.
+  const raiz = $("g-capas") || cont;
   // Subtítulo por categoría del catálogo (Infraestructura, Conflictos, Religiones…), en el orden del catálogo.
   const ordenCat = catalogo.categorias.map((c) => c.id);
   const nombreCat = Object.fromEntries(catalogo.categorias.map((c) => [c.id, c.nombre.es]));
@@ -944,6 +947,14 @@ async function iniciarCapas() {
     return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(NOMBRE_SECCION[c] || nombreCat[c] || c)}
       <span class="sg-n" data-sg-cat="${esc(c)}">${((n) => `${n} ${n === 1 ? "capa" : "capas"}`)(fs.filter((f) => f.disponible).length)}</span></summary>${fs.map(htmlFam).join("")}</details>`;
   }).join("");
+  // Cámaras públicas: una sola opción, dentro de «Imágenes satelitales y cámaras» (con sus subtipos y fuentes).
+  const famCam = cont.querySelector('[data-fam="camaras"]')?.closest(".capa-fam");
+  if (famCam && $("cam-capas")) $("cam-capas").append(famCam);
+  for (const n of cont.querySelectorAll("[data-sg-cat]")) {
+    const sec = n.closest("details");
+    const k = sec?.querySelectorAll(".capa-fam:not(.capa-off)").length ?? 0;
+    n.textContent = `${k} ${k === 1 ? "capa" : "capas"}`;
+  }
   // Buscador de Organizaciones: empresas, organismos y embajadas/consulados por nombre → vuela al punto y abre la ficha.
   const sgOrg = $("sg-capas-organizaciones");
   if (sgOrg) {
@@ -982,9 +993,9 @@ async function iniciarCapas() {
       const r = resultados[Number(b.dataset.org)];
       const fam = familias.find((f) => f.id === r.familia);
       // Enciende la capa (y el subtipo del resultado, si lo habías desmarcado) para que el punto se vea.
-      const cb = cont.querySelector(`[data-fam="${r.familia}"]`);
+      const cb = raiz.querySelector(`[data-fam="${r.familia}"]`);
       if (cb && !cb.checked) { cb.checked = true; await gestor.activar(r.familia); }
-      const subs = [...cont.querySelectorAll(`[data-fam-sub="${r.familia}"]`)];
+      const subs = [...raiz.querySelectorAll(`[data-fam-sub="${r.familia}"]`)];
       const subRes = subs.find((x) => x.value === r.st);
       if (subRes && !subRes.checked) { subRes.checked = true; gestor.setSubtipos(r.familia, subs.filter((x) => x.checked).map((x) => x.value)); }
       api.map.flyTo({ center: [r.lon, r.lat], zoom: Math.max(api.map.getZoom(), 14), duration: lite ? 0 : 1200 });
@@ -1002,35 +1013,28 @@ async function iniciarCapas() {
     const id = e.target.dataset?.riesgo;
     if (id) for (const x of document.querySelectorAll(`[data-espejo-riesgo="${id}"]`)) x.checked = e.target.checked;
   });
-  cont.addEventListener("change", async (e) => {
+  raiz.addEventListener("change", async (e) => {
     if (e.target.dataset.espejoRiesgo) { espejoRiesgo(e.target.dataset.espejoRiesgo, e.target.checked); return; }
     const fam = e.target.dataset.fam;
     if (fam) {
       if (!e.target.checked) { gestor.desactivar(fam); return; }
       await gestor.activar(fam);
       // Al encender (o volver a encender) la familia se respetan los subtipos que dejaste marcados.
-      const subs = [...cont.querySelectorAll(`[data-fam-sub="${fam}"]`)];
+      const subs = [...raiz.querySelectorAll(`[data-fam-sub="${fam}"]`)];
       if (subs.length && subs.some((x) => !x.checked)) gestor.setSubtipos(fam, subs.filter((x) => x.checked).map((x) => x.value));
       return;
     }
     const famSub = e.target.dataset.famSub;
-    if (famSub in UNO_A_LA_VEZ && e.target.checked) for (const x of cont.querySelectorAll(`[data-fam-sub="${famSub}"]`)) x.checked = x === e.target;
-    if (famSub) gestor.setSubtipos(famSub, [...cont.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
+    if (famSub in UNO_A_LA_VEZ && e.target.checked) for (const x of raiz.querySelectorAll(`[data-fam-sub="${famSub}"]`)) x.checked = x === e.target;
+    if (famSub) gestor.setSubtipos(famSub, [...raiz.querySelectorAll(`[data-fam-sub="${famSub}"]:checked`)].map((x) => x.value));
     // Un subtipo que solo aparece de cerca parece «no hacer nada» con el mapa lejos: se avisa desde qué zoom se ve.
-    if (famSub && e.target.checked && cont.querySelector(`[data-fam="${famSub}"]`)?.checked) {
+    if (famSub && e.target.checked && raiz.querySelector(`[data-fam="${famSub}"]`)?.checked) {
       const fam = familias.find((x) => x.id === famSub), st = fam?.subtipos.find((x) => x.id === e.target.value);
       const z = fam?.manifest?.zoom_por_subtipo?.[st?.id] ?? st?.zoom_min ?? 0;
       if (st && api.map.getZoom() < z) avisoMapa(`«${st.nombre.es}» aparece desde zoom ${z}: acércate al mapa (ahora estás en zoom ${api.map.getZoom().toFixed(1)}).`);
       else if (st && fam.manifest?.por_subtipo && !fam.manifest.por_subtipo[st.id]) avisoMapa(`«${st.nombre.es}» no tiene datos en la última construcción de la capa.`);
     }
   });
-  // «Imágenes y cámaras» tiene un atajo a la capa de cámaras: ambas casillas quedan sincronizadas.
-  const espejo = $("cam-espejo"), camCb = cont.querySelector('[data-fam="camaras"]');
-  if (espejo && camCb && !camCb.disabled) {
-    espejo.disabled = false;
-    espejo.addEventListener("change", () => { camCb.checked = espejo.checked; camCb.dispatchEvent(new Event("change", { bubbles: true })); });
-    camCb.addEventListener("change", () => { espejo.checked = camCb.checked; });
-  }
   await iniciarMovimiento(catalogo);
   // Enlaces compartibles y pruebas de carga: ?capas=aeropuertos,centrales&mov=aeronaves activa capas al abrir.
   const q = new URLSearchParams(location.search);

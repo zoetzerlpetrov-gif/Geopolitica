@@ -29,8 +29,8 @@ class Pdf(FPDF):
         self.set_display_mode("default", "continuous")  # la «acción al abrir» se quita al guardar (sin_accion_al_abrir)
         self.set_title(rep["titulo"])
         self.set_subject(f"Reporte del {rep['fecha']}")
-        self.set_author("Monitor Geopolítico")
-        self.set_creator("Monitor Geopolítico · github.com/zoetzerlpetrov-gif/Geopolitica")
+        self.set_author("DOMINUS OSINT")
+        self.set_creator("DOMINUS OSINT · github.com/zoetzerlpetrov-gif/Geopolitica")
         self.set_lang("es-MX")
 
     def multi_cell(self, w, h, text="", **kw):
@@ -51,7 +51,7 @@ class Pdf(FPDF):
         self.set_y(-12)
         self.set_font("DejaVu", "", 7.5)
         self.set_text_color(*GRIS)
-        self.cell(0, 5, f"Monitor Geopolítico · github.com/zoetzerlpetrov-gif/Geopolitica · página {self.page_no()}/{{nb}}", align="C")
+        self.cell(0, 5, f"DOMINUS OSINT · github.com/zoetzerlpetrov-gif/Geopolitica · página {self.page_no()}/{{nb}}", align="C")
 
     def titulo(self, texto, tam=13):
         self.ln(2)

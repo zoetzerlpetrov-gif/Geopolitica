@@ -8,7 +8,6 @@
 },
 "aviso": "Menu's en koppen zijn vertaald. Langere teksten blijven in deze browser in het Spaans; Chrome op de computer kan ze op je apparaat vertalen.",
 "textos": {
-"Monitor Geopolítico": "Geopolitieke monitor",
 "Saltar a la lista de eventos": "Naar de gebeurtenissenlijst",
 "Mostrar u ocultar panel": "Paneel tonen of verbergen",
 "Cargando…": "Laden…",
@@ -18,7 +17,7 @@
 "Análisis": "Analyse",
 "Taxonomía": "Taxonomie",
 "Proyección del mapa": "Kaartprojectie",
-"🗺️ Plano 2D": "🗺️ Plat 2D",
+"🗺️ Plano 2D (Mercator)": "🗺️ Plat 2D (Mercator)",
 "🌐 Globo 3D": "🌐 Globe 3D",
 "Mapa base": "Basiskaart",
 "Temático": "Thematisch",

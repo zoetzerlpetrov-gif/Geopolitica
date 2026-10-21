@@ -106,7 +106,9 @@ h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing
 
 .bloque-lista { border-bottom: 0; }
 /* Abierta, la lista se desplaza por dentro (en celular medía más de 2,000 px); cerrada no reserva alto. */
-.bloque-lista[open] .lista-eventos { max-height: min(60vh, 640px); overflow-y: auto; overscroll-behavior: contain; }
+/* La lista no «atrapa» la rueda del ratón: al llegar a su final el desplazamiento sigue en el panel (antes ocupaba 60 % de la
+   altura con overscroll contenido y no se podía bajar más sin cerrar secciones). */
+.bloque-lista[open] .lista-eventos { max-height: min(42vh, 460px); overflow-y: auto; }
 .contador { font-family: var(--mono); text-transform: none; }
 .lista-eventos { list-style: none; margin: 0; padding: 0; }
 .lista-eventos button {
@@ -635,7 +637,8 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .topbar { position: relative; z-index: 8; background: var(--vidrio); -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
   border-bottom: 1px solid var(--vidrio-borde); box-shadow: 0 6px 24px rgba(10, 20, 30, .12); }
 .topbar::after { content: ""; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--marca); opacity: .85; }
-.topbar h1 { background: var(--marca); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: .2px; }
+.topbar h1 { display: inline-flex; align-items: center; gap: 6px; }
+.topbar h1 > span { background: var(--marca); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: .2px; }
 .icon-btn, .link-btn, .txt-btn, .sel-vista { transition: border-color .15s, box-shadow .15s, transform .15s; }
 .icon-btn:hover, .link-btn:hover { box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); transform: translateY(-1px); }
 
@@ -705,3 +708,18 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .tabla-idiomas td:last-child { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .barra-idioma { width: 38%; }
 .barra-idioma span { display: block; height: 8px; border-radius: 4px; background: var(--accent); min-width: 2px; }
+
+/* Marca: cruz templaria (cruz patada roja) antes del nombre */
+.cruz-templaria { width: 1.15em; height: 1.15em; flex: none; filter: drop-shadow(0 0 1px rgba(0,0,0,.35)); }
+.topbar h1 > span { letter-spacing: 1.5px; font-weight: 800; }
+
+/* Submenús (bloques plegables dentro de cada sección): franja del color de su sección, más tenue. */
+.bloque.plegable[data-grupo] > summary { margin: -10px -12px 0; padding: 7px 12px; background: color-mix(in srgb, var(--g, #888) 16%, transparent); }
+.bloque.plegable[data-grupo][open] > summary { background: color-mix(in srgb, var(--g, #888) 26%, transparent); margin-bottom: 8px; }
+.bloque.plegable[data-grupo] > summary:hover { background: color-mix(in srgb, var(--g, #888) 32%, transparent); }
+.grupo-tit[data-grupo="investigacion"], .bloque[data-grupo="investigacion"] { --g: #6A3D7A; }
+/* Barra de desplazamiento del panel siempre visible y fácil de arrastrar. */
+.panel { scrollbar-width: auto; scrollbar-color: color-mix(in srgb, var(--text-2) 55%, transparent) transparent; scrollbar-gutter: stable; }
+.panel::-webkit-scrollbar { width: 11px; }
+.panel::-webkit-scrollbar-thumb { background: color-mix(in srgb, var(--text-2) 50%, transparent); border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
+.panel::-webkit-scrollbar-thumb:hover { background-color: color-mix(in srgb, var(--text-2) 75%, transparent); }

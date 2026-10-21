@@ -1,4 +1,4 @@
-# Monitor Geopolítico
+# DOMINUS OSINT
 
 Mapa mundial interactivo de eventos geopolíticos clasificados en 13 áreas, con vista de impacto para México.
 Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub Actions (GDELT, 8 feeds RSS y ReliefWeb).
