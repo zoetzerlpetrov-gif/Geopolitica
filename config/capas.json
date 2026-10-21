@@ -116,7 +116,7 @@
    "fuente": "osm",
    "habilitada": true,
    "zoom_etiquetas": 10,
-   "nota": "OpenStreetMap (ODbL). Primarias: granjas acuícolas y piscifactorías (todas), viñedos, huertos, invernaderos y plantaciones con nombre. Secundarias: parques industriales. Terciarias: centros comerciales con nombre. Las parcelas de cultivo sin nombre no se incluyen: son millones y no dicen qué se siembra; para eso están las capas por país del sector primario. La ficha muestra el cultivo, especie o producto y quién lo opera cuando la etiqueta existe."
+   "nota": "OpenStreetMap (ODbL). Primarias: granjas acuícolas y piscifactorías con nombre y granjas marinas de las cartas náuticas, viñedos, huertos, invernaderos y plantaciones con nombre. Secundarias: parques industriales. Terciarias: centros comerciales con nombre. Las parcelas de cultivo sin nombre no se incluyen: son millones y no dicen qué se siembra; para eso están las capas por país del sector primario. La ficha muestra el cultivo, especie o producto y quién lo opera cuando la etiqueta existe."
   },
   {
    "id": "militar",

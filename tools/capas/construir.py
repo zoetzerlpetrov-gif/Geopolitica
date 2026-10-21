@@ -1294,10 +1294,12 @@ def farmaceuticas():
     return out + _osm(els, lambda t: "farma_planta", lambda st, t: 7, lambda t: t.get("operator") or t.get("product", ""), Paises())
 
 
-# Actividades económicas en OpenStreetMap: (selectores, subtipo, zoom mínimo). Se piden solo objetos con nombre (salvo
-# acuicultura, que tiene pocos): los cultivos sin nombre son millones de parcelas que no dicen qué se siembra.
+# Actividades económicas en OpenStreetMap: (selectores, subtipo, zoom mínimo). Se piden solo objetos con nombre (y las
+# granjas marinas de las cartas náuticas): los cultivos y estanques sin nombre son millones de parcelas que no dicen qué
+# se produce. Medido el 21-oct-2026: 8,869 viñedos con nombre; los conteos mundiales de acuicultura y huertos no caben en
+# una sola consulta, por eso se piden por cajas como el resto de las familias de OSM.
 ACTIVIDADES = [
-    (['nwr["landuse"="aquaculture"]', 'nwr["seamark:type"="marine_farm"]'], "acuicultura", 7),
+    (['nwr["landuse"="aquaculture"]["name"]', 'nwr["seamark:type"="marine_farm"]'], "acuicultura", 7),
     (['nwr["landuse"="vineyard"]["name"]'], "vinedo", 9),
     (['nwr["landuse"="orchard"]["name"]'], "huerto_frutal", 9),
     (['nwr["landuse"="greenhouse_horticulture"]["name"]'], "invernadero", 9),
