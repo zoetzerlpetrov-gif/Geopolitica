@@ -760,7 +760,7 @@ def indice_busqueda(feats):
     return filas
 
 
-FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
+FAMILIAS_GEOJSON = {"camaras", "top_empresas", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
                     "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
@@ -1288,7 +1288,30 @@ def empresas():
         time.sleep(3)
     if not registros:
         raise RuntimeError("Wikidata no devolvió empresas")
+    _EMPRESAS_REG.clear()
+    _EMPRESAS_REG.update(registros)
     return S.features_empresas(registros, feat, punto)
+
+
+_EMPRESAS_REG = {}  # registros de la última consulta de empresas (los reusa el top 10 por país)
+
+
+def top_empresas():
+    """Top 10 de empresas por país (por notoriedad en Wikidata) con empleados, ingresos, capitalización y bolsa."""
+    import top_empresas as T
+    if not _EMPRESAS_REG:
+        empresas()
+    top = T.top_por_pais(_EMPRESAS_REG)
+    qids = [r["qid"] for lista in top.values() for r in lista]
+    detalle = {}
+    for i in range(0, len(qids), 150):
+        try:
+            T.leer_detalle(_sparql(T.Q_DETALLE % " ".join(f"wd:{q}" for q in qids[i:i + 150])), detalle)
+        except Exception as e:  # noqa: BLE001
+            print(f"   detalle {i}: {e}")
+        time.sleep(2)
+    print(f"   top 10: {len(top)} países, {len(qids)} empresas, {len(detalle)} con cifras")
+    return T.features(top, detalle, feat, punto)
 
 
 def _gazetteer_iso2():
@@ -1428,7 +1451,7 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "empresas": empresas, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}

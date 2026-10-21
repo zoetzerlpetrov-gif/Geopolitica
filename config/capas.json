@@ -68,6 +68,16 @@
    "nota": "Wikidata (CC0): sede corporativa (P159) de empresas con artículo en muchas Wikipedias; el sector sale de su industria (P452). Es notoriedad, no tamaño: faltan empresas grandes poco documentadas. Un punto por sede, no por planta o sucursal."
   },
   {
+   "id": "top_empresas",
+   "nombre": "Top 10 de empresas por país (cotizan o no en bolsa)",
+   "categoria": "organizaciones",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 3,
+   "nota": "Wikidata (CC0): las 10 empresas con artículo en más Wikipedias de cada país (notoriedad, no tamaño). La ficha trae empleados, ingresos con su moneda y año, capitalización y bolsa donde cotiza, si Wikidata los tiene."
+  },
+  {
    "id": "embajadas",
    "nombre": "Embajadas y consulados",
    "categoria": "organizaciones",

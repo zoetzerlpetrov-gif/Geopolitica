@@ -736,9 +736,26 @@ async function main() {
   $("sel-base").value = storage.get("gp_base") || "tematico";
   $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
   $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
-  $("sel-proyeccion").onchange = () => {
+  // «Peters (tamaño real)»: vista aparte dibujada en un lienzo encima del mapa (MapLibre no tiene esa proyección).
+  let peters = null;
+  const vistaPeters = async (on) => {
+    if (!on) { peters?.ocultar(); return; }
+    if (!peters) {
+      const P = await import("./peters.js");
+      peters = new P.VistaPeters($("map"), async () => {
+        const [paises, etiquetas] = await Promise.all([getJSON("data/base/countries-110m.geojson"), getJSON("data/base/etiquetas-paises.geojson").catch(() => ({ features: [] }))]);
+        const nombres = Object.fromEntries(etiquetas.features.map((f) => [f.properties.iso3, f.properties.n]));
+        const puntos = visiblesActuales.filter((e) => e.lat != null && e.lon != null).map((e) => [e.lon, e.lat, ({ 5: "#6A1B9A", 4: "#C62828", 3: "#E2711D", 2: "#F2B134", 1: "#2E7D32" })[e.severidad] || "#C8102E"]);
+        return { paises, nombres, puntos };
+      });
+    }
+    await peters.mostrar();
+  };
+  $("sel-proyeccion").onchange = async () => {
     const tipo = $("sel-proyeccion").value;
     storage.set("gp_proyeccion", tipo);
+    await vistaPeters(tipo === "peters");
+    if (tipo === "peters") return;
     api.setProyeccion(tipo);
     // «Plano 2D» es plano de verdad: sin inclinación ni giro, y sin las columnas 3D (que necesitan inclinar).
     if (tipo === "mercator") {
@@ -747,7 +764,8 @@ async function main() {
     }
   };
   if ($("sel-base").value !== "tematico") cambiarBase();
-  if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
+  if ($("sel-proyeccion").value === "peters") vistaPeters(true);
+  else if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   // Se arma cuando el mapa queda quieto o, a más tardar, a los 5 s: si un servicio del mapa base no responde (p. ej. las

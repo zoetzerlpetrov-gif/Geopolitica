@@ -837,6 +837,44 @@
      ],
      "familia": "empresas",
      "zoom_min": 3
+    },
+    {
+     "id": "top_cotiza",
+     "nombre": {
+      "es": "Top 10 del país: cotiza en bolsa",
+      "en": "Country top 10: listed"
+     },
+     "icono": "🏆",
+     "color": "#1565C0",
+     "fuente": "wikidata",
+     "licencia": "CC0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 1,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "top_empresas"
+    },
+    {
+     "id": "top_privada",
+     "nombre": {
+      "es": "Top 10 del país: no cotiza (privada o estatal)",
+      "en": "Country top 10: not listed"
+     },
+     "icono": "🏆",
+     "color": "#6A1B9A",
+     "fuente": "wikidata",
+     "licencia": "CC0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 1,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "top_empresas"
     }
    ]
   },
