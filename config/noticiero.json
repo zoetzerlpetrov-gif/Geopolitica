@@ -53,11 +53,6 @@
      "tipo": "Medio estatal chino"
     },
     {
-     "nombre": "International Crisis Group",
-     "url": "https://www.crisisgroup.org/rss.xml",
-     "tipo": "Centro de análisis de conflictos"
-    },
-    {
      "nombre": "France 24 Español",
      "url": "https://www.france24.com/es/rss",
      "tipo": "Medio público de Francia"
@@ -93,11 +88,6 @@
      "nombre": "Reserva Federal (comunicados)",
      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
      "tipo": "Banco central de EUA (fuente oficial)"
-    },
-    {
-     "nombre": "Foro Económico Mundial",
-     "url": "https://www.weforum.org/stories/feed",
-     "tipo": "Organismo privado internacional (WEF)"
     }
    ]
   },
@@ -105,18 +95,7 @@
    "id": "oro",
    "titulo": "Oro, reservas y bancos centrales (patrón oro, desdolarización)",
    "palabras": "\\boro\\b|\\bgold\\b|reservas de oro|gold reserves|patr[oó]n oro|gold standard|bancos? centrales? (compra|buy)|desdolarizaci|de-?dollari|reinicio global|great reset|bonos? de oro|gold bonds?",
-   "feeds": [
-    {
-     "nombre": "Kitco News",
-     "url": "https://www.kitco.com/news/rss/",
-     "tipo": "Medio especializado en metales"
-    },
-    {
-     "nombre": "Mining.com",
-     "url": "https://www.mining.com/feed/",
-     "tipo": "Medio especializado en minería"
-    }
-   ]
+   "feeds": []
   },
   {
    "id": "cripto",
@@ -126,11 +105,6 @@
     {
      "nombre": "CoinDesk",
      "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
-     "tipo": "Medio especializado en cripto"
-    },
-    {
-     "nombre": "Cointelegraph en Español",
-     "url": "https://es.cointelegraph.com/rss",
      "tipo": "Medio especializado en cripto"
     },
     {
@@ -144,18 +118,7 @@
    "id": "metales",
    "titulo": "Metales preciosos, materias primas y commodities",
    "palabras": "plata|silver|platino|platinum|paladio|palladium|cobre|copper|litio|lithium|materias primas|commodit|petr[oó]leo|crude|brent|wti\\b|trigo|wheat|ma[ií]z|corn\\b|soya|soybean|caf[eé]|coffee|cacao|cocoa|az[uú]car|sugar",
-   "feeds": [
-    {
-     "nombre": "Kitco News",
-     "url": "https://www.kitco.com/news/rss/",
-     "tipo": "Medio especializado en metales"
-    },
-    {
-     "nombre": "Mining.com",
-     "url": "https://www.mining.com/feed/",
-     "tipo": "Medio especializado en minería"
-    }
-   ]
+   "feeds": []
   },
   {
    "id": "inmobiliario",
@@ -166,11 +129,6 @@
      "nombre": "Inmobiliare",
      "url": "https://inmobiliare.com/feed/",
      "tipo": "Revista inmobiliaria de México"
-    },
-    {
-     "nombre": "El Economista (bienes raíces)",
-     "url": "https://www.eleconomista.com.mx/rss/empresas",
-     "tipo": "Diario de negocios de México"
     }
    ]
   },
@@ -185,11 +143,6 @@
      "tipo": "Televisora de negocios de EUA"
     },
     {
-     "nombre": "MarketWatch",
-     "url": "https://feeds.content.dowjones.io/public/rss/mw_topstories",
-     "tipo": "Medio financiero de EUA (Dow Jones)"
-    },
-    {
      "nombre": "El Economista (empresas)",
      "url": "https://www.eleconomista.com.mx/rss/empresas",
      "tipo": "Diario de negocios de México"
@@ -200,18 +153,7 @@
    "id": "indicadores",
    "titulo": "Indicadores: inflación, tasas, desempleo, bolsas (S&P 500, Dow, IPC, Russell 2000, VIX)",
    "palabras": "s&p ?500|dow jones|nasdaq|russell 2000|\\bvix\\b|\\bipc\\b|bmv\\b|bolsa mexicana|wall street|desempleo|unemployment|tasa de inter[eé]s|interest rate|inflaci[oó]n|inflation|inegi|banxico",
-   "feeds": [
-    {
-     "nombre": "Oficina de Estadísticas Laborales de EUA",
-     "url": "https://www.bls.gov/feed/bls_latest.rss",
-     "tipo": "Oficina estadística de EUA (fuente oficial)"
-    },
-    {
-     "nombre": "El Economista (mercados)",
-     "url": "https://www.eleconomista.com.mx/rss/mercados",
-     "tipo": "Diario de negocios de México"
-    }
-   ]
+   "feeds": []
   },
   {
    "id": "forex",
@@ -221,11 +163,6 @@
     {
      "nombre": "FXStreet Español",
      "url": "https://www.fxstreet.es/rss/news",
-     "tipo": "Portal especializado en divisas"
-    },
-    {
-     "nombre": "FXStreet",
-     "url": "https://www.fxstreet.com/rss/news",
      "tipo": "Portal especializado en divisas"
     }
    ]
@@ -261,11 +198,6 @@
      "nombre": "OilPrice.com",
      "url": "https://oilprice.com/rss/main",
      "tipo": "Medio especializado en energía"
-    },
-    {
-     "nombre": "Mining.com",
-     "url": "https://www.mining.com/feed/",
-     "tipo": "Medio especializado en minería"
     }
    ]
   },
@@ -275,11 +207,6 @@
    "palabras": "automotri|automotive|automaker|armadora|aerol[ií]nea|airline|aeropuerto|airport|grupo aeroportuario|oma\\b|gap\\b|asur\\b|aeron[aá]utic|aerospace|agr[ií]col|agricultur|ganad|livestock|puerto de|port of|naviera|shipping|construcci[oó]n|construction|hotel|turismo|tourism|retail|minorista|walmart|e-?commerce|comercio electr[oó]nico",
    "feeds": [
     {
-     "nombre": "A21 (aviación)",
-     "url": "https://a21.com.mx/rss.xml",
-     "tipo": "Revista de aviación de México"
-    },
-    {
      "nombre": "Simple Flying",
      "url": "https://simpleflying.com/feed/",
      "tipo": "Medio de aviación"
@@ -288,11 +215,6 @@
      "nombre": "Splash247",
      "url": "https://splash247.com/feed/",
      "tipo": "Medio de la industria marítima y portuaria"
-    },
-    {
-     "nombre": "Mining.com",
-     "url": "https://www.mining.com/feed/",
-     "tipo": "Medio especializado en minería"
     }
    ]
   },
@@ -305,11 +227,6 @@
      "nombre": "Mexico News Daily",
      "url": "https://mexiconewsdaily.com/feed/",
      "tipo": "Medio en inglés sobre México"
-    },
-    {
-     "nombre": "Cluster Industrial",
-     "url": "https://www.clusterindustrial.com.mx/feed",
-     "tipo": "Medio de la industria manufacturera de México"
     }
    ]
   },
@@ -318,11 +235,6 @@
    "titulo": "CETES, bonos de EUA y México, Udibonos, Bondes D, PRLV",
    "palabras": "cetes|udibono|bondes|prlv|bonos? del tesoro|treasur(y|ies)|bond yields?|rendimiento de los bonos|bono a 10 a[nñ]os|10-year|subasta de valores|deuda soberana|sovereign debt",
    "feeds": [
-    {
-     "nombre": "El Economista (mercados)",
-     "url": "https://www.eleconomista.com.mx/rss/mercados",
-     "tipo": "Diario de negocios de México"
-    },
     {
      "nombre": "Reserva Federal (comunicados)",
      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
@@ -346,11 +258,6 @@
      "tipo": "Servicio meteorológico de EUA (fuente oficial)"
     },
     {
-     "nombre": "Meteored México",
-     "url": "https://www.meteored.mx/noticias/rss",
-     "tipo": "Portal meteorológico"
-    },
-    {
      "nombre": "Severe Weather Europe",
      "url": "https://www.severe-weather.eu/feed/",
      "tipo": "Portal meteorológico europeo"
@@ -371,11 +278,6 @@
      "nombre": "Carbon Brief",
      "url": "https://www.carbonbrief.org/feed/",
      "tipo": "Medio especializado en clima y energía"
-    },
-    {
-     "nombre": "Foro Económico Mundial",
-     "url": "https://www.weforum.org/stories/feed",
-     "tipo": "Organismo privado internacional (WEF)"
     }
    ]
   },
@@ -393,11 +295,6 @@
      "nombre": "Glamour México",
      "url": "https://www.glamour.mx/feed/rss",
      "tipo": "Revista de moda y belleza"
-    },
-    {
-     "nombre": "Fashion United",
-     "url": "https://fashionunited.mx/rss-news",
-     "tipo": "Medio de la industria de la moda"
     }
    ]
   },
@@ -437,11 +334,6 @@
      "nombre": "La Jornada (cultura)",
      "url": "https://www.jornada.com.mx/rss/cultura.xml?v=1",
      "tipo": "Diario de México"
-    },
-    {
-     "nombre": "El País (cultura)",
-     "url": "https://feeds.elpais.com/mrss-s/pages/ep/site/elpais.com/section/cultura/portada",
-     "tipo": "Diario de España"
     },
     {
      "nombre": "Hyperallergic",
@@ -549,11 +441,6 @@
      "tipo": "Servicio de noticias de la ONU"
     },
     {
-     "nombre": "FMI (noticias)",
-     "url": "https://www.imf.org/en/News/rss?language=eng",
-     "tipo": "Fondo Monetario Internacional (fuente oficial)"
-    },
-    {
      "nombre": "Banco de Pagos Internacionales",
      "url": "https://www.bis.org/doclist/all_pressrels.rss",
      "tipo": "Organismo de bancos centrales (fuente oficial)"
@@ -613,11 +500,6 @@
      "nombre": "STAT",
      "url": "https://www.statnews.com/feed/",
      "tipo": "Medio de salud y ciencia de EUA"
-    },
-    {
-     "nombre": "CIDRAP",
-     "url": "https://www.cidrap.umn.edu/news/rss",
-     "tipo": "Centro de enfermedades infecciosas de la U. de Minnesota"
     }
    ]
   },
@@ -655,11 +537,6 @@
      "tipo": "Verificador de datos"
     },
     {
-     "nombre": "AFP Factual",
-     "url": "https://factual.afp.com/rss",
-     "tipo": "Verificador de la agencia AFP"
-    },
-    {
      "nombre": "Newtral",
      "url": "https://www.newtral.es/feed/",
      "tipo": "Verificador de datos (España)"
@@ -678,11 +555,6 @@
      "tipo": "Diario de México"
     },
     {
-     "nombre": "Aristegui Noticias",
-     "url": "https://aristeguinoticias.com/feed/",
-     "tipo": "Medio digital independiente de México"
-    },
-    {
      "nombre": "Infobae México",
      "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
      "tipo": "Medio digital (Argentina) con sección México"
@@ -698,19 +570,9 @@
      "tipo": "Revista de México"
     },
     {
-     "nombre": "El Universal",
-     "url": "https://www.eluniversal.com.mx/arc/outboundfeeds/rss/?outputType=xml",
-     "tipo": "Diario de México"
-    },
-    {
      "nombre": "Animal Político",
      "url": "https://animalpolitico.com/feed",
      "tipo": "Medio digital de México"
-    },
-    {
-     "nombre": "Proceso",
-     "url": "https://www.proceso.com.mx/rss/",
-     "tipo": "Semanario de México"
     }
    ],
    "gkg_dominio": "\\.mx$|infobae\\.com$|mexiconewsdaily\\.com$"

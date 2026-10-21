@@ -361,17 +361,78 @@ export function momentosBucle(def, ahora = new Date()) {
 }
 
 export const urlBucle = (capa, matriz, momento) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${capa}/default/${momento}/${matriz}/{z}/{y}/{x}.png`;
+export const urlDominios = (capa, matriz, ini, fin) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/${capa}/default/${matriz}/all/${ini}--${fin}.xml`;
+const isoMin = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+
+/** <Domain> de GIBS («ini/fin/PT10M,ini/fin/PT10M» o momentos sueltos) → momentos ISO publicados, ordenados. */
+export function leerDominio(xml) {
+  const txt = /<Domain>([^<]*)<\/Domain>/.exec(xml || "")?.[1] || "";
+  const out = new Set();
+  for (const parte of txt.split(",").map((x) => x.trim()).filter(Boolean)) {
+    const [a, b, per] = parte.split("/");
+    const m = /^PT(\d+)([MH])$/.exec(per || "");
+    const paso = m ? Number(m[1]) * (m[2] === "H" ? 3600000 : 60000) : 0;
+    const ini = Date.parse(a), fin = b ? Date.parse(b) : ini;
+    if (Number.isNaN(ini) || Number.isNaN(fin)) continue;
+    for (let t = ini; t <= fin && out.size < 2000; t += paso || Infinity) out.add(isoMin(t));
+  }
+  return [...out].sort();
+}
+
+/**
+ * Cuadros con lo que de verdad está publicado. GIBS no tiene todos los momentos de cada 10 min (GOES-Este puede
+ * pasar más de una hora sin imagen) y cada satélite publica a su ritmo; pedir momentos fijos dejaba cuadros vacíos o a
+ * medias. Los momentos del bucle son los últimos `cuadros` de cualquiera de las capas; para cada capa se usa su
+ * imagen publicada más reciente que no pase de ese momento. Cuadros idénticos se juntan. null si alguna capa no tiene nada.
+ */
+export function cuadrosPublicados(listas, cuadros) {
+  if (!listas.length || listas.some((l) => !l.length)) return null;
+  const todos = [...new Set(listas.flat())].sort().slice(-cuadros);
+  const out = [];
+  for (const t of todos) {
+    const capas = listas.map((l) => [...l].reverse().find((x) => x <= t) || l[0]);
+    if (out.length && out.at(-1).capas.join() === capas.join()) { out.at(-1).t = t; continue; }
+    out.push({ t, capas });
+  }
+  return out;
+}
 
 class BucleSatelite {
   constructor(map, id, onMomento, onProgreso) {
     this.map = map; this.id = id; this.def = BUCLES[id]; this.onMomento = onMomento; this.onProgreso = onProgreso;
-    this.momentos = momentosBucle(this.def);
-    this.i = this.momentos.length - 1;
     this.agregados = new Set();
+    // Imágenes que el servidor no entregó, por cuadro. Un cuadro con bastantes fallas más que los otros (mosaico que
+    // GIBS anuncia pero no tiene) se saca del bucle para que la vista no se «despinte» al pasar por él. Las fallas que
+    // tienen todos los cuadros por igual (mosaicos fuera de cobertura) no cuentan.
+    this.errores = new Map();
+    this.alError = (e) => {
+      const m = e.sourceId?.match(new RegExp(`^bucle-${this.id}-(\\d+)-`));
+      if (m) this.errores.set(Number(m[1]), (this.errores.get(Number(m[1])) || 0) + 1);
+    };
+    this.map.on("error", this.alError);
+    this.vivo = true;
+    this.#iniciar();
+  }
+
+  /** Pregunta a GIBS qué momentos hay de cada capa; si no responde, usa momentos fijos cada «paso» minutos. */
+  async #iniciar() {
+    const ahora = Date.now(), ini = isoMin(ahora - 4 * 3600000), fin = isoMin(ahora);
+    let cuadros = null;
+    try {
+      const listas = await Promise.all(this.def.capas.map(async ([capa, matriz]) => {
+        const r = await fetch(urlDominios(capa, matriz, ini, fin));
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return leerDominio(await r.text());
+      }));
+      cuadros = cuadrosPublicados(listas, this.def.cuadros);
+    } catch (e) { /* sin red hacia GIBS o formato distinto: se usan momentos fijos */ }
+    if (!this.vivo) return;
+    this.momentos = cuadros || momentosBucle(this.def).map((t) => ({ t, capas: this.def.capas.map(() => t) }));
+    this.i = this.momentos.length - 1;
     // Primero el cuadro más reciente; los anteriores se piden de uno en uno cuando el previo terminó de bajar,
     // para que no compitan entre sí y la primera imagen aparezca cuanto antes.
     this.#agregar(this.i);
-    this.onMomento?.(this.momentos[this.i]);
+    this.onMomento?.(this.momentos[this.i].t);
     this.#avisar();
     this.reloj = setInterval(() => this.#siguiente(), 700);
   }
@@ -381,27 +442,32 @@ class BucleSatelite {
     this.def.capas.forEach(([capa, matriz], j) => {
       const sid = `bucle-${this.id}-${k}-${j}`;
       if (this.map.getSource(sid)) return;
-      this.map.addSource(sid, { type: "raster", tiles: [urlBucle(capa, matriz, this.momentos[k])], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
+      this.map.addSource(sid, { type: "raster", tiles: [urlBucle(capa, matriz, this.momentos[k].capas[j])], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
         "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
     });
     this.agregados.add(k);
   }
 
+  #fallido(k) {
+    const base = Math.min(...[...this.agregados].map((j) => this.errores.get(j) || 0));
+    return (this.errores.get(k) || 0) - base >= 3;
+  }
+
   /** Un cuadro está listo cuando todas sus imágenes de la vista actual ya se descargaron. */
   #listo(k) {
-    if (!this.agregados.has(k)) return false;
+    if (!this.agregados.has(k) || this.#fallido(k)) return false;
     return this.def.capas.every((_, j) => { try { return this.map.isSourceLoaded(`bucle-${this.id}-${k}-${j}`); } catch (e) { return false; } });
   }
 
   #avisar() {
-    // Si todo lo pedido ya bajó, se pide el siguiente cuadro hacia atrás en el tiempo.
-    if ([...this.agregados].every((k) => this.#listo(k))) {
+    // Si todo lo pedido ya bajó (o falló), se pide el siguiente cuadro hacia atrás en el tiempo.
+    if ([...this.agregados].every((k) => this.#fallido(k) || this.#listo(k))) {
       const siguiente = [...this.momentos.keys()].reverse().find((k) => !this.agregados.has(k));
       if (siguiente != null) this.#agregar(siguiente);
     }
     const listos = this.momentos.filter((_, k) => this.#listo(k)).length;
-    this.onProgreso?.(listos, this.momentos.length);
+    this.onProgreso?.(listos, this.momentos.length - [...this.agregados].filter((k) => this.#fallido(k)).length);
     return listos;
   }
 
@@ -422,11 +488,13 @@ class BucleSatelite {
       this.map.setPaintProperty(`bucle-${this.id}-${anterior}-${j}`, "raster-opacity", 0);
       this.map.setPaintProperty(`bucle-${this.id}-${this.i}-${j}`, "raster-opacity", this.def.opacidad);
     });
-    this.onMomento?.(this.momentos[this.i]);
+    this.onMomento?.(this.momentos[this.i].t);
   }
 
   destruir() {
+    this.vivo = false;
     clearInterval(this.reloj);
+    this.map.off("error", this.alError);
     this.agregados.forEach((k) => this.def.capas.forEach((__, j) => {
       const sid = `bucle-${this.id}-${k}-${j}`;
       if (this.map.getLayer(sid)) this.map.removeLayer(sid);
