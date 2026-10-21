@@ -25,7 +25,6 @@ export const EXTERNOS = IDIOMAS.map(([k]) => k).filter((k) => k !== "es" && !ORD
 
 // es | en | fr | de | it
 const FILAS = `
-Monitor Geopolítico|Geopolitical Monitor|Moniteur géopolitique|Geopolitischer Monitor|Monitor geopolitico
 Saltar a la lista de eventos|Skip to the event list|Aller à la liste des événements|Zur Ereignisliste springen|Vai all'elenco degli eventi
 Mostrar u ocultar panel|Show or hide panel|Afficher ou masquer le panneau|Seitenleiste ein- oder ausblenden|Mostra o nascondi il pannello
 Cargando…|Loading…|Chargement…|Wird geladen…|Caricamento…
@@ -35,7 +34,7 @@ Todas las regiones|All regions|Toutes les régions|Alle Regionen|Tutte le region
 Análisis|Analysis|Analyse|Analyse|Analisi
 Taxonomía|Taxonomy|Taxonomie|Taxonomie|Tassonomia
 Proyección del mapa|Map projection|Projection de la carte|Kartenprojektion|Proiezione della mappa
-🗺️ Plano 2D|🗺️ Flat 2D|🗺️ Plan 2D|🗺️ Flach 2D|🗺️ Piano 2D
+🗺️ Plano 2D (Mercator)|🗺️ Flat 2D (Mercator)|🗺️ Plan 2D (Mercator)|🗺️ Flach 2D (Mercator)|🗺️ Piano 2D (Mercator)
 🌐 Globo 3D|🌐 3D globe|🌐 Globe 3D|🌐 3D-Globus|🌐 Globo 3D
 Mapa base|Base map|Fond de carte|Grundkarte|Mappa di base
 Temático|Thematic|Thématique|Thematisch|Tematica

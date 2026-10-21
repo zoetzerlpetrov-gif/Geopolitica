@@ -8,7 +8,6 @@
 },
 "aviso": "Menyer og overskrifter er oversatt. Lengre tekster forblir på spansk i denne nettleseren; Chrome på datamaskin kan oversette dem på enheten din.",
 "textos": {
-"Monitor Geopolítico": "Geopolitisk monitor",
 "Saltar a la lista de eventos": "Hopp til hendelseslisten",
 "Mostrar u ocultar panel": "Vis eller skjul panelet",
 "Cargando…": "Laster…",
@@ -18,7 +17,7 @@
 "Análisis": "Analyse",
 "Taxonomía": "Taksonomi",
 "Proyección del mapa": "Kartprojeksjon",
-"🗺️ Plano 2D": "🗺️ Flat 2D",
+"🗺️ Plano 2D (Mercator)": "🗺️ Flat 2D (Mercator)",
 "🌐 Globo 3D": "🌐 Globus 3D",
 "Mapa base": "Grunnkart",
 "Temático": "Tematisk",

@@ -10,7 +10,14 @@ export const COLA_AEROLINEA = {
   DLH: "#05164D", KLM: "#00A1DE", UAE: "#C8102E", QTR: "#5C0632", ACA: "#D22630", ANA: "#13448F", JAL: "#CC0000", CPA: "#006564",
   SIA: "#1F2A44", THY: "#C70A0C", ETD: "#BD8B13", AAY: "#F7A800", NKS: "#FFE600", FFT: "#0A6B3B", WJA: "#00A3AD", ARG: "#5FA9DD",
   FDX: "#4D148C", UPS: "#351C15", GTI: "#1E3D7B", CLX: "#004B8D", RYR: "#073590", EZY: "#FF6600", VLG: "#FFCC00", AEA: "#0066B3",
+  SLI: "#0B2343", VIR: "#DA0530", WZZ: "#C6007E", TAP: "#E20613", ITY: "#0046AD", SAS: "#000F6E", NAX: "#D81939", FIN: "#0B1560",
+  PGT: "#FDC300", SVA: "#006C35", ELY: "#003A80", MSR: "#00265D", ETH: "#078930", KQA: "#E31837", SAA: "#00205B", RAM: "#C1272D",
+  AIC: "#E31837", IGO: "#001B94", CCA: "#E60012", CES: "#0B3D91", CSN: "#0072CE", KAL: "#00A5E5", QFA: "#E0001B", ANZ: "#111111",
+  GLO: "#FF6A00", AZU: "#003B71", LPE: "#1B0088", DHK: "#FFCC00", BCS: "#FFCC00", EWG: "#7A1E5A", SWR: "#E2001A", AUA: "#E2001A",
+  TRA: "#00C060", TVF: "#00C060",
 };
+// Sin aerolínea conocida: cola gris neutra (antes era azul y se confundía con la de United).
+const COLA_NEUTRA = "#9AA3AD";
 const QUATRIMOTOR = /^(A38|B74|A34|IL96|A124)/;
 const ANCHO = /^(A3[035]|A38|B7[4-8]|IL96|A124|C17|C5M|A400|B52)/;
 const REGIONAL = /^(E1[79]|E2|E[57]|CRJ|SU95|BCS|E19|E29|E75|ARJ)/;
@@ -32,7 +39,7 @@ export function formaAvion(tipo, categoria, subtipo) {
 
 export function colaAerolinea(indicativo, subtipo) {
   if (subtipo === "militar" || subtipo === "estado") return "#4B5560";
-  return COLA_AEROLINEA[String(indicativo || "").trim().toUpperCase().slice(0, 3)] || "#2B4C7E";
+  return COLA_AEROLINEA[String(indicativo || "").trim().toUpperCase().slice(0, 3)] || COLA_NEUTRA;
 }
 
 const FORMA_BUQUE = { carga: "carga", tanqueros: "tanquero", pasaje: "pasaje", pesca: "pesca", militares: "militar", vela_recreo: "vela",

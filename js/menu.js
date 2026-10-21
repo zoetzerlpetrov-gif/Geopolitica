@@ -4,7 +4,7 @@ import { esc, storage } from "./util.js";
 
 const LS_ABIERTOS = "geo_menu_abiertos";
 // Casillas que encienden una capa del mapa (las de subtipos, áreas o ciudades no cuentan como capa).
-const SELECTOR_CAPAS = "[data-riesgo], [data-mov], [data-img], [data-tl], [data-clima], [data-fam], #capa-indice, #capa-chokepoints, #cam-espejo";
+const SELECTOR_CAPAS = "[data-riesgo], [data-mov], [data-img], [data-tl], [data-clima], [data-fam], #capa-indice, #capa-chokepoints";
 
 const normalizar = (t) => String(t || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 

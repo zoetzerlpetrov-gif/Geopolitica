@@ -124,7 +124,7 @@ export function cargarImagen(titulo) {
 const escH = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 /** Hueco en la ficha que `rellenarImagenes` completa. */
 export const huecoImagen = (ref, avion = null) => (ref ? `<figure class="img-tipo" data-img-tipo="${escH(ref.titulo)}" data-exacto="${ref.exacto ? 1 : 0}"${ref.ilustrativa ? " data-ilustrativa" : ""}${avion
-  ? ` data-hex="${escH(avion.hex)}" data-indicativo="${escH(avion.indicativo || "")}" data-subtipo="${escH(avion.subtipo || "")}"` : ""}></figure>` : "");
+  ? ` data-hex="${escH(avion.hex)}" data-indicativo="${escH(avion.indicativo || "")}" data-subtipo="${escH(avion.subtipo || "")}" data-aerolinea="${escH(avion.aerolinea || "")}"` : ""}></figure>` : "");
 
 export function htmlImagen(img, exacto, ilustrativa = false) {
   return `<a href="${escH(img.archivo)}" target="_blank" rel="noopener noreferrer"><img src="${escH(img.src)}" alt="${escH(img.titulo)}" loading="lazy" decoding="async"
@@ -138,7 +138,7 @@ export async function rellenarImagenes(raiz) {
   for (const fig of raiz?.querySelectorAll?.("figure[data-img-tipo]:not([data-listo])") || []) {
     fig.dataset.listo = "1";
     if (fig.dataset.hex) {
-      const real = await fotoAvionReal({ hex: fig.dataset.hex, indicativo: fig.dataset.indicativo, subtipo: fig.dataset.subtipo });
+      const real = await fotoAvionReal({ hex: fig.dataset.hex, indicativo: fig.dataset.indicativo, subtipo: fig.dataset.subtipo, aerolinea: fig.dataset.aerolinea });
       if (!fig.isConnected) continue;
       const datos = fig.parentElement?.querySelector(".avion-registro");
       if (real && datos && (real.matricula || real.modelo)) {
@@ -149,13 +149,16 @@ export async function rellenarImagenes(raiz) {
     }
     const img = await cargarImagen(fig.dataset.imgTipo);
     if (!fig.isConnected) continue;
-    if (img) fig.innerHTML = htmlImagen(img, fig.dataset.exacto === "1", "ilustrativa" in fig.dataset); else fig.remove();
+    // La imagen genérica del modelo (artículo de Wikipedia) suele ser de otra aerolínea: se avisa en el pie.
+    if (img) fig.innerHTML = htmlImagen(img, fig.dataset.exacto === "1", "ilustrativa" in fig.dataset) + (fig.dataset.hex ? '<p class="meta">La aerolínea de esta foto puede ser otra: no se encontró una foto libre de la aerolínea de este vuelo.</p>' : "");
+    else fig.remove();
   }
 }
 
 // ------------------------------------------------------------------ foto real del avión
 // Para vuelos comerciales, de carga, de Estado y militares: 1) foto de ESTA aeronave por su matrícula en Wikimedia
-// Commons; 2) si no hay, una foto de la misma aerolínea y modelo; 3) si tampoco, la imagen genérica del modelo.
+// Commons; 2) si no hay, una foto de la misma aerolínea y modelo; 3) una foto de cualquier avión de esa aerolínea (con
+// sus colores); 4) si tampoco, la imagen genérica del modelo, avisando que la aerolínea puede ser otra.
 // Matrícula, tipo y aerolínea vienen de adsbdb.com (CORS abierto). Nunca se muestra el dueño registrado (para aviones
 // privados puede ser una persona) ni se consulta nada para aviación general.
 export const CON_FOTO_REAL = new Set(["civil_comercial", "carga", "estado", "militar", "en_tierra"]);
@@ -182,20 +185,21 @@ export function autorPlano(html) {
 }
 
 const cacheReal = new Map();
-export function fotoAvionReal({ hex, indicativo, subtipo }) {
+export function fotoAvionReal({ hex, indicativo, subtipo, aerolinea = "" }) {
   if (!hex || !CON_FOTO_REAL.has(subtipo)) return Promise.resolve(null);
   const clave = `${hex}|${indicativo || ""}`;
-  if (!cacheReal.has(clave)) cacheReal.set(clave, buscarFotoReal(hex, indicativo).catch(() => null));
+  if (!cacheReal.has(clave)) cacheReal.set(clave, buscarFotoReal(hex, indicativo, aerolinea).catch(() => null));
   return cacheReal.get(clave);
 }
 
-async function buscarFotoReal(hex, indicativo) {
+async function buscarFotoReal(hex, indicativo, aerolineaConocida = "") {
   const [av, ruta] = await Promise.all([
     getJSON(`https://api.adsbdb.com/v0/aircraft/${encodeURIComponent(hex)}`).then((d) => d?.response?.aircraft || null).catch(() => null),
     indicativo ? getJSON(`https://api.adsbdb.com/v0/callsign/${encodeURIComponent(indicativo.trim())}`).then((d) => d?.response?.flightroute || null).catch(() => null) : null,
   ]);
   const matricula = av?.registration || "";
-  const aerolinea = ruta?.airline?.name || "";
+  // Nombre de la aerolínea: el de adsbdb o, si no conoce la ruta, el de la tabla propia por prefijo OACI.
+  const aerolinea = ruta?.airline?.name || aerolineaConocida || "";
   const modelo = MODELO_OACI[av?.icao_type] || av?.type || "";
   const buscar = (q) => getJSON(`${COMMONS}action=query&list=search&srnamespace=6&srlimit=10&srsearch=${encodeURIComponent(q)}`).then((d) => d?.query?.search || []);
   let archivo = null, nivel = null;
@@ -209,6 +213,11 @@ async function buscarFotoReal(hex, indicativo) {
     archivo = elegirArchivo(await buscar(`"${aerolinea}" "${modelo}"`), (t) => sinAcentosF(t).includes(a) && sinAcentosF(t).replace(/[^a-z0-9]/g, "").includes(m));
     if (archivo) nivel = "aerolinea_modelo";
   }
+  if (!archivo && aerolinea) {
+    const a = sinAcentosF(aerolinea).split(" ")[0];
+    archivo = elegirArchivo(await buscar(`"${aerolinea}" aircraft`), (t) => sinAcentosF(t).includes(a));
+    if (archivo) nivel = "aerolinea";
+  }
   if (!archivo) return { matricula, aerolinea, modelo, fabricante: av?.manufacturer || "", src: null };
   const info = await getJSON(`${COMMONS}action=query&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&titles=${encodeURIComponent(archivo)}`);
   const ii = Object.values(info?.query?.pages || {})[0]?.imageinfo?.[0];
@@ -219,6 +228,7 @@ async function buscarFotoReal(hex, indicativo) {
 
 export function htmlFotoAvion(f) {
   const que = f.nivel === "exacto" ? `Foto de esta aeronave (matrícula ${escH(f.matricula)})`
+    : f.nivel === "aerolinea" ? `Avión de la misma aerolínea (${escH(f.aerolinea)}), puede ser otro modelo; no es esta unidad`
     : `Misma aerolínea y modelo (${escH(f.aerolinea)} · ${escH(f.modelo)}); no necesariamente esta unidad`;
   return `<a href="${escH(f.archivo)}" target="_blank" rel="noopener noreferrer"><img src="${escH(f.src)}" alt="${escH(que)}" loading="lazy" decoding="async"
       width="${Number(f.ancho) || ""}" height="${Number(f.alto) || ""}"></a>

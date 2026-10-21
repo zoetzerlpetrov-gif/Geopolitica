@@ -8,7 +8,6 @@
 },
 "aviso": "Menus e títulos estão traduzidos. Os textos longos ficam em espanhol neste navegador; o Chrome para computador pode traduzi-los no seu aparelho.",
 "textos": {
-"Monitor Geopolítico": "Monitor Geopolítico",
 "Saltar a la lista de eventos": "Ir para a lista de eventos",
 "Mostrar u ocultar panel": "Mostrar ou ocultar painel",
 "Cargando…": "Carregando…",
@@ -18,7 +17,7 @@
 "Análisis": "Análise",
 "Taxonomía": "Taxonomia",
 "Proyección del mapa": "Projeção do mapa",
-"🗺️ Plano 2D": "🗺️ Plano 2D",
+"🗺️ Plano 2D (Mercator)": "🗺️ Plano 2D (Mercator)",
 "🌐 Globo 3D": "🌐 Globo 3D",
 "Mapa base": "Mapa base",
 "Temático": "Temático",

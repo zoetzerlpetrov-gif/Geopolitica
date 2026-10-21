@@ -8,7 +8,6 @@
 },
 "aviso": "メニューと見出しは翻訳済みです。長い文章はこのブラウザではスペイン語のままです。パソコン版の Chrome なら端末上で翻訳できます。",
 "textos": {
-"Monitor Geopolítico": "地政学モニター",
 "Saltar a la lista de eventos": "イベント一覧へ移動",
 "Mostrar u ocultar panel": "パネルの表示/非表示",
 "Cargando…": "読み込み中…",
@@ -18,7 +17,7 @@
 "Análisis": "分析",
 "Taxonomía": "分類体系",
 "Proyección del mapa": "地図の投影法",
-"🗺️ Plano 2D": "🗺️ 平面 2D",
+"🗺️ Plano 2D (Mercator)": "🗺️ 平面 2D (Mercator)",
 "🌐 Globo 3D": "🌐 地球儀 3D",
 "Mapa base": "ベースマップ",
 "Temático": "テーマ別",

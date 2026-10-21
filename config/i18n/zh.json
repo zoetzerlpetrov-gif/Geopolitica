@@ -8,7 +8,6 @@
 },
 "aviso": "菜单和标题已翻译。较长的文字在此浏览器中保持西班牙语；电脑版 Chrome 可以在您的设备上翻译。",
 "textos": {
-"Monitor Geopolítico": "地缘政治监测",
 "Saltar a la lista de eventos": "跳到事件列表",
 "Mostrar u ocultar panel": "显示或隐藏面板",
 "Cargando…": "加载中…",
@@ -18,7 +17,7 @@
 "Análisis": "分析",
 "Taxonomía": "分类体系",
 "Proyección del mapa": "地图投影",
-"🗺️ Plano 2D": "🗺️ 平面 2D",
+"🗺️ Plano 2D (Mercator)": "🗺️ 平面 2D (Mercator)",
 "🌐 Globo 3D": "🌐 地球仪 3D",
 "Mapa base": "底图",
 "Temático": "专题",

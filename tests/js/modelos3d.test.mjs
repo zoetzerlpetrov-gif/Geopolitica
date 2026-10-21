@@ -16,7 +16,8 @@ test("color de cola por aerolínea y gris para militares", () => {
   assert.equal(colaAerolinea("AMX402", "civil_comercial"), "#0B2343");
   assert.equal(colaAerolinea("VOI881", "civil_comercial"), "#A12B8F");
   assert.equal(colaAerolinea("RCH123", "militar"), "#4B5560");
-  assert.equal(colaAerolinea("ZZZ1", "civil_comercial"), "#2B4C7E");
+  assert.equal(colaAerolinea("ZZZ1", "civil_comercial"), "#9AA3AD"); // neutra, no la azul de United
+  assert.equal(colaAerolinea("ETH500", "civil_comercial"), "#078930");
 });
 
 test("aviación general no tiene modelo 3D", () => {
