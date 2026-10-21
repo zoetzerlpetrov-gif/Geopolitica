@@ -761,7 +761,7 @@ def indice_busqueda(feats):
 
 
 FAMILIAS_GEOJSON = {"camaras", "top_empresas", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
-                    "fiscal_ue", "recaudacion", "sector_primario", "sector_secundario", "sector_terciario", "pagos_cbdc", "pagos_cripto", "pagos_efectivo", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
+                    "fiscal_ue", "recaudacion", "sector_primario", "sector_secundario", "sector_terciario", "pagos_cbdc", "pagos_cripto", "pagos_efectivo", "cultivos_pais", "acuicultura_pais", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -1226,6 +1226,33 @@ def pagos_efectivo():
     return _pagos("pagos_efectivo")
 
 
+def cultivos_pais():
+    """Los 5 productos agrícolas y ganaderos con más toneladas de cada país, último año (FAOSTAT, CC BY 4.0)."""
+    import faostat as FA
+    datos = FA.leer_cultivos(FA.abrir_zip(get(FA.CULTIVOS_URL, timeout=300), "All_Data_(Normalized)"), FA.tabla_m49())
+    if len(datos) < 100:
+        raise RuntimeError(f"FAOSTAT devolvió solo {len(datos)} países")
+    return FA.features_cultivos(_paises_fc(), datos)
+
+
+def acuicultura_pais():
+    """Producción de acuicultura de cada país (toneladas de peso vivo), último año, con sus 3 especies principales (FishStat)."""
+    import faostat as FA
+    anio = datetime.now(timezone.utc).year
+    for v in range(anio + 1, anio - 3, -1):
+        try:
+            contenido = get(FA.ACUI_URL.format(v=v), timeout=200, intentos=1)
+            break
+        except Exception as e:  # noqa: BLE001
+            print(f"   FishStat {v}: {e}")
+    else:
+        raise RuntimeError("No se encontró el archivo de acuicultura de FishStat")
+    datos = FA.leer_acuicultura(FA.abrir_zip(contenido, "Aquaculture_Quantity", "utf-8-sig"),
+                                FA.abrir_zip(contenido, "CL_FI_COUNTRY_GROUPS", "utf-8-sig"),
+                                FA.abrir_zip(contenido, "CL_FI_SPECIES_GROUPS", "utf-8-sig"))
+    return FA.features_acuicultura(_paises_fc(), datos)
+
+
 def fiscal_ue():
     """Lista de la UE de jurisdicciones no cooperativas (Anexo I) y con compromisos pendientes (Anexo II)."""
     import economia as E
@@ -1570,6 +1597,7 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "sector_primario": sector_primario,
             "sector_secundario": sector_secundario, "sector_terciario": sector_terciario,
+            "cultivos_pais": cultivos_pais, "acuicultura_pais": acuicultura_pais,
             "pagos_cbdc": pagos_cbdc, "pagos_cripto": pagos_cripto, "pagos_efectivo": pagos_efectivo, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}
 

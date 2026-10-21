@@ -84,6 +84,7 @@
    "geometria": "punto",
    "fuente": "inegi_denue",
    "habilitada": false,
+   "oculta": true,
    "zoom_etiquetas": 9,
    "nota": "Directorio Estadístico Nacional de Unidades Económicas del INEGI: plantas, oficinas, hospitales y tiendas con 101 a 250 o 251 o más personas ocupadas, de empresas que coticen o no en bolsa. Se guardan nombre, razón social, actividad, tamaño, municipio y sitio web; no teléfono ni correo.",
    "motivo": "Suspendida: la API del DENUE del INEGI rechaza las consultas («No autorizado»); se reactiva cuando el INEGI lo resuelva."
@@ -368,6 +369,30 @@
    "opacidad_relleno": 0.55,
    "zoom_etiquetas": 3,
    "nota": "Banco Mundial (CC BY 4.0), indicadores NV.SRV.TOTL.ZS y SL.SRV.EMPL.ZS: valor agregado del sector como % del PIB y personas ocupadas en el sector como % del empleo (estimación de la OIT), último año disponible de cada país. Los tres sectores suman cerca de 100 % del PIB; el resto son impuestos netos sobre productos."
+  },
+  {
+   "id": "cultivos_pais",
+   "nombre": "Principales cultivos y productos ganaderos por país",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "faostat",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "FAOSTAT (FAO, CC BY 4.0), dominio QCL: los 5 productos con más toneladas de cada país en su último año con datos. El color es el grupo del producto principal. Toneladas no es lo mismo que valor: la caña de azúcar y la leche pesan mucho aunque valgan menos por tonelada."
+  },
+  {
+   "id": "acuicultura_pais",
+   "nombre": "Acuicultura por país (toneladas de pescados, mariscos y algas cultivados)",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "fishstat",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "FishStat (FAO, CC BY 4.0): producción de acuicultura en toneladas de peso vivo, último año con datos, con sus 3 especies principales. No incluye la pesca de captura."
   },
   {
    "id": "pagos_cbdc",

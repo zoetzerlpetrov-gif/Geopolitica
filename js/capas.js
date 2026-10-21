@@ -31,7 +31,8 @@ export function familiasDibujables(catalogo, capasCfg, manifest) {
     }
   }
   return capasCfg.familias
-    .filter((f) => catalogo.categorias.some((c) => c.id === f.categoria && c.dibujable))
+    // «oculta»: familia retirada del menú (p. ej. DENUE, cuya API del INEGI no responde); se conserva su configuración.
+    .filter((f) => !f.oculta && catalogo.categorias.some((c) => c.id === f.categoria && c.dibujable))
     .map((f) => {
       const m = manifest.familias?.[f.id];
       const fuente = catalogo.fuentes[f.fuente] || {};
