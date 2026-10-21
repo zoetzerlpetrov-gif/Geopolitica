@@ -1,5 +1,5 @@
 {
-  "version": "2.0.0",
+  "version": "2.1.0",
   "descripcion": "Taxonomía de 13 áreas de la geopolítica (Eje 1: por qué importa). Cada evento tiene 1 área principal y hasta 3 secundarias. Las palabras clave alimentan el clasificador por reglas (ingest/classify.py); se comparan sin acentos y sin distinguir mayúsculas.",
   "areas": [
     {
@@ -1823,7 +1823,21 @@
               "lluvias intensas",
               "alerta roja",
               "protección civil",
-              "damnificados"
+              "damnificados",
+              "dana",
+              "gota fría",
+              "depresión aislada en niveles altos",
+              "medicane",
+              "medicán",
+              "ciclón mediterráneo",
+              "frente frío",
+              "masa de aire polar",
+              "aire ártico",
+              "onda gélida",
+              "granizada",
+              "tornado",
+              "tromba",
+              "evento de norte"
             ],
             "en": [
               "hurricane",
@@ -1832,7 +1846,17 @@
               "heatwave",
               "wildfire",
               "cyclone",
-              "typhoon"
+              "typhoon",
+              "dana",
+              "cut-off low",
+              "medicane",
+              "mediterranean cyclone",
+              "cold front",
+              "polar vortex",
+              "arctic blast",
+              "hailstorm",
+              "tornado",
+              "waterspout"
             ]
           }
         },
