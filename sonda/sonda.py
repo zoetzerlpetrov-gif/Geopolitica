@@ -74,7 +74,13 @@ def youtube():
             body = getattr(e, "read", lambda: b"")().decode("utf-8", "replace")[:300]
             print("search error", q, e, body.replace(k, "***")); continue
         ids = [it["id"]["videoId"] for it in r.get("items", []) if it.get("id", {}).get("videoId")]
-        print("search", q, "ids:", len(ids))
+        print("search", q, "ids:", len(ids), "resp:", json.dumps({k: v for k, v in r.items() if k != "items"})[:300], str(r.get("items", [])[:2])[:300])
+        for extra in ({}, {"order": "viewCount"}, {"type": "video", "eventType": "live", "q": q, "part": "snippet"}):
+            try:
+                r2 = Y.llamar(k, "search", **{"part": "id", "type": "video", "eventType": "live", "maxResults": 25, "q": q, **extra})
+                print("   variante", extra, "->", len(r2.get("items", [])), r2.get("pageInfo"))
+            except Exception as e:  # noqa: BLE001
+                print("   variante", extra, "error", e)
         if not ids: continue
         v = Y.llamar(k, "videos", part="snippet,recordingDetails,status", id=",".join(ids[:50]))
         from collections import Counter
