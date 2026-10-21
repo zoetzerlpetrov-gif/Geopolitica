@@ -294,3 +294,14 @@ Descartadas por su robots.txt: CoinGecko, MarketWatch, Mining.com, El Universal,
 | YouTube Data API v3 (los mismos 13 canales de noticias de las zonas de conflicto) | Videos de la ficha que nombran el lugar y el tema; sin cuota extra | Secreto `YOUTUBE_API_KEY` | Reproductor oficial (youtube-nocookie.com) |
 
 Son señales de noticias, no estadística oficial: las cifras oficiales de robo y delitos en México son las del SESNSP (mensuales, por estado y municipio) y la ENVIPE del INEGI.
+
+## Leyes, DOF, marco normativo, narrativas y relieve (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Diario Oficial de la Federación: `dof.gob.mx/sumario.xml` y sumario de cada día (`index.php?year=&month=&day=`) | Publicaciones por mes y tipo (leyes y reformas, decretos, NOM, acuerdos, sentencias…), historial desde enero de 2025 | Sin llave; el robots.txt lo permite; máximo 30 días por corrida con pausa de 1.5 s | Texto oficial del Estado; se guarda fecha, código, tipo, dependencia y la descripción oficial recortada, con enlace a la nota |
+| Cámara de Diputados, Leyes Federales Vigentes (`diputados.gob.mx/LeyesBiblio/index.htm`) | Las ~300 leyes federales con fecha de publicación y de última reforma; búsqueda en Investigación | Sin llave; una vez por semana; el robots.txt lo permite | Compilación oficial; se guardan nombre, fechas y enlaces |
+| SAT, listado del artículo 69-B (ya descargado por `listas.py`) | Verificador de proveedores pegados por la persona usuaria (empresas que facturan operaciones simuladas) | Sin llave | Información pública por ley; solo coincidencia por RFC o razón social, sin cruces de apellidos |
+| `config/normativa.json` (redacción propia) | Página `marco.html`: leyes, estándares ISO, metodologías y códigos de ética relacionados con el proyecto, con enlace al texto oficial | — | Resumen propio; el texto de cada norma se consulta en el sitio de quien la emite |
+| `config/narrativas.json` (redacción propia sobre obras publicadas) | Página `narrativas.html`: técnicas de estrategia y propaganda, obras de referencia y su posible coincidencia con titulares del noticiero | — | Solo ideas resumidas y citas bibliográficas; ningún texto de las obras. Una coincidencia de palabras no prueba que un actor use la técnica |
+| Mapzen/Tilezen Terrarium DEM (`s3.amazonaws.com/elevation-tiles-prod/terrarium`, Registro de Datos Abiertos de AWS) | Vista «Relieve»: color por altura y sombreado | Sin llave | Atribución a Mapzen y a las fuentes del modelo (SRTM, GMTED, ETOPO1, NED y otras) |

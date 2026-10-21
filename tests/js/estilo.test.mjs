@@ -65,3 +65,14 @@ test("satélite: sin llave solo Sentinel-2; con llave, Esri nítido de cerca y s
   assert.equal(capa.minzoom, ESRI_DESDE);
   assert.ok(con.layers.indexOf(capa) === con.layers.findIndex((l) => l.id === "satelite") + 1, "va justo encima de Sentinel-2");
 });
+
+test("relieve: elevación coloreada y sombreado debajo del agua y los nombres", async () => {
+  const { conRelieve, TINTAS_RELIEVE } = await import("../../js/map.js");
+  const base = { version: 8, sources: { x: { type: "vector" } }, layers: [{ id: "fondo", type: "background" }, { id: "landcover", type: "fill", source: "x" },
+    { id: "water", type: "fill", source: "x" }, { id: "nombres", type: "symbol", source: "x" }] };
+  const s = conRelieve(base);
+  assert.deepEqual(s.layers.map((l) => l.id), ["fondo", "landcover", "relieve-color", "relieve-sombra", "water", "nombres"]);
+  assert.equal(s.sources["dem-relieve"].encoding, "terrarium");
+  assert.equal(base.layers.length, 4); // no modifica el estilo original
+  assert.ok(TINTAS_RELIEVE.every(([m], i, a) => i === 0 || m > a[i - 1][0])); // alturas en orden creciente
+});

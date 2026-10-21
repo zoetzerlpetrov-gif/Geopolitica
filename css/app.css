@@ -644,6 +644,11 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 
 /* Menú «Opciones» de la barra superior. */
 .menu-opciones { position: relative; }
+.menu-lista { display: flex; flex-direction: column; gap: 2px; min-width: 280px; }
+.menu-lista > a, .menu-lista > button { display: block; text-align: left; padding: 8px 10px; border-radius: 6px; color: var(--text); text-decoration: none;
+  background: none; border: 0; font: inherit; cursor: pointer; }
+.menu-lista > a:hover, .menu-lista > button:hover, .menu-lista > a:focus-visible, .menu-lista > button:focus-visible { background: var(--surface-2); }
+.menu-botones { display: flex; gap: 6px; margin-bottom: 6px; }
 .menu-opciones > summary { list-style: none; }
 .menu-opciones > summary::-webkit-details-marker { display: none; }
 .menu-opciones[open] > summary { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
@@ -737,3 +742,14 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .vista-peters .peters-info:empty { display: none; }
 .vista-peters .peters-nota { position: absolute; bottom: 34px; left: 50%; transform: translateX(-50%); margin: 0; padding: 5px 10px; border-radius: 8px;
   background: var(--vidrio, rgba(255,255,255,.85)); color: var(--text-2); font-size: 12px; max-width: min(92%, 640px); text-align: center; }
+
+/* Investigación: tablas, barras por año y guías (Lote E) */
+.tabla-inv { width: 100%; border-collapse: collapse; font-size: 13px; margin: 6px 0; }
+.tabla-inv td, .tabla-inv th { border-top: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+.tabla-inv .num { text-align: right; font-variant-numeric: tabular-nums; }
+.barras-anio { display: flex; align-items: flex-end; gap: 4px; height: 96px; margin: 8px 0; }
+.barras-anio > div { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; font-size: 10px; }
+.barras-anio span { width: 100%; background: #6A3D7A; border-radius: 3px 3px 0 0; }
+.barras-anio i { font-style: normal; color: var(--text-2); }
+.guia-inv { border-top: 1px solid var(--line); padding: 6px 0; }
+.guia-inv ul { margin: 4px 0 4px 18px; padding: 0; font-size: 13px; }

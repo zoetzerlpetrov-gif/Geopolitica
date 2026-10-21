@@ -156,12 +156,42 @@ async function llaveSatelite() {
   return llaveCache;
 }
 
+// Relieve: elevación de Terrain Tiles (Mapzen, datos abiertos en AWS; la misma fuente que la vista de cabina).
+const DEM_RELIEVE = "https://s3.amazonaws.com/elevation-tiles-prod/terrarium/{z}/{x}/{y}.png";
+// Color por altura en metros (tintas hipsométricas): costa y llanuras en verde, mesetas en ocre, sierras en café y
+// las cumbres más altas en blanco (nieve). Debajo de 0 m (mar) se deja transparente: el agua del mapa va encima.
+export const TINTAS_RELIEVE = [[-1, "rgba(0,0,0,0)"], [0, "#5E9E5A"], [200, "#8DB866"], [600, "#C9C77A"], [1200, "#D2A764"],
+  [2000, "#B07A4A"], [3000, "#8C5A3C"], [4200, "#E9E4DE"], [6000, "#FFFFFF"]];
+
+/** Agrega al estilo temático la elevación coloreada y el sombreado del terreno, debajo del agua, calles y nombres. */
+export function conRelieve(style, theme = "light") {
+  const s = structuredClone(style);
+  s.sources = { ...s.sources, "dem-relieve": { type: "raster-dem", tiles: [DEM_RELIEVE], tileSize: 256, encoding: "terrarium", maxzoom: 12,
+    attribution: "Relieve: Terrain Tiles (Mapzen, datos abiertos en AWS)" } };
+  const relieve = [
+    { id: "relieve-color", type: "color-relief", source: "dem-relieve",
+      paint: { "color-relief-color": ["interpolate", ["linear"], ["elevation"], ...TINTAS_RELIEVE.flat()], "color-relief-opacity": theme === "dark" ? 0.55 : 0.8 } },
+    { id: "relieve-sombra", type: "hillshade", source: "dem-relieve",
+      paint: { "hillshade-exaggeration": 0.6, "hillshade-shadow-color": theme === "dark" ? "#000000" : "#3D3326", "hillshade-highlight-color": "#FFFFFF",
+        "hillshade-accent-color": "#5A4A3A" } },
+  ];
+  // Justo después del fondo y de la cobertura del suelo; antes del agua (que tapa el relieve del mar).
+  const i = s.layers.findIndex((l) => /water|agua|ocean|mar/i.test(l.id) || l["source-layer"] === "water");
+  s.layers.splice(i > 0 ? i : 1, 0, ...relieve);
+  return s;
+}
+
 /**
  * LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local.
- * `base`: «tematico» (claro u oscuro según el tema), «calles» (OpenFreeMap Liberty) o «satelite» (Sentinel-2 y, de cerca, Esri).
+ * `base`: «tematico» (claro u oscuro según el tema), «calles» (OpenFreeMap Liberty), «satelite» (Sentinel-2 y, de cerca, Esri)
+ * o «relieve» (el temático con la elevación coloreada y el sombreado del terreno).
  */
 export async function estiloBase(theme, { lite = false, base = "tematico" } = {}) {
   if (base === "satelite") return { style: estiloSatelite(await llaveSatelite()), remoto: true };
+  if (base === "relieve") {
+    const b = await estiloBase(theme, { lite: false, base: "tematico" });
+    return { ...b, style: conRelieve(b.style, theme) };
+  }
   // LITE con el mapa «Temático»: países locales, sin calles. Con «Calles» sí se carga el mapa de calles y se
   // conservan sus nombres: quien lo elige quiere ver el detalle aunque el equipo sea lento.
   if (lite && base !== "calles") return { style: estiloLocal(theme, { ligero: true }), remoto: true, local: true };

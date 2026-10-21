@@ -6,7 +6,7 @@
   <title>DOMINUS OSINT</title>
   <meta name="description" content="Mapa mundial de eventos geopolíticos clasificados en 13 áreas, con vista de impacto para México.">
   <meta name="color-scheme" content="light dark">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%232E6F8E'/%3E%3Cpath d='M2 16h28M16 2c5 5 5 23 0 28M16 2c-5 5-5 23 0 28' stroke='white' stroke-width='2' fill='none'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
   <!-- Abre la conexión con el servidor del mapa base mientras se descarga MapLibre (ahorra 1–2 viajes de red). -->
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
@@ -63,18 +63,28 @@
       <select id="f-region" aria-label="Filtrar por región"><option value="">Todas las regiones</option></select>
     </label>
     <nav class="acciones">
-      <button id="btn-analisis" class="icon-btn" title="Vista México, matriz de riesgo y modo aprendizaje">Análisis</button>
-      <a class="link-btn" href="noticiero.html" title="Noticiero DOMINUS: 30 secciones e indicadores">📰 Noticiero</a>
-      <a class="link-btn" href="taxonomia.html">Taxonomía</a>
-      <button id="btn-lite" class="icon-btn" aria-pressed="false" title="Modo LITE: menos detalle y sin animaciones, para equipos lentos">LITE</button>
+      <details class="menu-opciones menu-secciones" id="menu-secciones">
+        <summary class="icon-btn" title="Análisis, noticiero, narrativas, reportes, marco normativo y taxonomía">📚 Secciones</summary>
+        <div class="menu-pop menu-lista" role="group" aria-label="Secciones">
+          <button id="btn-analisis" type="button" title="Vista México, matriz de riesgo y modo aprendizaje">📊 Análisis: vista México y matriz de riesgo</button>
+          <a href="noticiero.html" title="30 secciones e indicadores oficiales">📰 Noticiero DOMINUS</a>
+          <a href="narrativas.html" title="Técnicas de poder, propaganda e influencia aplicadas a las noticias de hoy">♟️ Narrativas y estrategia</a>
+          <a href="reporte.html?tipo=mexico">🇲🇽 Reporte diario de México</a>
+          <a href="reporte.html?tipo=global">🌍 Reporte diario global</a>
+          <a href="marco.html" title="Leyes, tratados, estándares ISO y metodologías del proyecto">⚖️ Marco normativo</a>
+          <a href="taxonomia.html">🏷️ Taxonomía de eventos</a>
+        </div>
+      </details>
       <select id="sel-proyeccion" class="sel-vista" title="Proyección del mapa" aria-label="Proyección del mapa">
         <option value="mercator">🗺️ Plano 2D (Mercator)</option><option value="globe">🌐 Globo 3D</option><option value="peters">📐 Peters (tamaño real)</option></select>
       <select id="sel-base" class="sel-vista" title="Mapa base" aria-label="Mapa base">
-        <option value="tematico">Temático</option><option value="calles">Calles</option><option value="satelite">Satélite</option></select>
+        <option value="tematico">Temático</option><option value="calles">Calles</option><option value="satelite">Satélite</option><option value="relieve">⛰️ Relieve</option></select>
       <button type="button" id="btn-animar" class="icon-btn btn-animar" aria-pressed="false" title="Anima a la vez todo lo que se puede animar con lo que tienes encendido">▶ Animar</button>
       <details class="menu-opciones" id="menu-opciones">
         <summary class="icon-btn" title="Opciones de la vista: sonido, 3D, coordenadas, cielo">⚙️ Opciones</summary>
         <div class="menu-pop" role="group" aria-label="Opciones">
+          <div class="menu-botones"><button id="btn-tema" type="button" class="icon-btn" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema claro u oscuro">🌓 Tema</button>
+            <button id="btn-lite" type="button" class="icon-btn" aria-pressed="false" title="Modo LITE: menos detalle y sin animaciones, para equipos lentos">🪶 LITE</button></div>
           <label class="aviso-sonido" title="Los eventos nuevos parpadean 60 s en el mapa. Con esta casilla, además suena un aviso corto (tres tonos si hay severidad 4 o 5).">
             <input type="checkbox" id="aviso-sonido"> 🔔 Sonido al llegar eventos nuevos</label>
           <label class="aviso-sonido" title="Aviones y satélites encendidos se dibujan como columnas a su altura (escala vertical exagerada). Inclina el mapa con clic derecho y arrastre, o con dos dedos.">
@@ -87,7 +97,6 @@
             <input type="checkbox" id="chk-universo"> 🌌 Cielo real detrás del globo</label>
         </div>
       </details>
-      <button id="btn-tema" class="icon-btn" title="Cambiar tema claro/oscuro" aria-label="Cambiar tema claro u oscuro">Tema</button>
       <select id="sel-idioma" class="sel-vista" title="Idioma" aria-label="Idioma" data-noi18n>
         <option value="es">ES · Español</option><option value="en">EN · English</option><option value="fr">FR · Français</option><option value="de">DE · Deutsch</option><option value="it">IT · Italiano</option><option value="pt">PT · Português</option><option value="ru">RU · Русский</option><option value="zh">ZH · 中文</option><option value="ja">JA · 日本語</option><option value="el">EL · Ελληνικά</option><option value="nl">NL · Nederlands</option><option value="sv">SV · Svenska</option><option value="no">NO · Norsk</option><option value="da">DA · Dansk</option><option value="fi">FI · Suomi</option></select>
     </nav>
@@ -325,6 +334,34 @@
           <div id="vin-grafico"></div>
           <div id="vin-lista"></div>
           <div class="fila-botones"><button type="button" id="vin-exportar">Exportar</button><label class="txt-btn">Importar <input type="file" id="vin-importar" accept="application/json" hidden></label><button type="button" id="vin-borrar">Borrar todo</button></div>
+        </details>
+        <details class="bloque plegable" id="b-inv-leyes" data-grupo="investigacion">
+          <summary><h2>📜 Leyes y Diario Oficial por mes</h2></summary>
+          <p class="nota-capas">Todo lo que publica el Diario Oficial de la Federación, clasificado por tipo, con historial desde enero de 2025, y las leyes federales vigentes con su última reforma.</p>
+          <label class="fila"><span>Mes</span><select id="inv-dof-mes" aria-label="Mes del Diario Oficial"></select></label>
+          <div id="inv-dof-res" aria-live="polite"></div>
+          <h3>Leyes federales vigentes</h3>
+          <form id="inv-leyes-form" role="search"><input type="search" id="inv-leyes-q" class="verif-texto" placeholder="Nombre de la ley (vacío = las reformadas más recientemente)" aria-label="Buscar ley federal" autocomplete="off">
+            <button>Buscar</button></form>
+          <div id="inv-leyes-res" aria-live="polite"></div>
+        </details>
+        <details class="bloque plegable" id="b-inv-contratos" data-grupo="investigacion">
+          <summary><h2>📑 Contratos públicos: verificador de proveedores y focos rojos</h2></summary>
+          <p class="nota-capas">Pega los RFC o nombres de los proveedores de un contrato (uno por renglón) para revisarlos contra el listado 69-B del SAT. La revisión ocurre en tu navegador.</p>
+          <textarea id="inv-prov-texto" class="verif-texto" rows="5" placeholder="ABC123456XY1&#10;Comercializadora Ejemplo SA de CV" aria-label="RFC o nombres de proveedores"></textarea>
+          <button type="button" id="inv-prov-btn">Verificar proveedores</button>
+          <div id="inv-prov-res" aria-live="polite"></div>
+          <h3>Focos rojos en contratación pública</h3>
+          <ul id="inv-focos" class="fuentes"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-poder" data-grupo="investigacion">
+          <summary><h2>🏛️ Poder político y declaraciones patrimoniales</h2></summary>
+          <p class="nota-capas">Composición del Congreso, gobiernos estatales y municipales por partido, y declaraciones: fuentes oficiales. No se muestran automáticamente porque las fuentes abiertas disponibles estaban desactualizadas o bloquean programas (revisado el 21 de octubre de 2026); mostrar un dato viejo como actual sería peor que no mostrarlo.</p>
+          <ul id="inv-poder" class="fuentes"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-guias" data-grupo="investigacion">
+          <summary><h2>💸 Lavado de dinero, empresas fantasma y nepotismo: guías</h2></summary>
+          <div id="inv-guias"></div>
         </details>
         <details class="bloque plegable" id="b-inv-fuentes" data-grupo="investigacion">
           <summary><h2>📚 Fuentes públicas para investigar</h2></summary>

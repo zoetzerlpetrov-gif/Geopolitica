@@ -309,6 +309,9 @@ async function abrirFicha(id, { volar = false } = {}) {
 }
 // Zona resaltada de la ficha de seguridad, emergencias, red, salud, criminología o carreteras (js/zona_ficha.js).
 let ZF = null;
+// Vista del mapa antes de un acercamiento automático al abrir una ficha (lista de amenazas); se restaura al cerrarla.
+let vistaFicha = null;
+const camaraActual = () => ({ center: api.map.getCenter().toArray(), zoom: api.map.getZoom(), pitch: api.map.getPitch(), bearing: api.map.getBearing() });
 const quitarZonaFicha = () => ZF?.dibujarZona(api.map, null);
 function abrirFichaHtml(html) {
   quitarZonaFicha();
@@ -532,7 +535,10 @@ const prepararErupcion = () => {
 function cerrarFicha() {
   quitarZonaFicha();
   trayectoria?.limpiar();
-  quitar3d();
+  const vista = vistaFicha;
+  vistaFicha = null;
+  quitar3d(); // si hubo modelo 3D, regresa a la vista de antes de su acercamiento…
+  if (vista) api.map.easeTo({ ...vista, duration: lite ? 0 : 1000, essential: true }); // …salvo que la ficha se abriera desde la lista
   quitarCeniza();
   $("ficha").hidden = true;
   api.setSeleccion("");
@@ -717,7 +723,10 @@ async function main() {
   $("ficha-cerrar").onclick = cerrarFicha;
   document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("ficha").hidden) cerrarFicha(); });
 
-  document.addEventListener("click", (e) => { const m = $("menu-opciones"); if (m?.open && !m.contains(e.target)) m.open = false; });
+  document.addEventListener("click", (e) => {
+    for (const m of [$("menu-opciones"), $("menu-secciones")]) if (m?.open && !m.contains(e.target)) m.open = false;
+  });
+  $("btn-analisis")?.addEventListener("click", () => { $("menu-secciones").open = false; });
   $("btn-panel").onclick = () => {
     const layout = document.querySelector(".layout");
     const oculto = layout.classList.toggle("sin-panel");
@@ -1168,6 +1177,26 @@ async function iniciarInvestigacion() {
   $("inv-fuentes").innerHTML = lista(I.FUENTES_INVESTIGACION);
   const cache = {};
   const cargar = async (k, url) => (cache[k] ??= getJSON(url, { bust: true }).catch(() => null));
+  // Lote E: leyes por mes, contratos, poder político y guías.
+  $("inv-focos").innerHTML = I.FOCOS_CONTRATOS.map(([t, d]) => `<li><b>${esc(t)}.</b> ${esc(d)}</li>`).join("");
+  $("inv-poder").innerHTML = lista(I.FUENTES_PODER);
+  $("inv-guias").innerHTML = I.GUIAS.map(I.htmlGuia).join("");
+  $("b-inv-leyes").addEventListener("toggle", async () => {
+    if (!$("b-inv-leyes").open || $("inv-dof-mes").options.length) return;
+    const [r, l] = await Promise.all([cargar("dof", "data/vivos/dof_resumen.json"), cargar("leyes", "data/vivos/leyes_federales.json")]);
+    const meses = I.mesesDof(r);
+    $("inv-dof-mes").innerHTML = meses.map((m) => `<option value="${esc(m)}">${esc(m)}</option>`).join("");
+    const pintarMes = () => { $("inv-dof-res").innerHTML = r ? I.htmlMesDof(r, $("inv-dof-mes").value) : `<p class="meta">El historial del DOF aún no está disponible.</p>`; };
+    $("inv-dof-mes").onchange = pintarMes;
+    pintarMes();
+    const pintarLeyes = () => { $("inv-leyes-res").innerHTML = l ? I.htmlLeyes(l, I.buscarLeyes(l, $("inv-leyes-q").value)) : `<p class="meta">El índice de leyes aún no está disponible (se actualiza cada semana).</p>`; };
+    $("inv-leyes-form").onsubmit = (e) => { e.preventDefault(); pintarLeyes(); };
+    pintarLeyes();
+  });
+  $("inv-prov-btn").addEventListener("click", async () => {
+    const d = await cargar("efos", "data/vivos/efos_69b.json");
+    $("inv-prov-res").innerHTML = d ? I.htmlProveedores(I.verificarProveedores(d, $("inv-prov-texto").value), d) : `<p class="meta">El listado 69-B aún no está disponible.</p>`;
+  });
   $("inv-69b-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const d = await cargar("efos", "data/vivos/efos_69b.json");
@@ -1384,6 +1413,7 @@ async function iniciarRiesgos() {
       const b = e.target.closest("[data-am]");
       if (!b) return;
       const a = lista[Number(b.dataset.am)];
+      vistaFicha ??= camaraActual();
       api.map.flyTo({ center: [a.lon, a.lat], zoom: Math.max(api.map.getZoom(), 6), duration: lite ? 0 : 800 });
       riesgos.abrir(a);
     };

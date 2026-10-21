@@ -16,8 +16,10 @@ permissions:
   pages: write
   id-token: write
 
+# Una corrida por rama: una subida a una rama de trabajo ya no cancela la corrida de main (así se atrasó la
+# publicación del noticiero el 21-oct-2026).
 concurrency:
-  group: vivos
+  group: vivos-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -62,6 +64,16 @@ jobs:
         continue-on-error: true
         timeout-minutes: 5
         run: python3 tools/investigacion/listas.py
+
+      - name: Diario Oficial de la Federación por mes (sumario del día; historial desde 2025, unos 30 días por hora)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/investigacion/dof.py
+
+      - name: Leyes federales vigentes con su última reforma (Cámara de Diputados, cada semana)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/investigacion/leyes.py
 
       - name: Emergencias aéreas (squawk 7700, 7600 y 7500; adsb.lol y OpenSky, cada corrida)
         continue-on-error: true
@@ -241,7 +253,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python3 tools/red/red.py
 
-      - name: Publicar en la rama datos-vivos (reescrita, sin historial)
+      - name: Publicar en la rama datos-vivos (reescrita, sin historial; solo desde main)
+        if: github.ref == 'refs/heads/main'
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
