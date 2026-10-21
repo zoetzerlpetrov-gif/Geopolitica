@@ -312,4 +312,4 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 |---|---|---|---|
 | Wikidata: operador (P137) o dueño (P127) de minas, campos y plataformas; país de la compañía (P17); mineral o producto (P1056) | Ficha «Quién lo opera», bandera de la sede, nacional/extranjera/mixta; minas con ficha en Wikidata | Sin llave, una clase por consulta | CC0 |
 | OpenStreetMap, etiqueta `operator` de refinerías, terminales, canteras y plataformas marinas | Nombre de la compañía cuando Wikidata no lo tiene | Overpass, con las mismas pausas que el resto de capas | ODbL |
-| `config/operadores.json` (tabla propia) | ~175 compañías petroleras y mineras → país de su sede y si son estatales; se usa solo cuando la fuente da el nombre sin el país | — | Datos públicos de cada compañía; sede = domicilio de la matriz, no la nacionalidad de los accionistas |
+| `config/operadores.json` (tabla propia) | ~195 compañías petroleras y mineras → país de su sede y si son estatales; se usa solo cuando la fuente da el nombre sin el país | — | Datos públicos de cada compañía; sede = domicilio de la matriz, no la nacionalidad de los accionistas |

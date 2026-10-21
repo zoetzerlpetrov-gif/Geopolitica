@@ -176,6 +176,27 @@
     {"rx": "mitsui", "n": "Mitsui", "a2": "JP", "a3": "JPN"},
     {"rx": "sumitomo", "n": "Sumitomo", "a2": "JP", "a3": "JPN"},
     {"rx": "posco", "n": "POSCO", "a2": "KR", "a3": "KOR"},
-    {"rx": "\\bnmdc\\b", "n": "NMDC", "a2": "IN", "a3": "IND", "estatal": true}
+    {"rx": "\\bnmdc\\b", "n": "NMDC", "a2": "IN", "a3": "IND", "estatal": true},
+    {"rx": "south oil company", "n": "South Oil Company (Irak)", "a2": "IQ", "a3": "IRQ", "estatal": true},
+    {"rx": "north caspian operating", "n": "North Caspian Operating Company (Kashagan)", "a2": "KZ", "a3": "KAZ"},
+    {"rx": "rio algom", "n": "Rio Algom (BHP)", "a2": "AU", "a3": "AUS"},
+    {"rx": "atlas iron", "n": "Atlas Iron", "a2": "AU", "a3": "AUS"},
+    {"rx": "african rainbow minerals", "n": "African Rainbow Minerals", "a2": "ZA", "a3": "ZAF"},
+    {"rx": "capstone copper", "n": "Capstone Copper", "a2": "CA", "a3": "CAN"},
+    {"rx": "northam platinum", "n": "Northam Platinum", "a2": "ZA", "a3": "ZAF"},
+    {"rx": "massey energy", "n": "Massey Energy", "a2": "US", "a3": "USA"},
+    {"rx": "phelps dodge", "n": "Phelps Dodge (Freeport-McMoRan)", "a2": "US", "a3": "USA"},
+    {"rx": "uranium one", "n": "Uranium One (Rosatom)", "a2": "RU", "a3": "RUS", "estatal": true},
+    {"rx": "evolution mining", "n": "Evolution Mining", "a2": "AU", "a3": "AUS"},
+    {"rx": "doe run", "n": "Doe Run", "a2": "US", "a3": "USA"},
+    {"rx": "gabriel resources", "n": "Gabriel Resources", "a2": "CA", "a3": "CAN"},
+    {"rx": "drummond company", "n": "Drummond Company", "a2": "US", "a3": "USA"},
+    {"rx": "lucara", "n": "Lucara Diamond", "a2": "CA", "a3": "CAN"},
+    {"rx": "oceanagold", "n": "OceanaGold", "a2": "AU", "a3": "AUS"},
+    {"rx": "qarmet", "n": "Qarmet", "a2": "KZ", "a3": "KAZ"},
+    {"rx": "lotus resources", "n": "Lotus Resources", "a2": "AU", "a3": "AUS"},
+    {"rx": "petropars", "n": "Petropars", "a2": "IR", "a3": "IRN", "estatal": true},
+    {"rx": "citic resources", "n": "CITIC Resources", "a2": "CN", "a3": "CHN", "estatal": true},
+    {"rx": "petroceltic", "n": "Petroceltic", "a2": "IE", "a3": "IRL"}
   ]
 }
