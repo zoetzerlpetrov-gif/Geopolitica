@@ -313,3 +313,11 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | Wikidata: operador (P137) o dueño (P127) de minas, campos y plataformas; país de la compañía (P17); mineral o producto (P1056) | Ficha «Quién lo opera», bandera de la sede, nacional/extranjera/mixta; las ≈ 47 mil minas y ≈ 6 mil campos de Wikidata (detalles solo donde existen) | Sin llave, una clase por consulta | CC0 |
 | OpenStreetMap, etiqueta `operator` de refinerías, terminales, canteras y plataformas marinas | Nombre de la compañía cuando Wikidata no lo tiene | Overpass, con las mismas pausas que el resto de capas | ODbL |
 | `config/operadores.json` (tabla propia) | ~210 compañías petroleras y mineras → país de su sede y si son estatales; se usa solo cuando la fuente da el nombre sin el país | — | Datos públicos de cada compañía; sede = domicilio de la matriz, no la nacionalidad de los accionistas |
+
+## Sectores de la economía y actividades económicas (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Banco Mundial, API v2: NV.AGR.TOTL.ZS, NV.IND.TOTL.ZS, NV.SRV.TOTL.ZS (valor agregado, % del PIB) y SL.AGR/IND/SRV.EMPL.ZS (empleo, estimación de la OIT) | Capas por país de los sectores primario, secundario y terciario | Sin llave; robots.txt lo permite | CC BY 4.0 |
+| OpenStreetMap: `landuse=aquaculture`, `seamark:type=marine_farm`, `landuse=vineyard/orchard/greenhouse_horticulture/plantation`, parques industriales y `shop=mall` | Capa «Actividades económicas»: solo objetos con nombre (y granjas marinas) | Overpass por cajas, con las pausas de las demás familias | ODbL |
+| FAOSTAT (FAO) | No se usa por ahora: el robots.txt de su servicio de consultas no permite el acceso automático; el archivo de descarga masiva se revisará aparte | — | — |

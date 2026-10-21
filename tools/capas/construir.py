@@ -761,7 +761,7 @@ def indice_busqueda(feats):
 
 
 FAMILIAS_GEOJSON = {"camaras", "top_empresas", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
-                    "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
+                    "fiscal_ue", "recaudacion", "sector_primario", "sector_secundario", "sector_terciario", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -915,7 +915,7 @@ FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifie
 # Plazo interno: el job de Actions muere a los 90 min y se perdería todo. Al agotarse el plazo ya no se
 # hacen consultas nuevas; lo construido se publica y lo pendiente conserva su versión anterior.
 PLAZO = time.time() + 60 * float(os.environ.get("PLAZO_MIN", "70"))
-FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar", "presas", "ductos", "farmaceuticas", "petroleo_gas",
+FAMILIAS_OSM = {"actividades", "centros_datos", "embajadas", "recursos", "militar", "presas", "ductos", "farmaceuticas", "petroleo_gas",
                 "fronteras", "desaladoras"}
 
 
@@ -1180,6 +1180,34 @@ def _paises_fc():
     return json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
 
 
+def _sector(fid):
+    """Peso de un sector en el PIB y en el empleo, último año de cada país (Banco Mundial, CC BY 4.0)."""
+    import economia as E
+    import indicadores as I
+    ind_pib, ind_emp, que, rangos = E.SECTORES[fid]
+    pib = I.leer_api([json.loads(get(I.API.format(ind=ind_pib), timeout=120))])
+    if not pib:
+        raise RuntimeError(f"El Banco Mundial no devolvió {ind_pib}")
+    try:
+        empleo = I.leer_api([json.loads(get(I.API.format(ind=ind_emp), timeout=120))])
+    except Exception as e:  # noqa: BLE001  (sin empleo, la capa sale solo con el PIB)
+        print(f"   {ind_emp}: {e}")
+        empleo = {}
+    return E.features_sector(_paises_fc(), pib, empleo, rangos, fid, que, I.num)
+
+
+def sector_primario():
+    return _sector("sector_primario")
+
+
+def sector_secundario():
+    return _sector("sector_secundario")
+
+
+def sector_terciario():
+    return _sector("sector_terciario")
+
+
 def fiscal_ue():
     """Lista de la UE de jurisdicciones no cooperativas (Anexo I) y con compromisos pendientes (Anexo II)."""
     import economia as E
@@ -1264,6 +1292,32 @@ def farmaceuticas():
     out = _sitios_wikidata("farmaceuticas")
     els = overpass(['nwr["man_made"="works"]["product"~"pharma|vaccin|medic|drug",i]', 'nwr["industrial"="pharmaceutical"]'], "farmaceuticas")
     return out + _osm(els, lambda t: "farma_planta", lambda st, t: 7, lambda t: t.get("operator") or t.get("product", ""), Paises())
+
+
+# Actividades económicas en OpenStreetMap: (selectores, subtipo, zoom mínimo). Se piden solo objetos con nombre (y las
+# granjas marinas de las cartas náuticas): los cultivos y estanques sin nombre son millones de parcelas que no dicen qué
+# se produce. Medido el 21-oct-2026: 8,869 viñedos con nombre; los conteos mundiales de acuicultura y huertos no caben en
+# una sola consulta, por eso se piden por cajas como el resto de las familias de OSM.
+ACTIVIDADES = [
+    (['nwr["landuse"="aquaculture"]["name"]', 'nwr["seamark:type"="marine_farm"]'], "acuicultura", 7),
+    (['nwr["landuse"="vineyard"]["name"]'], "vinedo", 9),
+    (['nwr["landuse"="orchard"]["name"]'], "huerto_frutal", 9),
+    (['nwr["landuse"="greenhouse_horticulture"]["name"]'], "invernadero", 9),
+    (['nwr["landuse"="plantation"]["name"]'], "plantacion", 8),
+    (['nwr["landuse"="industrial"]["industrial"~"^(park|estate|industrial_park)$"]'], "parque_industrial", 8),
+    (['nwr["shop"="mall"]["name"]'], "centro_comercial", 10),
+]
+
+
+def actividades():
+    """Actividades primarias (acuicultura, cultivos con nombre), secundarias (parques industriales) y terciarias
+    (centros comerciales) de OpenStreetMap. Detalle: producto, cultivo o especie y operador, si la etiqueta existe."""
+    pa = Paises()
+    out = []
+    detalle = lambda t: t.get("produce") or t.get("crop") or t.get("trees") or t.get("species") or t.get("product") or ""  # noqa: E731
+    for sel, st, z in ACTIVIDADES:
+        out += _osm(overpass(sel, "actividades"), lambda t, st=st: st, lambda s, t, z=z: z, detalle, pa, con_operador=True)
+    return out
 
 
 def petroleo_gas():
@@ -1494,9 +1548,10 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "actividades": actividades, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
-            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
+            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "sector_primario": sector_primario,
+            "sector_secundario": sector_secundario, "sector_terciario": sector_terciario, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}
 
 

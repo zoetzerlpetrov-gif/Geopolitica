@@ -70,7 +70,7 @@ jobs:
           PLAZO_MIN: "70"   # el job muere a los 90 min; deja 20 para tippecanoe y publicar
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}  # cámaras en vivo de YouTube (familia «camaras»)
           INEGI_DENUE_API_KEY: ${{ secrets.INEGI_DENUE_API_KEY }}  # grandes establecimientos de México (familia «denue_grandes»)
-          FAMILIAS: ${{ github.event.inputs.familias || (github.event.schedule == '20 */4 * * *' && 'lugares_culto lugares_culto_catolico lugares_culto_cristiano') || (github.event.schedule == '47 6 2 * *' && 'embajadas desaladoras farmaceuticas investigacion fronteras centros_datos militar recursos') || '' }}
+          FAMILIAS: ${{ github.event.inputs.familias || (github.event.schedule == '20 */4 * * *' && 'lugares_culto lugares_culto_catolico lugares_culto_cristiano') || (github.event.schedule == '47 6 2 * *' && 'embajadas desaladoras farmaceuticas investigacion fronteras centros_datos militar recursos actividades') || '' }}
         run: |
           export PATH="$HOME/tippecanoe-bin:$PATH"
           tippecanoe --version

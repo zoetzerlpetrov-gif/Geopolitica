@@ -34,6 +34,46 @@ RECAUDACION = [
     ("recaudacion_6", None, "30 % del PIB o más", "#045a8d"),
 ]
 
+# Sectores de la economía (Banco Mundial): valor agregado como % del PIB. El empleo del mismo sector va en la ficha.
+SECTORES = {
+    "sector_primario": ("NV.AGR.TOTL.ZS", "SL.AGR.EMPL.ZS", "agricultura, ganadería, silvicultura y pesca", [
+        ("sector_primario_1", 2, "Menos del 2 % del PIB", "#f7fcf5"),
+        ("sector_primario_2", 5, "2 % a 5 %", "#c7e9c0"),
+        ("sector_primario_3", 10, "5 % a 10 %", "#74c476"),
+        ("sector_primario_4", 20, "10 % a 20 %", "#31a354"),
+        ("sector_primario_5", 30, "20 % a 30 %", "#006d2c"),
+        ("sector_primario_6", None, "30 % del PIB o más", "#00441b"),
+    ]),
+    "sector_secundario": ("NV.IND.TOTL.ZS", "SL.IND.EMPL.ZS", "industria: minería, manufactura, construcción, electricidad, agua y gas", [
+        ("sector_secundario_1", 15, "Menos del 15 % del PIB", "#fff5eb"),
+        ("sector_secundario_2", 20, "15 % a 20 %", "#fdd0a2"),
+        ("sector_secundario_3", 25, "20 % a 25 %", "#fdae6b"),
+        ("sector_secundario_4", 30, "25 % a 30 %", "#f16913"),
+        ("sector_secundario_5", 40, "30 % a 40 %", "#d94801"),
+        ("sector_secundario_6", None, "40 % del PIB o más", "#7f2704"),
+    ]),
+    "sector_terciario": ("NV.SRV.TOTL.ZS", "SL.SRV.EMPL.ZS", "servicios: comercio, transporte, finanzas, turismo, gobierno y otros", [
+        ("sector_terciario_1", 40, "Menos del 40 % del PIB", "#f2f0f7"),
+        ("sector_terciario_2", 50, "40 % a 50 %", "#cbc9e2"),
+        ("sector_terciario_3", 60, "50 % a 60 %", "#9e9ac8"),
+        ("sector_terciario_4", 70, "60 % a 70 %", "#756bb1"),
+        ("sector_terciario_5", 80, "70 % a 80 %", "#54278f"),
+        ("sector_terciario_6", None, "80 % del PIB o más", "#3f007d"),
+    ]),
+}
+
+
+def features_sector(paises_fc, pib, empleo, rangos, prefijo, que, num):
+    """Coropleta del % del PIB del sector, con el % del empleo en la ficha (los años pueden diferir)."""
+    import indicadores as I
+    out = I.features_indicador(paises_fc, pib, rangos, prefijo, lambda v: f"{num(v, 1)} % del PIB", que)
+    for f in out:
+        e = empleo.get(f["properties"]["p"])
+        if e:
+            f["properties"]["x"] += f" · {num(e[0], 1)} % del empleo ({e[1]}, estimación modelada de la OIT)"
+    return out
+
+
 TASAS = [
     ("tasa_1", 1, "Menos de 1 %", "#e8f3ea"),
     ("tasa_2", 3, "1 % a 3 %", "#bfe0c3"),

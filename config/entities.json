@@ -2877,6 +2877,146 @@
       "geoeconomia"
      ],
      "familia": "recursos"
+    },
+    {
+     "id": "acuicultura",
+     "nombre": {
+      "es": "Acuicultura y piscifactorías (primario)",
+      "en": "Aquaculture and fish farms"
+     },
+     "icono": "🐟",
+     "color": "#1E88E5",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "vinedo",
+     "nombre": {
+      "es": "Viñedos (primario)",
+      "en": "Vineyards"
+     },
+     "icono": "🍇",
+     "color": "#7B1FA2",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "huerto_frutal",
+     "nombre": {
+      "es": "Huertos frutales (primario)",
+      "en": "Orchards"
+     },
+     "icono": "🍎",
+     "color": "#43A047",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "invernadero",
+     "nombre": {
+      "es": "Invernaderos (primario)",
+      "en": "Greenhouses"
+     },
+     "icono": "🌱",
+     "color": "#7CB342",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "plantacion",
+     "nombre": {
+      "es": "Plantaciones (primario)",
+      "en": "Plantations"
+     },
+     "icono": "🌴",
+     "color": "#2E7D32",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "parque_industrial",
+     "nombre": {
+      "es": "Parques industriales (secundario)",
+      "en": "Industrial parks"
+     },
+     "icono": "🏭",
+     "color": "#6D4C41",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "centro_comercial",
+     "nombre": {
+      "es": "Centros comerciales (terciario)",
+      "en": "Shopping malls"
+     },
+     "icono": "🛍",
+     "color": "#5E35B1",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 10,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
     }
    ]
   },
@@ -5265,6 +5405,348 @@
       "geoeconomia"
      ],
      "familia": "inmuebles_seguimiento"
+    },
+    {
+     "id": "sector_primario_1",
+     "nombre": {
+      "es": "Menos del 2 % del PIB",
+      "en": "Under 2 % of GDP"
+     },
+     "icono": "▦",
+     "color": "#f7fcf5",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_primario"
+    },
+    {
+     "id": "sector_primario_2",
+     "nombre": {
+      "es": "2 % a 5 %",
+      "en": "2 % to 5 %"
+     },
+     "icono": "▦",
+     "color": "#c7e9c0",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_primario"
+    },
+    {
+     "id": "sector_primario_3",
+     "nombre": {
+      "es": "5 % a 10 %",
+      "en": "5 % to 10 %"
+     },
+     "icono": "▦",
+     "color": "#74c476",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_primario"
+    },
+    {
+     "id": "sector_primario_4",
+     "nombre": {
+      "es": "10 % a 20 %",
+      "en": "10 % to 20 %"
+     },
+     "icono": "▦",
+     "color": "#31a354",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_primario"
+    },
+    {
+     "id": "sector_primario_5",
+     "nombre": {
+      "es": "20 % a 30 %",
+      "en": "20 % to 30 %"
+     },
+     "icono": "▦",
+     "color": "#006d2c",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_primario"
+    },
+    {
+     "id": "sector_primario_6",
+     "nombre": {
+      "es": "30 % del PIB o más",
+      "en": "30 % of GDP or more"
+     },
+     "icono": "▦",
+     "color": "#00441b",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_primario"
+    },
+    {
+     "id": "sector_secundario_1",
+     "nombre": {
+      "es": "Menos del 15 % del PIB",
+      "en": "Under 15 % of GDP"
+     },
+     "icono": "▦",
+     "color": "#fff5eb",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_secundario"
+    },
+    {
+     "id": "sector_secundario_2",
+     "nombre": {
+      "es": "15 % a 20 %",
+      "en": "15 % to 20 %"
+     },
+     "icono": "▦",
+     "color": "#fdd0a2",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_secundario"
+    },
+    {
+     "id": "sector_secundario_3",
+     "nombre": {
+      "es": "20 % a 25 %",
+      "en": "20 % to 25 %"
+     },
+     "icono": "▦",
+     "color": "#fdae6b",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_secundario"
+    },
+    {
+     "id": "sector_secundario_4",
+     "nombre": {
+      "es": "25 % a 30 %",
+      "en": "25 % to 30 %"
+     },
+     "icono": "▦",
+     "color": "#f16913",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_secundario"
+    },
+    {
+     "id": "sector_secundario_5",
+     "nombre": {
+      "es": "30 % a 40 %",
+      "en": "30 % to 40 %"
+     },
+     "icono": "▦",
+     "color": "#d94801",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_secundario"
+    },
+    {
+     "id": "sector_secundario_6",
+     "nombre": {
+      "es": "40 % del PIB o más",
+      "en": "40 % of GDP or more"
+     },
+     "icono": "▦",
+     "color": "#7f2704",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_secundario"
+    },
+    {
+     "id": "sector_terciario_1",
+     "nombre": {
+      "es": "Menos del 40 % del PIB",
+      "en": "Under 40 % of GDP"
+     },
+     "icono": "▦",
+     "color": "#f2f0f7",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_terciario"
+    },
+    {
+     "id": "sector_terciario_2",
+     "nombre": {
+      "es": "40 % a 50 %",
+      "en": "40 % to 50 %"
+     },
+     "icono": "▦",
+     "color": "#cbc9e2",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_terciario"
+    },
+    {
+     "id": "sector_terciario_3",
+     "nombre": {
+      "es": "50 % a 60 %",
+      "en": "50 % to 60 %"
+     },
+     "icono": "▦",
+     "color": "#9e9ac8",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_terciario"
+    },
+    {
+     "id": "sector_terciario_4",
+     "nombre": {
+      "es": "60 % a 70 %",
+      "en": "60 % to 70 %"
+     },
+     "icono": "▦",
+     "color": "#756bb1",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_terciario"
+    },
+    {
+     "id": "sector_terciario_5",
+     "nombre": {
+      "es": "70 % a 80 %",
+      "en": "70 % to 80 %"
+     },
+     "icono": "▦",
+     "color": "#54278f",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_terciario"
+    },
+    {
+     "id": "sector_terciario_6",
+     "nombre": {
+      "es": "80 % del PIB o más",
+      "en": "80 % of GDP or more"
+     },
+     "icono": "▦",
+     "color": "#3f007d",
+     "fuente": "banco_mundial",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "sector_terciario"
     }
    ]
   },
