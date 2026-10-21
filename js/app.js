@@ -1893,7 +1893,7 @@ function pintarSeguimiento() {
     <span>${x.eventos.length} eventos ${x.nuevos ? `<span class="badge-nuevo">${x.nuevos} nuevos</span>` : ""}</span></li>`;
   const grupos = new Map();
   for (const x of items) { const k = x.familia || "otros"; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(x); }
-  const nombreFam = (k) => gestor?.familias?.get(k)?.nombre || { otros: "Otros" }[k] || k;
+  const nombreFam = (k) => gestor?.familias?.get(k)?.nombre || { otros: "Otros", corporativo: "Mis instalaciones (inteligencia corporativa)" }[k] || k;
   $("lista-seguimiento").innerHTML = items.length ? [...grupos].sort((a, b) => nombreFam(a[0]).localeCompare(nombreFam(b[0]), "es")).map(([k, l]) =>
     `<li class="seg-grupo"><details class="subgrupo-d" id="sg-seg-${esc(k)}" open><summary class="subgrupo">${esc(nombreFam(k))}
       <span class="sg-n">${l.length}${l.some((x) => x.nuevos) ? ` · <span class="badge-nuevo">${l.reduce((s, x) => s + x.nuevos, 0)} nuevos</span>` : ""}</span></summary>

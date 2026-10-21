@@ -1,0 +1,414 @@
+{
+ "_nota": "Datos para la página de inteligencia corporativa. Sanciones por país: resumen propio revisado hasta 2025, con la fuente de cada fila; verificar siempre en la lista oficial antes de decidir.",
+ "revisado": "2025",
+ "sanciones_pais": {
+  "CUB": [
+   {
+    "programa": "Embargo",
+    "emisor": "EUA (OFAC)",
+    "nota": "Embargo amplio: casi cualquier operación con Cuba requiere licencia; la Ley Helms-Burton expone a empresas de terceros países.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ],
+  "IRN": [
+   {
+    "programa": "Sanciones amplias",
+    "emisor": "EUA (OFAC)",
+    "nota": "Prohíbe casi todo comercio; sanciones secundarias a quien compre petróleo iraní.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   },
+   {
+    "programa": "Medidas restrictivas",
+    "emisor": "UE",
+    "nota": "Armas, tecnología nuclear y de misiles, derechos humanos.",
+    "fuente": "UE, mapa de sanciones",
+    "url": "https://www.sanctionsmap.eu/"
+   }
+  ],
+  "PRK": [
+   {
+    "programa": "Sanciones amplias",
+    "emisor": "ONU, EUA y UE",
+    "nota": "Embargo casi total: armas, petróleo refinado, carbón, textiles, mano de obra en el extranjero.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "RUS": [
+   {
+    "programa": "Sanciones sectoriales y dirigidas",
+    "emisor": "EUA (OFAC) y UE",
+    "nota": "Desde 2014 y ampliadas en 2022: banca, energía, tecnología, tope al precio del petróleo; miles de personas y empresas.",
+    "fuente": "UE, mapa de sanciones",
+    "url": "https://www.sanctionsmap.eu/"
+   }
+  ],
+  "BLR": [
+   {
+    "programa": "Sanciones sectoriales y dirigidas",
+    "emisor": "EUA y UE",
+    "nota": "Por la represión de 2020 y el apoyo a la invasión de Ucrania: potasa, petróleo, banca.",
+    "fuente": "UE, mapa de sanciones",
+    "url": "https://www.sanctionsmap.eu/"
+   }
+  ],
+  "VEN": [
+   {
+    "programa": "Sanciones al gobierno y a PDVSA",
+    "emisor": "EUA (OFAC)",
+    "nota": "Restringen tratos con el gobierno y la petrolera estatal; existen licencias generales que cambian con frecuencia.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ],
+  "SYR": [
+   {
+    "programa": "Levantamiento parcial (2025)",
+    "emisor": "EUA y UE",
+    "nota": "EUA cerró el programa general en 2025 y la UE levantó las sanciones económicas; siguen sanciones dirigidas a personas y armas químicas.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ],
+  "MMR": [
+   {
+    "programa": "Sanciones dirigidas",
+    "emisor": "EUA y UE",
+    "nota": "Junta militar, empresas estatales de gemas y madera, armas.",
+    "fuente": "UE, mapa de sanciones",
+    "url": "https://www.sanctionsmap.eu/"
+   }
+  ],
+  "AFG": [
+   {
+    "programa": "Sanciones a los talibanes",
+    "emisor": "ONU",
+    "nota": "Congelamiento de bienes y prohibición de viaje a dirigentes talibanes.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "LBY": [
+   {
+    "programa": "Embargo de armas y bienes congelados",
+    "emisor": "ONU",
+    "nota": "Embargo de armas y medidas contra exportaciones ilícitas de petróleo.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "SDN": [
+   {
+    "programa": "Embargo de armas (Darfur) y sanciones dirigidas",
+    "emisor": "ONU y EUA",
+    "nota": "Por el conflicto armado iniciado en 2023.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "SSD": [
+   {
+    "programa": "Embargo de armas",
+    "emisor": "ONU",
+    "nota": "Embargo de armas y sanciones dirigidas.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "SOM": [
+   {
+    "programa": "Sanciones a Al Shabab",
+    "emisor": "ONU",
+    "nota": "Congelamiento de bienes y embargo de armas a grupos armados.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "YEM": [
+   {
+    "programa": "Sanciones dirigidas",
+    "emisor": "ONU y EUA",
+    "nota": "Hutíes designados por EUA como organización terrorista extranjera (2025).",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ],
+  "CAF": [
+   {
+    "programa": "Embargo de armas a grupos armados",
+    "emisor": "ONU",
+    "nota": "Sanciones dirigidas a grupos armados.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "COD": [
+   {
+    "programa": "Sanciones dirigidas",
+    "emisor": "ONU",
+    "nota": "Grupos armados en el este del país.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "NIC": [
+   {
+    "programa": "Sanciones dirigidas",
+    "emisor": "EUA y UE",
+    "nota": "Funcionarios del gobierno y empresas relacionadas.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ],
+  "HTI": [
+   {
+    "programa": "Sanciones a pandillas",
+    "emisor": "ONU y EUA",
+    "nota": "Líderes de pandillas y quienes los financian.",
+    "fuente": "ONU, Consejo de Seguridad: regímenes de sanciones",
+    "url": "https://www.un.org/securitycouncil/es/sanctions/information"
+   }
+  ],
+  "CHN": [
+   {
+    "programa": "Controles de exportación y listas de empresas",
+    "emisor": "EUA (Comercio y Tesoro)",
+    "nota": "No hay embargo; hay listas de empresas (Entity List, NS-CMIC) y controles a chips avanzados.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ],
+  "MEX": [
+   {
+    "programa": "Cárteles designados como terroristas",
+    "emisor": "EUA (Estado y OFAC)",
+    "nota": "Desde febrero de 2025 varios cárteles son organizaciones terroristas extranjeras: pagar extorsiones o tratar con sus empresas puede considerarse apoyo material.",
+    "fuente": "OFAC, programas de sanciones por país",
+    "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+   }
+  ]
+ },
+ "escenarios": {
+  "conflicto": {
+   "nombre": "Conflicto armado o ataques",
+   "que_pasa": "Combates, bombardeos o ataques cerca de la instalación.",
+   "impacto": "Personal en riesgo, cierre de operaciones, daños, seguros que excluyen guerra.",
+   "acciones": [
+    "Plan de evacuación y punto de reunión",
+    "Lista de contactos de emergencia y embajada",
+    "Revisar exclusiones de guerra en pólizas"
+   ],
+   "indicador": "Ataques a menos de 50 km o cierre de aeropuertos y fronteras."
+  },
+  "crimen": {
+   "nombre": "Crimen organizado, extorsión, robo de carga",
+   "que_pasa": "Robos en carretera, bloqueos, cobro de piso, secuestro.",
+   "impacto": "Pérdida de mercancía, retrasos, riesgo para choferes, riesgo legal por pagos a grupos designados.",
+   "acciones": [
+    "Rutas y horarios alternos",
+    "Monitoreo GPS y protocolos de parada",
+    "Nunca pagar extorsiones: denunciar (089 en México) y asesoría legal"
+   ],
+   "indicador": "Aumento de robos o bloqueos en el corredor logístico."
+  },
+  "clima": {
+   "nombre": "Fenómeno natural",
+   "que_pasa": "Huracán, tornado, inundación, sismo o incendio cerca.",
+   "impacto": "Daño físico, cortes de energía, cierre de puertos y carreteras.",
+   "acciones": [
+    "Plan de continuidad (ISO 22301) con sitio alterno",
+    "Inventario de seguridad",
+    "Seguro paramétrico o de interrupción de negocio"
+   ],
+   "indicador": "Aviso oficial del servicio meteorológico o de protección civil."
+  },
+  "corte": {
+   "nombre": "Corte de luz, agua o internet",
+   "que_pasa": "Falta de servicios básicos por horas o días.",
+   "impacto": "Paro de producción, pérdida de datos, cadena de frío rota.",
+   "acciones": [
+    "Planta de emergencia y combustible",
+    "Respaldo de datos fuera del sitio",
+    "Enlace de internet alterno"
+   ],
+   "indicador": "Cortes repetidos en la zona en los últimos 30 días."
+  },
+  "salud": {
+   "nombre": "Brote de enfermedad",
+   "que_pasa": "Brote que obliga a cerrar o reduce personal.",
+   "impacto": "Ausentismo, restricciones de viaje, cierre temporal.",
+   "acciones": [
+    "Protocolo sanitario",
+    "Trabajo remoto donde sea posible",
+    "Proveedores alternos fuera de la zona"
+   ],
+   "indicador": "Alerta de la OMS o de la autoridad sanitaria local."
+  },
+  "sancion": {
+   "nombre": "Sanciones o controles de exportación",
+   "que_pasa": "El país, un socio o un proveedor entra en una lista de sanciones.",
+   "impacto": "Pagos bloqueados, contratos nulos, multas.",
+   "acciones": [
+    "Revisar socios en listas (OFAC, UE, ONU) antes de cada contrato",
+    "Cláusulas de sanciones en contratos",
+    "Mapa de proveedores de segundo nivel"
+   ],
+   "indicador": "Nuevas designaciones o cambios de licencias generales."
+  },
+  "otro": {
+   "nombre": "Evento político o económico",
+   "que_pasa": "Protestas, elecciones, cambios de ley o aranceles.",
+   "impacto": "Retrasos, más costos, cambio de reglas.",
+   "acciones": [
+    "Seguir el DOF y la agenda legislativa",
+    "Escenarios de aranceles en costos",
+    "Diversificar mercados"
+   ],
+   "indicador": "Anuncios oficiales y titulares repetidos sobre el tema."
+  }
+ },
+ "guias": [
+  {
+   "t": "Ciclo de inteligencia",
+   "para": "Ordenar el trabajo de principio a fin.",
+   "pasos": [
+    "Planeación: qué decisión hay que apoyar y qué preguntas clave (KIQ) responder",
+    "Recolección: solo fuentes abiertas y legales",
+    "Procesamiento: limpiar, traducir, ubicar en el mapa",
+    "Análisis: separar hechos, inferencias y supuestos",
+    "Difusión: informe breve con nivel de confianza",
+    "Retroalimentación: qué sirvió y qué faltó"
+   ],
+   "norma": "Código de ética de SCIP (Strategic and Competitive Intelligence Professionals)."
+  },
+  {
+   "t": "PESTEL",
+   "para": "Revisar el entorno de un país o región.",
+   "pasos": [
+    "Político: estabilidad, elecciones, sanciones",
+    "Económico: inflación, tipo de cambio, aranceles",
+    "Social: demografía, conflictos, protestas",
+    "Tecnológico: conectividad, ciberseguridad",
+    "Ecológico: clima, agua, desastres",
+    "Legal: leyes nuevas, Estado de derecho"
+   ],
+   "norma": "Se apoya en ISO 31000 para valorar cada riesgo."
+  },
+  {
+   "t": "Cinco fuerzas de Porter",
+   "para": "Entender la competencia en un sector.",
+   "pasos": [
+    "Rivalidad entre competidores",
+    "Amenaza de nuevos competidores",
+    "Poder de los proveedores",
+    "Poder de los clientes",
+    "Amenaza de sustitutos"
+   ],
+   "norma": "Michael Porter, «Estrategia competitiva» (1980)."
+  },
+  {
+   "t": "FODA (DAFO)",
+   "para": "Resumir la posición de una empresa.",
+   "pasos": [
+    "Fortalezas y debilidades (internas)",
+    "Oportunidades y amenazas (externas: usa el mapa)",
+    "Cruza: usar fortalezas para oportunidades, cubrir debilidades frente a amenazas"
+   ],
+   "norma": "—"
+  },
+  {
+   "t": "Escenarios",
+   "para": "Prepararse para futuros distintos sin adivinar uno.",
+   "pasos": [
+    "Elige dos incertidumbres clave (p. ej., aranceles y seguridad en carreteras)",
+    "Combínalas en cuatro escenarios",
+    "Describe cada uno y sus señales de alerta",
+    "Define qué harías en cada uno"
+   ],
+   "norma": "Método de escenarios de Shell; ISO 22301 para continuidad."
+  },
+  {
+   "t": "Matriz de riesgo 5×5",
+   "para": "Priorizar instalaciones y proveedores.",
+   "pasos": [
+    "Probabilidad (1–5): eventos cercanos y riesgo del país",
+    "Impacto (1–5): qué tan crítica es la instalación",
+    "Nivel = probabilidad × impacto: 1–4 bajo, 5–9 medio, 10–16 alto, 20–25 crítico",
+    "Atiende primero lo crítico y lo alto"
+   ],
+   "norma": "ISO 31000 (gestión del riesgo) e ISO 28000 (seguridad de la cadena de suministro)."
+  },
+  {
+   "t": "Indicadores de alerta temprana",
+   "para": "Saber a tiempo que un riesgo crece.",
+   "pasos": [
+    "Para cada riesgo, define una señal medible",
+    "Fija un umbral (p. ej., 3 robos de carga en 30 días en el corredor)",
+    "Revisa las señales cada semana con el mapa y el noticiero",
+    "Cuando se cruza el umbral, activa el plan"
+   ],
+   "norma": "—"
+  },
+  {
+   "t": "Límites legales y éticos",
+   "para": "Hacer inteligencia sin cometer delitos.",
+   "pasos": [
+    "Solo información pública o propia",
+    "Nunca hacerse pasar por otra persona ni pedir secretos industriales",
+    "Respetar datos personales (LFPDPPP en México, RGPD en Europa)",
+    "No vigilar a personas: el foco son riesgos y mercados"
+   ],
+   "norma": "Ley Federal de Protección a la Propiedad Industrial (secretos industriales) y código SCIP."
+  }
+ ],
+ "radar": [
+  {
+   "n": "Patentes (Google Patents)",
+   "u": "https://patents.google.com/?assignee={q}"
+  },
+  {
+   "n": "Patentes (WIPO Patentscope)",
+   "u": "https://patentscope.wipo.int/search/es/result.jsf?query={q}"
+  },
+  {
+   "n": "Identificador LEI y matriz (GLEIF)",
+   "u": "https://search.gleif.org/#/search/simpleSearch={q}"
+  },
+  {
+   "n": "Sanciones y personas políticamente expuestas (OpenSanctions)",
+   "u": "https://www.opensanctions.org/search/?q={q}"
+  },
+  {
+   "n": "Contratos públicos de México (ComprasMX)",
+   "u": "https://comprasmx.buengobierno.gob.mx/"
+  },
+  {
+   "n": "Reportes a la SEC (EUA)",
+   "u": "https://www.sec.gov/cgi-bin/browse-edgar?company={q}&owner=include&action=getcompany"
+  },
+  {
+   "n": "Noticias (Google News)",
+   "u": "https://news.google.com/search?q={q}&hl=es-419&gl=MX&ceid=MX:es-419"
+  }
+ ],
+ "aranceles": [
+  {
+   "n": "OMC: perfiles arancelarios por país",
+   "u": "https://www.wto.org/spanish/res_s/statis_s/tariff_profiles_list_s.htm"
+  },
+  {
+   "n": "México: Sistema de Información Arancelaria (SIAVI, Secretaría de Economía)",
+   "u": "http://www.economia-snci.gob.mx/"
+  },
+  {
+   "n": "EUA: aranceles vigentes (USITC)",
+   "u": "https://hts.usitc.gov/"
+  },
+  {
+   "n": "T-MEC: texto y reglas de origen",
+   "u": "https://www.gob.mx/t-mec"
+  }
+ ]
+}
