@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Narrativas y estrategia</title>
+  <meta name="description" content="Cómo se aplican hoy las técnicas de poder, propaganda e influencia de obras clásicas y manuales de varios países, con titulares reales y formas de protegerte.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .nr-wrap { max-width: 960px; margin: 0 auto; padding: 16px; }
+    .nr-wrap h2 { font-size: 19px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .nr-intro, .nr-meta, .nr-obras { font-size: 13px; color: var(--text-2); }
+    .nr-tec, .nr-obra { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; }
+    .nr-tec h3, .nr-obra h3 { margin: 0 0 4px; font-size: 16px; text-transform: none; letter-spacing: 0; color: var(--text); }
+    .nr-tec h4 { margin: 8px 0 4px; font-size: 14px; }
+    .nr-n { font-size: 12px; color: var(--text-2); font-weight: 400; }
+    .nr-tec p, .nr-obra p { margin: 4px 0; font-size: 14px; }
+    .nr-notas { margin: 0; padding-left: 18px; font-size: 14px; }
+    .nr-notas li { margin: 4px 0; }
+    .nr-notas a, .nr-obras a { color: var(--text); }
+    .nr-aviso { border-left: 4px solid #C8102E; padding: 8px 12px; background: var(--surface); font-size: 14px; }
+    .nr-obras-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; }
+    .nr-obras-grid .nr-obra { margin: 0; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Narrativas y estrategia</h1>
+  </header>
+  <main class="nr-wrap">
+    <p class="nr-intro" id="nr-desc"></p>
+    <p class="nr-aviso"><b>Cómo leer esta página.</b> Cada técnica muestra los titulares reales de hoy que hablan de ese tema. Que un titular aparezca aquí
+      <b>no prueba</b> que alguien esté aplicando la técnica: es una pista para analizar con más fuentes. Las técnicas las usan gobiernos de cualquier signo,
+      partidos, empresas y grupos; aplica el mismo criterio a todos, incluidos los que te caen bien.</p>
+    <p class="nr-meta" id="nr-base"></p>
+    <h2>Técnicas en las noticias de hoy</h2>
+    <div id="nr-tecnicas" aria-live="polite">Cargando…</div>
+    <h2>Cómo protegerte</h2>
+    <ul id="nr-proteccion"></ul>
+    <h2>Biblioteca: obras y manuales de varios países</h2>
+    <div class="nr-obras-grid" id="nr-obras"></div>
+  </main>
+  <script type="module" src="js/narrativas.js"></script>
+</body>
+</html>

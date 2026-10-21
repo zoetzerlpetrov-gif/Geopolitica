@@ -39,12 +39,13 @@ MAX_TEXTO = 300
 
 # (tipo, expresión sobre la descripción en minúsculas). Gana la primera.
 TIPOS = [
-    ("Ley o reforma legal", r"se expide(n)? la ley|se expide el c[oó]digo|ley de ingresos|presupuesto de egresos|se reforma(n)?,? .{0,200}\b(ley|c[oó]digo|constituci[oó]n)\b|"
-     r"se adiciona(n)?,? .{0,200}\b(ley|c[oó]digo|constituci[oó]n)\b|se deroga(n)?,? .{0,200}\b(ley|c[oó]digo)\b|se abroga"),
+    # Las leyes y sus reformas se publican como decretos: «Decreto por el que se expide la Ley…», «…se reforman… de la Ley…».
+    ("Ley o reforma legal", r"^decreto .{0,40}(se expide(n)? (la|el) (ley|c[oó]digo)|ley de ingresos|presupuesto de egresos|"
+     r"se (reforma|adiciona|deroga)(n)?\b.{0,300}\b(ley|c[oó]digo|constituci[oó]n)\b|se abroga.{0,100}\b(ley|c[oó]digo)\b)"),
     ("Decreto", r"^decreto"),
     ("Norma Oficial Mexicana", r"norma oficial mexicana|\bnom-\d|proyecto de norma"),
     ("Indicador financiero", r"tipo de cambio|tasas? de inter[eé]s|valor (de la )?(unidad de inversi[oó]n|udi)|[ií]ndice nacional de precios|costo porcentual"),
-    ("Sentencia o resolución judicial", r"sentencia|controversia constitucional|acci[oó]n de inconstitucionalidad|tribunal|jurisprudencia"),
+    ("Sentencia o resolución judicial", r"^sentencia|^resoluci[oó]n dictada|controversia constitucional|acci[oó]n de inconstitucionalidad|jurisprudencia|^tesis"),
     ("Reglamento, lineamientos o reglas", r"^reglamento|lineamientos|reglas de operaci[oó]n|^reglas|manual|^programa"),
     ("Acuerdo", r"^acuerdo"),
     ("Convenio", r"^convenio"),
@@ -78,13 +79,22 @@ def leer_sumario(xml_texto):
 
 
 def leer_dia(html_texto):
-    """Página de un día del DOF → [[código, tipo, «», texto]] (sin repetir códigos; se queda el texto más largo)."""
+    """Página de un día del DOF → [[código, tipo, dependencia, texto]]. La dependencia sale de los encabezados que
+    preceden a cada nota (poder: «txt_blanco2»; dependencia: «subtitle_azul»). Sin repetir códigos."""
+    patron = re.compile(r'class="txt_blanco2"[^>]*>(.*?)</td>|class="subtitle_azul"[^>]*>(.*?)(?:<a |</td>)|'
+                        r'nota_detalle\.php\?codigo=(\d+)&(?:amp;)?fecha=\d{2}/\d{2}/\d{4}[^>]*>(.*?)</a>', re.S)
+    poder = dep = ""
     por = {}
-    for cod, fecha, texto in re.findall(r'nota_detalle\.php\?codigo=(\d+)&(?:amp;)?fecha=(\d{2}/\d{2}/\d{4})[^>]*>(.*?)</a>', html_texto, re.S):
-        t = limpiar(texto)
-        if len(t) >= 15 and len(t) > len(por.get(cod, "")):
-            por[cod] = t
-    return [[c, tipo_de(t), "", t[:MAX_TEXTO]] for c, t in por.items()]
+    for m in patron.finditer(html_texto):
+        if m.group(1) is not None:
+            poder, dep = limpiar(m.group(1)), ""
+        elif m.group(2) is not None:
+            dep = limpiar(re.sub(r"<!--.*?-->", " ", m.group(2), flags=re.S))
+        else:
+            cod, t = m.group(3), limpiar(m.group(4))
+            if len(t) >= 15 and len(t) > len(por.get(cod, ("", ""))[1]):
+                por[cod] = (" ".join(x for x in (poder, dep) if x), t)
+    return [[c, tipo_de(t), d, t[:MAX_TEXTO]] for c, (d, t) in por.items()]
 
 
 def faltantes(dias, hoy, desde=DESDE, n=POR_CORRIDA):

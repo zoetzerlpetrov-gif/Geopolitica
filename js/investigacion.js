@@ -156,3 +156,98 @@ export function svgVinculos(c) {
       <text x="${x.toFixed(1)}" y="${(y + r + 10).toFixed(1)}" text-anchor="middle" font-size="9" fill="currentColor">${esc(e.nombre.slice(0, 22))}</text>`; }).join("");
   return `<svg class="graf-vinculos" viewBox="0 0 ${W} ${W + 14}" role="img" aria-label="Gráfico de vínculos del caso">${lineas}${nodos}</svg>`;
 }
+
+// ---------------------------------------------------------------- Lote E: leyes por mes, contratos, poder político y guías
+
+/** Meses del resumen del DOF, del más reciente al más antiguo. */
+export const mesesDof = (r) => Object.keys(r?.por_mes || {}).sort().reverse();
+const nombreMes = (m) => new Date(`${m}-15T12:00:00Z`).toLocaleDateString("es-MX", { month: "long", year: "numeric" });
+
+/** Un mes del DOF: cuántas publicaciones hubo por tipo y qué leyes, reformas y decretos se publicaron. */
+export function htmlMesDof(r, mes) {
+  const tipos = Object.entries(r?.por_mes?.[mes] || {}).sort((a, b) => b[1] - a[1]);
+  if (!tipos.length) return `<p class="meta">Sin datos del DOF para ese mes todavía (el historial se completa unos 30 días por hora desde enero de 2025).</p>`;
+  const total = tipos.reduce((s, [, n]) => s + n, 0);
+  const leyes = (r.leyes || []).filter((x) => x.f.startsWith(mes));
+  return `<p><b>${esc(nombreMes(mes))}:</b> ${total} publicaciones en el DOF.</p>
+    <table class="tabla-inv"><tbody>${tipos.map(([t, n]) => `<tr><td>${esc(t)}</td><td class="num">${n}</td></tr>`).join("")}</tbody></table>
+    <h4>Leyes, reformas y decretos del mes (${leyes.length})</h4>
+    ${leyes.length ? `<ul class="lista-inv">${leyes.map((x) => `<li><span class="meta">${esc(x.f)} · ${esc(x.t)}${x.d ? ` · ${esc(x.d)}` : ""}</span><br>
+      <a href="${esc(x.u)}" target="_blank" rel="noopener noreferrer">${esc(x.x)}</a></li>`).join("")}</ul>` : `<p class="meta">Ninguno ese mes.</p>`}`;
+}
+
+/** Leyes federales que contienen todas las palabras buscadas, de la reforma más reciente a la más antigua. */
+export function buscarLeyes(d, q, max = 25) {
+  const pal = norm(q).split(" ").filter(Boolean);
+  return (d?.leyes || []).filter((l) => pal.every((p) => norm(l.n).includes(p))).slice(0, max);
+}
+
+export function htmlLeyes(d, res) {
+  const anios = Object.entries(d?.por_anio || {}).slice(-10), max = Math.max(1, ...anios.map(([, n]) => n));
+  return `<p class="meta">${(d?.leyes || []).length} leyes federales vigentes (Cámara de Diputados). Barras: cuántas tuvieron su <b>última</b> reforma en cada año.</p>
+    <div class="barras-anio">${anios.map(([a, n]) => `<div title="${n} leyes con última reforma en ${a}"><span style="height:${Math.round((n / max) * 60) + 2}px"></span><b>${n}</b><i>${a}</i></div>`).join("")}</div>
+    <ul class="lista-inv">${res.map((l) => `<li><a href="${esc(l.ref)}" target="_blank" rel="noopener noreferrer">${esc(l.n)}</a>
+      <span class="meta">Publicada ${esc(l.pub)} · ${l.ult ? `última reforma ${esc(l.ult)}` : "sin reformas"}${l.pdf ? ` · <a href="${esc(l.pdf)}" target="_blank" rel="noopener noreferrer">texto vigente (PDF)</a>` : ""}</span></li>`).join("")}</ul>`;
+}
+
+/** Varios RFC o nombres (uno por renglón) contra el listado 69-B del SAT. */
+export function verificarProveedores(datos, texto, max = 60) {
+  return String(texto || "").split(/\n+/).map((x) => x.trim()).filter((x) => x.length >= 3).slice(0, max)
+    .map((q) => ({ q, res: buscar69b(datos, q, 3) }));
+}
+
+export function htmlProveedores(filas, datos) {
+  if (!filas.length) return `<p class="meta">Escribe al menos un RFC o nombre (uno por renglón).</p>`;
+  const conHallazgo = filas.filter((f) => f.res.length).length;
+  return `<p><b>${conHallazgo} de ${filas.length}</b> aparecen en el listado 69-B (corte del SAT: ${esc(datos?.corte_sat || "—")}).</p>
+    <table class="tabla-inv"><thead><tr><th>Buscado</th><th>Resultado</th></tr></thead><tbody>${filas.map((f) => `<tr><td>${esc(f.q)}</td><td>${f.res.length
+      ? f.res.map((r) => `<b>${esc(r.situacion)}</b> · ${esc(r.nombre)} <code>${esc(r.rfc)}</code>`).join("<br>") : `<span class="meta">sin coincidencia</span>`}</td></tr>`).join("")}</tbody></table>
+    <p class="meta">«Presunto» o «Definitivo» es un foco rojo fuerte. No aparecer no garantiza nada: el listado solo incluye a quienes el SAT ya notificó.</p>`;
+}
+
+/** Focos rojos en contratación pública (OCDE, Open Contracting Partnership, IMCO y Transparencia Mexicana). */
+export const FOCOS_CONTRATOS = [
+  ["Adjudicación directa o invitación a tres en montos altos", "La ley prevé la licitación pública como regla; las excepciones deben justificarse por escrito."],
+  ["Un solo participante en una licitación", "Puede indicar requisitos hechos a la medida o acuerdos entre competidores."],
+  ["Plazos muy cortos entre la convocatoria y la entrega de propuestas", "Deja fuera a quien no conocía la licitación de antemano."],
+  ["Montos justo debajo del límite que obliga a licitar", "Contratos fraccionados para evitar la licitación."],
+  ["Proveedor recién creado o sin experiencia en el giro", "Revisa fecha de constitución, objeto social y domicilio."],
+  ["Proveedor en el listado 69-B del SAT o sancionado", "Usa el verificador de arriba y el directorio de proveedores sancionados."],
+  ["Convenios modificatorios que suben mucho el monto o el plazo", "El contrato real termina siendo otro."],
+  ["Domicilio, teléfono o representante compartido entre «competidores»", "Señal de colusión o de empresas de un mismo grupo."],
+  ["Pagos anticipados grandes sin avance verificable", "Riesgo de obra o servicio inexistente."],
+];
+
+/** Fuentes oficiales para poder político y declaraciones (se abren en su sitio). */
+export const FUENTES_PODER = [
+  ["Cámara de Diputados: integración por grupo parlamentario", "https://web.diputados.gob.mx/"],
+  ["Senado de la República: senadores por grupo parlamentario", "https://www.senado.gob.mx/"],
+  ["Sistema de Información Legislativa (SEGOB): iniciativas y votaciones", "https://sil.gobernacion.gob.mx/"],
+  ["Gaceta Parlamentaria de la Cámara de Diputados", "https://gaceta.diputados.gob.mx/"],
+  ["INE: resultados electorales y cómputos", "https://www.ine.mx/"],
+  ["Organismos Públicos Locales Electorales (OPLE) de cada estado: gubernaturas y ayuntamientos", "https://www.ine.mx/voto-y-elecciones/oples/"],
+  ["DeclaraNet: declaraciones públicas de servidores públicos federales", "https://declaranet.gob.mx/"],
+  ["Plataforma Digital Nacional: declaraciones, sancionados y contrataciones", "https://www.plataformadigitalnacional.org/"],
+  ["Compras MX (antes CompraNet): procedimientos de contratación federal", "https://comprasmx.buengobierno.gob.mx/"],
+  ["Plataforma Nacional de Transparencia: solicitudes de información", "https://www.plataformadetransparencia.org.mx/"],
+];
+
+/** Guías: señales de lavado de dinero, empresas fantasma y nepotismo, con su base legal. */
+export const GUIAS = [
+  { titulo: "Lavado de dinero: señales de alerta", base: "LFPIORPI, Código Penal Federal (art. 400 Bis), Recomendaciones del GAFI",
+    puntos: ["Operaciones en efectivo fraccionadas para no rebasar umbrales de aviso", "Empresas con ingresos que no corresponden a su tamaño, empleados o giro",
+      "Cadenas de empresas y fideicomisos sin razón económica clara", "Compras de inmuebles, autos de lujo, joyas o arte pagadas con efectivo o por terceros",
+      "Transferencias con jurisdicciones de alto riesgo (listas del GAFI)", "Beneficiario final oculto detrás de prestanombres"] },
+  { titulo: "Empresas fantasma (facturación simulada)", base: "Código Fiscal de la Federación, art. 69-B; Ley Federal contra la Delincuencia Organizada (facturación falsa)",
+    puntos: ["Domicilio fiscal inexistente, en casa habitación o compartido con muchas empresas", "Sin empleados registrados ni activos, pero con facturación alta",
+      "Objeto social muy amplio («todo tipo de servicios»)", "Constituida hace poco y con contratos grandes de inmediato",
+      "Mismos socios, representantes o contadores en varias empresas proveedoras", "Aparece en el listado 69-B del SAT (verifica arriba)"] },
+  { titulo: "Nepotismo y conflicto de interés", base: "Ley General de Responsabilidades Administrativas (conflicto de interés y declaración de intereses); reglas de cada institución",
+    puntos: ["Contratación de familiares en el área que dirige la persona servidora pública", "Contratos a empresas de familiares o socios de quien decide",
+      "Intercambio de contrataciones entre funcionarios («te contrato a tu familiar y tú al mío»)", "Declaración de intereses incompleta o no presentada",
+      "Fuentes para revisar: declaraciones públicas (DeclaraNet), contratos (Compras MX), registros de empresas y notas de prensa"],
+    nota: "DOMINUS no cruza apellidos ni datos de personas de forma automática: un mismo apellido no prueba parentesco. Documenta cada vínculo con su fuente." },
+];
+
+export const htmlGuia = (g) => `<details class="guia-inv"><summary><b>${esc(g.titulo)}</b></summary><p class="meta">Base legal: ${esc(g.base)}</p>
+  <ul>${g.puntos.map((p) => `<li>${esc(p)}</li>`).join("")}</ul>${g.nota ? `<p class="meta">${esc(g.nota)}</p>` : ""}</details>`;

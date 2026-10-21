@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marco normativo</title>
+  <meta name="description" content="Leyes, tratados, estándares ISO y metodologías que aplican a DOMINUS OSINT, con lo que cada una significa para el proyecto.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .mc-wrap { max-width: 920px; margin: 0 auto; padding: 16px; }
+    .mc-wrap > p, .mc-indice { font-size: 14px; color: var(--text-2); }
+    .mc-indice a { color: var(--text); }
+    #mc-buscar { width: 100%; font: inherit; min-height: 40px; padding: 6px 10px; margin: 10px 0; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .mc-grupo h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 18px 0 6px; }
+    .mc-n { font-size: 12px; color: var(--text-2); font-weight: 400; }
+    .mc-item { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 8px 0; }
+    .mc-item h3 { margin: 0 0 2px; font-size: 15px; text-transform: none; letter-spacing: 0; }
+    .mc-item h3 a { color: var(--text); }
+    .mc-item p { margin: 4px 0; font-size: 14px; }
+    .mc-emisor { font-size: 12px !important; color: var(--text-2); }
+    .mc-rel { border-left: 3px solid #C8102E; padding-left: 8px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Marco normativo</h1>
+  </header>
+  <main class="mc-wrap">
+    <p id="mc-desc"></p>
+    <p class="mc-indice" id="mc-indice"></p>
+    <input id="mc-buscar" type="search" placeholder="Buscar: datos personales, ISO 27001, lavado, robots…" aria-label="Buscar en el marco normativo">
+    <div id="mc-lista" aria-live="polite">Cargando…</div>
+    <p>No es asesoría legal. Las leyes cambian: verifica siempre el texto vigente en la fuente oficial.</p>
+  </main>
+  <script type="module" src="js/marco.js"></script>
+</body>
+</html>
