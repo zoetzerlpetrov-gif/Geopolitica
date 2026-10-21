@@ -370,6 +370,42 @@
    "nota": "Banco Mundial (CC BY 4.0), indicadores NV.SRV.TOTL.ZS y SL.SRV.EMPL.ZS: valor agregado del sector como % del PIB y personas ocupadas en el sector como % del empleo (estimación de la OIT), último año disponible de cada país. Los tres sectores suman cerca de 100 % del PIB; el resto son impuestos netos sobre productos."
   },
   {
+   "id": "pagos_cbdc",
+   "nombre": "Pagos: moneda digital de banco central (CBDC) por país",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "pagos_tabla",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.6,
+   "zoom_etiquetas": 3,
+   "nota": "Tabla propia (config/pagos.json) con la fuente de cada país: Atlantic Council (CBDC), Biblioteca del Congreso de EUA y reguladores (criptomonedas), BCE y leyes nacionales (efectivo). Revisada hasta 2025: estas reglas cambian rápido. Un país sin color no tiene dato en la tabla, no necesariamente carece de reglas. La ficha muestra las tres dimensiones del país."
+  },
+  {
+   "id": "pagos_cripto",
+   "nombre": "Pagos: situación legal de las criptomonedas por país",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "pagos_tabla",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.6,
+   "zoom_etiquetas": 3,
+   "nota": "Tabla propia (config/pagos.json) con la fuente de cada país: Atlantic Council (CBDC), Biblioteca del Congreso de EUA y reguladores (criptomonedas), BCE y leyes nacionales (efectivo). Revisada hasta 2025: estas reglas cambian rápido. Un país sin color no tiene dato en la tabla, no necesariamente carece de reglas. La ficha muestra las tres dimensiones del país."
+  },
+  {
+   "id": "pagos_efectivo",
+   "nombre": "Pagos: efectivo protegido, limitado o desplazado por país",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "pagos_tabla",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.6,
+   "zoom_etiquetas": 3,
+   "nota": "Tabla propia (config/pagos.json) con la fuente de cada país: Atlantic Council (CBDC), Biblioteca del Congreso de EUA y reguladores (criptomonedas), BCE y leyes nacionales (efectivo). Revisada hasta 2025: estas reglas cambian rápido. Un país sin color no tiene dato en la tabla, no necesariamente carece de reglas. La ficha muestra las tres dimensiones del país."
+  },
+  {
    "id": "tasas_bc",
    "nombre": "Tasa de interés de los bancos centrales",
    "categoria": "economia",

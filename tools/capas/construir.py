@@ -761,7 +761,7 @@ def indice_busqueda(feats):
 
 
 FAMILIAS_GEOJSON = {"camaras", "top_empresas", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
-                    "fiscal_ue", "recaudacion", "sector_primario", "sector_secundario", "sector_terciario", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
+                    "fiscal_ue", "recaudacion", "sector_primario", "sector_secundario", "sector_terciario", "pagos_cbdc", "pagos_cripto", "pagos_efectivo", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -1208,6 +1208,24 @@ def sector_terciario():
     return _sector("sector_terciario")
 
 
+def _pagos(fid):
+    """Situación de pagos por país (tabla propia con fuentes): CBDC, criptomonedas o efectivo."""
+    import pagos as P
+    return P.features(fid, _paises_fc())
+
+
+def pagos_cbdc():
+    return _pagos("pagos_cbdc")
+
+
+def pagos_cripto():
+    return _pagos("pagos_cripto")
+
+
+def pagos_efectivo():
+    return _pagos("pagos_efectivo")
+
+
 def fiscal_ue():
     """Lista de la UE de jurisdicciones no cooperativas (Anexo I) y con compromisos pendientes (Anexo II)."""
     import economia as E
@@ -1551,7 +1569,8 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "petroleo_gas": petroleo_gas, "actividades": actividades, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "sector_primario": sector_primario,
-            "sector_secundario": sector_secundario, "sector_terciario": sector_terciario, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
+            "sector_secundario": sector_secundario, "sector_terciario": sector_terciario,
+            "pagos_cbdc": pagos_cbdc, "pagos_cripto": pagos_cripto, "pagos_efectivo": pagos_efectivo, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}
 
 
