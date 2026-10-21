@@ -1077,6 +1077,11 @@ def recursos():
     ]
     for sel, st, z in consultas:
         out += _osm(overpass(sel, "recursos"), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or "", pa, con_operador=True)
+    # Minas con ficha en Wikidata: mineral, operador o dueño y país de la compañía. Si Wikidata falla, queda lo de OSM.
+    try:
+        out += _sitios_wikidata("recursos_minas", con_operador=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"   minas de Wikidata: {e}")
     return out
 
 
@@ -1146,7 +1151,7 @@ def _sitios_wikidata(fid, ajustar=None, con_operador=False):
     registros = {}
     for clase in S.FAMILIAS[fid]:
         plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO, "industria": S.Q_INDUSTRIA, "recurso": S.Q_RECURSO,
-                     "recurso_sub": S.Q_RECURSO_SUB}.get(clase[3], S.Q_LUGAR)
+                     "recurso_sub": S.Q_RECURSO_SUB, "recurso_dato": S.Q_RECURSO_DATO}.get(clase[3], S.Q_LUGAR)
         try:
             nuevos = S.leer(_sparql(plantilla % (clase[0], clase[2])), clase)
             for q, r in nuevos.items():
