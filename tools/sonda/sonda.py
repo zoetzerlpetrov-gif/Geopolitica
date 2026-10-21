@@ -1,53 +1,57 @@
-"""Sonda temporal del Lote E (se borra antes del PR): contratos, DOF, Congreso, gobernadores y municipios."""
-import json, os, sys, urllib.parse, urllib.request, urllib.error
+"""Sonda temporal del Lote E (2): Congreso, gobernadores con partido, formato del DOF y del índice de leyes."""
+import json, os, re, sys, urllib.parse, urllib.request
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "ingest"))
 import fuentes as F
 
-def pedir(url, data=None, headers=None, n=500):
-    rob = F.permitido_por_robots(url)
-    req = urllib.request.Request(url, data=data, headers={"User-Agent": F.UA, "Accept": "application/json, text/html, */*", **(headers or {})})
+def pedir(url, n=0):
     try:
-        with urllib.request.urlopen(req, timeout=40) as r:
-            b = r.read()
-            print(f"[{r.status}] robots={rob} {url[:150]} · {r.headers.get('Content-Type')} · {len(b)} B\n    {b[:n]!r}")
-            return b
-    except urllib.error.HTTPError as e:
-        print(f"[{e.code}] robots={rob} {url[:150]} · {e.read()[:200]!r}")
+        b = F.get(url, timeout=60)
+        print(f"[OK] robots={F.permitido_por_robots(url)} {url[:140]} · {len(b)} B")
+        if n: print("   ", b[:n])
+        return b
     except Exception as e:
-        print(f"[ERR] robots={rob} {url[:150]} · {e}")
+        print(f"[ERR] robots={F.permitido_por_robots(url)} {url[:140]} · {e}")
 
-print("=== Contratos")
-for u in ["https://www.datos.gob.mx/api/3/action/package_search?q=compranet&rows=5",
-          "https://www.datos.gob.mx/api/3/action/package_search?q=contrataciones%20abiertas&rows=5",
-          "https://api.datos.gob.mx/v2/contratacionesabiertas?pageSize=1",
-          "https://upcp-compranet.buengobierno.gob.mx/",
-          "https://comprasmx.buengobierno.gob.mx/",
-          "https://compranet.hacienda.gob.mx/esop/guest/go/public/opportunity/current"]:
-    pedir(u)
-print("=== DOF")
-for u in ["https://www.dof.gob.mx/sumario.xml", "https://dof.gob.mx/sumario.xml",
-          "https://sidof.segob.gob.mx/dof/sidof/notas/obtenerNotasPorFecha/20-10-2026",
-          "https://sidof.segob.gob.mx/dof/sidof/diarioOficial/porFecha/20-10-2026",
-          "https://www.dof.gob.mx/index.php?year=2026&month=10&day=20",
-          "https://www.diputados.gob.mx/LeyesBiblio/ref/cpeum.htm",
-          "https://www.diputados.gob.mx/LeyesBiblio/index.htm"]:
-    pedir(u, n=700)
-print("=== Wikipedia (legislatura)")
-for t in ["LXVI_Legislatura_del_Congreso_de_la_Unión_de_México"]:
-    b = pedir("https://es.wikipedia.org/w/api.php?" + urllib.parse.urlencode({"action": "parse", "page": t, "prop": "wikitext", "format": "json", "section": 0}), n=200)
+print("=== DOF sumario")
+b = pedir("https://dof.gob.mx/sumario.xml")
+if b:
+    t = b.decode("latin-1")
+    for it in re.findall(r"<item>(.*?)</item>", t, re.S)[:40]:
+        print("   ", re.sub(r"\s+", " ", it)[:330])
+print("=== LeyesBiblio")
+b = pedir("https://www.diputados.gob.mx/LeyesBiblio/index.htm")
+if b:
+    t = b.decode("latin-1")
+    i = t.find("Ley Aduanera")
+    print(t[i-1500:i+2500])
+    print("fechas:", len(re.findall(r"\d{2}-\d{2}-\d{4}", t)), "ultima ref:", len(re.findall(r"(?i)[uú]ltima reforma", t)))
+print("=== Congreso")
+for u in ["https://sitl.diputados.gob.mx/LXVI_leg/info_diputados.php", "http://sitl.diputados.gob.mx/LXVI_leg/info_diputados.php",
+          "https://www.senado.gob.mx/66/senadores/por_grupo_parlamentario", "https://www.senado.gob.mx/66/"]:
+    b = pedir(u)
     if b:
-        wt = json.loads(b).get("parse", {}).get("wikitext", {}).get("*", "")
-        print(wt[:3000])
+        t = re.sub(r"<[^>]+>", " ", b.decode("utf-8", "replace"))
+        t = re.sub(r"\s+", " ", t)
+        for pal in ["MORENA", "PAN", "PRI", "PVEM", "PT", "MC", "Total"]:
+            i = t.find(pal)
+            if i >= 0: print("   ", pal, "→", t[max(0, i-80):i+120])
 print("=== Wikidata")
-Q = {"gobernadores": """SELECT ?e ?eL ?g ?gL ?pL WHERE { ?e wdt:P31 wd:Q15149663 . ?e p:P6 ?s . ?s ps:P6 ?g . FILTER NOT EXISTS { ?s pq:P582 ?fin }
-  OPTIONAL { ?g wdt:P102 ?p } SERVICE wikibase:label { bd:serviceParam wikibase:language "es". } }""",
-     "tipo_municipio": """SELECT ?t ?tL (COUNT(?m) AS ?n) WHERE { ?m wdt:P17 wd:Q96 ; wdt:P31 ?t . ?t rdfs:label ?tL FILTER(lang(?tL)="es" && CONTAINS(LCASE(?tL), "municipio")) } GROUP BY ?t ?tL ORDER BY DESC(?n) LIMIT 5""",
+def sparql(q):
+    req = urllib.request.Request("https://query.wikidata.org/sparql?" + urllib.parse.urlencode({"query": q, "format": "json"}), headers={"User-Agent": F.UA})
+    with urllib.request.urlopen(req, timeout=90) as r:
+        return json.loads(r.read())["results"]["bindings"]
+Q = {
+ "gobernadores": """SELECT ?eLabel ?gLabel ?pLabel ?ini WHERE { ?e wdt:P31 wd:Q15149663 . ?e p:P6 ?s . ?s ps:P6 ?g . OPTIONAL { ?s pq:P580 ?ini } FILTER NOT EXISTS { ?s pq:P582 ?fin }
+   OPTIONAL { ?g p:P102 ?ps . ?ps ps:P102 ?p . FILTER NOT EXISTS { ?ps pq:P582 ?f2 } } SERVICE wikibase:label { bd:serviceParam wikibase:language "es". } } ORDER BY ?eLabel""",
+ "cargo_diputado": """SELECT ?c ?cLabel WHERE { ?c rdfs:label ?l . FILTER(?l IN ("diputado federal de México"@es, "miembro de la Cámara de Diputados de México"@es, "member of the Chamber of Deputies of Mexico"@en)) SERVICE wikibase:label { bd:serviceParam wikibase:language "es". } }""",
+ "legislatura": """SELECT ?l ?lLabel WHERE { ?l rdfs:label ?x . FILTER(?x IN ("LXVI Legislatura del Congreso de la Unión de México"@es, "LXVI Legislature of the Mexican Congress"@en)) SERVICE wikibase:label { bd:serviceParam wikibase:language "es". } }""",
 }
 for k, q in Q.items():
-    b = pedir("https://query.wikidata.org/sparql?" + urllib.parse.urlencode({"query": q, "format": "json"}), n=100)
-    if b:
-        filas = json.loads(b)["results"]["bindings"]
+    try:
+        filas = sparql(q)
         print(k, len(filas))
-        for f in filas[:40]:
-            print("   ", {kk: v["value"][-60:] for kk, v in f.items()})
+        for f in filas[:45]:
+            print("   ", {kk: v["value"][-70:] for kk, v in f.items()})
+    except Exception as e:
+        print(k, "ERR", e)
