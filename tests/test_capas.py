@@ -312,3 +312,18 @@ def test_cajas_previas_del_manifiesto():
     viejo = {"error": "sin respuesta en 2 zona(s); se reusaron 5 objetos de la corrida anterior en esas zonas: [[0, 0, 30, 180], [30.0, -180, 50, 0]]"}
     assert c.cajas_previas(viejo) == [(0, 0, 30, 180), (30.0, -180, 50, 0)]
     assert c.cajas_previas({"error": None}) == []
+
+
+def test_overpass_sin_respuesta_anota_las_zonas_antes_de_fallar(monkeypatch):
+    def caja(q, intentos=3):
+        raise TimeoutError("plazo interno agotado")
+    monkeypatch.setattr(c, "_overpass_caja", caja)
+    monkeypatch.setattr(c, "FALTANTES", {})
+    monkeypatch.setattr(c, "PREVIAS", {})
+    try:
+        c.overpass(['nwr["water_works"="desalination"]'], "desaladoras", cajas=[(0, 0, 30, 180)])
+        assert False, "debía fallar"
+    except RuntimeError:
+        pass
+    # Con las zonas anotadas, main() rellena con los objetos de OSM de la corrida anterior.
+    assert c.FALTANTES["desaladoras"] == [[0, 0, 30, 180]]

@@ -975,10 +975,12 @@ def overpass(selectores, familia="", salida="center", cajas=None):
                 out.append(el)
         time.sleep(15)  # cortesía con la API pública
     HASTA[0] = PLAZO
-    if not out and fallidas:
-        raise RuntimeError("Overpass no respondió en ninguna caja (límite de uso o saturación)")
+    # Se anotan antes de fallar: así, si la familia sigue con otra fuente (desaladoras usa Wikidata), los objetos
+    # de OSM de la corrida anterior se reusan en esas zonas en lugar de perderse.
     if fallidas:
         FALTANTES.setdefault(familia, []).extend(fallidas)
+    if not out and fallidas:
+        raise RuntimeError("Overpass no respondió en ninguna caja (límite de uso o saturación)")
     return out
 
 
