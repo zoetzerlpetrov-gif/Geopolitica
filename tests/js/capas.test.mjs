@@ -106,3 +106,9 @@ test("ficha: quién opera un recurso, con bandera y nacionalidad", async () => {
   assert.match(h, /Extranjera/);
   assert.match(htmlOperador({ op: "Pemex", o: "MX", nac: "n", est: "1" }), /Empresa estatal/);
 });
+
+test("las familias marcadas «oculta» (DENUE) no aparecen en el menú", () => {
+  const fams = familiasDibujables(catalogo, capasCfg, { familias: {} });
+  assert.ok(!fams.some((f) => f.id === "denue_grandes"));
+  assert.ok(capasCfg.familias.some((f) => f.id === "denue_grandes" && f.oculta && !f.habilitada));
+});

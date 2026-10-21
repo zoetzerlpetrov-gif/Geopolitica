@@ -986,6 +986,8 @@ async function iniciarCapas() {
   // Cámaras públicas: una sola opción, dentro de «Imágenes satelitales y cámaras» (con sus subtipos y fuentes).
   const famCam = cont.querySelector('[data-fam="camaras"]')?.closest(".capa-fam");
   if (famCam && $("cam-capas")) $("cam-capas").append(famCam);
+  // Su subsección de origen («Cámaras públicas» en Infraestructura, conflictos y sociedad) queda vacía: se quita el título.
+  for (const sg of cont.querySelectorAll(".subgrupo-d")) if (!sg.querySelector(".capa-fam")) sg.remove();
   for (const n of cont.querySelectorAll("[data-sg-cat]")) {
     const sec = n.closest("details");
     const k = sec?.querySelectorAll(".capa-fam:not(.capa-off)").length ?? 0;
