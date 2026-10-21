@@ -42,6 +42,15 @@ SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?opEs ?opEn ?opA2 ?opA3 ?prodEs ?prodEn WHERE
              OPTIONAL { ?prod rdfs:label ?prodEn FILTER(lang(?prodEn) = "en") } }
 }"""
 Q_RECURSO_SUB = Q_RECURSO.replace("?x wdt:P31 wd:%s ;", "?x wdt:P31/wdt:P279* wd:%s ;")
+# Consulta ligera (nombre, coordenada, país) para clases muy grandes: las 50 mil minas no caben con todos los OPTIONAL.
+Q_LIGERA = """
+SELECT ?x ?xEs ?xEn ?coord ?n ?iso WHERE {
+  ?x wdt:P31 wd:%s ; wikibase:sitelinks ?n ; wdt:P625 ?coord .
+  FILTER(?n >= %d)
+  OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
+  OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso }
+}"""
 # Solo los que registran mineral, operador o dueño (≈ 4,500 de las 50 mil minas con coordenada, medido el 21-oct-2026).
 Q_RECURSO_DATO = Q_RECURSO.replace("FILTER NOT EXISTS { ?x wdt:P576 ?fin }",
                                    "FILTER NOT EXISTS { ?x wdt:P576 ?fin }\n  FILTER EXISTS { ?x wdt:P1056|wdt:P137|wdt:P127 [] }")
@@ -100,15 +109,17 @@ FAMILIAS = {
         ("Q507443", "farma_sede", 0, "industria", 5),         # cualquier empresa cuya industria sea la farmacéutica
     ],
     "petroleo_gas": [
-        ("Q211748", "campo_petrolero", 1, "recurso", 5),   # 5,709 con coordenada; 139 con operador (oct 2026)
-        ("Q1349255", "campo_gas", 1, "recurso", 5),        # 357; 93 con operador
-        ("Q689880", "plataforma_marina", 1, "recurso", 5),
+        # Todos, con o sin artículo en Wikipedia: 5,709 campos petroleros (139 con operador), 357 de gas (93), oct 2026.
+        ("Q211748", "campo_petrolero", 0, "recurso", 5),
+        ("Q1349255", "campo_gas", 0, "recurso", 5),
+        ("Q689880", "plataforma_marina", 0, "recurso", 5),
     ],
-    # Minas (Wikidata, 50,059 con coordenada en oct 2026): las que registran mineral, operador o dueño, y las conocidas
-    # (≥ 3 Wikipedias). Las demás son sobre todo minas históricas o de carbón sin datos útiles para esta capa.
+    # Todas las minas de Wikidata (50,059 con coordenada en oct 2026). Primero las ≈ 4,500 que registran mineral, operador o
+    # dueño (con esos detalles, desde zoom 6); luego el resto con nombre y país (desde zoom 8, para no saturar el mapa).
+    # La primera clase gana al repetirse una mina.
     "recursos_minas": [
         ("Q820477", "mineria", 0, "recurso_dato", 6),
-        ("Q820477", "mineria", 3, "recurso", 6),
+        ("Q820477", "mineria", 0, "ligera", 8),
     ],
     "turismo": [
         ("Q9259", "patrimonio_mundial", 0, "patrimonio", 3),   # 3,378 sitios con coordenada (oct 2026)

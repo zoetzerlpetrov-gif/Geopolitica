@@ -1151,7 +1151,7 @@ def _sitios_wikidata(fid, ajustar=None, con_operador=False):
     registros = {}
     for clase in S.FAMILIAS[fid]:
         plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO, "industria": S.Q_INDUSTRIA, "recurso": S.Q_RECURSO,
-                     "recurso_sub": S.Q_RECURSO_SUB, "recurso_dato": S.Q_RECURSO_DATO}.get(clase[3], S.Q_LUGAR)
+                     "recurso_sub": S.Q_RECURSO_SUB, "recurso_dato": S.Q_RECURSO_DATO, "ligera": S.Q_LIGERA}.get(clase[3], S.Q_LUGAR)
         try:
             nuevos = S.leer(_sparql(plantilla % (clase[0], clase[2])), clase)
             for q, r in nuevos.items():
