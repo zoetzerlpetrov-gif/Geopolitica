@@ -7,6 +7,8 @@ oficial y no otra vía. Cada 2 h se leen los últimos 50 videos subidos por cada
 CANALES (playlistItems, 1 unidad por canal) y se asignan a cada conflicto por sus palabras clave en el título (7 días). Así solo aparecen medios conocidos: nada de propaganda, contenido gráfico sin contexto ni
 cuentas anónimas. Se guarda el identificador del video, título, canal y fecha; el video se
 reproduce insertado con el reproductor oficial de YouTube (youtube-nocookie.com) desde la ficha.
+Además, «recientes» guarda todos los videos de esos canales de los últimos 7 días (sin gastar más cuota): las fichas de
+seguridad, emergencias, salud, criminología y carreteras eligen ahí los que nombran su lugar y su tema.
 Salida: vivos/conflictos_videos.json.
 """
 import json
@@ -70,6 +72,20 @@ def asignar(videos, conflictos, desde, max_por_conflicto=6):
     return {k: sorted(v, key=lambda x: x["fecha"], reverse=True)[:max_por_conflicto] for k, v in out.items()}
 
 
+def recientes(videos, desde, maximo=700):
+    """[(canal, item)] → [{v, t, c, f}] de los últimos días, sin repetir, del más nuevo al más viejo."""
+    out, vistos = [], set()
+    for canal, it in videos:
+        s = it.get("snippet") or {}
+        vid = (s.get("resourceId") or {}).get("videoId")
+        fecha = (s.get("publishedAt") or "")[:19] + "Z"
+        if not vid or vid in vistos or fecha < desde or s.get("title") in ("Private video", "Deleted video"):
+            continue
+        vistos.add(vid)
+        out.append({"v": vid, "t": " ".join((s.get("title") or "").split())[:160], "c": CANALES[canal], "f": fecha})
+    return sorted(out, key=lambda x: x["f"], reverse=True)[:maximo]
+
+
 def main():
     llave = os.environ.get("YOUTUBE_API_KEY", "").strip()
     if not llave:
@@ -91,11 +107,11 @@ def main():
         except Exception as e:  # noqa: BLE001
             errores.append(f"{CANALES[canal]}: {e}"[:120])
         time.sleep(0.3)
-    videos = asignar(todos, cfg["conflictos"], desde)
+    videos, ultimos = asignar(todos, cfg["conflictos"], desde), recientes(todos, desde)
     if not todos:  # la API no respondió: se conserva lo anterior
-        videos = previo.get("videos", {})
+        videos, ultimos = previo.get("videos", {}), previo.get("recientes", [])
     os.makedirs(os.path.dirname(SALIDA), exist_ok=True)
-    json.dump({"generado_utc": iso(ahora), "fuente": "YouTube Data API v3 (canales de noticias)", "errores": errores, "videos": videos},
+    json.dump({"generado_utc": iso(ahora), "fuente": "YouTube Data API v3 (canales de noticias)", "errores": errores, "videos": videos, "recientes": ultimos},
               open(SALIDA, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"videos de conflictos: {sum(len(v) for v in videos.values())} videos; errores: {len(errores)}")
     return 0

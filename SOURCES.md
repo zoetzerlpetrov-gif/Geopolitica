@@ -283,3 +283,14 @@ Son rutas de referencia del mapa de la CIA, no la derrota exacta de cada barco. 
 | Kraken (API pública) | Precio de BTC, ETH, XRP y XLM en dólares | Sin llave | Precio de una casa de cambio, no oficial |
 
 Descartadas por su robots.txt: CoinGecko, MarketWatch, Mining.com, El Universal, El País, AFP Factual, International Crisis Group, Foro Económico Mundial, FXStreet (inglés), BLS (feed y API), T21 y SinEmbargo. Índices bursátiles (S&P 500, Dow, IPC, Russell 2000, VIX) y metales no tienen fuente oficial gratuita reproducible: la página enlaza a quien los calcula. Nada es recomendación de inversión.
+
+## Carreteras y calles; zona y videos en las fichas (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Medios mexicanos (`config/fuentes_mx.json`) y GDELT GKG (medios `.mx`) | Robo a transporte de carga y público, robo de vehículos, tomas de casetas, bloqueos y protestas en México (titulares que nombran la ciudad o el estado) | Sin llave; RSS solo si el robots.txt lo permite | Se guardan título, medio, fecha, enlace y lugar; nunca el texto ni nombres de personas |
+| GDELT 2.0, eventos con raíz CAMEO 14 | Protestas (141), huelgas y paros (143), bloqueos (144) y disturbios (145) en el mundo, con 5 notas o más (1 en México) | Sin llave | Uso libre con cita a GDELT |
+| Natural Earth 1:10m admin-1 | Estado o provincia resaltado en la ficha (`vivos/zonas_eventos.geojson`, solo donde hay puntos) | Sin llave | Dominio público |
+| YouTube Data API v3 (los mismos 13 canales de noticias de las zonas de conflicto) | Videos de la ficha que nombran el lugar y el tema; sin cuota extra | Secreto `YOUTUBE_API_KEY` | Reproductor oficial (youtube-nocookie.com) |
+
+Son señales de noticias, no estadística oficial: las cifras oficiales de robo y delitos en México son las del SESNSP (mensuales, por estado y municipio) y la ENVIPE del INEGI.

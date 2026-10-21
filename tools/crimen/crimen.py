@@ -33,6 +33,7 @@ from geo import Gazetteer  # noqa: E402
 import fuentes as F  # noqa: E402
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import historial  # noqa: E402
+import vial  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "crimen.geojson")
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
@@ -253,7 +254,7 @@ def eventos_gdelt(gaz, archivos=4):
     ultima = F.get(ULTIMA).decode().split("\n")[0].split()[2]
     marca = re.search(r"(\d{14})\.export", ultima).group(1)
     t = datetime.strptime(marca, "%Y%m%d%H%M%S")
-    out, ataques = [], []
+    out, ataques, protestas = [], [], []
     for k in range(archivos):
         url = ultima.replace(marca, (t - timedelta(minutes=15 * k)).strftime("%Y%m%d%H%M%S"))
         try:
@@ -269,7 +270,10 @@ def eventos_gdelt(gaz, archivos=4):
                 at = evento_ataque(fila, paises)
                 if at:
                     ataques.append(at)
-    return out, ataques
+                pr = vial.evento_protesta(fila, paises, C, F.palabras_de_url)
+                if pr:
+                    protestas.append(pr)
+    return out, ataques, protestas
 
 
 def get_json(url, reintentos=1):
@@ -306,7 +310,7 @@ def clasificar_titular(titulo):
 def rss_mexico(estados, gaz):
     """Titulares de medios mexicanos (config/fuentes_mx.json) → features de crimen, ataques y deslaves."""
     cfg = json.load(open(os.path.join(ROOT, "config", "fuentes_mx.json"), encoding="utf-8"))
-    salida = {"crimen": [], "ataque": [], "deslave": []}
+    salida = {"crimen": [], "ataque": [], "deslave": [], "vial": []}
     estado_fuentes = {}
     for fuente in cfg["feeds"]:
         try:
@@ -325,6 +329,9 @@ def rss_mexico(estados, gaz):
             continue
         n = 0
         for c in cands:
+            fv = vial.de_titular(c["titulo"], c["url"], fuente["nombre"], c["fecha_utc"], lambda t: ubicar(t, estados, gaz, "mx"), f"RSS de {fuente['nombre']}")
+            if fv:
+                salida["vial"].append(fv)
             clase, arma = clasificar_titular(c["titulo"])
             if not clase:
                 continue
@@ -384,7 +391,7 @@ def main():
             return 0
     estados = json.load(open(os.path.join(ROOT, "config", "mx_estados.json"), encoding="utf-8"))
     gaz = Gazetteer()
-    crimen, ataques, deslaves, errores = [], [], [], []
+    crimen, ataques, deslaves, errores, vias = [], [], [], [], []
     # 1) API de búsqueda de GDELT (suele limitar desde GitHub: una sola consulta de prueba).
     rp = urllib.robotparser.RobotFileParser("https://api.gdeltproject.org/robots.txt")
     try:
@@ -407,9 +414,10 @@ def main():
             time.sleep(PAUSA_S)
     # 2) Archivos de eventos de GDELT 2.0 (sin límite): crimen organizado y ataques con armas.
     try:
-        c2, a2 = eventos_gdelt(gaz)
+        c2, a2, p2 = eventos_gdelt(gaz)
         crimen += c2
         ataques += a2
+        vias += p2
         print(f"crimen: {len(c2)} eventos criminales y {len(a2)} ataques en la última hora (GDELT)")
     except Exception as e:  # noqa: BLE001
         errores.append(f"eventos GDELT: {e}"[:160])
@@ -420,6 +428,7 @@ def main():
         crimen += rss["crimen"]
         ataques += rss["ataque"]
         deslaves += rss["deslave"]
+        vias += rss["vial"]
         print(f"crimen: RSS de México {fuentes_mx}")
     except Exception as e:  # noqa: BLE001
         errores.append(f"RSS México: {e}"[:160])
@@ -433,6 +442,24 @@ def main():
         errores.append(f"historial 90 días: {e}"[:160])
     fa = guardar(os.path.join(os.path.dirname(OUT), "ataques.geojson"), ataques, 48, "GDELT 2.0 (códigos CAMEO de ataque) y medios mexicanos", clase="ataque")
     fd = guardar(os.path.join(os.path.dirname(OUT), "deslaves.geojson"), deslaves, 72, "Medios mexicanos (titulares, verificar)", clase="deslave")
+    # 4) Titulares de GDELT GKG de medios .mx (los mismos archivos que la capa de tornados, en caché).
+    try:
+        sys.path.insert(0, os.path.join(ROOT, "tools", "clima"))
+        import tornados as T
+        for url in T.FLUJOS.values():
+            for u in T.archivos_gkg(url, 4):
+                try:
+                    vias += vial.de_gkg(T.filas_gkg(u), lambda t: ubicar(t, estados, gaz, "mx"), T.titulo_de)
+                except Exception as e:  # noqa: BLE001  GDELT a veces no publica un archivo de 15 min
+                    errores.append(f"GKG {u.rsplit('/', 1)[-1]}: {e}"[:120])
+    except Exception as e:  # noqa: BLE001
+        errores.append(f"GKG: {e}"[:160])
+    fv = guardar(os.path.join(os.path.dirname(OUT), "vial.geojson"), vias, 72,
+                 "Medios mexicanos, GDELT GKG y eventos CAMEO 14 de GDELT (señales de noticias, verificar)")
+    por_tipo = {}
+    for f in fv:
+        por_tipo[f["properties"]["st"]] = por_tipo.get(f["properties"]["st"], 0) + 1
+    print(f"crimen: carreteras y calles {len(fv)} {por_tipo}")
     print(f"crimen: {len(fc)} señales ({sum(1 for f in fc if f['properties']['pais_iso3'] == 'MEX')} en México); ataques: {len(fa)}; deslaves: {len(fd)}; errores: {errores}")
     return 0
 

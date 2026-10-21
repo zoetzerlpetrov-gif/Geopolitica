@@ -103,15 +103,26 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/clima/volcanes.py
 
-      - name: Terrorismo, narcotráfico y crimen organizado (GDELT, cada hora; si falla se conservan los anteriores)
+      - name: Terrorismo, narcotráfico y crimen organizado; robos en carreteras, bloqueos y protestas (GDELT y medios mexicanos, cada hora; si falla se conservan los anteriores)
         continue-on-error: true
-        timeout-minutes: 5
+        timeout-minutes: 8
         run: python3 tools/crimen/crimen.py
 
       - name: Tsunamis (boletines oficiales de la NOAA, cada corrida; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 3
         run: python3 tools/clima/tsunamis.py
+
+      - name: Caché de los polígonos de estados y provincias (Natural Earth admin-1, la misma de la ingesta)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/admin1
+          key: admin1-ne10m-v1
+
+      - name: Estados y provincias para resaltar en las fichas (solo donde hay puntos de crimen, ataques, carreteras y deslaves)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/zonas_eventos.py
 
       - name: Tornados y trombas marinas del mundo (GDELT GKG, última hora; si falla se conservan los anteriores)
         continue-on-error: true
