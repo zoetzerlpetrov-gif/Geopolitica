@@ -34,6 +34,9 @@ Todas las regiones|All regions|Toutes les régions|Alle Regionen|Tutte le region
 Análisis|Analysis|Analyse|Analyse|Analisi
 Taxonomía|Taxonomy|Taxonomie|Taxonomie|Tassonomia
 Proyección del mapa|Map projection|Projection de la carte|Kartenprojektion|Proiezione della mappa
+▶ Animar|▶ Animate|▶ Animer|▶ Animieren|▶ Anima
+⏸ Pausar|⏸ Pause|⏸ Pause|⏸ Pause|⏸ Pausa
+📐 Peters (tamaño real)|📐 Peters (true size)|📐 Peters (taille réelle)|📐 Peters (echte Größe)|📐 Peters (dimensioni reali)
 🗺️ Plano 2D (Mercator)|🗺️ Flat 2D (Mercator)|🗺️ Plan 2D (Mercator)|🗺️ Flach 2D (Mercator)|🗺️ Piano 2D (Mercator)
 🌐 Globo 3D|🌐 3D globe|🌐 Globe 3D|🌐 3D-Globus|🌐 Globo 3D
 Mapa base|Base map|Fond de carte|Grundkarte|Mappa di base

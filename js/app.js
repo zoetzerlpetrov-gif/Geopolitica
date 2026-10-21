@@ -12,6 +12,7 @@ import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
 import { LineaTiempo } from "./linea-tiempo.js";
 import * as cuaderno from "./cuaderno.js";
 import { iniciarMenu } from "./menu.js";
+import { registrarAnimacion, iniciarBotonAnimar } from "./animacion.js";
 import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
@@ -629,6 +630,9 @@ async function main() {
   linea = new LineaTiempo($("linea-tiempo"), (v) => { estado.desde = v.desde; estado.hasta = v.hasta; programarFiltros(); },
     { cargarHistorial: anexarHistorial, permitir90: true });
   linea.setEventos(eventos);
+  registrarAnimacion({ id: "eventos", nombre: "eventos en la línea de tiempo", disponible: () => linea.eventos?.length > 0,
+    activa: () => Boolean(linea.timer), iniciar: () => linea.reproducir(), detener: () => linea.detener() });
+  iniciarBotonAnimar($("btn-animar"));
   const alCargar = () => {
     aplicarFiltros();
     const m = location.hash.match(/^#evento=(.+)$/);
@@ -732,9 +736,26 @@ async function main() {
   $("sel-base").value = storage.get("gp_base") || "tematico";
   $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
   $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
-  $("sel-proyeccion").onchange = () => {
+  // «Peters (tamaño real)»: vista aparte dibujada en un lienzo encima del mapa (MapLibre no tiene esa proyección).
+  let peters = null;
+  const vistaPeters = async (on) => {
+    if (!on) { peters?.ocultar(); return; }
+    if (!peters) {
+      const P = await import("./peters.js");
+      peters = new P.VistaPeters($("map"), async () => {
+        const [paises, etiquetas] = await Promise.all([getJSON("data/base/countries-110m.geojson"), getJSON("data/base/etiquetas-paises.geojson").catch(() => ({ features: [] }))]);
+        const nombres = Object.fromEntries(etiquetas.features.map((f) => [f.properties.iso3, f.properties.n]));
+        const puntos = visiblesActuales.filter((e) => e.lat != null && e.lon != null).map((e) => [e.lon, e.lat, ({ 5: "#6A1B9A", 4: "#C62828", 3: "#E2711D", 2: "#F2B134", 1: "#2E7D32" })[e.severidad] || "#C8102E"]);
+        return { paises, nombres, puntos };
+      });
+    }
+    await peters.mostrar();
+  };
+  $("sel-proyeccion").onchange = async () => {
     const tipo = $("sel-proyeccion").value;
     storage.set("gp_proyeccion", tipo);
+    await vistaPeters(tipo === "peters");
+    if (tipo === "peters") return;
     api.setProyeccion(tipo);
     // «Plano 2D» es plano de verdad: sin inclinación ni giro, y sin las columnas 3D (que necesitan inclinar).
     if (tipo === "mercator") {
@@ -743,7 +764,8 @@ async function main() {
     }
   };
   if ($("sel-base").value !== "tematico") cambiarBase();
-  if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
+  if ($("sel-proyeccion").value === "peters") vistaPeters(true);
+  else if ($("sel-proyeccion").value !== "mercator") api.setProyeccion($("sel-proyeccion").value);
 
   // Capas de entidades: el catálogo se pide cuando el mapa ya está quieto (no compite con la carga inicial).
   // Se arma cuando el mapa queda quieto o, a más tardar, a los 5 s: si un servicio del mapa base no responde (p. ej. las
@@ -984,7 +1006,8 @@ async function iniciarCapas() {
         const det = BO.detalle(r, paisNombre);
         return `<li><button type="button" class="link-btn" data-org="${i}"><span>${resaltar(r.n, ps)}</span></button>
           <span class="meta">${esc(sub?.nombre.es || fam?.nombre || "")}${det && det !== r.n ? ` · ${resaltar(det, ps)}` : ""}${r.p ? ` · ${esc(paisNombre(r.p))}` : ""}</span></li>`;
-      }).join("");
+      }).join("") + `<li class="org-registros"><span class="meta">Buscar «${esc(q)}» en registros públicos de empresas (cotizan o no):</span>
+        ${BO.registrosPublicos(q).map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)} ↗</a>`).join(" · ")}</li>`;
     };
     $("org-q").addEventListener("input", debounce(pintarOrg, 250));
     $("org-res").addEventListener("click", async (e) => {
@@ -1217,6 +1240,8 @@ async function alternarTimelapse(cb) {
     barra.querySelector(".tl-cerrar").onclick = () => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
   }
   timelapse.activar();
+  registrarAnimacion({ id: "timelapse", nombre: "cambio en el tiempo (imágenes por año)", disponible: () => Boolean(timelapse?.activo),
+    activa: () => Boolean(timelapse?.reloj), iniciar: () => timelapse.reproducir(), detener: () => timelapse.pausar() });
   avisarPresupuesto();
 }
 
@@ -1260,14 +1285,21 @@ async function iniciarClima() {
   };
   // ▶ recorre los horizontes del pronóstico (p. ej. para ver avanzar el aire polar o una tormenta) cada 1.8 s.
   let animacion = null;
-  cont.addEventListener("click", (e) => {
-    const b = e.target.closest("#clima-animar");
-    if (!b) return;
-    if (animacion) { clearInterval(animacion); animacion = null; b.textContent = "▶"; b.setAttribute("aria-pressed", "false"); return; }
-    b.textContent = "⏸"; b.setAttribute("aria-pressed", "true");
+  const pintarBoton = () => { const b = $("clima-animar"); if (b) { b.textContent = animacion ? "⏸" : "▶"; b.setAttribute("aria-pressed", String(Boolean(animacion))); } };
+  const detenerClima = () => { clearInterval(animacion); animacion = null; pintarBoton(); };
+  const iniciarClima = () => {
     const sel = $("clima-paso");
+    if (!sel || animacion) return;
     animacion = setInterval(() => { sel.value = String((Number(sel.value) + 1) % sel.options.length); clima.setPaso(Number(sel.value)).catch(() => null); }, 1800);
+    pintarBoton();
+  };
+  cont.addEventListener("click", (e) => {
+    if (!e.target.closest("#clima-animar")) return;
+    animacion ? detenerClima() : iniciarClima();
   });
+  // El pronóstico se anima desde el botón global solo si hay alguna capa del modelo encendida (con varios momentos).
+  registrarAnimacion({ id: "clima", nombre: "pronóstico del clima", disponible: () => clima.activas.size > 0 && ($("clima-paso")?.options.length || 0) > 1,
+    activa: () => Boolean(animacion), iniciar: iniciarClima, detener: detenerClima });
   cont.addEventListener("change", async (e) => {
     if (e.target.id === "clima-paso") { await clima.setPaso(Number(e.target.value)); return; }
     const t = e.target.dataset.clima;

@@ -721,12 +721,33 @@ def camaras(revisar=enlace_responde, externas=True):
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
         out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
         out += _fuente_camaras("nyc_dot", [NYC_DOT], camaras_nyc)
+        out += camaras_youtube()
     return out
+
+
+def camaras_youtube():
+    """Cámaras en vivo de todo el mundo en YouTube (tools/capas/youtube_vivo.py); solo con el secreto YOUTUBE_API_KEY."""
+    llave = os.environ.get("YOUTUBE_API_KEY", "")
+    if not llave:
+        CAM_FUENTES["youtube"] = "sin llave (secreto YOUTUBE_API_KEY)"
+        return []
+    import youtube_vivo as Y
+    try:
+        ciudades = Y.Ciudades(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"])
+        cams = Y.camaras(llave, ciudades)
+    except Exception as e:  # noqa: BLE001
+        CAM_FUENTES["youtube"] = f"error: {e}"[:200]
+        return []
+    CAM_FUENTES["youtube"] = f"ok ({len(cams)}, {sum(1 for c in cams if not c['aprox'])} con ubicación del canal)"
+    print(f"   cámaras youtube: {CAM_FUENTES['youtube']}")
+    return [feat(punto(c["lon"], c["lat"]), {"id": f"yt:{c['id']}", "n": c["titulo"], "st": c["st"], "p": c["pais"], "x": f"https://www.youtube.com/watch?v={c['id']}",
+                 "o": "Canal de YouTube", "t": "canal_youtube", "yt": c["id"], "canal": c["canal_url"], "lugar": c["lugar"], "aprox": 1 if c["aprox"] else 0,
+                 "nota": "Ubicación aproximada: sale del nombre de la ciudad en el título." if c["aprox"] else "Ubicación publicada por el canal."}, 2) for c in cams]
 
 
 # Familias con índice de búsqueda por nombre (Organizaciones → «Buscar»): buscar_<familia>.json con
 # [nombre, subtipo, país, lon, lat, id, detalle]. Las familias en GeoJSON se buscan directo en su archivo.
-BUSCABLES = {"empresas", "embajadas"}
+BUSCABLES = {"empresas", "embajadas", "denue_grandes"}
 
 
 def indice_busqueda(feats):
@@ -739,7 +760,7 @@ def indice_busqueda(feats):
     return filas
 
 
-FAMILIAS_GEOJSON = {"camaras", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
+FAMILIAS_GEOJSON = {"camaras", "top_empresas", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
                     "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
@@ -1267,7 +1288,62 @@ def empresas():
         time.sleep(3)
     if not registros:
         raise RuntimeError("Wikidata no devolvió empresas")
+    _EMPRESAS_REG.clear()
+    _EMPRESAS_REG.update(registros)
     return S.features_empresas(registros, feat, punto)
+
+
+_EMPRESAS_REG = {}  # registros de la última consulta de empresas (los reusa el top 10 por país)
+
+
+def denue_grandes():
+    """Grandes establecimientos de México (DENUE, estratos de 101 a 250 y de 251+ personas), cotizan o no en bolsa."""
+    import denue as D
+    llave = os.environ.get("INEGI_DENUE_API_KEY", "")
+    if not llave:
+        raise RuntimeError("falta el secreto INEGI_DENUE_API_KEY")
+    vistos, out, errores = set(), [], []
+    for edo in D.ESTADOS:
+        for estrato in D.ESTRATOS:
+            ini = 1
+            while True:
+                try:
+                    filas = D.leer(get(D.url(edo, estrato, llave, ini, ini + D.LOTE - 1), timeout=180).decode("utf-8", "replace"))
+                except Exception as e:  # noqa: BLE001
+                    errores.append(f"{edo}/{estrato}: {str(e).replace(llave, '***')}"[:120])
+                    break
+                for x in D.establecimientos(filas, estrato):
+                    if x["id"] not in vistos:
+                        vistos.add(x["id"])
+                        out.append(x)
+                if len(filas) < D.LOTE:
+                    break
+                ini += D.LOTE
+            time.sleep(1)  # cortesía con la API
+    print(f"   DENUE: {len(out)} establecimientos; {len(errores)} consultas fallidas{': ' + errores[0] if errores else ''}")
+    if not out:
+        raise RuntimeError("el DENUE no devolvió establecimientos" + (f" ({errores[0]})" if errores else ""))
+    return [feat(punto(x["lon"], x["lat"]), {"id": x["id"], "n": x["n"], "st": x["st"], "p": "MEX", "web": x["web"],
+                 "x": " · ".join(v for v in (x["act"], x["tam"], x["lugar"], f"razón social: {x['razon']}" if x["razon"] and x["razon"].lower() != x["n"].lower() else "") if v)},
+                 5 if x["st"] == "denue_251" else 7) for x in out]
+
+
+def top_empresas():
+    """Top 10 de empresas por país (por notoriedad en Wikidata) con empleados, ingresos, capitalización y bolsa."""
+    import top_empresas as T
+    if not _EMPRESAS_REG:
+        empresas()
+    top = T.top_por_pais(_EMPRESAS_REG)
+    qids = [r["qid"] for lista in top.values() for r in lista]
+    detalle = {}
+    for i in range(0, len(qids), 150):
+        try:
+            T.leer_detalle(_sparql(T.Q_DETALLE % " ".join(f"wd:{q}" for q in qids[i:i + 150])), detalle)
+        except Exception as e:  # noqa: BLE001
+            print(f"   detalle {i}: {e}")
+        time.sleep(2)
+    print(f"   top 10: {len(top)} países, {len(qids)} empresas, {len(detalle)} con cifras")
+    return T.features(top, detalle, feat, punto)
 
 
 def _gazetteer_iso2():
@@ -1407,7 +1483,7 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "empresas": empresas, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}
