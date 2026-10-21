@@ -1,11 +1,10 @@
-"""Sonda temporal: estructura del archivo de acuicultura de FishStat (se borra antes del PR)."""
-import csv, io, urllib.request, zipfile
-UA = "DOMINUS-OSINT/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-b = urllib.request.urlopen(urllib.request.Request("https://www.fao.org/fishery/static/Data/Aquaculture_2025.1.0.zip", headers={"User-Agent": UA}), timeout=120).read()
-z = zipfile.ZipFile(io.BytesIO(b)); print(z.namelist())
-for n in z.namelist():
-    if n.lower().endswith(".csv"):
-        f = io.TextIOWrapper(z.open(n), encoding="utf-8-sig", errors="replace")
-        r = csv.reader(f); filas = [next(r) for _ in range(4)]
-        tot = sum(1 for _ in r)
-        print("==", n, tot + 3, filas)
+"""Sonda temporal: construir las capas de la FAO con los archivos reales (se borra antes del PR)."""
+import collections, os, sys, time
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "capas"))
+import construir as C
+for fn in (C.cultivos_pais, C.acuicultura_pais):
+    t0 = time.time(); fs = fn(); p = [f["properties"] for f in fs]
+    print(f"== {fn.__name__}: {len(p)} países en {time.time()-t0:.0f} s; subtipos {collections.Counter(x['st'] for x in p)}")
+    for iso in ("MEX", "USA", "CHN", "BRA", "ESP", "NOR", "CHL"):
+        x = next((q for q in p if q["p"] == iso), None)
+        print("  ", iso, x and x["x"][:330])

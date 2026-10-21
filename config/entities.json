@@ -287,6 +287,20 @@
    "licencia": "Datos propios; cada fila cita su fuente oficial o de referencia",
    "uso_comercial": true,
    "licencia_verificada": true
+  },
+  "faostat": {
+   "nombre": "FAOSTAT (FAO), producción de cultivos y ganadería",
+   "url": "https://www.fao.org/faostat/es/#data/QCL",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
+  "fishstat": {
+   "nombre": "FishStat (FAO), producción de acuicultura",
+   "url": "https://www.fao.org/fishery/es/collection/aquaculture",
+   "licencia": "CC BY 4.0",
+   "uso_comercial": true,
+   "licencia_verificada": true
   }
  },
  "categorias": [
@@ -6054,6 +6068,286 @@
       "instituciones"
      ],
      "familia": "pagos_efectivo"
+    },
+    {
+     "id": "cultivo_cana",
+     "nombre": {
+      "es": "Caña de azúcar y remolacha",
+      "en": "Caña de azúcar y remolacha"
+     },
+     "icono": "▦",
+     "color": "#8E24AA",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_cereales",
+     "nombre": {
+      "es": "Cereales (maíz, arroz, trigo…)",
+      "en": "Cereales (maíz, arroz, trigo…)"
+     },
+     "icono": "▦",
+     "color": "#F9A825",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_raices",
+     "nombre": {
+      "es": "Raíces y tubérculos (papa, yuca…)",
+      "en": "Raíces y tubérculos (papa, yuca…)"
+     },
+     "icono": "▦",
+     "color": "#8D6E63",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_oleaginosas",
+     "nombre": {
+      "es": "Oleaginosas (soya, palma…)",
+      "en": "Oleaginosas (soya, palma…)"
+     },
+     "icono": "▦",
+     "color": "#558B2F",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_frutas",
+     "nombre": {
+      "es": "Frutas (plátano, uva, cítricos…)",
+      "en": "Frutas (plátano, uva, cítricos…)"
+     },
+     "icono": "▦",
+     "color": "#E65100",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_hortalizas",
+     "nombre": {
+      "es": "Hortalizas",
+      "en": "Hortalizas"
+     },
+     "icono": "▦",
+     "color": "#43A047",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_ganaderia",
+     "nombre": {
+      "es": "Leche, carne y huevo",
+      "en": "Leche, carne y huevo"
+     },
+     "icono": "▦",
+     "color": "#1565C0",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "cultivo_otros",
+     "nombre": {
+      "es": "Otros (café, cacao, algodón…)",
+      "en": "Otros (café, cacao, algodón…)"
+     },
+     "icono": "▦",
+     "color": "#757575",
+     "fuente": "faostat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "cultivos_pais"
+    },
+    {
+     "id": "acuicultura_1",
+     "nombre": {
+      "es": "Menos de 1 mil t",
+      "en": "Menos de 1 mil t"
+     },
+     "icono": "▦",
+     "color": "#E3F2FD",
+     "fuente": "fishstat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "acuicultura_pais"
+    },
+    {
+     "id": "acuicultura_2",
+     "nombre": {
+      "es": "1 mil a 10 mil t",
+      "en": "1 mil a 10 mil t"
+     },
+     "icono": "▦",
+     "color": "#90CAF9",
+     "fuente": "fishstat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "acuicultura_pais"
+    },
+    {
+     "id": "acuicultura_3",
+     "nombre": {
+      "es": "10 mil a 100 mil t",
+      "en": "10 mil a 100 mil t"
+     },
+     "icono": "▦",
+     "color": "#42A5F5",
+     "fuente": "fishstat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "acuicultura_pais"
+    },
+    {
+     "id": "acuicultura_4",
+     "nombre": {
+      "es": "100 mil a 1 millón de t",
+      "en": "100 mil a 1 millón de t"
+     },
+     "icono": "▦",
+     "color": "#1E88E5",
+     "fuente": "fishstat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "acuicultura_pais"
+    },
+    {
+     "id": "acuicultura_5",
+     "nombre": {
+      "es": "1 a 10 millones de t",
+      "en": "1 a 10 millones de t"
+     },
+     "icono": "▦",
+     "color": "#1565C0",
+     "fuente": "fishstat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "acuicultura_pais"
+    },
+    {
+     "id": "acuicultura_6",
+     "nombre": {
+      "es": "10 millones de t o más",
+      "en": "10 millones de t o más"
+     },
+     "icono": "▦",
+     "color": "#0D2C6B",
+     "fuente": "fishstat",
+     "licencia": "CC BY 4.0",
+     "frecuencia": "anual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "acuicultura_pais"
     }
    ]
   },
