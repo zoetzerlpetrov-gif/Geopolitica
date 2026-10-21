@@ -1,6 +1,7 @@
 name: Sonda temporal
 # Prueba de APIs antes de construir capas (se borra antes del PR).
 on:
+  workflow_dispatch:
   push:
     branches-ignore: [main]
     paths: ["sonda/**", ".github/workflows/sonda.yml"]
