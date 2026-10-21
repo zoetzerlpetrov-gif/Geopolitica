@@ -83,9 +83,10 @@
    "categoria": "organizaciones",
    "geometria": "punto",
    "fuente": "inegi_denue",
-   "habilitada": true,
+   "habilitada": false,
    "zoom_etiquetas": 9,
-   "nota": "Directorio Estadístico Nacional de Unidades Económicas del INEGI: plantas, oficinas, hospitales y tiendas con 101 a 250 o 251 o más personas ocupadas, de empresas que coticen o no en bolsa. Se guardan nombre, razón social, actividad, tamaño, municipio y sitio web; no teléfono ni correo."
+   "nota": "Directorio Estadístico Nacional de Unidades Económicas del INEGI: plantas, oficinas, hospitales y tiendas con 101 a 250 o 251 o más personas ocupadas, de empresas que coticen o no en bolsa. Se guardan nombre, razón social, actividad, tamaño, municipio y sitio web; no teléfono ni correo.",
+   "motivo": "Suspendida: la API del DENUE del INEGI rechaza las consultas («No autorizado»); se reactiva cuando el INEGI lo resuelva."
   },
   {
    "id": "embajadas",
