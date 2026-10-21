@@ -118,6 +118,18 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/tornados.py
 
+      - name: Noticiero DOMINUS (30 secciones; GDELT GKG ya descargado + feeds RSS; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 6
+        run: python3 tools/noticiero/noticiero.py
+
+      - name: Indicadores del noticiero (Banxico cada hora, BCE y Banco de Rusia, Tesoro y BLS cada 6 h)
+        continue-on-error: true
+        timeout-minutes: 3
+        env:
+          BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
+        run: python3 tools/noticiero/indicadores.py
+
       - name: Rayos reales (GOES GLM de NOAA en AWS, últimos 20 min; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 5

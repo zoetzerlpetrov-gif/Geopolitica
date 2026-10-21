@@ -1,5 +1,5 @@
 {
- "descripcion": "Noticiero DOMINUS: 30 secciones. Cada una junta titulares de dos vías: (1) GDELT GKG (medios de todo el mundo cada 15 min), clasificados por las palabras clave del título; (2) feeds RSS elegidos para la sección. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política. «gkg_dominio» (opcional) limita las notas de GDELT a medios cuyo dominio coincida.",
+ "descripcion": "Noticiero DOMINUS: 30 secciones. Cada una junta titulares de dos vías: (1) feeds RSS elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
  "secciones": [
   {
    "id": "geopolitica",
@@ -95,7 +95,8 @@
    "id": "oro",
    "titulo": "Oro, reservas y bancos centrales (patrón oro, desdolarización)",
    "palabras": "\\boro\\b|\\bgold\\b|reservas de oro|gold reserves|patr[oó]n oro|gold standard|bancos? centrales? (compra|buy)|desdolarizaci|de-?dollari|reinicio global|great reset|bonos? de oro|gold bonds?",
-   "feeds": []
+   "feeds": [],
+   "gkg": "gold prices?|precio del oro|gold (futures|reserves|holdings|demand|rall(y|ies)|hits|jumps|falls|slips|climbs|record|bullion)|reservas de oro|el oro (sube|baja|alcanza|toca|cae)|central banks?\\b.{0,40}\\bgold|bancos? centrales?\\b.{0,40}\\boro\\b|de-?dollari[sz]ation|desdolarizaci[oó]n"
   },
   {
    "id": "cripto",
@@ -118,7 +119,24 @@
    "id": "metales",
    "titulo": "Metales preciosos, materias primas y commodities",
    "palabras": "plata|silver|platino|platinum|paladio|palladium|cobre|copper|litio|lithium|materias primas|commodit|petr[oó]leo|crude|brent|wti\\b|trigo|wheat|ma[ií]z|corn\\b|soya|soybean|caf[eé]|coffee|cacao|cocoa|az[uú]car|sugar",
-   "feeds": []
+   "feeds": [
+    {
+     "nombre": "Mining Technology",
+     "url": "https://www.mining-technology.com/feed/",
+     "tipo": "Medio de la industria minera (Reino Unido)"
+    },
+    {
+     "nombre": "The Northern Miner",
+     "url": "https://www.northernminer.com/feed/",
+     "tipo": "Medio de la industria minera (Canadá)"
+    },
+    {
+     "nombre": "Rumbo Minero",
+     "url": "https://www.rumbominero.com/feed/",
+     "tipo": "Medio de minería y energía (Perú)"
+    }
+   ],
+   "gkg": "silver prices?|precio de la plata|copper prices?|precio del cobre|lithium|litio|platinum price|palladium|paladio|rare earths?|tierras raras|iron ore|mineral de hierro|commodit(y|ies) (prices|markets?)|materias primas"
   },
   {
    "id": "inmobiliario",
@@ -130,7 +148,8 @@
      "url": "https://inmobiliare.com/feed/",
      "tipo": "Revista inmobiliaria de México"
     }
-   ]
+   ],
+   "gkg": "housing market|mercado inmobiliario|home prices|precios de (la )?vivienda|mortgage rates?|tasas? hipotecari|fibras? (inmobiliari|mexicanas|danhos|uno|macquarie|prologis|monterrey)|reits?\\b|bienes ra[ií]ces|real estate (market|prices|investment)|commercial real estate|infonavit"
   },
   {
    "id": "empresas",
@@ -141,19 +160,16 @@
      "nombre": "CNBC (negocios)",
      "url": "https://www.cnbc.com/id/10001147/device/rss/rss.html",
      "tipo": "Televisora de negocios de EUA"
-    },
-    {
-     "nombre": "El Economista (empresas)",
-     "url": "https://www.eleconomista.com.mx/rss/empresas",
-     "tipo": "Diario de negocios de México"
     }
-   ]
+   ],
+   "gkg": "bankruptcy|quiebra|chapter 11|concurso mercantil|layoffs|despidos (masivos|de)|profit warning|shares (plunge|soar|tumble|surge|jump|sink|slump)|stock (plunges|soars|tumbles|surges|jumps|sinks|slumps)|acciones (se desploman|se disparan|caen|suben)|quarterly (results|earnings)|resultados trimestrales|initial public offering|\\bipo\\b|oferta p[uú]blica inicial|merger|fusi[oó]n|adquisici[oó]n de"
   },
   {
    "id": "indicadores",
    "titulo": "Indicadores: inflación, tasas, desempleo, bolsas (S&P 500, Dow, IPC, Russell 2000, VIX)",
    "palabras": "s&p ?500|dow jones|nasdaq|russell 2000|\\bvix\\b|\\bipc\\b|bmv\\b|bolsa mexicana|wall street|desempleo|unemployment|tasa de inter[eé]s|interest rate|inflaci[oó]n|inflation|inegi|banxico",
-   "feeds": []
+   "feeds": [],
+   "gkg": "s&p 500|dow jones|nasdaq composite|russell 2000|vix\\b|bolsa mexicana|bmv\\b|wall street (closes|cierra|sube|cae|rall)|inflaci[oó]n (anual|en m[eé]xico|en ee\\.? ?uu|subyacente)|consumer price index|cpi\\b|nonfarm payrolls|n[oó]minas no agr[ií]colas|unemployment rate|tasa de desempleo|desocupaci[oó]n"
   },
   {
    "id": "forex",
@@ -165,7 +181,8 @@
      "url": "https://www.fxstreet.es/rss/news",
      "tipo": "Portal especializado en divisas"
     }
-   ]
+   ],
+   "gkg": "peso mexicano|superpeso|usd/mxn|tipo de cambio|eur/usd|euro (falls|rises|hits|slips)|yen (falls|weakens|strengthens|hits|slides)|yuan (falls|weakens|strengthens|hits)|ruble|rublo|rupee (falls|hits|weakens|slides)|rupia|dollar index|[ií]ndice del d[oó]lar"
   },
   {
    "id": "cbdc",
@@ -182,7 +199,8 @@
      "url": "https://www.ledgerinsights.com/feed/",
      "tipo": "Medio especializado en blockchain empresarial"
     }
-   ]
+   ],
+   "gkg": "cbdc|central bank digital currenc|moneda digital de banco central|digital euro|euro digital|e-?cny\\b|digital yuan|yuan digital|digital rupee|e-?rupee|stablecoins?\\b|genius act|mbridge|project agor[aá]"
   },
   {
    "id": "energia",
@@ -198,6 +216,16 @@
      "nombre": "OilPrice.com",
      "url": "https://oilprice.com/rss/main",
      "tipo": "Medio especializado en energía"
+    },
+    {
+     "nombre": "Rumbo Minero",
+     "url": "https://www.rumbominero.com/feed/",
+     "tipo": "Medio de minería y energía (Perú)"
+    },
+    {
+     "nombre": "Mining Technology",
+     "url": "https://www.mining-technology.com/feed/",
+     "tipo": "Medio de la industria minera (Reino Unido)"
     }
    ]
   },
@@ -228,7 +256,8 @@
      "url": "https://mexiconewsdaily.com/feed/",
      "tipo": "Medio en inglés sobre México"
     }
-   ]
+   ],
+   "gkg": "nearshoring|relocalizaci[oó]n de (empresas|cadenas|la producci)|friend-?shoring|reshoring|parques? industriales?|inversi[oó]n extranjera directa|t-?mec\\b|usmca\\b"
   },
   {
    "id": "bonos",
@@ -240,7 +269,8 @@
      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
      "tipo": "Banco central de EUA (fuente oficial)"
     }
-   ]
+   ],
+   "gkg": "cetes\\b|udibonos?\\b|bondes\\b|treasury yields?|bond yields?|rendimientos? de (los )?bonos|bonos del tesoro|10-year (yield|treasury|note)|subasta de valores gubernamentales|yield curve|curva de rendimiento"
   },
   {
    "id": "clima",
@@ -262,7 +292,8 @@
      "url": "https://www.severe-weather.eu/feed/",
      "tipo": "Portal meteorológico europeo"
     }
-   ]
+   ],
+   "gkg": "hurricane|hurac[aá]n|tropical storm|tormenta tropical|typhoon|tif[oó]n|cyclone|cicl[oó]n|frente fr[ií]o|cold front|heat ?wave|ola de calor|tornado|blizzard|inundaciones|flash flood|sequ[ií]a\\b|drought|storm \\w+ (warning|hits|batters|makes landfall)|amber warning|red warning|pron[oó]stico del (clima|tiempo)|conagua|servicio meteorol[oó]gico"
   },
   {
    "id": "agenda2030",
@@ -279,7 +310,8 @@
      "url": "https://www.carbonbrief.org/feed/",
      "tipo": "Medio especializado en clima y energía"
     }
-   ]
+   ],
+   "gkg": "agenda 2030|agenda 2045|sustainable development goals|objetivos de desarrollo sostenible|sdgs?\\b|net[- ]zero|cero emisiones netas|cop ?3\\d\\b|carbon (tax|market|credits?)|bonos de carbono|mercado de carbono"
   },
   {
    "id": "belleza_moda",
@@ -444,6 +476,11 @@
      "nombre": "Banco de Pagos Internacionales",
      "url": "https://www.bis.org/doclist/all_pressrels.rss",
      "tipo": "Organismo de bancos centrales (fuente oficial)"
+    },
+    {
+     "nombre": "Organización Mundial del Comercio",
+     "url": "https://www.wto.org/library/rss/latest_news_e.xml",
+     "tipo": "Organismo internacional (fuente oficial)"
     }
    ]
   },
@@ -484,7 +521,8 @@
      "url": "https://www.energiaadebate.com/feed/",
      "tipo": "Revista de energía de México"
     }
-   ]
+   ],
+   "gkg": "energy crisis|crisis energ[eé]tica|(gas|fuel|power|electricity|diesel|gasoline) shortages?|escasez de (gas|combustible|gasolina|di[eé]sel|electricidad)|apag[oó]n|blackouts?\\b|power cuts?\\b|cortes? de (luz|electricidad)|racionamiento (el[eé]ctrico|de energ)|load[- ]shedding"
   },
   {
    "id": "salud",
@@ -500,6 +538,11 @@
      "nombre": "STAT",
      "url": "https://www.statnews.com/feed/",
      "tipo": "Medio de salud y ciencia de EUA"
+    },
+    {
+     "nombre": "Organización Panamericana de la Salud",
+     "url": "https://www.paho.org/es/rss.xml",
+     "tipo": "Organismo internacional (fuente oficial)"
     }
    ]
   },
@@ -541,7 +584,8 @@
      "url": "https://www.newtral.es/feed/",
      "tipo": "Verificador de datos (España)"
     }
-   ]
+   ],
+   "gkg": "fact[- ]check|verificaci[oó]n de datos|conspiracy theor|teor[ií]as? (de la )?conspiraci|conspiracionist|conspiranoi|desinformaci[oó]n|disinformation|misinformation|bulos?\\b|false claims?|afirmaci[oó]n falsa|es falso que|deepfakes?"
   },
   {
    "id": "politica_mx",
@@ -570,12 +614,24 @@
      "tipo": "Revista de México"
     },
     {
-     "nombre": "Animal Político",
-     "url": "https://animalpolitico.com/feed",
-     "tipo": "Medio digital de México"
+     "nombre": "Nexos",
+     "url": "https://www.nexos.com.mx/?feed=rss2",
+     "tipo": "Revista de México"
+    },
+    {
+     "nombre": "El Sol de México",
+     "url": "https://www.elsoldemexico.com.mx/rss.xml",
+     "tipo": "Diario de México (Organización Editorial Mexicana)"
+    },
+    {
+     "nombre": "Letras Libres",
+     "url": "https://letraslibres.com/feed/",
+     "tipo": "Revista de México"
     }
    ],
-   "gkg_dominio": "\\.mx$|infobae\\.com$|mexiconewsdaily\\.com$"
+   "gkg_dominio": "\\.mx$",
+   "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal"
   }
- ]
+ ],
+ "gkg_excluir_dominio": "prnewswire|businesswire|globenewswire|einpresswire|dailypolitical|tickerreport|pr-inside|finanznachrichten|marketscreener|openpr|newsfilecorp|accessnewswire"
 }

@@ -7,8 +7,9 @@
                 Banco Central de Rusia para el rublo (el BCE dejó de publicarlo en 2022).
   EUA           Departamento del Tesoro (curva de rendimientos diaria, CSV público) y Oficina de Estadísticas
                 Laborales (inflación y desempleo, API v1 sin llave; 25 consultas al día por IP, por eso cada 6 h).
-  Cripto        CoinGecko (API pública sin llave). No hay precio oficial de las criptomonedas: es un promedio de casas
-                de cambio y así se rotula.
+  Cripto        Kraken (API pública de la casa de cambio, sin llave; su robots.txt lo permite). No hay precio oficial de
+                las criptomonedas: es el precio de una casa de cambio y así se rotula. (CoinGecko se descartó: su
+                robots.txt no permite programas.)
 
 Índices bursátiles (S&P 500, Dow, IPC, Russell 2000, VIX) y metales no tienen una fuente oficial gratuita que se pueda
 reproducir; la página enlaza a quien los publica. Nada de esto es recomendación de inversión.
@@ -30,23 +31,36 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 import fuentes as F  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "indicadores.json")
-AVISO = "Datos informativos de fuentes oficiales (cripto: promedio de mercado). No son recomendación de inversión."
+AVISO = "Datos informativos de fuentes oficiales (cripto: precio de una casa de cambio). No son recomendación de inversión."
 BANXICO = "https://www.banxico.org.mx/SieAPIRest/service/v1/series/{ids}/datos/{ini}/{fin}"
-# (serie, nombre corto, unidad, decimales). Verificadas con la API (títulos en la sonda del 21-oct-2026).
+# (serie, nombre corto, unidad, decimales, grupo). Verificadas con la API el 21-oct-2026 (título de cada serie).
 SERIES_BANXICO = [
-    ("SF43718", "Dólar FIX", "MXN por USD", 4),
-    ("SF61745", "Tasa objetivo Banxico", "%", 2),
-    ("SF60648", "TIIE 28 días", "%", 4),
-    ("SF43936", "CETES 28 días", "%", 2),
+    ("SF43718", "Dólar FIX", "MXN por USD", 4, "mx"), ("SF46410", "Euro", "MXN por EUR", 4, "mx"),
+    ("SF46406", "Yen", "MXN por JPY", 4, "mx"), ("SF290383", "Yuan", "MXN por CNY", 4, "mx"),
+    ("SF61745", "Tasa objetivo Banxico", "%", 2, "mx"), ("SF60648", "TIIE 28 días", "%", 4, "mx"), ("SF331451", "TIIE de fondeo", "%", 2, "mx"),
+    ("SP30578", "Inflación anual (INPC)", "%", 2, "mx"), ("SP30577", "Inflación mensual (INPC)", "%", 2, "mx"),
+    ("SF43707", "Reservas internacionales", "millones de USD", 1, "mx"),
+    ("SF43936", "CETES 28 días", "%", 2, "mx_valores"), ("SF43939", "CETES 91 días", "%", 2, "mx_valores"),
+    ("SF43942", "CETES 182 días", "%", 2, "mx_valores"), ("SF43945", "CETES 364 días", "%", 2, "mx_valores"),
+    ("SF43883", "Bono M 3 años", "%", 2, "mx_valores"), ("SF44071", "Bono M 10 años", "%", 2, "mx_valores"),
+    ("SF45384", "Bono M 20 años", "%", 2, "mx_valores"), ("SF60696", "Bono M 30 años", "%", 2, "mx_valores"),
+    ("SF61592", "Udibono 3 años (tasa real)", "%", 2, "mx_valores"),
 ]
 ECB = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
 CBR = "https://www.cbr.ru/scripts/XML_daily.asp"
 TESORO = ("https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/all/{mes}"
           "?type=daily_treasury_yield_curve&field_tdr_date_value_month={mes}&page&_format=csv")
 BLS = "https://api.bls.gov/publicAPI/v1/timeseries/data/"
-COINGECKO = "https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,ripple,stellar&vs_currencies=usd,mxn&include_24hr_change=true"
-CRIPTOS = [("bitcoin", "Bitcoin (BTC)"), ("ethereum", "Ether (ETH)"), ("ripple", "XRP"), ("stellar", "Stellar (XLM)")]
+KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=XBTUSD,ETHUSD,XRPUSD,XLMUSD"
+CRIPTOS = [("XBT", "Bitcoin (BTC)"), ("ETH", "Ether (ETH)"), ("XRP", "XRP"), ("XLM", "Stellar (XLM)")]
 CADA_6H = 6 * 3600
+
+
+def bajar(url, timeout=40):
+    """Descarga solo si el robots.txt del sitio lo permite."""
+    if not F.permitido_por_robots(url):
+        raise PermissionError("el robots.txt del sitio no lo permite")
+    return F.get(url, timeout=timeout)
 
 
 def dato(id_, nombre, valor, unidad, fecha, previo=None, decimales=2, corto=""):
@@ -72,15 +86,17 @@ def leer_banxico(js, series=SERIES_BANXICO):
         vals = [(d["fecha"], _num(d["dato"])) for d in se.get("datos") or [] if _num(d.get("dato")) is not None]
         if not vals:
             continue
-        _, corto, unidad, dec = meta[sid]
+        _, corto, unidad, dec, grupo_ = meta[sid]
         f = vals[-1][0]
-        out.append(dato(sid, se.get("titulo", corto), vals[-1][1], unidad, "-".join(reversed(f.split("/"))),
-                        vals[-2][1] if len(vals) > 1 else None, dec, corto))
+        out.append({**dato(sid, re.sub(r"\s+", " ", se.get("titulo") or corto).strip(), vals[-1][1], unidad, "-".join(reversed(f.split("/"))),
+                           vals[-2][1] if len(vals) > 1 else None, dec, corto), "grupo": grupo_})
     return sorted(out, key=lambda x: [s[0] for s in series].index(x["id"]))
 
 
 def banxico(token, ahora):
     ini, fin = (ahora - timedelta(days=430)).strftime("%Y-%m-%d"), ahora.strftime("%Y-%m-%d")
+    if not F.permitido_por_robots(BANXICO):
+        raise PermissionError("el robots.txt del sitio no lo permite")
     url = BANXICO.format(ids=",".join(s[0] for s in SERIES_BANXICO), ini=ini, fin=fin)
     req = urllib.request.Request(url, headers={"User-Agent": F.UA, "Bmx-Token": token, "Accept": "application/json"})
     with urllib.request.urlopen(req, timeout=60) as r:
@@ -162,15 +178,16 @@ def leer_bls(js):
 
 
 # ------------------------------------------------------------------ cripto
-def leer_coingecko(js, fecha):
+def leer_kraken(js, fecha):
+    """Ticker de Kraken → último precio en USD; el «anterior» es la apertura del día (campo «o», 00:00 UTC)."""
+    res = js.get("result") or {}
     out = []
-    for cid, nom in CRIPTOS:
-        p = js.get(cid) or {}
-        if p.get("usd") is None:
+    for cod, nom in CRIPTOS:
+        par = next((v for k, v in res.items() if cod in k and k.endswith("USD")), None)
+        if not par:
             continue
-        ch = p.get("usd_24h_change")
-        previo = p["usd"] / (1 + ch / 100) if ch is not None else None
-        out.append(dato(cid, f"{nom} en dólares", p["usd"], "USD", fecha, previo, 2 if p["usd"] >= 1 else 4, nom))
+        v, o = _num(par["c"][0]), _num(par.get("o"))
+        out.append(dato(cod, f"{nom} en dólares", v, "USD", fecha, o, 2 if v >= 1 else 4, nom))
     return out
 
 
@@ -209,19 +226,27 @@ def main():
 
     token = os.environ.get("BANXICO_API_KEY", "")
     if token:
-        intentar("mx", lambda: grupo("mx", "México: tipo de cambio, tasas e inflación", "Banco de México (SIE)", "https://www.banxico.org.mx/SieInternet/",
-                                     banxico(token, ahora)), 3600)
+        mx = []
+
+        def g_mx():
+            mx[:] = banxico(token, ahora)
+            return grupo("mx", "México: tipo de cambio, tasas, inflación y reservas", "Banco de México (SIE)", "https://www.banxico.org.mx/SieInternet/",
+                         [x for x in mx if x["grupo"] == "mx"])
+        intentar("mx", g_mx, 3600)
+        intentar("mx_valores", lambda: grupo("mx_valores", "México: CETES, Bonos M y Udibonos (última subasta)", "Banco de México (SIE)",
+                                             "https://www.banxico.org.mx/SieInternet/", [x for x in mx if x["grupo"] == "mx_valores"],
+                                             "Tasa de rendimiento en la subasta primaria semanal."), 3600)
     else:
         errores.append("mx: falta el secreto BANXICO_API_KEY")
 
     def g_divisas():
-        tasas, f = leer_ecb(F.get(ECB, timeout=30))
+        tasas, f = leer_ecb(bajar(ECB, timeout=30))
         # Tipos de los dos últimos días publicados: el anterior sirve para el cambio.
         dias = {**(viejos.get("divisas") or {}).get("dias", {}), f: tasas}
         dias = {k: dias[k] for k in sorted(dias)[-2:]}
         datos = divisas(tasas, f, dias[min(dias)] if len(dias) > 1 else None)
         try:
-            rub, frub = leer_cbr(F.get(CBR, timeout=30))
+            rub, frub = leer_cbr(bajar(CBR, timeout=30))
             if rub:
                 ant = next((x for x in (viejos.get("divisas") or {}).get("datos", []) if x["id"] == "USDRUB"), None)
                 previo_rub = (ant["valor"] if ant["fecha"] != frub else ant["previo"]) if ant else None
@@ -235,20 +260,23 @@ def main():
 
     intentar("eua_bonos", lambda: grupo("eua_bonos", "EUA: bonos del Tesoro", "Departamento del Tesoro de EUA",
                                         "https://home.treasury.gov/resource-center/data-chart-center/interest-rates/TextView?type=daily_treasury_yield_curve",
-                                        leer_tesoro(F.get(TESORO.format(mes=ahora.strftime("%Y%m")), timeout=40).decode("utf-8", "replace"))
-                                        or leer_tesoro(F.get(TESORO.format(mes=(ahora.replace(day=1) - timedelta(days=1)).strftime("%Y%m")), timeout=40).decode("utf-8", "replace"))), CADA_6H)
+                                        leer_tesoro(bajar(TESORO.format(mes=ahora.strftime("%Y%m")), timeout=40).decode("utf-8", "replace"))
+                                        or leer_tesoro(bajar(TESORO.format(mes=(ahora.replace(day=1) - timedelta(days=1)).strftime("%Y%m")), timeout=40).decode("utf-8", "replace"))), CADA_6H)
 
     def g_bls():
+        if not F.permitido_por_robots(BLS):
+            raise PermissionError("el robots.txt del sitio no lo permite")
         req = urllib.request.Request(BLS, data=json.dumps({"seriesid": ["CUUR0000SA0", "LNS14000000"]}).encode(),
                                        headers={"User-Agent": F.UA, "Content-Type": "application/json"})
         with urllib.request.urlopen(req, timeout=40) as r:
             return grupo("eua_empleo", "EUA: inflación y desempleo", "Oficina de Estadísticas Laborales de EUA (BLS)", "https://www.bls.gov/", leer_bls(json.loads(r.read())))
     intentar("eua_empleo", g_bls, CADA_6H)
 
-    intentar("cripto", lambda: grupo("cripto", "Criptomonedas", "CoinGecko (promedio de casas de cambio; no es fuente oficial)", "https://www.coingecko.com/",
-                                     leer_coingecko(json.loads(F.get(COINGECKO, timeout=30)), ahora.strftime("%Y-%m-%d %H:%M UTC")), "Cambio contra hace 24 h."), 1200)
+    intentar("cripto", lambda: grupo("cripto", "Criptomonedas", "Kraken (casa de cambio; no hay precio oficial)", "https://www.kraken.com/prices",
+                                     leer_kraken(json.loads(bajar(KRAKEN, timeout=30)), ahora.strftime("%Y-%m-%d %H:%M UTC")),
+                                     "Cambio contra la apertura del día (00:00 UTC)."), 1200)
 
-    orden = ["mx", "divisas", "eua_bonos", "eua_empleo", "cripto"]
+    orden = ["mx", "mx_valores", "divisas", "eua_bonos", "eua_empleo", "cripto"]
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "aviso": AVISO, "grupos": [grupos[k] for k in orden if k in grupos],
                "errores": errores, "marcas": marcas}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))

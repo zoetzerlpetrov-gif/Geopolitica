@@ -2,13 +2,14 @@
 """Noticiero DOMINUS: titulares de las últimas 72 h en 30 secciones (config/noticiero.json).
 
 Dos vías por sección:
-  1. GDELT GKG 2.1 (medios de todo el mundo cada 15 min; flujo en inglés y flujo traducido de 65 idiomas). Se reusan
-     los archivos que tools/clima/tornados.py ya bajó en la misma corrida (caché CACHE_GKG). Una nota entra a una
-     sección si su TÍTULO coincide con las palabras clave de la sección («palabras»); si la sección define
-     «gkg_dominio», además el dominio del medio debe coincidir (p. ej. solo medios .mx para política de México).
-  2. Feeds RSS elegidos para la sección, leídos solo si su robots.txt lo permite (ingest/fuentes.py). Un feed que
+  1. Feeds RSS elegidos para la sección, leídos solo si su robots.txt lo permite (ingest/fuentes.py). Un feed que
      aparece en una sola sección aporta todas sus notas; uno compartido por varias secciones reparte cada nota
-     según las palabras clave.
+     según las palabras clave de la sección («palabras»).
+  2. GDELT GKG 2.1 (medios de todo el mundo cada 15 min; flujo en inglés y flujo traducido de 65 idiomas), solo en las
+     secciones con «gkg»: una expresión más estricta que «palabras», porque GDELT trae de todo (con «gold» llegaban
+     medallas de oro). Se reusan los archivos que tools/clima/tornados.py ya bajó en la misma corrida (caché
+     CACHE_GKG). Si la sección define «gkg_dominio», el dominio del medio también debe coincidir (p. ej. solo .mx para
+     política de México); «gkg_excluir_dominio» descarta sitios de boletines de prensa.
 
 Qué se guarda de cada nota: título, enlace, medio, tipo de medio, fecha y, si el medio la declara, su imagen para
 compartir (enlazada desde su servidor). Nunca el texto del artículo.
@@ -34,14 +35,22 @@ MAX_SECCION = 40
 MIN_TITULO = 25  # titulares más cortos suelen ser portadas o secciones, no notas
 
 
+def _rx(texto):
+    """Cada alternativa debe empezar en límite de palabra: «ether» no debe coincidir dentro de «Together»."""
+    return re.compile(rf"\b(?:{texto})", re.I)
+
+
 def reglas_de(cfg):
-    """[(id, regex del título, regex del dominio o None)] en el orden de config/noticiero.json."""
-    return [(s["id"], re.compile(s["palabras"], re.I), re.compile(s["gkg_dominio"], re.I) if s.get("gkg_dominio") else None)
+    """[(id, regex de «palabras», regex de «gkg» o None, regex de dominio o None)] en el orden de config/noticiero.json."""
+    return [(s["id"], _rx(s["palabras"]), _rx(s["gkg"]) if s.get("gkg") else None, re.compile(s["gkg_dominio"], re.I) if s.get("gkg_dominio") else None)
             for s in cfg["secciones"]]
 
 
-def secciones_de(titulo, dominio, reglas):
-    return [sid for sid, rx, dom in reglas if rx.search(titulo) and (dom is None or dom.search(dominio or ""))]
+def secciones_de(titulo, dominio, reglas, excluir=None):
+    """Secciones de GDELT para un titular y su dominio."""
+    if excluir and excluir.search(dominio or ""):
+        return []
+    return [sid for sid, _, gkg, dom in reglas if gkg and gkg.search(titulo) and (dom is None or dom.search(dominio or ""))]
 
 
 def fecha_gkg(v):
@@ -51,26 +60,26 @@ def fecha_gkg(v):
         return ""
 
 
-def nota_gkg(fila, reglas):
+def nota_gkg(fila, reglas, excluir=None):
     """Una fila del GKG → nota con sus secciones, o None si no es de ninguna."""
     if len(fila) < 27:
         return None
     titulo = T.titulo_de(fila[26])
     if len(titulo) < MIN_TITULO or not fila[4].startswith("http"):
         return None
-    secs = secciones_de(titulo, fila[3], reglas)
+    secs = secciones_de(titulo, fila[3], reglas, excluir)
     if not secs:
         return None
     return {"t": titulo[:220], "u": fila[4], "m": fila[3], "tipo": "", "f": fecha_gkg(fila[1]), "img": T.imagen_de(fila), "s": secs, "via": "gdelt"}
 
 
-def de_gkg(reglas, archivos=4):
+def de_gkg(reglas, archivos=4, excluir=None):
     notas, errores = [], []
     for flujo, url in T.FLUJOS.items():
         try:
             for u in T.archivos_gkg(url, archivos):
                 try:
-                    notas += [n for n in (nota_gkg(f, reglas) for f in T.filas_gkg(u)) if n]
+                    notas += [n for n in (nota_gkg(f, reglas, excluir) for f in T.filas_gkg(u)) if n]
                 except Exception as e:  # noqa: BLE001  un archivo faltante no detiene a los demás
                     errores.append(f"{u.rsplit('/', 1)[-1]}: {e}"[:120])
         except Exception as e:  # noqa: BLE001
@@ -89,7 +98,7 @@ def feeds_por_url(cfg):
 
 def notas_de_feed(items, secs, reglas):
     """Items de F.parsear_rss → notas. Con una sola sección entran todas; con varias, según las palabras clave."""
-    rx = {sid: r for sid, r, _ in reglas}
+    rx = {sid: r for sid, r, _, _ in reglas}
     out = []
     for it in items:
         s = secs if len(secs) == 1 else [sid for sid in secs if rx[sid].search(it["titulo"])]
@@ -148,7 +157,8 @@ def main(archivos=4):
             previos = json.load(open(OUT, encoding="utf-8")).get("notas", [])
         except ValueError:
             pass
-    n_gkg, e_gkg = de_gkg(reglas, archivos)
+    excluir = re.compile(cfg["gkg_excluir_dominio"], re.I) if cfg.get("gkg_excluir_dominio") else None
+    n_gkg, e_gkg = de_gkg(reglas, archivos, excluir)
     n_rss, e_rss, ok = de_rss(cfg, reglas)
     ahora = datetime.now(timezone.utc)
     notas = unir(previos, n_gkg + n_rss, ahora)
