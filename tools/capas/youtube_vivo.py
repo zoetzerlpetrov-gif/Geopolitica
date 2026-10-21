@@ -57,20 +57,28 @@ def tema(titulo):
     return "yt_ciudades"
 
 
+# Nombres de ciudades que en los títulos casi siempre son otra cosa (estados de EUA, palabras comunes): «Key West,
+# Florida» no es Florida (Uruguay) ni «aurora» es Aurora (Colorado).
+AMBIGUOS = {"florida", "aurora", "georgia", "nevada", "indiana", "virginia", "alabama", "montana", "arizona", "colorado", "california",
+            "texas", "maine", "carolina", "dakota", "oregon", "paradise", "liberty", "union", "independence", "concordia", "esperanza",
+            "progreso", "libertad", "victoria", "santa cruz", "san jose", "trinidad", "pacific", "atlantic", "manchester city"}
+
+
 class Ciudades:
-    """Busca nombres de ciudades (≥ 5 letras, palabra completa) en un texto; devuelve la más poblada."""
+    """Busca nombres de ciudades (≥ 5 letras, palabra completa) en un texto. Gana el nombre más largo (más específico)
+    y, a igual largo, la ciudad más poblada."""
 
     def __init__(self, filas):
         self.idx = {}
         for nom, nom_es, iso3, lat, lon, _tipo, pob in filas:
             for n in {norm(nom), norm(nom_es)}:
-                if len(n) >= 5 and (n not in self.idx or (pob or 0) > self.idx[n][3]):
+                if len(n) >= 5 and n not in AMBIGUOS and (n not in self.idx or (pob or 0) > self.idx[n][3]):
                     self.idx[n] = (lat, lon, iso3, pob or 0, nom_es or nom)
 
     def en(self, texto):
         t = f" {re.sub(r'[^a-z0-9 ]', ' ', norm(texto))} "
-        hallados = [v for n, v in self.idx.items() if f" {n} " in t]
-        return max(hallados, key=lambda v: v[3]) if hallados else None
+        hallados = [(n, v) for n, v in self.idx.items() if f" {n} " in t]
+        return max(hallados, key=lambda nv: (len(nv[0]), nv[1][3]))[1] if hallados else None
 
 
 def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX]):

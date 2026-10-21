@@ -24,6 +24,8 @@ def test_tema_y_ciudad_mas_poblada():
     assert CIUDADES.en("Paris live cam Eiffel")[2] == "FRA"
     assert CIUDADES.en("Cámara en vivo Cancún")[2] == "MEX"
     assert CIUDADES.en("live cam somewhere") is None
+    c = Y.Ciudades([["Florida", "", "URY", -34.1, -56.2, "ciudad", 30000], ["Key West", "Cayo Hueso", "USA", 24.55, -81.78, "ciudad", 25000]])
+    assert c.en("Duval Street - Key West, Florida - Live Cam")[2] == "USA"  # el nombre más específico gana; «Florida» se ignora
 
 
 def test_camaras_sin_red(monkeypatch):

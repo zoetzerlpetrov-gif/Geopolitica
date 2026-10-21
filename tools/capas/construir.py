@@ -747,7 +747,7 @@ def camaras_youtube():
 
 # Familias con índice de búsqueda por nombre (Organizaciones → «Buscar»): buscar_<familia>.json con
 # [nombre, subtipo, país, lon, lat, id, detalle]. Las familias en GeoJSON se buscan directo en su archivo.
-BUSCABLES = {"empresas", "embajadas"}
+BUSCABLES = {"empresas", "embajadas", "denue_grandes"}
 
 
 def indice_busqueda(feats):
@@ -1296,6 +1296,38 @@ def empresas():
 _EMPRESAS_REG = {}  # registros de la última consulta de empresas (los reusa el top 10 por país)
 
 
+def denue_grandes():
+    """Grandes establecimientos de México (DENUE, estratos de 101 a 250 y de 251+ personas), cotizan o no en bolsa."""
+    import denue as D
+    llave = os.environ.get("INEGI_DENUE_API_KEY", "")
+    if not llave:
+        raise RuntimeError("falta el secreto INEGI_DENUE_API_KEY")
+    vistos, out, errores = set(), [], []
+    for edo in D.ESTADOS:
+        for estrato in D.ESTRATOS:
+            ini = 1
+            while True:
+                try:
+                    filas = D.leer(get(D.url(edo, estrato, llave, ini, ini + D.LOTE - 1), timeout=180).decode("utf-8", "replace"))
+                except Exception as e:  # noqa: BLE001
+                    errores.append(f"{edo}/{estrato}: {str(e).replace(llave, '***')}"[:120])
+                    break
+                for x in D.establecimientos(filas, estrato):
+                    if x["id"] not in vistos:
+                        vistos.add(x["id"])
+                        out.append(x)
+                if len(filas) < D.LOTE:
+                    break
+                ini += D.LOTE
+            time.sleep(1)  # cortesía con la API
+    print(f"   DENUE: {len(out)} establecimientos; {len(errores)} consultas fallidas{': ' + errores[0] if errores else ''}")
+    if not out:
+        raise RuntimeError("el DENUE no devolvió establecimientos" + (f" ({errores[0]})" if errores else ""))
+    return [feat(punto(x["lon"], x["lat"]), {"id": x["id"], "n": x["n"], "st": x["st"], "p": "MEX", "web": x["web"],
+                 "x": " · ".join(v for v in (x["act"], x["tam"], x["lugar"], f"razón social: {x['razon']}" if x["razon"] and x["razon"].lower() != x["n"].lower() else "") if v)},
+                 5 if x["st"] == "denue_251" else 7) for x in out]
+
+
 def top_empresas():
     """Top 10 de empresas por país (por notoriedad en Wikidata) con empleados, ingresos, capitalización y bolsa."""
     import top_empresas as T
@@ -1451,7 +1483,7 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}

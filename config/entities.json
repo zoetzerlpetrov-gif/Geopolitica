@@ -259,6 +259,13 @@
    "uso_comercial": false,
    "licencia_verificada": false
   },
+  "inegi_denue": {
+   "nombre": "DENUE — Directorio Estadístico Nacional de Unidades Económicas (INEGI)",
+   "url": "https://www.inegi.org.mx/servicios/api_denue.html",
+   "licencia": "Términos de libre uso de la información del INEGI (con crédito); API con llave gratuita",
+   "uso_comercial": true,
+   "licencia_verificada": true
+  },
   "youtube_en_vivo": {
    "nombre": "Transmisiones en vivo públicas de YouTube (API de datos v3)",
    "url": "https://developers.google.com/youtube/v3",
@@ -875,6 +882,44 @@
       "geoeconomia"
      ],
      "familia": "top_empresas"
+    },
+    {
+     "id": "denue_251",
+     "nombre": {
+      "es": "México: 251 o más personas",
+      "en": "Mexico: 251+ people"
+     },
+     "icono": "🏭",
+     "color": "#0D47A1",
+     "fuente": "inegi_denue",
+     "licencia": "Términos de libre uso de la información del INEGI",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 5,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "denue_grandes"
+    },
+    {
+     "id": "denue_101",
+     "nombre": {
+      "es": "México: 101 a 250 personas",
+      "en": "Mexico: 101-250 people"
+     },
+     "icono": "🏭",
+     "color": "#4A90C2",
+     "fuente": "inegi_denue",
+     "licencia": "Términos de libre uso de la información del INEGI",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "retrasado",
+     "zoom_min": 7,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "denue_grandes"
     }
    ]
   },

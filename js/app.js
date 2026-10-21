@@ -1006,7 +1006,8 @@ async function iniciarCapas() {
         const det = BO.detalle(r, paisNombre);
         return `<li><button type="button" class="link-btn" data-org="${i}"><span>${resaltar(r.n, ps)}</span></button>
           <span class="meta">${esc(sub?.nombre.es || fam?.nombre || "")}${det && det !== r.n ? ` · ${resaltar(det, ps)}` : ""}${r.p ? ` · ${esc(paisNombre(r.p))}` : ""}</span></li>`;
-      }).join("");
+      }).join("") + `<li class="org-registros"><span class="meta">Buscar «${esc(q)}» en registros públicos de empresas (cotizan o no):</span>
+        ${BO.registrosPublicos(q).map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)} ↗</a>`).join(" · ")}</li>`;
     };
     $("org-q").addEventListener("input", debounce(pintarOrg, 250));
     $("org-res").addEventListener("click", async (e) => {

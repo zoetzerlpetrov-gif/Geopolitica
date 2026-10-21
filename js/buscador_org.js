@@ -54,3 +54,15 @@ export async function cargarIndices(familias) {
   }));
   return partes.flat();
 }
+
+/** Registros públicos de empresas para buscar el nombre (se abren en otra pestaña; no se consulta nada desde aquí). */
+export function registrosPublicos(q) {
+  const t = encodeURIComponent(String(q || "").trim());
+  return [
+    ["GLEIF (identificador LEI, matriz y filiales)", `https://search.gleif.org/#/search/simpleSearch=${t}`],
+    ["OpenCorporates (registros mercantiles de 140 jurisdicciones)", `https://opencorporates.com/companies?q=${t}`],
+    ["SEC EDGAR (reportes en EUA)", `https://efts.sec.gov/LATEST/search-index?q=${t}`],
+    ["SIEM (empresas registradas en México)", `https://siem.economia.gob.mx/`],
+    ["Lista 69-B del SAT (operaciones simuladas)", `https://www.sat.gob.mx/consultas/76674/consulta-la-relacion-de-contribuyentes-con-operaciones-presuntamente-inexistentes`],
+  ];
+}
