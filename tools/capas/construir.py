@@ -915,7 +915,7 @@ FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifie
 # Plazo interno: el job de Actions muere a los 90 min y se perdería todo. Al agotarse el plazo ya no se
 # hacen consultas nuevas; lo construido se publica y lo pendiente conserva su versión anterior.
 PLAZO = time.time() + 60 * float(os.environ.get("PLAZO_MIN", "70"))
-FAMILIAS_OSM = {"centros_datos", "embajadas", "recursos", "militar", "presas", "ductos", "farmaceuticas", "petroleo_gas",
+FAMILIAS_OSM = {"actividades", "centros_datos", "embajadas", "recursos", "militar", "presas", "ductos", "farmaceuticas", "petroleo_gas",
                 "fronteras", "desaladoras"}
 
 
@@ -1294,6 +1294,30 @@ def farmaceuticas():
     return out + _osm(els, lambda t: "farma_planta", lambda st, t: 7, lambda t: t.get("operator") or t.get("product", ""), Paises())
 
 
+# Actividades económicas en OpenStreetMap: (selectores, subtipo, zoom mínimo). Se piden solo objetos con nombre (salvo
+# acuicultura, que tiene pocos): los cultivos sin nombre son millones de parcelas que no dicen qué se siembra.
+ACTIVIDADES = [
+    (['nwr["landuse"="aquaculture"]', 'nwr["seamark:type"="marine_farm"]'], "acuicultura", 7),
+    (['nwr["landuse"="vineyard"]["name"]'], "vinedo", 9),
+    (['nwr["landuse"="orchard"]["name"]'], "huerto_frutal", 9),
+    (['nwr["landuse"="greenhouse_horticulture"]["name"]'], "invernadero", 9),
+    (['nwr["landuse"="plantation"]["name"]'], "plantacion", 8),
+    (['nwr["landuse"="industrial"]["industrial"~"^(park|estate|industrial_park)$"]'], "parque_industrial", 8),
+    (['nwr["shop"="mall"]["name"]'], "centro_comercial", 10),
+]
+
+
+def actividades():
+    """Actividades primarias (acuicultura, cultivos con nombre), secundarias (parques industriales) y terciarias
+    (centros comerciales) de OpenStreetMap. Detalle: producto, cultivo o especie y operador, si la etiqueta existe."""
+    pa = Paises()
+    out = []
+    detalle = lambda t: t.get("produce") or t.get("crop") or t.get("trees") or t.get("species") or t.get("product") or ""  # noqa: E731
+    for sel, st, z in ACTIVIDADES:
+        out += _osm(overpass(sel, "actividades"), lambda t, st=st: st, lambda s, t, z=z: z, detalle, pa, con_operador=True)
+    return out
+
+
 def petroleo_gas():
     """Campos de petróleo y gas y plataformas marinas (Wikidata), más plataformas marinas de OSM.
     Los pozos individuales (≈ 340 mil en OSM) no se incluyen: a escala mundial son ruido y pesan demasiado."""
@@ -1522,7 +1546,7 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "actividades": actividades, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "sector_primario": sector_primario,
             "sector_secundario": sector_secundario, "sector_terciario": sector_terciario, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,

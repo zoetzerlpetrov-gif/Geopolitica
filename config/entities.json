@@ -2877,6 +2877,146 @@
       "geoeconomia"
      ],
      "familia": "recursos"
+    },
+    {
+     "id": "acuicultura",
+     "nombre": {
+      "es": "Acuicultura y piscifactorías (primario)",
+      "en": "Aquaculture and fish farms"
+     },
+     "icono": "🐟",
+     "color": "#1E88E5",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 7,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "vinedo",
+     "nombre": {
+      "es": "Viñedos (primario)",
+      "en": "Vineyards"
+     },
+     "icono": "🍇",
+     "color": "#7B1FA2",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "huerto_frutal",
+     "nombre": {
+      "es": "Huertos frutales (primario)",
+      "en": "Orchards"
+     },
+     "icono": "🍎",
+     "color": "#43A047",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "invernadero",
+     "nombre": {
+      "es": "Invernaderos (primario)",
+      "en": "Greenhouses"
+     },
+     "icono": "🌱",
+     "color": "#7CB342",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 9,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "plantacion",
+     "nombre": {
+      "es": "Plantaciones (primario)",
+      "en": "Plantations"
+     },
+     "icono": "🌴",
+     "color": "#2E7D32",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "parque_industrial",
+     "nombre": {
+      "es": "Parques industriales (secundario)",
+      "en": "Industrial parks"
+     },
+     "icono": "🏭",
+     "color": "#6D4C41",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
+    },
+    {
+     "id": "centro_comercial",
+     "nombre": {
+      "es": "Centros comerciales (terciario)",
+      "en": "Shopping malls"
+     },
+     "icono": "🛍",
+     "color": "#5E35B1",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 10,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "actividades"
     }
    ]
   },
