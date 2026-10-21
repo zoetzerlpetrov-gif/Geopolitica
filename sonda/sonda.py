@@ -67,32 +67,14 @@ def wikidata():
 def youtube():
     k = os.environ.get("YOUTUBE_API_KEY", "")
     import youtube_vivo as Y
-    for q in ("live cam", "webcam en vivo"):
-        try:
-            r = Y.llamar(k, "search", part="id", type="video", eventType="live", maxResults=50, q=q, safeSearch="strict")
-        except Exception as e:  # noqa: BLE001
-            body = getattr(e, "read", lambda: b"")().decode("utf-8", "replace")[:300]
-            print("search error", q, e, body.replace(k, "***")); continue
-        ids = [it["id"]["videoId"] for it in r.get("items", []) if it.get("id", {}).get("videoId")]
-        print("search", q, "ids:", len(ids), "resp:", json.dumps({k: v for k, v in r.items() if k != "items"})[:300], str(r.get("items", [])[:2])[:300])
-        for extra in ({}, {"order": "viewCount"}, {"type": "video", "eventType": "live", "q": q, "part": "snippet"}):
-            try:
-                r2 = Y.llamar(k, "search", **{"part": "id", "type": "video", "eventType": "live", "maxResults": 25, "q": q, **extra})
-                print("   variante", extra, "->", len(r2.get("items", [])), r2.get("pageInfo"))
-            except Exception as e:  # noqa: BLE001
-                print("   variante", extra, "error", e)
-        if not ids: continue
-        v = Y.llamar(k, "videos", part="snippet,recordingDetails,status", id=",".join(ids[:50]))
-        from collections import Counter
-        items = v.get("items", [])
-        print(" cat:", Counter(x["snippet"].get("categoryId") for x in items).most_common(6),
-              " live:", Counter(x["snippet"].get("liveBroadcastContent") for x in items),
-              " embeddable:", sum(1 for x in items if x.get("status", {}).get("embeddable")),
-              " con ubicación:", sum(1 for x in items if (x.get("recordingDetails") or {}).get("location")),
-              " es_camara:", sum(1 for x in items if Y.es_camara(x["snippet"], x["snippet"].get("categoryId", ""))))
-        for x in items[:12]:
-            print("   ", x["snippet"]["title"][:70], "|", x["snippet"].get("categoryId"), "|", Y.es_camara(x["snippet"], x["snippet"].get("categoryId", "")))
+    from collections import Counter
+    ciudades = Y.Ciudades(json.load(open("config/ciudades.json", encoding="utf-8"))["ciudades"])
+    cams = Y.camaras(k, ciudades, busquedas=["live cam", "webcam en vivo", "live webcam beach"])
+    print("cámaras:", len(cams), "con ubicación del canal:", sum(1 for c in cams if not c["aprox"]))
+    print(Counter(c["st"] for c in cams), Counter(c["pais"] for c in cams).most_common(12))
+    for c in cams[:15]:
+        print(" ", c["titulo"][:70], c["lat"], c["lon"], "aprox" if c["aprox"] else "exacta", c["lugar"], c["st"])
 
-for n, f in [("denue", denue), ("youtube", youtube)]:
+for n, f in [("youtube", youtube)]:
     probar(n, f)
 # reintento 1510

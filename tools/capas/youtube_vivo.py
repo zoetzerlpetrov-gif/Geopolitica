@@ -78,7 +78,7 @@ def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX]):
     ids = []
     for q in busquedas:
         try:
-            r = llamar(llave, "search", part="id", type="video", eventType="live", maxResults=50, q=q, safeSearch="strict")
+            r = llamar(llave, "search", part="id", type="video", eventType="live", maxResults=50, q=q)  # safeSearch=strict deja la búsqueda en vivo sin resultados
         except Exception as e:  # noqa: BLE001
             print(f"   YouTube «{q}»: {e}")
             continue
