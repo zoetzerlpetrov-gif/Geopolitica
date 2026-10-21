@@ -206,7 +206,8 @@ def test_petroleo_y_farmaceuticas_combinan_wikidata_y_osm(monkeypatch):
     monkeypatch.setattr(c, "Paises", lambda: type("P", (), {"de": lambda self, lon, lat: "MEX"})())
     p = c.petroleo_gas()
     assert [f["properties"]["st"] for f in p] == ["campo_petrolero", "plataforma_marina"]  # sin las plataformas eólicas
-    assert p[1]["properties"]["x"] == "Pemex"
+    # El operador va en su propia propiedad, con el país de su sede y si es nacional.
+    assert {k: p[1]["properties"][k] for k in ("op", "o", "nac", "est")} == {"op": "Pemex", "o": "MX", "nac": "n", "est": "1"}
     f = c.farmaceuticas()
     assert [x["properties"]["st"] for x in f] == ["farma_sede", "farma_planta"] and f[1]["properties"]["x"] == "vaccines"
     import json
