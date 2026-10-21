@@ -12,7 +12,7 @@ Solo se guardan nombre, subtipo, país, operador o estado y el enlace a Wikidata
 import re
 
 Q_LUGAR = """
-SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?estEs ?estEn ?opEs ?opEn WHERE {
+SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?estEs ?estEn ?opEs ?opEn ?opA2 ?opA3 WHERE {
   ?x wdt:P31 wd:%s ; wikibase:sitelinks ?n ; wdt:P625 ?coord .
   FILTER(?n >= %d)
   OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
@@ -21,8 +21,39 @@ SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?estEs ?estEn ?opEs ?opEn WHERE {
   OPTIONAL { ?x wdt:P5817 ?est . OPTIONAL { ?est rdfs:label ?estEs FILTER(lang(?estEs) = "es") }
              OPTIONAL { ?est rdfs:label ?estEn FILTER(lang(?estEn) = "en") } }
   OPTIONAL { ?x wdt:P137 ?op . OPTIONAL { ?op rdfs:label ?opEs FILTER(lang(?opEs) = "es") }
-             OPTIONAL { ?op rdfs:label ?opEn FILTER(lang(?opEn) = "en") } }
+             OPTIONAL { ?op rdfs:label ?opEn FILTER(lang(?opEn) = "en") }
+             OPTIONAL { ?op wdt:P17 ?opP . ?opP wdt:P297 ?opA2 ; wdt:P298 ?opA3 } }
 }"""
+
+# Recursos (minas, campos, plataformas): operador (P137) o, si no hay, dueño (P127), con el país de la compañía, y el
+# producto o mineral (P1056). Para clases con subclases (mina de cobre, de oro…) se usa P31/P279*.
+Q_RECURSO = """
+SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?opEs ?opEn ?opA2 ?opA3 ?prodEs ?prodEn WHERE {
+  ?x wdt:P31 wd:%s ; wikibase:sitelinks ?n ; wdt:P625 ?coord .
+  FILTER(?n >= %d)
+  FILTER NOT EXISTS { ?x wdt:P576 ?fin }
+  OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
+  OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso }
+  OPTIONAL { ?x wdt:P137|wdt:P127 ?op . OPTIONAL { ?op rdfs:label ?opEs FILTER(lang(?opEs) = "es") }
+             OPTIONAL { ?op rdfs:label ?opEn FILTER(lang(?opEn) = "en") }
+             OPTIONAL { ?op wdt:P17 ?opP . ?opP wdt:P297 ?opA2 ; wdt:P298 ?opA3 } }
+  OPTIONAL { ?x wdt:P1056 ?prod . OPTIONAL { ?prod rdfs:label ?prodEs FILTER(lang(?prodEs) = "es") }
+             OPTIONAL { ?prod rdfs:label ?prodEn FILTER(lang(?prodEn) = "en") } }
+}"""
+Q_RECURSO_SUB = Q_RECURSO.replace("?x wdt:P31 wd:%s ;", "?x wdt:P31/wdt:P279* wd:%s ;")
+# Consulta ligera (nombre, coordenada, país) para clases muy grandes: las 50 mil minas no caben con todos los OPTIONAL.
+Q_LIGERA = """
+SELECT ?x ?xEs ?xEn ?coord ?n ?iso WHERE {
+  ?x wdt:P31 wd:%s ; wikibase:sitelinks ?n ; wdt:P625 ?coord .
+  FILTER(?n >= %d)
+  OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
+  OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso }
+}"""
+# Solo los que registran mineral, operador o dueño (≈ 4,500 de las 50 mil minas con coordenada, medido el 21-oct-2026).
+Q_RECURSO_DATO = Q_RECURSO.replace("FILTER NOT EXISTS { ?x wdt:P576 ?fin }",
+                                   "FILTER NOT EXISTS { ?x wdt:P576 ?fin }\n  FILTER EXISTS { ?x wdt:P1056|wdt:P137|wdt:P127 [] }")
 
 Q_SEDE = """
 SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?sedeEs ?sedeEn WHERE {
@@ -78,9 +109,17 @@ FAMILIAS = {
         ("Q507443", "farma_sede", 0, "industria", 5),         # cualquier empresa cuya industria sea la farmacéutica
     ],
     "petroleo_gas": [
-        ("Q211748", "campo_petrolero", 1, "lugar", 5),
-        ("Q1349255", "campo_gas", 1, "lugar", 5),
-        ("Q689880", "plataforma_marina", 1, "lugar", 5),
+        # Todos, con o sin artículo en Wikipedia: 5,709 campos petroleros (139 con operador), 357 de gas (93), oct 2026.
+        ("Q211748", "campo_petrolero", 0, "recurso", 5),
+        ("Q1349255", "campo_gas", 0, "recurso", 5),
+        ("Q689880", "plataforma_marina", 0, "recurso", 5),
+    ],
+    # Todas las minas de Wikidata (50,059 con coordenada en oct 2026). Primero las ≈ 4,500 que registran mineral, operador o
+    # dueño (con esos detalles, desde zoom 6); luego el resto con nombre y país (desde zoom 8, para no saturar el mapa).
+    # La primera clase gana al repetirse una mina.
+    "recursos_minas": [
+        ("Q820477", "mineria", 0, "recurso_dato", 6),
+        ("Q820477", "mineria", 0, "ligera", 8),
     ],
     "turismo": [
         ("Q9259", "patrimonio_mundial", 0, "patrimonio", 3),   # 3,378 sitios con coordenada (oct 2026)
@@ -144,13 +183,18 @@ def leer(res, clase):
             continue
         r = out.setdefault(q, {"qid": q, "nombre": _v(f, "xEs") or _v(f, "xEn") or "", "lon": c[0], "lat": c[1],
                                "n": int(_v(f, "n") or 0), "st": st, "z": z, "iso": _v(f, "iso") or "",
-                               "estado_en": [], "estado": [], "operador": [], "sede": ""})
+                               "estado_en": [], "estado": [], "operador": [], "op_pais": [], "producto": [], "sede": ""})
         if not r["nombre"] or re.fullmatch(r"Q\d+", r["nombre"]):
             continue
         for k_es, k_en, dest in (("estEs", "estEn", "estado"), ("opEs", "opEn", "operador")):
             x = _v(f, k_es) or _v(f, k_en)
             if x and x not in r[dest]:
                 r[dest].append(x)
+        if _v(f, "opA2") and _v(f, "opA3") and (_v(f, "opA2"), _v(f, "opA3")) not in r["op_pais"]:
+            r["op_pais"].append((_v(f, "opA2"), _v(f, "opA3")))
+        x = _v(f, "prodEs") or _v(f, "prodEn")
+        if x and x not in r["producto"] and not re.fullmatch(r"Q\d+", x):
+            r["producto"].append(x)
         if _v(f, "estEn") and _v(f, "estEn") not in r["estado_en"]:
             r["estado_en"].append(_v(f, "estEn"))
         if modo == "sede" and not r["sede"]:
@@ -256,7 +300,7 @@ def fusionar_diplomaticos(osm, registros, feat, punto, pais_de=lambda lon, lat: 
     return out
 
 
-def features(registros, feat, punto, ajustar=None):
+def features(registros, feat, punto, ajustar=None, con_operador=False):
     """Registros de todas las clases (sin duplicar) → features. «ajustar» puede cambiar el subtipo (nuclear)."""
     out = []
     for r in sorted(registros.values(), key=lambda r: -r["n"]):
@@ -266,13 +310,18 @@ def features(registros, feat, punto, ajustar=None):
             partes.append(f"sede en {r['sede']}")
         if r["estado"]:
             partes.append(", ".join(r["estado"][:2]))
+        if r.get("producto"):
+            partes.append(", ".join(r["producto"][:3]))
         if r["operador"]:
             partes.append("opera: " + ", ".join(r["operador"][:2]))
         partes.append(f"{r['n']} Wikipedias")
         # Los muy conocidos se ven desde más lejos: 2 niveles de zoom antes con ≥ 30 Wikipedias.
         z = max(1, r["z"] - (2 if r["n"] >= 30 else 1 if r["n"] >= 12 else 0))
-        out.append(feat(punto(r["lon"], r["lat"]), {"id": f"wd:{r['qid']}", "n": r["nombre"], "st": st, "p": r["iso"],
-                                                    "x": " · ".join(partes)}, z))
+        props = {"id": f"wd:{r['qid']}", "n": r["nombre"], "st": st, "p": r["iso"], "x": " · ".join(partes)}
+        if con_operador:
+            import operadores as OP
+            props.update(OP.propiedades(r["iso"], r["operador"][:3], r.get("op_pais", [])))
+        out.append(feat(punto(r["lon"], r["lat"]), props, z))
     return out
 
 

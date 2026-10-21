@@ -100,6 +100,7 @@
   },
   {
    "id": "recursos",
+   "nota": "OpenStreetMap (ODbL) para refinerías, terminales, minas y plantas; Wikidata (CC0) para las ≈ 47 mil minas con coordenada: las ≈ 5,600 que registran mineral, operador o dueño se ven desde zoom 6 con esos detalles y el resto, con nombre y país, desde zoom 8. Borde oscuro = la compañía que lo opera tiene su sede en otro país (extranjera o mixta). La ficha muestra la compañía y la bandera de su sede.",
    "nombre": "Recursos estratégicos",
    "categoria": "recursos",
    "geometria": "punto",
@@ -210,7 +211,7 @@
    "fuente": "wikidata",
    "habilitada": true,
    "zoom_etiquetas": 7,
-   "nota": "Wikidata (CC0) para campos y plataformas con ficha; OpenStreetMap (ODbL) para plataformas marinas. No incluye pozos individuales (≈ 340 mil en OSM)."
+   "nota": "Wikidata (CC0) para todos los campos y plataformas con coordenada (≈ 6 mil); OpenStreetMap (ODbL) para plataformas marinas. No incluye pozos individuales (≈ 340 mil en OSM). Borde oscuro = operada por una compañía con sede en otro país; la ficha muestra la compañía, la bandera de su sede y si es estatal."
   },
   {
    "id": "espacio",

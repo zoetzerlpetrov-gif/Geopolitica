@@ -96,3 +96,13 @@ test("fichas de conflicto y religión: barras con porcentajes y textos escapados
   assert.ok(r.indexOf("Cristianismo") < r.indexOf("Sin afiliación") && r.indexOf("Sin afiliación") < r.indexOf("Populares"));
   assert.match(r, /background:#3B6FB6/);
 });
+
+test("ficha: quién opera un recurso, con bandera y nacionalidad", async () => {
+  const { htmlOperador } = await import("../../js/capas.js");
+  assert.equal(htmlOperador({}), "");
+  const h = htmlOperador({ op: "Eni", o: "IT", nac: "e" });
+  assert.match(h, /Eni/);
+  assert.match(h, /flagcdn\.com\/\d+x\d+\/it\.png/);
+  assert.match(h, /Extranjera/);
+  assert.match(htmlOperador({ op: "Pemex", o: "MX", nac: "n", est: "1" }), /Empresa estatal/);
+});

@@ -305,3 +305,11 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | `config/normativa.json` (redacción propia) | Página `marco.html`: leyes, estándares ISO, metodologías y códigos de ética relacionados con el proyecto, con enlace al texto oficial | — | Resumen propio; el texto de cada norma se consulta en el sitio de quien la emite |
 | `config/narrativas.json` (redacción propia sobre obras publicadas) | Página `narrativas.html`: técnicas de estrategia y propaganda, obras de referencia y su posible coincidencia con titulares del noticiero | — | Solo ideas resumidas y citas bibliográficas; ningún texto de las obras. Una coincidencia de palabras no prueba que un actor use la técnica |
 | Mapzen/Tilezen Terrarium DEM (`s3.amazonaws.com/elevation-tiles-prod/terrarium`, Registro de Datos Abiertos de AWS) | Vista «Relieve»: color por altura y sombreado | Sin llave | Atribución a Mapzen y a las fuentes del modelo (SRTM, GMTED, ETOPO1, NED y otras) |
+
+## Recursos: compañía operadora y país de su sede (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Wikidata: operador (P137) o dueño (P127) de minas, campos y plataformas; país de la compañía (P17); mineral o producto (P1056) | Ficha «Quién lo opera», bandera de la sede, nacional/extranjera/mixta; las ≈ 47 mil minas y ≈ 6 mil campos de Wikidata (detalles solo donde existen) | Sin llave, una clase por consulta | CC0 |
+| OpenStreetMap, etiqueta `operator` de refinerías, terminales, canteras y plataformas marinas | Nombre de la compañía cuando Wikidata no lo tiene | Overpass, con las mismas pausas que el resto de capas | ODbL |
+| `config/operadores.json` (tabla propia) | ~210 compañías petroleras y mineras → país de su sede y si son estatales; se usa solo cuando la fuente da el nombre sin el país | — | Datos públicos de cada compañía; sede = domicilio de la matriz, no la nacionalidad de los accionistas |

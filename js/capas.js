@@ -8,6 +8,7 @@
 import { detalle as detalleOrg } from "./buscador_org.js";
 import { esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, hayObjetoEncima } from "./util.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
+import { htmlBandera } from "./banderas.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -166,7 +167,9 @@ export class GestorCapas {
       paint: {
         "circle-color": color,
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.5, 8, 5, 12, 7],
-        "circle-stroke-width": 1, "circle-stroke-color": "#ffffff",
+        // Recursos operados por una compañía con sede en otro país (nac = e) o mixta (m): borde oscuro y más grueso.
+        "circle-stroke-width": ["match", ["get", "nac"], ["e", "m"], 2, 1],
+        "circle-stroke-color": ["match", ["get", "nac"], ["e", "m"], "#1A1A1A", "#ffffff"],
       } }, antes);
     // Zona de toque invisible para elegir puntos pequeños (miden 2.5 px a zoom bajo).
     this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, ...sl, filter: this.#filtroCapa("-punto", filtro),
@@ -221,6 +224,19 @@ export function urlFuente(id) {
 const NOMBRES_ISO2 = new Intl.DisplayNames(["es"], { type: "region" });
 const nombrePaisCorto = (c) => { try { return c.length === 2 ? NOMBRES_ISO2.of(c.toUpperCase()) : c; } catch (e) { return c; } };
 
+const NACIONALIDAD = { n: "Nacional: la compañía tiene su sede en el mismo país del sitio",
+  e: "Extranjera: la compañía tiene su sede en otro país", m: "Mixta: participan compañías nacionales y extranjeras" };
+
+/** Fila «Quién lo opera»: compañía, bandera del país de su sede y si es nacional o extranjera (props.op, o, nac, est). */
+export function htmlOperador(props) {
+  if (!props?.op && !props?.o) return "";
+  const paises = String(props.o || "").split(",").filter(Boolean);
+  const banderas = paises.map((c) => `${htmlBandera(c)}${esc(nombrePaisCorto(c))}`).join(", ");
+  return `<dt>Quién lo opera</dt><dd>${esc(props.op || "Compañía sin nombre en la fuente")}${banderas ? ` · ${banderas}` : ""}
+    ${props.nac ? `<br><span class="chip">${esc(NACIONALIDAD[props.nac] || "")}</span>` : ""}${props.est === "1" || props.est === 1 ? ` <span class="chip">Empresa estatal</span>` : ""}
+    <br><small>Sede de la compañía, según Wikidata o la tabla propia de operadores. El recurso del subsuelo suele ser de la nación; la compañía opera por concesión o contrato.</small></dd>`;
+}
+
 /** Coordenadas del objeto (si es un punto) o del clic. */
 const coordsDe = (geom, lngLat) => (geom?.type === "Point" ? { lon: geom.coordinates[0], lat: geom.coordinates[1] } : { lon: lngLat.lng, lat: lngLat.lat });
 
@@ -241,6 +257,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <div class="chips"><span class="chip estado-${esc(familia.estado_dato)}">Dato ${esc(etiquetaEstado(familia.estado_dato))}</span></div>
     <dl>
       ${extra ? `<dt>Detalle</dt><dd>${extra}</dd>` : ""}
+      ${htmlOperador(props)}
       <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</a>` : esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</dd>
       <dt>Licencia</dt><dd>${esc(sub?.licencia || familia.licencia)}</dd>
       <dt>Actualizado</dt><dd>${esc(familia.manifest?.actualizado_utc?.slice(0, 10) || "—")}</dd>

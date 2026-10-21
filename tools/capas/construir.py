@@ -1005,7 +1005,9 @@ def overpass(selectores, familia="", salida="center", cajas=None):
     return out
 
 
-def _osm(elementos, subtipo_de, z_de, extra=lambda t: "", pa=None):
+def _osm(elementos, subtipo_de, z_de, extra=lambda t: "", pa=None, con_operador=False):
+    """con_operador: agrega compañía, país de su sede y si es nacional o extranjera (tools/capas/operadores.py)."""
+    import operadores as OP
     out = []
     for el in elementos:
         lat = el.get("lat") or el.get("center", {}).get("lat")
@@ -1016,8 +1018,11 @@ def _osm(elementos, subtipo_de, z_de, extra=lambda t: "", pa=None):
         st = subtipo_de(t)
         if not st:
             continue
-        out.append(feat(punto(lon, lat), {"id": f"osm:{el['type'][0]}{el['id']}", "n": t.get("name:es") or t.get("name") or "",
-                                          "st": st, "p": pa.de(lon, lat) if pa else "", "x": extra(t)}, z_de(st, t)))
+        props = {"id": f"osm:{el['type'][0]}{el['id']}", "n": t.get("name:es") or t.get("name") or "",
+                 "st": st, "p": pa.de(lon, lat) if pa else "", "x": extra(t)}
+        if con_operador:
+            props.update(OP.propiedades(props["p"], [t.get("operator", "")]))
+        out.append(feat(punto(lon, lat), props, z_de(st, t)))
     return out
 
 
@@ -1071,7 +1076,12 @@ def recursos():
         (['nwr["man_made"="works"]["product"~"steel|aluminium|aluminum|cement",i]'], lambda t: "industria_pesada", 6),
     ]
     for sel, st, z in consultas:
-        out += _osm(overpass(sel, "recursos"), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or t.get("operator", ""), pa)
+        out += _osm(overpass(sel, "recursos"), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or "", pa, con_operador=True)
+    # Minas con ficha en Wikidata: mineral, operador o dueño y país de la compañía. Si Wikidata falla, queda lo de OSM.
+    try:
+        out += _sitios_wikidata("recursos_minas", con_operador=True)
+    except Exception as e:  # noqa: BLE001
+        print(f"   minas de Wikidata: {e}")
     return out
 
 
@@ -1136,11 +1146,12 @@ def autopistas():
     return R.features_autopistas(json.loads(get(NE + "ne_10m_roads.geojson")), feat)
 
 
-def _sitios_wikidata(fid, ajustar=None):
+def _sitios_wikidata(fid, ajustar=None, con_operador=False):
     import sitios as S
     registros = {}
     for clase in S.FAMILIAS[fid]:
-        plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO, "industria": S.Q_INDUSTRIA}.get(clase[3], S.Q_LUGAR)
+        plantilla = {"sede": S.Q_SEDE, "patrimonio": S.Q_PATRIMONIO, "industria": S.Q_INDUSTRIA, "recurso": S.Q_RECURSO,
+                     "recurso_sub": S.Q_RECURSO_SUB, "recurso_dato": S.Q_RECURSO_DATO, "ligera": S.Q_LIGERA}.get(clase[3], S.Q_LUGAR)
         try:
             nuevos = S.leer(_sparql(plantilla % (clase[0], clase[2])), clase)
             for q, r in nuevos.items():
@@ -1151,7 +1162,7 @@ def _sitios_wikidata(fid, ajustar=None):
         time.sleep(3)  # el servicio responde 429 si se le pide seguido
     if not registros:
         raise RuntimeError(f"Wikidata no devolvió datos para {fid}")
-    return S.features(registros, feat, punto, ajustar)
+    return S.features(registros, feat, punto, ajustar, con_operador)
 
 
 def densidad_poblacion():
@@ -1258,12 +1269,12 @@ def farmaceuticas():
 def petroleo_gas():
     """Campos de petróleo y gas y plataformas marinas (Wikidata), más plataformas marinas de OSM.
     Los pozos individuales (≈ 340 mil en OSM) no se incluyen: a escala mundial son ruido y pesan demasiado."""
-    out = _sitios_wikidata("petroleo_gas")
+    out = _sitios_wikidata("petroleo_gas", con_operador=True)
     els = overpass(['nwr["man_made"="offshore_platform"]'], "petroleo_gas")
     # Se omiten las subestaciones de parques eólicos marinos (también son «offshore_platform» en OSM).
     eolica = lambda t: bool(t.get("power")) or "wind" in (t.get("name", "") + t.get("operator", "")).lower()  # noqa: E731
     return out + _osm(els, lambda t: None if eolica(t) else "plataforma_marina", lambda st, t: 6,
-                      lambda t: t.get("operator", ""), Paises())
+                      lambda t: "", Paises(), con_operador=True)
 
 
 def empresas():
