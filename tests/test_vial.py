@@ -47,11 +47,11 @@ class Paises:
         return "MEX" if lon < -86 else "FRA"
 
 
-def fila(codigo, geo="4", articulos="6", lon="2.35"):
+def fila(codigo, geo="4", articulos="6", lon="2.35", url="https://lemonde.fr/2026/10/21/farmers-block-highways-around-paris-in-protest"):
     f = [""] * 61
     f[C["raiz"]], f[C["codigo"]], f[C["geo_tipo"]], f[C["articulos"]] = "14", codigo, geo, articulos
     f[C["lat"]], f[C["lon"]], f[C["lugar"]], f[C["fecha"]] = "48.85", lon, "Paris, France", "20261021100000"
-    f[C["url"]] = "https://lemonde.fr/2026/10/21/farmers-block-highways-around-paris-in-protest"
+    f[C["url"]] = url
     return f
 
 
@@ -67,3 +67,6 @@ def test_eventos_cameo_14():
     assert V.evento_protesta(fila("141", geo="1"), Paises(), C, slug) is None  # solo el país: no se pinta
     assert V.evento_protesta(fila("141", articulos="2"), Paises(), C, slug) is None  # poca cobertura fuera de México
     assert V.evento_protesta(fila("141", articulos="1", lon="-99.1"), Paises(), C, slug) is not None  # México: basta una nota
+    # Codificación errónea de GDELT: el enlace no habla de protesta.
+    assert V.evento_protesta(fila("141", url="https://theregister.com/2026/10/21/jensen-huang-sends-the-robot-ducks"), Paises(), C, slug) is None
+    assert V.evento_protesta(fila("142", url="https://siasat.com/jamia-students-indefinite-hunger-strike"), Paises(), C, slug) is not None

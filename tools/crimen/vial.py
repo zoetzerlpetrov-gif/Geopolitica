@@ -39,6 +39,10 @@ CAMEO = {"144": "bloqueo", "1441": "bloqueo", "1442": "bloqueo", "1443": "bloque
          "1433": "paro", "1434": "paro", "145": "protesta_violenta", "1451": "protesta_violenta", "1452": "protesta_violenta", "1453": "protesta_violenta",
          "1454": "protesta_violenta"}
 NOMBRES.update({"paro": "Huelga o paro", "protesta_violenta": "Protesta violenta o disturbios"})
+# GDELT codifica protestas de forma automática y se equivoca (en la sonda del 21-oct-2026 entraron notas de Nvidia
+# o de Petronas): el texto del enlace también debe hablar de protesta.
+PROTESTA_TXT = re.compile(r"protest|marcha|march(es|ed|ers)?\b|rally|rallies|demonstrat|manifesta|huelga|strike|walkout|paro\b|riot|disturbio|"
+                          r"bloque|blockade|block(ed|s)? (road|highway|street|traffic)|sit-?in|planton|picket|unrest|clashes")
 MIN_ARTICULOS = 5     # protestas en el mundo: muchas, se exige cobertura
 MIN_ARTICULOS_MX = 1
 
@@ -95,6 +99,8 @@ def evento_protesta(f, paises, C, slug_de):
     if articulos < (MIN_ARTICULOS_MX if iso == "MEX" else MIN_ARTICULOS):
         return None
     slug = slug_de(url)
+    if not PROTESTA_TXT.search(norm(slug)):
+        return None
     st = CAMEO.get(f[C["codigo"]]) or (clasificar(slug) if clasificar(slug) in ("bloqueo", "caseta") else "protesta")
     titulo = slug.capitalize() if len(slug.split()) >= 4 else f"{NOMBRES[st]} ({f[C['lugar']]})"
     fecha = datetime.strptime(f[C["fecha"]], "%Y%m%d%H%M%S").replace(tzinfo=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
