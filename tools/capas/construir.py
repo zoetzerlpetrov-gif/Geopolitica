@@ -761,7 +761,7 @@ def indice_busqueda(feats):
 
 
 FAMILIAS_GEOJSON = {"camaras", "top_empresas", "conflicto", "religiones", "gobierno_forma", "gobierno_orientacion", "densidad_poblacion",
-                    "fiscal_ue", "recaudacion", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
+                    "fiscal_ue", "recaudacion", "sector_primario", "sector_secundario", "sector_terciario", "tasas_bc", "nodos_bitcoin", "inmuebles_pais", "inmuebles_seguimiento"}  # GeoJSON directo, sin tippecanoe
 
 
 def conflicto():
@@ -1180,6 +1180,34 @@ def _paises_fc():
     return json.load(open(os.path.join(ROOT, "data", "base", "countries.geojson"), encoding="utf-8"))
 
 
+def _sector(fid):
+    """Peso de un sector en el PIB y en el empleo, último año de cada país (Banco Mundial, CC BY 4.0)."""
+    import economia as E
+    import indicadores as I
+    ind_pib, ind_emp, que, rangos = E.SECTORES[fid]
+    pib = I.leer_api([json.loads(get(I.API.format(ind=ind_pib), timeout=120))])
+    if not pib:
+        raise RuntimeError(f"El Banco Mundial no devolvió {ind_pib}")
+    try:
+        empleo = I.leer_api([json.loads(get(I.API.format(ind=ind_emp), timeout=120))])
+    except Exception as e:  # noqa: BLE001  (sin empleo, la capa sale solo con el PIB)
+        print(f"   {ind_emp}: {e}")
+        empleo = {}
+    return E.features_sector(_paises_fc(), pib, empleo, rangos, fid, que, I.num)
+
+
+def sector_primario():
+    return _sector("sector_primario")
+
+
+def sector_secundario():
+    return _sector("sector_secundario")
+
+
+def sector_terciario():
+    return _sector("sector_terciario")
+
+
 def fiscal_ue():
     """Lista de la UE de jurisdicciones no cooperativas (Anexo I) y con compromisos pendientes (Anexo II)."""
     import economia as E
@@ -1496,7 +1524,8 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
             "petroleo_gas": petroleo_gas, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
-            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
+            "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "sector_primario": sector_primario,
+            "sector_secundario": sector_secundario, "sector_terciario": sector_terciario, "tasas_bc": tasas_bc, "nodos_bitcoin": nodos_bitcoin,
             "inmuebles_pais": inmuebles_pais, "inmuebles_mx": inmuebles_mx, "inmuebles_seguimiento": inmuebles_seguimiento}
 
 

@@ -324,6 +324,42 @@
    "nota": "Banco Mundial (CC BY 4.0), indicador GC.TAX.TOTL.GD.ZS: impuestos del gobierno central como % del PIB, último año disponible."
   },
   {
+   "id": "sector_primario",
+   "nombre": "Sector primario: agricultura, ganadería, pesca y silvicultura (% del PIB)",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "banco_mundial",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Banco Mundial (CC BY 4.0), indicadores NV.AGR.TOTL.ZS y SL.AGR.EMPL.ZS: valor agregado del sector como % del PIB y personas ocupadas en el sector como % del empleo (estimación de la OIT), último año disponible de cada país. Los tres sectores suman cerca de 100 % del PIB; el resto son impuestos netos sobre productos."
+  },
+  {
+   "id": "sector_secundario",
+   "nombre": "Sector secundario: industria, minería y construcción (% del PIB)",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "banco_mundial",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Banco Mundial (CC BY 4.0), indicadores NV.IND.TOTL.ZS y SL.IND.EMPL.ZS: valor agregado del sector como % del PIB y personas ocupadas en el sector como % del empleo (estimación de la OIT), último año disponible de cada país. Los tres sectores suman cerca de 100 % del PIB; el resto son impuestos netos sobre productos."
+  },
+  {
+   "id": "sector_terciario",
+   "nombre": "Sector terciario: servicios, comercio y turismo (% del PIB)",
+   "categoria": "economia",
+   "geometria": "poligono",
+   "fuente": "banco_mundial",
+   "habilitada": true,
+   "relleno": true,
+   "opacidad_relleno": 0.55,
+   "zoom_etiquetas": 3,
+   "nota": "Banco Mundial (CC BY 4.0), indicadores NV.SRV.TOTL.ZS y SL.SRV.EMPL.ZS: valor agregado del sector como % del PIB y personas ocupadas en el sector como % del empleo (estimación de la OIT), último año disponible de cada país. Los tres sectores suman cerca de 100 % del PIB; el resto son impuestos netos sobre productos."
+  },
+  {
    "id": "tasas_bc",
    "nombre": "Tasa de interés de los bancos centrales",
    "categoria": "economia",

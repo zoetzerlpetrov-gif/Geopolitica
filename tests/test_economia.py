@@ -46,3 +46,22 @@ def test_nodos_bitcoin_por_pais_sin_ip():
     assert por == {"USA": 2, "DEU": 1} and tor == 1 and sin == 1
     fs = E.features_nodos(PAISES, por, 5, tor, "2026-10-09")
     assert {f["properties"]["p"] for f in fs} == {"USA", "DEU"} and "8.8.8" not in json.dumps(fs)
+
+
+def test_sectores_pib_y_empleo():
+    import economia as E
+    import indicadores as I
+    paises = {"features": [{"geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"iso3": "MEX", "nombre": "México"}},
+                           {"geometry": {"type": "Point", "coordinates": [1, 1]}, "properties": {"iso3": "SWE", "nombre": "Suecia"}}]}
+    _, _, que, rangos = E.SECTORES["sector_primario"]
+    fs = E.features_sector(paises, {"MEX": (3.6, "2024"), "SWE": (1.4, "2024")}, {"MEX": (11.9, "2025")}, rangos, "sector_primario", que, I.num)
+    mx, se = (f["properties"] for f in fs)
+    assert mx["st"] == "sector_primario_2" and "3.6 % del PIB (2024)" in mx["x"] and "11.9 % del empleo (2025" in mx["x"]
+    assert se["st"] == "sector_primario_1" and "empleo" not in se["x"]
+    # Cada rango tiene su subtipo en el catálogo, con el mismo color.
+    import json, os
+    cat = json.load(open(os.path.join(os.path.dirname(__file__), "..", "config", "entities.json"), encoding="utf-8"))
+    sub = {s["id"]: s for c in cat["categorias"] for s in c.get("subtipos", [])}
+    for fid, (_, _, _, rs) in E.SECTORES.items():
+        for st, _, _, color in rs:
+            assert sub[st]["familia"] == fid and sub[st]["color"] == color
