@@ -65,3 +65,22 @@ def test_sectores_pib_y_empleo():
     for fid, (_, _, _, rs) in E.SECTORES.items():
         for st, _, _, color in rs:
             assert sub[st]["familia"] == fid and sub[st]["color"] == color
+
+
+def test_pagos_por_pais():
+    import json, os
+    import pagos as P
+    d = P.cargar()
+    cat = json.load(open(os.path.join(os.path.dirname(__file__), "..", "config", "entities.json"), encoding="utf-8"))
+    sub = {s["id"]: s for c in cat["categorias"] for s in c.get("subtipos", [])}
+    for iso, fila in d["paises"].items():
+        assert len(iso) == 3
+        for dim, v in fila.items():
+            assert v["e"] in d["estados"][dim] and v["nota"] and v["url"].startswith("http")
+            assert sub[f"{dim}_{v['e']}"]["familia"] == {"cbdc": "pagos_cbdc", "cripto": "pagos_cripto", "efectivo": "pagos_efectivo"}[dim]
+    paises = {"features": [{"geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"iso3": "MEX", "nombre": "México"}},
+                           {"geometry": {"type": "Point", "coordinates": [1, 1]}, "properties": {"iso3": "ZZZ", "nombre": "Sin dato"}}]}
+    fs = P.features("pagos_cripto", paises, d)
+    assert len(fs) == 1 and fs[0]["properties"]["st"] == "cripto_restringida"
+    # La ficha resume las tres dimensiones del país, no solo la de la capa.
+    assert "Moneda digital del banco central" in fs[0]["properties"]["x"] and "Efectivo" in fs[0]["properties"]["x"]

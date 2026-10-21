@@ -280,6 +280,13 @@
    "uso_comercial": true,
    "licencia_verificada": true,
    "nota": "Trazadas del «Map of the World's Oceans» de la CIA (2012) con correcciones del autor. Rutas de referencia."
+  },
+  "pagos_tabla": {
+   "nombre": "Tabla propia de pagos por país (config/pagos.json), con la fuente de cada fila",
+   "url": "https://www.atlanticcouncil.org/cbdctracker/",
+   "licencia": "Datos propios; cada fila cita su fuente oficial o de referencia",
+   "uso_comercial": true,
+   "licencia_verificada": true
   }
  },
  "categorias": [
@@ -5747,6 +5754,306 @@
       "geoeconomia"
      ],
      "familia": "sector_terciario"
+    },
+    {
+     "id": "cbdc_lanzada",
+     "nombre": {
+      "es": "En circulación",
+      "en": "En circulación"
+     },
+     "icono": "▦",
+     "color": "#1B5E20",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cbdc"
+    },
+    {
+     "id": "cbdc_piloto",
+     "nombre": {
+      "es": "Piloto",
+      "en": "Piloto"
+     },
+     "icono": "▦",
+     "color": "#43A047",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cbdc"
+    },
+    {
+     "id": "cbdc_desarrollo",
+     "nombre": {
+      "es": "En desarrollo",
+      "en": "En desarrollo"
+     },
+     "icono": "▦",
+     "color": "#9CCC65",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cbdc"
+    },
+    {
+     "id": "cbdc_investigacion",
+     "nombre": {
+      "es": "Investigación",
+      "en": "Investigación"
+     },
+     "icono": "▦",
+     "color": "#DCE775",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cbdc"
+    },
+    {
+     "id": "cbdc_pausa",
+     "nombre": {
+      "es": "Cancelada o en pausa",
+      "en": "Cancelada o en pausa"
+     },
+     "icono": "▦",
+     "color": "#9E9E9E",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cbdc"
+    },
+    {
+     "id": "cbdc_prohibida",
+     "nombre": {
+      "es": "Prohibida por ley u orden",
+      "en": "Prohibida por ley u orden"
+     },
+     "icono": "▦",
+     "color": "#B71C1C",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cbdc"
+    },
+    {
+     "id": "cripto_curso_legal",
+     "nombre": {
+      "es": "Curso legal (o lo fue)",
+      "en": "Curso legal (o lo fue)"
+     },
+     "icono": "▦",
+     "color": "#F57F17",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cripto"
+    },
+    {
+     "id": "cripto_regulada",
+     "nombre": {
+      "es": "Legal y regulada",
+      "en": "Legal y regulada"
+     },
+     "icono": "▦",
+     "color": "#1565C0",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cripto"
+    },
+    {
+     "id": "cripto_restringida",
+     "nombre": {
+      "es": "Legal con restricciones",
+      "en": "Legal con restricciones"
+     },
+     "icono": "▦",
+     "color": "#FFB300",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cripto"
+    },
+    {
+     "id": "cripto_prohibida",
+     "nombre": {
+      "es": "Prohibida",
+      "en": "Prohibida"
+     },
+     "icono": "▦",
+     "color": "#B71C1C",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_cripto"
+    },
+    {
+     "id": "efectivo_aceptacion_obligatoria",
+     "nombre": {
+      "es": "Obligación de aceptar efectivo",
+      "en": "Obligación de aceptar efectivo"
+     },
+     "icono": "▦",
+     "color": "#2E7D32",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_efectivo"
+    },
+    {
+     "id": "efectivo_proteccion_constitucional",
+     "nombre": {
+      "es": "Derecho al efectivo en la Constitución",
+      "en": "Derecho al efectivo en la Constitución"
+     },
+     "icono": "▦",
+     "color": "#1B5E20",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_efectivo"
+    },
+    {
+     "id": "efectivo_aceptacion_parcial",
+     "nombre": {
+      "es": "Obligación en parte del país",
+      "en": "Obligación en parte del país"
+     },
+     "icono": "▦",
+     "color": "#81C784",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_efectivo"
+    },
+    {
+     "id": "efectivo_limite",
+     "nombre": {
+      "es": "Límite a pagos en efectivo",
+      "en": "Límite a pagos en efectivo"
+     },
+     "icono": "▦",
+     "color": "#EF6C00",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_efectivo"
+    },
+    {
+     "id": "efectivo_impulso_digital",
+     "nombre": {
+      "es": "Impulso fuerte a pagos digitales",
+      "en": "Impulso fuerte a pagos digitales"
+     },
+     "icono": "▦",
+     "color": "#6A1B9A",
+     "fuente": "pagos_tabla",
+     "licencia": "Datos propios con fuente por fila",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia",
+      "instituciones"
+     ],
+     "familia": "pagos_efectivo"
     }
    ]
   },

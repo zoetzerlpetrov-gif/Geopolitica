@@ -321,3 +321,12 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | Banco Mundial, API v2: NV.AGR.TOTL.ZS, NV.IND.TOTL.ZS, NV.SRV.TOTL.ZS (valor agregado, % del PIB) y SL.AGR/IND/SRV.EMPL.ZS (empleo, estimación de la OIT) | Capas por país de los sectores primario, secundario y terciario | Sin llave; robots.txt lo permite | CC BY 4.0 |
 | OpenStreetMap: `landuse=aquaculture`, `seamark:type=marine_farm`, `landuse=vineyard/orchard/greenhouse_horticulture/plantation`, parques industriales y `shop=mall` | Capa «Actividades económicas»: solo objetos con nombre (y granjas marinas) | Overpass por cajas, con las pausas de las demás familias | ODbL |
 | FAOSTAT (FAO) | No se usa por ahora: el robots.txt de su servicio de consultas no permite el acceso automático; el archivo de descarga masiva se revisará aparte | — | — |
+
+## Pagos por país: CBDC, criptomonedas y efectivo (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| `config/pagos.json` (tabla propia, 73 países) | Capas «Pagos: CBDC», «Pagos: criptomonedas» y «Pagos: efectivo»; la ficha resume las tres | — | Cada fila cita su fuente; información pública revisada hasta 2025 |
+| Atlantic Council, CBDC Tracker; BCE (euro digital); bancos centrales | Estado de la moneda digital de cada banco central | Consulta manual | Se cita la fuente; no se copia su base de datos |
+| Biblioteca del Congreso de EUA (2021), ESMA (MiCA), Banxico y otros reguladores | Situación legal de las criptomonedas | Consulta manual | Dominio público (LoC) o documentos oficiales |
+| BCE (curso legal), leyes nacionales (Dinamarca, Noruega, Hungría, LFPIORPI de México, etc.) | Obligación de aceptar efectivo, límites y protección constitucional | Consulta manual | Documentos oficiales |

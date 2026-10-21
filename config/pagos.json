@@ -1,0 +1,976 @@
+{
+ "_nota": "Situación de pagos por país: moneda digital de banco central (cbdc), criptomonedas (cripto) y efectivo. Tabla propia con la fuente de cada fila. Información pública revisada hasta 2025; estas reglas cambian rápido: verificar en la fuente antes de usarla para decidir. Solo se incluyen países con dato verificable; un país sin color no significa que no tenga reglas.",
+ "revisado": "2025",
+ "estados": {
+  "cbdc": {
+   "lanzada": [
+    "En circulación",
+    "#1B5E20"
+   ],
+   "piloto": [
+    "Piloto",
+    "#43A047"
+   ],
+   "desarrollo": [
+    "En desarrollo",
+    "#9CCC65"
+   ],
+   "investigacion": [
+    "Investigación",
+    "#DCE775"
+   ],
+   "pausa": [
+    "Cancelada o en pausa",
+    "#9E9E9E"
+   ],
+   "prohibida": [
+    "Prohibida por ley u orden",
+    "#B71C1C"
+   ]
+  },
+  "cripto": {
+   "curso_legal": [
+    "Curso legal (o lo fue)",
+    "#F57F17"
+   ],
+   "regulada": [
+    "Legal y regulada",
+    "#1565C0"
+   ],
+   "restringida": [
+    "Legal con restricciones",
+    "#FFB300"
+   ],
+   "prohibida": [
+    "Prohibida",
+    "#B71C1C"
+   ]
+  },
+  "efectivo": {
+   "aceptacion_obligatoria": [
+    "Obligación de aceptar efectivo",
+    "#2E7D32"
+   ],
+   "proteccion_constitucional": [
+    "Derecho al efectivo en la Constitución",
+    "#1B5E20"
+   ],
+   "aceptacion_parcial": [
+    "Obligación en parte del país",
+    "#81C784"
+   ],
+   "limite": [
+    "Límite a pagos en efectivo",
+    "#EF6C00"
+   ],
+   "impulso_digital": [
+    "Impulso fuerte a pagos digitales",
+    "#6A1B9A"
+   ]
+  }
+ },
+ "paises": {
+  "ARE": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Participa en mBridge, plataforma de pagos transfronterizos entre bancos centrales (con China y Hong Kong).",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "ARG": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "ATG": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "DCash, del Banco Central del Caribe Oriental: el piloto terminó en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "AUS": {
+   "cbdc": {
+    "e": "investigacion",
+    "nota": "Hizo un piloto en 2023 (eAUD) y luego priorizó la versión mayorista.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "AUT": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "BEL": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "Límite legal a pagos en efectivo: 3,000 €. La UE fijará un tope común de 10,000 € a partir de 2027.",
+    "fuente": "BCE, curso legal y límites",
+    "url": "https://www.ecb.europa.eu/euro/cash_strategy/legal_tender/html/index.en.html"
+   }
+  },
+  "BGD": {
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "BGR": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "BHS": {
+   "cbdc": {
+    "e": "lanzada",
+    "nota": "Sand Dollar, en circulación desde 2020: la primera moneda digital de banco central para el público.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "BRA": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Drex: piloto del Banco Central de Brasil sobre registros distribuidos.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "CAN": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "El Banco de Canadá dejó de preparar una moneda digital para el público en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "CHE": {
+   "cbdc": {
+    "e": "investigacion",
+    "nota": "Proyecto Helvetia: solo moneda digital mayorista entre bancos.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "CHL": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "CHN": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "e-CNY (yuan digital): piloto amplio en decenas de ciudades desde 2020.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   },
+   "efectivo": {
+    "e": "impulso_digital",
+    "nota": "Los pagos por celular dominan; desde 2024 el banco central exige a los comercios seguir aceptando efectivo.",
+    "fuente": "Banco Popular de China",
+    "url": "http://www.pbc.gov.cn/en/"
+   }
+  },
+  "CYP": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "CZE": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "DEU": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "DMA": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "DCash, del Banco Central del Caribe Oriental: el piloto terminó en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "DNK": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "aceptacion_obligatoria",
+    "nota": "La Ley de Pagos obliga a la mayoría de los comercios físicos a aceptar efectivo.",
+    "fuente": "Ley de Pagos de Dinamarca",
+    "url": "https://www.retsinformation.dk/"
+   }
+  },
+  "DZA": {
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "ECU": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "Dinero Electrónico del Banco Central (2014-2018): cerró por bajo uso.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "EGY": {
+   "cripto": {
+    "e": "restringida",
+    "nota": "El banco central prohíbe o exige licencia para operar criptomonedas; hay proyectos de regulación.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "ESP": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "Límite legal a pagos en efectivo: 1,000 € cuando participa una empresa o profesional. La UE fijará un tope común de 10,000 € a partir de 2027.",
+    "fuente": "BCE, curso legal y límites",
+    "url": "https://www.ecb.europa.eu/euro/cash_strategy/legal_tender/html/index.en.html"
+   }
+  },
+  "EST": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "FIN": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "FRA": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "Límite legal a pagos en efectivo: 1,000 € para residentes. La UE fijará un tope común de 10,000 € a partir de 2027.",
+    "fuente": "BCE, curso legal y límites",
+    "url": "https://www.ecb.europa.eu/euro/cash_strategy/legal_tender/html/index.en.html"
+   }
+  },
+  "GBR": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Libra digital: el Banco de Inglaterra y el Tesoro están en fase de diseño, sin decisión de emitirla.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "GHA": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "eCedi: piloto desde 2022.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "GRC": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "Límite legal a pagos en efectivo: 500 €. La UE fijará un tope común de 10,000 € a partir de 2027.",
+    "fuente": "BCE, curso legal y límites",
+    "url": "https://www.ecb.europa.eu/euro/cash_strategy/legal_tender/html/index.en.html"
+   }
+  },
+  "GRD": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "DCash, del Banco Central del Caribe Oriental: el piloto terminó en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "HRV": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "HUN": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "proteccion_constitucional",
+    "nota": "Una reforma constitucional de 2025 garantiza el derecho a pagar en efectivo.",
+    "fuente": "Parlamento de Hungría",
+    "url": "https://www.parlament.hu/"
+   }
+  },
+  "IDN": {
+   "cripto": {
+    "e": "restringida",
+    "nota": "Se pueden comprar y vender como activo, pero no usar para pagar.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "IND": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "e-rupia: pilotos mayorista y minorista desde 2022.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "restringida",
+    "nota": "Legal, con impuesto de 30 % a las ganancias y retención en cada operación; sin ley integral.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   },
+   "efectivo": {
+    "e": "impulso_digital",
+    "nota": "Retiró billetes de alta denominación en 2016 y promueve los pagos por UPI, hoy mayoritarios.",
+    "fuente": "Reserve Bank of India",
+    "url": "https://www.rbi.org.in/"
+   }
+  },
+  "IRL": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "IRN": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Rial digital: piloto desde 2023.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "IRQ": {
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "ITA": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "Límite legal a pagos en efectivo: 5,000 € desde 2023. La UE fijará un tope común de 10,000 € a partir de 2027.",
+    "fuente": "BCE, curso legal y límites",
+    "url": "https://www.ecb.europa.eu/euro/cash_strategy/legal_tender/html/index.en.html"
+   }
+  },
+  "JAM": {
+   "cbdc": {
+    "e": "lanzada",
+    "nota": "JAM-DEX, en circulación desde 2022.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "JPN": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Yen digital: piloto del Banco de Japón con bancos desde 2023; sin decisión de emitirlo.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "KAZ": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Tenge digital: piloto y primeras operaciones desde 2023.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "KNA": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "DCash, del Banco Central del Caribe Oriental: el piloto terminó en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "KOR": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Proyecto Hangang: prueba con depósitos tokenizados en 2025.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "LCA": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "DCash, del Banco Central del Caribe Oriental: el piloto terminó en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "LTU": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "LUX": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "LVA": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "MAR": {
+   "cripto": {
+    "e": "restringida",
+    "nota": "El banco central prohíbe o exige licencia para operar criptomonedas; hay proyectos de regulación.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "MEX": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "Banxico anunció una moneda digital para 2024 y la pospuso sin nueva fecha; mantiene CoDi y DiMo para pagos digitales.",
+    "fuente": "Banco de México",
+    "url": "https://www.banxico.org.mx/"
+   },
+   "cripto": {
+    "e": "restringida",
+    "nota": "Legal para personas (Ley Fintech de 2018), pero Banxico prohíbe a bancos y fintech ofrecerlas al público; no es moneda de curso legal.",
+    "fuente": "Banco de México, Circular 4/2019",
+    "url": "https://www.banxico.org.mx/"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "La Ley Antilavado (LFPIORPI, art. 32) prohíbe pagar en efectivo inmuebles, vehículos, joyas y otros bienes por encima de ciertos montos en UMA.",
+    "fuente": "DOF, LFPIORPI",
+    "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfpiorpi.htm"
+   }
+  },
+  "MLT": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "NGA": {
+   "cbdc": {
+    "e": "lanzada",
+    "nota": "eNaira, en circulación desde 2021; su uso ha sido bajo.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   },
+   "efectivo": {
+    "e": "impulso_digital",
+    "nota": "En 2023 limitó los retiros de efectivo y rediseñó el naira, lo que causó escasez de billetes.",
+    "fuente": "Banco Central de Nigeria",
+    "url": "https://www.cbn.gov.ng/"
+   }
+  },
+  "NLD": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "NOR": {
+   "efectivo": {
+    "e": "aceptacion_obligatoria",
+    "nota": "La ley de contratos financieros da derecho a pagar en efectivo en comercios; se reforzó en 2025.",
+    "fuente": "Gobierno de Noruega",
+    "url": "https://www.regjeringen.no/"
+   }
+  },
+  "NPL": {
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "PHL": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "POL": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "PRT": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "limite",
+    "nota": "Límite legal a pagos en efectivo: 3,000 €. La UE fijará un tope común de 10,000 € a partir de 2027.",
+    "fuente": "BCE, curso legal y límites",
+    "url": "https://www.ecb.europa.eu/euro/cash_strategy/legal_tender/html/index.en.html"
+   }
+  },
+  "QAT": {
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "ROU": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "RUS": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Rublo digital: piloto con bancos desde 2023; el Banco de Rusia programó su uso masivo a partir de septiembre de 2026.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "restringida",
+    "nota": "Prohibido pagar con criptomonedas desde 2021; la minería es legal desde 2024 y se permiten pagos internacionales en pruebas.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "SAU": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Participa en mBridge, plataforma de pagos transfronterizos entre bancos centrales (con China y Hong Kong).",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "SGP": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "SLV": {
+   "cripto": {
+    "e": "curso_legal",
+    "nota": "Bitcoin fue moneda de curso legal desde 2021; una reforma de 2025 (acuerdo con el FMI) hizo voluntaria su aceptación.",
+    "fuente": "Asamblea Legislativa de El Salvador / FMI",
+    "url": "https://www.imf.org/en/Countries/SLV"
+   }
+  },
+  "SVK": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "SVN": {
+   "cbdc": {
+    "e": "desarrollo",
+    "nota": "Euro digital: el BCE está en fase de preparación desde noviembre de 2023; requiere un reglamento de la UE que sigue en discusión.",
+    "fuente": "BCE, euro digital",
+    "url": "https://www.ecb.europa.eu/euro/digital_euro/html/index.es.html"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   }
+  },
+  "SWE": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "E-corona: el Riksbank la prueba desde 2020 sin decisión de emitirla.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Reglamento MiCA de la UE: licencia para plataformas y emisores de stablecoins, aplicable desde diciembre de 2024.",
+    "fuente": "ESMA, Reglamento MiCA (UE 2023/1114)",
+    "url": "https://www.esma.europa.eu/esmas-activities/digital-finance-and-innovation/markets-crypto-assets-regulation-mica"
+   },
+   "efectivo": {
+    "e": "impulso_digital",
+    "nota": "El efectivo es menos del 10 % de los pagos; desde 2020 los bancos grandes deben ofrecer servicios de efectivo y se discute obligar a aceptarlo.",
+    "fuente": "Riksbank, informe de pagos",
+    "url": "https://www.riksbank.se/en-gb/payments--cash/payments-in-sweden/"
+   }
+  },
+  "THA": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Participa en mBridge, plataforma de pagos transfronterizos entre bancos centrales (con China y Hong Kong).",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "TUN": {
+   "cripto": {
+    "e": "prohibida",
+    "nota": "Prohibición del comercio o uso de criptomonedas (según el informe de la Biblioteca del Congreso de EUA; revisar cambios recientes).",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "TUR": {
+   "cbdc": {
+    "e": "piloto",
+    "nota": "Lira digital: pruebas desde 2023.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   },
+   "cripto": {
+    "e": "restringida",
+    "nota": "Prohibido pagar con criptomonedas desde 2021; una ley de 2024 regula las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  },
+  "URY": {
+   "efectivo": {
+    "e": "limite",
+    "nota": "La Ley de Inclusión Financiera limita el efectivo en operaciones grandes y en el pago de salarios.",
+    "fuente": "Banco Central del Uruguay",
+    "url": "https://www.bcu.gub.uy/"
+   }
+  },
+  "USA": {
+   "cbdc": {
+    "e": "prohibida",
+    "nota": "Una orden ejecutiva de enero de 2025 prohíbe a las agencias federales crear o promover una moneda digital de banco central.",
+    "fuente": "Casa Blanca, orden ejecutiva 14178 (2025)",
+    "url": "https://www.federalregister.gov/presidential-documents/executive-orders"
+   },
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales; la ley GENIUS (2025) regula las stablecoins y la SEC y la CFTC supervisan el resto.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   },
+   "efectivo": {
+    "e": "aceptacion_parcial",
+    "nota": "No hay obligación federal; varios estados y ciudades obligan a aceptar efectivo (Massachusetts, Nueva Jersey, Colorado, Washington D. C., Nueva York, Filadelfia, entre otros).",
+    "fuente": "Reserva Federal, curso legal",
+    "url": "https://www.federalreserve.gov/faqs/currency_12772.htm"
+   }
+  },
+  "VCT": {
+   "cbdc": {
+    "e": "pausa",
+    "nota": "DCash, del Banco Central del Caribe Oriental: el piloto terminó en 2024.",
+    "fuente": "Atlantic Council, CBDC Tracker",
+    "url": "https://www.atlanticcouncil.org/cbdctracker/"
+   }
+  },
+  "ZAF": {
+   "cripto": {
+    "e": "regulada",
+    "nota": "Legales, con registro o licencia para las plataformas de intercambio.",
+    "fuente": "Biblioteca del Congreso de EUA, Regulation of Cryptocurrency Around the World (2021)",
+    "url": "https://www.loc.gov/item/2021687419/"
+   }
+  }
+ }
+}
