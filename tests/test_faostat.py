@@ -30,6 +30,11 @@ def test_cultivos_ultimo_anio_top_y_grupo():
     assert next(f["properties"]["st"] for f in fs if f["properties"]["p"] == "CHN") == "cultivo_cereales"
 
 
+def test_grupo_no_confunde_uva_con_colza():
+    assert FA.grupo("Grapes")[0] == "cultivo_frutas"
+    assert FA.grupo("Rape or colza seed")[0] == "cultivo_oleaginosas"
+
+
 def test_acuicultura_total_y_especies():
     cant = [{"COUNTRY.UN_CODE": "484", "SPECIES.ALPHA_3_CODE": "PNV", "MEASURE": "Q_tlw", "PERIOD": "2023", "VALUE": "200000"},
             {"COUNTRY.UN_CODE": "484", "SPECIES.ALPHA_3_CODE": "TLP", "MEASURE": "Q_tlw", "PERIOD": "2023", "VALUE": "50000"},

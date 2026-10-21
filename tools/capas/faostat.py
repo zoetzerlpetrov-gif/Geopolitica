@@ -33,7 +33,7 @@ ES = {
     "Meat of pig with the bone, fresh or chilled": "Carne de cerdo", "Hen eggs in shell, fresh": "Huevo",
     "Chillies and peppers, green (Capsicum spp. and Pimenta spp.)": "Chile verde", "Lemons and limes": "Limón",
     "Taro": "Taro", "Beans, dry": "Frijol", "Carrots and turnips": "Zanahoria", "Pumpkins, squash and gourds": "Calabaza",
-    "Papayas": "Papaya", "Natural rubber in primary forms": "Hule natural", "Sugar crops n.e.c.": "Otros cultivos azucareros",
+    "Papayas": "Papaya", "Other vegetables, fresh n.e.c.": "Otras hortalizas frescas", "Natural rubber in primary forms": "Hule natural", "Sugar crops n.e.c.": "Otros cultivos azucareros",
 }
 
 # Grupo del producto principal → (subtipo, etiqueta, color). La primera regla que coincide gana.
@@ -41,7 +41,7 @@ GRUPOS = [
     ("cultivo_cana", "Caña de azúcar y remolacha", "#8E24AA", ("sugar cane", "sugar beet", "sugar crops")),
     ("cultivo_cereales", "Cereales (maíz, arroz, trigo…)", "#F9A825", ("maize", "rice", "wheat", "barley", "sorghum", "millet", "oats", "rye", "cereal")),
     ("cultivo_raices", "Raíces y tubérculos (papa, yuca…)", "#8D6E63", ("potato", "cassava", "yam", "taro", "sweet potato")),
-    ("cultivo_oleaginosas", "Oleaginosas (soya, palma…)", "#558B2F", ("soya", "oil palm", "rape", "sunflower", "groundnut", "olive", "coconut")),
+    ("cultivo_oleaginosas", "Oleaginosas (soya, palma…)", "#558B2F", ("soya", "oil palm", "rape or colza", "sunflower", "groundnut", "olive", "coconut")),
     ("cultivo_frutas", "Frutas (plátano, uva, cítricos…)", "#E65100", ("banana", "plantain", "grape", "orange", "apple", "mango", "pineapple", "watermelon", "date", "lemon", "avocado", "papaya")),
     ("cultivo_hortalizas", "Hortalizas", "#43A047", ("tomato", "onion", "cabbage", "cucumber", "chilli", "carrot", "pumpkin", "vegetable")),
     ("cultivo_ganaderia", "Leche, carne y huevo", "#1565C0", ("milk", "meat", "egg")),

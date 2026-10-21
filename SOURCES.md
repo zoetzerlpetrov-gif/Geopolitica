@@ -338,3 +338,11 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | Datos ya publicados por DOMINUS: `data/events.json`, `data/indice-paises.json`, `data/vivos/{ataques,crimen,cortes,tornados,red_cortes,salud_oficial}.geojson`, `data/vivos/noticiero.json`, `config/pagos.json` | Página `corporativo.html`: eventos cerca de cada instalación, matriz 5×5, exposición por país, menciones en el noticiero | Locales | Las de cada capa |
 | `config/corporativo.json` (tabla propia) | Sanciones por país (OFAC, UE, ONU; revisadas hasta 2025, con enlace a la lista oficial), escenarios, guías de método y enlaces del radar | — | Resumen propio; verificar siempre en la lista oficial |
 | Instalaciones capturadas por la persona usuaria | Solo en el navegador (localStorage); exportables como JSON | — | No se envían a ningún servidor |
+
+## Cultivos y acuicultura por país, FAO (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| FAOSTAT, dominio QCL (archivo de descarga masiva `Production_Crops_Livestock_E_All_Data_(Normalized).zip`, 34 MB) | Capa «Principales cultivos y productos ganaderos por país»: 5 productos con más toneladas, último año (2024 en oct. 2026), 201 países | Una descarga en la corrida mensual de capas. El servidor de descargas no publica robots.txt (403); por RFC 9309 no hay restricción. El servicio de consultas (fenixservices) sí lo prohíbe y no se usa | CC BY 4.0 (términos de uso de las bases estadísticas de la FAO) |
+| FishStat, acuicultura (`fao.org/fishery/static/Data/Aquaculture_<año>.1.0.zip`, 2 MB) | Capa «Acuicultura por país»: toneladas de peso vivo y 3 especies principales, 208 países | Una descarga mensual; robots.txt de fao.org lo permite | CC BY 4.0 |
+| ISO 3166-1 (tabla `config/m49_iso3.json`) | Convertir el código numérico M49 de la FAO al código ISO alfa-3 del mapa | — | Códigos de la norma |
