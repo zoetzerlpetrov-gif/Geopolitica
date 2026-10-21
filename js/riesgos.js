@@ -25,7 +25,8 @@ export const BASES = [
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
-  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: idiomas y creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: idiomas y creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"],
+  ["Carreteras y calles: robos, bloqueos y protestas", "🚧", "#9C5B12"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
 const SALUD = "Salud: brotes y enfermedades";
@@ -199,6 +200,39 @@ export const CAPAS_MODALIDADES = MODALIDADES.map(([id, nombre, color, rx]) => ({
     filas: [["Lugar", `${p.lugar || p.state || "—"}${p.precision && p.precision !== "ciudad" ? ` (aprox.: ${p.precision})` : ""}`], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
       ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
   pie: "Para denunciar en México: 089 (denuncia anónima), 088 (Guardia Nacional, incluye ciberdelitos) y CONDUSEF para fraudes financieros. No sustituye a las autoridades.",
+}));
+
+// Carreteras y calles: robo a transporte de carga y público, robo de vehículos, tomas de casetas, bloqueos y protestas
+// (vivos/vial.geojson, que arma tools/crimen/crimen.py con tools/crimen/vial.py). Señales de noticias, no cifras oficiales.
+const VIAL = "Carreteras y calles: robos, bloqueos y protestas";
+export const TIPOS_VIAL = [
+  ["robo_carga", "Robo a transporte de carga", "#8E1B1B", "🚛", ["robo_carga"]],
+  ["robo_publico", "Asaltos en transporte público", "#B4451F", "🚌", ["robo_publico"]],
+  ["robo_vehiculo", "Robo de vehículos", "#6D4C41", "🚗", ["robo_vehiculo"]],
+  ["caseta", "Tomas de casetas de cobro", "#C27C1E", "🎫", ["caseta"]],
+  ["bloqueo", "Bloqueos de carreteras y calles (incluye narcobloqueos)", "#D35400", "🚧", ["bloqueo"]],
+  ["protesta", "Protestas, marchas, paros y disturbios", "#5B3A8E", "📢", ["protesta", "paro", "protesta_violenta"]],
+];
+let fuenteVial = null; // una sola descarga compartida por las 6 capas durante 10 min
+async function datosVial() {
+  if (fuenteVial && Date.now() - fuenteVial.t < 600e3) return fuenteVial.fc;
+  const fc = await getJSON("data/vivos/vial.geojson", { bust: true }).catch(() => ({ type: "FeatureCollection", features: [] }));
+  fuenteVial = { t: Date.now(), fc };
+  return fc;
+}
+export const CAPAS_VIAL = TIPOS_VIAL.map(([id, nombre, color, ic, sts]) => ({
+  id: `vial_${id}`, grupo: VIAL, senal: true, nombre: `${ic} ${nombre} (noticias 72 h, verificar)`,
+  fuente: "Medios mexicanos, GDELT GKG y eventos CAMEO 14 de GDELT", generar: datosVial,
+  derivar: (fc) => ({ ...fc, features: (fc.features || []).filter((f) => sts.includes(f.properties.st)) }),
+  estilo: (p) => ({ c: color, r: 3 + (p.severidad || 2) }),
+  leyenda: [{ c: color, r: 6, t: nombre }, { t: id === "protesta"
+    ? "En México, titulares de medios que nombran el lugar. En el mundo, eventos de GDELT con código CAMEO de protesta (14x) cubiertos por 5 notas o más; los que solo traen el país no se pintan."
+    : "Titulares de medios mexicanos que nombran la ciudad o el estado (sin lugar en el título no se pinta). Son señales para verificar, no cifras oficiales: las del SESNSP son mensuales y por estado." }],
+  ficha: (p) => ({ titulo: p.title, chip: `${p.tipo || nombre} · señal de noticias, verifica`,
+    filas: [["Lugar", `${p.lugar || "—"}${p.precision === "estado" ? " (aprox.: centro del estado)" : ""}`], ["Severidad estimada", `${p.severidad || 2} de 5 (sube si el titular menciona violencia)`],
+      ...(p.cameo ? [["Código CAMEO (GDELT)", `${p.cameo} · ${p.articulos || 1} nota(s)`]] : []), ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
+      ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
+  pie: "Antes de viajar por carretera en México: Guardia Nacional 088 y el estado de las vías en CAPUFE (@CAPUFE). Para denunciar: 089 (anónimo). No sustituye a las autoridades.",
 }));
 
 // Fenómenos anómalos: una capa por clase (todas leen vivos/anomalias.geojson). Van en su propio menú y NO entran a la
@@ -615,6 +649,7 @@ export const CAPAS = [
   },
   ...VENTANAS_CRIMEN,
   ...CAPAS_MODALIDADES,
+  ...CAPAS_VIAL,
   {
     id: "conflictos_zonas", grupo: "Seguridad y ataques", nombre: "Zonas de conflicto armado: resumen, noticias y videos (lista curada)", noAmenaza: true,
     url: "data/base/conflictos.geojson", refresco_s: 86400, fuente: "Lista curada propia; polígonos de Natural Earth",

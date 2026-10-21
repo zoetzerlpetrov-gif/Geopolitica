@@ -307,7 +307,11 @@ async function abrirFicha(id, { volar = false } = {}) {
   history.replaceState(null, "", `#evento=${encodeURIComponent(id)}`);
   $("ficha-cerrar").focus();
 }
+// Zona resaltada de la ficha de seguridad, emergencias, red, salud, criminología o carreteras (js/zona_ficha.js).
+let ZF = null;
+const quitarZonaFicha = () => ZF?.dibujarZona(api.map, null);
 function abrirFichaHtml(html) {
+  quitarZonaFicha();
   quitarCeniza();  // otra ficha: los conos del volcán anterior ya no aplican (la de un volcán los vuelve a dibujar)
   if (!html.includes("nota-3d")) quitar3d(); // otra ficha sin modelo: no se deja el anterior dibujado
   focoPrevio = document.activeElement;
@@ -526,6 +530,7 @@ const prepararErupcion = () => {
 };
 
 function cerrarFicha() {
+  quitarZonaFicha();
   trayectoria?.limpiar();
   quitar3d();
   quitarCeniza();
@@ -1393,11 +1398,31 @@ async function iniciarRiesgos() {
       abrirFichaHtml(R.htmlRiesgo(capa, props, geom) + dibujar3d({ fuente: "riesgo", capa: capa.id, props: R.desanidar(props), lat: punto?.[1] }, punto, geom));
       const ce = document.querySelector("#ficha-cuerpo .conf-extra");
       if (ce) llenarConflicto(ce, R.desanidar(props));
+      if (punto && geom?.type === "Point") zonaYVideos(capa, R.desanidar(props), punto);
       const div = document.querySelector("#ficha-cuerpo .ceniza");
       if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
       prepararErupcion();
     },
   });
+  // Zona (estado o país) y videos de canales de noticias en la ficha; solo para los grupos de GRUPOS_ZONA.
+  let estadosZona = null;
+  async function zonaYVideos(capa, props, punto) {
+    ZF ??= await import("./zona_ficha.js");
+    if (!ZF.GRUPOS_ZONA.has(capa.grupo)) return;
+    estadosZona ??= getJSON("data/vivos/zonas_eventos.geojson", { bust: true }).catch(() => null);
+    videosConf ??= getJSON("data/vivos/conflictos_videos.json", { bust: true }).catch(() => null);
+    const [estados, v, C] = await Promise.all([estadosZona, videosConf, import("./conflictos.js")]);
+    const cuerpo = $("ficha-cuerpo");
+    if ($("ficha").hidden || !cuerpo) return;
+    const zona = ZF.zonaDe(punto, props, { estados, paises: fronteras, nombrePais });
+    ZF.dibujarZona(api.map, zona);
+    const vids = ZF.videosPara(v?.recientes, ZF.lugaresDe(props, nombrePais), capa.grupo);
+    const div = document.createElement("div");
+    div.className = "zona-videos";
+    div.innerHTML = `${ZF.htmlZona(zona)}<h4>Videos de canales de noticias</h4>${C.htmlVideos(vids, `${props.title || props.titulo || props.tipo || ""} ${props.lugar || ""}`.trim())}`;
+    div.addEventListener("click", (e) => { const b = e.target.closest(".conf-video"); if (b) C.reproducir(b); });
+    cuerpo.appendChild(div);
+  }
   const filaCapa = (c) => `<label class="fila"><span><input type="checkbox" data-riesgo="${c.id}"> ${esc(c.nombre)}</span><span class="meta" id="rg-n-${c.id}"></span></label>
       ${c.leyenda ? `<div class="ley-wrap" id="rg-ley-${c.id}" hidden>${R.htmlLeyenda(c)}</div>` : ""}`;
   const delGrupo = (g) => R.CAPAS.filter((c) => c.grupo === g && !c.menu);

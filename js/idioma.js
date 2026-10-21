@@ -141,6 +141,7 @@ Emergencias, zonas afectadas y transporte|Emergencies, affected areas and transp
 Red y ciberseguridad|Internet and cybersecurity|Réseau et cybersécurité|Netz und Cybersicherheit|Rete e cybersicurezza
 Espacio|Space|Espace|Weltraum|Spazio
 Criminología: modalidades delictivas en noticias|Criminology: crime types in the news|Criminologie : types de délits dans l'actualité|Kriminologie: Deliktarten in den Nachrichten|Criminologia: tipi di reato nelle notizie
+Carreteras y calles: robos, bloqueos y protestas|Roads and streets: robberies, blockades and protests|Routes et rues : vols, blocages et manifestations|Straßen: Raubüberfälle, Blockaden und Proteste|Strade: rapine, blocchi e proteste
 Mar: tráfico de barcos y pesca ilegal|Sea: ship traffic and illegal fishing|Mer : trafic maritime et pêche illégale|Meer: Schiffsverkehr und illegale Fischerei|Mare: traffico navale e pesca illegale
 Investigación|Investigation|Enquête|Ermittlung|Indagine
 Salud: brotes y enfermedades|Health: outbreaks and diseases|Santé : épidémies et maladies|Gesundheit: Ausbrüche und Krankheiten|Salute: focolai e malattie
