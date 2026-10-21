@@ -309,6 +309,9 @@ async function abrirFicha(id, { volar = false } = {}) {
 }
 // Zona resaltada de la ficha de seguridad, emergencias, red, salud, criminología o carreteras (js/zona_ficha.js).
 let ZF = null;
+// Vista del mapa antes de un acercamiento automático al abrir una ficha (lista de amenazas); se restaura al cerrarla.
+let vistaFicha = null;
+const camaraActual = () => ({ center: api.map.getCenter().toArray(), zoom: api.map.getZoom(), pitch: api.map.getPitch(), bearing: api.map.getBearing() });
 const quitarZonaFicha = () => ZF?.dibujarZona(api.map, null);
 function abrirFichaHtml(html) {
   quitarZonaFicha();
@@ -532,7 +535,10 @@ const prepararErupcion = () => {
 function cerrarFicha() {
   quitarZonaFicha();
   trayectoria?.limpiar();
-  quitar3d();
+  const vista = vistaFicha;
+  vistaFicha = null;
+  quitar3d(); // si hubo modelo 3D, regresa a la vista de antes de su acercamiento…
+  if (vista) api.map.easeTo({ ...vista, duration: lite ? 0 : 1000, essential: true }); // …salvo que la ficha se abriera desde la lista
   quitarCeniza();
   $("ficha").hidden = true;
   api.setSeleccion("");
@@ -1384,6 +1390,7 @@ async function iniciarRiesgos() {
       const b = e.target.closest("[data-am]");
       if (!b) return;
       const a = lista[Number(b.dataset.am)];
+      vistaFicha ??= camaraActual();
       api.map.flyTo({ center: [a.lon, a.lat], zoom: Math.max(api.map.getZoom(), 6), duration: lite ? 0 : 800 });
       riesgos.abrir(a);
     };

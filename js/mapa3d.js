@@ -1152,21 +1152,23 @@ export class Modelos3D {
     this.capa.poner(s, lngLat, modelo.alt_m || 0);
     if (s.edificios) this.#edificios();
     if (mover && !s.pantalla) {
-      this.pitchPrevio ??= this.map.getPitch();
+      // Vista de antes del primer acercamiento (si se abren varios modelos seguidos, se conserva la primera).
+      this.camaraPrevia ??= { center: this.map.getCenter().toArray(), zoom: this.map.getZoom(), pitch: this.map.getPitch(), bearing: this.map.getBearing() };
       this.map.easeTo({ center: lngLat, zoom: s.zoom ?? this.map.getZoom(), pitch: s.pitch ?? 55, duration: 1400, essential: true });
     }
     if (modelo.tipo === "aeropuerto" && modelo.variante !== "helipuerto") this.map.once("idle", () => this.#alinearPistas());
   }
 
-  /** Quita el modelo; con `restaurar`, regresa la vista a la inclinación que tenía antes del primer modelo. */
+  /** Quita el modelo; con `restaurar` (al cerrar la ficha), regresa la vista (centro, zoom, inclinación y giro) a la que
+   * había antes del primer acercamiento. */
   quitar({ restaurar = true } = {}) {
     if (this.capa) { if (this.map.getLayer(this.capa.id)) this.map.removeLayer(this.capa.id); this.capa.vaciar(); }
     for (const id of ["edificios-3d"]) if (this.map.getLayer(id)) this.map.removeLayer(id);
     this.#quitarFlujo();
     if (restaurar) {
       this.modelo = null;
-      if (this.pitchPrevio != null) this.map.easeTo({ pitch: this.pitchPrevio, duration: 800 });
-      this.pitchPrevio = null;
+      if (this.camaraPrevia) this.map.easeTo({ ...this.camaraPrevia, duration: 1000, essential: true });
+      this.camaraPrevia = null;
     }
   }
 

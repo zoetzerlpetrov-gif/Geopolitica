@@ -1,0 +1,83 @@
+{
+ "descripcion": "Marco normativo de DOMINUS OSINT: leyes, tratados, estándares y metodologías que aplican al proyecto o que conviene conocer para usarlo bien. «relacion» explica dónde toca a DOMINUS. No es asesoría legal: verifica siempre el texto vigente en la fuente oficial (en México, la Cámara de Diputados publica las leyes federales actualizadas y el DOF sus reformas).",
+ "grupos": [
+  {
+   "id": "mx_datos",
+   "titulo": "México: datos personales, transparencia e información",
+   "items": [
+    {"nombre": "Constitución Política de los Estados Unidos Mexicanos, artículos 6 y 16", "emisor": "Congreso de la Unión", "que_es": "El 6 reconoce el derecho de acceso a la información; el 16, el derecho a la protección de datos personales.", "relacion": "Base del enfoque del monitor: usar información pública y no exponer datos personales.", "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPEUM.pdf"},
+    {"nombre": "Ley Federal de Protección de Datos Personales en Posesión de los Particulares", "emisor": "Congreso de la Unión (nueva ley publicada en 2025)", "que_es": "Reglas para que particulares traten datos personales: aviso de privacidad, finalidad, consentimiento y derechos ARCO.", "relacion": "Por esto DOMINUS no guarda datos de personas de redes sociales más allá del enlace público, ni localiza ni sigue a personas.", "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm"},
+    {"nombre": "Ley General de Transparencia y Acceso a la Información Pública", "emisor": "Congreso de la Unión (nueva ley publicada en 2025)", "que_es": "Obligaciones de transparencia de las autoridades y procedimiento de solicitudes de información.", "relacion": "Vía legal para pedir contratos, nóminas o padrones que no están en datos abiertos (Plataforma Nacional de Transparencia).", "url": "https://www.plataformadetransparencia.org.mx/"},
+    {"nombre": "Ley del Sistema Nacional de Información Estadística y Geográfica", "emisor": "Congreso de la Unión", "que_es": "Regula la información de interés nacional que producen el INEGI y otras unidades del Estado.", "relacion": "Distingue la cifra oficial (INEGI, SESNSP, Banxico) de las señales de noticias que muestra el mapa.", "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm"},
+    {"nombre": "Ley Federal del Derecho de Autor", "emisor": "Congreso de la Unión", "que_es": "Protege la expresión original de una obra (el texto de una nota), no los hechos que narra.", "relacion": "Por esto se guardan solo título, medio, fecha, enlace y una imagen del propio medio; nunca el texto completo de las notas.", "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm"}
+   ]
+  },
+  {
+   "id": "mx_integridad",
+   "titulo": "México: anticorrupción, lavado de dinero, fiscal y delitos informáticos",
+   "items": [
+    {"nombre": "Código Fiscal de la Federación, artículo 69-B", "emisor": "Congreso de la Unión", "que_es": "Procedimiento del SAT contra contribuyentes que facturan operaciones simuladas (EFOS) y quienes las deducen (EDOS).", "relacion": "Base del buscador «SAT 69-B» y del verificador de proveedores de la sección Investigación.", "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CFF.pdf"},
+    {"nombre": "Ley Federal para la Prevención e Identificación de Operaciones con Recursos de Procedencia Ilícita (LFPIORPI)", "emisor": "Congreso de la Unión", "que_es": "Actividades vulnerables, avisos a la UIF, identificación del beneficiario controlador.", "relacion": "Marco de las guías de lavado de dinero y empresas fantasma de Investigación.", "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm"},
+    {"nombre": "Ley General de Responsabilidades Administrativas", "emisor": "Congreso de la Unión", "que_es": "Faltas de servidores públicos, conflicto de interés y declaraciones patrimonial, de intereses y fiscal.", "relacion": "Marco de las guías de nepotismo, conflicto de interés y declaraciones patrimoniales.", "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGRA.pdf"},
+    {"nombre": "Ley General del Sistema Nacional Anticorrupción", "emisor": "Congreso de la Unión", "que_es": "Crea el Sistema Nacional Anticorrupción y la Plataforma Digital Nacional (declaraciones, sancionados, contrataciones).", "relacion": "Fuente oficial que la sección Investigación enlaza; su API exige registro.", "url": "https://www.plataformadigitalnacional.org/"},
+    {"nombre": "Código Penal Federal, artículos 211 bis 1 a 211 bis 7 (acceso ilícito a sistemas y equipos de informática)", "emisor": "Congreso de la Unión", "que_es": "Castiga entrar sin autorización a sistemas o copiar su información.", "relacion": "DOMINUS solo lee datos públicos, respeta robots.txt y límites de tasa; nunca evade controles de acceso.", "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPF.pdf"},
+    {"nombre": "Ley de Seguridad Nacional", "emisor": "Congreso de la Unión", "que_es": "Define qué se considera amenaza a la seguridad nacional (art. 5) y cómo se reserva información.", "relacion": "Referencia para las capas de seguridad y para entender por qué cierta información oficial está reservada.", "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm"}
+   ]
+  },
+  {
+   "id": "internacional",
+   "titulo": "Tratados y normas internacionales",
+   "items": [
+    {"nombre": "Reglamento General de Protección de Datos (RGPD/GDPR), Reglamento (UE) 2016/679", "emisor": "Unión Europea", "que_es": "Norma de datos personales de la UE; aplica a quien trate datos de personas en la UE.", "relacion": "Estándar más exigente de privacidad; guía para no perfilar personas.", "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj"},
+    {"nombre": "Convenio 108+ del Consejo de Europa (protección de datos)", "emisor": "Consejo de Europa", "que_es": "Único tratado internacional vinculante sobre protección de datos; México se adhirió al Convenio 108.", "relacion": "Refuerza la regla de no tratar datos personales sin necesidad.", "url": "https://www.coe.int/en/web/data-protection/convention108-and-protocol"},
+    {"nombre": "Convenio de Budapest sobre la Ciberdelincuencia", "emisor": "Consejo de Europa (2001)", "que_es": "Tratado sobre delitos informáticos y cooperación internacional. México no lo ha ratificado (verifica su estado actual).", "relacion": "Contexto de la capa Red y ciberseguridad.", "url": "https://www.coe.int/en/web/cybercrime/the-budapest-convention"},
+    {"nombre": "Protocolo de Berkeley sobre investigaciones digitales de fuentes abiertas", "emisor": "ONU (OACNUDH) y Universidad de California en Berkeley", "que_es": "Estándares para buscar, preservar y verificar información de fuentes abiertas con valor probatorio.", "relacion": "Guía de la cadena de custodia y del verificador de la sección Investigación.", "url": "https://www.ohchr.org/en/publications/policy-and-methodological-publications/berkeley-protocol-digital-open-source"},
+    {"nombre": "Convención de las Naciones Unidas contra la Corrupción (UNCAC)", "emisor": "ONU (2003)", "que_es": "Prevención, penalización, cooperación y recuperación de activos en casos de corrupción.", "relacion": "Marco de las herramientas anticorrupción.", "url": "https://www.unodc.org/unodc/en/corruption/uncac.html"},
+    {"nombre": "Recomendaciones del GAFI (FATF), 40 recomendaciones", "emisor": "Grupo de Acción Financiera Internacional", "que_es": "Estándar mundial contra el lavado de dinero y el financiamiento del terrorismo; listas de jurisdicciones de alto riesgo.", "relacion": "Base de la guía de lavado de dinero y de la exposición por país.", "url": "https://www.fatf-gafi.org/en/publications/Fatfrecommendations/Fatf-recommendations.html"},
+    {"nombre": "Convenio de Berna para la protección de las obras literarias y artísticas", "emisor": "OMPI", "que_es": "Tratado base del derecho de autor; los hechos y noticias del día no son obras protegidas, su redacción sí.", "relacion": "Sustenta guardar solo datos mínimos de cada nota.", "url": "https://www.wipo.int/treaties/en/ip/berne/"},
+    {"nombre": "RFC 9309: Protocolo de exclusión de robots (robots.txt)", "emisor": "IETF (2022)", "que_es": "Cómo un sitio indica qué partes pueden leer los programas automáticos.", "relacion": "Todo lo que DOMINUS descarga pasa antes por el robots.txt del sitio.", "url": "https://www.rfc-editor.org/rfc/rfc9309"}
+   ]
+  },
+  {
+   "id": "iso",
+   "titulo": "Estándares ISO y técnicos",
+   "items": [
+    {"nombre": "ISO/IEC 27001:2022 y 27002:2022", "emisor": "ISO/IEC", "que_es": "Sistema de gestión de seguridad de la información y sus controles.", "relacion": "Las llaves de API viven solo en GitHub Secrets; nada sensible se guarda en el código.", "url": "https://www.iso.org/standard/27001"},
+    {"nombre": "ISO/IEC 27701", "emisor": "ISO/IEC", "que_es": "Extensión de 27001 para gestión de la privacidad.", "relacion": "Minimización de datos personales.", "url": "https://www.iso.org/search.html?q=27701"},
+    {"nombre": "ISO/IEC 27037", "emisor": "ISO/IEC", "que_es": "Identificación, recolección, adquisición y preservación de evidencia digital.", "relacion": "Cadena de custodia (huella SHA-256 de evidencias) en Investigación.", "url": "https://www.iso.org/search.html?q=27037"},
+    {"nombre": "ISO 31000:2018", "emisor": "ISO", "que_es": "Gestión del riesgo: identificar, analizar, evaluar y tratar.", "relacion": "Matriz de riesgo, severidad de eventos y exposición por país.", "url": "https://www.iso.org/standard/65694.html"},
+    {"nombre": "ISO 22301:2019", "emisor": "ISO", "que_es": "Continuidad del negocio.", "relacion": "Alertas cerca de sitios que sigues e inteligencia corporativa (Lote H).", "url": "https://www.iso.org/search.html?q=22301"},
+    {"nombre": "ISO 28000:2022", "emisor": "ISO", "que_es": "Seguridad en la cadena de suministro.", "relacion": "Capa de robo a transporte de carga, rutas y cuellos de botella.", "url": "https://www.iso.org/search.html?q=28000"},
+    {"nombre": "ISO 39001", "emisor": "ISO", "que_es": "Gestión de la seguridad vial.", "relacion": "Capas de carreteras: bloqueos, tomas de casetas y robos.", "url": "https://www.iso.org/search.html?q=39001"},
+    {"nombre": "ISO 37001 y ISO 37301", "emisor": "ISO", "que_es": "Antisoborno y gestión del cumplimiento (compliance).", "relacion": "Guías de debida diligencia de proveedores y focos rojos en contratos.", "url": "https://www.iso.org/search.html?q=37001"},
+    {"nombre": "ISO 3166, ISO 4217, ISO 639 e ISO 8601", "emisor": "ISO", "que_es": "Códigos de países, monedas e idiomas; formato de fechas y horas.", "relacion": "Todo el monitor usa códigos ISO 3166 (MEX, USA) y fechas ISO 8601 en UTC.", "url": "https://www.iso.org/iso-3166-country-codes.html"},
+    {"nombre": "ISO 20022", "emisor": "ISO", "que_es": "Estándar de mensajes financieros (pagos, SWIFT, bancos centrales).", "relacion": "Sección cripto/CBDC del noticiero y capa de pagos (Lote G).", "url": "https://www.iso20022.org/"},
+    {"nombre": "GeoJSON (RFC 7946) y WMTS (OGC)", "emisor": "IETF / Open Geospatial Consortium", "que_es": "Formato de datos geográficos y servicio de mosaicos de mapas.", "relacion": "Formato de todas las capas y de las imágenes de satélite de NASA GIBS.", "url": "https://www.rfc-editor.org/rfc/rfc7946"},
+    {"nombre": "Estándar de Datos de Contrataciones Abiertas (OCDS)", "emisor": "Open Contracting Partnership", "que_es": "Cómo publicar contratos públicos en datos abiertos.", "relacion": "Referencia de los focos rojos en contratos.", "url": "https://standard.open-contracting.org/"},
+    {"nombre": "WCAG 2.2", "emisor": "W3C", "que_es": "Pautas de accesibilidad web.", "relacion": "Contraste, foco de teclado y textos alternativos de la interfaz.", "url": "https://www.w3.org/TR/WCAG22/"}
+   ]
+  },
+  {
+   "id": "metodologia",
+   "titulo": "Metodologías de inteligencia, análisis y ciberseguridad",
+   "items": [
+    {"nombre": "ICD 203: estándares analíticos", "emisor": "Oficina del Director de Inteligencia Nacional de EUA (ODNI)", "que_es": "Objetividad, fuentes descritas, incertidumbre expresada, alternativas consideradas.", "relacion": "Guía de redacción de fichas y del panorama con IA.", "url": "https://www.dni.gov/files/documents/ICD/ICD-203.pdf"},
+    {"nombre": "Lenguaje estimativo (Sherman Kent) y probabilidades", "emisor": "CIA, 1964; adoptado en muchas agencias", "que_es": "Palabras como «probable» o «casi seguro» con rangos de probabilidad.", "relacion": "Guía de lenguaje estimativo (Lote H).", "url": "https://www.cia.gov/resources/csi/static/Words-of-Estimative-Probability.pdf"},
+    {"nombre": "Código Almirantazgo (escala de fiabilidad de fuentes A–F y credibilidad 1–6)", "emisor": "OTAN (AJP-2.1, STANAG 2511)", "que_es": "Califica por separado qué tan fiable es la fuente y qué tan creíble es el dato.", "relacion": "Calificación de fuentes en el banco de trabajo (Lote H).", "url": "https://en.wikipedia.org/wiki/Admiralty_code"},
+    {"nombre": "Análisis de hipótesis en competencia (ACH)", "emisor": "Richards J. Heuer Jr., «Psychology of Intelligence Analysis» (CIA, 1999)", "que_es": "Comparar evidencia contra varias hipótesis para reducir sesgos.", "relacion": "Plantilla ACH del banco de trabajo (Lote H).", "url": "https://www.cia.gov/resources/csi/books-monographs/psychology-of-intelligence-analysis-2/"},
+    {"nombre": "NIST Cybersecurity Framework 2.0", "emisor": "NIST, EUA (2024)", "que_es": "Gobernar, identificar, proteger, detectar, responder y recuperar.", "relacion": "Contexto de la capa Red y ciberseguridad.", "url": "https://www.nist.gov/cyberframework"},
+    {"nombre": "MITRE ATT&CK", "emisor": "MITRE", "que_es": "Catálogo de tácticas y técnicas de atacantes informáticos.", "relacion": "Clasificación de amenazas cibernéticas.", "url": "https://attack.mitre.org/"},
+    {"nombre": "DISARM: marco de desinformación", "emisor": "DISARM Foundation", "que_es": "Catálogo de tácticas y técnicas de campañas de desinformación (inspirado en ATT&CK).", "relacion": "Base de la sección Narrativas y estrategia.", "url": "https://www.disarm.foundation/"},
+    {"nombre": "CAMEO: codificación de eventos políticos", "emisor": "Schrodt y colaboradores; lo usa GDELT", "que_es": "Códigos para tipos de evento (protestas 14, ataques 18–20…).", "relacion": "Capas de ataques, protestas y bloqueos.", "url": "https://parusanalytics.com/eventdata/data.dir/cameo.html"}
+   ]
+  },
+  {
+   "id": "etica",
+   "titulo": "Ética de fuentes abiertas y del propio proyecto",
+   "items": [
+    {"nombre": "Reglas propias de DOMINUS OSINT", "emisor": "Este proyecto", "que_es": "Ninguna llave en el código; respeto de robots.txt, límites de tasa y términos de servicio; sin texto completo de notas; sin localizar ni seguir personas; sin datos de dueños de aeronaves ni aviación general.", "relacion": "Aplican a todas las capas y herramientas.", "url": "SOURCES.md"},
+    {"nombre": "Guías de investigación de Bellingcat", "emisor": "Bellingcat", "que_es": "Métodos de verificación de imágenes, geolocalización y fuentes abiertas.", "relacion": "Referencia del verificador y de la foto forense.", "url": "https://www.bellingcat.com/category/resources/how-tos/"}
+   ]
+  }
+ ]
+}
