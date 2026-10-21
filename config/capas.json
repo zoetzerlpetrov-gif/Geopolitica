@@ -210,7 +210,7 @@
    "fuente": "wikidata",
    "habilitada": true,
    "zoom_etiquetas": 7,
-   "nota": "Wikidata (CC0) para campos y plataformas con ficha; OpenStreetMap (ODbL) para plataformas marinas. No incluye pozos individuales (≈ 340 mil en OSM). Borde oscuro = operada por una compañía con sede en otro país; la ficha muestra la compañía, la bandera de su sede y si es estatal."
+   "nota": "Wikidata (CC0) para todos los campos y plataformas con coordenada (≈ 6 mil); OpenStreetMap (ODbL) para plataformas marinas. No incluye pozos individuales (≈ 340 mil en OSM). Borde oscuro = operada por una compañía con sede en otro país; la ficha muestra la compañía, la bandera de su sede y si es estatal."
   },
   {
    "id": "espacio",

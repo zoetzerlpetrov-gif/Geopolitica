@@ -197,6 +197,19 @@
     {"rx": "lotus resources", "n": "Lotus Resources", "a2": "AU", "a3": "AUS"},
     {"rx": "petropars", "n": "Petropars", "a2": "IR", "a3": "IRN", "estatal": true},
     {"rx": "citic resources", "n": "CITIC Resources", "a2": "CN", "a3": "CHN", "estatal": true},
-    {"rx": "petroceltic", "n": "Petroceltic", "a2": "IE", "a3": "IRL"}
+    {"rx": "petroceltic", "n": "Petroceltic", "a2": "IE", "a3": "IRL"},
+    {"rx": "tecpetrol", "n": "Tecpetrol (Techint)", "a2": "AR", "a3": "ARG"},
+    {"rx": "oilstone", "n": "Oilstone Energía", "a2": "AR", "a3": "ARG"},
+    {"rx": "eldorado gold", "n": "Eldorado Gold", "a2": "CA", "a3": "CAN"},
+    {"rx": "polymetal", "n": "Polymetal", "a2": "KZ", "a3": "KAZ"},
+    {"rx": "shanta gold", "n": "Shanta Gold", "a2": "GB", "a3": "GBR"},
+    {"rx": "glamis gold", "n": "Glamis Gold (Goldcorp)", "a2": "CA", "a3": "CAN"},
+    {"rx": "national iranian copper", "n": "National Iranian Copper Industries", "a2": "IR", "a3": "IRN", "estatal": true},
+    {"rx": "mongolyn alt", "n": "Mongolyn Alt (MAK)", "a2": "MN", "a3": "MNG"},
+    {"rx": "rautaruukki", "n": "Rautaruukki (SSAB)", "a2": "FI", "a3": "FIN"},
+    {"rx": "genesis minerals", "n": "Genesis Minerals", "a2": "AU", "a3": "AUS"},
+    {"rx": "rodinia lithium", "n": "Rodinia Lithium", "a2": "CA", "a3": "CAN"},
+    {"rx": "simec", "n": "SIMEC (GFG Alliance)", "a2": "GB", "a3": "GBR"},
+    {"rx": "quintana e&p|quintana energy", "n": "Quintana E&P", "a2": "AR", "a3": "ARG"}
   ]
 }
