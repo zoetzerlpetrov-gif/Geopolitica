@@ -270,3 +270,16 @@ No hay una fuente abierta y mundial de cortes de luz o de agua. poweroutage.us (
 | Global Shipping Lanes v1 (P. Benden, 2022; Zenodo 10.5281/zenodo.6361763), trazadas del «Map of the World's Oceans» de la CIA (2012) | Familia «Rutas marítimas del mundo»: principales, secundarias y menores | CC BY 4.0 (excluye a Statista) |
 
 Son rutas de referencia del mapa de la CIA, no la derrota exacta de cada barco. El tráfico real se ve en «En movimiento → Buques» (AIS). Una alternativa con densidad de tráfico real es el «Global Shipping Traffic Density» del Banco Mundial y el FMI (ráster de AIS, CC BY 4.0), que pesa varios cientos de MB.
+
+## Noticiero DOMINUS e indicadores (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Feeds RSS de ~70 medios, agencias, organismos y verificadores (lista y tipo de cada medio en `config/noticiero.json`) | Titulares de las 30 secciones de `noticiero.html` | Sin llave; solo si el robots.txt del sitio lo permite | Se guardan título, medio, fecha, enlace e imagen que el medio declara; nunca el texto |
+| GDELT GKG 2.1 (los mismos archivos que tornados) | Titulares extra en 14 secciones con filtro estricto («gkg») | Sin llave | Uso libre con cita a GDELT |
+| Banco de México, API SIE | Tipo de cambio FIX, euro, yen, yuan; tasa objetivo, TIIE, CETES, Bonos M, Udibonos, inflación INPC, reservas | Secreto `BANXICO_API_KEY` | Términos de uso del SIE, con crédito |
+| Banco Central Europeo (tipos de referencia) y Banco Central de Rusia | EUR/USD y cruces contra el dólar; rublo | Sin llave | Uso libre con crédito |
+| Departamento del Tesoro de EUA (curva diaria, CSV) | Rendimientos de letras y bonos del Tesoro | Sin llave, cada 6 h | Dominio público |
+| Kraken (API pública) | Precio de BTC, ETH, XRP y XLM en dólares | Sin llave | Precio de una casa de cambio, no oficial |
+
+Descartadas por su robots.txt: CoinGecko, MarketWatch, Mining.com, El Universal, El País, AFP Factual, International Crisis Group, Foro Económico Mundial, FXStreet (inglés), BLS (feed y API), T21 y SinEmbargo. Índices bursátiles (S&P 500, Dow, IPC, Russell 2000, VIX) y metales no tienen fuente oficial gratuita reproducible: la página enlaza a quien los calcula. Nada es recomendación de inversión.

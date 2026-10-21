@@ -2,7 +2,7 @@
 // Ejecutar:  node --test "tests/js/*.test.mjs"
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { muestrear, decodificar, colorVelocidad, etiquetaPaso, leyenda, VELOCIDADES } from "../../js/clima.js";
+import { muestrear, decodificar, colorVelocidad, etiquetaPaso, leyenda, VELOCIDADES, leerDominio, cuadrosPublicados } from "../../js/clima.js";
 
 function rejilla(fn) {
   const ancho = 360, alto = 181, u = new Float32Array(ancho * alto), v = new Float32Array(ancho * alto);
@@ -44,4 +44,23 @@ test("etiqueta del horizonte: ahora, +h", () => {
   const t0 = Date.parse("2026-10-08T18:00:00Z");
   assert.match(etiquetaPaso("2026-10-08T19:00:00Z", t0), /^≈ ahora · /);
   assert.match(etiquetaPaso("2026-10-09T18:00:00Z", t0), /^\+24 h · /);
+});
+
+test("leerDominio expande intervalos y momentos sueltos de GIBS", () => {
+  const xml = "<Domains><DimensionDomain><Domain>2026-10-21T13:50:00Z/2026-10-21T14:10:00Z/PT10M,2026-10-21T14:30:00Z/2026-10-21T14:30:00Z/PT10M</Domain></DimensionDomain></Domains>";
+  assert.deepEqual(leerDominio(xml), ["2026-10-21T13:50:00Z", "2026-10-21T14:00:00Z", "2026-10-21T14:10:00Z", "2026-10-21T14:30:00Z"]);
+  assert.deepEqual(leerDominio("<Domain>2026-10-21T15:00:00Z</Domain>"), ["2026-10-21T15:00:00Z"]);
+  assert.deepEqual(leerDominio("sin dominio"), []);
+});
+
+test("cuadrosPublicados: cada capa usa su imagen publicada más reciente y no repite cuadros", () => {
+  const este = ["2026-10-21T14:00:00Z", "2026-10-21T14:30:00Z"];
+  const oeste = ["2026-10-21T14:20:00Z", "2026-10-21T14:30:00Z", "2026-10-21T14:40:00Z", "2026-10-21T15:00:00Z"];
+  const c = cuadrosPublicados([oeste, este], 4);
+  assert.deepEqual(c.map((x) => x.t), ["2026-10-21T14:20:00Z", "2026-10-21T14:30:00Z", "2026-10-21T14:40:00Z", "2026-10-21T15:00:00Z"]);
+  assert.deepEqual(c[0].capas, ["2026-10-21T14:20:00Z", "2026-10-21T14:00:00Z"]);
+  assert.deepEqual(c[3].capas, ["2026-10-21T15:00:00Z", "2026-10-21T14:30:00Z"]);
+  // Momentos donde ninguna capa cambia se juntan en uno.
+  assert.equal(cuadrosPublicados([["a1", "a2"], ["a1", "a2"]], 8).length, 2);
+  assert.equal(cuadrosPublicados([oeste, []], 8), null);
 });

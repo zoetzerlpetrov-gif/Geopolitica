@@ -1,0 +1,637 @@
+{
+ "descripcion": "Noticiero DOMINUS: 30 secciones. Cada una junta titulares de dos vías: (1) feeds RSS elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
+ "secciones": [
+  {
+   "id": "geopolitica",
+   "titulo": "Geopolítica, guerras y conflictos (varias miradas)",
+   "nota": "Mezcla agencias, medios públicos, medios estatales de otros países e independientes críticos de la política exterior de EUA y Europa. Compara versiones: cada medio tiene intereses. Los medios estatales responden a su gobierno.",
+   "palabras": "guerra|war\\b|conflict|conflicto|ofensiva|offensive|ataque|attack|misil|missile|dron|drone|tropas|troops|sanci[oó]n|sanction|otan|nato|invasi[oó]n|invasion|alto el fuego|ceasefire|frente|frontline|geopol",
+   "feeds": [
+    {
+     "nombre": "Al Jazeera",
+     "url": "https://www.aljazeera.com/xml/rss/all.xml",
+     "tipo": "Medio público de Catar"
+    },
+    {
+     "nombre": "BBC World",
+     "url": "https://feeds.bbci.co.uk/news/world/rss.xml",
+     "tipo": "Medio público del Reino Unido"
+    },
+    {
+     "nombre": "DW Español",
+     "url": "https://rss.dw.com/rdf/rss-sp-all",
+     "tipo": "Medio público de Alemania"
+    },
+    {
+     "nombre": "Responsible Statecraft",
+     "url": "https://responsiblestatecraft.org/feed/",
+     "tipo": "Revista del Quincy Institute (no intervencionista)"
+    },
+    {
+     "nombre": "The Intercept",
+     "url": "https://theintercept.com/feed/?rss",
+     "tipo": "Periodismo de investigación independiente"
+    },
+    {
+     "nombre": "Middle East Eye",
+     "url": "https://www.middleeasteye.net/rss",
+     "tipo": "Medio independiente con sede en Londres"
+    },
+    {
+     "nombre": "Consortium News",
+     "url": "https://consortiumnews.com/feed/",
+     "tipo": "Medio independiente crítico de la política exterior de EUA"
+    },
+    {
+     "nombre": "RT en Español",
+     "url": "https://actualidad.rt.com/feeds/all.rss",
+     "tipo": "Medio estatal ruso (sancionado en la UE)"
+    },
+    {
+     "nombre": "CGTN",
+     "url": "https://www.cgtn.com/subscribe/rss/section/world.xml",
+     "tipo": "Medio estatal chino"
+    },
+    {
+     "nombre": "France 24 Español",
+     "url": "https://www.france24.com/es/rss",
+     "tipo": "Medio público de Francia"
+    }
+   ]
+  },
+  {
+   "id": "economia",
+   "titulo": "Economía, finanzas y política económica global (FED, FEM, BRICS, G7, OTAN)",
+   "palabras": "econom|inflaci|inflation|fed\\b|reserva federal|federal reserve|banco central|central bank|brics|g7\\b|g20\\b|foro econ[oó]mico mundial|world economic forum|davos|fmi\\b|imf\\b|banco mundial|world bank|recesi[oó]n|recession|pib\\b|gdp\\b|arancel|tariff|deuda|debt",
+   "feeds": [
+    {
+     "nombre": "El Economista",
+     "url": "https://www.eleconomista.com.mx/rss/ultimas-noticias",
+     "tipo": "Diario de negocios de México"
+    },
+    {
+     "nombre": "El Financiero",
+     "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+     "tipo": "Diario de negocios de México"
+    },
+    {
+     "nombre": "Expansión",
+     "url": "https://expansion.mx/rss",
+     "tipo": "Revista de negocios de México"
+    },
+    {
+     "nombre": "ZeroHedge",
+     "url": "https://feeds.feedburner.com/zerohedge/feed",
+     "tipo": "Blog financiero contrario al consenso (sin firmas)"
+    },
+    {
+     "nombre": "Reserva Federal (comunicados)",
+     "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+     "tipo": "Banco central de EUA (fuente oficial)"
+    }
+   ]
+  },
+  {
+   "id": "oro",
+   "titulo": "Oro, reservas y bancos centrales (patrón oro, desdolarización)",
+   "palabras": "\\boro\\b|\\bgold\\b|reservas de oro|gold reserves|patr[oó]n oro|gold standard|bancos? centrales? (compra|buy)|desdolarizaci|de-?dollari|reinicio global|great reset|bonos? de oro|gold bonds?",
+   "feeds": [],
+   "gkg": "gold prices?|precio del oro|gold (futures|reserves|holdings|demand|rall(y|ies)|hits|jumps|falls|slips|climbs|record|bullion)|reservas de oro|el oro (sube|baja|alcanza|toca|cae)|central banks?\\b.{0,40}\\bgold|bancos? centrales?\\b.{0,40}\\boro\\b|de-?dollari[sz]ation|desdolarizaci[oó]n"
+  },
+  {
+   "id": "cripto",
+   "titulo": "Criptomonedas, Ripple e ISO 20022",
+   "palabras": "bitcoin|btc\\b|xrp\\b|ripple|stellar|xlm\\b|ethereum|ether\\b|criptomoneda|cryptocurrenc|crypto\\b|cripto\\b|iso 20022|iso20022|blockchain|stablecoin",
+   "feeds": [
+    {
+     "nombre": "CoinDesk",
+     "url": "https://www.coindesk.com/arc/outboundfeeds/rss/",
+     "tipo": "Medio especializado en cripto"
+    },
+    {
+     "nombre": "Decrypt",
+     "url": "https://decrypt.co/feed",
+     "tipo": "Medio especializado en cripto"
+    }
+   ]
+  },
+  {
+   "id": "metales",
+   "titulo": "Metales preciosos, materias primas y commodities",
+   "palabras": "plata|silver|platino|platinum|paladio|palladium|cobre|copper|litio|lithium|materias primas|commodit|petr[oó]leo|crude|brent|wti\\b|trigo|wheat|ma[ií]z|corn\\b|soya|soybean|caf[eé]|coffee|cacao|cocoa|az[uú]car|sugar",
+   "feeds": [
+    {
+     "nombre": "Mining Technology",
+     "url": "https://www.mining-technology.com/feed/",
+     "tipo": "Medio de la industria minera (Reino Unido)"
+    },
+    {
+     "nombre": "The Northern Miner",
+     "url": "https://www.northernminer.com/feed/",
+     "tipo": "Medio de la industria minera (Canadá)"
+    },
+    {
+     "nombre": "Rumbo Minero",
+     "url": "https://www.rumbominero.com/feed/",
+     "tipo": "Medio de minería y energía (Perú)"
+    }
+   ],
+   "gkg": "silver prices?|precio de la plata|copper prices?|precio del cobre|lithium|litio|platinum price|palladium|paladio|rare earths?|tierras raras|iron ore|mineral de hierro|commodit(y|ies) (prices|markets?)|materias primas"
+  },
+  {
+   "id": "inmobiliario",
+   "titulo": "Bienes raíces en México, EUA y el mundo; FIBRAS",
+   "palabras": "inmobiliari|bienes ra[ií]ces|real estate|vivienda|housing|hipoteca|mortgage|fibra\\b|fibras\\b|reit|renta de|rents?\\b|naves industriales|industrial parks?|plusval",
+   "feeds": [
+    {
+     "nombre": "Inmobiliare",
+     "url": "https://inmobiliare.com/feed/",
+     "tipo": "Revista inmobiliaria de México"
+    }
+   ],
+   "gkg": "housing market|mercado inmobiliario|home prices|precios de (la )?vivienda|mortgage rates?|tasas? hipotecari|fibras? (inmobiliari|mexicanas|danhos|uno|macquarie|prologis|monterrey)|reits?\\b|bienes ra[ií]ces|real estate (market|prices|investment)|commercial real estate|infonavit"
+  },
+  {
+   "id": "empresas",
+   "titulo": "Empresas: problemas financieros, quiebras, alzas y caídas, inversiones",
+   "palabras": "quiebra|bankruptcy|chapter 11|concurso mercantil|despidos|layoffs|default|impago|reestructura|restructur|acciones (suben|caen|se desploman)|shares (fall|rise|plunge|soar|jump)|stock (plunge|soar|jump|tumble)|ganancias|earnings|inversi[oó]n de|invest(s|ment) \\$|adquisici[oó]n|acquisition|fusi[oó]n|merger",
+   "feeds": [
+    {
+     "nombre": "CNBC (negocios)",
+     "url": "https://www.cnbc.com/id/10001147/device/rss/rss.html",
+     "tipo": "Televisora de negocios de EUA"
+    }
+   ],
+   "gkg": "bankruptcy|quiebra|chapter 11|concurso mercantil|layoffs|despidos (masivos|de)|profit warning|shares (plunge|soar|tumble|surge|jump|sink|slump)|stock (plunges|soars|tumbles|surges|jumps|sinks|slumps)|acciones (se desploman|se disparan|caen|suben)|quarterly (results|earnings)|resultados trimestrales|initial public offering|\\bipo\\b|oferta p[uú]blica inicial|merger|fusi[oó]n|adquisici[oó]n de"
+  },
+  {
+   "id": "indicadores",
+   "titulo": "Indicadores: inflación, tasas, desempleo, bolsas (S&P 500, Dow, IPC, Russell 2000, VIX)",
+   "palabras": "s&p ?500|dow jones|nasdaq|russell 2000|\\bvix\\b|\\bipc\\b|bmv\\b|bolsa mexicana|wall street|desempleo|unemployment|tasa de inter[eé]s|interest rate|inflaci[oó]n|inflation|inegi|banxico",
+   "feeds": [],
+   "gkg": "s&p 500|dow jones|nasdaq composite|russell 2000|vix\\b|bolsa mexicana|bmv\\b|wall street (closes|cierra|sube|cae|rall)|inflaci[oó]n (anual|en m[eé]xico|en ee\\.? ?uu|subyacente)|consumer price index|cpi\\b|nonfarm payrolls|n[oó]minas no agr[ií]colas|unemployment rate|tasa de desempleo|desocupaci[oó]n"
+  },
+  {
+   "id": "forex",
+   "titulo": "Forex y divisas (EUR/USD, USD/MXN, rublo, yen, yuan, rupia)",
+   "palabras": "peso mexicano|superpeso|tipo de cambio|exchange rate|d[oó]lar|dollar|\\beuro\\b|yen\\b|yuan|renminbi|rublo|ruble|rupia|rupee|divisas|forex|currenc",
+   "feeds": [
+    {
+     "nombre": "FXStreet Español",
+     "url": "https://www.fxstreet.es/rss/news",
+     "tipo": "Portal especializado en divisas"
+    }
+   ],
+   "gkg": "peso mexicano|superpeso|usd/mxn|tipo de cambio|eur/usd|euro (falls|rises|hits|slips)|yen (falls|weakens|strengthens|hits|slides)|yuan (falls|weakens|strengthens|hits)|ruble|rublo|rupee (falls|hits|weakens|slides)|rupia|dollar index|[ií]ndice del d[oó]lar"
+  },
+  {
+   "id": "cbdc",
+   "titulo": "CBDC, stablecoins y comercio global",
+   "palabras": "cbdc|moneda digital (de banco central|soberana)|central bank digital|e-?yuan|yuan digital|euro digital|digital euro|stablecoin|usdt|usdc|tether|swift\\b|mbridge|comercio (global|mundial|exterior)|global trade|world trade|omc\\b|wto\\b",
+   "feeds": [
+    {
+     "nombre": "Banco de Pagos Internacionales",
+     "url": "https://www.bis.org/doclist/all_pressrels.rss",
+     "tipo": "Organismo de bancos centrales (fuente oficial)"
+    },
+    {
+     "nombre": "Ledger Insights",
+     "url": "https://www.ledgerinsights.com/feed/",
+     "tipo": "Medio especializado en blockchain empresarial"
+    }
+   ],
+   "gkg": "cbdc|central bank digital currenc|moneda digital de banco central|digital euro|euro digital|e-?cny\\b|digital yuan|yuan digital|digital rupee|e-?rupee|stablecoins?\\b|genius act|mbridge|project agor[aá]"
+  },
+  {
+   "id": "energia",
+   "titulo": "Energía, petróleo, hidrocarburos y minería",
+   "palabras": "petr[oó]leo|oil\\b|crude|gas natural|natural gas|\\bgnl\\b|\\blng\\b|opep|opec|pemex|cfe\\b|refiner|refinery|miner[ií]a|mining|mina\\b|mine\\b|hidrocarburo|hydrocarbon|renovable|renewable|solar|e[oó]lic|wind power|nuclear|uranio|uranium|litio|lithium",
+   "feeds": [
+    {
+     "nombre": "Energía a Debate",
+     "url": "https://www.energiaadebate.com/feed/",
+     "tipo": "Revista de energía de México"
+    },
+    {
+     "nombre": "OilPrice.com",
+     "url": "https://oilprice.com/rss/main",
+     "tipo": "Medio especializado en energía"
+    },
+    {
+     "nombre": "Rumbo Minero",
+     "url": "https://www.rumbominero.com/feed/",
+     "tipo": "Medio de minería y energía (Perú)"
+    },
+    {
+     "nombre": "Mining Technology",
+     "url": "https://www.mining-technology.com/feed/",
+     "tipo": "Medio de la industria minera (Reino Unido)"
+    }
+   ]
+  },
+  {
+   "id": "sectores",
+   "titulo": "Sectores: automotriz, aéreo, salud, agro, ganadero, puertos, construcción, turismo, TI, retail, belleza",
+   "palabras": "automotri|automotive|automaker|armadora|aerol[ií]nea|airline|aeropuerto|airport|grupo aeroportuario|oma\\b|gap\\b|asur\\b|aeron[aá]utic|aerospace|agr[ií]col|agricultur|ganad|livestock|puerto de|port of|naviera|shipping|construcci[oó]n|construction|hotel|turismo|tourism|retail|minorista|walmart|e-?commerce|comercio electr[oó]nico",
+   "feeds": [
+    {
+     "nombre": "Simple Flying",
+     "url": "https://simpleflying.com/feed/",
+     "tipo": "Medio de aviación"
+    },
+    {
+     "nombre": "Splash247",
+     "url": "https://splash247.com/feed/",
+     "tipo": "Medio de la industria marítima y portuaria"
+    }
+   ]
+  },
+  {
+   "id": "nearshoring",
+   "titulo": "Nearshoring en México",
+   "palabras": "nearshoring|relocalizaci[oó]n|friendshoring|reshoring|parques industriales|industrial parks?|inversi[oó]n extranjera directa|foreign direct investment|\\bied\\b|\\bfdi\\b|t-?mec|usmca",
+   "feeds": [
+    {
+     "nombre": "Mexico News Daily",
+     "url": "https://mexiconewsdaily.com/feed/",
+     "tipo": "Medio en inglés sobre México"
+    }
+   ],
+   "gkg": "nearshoring|relocalizaci[oó]n de (empresas|cadenas|la producci)|friend-?shoring|reshoring|parques? industriales?|inversi[oó]n extranjera directa|t-?mec\\b|usmca\\b"
+  },
+  {
+   "id": "bonos",
+   "titulo": "CETES, bonos de EUA y México, Udibonos, Bondes D, PRLV",
+   "palabras": "cetes|udibono|bondes|prlv|bonos? del tesoro|treasur(y|ies)|bond yields?|rendimiento de los bonos|bono a 10 a[nñ]os|10-year|subasta de valores|deuda soberana|sovereign debt",
+   "feeds": [
+    {
+     "nombre": "Reserva Federal (comunicados)",
+     "url": "https://www.federalreserve.gov/feeds/press_all.xml",
+     "tipo": "Banco central de EUA (fuente oficial)"
+    }
+   ],
+   "gkg": "cetes\\b|udibonos?\\b|bondes\\b|treasury yields?|bond yields?|rendimientos? de (los )?bonos|bonos del tesoro|10-year (yield|treasury|note)|subasta de valores gubernamentales|yield curve|curva de rendimiento"
+  },
+  {
+   "id": "clima",
+   "titulo": "Clima: sismos, huracanes, frentes fríos, olas de calor y pronóstico",
+   "palabras": "sismo|terremoto|earthquake|hurac[aá]n|hurricane|cicl[oó]n|cyclone|tif[oó]n|typhoon|tormenta|storm|frente fr[ií]o|cold front|ola de calor|heat ?wave|inundaci|flood|sequ[ií]a|drought|incendio forestal|wildfire|pron[oó]stico del clima|weather forecast|smn\\b|conagua",
+   "feeds": [
+    {
+     "nombre": "Centro Nacional de Huracanes (Atlántico)",
+     "url": "https://www.nhc.noaa.gov/index-at.xml",
+     "tipo": "Servicio meteorológico de EUA (fuente oficial)"
+    },
+    {
+     "nombre": "Centro Nacional de Huracanes (Pacífico)",
+     "url": "https://www.nhc.noaa.gov/index-ep.xml",
+     "tipo": "Servicio meteorológico de EUA (fuente oficial)"
+    },
+    {
+     "nombre": "Severe Weather Europe",
+     "url": "https://www.severe-weather.eu/feed/",
+     "tipo": "Portal meteorológico europeo"
+    }
+   ],
+   "gkg": "hurricane|hurac[aá]n|tropical storm|tormenta tropical|typhoon|tif[oó]n|cyclone|cicl[oó]n|frente fr[ií]o|cold front|heat ?wave|ola de calor|tornado|blizzard warning|ventisca|inundaciones|flash flood|sequ[ií]a\\b|drought|storm \\w+ (warning|hits|batters|makes landfall)|amber warning|red warning|pron[oó]stico del (clima|tiempo)|conagua|servicio meteorol[oó]gico"
+  },
+  {
+   "id": "agenda2030",
+   "titulo": "Agenda 2030 y 2045",
+   "palabras": "agenda 2030|agenda 2045|objetivos de desarrollo sostenible|sustainable development goals|\\bods\\b|\\bsdgs?\\b|net zero|cero emisiones|carbono neutral|carbon neutral|cop3\\d",
+   "feeds": [
+    {
+     "nombre": "ONU Objetivos de Desarrollo Sostenible",
+     "url": "https://www.un.org/sustainabledevelopment/es/feed/",
+     "tipo": "Organización de las Naciones Unidas (fuente oficial)"
+    },
+    {
+     "nombre": "Carbon Brief",
+     "url": "https://www.carbonbrief.org/feed/",
+     "tipo": "Medio especializado en clima y energía"
+    }
+   ],
+   "gkg": "agenda 2030|agenda 2045|sustainable development goals|objetivos de desarrollo sostenible|sdgs?\\b|net[- ]zero|cero emisiones netas|cop ?3\\d\\b|carbon (tax|market|credits?)|bonos de carbono|mercado de carbono"
+  },
+  {
+   "id": "belleza_moda",
+   "titulo": "Belleza y moda: mercado, gasto, comercio y tendencias",
+   "palabras": "belleza|beauty|cosm[eé]tic|cosmetic|moda\\b|fashion|l'or[eé]al|est[eé]e lauder|sephora|skincare|perfum|lujo|luxury|textil|apparel|ropa",
+   "feeds": [
+    {
+     "nombre": "Vogue México",
+     "url": "https://www.vogue.mx/feed/rss",
+     "tipo": "Revista de moda"
+    },
+    {
+     "nombre": "Glamour México",
+     "url": "https://www.glamour.mx/feed/rss",
+     "tipo": "Revista de moda y belleza"
+    }
+   ]
+  },
+  {
+   "id": "tecnologia",
+   "titulo": "Tecnología y empresas de TI",
+   "palabras": "inteligencia artificial|artificial intelligence|\\bia\\b|\\bai\\b|chatgpt|openai|anthropic|nvidia|apple|microsoft|google|alphabet|amazon|meta\\b|semiconductor|chip|ciberseguridad|cybersecurity|software|startup",
+   "feeds": [
+    {
+     "nombre": "Xataka México",
+     "url": "https://www.xataka.com.mx/feedburner.xml",
+     "tipo": "Medio de tecnología"
+    },
+    {
+     "nombre": "Ars Technica",
+     "url": "https://feeds.arstechnica.com/arstechnica/index",
+     "tipo": "Medio de tecnología"
+    },
+    {
+     "nombre": "The Verge",
+     "url": "https://www.theverge.com/rss/index.xml",
+     "tipo": "Medio de tecnología de EUA"
+    },
+    {
+     "nombre": "TechCrunch",
+     "url": "https://techcrunch.com/feed/",
+     "tipo": "Medio de tecnología y startups de EUA"
+    }
+   ]
+  },
+  {
+   "id": "cultura",
+   "titulo": "Cultura: fotografía, teatro, artes, literatura y danza",
+   "palabras": "cultura\\b|museo|museum|exposici[oó]n|exhibition|teatro|theatre|theater|danza|dance|ballet|literatura|literature|novela|novel\\b|poes[ií]a|poetry|fotograf|photograph|pintura|painting|bienal|biennale|feria del libro|book fair|premio nobel de literatura",
+   "feeds": [
+    {
+     "nombre": "La Jornada (cultura)",
+     "url": "https://www.jornada.com.mx/rss/cultura.xml?v=1",
+     "tipo": "Diario de México"
+    },
+    {
+     "nombre": "Hyperallergic",
+     "url": "https://hyperallergic.com/feed/",
+     "tipo": "Revista de arte de EUA"
+    }
+   ]
+  },
+  {
+   "id": "gastronomia_viajes",
+   "titulo": "Gastronomía, viajes y turismo",
+   "palabras": "gastronom|restaurante|restaurant|chef\\b|michelin|cocina|cuisine|receta|recipe|viaje|travel|turismo|tourism|turista|tourist|destino|destination|crucero|cruise|vuelos baratos|hotel",
+   "feeds": [
+    {
+     "nombre": "Animal Gourmet",
+     "url": "https://www.animalgourmet.com/feed/",
+     "tipo": "Medio de gastronomía de México"
+    },
+    {
+     "nombre": "Skift",
+     "url": "https://skift.com/feed/",
+     "tipo": "Medio de la industria turística"
+    },
+    {
+     "nombre": "Food & Wine en Español",
+     "url": "https://www.foodandwineespanol.com/feed/",
+     "tipo": "Revista de gastronomía"
+    }
+   ]
+  },
+  {
+   "id": "blockchain",
+   "titulo": "Blockchain y nuevas tecnologías",
+   "palabras": "blockchain|cadena de bloques|tokeniza|tokeniz|web3|nft\\b|computaci[oó]n cu[aá]ntica|quantum comput|rob[oó]tica|robotics|biotecnolog|biotech|realidad (virtual|aumentada)|virtual reality|augmented reality|internet de las cosas|internet of things|\\b6g\\b|fusi[oó]n nuclear|nuclear fusion",
+   "feeds": [
+    {
+     "nombre": "Decrypt",
+     "url": "https://decrypt.co/feed",
+     "tipo": "Medio especializado en cripto"
+    },
+    {
+     "nombre": "The Block",
+     "url": "https://www.theblock.co/rss.xml",
+     "tipo": "Medio especializado en cripto"
+    },
+    {
+     "nombre": "Ledger Insights",
+     "url": "https://www.ledgerinsights.com/feed/",
+     "tipo": "Medio especializado en blockchain empresarial"
+    }
+   ]
+  },
+  {
+   "id": "infantil",
+   "titulo": "Niñas y niños: eventos, películas, teatro, museos y parques",
+   "palabras": "infantil|para ni[nñ]os|for kids|children'?s|familia(r)?\\b|family-friendly|parque de diversiones|theme park|disney|pixar|museo del ni[nñ]o|papalote|zool[oó]gico|zoo\\b|vacaciones de (verano|invierno)|d[ií]a del ni[nñ]o",
+   "feeds": [
+    {
+     "nombre": "BBC Newsround",
+     "url": "https://feeds.bbci.co.uk/newsround/rss.xml",
+     "tipo": "Noticiero infantil de la BBC (Reino Unido)"
+    },
+    {
+     "nombre": "Science News Explores",
+     "url": "https://www.snexplores.org/feed",
+     "tipo": "Revista de ciencia para jóvenes (EUA)"
+    },
+    {
+     "nombre": "NASA Ciencia (español)",
+     "url": "https://ciencia.nasa.gov/feed/",
+     "tipo": "Agencia espacial de EUA (fuente oficial)"
+    }
+   ]
+  },
+  {
+   "id": "espectaculos",
+   "titulo": "Espectáculos, cultura y entretenimiento",
+   "palabras": "pel[ií]cula|movie|film\\b|serie\\b|series\\b|netflix|hbo|disney\\+|concierto|concert|gira\\b|tour\\b|festival|premios|awards|oscar|grammy|emmy|taquilla|box office|cantante|singer|actor|actriz|actress",
+   "feeds": [
+    {
+     "nombre": "Variety",
+     "url": "https://variety.com/feed/",
+     "tipo": "Revista de la industria del entretenimiento"
+    },
+    {
+     "nombre": "Billboard",
+     "url": "https://www.billboard.com/feed/",
+     "tipo": "Revista de la industria musical"
+    },
+    {
+     "nombre": "The Hollywood Reporter",
+     "url": "https://www.hollywoodreporter.com/feed/",
+     "tipo": "Revista de la industria del entretenimiento"
+    }
+   ]
+  },
+  {
+   "id": "organismos",
+   "titulo": "Organismos internacionales (ONU, OMS, UNICEF, OTAN, Banco Mundial)",
+   "palabras": "\\bonu\\b|naciones unidas|united nations|\\bun\\b secretary|\\boms\\b|\\bwho\\b|organizaci[oó]n mundial de la salud|world health organization|unicef|acnur|unhcr|otan|nato|banco mundial|world bank|\\bfmi\\b|\\bimf\\b|\\boea\\b|\\boas\\b|uni[oó]n europea|european union|consejo de seguridad|security council",
+   "feeds": [
+    {
+     "nombre": "Noticias ONU",
+     "url": "https://news.un.org/feed/subscribe/es/news/all/rss.xml",
+     "tipo": "Servicio de noticias de la ONU"
+    },
+    {
+     "nombre": "Banco de Pagos Internacionales",
+     "url": "https://www.bis.org/doclist/all_pressrels.rss",
+     "tipo": "Organismo de bancos centrales (fuente oficial)"
+    },
+    {
+     "nombre": "Organización Mundial del Comercio",
+     "url": "https://www.wto.org/library/rss/latest_news_e.xml",
+     "tipo": "Organismo internacional (fuente oficial)"
+    }
+   ]
+  },
+  {
+   "id": "eventos_impacto",
+   "titulo": "Eventos atmosféricos y su impacto económico (pérdidas y ganancias)",
+   "palabras": "(p[eé]rdidas|da[nñ]os|losses|damage|seguros|insur|reaseguro|reinsur|cat bond|bono catastr[oó]fico).{0,60}(hurac[aá]n|hurricane|sismo|earthquake|inundaci|flood|sequ[ií]a|drought|incendio|wildfire|tormenta|storm|helada|frost|granizo|hail)|(hurac[aá]n|hurricane|sismo|earthquake|inundaci|flood|sequ[ií]a|drought|incendio|wildfire|tormenta|storm|helada|frost).{0,60}(p[eé]rdidas|da[nñ]os|losses|damage|cosechas|crops|precios|prices|aseguradoras|insurers)",
+   "feeds": [
+    {
+     "nombre": "GDACS",
+     "url": "https://www.gdacs.org/xml/rss.xml",
+     "tipo": "Sistema de alertas de desastres de la ONU y la UE (fuente oficial)"
+    },
+    {
+     "nombre": "Artemis",
+     "url": "https://www.artemis.bm/feed/",
+     "tipo": "Medio de reaseguro y bonos catastróficos"
+    }
+   ]
+  },
+  {
+   "id": "crisis_energetica",
+   "titulo": "Crisis energética mundial",
+   "palabras": "crisis energ[eé]tica|energy crisis|escasez de (gas|combustible|gasolina|di[eé]sel|electricidad)|(gas|fuel|power|electricity) shortage|apag[oó]n|blackout|racionamiento|rationing|precio de la (luz|electricidad|gasolina)|(electricity|gas|fuel) prices?",
+   "feeds": [
+    {
+     "nombre": "OilPrice.com",
+     "url": "https://oilprice.com/rss/main",
+     "tipo": "Portal de energía"
+    },
+    {
+     "nombre": "Carbon Brief",
+     "url": "https://www.carbonbrief.org/feed/",
+     "tipo": "Medio especializado en clima y energía"
+    },
+    {
+     "nombre": "Energía a Debate",
+     "url": "https://www.energiaadebate.com/feed/",
+     "tipo": "Revista de energía de México"
+    }
+   ],
+   "gkg": "energy crisis|crisis energ[eé]tica|(gas|fuel|power|electricity|diesel|gasoline) shortages?|escasez de (gas|combustible|gasolina|di[eé]sel|electricidad)|apag[oó]n|blackouts?\\b|power cuts?\\b|cortes? de (luz|electricidad)|racionamiento (el[eé]ctrico|de energ)|load[- ]shedding"
+  },
+  {
+   "id": "salud",
+   "titulo": "Salud global: pandemias, virus, bacterias, vacunas, OMS",
+   "palabras": "pandemi|epidemi|brote|outbreak|virus|bacteria|vacuna|vaccin|oms\\b|\\bwho\\b|dengue|sarampi[oó]n|measles|influenza|gripe aviar|bird flu|h5n1|covid|mpox|c[oó]lera|cholera|resistencia antimicrobiana|antimicrobial",
+   "feeds": [
+    {
+     "nombre": "OMS (noticias)",
+     "url": "https://www.who.int/rss-feeds/news-english.xml",
+     "tipo": "Organización Mundial de la Salud"
+    },
+    {
+     "nombre": "STAT",
+     "url": "https://www.statnews.com/feed/",
+     "tipo": "Medio de salud y ciencia de EUA"
+    },
+    {
+     "nombre": "Organización Panamericana de la Salud",
+     "url": "https://www.paho.org/es/rss.xml",
+     "tipo": "Organismo internacional (fuente oficial)"
+    }
+   ]
+  },
+  {
+   "id": "nutricion",
+   "titulo": "Nutrición y salud natural",
+   "palabras": "nutrici[oó]n|nutrition|dieta|diet\\b|alimentaci[oó]n saludable|healthy eating|suplemento|supplement|vitamina|vitamin|ayuno|fasting|ultraprocesad|ultra-processed|microbiota|gut health|herbolaria|herbal|medicina natural|plant-based",
+   "feeds": [
+    {
+     "nombre": "ScienceDaily (nutrición)",
+     "url": "https://www.sciencedaily.com/rss/health_medicine/nutrition.xml",
+     "tipo": "Agregador de comunicados científicos"
+    },
+    {
+     "nombre": "Harvard Nutrition Source",
+     "url": "https://nutritionsource.hsph.harvard.edu/feed/",
+     "tipo": "Escuela de Salud Pública de Harvard"
+    }
+   ]
+  },
+  {
+   "id": "conspiracion",
+   "titulo": "Teorías de conspiración (y su verificación)",
+   "nota": "Aquí aparecen notas SOBRE teorías de conspiración y verificaciones de verificadores independientes. Una teoría citada no es un hecho comprobado: lee la verificación antes de compartir.",
+   "palabras": "conspiraci[oó]n|conspiracy|teor[ií]a conspirativa|conspiracy theor|bulo|hoax|desinformaci[oó]n|disinformation|misinformation|falso que|false claim|verificaci[oó]n|fact.?check|chemtrails|tierra plana|flat earth|illuminati|nuevo orden mundial|new world order|qanon|ovni|ufo|uap\\b",
+   "feeds": [
+    {
+     "nombre": "Snopes",
+     "url": "https://www.snopes.com/feed/",
+     "tipo": "Verificador de datos"
+    },
+    {
+     "nombre": "Maldita.es",
+     "url": "https://maldita.es/feed/",
+     "tipo": "Verificador de datos"
+    },
+    {
+     "nombre": "Newtral",
+     "url": "https://www.newtral.es/feed/",
+     "tipo": "Verificador de datos (España)"
+    }
+   ],
+   "gkg": "fact[- ]check|verificaci[oó]n de datos|conspiracy theor|teor[ií]as? (de la )?conspiraci|conspiracionist|conspiranoi|desinformaci[oó]n|disinformation|misinformation|bulos?\\b|false claims?|afirmaci[oó]n falsa|es falso que|deepfakes?"
+  },
+  {
+   "id": "politica_mx",
+   "titulo": "Política en México: partidos y decisiones (pros y contras)",
+   "nota": "Junta medios de líneas editoriales distintas para comparar. Ningún medio es neutral: lee varias versiones de la misma decisión, revisa datos oficiales (DOF, Gaceta Parlamentaria) y separa hechos de opiniones.",
+   "palabras": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal",
+   "feeds": [
+    {
+     "nombre": "La Jornada (política)",
+     "url": "https://www.jornada.com.mx/rss/politica.xml?v=1",
+     "tipo": "Diario de México"
+    },
+    {
+     "nombre": "Infobae México",
+     "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
+     "tipo": "Medio digital (Argentina) con sección México"
+    },
+    {
+     "nombre": "El Financiero",
+     "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+     "tipo": "Diario de negocios de México"
+    },
+    {
+     "nombre": "Expansión Política",
+     "url": "https://politica.expansion.mx/rss",
+     "tipo": "Revista de México"
+    },
+    {
+     "nombre": "Nexos",
+     "url": "https://www.nexos.com.mx/?feed=rss2",
+     "tipo": "Revista de México"
+    },
+    {
+     "nombre": "El Sol de México",
+     "url": "https://www.elsoldemexico.com.mx/rss.xml",
+     "tipo": "Diario de México (Organización Editorial Mexicana)"
+    },
+    {
+     "nombre": "Letras Libres",
+     "url": "https://letraslibres.com/feed/",
+     "tipo": "Revista de México"
+    }
+   ],
+   "gkg_dominio": "\\.mx$",
+   "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal"
+  }
+ ],
+ "gkg_excluir_dominio": "prnewswire|businesswire|globenewswire|einpresswire|dailypolitical|tickerreport|pr-inside|finanznachrichten|marketscreener|openpr|newsfilecorp|accessnewswire"
+}
