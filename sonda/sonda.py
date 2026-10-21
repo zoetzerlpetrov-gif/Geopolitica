@@ -67,14 +67,26 @@ def wikidata():
 def youtube():
     k = os.environ.get("YOUTUBE_API_KEY", "")
     import youtube_vivo as Y
-    ciudades = Y.Ciudades(json.load(open("config/ciudades.json", encoding="utf-8"))["ciudades"])
-    cams = Y.camaras(k, ciudades, busquedas=["live cam", "webcam en vivo"])
-    print("cámaras:", len(cams), "con ubicación del canal:", sum(1 for c in cams if not c["aprox"]))
-    from collections import Counter
-    print(Counter(c["st"] for c in cams), Counter(c["pais"] for c in cams).most_common(10))
-    for c in cams[:8]:
-        print(" ", c["titulo"][:70], c["lat"], c["lon"], c["aprox"], c["lugar"])
+    for q in ("live cam", "webcam en vivo"):
+        try:
+            r = Y.llamar(k, "search", part="id", type="video", eventType="live", maxResults=50, q=q, safeSearch="strict")
+        except Exception as e:  # noqa: BLE001
+            body = getattr(e, "read", lambda: b"")().decode("utf-8", "replace")[:300]
+            print("search error", q, e, body.replace(k, "***")); continue
+        ids = [it["id"]["videoId"] for it in r.get("items", []) if it.get("id", {}).get("videoId")]
+        print("search", q, "ids:", len(ids))
+        if not ids: continue
+        v = Y.llamar(k, "videos", part="snippet,recordingDetails,status", id=",".join(ids[:50]))
+        from collections import Counter
+        items = v.get("items", [])
+        print(" cat:", Counter(x["snippet"].get("categoryId") for x in items).most_common(6),
+              " live:", Counter(x["snippet"].get("liveBroadcastContent") for x in items),
+              " embeddable:", sum(1 for x in items if x.get("status", {}).get("embeddable")),
+              " con ubicación:", sum(1 for x in items if (x.get("recordingDetails") or {}).get("location")),
+              " es_camara:", sum(1 for x in items if Y.es_camara(x["snippet"], x["snippet"].get("categoryId", ""))))
+        for x in items[:12]:
+            print("   ", x["snippet"]["title"][:70], "|", x["snippet"].get("categoryId"), "|", Y.es_camara(x["snippet"], x["snippet"].get("categoryId", "")))
 
-for n, f in [("denue", denue), ("banxico", banxico), ("gleif", gleif), ("wikidata", wikidata), ("youtube", youtube)]:
+for n, f in [("denue", denue), ("youtube", youtube)]:
     probar(n, f)
 # reintento 1510
