@@ -16,7 +16,7 @@
     .nt-cifras > div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 6px 10px; display: flex; flex-direction: column; }
     .nt-cifras b { font-size: 19px; }
     .nt-nom, .nt-fecha { font-size: 12px; color: var(--text-2); }
-    .nt-cambio { font-size: 12px; } .nt-cambio.sube { color: #2E7D32; } .nt-cambio.baja { color: #C62828; }
+    .nt-cambio { font-size: 12px; color: var(--text); } /* sin verde/rojo: que suba el dólar o la inflación no es «bueno» ni «malo» por sí mismo */
     .nt-fuente, .nt-aviso, .nt-nota-sec, .nt-generado { font-size: 13px; color: var(--text-2); margin: 4px 0; }
     .nt-barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 16px 0 8px; position: sticky; top: 0; background: var(--bg, var(--surface-2)); padding: 6px 0; z-index: 2; }
     .nt-barra select, .nt-barra input { font: inherit; min-height: 38px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); max-width: 100%; }
@@ -40,6 +40,13 @@
   </header>
   <main class="nt-wrap">
     <section id="nt-indicadores" aria-label="Indicadores" aria-live="polite">Cargando indicadores…</section>
+    <p class="nt-fuente">Índices bursátiles y metales no tienen una fuente oficial gratuita que se pueda reproducir aquí; consúltalos con quien los calcula:
+      <a href="https://www.spglobal.com/spdji/es/" target="_blank" rel="noopener noreferrer">S&amp;P Dow Jones Indices</a> (S&amp;P 500, Dow Jones, S&amp;P/BMV IPC) ·
+      <a href="https://www.ftserussell.com/" target="_blank" rel="noopener noreferrer">FTSE Russell</a> (Russell 2000) ·
+      <a href="https://www.cboe.com/tradable_products/vix/" target="_blank" rel="noopener noreferrer">Cboe</a> (VIX) ·
+      <a href="https://www.bmv.com.mx/" target="_blank" rel="noopener noreferrer">Bolsa Mexicana de Valores</a> ·
+      <a href="https://www.lbma.org.uk/prices-and-data/precious-metal-prices" target="_blank" rel="noopener noreferrer">LBMA</a> (oro, plata, platino) ·
+      <a href="https://www.banxico.org.mx/cubo-informacion-economica/" target="_blank" rel="noopener noreferrer">Banxico, más series</a>.</p>
     <div class="nt-barra">
       <select id="nt-seccion" aria-label="Sección"></select>
       <input id="nt-buscar" type="search" placeholder="Buscar en títulos y medios…" aria-label="Buscar en el noticiero">

@@ -1,5 +1,5 @@
 // Noticiero DOMINUS (noticiero.html): titulares de 72 h en 30 secciones y franja de indicadores.
-// Los datos los arma el workflow «Datos en movimiento» (tools/noticiero/noticiero.py y tools/noticiero/indicadores.py);
+// Los datos los arma el workflow «Datos en movimiento» (tools/noticiero/noticiero.py y tools/noticiero/cifras.py);
 // aquí solo se muestran. De cada nota hay título, medio, fecha, enlace e imagen del medio: el texto se lee en su sitio.
 import { getJSON, esc, safeUrl, hace } from "./util.js";
 

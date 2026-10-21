@@ -293,7 +293,7 @@
      "tipo": "Portal meteorológico europeo"
     }
    ],
-   "gkg": "hurricane|hurac[aá]n|tropical storm|tormenta tropical|typhoon|tif[oó]n|cyclone|cicl[oó]n|frente fr[ií]o|cold front|heat ?wave|ola de calor|tornado|blizzard|inundaciones|flash flood|sequ[ií]a\\b|drought|storm \\w+ (warning|hits|batters|makes landfall)|amber warning|red warning|pron[oó]stico del (clima|tiempo)|conagua|servicio meteorol[oó]gico"
+   "gkg": "hurricane|hurac[aá]n|tropical storm|tormenta tropical|typhoon|tif[oó]n|cyclone|cicl[oó]n|frente fr[ií]o|cold front|heat ?wave|ola de calor|tornado|blizzard warning|ventisca|inundaciones|flash flood|sequ[ií]a\\b|drought|storm \\w+ (warning|hits|batters|makes landfall)|amber warning|red warning|pron[oó]stico del (clima|tiempo)|conagua|servicio meteorol[oó]gico"
   },
   {
    "id": "agenda2030",

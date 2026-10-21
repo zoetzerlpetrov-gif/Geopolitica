@@ -1,9 +1,9 @@
-"""Indicadores del noticiero (tools/noticiero/indicadores.py), sin red; respuestas copiadas de las fuentes."""
+"""Indicadores del noticiero (tools/noticiero/cifras.py), sin red; respuestas copiadas de las fuentes."""
 import os
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "noticiero"))
-import indicadores as I  # noqa: E402
+import cifras as I  # noqa: E402
 
 
 def test_banxico_ultimo_y_anterior_con_comas_y_grupo():
@@ -41,16 +41,6 @@ def test_tesoro_curva():
     d = {x["id"]: x for x in I.leer_tesoro(csv)}
     assert d["UST10Yr"]["valor"] == 5.12 and d["UST10Yr"]["previo"] == 5.15 and d["UST10Yr"]["fecha"] == "2026-10-20"
     assert set(d) == {"UST3Mo", "UST2Yr", "UST10Yr", "UST30Yr"}
-
-
-def test_bls_inflacion_anual_y_desempleo():
-    serie = lambda sid, vals: {"seriesID": sid, "data": [{"year": a, "period": p, "value": v} for a, p, v in vals]}
-    js = {"Results": {"series": [
-        serie("CUUR0000SA0", [("2026", "M09", "336.940"), ("2026", "M08", "334.980"), ("2025", "M09", "325.000"), ("2025", "M08", "324.000"), ("2025", "M13", "1")]),
-        serie("LNS14000000", [("2026", "M09", "4.4"), ("2026", "M08", "4.3")])]}}
-    d = {x["id"]: x for x in I.leer_bls(js)}
-    assert round(d["CPIUS"]["valor"], 2) == round((336.94 / 325 - 1) * 100, 2) and d["CPIUS"]["fecha"] == "2026-09"
-    assert d["UNRATE"]["valor"] == 4.4 and d["UNRATE"]["previo"] == 4.3
 
 
 def test_kraken_precio_y_apertura():

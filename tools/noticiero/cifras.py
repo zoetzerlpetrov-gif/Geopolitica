@@ -5,8 +5,8 @@
                 bonos, inflación y reservas.
   Divisas       Banco Central Europeo (tipos de referencia diarios, sin llave) para EUR, USD, JPY, CNY, INR, GBP…;
                 Banco Central de Rusia para el rublo (el BCE dejó de publicarlo en 2022).
-  EUA           Departamento del Tesoro (curva de rendimientos diaria, CSV público) y Oficina de Estadísticas
-                Laborales (inflación y desempleo, API v1 sin llave; 25 consultas al día por IP, por eso cada 6 h).
+  EUA           Departamento del Tesoro (curva de rendimientos diaria, CSV público), cada 6 h. La inflación y el desempleo
+                de EUA (BLS) no se incluyen: el robots.txt de api.bls.gov no permite programas.
   Cripto        Kraken (API pública de la casa de cambio, sin llave; su robots.txt lo permite). No hay precio oficial de
                 las criptomonedas: es el precio de una casa de cambio y así se rotula. (CoinGecko se descartó: su
                 robots.txt no permite programas.)
@@ -50,7 +50,6 @@ ECB = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
 CBR = "https://www.cbr.ru/scripts/XML_daily.asp"
 TESORO = ("https://home.treasury.gov/resource-center/data-chart-center/interest-rates/daily-treasury-rates.csv/all/{mes}"
           "?type=daily_treasury_yield_curve&field_tdr_date_value_month={mes}&page&_format=csv")
-BLS = "https://api.bls.gov/publicAPI/v1/timeseries/data/"
 KRAKEN = "https://api.kraken.com/0/public/Ticker?pair=XBTUSD,ETHUSD,XRPUSD,XLMUSD"
 CRIPTOS = [("XBT", "Bitcoin (BTC)"), ("ETH", "Ether (ETH)"), ("XRP", "XRP"), ("XLM", "Stellar (XLM)")]
 CADA_6H = 6 * 3600
@@ -156,27 +155,6 @@ def leer_tesoro(texto):
     return out
 
 
-def leer_bls(js):
-    """Inflación anual (IPC-U, sin ajuste) y desempleo de EUA."""
-    out = []
-    for se in js.get("Results", {}).get("series", []):
-        d = [x for x in se.get("data", []) if re.match(r"M(0[1-9]|1[0-2])$", x.get("period", ""))]
-        if not d:
-            continue
-        val = {(int(x["year"]), int(x["period"][1:])): float(x["value"]) for x in d}
-        (a, m), v = max(val.items())
-        fecha = f"{a}-{m:02d}"
-        if se["seriesID"] == "CUUR0000SA0":
-            def anual(a, m):
-                return (val[(a, m)] / val[(a - 1, m)] - 1) * 100 if (a, m) in val and (a - 1, m) in val else None
-            pa, pm = (a, m - 1) if m > 1 else (a - 1, 12)
-            out.append(dato("CPIUS", "Inflación anual de EUA (IPC-U)", anual(a, m), "%", fecha, anual(pa, pm), 1, "Inflación EUA"))
-        elif se["seriesID"] == "LNS14000000":
-            pa, pm = (a, m - 1) if m > 1 else (a - 1, 12)
-            out.append(dato("UNRATE", "Tasa de desempleo de EUA", v, "%", fecha, val.get((pa, pm)), 1, "Desempleo EUA"))
-    return [x for x in out if x["valor"] is not None]
-
-
 # ------------------------------------------------------------------ cripto
 def leer_kraken(js, fecha):
     """Ticker de Kraken → último precio en USD; el «anterior» es la apertura del día (campo «o», 00:00 UTC)."""
@@ -263,20 +241,11 @@ def main():
                                         leer_tesoro(bajar(TESORO.format(mes=ahora.strftime("%Y%m")), timeout=40).decode("utf-8", "replace"))
                                         or leer_tesoro(bajar(TESORO.format(mes=(ahora.replace(day=1) - timedelta(days=1)).strftime("%Y%m")), timeout=40).decode("utf-8", "replace"))), CADA_6H)
 
-    def g_bls():
-        if not F.permitido_por_robots(BLS):
-            raise PermissionError("el robots.txt del sitio no lo permite")
-        req = urllib.request.Request(BLS, data=json.dumps({"seriesid": ["CUUR0000SA0", "LNS14000000"]}).encode(),
-                                       headers={"User-Agent": F.UA, "Content-Type": "application/json"})
-        with urllib.request.urlopen(req, timeout=40) as r:
-            return grupo("eua_empleo", "EUA: inflación y desempleo", "Oficina de Estadísticas Laborales de EUA (BLS)", "https://www.bls.gov/", leer_bls(json.loads(r.read())))
-    intentar("eua_empleo", g_bls, CADA_6H)
-
     intentar("cripto", lambda: grupo("cripto", "Criptomonedas", "Kraken (casa de cambio; no hay precio oficial)", "https://www.kraken.com/prices",
                                      leer_kraken(json.loads(bajar(KRAKEN, timeout=30)), ahora.strftime("%Y-%m-%d %H:%M UTC")),
-                                     "Cambio contra la apertura del día (00:00 UTC)."), 1200)
+                                     "Cambio contra la apertura del día (00:00 UTC)."), 900)
 
-    orden = ["mx", "mx_valores", "divisas", "eua_bonos", "eua_empleo", "cripto"]
+    orden = ["mx", "mx_valores", "divisas", "eua_bonos", "cripto"]
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "aviso": AVISO, "grupos": [grupos[k] for k in orden if k in grupos],
                "errores": errores, "marcas": marcas}, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
