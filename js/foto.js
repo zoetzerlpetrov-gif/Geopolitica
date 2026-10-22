@@ -117,6 +117,18 @@ export function iniciarFoto({ mapa, lite = () => false }) {
     map.flyTo({ center: punto, zoom: ZOOM_CALLE, duration: lite() ? 0 : 1200 });
   });
 
+  // «Quitar foto»: borra resultado, vista previa y el punto del mapa. La foto nunca se guardó, así que no queda nada.
+  const quitar = $("foto-quitar");
+  quitar?.addEventListener("click", () => {
+    actual = null; punto = null;
+    res.innerHTML = "";
+    prev.hidden = true; prev.onload = prev.onerror = null; prev.removeAttribute("src");
+    if (url) { URL.revokeObjectURL(url); url = null; }
+    try { const map = mapa(); if (map?.getSource(PUNTO)) marcar(map, []); } catch (err) { /* sin mapa todavía */ }
+    entrada.value = "";
+    quitar.hidden = true;
+  });
+
   // Lee el archivo como bytes; FileReader cubre navegadores donde File.arrayBuffer() no existe o falla.
   const bytes = (archivo) => (archivo.arrayBuffer ? archivo.arrayBuffer() : Promise.reject(new Error("sin arrayBuffer"))).catch(() => new Promise((ok, mal) => {
     const fr = new FileReader();
@@ -130,6 +142,7 @@ export function iniciarFoto({ mapa, lite = () => false }) {
     if (!archivo) return;
     actual = null;
     res.innerHTML = `<p class="meta">⏳ Leyendo los metadatos…</p>`;
+    if (quitar) quitar.hidden = false;
     try {
       res.scrollIntoView({ block: "nearest", behavior: "smooth" });
       let d, buf = null;

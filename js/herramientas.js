@@ -92,8 +92,15 @@ $("aud-archivos").addEventListener("change", async (e) => {
   informes.length = 0;
   for (const f of e.target.files) informes.push(await auditar(f));
   res.innerHTML = informes.map(htmlInforme).join("");
-  $("aud-exportar").hidden = !informes.length;
+  $("aud-exportar").hidden = $("aud-quitar").hidden = !informes.length;
 });
+// Quita los resultados de la pantalla; los archivos solo se leyeron en memoria, no se guardaron.
+$("aud-quitar").onclick = () => {
+  informes.length = 0;
+  $("aud-res").innerHTML = "";
+  $("aud-archivos").value = "";
+  $("aud-exportar").hidden = $("aud-quitar").hidden = true;
+};
 $("aud-exportar").onclick = () => descargar(`auditoria-archivos-${new Date().toISOString().slice(0, 10)}.md`,
   `# Auditoría de archivos\n\nGenerado ${new Date().toISOString()} en el navegador (DOMINUS OSINT, caja del analista).\n\n` + informes.map(mdInforme).join("\n"));
 
