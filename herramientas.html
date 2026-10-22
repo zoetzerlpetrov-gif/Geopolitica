@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Caja del analista</title>
+  <meta name="description" content="Auditoría de archivos, herramientas de informática y marcos de análisis de inteligencia (ACH, ICD 203, PMESII-PT, ASCOPE, METT-TC, CARVER defensivo). Todo corre en tu navegador.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .hz { max-width: 1040px; margin: 0 auto; padding: 16px; }
+    .hz h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .hz h3 { font-size: 15px; margin: 14px 0 4px; }
+    .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .pestanas button { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .pestanas button[aria-selected="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    .panel[hidden] { display: none; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .hz textarea, .hz input[type=text], .hz input[type=number], .hz select { font: inherit; width: 100%; max-width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .hz textarea { min-height: 90px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .hz .btn { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .alto { border-left: 4px solid #B71C1C; padding-left: 8px; } .medio { border-left: 4px solid #E65100; padding-left: 8px; } .bajo { border-left: 4px solid #F9A825; padding-left: 8px; }
+    .ok { border-left: 4px solid #2E7D32; padding-left: 8px; }
+    table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+    .t input, .t select { min-width: 54px; }
+    .desliza { overflow-x: auto; }
+    code, .mono { font-family: ui-monospace, Menlo, Consolas, monospace; word-break: break-all; font-size: 12px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    dl.kv { display: grid; grid-template-columns: minmax(120px, 220px) 1fr; gap: 2px 10px; margin: 6px 0; } dl.kv dt { color: var(--text-2); } dl.kv dd { margin: 0; word-break: break-word; }
+    @media (max-width: 560px) { dl.kv { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Caja del analista</h1>
+  </header>
+  <main class="hz">
+    <p class="meta">Todo se procesa en este navegador: los archivos y textos no se suben a ningún servidor. Las únicas consultas a internet son las
+      que tú pides en «DNS y correo de un dominio» (a dns.google) y se avisan antes. Es apoyo para el análisis, no un peritaje ni un antivirus.</p>
+    <nav class="pestanas" role="tablist" aria-label="Secciones">
+      <button role="tab" aria-selected="true" data-p="archivos">📁 Auditoría de archivos</button>
+      <button role="tab" aria-selected="false" data-p="informatica">💻 Informática y ciberseguridad</button>
+      <button role="tab" aria-selected="false" data-p="analisis">🧠 Análisis de inteligencia</button>
+      <button role="tab" aria-selected="false" data-p="marcos">🗂️ Marcos militar, político y corporativo</button>
+    </nav>
+
+    <section class="panel" id="p-archivos">
+      <h2>Auditoría de archivos</h2>
+      <p class="meta">Elige uno o varios archivos (PDF, Word, Excel, PowerPoint, OpenDocument, ZIP, imágenes, ejecutables, texto…). Para cada uno se revisa:
+        qué es de verdad (por sus primeros bytes, no por la extensión), su huella SHA-256 y SHA-1, la entropía, los metadatos (autor, empresa, programa, fechas),
+        macros, JavaScript, vínculos externos, objetos incrustados, hojas ocultas y los indicadores (URL, correos, IP) que contiene.</p>
+      <div class="barra"><input type="file" id="aud-archivos" multiple aria-label="Archivos a auditar"><button type="button" id="aud-exportar" hidden>Descargar informe (Markdown)</button></div>
+      <div id="aud-res" aria-live="polite"></div>
+      <p class="meta">Para fotos (EXIF, GPS, posible IA o edición) usa también «Foto: metadatos y análisis forense» en el menú Herramientas del mapa. Referencias:
+        ISO/IEC 27037 (identificación y preservación de evidencia digital), NIST SP 800-86 (forense en respuesta a incidentes), NIST SP 800-83 (malware).</p>
+    </section>
+
+    <section class="panel" id="p-informatica" hidden>
+      <h2>Informática y ciberseguridad</h2>
+      <div class="tarjeta"><h3>🔎 Extraer indicadores (IOC) de un texto</h3>
+        <p class="meta">Pega un informe, un correo o un registro. Saca URL, dominios, IP, correos, hashes, CVE y carteras de Bitcoin. Acepta texto «desactivado» (hxxp, [.]).</p>
+        <textarea id="ioc-texto" aria-label="Texto con indicadores"></textarea>
+        <div class="barra"><button type="button" id="ioc-btn">Extraer</button><button type="button" id="ioc-defang">Desactivar (defang) para compartir</button><button type="button" id="ioc-refang">Reactivar (refang)</button></div>
+        <div id="ioc-res"></div></div>
+      <div class="tarjeta"><h3>✉️ Encabezados de un correo sospechoso</h3>
+        <p class="meta">En Gmail: ⋮ → «Mostrar original». En Outlook: Archivo → Propiedades → «Encabezados de Internet». Copia y pega aquí todo el bloque.</p>
+        <textarea id="enc-texto" aria-label="Encabezados del correo"></textarea>
+        <div class="barra"><button type="button" id="enc-btn">Analizar</button></div><div id="enc-res"></div></div>
+      <div class="tarjeta"><h3>🌐 DNS y correo de un dominio</h3>
+        <p class="meta">Consulta los registros públicos (A, AAAA, MX, NS, TXT, CAA y la política DMARC) con DNS sobre HTTPS de Google (dns.google): solo se envía el nombre del dominio.</p>
+        <div class="barra"><input type="text" id="dns-dominio" placeholder="ejemplo.com.mx" aria-label="Dominio" style="max-width:320px"><button type="button" id="dns-btn">Consultar</button></div>
+        <div id="dns-res"></div></div>
+      <div class="tarjeta"><h3>🔐 Huella (hash), Base64 y JWT</h3>
+        <textarea id="cod-texto" aria-label="Texto a convertir"></textarea>
+        <div class="barra"><button type="button" data-cod="sha256">SHA-256</button><button type="button" data-cod="sha1">SHA-1</button><button type="button" data-cod="sha512">SHA-512</button>
+          <button type="button" data-cod="b64">→ Base64</button><button type="button" data-cod="deb64">Base64 →</button><button type="button" data-cod="url">Decodificar URL</button><button type="button" data-cod="jwt">Leer JWT</button></div>
+        <div id="cod-res" class="mono"></div></div>
+      <div class="tarjeta"><h3>📚 Consultas externas útiles (se abren en su sitio)</h3><ul id="enlaces-ti" class="fuentes"></ul></div>
+    </section>
+
+    <section class="panel" id="p-analisis" hidden>
+      <h2>Análisis de inteligencia</h2>
+      <div class="tarjeta"><h3>🎯 Lenguaje de probabilidad (ICD 203)</h3>
+        <p class="meta">La directiva ICD 203 de la comunidad de inteligencia de EUA pide expresar la probabilidad con palabras fijas, para que «probable» signifique lo mismo para todos.</p>
+        <div class="barra"><input type="range" id="icd-pct" min="1" max="99" value="70" aria-label="Probabilidad en %" style="flex:1"><b id="icd-txt"></b></div>
+        <div class="desliza"><table class="t" id="icd-tabla"></table></div></div>
+      <div class="tarjeta"><h3>⚖️ Análisis de hipótesis en competencia (ACH)</h3>
+        <p class="meta">Método de Richards Heuer (CIA). Escribe hipótesis que se excluyan entre sí y la evidencia. Califica cada celda: CC muy consistente, C consistente, N neutral,
+          I inconsistente, II muy inconsistente. Gana la hipótesis con <b>menos</b> evidencia en contra, no la que tiene más a favor. Se guarda en este navegador.</p>
+        <div class="barra"><button type="button" id="ach-h">+ Hipótesis</button><button type="button" id="ach-e">+ Evidencia</button><button type="button" id="ach-md">Copiar como Markdown</button><button type="button" id="ach-limpiar">Vaciar</button></div>
+        <div class="desliza"><table class="t" id="ach-tabla"></table></div><div id="ach-res"></div></div>
+      <div class="tarjeta"><h3>🏷️ Calificar fuente e información (escala del Almirantazgo/OTAN)</h3><div id="escala"></div></div>
+      <div class="tarjeta"><h3>🛡️ CARVER defensivo: qué activos propios proteger primero</h3>
+        <p class="meta">Califica de 1 a 10 cada activo de tu organización. Mientras más alto el total, antes conviene protegerlo (ISO 31000, ISO 22301). Se guarda en este navegador.</p>
+        <div class="barra"><button type="button" id="carver-mas">+ Activo</button></div>
+        <div class="desliza"><table class="t" id="carver-tabla"></table></div></div>
+      <div class="tarjeta"><h3>👥 Mapa de actores: poder e interés</h3>
+        <p class="meta">Instituciones, empresas, grupos u organismos (no personas privadas). Poder e interés de 1 a 5.</p>
+        <div class="barra"><button type="button" id="act-mas">+ Actor</button></div>
+        <div class="desliza"><table class="t" id="act-tabla"></table></div></div>
+    </section>
+
+    <section class="panel" id="p-marcos" hidden>
+      <h2>Marcos de análisis</h2>
+      <p class="meta">Plantillas usadas en planeación militar (doctrina de EUA y OTAN), análisis político y estrategia corporativa. Elige una, llénala y descárgala.
+        Se guarda en este navegador mientras escribes.</p>
+      <div class="barra"><select id="marco-sel" aria-label="Marco" style="max-width:420px"></select><input type="text" id="marco-titulo" placeholder="Título (p. ej. Venezuela, octubre 2026)" aria-label="Título" style="max-width:360px">
+        <button type="button" id="marco-md">Descargar Markdown</button><button type="button" id="marco-limpiar">Vaciar</button></div>
+      <p class="meta" id="marco-uso"></p>
+      <div id="marco-campos"></div>
+    </section>
+  </main>
+  <script type="module" src="js/herramientas.js"></script>
+</body>
+</html>
