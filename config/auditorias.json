@@ -1,0 +1,1356 @@
+{
+ "descripcion": "Plantillas de auditoría por sector. Cada control: pregunta, evidencia a pedir y referencia normativa. Revisado en octubre de 2026; las leyes cambian: confirma la versión vigente en el DOF, el sitio del regulador o la norma publicada antes de emitir un informe.",
+ "metodo": {
+  "norma": "ISO 19011:2018 (directrices para auditar sistemas de gestión)",
+  "fases": [
+   [
+    "1. Programa y alcance",
+    "Objetivo, alcance (sitios, procesos, periodo), criterios (normas y leyes) y riesgos de la auditoría."
+   ],
+   [
+    "2. Preparación",
+    "Revisión documental, plan de auditoría, lista de verificación (esta plantilla) y muestreo."
+   ],
+   [
+    "3. Reunión de apertura",
+    "Confirmar alcance, horario, contactos, confidencialidad y forma de comunicar hallazgos."
+   ],
+   [
+    "4. Trabajo de campo",
+    "Entrevistas, observación y revisión de registros. Cada hallazgo con evidencia objetiva."
+   ],
+   [
+    "5. Hallazgos",
+    "Clasificar: no conformidad mayor, menor, observación u oportunidad de mejora; causa, criterio, condición y efecto."
+   ],
+   [
+    "6. Reunión de cierre e informe",
+    "Presentar hallazgos, acordar plazos y entregar informe con conclusión."
+   ],
+   [
+    "7. Seguimiento",
+    "Verificar acciones correctivas y su eficacia."
+   ]
+  ],
+  "estados": {
+   "cumple": "Cumple",
+   "parcial": "Cumple parcialmente",
+   "no": "No cumple",
+   "na": "No aplica"
+  }
+ },
+ "comunes": [
+  {
+   "area": "Gobierno corporativo y control interno",
+   "controles": [
+    {
+     "c": "¿El consejo o la dirección aprueba y revisa al menos una vez al año la estrategia, el apetito de riesgo y el presupuesto?",
+     "e": "Actas de consejo, política de apetito de riesgo, calendario de sesiones",
+     "r": "COSO 2013; Código de Principios y Mejores Prácticas de Gobierno Corporativo (CCE); LMV si cotiza"
+    },
+    {
+     "c": "¿Existe un comité de auditoría con miembros independientes y acceso directo al auditor interno y externo?",
+     "e": "Estatuto del comité, actas, informes al consejo",
+     "r": "LMV art. 42-43 (emisoras); Normas Globales de Auditoría Interna IIA 2024"
+    },
+    {
+     "c": "¿Hay segregación de funciones en compras, pagos, nómina y tesorería?",
+     "e": "Matriz de funciones, perfiles en el ERP, muestra de órdenes de compra y pagos",
+     "r": "COSO 2013, componente Actividades de control"
+    },
+    {
+     "c": "¿Los poderes y firmas autorizadas están vigentes y limitados por monto?",
+     "e": "Escrituras de poderes, política de autorizaciones, muestra de contratos",
+     "r": "LGSM; política interna"
+    }
+   ]
+  },
+  {
+   "area": "Cumplimiento, integridad y anticorrupción",
+   "controles": [
+    {
+     "c": "¿Existe un programa de integridad con código de ética, canal de denuncias anónimo y protección a denunciantes?",
+     "e": "Código, estadísticas del canal, procedimiento de investigación",
+     "r": "Ley General de Responsabilidades Administrativas art. 25; ISO 37001; ISO 37301"
+    },
+    {
+     "c": "¿Se hace debida diligencia de terceros (proveedores, agentes, socios) antes de contratarlos y se revisan listas de sanciones?",
+     "e": "Expedientes de alta de proveedores, búsquedas en listas (SAT 69-B, OFAC, ONU, UE)",
+     "r": "CFF art. 69-B; FCPA; UK Bribery Act; ISO 37001 cl. 8.2"
+    },
+    {
+     "c": "¿Los regalos, viajes, donativos y patrocinios a funcionarios están registrados y aprobados?",
+     "e": "Registro de regalos y hospitalidad, muestra de gastos",
+     "r": "ISO 37001 cl. 8.7; LGRA"
+    },
+    {
+     "c": "Si la empresa realiza actividades vulnerables, ¿presenta avisos a la UIF/SAT y conserva expedientes de identificación?",
+     "e": "Alta en el portal del SAT, avisos mensuales, expedientes KYC",
+     "r": "LFPIORPI arts. 17-18 (con reforma de 2025)"
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "controles": [
+    {
+     "c": "¿Las operaciones relevantes tienen materialidad documentada (contratos, entregables, evidencia de servicio)?",
+     "e": "Muestra de facturas de servicios con soporte",
+     "r": "CFF arts. 5-A y 69-B"
+    },
+    {
+     "c": "¿El CFDI 4.0 y sus complementos (Carta Porte, pagos, comercio exterior) se emiten correctamente?",
+     "e": "Conciliación de CFDI emitidos y recibidos contra contabilidad",
+     "r": "CFF art. 29 y 29-A; RMF vigente"
+    },
+    {
+     "c": "¿Los estados financieros se preparan conforme a NIF o IFRS y se dictaminan cuando corresponde?",
+     "e": "Estados financieros, dictamen, carta de recomendaciones",
+     "r": "NIF (CINIF); IFRS; CFF art. 32-A"
+    }
+   ]
+  },
+  {
+   "area": "Laboral, seguridad y salud en el trabajo",
+   "controles": [
+    {
+     "c": "¿Los servicios especializados que se contratan tienen registro REPSE vigente?",
+     "e": "Constancias REPSE, contratos, informes ICSOE/SISUB",
+     "r": "LFT arts. 12-15 (reforma 2021); LSS; Ley del INFONAVIT"
+    },
+    {
+     "c": "¿Se identifican y evalúan los factores de riesgo psicosocial?",
+     "e": "Política, cuestionarios, resultados y medidas",
+     "r": "NOM-035-STPS-2018"
+    },
+    {
+     "c": "¿Existe un sistema de seguridad y salud con análisis de riesgos, comisión mixta y registro de accidentes?",
+     "e": "Actas de la comisión, estadísticas de accidentes, programa",
+     "r": "NOM-019-STPS-2011; ISO 45001"
+    }
+   ]
+  },
+  {
+   "area": "Datos personales y ciberseguridad",
+   "controles": [
+    {
+     "c": "¿Hay aviso de privacidad vigente y un inventario de datos personales con sus finalidades?",
+     "e": "Avisos, inventario, registro de solicitudes ARCO",
+     "r": "LFPDPPP (nueva ley de 2025) y su reglamento"
+    },
+    {
+     "c": "¿Se gestiona la seguridad de la información con análisis de riesgos, controles y pruebas periódicas?",
+     "e": "Declaración de aplicabilidad, análisis de riesgos, informes de pruebas de penetración",
+     "r": "ISO/IEC 27001:2022; NIST CSF 2.0; CIS Controls v8.1"
+    },
+    {
+     "c": "¿Hay respaldos probados, plan de respuesta a incidentes y plan de continuidad?",
+     "e": "Bitácoras de restauración, simulacros, BIA",
+     "r": "ISO 22301; NIST SP 800-61r3"
+    },
+    {
+     "c": "¿Los accesos privilegiados usan MFA y se revisan periódicamente?",
+     "e": "Lista de cuentas privilegiadas, revisión trimestral, configuración de MFA",
+     "r": "ISO/IEC 27001 Anexo A 5.15-5.18, 8.2, 8.5"
+    }
+   ]
+  },
+  {
+   "area": "Ambiental, social y de gobernanza (ESG)",
+   "controles": [
+    {
+     "c": "¿Se cuenta con las licencias ambientales aplicables (LAU/COA, MIA, residuos peligrosos)?",
+     "e": "Licencias, COA anual, manifiestos de residuos",
+     "r": "LGEEPA; LGPGIR; ISO 14001"
+    },
+    {
+     "c": "¿Se reportan indicadores de sostenibilidad (emisiones alcance 1 y 2, agua, residuos, plantilla)?",
+     "e": "Informe de sostenibilidad, metodología de cálculo",
+     "r": "NIS del CINIF (vigentes desde 2025); NIIF S1/S2 (ISSB); GRI; GHG Protocol"
+    },
+    {
+     "c": "¿Se evalúan los derechos humanos en la cadena de suministro?",
+     "e": "Evaluaciones de proveedores, cláusulas contractuales",
+     "r": "Principios Rectores ONU; Guías OCDE de debida diligencia; Directiva UE 2024/1760 (CSDDD) si exporta a la UE"
+    }
+   ]
+  },
+  {
+   "area": "Riesgo y continuidad",
+   "controles": [
+    {
+     "c": "¿Existe una matriz de riesgos con dueño, probabilidad, impacto, controles y plan de tratamiento?",
+     "e": "Matriz, actas de revisión, indicadores de riesgo (KRI)",
+     "r": "ISO 31000:2018; COSO ERM 2017"
+    },
+    {
+     "c": "¿Se evaluaron los riesgos geopolíticos, climáticos y de seguridad de las instalaciones y rutas?",
+     "e": "Análisis por sitio (puede usarse Inteligencia corporativa de DOMINUS), seguros contratados",
+     "r": "ISO 31000; ISO 22301; ISO 28000"
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "reguladores_mx": [
+    "Secretaría de Economía (SE)",
+    "PROFECO",
+    "SEMARNAT/PROFEPA",
+    "SAT/ANAM (aduanas)",
+    "STPS"
+   ],
+   "reguladores_int": [
+    "NHTSA (EUA)",
+    "UNECE WP.29 (reglamentos ONU)",
+    "Comisión Europea (homologación)"
+   ],
+   "normas": [
+    "IATF 16949:2016",
+    "ISO 9001:2015",
+    "VDA 6.3",
+    "AIAG APQP/PPAP/FMEA (AIAG-VDA)",
+    "ISO 26262 (seguridad funcional)",
+    "ISO/SAE 21434 y Reglamento ONU R155 (ciberseguridad)",
+    "Reglamento ONU R156 (actualización de software)",
+    "TISAX",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "areas": [
+    {
+     "area": "Calidad del producto",
+     "controles": [
+      {
+       "c": "¿Cada número de parte tiene PPAP aprobado por el cliente y se controla el cambio de ingeniería?",
+       "e": "Expedientes PPAP, PSW firmados, registro de cambios",
+       "r": "AIAG PPAP 4.ª ed.; IATF 16949 cl. 8.3.4.4"
+      },
+      {
+       "c": "¿Los AMEF (diseño y proceso) están vigentes y alimentan el plan de control?",
+       "e": "AMEF AIAG-VDA, planes de control, acciones por prioridad",
+       "r": "AIAG-VDA FMEA 2019; IATF 16949 cl. 8.5.1.1"
+      },
+      {
+       "c": "¿Se controlan las características especiales (seguridad y regulatorias) con estudios de capacidad?",
+       "e": "Cpk/Ppk, MSA (R&R), registros de inspección",
+       "r": "IATF 16949 cl. 8.3.3.3 y 7.1.5.1.1"
+      },
+      {
+       "c": "¿Hay gestión de reclamaciones y garantías con 8D y análisis de causa raíz?",
+       "e": "Reportes 8D, indicadores de PPM y garantías",
+       "r": "IATF 16949 cl. 10.2.3-10.2.6"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad del vehículo y ciberseguridad",
+     "controles": [
+      {
+       "c": "Para electrónica: ¿se aplicó ISO 26262 con su nivel ASIL y caso de seguridad?",
+       "e": "Plan y caso de seguridad, análisis HARA",
+       "r": "ISO 26262"
+      },
+      {
+       "c": "¿Hay un sistema de gestión de ciberseguridad y de actualizaciones de software del vehículo?",
+       "e": "Certificado CSMS/SUMS, TARA, procedimiento OTA",
+       "r": "Reglamentos ONU R155 y R156; ISO/SAE 21434; ISO 24089"
+      },
+      {
+       "c": "¿Los vehículos o equipos de seguridad cumplen la norma mexicana aplicable?",
+       "e": "Certificados de conformidad, dictámenes de laboratorio acreditado",
+       "r": "NOM-194-SE-2021 (dispositivos de seguridad en vehículos nuevos)"
+      }
+     ]
+    },
+    {
+     "area": "Comercio exterior y reglas de origen",
+     "controles": [
+      {
+       "c": "¿Se calcula y documenta el valor de contenido regional y el requisito de acero/aluminio y salario por hora?",
+       "e": "Certificaciones de origen, cálculos VCR, evidencias LVC",
+       "r": "T-MEC, Capítulo 4 y Apéndice automotriz"
+      },
+      {
+       "c": "Si opera IMMEX, ¿el control de inventarios (Anexo 24) cuadra y los retornos están en plazo?",
+       "e": "Reportes Anexo 24/30, pedimentos, descargos",
+       "r": "Decreto IMMEX; Ley Aduanera; RGCE"
+      }
+     ]
+    },
+    {
+     "area": "Ambiental y emisiones",
+     "controles": [
+      {
+       "c": "¿El producto cumple las normas de emisiones y eficiencia aplicables?",
+       "e": "Certificados de emisiones, reportes a SEMARNAT",
+       "r": "NOM-044-SEMARNAT-2017 (pesados); NOM-163-SEMARNAT-ENER-SCFI-2013 (ligeros)"
+      },
+      {
+       "c": "¿Se controlan sustancias restringidas en materiales (IMDS)?",
+       "e": "Registros IMDS, declaraciones de proveedores",
+       "r": "IMDS; ELV 2000/53/CE; REACH si exporta a la UE"
+      }
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "reguladores_mx": [
+    "SENER",
+    "Comisión Nacional de Energía (CNE, sustituye a la CRE desde 2025)",
+    "CENACE",
+    "CFE",
+    "SEMARNAT/ASEA según el caso"
+   ],
+   "reguladores_int": [
+    "NERC/FERC (EUA)",
+    "ACER (UE)",
+    "IEA (referencia)"
+   ],
+   "normas": [
+    "Ley del Sector Eléctrico (2025) y su reglamento",
+    "Código de Red (CNE)",
+    "NOM-001-SEDE-2012 (instalaciones eléctricas)",
+    "ISO 50001 (gestión de la energía)",
+    "ISO 55001 (gestión de activos)",
+    "IEC 62443 (ciberseguridad OT)",
+    "IEC 61850 (subestaciones)",
+    "NERC CIP (referencia)",
+    "ISO 45001",
+    "ISO 14001"
+   ],
+   "areas": [
+    {
+     "area": "Permisos y cumplimiento regulatorio",
+     "controles": [
+      {
+       "c": "¿Los permisos de generación, suministro o autoconsumo están vigentes y coinciden con la capacidad instalada?",
+       "e": "Permisos de la CNE (antes CRE), registros de capacidad",
+       "r": "Ley del Sector Eléctrico (2025)"
+      },
+      {
+       "c": "¿Se cumplen los requisitos del Código de Red para la interconexión?",
+       "e": "Estudios de interconexión, pruebas, reportes a CENACE",
+       "r": "Código de Red vigente"
+      },
+      {
+       "c": "¿Se cumplen las obligaciones de energía limpia (CEL) y los reportes periódicos?",
+       "e": "Registro de CEL, reportes a la CNE",
+       "r": "Ley del Sector Eléctrico; Ley de Transición Energética"
+      }
+     ]
+    },
+    {
+     "area": "Operación y gestión de activos",
+     "controles": [
+      {
+       "c": "¿Hay un plan de mantenimiento basado en criticidad y condición de los activos (transformadores, turbinas, inversores)?",
+       "e": "Plan maestro, CMMS, indicadores de disponibilidad",
+       "r": "ISO 55001"
+      },
+      {
+       "c": "¿Las instalaciones eléctricas tienen dictamen de verificación vigente?",
+       "e": "Dictámenes de UVIE",
+       "r": "NOM-001-SEDE-2012"
+      },
+      {
+       "c": "¿Se mide y mejora el desempeño energético?",
+       "e": "Línea base energética, indicadores (EnPI)",
+       "r": "ISO 50001"
+      }
+     ]
+    },
+    {
+     "area": "Ciberseguridad de sistemas de control (OT)",
+     "controles": [
+      {
+       "c": "¿Las redes OT (SCADA, DCS, protecciones) están segmentadas y sin acceso directo desde internet?",
+       "e": "Diagramas de red, reglas de firewall, inventario OT",
+       "r": "IEC 62443-3-3; NERC CIP-005 (referencia)"
+      },
+      {
+       "c": "¿Se gestionan parches y accesos remotos de proveedores en OT?",
+       "e": "Procedimiento de parches, bitácoras de acceso remoto",
+       "r": "IEC 62443-2-3 y 2-4"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad física y continuidad",
+     "controles": [
+      {
+       "c": "¿Las subestaciones críticas tienen protección física, monitoreo y plan ante sabotaje, clima extremo y robo de cable?",
+       "e": "Análisis de riesgo por sitio, CCTV, simulacros",
+       "r": "ISO 22301; NERC CIP-014 (referencia)"
+      }
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "reguladores_mx": [
+    "SENER",
+    "Comisión Nacional de Energía (CNE, sustituye a CRE y CNH desde 2025)",
+    "ASEA",
+    "SAT (controles volumétricos)",
+    "Pemex (contraparte)"
+   ],
+   "reguladores_int": [
+    "BSEE/PHMSA (EUA)",
+    "IOGP (buenas prácticas)",
+    "EITI (transparencia)"
+   ],
+   "normas": [
+    "Ley del Sector Hidrocarburos (2025)",
+    "Lineamientos SASISOPA de la ASEA",
+    "NOM-016-CRE-2016 (calidad de petrolíferos)",
+    "Anexos 21 y 30 de la RMF (controles volumétricos)",
+    "API RP 75 (SEMS)",
+    "API 650/653 (tanques)",
+    "API 1160 (integridad de ductos)",
+    "IEC 61511 (sistemas instrumentados de seguridad)",
+    "OSHA PSM 29 CFR 1910.119 (referencia)",
+    "ISO 29001"
+   ],
+   "areas": [
+    {
+     "area": "Seguridad industrial y de procesos (SASISOPA)",
+     "controles": [
+      {
+       "c": "¿El SASISOPA está autorizado por la ASEA, implementado y con informes de desempeño entregados?",
+       "e": "Oficio de autorización, informes anuales, auditoría externa",
+       "r": "Lineamientos SASISOPA (ASEA)"
+      },
+      {
+       "c": "¿Hay análisis de riesgos de proceso (HAZOP/LOPA) vigentes y con recomendaciones cerradas?",
+       "e": "Estudios HAZOP, seguimiento de recomendaciones",
+       "r": "API RP 75; IEC 61511"
+      },
+      {
+       "c": "¿Se gestionan los cambios (MOC) y los permisos de trabajo peligroso?",
+       "e": "Registros MOC, permisos de trabajo, auditorías de campo",
+       "r": "API RP 75; OSHA PSM"
+      },
+      {
+       "c": "¿Los sistemas instrumentados de seguridad tienen SIL verificado y pruebas periódicas?",
+       "e": "Cálculos SIL, pruebas de prueba (proof test)",
+       "r": "IEC 61511"
+      }
+     ]
+    },
+    {
+     "area": "Integridad mecánica",
+     "controles": [
+      {
+       "c": "¿Tanques y recipientes tienen inspecciones en plazo y espesores dentro de límites?",
+       "e": "Reportes API 653/510, mediciones de espesores",
+       "r": "API 653; API 510"
+      },
+      {
+       "c": "¿Los ductos tienen programa de integridad (inspección en línea, protección catódica, celaje)?",
+       "e": "Programa de integridad, corridas ILI, registros de protección catódica",
+       "r": "API 1160; NOM-007-ASEA-2016 (transporte de gas natural)"
+      }
+     ]
+    },
+    {
+     "area": "Control volumétrico, fiscal y robo de combustible",
+     "controles": [
+      {
+       "c": "¿Los controles volumétricos están certificados, en línea con el SAT y conciliados con facturación?",
+       "e": "Dictamen de controles volumétricos, reportes mensuales, conciliación CFDI",
+       "r": "CFF art. 28; Anexos 21 y 30 RMF"
+      },
+      {
+       "c": "¿Se monitorean pérdidas no explicadas y tomas clandestinas con reporte a la autoridad?",
+       "e": "Balances de producto, reportes de incidentes, denuncias",
+       "r": "Ley Federal para Prevenir y Sancionar los Delitos en Materia de Hidrocarburos"
+      },
+      {
+       "c": "¿La calidad del combustible vendido se verifica por lote?",
+       "e": "Certificados de calidad, informes de laboratorio",
+       "r": "NOM-016-CRE-2016"
+      }
+     ]
+    },
+    {
+     "area": "Ambiental y comunidades",
+     "controles": [
+      {
+       "c": "¿Existe plan de respuesta a derrames con simulacros y recursos asignados?",
+       "e": "Plan de respuesta, simulacros, contratos con respondedores",
+       "r": "Lineamientos ASEA; ISO 14001"
+      },
+      {
+       "c": "¿Se hizo evaluación de impacto social y consulta cuando aplica?",
+       "e": "EvIS, actas de consulta",
+       "r": "Ley del Sector Hidrocarburos; Convenio 169 OIT"
+      }
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "reguladores_mx": [
+    "Agencia Federal de Aviación Civil (AFAC)",
+    "SICT",
+    "SE (control de exportaciones)",
+    "SEDENA/Defensa (uso militar)"
+   ],
+   "reguladores_int": [
+    "OACI",
+    "FAA (EUA)",
+    "EASA (UE)",
+    "Transport Canada"
+   ],
+   "normas": [
+    "AS9100D",
+    "AS9110C (mantenimiento)",
+    "AS9120B (distribución)",
+    "NADCAP (procesos especiales)",
+    "Anexos 6, 8 y 19 de OACI (SMS)",
+    "FAA 14 CFR Partes 21, 43 y 145",
+    "EASA Part-21 / Part-145",
+    "Ley de Aviación Civil (México)",
+    "NOM-145/1-SCT3-2001 (talleres aeronáuticos)",
+    "ITAR / EAR y Arreglo de Wassenaar"
+   ],
+   "areas": [
+    {
+     "area": "Calidad y configuración",
+     "controles": [
+      {
+       "c": "¿Se controla la configuración y la trazabilidad de cada parte hasta su certificado de origen?",
+       "e": "Registros de configuración, certificados (FAA 8130-3 / EASA Form 1)",
+       "r": "AS9100D cl. 8.1.2 y 8.5.2"
+      },
+      {
+       "c": "¿Se previenen piezas falsificadas o no aprobadas (SUP)?",
+       "e": "Procedimiento antifalsificación, proveedores aprobados",
+       "r": "AS9100D cl. 8.1.4; AS5553 (electrónica)"
+      },
+      {
+       "c": "¿Los procesos especiales (tratamiento térmico, END, soldadura) están acreditados?",
+       "e": "Certificados NADCAP, calificaciones de personal END",
+       "r": "NADCAP; NAS 410"
+      },
+      {
+       "c": "¿Se hace inspección de primer artículo (FAI)?",
+       "e": "Reportes AS9102",
+       "r": "AS9102"
+      }
+     ]
+    },
+    {
+     "area": "Aeronavegabilidad y mantenimiento",
+     "controles": [
+      {
+       "c": "¿El taller tiene certificado vigente de la AFAC (y FAA/EASA si atiende matrículas extranjeras)?",
+       "e": "Certificados, manual de procedimientos del taller",
+       "r": "Ley de Aviación Civil; NOM-145/1-SCT3-2001; 14 CFR 145; EASA Part-145"
+      },
+      {
+       "c": "¿Se cumplen directivas de aeronavegabilidad y boletines de servicio?",
+       "e": "Control de directivas, registros de cumplimiento",
+       "r": "14 CFR 39; regulación AFAC"
+      },
+      {
+       "c": "¿Hay sistema de gestión de la seguridad operacional (SMS) con reporte voluntario de eventos?",
+       "e": "Manual SMS, indicadores, reportes",
+       "r": "Anexo 19 de OACI"
+      }
+     ]
+    },
+    {
+     "area": "Control de exportaciones y seguridad",
+     "controles": [
+      {
+       "c": "¿Se clasifican los productos y la tecnología (ECCN, USML) y se controlan las exportaciones y transferencias?",
+       "e": "Clasificaciones, licencias, registros de transferencias técnicas",
+       "r": "EAR (15 CFR 730-774); ITAR (22 CFR 120-130); Acuerdo de la SE sobre bienes de uso dual"
+      },
+      {
+       "c": "¿Se revisan clientes y destinos contra listas de sanciones y usuarios finales restringidos?",
+       "e": "Búsquedas en listas (OFAC, BIS Entity List, UE, ONU)",
+       "r": "EAR Parte 744; regímenes de sanciones"
+      }
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "reguladores_mx": [
+    "COFEPRIS",
+    "Secretaría de Salud",
+    "Farmacopea de los EUM (FEUM)"
+   ],
+   "reguladores_int": [
+    "FDA (EUA)",
+    "EMA (UE)",
+    "OMS (precalificación)",
+    "PIC/S"
+   ],
+   "normas": [
+    "NOM-059-SSA1-2015 (buenas prácticas de fabricación de medicamentos)",
+    "NOM-164-SSA1-2015 (fármacos)",
+    "NOM-241-SSA1-2021 (dispositivos médicos)",
+    "NOM-220-SSA1-2016 (farmacovigilancia)",
+    "NOM-072-SSA1-2012 (etiquetado)",
+    "ICH Q7, Q9(R1), Q10",
+    "21 CFR 210/211 y Part 11",
+    "EudraLex Vol. 4 (GMP UE)",
+    "GAMP 5 (2.ª ed.)",
+    "ISO 13485:2016",
+    "Buenas prácticas de distribución OMS"
+   ],
+   "areas": [
+    {
+     "area": "Sistema de calidad farmacéutico",
+     "controles": [
+      {
+       "c": "¿Hay revisión anual de producto con tendencias de calidad?",
+       "e": "Revisiones anuales (RAP/PQR)",
+       "r": "NOM-059-SSA1-2015; ICH Q10"
+      },
+      {
+       "c": "¿Las desviaciones, investigaciones y CAPA se cierran en plazo y con causa raíz?",
+       "e": "Bitácora de desviaciones, CAPA, eficacia",
+       "r": "NOM-059-SSA1-2015; 21 CFR 211.192"
+      },
+      {
+       "c": "¿El control de cambios evalúa impacto regulatorio antes de implementar?",
+       "e": "Registros de control de cambios",
+       "r": "ICH Q9(R1) y Q10"
+      }
+     ]
+    },
+    {
+     "area": "Validación e integridad de datos",
+     "controles": [
+      {
+       "c": "¿Procesos, limpieza, métodos analíticos y sistemas computarizados están validados?",
+       "e": "Plan maestro de validación, protocolos e informes",
+       "r": "NOM-059-SSA1-2015; GAMP 5"
+      },
+      {
+       "c": "¿Los datos cumplen ALCOA+ (atribuibles, legibles, contemporáneos, originales, exactos)?",
+       "e": "Audit trails, revisiones de audit trail, control de accesos",
+       "r": "21 CFR Part 11; guía PIC/S PI 041"
+      }
+     ]
+    },
+    {
+     "area": "Registros sanitarios y farmacovigilancia",
+     "controles": [
+      {
+       "c": "¿Los registros sanitarios están vigentes y las prórrogas en trámite a tiempo?",
+       "e": "Registros, oficios de COFEPRIS",
+       "r": "Ley General de Salud; Reglamento de Insumos para la Salud"
+      },
+      {
+       "c": "¿Se reportan eventos adversos y se entregan informes periódicos de seguridad?",
+       "e": "Base de farmacovigilancia, informes a COFEPRIS",
+       "r": "NOM-220-SSA1-2016"
+      }
+     ]
+    },
+    {
+     "area": "Cadena de suministro y falsificación",
+     "controles": [
+      {
+       "c": "¿Proveedores de fármacos y excipientes están calificados y auditados?",
+       "e": "Expedientes de proveedores, auditorías",
+       "r": "ICH Q7; NOM-164-SSA1-2015"
+      },
+      {
+       "c": "¿La distribución mantiene cadena de frío y trazabilidad por lote?",
+       "e": "Registros de temperatura, rutas, recolecciones",
+       "r": "Buenas prácticas de distribución OMS; NOM-059-SSA1-2015"
+      }
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "reguladores_mx": [
+    "Gobiernos locales (licencias)",
+    "STPS",
+    "IMSS (registro de obra)",
+    "SEMARNAT/autoridades ambientales estatales",
+    "SFP / Buen Gobierno (obra pública)"
+   ],
+   "reguladores_int": [
+    "Bancos multilaterales (BID, Banco Mundial) en obra financiada"
+   ],
+   "normas": [
+    "Ley de Obras Públicas y Servicios Relacionados con las Mismas",
+    "Reglamentos de construcción locales (p. ej. CDMX y sus Normas Técnicas Complementarias)",
+    "NOM-031-STPS-2011 (seguridad en obras)",
+    "NOM-009-STPS-2011 (trabajos en altura)",
+    "ISO 9001",
+    "ISO 45001",
+    "ISO 19650 (BIM)",
+    "ISO 37001",
+    "Contratos FIDIC (referencia)"
+   ],
+   "areas": [
+    {
+     "area": "Licencias y cumplimiento",
+     "controles": [
+      {
+       "c": "¿La obra tiene licencia de construcción, uso de suelo, impacto ambiental y director responsable de obra?",
+       "e": "Licencias, constancias, registro del DRO/corresponsables",
+       "r": "Reglamento local de construcción; LGEEPA"
+      },
+      {
+       "c": "¿La obra está registrada ante el IMSS y se pagan cuotas por cada trabajador?",
+       "e": "Registro de obra (SATIC), pagos, listas de raya",
+       "r": "LSS; Reglamento del Seguro Social Obligatorio para los Trabajadores de la Construcción"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad en obra",
+     "controles": [
+      {
+       "c": "¿Existe programa de seguridad, análisis de riesgos por actividad y supervisión diaria?",
+       "e": "Programa, ARP, bitácoras, permisos de trabajos peligrosos",
+       "r": "NOM-031-STPS-2011"
+      },
+      {
+       "c": "¿Trabajos en altura, excavaciones y maniobras de grúa tienen personal capacitado y equipo certificado?",
+       "e": "Constancias DC-3, certificados de equipo",
+       "r": "NOM-009-STPS-2011; NOM-006-STPS-2014"
+      }
+     ]
+    },
+    {
+     "area": "Costos, contratos y anticorrupción",
+     "controles": [
+      {
+       "c": "¿Las estimaciones pagadas corresponden a obra ejecutada y verificada en campo?",
+       "e": "Estimaciones, números generadores, fotografías, bitácora",
+       "r": "LOPSRM; Reglamento"
+      },
+      {
+       "c": "¿Los convenios modificatorios y ajustes de costos están justificados y autorizados?",
+       "e": "Convenios, dictámenes técnicos",
+       "r": "LOPSRM arts. 56-59"
+      },
+      {
+       "c": "¿Se revisa a subcontratistas (REPSE, listas 69-B, beneficiario final)?",
+       "e": "Expedientes de subcontratistas",
+       "r": "LFT; CFF art. 69-B; LFPIORPI (desarrollo inmobiliario es actividad vulnerable)"
+      }
+     ]
+    },
+    {
+     "area": "Calidad y entrega",
+     "controles": [
+      {
+       "c": "¿Hay plan de calidad con pruebas de materiales (concreto, acero) por laboratorio acreditado?",
+       "e": "Resultados de pruebas, certificados de materiales",
+       "r": "Normas Técnicas Complementarias; NMX aplicables"
+      }
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "reguladores_mx": [
+    "Secretaría de la Defensa Nacional (control de armas y explosivos)",
+    "SE (permisos de exportación de uso dual)",
+    "SRE"
+   ],
+   "reguladores_int": [
+    "DDTC/ITAR y BIS/EAR (EUA)",
+    "UE (Posición Común 2008/944/PESC)",
+    "Tratado sobre el Comercio de Armas (ONU)",
+    "Arreglo de Wassenaar"
+   ],
+   "normas": [
+    "Ley Federal de Armas de Fuego y Explosivos",
+    "Tratado sobre el Comercio de Armas (México es parte)",
+    "Arreglo de Wassenaar (México desde 2012)",
+    "ITAR (22 CFR 120-130)",
+    "EAR (15 CFR 730-774)",
+    "Reglamento (UE) 2021/821 (uso dual)",
+    "AQAP 2110 (calidad OTAN)",
+    "NIST SP 800-171 y CMMC 2.0 (cadena de suministro del DoD)",
+    "ISO 9001"
+   ],
+   "areas": [
+    {
+     "area": "Licencias y control de transferencias",
+     "controles": [
+      {
+       "c": "¿Cada fabricación, almacenamiento, compraventa o exportación tiene permiso vigente de la autoridad competente?",
+       "e": "Permisos generales/extraordinarios, inventarios conciliados",
+       "r": "Ley Federal de Armas de Fuego y Explosivos y su reglamento"
+      },
+      {
+       "c": "¿Se clasifican los productos y la tecnología y se obtiene licencia antes de exportar o compartir datos técnicos?",
+       "e": "Clasificaciones, licencias, registro de transferencias técnicas",
+       "r": "ITAR; EAR; Reglamento (UE) 2021/821; Acuerdo de la SE de uso dual"
+      },
+      {
+       "c": "¿Hay certificados de usuario final y verificación posterior al embarque?",
+       "e": "Certificados de usuario final, verificaciones",
+       "r": "Tratado sobre el Comercio de Armas arts. 7 y 11"
+      }
+     ]
+    },
+    {
+     "area": "Sanciones, embargos y desvío",
+     "controles": [
+      {
+       "c": "¿Se revisan clientes, intermediarios y destinos contra embargos de la ONU, EUA y UE?",
+       "e": "Búsquedas documentadas, alertas",
+       "r": "Resoluciones del Consejo de Seguridad; OFAC; UE"
+      },
+      {
+       "c": "¿Existe evaluación de riesgo de desvío y de uso en violaciones de derechos humanos?",
+       "e": "Análisis de riesgo por operación",
+       "r": "Tratado sobre el Comercio de Armas art. 7"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad de la información y física",
+     "controles": [
+      {
+       "c": "¿La información técnica controlada está protegida con controles de acceso y registro?",
+       "e": "Evaluación NIST SP 800-171, plan de seguridad del sistema",
+       "r": "NIST SP 800-171; CMMC 2.0"
+      },
+      {
+       "c": "¿Los inventarios físicos se concilian y los faltantes se reportan de inmediato?",
+       "e": "Conciliaciones, actas, reportes a la autoridad",
+       "r": "Ley Federal de Armas de Fuego y Explosivos"
+      }
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "reguladores_mx": [
+    "Comisión Nacional de Seguros y Fianzas (CNSF)",
+    "SHCP",
+    "CONDUSEF",
+    "UIF"
+   ],
+   "reguladores_int": [
+    "IAIS",
+    "EIOPA (UE)",
+    "NAIC (EUA)"
+   ],
+   "normas": [
+    "Ley de Instituciones de Seguros y de Fianzas (LISF)",
+    "Circular Única de Seguros y Fianzas (CUSF)",
+    "Disposiciones PLD del art. 492 LISF",
+    "Principios Básicos de Seguros (ICP) de la IAIS",
+    "Solvencia II (Directiva 2009/138/CE, referencia)",
+    "IFRS 17",
+    "ISO 31000",
+    "ISO/IEC 27001"
+   ],
+   "areas": [
+    {
+     "area": "Solvencia y reservas",
+     "controles": [
+      {
+       "c": "¿El requerimiento de capital de solvencia (RCS) y los fondos propios admisibles se calculan y reportan en tiempo?",
+       "e": "Reportes regulatorios, cálculo del RCS, conciliación",
+       "r": "LISF; CUSF"
+      },
+      {
+       "c": "¿Las reservas técnicas tienen nota técnica registrada y dictamen actuarial?",
+       "e": "Notas técnicas, dictámenes, pruebas de suficiencia",
+       "r": "LISF; CUSF"
+      },
+      {
+       "c": "¿Se elabora la autoevaluación de riesgos y solvencia (ARSI) con escenarios de estrés?",
+       "e": "Documento ARSI, pruebas de solvencia dinámica",
+       "r": "CUSF; ICP 16 (IAIS)"
+      }
+     ]
+    },
+    {
+     "area": "Suscripción, siniestros y reaseguro",
+     "controles": [
+      {
+       "c": "¿La suscripción sigue manuales y límites de retención aprobados?",
+       "e": "Manual, muestra de pólizas, excepciones",
+       "r": "LISF; política de suscripción"
+      },
+      {
+       "c": "¿Los siniestros se atienden en plazo y con control de fraude?",
+       "e": "Indicadores de tiempo, casos de fraude detectados",
+       "r": "CUSF; Ley sobre el Contrato de Seguro"
+      },
+      {
+       "c": "¿El reaseguro está colocado con reaseguradoras registradas y calificadas?",
+       "e": "Contratos, RGRE, calificaciones",
+       "r": "LISF; CUSF"
+      }
+     ]
+    },
+    {
+     "area": "Conducta de mercado y PLD",
+     "controles": [
+      {
+       "c": "¿Las quejas de CONDUSEF y la UNE se atienden y se analizan sus causas?",
+       "e": "Reportes REUNE, indicadores",
+       "r": "Ley de Protección y Defensa al Usuario de Servicios Financieros"
+      },
+      {
+       "c": "¿El programa de PLD/FT identifica clientes, beneficiario final y reporta operaciones inusuales?",
+       "e": "Manual PLD, reportes a la UIF, capacitación",
+       "r": "Disposiciones del art. 492 LISF"
+      }
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "reguladores_mx": [
+    "CNBV",
+    "Banco de México",
+    "SHCP",
+    "CONDUSEF",
+    "IPAB",
+    "UIF"
+   ],
+   "reguladores_int": [
+    "Comité de Basilea (BCBS)",
+    "FSB",
+    "GAFI/FATF",
+    "PCI SSC",
+    "SWIFT"
+   ],
+   "normas": [
+    "Ley de Instituciones de Crédito (LIC)",
+    "Circular Única de Bancos (CUB) de la CNBV",
+    "Disposiciones PLD del art. 115 LIC",
+    "Circulares de Banxico (SPEI, operaciones)",
+    "Ley para Regular las Instituciones de Tecnología Financiera (si aplica)",
+    "Basilea III (capital, liquidez CCL y CFEN)",
+    "BCBS 239 (datos de riesgo)",
+    "40 Recomendaciones del GAFI",
+    "PCI DSS v4.0.1",
+    "SWIFT CSCF",
+    "DORA (Reglamento UE 2022/2554, si opera en la UE)",
+    "IFRS 9 / NIF C-16",
+    "COSO 2013"
+   ],
+   "areas": [
+    {
+     "area": "Capital y liquidez",
+     "controles": [
+      {
+       "c": "¿El índice de capitalización y los coeficientes de liquidez (CCL, CFEN) se calculan, reportan y respetan los mínimos?",
+       "e": "Reportes regulatorios, conciliaciones, pruebas de estrés",
+       "r": "CUB; Basilea III"
+      },
+      {
+       "c": "¿Las estimaciones preventivas por riesgo de crédito siguen la metodología aplicable?",
+       "e": "Cálculo de reservas, validación de modelos",
+       "r": "CUB; IFRS 9 / NIF C-16"
+      }
+     ]
+    },
+    {
+     "area": "Prevención de lavado de dinero (PLD/FT)",
+     "controles": [
+      {
+       "c": "¿Existe metodología de riesgo PLD, identificación del cliente y del beneficiario final?",
+       "e": "Manual, matriz de riesgo, muestra de expedientes",
+       "r": "Disposiciones del art. 115 LIC; Recomendaciones 1, 10 y 24 del GAFI"
+      },
+      {
+       "c": "¿El monitoreo transaccional genera alertas que se analizan y reportan en plazo?",
+       "e": "Reglas, alertas, reportes de operaciones inusuales/relevantes",
+       "r": "Disposiciones del art. 115 LIC"
+      },
+      {
+       "c": "¿Se filtra contra la Lista de Personas Bloqueadas y listas internacionales?",
+       "e": "Bitácoras de filtrado, coincidencias",
+       "r": "LIC art. 115; Resoluciones ONU"
+      }
+     ]
+    },
+    {
+     "area": "Riesgo tecnológico y ciberseguridad",
+     "controles": [
+      {
+       "c": "¿Hay plan director de seguridad, CISO y reporte de incidentes a la CNBV y Banxico en plazo?",
+       "e": "Plan, nombramiento, reportes de incidentes",
+       "r": "CUB (disposiciones de seguridad de la información); circulares de Banxico"
+      },
+      {
+       "c": "¿Los datos de tarjetas cumplen PCI DSS y los pagos interbancarios cumplen los controles de SPEI/SWIFT?",
+       "e": "AOC/ROC de PCI, autoevaluación SWIFT CSCF",
+       "r": "PCI DSS v4.0.1; SWIFT CSCF; reglas del SPEI"
+      },
+      {
+       "c": "¿Los modelos (crédito, fraude, IA) tienen gobierno, validación independiente y monitoreo?",
+       "e": "Inventario de modelos, validaciones",
+       "r": "CUB; SR 11-7 de la Fed (referencia)"
+      }
+     ]
+    },
+    {
+     "area": "Conducta y protección al usuario",
+     "controles": [
+      {
+       "c": "¿Comisiones, contratos y publicidad están registrados y son claros?",
+       "e": "Registro de comisiones (RECO), contratos de adhesión (RECA)",
+       "r": "Ley para la Transparencia y Ordenamiento de los Servicios Financieros; disposiciones de CONDUSEF"
+      }
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "reguladores_mx": [
+    "SE (Dirección General de Minas)",
+    "SEMARNAT/PROFEPA",
+    "CONAGUA",
+    "STPS",
+    "SAT (derechos mineros)"
+   ],
+   "reguladores_int": [
+    "ICMM",
+    "IRMA",
+    "EITI",
+    "IFC"
+   ],
+   "normas": [
+    "Ley Minera (reforma 2023)",
+    "NOM-023-STPS-2012 (seguridad en minas)",
+    "NOM-141-SEMARNAT-2003 (presas de jales)",
+    "NOM-157-SEMARNAT-2009 (planes de manejo de residuos mineros)",
+    "Estándar Global de Gestión de Relaves (GISTM, 2020)",
+    "Principios Mineros del ICMM",
+    "Guía OCDE de debida diligencia para minerales de zonas de conflicto",
+    "Normas de Desempeño de la IFC",
+    "ISO 14001",
+    "ISO 45001"
+   ],
+   "areas": [
+    {
+     "area": "Títulos, derechos y obligaciones",
+     "controles": [
+      {
+       "c": "¿Las concesiones están vigentes y al corriente en derechos y obras/informes?",
+       "e": "Títulos, comprobantes de pago, informes a la DGM",
+       "r": "Ley Minera; Ley Federal de Derechos"
+      },
+      {
+       "c": "¿La concesión de agua y descargas está autorizada y medida?",
+       "e": "Títulos de CONAGUA, mediciones",
+       "r": "Ley de Aguas Nacionales"
+      }
+     ]
+    },
+    {
+     "area": "Relaves y seguridad estructural",
+     "controles": [
+      {
+       "c": "¿Las presas de jales tienen ingeniero responsable, revisiones independientes y plan de emergencia aguas abajo?",
+       "e": "Informes de estabilidad, revisión independiente, plan de emergencia",
+       "r": "GISTM; NOM-141-SEMARNAT-2003"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad en mina",
+     "controles": [
+      {
+       "c": "¿Hay análisis de riesgos, ventilación, control de explosivos y rescate minero?",
+       "e": "Programas, registros de ventilación, permisos de explosivos (Defensa)",
+       "r": "NOM-023-STPS-2012; Ley Federal de Armas de Fuego y Explosivos"
+      }
+     ]
+    },
+    {
+     "area": "Comunidades y cadena de valor",
+     "controles": [
+      {
+       "c": "¿Hay acuerdos con comunidades, mecanismo de quejas y consulta indígena cuando aplica?",
+       "e": "Acuerdos, registro de quejas",
+       "r": "Ley Minera (2023); Convenio 169 OIT; IFC PS7"
+      },
+      {
+       "c": "¿Se aplica debida diligencia a minerales de zonas de conflicto o alto riesgo?",
+       "e": "Informe de debida diligencia, auditorías de fundidoras",
+       "r": "Guía OCDE; Dodd-Frank 1502 (referencia); Reglamento UE 2017/821"
+      }
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "reguladores_mx": [
+    "COFEPRIS",
+    "SENASICA",
+    "PROFECO",
+    "SE"
+   ],
+   "reguladores_int": [
+    "FDA (FSMA)",
+    "Codex Alimentarius",
+    "GFSI"
+   ],
+   "normas": [
+    "NOM-251-SSA1-2009 (prácticas de higiene)",
+    "NOM-051-SCFI/SSA1-2010 (etiquetado, con modificación de 2020)",
+    "FSSC 22000 / ISO 22000",
+    "BRCGS, SQF, IFS (reconocidos por GFSI)",
+    "HACCP (Codex)",
+    "FSMA (EUA, si exporta)"
+   ],
+   "areas": [
+    {
+     "area": "Inocuidad",
+     "controles": [
+      {
+       "c": "¿El plan HACCP está validado y los puntos críticos se monitorean y verifican?",
+       "e": "Plan HACCP, registros de monitoreo, verificación",
+       "r": "Codex CXC 1-1969; NOM-251-SSA1-2009"
+      },
+      {
+       "c": "¿Hay programas prerrequisito (limpieza, plagas, agua, personal)?",
+       "e": "Registros de limpieza, control de plagas, análisis de agua",
+       "r": "NOM-251-SSA1-2009; ISO/TS 22002-1"
+      },
+      {
+       "c": "¿Se prueba la trazabilidad y el retiro de producto al menos una vez al año?",
+       "e": "Simulacros de retiro, tiempos",
+       "r": "FSSC 22000; FSMA 204"
+      }
+     ]
+    },
+    {
+     "area": "Etiquetado y defensa alimentaria",
+     "controles": [
+      {
+       "c": "¿El etiquetado frontal y los sellos de advertencia son correctos?",
+       "e": "Muestra de etiquetas, cálculo nutrimental",
+       "r": "NOM-051-SCFI/SSA1-2010"
+      },
+      {
+       "c": "¿Existe plan de defensa alimentaria (sabotaje) y de fraude alimentario?",
+       "e": "Evaluaciones TACCP/VACCP",
+       "r": "FSSC 22000; FSMA (adulteración intencional)"
+      }
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "reguladores_mx": [
+    "Agencia de Transformación Digital y Telecomunicaciones y Comisión Reguladora de Telecomunicaciones (sustituyen al IFT desde 2025; verifica vigencia)",
+    "SICT"
+   ],
+   "reguladores_int": [
+    "UIT",
+    "GSMA",
+    "FCC (EUA)",
+    "BEREC (UE)"
+   ],
+   "normas": [
+    "Ley en Materia de Telecomunicaciones y Radiodifusión (2025)",
+    "ISO/IEC 27011",
+    "GSMA NESAS",
+    "UIT-T X.805",
+    "Directiva NIS2 (UE, si opera allí)",
+    "ISO 22301"
+   ],
+   "areas": [
+    {
+     "area": "Concesiones y obligaciones",
+     "controles": [
+      {
+       "c": "¿Las concesiones y el uso de espectro están vigentes y se pagan derechos?",
+       "e": "Títulos, pagos",
+       "r": "Ley en Materia de Telecomunicaciones y Radiodifusión"
+      },
+      {
+       "c": "¿Se atienden las obligaciones de colaboración con la justicia y registro de usuarios con salvaguardas?",
+       "e": "Procedimientos, registros de requerimientos (sin datos personales)",
+       "r": "Ley vigente; LFPDPPP"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad y resiliencia de la red",
+     "controles": [
+      {
+       "c": "¿La red núcleo y los equipos de proveedores tienen evaluación de seguridad?",
+       "e": "Evaluaciones NESAS, pruebas de penetración",
+       "r": "GSMA NESAS; ISO/IEC 27011"
+      },
+      {
+       "c": "¿Hay redundancia, energía de respaldo y plan ante desastres en sitios críticos?",
+       "e": "Diagramas, pruebas de respaldo, simulacros",
+       "r": "ISO 22301"
+      }
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "reguladores_mx": [
+    "Secretaría Anticorrupción y Buen Gobierno (protección de datos tras 2025; verifica vigencia)",
+    "CNBV (si es ITF)",
+    "PROFECO"
+   ],
+   "reguladores_int": [
+    "Autoridades de protección de datos (UE: CEPD)",
+    "CISA (EUA)",
+    "ENISA (UE)"
+   ],
+   "normas": [
+    "ISO/IEC 27001:2022",
+    "ISO/IEC 27701 (privacidad)",
+    "ISO/IEC 27017 y 27018 (nube)",
+    "ISO/IEC 20000-1",
+    "SOC 2 (AICPA)",
+    "NIST CSF 2.0",
+    "CIS Controls v8.1",
+    "CSA Cloud Controls Matrix v4",
+    "OWASP ASVS / Top 10",
+    "ISO/IEC 42001 (gestión de IA)",
+    "Reglamento UE de IA (2024/1689), si aplica",
+    "LFPDPPP (2025)"
+   ],
+   "areas": [
+    {
+     "area": "Desarrollo seguro",
+     "controles": [
+      {
+       "c": "¿El ciclo de desarrollo incluye revisión de código, análisis de dependencias y pruebas de seguridad?",
+       "e": "Políticas, reportes SAST/DAST/SCA",
+       "r": "OWASP ASVS; NIST SSDF (SP 800-218)"
+      },
+      {
+       "c": "¿Los secretos (llaves, contraseñas) están fuera del código y rotan?",
+       "e": "Escaneos de secretos, bóveda de secretos",
+       "r": "CIS Controls 3 y 16"
+      }
+     ]
+    },
+    {
+     "area": "Nube",
+     "controles": [
+      {
+       "c": "¿Se revisa la configuración de la nube (CSPM) y se corrigen hallazgos críticos?",
+       "e": "Reportes CSPM, tickets",
+       "r": "CSA CCM v4; CIS Benchmarks"
+      },
+      {
+       "c": "¿Están claras las responsabilidades compartidas con el proveedor de nube?",
+       "e": "Contratos, matriz de responsabilidades",
+       "r": "ISO/IEC 27017; CSA CCM"
+      }
+     ]
+    },
+    {
+     "area": "Inteligencia artificial",
+     "controles": [
+      {
+       "c": "¿Hay inventario de sistemas de IA con su riesgo, datos de entrenamiento y supervisión humana?",
+       "e": "Inventario, evaluaciones de impacto",
+       "r": "ISO/IEC 42001; NIST AI RMF 1.0; Reglamento UE de IA"
+      }
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "reguladores_mx": [
+    "SICT",
+    "SAT/ANAM",
+    "Guardia Nacional (carreteras)",
+    "STPS"
+   ],
+   "reguladores_int": [
+    "CBP (C-TPAT)",
+    "OMA (Marco SAFE)",
+    "TAPA"
+   ],
+   "normas": [
+    "ISO 28000 (seguridad de la cadena de suministro)",
+    "Operador Económico Autorizado (OEA, SAT/ANAM)",
+    "C-TPAT (EUA)",
+    "TAPA FSR y TSR",
+    "NOM-012-SCT-2-2017 (pesos y dimensiones)",
+    "Complemento Carta Porte del CFDI",
+    "ISO 39001 (seguridad vial)"
+   ],
+   "areas": [
+    {
+     "area": "Seguridad de la carga",
+     "controles": [
+      {
+       "c": "¿Las rutas tienen análisis de riesgo (robo, bloqueos, clima) y protocolos de paradas autorizadas?",
+       "e": "Análisis por ruta (puede usarse la capa de robo a transporte de DOMINUS), protocolos",
+       "r": "ISO 28000; TAPA TSR"
+      },
+      {
+       "c": "¿Las unidades tienen GPS, botón de pánico, sellos de alta seguridad y monitoreo 24/7?",
+       "e": "Bitácoras del centro de monitoreo, registro de sellos",
+       "r": "TAPA TSR; ISO 17712 (sellos)"
+      },
+      {
+       "c": "¿Se verifica al personal y a los transportistas subcontratados?",
+       "e": "Expedientes, REPSE, revisiones periódicas",
+       "r": "C-TPAT; OEA"
+      }
+     ]
+    },
+    {
+     "area": "Cumplimiento fiscal y aduanero",
+     "controles": [
+      {
+       "c": "¿Cada traslado lleva CFDI con complemento Carta Porte correcto?",
+       "e": "Muestra de viajes contra CFDI",
+       "r": "CFF art. 29; RMF"
+      },
+      {
+       "c": "¿Se mantienen los requisitos del OEA/C-TPAT y se atienden sus validaciones?",
+       "e": "Perfil de seguridad, validaciones",
+       "r": "RGCE; C-TPAT MSC"
+      }
+     ]
+    },
+    {
+     "area": "Seguridad vial y flota",
+     "controles": [
+      {
+       "c": "¿La flota cumple pesos y dimensiones, mantenimiento y tiempos de conducción?",
+       "e": "Registros de mantenimiento, básculas, bitácoras de horas",
+       "r": "NOM-012-SCT-2-2017; ISO 39001"
+      }
+     ]
+    }
+   ]
+  }
+ }
+}

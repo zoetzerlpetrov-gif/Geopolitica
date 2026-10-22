@@ -744,6 +744,96 @@ def leer_json_aceptando(url):
         return json.loads(r.read())
 
 
+# Plataforma «511» (misma API en varias provincias y estados): llave gratuita al registrarse en cada sitio.
+# secreto → (URL base, país, nombre del operador, página pública)
+CAM_511 = {
+    "CAM_511_ON": ("https://511on.ca", "CAN", "Ontario 511 (Ministerio de Transporte de Ontario)"),
+    "CAM_511_AB": ("https://511.alberta.ca", "CAN", "511 Alberta (Gobierno de Alberta)"),
+    "CAM_511_NY": ("https://511ny.org", "USA", "511NY (Departamento de Transporte de Nueva York)"),
+    "CAM_511_AZ": ("https://www.az511.com", "USA", "AZ511 (Departamento de Transporte de Arizona)"),
+    "CAM_511_NV": ("https://www.nvroads.com", "USA", "NVRoads (Departamento de Transporte de Nevada)"),
+    "CAM_511_GA": ("https://511ga.org", "USA", "511GA (Departamento de Transporte de Georgia)"),
+}
+
+
+def camaras_511(lista, base, pais, operador, prefijo):
+    """Respuesta de /api/v2/get/cameras de la plataforma 511 → puntos con hasta 4 vistas."""
+    out = []
+    for c in lista if isinstance(lista, list) else []:
+        lat, lon = _num(c.get("Latitude")), _num(c.get("Longitude"))
+        if lat is None or lon is None:
+            continue
+        vistas = [v.get("Url") for v in (c.get("Views") or []) if str(v.get("Status", "Enabled")).lower() != "disabled"] or [c.get("Url")]
+        imgs = [u for u in vistas if str(u or "").startswith("https://")][:4]
+        if not imgs:
+            continue
+        out.append(feat(punto(lon, lat), {
+            "id": f"{prefijo}:{c.get('Id') or c.get('ID') or len(out)}", "n": c.get("Location") or c.get("Name") or c.get("Roadway") or "Cámara de tráfico",
+            "st": "trafico", "p": pais, "x": base + "/", "o": operador, "t": "organismo_publico", "imgs": imgs,
+            "lic": "Datos públicos con llave gratuita del operador", "lugar": " · ".join(x for x in (c.get("Roadway"), c.get("Direction")) if x),
+            "nota": "Cámara de tráfico en carretera."}, 5))
+    return out
+
+
+def camaras_wsdot(lista):
+    """Cámaras del Departamento de Transporte de Washington (AccessCode gratuito)."""
+    out = []
+    for c in lista if isinstance(lista, list) else []:
+        loc = c.get("CameraLocation") or {}
+        lat, lon, img = _num(loc.get("Latitude")), _num(loc.get("Longitude")), str(c.get("ImageURL") or "")
+        if lat is None or lon is None or not img.startswith("https://") or c.get("IsActive") is False:
+            continue
+        out.append(feat(punto(lon, lat), {
+            "id": f"wa:{c.get('CameraID', len(out))}", "n": c.get("Title") or loc.get("Description") or "Cámara de WSDOT", "st": "trafico", "p": "USA",
+            "x": "https://wsdot.com/travel/real-time/map/", "o": "WSDOT (Departamento de Transporte de Washington)", "t": "organismo_publico",
+            "imgs": [img], "lic": "Datos públicos de WSDOT", "lugar": loc.get("RoadName") or "", "nota": "Cámara de tráfico en carretera."}, 5))
+    return out
+
+
+def camaras_windy(d):
+    """Webcams de Windy (llave gratuita): solo el punto y el enlace a su reproductor; la imagen del plan gratuito caduca
+    a los 10 minutos, así que no se guarda."""
+    out = []
+    for w in d.get("webcams") or []:
+        loc = w.get("location") or {}
+        lat, lon = _num(loc.get("latitude")), _num(loc.get("longitude"))
+        if lat is None or lon is None:
+            continue
+        out.append(feat(punto(lon, lat), {
+            "id": f"wy:{w.get('webcamId')}", "n": w.get("title") or "Webcam", "st": "ciudad", "p": (loc.get("country_code") or "").upper(),
+            "x": f"https://www.windy.com/webcams/{w.get('webcamId')}", "o": "Windy Webcams", "t": "operador_turistico",
+            "lugar": ", ".join(x for x in (loc.get("city"), loc.get("region"), loc.get("country")) if x), "nota": "Webcam publicada en Windy; ábrela en su sitio."}, 4))
+    return out
+
+
+def camaras_con_llave():
+    """Fuentes que piden llave gratuita: cada una se usa solo si su secreto existe."""
+    out = []
+    for sec, (base, pais, operador) in CAM_511.items():
+        llave = os.environ.get(sec, "").strip()
+        if not llave:
+            CAM_FUENTES[sec.lower()] = "sin llave"
+            continue
+        out += _fuente_camaras(sec.lower(), [f"{base}/api/v2/get/cameras?key={urllib.parse.quote(llave)}&format=json"],
+                               lambda d, b=base, p=pais, o=operador, s=sec: camaras_511(d, b, p, o, s[-2:].lower()), leer=leer_json_aceptando)
+    if os.environ.get("WSDOT_ACCESS_CODE", "").strip():
+        u = "https://wsdot.wa.gov/Traffic/api/HighwayCameras/HighwayCamerasREST.svc/GetCamerasAsJson?AccessCode=" + urllib.parse.quote(os.environ["WSDOT_ACCESS_CODE"].strip())
+        out += _fuente_camaras("wsdot", [u], camaras_wsdot, leer=leer_json_aceptando)
+    else:
+        CAM_FUENTES["wsdot"] = "sin llave"
+    llave = os.environ.get("WINDY_WEBCAMS_KEY", "").strip()
+    if llave:
+        def leer_windy(u):
+            req = urllib.request.Request(u, headers={"User-Agent": UA, "x-windy-api-key": llave, "Accept": "application/json"})
+            with urllib.request.urlopen(req, timeout=60) as r:
+                return json.loads(r.read())
+        urls = [f"https://api.windy.com/webcams/api/v3/webcams?limit=50&offset={o}&include=location" for o in range(0, 1000, 50)]
+        out += _fuente_camaras("windy", urls, camaras_windy, leer=leer_windy)
+    else:
+        CAM_FUENTES["windy"] = "sin llave"
+    return out
+
+
 def get_json_gzip(url):
     """JSON con Accept-Encoding: gzip (Digitraffic lo pide) e identificación del cliente."""
     import gzip
@@ -764,7 +854,7 @@ def _fuente_camaras(nombre, urls, parser, leer=None):
                 raise PermissionError("robots.txt no lo permite")
             feats += parser((leer or get_json_gzip)(u))
         except Exception as e:  # noqa: BLE001
-            errores.append(f"{u.rsplit('/', 1)[-1]}: {e}"[:120])
+            errores.append(f"{u.split('?')[0].rsplit('/', 1)[-1]}: {e}"[:120])  # sin la consulta: puede llevar una llave
     CAM_FUENTES[nombre] = (f"ok ({len(feats)})" if feats else "error") + (f"; fallaron {len(errores)} de {len(urls)}: {errores[0]}" if errores else "")
     print(f"   cámaras {nombre}: {CAM_FUENTES[nombre]}")
     return feats
@@ -823,6 +913,7 @@ def camaras(revisar=enlace_responde, externas=True):
         out += _fuente_camaras("hong_kong", [HONG_KONG], camaras_hong_kong, leer=lambda u: get(u, timeout=60))
         out += _fuente_camaras("nueva_zelanda", [NUEVA_ZELANDA], camaras_nueva_zelanda, leer=leer_json_aceptando)
         out += _fuente_camaras("islandia", [ISLANDIA], camaras_islandia)
+        out += camaras_con_llave()
         out += camaras_youtube()
     return out
 
