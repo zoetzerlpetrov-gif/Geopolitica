@@ -80,3 +80,40 @@ export function aCSV(columnas, filas) {
   const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
   return [columnas, ...filas].map((f) => f.map(q).join(",")).join("\n");
 }
+
+// ------------------------------------------------------------------ biblioteca de metodologías (config/ops_biblioteca/*.json)
+const sinAc = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const escH = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+
+/** Metodologías que contienen todas las palabras (nombre, organismo, para qué, conceptos o nombres de plantillas). */
+export function buscarMetodologias(lista, q = "") {
+  const p = sinAc(q).split(/\s+/).filter((x) => x.length > 1);
+  if (!p.length) return lista;
+  return lista.filter((m) => {
+    const t = sinAc([m.nombre, m.organismo, m.para_que, ...(m.conceptos || []).flat(), ...(m.plantillas || []).map((x) => x.nombre)].join(" "));
+    return p.every((x) => t.includes(x));
+  });
+}
+
+/** Valor vacío de un campo de plantilla (las tablas son listas de filas). */
+export const vacioDe = (campo) => (campo.tipo === "tabla" ? [] : "");
+
+/** Documento de una plantilla llenada: Markdown y HTML (para Word, PDF o imprimir). */
+export function documentoPlantilla(met, pl, valores = {}, cliente = {}) {
+  const titulo = `${pl.nombre} — ${met.nombre}`;
+  let md = `# ${titulo}\n\n${cliente.nombre ? `**Cliente:** ${cliente.nombre}\n\n` : ""}_${pl.proposito || ""}_\n\n`;
+  let html = `<h1>${escH(titulo)}</h1>${cliente.nombre ? `<p><b>Cliente:</b> ${escH(cliente.nombre)}</p>` : ""}<p><i>${escH(pl.proposito || "")}</i></p>`;
+  for (const c of pl.campos || []) {
+    const v = valores[c.k];
+    if (c.tipo === "tabla") {
+      const filas = Array.isArray(v) ? v : [];
+      md += `## ${c.etiqueta}\n\n| ${c.columnas.join(" | ")} |\n| ${c.columnas.map(() => "---").join(" | ")} |\n${filas.map((f) => `| ${c.columnas.map((_, i) => String(f[i] ?? "").replace(/\|/g, "\\|")).join(" | ")} |`).join("\n")}\n\n`;
+      html += `<h2>${escH(c.etiqueta)}</h2><table border="1" cellspacing="0" cellpadding="4"><tr>${c.columnas.map((x) => `<th>${escH(x)}</th>`).join("")}</tr>${filas.map((f) => `<tr>${c.columnas.map((_, i) => `<td>${escH(f[i] ?? "")}</td>`).join("")}</tr>`).join("")}</table>`;
+    } else {
+      md += `**${c.etiqueta}:** ${v ?? ""}\n\n`;
+      html += `<p><b>${escH(c.etiqueta)}:</b> ${escH(v ?? "").replace(/\n/g, "<br>")}</p>`;
+    }
+  }
+  const pie = `${met.organismo ? `${met.organismo} · ` : ""}${met.version || ""}`;
+  return { titulo, md: md + `---\n${pie}\n`, html: html + `<hr><p style="font-size:9pt;color:#555">${escH(pie)} · Plantilla de la biblioteca DOMINUS OPS.</p>` };
+}

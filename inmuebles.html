@@ -36,6 +36,7 @@
       Los portales no se copian: sus términos lo prohíben. Cuando encuentres un inmueble, evalúa su ubicación aquí y guárdalo en tu lista; todo se queda en este navegador.</p>
     <nav class="pestanas" role="tablist" aria-label="Secciones">
       <button role="tab" aria-selected="true" data-p="evaluar">🧭 Evaluar una ubicación</button>
+      <button role="tab" aria-selected="false" data-p="desarrollos">🏗️ Desarrollos en seguimiento</button>
       <button role="tab" aria-selected="false" data-p="lista">⭐ Mi lista</button>
       <button role="tab" aria-selected="false" data-p="fuentes">🌍 Fuentes por país (20)</button>
     </nav>
@@ -44,6 +45,9 @@
       <div class="tarjeta"><div class="form">
         <label>Nombre o referencia <input id="ev-nombre" maxlength="120" placeholder="Depto. 2 rec. Valencia"></label>
         <label>País <select id="ev-pais"></select></label>
+        <label>Ciudad o municipio <input id="ev-ciudad" maxlength="120" placeholder="Ciudad de México"></label>
+        <label>Colonia o barrio <input id="ev-colonia" maxlength="120" placeholder="Polanco"></label>
+        <button type="button" class="btn" id="ev-geo">📍 Buscar coordenadas</button>
         <label>Latitud <input id="ev-lat" inputmode="decimal" placeholder="39.47"></label>
         <label>Longitud <input id="ev-lon" inputmode="decimal" placeholder="-0.376"></label>
         <label>Tipo <select id="ev-tipo"><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local u oficina</option></select></label>
@@ -56,7 +60,23 @@
       </div>
       <p class="meta">Coordenadas: en el mapa de DOMINUS, clic derecho copia la latitud y longitud. Fuentes que se consultan al evaluar: USGS (sismos), Open-Meteo (elevación),
         Banco Mundial (estabilidad política y homicidios) y los volcanes y eventos de DOMINUS. Solo se envían las coordenadas o el país.</p></div>
+      <div id="ev-geo-res" aria-live="polite"></div>
       <div id="ev-res" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="p-desarrollos" hidden>
+      <p class="meta">Desarrollos de ARA y SADASI (de tu repositorio InmueblesAraSadasi, actualizado cada lunes) y desarrollos nuevos o subastas oficiales en 20 países, con su precio publicado y la fecha en que se consultó.
+        Los precios cambian: confírmalos con la desarrolladora. «Evaluar» calcula el riesgo completo de la ubicación. No es una recomendación de inversión.</p>
+      <div class="barra" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <label>País <select id="de-pais"><option value="">Todos</option></select></label>
+        <label>Tipo <select id="de-tipo"><option value="">Todos</option></select></label>
+        <label>Desarrolladora <select id="de-dev"><option value="">Todas</option></select></label>
+        <label><input type="checkbox" id="de-nuevo"> Solo construcción nueva</label>
+        <label><input type="checkbox" id="de-compra"> Solo donde un mexicano compra sin restricción</label>
+        <span id="de-exp"></span></div>
+      <p class="meta" id="de-n"></p>
+      <div class="desliza"><table class="t" id="de-tabla"></table></div>
+      <p class="meta"><a href="./?capas=inmuebles_seguimiento">Ver todos en el mapa (capa «Inmuebles en seguimiento»)</a></p>
     </section>
 
     <section class="panel" id="p-lista" hidden>

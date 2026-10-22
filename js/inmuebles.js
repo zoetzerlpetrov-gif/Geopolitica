@@ -25,6 +25,62 @@ $("fu-paises").innerHTML = fuentes.paises.map((p) => `<details class="tarjeta"><
   <p><b>Riesgos por dirección:</b> ${enlaces(p.riesgo)}</p><p><b>Portales privados (solo enlace):</b> ${enlaces(p.portales)}</p>
   <p class="meta"><b>Compradores extranjeros:</b> ${esc(p.extranjeros)}</p></details>`).join("");
 
+// ------------------------------------------------------------------ desarrollos en seguimiento
+const ARCHIVOS_DES = ["america", "europa_sur", "europa_norte"];
+const desarrollos = await Promise.all(ARCHIVOS_DES.map((n) => getJSON(`config/inmuebles_desarrollos/${n}.json`).catch(() => ({ paises: {}, inmuebles: [] }))));
+const reglas = Object.assign({}, ...desarrollos.map((d) => d.paises || {}));
+const ofertas = desarrollos.flatMap((d) => d.inmuebles || []).map((x) => ({ ...x, compra: reglas[x.pais_iso3]?.compra_mexicanos?.puede || "" }));
+try {
+  const ar = await getJSON("https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json");
+  for (const d of ar.developments || []) ofertas.push({ id: d.id, pais_iso3: "MEX", ciudad: d.city, estado: d.state, zona: d.city, lat: d.lat, lon: d.lon, tipo: "casa o departamento",
+    nuevo: true, rehabilitacion: "no", desarrolladora: d.developer, proyecto: d.name, precio_desde: d.precio_min, precio_hasta: d.precio_max, moneda: "MXN", url: d.url,
+    fuente: "InmueblesAraSadasi", visto: (ar.generated || "").slice(0, 10), compra: "sí" });
+} catch (e) { /* sin ARA/SADASI: se muestran los demás */ }
+const nombrePaisDe = (iso) => reglas[iso]?.nombre || fuentes.paises.find((p) => p.iso3 === iso)?.nombre || iso;
+const opciones = (id, vals) => { $(id).innerHTML += [...new Set(vals.filter(Boolean))].sort().map((v) => `<option value="${esc(v)}">${esc(id === "de-pais" ? nombrePaisDe(v) : v)}</option>`).join(""); };
+opciones("de-pais", ofertas.map((o) => o.pais_iso3));
+opciones("de-tipo", ofertas.map((o) => o.tipo));
+opciones("de-dev", ofertas.map((o) => o.desarrolladora));
+const REHAB = { no: "No", ligera: "Ligera", integral: "Integral", desconocido: "—" };
+const fmt = (n) => (n == null ? "—" : Number(n).toLocaleString("es-MX"));
+const filtradas = () => ofertas.filter((o) => (!$("de-pais").value || o.pais_iso3 === $("de-pais").value) && (!$("de-tipo").value || o.tipo === $("de-tipo").value)
+  && (!$("de-dev").value || o.desarrolladora === $("de-dev").value) && (!$("de-nuevo").checked || o.nuevo) && (!$("de-compra").checked || o.compra === "sí"));
+function pintarDes() {
+  const f = filtradas();
+  $("de-n").textContent = `${f.length} de ${ofertas.length} ofertas.`;
+  $("de-tabla").innerHTML = `<tr><th>País</th><th>Ciudad / zona</th><th>Tipo</th><th>Desarrolladora y proyecto</th><th>Precio desde</th><th>Nuevo</th><th>Rehabilitación</th><th>¿Mexicano compra?</th><th>Consultado</th><th></th></tr>`
+    + f.map((o) => `<tr><td>${esc(nombrePaisDe(o.pais_iso3))}</td><td>${esc([o.zona, o.ciudad].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(", "))}</td><td>${esc(o.tipo || "")}</td>
+      <td>${o.url ? `<a href="${esc(safeUrl(o.url))}" target="_blank" rel="noopener">${esc(`${o.desarrolladora || ""} · ${o.proyecto || ""}`)}</a>` : esc(`${o.desarrolladora || ""} · ${o.proyecto || ""}`)}</td>
+      <td>${fmt(o.precio_desde)} ${esc(o.moneda || "")}</td><td>${o.nuevo ? "Sí" : "No"}</td><td>${esc(REHAB[o.rehabilitacion] || o.rehabilitacion || "—")}</td><td>${esc(o.compra || "—")}</td><td>${esc(o.visto || "")}</td>
+      <td>${o.lat != null ? `<button type="button" class="btn" data-evaluar="${o.lat},${o.lon},${esc(o.pais_iso3)}" data-nombre="${esc(`${o.proyecto || o.ciudad}`)}">Evaluar</button>` : ""}</td></tr>`).join("");
+}
+for (const id of ["de-pais", "de-tipo", "de-dev", "de-nuevo", "de-compra"]) $(id).addEventListener("change", pintarDes);
+pintarDes();
+import("./exportar.js").then((X) => {
+  $("de-exp").innerHTML = X.htmlSelectorExportar("dex");
+  $("dex-btn").onclick = () => X.exportar($("dex-fmt").value, ["pais_iso3", "ciudad", "zona", "tipo", "desarrolladora", "proyecto", "precio_desde", "precio_hasta", "moneda", "nuevo", "rehabilitacion", "compra", "lat", "lon", "visto", "url"],
+    filtradas(), { titulo: "Desarrollos inmobiliarios en seguimiento", nota: "Precios publicados por las desarrolladoras en la fecha de consulta; confirmar antes de decidir." });
+});
+$("de-tabla").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-evaluar]");
+  if (!b) return;
+  const [la, lo, iso] = b.dataset.evaluar.split(",");
+  prellenar({ lat: la, lon: lo, pais: iso, nombre: b.dataset.nombre });
+});
+
+// Reglas para compradores mexicanos y desarrolladoras, dentro de «Fuentes por país».
+for (const [iso, r] of Object.entries(reglas)) {
+  const caja = [...$("fu-paises").querySelectorAll("details")].find((d) => d.querySelector("summary b")?.textContent === fuentes.paises.find((p) => p.iso3 === iso)?.nombre);
+  const c = r.compra_mexicanos || {};
+  const html = `<div class="tarjeta"><p><b>🇲🇽 Para una persona mexicana: ${esc(c.puede || "—")}.</b> ${esc(c.detalle || "")}</p>
+    ${c.costa ? `<p><b>Costa y playa:</b> ${esc(c.costa)}</p>` : ""}${c.terrenos_rurales ? `<p><b>Terrenos rurales:</b> ${esc(c.terrenos_rurales)}</p>` : ""}
+    ${c.impuestos_y_costos ? `<p><b>Impuestos y costos de compra:</b> ${esc(c.impuestos_y_costos)}</p>` : ""}${c.financiamiento ? `<p><b>Financiamiento:</b> ${esc(c.financiamiento)}</p>` : ""}
+    ${c.residencia ? `<p><b>Residencia:</b> ${esc(c.residencia)}</p>` : ""}${(c.fuentes || []).length ? `<p class="meta">Fuentes: ${enlaces(c.fuentes)}</p>` : ""}
+    ${(r.desarrolladoras || []).length ? `<p><b>Principales desarrolladoras:</b> ${r.desarrolladoras.map((d) => d.url ? `<a href="${esc(safeUrl(d.url))}" target="_blank" rel="noopener">${esc(d.nombre)}</a> <span class="meta">(${esc(d.segmento || "")}; ${esc(d.regiones || "")})</span>` : esc(d.nombre)).join(" · ")}</p>` : ""}
+    ${(r.busqueda || []).length ? `<p><b>Buscar en portales (solo enlace):</b> ${enlaces(r.busqueda)}</p>` : ""}</div>`;
+  caja?.insertAdjacentHTML("beforeend", html);
+}
+
 // ------------------------------------------------------------------ evaluar
 let volcanes = null;
 const json = async (u) => (await fetch(u)).json();
@@ -34,6 +90,34 @@ async function indicadorBM(iso, ind) {
   return v && v.value != null ? { valor: Number(v.value), anio: v.date } : null;
 }
 let ultimo = null;
+// Ciudad + colonia → coordenadas (Nominatim). Si hay varias coincidencias, se elige una de la lista.
+let iso2De = null;
+$("ev-geo").onclick = async () => {
+  const caja = $("ev-geo-res");
+  iso2De ??= await getJSON("config/gazetteer.json").then((g) => Object.fromEntries(Object.entries(g.iso2_a_iso3 || {}).map(([a, b]) => [b, a]))).catch(() => ({}));
+  const url = R.urlGeocodificar($("ev-ciudad").value, $("ev-colonia").value, iso2De[$("ev-pais").value] || "");
+  if (!url) { caja.innerHTML = `<p class="meta">Escribe al menos la ciudad.</p>`; return; }
+  caja.innerHTML = `<p class="meta">Buscando en OpenStreetMap…</p>`;
+  try {
+    const ops = R.opcionesGeocodificacion(await (await fetch(url)).json());
+    if (!ops.length) { caja.innerHTML = `<p class="meta">Sin resultados. Prueba sin la colonia, con el nombre oficial o con otro país elegido.</p>`; return; }
+    const poner = (o) => { $("ev-lat").value = o.lat.toFixed(6); $("ev-lon").value = o.lon.toFixed(6); caja.innerHTML = `<p class="meta">📍 ${esc(o.nombre)} — coordenadas puestas. Datos © OpenStreetMap (ODbL).</p>`; };
+    if (ops.length === 1) return poner(ops[0]);
+    caja.innerHTML = `<p class="meta">Elige el lugar correcto:</p><ul class="fuentes">${ops.map((o, i) => `<li><button type="button" class="btn" data-geo="${i}">${esc(o.nombre)}</button> <span class="meta">${esc(o.tipo)}</span></li>`).join("")}</ul><p class="meta">Datos © OpenStreetMap (ODbL).</p>`;
+    caja.onclick = (e) => { const b = e.target.closest("[data-geo]"); if (b) poner(ops[Number(b.dataset.geo)]); };
+  } catch (err) { caja.innerHTML = `<p class="meta">No se pudo consultar OpenStreetMap: ${esc(err.message)}</p>`; }
+};
+
+/** Llena el evaluador (desde la ficha del mapa o la tabla de desarrollos) y lo ejecuta. */
+function prellenar({ lat, lon, pais, nombre }) {
+  if (!lat || !lon) return;
+  $("ev-lat").value = lat; $("ev-lon").value = lon;
+  if (nombre) $("ev-nombre").value = nombre;
+  if (pais && [...$("ev-pais").options].some((o) => o.value === pais)) $("ev-pais").value = pais;
+  document.querySelector('.pestanas button[data-p="evaluar"]').click();
+  setTimeout(() => $("ev-btn").click(), 0);
+}
+
 $("ev-btn").onclick = async () => {
   const lat = Number($("ev-lat").value), lon = Number($("ev-lon").value), iso = $("ev-pais").value;
   const out = $("ev-res");
@@ -86,3 +170,6 @@ $("li-csv").onclick = () => {
 $("li-json").onclick = () => descargar("mis-inmuebles.json", JSON.stringify(leer("gp_inmuebles", []), null, 1), "application/json");
 $("li-imp").onchange = async (e) => { try { const d = JSON.parse(await e.target.files[0].text()); if (Array.isArray(d)) { guardar("gp_inmuebles", d); pintarLista(); } } catch (err) { alert("Archivo no válido"); } };
 pintarLista();
+
+// inmuebles.html?lat=…&lon=…&pais=…&nombre=… (botón «Evaluar riesgo completo» de la ficha del mapa)
+{ const q = new URLSearchParams(location.search); if (q.get("lat") && q.get("lon")) prellenar({ lat: q.get("lat"), lon: q.get("lon"), pais: q.get("pais"), nombre: q.get("nombre") }); }

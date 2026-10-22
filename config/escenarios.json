@@ -1,0 +1,2334 @@
+{
+ "descripcion": "Catálogo de escenarios de riesgo de DOMINUS. Cada escenario usa un modelo del motor científico (js/ciencia.js) y parámetros con valores por defecto que puedes cambiar. Los valores por defecto son supuestos de partida: reemplázalos con datos de la empresa.",
+ "escenarios": [
+  {
+   "id": "ransomware",
+   "nombre": "Ataque de ransomware que detiene operaciones",
+   "categoria": "Ciberseguridad",
+   "descripcion": "Cifrado de servidores y paro parcial de operaciones; incluye recuperación, días sin vender, respuesta a incidentes y posible extorsión.",
+   "modelo": "frecuencia_severidad",
+   "parametros": [
+    {
+     "k": "lambda",
+     "etiqueta": "Frecuencia anual esperada",
+     "valor": 0.15,
+     "unidad": "eventos/año",
+     "ayuda": "Referencia: sector y madurez; 0.1–0.3 en empresas medianas sin controles maduros (supuesto a ajustar).",
+     "tipo": "numero"
+    },
+    {
+     "k": "p50",
+     "etiqueta": "Pérdida en un caso típico (p50)",
+     "valor": "cliente.ingresos*0.004",
+     "unidad": "moneda",
+     "ayuda": "≈ 1.5 días de ingresos por defecto",
+     "tipo": "numero"
+    },
+    {
+     "k": "p90",
+     "etiqueta": "Pérdida en un caso grave (p90)",
+     "valor": "cliente.ingresos*0.03",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "ransomware",
+    "hackeo",
+    "ciberataque",
+    "ciber",
+    "malware",
+    "sistemas",
+    "ti",
+    "phishing",
+    "extorsión digital"
+   ],
+   "areas_eventos": [
+    "tecnologia"
+   ],
+   "sectores": [
+    "ti_digital",
+    "bancos",
+    "seguros",
+    "telecom",
+    "farmaceutico",
+    "logistica"
+   ],
+   "mitigaciones": [
+    "Respaldos inmutables y probados (3-2-1-1-0)",
+    "MFA en todo acceso remoto",
+    "EDR y segmentación",
+    "Plan de respuesta a incidentes y simulacros",
+    "Póliza de ciberseguro"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "fuga_datos",
+   "nombre": "Fuga de datos personales",
+   "categoria": "Ciberseguridad / cumplimiento",
+   "descripcion": "Exposición de datos de clientes o empleados: notificación, sanción de la autoridad de datos, demandas y pérdida de clientes.",
+   "modelo": "frecuencia_severidad",
+   "parametros": [
+    {
+     "k": "lambda",
+     "etiqueta": "Frecuencia anual",
+     "valor": 0.1,
+     "unidad": "eventos/año",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p50",
+     "etiqueta": "Pérdida típica",
+     "valor": "cliente.ingresos*0.002",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p90",
+     "etiqueta": "Pérdida grave",
+     "valor": "cliente.ingresos*0.02",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "datos personales",
+    "privacidad",
+    "fuga",
+    "brecha",
+    "lfpdppp",
+    "gdpr",
+    "clientes"
+   ],
+   "areas_eventos": [
+    "tecnologia"
+   ],
+   "sectores": [
+    "bancos",
+    "seguros",
+    "ti_digital",
+    "telecom"
+   ],
+   "mitigaciones": [
+    "Inventario y minimización de datos",
+    "Cifrado en reposo y en tránsito",
+    "DLP y control de accesos",
+    "Procedimiento de notificación de brechas"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "fraude_bec",
+   "nombre": "Fraude de pagos por suplantación (BEC)",
+   "categoria": "Fraude",
+   "descripcion": "Un correo falso de proveedor o directivo logra que se pague a una cuenta equivocada.",
+   "modelo": "frecuencia_severidad",
+   "parametros": [
+    {
+     "k": "lambda",
+     "etiqueta": "Frecuencia anual",
+     "valor": 0.3,
+     "unidad": "eventos/año",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p50",
+     "etiqueta": "Pérdida típica",
+     "valor": "cliente.ingresos*0.0005",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p90",
+     "etiqueta": "Pérdida grave",
+     "valor": "cliente.ingresos*0.004",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "fraude",
+    "pagos",
+    "transferencias",
+    "proveedores",
+    "suplantación",
+    "correo"
+   ],
+   "areas_eventos": [
+    "tecnologia"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Doble autorización de cambios de cuenta bancaria",
+    "Confirmación por teléfono conocido",
+    "Capacitación antiphishing"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "fraude_interno",
+   "nombre": "Fraude interno (malversación, compras)",
+   "categoria": "Fraude",
+   "descripcion": "Desvío de recursos por personal: compras infladas, nómina fantasma, inventario.",
+   "modelo": "frecuencia_severidad",
+   "parametros": [
+    {
+     "k": "lambda",
+     "etiqueta": "Frecuencia anual",
+     "valor": 0.2,
+     "unidad": "eventos/año",
+     "ayuda": "ACFE estima que las organizaciones pierden ≈ 5 % de sus ingresos por fraude ocupacional (estudios Report to the Nations).",
+     "tipo": "numero"
+    },
+    {
+     "k": "p50",
+     "etiqueta": "Pérdida típica",
+     "valor": "cliente.ingresos*0.001",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p90",
+     "etiqueta": "Pérdida grave",
+     "valor": "cliente.ingresos*0.01",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "fraude",
+    "corrupción",
+    "compras",
+    "nómina",
+    "inventario",
+    "malversación",
+    "soborno"
+   ],
+   "areas_eventos": [
+    "instituciones"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Segregación de funciones",
+    "Línea de denuncia",
+    "Analítica de pagos (Benford, duplicados)",
+    "Rotación y vacaciones obligatorias"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "sismo",
+   "nombre": "Sismo mayor que daña la sede o planta",
+   "categoria": "Desastre natural",
+   "descripcion": "Probabilidad de un sismo dañino en el horizonte con Gutenberg-Richter y daño con curva de fragilidad.",
+   "modelo": "sismo_gr",
+   "parametros": [
+    {
+     "k": "n_obs",
+     "etiqueta": "Sismos M≥5 observados en 200 km",
+     "valor": 40,
+     "unidad": "sismos",
+     "ayuda": "Consúltalo en el evaluador de Inmuebles (USGS desde 1975).",
+     "tipo": "numero"
+    },
+    {
+     "k": "anios_obs",
+     "etiqueta": "Años observados",
+     "valor": 50,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "m0",
+     "etiqueta": "Magnitud mínima del conteo",
+     "valor": 5,
+     "unidad": "M",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "b",
+     "etiqueta": "Valor b de Gutenberg-Richter",
+     "valor": 1,
+     "unidad": "",
+     "ayuda": "≈ 1 en casi todo el mundo",
+     "tipo": "numero"
+    },
+    {
+     "k": "m_dano",
+     "etiqueta": "Magnitud que causa daño en tu sitio",
+     "valor": 7,
+     "unidad": "M",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "horizonte",
+     "etiqueta": "Horizonte",
+     "valor": 10,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "valor",
+     "etiqueta": "Valor expuesto (inmuebles, equipo, inventario)",
+     "valor": "cliente.ingresos*0.5",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "theta_m",
+     "etiqueta": "Magnitud con 50 % de daño (fragilidad)",
+     "valor": 7.5,
+     "unidad": "M",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "beta",
+     "etiqueta": "Dispersión de la fragilidad",
+     "valor": 0.1,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "sismo",
+    "terremoto",
+    "temblor",
+    "falla",
+    "cdmx",
+    "oaxaca",
+    "guerrero",
+    "chiapas"
+   ],
+   "areas_eventos": [
+    "geografia"
+   ],
+   "sectores": [
+    "construccion",
+    "energia_electrica",
+    "hidrocarburos"
+   ],
+   "mitigaciones": [
+    "Dictamen estructural",
+    "Anclaje de equipos y racks",
+    "Seguro de daños",
+    "Plan de continuidad con sitio alterno"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "huracan",
+   "nombre": "Huracán que afecta instalaciones",
+   "categoria": "Desastre natural",
+   "descripcion": "Evento con periodo de retorno (p. ej. categoría 3+ en tu costa).",
+   "modelo": "periodo_retorno",
+   "parametros": [
+    {
+     "k": "T",
+     "etiqueta": "Periodo de retorno del evento dañino",
+     "valor": 20,
+     "unidad": "años",
+     "ayuda": "Atlas Nacional de Riesgos / NOAA para tu costa",
+     "tipo": "numero"
+    },
+    {
+     "k": "horizonte",
+     "etiqueta": "Horizonte",
+     "valor": 10,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_evento",
+     "etiqueta": "Pérdida si ocurre",
+     "valor": "cliente.ingresos*0.05",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "huracán",
+    "ciclón",
+    "tormenta",
+    "costa",
+    "cancún",
+    "yucatán",
+    "veracruz",
+    "golfo",
+    "caribe"
+   ],
+   "areas_eventos": [
+    "clima"
+   ],
+   "sectores": [
+    "logistica",
+    "alimentos",
+    "hidrocarburos",
+    "construccion"
+   ],
+   "mitigaciones": [
+    "Protección de ventanas y techos",
+    "Inventario fuera de zonas bajas",
+    "Protocolo de cierre preventivo",
+    "Seguro paramétrico"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "inundacion",
+   "nombre": "Inundación del sitio",
+   "categoria": "Desastre natural",
+   "descripcion": "Lluvia extrema o desbordamiento con periodo de retorno.",
+   "modelo": "periodo_retorno",
+   "parametros": [
+    {
+     "k": "T",
+     "etiqueta": "Periodo de retorno",
+     "valor": 25,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "horizonte",
+     "etiqueta": "Horizonte",
+     "valor": 10,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_evento",
+     "etiqueta": "Pérdida si ocurre",
+     "valor": "cliente.ingresos*0.02",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "inundación",
+    "lluvia",
+    "desbordamiento",
+    "río",
+    "drenaje",
+    "encharcamiento"
+   ],
+   "areas_eventos": [
+    "clima"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Equipo crítico elevado",
+    "Bombas y válvulas antirretorno",
+    "Seguro contra inundación"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "ceniza_volcanica",
+   "nombre": "Caída de ceniza volcánica",
+   "categoria": "Desastre natural",
+   "descripcion": "Ceniza que cierra aeropuertos, daña equipos y detiene operaciones.",
+   "modelo": "periodo_retorno",
+   "parametros": [
+    {
+     "k": "T",
+     "etiqueta": "Periodo de retorno",
+     "valor": 10,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "horizonte",
+     "etiqueta": "Horizonte",
+     "valor": 5,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_evento",
+     "etiqueta": "Pérdida si ocurre",
+     "valor": "cliente.ingresos*0.005",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "volcán",
+    "ceniza",
+    "popocatépetl",
+    "erupción"
+   ],
+   "areas_eventos": [
+    "geografia"
+   ],
+   "sectores": [
+    "aeronautico",
+    "logistica"
+   ],
+   "mitigaciones": [
+    "Filtros y cubiertas de equipo",
+    "Protocolo de limpieza",
+    "Rutas alternas de transporte aéreo"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "incendio",
+   "nombre": "Incendio en planta o almacén",
+   "categoria": "Operativo",
+   "descripcion": "Incendio con frecuencia y severidad.",
+   "modelo": "frecuencia_severidad",
+   "parametros": [
+    {
+     "k": "lambda",
+     "etiqueta": "Frecuencia anual",
+     "valor": 0.03,
+     "unidad": "eventos/año",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p50",
+     "etiqueta": "Pérdida típica",
+     "valor": "cliente.ingresos*0.003",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p90",
+     "etiqueta": "Pérdida grave",
+     "valor": "cliente.ingresos*0.08",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "incendio",
+    "fuego",
+    "almacén",
+    "planta",
+    "bodega"
+   ],
+   "areas_eventos": [
+    "infraestructura"
+   ],
+   "sectores": [
+    "alimentos",
+    "logistica",
+    "automotriz",
+    "mineria",
+    "construccion"
+   ],
+   "mitigaciones": [
+    "Detección y supresión (NFPA)",
+    "NOM-002-STPS",
+    "Separación de inventario",
+    "Seguro de daños e interrupción"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "tipo_cambio",
+   "nombre": "Depreciación del tipo de cambio",
+   "categoria": "Financiero",
+   "descripcion": "Costos o deudas en dólares cuando la moneda local se deprecia (movimiento browniano geométrico).",
+   "modelo": "gbm_exposicion",
+   "parametros": [
+    {
+     "k": "exposicion",
+     "etiqueta": "Exposición en moneda extranjera, valuada en moneda local",
+     "valor": "cliente.ingresos*0.2",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "sigma",
+     "etiqueta": "Volatilidad anual del tipo de cambio",
+     "valor": 0.14,
+     "unidad": "fracción",
+     "ayuda": "USD/MXN ≈ 0.10–0.18 histórica (estimación)",
+     "tipo": "numero"
+    },
+    {
+     "k": "mu",
+     "etiqueta": "Tendencia anual",
+     "valor": 0.02,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "dias",
+     "etiqueta": "Horizonte",
+     "valor": 126,
+     "unidad": "días hábiles",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "tipo de cambio",
+    "dólar",
+    "peso",
+    "importaciones",
+    "deuda en dólares",
+    "devaluación"
+   ],
+   "areas_eventos": [
+    "geoeconomia"
+   ],
+   "sectores": [
+    "automotriz",
+    "alimentos",
+    "farmaceutico"
+   ],
+   "mitigaciones": [
+    "Coberturas (forwards, opciones)",
+    "Cobertura natural (ingresos en la misma moneda)",
+    "Cláusulas de ajuste de precio"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "insumos",
+   "nombre": "Alza en el costo de insumos",
+   "categoria": "Financiero",
+   "descripcion": "Materia prima o energía con precio volátil.",
+   "modelo": "gbm_exposicion",
+   "parametros": [
+    {
+     "k": "exposicion",
+     "etiqueta": "Compras anuales del insumo",
+     "valor": "cliente.ingresos*0.3",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "sigma",
+     "etiqueta": "Volatilidad anual del precio",
+     "valor": 0.25,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "mu",
+     "etiqueta": "Tendencia anual",
+     "valor": 0.04,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "dias",
+     "etiqueta": "Horizonte",
+     "valor": 252,
+     "unidad": "días hábiles",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "insumos",
+    "materia prima",
+    "acero",
+    "combustible",
+    "gas",
+    "energía",
+    "precio",
+    "inflación"
+   ],
+   "areas_eventos": [
+    "energia",
+    "geoeconomia"
+   ],
+   "sectores": [
+    "alimentos",
+    "automotriz",
+    "construccion",
+    "logistica"
+   ],
+   "mitigaciones": [
+    "Contratos de precio fijo",
+    "Coberturas de commodities",
+    "Proveedores alternos"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "tasas",
+   "nombre": "Alza de tasas de interés",
+   "categoria": "Financiero",
+   "descripcion": "Deuda a tasa variable con modelo de Vasicek.",
+   "modelo": "vasicek_deuda",
+   "parametros": [
+    {
+     "k": "deuda",
+     "etiqueta": "Deuda a tasa variable",
+     "valor": "cliente.ingresos*0.25",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "r0",
+     "etiqueta": "Tasa actual",
+     "valor": 0.075,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "theta",
+     "etiqueta": "Tasa de largo plazo",
+     "valor": 0.07,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "kappa",
+     "etiqueta": "Velocidad de regreso",
+     "valor": 0.3,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "sigma",
+     "etiqueta": "Volatilidad de la tasa",
+     "valor": 0.015,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "anios",
+     "etiqueta": "Horizonte",
+     "valor": 1,
+     "unidad": "años",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "tasas",
+    "deuda",
+    "crédito",
+    "interés",
+    "banxico",
+    "fed"
+   ],
+   "areas_eventos": [
+    "geoeconomia"
+   ],
+   "sectores": [
+    "construccion",
+    "bancos"
+   ],
+   "mitigaciones": [
+    "Swap de tasa",
+    "Refinanciar a tasa fija",
+    "Escalonar vencimientos"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "brote",
+   "nombre": "Brote infeccioso entre el personal",
+   "categoria": "Salud",
+   "descripcion": "Ausentismo por enfermedad contagiosa (modelo SIR).",
+   "modelo": "sir_ausentismo",
+   "parametros": [
+    {
+     "k": "empleados",
+     "etiqueta": "Personas en el centro de trabajo",
+     "valor": "cliente.empleados",
+     "unidad": "personas",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "R0",
+     "etiqueta": "Número reproductivo básico R0",
+     "valor": 2,
+     "unidad": "",
+     "ayuda": "Influenza estacional ≈ 1.3; COVID-19 original ≈ 2.5–3 (literatura)",
+     "tipo": "numero"
+    },
+    {
+     "k": "dias_infeccioso",
+     "etiqueta": "Días contagioso",
+     "valor": 5,
+     "unidad": "días",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "infectados0",
+     "etiqueta": "Contagiados iniciales",
+     "valor": 2,
+     "unidad": "personas",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_dia",
+     "etiqueta": "Costo por día de ausencia",
+     "valor": "cliente.ingresos/max(cliente.empleados,1)/250",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "prob_brote",
+     "etiqueta": "Probabilidad anual de un brote",
+     "valor": 0.2,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "pandemia",
+    "brote",
+    "influenza",
+    "covid",
+    "enfermedad",
+    "salud",
+    "ausentismo",
+    "epidemia"
+   ],
+   "areas_eventos": [
+    "salud_nrbq"
+   ],
+   "sectores": [
+    "alimentos",
+    "farmaceutico"
+   ],
+   "mitigaciones": [
+    "Vacunación",
+    "Trabajo remoto",
+    "Ventilación y filtración",
+    "Plan de sucesión de puestos críticos"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "reputacion",
+   "nombre": "Crisis reputacional viral",
+   "categoria": "Reputacional",
+   "descripcion": "Noticia o video negativo que se propaga (difusión de Bass).",
+   "modelo": "difusion_reputacional",
+   "parametros": [
+    {
+     "k": "audiencia",
+     "etiqueta": "Audiencia potencial",
+     "valor": 2000000,
+     "unidad": "personas",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p",
+     "etiqueta": "Exposición directa (p)",
+     "valor": 0.02,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "q",
+     "etiqueta": "Contagio entre personas (q)",
+     "valor": 0.5,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "dias",
+     "etiqueta": "Días",
+     "valor": 30,
+     "unidad": "días",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_por_alcance",
+     "etiqueta": "Costo por persona alcanzada",
+     "valor": "cliente.ingresos*0.00000002",
+     "unidad": "moneda",
+     "ayuda": "Ventas perdidas atribuibles; supuesto a calibrar con datos propios",
+     "tipo": "numero"
+    },
+    {
+     "k": "prob",
+     "etiqueta": "Probabilidad anual",
+     "valor": 0.15,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "reputación",
+    "redes sociales",
+    "viral",
+    "boicot",
+    "escándalo",
+    "medios",
+    "imagen"
+   ],
+   "areas_eventos": [
+    "identidad"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Escucha digital",
+    "Vocero y protocolo de crisis",
+    "Mensajes preaprobados"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "liquidez",
+   "nombre": "Caída de ventas y crisis de liquidez",
+   "categoria": "Financiero",
+   "descripcion": "Cuántos meses aguanta la caja si caen los ingresos.",
+   "modelo": "runway_liquidez",
+   "parametros": [
+    {
+     "k": "caja",
+     "etiqueta": "Caja disponible",
+     "valor": "cliente.ingresos*0.08",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "ingresos_mes",
+     "etiqueta": "Ingresos mensuales",
+     "valor": "cliente.ingresos/12",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "egresos_mes",
+     "etiqueta": "Egresos mensuales",
+     "valor": "cliente.ingresos/12*(1-cliente.margen/100)",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "caida",
+     "etiqueta": "Caída de ingresos",
+     "valor": 0.3,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "meses",
+     "etiqueta": "Horizonte",
+     "valor": 12,
+     "unidad": "meses",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "prob",
+     "etiqueta": "Probabilidad anual de la caída",
+     "valor": 0.15,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "ventas",
+    "liquidez",
+    "caja",
+    "recesión",
+    "crisis",
+    "demanda",
+    "flujo de efectivo"
+   ],
+   "areas_eventos": [
+    "geoeconomia"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Línea de crédito comprometida",
+    "Reducción de capital de trabajo",
+    "Plan de recorte escalonado"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "sistemas",
+   "nombre": "Caída de sistemas críticos (ERP, nube)",
+   "categoria": "Tecnología",
+   "descripcion": "Disponibilidad con MTBF/MTTR y redundancia.",
+   "modelo": "disponibilidad_sistemas",
+   "parametros": [
+    {
+     "k": "mtbf",
+     "etiqueta": "Horas promedio entre fallas",
+     "valor": 2000,
+     "unidad": "h",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "mttr",
+     "etiqueta": "Horas promedio para reparar",
+     "valor": 6,
+     "unidad": "h",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "redundantes",
+     "etiqueta": "Equipos en paralelo",
+     "valor": 1,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "componentes",
+     "etiqueta": "Componentes en serie",
+     "valor": 3,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_hora",
+     "etiqueta": "Costo por hora sin sistema",
+     "valor": "cliente.ingresos/8760*0.5",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "erp",
+    "sistemas",
+    "nube",
+    "servidores",
+    "caída",
+    "tecnología",
+    "sap"
+   ],
+   "areas_eventos": [
+    "tecnologia",
+    "infraestructura"
+   ],
+   "sectores": [
+    "ti_digital",
+    "bancos",
+    "telecom"
+   ],
+   "mitigaciones": [
+    "Alta disponibilidad",
+    "SLA con penalizaciones",
+    "Plan de recuperación (RTO/RPO)"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "energia_corte",
+   "nombre": "Corte eléctrico prolongado",
+   "categoria": "Infraestructura",
+   "descripcion": "Disponibilidad del suministro con planta de emergencia en paralelo.",
+   "modelo": "disponibilidad_sistemas",
+   "parametros": [
+    {
+     "k": "mtbf",
+     "etiqueta": "Horas entre cortes de la red",
+     "valor": 700,
+     "unidad": "h",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "mttr",
+     "etiqueta": "Duración media de un corte",
+     "valor": 4,
+     "unidad": "h",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "redundantes",
+     "etiqueta": "Fuentes en paralelo (red + planta)",
+     "valor": 2,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "componentes",
+     "etiqueta": "Componentes en serie",
+     "valor": 1,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_hora",
+     "etiqueta": "Costo por hora sin energía",
+     "valor": "cliente.ingresos/8760",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "apagón",
+    "corte de luz",
+    "electricidad",
+    "energía",
+    "cfe",
+    "planta de emergencia"
+   ],
+   "areas_eventos": [
+    "energia",
+    "infraestructura"
+   ],
+   "sectores": [
+    "alimentos",
+    "farmaceutico",
+    "ti_digital"
+   ],
+   "mitigaciones": [
+    "Planta de emergencia probada",
+    "UPS en equipo crítico",
+    "Contrato de suministro con calidad"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "proveedor",
+   "nombre": "Falla de un proveedor crítico",
+   "categoria": "Cadena de suministro",
+   "descripcion": "Interrupción de un proveedor único (cadena de Markov).",
+   "modelo": "markov_proveedor",
+   "parametros": [
+    {
+     "k": "p_falla_mes",
+     "etiqueta": "Probabilidad mensual de interrupción",
+     "valor": 0.02,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p_recupera_mes",
+     "etiqueta": "Probabilidad mensual de recuperarse",
+     "valor": 0.5,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_mes_caido",
+     "etiqueta": "Margen perdido por mes sin proveedor",
+     "valor": "cliente.ingresos/12*0.3*cliente.margen/100",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "proveedor",
+    "suministro",
+    "abasto",
+    "único",
+    "dependencia",
+    "cadena de suministro"
+   ],
+   "areas_eventos": [
+    "infraestructura",
+    "geoeconomia"
+   ],
+   "sectores": [
+    "automotriz",
+    "farmaceutico",
+    "aeronautico",
+    "alimentos"
+   ],
+   "mitigaciones": [
+    "Segundo proveedor calificado",
+    "Inventario de seguridad",
+    "Monitoreo financiero del proveedor"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "cascada",
+   "nombre": "Efecto cascada entre áreas",
+   "categoria": "Operativo",
+   "descripcion": "Cómo un daño en un área se contagia a las demás (inversa de Leontief).",
+   "modelo": "leontief_cascada",
+   "parametros": [
+    {
+     "k": "areas",
+     "etiqueta": "Áreas",
+     "valor": [
+      "Operaciones",
+      "TI",
+      "Logística",
+      "Finanzas",
+      "Ventas"
+     ],
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "json"
+    },
+    {
+     "k": "A",
+     "etiqueta": "Matriz de dependencias (fila recibe de columna)",
+     "valor": [
+      [
+       0,
+       0.3,
+       0.3,
+       0.05,
+       0.1
+      ],
+      [
+       0.05,
+       0,
+       0.02,
+       0.02,
+       0.02
+      ],
+      [
+       0.2,
+       0.2,
+       0,
+       0.02,
+       0.1
+      ],
+      [
+       0.05,
+       0.1,
+       0.05,
+       0,
+       0.2
+      ],
+      [
+       0.3,
+       0.2,
+       0.3,
+       0.05,
+       0
+      ]
+     ],
+     "unidad": "",
+     "ayuda": "Valores entre 0 y 1; la suma de cada columna debe ser < 1",
+     "tipo": "json"
+    },
+    {
+     "k": "choque",
+     "etiqueta": "Daño directo por área",
+     "valor": [
+      0,
+      1000000,
+      0,
+      0,
+      0
+     ],
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "json"
+    }
+   ],
+   "palabras": [
+    "cascada",
+    "interdependencia",
+    "contagio",
+    "impacto"
+   ],
+   "areas_eventos": [],
+   "sectores": [],
+   "mitigaciones": [
+    "Mapa de dependencias",
+    "Desacoplar procesos críticos",
+    "BIA por proceso"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "portafolio",
+   "nombre": "Riesgos combinados (correlacionados)",
+   "categoria": "Estratégico",
+   "descripcion": "Varios riesgos que pueden ocurrir juntos (Cholesky + Monte Carlo).",
+   "modelo": "portafolio_correlado",
+   "parametros": [
+    {
+     "k": "riesgos",
+     "etiqueta": "Riesgos",
+     "valor": [
+      {
+       "nombre": "Ciber",
+       "prob": 0.15,
+       "p50": 2000000,
+       "p90": 15000000
+      },
+      {
+       "nombre": "Proveedor",
+       "prob": 0.2,
+       "p50": 1000000,
+       "p90": 6000000
+      },
+      {
+       "nombre": "Tipo de cambio",
+       "prob": 0.3,
+       "p50": 1500000,
+       "p90": 8000000
+      }
+     ],
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "json"
+    },
+    {
+     "k": "correlacion",
+     "etiqueta": "Matriz de correlación",
+     "valor": [
+      [
+       1,
+       0.2,
+       0.1
+      ],
+      [
+       0.2,
+       1,
+       0.4
+      ],
+      [
+       0.1,
+       0.4,
+       1
+      ]
+     ],
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "json"
+    }
+   ],
+   "palabras": [
+    "combinado",
+    "portafolio",
+    "correlación",
+    "apetito de riesgo",
+    "erm"
+   ],
+   "areas_eventos": [],
+   "sectores": [],
+   "mitigaciones": [
+    "Definir apetito de riesgo",
+    "Capital de contingencia",
+    "Seguros agregados"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "atencion_crisis",
+   "nombre": "Saturación de la atención a clientes en una crisis",
+   "categoria": "Operativo",
+   "descripcion": "Llamadas o chats en un pico (teoría de colas Erlang C).",
+   "modelo": "erlang_c",
+   "parametros": [
+    {
+     "k": "llamadas_hora",
+     "etiqueta": "Contactos por hora en el pico",
+     "valor": 120,
+     "unidad": "por hora",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "minutos_servicio",
+     "etiqueta": "Minutos por atención",
+     "valor": 4,
+     "unidad": "min",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "agentes",
+     "etiqueta": "Agentes disponibles",
+     "valor": 10,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "espera_meta_s",
+     "etiqueta": "Meta de espera",
+     "valor": 30,
+     "unidad": "s",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "call center",
+    "atención",
+    "clientes",
+    "quejas",
+    "saturación"
+   ],
+   "areas_eventos": [],
+   "sectores": [
+    "telecom",
+    "bancos",
+    "seguros"
+   ],
+   "mitigaciones": [
+    "Personal de reserva",
+    "Mensajes automáticos (IVR)",
+    "Página de estado"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "fuga_quimica",
+   "nombre": "Fuga de gas o sustancia tóxica",
+   "categoria": "Seguridad industrial",
+   "descripcion": "Dispersión de un gas a favor del viento (pluma gaussiana).",
+   "modelo": "pluma_gaussiana",
+   "parametros": [
+    {
+     "k": "q_gs",
+     "etiqueta": "Tasa de liberación",
+     "valor": 50,
+     "unidad": "g/s",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "viento",
+     "etiqueta": "Velocidad del viento",
+     "valor": 3,
+     "unidad": "m/s",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "altura",
+     "etiqueta": "Altura de la fuga",
+     "valor": 5,
+     "unidad": "m",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "limite_mgm3",
+     "etiqueta": "Concentración de referencia",
+     "valor": 35,
+     "unidad": "mg/m³",
+     "ayuda": "Usa el IDLH o AEGL-2 de la sustancia (NIOSH, EPA); 35 mg/m³ ≈ 50 ppm de amoniaco (IDLH 300 ppm; supuesto conservador)",
+     "tipo": "numero"
+    },
+    {
+     "k": "prob",
+     "etiqueta": "Probabilidad anual",
+     "valor": 0.01,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_evento",
+     "etiqueta": "Costo si ocurre",
+     "valor": "cliente.ingresos*0.02",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "fuga",
+    "gas",
+    "químico",
+    "amoniaco",
+    "cloro",
+    "tóxico",
+    "pemex",
+    "planta química"
+   ],
+   "areas_eventos": [
+    "salud_nrbq",
+    "energia"
+   ],
+   "sectores": [
+    "hidrocarburos",
+    "farmaceutico",
+    "alimentos",
+    "mineria"
+   ],
+   "mitigaciones": [
+    "Detectores y paro automático",
+    "Plan de respuesta (NOM-028-STPS, PSM)",
+    "Coordinación con protección civil"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "explosion",
+   "nombre": "Explosión en instalación",
+   "categoria": "Seguridad industrial",
+   "descripcion": "Radios de daño por sobrepresión (Kinney-Graham).",
+   "modelo": "sobrepresion_explosion",
+   "parametros": [
+    {
+     "k": "tnt_kg",
+     "etiqueta": "Energía equivalente en TNT",
+     "valor": 50,
+     "unidad": "kg",
+     "ayuda": "Gas: masa × eficiencia (≈ 3–10 %) × calor de combustión / 4.6 MJ/kg",
+     "tipo": "numero"
+    },
+    {
+     "k": "prob",
+     "etiqueta": "Probabilidad anual",
+     "valor": 0.002,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_evento",
+     "etiqueta": "Costo si ocurre",
+     "valor": "cliente.ingresos*0.1",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "explosión",
+    "gas",
+    "tanque",
+    "caldera",
+    "pipa",
+    "gasera"
+   ],
+   "areas_eventos": [
+    "energia",
+    "seguridad"
+   ],
+   "sectores": [
+    "hidrocarburos",
+    "mineria",
+    "defensa",
+    "alimentos"
+   ],
+   "mitigaciones": [
+    "Distancias de seguridad",
+    "Muros y venteo",
+    "Mantenimiento de recipientes a presión (NOM-020-STPS)"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "calor",
+   "nombre": "Ola de calor y estrés térmico",
+   "categoria": "Clima / laboral",
+   "descripcion": "Índice de calor y pérdida de productividad.",
+   "modelo": "estres_termico",
+   "parametros": [
+    {
+     "k": "temp_c",
+     "etiqueta": "Temperatura",
+     "valor": 36,
+     "unidad": "°C",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "humedad",
+     "etiqueta": "Humedad relativa",
+     "valor": 50,
+     "unidad": "%",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "trabajadores",
+     "etiqueta": "Trabajadores expuestos",
+     "valor": "cliente.empleados*0.5",
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "horas",
+     "etiqueta": "Horas por día",
+     "valor": 8,
+     "unidad": "h",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_hora",
+     "etiqueta": "Costo por hora de trabajo",
+     "valor": "cliente.ingresos/max(cliente.empleados,1)/2000",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "dias",
+     "etiqueta": "Días de ola de calor al año",
+     "valor": 15,
+     "unidad": "días",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "calor",
+    "ola de calor",
+    "temperatura",
+    "estrés térmico",
+    "sequía"
+   ],
+   "areas_eventos": [
+    "clima"
+   ],
+   "sectores": [
+    "construccion",
+    "mineria",
+    "alimentos",
+    "logistica"
+   ],
+   "mitigaciones": [
+    "NOM-015-STPS",
+    "Hidratación y descansos",
+    "Horarios fuera del pico"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "abasto",
+   "nombre": "Retraso en aduanas o transporte (quiebre de inventario)",
+   "categoria": "Cadena de suministro",
+   "descripcion": "Probabilidad de quedarse sin inventario cuando se retrasa el abasto.",
+   "modelo": "inventario_quiebre",
+   "parametros": [
+    {
+     "k": "demanda_dia",
+     "etiqueta": "Demanda diaria promedio",
+     "valor": 1000,
+     "unidad": "unidades",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "sd_dia",
+     "etiqueta": "Desviación diaria",
+     "valor": 250,
+     "unidad": "unidades",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "lead_dias",
+     "etiqueta": "Tiempo normal de abasto",
+     "valor": 15,
+     "unidad": "días",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "retraso_dias",
+     "etiqueta": "Retraso adicional",
+     "valor": 10,
+     "unidad": "días",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "stock",
+     "etiqueta": "Inventario disponible",
+     "valor": 18000,
+     "unidad": "unidades",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "margen_unidad",
+     "etiqueta": "Margen por unidad",
+     "valor": 50,
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "aduana",
+    "inventario",
+    "importación",
+    "puerto",
+    "retraso",
+    "abasto",
+    "frontera",
+    "aranceles"
+   ],
+   "areas_eventos": [
+    "infraestructura",
+    "geoeconomia"
+   ],
+   "sectores": [
+    "automotriz",
+    "alimentos",
+    "logistica",
+    "farmaceutico"
+   ],
+   "mitigaciones": [
+    "Inventario de seguridad",
+    "Despachos aduanales alternos",
+    "Rutas y puertos alternos"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "sancion",
+   "nombre": "Sanción de una autoridad tras una señal (auditoría, denuncia)",
+   "categoria": "Cumplimiento",
+   "descripcion": "Teorema de Bayes para actualizar la probabilidad de sanción.",
+   "modelo": "bayes_regulatorio",
+   "parametros": [
+    {
+     "k": "previa",
+     "etiqueta": "Probabilidad previa de incumplimiento",
+     "valor": 0.1,
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "sensibilidad",
+     "etiqueta": "P(señal | incumplimiento)",
+     "valor": 0.7,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "falsa_alarma",
+     "etiqueta": "P(señal | cumplimiento)",
+     "valor": 0.1,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "multa",
+     "etiqueta": "Multa y costos",
+     "valor": "cliente.ingresos*0.01",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "sanción",
+    "multa",
+    "auditoría",
+    "sat",
+    "profeco",
+    "cofepris",
+    "regulador",
+    "denuncia",
+    "cumplimiento"
+   ],
+   "areas_eventos": [
+    "instituciones"
+   ],
+   "sectores": [
+    "bancos",
+    "farmaceutico",
+    "seguros",
+    "alimentos"
+   ],
+   "mitigaciones": [
+    "Autoevaluación de cumplimiento",
+    "Asesoría legal temprana",
+    "Programa de cumplimiento documentado"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "robo_transporte",
+   "nombre": "Robo de mercancía en carretera",
+   "categoria": "Seguridad",
+   "descripcion": "Incidentes por viaje (binomial/Poisson).",
+   "modelo": "binomial_traslados",
+   "parametros": [
+    {
+     "k": "p_incidente",
+     "etiqueta": "Probabilidad de robo por viaje",
+     "valor": 0.002,
+     "unidad": "",
+     "ayuda": "Calibra con el tramo: eventos de seguridad del mapa en la ruta",
+     "tipo": "numero"
+    },
+    {
+     "k": "viajes",
+     "etiqueta": "Viajes al año",
+     "valor": 2000,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_incidente",
+     "etiqueta": "Pérdida por robo (carga + unidad + deducible)",
+     "valor": 900000,
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "robo",
+    "transporte",
+    "carretera",
+    "carga",
+    "tracto",
+    "asalto",
+    "ruta"
+   ],
+   "areas_eventos": [
+    "seguridad"
+   ],
+   "sectores": [
+    "logistica",
+    "alimentos",
+    "automotriz",
+    "farmaceutico"
+   ],
+   "mitigaciones": [
+    "GPS y botón de pánico",
+    "Convoyes y horarios",
+    "Seguro de carga",
+    "Evaluación de rutas"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "bloqueos",
+   "nombre": "Bloqueos carreteros o protestas",
+   "categoria": "Social",
+   "descripcion": "Retrasos por bloqueos (binomial/Poisson).",
+   "modelo": "binomial_traslados",
+   "parametros": [
+    {
+     "k": "p_incidente",
+     "etiqueta": "Probabilidad de bloqueo por viaje",
+     "valor": 0.01,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "viajes",
+     "etiqueta": "Viajes al año",
+     "valor": 2000,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_incidente",
+     "etiqueta": "Costo por retraso",
+     "valor": 15000,
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "bloqueo",
+    "protesta",
+    "manifestación",
+    "casetas",
+    "transportistas",
+    "paro"
+   ],
+   "areas_eventos": [
+    "identidad",
+    "seguridad"
+   ],
+   "sectores": [
+    "logistica"
+   ],
+   "mitigaciones": [
+    "Rutas alternas",
+    "Monitoreo en tiempo real",
+    "Cláusulas de fuerza mayor"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "extorsion",
+   "nombre": "Extorsión o cobro de piso",
+   "categoria": "Seguridad",
+   "descripcion": "Incidentes de extorsión contra sucursales (binomial/Poisson).",
+   "modelo": "binomial_traslados",
+   "parametros": [
+    {
+     "k": "p_incidente",
+     "etiqueta": "Probabilidad anual por sucursal",
+     "valor": 0.05,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "viajes",
+     "etiqueta": "Número de sucursales",
+     "valor": 20,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_incidente",
+     "etiqueta": "Costo por incidente",
+     "valor": 300000,
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "extorsión",
+    "cobro de piso",
+    "crimen organizado",
+    "cártel",
+    "amenaza"
+   ],
+   "areas_eventos": [
+    "seguridad"
+   ],
+   "sectores": [
+    "alimentos",
+    "logistica",
+    "construccion"
+   ],
+   "mitigaciones": [
+    "Protocolo antiextorsión",
+    "Canal de denuncia (089)",
+    "Capacitación a personal"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "violencia",
+   "nombre": "Violencia o terrorismo cerca de un sitio",
+   "categoria": "Seguridad",
+   "descripcion": "Eventos violentos en el entorno que obligan a cerrar.",
+   "modelo": "binomial_traslados",
+   "parametros": [
+    {
+     "k": "p_incidente",
+     "etiqueta": "Probabilidad anual por sitio",
+     "valor": 0.03,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "viajes",
+     "etiqueta": "Sitios expuestos",
+     "valor": 5,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "perdida_incidente",
+     "etiqueta": "Costo por cierre",
+     "valor": "cliente.ingresos*0.002",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "violencia",
+    "terrorismo",
+    "balacera",
+    "ataque",
+    "inseguridad",
+    "narco"
+   ],
+   "areas_eventos": [
+    "seguridad"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Análisis de amenazas por sitio",
+    "Protocolo de resguardo",
+    "Coordinación con autoridades"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "aranceles",
+   "nombre": "Aranceles o sanciones internacionales",
+   "categoria": "Geopolítico",
+   "descripcion": "Árbol de decisión para responder a un arancel o sanción.",
+   "modelo": "arbol_decision",
+   "parametros": [
+    {
+     "k": "opciones",
+     "etiqueta": "Opciones (probabilidades y resultados)",
+     "valor": [
+      {
+       "nombre": "Mantener operación",
+       "costo": 0,
+       "ramas": [
+        {
+         "p": 0.6,
+         "valor": 0
+        },
+        {
+         "p": 0.4,
+         "valor": -15000000
+        }
+       ]
+      },
+      {
+       "nombre": "Relocalizar parte de la producción",
+       "costo": 5000000,
+       "ramas": [
+        {
+         "p": 0.6,
+         "valor": 0
+        },
+        {
+         "p": 0.4,
+         "valor": -3000000
+        }
+       ]
+      },
+      {
+       "nombre": "Cubrir con contratos y precios",
+       "costo": 1500000,
+       "ramas": [
+        {
+         "p": 0.6,
+         "valor": 0
+        },
+        {
+         "p": 0.4,
+         "valor": -8000000
+        }
+       ]
+      }
+     ],
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "json"
+    }
+   ],
+   "palabras": [
+    "arancel",
+    "sanciones",
+    "t-mec",
+    "usmca",
+    "ofac",
+    "exportación",
+    "comercio exterior",
+    "guerra comercial"
+   ],
+   "areas_eventos": [
+    "geoeconomia",
+    "regional"
+   ],
+   "sectores": [
+    "automotriz",
+    "aeronautico",
+    "mineria"
+   ],
+   "mitigaciones": [
+    "Revisión de reglas de origen",
+    "Debida diligencia de sanciones",
+    "Diversificar mercados"
+   ],
+   "interpretacion": "",
+   "base": true
+  },
+  {
+   "id": "cliente_mayor",
+   "nombre": "Pérdida del cliente o proveedor principal",
+   "categoria": "Estratégico",
+   "descripcion": "Concentración (índice Herfindahl-Hirschman).",
+   "modelo": "concentracion_hhi",
+   "parametros": [
+    {
+     "k": "participaciones",
+     "etiqueta": "Participación % de los principales clientes",
+     "valor": [
+      35,
+      20,
+      10,
+      5,
+      5
+     ],
+     "unidad": "%",
+     "ayuda": "",
+     "tipo": "json"
+    },
+    {
+     "k": "ingresos",
+     "etiqueta": "Ingresos anuales",
+     "valor": "cliente.ingresos",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "prob_perder_mayor",
+     "etiqueta": "Probabilidad de perder al mayor en el año",
+     "valor": 0.1,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "margen",
+     "etiqueta": "Margen de contribución",
+     "valor": "cliente.margen/100",
+     "unidad": "fracción",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "cliente principal",
+    "concentración",
+    "dependencia",
+    "contrato",
+    "licitación"
+   ],
+   "areas_eventos": [
+    "geoeconomia"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Diversificar cartera",
+    "Contratos multianuales",
+    "Indicadores de satisfacción del cliente"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "evacuacion",
+   "nombre": "Evacuación de un edificio",
+   "categoria": "Protección civil",
+   "descripcion": "Tiempo requerido contra tiempo disponible.",
+   "modelo": "evacuacion",
+   "parametros": [
+    {
+     "k": "personas",
+     "etiqueta": "Personas",
+     "valor": "cliente.empleados",
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "ancho_m",
+     "etiqueta": "Ancho total de salidas",
+     "valor": 3,
+     "unidad": "m",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "distancia_m",
+     "etiqueta": "Distancia máxima a la salida",
+     "valor": 60,
+     "unidad": "m",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "velocidad",
+     "etiqueta": "Velocidad al caminar",
+     "valor": 1.2,
+     "unidad": "m/s",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "flujo",
+     "etiqueta": "Flujo específico",
+     "valor": 1.3,
+     "unidad": "personas/s/m",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "premovimiento_s",
+     "etiqueta": "Tiempo de reacción",
+     "valor": 60,
+     "unidad": "s",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "disponible_s",
+     "etiqueta": "Tiempo disponible antes de condiciones peligrosas",
+     "valor": 300,
+     "unidad": "s",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "evacuación",
+    "simulacro",
+    "protección civil",
+    "edificio",
+    "salidas de emergencia"
+   ],
+   "areas_eventos": [
+    "geografia"
+   ],
+   "sectores": [],
+   "mitigaciones": [
+    "Simulacros (Ley General de Protección Civil)",
+    "Salidas y señalización",
+    "Brigadas"
+   ],
+   "interpretacion": "",
+   "base": false
+  },
+  {
+   "id": "huelga",
+   "nombre": "Huelga o conflicto laboral",
+   "categoria": "Laboral",
+   "descripcion": "Paro de actividades (cadena de Markov con meses en paro).",
+   "modelo": "markov_proveedor",
+   "parametros": [
+    {
+     "k": "p_falla_mes",
+     "etiqueta": "Probabilidad mensual de paro",
+     "valor": 0.01,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "p_recupera_mes",
+     "etiqueta": "Probabilidad mensual de terminar el paro",
+     "valor": 0.7,
+     "unidad": "",
+     "ayuda": "",
+     "tipo": "numero"
+    },
+    {
+     "k": "costo_mes_caido",
+     "etiqueta": "Costo por mes en paro",
+     "valor": "cliente.ingresos/12*0.6",
+     "unidad": "moneda",
+     "ayuda": "",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "huelga",
+    "sindicato",
+    "paro",
+    "laboral",
+    "contrato colectivo"
+   ],
+   "areas_eventos": [
+    "identidad"
+   ],
+   "sectores": [
+    "automotriz",
+    "mineria",
+    "energia_electrica"
+   ],
+   "mitigaciones": [
+    "Diálogo sindical permanente",
+    "Legitimación del contrato colectivo",
+    "Plan de continuidad"
+   ],
+   "interpretacion": "",
+   "base": false
+  }
+ ]
+}

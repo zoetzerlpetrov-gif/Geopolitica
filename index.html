@@ -251,6 +251,7 @@
           <div class="reportes-acc">
             <a class="link-btn" href="reporte.html?tipo=mexico">🇲🇽 Panorama de México</a>
             <a class="link-btn" href="reporte.html?tipo=global">🌍 Panorama global</a>
+            <a class="link-btn" href="matriz.html">🧮 Matriz de riesgo por país (eliges fuentes)</a>
           </div>
           <p class="nota-capas" id="reportes-ultimo"></p>
         </details>
@@ -360,6 +361,20 @@
           <div id="inv-prov-res" aria-live="polite"></div>
           <h3>Focos rojos en contratación pública</h3>
           <ul id="inv-focos" class="fuentes"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-licitaciones" data-grupo="investigacion">
+          <summary><h2>🏛️ Licitaciones públicas: México, Estados Unidos y Europa</h2></summary>
+          <p class="nota-capas">Busca convocatorias abiertas de la Unión Europea (TED) y de Estados Unidos (Grants.gov, y SAM.gov cuando se configure su llave gratuita), que se actualizan cada 12 horas. Para México y para SAM.gov se arma la búsqueda en el portal oficial. «Contratos adjudicados en EUA» consulta USAspending al momento para ver quién gana y por cuánto.</p>
+          <form id="lic-form" class="fila-botones"><input id="lic-q" class="verif-texto" placeholder="Ej.: ciberseguridad, vigilancia, agua potable, software" aria-label="Palabras clave">
+            <select id="lic-fuente" aria-label="Fuente"><option value="">Todas las fuentes</option><option value="TED">Unión Europea (TED)</option><option value="Grants">EUA (Grants.gov)</option><option value="SAM">EUA (SAM.gov)</option></select>
+            <label class="fila-check"><input type="checkbox" id="lic-abiertas" checked> Solo con plazo vigente</label>
+            <button>Buscar</button></form>
+          <div id="lic-res" aria-live="polite"></div>
+          <button type="button" id="lic-usa">💵 Contratos adjudicados en EUA (USAspending, 12 meses)</button>
+          <div id="lic-usa-res" aria-live="polite"></div>
+          <h3>Buscar en los portales oficiales</h3>
+          <ul id="lic-portales" class="fuentes"></ul>
+          <p class="meta">Tips: en México revisa las bases (convocatoria, junta de aclaraciones, apertura y fallo) y que el proveedor no esté en el 69-B (bloque de arriba). En EUA, el código NAICS define a qué convocatorias puedes ofertar; en la UE, el código CPV. Ley aplicable: México, Ley de Adquisiciones, Arrendamientos y Servicios del Sector Público y Ley de Obras Públicas; EUA, Federal Acquisition Regulation (FAR); UE, Directivas 2014/24 y 2014/25.</p>
         </details>
         <details class="bloque plegable" id="b-inv-poder" data-grupo="investigacion">
           <summary><h2>🏛️ Poder político y declaraciones patrimoniales</h2></summary>

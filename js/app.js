@@ -650,7 +650,28 @@ async function main() {
     aplicarFiltros();
     const m = location.hash.match(/^#evento=(.+)$/);
     if (m) abrirFicha(decodeURIComponent(m[1]), { volar: true });
+    irAPaisDelEnlace();
   };
+  // Enlaces «./#pais=MEX» (analítica y otras páginas): filtra los eventos de ese país y encuadra el país.
+  async function irAPaisDelEnlace() {
+    const iso = location.hash.match(/^#pais=([A-Za-z]{3})$/)?.[1]?.toUpperCase();
+    if (!iso) return;
+    estado.pais = iso;
+    programarFiltros();
+    try {
+      const g = await getJSON("data/base/countries-110m.geojson");
+      const caja = [Infinity, Infinity, -Infinity, -Infinity];
+      const pts = (c) => (typeof c[0] === "number" ? [c] : c.flatMap(pts));
+      for (const f of g.features.filter((x) => x.properties.iso3 === iso)) {
+        for (const [x, y] of pts(f.geometry.coordinates)) { caja[0] = Math.min(caja[0], x); caja[1] = Math.min(caja[1], y); caja[2] = Math.max(caja[2], x); caja[3] = Math.max(caja[3], y); }
+      }
+      // Países que cruzan el antimeridiano (Rusia, Fiyi): se usa el punto central del nomenclátor.
+      if (Number.isFinite(caja[0]) && caja[2] - caja[0] < 180) encuadrar([[caja[0], caja[1]], [caja[2], caja[3]]], 6);
+      else { if (!paises) await cargarPaises(); const p = paises?.[iso]; if (p) api.map.flyTo({ center: [p.lon, p.lat], zoom: 3, duration: lite ? 0 : 800 }); }
+    } catch (err) { /* sin geometría: solo queda el filtro */ }
+    setTimeout(() => { const sel = $("ev-pais"); if (sel && [...sel.options].some((o) => o.value === iso)) sel.value = iso; }, 1500);
+  }
+  addEventListener("hashchange", irAPaisDelEnlace);
   // Si el mapa ya terminó de cargar mientras llegaban los datos, se aplica de inmediato.
   api.map.loaded() ? alCargar() : api.map.once("load", alCargar);
 
@@ -1212,6 +1233,38 @@ async function iniciarInvestigacion() {
   $("inv-prov-btn").addEventListener("click", async () => {
     const d = await cargar("efos", "data/vivos/efos_69b.json");
     $("inv-prov-res").innerHTML = d ? I.htmlProveedores(I.verificarProveedores(d, $("inv-prov-texto").value), d) : `<p class="meta">El listado 69-B aún no está disponible.</p>`;
+  });
+  // Licitaciones: avisos abiertos (data/licitaciones.json), portales oficiales y contratos adjudicados en EUA.
+  const pintarPortales = () => import("./licitaciones-logica.js").then((LZ) => {
+    $("lic-portales").innerHTML = LZ.enlacesBusqueda($("lic-q").value || "").map(([n, u, nota]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(n)}</a>${nota ? ` <span class="meta">— ${esc(nota)}</span>` : ""}</li>`).join("");
+  });
+  $("b-inv-licitaciones").addEventListener("toggle", pintarPortales, { once: true });
+  $("lic-q").addEventListener("input", debounce(pintarPortales, 300));
+  $("lic-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const LZ = await import("./licitaciones-logica.js");
+    pintarPortales();
+    const d = await cargar("licitaciones", "data/licitaciones.json");
+    if (!d) { $("lic-res").innerHTML = `<p class="meta">Los avisos aún no están disponibles (se generan con la siguiente ingesta). Usa los portales oficiales de abajo.</p>`; return; }
+    const res = LZ.filtrarAvisos(d.avisos, { q: $("lic-q").value, fuente: $("lic-fuente").value, soloAbiertas: $("lic-abiertas").checked });
+    const fuentes = Object.entries(d.fuentes || {}).map(([k, v]) => `${k}: ${v.estado === "ok" ? v.avisos : "sin respuesta"}`).join(" · ");
+    $("lic-res").innerHTML = `<p class="meta">${res.length} de ${d.avisos.length} avisos · actualizado ${esc(fecha(d.generado_utc))} · ${esc(fuentes)}</p>`
+      + (res.length ? `<ul class="fuentes">${res.map((a) => { const dc = LZ.diasParaCierre(a.cierre);
+        return `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.titulo || a.id)}</a><br><span class="meta">${esc(a.fuente)} · ${esc(a.comprador || "")}${a.pais ? ` · ${esc(paises?.[a.pais]?.es || a.pais)}` : ""} · publicada ${esc(a.publicado || "—")}${a.cierre ? ` · cierra ${esc(a.cierre)}${dc != null ? ` (${dc >= 0 ? `faltan ${dc} días` : "cerrada"})` : ""}` : ""}${a.cpv?.length ? ` · ${esc(a.cpv.join(", "))}` : ""}</span></li>`; }).join("")}</ul>`
+        : `<p class="meta">Sin coincidencias. Prueba con otra palabra o en otro idioma (los avisos de la UE vienen en el idioma del comprador; muchos traen título en inglés).</p>`);
+  });
+  $("lic-usa").addEventListener("click", async () => {
+    const q = $("lic-q").value.trim();
+    if (q.length < 3) { $("lic-usa-res").innerHTML = `<p class="meta">Escribe arriba al menos una palabra clave (en inglés funciona mejor: cybersecurity, water, bridge…).</p>`; return; }
+    const LZ = await import("./licitaciones-logica.js");
+    $("lic-usa-res").innerHTML = `<p class="meta">Consultando USAspending…</p>`;
+    try {
+      const r = await fetch("https://api.usaspending.gov/api/v2/search/spending_by_award/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(LZ.consultaUSAspending(q)) });
+      const d = await r.json();
+      const usd = (n) => Number(n || 0).toLocaleString("es-MX", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+      $("lic-usa-res").innerHTML = (d.results || []).length ? `<ul class="fuentes">${d.results.map((x) => `<li><a href="https://www.usaspending.gov/award/${encodeURIComponent(x.generated_internal_id)}" target="_blank" rel="noopener noreferrer">${esc(x["Recipient Name"] || "")}</a> — <b>${usd(x["Award Amount"])}</b><br><span class="meta">${esc(x["Awarding Agency"] || "")} · ${esc(x["Start Date"] || "")} · ${esc(String(x.Description || "").slice(0, 180))}</span></li>`).join("")}</ul>`
+        : `<p class="meta">Sin contratos con esas palabras en los últimos 12 meses.</p>`;
+    } catch (err) { $("lic-usa-res").innerHTML = `<p class="meta">USAspending no respondió: ${esc(err.message)}</p>`; }
   });
   $("inv-69b-form").addEventListener("submit", async (e) => {
     e.preventDefault();

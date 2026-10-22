@@ -101,7 +101,7 @@ export function crearAnalisis(ctx) {
         <div class="mr-tit-x">Impacto</div>
       </div>
       <div class="mr-leyenda">${NIVELES_RIESGO.map((n) => `<span><span class="mr-muestra nivel-${n.id}"></span>${n.nombre}</span>`).join("")}
-        <button type="button" id="mr-csv" class="icon-btn">Exportar CSV</button></div>
+        <button type="button" id="mr-csv" class="icon-btn">Exportar CSV</button> <a class="link-btn" href="matriz.html">🧮 Matriz de cualquier país con todas las fuentes</a></div>
       ${celdaSel ? `<h3>Probabilidad ${celdaSel[0]} × impacto ${celdaSel[1]} (${lista.length})</h3>
         <ul class="mr-lista">${lista.map((ev) => {
           const r = riesgoDe(ev, ajustes);

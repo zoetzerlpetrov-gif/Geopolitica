@@ -1,0 +1,1431 @@
+{
+  "revisado": "2026-10-22",
+  "nota": "Lista de seguimiento de obra nueva y subastas oficiales para un inversionista mexicano en España, Francia, Italia, Andorra, Malta, Suiza y Alemania. Precios tomados solo de sitios de desarrolladoras, subastas oficiales/autorizadas o prensa, vistos el 2026-10-22 mediante resultados de búsqueda (en esta sesión no fue posible abrir las páginas directamente ni geocodificar con Nominatim: coordenadas aproximadas al centro de ciudad/zona). Los portales privados solo se enlazan. No se encontraron proyectos con precio publicado por desarrolladora/subasta oficial/prensa en Malta ni Andorra (solo anuncios de agencias o portales, que no se copian): pendiente. Las reglas para extranjeros son un resumen; lo marcado 'verificar' no se confirmó con fuente oficial. Confirmar con notario/abogado del país.",
+  "paises": {
+    "ESP": {
+      "nombre": "España",
+      "compra_mexicanos": {
+        "puede": "sí",
+        "detalle": "No hay restricción general a extranjeros. Se necesita NIE y cuenta bancaria española; escritura ante notario e inscripción en el Registro de la Propiedad. La 'golden visa' por inversión inmobiliaria (≥500.000 €) fue eliminada por la Ley Orgánica 1/2025 (BOE 3-ene-2025) con efectos desde el 3-abr-2025; solicitudes previas se tramitan con la norma anterior. En zonas de interés para la Defensa Nacional (islas, Ceuta/Melilla, algunas fronteras) los no comunitarios requieren autorización militar (Ley 8/1975, verificar). El Gobierno propuso en 2025 un impuesto de hasta 100 % a compradores no comunitarios no residentes: verificar si avanzó.",
+        "costa": "Ley 22/1988 de Costas: dominio público marítimo-terrestre inapropiable, servidumbre de protección de 100 m desde la ribera (20 m en suelo urbano anterior a 1988) con fuertes límites a construir, y servidumbre de tránsito de 6 m. Revisar deslinde y certificado de la Demarcación de Costas antes de comprar en primera línea.",
+        "terrenos_rurales": "En suelo rústico/no urbanizable la construcción de vivienda está muy restringida (cada comunidad tiene su ley: Andalucía LISTA, Valencia LOTUP); muchas casas de campo son irregulares ('asimilado a fuera de ordenación'). Verificar clasificación en el PGOU y nota simple registral.",
+        "impuestos_y_costos": "Obra nueva: IVA 10 % + AJD 0,5–1,5 % según comunidad (verificar tasa). Reventa: ITP 6–10 % según comunidad (Andalucía 7 %; Valencia y Baleares escalas propias, verificar). Notaría, registro y gestoría ≈1–2 %. Anual: IBI y, si no reside, IRNR por renta imputada (≈24 % sobre 1,1–2 % del valor catastral) y posible impuesto de patrimonio/solidaridad en patrimonios altos.",
+        "financiamiento": "Bancos españoles prestan a no residentes, típicamente 60–70 % del valor tasado, plazos de hasta 20–25 años; exigen ingresos comprobables y seguro. Verificar condiciones vigentes.",
+        "residencia": "Comprar ya no da residencia. Opciones: residencia no lucrativa (medios económicos suficientes, sin trabajar), visado de teletrabajo internacional ('nómada digital'), emprendedor (informe ENISA) o profesional altamente cualificado (UGE-CE). Mexicanos entran sin visado 90 días en Schengen.",
+        "fuentes": [
+          [
+            "Ley Orgánica 1/2025 – análisis fin de golden visa (Elderecho)",
+            "https://elderecho.com/fin-de-las-golden-visa"
+          ],
+          [
+            "KPMG – eliminación de la golden visa",
+            "https://assets.kpmg.com/content/dam/kpmgsites/es/pdf/2025/01/legal-alert-eliminacion-golden-visa.pdf.coredownload.inline.pdf"
+          ],
+          [
+            "BOE – Ley 22/1988 de Costas (verificar enlace)",
+            "https://www.boe.es/buscar/act.php?id=BOE-A-1988-18762"
+          ],
+          [
+            "Portal de Subastas del BOE",
+            "https://subastas.boe.es/"
+          ]
+        ]
+      },
+      "desarrolladoras": [
+        {
+          "nombre": "AEDAS Homes (integrada en Neinor en 2026, verificar)",
+          "url": "https://www.aedashomes.com/",
+          "segmento": "medio",
+          "regiones": "Costa del Sol, Madrid, Valencia/Alicante, Baleares"
+        },
+        {
+          "nombre": "Metrovacesa",
+          "url": "https://metrovacesa.com/",
+          "segmento": "medio",
+          "regiones": "Costa del Sol (Marbella, Estepona), Cádiz (La Alcaidesa), Madrid, Barcelona"
+        },
+        {
+          "nombre": "Neinor Homes",
+          "url": "https://www.neinorhomes.com/",
+          "segmento": "medio",
+          "regiones": "Alicante (Calp, Playa San Juan), Málaga, Valencia, Madrid, País Vasco"
+        },
+        {
+          "nombre": "Vía Célere",
+          "url": "https://www.viacelere.com/",
+          "segmento": "medio",
+          "regiones": "Madrid, Andalucía, Valencia"
+        },
+        {
+          "nombre": "Habitat Inmobiliaria",
+          "url": "https://www.habitatinmobiliaria.com/",
+          "segmento": "medio",
+          "regiones": "Málaga, Sevilla, Valencia, Las Palmas"
+        },
+        {
+          "nombre": "Taylor Wimpey España",
+          "url": "https://www.taylorwimpey.es/",
+          "segmento": "residencial",
+          "regiones": "Costa Blanca (Dénia, Finestrat, Xàbia, Gran Alacant), Costa del Sol, Mallorca"
+        }
+      ],
+      "busqueda": [
+        [
+          "Idealista – obra nueva (solo enlace)",
+          "https://www.idealista.com/venta-obranueva/"
+        ],
+        [
+          "Fotocasa (solo enlace)",
+          "https://www.fotocasa.es/"
+        ],
+        [
+          "Portal de Subastas del BOE (oficial)",
+          "https://subastas.boe.es/"
+        ]
+      ]
+    },
+    "FRA": {
+      "nombre": "Francia",
+      "compra_mexicanos": {
+        "puede": "sí",
+        "detalle": "Sin restricción a compradores extranjeros, residentes o no. El notario es obligatorio; en obra nueva se compra en VEFA (venta sobre plano) con pagos escalonados según avance y garantía de terminación (GFA). El notario entrega el estado de riesgos (ERP/Géorisques).",
+        "costa": "Loi Littoral (1986): en franja de 100 m desde la costa, fuera de zonas urbanizadas, está prohibido construir; servidumbre de paso peatonal de 3 m a lo largo del litoral; extensiones urbanas solo en continuidad con aglomeraciones. Revisar el PLU municipal.",
+        "terrenos_rurales": "La SAFER tiene derecho de tanteo sobre terrenos agrícolas y rurales; un 'terrain' solo es edificable si el PLU/carte communale lo permite (pedir certificat d'urbanisme).",
+        "impuestos_y_costos": "Reventa ('ancien'): frais de notaire ≈7–8,5 % (droits de mutation hasta ~6,32 % en departamentos que aplicaron el aumento de 2025). Obra nueva: precio con TVA 20 % incluida y frais ≈2–3 % (taxe de publicité foncière 0,715 %). La TVA reducida 5,5 % y el PTZ son solo para residencia principal con topes de ingreso (no para inversionista no residente). Anual: taxe foncière y taxe d'habitation sobre residencias secundarias (con recargo en zonas tensas).",
+        "financiamiento": "Bancos franceses prestan a no residentes, típicamente 70–80 % con aportación y domiciliación de patrimonio; plazos hasta 20–25 años. Verificar.",
+        "residencia": "Comprar no da residencia. Opciones: visa de larga estancia 'visiteur' (sin trabajar, con medios suficientes), 'Talent' (inversión/emprendimiento). Mexicanos: 90 días Schengen sin visado.",
+        "fuentes": [
+          [
+            "Notaires de France – ventas notariales y precios",
+            "https://www.immobilier.notaires.fr/fr/articles/conseils-et-actualites/achat-vente/les-ventes-aux-encheres-notariales"
+          ],
+          [
+            "Cesiones inmobiliarias del Estado",
+            "https://cessions.immobilier-etat.gouv.fr/"
+          ],
+          [
+            "Géorisques",
+            "https://www.georisques.gouv.fr/"
+          ],
+          [
+            "Crédit Agricole – frais de notaire ancien 2026 (comercial, verificar)",
+            "https://e-immobilier.credit-agricole.fr/conseils/reglementation/comment-sont-calcules-les-frais-de-notaire-dans-lancien"
+          ],
+          [
+            "DVF – precios reales",
+            "https://app.dvf.etalab.gouv.fr/"
+          ]
+        ]
+      },
+      "desarrolladoras": [
+        {
+          "nombre": "Nexity",
+          "url": "https://www.nexity.fr/",
+          "segmento": "medio",
+          "regiones": "Toda Francia; Côte d'Azur, Var, Landes, Gironde, Charente-Maritime"
+        },
+        {
+          "nombre": "Bouygues Immobilier",
+          "url": "https://www.bouygues-immobilier.com/",
+          "segmento": "medio",
+          "regiones": "Toda Francia; Nice, Landes, Gironde, Hérault"
+        },
+        {
+          "nombre": "Kaufman & Broad",
+          "url": "https://www.kaufmanbroad.fr/",
+          "segmento": "medio",
+          "regiones": "Île-de-France, Occitanie (Montpellier), Nouvelle-Aquitaine (Bordeaux), PACA"
+        },
+        {
+          "nombre": "Icade Immobilier",
+          "url": "https://www.icade-immobilier.com/",
+          "segmento": "medio",
+          "regiones": "Île-de-France, Nice, grandes metrópolis"
+        }
+      ],
+      "busqueda": [
+        [
+          "SeLoger Neuf (solo enlace)",
+          "https://www.selogerneuf.com/"
+        ],
+        [
+          "Cesiones del Estado (oficial)",
+          "https://cessions.immobilier-etat.gouv.fr/recherche-biens"
+        ],
+        [
+          "Resultados de subastas notariales (oficial)",
+          "https://www.immobilier.notaires.fr/fr/resultats-vente-aux-encheres-adjudications"
+        ]
+      ]
+    },
+    "ITA": {
+      "nombre": "Italia",
+      "compra_mexicanos": {
+        "puede": "con restricciones",
+        "detalle": "Principio de reciprocidad (art. 16 Preleggi): un no comunitario sin permiso de residencia solo puede comprar si su país permite lo mismo a italianos. El notario lo verifica con la ficha del Ministerio de Exteriores (MAE); la ficha de México indica que extranjeros pueden adquirir en todo el territorio salvo la Zona Restringida (vía fideicomiso), por lo que en la práctica la compra por mexicanos se admite; confirmar con notario. Se necesita codice fiscale.",
+        "costa": "La playa y la franja litoral son 'demanio marittimo' (Codice della Navigazione), inapropiable. Además, vínculo paisajístico en los 300 m desde la línea de costa (D.Lgs. 42/2004, art. 142): obras requieren autorización paisajística. Verificar condonaciones ('condono') en casas costeras.",
+        "terrenos_rurales": "Terreno agrícola: derecho de prelación agraria de colindantes/agricultores directos; edificabilidad limitada según PRG/PUC. Casas rurales ('casali', 'masserie', 'trulli') suelen requerir rehabilitación integral y regularización catastral.",
+        "impuestos_y_costos": "Segunda vivienda comprada a particular: imposta di registro 9 % sobre valor catastral (regla prezzo-valore) + ipotecaria y catastale 50 € c/u. Comprada a constructora: IVA 10 % (22 % lujo) + registro/ipotecaria/catastale 200 € c/u. Beneficio 'prima casa' (2 %/4 %) solo si se traslada la residencia al municipio en 18 meses. Notario ≈1–2,5 %; agencia ≈3 % + IVA. Anual: IMU sobre segunda vivienda. Subastas: precio base, oferta mínima = 75 % del base, depósito ≥10 %.",
+        "financiamiento": "Hipotecas a no residentes posibles pero escasas, típicamente ≤50–60 % LTV; verificar con bancos italianos.",
+        "residencia": "Comprar no da residencia. Opciones: visa de 'residenza elettiva' (ingresos pasivos suficientes), visa de inversionista (≥250.000 € en startup innovadora, ≥500.000 € en sociedad, ≥2 M€ en bonos; no por inmuebles). Casas a 1 €: bandos municipales con obligación típica de presentar proyecto en ~1 año, terminar obra en ~3 años y depositar garantía (≈1.000–5.000 €); costo real >20.000 € con notario, póliza y obra. Cada comune publica su bando en el albo pretorio.",
+        "fuentes": [
+          [
+            "MAE – ficha de reciprocidad México",
+            "https://www.esteri.it/mae/resource/doc/RECIPROCITA/MESSICO.docx"
+          ],
+          [
+            "Notaio Online – compra de casa por extranjeros no residentes",
+            "https://notaionline.it/guida/acquisto-casa-stranieri-non-residenti/"
+          ],
+          [
+            "Portale delle Vendite Pubbliche (Ministerio de Justicia)",
+            "https://pvp.giustizia.it/"
+          ],
+          [
+            "Astegiudiziarie.it (publicador autorizado de subastas)",
+            "https://www.astegiudiziarie.it/"
+          ],
+          [
+            "Requadro – precios de obra nueva 1S-2026",
+            "https://requadro.com/nuove-costruzioni-prezzi-in-crescita-del-49-nella-prima-meta-del-2026/"
+          ],
+          [
+            "finanza.com – listas de comuni con casas a 1 € (oct-2026)",
+            "https://www.finanza.com/fisco/casa/case-1-euro-comuni-italiani-liste"
+          ]
+        ]
+      },
+      "desarrolladoras": [
+        {
+          "nombre": "AbitareIn (verificar URL)",
+          "url": "https://www.abitareinspa.com/",
+          "segmento": "medio",
+          "regiones": "Milán"
+        },
+        {
+          "nombre": "COIMA",
+          "url": "https://www.coima.com/",
+          "segmento": "lujo",
+          "regiones": "Milán (Porta Nuova)"
+        },
+        {
+          "nombre": "Borio Mangiarotti (verificar URL)",
+          "url": "https://www.boriomangiarotti.it/",
+          "segmento": "residencial",
+          "regiones": "Milán"
+        },
+        {
+          "nombre": "Abitare Cortina – Knight Frank (comercializa 'Le Vette', Cortina; sin precios publicados)",
+          "url": "https://www.milanofinanza.it/news/cortina-le-nuove-residenze-nel-cuore-delle-dolomiti-tra-chalet-e-panorami-esclusivi-202610151756013339",
+          "segmento": "lujo",
+          "regiones": "Cortina d'Ampezzo (Véneto)"
+        }
+      ],
+      "busqueda": [
+        [
+          "Immobiliare.it – nuove costruzioni (solo enlace)",
+          "https://www.immobiliare.it/nuove-costruzioni/"
+        ],
+        [
+          "Portale Vendite Pubbliche (oficial)",
+          "https://pvp.giustizia.it/pvp/"
+        ],
+        [
+          "Astegiudiziarie.it – Puglia (oficial autorizado)",
+          "https://www.astegiudiziarie.it/News/Detail/532-immobili-residenziali-allasta-in-puglia"
+        ]
+      ]
+    },
+    "DEU": {
+      "nombre": "Alemania",
+      "compra_mexicanos": {
+        "puede": "sí",
+        "detalle": "Sin restricción a extranjeros. Compra ante notario (Notar) e inscripción en el Grundbuch; se usa Auflassungsvormerkung para proteger al comprador. Obra nueva (Neubau) bajo la MaBV: pagos por avance de obra.",
+        "costa": "No hay una ley tipo Ley de Costas; la protección costera la fijan los Länder (p. ej. franjas de prohibición de construir en Schleswig-Holstein y Mecklemburgo-Pomerania Occidental, verificar) y las zonas inundables.",
+        "terrenos_rurales": "Grundstückverkehrsgesetz: la compra de terreno agrícola/forestal por encima de un umbral fijado por cada Land (≈0,5–2 ha) requiere aprobación y puede haber tanteo de asociaciones agrarias. Terreno en 'Außenbereich' (§35 BauGB) casi no es edificable.",
+        "impuestos_y_costos": "Grunderwerbsteuer 3,5 % (Baviera) a 6,5 % (Brandeburgo, NRW, Sarre, Schleswig-Holstein) según el Land; notario + Grundbuch ≈1,5–2 %; corretaje hasta ≈3,57 % por parte (si hay agente). Subastas judiciales (Zwangsversteigerung): garantía del 10 % del Verkehrswert; en primera subasta se rechaza puja <50 %/70 % del valor. Anual: Grundsteuer (reformada en 2025).",
+        "financiamiento": "Bancos alemanes prestan a no residentes con dificultad; típico 50–60 % LTV y exigencia de ingresos en EUR. Verificar.",
+        "residencia": "Comprar no da residencia. Opciones: permiso para autónomos (§21 AufenthG), Blaue Karte UE, Chancenkarte. Mexicanos: 90 días Schengen sin visado.",
+        "fuentes": [
+          [
+            "ZVG-Portal – subastas judiciales (oficial)",
+            "https://www.zvg-portal.de/"
+          ],
+          [
+            "GrEStG – ley de impuesto de adquisición (Gesetze im Internet)",
+            "https://www.gesetze-im-internet.de/grestg_1983/"
+          ],
+          [
+            "GrdstVG – Grundstückverkehrsgesetz",
+            "https://www.gesetze-im-internet.de/grdstvg/"
+          ],
+          [
+            "Bonava – proyectos Neubau (precios publicados)",
+            "https://www.bonava.de/"
+          ]
+        ]
+      },
+      "desarrolladoras": [
+        {
+          "nombre": "Instone Real Estate",
+          "url": "https://www.instone.de/",
+          "segmento": "medio",
+          "regiones": "Berlín, Hamburgo, Fráncfort, Múnich, Leipzig, NRW"
+        },
+        {
+          "nombre": "Bonava Deutschland",
+          "url": "https://www.bonava.de/",
+          "segmento": "medio",
+          "regiones": "Berlín-Brandeburgo, Hamburgo, Sajonia, Rin-Meno"
+        },
+        {
+          "nombre": "Interhomes",
+          "url": "https://www.interhomes.de/",
+          "segmento": "medio",
+          "regiones": "Bremen, Baja Sajonia, NRW, Berlín"
+        },
+        {
+          "nombre": "PROJECT Immobilien (situación financiera: verificar)",
+          "url": "https://www.project-immobilien.com/",
+          "segmento": "residencial",
+          "regiones": "Núremberg, Berlín, Múnich, Fráncfort"
+        }
+      ],
+      "busqueda": [
+        [
+          "ImmoScout24 – Neubauprojekte (solo enlace)",
+          "https://www.immobilienscout24.de/neubau/"
+        ],
+        [
+          "ZVG-Portal (oficial)",
+          "https://www.zvg-portal.de/"
+        ]
+      ]
+    },
+    "CHE": {
+      "nombre": "Suiza",
+      "compra_mexicanos": {
+        "puede": "con restricciones",
+        "detalle": "Lex Koller (LFAIE/BewG): un mexicano no residente necesita autorización cantonal para comprar vivienda; solo se autorizan casas de vacaciones/aparthoteles en lugares turísticos designados por cantones con cuota (cuota federal ≈1.500 unidades/año), con superficie habitable neta ≤200 m² (terreno ≤1.000 m², verificar). Con permiso B puede comprar su residencia principal sin autorización; con permiso C queda equiparado a suizo. Inmuebles comerciales no requieren autorización. En 2026 el Consejo Federal sometió a consulta un endurecimiento de la Lex Koller (prensa, mayo 2026): verificar si fue aprobado.",
+        "costa": "No aplica (sin litoral); revisar zonas de peligro natural (avalanchas, crecidas) en el mapa federal y riberas de lagos (acceso público por derecho cantonal).",
+        "terrenos_rurales": "Terreno agrícola regulado por la LDFR (derecho fundiario rural): solo puede comprarlo quien lo explota personalmente; prácticamente vedado al inversionista. Lex Weber (Ley de segundas residencias): en municipios con >20 % de segundas residencias no se autorizan nuevas segundas viviendas (salvo excepciones), lo que limita la obra nueva en estaciones alpinas.",
+        "impuestos_y_costos": "Impuesto de transmisión (Handänderungssteuer) cantonal ≈0–3,3 % (Zúrich no lo cobra; Ginebra ≈3 %, verificar); notario y registro ≈0,1–1 %; valor locativo imputado en impuesto sobre la renta (reforma aprobada en 2025 para eliminarlo en residencia principal, verificar entrada en vigor).",
+        "financiamiento": "Bancos suizos exigen ≥20 % de capital propio (≥10 % 'duro'); a no residentes suelen financiar 50–60 % y en CHF. Verificar.",
+        "residencia": "Comprar no da residencia. No comunitarios: permiso para rentistas (≥55 años en algunos cantones) o tributación a forfait (lump-sum) con interés cantonal; procesos discrecionales.",
+        "fuentes": [
+          [
+            "Oficina Federal de Justicia – Lex Koller (verificar ruta exacta)",
+            "https://www.bj.admin.ch/bj/de/home/wirtschaft/grundstueckerwerb.html"
+          ],
+          [
+            "ch.ch – compra de inmuebles y subastas cantonales",
+            "https://www.ch.ch/"
+          ],
+          [
+            "Mapa federal de peligros naturales",
+            "https://map.geo.admin.ch/"
+          ],
+          [
+            "immobilier.ch – Lex Koller y estaciones alpinas (2026)",
+            "https://www.immobilier.ch/fr/actualite/quelle-vision-pour-l-avenir-des-stations-alpines-28282"
+          ]
+        ]
+      },
+      "desarrolladoras": [
+        {
+          "nombre": "Implenia",
+          "url": "https://implenia.com/",
+          "segmento": "residencial",
+          "regiones": "Zúrich, Basilea, Ginebra, Vaud"
+        },
+        {
+          "nombre": "Losinger Marazzi",
+          "url": "https://www.losinger-marazzi.ch/",
+          "segmento": "residencial",
+          "regiones": "Romandía, Berna, Zúrich"
+        },
+        {
+          "nombre": "Mobimo",
+          "url": "https://www.mobimo.ch/",
+          "segmento": "lujo",
+          "regiones": "Zúrich, Lucerna, Lausana"
+        },
+        {
+          "nombre": "HRS Real Estate",
+          "url": "https://www.hrs.ch/",
+          "segmento": "residencial",
+          "regiones": "Suiza oriental y central"
+        },
+        {
+          "nombre": "Steiner SA",
+          "url": "https://www.steiner.ch/",
+          "segmento": "residencial",
+          "regiones": "Friburgo, Berna, Zúrich, Romandía"
+        }
+      ],
+      "busqueda": [
+        [
+          "Homegate – Neubau (solo enlace)",
+          "https://www.homegate.ch/"
+        ],
+        [
+          "ImmoScout24 Suiza (solo enlace)",
+          "https://www.immoscout24.ch/"
+        ]
+      ]
+    },
+    "MLT": {
+      "nombre": "Malta",
+      "compra_mexicanos": {
+        "puede": "con restricciones",
+        "detalle": "Los no comunitarios necesitan permiso AIP (Acquisition of Immovable Property, Cap. 246) para comprar fuera de Áreas Especiales Designadas (SDA); con AIP solo una propiedad para vivienda propia y por encima de un valor mínimo que se actualiza cada año (≈138.000 € departamento / ≈231.000 € casa en 2024; menor en Gozo y el sur, verificar cifras vigentes). En SDA (p. ej. Tigné Point, Portomaso, Pender Gardens, Fort Chambray en Gozo) no se requiere AIP ni hay mínimo y se puede comprar varias y rentar.",
+        "costa": "El 'foreshore' es dominio público; la Planning Authority limita la edificación costera (Outside Development Zone). Verificar.",
+        "terrenos_rurales": "Suelo ODZ (fuera de zona de desarrollo) con fuertes restricciones de edificación; los no residentes rara vez pueden comprar terreno sin AIP.",
+        "impuestos_y_costos": "Stamp duty 5 % (beneficios reducidos para primeros compradores residentes, no aplican a no residentes); notario ≈1–2 %; búsquedas registrales; agencia ≈3,5 % + IVA (normalmente la paga el vendedor, verificar). Tasa AIP ≈233 € (verificar).",
+        "financiamiento": "Bancos malteses (BOV, HSBC Malta, APS) prestan a no residentes de forma limitada, ~50–70 % LTV; verificar.",
+        "residencia": "Malta Permanent Residence Programme (MPRP): comprar ≥375.000 € (o rentar ≥14.000 €/año) más contribución gubernamental y donativo; Global Residence Programme (GRP): propiedad ≥275.000 € (≥220.000 € en Gozo/sur) con régimen fiscal del 15 %. Cifras sujetas a cambios: verificar en Residency Malta.",
+        "fuentes": [
+          [
+            "Commissioner for Revenue – AIP (verificar ruta)",
+            "https://cfr.gov.mt/"
+          ],
+          [
+            "Residency Malta Agency",
+            "https://residencymalta.gov.mt/"
+          ],
+          [
+            "Planning Authority Malta",
+            "https://www.pa.org.mt/"
+          ],
+          [
+            "NSO Malta vía Newsbook – índice de precios RPPI T2-2026 (+6,9 % anual)",
+            "https://newsbook.com.mt/en/property-prices-rise-6-9-in-a-year-45-since-2020/"
+          ]
+        ]
+      },
+      "desarrolladoras": [
+        {
+          "nombre": "MIDI plc (Tigné Point, Manoel Island; SDA)",
+          "url": "https://www.midimalta.com/",
+          "segmento": "lujo",
+          "regiones": "Sliema / Tigné"
+        },
+        {
+          "nombre": "Pender Gardens (SDA; verificar URL)",
+          "url": "https://www.pendergardens.com/",
+          "segmento": "lujo",
+          "regiones": "St Julian's"
+        },
+        {
+          "nombre": "Tumas Group – Portomaso (SDA; verificar URL)",
+          "url": "https://www.tumas.com/",
+          "segmento": "lujo",
+          "regiones": "St Julian's"
+        }
+      ],
+      "busqueda": [
+        [
+          "Property Market Malta (solo enlace)",
+          "https://www.propertymarket.com.mt/"
+        ]
+      ]
+    },
+    "AND": {
+      "nombre": "Andorra",
+      "compra_mexicanos": {
+        "puede": "con restricciones",
+        "detalle": "La inversión extranjera en inmuebles por no residentes requiere autorización previa del Govern (Llei 10/2012 de inversió estrangera, Registre d'Inversions Estrangeres). Desde 2024 Andorra endureció la compra por no residentes para frenar precios (cánones/recargos en la adquisición y limitaciones temporales: verificar la normativa vigente en 2026 antes de cualquier oferta).",
+        "costa": "No aplica (sin litoral). Revisar riesgo de aludes e inundaciones (mapas de riesgo del Govern).",
+        "terrenos_rurales": "Suelo no urbanizable muy limitado por los planes urbanísticos parroquiales (POUP); verificar en el comú.",
+        "impuestos_y_costos": "Impuesto sobre transmisiones patrimoniales inmobiliarias (ITP) ≈4 % repartido entre Govern y comú, más recargos para no residentes introducidos en 2024 (verificar); notario y registro adicionales. No hay IVA estatal como tal, sino IGI 4,5 % en obra nueva (verificar aplicación).",
+        "financiamiento": "Bancos andorranos (Andbank, Crèdit Andorrà/MoraBanc) financian a no residentes con LTV bajo; verificar.",
+        "residencia": "Residencia pasiva (sin actividad lucrativa): inversión ≥600.000 € en activos andorranos (puede ser inmueble) + depósito ≈47.500 € en la AFA; mínimo 90 días/año en el país. Verificar montos vigentes.",
+        "fuentes": [
+          [
+            "Govern d'Andorra (inversión extranjera, residencia)",
+            "https://www.govern.ad/"
+          ],
+          [
+            "Andorra Business – inversión extranjera (verificar)",
+            "https://www.andorra-businessportal.com/"
+          ],
+          [
+            "Alto.ad – precio medio de pisos 4.416 €/m² (T1-2026, estadística oficial)",
+            "https://www.alto.ad/business/andorra-apartment-prices-rise-transactions-260507"
+          ]
+        ]
+      },
+      "desarrolladoras": [],
+      "busqueda": [
+        [
+          "Idealista – Andorra (solo enlace; verificar ruta)",
+          "https://www.idealista.com/"
+        ]
+      ]
+    }
+  },
+  "inmuebles": [
+    {
+      "id": "ESP-001",
+      "pais_iso3": "ESP",
+      "ciudad": "Málaga",
+      "zona": "Distrito Zeta",
+      "estado": "Andalucía",
+      "lat": 36.7213,
+      "lon": -4.4214,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "AEDAS Homes",
+      "proyecto": "Zeta Place",
+      "precio_desde": 236000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "1-3",
+      "entrega": "verificar",
+      "url": "https://www.elespanol.com/malaga/malaga-ciudad/20260514/zeta-place-nueva-promocion-aedas-homes-distrito-malaga-viviendas-euros/1003744245600_0.html",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "74 viviendas con garaje y trastero; 47,3 % vendido según la nota (mayo 2026). Dormitorios y entrega por confirmar con AEDAS. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-002",
+      "pais_iso3": "ESP",
+      "ciudad": "Málaga",
+      "zona": "La Térmica / zona oeste (Carretera de Cádiz)",
+      "estado": "Andalucía",
+      "lat": 36.6895,
+      "lon": -4.4455,
+      "precision": "colonia",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "AEDAS Homes (con Ginkgo)",
+      "proyecto": "Térmica Beach",
+      "precio_desde": 500000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://www.eldebate.com/espana/andalucia/malaga/20241108/asi-termica-beach-exclusivo-proyecto-estrella-nueva-milla-oro-malaguena_242888_amp.html",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "Precio de salida publicado en noviembre de 2024 (primer bloque); se anunció un segundo bloque. Precio probablemente desactualizado: verificar. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-003",
+      "pais_iso3": "ESP",
+      "ciudad": "Rincón de la Victoria",
+      "zona": "Lo Cea - Los Cortijos",
+      "estado": "Andalucía (Málaga)",
+      "lat": 36.7177,
+      "lon": -4.2755,
+      "precision": "ciudad",
+      "tipo": "townhouse",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "AEDAS Homes",
+      "proyecto": "Idilia (unifamiliares con jardín)",
+      "precio_desde": 460000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://forbes.es/?p=312008",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "Forbes España: pisos en altura por menos de 300.000 € y unifamiliares con jardín a 5 min del mar desde 460.000 €. Artículo sin fecha visible: verificar vigencia. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-004",
+      "pais_iso3": "ESP",
+      "ciudad": "Dénia",
+      "zona": "Dénia",
+      "estado": "Comunitat Valenciana (Alicante)",
+      "lat": 38.8408,
+      "lon": 0.1057,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Taylor Wimpey España",
+      "proyecto": "Sora",
+      "precio_desde": 315000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "2-3",
+      "entrega": "2027-T3",
+      "url": "https://brainsre.news/taylor-wimpey-espana-32-millones-viviendas-alicante/",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "86 apartamentos y dúplex, clase energética A. Precio 'desde 315.000 €' publicado en idealista/news; otra fuente da entrega feb-2028: verificar. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-005",
+      "pais_iso3": "ESP",
+      "ciudad": "Finestrat",
+      "zona": "Balcón de Finestrat",
+      "estado": "Comunitat Valenciana (Alicante)",
+      "lat": 38.5673,
+      "lon": -0.2122,
+      "precision": "ciudad",
+      "tipo": "townhouse",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Taylor Wimpey España",
+      "proyecto": "Nature",
+      "precio_desde": 425000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "3",
+      "entrega": "2027-T3",
+      "url": "https://brainsre.news/taylor-wimpey-espana-32-millones-viviendas-alicante/",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "38 adosados de 3 dormitorios con piscina y jardines comunitarios; clase A. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-006",
+      "pais_iso3": "ESP",
+      "ciudad": "Finestrat",
+      "zona": "Entre Finestrat y Benidorm",
+      "estado": "Comunitat Valenciana (Alicante)",
+      "lat": 38.5673,
+      "lon": -0.2122,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Taylor Wimpey España",
+      "proyecto": "Breeze (1.ª fase)",
+      "precio_desde": 242000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://alicanteplaza.es/alicanteplaza/noticia28050",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "1.ª fase: 30 apartamentos desde 242.000 € + IVA y 14 adosados desde 367.000 € + IVA (inversión 27 M€). Nota sin fecha clara: verificar si sigue en venta. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-007",
+      "pais_iso3": "ESP",
+      "ciudad": "Santanyí",
+      "zona": "Cala d'Or",
+      "estado": "Illes Balears (Mallorca)",
+      "lat": 39.3725,
+      "lon": 3.228,
+      "precision": "colonia",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Taylor Wimpey España",
+      "proyecto": "La Mar",
+      "precio_desde": 430000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://www.alimarket.es/construccion/noticia_amp/r447275/taylor-wimpey-pone-a-la-venta-una-nueva-promocion-exclusiva-en-la-costa-este-de-mallorca",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "36 apartamentos, certificado energético A; desde 430.000 € + IVA. Nota antigua: probable que esté vendida o entregada, verificar. Baleares: ITP en reventa e IVA 10 % en obra nueva. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ESP-008",
+      "pais_iso3": "ESP",
+      "ciudad": "Marbella",
+      "zona": "Los Monteros",
+      "estado": "Andalucía (Málaga)",
+      "lat": 36.5085,
+      "lon": -4.847,
+      "precision": "colonia",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Metrovacesa",
+      "proyecto": "Medblue II",
+      "precio_desde": 360000,
+      "precio_hasta": 790000,
+      "moneda": "EUR",
+      "m2_desde": 111,
+      "m2_hasta": 167,
+      "recamaras": "2-3",
+      "entrega": "verificar",
+      "url": "https://metrovacesa.com/en/blog/metrovacesa-begins-construction-of-medblue-ii-a-development-of-45-multi-family-homes-in-marbella",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "45 viviendas; obra prevista a terminar a finales de 2025 (posible entrega inmediata o vendido). Rango 360.000–790.000 € según prensa (brainsre); Merca2 atribuye el 'desde 360.000' a Medblue I. Medblue III (51 viviendas, entrega 2S-2026) también en comercialización. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-001",
+      "pais_iso3": "FRA",
+      "ciudad": "Vallauris",
+      "zona": "Golfe-Juan",
+      "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
+      "lat": 43.5667,
+      "lon": 7.075,
+      "precision": "colonia",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "L'Escale",
+      "precio_desde": 300000,
+      "precio_hasta": 1234000,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "estudio-5 piezas",
+      "entrega": "2026-T3",
+      "url": "https://www.nexity.fr/neuf/0050__50061",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Precios distintos según página/fecha (dès 260.000–330.000 €; T3 a 432.000 €; T5 a 1.234.000 €). Piscina, jardines privados, parking subterráneo. 'Pièces' francesas: T3 ≈ 2 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-002",
+      "pais_iso3": "FRA",
+      "ciudad": "Antibes",
+      "zona": "Antibes",
+      "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
+      "lat": 43.5808,
+      "lon": 7.1251,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "La Roseraie d'Antipolis",
+      "precio_desde": 269000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "2-4 piezas",
+      "entrega": "verificar",
+      "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/alpes-maritimes",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Listado departamental de Nexity: 2 a 4 pièces dès 269.000 € (otro despliegue 277.000 €). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-003",
+      "pais_iso3": "FRA",
+      "ciudad": "Cagnes-sur-Mer",
+      "zona": "Cagnes-sur-Mer",
+      "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
+      "lat": 43.6637,
+      "lon": 7.149,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "L'Échappée Mer",
+      "precio_desde": 545000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "3-4 piezas",
+      "entrega": "verificar",
+      "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/alpes-maritimes",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "3 a 4 pièces desde 545.000 €; 4 pièces dès 640.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-004",
+      "pais_iso3": "FRA",
+      "ciudad": "Le Muy",
+      "zona": "Le Muy",
+      "estado": "Provence-Alpes-Côte d'Azur (Var)",
+      "lat": 43.4728,
+      "lon": 6.5664,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "Le Clos des Pinèdes",
+      "precio_desde": 171000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "2-4 piezas",
+      "entrega": "verificar",
+      "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/var",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Terraza/balcón y parking. Otra captura muestra 167.499 €. Entrada más barata de Nexity en la zona. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-005",
+      "pais_iso3": "FRA",
+      "ciudad": "Toulon",
+      "zona": "Toulon",
+      "estado": "Provence-Alpes-Côte d'Azur (Var)",
+      "lat": 43.1242,
+      "lon": 5.928,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "Villa Maris",
+      "precio_desde": 198000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "2-4 piezas",
+      "entrega": "verificar",
+      "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/var",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "2 a 4 pièces dès 198.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-006",
+      "pais_iso3": "FRA",
+      "ciudad": "Puget-sur-Argens",
+      "zona": "Puget-sur-Argens",
+      "estado": "Provence-Alpes-Côte d'Azur (Var)",
+      "lat": 43.4556,
+      "lon": 6.6847,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "Terre Carmin",
+      "precio_desde": 178000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "2-3 piezas",
+      "entrega": "verificar",
+      "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/var",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "OJO: precio con PTZ y TVA 5,5 %, reservado a residencia principal con topes de ingreso; un inversionista extranjero pagaría el precio con TVA 20 % (más alto). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-007",
+      "pais_iso3": "FRA",
+      "ciudad": "Nice",
+      "zona": "Nice",
+      "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
+      "lat": 43.7102,
+      "lon": 7.262,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bouygues Immobilier",
+      "proyecto": "OASIS",
+      "precio_desde": 287500,
+      "precio_hasta": 291000,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "2 piezas",
+      "entrega": "verificar",
+      "url": "https://www.bouygues-immobilier.com/programme-neuf-nice/ref/6194",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "2 pièces entre 287.500 y 291.000 € con parking. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-008",
+      "pais_iso3": "FRA",
+      "ciudad": "Montpellier",
+      "zona": "Montpellier",
+      "estado": "Occitanie (Hérault)",
+      "lat": 43.6108,
+      "lon": 3.8767,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Kaufman & Broad",
+      "proyecto": "Duo Verde",
+      "precio_desde": 192538,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": 42.76,
+      "m2_hasta": 42.76,
+      "recamaras": "1 (2 piezas)",
+      "entrega": "verificar",
+      "url": "https://www.kaufmanbroad.fr/achat-immobilier-neuf/occitanie/herault/montpellier/lot/Appartement/35371_131",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Lote 2 pièces de 42,76 m² con descuento de 6.000 € y TVA 5,5 % (condiciones de residencia principal/ingresos); oferta válida al 30/10. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-009",
+      "pais_iso3": "FRA",
+      "ciudad": "Soustons",
+      "zona": "Centro (a <800 m del bourg)",
+      "estado": "Nouvelle-Aquitaine (Landes)",
+      "lat": 43.7522,
+      "lon": -1.3283,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "Bleu du Sud",
+      "precio_desde": 224000,
+      "precio_hasta": 280000,
+      "moneda": "EUR",
+      "m2_desde": 43,
+      "m2_hasta": 62,
+      "recamaras": "1-2",
+      "entrega": "2028-T1",
+      "url": "https://www.nexity.fr/neuf/0048__48114",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "3 departamentos disponibles de 43 a 62 m². Las villas 4 pièces del mismo programa son BRS (bail réel solidaire: solo residencia principal con topes de ingreso), no aptas para inversionista. Costa atlántica, cerca de Hossegor. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-010",
+      "pais_iso3": "FRA",
+      "ciudad": "Royan",
+      "zona": "Antigua friche de La Robinière",
+      "estado": "Nouvelle-Aquitaine (Charente-Maritime)",
+      "lat": 45.6244,
+      "lon": -1.0297,
+      "precision": "ciudad",
+      "tipo": "casa",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Nexity",
+      "proyecto": "Les Hauts de Royan Maisons",
+      "precio_desde": 275000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": 93,
+      "m2_hasta": 93,
+      "recamaras": "3 (4 piezas)",
+      "entrega": "inmediata",
+      "url": "https://www.nexity.fr/neuf/0011__11084_01",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "1 casa de 93 m² 'déjà livré'; precio con TVA 5,5 % (sujeto a condiciones), un no residente pagaría más. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "FRA-011",
+      "pais_iso3": "FRA",
+      "ciudad": "Dax",
+      "zona": "Dax",
+      "estado": "Nouvelle-Aquitaine (Landes)",
+      "lat": 43.7102,
+      "lon": -1.0536,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bouygues Immobilier",
+      "proyecto": "Villa Serena",
+      "precio_desde": 269000,
+      "precio_hasta": 295000,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "3 (4 piezas)",
+      "entrega": "2027-T1",
+      "url": "https://www.bouygues-immobilier.com/landes/dax",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "4 pièces 269.000–295.000 € según la captura; entrega 2027 (T1 o T2 según página). Ofertas de notaría gratuita (Pass'Proprio) sujetas a condiciones. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ITA-001",
+      "pais_iso3": "ITA",
+      "ciudad": "Anghiari",
+      "zona": "Frazione Toppole, vocabolo Poderuzzo (casale n. 76)",
+      "estado": "Toscana (Arezzo)",
+      "lat": 43.541,
+      "lon": 12.056,
+      "precision": "ciudad",
+      "tipo": "casa",
+      "nuevo": false,
+      "rehabilitacion": "desconocido",
+      "desarrolladora": "Tribunale di Arezzo (subasta judicial)",
+      "proyecto": "Abitazione di tipo rurale",
+      "precio_desde": 281600,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "subasta 2026-11-19",
+      "url": "https://www.astegiudiziarie.it/vendita-asta-fabbricato-rurale-anghiari-frazione-toppole-casale-n-76-vocabolo-poderuzzo-l2337392-p1316617",
+      "fuente": "subasta oficial",
+      "visto": "2026-10-22",
+      "nota": "Precio base 281.600 €, oferta mínima 211.200 €; ofertas hasta 18/11/2026 13:00, audiencia 19/11/2026 (venta sin incanto, modalidad sincrona mista). Precio bajó desde 440.000 € (mar-2026). Leer perizia: estado y ocupación. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ITA-002",
+      "pais_iso3": "ITA",
+      "ciudad": "Casale Marittimo",
+      "zona": "Via della Fornace 27",
+      "estado": "Toscana (Pisa)",
+      "lat": 43.2972,
+      "lon": 10.6158,
+      "precision": "ciudad",
+      "tipo": "casa",
+      "nuevo": false,
+      "rehabilitacion": "desconocido",
+      "desarrolladora": "Subasta judicial (astegiudiziarie.it)",
+      "proyecto": "Abitazione in villini con garage",
+      "precio_desde": 313500,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar fecha de subasta",
+      "url": "https://www.astegiudiziarie.it/vendita-asta-villetta-casale-marittimo-via-della-fornace-27-56040-casale-marittimo-pi-italia-l2319239-p1305619",
+      "fuente": "subasta oficial",
+      "visto": "2026-10-22",
+      "nota": "Precio base 313.500 €. Fecha de audiencia no confirmada (podría haber pasado). Costa Toscana (Cecina ~15 km). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ITA-003",
+      "pais_iso3": "ITA",
+      "ciudad": "Quartu Sant'Elena",
+      "zona": "Loc. Margine Rosso, via Levante 34",
+      "estado": "Cerdeña (Cagliari)",
+      "lat": 39.241,
+      "lon": 9.183,
+      "precision": "ciudad",
+      "tipo": "villa",
+      "nuevo": false,
+      "rehabilitacion": "desconocido",
+      "desarrolladora": "Subasta judicial (astegiudiziarie.it)",
+      "proyecto": "Abitazione in villini",
+      "precio_desde": 622400,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar fecha de subasta",
+      "url": "https://www.astegiudiziarie.it/vendita-asta-villetta-quartu-sant-elena-loc-margine-rosso-via-levante-n-34-l2304655-p1296848",
+      "fuente": "subasta oficial",
+      "visto": "2026-10-22",
+      "nota": "Precio base 622.400 €. Fecha de audiencia no confirmada. Zona costera: revisar vincolo paesaggistico. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ITA-004",
+      "pais_iso3": "ITA",
+      "ciudad": "Cartoceto",
+      "zona": "Frazione Lucrezia, via Vittorio Veneto 31",
+      "estado": "Marche (Pesaro e Urbino)",
+      "lat": 43.765,
+      "lon": 12.94,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": false,
+      "rehabilitacion": "desconocido",
+      "desarrolladora": "Subasta judicial (astegiudiziarie.it)",
+      "proyecto": "Appartamento",
+      "precio_desde": 248339,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar fecha de subasta",
+      "url": "https://www.astegiudiziarie.it/vendita-asta-appartamento-cartoceto-frazione-lucrezia-via-vittorio-veneto-31-l2336839-p1316247",
+      "fuente": "subasta oficial",
+      "visto": "2026-10-22",
+      "nota": "Precio base 248.339 €. Fecha de audiencia no confirmada. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ITA-005",
+      "pais_iso3": "ITA",
+      "ciudad": "Monza",
+      "zona": "Via Vasari 30",
+      "estado": "Lombardía (Monza e Brianza)",
+      "lat": 45.5845,
+      "lon": 9.2744,
+      "precision": "colonia",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Cooperativa (no identificada en la nota)",
+      "proyecto": "Via Vasari 30 (30 alojamientos clase A)",
+      "precio_desde": 200000,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "obras desde otoño 2026",
+      "url": "https://www.ilgiorno.it/monza-brianza/cronaca/il-nuovo-intervento-residenziale-trenta-68d19696",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "Precios 'calmierati' ~3.150 €/m², desde 200.000 €. Al ser cooperativa con precio regulado puede exigir ser socio/residente y requisitos de ingreso: verificar elegibilidad de un no residente. A ~20 min de Milán. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-001",
+      "pais_iso3": "DEU",
+      "ciudad": "Heiligenhaus",
+      "zona": "Südring",
+      "estado": "Renania del Norte-Westfalia",
+      "lat": 51.3265,
+      "lon": 6.9714,
+      "precision": "ciudad",
+      "tipo": "townhouse",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Südringterrassen",
+      "precio_desde": 559900,
+      "precio_hasta": 679900,
+      "moneda": "EUR",
+      "m2_desde": 176,
+      "m2_hasta": 189,
+      "recamaras": "verificar",
+      "entrega": "2027-03",
+      "url": "https://www.bonava.de/immobilien/duesseldorf/heiligenhaus/suedringterrassen",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Reihenhäuser grandes cerca de Düsseldorf/Essen. Grunderwerbsteuer NRW 6,5 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-002",
+      "pais_iso3": "DEU",
+      "ciudad": "Schulzendorf",
+      "zona": "Berliner Umland (sur de Berlín, cerca del aeropuerto BER)",
+      "estado": "Brandeburgo",
+      "lat": 52.3586,
+      "lon": 13.5867,
+      "precision": "ciudad",
+      "tipo": "casa",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Ritterschlag",
+      "precio_desde": 564900,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": 114,
+      "m2_hasta": 114,
+      "recamaras": "verificar",
+      "entrega": "2026-12",
+      "url": "https://www.bonava.de/immobilien/berliner-umland/schulzendorf/ritterschlag",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Casa de 114 m². Grunderwerbsteuer Brandeburgo 6,5 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-003",
+      "pais_iso3": "DEU",
+      "ciudad": "Bottrop",
+      "zona": "Ruhrgebiet",
+      "estado": "Renania del Norte-Westfalia",
+      "lat": 51.5236,
+      "lon": 6.9285,
+      "precision": "ciudad",
+      "tipo": "casa",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Eigener Feldblick",
+      "precio_desde": 509900,
+      "precio_hasta": 549900,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "2027-09",
+      "url": "https://www.bonava.de/immobilien/ruhrgebiet/bottrop/eigener-feldblick",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Doppel- y Reihenhäuser. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-004",
+      "pais_iso3": "DEU",
+      "ciudad": "Recklinghausen",
+      "zona": "Hellbachquartier (Karlsbader Straße)",
+      "estado": "Renania del Norte-Westfalia",
+      "lat": 51.6141,
+      "lon": 7.1979,
+      "precision": "colonia",
+      "tipo": "townhouse",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Hellbachquartier – 002 Reihenhaus",
+      "precio_desde": 389900,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": 113,
+      "m2_hasta": 113,
+      "recamaras": "4 (5 Zimmer)",
+      "entrega": "verificar",
+      "url": "https://www.bonava.de/immobilien/ruhrgebiet/recklinghausen/hellbachquartier/002-reihenhaus",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Reihenhaus de 5 Zimmer y 113 m²; el más barato hallado de Bonava. 'Zimmer' alemanes incluyen la sala: 4 Zimmer ≈ 3 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-005",
+      "pais_iso3": "DEU",
+      "ciudad": "Wülfrath",
+      "zona": "Bergisches Land",
+      "estado": "Renania del Norte-Westfalia",
+      "lat": 51.2817,
+      "lon": 7.0384,
+      "precision": "ciudad",
+      "tipo": "townhouse",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Bergische Gärten – 012 Reihenhaus",
+      "precio_desde": 489900,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": 113,
+      "m2_hasta": 113,
+      "recamaras": "3 (4 Zimmer)",
+      "entrega": "verificar",
+      "url": "https://www.bonava.de/immobilien/bergisches-land/wuelfrath/bergische-gaerten/012-reihenhaus",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "'Zimmer' alemanes incluyen la sala: 4 Zimmer ≈ 3 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-006",
+      "pais_iso3": "DEU",
+      "ciudad": "Frankfurt (Oder)",
+      "zona": "Centro",
+      "estado": "Brandeburgo",
+      "lat": 52.3471,
+      "lon": 14.5506,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Cityterrassen",
+      "precio_desde": 214900,
+      "precio_hasta": 379900,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "2026-12",
+      "url": "https://www.bonava.de/immobilien/berliner-umland/frankfurt-oder/cityterrassen",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Mezcla de departamentos y Reihenhäuser; frontera con Polonia, ~1 h a Berlín. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-007",
+      "pais_iso3": "DEU",
+      "ciudad": "Langen (Hessen)",
+      "zona": "Römerquartier",
+      "estado": "Hesse",
+      "lat": 49.9939,
+      "lon": 8.6703,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Römerquartier",
+      "precio_desde": 219900,
+      "precio_hasta": 859900,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://www.bonava.de/immobilien/frankfurt-am-main/langen/roemerquartier",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Departamentos, Reihen- y Doppelhäuser; entre Fráncfort y Darmstadt. Grunderwerbsteuer Hesse 6 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-008",
+      "pais_iso3": "DEU",
+      "ciudad": "Hoppegarten",
+      "zona": "Koppelhain (este de Berlín)",
+      "estado": "Brandeburgo",
+      "lat": 52.518,
+      "lon": 13.672,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Koppelhain",
+      "precio_desde": 297900,
+      "precio_hasta": 504900,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://www.bonava.de/immobilien/berliner-umland/hoppegarten/koppelhain",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Departamentos, Reihen- y Doppelhäuser. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-009",
+      "pais_iso3": "DEU",
+      "ciudad": "Zirchow",
+      "zona": "Isla de Usedom (Mar Báltico)",
+      "estado": "Mecklemburgo-Pomerania Occidental",
+      "lat": 53.8833,
+      "lon": 14.15,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Im Kiefernhain (Ferienwohnungen)",
+      "precio_desde": 199500,
+      "precio_hasta": 336000,
+      "moneda": "EUR",
+      "m2_desde": 57,
+      "m2_hasta": 112,
+      "recamaras": "verificar",
+      "entrega": "verificar",
+      "url": "https://www.bonava.de/immobilien/ostsee/usedom/zirchow/im-kiefernhain",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Precios NETOS (sin IVA, modelo de inversión para renta vacacional con deducción de IVA); unidad de 69 m² a 207.000 € con precio fijo garantizado. Grunderwerbsteuer MV 6 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-010",
+      "pais_iso3": "DEU",
+      "ciudad": "Loddin",
+      "zona": "Kölpinsee, isla de Usedom",
+      "estado": "Mecklemburgo-Pomerania Occidental",
+      "lat": 54.02,
+      "lon": 14.02,
+      "precision": "colonia",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Bernsteinquartier (Ferienwohnungen)",
+      "precio_desde": 224400,
+      "precio_hasta": 330000,
+      "moneda": "EUR",
+      "m2_desde": 66,
+      "m2_hasta": 101,
+      "recamaras": "1-3",
+      "entrega": "verificar",
+      "url": "https://www.bonava.de/immobilien/ostsee/usedom/loddin-koelpinsee/bernsteinquartier",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "85 % vendido; precios netos. Unidades vistas: 2 Zimmer 66 m² 269.000 €, 3 Zimmer 88 m² 295.000 €, amueblada 101 m² 398.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "DEU-011",
+      "pais_iso3": "DEU",
+      "ciudad": "Heringsdorf",
+      "zona": "Frente a la playa, isla de Usedom",
+      "estado": "Mecklemburgo-Pomerania Occidental",
+      "lat": 53.954,
+      "lon": 14.168,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Bonava",
+      "proyecto": "Kaiserquartier",
+      "precio_desde": 355000,
+      "precio_hasta": 1030000,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "2028-07",
+      "url": "https://www.bonava.de/immobilien/ostsee/usedom/heringsdorf/kaiserquartier",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "Departamentos vacacionales junto a la playa; precios netos. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "CHE-001",
+      "pais_iso3": "CHE",
+      "ciudad": "Estavayer (Montbrelloz)",
+      "zona": "Montbrelloz",
+      "estado": "Friburgo",
+      "lat": 46.8667,
+      "lon": 6.8167,
+      "precision": "ciudad",
+      "tipo": "departamento",
+      "nuevo": true,
+      "rehabilitacion": "no",
+      "desarrolladora": "Steiner SA",
+      "proyecto": "Résidences Flore&Sens",
+      "precio_desde": 320000,
+      "precio_hasta": null,
+      "moneda": "CHF",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "1-4 (2,5–5,5 pièces)",
+      "entrega": "verificar (obra 2021-2022)",
+      "url": "https://www.steiner.ch/fr/projets/acheterlouer.html",
+      "fuente": "sitio de la desarrolladora",
+      "visto": "2026-10-22",
+      "nota": "29 departamentos PPE en 4 edificios; 2,5 pièces dès CHF 320.000, 5,5 pièces dès CHF 710.000. Precios de 2021: probablemente vendido. LEX KOLLER: un mexicano no residente NO puede comprar aquí (no es zona turística autorizada); solo con permiso B como residencia principal. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    },
+    {
+      "id": "ITA-006",
+      "pais_iso3": "ITA",
+      "ciudad": "Mussomeli",
+      "zona": "Centro histórico",
+      "estado": "Sicilia (Caltanissetta)",
+      "lat": 37.5786,
+      "lon": 13.7522,
+      "precision": "ciudad",
+      "tipo": "casa",
+      "nuevo": false,
+      "rehabilitacion": "integral",
+      "desarrolladora": "Comune di Mussomeli (programa municipal 'case a 1 euro')",
+      "proyecto": "Case a 1 euro",
+      "precio_desde": 1,
+      "precio_hasta": null,
+      "moneda": "EUR",
+      "m2_desde": null,
+      "m2_hasta": null,
+      "recamaras": "verificar",
+      "entrega": "según bando",
+      "url": "https://siviaggia.it/borghi/mussomeli-borgo-siciliano-stranieri/334402/amp/",
+      "fuente": "prensa",
+      "visto": "2026-10-22",
+      "nota": "Precio simbólico de 1 €; obligación de rehabilitar (típicamente en 3 años) con depósito de garantía (≈5.000 € según prensa), más notario, gastos y obra (>20.000 € en total). Mussomeli figura entre los comuni sicilianos activos en 2026 (finanza.com). Verificar el bando vigente en el sitio oficial del Comune antes de cualquier trámite. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+    }
+  ]
+}

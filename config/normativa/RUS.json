@@ -1,0 +1,3680 @@
+{
+  "jurisdiccion": "RUS",
+  "nombre": "Rusia",
+  "revisado": "2026-10",
+  "nota": "Mapa de leyes federales y decretos aplicables a empresas que operan en la Federación de Rusia, por área general y por sector. El derecho ruso cambia con frecuencia mediante leyes y decretos presidenciales de contramedidas; incluye los cambios confirmados en 2025-2026 (IVA del 22 % desde el 1-01-2026 por la Ley 425-FZ, impuesto sobre beneficios del 25 % desde 2025, multas por fuga de datos desde el 30-05-2025, endurecimiento de la localización de datos desde el 1-07-2025, consentimiento separado desde el 1-09-2025, Ley 58-FZ sobre infraestructura crítica). Para empresas de México, la UE o EUA, cualquier relación con entidades rusas está además condicionada por las sanciones de la UE (Reglamentos 833/2014 y 269/2014), de EUA (OFAC/BIS) y del Reino Unido, y por las contramedidas rusas sobre inversores de Estados «no amistosos»; se exponen los hechos sin valoración. Los enlaces a consultant.ru y pravo.gov.ru no pudieron comprobarse desde este entorno. Cuando un dato no se pudo confirmar se marca «verificar». No es asesoría legal: confirma el texto vigente en publication.pravo.gov.ru o con un despacho local.",
+  "fuentes_oficiales": [
+    [
+      "Portal oficial de información jurídica (pravo.gov.ru)",
+      "http://pravo.gov.ru"
+    ],
+    [
+      "Publicación oficial de actos jurídicos",
+      "http://publication.pravo.gov.ru"
+    ],
+    [
+      "Banco de actos del Presidente (kremlin.ru)",
+      "http://kremlin.ru/acts/bank"
+    ],
+    [
+      "Banco de Rusia",
+      "https://www.cbr.ru"
+    ],
+    [
+      "Roskomnadzor",
+      "https://rkn.gov.ru"
+    ],
+    [
+      "Servicio Federal de Impuestos (FNS)",
+      "https://www.nalog.gov.ru"
+    ],
+    [
+      "Servicio Federal Antimonopolio (FAS)",
+      "https://fas.gov.ru"
+    ],
+    [
+      "FSTEC",
+      "https://fstec.ru"
+    ],
+    [
+      "Rosfinmonitoring",
+      "https://www.fedsfm.ru"
+    ],
+    [
+      "Rostekhnadzor",
+      "https://www.gosnadzor.ru"
+    ],
+    [
+      "Rospotrebnadzor",
+      "https://www.rospotrebnadzor.ru"
+    ],
+    [
+      "ConsultantPlus (textos consolidados)",
+      "https://www.consultant.ru"
+    ],
+    [
+      "Comisión Económica Euroasiática",
+      "https://eec.eaeunion.org"
+    ],
+    [
+      "Mapa de sanciones de la UE (Rusia)",
+      "https://www.sanctionsmap.eu"
+    ],
+    [
+      "OFAC - programa de sanciones a Rusia",
+      "https://ofac.treasury.gov/sanctions-programs-and-country-information/russian-harmful-foreign-activities-sanctions"
+    ]
+  ],
+  "generales": [
+    {
+      "area": "Societario y gobierno corporativo",
+      "leyes": [
+        {
+          "id": "ru_codigo_civil",
+          "nombre": "Código Civil de la Federación de Rusia, parte primera (n.º 51-FZ de 30-11-1994)",
+          "sigla": "GK RF",
+          "tipo": "ley federal",
+          "autoridad": "Tribunales arbitrales (comerciales); FNS (registro)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_5142/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las personas jurídicas y empresarios que operan en Rusia, incluidas filiales y sucursales de empresas extranjeras.",
+          "obligaciones": [
+            "Formas jurídicas y capacidad de las personas jurídicas (cap. 4, arts. 48-123.31).",
+            "Responsabilidad de los administradores por daños causados por actuación de mala fe o irrazonable (art. 53.1).",
+            "Sucursales y oficinas de representación de sociedades extranjeras: acreditación ante la FNS (art. 55).",
+            "Reglas generales de contratos y obligaciones (partes 1 y 2)."
+          ],
+          "tramites": [
+            {
+              "que": "Acreditación de sucursal u oficina de representación extranjera",
+              "plazo": "Antes de operar",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Nulidad de actos, indemnización de daños y responsabilidad subsidiaria de controladores (art. 53.1 y legislación de quiebra).",
+          "evidencia": [
+            "Estatutos",
+            "Extracto del EGRUL",
+            "Actas de órganos de gobierno"
+          ],
+          "preguntas": [
+            "¿Los datos del EGRUL coinciden con la estructura real?",
+            "¿Las sucursales extranjeras están acreditadas?"
+          ]
+        },
+        {
+          "id": "ru_ooo",
+          "nombre": "Ley federal n.º 14-FZ de 08-02-1998 sobre sociedades de responsabilidad limitada",
+          "sigla": "14-FZ (OOO)",
+          "tipo": "ley federal",
+          "autoridad": "Tribunales; notarios; FNS",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_17819/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sociedades de responsabilidad limitada (OOO), forma más usada por filiales extranjeras.",
+          "obligaciones": [
+            "Junta general anual de participantes entre marzo y junio (art. 34).",
+            "Certificación notarial de decisiones de la junta o método alternativo previsto en estatutos (art. 67.1 del Código Civil).",
+            "Transmisión de participaciones mediante escritura notarial (art. 21).",
+            "Aprobación de grandes operaciones (> 25 % de activos) y operaciones con interés (arts. 45-46).",
+            "Activos netos no inferiores al capital social (art. 30)."
+          ],
+          "tramites": [
+            {
+              "que": "Inscripción de cambios en el EGRUL",
+              "plazo": "3 días hábiles tras el cambio (verificar)",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Nulidad de operaciones; liquidación por activos netos negativos; multas del KoAP art. 14.25.",
+          "evidencia": [
+            "Actas de junta notarizadas",
+            "Registro de participantes",
+            "Cálculo de activos netos"
+          ],
+          "preguntas": [
+            "¿Se celebró la junta anual en plazo y con certificación?",
+            "¿Las grandes operaciones se aprobaron debidamente?"
+          ]
+        },
+        {
+          "id": "ru_ao",
+          "nombre": "Ley federal n.º 208-FZ de 26-12-1995 sobre sociedades anónimas",
+          "sigla": "208-FZ (AO/PAO)",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia (emisores); tribunales",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_8743/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sociedades anónimas públicas (PAO) y no públicas (AO).",
+          "obligaciones": [
+            "Junta anual entre marzo y junio (art. 47).",
+            "Consejo de administración obligatorio en sociedades con más de 50 accionistas (art. 64).",
+            "Registro de accionistas llevado por un registrador licenciado (art. 44).",
+            "Aprobación de grandes operaciones y con partes interesadas (caps. X y XI).",
+            "Divulgación de información para PAO (art. 92)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de emisiones de acciones",
+              "plazo": "Antes de colocar",
+              "ante": "Banco de Rusia"
+            }
+          ],
+          "sanciones": "Nulidad de operaciones; multas del KoAP (arts. 15.17-15.24.1, 15.19).",
+          "evidencia": [
+            "Contrato con registrador",
+            "Actas de consejo",
+            "Informe anual"
+          ],
+          "preguntas": [
+            "¿El registro de accionistas lo lleva un registrador licenciado?",
+            "¿Se publican los hechos relevantes en plazo?"
+          ]
+        },
+        {
+          "id": "ru_registro",
+          "nombre": "Ley federal n.º 129-FZ de 08-08-2001 sobre el registro estatal de personas jurídicas y empresarios",
+          "sigla": "129-FZ (EGRUL)",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_32881/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las personas jurídicas.",
+          "obligaciones": [
+            "Inscripción de constitución y cambios en el EGRUL.",
+            "Mantener datos fiables (domicilio, administrador, participantes); la FNS puede anotar datos inexactos y excluir a la sociedad.",
+            "Comunicar cambios de datos en 3 días hábiles (art. 5, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de inscripción (formulario P13014)",
+              "plazo": "Plazo legal",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Multas del KoAP art. 14.25 y exclusión del registro.",
+          "evidencia": [
+            "Extracto del EGRUL",
+            "Contrato de domicilio legal"
+          ],
+          "preguntas": [
+            "¿El EGRUL contiene alguna anotación de datos inexactos?"
+          ]
+        },
+        {
+          "id": "ru_titular_real",
+          "nombre": "Ley 115-FZ art. 6.1: información sobre beneficiarios reales",
+          "sigla": "Beneficiarios reales",
+          "tipo": "ley federal",
+          "autoridad": "Rosfinmonitoring; Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_32834/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las personas jurídicas rusas.",
+          "obligaciones": [
+            "Identificar a sus beneficiarios reales (control > 25 % o influencia determinante) al menos una vez al año.",
+            "Documentar las medidas adoptadas y conservar la información 5 años.",
+            "Entregar la información a la FNS y a Rosfinmonitoring a requerimiento."
+          ],
+          "tramites": [
+            {
+              "que": "Entrega de información sobre beneficiarios",
+              "plazo": "A requerimiento",
+              "ante": "FNS / Rosfinmonitoring"
+            }
+          ],
+          "sanciones": "KoAP art. 14.25.1: multa de 100 000 a 500 000 rublos para personas jurídicas.",
+          "evidencia": [
+            "Registro interno de beneficiarios",
+            "Evidencia de la actualización anual"
+          ],
+          "preguntas": [
+            "¿Se actualizó la información de beneficiarios en los últimos 12 meses?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Fiscal y contable",
+      "leyes": [
+        {
+          "id": "ru_codigo_fiscal_iva",
+          "nombre": "Código Fiscal, parte segunda, cap. 21 (IVA), modificado por la Ley federal n.º 425-FZ de 28-11-2025",
+          "sigla": "NK RF - IVA",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/",
+          "ultima_reforma": "2025-11-28",
+          "aplica": "Organizaciones y empresarios que realizan operaciones gravadas en Rusia; agentes fiscales que compran servicios electrónicos a extranjeros.",
+          "obligaciones": [
+            "Tipo general del 22 % desde el 1-01-2026 (antes 20 %); tipo reducido del 10 % para alimentos, medicamentos, libros y bienes infantiles listados; 0 % en exportaciones.",
+            "Facturas (schet-faktura) electrónicas y libros de compras y ventas.",
+            "Declaración trimestral electrónica de IVA hasta el 25 del mes siguiente al trimestre.",
+            "Proveedores extranjeros de servicios electrónicos (B2C): registro en la FNS y pago del IVA (art. 174.2).",
+            "Régimen simplificado (USN): umbral de exención de IVA reducido a 20 M rublos en 2026 (calendario modificado en 2026; verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración de IVA",
+              "plazo": "25 del mes siguiente al trimestre",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Art. 122 NK: multa del 20 % del impuesto no pagado (40 % si es intencional), más intereses de demora; art. 119: 5 % mensual por declaración tardía (máx. 30 %, mín. 1 000 rublos).",
+          "evidencia": [
+            "Declaraciones de IVA",
+            "Libros de compras y ventas",
+            "Facturas electrónicas"
+          ],
+          "preguntas": [
+            "¿Los sistemas de facturación aplican el 22 % desde el 1-01-2026?",
+            "¿Las facturas recibidas de proveedores se reconcilian con sus declaraciones (control ASK NDS)?"
+          ]
+        },
+        {
+          "id": "ru_impuesto_beneficios",
+          "nombre": "Código Fiscal, cap. 25 (impuesto sobre beneficios), modificado por la Ley federal n.º 176-FZ de 12-07-2024",
+          "sigla": "NK RF - beneficios",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/",
+          "ultima_reforma": "2024-07-12",
+          "aplica": "Organizaciones rusas y extranjeras con establecimiento permanente o renta de fuente rusa.",
+          "obligaciones": [
+            "Tipo general del 25 % desde 2025 (8 % federal, 17 % regional); 5 % para empresas de TI acreditadas en 2025-2030.",
+            "Retención en la fuente sobre pagos a extranjeros (dividendos 15 %, intereses y regalías 20 %) salvo convenio; Rusia suspendió en 2023 varios convenios con países «no amistosos» (Decreto presidencial n.º 585 de 08-08-2023, verificar).",
+            "Pagos anticipados mensuales o trimestrales.",
+            "Declaración anual hasta el 25 de marzo."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración anual del impuesto sobre beneficios",
+              "plazo": "25 de marzo",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Art. 122 NK (20 %/40 %); responsabilidad del agente fiscal por no retener: 20 % (art. 123).",
+          "evidencia": [
+            "Declaraciones",
+            "Cálculos de retenciones a no residentes",
+            "Certificados de residencia fiscal"
+          ],
+          "preguntas": [
+            "¿Se aplica correctamente el tipo de retención tras la suspensión de convenios?",
+            "¿Se recalcularon los pagos anticipados al 25 %?"
+          ]
+        },
+        {
+          "id": "ru_precios_transferencia",
+          "nombre": "Código Fiscal, sección V.1 (precios de transferencia) y cap. 3.4 (sociedades extranjeras controladas, arts. 25.13-25.15)",
+          "sigla": "TP / CFC",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_19671/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operaciones controladas entre partes vinculadas (transfronterizas sin umbral mínimo general salvo excepciones; nacionales > 1 000 M rublos con condiciones); controladores de sociedades extranjeras.",
+          "obligaciones": [
+            "Notificación de operaciones controladas hasta el 20 de mayo del año siguiente (art. 105.16).",
+            "Documentación de precios de transferencia a requerimiento.",
+            "Informe país por país para grupos con ingresos > 50 000 M rublos (art. 105.16-1 a 105.16-6).",
+            "Notificar participaciones y sociedades extranjeras controladas (art. 25.14)."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de operaciones controladas",
+              "plazo": "20 de mayo",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Art. 129.3 NK: 40 % del impuesto no pagado por ajuste de precios (mínimo 30 000 rublos, verificar); art. 129.4 y 129.6 por notificaciones.",
+          "evidencia": [
+            "Notificaciones",
+            "Documentación TP",
+            "Lista de SEC"
+          ],
+          "preguntas": [
+            "¿Se presentó la notificación de operaciones controladas?",
+            "¿Existe documentación TP para operaciones intragrupo?"
+          ]
+        },
+        {
+          "id": "ru_cotizaciones",
+          "nombre": "Código Fiscal, cap. 34 (cotizaciones de seguro social)",
+          "sigla": "Cotizaciones sociales",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS); Fondo Social (SFR)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores que pagan remuneraciones a personas físicas.",
+          "obligaciones": [
+            "Tipo unificado del 30 % hasta la base máxima anual y 15,1 % por encima (art. 425).",
+            "Tipos reducidos para pymes y empresas de TI (cambios para pymes desde 2026: verificar).",
+            "Cálculo unificado trimestral (RSV) y notificación mensual de personas aseguradas.",
+            "Cotización por accidentes laborales al SFR (Ley 125-FZ)."
+          ],
+          "tramites": [
+            {
+              "que": "Cálculo de cotizaciones (RSV)",
+              "plazo": "25 del mes siguiente al trimestre",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Art. 122 NK y art. 119 NK.",
+          "evidencia": [
+            "RSV presentados",
+            "Nóminas"
+          ],
+          "preguntas": [
+            "¿Se aplican correctamente los tipos reducidos?"
+          ]
+        },
+        {
+          "id": "ru_contabilidad",
+          "nombre": "Ley federal n.º 402-FZ de 06-12-2011 de contabilidad",
+          "sigla": "402-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Ministerio de Finanzas; Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_122855/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las organizaciones, incluidas sucursales de extranjeras.",
+          "obligaciones": [
+            "Contabilidad conforme a normas federales (FSBU/PBU), en rublos y en ruso.",
+            "Presentar estados financieros anuales a la FNS (recurso estatal GIR BO) en 3 meses tras el cierre (art. 18).",
+            "Entidades de interés público: estados consolidados conforme a NIIF (Ley 208-FZ de 27-07-2010).",
+            "Conservar documentos al menos 5 años (art. 29)."
+          ],
+          "tramites": [
+            {
+              "que": "Estados financieros anuales",
+              "plazo": "31 de marzo",
+              "ante": "Servicio Federal de Impuestos (FNS) (GIR BO)"
+            }
+          ],
+          "sanciones": "KoAP art. 15.11 (infracción grave de contabilidad) y art. 19.7.",
+          "evidencia": [
+            "Estados financieros",
+            "Política contable"
+          ],
+          "preguntas": [
+            "¿Se presentaron los estados anuales al GIR BO?"
+          ]
+        },
+        {
+          "id": "ru_auditoria",
+          "nombre": "Ley federal n.º 307-FZ de 30-12-2008 de auditoría",
+          "sigla": "307-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Ministerio de Finanzas; Banco de Rusia (EIP)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_83311/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sociedades anónimas, emisores, entidades financieras y organizaciones con ingresos > 800 M rublos o activos > 400 M rublos (art. 5, verificar umbrales vigentes).",
+          "obligaciones": [
+            "Auditoría obligatoria anual por auditor miembro de una organización autorregulada.",
+            "Presentar el informe de auditoría al GIR BO.",
+            "Rotación del socio de auditoría en EIP."
+          ],
+          "tramites": [
+            {
+              "que": "Informe de auditoría",
+              "plazo": "Con los estados o hasta el 31 de diciembre",
+              "ante": "Servicio Federal de Impuestos (FNS) (GIR BO)"
+            }
+          ],
+          "sanciones": "KoAP art. 15.11 y 19.7.",
+          "evidencia": [
+            "Informe de auditoría"
+          ],
+          "preguntas": [
+            "¿La empresa supera los umbrales de auditoría obligatoria?"
+          ]
+        },
+        {
+          "id": "ru_cajas",
+          "nombre": "Ley federal n.º 54-FZ de 22-05-2003 sobre cajas registradoras (KKT en línea)",
+          "sigla": "54-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_42359/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones que reciben pagos de personas físicas (efectivo o electrónicos), incluido comercio electrónico.",
+          "obligaciones": [
+            "Usar cajas registradoras en línea registradas que transmiten datos a la FNS a través de un operador fiscal.",
+            "Emitir recibo electrónico o impreso.",
+            "Indicar código de marcado en bienes con etiquetado obligatorio."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de caja registradora",
+              "plazo": "Antes de usar",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "KoAP art. 14.5: multa de 3/4 a la totalidad del importe no registrado (mín. 30 000 rublos).",
+          "evidencia": [
+            "Tarjetas de registro de KKT"
+          ],
+          "preguntas": [
+            "¿Todas las ventas a consumidores se registran en KKT en línea?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Laboral y seguridad social",
+      "leyes": [
+        {
+          "id": "ru_codigo_trabajo",
+          "nombre": "Código del Trabajo de la Federación de Rusia (n.º 197-FZ de 30-12-2001)",
+          "sigla": "TK RF",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Trabajo y Empleo (Rostrud) / Inspección estatal de trabajo",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34683/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todos los empleadores en Rusia.",
+          "obligaciones": [
+            "Contrato de trabajo escrito en 3 días hábiles desde el inicio (art. 67).",
+            "Jornada normal de 40 h semanales (art. 91); vacaciones anuales de 28 días naturales (art. 115).",
+            "Pago del salario al menos dos veces al mes (art. 136) y no inferior al salario mínimo federal (MROT).",
+            "Registros electrónicos de trabajo y reportes al SFR (formulario EFS-1).",
+            "Normas locales (reglamento interno, remuneración, datos personales) aprobadas y comunicadas.",
+            "Indemnización por retraso en el pago del salario (art. 236)."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte EFS-1 de altas y bajas",
+              "plazo": "Día hábil siguiente al alta o baja",
+              "ante": "Fondo Social (SFR)"
+            }
+          ],
+          "sanciones": "KoAP art. 5.27: personas jurídicas 30 000-50 000 rublos (reincidencia 50 000-100 000, verificar); impago de salario: art. 145.1 del Código Penal.",
+          "evidencia": [
+            "Contratos de trabajo",
+            "Normas locales firmadas",
+            "Registros de jornada",
+            "Nóminas"
+          ],
+          "preguntas": [
+            "¿Todos los empleados tienen contrato escrito firmado?",
+            "¿Se paga el salario dos veces al mes?",
+            "¿Las normas locales obligatorias están aprobadas?"
+          ]
+        },
+        {
+          "id": "ru_extranjeros",
+          "nombre": "Ley federal n.º 115-FZ de 25-07-2002 sobre la situación jurídica de los ciudadanos extranjeros",
+          "sigla": "115-FZ (migración)",
+          "tipo": "ley federal",
+          "autoridad": "Ministerio del Interior (MVD)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_37868/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores que contratan extranjeros (permiso de trabajo, patente, especialistas altamente cualificados).",
+          "obligaciones": [
+            "Contratar solo extranjeros con permiso o patente válidos.",
+            "Notificar al MVD la celebración y terminación del contrato con un extranjero en 3 días hábiles.",
+            "Registro migratorio del extranjero en el domicilio.",
+            "Régimen de especialistas altamente cualificados (art. 13.2)."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de contratación de extranjero",
+              "plazo": "3 días hábiles",
+              "ante": "MVD"
+            }
+          ],
+          "sanciones": "KoAP art. 18.15: personas jurídicas 250 000-800 000 rublos (400 000-1 000 000 en Moscú y San Petersburgo) o suspensión de 14 a 90 días.",
+          "evidencia": [
+            "Permisos y patentes",
+            "Notificaciones al MVD"
+          ],
+          "preguntas": [
+            "¿Cada extranjero tiene permiso o patente vigente?",
+            "¿Se notificaron altas y bajas en 3 días?"
+          ]
+        },
+        {
+          "id": "ru_registro_militar",
+          "nombre": "Registro militar en organizaciones (Ley 53-FZ y Decreto del Gobierno n.º 719 de 27-11-2006)",
+          "sigla": "Registro militar",
+          "tipo": "decreto",
+          "autoridad": "Comisariados militares",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las organizaciones con empleados sujetos a registro militar.",
+          "obligaciones": [
+            "Llevar el registro militar de empleados obligados.",
+            "Comunicar al comisariado altas y bajas en 2 semanas (verificar).",
+            "Entregar citaciones a empleados a requerimiento.",
+            "Las multas se incrementaron en 2023 (KoAP arts. 21.1-21.4)."
+          ],
+          "tramites": [
+            {
+              "que": "Comunicación de altas y bajas",
+              "plazo": "Plazo legal",
+              "ante": "Comisariado militar"
+            }
+          ],
+          "sanciones": "KoAP arts. 21.1-21.4 (verificar importes vigentes).",
+          "evidencia": [
+            "Fichas de registro militar"
+          ],
+          "preguntas": [
+            "¿Existe responsable del registro militar?"
+          ]
+        },
+        {
+          "id": "ru_accidentes",
+          "nombre": "Ley federal n.º 125-FZ de 24-07-1998 sobre seguro obligatorio contra accidentes de trabajo",
+          "sigla": "125-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Fondo Social (SFR)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_14185/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todos los empleadores.",
+          "obligaciones": [
+            "Pagar cotizaciones según la clase de riesgo profesional (0,2 %-8,5 %).",
+            "Confirmar la actividad económica principal anualmente hasta el 15 de abril.",
+            "Investigar y notificar accidentes de trabajo."
+          ],
+          "tramites": [
+            {
+              "que": "Confirmación de actividad principal",
+              "plazo": "15 de abril",
+              "ante": "SFR"
+            }
+          ],
+          "sanciones": "Aplicación de la clase de riesgo más alta; multas.",
+          "evidencia": [
+            "Confirmación anual",
+            "Actas de accidentes"
+          ],
+          "preguntas": [
+            "¿Se confirmó la actividad económica principal?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Seguridad y salud en el trabajo",
+      "leyes": [
+        {
+          "id": "ru_proteccion_trabajo",
+          "nombre": "Código del Trabajo, sección X (protección del trabajo, redactada por la Ley 311-FZ de 2021)",
+          "sigla": "TK RF - protección del trabajo",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Trabajo y Empleo (Rostrud) / Inspección estatal de trabajo",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34683/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todos los empleadores.",
+          "obligaciones": [
+            "Sistema de gestión de la protección del trabajo (art. 217).",
+            "Evaluación de riesgos profesionales (art. 218).",
+            "Formación y prueba de conocimientos (Decreto del Gobierno n.º 2464 de 24-12-2021).",
+            "Exámenes médicos previos y periódicos según factores de riesgo.",
+            "Entrega de EPI conforme a normas y registro.",
+            "Servicio o especialista de protección del trabajo si hay más de 50 empleados (art. 223)."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de accidente grave o mortal",
+              "plazo": "24 horas",
+              "ante": "Inspección de trabajo, fiscalía y SFR"
+            }
+          ],
+          "sanciones": "KoAP art. 5.27.1: 50 000-80 000 rublos; 110 000-130 000 por admitir al trabajo sin formación ni exámenes; 130 000-150 000 por no dar EPI; suspensión hasta 90 días en reincidencia.",
+          "evidencia": [
+            "Sistema de gestión SST",
+            "Evaluación de riesgos",
+            "Registros de formación",
+            "Exámenes médicos",
+            "Registros de EPI"
+          ],
+          "preguntas": [
+            "¿Se evaluaron los riesgos profesionales?",
+            "¿Todos los trabajadores tienen formación y examen médico vigentes?"
+          ]
+        },
+        {
+          "id": "ru_sout",
+          "nombre": "Ley federal n.º 426-FZ de 28-12-2013 sobre la evaluación especial de las condiciones de trabajo (SOUT)",
+          "sigla": "426-FZ (SOUT)",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Trabajo y Empleo (Rostrud) / Inspección estatal de trabajo; Ministerio de Trabajo",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_156555/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todos los empleadores, para todos los puestos (excepto teletrabajo y empleados de empleadores individuales sin empresa).",
+          "obligaciones": [
+            "Realizar la SOUT con una organización acreditada para cada puesto (art. 8).",
+            "Repetirla cada 5 años o tras cambios (art. 17); la declaración de conformidad se prorroga automáticamente si no hay accidentes.",
+            "Familiarizar a los trabajadores con resultados en 30 días.",
+            "Aplicar compensaciones por condiciones nocivas (art. 92, 117, 147 TK).",
+            "Los resultados se transmiten al sistema federal de información (FGIS SOUT)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración de conformidad de condiciones",
+              "plazo": "30 días tras el informe",
+              "ante": "Inspección de trabajo"
+            }
+          ],
+          "sanciones": "KoAP art. 5.27.1 parte 2: 60 000-80 000 rublos para personas jurídicas.",
+          "evidencia": [
+            "Informe SOUT",
+            "Declaración de conformidad",
+            "Hojas de familiarización"
+          ],
+          "preguntas": [
+            "¿Todos los puestos tienen SOUT vigente (5 años)?",
+            "¿Se pagan compensaciones por condiciones nocivas?"
+          ]
+        },
+        {
+          "id": "ru_seguridad_industrial",
+          "nombre": "Ley federal n.º 116-FZ de 21-07-1997 sobre seguridad industrial de instalaciones de producción peligrosas",
+          "sigla": "116-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rostekhnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_15234/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores de instalaciones de producción peligrosas (OPO) clases I-IV: sustancias peligrosas, equipos a presión, elevadores, gas, minería, etc.",
+          "obligaciones": [
+            "Registrar las OPO en el registro estatal.",
+            "Licencia para OPO de clases I-III.",
+            "Control de producción y responsable de seguridad industrial.",
+            "Seguro obligatorio de responsabilidad del titular de OPO (Ley 225-FZ).",
+            "Peritaje de seguridad industrial y declaración de seguridad (clases I-II)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de OPO",
+              "plazo": "Antes de operar",
+              "ante": "Rostekhnadzor"
+            },
+            {
+              "que": "Informe de control de producción",
+              "plazo": "Anual (1 de abril)",
+              "ante": "Rostekhnadzor"
+            }
+          ],
+          "sanciones": "KoAP art. 9.1: 200 000-300 000 rublos o suspensión de 90 días; Código Penal art. 217.",
+          "evidencia": [
+            "Certificado de registro de OPO",
+            "Licencia",
+            "Póliza de seguro",
+            "Informe de control"
+          ],
+          "preguntas": [
+            "¿Todas las OPO están registradas y clasificadas?",
+            "¿Existe seguro obligatorio vigente?"
+          ]
+        },
+        {
+          "id": "ru_incendios",
+          "nombre": "Ley federal n.º 69-FZ de 21-12-1994 sobre seguridad contra incendios y Reglas del régimen contra incendios (Decreto n.º 1479 de 16-09-2020)",
+          "sigla": "69-FZ",
+          "tipo": "ley federal",
+          "autoridad": "MChS (Ministerio de Situaciones de Emergencia)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_5438/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las organizaciones.",
+          "obligaciones": [
+            "Instrucciones de seguridad contra incendios y responsable designado.",
+            "Formación mínima contra incendios.",
+            "Mantener sistemas de detección y extinción con contrato de servicio.",
+            "Planes de evacuación."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 20.4: hasta 400 000 rublos o suspensión hasta 90 días en ciertos casos (verificar).",
+          "evidencia": [
+            "Instrucciones",
+            "Registros de mantenimiento",
+            "Formación"
+          ],
+          "preguntas": [
+            "¿Los sistemas contra incendios tienen mantenimiento registrado?"
+          ]
+        },
+        {
+          "id": "ru_sanitaria",
+          "nombre": "Ley federal n.º 52-FZ de 30-03-1999 sobre bienestar sanitario-epidemiológico",
+          "sigla": "52-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rospotrebnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_22481/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las organizaciones; especialmente producción, alimentación, servicios.",
+          "obligaciones": [
+            "Cumplir normas sanitarias (SanPiN).",
+            "Control de producción sanitario.",
+            "Exámenes médicos de personal en actividades decretadas."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 6.3-6.7: multas y suspensión hasta 90 días.",
+          "evidencia": [
+            "Programa de control de producción"
+          ],
+          "preguntas": [
+            "¿Existe programa de control sanitario aprobado?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Protección de datos y ciberseguridad",
+      "leyes": [
+        {
+          "id": "ru_datos_personales",
+          "nombre": "Ley federal n.º 152-FZ de 27-07-2006 sobre datos personales (modificada por las Leyes 23-FZ y 156-FZ de 2025)",
+          "sigla": "152-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_61801/",
+          "ultima_reforma": "2025-02-28",
+          "aplica": "Todo operador que trate datos personales de personas en Rusia, incluidos empleados, clientes y usuarios de sitios web.",
+          "obligaciones": [
+            "Notificar a Roskomnadzor la intención de tratar datos antes de iniciar (art. 22).",
+            "Localización: grabar, sistematizar, acumular, almacenar, actualizar y extraer datos de ciudadanos rusos en bases de datos situadas en Rusia; desde el 1-07-2025 la redacción de la Ley 23-FZ prohíbe hacerlo en bases extranjeras y alcanza también a encargados (art. 18.5).",
+            "Consentimiento como documento separado de otros documentos desde el 1-09-2025 (art. 9, Ley 156-FZ).",
+            "Notificar a Roskomnadzor la transferencia transfronteriza antes de realizarla (art. 12).",
+            "Notificar incidentes de fuga en 24 h y resultados de la investigación en 72 h (art. 21.3.1).",
+            "Política de tratamiento publicada, responsable de tratamiento y medidas técnicas (arts. 18.1-19).",
+            "Interacción con el sistema estatal GosSOPKA para incidentes informáticos."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de tratamiento de datos",
+              "plazo": "Antes de iniciar",
+              "ante": "Roskomnadzor (RKN)"
+            },
+            {
+              "que": "Notificación de transferencia transfronteriza",
+              "plazo": "Antes de transferir",
+              "ante": "Roskomnadzor (RKN)"
+            },
+            {
+              "que": "Notificación de fuga de datos",
+              "plazo": "24 h y 72 h",
+              "ante": "Roskomnadzor (RKN)"
+            }
+          ],
+          "sanciones": "KoAP art. 13.11 (Ley 420-FZ, desde el 30-05-2025): fugas de 3-15 M rublos según número de afectados; datos especiales y biométricos hasta 20 M; reincidencia con multa sobre ingresos de hasta 3 % (mín. 20 M, máx. 500 M rublos, verificar cifras); no notificar fuga 1-3 M; localización 1-6 M (reincidencia 6-18 M). Código Penal art. 272.1 (uso ilegal de datos personales).",
+          "evidencia": [
+            "Notificación a RKN",
+            "Política de tratamiento",
+            "Consentimientos separados",
+            "Prueba de servidores en Rusia",
+            "Registro de incidentes"
+          ],
+          "preguntas": [
+            "¿La empresa figura en el registro de operadores de RKN con datos actualizados?",
+            "¿Las bases primarias de datos de ciudadanos rusos están en Rusia (incluidas CRM y RR. HH. globales)?",
+            "¿Los consentimientos se recogen como documento separado?",
+            "¿Existe procedimiento para notificar fugas en 24 h?"
+          ]
+        },
+        {
+          "id": "ru_informacion",
+          "nombre": "Ley federal n.º 149-FZ de 27-07-2006 sobre información, tecnologías de la información y protección de la información",
+          "sigla": "149-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN); Ministerio de Desarrollo Digital (Mintsifry)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_61798/",
+          "ultima_reforma": "verificar",
+          "aplica": "Propietarios de sitios web, organizadores de difusión de información (ORI), servicios de mensajería, plataformas, hosting.",
+          "obligaciones": [
+            "ORI: inscribirse en el registro de RKN y conservar datos y comunicaciones (art. 10.1).",
+            "Hosting: inscripción en registro de proveedores de hosting (desde 2023).",
+            "Autenticación de usuarios rusos mediante números rusos o Gosuslugi en ciertos servicios.",
+            "Bloqueo de información prohibida a requerimiento de RKN.",
+            "Restricciones a VPN y a la publicidad en recursos prohibidos (verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Inscripción como ORI u hosting",
+              "plazo": "A requerimiento o antes de operar",
+              "ante": "Roskomnadzor (RKN)"
+            }
+          ],
+          "sanciones": "KoAP art. 13.31 y 13.41 (multas que pueden calcularse sobre ingresos en reincidencia); bloqueo del recurso.",
+          "evidencia": [
+            "Inscripciones en registros de RKN",
+            "Procedimiento de bloqueo"
+          ],
+          "preguntas": [
+            "¿Algún servicio de la empresa la convierte en ORI?"
+          ]
+        },
+        {
+          "id": "ru_kii",
+          "nombre": "Ley federal n.º 187-FZ de 26-07-2017 sobre la seguridad de la infraestructura crítica de información (modificada por la Ley 58-FZ de 07-04-2025)",
+          "sigla": "187-FZ (KII)",
+          "tipo": "ley federal",
+          "autoridad": "FSTEC; FSB (GosSOPKA/NKTsKI)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_220885/",
+          "ultima_reforma": "2025-04-07",
+          "aplica": "Sujetos de KII: organizaciones de salud, ciencia, transporte, comunicaciones, energía, banca, combustibles, nuclear, defensa, cohetes, minería, metalurgia y química que poseen sistemas de información o redes.",
+          "obligaciones": [
+            "Categorizar objetos de KII y enviar listas y resultados a la FSTEC.",
+            "Sistemas de seguridad para objetos significativos conforme a requisitos de la FSTEC.",
+            "Notificar incidentes informáticos a la NKTsKI (FSB) en plazos de 3 o 24 h según el objeto (verificar).",
+            "Desde el 1-09-2025 (Ley 58-FZ): uso predominante de software y equipos rusos registrados en objetos significativos; prohibición de compra de software extranjero para objetos significativos desde 2022 (Decreto presidencial n.º 166) y su uso desde el 1-01-2025.",
+            "Reglas sectoriales de categorización (p. ej., Decreto del Gobierno n.º 92 de 2026 para el sector financiero, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Lista de objetos de KII a categorizar",
+              "plazo": "Plazo reglamentario",
+              "ante": "FSTEC"
+            },
+            {
+              "que": "Notificación de incidente informático",
+              "plazo": "3/24 horas",
+              "ante": "NKTsKI (FSB)"
+            }
+          ],
+          "sanciones": "Código Penal art. 274.1; KoAP arts. 13.12.1 (hasta 500 000 rublos) y 19.7.15.",
+          "evidencia": [
+            "Actas de categorización",
+            "Inventario de software extranjero",
+            "Plan de sustitución por software ruso",
+            "Conexión a GosSOPKA"
+          ],
+          "preguntas": [
+            "¿Se determinó si la empresa es sujeto de KII?",
+            "¿Existe plan de sustitución de software extranjero en objetos significativos?"
+          ]
+        },
+        {
+          "id": "ru_secretos",
+          "nombre": "Ley federal n.º 98-FZ de 29-07-2004 sobre secreto comercial",
+          "sigla": "98-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Tribunales",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_48699/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas que quieren proteger información confidencial.",
+          "obligaciones": [
+            "Régimen de secreto comercial: lista de información, control de acceso, registro de personas y marcado «secreto comercial» (art. 10).",
+            "Cláusulas en contratos de trabajo y con contrapartes.",
+            "Algunas informaciones no pueden ser secreto (art. 5)."
+          ],
+          "tramites": [],
+          "sanciones": "Indemnización; Código Penal art. 183.",
+          "evidencia": [
+            "Reglamento de secreto comercial",
+            "Compromisos firmados"
+          ],
+          "preguntas": [
+            "¿Existe régimen formal de secreto comercial?"
+          ]
+        },
+        {
+          "id": "ru_firma",
+          "nombre": "Ley federal n.º 63-FZ de 06-04-2011 sobre firma electrónica",
+          "sigla": "63-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Mintsifry; FNS (certificados de directivos)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_112701/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones que presentan informes y documentos electrónicos.",
+          "obligaciones": [
+            "Certificados de firma cualificada de los directivos emitidos por el centro de la FNS.",
+            "Poderes electrónicos legibles por máquina (MChD) para firmar por empleados desde 2024 (verificar)."
+          ],
+          "tramites": [],
+          "sanciones": "Invalidez de documentos.",
+          "evidencia": [
+            "Certificados vigentes",
+            "MChD"
+          ],
+          "preguntas": [
+            "¿Los empleados firmantes tienen MChD registrados?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Prevención de lavado de dinero",
+      "leyes": [
+        {
+          "id": "ru_pld",
+          "nombre": "Ley federal n.º 115-FZ de 07-08-2001 sobre prevención de la legalización de ingresos delictivos y financiamiento del terrorismo",
+          "sigla": "115-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rosfinmonitoring; Banco de Rusia (entidades financieras)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_32834/",
+          "ultima_reforma": "verificar",
+          "aplica": "Entidades financieras, operadores de pago, casas de empeño, joyerías, agentes inmobiliarios, leasing, abogados y contadores en ciertas operaciones; y, de forma indirecta, toda empresa cliente de bancos (bloqueos y cuestionarios KYC; plataforma «Know Your Client» del Banco de Rusia).",
+          "obligaciones": [
+            "Registro en Rosfinmonitoring y cuenta personal (entidades no financieras obligadas).",
+            "Reglas de control interno, responsable especial y formación.",
+            "Identificación de clientes, representantes y beneficiarios.",
+            "Control obligatorio de operaciones (umbral general 1 M rublos; inmuebles 5 M) y comunicación de sospechosas en 1 día hábil.",
+            "Congelación de bienes de personas en la lista de terroristas/extremistas.",
+            "Conservar documentos 5 años."
+          ],
+          "tramites": [
+            {
+              "que": "Comunicación de operación sujeta a control",
+              "plazo": "1 día hábil (verificar)",
+              "ante": "Rosfinmonitoring"
+            }
+          ],
+          "sanciones": "KoAP art. 15.27: multas y suspensión de actividad hasta 90 días; revocación de licencia en entidades financieras.",
+          "evidencia": [
+            "Reglas de control interno",
+            "Designación del responsable",
+            "Registro de comunicaciones",
+            "Certificados de formación"
+          ],
+          "preguntas": [
+            "¿La empresa es sujeto obligado?",
+            "¿Está registrada en la cuenta personal de Rosfinmonitoring?",
+            "¿Se responde a solicitudes KYC de los bancos?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Anticorrupción e integridad",
+      "leyes": [
+        {
+          "id": "ru_anticorrupcion",
+          "nombre": "Ley federal n.º 273-FZ de 25-12-2008 de lucha contra la corrupción (art. 13.3)",
+          "sigla": "273-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Fiscalía General; Ministerio de Trabajo (recomendaciones metodológicas)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_82959/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las organizaciones (art. 13.3: obligación de adoptar medidas de prevención).",
+          "obligaciones": [
+            "Designar unidad o responsable de prevención de la corrupción.",
+            "Código ético y procedimientos; gestión de conflictos de interés.",
+            "Cooperar con las autoridades.",
+            "Contratación de exfuncionarios: notificar al anterior empleador público en 10 días durante 2 años (art. 12)."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de contratación de exfuncionario",
+              "plazo": "10 días",
+              "ante": "Empleador público anterior"
+            }
+          ],
+          "sanciones": "KoAP art. 19.28: multa de hasta 3 veces el soborno (mín. 1 M rublos), hasta 30 veces (mín. 20 M) en cuantías grandes y hasta 100 veces (mín. 100 M) en especialmente grandes, con decomiso; art. 19.29: 100 000-500 000 rublos por exfuncionarios; Código Penal arts. 204 (soborno comercial) y 291.",
+          "evidencia": [
+            "Política anticorrupción",
+            "Declaraciones de conflicto de interés",
+            "Notificaciones de exfuncionarios"
+          ],
+          "preguntas": [
+            "¿Existe responsable anticorrupción designado?",
+            "¿Se notifica la contratación de exfuncionarios?"
+          ]
+        },
+        {
+          "id": "ru_codigo_penal_corrupcion",
+          "nombre": "Código Penal: soborno comercial (art. 204), soborno (arts. 290-291.2) y responsabilidad derivada",
+          "sigla": "UK RF",
+          "tipo": "ley federal",
+          "autoridad": "Comité de Investigación; Fiscalía",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Directivos y empleados (la responsabilidad penal es de personas físicas; la persona jurídica responde administrativamente por KoAP 19.28).",
+          "obligaciones": [
+            "Prohibir pagos indebidos a funcionarios y a gestores privados.",
+            "Exención por denuncia voluntaria (notas a los arts. 204 y 291).",
+            "Investigaciones internas documentadas."
+          ],
+          "tramites": [],
+          "sanciones": "Penas de multa y prisión según el artículo.",
+          "evidencia": [
+            "Registro de regalos e invitaciones"
+          ],
+          "preguntas": [
+            "¿Se controlan regalos e invitaciones a funcionarios?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Competencia",
+      "leyes": [
+        {
+          "id": "ru_competencia",
+          "nombre": "Ley federal n.º 135-FZ de 26-07-2006 sobre protección de la competencia",
+          "sigla": "135-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal Antimonopolio (FAS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_61763/",
+          "ultima_reforma": "verificar",
+          "aplica": "Todas las empresas que operan en Rusia y operaciones extranjeras con efecto en Rusia.",
+          "obligaciones": [
+            "Prohibición de cárteles y acuerdos verticales restrictivos (art. 11).",
+            "Prohibición del abuso de posición dominante (art. 10).",
+            "Aprobación previa de concentraciones por encima de umbrales (activos > 7 000 M o ingresos > 10 000 M rublos del grupo, más condiciones) (arts. 27-28).",
+            "Control de algoritmos de precios y plataformas digitales (5.º paquete antimonopolio de 2023).",
+            "Sistema interno de cumplimiento antimonopolio voluntario (art. 9.1)."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de aprobación de concentración",
+              "plazo": "Antes de la operación",
+              "ante": "FAS"
+            }
+          ],
+          "sanciones": "KoAP art. 14.32 (cárteles): de 1/100 a 15/100 de los ingresos en el mercado afectado; art. 19.8; Código Penal art. 178.",
+          "evidencia": [
+            "Programa de cumplimiento antimonopolio",
+            "Autorizaciones de la FAS"
+          ],
+          "preguntas": [
+            "¿Las adquisiciones se analizaron frente a umbrales de la FAS?",
+            "¿Se forma al área comercial en riesgos de cárteles?"
+          ]
+        },
+        {
+          "id": "ru_comercio",
+          "nombre": "Ley federal n.º 381-FZ de 28-12-2009 sobre comercio",
+          "sigla": "381-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FAS",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_93259/",
+          "ultima_reforma": "verificar",
+          "aplica": "Cadenas minoristas de alimentos y sus proveedores.",
+          "obligaciones": [
+            "Plazos máximos de pago a proveedores de alimentos (8, 25 o 40 días según el producto) (art. 14).",
+            "Prohibición de bonificaciones y prácticas discriminatorias.",
+            "Publicar condiciones de selección de proveedores."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 14.40-14.42.",
+          "evidencia": [
+            "Contratos con proveedores",
+            "Plazos de pago"
+          ],
+          "preguntas": [
+            "¿Se respetan los plazos máximos de pago?"
+          ]
+        },
+        {
+          "id": "ru_publicidad",
+          "nombre": "Ley federal n.º 38-FZ de 13-03-2006 sobre publicidad",
+          "sigla": "38-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FAS; Roskomnadzor (RKN) (publicidad en internet)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_58968/",
+          "ultima_reforma": "verificar",
+          "aplica": "Anunciantes, distribuidores de publicidad y plataformas.",
+          "obligaciones": [
+            "Marcado de publicidad en internet con identificador (erid) y reporte al registro unificado (ERIR) de RKN (art. 18.1).",
+            "Requisitos específicos para alcohol, medicamentos, servicios financieros.",
+            "Prohibición de publicidad en recursos reconocidos como extremistas o prohibidos (2024-2025, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de publicidad en internet",
+              "plazo": "Mensual (30 días)",
+              "ante": "ERIR (Roskomnadzor (RKN))"
+            }
+          ],
+          "sanciones": "KoAP art. 14.3: hasta 500 000 rublos; art. 14.3 parte 17 para marcado (verificar).",
+          "evidencia": [
+            "Registros erid"
+          ],
+          "preguntas": [
+            "¿Los anuncios en internet llevan erid y se reportan?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Protección al consumidor y producto",
+      "leyes": [
+        {
+          "id": "ru_consumidores",
+          "nombre": "Ley n.º 2300-1 de 07-02-1992 sobre protección de los derechos de los consumidores",
+          "sigla": "ZoZPP",
+          "tipo": "ley federal",
+          "autoridad": "Rospotrebnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_305/",
+          "ultima_reforma": "verificar",
+          "aplica": "Vendedores, fabricantes, importadores y prestadores de servicios a consumidores.",
+          "obligaciones": [
+            "Información sobre el producto en ruso (art. 8-10); requisitos reforzados del idioma ruso desde el 1-03-2026 (verificar ley).",
+            "Garantía y derechos del consumidor por defectos (arts. 18-24).",
+            "Desistimiento de 7 días en ventas a distancia (art. 26.1).",
+            "Prohibición de condiciones abusivas (art. 16).",
+            "Agregadores de información: responsabilidad y reglas propias."
+          ],
+          "tramites": [],
+          "sanciones": "Multa al consumidor del 50 % de lo reclamado si no se atiende voluntariamente (art. 13); KoAP arts. 14.7, 14.8, 14.15.",
+          "evidencia": [
+            "Condiciones de venta",
+            "Registro de reclamaciones"
+          ],
+          "preguntas": [
+            "¿La información del producto está en ruso?",
+            "¿Se atienden reclamaciones en plazos legales?"
+          ]
+        },
+        {
+          "id": "ru_reg_tecnica",
+          "nombre": "Ley federal n.º 184-FZ de 27-12-2002 de regulación técnica y reglamentos técnicos de la Unión Económica Euroasiática (UEEA)",
+          "sigla": "184-FZ / TR TS",
+          "tipo": "ley federal",
+          "autoridad": "Rosstandart; Rosakkreditatsiya; Rospotrebnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_40241/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes e importadores de productos sujetos a reglamentos técnicos de la UEEA (TR TS / TR EAEU).",
+          "obligaciones": [
+            "Confirmar la conformidad mediante certificado o declaración EAEU registrada en el registro de Rosakkreditatsiya.",
+            "Marcado EAC.",
+            "Fabricante extranjero: designar persona autorizada en la UEEA.",
+            "Documentación técnica en ruso."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de declaración o certificado de conformidad",
+              "plazo": "Antes de comercializar",
+              "ante": "Rosakkreditatsiya (FGIS)"
+            }
+          ],
+          "sanciones": "KoAP art. 14.43-14.46 (hasta 1 M rublos con decomiso); Código Penal art. 238.",
+          "evidencia": [
+            "Certificados/declaraciones EAEU"
+          ],
+          "preguntas": [
+            "¿Todos los productos tienen certificado o declaración EAEU vigente?"
+          ]
+        },
+        {
+          "id": "ru_marcado",
+          "nombre": "Sistema estatal de marcado y trazabilidad «Chestny ZNAK» (Ley 381-FZ, Ley 488-FZ y decretos del Gobierno por grupo de productos)",
+          "sigla": "Chestny ZNAK",
+          "tipo": "decreto",
+          "autoridad": "Ministerio de Industria y Comercio (Minpromtorg); operador CRPT",
+          "url": "https://честныйзнак.рф",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, importadores, mayoristas y minoristas de grupos de productos con marcado obligatorio (tabaco, calzado, ropa, perfumes, neumáticos, medicamentos, lácteos, agua, cerveza, productos para la salud, etc.; ampliación periódica).",
+          "obligaciones": [
+            "Registrarse en el sistema y obtener códigos Data Matrix.",
+            "Aplicar códigos antes de la venta o importación.",
+            "Comunicar transferencias mediante documentos UPD electrónicos.",
+            "Retirar el código en la venta minorista mediante KKT con verificación en línea (permisiva)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro en el sistema de marcado",
+              "plazo": "Antes de operar con productos marcados",
+              "ante": "CRPT / Chestny ZNAK"
+            }
+          ],
+          "sanciones": "KoAP art. 15.12: personas jurídicas 50 000-300 000 rublos con decomiso; Código Penal art. 171.1.",
+          "evidencia": [
+            "Registro en Chestny ZNAK",
+            "Informes de movimiento de códigos"
+          ],
+          "preguntas": [
+            "¿Los productos de la empresa están en un grupo con marcado obligatorio?",
+            "¿Las transferencias se reflejan en el sistema?"
+          ]
+        },
+        {
+          "id": "ru_politica_industrial",
+          "nombre": "Ley federal n.º 488-FZ de 31-12-2014 de política industrial y requisitos de producción nacional (Decreto del Gobierno n.º 719 de 17-07-2015)",
+          "sigla": "488-FZ / PP 719",
+          "tipo": "ley federal",
+          "autoridad": "Minpromtorg",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes que buscan estatus de producción rusa (preferencias en compras públicas, contratos especiales de inversión SPIK).",
+          "obligaciones": [
+            "Cumplir los requisitos de localización por puntos para obtener la conclusión de producción industrial rusa.",
+            "Inclusión en el registro de productos industriales rusos.",
+            "Cumplir compromisos de contratos especiales de inversión."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de inclusión en el registro",
+              "plazo": "Opcional",
+              "ante": "Minpromtorg (GISP)"
+            }
+          ],
+          "sanciones": "Exclusión del registro y pérdida de preferencias.",
+          "evidencia": [
+            "Conclusión de Minpromtorg"
+          ],
+          "preguntas": [
+            "¿Los productos ofertados como rusos figuran en el registro?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Ambiental y sostenibilidad (ESG)",
+      "leyes": [
+        {
+          "id": "ru_ambiental",
+          "nombre": "Ley federal n.º 7-FZ de 10-01-2002 de protección del medio ambiente",
+          "sigla": "7-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rosprirodnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_34823/",
+          "ultima_reforma": "verificar",
+          "aplica": "Personas que operan instalaciones con impacto negativo (NVOS) categorías I-IV.",
+          "obligaciones": [
+            "Registrar las instalaciones NVOS y asignar categoría (art. 69).",
+            "Categoría I: permiso ambiental integrado (KER); categoría II: declaración de impacto.",
+            "Pago por impacto negativo (emisiones, vertidos, residuos) anual hasta el 1 de marzo.",
+            "Control ambiental de producción e informe anual.",
+            "Programa de control y responsable con formación ambiental."
+          ],
+          "tramites": [
+            {
+              "que": "Inscripción de instalación NVOS",
+              "plazo": "Antes de operar",
+              "ante": "Rosprirodnadzor"
+            },
+            {
+              "que": "Declaración de pago por NVOS",
+              "plazo": "10 de marzo (verificar)",
+              "ante": "Rosprirodnadzor"
+            }
+          ],
+          "sanciones": "KoAP art. 8.1-8.2 y 8.21 (multas hasta 1 M rublos o suspensión hasta 90 días según el caso); indemnización por daño ambiental.",
+          "evidencia": [
+            "Certificado de registro NVOS",
+            "Permisos",
+            "Declaraciones de pago",
+            "Informe de control de producción"
+          ],
+          "preguntas": [
+            "¿Todas las instalaciones están inscritas con categoría NVOS?",
+            "¿Se pagó el canon por impacto negativo?"
+          ]
+        },
+        {
+          "id": "ru_residuos",
+          "nombre": "Ley federal n.º 89-FZ de 24-06-1998 sobre residuos de producción y consumo (responsabilidad ampliada del productor)",
+          "sigla": "89-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rosprirodnadzor; operador público REO",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_19109/",
+          "ultima_reforma": "verificar",
+          "aplica": "Generadores de residuos; fabricantes e importadores de bienes y envases (REP reforzada desde 2024).",
+          "obligaciones": [
+            "Pasaportes de residuos de clases I-IV.",
+            "Contratar gestores con licencia y operador regional para residuos sólidos urbanos.",
+            "REP: cumplir normas de reciclaje o pagar el canon ambiental; declaración anual.",
+            "Registro en el sistema FGIS UTKO (verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración de bienes y envases (REP)",
+              "plazo": "Anual",
+              "ante": "Rosprirodnadzor / FGIS UTKO"
+            }
+          ],
+          "sanciones": "KoAP art. 8.2: personas jurídicas 100 000-250 000 rublos o suspensión hasta 90 días; art. 8.5.1.",
+          "evidencia": [
+            "Pasaportes de residuos",
+            "Contratos con gestores",
+            "Declaraciones REP"
+          ],
+          "preguntas": [
+            "¿Se cumplen las normas de reciclaje o se pagó el canon?"
+          ]
+        },
+        {
+          "id": "ru_gei",
+          "nombre": "Ley federal n.º 296-FZ de 02-07-2021 sobre la limitación de emisiones de gases de efecto invernadero",
+          "sigla": "296-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Ministerio de Desarrollo Económico; Rosprirodnadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Emisores regulados: personas con emisiones >= 150 000 t CO2e/año desde 2023 y >= 50 000 t desde 2025 (verificar calendario).",
+          "obligaciones": [
+            "Presentar informe anual de emisiones de GEI al registro (antes del 1 de julio).",
+            "Proyectos climáticos voluntarios y unidades de carbono.",
+            "Divulgación ESG voluntaria según recomendaciones del Banco de Rusia (no obligatoria, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Informe de emisiones de GEI",
+              "plazo": "1 de julio",
+              "ante": "Registro de emisiones de GEI"
+            }
+          ],
+          "sanciones": "Responsabilidad administrativa (verificar disposiciones vigentes del KoAP).",
+          "evidencia": [
+            "Informes de emisiones"
+          ],
+          "preguntas": [
+            "¿La empresa supera el umbral de emisor regulado?"
+          ]
+        },
+        {
+          "id": "ru_aire_agua",
+          "nombre": "Ley federal n.º 96-FZ sobre protección del aire atmosférico y Código del Agua (n.º 74-FZ)",
+          "sigla": "96-FZ / VK RF",
+          "tipo": "ley federal",
+          "autoridad": "Rosprirodnadzor; Rosvodresursy",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Instalaciones con emisiones atmosféricas, captaciones o vertidos.",
+          "obligaciones": [
+            "Inventario de fuentes de emisión.",
+            "Normas de emisión y vertido autorizadas.",
+            "Contratos o decisiones de uso del agua."
+          ],
+          "tramites": [
+            {
+              "que": "Decisión de uso de agua",
+              "plazo": "Antes del uso",
+              "ante": "Rosvodresursy / región"
+            }
+          ],
+          "sanciones": "KoAP arts. 7.6, 8.13-8.14, 8.21.",
+          "evidencia": [
+            "Inventario de emisiones",
+            "Licencias de agua"
+          ],
+          "preguntas": [
+            "¿Existen autorizaciones vigentes para captaciones y vertidos?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Inversión extranjera, comercio exterior y sanciones",
+      "leyes": [
+        {
+          "id": "ru_inv_extranjera",
+          "nombre": "Ley federal n.º 160-FZ de 09-07-1999 sobre inversiones extranjeras",
+          "sigla": "160-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Comisión gubernamental de control de inversiones extranjeras; FAS",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_16283/",
+          "ultima_reforma": "verificar",
+          "aplica": "Inversores extranjeros y empresas con participación extranjera.",
+          "obligaciones": [
+            "Garantías generales de protección del inversor extranjero (sujetas a medidas especiales económicas).",
+            "Inversiones de Estados extranjeros u organizaciones controladas por ellos: aprobación para adquirir > 25 % de cualquier sociedad rusa (art. 6 de 57-FZ / control de la FAS).",
+            "La Comisión puede examinar cualquier operación de extranjeros por motivos de defensa y seguridad (art. 6, parte 3 de 57-FZ)."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de aprobación de operación",
+              "plazo": "Antes de cerrar",
+              "ante": "FAS / Comisión gubernamental"
+            }
+          ],
+          "sanciones": "Nulidad de operaciones no aprobadas.",
+          "evidencia": [
+            "Autorizaciones"
+          ],
+          "preguntas": [
+            "¿Las operaciones de inversores extranjeros con participación estatal tienen aprobación?"
+          ]
+        },
+        {
+          "id": "ru_estrategicas",
+          "nombre": "Ley federal n.º 57-FZ de 29-04-2008 sobre inversiones extranjeras en sociedades de importancia estratégica",
+          "sigla": "57-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FAS; Comisión gubernamental",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_76660/",
+          "ultima_reforma": "verificar",
+          "aplica": "Inversores extranjeros que adquieren control (o umbrales menores en recursos del subsuelo federal) en sociedades que realizan alguna de las actividades estratégicas del art. 6 (defensa, nuclear, cifrado, medios, telecomunicaciones dominantes, subsuelo federal, aviación, etc.).",
+          "obligaciones": [
+            "Aprobación previa para adquirir control (> 50 %, o > 25 % en subsuelo, > 25 % para Estados extranjeros).",
+            "Notificar adquisiciones de >= 5 % del capital (art. 14).",
+            "Cumplir compromisos impuestos por la Comisión."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de aprobación previa",
+              "plazo": "Antes de cerrar",
+              "ante": "FAS"
+            },
+            {
+              "que": "Notificación de adquisición de >= 5 %",
+              "plazo": "45 días (verificar)",
+              "ante": "FAS"
+            }
+          ],
+          "sanciones": "Nulidad de la operación (art. 15); privación de derechos de voto por vía judicial.",
+          "evidencia": [
+            "Análisis de actividades estratégicas",
+            "Aprobaciones de la Comisión"
+          ],
+          "preguntas": [
+            "¿La sociedad rusa realiza alguna actividad estratégica del art. 6?"
+          ]
+        },
+        {
+          "id": "ru_decretos_contramedidas",
+          "nombre": "Decretos presidenciales de medidas económicas especiales: n.º 79 (28-02-2022), n.º 81 (01-03-2022), n.º 95 (05-03-2022), n.º 520 (05-08-2022), n.º 618 (08-09-2022), n.º 302 (25-04-2023) y Orden del Gobierno n.º 430-r (05-03-2022, lista de Estados «no amistosos»)",
+          "sigla": "Contramedidas",
+          "tipo": "decreto",
+          "autoridad": "Presidente de la Federación; Comisión gubernamental de control de inversiones extranjeras; Ministerio de Finanzas; Banco de Rusia; Rosimushchestvo",
+          "url": "http://kremlin.ru/acts/bank",
+          "ultima_reforma": "verificar",
+          "aplica": "Personas de Estados «no amistosos» (incluidos los de la UE y EUA; México no figura en la lista según la orden 430-r, verificar actualizaciones) y residentes rusos que operan con ellas.",
+          "obligaciones": [
+            "Operaciones con valores e inmuebles con personas de Estados no amistosos requieren autorización de la Comisión (Decreto 81).",
+            "Operaciones con participaciones en OOO requieren autorización (Decreto 618); prohibiciones reforzadas en energía, banca y sectores del Decreto 520 salvo permiso presidencial.",
+            "Condiciones de salida fijadas por la Comisión (oct. 2024): descuento mínimo del 60 % sobre el valor de mercado y contribución «voluntaria» del 35 % al presupuesto; operaciones > 50 000 M rublos requieren aprobación presidencial (fuente: Cleary Gottlieb).",
+            "Pagos a acreedores extranjeros a través de cuentas especiales tipo «C» (Decreto 95).",
+            "Posible administración temporal de activos por Rosimushchestvo (Decreto 302).",
+            "Ley 319-FZ (agosto de 2026) faculta a un tribunal designado a extinguir derechos de recompra de inversores que salieron (fuente: Morgan Lewis; verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de autorización de operación",
+              "plazo": "Antes de la operación",
+              "ante": "Comisión gubernamental (vía Minfin)"
+            }
+          ],
+          "sanciones": "Nulidad de operaciones no autorizadas; bloqueo de pagos; administración temporal de activos.",
+          "evidencia": [
+            "Lista de operaciones con partes de Estados no amistosos",
+            "Autorizaciones de la Comisión",
+            "Movimientos de cuentas tipo C"
+          ],
+          "preguntas": [
+            "¿Algún accionista directo o indirecto es de un Estado «no amistoso»?",
+            "¿Las operaciones con participaciones tuvieron autorización de la Comisión?"
+          ]
+        },
+        {
+          "id": "ru_divisas",
+          "nombre": "Ley federal n.º 173-FZ de 10-12-2003 sobre regulación y control de divisas, y medidas temporales (Decreto n.º 79 y siguientes)",
+          "sigla": "173-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia; FNS; bancos como agentes de control",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_45458/",
+          "ultima_reforma": "verificar",
+          "aplica": "Residentes rusos con operaciones en divisas o con no residentes.",
+          "obligaciones": [
+            "Registrar contratos de comercio exterior (número único) en el banco autorizado cuando superen umbrales (3 M rublos importación / 10 M exportación, verificar).",
+            "Repatriación de ingresos de exportación y de anticipos no utilizados (art. 19); reglas de venta obligatoria de divisas establecidas temporalmente en 2022-2024 (verificar estado).",
+            "Notificar a la FNS cuentas en el extranjero y movimientos.",
+            "Restricciones a préstamos y transferencias a no residentes de Estados no amistosos."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de contrato (UNK)",
+              "plazo": "Antes de la primera operación",
+              "ante": "Banco autorizado"
+            },
+            {
+              "que": "Informe de movimientos en cuentas extranjeras",
+              "plazo": "Anual (1 de junio, verificar)",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "KoAP art. 15.25 (multas proporcionales al importe; verificar escalas vigentes); Código Penal art. 193.",
+          "evidencia": [
+            "Registros de contratos",
+            "Certificados de documentos justificativos",
+            "Notificaciones de cuentas extranjeras"
+          ],
+          "preguntas": [
+            "¿Se repatriaron los ingresos de exportación en plazo?",
+            "¿Se notificaron las cuentas en el extranjero?"
+          ]
+        },
+        {
+          "id": "ru_aduanas",
+          "nombre": "Código Aduanero de la UEEA y Ley federal n.º 289-FZ de 03-08-2018 sobre regulación aduanera",
+          "sigla": "TK EAEU / 289-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Aduanas (FTS)",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Importadores y exportadores; transitarios y agentes aduaneros.",
+          "obligaciones": [
+            "Declaración aduanera electrónica con clasificación TN VED.",
+            "Confirmación de conformidad técnica (EAC) y marcado.",
+            "Importación paralela autorizada de ciertas marcas (Orden de Minpromtorg n.º 2701 de 2022, verificar lista vigente).",
+            "Prohibiciones de exportación temporales (Decreto del Gobierno n.º 312 de 2022 y siguientes, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración aduanera",
+              "plazo": "Antes del despacho",
+              "ante": "FTS"
+            }
+          ],
+          "sanciones": "KoAP cap. 16; Código Penal arts. 194, 200.1-200.2 (contrabando).",
+          "evidencia": [
+            "Declaraciones aduaneras"
+          ],
+          "preguntas": [
+            "¿Las clasificaciones arancelarias están documentadas?"
+          ]
+        },
+        {
+          "id": "ru_control_exportaciones",
+          "nombre": "Ley federal n.º 183-FZ de 18-07-1999 sobre control de exportaciones",
+          "sigla": "183-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FSTEC (control de exportaciones)",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Exportadores de bienes y tecnologías de doble uso.",
+          "obligaciones": [
+            "Programa interno de control de exportaciones (opcional/obligatorio en ciertos casos).",
+            "Licencia de la FSTEC para productos listados.",
+            "Identificación de uso final."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de exportación",
+              "plazo": "Antes de exportar",
+              "ante": "FSTEC"
+            }
+          ],
+          "sanciones": "KoAP art. 14.20; Código Penal art. 189.",
+          "evidencia": [
+            "Licencias",
+            "Programa interno"
+          ],
+          "preguntas": [
+            "¿Se clasifican los productos frente a las listas de control?"
+          ]
+        },
+        {
+          "id": "ru_sanciones_extranjeras",
+          "nombre": "Exposición a sanciones extranjeras: UE (Reglamentos 833/2014 y 269/2014), EUA (OFAC, EO 14024 y SDN) y Reino Unido (Russia (Sanctions) Regulations 2019)",
+          "sigla": "Sanciones UE/EUA/RU",
+          "tipo": "norma",
+          "autoridad": "Consejo de la UE y autoridades nacionales; OFAC y BIS (EUA); OFSI y OTSI (Reino Unido)",
+          "url": "https://www.sanctionsmap.eu/#/main/details/26/",
+          "ultima_reforma": "2026-04-23",
+          "aplica": "Nota para empresas de México, la UE o EUA que tratan con entidades rusas: el régimen ruso no es el único aplicable. Las empresas de la UE, sus nacionales y operaciones en la UE están sujetos a los Reglamentos 833/2014 y 269/2014 (20.º paquete, Reglamento (UE) 2026/506, abril de 2026); las personas de EUA y operaciones con nexo en EUA (incluido el dólar), a las sanciones de la OFAC y a los controles de exportación de la BIS, que también contemplan sanciones secundarias a instituciones financieras extranjeras (EO 14114). Una empresa mexicana sin nexo UE/EUA no está directamente obligada por esos regímenes, pero sus bancos, proveedores y clientes sí pueden estarlo.",
+          "obligaciones": [
+            "Cribar contrapartes rusas y sus titulares (regla del 50 % de OFAC y de propiedad o control de la UE).",
+            "Verificar que los bienes no estén en listas de exportación prohibida (anexos UE, Commerce Control List de EUA, bienes de alta prioridad).",
+            "Evaluar el riesgo de sanciones secundarias para bancos que procesan pagos.",
+            "Considerar las contramedidas rusas (Ley 127-FZ de 2018 y decretos de 2022) que pueden impedir el cumplimiento simultáneo.",
+            "Documentar el análisis jurídico de cada operación."
+          ],
+          "tramites": [
+            {
+              "que": "Licencias UE/EUA/RU cuando procedan",
+              "plazo": "Antes de la operación",
+              "ante": "Autoridad nacional UE / OFAC / OFSI"
+            }
+          ],
+          "sanciones": "Según cada régimen: sanciones civiles y penales en EUA (IEEPA), sanciones nacionales en la UE (incluidas penales según la Directiva 2024/1226) y en el Reino Unido.",
+          "evidencia": [
+            "Resultados de cribado",
+            "Análisis de propiedad",
+            "Clasificaciones de exportación",
+            "Licencias"
+          ],
+          "preguntas": [
+            "¿Se criban todas las contrapartes rusas contra las listas SDN, UE y RU?",
+            "¿Se evaluó el nexo UE/EUA de cada operación (personas, moneda, bienes)?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Propiedad intelectual",
+      "leyes": [
+        {
+          "id": "ru_pi",
+          "nombre": "Código Civil, parte cuarta (n.º 230-FZ de 18-12-2006), derechos de propiedad intelectual",
+          "sigla": "GK RF parte 4",
+          "tipo": "ley federal",
+          "autoridad": "Rospatent; Tribunal de Derechos de Propiedad Intelectual",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_64629/",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares y licenciatarios de marcas, patentes, software y obras.",
+          "obligaciones": [
+            "Registro de marcas en Rospatent; uso efectivo en 3 años para evitar cancelación (art. 1486).",
+            "Registro de contratos de licencia de derechos registrados (art. 1232).",
+            "Licencia obligatoria de patentes por interés de seguridad (art. 1360) y su uso desde 2022.",
+            "Importación paralela no constituye infracción para bienes listados por Minpromtorg (Ley 213-FZ de 2022, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de licencia",
+              "plazo": "Para eficacia frente a terceros",
+              "ante": "Rospatent"
+            }
+          ],
+          "sanciones": "Indemnización de 10 000 a 5 M rublos o el doble del valor (art. 1515); KoAP art. 14.10; Código Penal art. 180.",
+          "evidencia": [
+            "Certificados de marca",
+            "Licencias registradas"
+          ],
+          "preguntas": [
+            "¿Las marcas se usan y están registradas en Rusia?"
+          ]
+        },
+        {
+          "id": "ru_regalias",
+          "nombre": "Decreto presidencial n.º 322 de 27-05-2022 sobre pago temporal de obligaciones a titulares de PI de Estados no amistosos",
+          "sigla": "Decreto 322",
+          "tipo": "decreto",
+          "autoridad": "Banco de Rusia; Ministerio de Finanzas",
+          "url": "http://kremlin.ru/acts/bank",
+          "ultima_reforma": "2022-05-27",
+          "aplica": "Licenciatarios rusos que pagan regalías a titulares de Estados no amistosos.",
+          "obligaciones": [
+            "Pagar regalías en rublos a cuentas especiales tipo «O» salvo autorización.",
+            "Las cantidades en cuentas tipo O tienen disponibilidad restringida."
+          ],
+          "tramites": [],
+          "sanciones": "Las de las contramedidas (bloqueo de pagos).",
+          "evidencia": [
+            "Pagos a cuentas tipo O"
+          ],
+          "preguntas": [
+            "¿Las regalías a licenciantes extranjeros siguen el procedimiento del Decreto 322?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Valores (si cotiza)",
+      "leyes": [
+        {
+          "id": "ru_valores",
+          "nombre": "Ley federal n.º 39-FZ de 22-04-1996 sobre el mercado de valores",
+          "sigla": "39-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_10148/",
+          "ultima_reforma": "verificar",
+          "aplica": "Emisores de valores y participantes profesionales.",
+          "obligaciones": [
+            "Registro de emisiones y folleto.",
+            "Divulgación de información (Reglamento del Banco de Rusia n.º 714-P), con exenciones temporales por sanciones (Decreto del Gobierno n.º 1102 de 2023 y siguientes, verificar).",
+            "Calificación de inversores para instrumentos complejos."
+          ],
+          "tramites": [
+            {
+              "que": "Divulgación de hechos relevantes",
+              "plazo": "1 día hábil (verificar)",
+              "ante": "Agencia de información acreditada"
+            }
+          ],
+          "sanciones": "KoAP art. 15.19: 700 000-1 000 000 rublos para personas jurídicas (verificar).",
+          "evidencia": [
+            "Divulgaciones"
+          ],
+          "preguntas": [
+            "¿Se usaron exenciones de divulgación conforme a la norma?"
+          ]
+        },
+        {
+          "id": "ru_insiders",
+          "nombre": "Ley federal n.º 224-FZ de 27-07-2010 sobre información privilegiada y manipulación de mercado",
+          "sigla": "224-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_103037/",
+          "ultima_reforma": "verificar",
+          "aplica": "Emisores, participantes profesionales y personas con información privilegiada.",
+          "obligaciones": [
+            "Lista de personas con información privilegiada y su notificación.",
+            "Prohibición de uso y manipulación.",
+            "Control interno contra abuso de mercado."
+          ],
+          "tramites": [
+            {
+              "que": "Entrega de lista de iniciados",
+              "plazo": "A requerimiento",
+              "ante": "Banco de Rusia / bolsa"
+            }
+          ],
+          "sanciones": "KoAP art. 15.21 y 15.30; Código Penal art. 185.3 y 185.6.",
+          "evidencia": [
+            "Lista de iniciados"
+          ],
+          "preguntas": [
+            "¿Se mantiene la lista de iniciados?"
+          ]
+        }
+      ]
+    }
+  ],
+  "sectores": {
+    "automotriz": {
+      "reguladores": [
+        [
+          "Minpromtorg",
+          "https://minpromtorg.gov.ru"
+        ],
+        [
+          "Rosstandart",
+          "https://www.rst.gov.ru"
+        ],
+        [
+          "Ministerio del Interior, Inspección de tráfico (GIBDD)",
+          "https://xn--90adear.xn--p1ai"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_auto_tr",
+          "nombre": "Reglamento técnico TR TS 018/2011 sobre seguridad de vehículos de ruedas",
+          "sigla": "TR TS 018/2011",
+          "tipo": "norma",
+          "autoridad": "Rosstandart; organismos de certificación",
+          "url": "https://eec.eaeunion.org",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes e importadores de vehículos y componentes.",
+          "obligaciones": [
+            "Aprobación de tipo de vehículo (OTTS) y de componentes.",
+            "Sistema de llamada de emergencia ERA-GLONASS.",
+            "Pasaporte electrónico del vehículo (EPTS)."
+          ],
+          "tramites": [
+            {
+              "que": "Aprobación de tipo (OTTS)",
+              "plazo": "Antes de comercializar",
+              "ante": "Rosstandart"
+            }
+          ],
+          "sanciones": "KoAP art. 14.43-14.46.",
+          "evidencia": [
+            "OTTS",
+            "EPTS"
+          ],
+          "preguntas": [
+            "¿Cada modelo tiene OTTS vigente?"
+          ]
+        },
+        {
+          "id": "ru_auto_reciclaje",
+          "nombre": "Tasa de reciclaje de vehículos (Ley 89-FZ art. 24.1 y Decreto del Gobierno n.º 1291 de 26-12-2013)",
+          "sigla": "Utilsbor",
+          "tipo": "decreto",
+          "autoridad": "Minpromtorg; FTS",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes e importadores de vehículos y maquinaria.",
+          "obligaciones": [
+            "Pagar la tasa por cada vehículo importado o fabricado.",
+            "Indexaciones anuales desde octubre de 2024 hasta 2030 y cambios de diciembre de 2025 para vehículos potentes (verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Pago de tasa de reciclaje",
+              "plazo": "Antes de emitir el EPTS",
+              "ante": "FTS / Minpromtorg"
+            }
+          ],
+          "sanciones": "Prohibición de matriculación.",
+          "evidencia": [
+            "Justificantes de pago"
+          ],
+          "preguntas": [
+            "¿Se calculó la tasa con los coeficientes vigentes?"
+          ]
+        },
+        {
+          "id": "ru_auto_trafico",
+          "nombre": "Ley federal n.º 196-FZ de 10-12-1995 sobre seguridad vial",
+          "sigla": "196-FZ",
+          "tipo": "ley federal",
+          "autoridad": "GIBDD; Rostransnadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, flotas y empresas de transporte.",
+          "obligaciones": [
+            "Inspección técnica de vehículos.",
+            "Exámenes médicos de conductores antes del viaje en flotas.",
+            "Responsable de seguridad vial."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP cap. 12.",
+          "evidencia": [
+            "Registros de exámenes"
+          ],
+          "preguntas": [
+            "¿Las flotas realizan exámenes previos al viaje?"
+          ]
+        },
+        {
+          "id": "ru_auto_neumaticos",
+          "nombre": "Marcado obligatorio de neumáticos y piezas (Chestny ZNAK)",
+          "sigla": "Marcado autopartes",
+          "tipo": "decreto",
+          "autoridad": "Minpromtorg; CRPT",
+          "url": "https://честныйзнак.рф",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, importadores y vendedores de neumáticos y otras autopartes incluidas.",
+          "obligaciones": [
+            "Aplicar y reportar códigos de marcado."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 15.12.",
+          "evidencia": [
+            "Reportes de códigos"
+          ],
+          "preguntas": [
+            "¿Los neumáticos están marcados?"
+          ]
+        },
+        {
+          "id": "ru_auto_spik",
+          "nombre": "Contratos especiales de inversión (SPIK 2.0) y localización (PP 719)",
+          "sigla": "SPIK",
+          "tipo": "decreto",
+          "autoridad": "Minpromtorg",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes de vehículos con compromisos de localización.",
+          "obligaciones": [
+            "Cumplir el calendario de localización y puntos.",
+            "Reportar cumplimiento."
+          ],
+          "tramites": [],
+          "sanciones": "Pérdida de beneficios y devolución de ayudas.",
+          "evidencia": [
+            "Informes SPIK"
+          ],
+          "preguntas": [
+            "¿Se cumplen los compromisos de localización?"
+          ]
+        }
+      ]
+    },
+    "energia_electrica": {
+      "reguladores": [
+        [
+          "Ministerio de Energía (Minenergo)",
+          "https://minenergo.gov.ru"
+        ],
+        [
+          "FAS (tarifas)",
+          "https://fas.gov.ru"
+        ],
+        [
+          "Rostekhnadzor",
+          "https://www.gosnadzor.ru"
+        ],
+        [
+          "Consejo del Mercado (NP Sovet Rynka)",
+          "https://www.np-sr.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_ele_ley",
+          "nombre": "Ley federal n.º 35-FZ de 26-03-2003 sobre la industria eléctrica",
+          "sigla": "35-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minenergo; FAS; Consejo del Mercado",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_41502/",
+          "ultima_reforma": "verificar",
+          "aplica": "Generadores, redes, comercializadores y consumidores en el mercado mayorista.",
+          "obligaciones": [
+            "Participación en el mercado mayorista mediante el Consejo del Mercado.",
+            "Prohibición de combinar actividades de monopolio natural y competitivas.",
+            "Regulación de tarifas de transporte y conexión.",
+            "Cumplir órdenes del operador del sistema (SO UES)."
+          ],
+          "tramites": [
+            {
+              "que": "Ingreso al mercado mayorista",
+              "plazo": "Antes de operar",
+              "ante": "Consejo del Mercado"
+            }
+          ],
+          "sanciones": "KoAP art. 9.21 y 14.6; exclusión del mercado.",
+          "evidencia": [
+            "Contratos del mercado mayorista"
+          ],
+          "preguntas": [
+            "¿Se separan las actividades reguladas?"
+          ]
+        },
+        {
+          "id": "ru_ele_monopolios",
+          "nombre": "Ley federal n.º 147-FZ de 17-08-1995 sobre monopolios naturales",
+          "sigla": "147-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FAS",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_8461/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sujetos de monopolio natural (transporte de electricidad, gas, ductos, ferrocarril, puertos).",
+          "obligaciones": [
+            "Tarifas reguladas por la FAS.",
+            "Divulgación de información (estándares).",
+            "Control de operaciones del art. 7."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 9.15 y 19.8.",
+          "evidencia": [
+            "Expedientes tarifarios"
+          ],
+          "preguntas": [
+            "¿Se cumplen los estándares de divulgación?"
+          ]
+        },
+        {
+          "id": "ru_ele_ahorro",
+          "nombre": "Ley federal n.º 261-FZ de 23-11-2009 sobre ahorro energético",
+          "sigla": "261-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minenergo",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones reguladas, de participación estatal y grandes consumidores.",
+          "obligaciones": [
+            "Medición de recursos energéticos.",
+            "Programas de ahorro energético en organizaciones reguladas."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 9.16.",
+          "evidencia": [
+            "Programa de ahorro"
+          ],
+          "preguntas": [
+            "¿Existe programa de ahorro energético?"
+          ]
+        },
+        {
+          "id": "ru_ele_tek",
+          "nombre": "Ley federal n.º 256-FZ de 21-07-2011 sobre seguridad de las instalaciones del complejo energético",
+          "sigla": "256-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minenergo; FSB; Rosgvardia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de instalaciones del complejo de combustibles y energía.",
+          "obligaciones": [
+            "Categorización de instalaciones.",
+            "Pasaporte de seguridad.",
+            "Medidas de protección física."
+          ],
+          "tramites": [
+            {
+              "que": "Pasaporte de seguridad",
+              "plazo": "Tras categorizar",
+              "ante": "Minenergo"
+            }
+          ],
+          "sanciones": "KoAP art. 20.30.",
+          "evidencia": [
+            "Pasaportes de seguridad"
+          ],
+          "preguntas": [
+            "¿Las instalaciones tienen pasaporte de seguridad aprobado?"
+          ]
+        },
+        {
+          "id": "ru_ele_kii",
+          "nombre": "187-FZ aplicado a energía (sujetos de KII)",
+          "sigla": "KII energía",
+          "tipo": "ley federal",
+          "autoridad": "FSTEC; FSB",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_220885/",
+          "ultima_reforma": "2025-04-07",
+          "aplica": "Empresas del sector energético.",
+          "obligaciones": [
+            "Categorización y sustitución de software extranjero."
+          ],
+          "tramites": [],
+          "sanciones": "Código Penal art. 274.1.",
+          "evidencia": [
+            "Actas de categorización"
+          ],
+          "preguntas": [
+            "¿Los objetos significativos usan software ruso registrado?"
+          ]
+        }
+      ]
+    },
+    "hidrocarburos": {
+      "reguladores": [
+        [
+          "Minenergo",
+          "https://minenergo.gov.ru"
+        ],
+        [
+          "Rosnedra",
+          "https://www.rosnedra.gov.ru"
+        ],
+        [
+          "Rostekhnadzor",
+          "https://www.gosnadzor.ru"
+        ],
+        [
+          "FAS",
+          "https://fas.gov.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_hc_subsuelo",
+          "nombre": "Ley n.º 2395-1 de 21-02-1992 sobre el subsuelo",
+          "sigla": "Ley del subsuelo",
+          "tipo": "ley federal",
+          "autoridad": "Rosnedra; Rosprirodnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_343/",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de licencias de exploración y producción.",
+          "obligaciones": [
+            "Licencia de uso del subsuelo con condiciones.",
+            "Proyecto técnico de explotación aprobado.",
+            "Reportes estatales de reservas.",
+            "Áreas de importancia federal: restricciones a extranjeros (art. 2.1)."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de subsuelo",
+              "plazo": "Antes de operar",
+              "ante": "Rosnedra"
+            }
+          ],
+          "sanciones": "KoAP art. 7.3; revocación de licencia.",
+          "evidencia": [
+            "Licencias",
+            "Informes de cumplimiento"
+          ],
+          "preguntas": [
+            "¿Se cumplen las condiciones de licencia?"
+          ]
+        },
+        {
+          "id": "ru_hc_ndpi",
+          "nombre": "Código Fiscal, cap. 26 (impuesto sobre extracción de minerales, NDPI) y cap. 25.4 (impuesto sobre renta adicional, NDD)",
+          "sigla": "NDPI / NDD",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores de hidrocarburos.",
+          "obligaciones": [
+            "Cálculo mensual del NDPI con coeficientes.",
+            "Régimen NDD para campos elegibles.",
+            "Mecanismo de amortiguación (damper) de precios internos."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración de NDPI",
+              "plazo": "Mensual",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Art. 122 NK.",
+          "evidencia": [
+            "Declaraciones NDPI"
+          ],
+          "preguntas": [
+            "¿Se aplican correctamente los coeficientes?"
+          ]
+        },
+        {
+          "id": "ru_hc_tope",
+          "nombre": "Decreto presidencial n.º 961 de 27-12-2022 sobre medidas en respuesta al tope de precios del petróleo (prorrogado, verificar)",
+          "sigla": "Contramedida tope de precios",
+          "tipo": "decreto",
+          "autoridad": "Minenergo; FTS",
+          "url": "http://kremlin.ru/acts/bank",
+          "ultima_reforma": "verificar",
+          "aplica": "Exportadores rusos de petróleo y productos.",
+          "obligaciones": [
+            "Prohibición de suministrar petróleo cuando el contrato use el mecanismo de tope de precios.",
+            "Excepciones por decisión presidencial."
+          ],
+          "tramites": [],
+          "sanciones": "Nulidad y responsabilidad.",
+          "evidencia": [
+            "Contratos de exportación"
+          ],
+          "preguntas": [
+            "¿Los contratos excluyen cláusulas de tope de precios?"
+          ]
+        },
+        {
+          "id": "ru_hc_gas",
+          "nombre": "Ley federal n.º 69-FZ de 31-03-1999 sobre suministro de gas",
+          "sigla": "69-FZ gas",
+          "tipo": "ley federal",
+          "autoridad": "Minenergo; FAS",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores, transportistas y distribuidores de gas.",
+          "obligaciones": [
+            "Acceso a la red de transporte de gas.",
+            "Monopolio de exportación por gasoducto (Gazprom)."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP.",
+          "evidencia": [
+            "Contratos de acceso"
+          ],
+          "preguntas": [
+            "¿Las operaciones de exportación respetan el régimen de exclusividad?"
+          ]
+        },
+        {
+          "id": "ru_hc_industrial",
+          "nombre": "116-FZ aplicado a hidrocarburos (instalaciones peligrosas y ductos)",
+          "sigla": "Seguridad industrial HC",
+          "tipo": "ley federal",
+          "autoridad": "Rostekhnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_15234/",
+          "ultima_reforma": "verificar",
+          "aplica": "Refinerías, ductos, terminales.",
+          "obligaciones": [
+            "Declaración de seguridad industrial (clases I-II).",
+            "Planes de respuesta a derrames."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 9.1.",
+          "evidencia": [
+            "Declaraciones de seguridad",
+            "Planes de derrames"
+          ],
+          "preguntas": [
+            "¿Existe plan de prevención y respuesta a derrames aprobado?"
+          ]
+        }
+      ]
+    },
+    "aeronautico": {
+      "reguladores": [
+        [
+          "Rosaviatsia",
+          "https://favt.gov.ru"
+        ],
+        [
+          "Ministerio de Transporte",
+          "https://mintrans.gov.ru"
+        ],
+        [
+          "Rostransnadzor",
+          "https://rostransnadzor.gov.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_aer_codigo",
+          "nombre": "Código Aéreo de la Federación de Rusia (n.º 60-FZ de 19-03-1997)",
+          "sigla": "VzK RF",
+          "tipo": "ley federal",
+          "autoridad": "Rosaviatsia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores aéreos, aeropuertos, organizaciones de mantenimiento y fabricantes.",
+          "obligaciones": [
+            "Certificado de operador aéreo.",
+            "Certificado de aeronavegabilidad y registro de aeronaves.",
+            "Licencias del personal.",
+            "Registro en Rusia de aeronaves de propiedad extranjera permitido desde 2022 (verificar ley)."
+          ],
+          "tramites": [
+            {
+              "que": "Certificado de operador",
+              "plazo": "Antes de operar",
+              "ante": "Rosaviatsia"
+            }
+          ],
+          "sanciones": "KoAP cap. 11; suspensión de certificados.",
+          "evidencia": [
+            "Certificados"
+          ],
+          "preguntas": [
+            "¿Las aeronaves tienen certificado de aeronavegabilidad vigente?"
+          ]
+        },
+        {
+          "id": "ru_aer_fap",
+          "nombre": "Reglas Federales de Aviación (FAP) del Ministerio de Transporte",
+          "sigla": "FAP",
+          "tipo": "norma",
+          "autoridad": "Rosaviatsia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones aeronáuticas.",
+          "obligaciones": [
+            "Requisitos de mantenimiento (FAP-285).",
+            "Certificación de tipo (AP-21).",
+            "Seguridad de vuelos y SMS."
+          ],
+          "tramites": [],
+          "sanciones": "Suspensión.",
+          "evidencia": [
+            "Manuales"
+          ],
+          "preguntas": [
+            "¿Existe sistema de gestión de la seguridad?"
+          ]
+        },
+        {
+          "id": "ru_aer_seguridad",
+          "nombre": "Ley federal n.º 16-FZ de 09-02-2007 sobre seguridad del transporte",
+          "sigla": "16-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Ministerio de Transporte; Rostransnadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sujetos de infraestructura de transporte (aeropuertos, terminales, operadores).",
+          "obligaciones": [
+            "Categorización de objetos.",
+            "Plan de seguridad de transporte.",
+            "Certificación del personal de seguridad."
+          ],
+          "tramites": [
+            {
+              "que": "Plan de seguridad de transporte",
+              "plazo": "Tras categorizar",
+              "ante": "Rostransnadzor"
+            }
+          ],
+          "sanciones": "KoAP art. 11.15.1.",
+          "evidencia": [
+            "Planes"
+          ],
+          "preguntas": [
+            "¿Los objetos están categorizados?"
+          ]
+        },
+        {
+          "id": "ru_aer_export",
+          "nombre": "Control de exportaciones y cooperación técnico-militar aplicados a aviación (183-FZ y 114-FZ)",
+          "sigla": "Export control aviación",
+          "tipo": "ley federal",
+          "autoridad": "FSTEC; FSVTS",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes y exportadores aeroespaciales.",
+          "obligaciones": [
+            "Licencias de exportación.",
+            "Productos militares solo vía Rosoboronexport o titulares autorizados."
+          ],
+          "tramites": [],
+          "sanciones": "Código Penal art. 189.",
+          "evidencia": [
+            "Licencias"
+          ],
+          "preguntas": [
+            "¿Las exportaciones cuentan con licencia?"
+          ]
+        }
+      ]
+    },
+    "farmaceutico": {
+      "reguladores": [
+        [
+          "Ministerio de Salud (Minzdrav)",
+          "https://minzdrav.gov.ru"
+        ],
+        [
+          "Roszdravnadzor",
+          "https://roszdravnadzor.gov.ru"
+        ],
+        [
+          "Minpromtorg (GMP)",
+          "https://minpromtorg.gov.ru"
+        ],
+        [
+          "Comisión Económica Euroasiática",
+          "https://eec.eaeunion.org"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_far_medicamentos",
+          "nombre": "Ley federal n.º 61-FZ de 12-04-2010 sobre la circulación de medicamentos y reglas de la UEEA",
+          "sigla": "61-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minzdrav; Roszdravnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_99350/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, titulares de registro, distribuidores, farmacias.",
+          "obligaciones": [
+            "Registro estatal del medicamento (procedimiento UEEA desde 2026 para todos, verificar).",
+            "Licencia de fabricación y de actividad farmacéutica.",
+            "Farmacovigilancia y notificación de reacciones adversas.",
+            "Precios máximos registrados para medicamentos esenciales (VED)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de medicamento",
+              "plazo": "Antes de comercializar",
+              "ante": "Minzdrav"
+            }
+          ],
+          "sanciones": "KoAP arts. 6.33, 14.4.2; Código Penal art. 238.1.",
+          "evidencia": [
+            "Certificados de registro",
+            "Licencias"
+          ],
+          "preguntas": [
+            "¿Los medicamentos esenciales tienen precio registrado?"
+          ]
+        },
+        {
+          "id": "ru_far_salud",
+          "nombre": "Ley federal n.º 323-FZ de 21-11-2011 sobre fundamentos de la protección de la salud",
+          "sigla": "323-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minzdrav; Roszdravnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_121895/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes de productos sanitarios, organizaciones médicas.",
+          "obligaciones": [
+            "Registro de productos sanitarios (Decreto del Gobierno n.º 1416 o reglas UEEA).",
+            "Restricciones de interacción de empresas farmacéuticas con médicos (art. 74).",
+            "Licencia médica."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de producto sanitario",
+              "plazo": "Antes de comercializar",
+              "ante": "Roszdravnadzor"
+            }
+          ],
+          "sanciones": "KoAP art. 6.28, 6.29.",
+          "evidencia": [
+            "Certificados de registro"
+          ],
+          "preguntas": [
+            "¿Se respetan las restricciones del art. 74?"
+          ]
+        },
+        {
+          "id": "ru_far_mdlp",
+          "nombre": "Marcado de medicamentos (sistema MDLP de Chestny ZNAK)",
+          "sigla": "MDLP",
+          "tipo": "decreto",
+          "autoridad": "Roszdravnadzor; CRPT",
+          "url": "https://честныйзнак.рф",
+          "ultima_reforma": "verificar",
+          "aplica": "Toda la cadena de medicamentos.",
+          "obligaciones": [
+            "Serialización y reporte de movimientos en MDLP."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 6.34.",
+          "evidencia": [
+            "Reportes MDLP"
+          ],
+          "preguntas": [
+            "¿Los movimientos se reportan en MDLP?"
+          ]
+        },
+        {
+          "id": "ru_far_gmp",
+          "nombre": "Reglas de buenas prácticas de fabricación (Orden de Minpromtorg n.º 916 de 14-06-2013 y reglas UEEA)",
+          "sigla": "GMP Rusia",
+          "tipo": "norma",
+          "autoridad": "Minpromtorg",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes nacionales y extranjeros que suministran a Rusia (inspección de sitios extranjeros).",
+          "obligaciones": [
+            "Conclusión GMP de Minpromtorg para sitios extranjeros.",
+            "Sistema de calidad."
+          ],
+          "tramites": [
+            {
+              "que": "Inspección GMP",
+              "plazo": "Antes del registro",
+              "ante": "Minpromtorg (GILS NP)"
+            }
+          ],
+          "sanciones": "Denegación de registro.",
+          "evidencia": [
+            "Conclusión GMP"
+          ],
+          "preguntas": [
+            "¿Los sitios extranjeros tienen conclusión GMP vigente?"
+          ]
+        },
+        {
+          "id": "ru_far_licencia",
+          "nombre": "Licencia obligatoria y medidas especiales (art. 1360 del Código Civil; importación paralela de medicamentos)",
+          "sigla": "Licencias obligatorias",
+          "tipo": "ley federal",
+          "autoridad": "Gobierno de la Federación",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_64629/",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de patentes farmacéuticas.",
+          "obligaciones": [
+            "El Gobierno puede autorizar el uso de invenciones sin consentimiento con compensación."
+          ],
+          "tramites": [],
+          "sanciones": "N/A.",
+          "evidencia": [
+            "Decisiones del Gobierno"
+          ],
+          "preguntas": [
+            "¿Existe riesgo de licencia obligatoria sobre productos clave?"
+          ]
+        }
+      ]
+    },
+    "construccion": {
+      "reguladores": [
+        [
+          "Ministerio de Construcción (Minstroy)",
+          "https://minstroyrf.gov.ru"
+        ],
+        [
+          "Glavgosexpertiza",
+          "https://gge.ru"
+        ],
+        [
+          "Rostekhnadzor",
+          "https://www.gosnadzor.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_con_urbanistico",
+          "nombre": "Código de Urbanismo (n.º 190-FZ de 29-12-2004)",
+          "sigla": "GrK RF",
+          "tipo": "ley federal",
+          "autoridad": "Minstroy; autoridades regionales",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_51040/",
+          "ultima_reforma": "verificar",
+          "aplica": "Promotores, proyectistas y contratistas.",
+          "obligaciones": [
+            "Permiso de construcción y de puesta en servicio.",
+            "Peritaje estatal del proyecto en casos previstos.",
+            "Membresía en organización autorregulada (SRO) para proyectar y construir (umbrales de contrato).",
+            "Supervisión estatal de obras."
+          ],
+          "tramites": [
+            {
+              "que": "Permiso de construcción",
+              "plazo": "Antes de construir",
+              "ante": "Autoridad local/regional"
+            }
+          ],
+          "sanciones": "KoAP art. 9.4-9.5 (hasta 1 M rublos o suspensión).",
+          "evidencia": [
+            "Permisos",
+            "Certificado SRO"
+          ],
+          "preguntas": [
+            "¿El contratista es miembro de una SRO?"
+          ]
+        },
+        {
+          "id": "ru_con_214",
+          "nombre": "Ley federal n.º 214-FZ de 30-12-2004 sobre construcción compartida (cuentas de garantía escrow)",
+          "sigla": "214-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minstroy; DOM.RF",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Promotores de vivienda.",
+          "obligaciones": [
+            "Fondos de compradores en cuentas escrow.",
+            "Registro de contratos.",
+            "Reporte en el sistema unificado (EISZhS)."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 14.28.",
+          "evidencia": [
+            "Contratos escrow"
+          ],
+          "preguntas": [
+            "¿Todas las ventas sobre plano usan escrow?"
+          ]
+        },
+        {
+          "id": "ru_con_tecnico",
+          "nombre": "Ley federal n.º 384-FZ de 30-12-2009, reglamento técnico de seguridad de edificios",
+          "sigla": "384-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minstroy",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Proyectistas y constructores.",
+          "obligaciones": [
+            "Cumplimiento de normas obligatorias de construcción (SP)."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 9.4.",
+          "evidencia": [
+            "Documentación de proyecto"
+          ],
+          "preguntas": [
+            "¿El proyecto cumple las normas obligatorias?"
+          ]
+        },
+        {
+          "id": "ru_con_compras",
+          "nombre": "Ley federal n.º 44-FZ de 05-04-2013 (contratación estatal) y n.º 223-FZ de 18-07-2011 (compras de empresas estatales)",
+          "sigla": "44-FZ / 223-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FAS; Ministerio de Finanzas; Tesoro",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_144624/",
+          "ultima_reforma": "verificar",
+          "aplica": "Proveedores de organismos públicos y de empresas con participación estatal.",
+          "obligaciones": [
+            "Registro en el sistema unificado de compras (EIS).",
+            "Garantías de oferta y de cumplimiento.",
+            "Preferencias y prohibiciones para bienes extranjeros (régimen nacional, verificar).",
+            "Registro de proveedores incumplidores."
+          ],
+          "tramites": [
+            {
+              "que": "Registro en EIS",
+              "plazo": "Antes de licitar",
+              "ante": "EIS"
+            }
+          ],
+          "sanciones": "Inclusión en el registro de proveedores incumplidores; KoAP arts. 7.29-7.32.",
+          "evidencia": [
+            "Registro EIS",
+            "Garantías"
+          ],
+          "preguntas": [
+            "¿La empresa está en el registro de proveedores incumplidores?"
+          ]
+        }
+      ]
+    },
+    "defensa": {
+      "reguladores": [
+        [
+          "Servicio Federal de Cooperación Técnico-Militar (FSVTS)",
+          "https://www.fsvts.gov.ru"
+        ],
+        [
+          "FSTEC",
+          "https://fstec.ru"
+        ],
+        [
+          "Ministerio de Defensa",
+          "https://mil.ru"
+        ],
+        [
+          "FSB (secretos de Estado)",
+          "http://www.fsb.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_def_gtc",
+          "nombre": "Ley federal n.º 114-FZ de 19-07-1998 sobre cooperación técnico-militar",
+          "sigla": "114-FZ",
+          "tipo": "ley federal",
+          "autoridad": "FSVTS; Presidente",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Exportadores de productos militares.",
+          "obligaciones": [
+            "Derecho de comercio exterior de productos militares solo para Rosoboronexport y entidades autorizadas.",
+            "Licencias de la FSVTS.",
+            "Certificados de usuario final."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de la FSVTS",
+              "plazo": "Antes de exportar",
+              "ante": "FSVTS"
+            }
+          ],
+          "sanciones": "Código Penal art. 189.",
+          "evidencia": [
+            "Licencias"
+          ],
+          "preguntas": [
+            "¿La empresa tiene derecho a comercio exterior de productos militares?"
+          ]
+        },
+        {
+          "id": "ru_def_goz",
+          "nombre": "Ley federal n.º 275-FZ de 29-12-2012 sobre el pedido estatal de defensa",
+          "sigla": "275-FZ (GOZ)",
+          "tipo": "ley federal",
+          "autoridad": "FAS; Ministerio de Defensa",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Contratistas y subcontratistas del pedido estatal de defensa.",
+          "obligaciones": [
+            "Cuentas bancarias separadas por contrato.",
+            "Contabilidad separada.",
+            "Precios regulados."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP arts. 14.55-14.55.2; Código Penal art. 201.1.",
+          "evidencia": [
+            "Cuentas separadas"
+          ],
+          "preguntas": [
+            "¿Se usa cuenta separada por contrato GOZ?"
+          ]
+        },
+        {
+          "id": "ru_def_secreto",
+          "nombre": "Ley n.º 5485-1 de 21-07-1993 sobre secretos de Estado",
+          "sigla": "Secreto de Estado",
+          "tipo": "ley federal",
+          "autoridad": "FSB",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones que trabajan con información clasificada.",
+          "obligaciones": [
+            "Licencia para trabajar con secretos de Estado.",
+            "Habilitación del personal.",
+            "Régimen de seguridad."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de secreto de Estado",
+              "plazo": "Antes de trabajar",
+              "ante": "FSB"
+            }
+          ],
+          "sanciones": "Código Penal arts. 283-284.",
+          "evidencia": [
+            "Licencia"
+          ],
+          "preguntas": [
+            "¿La licencia de secreto de Estado está vigente?"
+          ]
+        },
+        {
+          "id": "ru_def_armas",
+          "nombre": "Ley federal n.º 150-FZ de 13-12-1996 sobre armas",
+          "sigla": "150-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rosgvardia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes y comerciantes de armas civiles y de servicio.",
+          "obligaciones": [
+            "Licencias de fabricación y comercio.",
+            "Registro de armas."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia",
+              "plazo": "Antes de operar",
+              "ante": "Rosgvardia"
+            }
+          ],
+          "sanciones": "KoAP art. 20.8; Código Penal art. 222-223.",
+          "evidencia": [
+            "Licencias"
+          ],
+          "preguntas": [
+            "¿El inventario de armas está conciliado?"
+          ]
+        },
+        {
+          "id": "ru_def_estrategicas",
+          "nombre": "57-FZ aplicado a defensa (actividades estratégicas)",
+          "sigla": "57-FZ defensa",
+          "tipo": "ley federal",
+          "autoridad": "FAS",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_76660/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas de defensa con inversores extranjeros.",
+          "obligaciones": [
+            "Aprobación previa de cambios de control."
+          ],
+          "tramites": [],
+          "sanciones": "Nulidad.",
+          "evidencia": [
+            "Aprobaciones"
+          ],
+          "preguntas": [
+            "¿Hay inversores extranjeros con aprobación?"
+          ]
+        }
+      ]
+    },
+    "seguros": {
+      "reguladores": [
+        [
+          "Banco de Rusia (supervisión de seguros)",
+          "https://www.cbr.ru"
+        ],
+        [
+          "Unión Rusa de Aseguradores de Automóviles (RSA)",
+          "https://autoins.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_seg_organizacion",
+          "nombre": "Ley n.º 4015-1 de 27-11-1992 sobre la organización del negocio de seguros",
+          "sigla": "4015-1",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_1307/",
+          "ultima_reforma": "verificar",
+          "aplica": "Aseguradoras, reaseguradoras y corredores.",
+          "obligaciones": [
+            "Licencia del Banco de Rusia.",
+            "Capital mínimo y solvencia según normas del Banco de Rusia.",
+            "Gestión de riesgos y control interno.",
+            "Restricciones a aseguradoras de Estados no amistosos (verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de seguros",
+              "plazo": "Antes de operar",
+              "ante": "Banco de Rusia"
+            }
+          ],
+          "sanciones": "Revocación de licencia; KoAP art. 15.34.1.",
+          "evidencia": [
+            "Licencia",
+            "Informes de solvencia"
+          ],
+          "preguntas": [
+            "¿Se cumplen los requisitos de solvencia?"
+          ]
+        },
+        {
+          "id": "ru_seg_osago",
+          "nombre": "Ley federal n.º 40-FZ de 25-04-2002 sobre seguro obligatorio de responsabilidad de propietarios de vehículos (OSAGO)",
+          "sigla": "40-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia; RSA",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Aseguradoras de OSAGO y propietarios de vehículos.",
+          "obligaciones": [
+            "Tarifas dentro del corredor del Banco de Rusia.",
+            "Pólizas electrónicas.",
+            "Plazos de pago de siniestros (20 días)."
+          ],
+          "tramites": [],
+          "sanciones": "Multas y penalidades del art. 12 de la ley.",
+          "evidencia": [
+            "Pólizas"
+          ],
+          "preguntas": [
+            "¿Se pagan siniestros en 20 días?"
+          ]
+        },
+        {
+          "id": "ru_seg_pld",
+          "nombre": "115-FZ aplicado a aseguradoras",
+          "sigla": "PLD seguros",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia; Rosfinmonitoring",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_32834/",
+          "ultima_reforma": "verificar",
+          "aplica": "Aseguradoras de vida y corredores.",
+          "obligaciones": [
+            "Control interno, identificación, comunicaciones."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 15.27; revocación.",
+          "evidencia": [
+            "Reglas de control interno"
+          ],
+          "preguntas": [
+            "¿Se aplica identificación a beneficiarios de pólizas?"
+          ]
+        },
+        {
+          "id": "ru_seg_kii",
+          "nombre": "Normas de ciberseguridad del Banco de Rusia (Reglamentos 683-P/719-P/779-P, verificar)",
+          "sigla": "Ciberseguridad financiera",
+          "tipo": "norma",
+          "autoridad": "Banco de Rusia",
+          "url": "https://www.cbr.ru/information_security/",
+          "ultima_reforma": "verificar",
+          "aplica": "Entidades financieras.",
+          "obligaciones": [
+            "Estándar GOST R 57580.",
+            "Notificación de incidentes al FinCERT.",
+            "Gestión del riesgo operativo."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de incidente",
+              "plazo": "Plazo reglamentario",
+              "ante": "FinCERT (Banco de Rusia)"
+            }
+          ],
+          "sanciones": "Medidas del Banco de Rusia.",
+          "evidencia": [
+            "Evaluación GOST 57580"
+          ],
+          "preguntas": [
+            "¿Se evaluó el cumplimiento del GOST R 57580?"
+          ]
+        }
+      ]
+    },
+    "bancos": {
+      "reguladores": [
+        [
+          "Banco de Rusia",
+          "https://www.cbr.ru"
+        ],
+        [
+          "Agencia de Seguro de Depósitos (ASV)",
+          "https://www.asv.org.ru"
+        ],
+        [
+          "Rosfinmonitoring",
+          "https://www.fedsfm.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_ban_bancos",
+          "nombre": "Ley n.º 395-1 de 02-12-1990 sobre bancos y actividad bancaria",
+          "sigla": "395-1",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_5842/",
+          "ultima_reforma": "verificar",
+          "aplica": "Bancos y organizaciones de crédito no bancarias.",
+          "obligaciones": [
+            "Licencia bancaria (universal o básica).",
+            "Normativas prudenciales (Instrucción 199-I).",
+            "Secreto bancario.",
+            "Aprobación del Banco de Rusia para adquisiciones > 10 % del capital."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia bancaria",
+              "plazo": "Antes de operar",
+              "ante": "Banco de Rusia"
+            }
+          ],
+          "sanciones": "Revocación de licencia; multas y restricciones (art. 74 de 86-FZ).",
+          "evidencia": [
+            "Licencia",
+            "Informes prudenciales"
+          ],
+          "preguntas": [
+            "¿Se cumplen las normas prudenciales?"
+          ]
+        },
+        {
+          "id": "ru_ban_bcr",
+          "nombre": "Ley federal n.º 86-FZ de 10-07-2002 sobre el Banco Central (Banco de Rusia)",
+          "sigla": "86-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_37570/",
+          "ultima_reforma": "verificar",
+          "aplica": "Entidades supervisadas.",
+          "obligaciones": [
+            "Reportes al Banco de Rusia.",
+            "Cumplimiento de órdenes supervisoras.",
+            "Plataforma «Conoce a tu cliente» (ZSK) para calificar el riesgo de clientes (desde 2022)."
+          ],
+          "tramites": [],
+          "sanciones": "Medidas supervisoras (art. 74).",
+          "evidencia": [
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿Se atienden las calificaciones ZSK?"
+          ]
+        },
+        {
+          "id": "ru_ban_pagos",
+          "nombre": "Ley federal n.º 161-FZ de 27-06-2011 sobre el sistema nacional de pagos",
+          "sigla": "161-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores de transferencias, de pagos y de dinero electrónico.",
+          "obligaciones": [
+            "Sistema de pagos rápidos (SBP).",
+            "Medidas antifraude y lista de transferencias sin consentimiento.",
+            "Período de enfriamiento en transferencias sospechosas."
+          ],
+          "tramites": [],
+          "sanciones": "Devolución de fondos al cliente y sanciones.",
+          "evidencia": [
+            "Procedimiento antifraude"
+          ],
+          "preguntas": [
+            "¿Se aplica el procedimiento antifraude?"
+          ]
+        },
+        {
+          "id": "ru_ban_rublo_digital",
+          "nombre": "Ley federal n.º 340-FZ de 24-07-2023 sobre el rublo digital",
+          "sigla": "Rublo digital",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Bancos y comercios; obligaciones escalonadas para los mayores bancos y comercios desde el 1-09-2026 (verificar).",
+          "obligaciones": [
+            "Ofrecer operaciones con rublo digital.",
+            "Aceptación por comercios grandes."
+          ],
+          "tramites": [],
+          "sanciones": "Verificar.",
+          "evidencia": [
+            "Plan de implantación"
+          ],
+          "preguntas": [
+            "¿Se cumplen los plazos de implantación?"
+          ]
+        },
+        {
+          "id": "ru_ban_credito",
+          "nombre": "Ley federal n.º 353-FZ de 21-12-2013 sobre crédito al consumo",
+          "sigla": "353-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Prestamistas a consumidores.",
+          "obligaciones": [
+            "Coste total máximo del crédito.",
+            "Indicador de carga de deuda (PDN).",
+            "Autoexclusión de crédito (desde 2025, verificar)."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 15.26.",
+          "evidencia": [
+            "Cálculos PDN"
+          ],
+          "preguntas": [
+            "¿Se calcula el PDN?"
+          ]
+        },
+        {
+          "id": "ru_ban_dfa",
+          "nombre": "Ley federal n.º 259-FZ de 31-07-2020 sobre activos financieros digitales",
+          "sigla": "259-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Banco de Rusia",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores de sistemas de información y de intercambio de activos digitales.",
+          "obligaciones": [
+            "Inscripción en el registro del Banco de Rusia.",
+            "Uso de DFA en pagos internacionales (régimen experimental, verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Inscripción de operador",
+              "plazo": "Antes de operar",
+              "ante": "Banco de Rusia"
+            }
+          ],
+          "sanciones": "Verificar.",
+          "evidencia": [
+            "Inscripción"
+          ],
+          "preguntas": [
+            "¿El operador está inscrito?"
+          ]
+        }
+      ]
+    },
+    "mineria": {
+      "reguladores": [
+        [
+          "Rosnedra",
+          "https://www.rosnedra.gov.ru"
+        ],
+        [
+          "Rostekhnadzor",
+          "https://www.gosnadzor.ru"
+        ],
+        [
+          "Rosprirodnadzor",
+          "https://rpn.gov.ru"
+        ],
+        [
+          "Gokhran / Minfin (metales preciosos)",
+          "https://minfin.gov.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_min_subsuelo",
+          "nombre": "Ley del subsuelo (n.º 2395-1) aplicada a minería",
+          "sigla": "Subsuelo minería",
+          "tipo": "ley federal",
+          "autoridad": "Rosnedra",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_343/",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de licencias mineras.",
+          "obligaciones": [
+            "Licencia y proyecto técnico.",
+            "Plan de desarrollo minero anual.",
+            "Rehabilitación de tierras."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia",
+              "plazo": "Antes de operar",
+              "ante": "Rosnedra"
+            }
+          ],
+          "sanciones": "KoAP art. 7.3; revocación.",
+          "evidencia": [
+            "Licencia"
+          ],
+          "preguntas": [
+            "¿Se cumplen los niveles de extracción?"
+          ]
+        },
+        {
+          "id": "ru_min_ndpi",
+          "nombre": "Código Fiscal cap. 26 (NDPI) aplicado a minerales",
+          "sigla": "NDPI minería",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_28165/",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores mineros.",
+          "obligaciones": [
+            "Tipos por mineral; aumentos para ciertos metales desde 2025 (verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración NDPI",
+              "plazo": "Mensual",
+              "ante": "Servicio Federal de Impuestos (FNS)"
+            }
+          ],
+          "sanciones": "Art. 122 NK.",
+          "evidencia": [
+            "Declaraciones"
+          ],
+          "preguntas": [
+            "¿Se aplican los tipos vigentes?"
+          ]
+        },
+        {
+          "id": "ru_min_preciosos",
+          "nombre": "Ley federal n.º 41-FZ de 26-03-1998 sobre metales preciosos y piedras preciosas",
+          "sigla": "41-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Minfin; Gokhran; Probirnaya palata",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores y operadores de metales y piedras preciosas.",
+          "obligaciones": [
+            "Registro especial.",
+            "Contabilidad y control de metales preciosos.",
+            "Exportación con autorización."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 19.14; Código Penal art. 191-192.",
+          "evidencia": [
+            "Registro especial"
+          ],
+          "preguntas": [
+            "¿La empresa está en el registro especial?"
+          ]
+        },
+        {
+          "id": "ru_min_seguridad",
+          "nombre": "116-FZ aplicado a minas y Reglas federales de seguridad en minería",
+          "sigla": "Seguridad minera",
+          "tipo": "ley federal",
+          "autoridad": "Rostekhnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_15234/",
+          "ultima_reforma": "verificar",
+          "aplica": "Minas subterráneas y a cielo abierto.",
+          "obligaciones": [
+            "Sistemas multifuncionales de seguridad en minas de carbón.",
+            "Control de metano.",
+            "Servicio de rescate minero."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 9.1; suspensión.",
+          "evidencia": [
+            "Plan de liquidación de accidentes"
+          ],
+          "preguntas": [
+            "¿El plan de liquidación de accidentes está aprobado?"
+          ]
+        },
+        {
+          "id": "ru_min_residuos",
+          "nombre": "89-FZ y 7-FZ aplicados a residuos mineros",
+          "sigla": "Residuos mineros",
+          "tipo": "ley federal",
+          "autoridad": "Rosprirodnadzor",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_19109/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores mineros.",
+          "obligaciones": [
+            "Registro de instalaciones de residuos.",
+            "Pago por disposición de residuos."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 8.2.",
+          "evidencia": [
+            "Registro de escombreras"
+          ],
+          "preguntas": [
+            "¿Las escombreras están registradas?"
+          ]
+        }
+      ]
+    },
+    "alimentos": {
+      "reguladores": [
+        [
+          "Rospotrebnadzor",
+          "https://www.rospotrebnadzor.ru"
+        ],
+        [
+          "Rosselkhoznadzor",
+          "https://fsvps.gov.ru"
+        ],
+        [
+          "Rosalkogoltabakkontrol",
+          "https://fsrar.gov.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_ali_calidad",
+          "nombre": "Ley federal n.º 29-FZ de 02-01-2000 sobre calidad y seguridad de alimentos y reglamentos TR TS 021/2011 y 022/2011",
+          "sigla": "29-FZ / TR TS 021",
+          "tipo": "ley federal",
+          "autoridad": "Rospotrebnadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, importadores y vendedores de alimentos.",
+          "obligaciones": [
+            "Conformidad con TR TS 021/2011 (seguridad) y 022/2011 (etiquetado).",
+            "Registro estatal de alimentos especiales.",
+            "Programa de control de producción basado en HACCP."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración de conformidad EAEU",
+              "plazo": "Antes de comercializar",
+              "ante": "Rosakkreditatsiya"
+            }
+          ],
+          "sanciones": "KoAP art. 14.43; Código Penal art. 238.",
+          "evidencia": [
+            "Declaraciones",
+            "Plan HACCP"
+          ],
+          "preguntas": [
+            "¿Existe plan HACCP?"
+          ]
+        },
+        {
+          "id": "ru_ali_mercurio",
+          "nombre": "Ley n.º 4979-1 de veterinaria y sistema FGIS «Mercury»",
+          "sigla": "Mercury",
+          "tipo": "ley federal",
+          "autoridad": "Rosselkhoznadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores de productos de origen animal.",
+          "obligaciones": [
+            "Certificados veterinarios electrónicos en Mercury.",
+            "Trazabilidad de lotes."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 10.6-10.8.",
+          "evidencia": [
+            "Certificados electrónicos"
+          ],
+          "preguntas": [
+            "¿Todos los lotes tienen certificado en Mercury?"
+          ]
+        },
+        {
+          "id": "ru_ali_embargo",
+          "nombre": "Decreto presidencial n.º 560 de 06-08-2014 y Decreto del Gobierno n.º 778 (embargo alimentario a ciertos países, prorrogado)",
+          "sigla": "Embargo alimentario",
+          "tipo": "decreto",
+          "autoridad": "FTS; Rosselkhoznadzor",
+          "url": "http://kremlin.ru/acts/bank",
+          "ultima_reforma": "verificar",
+          "aplica": "Importadores de alimentos de UE, EUA y otros países listados.",
+          "obligaciones": [
+            "Prohibición de importar productos listados de los países afectados (México no está en la lista, verificar)."
+          ],
+          "tramites": [],
+          "sanciones": "Destrucción de mercancías.",
+          "evidencia": [
+            "Certificados de origen"
+          ],
+          "preguntas": [
+            "¿Se verifica el origen de importaciones alimentarias?"
+          ]
+        },
+        {
+          "id": "ru_ali_alcohol",
+          "nombre": "Ley federal n.º 171-FZ de 22-11-1995 sobre producción y venta de alcohol (EGAIS)",
+          "sigla": "171-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rosalkogoltabakkontrol",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores, importadores y vendedores de alcohol.",
+          "obligaciones": [
+            "Licencias.",
+            "Registro de movimientos en EGAIS.",
+            "Sellos fiscales y marcas."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia",
+              "plazo": "Antes de operar",
+              "ante": "Rosalkogoltabakkontrol / región"
+            }
+          ],
+          "sanciones": "KoAP art. 14.16-14.17; revocación.",
+          "evidencia": [
+            "Licencias",
+            "Registros EGAIS"
+          ],
+          "preguntas": [
+            "¿Los movimientos se registran en EGAIS?"
+          ]
+        },
+        {
+          "id": "ru_ali_marcado",
+          "nombre": "Marcado obligatorio de lácteos, agua embotellada, cerveza y otros (Chestny ZNAK)",
+          "sigla": "Marcado alimentos",
+          "tipo": "decreto",
+          "autoridad": "CRPT; Minpromtorg",
+          "url": "https://честныйзнак.рф",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes y minoristas de alimentos con marcado obligatorio.",
+          "obligaciones": [
+            "Aplicar códigos y reportar ventas con verificación permisiva."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 15.12.",
+          "evidencia": [
+            "Reportes de códigos"
+          ],
+          "preguntas": [
+            "¿Los grupos con marcado obligatorio están cubiertos?"
+          ]
+        }
+      ]
+    },
+    "telecom": {
+      "reguladores": [
+        [
+          "Roskomnadzor",
+          "https://rkn.gov.ru"
+        ],
+        [
+          "Ministerio de Desarrollo Digital (Mintsifry)",
+          "https://digital.gov.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_tel_comunicaciones",
+          "nombre": "Ley federal n.º 126-FZ de 07-07-2003 sobre comunicaciones",
+          "sigla": "126-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN); Mintsifry",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_43224/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores de telecomunicaciones.",
+          "obligaciones": [
+            "Licencia de servicios de comunicaciones.",
+            "Instalar equipos SORM para actividades de investigación operativa.",
+            "Verificación de abonados y de tarjetas SIM corporativas (cambios de 2024-2025, verificar).",
+            "Uso de frecuencias con autorización."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de comunicaciones",
+              "plazo": "Antes de operar",
+              "ante": "Roskomnadzor (RKN)"
+            }
+          ],
+          "sanciones": "KoAP art. 13.2.1, 13.3, 13.42; revocación.",
+          "evidencia": [
+            "Licencias",
+            "Actas SORM"
+          ],
+          "preguntas": [
+            "¿Se verifican los datos de abonados corporativos?"
+          ]
+        },
+        {
+          "id": "ru_tel_soberano",
+          "nombre": "Ley del «internet soberano» (Ley 90-FZ de 01-05-2019, modificaciones a 126-FZ y 149-FZ)",
+          "sigla": "Internet soberano",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN) (Centro de Monitoreo y Gestión de la Red Pública)",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores, propietarios de redes y puntos de intercambio.",
+          "obligaciones": [
+            "Instalar medios técnicos de contrarrestar amenazas (TSPU) proporcionados por RKN.",
+            "Usar el sistema nacional de nombres de dominio.",
+            "Registro de puntos de intercambio de tráfico."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 13.42.1.",
+          "evidencia": [
+            "Actas de instalación de TSPU"
+          ],
+          "preguntas": [
+            "¿Se instalaron los TSPU?"
+          ]
+        },
+        {
+          "id": "ru_tel_yarovaya",
+          "nombre": "Ley 374-FZ de 06-07-2016 («paquete Yarovaya»): conservación de comunicaciones",
+          "sigla": "Ley Yarovaya",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN); FSB",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores y organizadores de difusión de información.",
+          "obligaciones": [
+            "Conservar metadatos 1-3 años y contenido de comunicaciones hasta 6 meses (verificar plazos).",
+            "Entregar claves de cifrado a requerimiento del FSB (ORI)."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 13.31.",
+          "evidencia": [
+            "Sistemas de almacenamiento"
+          ],
+          "preguntas": [
+            "¿Se cumple el almacenamiento requerido?"
+          ]
+        },
+        {
+          "id": "ru_tel_kii",
+          "nombre": "187-FZ y 152-FZ aplicados a operadores de telecomunicaciones (sujetos de KII y grandes bases de abonados)",
+          "sigla": "KII y datos telecom",
+          "tipo": "ley federal",
+          "autoridad": "FSTEC; FSB; Roskomnadzor (RKN)",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_220885/",
+          "ultima_reforma": "2025-04-07",
+          "aplica": "Operadores de comunicaciones (el sector está expresamente incluido entre los sujetos de KII).",
+          "obligaciones": [
+            "Categorizar redes y sistemas como objetos de KII.",
+            "Sustituir software y equipos extranjeros en objetos significativos (Ley 58-FZ).",
+            "Notificar incidentes a la NKTsKI y fugas de datos de abonados a RKN en 24 h."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de incidente informático",
+              "plazo": "3/24 horas",
+              "ante": "NKTsKI (FSB)"
+            }
+          ],
+          "sanciones": "Código Penal art. 274.1; KoAP arts. 13.11 y 13.12.1.",
+          "evidencia": [
+            "Actas de categorización",
+            "Registro de incidentes"
+          ],
+          "preguntas": [
+            "¿Las redes del operador están categorizadas como KII?",
+            "¿Existe plan de sustitución de equipos extranjeros?"
+          ]
+        }
+      ]
+    },
+    "ti_digital": {
+      "reguladores": [
+        [
+          "Roskomnadzor",
+          "https://rkn.gov.ru"
+        ],
+        [
+          "Mintsifry",
+          "https://digital.gov.ru"
+        ],
+        [
+          "FSTEC",
+          "https://fstec.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_ti_aterrizaje",
+          "nombre": "Ley federal n.º 236-FZ de 01-07-2021 sobre actividad de personas extranjeras en internet («ley de aterrizaje»)",
+          "sigla": "236-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN)",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Propietarios extranjeros de sitios, plataformas o hosting con más de 500 000 usuarios diarios en Rusia.",
+          "obligaciones": [
+            "Abrir sucursal, oficina de representación o filial rusa.",
+            "Formulario de contacto para usuarios rusos y cuenta en el sistema de RKN.",
+            "Instalar contador de audiencia."
+          ],
+          "tramites": [],
+          "sanciones": "Medidas escalonadas: prohibición de publicidad, de pagos, de recogida de datos y ralentización o bloqueo.",
+          "evidencia": [
+            "Inscripción en la lista de RKN"
+          ],
+          "preguntas": [
+            "¿El servicio supera 500 000 usuarios diarios en Rusia?"
+          ]
+        },
+        {
+          "id": "ru_ti_software",
+          "nombre": "Registro de software ruso (Decreto del Gobierno n.º 1236 de 16-11-2015) y acreditación de empresas de TI",
+          "sigla": "Registro de software",
+          "tipo": "decreto",
+          "autoridad": "Mintsifry",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Desarrolladores que buscan beneficios fiscales o vender a sector público y KII.",
+          "obligaciones": [
+            "Inclusión en el registro de software ruso.",
+            "Acreditación de empresas de TI con requisitos de ingresos y salario.",
+            "Restricciones a la compra de software extranjero en compras públicas."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de inclusión en el registro",
+              "plazo": "Opcional",
+              "ante": "Mintsifry"
+            }
+          ],
+          "sanciones": "Exclusión del registro y pérdida de beneficios.",
+          "evidencia": [
+            "Inscripción en el registro"
+          ],
+          "preguntas": [
+            "¿El software vendido a KII está en el registro?"
+          ]
+        },
+        {
+          "id": "ru_ti_biometria",
+          "nombre": "Ley federal n.º 572-FZ de 29-12-2022 sobre identificación biométrica (Sistema Biométrico Unificado)",
+          "sigla": "572-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Mintsifry; Roskomnadzor (RKN)",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones que recogen y usan datos biométricos.",
+          "obligaciones": [
+            "Usar el Sistema Biométrico Unificado (EBS) para identificación biométrica.",
+            "Acreditación para tratar biometría."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 13.11 (hasta 20 M rublos en fugas de biometría, verificar).",
+          "evidencia": [
+            "Acreditación"
+          ],
+          "preguntas": [
+            "¿La empresa usa biometría fuera del EBS?"
+          ]
+        },
+        {
+          "id": "ru_ti_kii_datos",
+          "nombre": "152-FZ y 187-FZ aplicados a servicios digitales (localización y KII)",
+          "sigla": "Datos y KII TI",
+          "tipo": "ley federal",
+          "autoridad": "Roskomnadzor (RKN); FSTEC",
+          "url": "https://www.consultant.ru/document/cons_doc_LAW_61801/",
+          "ultima_reforma": "2025-02-28",
+          "aplica": "Proveedores de nube, SaaS y centros de datos.",
+          "obligaciones": [
+            "Localización de datos.",
+            "Certificación FSTEC de medios de protección.",
+            "Uso predominante de software ruso en KII."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 13.11.",
+          "evidencia": [
+            "Certificados FSTEC"
+          ],
+          "preguntas": [
+            "¿Los centros de datos están en Rusia?"
+          ]
+        }
+      ]
+    },
+    "logistica": {
+      "reguladores": [
+        [
+          "Ministerio de Transporte",
+          "https://mintrans.gov.ru"
+        ],
+        [
+          "Rostransnadzor",
+          "https://rostransnadzor.gov.ru"
+        ],
+        [
+          "Servicio Federal de Aduanas (FTS)",
+          "https://customs.gov.ru"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ru_log_carretera",
+          "nombre": "Ley federal n.º 259-FZ de 08-11-2007 (Estatuto del transporte por carretera) y licencias de transporte",
+          "sigla": "259-FZ",
+          "tipo": "ley federal",
+          "autoridad": "Rostransnadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Transportistas por carretera.",
+          "obligaciones": [
+            "Licencia para transporte de pasajeros.",
+            "Hoja de ruta y carta de porte electrónica (sistema GIS EPD, verificar).",
+            "Exámenes médicos y técnicos previos al viaje."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP arts. 11.14.1, 11.23, 12.31.1.",
+          "evidencia": [
+            "Cartas de porte",
+            "Registros de exámenes"
+          ],
+          "preguntas": [
+            "¿Se emiten cartas de porte electrónicas?"
+          ]
+        },
+        {
+          "id": "ru_log_platon",
+          "nombre": "Sistema «Platon» de cobro a vehículos pesados (> 12 t)",
+          "sigla": "Platon",
+          "tipo": "decreto",
+          "autoridad": "Rosavtodor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Propietarios de camiones de más de 12 t.",
+          "obligaciones": [
+            "Registro del vehículo y pago por kilómetro."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 12.21.3.",
+          "evidencia": [
+            "Registro Platon"
+          ],
+          "preguntas": [
+            "¿Todos los camiones están registrados?"
+          ]
+        },
+        {
+          "id": "ru_log_trazabilidad",
+          "nombre": "Sistema nacional de trazabilidad de mercancías importadas (Ley 371-FZ de 2021 y Decreto del Gobierno n.º 1110 de 2021)",
+          "sigla": "Trazabilidad",
+          "tipo": "ley federal",
+          "autoridad": "Servicio Federal de Impuestos (FNS)",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Importadores y revendedores de bienes en la lista de trazabilidad (electrónica, refrigeradores, etc.).",
+          "obligaciones": [
+            "Número de registro de lote (RNPT) en facturas.",
+            "Reportes de movimientos."
+          ],
+          "tramites": [],
+          "sanciones": "Verificar.",
+          "evidencia": [
+            "Facturas con RNPT"
+          ],
+          "preguntas": [
+            "¿Las facturas incluyen el RNPT?"
+          ]
+        },
+        {
+          "id": "ru_log_aduanas",
+          "nombre": "Representación aduanera y almacenes temporales (Ley 289-FZ)",
+          "sigla": "Agente aduanero",
+          "tipo": "ley federal",
+          "autoridad": "FTS",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Representantes aduaneros, almacenes temporales, transitarios.",
+          "obligaciones": [
+            "Inscripción en el registro de representantes aduaneros.",
+            "Garantía de pago de derechos.",
+            "Responsabilidad solidaria."
+          ],
+          "tramites": [
+            {
+              "que": "Inscripción en registro",
+              "plazo": "Antes de operar",
+              "ante": "FTS"
+            }
+          ],
+          "sanciones": "KoAP cap. 16.",
+          "evidencia": [
+            "Inscripción"
+          ],
+          "preguntas": [
+            "¿La garantía aduanera está vigente?"
+          ]
+        },
+        {
+          "id": "ru_log_seguridad",
+          "nombre": "Ley 16-FZ sobre seguridad del transporte aplicada a terminales y vehículos",
+          "sigla": "Seguridad transporte",
+          "tipo": "ley federal",
+          "autoridad": "Rostransnadzor",
+          "url": "http://pravo.gov.ru/ips/",
+          "ultima_reforma": "verificar",
+          "aplica": "Terminales y operadores.",
+          "obligaciones": [
+            "Categorización y planes de seguridad."
+          ],
+          "tramites": [],
+          "sanciones": "KoAP art. 11.15.1.",
+          "evidencia": [
+            "Planes"
+          ],
+          "preguntas": [
+            "¿Los terminales tienen plan de seguridad?"
+          ]
+        }
+      ]
+    }
+  }
+}

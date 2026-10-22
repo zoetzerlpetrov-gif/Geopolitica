@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Matriz de riesgo por país</title>
+  <meta name="description" content="Matriz de riesgo 5×5 de cualquier país con las fuentes que elijas: eventos y noticias, riesgos y clima, en movimiento, fenómenos anómalos y capas del mapa.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .mz { max-width: 1080px; margin: 0 auto; padding: 16px; }
+    .mz h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 20px 0 6px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .mz select, .mz input[type=text], .btn, .mz button { font: inherit; min-height: 36px; padding: 4px 10px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .fuentes-sel { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 4px 16px; }
+    .fuentes-sel h3 { grid-column: 1 / -1; font-size: 14px; margin: 8px 0 0; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 4px 7px; text-align: left; vertical-align: top; }
+    .desliza { overflow-x: auto; }
+    .mzg { display: grid; grid-template-columns: 36px repeat(5, 1fr); gap: 3px; max-width: 620px; }
+    .mzg .eje { text-align: center; font-size: 12px; color: var(--text-2); align-self: center; }
+    .mzg button { min-height: 52px; font-weight: 700; color: #111; border: 1px solid #0002; cursor: pointer; }
+    .mzg button[disabled] { opacity: .45; cursor: default; }
+    .n-bajo { background: #81C784; } .n-medio { background: #FFD54F; } .n-alto { background: #FFB74D; } .n-critico { background: #E57373; }
+    .indice { font-size: 32px; font-weight: 800; }
+    .resp-ia { white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <header class="topbar"><a class="link-btn" href="./">← Mapa</a><h1>Matriz de riesgo por país</h1></header>
+  <main class="mz">
+    <p class="meta">Elige un país y las fuentes que quieres considerar. Cada dato del país se coloca en la matriz según su probabilidad (de que tenga consecuencias en 30 días) y su impacto (severidad), de 1 a 5, con el criterio de ISO 31000.
+      La asignación al país usa su código o, si el dato no lo trae, su ubicación dentro del territorio. Es un punto de partida para el análisis, no un pronóstico.</p>
+    <div class="tarjeta">
+      <div class="barra"><label>País <select id="mz-pais"></select></label><button type="button" id="mz-todas">Todas las fuentes</button><button type="button" id="mz-ninguna">Ninguna</button>
+        <button type="button" id="mz-btn">▶ Generar matriz</button><span class="meta" id="mz-estado"></span></div>
+      <div class="fuentes-sel" id="mz-fuentes"></div>
+    </div>
+    <div id="mz-res" hidden>
+      <div class="tarjeta"><div class="barra"><span>Índice de riesgo DOMINUS: <span class="indice" id="mz-indice"></span>/100</span><span class="meta" id="mz-n"></span></div>
+        <p class="meta">Índice = puntaje promedio (probabilidad × impacto) sobre 25, ajustado por cantidad de datos (escala logarítmica: pocos datos pesan menos). Sirve para comparar países con las mismas fuentes.</p></div>
+      <h2>Matriz 5×5</h2>
+      <div class="mzg" id="mz-grid"></div><p class="meta">Filas: probabilidad (5 arriba). Columnas: impacto. Elige una celda para ver sus datos.</p>
+      <div id="mz-celda"></div>
+      <h2>Por tema</h2><div class="desliza"><table class="t" id="mz-temas"></table></div>
+      <h2>Por fuente</h2><div class="desliza"><table class="t" id="mz-fuentes-n"></table></div>
+      <h2>Riesgos principales</h2><div class="desliza"><table class="t" id="mz-top"></table></div>
+      <div class="barra"><span id="mz-exp"></span><span id="mz-doc"></span><button type="button" id="mz-ia">🤖 Resumen ejecutivo con IA</button></div>
+      <div id="mz-ia-res" class="tarjeta resp-ia" hidden></div>
+    </div>
+  </main>
+  <script type="module" src="js/matriz.js"></script>
+</body>
+</html>

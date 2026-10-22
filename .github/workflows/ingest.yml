@@ -61,6 +61,13 @@ jobs:
           [ -f ~/.cache/admin1/poligonos.json ] || pip install shapely==2.1.1
           if [ -f eventos/events.json ]; then python3 tools/zonas_afectadas.py --eventos eventos/events.json --salida eventos/zonas_afectadas.geojson; fi
 
+      - name: Licitaciones abiertas (TED de la UE, grants.gov y SAM.gov si hay llave; cada 12 h)
+        continue-on-error: true
+        timeout-minutes: 5
+        env:
+          SAM_API_KEY: ${{ secrets.SAM_API_KEY }}  # opcional y gratuita (api.data.gov); sin ella se omite SAM.gov
+        run: python3 tools/licitaciones.py --salida eventos/licitaciones.json
+
       - name: Resumen de la corrida
         if: always()
         run: |

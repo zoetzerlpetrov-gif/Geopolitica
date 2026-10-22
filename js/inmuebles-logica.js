@@ -84,3 +84,24 @@ export function precioM2(precio, m2, referencia) {
   const v = p / s, r = Number(referencia);
   return { m2: Math.round(v), dif: r > 0 ? Math.round(((v - r) / r) * 100) : null };
 }
+
+/**
+ * Búsqueda de coordenadas por ciudad y colonia/barrio con Nominatim (OpenStreetMap; política de uso: una consulta a
+ * la vez, iniciada por la persona y con atribución). `iso2`: código de 2 letras para limitar al país.
+ */
+export function urlGeocodificar(ciudad, colonia = "", iso2 = "") {
+  const q = [colonia, ciudad].map((s) => String(s || "").trim()).filter(Boolean).join(", ");
+  if (q.length < 3) return null;
+  const p = new URLSearchParams({ format: "jsonv2", limit: "6", addressdetails: "1", "accept-language": "es", q });
+  if (/^[a-z]{2}$/i.test(iso2)) p.set("countrycodes", iso2.toLowerCase());
+  return `https://nominatim.openstreetmap.org/search?${p}`;
+}
+
+/** Resultados de Nominatim → opciones legibles, primero colonias/barrios y localidades (no tiendas ni paradas). */
+export function opcionesGeocodificacion(res) {
+  const PREF = { suburb: 0, neighbourhood: 0, quarter: 0, city_district: 1, borough: 1, village: 2, town: 2, city: 2, hamlet: 2, municipality: 3, county: 4, state: 5 };
+  return (Array.isArray(res) ? res : []).map((r) => ({ lat: Number(r.lat), lon: Number(r.lon), nombre: r.display_name || r.name || "",
+    tipo: r.addresstype || r.type || "", orden: PREF[r.addresstype] ?? 9 }))
+    .filter((o) => Number.isFinite(o.lat) && Number.isFinite(o.lon))
+    .sort((a, b) => a.orden - b.orden);
+}

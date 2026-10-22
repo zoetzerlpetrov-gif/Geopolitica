@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>War Room DOMINUS</title>
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <style>
+    :root { --line: #ffffff22; --surface: #121821; --text: #e8edf3; }
+    body { margin: 0; background: #0a0f15; color: var(--text); font-family: system-ui, Segoe UI, Roboto, sans-serif; }
+    header { display: flex; flex-wrap: wrap; gap: 12px; align-items: baseline; justify-content: space-between; padding: 12px 18px; border-bottom: 2px solid #C8102E; }
+    header h1 { margin: 0; font-size: 20px; letter-spacing: .04em; } .meta { font-size: 12px; opacity: .7; }
+    main { padding: 14px 18px; } a { color: #8ecbff; }
+    .vivo::before { content: "●"; color: #43d17a; margin-right: 5px; animation: lat 1.6s infinite; } @keyframes lat { 50% { opacity: .2; } }
+    button { font: inherit; background: #1d2633; color: var(--text); border: 1px solid var(--line); border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header><h1 id="wr-titulo">WAR ROOM</h1><span class="meta"><span class="vivo" id="wr-vivo">En vivo</span> · <span id="wr-act"></span> · <button type="button" id="wr-full">Pantalla completa</button></span></header>
+  <main><div id="wr-grid" class="tb-grid"></div>
+    <p class="meta" id="wr-nota">Los eventos del mapa se actualizan cada minuto. Los datos de la empresa (KPIs, madurez, riesgos) son una copia del consultor con la fecha indicada arriba. Desarrollado con DOMINUS OSINT.</p></main>
+  <script type="module" src="js/warroom.js"></script>
+</body>
+</html>
