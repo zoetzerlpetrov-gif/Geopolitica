@@ -445,3 +445,26 @@ pintarNube();
   });
   pintarN();
 }
+
+// ------------------------------------------------------------------ simulación de escenarios con los eventos del mapa
+{
+  const [evd, gz] = await Promise.all([fetch("data/events.json").then((r) => r.json()).catch(() => ({ eventos: [] })), fetch("config/gazetteer.json").then((r) => r.json()).catch(() => ({ paises: {} }))]);
+  const evs = evd.eventos || [], cuenta = {};
+  for (const e of evs) if (e.pais_iso3) cuenta[e.pais_iso3] = (cuenta[e.pais_iso3] || 0) + 1;
+  const nombre = (i) => gz.paises?.[i]?.es || i;
+  $("hesc-pais").innerHTML = `<option value="">Todo el mundo</option>` + Object.keys(gz.paises || {}).sort((a, b) => (cuenta[b] || 0) - (cuenta[a] || 0) || nombre(a).localeCompare(nombre(b), "es"))
+    .map((i) => `<option value="${i}" ${i === "MEX" ? "selected" : ""}>${esc(nombre(i))}${cuenta[i] ? ` (${cuenta[i]})` : ""}</option>`).join("");
+  const datosPais = () => {
+    const iso = $("hesc-pais").value, sel = evs.filter((e) => !iso || e.pais_iso3 === iso), porArea = {};
+    for (const e of sel) porArea[e.area_principal] = (porArea[e.area_principal] || 0) + (e.severidad >= 4 ? 2 : 1);
+    const graves = sel.filter((e) => e.severidad >= 4).slice(0, 8).map((e) => `- ${e.titulo}`).join("\n");
+    return { iso, sel, porArea, texto: `País: ${iso ? nombre(iso) : "todo el mundo"}. Eventos vigentes: ${sel.length}. Por tema: ${Object.entries(porArea).sort((a, b) => b[1] - a[1]).map(([a, n]) => `${a} ${n}`).join(", ")}.${graves ? `\nEventos graves recientes:\n${graves}` : ""}` };
+  };
+  const pintarResumenEsc = () => { const d = datosPais(); $("hesc-resumen").textContent = `${d.sel.length} eventos vigentes · ${Object.entries(d.porArea).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([a, n]) => `${a}: ${n}`).join(" · ")}`; };
+  $("hesc-pais").onchange = pintarResumenEsc;
+  pintarResumenEsc();
+  import("./escenarios.js").then((E) => E.montarSimulador($("herr-esc"), {
+    prefijo: "he", clave: "gp_herr_esc", ayudaContexto: "El país elegido y sus eventos se agregan solos al contexto. Para una empresa (ingresos, empleados), usa DOMINUS OPS.",
+    contexto: () => { const d = datosPais(); return { cliente: {}, sector: "", eventosPorArea: d.porArea, texto: d.texto }; },
+  })).catch((e) => { $("herr-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
+}

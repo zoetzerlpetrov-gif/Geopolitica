@@ -51,6 +51,7 @@
       <button role="tab" aria-selected="false" data-p="gob">🏛️ Gobernanza</button>
       <button role="tab" aria-selected="false" data-p="plantillas">🗂️ Plantillas por fase</button>
       <button role="tab" aria-selected="false" data-p="biblioteca">📚 Biblioteca de metodologías</button>
+      <button role="tab" aria-selected="false" data-p="riesgos">🎲 Risk Management y escenarios</button>
       <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
       <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
     </nav>
@@ -71,6 +72,13 @@
         <label>Proveedores críticos <input id="cl-proveedores" maxlength="200"></label>
       </div>
       <label style="display:block;margin-top:8px">Contexto (qué hace, objetivos, preocupaciones, proyectos en curso)<textarea id="cl-contexto" rows="5" style="width:100%"></textarea></label></div>
+    </section>
+
+    <section class="panel" id="p-riesgos" hidden>
+      <h2>Risk Management: simulación de escenarios</h2>
+      <p class="meta">Escenarios calculados con modelos matemáticos, físicos y químicos (Monte Carlo, Poisson, Gutenberg-Richter, ecuaciones diferenciales, álgebra lineal, teoría de colas, dispersión de gases, explosiones…).
+        El contexto se arma con los datos de la pestaña Cliente, los resultados del Readiness Assessment y la gobernanza, y los eventos del mapa en los países del cliente. Proceso ISO 31000: identificar → analizar → evaluar → tratar → monitorear.</p>
+      <div id="ops-esc"></div>
     </section>
 
     <section class="panel" id="p-biblioteca" hidden>

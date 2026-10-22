@@ -1,0 +1,4019 @@
+{
+  "jurisdiccion": "CAN",
+  "nombre": "Canadá",
+  "revisado": "2026-10",
+  "nota": "Mapa de las principales leyes federales que toda empresa debe revisar en Canadá, más regímenes provinciales clave (Quebec, Ontario, Alberta y Columbia Británica) y obligaciones adicionales por sector. La Constitución reparte competencias: empleo, salud y seguridad, consumo, valores y la mayoría de los recursos naturales son provinciales, salvo para empresas de jurisdicción federal (bancos, telecomunicaciones, transporte interprovincial, aviación). Hay reformas recientes en trámite o pendientes de entrada en vigor (marcadas como «verificar»). No es asesoría legal: confirma siempre el texto consolidado en laws-lois.justice.gc.ca, LEGISinfo (parl.ca), la Canada Gazette o el sitio del regulador provincial antes de emitir un informe.",
+  "fuentes_oficiales": [
+    [
+      "Justice Laws Website (leyes federales consolidadas)",
+      "https://laws-lois.justice.gc.ca/eng/"
+    ],
+    [
+      "LEGISinfo (proyectos de ley)",
+      "https://www.parl.ca/legisinfo/en/"
+    ],
+    [
+      "Canada Gazette",
+      "https://www.gazette.gc.ca/"
+    ],
+    [
+      "Canada.ca",
+      "https://www.canada.ca/"
+    ],
+    [
+      "OSFI",
+      "https://www.osfi-bsif.gc.ca/"
+    ],
+    [
+      "FINTRAC",
+      "https://fintrac-canafe.canada.ca/"
+    ],
+    [
+      "Competition Bureau",
+      "https://competition-bureau.canada.ca/"
+    ],
+    [
+      "Office of the Privacy Commissioner",
+      "https://www.priv.gc.ca/"
+    ],
+    [
+      "Corporations Canada",
+      "https://ised-isde.canada.ca/site/corporations-canada/en"
+    ],
+    [
+      "e-Laws Ontario",
+      "https://www.ontario.ca/laws"
+    ],
+    [
+      "LégisQuébec",
+      "https://www.legisquebec.gouv.qc.ca/"
+    ],
+    [
+      "BC Laws",
+      "https://www.bclaws.gov.bc.ca/"
+    ]
+  ],
+  "generales": [
+    {
+      "area": "Societario y gobierno corporativo",
+      "leyes": [
+        {
+          "id": "ca_cbca",
+          "nombre": "Ley de Sociedades por Acciones de Canadá",
+          "sigla": "CBCA",
+          "tipo": "ley",
+          "autoridad": "Corporations Canada (ISED)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-44/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sociedades constituidas a nivel federal; las provinciales se rigen por su ley (p. ej. OBCA en Ontario, BCBCA en Columbia Británica, Ley de sociedades por acciones en Quebec).",
+          "obligaciones": [
+            "Mantener domicilio social y libros (estatutos, actas, registro de valores) en el domicilio.",
+            "Al menos 25% de consejeros residentes canadienses (salvo excepciones y salvo que los estatutos lo eliminen; verificar reforma).",
+            "Presentar declaración anual dentro de los 60 días posteriores al aniversario de constitución.",
+            "Celebrar asamblea anual dentro de 15 meses de la anterior y presentar estados financieros.",
+            "Sociedades distributing: divulgar diversidad en consejo y alta dirección (s.172.1) y votación individual/mayoritaria de consejeros.",
+            "Actualizar cambios de consejeros y domicilio en 15 días."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración anual",
+              "plazo": "60 días tras el aniversario",
+              "ante": "Corporations Canada"
+            },
+            {
+              "que": "Aviso de cambio de consejeros / domicilio",
+              "plazo": "15 días",
+              "ante": "Corporations Canada"
+            }
+          ],
+          "sanciones": "Disolución por falta de declaraciones, multas a la sociedad y a consejeros (verificar montos), responsabilidad de consejeros por salarios impagados (hasta 6 meses).",
+          "evidencia": [
+            "Estatutos y reglamentos",
+            "Libros corporativos",
+            "Declaraciones anuales",
+            "Actas"
+          ],
+          "preguntas": [
+            "¿Se presentó la declaración anual en plazo?",
+            "¿Los libros corporativos están completos y en el domicilio?"
+          ]
+        },
+        {
+          "id": "ca_cbca_isc",
+          "nombre": "Registro de personas con control significativo (CBCA) y registros provinciales equivalentes",
+          "sigla": "CBCA Parte II.1 / ISC",
+          "tipo": "ley",
+          "autoridad": "Corporations Canada",
+          "url": "https://ised-isde.canada.ca/site/corporations-canada/en/individuals-significant-control",
+          "ultima_reforma": "2024-01-22",
+          "aplica": "Sociedades privadas federales (no distributing). Desde el 22-ene-2024 deben enviar la información a Corporations Canada, que publica parte de ella en un registro público. BC, Quebec y Ontario y otras provincias tienen registros propios (Quebec: registro público de beneficiarios finales).",
+          "obligaciones": [
+            "Mantener registro de personas con control significativo (25% o más de votos o valor, o control de hecho).",
+            "Actualizar el registro en 15 días tras conocer cambios.",
+            "Enviar la información a Corporations Canada con la declaración anual y en 15 días tras cada cambio.",
+            "Hacer al menos una vez al año diligencias razonables para identificar a esas personas.",
+            "Conservar registros 6 años tras la salida de la persona."
+          ],
+          "tramites": [
+            {
+              "que": "Envío de información ISC",
+              "plazo": "Con la declaración anual y 15 días tras cambios",
+              "ante": "Corporations Canada"
+            }
+          ],
+          "sanciones": "Multas a la sociedad y a consejeros y directivos que autoricen incumplimientos, con posibles penas de prisión (montos incrementados por la Ley C-42; verificar).",
+          "evidencia": [
+            "Registro ISC",
+            "Evidencia de diligencias anuales",
+            "Acuses de envío"
+          ],
+          "preguntas": [
+            "¿El registro ISC está actualizado y enviado a Corporations Canada?",
+            "¿Se documentan las diligencias anuales?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Fiscal y contable",
+      "leyes": [
+        {
+          "id": "ca_ita",
+          "nombre": "Ley del Impuesto sobre la Renta",
+          "sigla": "ITA",
+          "tipo": "ley",
+          "autoridad": "Agencia Tributaria de Canadá (CRA)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/I-3.3/",
+          "ultima_reforma": "verificar",
+          "aplica": "Sociedades residentes en Canadá (renta mundial) y no residentes con establecimiento permanente o que realizan negocios en Canadá.",
+          "obligaciones": [
+            "Presentar la declaración T2 dentro de 6 meses tras el cierre.",
+            "Pagar saldo dentro de 2 o 3 meses tras el cierre y anticipos mensuales o trimestrales.",
+            "Documentación contemporánea de precios de transferencia (s.247) y T106 si operaciones con no residentes relacionados superan 1 MCAD.",
+            "Reglas de divulgación obligatoria de operaciones reportables y notificables (s.237.3 y 237.4) y de tratamientos fiscales inciertos para grandes sociedades.",
+            "Reportar bienes extranjeros (T1135) si su costo supera 100 000 CAD.",
+            "Retenciones a no residentes (Parte XIII; NR4 antes del 31 de marzo)."
+          ],
+          "tramites": [
+            {
+              "que": "T2",
+              "plazo": "6 meses tras el cierre",
+              "ante": "CRA"
+            },
+            {
+              "que": "T106",
+              "plazo": "Con la T2",
+              "ante": "CRA"
+            },
+            {
+              "que": "Divulgación de operación reportable",
+              "plazo": "90 días (verificar)",
+              "ante": "CRA"
+            }
+          ],
+          "sanciones": "Recargo de 5% más 1% mensual hasta 12 meses por T2 tardía; 10% de ajuste de precios de transferencia si no hay documentación razonable; multas por formularios informativos.",
+          "evidencia": [
+            "Declaraciones T2",
+            "Estudio de precios de transferencia",
+            "T106 y T1135",
+            "Divulgaciones obligatorias"
+          ],
+          "preguntas": [
+            "¿La documentación de precios de transferencia está lista a la fecha de presentación de la T2?",
+            "¿Se evalúan las reglas de divulgación obligatoria en cada operación relevante?"
+          ]
+        },
+        {
+          "id": "ca_gmta",
+          "nombre": "Ley del Impuesto Mínimo Global (Pilar Dos)",
+          "sigla": "GMTA",
+          "tipo": "ley",
+          "autoridad": "CRA / Finance Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/",
+          "ultima_reforma": "verificar",
+          "aplica": "Grupos multinacionales con ingresos consolidados de 750 MEUR o más en al menos 2 de los 4 ejercicios previos, con entidades en Canadá; vigente para ejercicios iniciados desde el 31-dic-2023.",
+          "obligaciones": [
+            "Calcular la tasa efectiva por jurisdicción y el impuesto complementario (IIR y QDMTT).",
+            "Presentar la declaración informativa GloBE y la declaración del impuesto.",
+            "Notificar a la entidad designada para presentar.",
+            "Monitorear la exención de 'lado a lado' para grupos con matriz de EUA acordada en el G7 en 2025 (verificar implementación)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración GloBE (primer año)",
+              "plazo": "18 meses tras el cierre del primer ejercicio (30-jun-2026 para ejercicios de 2024)",
+              "ante": "CRA"
+            }
+          ],
+          "sanciones": "Multas por no presentar y por información incorrecta (verificar montos).",
+          "evidencia": [
+            "Cálculos GloBE",
+            "Declaraciones presentadas"
+          ],
+          "preguntas": [
+            "¿Se determinó si el grupo supera el umbral de 750 MEUR?",
+            "¿Se presentó la primera declaración GloBE?"
+          ]
+        },
+        {
+          "id": "ca_eta_gst",
+          "nombre": "Ley del Impuesto Especial: GST/HST y QST en Quebec",
+          "sigla": "ETA / GST-HST",
+          "tipo": "ley",
+          "autoridad": "CRA / Revenu Québec",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-15/",
+          "ultima_reforma": "verificar",
+          "aplica": "Proveedores de bienes y servicios gravados en Canadá; registro obligatorio si los ingresos gravables superan 30 000 CAD en 4 trimestres (pequeño proveedor). No residentes digitales con régimen simplificado.",
+          "obligaciones": [
+            "Registrarse y cobrar GST/HST (5% a 15% según provincia) y QST en Quebec.",
+            "Presentar declaraciones mensuales, trimestrales o anuales.",
+            "Emitir facturas con requisitos para créditos fiscales de insumos.",
+            "Plataformas digitales y no residentes: régimen simplificado desde 2021."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración GST/HST",
+              "plazo": "Un mes tras el periodo (3 meses si es anual)",
+              "ante": "CRA"
+            }
+          ],
+          "sanciones": "Intereses y multas por presentación tardía; responsabilidad de consejeros por impuestos cobrados no remitidos.",
+          "evidencia": [
+            "Registro GST/HST",
+            "Declaraciones",
+            "Conciliación de créditos fiscales"
+          ],
+          "preguntas": [
+            "¿Se cobra la tasa correcta según la provincia del destinatario?",
+            "¿Las declaraciones se presentan en plazo?"
+          ]
+        },
+        {
+          "id": "ca_payroll",
+          "nombre": "Retenciones de nómina: CPP/QPP, Seguro de Empleo e impuesto",
+          "sigla": "CPP / EI / T4",
+          "tipo": "ley",
+          "autoridad": "CRA / Retraite Québec / Revenu Québec",
+          "url": "https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/payroll.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Todo empleador con empleados en Canadá.",
+          "obligaciones": [
+            "Abrir cuenta de nómina (RP) con la CRA.",
+            "Retener y remitir contribuciones CPP (o QPP), EI e impuesto según calendario de remitente.",
+            "Emitir y presentar T4 (y RL-1 en Quebec) antes del último día de febrero.",
+            "Emitir el Registro de Empleo (ROE) al cesar la relación (5 días)."
+          ],
+          "tramites": [
+            {
+              "que": "T4 / RL-1",
+              "plazo": "Último día de febrero",
+              "ante": "CRA / Revenu Québec"
+            },
+            {
+              "que": "Remesas",
+              "plazo": "Según calendario del remitente",
+              "ante": "CRA"
+            }
+          ],
+          "sanciones": "Multas de 10% (20% por reincidencia) por no retener o remitir; responsabilidad de consejeros.",
+          "evidencia": [
+            "Remesas y comprobantes",
+            "T4",
+            "ROE emitidos"
+          ],
+          "preguntas": [
+            "¿Las remesas se hacen dentro de su calendario?",
+            "¿Los ROE se emiten en 5 días?"
+          ]
+        },
+        {
+          "id": "ca_accounting",
+          "nombre": "Normas contables y de auditoría (IFRS, ASPE, CAS)",
+          "sigla": "CPA Canada Handbook",
+          "tipo": "norma",
+          "autoridad": "AcSB / AASB / CPAB",
+          "url": "https://www.frascanada.ca/en",
+          "ultima_reforma": "verificar",
+          "aplica": "Entidades con obligación pública de rendir cuentas (IFRS obligatorio), empresas privadas (ASPE o IFRS), auditorías bajo Normas Canadienses de Auditoría.",
+          "obligaciones": [
+            "Aplicar IFRS o ASPE de forma consistente.",
+            "Emisoras: auditor que participe en el CPAB.",
+            "Evaluar IFRS 18 (presentación, vigente en 2027) y normas de sostenibilidad CSSB (voluntarias, salvo exigencia regulatoria)."
+          ],
+          "tramites": [],
+          "sanciones": "Opiniones modificadas, acciones de reguladores de valores.",
+          "evidencia": [
+            "Estados financieros",
+            "Informe del auditor"
+          ],
+          "preguntas": [
+            "¿Se evaluó el impacto de IFRS 18?",
+            "¿El auditor participa en el CPAB (si es emisora)?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Laboral y seguridad social",
+      "leyes": [
+        {
+          "id": "ca_clc3",
+          "nombre": "Código Laboral de Canadá, Parte III (normas de empleo federales)",
+          "sigla": "CLC Parte III",
+          "tipo": "ley",
+          "autoridad": "Programa de Trabajo de Empleo y Desarrollo Social Canadá (ESDC)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/L-2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas de jurisdicción federal (bancos, telecomunicaciones, transporte interprovincial, aviación, puertos, radiodifusión, algunos sectores de recursos). Las demás se rigen por la ley provincial.",
+          "obligaciones": [
+            "Salario mínimo federal (indexado cada 1 de abril).",
+            "Jornada, horas extra, vacaciones y licencias (incluidas 10 días de licencia médica pagada).",
+            "Política de prevención de acoso y violencia (Parte II y reglamento).",
+            "Igualdad salarial para trabajo igual de empleados temporales y de tiempo parcial.",
+            "Aviso de despido masivo de 16 semanas (50 o más empleados) y avisos individuales.",
+            "Prohibición de usar reemplazos durante huelgas o cierres (vigente desde 20-jun-2025)."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de despido colectivo",
+              "plazo": "16 semanas",
+              "ante": "Ministro de Trabajo y sindicato"
+            }
+          ],
+          "sanciones": "Sanciones administrativas monetarias de hasta 250 000 CAD por infracción (verificar); quejas por despido injustificado.",
+          "evidencia": [
+            "Contratos y políticas",
+            "Registros de jornada",
+            "Política antiacoso"
+          ],
+          "preguntas": [
+            "¿Se determinó si la empresa es de jurisdicción federal o provincial?",
+            "¿La política de violencia y acoso cumple el reglamento?"
+          ]
+        },
+        {
+          "id": "ca_pay_equity",
+          "nombre": "Equidad salarial y equidad en el empleo federales",
+          "sigla": "Pay Equity Act / Employment Equity Act",
+          "tipo": "ley",
+          "autoridad": "Comisionado de Equidad Salarial / ESDC",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/P-4.2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores federales con 10 o más empleados (equidad salarial) y con 100 o más (equidad en el empleo). Ontario, Quebec y otras provincias tienen leyes propias.",
+          "obligaciones": [
+            "Plan de equidad salarial y comité cuando aplique; plan final dentro de 3 años de quedar sujeto.",
+            "Declaración anual de equidad salarial (30 de junio).",
+            "Actualizar el plan cada 5 años.",
+            "Equidad en el empleo: censo, análisis de representación, plan y reporte anual (1 de junio)."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración anual de equidad salarial",
+              "plazo": "30 de junio",
+              "ante": "Comisionado"
+            },
+            {
+              "que": "Reporte de equidad en el empleo",
+              "plazo": "1 de junio",
+              "ante": "ESDC"
+            }
+          ],
+          "sanciones": "Multas administrativas.",
+          "evidencia": [
+            "Plan de equidad salarial",
+            "Declaraciones anuales",
+            "Plan de equidad en el empleo"
+          ],
+          "preguntas": [
+            "¿Se presentó la declaración anual de equidad salarial?",
+            "¿El plan de equidad salarial se publicó?"
+          ]
+        },
+        {
+          "id": "ca_chra",
+          "nombre": "Ley Canadiense de Derechos Humanos y códigos de derechos humanos provinciales",
+          "sigla": "CHRA / Códigos provinciales",
+          "tipo": "ley",
+          "autoridad": "Comisión Canadiense de Derechos Humanos / comisiones provinciales",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/H-6/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores y proveedores de servicios (federales bajo la CHRA; los demás bajo el código de su provincia, p. ej. Ontario Human Rights Code).",
+          "obligaciones": [
+            "No discriminar por motivos prohibidos (raza, sexo, orientación, identidad de género, discapacidad, edad, religión, etc.).",
+            "Ajustes razonables hasta el punto de carga excesiva.",
+            "Prevenir y atender el acoso.",
+            "Accesibilidad: planes y reportes de avance (Ley de Canadá Accesible, empresas federales)."
+          ],
+          "tramites": [
+            {
+              "que": "Plan de accesibilidad (federal)",
+              "plazo": "Cada 3 años y reportes anuales",
+              "ante": "Comisionado de Accesibilidad"
+            }
+          ],
+          "sanciones": "Indemnizaciones por daño moral, salarios perdidos, órdenes correctivas; multas de la Ley de Canadá Accesible.",
+          "evidencia": [
+            "Política de derechos humanos",
+            "Procedimiento de ajustes",
+            "Plan de accesibilidad"
+          ],
+          "preguntas": [
+            "¿Existe un procedimiento documentado de ajustes razonables?",
+            "¿Se publicó el plan de accesibilidad (si es federal)?"
+          ]
+        },
+        {
+          "id": "ca_ont_esa",
+          "nombre": "Ley de Normas de Empleo de Ontario y leyes Working for Workers",
+          "sigla": "ESA 2000 (ON)",
+          "tipo": "ley",
+          "autoridad": "Ministerio de Trabajo de Ontario",
+          "url": "https://www.ontario.ca/laws/statute/00e41",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores provinciales con empleados en Ontario.",
+          "obligaciones": [
+            "Salario mínimo, horas extra después de 44 horas, vacaciones y días festivos.",
+            "Política escrita de desconexión del trabajo y de monitoreo electrónico (25 o más empleados).",
+            "Desde el 1-ene-2026: rangos salariales en vacantes publicadas (25 o más empleados), divulgar uso de IA en selección, informar si hay vacante existente y responder a entrevistados en 45 días (verificar).",
+            "Avisos y pagos de terminación y severance (nómina de 2.5 MCAD o más).",
+            "Prohibición de cláusulas de no competencia (salvo excepciones)."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de despido masivo",
+              "plazo": "8 a 16 semanas según número",
+              "ante": "Director de Normas de Empleo"
+            }
+          ],
+          "sanciones": "Órdenes de pago, multas administrativas y procesos penales.",
+          "evidencia": [
+            "Políticas de desconexión y monitoreo",
+            "Plantillas de vacantes",
+            "Registros de nómina"
+          ],
+          "preguntas": [
+            "¿Existen políticas de desconexión y monitoreo electrónico?",
+            "¿Las vacantes cumplen los requisitos de 2026?"
+          ]
+        },
+        {
+          "id": "ca_qc_labour",
+          "nombre": "Ley de normas del trabajo de Quebec y Carta de la Lengua Francesa (Ley 96)",
+          "sigla": "LNT / CLF",
+          "tipo": "ley",
+          "autoridad": "CNESST / Office québécois de la langue française (OQLF)",
+          "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/C-11",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores con empleados en Quebec.",
+          "obligaciones": [
+            "Normas mínimas de trabajo y política de prevención de acoso psicológico y sexual.",
+            "Francés como lengua normal del trabajo: contratos, comunicaciones y documentos laborales en francés.",
+            "Francización: empresas con 25 o más empleados deben registrarse ante la OQLF (desde junio de 2025); con 50 o más, certificado de francización.",
+            "Etiquetado y marcas comerciales en francés (reglas reforzadas desde 1-jun-2025)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro ante la OQLF",
+              "plazo": "Seis meses tras alcanzar 25 empleados (verificar)",
+              "ante": "OQLF"
+            }
+          ],
+          "sanciones": "Multas de 3 000 a 30 000 CAD por infracción para personas morales, duplicadas en reincidencia (Ley 96; verificar).",
+          "evidencia": [
+            "Política de acoso",
+            "Contratos en francés",
+            "Certificado de francización"
+          ],
+          "preguntas": [
+            "¿Los documentos laborales están disponibles en francés?",
+            "¿La empresa está registrada o certificada ante la OQLF?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Seguridad y salud en el trabajo",
+      "leyes": [
+        {
+          "id": "ca_clc2",
+          "nombre": "Código Laboral de Canadá, Parte II, y Reglamento de Salud y Seguridad Ocupacional",
+          "sigla": "CLC Parte II / COHSR",
+          "tipo": "ley",
+          "autoridad": "ESDC Labour Program",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/L-2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas de jurisdicción federal.",
+          "obligaciones": [
+            "Comité de salud y seguridad (20 o más empleados) o representante.",
+            "Programa de prevención de riesgos y política de seguridad (300 o más empleados: comité de política).",
+            "Investigar y reportar accidentes; reporte anual de incidentes peligrosos (1 de marzo).",
+            "Derecho a negarse a trabajo peligroso.",
+            "WHMIS: fichas y etiquetas actualizadas conforme a la reforma de 2022 (transición concluida en diciembre de 2025)."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de lesión grave o muerte",
+              "plazo": "24 horas",
+              "ante": "Labour Program"
+            },
+            {
+              "que": "Reporte anual de incidentes",
+              "plazo": "1 de marzo",
+              "ante": "Labour Program"
+            }
+          ],
+          "sanciones": "Hasta 1 MCAD y/o 2 años por condena en vía de acusación formal; multas administrativas.",
+          "evidencia": [
+            "Actas del comité",
+            "Programa de prevención",
+            "Investigaciones de accidentes"
+          ],
+          "preguntas": [
+            "¿El comité de salud y seguridad sesiona al menos 9 veces al año?",
+            "¿Se presentó el reporte anual de incidentes?"
+          ]
+        },
+        {
+          "id": "ca_ont_ohsa",
+          "nombre": "Ley de Salud y Seguridad Ocupacional de Ontario",
+          "sigla": "OHSA (ON)",
+          "tipo": "ley",
+          "autoridad": "Ministerio de Trabajo de Ontario",
+          "url": "https://www.ontario.ca/laws/statute/90o01",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores provinciales en Ontario.",
+          "obligaciones": [
+            "Política de salud y seguridad y programas de violencia y acoso en el trabajo (revisión anual).",
+            "Comité conjunto (20 o más trabajadores) con miembros certificados.",
+            "Capacitación básica de concientización para trabajadores y supervisores.",
+            "Notificar muertes y lesiones críticas de inmediato y por escrito en 48 horas.",
+            "Deberes específicos de supervisores y directivos (s.32)."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de lesión crítica",
+              "plazo": "Inmediato; informe escrito en 48 horas",
+              "ante": "Ministerio de Trabajo"
+            }
+          ],
+          "sanciones": "Personas morales hasta 2 MCAD por cargo; consejeros y directivos hasta 1.5 MCAD; personas físicas hasta 500 000 CAD y 12 meses (verificar).",
+          "evidencia": [
+            "Políticas OHSA",
+            "Actas del comité",
+            "Registros de capacitación",
+            "Investigaciones"
+          ],
+          "preguntas": [
+            "¿Las políticas de violencia y acoso se revisaron en el último año?",
+            "¿Hay miembros certificados en el comité conjunto?"
+          ]
+        },
+        {
+          "id": "ca_qc_lsst",
+          "nombre": "Ley de salud y seguridad del trabajo de Quebec (modernizada)",
+          "sigla": "LSST (QC)",
+          "tipo": "ley",
+          "autoridad": "CNESST",
+          "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/S-2.1",
+          "ultima_reforma": "verificar",
+          "aplica": "Empleadores en Quebec.",
+          "obligaciones": [
+            "Programa de prevención (20 o más trabajadores) o plan de acción.",
+            "Comité de salud y seguridad y representante según tamaño.",
+            "Incluir riesgos psicosociales y violencia en el programa.",
+            "Notificar accidentes graves a la CNESST en 24 horas."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de accidente grave",
+              "plazo": "24 horas",
+              "ante": "CNESST"
+            }
+          ],
+          "sanciones": "Multas penales escalonadas (más altas por reincidencia); cotizaciones ajustadas.",
+          "evidencia": [
+            "Programa de prevención",
+            "Actas del comité"
+          ],
+          "preguntas": [
+            "¿El programa de prevención incluye riesgos psicosociales?",
+            "¿El comité está constituido conforme al tamaño?"
+          ]
+        },
+        {
+          "id": "ca_criminal_westray",
+          "nombre": "Responsabilidad penal de organizaciones por seguridad (Código Penal s.217.1, enmienda Westray)",
+          "sigla": "Criminal Code s.217.1 / 22.1-22.2",
+          "tipo": "ley",
+          "autoridad": "Fiscalías provinciales / policía",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-46/",
+          "ultima_reforma": "verificar",
+          "aplica": "Toda organización y persona que dirija trabajo.",
+          "obligaciones": [
+            "Tomar medidas razonables para evitar lesiones a quienes realizan el trabajo.",
+            "Supervisión efectiva de riesgos graves por altos directivos.",
+            "Documentar decisiones sobre riesgos graves."
+          ],
+          "tramites": [],
+          "sanciones": "Negligencia criminal: multas sin tope para organizaciones; prisión para personas físicas.",
+          "evidencia": [
+            "Matriz de riesgos críticos",
+            "Actas de dirección sobre seguridad"
+          ],
+          "preguntas": [
+            "¿La alta dirección revisa periódicamente los riesgos críticos de seguridad?",
+            "¿Existen controles verificados para tareas de alto riesgo?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Protección de datos y ciberseguridad",
+      "leyes": [
+        {
+          "id": "ca_pipeda",
+          "nombre": "Ley de Protección de Información Personal y Documentos Electrónicos",
+          "sigla": "PIPEDA",
+          "tipo": "ley",
+          "autoridad": "Oficina del Comisionado de Privacidad (OPC)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/P-8.6/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones del sector privado que tratan datos personales en actividades comerciales (salvo en provincias con ley sustancialmente similar: Quebec, Alberta, BC), y datos de empleados de empresas federales. El proyecto C-27 murió en enero de 2025; el proyecto C-36 (Protecting Privacy and Consumer Data Act), presentado el 15-jun-2026, sigue en trámite.",
+          "obligaciones": [
+            "Aplicar los 10 principios justos de información (Anexo 1): responsabilidad, finalidades, consentimiento, limitación, exactitud, salvaguardas, apertura, acceso, recurso.",
+            "Designar a un responsable de privacidad.",
+            "Reportar vulneraciones con riesgo real de daño significativo a la OPC y a los afectados lo antes posible.",
+            "Llevar registro de todas las vulneraciones 24 meses.",
+            "Responder a solicitudes de acceso en 30 días.",
+            "Proteger contractualmente los datos transferidos a proveedores, incluso fuera de Canadá."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de vulneración",
+              "plazo": "Lo antes posible",
+              "ante": "OPC"
+            },
+            {
+              "que": "Respuesta de acceso",
+              "plazo": "30 días",
+              "ante": "Titular"
+            }
+          ],
+          "sanciones": "Multas de hasta 100 000 CAD por no reportar vulneraciones o no llevar registro; órdenes del Tribunal Federal. El proyecto C-36 propone sanciones mayores (verificar).",
+          "evidencia": [
+            "Política de privacidad",
+            "Registro de vulneraciones",
+            "Evaluaciones de riesgo",
+            "Contratos con proveedores"
+          ],
+          "preguntas": [
+            "¿Existe un registro de vulneraciones de 24 meses?",
+            "¿Se monitorea el avance del proyecto C-36?",
+            "¿Las solicitudes de acceso se responden en 30 días?"
+          ]
+        },
+        {
+          "id": "ca_qc_law25",
+          "nombre": "Ley 25 de Quebec (Ley sobre la protección de información personal en el sector privado)",
+          "sigla": "Loi 25 / P-39.1",
+          "tipo": "ley",
+          "autoridad": "Commission d'accès à l'information (CAI)",
+          "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/P-39.1",
+          "ultima_reforma": "2024-09-22",
+          "aplica": "Empresas que tratan datos personales de personas en Quebec; plenamente vigente desde septiembre de 2024.",
+          "obligaciones": [
+            "Responsable de protección de datos (por defecto el máximo directivo) con datos de contacto publicados.",
+            "Políticas de gobernanza publicadas y registro de incidentes.",
+            "Evaluación de impacto (EFVP) para proyectos de sistemas de información y transferencias fuera de Quebec.",
+            "Consentimiento manifiesto, libre e informado; consentimiento expreso para datos sensibles; configuración de privacidad por defecto.",
+            "Informar decisiones automatizadas y permitir revisión humana (art. 12.1).",
+            "Portabilidad de datos en formato tecnológico estructurado (desde 2024)."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de incidente con riesgo de daño grave",
+              "plazo": "Con prontitud",
+              "ante": "CAI y afectados"
+            }
+          ],
+          "sanciones": "Sanciones administrativas de hasta 10 MCAD o 2% de la facturación mundial; multas penales de hasta 25 MCAD o 4%.",
+          "evidencia": [
+            "Políticas de gobernanza",
+            "Registro de incidentes",
+            "EFVP",
+            "Aviso de decisiones automatizadas"
+          ],
+          "preguntas": [
+            "¿Se hacen EFVP antes de transferir datos fuera de Quebec?",
+            "¿Se informa de decisiones automatizadas?",
+            "¿Los datos de contacto del responsable están publicados?"
+          ]
+        },
+        {
+          "id": "ca_ab_bc_pipa",
+          "nombre": "Leyes de protección de información personal de Alberta y Columbia Británica",
+          "sigla": "PIPA (AB) / PIPA (BC)",
+          "tipo": "ley",
+          "autoridad": "Comisionados de Información y Privacidad de Alberta y BC",
+          "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/03063_01",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones privadas en Alberta o BC (incluidos datos de empleados provinciales).",
+          "obligaciones": [
+            "Consentimiento y finalidad razonable.",
+            "Seguridad razonable.",
+            "Alberta: notificar al comisionado sin demora incidentes con riesgo real de daño significativo.",
+            "Atender solicitudes de acceso en 30 días hábiles (AB 45 días; verificar).",
+            "Políticas sobre proveedores fuera de Canadá (Alberta exige informar)."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de incidente (Alberta)",
+              "plazo": "Sin demora irrazonable",
+              "ante": "Comisionado de Alberta"
+            }
+          ],
+          "sanciones": "Multas de hasta 100 000 CAD por infracciones (verificar).",
+          "evidencia": [
+            "Políticas de privacidad",
+            "Registros de incidentes"
+          ],
+          "preguntas": [
+            "¿Se reportan incidentes a Alberta cuando aplica?",
+            "¿Se informa del uso de proveedores fuera de Canadá?"
+          ]
+        },
+        {
+          "id": "ca_casl",
+          "nombre": "Ley Canadiense Antispam",
+          "sigla": "CASL",
+          "tipo": "ley",
+          "autoridad": "CRTC / Competition Bureau / OPC",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-1.6/",
+          "ultima_reforma": "verificar",
+          "aplica": "Quien envía mensajes electrónicos comerciales a o desde Canadá, o instala software en computadoras ajenas.",
+          "obligaciones": [
+            "Consentimiento expreso o tácito válido antes de enviar mensajes comerciales.",
+            "Identificación del remitente y mecanismo de baja en cada mensaje.",
+            "Procesar bajas en 10 días hábiles.",
+            "Conservar prueba del consentimiento.",
+            "Consentimiento para instalar programas informáticos."
+          ],
+          "tramites": [],
+          "sanciones": "Sanciones administrativas de hasta 1 MCAD (personas físicas) y 10 MCAD (organizaciones) por infracción.",
+          "evidencia": [
+            "Registros de consentimiento",
+            "Plantillas de mensajes",
+            "Procedimiento de bajas"
+          ],
+          "preguntas": [
+            "¿Se conserva prueba del consentimiento de cada destinatario?",
+            "¿Las bajas se procesan en 10 días hábiles?"
+          ]
+        },
+        {
+          "id": "ca_c8_ccspa",
+          "nombre": "Ley de Protección de Sistemas Cibernéticos Críticos (Proyecto C-8)",
+          "sigla": "CCSPA / C-8",
+          "tipo": "ley",
+          "autoridad": "Public Safety Canada / reguladores sectoriales",
+          "url": "https://www.parl.ca/legisinfo/en/bill/45-1/c-8",
+          "ultima_reforma": "2026-06-15",
+          "aplica": "Operadores designados de servicios críticos federales (finanzas, telecomunicaciones, energía, transporte). Sancionada el 15-jun-2026; las reformas a la Ley de Telecomunicaciones están vigentes, pero la CCSPA requiere decreto de entrada en vigor y designación de operadores (verificar).",
+          "obligaciones": [
+            "Programa de ciberseguridad (al ser designado).",
+            "Mitigar riesgos de la cadena de suministro y de terceros.",
+            "Reportar incidentes cibernéticos al Centro Canadiense de Ciberseguridad.",
+            "Cumplir directivas de ciberseguridad del Gobierno."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "Según reglamento (pendiente)",
+              "ante": "Centro Canadiense de Ciberseguridad"
+            }
+          ],
+          "sanciones": "Sanciones administrativas elevadas por día de infracción (verificar montos).",
+          "evidencia": [
+            "Análisis de designación",
+            "Programa de ciberseguridad"
+          ],
+          "preguntas": [
+            "¿Se evaluó si la empresa puede ser designada?",
+            "¿El programa de ciberseguridad está listo para la entrada en vigor?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Prevención de lavado de dinero",
+      "leyes": [
+        {
+          "id": "ca_pcmltfa",
+          "nombre": "Ley de Producto del Delito (Lavado de Dinero) y Financiamiento del Terrorismo",
+          "sigla": "PCMLTFA",
+          "tipo": "ley",
+          "autoridad": "FINTRAC (CANAFE)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/P-24.501/",
+          "ultima_reforma": "2026-03-26",
+          "aplica": "Entidades informantes: entidades financieras, aseguradoras de vida, corredores de valores, MSB (incluidos activos virtuales y extranjeros), contadores, inmobiliarias, notarios de BC, casinos, comerciantes de metales y piedras preciosas, vehículos blindados y otros. El Proyecto C-12 (sanción real 26-mar-2026) elevó las sanciones y creó la inscripción universal.",
+          "obligaciones": [
+            "Programa de cumplimiento razonablemente diseñado, basado en riesgo y efectivo (oficial, políticas, evaluación de riesgos, capacitación, revisión bienal).",
+            "Identificar clientes y beneficiarios finales; reportar discrepancias de beneficiarios finales con el registro de Corporations Canada.",
+            "Reportes de operaciones sospechosas lo antes posible, de efectivo y activos virtuales de 10 000 CAD o más, transferencias electrónicas internacionales y bienes de grupos terroristas.",
+            "Prohibición de cuentas y clientes anónimos (C-12).",
+            "Inscripción universal ante FINTRAC (C-12; verificar fecha).",
+            "Conservar registros 5 años."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de operación sospechosa (STR)",
+              "plazo": "Lo antes posible",
+              "ante": "FINTRAC"
+            },
+            {
+              "que": "Reporte de efectivo (LCTR)",
+              "plazo": "15 días",
+              "ante": "FINTRAC"
+            }
+          ],
+          "sanciones": "Tras C-12: sanciones administrativas de hasta 40 000, 4 MCAD y 20 MCAD por violación (menor, grave y muy grave), con tope acumulado del mayor entre 20 MCAD o 3% de ingresos globales; penas penales de hasta 5 MCAD; acuerdo de cumplimiento obligatorio.",
+          "evidencia": [
+            "Programa de cumplimiento",
+            "Evaluación de riesgos",
+            "Informe de revisión bienal",
+            "Reportes presentados"
+          ],
+          "preguntas": [
+            "¿La revisión bienal del programa se completó y se informó a la alta dirección?",
+            "¿Se adecuó el programa a las reformas de C-12?",
+            "¿Se reportan discrepancias de beneficiarios finales?"
+          ]
+        },
+        {
+          "id": "ca_criminal_ml",
+          "nombre": "Delitos de lavado y bienes del delito (Código Penal)",
+          "sigla": "Criminal Code s.462.31",
+          "tipo": "ley",
+          "autoridad": "Policía / Fiscalía",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-46/",
+          "ultima_reforma": "verificar",
+          "aplica": "Personas físicas y organizaciones.",
+          "obligaciones": [
+            "Abstenerse de tratar bienes sabiendo o siendo imprudente respecto de su origen ilícito.",
+            "Debida diligencia en pagos de terceros y operaciones inusuales.",
+            "Reportar indicios cuando la ley lo exija (sujetos PCMLTFA)."
+          ],
+          "tramites": [],
+          "sanciones": "Hasta 10 años de prisión; decomiso.",
+          "evidencia": [
+            "Política de aceptación de pagos",
+            "Debida diligencia de terceros"
+          ],
+          "preguntas": [
+            "¿Existen controles sobre pagos de terceros no relacionados?",
+            "¿Se capacita al personal en señales de alerta?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Anticorrupción e integridad",
+      "leyes": [
+        {
+          "id": "ca_cfpoa",
+          "nombre": "Ley sobre la Corrupción de Funcionarios Públicos Extranjeros",
+          "sigla": "CFPOA",
+          "tipo": "ley",
+          "autoridad": "RCMP / Servicio de Fiscalía Pública de Canadá",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-45.2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Personas físicas y morales canadienses (jurisdicción por nacionalidad) y cualquiera con vínculo real con Canadá.",
+          "obligaciones": [
+            "Prohibir sobornos a funcionarios extranjeros (s.3); los pagos de facilitación están prohibidos desde 2017.",
+            "No falsear libros y registros para ocultar sobornos (s.4).",
+            "Debida diligencia de agentes y socios.",
+            "Considerar acuerdos de remediación (Código Penal Parte XXII.1) ante autodenuncia."
+          ],
+          "tramites": [],
+          "sanciones": "Hasta 14 años de prisión; multas sin tope para organizaciones; inhabilitación por el Régimen de Integridad federal.",
+          "evidencia": [
+            "Política anticorrupción",
+            "Debida diligencia de terceros",
+            "Controles contables"
+          ],
+          "preguntas": [
+            "¿La política prohíbe pagos de facilitación?",
+            "¿Existe debida diligencia de intermediarios?"
+          ]
+        },
+        {
+          "id": "ca_integrity",
+          "nombre": "Régimen de Integridad y política de inhabilitación de proveedores federales",
+          "sigla": "Ineligibility and Suspension Policy",
+          "tipo": "guía",
+          "autoridad": "Public Services and Procurement Canada (PSPC)",
+          "url": "https://www.tpsgc-pwgsc.gc.ca/ci-if/ci-if-eng.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Proveedores del gobierno federal.",
+          "obligaciones": [
+            "Declarar condenas y cargos relevantes al ofertar.",
+            "Abstenerse de subcontratar con proveedores inhabilitados.",
+            "Adoptar medidas correctivas para acuerdos administrativos."
+          ],
+          "tramites": [
+            {
+              "que": "Declaración de integridad",
+              "plazo": "Con cada oferta",
+              "ante": "PSPC"
+            }
+          ],
+          "sanciones": "Inhabilitación de hasta 10 años.",
+          "evidencia": [
+            "Declaraciones de integridad",
+            "Verificación de subcontratistas"
+          ],
+          "preguntas": [
+            "¿Se verifica la elegibilidad de subcontratistas?",
+            "¿Se presentaron declaraciones de integridad completas?"
+          ]
+        },
+        {
+          "id": "ca_forced_labour",
+          "nombre": "Ley de Lucha contra el Trabajo Forzoso y el Trabajo Infantil en las Cadenas de Suministro",
+          "sigla": "S-211",
+          "tipo": "ley",
+          "autoridad": "Public Safety Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/F-10.6/",
+          "ultima_reforma": "2024-01-01",
+          "aplica": "Entidades que producen, venden o distribuyen bienes en Canadá o en el extranjero, o importan bienes, si cotizan en Canadá o cumplen 2 de 3 umbrales: activos de 20 MCAD, ingresos de 40 MCAD, 250 empleados; e instituciones gubernamentales.",
+          "obligaciones": [
+            "Informe anual sobre medidas para prevenir y reducir el riesgo de trabajo forzoso o infantil.",
+            "Contenido: estructura, políticas de debida diligencia, riesgos, remediación, capacitación y evaluación de efectividad.",
+            "Aprobación por el órgano de gobierno y firma de un consejero.",
+            "Publicar el informe en el sitio web.",
+            "Prohibición de importar bienes producidos con trabajo forzoso (Arancel de Aduanas, partida 9897)."
+          ],
+          "tramites": [
+            {
+              "que": "Informe anual",
+              "plazo": "31 de mayo",
+              "ante": "Ministro de Seguridad Pública (portal)"
+            }
+          ],
+          "sanciones": "Multa de hasta 250 000 CAD por infracción; responsabilidad de consejeros y directivos.",
+          "evidencia": [
+            "Informe aprobado y firmado",
+            "Mapeo de riesgos de proveedores",
+            "Política de debida diligencia"
+          ],
+          "preguntas": [
+            "¿Se presentó y publicó el informe antes del 31 de mayo?",
+            "¿El informe fue aprobado por el consejo?"
+          ]
+        },
+        {
+          "id": "ca_lobbying",
+          "nombre": "Ley de Cabildeo",
+          "sigla": "Lobbying Act",
+          "tipo": "ley",
+          "autoridad": "Comisionado de Cabildeo",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/L-12.4/",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones cuyos empleados dedican una parte significativa (20% o más, umbral 'significativo') a comunicarse con funcionarios federales; leyes provinciales análogas.",
+          "obligaciones": [
+            "Registrarse y actualizar el registro.",
+            "Reportes mensuales de comunicaciones orales programadas con titulares de cargos públicos designados.",
+            "Cumplir el Código de Conducta de los Cabilderos."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte mensual",
+              "plazo": "15 días tras el fin de mes",
+              "ante": "Comisionado de Cabildeo"
+            }
+          ],
+          "sanciones": "Hasta 200 000 CAD y 2 años de prisión.",
+          "evidencia": [
+            "Registro",
+            "Reportes mensuales"
+          ],
+          "preguntas": [
+            "¿Se evaluó el umbral de registro?",
+            "¿Los reportes mensuales están al día?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Competencia",
+      "leyes": [
+        {
+          "id": "ca_competition",
+          "nombre": "Ley de Competencia: conductas criminales y civiles",
+          "sigla": "Competition Act",
+          "tipo": "ley",
+          "autoridad": "Competition Bureau / Tribunal de la Competencia",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-34/",
+          "ultima_reforma": "2026-03-26",
+          "aplica": "Todas las empresas que operan en Canadá. Reformas de 2022, 2023 (C-56) y 2024 (C-59); ajustes de 2026 (C-15).",
+          "obligaciones": [
+            "No fijar precios, repartir mercados o limitar producción entre competidores (s.45) ni manipular licitaciones (s.47).",
+            "No pactar fijación de salarios ni no contratación entre empleadores (s.45(1.1), desde junio de 2023).",
+            "Evitar abuso de posición dominante y acuerdos entre competidores anticompetitivos (s.79, 90.1).",
+            "Considerar acceso privado al Tribunal y posibles reparaciones monetarias desde 2025.",
+            "Notificación previa de fusiones al superar umbrales de tamaño de las partes (400 MCAD) y de la operación (indexado; verificar 2026)."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación de fusión",
+              "plazo": "Antes del cierre; espera de 30 días",
+              "ante": "Competition Bureau"
+            }
+          ],
+          "sanciones": "Conspiración: hasta 14 años y multas sin tope; abuso de dominio: el mayor entre 10 MCAD (15 en reincidencia), 3 veces el beneficio o 3% de ingresos mundiales.",
+          "evidencia": [
+            "Política de competencia",
+            "Capacitación",
+            "Análisis de umbrales de fusión"
+          ],
+          "preguntas": [
+            "¿La política cubre acuerdos salariales y de no contratación?",
+            "¿Se evalúan los umbrales de notificación en cada adquisición?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Protección al consumidor y publicidad",
+      "leyes": [
+        {
+          "id": "ca_comp_deceptive",
+          "nombre": "Publicidad engañosa, precios por goteo y declaraciones ambientales (Ley de Competencia)",
+          "sigla": "Competition Act s.52, 74.01",
+          "tipo": "ley",
+          "autoridad": "Competition Bureau",
+          "url": "https://competition-bureau.canada.ca/how-we-foster-competition/education-and-outreach/environmental-claims-and-competition-act",
+          "ultima_reforma": "2026-03-26",
+          "aplica": "Toda empresa que anuncie o promocione productos o intereses comerciales en Canadá.",
+          "obligaciones": [
+            "No hacer afirmaciones falsas o engañosas en aspectos materiales.",
+            "Precio por goteo: el precio anunciado debe incluir cargos obligatorios (salvo impuestos).",
+            "Declaraciones ambientales de producto: basadas en pruebas adecuadas y reconocidas.",
+            "Declaraciones ambientales de la empresa o sus actividades: tras C-15 (sanción real 26-mar-2026) basta 'sustanciación adecuada y apropiada', se eliminó la exigencia de metodología internacional y el acceso privado por esa causal (verificar fecha de vigencia).",
+            "Revisar reseñas, testimonios y precios de referencia."
+          ],
+          "tramites": [],
+          "sanciones": "Sanción administrativa del mayor entre 10 MCAD (15 en reincidencia), 3 veces el beneficio o 3% de ingresos mundiales; restitución.",
+          "evidencia": [
+            "Expediente de sustento de claims",
+            "Revisión de precios anunciados",
+            "Política de declaraciones ambientales"
+          ],
+          "preguntas": [
+            "¿Las declaraciones ambientales tienen sustento documentado?",
+            "¿Los precios anunciados incluyen todos los cargos obligatorios?"
+          ]
+        },
+        {
+          "id": "ca_ccpsa",
+          "nombre": "Ley Canadiense de Seguridad de Productos de Consumo",
+          "sigla": "CCPSA",
+          "tipo": "ley",
+          "autoridad": "Health Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-1.68/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, importadores, distribuidores y minoristas de productos de consumo.",
+          "obligaciones": [
+            "No fabricar, importar o vender productos que representen un peligro para la salud.",
+            "Reportar incidentes a Health Canada en 2 días y un informe escrito del fabricante o importador en 10 días.",
+            "Llevar registros de proveedores y clientes (no consumidores) por 6 años.",
+            "Cumplir reglamentos específicos (juguetes, cunas, cosméticos bajo la Ley de Alimentos y Medicamentos)."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "2 días",
+              "ante": "Health Canada"
+            },
+            {
+              "que": "Informe escrito",
+              "plazo": "10 días",
+              "ante": "Health Canada"
+            }
+          ],
+          "sanciones": "Multas de hasta 5 MCAD y 2 años; retiros ordenados.",
+          "evidencia": [
+            "Procedimiento de incidentes",
+            "Registros de trazabilidad",
+            "Pruebas de conformidad"
+          ],
+          "preguntas": [
+            "¿Los incidentes se reportan en 2 días?",
+            "¿Se conservan registros de trazabilidad 6 años?"
+          ]
+        },
+        {
+          "id": "ca_cpla",
+          "nombre": "Ley de Envasado y Etiquetado de Productos de Consumo y Ley de Etiquetado Textil",
+          "sigla": "CPLA / TLA",
+          "tipo": "ley",
+          "autoridad": "Competition Bureau / CFIA (alimentos)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-38/",
+          "ultima_reforma": "verificar",
+          "aplica": "Comerciantes de productos preenvasados no alimentarios y textiles.",
+          "obligaciones": [
+            "Declarar identidad del producto, cantidad neta y distribuidor.",
+            "Etiquetado bilingüe (inglés y francés).",
+            "Textiles: contenido de fibras y número CA."
+          ],
+          "tramites": [],
+          "sanciones": "Multas y procesos penales.",
+          "evidencia": [
+            "Revisión de etiquetas"
+          ],
+          "preguntas": [
+            "¿Las etiquetas son bilingües?",
+            "¿Se declara la cantidad neta en unidades métricas?"
+          ]
+        },
+        {
+          "id": "ca_prov_consumer",
+          "nombre": "Leyes provinciales de protección al consumidor (Ontario y Quebec)",
+          "sigla": "CPA 2023 (ON) / LPC (QC)",
+          "tipo": "ley",
+          "autoridad": "Ministerio de Servicios Públicos y Empresariales de Ontario / Office de la protection du consommateur",
+          "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/P-40.1",
+          "ultima_reforma": "verificar",
+          "aplica": "Comerciantes que venden a consumidores en Ontario o Quebec.",
+          "obligaciones": [
+            "Contratos a distancia y por internet: divulgaciones previas y derecho de cancelación.",
+            "Prohibición de prácticas desleales; reglas sobre suscripciones y renovaciones.",
+            "Quebec: garantía de buen funcionamiento y reglas contra obsolescencia programada (Ley 29, vigencia escalonada 2025-2026; verificar).",
+            "Ontario: nueva Ley de Protección al Consumidor de 2023 (verificar fecha de entrada en vigor)."
+          ],
+          "tramites": [],
+          "sanciones": "Multas, nulidad de contratos, daños punitivos (Quebec).",
+          "evidencia": [
+            "Contratos de consumo",
+            "Políticas de cancelación y garantías"
+          ],
+          "preguntas": [
+            "¿Los contratos en línea cumplen las divulgaciones provinciales?",
+            "¿Se adecuaron garantías a la Ley 29 de Quebec?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Ambiental",
+      "leyes": [
+        {
+          "id": "ca_cepa",
+          "nombre": "Ley Canadiense de Protección Ambiental y Registro Nacional de Emisiones Contaminantes",
+          "sigla": "CEPA 1999 / NPRI",
+          "tipo": "ley",
+          "autoridad": "Environment and Climate Change Canada (ECCC)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-15.31/",
+          "ultima_reforma": "2023-06-13",
+          "aplica": "Instalaciones que fabrican, procesan o usan sustancias del NPRI por encima de umbrales (generalmente 20 000 horas-empleado); importadores y fabricantes de sustancias nuevas.",
+          "obligaciones": [
+            "Reporte anual al NPRI.",
+            "Notificar sustancias nuevas antes de fabricar o importar (Reglamento NSNR).",
+            "Planes de prevención de la contaminación cuando se exijan.",
+            "Cumplir reglamentos de sustancias tóxicas (Anexo 1), incluidas restricciones de PFAS y plásticos.",
+            "Registro Federal de Plásticos: primeros reportes en septiembre de 2025 y fases siguientes (verificar).",
+            "Derecho a un ambiente saludable reconocido en la reforma de 2023."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte NPRI",
+              "plazo": "1 de junio",
+              "ante": "ECCC (Single Window)"
+            },
+            {
+              "que": "Registro Federal de Plásticos",
+              "plazo": "Según fase (verificar)",
+              "ante": "ECCC"
+            }
+          ],
+          "sanciones": "Multas escalonadas por tipo y tamaño de infractor, con mínimos obligatorios para infracciones graves (verificar montos).",
+          "evidencia": [
+            "Reportes NPRI",
+            "Notificaciones de sustancias nuevas",
+            "Planes P2"
+          ],
+          "preguntas": [
+            "¿Se presentó el NPRI antes del 1 de junio?",
+            "¿Se evaluó la obligación del Registro Federal de Plásticos?"
+          ]
+        },
+        {
+          "id": "ca_fisheries",
+          "nombre": "Ley de Pesca (prohibición de depósito de sustancias nocivas y protección del hábitat)",
+          "sigla": "Fisheries Act s.35-36",
+          "tipo": "ley",
+          "autoridad": "Fisheries and Oceans Canada / ECCC",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/F-14/",
+          "ultima_reforma": "verificar",
+          "aplica": "Cualquier actividad que pueda depositar sustancias nocivas en aguas con peces o dañar su hábitat.",
+          "obligaciones": [
+            "No depositar sustancias nocivas (s.36(3)) salvo que lo autorice un reglamento.",
+            "Obtener autorización para obras que causen daño al hábitat (s.35).",
+            "Reportar depósitos no autorizados de inmediato."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de depósito",
+              "plazo": "Inmediato",
+              "ante": "ECCC / autoridad designada"
+            }
+          ],
+          "sanciones": "Multas de hasta 6 MCAD por primera infracción de grandes empresas en vía de acusación (verificar).",
+          "evidencia": [
+            "Autorizaciones",
+            "Monitoreo de efluentes",
+            "Bitácora de derrames"
+          ],
+          "preguntas": [
+            "¿Las obras cerca de cuerpos de agua tienen revisión de DFO?",
+            "¿Existe procedimiento de aviso de derrames?"
+          ]
+        },
+        {
+          "id": "ca_ggppa",
+          "nombre": "Ley de Tarificación de Contaminación por GEI y reporte de gases de efecto invernadero",
+          "sigla": "GGPPA / GHGRP",
+          "tipo": "ley",
+          "autoridad": "ECCC / CRA",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/G-11.55/",
+          "ultima_reforma": "verificar",
+          "aplica": "Grandes emisores industriales bajo el sistema OBPS federal o sistemas provinciales equivalentes (Alberta TIER, Quebec SPEDE, Ontario EPS); instalaciones con 10 000 t CO2e o más deben reportar GEI. El cargo al combustible para consumidores se fijó en cero desde el 1-abr-2025.",
+          "obligaciones": [
+            "Reportar emisiones al Programa de Reporte de GEI antes del 1 de junio.",
+            "Cumplir el estándar de desempeño de emisiones (OBPS o provincial) y remitir unidades de compensación.",
+            "Verificación por tercero cuando se exija."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte GEI",
+              "plazo": "1 de junio",
+              "ante": "ECCC"
+            }
+          ],
+          "sanciones": "Cargos de compensación excedentes y multas.",
+          "evidencia": [
+            "Reportes GEI",
+            "Informes de verificación",
+            "Registro de créditos"
+          ],
+          "preguntas": [
+            "¿Se reportan GEI cuando se supera el umbral?",
+            "¿Se cumplen las obligaciones del sistema industrial aplicable?"
+          ]
+        },
+        {
+          "id": "ca_iaa",
+          "nombre": "Ley de Evaluación de Impacto",
+          "sigla": "IAA",
+          "tipo": "ley",
+          "autoridad": "Agencia de Evaluación de Impacto de Canadá",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/I-2.75/",
+          "ultima_reforma": "2024-06-20",
+          "aplica": "Proyectos designados (Reglamento de Actividades Físicas) y proyectos en tierras federales. Reformada en 2024 tras la opinión de la Corte Suprema; la Ley de Construcción de Proyectos (C-5, 2025) prevé vías aceleradas para proyectos de interés nacional (verificar).",
+          "obligaciones": [
+            "Presentar descripción inicial del proyecto si está designado.",
+            "Participar en la evaluación y consulta con pueblos indígenas.",
+            "Cumplir condiciones de la declaración de decisión."
+          ],
+          "tramites": [
+            {
+              "que": "Descripción inicial",
+              "plazo": "Antes de iniciar",
+              "ante": "Agencia de Evaluación de Impacto"
+            }
+          ],
+          "sanciones": "Multas por realizar proyectos sin autorización.",
+          "evidencia": [
+            "Descripción del proyecto",
+            "Declaración de decisión",
+            "Informes de cumplimiento"
+          ],
+          "preguntas": [
+            "¿Se evaluó si el proyecto está designado?",
+            "¿Se cumplen las condiciones de la decisión?"
+          ]
+        },
+        {
+          "id": "ca_prov_env",
+          "nombre": "Leyes ambientales provinciales (Ontario EPA, Quebec LQE, Alberta EPEA)",
+          "sigla": "EPA (ON) / LQE (QC) / EPEA (AB)",
+          "tipo": "ley",
+          "autoridad": "Ministerios de ambiente provinciales",
+          "url": "https://www.ontario.ca/laws/statute/90e19",
+          "ultima_reforma": "verificar",
+          "aplica": "Instalaciones con emisiones, descargas o residuos en la provincia.",
+          "obligaciones": [
+            "Aprobaciones de cumplimiento ambiental (ON ECA o registro EASR; QC autorizaciones ministeriales; AB aprobaciones).",
+            "Reportar derrames de inmediato.",
+            "Gestión de residuos peligrosos y manifiestos (Ontario HWPR).",
+            "Responsabilidad ampliada del productor por envases y electrónicos."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de derrame",
+              "plazo": "Inmediato",
+              "ante": "Ministerio provincial (Spills Action Centre en ON)"
+            }
+          ],
+          "sanciones": "Multas diarias elevadas para personas morales y responsabilidad de consejeros.",
+          "evidencia": [
+            "Aprobaciones ambientales",
+            "Registros de residuos",
+            "Reportes de derrames"
+          ],
+          "preguntas": [
+            "¿Todas las fuentes cuentan con aprobación vigente?",
+            "¿Se cumplen las obligaciones de responsabilidad ampliada del productor?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Inversión extranjera, comercio exterior y sanciones",
+      "leyes": [
+        {
+          "id": "ca_ica",
+          "nombre": "Ley de Inversiones de Canadá",
+          "sigla": "ICA",
+          "tipo": "ley",
+          "autoridad": "ISED (Investment Review Division) / Canadian Heritage",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/I-21.8/",
+          "ultima_reforma": "verificar",
+          "aplica": "Inversionistas no canadienses que establecen o adquieren control de negocios canadienses; revisión de seguridad nacional en cualquier inversión. Las reformas de 2024 (C-34) prevén notificación previa suspensiva en sectores sensibles una vez publicados los reglamentos (verificar).",
+          "obligaciones": [
+            "Notificar establecimientos o adquisiciones dentro de 30 días tras completarlos.",
+            "Solicitar revisión de beneficio neto antes de cerrar si se superan umbrales (indexados anualmente; menores para empresas estatales).",
+            "Atender la revisión de seguridad nacional y posibles compromisos.",
+            "Considerar la política sobre minerales críticos y empresas estatales."
+          ],
+          "tramites": [
+            {
+              "que": "Notificación",
+              "plazo": "30 días tras el cierre",
+              "ante": "ISED"
+            },
+            {
+              "que": "Solicitud de revisión",
+              "plazo": "Antes del cierre",
+              "ante": "ISED"
+            }
+          ],
+          "sanciones": "Órdenes de desinversión y sanciones; la reforma de 2024 elevó sanciones (hasta 500 000 CAD por no presentar notificación previa en sectores sensibles; verificar vigencia).",
+          "evidencia": [
+            "Análisis ICA",
+            "Notificaciones",
+            "Compromisos"
+          ],
+          "preguntas": [
+            "¿Cada inversión extranjera tiene análisis ICA documentado?",
+            "¿Se evaluó el riesgo de revisión de seguridad nacional?"
+          ]
+        },
+        {
+          "id": "ca_sema",
+          "nombre": "Sanciones canadienses: Ley de Medidas Económicas Especiales y Ley Magnitsky",
+          "sigla": "SEMA / JVCFOA / UNA",
+          "tipo": "ley",
+          "autoridad": "Global Affairs Canada / RCMP",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/S-14.5/",
+          "ultima_reforma": "verificar",
+          "aplica": "Personas en Canadá y canadienses fuera de Canadá.",
+          "obligaciones": [
+            "Filtrar contra la Lista Consolidada de Sanciones Autónomas.",
+            "Congelar bienes de personas listadas y no ponerles bienes a disposición.",
+            "Reportar a la RCMP y a FINTRAC/OSFI bienes de personas designadas.",
+            "Solicitar permisos cuando aplique."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de bienes",
+              "plazo": "Sin demora",
+              "ante": "RCMP"
+            }
+          ],
+          "sanciones": "Multas de hasta 25 000 CAD y/o 5 años (verificar reformas).",
+          "evidencia": [
+            "Procedimiento de filtrado",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿Se filtra contra la lista canadiense además de OFAC?",
+            "¿Existe procedimiento de reporte a la RCMP?"
+          ]
+        },
+        {
+          "id": "ca_eipa",
+          "nombre": "Ley de Permisos de Exportación e Importación y Lista de Control de Exportaciones",
+          "sigla": "EIPA / ECL",
+          "tipo": "ley",
+          "autoridad": "Global Affairs Canada (Export Controls)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-19/",
+          "ultima_reforma": "verificar",
+          "aplica": "Exportadores de bienes y tecnología controlados (uso dual, militar, nuclear) y corredores.",
+          "obligaciones": [
+            "Clasificar productos frente a la ECL (Grupos 1 a 9).",
+            "Obtener permisos de exportación y de corretaje.",
+            "Evaluar criterios del Tratado sobre el Comercio de Armas para armas.",
+            "Conservar registros."
+          ],
+          "tramites": [
+            {
+              "que": "Permiso de exportación",
+              "plazo": "Antes de exportar",
+              "ante": "Global Affairs Canada (EXCOL)"
+            }
+          ],
+          "sanciones": "Multas y prisión de hasta 10 años.",
+          "evidencia": [
+            "Clasificaciones ECL",
+            "Permisos"
+          ],
+          "preguntas": [
+            "¿Los productos están clasificados frente a la ECL?",
+            "¿Las transferencias de tecnología están cubiertas?"
+          ]
+        },
+        {
+          "id": "ca_customs",
+          "nombre": "Ley de Aduanas, Arancel de Aduanas y CARM",
+          "sigla": "Customs Act / Customs Tariff",
+          "tipo": "ley",
+          "autoridad": "Canada Border Services Agency (CBSA)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-52.6/",
+          "ultima_reforma": "verificar",
+          "aplica": "Importadores y exportadores.",
+          "obligaciones": [
+            "Declarar clasificación, valor y origen correctos.",
+            "Corregir errores dentro de 90 días tras tener razón para creer que existen (s.32.2).",
+            "Usar el portal CARM y garantías desde octubre de 2024.",
+            "Cumplir prohibición de importar bienes de trabajo forzoso.",
+            "Atender recargos y contramedidas sobre bienes de EUA (2025-2026; verificar vigencia)."
+          ],
+          "tramites": [
+            {
+              "que": "Corrección",
+              "plazo": "90 días",
+              "ante": "CBSA"
+            }
+          ],
+          "sanciones": "Sanciones del Sistema AMPS y recargos de intereses.",
+          "evidencia": [
+            "Declaraciones",
+            "Certificados de origen",
+            "Correcciones"
+          ],
+          "preguntas": [
+            "¿Se presentan correcciones en 90 días?",
+            "¿Se cuantificó el impacto de contramedidas arancelarias?"
+          ]
+        },
+        {
+          "id": "ca_noncanadians",
+          "nombre": "Prohibición de compra de inmuebles residenciales por no canadienses",
+          "sigla": "Non-Canadians Act",
+          "tipo": "ley",
+          "autoridad": "CMHC / Finance Canada",
+          "url": "https://www.cmhc-schl.gc.ca/professionals/industry-innovation-and-leadership/industry-expertise/foreign-buyers-ban",
+          "ultima_reforma": "verificar",
+          "aplica": "No canadienses (incluidas sociedades controladas por extranjeros) que compren directa o indirectamente inmuebles residenciales de hasta 3 viviendas en áreas metropolitanas y aglomeraciones censales; prorrogada hasta el 1-ene-2027 (verificar si hay nueva prórroga).",
+          "obligaciones": [
+            "Verificar el estatus de compradores antes de adquirir inmuebles residenciales.",
+            "Aplicar excepciones (residentes temporales calificados, desarrollo, etc.) con documentación.",
+            "Revisar estructuras corporativas de inversión inmobiliaria."
+          ],
+          "tramites": [],
+          "sanciones": "Multa de hasta 10 000 CAD y orden judicial de venta.",
+          "evidencia": [
+            "Análisis de estatus del comprador",
+            "Documentos de excepción"
+          ],
+          "preguntas": [
+            "¿Se verificó el estatus de control canadiense antes de comprar inmuebles residenciales?",
+            "¿Se monitorea la vigencia de la prohibición después de 2026?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Propiedad intelectual",
+      "leyes": [
+        {
+          "id": "ca_ip",
+          "nombre": "Propiedad intelectual: patentes, marcas, derechos de autor y secretos comerciales",
+          "sigla": "Patent Act / Trademarks Act / Copyright Act",
+          "tipo": "ley",
+          "autoridad": "Oficina de Propiedad Intelectual de Canadá (CIPO)",
+          "url": "https://ised-isde.canada.ca/site/canadian-intellectual-property-office/en",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas que crean, usan o licencian intangibles en Canadá.",
+          "obligaciones": [
+            "Registrar marcas (renovación cada 10 años) y patentes (anualidades).",
+            "Proteger secretos comerciales con contratos y controles (robo de secretos es delito, Código Penal s.391).",
+            "Gestionar cesiones de derechos y renuncias a derechos morales de empleados y contratistas.",
+            "Cumplir el régimen de 'notice and notice' si es proveedor de internet."
+          ],
+          "tramites": [
+            {
+              "que": "Renovación de marca",
+              "plazo": "Cada 10 años",
+              "ante": "CIPO"
+            },
+            {
+              "que": "Anualidad de patente",
+              "plazo": "Anual desde el 2.º aniversario",
+              "ante": "CIPO"
+            }
+          ],
+          "sanciones": "Pérdida de derechos; daños; penas por falsificación.",
+          "evidencia": [
+            "Portafolio de PI",
+            "Contratos de cesión"
+          ],
+          "preguntas": [
+            "¿Hay calendario de vencimientos de PI?",
+            "¿Los contratos incluyen renuncia a derechos morales?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Valores (si cotiza)",
+      "leyes": [
+        {
+          "id": "ca_securities",
+          "nombre": "Leyes provinciales de valores y divulgación continua (NI 51-102)",
+          "sigla": "Securities Act (ON) / NI 51-102",
+          "tipo": "ley",
+          "autoridad": "Comisiones de valores provinciales (OSC, AMF, BCSC, ASC) coordinadas por la CSA",
+          "url": "https://www.osc.ca/en/securities-law/instruments-rules-policies/5/51-102",
+          "ultima_reforma": "verificar",
+          "aplica": "Emisores informantes en Canadá.",
+          "obligaciones": [
+            "Estados financieros anuales auditados y MD&A (90 días; 120 para emisores venture) e interinos (45 o 60 días).",
+            "Formulario de información anual (AIF) para emisores no venture.",
+            "Comunicado y reporte de cambio material sin demora (reporte en 10 días).",
+            "Circular de información de la administración y compensación de ejecutivos.",
+            "Reportes de iniciados en SEDI dentro de 5 días."
+          ],
+          "tramites": [
+            {
+              "que": "Estados anuales y MD&A",
+              "plazo": "90 días (120 venture)",
+              "ante": "SEDAR+"
+            },
+            {
+              "que": "Reporte de cambio material",
+              "plazo": "10 días",
+              "ante": "SEDAR+"
+            }
+          ],
+          "sanciones": "Sanciones administrativas, órdenes de cese de operaciones, responsabilidad civil en el mercado secundario.",
+          "evidencia": [
+            "Calendario de divulgación",
+            "Política de divulgación",
+            "Reportes SEDI"
+          ],
+          "preguntas": [
+            "¿Existe un comité de divulgación?",
+            "¿Los reportes de iniciados se presentan en 5 días?"
+          ]
+        },
+        {
+          "id": "ca_ni52109",
+          "nombre": "Certificación y control interno (NI 52-109) y comités de auditoría (NI 52-110)",
+          "sigla": "NI 52-109 / NI 52-110",
+          "tipo": "norma",
+          "autoridad": "CSA",
+          "url": "https://www.osc.ca/en/securities-law/instruments-rules-policies/5/52-109",
+          "ultima_reforma": "verificar",
+          "aplica": "Emisores informantes.",
+          "obligaciones": [
+            "CEO y CFO certifican controles de divulgación (DC&P) y control interno (ICFR) en cada periodo.",
+            "Diseño y evaluación de ICFR con marco reconocido (p. ej. COSO).",
+            "Comité de auditoría independiente y con conocimientos financieros.",
+            "Divulgación de gobierno corporativo y diversidad (NI 58-101). La CSA pausó en abril de 2025 sus trabajos sobre divulgación climática y de diversidad ampliada."
+          ],
+          "tramites": [
+            {
+              "que": "Certificados",
+              "plazo": "Con cada presentación anual e interina",
+              "ante": "SEDAR+"
+            }
+          ],
+          "sanciones": "Acciones de la comisión; responsabilidad por certificaciones falsas.",
+          "evidencia": [
+            "Certificados",
+            "Documentación ICFR",
+            "Estatuto del comité de auditoría"
+          ],
+          "preguntas": [
+            "¿Hay evidencia de pruebas de ICFR que respalde los certificados?",
+            "¿El comité de auditoría es plenamente independiente?"
+          ]
+        }
+      ]
+    },
+    {
+      "area": "Provincias (regímenes clave)",
+      "leyes": [
+        {
+          "id": "ca_ont_aoda",
+          "nombre": "Ley de Accesibilidad para Personas con Discapacidad de Ontario",
+          "sigla": "AODA",
+          "tipo": "ley",
+          "autoridad": "Ministerio de Personas Mayores y Accesibilidad de Ontario",
+          "url": "https://www.ontario.ca/laws/statute/05a11",
+          "ultima_reforma": "verificar",
+          "aplica": "Organizaciones con al menos un empleado en Ontario; obligaciones adicionales para 20 o más y 50 o más.",
+          "obligaciones": [
+            "Políticas de accesibilidad y capacitación.",
+            "Sitios web conforme a WCAG 2.0 nivel AA (50 o más empleados).",
+            "Informe de cumplimiento de accesibilidad cada 3 años (20 o más empleados) antes del 31 de diciembre.",
+            "Plan plurianual (50 o más)."
+          ],
+          "tramites": [
+            {
+              "que": "Informe de cumplimiento",
+              "plazo": "31 de diciembre del año que corresponda",
+              "ante": "Gobierno de Ontario"
+            }
+          ],
+          "sanciones": "Multas administrativas de hasta 100 000 CAD diarios para personas morales (verificar).",
+          "evidencia": [
+            "Informe de cumplimiento",
+            "Auditoría WCAG",
+            "Registros de capacitación"
+          ],
+          "preguntas": [
+            "¿Se presentó el último informe AODA?",
+            "¿El sitio web cumple WCAG 2.0 AA?"
+          ]
+        },
+        {
+          "id": "ca_bc_paytransp",
+          "nombre": "Ley de Transparencia Salarial de Columbia Británica",
+          "sigla": "Pay Transparency Act (BC)",
+          "tipo": "ley",
+          "autoridad": "Gobierno de BC",
+          "url": "https://www.bclaws.gov.bc.ca/civix/document/id/complete/statreg/23018",
+          "ultima_reforma": "verificar",
+          "aplica": "Todos los empleadores en BC (rangos en vacantes); reporte anual escalonado: 1 000 o más empleados (2024), 300 o más (2025), 50 o más (desde 2026).",
+          "obligaciones": [
+            "Incluir rangos salariales en vacantes publicadas.",
+            "No preguntar historial salarial.",
+            "Publicar informe de brecha salarial antes del 1 de noviembre."
+          ],
+          "tramites": [
+            {
+              "que": "Informe de transparencia salarial",
+              "plazo": "1 de noviembre",
+              "ante": "Publicación en sitio web / gobierno"
+            }
+          ],
+          "sanciones": "Multas administrativas (verificar).",
+          "evidencia": [
+            "Informe publicado",
+            "Plantillas de vacantes"
+          ],
+          "preguntas": [
+            "¿Se publicó el informe antes del 1 de noviembre (si aplica)?",
+            "¿Las vacantes incluyen rangos salariales?"
+          ]
+        }
+      ]
+    }
+  ],
+  "sectores": {
+    "automotriz": {
+      "reguladores": [
+        [
+          "Transport Canada (seguridad vehicular)",
+          "https://tc.canada.ca/en/road-transportation"
+        ],
+        [
+          "ECCC (emisiones)",
+          "https://www.canada.ca/en/environment-climate-change.html"
+        ],
+        [
+          "CBSA",
+          "https://www.cbsa-asfc.gc.ca/"
+        ],
+        [
+          "OMVIC (Ontario)",
+          "https://www.omvic.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_mvsa",
+          "nombre": "Ley de Seguridad de Vehículos Motorizados y Normas CMVSS",
+          "sigla": "MVSA / MVSR",
+          "tipo": "ley",
+          "autoridad": "Transport Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/M-10.01/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes e importadores de vehículos y equipo (llantas, asientos infantiles) para el mercado canadiense.",
+          "obligaciones": [
+            "Certificar conformidad con las CMVSS y colocar la etiqueta de cumplimiento nacional.",
+            "Notificar defectos de seguridad o incumplimientos al Ministro y a propietarios sin demora.",
+            "Remediar defectos sin costo (facultad de ordenar retiros desde 2018).",
+            "Informes trimestrales de seguimiento de retiros.",
+            "Conservar registros de pruebas e importación."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de defecto",
+              "plazo": "Sin demora tras conocerlo",
+              "ante": "Transport Canada"
+            },
+            {
+              "que": "Informe de seguimiento",
+              "plazo": "Trimestral",
+              "ante": "Transport Canada"
+            }
+          ],
+          "sanciones": "Sanciones administrativas y penales (verificar montos).",
+          "evidencia": [
+            "Etiquetas de cumplimiento",
+            "Avisos de defecto",
+            "Informes de retiro"
+          ],
+          "preguntas": [
+            "¿Los defectos se notifican a Transport Canada sin demora?",
+            "¿Los retiros se siguen trimestralmente?"
+          ]
+        },
+        {
+          "id": "ca_vehicle_emis",
+          "nombre": "Reglamentos de emisiones vehiculares y Estándar de Disponibilidad de Vehículos Eléctricos",
+          "sigla": "ORVEER / EVAS (CEPA)",
+          "tipo": "reglamento",
+          "autoridad": "ECCC",
+          "url": "https://www.canada.ca/en/environment-climate-change/services/canadian-environmental-protection-act-registry/regulations.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes e importadores de vehículos ligeros. En septiembre de 2025 el Gobierno pausó el objetivo de vehículos cero emisiones de 2026 y anunció una revisión (verificar).",
+          "obligaciones": [
+            "Cumplir normas de emisiones de contaminantes y GEI armonizadas con EUA.",
+            "Informes anuales de emisiones y créditos.",
+            "Seguimiento del Estándar de Disponibilidad de VE según el resultado de la revisión.",
+            "Quebec: norma de vehículos cero emisiones provincial."
+          ],
+          "tramites": [
+            {
+              "que": "Informe anual de flota",
+              "plazo": "Según reglamento",
+              "ante": "ECCC"
+            }
+          ],
+          "sanciones": "Multas CEPA.",
+          "evidencia": [
+            "Informes de flota",
+            "Cálculo de créditos"
+          ],
+          "preguntas": [
+            "¿Se presentó el informe anual de emisiones?",
+            "¿Se monitorea el estado del estándar de VE?"
+          ]
+        },
+        {
+          "id": "ca_cusma_auto",
+          "nombre": "Reglas de origen automotrices del T-MEC/CUSMA",
+          "sigla": "CUSMA cap. 4",
+          "tipo": "tratado",
+          "autoridad": "CBSA / Global Affairs Canada",
+          "url": "https://www.cbsa-asfc.gc.ca/services/cusma-aceum/menu-eng.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores, exportadores e importadores de vehículos y autopartes que solicitan preferencia.",
+          "obligaciones": [
+            "Valor de contenido regional y requisitos de acero, aluminio y contenido laboral.",
+            "Certificación de origen y registros 5 años.",
+            "Considerar aranceles de EUA (sección 232) y contramedidas canadienses (verificar vigencia)."
+          ],
+          "tramites": [
+            {
+              "que": "Certificación de origen",
+              "plazo": "Con la importación",
+              "ante": "CBSA / CBP"
+            }
+          ],
+          "sanciones": "Pérdida de preferencia, aranceles y sanciones.",
+          "evidencia": [
+            "Cálculos de VCR",
+            "Certificaciones"
+          ],
+          "preguntas": [
+            "¿El cálculo de VCR está documentado?",
+            "¿Se cuantificó el impacto arancelario de 2025-2026?"
+          ]
+        },
+        {
+          "id": "ca_omvic",
+          "nombre": "Ley de Concesionarios de Vehículos Motorizados de Ontario (y leyes provinciales análogas)",
+          "sigla": "MVDA 2002 (ON)",
+          "tipo": "ley",
+          "autoridad": "OMVIC",
+          "url": "https://www.ontario.ca/laws/statute/02m30",
+          "ultima_reforma": "verificar",
+          "aplica": "Concesionarios y vendedores de vehículos en Ontario.",
+          "obligaciones": [
+            "Registro ante OMVIC del concesionario y vendedores.",
+            "Publicidad con precio todo incluido.",
+            "Divulgaciones obligatorias en contratos de compra."
+          ],
+          "tramites": [
+            {
+              "que": "Registro",
+              "plazo": "Antes de operar y renovación",
+              "ante": "OMVIC"
+            }
+          ],
+          "sanciones": "Multas, suspensión del registro.",
+          "evidencia": [
+            "Registros",
+            "Contratos",
+            "Publicidad"
+          ],
+          "preguntas": [
+            "¿Los precios anunciados son todo incluido?",
+            "¿Los vendedores están registrados?"
+          ]
+        }
+      ]
+    },
+    "energia_electrica": {
+      "reguladores": [
+        [
+          "Canada Energy Regulator (CER)",
+          "https://www.cer-rec.gc.ca/"
+        ],
+        [
+          "CNSC",
+          "https://www.cnsc-ccsn.gc.ca/"
+        ],
+        [
+          "Ontario Energy Board / IESO",
+          "https://www.oeb.ca/"
+        ],
+        [
+          "Alberta Utilities Commission / AESO",
+          "https://www.auc.ab.ca/"
+        ],
+        [
+          "Régie de l'énergie (QC)",
+          "https://www.regie-energie.qc.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_cer_elec",
+          "nombre": "Ley del Regulador de Energía de Canadá (líneas internacionales e interprovinciales designadas)",
+          "sigla": "CER Act",
+          "tipo": "ley",
+          "autoridad": "Canada Energy Regulator",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-15.1/",
+          "ultima_reforma": "verificar",
+          "aplica": "Propietarios de líneas eléctricas internacionales y exportadores de electricidad.",
+          "obligaciones": [
+            "Permiso o certificado para construir y operar líneas internacionales.",
+            "Permiso o autorización de exportación de electricidad.",
+            "Sistemas de gestión de seguridad, protección y ambiente.",
+            "Reportar incidentes."
+          ],
+          "tramites": [
+            {
+              "que": "Autorización de exportación",
+              "plazo": "Antes de exportar",
+              "ante": "CER"
+            }
+          ],
+          "sanciones": "Sanciones administrativas monetarias y órdenes.",
+          "evidencia": [
+            "Permisos",
+            "Sistema de gestión",
+            "Reportes de incidentes"
+          ],
+          "preguntas": [
+            "¿Las exportaciones tienen autorización vigente?",
+            "¿Se reportan incidentes en plazo?"
+          ]
+        },
+        {
+          "id": "ca_nsca",
+          "nombre": "Ley de Seguridad y Control Nuclear",
+          "sigla": "NSCA",
+          "tipo": "ley",
+          "autoridad": "Comisión Canadiense de Seguridad Nuclear (CNSC)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/N-28.3/",
+          "ultima_reforma": "verificar",
+          "aplica": "Licenciatarios de centrales nucleares, uranio y sustancias nucleares.",
+          "obligaciones": [
+            "Licencia de la CNSC y cumplimiento de condiciones.",
+            "Programas de protección radiológica, seguridad y salvaguardas.",
+            "Reportes de eventos (REGDOC-3.1.1).",
+            "Garantías financieras de desmantelamiento."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de evento",
+              "plazo": "Según REGDOC-3.1.1",
+              "ante": "CNSC"
+            }
+          ],
+          "sanciones": "Sanciones administrativas y penales; suspensión de licencia.",
+          "evidencia": [
+            "Licencias",
+            "Reportes de eventos",
+            "Garantías"
+          ],
+          "preguntas": [
+            "¿Se reportan los eventos conforme a REGDOC-3.1.1?",
+            "¿Las garantías de desmantelamiento están actualizadas?"
+          ]
+        },
+        {
+          "id": "ca_clean_elec",
+          "nombre": "Reglamento de Electricidad Limpia",
+          "sigla": "CER (CEPA, SOR/2024-263)",
+          "tipo": "reglamento",
+          "autoridad": "ECCC",
+          "url": "https://www.canada.ca/en/environment-climate-change/services/canadian-environmental-protection-act-registry/regulations.html",
+          "ultima_reforma": "2024-12-17",
+          "aplica": "Unidades generadoras con combustibles fósiles conectadas a una red regulada por NERC, con obligaciones desde 2035 (verificar revisiones).",
+          "obligaciones": [
+            "Límite de emisiones de 30 t CO2/GWh con flexibilidades.",
+            "Registro y reporte de unidades.",
+            "Planificar inversiones en función de las obligaciones de 2035."
+          ],
+          "tramites": [
+            {
+              "que": "Registro de unidades",
+              "plazo": "Según reglamento",
+              "ante": "ECCC"
+            }
+          ],
+          "sanciones": "Multas CEPA.",
+          "evidencia": [
+            "Inventario de unidades",
+            "Plan de cumplimiento"
+          ],
+          "preguntas": [
+            "¿Se identificaron las unidades sujetas?",
+            "¿Existe un plan de cumplimiento a 2035?"
+          ]
+        },
+        {
+          "id": "ca_prov_elec",
+          "nombre": "Regulación provincial del mercado eléctrico (Ontario, Alberta, Quebec)",
+          "sigla": "OEB Act / AUC / Régie",
+          "tipo": "ley",
+          "autoridad": "OEB, IESO, AUC, AESO, Régie de l'énergie",
+          "url": "https://www.ontario.ca/laws/statute/98o15",
+          "ultima_reforma": "verificar",
+          "aplica": "Generadores, transmisores, distribuidores y comercializadores en cada provincia.",
+          "obligaciones": [
+            "Licencias del regulador provincial.",
+            "Reglas de mercado (IESO Market Rules, AESO ISO Rules).",
+            "Normas de confiabilidad NERC adoptadas por cada provincia, incluidas CIP.",
+            "Códigos de distribución y protección al consumidor."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia",
+              "plazo": "Antes de operar",
+              "ante": "Regulador provincial"
+            }
+          ],
+          "sanciones": "Sanciones administrativas y revocación de licencia.",
+          "evidencia": [
+            "Licencias",
+            "Evidencia NERC CIP"
+          ],
+          "preguntas": [
+            "¿Se cumplen las normas NERC adoptadas por la provincia?",
+            "¿Las licencias están vigentes?"
+          ]
+        },
+        {
+          "id": "ca_c8_energy",
+          "nombre": "Ciberseguridad de infraestructura crítica energética (CCSPA, Proyecto C-8)",
+          "sigla": "CCSPA",
+          "tipo": "ley",
+          "autoridad": "Public Safety Canada / CER / CNSC",
+          "url": "https://www.parl.ca/legisinfo/en/bill/45-1/c-8",
+          "ultima_reforma": "2026-06-15",
+          "aplica": "Operadores de sistemas energéticos federales que sean designados (la entrada en vigor y designaciones están pendientes; verificar).",
+          "obligaciones": [
+            "Programa de ciberseguridad.",
+            "Gestión de riesgos de cadena de suministro.",
+            "Reporte de incidentes al Centro Canadiense de Ciberseguridad."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "Según reglamento",
+              "ante": "Centro Canadiense de Ciberseguridad"
+            }
+          ],
+          "sanciones": "Sanciones administrativas (verificar).",
+          "evidencia": [
+            "Programa de ciberseguridad"
+          ],
+          "preguntas": [
+            "¿Se preparó un programa conforme a la CCSPA?",
+            "¿Se monitorea la designación de operadores?"
+          ]
+        }
+      ]
+    },
+    "hidrocarburos": {
+      "reguladores": [
+        [
+          "Canada Energy Regulator",
+          "https://www.cer-rec.gc.ca/"
+        ],
+        [
+          "Alberta Energy Regulator",
+          "https://www.aer.ca/"
+        ],
+        [
+          "BC Energy Regulator",
+          "https://www.bc-er.ca/"
+        ],
+        [
+          "ECCC",
+          "https://www.canada.ca/en/environment-climate-change.html"
+        ],
+        [
+          "Transport Canada (TDG)",
+          "https://tc.canada.ca/en/dangerous-goods"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_cer_pipe",
+          "nombre": "Ley del CER y Reglamento de Ductos Terrestres",
+          "sigla": "CER Act / OPR",
+          "tipo": "reglamento",
+          "autoridad": "Canada Energy Regulator",
+          "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-99-294/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas con ductos interprovinciales o internacionales.",
+          "obligaciones": [
+            "Sistema de gestión con programas de seguridad, integridad, protección ambiental y emergencias.",
+            "Reportar incidentes de inmediato y por escrito.",
+            "Responsabilidad absoluta de hasta 1 000 MCAD para grandes oleoductos y recursos financieros demostrados.",
+            "Consulta y participación indígena.",
+            "Programa de prevención de daños."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "Inmediato (OERS)",
+              "ante": "CER"
+            }
+          ],
+          "sanciones": "Sanciones administrativas monetarias diarias, órdenes.",
+          "evidencia": [
+            "Manual del sistema de gestión",
+            "Auditorías internas",
+            "Reportes de incidentes"
+          ],
+          "preguntas": [
+            "¿Se auditó internamente el sistema de gestión en los últimos 3 años?",
+            "¿Los incidentes se reportan de inmediato?"
+          ]
+        },
+        {
+          "id": "ca_methane",
+          "nombre": "Reglamento de metano del sector de petróleo y gas (CEPA)",
+          "sigla": "SOR/2018-66 y reformas",
+          "tipo": "reglamento",
+          "autoridad": "ECCC",
+          "url": "https://www.canada.ca/en/environment-climate-change/services/canadian-environmental-protection-act-registry/regulations.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Instalaciones upstream de petróleo y gas. El reglamento reforzado (reducción de 75% al 2030) fue finalizado o está en revisión (verificar); hay acuerdos de equivalencia provinciales.",
+          "obligaciones": [
+            "Programas de detección y reparación de fugas.",
+            "Límites de venteo y quema.",
+            "Registros e informes anuales."
+          ],
+          "tramites": [
+            {
+              "que": "Informe anual",
+              "plazo": "Según reglamento",
+              "ante": "ECCC / regulador provincial"
+            }
+          ],
+          "sanciones": "Multas CEPA.",
+          "evidencia": [
+            "Registros LDAR",
+            "Informes"
+          ],
+          "preguntas": [
+            "¿Se ejecuta LDAR con frecuencia exigida?",
+            "¿Se determinó si aplica el reglamento federal o el provincial equivalente?"
+          ]
+        },
+        {
+          "id": "ca_cfr",
+          "nombre": "Reglamento de Combustibles Limpios",
+          "sigla": "CFR (SOR/2022-140)",
+          "tipo": "reglamento",
+          "autoridad": "ECCC",
+          "url": "https://www.canada.ca/en/environment-climate-change/services/managing-pollution/energy-production/fuel-regulations/clean-fuel-regulations.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Productores e importadores primarios de gasolina y diésel.",
+          "obligaciones": [
+            "Reducir la intensidad de carbono anual mediante créditos.",
+            "Contenido renovable mínimo.",
+            "Informes de cumplimiento y verificación."
+          ],
+          "tramites": [
+            {
+              "que": "Informe de cumplimiento",
+              "plazo": "30 de abril (verificar)",
+              "ante": "ECCC"
+            }
+          ],
+          "sanciones": "Multas CEPA.",
+          "evidencia": [
+            "Informes de créditos",
+            "Verificaciones"
+          ],
+          "preguntas": [
+            "¿Se cumplió el límite de intensidad de carbono?",
+            "¿Los informes están verificados?"
+          ]
+        },
+        {
+          "id": "ca_aer",
+          "nombre": "Regulación provincial upstream: Alberta Energy Regulator y directivas",
+          "sigla": "OGCA / Directivas AER",
+          "tipo": "ley",
+          "autoridad": "Alberta Energy Regulator",
+          "url": "https://www.aer.ca/regulating-development/rules-and-directives",
+          "ultima_reforma": "verificar",
+          "aplica": "Operadores de pozos, instalaciones y ductos en Alberta (BC, Saskatchewan con regímenes análogos).",
+          "obligaciones": [
+            "Licencias de pozos e instalaciones.",
+            "Responsabilidad de pasivos y cierre (programa de gestión de pasivos).",
+            "Directivas de venteo y quema (Directiva 060) y de emergencias (Directiva 071).",
+            "Reportes de producción mensuales (Petrinex)."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de producción",
+              "plazo": "Mensual",
+              "ante": "Petrinex"
+            }
+          ],
+          "sanciones": "Sanciones administrativas, suspensión de licencias.",
+          "evidencia": [
+            "Licencias",
+            "Reportes Petrinex",
+            "Plan de cierre"
+          ],
+          "preguntas": [
+            "¿Se cumplen las metas de cierre de pasivos?",
+            "¿Los reportes Petrinex se presentan en plazo?"
+          ]
+        },
+        {
+          "id": "ca_tdg",
+          "nombre": "Ley de Transporte de Mercancías Peligrosas",
+          "sigla": "TDGA 1992",
+          "tipo": "ley",
+          "autoridad": "Transport Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/T-19.01/",
+          "ultima_reforma": "verificar",
+          "aplica": "Expedidores, transportistas e importadores de mercancías peligrosas, incluidos crudo y combustibles.",
+          "obligaciones": [
+            "Clasificar, documentar y señalizar.",
+            "Capacitación con certificado (vigencia de 3 años).",
+            "Plan de respuesta de emergencia (ERAP) cuando aplique.",
+            "Reportar liberaciones."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de liberación",
+              "plazo": "Inmediato; informe de 30 días",
+              "ante": "CANUTEC / Transport Canada"
+            }
+          ],
+          "sanciones": "Multas y prisión.",
+          "evidencia": [
+            "Certificados de capacitación",
+            "ERAP",
+            "Documentos de embarque"
+          ],
+          "preguntas": [
+            "¿Los certificados de capacitación están vigentes?",
+            "¿Se requiere ERAP?"
+          ]
+        }
+      ]
+    },
+    "aeronautico": {
+      "reguladores": [
+        [
+          "Transport Canada Civil Aviation",
+          "https://tc.canada.ca/en/aviation"
+        ],
+        [
+          "Canadian Transportation Agency",
+          "https://otc-cta.gc.ca/"
+        ],
+        [
+          "Controlled Goods Program (PSPC)",
+          "https://www.tpsgc-pwgsc.gc.ca/pmc-cgp/index-eng.html"
+        ],
+        [
+          "Global Affairs Canada (Export Controls)",
+          "https://www.international.gc.ca/controls-controles/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_cars",
+          "nombre": "Ley de Aeronáutica y Reglamentos de Aviación Canadienses",
+          "sigla": "Aeronautics Act / CARs",
+          "tipo": "ley",
+          "autoridad": "Transport Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/A-2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, organizaciones de mantenimiento, operadores aéreos y aeródromos.",
+          "obligaciones": [
+            "Certificados de diseño, fabricación y mantenimiento (Parte V).",
+            "Sistema de gestión de seguridad (SMS) para operadores y organizaciones de mantenimiento aprobadas.",
+            "Reportar dificultades de servicio y eventos.",
+            "Programas de calidad y capacitación."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de dificultad de servicio",
+              "plazo": "Según CARs",
+              "ante": "Transport Canada"
+            }
+          ],
+          "sanciones": "Multas administrativas y suspensión de certificados.",
+          "evidencia": [
+            "Certificados",
+            "Manual SMS",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿El SMS tiene registro de peligros activo?",
+            "¿Se reportan dificultades de servicio?"
+          ]
+        },
+        {
+          "id": "ca_cgp_aero",
+          "nombre": "Programa de Bienes Controlados (Ley de Producción de Defensa)",
+          "sigla": "DPA / CGP",
+          "tipo": "ley",
+          "autoridad": "PSPC Controlled Goods Program",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/D-1/",
+          "ultima_reforma": "verificar",
+          "aplica": "Quien examine, posea o transfiera bienes controlados (incluidos artículos ITAR) en Canadá.",
+          "obligaciones": [
+            "Registro en el Programa de Bienes Controlados.",
+            "Oficial designado y evaluaciones de seguridad del personal.",
+            "Plan de seguridad y reporte de vulneraciones."
+          ],
+          "tramites": [
+            {
+              "que": "Registro CGP",
+              "plazo": "Antes de acceder a bienes controlados; renovación",
+              "ante": "PSPC"
+            }
+          ],
+          "sanciones": "Multas y prisión; suspensión del registro.",
+          "evidencia": [
+            "Registro CGP",
+            "Evaluaciones de seguridad",
+            "Plan de seguridad"
+          ],
+          "preguntas": [
+            "¿El registro CGP está vigente?",
+            "¿Todo el personal con acceso tiene evaluación?"
+          ]
+        },
+        {
+          "id": "ca_appr",
+          "nombre": "Reglamento de Protección de Pasajeros Aéreos",
+          "sigla": "APPR",
+          "tipo": "reglamento",
+          "autoridad": "Canadian Transportation Agency",
+          "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2019-150/",
+          "ultima_reforma": "verificar",
+          "aplica": "Aerolíneas con vuelos hacia, desde y dentro de Canadá. Reformas de 2023 y propuestas de 2025 (verificar).",
+          "obligaciones": [
+            "Compensación por demoras y cancelaciones dentro del control del transportista.",
+            "Reembolsos y reprogramación.",
+            "Comunicación clara de derechos.",
+            "Responder a reclamaciones en 30 días."
+          ],
+          "tramites": [
+            {
+              "que": "Respuesta a reclamación",
+              "plazo": "30 días",
+              "ante": "Pasajero"
+            }
+          ],
+          "sanciones": "Multas administrativas.",
+          "evidencia": [
+            "Políticas",
+            "Registros de reclamaciones"
+          ],
+          "preguntas": [
+            "¿Las reclamaciones se responden en 30 días?",
+            "¿Se publican los derechos de pasajeros?"
+          ]
+        },
+        {
+          "id": "ca_eipa_aero",
+          "nombre": "Controles de exportación aeroespaciales (ECL Grupos 1, 2 y 9)",
+          "sigla": "EIPA / ECL",
+          "tipo": "ley",
+          "autoridad": "Global Affairs Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-19/",
+          "ultima_reforma": "verificar",
+          "aplica": "Exportadores de aeronaves, motores, partes y tecnología controlada.",
+          "obligaciones": [
+            "Clasificar frente a la ECL.",
+            "Permisos de exportación y corretaje.",
+            "Considerar la exención canadiense del ITAR y reglas de reexportación de EUA."
+          ],
+          "tramites": [
+            {
+              "que": "Permiso de exportación",
+              "plazo": "Antes de exportar",
+              "ante": "Global Affairs Canada"
+            }
+          ],
+          "sanciones": "Multas y prisión.",
+          "evidencia": [
+            "Clasificaciones",
+            "Permisos"
+          ],
+          "preguntas": [
+            "¿Los productos tienen clasificación ECL?",
+            "¿Se cumplen reglas de reexportación de EUA?"
+          ]
+        }
+      ]
+    },
+    "farmaceutico": {
+      "reguladores": [
+        [
+          "Health Canada",
+          "https://www.canada.ca/en/health-canada.html"
+        ],
+        [
+          "PMPRB",
+          "https://www.canada.ca/en/patented-medicine-prices-review.html"
+        ],
+        [
+          "Provincias (formularios públicos)",
+          "https://www.pcpacanada.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_fda_drugs",
+          "nombre": "Ley de Alimentos y Medicamentos y Reglamento (medicamentos, BPF y licencia de establecimiento)",
+          "sigla": "FDA / FDR Parte C",
+          "tipo": "ley",
+          "autoridad": "Health Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/F-27/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, empacadores, etiquetadores, importadores, distribuidores y laboratorios de medicamentos.",
+          "obligaciones": [
+            "Licencia de establecimiento de medicamentos (DEL) y revisión anual.",
+            "Buenas prácticas de fabricación (Parte C, División 2; GUI-0001).",
+            "Autorización de comercialización (DIN / NOC).",
+            "Reportes de reacciones adversas graves en 15 días.",
+            "Reportar desabastos anticipados (6 meses) o reales (5 días) en Drug Shortages Canada.",
+            "Vanessa's Law: Health Canada puede ordenar retiros y estudios."
+          ],
+          "tramites": [
+            {
+              "que": "Revisión anual de DEL",
+              "plazo": "1 de abril",
+              "ante": "Health Canada"
+            },
+            {
+              "que": "Reporte de desabasto",
+              "plazo": "5 días (real) / 6 meses (anticipado)",
+              "ante": "Drug Shortages Canada"
+            }
+          ],
+          "sanciones": "Multas de hasta 5 MCAD por día (Vanessa's Law; verificar), suspensión de licencias.",
+          "evidencia": [
+            "DEL",
+            "Registros de lote",
+            "Reportes de farmacovigilancia",
+            "Reportes de desabasto"
+          ],
+          "preguntas": [
+            "¿Los desabastos se reportan en plazo?",
+            "¿Las reacciones graves se reportan en 15 días?"
+          ]
+        },
+        {
+          "id": "ca_mdr",
+          "nombre": "Reglamento de Dispositivos Médicos",
+          "sigla": "MDR SOR/98-282",
+          "tipo": "reglamento",
+          "autoridad": "Health Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-98-282/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes (licencia de dispositivo clases II-IV) e importadores/distribuidores (MDEL).",
+          "obligaciones": [
+            "Licencia de dispositivo y certificado MDSAP para clases II-IV.",
+            "Licencia de establecimiento (MDEL) para importadores y distribuidores.",
+            "Reporte obligatorio de incidentes en 10 o 30 días.",
+            "Quejas, retiros y registros de distribución.",
+            "Ciberseguridad de dispositivos con software (guía de Health Canada)."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "10 días (muerte o deterioro grave) / 30 días",
+              "ante": "Health Canada"
+            }
+          ],
+          "sanciones": "Suspensión de licencias, multas.",
+          "evidencia": [
+            "Licencias",
+            "Certificado MDSAP",
+            "Reportes de incidentes"
+          ],
+          "preguntas": [
+            "¿Se mantiene vigente el certificado MDSAP?",
+            "¿Los incidentes se reportan en plazo?"
+          ]
+        },
+        {
+          "id": "ca_pmprb",
+          "nombre": "Ley de Patentes: precios de medicamentos patentados",
+          "sigla": "Patent Act / Patented Medicines Regulations",
+          "tipo": "reglamento",
+          "autoridad": "PMPRB",
+          "url": "https://www.canada.ca/en/patented-medicine-prices-review.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de patentes de medicamentos vendidos en Canadá; nuevas Guías vigentes desde 2026 (verificar).",
+          "obligaciones": [
+            "Reportar precios e ingresos semestralmente.",
+            "No cobrar precios excesivos según las Guías.",
+            "Reportar gasto en I+D anual."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de precios",
+              "plazo": "Semestral",
+              "ante": "PMPRB"
+            }
+          ],
+          "sanciones": "Órdenes de reducción de precio y reembolso de ingresos excesivos.",
+          "evidencia": [
+            "Formularios 2 y 3",
+            "Análisis de precios"
+          ],
+          "preguntas": [
+            "¿Se presentan los reportes semestrales?",
+            "¿Se evaluaron los precios frente a las nuevas Guías?"
+          ]
+        },
+        {
+          "id": "ca_cdsa",
+          "nombre": "Ley de Drogas y Sustancias Controladas",
+          "sigla": "CDSA",
+          "tipo": "ley",
+          "autoridad": "Health Canada (Office of Controlled Substances)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-38.8/",
+          "ultima_reforma": "verificar",
+          "aplica": "Distribuidores autorizados y fabricantes de narcóticos y sustancias controladas.",
+          "obligaciones": [
+            "Licencia de distribuidor autorizado.",
+            "Seguridad física y registros.",
+            "Reportar pérdidas o robos en 10 días."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de pérdida o robo",
+              "plazo": "10 días",
+              "ante": "Health Canada"
+            }
+          ],
+          "sanciones": "Suspensión de licencia, sanciones penales.",
+          "evidencia": [
+            "Licencia",
+            "Registros",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿Las pérdidas se reportan en 10 días?",
+            "¿Existe conciliación de inventarios controlados?"
+          ]
+        },
+        {
+          "id": "ca_nhp",
+          "nombre": "Reglamento de Productos Naturales para la Salud",
+          "sigla": "NHPR",
+          "tipo": "reglamento",
+          "autoridad": "Health Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2003-196/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes, empacadores, etiquetadores e importadores de productos naturales.",
+          "obligaciones": [
+            "Licencia de producto (NPN) y de sitio.",
+            "BPF y reportes de reacciones adversas.",
+            "Nuevo etiquetado (transición a junio de 2025 / 2028 según producto; verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia de sitio",
+              "plazo": "Antes de operar; renovación",
+              "ante": "Health Canada"
+            }
+          ],
+          "sanciones": "Suspensión de licencias, retiros.",
+          "evidencia": [
+            "NPN",
+            "Licencia de sitio"
+          ],
+          "preguntas": [
+            "¿Cada producto tiene NPN vigente?",
+            "¿Las etiquetas cumplen el nuevo formato?"
+          ]
+        }
+      ]
+    },
+    "construccion": {
+      "reguladores": [
+        [
+          "Ministerios de trabajo provinciales",
+          "https://www.ontario.ca/page/ministry-labour-immigration-training-skills-development"
+        ],
+        [
+          "Códigos de construcción provinciales y municipios",
+          "https://nrc.canada.ca/en/certifications-evaluations-standards/codes-canada"
+        ],
+        [
+          "PSPC (contratos federales)",
+          "https://www.tpsgc-pwgsc.gc.ca/"
+        ],
+        [
+          "Fisheries and Oceans / Transport Canada (aguas)",
+          "https://www.dfo-mpo.gc.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_ont_construction_reg",
+          "nombre": "Reglamento de Proyectos de Construcción de Ontario (OHSA)",
+          "sigla": "O. Reg. 213/91",
+          "tipo": "reglamento",
+          "autoridad": "Ministerio de Trabajo de Ontario",
+          "url": "https://www.ontario.ca/laws/regulation/910213",
+          "ultima_reforma": "verificar",
+          "aplica": "Constructores y empleadores en obras en Ontario (otras provincias tienen reglamentos análogos).",
+          "obligaciones": [
+            "Registrar proyectos que superen umbrales ante el Ministerio.",
+            "Protección contra caídas a partir de 3 metros y capacitación certificada en trabajos en altura.",
+            "Excavaciones, andamios y grúas conforme al reglamento.",
+            "El constructor es responsable del cumplimiento global de la obra.",
+            "Baños e instalaciones sanitarias según número de trabajadores."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de proyecto",
+              "plazo": "Antes de iniciar",
+              "ante": "Ministerio de Trabajo"
+            }
+          ],
+          "sanciones": "Multas OHSA (ver Ley de Salud y Seguridad Ocupacional de Ontario).",
+          "evidencia": [
+            "Avisos de proyecto",
+            "Certificados de trabajos en altura",
+            "Inspecciones"
+          ],
+          "preguntas": [
+            "¿Todos los trabajadores en altura tienen capacitación aprobada?",
+            "¿Se registró el proyecto?"
+          ]
+        },
+        {
+          "id": "ca_construction_act",
+          "nombre": "Ley de la Construcción de Ontario (pago puntual y gravámenes) y ley federal de pago puntual",
+          "sigla": "Construction Act (ON) / Federal Prompt Payment for Construction Work Act",
+          "tipo": "ley",
+          "autoridad": "Ontario / PSPC",
+          "url": "https://www.ontario.ca/laws/statute/90c30",
+          "ultima_reforma": "verificar",
+          "aplica": "Propietarios, contratistas y subcontratistas en Ontario y en obras federales.",
+          "obligaciones": [
+            "Pagar facturas adecuadas en 28 días (propietario) y 7 días más a subcontratistas.",
+            "Avisos de no pago dentro de plazos.",
+            "Adjudicación rápida de disputas.",
+            "Retenciones de 10% y registro de gravámenes en plazos."
+          ],
+          "tramites": [
+            {
+              "que": "Aviso de no pago",
+              "plazo": "14 días tras la factura (verificar)",
+              "ante": "Contratista"
+            }
+          ],
+          "sanciones": "Intereses, gravámenes, decisiones de adjudicación vinculantes.",
+          "evidencia": [
+            "Facturas y pagos",
+            "Avisos de no pago"
+          ],
+          "preguntas": [
+            "¿Los pagos cumplen los plazos de pago puntual?",
+            "¿Se gestionan las retenciones conforme a la ley?"
+          ]
+        },
+        {
+          "id": "ca_building_codes",
+          "nombre": "Códigos Nacionales de Construcción y códigos provinciales",
+          "sigla": "NBC 2020 / OBC",
+          "tipo": "norma",
+          "autoridad": "National Research Council / provincias",
+          "url": "https://nrc.canada.ca/en/certifications-evaluations-standards/codes-canada",
+          "ultima_reforma": "verificar",
+          "aplica": "Diseño y construcción de edificaciones; cada provincia adopta su código (Ontario Building Code 2024 vigente desde 2025).",
+          "obligaciones": [
+            "Permisos de construcción municipales.",
+            "Cumplimiento estructural, contra incendios, accesibilidad y eficiencia energética.",
+            "Inspecciones y certificados de ocupación."
+          ],
+          "tramites": [
+            {
+              "que": "Permiso de construcción",
+              "plazo": "Antes de iniciar",
+              "ante": "Municipio"
+            }
+          ],
+          "sanciones": "Órdenes de suspensión, multas municipales.",
+          "evidencia": [
+            "Permisos",
+            "Inspecciones"
+          ],
+          "preguntas": [
+            "¿Cada obra tiene permiso vigente?",
+            "¿Se aplicó la edición vigente del código?"
+          ]
+        },
+        {
+          "id": "ca_navigable",
+          "nombre": "Ley de Aguas Navegables Canadienses y protección del hábitat de peces",
+          "sigla": "CNWA / Fisheries Act s.35",
+          "tipo": "ley",
+          "autoridad": "Transport Canada / DFO",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/N-22/",
+          "ultima_reforma": "verificar",
+          "aplica": "Obras en, sobre o bajo aguas navegables y que afecten hábitat de peces.",
+          "obligaciones": [
+            "Aprobación o aviso para obras en aguas navegables listadas.",
+            "Autorización de DFO por daño al hábitat.",
+            "Cumplir condiciones."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de aprobación",
+              "plazo": "Antes de construir",
+              "ante": "Transport Canada"
+            }
+          ],
+          "sanciones": "Multas.",
+          "evidencia": [
+            "Aprobaciones",
+            "Autorizaciones DFO"
+          ],
+          "preguntas": [
+            "¿Se evaluó si la obra afecta aguas navegables?",
+            "¿Existe autorización de DFO cuando aplica?"
+          ]
+        }
+      ]
+    },
+    "defensa": {
+      "reguladores": [
+        [
+          "PSPC Controlled Goods Program",
+          "https://www.tpsgc-pwgsc.gc.ca/pmc-cgp/index-eng.html"
+        ],
+        [
+          "PSPC Contract Security Program",
+          "https://www.tpsgc-pwgsc.gc.ca/esc-src/index-eng.html"
+        ],
+        [
+          "Global Affairs Canada (Export Controls)",
+          "https://www.international.gc.ca/controls-controles/"
+        ],
+        [
+          "ISED (ITB)",
+          "https://ised-isde.canada.ca/site/industrial-technological-benefits/en"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_cgp",
+          "nombre": "Programa de Bienes Controlados",
+          "sigla": "DPA / Controlled Goods Regulations",
+          "tipo": "ley",
+          "autoridad": "PSPC",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/D-1/",
+          "ultima_reforma": "verificar",
+          "aplica": "Personas que examinen, posean o transfieran bienes controlados (incluidos artículos ITAR en Canadá).",
+          "obligaciones": [
+            "Registro antes de acceder.",
+            "Oficial designado y evaluación de seguridad de personal.",
+            "Plan de seguridad, registros y reporte de vulneraciones."
+          ],
+          "tramites": [
+            {
+              "que": "Registro",
+              "plazo": "Antes de acceder; renovación",
+              "ante": "PSPC"
+            }
+          ],
+          "sanciones": "Multas y prisión; suspensión.",
+          "evidencia": [
+            "Registro",
+            "Evaluaciones",
+            "Plan de seguridad"
+          ],
+          "preguntas": [
+            "¿El registro está vigente?",
+            "¿Se reportan vulneraciones?"
+          ]
+        },
+        {
+          "id": "ca_csp",
+          "nombre": "Programa de Seguridad de Contratos (información clasificada y protegida)",
+          "sigla": "Contract Security Program",
+          "tipo": "guía",
+          "autoridad": "PSPC",
+          "url": "https://www.tpsgc-pwgsc.gc.ca/esc-src/index-eng.html",
+          "ultima_reforma": "verificar",
+          "aplica": "Proveedores de contratos federales con requisitos de seguridad.",
+          "obligaciones": [
+            "Autorización de seguridad de la organización.",
+            "Autorizaciones de personal.",
+            "Salvaguarda de información según el Manual de Seguridad Industrial."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud de autorización",
+              "plazo": "Antes del contrato",
+              "ante": "PSPC"
+            }
+          ],
+          "sanciones": "Rescisión de contrato, pérdida de autorización.",
+          "evidencia": [
+            "Autorizaciones",
+            "Registros de capacitación"
+          ],
+          "preguntas": [
+            "¿La autorización organizacional está vigente?",
+            "¿Se cumple el Manual de Seguridad Industrial?"
+          ]
+        },
+        {
+          "id": "ca_eipa_def",
+          "nombre": "Exportaciones militares y corretaje (EIPA, Tratado sobre el Comercio de Armas)",
+          "sigla": "EIPA / ECL Grupo 2",
+          "tipo": "ley",
+          "autoridad": "Global Affairs Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-19/",
+          "ultima_reforma": "verificar",
+          "aplica": "Exportadores y corredores de bienes militares.",
+          "obligaciones": [
+            "Permisos de exportación y corretaje.",
+            "Evaluación de riesgo sustancial según el TCA (s.7.3).",
+            "Informes de uso de permisos."
+          ],
+          "tramites": [
+            {
+              "que": "Permiso",
+              "plazo": "Antes de exportar",
+              "ante": "Global Affairs Canada"
+            }
+          ],
+          "sanciones": "Multas y prisión.",
+          "evidencia": [
+            "Permisos",
+            "Clasificaciones"
+          ],
+          "preguntas": [
+            "¿Cada exportación militar tiene permiso?",
+            "¿Se evaluó el riesgo TCA?"
+          ]
+        },
+        {
+          "id": "ca_itb",
+          "nombre": "Política de Beneficios Industriales y Tecnológicos",
+          "sigla": "ITB Policy",
+          "tipo": "guía",
+          "autoridad": "ISED",
+          "url": "https://ised-isde.canada.ca/site/industrial-technological-benefits/en",
+          "ultima_reforma": "verificar",
+          "aplica": "Contratistas de adquisiciones de defensa elegibles.",
+          "obligaciones": [
+            "Cumplir obligaciones de actividad económica en Canadá.",
+            "Reportes anuales de transacciones.",
+            "Propuesta de valor."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte anual ITB",
+              "plazo": "Anual",
+              "ante": "ISED"
+            }
+          ],
+          "sanciones": "Penalizaciones contractuales.",
+          "evidencia": [
+            "Reportes ITB",
+            "Registro de transacciones"
+          ],
+          "preguntas": [
+            "¿Se cumplen las metas ITB?",
+            "¿Los reportes se presentan anualmente?"
+          ]
+        }
+      ]
+    },
+    "seguros": {
+      "reguladores": [
+        [
+          "OSFI",
+          "https://www.osfi-bsif.gc.ca/"
+        ],
+        [
+          "FSRA (Ontario)",
+          "https://www.fsrao.ca/"
+        ],
+        [
+          "AMF (Quebec)",
+          "https://lautorite.qc.ca/"
+        ],
+        [
+          "FINTRAC",
+          "https://fintrac-canafe.canada.ca/"
+        ],
+        [
+          "CCIR / CISRO",
+          "https://www.ccir-ccrra.org/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_ica_ins",
+          "nombre": "Ley de Compañías de Seguros",
+          "sigla": "ICA (Insurance Companies Act)",
+          "tipo": "ley",
+          "autoridad": "OSFI",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/I-11.8/",
+          "ultima_reforma": "verificar",
+          "aplica": "Aseguradoras constituidas a nivel federal y sucursales extranjeras.",
+          "obligaciones": [
+            "Capital: LICAT (vida) y MCT (generales).",
+            "Gobierno corporativo (Guía de Gobierno Corporativo de OSFI).",
+            "ORSA (Guía E-19).",
+            "Reportes regulatorios trimestrales y anuales; IFRS 17."
+          ],
+          "tramites": [
+            {
+              "que": "Reportes regulatorios",
+              "plazo": "Trimestral / anual",
+              "ante": "OSFI"
+            }
+          ],
+          "sanciones": "Intervención por etapas, órdenes, sanciones administrativas.",
+          "evidencia": [
+            "Cálculos LICAT/MCT",
+            "ORSA",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿El ratio de capital supera el objetivo interno?",
+            "¿El ORSA se aprobó por el consejo?"
+          ]
+        },
+        {
+          "id": "ca_osfi_b13_e21_ins",
+          "nombre": "Guías OSFI B-13, B-10 y E-21 (tecnología, terceros y resiliencia operativa)",
+          "sigla": "OSFI B-13 / B-10 / E-21",
+          "tipo": "guía",
+          "autoridad": "OSFI",
+          "url": "https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/operational-risk-management-resilience-guideline",
+          "ultima_reforma": "verificar",
+          "aplica": "Instituciones financieras reguladas a nivel federal (bancos y aseguradoras). B-13 vigente desde 1-ene-2024; B-10 desde mayo de 2024; E-21 con adhesión plena esperada al 1-sep-2026.",
+          "obligaciones": [
+            "Gestión del riesgo tecnológico y cibernético (B-13).",
+            "Reportar incidentes tecnológicos o cibernéticos a OSFI en 24 horas.",
+            "Gestión de terceros a lo largo del ciclo de vida (B-10).",
+            "Identificar operaciones críticas, tolerancias de interrupción y mapeo (E-21).",
+            "Pruebas de escenarios severos pero plausibles."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "24 horas",
+              "ante": "OSFI"
+            }
+          ],
+          "sanciones": "Hallazgos de supervisión, ajustes de calificación, intervención.",
+          "evidencia": [
+            "Marco de riesgo tecnológico",
+            "Inventario de terceros",
+            "Mapeo de operaciones críticas",
+            "Pruebas de resiliencia"
+          ],
+          "preguntas": [
+            "¿Se alcanzó la adhesión plena a E-21?",
+            "¿Los incidentes se reportan a OSFI en 24 horas?"
+          ]
+        },
+        {
+          "id": "ca_osfi_e23",
+          "nombre": "Guía OSFI E-23 de gestión del riesgo de modelos (incluida IA)",
+          "sigla": "OSFI E-23",
+          "tipo": "guía",
+          "autoridad": "OSFI",
+          "url": "https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/guideline-e-23-model-risk-management-2027",
+          "ultima_reforma": "verificar",
+          "aplica": "Instituciones federales; vigencia prevista a mayo de 2027 (verificar).",
+          "obligaciones": [
+            "Inventario de modelos, incluidos de IA y aprendizaje automático.",
+            "Validación independiente y monitoreo.",
+            "Gobierno y clasificación por riesgo."
+          ],
+          "tramites": [],
+          "sanciones": "Hallazgos de supervisión.",
+          "evidencia": [
+            "Inventario de modelos",
+            "Validaciones"
+          ],
+          "preguntas": [
+            "¿El inventario incluye modelos de IA?",
+            "¿Existe validación independiente?"
+          ]
+        },
+        {
+          "id": "ca_prov_ins",
+          "nombre": "Leyes provinciales de seguros y conducta de mercado (Ontario, Quebec)",
+          "sigla": "Insurance Act (ON) / Loi sur les assureurs (QC)",
+          "tipo": "ley",
+          "autoridad": "FSRA / AMF",
+          "url": "https://www.ontario.ca/laws/statute/90i08",
+          "ultima_reforma": "verificar",
+          "aplica": "Aseguradoras y agentes que operan en cada provincia.",
+          "obligaciones": [
+            "Licencia provincial de aseguradoras y agentes.",
+            "Trato justo a clientes (guía conjunta CCIR/CISRO).",
+            "Reglas sobre manejo de quejas y ombudsman.",
+            "Quebec: código de conducta y prácticas comerciales de la AMF."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia",
+              "plazo": "Renovación periódica",
+              "ante": "FSRA / AMF"
+            }
+          ],
+          "sanciones": "Sanciones administrativas, suspensión de licencias.",
+          "evidencia": [
+            "Licencias",
+            "Procedimiento de quejas"
+          ],
+          "preguntas": [
+            "¿Las licencias están vigentes en cada provincia?",
+            "¿El proceso de quejas cumple la guía de trato justo?"
+          ]
+        },
+        {
+          "id": "ca_pcmltfa_life",
+          "nombre": "PCMLTFA para aseguradoras de vida",
+          "sigla": "PCMLTFA / PCMLTFR",
+          "tipo": "reglamento",
+          "autoridad": "FINTRAC",
+          "url": "https://fintrac-canafe.canada.ca/re-ed/life-vie-eng",
+          "ultima_reforma": "2026-03-26",
+          "aplica": "Aseguradoras, corredores y agentes de vida (productos con valor de inversión).",
+          "obligaciones": [
+            "Programa de cumplimiento basado en riesgo.",
+            "Identificación del cliente y beneficiarios finales.",
+            "Reportes de operaciones sospechosas y de efectivo."
+          ],
+          "tramites": [
+            {
+              "que": "STR",
+              "plazo": "Lo antes posible",
+              "ante": "FINTRAC"
+            }
+          ],
+          "sanciones": "Sanciones aumentadas por C-12.",
+          "evidencia": [
+            "Programa",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿El programa se actualizó a C-12?",
+            "¿Se identifican beneficiarios finales?"
+          ]
+        }
+      ]
+    },
+    "bancos": {
+      "reguladores": [
+        [
+          "OSFI",
+          "https://www.osfi-bsif.gc.ca/"
+        ],
+        [
+          "FCAC (Agencia del Consumidor en Materia Financiera)",
+          "https://www.canada.ca/en/financial-consumer-agency.html"
+        ],
+        [
+          "Banco de Canadá (pagos minoristas)",
+          "https://www.bankofcanada.ca/core-functions/retail-payments-supervision/"
+        ],
+        [
+          "FINTRAC",
+          "https://fintrac-canafe.canada.ca/"
+        ],
+        [
+          "CDIC",
+          "https://www.cdic.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_bank_act",
+          "nombre": "Ley de Bancos",
+          "sigla": "Bank Act",
+          "tipo": "ley",
+          "autoridad": "OSFI / FCAC",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/B-1.01/",
+          "ultima_reforma": "verificar",
+          "aplica": "Bancos canadienses y sucursales de bancos extranjeros.",
+          "obligaciones": [
+            "Capital (CAR, Basilea III) y liquidez (LAR) según guías de OSFI.",
+            "Gobierno corporativo y gestión de riesgos.",
+            "Normas de suscripción hipotecaria (B-20).",
+            "Reportes regulatorios.",
+            "Restricciones de propiedad (amplia participación para grandes bancos)."
+          ],
+          "tramites": [
+            {
+              "que": "Reportes regulatorios",
+              "plazo": "Mensual / trimestral",
+              "ante": "OSFI"
+            }
+          ],
+          "sanciones": "Intervención, órdenes, sanciones administrativas.",
+          "evidencia": [
+            "Cálculos de capital",
+            "Reportes OSFI"
+          ],
+          "preguntas": [
+            "¿Los ratios de capital y liquidez cumplen?",
+            "¿Se aplica la B-20 a nuevas hipotecas?"
+          ]
+        },
+        {
+          "id": "ca_osfi_b13_bank",
+          "nombre": "Guías OSFI B-13 (riesgo tecnológico y cibernético), B-10 (terceros) y E-21 (resiliencia)",
+          "sigla": "OSFI B-13 / B-10 / E-21",
+          "tipo": "guía",
+          "autoridad": "OSFI",
+          "url": "https://www.osfi-bsif.gc.ca/en/guidance/guidance-library/technology-cyber-risk-management",
+          "ultima_reforma": "verificar",
+          "aplica": "Bancos e instituciones federales. B-13 desde 1-ene-2024; E-21 con adhesión plena al 1-sep-2026.",
+          "obligaciones": [
+            "Gobierno y estrategia tecnológica.",
+            "Ciberseguridad: defensa, detección y respuesta.",
+            "Reporte de incidentes a OSFI en 24 horas.",
+            "Gestión de terceros y concentración en nube.",
+            "Operaciones críticas y tolerancias de interrupción."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "24 horas",
+              "ante": "OSFI"
+            }
+          ],
+          "sanciones": "Hallazgos de supervisión e intervención.",
+          "evidencia": [
+            "Marco de riesgo tecnológico",
+            "Pruebas de resiliencia",
+            "Inventario de terceros"
+          ],
+          "preguntas": [
+            "¿Los incidentes se reportan en 24 horas?",
+            "¿Se definieron tolerancias de interrupción para operaciones críticas?"
+          ]
+        },
+        {
+          "id": "ca_fcpf",
+          "nombre": "Marco de Protección al Consumidor Financiero (Ley de Bancos Parte XII.2)",
+          "sigla": "FCPF",
+          "tipo": "ley",
+          "autoridad": "FCAC",
+          "url": "https://www.canada.ca/en/financial-consumer-agency/services/industry/laws-regulations/financial-consumer-protection-framework.html",
+          "ultima_reforma": "2022-06-30",
+          "aplica": "Bancos y cooperativas federales.",
+          "obligaciones": [
+            "Productos adecuados para el cliente.",
+            "Divulgación clara de costos y términos.",
+            "Procedimiento de quejas y ombudsman externo (OBSI designado como único, verificar).",
+            "Protección de denunciantes.",
+            "Cuentas de bajo costo."
+          ],
+          "tramites": [
+            {
+              "que": "Informe de quejas",
+              "plazo": "Anual",
+              "ante": "FCAC"
+            }
+          ],
+          "sanciones": "Sanciones administrativas de hasta 10 MCAD por infracción.",
+          "evidencia": [
+            "Procedimiento de quejas",
+            "Revisión de divulgaciones"
+          ],
+          "preguntas": [
+            "¿Las quejas se resuelven en los plazos?",
+            "¿Existe evaluación de idoneidad de productos?"
+          ]
+        },
+        {
+          "id": "ca_rpaa",
+          "nombre": "Ley de Actividades de Pago Minorista",
+          "sigla": "RPAA",
+          "tipo": "ley",
+          "autoridad": "Banco de Canadá",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/R-7.36/",
+          "ultima_reforma": "2025-09-08",
+          "aplica": "Proveedores de servicios de pago (no bancos) que operan en Canadá; registro desde noviembre de 2024 y obligaciones plenas desde el 8-sep-2025.",
+          "obligaciones": [
+            "Registro ante el Banco de Canadá.",
+            "Marco de gestión de riesgos operativos y respuesta a incidentes.",
+            "Salvaguarda de fondos de usuarios finales.",
+            "Reportes anuales y de incidentes."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de incidente",
+              "plazo": "Sin demora",
+              "ante": "Banco de Canadá"
+            },
+            {
+              "que": "Reporte anual",
+              "plazo": "Anual",
+              "ante": "Banco de Canadá"
+            }
+          ],
+          "sanciones": "Sanciones administrativas de hasta 10 MCAD por infracción grave (verificar).",
+          "evidencia": [
+            "Registro",
+            "Marco de riesgos",
+            "Salvaguarda de fondos"
+          ],
+          "preguntas": [
+            "¿El proveedor está registrado?",
+            "¿Existe salvaguarda de fondos conforme a la ley?"
+          ]
+        },
+        {
+          "id": "ca_pcmltfa_bank",
+          "nombre": "PCMLTFA para entidades financieras",
+          "sigla": "PCMLTFA",
+          "tipo": "ley",
+          "autoridad": "FINTRAC",
+          "url": "https://fintrac-canafe.canada.ca/re-ed/fin-eng",
+          "ultima_reforma": "2026-03-26",
+          "aplica": "Bancos, cooperativas y fideicomisos.",
+          "obligaciones": [
+            "Programa basado en riesgo y efectivo (nueva violación muy grave tras C-12).",
+            "KYC, beneficiarios finales y personas políticamente expuestas.",
+            "STR, LCTR, EFTR y reportes de activos virtuales.",
+            "Revisión bienal independiente."
+          ],
+          "tramites": [
+            {
+              "que": "EFTR",
+              "plazo": "5 días hábiles",
+              "ante": "FINTRAC"
+            }
+          ],
+          "sanciones": "Hasta 20 MCAD por violación muy grave o 3% de ingresos globales (C-12).",
+          "evidencia": [
+            "Programa",
+            "Revisiones bienales",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿La revisión bienal confirma efectividad?",
+            "¿Se adecuaron los procesos a C-12?"
+          ]
+        }
+      ]
+    },
+    "mineria": {
+      "reguladores": [
+        [
+          "Ministerios de minas provinciales",
+          "https://www.ontario.ca/page/ministry-mines"
+        ],
+        [
+          "NRCan (ESTMA, explosivos)",
+          "https://natural-resources.canada.ca/"
+        ],
+        [
+          "ECCC (efluentes)",
+          "https://www.canada.ca/en/environment-climate-change.html"
+        ],
+        [
+          "CNSC (uranio)",
+          "https://www.cnsc-ccsn.gc.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_estma",
+          "nombre": "Ley de Medidas de Transparencia para el Sector Extractivo",
+          "sigla": "ESTMA",
+          "tipo": "ley",
+          "autoridad": "Natural Resources Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-22.7/",
+          "ultima_reforma": "verificar",
+          "aplica": "Entidades extractivas que cotizan en Canadá o cumplen 2 de 3 umbrales (activos 20 MCAD, ingresos 40 MCAD, 250 empleados).",
+          "obligaciones": [
+            "Reportar pagos de 100 000 CAD o más por categoría a gobiernos (incluidos indígenas).",
+            "Atestación del reporte.",
+            "Publicarlo en internet 5 años."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte ESTMA",
+              "plazo": "150 días tras el cierre",
+              "ante": "NRCan"
+            }
+          ],
+          "sanciones": "Hasta 250 000 CAD por día.",
+          "evidencia": [
+            "Reporte ESTMA",
+            "Atestación"
+          ],
+          "preguntas": [
+            "¿Se presentó el reporte en 150 días?",
+            "¿Está publicado?"
+          ]
+        },
+        {
+          "id": "ca_mdmer",
+          "nombre": "Reglamento de Efluentes de Minas de Metales y Diamantes",
+          "sigla": "MDMER",
+          "tipo": "reglamento",
+          "autoridad": "ECCC",
+          "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2002-222/",
+          "ultima_reforma": "verificar",
+          "aplica": "Minas de metales y diamantes con descargas superiores a 50 m3/día.",
+          "obligaciones": [
+            "Límites de efluentes y pruebas de toxicidad.",
+            "Monitoreo de efectos ambientales.",
+            "Reportes trimestrales y anuales.",
+            "Plan de compensación de hábitat para áreas de depósito de relaves."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte trimestral",
+              "plazo": "45 días tras el trimestre",
+              "ante": "ECCC"
+            }
+          ],
+          "sanciones": "Multas de la Ley de Pesca.",
+          "evidencia": [
+            "Datos de monitoreo",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿Los efluentes cumplen límites?",
+            "¿Se presentan los reportes trimestrales?"
+          ]
+        },
+        {
+          "id": "ca_mining_act_on",
+          "nombre": "Leyes de minería provinciales (Ontario Mining Act, Ley de Minas de Quebec)",
+          "sigla": "Mining Act (ON) / Loi sur les mines (QC)",
+          "tipo": "ley",
+          "autoridad": "Ministerio de Minas de Ontario / MRNF de Quebec",
+          "url": "https://www.ontario.ca/laws/statute/90m14",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de concesiones y operadores en la provincia.",
+          "obligaciones": [
+            "Mantener concesiones con trabajos de evaluación.",
+            "Plan de cierre con garantía financiera (en Quebec 100%).",
+            "Consulta a comunidades indígenas.",
+            "Salud y seguridad en minas (O. Reg. 854 en Ontario)."
+          ],
+          "tramites": [
+            {
+              "que": "Plan de cierre",
+              "plazo": "Antes de producción y actualizaciones",
+              "ante": "Ministerio provincial"
+            }
+          ],
+          "sanciones": "Suspensión de operaciones, ejecución de garantías.",
+          "evidencia": [
+            "Plan de cierre",
+            "Garantías",
+            "Registros de consulta"
+          ],
+          "preguntas": [
+            "¿La garantía de cierre está actualizada?",
+            "¿Hay registros de consulta indígena?"
+          ]
+        },
+        {
+          "id": "ca_explosives",
+          "nombre": "Ley de Explosivos",
+          "sigla": "Explosives Act",
+          "tipo": "ley",
+          "autoridad": "NRCan (Explosives Regulatory Division)",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/E-17/",
+          "ultima_reforma": "verificar",
+          "aplica": "Quien fabrique, almacene, importe o use explosivos.",
+          "obligaciones": [
+            "Licencias de fábrica y polvorín.",
+            "Seguridad y registros.",
+            "Reportar pérdidas o robos de inmediato."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de pérdida",
+              "plazo": "Inmediato",
+              "ante": "NRCan / policía"
+            }
+          ],
+          "sanciones": "Multas y prisión.",
+          "evidencia": [
+            "Licencias",
+            "Inventarios"
+          ],
+          "preguntas": [
+            "¿Las licencias de polvorín están vigentes?",
+            "¿Se concilian los inventarios?"
+          ]
+        },
+        {
+          "id": "ca_critical_minerals",
+          "nombre": "Inversión extranjera en minerales críticos (política ICA de 2022)",
+          "sigla": "ICA policy on critical minerals",
+          "tipo": "guía",
+          "autoridad": "ISED",
+          "url": "https://ised-isde.canada.ca/site/investment-canada-act/en/policy-regarding-foreign-investments-state-owned-enterprises-critical-minerals-under-investment-canada-act",
+          "ultima_reforma": "verificar",
+          "aplica": "Inversiones de empresas estatales extranjeras o vinculadas en minerales críticos.",
+          "obligaciones": [
+            "Esperar escrutinio de seguridad nacional.",
+            "Aprobación de beneficio neto solo en casos excepcionales para empresas estatales.",
+            "Divulgar socios y fuentes de financiamiento."
+          ],
+          "tramites": [],
+          "sanciones": "Órdenes de desinversión.",
+          "evidencia": [
+            "Análisis de inversionistas"
+          ],
+          "preguntas": [
+            "¿Se identificaron vínculos estatales extranjeros?",
+            "¿Se evaluó la política de 2022?"
+          ]
+        }
+      ]
+    },
+    "alimentos": {
+      "reguladores": [
+        [
+          "Canadian Food Inspection Agency (CFIA)",
+          "https://inspection.canada.ca/"
+        ],
+        [
+          "Health Canada",
+          "https://www.canada.ca/en/health-canada.html"
+        ],
+        [
+          "OQLF (francés)",
+          "https://www.oqlf.gouv.qc.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_sfca",
+          "nombre": "Ley de Alimentos Seguros para los Canadienses y Reglamento",
+          "sigla": "SFCA / SFCR",
+          "tipo": "ley",
+          "autoridad": "CFIA",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/S-1.1/",
+          "ultima_reforma": "verificar",
+          "aplica": "Importadores, exportadores interprovinciales y procesadores de alimentos.",
+          "obligaciones": [
+            "Licencia SFC.",
+            "Plan de control preventivo escrito (PCP).",
+            "Trazabilidad un paso atrás y uno adelante, con registros 2 años.",
+            "Quejas y procedimiento de retiro."
+          ],
+          "tramites": [
+            {
+              "que": "Licencia SFC",
+              "plazo": "Antes de operar; cada 2 años",
+              "ante": "CFIA"
+            }
+          ],
+          "sanciones": "Sanciones administrativas monetarias, suspensión de licencias.",
+          "evidencia": [
+            "Licencia",
+            "PCP",
+            "Registros de trazabilidad"
+          ],
+          "preguntas": [
+            "¿Existe PCP escrito?",
+            "¿Se puede rastrear un lote en 24 horas?"
+          ]
+        },
+        {
+          "id": "ca_fda_food",
+          "nombre": "Ley y Reglamento de Alimentos y Medicamentos (alimentos y etiquetado nutrimental)",
+          "sigla": "FDA / FDR Parte B",
+          "tipo": "reglamento",
+          "autoridad": "Health Canada / CFIA",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/F-27/",
+          "ultima_reforma": "verificar",
+          "aplica": "Fabricantes e importadores de alimentos preenvasados.",
+          "obligaciones": [
+            "Tabla nutrimental y lista de ingredientes.",
+            "Símbolo frontal 'alto en' (sodio, azúcares, grasas saturadas) obligatorio desde el 1-ene-2026.",
+            "Alérgenos prioritarios.",
+            "Etiquetado bilingüe."
+          ],
+          "tramites": [],
+          "sanciones": "Retiros y sanciones.",
+          "evidencia": [
+            "Revisión de etiquetas",
+            "Matriz de alérgenos"
+          ],
+          "preguntas": [
+            "¿Las etiquetas incluyen el símbolo frontal cuando aplica?",
+            "¿Los alérgenos se declaran correctamente?"
+          ]
+        },
+        {
+          "id": "ca_qc_french_label",
+          "nombre": "Etiquetado en francés en Quebec (Carta de la Lengua Francesa)",
+          "sigla": "CLF / Reglamento sobre la lengua de comercio",
+          "tipo": "ley",
+          "autoridad": "OQLF",
+          "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/C-11",
+          "ultima_reforma": "2025-06-01",
+          "aplica": "Productos vendidos en Quebec.",
+          "obligaciones": [
+            "Inscripciones en francés y predominancia en marcas no registradas.",
+            "Desde junio de 2025, reglas más estrictas sobre marcas y letreros."
+          ],
+          "tramites": [],
+          "sanciones": "Multas de la Carta.",
+          "evidencia": [
+            "Revisión de etiquetas para Quebec"
+          ],
+          "preguntas": [
+            "¿Las etiquetas cumplen las reglas de 2025?",
+            "¿Las marcas no registradas incluyen descriptivos en francés?"
+          ]
+        },
+        {
+          "id": "ca_health_animals",
+          "nombre": "Ley de Salud Animal y Ley de Protección de Plantas",
+          "sigla": "HAA / PPA",
+          "tipo": "ley",
+          "autoridad": "CFIA",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/H-3.3/",
+          "ultima_reforma": "verificar",
+          "aplica": "Importadores de productos animales y vegetales.",
+          "obligaciones": [
+            "Permisos de importación.",
+            "Certificados zoosanitarios y fitosanitarios.",
+            "Cumplir AIRS."
+          ],
+          "tramites": [
+            {
+              "que": "Permiso de importación",
+              "plazo": "Antes de importar",
+              "ante": "CFIA"
+            }
+          ],
+          "sanciones": "Sanciones administrativas y decomisos.",
+          "evidencia": [
+            "Permisos",
+            "Certificados"
+          ],
+          "preguntas": [
+            "¿Cada importación tiene permiso y certificado?",
+            "¿Se consulta AIRS?"
+          ]
+        }
+      ]
+    },
+    "telecom": {
+      "reguladores": [
+        [
+          "CRTC",
+          "https://crtc.gc.ca/"
+        ],
+        [
+          "ISED (espectro)",
+          "https://ised-isde.canada.ca/site/spectrum-management-telecommunications/en"
+        ],
+        [
+          "Public Safety Canada",
+          "https://www.publicsafety.gc.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_telecom_act",
+          "nombre": "Ley de Telecomunicaciones (incluidas reformas de seguridad del Proyecto C-8)",
+          "sigla": "Telecommunications Act",
+          "tipo": "ley",
+          "autoridad": "CRTC / ISED",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/T-3.4/",
+          "ultima_reforma": "2026-06-15",
+          "aplica": "Proveedores de telecomunicaciones; las reformas de seguridad de C-8 están vigentes desde junio de 2026.",
+          "obligaciones": [
+            "Registro ante el CRTC.",
+            "Requisitos de propiedad canadiense para operadores con más de 10% de ingresos del mercado.",
+            "Cumplir órdenes de seguridad del Gobierno (excluir proveedores de alto riesgo, p. ej. Huawei y ZTE).",
+            "Códigos de servicio (Código de Telefonía Inalámbrica, Código de Internet).",
+            "Contribuciones y reportes al CRTC."
+          ],
+          "tramites": [
+            {
+              "que": "Registro",
+              "plazo": "Antes de operar",
+              "ante": "CRTC"
+            }
+          ],
+          "sanciones": "Sanciones administrativas; con C-8 sanciones por incumplir órdenes de seguridad (verificar montos).",
+          "evidencia": [
+            "Registro",
+            "Inventario de equipos de proveedores"
+          ],
+          "preguntas": [
+            "¿La red excluye proveedores designados?",
+            "¿Se cumplen los códigos del CRTC?"
+          ]
+        },
+        {
+          "id": "ca_radiocomm",
+          "nombre": "Ley de Radiocomunicaciones",
+          "sigla": "Radiocommunication Act",
+          "tipo": "ley",
+          "autoridad": "ISED",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/R-2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Titulares de licencias de espectro y fabricantes de equipo de radio.",
+          "obligaciones": [
+            "Licencias de espectro y condiciones (despliegue, investigación).",
+            "Certificación de equipos.",
+            "Pago de tarifas."
+          ],
+          "tramites": [
+            {
+              "que": "Renovación de licencias",
+              "plazo": "Según licencia",
+              "ante": "ISED"
+            }
+          ],
+          "sanciones": "Multas y revocación.",
+          "evidencia": [
+            "Licencias",
+            "Informes de despliegue"
+          ],
+          "preguntas": [
+            "¿Se cumplen las obligaciones de despliegue?",
+            "¿El equipo está certificado?"
+          ]
+        },
+        {
+          "id": "ca_broadcasting",
+          "nombre": "Ley de Radiodifusión (Ley de Transmisión en Línea) y Ley de Noticias en Línea",
+          "sigla": "Broadcasting Act / Online News Act",
+          "tipo": "ley",
+          "autoridad": "CRTC",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/B-9.01/",
+          "ultima_reforma": "verificar",
+          "aplica": "Radiodifusores y servicios de transmisión en línea con ingresos canadienses de 25 MCAD o más.",
+          "obligaciones": [
+            "Registro de servicios en línea.",
+            "Contribución base de 5% de ingresos canadienses (en litigio; verificar).",
+            "Ley de Noticias en Línea: plataformas designadas negocian con medios."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de ingresos",
+              "plazo": "Anual",
+              "ante": "CRTC"
+            }
+          ],
+          "sanciones": "Sanciones administrativas.",
+          "evidencia": [
+            "Registro",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿Se evaluó si el servicio supera el umbral?",
+            "¿Se presentaron reportes anuales?"
+          ]
+        },
+        {
+          "id": "ca_dncl",
+          "nombre": "Reglas de Telecomunicaciones No Solicitadas (Lista Nacional No Llamar)",
+          "sigla": "UTR / DNCL",
+          "tipo": "reglamento",
+          "autoridad": "CRTC",
+          "url": "https://crtc.gc.ca/eng/trvl2007.htm",
+          "ultima_reforma": "verificar",
+          "aplica": "Telemercadeadores y clientes que los contratan.",
+          "obligaciones": [
+            "Suscribirse a la lista y depurarla cada 31 días.",
+            "Lista interna de no llamar.",
+            "Horarios permitidos.",
+            "Identificación y autenticación de llamadas (STIR/SHAKEN)."
+          ],
+          "tramites": [
+            {
+              "que": "Registro y suscripción",
+              "plazo": "Antes de llamar",
+              "ante": "Operador de la DNCL"
+            }
+          ],
+          "sanciones": "Sanciones de hasta 15 000 CAD por infracción para personas morales.",
+          "evidencia": [
+            "Suscripción",
+            "Lista interna"
+          ],
+          "preguntas": [
+            "¿Se depura la lista cada 31 días?",
+            "¿Existe lista interna?"
+          ]
+        }
+      ]
+    },
+    "ti_digital": {
+      "reguladores": [
+        [
+          "Oficina del Comisionado de Privacidad",
+          "https://www.priv.gc.ca/"
+        ],
+        [
+          "CAI (Quebec)",
+          "https://www.cai.gouv.qc.ca/"
+        ],
+        [
+          "Competition Bureau",
+          "https://competition-bureau.canada.ca/"
+        ],
+        [
+          "Centro Canadiense de Ciberseguridad",
+          "https://www.cyber.gc.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_c36",
+          "nombre": "Proyecto C-36: Ley de Protección de la Privacidad y de los Datos del Consumidor",
+          "sigla": "C-36 / PPCDA",
+          "tipo": "ley",
+          "autoridad": "ISED / Parlamento",
+          "url": "https://www.parl.ca/legisinfo/en/bill/45-1/c-36",
+          "ultima_reforma": "verificar",
+          "aplica": "Presentado el 15-jun-2026; no es ley. Sustituiría la Parte 1 de PIPEDA. El anterior proyecto C-27 (que incluía la AIDA de IA) murió en enero de 2025.",
+          "obligaciones": [
+            "Preparar inventario de datos y bases legales.",
+            "Prever derechos sobre sistemas de decisión automatizada y evaluaciones previas a transferencias transfronterizas (según el proyecto).",
+            "Monitorear la creación de una nueva comisión con poder de ordenar y sanciones elevadas."
+          ],
+          "tramites": [],
+          "sanciones": "No aplicable hasta su promulgación; el proyecto prevé sanciones de hasta el mayor entre 10 MCAD o 3% de ingresos globales (verificar texto vigente).",
+          "evidencia": [
+            "Análisis de brechas frente al proyecto"
+          ],
+          "preguntas": [
+            "¿Se hizo un análisis de brechas frente a C-36?",
+            "¿Se monitorea su avance parlamentario?"
+          ]
+        },
+        {
+          "id": "ca_law25_ai",
+          "nombre": "Decisiones automatizadas y tecnologías de perfilamiento (Ley 25, art. 12.1 y 8.1)",
+          "sigla": "Loi 25",
+          "tipo": "ley",
+          "autoridad": "CAI",
+          "url": "https://www.legisquebec.gouv.qc.ca/en/document/cs/P-39.1",
+          "ultima_reforma": "2023-09-22",
+          "aplica": "Empresas que tratan datos de personas en Quebec con decisiones exclusivamente automatizadas o tecnologías de identificación, localización o perfilamiento.",
+          "obligaciones": [
+            "Informar a la persona de decisiones exclusivamente automatizadas.",
+            "Permitir presentar observaciones a un humano.",
+            "Desactivar por defecto la localización y el perfilamiento e informar su existencia.",
+            "EFVP para nuevos sistemas."
+          ],
+          "tramites": [],
+          "sanciones": "Ver Ley 25.",
+          "evidencia": [
+            "Inventario de decisiones automatizadas",
+            "Avisos"
+          ],
+          "preguntas": [
+            "¿Se informan las decisiones automatizadas?",
+            "¿El perfilamiento está desactivado por defecto?"
+          ]
+        },
+        {
+          "id": "ca_ai_code",
+          "nombre": "Código de Conducta Voluntario para IA Generativa Avanzada y guías de la OPC",
+          "sigla": "Voluntary AI Code / OPC principles",
+          "tipo": "guía",
+          "autoridad": "ISED / OPC",
+          "url": "https://ised-isde.canada.ca/site/ised/en/voluntary-code-conduct-responsible-development-and-management-advanced-generative-ai-systems",
+          "ultima_reforma": "2023-09-27",
+          "aplica": "Desarrolladores y gestores de sistemas de IA generativa (voluntario).",
+          "obligaciones": [
+            "Rendición de cuentas, seguridad, equidad, transparencia, supervisión humana, robustez.",
+            "Principios de la OPC para IA generativa respetuosa de la privacidad (2023).",
+            "Evaluaciones de impacto."
+          ],
+          "tramites": [],
+          "sanciones": "Sin sanción directa; las leyes de privacidad y competencia aplican.",
+          "evidencia": [
+            "Adhesión al código",
+            "Evaluaciones de IA"
+          ],
+          "preguntas": [
+            "¿Se adoptó un marco de gobernanza de IA?",
+            "¿Se aplican los principios de la OPC?"
+          ]
+        },
+        {
+          "id": "ca_dst",
+          "nombre": "Impuesto sobre Servicios Digitales (cancelado en 2025)",
+          "sigla": "DSTA",
+          "tipo": "ley",
+          "autoridad": "CRA / Finance Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/",
+          "ultima_reforma": "verificar",
+          "aplica": "Grandes grupos con ingresos digitales en Canadá. El Gobierno anunció su cancelación en junio de 2025 antes del primer pago y propuso la derogación (verificar).",
+          "obligaciones": [
+            "Confirmar que no hay obligación de pago o registro.",
+            "Revertir provisiones contables."
+          ],
+          "tramites": [],
+          "sanciones": "No aplicable si fue derogado.",
+          "evidencia": [
+            "Análisis de derogación"
+          ],
+          "preguntas": [
+            "¿Se confirmó la derogación?",
+            "¿Se revirtieron provisiones?"
+          ]
+        },
+        {
+          "id": "ca_copyright",
+          "nombre": "Ley de Derechos de Autor (software, TPM y responsabilidad de intermediarios)",
+          "sigla": "Copyright Act",
+          "tipo": "ley",
+          "autoridad": "CIPO / tribunales",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-42/",
+          "ultima_reforma": "verificar",
+          "aplica": "Empresas de software y plataformas.",
+          "obligaciones": [
+            "Licencias de software y código abierto.",
+            "Régimen 'notice and notice' para proveedores de internet.",
+            "No eludir medidas tecnológicas de protección (salvo excepciones de interoperabilidad y reparación de 2024)."
+          ],
+          "tramites": [
+            {
+              "que": "Reenvío de avisos",
+              "plazo": "Sin demora",
+              "ante": "Suscriptor"
+            }
+          ],
+          "sanciones": "Daños legales y penales.",
+          "evidencia": [
+            "Inventario de licencias",
+            "Registro de avisos"
+          ],
+          "preguntas": [
+            "¿Se reenvían avisos de infracción?",
+            "¿Existe inventario de licencias de código abierto?"
+          ]
+        }
+      ]
+    },
+    "logistica": {
+      "reguladores": [
+        [
+          "Transport Canada",
+          "https://tc.canada.ca/"
+        ],
+        [
+          "Canadian Transportation Agency",
+          "https://otc-cta.gc.ca/"
+        ],
+        [
+          "CBSA",
+          "https://www.cbsa-asfc.gc.ca/"
+        ],
+        [
+          "Provincias (transporte por carretera intraprovincial)",
+          "https://ccmta.ca/"
+        ]
+      ],
+      "leyes": [
+        {
+          "id": "ca_hos",
+          "nombre": "Reglamento de Horas de Servicio de Conductores de Vehículos Comerciales y ELD",
+          "sigla": "SOR/2005-313",
+          "tipo": "reglamento",
+          "autoridad": "Transport Canada / provincias",
+          "url": "https://laws-lois.justice.gc.ca/eng/regulations/SOR-2005-313/",
+          "ultima_reforma": "verificar",
+          "aplica": "Transportistas extraprovinciales de vehículos comerciales; ELD obligatorio (aplicación desde 2023 en la mayoría de provincias).",
+          "obligaciones": [
+            "Límites de conducción y descanso.",
+            "Dispositivo electrónico de registro certificado por tercero.",
+            "Conservar registros 6 meses.",
+            "Certificado de seguridad (NSC)."
+          ],
+          "tramites": [
+            {
+              "que": "Certificado de seguridad",
+              "plazo": "Antes de operar",
+              "ante": "Provincia"
+            }
+          ],
+          "sanciones": "Multas provinciales y órdenes de fuera de servicio.",
+          "evidencia": [
+            "Datos ELD",
+            "Certificado NSC"
+          ],
+          "preguntas": [
+            "¿Los ELD están certificados?",
+            "¿Se auditan las horas de servicio?"
+          ]
+        },
+        {
+          "id": "ca_tdg_log",
+          "nombre": "Transporte de mercancías peligrosas",
+          "sigla": "TDGA / TDGR",
+          "tipo": "ley",
+          "autoridad": "Transport Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/T-19.01/",
+          "ultima_reforma": "verificar",
+          "aplica": "Expedidores y transportistas.",
+          "obligaciones": [
+            "Clasificación y documentación.",
+            "Capacitación certificada.",
+            "Reportes de liberaciones."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de liberación",
+              "plazo": "Inmediato",
+              "ante": "CANUTEC"
+            }
+          ],
+          "sanciones": "Multas y prisión.",
+          "evidencia": [
+            "Certificados",
+            "Documentos"
+          ],
+          "preguntas": [
+            "¿La capacitación está vigente?",
+            "¿Se reportan liberaciones?"
+          ]
+        },
+        {
+          "id": "ca_customs_log",
+          "nombre": "Transportistas y agentes en aduanas (eManifest, CARM, almacenes)",
+          "sigla": "Customs Act / Reporting of Imported Goods Regs",
+          "tipo": "ley",
+          "autoridad": "CBSA",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-52.6/",
+          "ultima_reforma": "verificar",
+          "aplica": "Transportistas, agentes de carga y operadores de almacenes de aduana.",
+          "obligaciones": [
+            "Código de transportista y garantía.",
+            "eManifest anticipado por modo.",
+            "Licencia de almacén de aduanas.",
+            "Socios en Protección (PIP) opcional."
+          ],
+          "tramites": [
+            {
+              "que": "eManifest",
+              "plazo": "Antes de la llegada según modo",
+              "ante": "CBSA"
+            }
+          ],
+          "sanciones": "Sanciones AMPS.",
+          "evidencia": [
+            "Códigos",
+            "Registros eManifest"
+          ],
+          "preguntas": [
+            "¿Los eManifest se transmiten en plazo?",
+            "¿Se gestionan las sanciones AMPS?"
+          ]
+        },
+        {
+          "id": "ca_shipping",
+          "nombre": "Ley de la Marina Mercante de Canadá y seguridad del transporte marítimo",
+          "sigla": "CSA 2001 / MTSA",
+          "tipo": "ley",
+          "autoridad": "Transport Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/C-10.15/",
+          "ultima_reforma": "verificar",
+          "aplica": "Buques canadienses e instalaciones portuarias.",
+          "obligaciones": [
+            "Certificados de buques y tripulación.",
+            "Planes de seguridad de instalaciones y buques (MTSA).",
+            "Prevención de contaminación."
+          ],
+          "tramites": [
+            {
+              "que": "Plan de seguridad",
+              "plazo": "Aprobación y revisión",
+              "ante": "Transport Canada"
+            }
+          ],
+          "sanciones": "Sanciones administrativas.",
+          "evidencia": [
+            "Certificados",
+            "Planes"
+          ],
+          "preguntas": [
+            "¿Los planes de seguridad están aprobados?",
+            "¿La tripulación tiene certificados?"
+          ]
+        },
+        {
+          "id": "ca_railway",
+          "nombre": "Ley de Seguridad Ferroviaria",
+          "sigla": "Railway Safety Act",
+          "tipo": "ley",
+          "autoridad": "Transport Canada",
+          "url": "https://laws-lois.justice.gc.ca/eng/acts/R-4.2/",
+          "ultima_reforma": "verificar",
+          "aplica": "Compañías ferroviarias federales.",
+          "obligaciones": [
+            "Sistema de gestión de seguridad.",
+            "Reglas de operación.",
+            "Reportar accidentes al TSB."
+          ],
+          "tramites": [
+            {
+              "que": "Reporte de accidente",
+              "plazo": "Inmediato",
+              "ante": "TSB"
+            }
+          ],
+          "sanciones": "Multas y órdenes.",
+          "evidencia": [
+            "SMS",
+            "Reportes"
+          ],
+          "preguntas": [
+            "¿El SMS está auditado?",
+            "¿Se reportan accidentes?"
+          ]
+        }
+      ]
+    }
+  }
+}

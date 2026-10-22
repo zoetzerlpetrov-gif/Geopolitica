@@ -49,6 +49,7 @@
       <button role="tab" aria-selected="false" data-p="marcos">🗂️ Marcos militar, político y corporativo</button>
       <button role="tab" aria-selected="false" data-p="auditorias">📋 Plantillas de auditoría por sector</button>
       <button role="tab" aria-selected="false" data-p="normativa">⚖️ Normativa por país (MX, EUA, Canadá, UE, Rusia)</button>
+      <button role="tab" aria-selected="false" data-p="escenarios">🎲 Simulación de escenarios</button>
       <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
     </nav>
 
@@ -146,6 +147,13 @@
       <div id="nor-calendario" hidden></div>
       <div id="nor-leyes"></div>
       <p class="meta" id="nor-fuentes"></p>
+    </section>
+    <section class="panel" id="p-escenarios" hidden>
+      <h2>Simulación de escenarios a partir de los eventos del mapa</h2>
+      <p class="meta">Elige un país: se cuentan los eventos vigentes por tema y se proponen los escenarios que más se relacionan. Cada simulación usa un modelo matemático con sus fórmulas a la vista.
+        Para una empresa concreta, usa DOMINUS OPS → Risk Management.</p>
+      <div class="barra"><label>País <select id="hesc-pais"></select></label><span class="meta" id="hesc-resumen"></span></div>
+      <div id="herr-esc"></div>
     </section>
     <section class="panel" id="p-nube" hidden>
       <h2>Nube y seguridad: autoevaluación</h2>

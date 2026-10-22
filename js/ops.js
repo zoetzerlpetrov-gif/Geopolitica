@@ -31,6 +31,21 @@ getJSON("config/auditorias.json").then((a) => {
 }).catch(() => {});
 $("p-cliente").addEventListener("input", () => guardar("gp_ops_cliente", Object.fromEntries(CAMPOS_CL.map((k) => [k, $(`cl-${k}`).value]))));
 $("p-cliente").addEventListener("change", () => guardar("gp_ops_cliente", Object.fromEntries(CAMPOS_CL.map((k) => [k, $(`cl-${k}`).value]))));
+// Risk Management: contexto = cliente + DMI + gobernanza + eventos del mapa en sus países.
+const eventosOps = getJSON("data/events.json", { bust: true }).then((d) => d.eventos || []).catch(() => []);
+eventosOps.then((evs) => import("./escenarios.js").then((E) => E.montarSimulador($("ops-esc"), {
+  prefijo: "oe", clave: "gp_ops_esc",
+  ayudaContexto: "Se agrega automáticamente lo capturado en Cliente, DMI y Gobernanza; escribe aquí lo que falte.",
+  contexto: () => {
+    const c = leer("gp_ops_cliente", {}), paisesC = [c.pais, ...String(c.paises || "").split(/[,\s]+/)].map((x) => String(x || "").toUpperCase()).filter((x) => /^[A-Z]{3}$/.test(x));
+    const porArea = {};
+    for (const e of evs) if (!paisesC.length || paisesC.includes(e.pais_iso3)) porArea[e.area_principal] = (porArea[e.area_principal] || 0) + (e.severidad >= 4 ? 2 : 1);
+    const d = leer("gp_ops_dmi", { puntos: {} }), dmiTxt = Object.entries(d.puntos || {}).map(([k, v]) => `${k}: ${v}`).join(", ");
+    return { cliente: c, sector: c.sector, eventosPorArea: porArea,
+      texto: [c.nombre && `Empresa: ${c.nombre} (${c.sector || "sector sin capturar"}), país ${c.pais || "—"}${c.paises ? `, también ${c.paises}` : ""}; ${c.empleados || "?"} empleados; ingresos ${c.ingresos || "?"} ${c.moneda || ""}.`,
+        c.sitios && `Sitios: ${c.sitios}.`, c.proveedores && `Proveedores críticos: ${c.proveedores}.`, c.contexto, dmiTxt && `Madurez DMI por dimensión: ${dmiTxt}.`].filter(Boolean).join("\n") };
+  },
+}))).catch((e) => { $("ops-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
 import("./ops-biblioteca.js").then((B) => B.iniciarBiblioteca()).catch((e) => { $("bib-ficha").innerHTML = `<p class="meta">No se pudo cargar la biblioteca: ${esc(e.message)}</p>`; });
 
 // ------------------------------------------------------------------ mapa maestro y fases
