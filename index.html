@@ -263,6 +263,7 @@
           <summary><h2>📷 Foto: metadatos, ubicación y análisis forense (¿IA o editada?)</h2></summary>
           <label class="fila-apilada"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
           <p class="nota-capas">La foto se lee solo en tu navegador: no se sube ni se guarda. Muestra los metadatos que traiga (cámara, fecha, ajustes y, si el GPS estaba activo, la ubicación) y busca indicios de imagen generada con IA o editada (credenciales C2PA, marcas IPTC, parámetros de Stable Diffusion, programa de edición), más un análisis de nivel de error (ELA).</p>
+          <button type="button" class="foto-ir" id="foto-quitar" hidden>🗑️ Quitar foto y resultados</button>
           <div id="foto-exif-res" aria-live="polite"></div>
           <img id="foto-prev" class="foto-prev" alt="Vista previa de la foto elegida" hidden>
         </details>
