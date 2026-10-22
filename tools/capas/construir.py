@@ -811,8 +811,7 @@ def camaras_con_llave():
     out = []
     for sec, (base, pais, operador) in CAM_511.items():
         llave = os.environ.get(sec, "").strip()
-        if not llave:
-            CAM_FUENTES[sec.lower()] = "sin llave"
+        if not llave:  # no se reporta: hoy solo se usan WSDOT y Windy (docs/CAMARAS.md)
             continue
         out += _fuente_camaras(sec.lower(), [f"{base}/api/v2/get/cameras?key={urllib.parse.quote(llave)}&format=json"],
                                lambda d, b=base, p=pais, o=operador, s=sec: camaras_511(d, b, p, o, s[-2:].lower()), leer=leer_json_aceptando)
