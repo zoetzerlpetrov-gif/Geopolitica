@@ -54,7 +54,7 @@ export class CapaIndice {
     const color = ["step", ["get", "indice"], "rgba(0,0,0,0)"];
     for (const e of ESCALA) color.push(e.desde, e.color);
     // Debajo de imágenes, chokepoints y eventos: es contexto, no debe tapar los puntos.
-    const antes = ["choke-anillo", "clusters"].find((l) => m.getLayer(l));
+    const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => m.getLayer(l));
     m.addLayer({ id: "indice-relleno", type: "fill", source: "indice", paint: { "fill-color": color, "fill-opacity": 0.55 } }, antes);
     m.addLayer({ id: "indice-borde", type: "line", source: "indice", filter: [">=", ["get", "indice"], 0],
       paint: { "line-color": "#7a2a10", "line-width": 0.4, "line-opacity": 0.5 } }, antes);

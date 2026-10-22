@@ -792,7 +792,7 @@ async function main() {
   };
   api.map.once("idle", arrancarCapas);
   setTimeout(arrancarCapas, 5000);
-  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); timelapse?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); });
+  api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); timelapse?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); avisarPresupuesto(); });
   iniciarImagenes();
   iniciarClima();
   iniciarRiesgos();
@@ -836,6 +836,15 @@ async function main() {
     }
   });
   $("lista-seguimiento").addEventListener("click", (e) => {
+    // ×: deja de seguir el lugar (también los que se agregaron desde Inteligencia corporativa).
+    const q = e.target.closest("button[data-seg-quitar]");
+    if (q) {
+      const x = seg.leer().find((y) => y.id === q.dataset.segQuitar);
+      if (x) seg.alternar(x);
+      if (entidadAbierta?.props?.id === q.dataset.segQuitar && $("btn-seguir")) { $("btn-seguir").setAttribute("aria-pressed", "false"); $("btn-seguir").textContent = "☆ Seguir"; }
+      pintarSeguimiento();
+      return;
+    }
     const b = e.target.closest("button[data-seg]");
     if (!b) return;
     const x = seg.leer().find((y) => y.id === b.dataset.seg);
@@ -1263,7 +1272,7 @@ async function alternarTimelapse(cb) {
     const marcas = barra.querySelector(".tl-marcas");
     timelapse ??= new T.Timelapse(api.map, {
       onCambio: (st) => {
-        rango.max = st.n - 1; rango.value = st.i; anio.textContent = st.anio; fuente.value = st.fuente; dia.hidden = st.fuente !== "nasa";
+        rango.max = st.n - 1; rango.value = st.i; anio.textContent = st.cargando ? `${st.anio} · bajando ${st.cargando}…` : st.anio; fuente.value = st.fuente; dia.hidden = st.fuente !== "nasa";
         marcas.innerHTML = `<span>${T.FUENTES[st.fuente].anios[0]}</span><span>${T.FUENTES[st.fuente].anios.at(-1)}</span>`;
         play.textContent = st.reproduciendo ? "⏸" : "▶"; play.setAttribute("aria-label", st.reproduciendo ? "Pausar" : "Reproducir");
       },
@@ -1881,6 +1890,7 @@ function avisoMapa(texto, ms = 6000) {
 }
 
 function avisarPresupuesto() {
+  if (api?.map) import("./contornos.js").then((C) => C.actualizarContornos(api.map)).catch(() => null);
   const n = (gestor ? gestor.totalActivas() : 1) + (mov ? mov.activas.size : 0) + (img ? img.activas.size : 0) + (capaIndice?.activa ? 1 : 0);
   const aviso = $("aviso-capas");
   aviso.hidden = n <= PRESUPUESTO_CAPAS;
@@ -1892,7 +1902,8 @@ function pintarSeguimiento() {
   $("seg-total").textContent = items.length ? `(${items.length})` : "";
   // Agrupado por tipo de capa (aeropuertos, puertos, embajadas…); cada grupo se pliega.
   const fila = (x) => `<li><button type="button" class="txt-btn" data-seg="${esc(x.id)}">${esc(x.n || x.id)}</button>
-    <span>${x.eventos.length} eventos ${x.nuevos ? `<span class="badge-nuevo">${x.nuevos} nuevos</span>` : ""}</span></li>`;
+    <span>${x.eventos.length} eventos ${x.nuevos ? `<span class="badge-nuevo">${x.nuevos} nuevos</span>` : ""}
+      <button type="button" class="seg-quitar" data-seg-quitar="${esc(x.id)}" title="Dejar de seguir" aria-label="Dejar de seguir ${esc(x.n || x.id)}">×</button></span></li>`;
   const grupos = new Map();
   for (const x of items) { const k = x.familia || "otros"; if (!grupos.has(k)) grupos.set(k, []); grupos.get(k).push(x); }
   const nombreFam = (k) => gestor?.familias?.get(k)?.nombre || { otros: "Otros", corporativo: "Mis instalaciones (inteligencia corporativa)" }[k] || k;

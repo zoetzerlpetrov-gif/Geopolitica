@@ -22,6 +22,9 @@ export const ANIOS = FUENTES.eox.anios;
 export const urlAnio = (a) => FUENTES.eox.url(a);
 export const atribucion = (a) => FUENTES.eox.atribucion(a);
 export const MS_PASO = 1500;
+// El «play» no cambia de año hasta que los mosaicos del siguiente terminaron de bajar (si no, se veían años a medias);
+// si tardan más de MAX_ESPERA_MS, avanza de todos modos para no quedarse trabado con una conexión lenta.
+const TIC_MS = 250, MAX_ESPERA_MS = 12000;
 const ERRORES_PARA_RESPALDO = 6;
 
 /** Índice siguiente en el ciclo (vuelve al primero al terminar). */
@@ -75,13 +78,33 @@ export class Timelapse {
 
   reproducir() {
     if (this.reloj || !this.activo) return;
-    this.reloj = setInterval(() => this.#mostrar(siguiente(this.i, this.anios.length)), MS_PASO);
+    this.ultimo = Date.now();
+    this.reloj = setInterval(() => this.#tic(), TIC_MS);
     this.onCambio(this.estado());
   }
 
-  pausar() { clearInterval(this.reloj); this.reloj = null; this.onCambio(this.estado()); }
+  pausar() { clearInterval(this.reloj); this.reloj = null; this.cargando = null; this.onCambio(this.estado()); }
 
-  estado() { return { i: this.i, anio: this.anios[this.i], n: this.anios.length, fuente: this.fuente, dia: this.dia, reproduciendo: Boolean(this.reloj), activo: this.activo }; }
+  /** ¿Ya bajaron los mosaicos visibles de ese año? (sin la función de MapLibre, se asume que sí). */
+  listo(a) {
+    const id = this.#id(a);
+    return !this.map.getSource?.(id) || !this.map.isSourceLoaded || this.map.isSourceLoaded(id);
+  }
+
+  #tic() {
+    const dt = Date.now() - this.ultimo;
+    if (dt < MS_PASO) return;
+    const j = siguiente(this.i, this.anios.length);
+    if (!this.listo(this.anios[j]) && dt < MAX_ESPERA_MS) {
+      if (!this.cargando) { this.cargando = this.anios[j]; this.onCambio(this.estado()); }
+      return;
+    }
+    this.cargando = null;
+    this.ultimo = Date.now();
+    this.#mostrar(j);
+  }
+
+  estado() { return { cargando: this.cargando || null, i: this.i, anio: this.anios[this.i], n: this.anios.length, fuente: this.fuente, dia: this.dia, reproduciendo: Boolean(this.reloj), activo: this.activo }; }
 
   #id(a) { return `tl-${this.fuente}-${a}`; }
 
@@ -98,7 +121,7 @@ export class Timelapse {
     if (this.map.getSource(id)) { this.instaladas.add(id); return; }
     this.map.addSource(id, { type: "raster", tiles: [F.url(a, this.dia)], tileSize: 256, maxzoom: F.maxzoom, attribution: F.atribucion(a, this.dia) });
     // Debajo de chokepoints, capas y eventos (igual que las demás imágenes satelitales).
-    const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+    const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.map.addLayer({ id, type: "raster", source: id,
       paint: { "raster-opacity": 0, "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
     this.instaladas.add(id);

@@ -43,3 +43,16 @@ test("respaldo NASA: mismo año, día del año y cambio automático tras errores
   assert.match(avisos[0], /EOX no respondió/);
   assert.equal(FUENTES.nasa.anios[0], 2001);
 });
+
+test("play: no cambia de año hasta que bajan los mosaicos del siguiente", () => {
+  const capas = new Map(), fuentes = new Set(), cargados = new Set();
+  const map = { getSource: (id) => fuentes.has(id), getLayer: (id) => capas.has(id), addSource: (id) => fuentes.add(id), removeSource: (id) => fuentes.delete(id),
+    addLayer: (l) => capas.set(l.id, 0), removeLayer: (id) => capas.delete(id), setPaintProperty: (id, _k, v) => capas.set(id, v), isSourceLoaded: (id) => cargados.has(id) };
+  const t = new Timelapse(map);
+  t.activar();
+  assert.equal(t.listo(2018), false);
+  cargados.add("tl-eox-2018");
+  assert.equal(t.listo(2018), true);
+  assert.equal(t.listo(1999), true);  // sin fuente instalada no hay nada que esperar
+  t.desactivar();
+});

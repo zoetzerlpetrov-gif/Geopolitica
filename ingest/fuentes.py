@@ -226,6 +226,39 @@ def permitido_por_robots(url, leer=None):
     return _ROBOTS[base].can_fetch("Geopolitica-monitor", url)
 
 
+_META_IMG = re.compile(r"""<meta[^>]+(?:property|name)=["'](?:og:image(?::secure_url)?|twitter:image)["'][^>]*>""", re.I)
+_CONTENT = re.compile(r"""content=["']([^"']+)["']""", re.I)
+
+
+def imagen_de_html(html):
+    """URL de la imagen de portada que el medio declara para compartir la nota (og:image o twitter:image). Solo https."""
+    for m in _META_IMG.finditer(html or ""):
+        c = _CONTENT.search(m.group(0))
+        u = (c.group(1) if c else "").replace("&amp;", "&").strip()
+        if u.startswith("https://") and len(u) <= 400 and not re.search(r"logo|avatar|favicon|pixel|1x1|placeholder", u, re.I):
+            return u
+    return ""
+
+
+def og_imagen(url, leer=None, robots=permitido_por_robots):
+    """Lee solo el inicio de la página de la nota (hasta 96 KB, donde va el <head>) para tomar la URL de su imagen
+    de portada. No se guarda el texto: solo el enlace a la imagen, que se muestra desde el sitio del medio.
+    Respeta robots.txt. "" si no hay o falla."""
+    if not url.startswith("http") or not robots(url):
+        return ""
+    try:
+        if leer:
+            html = leer(url)
+        else:
+            req = urllib.request.Request(url, headers={"User-Agent": UA})
+            with urllib.request.urlopen(req, timeout=8) as r:
+                html = r.read(96_000)
+            html = (gzip.decompress(html) if html[:2] == b"\x1f\x8b" else html).decode("utf-8", "replace")
+    except Exception:  # noqa: BLE001
+        return ""
+    return imagen_de_html(html)
+
+
 def rss(feed):
     if not permitido_por_robots(feed["url"]):
         raise PermissionError("el robots.txt del sitio no permite leer este feed: se omite")

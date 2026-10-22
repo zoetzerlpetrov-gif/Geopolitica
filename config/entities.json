@@ -3038,6 +3038,46 @@
       "geoeconomia"
      ],
      "familia": "actividades"
+    },
+    {
+     "id": "mina_detalle",
+     "nombre": {
+      "es": "Minas con mineral, operador o dueño",
+      "en": "Mines with mineral or operator"
+     },
+     "icono": "⛏",
+     "color": "#C27C1E",
+     "fuente": "wikidata",
+     "licencia": "CC0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 6,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "minas"
+    },
+    {
+     "id": "mina_wikidata",
+     "nombre": {
+      "es": "Otras minas (nombre y país)",
+      "en": "Other mines"
+     },
+     "icono": "⛏",
+     "color": "#A1887F",
+     "fuente": "wikidata",
+     "licencia": "CC0",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 8,
+     "areas": [
+      "energia",
+      "geoeconomia"
+     ],
+     "familia": "minas"
     }
    ]
   },

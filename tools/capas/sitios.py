@@ -118,8 +118,8 @@ FAMILIAS = {
     # dueño (con esos detalles, desde zoom 6); luego el resto con nombre y país (desde zoom 8, para no saturar el mapa).
     # La primera clase gana al repetirse una mina.
     "recursos_minas": [
-        ("Q820477", "mineria", 0, "recurso_dato", 6),
-        ("Q820477", "mineria", 0, "ligera", 8),
+        ("Q820477", "mina_detalle", 0, "recurso_dato", 6),
+        ("Q820477", "mina_wikidata", 0, "ligera", 8),
     ],
     "turismo": [
         ("Q9259", "patrimonio_mundial", 0, "patrimonio", 3),   # 3,378 sitios con coordenada (oct 2026)

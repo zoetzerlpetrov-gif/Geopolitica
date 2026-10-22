@@ -288,6 +288,23 @@ def priorizar(eventos, maximo, max_gdelt=None):
     return sorted(orden[:maximo], key=lambda e: e["fecha_utc"], reverse=True)
 
 
+def buscar_imagenes(eventos, t, maximo=60, horas=2, og=None):
+    """Notas recientes sin imagen (sobre todo las de GDELT, que no la traen): se pide la imagen de portada a su sitio.
+    Solo las de las últimas `horas` (así una nota no se vuelve a pedir en cada corrida) y como mucho `maximo` por corrida,
+    las más graves primero. Devuelve cuántas se encontraron."""
+    og = og or F.og_imagen
+    desde = t - timedelta(hours=horas)
+    pend = sorted((e for e in eventos if not e.get("imagen") and fecha(e["fecha_utc"]) >= desde), key=lambda e: -e["severidad"])
+    from concurrent.futures import ThreadPoolExecutor
+    pend = pend[:maximo]
+    with ThreadPoolExecutor(max_workers=8) as ex:
+        urls = list(ex.map(lambda e: og(e["url"]), pend))
+    for e, u in zip(pend, urls):
+        if u:
+            e["imagen"] = u
+    return sum(1 for u in urls if u)
+
+
 def compacto(e):
     return {k: e[k] for k in ("id", "fecha_utc", "titulo", "resumen", "url", "fuente", "tipo_fuente", "pais_iso3", "lat", "lon",
                               "area_principal", "severidad", "nivel_alerta", "impacto_mexico")} | (
@@ -494,6 +511,7 @@ def main(argv=None):
     if ia_cfg.get("habilitada") and clave_ia:
         resumidor = lambda evs, textos: resumen_ia.resumir(evs, textos, ia_cfg, clave_ia)  # noqa: E731
     eventos, descartados = procesar(candidatos, anteriores, cfg, t, Gazetteer(), Paises(), Clasificador(taxonomy), taxonomy, resumidor)
+    descartados["imagenes_portada"] = buscar_imagenes(eventos, t, cfg.get("max_imagenes_portada", 60))
     est_ia = descartados.pop("ia", {"omitido": "sin el secreto GROQ_API_KEY" if not clave_ia else "deshabilitado en config/fuentes.json"})
     print(f"IA: {est_ia}")
     ejemplos = descartados.pop("ejemplos")  # títulos sin área: van aparte en el run-log

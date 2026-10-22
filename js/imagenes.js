@@ -58,8 +58,8 @@ export const IMAGENES = {
     matriz: "GoogleMapsCompatible_Level6", ext: "png", maxzoom: 6, opacidad: 0.75,
     leyenda: "Columna troposférica de NO₂ (Sentinel-5P/TROPOMI, ~5 km). Mientras más intenso el color, más NO₂: ciudades grandes, centrales, refinerías y corredores de tráfico. Compara días: una caída fuerte en una zona industrial puede indicar paro o cierre. Las nubes dejan huecos. Leyenda oficial en NASA Worldview." },
   no2_tempo: { nombre: "NO₂ cada hora en América del Norte y México (TEMPO, hora más reciente)", capa: "TEMPO_L3_NO2_Vertical_Column_Troposphere",
-    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, fecha_fija: "default",
-    leyenda: "Satélite geoestacionario TEMPO (NASA): mide el NO₂ cada hora de día sobre América del Norte, de Canadá a México. Mientras más intenso el color, más NO₂. Muestra la última hora publicada; de noche no hay datos. Leyenda oficial en NASA Worldview." },
+    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, por_hora: true,
+    leyenda: "Satélite geoestacionario TEMPO (NASA): mide el NO₂ cada hora de día sobre América del Norte, de Canadá a México. Mientras más intenso el color, más NO₂. Muestra la hora más reciente con el barrido completo (el primero de la mañana y el último de la tarde salen a medias y se saltan); de noche no hay datos. Leyenda oficial en NASA Worldview." },
   // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB (las «ENCC» dejaron de publicarse en 2023). Al
   // activarla, el navegador prueba cada candidata en los últimos días y usa la primera con imagen completa.
   // Comprobado en GIBS (oct 2026): NOAA-20 corregida por luz de luna (Black Marble diaria) está completa al día siguiente;
@@ -105,6 +105,37 @@ export async function mejorDia(capa, pedir, ahora = new Date(), dias = 3) {
     if (!mejor || b > mejor.bytes * 1.1) mejor = { fecha: f, bytes: b };
   }
   return mejor && mejor.bytes > 0 ? mejor.fecha : haceDias(1, ahora);
+}
+
+/** Mosaicos de z3 sobre México, EUA y Canadá (TEMPO solo cubre América del Norte). */
+const MUESTRAS_NA = [[3, 3, 1], [3, 3, 2]];
+
+/** «AAAA-MM-DDTHH:00:00Z» de hace `h` horas (GIBS ajusta la hora pedida al barrido que la contiene). */
+export const haceHoras = (h, ahora = new Date()) => new Date(Math.floor(ahora.getTime() / 3600000) * 3600000 - h * 3600000).toISOString().slice(0, 19) + "Z";
+
+/**
+ * Productos por hora (TEMPO): GIBS publica un barrido por hora de día. El primero de la mañana (~13 UTC) y el último de la
+ * tarde cubren solo una parte (medido en oct 2026: 4 KB contra 18 KB del mismo mosaico a mediodía) y de noche no hay
+ * nada (404). Se revisan las últimas `horas` y se toma la más reciente con al menos 85 % de los bytes de la mejor.
+ */
+export async function mejorHora(def, pedir, ahora = new Date(), horas = 30) {
+  const vistas = [];
+  for (let h = 1; h <= horas; h++) {
+    const t = haceHoras(h, ahora);
+    let total = 0;
+    for (const [z, y, x] of MUESTRAS_NA) {
+      try {
+        const r = await pedir(urlGIBS(def, t).replace("{z}", z).replace("{y}", y).replace("{x}", x));
+        if (!r.ok || !/^image\//.test(r.tipo || "")) { total = 0; break; }
+        total += r.bytes;
+      } catch (e) { total = 0; break; }
+    }
+    vistas.push({ t, total });
+    // Basta con ver unas horas con datos para comparar: a partir de la tercera con datos se decide.
+    if (vistas.filter((v) => v.total > 0).length >= 3) break;
+  }
+  const max = Math.max(0, ...vistas.map((v) => v.total));
+  return max > 0 ? vistas.find((v) => v.total >= max * 0.85).t : "default";
 }
 
 /**
@@ -158,6 +189,7 @@ export class Imagenes {
     // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
     const porOmision = fecha === ayerUTC();
     if (def.retraso_dias && porOmision) fecha = haceDias(def.retraso_dias);
+    else if (def.por_hora) fecha = porOmision ? await mejorHora(def, pedir) : `${fecha}T18:00:00Z`;  // otro día: mediodía en México
     else if (porOmision && def.capa && !def.fecha_fija) fecha = await mejorDia(def, pedir);  // día completo, no a medias
     if (def.fecha_fija) fecha = def.fecha_fija;  // p. ej. «default» = lo más reciente que publique GIBS
     if (def.candidatos) {
@@ -192,7 +224,7 @@ export class Imagenes {
     this.map.addSource(`img-${id}`, { type: "raster", tiles: [urlGIBS(capa, eleccion?.fecha || fecha)], tileSize: 256, maxzoom: def.maxzoom,
       attribution: "Imágenes: NASA GIBS / EOSDIS" });
     // Debajo de chokepoints, capas y eventos: primera capa propia del mapa.
-    const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+    const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.map.addLayer({ id: `img-${id}`, type: "raster", source: `img-${id}`, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, antes);
   }
 }

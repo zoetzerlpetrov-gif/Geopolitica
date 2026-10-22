@@ -78,3 +78,34 @@ test("anomalías del catálogo: enlace de Wikipedia en cualquier idioma → imag
   assert.deepEqual(articuloWikipedia("https://es.wikipedia.org/wiki/Caso_Roswell"), { titulo: "es:Caso Roswell", exacto: true });
   assert.equal(articuloWikipedia("https://www.aaro.mil/"), null);
 });
+
+test("foto de avión: rechaza títulos sin relación con aviación (p. ej. un auto con el mismo número)", async () => {
+  const { esFotoAvion } = await import("../../js/imagen_tipo.js");
+  assert.equal(esFotoAvion("File:Audi A4 3202 (2010).jpg", "C-295", "CASA"), false);
+  assert.equal(esFotoAvion("File:Casa Blanca 3202.jpg", "C-295", ""), false);
+  assert.equal(esFotoAvion("File:Fuerza Aérea Mexicana C-295 3202.jpg", "C-295", "CASA"), true);
+  assert.equal(esFotoAvion("File:XA-AMX Aeromexico Boeing 737.jpg", "737-800", "Boeing"), true);
+});
+
+import { hayCubriente } from "../../js/contornos.js";
+test("contornos: solo con capas que tapan el mapa base", () => {
+  assert.equal(hayCubriente(["fondo", "paises-borde", "clusters"]), false);
+  assert.equal(hayCubriente(["fondo", "img-no2_tempo"]), true);
+  assert.equal(hayCubriente(["clima-temp"]), true);
+  assert.equal(hayCubriente(["tl-eox-2024"]), true);
+  assert.equal(hayCubriente(["clima-rayos"]), false);
+});
+
+import { mejorHora, haceHoras } from "../../js/imagenes.js";
+test("NO₂ TEMPO: salta el barrido incompleto y la noche", async () => {
+  const ahora = new Date("2026-10-21T14:30:00Z");
+  // 13 UTC: barrido de la mañana a medias; 12 a 23 del día anterior: noche (404); 22 UTC: a medias; 21 y 20: completos.
+  const bytes = { "2026-10-21T13": 4000, "2026-10-20T22": 9000, "2026-10-20T21": 18000, "2026-10-20T20": 18200 };
+  const pedir = async (url) => {
+    const k = url.match(/default\/(\d{4}-\d\d-\d\dT\d\d)/)[1];
+    return bytes[k] ? { ok: true, tipo: "image/png", bytes: bytes[k] } : { ok: false, tipo: "text/xml", bytes: 0 };
+  };
+  assert.equal(await mejorHora({ capa: "TEMPO", matriz: "M", ext: "png" }, pedir, ahora), "2026-10-20T21:00:00Z");
+  assert.equal(haceHoras(1, ahora), "2026-10-21T13:00:00Z");
+  assert.equal(await mejorHora({ capa: "T", matriz: "M", ext: "png" }, async () => ({ ok: false }), ahora), "default");
+});
