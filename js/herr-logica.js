@@ -385,3 +385,60 @@ export function informeAuditoria(cfg, sector, d) {
     + `## Normas y reguladores de referencia\n\n${(s?.normas || []).map((n) => `- ${n}`).join("\n")}\n\nReguladores en México: ${(s?.reguladores_mx || []).join(", ")}. Internacionales: ${(s?.reguladores_int || []).join(", ")}.\n\n`
     + `> ${cfg.descripcion}\n`;
 }
+
+// ------------------------------------------------------------------ nube y seguridad (Cloud & Security)
+
+/** Funciones del NIST Cybersecurity Framework 2.0. */
+export const FUNCIONES_CSF = { GV: "Gobernar", ID: "Identificar", PR: "Proteger", DE: "Detectar", RS: "Responder", RC: "Recuperar" };
+
+/** Controles de seguridad en la nube: [función CSF, control, referencias]. Lista base; no sustituye una auditoría formal. */
+export const CONTROLES_NUBE = [
+  ["GV", "Hay un responsable de seguridad (CISO o equivalente) y una política de seguridad en la nube aprobada por la dirección.", "NIST CSF GV.RR; ISO/IEC 27001 cl. 5"],
+  ["GV", "Se conoce y documenta el modelo de responsabilidad compartida con cada proveedor (qué protege el proveedor y qué te toca).", "CSA CCM STA-01; ISO/IEC 27017 CLD.6.3.1"],
+  ["GV", "Los contratos con proveedores de nube fijan ubicación de datos, notificación de incidentes, auditoría y salida (portabilidad).", "CSA CCM STA-09; ISO/IEC 27036"],
+  ["ID", "Inventario automático de cuentas, suscripciones, recursos y datos en la nube (incluye «shadow IT»).", "CIS Controls 1 y 3; NIST CSF ID.AM"],
+  ["ID", "Los datos están clasificados (público, interno, confidencial, personal) y se sabe en qué servicio vive cada tipo.", "CIS Control 3; LFPDPPP; ISO/IEC 27018"],
+  ["ID", "Se evalúan riesgos de la nube al menos una vez al año y ante cambios grandes.", "ISO 31000; NIST CSF ID.RA"],
+  ["PR", "Autenticación multifactor (MFA) resistente a phishing en todas las cuentas, obligatoria para administradores y la cuenta raíz.", "CIS Control 6.3-6.5; CSA CCM IAM-14"],
+  ["PR", "La cuenta raíz o propietaria no se usa en el día a día y sus llaves de acceso están eliminadas.", "CIS Benchmarks AWS/Azure/GCP 1.x"],
+  ["PR", "Mínimo privilegio: roles por función, sin permisos «*», revisión trimestral y retiro inmediato al salir una persona.", "CIS Control 5 y 6; NIST SP 800-53 AC-6"],
+  ["PR", "Secretos y llaves en una bóveda (Key Vault, Secrets Manager, Secret Manager), nunca en el código; rotación periódica.", "CIS Control 3.11; OWASP ASVS V2"],
+  ["PR", "Cifrado en reposo con llaves administradas (KMS) y en tránsito con TLS 1.2 o superior.", "CSA CCM CEK; ISO/IEC 27017"],
+  ["PR", "Ningún almacenamiento (buckets, blobs) es público salvo que esté justificado y aprobado.", "CIS Benchmarks; CSA CCM DSP"],
+  ["PR", "Redes segmentadas; bases de datos y paneles de administración sin acceso directo desde internet.", "CIS Control 12; NIST CSF PR.IR"],
+  ["PR", "Configuración base endurecida (CIS Benchmarks) e infraestructura como código revisada antes de desplegar.", "CIS Control 4; NIST SP 800-53 CM-2"],
+  ["PR", "Parches y actualizaciones de imágenes, contenedores y dependencias con plazos según severidad (prioridad a CVE del catálogo KEV).", "CIS Control 7; CISA BOD 22-01"],
+  ["PR", "Respaldos inmutables o fuera de línea, cifrados y en otra región o cuenta.", "CIS Control 11; NIST SP 800-209"],
+  ["PR", "Capacitación periódica contra phishing e ingeniería social para todo el personal.", "CIS Control 14; ISO/IEC 27001 A.6.3"],
+  ["DE", "Registros de auditoría activados en todas las cuentas y regiones (CloudTrail, Activity Log, Audit Logs), centralizados y protegidos contra borrado.", "CIS Control 8; NIST CSF DE.CM"],
+  ["DE", "Revisión continua de configuración (CSPM) con alertas por cambios críticos.", "CSA CCM LOG; NIST CSF DE.CM"],
+  ["DE", "Detección de amenazas activa (GuardDuty, Defender, Security Command Center o un SIEM) con alguien que atiende las alertas.", "CIS Control 13; NIST CSF DE.AE"],
+  ["DE", "Alertas por uso de la cuenta raíz, cambios de permisos, desactivación de registros y gasto anómalo.", "CIS Benchmarks (monitoreo)"],
+  ["RS", "Plan de respuesta a incidentes específico de la nube con roles, contactos del proveedor y plantillas de comunicación.", "NIST SP 800-61r3; ISO/IEC 27035"],
+  ["RS", "Se sabe a quién y en qué plazo notificar: autoridades, clientes y titulares de datos (LFPDPPP, GDPR 72 h, regulador sectorial).", "LFPDPPP; GDPR art. 33; CUB/CNBV si es banco"],
+  ["RS", "Ejercicio de simulación (tabletop) al menos una vez al año, con ransomware y robo de credenciales.", "NIST SP 800-84; ISO 22301"],
+  ["RC", "Restauración de respaldos probada con objetivos RTO/RPO medidos.", "ISO 22301; NIST CSF RC.RP"],
+  ["RC", "Plan de continuidad ante caída de una región o del proveedor (multi-región o salida documentada).", "ISO 22301; CSA CCM BCR"],
+];
+
+/** Puntaje por función del CSF: respuestas {i: "si"|"parcial"|"no"|"na"} → {GV: %, …} (null si no hay respuestas). */
+export function puntajeCSF(respuestas) {
+  const out = {};
+  for (const f of Object.keys(FUNCIONES_CSF)) {
+    const v = CONTROLES_NUBE.map(([fn], i) => (fn === f ? respuestas[i] : null)).filter((r) => ["si", "parcial", "no"].includes(r));
+    out[f] = v.length ? Math.round((v.reduce((s, r) => s + (r === "si" ? 1 : r === "parcial" ? 0.5 : 0), 0) / v.length) * 100) : null;
+  }
+  return out;
+}
+
+/** Modelo de responsabilidad compartida: quién responde de cada capa según el modelo de servicio. */
+export const RESPONSABILIDAD = [
+  ["Datos y su clasificación", "Cliente", "Cliente", "Cliente"],
+  ["Identidades, cuentas y accesos", "Cliente", "Cliente", "Cliente"],
+  ["Configuración de la aplicación", "Cliente", "Cliente", "Compartida"],
+  ["Aplicación y su código", "Cliente", "Cliente", "Proveedor"],
+  ["Sistema operativo y parches", "Cliente", "Proveedor", "Proveedor"],
+  ["Red virtual y firewalls", "Cliente", "Compartida", "Proveedor"],
+  ["Hipervisor, servidores y red física", "Proveedor", "Proveedor", "Proveedor"],
+  ["Centro de datos (seguridad física, energía)", "Proveedor", "Proveedor", "Proveedor"],
+];

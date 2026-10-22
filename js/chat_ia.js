@@ -97,9 +97,15 @@ class ErrorGroq extends Error {
  * Pregunta con respuesta en flujo. `onTexto(textoAcumulado)` se llama mientras llega; `signal` permite cancelar.
  * Devuelve {texto, noticias, modelo}. `fetchFn` es para pruebas.
  */
-export async function preguntar(pregunta, eventos, llave, { onTexto = () => {}, signal, esperaMs = ESPERA_MS, fetchFn = globalThis.fetch, modelos = MODELOS } = {}) {
-  if (!llaveValida(llave)) throw new ErrorGroq(401, { error: { code: "invalid_api_key" } });
+export async function preguntar(pregunta, eventos, llave, opciones = {}) {
   const noticias = relevantes(eventos, pregunta);
+  const r = await completar([{ role: "system", content: SISTEMA }, { role: "user", content: promptUsuario(pregunta, noticias) }], llave, opciones);
+  return { ...r, noticias };
+}
+
+/** Conversación libre con Groq (mensajes ya armados): la usan el chat de noticias y la página de analítica. */
+export async function completar(mensajes, llave, { onTexto = () => {}, signal, esperaMs = ESPERA_MS, fetchFn = globalThis.fetch, modelos = MODELOS, maxTokens = 1500 } = {}) {
+  if (!llaveValida(llave)) throw new ErrorGroq(401, { error: { code: "invalid_api_key" } });
   const ctrl = new AbortController();
   signal?.addEventListener("abort", () => ctrl.abort(signal.reason), { once: true });
   let t;
@@ -107,8 +113,7 @@ export async function preguntar(pregunta, eventos, llave, { onTexto = () => {}, 
   try {
     for (const [n, modelo] of modelos.entries()) {
       latido();
-      const cuerpo = { model: modelo, stream: true, temperature: 0.3, max_completion_tokens: 1500,
-        messages: [{ role: "system", content: SISTEMA }, { role: "user", content: promptUsuario(pregunta, noticias) }] };
+      const cuerpo = { model: modelo, stream: true, temperature: 0.3, max_completion_tokens: maxTokens, messages: mensajes };
       if (modelo.startsWith("openai/gpt-oss")) cuerpo.reasoning_effort = "low";
       let res;
       try {
@@ -123,7 +128,7 @@ export async function preguntar(pregunta, eventos, llave, { onTexto = () => {}, 
       let texto = "";
       await leerFlujo(res, (d) => { texto += d; onTexto(texto); }, latido, ctrl.signal);
       if (ctrl.signal.aborted) throw ctrl.signal.reason;
-      return { texto, noticias, modelo };
+      return { texto, modelo };
     }
     throw new ErrorGroq(404, { error: { code: "model_not_found" } });
   } finally { clearTimeout(t); }

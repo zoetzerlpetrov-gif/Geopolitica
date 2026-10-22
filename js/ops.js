@@ -154,6 +154,21 @@ $("sit-btn").onclick = async () => {
   const paises = $("sit-paises").value.split(/[,\s]+/).filter((p) => /^[A-Za-z]{3}$/.test(p));
   $("sit-res").textContent = O.sitrep(d.eventos || [], paises, kpis, new Date(), Number($("sit-horas").value)).texto;
 };
+$("sit-ia").onclick = async () => {
+  const C = await import("./chat_ia.js");
+  const out = $("sit-ia-res"); out.hidden = false;
+  const k = C.leerLlave()?.llave;
+  if (!k) { out.textContent = "Primero guarda tu llave de Groq en el mapa: menú Herramientas → «Preguntar a la IA sobre las noticias»."; return; }
+  if (!$("sit-res").textContent.trim()) $("sit-btn").click();
+  out.textContent = "Redactando…";
+  const prompt = `Con este SITREP de DOMINUS OPS redacta un Mission Brief de una página en español con estas secciones: Situación (BLUF en 2 frases), `
+    + `Evaluación (con lenguaje de probabilidad ICD 203), Escenarios (más probable, más peligroso), Implicaciones para la organización, Recomendaciones (3, con dueño sugerido), `
+    + `Brechas de información. No inventes hechos: si un dato no está, dilo.\n\n${$("sit-res").textContent}`;
+  try {
+    await C.completar([{ role: "system", content: "Eres oficial de inteligencia corporativa. Escribes claro, breve y sin inventar." }, { role: "user", content: prompt }], k,
+      { onTexto: (t) => { out.textContent = t; }, maxTokens: 1800 });
+  } catch (e) { out.textContent = C.mensajeError(e); }
+};
 $("sit-copiar").onclick = () => navigator.clipboard?.writeText($("sit-res").textContent).catch(() => null);
 
 // ------------------------------------------------------------------ doctrina, salas, exportar
