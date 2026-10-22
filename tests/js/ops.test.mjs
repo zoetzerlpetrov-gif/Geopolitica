@@ -42,3 +42,19 @@ test("SITREP con eventos del mapa y KPIs", () => {
   assert.equal(r.total, 1); assert.equal(r.condicion, "ÁMBAR"); assert.match(r.texto, /\[S5\] MEX · Bloqueo/);
   assert.equal(O.aCSV(["a", "b"], [["x\"y", 1]]), '"a","b"\n"x""y","1"');
 });
+
+test("biblioteca: búsqueda y documento de plantilla", async () => {
+  const O = await import("../../js/ops-logica.js");
+  const lista = [{ id: "scrum", nombre: "Scrum", organismo: "Scrum.org", para_que: "Marco ágil", conceptos: [["Sprint", "Iteración"]], plantillas: [{ nombre: "Product Backlog" }] },
+    { id: "iso27001", nombre: "ISO/IEC 27001", organismo: "ISO", para_que: "Seguridad de la información", conceptos: [], plantillas: [{ nombre: "Declaración de Aplicabilidad" }] }];
+  assert.deepEqual(O.buscarMetodologias(lista, "sprint").map((m) => m.id), ["scrum"]);
+  assert.deepEqual(O.buscarMetodologias(lista, "aplicabilidad").map((m) => m.id), ["iso27001"]);
+  assert.equal(O.buscarMetodologias(lista, "").length, 2);
+  const pl = { nombre: "Backlog", proposito: "Priorizar", campos: [{ k: "p", etiqueta: "Producto", tipo: "texto" }, { k: "t", etiqueta: "Elementos", tipo: "tabla", columnas: ["ID", "Historia"] }] };
+  const d = O.documentoPlantilla(lista[0], pl, { p: "App <X>", t: [["1", "Como cliente | quiero"]] }, { nombre: "ACME" });
+  assert.match(d.md, /\*\*Producto:\*\* App <X>/);
+  assert.match(d.md, /\| 1 \| Como cliente \\\| quiero \|/);
+  assert.match(d.html, /App &lt;X&gt;/);
+  assert.match(d.html, /Cliente:<\/b> ACME/);
+  assert.equal(O.vacioDe({ tipo: "tabla" }).length, 0);
+});

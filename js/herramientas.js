@@ -379,3 +379,69 @@ $("nube-md").onclick = () => {
 };
 $("nube-vaciar").onclick = () => { if (confirm("¿Vaciar la autoevaluación?")) { nube = {}; for (const s of document.querySelectorAll("[data-nube]")) s.value = ""; pintarNube(); } };
 pintarNube();
+
+// ------------------------------------------------------------------ normativa por jurisdicción
+{
+  const normas = {}, ESTADOS = { cumple: "Cumple", parcial: "Cumple parcialmente", no: "No cumple", na: "No aplica" };
+  const disponibles = (await Promise.all(H.JURISDICCIONES.map(async ([iso, n]) => {
+    try { normas[iso] = await (await fetch(`config/normativa/${iso}.json`)).json(); return [iso, n]; } catch (e) { return null; }
+  }))).filter(Boolean);
+  const claveN = () => `gp_norma_${$("nor-jur").value}`;
+  const resp = () => leer(claveN(), {});
+  let actuales = [];
+  $("nor-jur").innerHTML = disponibles.map(([i, n]) => `<option value="${i}">${n}</option>`).join("");
+  const sectores = await (await fetch("config/auditorias.json")).json().then((c) => c.sectores).catch(() => ({}));
+  $("nor-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + Object.entries(sectores).map(([k, s2]) => `<option value="${k}">${esc(s2.nombre)}</option>`).join("");
+  const SEMN = { verde: "#2E7D32", amarillo: "#F9A825", rojo: "#B71C1C", "sin evaluar": "var(--line)" };
+  function resumenN() {
+    const c = H.cumplimientoNormativa($("nor-jur").value, actuales, resp());
+    const nPreg = actuales.reduce((n, x) => n + (x.ley.preguntas || []).length, 0);
+    $("nor-resumen").innerHTML = `<p><b>${actuales.length} leyes y normas · ${nPreg} preguntas · cumplimiento ${c.global == null ? "sin evaluar" : c.global + " %"}</b></p>
+      <div class="desliza"><table class="t"><tr><th>Área</th><th>Preguntas</th><th>Cumplimiento</th></tr>${c.areas.map((a) => `<tr><td>${esc(a.area)}</td><td>${a.n}</td><td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${SEMN[H.semaforo(a.pct)]}"></span> ${a.pct == null ? "—" : a.pct + " %"}</td></tr>`).join("")}</table></div>`;
+  }
+  function pintarN() {
+    const jur = $("nor-jur").value, n = normas[jur];
+    if (!n) { $("nor-leyes").innerHTML = `<p class="meta">Esta jurisdicción aún no está disponible.</p>`; return; }
+    actuales = H.leyesDe(n, $("nor-sector").value, $("nor-q").value);
+    const r = resp();
+    const lista = (xs) => (xs || []).length ? `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
+    let areaPrev = "";
+    $("nor-leyes").innerHTML = actuales.map(({ area, ley: l }) => {
+      const tit = area !== areaPrev ? `<h3>${esc(area)}</h3>` : ""; areaPrev = area;
+      return `${tit}<details class="tarjeta"><summary><b>${esc(l.sigla ? `${l.sigla} — ` : "")}${esc(l.nombre)}</b> <span class="meta">${esc(l.tipo || "")} · ${esc(l.autoridad || "")}</span></summary>
+        <p><b>A quién aplica:</b> ${esc(l.aplica || "")}</p>
+        <p class="meta">Última reforma: ${esc(l.ultima_reforma || "verificar")}${l.url ? ` · <a href="${esc(l.url)}" target="_blank" rel="noopener">texto oficial</a>` : ""}</p>
+        <b>Obligaciones</b>${lista(l.obligaciones)}
+        ${(l.tramites || []).length ? `<b>Trámites y reportes</b><div class="desliza"><table class="t"><tr><th>Qué</th><th>Plazo</th><th>Ante</th></tr>${l.tramites.map((t) => `<tr><td>${esc(t.que)}</td><td>${esc(t.plazo)}</td><td>${esc(t.ante)}</td></tr>`).join("")}</table></div>` : ""}
+        ${l.sanciones ? `<p><b>Sanciones:</b> ${esc(l.sanciones)}</p>` : ""}
+        ${(l.evidencia || []).length ? `<b>Evidencia que pide un auditor</b>${lista(l.evidencia)}` : ""}
+        ${(l.preguntas || []).map((p, i) => { const id = H.idPregunta(jur, l, i), x = r[id] || {};
+          return `<div class="tarjeta" data-np="${esc(id)}"><p>${esc(p)}</p><div class="barra"><select data-k="estado" aria-label="Resultado"><option value="">— sin calificar —</option>${Object.entries(ESTADOS).map(([k, v]) => `<option value="${k}" ${x.estado === k ? "selected" : ""}>${v}</option>`).join("")}</select>
+            <input type="text" data-k="nota" value="${esc(x.nota || "")}" placeholder="Hallazgo o evidencia revisada" aria-label="Hallazgo" style="flex:1"></div></div>`; }).join("")}
+      </details>`;
+    }).join("") || `<p class="meta">Sin coincidencias.</p>`;
+    $("nor-fuentes").innerHTML = `${esc(n.nota || "")} ${(n.fuentes_oficiales || []).length ? `Fuentes oficiales: ${n.fuentes_oficiales.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`).join(" · ")}` : ""}`;
+    $("nor-calendario").hidden = true;
+    resumenN();
+  }
+  $("p-normativa").addEventListener("change", (e) => {
+    const c = e.target.closest("[data-np]");
+    if (!c) return;
+    const d = resp(); (d[c.dataset.np] ||= {})[e.target.dataset.k] = e.target.value; guardar(claveN(), d);
+    if (e.target.dataset.k === "estado") resumenN();
+  });
+  $("nor-jur").onchange = pintarN; $("nor-sector").onchange = pintarN;
+  let tq = 0; $("nor-q").oninput = () => { clearTimeout(tq); tq = setTimeout(pintarN, 250); };
+  $("nor-cal").onclick = () => {
+    const t = H.tramitesDe(actuales), c = $("nor-calendario");
+    c.hidden = !c.hidden;
+    c.innerHTML = `<div class="desliza"><table class="t"><tr><th>Ley</th><th>Trámite o reporte</th><th>Plazo</th><th>Ante</th></tr>${t.map((x) => `<tr><td>${esc(x.ley)}</td><td>${esc(x.que)}</td><td>${esc(x.plazo)}</td><td>${esc(x.ante)}</td></tr>`).join("")}</table></div>`;
+  };
+  $("nor-vaciar").onclick = () => { if (confirm("¿Vaciar todas las respuestas de esta jurisdicción?")) { try { localStorage.removeItem(claveN()); } catch (e) { /* nada */ } pintarN(); } };
+  import("./exportar.js").then((X) => {
+    $("nor-exp").innerHTML = X.htmlSelectorExportar("norx");
+    $("norx-btn").onclick = () => X.exportar($("norx-fmt").value, ["jurisdiccion", "area", "ley", "autoridad", "pregunta", "resultado", "hallazgo", "evidencia", "url"],
+      H.filasNormativa($("nor-jur").value, actuales, resp(), ESTADOS), { titulo: `Normativa ${$("nor-jur").selectedOptions[0]?.textContent || ""} ${$("nor-sector").selectedOptions[0]?.textContent || ""}`.trim(), tabla: "normativa" });
+  });
+  pintarN();
+}

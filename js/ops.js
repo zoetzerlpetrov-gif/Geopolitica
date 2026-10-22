@@ -3,7 +3,7 @@ import { esc, getJSON } from "./util.js";
 import * as O from "./ops-logica.js";
 
 const $ = (id) => document.getElementById(id);
-const CLAVES = ["gp_ops_dmi", "gp_ops_gob", "gp_ops_raci", "gp_ops_pl", "gp_ops_kpi"];
+const CLAVES = ["gp_ops_dmi", "gp_ops_gob", "gp_ops_raci", "gp_ops_pl", "gp_ops_kpi", "gp_ops_cliente", "gp_ops_bib", "gp_ops_esc", "gp_ops_tab"];
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
 const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* modo privado */ } };
 const descargar = (nombre, texto, tipo = "text/markdown") => {
@@ -21,6 +21,17 @@ document.querySelector(".pestanas").addEventListener("click", (e) => {
 
 const cfg = await getJSON("config/dominus_ops.json");
 const dims = cfg.dmi.dimensiones;
+
+// ------------------------------------------------------------------ cliente
+const CAMPOS_CL = ["nombre", "sector", "pais", "paises", "empleados", "ingresos", "moneda", "margen", "sitios", "proveedores", "contexto"];
+getJSON("config/auditorias.json").then((a) => {
+  $("cl-sector").innerHTML = `<option value=""></option>` + Object.entries(a.sectores).map(([k, s]) => `<option value="${k}">${esc(s.nombre)}</option>`).join("") + `<option value="otro">Otro</option>`;
+  const c = leer("gp_ops_cliente", {});
+  for (const k of CAMPOS_CL) if (c[k] != null) $(`cl-${k}`).value = c[k];
+}).catch(() => {});
+$("p-cliente").addEventListener("input", () => guardar("gp_ops_cliente", Object.fromEntries(CAMPOS_CL.map((k) => [k, $(`cl-${k}`).value]))));
+$("p-cliente").addEventListener("change", () => guardar("gp_ops_cliente", Object.fromEntries(CAMPOS_CL.map((k) => [k, $(`cl-${k}`).value]))));
+import("./ops-biblioteca.js").then((B) => B.iniciarBiblioteca()).catch((e) => { $("bib-ficha").innerHTML = `<p class="meta">No se pudo cargar la biblioteca: ${esc(e.message)}</p>`; });
 
 // ------------------------------------------------------------------ mapa maestro y fases
 $("ciclo").innerHTML = cfg.mapa_maestro.map(([f, fn, r]) => `<div><b>${esc(f)}</b><br>${esc(fn)}<br><span class="meta">→ ${esc(r)}</span></div>`).join("");

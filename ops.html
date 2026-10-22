@@ -45,13 +45,45 @@
       y <b>War Room C6ISTAR</b> (¿qué está pasando y qué hago ahora?). El mapa de DOMINUS OSINT funciona como la capa de inteligencia del War Room; esta sección
       lleva el diagnóstico, las plantillas y el ritmo de mando. Lo que captures se guarda solo en este navegador; usa «Exportar» para respaldarlo.</p>
     <nav class="pestanas" role="tablist" aria-label="Secciones">
+      <button role="tab" aria-selected="false" data-p="cliente">🏢 Cliente</button>
       <button role="tab" aria-selected="true" data-p="mapa">🧭 Mapa maestro y fases</button>
       <button role="tab" aria-selected="false" data-p="dmi">📈 Readiness Assessment y DMI</button>
       <button role="tab" aria-selected="false" data-p="gob">🏛️ Gobernanza</button>
       <button role="tab" aria-selected="false" data-p="plantillas">🗂️ Plantillas por fase</button>
+      <button role="tab" aria-selected="false" data-p="biblioteca">📚 Biblioteca de metodologías</button>
       <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
       <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
     </nav>
+
+    <section class="panel" id="p-cliente" hidden>
+      <h2>Cliente o empresa en análisis</h2>
+      <p class="meta">Estos datos alimentan la simulación de escenarios, el informe de las 6 fases y los tableros. Se guardan solo en este navegador; usa «Exportar todo lo capturado» (pestaña Doctrina) para respaldarlos o moverlos a otro equipo.</p>
+      <div class="tarjeta"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
+        <label>Nombre <input id="cl-nombre" maxlength="120"></label>
+        <label>Sector <select id="cl-sector"></select></label>
+        <label>País principal (ISO3) <input id="cl-pais" maxlength="3" placeholder="MEX"></label>
+        <label>Otros países donde opera <input id="cl-paises" maxlength="120" placeholder="USA, CAN"></label>
+        <label>Empleados <input id="cl-empleados" inputmode="numeric"></label>
+        <label>Ingresos anuales (moneda local) <input id="cl-ingresos" inputmode="decimal"></label>
+        <label>Moneda <input id="cl-moneda" maxlength="3" value="MXN"></label>
+        <label>Margen operativo (%) <input id="cl-margen" inputmode="decimal" placeholder="12"></label>
+        <label>Sitios o plantas <input id="cl-sitios" maxlength="200" placeholder="CDMX (oficina), Querétaro (planta)"></label>
+        <label>Proveedores críticos <input id="cl-proveedores" maxlength="200"></label>
+      </div>
+      <label style="display:block;margin-top:8px">Contexto (qué hace, objetivos, preocupaciones, proyectos en curso)<textarea id="cl-contexto" rows="5" style="width:100%"></textarea></label></div>
+    </section>
+
+    <section class="panel" id="p-biblioteca" hidden>
+      <h2>Biblioteca de metodologías, estándares y técnicas</h2>
+      <p class="meta">Cada ficha explica desde cero para qué sirve, cuándo usarla, su proceso, roles, métricas, errores comunes, certificaciones, cursos y libros. Sus plantillas se llenan aquí
+        (con un ejemplo completo de una empresa ficticia), se guardan en este navegador y se descargan en Word, PDF, Markdown o HTML; las tablas, también en Excel, CSV, JSON o SQL.
+        Los textos de las normas tienen derechos de autor: aquí se explican con palabras propias; consulta la norma oficial para certificarte.</p>
+      <div class="barra"><input type="search" id="bib-q" placeholder="Buscar: Scrum, ISO 27001, OEE, RACI…" aria-label="Buscar metodología" style="min-width:260px"><select id="bib-sel" aria-label="Metodología" style="max-width:420px"></select></div>
+      <div id="bib-ficha"></div>
+      <div class="tarjeta" id="bib-pl-caja"><div class="barra"><select id="bib-pl" aria-label="Plantilla"></select>
+        <button type="button" id="bib-ejemplo">Cargar ejemplo</button><button type="button" id="bib-vaciar">Vaciar</button><span id="bib-doc"></span><span id="bib-tab"></span></div>
+        <p class="meta" id="bib-prop"></p><div id="bib-form"></div></div>
+    </section>
 
     <section class="panel" id="p-mapa">
       <h2>Ciclo OODA: Observar · Orientar · Decidir · Actuar</h2>

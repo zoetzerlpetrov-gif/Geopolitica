@@ -442,3 +442,48 @@ export const RESPONSABILIDAD = [
   ["Hipervisor, servidores y red física", "Proveedor", "Proveedor", "Proveedor"],
   ["Centro de datos (seguridad física, energía)", "Proveedor", "Proveedor", "Proveedor"],
 ];
+
+// ------------------------------------------------------------------ normativa por jurisdicción (config/normativa/*.json)
+export const JURISDICCIONES = [["MEX", "🇲🇽 México"], ["USA", "🇺🇸 Estados Unidos"], ["CAN", "🇨🇦 Canadá"], ["EUR", "🇪🇺 Unión Europea"], ["RUS", "🇷🇺 Rusia"]];
+
+const sinAcento = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+
+/**
+ * Leyes que aplican a un sector en una jurisdicción: las generales (toda empresa) más las del sector.
+ * `q` filtra por texto en nombre, sigla, autoridad, obligaciones y trámites. Cada ley lleva su área y un id estable.
+ */
+export function leyesDe(norma, sector = "", q = "") {
+  const out = [];
+  for (const g of norma?.generales || []) for (const l of g.leyes || []) out.push({ area: g.area, ambito: "general", ley: l });
+  const s = sector && norma?.sectores?.[sector];
+  if (s) for (const l of s.leyes || []) out.push({ area: "Específicas del sector", ambito: "sector", ley: l });
+  const palabras = sinAcento(q).split(/\s+/).filter((p) => p.length > 1);
+  if (!palabras.length) return out;
+  return out.filter(({ ley: l }) => {
+    const t = sinAcento([l.nombre, l.sigla, l.autoridad, l.aplica, ...(l.obligaciones || []), ...(l.tramites || []).map((x) => `${x.que} ${x.ante}`)].join(" "));
+    return palabras.every((p) => t.includes(p));
+  });
+}
+
+/** Id estable de una pregunta: «MEX:lgsm:0». */
+export const idPregunta = (jur, ley, i) => `${jur}:${ley.id}:${i}`;
+
+/** Calendario de trámites: cada trámite con su ley, plazo y autoridad (para planear el año de cumplimiento). */
+export function tramitesDe(leyes) {
+  return leyes.flatMap(({ area, ley }) => (ley.tramites || []).map((t) => ({ ley: ley.sigla || ley.nombre, area, que: t.que, plazo: t.plazo, ante: t.ante })));
+}
+
+/** Filas para exportar el checklist: una por pregunta, con la respuesta y la nota capturadas. */
+export function filasNormativa(jur, leyes, respuestas = {}, estados = {}) {
+  return leyes.flatMap(({ area, ley }) => (ley.preguntas || []).map((p, i) => {
+    const r = respuestas[idPregunta(jur, ley, i)] || {};
+    return { jurisdiccion: jur, area, ley: ley.sigla || ley.nombre, autoridad: ley.autoridad || "", pregunta: p, resultado: estados[r.estado] || "", hallazgo: r.nota || "", evidencia: (ley.evidencia || []).join("; "), url: ley.url || "" };
+  }));
+}
+
+/** Cumplimiento por área (mismo cálculo que las plantillas por sector). */
+export function cumplimientoNormativa(jur, leyes, respuestas = {}) {
+  const porArea = {};
+  for (const { area, ley } of leyes) (ley.preguntas || []).forEach((_, i) => { (porArea[area] ||= []).push(respuestas[idPregunta(jur, ley, i)]?.estado); });
+  return { global: cumplimiento(Object.values(porArea).flat()), areas: Object.entries(porArea).map(([area, e]) => ({ area, pct: cumplimiento(e), n: e.length })) };
+}

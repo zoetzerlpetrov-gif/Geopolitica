@@ -126,3 +126,23 @@ test("nube: puntaje por función del NIST CSF 2.0", () => {
   assert.ok(H.CONTROLES_NUBE.every(([f, c, r]) => H.FUNCIONES_CSF[f] && c && r));
   assert.equal(H.RESPONSABILIDAD[0][3], "Cliente");
 });
+
+test("normativa por jurisdicción: leyes, trámites, filas y cumplimiento", async () => {
+  const H = await import("../../js/herr-logica.js");
+  const norma = { generales: [{ area: "Fiscal", leyes: [{ id: "cff", sigla: "CFF", nombre: "Código Fiscal", autoridad: "SAT", obligaciones: ["Emitir CFDI"], tramites: [{ que: "Declaración anual", plazo: "marzo", ante: "SAT" }], preguntas: ["¿Emite CFDI?", "¿Presenta la anual?"] }] }],
+    sectores: { bancos: { leyes: [{ id: "lic", sigla: "LIC", nombre: "Ley de Instituciones de Crédito", preguntas: ["¿Reporta a la CNBV?"] }] } } };
+  assert.equal(H.leyesDe(norma).length, 1);
+  assert.equal(H.leyesDe(norma, "bancos").length, 2);
+  assert.deepEqual(H.leyesDe(norma, "bancos", "cfdi").map((x) => x.ley.id), ["cff"]);
+  assert.deepEqual(H.leyesDe(norma, "bancos", "declaracion anual").map((x) => x.ley.id), ["cff"]);
+  const leyes = H.leyesDe(norma, "bancos");
+  assert.equal(H.tramitesDe(leyes)[0].plazo, "marzo");
+  const resp = { "MEX:cff:0": { estado: "cumple" }, "MEX:cff:1": { estado: "no", nota: "Atrasada" } };
+  const filas = H.filasNormativa("MEX", leyes, resp, { cumple: "Cumple", no: "No cumple" });
+  assert.equal(filas.length, 3);
+  assert.equal(filas[1].resultado, "No cumple");
+  assert.equal(filas[1].hallazgo, "Atrasada");
+  const c = H.cumplimientoNormativa("MEX", leyes, resp);
+  assert.equal(c.global, 50);
+  assert.equal(c.areas.find((a) => a.area === "Fiscal").pct, 50);
+});

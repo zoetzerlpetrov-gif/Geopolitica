@@ -48,6 +48,7 @@
       <button role="tab" aria-selected="false" data-p="analisis">🧠 Análisis de inteligencia</button>
       <button role="tab" aria-selected="false" data-p="marcos">🗂️ Marcos militar, político y corporativo</button>
       <button role="tab" aria-selected="false" data-p="auditorias">📋 Plantillas de auditoría por sector</button>
+      <button role="tab" aria-selected="false" data-p="normativa">⚖️ Normativa por país (MX, EUA, Canadá, UE, Rusia)</button>
       <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
     </nav>
 
@@ -132,6 +133,19 @@
       <div id="aud-resumen"></div>
       <details class="tarjeta"><summary><b>Método (ISO 19011:2018) y normas del sector</b></summary><div id="aud-metodo"></div></details>
       <div id="aud-areas"></div>
+    </section>
+    <section class="panel" id="p-normativa" hidden>
+      <h2>Normativa por jurisdicción: qué debe cumplir cada empresa</h2>
+      <p class="meta">Complementa las plantillas por sector con el detalle ley por ley: a quién aplica, obligaciones concretas, trámites con su plazo y autoridad, sanciones,
+        evidencia que pide un auditor y preguntas para verificar. «Generales» aplica a toda empresa del país; al elegir un sector se suman sus leyes específicas.
+        Revisado en octubre de 2026 con fuentes públicas; lo marcado «verificar» no se pudo confirmar en la fuente oficial. Confirma la versión vigente antes de emitir un informe.</p>
+      <div class="barra"><select id="nor-jur" aria-label="Jurisdicción"></select><select id="nor-sector" aria-label="Sector"></select>
+        <input type="search" id="nor-q" placeholder="Buscar: CFDI, datos personales, REPSE, GDPR…" aria-label="Buscar en la normativa" style="min-width:240px"></div>
+      <div id="nor-resumen" class="tarjeta"></div>
+      <div class="barra"><span id="nor-exp"></span><button type="button" id="nor-cal">📅 Calendario de trámites</button><button type="button" id="nor-vaciar">Vaciar respuestas de esta jurisdicción</button></div>
+      <div id="nor-calendario" hidden></div>
+      <div id="nor-leyes"></div>
+      <p class="meta" id="nor-fuentes"></p>
     </section>
     <section class="panel" id="p-nube" hidden>
       <h2>Nube y seguridad: autoevaluación</h2>
