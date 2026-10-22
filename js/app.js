@@ -330,6 +330,8 @@ $("ficha-cuerpo").addEventListener("error", (e) => { if (e.target.matches?.("img
 new MutationObserver(() => {
   const c = $("ficha-cuerpo");
   if (c.querySelector("figure[data-img-tipo]:not([data-listo])")) import("./imagen_tipo.js").then((I) => I.rellenarImagenes(c));
+  const sg = c.querySelector("figure.cam-sg[data-sg]:not([data-listo])");
+  if (sg) { sg.dataset.listo = "1"; import("./capas.js").then((K) => K.rellenarCamaraSingapur(sg)); }
 }).observe($("ficha-cuerpo"), { childList: true });
 
 // Ficha de un avión con origen, destino y trayectoria (js/vuelos.js, se descarga al abrir la primera).
@@ -1107,6 +1109,8 @@ function iniciarImagenes() {
   cont.innerHTML = Object.entries(IMAGENES).map(([id, d]) => `<div class="opcion-capa"><label class="fila"><span><input type="checkbox" data-img="${id}"> ${esc(d.nombre)}</span></label>${d.escala ? `<div class="detalle-capa">${htmlEscalaImagen(d)}</div>` : d.leyenda ? `<p class="meta detalle-capa">${esc(d.leyenda)}</p>` : ""}</div>`).join("")
     + `<div class="opcion-capa"><label class="fila"><span><input type="checkbox" data-tl> 🕰️ Cambio en el tiempo: la misma zona año por año (2018–2025)</span></label>
       <p class="meta detalle-capa">Mosaicos sin nubes de Sentinel-2 (10 m por píxel), uno por año. Acércate a una ciudad, mina, presa, costa o bosque (zoom 10 a 14) y usa ▶ o el deslizador de la barra sobre el mapa. Cada píxel mide 10 × 10 m: se ven obras, manchas urbanas y deforestación, no autos ni personas. Fuente: EOX (s2maps.eu), uso no comercial.</p></div>`
+    + `<div class="opcion-capa"><label class="fila"><span><input type="checkbox" data-eei> 🛰️ Cámara de la Estación Espacial apuntando a la Tierra (NASA, en vivo)</span></label>
+      <p class="meta detalle-capa">Video en vivo del canal oficial de la NASA y un punto amarillo con la posición de la estación cada 10 s. Del lado nocturno o sin enlace la imagen sale negra.</p></div>`
     + `<div class="detalle-imagenes"><label class="fila"><span>Día (UTC)</span><select id="img-fecha">${dias.map((d, i) => `<option value="${d}">${d}${i === 0 ? " (ayer)" : ""}</option>`).join("")}</select></label>`
     + `<p class="nota-capas" id="img-noche-nota"></p><p class="nota-capas">NASA GIBS. VIIRS cubre todo el planeta cada día sin huecos; MODIS deja cuñas negras entre órbitas cerca del Ecuador (es lo que el satélite no vio). Se descarga solo al activarla.</p></div>`;
   const notaNoche = (r, error) => {
@@ -1114,6 +1118,7 @@ function iniciarImagenes() {
   };
   cont.addEventListener("change", async (e) => {
     if (e.target.matches("[data-tl]")) { alternarTimelapse(e.target); return; }
+    if (e.target.matches("[data-eei]")) { alternarEEI(e.target); return; }
     if (e.target.id === "img-fecha") { fecha = e.target.value; const r = await img.setFecha(fecha); if ("viirs_noche" in r) notaNoche(r.viirs_noche); return; }
     const id = e.target.dataset.img;
     if (!id) return;
@@ -1257,6 +1262,13 @@ async function iniciarInvestigacion() {
 }
 
 // ---------- Cambio en el tiempo (Sentinel-2 cloudless por año) ----------
+let camaraEEI = null;
+async function alternarEEI(cb) {
+  const E = await import("./eei.js");
+  camaraEEI ??= new E.CamaraEEI(api.map, document.querySelector(".mapa-wrap"), { onCerrar: () => { cb.checked = false; } });
+  cb.checked ? camaraEEI.abrir() : camaraEEI.cerrar();
+}
+
 let timelapse = null;
 async function alternarTimelapse(cb) {
   const T = await import("./timelapse.js");

@@ -1787,5 +1787,43 @@ destinos_adicionales = [
 GRID.extend(destinos_adicionales)
 
 
+def ciudades_mundo(ciudades, existentes, por_pais=4, distancia_km=60, maximo=1000):
+    """Capital y ciudades más pobladas de cada país (config/ciudades.json) que no tengan ya un punto a menos de
+    `distancia_km`. Así el pronóstico de 7 días cubre los ~220 países y no solo México, América y destinos turísticos.
+    Tope de `maximo` puntos: Open-Meteo gratis permite 10 mil consultas al día y esto corre 4 veces al día."""
+    import math
+
+    def cerca(lat, lon, puntos):
+        for _, la, lo in puntos:
+            dy = (lat - la) * 111
+            dx = (lon - lo) * 111 * math.cos(math.radians(lat))
+            if dx * dx + dy * dy < distancia_km ** 2:
+                return True
+        return False
+    por = {}
+    for c in ciudades:
+        por.setdefault(c[2], []).append(c)
+    orden = {"capital": 0, "principal": 1, "capital_estatal": 2, "ciudad": 3}
+    nuevos, puntos = [], list(existentes)
+    # Primero la capital de todos los países, luego la 2.ª ciudad de todos, etc.: si se llega al tope, ningún país queda sin punto.
+    listas = [sorted(v, key=lambda c: (orden.get(c[5], 9), -(c[6] or 0))) for v in por.values()]
+    for k in range(por_pais):
+        for lista in listas:
+            if k < len(lista) and len(nuevos) < maximo:
+                c = lista[k]
+                if not cerca(c[3], c[4], puntos):
+                    p = (c[1] or c[0], round(c[3], 2), round(c[4], 2))
+                    nuevos.append(p)
+                    puntos.append(p)
+    return nuevos
+
+
+try:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "config", "ciudades.json"), encoding="utf-8") as _fh:
+        GRID.extend(ciudades_mundo(json.load(_fh)["ciudades"], GRID))
+except (OSError, ValueError, KeyError) as _e:
+    print(f"  [pronostico] sin ciudades del mundo: {_e}")
+
+
 if __name__ == "__main__":
     main()
