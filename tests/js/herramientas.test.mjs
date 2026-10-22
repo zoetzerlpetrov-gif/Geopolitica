@@ -146,3 +146,14 @@ test("normativa por jurisdicción: leyes, trámites, filas y cumplimiento", asyn
   assert.equal(c.global, 50);
   assert.equal(c.areas.find((a) => a.area === "Fiscal").pct, 50);
 });
+
+test("filtro de vulnerabilidades", async () => {
+  const H = await import("../../js/herr-logica.js");
+  const l = [{ id: "CVE-1", producto: "php:php", descripcion: "RCE in PHP", cvss: 9.2, epss: 0.4 },
+    { id: "CVE-2", producto: "gitlab:gitlab", descripcion: "x", cvss: 9.9, epss: 0.01, kev: { proveedor: "GitLab", producto: "GitLab" } },
+    { id: "CVE-3", producto: "foo:bar", descripcion: "y", cvss: 7.5, epss: 0.9, kev: { proveedor: "Foo", producto: "Bar" } }];
+  assert.deepEqual(H.filtrarVulns(l, { q: "php" }).map((v) => v.id), ["CVE-1"]);
+  assert.deepEqual(H.filtrarVulns(l, { minCvss: 9 }).map((v) => v.id), ["CVE-1", "CVE-2"]);
+  assert.deepEqual(H.filtrarVulns(l, { soloKev: true, minCvss: 9 }).map((v) => v.id), ["CVE-2", "CVE-3"]);
+  assert.deepEqual(H.filtrarVulns(l, { minEpss: 0.5 }).map((v) => v.id), ["CVE-3"]);
+});

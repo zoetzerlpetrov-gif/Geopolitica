@@ -490,7 +490,7 @@
   },
   {
    "id": "inmuebles_seguimiento",
-   "nombre": "Inmuebles en seguimiento: ARA, SADASI, desarrollos en 20 países e InmuebleWarRoom, con mapa de riesgo",
+   "nombre": "Seguimiento a Inmuebles",
    "categoria": "economia",
    "geometria": "punto",
    "fuente": "inmueblewarroom",

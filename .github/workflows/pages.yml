@@ -73,6 +73,7 @@ jobs:
             cp /tmp/eventos/events.json /tmp/eventos/run-log.json /tmp/eventos/indice-paises.json _site/data/
             cp /tmp/eventos/zonas_afectadas.geojson _site/data/ 2>/dev/null || true
             cp /tmp/eventos/licitaciones.json _site/data/ 2>/dev/null || true  # Investigación → Licitaciones
+            cp /tmp/eventos/vulnerabilidades.json _site/data/ 2>/dev/null || true  # Herramientas → vulnerabilidades
             # Historial de 90 días (un archivo por día): el mapa lo pide solo al elegir 30 o 90 días.
             if [ -d /tmp/eventos/historial ]; then
               mkdir -p _site/data/historial && cp /tmp/eventos/historial/*.json _site/data/historial/

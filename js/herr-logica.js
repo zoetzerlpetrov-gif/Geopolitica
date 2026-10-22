@@ -487,3 +487,16 @@ export function cumplimientoNormativa(jur, leyes, respuestas = {}) {
   for (const { area, ley } of leyes) (ley.preguntas || []).forEach((_, i) => { (porArea[area] ||= []).push(respuestas[idPregunta(jur, ley, i)]?.estado); });
   return { global: cumplimiento(Object.values(porArea).flat()), areas: Object.entries(porArea).map(([area, e]) => ({ area, pct: cumplimiento(e), n: e.length })) };
 }
+
+// ------------------------------------------------------------------ vulnerabilidades (data/vulnerabilidades.json)
+/** Filtra por texto (CVE, producto, proveedor o descripción), solo explotadas (KEV), CVSS y EPSS mínimos. */
+export function filtrarVulns(lista, { q = "", soloKev = false, minCvss = 0, minEpss = 0 } = {}, max = 300) {
+  const p = sinAcento(q).split(/\s+/).filter((x) => x.length > 1);
+  return (lista || []).filter((v) => {
+    if (soloKev && !v.kev) return false;
+    if (minCvss && !(v.cvss >= minCvss) && !(soloKev && v.kev)) return false;
+    if (minEpss && !(v.epss >= minEpss)) return false;
+    const t = sinAcento(`${v.id} ${v.producto} ${v.descripcion} ${v.kev?.proveedor || ""} ${v.kev?.producto || ""}`);
+    return p.every((x) => t.includes(x));
+  }).slice(0, max);
+}

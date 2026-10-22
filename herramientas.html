@@ -66,6 +66,15 @@
 
     <section class="panel" id="p-informatica" hidden>
       <h2>Informática y ciberseguridad</h2>
+      <div class="tarjeta"><h3>🛡️ Vulnerabilidades críticas recientes (NVD, CISA KEV y EPSS)</h3>
+        <p class="meta">CVE críticos (CVSS ≥ 9) publicados en los últimos 30 días según NVD (NIST), más los que CISA agregó a su catálogo de vulnerabilidades explotadas activamente (KEV) en 60 días.
+          EPSS es la probabilidad estimada de que se explote en los próximos 30 días (FIRST). Se actualiza cada 6 horas. Busca por producto o proveedor: php, gitlab, litellm, fortinet, cisco…</p>
+        <div class="barra"><input id="vul-q" placeholder="Producto, proveedor o CVE" aria-label="Buscar vulnerabilidad" style="min-width:240px">
+          <label><input type="checkbox" id="vul-kev"> Solo explotadas (KEV)</label>
+          <label>CVSS mínimo <select id="vul-cvss"><option value="0">cualquiera</option><option value="9" selected>9.0</option><option value="9.5">9.5</option><option value="10">10</option></select></label>
+          <label>EPSS mínimo <select id="vul-epss"><option value="0" selected>cualquiera</option><option value="0.1">10 %</option><option value="0.5">50 %</option></select></label><span id="vul-exp"></span></div>
+        <p class="meta" id="vul-estado"></p><div class="desliza"><table class="t" id="vul-tabla"></table></div>
+        <p class="meta">Qué hacer: 1) inventario de activos (¿usamos ese producto y versión?), 2) parche o mitigación del proveedor, 3) priorizar KEV y EPSS alto, 4) buscar indicios de explotación en registros. Referencias: NIST SP 800-40 (parches), CISA BOD 22-01, ISO/IEC 27002 control 8.8.</p></div>
       <div class="tarjeta"><h3>🔎 Extraer indicadores (IOC) de un texto</h3>
         <p class="meta">Pega un informe, un correo o un registro. Saca URL, dominios, IP, correos, hashes, CVE y carteras de Bitcoin. Acepta texto «desactivado» (hxxp, [.]).</p>
         <textarea id="ioc-texto" aria-label="Texto con indicadores"></textarea>

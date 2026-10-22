@@ -1739,12 +1739,21 @@ def inmuebles_seguimiento():
         req = urllib.request.Request(ARA_SADASI, headers={"User-Agent": UA})
         with urllib.request.urlopen(req, timeout=60) as r:
             devs = json.loads(r.read())["developments"]
+        try:  # correcciones de coordenadas (tools/inmuebles_geo.py): puntos que caían en el mar o lejos de su ciudad
+            corr = json.load(open(os.path.join(ROOT, "config", "inmuebles_desarrollos", "_ara_sadasi_geo.json"), encoding="utf-8")).get("coords", {})
+        except Exception:  # noqa: BLE001
+            corr = {}
+        for d in devs:
+            if d.get("id") in corr:
+                d["lat"], d["lon"] = corr[d["id"]]
         out += I.features_ara_sadasi(devs, volcs, lims)
         print(f"   ARA/SADASI: {len(devs)} desarrollos")
     except Exception as e:  # noqa: BLE001
         print(f"   ARA/SADASI no disponible: {e}")
     datos = []
     for ruta in sorted(glob.glob(os.path.join(ROOT, "config", "inmuebles_desarrollos", "*.json"))):
+        if os.path.basename(ruta).startswith("_"):  # caché y correcciones, no son listas de inmuebles
+            continue
         with open(ruta, encoding="utf-8") as f:
             datos.append(json.load(f))
     out += I.features_desarrollos(datos, volcs, lims)

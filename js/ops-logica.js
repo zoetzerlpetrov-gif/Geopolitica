@@ -117,3 +117,6 @@ export function documentoPlantilla(met, pl, valores = {}, cliente = {}) {
   const pie = `${met.organismo ? `${met.organismo} · ` : ""}${met.version || ""}`;
   return { titulo, md: md + `---\n${pie}\n`, html: html + `<hr><p style="font-size:9pt;color:#555">${escH(pie)} · Plantilla de la biblioteca DOMINUS OPS.</p>` };
 }
+
+/** Archivos de la biblioteca de metodologías (config/ops_biblioteca/). */
+export const ARCHIVOS_BIBLIOTECA = ["gobierno_normas", "iso_adicionales", "procesos_mejora", "marcos_adicionales"];

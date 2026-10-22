@@ -68,6 +68,11 @@ jobs:
           SAM_API_KEY: ${{ secrets.SAM_API_KEY }}  # opcional y gratuita (api.data.gov); sin ella se omite SAM.gov
         run: python3 tools/licitaciones.py --salida eventos/licitaciones.json
 
+      - name: Vulnerabilidades críticas (NVD, CISA KEV y EPSS; cada 6 h)
+        continue-on-error: true
+        timeout-minutes: 8
+        run: python3 tools/vulnerabilidades.py --salida eventos/vulnerabilidades.json
+
       - name: Resumen de la corrida
         if: always()
         run: |

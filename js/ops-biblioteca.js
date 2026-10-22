@@ -9,7 +9,7 @@ const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } 
 export const CLAVE_BIB = "gp_ops_bib";
 
 export async function iniciarBiblioteca() {
-  const grupos = (await Promise.all(["gobierno_normas", "procesos_mejora"].map((n) => fetch(`config/ops_biblioteca/${n}.json`).then((r) => r.json()).catch(() => null)))).filter(Boolean);
+  const grupos = (await Promise.all(O.ARCHIVOS_BIBLIOTECA.map((n) => fetch(`config/ops_biblioteca/${n}.json`).then((r) => r.json()).catch(() => null)))).filter(Boolean);
   const todas = grupos.flatMap((g) => g.metodologias.map((m) => ({ ...m, grupo: g.grupo })));
   const porId = Object.fromEntries(todas.map((m) => [m.id, m]));
   let datos = leer(CLAVE_BIB, {});
@@ -112,6 +112,33 @@ export async function iniciarBiblioteca() {
     exportar($("bibt-fmt").value, c.columnas, filas, { titulo: `${p.nombre} - ${c.etiqueta}` }).catch((err) => alert(err.message));
   };
   llenarSelector();
+  leyesPorSector().catch(() => { $("bl-lista").innerHTML = `<p class="meta">No se pudo cargar la normativa.</p>`; });
   // Para el informe y los tableros: qué metodologías tienen plantillas llenadas.
   return { todas, datos: () => leer(CLAVE_BIB, {}), safeUrl };
+}
+
+/** Leyes obligatorias por sector en México (config/normativa/MEX.json + MEX_sectores.json). */
+async function leyesPorSector() {
+  const [H, mex, extra] = await Promise.all([import("./herr-logica.js"), fetch("config/normativa/MEX.json").then((r) => r.json()),
+    fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).catch(() => ({ sectores: {} }))]);
+  const nombres = await fetch("config/auditorias.json").then((r) => r.json()).then((a) => Object.fromEntries(Object.entries(a.sectores).map(([k, v]) => [k, v.nombre]))).catch(() => ({}));
+  const norma = { ...mex, sectores: { ...mex.sectores, ...extra.sectores } };
+  $("bl-sector").innerHTML = `<option value="">Generales (toda empresa)</option>` + Object.entries(norma.sectores)
+    .map(([k, v]) => [k, v.nombre || nombres[k] || k]).sort((a, b) => a[1].localeCompare(b[1], "es")).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
+  const lista = (xs) => ((xs || []).length ? `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "");
+  const pintar = () => {
+    const sec = $("bl-sector").value;
+    let leyes = H.leyesDe(norma, sec, $("bl-q").value);
+    if (sec) leyes = leyes.filter((x) => x.ambito === "sector");
+    $("bl-n").textContent = `${leyes.length} leyes y normas · ${Object.keys(norma.sectores).length} sectores`;
+    const reg = sec ? (norma.sectores[sec].reguladores || []) : [];
+    $("bl-lista").innerHTML = (reg.length ? `<p><b>Reguladores:</b> ${reg.map(([n, u]) => (u ? `<a href="${esc(safeUrl(u))}" target="_blank" rel="noopener">${esc(n)}</a>` : esc(n))).join(" · ")}</p>` : "")
+      + leyes.map(({ area, ley: l }) => `<details class="tarjeta"><summary><b>${esc(l.sigla ? `${l.sigla} — ` : "")}${esc(l.nombre)}</b> <span class="meta">${esc(sec ? "" : area)} · ${esc(l.autoridad || "")}</span></summary>
+        <p><b>A quién aplica:</b> ${esc(l.aplica || "")}</p><p class="meta">Última reforma: ${esc(l.ultima_reforma || "verificar")}${l.url ? ` · <a href="${esc(safeUrl(l.url))}" target="_blank" rel="noopener">texto oficial</a>` : ""}</p>
+        <b>Obligaciones</b>${lista(l.obligaciones)}${(l.tramites || []).length ? `<b>Trámites</b><ul>${l.tramites.map((t) => `<li>${esc(t.que)} — ${esc(t.plazo)} — ${esc(t.ante)}</li>`).join("")}</ul>` : ""}
+        ${l.sanciones ? `<p><b>Sanciones:</b> ${esc(l.sanciones)}</p>` : ""}${(l.evidencia || []).length ? `<b>Evidencia</b>${lista(l.evidencia)}` : ""}</details>`).join("");
+  };
+  $("bl-sector").onchange = pintar;
+  let t = 0; $("bl-q").oninput = () => { clearTimeout(t); t = setTimeout(pintar, 250); };
+  pintar();
 }
