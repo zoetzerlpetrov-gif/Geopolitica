@@ -109,3 +109,12 @@ test("NO₂ TEMPO: salta el barrido incompleto y la noche", async () => {
   assert.equal(haceHoras(1, ahora), "2026-10-21T13:00:00Z");
   assert.equal(await mejorHora({ capa: "T", matriz: "M", ext: "png" }, async () => ({ ok: false }), ahora), "default");
 });
+
+import { leerPosicion, urlVideo } from "../../js/eei.js";
+test("EEI: posición de wheretheiss.at y video del canal de la NASA", () => {
+  const p = leerPosicion({ latitude: 19.4, longitude: -99.1, altitude: 418.2, velocity: 27600.4, visibility: "daylight" });
+  assert.equal(p.alt_km, 418); assert.match(p.luz, /de día/);
+  assert.match(leerPosicion({ latitude: 1, longitude: 2, visibility: "eclipsed" }).luz, /de noche/);
+  assert.equal(leerPosicion({}), null);
+  assert.match(urlVideo(), /live_stream\?channel=UCLA_DiR1FfKNvjuUpBHmylQ/);
+});
