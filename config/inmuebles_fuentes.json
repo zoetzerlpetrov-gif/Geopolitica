@@ -1,0 +1,655 @@
+{
+ "nota": "Fuentes oficiales y públicas para conocer precios, subastas y bienes adjudicados, más riesgos por dirección. Los portales privados solo se enlazan: DOMINUS no copia sus anuncios (sus términos lo prohíben). Las reglas para extranjeros son un resumen general revisado en octubre de 2026: confírmalas con notario o abogado del país.",
+ "paises": [
+  {
+   "iso3": "MEX",
+   "nombre": "México",
+   "precios": [
+    [
+     "Índice SHF de Precios de la Vivienda",
+     "https://www.gob.mx/shf"
+    ]
+   ],
+   "subastas": [
+    [
+     "INDEP: subastas de inmuebles del gobierno",
+     "https://www.indep.gob.mx/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Atlas Nacional de Riesgos (CENAPRED)",
+     "http://www.atlasnacionalderiesgos.gob.mx/"
+    ]
+   ],
+   "portales": [
+    [
+     "Inmuebles24",
+     "https://www.inmuebles24.com/"
+    ],
+    [
+     "Vivanuncios",
+     "https://www.vivanuncios.com.mx/"
+    ]
+   ],
+   "extranjeros": "Zona restringida: a menos de 100 km de fronteras y 50 km de costas, un extranjero compra por fideicomiso bancario o sociedad mexicana (Constitución, art. 27; Ley de Inversión Extranjera)."
+  },
+  {
+   "iso3": "DOM",
+   "nombre": "Punta Cana (República Dominicana)",
+   "precios": [
+    [
+     "Banco Central de la República Dominicana (estadísticas)",
+     "https://www.bancentral.gov.do/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Banreservas: bienes adjudicados",
+     "https://www.banreservas.com/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Oficina Nacional de Estadística",
+     "https://www.one.gob.do/"
+    ]
+   ],
+   "portales": [
+    [
+     "Encuentra24 (RD)",
+     "https://www.encuentra24.com/republica-dominicana-es"
+    ]
+   ],
+   "extranjeros": "Los extranjeros pueden ser propietarios (Ley 16-95 de inversión extranjera). Verifica el título en Jurisdicción Inmobiliaria y el deslinde catastral."
+  },
+  {
+   "iso3": "FRA",
+   "nombre": "Francia",
+   "precios": [
+    [
+     "DVF: precios reales de cada venta (Etalab)",
+     "https://app.dvf.etalab.gouv.fr/"
+    ],
+    [
+     "Notaires de France: precios",
+     "https://www.immobilier.notaires.fr/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Cesiones inmobiliarias del Estado",
+     "https://cessions.immobilier-etat.gouv.fr/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Géorisques: riesgos por dirección",
+     "https://www.georisques.gouv.fr/"
+    ]
+   ],
+   "portales": [
+    [
+     "SeLoger",
+     "https://www.seloger.com/"
+    ],
+    [
+     "Leboncoin",
+     "https://www.leboncoin.fr/"
+    ]
+   ],
+   "extranjeros": "Sin restricción general a extranjeros. El notario es obligatorio y entrega el estado de riesgos (ERP)."
+  },
+  {
+   "iso3": "ITA",
+   "nombre": "Italia",
+   "precios": [
+    [
+     "Agenzia delle Entrate: cotizaciones OMI por zona",
+     "https://www.agenziaentrate.gov.it/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Portale delle Vendite Pubbliche (subastas judiciales)",
+     "https://pvp.giustizia.it/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "ISPRA IdroGEO: deslaves e inundaciones",
+     "https://idrogeo.isprambiente.it/"
+    ]
+   ],
+   "portales": [
+    [
+     "Immobiliare.it",
+     "https://www.immobiliare.it/"
+    ],
+    [
+     "Idealista Italia",
+     "https://www.idealista.it/"
+    ]
+   ],
+   "extranjeros": "Principio de reciprocidad para ciudadanos de fuera de la UE: verifica el tratado con tu país."
+  },
+  {
+   "iso3": "CHE",
+   "nombre": "Suiza",
+   "precios": [
+    [
+     "Oficina Federal de Estadística: índice de precios",
+     "https://www.bfs.admin.ch/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Subastas de las oficinas cantonales de cobranza (Betreibungsamt)",
+     "https://www.ch.ch/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Mapa federal de peligros naturales",
+     "https://map.geo.admin.ch/"
+    ]
+   ],
+   "portales": [
+    [
+     "Homegate",
+     "https://www.homegate.ch/"
+    ],
+    [
+     "ImmoScout24 Suiza",
+     "https://www.immoscout24.ch/"
+    ]
+   ],
+   "extranjeros": "Lex Koller: personas no residentes necesitan autorización para comprar vivienda; hay cuotas para segundas residencias."
+  },
+  {
+   "iso3": "ESP",
+   "nombre": "España",
+   "precios": [
+    [
+     "INE: índice de precios de vivienda",
+     "https://www.ine.es/"
+    ],
+    [
+     "Portal estadístico del Notariado",
+     "https://www.penotariado.com/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Portal de Subastas del BOE",
+     "https://subastas.boe.es/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "SNCZI: zonas inundables (MITECO)",
+     "https://sig.mapama.gob.es/snczi/"
+    ]
+   ],
+   "portales": [
+    [
+     "Idealista",
+     "https://www.idealista.com/"
+    ],
+    [
+     "Fotocasa",
+     "https://www.fotocasa.es/"
+    ]
+   ],
+   "extranjeros": "Sin restricción general. La «golden visa» por compra de vivienda terminó en 2025."
+  },
+  {
+   "iso3": "FIN",
+   "nombre": "Finlandia",
+   "precios": [
+    [
+     "Statistics Finland",
+     "https://stat.fi/"
+    ],
+    [
+     "Precios de transacciones (hintatiedot)",
+     "https://asuntojen.hintatiedot.fi/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Subastas de la Autoridad de Ejecución (Huutokaupat)",
+     "https://huutokaupat.com/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Paikkatietoikkuna (mapas oficiales)",
+     "https://kartta.paikkatietoikkuna.fi/"
+    ]
+   ],
+   "portales": [
+    [
+     "Etuovi",
+     "https://www.etuovi.com/"
+    ],
+    [
+     "Oikotie",
+     "https://asunnot.oikotie.fi/"
+    ]
+   ],
+   "extranjeros": "Compradores de fuera de la UE/EEE necesitan permiso del Ministerio de Defensa para comprar bienes raíces (desde 2020)."
+  },
+  {
+   "iso3": "NOR",
+   "nombre": "Noruega",
+   "precios": [
+    [
+     "Statistics Norway (SSB)",
+     "https://www.ssb.no/"
+    ],
+    [
+     "Kartverket: historial de ventas",
+     "https://seeiendom.kartverket.no/"
+    ]
+   ],
+   "subastas": [],
+   "riesgo": [
+    [
+     "NVE Atlas: deslaves, avalanchas, inundaciones",
+     "https://atlas.nve.no/"
+    ]
+   ],
+   "portales": [
+    [
+     "Finn.no",
+     "https://www.finn.no/realestate/"
+    ]
+   ],
+   "extranjeros": "Terreno agrícola o forestal puede requerir concesión (konsesjon)."
+  },
+  {
+   "iso3": "SWE",
+   "nombre": "Suecia",
+   "precios": [
+    [
+     "Statistics Sweden (SCB)",
+     "https://www.scb.se/"
+    ],
+    [
+     "Lantmäteriet",
+     "https://www.lantmateriet.se/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Kronofogden: subastas",
+     "https://kronofogden.se/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "SGU: mapas geológicos",
+     "https://www.sgu.se/"
+    ]
+   ],
+   "portales": [
+    [
+     "Hemnet",
+     "https://www.hemnet.se/"
+    ],
+    [
+     "Booli",
+     "https://www.booli.se/"
+    ]
+   ],
+   "extranjeros": "Sin restricción general a extranjeros."
+  },
+  {
+   "iso3": "LTU",
+   "nombre": "Lituania",
+   "precios": [
+    [
+     "Registrų centras (registro de la propiedad)",
+     "https://www.registrucentras.lt/"
+    ],
+    [
+     "Estadísticas de Lituania",
+     "https://osp.stat.gov.lt/"
+    ]
+   ],
+   "subastas": [
+    [
+     "e. varžytynės: subastas de alguaciles",
+     "https://www.evarzytynes.lt/"
+    ]
+   ],
+   "riesgo": [],
+   "portales": [
+    [
+     "Aruodas",
+     "https://www.aruodas.lt/"
+    ]
+   ],
+   "extranjeros": "Restricciones para comprar tierra agrícola; consulta con un notario."
+  },
+  {
+   "iso3": "LVA",
+   "nombre": "Letonia",
+   "precios": [
+    [
+     "Servicio Estatal de Tierras (VZD)",
+     "https://www.vzd.gov.lv/"
+    ],
+    [
+     "Oficina Central de Estadística",
+     "https://stat.gov.lv/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Plataforma electrónica de subastas",
+     "https://izsoles.ta.gov.lv/"
+    ]
+   ],
+   "riesgo": [],
+   "portales": [
+    [
+     "City24 Letonia",
+     "https://www.city24.lv/"
+    ],
+    [
+     "SS.lv",
+     "https://www.ss.lv/"
+    ]
+   ],
+   "extranjeros": "Ciudadanos de fuera de la UE tienen restricciones para tierra rural y en zonas fronterizas."
+  },
+  {
+   "iso3": "EST",
+   "nombre": "Estonia",
+   "precios": [
+    [
+     "Maa-amet: base de transacciones",
+     "https://www.maaamet.ee/"
+    ],
+    [
+     "Statistics Estonia",
+     "https://www.stat.ee/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Oksjonikeskus: subastas de alguaciles",
+     "https://www.oksjonikeskus.ee/"
+    ]
+   ],
+   "riesgo": [],
+   "portales": [
+    [
+     "KV.ee",
+     "https://www.kv.ee/"
+    ],
+    [
+     "City24 Estonia",
+     "https://www.city24.ee/"
+    ]
+   ],
+   "extranjeros": "Restricciones a tierra agrícola o forestal de más de 10 ha y en zonas de seguridad."
+  },
+  {
+   "iso3": "RUS",
+   "nombre": "Rusia",
+   "precios": [
+    [
+     "Rosstat",
+     "https://rosstat.gov.ru/"
+    ],
+    [
+     "Rosreestr (registro)",
+     "https://rosreestr.gov.ru/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Torgi.gov.ru: subastas oficiales",
+     "https://torgi.gov.ru/"
+    ]
+   ],
+   "riesgo": [],
+   "portales": [
+    [
+     "Cian",
+     "https://www.cian.ru/"
+    ],
+    [
+     "Avito",
+     "https://www.avito.ru/"
+    ]
+   ],
+   "extranjeros": "Extranjeros no pueden poseer tierra agrícola ni en zonas fronterizas. Desde 2022 hay controles de capital y restricciones a operaciones de personas de «países no amistosos». Revisa también sanciones de tu país (OFAC, UE)."
+  },
+  {
+   "iso3": "CRI",
+   "nombre": "Costa Rica",
+   "precios": [
+    [
+     "INEC",
+     "https://inec.cr/"
+    ],
+    [
+     "Registro Nacional",
+     "https://www.rnpdigital.com/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Banco Nacional: bienes adjudicados",
+     "https://www.bncr.fi.cr/"
+    ],
+    [
+     "BCR: bienes adjudicados",
+     "https://www.bancobcr.com/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "CNE: mapas de amenazas por cantón",
+     "https://www.cne.go.cr/"
+    ]
+   ],
+   "portales": [
+    [
+     "Encuentra24 Costa Rica",
+     "https://www.encuentra24.com/costa-rica-es"
+    ]
+   ],
+   "extranjeros": "Zona marítimo-terrestre: los primeros 50 m desde la pleamar son públicos y los 150 m siguientes solo se otorgan en concesión, con límites para extranjeros."
+  },
+  {
+   "iso3": "USA",
+   "nombre": "Estados Unidos",
+   "precios": [
+    [
+     "FHFA House Price Index",
+     "https://www.fhfa.gov/data/hpi"
+    ],
+    [
+     "Redfin Data Center (agregados)",
+     "https://www.redfin.com/news/data-center/"
+    ]
+   ],
+   "subastas": [
+    [
+     "HUD Home Store",
+     "https://www.hudhomestore.gov/"
+    ],
+    [
+     "Fannie Mae HomePath",
+     "https://homepath.fanniemae.com/"
+    ],
+    [
+     "GSA: venta de inmuebles federales",
+     "https://realestatesales.gov/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "FEMA National Risk Index",
+     "https://hazards.fema.gov/nri/"
+    ],
+    [
+     "FEMA: mapas de inundación",
+     "https://msc.fema.gov/"
+    ]
+   ],
+   "portales": [
+    [
+     "Zillow",
+     "https://www.zillow.com/"
+    ],
+    [
+     "Realtor.com",
+     "https://www.realtor.com/"
+    ]
+   ],
+   "extranjeros": "Sin restricción federal general; varios estados limitan la compra de tierra agrícola o cercana a bases a ciertos países. Revisa la ley del estado."
+  },
+  {
+   "iso3": "CAN",
+   "nombre": "Canadá",
+   "precios": [
+    [
+     "CREA: índice MLS HPI",
+     "https://www.crea.ca/"
+    ],
+    [
+     "Statistics Canada",
+     "https://www.statcan.gc.ca/"
+    ]
+   ],
+   "subastas": [
+    [
+     "GCSurplus: inmuebles federales",
+     "https://www.gcsurplus.ca/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Recursos Naturales Canadá: peligro sísmico",
+     "https://earthquakescanada.nrcan.gc.ca/"
+    ]
+   ],
+   "portales": [
+    [
+     "Realtor.ca",
+     "https://www.realtor.ca/"
+    ]
+   ],
+   "extranjeros": "Ley que prohíbe a no canadienses comprar vivienda residencial (2023, extendida hasta 2027), con excepciones. Verifica la vigencia."
+  },
+  {
+   "iso3": "MLT",
+   "nombre": "Malta",
+   "precios": [
+    [
+     "National Statistics Office (NSO)",
+     "https://nso.gov.mt/"
+    ]
+   ],
+   "subastas": [],
+   "riesgo": [
+    [
+     "Planning Authority (mapas)",
+     "https://www.pa.org.mt/"
+    ]
+   ],
+   "portales": [],
+   "extranjeros": "Ciudadanos de fuera de la UE necesitan permiso AIP, salvo en Áreas Especiales Designadas."
+  },
+  {
+   "iso3": "DEU",
+   "nombre": "Alemania",
+   "precios": [
+    [
+     "Destatis: índice de precios inmobiliarios",
+     "https://www.destatis.de/"
+    ],
+    [
+     "BORIS-D: valores oficiales del suelo",
+     "https://www.bodenrichtwerte-boris.de/"
+    ]
+   ],
+   "subastas": [
+    [
+     "ZVG-Portal: subastas judiciales",
+     "https://www.zvg-portal.de/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Mapas de peligro de inundación de cada estado (Länder)",
+     "https://www.umweltbundesamt.de/"
+    ]
+   ],
+   "portales": [
+    [
+     "ImmoScout24",
+     "https://www.immobilienscout24.de/"
+    ],
+    [
+     "Immowelt",
+     "https://www.immowelt.de/"
+    ]
+   ],
+   "extranjeros": "Sin restricción general a extranjeros."
+  },
+  {
+   "iso3": "NLD",
+   "nombre": "Países Bajos",
+   "precios": [
+    [
+     "CBS (estadísticas, precios)",
+     "https://www.cbs.nl/"
+    ],
+    [
+     "Kadaster",
+     "https://www.kadaster.nl/"
+    ]
+   ],
+   "subastas": [
+    [
+     "Veilingbiljet: subastas notariales",
+     "https://www.veilingbiljet.nl/"
+    ]
+   ],
+   "riesgo": [
+    [
+     "Overstroomik: riesgo de inundación por dirección",
+     "https://www.overstroomik.nl/"
+    ]
+   ],
+   "portales": [
+    [
+     "Funda",
+     "https://www.funda.nl/"
+    ]
+   ],
+   "extranjeros": "Sin restricción general a extranjeros."
+  },
+  {
+   "iso3": "AND",
+   "nombre": "Andorra",
+   "precios": [
+    [
+     "Departament d'Estadística",
+     "https://www.estadistica.ad/"
+    ]
+   ],
+   "subastas": [],
+   "riesgo": [],
+   "portales": [],
+   "extranjeros": "La inversión extranjera en inmuebles requiere autorización previa del Gobierno."
+  }
+ ]
+}

@@ -410,6 +410,17 @@ def volcanes_pleistoceno():
     return out
 
 
+def lista_volcanes(feats, destino=None):
+    """Lista compacta [nombre, lon, lat] de los volcanes del Holoceno para el evaluador de inmuebles (inmuebles.html),
+    que calcula la cercanía en el navegador sin descargar la capa completa."""
+    filas = [[f["properties"]["n"], round(f["geometry"]["coordinates"][0], 3), round(f["geometry"]["coordinates"][1], 3)] for f in feats]
+    destino = destino or os.path.join(SALIDA, "volcanes_lista.json")
+    os.makedirs(os.path.dirname(destino), exist_ok=True)
+    with open(destino, "w", encoding="utf-8") as fh:
+        json.dump({"fuente": "Smithsonian GVP / NOAA NCEI", "volcanes": filas}, fh, ensure_ascii=False, separators=(",", ":"))
+    return len(filas)
+
+
 def volcanes():
     origen, fs = volcanes_fuente()
     anillo = [(l["coords"][len(l["coords"]) // 2], l["coords"]) for l in _limites_pb2002() if l["cf"]]
@@ -435,6 +446,7 @@ def volcanes():
                                                                              f"{int(float(alt))} m" if alt not in (None, "") else "",
                                                                              f"roca: {_roca(p)}" if _roca(p) else "") if v)}, 3))
     print(f"   volcanes ({origen}): {len(out)}, en el Cinturón de Fuego: {sum(1 for f in out if f['properties']['st'] == 'volcanes_cinturon')}")
+    lista_volcanes(out)
     return out + (volcanes_pleistoceno() if origen == "gvp" else [])
 
 
