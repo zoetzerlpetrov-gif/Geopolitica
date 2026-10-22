@@ -118,3 +118,11 @@ test("plantillas de auditoría: estructura, cumplimiento e informe", () => {
   const md = H.informeAuditoria(cfg, "bancos", { empresa: "Banco X", respuestas: { [id]: { estado: "no", nota: "Sin RECA" } } });
   assert.match(md, /# Informe de auditoría: Banco X/); assert.match(md, /\[No cumple\]/); assert.match(md, /Sin RECA/);
 });
+
+test("nube: puntaje por función del NIST CSF 2.0", () => {
+  const i = H.CONTROLES_NUBE.findIndex(([f]) => f === "PR"), j = H.CONTROLES_NUBE.findIndex(([f], k) => f === "PR" && k > i);
+  const p = H.puntajeCSF({ [i]: "si", [j]: "parcial" });
+  assert.equal(p.PR, 75); assert.equal(p.GV, null);
+  assert.ok(H.CONTROLES_NUBE.every(([f, c, r]) => H.FUNCIONES_CSF[f] && c && r));
+  assert.equal(H.RESPONSABILIDAD[0][3], "Cliente");
+});

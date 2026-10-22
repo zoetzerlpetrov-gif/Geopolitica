@@ -321,6 +321,24 @@ def indice_historial(carpeta):
     return dias
 
 
+def estadisticas_historial(carpeta):
+    """Conteos por día (área, severidad y país) de todo el historial: alimentan las tendencias de analitica.html sin
+    descargar ~1 MB por día. [{dia, total, areas: {area: n}, sev: {"1".."5": n}, paises: {iso3: n}}]."""
+    dias = []
+    for ruta in sorted(glob.glob(os.path.join(carpeta, "*.json"))):
+        with open(ruta, encoding="utf-8") as f:
+            evs = json.load(f)["eventos"]
+        areas, sev, paises = {}, {}, {}
+        for e in evs:
+            areas[e.get("area_principal") or "otras"] = areas.get(e.get("area_principal") or "otras", 0) + 1
+            k = str(e.get("severidad") or 0)
+            sev[k] = sev.get(k, 0) + 1
+            if e.get("pais_iso3"):
+                paises[e["pais_iso3"]] = paises.get(e["pais_iso3"], 0) + 1
+        dias.append({"dia": os.path.basename(ruta)[:10], "total": len(evs), "areas": areas, "sev": sev, "paises": paises})
+    return dias
+
+
 def actualizar_historial(carpeta, eventos, hoy, dias):
     """Un archivo por día (historial/AAAA-MM-DD.json) con registros compactos; se borran los de más de 90 días."""
     os.makedirs(carpeta, exist_ok=True)
@@ -532,6 +550,9 @@ def main(argv=None):
     borrados = actualizar_historial(os.path.join(args.salida, "historial"), eventos, t, cfg["historial_dias"])
     with open(os.path.join(args.salida, "historial-indice.json"), "w", encoding="utf-8") as f:
         json.dump({"generado_utc": iso(t), "dias": indice_historial(os.path.join(args.salida, "historial"))}, f, ensure_ascii=False)
+    with open(os.path.join(args.salida, "historial-estadisticas.json"), "w", encoding="utf-8") as f:
+        json.dump({"generado_utc": iso(t), "nota": "Conteos diarios del historial (máximo de registros por día: ver HIST_MAX_DIA).",
+                   "dias": estadisticas_historial(os.path.join(args.salida, "historial"))}, f, ensure_ascii=False, separators=(",", ":"))
     recientes = leer_historial(os.path.join(args.salida, "historial"), (t - timedelta(days=30)).strftime("%Y-%m-%d"))
     with open(os.path.join(args.salida, "indice-paises.json"), "w", encoding="utf-8") as f:
         json.dump({"generado_utc": iso(t), "nota": "Indicador propio (docs/INDICADORES.md). Base: historial de 30 días.",

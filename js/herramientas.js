@@ -209,6 +209,22 @@ $("ach-md").onclick = async () => {
   try { await navigator.clipboard.writeText(md); $("ach-res").insertAdjacentHTML("beforeend", `<p class="ok">Copiado.</p>`); } catch (err) { descargar("ach.md", md); }
 };
 pintarACH();
+$("ach-ia").onclick = async () => {
+  const C = await import("./chat_ia.js");
+  const out = $("ach-ia-res"); out.hidden = false;
+  const k = C.leerLlave()?.llave;
+  if (!k) { out.textContent = "Primero guarda tu llave de Groq en el mapa: menú Herramientas → «Preguntar a la IA sobre las noticias»."; return; }
+  const q = $("ach-pregunta").value.trim();
+  if (!q) { out.textContent = "Escribe primero la pregunta de inteligencia."; return; }
+  out.textContent = "Pensando…";
+  const prompt = `Pregunta de inteligencia: ${q}\nHipótesis actuales: ${ach.h.join("; ")}\nPropón en español: 1) de 4 a 6 hipótesis mutuamente excluyentes (incluye una «nula» y una que nadie haya considerado), `
+    + `2) 6 a 10 evidencias o indicadores que ayudarían a distinguirlas, indicando para cada una qué hipótesis la contradiría, 3) qué supuesto clave conviene revisar. `
+    + `Formato: listas numeradas cortas. No afirmes hechos sobre el caso: son propuestas para investigar.`;
+  try {
+    await C.completar([{ role: "system", content: "Eres analista de inteligencia formado en técnicas analíticas estructuradas (Heuer y Pherson)." }, { role: "user", content: prompt }], k,
+      { onTexto: (t) => { out.textContent = t; } });
+  } catch (e) { out.textContent = C.mensajeError(e); }
+};
 
 $("escala").innerHTML = `<div class="desliza"><table class="t"><tr><th colspan="2">Fuente</th><th colspan="2">Información</th></tr>${Object.keys(H.ESCALA_FUENTE).map((k, i) =>
   `<tr><td><b>${k}</b></td><td>${H.ESCALA_FUENTE[k]}</td><td><b>${i + 1}</b></td><td>${H.ESCALA_INFO[i + 1]}</td></tr>`).join("")}</table></div>
@@ -332,3 +348,27 @@ fetch("config/auditorias.json").then((r) => r.json()).then((cfg) => {
   $("aud-vaciar").onclick = () => { if (confirm("¿Vaciar todas las respuestas de este sector?")) { try { localStorage.removeItem(clave()); } catch (err) { /* nada */ } pintarAud(); } };
   pintarAud();
 }).catch(() => { $("aud-areas").innerHTML = `<p class="medio">No se pudo cargar config/auditorias.json.</p>`; });
+
+// ------------------------------------------------------------------ nube y seguridad
+let nube = leer("gp_nube", {});
+const RESP_N = [["si", "Sí"], ["parcial", "Parcial"], ["no", "No"], ["na", "No aplica"]];
+function pintarNube() {
+  guardar("gp_nube", nube);
+  const p = H.puntajeCSF(nube);
+  $("nube-res").innerHTML = `<div class="desliza"><table class="t"><tr>${Object.values(H.FUNCIONES_CSF).map((f) => `<th>${f}</th>`).join("")}</tr><tr>${Object.keys(H.FUNCIONES_CSF).map((k) =>
+    `<td class="${p[k] == null ? "" : p[k] >= 80 ? "ok" : p[k] >= 50 ? "bajo" : "alto"}">${p[k] == null ? "—" : `${p[k]} %`}</td>`).join("")}</tr></table></div>
+    <p class="meta">${Object.keys(nube).length} de ${H.CONTROLES_NUBE.length} controles respondidos. Prioriza los «No» de Proteger y Detectar: son los que más incidentes evitan.</p>`;
+}
+$("nube-ctl").innerHTML = Object.entries(H.FUNCIONES_CSF).map(([k, nombre]) => `<details class="tarjeta" open><summary><b>${k} · ${nombre}</b></summary>${H.CONTROLES_NUBE.map(([f, c, r], i) => f !== k ? "" :
+  `<div class="barra" style="justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:6px"><span style="flex:1 1 360px">${esc(c)}<br><span class="meta">${esc(r)}</span></span>
+   <select data-nube="${i}" aria-label="Respuesta"><option value="">—</option>${RESP_N.map(([v, n]) => `<option value="${v}" ${nube[i] === v ? "selected" : ""}>${n}</option>`).join("")}</select></div>`).join("")}</details>`).join("");
+$("nube-ctl").addEventListener("change", (e) => { const i = e.target.dataset.nube; if (i === undefined) return; if (e.target.value) nube[i] = e.target.value; else delete nube[i]; pintarNube(); });
+$("nube-resp").innerHTML = `<tr><th>Capa</th><th>IaaS (máquinas virtuales)</th><th>PaaS (plataforma)</th><th>SaaS (aplicación lista)</th></tr>` + H.RESPONSABILIDAD.map((r) => `<tr>${r.map((x, j) => `<td${j ? ` class="${x === "Cliente" ? "medio" : x === "Compartida" ? "bajo" : "ok"}"` : ""}>${esc(x)}</td>`).join("")}</tr>`).join("");
+$("nube-md").onclick = () => {
+  const p = H.puntajeCSF(nube), n = Object.fromEntries(RESP_N);
+  descargar("autoevaluacion-nube.md", `# Autoevaluación de seguridad en la nube\n\nFecha: ${new Date().toISOString().slice(0, 10)}\n\n| Función (NIST CSF 2.0) | Cumplimiento |\n|---|---|\n`
+    + Object.entries(H.FUNCIONES_CSF).map(([k, f]) => `| ${f} | ${p[k] == null ? "—" : p[k] + " %"} |`).join("\n")
+    + `\n\n## Controles\n\n${H.CONTROLES_NUBE.map(([f, c, r], i) => `- [${n[nube[i]] || "sin responder"}] (${f}) ${c} _${r}_`).join("\n")}\n`);
+};
+$("nube-vaciar").onclick = () => { if (confirm("¿Vaciar la autoevaluación?")) { nube = {}; for (const s of document.querySelectorAll("[data-nube]")) s.value = ""; pintarNube(); } };
+pintarNube();

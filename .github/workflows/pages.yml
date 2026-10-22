@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html sw.js css js vendor config data schema _site/
+          cp -r index.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -76,6 +76,7 @@ jobs:
             if [ -d /tmp/eventos/historial ]; then
               mkdir -p _site/data/historial && cp /tmp/eventos/historial/*.json _site/data/historial/
               cp /tmp/eventos/historial-indice.json _site/data/ 2>/dev/null || true
+              cp /tmp/eventos/historial-estadisticas.json _site/data/ 2>/dev/null || true  # tendencias (analitica.html)
             fi
             # Reportes diarios (JSON y PDF) de México y global.
             if [ -d /tmp/eventos/reportes ]; then

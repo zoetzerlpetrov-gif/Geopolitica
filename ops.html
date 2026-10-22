@@ -111,6 +111,8 @@
         <label>Ventana <select id="sit-horas"><option value="24">24 h</option><option value="72">72 h</option><option value="168">7 días</option></select></label>
         <button type="button" id="sit-btn">Generar SITREP</button><button type="button" id="sit-copiar">Copiar</button></div>
       <pre class="sitrep" id="sit-res" aria-live="polite"></pre>
+      <div class="barra"><button type="button" id="sit-ia">🤖 Borrador de Mission Brief con IA</button><span class="meta">Usa tu llave de Groq (la del chat del mapa). Se envían el SITREP y tus KPIs; no captures datos personales.</span></div>
+      <pre class="sitrep" id="sit-ia-res" hidden></pre>
     </section>
 
     <section class="panel" id="p-doctrina" hidden>

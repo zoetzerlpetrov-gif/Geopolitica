@@ -48,6 +48,7 @@
       <button role="tab" aria-selected="false" data-p="analisis">🧠 Análisis de inteligencia</button>
       <button role="tab" aria-selected="false" data-p="marcos">🗂️ Marcos militar, político y corporativo</button>
       <button role="tab" aria-selected="false" data-p="auditorias">📋 Plantillas de auditoría por sector</button>
+      <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
     </nav>
 
     <section class="panel" id="p-archivos">
@@ -93,6 +94,9 @@
       <div class="tarjeta"><h3>⚖️ Análisis de hipótesis en competencia (ACH)</h3>
         <p class="meta">Método de Richards Heuer (CIA). Escribe hipótesis que se excluyan entre sí y la evidencia. Califica cada celda: CC muy consistente, C consistente, N neutral,
           I inconsistente, II muy inconsistente. Gana la hipótesis con <b>menos</b> evidencia en contra, no la que tiene más a favor. Se guarda en este navegador.</p>
+        <div class="barra"><input type="text" id="ach-pregunta" placeholder="Pregunta de inteligencia (p. ej. ¿Por qué cayó la producción en la planta X?)" style="flex:1 1 320px">
+          <button type="button" id="ach-ia">🤖 Sugerir hipótesis y evidencia con IA</button></div>
+        <div id="ach-ia-res" class="tarjeta" hidden style="white-space:pre-wrap"></div>
         <div class="barra"><button type="button" id="ach-h">+ Hipótesis</button><button type="button" id="ach-e">+ Evidencia</button><button type="button" id="ach-md">Copiar como Markdown</button><button type="button" id="ach-limpiar">Vaciar</button></div>
         <div class="desliza"><table class="t" id="ach-tabla"></table></div><div id="ach-res"></div></div>
       <div class="tarjeta"><h3>🏷️ Calificar fuente e información (escala del Almirantazgo/OTAN)</h3><div id="escala"></div></div>
@@ -128,6 +132,17 @@
       <div id="aud-resumen"></div>
       <details class="tarjeta"><summary><b>Método (ISO 19011:2018) y normas del sector</b></summary><div id="aud-metodo"></div></details>
       <div id="aud-areas"></div>
+    </section>
+    <section class="panel" id="p-nube" hidden>
+      <h2>Nube y seguridad: autoevaluación</h2>
+      <p class="meta">Responde cada control (Sí, Parcial, No, No aplica). El resultado se agrupa en las seis funciones del NIST Cybersecurity Framework 2.0.
+        Las referencias apuntan a CIS Controls v8.1, CIS Benchmarks, CSA Cloud Controls Matrix (CCM) e ISO/IEC 27017. Se guarda solo en este navegador.</p>
+      <div id="nube-res" class="tarjeta"></div>
+      <div class="barra"><button type="button" id="nube-md">Descargar resultado (Markdown)</button><button type="button" id="nube-vaciar">Vaciar</button></div>
+      <div id="nube-ctl"></div>
+      <h2>Responsabilidad compartida</h2>
+      <div class="desliza"><table class="t" id="nube-resp"></table></div>
+      <p class="meta">Regla práctica: en cualquier modelo, los datos y las identidades siempre son responsabilidad del cliente. La mayoría de las filtraciones en la nube vienen de configuraciones del cliente, no del proveedor.</p>
     </section>
   </main>
   <script type="module" src="js/herramientas.js"></script>
