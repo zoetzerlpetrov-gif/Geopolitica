@@ -47,6 +47,7 @@
       <button role="tab" aria-selected="false" data-p="informatica">💻 Informática y ciberseguridad</button>
       <button role="tab" aria-selected="false" data-p="analisis">🧠 Análisis de inteligencia</button>
       <button role="tab" aria-selected="false" data-p="marcos">🗂️ Marcos militar, político y corporativo</button>
+      <button role="tab" aria-selected="false" data-p="auditorias">📋 Plantillas de auditoría por sector</button>
     </nav>
 
     <section class="panel" id="p-archivos">
@@ -113,6 +114,20 @@
         <button type="button" id="marco-md">Descargar Markdown</button><button type="button" id="marco-limpiar">Vaciar</button></div>
       <p class="meta" id="marco-uso"></p>
       <div id="marco-campos"></div>
+    </section>
+    <section class="panel" id="p-auditorias" hidden>
+      <h2>Plantillas de auditoría por sector</h2>
+      <p class="meta">Lista de verificación con controles comunes a toda empresa (gobierno, integridad, fiscal, laboral, datos, ESG, riesgo) y controles del sector.
+        Cada control trae la evidencia que conviene pedir y la norma o ley de referencia, de México y del mundo. Califica cada uno, anota lo encontrado y descarga el informe.
+        Lo que captures se guarda solo en este navegador.</p>
+      <div class="barra"><select id="aud-sector" aria-label="Sector" style="max-width:420px"></select>
+        <button type="button" id="aud-informe">Descargar informe (Markdown)</button><button type="button" id="aud-vaciar">Vaciar este sector</button></div>
+      <div class="tarjeta"><div class="cp-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px">
+        <label>Empresa <input type="text" id="aud-empresa" maxlength="120"></label><label>Alcance <input type="text" id="aud-alcance" maxlength="200" placeholder="Planta Saltillo, 2025"></label>
+        <label>Auditor(es) <input type="text" id="aud-auditor" maxlength="120"></label><label>Fecha <input type="text" id="aud-fecha" maxlength="10" placeholder="AAAA-MM-DD"></label></div></div>
+      <div id="aud-resumen"></div>
+      <details class="tarjeta"><summary><b>Método (ISO 19011:2018) y normas del sector</b></summary><div id="aud-metodo"></div></details>
+      <div id="aud-areas"></div>
     </section>
   </main>
   <script type="module" src="js/herramientas.js"></script>

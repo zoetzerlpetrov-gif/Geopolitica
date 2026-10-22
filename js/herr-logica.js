@@ -350,3 +350,38 @@ export function marcoAMarkdown(id, valores, titulo = "") {
   const m = MARCOS[id];
   return `# ${titulo || m.nombre}\n\n_${m.uso}_\n\n` + m.campos.map(([c, q], i) => `## ${c}\n\n${(valores[i] || "").trim() || `_(pendiente: ${q})_`}\n`).join("\n");
 }
+
+// ------------------------------------------------------------------ plantillas de auditoría (config/auditorias.json)
+
+/** % de cumplimiento de una lista de estados: cumple = 1, parcial = 0.5, no = 0; «no aplica» y vacíos no cuentan. */
+export function cumplimiento(estados) {
+  const v = estados.filter((e) => ["cumple", "parcial", "no"].includes(e));
+  if (!v.length) return null;
+  return Math.round((v.reduce((s, e) => s + (e === "cumple" ? 1 : e === "parcial" ? 0.5 : 0), 0) / v.length) * 100);
+}
+
+export const semaforo = (pct) => (pct == null ? "sin evaluar" : pct >= 85 ? "verde" : pct >= 60 ? "amarillo" : "rojo");
+
+/** Áreas a auditar de un sector: módulos comunes + los del sector, con un id estable por control («c-0-1», «s-2-0»). */
+export function areasDe(cfg, sector) {
+  const s = cfg.sectores[sector];
+  const marca = (pref) => (a, i) => ({ ...a, controles: a.controles.map((c, j) => ({ ...c, id: `${pref}-${i}-${j}` })) });
+  return [...cfg.comunes.map(marca("c")), ...(s ? s.areas.map(marca("s")) : [])];
+}
+
+/** Informe en Markdown: datos generales, resultado por área, hallazgos (primero los «no cumple») y lista completa. */
+export function informeAuditoria(cfg, sector, d) {
+  const s = cfg.sectores[sector], areas = areasDe(cfg, sector), r = d.respuestas || {};
+  const est = cfg.metodo.estados;
+  const filas = areas.map((a) => { const p = cumplimiento(a.controles.map((c) => r[c.id]?.estado)); return `| ${a.area} | ${p == null ? "—" : p + " %"} | ${semaforo(p)} |`; });
+  const total = cumplimiento(areas.flatMap((a) => a.controles.map((c) => r[c.id]?.estado)));
+  const hallazgos = areas.flatMap((a) => a.controles.filter((c) => ["no", "parcial"].includes(r[c.id]?.estado)).map((c) => ({ a, c, x: r[c.id] })))
+    .sort((p, q) => (p.x.estado === "no" ? 0 : 1) - (q.x.estado === "no" ? 0 : 1));
+  return `# Informe de auditoría: ${d.empresa || "(empresa)"}\n\n`
+    + `- Sector: ${s?.nombre || sector}\n- Alcance: ${d.alcance || "(definir)"}\n- Auditor(es): ${d.auditor || "(nombre)"}\n- Fecha: ${d.fecha || new Date().toISOString().slice(0, 10)}\n`
+    + `- Método: ${cfg.metodo.norma}\n- Cumplimiento global: ${total == null ? "sin evaluar" : total + " %"} (${semaforo(total)})\n\n`
+    + `## Resultado por área\n\n| Área | Cumplimiento | Semáforo |\n|---|---|---|\n${filas.join("\n")}\n\n`
+    + `## Hallazgos\n\n${hallazgos.length ? hallazgos.map(({ a, c, x }, i) => `${i + 1}. **[${est[x.estado]}] ${a.area}.** ${c.c}\n   - Criterio: ${c.r}\n   - Condición encontrada: ${x.nota || "(describir)"}\n   - Evidencia revisada: ${x.evidencia || c.e}`).join("\n") : "Sin hallazgos registrados."}\n\n`
+    + `## Normas y reguladores de referencia\n\n${(s?.normas || []).map((n) => `- ${n}`).join("\n")}\n\nReguladores en México: ${(s?.reguladores_mx || []).join(", ")}. Internacionales: ${(s?.reguladores_int || []).join(", ")}.\n\n`
+    + `> ${cfg.descripcion}\n`;
+}

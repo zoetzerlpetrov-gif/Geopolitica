@@ -278,3 +278,57 @@ $("marco-titulo").addEventListener("input", guardarMarco);
 $("marco-md").onclick = () => { guardarMarco(); const v = marcos[sel.value]; descargar(`${sel.value}.md`, H.marcoAMarkdown(sel.value, v.campos, v.titulo)); };
 $("marco-limpiar").onclick = () => { if (confirm("¿Vaciar esta plantilla?")) { delete marcos[sel.value]; guardar("gp_marcos", marcos); pintarMarco(); } };
 pintarMarco();
+
+// ------------------------------------------------------------------ plantillas de auditoría
+const audSel = $("aud-sector");
+let audCfg = null;
+const clave = () => `gp_aud_${audSel.value}`;
+const audDatos = () => leer(clave(), { respuestas: {} });
+const SEM = { verde: "#2E7D32", amarillo: "#F9A825", rojo: "#B71C1C", "sin evaluar": "var(--line)" };
+
+function pintarResumenAud() {
+  const d = audDatos(), areas = H.areasDe(audCfg, audSel.value);
+  const total = H.cumplimiento(areas.flatMap((a) => a.controles.map((c) => d.respuestas[c.id]?.estado)));
+  const hechos = areas.reduce((n, a) => n + a.controles.filter((c) => d.respuestas[c.id]?.estado).length, 0), todos = areas.reduce((n, a) => n + a.controles.length, 0);
+  $("aud-resumen").innerHTML = `<p><b>Cumplimiento global: ${total == null ? "sin evaluar" : total + " %"}</b> · ${hechos} de ${todos} controles calificados</p>
+    <div class="desliza"><table class="t"><tr><th>Área</th><th>Cumplimiento</th></tr>${areas.map((a) => {
+      const p = H.cumplimiento(a.controles.map((c) => d.respuestas[c.id]?.estado));
+      return `<tr><td>${esc(a.area)}</td><td><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${SEM[H.semaforo(p)]}"></span> ${p == null ? "—" : p + " %"}</td></tr>`;
+    }).join("")}</table></div>`;
+}
+
+function pintarAud() {
+  const s = audCfg.sectores[audSel.value], d = audDatos(), est = audCfg.metodo.estados;
+  for (const k of ["empresa", "alcance", "auditor", "fecha"]) $(`aud-${k}`).value = d[k] || "";
+  $("aud-metodo").innerHTML = `<ol>${audCfg.metodo.fases.map(([f, t]) => `<li><b>${esc(f.replace(/^\d+\.\s*/, ""))}:</b> ${esc(t)}</li>`).join("")}</ol>
+    <h3>Normas y estándares</h3><ul>${s.normas.map((n) => `<li>${esc(n)}</li>`).join("")}</ul>
+    <p><b>Reguladores en México:</b> ${esc(s.reguladores_mx.join(", "))}<br><b>Internacionales:</b> ${esc(s.reguladores_int.join(", "))}</p>
+    <p class="meta">${esc(audCfg.descripcion)}</p>`;
+  $("aud-areas").innerHTML = H.areasDe(audCfg, audSel.value).map((a) => `<details class="tarjeta"><summary><b>${esc(a.area)}</b> <span class="meta">(${a.controles.length})</span></summary>
+    ${a.controles.map((c) => { const r = d.respuestas[c.id] || {}; return `<div class="tarjeta" data-ctl="${c.id}">
+      <p><b>${esc(c.c)}</b></p><p class="meta">Evidencia a pedir: ${esc(c.e)}<br>Referencia: ${esc(c.r)}</p>
+      <div class="barra"><select data-k="estado" aria-label="Resultado"><option value="">— sin calificar —</option>${Object.entries(est).map(([k, v]) => `<option value="${k}" ${r.estado === k ? "selected" : ""}>${v}</option>`).join("")}</select></div>
+      <textarea data-k="nota" placeholder="Qué se encontró (condición) y por qué importa (efecto)" aria-label="Hallazgo">${esc(r.nota || "")}</textarea>
+      <input type="text" data-k="evidencia" placeholder="Evidencia revisada (documento, muestra, entrevista)" value="${esc(r.evidencia || "")}" aria-label="Evidencia revisada"></div>`; }).join("")}</details>`).join("");
+  pintarResumenAud();
+}
+
+function guardarAud(e) {
+  const d = audDatos();
+  const ctl = e.target.closest("[data-ctl]");
+  if (ctl) { const r = d.respuestas[ctl.dataset.ctl] ||= {}; r[e.target.dataset.k] = e.target.value; }
+  for (const k of ["empresa", "alcance", "auditor", "fecha"]) d[k] = $(`aud-${k}`).value;
+  guardar(clave(), d);
+  if (!ctl || e.target.dataset.k === "estado") pintarResumenAud();
+}
+
+fetch("config/auditorias.json").then((r) => r.json()).then((cfg) => {
+  audCfg = cfg;
+  audSel.innerHTML = Object.entries(cfg.sectores).map(([k, s]) => `<option value="${k}">${esc(s.nombre)}</option>`).join("");
+  audSel.onchange = pintarAud;
+  $("p-auditorias").addEventListener("change", (e) => { if (e.target !== audSel) guardarAud(e); });
+  $("p-auditorias").addEventListener("input", (e) => { if (e.target.matches("textarea, input[type=text]")) guardarAud(e); });
+  $("aud-informe").onclick = () => descargar(`auditoria-${audSel.value}-${new Date().toISOString().slice(0, 10)}.md`, H.informeAuditoria(audCfg, audSel.value, audDatos()));
+  $("aud-vaciar").onclick = () => { if (confirm("¿Vaciar todas las respuestas de este sector?")) { try { localStorage.removeItem(clave()); } catch (err) { /* nada */ } pintarAud(); } };
+  pintarAud();
+}).catch(() => { $("aud-areas").innerHTML = `<p class="medio">No se pudo cargar config/auditorias.json.</p>`; });

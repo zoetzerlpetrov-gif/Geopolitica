@@ -100,3 +100,21 @@ test("análisis: ICD 203, ACH, CARVER y poder-interés", () => {
   assert.equal(H.cuadranteActor(5, 1), "Mantener satisfecho");
   assert.match(H.marcoAMarkdown("dafo", ["Marca fuerte"]), /## Fortalezas\n\nMarca fuerte/);
 });
+
+import { readFileSync } from "node:fs";
+test("plantillas de auditoría: estructura, cumplimiento e informe", () => {
+  const cfg = JSON.parse(readFileSync(new URL("../../config/auditorias.json", import.meta.url)));
+  assert.ok(Object.keys(cfg.sectores).length >= 14);
+  for (const [k, s] of Object.entries(cfg.sectores)) {
+    assert.ok(s.nombre && s.normas.length && s.areas.length, k);
+    for (const a of s.areas) for (const c of a.controles) assert.ok(c.c && c.e && c.r, `${k}: ${a.area}`);
+  }
+  assert.equal(H.cumplimiento(["cumple", "parcial", "no", "na", undefined]), 50);
+  assert.equal(H.cumplimiento(["na"]), null);
+  assert.equal(H.semaforo(90), "verde"); assert.equal(H.semaforo(50), "rojo");
+  const areas = H.areasDe(cfg, "bancos");
+  assert.equal(areas.length, cfg.comunes.length + cfg.sectores.bancos.areas.length);
+  const id = areas.at(-1).controles[0].id;
+  const md = H.informeAuditoria(cfg, "bancos", { empresa: "Banco X", respuestas: { [id]: { estado: "no", nota: "Sin RECA" } } });
+  assert.match(md, /# Informe de auditoría: Banco X/); assert.match(md, /\[No cumple\]/); assert.match(md, /Sin RECA/);
+});
