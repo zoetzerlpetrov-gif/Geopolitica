@@ -305,3 +305,70 @@ def features_seguimiento(props_lista, volcanes, limites):
             "legal": p.get("legalNote", ""), "terreno": p.get("landM2"), "construccion": p.get("constM2"), "ciudad": p.get("nearestCity", ""),
             "aeropuerto": p.get("nearestAirport", ""), "geo": geo, "geo_alerta": alerta, "url": p.get("link", "")}})
     return out
+
+
+def nivel_geologico(lat, lon, volcanes, limites):
+    """Nivel automático (solo geología gruesa) cuando el inmueble no trae uno revisado a mano:
+    alto si hay volcán holoceno a < 15 km o límite de placas a < 25 km; medio < 30 / < 50 km; moderado < 80 / < 150 km."""
+    v = min((distancia_km(lat, lon, vla, vlo) for vlo, vla, _ in volcanes), default=9e9)
+    lim = min((distancia_km(lat, lon, la, lo) for lo, la in limites), default=9e9)
+    if v < 15 or lim < 25:
+        return "red"
+    if v < 30 or lim < 50:
+        return "orange"
+    if v < 80 or lim < 150:
+        return "yellow"
+    return "green"
+
+
+def _precio_txt(desde, hasta, moneda):
+    if desde is None:
+        return "Sin precio publicado"
+    f = lambda n: f"{n:,.0f}".replace(",", " ")  # noqa: E731
+    return f"desde {f(desde)} {moneda}" + (f" hasta {f(hasta)} {moneda}" if hasta and hasta != desde else "")
+
+
+def features_ara_sadasi(devs, volcanes, limites):
+    """Desarrollos de ARA y SADASI (data/developments.json del repositorio InmueblesAraSadasi de la persona dueña)."""
+    out = []
+    for d in devs:
+        if d.get("lat") is None or d.get("lon") is None:
+            continue
+        geo, alerta = revision_geologica(d["lat"], d["lon"], volcanes, limites)
+        modelos = "; ".join(f"{m.get('nombre', '')}: {m['precio']:,} MXN" for m in (d.get("modelos") or []) if m.get("precio"))[:400]
+        out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [d["lon"], d["lat"]]}, "properties": {
+            "id": f"aras:{d.get('id', d.get('name'))}", "n": f"{d.get('developer', '')} {d.get('name', '')} · {d.get('city', '')}", "p": "MEX",
+            "st": RIESGO_ST[nivel_geologico(d["lat"], d["lon"], volcanes, limites)], "z": 4,
+            "x": _precio_txt(d.get("precio_min"), d.get("precio_max"), "MXN"), "tipo": "Casa o departamento nuevo", "pais_n": "México",
+            "desarrolladora": d.get("developer", ""), "proyecto": d.get("name", ""), "zona": f"{d.get('city', '')}, {d.get('state', '')}",
+            "modelos": modelos, "nuevo": True, "rehab": "no", "origen": "ARA/SADASI", "auto": True,
+            "legal": "Mexicano: sin restricción (la zona restringida de costas y fronteras solo aplica a extranjeros).",
+            "geo": geo, "geo_alerta": alerta, "url": d.get("url", "")}})
+    return out
+
+
+def features_desarrollos(datos, volcanes, limites):
+    """Desarrollos y ofertas por país (config/inmuebles_desarrollos/*.json): precio publicado, si es nuevo o requiere
+    rehabilitación, desarrolladora y si una persona mexicana puede comprar."""
+    out = []
+    for archivo in datos:
+        paises = archivo.get("paises", {})
+        for d in archivo.get("inmuebles", []):
+            if d.get("lat") is None or d.get("lon") is None:
+                continue
+            reglas = (paises.get(d.get("pais_iso3")) or {}).get("compra_mexicanos") or {}
+            geo, alerta = revision_geologica(d["lat"], d["lon"], volcanes, limites)
+            m2 = d.get("m2_desde")
+            out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [d["lon"], d["lat"]]}, "properties": {
+                "id": f"des:{d['id']}", "n": f"{(d.get('tipo') or '').capitalize()} · {d.get('proyecto') or d.get('ciudad', '')} · {d.get('ciudad', '')}",
+                "p": d.get("pais_iso3", ""), "st": RIESGO_ST[nivel_geologico(d["lat"], d["lon"], volcanes, limites)], "z": 4,
+                "x": _precio_txt(d.get("precio_desde"), d.get("precio_hasta"), d.get("moneda", "")), "tipo": d.get("tipo", ""),
+                "pais_n": (paises.get(d.get("pais_iso3")) or {}).get("nombre", d.get("pais_iso3", "")),
+                "desarrolladora": d.get("desarrolladora", ""), "proyecto": d.get("proyecto", ""),
+                "zona": ", ".join(x for x in (d.get("zona"), d.get("ciudad"), d.get("estado")) if x),
+                "construccion": m2, "construccion_max": d.get("m2_hasta"), "recamaras": d.get("recamaras", ""), "entrega": d.get("entrega", ""),
+                "nuevo": bool(d.get("nuevo")), "rehab": d.get("rehabilitacion", "desconocido"), "origen": "Desarrollos por país", "auto": True,
+                "compra": reglas.get("puede", ""), "legal": (reglas.get("detalle") or "")[:500], "costa": (reglas.get("costa") or "")[:400],
+                "precision": d.get("precision", ""), "visto": d.get("visto", ""), "fuente_t": d.get("fuente", ""), "nota": (d.get("nota") or "")[:400],
+                "geo": geo, "geo_alerta": alerta, "url": d.get("url", "")}})
+    return out

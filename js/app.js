@@ -1234,6 +1234,38 @@ async function iniciarInvestigacion() {
     const d = await cargar("efos", "data/vivos/efos_69b.json");
     $("inv-prov-res").innerHTML = d ? I.htmlProveedores(I.verificarProveedores(d, $("inv-prov-texto").value), d) : `<p class="meta">El listado 69-B aún no está disponible.</p>`;
   });
+  // Licitaciones: avisos abiertos (data/licitaciones.json), portales oficiales y contratos adjudicados en EUA.
+  const pintarPortales = () => import("./licitaciones-logica.js").then((LZ) => {
+    $("lic-portales").innerHTML = LZ.enlacesBusqueda($("lic-q").value || "").map(([n, u, nota]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(n)}</a>${nota ? ` <span class="meta">— ${esc(nota)}</span>` : ""}</li>`).join("");
+  });
+  $("b-inv-licitaciones").addEventListener("toggle", pintarPortales, { once: true });
+  $("lic-q").addEventListener("input", debounce(pintarPortales, 300));
+  $("lic-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const LZ = await import("./licitaciones-logica.js");
+    pintarPortales();
+    const d = await cargar("licitaciones", "data/licitaciones.json");
+    if (!d) { $("lic-res").innerHTML = `<p class="meta">Los avisos aún no están disponibles (se generan con la siguiente ingesta). Usa los portales oficiales de abajo.</p>`; return; }
+    const res = LZ.filtrarAvisos(d.avisos, { q: $("lic-q").value, fuente: $("lic-fuente").value, soloAbiertas: $("lic-abiertas").checked });
+    const fuentes = Object.entries(d.fuentes || {}).map(([k, v]) => `${k}: ${v.estado === "ok" ? v.avisos : "sin respuesta"}`).join(" · ");
+    $("lic-res").innerHTML = `<p class="meta">${res.length} de ${d.avisos.length} avisos · actualizado ${esc(fecha(d.generado_utc))} · ${esc(fuentes)}</p>`
+      + (res.length ? `<ul class="fuentes">${res.map((a) => { const dc = LZ.diasParaCierre(a.cierre);
+        return `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.titulo || a.id)}</a><br><span class="meta">${esc(a.fuente)} · ${esc(a.comprador || "")}${a.pais ? ` · ${esc(paises?.[a.pais]?.es || a.pais)}` : ""} · publicada ${esc(a.publicado || "—")}${a.cierre ? ` · cierra ${esc(a.cierre)}${dc != null ? ` (${dc >= 0 ? `faltan ${dc} días` : "cerrada"})` : ""}` : ""}${a.cpv?.length ? ` · ${esc(a.cpv.join(", "))}` : ""}</span></li>`; }).join("")}</ul>`
+        : `<p class="meta">Sin coincidencias. Prueba con otra palabra o en otro idioma (los avisos de la UE vienen en el idioma del comprador; muchos traen título en inglés).</p>`);
+  });
+  $("lic-usa").addEventListener("click", async () => {
+    const q = $("lic-q").value.trim();
+    if (q.length < 3) { $("lic-usa-res").innerHTML = `<p class="meta">Escribe arriba al menos una palabra clave (en inglés funciona mejor: cybersecurity, water, bridge…).</p>`; return; }
+    const LZ = await import("./licitaciones-logica.js");
+    $("lic-usa-res").innerHTML = `<p class="meta">Consultando USAspending…</p>`;
+    try {
+      const r = await fetch("https://api.usaspending.gov/api/v2/search/spending_by_award/", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(LZ.consultaUSAspending(q)) });
+      const d = await r.json();
+      const usd = (n) => Number(n || 0).toLocaleString("es-MX", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
+      $("lic-usa-res").innerHTML = (d.results || []).length ? `<ul class="fuentes">${d.results.map((x) => `<li><a href="https://www.usaspending.gov/award/${encodeURIComponent(x.generated_internal_id)}" target="_blank" rel="noopener noreferrer">${esc(x["Recipient Name"] || "")}</a> — <b>${usd(x["Award Amount"])}</b><br><span class="meta">${esc(x["Awarding Agency"] || "")} · ${esc(x["Start Date"] || "")} · ${esc(String(x.Description || "").slice(0, 180))}</span></li>`).join("")}</ul>`
+        : `<p class="meta">Sin contratos con esas palabras en los últimos 12 meses.</p>`;
+    } catch (err) { $("lic-usa-res").innerHTML = `<p class="meta">USAspending no respondió: ${esc(err.message)}</p>`; }
+  });
   $("inv-69b-form").addEventListener("submit", async (e) => {
     e.preventDefault();
     const d = await cargar("efos", "data/vivos/efos_69b.json");

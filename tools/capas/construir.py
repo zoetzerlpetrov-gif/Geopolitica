@@ -17,6 +17,7 @@ Diseñado para GitHub Actions: cada familia está aislada; si una falla, las dem
 """
 import csv
 import functools
+import glob
 import gzip
 import io
 import json
@@ -1732,7 +1733,25 @@ def inmuebles_seguimiento():
     except Exception as e:  # noqa: BLE001
         print(f"   límites de placas no disponibles: {e}")
         lims = []
-    return I.features_seguimiento(lista, volcs, lims)
+    out = I.features_seguimiento(lista, volcs, lims)
+    # Desarrollos de ARA y SADASI: archivo público del repositorio InmueblesAraSadasi (se actualiza cada lunes).
+    try:
+        req = urllib.request.Request(ARA_SADASI, headers={"User-Agent": UA})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            devs = json.loads(r.read())["developments"]
+        out += I.features_ara_sadasi(devs, volcs, lims)
+        print(f"   ARA/SADASI: {len(devs)} desarrollos")
+    except Exception as e:  # noqa: BLE001
+        print(f"   ARA/SADASI no disponible: {e}")
+    datos = []
+    for ruta in sorted(glob.glob(os.path.join(ROOT, "config", "inmuebles_desarrollos", "*.json"))):
+        with open(ruta, encoding="utf-8") as f:
+            datos.append(json.load(f))
+    out += I.features_desarrollos(datos, volcs, lims)
+    return out
+
+
+ARA_SADASI = "https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json"
 
 
 def fronteras():

@@ -31,3 +31,23 @@ test("CSV, Banco Mundial y prompt", () => {
   assert.equal(A.leerBM([{}, []]), null);
   assert.match(A.promptSerie("Seguridad", [{ dia: "d", n: 3 }], { media_base: 1, media_reciente: 3, z: 2 }), /z = 2/);
 });
+
+test("esquema, gráfico sugerido, mapa y nombres de país", () => {
+  const svg = A.diagramaER();
+  for (const t of ["eventos", "conteos", "paises", "areas"]) assert.match(svg, new RegExp(`>${t}<`));
+  assert.equal((svg.match(/class="er-rel/g) || []).length, A.RELACIONES.length);
+  const filas = [{ pais: "MEX", n: 5 }, { pais: "USA", n: 3n }];
+  const s = A.sugerirGrafico(["pais", "n"], filas);
+  assert.deepEqual(s, { tipo: "barras", x: "pais", ys: ["n"] });
+  assert.match(A.graficoSVG(s, filas, (v) => (v === "MEX" ? "México" : v)), /México/);
+  const tiempo = [{ dia: "2026-10-01", n: 1 }, { dia: "2026-10-02", n: 4 }, { dia: "2026-10-03", n: 2 }];
+  assert.equal(A.sugerirGrafico(["dia", "n"], tiempo).tipo, "linea");
+  assert.match(A.graficoSVG(A.sugerirGrafico(["dia", "n"], tiempo), tiempo), /<polyline/);
+  assert.equal(A.sugerirGrafico(["titulo"], [{ titulo: "x" }]), null);
+  const paises = { MEX: { es: "México", en: "Mexico", lat: 23, lon: -102 }, USA: { es: "Estados Unidos", en: "United States", lat: 39, lon: -98 }, CAN: { es: "Canadá", en: "Canada", lat: 60, lon: -100 } };
+  assert.deepEqual(A.puntosMapa(["pais", "n"], filas, paises).map((p) => p.etiqueta), ["México", "Estados Unidos"]);
+  assert.equal(A.puntosMapa(["titulo", "lat", "lon"], [{ titulo: "a", lat: 1, lon: 2 }], paises)[0].lon, 2);
+  assert.equal(A.puntosMapa(["fuente", "n"], [{ fuente: "Reuters", n: 1 }], paises), null);
+  assert.equal(A.nombrePais(paises, "MEX"), "México (MEX)");
+  assert.deepEqual(A.resolverPaises("Mexico, usa ; Canadá, XYZ, mex", paises), ["MEX", "USA", "CAN", "XYZ"]);
+});

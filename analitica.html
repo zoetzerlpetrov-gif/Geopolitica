@@ -29,6 +29,12 @@
     svg.graf polyline { fill: none; stroke: #C8102E; stroke-width: 2; } svg.graf text { font-size: 10px; fill: var(--text-2); }
     .ok { color: #2E7D32; } .mal { color: #B71C1C; } .med { color: #E65100; }
     .resp-ia { white-space: pre-wrap; }
+    svg.er { width: 100%; max-width: 760px; height: auto; } .er-caja { fill: var(--surface-2); stroke: var(--line); } .er-tit { font-weight: 700; font-size: 14px; fill: var(--text); }
+    .er-col { font-size: 12px; fill: var(--text); font-family: ui-monospace, Menlo, Consolas, monospace; } .er-tipo { font-size: 11px; fill: var(--text-2); }
+    .er-rel { fill: none; stroke: #C8102E; stroke-width: 1.6; } .er-cond { stroke-dasharray: 5 4; } .er-punta { fill: #C8102E; }
+    svg.graf-res { width: 100%; height: auto; background: var(--surface-2); border-radius: var(--radius); } .g-et, .g-val { font-size: 11px; fill: var(--text); } .g-tit { font-size: 12px; font-weight: 700; fill: var(--text); }
+    #s-mapa { height: 300px; border-radius: var(--radius); border: 1px solid var(--line); margin: 8px 0; }
+    .exportar { display: inline-flex; gap: 6px; align-items: center; }
   </style>
 </head>
 <body>
@@ -58,26 +64,29 @@
     </section>
 
     <section class="panel" id="p-comp" hidden>
-      <div class="barra"><label>Países (ISO de 3 letras, hasta 5, separados por coma) <input id="c-paises" value="MEX,USA,CAN,BRA,ESP" maxlength="40"></label><button type="button" class="btn" id="c-btn">Comparar</button></div>
+      <div class="barra"><label>Países (nombre o código ISO de 3 letras, hasta 5, separados por coma) <input id="c-paises" value="México, Estados Unidos, Canadá, Brasil, España" maxlength="160" size="48"></label><button type="button" class="btn" id="c-btn">Comparar</button></div>
       <div class="desliza" id="c-res"></div>
       <p class="meta">Fuentes: Banco Mundial (indicadores del desarrollo e indicadores de gobernanza WGI, CC BY 4.0), índice propio de DOMINUS y eventos vigentes del mapa.</p>
     </section>
 
     <section class="panel" id="p-sql" hidden>
-      <p class="meta">Escribe SQL (dialecto DuckDB) sobre dos tablas: <code>eventos</code> (los vigentes: fecha_utc, pais_iso3, area_principal, severidad, titulo, fuente…) y
-        <code>conteos</code> (dia, tipo, clave, n; tipo = area, pais o sev). DuckDB-WASM se descarga solo al presionar «Ejecutar» (~6 MB) y todo corre en tu navegador.</p>
+      <p class="meta">Escribe SQL (dialecto DuckDB) sobre cuatro tablas: <code>eventos</code>, <code>conteos</code>, <code>paises</code> y <code>areas</code>. DuckDB-WASM se descarga solo al presionar «Ejecutar» (~6 MB) y todo corre en tu navegador.
+        Al ejecutar verás la tabla, un gráfico cuando el resultado tiene una columna de texto o fecha y otra numérica, y un mapa pequeño cuando trae lat/lon o códigos de país.</p>
+      <details class="tarjeta" id="s-esquema" open><summary><b>🗂️ Base de datos: tablas, columnas y relaciones</b></summary><div id="s-er"></div><div id="s-cols"></div></details>
       <div class="barra"><select id="s-ej" aria-label="Ejemplos"></select></div>
       <textarea id="s-q" spellcheck="false" aria-label="Consulta SQL"></textarea>
-      <div class="barra"><button type="button" class="btn" id="s-btn">▶ Ejecutar</button><button type="button" class="btn" id="s-csv" hidden>Descargar resultado (CSV)</button><span class="meta" id="s-estado"></span></div>
+      <div class="barra"><button type="button" class="btn" id="s-btn">▶ Ejecutar</button><span id="s-exp" hidden></span><span class="meta" id="s-estado"></span></div>
+      <div id="s-graf"></div>
+      <div id="s-mapa" hidden></div>
       <div class="desliza" id="s-res"></div>
     </section>
 
     <section class="panel" id="p-exp" hidden>
-      <div class="barra"><label>País (ISO3) <input id="e-pais" maxlength="3" placeholder="todos"></label><label>Área <select id="e-area"><option value="">todas</option></select></label>
+      <div class="barra"><label>País <input id="e-pais" maxlength="40" placeholder="todos (nombre o ISO3)" list="lista-paises"></label><datalist id="lista-paises"></datalist><label>Área <select id="e-area"><option value="">todas</option></select></label>
         <label>Severidad mínima <select id="e-sev"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
-        <button type="button" class="btn" id="e-btn">Descargar CSV</button></div>
+        <span id="e-exp"></span></div>
       <p class="meta" id="e-n"></p>
-      <p class="meta">El CSV trae título, fuente y enlace de cada evento (nunca el texto completo de la nota). Se abre en Excel, Power BI o Google Sheets.</p>
+      <p class="meta">Cada formato trae título, fuente y enlace de cada evento (nunca el texto completo de la nota). CSV y Excel se abren en Power BI o Google Sheets; SQL crea la tabla con sus filas.</p>
     </section>
 
     <section class="panel" id="p-cal" hidden>

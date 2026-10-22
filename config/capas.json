@@ -490,13 +490,13 @@
   },
   {
    "id": "inmuebles_seguimiento",
-   "nombre": "Inmuebles en seguimiento (InmuebleWarRoom) con mapa de riesgo",
+   "nombre": "Inmuebles en seguimiento: ARA, SADASI, desarrollos en 20 países e InmuebleWarRoom, con mapa de riesgo",
    "categoria": "economia",
    "geometria": "punto",
    "fuente": "inmueblewarroom",
    "habilitada": true,
    "zoom_etiquetas": 4,
-   "nota": "Lista del repositorio InmuebleWarRoom: precio, tipo, nivel de riesgo (sismo, volcán, agua, huracán, inundación), nota legal y enlace al anuncio original, más una revisión automática de distancia a volcanes holocenos (GVP) y a límites de placas (PB2002)."
+   "nota": "Tres fuentes: (1) la lista revisada a mano de InmuebleWarRoom; (2) desarrollos de ARA y SADASI del repositorio InmueblesAraSadasi (precios publicados en sus sitios, cada lunes); (3) desarrollos nuevos y algunas subastas oficiales en 20 países, con desarrolladora, precio publicado y fecha de consulta, si requiere rehabilitación y si una persona mexicana puede comprar (incluidas reglas de costa). Color: el nivel revisado a mano o, si no existe, uno automático solo geológico (distancia a volcanes holocenos GVP y a límites de placas PB2002). La ficha abre el evaluador completo de riesgo por ubicación. No es recomendación de inversión."
   },
   {
    "id": "gobierno_forma",
