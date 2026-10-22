@@ -330,6 +330,8 @@ $("ficha-cuerpo").addEventListener("error", (e) => { if (e.target.matches?.("img
 new MutationObserver(() => {
   const c = $("ficha-cuerpo");
   if (c.querySelector("figure[data-img-tipo]:not([data-listo])")) import("./imagen_tipo.js").then((I) => I.rellenarImagenes(c));
+  const sg = c.querySelector("figure.cam-sg[data-sg]:not([data-listo])");
+  if (sg) { sg.dataset.listo = "1"; import("./capas.js").then((K) => K.rellenarCamaraSingapur(sg)); }
 }).observe($("ficha-cuerpo"), { childList: true });
 
 // Ficha de un avión con origen, destino y trayectoria (js/vuelos.js, se descarga al abrir la primera).

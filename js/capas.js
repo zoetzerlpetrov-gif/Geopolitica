@@ -311,18 +311,32 @@ export function htmlFichaCamara(props, sub) {
   const video = yt ? `<div class="cam-video"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=1&playsinline=1" title="En vivo: ${esc(props.n)}"
       allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
     <p class="meta">En vivo con el reproductor de YouTube · transmisión de ${esc(props.o)}${props.lugar ? ` · ${esc(props.lugar)}` : ""}. Si la transmisión cambió, ábrela en su página.</p>` : "";
+  // Singapur: la URL de la imagen cambia cada minuto; se pide la vigente al abrir la ficha (rellenarCamaraSingapur).
+  const sgId = /^\d{1,6}$/.test(String(props.sg || "")) ? props.sg : "";
+  const sg = sgId ? `<figure class="cam-sg" data-sg="${sgId}"><p class="meta">Pidiendo la imagen más reciente a data.gov.sg…</p></figure>` : "";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
     <div class="chips"><span class="chip">${oficial ? "Organismo público" : deYoutube ? "Transmisión pública en YouTube" : "Operador turístico (publicación intencional)"}</span>${yt ? `<span class="chip estado-tiempo_real">En vivo</span>` : ""}
       ${deYoutube && Number(props.aprox) ? `<span class="chip">Ubicación aproximada</span>` : ""}
       ${ok ? "" : `<span class="chip alerta">Enlace sin confirmar en la última revisión</span>`}</div>
-    ${galeria}${video}
+    ${galeria}${sg}${video}
     <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">${deYoutube ? "Ver en YouTube" : imgs.length ? "Sitio del operador" : "Ver la cámara en el sitio oficial"} ↗</a>
       ${deYoutube && props.canal ? ` <a href="${esc(safeUrl(props.canal))}" target="_blank" rel="noopener noreferrer">Canal ↗</a>` : ""}</p>
     ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
     ${props.v ? `<dl><dt>Revisión del enlace</dt><dd>${esc(props.v)}</dd></dl>` : ""}
     <p class="meta">Solo se incluyen cámaras que su operador publica para verse en abierto; nunca cámaras expuestas por error. La imagen se muestra desde el servidor del operador, sin copiarla.</p>`;
+}
+
+/** Imagen vigente de una cámara de Singapur (API abierta de data.gov.sg, se actualiza cada minuto). */
+export async function rellenarCamaraSingapur(fig, pedir = (u) => fetch(u, { cache: "no-store" }).then((r) => r.json())) {
+  try {
+    const d = await pedir("https://api.data.gov.sg/v1/transport/traffic-images");
+    const c = (d?.items?.[0]?.cameras || []).find((x) => String(x.camera_id) === fig.dataset.sg);
+    if (!c || !/^https:\/\//.test(c.image || "")) throw new Error("sin imagen");
+    fig.innerHTML = `<a href="${esc(c.image)}" target="_blank" rel="noopener noreferrer"><img src="${esc(c.image)}" alt="Cámara ${esc(fig.dataset.sg)}" referrerpolicy="no-referrer"></a>
+      <figcaption class="meta">Tomada ${esc(String(c.timestamp || "").replace("T", " ").slice(0, 16))} (hora de Singapur) · LTA vía data.gov.sg, Singapore Open Data Licence.</figcaption>`;
+  } catch (e) { fig.innerHTML = `<p class="meta">data.gov.sg no devolvió la imagen ahora; ábrela en el sitio del operador.</p>`; }
 }
 
 const jsonDe = (v, def) => { if (typeof v !== "string") return v ?? def; try { return JSON.parse(v); } catch (e) { return def; } };

@@ -589,6 +589,11 @@ DIGITRAFFIC_IMG = "https://weathercam.digitraffic.fi/{}.jpg"
 CALTRANS = "https://cwwp2.dot.ca.gov/data/d{d}/cctv/cctvStatusD{d:02d}.json"
 NYC_DOT = "https://webcams.nyctmc.org/api/cameras"
 CAM_FUENTES = {}  # fuente -> "ok (n)" o el error, para el manifiesto
+# Comprobadas el 2026-10-22 (responden sin llave; robots.txt ausente o permite).
+SINGAPUR = "https://api.data.gov.sg/v1/transport/traffic-images"  # Singapore Open Data Licence
+HONG_KONG = "https://static.data.gov.hk/td/traffic-snapshot-images/code/Traffic_Camera_Locations_En.xml"  # términos de DATA.GOV.HK
+NUEVA_ZELANDA = "https://www.trafficnz.info/service/traffic/rest/4/cameras/all"  # NZ Transport Agency (Waka Kotahi)
+ISLANDIA = "https://gagnaveita.vegagerdin.is/api/vefmyndavelar2014_1"  # Vegagerðin (Administración de Carreteras de Islandia)
 
 
 def camaras_digitraffic(d):
@@ -644,6 +649,99 @@ def camaras_nyc(lista):
             "x": "https://webcams.nyctmc.org/", "o": "NYC DOT (Departamento de Transporte de Nueva York)", "t": "organismo_publico",
             "imgs": [img], "lic": "Información pública de NYC DOT", "lugar": c.get("area") or "", "nota": "Cámara de tráfico de la ciudad de Nueva York."}, 5))
     return out
+
+
+def camaras_singapur(d):
+    """API de imágenes de tráfico de Singapur (LTA vía data.gov.sg). La URL de la imagen cambia cada ~1 min, así que la
+    ficha pide la vigente al abrirse (campo «sg»); aquí solo se guardan la ubicación y el número de cámara."""
+    out = []
+    for it in (d.get("items") or [])[:1]:
+        for c in it.get("cameras") or []:
+            loc = c.get("location") or {}
+            try:
+                lon, lat = float(loc["longitude"]), float(loc["latitude"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            cid = str(c.get("camera_id") or "")
+            out.append(feat(punto(lon, lat), {
+                "id": f"sg:{cid}", "n": f"Cámara de tráfico {cid} (Singapur)", "st": "trafico", "p": "SGP", "sg": cid,
+                "x": "https://beta.data.gov.sg/collections/354/view", "o": "LTA Singapur (data.gov.sg)", "t": "organismo_publico",
+                "lic": "Singapore Open Data Licence", "nota": "Imagen de tráfico que se actualiza cada minuto."}, 5))
+    return out
+
+
+def camaras_hong_kong(xml):
+    """Lista XML de cámaras del Departamento de Transporte de Hong Kong (imagen fija que se renueva cada ~2 min)."""
+    import xml.etree.ElementTree as ET
+    raiz = ET.fromstring(xml if isinstance(xml, (bytes, str)) else b"")
+    out = []
+    for im in raiz.iter("image"):
+        t = {e.tag: (e.text or "").strip() for e in im}
+        try:
+            lon, lat = float(t["longitude"]), float(t["latitude"])
+        except (KeyError, ValueError):
+            continue
+        if not t.get("url", "").startswith("https://"):
+            continue
+        out.append(feat(punto(lon, lat), {
+            "id": f"hk:{t.get('key', len(out))}", "n": t.get("description") or "Cámara de tráfico (Hong Kong)", "st": "trafico", "p": "HKG",
+            "x": "https://www.td.gov.hk/en/transport_in_hong_kong/its/its_achievements/closed_circuit_television_images_on_the_internet/index.html",
+            "o": "Departamento de Transporte de Hong Kong", "t": "organismo_publico", "imgs": [t["url"]], "lic": "Términos de uso de DATA.GOV.HK",
+            "lugar": ", ".join(x for x in (t.get("district"), t.get("region")) if x), "nota": "Cámara de tráfico; la imagen se renueva cada pocos minutos."}, 5))
+    return out
+
+
+def _num(*vals):
+    for v in vals:
+        try:
+            return float(v)
+        except (TypeError, ValueError):
+            continue
+    return None
+
+
+def camaras_nueva_zelanda(d):
+    """Cámaras de carretera de NZTA (trafficnz.info). La URL de la imagen viene relativa al sitio."""
+    out = []
+    for c in ((d.get("response") or {}).get("camera") or []):
+        lat, lon = _num(c.get("latitude"), c.get("lat")), _num(c.get("longitude"), c.get("lon"))
+        img = str(c.get("imageUrl") or "")
+        if lat is None or lon is None or not img:
+            continue
+        if img.startswith("/"):
+            img = "https://www.trafficnz.info" + img
+        if not img.startswith("https://") or str(c.get("offline", "false")).lower() == "true":
+            continue
+        out.append(feat(punto(lon, lat), {
+            "id": f"nz:{c.get('id', len(out))}", "n": c.get("description") or c.get("name") or "Cámara de carretera (Nueva Zelanda)", "st": "trafico",
+            "p": "NZL", "x": "https://www.journeys.nzta.govt.nz/traffic-cameras", "o": "NZ Transport Agency Waka Kotahi", "t": "organismo_publico",
+            "imgs": [img], "lic": "Datos públicos de NZTA", "lugar": " · ".join(x for x in (c.get("highway"), (c.get("journeyLeg") or {}).get("name")) if x),
+            "nota": "Cámara de carretera."}, 5))
+    return out
+
+
+def camaras_islandia(lista):
+    """Cámaras de carretera de Vegagerðin: una fila por vista; se agrupan por estación (hasta 4 vistas)."""
+    por = {}
+    for c in lista if isinstance(lista, list) else []:
+        lat, lon, img = _num(c.get("Breidd")), _num(c.get("Lengd")), str(c.get("Slod") or "")
+        if lat is None or lon is None or not img.startswith("https://"):
+            continue
+        k = c.get("Maelist_nr") or c.get("Myndavel")
+        e = por.setdefault(k, {"lat": lat, "lon": lon, "n": c.get("Myndavel") or "Cámara de carretera", "via": c.get("Vegheiti") or "", "imgs": []})
+        if len(e["imgs"]) < 4:
+            e["imgs"].append(img)
+    return [feat(punto(e["lon"], e["lat"]), {
+        "id": f"is:{k}", "n": f"{e['n']} (Islandia)", "st": "trafico", "p": "ISL", "x": "https://umferdin.is/", "o": "Vegagerðin (Carreteras de Islandia)",
+        "t": "organismo_publico", "imgs": e["imgs"], "lic": "Datos públicos de Vegagerðin", "lugar": e["via"], "nota": "Cámara de clima y tráfico en carretera."}, 5)
+        for k, e in por.items()]
+
+
+def leer_json_aceptando(url):
+    """JSON de servicios que responden XML salvo que se pida JSON en Accept (trafficnz.info)."""
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json"})
+    with urllib.request.urlopen(req, timeout=60) as r:
+        return json.loads(r.read())
 
 
 def get_json_gzip(url):
@@ -721,6 +819,10 @@ def camaras(revisar=enlace_responde, externas=True):
         out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
         out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
         out += _fuente_camaras("nyc_dot", [NYC_DOT], camaras_nyc)
+        out += _fuente_camaras("singapur", [SINGAPUR], camaras_singapur)
+        out += _fuente_camaras("hong_kong", [HONG_KONG], camaras_hong_kong, leer=lambda u: get(u, timeout=60))
+        out += _fuente_camaras("nueva_zelanda", [NUEVA_ZELANDA], camaras_nueva_zelanda, leer=leer_json_aceptando)
+        out += _fuente_camaras("islandia", [ISLANDIA], camaras_islandia)
         out += camaras_youtube()
     return out
 

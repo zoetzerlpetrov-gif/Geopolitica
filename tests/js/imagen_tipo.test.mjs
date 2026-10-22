@@ -118,3 +118,13 @@ test("EEI: posición de wheretheiss.at y video del canal de la NASA", () => {
   assert.equal(leerPosicion({}), null);
   assert.match(urlVideo(), /live_stream\?channel=UCLA_DiR1FfKNvjuUpBHmylQ/);
 });
+
+import { htmlFichaCamara, rellenarCamaraSingapur } from "../../js/capas.js";
+test("cámara de Singapur: la ficha pide la imagen vigente", async () => {
+  assert.match(htmlFichaCamara({ n: "Cam 2701", o: "LTA", t: "organismo_publico", sg: "2701", x: "https://data.gov.sg" }), /data-sg="2701"/);
+  const fig = { dataset: { sg: "2701" }, innerHTML: "" };
+  await rellenarCamaraSingapur(fig, async () => ({ items: [{ cameras: [{ camera_id: "2701", image: "https://images.data.gov.sg/a.jpg", timestamp: "2026-10-22T08:15:53+08:00" }] }] }));
+  assert.match(fig.innerHTML, /images\.data\.gov\.sg\/a\.jpg/);
+  await rellenarCamaraSingapur(fig, async () => ({}));
+  assert.match(fig.innerHTML, /no devolvió/);
+});
