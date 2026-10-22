@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-22T00:59:23Z",
+ "generado_utc": "2026-10-22T01:21:10Z",
  "fuente": "Wikidata (CC0)",
  "registros": [
   {
@@ -13391,9 +13391,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q192177",
    "sede": {
-    "lat": 41.3884,
-    "lon": 2.117,
-    "ciudad": "Palacio Real de Pedralbes"
+    "lat": 41.3825,
+    "lon": 2.1769,
+    "ciudad": "Barcelona"
    },
    "indices": [],
    "personas": [],
@@ -22598,9 +22598,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q4689766",
    "sede": {
-    "lat": 30.1333,
-    "lon": 31.3,
-    "ciudad": "Heliópolis"
+    "lat": 30.0444,
+    "lon": 31.2358,
+    "ciudad": "El Cairo"
    },
    "indices": [],
    "personas": [],
@@ -29778,9 +29778,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q7100663",
    "sede": {
-    "lat": 50.4353,
-    "lon": -3.5625,
-    "ciudad": "Paignton"
+    "lat": 51.5072,
+    "lon": -0.1275,
+    "ciudad": "Londres"
    },
    "indices": [],
    "personas": [],
@@ -32028,9 +32028,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q826700",
    "sede": {
-    "lat": 48.8544,
-    "lon": 2.2933,
-    "ciudad": "Carré Suffren"
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
    },
    "indices": [],
    "personas": [],
@@ -45675,8 +45675,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q57712",
-    "Q97400315"
+    "Q97400315",
+    "Q57712"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -45874,8 +45874,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q28319076",
-    "Q43274"
+    "Q43274",
+    "Q28319076"
    ],
    "fuente": "wikidata",
    "url_fuente": null
