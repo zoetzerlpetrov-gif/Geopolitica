@@ -30,3 +30,11 @@ def test_archivos_listados_en_la_pagina():
     js = open(os.path.join(CARPETA, "..", "..", "js", "inmuebles.js"), encoding="utf-8").read()
     for r in _archivos():
         assert f'"{os.path.basename(r)[:-5]}"' in js, os.path.basename(r)
+
+
+def test_biblioteca_ids_y_relaciones():
+    base = os.path.join(CARPETA, "..", "ops_biblioteca")
+    met = [m for r in glob.glob(os.path.join(base, "*.json")) for m in json.load(open(r, encoding="utf-8"))["metodologias"]]
+    ids = collections.Counter(m["id"] for m in met)
+    assert not [k for k, v in ids.items() if v > 1]
+    assert not [(m["id"], r) for m in met for r in m.get("relacion", []) if r not in ids]
