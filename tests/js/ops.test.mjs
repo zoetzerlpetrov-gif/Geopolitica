@@ -58,3 +58,36 @@ test("biblioteca: búsqueda y documento de plantilla", async () => {
   assert.match(d.html, /Cliente:<\/b> ACME/);
   assert.equal(O.vacioDe({ tipo: "tabla" }).length, 0);
 });
+
+test("informe: estado de fases, hallazgos, propuestas, plan y presupuesto", async () => {
+  const I = await import("../../js/ops-informe-logica.js");
+  const cfg = JSON.parse(readFileSync(new URL("../../config/dominus_ops.json", import.meta.url)));
+  const d = { cliente: { nombre: "ACME", empleados: 300, ingresos: 500000000, moneda: "MXN" },
+    dmi: { puntos: { "Estrategia": 4, "Gobernanza": 2, "Seguridad y privacidad": 3 }, evidencia: {}, cuest: {} },
+    gob: { [cfg.gobernanza[0][0]]: { nota: "1", hallazgo: "Todo lo aprueba el director" } },
+    raci: { filas: [{ d: "Aprobar compras", v: ["R", "R"] }] }, pl: { "0-0": [["a", "b"]] },
+    kpi: [{ nombre: "Entregas", meta: "95 %", valor: "90 %", dueno: "", estado: "rojo" }],
+    esc: [{ nombre: "Ransomware", nivel: "alto", prob: 0.15, perdida: 1000000, var95: 9000000, nivel_prob: 3, nivel_imp: 4 }] };
+  const est = I.estadoFases(cfg, d);
+  assert.equal(est.length, 6);
+  assert.ok(est[0].pct > 0 && est[0].pct <= 100);
+  const h = I.hallazgos(cfg, d);
+  assert.ok(h.positivos.some((x) => x.startsWith("Estrategia")));
+  assert.ok(h.negativos.some((x) => x.includes("Gobernanza: madurez 2")));
+  assert.ok(h.negativos.some((x) => x.includes("Aprobar compras")));
+  assert.ok(h.negativos.some((x) => x.includes("Ransomware")));
+  assert.ok(h.mejorar.some((x) => x.includes("sin dueño") || x.includes("no tiene dueño")));
+  const p = I.propuestas(cfg, d, [{ id: "cobit2019", nombre: "COBIT 2019" }]);
+  assert.equal(p[0].nivel, 1);
+  assert.ok(p.some((x) => x.dimension === "Gobernanza" && x.metodologias.includes("COBIT 2019")));
+  assert.ok(!p.some((x) => x.dimension === "Estrategia"));
+  const plan = I.planTrabajo(cfg, d, est);
+  assert.equal(plan.length, 6);
+  assert.ok(plan[3].inicio < plan[2].fin, "la fase IV arranca antes de que termine la III");
+  const pres = I.presupuesto(plan, I.TARIFAS, { contingencia: 0.1, impuesto: 0.16 });
+  assert.ok(Math.abs(pres.total - pres.subtotal * 1.1 * 1.16) < 1);
+  const html = I.informeHTML(cfg, d, { opciones: { consultor: "Firma X" } });
+  for (const t of ["Resumen ejecutivo", "Estado de las 6 fases", "Propuestas de DOMINUS OPS", "Servicios que no ofrecemos", "Plan de trabajo", "Presupuesto estimado"]) assert.match(html, new RegExp(t));
+  assert.match(html, /Firma X/);
+  assert.match(I.promptInforme(cfg, d)[1].content, /===DETALLE===/);
+});

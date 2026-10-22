@@ -52,6 +52,7 @@
       <button role="tab" aria-selected="false" data-p="plantillas">🗂️ Plantillas por fase</button>
       <button role="tab" aria-selected="false" data-p="biblioteca">📚 Biblioteca de metodologías</button>
       <button role="tab" aria-selected="false" data-p="riesgos">🎲 Risk Management y escenarios</button>
+      <button role="tab" aria-selected="false" data-p="informe">📄 Informe de las 6 fases</button>
       <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
       <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
     </nav>
@@ -79,6 +80,22 @@
       <p class="meta">Escenarios calculados con modelos matemáticos, físicos y químicos (Monte Carlo, Poisson, Gutenberg-Richter, ecuaciones diferenciales, álgebra lineal, teoría de colas, dispersión de gases, explosiones…).
         El contexto se arma con los datos de la pestaña Cliente, los resultados del Readiness Assessment y la gobernanza, y los eventos del mapa en los países del cliente. Proceso ISO 31000: identificar → analizar → evaluar → tratar → monitorear.</p>
       <div id="ops-esc"></div>
+    </section>
+
+    <section class="panel" id="p-informe" hidden>
+      <h2>Informe integral DOMINUS OPS</h2>
+      <p class="meta">Reúne todo lo capturado (Cliente, Readiness Assessment y DMI, gobernanza y RACI, plantillas por fase, biblioteca, KPIs y escenarios de riesgo) en un informe de estilo consultoría:
+        resumen ejecutivo, estado de las 6 fases, diagnóstico, riesgos, hallazgos positivos y negativos, propuestas de DOMINUS OPS, servicios que se ofrecen y los que no, plan de trabajo con tiempos y presupuesto de referencia.</p>
+      <div class="tarjeta"><div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
+        <label>Consultor o firma <input id="inf-consultor" maxlength="120" placeholder="DOMINUS OPS"></label>
+        <label>Fecha del informe <input id="inf-fecha" type="date"></label>
+        <label>Contingencia (%) <input id="inf-cont" inputmode="decimal" value="10"></label>
+        <label>Impuestos (%) <input id="inf-imp" inputmode="decimal" value="16"></label></div>
+        <details><summary><b>Tarifas de referencia (MXN por hora; estimación de mercado editable)</b></summary><div class="desliza"><table class="t" id="inf-tarifas"></table></div></details>
+        <details><summary><b>Servicios que no ofrecemos (uno por renglón)</b></summary><textarea id="inf-no" rows="6" style="width:100%"></textarea></details>
+        <div class="barra"><button type="button" id="inf-ver">👁️ Vista previa</button><button type="button" id="inf-ia">🤖 Redactar resumen e informe detallado con IA</button><span id="inf-doc"></span></div>
+        <p class="meta" id="inf-estado"></p></div>
+      <div id="inf-vista" class="tarjeta" style="background:#fff;color:#111"></div>
     </section>
 
     <section class="panel" id="p-biblioteca" hidden>

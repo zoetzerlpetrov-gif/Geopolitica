@@ -3,7 +3,7 @@ import { esc, getJSON } from "./util.js";
 import * as O from "./ops-logica.js";
 
 const $ = (id) => document.getElementById(id);
-const CLAVES = ["gp_ops_dmi", "gp_ops_gob", "gp_ops_raci", "gp_ops_pl", "gp_ops_kpi", "gp_ops_cliente", "gp_ops_bib", "gp_ops_esc", "gp_ops_tab"];
+const CLAVES = ["gp_ops_dmi", "gp_ops_gob", "gp_ops_raci", "gp_ops_pl", "gp_ops_kpi", "gp_ops_cliente", "gp_ops_bib", "gp_ops_esc", "gp_ops_tab", "gp_ops_inf"];
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
 const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* modo privado */ } };
 const descargar = (nombre, texto, tipo = "text/markdown") => {
@@ -46,6 +46,7 @@ eventosOps.then((evs) => import("./escenarios.js").then((E) => E.montarSimulador
         c.sitios && `Sitios: ${c.sitios}.`, c.proveedores && `Proveedores críticos: ${c.proveedores}.`, c.contexto, dmiTxt && `Madurez DMI por dimensión: ${dmiTxt}.`].filter(Boolean).join("\n") };
   },
 }))).catch((e) => { $("ops-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
+import("./ops-informe.js").then((M) => M.iniciarInforme(cfg)).catch((e) => { $("inf-estado").textContent = `No se pudo cargar el informe: ${e.message}`; });
 import("./ops-biblioteca.js").then((B) => B.iniciarBiblioteca()).catch((e) => { $("bib-ficha").innerHTML = `<p class="meta">No se pudo cargar la biblioteca: ${esc(e.message)}</p>`; });
 
 // ------------------------------------------------------------------ mapa maestro y fases
