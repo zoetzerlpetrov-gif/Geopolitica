@@ -650,7 +650,28 @@ async function main() {
     aplicarFiltros();
     const m = location.hash.match(/^#evento=(.+)$/);
     if (m) abrirFicha(decodeURIComponent(m[1]), { volar: true });
+    irAPaisDelEnlace();
   };
+  // Enlaces «./#pais=MEX» (analítica y otras páginas): filtra los eventos de ese país y encuadra el país.
+  async function irAPaisDelEnlace() {
+    const iso = location.hash.match(/^#pais=([A-Za-z]{3})$/)?.[1]?.toUpperCase();
+    if (!iso) return;
+    estado.pais = iso;
+    programarFiltros();
+    try {
+      const g = await getJSON("data/base/countries-110m.geojson");
+      const caja = [Infinity, Infinity, -Infinity, -Infinity];
+      const pts = (c) => (typeof c[0] === "number" ? [c] : c.flatMap(pts));
+      for (const f of g.features.filter((x) => x.properties.iso3 === iso)) {
+        for (const [x, y] of pts(f.geometry.coordinates)) { caja[0] = Math.min(caja[0], x); caja[1] = Math.min(caja[1], y); caja[2] = Math.max(caja[2], x); caja[3] = Math.max(caja[3], y); }
+      }
+      // Países que cruzan el antimeridiano (Rusia, Fiyi): se usa el punto central del nomenclátor.
+      if (Number.isFinite(caja[0]) && caja[2] - caja[0] < 180) encuadrar([[caja[0], caja[1]], [caja[2], caja[3]]], 6);
+      else { if (!paises) await cargarPaises(); const p = paises?.[iso]; if (p) api.map.flyTo({ center: [p.lon, p.lat], zoom: 3, duration: lite ? 0 : 800 }); }
+    } catch (err) { /* sin geometría: solo queda el filtro */ }
+    setTimeout(() => { const sel = $("ev-pais"); if (sel && [...sel.options].some((o) => o.value === iso)) sel.value = iso; }, 1500);
+  }
+  addEventListener("hashchange", irAPaisDelEnlace);
   // Si el mapa ya terminó de cargar mientras llegaban los datos, se aplica de inmediato.
   api.map.loaded() ? alCargar() : api.map.once("load", alCargar);
 

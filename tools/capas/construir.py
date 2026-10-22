@@ -1564,8 +1564,17 @@ def actividades():
     pa = Paises()
     out = []
     detalle = lambda t: t.get("produce") or t.get("crop") or t.get("trees") or t.get("species") or t.get("product") or ""  # noqa: E731
+    errores = []
+    # Cada subtipo por separado: si Overpass no responde para uno (p. ej. acuicultura, la consulta más pesada),
+    # los demás se publican igual; antes un solo fallo dejaba la capa entera sin construir.
     for sel, st, z in ACTIVIDADES:
-        out += _osm(overpass(sel, "actividades"), lambda t, st=st: st, lambda s, t, z=z: z, detalle, pa, con_operador=True)
+        try:
+            out += _osm(overpass(sel, "actividades"), lambda t, st=st: st, lambda s, t, z=z: z, detalle, pa, con_operador=True)
+        except Exception as e:  # noqa: BLE001
+            errores.append(f"{st}: {e}")
+            print(f"   actividades/{st}: {e}")
+    if not out:
+        raise RuntimeError("; ".join(errores) or "Overpass no devolvió actividades")
     return out
 
 
