@@ -1,0 +1,2869 @@
+{
+ "nota": "DOMINUS OPS v3.1 (framework de la persona dueña de este sitio). Se publican la metodología, los cuestionarios y las plantillas; no se incluyen precios ni el modelo comercial.",
+ "pilares": [
+  {
+   "nombre": "Gobernanza",
+   "pregunta": "¿Quién decide, quién responde y bajo qué control?"
+  },
+  {
+   "nombre": "War Room (C6ISTAR)",
+   "pregunta": "¿Qué está pasando y qué hago ahora?"
+  }
+ ],
+ "mapa_maestro": [
+  [
+   "I — Estrategia",
+   "Inteligencia / planeación",
+   "Mapa estratégico del proyecto"
+  ],
+  [
+   "II — Diseño",
+   "Arquitectura operativa",
+   "Plano operativo del proyecto"
+  ],
+  [
+   "III — Ejecución",
+   "Acción táctica",
+   "Progreso táctico controlado"
+  ],
+  [
+   "IV — Monitoreo",
+   "Comando y control",
+   "Decisión estratégica en tiempo real"
+  ],
+  [
+   "V — Evaluación",
+   "Aprendizaje",
+   "Memoria operativa para el futuro"
+  ],
+  [
+   "VI — Escalamiento",
+   "Doctrina / expansión",
+   "Ecosistema sostenible y global"
+  ]
+ ],
+ "fases": [
+  {
+   "nombre": "Fase I — Estrategia y Planeación",
+   "objetivo": "Definir la dirección estratégica del proyecto, alinearlo con normativas y objetivos de negocio, y partir con bases sólidas y un mapa de riesgos claro.",
+   "etapas": [
+    {
+     "nombre": "Etapa 1. Inteligencia estratégica y análisis de entorno",
+     "bloques": {
+      "Metodologías": [
+       "PESTEL, SWOT y 5 Fuerzas de Porter.",
+       "Business War Gaming (simulación de escenarios competitivos).",
+       "Inteligencia competitiva (ejercicios red vs blue team)."
+      ],
+      "Normas": [
+       "ISO 31000 (gestión de riesgos), ISO 9001 (calidad), ITIL v4 (estrategia de servicios)."
+      ],
+      "Ejemplos por sector": [
+       "IT: ecosistemas cloud, IA y ciberamenazas.",
+       "Finanzas: impacto de ISO 20022 en pagos globales.",
+       "Energía: regulación ASEA y transición energética.",
+       "Salud: regulación FDA, EMA y Cofepris."
+      ]
+     },
+     "war_room": "dashboards de tendencias sectoriales, monitoreo de riesgos geopolíticos y modelos predictivos con IA."
+    },
+    {
+     "nombre": "Etapa 2. Alineación normativa y regulatoria",
+     "bloques": {
+      "Metodologías": [
+       "Compliance Risk Framework, ISO 37301 (cumplimiento), COSO ERM."
+      ],
+      "Normas por sector": [
+       "IT: GDPR, CCPA, LFPDPPP.",
+       "Finanzas: SOX, DORA, marcos AML México/España.",
+       "Energía: SASISOPA, ISO 14001, GHG Protocol.",
+       "Salud: HIPAA, ISO 13485, GxP, NOM-059."
+      ]
+     },
+     "war_room": "repositorio normativo centralizado con alertas automáticas de cambios regulatorios."
+    },
+    {
+     "nombre": "Etapa 3. Definición de objetivos estratégicos (KPIs/OKRs)",
+     "bloques": {
+      "Metodologías": [
+       "OKRs, Balanced Scorecard, Hoshin Kanri."
+      ],
+      "Ejemplos por sector": [
+       "IT: reducir downtime 30%.",
+       "Finanzas: cumplimiento AML 99.5%.",
+       "Energía: reducir emisiones CO₂ 10% anual.",
+       "Salud: reducir errores médicos 15%."
+      ]
+     },
+     "war_room": "tablero de KPIs por sector, comparativos y simulaciones de impacto."
+    },
+    {
+     "nombre": "Etapa 4. Selección de metodologías y marcos de ejecución",
+     "bloques": {
+      "Metodologías": [
+       "PMI (PMBOK 7), PRINCE2, Agile (Scrum, SAFe, Kanban, Lean Six Sigma), gestión híbrida."
+      ],
+      "Ejemplos por sector": [
+       "IT: Scrum + DevOps.",
+       "Finanzas: PMI + COBIT 2019 + ISO 20022.",
+       "Energía: PRINCE2 + ISO 55000.",
+       "Salud: PRINCE2 + ISO 13485."
+      ]
+     },
+     "war_room": "visualización del roadmap con indicadores de avance en tiempo real."
+    },
+    {
+     "nombre": "Etapa 5. Plan de riesgos y simulación de escenarios",
+     "bloques": {
+      "Metodologías": [
+       "ISO 22301 (continuidad), NIST Cybersecurity Framework, ejercicios red/blue team, simulación Monte Carlo."
+      ],
+      "Ejemplos por sector": [
+       "IT: ciberataques y pérdida de datos.",
+       "Finanzas: crash de mercado, fraude, ataques a blockchain.",
+       "Energía: derrames, apagones, sabotaje a infraestructura.",
+       "Salud: escasez de medicamentos, pandemias, ciberataques."
+      ]
+     },
+     "war_room": "panel de riesgos dinámico, IA que propone mitigaciones y escenarios best/worst case."
+    }
+   ],
+   "cuestionario": [
+    {
+     "seccion": "Sección A — Estrategia corporativa",
+     "preguntas": [
+      "¿Cuenta con un plan estratégico formal (misión, visión, objetivos a 3-5 años)?",
+      "¿Los proyectos actuales están vinculados directamente a la estrategia corporativa?",
+      "¿Qué porcentaje de proyectos cumple objetivos estratégicos en tiempo/costo?",
+      "¿Qué nivel de participación tiene la alta dirección en los proyectos?",
+      "¿Existe un comité o consejo de estrategia?"
+     ]
+    },
+    {
+     "seccion": "Sección B — Gobierno y gestión de proyectos",
+     "preguntas": [
+      "¿Cuenta con una PMO formalmente establecida?",
+      "¿Qué metodologías usa actualmente (PMI, PRINCE2, Agile, Scrum, SAFe, híbrido, ninguna)?",
+      "¿Cuenta con roles definidos para gestión de proyectos (PM, analistas, QA)?",
+      "¿Existen procesos documentados de inicio, control y cierre?",
+      "¿Qué porcentaje de proyectos tiene desviaciones >20% en tiempo o costo?"
+     ]
+    },
+    {
+     "seccion": "Sección C — Normatividad y cumplimiento",
+     "preguntas": [
+      "¿Conoce las normas/regulaciones aplicables a su sector?",
+      "¿Cuenta con un mapa de cumplimiento regulatorio actualizado?",
+      "¿Qué frecuencia tienen sus auditorías externas?",
+      "¿Ha enfrentado sanciones/multas en los últimos 5 años?",
+      "¿Qué nivel de madurez considera en cumplimiento normativo (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección D — Tecnología y datos",
+     "preguntas": [
+      "¿Qué sistemas de gestión utiliza (ERP, CRM, BI, otros)?",
+      "¿Qué nivel de integración tienen sus datos entre áreas (1-5)?",
+      "¿Monitorea en tiempo real los KPIs críticos?",
+      "¿Utiliza alguna plataforma de IA, Big Data o analítica avanzada?",
+      "¿Qué nivel de ciberseguridad considera tener (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección E — Riesgos y resiliencia",
+     "preguntas": [
+      "¿Cuenta con un plan de continuidad de negocio (BCP)?",
+      "¿Cuenta con un plan de recuperación ante desastres (DRP)?",
+      "¿Evalúa y clasifica riesgos estratégicos y operativos regularmente?",
+      "¿Qué tan preparada está ante ciberataques (1-5)?",
+      "¿Qué nivel de cultura de resiliencia existe en sus equipos (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección F — Personas y cultura",
+     "preguntas": [
+      "¿Existe un programa formal de capacitación y certificaciones?",
+      "¿Qué porcentaje del personal está certificado en estándares (ISO, PMI, ITIL, COBIT)?",
+      "¿Se mide periódicamente el clima laboral?",
+      "¿Qué nivel de rotación de personal clave tiene?",
+      "¿Existe una política formal de innovación y mejora continua?"
+     ]
+    }
+   ],
+   "plantillas": [
+    {
+     "titulo": "Matriz estratégica (alineación de proyectos)",
+     "objetivo": "verificar si los proyectos actuales cumplen con la estrategia.",
+     "columnas": [
+      "Proyecto",
+      "Objetivo estratégico",
+      "Estado",
+      "KPI principal",
+      "Riesgo asociado",
+      "Responsable"
+     ],
+     "ejemplo": [
+      [
+       "Modernización ERP",
+       "Eficiencia operativa",
+       "En ejecución",
+       "% procesos digitalizados",
+       "Falta integración",
+       "CIO"
+      ],
+      [
+       "Implementación CRM",
+       "Experiencia cliente",
+       "Planeado",
+       "NPS",
+       "Baja adopción",
+       "Dir. Comercial"
+      ],
+      [
+       "Ciberseguridad SOC",
+       "Reducir incidentes",
+       "Operativo",
+       "MTTD",
+       "Falta talento",
+       "CISO"
+      ],
+      [
+       "Migración a nube",
+       "Flexibilidad tecnológica",
+       "En ejecución",
+       "% cargas en cloud",
+       "Costos elevados",
+       "CTO"
+      ],
+      [
+       "Automatización fiscal",
+       "Cumplimiento",
+       "Planeado",
+       "% reportes automatizados",
+       "Multas fiscales",
+       "CFO"
+      ],
+      [
+       "Implementación AML",
+       "Compliance financiero",
+       "Planeado",
+       "% transacciones monitoreadas",
+       "Multa regulatoria",
+       "Compliance"
+      ],
+      [
+       "Energía renovable",
+       "Reducción emisiones",
+       "Propuesta",
+       "Ton CO₂ reducidas",
+       "Inversión insuficiente",
+       "ESG Officer"
+      ]
+     ]
+    },
+    {
+     "titulo": "Radar de madurez organizacional (0-5)",
+     "objetivo": "",
+     "columnas": [
+      "Dimensión",
+      "Nivel",
+      "Evidencia",
+      "Acción sugerida"
+     ],
+     "ejemplo": [
+      [
+       "Estrategia",
+       "4",
+       "Plan estratégico formal",
+       "Alinear OKRs por área"
+      ],
+      [
+       "Normatividad",
+       "2",
+       "Auditorías irregulares",
+       "Establecer plan anual"
+      ],
+      [
+       "Tecnología",
+       "3",
+       "ERP básico sin BI",
+       "Adoptar War Room Pro"
+      ],
+      [
+       "Ciberseguridad",
+       "2",
+       "Firewalls básicos",
+       "SOC + ISO 27001"
+      ],
+      [
+       "Riesgos",
+       "1",
+       "No hay matriz formal",
+       "Crear comité de riesgos"
+      ],
+      [
+       "Cultura",
+       "3",
+       "Clima positivo",
+       "Mejora continua"
+      ],
+      [
+       "PMO",
+       "2",
+       "No existe PMO formal",
+       "Crear unidad con metodologías"
+      ],
+      [
+       "Datos",
+       "2",
+       "Bases aisladas",
+       "Centralizar en Data Lake"
+      ],
+      [
+       "Innovación",
+       "3",
+       "Pocas iniciativas IA",
+       "Laboratorio de innovación"
+      ],
+      [
+       "Continuidad",
+       "1",
+       "No hay BCP",
+       "Diseñar plan de continuidad"
+      ]
+     ]
+    },
+    {
+     "titulo": "Semáforo normativo",
+     "objetivo": "",
+     "columnas": [
+      "Norma",
+      "Aplicable",
+      "Cumple %",
+      "Auditoría",
+      "Riesgo multa",
+      "Recomendación"
+     ],
+     "ejemplo": [
+      [
+       "DORA",
+       "Sí",
+       "40%",
+       "No",
+       "Alto",
+       "Implementar resiliencia digital"
+      ],
+      [
+       "SOX",
+       "Sí",
+       "60%",
+       "Sí (2022)",
+       "Medio",
+       "Revisar reportes financieros"
+      ],
+      [
+       "AML (MX)",
+       "Sí",
+       "50%",
+       "No",
+       "Alto",
+       "Sistema de monitoreo AML"
+      ],
+      [
+       "ISO 20022",
+       "Sí",
+       "30%",
+       "No",
+       "Alto",
+       "Migrar sistema financiero"
+      ],
+      [
+       "GDPR",
+       "Sí",
+       "45%",
+       "Sí (2021)",
+       "Alto",
+       "Mejorar gestión de datos"
+      ],
+      [
+       "HIPAA",
+       "Sí",
+       "20%",
+       "No",
+       "Crítico",
+       "Trazabilidad clínica"
+      ],
+      [
+       "SASISOPA",
+       "Sí",
+       "70%",
+       "Sí (2023)",
+       "Medio",
+       "Fortalecer reportes"
+      ],
+      [
+       "ISO 27001",
+       "Sí",
+       "65%",
+       "Sí (2021)",
+       "Medio",
+       "Actualizar controles SOC"
+      ],
+      [
+       "ISO 22301",
+       "Sí",
+       "40%",
+       "No",
+       "Alto",
+       "Implementar continuidad"
+      ]
+     ]
+    },
+    {
+     "titulo": "Mapa de riesgos estratégicos (ISO 31000)",
+     "objetivo": "",
+     "columnas": [
+      "Riesgo",
+      "Prob.",
+      "Impacto",
+      "Nivel",
+      "Mitigación actual",
+      "Gap detectado"
+     ],
+     "ejemplo": [
+      [
+       "Ciberataque",
+       "4",
+       "5",
+       "Crítico",
+       "Firewalls",
+       "No hay DRP"
+      ],
+      [
+       "Multa AML",
+       "3",
+       "5",
+       "Alto",
+       "Auditorías externas",
+       "Falta monitoreo 24/7"
+      ],
+      [
+       "Fuga de datos (GDPR)",
+       "3",
+       "4",
+       "Alto",
+       "Políticas básicas",
+       "No hay DLP"
+      ],
+      [
+       "Incumplir SASISOPA",
+       "2",
+       "5",
+       "Alto",
+       "Documentos básicos",
+       "No hay monitoreo real-time"
+      ],
+      [
+       "Crisis reputacional",
+       "3",
+       "4",
+       "Alto",
+       "Manual de comunicación",
+       "No hay simulacros"
+      ],
+      [
+       "Fallo tecnológico",
+       "3",
+       "5",
+       "Crítico",
+       "Backups semanales",
+       "No hay redundancia cloud"
+      ],
+      [
+       "Cambio regulatorio",
+       "3",
+       "4",
+       "Alto",
+       "Asesoría legal",
+       "No hay escenarios simulados"
+      ],
+      [
+       "Competencia disruptiva",
+       "4",
+       "3",
+       "Alto",
+       "Innovación limitada",
+       "Falta vigilancia tecnológica"
+      ]
+     ]
+    },
+    {
+     "titulo": "Roadmap de madurez (a qué modelo evolucionar)",
+     "objetivo": "",
+     "columnas": [
+      "Perfil",
+      "Gap detectado",
+      "Transición",
+      "Recomendación"
+     ],
+     "ejemplo": [
+      [
+       "PyME sin PMO",
+       "Falta estructura",
+       "0-6 meses",
+       "PMO básica + Lite"
+      ],
+      [
+       "Empresa mediana",
+       "Gaps normativos",
+       "6-12 meses",
+       "Pro + War Room"
+      ],
+      [
+       "Multinacional",
+       "Alta complejidad",
+       "18-24 meses",
+       "Elite + IA avanzada"
+      ],
+      [
+       "Banco regional",
+       "AML incompleto",
+       "12 meses",
+       "Pro con AML + DORA"
+      ],
+      [
+       "Hospital privado",
+       "Sin HIPAA",
+       "6-12 meses",
+       "Pro con War Room clínico"
+      ],
+      [
+       "Refinería",
+       "SASISOPA parcial",
+       "18 meses",
+       "Elite + monitoreo emisiones"
+      ],
+      [
+       "Startup fintech",
+       "Normatividad baja",
+       "6 meses",
+       "Lite → Pro rápido"
+      ]
+     ]
+    }
+   ],
+   "ia": "copiloto estratégico: la IA genera un reporte con: nivel de madurez por dimensión, gaps normativos y tecnológicos, modelo recomendado (Lite/Pro/Elite), riesgos críticos con simulación y recomendaciones metodológicas."
+  },
+  {
+   "nombre": "Fase II — Diseño Operativo",
+   "objetivo": "Traducir la estrategia en un plan operativo detallado: procesos, arquitectura, gobernanza, controles de calidad, continuidad y cumplimiento. Aquí se arma la maquinaria de ejecución.",
+   "etapas": [
+    {
+     "nombre": "Etapa 1. Arquitectura del proyecto y modelado operativo",
+     "bloques": {
+      "Metodologías": [
+       "TOGAF, BPMN 2.0, ArchiMate."
+      ],
+      "Normas": [
+       "ISO/IEC 42010 (arquitectura de sistemas), ISO/IEC 38500 (gobernanza de TI)."
+      ],
+      "Ejemplos por sector": [
+       "IT: arquitecturas híbridas (cloud + on-premise), CI/CD.",
+       "Finanzas: pagos instantáneos (ISO 20022).",
+       "Energía: SCADA y monitoreo industrial.",
+       "Salud: interoperabilidad HL7/FHIR."
+      ]
+     },
+     "war_room": "visualización de la arquitectura completa como “mapa” del proyecto."
+    },
+    {
+     "nombre": "Etapa 2. Diseño de procesos y cadena de valor",
+     "bloques": {
+      "Metodologías": [
+       "Lean Six Sigma, Value Stream Mapping, SCOR."
+      ],
+      "Normas": [
+       "ISO 9001 (calidad), ISO 56002 (innovación)."
+      ],
+      "Ejemplos por sector": [
+       "IT: DevOps + Kanban.",
+       "Finanzas: KYC y AML.",
+       "Energía: SASISOPA en la cadena de valor.",
+       "Salud: trazabilidad farmacéutica."
+      ]
+     },
+     "war_room": "paneles de eficiencia operativa y cuellos de botella."
+    },
+    {
+     "nombre": "Etapa 3. Gobernanza y controles",
+     "bloques": {
+      "Metodologías": [
+       "COBIT 2019, COSO Internal Control, matrices de control de riesgos (RCM)."
+      ],
+      "Normas": [
+       "ISO 37001 (anticorrupción), ISO/IEC 27001 (seguridad), SOX (controles financieros)."
+      ],
+      "Ejemplos por sector": [
+       "IT: control de accesos y segregación de funciones.",
+       "Finanzas: auditoría DORA y SOX.",
+       "Energía: ISO 55000 (activos críticos)."
+      ]
+     },
+     "war_room": "tablero de cumplimiento con alertas en tiempo real."
+    },
+    {
+     "nombre": "Etapa 4. Plan de calidad y auditorías",
+     "bloques": {
+      "Metodologías": [
+       "TQM, frameworks QA/QC (ISTQB en IT, GxP en farma), benchmarking."
+      ],
+      "Normas": [
+       "ISO 9001, ISO/IEC 25010 (calidad de software), ISO 13485."
+      ],
+      "Ejemplos por sector": [
+       "IT: QA automatizado, DevSecOps.",
+       "Finanzas: auditorías AML y stress testing.",
+       "Energía: ISO 45001 (seguridad laboral).",
+       "Salud: ensayos clínicos GCP."
+      ]
+     },
+     "war_room": "dashboard de calidad con métricas de defectos, cumplimiento y satisfacción."
+    },
+    {
+     "nombre": "Etapa 5. Plan de continuidad y resiliencia",
+     "bloques": {
+      "Metodologías": [
+       "Business Continuity Planning (BCP), Crisis Management, Risk Heat Maps."
+      ],
+      "Normas": [
+       "ISO 22301 (continuidad), NIST SP 800-34."
+      ],
+      "Ejemplos por sector": [
+       "IT: recuperación ante desastres (DRP en cloud).",
+       "Finanzas: respuesta ante ciberataques y fallas de SWIFT.",
+       "Salud: continuidad de servicios críticos hospitalarios."
+      ]
+     },
+     "war_room": "panel de crisis en vivo, IA que activa planes alternativos y simulación de escenarios extremos."
+    }
+   ],
+   "cuestionario": [
+    {
+     "seccion": "Sección A — Arquitectura y procesos",
+     "preguntas": [
+      "¿Cuenta con un mapa de procesos formal (BPMN, SIPOC)?",
+      "¿Qué porcentaje de procesos clave están documentados?",
+      "¿Usa herramientas de automatización (RPA, BPM)?",
+      "¿Los procesos incluyen métricas claras (tiempo, costo, calidad)?",
+      "¿Existen procesos redundantes o duplicados entre áreas?"
+     ]
+    },
+    {
+     "seccion": "Sección B — Cadena de valor y modelo operativo",
+     "preguntas": [
+      "¿Está definida la cadena de valor (Porter u otro marco)?",
+      "¿Las actividades de soporte están alineadas con las principales?",
+      "¿Se mide el desempeño de la cadena de valor?",
+      "¿Existen indicadores de satisfacción del cliente vinculados?",
+      "¿Qué tan integrados están proveedores y socios?"
+     ]
+    },
+    {
+     "seccion": "Sección C — Gobernanza y controles",
+     "preguntas": [
+      "¿Cuenta con un marco de gobernanza documentado (roles, políticas, autoridad)?",
+      "¿Existen comités de riesgos, auditoría o cumplimiento activos?",
+      "¿Qué controles internos aplican (COSO, SOX, ISO 37001)?",
+      "¿Qué nivel de automatización tienen los controles?",
+      "¿Se reportan los hallazgos directamente a la alta dirección?"
+     ]
+    },
+    {
+     "seccion": "Sección D — Calidad y auditorías",
+     "preguntas": [
+      "¿Qué norma de calidad aplica (ISO 9001, GMP, ITIL, CMMI)?",
+      "¿Qué frecuencia tienen las auditorías internas?",
+      "¿Se realizan auditorías cruzadas entre departamentos?",
+      "¿El área de calidad tiene independencia frente a operaciones?",
+      "¿Existe un plan formal de mejora continua?"
+     ]
+    },
+    {
+     "seccion": "Sección E — Continuidad y resiliencia",
+     "preguntas": [
+      "¿Cuenta con un BCP validado?",
+      "¿Tiene un DRP probado en simulacros?",
+      "¿Qué porcentaje de procesos críticos tienen contingencia?",
+      "¿Qué tan rápido restablece operaciones (RTO/RPO)?",
+      "¿Existen escenarios simulados (pandemia, ciberataque, crisis energética)?"
+     ]
+    }
+   ],
+   "plantillas": [
+    {
+     "titulo": "Arquitectura del proyecto (BPMN / SIPOC)",
+     "objetivo": "",
+     "columnas": [
+      "Proceso",
+      "Entrada",
+      "Actividad",
+      "Salida",
+      "Responsable",
+      "Riesgo"
+     ],
+     "ejemplo": [
+      [
+       "Atención al cliente",
+       "Solicitud",
+       "Registrar en CRM",
+       "Ticket",
+       "Agente",
+       "Baja adopción CRM"
+      ],
+      [
+       "Facturación",
+       "Orden de venta",
+       "Emitir factura",
+       "Factura",
+       "Finanzas",
+       "Error manual"
+      ],
+      [
+       "Producción pharma",
+       "Orden",
+       "Mezclar lote",
+       "Medicamento",
+       "Jefe Planta",
+       "Riesgo GMP"
+      ],
+      [
+       "Auditoría AML",
+       "Transacción",
+       "Validar patrón",
+       "Reporte AML",
+       "Compliance",
+       "Falsos negativos"
+      ],
+      [
+       "Gestión energía",
+       "Crudo",
+       "Procesar",
+       "Barril refinado",
+       "Operador",
+       "Riesgo fuga"
+      ],
+      [
+       "Mantenimiento aeronave",
+       "Plan vuelo",
+       "Checklist técnico",
+       "Aeronave lista",
+       "Ingeniería",
+       "Fallo OACI"
+      ],
+      [
+       "Ensayo clínico",
+       "Protocolo",
+       "Administrar dosis",
+       "Reporte",
+       "Médico",
+       "Error trazabilidad"
+      ]
+     ]
+    },
+    {
+     "titulo": "Cadena de valor operativa (Porter extendida)",
+     "objetivo": "",
+     "columnas": [
+      "Actividad",
+      "IT",
+      "Finanzas",
+      "Salud",
+      "Energía"
+     ],
+     "ejemplo": [
+      [
+       "Logística interna",
+       "Infra cloud",
+       "Onboarding clientes",
+       "Recepción insumos",
+       "Recepción crudo"
+      ],
+      [
+       "Operaciones",
+       "Desarrollo software",
+       "Procesamiento pagos",
+       "Atención paciente",
+       "Refinación"
+      ],
+      [
+       "Logística externa",
+       "Deploy en clientes",
+       "Transferencias",
+       "Distribución medicinas",
+       "Distribución energía"
+      ],
+      [
+       "Marketing",
+       "Campaña digital",
+       "Venta de seguros",
+       "Campaña vacunación",
+       "Promoción ESG"
+      ],
+      [
+       "Servicio postventa",
+       "Soporte TI",
+       "Servicio clientes",
+       "Seguimiento paciente",
+       "Mantenimiento red"
+      ]
+     ]
+    },
+    {
+     "titulo": "Gobernanza y controles",
+     "objetivo": "",
+     "columnas": [
+      "Control",
+      "Norma / Marco",
+      "Estado",
+      "Gap detectado",
+      "Acción sugerida"
+     ],
+     "ejemplo": [
+      [
+       "Auditoría financiera",
+       "SOX",
+       "Parcial",
+       "Falta comité activo",
+       "Crear comité de auditoría"
+      ],
+      [
+       "Gobierno TI",
+       "COBIT 2019",
+       "Bajo",
+       "Roles difusos",
+       "Formalizar gobierno TI"
+      ],
+      [
+       "Control de riesgos",
+       "COSO ERM",
+       "Medio",
+       "No se actualiza",
+       "Revisión trimestral"
+      ],
+      [
+       "Anticorrupción",
+       "ISO 37001",
+       "Nulo",
+       "No hay políticas",
+       "Implementar ISO 37001"
+      ],
+      [
+       "Seguridad información",
+       "ISO 27001",
+       "Medio",
+       "No hay SOC",
+       "Crear SOC interno"
+      ],
+      [
+       "Data privacy",
+       "GDPR/LFPDPPP",
+       "Bajo",
+       "Falta DPO",
+       "Nombrar DPO"
+      ],
+      [
+       "Continuidad",
+       "ISO 22301",
+       "Nulo",
+       "No hay simulacros",
+       "Diseñar plan de continuidad"
+      ]
+     ]
+    },
+    {
+     "titulo": "Plan de calidad y auditorías",
+     "objetivo": "",
+     "columnas": [
+      "Norma",
+      "Área",
+      "Estado",
+      "Gap detectado",
+      "Frecuencia",
+      "Acción"
+     ],
+     "ejemplo": [
+      [
+       "ISO 9001",
+       "General",
+       "Parcial",
+       "No hay plan de mejora",
+       "Anual",
+       "Definir KPIs de calidad"
+      ],
+      [
+       "CMMI N3",
+       "IT",
+       "Bajo",
+       "Procesos no estandarizados",
+       "Bianual",
+       "Roadmap"
+      ],
+      [
+       "GMP",
+       "Pharma",
+       "Medio",
+       "Registros incompletos",
+       "Semestral",
+       "Digitalizar trazabilidad"
+      ],
+      [
+       "HIPAA",
+       "Salud",
+       "Bajo",
+       "Protocolos incompletos",
+       "Anual",
+       "Sistema de monitoreo"
+      ],
+      [
+       "ISO 27001",
+       "TI",
+       "Medio",
+       "Controles incompletos",
+       "Anual",
+       "SOC + pentest"
+      ],
+      [
+       "SASISOPA",
+       "Energía",
+       "Parcial",
+       "Planes obsoletos",
+       "Anual",
+       "Simulacros integrales"
+      ],
+      [
+       "DORA",
+       "Finanzas",
+       "Bajo",
+       "Falta resiliencia digital",
+       "Semestral",
+       "Plan ciber"
+      ]
+     ]
+    },
+    {
+     "titulo": "Plan de continuidad y resiliencia",
+     "objetivo": "",
+     "columnas": [
+      "Escenario",
+      "Prob.",
+      "Impacto",
+      "RTO",
+      "Gap detectado",
+      "Acción recomendada"
+     ],
+     "ejemplo": [
+      [
+       "Ransomware",
+       "4",
+       "5",
+       "24h",
+       "No hay DRP",
+       "Implementar DRP completo"
+      ],
+      [
+       "Pandemia sanitaria",
+       "2",
+       "4",
+       "72h",
+       "Protocolos obsoletos",
+       "Actualizar protocolos OMS"
+      ],
+      [
+       "Crisis energética",
+       "3",
+       "5",
+       "24h",
+       "Sin backup energía",
+       "Plantas eléctricas"
+      ],
+      [
+       "Falla proveedor clave",
+       "3",
+       "4",
+       "48h",
+       "No hay diversificación",
+       "Política multi-proveedor"
+      ],
+      [
+       "Fuga datos personales",
+       "3",
+       "5",
+       "24h",
+       "No hay DLP",
+       "Implementar DLP"
+      ],
+      [
+       "Caída ERP",
+       "3",
+       "3",
+       "48h",
+       "No hay redundancia",
+       "Replicación en nube"
+      ],
+      [
+       "Crisis reputacional",
+       "3",
+       "4",
+       "7d",
+       "Sin simulacros",
+       "Taller de crisis"
+      ]
+     ]
+    }
+   ],
+   "ia": "copiloto arquitecto"
+  },
+  {
+   "nombre": "Fase III — Ejecución y Operaciones",
+   "objetivo": "Asegurar la implementación con disciplina, integración de metodologías sectoriales y control en tiempo real de avance, costos, calidad y riesgos, usando el War Room como centro de comando.",
+   "etapas": [
+    {
+     "nombre": "Etapa 1. Implementación táctica",
+     "bloques": {
+      "Metodologías": [
+       "PMI (ejecución), PRINCE2, Scrum (sprints/backlog), Kanban."
+      ],
+      "Ejemplos por sector": [
+       "IT: sprints DevOps y despliegue de microservicios.",
+       "Finanzas: sistemas AML/KYC con SOX y DORA.",
+       "Salud: historia clínica digital (HL7/FHIR).",
+       "Retail/Gobierno: ERP/CRM en administración pública."
+      ]
+     },
+     "war_room": "tablero de avance con alertas de retrasos o desviaciones."
+    },
+    {
+     "nombre": "Etapa 2. Integración tecnológica y de procesos",
+     "bloques": {
+      "Metodologías": [
+       "DevOps, ITIL v4, Lean Integration."
+      ],
+      "Normas": [
+       "ISO/IEC 20000 (servicios TI), ISO/IEC 27001 (seguridad)."
+      ],
+      "Ejemplos por sector": [
+       "IT: pipelines CI/CD con DevSecOps.",
+       "Finanzas: blockchain con banca tradicional.",
+       "Energía: SCADA con IoT.",
+       "Salud: laboratorio con ERP hospitalario."
+      ]
+     },
+     "war_room": "mapa dinámico de integración con monitoreo de fallas en tiempo real."
+    },
+    {
+     "nombre": "Etapa 3. Control de costos y recursos",
+     "bloques": {
+      "Metodologías": [
+       "Earned Value Management (EVM), Activity Based Costing (ABC), Lean Portfolio (SAFe)."
+      ],
+      "Normas": [
+       "IFRS, SOX (controles financieros)."
+      ],
+      "Ejemplos por sector": [
+       "IT: FinOps en cloud (AWS, Azure).",
+       "Energía: CAPEX/OPEX en refinerías y parques solares.",
+       "Salud: costos en ensayos clínicos."
+      ]
+     },
+     "war_room": "dashboard financiero con proyecciones IA (costo previsto vs real)."
+    },
+    {
+     "nombre": "Etapa 4. Gestión de calidad en operación",
+     "bloques": {
+      "Metodologías": [
+       "QA/QC operativos, control estadístico de procesos (SPC), Kaizen."
+      ],
+      "Normas": [
+       "ISO 9001, ISO/IEC 25010, GMP."
+      ],
+      "Ejemplos por sector": [
+       "IT: monitoreo de incidentes en producción.",
+       "Finanzas: calidad en detección de fraude.",
+       "Salud: producción farmacéutica y dispositivos."
+      ]
+     },
+     "war_room": "tablero de defectos, retrabajos y satisfacción en tiempo real."
+    },
+    {
+     "nombre": "Etapa 5. Gestión de personas y equipos",
+     "bloques": {
+      "Metodologías": [
+       "PMI Talent Triangle, modelo Tuckman, Agile People & OKRs."
+      ],
+      "Normas": [
+       "ISO 30414 (capital humano), ISO 45001 (seguridad laboral)."
+      ],
+      "Ejemplos por sector": [
+       "IT: squads de IA/QA/DevOps.",
+       "Finanzas: equipos anti-fraude multidominio.",
+       "Salud: equipos clínicos interdisciplinarios."
+      ]
+     },
+     "war_room": "panel de rendimiento de equipos (velocidad, carga de trabajo, clima)."
+    }
+   ],
+   "cuestionario": [
+    {
+     "seccion": "Sección A — Implementación táctica",
+     "preguntas": [
+      "¿Los proyectos cuentan con cronogramas claros (MS Project, Jira, Trello)?",
+      "¿Usa metodologías de ejecución (Scrum, SAFe, Waterfall, híbrido)?",
+      "¿Se mide el % de avance en tiempo real?",
+      "¿Existen roles definidos (Scrum Master, PO, PM)?",
+      "¿Qué porcentaje de proyectos está en retraso (>20%)?"
+     ]
+    },
+    {
+     "seccion": "Sección B — Integración tecnológica",
+     "preguntas": [
+      "¿Qué sistemas usan en ejecución (ERP, CRM, DevOps, CI/CD)?",
+      "¿Existen integraciones automáticas (API, middleware)?",
+      "¿Qué tan digitalizada está la ejecución (1-5)?",
+      "¿Los datos se centralizan en un repositorio único?",
+      "¿Hay alertas automatizadas de desviaciones?"
+     ]
+    },
+    {
+     "seccion": "Sección C — Costos y recursos",
+     "preguntas": [
+      "¿Se gestionan presupuestos a nivel proyecto/programa?",
+      "¿Existen dashboards financieros en tiempo real?",
+      "¿Qué tan precisas son las estimaciones de costos (1-5)?",
+      "¿Se miden desviaciones de presupuesto (%)?",
+      "¿Qué porcentaje de recursos está sobreasignado?"
+     ]
+    },
+    {
+     "seccion": "Sección D — Calidad en operación",
+     "preguntas": [
+      "¿Se realizan pruebas de calidad en paralelo a la ejecución?",
+      "¿Existen métricas de defectos/incidencias por etapa?",
+      "¿Se mide satisfacción del usuario en entregables?",
+      "¿Qué normas de calidad aplican (ISO, CMMI, GMP)?",
+      "¿Los informes de calidad están integrados al War Room?"
+     ]
+    },
+    {
+     "seccion": "Sección E — Personas y equipos",
+     "preguntas": [
+      "¿Qué modelo de gestión usan (ágil, jerárquico, híbrido)?",
+      "¿Existen tableros de productividad por equipo?",
+      "¿Se miden horas efectivas vs planificadas?",
+      "¿Qué nivel de rotación o ausentismo afecta la ejecución?",
+      "¿Se realizan evaluaciones de desempeño por proyecto?"
+     ]
+    }
+   ],
+   "plantillas": [
+    {
+     "titulo": "Tablero de ejecución de proyectos",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "% Avance",
+      "Metodología",
+      "Estado",
+      "Riesgo",
+      "Responsable"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "60%",
+       "Waterfall",
+       "En curso",
+       "Presupuesto alto",
+       "PMO"
+      ],
+      [
+       "App banca digital",
+       "40%",
+       "Scrum",
+       "Retraso",
+       "Entregas atrasadas",
+       "Product Owner"
+      ],
+      [
+       "Refinería SASISOPA",
+       "70%",
+       "Híbrido",
+       "En curso",
+       "Normativo crítico",
+       "COO"
+      ],
+      [
+       "Ensayo clínico fase II",
+       "55%",
+       "PMBOK",
+       "En curso",
+       "Riesgo HIPAA",
+       "Dir. Médico"
+      ],
+      [
+       "Sistema AML banco",
+       "65%",
+       "PMI",
+       "En curso",
+       "Gap regulatorio",
+       "Compliance"
+      ],
+      [
+       "Migración nube híbrida",
+       "50%",
+       "SAFe",
+       "En curso",
+       "Sobrecosto",
+       "CTO"
+      ],
+      [
+       "Modernización HIS",
+       "35%",
+       "PMI",
+       "En curso",
+       "Trazabilidad",
+       "CIO hospital"
+      ]
+     ]
+    },
+    {
+     "titulo": "Matriz de integración tecnológica",
+     "objetivo": "",
+     "columnas": [
+      "Área",
+      "Sistema actual",
+      "Integración",
+      "Gap detectado",
+      "Acción sugerida"
+     ],
+     "ejemplo": [
+      [
+       "Finanzas",
+       "ERP SAP",
+       "Parcial",
+       "No conecta con BI",
+       "API middleware"
+      ],
+      [
+       "Ventas",
+       "CRM Salesforce",
+       "Nulo",
+       "Datos aislados",
+       "Integrar API"
+      ],
+      [
+       "QA",
+       "JIRA + Zephyr",
+       "Parcial",
+       "No conecta con BI",
+       "Dashboard Power BI"
+      ],
+      [
+       "Energía",
+       "SCADA",
+       "Bajo",
+       "Sin redundancia",
+       "Integración IoT"
+      ],
+      [
+       "Salud",
+       "HIS hospitalario",
+       "Bajo",
+       "Trazabilidad débil",
+       "Integración HL7"
+      ],
+      [
+       "Banca digital",
+       "Core bancario",
+       "Bajo",
+       "Gap AML",
+       "Conectar a War Room"
+      ],
+      [
+       "Defensa",
+       "C2 militar",
+       "Nulo",
+       "Sistemas aislados",
+       "Integración STANAG"
+      ]
+     ]
+    },
+    {
+     "titulo": "Control de costos y recursos",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Presupuesto",
+      "Gasto real",
+      "Desviación",
+      "Recurso crítico",
+      "Acción"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "$1M",
+       "$1.2M",
+       "+20%",
+       "Dev Senior",
+       "Reducir scope"
+      ],
+      [
+       "Ensayo clínico",
+       "$500k",
+       "$450k",
+       "-10%",
+       "Médicos",
+       "Redistribuir"
+      ],
+      [
+       "Smart city movilidad",
+       "$2M",
+       "$2.8M",
+       "+40%",
+       "IoT Devices",
+       "Negociar proveedores"
+      ],
+      [
+       "Refinería SASISOPA",
+       "$3M",
+       "$3.1M",
+       "+3%",
+       "Ingenieros",
+       "Ajustar turnos"
+      ],
+      [
+       "App móvil",
+       "$800k",
+       "$1M",
+       "+25%",
+       "QA testers",
+       "Reforzar automatización"
+      ],
+      [
+       "Migración nube",
+       "$2M",
+       "$2.2M",
+       "+10%",
+       "Arquitectos TI",
+       "Control de gastos cloud"
+      ],
+      [
+       "HIS hospital",
+       "$1.2M",
+       "$1.5M",
+       "+25%",
+       "Médicos",
+       "Capacitación urgente"
+      ]
+     ]
+    },
+    {
+     "titulo": "Métricas de calidad",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Norma",
+      "Defectos",
+      "Acción correctiva",
+      "Responsable"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "ISO 9001",
+       "15",
+       "Revisar plan QA",
+       "QA Manager"
+      ],
+      [
+       "App móvil",
+       "CMMI",
+       "30",
+       "Reentrenar devs",
+       "Scrum Master"
+      ],
+      [
+       "Ensayo clínico",
+       "GxP",
+       "8",
+       "Rediseñar protocolo",
+       "Dir. Médico"
+      ],
+      [
+       "Refinería",
+       "SASISOPA",
+       "12",
+       "Checklist seguridad",
+       "COO"
+      ],
+      [
+       "Blockchain pagos",
+       "ISO 27001",
+       "25",
+       "Auditoría seguridad",
+       "CISO"
+      ],
+      [
+       "HIS hospital",
+       "HIPAA",
+       "18",
+       "Implementar trazabilidad",
+       "CIO hospital"
+      ],
+      [
+       "Pharma GMP",
+       "GMP",
+       "16",
+       "Digitalizar trazabilidad",
+       "QA Director"
+      ]
+     ]
+    },
+    {
+     "titulo": "Gestión de personas y equipos",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Equipo",
+      "Productividad",
+      "Rotación",
+      "Riesgo",
+      "Acción"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "Devs",
+       "70%",
+       "Media",
+       "Fatiga",
+       "Redistribuir"
+      ],
+      [
+       "App móvil",
+       "Scrum team",
+       "60%",
+       "Alta",
+       "Retraso",
+       "Nuevos devs"
+      ],
+      [
+       "Ensayo clínico",
+       "Médicos",
+       "80%",
+       "Baja",
+       "Burnout",
+       "Contratar extra"
+      ],
+      [
+       "Refinería",
+       "Ingenieros",
+       "75%",
+       "Media",
+       "Seguridad",
+       "Rotación de turnos"
+      ],
+      [
+       "HIS hospital",
+       "Personal médico",
+       "68%",
+       "Media",
+       "Errores HIPAA",
+       "Entrenamiento compliance"
+      ],
+      [
+       "Proyecto IA",
+       "Analistas IA",
+       "72%",
+       "Media",
+       "Sesgos",
+       "Capacitación avanzada"
+      ],
+      [
+       "Retail POS",
+       "Devs ERP",
+       "80%",
+       "Baja",
+       "Horas extra",
+       "Balancear carga"
+      ]
+     ]
+    }
+   ],
+   "ia": "jefe de operaciones digital"
+  },
+  {
+   "nombre": "Fase IV — Monitoreo y War Room",
+   "objetivo": "Convertir el C6ISTAR War Room DOMINUS en el centro de comando del proyecto, donde los datos de todas las fases se transforman en inteligencia operativa, financiera y de riesgo mediante dashboards, KPIs, alertas, IA predictiva y simulación.",
+   "etapas": [
+    {
+     "nombre": "Etapa 1. KPIs y OKRs multinivel",
+     "bloques": {
+      "Metodologías": [
+       "Balanced Scorecard, OKRs, KPI Trees."
+      ],
+      "Niveles de métrica": [
+       "Estratégicas (C-suite): revenue, market share, cumplimiento.",
+       "Operativas (managers): defectos, eficiencia, costos, tiempos.",
+       "Tácticas (equipos): velocidad de sprint, incidencias, productividad."
+      ]
+     },
+     "war_room": "dashboard jerárquico de KPIs/OKRs e IA que los ajusta según riesgos detectados."
+    },
+    {
+     "nombre": "Etapa 2. Dashboards dinámicos y visualización",
+     "bloques": {
+      "Metodologías": [
+       "DataOps, storytelling con datos, BI en tiempo real."
+      ],
+      "Herramientas (fase inicial)": [
+       "Power BI, Grafana, Notion."
+      ]
+     },
+     "war_room": "visualización en vivo y configurable por sector."
+    },
+    {
+     "nombre": "Etapa 3. Análisis de riesgos y alertas predictivas",
+     "bloques": {
+      "Capacidades": [
+       "Detección temprana de anomalías, alertas automáticas y priorización por impacto."
+      ]
+     },
+     "war_room": "panel de riesgos con recomendaciones de mitigación generadas por IA."
+    },
+    {
+     "nombre": "Etapa 4. Simulación de escenarios",
+     "bloques": {
+      "Capacidades": [
+       "Modelado best/worst case, análisis de sensibilidad y proyección de impacto en KPIs."
+      ]
+     },
+     "war_room": "gemelo digital del proyecto para ensayar decisiones antes de ejecutarlas."
+    },
+    {
+     "nombre": "Etapa 5. Reportes ejecutivos y decisión",
+     "bloques": {
+      "Capacidades": [
+       "Resúmenes en lenguaje natural para dirección y trazabilidad de decisiones."
+      ]
+     },
+     "war_room": "generación automática de reportes ejecutivos."
+    },
+    {
+     "nombre": "Etapa 6. Auditorías inteligentes y compliance en tiempo real",
+     "bloques": {
+      "Capacidades": [
+       "Cross-check automático contra ISO, SOX, GDPR, DORA, AML y evidencias cargadas."
+      ]
+     },
+     "war_room": "checklist de cumplimiento siempre actualizado."
+    }
+   ],
+   "cuestionario": [
+    {
+     "seccion": "Sección A — KPIs y OKRs",
+     "preguntas": [
+      "¿Cuenta con KPIs estratégicos definidos por área?",
+      "¿Qué porcentaje de KPIs está vinculado a los OKRs corporativos?",
+      "¿Existen indicadores en tiempo real o se miden manualmente?",
+      "¿Qué tan maduros son sus dashboards actuales (1-5)?",
+      "¿La alta dirección usa KPIs en la decisión diaria?"
+     ]
+    },
+    {
+     "seccion": "Sección B — Visualización y dashboards",
+     "preguntas": [
+      "¿Qué herramientas usan (Power BI, Grafana, Tableau, Excel)?",
+      "¿Existen dashboards por nivel (ejecutivo, táctico, operativo)?",
+      "¿Qué tanto se integran las fuentes de datos (1-5)?",
+      "¿Existen alertas automatizadas ante desviaciones?",
+      "¿Los dashboards son predictivos o sólo históricos?"
+     ]
+    },
+    {
+     "seccion": "Sección C — Análisis de riesgos",
+     "preguntas": [
+      "¿Existen mapas de riesgos centralizados?",
+      "¿Se realizan análisis de riesgos en tiempo real?",
+      "¿Cuentan con modelos de escenarios what-if?",
+      "¿Se integran riesgos normativos, financieros y tecnológicos?",
+      "¿Realizan ejercicios de wargaming o simulación?"
+     ]
+    },
+    {
+     "seccion": "Sección D — Reportes y decisiones",
+     "preguntas": [
+      "¿Se generan reportes ejecutivos automáticos?",
+      "¿Con qué frecuencia se informan riesgos críticos al consejo?",
+      "¿Los reportes incluyen recomendaciones o sólo datos?",
+      "¿Existen flujos de aprobación en la plataforma?",
+      "¿La alta dirección tiene acceso 24/7 a reportes clave?"
+     ]
+    },
+    {
+     "seccion": "Sección E — Auditorías inteligentes",
+     "preguntas": [
+      "¿Existen auditorías integradas al War Room (automatizadas)?",
+      "¿Qué normas se verifican digitalmente (SOX, HIPAA, SASISOPA)?",
+      "¿Se realizan auditorías cruzadas entre departamentos?",
+      "¿Existen alertas de incumplimiento normativo?",
+      "¿Qué tan actualizado está el mapa regulatorio (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección F — Integración con IA",
+     "preguntas": [
+      "¿Usan IA para predecir riesgos o desviaciones?",
+      "¿Existen modelos de machine learning para KPIs financieros u operativos?",
+      "¿Se integran los resultados de IA en dashboards?",
+      "¿Qué tanto confían los directivos en las decisiones sugeridas por IA (1-5)?",
+      "¿Qué nivel de inversión en IA aplicada al monitoreo contemplan?"
+     ]
+    }
+   ],
+   "plantillas": [
+    {
+     "titulo": "KPIs y OKRs multinivel",
+     "objetivo": "",
+     "columnas": [
+      "Sector",
+      "KPI",
+      "OKR vinculado",
+      "Nivel",
+      "Frecuencia"
+     ],
+     "ejemplo": [
+      [
+       "Finanzas",
+       "% transacciones AML revisadas",
+       "100% normativa AML",
+       "Estratégico",
+       "Diario"
+      ],
+      [
+       "Energía",
+       "% cumplimiento SASISOPA",
+       "0 incidentes críticos",
+       "Operativo",
+       "Tiempo real"
+      ],
+      [
+       "Salud",
+       "Tiempo promedio de atención",
+       "-20% tiempos de espera",
+       "Táctico",
+       "Diario"
+      ],
+      [
+       "IT",
+       "% defectos detectados en QA",
+       "Mayor calidad de entregables",
+       "Táctico",
+       "Semanal"
+      ],
+      [
+       "Gobierno",
+       "% trámites digitalizados",
+       "80% servicios digitales",
+       "Estratégico",
+       "Mensual"
+      ],
+      [
+       "Defensa",
+       "Nº incidentes detectados",
+       "0 infiltraciones críticas",
+       "Operativo",
+       "Tiempo real"
+      ],
+      [
+       "Pharma",
+       "% lotes trazables GMP",
+       "100% trazabilidad",
+       "Operativo",
+       "Diario"
+      ]
+     ]
+    },
+    {
+     "titulo": "Dashboards por nivel",
+     "objetivo": "",
+     "columnas": [
+      "Nivel",
+      "Dashboard",
+      "Usuarios",
+      "Fuente",
+      "Indicador ejemplo"
+     ],
+     "ejemplo": [
+      [
+       "Estratégico",
+       "Consejo corporativo",
+       "CEO, Board",
+       "ERP + BI",
+       "EBITDA vs plan"
+      ],
+      [
+       "Táctico",
+       "Comité normativo",
+       "Compliance, Risk",
+       "Core bancario",
+       "% AML monitoreado"
+      ],
+      [
+       "Operativo",
+       "Producción refinería",
+       "Operadores",
+       "SCADA",
+       "% válvulas monitoreadas"
+      ],
+      [
+       "Ejecutivo",
+       "Hospital",
+       "Dir. Médico",
+       "HIS",
+       "% pacientes < 30 min"
+      ],
+      [
+       "Estratégico",
+       "Smart city",
+       "Alcalde",
+       "IoT Mobility",
+       "Congestión de tráfico"
+      ],
+      [
+       "Estratégico",
+       "Defensa",
+       "Estado Mayor",
+       "SOC",
+       "Nº alertas críticas"
+      ]
+     ]
+    },
+    {
+     "titulo": "Análisis de riesgos y alertas predictivas",
+     "objetivo": "",
+     "columnas": [
+      "Riesgo",
+      "Prob.",
+      "Impacto",
+      "Nivel",
+      "Alerta",
+      "Acción sugerida"
+     ],
+     "ejemplo": [
+      [
+       "Ransomware",
+       "4",
+       "5",
+       "Crítico",
+       "Rojo",
+       "Activar DRP"
+      ],
+      [
+       "Multa AML",
+       "3",
+       "5",
+       "Alto",
+       "Rojo",
+       "Auditoría inmediata"
+      ],
+      [
+       "Fuga de datos HIPAA",
+       "3",
+       "4",
+       "Alto",
+       "Rojo",
+       "Implementar DLP"
+      ],
+      [
+       "Fallo SCADA refinería",
+       "2",
+       "5",
+       "Alto",
+       "Rojo",
+       "Simulacro de emergencia"
+      ],
+      [
+       "Fraude interno",
+       "2",
+       "4",
+       "Medio",
+       "Rojo",
+       "IA antifraude"
+      ],
+      [
+       "Incumplimiento DORA",
+       "3",
+       "5",
+       "Alto",
+       "Rojo",
+       "Plan de resiliencia"
+      ],
+      [
+       "Guerra híbrida digital",
+       "2",
+       "5",
+       "Crítico",
+       "Rojo",
+       "Wargaming IA"
+      ]
+     ]
+    },
+    {
+     "titulo": "Reportes ejecutivos",
+     "objetivo": "",
+     "columnas": [
+      "Reporte",
+      "Frecuencia",
+      "Generado por",
+      "Acción derivada"
+     ],
+     "ejemplo": [
+      [
+       "Informe financiero",
+       "Mensual",
+       "ERP + BI",
+       "Ajuste de presupuesto"
+      ],
+      [
+       "Informe AML",
+       "Diario",
+       "Core bancario",
+       "Reporte al regulador"
+      ],
+      [
+       "Informe SASISOPA",
+       "Semestral",
+       "SCADA + War Room",
+       "Auditoría ASEA"
+      ],
+      [
+       "Informe HIPAA",
+       "Trimestral",
+       "HIS",
+       "Actualizar protocolos"
+      ],
+      [
+       "Informe ciberdefensa",
+       "Diario",
+       "SOC + IA",
+       "Escalar amenazas"
+      ],
+      [
+       "Informe auditoría cruzada",
+       "Semestral",
+       "War Room IA",
+       "Revisar áreas críticas"
+      ]
+     ]
+    },
+    {
+     "titulo": "Auditorías inteligentes y compliance",
+     "objetivo": "",
+     "columnas": [
+      "Norma",
+      "Estado",
+      "Gap detectado",
+      "Alerta IA",
+      "Acción sugerida"
+     ],
+     "ejemplo": [
+      [
+       "SOX",
+       "Parcial",
+       "Reportes tardíos",
+       "Rojo",
+       "Digitalizar informes"
+      ],
+      [
+       "AML (MX)",
+       "Bajo",
+       "Falta monitoreo continuo",
+       "Rojo",
+       "War Room Pro"
+      ],
+      [
+       "HIPAA",
+       "Bajo",
+       "Falta trazabilidad",
+       "Rojo",
+       "HIS integrado"
+      ],
+      [
+       "DORA",
+       "Bajo",
+       "Falta resiliencia",
+       "Rojo",
+       "Simulación IA"
+      ],
+      [
+       "SASISOPA",
+       "Medio",
+       "Planes desactualizados",
+       "Rojo",
+       "Simulacro"
+      ],
+      [
+       "ISO 27001",
+       "Medio",
+       "SOC incompleto",
+       "Rojo",
+       "Pentest + SIEM"
+      ],
+      [
+       "ISO 22301",
+       "Bajo",
+       "Sin plan DRP",
+       "Rojo",
+       "Plan de continuidad"
+      ]
+     ]
+    }
+   ],
+   "ia": "cerebro central del War Room"
+  },
+  {
+   "nombre": "Fase V — Evaluación y Cierre",
+   "objetivo": "Consolidar resultados, medir impactos, realizar auditorías finales, extraer lecciones aprendidas y generar la base documental para futuras operaciones.",
+   "etapas": [
+    {
+     "nombre": "Etapa 1. Evaluación de resultados",
+     "bloques": {
+      "Metodologías": [
+       "Post-Implementation Review (PIR), Value Realization, análisis ROI/TCO."
+      ],
+      "Normas": [
+       "ISO 21502 (dirección de proyectos)."
+      ],
+      "Ejemplos por sector": [
+       "IT: adopción de un nuevo ERP.",
+       "Finanzas: resiliencia tras DORA.",
+       "Energía: reducción de emisiones de un parque solar."
+      ]
+     },
+     "war_room": "tablero comparativo (objetivos planificados vs logrados)."
+    },
+    {
+     "nombre": "Etapa 2. Auditoría final y cumplimiento",
+     "bloques": {
+      "Metodologías": [
+       "Closing Audit, Compliance Review, validación red team."
+      ],
+      "Normas": [
+       "ISO 37301, SOX, GDPR, LFPDPPP, AML, DORA, SASISOPA según sector."
+      ]
+     },
+     "war_room": "checklist automático de cumplimiento con evidencias cargadas."
+    },
+    {
+     "nombre": "Etapa 3. Documentación y lecciones aprendidas",
+     "bloques": {
+      "Metodologías": [
+       "Knowledge Management, After Action Review (AAR), Lessons Learned Register."
+      ]
+     },
+     "war_room": "base de conocimiento viva, tipo wiki del proyecto."
+    },
+    {
+     "nombre": "Etapa 4. Transferencia de conocimiento y capacitación",
+     "bloques": {
+      "Metodologías": [
+       "Train-the-Trainer, planes de transferencia, gamificación para adopción."
+      ]
+     },
+     "war_room": "módulo de e-learning con registro de avance y certificación interna."
+    },
+    {
+     "nombre": "Etapa 5. Cierre formal y comunicación",
+     "bloques": {
+      "Metodologías": [
+       "PMI Closing Process, encuesta de satisfacción de stakeholders, ADKAR."
+      ]
+     },
+     "war_room": "informes finales automáticos y evidencias digitales firmadas y archivadas."
+    }
+   ],
+   "cuestionario": [
+    {
+     "seccion": "Sección A — Evaluación de resultados",
+     "preguntas": [
+      "¿El proyecto cumplió los objetivos estratégicos de la Fase I?",
+      "¿Se alcanzaron los KPIs y OKRs planeados?",
+      "¿Se respetaron plazos y presupuestos?",
+      "¿El usuario final está satisfecho con el entregable?",
+      "¿Qué grado de impacto positivo tuvo (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección B — Auditoría final",
+     "preguntas": [
+      "¿Se realizaron auditorías de cumplimiento antes del cierre?",
+      "¿Qué normas se cumplieron al 100%?",
+      "¿Qué brechas normativas quedaron sin cubrir?",
+      "¿Existen sanciones o riesgos pendientes?",
+      "¿Se actualizó el marco de compliance para próximos proyectos?"
+     ]
+    },
+    {
+     "seccion": "Sección C — Documentación y lecciones",
+     "preguntas": [
+      "¿Se elaboró un documento de cierre oficial?",
+      "¿Se recopilaron y validaron lecciones aprendidas?",
+      "¿Existen repositorios digitales con la documentación?",
+      "¿Los equipos contribuyeron al cierre?",
+      "¿Qué nivel de adopción tiene el repositorio (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección D — Transferencia de conocimiento",
+     "preguntas": [
+      "¿Se realizaron talleres de transferencia a equipos internos?",
+      "¿Qué áreas recibieron entrenamiento formal?",
+      "¿Qué porcentaje del personal clave quedó certificado en DOMINUS OPS?",
+      "¿Se actualizaron manuales/procedimientos del cliente?",
+      "¿Existe un plan de capacitación continua?"
+     ]
+    },
+    {
+     "seccion": "Sección E — Comunicación y cierre formal",
+     "preguntas": [
+      "¿Se comunicaron los resultados a toda la organización?",
+      "¿El cierre fue validado por la alta dirección?",
+      "¿Se reconocieron los hitos del equipo?",
+      "¿Se comunicaron logros a stakeholders externos?",
+      "¿El cierre incluyó un plan de seguimiento post-cierre?"
+     ]
+    }
+   ],
+   "plantillas": [
+    {
+     "titulo": "Evaluación de resultados",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Objetivo",
+      "Resultado",
+      "KPIs %",
+      "Gap",
+      "Satisf."
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "Eficiencia financiera",
+       "Parcial",
+       "80%",
+       "Desviación costos",
+       "4/5"
+      ],
+      [
+       "App bancaria",
+       "Experiencia cliente",
+       "Positivo",
+       "90%",
+       "Bugs iniciales",
+       "5/5"
+      ],
+      [
+       "Refinería SASISOPA",
+       "Seguridad industrial",
+       "Medio",
+       "70%",
+       "Planes desactualizados",
+       "3/5"
+      ],
+      [
+       "Ensayo clínico",
+       "Innovación salud",
+       "Parcial",
+       "75%",
+       "Fuga de datos",
+       "3/5"
+      ],
+      [
+       "Migración nube",
+       "Digitalización",
+       "Positivo",
+       "85%",
+       "Costos altos",
+       "4/5"
+      ],
+      [
+       "HIS hospitalario",
+       "Seguridad clínica",
+       "Bajo",
+       "60%",
+       "Protocolos HIPAA",
+       "2/5"
+      ],
+      [
+       "Pharma GMP",
+       "Regulación sanitaria",
+       "Alto",
+       "90%",
+       "Gap en validación",
+       "5/5"
+      ]
+     ]
+    },
+    {
+     "titulo": "Auditoría final y compliance",
+     "objetivo": "",
+     "columnas": [
+      "Norma",
+      "Sector",
+      "Estado final",
+      "Gap detectado",
+      "Acción post-cierre"
+     ],
+     "ejemplo": [
+      [
+       "SOX",
+       "Finanzas",
+       "100%",
+       "Ninguno",
+       "Mantener auditorías"
+      ],
+      [
+       "AML",
+       "Banco",
+       "90%",
+       "Monitoreo parcial",
+       "Mejorar alertas"
+      ],
+      [
+       "SASISOPA",
+       "Energía",
+       "80%",
+       "Protocolos obsoletos",
+       "Actualizar planes"
+      ],
+      [
+       "HIPAA",
+       "Salud",
+       "70%",
+       "Falta trazabilidad",
+       "Mejorar HIS"
+      ],
+      [
+       "DORA",
+       "Bancos UE",
+       "75%",
+       "Resiliencia incompleta",
+       "Plan 2026"
+      ],
+      [
+       "GMP",
+       "Pharma",
+       "95%",
+       "Documentos incompletos",
+       "Digitalizar trazabilidad"
+      ],
+      [
+       "STANAG",
+       "Defensa",
+       "70%",
+       "Interoperabilidad baja",
+       "Simulación conjunta"
+      ]
+     ]
+    },
+    {
+     "titulo": "Documentación y lecciones aprendidas",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Lección aprendida",
+      "Impacto",
+      "Aplicación futura",
+      "Responsable"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "Mejorar control de costos",
+       "Alto",
+       "PMO financiera",
+       "CFO"
+      ],
+      [
+       "App móvil",
+       "Testing temprano",
+       "Alto",
+       "QA ágil",
+       "QA Manager"
+      ],
+      [
+       "Refinería",
+       "Simulacros trimestrales",
+       "Medio",
+       "SASISOPA reforzado",
+       "COO"
+      ],
+      [
+       "Ensayo clínico",
+       "Mejor trazabilidad HIPAA",
+       "Alto",
+       "Protocolos más estrictos",
+       "Dir. Médico"
+      ],
+      [
+       "Migración nube",
+       "Negociar contratos cloud",
+       "Alto",
+       "Costos optimizados",
+       "CIO"
+      ],
+      [
+       "Blockchain",
+       "Anticipar riesgos regulatorios",
+       "Alto",
+       "Legal fintech",
+       "CTO"
+      ],
+      [
+       "Pharma GMP",
+       "Validación digitalizada",
+       "Alto",
+       "Cumplimiento ágil",
+       "QA Director"
+      ]
+     ]
+    },
+    {
+     "titulo": "Transferencia de conocimiento",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Capacitación",
+      "% entrenado",
+      "Certificación",
+      "Evidencia"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "Taller PM Lite",
+       "60%",
+       "Practitioner",
+       "Reporte interno"
+      ],
+      [
+       "Refinería",
+       "Simulacro SASISOPA",
+       "70%",
+       "Pro",
+       "Registro ASEA"
+      ],
+      [
+       "Ensayo clínico",
+       "HIPAA / GxP",
+       "50%",
+       "Pro",
+       "Manual hospital"
+      ],
+      [
+       "Migración nube",
+       "DevOps",
+       "65%",
+       "Practitioner",
+       "Tablero DevOps"
+      ],
+      [
+       "Ciberdefensa",
+       "NIST + War Room",
+       "70%",
+       "Elite",
+       "Informe IA"
+      ],
+      [
+       "Pharma GMP",
+       "GMP digital",
+       "65%",
+       "Pro",
+       "Informe GMP"
+      ]
+     ]
+    },
+    {
+     "titulo": "Comunicación y cierre formal",
+     "objetivo": "",
+     "columnas": [
+      "Proyecto",
+      "Com. interna",
+      "Com. externa",
+      "Reconocimiento",
+      "Seguimiento"
+     ],
+     "ejemplo": [
+      [
+       "ERP financiero",
+       "Informe PMO",
+       "No aplica",
+       "Evento interno",
+       "Auditoría anual"
+      ],
+      [
+       "Refinería",
+       "Informe ASEA",
+       "Reporte regulador",
+       "Brigada",
+       "Simulacro anual"
+      ],
+      [
+       "Ensayo clínico",
+       "Informe hospital",
+       "Autoridad sanitaria",
+       "Médicos",
+       "Seguimiento pacientes"
+      ],
+      [
+       "ESG corporativo",
+       "Reporte ESG",
+       "Informe público",
+       "Comité",
+       "Revisión anual"
+      ],
+      [
+       "Ciberdefensa",
+       "Informe Estado Mayor",
+       "Confidencial",
+       "Unidad",
+       "Wargaming anual"
+      ],
+      [
+       "Pharma GMP",
+       "Informe QA",
+       "Autoridad sanitaria",
+       "Equipo QA",
+       "Seguimiento de lotes"
+      ]
+     ]
+    }
+   ],
+   "ia": "auditor y mentor digital"
+  },
+  {
+   "nombre": "Fase VI — Escalamiento y Continuidad",
+   "objetivo": "Garantizar la evolución continua del framework y su aplicación multisectorial, de modo que cada proyecto sea un multiplicador de valor para nuevos clientes, equipos y mercados.",
+   "etapas": [
+    {
+     "nombre": "Etapa 1. Mejora continua del framework",
+     "bloques": {
+      "Metodologías": [
+       "Kaizen, CMMI, Six Sigma DMAIC."
+      ],
+      "Normas": [
+       "ISO 9004 (éxito sostenido), ISO 56002 (innovación)."
+      ],
+      "Ejemplos por sector": [
+       "IT: incorporación de ISO/IEC 42001 (IA).",
+       "Finanzas: adaptación a nuevas leyes de criptoactivos.",
+       "Energía: marcos de transición energética."
+      ]
+     },
+     "war_room": "repositorio vivo de actualizaciones metodológicas y normativas."
+    },
+    {
+     "nombre": "Etapa 2. Licenciamiento y modelos de negocio",
+     "bloques": {
+      "Metodologías": [
+       "Modelos SaaS, playbooks de licenciamiento, ISO/IEC 19770."
+      ],
+      "Ejemplos": [
+       "Plantillas QA/DevOps, módulos SaaS de compliance AML/SOX, dashboards SASISOPA/ESG."
+      ]
+     },
+     "war_room": "gestión centralizada de usuarios y licencias, con trazabilidad de uso por cliente."
+    },
+    {
+     "nombre": "Etapa 3. Certificación y capacitación",
+     "bloques": {
+      "Metodologías": [
+       "ISO 29993 (servicios de aprendizaje), Train-the-Trainer, e-learning."
+      ],
+      "Niveles": [
+       "Practitioner, Expert y Trainer."
+      ]
+     },
+     "war_room": "plataforma de formación con seguimiento de certificaciones."
+    },
+    {
+     "nombre": "Etapa 4. Expansión multisectorial y global",
+     "bloques": {
+      "Enfoque": [
+       "Replicar el framework por industria y geografía manteniendo fases y principios comunes."
+      ]
+     },
+     "war_room": "benchmarking global comparativo entre clientes y sectores."
+    },
+    {
+     "nombre": "Etapa 5. Continuidad estratégica y evolución",
+     "bloques": {
+      "Enfoque": [
+       "Asegurar que el framework permanezca vigente frente a cambios regulatorios y tecnológicos.",
+       "SECCIÓN 5"
+      ]
+     },
+     "war_room": "métricas de evolución del propio framework como producto."
+    }
+   ],
+   "cuestionario": [
+    {
+     "seccion": "Sección A — Mejora continua",
+     "preguntas": [
+      "¿Existe un proceso formal de mejora continua?",
+      "¿Se realizan revisiones post-proyecto (Kaizen, retrospectivas, auditorías)?",
+      "¿Qué porcentaje de lecciones aprendidas se implementa?",
+      "¿Existen KPIs de mejora continua?",
+      "¿Qué nivel de cultura de innovación existe (1-5)?"
+     ]
+    },
+    {
+     "seccion": "Sección B — Licenciamiento y negocio",
+     "preguntas": [
+      "¿Qué interés tiene en licenciar DOMINUS OPS (Lite, Pro, Elite)?",
+      "¿Prefieren on-premise o SaaS?",
+      "¿Qué áreas/sectores son más relevantes para licenciar?",
+      "¿Cuál es el presupuesto para licencias y escalamiento?",
+      "¿Se planea incluir el War Room como servicio adicional?"
+     ]
+    },
+    {
+     "seccion": "Sección C — Certificación y capacitación",
+     "preguntas": [
+      "¿El personal clave está interesado en certificarse?",
+      "¿Qué nivel requieren (Practitioner, Pro, Elite, Trainer)?",
+      "¿Existe un plan de formación corporativa interna?",
+      "¿Se mide el ROI de la capacitación?",
+      "¿Han considerado ofrecer DOMINUS OPS como estándar de industria?"
+     ]
+    },
+    {
+     "seccion": "Sección D — Expansión multisectorial",
+     "preguntas": [
+      "¿Qué sectores adicionales consideran (IT, salud, energía, defensa, turismo, agro)?",
+      "¿Se planea replicar proyectos en otros países?",
+      "¿Existen alianzas internacionales estratégicas?",
+      "¿Qué regulaciones internacionales afectan la continuidad?",
+      "¿Se consideran fusiones/adquisiciones como crecimiento?"
+     ]
+    },
+    {
+     "seccion": "Sección E — Continuidad estratégica",
+     "preguntas": [
+      "¿Cuentan con un roadmap estratégico a 10-20 años?",
+      "¿Qué nivel de digitalización proyectan para 2030-2040?",
+      "¿Qué tecnologías emergentes piensan integrar (IA avanzada, quantum, blockchain, biotecnología)?",
+      "¿Consideran escenarios cisne negro en la planeación?",
+      "¿Qué nivel de resiliencia institucional proyectan (1-5)?"
+     ]
+    }
+   ],
+   "plantillas": [
+    {
+     "titulo": "Roadmap de mejora continua",
+     "objetivo": "",
+     "columnas": [
+      "Dimensión",
+      "Gap actual",
+      "Acción de mejora",
+      "Frecuencia",
+      "Responsable"
+     ],
+     "ejemplo": [
+      [
+       "QA IT",
+       "Bugs altos",
+       "Implementar TDD",
+       "Cada sprint",
+       "QA Lead"
+      ],
+      [
+       "Energía",
+       "SASISOPA desactualizado",
+       "Simulacros",
+       "Semestral",
+       "COO"
+      ],
+      [
+       "Salud",
+       "Baja trazabilidad HIPAA",
+       "Digitalizar HIS",
+       "Trimestral",
+       "CIO hospital"
+      ],
+      [
+       "Finanzas",
+       "Bajo monitoreo AML",
+       "IA antifraude",
+       "Mensual",
+       "Compliance"
+      ],
+      [
+       "Defensa",
+       "Wargaming manual",
+       "IA predictiva",
+       "Trimestral",
+       "Estado Mayor"
+      ],
+      [
+       "Continuidad",
+       "DRP obsoleto",
+       "War Room Elite",
+       "Trimestral",
+       "PMO"
+      ]
+     ]
+    },
+    {
+     "titulo": "Modelos de licenciamiento",
+     "objetivo": "",
+     "columnas": [
+      "Modelo",
+      "Características",
+      "Cliente ideal",
+      "Valor agregado"
+     ],
+     "ejemplo": [
+      [
+       "Lite",
+       "Framework + plantillas básicas",
+       "PyME, startups",
+       "Metodología accesible"
+      ],
+      [
+       "Pro",
+       "Framework + War Room SaaS",
+       "Empresa mediana",
+       "KPIs + dashboards sectoriales"
+      ],
+      [
+       "Elite",
+       "Framework + War Room + IA avanzada",
+       "Multinacionales, gobiernos",
+       "Simulación + auditorías en tiempo real"
+      ],
+      [
+       "Sector financiero",
+       "Pro + AML",
+       "Banco regional",
+       "Cumplimiento DORA + SOX"
+      ],
+      [
+       "Sector salud",
+       "Elite + HIPAA/GxP",
+       "Hospitales privados",
+       "Seguridad y trazabilidad"
+      ],
+      [
+       "Sector defensa",
+       "Elite + STANAG",
+       "Cibercomandos",
+       "Wargaming IA"
+      ]
+     ]
+    },
+    {
+     "titulo": "Certificación global",
+     "objetivo": "",
+     "columnas": [
+      "Nivel",
+      "Alcance",
+      "Cliente objetivo",
+      "Evidencia requerida"
+     ],
+     "ejemplo": [
+      [
+       "Practitioner",
+       "Conocimiento básico",
+       "PMs junior",
+       "Examen en línea"
+      ],
+      [
+       "Pro",
+       "Gestión intermedia",
+       "Gerentes",
+       "Proyecto aplicado"
+      ],
+      [
+       "Elite",
+       "Gestión avanzada + War Room",
+       "Directivos",
+       "Auditoría + casos reales"
+      ],
+      [
+       "Trainer",
+       "Formación de instructores",
+       "Consultores",
+       "Certificación previa + práctica"
+      ]
+     ]
+    },
+    {
+     "titulo": "Expansión multisectorial",
+     "objetivo": "",
+     "columnas": [
+      "Sector",
+      "Proyecto clave",
+      "Potencial",
+      "Riesgo",
+      "Recomendación"
+     ],
+     "ejemplo": [
+      [
+       "Finanzas",
+       "AML + IA",
+       "Muy alta",
+       "Regulación",
+       "Auditorías automáticas"
+      ],
+      [
+       "Energía",
+       "SASISOPA digital",
+       "Alta",
+       "Riesgo industrial",
+       "IoT SCADA"
+      ],
+      [
+       "Salud",
+       "HIS + HIPAA",
+       "Alta",
+       "Privacidad",
+       "Blockchain clínico"
+      ],
+      [
+       "Defensa",
+       "Wargaming IA",
+       "Alta",
+       "Geopolítico",
+       "STANAG + IA"
+      ],
+      [
+       "Retail",
+       "ERP + IoT",
+       "Muy alta",
+       "Competencia",
+       "E-commerce integrado"
+      ],
+      [
+       "Smart cities",
+       "IoT + War Room",
+       "Muy alta",
+       "Datos masivos",
+       "IA urbana"
+      ]
+     ]
+    },
+    {
+     "titulo": "Continuidad estratégica a 20 años",
+     "objetivo": "",
+     "columnas": [
+      "Horizonte",
+      "Tecnología clave",
+      "Oportunidad",
+      "Acción DOMINUS OPS"
+     ],
+     "ejemplo": [
+      [
+       "2025-2030",
+       "IA avanzada",
+       "Simulación de escenarios",
+       "War Room Elite"
+      ],
+      [
+       "2030-2035",
+       "Quantum computing",
+       "Criptoanálisis",
+       "IA cuántica"
+      ],
+      [
+       "2035-2040",
+       "Biotecnología",
+       "Medicina personalizada",
+       "Compliance bioético"
+      ],
+      [
+       "2025-2030",
+       "Blockchain",
+       "Finanzas descentralizadas",
+       "AML adaptativo"
+      ],
+      [
+       "2030-2040",
+       "Energías limpias",
+       "Descarbonización",
+       "Dashboards ESG"
+      ],
+      [
+       "2025-2035",
+       "Ciberdefensa",
+       "Seguridad nacional",
+       "Wargaming IA"
+      ]
+     ]
+    }
+   ],
+   "ia": "estratega evolutivo"
+  }
+ ],
+ "dmi": {
+  "niveles": [
+   [
+    1,
+    "Reactivo",
+    "Se actúa cuando el problema ya ocurrió; sin estructura."
+   ],
+   [
+    2,
+    "Definido",
+    "Procesos y roles documentados, pero no medidos."
+   ],
+   [
+    3,
+    "Gestionado",
+    "Controles activos y KPIs medidos con regularidad."
+   ],
+   [
+    4,
+    "Predictivo",
+    "Se anticipan riesgos con datos e IA; el War Room opera."
+   ],
+   [
+    5,
+    "Estratégico",
+    "Mando adaptativo: la organización aprende y evoluciona sola."
+   ]
+  ],
+  "dimensiones": [
+   "Estrategia",
+   "Gobernanza",
+   "Riesgo y continuidad",
+   "Procesos y calidad",
+   "Tecnología y datos",
+   "Seguridad y privacidad",
+   "Personas y cultura",
+   "Monitoreo (War Room)",
+   "Cumplimiento normativo"
+  ]
+ },
+ "gobernanza": [
+  [
+   "Derechos de decisión y autoridad",
+   "Decisiones atascadas o duplicadas",
+   "Flujos de aprobación y trazabilidad de decisiones"
+  ],
+  [
+   "Responsabilidad (accountability / RACI)",
+   "Responsabilidad diluida",
+   "Cada KPI y alerta tiene un dueño asignado"
+  ],
+  [
+   "Estructura de gobierno (consejo y comités)",
+   "Comités sin autoridad real",
+   "Tableros y minutas de decisión por comité"
+  ],
+  [
+   "Supervisión y escalamiento de riesgo",
+   "El riesgo no llega arriba a tiempo",
+   "Escalamiento automático por severidad (rojo/ámbar)"
+  ],
+  [
+   "Control interno y cumplimiento",
+   "Cumplimiento de papel",
+   "Auditoría inteligente y evidencias en vivo"
+  ],
+  [
+   "Política e instrumentación normativa",
+   "Políticas que nadie mide",
+   "KPIs de adopción y cumplimiento de políticas"
+  ],
+  [
+   "Gobierno de datos",
+   "Cifras inconsistentes entre áreas",
+   "Fuente única de verdad y linaje de datos"
+  ],
+  [
+   "Gobierno de IA y ética",
+   "Modelos sin control ni trazabilidad",
+   "Ethics Room: registro de modelos y sesgos"
+  ],
+  [
+   "Alineación estrategia–ejecución",
+   "Las decisiones no aterrizan",
+   "Cascada OKR del consejo a los equipos"
+  ]
+ ],
+ "battle_rhythm": [
+  [
+   "Mission Brief",
+   "Al inicio",
+   "Definir objetivos, alcance y reglas de mando",
+   "Plan de mando (charter)"
+  ],
+  [
+   "SITREP (reporte de situación)",
+   "Diario / semanal",
+   "Estado de KPIs y riesgos desde el War Room",
+   "Reporte automatizado"
+  ],
+  [
+   "Command Review",
+   "Mensual",
+   "Revisar desempeño y tomar decisiones",
+   "Decisiones y reasignaciones"
+  ],
+  [
+   "After Action Review (AAR)",
+   "Trimestral",
+   "Extraer lecciones y ajustar el rumbo",
+   "Mejoras y roadmap actualizado"
+  ],
+  [
+   "Strategic Council",
+   "Anual",
+   "Re-medir el DMI y planear el siguiente ciclo",
+   "Roadmap a 12 meses"
+  ]
+ ],
+ "doctrina": [
+  "Orden antes que reacción: la estructura previene la crisis; no se improvisa bajo fuego.",
+  "Inteligencia antes que opinión: se decide con datos, no con intuición.",
+  "Anticipación antes que corrección: es más barato prevenir que remediar.",
+  "Responsabilidad clara antes que esfuerzo difuso: cada objetivo tiene un dueño.",
+  "Disciplina sostenida antes que heroísmo puntual: el ritmo vence al esfuerzo aislado.",
+  "El mando se ejerce con visibilidad total: quien decide, ve todo el campo."
+ ],
+ "salas": [
+  [
+   "Sala de Comportamiento y Reputación",
+   "Percepción de clientes, empleados y mercado; escucha digital y OSINT."
+  ],
+  [
+   "Sala de Comunicación Estratégica",
+   "Comunicación de crisis y detección de desinformación dirigida contra la organización."
+  ],
+  [
+   "Cyber Room",
+   "Zero Trust, NIST, incidentes, vulnerabilidades y postura de seguridad."
+  ],
+  [
+   "Twin Room",
+   "Gemelo digital para ensayar decisiones antes de ejecutarlas."
+  ],
+  [
+   "Ethics Room",
+   "Gobierno de IA: ISO/IEC 42001, ISO 27001, GDPR, LFPDPPP."
+  ]
+ ]
+}
