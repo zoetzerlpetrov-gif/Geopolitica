@@ -53,6 +53,7 @@
       <button role="tab" aria-selected="false" data-p="biblioteca">📚 Biblioteca de metodologías</button>
       <button role="tab" aria-selected="false" data-p="riesgos">🎲 Risk Management y escenarios</button>
       <button role="tab" aria-selected="false" data-p="informe">📄 Informe de las 6 fases</button>
+      <button role="tab" aria-selected="false" data-p="tableros">📊 Tableros y War Room</button>
       <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
       <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
     </nav>
@@ -96,6 +97,22 @@
         <div class="barra"><button type="button" id="inf-ver">👁️ Vista previa</button><button type="button" id="inf-ia">🤖 Redactar resumen e informe detallado con IA</button><span id="inf-doc"></span></div>
         <p class="meta" id="inf-estado"></p></div>
       <div id="inf-vista" class="tarjeta" style="background:#fff;color:#111"></div>
+    </section>
+
+    <section class="panel" id="p-tableros" hidden>
+      <h2>Tableros (dashboards) y War Room del cliente</h2>
+      <p class="meta">Cuatro tableros de fábrica y los que construyas tú (o con ayuda de la IA) a partir de lo capturado en DOMINUS OPS y de los eventos del mapa en los países del cliente.
+        «Abrir War Room» genera una página de pantalla completa que se actualiza sola cada minuto con los eventos públicos; «Copiar enlace» la comparte con el cliente: el enlace lleva una copia de los datos de la empresa (se actualiza cuando lo vuelves a generar).</p>
+      <div class="barra"><select id="tb-sel" aria-label="Tablero" style="max-width:360px"></select><button type="button" id="tb-nuevo">+ Nuevo</button><button type="button" id="tb-dup">Duplicar</button><button type="button" id="tb-borrar">Eliminar</button>
+        <button type="button" id="tb-wr">🛰️ Abrir War Room</button><button type="button" id="tb-enlace">🔗 Copiar enlace para el cliente</button><span id="tb-doc"></span></div>
+      <details class="tarjeta" id="tb-editor"><summary><b>✏️ Editar este tablero</b></summary>
+        <div class="barra"><label>Nombre <input id="tb-nombre" maxlength="80"></label></div>
+        <div class="barra"><select id="tb-tipo" aria-label="Tipo de widget"></select><input id="tb-titulo" placeholder="Título (opcional)" maxlength="80"><select id="tb-ancho"><option value="1">1 columna</option><option value="2">2 columnas</option><option value="3">3 columnas</option></select><button type="button" id="tb-add">+ Agregar widget</button></div>
+        <ol id="tb-lista"></ol>
+        <label style="display:block">🤖 Describe el tablero que necesitas y la IA lo arma con los widgets disponibles<textarea id="tb-ia-txt" rows="2" style="width:100%" placeholder="Ej.: tablero para el comité de auditoría con riesgos, gobernanza y KPIs en rojo"></textarea></label>
+        <div class="barra"><button type="button" id="tb-ia">Diseñar con IA</button><span class="meta" id="tb-ia-estado"></span></div></details>
+      <p class="meta" id="tb-estado"></p>
+      <div id="tb-vista" class="tb-grid"></div>
     </section>
 
     <section class="panel" id="p-biblioteca" hidden>

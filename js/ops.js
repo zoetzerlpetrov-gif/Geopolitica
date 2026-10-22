@@ -46,6 +46,7 @@ eventosOps.then((evs) => import("./escenarios.js").then((E) => E.montarSimulador
         c.sitios && `Sitios: ${c.sitios}.`, c.proveedores && `Proveedores críticos: ${c.proveedores}.`, c.contexto, dmiTxt && `Madurez DMI por dimensión: ${dmiTxt}.`].filter(Boolean).join("\n") };
   },
 }))).catch((e) => { $("ops-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
+import("./ops-tableros.js").then((M) => M.iniciarTableros(cfg)).catch((e) => { $("tb-estado").textContent = `No se pudieron cargar los tableros: ${e.message}`; });
 import("./ops-informe.js").then((M) => M.iniciarInforme(cfg)).catch((e) => { $("inf-estado").textContent = `No se pudo cargar el informe: ${e.message}`; });
 import("./ops-biblioteca.js").then((B) => B.iniciarBiblioteca()).catch((e) => { $("bib-ficha").innerHTML = `<p class="meta">No se pudo cargar la biblioteca: ${esc(e.message)}</p>`; });
 
