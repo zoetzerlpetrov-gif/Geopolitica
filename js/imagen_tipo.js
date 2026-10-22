@@ -168,7 +168,17 @@ const MODELO_OACI = { A19N: "A319neo", A20N: "A320neo", A21N: "A321neo", A318: "
   B37M: "737 MAX 7", B38M: "737 MAX 8", B39M: "737 MAX 9", B3XM: "737 MAX 10", B752: "757-200", B763: "767-300", B772: "777-200", B77W: "777-300ER",
   B788: "787-8", B789: "787-9", B78X: "787-10", B744: "747-400", B748: "747-8", E170: "E170", E175: "E175", E190: "E190", E195: "E195",
   E290: "E190-E2", E295: "E195-E2", AT72: "ATR 72", AT75: "ATR 72", AT76: "ATR 72", AT45: "ATR 42", AT46: "ATR 42", CRJ2: "CRJ200", CRJ7: "CRJ700",
-  CRJ9: "CRJ900", DH8D: "Dash 8-400", BCS1: "A220-100", BCS3: "A220-300", MD11: "MD-11", C130: "C-130", C30J: "C-130J", A400: "A400M" };
+  CRJ9: "CRJ900", DH8D: "Dash 8-400", BCS1: "A220-100", BCS3: "A220-300", MD11: "MD-11", C130: "C-130", C30J: "C-130J", A400: "A400M",
+  C295: "C-295", CN35: "CN-235", B350: "King Air 350", BE20: "King Air 200", C208: "Cessna 208", PC12: "PC-12", H60: "Black Hawk", EC45: "EC145" };
+
+// Palabras de aviación en el título del archivo: sin una de ellas (o el modelo/fabricante) no se acepta la foto. Evita,
+// por ejemplo, un auto cuya foto lleva en el título el mismo número que la matrícula militar «3202».
+const AVIACION = /aircraft|airplane|aeroplane|airliner|avi[oó]n|aeronave|airbus|boeing|embraer|bombardier|\batr\b|cessna|beech|king ?air|lockheed|casa c-?[0-9]|c-?295|cn-?235|antonov|tupolev|ilyushin|sukhoi|mig-|dassault|gulfstream|learjet|pilatus|helicop|airport|aeropuerto|\bair ?force\b|fuerza a[eé]rea|airlines?|aerol[ií]nea|\bjet\b|\bmsn\b/i;
+export function esFotoAvion(titulo, modelo = "", fabricante = "") {
+  const t = sinAcentosF(titulo).replace(/[^a-z0-9]/g, "");
+  const m = sinAcentosF(modelo).replace(/[^a-z0-9]/g, ""), f = sinAcentosF(fabricante).split(/\s+/)[0] || "";
+  return AVIACION.test(titulo) || (m.length >= 3 && t.includes(m)) || (f.length >= 4 && t.includes(f));
+}
 
 const sinAcentosF = (s) => String(s || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 const COMMONS = "https://commons.wikimedia.org/w/api.php?format=json&origin=*&";
@@ -203,20 +213,28 @@ async function buscarFotoReal(hex, indicativo, aerolineaConocida = "") {
   const modelo = MODELO_OACI[av?.icao_type] || av?.type || "";
   const buscar = (q) => getJSON(`${COMMONS}action=query&list=search&srnamespace=6&srlimit=10&srsearch=${encodeURIComponent(q)}`).then((d) => d?.query?.search || []);
   let archivo = null, nivel = null;
-  if (matricula) {
-    const norm = matricula.replace(/[^A-Z0-9]/gi, "").toUpperCase();
-    archivo = elegirArchivo(await buscar(`intitle:"${matricula}"`), (t) => t.replace(/[^A-Z0-9]/gi, "").toUpperCase().includes(norm));
+  const fab = av?.manufacturer || "";
+  const norm = matricula.replace(/[^A-Z0-9]/gi, "").toUpperCase();
+  // Matrículas solo con números (militares, p. ej. «3202») o muy cortas coinciden con cualquier cosa: no se buscan como foto exacta.
+  if (matricula && /[A-Z]/i.test(norm) && norm.length >= 4) {
+    archivo = elegirArchivo(await buscar(`intitle:"${matricula}"`), (t) => t.replace(/[^A-Z0-9]/gi, "").toUpperCase().includes(norm) && esFotoAvion(t, modelo, fab));
     if (archivo) nivel = "exacto";
   }
   if (!archivo && aerolinea && modelo) {
     const a = sinAcentosF(aerolinea).split(" ")[0], m = sinAcentosF(modelo).replace(/[^a-z0-9]/g, "");
-    archivo = elegirArchivo(await buscar(`"${aerolinea}" "${modelo}"`), (t) => sinAcentosF(t).includes(a) && sinAcentosF(t).replace(/[^a-z0-9]/g, "").includes(m));
+    archivo = elegirArchivo(await buscar(`"${aerolinea}" "${modelo}"`), (t) => sinAcentosF(t).includes(a) && sinAcentosF(t).replace(/[^a-z0-9]/g, "").includes(m) && esFotoAvion(t, modelo, fab));
     if (archivo) nivel = "aerolinea_modelo";
   }
   if (!archivo && aerolinea) {
     const a = sinAcentosF(aerolinea).split(" ")[0];
-    archivo = elegirArchivo(await buscar(`"${aerolinea}" aircraft`), (t) => sinAcentosF(t).includes(a));
+    archivo = elegirArchivo(await buscar(`"${aerolinea}" aircraft`), (t) => sinAcentosF(t).includes(a) && esFotoAvion(t, modelo, fab));
     if (archivo) nivel = "aerolinea";
+  }
+  // Último recurso: cualquier foto del mismo modelo (p. ej. «CASA C-295»), nunca otra cosa que un avión.
+  if (!archivo && modelo) {
+    const m = sinAcentosF(modelo).replace(/[^a-z0-9]/g, "");
+    archivo = elegirArchivo(await buscar(`"${modelo}" aircraft`), (t) => sinAcentosF(t).replace(/[^a-z0-9]/g, "").includes(m) && esFotoAvion(t, modelo, fab));
+    if (archivo) nivel = "modelo";
   }
   if (!archivo) return { matricula, aerolinea, modelo, fabricante: av?.manufacturer || "", src: null };
   const info = await getJSON(`${COMMONS}action=query&prop=imageinfo&iiprop=url|extmetadata&iiurlwidth=640&titles=${encodeURIComponent(archivo)}`);
@@ -229,6 +247,7 @@ async function buscarFotoReal(hex, indicativo, aerolineaConocida = "") {
 export function htmlFotoAvion(f) {
   const que = f.nivel === "exacto" ? `Foto de esta aeronave (matrícula ${escH(f.matricula)})`
     : f.nivel === "aerolinea" ? `Avión de la misma aerolínea (${escH(f.aerolinea)}), puede ser otro modelo; no es esta unidad`
+    : f.nivel === "modelo" ? `Mismo modelo (${escH(f.modelo)}), de otro operador; no es esta unidad`
     : `Misma aerolínea y modelo (${escH(f.aerolinea)} · ${escH(f.modelo)}); no necesariamente esta unidad`;
   return `<a href="${escH(f.archivo)}" target="_blank" rel="noopener noreferrer"><img src="${escH(f.src)}" alt="${escH(que)}" loading="lazy" decoding="async"
       width="${Number(f.ancho) || ""}" height="${Number(f.alto) || ""}"></a>

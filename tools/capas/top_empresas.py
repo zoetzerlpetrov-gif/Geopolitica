@@ -1,11 +1,17 @@
 """Top 10 de empresas por país (Wikidata, CC0).
 
-El orden es por notoriedad (número de Wikipedias con artículo de la empresa), no por tamaño: Wikidata no tiene las
-cifras de todas y vienen en monedas y años distintos, así que no se pueden comparar con justicia. Para cada empresa
-del top se piden aparte sus empleados (P1128), ingresos (P2139, con moneda y año), capitalización (P2226), bolsa donde
-cotiza (P414) y sitio web (P856); se muestran tal como están en Wikidata, con su año.
+Se toman 30 candidatas por país (las de más Wikipedias), se quitan bancos centrales, bolsas de valores y dependencias
+de gobierno, y se ordenan por empleados (P1128), la cifra de tamaño que se puede comparar entre países; las que no la
+tienen quedan después, por notoriedad. Ingresos y capitalización vienen en monedas y años distintos: se muestran tal
+como están en Wikidata, con su año, pero no se usan para ordenar. El país es el de la sede (coordenada), no la etiqueta.
+Las empresas de una misma ciudad comparten coordenada: se separan en un círculo pequeño y la ficha nombra a las demás.
 """
+import math
 import re
+
+# No son empresas comerciales aunque Wikidata las registre como organización o empresa.
+NO_EMPRESA = re.compile(r"\bbanco central\b|central bank|banco de méxico|banque de france|bundesbank|federal reserve|reserve bank|"
+                        r"\bbolsa\b|stock exchange|börse|\bbourse\b|ministerio|ministry|secretar[ií]a|government|gobierno", re.I)
 
 Q_DETALLE = """
 SELECT ?x ?emp ?ing ?ingMon ?ingAnio ?cap ?capMon ?bolsaEs ?bolsaEn ?web WHERE {
@@ -19,13 +25,44 @@ SELECT ?x ?emp ?ing ?ingMon ?ingAnio ?cap ?capMon ?bolsaEs ?bolsaEn ?web WHERE {
 }"""
 
 
-def top_por_pais(registros, n=10):
-    """registros {qid: {iso, n, ...}} → {iso: [registro ordenado por Wikipedias]} (solo con país conocido)."""
+def es_empresa(r):
+    return not NO_EMPRESA.search(r.get("nombre", "")) and not any(NO_EMPRESA.search(i) for i in r.get("industrias", []))
+
+
+def top_por_pais(registros, n=10, pais_de=None):
+    """registros {qid: {iso, n, ...}} → {iso: [n candidatas por Wikipedias]}. «pais_de(lon, lat)» corrige el país con la
+    ubicación de la sede (p. ej. una filial registrada con el país de la matriz)."""
     por = {}
     for r in registros.values():
-        if r.get("iso"):
-            por.setdefault(r["iso"], []).append(r)
+        iso = (pais_de(r["lon"], r["lat"]) if pais_de else "") or r.get("iso")
+        if iso and es_empresa(r):
+            por.setdefault(iso, []).append({**r, "iso": iso})
     return {iso: sorted(lista, key=lambda r: (-r["n"], r["nombre"]))[:n] for iso, lista in por.items()}
+
+
+def ordenar(candidatas, detalle, n=10):
+    """Por empleados (mayor primero); las que no tienen el dato, después y por notoriedad."""
+    def clave(r):
+        e = detalle.get(r["qid"], {}).get("empleados")
+        return (e is None, -(e or 0), -r["n"])
+    return {iso: sorted(lista, key=clave)[:n] for iso, lista in candidatas.items()}
+
+
+def separar(puntos, radio=0.02):
+    """[(lon, lat)] con repetidos → mismas posiciones, pero las repetidas repartidas en un círculo (~2 km por anillo)."""
+    grupos = {}
+    for i, c in enumerate(puntos):
+        grupos.setdefault((round(c[0], 3), round(c[1], 3)), []).append(i)
+    out = list(puntos)
+    for idx in grupos.values():
+        if len(idx) < 2:
+            continue
+        for k, i in enumerate(idx):
+            anillo, pos = 1 + k // 8, k % 8
+            ang = 2 * math.pi * pos / min(8, len(idx) - (anillo - 1) * 8)
+            lon, lat = puntos[i]
+            out[i] = (round(lon + radio * anillo * math.cos(ang) / max(0.2, math.cos(math.radians(lat))), 5), round(lat + radio * anillo * math.sin(ang), 5))
+    return out
 
 
 def _num(v):
@@ -71,17 +108,23 @@ def cifra(v, moneda=""):
 
 def features(top, detalle, feat, punto):
     out = []
-    for iso, lista in top.items():
-        for i, r in enumerate(lista, 1):
-            d = detalle.get(r["qid"], {})
-            cotiza = bool(d.get("bolsas"))
-            partes = [f"#{i} de {iso} por notoriedad ({r['n']} Wikipedias)", f"sede en {r['sede']}" if r.get("sede") else "",
-                      ", ".join(r.get("industrias", [])[:2]),
-                      f"{int(d['empleados']):,} empleados" if d.get("empleados") else "",
-                      f"ingresos {cifra(d.get('ingresos'), d.get('ingresos_moneda'))}" + (f" ({d['ingresos_anio']})" if d.get("ingresos_anio") else "") if d.get("ingresos") else "",
-                      f"capitalización {cifra(d.get('capitalizacion'), d.get('cap_moneda'))}" if d.get("capitalizacion") else "",
-                      f"cotiza en {', '.join(d['bolsas'][:2])}" if cotiza else "no cotiza en bolsa (según Wikidata)"]
-            out.append(feat(punto(r["lon"], r["lat"]), {"id": f"top:{r['qid']}", "n": f"{i}. {r['nombre']}", "st": "top_cotiza" if cotiza else "top_privada",
-                                                        "p": iso, "rank": i, "web": d.get("web", ""),
-                                                        "x": re.sub(r"\s+", " ", " · ".join(p for p in partes if p))}, 1 if i <= 3 else 3))
+    filas = [(iso, i, r) for iso, lista in top.items() for i, r in enumerate(lista, 1)]
+    pos = separar([(r["lon"], r["lat"]) for _, _, r in filas])
+    misma = {}
+    for (iso, i, r) in filas:
+        misma.setdefault((iso, round(r["lon"], 3), round(r["lat"], 3)), []).append(f"{i}. {r['nombre']}")
+    for (iso, i, r), (lon, lat) in zip(filas, pos):
+        d = detalle.get(r["qid"], {})
+        cotiza = bool(d.get("bolsas"))
+        vecinas = [x for x in misma[(iso, round(r["lon"], 3), round(r["lat"], 3))] if not x.startswith(f"{i}. ")]
+        partes = [f"#{i} de {iso}" + (" por empleados" if d.get("empleados") else " por notoriedad") + f" ({r['n']} Wikipedias)", f"sede en {r['sede']}" if r.get("sede") else "",
+                  ", ".join(r.get("industrias", [])[:2]),
+                  f"{int(d['empleados']):,} empleados" if d.get("empleados") else "",
+                  f"ingresos {cifra(d.get('ingresos'), d.get('ingresos_moneda'))}" + (f" ({d['ingresos_anio']})" if d.get("ingresos_anio") else "") if d.get("ingresos") else "",
+                  f"capitalización {cifra(d.get('capitalizacion'), d.get('cap_moneda'))}" if d.get("capitalizacion") else "",
+                  f"cotiza en {', '.join(d['bolsas'][:2])}" if cotiza else "no cotiza en bolsa (según Wikidata)",
+                  f"en la misma ciudad sede: {', '.join(vecinas)}" if vecinas else ""]
+        out.append(feat(punto(lon, lat), {"id": f"top:{r['qid']}", "n": f"{i}. {r['nombre']}", "st": "top_cotiza" if cotiza else "top_privada",
+                                                    "p": iso, "rank": i, "web": d.get("web", ""),
+                                                    "x": re.sub(r"\s+", " ", " · ".join(p for p in partes if p))}, 1 if i <= 3 else 3))
     return out

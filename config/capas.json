@@ -101,13 +101,23 @@
   },
   {
    "id": "recursos",
-   "nota": "OpenStreetMap (ODbL) para refinerías, terminales, minas y plantas; Wikidata (CC0) para las ≈ 47 mil minas con coordenada: las ≈ 5,600 que registran mineral, operador o dueño se ven desde zoom 6 con esos detalles y el resto, con nombre y país, desde zoom 8. Borde oscuro = la compañía que lo opera tiene su sede en otro país (extranjera o mixta). La ficha muestra la compañía y la bandera de su sede.",
+   "nota": "OpenStreetMap (ODbL): refinerías, terminales de gas, canteras de minerales críticos y plantas de semiconductores, fertilizantes y acero. Las minas de Wikidata están en la capa «Minas». Borde oscuro = la compañía que lo opera tiene su sede en otro país (extranjera o mixta).",
    "nombre": "Recursos estratégicos",
    "categoria": "recursos",
    "geometria": "punto",
    "fuente": "osm",
    "habilitada": true,
    "zoom_etiquetas": 7
+  },
+  {
+   "id": "minas",
+   "nombre": "Minas (todas las de Wikidata, con mineral y compañía cuando existe)",
+   "categoria": "recursos",
+   "geometria": "punto",
+   "fuente": "wikidata",
+   "habilitada": true,
+   "zoom_etiquetas": 9,
+   "nota": "Wikidata (CC0): las ≈ 47 mil minas con coordenada. Las ≈ 5,600 que registran mineral, operador o dueño se ven desde zoom 6 con esos detalles; el resto, con nombre y país, desde zoom 8. Borde oscuro = operada por una compañía con sede en otro país; la ficha muestra la compañía, la bandera de su sede y si es estatal."
   },
   {
    "id": "actividades",

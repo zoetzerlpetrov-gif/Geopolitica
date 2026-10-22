@@ -1077,12 +1077,12 @@ def recursos():
     ]
     for sel, st, z in consultas:
         out += _osm(overpass(sel, "recursos"), st, lambda s, t, z=z: z, lambda t: t.get("product") or t.get("resource") or "", pa, con_operador=True)
-    # Minas con ficha en Wikidata: mineral, operador o dueño y país de la compañía. Si Wikidata falla, queda lo de OSM.
-    try:
-        out += _sitios_wikidata("recursos_minas", con_operador=True)
-    except Exception as e:  # noqa: BLE001
-        print(f"   minas de Wikidata: {e}")
     return out
+
+
+def minas():
+    """Las ≈ 47 mil minas de Wikidata, aparte de «recursos» (OSM) para que una falla de Overpass no las borre."""
+    return _sitios_wikidata("recursos_minas", con_operador=True)
 
 
 def presas():
@@ -1443,7 +1443,7 @@ def top_empresas():
     import top_empresas as T
     if not _EMPRESAS_REG:
         empresas()
-    top = T.top_por_pais(_EMPRESAS_REG)
+    top = T.top_por_pais(_EMPRESAS_REG, n=30, pais_de=Paises().de)
     qids = [r["qid"] for lista in top.values() for r in lista]
     detalle = {}
     for i in range(0, len(qids), 150):
@@ -1452,7 +1452,8 @@ def top_empresas():
         except Exception as e:  # noqa: BLE001
             print(f"   detalle {i}: {e}")
         time.sleep(2)
-    print(f"   top 10: {len(top)} países, {len(qids)} empresas, {len(detalle)} con cifras")
+    top = T.ordenar(top, detalle)
+    print(f"   top 10: {len(top)} países, {len(qids)} candidatas, {len(detalle)} con cifras")
     return T.features(top, detalle, feat, punto)
 
 
@@ -1593,7 +1594,7 @@ FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto":
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,
-            "petroleo_gas": petroleo_gas, "actividades": actividades, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
+            "petroleo_gas": petroleo_gas, "actividades": actividades, "minas": minas, "empresas": empresas, "top_empresas": top_empresas, "denue_grandes": denue_grandes, "fronteras": fronteras, "desaladoras": desaladoras,
             "densidad_poblacion": densidad_poblacion, "turismo": turismo,
             "fiscal_ue": fiscal_ue, "recaudacion": recaudacion, "sector_primario": sector_primario,
             "sector_secundario": sector_secundario, "sector_terciario": sector_terciario,

@@ -219,7 +219,7 @@ export class Clima {
     if (this.map.getSource(id)) return;
     if (!this.pasoActual[tipo]) throw new Error("la corrida actual del modelo todavía no trae esta capa; aparecerá en la siguiente (cada 6 h)");
     this.map.addSource(id, { type: "image", url: BASE + this.pasoActual[tipo], coordinates: COORDS });
-    const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+    const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.map.addLayer({ id, type: "raster", source: id, paint: { "raster-opacity": tipo === "temp" ? 0.6 : 0.85, "raster-fade-duration": 0, "raster-resampling": "linear" } }, antes);
     if (tipo === "polar" && this.pasoActual.isotermas) {
       // Isotermas de 0, −10 y −20 °C a 850 hPa: el borde de la masa de aire frío y su núcleo.
@@ -438,7 +438,7 @@ class BucleSatelite {
   }
 
   #agregar(k) {
-    const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+    const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.def.capas.forEach(([capa, matriz], j) => {
       const sid = `bucle-${this.id}-${k}-${j}`;
       if (this.map.getSource(sid)) return;
