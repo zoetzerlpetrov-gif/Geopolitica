@@ -33,4 +33,5 @@ jobs:
           git add config/inmuebles_desarrollos
           if git diff --cached --quiet; then echo "Sin cambios"; exit 0; fi
           git commit -q -m "inmuebles: coordenadas verificadas con OpenStreetMap"
+          git pull -q --rebase origin "${GITHUB_REF#refs/heads/}"
           git push -q origin "HEAD:${GITHUB_REF#refs/heads/}"

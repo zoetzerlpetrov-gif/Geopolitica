@@ -103,8 +103,13 @@ def main(argv=None):
             iso2 = (iso2de.get(x.get("pais_iso3")) or "").lower()
             original = (x.get("lat"), x.get("lon"))
             cand = None
-            for q in texto(x, nombres.get(x.get("pais_iso3"), "")):
-                if q and (cand := adelante(q, iso2, cache)):
+            consultas = texto(x, nombres.get(x.get("pais_iso3"), ""))
+            centro = adelante(consultas[-1], iso2, cache) if consultas[-1] else None
+            for q in consultas:
+                c = adelante(q, iso2, cache) if q else None
+                # Un resultado a más de 40 km del centro de su ciudad es otro lugar con el mismo nombre.
+                if c and (not centro or km((c["lat"], c["lon"]), (centro["lat"], centro["lon"])) <= 40):
+                    cand = c
                     break
             ok = original[0] is not None and inversa(original[0], original[1], cache) in (iso2, "?")
             # Se usa el punto de OpenStreetMap si el original cae en el mar u otro país, si no es la ubicación exacta del
