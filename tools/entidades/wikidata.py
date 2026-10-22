@@ -48,20 +48,27 @@ SELECT ?org ?orgLabel ?coord ?ciudadLabel ?lider ?liderLabel WHERE {
 # Ampliación (oct 2026): todas las clases de organismo internacional, sin mínimo de Wikipedias, con su sede ubicada.
 # Conteos con sede ubicada: organismos internacionales 565, intergubernamentales 193, ONG internacionales 142,
 # organizaciones regionales 44, agencias especializadas de la ONU 15. El país es el de la ciudad sede.
+# Ampliación (22 oct 2026, medida con una sonda): federaciones deportivas internacionales 296, órganos creados por la ONU 48,
+# asociaciones internacionales 46, tribunales internacionales 21, instituciones financieras internacionales 17, organismos de la UE 12,
+# asambleas parlamentarias 6 y uniones supranacionales 4. Bolsas: todas las de Wikidata con ubicación (925; antes solo 155 con ≥ 8 Wikipedias).
 Q_ORGANISMOS_AMPLIO = """
 SELECT ?org ?orgLabel ?coord ?ciudadLabel ?iso3 ?clase WHERE {
-  VALUES ?clase { wd:Q484652 wd:Q245065 wd:Q1194093 wd:Q15925165 wd:Q4120211 }
+  VALUES ?clase { wd:Q484652 wd:Q245065 wd:Q1194093 wd:Q15925165 wd:Q4120211 wd:Q15285626 wd:Q29300714 wd:Q1262438
+                  wd:Q1345691 wd:Q112861866 wd:Q1470641 wd:Q1335818 wd:Q11422536 }
   ?org wdt:P31 ?clase; wdt:P159 ?ciudad. ?ciudad wdt:P625 ?coord.
   FILTER NOT EXISTS { ?org wdt:P576 ?fin }
   OPTIONAL { ?ciudad wdt:P17 ?pc. ?pc wdt:P298 ?iso3. }
   SERVICE wikibase:label { bd:serviceParam wikibase:language "es,mul,en". }
 }"""
 CLASE_ORGANISMO = {"Q1194093": "ONG internacional", "Q15925165": "Agencia especializada de la ONU", "Q4120211": "Organización regional",
-                   "Q245065": "Organización intergubernamental"}
+                   "Q245065": "Organización intergubernamental", "Q15285626": "Órgano creado por la ONU", "Q29300714": "Asociación internacional",
+                   "Q1262438": "Tribunal internacional", "Q1345691": "Institución financiera internacional", "Q112861866": "Organismo de la Unión Europea",
+                   "Q1470641": "Asamblea parlamentaria internacional", "Q1335818": "Unión supranacional", "Q11422536": "Federación deportiva internacional"}
 
 Q_BOLSAS = """
 SELECT ?org ?orgLabel ?coord ?ciudadLabel ?iso3 WHERE {
-  ?org wdt:P31 wd:Q11691; wikibase:sitelinks ?links. FILTER(?links >= 8)
+  ?org wdt:P31/wdt:P279* wd:Q11691 .
+  FILTER NOT EXISTS { ?org wdt:P576 ?fin }
   OPTIONAL { ?org wdt:P625 ?c1. }
   OPTIONAL { ?org wdt:P159 ?ciudad. ?ciudad wdt:P625 ?c2. }
   BIND(COALESCE(?c1, ?c2) AS ?coord)

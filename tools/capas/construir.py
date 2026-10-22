@@ -1592,6 +1592,15 @@ def empresas():
         except Exception as e:  # noqa: BLE001
             print(f"   {qid_clase}: {e}")
         time.sleep(3)
+    for minimo in (2, 5):  # si la consulta completa excede el tiempo, se reintenta con más notoriedad
+        try:
+            antes = len(registros)
+            S.leer_empresas(_sparql(S.Q_EMPRESAS_COTIZAN % minimo), registros, minimo)
+            print(f"   cotizan en bolsa (≥ {minimo} Wikipedias): +{len(registros) - antes}")
+            break
+        except Exception as e:  # noqa: BLE001
+            print(f"   cotizan en bolsa (≥ {minimo}): {e}")
+            time.sleep(5)
     for qid_pais, minimo in S.PAISES_EMPRESA:
         try:
             antes = len(registros)
@@ -1599,7 +1608,7 @@ def empresas():
             print(f"   país {qid_pais} (≥ {minimo} Wikipedias): +{len(registros) - antes}")
         except Exception as e:  # noqa: BLE001
             print(f"   país {qid_pais}: {e}")
-        time.sleep(3)
+        time.sleep(5)  # el servicio respondió 429 con 1 s entre consultas
     if not registros:
         raise RuntimeError("Wikidata no devolvió empresas")
     _EMPRESAS_REG.clear()
