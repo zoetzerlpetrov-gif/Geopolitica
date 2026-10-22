@@ -201,8 +201,8 @@
       "ciudad": "Tamarindo (Santa Cruz)",
       "zona": "Tamarindo",
       "estado": "Guanacaste",
-      "lat": 10.2985,
-      "lon": -85.836,
+      "lat": 10.298412,
+      "lon": -85.839951,
       "precision": "colonia",
       "geocodificar": "Tamarindo, Santa Cruz, Guanacaste, Costa Rica",
       "tipo": "departamento",
@@ -221,7 +221,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 rec., 1 baño, ~71 m² (764 ft²), construido en 2009. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Tamarindo"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Tamarindo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-002",
@@ -229,9 +230,9 @@
       "ciudad": "Tamarindo (Santa Cruz)",
       "zona": "Tamarindo",
       "estado": "Guanacaste",
-      "lat": 10.2985,
-      "lon": -85.836,
-      "precision": "ciudad",
+      "lat": 10.298412,
+      "lon": -85.839951,
+      "precision": "colonia",
       "geocodificar": "Tamarindo, Santa Cruz, Guanacaste, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -249,7 +250,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~204 m² (2 200 ft²), 3 baños. La ficha dice 'Santa Cruz' (cantón de Tamarindo); confirmar ubicación exacta. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Tamarindo"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Tamarindo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-003",
@@ -257,9 +259,9 @@
       "ciudad": "Playas del Coco (Carrillo)",
       "zona": "Playas del Coco",
       "estado": "Guanacaste",
-      "lat": 10.553,
-      "lon": -85.693,
-      "precision": "colonia",
+      "lat": 10.557995,
+      "lon": -85.692262,
+      "precision": "ciudad",
       "geocodificar": "Playas del Coco, Carrillo, Guanacaste, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -277,7 +279,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 rec., 1 baño, amueblado. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Playas del Coco"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Playas del Coco",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-004",
@@ -285,9 +288,9 @@
       "ciudad": "Playas del Coco (Carrillo)",
       "zona": "Monte Hermoso",
       "estado": "Guanacaste",
-      "lat": 10.553,
-      "lon": -85.693,
-      "precision": "colonia",
+      "lat": 10.557995,
+      "lon": -85.692262,
+      "precision": "ciudad",
       "geocodificar": "Playas del Coco, Carrillo, Guanacaste, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -305,7 +308,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 rec., 2 baños, construido en 2023. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Playas del Coco"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Playas del Coco",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-005",
@@ -313,9 +317,9 @@
       "ciudad": "Playas del Coco (Carrillo)",
       "zona": "Playas del Coco",
       "estado": "Guanacaste",
-      "lat": 10.553,
-      "lon": -85.693,
-      "precision": "colonia",
+      "lat": 10.557995,
+      "lon": -85.692262,
+      "precision": "ciudad",
       "geocodificar": "Playas del Coco, Carrillo, Guanacaste, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -333,7 +337,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Dos fichas dan US$215 000 y US$225 000 por unidad. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Playas del Coco"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Playas del Coco",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-006",
@@ -341,9 +346,9 @@
       "ciudad": "Playa Flamingo (Santa Cruz)",
       "zona": "Flamingo",
       "estado": "Guanacaste",
-      "lat": 10.431,
-      "lon": -85.782,
-      "precision": "colonia",
+      "lat": 10.428396,
+      "lon": -85.793338,
+      "precision": "ciudad",
       "geocodificar": "Playa Flamingo, Cabo Velas, Santa Cruz, Guanacaste, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -361,7 +366,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~71 m² (760 ft²), 1 baño, segundo piso, amueblado, HOA US$357/mes, historial de renta vacacional. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Flamingo"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Flamingo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-007",
@@ -369,9 +375,9 @@
       "ciudad": "Nosara (Nicoya)",
       "zona": "Playa Guiones",
       "estado": "Guanacaste",
-      "lat": 9.946,
-      "lon": -85.656,
-      "precision": "colonia",
+      "lat": 9.947161,
+      "lon": -85.66614,
+      "precision": "ciudad",
       "geocodificar": "Guiones, Nosara, Nicoya, Guanacaste, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -389,7 +395,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precios originales en USD de varias fichas Sotheby's en Guiones: Casa Estrella 3 rec. US$890 000; Nosara Beach House 7 rec. US$1 780 000; Casa Ashaya 4 rec. US$2 587 500; Casa Nautilo 5 rec. US$3 450 000. No se pudo confirmar qué ficha corresponde a cada enlace ni si siguen activas. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Nosara"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Nosara",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-008",
@@ -397,9 +404,9 @@
       "ciudad": "Sámara (Nicoya)",
       "zona": "Sámara",
       "estado": "Guanacaste",
-      "lat": 9.884,
-      "lon": -85.527,
-      "precision": "ciudad",
+      "lat": 9.88342,
+      "lon": -85.5289,
+      "precision": "colonia",
       "geocodificar": "Sámara, Nicoya, Guanacaste, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -417,7 +424,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Terreno amplio. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Sámara"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Sámara",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-009",
@@ -425,9 +433,9 @@
       "ciudad": "Sámara (Nicoya)",
       "zona": "Playa Sámara",
       "estado": "Guanacaste",
-      "lat": 9.884,
-      "lon": -85.527,
-      "precision": "ciudad",
+      "lat": 9.88342,
+      "lon": -85.5289,
+      "precision": "colonia",
       "geocodificar": "Sámara, Nicoya, Guanacaste, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -445,7 +453,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "3 rec., 3 baños (otro anuncio RE/MAX de obra nueva con piscina en Sámara: US$525 000). Portal regional de RE/MAX; confirmar oficina. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Sámara"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Sámara",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-010",
@@ -537,9 +546,9 @@
       "ciudad": "Uvita (Osa)",
       "zona": "Uvita",
       "estado": "Puntarenas",
-      "lat": 9.161,
-      "lon": -83.738,
-      "precision": "ciudad",
+      "lat": 9.173097,
+      "lon": -83.736398,
+      "precision": "colonia",
       "geocodificar": "Uvita, Bahía Ballena, Osa, Puntarenas, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -557,7 +566,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 rec., 2 baños, ~850 m² de terreno (0,21 acres), construida en 2019; la ficha muestra ID 13849. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Uvita"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Uvita",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-014",
@@ -565,9 +575,9 @@
       "ciudad": "Ojochal (Osa)",
       "zona": "Ojochal",
       "estado": "Puntarenas",
-      "lat": 9.079,
-      "lon": -83.664,
-      "precision": "ciudad",
+      "lat": 9.086772,
+      "lon": -83.647714,
+      "precision": "colonia",
       "geocodificar": "Ojochal, Osa, Puntarenas, Costa Rica",
       "tipo": "terreno",
       "nuevo": false,
@@ -585,7 +595,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Vista a la selva; ID de ficha 20981. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Ojochal"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Ojochal",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-015",
@@ -593,9 +604,9 @@
       "ciudad": "Ojochal (Osa)",
       "zona": "Ojochal",
       "estado": "Puntarenas",
-      "lat": 9.079,
-      "lon": -83.664,
-      "precision": "ciudad",
+      "lat": 9.086772,
+      "lon": -83.647714,
+      "precision": "colonia",
       "geocodificar": "Ojochal, Osa, Puntarenas, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -613,7 +624,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Inmueble generador de renta (~4 860 m² de terreno). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Ojochal"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Ojochal",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-016",
@@ -621,9 +633,9 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Puerto Viejo",
       "estado": "Limón",
-      "lat": 9.6545,
-      "lon": -82.753,
-      "precision": "ciudad",
+      "lat": 9.656494,
+      "lon": -82.753565,
+      "precision": "colonia",
       "geocodificar": "Puerto Viejo, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -641,7 +653,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-017",
@@ -649,9 +662,9 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Playa Negra",
       "estado": "Limón",
-      "lat": 9.66,
-      "lon": -82.762,
-      "precision": "colonia",
+      "lat": 9.653791,
+      "lon": -82.758595,
+      "precision": "ciudad",
       "geocodificar": "Playa Negra, Puerto Viejo, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -669,7 +682,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 rec., 2 baños, a ~500 m de la playa. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-018",
@@ -677,9 +691,9 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Puerto Viejo",
       "estado": "Limón",
-      "lat": 9.6545,
-      "lon": -82.753,
-      "precision": "ciudad",
+      "lat": 9.656494,
+      "lon": -82.753565,
+      "precision": "colonia",
       "geocodificar": "Puerto Viejo, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -697,7 +711,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Ficha actualizada por última vez en junio de 2025: puede estar vencida. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-019",
@@ -705,8 +720,8 @@
       "ciudad": "Manzanillo (Talamanca)",
       "zona": "Manzanillo",
       "estado": "Limón",
-      "lat": 9.6315,
-      "lon": -82.656,
+      "lat": 9.631671,
+      "lon": -82.657207,
       "precision": "colonia",
       "geocodificar": "Manzanillo, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
@@ -725,7 +740,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "3 rec., 3 baños, a ~300 m de Playa Grande (MLS 30532). Revisar cercanía al Refugio Gandoca-Manzanillo. Ficha actualizada en julio de 2025. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Manzanillo"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Manzanillo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-020",
@@ -733,9 +749,9 @@
       "ciudad": "Cahuita (Talamanca)",
       "zona": "Cahuita",
       "estado": "Limón",
-      "lat": 9.736,
-      "lon": -82.845,
-      "precision": "ciudad",
+      "lat": 9.738481,
+      "lon": -82.840763,
+      "precision": "colonia",
       "geocodificar": "Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -753,7 +769,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 rec., 1 baño, lote de más de 1 186 m². precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Cahuita"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Cahuita",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-021",
@@ -761,9 +778,9 @@
       "ciudad": "Cahuita (Talamanca)",
       "zona": "Cahuita",
       "estado": "Limón",
-      "lat": 9.736,
-      "lon": -82.845,
-      "precision": "ciudad",
+      "lat": 9.738481,
+      "lon": -82.840763,
+      "precision": "colonia",
       "geocodificar": "Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "terreno",
       "nuevo": false,
@@ -781,7 +798,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~1,86 acres, despejado y nivelado, sin pozo (resolver agua). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Cahuita"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Cahuita",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-022",
@@ -789,9 +807,9 @@
       "ciudad": "Cahuita (Talamanca)",
       "zona": "Cahuita",
       "estado": "Limón",
-      "lat": 9.736,
-      "lon": -82.845,
-      "precision": "ciudad",
+      "lat": 9.738481,
+      "lon": -82.840763,
+      "precision": "colonia",
       "geocodificar": "Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
       "nuevo": false,
@@ -809,7 +827,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Lote de 120 m². precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Cahuita"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Cahuita",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-023",
@@ -817,8 +836,8 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Playa Chiquita",
       "estado": "Limón",
-      "lat": 9.639,
-      "lon": -82.705,
+      "lat": 9.637403,
+      "lon": -82.703669,
       "precision": "colonia",
       "geocodificar": "Playa Chiquita, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
@@ -837,7 +856,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Las versiones de la ficha difieren (2/2 o 2/3 baños; 1 156 o 1 136 m²). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-024",
@@ -845,8 +865,8 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Punta Uva",
       "estado": "Limón",
-      "lat": 9.6355,
-      "lon": -82.688,
+      "lat": 9.640909,
+      "lon": -82.686332,
       "precision": "colonia",
       "geocodificar": "Punta Uva, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "villa",
@@ -865,7 +885,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "3 rec., 3 baños, ~1 888 m² de terreno. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo/Punta Uva"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo/Punta Uva",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-025",
@@ -873,8 +894,8 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Punta Uva (Calle Paraíso)",
       "estado": "Limón",
-      "lat": 9.6355,
-      "lon": -82.688,
+      "lat": 9.640909,
+      "lon": -82.686332,
       "precision": "colonia",
       "geocodificar": "Punta Uva, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "casa",
@@ -893,7 +914,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Con historial de renta vacacional. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo/Punta Uva"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo/Punta Uva",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-026",
@@ -901,8 +923,8 @@
       "ciudad": "Puerto Viejo (Talamanca)",
       "zona": "Punta Uva",
       "estado": "Limón",
-      "lat": 9.6355,
-      "lon": -82.688,
+      "lat": 9.640909,
+      "lon": -82.686332,
       "precision": "colonia",
       "geocodificar": "Punta Uva, Cahuita, Talamanca, Limón, Costa Rica",
       "tipo": "villa",
@@ -921,7 +943,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Plataforma internacional de Century 21; confirmar oficina. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo/Punta Uva"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Puerto Viejo/Punta Uva",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-027",
@@ -929,8 +952,8 @@
       "ciudad": "Limón",
       "zona": "Playa Bonita",
       "estado": "Limón",
-      "lat": 10.009,
-      "lon": -83.067,
+      "lat": 10.009861,
+      "lon": -83.06346,
       "precision": "colonia",
       "geocodificar": "Playa Bonita, Limón, Limón, Costa Rica",
       "tipo": "terreno",
@@ -949,7 +972,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~4 402 m², uso residencial, hotelero o comercial. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Limón"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Limón",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-028",
@@ -957,8 +981,8 @@
       "ciudad": "Limón",
       "zona": "Playa Bonita",
       "estado": "Limón",
-      "lat": 10.009,
-      "lon": -83.067,
+      "lat": 10.009861,
+      "lon": -83.06346,
       "precision": "colonia",
       "geocodificar": "Playa Bonita, Limón, Limón, Costa Rica",
       "tipo": "terreno",
@@ -977,7 +1001,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Terreno de desarrollo, no vivienda. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Limón"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Limón",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-029",
@@ -985,9 +1010,9 @@
       "ciudad": "Jacó (Garabito)",
       "zona": "Viva Jacó",
       "estado": "Puntarenas",
-      "lat": 9.617,
-      "lon": -84.626,
-      "precision": "colonia",
+      "lat": 9.615636,
+      "lon": -84.628125,
+      "precision": "ciudad",
       "geocodificar": "Jacó, Garabito, Puntarenas, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -1005,7 +1030,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 baños, albercas tipo resort y gimnasio, cerca de la playa. También lo anuncia Coldwell Banker Pura Vida Paradise. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-030",
@@ -1013,9 +1039,9 @@
       "ciudad": "Jacó (Garabito)",
       "zona": "Breakwater Point",
       "estado": "Puntarenas",
-      "lat": 9.617,
-      "lon": -84.626,
-      "precision": "colonia",
+      "lat": 9.615636,
+      "lon": -84.628125,
+      "precision": "ciudad",
       "geocodificar": "Jacó, Garabito, Puntarenas, Costa Rica",
       "tipo": "departamento",
       "nuevo": false,
@@ -1033,7 +1059,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 baños, ~137 m² (1 475 ft²), balcón amplio. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-031",
@@ -1041,8 +1068,8 @@
       "ciudad": "Jacó (Garabito)",
       "zona": "Jacó",
       "estado": "Puntarenas",
-      "lat": 9.617,
-      "lon": -84.626,
+      "lat": 9.615636,
+      "lon": -84.628125,
       "precision": "ciudad",
       "geocodificar": "Jacó, Garabito, Puntarenas, Costa Rica",
       "tipo": "casa",
@@ -1061,7 +1088,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "1 baño, construida en 2023. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-032",
@@ -1069,8 +1097,8 @@
       "ciudad": "Jacó (Garabito)",
       "zona": "Garabito (frente al mar)",
       "estado": "Puntarenas",
-      "lat": 9.617,
-      "lon": -84.626,
+      "lat": 9.615636,
+      "lon": -84.628125,
       "precision": "ciudad",
       "geocodificar": "Jacó, Garabito, Puntarenas, Costa Rica",
       "tipo": "terreno",
@@ -1089,7 +1117,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "La ficha dice cantón de Garabito (Jacó/Herradura/Hermosa); confirmar ubicación exacta y ZMT. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó"
+      "zona_objetivo": "Costa Rica Pacífico 10 km – Jacó",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CYM-001",
@@ -1433,8 +1462,8 @@
       "ciudad": "Caimán Brac",
       "zona": "Cayman Brac East",
       "estado": "Caimán Brac",
-      "lat": 19.723,
-      "lon": -79.79,
+      "lat": 19.719886,
+      "lon": -79.79314,
       "precision": "ciudad",
       "geocodificar": "Cayman Brac, Cayman Islands",
       "tipo": "casa",
@@ -1453,7 +1482,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Ficha en CIREBA (MLS de la asociación de corredores de Caimán; la publica un corredor miembro). CIREBA convierte a KYD 0,82 = US$1. ~181 m² (1 950 ft²), construida en 1998, MLS 420419. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Caimán Brac"
+      "zona_objetivo": "Caimán Brac",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CYM-014",
@@ -1461,8 +1491,8 @@
       "ciudad": "Caimán Brac",
       "zona": "Cayman Brac East (South Side)",
       "estado": "Caimán Brac",
-      "lat": 19.723,
-      "lon": -79.79,
+      "lat": 19.719886,
+      "lon": -79.79314,
       "precision": "ciudad",
       "geocodificar": "Cayman Brac, Cayman Islands",
       "tipo": "villa",
@@ -1481,7 +1511,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Ficha en CIREBA (MLS de la asociación de corredores de Caimán; la publica un corredor miembro). CIREBA convierte a KYD 0,82 = US$1. ~186 m² (2 000 ft²), construida en 2024. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Caimán Brac"
+      "zona_objetivo": "Caimán Brac",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CYM-015",
@@ -1489,8 +1520,8 @@
       "ciudad": "Caimán Brac",
       "zona": "Cayman Brac West",
       "estado": "Caimán Brac",
-      "lat": 19.69,
-      "lon": -79.865,
+      "lat": 19.719886,
+      "lon": -79.79314,
       "precision": "ciudad",
       "geocodificar": "Cayman Brac, Cayman Islands",
       "tipo": "departamento",
@@ -1509,7 +1540,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Ficha en CIREBA (MLS de la asociación de corredores de Caimán; la publica un corredor miembro). CIREBA convierte a KYD 0,82 = US$1. ~99 m² (1 065 ft²), construido en 1999. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Caimán Brac"
+      "zona_objetivo": "Caimán Brac",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-001",
@@ -1517,9 +1549,9 @@
       "ciudad": "Nassau",
       "zona": "Eastern Road",
       "estado": "Nueva Providencia",
-      "lat": 25.062,
-      "lon": -77.305,
-      "precision": "colonia",
+      "lat": 25.053475,
+      "lon": -77.287264,
+      "precision": "ciudad",
       "geocodificar": "Eastern Road, Nassau, New Providence, Bahamas",
       "tipo": "casa",
       "nuevo": false,
@@ -1537,7 +1569,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "7 rec., 7 baños, construida en 1965, piscina; MLS 63631. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Nassau / Nueva Providencia"
+      "zona_objetivo": "Nassau / Nueva Providencia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-002",
@@ -1545,9 +1578,9 @@
       "ciudad": "Paradise Island",
       "zona": "Ocean Club Residences",
       "estado": "Nueva Providencia",
-      "lat": 25.0855,
-      "lon": -77.308,
-      "precision": "colonia",
+      "lat": 25.083355,
+      "lon": -77.306334,
+      "precision": "ciudad",
       "geocodificar": "Paradise Island, New Providence, Bahamas",
       "tipo": "departamento",
       "nuevo": false,
@@ -1565,7 +1598,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "MLS 66744; otra ficha similar muestra US$5 500 000. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Paradise Island"
+      "zona_objetivo": "Paradise Island",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-003",
@@ -1601,8 +1635,8 @@
       "ciudad": "George Town (Exuma)",
       "zona": "Gran Exuma",
       "estado": "Exuma",
-      "lat": 23.511,
-      "lon": -75.781,
+      "lat": 23.506943,
+      "lon": -75.767188,
       "precision": "ciudad",
       "geocodificar": "George Town, Great Exuma, Exuma, Bahamas",
       "tipo": "casa",
@@ -1621,7 +1655,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "El resultado de búsqueda mostró Silver Beach House en US$2 900 000 y una villa de playa en US$4 400 000; no se confirmó cuál corresponde al enlace ni la isla/cayo exacto. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Exuma"
+      "zona_objetivo": "Exuma",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-005",
@@ -1629,9 +1664,9 @@
       "ciudad": "Governor's Harbour",
       "zona": "High Life",
       "estado": "Eleuthera",
-      "lat": 25.196,
-      "lon": -76.238,
-      "precision": "colonia",
+      "lat": 25.193477,
+      "lon": -76.245336,
+      "precision": "ciudad",
       "geocodificar": "Governor's Harbour, Eleuthera, Bahamas",
       "tipo": "casa",
       "nuevo": false,
@@ -1649,7 +1684,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Vista al mar por dos lados, piscina. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Eleuthera"
+      "zona_objetivo": "Eleuthera",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-006",
@@ -1657,9 +1693,9 @@
       "ciudad": "Governor's Harbour",
       "zona": "Cupids Cay",
       "estado": "Eleuthera",
-      "lat": 25.196,
-      "lon": -76.238,
-      "precision": "colonia",
+      "lat": 25.193477,
+      "lon": -76.245336,
+      "precision": "ciudad",
       "geocodificar": "Governor's Harbour, Eleuthera, Bahamas",
       "tipo": "casa",
       "nuevo": false,
@@ -1677,7 +1713,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Renovada en 2022. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Eleuthera"
+      "zona_objetivo": "Eleuthera",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-007",
@@ -1685,9 +1722,9 @@
       "ciudad": "Governor's Harbour",
       "zona": "Governor's Harbour",
       "estado": "Eleuthera",
-      "lat": 25.196,
-      "lon": -76.238,
-      "precision": "colonia",
+      "lat": 25.193477,
+      "lon": -76.245336,
+      "precision": "ciudad",
       "geocodificar": "Governor's Harbour, Eleuthera, Bahamas",
       "tipo": "casa",
       "nuevo": false,
@@ -1705,7 +1742,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "4 rec., 4,5 baños, historial de renta. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Eleuthera"
+      "zona_objetivo": "Eleuthera",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "BHS-008",
@@ -1909,9 +1947,9 @@
       "ciudad": "Providenciales",
       "zona": "Grace Bay (Ritz-Carlton Residences)",
       "estado": "Caicos",
-      "lat": 21.789,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.794856,
+      "lon": -72.179416,
+      "precision": "ciudad",
       "geocodificar": "Grace Bay, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -1929,7 +1967,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~310 m² (3 338 ft²), 4 baños. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Grace Bay"
+      "zona_objetivo": "Providenciales – Grace Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-002",
@@ -1937,9 +1976,9 @@
       "ciudad": "Providenciales",
       "zona": "Grace Bay (The Pinnacle)",
       "estado": "Caicos",
-      "lat": 21.789,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.794856,
+      "lon": -72.179416,
+      "precision": "ciudad",
       "geocodificar": "Grace Bay, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -1957,7 +1996,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Datos de la ficha actualizados en 12/2024: posiblemente vencida. Otra unidad esquina de 3 rec. (~265 m²) apareció en US$4 399 000. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Grace Bay"
+      "zona_objetivo": "Providenciales – Grace Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-003",
@@ -1993,9 +2033,9 @@
       "ciudad": "Providenciales",
       "zona": "Grace Bay (Z-One)",
       "estado": "Caicos",
-      "lat": 21.789,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.794856,
+      "lon": -72.179416,
+      "precision": "ciudad",
       "geocodificar": "Grace Bay, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -2013,7 +2053,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~108 m² (1 164 ft²). El resultado de búsqueda no permitió ligar la ficha exacta: buscar 'Z-One' en el sitio de la agencia. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Grace Bay"
+      "zona_objetivo": "Providenciales – Grace Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-005",
@@ -2021,9 +2062,9 @@
       "ciudad": "Providenciales",
       "zona": "Grace Bay (The Sands)",
       "estado": "Caicos",
-      "lat": 21.789,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.794856,
+      "lon": -72.179416,
+      "precision": "ciudad",
       "geocodificar": "Grace Bay, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -2041,7 +2082,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~166 m² (1 789 ft²), renovado. El resultado de búsqueda no permitió ligar la ficha exacta: buscar 'Sands' en el sitio de la agencia. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Grace Bay"
+      "zona_objetivo": "Providenciales – Grace Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-006",
@@ -2049,9 +2091,9 @@
       "ciudad": "Providenciales",
       "zona": "Grace Bay (Royal West Indies)",
       "estado": "Caicos",
-      "lat": 21.789,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.794856,
+      "lon": -72.179416,
+      "precision": "ciudad",
       "geocodificar": "Grace Bay, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -2069,7 +2111,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "MLS 1154124; el resultado no mostró precio: consultar ficha.",
-      "zona_objetivo": "Providenciales – Grace Bay"
+      "zona_objetivo": "Providenciales – Grace Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-007",
@@ -2077,9 +2120,9 @@
       "ciudad": "Providenciales",
       "zona": "Grace Bay (Beach Tower)",
       "estado": "Caicos",
-      "lat": 21.789,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.794856,
+      "lon": -72.179416,
+      "precision": "ciudad",
       "geocodificar": "Grace Bay, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -2097,7 +2140,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "MLS 1153399; el resultado no mostró precio: consultar ficha.",
-      "zona_objetivo": "Providenciales – Grace Bay"
+      "zona_objetivo": "Providenciales – Grace Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-008",
@@ -2105,9 +2149,9 @@
       "ciudad": "Providenciales",
       "zona": "Long Bay (Starla Villa)",
       "estado": "Caicos",
-      "lat": 21.778,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.937927,
+      "lon": -72.045125,
+      "precision": "ciudad",
       "geocodificar": "Long Bay Hills, Providenciales, Turks and Caicos Islands",
       "tipo": "villa",
       "nuevo": true,
@@ -2125,7 +2169,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "A tres lotes de la playa de Long Bay. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Long Bay"
+      "zona_objetivo": "Providenciales – Long Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-009",
@@ -2133,9 +2178,9 @@
       "ciudad": "Providenciales",
       "zona": "Long Bay (Seastar Villa)",
       "estado": "Caicos",
-      "lat": 21.778,
-      "lon": -72.172,
-      "precision": "colonia",
+      "lat": 21.937927,
+      "lon": -72.045125,
+      "precision": "ciudad",
       "geocodificar": "Long Bay Hills, Providenciales, Turks and Caicos Islands",
       "tipo": "villa",
       "nuevo": false,
@@ -2153,7 +2198,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Long Bay"
+      "zona_objetivo": "Providenciales – Long Bay",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-010",
@@ -2161,9 +2207,9 @@
       "ciudad": "Providenciales",
       "zona": "Turtle Cove (The Yacht Club)",
       "estado": "Caicos",
-      "lat": 21.7835,
-      "lon": -72.2275,
-      "precision": "colonia",
+      "lat": 21.784476,
+      "lon": -72.225432,
+      "precision": "ciudad",
       "geocodificar": "Turtle Cove, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -2181,7 +2227,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "MLS 1153919. El resultado da ~US$620/ft² sobre ~98 m² (1 050 ft²), sin precio total; cuota de strata US$1 001/mes. Otra unidad de 2 rec. en The Yacht Club apareció en US$1 295 000. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Turtle Cove"
+      "zona_objetivo": "Providenciales – Turtle Cove",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-011",
@@ -2189,9 +2236,9 @@
       "ciudad": "Providenciales",
       "zona": "Turtle Cove (Queen Angel)",
       "estado": "Caicos",
-      "lat": 21.7835,
-      "lon": -72.2275,
-      "precision": "colonia",
+      "lat": 21.784476,
+      "lon": -72.225432,
+      "precision": "ciudad",
       "geocodificar": "Turtle Cove, Providenciales, Turks and Caicos Islands",
       "tipo": "departamento",
       "nuevo": false,
@@ -2209,7 +2256,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "1 rec. ~119 m² (1 280 ft², 2006) en US$650 000; 2 rec. ~107 m² en US$699 999. No se pudo ligar la ficha exacta: buscar 'Queen Angel' en el sitio. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Turtle Cove"
+      "zona_objetivo": "Providenciales – Turtle Cove",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-012",
@@ -2217,8 +2265,8 @@
       "ciudad": "Grand Turk",
       "zona": "Breezy Brae",
       "estado": "Grand Turk",
-      "lat": 21.464,
-      "lon": -71.138,
+      "lat": 21.460772,
+      "lon": -71.139996,
       "precision": "ciudad",
       "geocodificar": "Cockburn Town, Grand Turk, Turks and Caicos Islands",
       "tipo": "villa",
@@ -2237,7 +2285,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~437 m² (4 700 ft²), construida en 2007. No se pudo ligar la ficha exacta: buscar 'Villa Morgana'. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Grand Turk"
+      "zona_objetivo": "Grand Turk",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-013",
@@ -2245,8 +2294,8 @@
       "ciudad": "Grand Turk",
       "zona": "North Wells",
       "estado": "Grand Turk",
-      "lat": 21.464,
-      "lon": -71.138,
+      "lat": 21.460772,
+      "lon": -71.139996,
       "precision": "ciudad",
       "geocodificar": "Cockburn Town, Grand Turk, Turks and Caicos Islands",
       "tipo": "casa",
@@ -2265,7 +2314,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "MLS 2500543, construida en 2018. No se pudo ligar la ficha exacta. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Grand Turk"
+      "zona_objetivo": "Grand Turk",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-014",
@@ -2273,8 +2323,8 @@
       "ciudad": "Grand Turk",
       "zona": "The Ridge",
       "estado": "Grand Turk",
-      "lat": 21.464,
-      "lon": -71.138,
+      "lat": 21.460772,
+      "lon": -71.139996,
       "precision": "ciudad",
       "geocodificar": "Cockburn Town, Grand Turk, Turks and Caicos Islands",
       "tipo": "casa",
@@ -2293,7 +2343,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "No se pudo ligar la ficha exacta: buscar 'The Lookout'. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Grand Turk"
+      "zona_objetivo": "Grand Turk",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "TCA-015",
@@ -2301,8 +2352,8 @@
       "ciudad": "Grand Turk",
       "zona": "Pillory Beach (Cockburn Town)",
       "estado": "Grand Turk",
-      "lat": 21.464,
-      "lon": -71.138,
+      "lat": 21.460772,
+      "lon": -71.139996,
       "precision": "ciudad",
       "geocodificar": "Cockburn Town, Grand Turk, Turks and Caicos Islands",
       "tipo": "departamento",
@@ -2321,7 +2372,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "MLS 1153214; cuatro condominios a US$525 000 cada uno. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Grand Turk"
+      "zona_objetivo": "Grand Turk",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

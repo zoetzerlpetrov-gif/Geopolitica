@@ -115,8 +115,8 @@
       "ciudad": "Rovinj",
       "zona": "Centro",
       "estado": "Istarska županija",
-      "lat": 45.083,
-      "lon": 13.645,
+      "lat": 45.08258,
+      "lon": 13.634346,
       "precision": "ciudad",
       "geocodificar": "Rovinj, Istarska županija, Hrvatska",
       "tipo": "departamento",
@@ -135,7 +135,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de 1 recámara de la agencia, buscar ID 10764.",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-002",
@@ -143,8 +144,8 @@
       "ciudad": "Rovinj",
       "zona": "Centro",
       "estado": "Istarska županija",
-      "lat": 45.083,
-      "lon": 13.645,
+      "lat": 45.08258,
+      "lon": 13.634346,
       "precision": "ciudad",
       "geocodificar": "Rovinj, Istarska županija, Hrvatska",
       "tipo": "departamento",
@@ -163,7 +164,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; el resumen mezclaba etiquetas de vendido/reservado, confirmar disponibilidad (ID 10751).",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-003",
@@ -171,8 +173,8 @@
       "ciudad": "Rovinj",
       "zona": "Rovinj",
       "estado": "Istarska županija",
-      "lat": 45.083,
-      "lon": 13.645,
+      "lat": 45.08258,
+      "lon": 13.634346,
       "precision": "ciudad",
       "geocodificar": "Rovinj, Istarska županija, Hrvatska",
       "tipo": "departamento",
@@ -191,7 +193,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; el resultado mostraba unidades de 1.168.200 a 1.331.480 €. Obra nueva probable (confirmar). Precio sujeto a IVA 25 % si es de constructora.",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-004",
@@ -199,8 +202,8 @@
       "ciudad": "Rovinj",
       "zona": "Rovinj",
       "estado": "Istarska županija",
-      "lat": 45.083,
-      "lon": 13.645,
+      "lat": 45.08258,
+      "lon": 13.634346,
       "precision": "ciudad",
       "geocodificar": "Rovinj, Istarska županija, Hrvatska",
       "tipo": "departamento",
@@ -219,7 +222,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de Rovinj de la agencia.",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-005",
@@ -227,8 +231,8 @@
       "ciudad": "Poreč",
       "zona": "Poreč (alrededores)",
       "estado": "Istarska županija",
-      "lat": 45.227,
-      "lon": 13.605,
+      "lat": 45.227196,
+      "lon": 13.595733,
       "precision": "ciudad",
       "geocodificar": "Poreč, Istarska županija, Hrvatska",
       "tipo": "villa",
@@ -247,7 +251,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; anuncio de ~69 días al momento de la búsqueda.",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-006",
@@ -255,8 +260,8 @@
       "ciudad": "Poreč",
       "zona": "Poreč (pueblo al final de la aldea)",
       "estado": "Istarska županija",
-      "lat": 45.227,
-      "lon": 13.605,
+      "lat": 45.227196,
+      "lon": 13.595733,
       "precision": "ciudad",
       "geocodificar": "Poreč, Istarska županija, Hrvatska",
       "tipo": "casa",
@@ -275,7 +280,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es la categoría 'casas con alberca' de la agencia; distancia a la costa por verificar (≤10 km).",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-007",
@@ -283,8 +289,8 @@
       "ciudad": "Poreč",
       "zona": "Poreč",
       "estado": "Istarska županija",
-      "lat": 45.227,
-      "lon": 13.605,
+      "lat": 45.227196,
+      "lon": 13.595733,
       "precision": "ciudad",
       "geocodificar": "Poreč, Istarska županija, Hrvatska",
       "tipo": "villa",
@@ -303,7 +309,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la misma agencia lista otra villa en alrededores de Poreč a 1.190.000 € (215 m²). Nuevo/usado por confirmar.",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-008",
@@ -311,8 +318,8 @@
       "ciudad": "Pula",
       "zona": "Pula",
       "estado": "Istarska županija",
-      "lat": 44.87,
-      "lon": 13.848,
+      "lat": 44.870228,
+      "lon": 13.845531,
       "precision": "ciudad",
       "geocodificar": "Pula, Istarska županija, Hrvatska",
       "tipo": "villa",
@@ -331,7 +338,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de villas en Croacia de Savills.",
-      "zona_objetivo": "Istria (10 km de costa)"
+      "zona_objetivo": "Istria (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-009",
@@ -339,8 +347,8 @@
       "ciudad": "Opatija",
       "zona": "Riviera de Opatija",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.338,
-      "lon": 14.3,
+      "lat": 45.334924,
+      "lon": 14.306783,
       "precision": "ciudad",
       "geocodificar": "Opatija, Primorsko-goranska županija, Hrvatska",
       "tipo": "departamento",
@@ -359,7 +367,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de la Riviera de Opatija.",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-010",
@@ -367,8 +376,8 @@
       "ciudad": "Rijeka",
       "zona": "Alrededores de Rijeka (vista a Opatija)",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.33,
-      "lon": 14.442,
+      "lat": 45.326798,
+      "lon": 14.442208,
       "precision": "ciudad",
       "geocodificar": "Rijeka, Primorsko-goranska županija, Hrvatska",
       "tipo": "casa",
@@ -387,7 +396,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; ubicación exacta (municipio) por confirmar.",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-011",
@@ -395,8 +405,8 @@
       "ciudad": "Krk",
       "zona": "Krk (ciudad)",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.027,
-      "lon": 14.576,
+      "lat": 45.090195,
+      "lon": 14.549668,
       "precision": "ciudad",
       "geocodificar": "Krk, Primorsko-goranska županija, Hrvatska",
       "tipo": "departamento",
@@ -415,7 +425,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es la portada de la agencia.",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-012",
@@ -423,9 +434,9 @@
       "ciudad": "Njivice",
       "zona": "Njivice (Omišalj)",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.165,
-      "lon": 14.547,
-      "precision": "ciudad",
+      "lat": 45.158813,
+      "lon": 14.539531,
+      "precision": "colonia",
       "geocodificar": "Njivice, Omišalj, Primorsko-goranska županija, Hrvatska",
       "tipo": "terreno",
       "nuevo": true,
@@ -443,7 +454,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; compra de terreno de construcción: IVA o impuesto de transferencia según vendedor. La agencia lista otros terrenos en Malinska a 255.000 y 305.000 € (Z044, Z046).",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-013",
@@ -451,8 +463,8 @@
       "ciudad": "Malinska",
       "zona": "Malinska",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.125,
-      "lon": 14.528,
+      "lat": 45.125261,
+      "lon": 14.526168,
       "precision": "ciudad",
       "geocodificar": "Malinska, Malinska-Dubašnica, Primorsko-goranska županija, Hrvatska",
       "tipo": "terreno",
@@ -471,7 +483,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de Krk de la agencia.",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-014",
@@ -479,9 +492,9 @@
       "ciudad": "Njivice",
       "zona": "Njivice",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.165,
-      "lon": 14.547,
-      "precision": "ciudad",
+      "lat": 45.158813,
+      "lon": 14.539531,
+      "precision": "colonia",
       "geocodificar": "Njivice, Omišalj, Primorsko-goranska županija, Hrvatska",
       "tipo": "casa",
       "nuevo": false,
@@ -499,7 +512,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-015",
@@ -507,8 +521,8 @@
       "ciudad": "Malinska",
       "zona": "Malinska",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.125,
-      "lon": 14.528,
+      "lat": 45.125261,
+      "lon": 14.526168,
       "precision": "ciudad",
       "geocodificar": "Malinska, Malinska-Dubašnica, Primorsko-goranska županija, Hrvatska",
       "tipo": "casa",
@@ -527,7 +541,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es la búsqueda de Krk de la agencia.",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-016",
@@ -535,8 +550,8 @@
       "ciudad": "Trogir",
       "zona": "Trogir",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.522,
-      "lon": 16.245,
+      "lat": 43.516414,
+      "lon": 16.249716,
       "precision": "ciudad",
       "geocodificar": "Trogir, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -555,7 +570,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; obra nueva: IVA 25 % normalmente incluido en precio de constructora.",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-017",
@@ -563,8 +579,8 @@
       "ciudad": "Zadar",
       "zona": "Zadar",
       "estado": "Zadarska županija",
-      "lat": 44.12,
-      "lon": 15.245,
+      "lat": 44.116859,
+      "lon": 15.235326,
       "precision": "ciudad",
       "geocodificar": "Zadar, Zadarska županija, Hrvatska",
       "tipo": "departamento",
@@ -583,7 +599,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-018",
@@ -591,8 +608,8 @@
       "ciudad": "Zadar",
       "zona": "Zadar",
       "estado": "Zadarska županija",
-      "lat": 44.12,
-      "lon": 15.245,
+      "lat": 44.116859,
+      "lon": 15.235326,
       "precision": "ciudad",
       "geocodificar": "Zadar, Zadarska županija, Hrvatska",
       "tipo": "departamento",
@@ -611,7 +628,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; URL de listado de la agencia (puede estar en la página de departamentos en Zadar).",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-019",
@@ -619,8 +637,8 @@
       "ciudad": "Trogir",
       "zona": "Trogir",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.522,
-      "lon": 16.245,
+      "lat": 43.516414,
+      "lon": 16.249716,
       "precision": "ciudad",
       "geocodificar": "Trogir, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -639,7 +657,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precio no visible en el resultado de búsqueda; consultar.",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-001",
@@ -647,8 +666,8 @@
       "ciudad": "Cernobbio",
       "zona": "Cernobbio",
       "estado": "Lombardia",
-      "lat": 45.841,
-      "lon": 9.073,
+      "lat": 45.841394,
+      "lon": 9.075905,
       "precision": "ciudad",
       "geocodificar": "Cernobbio, Como, Lombardia, Italia",
       "tipo": "villa",
@@ -667,7 +686,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; URL = listado de casas en Lago di Como de E&V.",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-002",
@@ -675,9 +695,9 @@
       "ciudad": "Bellagio",
       "zona": "Bellagio",
       "estado": "Lombardia",
-      "lat": 45.986,
-      "lon": 9.261,
-      "precision": "ciudad",
+      "lat": 45.987255,
+      "lon": 9.2613,
+      "precision": "colonia",
       "geocodificar": "Bellagio, Como, Lombardia, Italia",
       "tipo": "villa",
       "nuevo": false,
@@ -695,7 +715,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; precio publicado en CHF.",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-003",
@@ -703,8 +724,8 @@
       "ciudad": "Cernobbio",
       "zona": "Cernobbio",
       "estado": "Lombardia",
-      "lat": 45.841,
-      "lon": 9.073,
+      "lat": 45.841394,
+      "lon": 9.075905,
       "precision": "ciudad",
       "geocodificar": "Cernobbio, Como, Lombardia, Italia",
       "tipo": "departamento",
@@ -723,7 +744,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-004",
@@ -731,9 +753,9 @@
       "ciudad": "Menaggio",
       "zona": "Menaggio",
       "estado": "Lombardia",
-      "lat": 46.02,
-      "lon": 9.235,
-      "precision": "ciudad",
+      "lat": 46.019784,
+      "lon": 9.238951,
+      "precision": "colonia",
       "geocodificar": "Menaggio, Como, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -751,7 +773,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-005",
@@ -759,9 +782,9 @@
       "ciudad": "Blevio",
       "zona": "Blevio",
       "estado": "Lombardia",
-      "lat": 45.843,
-      "lon": 9.105,
-      "precision": "ciudad",
+      "lat": 45.839942,
+      "lon": 9.10247,
+      "precision": "colonia",
       "geocodificar": "Blevio, Como, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -779,7 +802,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; URL = portada de la agencia.",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-006",
@@ -787,8 +811,8 @@
       "ciudad": "Como",
       "zona": "Centro",
       "estado": "Lombardia",
-      "lat": 45.811,
-      "lon": 9.085,
+      "lat": 45.939586,
+      "lon": 9.149361,
       "precision": "ciudad",
       "geocodificar": "Como, Lombardia, Italia",
       "tipo": "departamento",
@@ -807,7 +831,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; URL = portada de la agencia.",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-007",
@@ -815,9 +840,9 @@
       "ciudad": "Domaso",
       "zona": "Domaso",
       "estado": "Lombardia",
-      "lat": 46.15,
-      "lon": 9.327,
-      "precision": "ciudad",
+      "lat": 46.15099,
+      "lon": 9.328142,
+      "precision": "colonia",
       "geocodificar": "Domaso, Como, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -835,7 +860,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; 'desde'.",
-      "zona_objetivo": "Lago di Como 50 km"
+      "zona_objetivo": "Lago di Como 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-008",
@@ -843,8 +869,8 @@
       "ciudad": "Sirmione",
       "zona": "Lugana / Sirmione (≈300 m del lago)",
       "estado": "Lombardia",
-      "lat": 45.465,
-      "lon": 10.605,
+      "lat": 45.492869,
+      "lon": 10.607726,
       "precision": "ciudad",
       "geocodificar": "Sirmione, Brescia, Lombardia, Italia",
       "tipo": "villa",
@@ -863,7 +889,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; página de ~6 meses; promotor ARealago cita 'desde 850.000 €'.",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-009",
@@ -871,8 +898,8 @@
       "ciudad": "Sirmione",
       "zona": "Lugana / Sirmione",
       "estado": "Lombardia",
-      "lat": 45.465,
-      "lon": 10.605,
+      "lat": 45.492869,
+      "lon": 10.607726,
       "precision": "ciudad",
       "geocodificar": "Sirmione, Brescia, Lombardia, Italia",
       "tipo": "villa",
@@ -891,7 +918,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-010",
@@ -899,8 +927,8 @@
       "ciudad": "Desenzano del Garda",
       "zona": "Desenzano",
       "estado": "Lombardia",
-      "lat": 45.471,
-      "lon": 10.537,
+      "lat": 45.469485,
+      "lon": 10.538947,
       "precision": "ciudad",
       "geocodificar": "Desenzano del Garda, Brescia, Lombardia, Italia",
       "tipo": "departamento",
@@ -919,7 +947,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; página de la agencia con ~3 años: probablemente desactualizado.",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-011",
@@ -927,8 +956,8 @@
       "ciudad": "Riva del Garda",
       "zona": "Riva del Garda",
       "estado": "Trentino-Alto Adige",
-      "lat": 45.886,
-      "lon": 10.842,
+      "lat": 45.886747,
+      "lon": 10.845773,
       "precision": "ciudad",
       "geocodificar": "Riva del Garda, Trento, Trentino-Alto Adige, Italia",
       "tipo": "departamento",
@@ -947,7 +976,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-012",
@@ -955,8 +985,8 @@
       "ciudad": "Garda",
       "zona": "Garda",
       "estado": "Veneto",
-      "lat": 45.575,
-      "lon": 10.712,
+      "lat": 45.578797,
+      "lon": 10.684825,
       "precision": "ciudad",
       "geocodificar": "Garda, Verona, Veneto, Italia",
       "tipo": "departamento",
@@ -975,7 +1005,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-013",
@@ -983,8 +1014,8 @@
       "ciudad": "Bardolino",
       "zona": "Bardolino",
       "estado": "Veneto",
-      "lat": 45.548,
-      "lon": 10.729,
+      "lat": 45.531201,
+      "lon": 10.691802,
       "precision": "ciudad",
       "geocodificar": "Bardolino, Verona, Veneto, Italia",
       "tipo": "departamento",
@@ -1003,7 +1034,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-014",
@@ -1011,8 +1043,8 @@
       "ciudad": "Lazise",
       "zona": "Lazise",
       "estado": "Veneto",
-      "lat": 45.506,
-      "lon": 10.735,
+      "lat": 45.479051,
+      "lon": 10.708441,
       "precision": "ciudad",
       "geocodificar": "Lazise, Verona, Veneto, Italia",
       "tipo": "departamento",
@@ -1031,7 +1063,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Lago di Garda 50 km"
+      "zona_objetivo": "Lago di Garda 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-015",
@@ -1039,9 +1072,9 @@
       "ciudad": "Milán",
       "zona": "Forlanini / Piazza Ovidio",
       "estado": "Lombardia",
-      "lat": 45.461,
-      "lon": 9.24,
-      "precision": "colonia",
+      "lat": 45.458031,
+      "lon": 9.241771,
+      "precision": "ciudad",
       "geocodificar": "Piazza Ovidio, Milano, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1059,7 +1092,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; entrega 2026 según la ficha.",
-      "zona_objetivo": "Milán 50 km"
+      "zona_objetivo": "Milán 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-016",
@@ -1067,9 +1101,9 @@
       "ciudad": "Milán",
       "zona": "Lorenteggio / Via Inganni",
       "estado": "Lombardia",
-      "lat": 45.458,
-      "lon": 9.117,
-      "precision": "colonia",
+      "lat": 45.457328,
+      "lon": 9.122312,
+      "precision": "ciudad",
       "geocodificar": "Via Angelo Inganni, Milano, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1087,7 +1121,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; sin fecha de entrega publicada.",
-      "zona_objetivo": "Milán 50 km"
+      "zona_objetivo": "Milán 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-017",
@@ -1095,8 +1130,8 @@
       "ciudad": "Milán",
       "zona": "Milano Ovest",
       "estado": "Lombardia",
-      "lat": 45.465,
-      "lon": 9.11,
+      "lat": 45.464194,
+      "lon": 9.189635,
       "precision": "ciudad",
       "geocodificar": "Milano, Lombardia, Italia",
       "tipo": "departamento",
@@ -1115,7 +1150,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Milán 50 km"
+      "zona_objetivo": "Milán 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-018",
@@ -1123,9 +1159,9 @@
       "ciudad": "Milán",
       "zona": "Vigentino / Via dei Missaglia",
       "estado": "Lombardia",
-      "lat": 45.438,
-      "lon": 9.188,
-      "precision": "colonia",
+      "lat": 45.428426,
+      "lon": 9.17774,
+      "precision": "ciudad",
       "geocodificar": "Via dei Missaglia, Milano, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1143,7 +1179,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; fin de obra indicado sept. 2026.",
-      "zona_objetivo": "Milán 50 km"
+      "zona_objetivo": "Milán 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-019",
@@ -1151,9 +1188,9 @@
       "ciudad": "Basiglio (Milano 3)",
       "zona": "Milano 3",
       "estado": "Lombardia",
-      "lat": 45.359,
-      "lon": 9.16,
-      "precision": "ciudad",
+      "lat": 45.361367,
+      "lon": 9.158266,
+      "precision": "colonia",
       "geocodificar": "Milano 3, Basiglio, Milano, Lombardia, Italia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1171,7 +1208,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; ubicación (Basiglio/Milano 3) inferida del nombre: verificar.",
-      "zona_objetivo": "Milán 50 km"
+      "zona_objetivo": "Milán 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-020",
@@ -1179,8 +1217,8 @@
       "ciudad": "Lerici",
       "zona": "Lerici",
       "estado": "Liguria",
-      "lat": 44.076,
-      "lon": 9.911,
+      "lat": 44.073607,
+      "lon": 9.909914,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1199,7 +1237,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-021",
@@ -1207,8 +1246,8 @@
       "ciudad": "Lerici",
       "zona": "Lerici",
       "estado": "Liguria",
-      "lat": 44.076,
-      "lon": 9.911,
+      "lat": 44.073607,
+      "lon": 9.909914,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1227,7 +1266,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-022",
@@ -1235,8 +1275,8 @@
       "ciudad": "Lerici",
       "zona": "Centro",
       "estado": "Liguria",
-      "lat": 44.076,
-      "lon": 9.911,
+      "lat": 44.073607,
+      "lon": 9.909914,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1255,7 +1295,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-023",
@@ -1263,9 +1304,9 @@
       "ciudad": "Lerici",
       "zona": "Tellaro / Fiascherino",
       "estado": "Liguria",
-      "lat": 44.07,
-      "lon": 9.946,
-      "precision": "ciudad",
+      "lat": 44.066235,
+      "lon": 9.924903,
+      "precision": "colonia",
       "geocodificar": "Fiascherino, Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1283,7 +1324,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-024",
@@ -1291,9 +1333,9 @@
       "ciudad": "Riomaggiore",
       "zona": "Puerto de Riomaggiore (Cinque Terre)",
       "estado": "Liguria",
-      "lat": 44.099,
-      "lon": 9.738,
-      "precision": "ciudad",
+      "lat": 44.098975,
+      "lon": 9.73867,
+      "precision": "colonia",
       "geocodificar": "Riomaggiore, La Spezia, Liguria, Italia",
       "tipo": "casa",
       "nuevo": false,
@@ -1311,7 +1353,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-025",
@@ -1319,9 +1362,9 @@
       "ciudad": "Porto Venere",
       "zona": "Le Grazie",
       "estado": "Liguria",
-      "lat": 44.067,
-      "lon": 9.835,
-      "precision": "ciudad",
+      "lat": 44.064082,
+      "lon": 9.837955,
+      "precision": "colonia",
       "geocodificar": "Le Grazie, Porto Venere, La Spezia, Liguria, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1339,7 +1382,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-026",
@@ -1347,9 +1391,9 @@
       "ciudad": "Castellina in Chianti",
       "zona": "Chianti",
       "estado": "Toscana",
-      "lat": 43.471,
-      "lon": 11.288,
-      "precision": "ciudad",
+      "lat": 43.469179,
+      "lon": 11.287286,
+      "precision": "colonia",
       "geocodificar": "Castellina in Chianti, Siena, Toscana, Italia",
       "tipo": "casa",
       "nuevo": false,
@@ -1367,7 +1411,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; terreno agrícola anexo: prelación agraria.",
-      "zona_objetivo": "Toscana (Chianti) 50 km"
+      "zona_objetivo": "Toscana (Chianti) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-027",
@@ -1375,8 +1420,8 @@
       "ciudad": "Siena",
       "zona": "Certosa di Maggiano",
       "estado": "Toscana",
-      "lat": 43.306,
-      "lon": 11.342,
+      "lat": 43.310421,
+      "lon": 11.350176,
       "precision": "ciudad",
       "geocodificar": "Certosa di Maggiano, Siena, Toscana, Italia",
       "tipo": "villa",
@@ -1395,7 +1440,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Toscana (Siena) 50 km"
+      "zona_objetivo": "Toscana (Siena) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-028",
@@ -1403,9 +1449,9 @@
       "ciudad": "Castelnuovo Berardenga",
       "zona": "Chianti Classico",
       "estado": "Toscana",
-      "lat": 43.347,
-      "lon": 11.504,
-      "precision": "ciudad",
+      "lat": 43.345524,
+      "lon": 11.501888,
+      "precision": "colonia",
       "geocodificar": "Castelnuovo Berardenga, Siena, Toscana, Italia",
       "tipo": "villa",
       "nuevo": false,
@@ -1423,7 +1469,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; ubicación exacta inferida del nombre.",
-      "zona_objetivo": "Toscana (Chianti/Siena) 50 km"
+      "zona_objetivo": "Toscana (Chianti/Siena) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-029",
@@ -1431,9 +1478,9 @@
       "ciudad": "Gaiole in Chianti",
       "zona": "Chianti Classico",
       "estado": "Toscana",
-      "lat": 43.467,
-      "lon": 11.435,
-      "precision": "ciudad",
+      "lat": 43.468295,
+      "lon": 11.4342,
+      "precision": "colonia",
       "geocodificar": "Gaiole in Chianti, Siena, Toscana, Italia",
       "tipo": "casa",
       "nuevo": false,
@@ -1451,7 +1498,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Toscana (Chianti) 50 km"
+      "zona_objetivo": "Toscana (Chianti) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-030",
@@ -1459,8 +1507,8 @@
       "ciudad": "Greve in Chianti",
       "zona": "Chianti",
       "estado": "Toscana",
-      "lat": 43.585,
-      "lon": 11.316,
+      "lat": 43.606945,
+      "lon": 11.332008,
       "precision": "ciudad",
       "geocodificar": "Greve in Chianti, Firenze, Toscana, Italia",
       "tipo": "casa",
@@ -1479,7 +1527,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; municipio exacto no indicado: coordenadas genéricas del Chianti.",
-      "zona_objetivo": "Toscana (Chianti/Florencia) 50 km"
+      "zona_objetivo": "Toscana (Chianti/Florencia) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-031",
@@ -1487,8 +1536,8 @@
       "ciudad": "Greve in Chianti",
       "zona": "Chianti",
       "estado": "Toscana",
-      "lat": 43.585,
-      "lon": 11.316,
+      "lat": 43.606945,
+      "lon": 11.332008,
       "precision": "ciudad",
       "geocodificar": "Greve in Chianti, Firenze, Toscana, Italia",
       "tipo": "casa",
@@ -1507,7 +1556,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; municipio exacto no indicado.",
-      "zona_objetivo": "Toscana (Chianti) 50 km"
+      "zona_objetivo": "Toscana (Chianti) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-032",
@@ -1515,8 +1565,8 @@
       "ciudad": "Sorrento",
       "zona": "Sorrento",
       "estado": "Campania",
-      "lat": 40.626,
-      "lon": 14.376,
+      "lat": 40.624906,
+      "lon": 14.374836,
       "precision": "ciudad",
       "geocodificar": "Sorrento, Napoli, Campania, Italia",
       "tipo": "departamento",
@@ -1535,7 +1585,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; tipo exacto (casa/depto) por confirmar.",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-033",
@@ -1543,8 +1594,8 @@
       "ciudad": "Sorrento",
       "zona": "Sorrento",
       "estado": "Campania",
-      "lat": 40.626,
-      "lon": 14.376,
+      "lat": 40.624906,
+      "lon": 14.374836,
       "precision": "ciudad",
       "geocodificar": "Sorrento, Napoli, Campania, Italia",
       "tipo": "departamento",
@@ -1563,7 +1614,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-034",
@@ -1571,8 +1623,8 @@
       "ciudad": "Massa Lubrense",
       "zona": "Massa Lubrense",
       "estado": "Campania",
-      "lat": 40.611,
-      "lon": 14.345,
+      "lat": 40.611738,
+      "lon": 14.343424,
       "precision": "ciudad",
       "geocodificar": "Massa Lubrense, Napoli, Campania, Italia",
       "tipo": "villa",
@@ -1591,7 +1643,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-035",
@@ -1599,9 +1652,9 @@
       "ciudad": "Positano",
       "zona": "Positano",
       "estado": "Campania",
-      "lat": 40.63,
-      "lon": 14.485,
-      "precision": "ciudad",
+      "lat": 40.628658,
+      "lon": 14.485496,
+      "precision": "colonia",
       "geocodificar": "Positano, Salerno, Campania, Italia",
       "tipo": "casa",
       "nuevo": false,
@@ -1619,7 +1672,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; precio inusualmente bajo para Positano: confirmar.",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-036",
@@ -1627,9 +1681,9 @@
       "ciudad": "Amalfi",
       "zona": "Centro",
       "estado": "Campania",
-      "lat": 40.636,
-      "lon": 14.604,
-      "precision": "ciudad",
+      "lat": 40.63367,
+      "lon": 14.602609,
+      "precision": "colonia",
       "geocodificar": "Amalfi, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1647,7 +1701,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-037",
@@ -1655,8 +1710,8 @@
       "ciudad": "Nápoles",
       "zona": "Posillipo",
       "estado": "Campania",
-      "lat": 40.818,
-      "lon": 14.205,
+      "lat": 40.810206,
+      "lon": 14.202435,
       "precision": "colonia",
       "geocodificar": "Posillipo, Napoli, Campania, Italia",
       "tipo": "departamento",
@@ -1675,7 +1730,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-038",
@@ -1683,9 +1739,9 @@
       "ciudad": "Nápoles",
       "zona": "Posillipo (Via Posillipo)",
       "estado": "Campania",
-      "lat": 40.818,
-      "lon": 14.205,
-      "precision": "colonia",
+      "lat": 40.804403,
+      "lon": 14.202564,
+      "precision": "ciudad",
       "geocodificar": "Via Posillipo, Napoli, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1703,7 +1759,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km"
+      "zona_objetivo": "Nápoles y costa amalfitana/sorrentina 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-039",
@@ -1711,9 +1768,9 @@
       "ciudad": "Salerno",
       "zona": "Torrione",
       "estado": "Campania",
-      "lat": 40.67,
-      "lon": 14.78,
-      "precision": "colonia",
+      "lat": 40.419442,
+      "lon": 15.310609,
+      "precision": "ciudad",
       "geocodificar": "Torrione, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1731,7 +1788,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-040",
@@ -1739,9 +1797,9 @@
       "ciudad": "Salerno",
       "zona": "Matierno",
       "estado": "Campania",
-      "lat": 40.7,
-      "lon": 14.765,
-      "precision": "colonia",
+      "lat": 40.419442,
+      "lon": 15.310609,
+      "precision": "ciudad",
       "geocodificar": "Matierno, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1759,7 +1817,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-041",
@@ -1767,9 +1826,9 @@
       "ciudad": "Salerno",
       "zona": "Pastena",
       "estado": "Campania",
-      "lat": 40.665,
-      "lon": 14.79,
-      "precision": "colonia",
+      "lat": 40.419442,
+      "lon": 15.310609,
+      "precision": "ciudad",
       "geocodificar": "Pastena, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1787,7 +1846,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-042",
@@ -1795,8 +1855,8 @@
       "ciudad": "Salerno",
       "zona": "Centro Storico",
       "estado": "Campania",
-      "lat": 40.681,
-      "lon": 14.76,
+      "lat": 40.619641,
+      "lon": 15.055677,
       "precision": "colonia",
       "geocodificar": "Centro Storico, Salerno, Campania, Italia",
       "tipo": "departamento",
@@ -1815,7 +1875,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-043",
@@ -1823,9 +1884,9 @@
       "ciudad": "Salerno",
       "zona": "Mercatello",
       "estado": "Campania",
-      "lat": 40.658,
-      "lon": 14.805,
-      "precision": "colonia",
+      "lat": 40.419442,
+      "lon": 15.310609,
+      "precision": "ciudad",
       "geocodificar": "Mercatello, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1843,7 +1904,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-044",
@@ -1851,9 +1913,9 @@
       "ciudad": "Salerno",
       "zona": "Lungoirno",
       "estado": "Campania",
-      "lat": 40.672,
-      "lon": 14.773,
-      "precision": "colonia",
+      "lat": 40.419442,
+      "lon": 15.310609,
+      "precision": "ciudad",
       "geocodificar": "Lungoirno, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1871,7 +1933,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-045",
@@ -1879,9 +1942,9 @@
       "ciudad": "Salerno",
       "zona": "Centro Storico (Piazza Matteo Luciani)",
       "estado": "Campania",
-      "lat": 40.681,
-      "lon": 14.76,
-      "precision": "colonia",
+      "lat": 40.419442,
+      "lon": 15.310609,
+      "precision": "ciudad",
       "geocodificar": "Piazza Matteo Luciani, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1899,7 +1962,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-046",
@@ -1907,8 +1971,8 @@
       "ciudad": "Vietri sul Mare",
       "zona": "Raito",
       "estado": "Campania",
-      "lat": 40.668,
-      "lon": 14.718,
+      "lat": 40.666897,
+      "lon": 14.715629,
       "precision": "colonia",
       "geocodificar": "Raito, Vietri sul Mare, Salerno, Campania, Italia",
       "tipo": "departamento",
@@ -1927,7 +1991,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km"
+      "zona_objetivo": "Salerno 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-047",
@@ -1935,8 +2000,8 @@
       "ciudad": "Arzachena",
       "zona": "Porto Cervo (Marina)",
       "estado": "Sardegna",
-      "lat": 41.135,
-      "lon": 9.533,
+      "lat": 41.080891,
+      "lon": 9.427908,
       "precision": "ciudad",
       "geocodificar": "Porto Cervo, Arzachena, Sassari, Sardegna, Italia",
       "tipo": "departamento",
@@ -1955,7 +2020,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km"
+      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-048",
@@ -1963,8 +2029,8 @@
       "ciudad": "Arzachena",
       "zona": "Porto Cervo",
       "estado": "Sardegna",
-      "lat": 41.135,
-      "lon": 9.533,
+      "lat": 41.080891,
+      "lon": 9.427908,
       "precision": "ciudad",
       "geocodificar": "Porto Cervo, Arzachena, Sassari, Sardegna, Italia",
       "tipo": "departamento",
@@ -1983,7 +2049,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; algunos anuncios marcados como vendidos.",
-      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km"
+      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-049",
@@ -1991,8 +2058,8 @@
       "ciudad": "Arzachena",
       "zona": "Liscia di Vacca",
       "estado": "Sardegna",
-      "lat": 41.121,
-      "lon": 9.507,
+      "lat": 41.080891,
+      "lon": 9.427908,
       "precision": "ciudad",
       "geocodificar": "Liscia di Vacca, Arzachena, Sassari, Sardegna, Italia",
       "tipo": "departamento",
@@ -2011,7 +2078,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km"
+      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-050",
@@ -2019,8 +2087,8 @@
       "ciudad": "Arzachena",
       "zona": "Liscia di Vacca",
       "estado": "Sardegna",
-      "lat": 41.121,
-      "lon": 9.507,
+      "lat": 41.080891,
+      "lon": 9.427908,
       "precision": "ciudad",
       "geocodificar": "Liscia di Vacca, Arzachena, Sassari, Sardegna, Italia",
       "tipo": "villa",
@@ -2039,7 +2107,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km"
+      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-051",
@@ -2047,8 +2116,8 @@
       "ciudad": "Olbia",
       "zona": "San Pantaleo",
       "estado": "Sardegna",
-      "lat": 41.043,
-      "lon": 9.473,
+      "lat": 40.923266,
+      "lon": 9.502744,
       "precision": "ciudad",
       "geocodificar": "San Pantaleo, Olbia, Sassari, Sardegna, Italia",
       "tipo": "departamento",
@@ -2067,7 +2136,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km"
+      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-052",
@@ -2075,8 +2145,8 @@
       "ciudad": "Arzachena",
       "zona": "Porto Cervo (Cala del Faro)",
       "estado": "Sardegna",
-      "lat": 41.14,
-      "lon": 9.53,
+      "lat": 41.080891,
+      "lon": 9.427908,
       "precision": "ciudad",
       "geocodificar": "Porto Cervo, Arzachena, Sassari, Sardegna, Italia",
       "tipo": "departamento",
@@ -2095,7 +2165,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; naturaleza del sitio (agencia) por confirmar.",
-      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km"
+      "zona_objetivo": "Cerdeña (Costa Smeralda) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-053",
@@ -2103,9 +2174,9 @@
       "ciudad": "Alghero",
       "zona": "Musicisti (Via De Gasperi)",
       "estado": "Sardegna",
-      "lat": 40.565,
-      "lon": 8.327,
-      "precision": "colonia",
+      "lat": 40.558729,
+      "lon": 8.315321,
+      "precision": "ciudad",
       "geocodificar": "Alghero, Sassari, Sardegna, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -2123,7 +2194,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Cerdeña (Alghero) 50 km"
+      "zona_objetivo": "Cerdeña (Alghero) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-054",
@@ -2131,9 +2203,9 @@
       "ciudad": "Alghero",
       "zona": "Sant'Agostino (Via Guixera)",
       "estado": "Sardegna",
-      "lat": 40.56,
-      "lon": 8.325,
-      "precision": "colonia",
+      "lat": 40.558729,
+      "lon": 8.315321,
+      "precision": "ciudad",
       "geocodificar": "Alghero, Sassari, Sardegna, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -2151,7 +2223,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Cerdeña (Alghero) 50 km"
+      "zona_objetivo": "Cerdeña (Alghero) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-020",
@@ -2159,8 +2232,8 @@
       "ciudad": "Dubrovnik",
       "zona": "Lapad",
       "estado": "Dubrovačko-neretvanska županija",
-      "lat": 42.656,
-      "lon": 18.075,
+      "lat": 42.654003,
+      "lon": 18.077169,
       "precision": "ciudad",
       "geocodificar": "Lapad, Dubrovnik, Dubrovačko-neretvanska županija, Hrvatska",
       "tipo": "casa",
@@ -2179,7 +2252,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dubrovnik (10 km de costa)"
+      "zona_objetivo": "Dubrovnik (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-021",
@@ -2187,9 +2261,9 @@
       "ciudad": "Dubrovnik",
       "zona": "Gruž",
       "estado": "Dubrovačko-neretvanska županija",
-      "lat": 42.66,
-      "lon": 18.088,
-      "precision": "ciudad",
+      "lat": 42.65835,
+      "lon": 18.088725,
+      "precision": "colonia",
       "geocodificar": "Gruž, Dubrovnik, Dubrovačko-neretvanska županija, Hrvatska",
       "tipo": "departamento",
       "nuevo": false,
@@ -2207,7 +2281,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precio no visible en el resultado; consultar.",
-      "zona_objetivo": "Dubrovnik (10 km de costa)"
+      "zona_objetivo": "Dubrovnik (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-022",
@@ -2215,9 +2290,9 @@
       "ciudad": "Dubrovnik",
       "zona": "Gruž",
       "estado": "Dubrovačko-neretvanska županija",
-      "lat": 42.66,
-      "lon": 18.088,
-      "precision": "ciudad",
+      "lat": 42.65835,
+      "lon": 18.088725,
+      "precision": "colonia",
       "geocodificar": "Gruž, Dubrovnik, Dubrovačko-neretvanska županija, Hrvatska",
       "tipo": "departamento",
       "nuevo": false,
@@ -2235,7 +2310,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la agencia exacta de la ficha no se confirmó.",
-      "zona_objetivo": "Dubrovnik (10 km de costa)"
+      "zona_objetivo": "Dubrovnik (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-023",
@@ -2243,8 +2319,8 @@
       "ciudad": "Dubrovnik",
       "zona": "Lapad",
       "estado": "Dubrovačko-neretvanska županija",
-      "lat": 42.656,
-      "lon": 18.075,
+      "lat": 42.654003,
+      "lon": 18.077169,
       "precision": "ciudad",
       "geocodificar": "Lapad, Dubrovnik, Dubrovačko-neretvanska županija, Hrvatska",
       "tipo": "departamento",
@@ -2263,7 +2339,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la agencia exacta de la ficha no se confirmó.",
-      "zona_objetivo": "Dubrovnik (10 km de costa)"
+      "zona_objetivo": "Dubrovnik (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-024",
@@ -2271,8 +2348,8 @@
       "ciudad": "Dubrovnik",
       "zona": "Lapad",
       "estado": "Dubrovačko-neretvanska županija",
-      "lat": 42.656,
-      "lon": 18.075,
+      "lat": 42.654003,
+      "lon": 18.077169,
       "precision": "ciudad",
       "geocodificar": "Lapad, Dubrovnik, Dubrovačko-neretvanska županija, Hrvatska",
       "tipo": "departamento",
@@ -2291,7 +2368,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; unidades a 745.000 y 770.000 €; agencia exacta no confirmada; IVA 25 %.",
-      "zona_objetivo": "Dubrovnik (10 km de costa)"
+      "zona_objetivo": "Dubrovnik (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-025",
@@ -2299,8 +2377,8 @@
       "ciudad": "Makarska",
       "zona": "Makarska",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.297,
-      "lon": 17.023,
+      "lat": 43.293976,
+      "lon": 17.020242,
       "precision": "ciudad",
       "geocodificar": "Makarska, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -2319,7 +2397,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; ficha actualizada 15-oct-2026.",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-026",
@@ -2327,8 +2406,8 @@
       "ciudad": "Makarska",
       "zona": "Primera línea",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.297,
-      "lon": 17.023,
+      "lat": 43.293976,
+      "lon": 17.020242,
       "precision": "ciudad",
       "geocodificar": "Makarska, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "otro",
@@ -2347,7 +2426,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-027",
@@ -2355,8 +2435,8 @@
       "ciudad": "Makarska",
       "zona": "Frente a la playa",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.297,
-      "lon": 17.023,
+      "lat": 43.293976,
+      "lon": 17.020242,
       "precision": "ciudad",
       "geocodificar": "Makarska, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "otro",
@@ -2375,7 +2455,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-028",
@@ -2383,8 +2464,8 @@
       "ciudad": "Split",
       "zona": "Split",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.51,
-      "lon": 16.45,
+      "lat": 43.511638,
+      "lon": 16.439966,
       "precision": "ciudad",
       "geocodificar": "Split, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -2403,7 +2484,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-029",
@@ -2411,8 +2493,8 @@
       "ciudad": "Split",
       "zona": "Split",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.51,
-      "lon": 16.45,
+      "lat": 43.511638,
+      "lon": 16.439966,
       "precision": "ciudad",
       "geocodificar": "Split, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -2431,7 +2513,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-030",
@@ -2439,8 +2522,8 @@
       "ciudad": "Šibenik",
       "zona": "Šibenik",
       "estado": "Šibensko-kninska županija",
-      "lat": 43.735,
-      "lon": 15.895,
+      "lat": 43.734065,
+      "lon": 15.894477,
       "precision": "ciudad",
       "geocodificar": "Šibenik, Šibensko-kninska županija, Hrvatska",
       "tipo": "departamento",
@@ -2459,7 +2542,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-031",
@@ -2467,8 +2551,8 @@
       "ciudad": "Šibenik",
       "zona": "Šibenik",
       "estado": "Šibensko-kninska županija",
-      "lat": 43.735,
-      "lon": 15.895,
+      "lat": 43.734065,
+      "lon": 15.894477,
       "precision": "ciudad",
       "geocodificar": "Šibenik, Šibensko-kninska županija, Hrvatska",
       "tipo": "departamento",
@@ -2487,7 +2571,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-032",
@@ -2495,9 +2580,9 @@
       "ciudad": "Šibenik",
       "zona": "Vidici",
       "estado": "Šibensko-kninska županija",
-      "lat": 43.74,
-      "lon": 15.9,
-      "precision": "ciudad",
+      "lat": 43.724633,
+      "lon": 15.910722,
+      "precision": "colonia",
       "geocodificar": "Vidici, Šibenik, Šibensko-kninska županija, Hrvatska",
       "tipo": "departamento",
       "nuevo": false,
@@ -2515,7 +2600,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-033",
@@ -2523,8 +2609,8 @@
       "ciudad": "Šibenik",
       "zona": "Centro histórico",
       "estado": "Šibensko-kninska županija",
-      "lat": 43.735,
-      "lon": 15.895,
+      "lat": 43.734065,
+      "lon": 15.894477,
       "precision": "ciudad",
       "geocodificar": "Šibenik, Šibensko-kninska županija, Hrvatska",
       "tipo": "departamento",
@@ -2543,7 +2629,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-034",
@@ -2551,9 +2638,9 @@
       "ciudad": "Jelsa",
       "zona": "Centro",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.162,
-      "lon": 16.693,
-      "precision": "ciudad",
+      "lat": 43.161197,
+      "lon": 16.692664,
+      "precision": "colonia",
       "geocodificar": "Jelsa, Hvar, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "casa",
       "nuevo": false,
@@ -2571,7 +2658,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-035",
@@ -2579,8 +2667,8 @@
       "ciudad": "Stari Grad",
       "zona": "Stari Grad",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.184,
-      "lon": 16.596,
+      "lat": 43.184144,
+      "lon": 16.599003,
       "precision": "ciudad",
       "geocodificar": "Stari Grad, Hvar, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "terreno",
@@ -2599,7 +2687,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; terreno de construcción (no agrícola).",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-036",
@@ -2607,9 +2696,9 @@
       "ciudad": "Jelsa",
       "zona": "Jelsa",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.162,
-      "lon": 16.693,
-      "precision": "ciudad",
+      "lat": 43.161197,
+      "lon": 16.692664,
+      "precision": "colonia",
       "geocodificar": "Jelsa, Hvar, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "casa",
       "nuevo": false,
@@ -2627,7 +2716,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; verificar clasificación del terreno (agrícola = vedado a no UE).",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-037",
@@ -2635,9 +2725,9 @@
       "ciudad": "Jelsa",
       "zona": "Jelsa",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.162,
-      "lon": 16.693,
-      "precision": "ciudad",
+      "lat": 43.161197,
+      "lon": 16.692664,
+      "precision": "colonia",
       "geocodificar": "Jelsa, Hvar, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "terreno",
       "nuevo": true,
@@ -2655,7 +2745,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-038",
@@ -2663,8 +2754,8 @@
       "ciudad": "Stari Grad",
       "zona": "Centro",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.184,
-      "lon": 16.596,
+      "lat": 43.184144,
+      "lon": 16.599003,
       "precision": "ciudad",
       "geocodificar": "Stari Grad, Hvar, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "casa",
@@ -2683,7 +2774,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-039",
@@ -2691,8 +2783,8 @@
       "ciudad": "Supetar",
       "zona": "Supetar",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.383,
-      "lon": 16.552,
+      "lat": 43.382583,
+      "lon": 16.553211,
       "precision": "ciudad",
       "geocodificar": "Supetar, Brač, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -2711,7 +2803,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-040",
@@ -2719,8 +2812,8 @@
       "ciudad": "Supetar",
       "zona": "Supetar",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.383,
-      "lon": 16.552,
+      "lat": 43.382583,
+      "lon": 16.553211,
       "precision": "ciudad",
       "geocodificar": "Supetar, Brač, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -2739,7 +2832,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-041",
@@ -2747,8 +2841,8 @@
       "ciudad": "Supetar",
       "zona": "Supetar",
       "estado": "Splitsko-dalmatinska županija",
-      "lat": 43.383,
-      "lon": 16.552,
+      "lat": 43.382583,
+      "lon": 16.553211,
       "precision": "ciudad",
       "geocodificar": "Supetar, Brač, Splitsko-dalmatinska županija, Hrvatska",
       "tipo": "departamento",
@@ -2767,7 +2861,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Dalmacia (10 km de costa)"
+      "zona_objetivo": "Dalmacia (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

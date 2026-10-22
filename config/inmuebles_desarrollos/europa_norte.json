@@ -530,8 +530,8 @@
       "ciudad": "Helsinki",
       "zona": "Kruunuvuorenranta (Laajasalo)",
       "estado": "Uusimaa",
-      "lat": 60.164,
-      "lon": 24.995,
+      "lat": 60.164717,
+      "lon": 25.016789,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -548,7 +548,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/kruunuvuorenranta/helsingin-maininki/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. 30 de 78 viviendas disponibles. Frente al mar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. 30 de 78 viviendas disponibles. Frente al mar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-002",
@@ -556,8 +557,8 @@
       "ciudad": "Helsinki",
       "zona": "Kruunuvuorenranta (Laajasalo)",
       "estado": "Uusimaa",
-      "lat": 60.166,
-      "lon": 24.99,
+      "lat": 60.164717,
+      "lon": 25.016789,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -574,7 +575,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/kruunuvuorenranta/helsingin-kultasirittaja/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Listo para habitar; 27 de 57 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Listo para habitar; 27 de 57 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-003",
@@ -582,8 +584,8 @@
       "ciudad": "Helsinki",
       "zona": "Pasila",
       "estado": "Uusimaa",
-      "lat": 60.199,
-      "lon": 24.933,
+      "lat": 60.197873,
+      "lon": 24.932265,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -600,7 +602,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/pasila/helsingin-resiina/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Preventa (ennakkomarkkinointi); 38 de 50 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Preventa (ennakkomarkkinointi); 38 de 50 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-004",
@@ -608,8 +611,8 @@
       "ciudad": "Helsinki",
       "zona": "Oulunkylä",
       "estado": "Uusimaa",
-      "lat": 60.229,
-      "lon": 24.966,
+      "lat": 60.229104,
+      "lon": 24.963608,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -626,7 +629,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/oulunkyla/helsingin-ruska/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. En construcción; 33 de 41 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. En construcción; 33 de 41 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-005",
@@ -634,8 +638,8 @@
       "ciudad": "Helsinki",
       "zona": "Jätkäsaari",
       "estado": "Uusimaa",
-      "lat": 60.157,
-      "lon": 24.919,
+      "lat": 60.157064,
+      "lon": 24.911655,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -652,7 +656,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/jatkasaari/helsingin-ambra/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. 47 de 126 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. 47 de 126 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-006",
@@ -660,8 +665,8 @@
       "ciudad": "Helsinki",
       "zona": "Telakkaranta (Hietalahti)",
       "estado": "Uusimaa",
-      "lat": 60.158,
-      "lon": 24.937,
+      "lat": 60.158939,
+      "lon": 24.931163,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -678,7 +683,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/telakkaranta/helsingin-knot",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Segmento lujo: solo quedan 2 de 97 (últimos pisos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Segmento lujo: solo quedan 2 de 97 (últimos pisos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-007",
@@ -686,8 +692,8 @@
       "ciudad": "Tampere",
       "zona": "Härmälänranta",
       "estado": "Pirkanmaa",
-      "lat": 61.474,
-      "lon": 23.744,
+      "lat": 61.472997,
+      "lon": 23.72609,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -704,7 +710,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/tampere/harmalanranta/tampereen-harmalanrannan-arthur/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Junto al lago Pyhäjärvi; 16 de 46 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Junto al lago Pyhäjärvi; 16 de 46 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-008",
@@ -712,8 +719,8 @@
       "ciudad": "Turku",
       "zona": "Telakkaranta",
       "estado": "Varsinais-Suomi",
-      "lat": 60.437,
-      "lon": 22.225,
+      "lat": 60.435333,
+      "lon": 22.238615,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -730,7 +737,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/turku/telakkaranta/turun-prikantiini/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. En construcción; 21 de 34 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. En construcción; 21 de 34 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-009",
@@ -738,9 +746,9 @@
       "ciudad": "Espoo",
       "zona": "Niittykumpu",
       "estado": "Uusimaa",
-      "lat": 60.171,
-      "lon": 24.762,
-      "precision": "colonia",
+      "lat": 60.170364,
+      "lon": 24.763017,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -756,7 +764,8 @@
       "url": "https://www.srv.fi/asunnon-ostajalle/espoo/neuvokas/asunnot/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Ejemplos: A03 51 m² (venta 105.088 €) y A01 68 m² (venta 151.962 €). Terminado 5/2026. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Ejemplos: A03 51 m² (venta 105.088 €) y A01 68 m² (venta 151.962 €). Terminado 5/2026. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-010",
@@ -764,9 +773,9 @@
       "ciudad": "Vantaa",
       "zona": "Louhela",
       "estado": "Uusimaa",
-      "lat": 60.27,
-      "lon": 24.837,
-      "precision": "colonia",
+      "lat": 60.270868,
+      "lon": 24.853408,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -782,7 +791,8 @@
       "url": "https://srv.fi/asunnon-ostajalle/vantaa/vantaan-aarni/asunnot",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. A21 46 m² (venta 85.076 €); A41/A42 ~219-221 mil € sin deuda. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. A21 46 m² (venta 85.076 €); A41/A42 ~219-221 mil € sin deuda. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-011",
@@ -790,8 +800,8 @@
       "ciudad": "Vantaa",
       "zona": "Tikkurila",
       "estado": "Uusimaa",
-      "lat": 60.292,
-      "lon": 25.044,
+      "lat": 60.292349,
+      "lon": 25.037763,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -808,7 +818,8 @@
       "url": "https://srv.fi/asunnon-ostajalle/vantaa/tikkurilan-kolmas/asunnot",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. E22 48 m² (venta 49.608 €, préstamo de la sociedad alto). Cerca de la estación hacia el aeropuerto. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. E22 48 m² (venta 49.608 €, préstamo de la sociedad alto). Cerca de la estación hacia el aeropuerto. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-012",
@@ -816,9 +827,9 @@
       "ciudad": "Tampere",
       "zona": "Tesoma",
       "estado": "Pirkanmaa",
-      "lat": 61.513,
-      "lon": 23.645,
-      "precision": "colonia",
+      "lat": 61.503365,
+      "lon": 23.630526,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -834,7 +845,8 @@
       "url": "https://www.srv.fi/asunnon-ostajalle/tampere/aqua/asunnot/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. A09 31 m² (venta 55.997 €); A01 55 m² (venta 90.517 €). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. A09 31 m² (venta 55.997 €); A01 55 m² (venta 90.517 €). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-013",
@@ -842,8 +854,8 @@
       "ciudad": "Heinola",
       "zona": "Vierumäki",
       "estado": "Päijät-Häme",
-      "lat": 61.117,
-      "lon": 26.01,
+      "lat": 61.104648,
+      "lon": 25.932402,
       "precision": "colonia",
       "tipo": "cabaña",
       "nuevo": true,
@@ -860,7 +872,8 @@
       "url": "https://www.yit.fi/asunnot/myytavat-asunnot/vierumaki/heinolan-vierumaki-chalets-5/1-gquwff",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Vivienda vacacional (loma-asunto) con sauna en centro deportivo/golf. A4961 61 m²: 267.200 € sin deuda + paquete de mobiliario 26.000 € + compra opcional del terreno arrendado 30.500 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Vivienda vacacional (loma-asunto) con sauna en centro deportivo/golf. A4961 61 m²: 267.200 € sin deuda + paquete de mobiliario 26.000 € + compra opcional del terreno arrendado 30.500 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-014",
@@ -868,8 +881,8 @@
       "ciudad": "Heinola",
       "zona": "Vierumäki",
       "estado": "Päijät-Häme",
-      "lat": 61.117,
-      "lon": 26.01,
+      "lat": 61.104648,
+      "lon": 25.932402,
       "precision": "colonia",
       "tipo": "cabaña",
       "nuevo": true,
@@ -886,7 +899,8 @@
       "url": "https://www.yit.fi/asunnot/myytavat-asunnot/vierumaki/heinolan-vierumaki-chalets-6/1-4i5rf6",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. A4925 27 m²: 148.700 € sin deuda; con compra del terreno arrendado (13.871 €) total 179.071 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. A4925 27 m²: 148.700 € sin deuda; con compra del terreno arrendado (13.871 €) total 179.071 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-015",
@@ -894,8 +908,8 @@
       "ciudad": "Espoo",
       "zona": "Perusmäki y otros",
       "estado": "Uusimaa",
-      "lat": 60.205,
-      "lon": 24.74,
+      "lat": 60.204965,
+      "lon": 24.655981,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -912,7 +926,8 @@
       "url": "https://www.sttinfo.fi/tiedote/72359942/espoon-omakotitonttihaku-alkaa-haussa-on-mukana-53-tonttia-joista-valtaosa-sijaitsee-perusmaessa?lang=fi",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Convocatoria municipal de lotes para casa unifamiliar (1.10–2.11.2026; asignación por sorteo; cuota de reserva 2.000 € al ganador). Precio por lote no publicado en el comunicado: verificar en espoo.fi. Para no-UE se requiere además el permiso del Ministerio de Defensa."
+      "nota": "Convocatoria municipal de lotes para casa unifamiliar (1.10–2.11.2026; asignación por sorteo; cuota de reserva 2.000 € al ganador). Precio por lote no publicado en el comunicado: verificar en espoo.fi. Para no-UE se requiere además el permiso del Ministerio de Defensa.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-001",
@@ -920,9 +935,9 @@
       "ciudad": "Österåker",
       "zona": "Åkersberga",
       "estado": "Stockholms län",
-      "lat": 59.479,
-      "lon": 18.299,
-      "precision": "colonia",
+      "lat": 59.482352,
+      "lon": 18.294398,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -938,7 +953,8 @@
       "url": "https://www.jm.se/stockholm-lan/osteraker-kommun/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-5 rok (habitaciones incluida sala). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-5 rok (habitaciones incluida sala). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-002",
@@ -946,8 +962,8 @@
       "ciudad": "Nacka",
       "zona": "Kvarnholmen",
       "estado": "Stockholms län",
-      "lat": 59.322,
-      "lon": 18.135,
+      "lat": 59.315723,
+      "lon": 18.13857,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -964,7 +980,8 @@
       "url": "https://www.jm.se/stockholm-lan/nacka-kommun/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-5 rok; entrega preliminar abril 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-5 rok; entrega preliminar abril 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-003",
@@ -972,8 +989,8 @@
       "ciudad": "Uppsala",
       "zona": "Rosendal",
       "estado": "Uppsala län",
-      "lat": 59.842,
-      "lon": 17.633,
+      "lat": 59.83181,
+      "lon": 17.633996,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -990,7 +1007,8 @@
       "url": "https://www.jm.se/uppsala-lan/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-5 rok; abril 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-5 rok; abril 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-004",
@@ -998,8 +1016,8 @@
       "ciudad": "Uppsala",
       "zona": "Skölsta",
       "estado": "Uppsala län",
-      "lat": 59.87,
-      "lon": 17.7,
+      "lat": 59.876284,
+      "lon": 17.748717,
       "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1016,7 +1034,8 @@
       "url": "https://www.jm.se/uppsala-lan/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Viviendas de 5 rok (tipo exacto —casa adosada o departamento— por confirmar); junio 2027. Coordenadas aproximadas. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Viviendas de 5 rok (tipo exacto —casa adosada o departamento— por confirmar); junio 2027. Coordenadas aproximadas. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-005",
@@ -1024,9 +1043,9 @@
       "ciudad": "Solna",
       "zona": "Järvastaden",
       "estado": "Stockholms län",
-      "lat": 59.382,
-      "lon": 17.998,
-      "precision": "colonia",
+      "lat": 59.38034,
+      "lon": 17.990389,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1042,7 +1061,8 @@
       "url": "https://www.jm.se/stockholm-lan/solna-kommun/jarvastaden/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-6 rok; ej. 4 rok 108 m² a 5.690.000 SEK. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-6 rok; ej. 4 rok 108 m² a 5.690.000 SEK. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-006",
@@ -1050,8 +1070,8 @@
       "ciudad": "Estocolmo",
       "zona": "Södermalm",
       "estado": "Stockholms län",
-      "lat": 59.314,
-      "lon": 18.072,
+      "lat": 59.315945,
+      "lon": 18.077994,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1068,7 +1088,8 @@
       "url": "https://www.jm.se/sok-bostad/stockholm-lan/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Perfil 55+ (edad mínima de residentes). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Perfil 55+ (edad mínima de residentes). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-007",
@@ -1076,8 +1097,8 @@
       "ciudad": "Sollentuna",
       "zona": "Ture Gård",
       "estado": "Stockholms län",
-      "lat": 59.428,
-      "lon": 17.951,
+      "lat": 59.429316,
+      "lon": 17.950056,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1094,7 +1115,8 @@
       "url": "https://www.jm.se/sok-bostad/stockholm-lan/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Fase 1 abril 2027 (1,69-5,89 M), fase 2 sept. 2027 (1,74-8,29 M). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Fase 1 abril 2027 (1,69-5,89 M), fase 2 sept. 2027 (1,74-8,29 M). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-008",
@@ -1102,9 +1124,9 @@
       "ciudad": "Lund",
       "zona": "Centro",
       "estado": "Skåne län",
-      "lat": 55.704,
-      "lon": 13.191,
-      "precision": "colonia",
+      "lat": 55.70293,
+      "lon": 13.192945,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1120,7 +1142,8 @@
       "url": "https://www.jm.se/skane-lan/lund-kommun/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Perfil 55+; mayo 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Perfil 55+; mayo 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-009",
@@ -1128,8 +1151,8 @@
       "ciudad": "Nacka",
       "zona": "Tollare",
       "estado": "Stockholms län",
-      "lat": 59.31,
-      "lon": 18.22,
+      "lat": 59.302599,
+      "lon": 18.23586,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1146,7 +1169,8 @@
       "url": "https://www.bonava.se/bostad/stockholm/nacka/tollare/glimmer",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 98 viviendas de 2-5 rok, incl. 4 stadsradhus; primeras entregas nov. 2027. Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 98 viviendas de 2-5 rok, incl. 4 stadsradhus; primeras entregas nov. 2027. Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-010",
@@ -1154,8 +1178,8 @@
       "ciudad": "Linköping",
       "zona": "Södra Ekkällan",
       "estado": "Östergötlands län",
-      "lat": 58.398,
-      "lon": 15.565,
+      "lat": 58.394687,
+      "lon": 15.623384,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1172,7 +1196,8 @@
       "url": "https://www.bonava.se/bostad/linkoping/sodra-ekkallan/kryddan-2",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-4 rok y 3 townhouses de 5 rok en la azotea; la página anuncia rebajas. Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). 1-4 rok y 3 townhouses de 5 rok en la azotea; la página anuncia rebajas. Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-011",
@@ -1180,9 +1205,9 @@
       "ciudad": "Järfälla",
       "zona": "Ormbacka",
       "estado": "Stockholms län",
-      "lat": 59.432,
-      "lon": 17.818,
-      "precision": "colonia",
+      "lat": 59.40178,
+      "lon": 17.83758,
+      "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1198,7 +1223,8 @@
       "url": "https://www.bonava.se/bostad/stockholm/jarfalla/ormbacka/fjarilshusen",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Äganderätt (propiedad plena con lagfart, paga stämpelskatt 1,5 %): casas adosadas, pareadas e independientes. Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Äganderätt (propiedad plena con lagfart, paga stämpelskatt 1,5 %): casas adosadas, pareadas e independientes. Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-012",
@@ -1206,8 +1232,8 @@
       "ciudad": "Uppsala",
       "zona": "Luthagen",
       "estado": "Uppsala län",
-      "lat": 59.866,
-      "lon": 17.622,
+      "lat": 59.864739,
+      "lon": 17.619801,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1224,7 +1250,8 @@
       "url": "https://www.bonava.se/bostad/uppsala/luthagen/seminariet",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Bostadsrätt: se compra una participación en una cooperativa (bostadsrättsförening), que debe aprobar al socio y cobra cuota mensual (avgift). Precios redondeados (~). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "SWE-013",
@@ -1258,8 +1285,8 @@
       "ciudad": "Kristianstad",
       "zona": "Varias localidades (Rickarum–Åhus)",
       "estado": "Skåne län",
-      "lat": 56.0294,
-      "lon": 14.1567,
+      "lat": 56.029378,
+      "lon": 14.156686,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -1276,7 +1303,8 @@
       "url": "https://www.kristianstad.se/byggaboochmiljo/bostader/hittabostad/ledigavillatomter.5571.html",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Vendedor: municipio (tomtkö con cuota anual de 500 SEK). Valores de referencia por 'normaltomt': 225.000 SEK en Rickarum hasta 900.000 SEK en Åhus (costa). Antigüedad de la página no confirmada. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Vendedor: municipio (tomtkö con cuota anual de 500 SEK). Valores de referencia por 'normaltomt': 225.000 SEK en Rickarum hasta 900.000 SEK en Åhus (costa). Antigüedad de la página no confirmada. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-001",
@@ -1284,9 +1312,9 @@
       "ciudad": "Oslo",
       "zona": "Nordre Aker (Frysja)",
       "estado": "Oslo",
-      "lat": 59.968,
-      "lon": 10.765,
-      "precision": "colonia",
+      "lat": 59.972397,
+      "lon": 10.775729,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1302,7 +1330,8 @@
       "url": "https://www.obos.no/bolig/omrade/oslo",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. 22 viviendas libres. La página regional de Oslo mostraba otra cifra (8.777.858 NOK, más antigua). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Totalpris incluye costos de cierre. 22 viviendas libres. La página regional de Oslo mostraba otra cifra (8.777.858 NOK, más antigua). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-002",
@@ -1310,9 +1339,9 @@
       "ciudad": "Bergen",
       "zona": "Nøstet (Nøstebukten)",
       "estado": "Vestland",
-      "lat": 60.392,
-      "lon": 5.312,
-      "precision": "colonia",
+      "lat": 60.394306,
+      "lon": 5.325919,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1328,7 +1357,8 @@
       "url": "https://www.obos.no/bolig/omrade/vestland",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. 63 viviendas libres; frente al fiordo. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Totalpris incluye costos de cierre. 63 viviendas libres; frente al fiordo. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-003",
@@ -1336,8 +1366,8 @@
       "ciudad": "Hamar",
       "zona": "Smedhagen",
       "estado": "Innlandet",
-      "lat": 60.794,
-      "lon": 11.07,
+      "lat": 61.001494,
+      "lon": 11.164796,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1354,7 +1384,8 @@
       "url": "https://www.obos.no/bolig/omrade/hamar",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-004",
@@ -1362,8 +1393,8 @@
       "ciudad": "Hamar",
       "zona": "Stålverket",
       "estado": "Innlandet",
-      "lat": 60.794,
-      "lon": 11.07,
+      "lat": 61.001494,
+      "lon": 11.164796,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1380,7 +1411,8 @@
       "url": "https://www.obos.no/bolig/omrade/hamar",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-005",
@@ -1388,8 +1420,8 @@
       "ciudad": "Stavanger",
       "zona": "Odden",
       "estado": "Rogaland",
-      "lat": 58.97,
-      "lon": 5.733,
+      "lat": 58.969968,
+      "lon": 5.73181,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1406,7 +1438,8 @@
       "url": "https://www.obos.no/bolig/omrade/stavanger",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. 36 viviendas libres. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Totalpris incluye costos de cierre. 36 viviendas libres. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-006",
@@ -1414,9 +1447,9 @@
       "ciudad": "Trysil",
       "zona": "Trysilfjellet (pie de pista)",
       "estado": "Innlandet",
-      "lat": 61.315,
-      "lon": 12.265,
-      "precision": "colonia",
+      "lat": 61.356148,
+      "lon": 12.367022,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1432,7 +1465,8 @@
       "url": "https://www.nationen.no/milliarder-av-kroner-fra-hyttebygging-forsvinner-ut-av-bygdene/f/5-148-847405",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Departamentos vacacionales (fritidsbolig) junto a la pista alpina y hotel con spa; 18 sin vender según el artículo (de hace ~7-9 meses). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Departamentos vacacionales (fritidsbolig) junto a la pista alpina y hotel con spa; 18 sin vender según el artículo (de hace ~7-9 meses). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-007",
@@ -1440,8 +1474,8 @@
       "ciudad": "Hemsedal",
       "zona": "Centro de esquí",
       "estado": "Buskerud",
-      "lat": 60.863,
-      "lon": 8.553,
+      "lat": 60.928244,
+      "lon": 8.383487,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1458,7 +1492,8 @@
       "url": "https://www.nrk.no/buskerud/selger-fritidsleilighet-i-hemsedal-til-60-millioner-kroner-1.17734986",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Lujo extremo: departamento vacacional en último piso, posiblemente el más caro de Noruega en montaña. Referencia de techo de mercado. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Lujo extremo: departamento vacacional en último piso, posiblemente el más caro de Noruega en montaña. Referencia de techo de mercado. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-008",
@@ -1466,8 +1501,8 @@
       "ciudad": "Vestvågøy (Lofoten)",
       "zona": "Vestersand",
       "estado": "Nordland",
-      "lat": 68.147,
-      "lon": 13.61,
+      "lat": 68.145885,
+      "lon": 13.623167,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -1484,7 +1519,8 @@
       "url": "https://www.vestvagoy.kommune.no/bygg-og-eiendom/til-salgs/tomter-til-salgs/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Vendedor: municipio. Lote residencial; costos de medición, conexión y dokumentavgift aparte. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Vendedor: municipio. Lote residencial; costos de medición, conexión y dokumentavgift aparte. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-009",
@@ -1492,8 +1528,8 @@
       "ciudad": "Vestvågøy (Lofoten)",
       "zona": "Folkneset",
       "estado": "Nordland",
-      "lat": 68.147,
-      "lon": 13.61,
+      "lat": 68.145885,
+      "lon": 13.623167,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -1510,7 +1546,8 @@
       "url": "https://www.vestvagoy.kommune.no/bygg-og-eiendom/til-salgs/tomter-til-salgs/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Vendedor: municipio. Lista actualizada en 2026. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Vendedor: municipio. Lista actualizada en 2026. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-010",
@@ -1518,8 +1555,8 @@
       "ciudad": "Nordre Land",
       "zona": "Tonlia (Dokka)",
       "estado": "Innlandet",
-      "lat": 60.835,
-      "lon": 10.07,
+      "lat": 60.833422,
+      "lon": 10.092592,
       "precision": "colonia",
       "tipo": "terreno",
       "nuevo": true,
@@ -1536,7 +1573,8 @@
       "url": "https://www.nordre-land.kommune.no/tjenester/naering-og-utvikling/ledige-boligtomter",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Vendedor: municipio. ~280.000 NOK con IVA; en Elveromsfeltet (Torpa) 200.000 NOK. Fecha de la página no confirmada. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Vendedor: municipio. ~280.000 NOK con IVA; en Elveromsfeltet (Torpa) 200.000 NOK. Fecha de la página no confirmada. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NOR-011",
@@ -1544,8 +1582,8 @@
       "ciudad": "Eidskog",
       "zona": "Municipio",
       "estado": "Innlandet",
-      "lat": 60.0,
-      "lon": 12.13,
+      "lat": 59.991081,
+      "lon": 12.080849,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -1562,7 +1600,8 @@
       "url": "https://www.nrk.no/innlandet/selger-tomter-for-ei-krone-1.18038346",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Campaña dirigida a primeros compradores y familias con hijos: condiciones (obligación de construir/residir) probablemente excluyen a inversionistas no residentes: verificar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Campaña dirigida a primeros compradores y familias con hijos: condiciones (obligación de construir/residir) probablemente excluyen a inversionistas no residentes: verificar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-001",
@@ -1570,8 +1609,8 @@
       "ciudad": "Heerde",
       "zona": "Bovenkamp III fase 2",
       "estado": "Gelderland",
-      "lat": 52.387,
-      "lon": 6.04,
+      "lat": 52.40563,
+      "lon": 6.041398,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1588,7 +1627,8 @@
       "url": "https://www.bpd.nl/woningen/gelderland",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-002",
@@ -1596,9 +1636,9 @@
       "ciudad": "Babberich (Zevenaar)",
       "zona": "Waayse Weide",
       "estado": "Gelderland",
-      "lat": 51.907,
-      "lon": 6.11,
-      "precision": "ciudad",
+      "lat": 51.906933,
+      "lon": 6.111876,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1614,7 +1654,8 @@
       "url": "https://www.bpd.nl/woningen/gelderland",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-003",
@@ -1622,8 +1663,8 @@
       "ciudad": "Soest",
       "zona": "Parckhart fase 2",
       "estado": "Utrecht",
-      "lat": 52.173,
-      "lon": 5.29,
+      "lat": 52.174595,
+      "lon": 5.290967,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1640,7 +1681,8 @@
       "url": "https://www.bpd.nl/woningen/utrecht",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-004",
@@ -1648,8 +1690,8 @@
       "ciudad": "Amersfoort",
       "zona": "Sam",
       "estado": "Utrecht",
-      "lat": 52.156,
-      "lon": 5.387,
+      "lat": 52.154543,
+      "lon": 5.388384,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1666,7 +1708,8 @@
       "url": "https://www.bpd.nl/woningen/utrecht",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación (aún no a la venta). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación (aún no a la venta). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-005",
@@ -1674,8 +1717,8 @@
       "ciudad": "Leidschendam-Voorburg",
       "zona": "The Corner",
       "estado": "Zuid-Holland",
-      "lat": 52.083,
-      "lon": 4.39,
+      "lat": 52.092601,
+      "lon": 4.432125,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1692,7 +1735,8 @@
       "url": "https://www.bpd.nl/woningen/zuid-holland",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-006",
@@ -1700,8 +1744,8 @@
       "ciudad": "Eindhoven",
       "zona": "The Smith",
       "estado": "Noord-Brabant",
-      "lat": 51.441,
-      "lon": 5.478,
+      "lat": 51.439265,
+      "lon": 5.478633,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1718,7 +1762,8 @@
       "url": "https://www.bpd.nl/woningen/noord-brabant",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-007",
@@ -1726,8 +1771,8 @@
       "ciudad": "Oss",
       "zona": "Sint Jan",
       "estado": "Noord-Brabant",
-      "lat": 51.765,
-      "lon": 5.518,
+      "lat": 51.807833,
+      "lon": 5.645474,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1744,7 +1789,8 @@
       "url": "https://www.bpd.nl/woningen/noord-brabant",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación; tipo de vivienda por confirmar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación; tipo de vivienda por confirmar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-008",
@@ -1752,8 +1798,8 @@
       "ciudad": "Ámsterdam",
       "zona": "Fusion fase 2",
       "estado": "Noord-Holland",
-      "lat": 52.37,
-      "lon": 4.9,
+      "lat": 52.37308,
+      "lon": 4.892453,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1770,7 +1816,8 @@
       "url": "https://www.bpd.nl/woningen/noord-holland/amsterdam",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Ámsterdam aplica opkoopbescherming y a menudo zelfbewoningsplicht en obra nueva: verificar si permite compra para inversión. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Ámsterdam aplica opkoopbescherming y a menudo zelfbewoningsplicht en obra nueva: verificar si permite compra para inversión. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-009",
@@ -1778,8 +1825,8 @@
       "ciudad": "Almere",
       "zona": "Olympia Gardens fase 2",
       "estado": "Flevoland",
-      "lat": 52.37,
-      "lon": 5.21,
+      "lat": 52.441759,
+      "lon": 5.209315,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1796,7 +1843,8 @@
       "url": "https://www.bpd.nl/woningen/flevoland/almere",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En venta. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-010",
@@ -1804,9 +1852,9 @@
       "ciudad": "Velden (Venlo)",
       "zona": "Weidsvelden fase 1",
       "estado": "Limburg",
-      "lat": 51.41,
-      "lon": 6.17,
-      "precision": "ciudad",
+      "lat": 51.415593,
+      "lon": 6.163323,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1822,7 +1870,8 @@
       "url": "https://www.bpd.nl/woningen/limburg",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio v.o.n. (vrij op naam: incluye IVA 21 %, notario y registro; sin overdrachtsbelasting en obra nueva). En preparación. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-011",
@@ -1830,9 +1879,9 @@
       "ciudad": "Schellinkhout (Drechterland)",
       "zona": "Woonplan De Schelling",
       "estado": "Noord-Holland",
-      "lat": 52.636,
-      "lon": 5.12,
-      "precision": "ciudad",
+      "lat": 52.63437,
+      "lon": 5.122223,
+      "precision": "colonia",
       "tipo": "terreno",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1848,7 +1897,8 @@
       "url": "https://www.drechterland.nl/actueel/start-verkoop-vrije-kavels-woonplan-de-schelling/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Vendedor: municipio. Precio v.o.n. con IVA. Inscripción cerró el 15 de junio (2026): solo seguimiento de lotes remanentes. Zelfbewoningsplicht de 3 años: no apto para inversión sin residir. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Vendedor: municipio. Precio v.o.n. con IVA. Inscripción cerró el 15 de junio (2026): solo seguimiento de lotes remanentes. Zelfbewoningsplicht de 3 años: no apto para inversión sin residir. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-012",
@@ -1856,8 +1906,8 @@
       "ciudad": "Arnemuiden (Middelburg)",
       "zona": "Hazenburg",
       "estado": "Zeeland",
-      "lat": 51.502,
-      "lon": 3.676,
+      "lat": 51.510281,
+      "lon": 3.670046,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -1874,7 +1924,8 @@
       "url": "https://www.middelburg.nl/informatiepakket-vrije-bouwkavels-arnemuiden",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Vendedor: municipio. 9 lotes, precios con IVA válidos hasta el 31-12-2026 (mínimo aproximado ~124.000 €; lote A26 259.424 €). Revisar condición de autoocupación. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Vendedor: municipio. 9 lotes, precios con IVA válidos hasta el 31-12-2026 (mínimo aproximado ~124.000 €; lote A26 259.424 €). Revisar condición de autoocupación. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-013",
@@ -1882,9 +1933,9 @@
       "ciudad": "Rottum (De Fryske Marren)",
       "zona": "Nij Sân Rotten",
       "estado": "Friesland",
-      "lat": 52.94,
-      "lon": 5.82,
-      "precision": "ciudad",
+      "lat": 52.93641,
+      "lon": 5.892033,
+      "precision": "colonia",
       "tipo": "terreno",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1900,7 +1951,8 @@
       "url": "https://www.grootfryslan.nl/nieuws/algemeen/144986/twintig-bouwkavels-in-rottum-vanaf-november-in-de-verkoop",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Precios con IVA; inscripción hasta el 25-11-2026. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precios con IVA; inscripción hasta el 25-11-2026. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "NLD-014",
@@ -1908,8 +1960,8 @@
       "ciudad": "Losser",
       "zona": "De Geurmeij fase 3",
       "estado": "Overijssel",
-      "lat": 52.261,
-      "lon": 7.004,
+      "lat": 52.300289,
+      "lon": 6.988104,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -1926,7 +1978,8 @@
       "url": "https://hallolosser.nl/nieuws/2026/verkoop-kavels-de-geurmeij-van-start-gegaan/",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Precio desde, con 21 % de IVA; asignación por sorteo con inscripción hasta el 21-09-2026 (ya cerrada): seguimiento de lotes no adjudicados. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio desde, con 21 % de IVA; asignación por sorteo con inscripción hasta el 21-09-2026 (ya cerrada): seguimiento de lotes no adjudicados. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-001",
@@ -1934,9 +1987,9 @@
       "ciudad": "Tallin",
       "zona": "Lasnamäe – Lahekalda (Paekalda 15)",
       "estado": "Harjumaa",
-      "lat": 59.448,
-      "lon": 24.835,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1952,7 +2005,8 @@
       "url": "https://merko.ee/kodud/lahekalda/paekalda-15/15/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Sin deuda societaria (propiedad horizontal). Bodega ~5.000 € y estacionamiento ~11.000 € aparte. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Sin deuda societaria (propiedad horizontal). Bodega ~5.000 € y estacionamiento ~11.000 € aparte. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-002",
@@ -1960,9 +2014,9 @@
       "ciudad": "Tallin",
       "zona": "Lasnamäe – Lahekalda (Paekalda 17)",
       "estado": "Harjumaa",
-      "lat": 59.448,
-      "lon": 24.835,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1978,7 +2032,8 @@
       "url": "https://merko.ee/en/homes/lahekalda/paekalda-17/14/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Unidad amueblada lista para habitar; estacionamiento 7.500 € y bodega 5.000 € aparte. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Unidad amueblada lista para habitar; estacionamiento 7.500 € y bodega 5.000 € aparte. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-003",
@@ -1986,9 +2041,9 @@
       "ciudad": "Tallin",
       "zona": "Lasnamäe – Lahekalda (Paekalda 19/21)",
       "estado": "Harjumaa",
-      "lat": 59.448,
-      "lon": 24.835,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2004,7 +2059,8 @@
       "url": "https://merko.ee/lahekalda/en/apartment/paekalda-21/4-korrus/nr-20/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Últimas unidades, algunas amuebladas. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Últimas unidades, algunas amuebladas. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-004",
@@ -2012,9 +2068,9 @@
       "ciudad": "Tallin",
       "zona": "Lasnamäe – Lahekalda (Paekalda 23/2)",
       "estado": "Harjumaa",
-      "lat": 59.448,
-      "lon": 24.835,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2030,7 +2086,8 @@
       "url": "https://merko.ee/lahekalda/en/apartment/paekalda-232/7-korrus/korter-nr-36/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "3 habitaciones (2 recámaras), piso 7 con vista al mar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "3 habitaciones (2 recámaras), piso 7 con vista al mar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-005",
@@ -2038,9 +2095,9 @@
       "ciudad": "Tallin",
       "zona": "Kristiine (Luige 5)",
       "estado": "Harjumaa",
-      "lat": 59.425,
-      "lon": 24.72,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2056,7 +2113,8 @@
       "url": "https://www.yit.ee/en/housing-development/tallinn/kristiine/luige-5",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "48 departamentos de 29 a 123 m²; ej. 37,6 m² rebajado de 270.000 a 239.000 €; 72,1 m² a 395.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "48 departamentos de 29 a 123 m²; ej. 37,6 m² rebajado de 270.000 a 239.000 €; 72,1 m² a 395.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-006",
@@ -2064,9 +2122,9 @@
       "ciudad": "Tallin",
       "zona": "Väike-Õismäe (Päevalille 5)",
       "estado": "Harjumaa",
-      "lat": 59.413,
-      "lon": 24.645,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2082,7 +2140,8 @@
       "url": "https://www.yit.ee/elamuarendus/tallinn/vaike-oismae/paevalille-5/pdee100356",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "37,1 m² listo con estacionamiento y bodega 181.000 €; 56 m² entrega dic. 2026 a 244.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "37,1 m² listo con estacionamiento y bodega 181.000 €; 56 m² entrega dic. 2026 a 244.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-007",
@@ -2090,9 +2149,9 @@
       "ciudad": "Tallin",
       "zona": "Põhja-Tallinn (Manufaktuuri kvartal)",
       "estado": "Harjumaa",
-      "lat": 59.452,
-      "lon": 24.716,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2108,7 +2167,8 @@
       "url": "https://hepsor.ee/manufaktuurivabrik/plaanid-ja-hinnad/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lista de precios de hace ~7 meses: 1 hab. desde 184.000 €, 3 hab. desde 275.000 €, 5 hab. desde 648.000 €; bodega y estacionamiento aparte. Varias unidades vendidas. Coordenadas aproximadas. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Lista de precios de hace ~7 meses: 1 hab. desde 184.000 €, 3 hab. desde 275.000 €, 5 hab. desde 648.000 €; bodega y estacionamiento aparte. Varias unidades vendidas. Coordenadas aproximadas. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST-008",
@@ -2116,9 +2176,9 @@
       "ciudad": "Tallin",
       "zona": "Kristiine – Tondi (Kristiine City, Rivi 8)",
       "estado": "Harjumaa",
-      "lat": 59.418,
-      "lon": 24.72,
-      "precision": "colonia",
+      "lat": 59.437242,
+      "lon": 24.757269,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2134,7 +2194,8 @@
       "url": "https://musketarimajad.ee/",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "254 departamentos en dos edificios (primera fase 144). Precio no localizado: verificar. URL del proyecto citada en comunicado de prensa, no abierta desde este entorno."
+      "nota": "254 departamentos en dos edificios (primera fase 144). Precio no localizado: verificar. URL del proyecto citada en comunicado de prensa, no abierta desde este entorno.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-001",
@@ -2142,9 +2203,9 @@
       "ciudad": "Riga",
       "zona": "Šampēteris (Stendes iela 8)",
       "estado": "Riga",
-      "lat": 56.93,
-      "lon": 24.04,
-      "precision": "colonia",
+      "lat": 56.960427,
+      "lon": 24.093038,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2160,7 +2221,8 @@
       "url": "https://www.bonava.lv/dzivokli/riga/sampeteris/stendes-iela/sampetera-kvartals-otra-maja",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. 2-4 habitaciones. La página principal del proyecto indica desde 96.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. 2-4 habitaciones. La página principal del proyecto indica desde 96.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-002",
@@ -2168,9 +2230,9 @@
       "ciudad": "Riga",
       "zona": "Ziepniekkalns (Tumes iela 25)",
       "estado": "Riga",
-      "lat": 56.905,
-      "lon": 24.09,
-      "precision": "colonia",
+      "lat": 56.960427,
+      "lon": 24.093038,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2186,7 +2248,8 @@
       "url": "https://www.bonava.lv/dzivokli/riga/ziepniekkalns/piladzu-majas",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. 2-3 habitaciones; Tumes iela 27 lista 100.000-196.500 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. 2-3 habitaciones; Tumes iela 27 lista 100.000-196.500 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-003",
@@ -2194,9 +2257,9 @@
       "ciudad": "Riga",
       "zona": "Ķengarags (Prūšu iela 1G)",
       "estado": "Riga",
-      "lat": 56.92,
-      "lon": 24.18,
-      "precision": "colonia",
+      "lat": 56.960427,
+      "lon": 24.093038,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2212,7 +2275,8 @@
       "url": "https://www.bonava.lv/dzivokli/riga/kengarags/blumendales-majas/tresa-maja",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-004",
@@ -2220,9 +2284,9 @@
       "ciudad": "Riga",
       "zona": "Torņakalns (Jelgavas iela 55B)",
       "estado": "Riga",
-      "lat": 56.935,
-      "lon": 24.085,
-      "precision": "colonia",
+      "lat": 56.960427,
+      "lon": 24.093038,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2238,7 +2302,8 @@
       "url": "https://www.bonava.lv/dzivokli/riga/tornakalns/hartmana-kvartals",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. Casas 2 y 3: 99.000-214.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. Casas 2 y 3: 99.000-214.000 €. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-005",
@@ -2246,8 +2311,8 @@
       "ciudad": "Riga",
       "zona": "Dzirciems",
       "estado": "Riga",
-      "lat": 56.955,
-      "lon": 24.05,
+      "lat": 56.958516,
+      "lon": 24.063982,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -2264,7 +2329,8 @@
       "url": "https://www.bonava.lv/dzivokli/riga/dzirciems/dzirciema-pagalms",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-006",
@@ -2272,9 +2338,9 @@
       "ciudad": "Riga (Stopiņi)",
       "zona": "Dreiliņi",
       "estado": "Riga",
-      "lat": 56.95,
-      "lon": 24.25,
-      "precision": "colonia",
+      "lat": 56.943663,
+      "lon": 24.244619,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2290,7 +2356,8 @@
       "url": "https://www.bonava.lv/dzivokli/riga/dreilini/valterciems",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. 15 edificios de 6 pisos; terminación prevista 2028. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Riga: departamentos de obra nueva con terreno en copropiedad. 15 edificios de 6 pisos; terminación prevista 2028. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-007",
@@ -2298,9 +2365,9 @@
       "ciudad": "Riga",
       "zona": "Zolitūde (J. Endzelīna iela 11)",
       "estado": "Riga",
-      "lat": 56.94,
-      "lon": 24.01,
-      "precision": "colonia",
+      "lat": 56.960427,
+      "lon": 24.093038,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2316,7 +2383,8 @@
       "url": "https://www.yit.lv/par-yit/medijiem-presei/jaunumi/2025/rigas-panoramu-papildinas-rubins--yit-uzsak-13-stavu-dzivojama-nama-buvniecibu-un-dzivoklu-tirdzniecibu",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Edificio de 13 pisos, 98 departamentos; precios al lanzamiento 2.442-3.250 €/m² (sin precio total publicado). Comunicado de la desarrolladora. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Edificio de 13 pisos, 98 departamentos; precios al lanzamiento 2.442-3.250 €/m² (sin precio total publicado). Comunicado de la desarrolladora. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-008",
@@ -2324,9 +2392,9 @@
       "ciudad": "Riga (Stopiņi)",
       "zona": "Dreiliņi (Kaivas kvartāls)",
       "estado": "Riga",
-      "lat": 56.95,
-      "lon": 24.24,
-      "precision": "colonia",
+      "lat": 56.943663,
+      "lon": 24.244619,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2342,7 +2410,8 @@
       "url": "https://www.yit.lv/par-yit/medijiem-presei/jaunumi/2025/yit-latvija-ekspluatacija-nodod-kaivas-kvartala-otro-namu",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "72 departamentos; entrega de llaves prevista a inicios de 2026. Comunicado de la desarrolladora de 2025. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "72 departamentos; entrega de llaves prevista a inicios de 2026. Comunicado de la desarrolladora de 2025. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA-009",
@@ -2350,8 +2419,8 @@
       "ciudad": "Riga",
       "zona": "Bieriņi",
       "estado": "Riga",
-      "lat": 56.925,
-      "lon": 24.06,
+      "lat": 56.916594,
+      "lon": 24.063487,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -2368,7 +2437,8 @@
       "url": "https://www.yit.lv/dzivojamas-majas/riga/bierini/grafits/1-xyxfzz",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Unidad A20: 4 habitaciones, 84,4 m², piso 3, marcada 'libre' (página sin fecha). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Unidad A20: 4 habitaciones, 84,4 m², piso 3, marcada 'libre' (página sin fecha). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-001",
@@ -2402,9 +2472,9 @@
       "ciudad": "Vilna",
       "zona": "Žirmūnai (Linkmenų g. 13-15)",
       "estado": "Vilniaus apskritis",
-      "lat": 54.703,
-      "lon": 25.27,
-      "precision": "colonia",
+      "lat": 54.687046,
+      "lon": 25.282911,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2420,7 +2490,8 @@
       "url": "https://www.yit.lt/bustas/nauji-butai-vilniuje/naujasis-skansenas/naujasis-skansenas/1-kaq1i2",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Varias fases: A1-6-2 46,8 m² terminado 135.800 €; B-5-6 44,1 m² 191.400 € (11/2026); G-1-6 59,2 m² 210.000 € en obra. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Varias fases: A1-6-2 46,8 m² terminado 135.800 €; B-5-6 44,1 m² 191.400 € (11/2026); G-1-6 59,2 m² 210.000 € en obra. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-003",
@@ -2428,9 +2499,9 @@
       "ciudad": "Vilna",
       "zona": "Užupis/Paupys (Pakalnės g. 2)",
       "estado": "Vilniaus apskritis",
-      "lat": 54.683,
-      "lon": 25.3,
-      "precision": "colonia",
+      "lat": 54.687046,
+      "lon": 25.282911,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2446,7 +2517,8 @@
       "url": "https://www.yit.lt/bustas/nauji-butai-vilniuje/matau-vilniu/matau-vilniu-iv/1-wonn69",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "B12 55,9 m² 335.000 €; B4 80,8 m² 447.500 €; terminados. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "B12 55,9 m² 335.000 €; B4 80,8 m² 447.500 €; terminados. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-004",
@@ -2454,8 +2526,8 @@
       "ciudad": "Vilna",
       "zona": "Žirmūnai",
       "estado": "Vilniaus apskritis",
-      "lat": 54.71,
-      "lon": 25.3,
+      "lat": 54.715177,
+      "lon": 25.301289,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -2472,7 +2544,8 @@
       "url": "http://hanner.lt/hanner-pradeda-a-energines-klases-projekto-zirmunu-era-statybas-vilniuje-ir-skelbia-pardavimu-pradzia/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Clase energética A++; desde 3.831 €/m²; pago inicial desde 3.000 € (plazos hasta 31-12-2027); segunda etapa inicia 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Clase energética A++; desde 3.831 €/m²; pago inicial desde 3.000 € (plazos hasta 31-12-2027); segunda etapa inicia 2027. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-005",
@@ -2480,8 +2553,8 @@
       "ciudad": "Vilna",
       "zona": "Ribera del Neris",
       "estado": "Vilniaus apskritis",
-      "lat": 54.687,
-      "lon": 25.28,
+      "lat": 54.687046,
+      "lon": 25.282911,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2498,7 +2571,8 @@
       "url": "https://hanner.lt/hanner-pradeda-prestizinio-projekto-neries-namai-statybas-ir-pardavimus-unikalioje-neries-bei-misko-apsuptyje/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Segmento de lujo: desde 6.221 €/m² (sin precio total publicado). Ubicación exacta por verificar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Segmento de lujo: desde 6.221 €/m² (sin precio total publicado). Ubicación exacta por verificar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-006",
@@ -2506,8 +2580,8 @@
       "ciudad": "Vilna",
       "zona": "Naujamiestis",
       "estado": "Vilniaus apskritis",
-      "lat": 54.678,
-      "lon": 25.26,
+      "lat": 54.680996,
+      "lon": 25.265121,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -2524,7 +2598,8 @@
       "url": "https://hanner.lt/nauji-butai-vilniuje/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Desde ~3.689 €/m² según la lista de la desarrolladora (sin precio total). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Desde ~3.689 €/m² según la lista de la desarrolladora (sin precio total). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-007",
@@ -2532,8 +2607,8 @@
       "ciudad": "Vilna",
       "zona": "Por verificar",
       "estado": "Vilniaus apskritis",
-      "lat": 54.687,
-      "lon": 25.28,
+      "lat": 54.687046,
+      "lon": 25.282911,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2550,7 +2625,8 @@
       "url": "https://hanner.lt/nauji-butai-vilniuje/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Desde ~3.213 €/m² (sin precio total). Barrio no identificado: coordenadas de la ciudad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Desde ~3.213 €/m² (sin precio total). Barrio no identificado: coordenadas de la ciudad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU-008",
@@ -2558,8 +2634,8 @@
       "ciudad": "Vilna",
       "zona": "Por verificar",
       "estado": "Vilniaus apskritis",
-      "lat": 54.687,
-      "lon": 25.28,
+      "lat": 54.687046,
+      "lon": 25.282911,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2576,7 +2652,8 @@
       "url": "https://hanner.lt/nauji-butai-vilniuje/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "El más económico de la lista: desde ~2.621 €/m² (sin precio total). Barrio no identificado: coordenadas de la ciudad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "El más económico de la lista: desde ~2.621 €/m² (sin precio total). Barrio no identificado: coordenadas de la ciudad. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-001",
@@ -2584,9 +2661,9 @@
       "ciudad": "Moscú",
       "zona": "Bulvar Dmitriya Donskogo (Vostochnoe Butovo)",
       "estado": "Moscú",
-      "lat": 55.569,
-      "lon": 37.577,
-      "precision": "colonia",
+      "lat": 55.750541,
+      "lon": 37.617478,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2602,7 +2679,8 @@
       "url": "https://www.pik.ru/projects",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). El más barato de la lista de PIK (~5,4 M RUB). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). El más barato de la lista de PIK (~5,4 M RUB). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-002",
@@ -2610,8 +2688,8 @@
       "ciudad": "Moscú",
       "zona": "Por verificar",
       "estado": "Moscú",
-      "lat": 55.7558,
-      "lon": 37.6173,
+      "lat": 55.750541,
+      "lon": 37.617478,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2628,7 +2706,8 @@
       "url": "https://www.pik.ru/projects",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Ubicación exacta por verificar (coordenadas del centro de Moscú). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Ubicación exacta por verificar (coordenadas del centro de Moscú). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-003",
@@ -2636,8 +2715,8 @@
       "ciudad": "Moscú",
       "zona": "Por verificar",
       "estado": "Moscú",
-      "lat": 55.7558,
-      "lon": 37.6173,
+      "lat": 55.750541,
+      "lon": 37.617478,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2654,7 +2733,8 @@
       "url": "https://www.pik.ru/kvartalmit",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio aproximado (~9,9 M RUB). Ubicación exacta por verificar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio aproximado (~9,9 M RUB). Ubicación exacta por verificar. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-004",
@@ -2662,8 +2742,8 @@
       "ciudad": "Moscú",
       "zona": "Por verificar",
       "estado": "Moscú",
-      "lat": 55.7558,
-      "lon": 37.6173,
+      "lat": 55.750541,
+      "lon": 37.617478,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2680,7 +2760,8 @@
       "url": "https://www.pik.ru/projects",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Segmento alto (~24,2 M RUB). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Segmento alto (~24,2 M RUB). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-005",
@@ -2740,8 +2821,8 @@
       "ciudad": "Moscú",
       "zona": "Troparevo Park (Nueva Moscú)",
       "estado": "Moscú",
-      "lat": 55.62,
-      "lon": 37.43,
+      "lat": 55.750541,
+      "lon": 37.617478,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2758,7 +2839,8 @@
       "url": "https://samolet.ru/cluster/newmos/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Estudios desde 22,77 m². Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Estudios desde 22,77 m². Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-008",
@@ -2766,8 +2848,8 @@
       "ciudad": "Moscú",
       "zona": "Olkhovyi Kvartal (Nueva Moscú)",
       "estado": "Moscú",
-      "lat": 55.56,
-      "lon": 37.47,
+      "lat": 55.750541,
+      "lon": 37.617478,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2784,7 +2866,8 @@
       "url": "https://samolet.ru/project/olkhovyi-kvartal/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-009",
@@ -2792,8 +2875,8 @@
       "ciudad": "Ekaterimburgo",
       "zona": "Kvartal Auruum",
       "estado": "Sverdlovsk",
-      "lat": 56.838,
-      "lon": 60.597,
+      "lat": 56.867489,
+      "lon": 60.63134,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2810,7 +2893,8 @@
       "url": "https://samolet.ru/ekaterinburg/project/auruum/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-010",
@@ -2844,8 +2928,8 @@
       "ciudad": "San Petersburgo",
       "zona": "Ruchi",
       "estado": "San Petersburgo",
-      "lat": 60.04,
-      "lon": 30.43,
+      "lat": 59.938732,
+      "lon": 30.316229,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2862,7 +2946,8 @@
       "url": "https://www.lsr.ru/spb/zhilye-kompleksy/ruchi/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-012",
@@ -2870,8 +2955,8 @@
       "ciudad": "San Petersburgo",
       "zona": "Morskaya Milya (suroeste, golfo de Finlandia)",
       "estado": "San Petersburgo",
-      "lat": 59.85,
-      "lon": 30.2,
+      "lat": 59.938732,
+      "lon": 30.316229,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2888,7 +2973,8 @@
       "url": "https://www.lsr.ru/spb/zhilye-kompleksy/morskaya-milya/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Clase business. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Clase business. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS-013",
@@ -2896,8 +2982,8 @@
       "ciudad": "San Petersburgo",
       "zona": "NEVA RESIDENCE (centro)",
       "estado": "San Petersburgo",
-      "lat": 59.94,
-      "lon": 30.38,
+      "lat": 59.938732,
+      "lon": 30.316229,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2914,7 +3000,8 @@
       "url": "https://www.lsr.ru/spb/zhilye-kompleksy/neva-residence/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Segmento élite. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Segmento élite. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

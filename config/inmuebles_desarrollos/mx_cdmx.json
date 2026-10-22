@@ -166,9 +166,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Polanco",
       "estado": "Ciudad de México",
-      "lat": 19.4326,
-      "lon": -99.195,
-      "precision": "colonia",
+      "lat": 19.43353,
+      "lon": -99.190915,
+      "precision": "ciudad",
       "geocodificar": "Polanco, Miguel Hidalgo, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -186,7 +186,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Desarrollo nuevo comercializado por Sotheby's.",
-      "zona_objetivo": "Polanco"
+      "zona_objetivo": "Polanco",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-005",
@@ -250,9 +251,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Polanco I Sección",
       "estado": "Ciudad de México",
-      "lat": 19.438,
-      "lon": -99.1935,
-      "precision": "colonia",
+      "lat": 19.429379,
+      "lon": -99.196393,
+      "precision": "ciudad",
       "geocodificar": "Polanco I Sección, Miguel Hidalgo, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -270,7 +271,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. En la búsqueda aparecían en Polanco I (Horacio) unidades de MXN 10 a 18.5 millones (2-3 rec., 164-220 m²); no se pudo asociar el precio exacto a esta ficha.",
-      "zona_objetivo": "Polanco"
+      "zona_objetivo": "Polanco",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-008",
@@ -334,9 +336,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Lomas de Chapultepec IV Sección",
       "estado": "Ciudad de México",
-      "lat": 19.4185,
-      "lon": -99.2285,
-      "precision": "colonia",
+      "lat": 19.422416,
+      "lon": -99.203562,
+      "precision": "ciudad",
       "geocodificar": "Alicama, Lomas de Chapultepec, Miguel Hidalgo, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -354,7 +356,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Remodelado; mantenimiento MXN 2,700; 1 cajón.",
-      "zona_objetivo": "Lomas de Chapultepec"
+      "zona_objetivo": "Lomas de Chapultepec",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-011",
@@ -362,9 +365,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Lomas de Chapultepec VIII Sección",
       "estado": "Ciudad de México",
-      "lat": 19.4075,
-      "lon": -99.2235,
-      "precision": "colonia",
+      "lat": 19.43263,
+      "lon": -99.133178,
+      "precision": "ciudad",
       "geocodificar": "Lomas de Chapultepec VIII Sección, Miguel Hidalgo, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -382,7 +385,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. 531 m² de construcción.",
-      "zona_objetivo": "Lomas de Chapultepec"
+      "zona_objetivo": "Lomas de Chapultepec",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-012",
@@ -390,8 +394,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Lomas de Chapultepec",
       "estado": "Ciudad de México",
-      "lat": 19.423,
-      "lon": -99.211,
+      "lat": 19.42109,
+      "lon": -99.218464,
       "precision": "colonia",
       "geocodificar": "Lomas de Chapultepec, Miguel Hidalgo, Ciudad de México, México",
       "tipo": "departamento",
@@ -410,7 +414,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Lomas de Chapultepec"
+      "zona_objetivo": "Lomas de Chapultepec",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-013",
@@ -586,9 +591,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Nápoles",
       "estado": "Ciudad de México",
-      "lat": 19.3935,
-      "lon": -99.176,
-      "precision": "colonia",
+      "lat": 19.389663,
+      "lon": -99.173808,
+      "precision": "ciudad",
       "geocodificar": "Nápoles, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -606,7 +611,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Colonia Nápoles"
+      "zona_objetivo": "Colonia Nápoles",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-020",
@@ -614,9 +620,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Nápoles",
       "estado": "Ciudad de México",
-      "lat": 19.3935,
-      "lon": -99.176,
-      "precision": "colonia",
+      "lat": 19.389663,
+      "lon": -99.173808,
+      "precision": "ciudad",
       "geocodificar": "Nápoles, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -634,7 +640,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Nuevo/usado no confirmado.",
-      "zona_objetivo": "Colonia Nápoles"
+      "zona_objetivo": "Colonia Nápoles",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-021",
@@ -670,8 +677,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Narvarte Oriente",
       "estado": "Ciudad de México",
-      "lat": 19.3965,
-      "lon": -99.1495,
+      "lat": 19.393107,
+      "lon": -99.150154,
       "precision": "colonia",
       "geocodificar": "Narvarte Oriente, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
@@ -690,7 +697,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Entrega anunciada enero 2026: confirmar si ya es inmediata.",
-      "zona_objetivo": "Narvarte"
+      "zona_objetivo": "Narvarte",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-023",
@@ -698,8 +706,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Narvarte Poniente",
       "estado": "Ciudad de México",
-      "lat": 19.3945,
-      "lon": -99.159,
+      "lat": 19.390521,
+      "lon": -99.157902,
       "precision": "colonia",
       "geocodificar": "Narvarte Poniente, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
@@ -718,7 +726,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. precio_hasta = precio al terminar la preventa.",
-      "zona_objetivo": "Narvarte"
+      "zona_objetivo": "Narvarte",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-024",
@@ -726,8 +735,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Narvarte",
       "estado": "Ciudad de México",
-      "lat": 19.3955,
-      "lon": -99.1545,
+      "lat": 19.391616,
+      "lon": -99.151313,
       "precision": "colonia",
       "geocodificar": "Narvarte, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
@@ -746,7 +755,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 65 m² + 6.5 m² de balcón.",
-      "zona_objetivo": "Narvarte"
+      "zona_objetivo": "Narvarte",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-025",
@@ -782,8 +792,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Narvarte",
       "estado": "Ciudad de México",
-      "lat": 19.3955,
-      "lon": -99.1545,
+      "lat": 19.391616,
+      "lon": -99.151313,
       "precision": "colonia",
       "geocodificar": "Narvarte, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
@@ -802,7 +812,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Nuevo/usado no confirmado.",
-      "zona_objetivo": "Narvarte"
+      "zona_objetivo": "Narvarte",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-027",
@@ -810,9 +821,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Valle Norte",
       "estado": "Ciudad de México",
-      "lat": 19.3895,
-      "lon": -99.169,
-      "precision": "colonia",
+      "lat": 19.378502,
+      "lon": -99.158864,
+      "precision": "ciudad",
       "geocodificar": "Del Valle Norte, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -830,7 +841,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio de 1 recámara.",
-      "zona_objetivo": "Del Valle"
+      "zona_objetivo": "Del Valle",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-028",
@@ -838,9 +850,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Valle Centro",
       "estado": "Ciudad de México",
-      "lat": 19.378,
-      "lon": -99.165,
-      "precision": "colonia",
+      "lat": 19.386924,
+      "lon": -99.163602,
+      "precision": "ciudad",
       "geocodificar": "Del Valle Centro, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -858,7 +870,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio de una unidad listada, no necesariamente la más barata.",
-      "zona_objetivo": "Del Valle"
+      "zona_objetivo": "Del Valle",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-029",
@@ -894,9 +907,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Valle",
       "estado": "Ciudad de México",
-      "lat": 19.38,
-      "lon": -99.17,
-      "precision": "colonia",
+      "lat": 19.393793,
+      "lon": -99.166291,
+      "precision": "ciudad",
       "geocodificar": "Avenida Coyoacán, Del Valle, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -914,7 +927,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Hay otra unidad de 3 recámaras en el mismo desarrollo (ficha 4330596).",
-      "zona_objetivo": "Del Valle"
+      "zona_objetivo": "Del Valle",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-031",
@@ -922,9 +936,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Valle Centro",
       "estado": "Ciudad de México",
-      "lat": 19.378,
-      "lon": -99.165,
-      "precision": "colonia",
+      "lat": 19.386924,
+      "lon": -99.163602,
+      "precision": "ciudad",
       "geocodificar": "Del Valle Centro, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -942,7 +956,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Del Valle"
+      "zona_objetivo": "Del Valle",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-032",
@@ -950,8 +965,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Valle",
       "estado": "Ciudad de México",
-      "lat": 19.38,
-      "lon": -99.17,
+      "lat": 19.383891,
+      "lon": -99.168861,
       "precision": "colonia",
       "geocodificar": "Del Valle, Benito Juárez, Ciudad de México, México",
       "tipo": "departamento",
@@ -970,7 +985,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Del Valle"
+      "zona_objetivo": "Del Valle",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-033",
@@ -1006,8 +1022,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Roma Norte",
       "estado": "Ciudad de México",
-      "lat": 19.4195,
-      "lon": -99.167,
+      "lat": 19.418323,
+      "lon": -99.162565,
       "precision": "colonia",
       "geocodificar": "Roma Norte, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1026,7 +1042,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Se entregan amueblados.",
-      "zona_objetivo": "Roma"
+      "zona_objetivo": "Roma",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-035",
@@ -1034,8 +1051,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Roma Norte",
       "estado": "Ciudad de México",
-      "lat": 19.418,
-      "lon": -99.161,
+      "lat": 19.418323,
+      "lon": -99.162565,
       "precision": "colonia",
       "geocodificar": "Roma Norte, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1054,7 +1071,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Roma"
+      "zona_objetivo": "Roma",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-036",
@@ -1090,8 +1108,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Hipódromo Condesa",
       "estado": "Ciudad de México",
-      "lat": 19.409,
-      "lon": -99.172,
+      "lat": 19.409266,
+      "lon": -99.179582,
       "precision": "colonia",
       "geocodificar": "Hipódromo Condesa, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1110,7 +1128,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Condesa"
+      "zona_objetivo": "Condesa",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-038",
@@ -1118,8 +1137,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Hipódromo Condesa",
       "estado": "Ciudad de México",
-      "lat": 19.409,
-      "lon": -99.172,
+      "lat": 19.409266,
+      "lon": -99.179582,
       "precision": "colonia",
       "geocodificar": "Hipódromo Condesa, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1138,7 +1157,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Condesa"
+      "zona_objetivo": "Condesa",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-039",
@@ -1146,8 +1166,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Hipódromo Condesa",
       "estado": "Ciudad de México",
-      "lat": 19.409,
-      "lon": -99.172,
+      "lat": 19.409266,
+      "lon": -99.179582,
       "precision": "colonia",
       "geocodificar": "Hipódromo Condesa, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1166,7 +1186,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Condesa"
+      "zona_objetivo": "Condesa",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-040",
@@ -1174,8 +1195,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Hipódromo",
       "estado": "Ciudad de México",
-      "lat": 19.411,
-      "lon": -99.17,
+      "lat": 19.409371,
+      "lon": -99.171213,
       "precision": "colonia",
       "geocodificar": "Hipódromo, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1194,7 +1215,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Condesa"
+      "zona_objetivo": "Condesa",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-041",
@@ -1202,8 +1224,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Hipódromo Condesa",
       "estado": "Ciudad de México",
-      "lat": 19.409,
-      "lon": -99.172,
+      "lat": 19.409266,
+      "lon": -99.179582,
       "precision": "colonia",
       "geocodificar": "Hipódromo Condesa, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1222,7 +1244,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Nuevo/usado no confirmado.",
-      "zona_objetivo": "Condesa"
+      "zona_objetivo": "Condesa",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-042",
@@ -1230,8 +1253,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Hipódromo Condesa",
       "estado": "Ciudad de México",
-      "lat": 19.409,
-      "lon": -99.172,
+      "lat": 19.409266,
+      "lon": -99.179582,
       "precision": "colonia",
       "geocodificar": "Hipódromo Condesa, Cuauhtémoc, Ciudad de México, México",
       "tipo": "departamento",
@@ -1250,7 +1273,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Condesa"
+      "zona_objetivo": "Condesa",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-043",
@@ -1258,8 +1282,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.35,
-      "lon": -99.162,
+      "lat": 19.35327,
+      "lon": -99.173161,
       "precision": "colonia",
       "geocodificar": "Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -1278,7 +1302,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-044",
@@ -1286,8 +1311,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.35,
-      "lon": -99.162,
+      "lat": 19.35327,
+      "lon": -99.173161,
       "precision": "colonia",
       "geocodificar": "Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -1306,7 +1331,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-045",
@@ -1314,8 +1340,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.35,
-      "lon": -99.162,
+      "lat": 19.35327,
+      "lon": -99.173161,
       "precision": "colonia",
       "geocodificar": "Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -1334,7 +1360,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-046",
@@ -1342,8 +1369,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.35,
-      "lon": -99.162,
+      "lat": 19.35327,
+      "lon": -99.173161,
       "precision": "colonia",
       "geocodificar": "Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -1362,7 +1389,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-047",
@@ -1370,9 +1398,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.353,
-      "lon": -99.168,
-      "precision": "colonia",
+      "lat": 19.355037,
+      "lon": -99.168588,
+      "precision": "ciudad",
       "geocodificar": "Viveros de Coyoacán, Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1390,7 +1418,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-048",
@@ -1398,8 +1427,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.35,
-      "lon": -99.162,
+      "lat": 19.35327,
+      "lon": -99.173161,
       "precision": "colonia",
       "geocodificar": "Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -1418,7 +1447,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-049",
@@ -1426,8 +1456,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Carmen",
       "estado": "Ciudad de México",
-      "lat": 19.35,
-      "lon": -99.162,
+      "lat": 19.35327,
+      "lon": -99.173161,
       "precision": "colonia",
       "geocodificar": "Del Carmen, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -1446,7 +1476,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. En la búsqueda, las casas de Del Carmen iban de ~MXN 11 a 50 millones (la mayoría 20-35 M).",
-      "zona_objetivo": "Centro de Coyoacán"
+      "zona_objetivo": "Centro de Coyoacán",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-050",
@@ -1454,8 +1485,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Tlacopac",
       "estado": "Ciudad de México",
-      "lat": 19.342,
-      "lon": -99.196,
+      "lat": 19.35383,
+      "lon": -99.196942,
       "precision": "colonia",
       "geocodificar": "Tlacopac, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -1474,7 +1505,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Más gastos e impuestos de escrituración.",
-      "zona_objetivo": "San Ángel"
+      "zona_objetivo": "San Ángel",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-051",
@@ -1482,8 +1514,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Tlacopac",
       "estado": "Ciudad de México",
-      "lat": 19.342,
-      "lon": -99.196,
+      "lat": 19.35383,
+      "lon": -99.196942,
       "precision": "colonia",
       "geocodificar": "Tlacopac, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -1502,7 +1534,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "San Ángel"
+      "zona_objetivo": "San Ángel",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-052",
@@ -1510,8 +1543,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Tlacopac",
       "estado": "Ciudad de México",
-      "lat": 19.342,
-      "lon": -99.196,
+      "lat": 19.35383,
+      "lon": -99.196942,
       "precision": "colonia",
       "geocodificar": "Tlacopac, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -1530,7 +1563,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "San Ángel"
+      "zona_objetivo": "San Ángel",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-053",
@@ -1538,8 +1572,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Tlacopac",
       "estado": "Ciudad de México",
-      "lat": 19.342,
-      "lon": -99.196,
+      "lat": 19.35383,
+      "lon": -99.196942,
       "precision": "colonia",
       "geocodificar": "Tlacopac, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -1558,7 +1592,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "San Ángel"
+      "zona_objetivo": "San Ángel",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-054",
@@ -1566,9 +1601,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Tlacopac",
       "estado": "Ciudad de México",
-      "lat": 19.342,
-      "lon": -99.196,
-      "precision": "colonia",
+      "lat": 19.43263,
+      "lon": -99.133178,
+      "precision": "ciudad",
       "geocodificar": "La Rosaleda, Tlacopac, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1586,7 +1621,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Great Homes mostraba en Tlacopac casas de MXN 22.2 M (538 m²) y 42 M (600 m², nueva).",
-      "zona_objetivo": "San Ángel"
+      "zona_objetivo": "San Ángel",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-055",
@@ -1594,8 +1630,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Tlacopac",
       "estado": "Ciudad de México",
-      "lat": 19.342,
-      "lon": -99.196,
+      "lat": 19.35383,
+      "lon": -99.196942,
       "precision": "colonia",
       "geocodificar": "Tlacopac, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -1614,7 +1650,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "San Ángel"
+      "zona_objetivo": "San Ángel",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-056",
@@ -1622,8 +1659,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Pedregal de Santo Domingo",
       "estado": "Ciudad de México",
-      "lat": 19.329,
-      "lon": -99.165,
+      "lat": 19.327157,
+      "lon": -99.167856,
       "precision": "colonia",
       "geocodificar": "Pedregal de Santo Domingo, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
@@ -1642,7 +1679,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. El título de la ficha dice «Pedregal de Santa Úrsula» y la URL «Santo Domingo»: verificar colonia.",
-      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)"
+      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-057",
@@ -1650,9 +1688,9 @@
       "ciudad": "Ciudad de México",
       "zona": "El Rosario",
       "estado": "Ciudad de México",
-      "lat": 19.504,
-      "lon": -99.199,
-      "precision": "colonia",
+      "lat": 19.505036,
+      "lon": -99.199523,
+      "precision": "ciudad",
       "geocodificar": "El Rosario, Azcapotzalco, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -1670,7 +1708,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda. 1 baño.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-058",
@@ -1678,9 +1717,9 @@
       "ciudad": "Ciudad de México",
       "zona": "El Rosario",
       "estado": "Ciudad de México",
-      "lat": 19.5045,
-      "lon": -99.1985,
-      "precision": "colonia",
+      "lat": 19.505036,
+      "lon": -99.199523,
+      "precision": "ciudad",
       "geocodificar": "El Rosario, Azcapotzalco, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1698,7 +1737,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Anunciada como remodelada.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-059",
@@ -1706,9 +1746,9 @@
       "ciudad": "Ciudad de México",
       "zona": "El Rosario",
       "estado": "Ciudad de México",
-      "lat": 19.505,
-      "lon": -99.196,
-      "precision": "colonia",
+      "lat": 19.505036,
+      "lon": -99.199523,
+      "precision": "ciudad",
       "geocodificar": "El Rosario, Azcapotzalco, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -1726,7 +1766,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. El propio sitio advierte que podría estar vendido.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-060",
@@ -1734,9 +1775,9 @@
       "ciudad": "Ciudad de México",
       "zona": "El Rosario",
       "estado": "Ciudad de México",
-      "lat": 19.5035,
-      "lon": -99.2,
-      "precision": "colonia",
+      "lat": 19.43263,
+      "lon": -99.133178,
+      "precision": "ciudad",
       "geocodificar": "Doroteo Arango, El Rosario, Azcapotzalco, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -1754,7 +1795,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio según la URL (otra cifra vista: 3,017,160); el anuncio figura como inactivo y antiguo.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-061",
@@ -1762,8 +1804,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Prados del Rosario",
       "estado": "Ciudad de México",
-      "lat": 19.5075,
-      "lon": -99.1935,
+      "lat": 19.503892,
+      "lon": -99.209607,
       "precision": "colonia",
       "geocodificar": "Prados del Rosario, Azcapotzalco, Ciudad de México, México",
       "tipo": "departamento",
@@ -1782,7 +1824,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. En Prados del Rosario la búsqueda mostraba MXN 1,887,000 (72 m², 2 rec., baños remodelados) y 2,150,000 (73 m², 3 rec.); no se pudo asociar a esta ficha.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-062",
@@ -1790,8 +1833,8 @@
       "ciudad": "Ciudad de México",
       "zona": "San Martín Xochináhuac",
       "estado": "Ciudad de México",
-      "lat": 19.4975,
-      "lon": -99.189,
+      "lat": 19.498807,
+      "lon": -99.192192,
       "precision": "colonia",
       "geocodificar": "San Martín Xochináhuac, Azcapotzalco, Ciudad de México, México",
       "tipo": "departamento",
@@ -1810,7 +1853,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. ~1.5 km del metro El Rosario.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-063",
@@ -1818,9 +1862,9 @@
       "ciudad": "Tlalnepantla de Baz",
       "zona": "El Rosario 1 Sector III-C",
       "estado": "Estado de México",
-      "lat": 19.513,
-      "lon": -99.1975,
-      "precision": "colonia",
+      "lat": 19.517694,
+      "lon": -99.202508,
+      "precision": "ciudad",
       "geocodificar": "El Rosario, Tlalnepantla de Baz, Estado de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -1838,7 +1882,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Lado mexiquense de la unidad El Rosario, ~1 km del metro.",
-      "zona_objetivo": "Metro El Rosario (~5 km)"
+      "zona_objetivo": "Metro El Rosario (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-064",
@@ -1846,9 +1891,9 @@
       "ciudad": "Ciudad Nezahualcóyotl",
       "zona": "Agua Azul Sección Pirules",
       "estado": "Estado de México",
-      "lat": 19.404,
-      "lon": -99.033,
-      "precision": "colonia",
+      "lat": 19.407903,
+      "lon": -99.018155,
+      "precision": "ciudad",
       "geocodificar": "Agua Azul Sección Pirules, Nezahualcóyotl, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1866,7 +1911,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Verificar distancia exacta a Av. Pantitlán (<1 km).",
-      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl"
+      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-065",
@@ -1874,9 +1920,9 @@
       "ciudad": "Ciudad Nezahualcóyotl",
       "zona": "Metropolitana Tercera Sección",
       "estado": "Estado de México",
-      "lat": 19.399,
-      "lon": -99.04,
-      "precision": "colonia",
+      "lat": 19.407903,
+      "lon": -99.018155,
+      "precision": "ciudad",
       "geocodificar": "Metropolitana Tercera Sección, Nezahualcóyotl, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1894,7 +1940,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda.",
-      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl"
+      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-066",
@@ -1902,9 +1949,9 @@
       "ciudad": "Ciudad Nezahualcóyotl",
       "zona": "Metropolitana Primera Sección",
       "estado": "Estado de México",
-      "lat": 19.401,
-      "lon": -99.056,
-      "precision": "colonia",
+      "lat": 19.407903,
+      "lon": -99.018155,
+      "precision": "ciudad",
       "geocodificar": "Metropolitana Primera Sección, Nezahualcóyotl, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1922,7 +1969,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Incluye recámara adicional independiente.",
-      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl"
+      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-067",
@@ -1930,9 +1978,9 @@
       "ciudad": "Ciudad Nezahualcóyotl",
       "zona": "Evolución Poniente",
       "estado": "Estado de México",
-      "lat": 19.412,
-      "lon": -99.05,
-      "precision": "colonia",
+      "lat": 19.401962,
+      "lon": -99.019438,
+      "precision": "ciudad",
       "geocodificar": "Evolución, Nezahualcóyotl, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1950,7 +1998,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda. Otra casa con locales en la misma avenida aparecía en MXN 8,480,000.",
-      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl"
+      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-068",
@@ -1958,9 +2007,9 @@
       "ciudad": "Ciudad Nezahualcóyotl",
       "zona": "Benito Juárez",
       "estado": "Estado de México",
-      "lat": 19.415,
-      "lon": -99.042,
-      "precision": "colonia",
+      "lat": 19.452521,
+      "lon": -99.049547,
+      "precision": "ciudad",
       "geocodificar": "Benito Juárez, Nezahualcóyotl, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1978,7 +2027,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. En la búsqueda aparecía una casa en Benito Juárez (La Aurora) de MXN 3,350,000, 4 rec., 262 m²; sin confirmar que sea esta ficha.",
-      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl"
+      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-069",
@@ -1986,9 +2036,9 @@
       "ciudad": "Ciudad Nezahualcóyotl",
       "zona": "Agua Azul Grupo A Super 4",
       "estado": "Estado de México",
-      "lat": 19.406,
-      "lon": -99.028,
-      "precision": "colonia",
+      "lat": 19.407903,
+      "lon": -99.018155,
+      "precision": "ciudad",
       "geocodificar": "Agua Azul Grupo A Super 4, Nezahualcóyotl, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -2006,7 +2056,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Remate de agencia, NO subasta oficial: dice tener adjudicación y posesión, y no acepta crédito; valor comercial ~MXN 3 M. Revisar con notario y Registro Público.",
-      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl"
+      "zona_objetivo": "Av. Pantitlán, Nezahualcóyotl",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-070",
@@ -2014,8 +2065,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Pedregal de Santo Domingo",
       "estado": "Ciudad de México",
-      "lat": 19.329,
-      "lon": -99.166,
+      "lat": 19.327157,
+      "lon": -99.167856,
       "precision": "colonia",
       "geocodificar": "Pedregal de Santo Domingo, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
@@ -2034,7 +2085,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2 baños; cerca de CU y Av. Universidad.",
-      "zona_objetivo": "Metro Universidad"
+      "zona_objetivo": "Metro Universidad",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-071",
@@ -2042,8 +2094,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Pedregal de Santo Domingo",
       "estado": "Ciudad de México",
-      "lat": 19.33,
-      "lon": -99.164,
+      "lat": 19.327157,
+      "lon": -99.167856,
       "precision": "colonia",
       "geocodificar": "Pedregal de Santo Domingo, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
@@ -2062,7 +2114,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda. Para remodelar; anunciada como inversión de renta (~MXN 40,000/mes).",
-      "zona_objetivo": "Metro Universidad"
+      "zona_objetivo": "Metro Universidad",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-072",
@@ -2070,8 +2123,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Pedregal de Coyoacán",
       "estado": "Ciudad de México",
-      "lat": 19.326,
-      "lon": -99.156,
+      "lat": 19.337017,
+      "lon": -99.160824,
       "precision": "colonia",
       "geocodificar": "Pedregal de Coyoacán, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
@@ -2090,7 +2143,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Verificar distancia al metro Universidad.",
-      "zona_objetivo": "Metro Universidad"
+      "zona_objetivo": "Metro Universidad",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-073",
@@ -2098,9 +2152,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Pedregal de Santa Úrsula",
       "estado": "Ciudad de México",
-      "lat": 19.317,
-      "lon": -99.152,
-      "precision": "colonia",
+      "lat": 19.43263,
+      "lon": -99.133178,
+      "precision": "ciudad",
       "geocodificar": "Pedregal de Santa Úrsula, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -2118,7 +2172,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio según la URL; ~2.5 km del metro Universidad.",
-      "zona_objetivo": "Metro Universidad"
+      "zona_objetivo": "Metro Universidad",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-074",
@@ -2126,9 +2181,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Pedregal de Santa Úrsula",
       "estado": "Ciudad de México",
-      "lat": 19.3175,
-      "lon": -99.153,
-      "precision": "colonia",
+      "lat": 19.43263,
+      "lon": -99.133178,
+      "precision": "ciudad",
       "geocodificar": "Itzcuinatli, Pedregal de Santa Úrsula, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -2146,7 +2201,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. En Santa Úrsula la búsqueda mostraba MXN 1.87-4.75 M.",
-      "zona_objetivo": "Metro Universidad"
+      "zona_objetivo": "Metro Universidad",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-075",
@@ -2154,9 +2210,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Copilco Universidad",
       "estado": "Ciudad de México",
-      "lat": 19.338,
-      "lon": -99.178,
-      "precision": "colonia",
+      "lat": 19.337797,
+      "lon": -99.178513,
+      "precision": "ciudad",
       "geocodificar": "Copilco Universidad, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -2174,7 +2230,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda. Cerca del metro Copilco.",
-      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)"
+      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-076",
@@ -2182,9 +2239,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Copilco Universidad",
       "estado": "Ciudad de México",
-      "lat": 19.3385,
-      "lon": -99.1775,
-      "precision": "colonia",
+      "lat": 19.337797,
+      "lon": -99.178513,
+      "precision": "ciudad",
       "geocodificar": "Copilco Universidad, Coyoacán, Ciudad de México, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -2202,7 +2259,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)"
+      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-077",
@@ -2210,9 +2268,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Romero de Terreros",
       "estado": "Ciudad de México",
-      "lat": 19.344,
-      "lon": -99.174,
-      "precision": "colonia",
+      "lat": 19.341035,
+      "lon": -99.16853,
+      "precision": "ciudad",
       "geocodificar": "Omega, Romero de Terreros, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -2230,7 +2288,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda.",
-      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)"
+      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-078",
@@ -2238,9 +2297,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Romero de Terreros",
       "estado": "Ciudad de México",
-      "lat": 19.3445,
-      "lon": -99.173,
-      "precision": "colonia",
+      "lat": 19.345779,
+      "lon": -99.169821,
+      "precision": "ciudad",
       "geocodificar": "Romero de Terreros, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -2258,7 +2317,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)"
+      "zona_objetivo": "Ciudad Universitaria (Copilco, Pedregal)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-079",
@@ -2266,9 +2326,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Jardines del Pedregal",
       "estado": "Ciudad de México",
-      "lat": 19.3175,
-      "lon": -99.203,
-      "precision": "colonia",
+      "lat": 19.319375,
+      "lon": -99.19955,
+      "precision": "ciudad",
       "geocodificar": "Escarcha, Jardines del Pedregal, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -2286,7 +2346,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda.",
-      "zona_objetivo": "Perisur (~5 km)"
+      "zona_objetivo": "Perisur (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-080",
@@ -2294,9 +2355,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Jardines del Pedregal",
       "estado": "Ciudad de México",
-      "lat": 19.3165,
-      "lon": -99.205,
-      "precision": "colonia",
+      "lat": 19.318662,
+      "lon": -99.208194,
+      "precision": "ciudad",
       "geocodificar": "Lluvia, Jardines del Pedregal, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -2314,7 +2375,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Asociación precio-ficha deducida del resumen de búsqueda.",
-      "zona_objetivo": "Perisur (~5 km)"
+      "zona_objetivo": "Perisur (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-081",
@@ -2322,8 +2384,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Jardines del Pedregal",
       "estado": "Ciudad de México",
-      "lat": 19.317,
-      "lon": -99.204,
+      "lat": 19.319781,
+      "lon": -99.20738,
       "precision": "colonia",
       "geocodificar": "Jardines del Pedregal, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -2342,7 +2404,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha.",
-      "zona_objetivo": "Perisur (~5 km)"
+      "zona_objetivo": "Perisur (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-082",
@@ -2350,8 +2413,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Jardines del Pedregal",
       "estado": "Ciudad de México",
-      "lat": 19.317,
-      "lon": -99.204,
+      "lat": 19.319781,
+      "lon": -99.20738,
       "precision": "colonia",
       "geocodificar": "Jardines del Pedregal, Álvaro Obregón, Ciudad de México, México",
       "tipo": "casa",
@@ -2370,7 +2433,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio y m² según la URL.",
-      "zona_objetivo": "Perisur (~5 km)"
+      "zona_objetivo": "Perisur (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CDMX-083",
@@ -2378,9 +2442,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Insurgentes Cuicuilco",
       "estado": "Ciudad de México",
-      "lat": 19.302,
-      "lon": -99.184,
-      "precision": "colonia",
+      "lat": 19.303295,
+      "lon": -99.185039,
+      "precision": "ciudad",
       "geocodificar": "Insurgentes Cuicuilco, Coyoacán, Ciudad de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -2398,7 +2462,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio no visible en el resultado de búsqueda; consultar en la ficha. Con escritura; acepta crédito hipotecario. En la colonia se veían casas de MXN 20.4 y 27 M.",
-      "zona_objetivo": "Perisur (~5 km)"
+      "zona_objetivo": "Perisur (~5 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

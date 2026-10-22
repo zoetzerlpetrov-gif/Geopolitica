@@ -38,8 +38,8 @@
       "ciudad": "San Pedro Garza García",
       "zona": "San Pedro Garza García",
       "estado": "Nuevo León",
-      "lat": 25.658,
-      "lon": -100.402,
+      "lat": 25.652395,
+      "lon": -100.372607,
       "precision": "ciudad",
       "geocodificar": "San Pedro Garza García, Nuevo León, México",
       "tipo": "departamento",
@@ -58,7 +58,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Preventa. Esquema 30% enganche, 50% diferido en 40 pagos, 20% a la entrega. Otra ficha más antigua daba 12-14 mdp; colonia exacta no confirmada. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · San Pedro"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · San Pedro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-002",
@@ -66,9 +67,9 @@
       "ciudad": "Monterrey",
       "zona": "Contry (Av. Revolución)",
       "estado": "Nuevo León",
-      "lat": 25.625,
-      "lon": -100.276,
-      "precision": "colonia",
+      "lat": 25.632391,
+      "lon": -100.27639,
+      "precision": "ciudad",
       "geocodificar": "Contry, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -86,7 +87,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Preventa, entrega diciembre 2027. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-003",
@@ -94,9 +96,9 @@
       "ciudad": "Monterrey",
       "zona": "Las Brisas (Av. Garza Sada, zona Contry)",
       "estado": "Nuevo León",
-      "lat": 25.617,
-      "lon": -100.274,
-      "precision": "colonia",
+      "lat": 25.620785,
+      "lon": -100.277739,
+      "precision": "ciudad",
       "geocodificar": "Las Brisas, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -114,7 +116,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "La ficha indicaba entrega diciembre 2025: puede estar desactualizada o ya entregado. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-004",
@@ -122,9 +125,9 @@
       "ciudad": "Monterrey",
       "zona": "Nuevo Sur / La Ladrillera (Av. Revolución)",
       "estado": "Nuevo León",
-      "lat": 25.6425,
-      "lon": -100.2815,
-      "precision": "colonia",
+      "lat": 25.680202,
+      "lon": -100.315258,
+      "precision": "ciudad",
       "geocodificar": "La Ladrillera, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -142,7 +145,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "A ~2 km del Tec de Monterrey. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-005",
@@ -150,8 +154,8 @@
       "ciudad": "Monterrey",
       "zona": "Zona Tec / Contry (Carretera Nacional)",
       "estado": "Nuevo León",
-      "lat": 25.635,
-      "lon": -100.28,
+      "lat": 25.648853,
+      "lon": -100.293769,
       "precision": "ciudad",
       "geocodificar": "Tecnológico, Monterrey, Nuevo León, México",
       "tipo": "departamento",
@@ -170,7 +174,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precio y m² vistos en el perfil de la agencia en un portal, no en su sitio; ubicación exacta no confirmada. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Tec / Contry",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-006",
@@ -178,8 +183,8 @@
       "ciudad": "Monterrey",
       "zona": "Cerca de Parque Fundidora",
       "estado": "Nuevo León",
-      "lat": 25.6714,
-      "lon": -100.309,
+      "lat": 25.675226,
+      "lon": -100.315942,
       "precision": "ciudad",
       "geocodificar": "Centro, Monterrey, Nuevo León, México",
       "tipo": "departamento",
@@ -198,7 +203,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "La página tenía ~500 días de antigüedad: la preventa puede ya no estar vigente; colonia exacta no indicada. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Fundidora"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Fundidora",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-007",
@@ -206,9 +212,9 @@
       "ciudad": "Monterrey",
       "zona": "Obrera (cerca de Cintermex)",
       "estado": "Nuevo León",
-      "lat": 25.673,
-      "lon": -100.295,
-      "precision": "colonia",
+      "lat": 25.677818,
+      "lon": -100.293751,
+      "precision": "ciudad",
       "geocodificar": "Obrera, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -226,7 +232,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Rangos de precio tomados de fichas del mismo proyecto en un portal (3.70-4.45 mdp y 5.11-6.00 mdp según unidad); entrega verano 2027. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Fundidora"
+      "zona_objetivo": "Monterrey 10 km (San Pedro / Tec / Fundidora) · Fundidora",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-008",
@@ -234,8 +241,8 @@
       "ciudad": "Cabo San Lucas",
       "zona": "Zona Sunset",
       "estado": "Baja California Sur",
-      "lat": 22.893,
-      "lon": -109.92,
+      "lat": 22.893888,
+      "lon": -109.92006,
       "precision": "ciudad",
       "geocodificar": "Cabo San Lucas, Los Cabos, Baja California Sur, México",
       "tipo": "departamento",
@@ -254,7 +261,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Entrega verano 2026; se entrega con carpintería y cocina, sin electrodomésticos. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · Cabo San Lucas"
+      "zona_objetivo": "Los Cabos (BCS) · Cabo San Lucas",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-009",
@@ -262,9 +270,9 @@
       "ciudad": "San José del Cabo",
       "zona": "La Choya",
       "estado": "Baja California Sur",
-      "lat": 23.078,
-      "lon": -109.705,
-      "precision": "colonia",
+      "lat": 23.053919,
+      "lon": -109.693747,
+      "precision": "ciudad",
       "geocodificar": "La Choya, San José del Cabo, Baja California Sur, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -282,7 +290,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Plan maestro 48 condos y 9 villas; esquema 35/50/15. Unidades de reventa vistas en 399,000-586,850 USD y villa 875,000 USD. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo"
+      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-010",
@@ -290,9 +299,9 @@
       "ciudad": "San José del Cabo",
       "zona": "Ánimas Bajas",
       "estado": "Baja California Sur",
-      "lat": 23.085,
-      "lon": -109.69,
-      "precision": "colonia",
+      "lat": 23.089654,
+      "lon": -109.701747,
+      "precision": "ciudad",
       "geocodificar": "Las Ánimas Bajas, San José del Cabo, Baja California Sur, México",
       "tipo": "otro",
       "nuevo": true,
@@ -310,7 +319,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Preventa; tipología (casa/condo) no confirmada. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo"
+      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-011",
@@ -318,9 +328,9 @@
       "ciudad": "San José del Cabo",
       "zona": "Puerto Los Cabos / La Playita",
       "estado": "Baja California Sur",
-      "lat": 23.065,
-      "lon": -109.675,
-      "precision": "colonia",
+      "lat": 23.076447,
+      "lon": -109.635162,
+      "precision": "ciudad",
       "geocodificar": "La Playita, San José del Cabo, Baja California Sur, México",
       "tipo": "terreno",
       "nuevo": true,
@@ -338,7 +348,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Lotes para construir (estate lots). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo"
+      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-012",
@@ -346,8 +357,8 @@
       "ciudad": "San José del Cabo",
       "zona": "San José del Cabo centro",
       "estado": "Baja California Sur",
-      "lat": 23.062,
-      "lon": -109.699,
+      "lat": 23.058322,
+      "lon": -109.694015,
       "precision": "ciudad",
       "geocodificar": "San José del Cabo Centro, Los Cabos, Baja California Sur, México",
       "tipo": "departamento",
@@ -366,7 +377,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Preventa de residencias de 1 y 2 recámaras sobre plaza comercial. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo"
+      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-013",
@@ -374,8 +386,8 @@
       "ciudad": "Cabo San Lucas",
       "zona": "Cabo San Lucas",
       "estado": "Baja California Sur",
-      "lat": 22.896,
-      "lon": -109.925,
+      "lat": 22.893888,
+      "lon": -109.92006,
       "precision": "ciudad",
       "geocodificar": "Cabo San Lucas, Los Cabos, Baja California Sur, México",
       "tipo": "townhouse",
@@ -394,7 +406,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Ficha de agente basada en MLS; estado nuevo/usado no confirmado. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · Cabo San Lucas"
+      "zona_objetivo": "Los Cabos (BCS) · Cabo San Lucas",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-014",
@@ -402,8 +415,8 @@
       "ciudad": "Cabo San Lucas",
       "zona": "Cabo Bello (corredor turístico)",
       "estado": "Baja California Sur",
-      "lat": 22.918,
-      "lon": -109.845,
+      "lat": 22.90724,
+      "lon": -109.861463,
       "precision": "colonia",
       "geocodificar": "Cabo Bello, Cabo San Lucas, Baja California Sur, México",
       "tipo": "departamento",
@@ -422,7 +435,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Usado; 1,330 sq ft (~124 m²); 2 albercas y seguridad 24/7. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · Corredor turístico"
+      "zona_objetivo": "Los Cabos (BCS) · Corredor turístico",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-015",
@@ -430,9 +444,9 @@
       "ciudad": "Cabo San Lucas",
       "zona": "El Tezal",
       "estado": "Baja California Sur",
-      "lat": 22.905,
-      "lon": -109.885,
-      "precision": "colonia",
+      "lat": 22.907096,
+      "lon": -109.927906,
+      "precision": "ciudad",
       "geocodificar": "El Tezal, Cabo San Lucas, Baja California Sur, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -450,7 +464,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "672 sq ft (~62 m²); la ficha estima ~MXN 450,000 para terminar la unidad. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · Cabo San Lucas"
+      "zona_objetivo": "Los Cabos (BCS) · Cabo San Lucas",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-016",
@@ -458,8 +473,8 @@
       "ciudad": "La Paz",
       "zona": "La Paz (frente al mar)",
       "estado": "Baja California Sur",
-      "lat": 24.14,
-      "lon": -110.307,
+      "lat": 24.161995,
+      "lon": -110.315853,
       "precision": "ciudad",
       "geocodificar": "La Paz, Baja California Sur, México",
       "tipo": "departamento",
@@ -478,7 +493,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Preventa; ubicación exacta (colonia) no confirmada. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "La Paz (BCS)"
+      "zona_objetivo": "La Paz (BCS)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-017",
@@ -486,9 +502,9 @@
       "ciudad": "La Paz",
       "zona": "Zona central",
       "estado": "Baja California Sur",
-      "lat": 24.142,
-      "lon": -110.31,
-      "precision": "ciudad",
+      "lat": 24.154176,
+      "lon": -110.31493,
+      "precision": "colonia",
       "geocodificar": "Centro, La Paz, Baja California Sur, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -506,7 +522,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "La Paz (BCS)"
+      "zona_objetivo": "La Paz (BCS)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-018",
@@ -514,8 +531,8 @@
       "ciudad": "La Paz",
       "zona": "Fraccionamiento Cardón (El Cardoncito)",
       "estado": "Baja California Sur",
-      "lat": 24.142,
-      "lon": -110.31,
+      "lat": 24.161995,
+      "lon": -110.315853,
       "precision": "ciudad",
       "geocodificar": "El Cardoncito, La Paz, Baja California Sur, México",
       "tipo": "terreno",
@@ -534,7 +551,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~461 MXN/m². Coordenadas de la ciudad; geocodificar el fraccionamiento. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "La Paz (BCS)"
+      "zona_objetivo": "La Paz (BCS)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-019",
@@ -542,9 +560,9 @@
       "ciudad": "Ixtapa",
       "zona": "La Puerta",
       "estado": "Guerrero",
-      "lat": 17.6655,
-      "lon": -101.593,
-      "precision": "colonia",
+      "lat": 17.661128,
+      "lon": -101.599959,
+      "precision": "ciudad",
       "geocodificar": "La Puerta, Ixtapa, Zihuatanejo de Azueta, Guerrero, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -562,7 +580,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "1ª etapa (12 deptos) lista para entrega; 2ª etapa (16) en 2027. MARID lo anuncia desde 1.9 mdp (https://www.marid.com.mx/property/departamento-en-pre-venta-en-ixtapa-zihuatanejo-la-puerta), JM Group desde 2.4 mdp; enganche 500,000 MXN; gestionan Infonavit. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-020",
@@ -570,9 +589,9 @@
       "ciudad": "Ixtapa",
       "zona": "Ixtapa",
       "estado": "Guerrero",
-      "lat": 17.666,
-      "lon": -101.595,
-      "precision": "ciudad",
+      "lat": 17.66403,
+      "lon": -101.610738,
+      "precision": "colonia",
       "geocodificar": "Ixtapa, Zihuatanejo de Azueta, Guerrero, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -590,7 +609,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Mantenimiento aprox. 3,000 MXN/mes. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-021",
@@ -598,9 +618,9 @@
       "ciudad": "Ixtapa",
       "zona": "Marina Ixtapa",
       "estado": "Guerrero",
-      "lat": 17.674,
-      "lon": -101.614,
-      "precision": "colonia",
+      "lat": 17.668134,
+      "lon": -101.617178,
+      "precision": "ciudad",
       "geocodificar": "Marina Ixtapa, Ixtapa, Zihuatanejo de Azueta, Guerrero, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -618,7 +638,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Mantenimiento 7,500 MXN/mes. Penthouse 2 rec/170 m² en Mareia visto en 7.5 mdp (https://www.jjarq.mx/property/departamento-en-venta-mareia-marina-ixtapa-zihuatanejo). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-022",
@@ -626,9 +647,9 @@
       "ciudad": "Ixtapa",
       "zona": "Marina Ixtapa (Porto Ixtapa)",
       "estado": "Guerrero",
-      "lat": 17.6735,
-      "lon": -101.6125,
-      "precision": "colonia",
+      "lat": 17.668134,
+      "lon": -101.617178,
+      "precision": "ciudad",
       "geocodificar": "Marina Ixtapa, Ixtapa, Zihuatanejo de Azueta, Guerrero, México",
       "tipo": "casa",
       "nuevo": false,
@@ -646,7 +667,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Usada; mantenimiento 13,000 MXN. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-023",
@@ -654,9 +676,9 @@
       "ciudad": "Zihuatanejo",
       "zona": "Playa La Ropa",
       "estado": "Guerrero",
-      "lat": 17.6345,
-      "lon": -101.547,
-      "precision": "colonia",
+      "lat": 17.629175,
+      "lon": -101.545971,
+      "precision": "ciudad",
       "geocodificar": "La Ropa, Zihuatanejo, Guerrero, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -674,7 +696,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Listado de la agencia: 1 rec/92 m² en 415,000 USD y 2 rec/129 m² en 495,000 USD. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-024",
@@ -682,9 +705,9 @@
       "ciudad": "Zihuatanejo",
       "zona": "La Ropa",
       "estado": "Guerrero",
-      "lat": 17.635,
-      "lon": -101.5465,
-      "precision": "colonia",
+      "lat": 17.629175,
+      "lon": -101.545971,
+      "precision": "ciudad",
       "geocodificar": "La Ropa, Zihuatanejo, Guerrero, México",
       "tipo": "casa",
       "nuevo": false,
@@ -702,7 +725,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Enlace a la página principal de la agencia; buscar la ficha. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-025",
@@ -710,8 +734,8 @@
       "ciudad": "Morelia",
       "zona": "Bonterra (Blvd. Juan Pablo II, Santa María)",
       "estado": "Michoacán",
-      "lat": 19.67,
-      "lon": -101.178,
+      "lat": 19.672401,
+      "lon": -101.192108,
       "precision": "colonia",
       "geocodificar": "Santa María de Guido, Morelia, Michoacán, México",
       "tipo": "casa",
@@ -730,7 +754,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precios sujetos a cambio y disponibilidad. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Morelia"
+      "zona_objetivo": "Morelia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-026",
@@ -738,9 +763,9 @@
       "ciudad": "Morelia",
       "zona": "Altozano (Vistas Altozano, Coto Mirlos)",
       "estado": "Michoacán",
-      "lat": 19.668,
-      "lon": -101.151,
-      "precision": "colonia",
+      "lat": 19.675656,
+      "lon": -101.16146,
+      "precision": "ciudad",
       "geocodificar": "Altozano, Morelia, Michoacán, México",
       "tipo": "casa",
       "nuevo": false,
@@ -758,7 +783,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "160 m² de terreno, 206 m² de construcción. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Morelia"
+      "zona_objetivo": "Morelia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-027",
@@ -766,9 +792,9 @@
       "ciudad": "Morelia",
       "zona": "Altozano (Paseo del Alce)",
       "estado": "Michoacán",
-      "lat": 19.6665,
-      "lon": -101.149,
-      "precision": "colonia",
+      "lat": 19.675656,
+      "lon": -101.16146,
+      "precision": "ciudad",
       "geocodificar": "Altozano, Morelia, Michoacán, México",
       "tipo": "casa",
       "nuevo": false,
@@ -786,7 +812,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Ficha posiblemente de 2022. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Morelia"
+      "zona_objetivo": "Morelia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-028",
@@ -794,9 +821,9 @@
       "ciudad": "Morelia",
       "zona": "Altozano (Torres Natura)",
       "estado": "Michoacán",
-      "lat": 19.669,
-      "lon": -101.153,
-      "precision": "colonia",
+      "lat": 19.675656,
+      "lon": -101.16146,
+      "precision": "ciudad",
       "geocodificar": "Altozano, Morelia, Michoacán, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -814,7 +841,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Otras unidades de la misma torre vistas en 3.48-3.87 mdp. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Morelia"
+      "zona_objetivo": "Morelia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-029",
@@ -822,8 +850,8 @@
       "ciudad": "Morelia",
       "zona": "Ciudad Tres Marías",
       "estado": "Michoacán",
-      "lat": 19.677,
-      "lon": -101.134,
+      "lat": 19.709164,
+      "lon": -101.103662,
       "precision": "colonia",
       "geocodificar": "Tres Marías, Morelia, Michoacán, México",
       "tipo": "departamento",
@@ -842,7 +870,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Desarrollo premium dentro de Ciudad Tres Marías. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Morelia"
+      "zona_objetivo": "Morelia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-030",
@@ -850,8 +879,8 @@
       "ciudad": "Cuernavaca",
       "zona": "Lomas de Ahuatlán",
       "estado": "Morelos",
-      "lat": 18.959,
-      "lon": -99.26,
+      "lat": 18.956055,
+      "lon": -99.258647,
       "precision": "colonia",
       "geocodificar": "Lomas de Ahuatlán, Cuernavaca, Morelos, México",
       "tipo": "departamento",
@@ -870,7 +899,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Cuernavaca 15 km"
+      "zona_objetivo": "Cuernavaca 15 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-031",
@@ -878,8 +908,8 @@
       "ciudad": "Cuernavaca",
       "zona": "San Jerónimo / Tlaltenango",
       "estado": "Morelos",
-      "lat": 18.945,
-      "lon": -99.24,
+      "lat": 18.946513,
+      "lon": -99.244289,
       "precision": "colonia",
       "geocodificar": "Tlaltenango, Cuernavaca, Morelos, México",
       "tipo": "departamento",
@@ -898,7 +928,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "En la zona hay preventas de 1.95 mdp (3 rec/106 m²) a 3.6 mdp según el listado de IAD. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Cuernavaca 15 km"
+      "zona_objetivo": "Cuernavaca 15 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-032",
@@ -906,9 +937,9 @@
       "ciudad": "Cuernavaca",
       "zona": "Rancho Cortés",
       "estado": "Morelos",
-      "lat": 18.972,
-      "lon": -99.233,
-      "precision": "colonia",
+      "lat": 18.933132,
+      "lon": -99.259958,
+      "precision": "ciudad",
       "geocodificar": "Rancho Cortés, Cuernavaca, Morelos, México",
       "tipo": "casa",
       "nuevo": false,
@@ -926,7 +957,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precio sin gastos de escrituración. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Cuernavaca 15 km"
+      "zona_objetivo": "Cuernavaca 15 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-033",
@@ -934,9 +966,9 @@
       "ciudad": "Cuernavaca",
       "zona": "Rancho Cortés",
       "estado": "Morelos",
-      "lat": 18.9735,
-      "lon": -99.2345,
-      "precision": "colonia",
+      "lat": 18.933132,
+      "lon": -99.259958,
+      "precision": "ciudad",
       "geocodificar": "Rancho Cortés, Cuernavaca, Morelos, México",
       "tipo": "casa",
       "nuevo": false,
@@ -954,7 +986,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Cuernavaca 15 km"
+      "zona_objetivo": "Cuernavaca 15 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-034",
@@ -962,9 +995,9 @@
       "ciudad": "Temixco",
       "zona": "Burgos",
       "estado": "Morelos",
-      "lat": 18.872,
-      "lon": -99.224,
-      "precision": "colonia",
+      "lat": 18.871696,
+      "lon": -99.253567,
+      "precision": "ciudad",
       "geocodificar": "Burgos, Temixco, Morelos, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -982,7 +1015,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Enlace al listado de AMPI Cuernavaca; no se sabe si es obra nueva. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Cuernavaca 15 km"
+      "zona_objetivo": "Cuernavaca 15 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-035",
@@ -990,8 +1024,8 @@
       "ciudad": "Valle de Bravo",
       "zona": "Avándaro",
       "estado": "Estado de México",
-      "lat": 19.162,
-      "lon": -100.122,
+      "lat": 19.163655,
+      "lon": -100.129383,
       "precision": "colonia",
       "geocodificar": "Avándaro, Valle de Bravo, Estado de México, México",
       "tipo": "terreno",
@@ -1010,7 +1044,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valle de Bravo / Avándaro"
+      "zona_objetivo": "Valle de Bravo / Avándaro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-036",
@@ -1018,8 +1053,8 @@
       "ciudad": "Valle de Bravo",
       "zona": "Avándaro",
       "estado": "Estado de México",
-      "lat": 19.1605,
-      "lon": -100.12,
+      "lat": 19.163655,
+      "lon": -100.129383,
       "precision": "colonia",
       "geocodificar": "Avándaro, Valle de Bravo, Estado de México, México",
       "tipo": "terreno",
@@ -1038,7 +1073,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valle de Bravo / Avándaro"
+      "zona_objetivo": "Valle de Bravo / Avándaro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-037",
@@ -1046,8 +1082,8 @@
       "ciudad": "Valle de Bravo",
       "zona": "Circuito Avándaro",
       "estado": "Estado de México",
-      "lat": 19.158,
-      "lon": -100.118,
+      "lat": 19.163655,
+      "lon": -100.129383,
       "precision": "colonia",
       "geocodificar": "Avándaro, Valle de Bravo, Estado de México, México",
       "tipo": "terreno",
@@ -1066,7 +1102,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Escriturado; uso de suelo 1 vivienda por cada 2,000 m². precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valle de Bravo / Avándaro"
+      "zona_objetivo": "Valle de Bravo / Avándaro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-038",
@@ -1074,9 +1111,9 @@
       "ciudad": "Valle de Bravo",
       "zona": "Rancho Avándaro",
       "estado": "Estado de México",
-      "lat": 19.15,
-      "lon": -100.105,
-      "precision": "colonia",
+      "lat": 19.157429,
+      "lon": -100.049786,
+      "precision": "ciudad",
       "geocodificar": "Rancho Avándaro, Valle de Bravo, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1094,7 +1131,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "795 m² de terreno. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valle de Bravo / Avándaro"
+      "zona_objetivo": "Valle de Bravo / Avándaro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-039",
@@ -1102,9 +1140,9 @@
       "ciudad": "Valle de Bravo",
       "zona": "Club de Golf Avándaro",
       "estado": "Estado de México",
-      "lat": 19.159,
-      "lon": -100.124,
-      "precision": "colonia",
+      "lat": 19.159177,
+      "lon": -100.130852,
+      "precision": "ciudad",
       "geocodificar": "Club de Golf Avándaro, Valle de Bravo, Estado de México, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1122,7 +1160,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valle de Bravo / Avándaro"
+      "zona_objetivo": "Valle de Bravo / Avándaro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-040",
@@ -1130,8 +1169,8 @@
       "ciudad": "Valle de Bravo",
       "zona": "Avándaro",
       "estado": "Estado de México",
-      "lat": 19.161,
-      "lon": -100.121,
+      "lat": 19.163655,
+      "lon": -100.129383,
       "precision": "colonia",
       "geocodificar": "Avándaro, Valle de Bravo, Estado de México, México",
       "tipo": "casa",
@@ -1150,7 +1189,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Es una fracción (copropiedad), no la casa entera: revisar condiciones legales. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valle de Bravo / Avándaro"
+      "zona_objetivo": "Valle de Bravo / Avándaro",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-041",
@@ -1158,9 +1198,9 @@
       "ciudad": "La Paz",
       "zona": "El Centenario",
       "estado": "Baja California Sur",
-      "lat": 24.103,
-      "lon": -110.413,
-      "precision": "colonia",
+      "lat": 24.104807,
+      "lon": -110.41858,
+      "precision": "ciudad",
       "geocodificar": "El Centenario, La Paz, Baja California Sur, México",
       "tipo": "casa",
       "nuevo": true,
@@ -1178,7 +1218,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ya no venden lotes por separado. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "La Paz (BCS)"
+      "zona_objetivo": "La Paz (BCS)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-042",
@@ -1186,9 +1227,9 @@
       "ciudad": "La Paz",
       "zona": "El Centenario",
       "estado": "Baja California Sur",
-      "lat": 24.1035,
-      "lon": -110.4115,
-      "precision": "colonia",
+      "lat": 24.104807,
+      "lon": -110.41858,
+      "precision": "ciudad",
       "geocodificar": "El Centenario, La Paz, Baja California Sur, México",
       "tipo": "casa",
       "nuevo": true,
@@ -1206,7 +1247,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "652 m² de terreno; lista hacia primavera 2026. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "La Paz (BCS)"
+      "zona_objetivo": "La Paz (BCS)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-043",
@@ -1214,9 +1256,9 @@
       "ciudad": "La Paz",
       "zona": "El Centenario",
       "estado": "Baja California Sur",
-      "lat": 24.104,
-      "lon": -110.41,
-      "precision": "colonia",
+      "lat": 24.104807,
+      "lon": -110.41858,
+      "precision": "ciudad",
       "geocodificar": "El Centenario, La Paz, Baja California Sur, México",
       "tipo": "casa",
       "nuevo": true,
@@ -1234,7 +1276,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "250 m² de terreno. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "La Paz (BCS)"
+      "zona_objetivo": "La Paz (BCS)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

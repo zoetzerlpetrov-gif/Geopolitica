@@ -122,8 +122,8 @@
       "ciudad": "Perpignan",
       "zona": "Centro (1 avenue Rosette Blanc)",
       "estado": "Occitanie – Pyrénées-Orientales",
-      "lat": 42.6987,
-      "lon": 2.8956,
+      "lat": 42.699328,
+      "lon": 2.927163,
       "precision": "ciudad",
       "geocodificar": "1 Avenue Rosette Blanc, Perpignan, Pyrénées-Orientales, France",
       "tipo": "departamento",
@@ -142,7 +142,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Del 2 al 4 pièces (1–3 recámaras); otra página da desde 162 646 €. Ofertas TVA 5,5 %/PTZ solo para residencia principal con topes de ingreso.",
-      "zona_objetivo": "Pyrénées-Orientales – Perpignan"
+      "zona_objetivo": "Pyrénées-Orientales – Perpignan",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-002",
@@ -150,9 +151,9 @@
       "ciudad": "Canet-en-Roussillon",
       "zona": "Canet-Plage (cerca del acuario Oniria)",
       "estado": "Occitanie – Pyrénées-Orientales",
-      "lat": 42.7006,
-      "lon": 3.0283,
-      "precision": "colonia",
+      "lat": 42.696474,
+      "lon": 3.033027,
+      "precision": "ciudad",
       "geocodificar": "Canet-Plage, Canet-en-Roussillon, Pyrénées-Orientales, France",
       "tipo": "departamento",
       "nuevo": true,
@@ -170,7 +171,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 3 departamentos T3 restantes según página actualizada el 13-oct-2026, con terraza y estacionamiento; Nexity anuncia hasta 34 000 € de descuento.",
-      "zona_objetivo": "Pyrénées-Orientales – costa (Canet)"
+      "zona_objetivo": "Pyrénées-Orientales – costa (Canet)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-003",
@@ -178,9 +180,9 @@
       "ciudad": "Canet-en-Roussillon",
       "zona": "Canet-Plage (≈200 m de la playa)",
       "estado": "Occitanie – Pyrénées-Orientales",
-      "lat": 42.7006,
-      "lon": 3.0283,
-      "precision": "colonia",
+      "lat": 42.696474,
+      "lon": 3.033027,
+      "precision": "ciudad",
       "geocodificar": "Canet-Plage, Canet-en-Roussillon, Pyrénées-Orientales, France",
       "tipo": "departamento",
       "nuevo": true,
@@ -198,7 +200,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 4 unidades de 4–5 pièces con terrazas grandes (página del 19-oct-2026); snapshots anteriores daban desde 769 000 €.",
-      "zona_objetivo": "Pyrénées-Orientales – costa (Canet)"
+      "zona_objetivo": "Pyrénées-Orientales – costa (Canet)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-004",
@@ -206,8 +209,8 @@
       "ciudad": "Collioure",
       "zona": "Faubourg",
       "estado": "Occitanie – Pyrénées-Orientales",
-      "lat": 42.5253,
-      "lon": 3.082,
+      "lat": 42.52375,
+      "lon": 3.085114,
       "precision": "colonia",
       "geocodificar": "Faubourg, Collioure, Pyrénées-Orientales, France",
       "tipo": "casa",
@@ -226,7 +229,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Verificar honorarios de agencia incluidos y si sigue disponible.",
-      "zona_objetivo": "Pyrénées-Orientales – Collioure"
+      "zona_objetivo": "Pyrénées-Orientales – Collioure",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-005",
@@ -234,8 +238,8 @@
       "ciudad": "Narbonne",
       "zona": "Quai d'Alsace",
       "estado": "Occitanie – Aude",
-      "lat": 43.1837,
-      "lon": 3.0042,
+      "lat": 43.188637,
+      "lon": 2.998592,
       "precision": "colonia",
       "geocodificar": "Quai d'Alsace, Narbonne, Aude, France",
       "tipo": "departamento",
@@ -254,7 +258,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Residencia senior de 118 unidades (piscina, gimnasio, restaurante): producto de inversión gestionado, no vivienda libre. Precio sin mobiliario.",
-      "zona_objetivo": "Aude – Narbonne"
+      "zona_objetivo": "Aude – Narbonne",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-006",
@@ -262,8 +267,8 @@
       "ciudad": "Sète",
       "zona": "Sète",
       "estado": "Occitanie – Hérault",
-      "lat": 43.4028,
-      "lon": 3.6965,
+      "lat": 43.401443,
+      "lon": 3.695977,
       "precision": "ciudad",
       "geocodificar": "Sète, Hérault, France",
       "tipo": "departamento",
@@ -282,7 +287,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Del 2 al 4 pièces; una página anuncia hasta 40 000 € de descuento. URL de la ficha de ciudad (no se obtuvo la ficha individual).",
-      "zona_objetivo": "Hérault – Sète"
+      "zona_objetivo": "Hérault – Sète",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-007",
@@ -290,8 +296,8 @@
       "ciudad": "Montpellier",
       "zona": "Nouvelle Mairie / Port Marianne",
       "estado": "Occitanie – Hérault",
-      "lat": 43.599,
-      "lon": 3.897,
+      "lat": 43.605916,
+      "lon": 3.916817,
       "precision": "colonia",
       "geocodificar": "Port Marianne, Montpellier, Hérault, France",
       "tipo": "departamento",
@@ -310,7 +316,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 22 viviendas; precio indicado para 2 pièces. Existe un lote BRS (acceso social) aparte.",
-      "zona_objetivo": "Hérault – Montpellier"
+      "zona_objetivo": "Hérault – Montpellier",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-008",
@@ -318,8 +325,8 @@
       "ciudad": "Montpellier",
       "zona": "Junto a Antigone (cerca de Port Marianne)",
       "estado": "Occitanie – Hérault",
-      "lat": 43.608,
-      "lon": 3.889,
+      "lat": 43.608075,
+      "lon": 3.889752,
       "precision": "colonia",
       "geocodificar": "Antigone, Montpellier, Hérault, France",
       "tipo": "departamento",
@@ -338,7 +345,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2–3 pièces, estacionamiento incluido; precios de junio 2026.",
-      "zona_objetivo": "Hérault – Montpellier"
+      "zona_objetivo": "Hérault – Montpellier",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-009",
@@ -346,8 +354,8 @@
       "ciudad": "Le Grau-du-Roi",
       "zona": "Le Grau-du-Roi",
       "estado": "Occitanie – Gard",
-      "lat": 43.5371,
-      "lon": 4.1373,
+      "lat": 43.536006,
+      "lon": 4.137175,
       "precision": "ciudad",
       "geocodificar": "Le Grau-du-Roi, Gard, France",
       "tipo": "departamento",
@@ -366,7 +374,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Las páginas difieren (desde 295 000 € el 2 pièces vs desde 420 000 €); página indexada hace ~600 días: confirmar disponibilidad.",
-      "zona_objetivo": "Gard – litoral (Le Grau-du-Roi)"
+      "zona_objetivo": "Gard – litoral (Le Grau-du-Roi)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-010",
@@ -374,8 +383,8 @@
       "ciudad": "Nîmes",
       "zona": "Nîmes",
       "estado": "Occitanie – Gard",
-      "lat": 43.8367,
-      "lon": 4.3601,
+      "lat": 43.837425,
+      "lon": 4.360069,
       "precision": "ciudad",
       "geocodificar": "Nîmes, Gard, France",
       "tipo": "departamento",
@@ -394,7 +403,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 3 departamentos T3 disponibles. Nîmes está ~40 km tierra adentro.",
-      "zona_objetivo": "Gard – Nîmes"
+      "zona_objetivo": "Gard – Nîmes",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-011",
@@ -402,9 +412,9 @@
       "ciudad": "Nîmes",
       "zona": "Puech du Planas / Nîmes Nord",
       "estado": "Occitanie – Gard",
-      "lat": 43.855,
-      "lon": 4.355,
-      "precision": "colonia",
+      "lat": 43.837425,
+      "lon": 4.360069,
+      "precision": "ciudad",
       "geocodificar": "Nîmes, Gard, France",
       "tipo": "departamento",
       "nuevo": true,
@@ -422,7 +432,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 4 lotes T2–T4; los precios bajos son con TVA reducida 5,5 % (solo residencia principal con topes de ingreso); con TVA 20 % el T2 ronda 212 000 €.",
-      "zona_objetivo": "Gard – Nîmes"
+      "zona_objetivo": "Gard – Nîmes",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-012",
@@ -430,8 +441,8 @@
       "ciudad": "Marseille",
       "zona": "Les Fabriques (15e arr.)",
       "estado": "Provence-Alpes-Côte d'Azur – Bouches-du-Rhône",
-      "lat": 43.339,
-      "lon": 5.364,
+      "lat": 43.353156,
+      "lon": 5.364765,
       "precision": "colonia",
       "geocodificar": "Marseille 15e Arrondissement, Bouches-du-Rhône, France",
       "tipo": "departamento",
@@ -450,7 +461,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Estudios a 3 pièces; otras páginas dan hasta 350 000 €. Estacionamiento incluido, sin gastos notariales.",
-      "zona_objetivo": "Bouches-du-Rhône – Marseille"
+      "zona_objetivo": "Bouches-du-Rhône – Marseille",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-013",
@@ -486,9 +498,9 @@
       "ciudad": "La Ciotat",
       "zona": "983 avenue Guillaume Dulac",
       "estado": "Provence-Alpes-Côte d'Azur – Bouches-du-Rhône",
-      "lat": 43.182,
-      "lon": 5.61,
-      "precision": "colonia",
+      "lat": 43.200263,
+      "lon": 5.620063,
+      "precision": "ciudad",
       "geocodificar": "Avenue Guillaume Dulac, La Ciotat, Bouches-du-Rhône, France",
       "tipo": "departamento",
       "nuevo": true,
@@ -506,7 +518,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2–3 pièces desde 295 000 € (otra página: 3 pièces 58 m² desde 375 000 €). NF Habitat, RE2020.",
-      "zona_objetivo": "Bouches-du-Rhône – La Ciotat"
+      "zona_objetivo": "Bouches-du-Rhône – La Ciotat",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-015",
@@ -514,8 +527,8 @@
       "ciudad": "Aix-en-Provence",
       "zona": "Aix-en-Provence",
       "estado": "Provence-Alpes-Côte d'Azur – Bouches-du-Rhône",
-      "lat": 43.5297,
-      "lon": 5.4474,
+      "lat": 43.529842,
+      "lon": 5.447474,
       "precision": "ciudad",
       "geocodificar": "Aix-en-Provence, Bouches-du-Rhône, France",
       "tipo": "departamento",
@@ -534,7 +547,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2–4 pièces; Pass'Proprio (notaría ofrecida) con condiciones.",
-      "zona_objetivo": "Bouches-du-Rhône – Aix-en-Provence"
+      "zona_objetivo": "Bouches-du-Rhône – Aix-en-Provence",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-016",
@@ -542,8 +556,8 @@
       "ciudad": "Aix-en-Provence",
       "zona": "Aix-en-Provence",
       "estado": "Provence-Alpes-Côte d'Azur – Bouches-du-Rhône",
-      "lat": 43.5297,
-      "lon": 5.4474,
+      "lat": 43.529842,
+      "lon": 5.447474,
       "precision": "ciudad",
       "geocodificar": "Aix-en-Provence, Bouches-du-Rhône, France",
       "tipo": "departamento",
@@ -562,7 +576,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Estudio a 4 pièces.",
-      "zona_objetivo": "Bouches-du-Rhône – Aix-en-Provence"
+      "zona_objetivo": "Bouches-du-Rhône – Aix-en-Provence",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-017",
@@ -570,8 +585,8 @@
       "ciudad": "Aix-en-Provence",
       "zona": "Aix-en-Provence",
       "estado": "Provence-Alpes-Côte d'Azur – Bouches-du-Rhône",
-      "lat": 43.5297,
-      "lon": 5.4474,
+      "lat": 43.529842,
+      "lon": 5.447474,
       "precision": "ciudad",
       "geocodificar": "Aix-en-Provence, Bouches-du-Rhône, France",
       "tipo": "departamento",
@@ -590,7 +605,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2 a 5 pièces.",
-      "zona_objetivo": "Bouches-du-Rhône – Aix-en-Provence"
+      "zona_objetivo": "Bouches-du-Rhône – Aix-en-Provence",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-018",
@@ -598,8 +614,8 @@
       "ciudad": "Toulon",
       "zona": "Toulon",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.1242,
-      "lon": 5.928,
+      "lat": 43.125731,
+      "lon": 5.930492,
       "precision": "ciudad",
       "geocodificar": "Toulon, Var, France",
       "tipo": "departamento",
@@ -618,7 +634,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2–3 pièces; precios con TVA 5,5 % (solo residencia principal con topes): para no residente aplicaría TVA 20 %, verificar precio.",
-      "zona_objetivo": "Var – Toulon"
+      "zona_objetivo": "Var – Toulon",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-019",
@@ -626,8 +643,8 @@
       "ciudad": "Toulon",
       "zona": "Toulon",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.1242,
-      "lon": 5.928,
+      "lat": 43.125731,
+      "lon": 5.930492,
       "precision": "ciudad",
       "geocodificar": "Toulon, Var, France",
       "tipo": "departamento",
@@ -646,7 +663,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 3 y 4 pièces.",
-      "zona_objetivo": "Var – Toulon"
+      "zona_objetivo": "Var – Toulon",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-020",
@@ -654,8 +672,8 @@
       "ciudad": "Toulon",
       "zona": "Cap Brun",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.11,
-      "lon": 5.98,
+      "lat": 43.109285,
+      "lon": 5.96858,
       "precision": "colonia",
       "geocodificar": "Cap Brun, Toulon, Var, France",
       "tipo": "casa",
@@ -674,7 +692,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Página antigua (>1 año): confirmar que siga en venta.",
-      "zona_objetivo": "Var – Toulon"
+      "zona_objetivo": "Var – Toulon",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-021",
@@ -682,8 +701,8 @@
       "ciudad": "Hyères",
       "zona": "Hyères",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.1204,
-      "lon": 6.1286,
+      "lat": 43.120257,
+      "lon": 6.130161,
       "precision": "ciudad",
       "geocodificar": "Hyères, Var, France",
       "tipo": "departamento",
@@ -702,7 +721,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio con TVA 20 % y doble estacionamiento; descuento 3 000 €/pieza anunciado.",
-      "zona_objetivo": "Var – Hyères"
+      "zona_objetivo": "Var – Hyères",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-022",
@@ -710,8 +730,8 @@
       "ciudad": "Hyères",
       "zona": "Hyères",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.1204,
-      "lon": 6.1286,
+      "lat": 43.120257,
+      "lon": 6.130161,
       "precision": "ciudad",
       "geocodificar": "Hyères, Var, France",
       "tipo": "departamento",
@@ -730,7 +750,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Var – Hyères"
+      "zona_objetivo": "Var – Hyères",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-023",
@@ -738,8 +759,8 @@
       "ciudad": "Saint-Tropez",
       "zona": "Le Capon",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.264,
-      "lon": 6.65,
+      "lat": 43.272719,
+      "lon": 6.640523,
       "precision": "colonia",
       "geocodificar": "Saint-Tropez, Var, France",
       "tipo": "villa",
@@ -758,7 +779,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. OJO: nue-propriété (sin usufructo: no se puede ocupar hasta que termine el usufructo). Honorarios a cargo del vendedor.",
-      "zona_objetivo": "Var – Saint-Tropez"
+      "zona_objetivo": "Var – Saint-Tropez",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-024",
@@ -766,9 +788,9 @@
       "ciudad": "Saint-Tropez",
       "zona": "Saint-Tropez",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.27,
-      "lon": 6.639,
-      "precision": "ciudad",
+      "lat": 43.272719,
+      "lon": 6.640523,
+      "precision": "colonia",
       "geocodificar": "Saint-Tropez, Var, France",
       "tipo": "casa",
       "nuevo": false,
@@ -786,7 +808,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Var – Saint-Tropez"
+      "zona_objetivo": "Var – Saint-Tropez",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-025",
@@ -794,9 +817,9 @@
       "ciudad": "Grimaud",
       "zona": "Grimaud",
       "estado": "Provence-Alpes-Côte d'Azur – Var",
-      "lat": 43.274,
-      "lon": 6.522,
-      "precision": "ciudad",
+      "lat": 43.27377,
+      "lon": 6.522298,
+      "precision": "colonia",
       "geocodificar": "Grimaud, Var, France",
       "tipo": "terreno",
       "nuevo": false,
@@ -814,7 +837,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de terrenos del Var (no de la ficha). Pedir certificat d'urbanisme y revisar PLU/Loi Littoral.",
-      "zona_objetivo": "Var – golfo de Saint-Tropez"
+      "zona_objetivo": "Var – golfo de Saint-Tropez",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-026",
@@ -822,8 +846,8 @@
       "ciudad": "Antibes",
       "zona": "Antibes",
       "estado": "Provence-Alpes-Côte d'Azur – Alpes-Maritimes",
-      "lat": 43.5808,
-      "lon": 7.1239,
+      "lat": 43.581388,
+      "lon": 7.123697,
       "precision": "ciudad",
       "geocodificar": "Antibes, Alpes-Maritimes, France",
       "tipo": "departamento",
@@ -842,7 +866,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Las páginas se contradicen (437 000–1 292 000 €, 480 000–1 262 000 € y una de 166 900–425 900 €); DPE A, plano configurable. Distinto de La Roseraie d'Antipolis (Nexity) ya listado.",
-      "zona_objetivo": "Alpes-Maritimes – Antibes"
+      "zona_objetivo": "Alpes-Maritimes – Antibes",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-027",
@@ -850,9 +875,9 @@
       "ciudad": "Cannes",
       "zona": "Basse Californie",
       "estado": "Provence-Alpes-Côte d'Azur – Alpes-Maritimes",
-      "lat": 43.553,
-      "lon": 7.033,
-      "precision": "colonia",
+      "lat": 43.551792,
+      "lon": 7.016984,
+      "precision": "ciudad",
       "geocodificar": "La Californie, Cannes, Alpes-Maritimes, France",
       "tipo": "departamento",
       "nuevo": false,
@@ -870,7 +895,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Alpes-Maritimes – Cannes"
+      "zona_objetivo": "Alpes-Maritimes – Cannes",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-028",
@@ -878,9 +904,9 @@
       "ciudad": "Cannes",
       "zona": "Californie",
       "estado": "Provence-Alpes-Côte d'Azur – Alpes-Maritimes",
-      "lat": 43.556,
-      "lon": 7.036,
-      "precision": "colonia",
+      "lat": 43.551792,
+      "lon": 7.016984,
+      "precision": "ciudad",
       "geocodificar": "La Californie, Cannes, Alpes-Maritimes, France",
       "tipo": "departamento",
       "nuevo": false,
@@ -898,7 +924,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Alpes-Maritimes – Cannes"
+      "zona_objetivo": "Alpes-Maritimes – Cannes",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-029",
@@ -906,8 +933,8 @@
       "ciudad": "Mougins",
       "zona": "Mougins",
       "estado": "Provence-Alpes-Côte d'Azur – Alpes-Maritimes",
-      "lat": 43.6,
-      "lon": 6.995,
+      "lat": 43.60089,
+      "lon": 6.996354,
       "precision": "ciudad",
       "geocodificar": "Mougins, Alpes-Maritimes, France",
       "tipo": "terreno",
@@ -926,7 +953,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de terrenos de Alpes-Maritimes. Pedir certificat d'urbanisme.",
-      "zona_objetivo": "Alpes-Maritimes – Cannes (interior, ~8 km)"
+      "zona_objetivo": "Alpes-Maritimes – Cannes (interior, ~8 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-030",
@@ -934,8 +962,8 @@
       "ciudad": "Menton",
       "zona": "Menton",
       "estado": "Provence-Alpes-Côte d'Azur – Alpes-Maritimes",
-      "lat": 43.7764,
-      "lon": 7.5048,
+      "lat": 43.775349,
+      "lon": 7.502921,
       "precision": "ciudad",
       "geocodificar": "Menton, Alpes-Maritimes, France",
       "tipo": "departamento",
@@ -954,7 +982,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 2 pièces desde 283 000 €; 3 pièces desde 399 000 € en otra página.",
-      "zona_objetivo": "Alpes-Maritimes – Menton"
+      "zona_objetivo": "Alpes-Maritimes – Menton",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-031",
@@ -962,8 +991,8 @@
       "ciudad": "Roquebrune-Cap-Martin",
       "zona": "Roquebrune-Cap-Martin",
       "estado": "Provence-Alpes-Côte d'Azur – Alpes-Maritimes",
-      "lat": 43.762,
-      "lon": 7.469,
+      "lat": 43.765059,
+      "lon": 7.459936,
       "precision": "ciudad",
       "geocodificar": "Roquebrune-Cap-Martin, Alpes-Maritimes, France",
       "tipo": "departamento",
@@ -982,7 +1011,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 1 a 4 pièces; listado de Nexity para el área de Menton.",
-      "zona_objetivo": "Alpes-Maritimes – Menton"
+      "zona_objetivo": "Alpes-Maritimes – Menton",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-032",
@@ -990,9 +1020,9 @@
       "ciudad": "Ajaccio",
       "zona": "Route des Sanguinaires",
       "estado": "Corse – Corse-du-Sud",
-      "lat": 41.915,
-      "lon": 8.68,
-      "precision": "colonia",
+      "lat": 41.908464,
+      "lon": 8.635993,
+      "precision": "ciudad",
       "geocodificar": "Route des Sanguinaires, Ajaccio, Corse-du-Sud, France",
       "tipo": "villa",
       "nuevo": false,
@@ -1010,7 +1040,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Terreno 1 503 m². Punto en tierra sobre la carretera de los Sanguinaires.",
-      "zona_objetivo": "Córcega – Ajaccio"
+      "zona_objetivo": "Córcega – Ajaccio",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-033",
@@ -1018,8 +1049,8 @@
       "ciudad": "Porto-Vecchio",
       "zona": "Porto-Vecchio",
       "estado": "Corse – Corse-du-Sud",
-      "lat": 41.5912,
-      "lon": 9.2795,
+      "lat": 41.591138,
+      "lon": 9.279447,
       "precision": "ciudad",
       "geocodificar": "Porto-Vecchio, Corse-du-Sud, France",
       "tipo": "villa",
@@ -1038,7 +1069,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Mismo inmueble aparece a 1 785 000 € y 1 890 000 €; página de listado antigua: confirmar.",
-      "zona_objetivo": "Córcega – Porto-Vecchio"
+      "zona_objetivo": "Córcega – Porto-Vecchio",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-034",
@@ -1046,8 +1078,8 @@
       "ciudad": "Porto-Vecchio",
       "zona": "Porto-Vecchio",
       "estado": "Corse – Corse-du-Sud",
-      "lat": 41.5912,
-      "lon": 9.2795,
+      "lat": 41.591138,
+      "lon": 9.279447,
       "precision": "ciudad",
       "geocodificar": "Porto-Vecchio, Corse-du-Sud, France",
       "tipo": "terreno",
@@ -1066,7 +1098,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Página de listado de hace ~2,5 años según el buscador: probablemente vendido; confirmar. Revisar PLU/PADDUC y Loi Littoral.",
-      "zona_objetivo": "Córcega – Porto-Vecchio"
+      "zona_objetivo": "Córcega – Porto-Vecchio",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-035",
@@ -1074,8 +1107,8 @@
       "ciudad": "Bastia",
       "zona": "Bastia",
       "estado": "Corse – Haute-Corse",
-      "lat": 42.697,
-      "lon": 9.443,
+      "lat": 42.697461,
+      "lon": 9.449771,
       "precision": "ciudad",
       "geocodificar": "Bastia, Haute-Corse, France",
       "tipo": "villa",
@@ -1094,7 +1127,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Córcega – Bastia"
+      "zona_objetivo": "Córcega – Bastia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-036",
@@ -1102,8 +1136,8 @@
       "ciudad": "Calvi",
       "zona": "Calvi",
       "estado": "Corse – Haute-Corse",
-      "lat": 42.567,
-      "lon": 8.757,
+      "lat": 42.567664,
+      "lon": 8.75887,
       "precision": "ciudad",
       "geocodificar": "Calvi, Haute-Corse, France",
       "tipo": "villa",
@@ -1122,7 +1156,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Córcega – Calvi"
+      "zona_objetivo": "Córcega – Calvi",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-001",
@@ -1158,8 +1193,8 @@
       "ciudad": "Torrevieja",
       "zona": "La Mata",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.021,
-      "lon": -0.656,
+      "lat": 38.026551,
+      "lon": -0.654524,
       "precision": "colonia",
       "geocodificar": "La Mata, Torrevieja, Alicante, España",
       "tipo": "departamento",
@@ -1178,7 +1213,8 @@
       "fuente": "prensa",
       "visto": "2026-10-22",
       "nota": "Sin precio en la fuente; nota de prensa antigua (inversión 75 M€). Verificar fases aún en venta en taylorwimpey.es.",
-      "zona_objetivo": "Alicante – Torrevieja"
+      "zona_objetivo": "Alicante – Torrevieja",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-003",
@@ -1186,8 +1222,8 @@
       "ciudad": "Santa Pola",
       "zona": "Gran Alacant",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.227,
-      "lon": -0.527,
+      "lat": 38.229849,
+      "lon": -0.526536,
       "precision": "colonia",
       "geocodificar": "Gran Alacant, Santa Pola, Alicante, España",
       "tipo": "departamento",
@@ -1206,7 +1242,8 @@
       "fuente": "prensa",
       "visto": "2026-10-22",
       "nota": "Sin precio en el resultado; pedir lista de precios a la promotora.",
-      "zona_objetivo": "Alicante – Alicante (Gran Alacant)"
+      "zona_objetivo": "Alicante – Alicante (Gran Alacant)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-004",
@@ -1214,8 +1251,8 @@
       "ciudad": "Xàbia / Jávea",
       "zona": "Xàbia",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.789,
-      "lon": 0.166,
+      "lat": 38.78938,
+      "lon": 0.163417,
       "precision": "ciudad",
       "geocodificar": "Xàbia, Alicante, España",
       "tipo": "departamento",
@@ -1234,7 +1271,8 @@
       "fuente": "prensa",
       "visto": "2026-10-22",
       "nota": "Sin precio en el resultado. Distinta de Sora (Dénia) ya listada en europa_sur.",
-      "zona_objetivo": "Alicante – Jávea"
+      "zona_objetivo": "Alicante – Jávea",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-005",
@@ -1242,8 +1280,8 @@
       "ciudad": "Alicante",
       "zona": "Alicante ciudad",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.357,
-      "lon": -0.49,
+      "lat": 38.343637,
+      "lon": -0.488171,
       "precision": "ciudad",
       "geocodificar": "Alicante, Alicante, España",
       "tipo": "departamento",
@@ -1262,7 +1300,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. La ficha dice desde 255 000 € y el listado desde 265 000 €. AEDAS en proceso de integración con Neinor (verificar).",
-      "zona_objetivo": "Alicante – Alicante"
+      "zona_objetivo": "Alicante – Alicante",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-006",
@@ -1270,8 +1309,8 @@
       "ciudad": "Alicante",
       "zona": "Alicante ciudad",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.357,
-      "lon": -0.49,
+      "lat": 38.343637,
+      "lon": -0.488171,
       "precision": "ciudad",
       "geocodificar": "Alicante, Alicante, España",
       "tipo": "departamento",
@@ -1290,7 +1329,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de Alicante ciudad.",
-      "zona_objetivo": "Alicante – Alicante"
+      "zona_objetivo": "Alicante – Alicante",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-007",
@@ -1298,8 +1338,8 @@
       "ciudad": "Alicante",
       "zona": "Provincia de Alicante (municipio por confirmar)",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.345,
-      "lon": -0.49,
+      "lat": 38.343637,
+      "lon": -0.488171,
       "precision": "ciudad",
       "geocodificar": "Alicante, Alicante, España",
       "tipo": "departamento",
@@ -1318,7 +1358,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio + IVA (10 %). Página de 1–2 años de antigüedad; municipio exacto por confirmar.",
-      "zona_objetivo": "Alicante – Alicante"
+      "zona_objetivo": "Alicante – Alicante",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-008",
@@ -1326,8 +1367,8 @@
       "ciudad": "Alicante",
       "zona": "Provincia de Alicante (municipio por confirmar)",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.345,
-      "lon": -0.49,
+      "lat": 38.343637,
+      "lon": -0.488171,
       "precision": "ciudad",
       "geocodificar": "Alicante, Alicante, España",
       "tipo": "departamento",
@@ -1346,7 +1387,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio + IVA. Municipio exacto por confirmar (coordenada provisional en Alicante ciudad).",
-      "zona_objetivo": "Alicante – Alicante"
+      "zona_objetivo": "Alicante – Alicante",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-009",
@@ -1354,8 +1396,8 @@
       "ciudad": "Calp",
       "zona": "Calp",
       "estado": "Comunitat Valenciana – Alicante",
-      "lat": 38.644,
-      "lon": 0.045,
+      "lat": 38.644325,
+      "lon": 0.046012,
       "precision": "ciudad",
       "geocodificar": "Calp, Alicante, España",
       "tipo": "departamento",
@@ -1374,7 +1416,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Otra versión de la página da 373 000 €. Calp está entre Altea y Benissa.",
-      "zona_objetivo": "Alicante – Altea / Benidorm"
+      "zona_objetivo": "Alicante – Altea / Benidorm",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-010",
@@ -1382,8 +1425,8 @@
       "ciudad": "Valencia",
       "zona": "Valencia ciudad",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.47,
-      "lon": -0.377,
+      "lat": 39.469707,
+      "lon": -0.376335,
       "precision": "ciudad",
       "geocodificar": "Valencia, Valencia, España",
       "tipo": "departamento",
@@ -1402,7 +1445,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valencia – Valencia"
+      "zona_objetivo": "Valencia – Valencia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-011",
@@ -1410,8 +1454,8 @@
       "ciudad": "Valencia",
       "zona": "Valencia ciudad",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.47,
-      "lon": -0.377,
+      "lat": 39.469707,
+      "lon": -0.376335,
       "precision": "ciudad",
       "geocodificar": "Valencia, Valencia, España",
       "tipo": "departamento",
@@ -1430,7 +1474,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. El listado da desde 365 000 € y la ficha desde 516 000 €.",
-      "zona_objetivo": "Valencia – Valencia"
+      "zona_objetivo": "Valencia – Valencia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-012",
@@ -1438,8 +1483,8 @@
       "ciudad": "Quart de Poblet",
       "zona": "Quart de Poblet",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.482,
-      "lon": -0.44,
+      "lat": 39.482725,
+      "lon": -0.443885,
       "precision": "ciudad",
       "geocodificar": "Quart de Poblet, Valencia, España",
       "tipo": "departamento",
@@ -1458,7 +1503,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Área metropolitana, ~8 km al oeste de Valencia.",
-      "zona_objetivo": "Valencia – Valencia (área metropolitana)"
+      "zona_objetivo": "Valencia – Valencia (área metropolitana)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-013",
@@ -1466,8 +1512,8 @@
       "ciudad": "Paterna",
       "zona": "Paterna",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.503,
-      "lon": -0.44,
+      "lat": 39.525942,
+      "lon": -0.473302,
       "precision": "ciudad",
       "geocodificar": "Paterna, Valencia, España",
       "tipo": "departamento",
@@ -1486,7 +1532,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valencia – Valencia (área metropolitana)"
+      "zona_objetivo": "Valencia – Valencia (área metropolitana)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-014",
@@ -1494,8 +1541,8 @@
       "ciudad": "Valencia",
       "zona": "Valencia (municipio por confirmar)",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.47,
-      "lon": -0.377,
+      "lat": 39.469707,
+      "lon": -0.376335,
       "precision": "ciudad",
       "geocodificar": "Valencia, Valencia, España",
       "tipo": "casa",
@@ -1514,7 +1561,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Tipo (casa o piso) y municipio exacto por confirmar.",
-      "zona_objetivo": "Valencia – Valencia"
+      "zona_objetivo": "Valencia – Valencia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-015",
@@ -1522,8 +1570,8 @@
       "ciudad": "Valencia",
       "zona": "Valencia ciudad",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.47,
-      "lon": -0.377,
+      "lat": 39.469707,
+      "lon": -0.376335,
       "precision": "ciudad",
       "geocodificar": "Valencia, Valencia, España",
       "tipo": "departamento",
@@ -1542,7 +1590,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. 83 viviendas; precio sin IVA. Página antigua (1–2 años).",
-      "zona_objetivo": "Valencia – Valencia"
+      "zona_objetivo": "Valencia – Valencia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-016",
@@ -1550,8 +1599,8 @@
       "ciudad": "Valencia",
       "zona": "Patraix",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.46,
-      "lon": -0.396,
+      "lat": 39.459053,
+      "lon": -0.400805,
       "precision": "colonia",
       "geocodificar": "Patraix, Valencia, Valencia, España",
       "tipo": "departamento",
@@ -1570,7 +1619,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio sin IVA; club social, gimnasio y piscina.",
-      "zona_objetivo": "Valencia – Valencia"
+      "zona_objetivo": "Valencia – Valencia",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-017",
@@ -1578,8 +1628,8 @@
       "ciudad": "Sagunto",
       "zona": "Sagunto",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.679,
-      "lon": -0.278,
+      "lat": 39.679292,
+      "lon": -0.278645,
       "precision": "ciudad",
       "geocodificar": "Sagunt, Valencia, España",
       "tipo": "departamento",
@@ -1598,7 +1648,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio + IVA.",
-      "zona_objetivo": "Valencia – Valencia (norte)"
+      "zona_objetivo": "Valencia – Valencia (norte)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-018",
@@ -1606,8 +1657,8 @@
       "ciudad": "Cullera",
       "zona": "Racó de Cullera",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 39.172,
-      "lon": -0.241,
+      "lat": 39.157726,
+      "lon": -0.257158,
       "precision": "colonia",
       "geocodificar": "Racó, Cullera, Valencia, España",
       "tipo": "departamento",
@@ -1626,7 +1677,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Valencia – Cullera"
+      "zona_objetivo": "Valencia – Cullera",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-019",
@@ -1634,9 +1686,9 @@
       "ciudad": "Gandia",
       "zona": "Grau de Gandia",
       "estado": "Comunitat Valenciana – Valencia",
-      "lat": 38.996,
-      "lon": -0.16,
-      "precision": "colonia",
+      "lat": 38.990119,
+      "lon": -0.162517,
+      "precision": "ciudad",
       "geocodificar": "Grau de Gandia, Gandia, Valencia, España",
       "tipo": "departamento",
       "nuevo": true,
@@ -1654,7 +1706,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precios + IVA; régimen de COOPERATIVA a precio de coste (el precio final puede variar y hay riesgo de promoción); licencia solicitada, no concedida, según la página.",
-      "zona_objetivo": "Valencia – Gandía"
+      "zona_objetivo": "Valencia – Gandía",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-020",
@@ -1662,9 +1715,9 @@
       "ciudad": "Castelló de la Plana",
       "zona": "Avenida Blasco Ibáñez",
       "estado": "Comunitat Valenciana – Castellón",
-      "lat": 39.986,
-      "lon": -0.042,
-      "precision": "colonia",
+      "lat": 39.986035,
+      "lon": -0.037735,
+      "precision": "ciudad",
       "geocodificar": "Avinguda de Blasco Ibáñez, Castelló de la Plana, Castellón, España",
       "tipo": "departamento",
       "nuevo": true,
@@ -1682,7 +1735,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Sin precio en la noticia de lanzamiento; pedir lista de precios.",
-      "zona_objetivo": "Castellón – Castellón / Benicàssim"
+      "zona_objetivo": "Castellón – Castellón / Benicàssim",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-021",
@@ -1690,9 +1744,9 @@
       "ciudad": "Benicàssim",
       "zona": "Benicàssim",
       "estado": "Comunitat Valenciana – Castellón",
-      "lat": 40.055,
-      "lon": 0.064,
-      "precision": "ciudad",
+      "lat": 40.055418,
+      "lon": 0.064465,
+      "precision": "colonia",
       "geocodificar": "Benicàssim, Castellón, España",
       "tipo": "departamento",
       "nuevo": true,
@@ -1710,7 +1764,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. La ficha da desde ~305 000 € y también 500 000 € como precio inicial: confirmar. Licencia de obra concedida.",
-      "zona_objetivo": "Castellón – Benicàssim"
+      "zona_objetivo": "Castellón – Benicàssim",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-022",
@@ -1718,8 +1773,8 @@
       "ciudad": "Cambrils",
       "zona": "Platja de la Llosa",
       "estado": "Cataluña – Tarragona",
-      "lat": 41.07,
-      "lon": 1.04,
+      "lat": 41.065109,
+      "lon": 1.042509,
       "precision": "colonia",
       "geocodificar": "La Llosa, Cambrils, Tarragona, España",
       "tipo": "departamento",
@@ -1738,7 +1793,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado general de obra nueva de Lucas Fox (no se obtuvo la ficha).",
-      "zona_objetivo": "Tarragona – Cambrils"
+      "zona_objetivo": "Tarragona – Cambrils",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-023",
@@ -1746,8 +1802,8 @@
       "ciudad": "Cambrils",
       "zona": "Cambrils (frente al mar)",
       "estado": "Cataluña – Tarragona",
-      "lat": 41.067,
-      "lon": 1.058,
+      "lat": 41.067942,
+      "lon": 1.065758,
       "precision": "ciudad",
       "geocodificar": "Cambrils, Tarragona, España",
       "tipo": "departamento",
@@ -1766,7 +1822,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. El artículo (≈262 días) menciona también otra promoción desde 415 000 €.",
-      "zona_objetivo": "Tarragona – Cambrils / Salou"
+      "zona_objetivo": "Tarragona – Cambrils / Salou",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-024",
@@ -1774,8 +1831,8 @@
       "ciudad": "Esplugues de Llobregat",
       "zona": "Esplugues de Llobregat",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.377,
-      "lon": 2.088,
+      "lat": 41.377809,
+      "lon": 2.088626,
       "precision": "ciudad",
       "geocodificar": "Esplugues de Llobregat, Barcelona, España",
       "tipo": "departamento",
@@ -1794,7 +1851,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Versiones de la página: 354 000 / 362 500 / 365 000 €.",
-      "zona_objetivo": "Barcelona – Barcelona (área metropolitana)"
+      "zona_objetivo": "Barcelona – Barcelona (área metropolitana)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-025",
@@ -1802,8 +1860,8 @@
       "ciudad": "Rubí",
       "zona": "Rubí",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.493,
-      "lon": 2.033,
+      "lat": 41.493619,
+      "lon": 2.031948,
       "precision": "ciudad",
       "geocodificar": "Rubí, Barcelona, España",
       "tipo": "casa",
@@ -1822,7 +1880,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Rubí está ~20 km tierra adentro; tipo de vivienda por confirmar.",
-      "zona_objetivo": "Barcelona – Vallès (≤50 km)"
+      "zona_objetivo": "Barcelona – Vallès (≤50 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-026",
@@ -1830,8 +1889,8 @@
       "ciudad": "Barcelona",
       "zona": "Barcelona ciudad",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.387,
-      "lon": 2.17,
+      "lat": 41.38258,
+      "lon": 2.177073,
       "precision": "ciudad",
       "geocodificar": "Barcelona, Barcelona, España",
       "tipo": "departamento",
@@ -1850,7 +1909,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado general de AEDAS.",
-      "zona_objetivo": "Barcelona – Barcelona"
+      "zona_objetivo": "Barcelona – Barcelona",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-027",
@@ -1858,8 +1918,8 @@
       "ciudad": "Sant Adrià de Besòs",
       "zona": "Sant Adrià de Besòs",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.43,
-      "lon": 2.218,
+      "lat": 41.430483,
+      "lon": 2.218278,
       "precision": "ciudad",
       "geocodificar": "Sant Adrià de Besòs, Barcelona, España",
       "tipo": "departamento",
@@ -1878,7 +1938,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio de una nota de prensa antigua de AEDAS: probablemente desactualizado o agotado.",
-      "zona_objetivo": "Barcelona – Barcelona (área metropolitana)"
+      "zona_objetivo": "Barcelona – Barcelona (área metropolitana)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-028",
@@ -1886,8 +1947,8 @@
       "ciudad": "Barberà del Vallès",
       "zona": "Barberà del Vallès",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.516,
-      "lon": 2.124,
+      "lat": 41.517253,
+      "lon": 2.126594,
       "precision": "ciudad",
       "geocodificar": "Barberà del Vallès, Barcelona, España",
       "tipo": "departamento",
@@ -1906,7 +1967,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. ~20 km tierra adentro.",
-      "zona_objetivo": "Barcelona – Vallès (≤50 km)"
+      "zona_objetivo": "Barcelona – Vallès (≤50 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-029",
@@ -1914,8 +1976,8 @@
       "ciudad": "Terrassa",
       "zona": "Vallparadís",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.563,
-      "lon": 2.02,
+      "lat": 41.566542,
+      "lon": 2.021582,
       "precision": "colonia",
       "geocodificar": "Vallparadís, Terrassa, Barcelona, España",
       "tipo": "departamento",
@@ -1934,7 +1996,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio + IVA. Terrassa ~30 km tierra adentro.",
-      "zona_objetivo": "Barcelona – Vallès (≤50 km)"
+      "zona_objetivo": "Barcelona – Vallès (≤50 km)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-030",
@@ -1942,8 +2005,8 @@
       "ciudad": "Castelldefels",
       "zona": "Castelldefels",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.281,
-      "lon": 1.977,
+      "lat": 41.286102,
+      "lon": 1.982417,
       "precision": "ciudad",
       "geocodificar": "Castelldefels, Barcelona, España",
       "tipo": "townhouse",
@@ -1962,7 +2025,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de casas de E&V Castelldefels (143 resultados, de ~581 000 € a 2,6 M€ en villas frente al mar).",
-      "zona_objetivo": "Barcelona – Castelldefels"
+      "zona_objetivo": "Barcelona – Castelldefels",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-031",
@@ -1970,8 +2034,8 @@
       "ciudad": "Sitges",
       "zona": "Sitges",
       "estado": "Cataluña – Barcelona",
-      "lat": 41.237,
-      "lon": 1.806,
+      "lat": 41.23536,
+      "lon": 1.81141,
       "precision": "ciudad",
       "geocodificar": "Sitges, Barcelona, España",
       "tipo": "casa",
@@ -1990,7 +2054,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de E&V Sitges; el mismo listado muestra una villa en Can Girona a 4,3 M€.",
-      "zona_objetivo": "Barcelona – Sitges"
+      "zona_objetivo": "Barcelona – Sitges",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-032",
@@ -1998,8 +2063,8 @@
       "ciudad": "Castell-Platja d'Aro",
       "zona": "Platja d'Aro",
       "estado": "Cataluña – Girona",
-      "lat": 41.818,
-      "lon": 3.067,
+      "lat": 41.818469,
+      "lon": 3.0688,
       "precision": "ciudad",
       "geocodificar": "Platja d'Aro, Castell-Platja d'Aro, Girona, España",
       "tipo": "departamento",
@@ -2018,7 +2083,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Precio + IVA.",
-      "zona_objetivo": "Girona – Costa Brava"
+      "zona_objetivo": "Girona – Costa Brava",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-033",
@@ -2026,8 +2092,8 @@
       "ciudad": "Castell-Platja d'Aro",
       "zona": "Platja d'Aro",
       "estado": "Cataluña – Girona",
-      "lat": 41.818,
-      "lon": 3.067,
+      "lat": 41.818469,
+      "lon": 3.0688,
       "precision": "ciudad",
       "geocodificar": "Platja d'Aro, Castell-Platja d'Aro, Girona, España",
       "tipo": "departamento",
@@ -2046,7 +2112,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Girona – Costa Brava"
+      "zona_objetivo": "Girona – Costa Brava",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-034",
@@ -2054,8 +2121,8 @@
       "ciudad": "Palamós",
       "zona": "Palamós",
       "estado": "Cataluña – Girona",
-      "lat": 41.848,
-      "lon": 3.129,
+      "lat": 41.849535,
+      "lon": 3.127879,
       "precision": "ciudad",
       "geocodificar": "Palamós, Girona, España",
       "tipo": "departamento",
@@ -2074,7 +2141,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de obra nueva Costa Brava.",
-      "zona_objetivo": "Girona – Costa Brava (Palafrugell)"
+      "zona_objetivo": "Girona – Costa Brava (Palafrugell)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-035",
@@ -2082,8 +2150,8 @@
       "ciudad": "Castell-Platja d'Aro",
       "zona": "S'Agaró",
       "estado": "Cataluña – Girona",
-      "lat": 41.794,
-      "lon": 3.049,
+      "lat": 41.794749,
+      "lon": 3.056027,
       "precision": "colonia",
       "geocodificar": "S'Agaró, Castell-Platja d'Aro, Girona, España",
       "tipo": "villa",
@@ -2102,7 +2170,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Girona – Costa Brava"
+      "zona_objetivo": "Girona – Costa Brava",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-036",
@@ -2110,9 +2179,9 @@
       "ciudad": "Begur",
       "zona": "Begur pueblo",
       "estado": "Cataluña – Girona",
-      "lat": 41.954,
-      "lon": 3.208,
-      "precision": "ciudad",
+      "lat": 41.954192,
+      "lon": 3.208835,
+      "precision": "colonia",
       "geocodificar": "Begur, Girona, España",
       "tipo": "townhouse",
       "nuevo": false,
@@ -2130,7 +2199,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Girona – Costa Brava (Palafrugell / Begur)"
+      "zona_objetivo": "Girona – Costa Brava (Palafrugell / Begur)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-037",
@@ -2138,8 +2208,8 @@
       "ciudad": "Palafrugell",
       "zona": "Calella de Palafrugell",
       "estado": "Cataluña – Girona",
-      "lat": 41.889,
-      "lon": 3.183,
+      "lat": 41.889723,
+      "lon": 3.180592,
       "precision": "colonia",
       "geocodificar": "Calella de Palafrugell, Palafrugell, Girona, España",
       "tipo": "villa",
@@ -2158,7 +2228,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Girona – Costa Brava (Palafrugell)"
+      "zona_objetivo": "Girona – Costa Brava (Palafrugell)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP2-038",
@@ -2166,9 +2237,9 @@
       "ciudad": "Cadaqués",
       "zona": "Cadaqués",
       "estado": "Cataluña – Girona",
-      "lat": 42.288,
-      "lon": 3.277,
-      "precision": "ciudad",
+      "lat": 42.289348,
+      "lon": 3.275216,
+      "precision": "colonia",
       "geocodificar": "Cadaqués, Girona, España",
       "tipo": "casa",
       "nuevo": false,
@@ -2186,7 +2257,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. URL del listado de casas Costa Brava; en Cadaqués hay también casas de 7,4 y 9 M€.",
-      "zona_objetivo": "Girona – Cadaqués / Roses"
+      "zona_objetivo": "Girona – Cadaqués / Roses",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

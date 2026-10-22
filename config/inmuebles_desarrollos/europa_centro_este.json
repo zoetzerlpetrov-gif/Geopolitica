@@ -260,8 +260,8 @@
       "ciudad": "Varsovia",
       "zona": "Targówek",
       "estado": "Mazowieckie",
-      "lat": 52.287,
-      "lon": 21.066,
+      "lat": 52.275192,
+      "lon": 21.058085,
       "precision": "colonia",
       "geocodificar": "Targówek, Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -280,7 +280,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 12 800 PLN/m² según una versión en caché de la página de ciudad marcada con ~930 días de antigüedad: precio probablemente desactualizado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-002",
@@ -288,8 +289,8 @@
       "ciudad": "Varsovia",
       "zona": "Mokotów",
       "estado": "Mazowieckie",
-      "lat": 52.193,
-      "lon": 21.02,
+      "lat": 52.193672,
+      "lon": 21.044428,
       "precision": "colonia",
       "geocodificar": "Mokotów, Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -308,7 +309,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Unidad concreta: 13 800 PLN/m², precio total 1 066 464 PLN vigente desde 28-07-2026 (superficie implícita ≈77 m²). El historial de precios muestra cambios mensuales en 2026 (de 12 700 a 13 700 PLN/m²). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-003",
@@ -316,8 +318,8 @@
       "ciudad": "Varsovia",
       "zona": "Włochy",
       "estado": "Mazowieckie",
-      "lat": 52.191,
-      "lon": 20.95,
+      "lat": 52.186109,
+      "lon": 20.948438,
       "precision": "colonia",
       "geocodificar": "Włochy, Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -336,7 +338,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 14 400 PLN/m² según la página de ciudad en caché (antigua: verificar). Etapa 1.4 (edificio D) con entrega desde el 4.º trimestre de 2026. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-004",
@@ -344,8 +347,8 @@
       "ciudad": "Varsovia",
       "zona": "Bielany",
       "estado": "Mazowieckie",
-      "lat": 52.286,
-      "lon": 20.945,
+      "lat": 52.277613,
+      "lon": 20.947205,
       "precision": "colonia",
       "geocodificar": "Bielany, Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -364,7 +367,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 17 500 PLN/m² según la página de ciudad en caché (antigua: verificar). Etapas desde listas para entrega hasta 2028. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-005",
@@ -372,8 +376,8 @@
       "ciudad": "Varsovia",
       "zona": "Mokotów",
       "estado": "Mazowieckie",
-      "lat": 52.19,
-      "lon": 21.01,
+      "lat": 52.193672,
+      "lon": 21.044428,
       "precision": "colonia",
       "geocodificar": "Mokotów, Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -392,7 +396,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Precio promocional desde 12 900 PLN/m². URL = listado general de inversiones de Robyg (no se obtuvo la ficha del proyecto). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-006",
@@ -400,8 +405,8 @@
       "ciudad": "Varsovia",
       "zona": "Varsovia",
       "estado": "Mazowieckie",
-      "lat": 52.23,
-      "lon": 21.011,
+      "lat": 52.233374,
+      "lon": 21.071149,
       "precision": "ciudad",
       "geocodificar": "Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -420,7 +425,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 13 284 PLN/m² en el listado de inversiones de Ronson en Varsovia. Barrio no confirmado: coordenadas al centro de la ciudad. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-007",
@@ -428,8 +434,8 @@
       "ciudad": "Falenty (Raszyn)",
       "zona": "Falenty Nowe",
       "estado": "Mazowieckie",
-      "lat": 52.142,
-      "lon": 20.918,
+      "lat": 52.13761,
+      "lon": 20.937688,
       "precision": "colonia",
       "geocodificar": "Falenty Nowe, gmina Raszyn, powiat pruszkowski, województwo mazowieckie, Polska",
       "tipo": "casa",
@@ -448,7 +454,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 8 696,41 PLN/m² (el más barato del listado de Ronson). Casas aisladas terminadas; 1.ª etapa concluida. Ojo: una casa con terreno es 'nieruchomość gruntowa' → un mexicano necesita permiso del MSWiA. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-008",
@@ -456,8 +463,8 @@
       "ciudad": "Varsovia",
       "zona": "Praga-Południe",
       "estado": "Mazowieckie",
-      "lat": 52.24,
-      "lon": 21.083,
+      "lat": 52.237396,
+      "lon": 21.071258,
       "precision": "colonia",
       "geocodificar": "Praga-Południe, Warszawa, województwo mazowieckie, Polska",
       "tipo": "departamento",
@@ -476,7 +483,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Preventa de la VIII etapa desde 12 100 PLN/m²; unidades listas de etapas previas desde 14 300 PLN/m². La nota tiene ~500 días: precio probablemente desactualizado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Varsovia 50 km"
+      "zona_objetivo": "Varsovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-009",
@@ -484,9 +492,9 @@
       "ciudad": "Cracovia",
       "zona": "Prądnik Biały (ul. Piaszczysta)",
       "estado": "Małopolskie",
-      "lat": 50.093,
-      "lon": 19.925,
-      "precision": "colonia",
+      "lat": 50.09673,
+      "lon": 19.928196,
+      "precision": "ciudad",
       "geocodificar": "Piaszczysta, Prądnik Biały, Kraków, województwo małopolskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -504,7 +512,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 13 740 PLN/m² (otra subpágina: 13 680). 173 unidades. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Cracovia 50 km"
+      "zona_objetivo": "Cracovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-010",
@@ -512,9 +521,9 @@
       "ciudad": "Cracovia",
       "zona": "Złocień (ul. Agatowa)",
       "estado": "Małopolskie",
-      "lat": 50.017,
-      "lon": 20.034,
-      "precision": "colonia",
+      "lat": 50.021624,
+      "lon": 20.043797,
+      "precision": "ciudad",
       "geocodificar": "Agatowa, Złocień, Kraków, województwo małopolskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -532,7 +541,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "4 cuartos (pokoje: sala + 3 recámaras), 4.º piso, 13 900 PLN/m². El proyecto anuncia desde 12 000 PLN/m² y descuentos de hasta 177 000 PLN en unidades seleccionadas. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Cracovia 50 km"
+      "zona_objetivo": "Cracovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-011",
@@ -540,9 +550,9 @@
       "ciudad": "Cracovia",
       "zona": "Prądnik Czerwony (ul. Meiera)",
       "estado": "Małopolskie",
-      "lat": 50.09,
-      "lon": 19.975,
-      "precision": "colonia",
+      "lat": 50.046943,
+      "lon": 19.997153,
+      "precision": "ciudad",
       "geocodificar": "Meiera, Prądnik Czerwony, Kraków, województwo małopolskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -560,7 +570,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "3 cuartos con cocina abierta, 1.er piso, 14 300 PLN/m² (vigente desde 01-07-2026; antes 13 442). Etapa 1.1, edificio D: entrega 4.º trimestre 2027. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Cracovia 50 km"
+      "zona_objetivo": "Cracovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-012",
@@ -568,9 +579,9 @@
       "ciudad": "Cracovia",
       "zona": "Aleja 29 Listopada (Prądnik Biały)",
       "estado": "Małopolskie",
-      "lat": 50.083,
-      "lon": 19.952,
-      "precision": "colonia",
+      "lat": 50.096414,
+      "lon": 19.961855,
+      "precision": "ciudad",
       "geocodificar": "aleja 29 Listopada, Kraków, województwo małopolskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -588,7 +599,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "A 2 km de la Plaza del Mercado (Rynek Główny). Sin precio en el resultado de búsqueda: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Cracovia 50 km"
+      "zona_objetivo": "Cracovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-013",
@@ -596,9 +608,9 @@
       "ciudad": "Cracovia",
       "zona": "Podgórze (ul. Wielicka)",
       "estado": "Małopolskie",
-      "lat": 50.03,
-      "lon": 19.99,
-      "precision": "colonia",
+      "lat": 50.039688,
+      "lon": 19.964894,
+      "precision": "ciudad",
       "geocodificar": "Wielicka, Podgórze, Kraków, województwo małopolskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -616,7 +628,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Etapa 1.1 (edificio A) 3T-2027, etapa 1.2 (B) 4T-2027. Sin precio en el resultado de búsqueda: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Cracovia 50 km"
+      "zona_objetivo": "Cracovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-014",
@@ -624,9 +637,9 @@
       "ciudad": "Cracovia",
       "zona": "Krowodrza (Żabiniec)",
       "estado": "Małopolskie",
-      "lat": 50.09,
-      "lon": 19.912,
-      "precision": "colonia",
+      "lat": 50.046943,
+      "lon": 19.997153,
+      "precision": "ciudad",
       "geocodificar": "Żabiniec, Krowodrza, Kraków, województwo małopolskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -644,7 +657,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 13 150 PLN/m² (página actualizada hace ~70 días). ~3 km del centro. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Cracovia 50 km"
+      "zona_objetivo": "Cracovia 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-015",
@@ -652,8 +666,8 @@
       "ciudad": "Poznań",
       "zona": "Garbary (Śródmieście)",
       "estado": "Wielkopolskie",
-      "lat": 52.411,
-      "lon": 16.938,
+      "lat": 52.406608,
+      "lon": 16.937226,
       "precision": "colonia",
       "geocodificar": "Garbary, Poznań, województwo wielkopolskie, Polska",
       "tipo": "departamento",
@@ -672,7 +686,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Ofertas especiales de ~15 264 a 16 434 PLN/m²; promoción de hasta 115 000 PLN en ciertas unidades. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Poznań 50 km"
+      "zona_objetivo": "Poznań 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-016",
@@ -680,8 +695,8 @@
       "ciudad": "Poznań",
       "zona": "Piątkowo",
       "estado": "Wielkopolskie",
-      "lat": 52.46,
-      "lon": 16.915,
+      "lat": 52.455401,
+      "lon": 16.917922,
       "precision": "colonia",
       "geocodificar": "Piątkowo, Poznań, województwo wielkopolskie, Polska",
       "tipo": "departamento",
@@ -700,7 +715,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ejemplo: departamento de 2 cuartos (sala + 1 recámara) a 472 031,25 PLN; unidades disponibles ~11 500–13 500 PLN/m². Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Poznań 50 km"
+      "zona_objetivo": "Poznań 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-017",
@@ -708,8 +724,8 @@
       "ciudad": "Poznań",
       "zona": "Piątkowo",
       "estado": "Wielkopolskie",
-      "lat": 52.463,
-      "lon": 16.905,
+      "lat": 52.455401,
+      "lon": 16.917922,
       "precision": "colonia",
       "geocodificar": "Piątkowo, Poznań, województwo wielkopolskie, Polska",
       "tipo": "departamento",
@@ -728,7 +744,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. ~10 959–15 200 PLN/m² en la página de ofertas especiales. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Poznań 50 km"
+      "zona_objetivo": "Poznań 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-018",
@@ -736,8 +753,8 @@
       "ciudad": "Poznań",
       "zona": "Jeżyce",
       "estado": "Wielkopolskie",
-      "lat": 52.415,
-      "lon": 16.895,
+      "lat": 52.413479,
+      "lon": 16.902793,
       "precision": "colonia",
       "geocodificar": "Jeżyce, Poznań, województwo wielkopolskie, Polska",
       "tipo": "departamento",
@@ -756,7 +773,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Noticia de unidades listas para entrega desde 10 999 PLN/m², pero tiene ~1 076 días: precio desactualizado, verificar si quedan unidades. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Poznań 50 km"
+      "zona_objetivo": "Poznań 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-019",
@@ -764,8 +782,8 @@
       "ciudad": "Poznań / Swarzędz",
       "zona": "Poznań y Swarzędz",
       "estado": "Wielkopolskie",
-      "lat": 52.406,
-      "lon": 16.925,
+      "lat": 52.400663,
+      "lon": 16.919733,
       "precision": "ciudad",
       "geocodificar": "Poznań, województwo wielkopolskie, Polska",
       "tipo": "departamento",
@@ -784,7 +802,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Rango del filtro de precios de la página de ciudad (~300 000 a 1 600 000 PLN), no de una unidad concreta. Revisar proyectos individuales. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Poznań 50 km"
+      "zona_objetivo": "Poznań 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-020",
@@ -792,8 +811,8 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Nadodrze (Browary Wrocławskie)",
       "estado": "Dolnośląskie",
-      "lat": 51.123,
-      "lon": 17.035,
+      "lat": 51.120432,
+      "lon": 17.030354,
       "precision": "colonia",
       "geocodificar": "Nadodrze, Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
@@ -812,7 +831,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Unidad BR12 77 a 13 360 PLN/m² (precio del 02-02-2026). Un estudio terminado (llave en mano) del mismo proyecto aparece a 17 651 PLN/m². Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-021",
@@ -820,9 +840,9 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Szczepin (ul. Reymonta)",
       "estado": "Dolnośląskie",
-      "lat": 51.124,
-      "lon": 17.02,
-      "precision": "colonia",
+      "lat": 51.129469,
+      "lon": 17.024742,
+      "precision": "ciudad",
       "geocodificar": "Reymonta, Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -840,7 +860,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Unidad similar WR1 2/1/7/3a: 58,11 m², 3 cuartos, 1.er piso, 13 770 PLN/m² (precio del 11-08-2026). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-022",
@@ -848,8 +869,8 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Szczepin",
       "estado": "Dolnośląskie",
-      "lat": 51.116,
-      "lon": 17.01,
+      "lat": 51.115798,
+      "lon": 17.011754,
       "precision": "colonia",
       "geocodificar": "Szczepin, Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
@@ -868,7 +889,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Unidad A2 4 a 15 970 PLN/m² (precio del 15-01-2026). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-023",
@@ -876,9 +898,9 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Kleczków (Bulwar Północny)",
       "estado": "Dolnośląskie",
-      "lat": 51.13,
-      "lon": 17.025,
-      "precision": "ciudad",
+      "lat": 51.128422,
+      "lon": 17.03652,
+      "precision": "colonia",
       "geocodificar": "Kleczków, Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -896,7 +918,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Unidad D1 1 a 16 537 PLN/m² (25-02-2026); otras hasta ~19 300 PLN/m². Barrio no confirmado en la fuente (supuesto: Kleczków, a orillas del Oder): geocodificar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-024",
@@ -904,9 +927,9 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Psie Pole (Olimpia Port)",
       "estado": "Dolnośląskie",
-      "lat": 51.128,
-      "lon": 17.11,
-      "precision": "colonia",
+      "lat": 51.11122,
+      "lon": 17.119418,
+      "precision": "ciudad",
       "geocodificar": "Olimpia Port, Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -924,7 +947,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Departamento de 2 cuartos con acabados incluidos, 15 208 PLN/m², 625 062 PLN con IVA. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-025",
@@ -932,8 +956,8 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Wrocław",
       "estado": "Dolnośląskie",
-      "lat": 51.108,
-      "lon": 17.033,
+      "lat": 51.126311,
+      "lon": 16.978196,
       "precision": "ciudad",
       "geocodificar": "Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
@@ -952,7 +976,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ejemplo: 2 cuartos, 48,76 m² a 585 120 PLN; unidades disponibles ~11 000–12 500 PLN/m². Barrio no confirmado: coordenadas al centro de la ciudad. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-026",
@@ -960,8 +985,8 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Wrocław",
       "estado": "Dolnośląskie",
-      "lat": 51.108,
-      "lon": 17.033,
+      "lat": 51.126311,
+      "lon": 16.978196,
       "precision": "ciudad",
       "geocodificar": "Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
@@ -980,7 +1005,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 16 160 PLN/m² (otra página: 17 235). Barrio no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-027",
@@ -988,9 +1014,9 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Psie Pole / Zakrzów",
       "estado": "Dolnośląskie",
-      "lat": 51.153,
-      "lon": 17.1,
-      "precision": "colonia",
+      "lat": 51.158744,
+      "lon": 17.122193,
+      "precision": "ciudad",
       "geocodificar": "Zakrzów, Psie Pole, Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -1008,7 +1034,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Departamentos de 2 cuartos desde 350 000 PLN; etapa I desde 11 379,06 PLN/m². Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-028",
@@ -1016,8 +1043,8 @@
       "ciudad": "Breslavia (Wrocław)",
       "zona": "Wrocław",
       "estado": "Dolnośląskie",
-      "lat": 51.108,
-      "lon": 17.033,
+      "lat": 51.126311,
+      "lon": 16.978196,
       "precision": "ciudad",
       "geocodificar": "Wrocław, województwo dolnośląskie, Polska",
       "tipo": "departamento",
@@ -1036,7 +1063,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 11 180–11 950 PLN/m² según la página; unidades individuales vistas a 9 950–10 025 PLN/m². Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Breslavia (Wrocław) 50 km"
+      "zona_objetivo": "Breslavia (Wrocław) 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-029",
@@ -1044,8 +1072,8 @@
       "ciudad": "Łódź",
       "zona": "Łódź",
       "estado": "Łódzkie",
-      "lat": 51.759,
-      "lon": 19.457,
+      "lat": 51.772824,
+      "lon": 19.478486,
       "precision": "ciudad",
       "geocodificar": "Łódź, województwo łódzkie, Polska",
       "tipo": "departamento",
@@ -1064,7 +1092,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 9 945 PLN/m² (página de ciudad) / 10 600 (página principal). Barrio no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Łódź 50 km"
+      "zona_objetivo": "Łódź 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-030",
@@ -1072,8 +1101,8 @@
       "ciudad": "Łódź",
       "zona": "Łódź",
       "estado": "Łódzkie",
-      "lat": 51.759,
-      "lon": 19.457,
+      "lat": 51.772824,
+      "lon": 19.478486,
       "precision": "ciudad",
       "geocodificar": "Łódź, województwo łódzkie, Polska",
       "tipo": "departamento",
@@ -1092,7 +1121,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 9 087 PLN/m² (página de ciudad) / 9 440 (página principal). Barrio no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Łódź 50 km"
+      "zona_objetivo": "Łódź 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-031",
@@ -1100,8 +1130,8 @@
       "ciudad": "Łódź",
       "zona": "Łódź",
       "estado": "Łódzkie",
-      "lat": 51.759,
-      "lon": 19.457,
+      "lat": 51.772824,
+      "lon": 19.478486,
       "precision": "ciudad",
       "geocodificar": "Łódź, województwo łódzkie, Polska",
       "tipo": "departamento",
@@ -1120,7 +1150,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 9 263 PLN/m² (página de ciudad). Barrio no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Łódź 50 km"
+      "zona_objetivo": "Łódź 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-032",
@@ -1128,8 +1159,8 @@
       "ciudad": "Łódź",
       "zona": "Łódź",
       "estado": "Łódzkie",
-      "lat": 51.759,
-      "lon": 19.457,
+      "lat": 51.772824,
+      "lon": 19.478486,
       "precision": "ciudad",
       "geocodificar": "Łódź, województwo łódzkie, Polska",
       "tipo": "departamento",
@@ -1148,7 +1179,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 7 800 PLN/m² (página de ciudad) / 8 000 (página principal); algunas unidades con descuento. Barrio no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Łódź 50 km"
+      "zona_objetivo": "Łódź 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-033",
@@ -1184,8 +1216,8 @@
       "ciudad": "Łódź",
       "zona": "Łódź",
       "estado": "Łódzkie",
-      "lat": 51.759,
-      "lon": 19.457,
+      "lat": 51.743678,
+      "lon": 19.459694,
       "precision": "ciudad",
       "geocodificar": "Ogrody Geyera, Łódź, województwo łódzkie, Polska",
       "tipo": "departamento",
@@ -1204,7 +1236,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Proyecto en la oferta de ATAL en Łódź; sin precio en el resultado de búsqueda: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Łódź 50 km"
+      "zona_objetivo": "Łódź 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-035",
@@ -1212,8 +1245,8 @@
       "ciudad": "Katowice",
       "zona": "Bogucice",
       "estado": "Śląskie",
-      "lat": 50.265,
-      "lon": 19.045,
+      "lat": 50.269875,
+      "lon": 19.042278,
       "precision": "colonia",
       "geocodificar": "Bogucice, Katowice, województwo śląskie, Polska",
       "tipo": "departamento",
@@ -1232,7 +1265,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 11 700 PLN/m² (página de ciudad) / 12 020 (listado general). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Katowice 50 km"
+      "zona_objetivo": "Katowice 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-036",
@@ -1240,8 +1274,8 @@
       "ciudad": "Katowice",
       "zona": "Katowice",
       "estado": "Śląskie",
-      "lat": 50.259,
-      "lon": 19.021,
+      "lat": 50.213732,
+      "lon": 19.005885,
       "precision": "ciudad",
       "geocodificar": "Katowice, województwo śląskie, Polska",
       "tipo": "departamento",
@@ -1260,7 +1294,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 9 980 PLN/m² (10 240 en la página de Katowice). Barrio no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Katowice 50 km"
+      "zona_objetivo": "Katowice 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-037",
@@ -1268,8 +1303,8 @@
       "ciudad": "Katowice",
       "zona": "Brynów",
       "estado": "Śląskie",
-      "lat": 50.236,
-      "lon": 18.995,
+      "lat": 50.234663,
+      "lon": 18.996051,
       "precision": "colonia",
       "geocodificar": "Brynów, Katowice, województwo śląskie, Polska",
       "tipo": "departamento",
@@ -1288,7 +1323,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 12 550 PLN/m² en el listado completo. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Katowice 50 km"
+      "zona_objetivo": "Katowice 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-038",
@@ -1296,8 +1332,8 @@
       "ciudad": "Katowice",
       "zona": "Katowice",
       "estado": "Śląskie",
-      "lat": 50.259,
-      "lon": 19.021,
+      "lat": 50.213732,
+      "lon": 19.005885,
       "precision": "ciudad",
       "geocodificar": "Katowice, województwo śląskie, Polska",
       "tipo": "departamento",
@@ -1316,7 +1352,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. II etapa: 8 200–15 300 PLN/m² (nota de prensa de ATAL; fecha incierta). Rango del sitio para Katowice: ~300 000 a 2 000 000 PLN. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Katowice 50 km"
+      "zona_objetivo": "Katowice 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-039",
@@ -1324,9 +1361,9 @@
       "ciudad": "Katowice",
       "zona": "ul. Ceglana (Brynów)",
       "estado": "Śląskie",
-      "lat": 50.243,
-      "lon": 18.998,
-      "precision": "colonia",
+      "lat": 50.243232,
+      "lon": 19.019622,
+      "precision": "ciudad",
       "geocodificar": "Ceglana, Katowice, województwo śląskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -1344,7 +1381,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Develia anuncia 2 proyectos y 181 departamentos libres en Katowice; sin precio en el resultado de búsqueda: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Katowice 50 km"
+      "zona_objetivo": "Katowice 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-040",
@@ -1352,9 +1390,9 @@
       "ciudad": "Szczecin",
       "zona": "Śródmieście (ul. Leona Heyki)",
       "estado": "Zachodniopomorskie",
-      "lat": 53.432,
-      "lon": 14.565,
-      "precision": "colonia",
+      "lat": 53.41705,
+      "lon": 14.556783,
+      "precision": "ciudad",
       "geocodificar": "Leona Heyki, Szczecin, województwo zachodniopomorskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -1372,7 +1410,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Nota de ATAL: 12 200–20 330 PLN/m² en obra gris; 387 departamentos de 1 a 5 cuartos. Oferta especial: descuentos de hasta 2 000 PLN/m². Metraje 27–110 m² tomado de un portal (solo como referencia). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Szczecin 50 km"
+      "zona_objetivo": "Szczecin 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-041",
@@ -1380,8 +1419,8 @@
       "ciudad": "Szczecin",
       "zona": "Północ",
       "estado": "Zachodniopomorskie",
-      "lat": 53.47,
-      "lon": 14.545,
+      "lat": 53.492459,
+      "lon": 14.592223,
       "precision": "colonia",
       "geocodificar": "Północ, Szczecin, województwo zachodniopomorskie, Polska",
       "tipo": "departamento",
@@ -1400,7 +1439,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Solo se publica precio por m² (PLN/m², con IVA, estado de obra gris 'stan deweloperski' salvo que se diga otra cosa); precio_desde queda null. Desde 9 271 PLN/m². 6 etapas, ~550 departamentos. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Szczecin 50 km"
+      "zona_objetivo": "Szczecin 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-042",
@@ -1408,9 +1448,9 @@
       "ciudad": "Warzymice (Kołbaskowo)",
       "zona": "Warzymice",
       "estado": "Zachodniopomorskie",
-      "lat": 53.383,
-      "lon": 14.483,
-      "precision": "ciudad",
+      "lat": 53.387654,
+      "lon": 14.472047,
+      "precision": "colonia",
       "geocodificar": "Warzymice, gmina Kołbaskowo, powiat policki, województwo zachodniopomorskie, Polska",
       "tipo": "otro",
       "nuevo": true,
@@ -1428,7 +1468,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Proyecto en el portafolio de Ronson en el área de Szczecin (a ~8 km del centro); tipo de vivienda, precio y estado no confirmados: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Szczecin 50 km"
+      "zona_objetivo": "Szczecin 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-043",
@@ -1436,9 +1477,9 @@
       "ciudad": "Szczecin",
       "zona": "Pogodno (ul. Firlika)",
       "estado": "Zachodniopomorskie",
-      "lat": 53.437,
-      "lon": 14.51,
-      "precision": "colonia",
+      "lat": 53.430182,
+      "lon": 14.550962,
+      "precision": "ciudad",
       "geocodificar": "Firlika, Pogodno, Szczecin, województwo zachodniopomorskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -1456,7 +1497,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Lista de precios de la desarrolladora: unidades vistas de ~530 000 a ~820-825 mil PLN; superficies hasta 60 m² (las cifras mínimas de 12 m²/14 mil PLN parecen trasteros o plazas). Barrio deducido de la calle Firlika: geocodificar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Szczecin 50 km"
+      "zona_objetivo": "Szczecin 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "POL-044",
@@ -1464,9 +1506,9 @@
       "ciudad": "Szczecin",
       "zona": "Śródmieście (ul. Heyki)",
       "estado": "Zachodniopomorskie",
-      "lat": 53.431,
-      "lon": 14.566,
-      "precision": "colonia",
+      "lat": 53.41705,
+      "lon": 14.556783,
+      "precision": "ciudad",
       "geocodificar": "Leona Heyki, Szczecin, województwo zachodniopomorskie, Polska",
       "tipo": "departamento",
       "nuevo": true,
@@ -1484,7 +1526,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "En el sitio solo se vieron locales comerciales (p. ej. local U4 de 315 m² a 13 000 PLN/m², 4 095 000 PLN, RESERVADO); precio de departamentos no encontrado: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Szczecin 50 km"
+      "zona_objetivo": "Szczecin 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-001",
@@ -1492,8 +1535,8 @@
       "ciudad": "Düsseldorf",
       "zona": "Benrath",
       "estado": "Nordrhein-Westfalen",
-      "lat": 51.163,
-      "lon": 6.873,
+      "lat": 51.163479,
+      "lon": 6.872734,
       "precision": "colonia",
       "geocodificar": "Benrath, Düsseldorf, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
@@ -1512,7 +1555,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Varios edificios (Haus 5, 9-10, 11-12); el más barato es un estudio de 1 cuarto a 299 900 €. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Düsseldorf 20 km"
+      "zona_objetivo": "Düsseldorf 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-002",
@@ -1520,8 +1564,8 @@
       "ciudad": "Düsseldorf",
       "zona": "Unterbilk",
       "estado": "Nordrhein-Westfalen",
-      "lat": 51.213,
-      "lon": 6.767,
+      "lat": 51.210055,
+      "lon": 6.766965,
       "precision": "colonia",
       "geocodificar": "Unterbilk, Düsseldorf, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
@@ -1540,7 +1584,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "3-4 Zimmer. La página indica entrega julio 2024 (desactualizada): confirmar disponibilidad y precio. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Düsseldorf 20 km"
+      "zona_objetivo": "Düsseldorf 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-003",
@@ -1548,8 +1593,8 @@
       "ciudad": "Düsseldorf",
       "zona": "Grafental",
       "estado": "Nordrhein-Westfalen",
-      "lat": 51.236,
-      "lon": 6.822,
+      "lat": 51.233624,
+      "lon": 6.824524,
       "precision": "colonia",
       "geocodificar": "Grafental, Düsseldorf, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
@@ -1568,7 +1613,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Inicio de ventas individuales de 98 de 215 departamentos de libre financiamiento, 2 a 5 Zimmer. Sin precio en el resultado: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Düsseldorf 20 km"
+      "zona_objetivo": "Düsseldorf 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-004",
@@ -1576,8 +1622,8 @@
       "ciudad": "Düsseldorf",
       "zona": "Rath",
       "estado": "Nordrhein-Westfalen",
-      "lat": 51.258,
-      "lon": 6.815,
+      "lat": 51.263905,
+      "lon": 6.820326,
       "precision": "colonia",
       "geocodificar": "Rath, Düsseldorf, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
@@ -1596,7 +1642,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "3 Zimmer, 124 m²; la desarrolladora asumía el impuesto de adquisición (Grunderwerbsteuer). Página de ~6 años: probablemente agotado; verificar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Düsseldorf 20 km"
+      "zona_objetivo": "Düsseldorf 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-005",
@@ -1604,9 +1651,9 @@
       "ciudad": "Bonn",
       "zona": "Südstadt (Poppelsdorfer Allee)",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.729,
-      "lon": 7.098,
-      "precision": "colonia",
+      "lat": 50.730816,
+      "lon": 7.099825,
+      "precision": "ciudad",
       "geocodificar": "Poppelsdorfer Allee, Bonn, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -1624,7 +1671,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ejemplos: Haus 1, 4 Zimmer 138,24 m² 1 399 000 €; Haus 3, 5 Zimmer 146,87 m² 1 499 000 €; Haus 7, 5 Zimmer 165,60 m² 1 898 000 €. 111 departamentos; listo para habitar según un portal. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Bonn 20 km"
+      "zona_objetivo": "Bonn 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-006",
@@ -1632,9 +1680,9 @@
       "ciudad": "Bonn",
       "zona": "Poppelsdorf (Sternenburgstraße)",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.727,
-      "lon": 7.09,
-      "precision": "colonia",
+      "lat": 50.719817,
+      "lon": 7.094423,
+      "precision": "ciudad",
       "geocodificar": "Sternenburgstraße, Poppelsdorf, Bonn, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -1652,7 +1700,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Unidad en planta baja de 85,36 m² a 622 500 €; otras marcadas como vendidas. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Bonn 20 km"
+      "zona_objetivo": "Bonn 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-007",
@@ -1660,8 +1709,8 @@
       "ciudad": "Bonn",
       "zona": "Bad Godesberg – Schweinheim",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.668,
-      "lon": 7.135,
+      "lat": 50.682433,
+      "lon": 7.140663,
       "precision": "colonia",
       "geocodificar": "Schweinheim, Bad Godesberg, Bonn, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
@@ -1680,7 +1729,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "3 Zimmer ~113 m² desde 762 750 €; 4 Zimmer ~172 m² hasta 1 198 500 €. Instantánea sin fecha. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Bonn 20 km"
+      "zona_objetivo": "Bonn 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-008",
@@ -1744,9 +1794,9 @@
       "ciudad": "Bonn",
       "zona": "Duisdorf (Augustinusstraße)",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.717,
-      "lon": 7.05,
-      "precision": "colonia",
+      "lat": 50.714956,
+      "lon": 7.060109,
+      "precision": "ciudad",
       "geocodificar": "Augustinusstraße, Duisdorf, Bonn, Deutschland",
       "tipo": "departamento",
       "nuevo": false,
@@ -1764,7 +1814,8 @@
       "fuente": "subasta oficial",
       "visto": "2026-10-22",
       "nota": "Verkehrswert 170 000 €. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Bonn 20 km"
+      "zona_objetivo": "Bonn 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-011",
@@ -1772,8 +1823,8 @@
       "ciudad": "Colonia (Köln)",
       "zona": "Porz-Elsdorf",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.858,
-      "lon": 7.08,
+      "lat": 50.87246,
+      "lon": 7.082084,
       "precision": "colonia",
       "geocodificar": "Elsdorf, Porz, Köln, Nordrhein-Westfalen, Deutschland",
       "tipo": "townhouse",
@@ -1792,7 +1843,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Reihenhaus de 160 m² con jardín desde 639 950 € + garaje 19 900 €. 'Pocas unidades disponibles'; el calendario de la página (16 casas hasta fin de 2023) indica que puede estar agotado: verificar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Colonia (Köln) 20 km"
+      "zona_objetivo": "Colonia (Köln) 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-012",
@@ -1800,8 +1852,8 @@
       "ciudad": "Colonia (Köln)",
       "zona": "Weidenpesch",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.985,
-      "lon": 6.945,
+      "lat": 50.983,
+      "lon": 6.946341,
       "precision": "colonia",
       "geocodificar": "Weidenpesch, Köln, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
@@ -1820,7 +1872,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "4 Zimmer, 90 m²; solo queda 1 departamento libre en Haus 4. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Colonia (Köln) 20 km"
+      "zona_objetivo": "Colonia (Köln) 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-013",
@@ -1828,9 +1881,9 @@
       "ciudad": "Hürth",
       "zona": "Kalscheuren (Ursulastraße 114-120)",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.885,
-      "lon": 6.903,
-      "precision": "colonia",
+      "lat": 50.869066,
+      "lon": 6.895343,
+      "precision": "ciudad",
       "geocodificar": "Ursulastraße 114, Hürth, Nordrhein-Westfalen, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -1848,7 +1901,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Comercialización desde 02-07-2026; la lista de precios está en un PDF (exposé) de la página, no leído. Justo al sur del límite de Colonia. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Colonia (Köln) 20 km"
+      "zona_objetivo": "Colonia (Köln) 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-014",
@@ -1856,9 +1910,9 @@
       "ciudad": "Colonia (Köln)",
       "zona": "Weidenpesch (Simonskaul 40-44a)",
       "estado": "Nordrhein-Westfalen",
-      "lat": 50.988,
-      "lon": 6.94,
-      "precision": "colonia",
+      "lat": 50.987172,
+      "lon": 6.942423,
+      "precision": "ciudad",
       "geocodificar": "Simonskaul 40, Köln, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -1876,7 +1930,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Comercialización prevista para finales de 2026; aún sin precios. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Colonia (Köln) 20 km"
+      "zona_objetivo": "Colonia (Köln) 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-015",
@@ -1884,8 +1939,8 @@
       "ciudad": "Múnich",
       "zona": "Untergiesing",
       "estado": "Bayern",
-      "lat": 48.112,
-      "lon": 11.573,
+      "lat": 48.111909,
+      "lon": 11.565467,
       "precision": "colonia",
       "geocodificar": "Untergiesing, München, Bayern, Deutschland",
       "tipo": "departamento",
@@ -1904,7 +1959,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "2 a 4 Zimmer; 30 % ya vendido. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Múnich 20 km"
+      "zona_objetivo": "Múnich 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-016",
@@ -1912,8 +1968,8 @@
       "ciudad": "Múnich",
       "zona": "Neuhausen",
       "estado": "Bayern",
-      "lat": 48.155,
-      "lon": 11.535,
+      "lat": 48.154222,
+      "lon": 11.531517,
       "precision": "colonia",
       "geocodificar": "Neuhausen, München, Bayern, Deutschland",
       "tipo": "departamento",
@@ -1932,7 +1988,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "1 a 4 Zimmer, maisonettes y penthouses. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Múnich 20 km"
+      "zona_objetivo": "Múnich 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-017",
@@ -1940,8 +1997,8 @@
       "ciudad": "Múnich",
       "zona": "Schwabing",
       "estado": "Bayern",
-      "lat": 48.165,
-      "lon": 11.585,
+      "lat": 48.168926,
+      "lon": 11.58995,
       "precision": "colonia",
       "geocodificar": "Schwabing, München, Bayern, Deutschland",
       "tipo": "departamento",
@@ -1960,7 +2017,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Precios válidos hasta 31-10-2026; plazas de estacionamiento aparte. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Múnich 20 km"
+      "zona_objetivo": "Múnich 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-018",
@@ -1968,8 +2026,8 @@
       "ciudad": "Múnich",
       "zona": "Schwabing",
       "estado": "Bayern",
-      "lat": 48.163,
-      "lon": 11.582,
+      "lat": 48.168926,
+      "lon": 11.58995,
       "precision": "colonia",
       "geocodificar": "Schwabing, München, Bayern, Deutschland",
       "tipo": "departamento",
@@ -1988,7 +2046,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Apartamentos penthouse amueblados. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Múnich 20 km"
+      "zona_objetivo": "Múnich 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-019",
@@ -1996,9 +2055,9 @@
       "ciudad": "Múnich",
       "zona": "Perlach",
       "estado": "Bayern",
-      "lat": 48.095,
-      "lon": 11.635,
-      "precision": "colonia",
+      "lat": 48.09341,
+      "lon": 11.63152,
+      "precision": "ciudad",
       "geocodificar": "Perlach, München, Bayern, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -2016,7 +2075,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ejemplos: 2 Zimmer 45,90 m² 532 900 €; 3 Zimmer 77,75 m² 748 900 €; 4 Zimmer 95,42 m² 897 900 €. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Múnich 20 km"
+      "zona_objetivo": "Múnich 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-020",
@@ -2024,8 +2084,8 @@
       "ciudad": "Berlín",
       "zona": "Kreuzberg",
       "estado": "Berlin",
-      "lat": 52.497,
-      "lon": 13.403,
+      "lat": 52.497644,
+      "lon": 13.411914,
       "precision": "colonia",
       "geocodificar": "Kreuzberg, Berlin, Deutschland",
       "tipo": "departamento",
@@ -2044,7 +2104,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Desde 289 900 € por un estudio de 1 cuarto. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Berlín 20 km"
+      "zona_objetivo": "Berlín 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-021",
@@ -2052,8 +2113,8 @@
       "ciudad": "Berlín",
       "zona": "Friedrichshain",
       "estado": "Berlin",
-      "lat": 52.512,
-      "lon": 13.454,
+      "lat": 52.512215,
+      "lon": 13.45029,
       "precision": "colonia",
       "geocodificar": "Friedrichshain, Berlin, Deutschland",
       "tipo": "departamento",
@@ -2072,7 +2133,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Desde 599 900 €; un 4 Zimmer en 3.er piso se ofrecía a 884 900 € en una promoción que terminó el 30-04-2026. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Berlín 20 km"
+      "zona_objetivo": "Berlín 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-022",
@@ -2080,8 +2142,8 @@
       "ciudad": "Berlín",
       "zona": "Lichtenrade",
       "estado": "Berlin",
-      "lat": 52.388,
-      "lon": 13.405,
+      "lat": 52.396083,
+      "lon": 13.405791,
       "precision": "colonia",
       "geocodificar": "Lichtenrade, Berlin, Deutschland",
       "tipo": "departamento",
@@ -2100,7 +2162,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Departamentos en condominio. Promoción de Bonava (16-10 a 16-12-2026): plaza de estacionamiento a mitad de precio. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Berlín 20 km"
+      "zona_objetivo": "Berlín 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-023",
@@ -2108,8 +2171,8 @@
       "ciudad": "Berlín",
       "zona": "Karlshorst",
       "estado": "Berlin",
-      "lat": 52.48,
-      "lon": 13.528,
+      "lat": 52.48434,
+      "lon": 13.523585,
       "precision": "colonia",
       "geocodificar": "Karlshorst, Berlin, Deutschland",
       "tipo": "departamento",
@@ -2128,7 +2191,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ficha de unidad sin precio en el resultado de búsqueda: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Berlín 20 km"
+      "zona_objetivo": "Berlín 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-024",
@@ -2136,9 +2200,9 @@
       "ciudad": "Fráncfort",
       "zona": "Gallus (Lahnstraße)",
       "estado": "Hessen",
-      "lat": 50.104,
-      "lon": 8.64,
-      "precision": "colonia",
+      "lat": 50.101314,
+      "lon": 8.637441,
+      "precision": "ciudad",
       "geocodificar": "Lahnstraße, Gallus, Frankfurt am Main, Hessen, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -2156,7 +2220,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Rango de precios y 7 500-8 500 €/m² según prensa citando a Instone; ~90 % de las 157 unidades ya vendidas (ad-hoc-news). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Fráncfort 20 km"
+      "zona_objetivo": "Fráncfort 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-025",
@@ -2164,9 +2229,9 @@
       "ciudad": "Fráncfort",
       "zona": "Gallus (Lahnwarte)",
       "estado": "Hessen",
-      "lat": 50.105,
-      "lon": 8.642,
-      "precision": "colonia",
+      "lat": 50.101314,
+      "lon": 8.637441,
+      "precision": "ciudad",
       "geocodificar": "Lahnstraße, Gallus, Frankfurt am Main, Hessen, Deutschland",
       "tipo": "departamento",
       "nuevo": true,
@@ -2184,7 +2249,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Sin comisión para el comprador. La agencia publica 2-5 Zimmer de 388 900 a 1 283 900 €. Mismo proyecto que la entrada anterior. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Fráncfort 20 km"
+      "zona_objetivo": "Fráncfort 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-026",
@@ -2192,8 +2258,8 @@
       "ciudad": "Fráncfort",
       "zona": "Bockenheim (Schönhof-Viertel)",
       "estado": "Hessen",
-      "lat": 50.123,
-      "lon": 8.633,
+      "lat": 50.121253,
+      "lon": 8.630694,
       "precision": "colonia",
       "geocodificar": "Schönhof-Viertel, Bockenheim, Frankfurt am Main, Hessen, Deutschland",
       "tipo": "departamento",
@@ -2212,7 +2278,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "132 departamentos en 7 edificios; sin precio en el resultado: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Fráncfort 20 km"
+      "zona_objetivo": "Fráncfort 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU2-027",
@@ -2220,8 +2287,8 @@
       "ciudad": "Hofheim am Taunus",
       "zona": "Hofheim am Taunus",
       "estado": "Hessen",
-      "lat": 50.088,
-      "lon": 8.447,
+      "lat": 50.09494,
+      "lon": 8.42285,
       "precision": "ciudad",
       "geocodificar": "Hofheim am Taunus, Main-Taunus-Kreis, Hessen, Deutschland",
       "tipo": "departamento",
@@ -2240,7 +2307,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "88 departamentos en condominio; primera piedra en 04-2026. A ~17 km del centro de Fráncfort. Sin precio: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Fráncfort 20 km"
+      "zona_objetivo": "Fráncfort 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-001",
@@ -2248,9 +2316,9 @@
       "ciudad": "Moscú",
       "zona": "Danilovski (ZIL, metro Tekhnopark)",
       "estado": "Moscú",
-      "lat": 55.697,
-      "lon": 37.652,
-      "precision": "colonia",
+      "lat": 55.693623,
+      "lon": 37.664435,
+      "precision": "ciudad",
       "geocodificar": "Технопарк, Даниловский район, Москва, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2268,7 +2336,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Desde 23,3 M RUB (otra versión del sitio: 17,4 M). Promoción: hasta 30 % de descuento en 1 recámara hasta 31-10-2026 (https://etalongroup.ru/msk/actions/skidki_do_25_msk/). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Moscú 20 km"
+      "zona_objetivo": "Moscú 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-002",
@@ -2276,9 +2345,9 @@
       "ciudad": "Moscú",
       "zona": "Nagatino",
       "estado": "Moscú",
-      "lat": 55.682,
-      "lon": 37.66,
-      "precision": "colonia",
+      "lat": 55.684331,
+      "lon": 37.704303,
+      "precision": "ciudad",
       "geocodificar": "Нагатинский Затон, Москва, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2296,7 +2365,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Moscú 20 km"
+      "zona_objetivo": "Moscú 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-003",
@@ -2304,9 +2374,9 @@
       "ciudad": "Krasnogorsk (Moscú)",
       "zona": "Tushinskaya / Krasnogorsk",
       "estado": "Óblast de Moscú",
-      "lat": 55.826,
-      "lon": 37.345,
-      "precision": "ciudad",
+      "lat": 55.83414,
+      "lon": 37.270871,
+      "precision": "colonia",
       "geocodificar": "Изумрудные Холмы, Красногорск, Московская область, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2324,7 +2394,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Ubicación aproximada: geocodificar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Moscú 20 km"
+      "zona_objetivo": "Moscú 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-004",
@@ -2332,9 +2403,9 @@
       "ciudad": "Moscú",
       "zona": "Ramenki",
       "estado": "Moscú",
-      "lat": 55.698,
-      "lon": 37.5,
-      "precision": "colonia",
+      "lat": 55.697561,
+      "lon": 37.498542,
+      "precision": "ciudad",
       "geocodificar": "Раменки, Москва, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2352,7 +2423,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Moscú 20 km"
+      "zona_objetivo": "Moscú 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-005",
@@ -2360,9 +2432,9 @@
       "ciudad": "San Petersburgo",
       "zona": "Kupchino",
       "estado": "San Petersburgo",
-      "lat": 59.83,
-      "lon": 30.38,
-      "precision": "colonia",
+      "lat": 59.829681,
+      "lon": 30.375491,
+      "precision": "ciudad",
       "geocodificar": "Купчино, Санкт-Петербург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2380,7 +2452,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km"
+      "zona_objetivo": "San Petersburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-006",
@@ -2388,8 +2461,8 @@
       "ciudad": "San Petersburgo",
       "zona": "Okhta",
       "estado": "San Petersburgo",
-      "lat": 59.945,
-      "lon": 30.42,
+      "lat": 59.957176,
+      "lon": 30.448799,
       "precision": "ciudad",
       "geocodificar": "Охта Хаус, Санкт-Петербург, Россия",
       "tipo": "departamento",
@@ -2408,7 +2481,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Clase confort. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km"
+      "zona_objetivo": "San Petersburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-007",
@@ -2416,9 +2490,9 @@
       "ciudad": "San Petersburgo",
       "zona": "Petrogradski",
       "estado": "San Petersburgo",
-      "lat": 59.963,
-      "lon": 30.3,
-      "precision": "colonia",
+      "lat": 59.964234,
+      "lon": 30.28582,
+      "precision": "ciudad",
       "geocodificar": "Петроградский район, Санкт-Петербург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2436,7 +2510,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Estudios desde 32 m², 7,8-9 M RUB; 1 recámara desde 31 m², 7,5-12,3 M RUB. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km"
+      "zona_objetivo": "San Petersburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-008",
@@ -2444,9 +2519,9 @@
       "ciudad": "San Petersburgo",
       "zona": "Yuntolovo (Primorski)",
       "estado": "San Petersburgo",
-      "lat": 60.02,
-      "lon": 30.2,
-      "precision": "colonia",
+      "lat": 59.938732,
+      "lon": 30.316229,
+      "precision": "ciudad",
       "geocodificar": "Юнтолово, Приморский район, Санкт-Петербург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2464,7 +2539,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "1 recámara desde ~6 M RUB; la portada indica 'desde 10,3 M'. Estacionamiento desde 515 mil RUB. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km"
+      "zona_objetivo": "San Petersburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-009",
@@ -2472,9 +2548,9 @@
       "ciudad": "San Petersburgo",
       "zona": "Severnaya Dolina (Vyborgski)",
       "estado": "San Petersburgo",
-      "lat": 60.073,
-      "lon": 30.35,
-      "precision": "colonia",
+      "lat": 59.938732,
+      "lon": 30.316229,
+      "precision": "ciudad",
       "geocodificar": "Северная долина, Выборгский район, Санкт-Петербург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2492,7 +2568,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Edificios terminados, junto al metro; 2 recámaras desde 9,63 M RUB. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km"
+      "zona_objetivo": "San Petersburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-010",
@@ -2500,8 +2577,8 @@
       "ciudad": "San Petersburgo",
       "zona": "Malaya Okhta",
       "estado": "San Petersburgo",
-      "lat": 59.935,
-      "lon": 30.415,
+      "lat": 59.932335,
+      "lon": 30.405156,
       "precision": "colonia",
       "geocodificar": "Малая Охта, Санкт-Петербург, Россия",
       "tipo": "departamento",
@@ -2520,7 +2597,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km"
+      "zona_objetivo": "San Petersburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-011",
@@ -2528,8 +2606,8 @@
       "ciudad": "Anapa",
       "zona": "Anapa (centro)",
       "estado": "Krasnodar",
-      "lat": 44.893,
-      "lon": 37.32,
+      "lat": 44.894272,
+      "lon": 37.316887,
       "precision": "ciudad",
       "geocodificar": "Анапа, Краснодарский край, Россия",
       "tipo": "departamento",
@@ -2548,7 +2626,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Clase business, vista al mar, estacionamiento subterráneo, plan de pagos 0 %. Ejemplo publicitario: 57,57 m² por 15 256 050 RUB. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Anapa 20 km"
+      "zona_objetivo": "Anapa 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-012",
@@ -2556,8 +2635,8 @@
       "ciudad": "Anapa",
       "zona": "Anapa",
       "estado": "Krasnodar",
-      "lat": 44.893,
-      "lon": 37.32,
+      "lat": 44.894272,
+      "lon": 37.316887,
       "precision": "ciudad",
       "geocodificar": "Анапа, Краснодарский край, Россия",
       "tipo": "departamento",
@@ -2576,7 +2655,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "747 departamentos en venta; otra fuente nombra a la desarrolladora 'Tochno' y da desde 7,9 M. Barrio no confirmado. ap-r.ru parece un catálogo/agencia de obra nueva: confirmar precio con la desarrolladora y la declaración de proyecto en наш.дом.рф. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Anapa 20 km"
+      "zona_objetivo": "Anapa 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-013",
@@ -2584,8 +2664,8 @@
       "ciudad": "Anapa",
       "zona": "Anapa",
       "estado": "Krasnodar",
-      "lat": 44.893,
-      "lon": 37.32,
+      "lat": 44.894272,
+      "lon": 37.316887,
       "precision": "ciudad",
       "geocodificar": "Анапа, Краснодарский край, Россия",
       "tipo": "departamento",
@@ -2604,7 +2684,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "794 de 1 535 departamentos libres (dato del 13-10-2026). Barrio no confirmado. ap-r.ru parece un catálogo/agencia de obra nueva: confirmar precio con la desarrolladora y la declaración de proyecto en наш.дом.рф. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Anapa 20 km"
+      "zona_objetivo": "Anapa 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-014",
@@ -2612,8 +2693,8 @@
       "ciudad": "Anapa",
       "zona": "Anapa",
       "estado": "Krasnodar",
-      "lat": 44.893,
-      "lon": 37.32,
+      "lat": 44.894272,
+      "lon": 37.316887,
       "precision": "ciudad",
       "geocodificar": "Анапа, Краснодарский край, Россия",
       "tipo": "departamento",
@@ -2632,7 +2713,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Otra fuente: desde 6,3 M (210 000 RUB/m²). Barrio no confirmado. ap-r.ru parece un catálogo/agencia de obra nueva: confirmar precio con la desarrolladora y la declaración de proyecto en наш.дом.рф. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Anapa 20 km"
+      "zona_objetivo": "Anapa 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-015",
@@ -2640,8 +2722,8 @@
       "ciudad": "Anapa (Sukko)",
       "zona": "Sukko",
       "estado": "Krasnodar",
-      "lat": 44.8,
-      "lon": 37.42,
+      "lat": 44.792705,
+      "lon": 37.403965,
       "precision": "colonia",
       "geocodificar": "Сукко, Анапа, Краснодарский край, Россия",
       "tipo": "departamento",
@@ -2660,7 +2742,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Pueblo a ~12 km de Anapa. Confirmar con la desarrolladora. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Anapa 20 km"
+      "zona_objetivo": "Anapa 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-016",
@@ -2668,8 +2751,8 @@
       "ciudad": "Ekaterimburgo",
       "zona": "Екатеринбург",
       "estado": "Sverdlovsk",
-      "lat": 56.838,
-      "lon": 60.597,
+      "lat": 56.838207,
+      "lon": 60.600789,
       "precision": "ciudad",
       "geocodificar": "Екатеринбург, Свердловская область, Россия",
       "tipo": "departamento",
@@ -2688,7 +2771,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Algunos proyectos de Brusnika anuncian descuentos de hasta 33 %. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Ekaterimburgo 20 km"
+      "zona_objetivo": "Ekaterimburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-017",
@@ -2696,8 +2780,8 @@
       "ciudad": "Ekaterimburgo",
       "zona": "Шишимская горка",
       "estado": "Sverdlovsk",
-      "lat": 56.795,
-      "lon": 60.64,
+      "lat": 56.783648,
+      "lon": 60.647579,
       "precision": "colonia",
       "geocodificar": "Шишимская горка, Екатеринбург, Россия",
       "tipo": "departamento",
@@ -2716,7 +2800,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Algunos proyectos de Brusnika anuncian descuentos de hasta 33 %. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Ekaterimburgo 20 km"
+      "zona_objetivo": "Ekaterimburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-018",
@@ -2724,8 +2809,8 @@
       "ciudad": "Ekaterimburgo",
       "zona": "Академический",
       "estado": "Sverdlovsk",
-      "lat": 56.79,
-      "lon": 60.515,
+      "lat": 56.78047,
+      "lon": 60.515636,
       "precision": "colonia",
       "geocodificar": "Академический, Екатеринбург, Россия",
       "tipo": "departamento",
@@ -2744,7 +2829,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Algunos proyectos de Brusnika anuncian descuentos de hasta 33 %. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Ekaterimburgo 20 km"
+      "zona_objetivo": "Ekaterimburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-019",
@@ -2752,9 +2838,9 @@
       "ciudad": "Ekaterimburgo",
       "zona": "Ekaterimburgo",
       "estado": "Sverdlovsk",
-      "lat": 56.838,
-      "lon": 60.597,
-      "precision": "ciudad",
+      "lat": 56.828352,
+      "lon": 60.694677,
+      "precision": "colonia",
       "geocodificar": "ЖК Малахит, Екатеринбург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2772,7 +2858,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Ekaterimburgo 20 km"
+      "zona_objetivo": "Ekaterimburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-020",
@@ -2780,9 +2867,9 @@
       "ciudad": "Ekaterimburgo",
       "zona": "Ekaterimburgo",
       "estado": "Sverdlovsk",
-      "lat": 56.838,
-      "lon": 60.597,
-      "precision": "ciudad",
+      "lat": 56.789647,
+      "lon": 60.47984,
+      "precision": "colonia",
       "geocodificar": "ЖК Мичуринский, Екатеринбург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2800,7 +2887,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Otra página: desde 3 M con descuento por pago de contado o hipoteca. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Ekaterimburgo 20 km"
+      "zona_objetivo": "Ekaterimburgo 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-021",
@@ -2808,9 +2896,9 @@
       "ciudad": "Sochi",
       "zona": "Adler",
       "estado": "Krasnodar",
-      "lat": 43.43,
-      "lon": 39.925,
-      "precision": "colonia",
+      "lat": 43.443972,
+      "lon": 39.940093,
+      "precision": "ciudad",
       "geocodificar": "Адлер, Сочи, Краснодарский край, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2828,7 +2916,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "17 departamentos, clase business; otra reseña da desde 14 M. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Sochi 20 km"
+      "zona_objetivo": "Sochi 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-022",
@@ -2836,9 +2925,9 @@
       "ciudad": "Sochi",
       "zona": "Sochi",
       "estado": "Krasnodar",
-      "lat": 43.6,
-      "lon": 39.735,
-      "precision": "ciudad",
+      "lat": 43.568224,
+      "lon": 39.768476,
+      "precision": "colonia",
       "geocodificar": "ЖК Кислород, Сочи, Краснодарский край, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2856,7 +2945,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Complejo de 15 edificios, todo entregado (junio 2026). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Sochi 20 km"
+      "zona_objetivo": "Sochi 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-023",
@@ -2864,8 +2954,8 @@
       "ciudad": "Sochi",
       "zona": "Sochi",
       "estado": "Krasnodar",
-      "lat": 43.6,
-      "lon": 39.735,
+      "lat": 43.614646,
+      "lon": 39.765155,
       "precision": "ciudad",
       "geocodificar": "Горный квартал, Сочи, Краснодарский край, Россия",
       "tipo": "departamento",
@@ -2884,7 +2974,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Sitio oficial; sin precio en el resultado: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Sochi 20 km"
+      "zona_objetivo": "Sochi 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "RUS2-024",
@@ -2892,9 +2983,9 @@
       "ciudad": "Sochi",
       "zona": "Bytkha",
       "estado": "Krasnodar",
-      "lat": 43.565,
-      "lon": 39.77,
-      "precision": "colonia",
+      "lat": 43.560282,
+      "lon": 39.781057,
+      "precision": "ciudad",
       "geocodificar": "Бытха, Сочи, Краснодарский край, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2912,7 +3003,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Precios discrepantes entre fuentes (desde 7 M o desde 15,9 M RUB; ~323 mil RUB/m²): precio_desde null. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Sochi 20 km"
+      "zona_objetivo": "Sochi 20 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST2-001",
@@ -2976,8 +3068,8 @@
       "ciudad": "Pärnu",
       "zona": "Mai (Vista Residences)",
       "estado": "Pärnumaa",
-      "lat": 58.368,
-      "lon": 24.48,
+      "lat": 58.371282,
+      "lon": 24.541547,
       "precision": "colonia",
       "geocodificar": "Mai, Pärnu, Pärnu maakond, Eesti",
       "tipo": "departamento",
@@ -2996,7 +3088,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Cerca del mar; 2-4 cuartos, muchos con terraza; varias unidades libres. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Pärnu (costa)"
+      "zona_objetivo": "Pärnu (costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST2-004",
@@ -3004,8 +3097,8 @@
       "ciudad": "Pärnu",
       "zona": "Rannarajoon",
       "estado": "Pärnumaa",
-      "lat": 58.376,
-      "lon": 24.497,
+      "lat": 58.376449,
+      "lon": 24.499286,
       "precision": "colonia",
       "geocodificar": "Rannarajoon, Pärnu, Pärnu maakond, Eesti",
       "tipo": "departamento",
@@ -3024,7 +3117,8 @@
       "fuente": "prensa",
       "visto": "2026-10-22",
       "nota": "Inicio de obra abril 2026, 3 pisos, proyecto de KAMP Arhitektid. Sin precio: consultar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Pärnu (costa)"
+      "zona_objetivo": "Pärnu (costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "EST2-005",
@@ -3060,9 +3154,9 @@
       "ciudad": "Haapsalu",
       "zona": "Marienholm",
       "estado": "Läänemaa",
-      "lat": 58.95,
-      "lon": 23.53,
-      "precision": "colonia",
+      "lat": 58.955448,
+      "lon": 23.518427,
+      "precision": "ciudad",
       "geocodificar": "Marienholm, Haapsalu, Lääne maakond, Eesti",
       "tipo": "departamento",
       "nuevo": true,
@@ -3080,7 +3174,8 @@
       "fuente": "prensa",
       "visto": "2026-10-22",
       "nota": "Nota de ERR (probablemente de 2025): 4 500-5 000 €/m², de 130 000 a más de 600 000 €. En enero de 2026 se vendió ahí un departamento en 560 000 € (Lääne Elu). Verificar disponibilidad. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Haapsalu (costa)"
+      "zona_objetivo": "Haapsalu (costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA2-001",
@@ -3088,8 +3183,8 @@
       "ciudad": "Jūrmala",
       "zona": "Dzintari",
       "estado": "Jūrmala",
-      "lat": 56.973,
-      "lon": 23.8,
+      "lat": 56.975774,
+      "lon": 23.825749,
       "precision": "colonia",
       "geocodificar": "Dzintari, Jūrmala, Latvija",
       "tipo": "departamento",
@@ -3108,7 +3203,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Jūrmala"
+      "zona_objetivo": "Jūrmala",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA2-002",
@@ -3172,8 +3268,8 @@
       "ciudad": "Jūrmala",
       "zona": "Dzintari",
       "estado": "Jūrmala",
-      "lat": 56.972,
-      "lon": 23.795,
+      "lat": 56.975774,
+      "lon": 23.825749,
       "precision": "colonia",
       "geocodificar": "Dzintari, Jūrmala, Latvija",
       "tipo": "departamento",
@@ -3192,7 +3288,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Rango similar al proyecto ID 2937 de VIP Real: podría ser el mismo proyecto. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Jūrmala"
+      "zona_objetivo": "Jūrmala",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA2-005",
@@ -3200,9 +3297,9 @@
       "ciudad": "Jūrmala",
       "zona": "Pumpuri",
       "estado": "Jūrmala",
-      "lat": 56.961,
-      "lon": 23.7,
-      "precision": "colonia",
+      "lat": 56.959939,
+      "lon": 23.737185,
+      "precision": "ciudad",
       "geocodificar": "Pumpuri, Jūrmala, Latvija",
       "tipo": "departamento",
       "nuevo": false,
@@ -3220,7 +3317,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Categoría 'obra nueva en Jūrmala' de la agencia; año de construcción no confirmado. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Jūrmala"
+      "zona_objetivo": "Jūrmala",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA2-006",
@@ -3256,8 +3354,8 @@
       "ciudad": "Liepāja",
       "zona": "Liepāja",
       "estado": "Liepāja",
-      "lat": 56.511,
-      "lon": 21.013,
+      "lat": 56.493125,
+      "lon": 21.023385,
       "precision": "ciudad",
       "geocodificar": "Eduarda Tisē iela, Liepāja, Latvija",
       "tipo": "departamento",
@@ -3276,7 +3374,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~1 411 €/m² (≈129 m²). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Liepāja"
+      "zona_objetivo": "Liepāja",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA2-008",
@@ -3284,8 +3383,8 @@
       "ciudad": "Liepāja",
       "zona": "Liepāja (Loču iela)",
       "estado": "Liepāja",
-      "lat": 56.511,
-      "lon": 21.013,
+      "lat": 56.512542,
+      "lon": 21.001199,
       "precision": "ciudad",
       "geocodificar": "Loču iela, Liepāja, Latvija",
       "tipo": "departamento",
@@ -3304,7 +3403,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Rebajado de 98 000 a 95 000 €. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Liepāja"
+      "zona_objetivo": "Liepāja",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LVA2-009",
@@ -3340,9 +3440,9 @@
       "ciudad": "Palanga",
       "zona": "Kunigiškiai (Vaivorykštės g.)",
       "estado": "Klaipėdos apskritis",
-      "lat": 55.94,
-      "lon": 21.075,
-      "precision": "colonia",
+      "lat": 55.922982,
+      "lon": 21.068266,
+      "precision": "ciudad",
       "geocodificar": "Vaivorykštės gatvė, Kunigiškiai, Palanga, Lietuva",
       "tipo": "departamento",
       "nuevo": true,
@@ -3360,7 +3460,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "2 cuartos a 120 300 € (~3 601 €/m²). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Palanga"
+      "zona_objetivo": "Palanga",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU2-002",
@@ -3368,9 +3469,9 @@
       "ciudad": "Palanga",
       "zona": "Medvalakio g.",
       "estado": "Klaipėdos apskritis",
-      "lat": 55.92,
-      "lon": 21.07,
-      "precision": "colonia",
+      "lat": 55.922982,
+      "lon": 21.068266,
+      "precision": "ciudad",
       "geocodificar": "Medvalakio gatvė, Palanga, Lietuva",
       "tipo": "departamento",
       "nuevo": true,
@@ -3388,7 +3489,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Acabado intermedio (dalinė apdaila). Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Palanga"
+      "zona_objetivo": "Palanga",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "LTU2-003",
@@ -3396,9 +3498,9 @@
       "ciudad": "Klaipėda",
       "zona": "Ragainės g.",
       "estado": "Klaipėdos apskritis",
-      "lat": 55.672,
-      "lon": 21.17,
-      "precision": "colonia",
+      "lat": 55.712753,
+      "lon": 21.135047,
+      "precision": "ciudad",
       "geocodificar": "Ragainės gatvė, Klaipėda, Lietuva",
       "tipo": "departamento",
       "nuevo": true,
@@ -3416,7 +3518,8 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "1 a 4 cuartos; precio 'desde' sin fecha, muy por debajo del mercado (2 cuartos nuevos ~125-160 mil € según Atvira Klaipėda): verificar. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "Klaipėda"
+      "zona_objetivo": "Klaipėda",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }
