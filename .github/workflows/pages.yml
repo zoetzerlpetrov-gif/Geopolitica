@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html sw.js css js vendor config data schema _site/
+          cp -r index.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -54,6 +54,7 @@ jobs:
           if git fetch --depth 1 origin datos-capas 2>/dev/null; then
             git archive FETCH_HEAD capas | tar -x -C /tmp && cp /tmp/capas/manifest.json /tmp/capas/*.pmtiles /tmp/capas/*.geojson _site/data/capas/ 2>/dev/null || true
             cp /tmp/capas/buscar_*.json _site/data/capas/ 2>/dev/null || true  # índices del buscador de Organizaciones
+            cp /tmp/capas/volcanes_lista.json _site/data/capas/ 2>/dev/null || true  # evaluador de inmuebles (inmuebles.html)
             cp -r /tmp/capas/historia _site/data/capas/ 2>/dev/null || true  # cronología por país (bloque Historia)
           else
             echo "Aún no existe la rama datos-capas"

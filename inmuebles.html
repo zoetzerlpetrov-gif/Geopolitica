@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inmuebles y riesgo</title>
+  <meta name="description" content="Evaluador de riesgo por ubicación para inmuebles (sismos, volcanes, deslaves, inundación, estabilidad política e inseguridad), lista propia de seguimiento y fuentes oficiales de precios y subastas en 20 países.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .inm { max-width: 1040px; margin: 0 auto; padding: 16px; }
+    .inm h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .pestanas button { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .pestanas button[aria-selected="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    .panel[hidden] { display: none; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .form { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; align-items: end; }
+    .form label { display: flex; flex-direction: column; font-size: 13px; color: var(--text-2); gap: 2px; }
+    .inm input, .inm select { font: inherit; min-height: 36px; padding: 4px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); max-width: 100%; }
+    .btn { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 5px 7px; text-align: left; vertical-align: top; }
+    .desliza { overflow-x: auto; }
+    .n1 { background: rgba(46,125,50,.18); } .n2 { background: rgba(249,168,37,.25); } .n3 { background: rgba(230,81,0,.25); } .n4 { background: rgba(183,28,28,.25); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .grande { font-size: 26px; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="topbar"><a class="link-btn" href="./">← Mapa</a><h1>Inmuebles y riesgo</h1></header>
+  <main class="inm">
+    <p class="meta">Para conocer la oferta de cada país, esta página reúne fuentes oficiales (precios reales, subastas del Estado y de juzgados, bienes adjudicados de bancos) y enlaza a los portales privados.
+      Los portales no se copian: sus términos lo prohíben. Cuando encuentres un inmueble, evalúa su ubicación aquí y guárdalo en tu lista; todo se queda en este navegador.</p>
+    <nav class="pestanas" role="tablist" aria-label="Secciones">
+      <button role="tab" aria-selected="true" data-p="evaluar">🧭 Evaluar una ubicación</button>
+      <button role="tab" aria-selected="false" data-p="lista">⭐ Mi lista</button>
+      <button role="tab" aria-selected="false" data-p="fuentes">🌍 Fuentes por país (20)</button>
+    </nav>
+
+    <section class="panel" id="p-evaluar">
+      <div class="tarjeta"><div class="form">
+        <label>Nombre o referencia <input id="ev-nombre" maxlength="120" placeholder="Depto. 2 rec. Valencia"></label>
+        <label>País <select id="ev-pais"></select></label>
+        <label>Latitud <input id="ev-lat" inputmode="decimal" placeholder="39.47"></label>
+        <label>Longitud <input id="ev-lon" inputmode="decimal" placeholder="-0.376"></label>
+        <label>Tipo <select id="ev-tipo"><option>Casa</option><option>Departamento</option><option>Terreno</option><option>Local u oficina</option></select></label>
+        <label>Precio <input id="ev-precio" inputmode="decimal" placeholder="250000"></label>
+        <label>Moneda <input id="ev-moneda" maxlength="3" value="EUR"></label>
+        <label>Superficie (m²) <input id="ev-m2" inputmode="decimal" placeholder="85"></label>
+        <label>Referencia de la zona (precio por m²) <input id="ev-ref" inputmode="decimal" placeholder="2900"></label>
+        <label>Enlace al anuncio <input id="ev-link" maxlength="400" placeholder="https://…"></label>
+        <button type="button" class="btn" id="ev-btn">Evaluar</button>
+      </div>
+      <p class="meta">Coordenadas: en el mapa de DOMINUS, clic derecho copia la latitud y longitud. Fuentes que se consultan al evaluar: USGS (sismos), Open-Meteo (elevación),
+        Banco Mundial (estabilidad política y homicidios) y los volcanes y eventos de DOMINUS. Solo se envían las coordenadas o el país.</p></div>
+      <div id="ev-res" aria-live="polite"></div>
+    </section>
+
+    <section class="panel" id="p-lista" hidden>
+      <div class="barra" style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="li-csv">Descargar CSV</button><button type="button" class="btn" id="li-json">Exportar JSON</button>
+        <label class="btn">Importar JSON <input type="file" id="li-imp" accept="application/json" hidden></label></div>
+      <div class="desliza"><table class="t" id="li-tabla"></table></div>
+      <p class="meta">También están en el mapa los inmuebles del repositorio InmuebleWarRoom (capa «Inmuebles en seguimiento»).</p>
+    </section>
+
+    <section class="panel" id="p-fuentes" hidden><p class="meta" id="fu-nota"></p><div id="fu-paises"></div></section>
+  </main>
+  <script type="module" src="js/inmuebles.js"></script>
+</body>
+</html>

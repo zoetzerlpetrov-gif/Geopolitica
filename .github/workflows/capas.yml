@@ -70,12 +70,6 @@ jobs:
           PLAZO_MIN: "70"   # el job muere a los 90 min; deja 20 para tippecanoe y publicar
           YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}  # cámaras en vivo de YouTube (familia «camaras»)
           # Cámaras de tráfico con llave gratuita (opcionales: sin el secreto, esa fuente se salta). Ver docs/CAMARAS.md.
-          CAM_511_ON: ${{ secrets.CAM_511_ON }}
-          CAM_511_AB: ${{ secrets.CAM_511_AB }}
-          CAM_511_NY: ${{ secrets.CAM_511_NY }}
-          CAM_511_AZ: ${{ secrets.CAM_511_AZ }}
-          CAM_511_NV: ${{ secrets.CAM_511_NV }}
-          CAM_511_GA: ${{ secrets.CAM_511_GA }}
           WSDOT_ACCESS_CODE: ${{ secrets.WSDOT_ACCESS_CODE }}
           WINDY_WEBCAMS_KEY: ${{ secrets.WINDY_WEBCAMS_KEY }}
           INEGI_DENUE_API_KEY: ${{ secrets.INEGI_DENUE_API_KEY }}  # grandes establecimientos de México (familia «denue_grandes»)

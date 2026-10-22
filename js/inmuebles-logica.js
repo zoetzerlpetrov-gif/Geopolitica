@@ -1,0 +1,86 @@
+// Evaluador de riesgo por ubicación para inmuebles (inmuebles.html). Funciones puras; la página pide los datos.
+// Escala común: 1 bajo · 2 moderado · 3 alto · 4 muy alto. Cada dimensión explica de dónde sale su calificación.
+
+export function distanciaKm(lat1, lon1, lat2, lon2) {
+  const R = 6371, r = Math.PI / 180;
+  const a = Math.sin(((lat2 - lat1) * r) / 2) ** 2 + Math.cos(lat1 * r) * Math.cos(lat2 * r) * Math.sin(((lon2 - lon1) * r) / 2) ** 2;
+  return 2 * R * Math.asin(Math.sqrt(a));
+}
+
+export const NIVELES = ["", "Bajo", "Moderado", "Alto", "Muy alto"];
+
+/** Sismos M≥5 a ≤150 km desde 1975 (respuesta GeoJSON de USGS) → nivel. */
+export function riesgoSismico(sismos) {
+  const ms = sismos.map((f) => Number(f.properties?.mag) || 0);
+  const max = ms.length ? Math.max(...ms) : 0, n6 = ms.filter((m) => m >= 6).length;
+  const nivel = max >= 7 || n6 >= 5 ? 4 : max >= 6.5 || n6 >= 2 ? 3 : ms.length >= 3 || max >= 6 ? 2 : 1;
+  return { nivel, texto: ms.length ? `${ms.length} sismos de magnitud 5 o más a menos de 150 km desde 1975; el mayor, M${max.toFixed(1)}.` : "Sin sismos de magnitud 5 o más a menos de 150 km desde 1975 (catálogo USGS)." };
+}
+
+/** Volcanes del Holoceno ([nombre, lon, lat]) → nivel por distancia al más cercano. */
+export function riesgoVolcanico(lat, lon, volcanes) {
+  let cerca = null;
+  for (const [n, vlon, vlat] of volcanes) {
+    if (Math.abs(vlat - lat) > 2 || Math.abs(vlon - lon) > 3) continue;
+    const d = distanciaKm(lat, lon, vlat, vlon);
+    if (!cerca || d < cerca.d) cerca = { n, d };
+  }
+  if (!cerca) return { nivel: 1, texto: "Ningún volcán activo en los últimos ~12,000 años a menos de ~200 km." };
+  const nivel = cerca.d < 15 ? 4 : cerca.d < 40 ? 3 : cerca.d < 100 ? 2 : 1;
+  return { nivel, texto: `Volcán más cercano: ${cerca.n}, a ${Math.round(cerca.d)} km (caída de ceniza posible hasta ~100 km según el viento; flujos y lahares en los primeros 15-40 km).` };
+}
+
+/** Pendiente aproximada (°) con la elevación del punto y de 4 puntos a `paso` metros (N, S, E, O). */
+export function pendiente(elevs, paso = 300) {
+  if (!Array.isArray(elevs) || elevs.length < 5 || elevs.some((x) => x == null)) return null;
+  const [c, n, s, e, o] = elevs.map(Number);
+  if ([c, n, s, e, o].some((x) => !Number.isFinite(x))) return null;
+  const dzdy = (n - s) / (2 * paso), dzdx = (e - o) / (2 * paso);
+  return Math.round((Math.atan(Math.hypot(dzdx, dzdy)) * 180) / Math.PI * 10) / 10;
+}
+export function puntosPendiente(lat, lon, paso = 300) {
+  const dLat = paso / 111320, dLon = paso / (111320 * Math.cos((lat * Math.PI) / 180));
+  return [[lat, lon], [lat + dLat, lon], [lat - dLat, lon], [lat, lon + dLon], [lat, lon - dLon]];
+}
+
+/** Deslaves e inundación (estimación por terreno): pendiente y elevación del punto. */
+export function riesgoTerreno(grados, elevacion) {
+  if (grados == null) return { nivel: null, texto: "Sin datos de elevación." };
+  const desl = grados >= 25 ? 4 : grados >= 15 ? 3 : grados >= 8 ? 2 : 1;
+  const inund = elevacion != null && elevacion < 5 ? 3 : elevacion != null && elevacion < 15 && grados < 2 ? 2 : 1;
+  return { nivel: Math.max(desl, inund), deslave: desl, inundacion: inund,
+    texto: `Pendiente aproximada ${grados}° (deslave: ${NIVELES[desl].toLowerCase()}); elevación ${elevacion ?? "?"} m (inundación o marejada: ${NIVELES[inund].toLowerCase()}). Estimación con el relieve: confirma con el atlas de riesgos local.` };
+}
+
+/** Estabilidad política (Banco Mundial, WGI «Political Stability», escala aprox. −2.5 a +2.5). */
+export function riesgoPolitico(pv) {
+  if (pv == null) return { nivel: null, texto: "Sin dato del Banco Mundial." };
+  const nivel = pv >= 0.5 ? 1 : pv >= -0.25 ? 2 : pv >= -1 ? 3 : 4;
+  return { nivel, texto: `Estabilidad política y ausencia de violencia (Banco Mundial, WGI): ${pv.toFixed(2)} en una escala de −2.5 a +2.5.` };
+}
+
+/** Inseguridad: tasa nacional de homicidios (por 100 mil) y eventos de seguridad del mapa a ≤50 km en la ventana disponible. */
+export function riesgoInseguridad(homicidios, eventosCerca) {
+  const h = homicidios == null ? null : Number(homicidios);
+  const base = h == null ? null : h >= 20 ? 4 : h >= 10 ? 3 : h >= 3 ? 2 : 1;
+  const graves = eventosCerca.filter((e) => e.severidad >= 4).length;
+  const nivel = base == null ? (graves >= 3 ? 3 : null) : Math.min(4, base + (graves >= 3 ? 1 : 0));
+  return { nivel, texto: `${h == null ? "Tasa de homicidios sin dato" : `Homicidios: ${h.toFixed(1)} por 100 mil habitantes (nacional, Banco Mundial/UNODC)`}; `
+    + `${eventosCerca.length} eventos de seguridad del mapa a menos de 50 km (${graves} graves). La cifra nacional no describe cada colonia: revisa la estadística local.` };
+}
+
+/** Calificación global: la peor dimensión pesa más (un riesgo muy alto no se compensa con otros bajos). */
+export function riesgoGlobal(dims) {
+  const v = dims.map((d) => d.nivel).filter((n) => n >= 1);
+  if (!v.length) return null;
+  const max = Math.max(...v), prom = v.reduce((a, b) => a + b, 0) / v.length;
+  return Math.min(4, Math.max(1, Math.round(0.6 * max + 0.4 * prom)));
+}
+
+/** Precio por m² y comparación contra la referencia que tú indiques (por ejemplo, la mediana oficial de la zona). */
+export function precioM2(precio, m2, referencia) {
+  const p = Number(precio), s = Number(m2);
+  if (!(p > 0 && s > 0)) return null;
+  const v = p / s, r = Number(referencia);
+  return { m2: Math.round(v), dif: r > 0 ? Math.round(((v - r) / r) * 100) : null };
+}

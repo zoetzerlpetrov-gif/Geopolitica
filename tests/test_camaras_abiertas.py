@@ -56,3 +56,11 @@ def test_sin_secretos_no_se_consulta_nada(monkeypatch):
     for k in list(C.CAM_511) + ["WSDOT_ACCESS_CODE", "WINDY_WEBCAMS_KEY"]:
         monkeypatch.delenv(k, raising=False)
     assert C.camaras_con_llave() == [] and C.CAM_FUENTES["windy"] == "sin llave"
+
+
+def test_lista_compacta_de_volcanes(tmp_path):
+    import json
+    fs = [{"geometry": {"coordinates": [-98.6221, 19.0231]}, "properties": {"n": "Popocatépetl"}}]
+    destino = tmp_path / "v.json"
+    assert C.lista_volcanes(fs, str(destino)) == 1
+    assert json.loads(destino.read_text())["volcanes"] == [["Popocatépetl", -98.622, 19.023]]

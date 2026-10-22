@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DOMINUS OPS</title>
+  <meta name="description" content="Framework de control estratégico y operativo: seis fases, diagnóstico de madurez (DMI), gobernanza, plantillas por fase, Battle Rhythm y SITREP con los eventos del mapa.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1080px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .ops h3 { font-size: 15px; margin: 12px 0 4px; }
+    .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .pestanas button { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .pestanas button[aria-selected="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    .panel[hidden] { display: none; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .ops textarea, .ops input[type=text], .ops input[type=number], .ops select { font: inherit; max-width: 100%; box-sizing: border-box; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .ops textarea { width: 100%; min-height: 110px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .btn { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+    .t td[contenteditable] { min-width: 80px; background: var(--surface-2); }
+    .desliza { overflow-x: auto; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .ciclo { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+    .ciclo div { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; background: var(--surface); font-size: 13px; }
+    .rojo { background: rgba(183,28,28,.18); } .ambar { background: rgba(249,168,37,.25); } .verde { background: rgba(46,125,50,.18); }
+    .grande { font-size: 32px; font-weight: 700; }
+    .radar text { font-size: 10px; fill: var(--text); } .radar .malla { fill: none; stroke: var(--line); } .radar .area { fill: rgba(200,16,46,.25); stroke: #C8102E; stroke-width: 2; }
+    pre.sitrep { white-space: pre-wrap; background: var(--surface-2); padding: 10px; border-radius: var(--radius); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa (War Room)</a>
+    <h1>DOMINUS OPS</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Framework de control estratégico y operativo: seis fases universales sobre dos pilares, <b>Gobernanza</b> (¿quién decide, quién responde y bajo qué control?)
+      y <b>War Room C6ISTAR</b> (¿qué está pasando y qué hago ahora?). El mapa de DOMINUS OSINT funciona como la capa de inteligencia del War Room; esta sección
+      lleva el diagnóstico, las plantillas y el ritmo de mando. Lo que captures se guarda solo en este navegador; usa «Exportar» para respaldarlo.</p>
+    <nav class="pestanas" role="tablist" aria-label="Secciones">
+      <button role="tab" aria-selected="true" data-p="mapa">🧭 Mapa maestro y fases</button>
+      <button role="tab" aria-selected="false" data-p="dmi">📈 Readiness Assessment y DMI</button>
+      <button role="tab" aria-selected="false" data-p="gob">🏛️ Gobernanza</button>
+      <button role="tab" aria-selected="false" data-p="plantillas">🗂️ Plantillas por fase</button>
+      <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
+      <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
+    </nav>
+
+    <section class="panel" id="p-mapa">
+      <h2>Ciclo OODA: Observar · Orientar · Decidir · Actuar</h2>
+      <div class="ciclo" id="ciclo"></div>
+      <p class="meta">Es un ciclo, no una línea: el cierre (Fase V) alimenta la siguiente planeación (Fase I), y el War Room (Fase IV) atraviesa todas las fases.</p>
+      <div id="fases"></div>
+    </section>
+
+    <section class="panel" id="p-dmi" hidden>
+      <h2>Readiness Assessment</h2>
+      <p class="meta">Diagnóstico de entrada (2 a 3 semanas en una consultoría real). Paso 1: responde el cuestionario (1 = no existe / muy bajo, 5 = existe, se mide y mejora).
+        Paso 2: revisa la sugerencia y ajusta cada dimensión del DMI con evidencia. El DMI se vuelve a medir cada 6 a 12 meses.</p>
+      <div class="barra"><label>Organización <input type="text" id="dmi-org" maxlength="120"></label><label>Fecha <input type="text" id="dmi-fecha" maxlength="10" placeholder="AAAA-MM-DD"></label>
+        <button type="button" id="dmi-sugerir">Usar sugerencia del cuestionario</button><button type="button" id="dmi-md">Descargar informe</button></div>
+      <div class="tarjeta" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center">
+        <svg class="radar" id="dmi-radar" viewBox="0 0 300 300" width="300" height="300" role="img" aria-label="Radar de madurez"></svg>
+        <div><div class="grande" id="dmi-total">—</div><div id="dmi-nivel" class="meta"></div><div id="dmi-niveles" class="meta"></div></div>
+      </div>
+      <div class="desliza"><table class="t" id="dmi-tabla"></table></div>
+      <h3>Cuestionario extendido de diagnóstico (Fase I)</h3>
+      <div id="dmi-cuest"></div>
+    </section>
+
+    <section class="panel" id="p-gob" hidden>
+      <h2>Análisis de gobernanza: nueve dimensiones</h2>
+      <p class="meta">Califica cada dimensión de 1 (falla grave) a 5 (sólida) y el esfuerzo para corregirla (1 bajo, 5 alto). Se contrastan con COBIT 2019, COSO ERM, ISO/IEC 38500 e ISO 37001.
+        Entregables: mapa de calor, matriz RACI de decisiones críticas y plan de remediación priorizado.</p>
+      <div class="desliza"><table class="t" id="gob-tabla"></table></div>
+      <h3>Plan de remediación priorizado</h3><div id="gob-plan"></div>
+      <h3>Matriz RACI de decisiones críticas</h3>
+      <p class="meta">R = realiza, A = aprueba y responde (solo uno por decisión), C = consultado, I = informado.</p>
+      <div class="barra"><button type="button" id="raci-mas">+ Decisión</button><button type="button" id="raci-rol">+ Rol</button></div>
+      <div class="desliza"><table class="t" id="raci-tabla"></table></div><div id="raci-avisos"></div>
+    </section>
+
+    <section class="panel" id="p-plantillas" hidden>
+      <h2>Plantillas por fase</h2>
+      <p class="meta">Las 30 plantillas del Volumen II con su ejemplo. Edita las celdas directamente, agrega filas y descárgalas en CSV (se abre en Excel) o Markdown.</p>
+      <div class="barra"><select id="pl-fase" aria-label="Fase"></select><select id="pl-sel" aria-label="Plantilla"></select>
+        <button type="button" id="pl-fila">+ Fila</button><button type="button" id="pl-csv">CSV</button><button type="button" id="pl-md">Markdown</button><button type="button" id="pl-ejemplo">Restaurar ejemplo</button><button type="button" id="pl-vaciar">Vaciar</button></div>
+      <p class="meta" id="pl-obj"></p>
+      <div class="desliza"><table class="t" id="pl-tabla"></table></div>
+      <div class="tarjeta"><h3>Copiloto de IA de esta fase</h3><p id="pl-ia" class="meta"></p>
+        <p class="meta">En DOMINUS OSINT el copiloto es el chat con tu llave de Groq (menú Herramientas del mapa): pega la plantilla en Markdown y pídele el análisis que describe esta fase.</p></div>
+    </section>
+
+    <section class="panel" id="p-ritmo" hidden>
+      <h2>Battle Rhythm</h2>
+      <div class="desliza"><table class="t" id="ritmo-tabla"></table></div>
+      <h2>KPIs del War Room</h2>
+      <p class="meta">Captura los KPIs que sigue la operación, con meta, valor actual, dueño y semáforo. Cada KPI debe tener un dueño (doctrina: responsabilidad clara).</p>
+      <div class="barra"><button type="button" id="kpi-mas">+ KPI</button></div>
+      <div class="desliza"><table class="t" id="kpi-tabla"></table></div>
+      <h2>SITREP (reporte de situación)</h2>
+      <p class="meta">Se arma con tus KPIs y con los eventos que DOMINUS OSINT registró en los países de la operación (13 áreas temáticas, últimas horas).</p>
+      <div class="barra"><label>Países (ISO de 3 letras, separados por coma) <input type="text" id="sit-paises" value="MEX" maxlength="120"></label>
+        <label>Ventana <select id="sit-horas"><option value="24">24 h</option><option value="72">72 h</option><option value="168">7 días</option></select></label>
+        <button type="button" id="sit-btn">Generar SITREP</button><button type="button" id="sit-copiar">Copiar</button></div>
+      <pre class="sitrep" id="sit-res" aria-live="polite"></pre>
+    </section>
+
+    <section class="panel" id="p-doctrina" hidden>
+      <h2>Doctrina DOMINUS</h2><ol id="doctrina"></ol>
+      <h2>Salas del War Room</h2><div id="salas"></div>
+      <h2>Dónde está cada sala en DOMINUS OSINT</h2>
+      <ul class="fuentes">
+        <li><a href="./">Mapa</a>: inteligencia del entorno (13 áreas, riesgos naturales, conflictos, infraestructura, mercados), equivalente a la capa ISR del War Room.</li>
+        <li><a href="corporativo.html">Inteligencia corporativa</a>: exposición de instalaciones, matriz 5×5 y escenarios (Twin Room básico).</li>
+        <li><a href="herramientas.html#auditorias">Caja del analista</a>: auditorías por sector, ACH, ICD 203, marcos y Mission Brief.</li>
+        <li><a href="herramientas.html#informatica">Informática y ciberseguridad</a>: IOC, encabezados de correo, DNS (apoyo al Cyber Room).</li>
+        <li><a href="narrativas.html">Narrativas</a> y <a href="noticiero.html">Noticiero</a>: percepción y desinformación (Sala de Comunicación Estratégica).</li>
+      </ul>
+      <h2>Trust &amp; Security Charter</h2>
+      <p class="meta">Confidencialidad y mínimo privilegio · soberanía y residencia de datos · separación de líneas (corporativa, gobierno, defensa) · control de exportación (ITAR/EAR) · trazabilidad total · privacidad (LFPDPPP/GDPR) · resiliencia con RTO/RPO comprometidos.</p>
+      <div class="barra"><button type="button" id="ops-exportar">Exportar todo lo capturado (JSON)</button><label class="btn">Importar <input type="file" id="ops-importar" accept="application/json" hidden></label></div>
+    </section>
+  </main>
+  <script type="module" src="js/ops.js"></script>
+</body>
+</html>

@@ -410,6 +410,17 @@ def volcanes_pleistoceno():
     return out
 
 
+def lista_volcanes(feats, destino=None):
+    """Lista compacta [nombre, lon, lat] de los volcanes del Holoceno para el evaluador de inmuebles (inmuebles.html),
+    que calcula la cercanía en el navegador sin descargar la capa completa."""
+    filas = [[f["properties"]["n"], round(f["geometry"]["coordinates"][0], 3), round(f["geometry"]["coordinates"][1], 3)] for f in feats]
+    destino = destino or os.path.join(SALIDA, "volcanes_lista.json")
+    os.makedirs(os.path.dirname(destino), exist_ok=True)
+    with open(destino, "w", encoding="utf-8") as fh:
+        json.dump({"fuente": "Smithsonian GVP / NOAA NCEI", "volcanes": filas}, fh, ensure_ascii=False, separators=(",", ":"))
+    return len(filas)
+
+
 def volcanes():
     origen, fs = volcanes_fuente()
     anillo = [(l["coords"][len(l["coords"]) // 2], l["coords"]) for l in _limites_pb2002() if l["cf"]]
@@ -435,6 +446,7 @@ def volcanes():
                                                                              f"{int(float(alt))} m" if alt not in (None, "") else "",
                                                                              f"roca: {_roca(p)}" if _roca(p) else "") if v)}, 3))
     print(f"   volcanes ({origen}): {len(out)}, en el Cinturón de Fuego: {sum(1 for f in out if f['properties']['st'] == 'volcanes_cinturon')}")
+    lista_volcanes(out)
     return out + (volcanes_pleistoceno() if origen == "gvp" else [])
 
 
@@ -811,8 +823,7 @@ def camaras_con_llave():
     out = []
     for sec, (base, pais, operador) in CAM_511.items():
         llave = os.environ.get(sec, "").strip()
-        if not llave:
-            CAM_FUENTES[sec.lower()] = "sin llave"
+        if not llave:  # no se reporta: hoy solo se usan WSDOT y Windy (docs/CAMARAS.md)
             continue
         out += _fuente_camaras(sec.lower(), [f"{base}/api/v2/get/cameras?key={urllib.parse.quote(llave)}&format=json"],
                                lambda d, b=base, p=pais, o=operador, s=sec: camaras_511(d, b, p, o, s[-2:].lower()), leer=leer_json_aceptando)
@@ -1581,6 +1592,15 @@ def empresas():
         except Exception as e:  # noqa: BLE001
             print(f"   {qid_clase}: {e}")
         time.sleep(3)
+    for minimo in (2, 5):  # si la consulta completa excede el tiempo, se reintenta con más notoriedad
+        try:
+            antes = len(registros)
+            S.leer_empresas(_sparql(S.Q_EMPRESAS_COTIZAN % minimo), registros, minimo)
+            print(f"   cotizan en bolsa (≥ {minimo} Wikipedias): +{len(registros) - antes}")
+            break
+        except Exception as e:  # noqa: BLE001
+            print(f"   cotizan en bolsa (≥ {minimo}): {e}")
+            time.sleep(5)
     for qid_pais, minimo in S.PAISES_EMPRESA:
         try:
             antes = len(registros)
@@ -1588,7 +1608,7 @@ def empresas():
             print(f"   país {qid_pais} (≥ {minimo} Wikipedias): +{len(registros) - antes}")
         except Exception as e:  # noqa: BLE001
             print(f"   país {qid_pais}: {e}")
-        time.sleep(3)
+        time.sleep(5)  # el servicio respondió 429 con 1 s entre consultas
     if not registros:
         raise RuntimeError("Wikidata no devolvió empresas")
     _EMPRESAS_REG.clear()

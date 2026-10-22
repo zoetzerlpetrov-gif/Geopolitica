@@ -65,7 +65,7 @@
    "fuente": "wikidata",
    "habilitada": true,
    "zoom_etiquetas": 5,
-   "nota": "Wikidata (CC0): sede corporativa (P159) de empresas con artículo en muchas Wikipedias; el sector sale de su industria (P452). Es notoriedad, no tamaño: faltan empresas grandes poco documentadas. Un punto por sede, no por planta o sucursal."
+   "nota": "Wikidata (CC0): sede corporativa (P159) de empresas con artículo en muchas Wikipedias, de todas las que cotizan en alguna bolsa (≈ 12,800) y cobertura amplia en México y las 15 economías más grandes; el sector sale de su industria (P452). Faltan empresas grandes poco documentadas en Wikidata. Un punto por sede, no por planta o sucursal."
   },
   {
    "id": "top_empresas",

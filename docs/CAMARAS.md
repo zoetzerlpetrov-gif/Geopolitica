@@ -17,7 +17,9 @@ DOMINUS solo muestra cámaras que su operador publica para verse en abierto. Las
 | Vegagerðin | Islandia | Datos públicos |
 | YouTube en vivo (secreto `YOUTUBE_API_KEY`) | Mundo | Reproductor oficial de YouTube |
 
-## Con llave gratuita (opcionales)
+## Con llave gratuita
+
+En uso desde el 22 de octubre de 2026: **WSDOT** y **Windy Webcams** (secretos ya agregados). Las de la plataforma 511 tienen lector listo pero no se usan; para activarlas habría que agregar su secreto y su línea `env` en `.github/workflows/capas.yml`.
 
 Respondieron «Invalid Key» o «access code missing» en la prueba del 22 de octubre de 2026. La llave es gratuita: se pide en el sitio de cada operador y se guarda como **secreto de GitHub** (Settings → Secrets and variables → Actions → New repository secret). Sin el secreto, esa fuente se salta y el resto sigue funcionando.
 

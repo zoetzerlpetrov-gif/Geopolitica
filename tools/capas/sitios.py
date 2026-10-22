@@ -348,9 +348,15 @@ CLASES_EMPRESA = [("Q891723", 8), ("Q4830453", 12), ("Q783794", 12), ("Q6881511"
 
 # Países con cobertura completa (cualquier empresa con sede ubicada y al menos N Wikipedias): México primero.
 # Se usan las clases directas (sin subclases) para que la consulta no exceda los 60 s del servicio.
-PAISES_EMPRESA = [("Q96", 1)]
+# Ampliación (22 oct 2026): las 15 economías más grandes; el mínimo de Wikipedias mantiene cada consulta bajo 60 s
+# (EUA y Reino Unido excedieron el tiempo con ≥ 3 en la sonda).
+PAISES_EMPRESA = [("Q96", 1), ("Q30", 8), ("Q145", 6), ("Q148", 3), ("Q17", 3), ("Q183", 3), ("Q142", 3), ("Q668", 3), ("Q155", 3),
+                  ("Q16", 3), ("Q29", 3), ("Q38", 3), ("Q884", 3), ("Q414", 5), ("Q739", 4), ("Q298", 2), ("Q419", 2)]
 Q_EMPRESAS_PAIS = Q_EMPRESAS.replace("?x wdt:P31 wd:%s ;", "VALUES ?c { " + " ".join(f"wd:{q}" for q, _ in CLASES_EMPRESA)
                                      + " wd:Q19644607 wd:Q1589009 wd:Q22687 wd:Q46970 } ?x wdt:P31 ?c ; wdt:P17 wd:%s ;")
+
+# Empresas que cotizan en alguna bolsa (P414) con sede ubicada: 12,846 en la sonda del 22 oct 2026 (18 s sin etiquetas).
+Q_EMPRESAS_COTIZAN = Q_EMPRESAS.replace("?x wdt:P31 wd:%s ;", "?x wdt:P414 ?bolsa ;")
 
 # Industria (etiqueta en inglés de Wikidata) o nombre → sector. El primero que coincide gana.
 SECTORES = [
