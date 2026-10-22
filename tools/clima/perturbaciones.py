@@ -50,6 +50,22 @@ def nivel(prob):
     return ("alta" if n > 60 else "media" if n >= 40 else "baja"), n
 
 
+def region_gigante(geom):
+    """Polígono de más de 90° de longitud o 60° de latitud: el servicio lo manda como relleno de todo el mapa, no es una zona."""
+    if not geom or "Polygon" not in geom.get("type", ""):
+        return False
+    xs, ys = [], []
+
+    def rec(c):
+        if isinstance(c[0], (int, float)):
+            xs.append(c[0]), ys.append(c[1])
+        else:
+            for x in c:
+                rec(x)
+    rec(geom.get("coordinates") or [[0, 0]])
+    return max(xs) - min(xs) > 90 or max(ys) - min(ys) > 60
+
+
 def normalizar(f, tipo):
     p = f.get("properties") or {}
     n2, p2 = nivel(_campo(p, "prob2day", "prob_2day", "twoday_prob", "prob48"))
@@ -73,7 +89,7 @@ def main():
     for capa, tipo in CAPAS.items():
         try:
             fc = json.loads(F.get(consulta(capa), timeout=60))
-            nuevos = [normalizar(f, tipo) for f in fc.get("features", []) if f.get("geometry")]
+            nuevos = [normalizar(f, tipo) for f in fc.get("features", []) if f.get("geometry") and not region_gigante(f["geometry"])]
             feats += nuevos
             estado[tipo] = len(nuevos)
         except Exception as e:  # noqa: BLE001
