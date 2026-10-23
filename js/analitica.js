@@ -2,6 +2,7 @@
 import { esc, getJSON } from "./util.js";
 import * as A from "./analitica-logica.js";
 import { exportar, htmlSelectorExportar } from "./exportar.js";
+import { REGION } from "./card.js";
 
 const $ = (id) => document.getElementById(id);
 
@@ -81,18 +82,9 @@ $("c-btn").onclick = async () => {
 };
 
 // ------------------------------------------------------------------ SQL con DuckDB-WASM
-const EJEMPLOS = [
-  ["Eventos por área (vigentes)", "SELECT a.nombre AS area, COUNT(*) AS eventos, ROUND(AVG(e.severidad), 2) AS sev_media\nFROM eventos e LEFT JOIN areas a ON a.id = e.area_principal\nGROUP BY 1 ORDER BY 2 DESC;"],
-  ["Países con más eventos graves", "SELECT p.nombre AS pais, e.pais_iso3, COUNT(*) AS graves\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3\nWHERE e.severidad >= 4\nGROUP BY 1, 2 ORDER BY 3 DESC LIMIT 20;"],
-  ["Tendencia diaria de un país", "SELECT dia, n FROM conteos WHERE tipo = 'pais' AND clave = 'MEX' ORDER BY dia;"],
-  ["Eventos graves con ubicación (mapa)", "SELECT titulo, fuente, severidad, lat, lon\nFROM eventos WHERE severidad >= 4 AND lat IS NOT NULL\nORDER BY fecha_utc DESC LIMIT 200;"],
-  ["Eventos por región del mundo", "SELECT p.region, COUNT(*) AS eventos\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3\nGROUP BY 1 ORDER BY 2 DESC;"],
-  ["Semana contra semana por área", "WITH s AS (\n  SELECT clave AS area, date_trunc('week', CAST(dia AS DATE)) AS semana, SUM(n) AS n\n  FROM conteos WHERE tipo = 'area' GROUP BY 1, 2)\nSELECT area, semana, n, n - LAG(n) OVER (PARTITION BY area ORDER BY semana) AS cambio\nFROM s ORDER BY area, semana;"],
-  ["Fuentes que más aportan", "SELECT fuente, COUNT(*) AS eventos FROM eventos GROUP BY 1 ORDER BY 2 DESC LIMIT 25;"],
-];
-$("s-ej").innerHTML = EJEMPLOS.map(([n], i) => `<option value="${i}">Ejemplo: ${esc(n)}</option>`).join("");
-$("s-ej").onchange = () => { $("s-q").value = EJEMPLOS[$("s-ej").value][1]; };
-$("s-q").value = EJEMPLOS[0][1];
+$("s-ej").innerHTML = A.EJEMPLOS.map(([n], i) => `<option value="${i}">Ejemplo: ${esc(n)}</option>`).join("");
+$("s-ej").onchange = () => { $("s-q").value = A.EJEMPLOS[$("s-ej").value][1]; };
+$("s-q").value = A.EJEMPLOS[0][1];
 $("s-er").innerHTML = A.diagramaER() + `<p class="meta">Línea continua: relación directa. Línea punteada: relación que depende de <code>conteos.tipo</code> (‘pais’ o ‘area’). Pasa el puntero sobre una línea para ver la unión.</p>`;
 $("s-cols").innerHTML = Object.entries(A.ESQUEMA).map(([t, d]) => `<h3>${t} <span class="meta">— ${esc(d.desc)}</span></h3><div class="desliza"><table class="t"><tr><th>Columna</th><th>Tipo</th><th>Qué es</th></tr>${d.cols.map(([c, ti, de]) => `<tr><td><code>${c}</code></td><td>${ti}</td><td>${esc(de)}</td></tr>`).join("")}</table></div>`).join("")
   + `<p class="meta">Ejemplo de unión: <code>SELECT p.nombre, COUNT(*) FROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3 GROUP BY 1</code></p>`;
@@ -111,9 +103,11 @@ async function duck() {
   const filas = dias.flatMap((d) => [...Object.entries(d.areas || {}).map(([k, n]) => ({ dia: d.dia, tipo: "area", clave: k, n })),
     ...Object.entries(d.paises || {}).map(([k, n]) => ({ dia: d.dia, tipo: "pais", clave: k, n })), ...Object.entries(d.sev || {}).map(([k, n]) => ({ dia: d.dia, tipo: "sev", clave: k, n }))]);
   await db.registerFileText("conteos.json", JSON.stringify(filas.length ? filas : [{ dia: null, tipo: null, clave: null, n: 0 }]));
-  await db.registerFileText("paises.json", JSON.stringify(Object.entries(paises).map(([iso3, p]) => ({ iso3, nombre: p.es, nombre_en: p.en, region: p.region ?? null, lat: p.lat ?? null, lon: p.lon ?? null }))));
+  await db.registerFileText("paises.json", JSON.stringify(Object.entries(paises).map(([iso3, p]) => ({ iso3, nombre: p.es, nombre_en: p.en, region: p.region ?? null, region_nombre: REGION[p.region] ?? p.region ?? null, lat: p.lat ?? null, lon: p.lon ?? null }))));
   await db.registerFileText("areas.json", JSON.stringify((tax.areas || []).map((a) => ({ id: a.id, nombre: a.nombre }))));
   conexion = await db.connect();
+  // Días y horas en UTC (como el resto del sitio) aunque el navegador esté en otra zona horaria.
+  try { await conexion.query("SET TimeZone = 'UTC'"); } catch { /* sin ICU no hay zonas: ya trabaja en UTC */ }
   for (const t of ["eventos", "conteos", "paises", "areas"]) await conexion.query(`CREATE TABLE ${t} AS SELECT * FROM read_json_auto('${t}.json')`);
   return conexion;
 }
@@ -151,7 +145,7 @@ $("s-btn").onclick = async () => {
     $("s-estado").textContent = "Ejecutando…";
     const t0 = performance.now();
     const r = await c.query($("s-q").value);
-    const cols = r.schema.fields.map((f) => f.name), filas = r.toArray().map((x) => x.toJSON());
+    const cols = r.schema.fields.map((f) => f.name), filas = A.filasJS(r.schema.fields, r.toArray().map((x) => x.toJSON()));
     const sug = A.sugerirGrafico(cols, filas);
     const svg = A.graficoSVG(sug, filas, (v) => (sug && /pais|iso3|clave/i.test(sug.x) && paises[v] ? paises[v].es : String(v ?? "")));
     ultimo = { cols, filas, svg };

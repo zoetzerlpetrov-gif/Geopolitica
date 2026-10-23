@@ -98,14 +98,14 @@ export const ESQUEMA = {
   eventos: { desc: "Eventos vigentes en el mapa (una fila por evento).", cols: [
     ["id", "VARCHAR", "Identificador del evento"], ["fecha_utc", "TIMESTAMP", "Fecha y hora de publicación (UTC)"], ["titulo", "VARCHAR", "Título de la nota"],
     ["fuente", "VARCHAR", "Medio o institución"], ["url", "VARCHAR", "Enlace original"], ["pais_iso3", "VARCHAR", "País (ISO de 3 letras) → paises.iso3"],
-    ["region", "VARCHAR", "Región del mundo"], ["lat", "DOUBLE", "Latitud"], ["lon", "DOUBLE", "Longitud"], ["area_principal", "VARCHAR", "Área temática → areas.id"],
-    ["severidad", "INTEGER", "1 (baja) a 5 (crítica)"], ["tipo_fuente", "VARCHAR", "medio, oficial, agencia…"], ["verificado", "BOOLEAN", "Confirmado por varias fuentes"],
+    ["region", "VARCHAR", "Región del mundo (código, p. ej. norteamerica)"], ["lat", "DOUBLE", "Latitud"], ["lon", "DOUBLE", "Longitud"], ["area_principal", "VARCHAR", "Área temática → areas.id"],
+    ["severidad", "INTEGER", "1 (baja) a 5 (crítica)"], ["tipo_fuente", "VARCHAR", "noticia, base_datos, red_social o analisis"], ["verificado", "BOOLEAN", "Confirmado por varias fuentes"],
     ["confianza_clasificacion", "DOUBLE", "Confianza del clasificador (0 a 1)"]] },
   conteos: { desc: "Historial diario de hasta 90 días (una fila por día, tipo y clave).", cols: [
     ["dia", "DATE", "Día (UTC)"], ["tipo", "VARCHAR", "area, pais o sev"], ["clave", "VARCHAR", "id del área, ISO3 del país o severidad (según tipo)"], ["n", "INTEGER", "Eventos ese día"]] },
   paises: { desc: "Catálogo de países (nombre en español e inglés, región y centro).", cols: [
     ["iso3", "VARCHAR", "Código ISO de 3 letras (llave)"], ["nombre", "VARCHAR", "Nombre en español"], ["nombre_en", "VARCHAR", "Nombre en inglés"],
-    ["region", "VARCHAR", "Región"], ["lat", "DOUBLE", "Latitud del centro"], ["lon", "DOUBLE", "Longitud del centro"]] },
+    ["region", "VARCHAR", "Región (código)"], ["region_nombre", "VARCHAR", "Región con nombre legible"], ["lat", "DOUBLE", "Latitud del centro"], ["lon", "DOUBLE", "Longitud del centro"]] },
   areas: { desc: "Catálogo de áreas temáticas.", cols: [["id", "VARCHAR", "Identificador (llave)"], ["nombre", "VARCHAR", "Nombre del área"]] },
 };
 export const RELACIONES = [
@@ -115,25 +115,88 @@ export const RELACIONES = [
   ["conteos", "clave", "areas", "id", "cuando tipo = 'area'"],
 ];
 
+/** Consultas de ejemplo de la pestaña SQL ([nombre, consulta]). Se probaron con DuckDB sobre los datos publicados;
+ *  los ::INTEGER y ROUND dejan la salida limpia (sin decimales sobrantes ni sumas DECIMAL). */
+export const EJEMPLOS = [
+  ["Eventos por área (vigentes)", "SELECT a.nombre AS area, COUNT(*) AS eventos, ROUND(AVG(e.severidad), 2) AS sev_media\nFROM eventos e LEFT JOIN areas a ON a.id = e.area_principal\nGROUP BY 1 ORDER BY 2 DESC;"],
+  ["Países con más eventos graves", "SELECT p.nombre AS pais, e.pais_iso3, COUNT(*) AS graves\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3\nWHERE e.severidad >= 4\nGROUP BY 1, 2 ORDER BY 3 DESC LIMIT 20;"],
+  ["Tendencia diaria de un país", "SELECT dia, n FROM conteos WHERE tipo = 'pais' AND clave = 'MEX' ORDER BY dia;"],
+  ["Promedio móvil de 7 días de un país", "SELECT dia, n,\n  ROUND(AVG(n) OVER (ORDER BY dia ROWS BETWEEN 6 PRECEDING AND CURRENT ROW), 1) AS media_7d\nFROM conteos WHERE tipo = 'pais' AND clave = 'MEX' ORDER BY dia;"],
+  ["Eventos graves con ubicación (mapa)", "SELECT titulo, fuente, severidad, lat, lon\nFROM eventos WHERE severidad >= 4 AND lat IS NOT NULL\nORDER BY fecha_utc DESC LIMIT 200;"],
+  ["Eventos por país en el mapa (burbujas)", "SELECT p.nombre AS pais, p.lat, p.lon, COUNT(*) AS eventos\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3\nWHERE p.lat IS NOT NULL\nGROUP BY 1, 2, 3 ORDER BY 4 DESC;"],
+  ["Eventos por región del mundo", "SELECT p.region_nombre AS region, COUNT(*) AS eventos\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3\nGROUP BY 1 ORDER BY 2 DESC;"],
+  ["Área más frecuente en cada región", "SELECT p.region_nombre AS region, a.nombre AS area, COUNT(*) AS eventos\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3 JOIN areas a ON a.id = e.area_principal\nGROUP BY 1, 2\nQUALIFY ROW_NUMBER() OVER (PARTITION BY p.region_nombre ORDER BY COUNT(*) DESC, a.nombre) = 1\nORDER BY 3 DESC;"],
+  ["Cuántos eventos hay de cada severidad (%)", "SELECT severidad::VARCHAR AS severidad, COUNT(*) AS eventos,\n  ROUND(100.0 * COUNT(*) / SUM(COUNT(*)) OVER (), 1) AS porcentaje\nFROM eventos GROUP BY 1 ORDER BY 1;"],
+  ["Severidad media por país (mínimo 10 eventos)", "SELECT p.nombre AS pais, COUNT(*) AS eventos, ROUND(AVG(e.severidad), 2) AS sev_media,\n  COUNT(*) FILTER (WHERE e.severidad >= 4) AS graves\nFROM eventos e JOIN paises p ON p.iso3 = e.pais_iso3\nGROUP BY 1 HAVING COUNT(*) >= 10\nORDER BY 3 DESC, 2 DESC LIMIT 25;"],
+  ["Eventos graves por día (historial)", "SELECT dia, SUM(n)::INTEGER AS graves\nFROM conteos WHERE tipo = 'sev' AND clave IN ('4', '5')\nGROUP BY 1 ORDER BY 1;"],
+  ["Semana contra semana por área", "WITH s AS (\n  SELECT clave AS area, date_trunc('week', dia)::DATE AS semana, SUM(n)::INTEGER AS n\n  FROM conteos WHERE tipo = 'area' GROUP BY 1, 2)\nSELECT a.nombre AS area, s.semana, s.n, s.n - LAG(s.n) OVER (PARTITION BY s.area ORDER BY s.semana) AS cambio\nFROM s LEFT JOIN areas a ON a.id = s.area\nORDER BY 1, 2;"],
+  ["Países que más suben (7 días contra 7 previos)", "WITH u AS (SELECT MAX(dia) AS fin FROM conteos),\nc AS (\n  SELECT clave,\n    SUM(n) FILTER (WHERE dia > fin - 7)::INTEGER AS ultimos_7,\n    SUM(n) FILTER (WHERE dia <= fin - 7 AND dia > fin - 14)::INTEGER AS previos_7\n  FROM conteos, u WHERE tipo = 'pais' GROUP BY 1)\nSELECT p.nombre AS pais, COALESCE(ultimos_7, 0) AS ultimos_7, COALESCE(previos_7, 0) AS previos_7,\n  COALESCE(ultimos_7, 0) - COALESCE(previos_7, 0) AS cambio\nFROM c JOIN paises p ON p.iso3 = c.clave\nORDER BY cambio DESC LIMIT 20;"],
+  ["Eventos por día de publicación", "SELECT CAST(fecha_utc AS DATE) AS dia, COUNT(*) AS eventos\nFROM eventos GROUP BY 1 ORDER BY 1;"],
+  ["Eventos por hora del día (UTC)", "SELECT lpad(hour(fecha_utc)::VARCHAR, 2, '0') || ':00' AS hora_utc, COUNT(*) AS eventos\nFROM eventos GROUP BY 1 ORDER BY 1;"],
+  ["Fuentes que más aportan", "SELECT fuente, COUNT(*) AS eventos FROM eventos GROUP BY 1 ORDER BY 2 DESC LIMIT 25;"],
+  ["Tipo de fuente y % verificado", "SELECT tipo_fuente, COUNT(*) AS eventos,\n  COUNT(*) FILTER (WHERE verificado) AS verificados,\n  ROUND(100.0 * COUNT(*) FILTER (WHERE verificado) / COUNT(*), 1) AS pct_verificado\nFROM eventos GROUP BY 1 ORDER BY 2 DESC;"],
+  ["Buscar una palabra en los títulos", "SELECT fecha_utc, titulo, fuente, url\nFROM eventos\nWHERE regexp_matches(titulo, '(?i)\\bpetr[oó]leo|\\boil\\b')\nORDER BY fecha_utc DESC LIMIT 50;"],
+  ["Clasificaciones dudosas (confianza < 0.5)", "SELECT ROUND(e.confianza_clasificacion, 2) AS confianza, a.nombre AS area, e.titulo, e.fuente\nFROM eventos e LEFT JOIN areas a ON a.id = e.area_principal\nWHERE e.confianza_clasificacion < 0.5\nORDER BY 1 LIMIT 50;"],
+  ["Calidad de datos: campos vacíos", "SELECT COUNT(*) AS eventos,\n  COUNT(*) FILTER (WHERE pais_iso3 IS NULL) AS sin_pais,\n  COUNT(*) FILTER (WHERE lat IS NULL OR lon IS NULL) AS sin_coordenadas,\n  COUNT(*) FILTER (WHERE url IS NULL) AS sin_enlace\nFROM eventos;"],
+  ["Países del catálogo sin eventos vigentes", "SELECT p.nombre AS pais, p.region_nombre AS region\nFROM paises p\nWHERE NOT EXISTS (SELECT 1 FROM eventos e WHERE e.pais_iso3 = p.iso3)\nORDER BY 2, 1;"],
+];
+
 /** Diagrama entidad-relación en SVG (cajas con columnas y líneas entre llaves). */
 export function diagramaER(esquema = ESQUEMA, relaciones = RELACIONES) {
-  const pos = { eventos: [10, 10], conteos: [10, 330], paises: [420, 10], areas: [420, 250] };
-  const fila = 17, ancho = 300;
+  const fila = 17, ancho = 300, alto = (t) => 24 + (esquema[t]?.cols.length || 0) * fila + 8;
+  // Cada tabla de la derecha va debajo de la anterior y «conteos» debajo de «eventos»: las posiciones salen de la altura
+  // real de cada caja (antes eran fijas y la última quedaba cortada al pie del dibujo).
+  const pos = { eventos: [10, 10], paises: [420, 10] };
+  pos.conteos = [10, 10 + alto("eventos") + 30];
+  pos.areas = [420, 10 + alto("paises") + 30];
   const cajas = Object.entries(esquema).map(([t, d]) => {
     const [x, y] = pos[t] || [10, 10];
-    return `<g><rect x="${x}" y="${y}" width="${ancho}" height="${24 + d.cols.length * fila}" rx="6" class="er-caja"/>
+    return `<g><rect x="${x}" y="${y}" width="${ancho}" height="${alto(t)}" rx="6" class="er-caja"/>
       <text x="${x + 8}" y="${y + 17}" class="er-tit">${t}</text>`
       + d.cols.map(([c, ti], i) => `<text x="${x + 10}" y="${y + 40 + i * fila}" class="er-col">${c}</text><text x="${x + ancho - 8}" y="${y + 40 + i * fila}" text-anchor="end" class="er-tipo">${ti}</text>`).join("") + "</g>";
   }).join("");
   const yCol = (t, c) => pos[t][1] + 36 + esquema[t].cols.findIndex((k) => k[0] === c) * fila;
   const lineas = relaciones.map(([t1, c1, t2, c2, nota], i) => {
-    const x1 = pos[t1][0] + ancho, y1 = yCol(t1, c1), x2 = pos[t2][0], y2 = yCol(t2, c2), xm = (x1 + x2) / 2 + (i % 2 ? 12 : -12);
+    const x1 = pos[t1][0] + ancho, y1 = yCol(t1, c1), x2 = pos[t2][0], y2 = yCol(t2, c2), xm = x1 + (x2 - x1) * (i + 1) / (relaciones.length + 1); // un carril vertical por relación: no se enciman
     return `<path d="M${x1} ${y1} H${xm} V${y2} H${x2}" class="er-rel${nota.startsWith("cuando") ? " er-cond" : ""}"><title>${t1}.${c1} → ${t2}.${c2} (${nota})</title></path><circle cx="${x2}" cy="${y2}" r="3" class="er-punta"/>`;
   }).join("");
-  return `<svg viewBox="0 0 730 420" class="er" role="img" aria-label="Diagrama de tablas y relaciones">${lineas}${cajas}</svg>`;
+  const H = Math.max(...Object.keys(esquema).map((t) => (pos[t] || [0, 10])[1] + alto(t))) + 12;
+  return `<svg viewBox="0 0 730 ${H}" class="er" role="img" aria-label="Diagrama de tablas y relaciones">${lineas}${cajas}</svg>`;
 }
 
 const esNumero = (v) => typeof v === "number" || typeof v === "bigint";
+
+/**
+ * Valor de DuckDB-WASM (Apache Arrow) → valor de JavaScript legible y exportable. Medido con duckdb-wasm 1.29:
+ *  - DATE (typeId 8) y TIMESTAMP (10) llegan como milisegundos → «AAAA-MM-DD» y «AAAA-MM-DD HH:MM UTC».
+ *  - BIGINT (COUNT, enteros) llega como BigInt → Number (JSON.stringify falla con BigInt).
+ *  - DECIMAL (7; SUM de enteros, columnas DECIMAL) llega como objeto con el entero SIN escala («12.34» → «1234»).
+ * `tipo` = {id, escala} del campo (schema.fields[i].type.typeId / .scale).
+ */
+export function valorJS(v, tipo = {}) {
+  if (v == null) return null;
+  if (tipo.id === 8 || tipo.id === 10 || v instanceof Date) {
+    const ms = v instanceof Date ? v.getTime() : Number(v);
+    if (!Number.isFinite(ms)) return String(v);
+    const iso = new Date(ms).toISOString();
+    return tipo.id === 8 ? iso.slice(0, 10) : iso.slice(11, 19) === "00:00:00" ? iso.slice(0, 10) : `${iso.slice(0, 16).replace("T", " ")} UTC`;
+  }
+  if (tipo.id === 7) {
+    const txt = String(v), neg = txt.startsWith("-"), dig = (neg ? txt.slice(1) : txt).padStart((tipo.escala || 0) + 1, "0");
+    const e = tipo.escala || 0, s = `${neg ? "-" : ""}${e ? `${dig.slice(0, -e)}.${dig.slice(-e)}` : dig}`;
+    const n = Number(s);
+    return Number.isFinite(n) && Math.abs(n) <= Number.MAX_SAFE_INTEGER ? n : s;
+  }
+  if (typeof v === "bigint") return v >= BigInt(Number.MIN_SAFE_INTEGER) && v <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(v) : v.toString();
+  if (typeof v === "object") return JSON.parse(JSON.stringify(v, (_, x) => (typeof x === "bigint" ? Number(x) : x)));
+  return v;
+}
+
+/** Filas de un resultado Arrow → objetos con valores de `valorJS`. */
+export function filasJS(campos, filas) {
+  const tipos = campos.map((f) => [f.name, { id: f.type?.typeId, escala: f.type?.scale }]);
+  return filas.map((f) => Object.fromEntries(tipos.map(([c, t]) => [c, valorJS(f[c], t)])));
+}
 const COLS_GEO = /^(lat|lon|lng|latitud|longitud|latitude|longitude)$/i;
 
 /** ¿Qué gráfico conviene? Primera columna de texto o fecha como eje y hasta 3 columnas numéricas como series. */
