@@ -5,7 +5,7 @@ Códigos fijos de la OACI: 7700 emergencia general, 7600 falla de radio, 7500 in
 Un código puede ser un error del piloto o una prueba; la confirmación llega por la aerolínea, la autoridad o la prensa.
 
 Fuentes (sin llave):
-  1. adsb.lol, airplanes.live y adsb.fi `/v2/sqk/7700`, `/7600`, `/7500` (misma API; adsb.lol con licencia ODbL): todas
+  1. adsb.lol y adsb.fi `/v2/sqk/7700`, `/7600`, `/7500` (misma API; adsb.lol con licencia ODbL): todas
      las aeronaves del mundo con ese código que ve cada red de receptores voluntarios.
   2. vivos/aeronaves.json (OpenSky + adsb.lol militares), que tools/vivos/actualizar.py acaba de escribir.
 Privacidad: se excluyen las aeronaves cuyo dueño pidió privacidad (banderas PIA/LADD de adsb.lol). Se guarda lo que la
@@ -37,11 +37,10 @@ AERONAVES = os.path.join(ROOT, "vivos", "aeronaves.json")
 CODIGOS = {"7700": "Emergencia general", "7600": "Falla de radio", "7500": "Interferencia ilícita (posible secuestro)"}
 AEROPUERTOS = os.path.join(ROOT, "vivos", "aeropuertos_icao.json")
 OURAIRPORTS = "https://davidmegginson.github.io/ourairports-data/airports.csv"
-# Redes de receptores voluntarios con la misma API (formato readsb) y cobertura mundial: cada una ve aviones que las otras
-# no (Europa, Asia y África tienen más receptores en airplanes.live y adsb.fi que en adsb.lol). Uso no comercial con
-# atribución; una consulta por segundo como máximo.
-REDES = [("adsb.lol", "https://api.adsb.lol/v2/sqk/"), ("airplanes.live", "https://api.airplanes.live/v2/sqk/"),
-         ("adsb.fi", "https://opendata.adsb.fi/api/v2/sqk/")]
+# Redes de receptores voluntarios con la misma API (formato readsb) y cobertura mundial: cada una ve aviones que la otra
+# no (adsb.fi tiene muchos receptores en Europa). Uso no comercial con atribución; una consulta por segundo como máximo.
+# airplanes.live responde 403 a consultas desde servidores (probado en oct 2026), por eso no está.
+REDES = [("adsb.lol", "https://api.adsb.lol/v2/sqk/"), ("adsb.fi", "https://opendata.adsb.fi/api/v2/sqk/")]
 CONSERVAR_S = 6 * 3600
 MAX_RASTRO = 40
 
