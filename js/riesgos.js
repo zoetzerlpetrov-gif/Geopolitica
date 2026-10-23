@@ -688,14 +688,19 @@ export const CAPAS = [
     extra: (p) => `<h4>Eventos que la marcan</h4><ul class="fuentes">${lista(p.eventos).map((e) => `<li><span class="sev sev-${e.severidad}">${e.severidad}</span> <b>${esc(e.tema || "")}</b> · <a href="${esc(safeUrl(e.url))}" target="_blank" rel="noopener noreferrer">${esc(e.titulo)}</a> · ${esc(e.fuente || "")} · ${esc(fecha(e.fecha_utc))}${e.por_que ? `<br><span class="meta">Por qué se marca: ${esc(e.por_que)}</span>` : ""}</li>`).join("")}</ul>`,
   },
   {
-    id: "emergencias_aereas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Aviones en emergencia: squawk 7700, 7600 y 7500 (últimas 6 h)",
-    url: "data/vivos/emergencias_aereas.geojson", refresco_s: 600, fuente: "adsb.lol (ODbL), adsb.fi y OpenSky Network (todo el mundo)",
-    estilo: (p) => (p.kind === "rastro" ? { c: "#C62828", r: 0 } : { c: p.squawk === "7500" ? "#6A1B9A" : p.squawk === "7700" ? "#C62828" : "#E2711D", r: p.activo ? 10 : 7 }),
-    etiqueta: (p) => (p.kind === "avion" ? `${p.indicativo || p.matricula || p.hex} · ${p.squawk}` : ""),
+    id: "emergencias_aereas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Aviones en emergencia: squawk 7700, 7600 y 7500 (6 h) y reportes de prensa (48 h), todas las aerolíneas",
+    url: "data/vivos/emergencias_aereas.geojson", refresco_s: 600, fuente: "adsb.lol (ODbL), adsb.fi y OpenSky Network (todo el mundo); medios mexicanos y GDELT para los reportes de prensa",
+    estilo: (p) => (p.kind === "rastro" ? { c: "#C62828", r: 0 } : p.kind === "prensa" ? { c: "#1F6FB2", r: 7 } : { c: p.squawk === "7500" ? "#6A1B9A" : p.squawk === "7700" ? "#C62828" : "#E2711D", r: p.activo ? 10 : 7 }),
+    etiqueta: (p) => (p.kind === "avion" ? `${p.indicativo || p.matricula || p.hex} · ${p.squawk}` : p.kind === "prensa" && p.aerolinea ? `${p.aerolinea} · prensa` : ""),
     leyenda: [{ ic: "✈️", t: "7700: emergencia general (falla técnica, médica, combustible…)" }, { c: "#E2711D", r: 6, t: "7600: falla de radio" },
       { ic: "🚨", t: "7500: interferencia ilícita (posible secuestro)" }, { c: "#C62828", r: 3, t: "Rastro desde que se detectó el código" },
+      { c: "#1F6FB2", r: 6, t: "Emergencia reportada por la prensa (cualquier aerolínea; el lugar sale del titular, no de la posición del avión)" },
       { t: "El código lo pone la tripulación en el transpondedor. Puede ser un error o una prueba: confirma con la aerolínea, la autoridad o la prensa. Se conserva 6 h tras la última señal. Se excluyen aeronaves que pidieron privacidad (PIA/LADD)." }],
-    ficha: (p) => (p.kind === "rastro" ? { titulo: `Rastro de ${p.indicativo || p.hex}`, chip: `Squawk ${p.squawk}`, filas: [], url: `https://globe.adsb.lol/?icao=${p.hex}`, fuente: "adsb.lol" } : {
+    ficha: (p) => (p.kind === "rastro" ? { titulo: `Rastro de ${p.indicativo || p.hex}`, chip: `Squawk ${p.squawk}`, filas: [], url: `https://globe.adsb.lol/?icao=${p.hex}`, fuente: "adsb.lol" }
+      : p.kind === "prensa" ? { titulo: p.title, chip: `Reporte de prensa${p.aerolinea ? ` · ${p.aerolinea}` : ""}`,
+        filas: [["Medio", p.source || "—"], ["Publicado", fecha(p.date)], ["Lugar en el titular", `${p.lugar || "—"} (${p.precision || "aprox."})`], ["Vía", p.via || "—"],
+          ["Ojo", "Es un titular: el avión pudo no transmitir 7700 o no haber receptores ADS-B cerca. Confirma en la nota, con la aerolínea o con la AFAC."]],
+        url: p.url, fuente: p.source || "Nota original" } : {
       titulo: `${p.indicativo || p.matricula || p.hex}${p.tipo_av ? ` · ${p.tipo_av}` : ""}`, chip: `Squawk ${p.squawk}: ${p.codigo_texto}${p.activo ? "" : " · ya no transmite el código"}`,
       filas: [["Códigos vistos", lista(p.codigos).join(", ") || p.squawk], ["Matrícula", p.matricula || "—"], ["Altitud", p.en_tierra ? "en tierra" : `${Number(p.alt_m || 0).toLocaleString("es-MX")} m`],
         ["Velocidad", `${p.vel_kmh || 0} km/h`], ["Detectado", fecha(p.primera_vez)], ["Última señal", fecha(p.ultima_vez)], ...(p.emergencia ? [["Tipo declarado (ADS-B)", p.emergencia]] : []),
