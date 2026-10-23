@@ -1402,11 +1402,14 @@ def militar():
         els = []
     # Solo nombre, tipo, país y operador: no se copian otras etiquetas de OSM. Lo que OSM ya enlaza a Wikidata no se repite.
     enlazados = {e.get("tags", {}).get("wikidata") for e in els}
+    pa = Paises()
     out = _osm(els, lambda t: tipos.get(t.get("military"), (None,))[0], lambda st, t: tipos[t["military"]][1],
-               lambda t: t.get("operator", ""), Paises())
+               lambda t: t.get("operator", ""), pa)
     for q, r in wd.items():
         if q not in enlazados:
-            out.append(feat(punto(r["lon"], r["lat"]), {"id": r["id"], "n": r["n"], "st": r["st"], "p": r["p"], "x": r["x"]}, r["z"]))
+            # Sin país en Wikidata (p. ej. Países Bajos, cuyo ISO está en el Reino): se toma del punto.
+            out.append(feat(punto(r["lon"], r["lat"]), {"id": r["id"], "n": r["n"], "st": r["st"], "p": r["p"] or pa.de(r["lon"], r["lat"]),
+                                                        "x": r["x"]}, r["z"]))
     print(f"   militar: {len(out)} ({len(wd)} de Wikidata, {len(els)} de OSM)")
     if not out:
         raise RuntimeError("sin instalaciones militares")
