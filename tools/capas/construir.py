@@ -1327,15 +1327,97 @@ def ductos():
     return out
 
 
+# Instalaciones militares en Wikidata (CC0), con subclases: base militar (≈ 11 mil con coordenada), cuartel (≈ 6 mil),
+# base naval y base de misiles. Se excluyen las cerradas (P576) y las que son patrimonio (P1435: búnkeres de la Segunda
+# Guerra Mundial, cuarteles históricos), que en Francia eran miles y tapaban las activas. Es la base de la capa: una consulta por clase responde
+# en segundos para todo el mundo, mientras que Overpass suele no responder en el hemisferio norte.
+Q_MILITAR = """
+SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?opEn WHERE {
+  ?x wdt:P31/wdt:P279* wd:%s ; wdt:P625 ?coord ; wikibase:sitelinks ?n .
+  FILTER NOT EXISTS { ?x wdt:P576 ?fin }
+  FILTER NOT EXISTS { ?x wdt:P1435 ?patrimonio }
+  OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
+  OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso FILTER NOT EXISTS { ?pais wdt:P576 ?finPais } }
+  OPTIONAL { ?x wdt:P137 ?op . ?op rdfs:label ?opEn FILTER(lang(?opEn) = "en") }
+}"""
+CLASES_MILITAR = [("Q1324633", "bases_navales", 4), ("Q21193688", "bases_terrestres", 5), ("Q245016", "bases_terrestres", 6),
+                  ("Q131263", "bases_terrestres", 7)]
+RX_AEREA = re.compile(r"air ?(force )?base|airfield|air station|aérea|aerea|aeródromo militar|авиабаз|luftwaffe|fliegerhorst|"
+                      r"base aérienne|air force|fuerza aérea|naval air station", re.I)
+RX_NAVAL = re.compile(r"naval|navy|armada|marine corps base|base navale|военно-морск|marinestützpunkt", re.I)
+# Puestos de policía que Wikidata registra como cuarteles (≈ 3,600 brigadas de la Gendarmería francesa): no son bases.
+RX_NO_MILITAR = re.compile(r"gendarmer|brigade (de|d'|du|des|motoris)|peloton motoris|poste provisoire|guardia civil|carabinieri", re.I)
+RX_MANDO = re.compile(r"headquarters|cuartel general|pentagon|estado mayor|command center|mando", re.I)
+
+
+def subtipo_militar(nombre_en, operador, st):
+    """La clase da el subtipo base; el nombre o el operador (p. ej. «United States Air Force») lo afinan."""
+    t = f"{nombre_en} {operador}"
+    if RX_AEREA.search(t):
+        return "bases_aereas"
+    if st != "bases_navales" and RX_NAVAL.search(t):
+        return "bases_navales"
+    if RX_MANDO.search(nombre_en):
+        return "cuarteles_mando"
+    return st
+
+
+def militar_wikidata():
+    import sitios as S
+    regs = {}
+    for qid, st, z in CLASES_MILITAR:
+        try:
+            filas = _sparql(Q_MILITAR % qid)["results"]["bindings"]
+        except Exception as e:  # noqa: BLE001
+            print(f"   Wikidata {qid}: {e}")
+            continue
+        nuevos = 0
+        for f in filas:
+            q = (S._v(f, "x") or "").rsplit("/", 1)[-1]
+            c = S.coord(S._v(f, "coord"))
+            nombre = S._v(f, "xEs") or S._v(f, "xEn") or ""
+            if not q or not c or not nombre or re.fullmatch(r"Q\d+", nombre) or q in regs:
+                continue
+            if RX_NO_MILITAR.search(f"{nombre} {S._v(f, 'xEn') or ''}"):
+                continue
+            n = int(S._v(f, "n") or 0)
+            regs[q] = {"id": f"wd:{q}", "n": nombre, "p": S._v(f, "iso") or "", "lon": c[0], "lat": c[1], "sl": n,
+                       "st": subtipo_militar(f"{S._v(f, 'xEn') or ''} {S._v(f, 'xEs') or ''}", S._v(f, "opEn") or "", st), "x": S._v(f, "opEn") or "",
+                       # Las muy conocidas se ven desde más lejos.
+                       "z": max(3, z - (2 if n >= 15 else 1 if n >= 5 else 0))}
+            nuevos += 1
+        print(f"   Wikidata {qid} ({st}): {len(filas)} filas, {nuevos} nuevas")
+        time.sleep(2)
+    return regs
+
+
 def militar():
     tipos = {"headquarters": ("cuarteles_mando", 5), "naval_base": ("bases_navales", 4), "airfield": ("bases_aereas", 4),
              "base": ("bases_terrestres", 6), "barracks": ("bases_terrestres", 7), "nuclear_explosion_site": ("instalaciones_nucleares", 3)}
-    # Cajas 4 veces más chicas desde el inicio: con las 8 grandes, la mitad no respondía y al dividirlas se agotaba el plazo.
-    els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'], "militar",
-                   cajas=[c for caja in CAJAS for c in dividir(caja)])
-    # Solo nombre, tipo, país y operador: no se copian otras etiquetas de OSM.
-    return _osm(els, lambda t: tipos.get(t.get("military"), (None,))[0], lambda st, t: tipos[t["military"]][1],
-                lambda t: t.get("operator", ""), Paises())
+    wd = militar_wikidata()
+    # OpenStreetMap complementa (sitios de pruebas nucleares, bases sin artículo en Wikidata). Cajas 4 veces más chicas
+    # desde el inicio; si Overpass no responde, la capa sigue con Wikidata en lugar de quedar vacía.
+    try:
+        els = overpass(['nwr["military"~"^(headquarters|naval_base|airfield|base|barracks|nuclear_explosion_site)$"]["name"]'], "militar",
+                       cajas=[c for caja in CAJAS for c in dividir(caja)])
+    except Exception as e:  # noqa: BLE001
+        print(f"   OSM sin datos: {e}")
+        els = []
+    # Solo nombre, tipo, país y operador: no se copian otras etiquetas de OSM. Lo que OSM ya enlaza a Wikidata no se repite.
+    enlazados = {e.get("tags", {}).get("wikidata") for e in els}
+    pa = Paises()
+    out = _osm(els, lambda t: tipos.get(t.get("military"), (None,))[0], lambda st, t: tipos[t["military"]][1],
+               lambda t: t.get("operator", ""), pa)
+    for q, r in wd.items():
+        if q not in enlazados:
+            # Sin país en Wikidata (p. ej. Países Bajos, cuyo ISO está en el Reino): se toma del punto.
+            out.append(feat(punto(r["lon"], r["lat"]), {"id": r["id"], "n": r["n"], "st": r["st"], "p": r["p"] or pa.de(r["lon"], r["lat"]),
+                                                        "x": r["x"]}, r["z"]))
+    print(f"   militar: {len(out)} ({len(wd)} de Wikidata, {len(els)} de OSM)")
+    if not out:
+        raise RuntimeError("sin instalaciones militares")
+    return out
 
 
 def ferrocarriles():
