@@ -1375,9 +1375,9 @@
       "ciudad": "Monterrey",
       "zona": "Obispado",
       "estado": "Nuevo León",
-      "lat": 25.671,
-      "lon": -100.341,
-      "precision": "zona",
+      "lat": 25.680202,
+      "lon": -100.315258,
+      "precision": "ciudad",
       "geocodificar": "Torre Rise, Obispado, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -1389,7 +1389,8 @@
       "entrega": "preventa (anuncios: de jun 2026 a ene 2027)",
       "url": "https://risetower.mx/",
       "nota": "El robots.txt del sitio no permite leerlo automáticamente. Precios de anuncios de agencias (no oficiales, fechas distintas): $4.95 MDP (1 rec., 50 m²) a $12 MDP (114 m²). El sitio indica que los precios se piden al equipo de ventas.",
-      "zona_objetivo": "Monterrey · Centro y Obispado"
+      "zona_objetivo": "Monterrey · Centro y Obispado",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1403,9 +1404,9 @@
       "ciudad": "Monterrey",
       "zona": "Centro (Av. Félix U. Gómez)",
       "estado": "Nuevo León",
-      "lat": 25.6755,
-      "lon": -100.2985,
-      "precision": "zona",
+      "lat": 25.680202,
+      "lon": -100.315258,
+      "precision": "ciudad",
       "geocodificar": "Avenida Félix U. Gómez, Centro, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -1417,7 +1418,8 @@
       "entrega": "inmediata",
       "url": "https://century21mexico.com/es_ar/propiedad/457930_departamento-en-es_arventa-en-desarrollo-urbano-reforma-monterrey-nuevo-leon-mexico",
       "nota": "Precio tomado del resultado de búsqueda; verificar. Otras unidades vistas en agencias: 1 rec., 52 m², $3,600,000. A una cuadra del Paseo Santa Lucía y cerca de Fundidora.",
-      "zona_objetivo": "Monterrey · Centro y Obispado"
+      "zona_objetivo": "Monterrey · Centro y Obispado",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1431,9 +1433,9 @@
       "ciudad": "Guadalupe",
       "zona": "Contry Las Águilas",
       "estado": "Nuevo León",
-      "lat": 25.6536,
-      "lon": -100.2604,
-      "precision": "colonia",
+      "lat": 25.652512,
+      "lon": -100.260585,
+      "precision": "ciudad",
       "geocodificar": "Contry Las Águilas, Guadalupe, Nuevo León, México",
       "tipo": "casa",
       "nuevo": false,
@@ -1445,7 +1447,8 @@
       "entrega": "inmediata",
       "url": "https://century21mexico.com/en_us/propiedad/528615_casa-en-en_usventa-en-contry-las-aguilas-guadalupe-nuevo-leon-mexico",
       "nota": "Precio tomado del resultado de búsqueda; verificar. Terreno 363 m², 6 baños. En portales, casas de la colonia de $11.9 a $28 MDP.",
-      "zona_objetivo": "Monterrey · Contry Las Águilas (Guadalupe)"
+      "zona_objetivo": "Monterrey · Contry Las Águilas (Guadalupe)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1459,9 +1462,9 @@
       "ciudad": "Monterrey",
       "zona": "Colinas del Huajuco",
       "estado": "Nuevo León",
-      "lat": 25.574,
-      "lon": -100.243,
-      "precision": "colonia",
+      "lat": 25.587801,
+      "lon": -100.244532,
+      "precision": "ciudad",
       "geocodificar": "Colinas del Huajuco, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -1473,7 +1476,8 @@
       "entrega": "desconocido",
       "url": "https://d7-bienes-raices.easybroker.com/properties/mexico/nuevo-leon/monterrey",
       "nota": "Precio tomado del resultado de búsqueda (enlace al listado de la agencia en Monterrey); verificar. Casas vistas en portales en la colonia: $4.95–$10.3 MDP. No se sabe si es nueva o usada.",
-      "zona_objetivo": "Monterrey · Colinas del Huajuco"
+      "zona_objetivo": "Monterrey · Colinas del Huajuco",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1515,9 +1519,9 @@
       "ciudad": "Monterrey",
       "zona": "La Ladrillera (Distrito Tec)",
       "estado": "Nuevo León",
-      "lat": 25.6515,
-      "lon": -100.281,
-      "precision": "zona",
+      "lat": 25.680202,
+      "lon": -100.315258,
+      "precision": "ciudad",
       "geocodificar": "Avenida Ladrillera, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -1529,7 +1533,8 @@
       "entrega": "finales de 2027",
       "url": "https://monterreyskyline.com/property/invierte-cerca-del-tec-de-monterrey/",
       "nota": "Leído en la ficha el 23 oct 2026: desde $6.1–6.4 MDP; esquema 10% enganche, 10% en mensualidades, 80% contra entrega. Entre Av. Ladrillera y Av. Revolución, frente a Nuevo Sur.",
-      "zona_objetivo": "Monterrey · Distrito Tec y Nuevo Sur"
+      "zona_objetivo": "Monterrey · Distrito Tec y Nuevo Sur",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1543,9 +1548,9 @@
       "ciudad": "Monterrey",
       "zona": "La Ladrillera (Distrito Tec)",
       "estado": "Nuevo León",
-      "lat": 25.652,
-      "lon": -100.2805,
-      "precision": "zona",
+      "lat": 25.680202,
+      "lon": -100.315258,
+      "precision": "ciudad",
       "geocodificar": "Avenida Ladrillera, Monterrey, Nuevo León, México",
       "tipo": "departamento",
       "nuevo": true,
@@ -1557,7 +1562,8 @@
       "entrega": "desconocido",
       "url": "https://monterreyskyline.com/property/departamentos-en-preventa-cerca-del-tec-de-monterrey-2/",
       "nota": "Leído en la ficha el 23 oct 2026 (desde $8,320,000; pisos 4 a 28).",
-      "zona_objetivo": "Monterrey · Distrito Tec y Nuevo Sur"
+      "zona_objetivo": "Monterrey · Distrito Tec y Nuevo Sur",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1711,9 +1717,9 @@
       "ciudad": "Juárez",
       "zona": "Valle Condesa",
       "estado": "Nuevo León",
-      "lat": 25.645,
-      "lon": -100.097,
-      "precision": "colonia",
+      "lat": 25.612327,
+      "lon": -100.105698,
+      "precision": "ciudad",
       "geocodificar": "Avenida Condesa, Valle Condesa, Juárez, Nuevo León, México",
       "tipo": "casa",
       "nuevo": true,
@@ -1725,7 +1731,8 @@
       "entrega": "desconocido",
       "url": "https://javer.com.mx/desarrollos/valle-condesa-sector-frances",
       "nota": "Precios «desde» leídos en el sitio oficial el 23 oct 2026; Av. Condesa s/n, C.P. 67280.",
-      "zona_objetivo": "Monterrey · Fraccionamientos (casas)"
+      "zona_objetivo": "Monterrey · Fraccionamientos (casas)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "pais_iso3": "MEX",
@@ -1739,8 +1746,8 @@
       "ciudad": "El Carmen",
       "zona": "El Jaral",
       "estado": "Nuevo León",
-      "lat": 25.93,
-      "lon": -100.36,
+      "lat": 25.923524,
+      "lon": -100.349966,
       "precision": "colonia",
       "geocodificar": "El Jaral, El Carmen, Nuevo León, México",
       "tipo": "casa",
@@ -1753,7 +1760,8 @@
       "entrega": "desconocido",
       "url": "https://javer.com.mx/desarrollos/el-jaral",
       "nota": "Precio «desde» leído en el sitio oficial el 23 oct 2026; C.P. 66580, a unos 15 min de la cabecera de Escobedo según la desarrolladora.",
-      "zona_objetivo": "Monterrey · Fraccionamientos (casas)"
+      "zona_objetivo": "Monterrey · Fraccionamientos (casas)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }
