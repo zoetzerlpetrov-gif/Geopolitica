@@ -1,0 +1,4412 @@
+{
+ "jurisdiccion": "MEX",
+ "revisado": "2026-10",
+ "nota": "Complemento de config/normativa/MEX.json: sectores económicos adicionales con el mismo esquema de ficha por ley (obligaciones, trámites, sanciones, evidencia y preguntas sí/no). No repite las leyes de «generales» (fiscal, laboral, datos personales, PLD general, consumidor, ambiental general, comercio exterior) salvo cuando el sector tiene un régimen especial. Se incorporan reformas 2024-2026 confirmadas en fuentes públicas (p. ej., Ley General de Aguas 2025-12-11, LFPIORPI 2025-07-16, LMTR 2025-07-16, LGS 2026-01-15, LGE 2026-01-15, LGT 2025-11-14 y su Reglamento 2025-11-25, reforma constitucional sobre maíz 2025-03-17, leyes financieras 2025-11-14, TIGIE/PROSEC 2025-12-29 y 2026-04-23, Anexo I IMMEX 2025-08-28). Son resúmenes propios, no texto legal ni asesoría: donde dice «verificar» el dato no pudo confirmarse en fuente oficial; antes de emitir un informe confirma la versión vigente en el DOF, en la biblioteca de leyes de la Cámara de Diputados o en el sitio del regulador, y revisa la normativa estatal y municipal.",
+ "sectores": {
+  "agropecuario": {
+   "nombre": "Agropecuario (agricultura y ganadería)",
+   "reguladores": [
+    [
+     "Secretaría de Agricultura y Desarrollo Rural",
+     "https://www.gob.mx/agricultura"
+    ],
+    [
+     "SENASICA",
+     "https://www.gob.mx/senasica"
+    ],
+    [
+     "SNICS (semillas y variedades vegetales)",
+     "https://www.gob.mx/snics"
+    ],
+    [
+     "COFEPRIS (plaguicidas y nutrientes vegetales)",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "SEMARNAT / CIBIOGEM (bioseguridad)",
+     "https://www.gob.mx/semarnat"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "maiz_gm",
+     "nombre": "Reforma constitucional a los arts. 4 y 27 (maíz libre de modificaciones genéticas) y Ley de Bioseguridad de Organismos Genéticamente Modificados",
+     "sigla": "CPEUM 4/27 · LBOGM",
+     "tipo": "ley",
+     "autoridad": "SADER; SEMARNAT; Secretaría de Salud (CIBIOGEM)",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "2025-03-17 (decreto constitucional; LBOGM verificar armonización)",
+     "aplica": "Productores, comercializadores de semilla e importadores de grano o semilla de maíz y otros OGM.",
+     "obligaciones": [
+      "No sembrar maíz genéticamente modificado: la reforma constitucional exige que los cultivos de maíz estén libres de modificaciones genéticas que superen las barreras naturales de reproducción.",
+      "Para otros OGM, contar con permiso de liberación al ambiente (experimental, programa piloto o comercial) antes de sembrar.",
+      "Para importar OGM, contar con las autorizaciones de bioseguridad y sanitarias aplicables y respetar los usos autorizados.",
+      "Dar seguimiento a la armonización de leyes secundarias que ordenó el decreto (plazo de 180 días según reportes; verificar si se publicó)."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de liberación de OGM (no maíz)",
+       "plazo": "Antes de la siembra",
+       "ante": "SADER / SEMARNAT"
+      },
+      {
+       "que": "Autorización sanitaria de OGM para consumo",
+       "plazo": "Antes de comercializar",
+       "ante": "COFEPRIS"
+      }
+     ],
+     "sanciones": "Las de la LBOGM y su reglamento (multas, destrucción del cultivo, revocación de permisos); delitos contra la bioseguridad del CPF (verificar).",
+     "evidencia": [
+      "Facturas y certificados de semilla de maíz con origen no transgénico",
+      "Permisos de liberación vigentes",
+      "Análisis de detección de OGM cuando aplique"
+     ],
+     "preguntas": [
+      "¿Se documenta que la semilla de maíz sembrada no es genéticamente modificada?",
+      "¿Las importaciones de grano o semilla que pudieran contener OGM cuentan con las autorizaciones y el uso autorizado?",
+      "¿Se revisó si las leyes secundarias derivadas de la reforma de 2025 ya se publicaron y cambian obligaciones?"
+     ]
+    },
+    {
+     "id": "lfsv",
+     "nombre": "Ley Federal de Sanidad Vegetal y su Reglamento (campañas fitosanitarias, movilización y buenas prácticas agrícolas)",
+     "sigla": "LFSV",
+     "tipo": "ley",
+     "autoridad": "SENASICA",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFSV.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores agrícolas, empacadoras, viveros y quienes movilizan o exportan productos vegetales.",
+     "obligaciones": [
+      "Acatar campañas fitosanitarias y cuarentenas de las zonas donde se produce.",
+      "Movilizar productos regulados con certificado fitosanitario o la documentación que establezca SENASICA.",
+      "Implementar Sistemas de Reducción de Riesgos de Contaminación (SRRC) o buenas prácticas agrícolas cuando lo exija el mercado de exportación o la norma.",
+      "Registrar unidades de producción y empacadoras en los programas de exportación (p. ej., protocolos con EE. UU.)."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado fitosanitario de movilización / exportación",
+       "plazo": "Por embarque",
+       "ante": "SENASICA / organismos auxiliares"
+      },
+      {
+       "que": "Reconocimiento SRRC / buenas prácticas",
+       "plazo": "Según programa (renovación periódica; verificar)",
+       "ante": "SENASICA"
+      }
+     ],
+     "sanciones": "Multas en UMA, retención o destrucción de productos y suspensión del registro de exportación (verificar montos en la LFSV).",
+     "evidencia": [
+      "Certificados fitosanitarios",
+      "Constancias SRRC",
+      "Bitácoras de aplicación de agroquímicos"
+     ],
+     "preguntas": [
+      "¿Cada embarque regulado salió con su certificado fitosanitario?",
+      "¿Las unidades de producción para exportación tienen reconocimiento SRRC vigente?"
+     ]
+    },
+    {
+     "id": "lfsa_ganaderia",
+     "nombre": "Ley Federal de Sanidad Animal (producción pecuaria, identificación SINIIGA y movilización de ganado)",
+     "sigla": "LFSA",
+     "tipo": "ley",
+     "autoridad": "SENASICA; SADER",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFSA.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Ranchos, engordas, granjas avícolas y porcícolas, rastros municipales y movilizadores de ganado.",
+     "obligaciones": [
+      "Identificar el ganado con el arete del Sistema Nacional de Identificación Individual de Ganado (SINIIGA) y registrar la unidad de producción.",
+      "Movilizar animales con la documentación zoosanitaria exigida (guía/REEMO; verificar nombre del sistema vigente) y respetar puntos de verificación.",
+      "Participar en campañas (tuberculosis, brucelosis, garrapata, influenza aviar, etc.) y notificar enfermedades de reporte obligatorio.",
+      "Usar solo medicamentos y alimentos veterinarios con registro; no usar sustancias prohibidas como beta-agonistas (clenbuterol) en animales de abasto.",
+      "Aplicar buenas prácticas pecuarias y respetar los tiempos de retiro de fármacos."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de unidad de producción pecuaria (UPP/PSG)",
+       "plazo": "Al iniciar",
+       "ante": "SADER / SENASICA"
+      },
+      {
+       "que": "Documento de movilización",
+       "plazo": "Por cada traslado",
+       "ante": "SENASICA / ventanillas autorizadas"
+      }
+     ],
+     "sanciones": "Multas en UMA, cuarentena, sacrificio o aseguramiento de animales; delitos por uso de sustancias prohibidas (verificar).",
+     "evidencia": [
+      "Padrón de aretes SINIIGA",
+      "Guías de movilización",
+      "Registros de tratamientos veterinarios y tiempos de retiro",
+      "Constancias de hato libre"
+     ],
+     "preguntas": [
+      "¿Todo el hato está identificado con SINIIGA?",
+      "¿Hay evidencia de que no se usan sustancias prohibidas y se respetan tiempos de retiro?",
+      "¿Cada movilización tiene su documento zoosanitario?"
+     ]
+    },
+    {
+     "id": "plafest",
+     "nombre": "Reglamento en materia de registros, autorizaciones de importación y exportación y certificados de exportación de plaguicidas, nutrientes vegetales y sustancias y materiales tóxicos o peligrosos (PLAFEST) y NOM-232-SSA1-2009 (envase y etiquetado de plaguicidas)",
+     "sigla": "PLAFEST · NOM-232",
+     "tipo": "reglamento",
+     "autoridad": "COFEPRIS; SADER; SEMARNAT",
+     "url": "https://www.dof.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes, formuladores, importadores, distribuidores y aplicadores de plaguicidas y fertilizantes.",
+     "obligaciones": [
+      "Comercializar solo plaguicidas y nutrientes vegetales con registro sanitario vigente y para los cultivos autorizados en la etiqueta.",
+      "Tramitar permisos de importación de plaguicidas.",
+      "Etiquetar y envasar conforme a la NOM-232-SSA1-2009.",
+      "Gestionar envases vacíos conforme al plan de manejo (residuos de manejo especial o peligrosos).",
+      "Dar seguimiento al estatus de las restricciones a glifosato y otros plaguicidas (decreto de 2023 y sus prórrogas; verificar situación vigente)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro sanitario de plaguicida",
+       "plazo": "Antes de comercializar",
+       "ante": "COFEPRIS"
+      },
+      {
+       "que": "Permiso de importación",
+       "plazo": "Por operación o vigencia del permiso",
+       "ante": "COFEPRIS (VUCEM)"
+      }
+     ],
+     "sanciones": "Multas de la LGS, aseguramiento y destrucción de producto; responsabilidad ambiental.",
+     "evidencia": [
+      "Registros sanitarios de los productos usados o vendidos",
+      "Permisos de importación",
+      "Manifiestos de envases vacíos"
+     ],
+     "preguntas": [
+      "¿Todos los agroquímicos en inventario tienen registro sanitario vigente para el cultivo en que se usan?",
+      "¿Se recolectan los envases vacíos mediante un plan de manejo?"
+     ]
+    },
+    {
+     "id": "nom003_stps",
+     "nombre": "NOM-003-STPS-1999, Actividades agrícolas – uso de insumos fitosanitarios o plaguicidas e insumos de nutrición vegetal o fertilizantes; y régimen de trabajadores del campo (LFT, Título Sexto, Capítulo VIII)",
+     "sigla": "NOM-003-STPS",
+     "tipo": "NOM",
+     "autoridad": "STPS; IMSS",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Patrones agrícolas con jornaleros y aplicadores de agroquímicos.",
+     "obligaciones": [
+      "Capacitar a los aplicadores, proporcionar equipo de protección y controlar la exposición a plaguicidas.",
+      "Respetar intervalos de reingreso y seguridad en cultivos tratados.",
+      "Inscribir a los trabajadores eventuales del campo en el IMSS y cumplir el régimen especial de jornaleros (vivienda, transporte y registros; verificar alcance).",
+      "Prohibir el trabajo de menores en actividades peligrosas del campo."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de la LFT por incumplimiento de normas de seguridad e higiene.",
+     "evidencia": [
+      "Programa de capacitación de aplicadores",
+      "Entrega de EPP",
+      "Altas IMSS de eventuales del campo"
+     ],
+     "preguntas": [
+      "¿Los aplicadores de agroquímicos están capacitados y cuentan con EPP?",
+      "¿Los jornaleros eventuales están dados de alta en el IMSS?",
+      "¿Existe control para impedir el trabajo de menores en labores peligrosas?"
+     ]
+    },
+    {
+     "id": "semillas_vv",
+     "nombre": "Ley Federal de Producción, Certificación y Comercio de Semillas y Ley Federal de Variedades Vegetales",
+     "sigla": "LFPCCS · LFVV",
+     "tipo": "ley",
+     "autoridad": "SNICS (SADER)",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores, certificadores y comercializadores de semilla; obtentores de variedades.",
+     "obligaciones": [
+      "Comercializar semilla con la etiqueta e información de calidad exigidas y, si es certificada, con la calificación del SNICS.",
+      "Inscribir variedades en el Catálogo Nacional de Variedades Vegetales cuando se comercialice semilla certificada.",
+      "Respetar los títulos de obtentor (protección de variedades conforme al Acta UPOV 1978 que aplica México; verificar si cambió).",
+      "Evitar semillas que contravengan la prohibición constitucional de maíz genéticamente modificado."
+     ],
+     "tramites": [
+      {
+       "que": "Calificación de semilla certificada",
+       "plazo": "Por lote",
+       "ante": "SNICS"
+      },
+      {
+       "que": "Título de obtentor",
+       "plazo": "Antes de explotar comercialmente la variedad protegida",
+       "ante": "SNICS"
+      }
+     ],
+     "sanciones": "Multas y aseguramiento de semilla; acciones por infracción a derechos de obtentor (verificar).",
+     "evidencia": [
+      "Etiquetas y certificados de semilla",
+      "Contratos de licencia de variedades",
+      "Títulos de obtentor"
+     ],
+     "preguntas": [
+      "¿La semilla comercializada tiene etiqueta y certificación cuando se ostenta como certificada?",
+      "¿Se cuenta con licencia del obtentor para las variedades protegidas que se reproducen?"
+     ]
+    },
+    {
+     "id": "ldrs",
+     "nombre": "Ley de Desarrollo Rural Sustentable y reglas de operación de programas de Agricultura",
+     "sigla": "LDRS",
+     "tipo": "ley",
+     "autoridad": "SADER",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LDRS.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores y empresas que reciben apoyos, precios de garantía o participan en programas de fomento.",
+     "obligaciones": [
+      "Cumplir las reglas de operación del programa (padrones, comprobación de apoyos y no duplicidad).",
+      "Inscribirse en los padrones oficiales de productores cuando sea condición del apoyo.",
+      "Conservar la documentación comprobatoria para auditorías de la SADER y la ASF."
+     ],
+     "tramites": [
+      {
+       "que": "Solicitud y comprobación de apoyos",
+       "plazo": "Según convocatoria",
+       "ante": "SADER / agencias"
+      }
+     ],
+     "sanciones": "Reintegro de apoyos, exclusión de padrones y responsabilidad administrativa o penal en caso de simulación.",
+     "evidencia": [
+      "Convenios de apoyo",
+      "Comprobación de aplicación de recursos"
+     ],
+     "preguntas": [
+      "¿Los apoyos públicos recibidos están comprobados conforme a las reglas de operación?",
+      "¿Existe control para evitar que un mismo predio o productor reciba apoyos duplicados?"
+     ]
+    }
+   ]
+  },
+  "pesca_acuicultura": {
+   "nombre": "Pesca y acuacultura",
+   "reguladores": [
+    [
+     "CONAPESCA",
+     "https://www.gob.mx/conapesca"
+    ],
+    [
+     "SENASICA (sanidad acuícola)",
+     "https://www.gob.mx/senasica"
+    ],
+    [
+     "PROFEPA",
+     "https://www.gob.mx/profepa"
+    ],
+    [
+     "Secretaría de Marina",
+     "https://www.gob.mx/semar"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lgpas",
+     "nombre": "Ley General de Pesca y Acuacultura Sustentables y su Reglamento",
+     "sigla": "LGPAS",
+     "tipo": "ley",
+     "autoridad": "CONAPESCA; SADER",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lgpas.htm",
+     "ultima_reforma": "2024-04-01",
+     "aplica": "Personas que pescan comercialmente, operan granjas acuícolas, procesan o comercializan productos pesqueros.",
+     "obligaciones": [
+      "Contar con concesión o permiso de pesca comercial o de acuacultura por especie, zona y embarcación.",
+      "Inscribirse en el Registro Nacional de Pesca y Acuacultura (RNPA) con embarcaciones e instalaciones.",
+      "Presentar avisos de arribo, de cosecha o de producción y llevar bitácora de pesca.",
+      "Respetar vedas, tallas mínimas, cuotas, zonas de refugio y artes de pesca autorizadas.",
+      "Acreditar la legal procedencia de los productos al transportarlos o comercializarlos (guía de pesca)."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso o concesión de pesca/acuacultura",
+       "plazo": "Antes de operar; renovar al vencimiento",
+       "ante": "CONAPESCA"
+      },
+      {
+       "que": "Aviso de arribo / cosecha",
+       "plazo": "Por cada descarga o cosecha (verificar plazo)",
+       "ante": "CONAPESCA"
+      },
+      {
+       "que": "Inscripción en RNPA",
+       "plazo": "Al iniciar",
+       "ante": "CONAPESCA"
+      }
+     ],
+     "sanciones": "Multas en UMA, decomiso de producto, artes de pesca y embarcaciones, revocación de permisos; delitos contra la biodiversidad del CPF.",
+     "evidencia": [
+      "Permisos y concesiones vigentes",
+      "Avisos de arribo/cosecha",
+      "Bitácoras",
+      "Guías de pesca"
+     ],
+     "preguntas": [
+      "¿Cada embarcación y especie capturada está amparada por un permiso vigente?",
+      "¿Las compras de producto pesquero vienen con documentación de legal procedencia?",
+      "¿Se respetan vedas y tallas mínimas en las compras y capturas?"
+     ]
+    },
+    {
+     "id": "nom062_vms",
+     "nombre": "NOM-062-SAG/PESC-2014, Sistema de localización y monitoreo satelital de embarcaciones pesqueras",
+     "sigla": "NOM-062-SAG/PESC",
+     "tipo": "NOM",
+     "autoridad": "CONAPESCA",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Embarcaciones pesqueras mayores obligadas por la norma.",
+     "obligaciones": [
+      "Instalar y mantener operando el equipo transmisor de monitoreo satelital.",
+      "No desconectar ni manipular el equipo; reportar fallas en el plazo de la norma (verificar)."
+     ],
+     "tramites": [],
+     "sanciones": "Las de la LGPAS (multa, suspensión del permiso).",
+     "evidencia": [
+      "Constancias de instalación y operación del transmisor",
+      "Reportes de fallas"
+     ],
+     "preguntas": [
+      "¿Las embarcaciones obligadas transmiten posición de forma continua?",
+      "¿Hay registro de fallas del equipo y su atención?"
+     ]
+    },
+    {
+     "id": "noms_pesca",
+     "nombre": "Normas oficiales mexicanas por pesquería (NOM-PESC / NOM-SAG/PESC), acuerdos de veda y Cartas Nacionales Pesquera y Acuícola",
+     "sigla": "NOM-PESC · CNP · CNA",
+     "tipo": "NOM",
+     "autoridad": "CONAPESCA; INAPESCA",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar (Carta Nacional Pesquera y acuerdos de veda vigentes)",
+     "aplica": "Pesquerías reguladas (camarón, atún, sardina, pulpo, langosta, escama, etc.) y proyectos acuícolas.",
+     "obligaciones": [
+      "Usar artes de pesca y dispositivos exigidos por la NOM de la pesquería (p. ej., excluidores de tortugas en camarón; verificar norma vigente).",
+      "Consultar la Carta Nacional Pesquera y la Carta Nacional Acuícola antes de solicitar permisos o nuevas especies.",
+      "Respetar periodos y zonas de veda publicados por acuerdo en el DOF."
+     ],
+     "tramites": [],
+     "sanciones": "Las de la LGPAS.",
+     "evidencia": [
+      "Inventario de artes de pesca por embarcación",
+      "Calendario de vedas aplicado"
+     ],
+     "preguntas": [
+      "¿Las artes de pesca cumplen la NOM específica de la pesquería?",
+      "¿Las operaciones se suspendieron durante las vedas publicadas?"
+     ]
+    },
+    {
+     "id": "sanidad_acuicola",
+     "nombre": "Sanidad e inocuidad acuícola y pesquera (LGPAS, título de sanidad; LFSA; certificados de sanidad acuícola)",
+     "sigla": "Sanidad acuícola",
+     "tipo": "ley",
+     "autoridad": "SENASICA; CONAPESCA",
+     "url": "https://www.gob.mx/senasica",
+     "ultima_reforma": "verificar",
+     "aplica": "Granjas acuícolas, laboratorios de larvas, procesadoras e importadores de organismos acuáticos.",
+     "obligaciones": [
+      "Obtener certificado de sanidad acuícola para importar o movilizar organismos vivos, crías o productos regulados.",
+      "Aplicar buenas prácticas de producción acuícola y de manejo de productos pesqueros.",
+      "Notificar enfermedades de reporte obligatorio y aplicar medidas de bioseguridad."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de sanidad acuícola",
+       "plazo": "Por importación o movilización",
+       "ante": "SENASICA"
+      }
+     ],
+     "sanciones": "Multas, cuarentena, destrucción de organismos.",
+     "evidencia": [
+      "Certificados de sanidad acuícola",
+      "Registros de bioseguridad y tratamientos"
+     ],
+     "preguntas": [
+      "¿Las crías y larvas introducidas a la granja tienen certificado de sanidad?",
+      "¿Existe programa de buenas prácticas acuícolas documentado?"
+     ]
+    },
+    {
+     "id": "especies_protegidas",
+     "nombre": "Especies en riesgo y comercio internacional: NOM-059-SEMARNAT-2010, Ley General de Vida Silvestre, CITES y medidas del Alto Golfo de California (vaquita marina y totoaba)",
+     "sigla": "NOM-059 · LGVS · CITES",
+     "tipo": "NOM",
+     "autoridad": "SEMARNAT; PROFEPA; SEMAR",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Pesquerías con captura incidental de especies protegidas; exportadores de productos marinos.",
+     "obligaciones": [
+      "No capturar, poseer ni comerciar especies listadas en riesgo sin autorización.",
+      "Respetar las restricciones de artes y zonas en el Alto Golfo de California (zona de tolerancia cero; verificar acuerdo vigente).",
+      "Obtener permisos CITES para exportar especies listadas.",
+      "Evaluar requisitos de mercados de destino (p. ej., medidas de EE. UU. sobre mamíferos marinos y tortugas; verificar) que pueden bloquear exportaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso CITES de exportación",
+       "plazo": "Por embarque",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Decomiso, multas y delitos ambientales (CPF arts. 420 y siguientes); embargos comerciales en mercados de destino.",
+     "evidencia": [
+      "Permisos CITES",
+      "Registros de captura incidental",
+      "Trazabilidad de exportaciones"
+     ],
+     "preguntas": [
+      "¿Se documenta la captura incidental de especies protegidas?",
+      "¿Las exportaciones de especies CITES tienen permiso?",
+      "¿Se revisaron restricciones comerciales del país de destino?"
+     ]
+    },
+    {
+     "id": "zofemat_acuicola",
+     "nombre": "Concesiones de zona federal marítimo terrestre y terrenos ganados al mar (Ley General de Bienes Nacionales y Reglamento ZOFEMAT) para granjas e instalaciones costeras",
+     "sigla": "ZOFEMAT",
+     "tipo": "reglamento",
+     "autoridad": "SEMARNAT",
+     "url": "https://www.dof.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Granjas acuícolas, muelles, plantas y campamentos pesqueros en la costa.",
+     "obligaciones": [
+      "Contar con concesión o permiso para usar la ZOFEMAT o terrenos ganados al mar.",
+      "Pagar los derechos de la Ley Federal de Derechos por uso de la zona federal.",
+      "Obtener autorización de impacto ambiental para granjas acuícolas cuando la LGEEPA lo exija."
+     ],
+     "tramites": [
+      {
+       "que": "Concesión ZOFEMAT",
+       "plazo": "Antes de ocupar",
+       "ante": "SEMARNAT"
+      },
+      {
+       "que": "Pago de derechos ZOFEMAT",
+       "plazo": "Periódico (verificar)",
+       "ante": "Municipio / SAT"
+      }
+     ],
+     "sanciones": "Recuperación de la zona, multas y demolición de obras no autorizadas.",
+     "evidencia": [
+      "Títulos de concesión",
+      "Recibos de derechos",
+      "Resolutivo de impacto ambiental"
+     ],
+     "preguntas": [
+      "¿Toda la infraestructura costera está amparada por concesión ZOFEMAT?",
+      "¿Se pagan los derechos de uso de zona federal?"
+     ]
+    }
+   ]
+  },
+  "fintech_pagos": {
+   "nombre": "Fintech, pagos electrónicos y activos virtuales",
+   "reguladores": [
+    [
+     "CNBV",
+     "https://www.gob.mx/cnbv"
+    ],
+    [
+     "Banco de México",
+     "https://www.banxico.org.mx/marco-normativo/"
+    ],
+    [
+     "CONDUSEF",
+     "https://www.gob.mx/condusef"
+    ],
+    [
+     "UIF",
+     "https://www.gob.mx/uif"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lritf_ifpe",
+     "nombre": "Ley para Regular las Instituciones de Tecnología Financiera: Instituciones de Fondos de Pago Electrónico (IFPE)",
+     "sigla": "LRITF – IFPE",
+     "tipo": "ley",
+     "autoridad": "CNBV; Banxico; SHCP",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LRITF.pdf",
+     "ultima_reforma": "2025-11-14",
+     "aplica": "Empresas que emiten, administran, redimen y transmiten fondos de pago electrónico (monederos, cuentas digitales, tarjetas prepagadas propias).",
+     "obligaciones": [
+      "Obtener autorización de la CNBV como IFPE antes de captar fondos de pago electrónico; solo prestar los servicios autorizados (art. 22).",
+      "Operar actividades adicionales (emisión de medios de disposición, transmisión de dinero, etc.) dentro del art. 25 y las reglas de Banxico (art. 26).",
+      "Mantener los recursos de clientes segregados y respetar la prohibición de pagar intereses o rendimientos sobre los fondos de pago electrónico.",
+      "Cumplir capital mínimo, gobierno corporativo, seguridad de la información y continuidad de negocio de las disposiciones de la CNBV.",
+      "Divulgar a clientes que los fondos no están garantizados por el IPAB ni por el gobierno."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización como ITF",
+       "plazo": "Antes de operar",
+       "ante": "CNBV (previo acuerdo del Comité Interinstitucional)"
+      },
+      {
+       "que": "Reportes regulatorios periódicos",
+       "plazo": "Según calendario de las disposiciones (verificar)",
+       "ante": "CNBV / Banxico"
+      }
+     ],
+     "sanciones": "Multas en UMA, amonestación, suspensión o revocación de la autorización; operar sin autorización es delito (verificar artículos).",
+     "evidencia": [
+      "Oficio de autorización publicado en el DOF",
+      "Conciliaciones de fondos de clientes",
+      "Manuales de seguridad y continuidad",
+      "Leyendas de riesgo en contratos y app"
+     ],
+     "preguntas": [
+      "¿La entidad tiene autorización vigente como IFPE para cada servicio que ofrece?",
+      "¿Los fondos de clientes se concilian diariamente y están segregados?",
+      "¿Se informa al cliente que los fondos no están garantizados por el gobierno?"
+     ]
+    },
+    {
+     "id": "lritf_ifc",
+     "nombre": "LRITF: Instituciones de Financiamiento Colectivo (IFC, crowdfunding de deuda, capital y copropiedad o regalías)",
+     "sigla": "LRITF – IFC",
+     "tipo": "ley",
+     "autoridad": "CNBV",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LRITF.pdf",
+     "ultima_reforma": "2025-11-14",
+     "aplica": "Plataformas que ponen en contacto a inversionistas con solicitantes de financiamiento.",
+     "obligaciones": [
+      "Obtener autorización de la CNBV como IFC.",
+      "Evaluar y seleccionar proyectos con metodología documentada y publicar la información de riesgo de cada proyecto.",
+      "Respetar los límites por proyecto e inversionista y obtener la constancia de riesgos firmada por los inversionistas (verificar montos en las disposiciones).",
+      "Prevenir conflictos de interés y abstenerse de asegurar rendimientos."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización como IFC",
+       "plazo": "Antes de operar",
+       "ante": "CNBV"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación; responsabilidad frente a inversionistas.",
+     "evidencia": [
+      "Metodología de evaluación de proyectos",
+      "Constancias de riesgo firmadas",
+      "Reportes a CNBV"
+     ],
+     "preguntas": [
+      "¿Cada inversionista firmó la constancia de conocimiento de riesgos?",
+      "¿Se respetan los límites de inversión por proyecto?"
+     ]
+    },
+    {
+     "id": "disp_itf",
+     "nombre": "Disposiciones de carácter general aplicables a las ITF (CNBV) y disposiciones de PLD/FT del art. 58 de la LRITF",
+     "sigla": "CUITF · PLD art. 58",
+     "tipo": "disposición",
+     "autoridad": "CNBV; SHCP-UIF",
+     "url": "https://www.gob.mx/cnbv",
+     "ultima_reforma": "verificar",
+     "aplica": "IFPE, IFC y entidades que operan modelos novedosos.",
+     "obligaciones": [
+      "Identificar y conocer al cliente con niveles de cuenta según riesgo; verificar identidad en canales no presenciales.",
+      "Presentar reportes de operaciones relevantes, inusuales e internas preocupantes a la UIF.",
+      "Contar con oficial de cumplimiento, comité de comunicación y control, y evaluación de riesgos PLD.",
+      "Cumplir requerimientos de ciberseguridad, reporte de incidentes y auditoría externa."
+     ],
+     "tramites": [
+      {
+       "que": "Reportes de operaciones inusuales / relevantes",
+       "plazo": "Plazos de las disposiciones (verificar)",
+       "ante": "UIF vía CNBV"
+      }
+     ],
+     "sanciones": "Multas por cada incumplimiento PLD; posible revocación.",
+     "evidencia": [
+      "Manual PLD",
+      "Bitácora de alertas y reportes",
+      "Evaluación de riesgos",
+      "Reporte de incidentes de seguridad"
+     ],
+     "preguntas": [
+      "¿El onboarding digital verifica identidad con medios aprobados por la CNBV?",
+      "¿Se presentan en tiempo los reportes de operaciones inusuales?"
+     ]
+    },
+    {
+     "id": "cripto_banxico",
+     "nombre": "Activos virtuales: Circular 4/2019 de Banxico (operaciones de bancos e ITF con activos virtuales) y LFPIORPI (activos virtuales como actividad vulnerable)",
+     "sigla": "Circ. 4/2019 · LFPIORPI AV",
+     "tipo": "disposición",
+     "autoridad": "Banxico; SHCP-UIF; SAT",
+     "url": "https://www.banxico.org.mx/marco-normativo/",
+     "ultima_reforma": "verificar (Circular 4/2019); LFPIORPI 2025-07-16",
+     "aplica": "Bancos e ITF que quieran usar activos virtuales; exchanges y custodios de criptoactivos que operan sin ser entidades financieras.",
+     "obligaciones": [
+      "Bancos e ITF solo pueden operar con activos virtuales en operaciones internas autorizadas por Banxico; no pueden ofrecerlos a sus clientes (verificar si cambió).",
+      "Las plataformas que intercambian o custodian activos virtuales realizan actividad vulnerable: registro en el SAT, identificación de clientes y avisos cuando superen el umbral (reforma 2025 lo redujo; reportes indican 210 UMA, verificar).",
+      "Advertir a clientes sobre riesgos de los activos virtuales y no presentarlos como moneda de curso legal."
+     ],
+     "tramites": [
+      {
+       "que": "Alta como actividad vulnerable de activos virtuales",
+       "plazo": "Antes de operar",
+       "ante": "SAT (portal PLD)"
+      },
+      {
+       "que": "Autorización para operaciones internas con activos virtuales",
+       "plazo": "Antes de operar",
+       "ante": "Banxico"
+      }
+     ],
+     "sanciones": "Multas LFPIORPI; sanciones de Banxico y la CNBV a entidades financieras.",
+     "evidencia": [
+      "Alta en portal PLD",
+      "Autorización de Banxico (si aplica)",
+      "Avisos mensuales"
+     ],
+     "preguntas": [
+      "¿La empresa que intermedia criptoactivos está registrada como actividad vulnerable?",
+      "¿Alguna entidad financiera del grupo ofrece activos virtuales a clientes sin autorización de Banxico?"
+     ]
+    },
+    {
+     "id": "spei_codi",
+     "nombre": "Reglas del SPEI y esquemas CoDi y DiMo (Banco de México)",
+     "sigla": "SPEI · CoDi · DiMo",
+     "tipo": "disposición",
+     "autoridad": "Banxico",
+     "url": "https://www.banxico.org.mx/marco-normativo/",
+     "ultima_reforma": "verificar",
+     "aplica": "Participantes directos o indirectos del SPEI (bancos, IFPE y otras entidades) y comercios que cobran con CoDi.",
+     "obligaciones": [
+      "Cumplir requisitos de conexión, seguridad, disponibilidad y reporte de incidentes como participante del SPEI.",
+      "Ofrecer CoDi/DiMo cuando las reglas lo hagan obligatorio para el tipo de participante (verificar).",
+      "Liquidar transferencias en los plazos fijados por las reglas y conciliar diariamente."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización como participante del SPEI",
+       "plazo": "Antes de conectarse",
+       "ante": "Banxico"
+      }
+     ],
+     "sanciones": "Sanciones de Banxico, suspensión de la conexión.",
+     "evidencia": [
+      "Autorización de participante",
+      "Reportes de incidentes",
+      "Pruebas de continuidad"
+     ],
+     "preguntas": [
+      "¿Se reportan a Banxico los incidentes operativos y de ciberseguridad del SPEI?",
+      "¿Existen pruebas de continuidad de negocio del canal de pagos?"
+     ]
+    },
+    {
+     "id": "condusef_fintech",
+     "nombre": "Registros y obligaciones ante CONDUSEF para entidades financieras (SIPRES, RECO, REUNE, RECA, Buró de Entidades Financieras)",
+     "sigla": "CONDUSEF",
+     "tipo": "disposición",
+     "autoridad": "CONDUSEF",
+     "url": "https://www.gob.mx/condusef",
+     "ultima_reforma": "verificar",
+     "aplica": "ITF, SOFOM, SOFIPO y demás entidades financieras.",
+     "obligaciones": [
+      "Inscribirse y actualizar datos en el SIPRES.",
+      "Registrar comisiones (RECO) y contratos de adhesión (RECA) antes de ofrecer productos.",
+      "Contar con Unidad Especializada de Atención a Usuarios y reportar sus consultas y reclamaciones (REUNE).",
+      "Atender reclamaciones y conciliaciones de CONDUSEF."
+     ],
+     "tramites": [
+      {
+       "que": "Registro SIPRES",
+       "plazo": "Antes de operar y actualización periódica",
+       "ante": "CONDUSEF"
+      },
+      {
+       "que": "Reporte REUNE",
+       "plazo": "Periódico (verificar frecuencia)",
+       "ante": "CONDUSEF"
+      }
+     ],
+     "sanciones": "Multas de la LPDUSF y publicación de incumplimientos en el Buró de Entidades Financieras.",
+     "evidencia": [
+      "Constancia SIPRES",
+      "Registros RECO/RECA",
+      "Reportes REUNE"
+     ],
+     "preguntas": [
+      "¿Todos los contratos y comisiones vigentes están registrados en RECA/RECO?",
+      "¿La UNE responde reclamaciones en los plazos legales?"
+     ]
+    }
+   ]
+  },
+  "mercado_valores_fondos": {
+   "nombre": "Mercado de valores, fondos de inversión y afores",
+   "reguladores": [
+    [
+     "CNBV",
+     "https://www.gob.mx/cnbv"
+    ],
+    [
+     "CONSAR",
+     "https://www.gob.mx/consar"
+    ],
+    [
+     "Banco de México",
+     "https://www.banxico.org.mx/marco-normativo/"
+    ],
+    [
+     "Bolsa Mexicana de Valores",
+     "https://www.bmv.com.mx/"
+    ],
+    [
+     "BIVA",
+     "https://www.biva.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lmv_intermediarios",
+     "nombre": "Ley del Mercado de Valores: casas de bolsa, asesores en inversiones e intermediación",
+     "sigla": "LMV",
+     "tipo": "ley",
+     "autoridad": "CNBV; SHCP",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lmv.htm",
+     "ultima_reforma": "2025-11-14 (procedimiento administrativo; reforma de fondo 2023-12-28)",
+     "aplica": "Casas de bolsa, asesores en inversiones, distribuidoras y emisores que acceden al mercado (las obligaciones de emisoras están en «generales»).",
+     "obligaciones": [
+      "Obtener autorización (casas de bolsa) o registro (asesores en inversiones) ante la CNBV.",
+      "Gestionar conflictos de interés, separar funciones y mantener sistemas de control interno.",
+      "Prevenir uso de información privilegiada y manipulación de mercado; listas de personas con acceso a información privilegiada.",
+      "Conocer la regulación simplificada de la reforma de 2023 para colocaciones de empresas medianas (verificar requisitos)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización / registro",
+       "plazo": "Antes de operar",
+       "ante": "CNBV"
+      }
+     ],
+     "sanciones": "Multas en UMA o como porcentaje del beneficio obtenido, suspensión, revocación; delitos de la LMV.",
+     "evidencia": [
+      "Autorización o constancia de registro",
+      "Políticas de conflictos de interés",
+      "Listas de insiders"
+     ],
+     "preguntas": [
+      "¿La entidad mantiene listas actualizadas de personas con acceso a información privilegiada?",
+      "¿Los asesores en inversiones están registrados ante la CNBV?"
+     ]
+    },
+    {
+     "id": "servicios_inversion",
+     "nombre": "Disposiciones de carácter general aplicables a las entidades financieras y demás personas que proporcionen servicios de inversión y Circular Única de Casas de Bolsa",
+     "sigla": "Servicios de inversión · CUCB",
+     "tipo": "disposición",
+     "autoridad": "CNBV",
+     "url": "https://www.gob.mx/cnbv",
+     "ultima_reforma": "verificar",
+     "aplica": "Casas de bolsa, bancos, operadoras y distribuidoras de fondos y asesores que prestan servicios de inversión.",
+     "obligaciones": [
+      "Perfilar al cliente y evaluar la razonabilidad de cada recomendación o producto respecto de su perfil.",
+      "Documentar la guía de servicios de inversión y entregarla al cliente.",
+      "Certificar al personal que asesora o promueve valores (certificación AMIB, verificar figura).",
+      "Revelar comisiones, conflictos y riesgos de los productos."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y amonestaciones de la CNBV.",
+     "evidencia": [
+      "Perfiles de clientes",
+      "Evidencia de análisis de razonabilidad",
+      "Certificaciones del personal"
+     ],
+     "preguntas": [
+      "¿Cada cliente tiene perfil de inversión vigente y las operaciones son razonables respecto de él?",
+      "¿El personal que asesora tiene certificación vigente?"
+     ]
+    },
+    {
+     "id": "lfi",
+     "nombre": "Ley de Fondos de Inversión y Disposiciones de carácter general aplicables a los fondos de inversión",
+     "sigla": "LFI",
+     "tipo": "ley",
+     "autoridad": "CNBV",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfi.htm",
+     "ultima_reforma": "2025-11-14",
+     "aplica": "Fondos de inversión, sus operadoras, distribuidoras, valuadoras y proveedores de precios.",
+     "obligaciones": [
+      "Operar con prospecto aprobado y documentos clave para el inversionista actualizados.",
+      "Respetar el régimen de inversión y límites de liquidez de cada fondo.",
+      "Contar con contralor normativo, comité de riesgos y valuación diaria por valuadora independiente.",
+      "Evaluar el régimen de fondos de cobertura incorporado en la reforma 2023 (verificar disposiciones secundarias)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización de prospectos y modificaciones",
+       "plazo": "Antes de su uso",
+       "ante": "CNBV"
+      }
+     ],
+     "sanciones": "Multas, suspensión de la operadora o del fondo.",
+     "evidencia": [
+      "Prospectos y DICI vigentes",
+      "Reportes de cumplimiento del régimen de inversión",
+      "Valuaciones diarias"
+     ],
+     "preguntas": [
+      "¿Los fondos cumplen su régimen de inversión y se reportan excesos?",
+      "¿El prospecto vigente refleja comisiones y políticas actuales?"
+     ]
+    },
+    {
+     "id": "lsar",
+     "nombre": "Ley de los Sistemas de Ahorro para el Retiro y disposiciones de la CONSAR",
+     "sigla": "LSAR",
+     "tipo": "ley",
+     "autoridad": "CONSAR",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LSAR.pdf",
+     "ultima_reforma": "verificar (reforma de comisiones de dic-2020; SCJN avaló el tope del art. 37 el 2025-10-30)",
+     "aplica": "Afores, Siefores, PENSIONISSSTE y empresas operadoras de la Base de Datos Nacional SAR; patrones en lo relativo a aportaciones.",
+     "obligaciones": [
+      "Cobrar comisiones dentro del tope del art. 37 (calculado con promedio internacional) y aprobadas por la Junta de Gobierno de la CONSAR (0.54 % para 2026 según prensa; verificar acuerdo).",
+      "Invertir conforme al régimen de inversión de las Siefores generacionales.",
+      "Gestionar riesgos, contralor normativo y consejeros independientes.",
+      "Atender traspasos, retiros y estados de cuenta en los plazos regulatorios."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización anual de comisiones",
+       "plazo": "Anual (noviembre-diciembre)",
+       "ante": "CONSAR"
+      }
+     ],
+     "sanciones": "Multas de la LSAR, intervención o revocación.",
+     "evidencia": [
+      "Acuerdo de comisiones autorizadas",
+      "Reportes de régimen de inversión",
+      "Actas de comités"
+     ],
+     "preguntas": [
+      "¿La comisión cobrada coincide con la autorizada para el año?",
+      "¿Los excesos al régimen de inversión se corrigieron en el plazo regulatorio?"
+     ]
+    },
+    {
+     "id": "pld_212",
+     "nombre": "Disposiciones de carácter general del art. 212 de la LMV (PLD/FT en casas de bolsa) y equivalentes para fondos y operadoras",
+     "sigla": "PLD art. 212 LMV",
+     "tipo": "disposición",
+     "autoridad": "SHCP-UIF; CNBV",
+     "url": "https://www.gob.mx/uif",
+     "ultima_reforma": "verificar",
+     "aplica": "Casas de bolsa, asesores en inversiones (verificar alcance) y operadoras/distribuidoras de fondos.",
+     "obligaciones": [
+      "Política de identificación y conocimiento del cliente con enfoque basado en riesgo.",
+      "Reportes de operaciones relevantes, inusuales e internas preocupantes.",
+      "Comité de comunicación y control y oficial de cumplimiento; auditoría anual PLD."
+     ],
+     "tramites": [
+      {
+       "que": "Reportes PLD",
+       "plazo": "Según disposiciones",
+       "ante": "UIF vía CNBV"
+      }
+     ],
+     "sanciones": "Multas por incumplimiento, publicadas por la CNBV.",
+     "evidencia": [
+      "Manual PLD",
+      "Expedientes de clientes",
+      "Informe de auditoría PLD"
+     ],
+     "preguntas": [
+      "¿Se realizó la auditoría PLD del último ejercicio?",
+      "¿La metodología de riesgo se actualizó tras cambios normativos de 2025?"
+     ]
+    },
+    {
+     "id": "emisoras_esg",
+     "nombre": "Revelación de información de emisoras: reportes anuales, eventos relevantes y adopción de normas de sostenibilidad (NIS del CINIF / ISSB; verificar obligatoriedad)",
+     "sigla": "Eventos relevantes · NIS",
+     "tipo": "disposición",
+     "autoridad": "CNBV; bolsas de valores",
+     "url": "https://www.gob.mx/cnbv",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras con valores inscritos en el RNV.",
+     "obligaciones": [
+      "Divulgar eventos relevantes de inmediato por el sistema de la bolsa.",
+      "Presentar reporte anual y trimestrales en plazo.",
+      "Evaluar la obligación o recomendación de reportar información de sostenibilidad conforme a las normas aplicables (verificar calendario de la CNBV)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte anual",
+       "plazo": "Plazo de la CUE (verificar)",
+       "ante": "CNBV / bolsa"
+      },
+      {
+       "que": "Evento relevante",
+       "plazo": "Inmediato",
+       "ante": "Bolsa"
+      }
+     ],
+     "sanciones": "Multas y suspensión de cotización.",
+     "evidencia": [
+      "Acuses de reportes",
+      "Bitácora de eventos relevantes"
+     ],
+     "preguntas": [
+      "¿Existe procedimiento para identificar y divulgar eventos relevantes oportunamente?",
+      "¿Se definió la postura de la emisora frente a reportes de sostenibilidad?"
+     ]
+    }
+   ]
+  },
+  "sociedades_ahorro_credito": {
+   "nombre": "Ahorro y crédito popular, cooperativas, SOFOM y uniones de crédito",
+   "reguladores": [
+    [
+     "CNBV",
+     "https://www.gob.mx/cnbv"
+    ],
+    [
+     "CONDUSEF",
+     "https://www.gob.mx/condusef"
+    ],
+    [
+     "UIF",
+     "https://www.gob.mx/uif"
+    ],
+    [
+     "FOCOOP",
+     "https://www.focoop.com.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lacp",
+     "nombre": "Ley de Ahorro y Crédito Popular (SOFIPO y SOFINCO)",
+     "sigla": "LACP",
+     "tipo": "ley",
+     "autoridad": "CNBV; federaciones y Comité de Protección al Ahorro",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lacp.htm",
+     "ultima_reforma": "2025-11-14",
+     "aplica": "Sociedades financieras populares y comunitarias.",
+     "obligaciones": [
+      "Obtener autorización de la CNBV y operar dentro del nivel de operaciones asignado.",
+      "Aportar al fondo de protección de ahorro y comunicar a los ahorradores el monto protegido (verificar límite en UDIS).",
+      "Cumplir capitalización, provisiones, diversificación de riesgos y gobierno corporativo.",
+      "Dar seguimiento a iniciativas de 2025 sobre protección al ahorro en SOFIPO (no aprobadas al cierre de esta revisión; verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización como SOFIPO",
+       "plazo": "Antes de operar",
+       "ante": "CNBV"
+      },
+      {
+       "que": "Reportes regulatorios",
+       "plazo": "Mensuales/trimestrales (verificar)",
+       "ante": "CNBV"
+      }
+     ],
+     "sanciones": "Multas, intervención gerencial, revocación.",
+     "evidencia": [
+      "Autorización y nivel de operación",
+      "Reportes de capitalización",
+      "Constancias de aportación al fondo de protección"
+     ],
+     "preguntas": [
+      "¿El índice de capitalización está por encima del mínimo regulatorio?",
+      "¿Se informa a los ahorradores el límite de protección de sus depósitos?"
+     ]
+    },
+    {
+     "id": "lrascap",
+     "nombre": "Ley para Regular las Actividades de las Sociedades Cooperativas de Ahorro y Préstamo",
+     "sigla": "LRASCAP",
+     "tipo": "ley",
+     "autoridad": "CNBV; Comité de Supervisión Auxiliar; FOCOOP",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lrascap.htm",
+     "ultima_reforma": "2025-11-14",
+     "aplica": "Sociedades cooperativas de ahorro y préstamo (SOCAP).",
+     "obligaciones": [
+      "Determinar el nivel de operaciones; las SOCAP que superan el umbral de activos requieren autorización de la CNBV (verificar umbral).",
+      "Inscribirse en el registro de SOCAP del FOCOOP y aportar al Fondo de Protección.",
+      "Operar solo con socios y cumplir capitalización, provisiones y límites de riesgo."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización CNBV / registro en FOCOOP",
+       "plazo": "Antes de operar o al superar el umbral",
+       "ante": "CNBV / FOCOOP"
+      }
+     ],
+     "sanciones": "Multas, intervención y revocación; operar sin autorización puede ser delito.",
+     "evidencia": [
+      "Autorización o constancia de registro",
+      "Reportes al Comité de Supervisión Auxiliar"
+     ],
+     "preguntas": [
+      "¿Se monitorea el nivel de activos para determinar si se requiere autorización?",
+      "¿Se opera exclusivamente con socios?"
+     ]
+    },
+    {
+     "id": "lgsc",
+     "nombre": "Ley General de Sociedades Cooperativas",
+     "sigla": "LGSC",
+     "tipo": "ley",
+     "autoridad": "SE; registro público de comercio",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lgsc.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Cooperativas de producción, consumo y de ahorro y préstamo (en lo no previsto por la LRASCAP).",
+     "obligaciones": [
+      "Constituir la cooperativa conforme a sus requisitos (bases constitutivas, capital variable, fondos sociales).",
+      "Celebrar asambleas y mantener los órganos de gobierno (consejo de administración y de vigilancia).",
+      "Constituir los fondos de reserva y de previsión social que exige la ley."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción de bases constitutivas",
+       "plazo": "Al constituirse",
+       "ante": "Registro Público de Comercio"
+      }
+     ],
+     "sanciones": "Nulidad de actos, responsabilidad de consejeros.",
+     "evidencia": [
+      "Bases constitutivas",
+      "Actas de asamblea",
+      "Estados de fondos sociales"
+     ],
+     "preguntas": [
+      "¿Se constituyeron los fondos sociales obligatorios?",
+      "¿Las asambleas se celebran en tiempo?"
+     ]
+    },
+    {
+     "id": "lgoaac_sofom",
+     "nombre": "Ley General de Organizaciones y Actividades Auxiliares del Crédito: SOFOM ENR/ER, centros cambiarios y transmisores de dinero",
+     "sigla": "LGOAAC",
+     "tipo": "ley",
+     "autoridad": "CNBV; CONDUSEF",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades financieras de objeto múltiple, centros cambiarios y transmisores de dinero.",
+     "obligaciones": [
+      "Obtener dictamen técnico de PLD de la CNBV antes del registro (SOFOM ENR).",
+      "Obtener y mantener el registro ante CONDUSEF (art. 87-K); renovarlo cuando lo exija la ley.",
+      "Acreditar ser usuaria de al menos una sociedad de información crediticia; de lo contrario CONDUSEF puede cancelar el registro.",
+      "Usar en la denominación «SOFOM» y «E.N.R.» o «E.R.» según corresponda."
+     ],
+     "tramites": [
+      {
+       "que": "Dictamen técnico PLD",
+       "plazo": "Antes del registro",
+       "ante": "CNBV (SITI)"
+      },
+      {
+       "que": "Registro / actualización",
+       "plazo": "Inicial y periódica",
+       "ante": "CONDUSEF (SIPRES)"
+      }
+     ],
+     "sanciones": "Cancelación del registro (pierde carácter de SOFOM), multas CONDUSEF y CNBV.",
+     "evidencia": [
+      "Dictamen técnico",
+      "Constancia de registro en SIPRES",
+      "Contrato con sociedad de información crediticia"
+     ],
+     "preguntas": [
+      "¿El registro de la SOFOM está vigente en SIPRES?",
+      "¿Se reporta al buró de crédito y se actualiza la información trimestralmente?"
+     ]
+    },
+    {
+     "id": "pld_95bis",
+     "nombre": "Disposiciones de PLD/FT del art. 95 Bis LGOAAC y de las leyes de ahorro y crédito popular",
+     "sigla": "PLD art. 95 Bis",
+     "tipo": "disposición",
+     "autoridad": "SHCP-UIF; CNBV",
+     "url": "https://www.gob.mx/uif",
+     "ultima_reforma": "verificar",
+     "aplica": "SOFOM ENR, centros cambiarios, transmisores de dinero, SOCAP, SOFIPO y uniones de crédito.",
+     "obligaciones": [
+      "Manual de políticas KYC con enfoque basado en riesgo.",
+      "Reportes de operaciones relevantes, inusuales, internas preocupantes y en efectivo con dólares cuando aplique.",
+      "Oficial de cumplimiento, comité y auditoría anual.",
+      "Sistemas automatizados de monitoreo."
+     ],
+     "tramites": [
+      {
+       "que": "Reportes PLD",
+       "plazo": "Plazos de las disposiciones",
+       "ante": "UIF vía CNBV"
+      }
+     ],
+     "sanciones": "Multas de la CNBV, publicadas; cancelación del registro.",
+     "evidencia": [
+      "Manual PLD",
+      "Reportes enviados",
+      "Informe de auditoría"
+     ],
+     "preguntas": [
+      "¿El oficial de cumplimiento está designado y certificado (verificar requisito)?",
+      "¿Se realizó la auditoría PLD anual?"
+     ]
+    },
+    {
+     "id": "disp_eacp",
+     "nombre": "Disposiciones de carácter general aplicables a las entidades de ahorro y crédito popular, organismos de integración, sociedades financieras comunitarias y organismos de integración financiera rural",
+     "sigla": "Disp. EACP",
+     "tipo": "disposición",
+     "autoridad": "CNBV",
+     "url": "https://www.gob.mx/cnbv",
+     "ultima_reforma": "2025-12-26 (resolución modificatoria reportada; verificar contenido)",
+     "aplica": "SOFIPO, SOFINCO, federaciones y organismos de integración.",
+     "obligaciones": [
+      "Calificación de cartera y constitución de reservas.",
+      "Requisitos de control interno, auditoría externa y reportes regulatorios.",
+      "Revisar los cambios de la resolución publicada en diciembre de 2025."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y observaciones de la CNBV.",
+     "evidencia": [
+      "Cálculo de reservas",
+      "Informe de auditoría externa"
+     ],
+     "preguntas": [
+      "¿Se implementaron los cambios de la resolución modificatoria de diciembre de 2025?",
+      "¿Las reservas de cartera se calculan con la metodología vigente?"
+     ]
+    },
+    {
+     "id": "luc",
+     "nombre": "Ley de Uniones de Crédito",
+     "sigla": "LUC",
+     "tipo": "ley",
+     "autoridad": "CNBV",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Uniones de crédito y sus socios.",
+     "obligaciones": [
+      "Autorización de la CNBV y operación exclusiva con socios.",
+      "Límites de crédito a partes relacionadas y capital mínimo según nivel.",
+      "Reportes regulatorios y PLD."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización",
+       "plazo": "Antes de operar",
+       "ante": "CNBV"
+      }
+     ],
+     "sanciones": "Multas, revocación.",
+     "evidencia": [
+      "Autorización",
+      "Reportes de partes relacionadas"
+     ],
+     "preguntas": [
+      "¿Los créditos a partes relacionadas respetan los límites legales?",
+      "¿Se opera solo con socios?"
+     ]
+    }
+   ]
+  },
+  "comercio_minorista": {
+   "nombre": "Comercio minorista",
+   "reguladores": [
+    [
+     "PROFECO",
+     "https://www.gob.mx/profeco"
+    ],
+    [
+     "Secretaría de Economía (normalización)",
+     "https://www.gob.mx/se"
+    ],
+    [
+     "COFEPRIS",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "Gobiernos municipales (licencias)",
+     "https://www.gob.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lfpc_retail",
+     "nombre": "LFPC aplicada al punto de venta: exhibición de precios, promociones, ofertas, apartado y garantías",
+     "sigla": "LFPC retail",
+     "tipo": "ley",
+     "autoridad": "PROFECO",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPC.pdf",
+     "ultima_reforma": "2025-12-12 (montos de multas actualizados por acuerdo DOF 2025-12-23)",
+     "aplica": "Tiendas físicas y en línea, departamentales, autoservicios y conveniencia.",
+     "obligaciones": [
+      "Exhibir precios totales visibles en producto o anaquel y cobrar el menor si hay discrepancia (verificar regla aplicable).",
+      "Publicar bases, vigencia y restricciones de promociones y ofertas, y respetarlas.",
+      "Otorgar garantías por escrito y respetar devoluciones de productos defectuosos.",
+      "Permitir cancelar suscripciones o membresías por el mismo medio de contratación (reforma art. 76 Bis, DOF 2025-12-12)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas actualizadas anualmente, colocación de sellos de suspensión, inmovilización de productos.",
+     "evidencia": [
+      "Políticas de precios y promociones",
+      "Formatos de garantía",
+      "Resultados de visitas de PROFECO"
+     ],
+     "preguntas": [
+      "¿Los precios de anaquel coinciden con los de caja?",
+      "¿Las promociones tienen bases publicadas y vigencias claras?",
+      "¿Las membresías de la tienda pueden cancelarse por el mismo canal de contratación?"
+     ]
+    },
+    {
+     "id": "noms_info_comercial",
+     "nombre": "NOM de información comercial por producto (p. ej., NOM-004-SE-2021 textiles, NOM-024-SCFI-2013 aparatos electrónicos, NOM-015-SCFI-2007 juguetes, NOM-020-SCFI-1997 cuero y calzado)",
+     "sigla": "NOM info comercial",
+     "tipo": "NOM",
+     "autoridad": "Secretaría de Economía; PROFECO",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar (versiones vigentes de cada NOM)",
+     "aplica": "Comercios que venden productos regulados, incluidos importados (la NOM-050 general está en «generales» y la NOM-051 en «alimentos»).",
+     "obligaciones": [
+      "Verificar antes de exhibir que cada producto regulado tenga la etiqueta en español exigida por su NOM.",
+      "Exigir al proveedor o importador constancias o dictámenes de cumplimiento.",
+      "Retirar de venta productos sin etiquetado conforme."
+     ],
+     "tramites": [
+      {
+       "que": "Constancia o dictamen de cumplimiento",
+       "plazo": "Antes de comercializar",
+       "ante": "Unidad de verificación / organismo de certificación"
+      }
+     ],
+     "sanciones": "Inmovilización de mercancía y multas de PROFECO; la Ley de Infraestructura de la Calidad prevé sanciones por comercializar productos no conformes.",
+     "evidencia": [
+      "Matriz de productos y NOM aplicable",
+      "Constancias de proveedores"
+     ],
+     "preguntas": [
+      "¿Existe matriz que asigne a cada categoría su NOM de información comercial?",
+      "¿Se exige al proveedor evidencia de cumplimiento antes de dar de alta un SKU?"
+     ]
+    },
+    {
+     "id": "metrologia",
+     "nombre": "Instrumentos de medición en comercio (básculas, surtidores): Ley de Infraestructura de la Calidad, NOM-010-SCFI-1994 y verificación periódica de PROFECO",
+     "sigla": "Metrología comercial",
+     "tipo": "NOM",
+     "autoridad": "PROFECO; Secretaría de Economía",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Comercios que venden a granel o por peso (carnicerías, fruterías, autoservicios).",
+     "obligaciones": [
+      "Usar instrumentos de medición con modelo aprobado.",
+      "Someterlos a verificación inicial y periódica y portar el holograma vigente.",
+      "Despachar cantidades completas (no dar menos de lo indicado)."
+     ],
+     "tramites": [
+      {
+       "que": "Verificación periódica de instrumentos",
+       "plazo": "Anual (verificar)",
+       "ante": "PROFECO / unidades de verificación"
+      }
+     ],
+     "sanciones": "Inmovilización de instrumentos, multas.",
+     "evidencia": [
+      "Hologramas y constancias de verificación",
+      "Inventario de básculas"
+     ],
+     "preguntas": [
+      "¿Todas las básculas tienen verificación vigente?",
+      "¿Se calibran las básculas después de una reparación?"
+     ]
+    },
+    {
+     "id": "tabaco_vapeadores",
+     "nombre": "Ley General para el Control del Tabaco y su Reglamento (venta y exhibición en punto de venta) y prohibición de vapeadores (reforma LGS 2026)",
+     "sigla": "LGCT · LGS vapeadores",
+     "tipo": "ley",
+     "autoridad": "COFEPRIS; Secretaría de Salud",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGCT.pdf",
+     "ultima_reforma": "Reglamento LGCT: verificar (reforma 2022); LGS 2026-01-15",
+     "aplica": "Tiendas de conveniencia, abarrotes y autoservicios que venden tabaco.",
+     "obligaciones": [
+      "No vender tabaco a menores de 18 años ni cigarros sueltos (verificar).",
+      "No exhibir productos de tabaco ni publicidad en el punto de venta conforme al Reglamento vigente (verificar).",
+      "No vender, distribuir ni suministrar cigarros electrónicos o vapeadores (prohibición de la reforma a la LGS publicada el 2026-01-15, con sanciones penales de 1 a 8 años de prisión según reportes)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas sanitarias, clausura; delitos por comercio de vapeadores.",
+     "evidencia": [
+      "Política de no venta a menores",
+      "Evidencia de retiro de vapeadores del inventario"
+     ],
+     "preguntas": [
+      "¿Se retiraron del inventario todos los vapeadores tras la reforma de enero de 2026?",
+      "¿El personal pide identificación antes de vender tabaco?"
+     ]
+    },
+    {
+     "id": "alcohol_retail",
+     "nombre": "Venta de bebidas alcohólicas al menudeo: licencias estatales/municipales, horarios y prohibición de venta a menores",
+     "sigla": "Licencias alcohol",
+     "tipo": "disposición",
+     "autoridad": "Gobiernos estatales y municipales",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Comercios que venden bebidas alcohólicas en envase cerrado.",
+     "obligaciones": [
+      "Contar con licencia o permiso del giro de alcohol vigente para cada establecimiento.",
+      "Respetar horarios, días de ley seca y prohibición de venta a menores.",
+      "Vender solo botellas con marbete o precinto vigente."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia / refrendo de alcoholes",
+       "plazo": "Anual (verificar)",
+       "ante": "Gobierno estatal o municipal"
+      }
+     ],
+     "sanciones": "Multas, clausura y revocación de licencia.",
+     "evidencia": [
+      "Licencias por sucursal",
+      "Recibos de refrendo"
+     ],
+     "preguntas": [
+      "¿Cada sucursal tiene licencia de alcohol refrendada?",
+      "¿Existe control de horarios y ley seca en el POS?"
+     ]
+    },
+    {
+     "id": "bolsas_plasticos",
+     "nombre": "Leyes estatales y municipales sobre bolsas y plásticos de un solo uso en comercio",
+     "sigla": "Plásticos locales",
+     "tipo": "disposición",
+     "autoridad": "Gobiernos estatales y municipales",
+     "url": "https://www.gob.mx/semarnat",
+     "ultima_reforma": "verificar (no hay reforma federal publicada a la LGPGIR confirmada)",
+     "aplica": "Comercios en entidades con prohibiciones de bolsas, popotes o unicel.",
+     "obligaciones": [
+      "Identificar las prohibiciones vigentes en cada entidad donde se opera.",
+      "Sustituir bolsas y empaques prohibidos por alternativas permitidas."
+     ],
+     "tramites": [],
+     "sanciones": "Multas locales.",
+     "evidencia": [
+      "Matriz de prohibiciones por entidad",
+      "Fichas técnicas de empaques"
+     ],
+     "preguntas": [
+      "¿Se revisó la normativa de plásticos de cada entidad donde hay sucursales?",
+      "¿Las sucursales en entidades con prohibición dejaron de entregar bolsas o empaques prohibidos?"
+     ]
+    }
+   ]
+  },
+  "turismo_hoteleria": {
+   "nombre": "Turismo y hotelería",
+   "reguladores": [
+    [
+     "Secretaría de Turismo",
+     "https://www.gob.mx/sectur"
+    ],
+    [
+     "PROFECO",
+     "https://www.gob.mx/profeco"
+    ],
+    [
+     "Secretarías estatales de turismo",
+     "https://www.gob.mx/sectur"
+    ],
+    [
+     "SEMARNAT (ZOFEMAT)",
+     "https://www.gob.mx/semarnat"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lgt",
+     "nombre": "Ley General de Turismo",
+     "sigla": "LGT",
+     "tipo": "ley",
+     "autoridad": "SECTUR; autoridades estatales y municipales",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lgt.htm",
+     "ultima_reforma": "2025-11-14",
+     "aplica": "Prestadores de servicios turísticos: hoteles, agencias de viajes, guías, operadoras, arrendadoras, parques, restaurantes en destinos turísticos.",
+     "obligaciones": [
+      "Inscribirse en el Registro Nacional de Turismo (RNT), obligatorio para prestadores de servicios turísticos.",
+      "Informar con claridad precios, tarifas y condiciones de los servicios y respetarlos.",
+      "Cumplir las NOM turísticas aplicables y contar con los seguros exigidos.",
+      "Atender quejas de turistas y colaborar con autoridades en verificación."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción en el RNT",
+       "plazo": "Al iniciar operaciones",
+       "ante": "SECTUR (vía plataforma RNT / autoridades locales)"
+      }
+     ],
+     "sanciones": "Amonestación, multas en UMA, clausura y cancelación de la inscripción en el RNT (verificar montos).",
+     "evidencia": [
+      "Certificado RNT",
+      "Tarifas publicadas",
+      "Pólizas de seguro"
+     ],
+     "preguntas": [
+      "¿El establecimiento tiene certificado RNT vigente?",
+      "¿Las tarifas y condiciones se informan antes de la contratación?"
+     ]
+    },
+    {
+     "id": "reg_lgt",
+     "nombre": "Reglamento de la Ley General de Turismo (RNT: requisitos de inscripción y renovación)",
+     "sigla": "Reg. LGT",
+     "tipo": "reglamento",
+     "autoridad": "SECTUR",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/regley/Reg_LGT_ref02_25nov25.doc",
+     "ultima_reforma": "2025-11-25",
+     "aplica": "Prestadores de servicios turísticos inscritos en el RNT.",
+     "obligaciones": [
+      "Presentar la solicitud de inscripción con los requisitos del art. 89 (reformado en 2025).",
+      "Renovar el certificado del RNT cada dos años y mantener los datos actualizados (art. 94, reformado en 2025).",
+      "Revisar las fracciones derogadas y reformadas por el decreto de noviembre de 2025."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación del certificado RNT",
+       "plazo": "Cada 2 años",
+       "ante": "SECTUR"
+      }
+     ],
+     "sanciones": "Las de la LGT.",
+     "evidencia": [
+      "Acuse de renovación RNT"
+     ],
+     "preguntas": [
+      "¿El certificado RNT se renovó dentro de los dos años?",
+      "¿Se revisaron los cambios del reglamento publicados el 25 de noviembre de 2025?"
+     ]
+    },
+    {
+     "id": "noms_tur",
+     "nombre": "NOM turísticas: NOM-07-TUR (seguro de responsabilidad civil en hospedaje), NOM-08-TUR y NOM-09-TUR (guías de turistas generales y especializados), NOM-010-TUR (contratos de agencias de viajes) y NOM-011-TUR-2017 (turismo de aventura)",
+     "sigla": "NOM-TUR",
+     "tipo": "NOM",
+     "autoridad": "SECTUR; PROFECO",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar (versiones vigentes)",
+     "aplica": "Hoteles, guías de turistas, agencias de viajes y operadores de turismo de aventura.",
+     "obligaciones": [
+      "Hoteles: contratar el seguro de responsabilidad civil que proteja al huésped conforme a la NOM aplicable (verificar).",
+      "Guías: contar con credencial vigente de guía expedida por SECTUR.",
+      "Agencias: celebrar contratos con los elementos que exige la NOM y registrarlos ante PROFECO cuando sean de adhesión.",
+      "Turismo de aventura: medidas de seguridad, equipo certificado, guías capacitados y seguro."
+     ],
+     "tramites": [
+      {
+       "que": "Credencial de guía de turistas",
+       "plazo": "Antes de prestar servicio; renovación periódica",
+       "ante": "SECTUR"
+      }
+     ],
+     "sanciones": "Multas de la LGT y la LFPC.",
+     "evidencia": [
+      "Pólizas de RC",
+      "Credenciales de guía",
+      "Contratos registrados"
+     ],
+     "preguntas": [
+      "¿Todos los guías contratados tienen credencial vigente?",
+      "¿La póliza de responsabilidad civil cubre a los huéspedes?"
+     ]
+    },
+    {
+     "id": "nom029_tc",
+     "nombre": "NOM-029-SCFI-2010, Prácticas comerciales – requisitos informativos para la prestación del servicio de tiempo compartido",
+     "sigla": "NOM-029-SCFI",
+     "tipo": "NOM",
+     "autoridad": "PROFECO",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Desarrollos y comercializadoras de tiempo compartido.",
+     "obligaciones": [
+      "Registrar el contrato de adhesión ante PROFECO.",
+      "Respetar el periodo de reflexión y el derecho de cancelación sin penalización (verificar plazo).",
+      "Entregar información completa de cuotas de mantenimiento y reglas de uso."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de contrato de tiempo compartido",
+       "plazo": "Antes de comercializar",
+       "ante": "PROFECO"
+      }
+     ],
+     "sanciones": "Multas PROFECO y nulidad de cláusulas abusivas.",
+     "evidencia": [
+      "Contratos registrados",
+      "Bitácora de cancelaciones"
+     ],
+     "preguntas": [
+      "¿El contrato de tiempo compartido está registrado ante PROFECO?",
+      "¿Se respetan las cancelaciones en el periodo de reflexión?"
+     ]
+    },
+    {
+     "id": "ish_estatal",
+     "nombre": "Impuesto sobre hospedaje (leyes de hacienda estatales) y obligaciones de plataformas de alojamiento",
+     "sigla": "ISH",
+     "tipo": "ley",
+     "autoridad": "Tesorerías estatales; SAT (plataformas)",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (tasa de cada entidad)",
+     "aplica": "Hoteles, moteles, alojamientos de corta estancia y plataformas digitales de hospedaje.",
+     "obligaciones": [
+      "Inscribirse en el padrón estatal y declarar el impuesto sobre hospedaje mensualmente.",
+      "Retener o trasladar el impuesto en reservas hechas por plataformas, según la ley de cada entidad.",
+      "Cumplir, en su caso, el registro local de vivienda de uso turístico de cada ciudad (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración ISH",
+       "plazo": "Mensual (verificar)",
+       "ante": "Tesorería estatal"
+      }
+     ],
+     "sanciones": "Recargos, multas y créditos fiscales estatales.",
+     "evidencia": [
+      "Declaraciones ISH",
+      "Conciliación de reservas vs. impuesto"
+     ],
+     "preguntas": [
+      "¿El ISH se calcula sobre todas las reservas, incluidas las de plataformas?",
+      "¿El establecimiento está inscrito en el padrón estatal del impuesto sobre hospedaje de cada entidad donde opera?"
+     ]
+    },
+    {
+     "id": "nna_turismo",
+     "nombre": "Protección de niñas, niños y adolescentes en viajes y turismo: LGDNNA, Ley General contra la trata de personas y Código de Conducta Nacional del sector turístico",
+     "sigla": "Código de Conducta NNA",
+     "tipo": "disposición",
+     "autoridad": "SECTUR; DIF; FGR",
+     "url": "https://www.gob.mx/sectur",
+     "ultima_reforma": "verificar",
+     "aplica": "Hoteles, agencias y operadores turísticos.",
+     "obligaciones": [
+      "Adoptar políticas para prevenir la explotación sexual de menores (registro de huéspedes, verificación de acompañantes).",
+      "Capacitar al personal para detectar y denunciar casos.",
+      "Adherirse voluntariamente al Código de Conducta Nacional (verificar vigencia del programa)."
+     ],
+     "tramites": [],
+     "sanciones": "Responsabilidad penal en casos de trata; sanciones administrativas locales.",
+     "evidencia": [
+      "Política de protección de menores",
+      "Constancias de capacitación"
+     ],
+     "preguntas": [
+      "¿El hotel verifica identidad y parentesco cuando se hospedan menores?",
+      "¿El personal está capacitado en detección de trata?"
+     ]
+    },
+    {
+     "id": "zofemat_tur",
+     "nombre": "Concesión de zona federal marítimo terrestre (Reglamento ZOFEMAT) para hoteles y clubes de playa",
+     "sigla": "ZOFEMAT",
+     "tipo": "reglamento",
+     "autoridad": "SEMARNAT; municipios",
+     "url": "https://www.dof.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Hoteles, clubes y restaurantes de playa.",
+     "obligaciones": [
+      "Contar con concesión para usar la zona federal frente al inmueble.",
+      "Pagar derechos y no impedir el libre acceso a la playa."
+     ],
+     "tramites": [
+      {
+       "que": "Concesión ZOFEMAT",
+       "plazo": "Antes de ocupar",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Multas, recuperación de la zona y retiro de instalaciones.",
+     "evidencia": [
+      "Título de concesión",
+      "Pagos de derechos"
+     ],
+     "preguntas": [
+      "¿El uso de playa (camastros, palapas) está amparado por concesión?",
+      "¿Se garantiza el libre acceso público a la playa?"
+     ]
+    }
+   ]
+  },
+  "salud_hospitales": {
+   "nombre": "Servicios de salud, hospitales y clínicas",
+   "reguladores": [
+    [
+     "COFEPRIS",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "Secretaría de Salud",
+     "https://www.gob.mx/salud"
+    ],
+    [
+     "Consejo de Salubridad General (certificación)",
+     "https://www.gob.mx/csg"
+    ],
+    [
+     "CONAMED",
+     "https://www.gob.mx/conamed"
+    ],
+    [
+     "SEMARNAT / PROFEPA (RPBI)",
+     "https://www.gob.mx/semarnat"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lgs_atencion",
+     "nombre": "LGS y Reglamento en materia de prestación de servicios de atención médica (licencias, avisos y responsable sanitario)",
+     "sigla": "LGS · RAM",
+     "tipo": "ley",
+     "autoridad": "COFEPRIS; Secretaría de Salud; servicios estatales",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGS.pdf",
+     "ultima_reforma": "2026-01-15 (LGS; reforma de más de 100 artículos, incluye salud digital e investigación clínica)",
+     "aplica": "Hospitales, clínicas, consultorios, laboratorios y bancos de sangre privados.",
+     "obligaciones": [
+      "Contar con licencia sanitaria para establecimientos con actividades quirúrgicas, obstétricas, bancos de sangre o que lo exija la ley; aviso de funcionamiento en los demás.",
+      "Designar responsable sanitario con título y cédula y dar aviso de su designación y cambios.",
+      "Cumplir requisitos de personal, equipamiento y servicios según el tipo de establecimiento.",
+      "Revisar los cambios de la reforma de enero de 2026 (salud digital, células troncales, investigación, donación de sangre y plasma)."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia sanitaria / aviso de funcionamiento",
+       "plazo": "Antes de operar",
+       "ante": "COFEPRIS o autoridad sanitaria estatal"
+      },
+      {
+       "que": "Aviso de responsable sanitario",
+       "plazo": "Al designarlo o cambiarlo",
+       "ante": "COFEPRIS"
+      }
+     ],
+     "sanciones": "Multas, clausura temporal o definitiva, aseguramiento; delitos sanitarios.",
+     "evidencia": [
+      "Licencias sanitarias",
+      "Avisos de responsable",
+      "Cédulas profesionales del personal"
+     ],
+     "preguntas": [
+      "¿Cada establecimiento tiene licencia o aviso de funcionamiento acorde con los servicios que presta?",
+      "¿El responsable sanitario actual está notificado a COFEPRIS?",
+      "¿Se evaluó el impacto de la reforma a la LGS de enero de 2026?"
+     ]
+    },
+    {
+     "id": "nom004_ssa3",
+     "nombre": "NOM-004-SSA3-2012, Del expediente clínico",
+     "sigla": "NOM-004-SSA3",
+     "tipo": "NOM",
+     "autoridad": "Secretaría de Salud; COFEPRIS",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo prestador de servicios de atención médica.",
+     "obligaciones": [
+      "Integrar expediente clínico con historia clínica, notas médicas, consentimientos informados y resultados.",
+      "Conservar el expediente por el plazo mínimo de la norma (verificar; comúnmente citado en 5 años desde el último acto médico).",
+      "Proteger la confidencialidad de los datos de salud (datos sensibles conforme a la LFPDPPP 2025)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas sanitarias y responsabilidad civil o penal por mala práctica.",
+     "evidencia": [
+      "Muestra de expedientes auditados",
+      "Formatos de consentimiento informado",
+      "Política de conservación"
+     ],
+     "preguntas": [
+      "¿Los expedientes muestreados contienen consentimientos informados firmados?",
+      "¿Existe política de conservación y destrucción conforme a la norma?"
+     ]
+    },
+    {
+     "id": "nom024_ssa3",
+     "nombre": "NOM-024-SSA3-2012, Sistemas de información de registro electrónico para la salud – intercambio de información en salud",
+     "sigla": "NOM-024-SSA3",
+     "tipo": "NOM",
+     "autoridad": "Secretaría de Salud (DGIS)",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar (posible actualización por salud digital tras la reforma 2026)",
+     "aplica": "Prestadores que usan expediente clínico electrónico y proveedores de software clínico.",
+     "obligaciones": [
+      "Usar sistemas de expediente electrónico que cumplan la norma (certificación del sistema, verificar).",
+      "Garantizar integridad, autenticidad, confidencialidad y bitácoras de acceso.",
+      "Usar catálogos y estándares de intercambio que establezca la Secretaría de Salud."
+     ],
+     "tramites": [
+      {
+       "que": "Certificación del sistema de expediente electrónico",
+       "plazo": "Antes de su uso (verificar)",
+       "ante": "Secretaría de Salud (DGIS)"
+      }
+     ],
+     "sanciones": "Las de la LGS.",
+     "evidencia": [
+      "Constancia de certificación del software",
+      "Bitácoras de acceso"
+     ],
+     "preguntas": [
+      "¿El software de expediente electrónico está certificado conforme a la NOM-024?",
+      "¿Se revisan las bitácoras de acceso a expedientes?"
+     ]
+    },
+    {
+     "id": "nom016_ssa3",
+     "nombre": "NOM-016-SSA3-2012, Características mínimas de infraestructura y equipamiento de hospitales y consultorios de atención médica especializada; y NOM-045-SSA2-2005 (vigilancia de infecciones nosocomiales)",
+     "sigla": "NOM-016-SSA3 · NOM-045-SSA2",
+     "tipo": "NOM",
+     "autoridad": "Secretaría de Salud; COFEPRIS",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Hospitales y consultorios de especialidades.",
+     "obligaciones": [
+      "Cumplir áreas, instalaciones y equipamiento mínimos por servicio.",
+      "Contar con comité y programa de control de infecciones asociadas a la atención de la salud.",
+      "Mantener programas de mantenimiento de equipo médico."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión de servicios o clausura.",
+     "evidencia": [
+      "Planos y verificación de áreas",
+      "Programa de mantenimiento",
+      "Actas del comité de infecciones"
+     ],
+     "preguntas": [
+      "¿El comité de control de infecciones sesiona y reporta indicadores?",
+      "¿Existe programa de mantenimiento preventivo del equipo médico?"
+     ]
+    },
+    {
+     "id": "nom087_rpbi",
+     "nombre": "NOM-087-SEMARNAT-SSA1-2002, Residuos peligrosos biológico-infecciosos (RPBI)",
+     "sigla": "NOM-087",
+     "tipo": "NOM",
+     "autoridad": "SEMARNAT; PROFEPA; Secretaría de Salud",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Hospitales, clínicas, laboratorios, consultorios dentales y veterinarios.",
+     "obligaciones": [
+      "Clasificar y separar RPBI en origen en envases y colores exigidos.",
+      "Almacenar temporalmente en área exclusiva y dentro de los plazos por nivel de establecimiento.",
+      "Entregar solo a transportistas y plantas autorizadas con manifiesto.",
+      "Registrarse como generador de residuos peligrosos y llevar bitácora."
+     ],
+     "tramites": [
+      {
+       "que": "Registro como generador",
+       "plazo": "Al iniciar",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Multas de la LGPGIR y LGEEPA, clausura; delitos ambientales.",
+     "evidencia": [
+      "Manifiestos de RPBI",
+      "Bitácora de generación",
+      "Autorización del transportista"
+     ],
+     "preguntas": [
+      "¿Los RPBI se separan en origen con envases correctos?",
+      "¿Hay manifiesto de cada recolección y autorización vigente del prestador?"
+     ]
+    },
+    {
+     "id": "rx_controlados",
+     "nombre": "Seguridad radiológica (NOM-229-SSA1-2002, rayos X diagnósticos) y control de medicamentos estupefacientes y psicotrópicos (LGS y Reglamento de Insumos)",
+     "sigla": "Rayos X · controlados",
+     "tipo": "NOM",
+     "autoridad": "COFEPRIS; CNSNS (fuentes radiactivas)",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Hospitales con servicios de imagenología, farmacias hospitalarias.",
+     "obligaciones": [
+      "Contar con licencia sanitaria para equipos de rayos X, responsable de operación y dosimetría del personal.",
+      "Licencias de la CNSNS para fuentes radiactivas (medicina nuclear, radioterapia).",
+      "Llevar libros de control de estupefacientes y psicotrópicos autorizados y recetarios especiales."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia sanitaria de equipo de rayos X",
+       "plazo": "Antes de operar",
+       "ante": "COFEPRIS"
+      },
+      {
+       "que": "Libro de control de medicamentos controlados",
+       "plazo": "Autorización previa",
+       "ante": "COFEPRIS"
+      }
+     ],
+     "sanciones": "Multas, aseguramiento, clausura del servicio; delitos contra la salud.",
+     "evidencia": [
+      "Licencias de equipos",
+      "Dosimetría",
+      "Libros de control"
+     ],
+     "preguntas": [
+      "¿Cada equipo de rayos X tiene licencia y responsable?",
+      "¿Los libros de control cuadran con el inventario físico de medicamentos controlados?"
+     ]
+    }
+   ]
+  },
+  "educacion_privada": {
+   "nombre": "Educación privada",
+   "reguladores": [
+    [
+     "Secretaría de Educación Pública",
+     "https://www.gob.mx/sep"
+    ],
+    [
+     "Autoridades educativas estatales",
+     "https://www.gob.mx/sep"
+    ],
+    [
+     "PROFECO",
+     "https://www.gob.mx/profeco"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lge",
+     "nombre": "Ley General de Educación (educación impartida por particulares)",
+     "sigla": "LGE",
+     "tipo": "ley",
+     "autoridad": "SEP; autoridades educativas estatales",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lge.htm",
+     "ultima_reforma": "2026-01-15",
+     "aplica": "Escuelas particulares de educación inicial, básica, media superior y normal.",
+     "obligaciones": [
+      "Obtener autorización previa (básica y normal) o RVOE (otros tipos) por plan de estudios y por plantel.",
+      "Cumplir planes y programas oficiales, requisitos de personal docente y de instalaciones.",
+      "Ostentar en documentación y publicidad la autorización o RVOE y la autoridad que lo otorgó.",
+      "Otorgar becas en el porcentaje y condiciones que fije la autoridad (verificar).",
+      "Revisar la reforma de enero de 2026 (educación inclusiva para pueblos indígenas y afromexicanos, migrantes y jornaleros)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización / RVOE",
+       "plazo": "Antes de impartir",
+       "ante": "SEP o autoridad estatal"
+      },
+      {
+       "que": "Reportes estadísticos y de matrícula",
+       "plazo": "Ciclo escolar (verificar)",
+       "ante": "SEP"
+      }
+     ],
+     "sanciones": "Multas, revocación de la autorización o RVOE, clausura del plantel.",
+     "evidencia": [
+      "Acuerdos de autorización/RVOE por plantel y plan",
+      "Expedientes de docentes",
+      "Convenios de becas"
+     ],
+     "preguntas": [
+      "¿Cada plantel y plan de estudios que se ofrece tiene autorización o RVOE vigente?",
+      "¿La publicidad indica el número de RVOE y la autoridad que lo otorgó?"
+     ]
+    },
+    {
+     "id": "lges_rvoe",
+     "nombre": "Ley General de Educación Superior y acuerdos de la SEP para el RVOE de tipo superior",
+     "sigla": "LGES · RVOE",
+     "tipo": "ley",
+     "autoridad": "SEP; autoridades estatales; instituciones públicas autónomas",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Universidades e institutos particulares.",
+     "obligaciones": [
+      "Obtener RVOE para cada programa y modalidad (escolar, no escolarizada, mixta) antes de inscribir alumnos.",
+      "Mantener las condiciones con las que se otorgó el RVOE y avisar de cambios de domicilio, planes o titulares.",
+      "Atender visitas de inspección y procesos de evaluación y mejora continua."
+     ],
+     "tramites": [
+      {
+       "que": "Solicitud de RVOE",
+       "plazo": "Antes de ofrecer el programa",
+       "ante": "SEP o autoridad estatal"
+      },
+      {
+       "que": "Avisos de cambios",
+       "plazo": "Antes de implementarlos",
+       "ante": "Autoridad que otorgó el RVOE"
+      }
+     ],
+     "sanciones": "Retiro del RVOE; los estudios sin RVOE no tienen validez oficial.",
+     "evidencia": [
+      "Acuerdos RVOE por programa",
+      "Informes de inspección"
+     ],
+     "preguntas": [
+      "¿Algún programa en línea o mixto se oferta sin RVOE de esa modalidad?",
+      "¿Se notificaron los cambios de domicilio o de plan de estudios?"
+     ]
+    },
+    {
+     "id": "bases_comercializacion",
+     "nombre": "Acuerdo que establece las bases mínimas de información para la comercialización de los servicios educativos que prestan los particulares, y LFPC",
+     "sigla": "Acuerdo SEP-SE · LFPC",
+     "tipo": "disposición",
+     "autoridad": "PROFECO; SEP",
+     "url": "https://www.gob.mx/profeco",
+     "ultima_reforma": "verificar",
+     "aplica": "Escuelas particulares de todos los niveles.",
+     "obligaciones": [
+      "Informar por escrito, antes de la inscripción, colegiaturas, cuotas, número de pagos y servicios incluidos.",
+      "No condicionar la entrega de documentos oficiales ni retener alumnos por adeudos más allá de lo permitido (verificar).",
+      "No exigir compra de útiles o uniformes con proveedor exclusivo (verificar)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de PROFECO.",
+     "evidencia": [
+      "Circular de cuotas entregada a padres",
+      "Contratos de prestación de servicios"
+     ],
+     "preguntas": [
+      "¿Las cuotas del ciclo se informaron por escrito antes de la inscripción?",
+      "¿Existen casos de retención de documentos por adeudo?"
+     ]
+    },
+    {
+     "id": "proteccion_nna_esc",
+     "nombre": "Ley General de los Derechos de Niñas, Niños y Adolescentes y protocolos de prevención de abuso y acoso escolar",
+     "sigla": "LGDNNA",
+     "tipo": "ley",
+     "autoridad": "SEP; DIF; autoridades estatales",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Escuelas con alumnos menores de edad.",
+     "obligaciones": [
+      "Contar con protocolos para prevenir, detectar y atender abuso sexual, maltrato y acoso escolar.",
+      "Verificar antecedentes del personal en contacto con menores (verificar requisitos estatales).",
+      "Dar aviso a autoridades ante sospecha de delito contra menores."
+     ],
+     "tramites": [],
+     "sanciones": "Responsabilidad administrativa, civil y penal; revocación de la autorización.",
+     "evidencia": [
+      "Protocolos aprobados",
+      "Constancias de capacitación",
+      "Registro de casos y canalizaciones"
+     ],
+     "preguntas": [
+      "¿Existe protocolo de abuso y acoso escolar difundido al personal?",
+      "¿Se revisan antecedentes del personal antes de contratarlo?"
+     ]
+    },
+    {
+     "id": "iedu",
+     "nombre": "Deducción de colegiaturas y complemento de instituciones educativas privadas del CFDI (IEDU)",
+     "sigla": "Complemento IEDU",
+     "tipo": "disposición",
+     "autoridad": "SAT",
+     "url": "https://www.sat.gob.mx/",
+     "ultima_reforma": "verificar (decreto de estímulo y RMF vigente)",
+     "aplica": "Escuelas particulares con RVOE o autorización de niveles cuyos pagos son deducibles.",
+     "obligaciones": [
+      "Emitir CFDI de colegiaturas con el complemento IEDU (CURP del alumno, nivel y RVOE).",
+      "Separar en el CFDI los conceptos no deducibles (inscripción, transporte, etc.)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas del CFF por CFDI incorrecto.",
+     "evidencia": [
+      "Muestra de CFDI de colegiaturas"
+     ],
+     "preguntas": [
+      "¿Los CFDI de colegiaturas incluyen el complemento IEDU completo?",
+      "¿Se separan en CFDI distinto o concepto distinto los cobros no deducibles (inscripción, transporte, materiales)?"
+     ]
+    },
+    {
+     "id": "proteccion_civil_esc",
+     "nombre": "Programa interno de protección civil escolar y seguridad estructural de planteles (leyes estatales de protección civil)",
+     "sigla": "PIPC escolar",
+     "tipo": "disposición",
+     "autoridad": "Protección civil estatal y municipal",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Todos los planteles.",
+     "obligaciones": [
+      "Contar con programa interno de protección civil aprobado y simulacros periódicos.",
+      "Dictamen de seguridad estructural cuando lo exija la autoridad local."
+     ],
+     "tramites": [
+      {
+       "que": "Programa interno de protección civil",
+       "plazo": "Anual (verificar)",
+       "ante": "Protección civil local"
+      }
+     ],
+     "sanciones": "Multas y clausura local.",
+     "evidencia": [
+      "Programa interno",
+      "Actas de simulacros",
+      "Dictamen estructural"
+     ],
+     "preguntas": [
+      "¿El plantel tiene programa interno vigente y simulacros documentados?",
+      "¿Se cuenta con dictamen de seguridad estructural cuando la autoridad local lo exige?"
+     ]
+    }
+   ]
+  },
+  "inmobiliario_desarrollo": {
+   "nombre": "Inmobiliario y desarrollo de vivienda",
+   "reguladores": [
+    [
+     "SEDATU",
+     "https://www.gob.mx/sedatu"
+    ],
+    [
+     "CONAVI",
+     "https://www.gob.mx/conavi"
+    ],
+    [
+     "INFONAVIT",
+     "https://portalmx.infonavit.org.mx/"
+    ],
+    [
+     "PROFECO",
+     "https://www.gob.mx/profeco"
+    ],
+    [
+     "UIF / SAT (actividades vulnerables)",
+     "https://www.gob.mx/uif"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lfpiorpi_arrend",
+     "nombre": "LFPIORPI: comercialización, intermediación y arrendamiento de inmuebles como actividades vulnerables (el desarrollo inmobiliario se cubre en «construccion»)",
+     "sigla": "LFPIORPI inmuebles",
+     "tipo": "ley",
+     "autoridad": "SHCP-UIF; SAT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPIORPI.pdf",
+     "ultima_reforma": "2025-07-16",
+     "aplica": "Inmobiliarias, corredores, administradores de inmuebles y arrendadores habituales.",
+     "obligaciones": [
+      "Registrarse como actividad vulnerable si se intermedia en compraventa o se otorgan derechos de uso o goce sobre inmuebles.",
+      "Identificar a clientes y beneficiarios controladores; integrar expedientes.",
+      "Presentar avisos cuando se superen umbrales; para arrendamiento, reportes indican 1,605 UMA mensuales (aprox. $188,282.55 en 2026, según IMCP; verificar).",
+      "Respetar las restricciones de efectivo para inmuebles."
+     ],
+     "tramites": [
+      {
+       "que": "Alta y avisos mensuales",
+       "plazo": "Día 17 del mes siguiente",
+       "ante": "SAT (portal PLD)"
+      }
+     ],
+     "sanciones": "Multas LFPIORPI; posibles delitos del art. 62.",
+     "evidencia": [
+      "Acuse de alta",
+      "Expedientes KYC de arrendatarios y compradores",
+      "Avisos"
+     ],
+     "preguntas": [
+      "¿Se determinó si las rentas superan el umbral de aviso?",
+      "¿Se identifica al beneficiario controlador de compradores persona moral?"
+     ]
+    },
+    {
+     "id": "lvivienda_ruv",
+     "nombre": "Ley de Vivienda y Registro Único de Vivienda (RUV)",
+     "sigla": "LV · RUV",
+     "tipo": "ley",
+     "autoridad": "CONAVI; SEDATU; INFONAVIT; FOVISSSTE",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Desarrolladores de vivienda que se comercializa con créditos o subsidios de organismos públicos.",
+     "obligaciones": [
+      "Registrar la oferta de vivienda en el RUV y cumplir sus criterios de ubicación, habitabilidad y calidad.",
+      "Contar con verificación de obra y dictámenes de habitabilidad requeridos por los organismos.",
+      "Cumplir los lineamientos de subsidios de CONAVI cuando se aplican."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de oferta en RUV",
+       "plazo": "Antes de comercializar con crédito",
+       "ante": "RUV"
+      },
+      {
+       "que": "Verificación de obra",
+       "plazo": "Durante la obra",
+       "ante": "Verificador autorizado"
+      }
+     ],
+     "sanciones": "Bloqueo de oferta en el RUV, pérdida de acceso a créditos; responsabilidad por vicios ocultos.",
+     "evidencia": [
+      "Registro RUV",
+      "Reportes de verificación",
+      "Dictámenes de habitabilidad"
+     ],
+     "preguntas": [
+      "¿Toda la oferta financiada con créditos públicos está registrada en el RUV?",
+      "¿Se documentan las verificaciones de obra?"
+     ]
+    },
+    {
+     "id": "infonavit_2025",
+     "nombre": "Reforma a la Ley del INFONAVIT y LFT en materia de vivienda social (DOF 2025-02-21)",
+     "sigla": "Ley INFONAVIT",
+     "tipo": "ley",
+     "autoridad": "INFONAVIT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "2025-02-21",
+     "aplica": "Desarrolladores, constructoras y arrendadores que interactúan con el INFONAVIT.",
+     "obligaciones": [
+      "Considerar que el INFONAVIT puede construir vivienda mediante filial propia y ofrecer arrendamiento social con opción a compra (impacto competitivo y de contratación).",
+      "Para el arrendamiento social, la renta no puede exceder el 30 % del salario del trabajador (según reportes de la reforma; verificar).",
+      "Revisar las reglas de contratación de la filial constructora si se participa como proveedor."
+     ],
+     "tramites": [],
+     "sanciones": "N/A (impacto de mercado); las de la Ley del INFONAVIT para patrones.",
+     "evidencia": [
+      "Análisis de impacto de la reforma",
+      "Contratos con INFONAVIT o su filial"
+     ],
+     "preguntas": [
+      "¿Se evaluó el efecto de la constructora del INFONAVIT en la estrategia comercial?",
+      "¿Los contratos con la filial cumplen sus reglas de contratación?"
+     ]
+    },
+    {
+     "id": "nom247",
+     "nombre": "NOM-247-SE-2021, Prácticas comerciales – requisitos de información en la comercialización de inmuebles destinados a casa habitación, y registro de contratos de adhesión",
+     "sigla": "NOM-247",
+     "tipo": "NOM",
+     "autoridad": "PROFECO; Secretaría de Economía",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Desarrolladores y comercializadores que venden vivienda a consumidores.",
+     "obligaciones": [
+      "Informar precio total, características, planos, acabados, garantías y situación jurídica del inmueble.",
+      "Registrar ante PROFECO el contrato de adhesión de compraventa (o preventa).",
+      "Entregar en los plazos pactados y respetar las garantías de construcción."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de contrato de adhesión",
+       "plazo": "Antes de comercializar",
+       "ante": "PROFECO"
+      }
+     ],
+     "sanciones": "Multas PROFECO, inmovilización de publicidad, nulidad de cláusulas abusivas.",
+     "evidencia": [
+      "Contrato registrado",
+      "Carpeta de información al consumidor",
+      "Bitácora de entregas"
+     ],
+     "preguntas": [
+      "¿El contrato de compraventa/preventa está registrado ante PROFECO?",
+      "¿Se entregan al comprador planos, garantías y situación jurídica antes de firmar?"
+     ]
+    },
+    {
+     "id": "condominio",
+     "nombre": "Leyes estatales de propiedad en condominio (régimen, escritura constitutiva, reglamento y administración)",
+     "sigla": "Ley de condominio",
+     "tipo": "ley",
+     "autoridad": "Gobiernos estatales; registros públicos de la propiedad; PROSOC en CDMX",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Desarrolladores de condominios y administradores.",
+     "obligaciones": [
+      "Constituir el régimen de propiedad en condominio ante notario con tabla de indivisos y reglamento.",
+      "Inscribir la escritura en el registro público de la propiedad.",
+      "Entregar la administración y las áreas comunes conforme a la ley local."
+     ],
+     "tramites": [
+      {
+       "que": "Constitución del régimen",
+       "plazo": "Antes de vender unidades",
+       "ante": "Notario / Registro Público"
+      }
+     ],
+     "sanciones": "Nulidad de ventas, sanciones locales, conflictos con condóminos.",
+     "evidencia": [
+      "Escritura constitutiva del régimen",
+      "Reglamento de condominio",
+      "Actas de entrega"
+     ],
+     "preguntas": [
+      "¿El régimen está inscrito antes de escriturar unidades?",
+      "¿Se entregó la administración y las áreas comunes conforme a la ley local de condominio?"
+     ]
+    },
+    {
+     "id": "licencias_desarrollo",
+     "nombre": "Factibilidades, dictámenes de impacto urbano y vial, licencia de construcción e impuesto sobre adquisición de inmuebles (normativa estatal y municipal)",
+     "sigla": "Licencias locales · ISAI",
+     "tipo": "disposición",
+     "autoridad": "Municipios; organismos operadores de agua; tesorerías",
+     "url": "https://www.gob.mx/sedatu",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Todos los desarrollos inmobiliarios.",
+     "obligaciones": [
+      "Obtener factibilidad de agua, drenaje y energía antes de la licencia.",
+      "Obtener dictámenes de impacto urbano, vial y ambiental local cuando el proyecto los requiera.",
+      "Pagar el ISAI y derechos en cada transmisión y escrituración."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de construcción",
+       "plazo": "Antes de construir",
+       "ante": "Municipio"
+      },
+      {
+       "que": "Pago de ISAI",
+       "plazo": "Al escriturar",
+       "ante": "Tesorería municipal"
+      }
+     ],
+     "sanciones": "Suspensión de obra, clausura, demolición y créditos fiscales.",
+     "evidencia": [
+      "Factibilidades",
+      "Dictámenes de impacto",
+      "Licencia y bitácora de obra",
+      "Pagos de ISAI"
+     ],
+     "preguntas": [
+      "¿El desarrollo cuenta con factibilidad de agua vigente bajo la Ley General de Aguas de 2025?",
+      "¿La licencia de construcción ampara el número de unidades que se vende?"
+     ]
+    },
+    {
+     "id": "zona_restringida",
+     "nombre": "Adquisición de inmuebles por extranjeros en zona restringida: Ley de Inversión Extranjera (fideicomisos y aviso/permiso de la SRE)",
+     "sigla": "LIE zona restringida",
+     "tipo": "ley",
+     "autoridad": "Secretaría de Relaciones Exteriores; RNIE",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Desarrollos costeros y fronterizos vendidos a extranjeros.",
+     "obligaciones": [
+      "Usar fideicomiso con institución autorizada para que extranjeros adquieran derechos sobre inmuebles residenciales en la zona restringida.",
+      "Obtener el permiso o presentar el aviso a la SRE según el caso.",
+      "Personas morales mexicanas con socios extranjeros: dar aviso a la SRE de adquisiciones con fines no residenciales (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso / aviso SRE",
+       "plazo": "Antes de la operación o en el plazo legal",
+       "ante": "SRE"
+      }
+     ],
+     "sanciones": "Nulidad de la operación y multas.",
+     "evidencia": [
+      "Contratos de fideicomiso",
+      "Permisos y avisos SRE"
+     ],
+     "preguntas": [
+      "¿Las ventas a extranjeros en zona restringida se hacen mediante fideicomiso?",
+      "¿Se presentaron a la SRE los permisos o avisos de adquisiciones en zona restringida?"
+     ]
+    }
+   ]
+  },
+  "quimica_petroquimica": {
+   "nombre": "Química y petroquímica",
+   "reguladores": [
+    [
+     "SEMARNAT / PROFEPA",
+     "https://www.gob.mx/semarnat"
+    ],
+    [
+     "STPS",
+     "https://www.gob.mx/stps"
+    ],
+    [
+     "COFEPRIS",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "ASEA (petroquímica ligada a hidrocarburos)",
+     "https://www.gob.mx/asea"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "precursores",
+     "nombre": "Ley Federal para el Control de Precursores Químicos, Productos Químicos Esenciales y Máquinas para Elaborar Cápsulas, Tabletas y/o Comprimidos (reforma «antifentanilo»)",
+     "sigla": "LFCPQ",
+     "tipo": "ley",
+     "autoridad": "Secretaría de Salud/COFEPRIS y autoridades que fije la ley (verificar competencias)",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "2023-05-03",
+     "aplica": "Fabricantes, importadores, distribuidores y usuarios de precursores y químicos esenciales listados, y de máquinas tableteadoras/encapsuladoras.",
+     "obligaciones": [
+      "Inscribirse en el padrón y registrar las operaciones en el Sistema Integral de Sustancias (SISUS) creado por la reforma de 2023.",
+      "Presentar avisos previos de importación/exportación y reportes de operaciones con sustancias listadas.",
+      "Identificar a clientes y verificar el destino lícito de las sustancias; reportar operaciones sospechosas.",
+      "Llevar inventarios y control de existencias con conciliación periódica."
+     ],
+     "tramites": [
+      {
+       "que": "Registro en el padrón / SISUS",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad competente (verificar)"
+      },
+      {
+       "que": "Avisos de importación/exportación",
+       "plazo": "Previo a cada operación (verificar plazo)",
+       "ante": "Autoridad competente"
+      }
+     ],
+     "sanciones": "Multas, suspensión, clausura; desvío para drogas sintéticas: 10 a 15 años de prisión y multa equivalente al 10 % de los ingresos según reportes de la reforma (verificar texto).",
+     "evidencia": [
+      "Constancia de registro",
+      "Reportes SISUS",
+      "Expedientes de clientes",
+      "Conciliación de inventarios"
+     ],
+     "preguntas": [
+      "¿Se identificaron todas las sustancias listadas en el portafolio?",
+      "¿Las ventas de precursores se hacen solo a clientes verificados y registrados?",
+      "¿Los inventarios cuadran con los reportes al SISUS?"
+     ]
+    },
+    {
+     "id": "nom018_stps",
+     "nombre": "NOM-018-STPS-2015, Sistema armonizado para la identificación y comunicación de peligros y riesgos por sustancias químicas peligrosas en los centros de trabajo (SGA)",
+     "sigla": "NOM-018-STPS",
+     "tipo": "NOM",
+     "autoridad": "STPS",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Centros de trabajo que manejan sustancias químicas peligrosas.",
+     "obligaciones": [
+      "Contar con hojas de datos de seguridad (HDS) en formato SGA en español para cada sustancia.",
+      "Etiquetar recipientes con pictogramas y señalización SGA.",
+      "Capacitar a los trabajadores en la comunicación de peligros."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de la LFT por violar normas de seguridad.",
+     "evidencia": [
+      "Inventario de sustancias y HDS",
+      "Etiquetado en recipientes",
+      "Constancias de capacitación"
+     ],
+     "preguntas": [
+      "¿Cada sustancia del inventario tiene HDS en formato SGA disponible en planta?",
+      "¿Los recipientes secundarios están etiquetados?"
+     ]
+    },
+    {
+     "id": "nom005_028_stps",
+     "nombre": "NOM-005-STPS-1998 (manejo, transporte y almacenamiento de sustancias peligrosas), NOM-010-STPS-2014 (agentes químicos contaminantes del ambiente laboral) y NOM-028-STPS-2012 (seguridad en procesos y equipos críticos con sustancias químicas)",
+     "sigla": "NOM-005/010/028-STPS",
+     "tipo": "NOM",
+     "autoridad": "STPS",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Plantas químicas y petroquímicas.",
+     "obligaciones": [
+      "Estudio de riesgo y procedimientos seguros para manejo de sustancias.",
+      "Reconocimiento, evaluación y control de exposición a agentes químicos con laboratorio acreditado.",
+      "Sistema de administración de seguridad de procesos (análisis de riesgos, integridad mecánica, gestión del cambio) para equipos críticos."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de la LFT; clausura de áreas por riesgo inminente.",
+     "evidencia": [
+      "Estudios de evaluación de exposición",
+      "Análisis de riesgo de procesos",
+      "Registros de gestión del cambio"
+     ],
+     "preguntas": [
+      "¿Existen análisis de riesgos de proceso actualizados para equipos críticos?",
+      "¿La exposición a agentes químicos se evalúa con laboratorio acreditado?"
+     ]
+    },
+    {
+     "id": "altamente_riesgosas",
+     "nombre": "Actividades altamente riesgosas (LGEEPA, art. 147, listados): estudio de riesgo ambiental y Programa para la Prevención de Accidentes",
+     "sigla": "AAR · PPA",
+     "tipo": "ley",
+     "autoridad": "SEMARNAT; PROFEPA; ASEA (sector hidrocarburos)",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGEEPA.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Instalaciones que manejan sustancias listadas por encima de la cantidad de reporte.",
+     "obligaciones": [
+      "Determinar si las cantidades almacenadas superan las cantidades de reporte de los listados.",
+      "Presentar estudio de riesgo ambiental y obtener la aprobación del Programa para la Prevención de Accidentes.",
+      "Contratar seguro de riesgo ambiental cuando se exija (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Estudio de riesgo y PPA",
+       "plazo": "Antes de operar y al modificar el proceso",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Multas LGEEPA, clausura; responsabilidad ambiental.",
+     "evidencia": [
+      "Cálculo de cantidades de reporte",
+      "Estudio de riesgo",
+      "PPA aprobado"
+     ],
+     "preguntas": [
+      "¿Se calculó si la instalación es de actividad altamente riesgosa?",
+      "¿El PPA está aprobado y se practica con simulacros?"
+     ]
+    },
+    {
+     "id": "sustancias_toxicas_import",
+     "nombre": "Importación y exportación de sustancias tóxicas o peligrosas (PLAFEST) y sustancias controladas por los Convenios de Montreal, Rotterdam y Estocolmo",
+     "sigla": "Sustancias reguladas",
+     "tipo": "reglamento",
+     "autoridad": "COFEPRIS; SEMARNAT; SE",
+     "url": "https://www.dof.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores y exportadores de químicos regulados.",
+     "obligaciones": [
+      "Obtener permisos de importación sanitarios y ambientales cuando la fracción arancelaria esté regulada.",
+      "Respetar cupos y licencias para sustancias agotadoras de la capa de ozono y refrigerantes (verificar).",
+      "Cumplir el procedimiento de consentimiento fundamentado previo para sustancias del Convenio de Rotterdam."
+     ],
+     "tramites": [
+      {
+       "que": "Permisos de importación/exportación",
+       "plazo": "Por operación",
+       "ante": "COFEPRIS / SEMARNAT (VUCEM)"
+      }
+     ],
+     "sanciones": "Retención en aduana, multas y decomiso.",
+     "evidencia": [
+      "Matriz de fracciones reguladas",
+      "Permisos en VUCEM"
+     ],
+     "preguntas": [
+      "¿Cada fracción química importada se revisó contra regulaciones no arancelarias?",
+      "¿Las importaciones de refrigerantes están dentro de los cupos autorizados?"
+     ]
+    },
+    {
+     "id": "rq_armas_quimicas",
+     "nombre": "Ley Federal para el Control de Sustancias Químicas Susceptibles de Desvío para la Fabricación de Armas Químicas (declaraciones a la OPAQ)",
+     "sigla": "LFCSQ",
+     "tipo": "ley",
+     "autoridad": "SE / autoridad nacional ante la OPAQ (verificar)",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Plantas que producen, procesan o consumen sustancias de las listas de la Convención sobre Armas Químicas.",
+     "obligaciones": [
+      "Presentar declaraciones anuales de actividades con sustancias listadas.",
+      "Permitir inspecciones internacionales de la OPAQ.",
+      "Obtener permisos para transferencias de sustancias de las listas."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual",
+       "plazo": "Anual (verificar)",
+       "ante": "Autoridad nacional"
+      }
+     ],
+     "sanciones": "Multas y sanciones penales (verificar).",
+     "evidencia": [
+      "Declaraciones presentadas",
+      "Registros de inspecciones"
+     ],
+     "preguntas": [
+      "¿Se presentaron las declaraciones anuales de sustancias de las listas de la Convención?",
+      "¿Existe registro de las inspecciones internacionales recibidas y de su seguimiento?"
+     ]
+    }
+   ]
+  },
+  "manufactura_immex": {
+   "nombre": "Manufactura de exportación (IMMEX y programas de fomento)",
+   "reguladores": [
+    [
+     "Secretaría de Economía",
+     "https://www.gob.mx/se"
+    ],
+    [
+     "SAT / ANAM",
+     "https://www.sat.gob.mx/"
+    ],
+    [
+     "SNICE (Ventanilla Única)",
+     "https://www.snice.gob.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "decreto_immex",
+     "nombre": "Decreto para el Fomento de la Industria Manufacturera, Maquiladora y de Servicios de Exportación (IMMEX)",
+     "sigla": "IMMEX",
+     "tipo": "decreto",
+     "autoridad": "Secretaría de Economía; SAT",
+     "url": "https://www.snice.gob.mx/",
+     "ultima_reforma": "2025-08-28 (modificación al Anexo I: calzado terminado, partidas 64.01 a 64.05, ya no puede importarse temporalmente)",
+     "aplica": "Empresas con programa IMMEX (controladora, industrial, servicios, albergue, tercerización).",
+     "obligaciones": [
+      "Importar temporalmente solo las mercancías autorizadas en el programa y retornarlas o transformarlas en los plazos de permanencia (verificar plazos por tipo de mercancía).",
+      "Presentar el reporte anual de operaciones de comercio exterior.",
+      "Mantener domicilios registrados y acreditar la infraestructura para el proceso productivo.",
+      "Revisar que las mercancías del Anexo I (incluido calzado desde 2025) no se importen al amparo del programa."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte anual IMMEX",
+       "plazo": "Anual, a más tardar el último día hábil de mayo (verificar)",
+       "ante": "SE"
+      },
+      {
+       "que": "Ampliaciones y altas de domicilios",
+       "plazo": "Antes de operar",
+       "ante": "SE (VUCEM)"
+      }
+     ],
+     "sanciones": "Suspensión o cancelación del programa, cobro de impuestos de importación y multas aduaneras.",
+     "evidencia": [
+      "Programa IMMEX y ampliaciones",
+      "Acuse del reporte anual",
+      "Descargos de importaciones temporales"
+     ],
+     "preguntas": [
+      "¿Se presentó el reporte anual en plazo?",
+      "¿Existen importaciones temporales vencidas sin descargo?",
+      "¿Se depuraron fracciones del Anexo I de la lista de insumos autorizados?"
+     ]
+    },
+    {
+     "id": "anexo24_31",
+     "nombre": "Control de inventarios de importaciones temporales: Anexo 24 (sistema automatizado) y Anexo 31 (Sistema de Control de Cuentas de Créditos y Garantías) de las RGCE",
+     "sigla": "Anexo 24 · Anexo 31",
+     "tipo": "disposición",
+     "autoridad": "SAT",
+     "url": "https://www.sat.gob.mx/",
+     "ultima_reforma": "verificar (RGCE vigentes)",
+     "aplica": "Empresas IMMEX y con certificación en materia de IVA/IEPS.",
+     "obligaciones": [
+      "Llevar el control de inventarios automatizado del Anexo 24 en tiempo real (verificar requisito).",
+      "Transmitir y conciliar en el Anexo 31 los créditos y descargos de IVA/IEPS.",
+      "Corregir saldos negativos y diferencias antes de las revisiones."
+     ],
+     "tramites": [
+      {
+       "que": "Transmisión de saldos Anexo 31",
+       "plazo": "Periódica (verificar)",
+       "ante": "SAT"
+      }
+     ],
+     "sanciones": "Pérdida de la certificación, pago de IVA/IEPS no garantizado, multas.",
+     "evidencia": [
+      "Reportes del sistema Anexo 24",
+      "Conciliaciones Anexo 31"
+     ],
+     "preguntas": [
+      "¿El Anexo 24 cuadra con pedimentos y contabilidad?",
+      "¿Hay saldos vencidos en el Anexo 31?"
+     ]
+    },
+    {
+     "id": "cert_iva_ieps",
+     "nombre": "Certificación en materia de IVA e IEPS (LIVA art. 28-A; RGCE, rubros A, AA y AAA) y Operador Económico Autorizado",
+     "sigla": "Certificación IVA/IEPS · OEA",
+     "tipo": "disposición",
+     "autoridad": "SAT / ANAM",
+     "url": "https://www.sat.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas IMMEX, depósitos fiscales y recintos que importan temporalmente.",
+     "obligaciones": [
+      "Obtener y renovar la certificación para acreditar el IVA/IEPS de importación temporal mediante crédito fiscal.",
+      "Mantener los requisitos de cumplimiento fiscal, laboral (REPSE de proveedores) y de inventarios.",
+      "Presentar avisos de modificaciones y renovaciones dentro de plazo (verificar periodicidad por rubro).",
+      "Evaluar la certificación OEA (cubierta en «logistica») para beneficios aduaneros."
+     ],
+     "tramites": [
+      {
+       "que": "Certificación / renovación",
+       "plazo": "Según rubro (verificar)",
+       "ante": "SAT"
+      }
+     ],
+     "sanciones": "Cancelación de la certificación y obligación de pagar IVA/IEPS en importaciones temporales.",
+     "evidencia": [
+      "Resolución de certificación",
+      "Acuses de renovación y avisos"
+     ],
+     "preguntas": [
+      "¿La certificación IVA/IEPS está vigente y se renovó en plazo?",
+      "¿Se informaron al SAT cambios de socios, domicilios o proveedores relevantes?"
+     ]
+    },
+    {
+     "id": "prosec_tigie",
+     "nombre": "Programas de Promoción Sectorial (PROSEC) y modificaciones a la TIGIE de 2025-2026",
+     "sigla": "PROSEC · TIGIE",
+     "tipo": "decreto",
+     "autoridad": "Secretaría de Economía",
+     "url": "https://www.snice.gob.mx/",
+     "ultima_reforma": "2026-04-23 (decreto TIGIE/PROSEC; antes, decreto TIGIE 2025-12-29 vigente desde 2026-01-01)",
+     "aplica": "Fabricantes que importan insumos de países sin tratado con México.",
+     "obligaciones": [
+      "Revisar el impacto del decreto de diciembre de 2025, que elevó aranceles (mayoría al 35 %) para unas 1,400 fracciones de países sin tratado (verificar fracciones).",
+      "Usar PROSEC para reducir aranceles de insumos en sectores autorizados; el decreto de abril de 2026 añadió fracciones exentas en eléctrico, electrónico y automotriz.",
+      "Presentar el reporte anual PROSEC y mantener el registro de productores indirectos."
+     ],
+     "tramites": [
+      {
+       "que": "Registro PROSEC",
+       "plazo": "Antes de importar con tasa preferencial",
+       "ante": "SE (VUCEM)"
+      },
+      {
+       "que": "Reporte anual PROSEC",
+       "plazo": "Anual (verificar fecha)",
+       "ante": "SE"
+      }
+     ],
+     "sanciones": "Pago de diferencias de aranceles, multas y cancelación del programa.",
+     "evidencia": [
+      "Programa PROSEC",
+      "Matriz de fracciones vs. tasas 2026",
+      "Reporte anual"
+     ],
+     "preguntas": [
+      "¿Se recalculó el costo de importación con las tasas de 2026?",
+      "¿Las fracciones importadas bajo PROSEC están en el sector autorizado?"
+     ]
+    },
+    {
+     "id": "tmec_origen",
+     "nombre": "Reglas de origen y certificación de origen del T-MEC para manufactura no automotriz; restricción a devolución o diferimiento de aranceles",
+     "sigla": "T-MEC origen",
+     "tipo": "tratado",
+     "autoridad": "Secretaría de Economía; SAT; CBP de EE. UU.",
+     "url": "https://www.gob.mx/t-mec",
+     "ultima_reforma": "verificar (revisión conjunta 2026)",
+     "aplica": "Exportadores IMMEX que reclaman trato preferencial.",
+     "obligaciones": [
+      "Determinar el origen con base en las reglas específicas por producto y conservar el expediente de soporte.",
+      "Emitir la certificación de origen con los elementos mínimos.",
+      "Pagar aranceles sobre insumos no originarios cuando el producto se exporta a EE. UU. o Canadá y aplica la restricción a la devolución o diferimiento (verificar mecánica).",
+      "Dar seguimiento a la revisión conjunta del T-MEC de 2026 y a aranceles adicionales de EE. UU."
+     ],
+     "tramites": [
+      {
+       "que": "Certificación de origen",
+       "plazo": "Por embarque o periodo general",
+       "ante": "Exportador / productor"
+      }
+     ],
+     "sanciones": "Negación del trato preferencial, cobro de aranceles y sanciones en el país importador.",
+     "evidencia": [
+      "Análisis de origen por producto",
+      "Certificaciones emitidas",
+      "Declaraciones de proveedores"
+     ],
+     "preguntas": [
+      "¿Cada producto exportado con preferencia tiene análisis de origen documentado?",
+      "¿Se pagan los aranceles por insumos no originarios cuando aplica la restricción?"
+     ]
+    },
+    {
+     "id": "lisr_maquila",
+     "nombre": "Régimen fiscal de maquiladoras (LISR arts. 181-183: establecimiento permanente, safe harbor o APA)",
+     "sigla": "LISR maquila",
+     "tipo": "ley",
+     "autoridad": "SAT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas maquiladoras que operan con activos de residentes en el extranjero.",
+     "obligaciones": [
+      "Cumplir los requisitos para que el residente extranjero no tenga establecimiento permanente.",
+      "Determinar la utilidad fiscal por safe harbor o mediante resolución APA.",
+      "Presentar el aviso o declaración informativa de operación de maquila (verificar plazo)."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso / informativa de maquila",
+       "plazo": "Anual (verificar)",
+       "ante": "SAT"
+      }
+     ],
+     "sanciones": "Riesgo de establecimiento permanente del residente extranjero y ajustes de precios de transferencia.",
+     "evidencia": [
+      "Cálculo safe harbor",
+      "Resolución APA",
+      "Informativas"
+     ],
+     "preguntas": [
+      "¿La metodología de utilidad fiscal de maquila está documentada y presentada?",
+      "¿Se cumplen los requisitos para que el residente extranjero no tenga establecimiento permanente en México?"
+     ]
+    },
+    {
+     "id": "padron_sectorial",
+     "nombre": "Padrón de importadores y padrones de sectores específicos (Anexo 10 RGCE)",
+     "sigla": "Padrón sectorial",
+     "tipo": "disposición",
+     "autoridad": "SAT",
+     "url": "https://www.sat.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores de mercancías sensibles (acero, textil, calzado, químicos, etc.).",
+     "obligaciones": [
+      "Mantener activo el padrón de importadores y, en su caso, el sectorial.",
+      "Atender requerimientos para evitar suspensiones por inconsistencias fiscales."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción al padrón sectorial",
+       "plazo": "Antes de importar",
+       "ante": "SAT"
+      }
+     ],
+     "sanciones": "Suspensión inmediata del padrón e imposibilidad de importar.",
+     "evidencia": [
+      "Constancia de padrón",
+      "Seguimiento de buzón tributario"
+     ],
+     "preguntas": [
+      "¿El padrón de importadores y el sectorial están activos?",
+      "¿Se revisa el buzón tributario para atender requerimientos que puedan suspender el padrón?"
+     ]
+    }
+   ]
+  },
+  "agua_saneamiento": {
+   "nombre": "Agua potable, saneamiento y tratamiento",
+   "reguladores": [
+    [
+     "CONAGUA",
+     "https://www.gob.mx/conagua"
+    ],
+    [
+     "SEMARNAT / PROFEPA",
+     "https://www.gob.mx/semarnat"
+    ],
+    [
+     "COFEPRIS (calidad del agua)",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "Organismos operadores municipales",
+     "https://www.gob.mx/conagua"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lga_servicios",
+     "nombre": "Ley General de Aguas (2025): servicios de agua y saneamiento, concesiones y Registro Nacional del Agua",
+     "sigla": "LGA",
+     "tipo": "ley",
+     "autoridad": "CONAGUA; estados y municipios",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lan.htm",
+     "ultima_reforma": "2025-12-11",
+     "aplica": "Organismos operadores, concesionarios de servicios, desarrolladores con sistemas propios y usuarios industriales.",
+     "obligaciones": [
+      "Revisar cómo los títulos existentes se adaptan al nuevo régimen: no se permite la transmisión entre particulares ni el cambio de uso; CONAGUA reasigna volúmenes.",
+      "Inscribir actos en el nuevo Registro Nacional del Agua.",
+      "Prestar servicios conforme a la ley y las leyes estatales que se armonicen (plazo de armonización; verificar).",
+      "Considerar que la eliminación de la negativa ficta y otros cambios procedimentales reportados deben verificarse en el texto publicado."
+     ],
+     "tramites": [
+      {
+       "que": "Reasignación de volúmenes en transmisión de predio",
+       "plazo": "Al transmitir el predio",
+       "ante": "CONAGUA"
+      }
+     ],
+     "sanciones": "Multas, caducidad de títulos y delitos hídricos de la nueva ley.",
+     "evidencia": [
+      "Títulos y su estatus en el nuevo registro",
+      "Análisis jurídico de la reforma"
+     ],
+     "preguntas": [
+      "¿Se mapeó cada título frente al nuevo régimen de reasignación?",
+      "¿Se dio seguimiento a la ley estatal armonizada?"
+     ]
+    },
+    {
+     "id": "nom127",
+     "nombre": "NOM-127-SSA1-2021, Agua para uso y consumo humano – límites permisibles de calidad, y NOM-230-SSA1-2002 (requisitos sanitarios de sistemas de abastecimiento)",
+     "sigla": "NOM-127-SSA1",
+     "tipo": "NOM",
+     "autoridad": "COFEPRIS; autoridades sanitarias estatales",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Organismos operadores y sistemas privados de abastecimiento.",
+     "obligaciones": [
+      "Cumplir límites de calidad microbiológica, física y química del agua distribuida.",
+      "Desinfectar y mantener cloro residual en la red.",
+      "Monitorear con la frecuencia exigida y conservar resultados."
+     ],
+     "tramites": [],
+     "sanciones": "Multas sanitarias y suspensión del suministro.",
+     "evidencia": [
+      "Resultados de laboratorio",
+      "Bitácoras de cloro residual"
+     ],
+     "preguntas": [
+      "¿El agua distribuida cumple los límites de la NOM-127 vigente?",
+      "¿Se mide el cloro residual con la frecuencia requerida?"
+     ]
+    },
+    {
+     "id": "nom201",
+     "nombre": "NOM-201-SSA1-2015, Agua y hielo para consumo humano envasados y a granel",
+     "sigla": "NOM-201-SSA1",
+     "tipo": "NOM",
+     "autoridad": "COFEPRIS",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Purificadoras, embotelladoras y fábricas de hielo.",
+     "obligaciones": [
+      "Aviso de funcionamiento y buenas prácticas de higiene.",
+      "Análisis periódicos de producto y control del agua de fuente.",
+      "Etiquetado conforme a la normativa."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso de funcionamiento",
+       "plazo": "Antes de operar",
+       "ante": "COFEPRIS"
+      }
+     ],
+     "sanciones": "Multas, aseguramiento y clausura.",
+     "evidencia": [
+      "Análisis de producto",
+      "Registros de sanitización"
+     ],
+     "preguntas": [
+      "¿Existen análisis microbiológicos recientes de cada presentación?",
+      "¿La purificadora o embotelladora tiene aviso de funcionamiento vigente?"
+     ]
+    },
+    {
+     "id": "noms_descargas",
+     "nombre": "NOM-002-SEMARNAT-1996 (descargas a alcantarillado), NOM-003-SEMARNAT-1997 (agua residual tratada que se reúsa) y NOM-004-SEMARNAT-2002 (lodos y biosólidos)",
+     "sigla": "NOM-002/003/004-SEMARNAT",
+     "tipo": "NOM",
+     "autoridad": "SEMARNAT; organismos operadores",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Plantas de tratamiento, industrias que descargan a drenaje y quienes reúsan agua tratada (la NOM-001-SEMARNAT-2021 está en «generales»).",
+     "obligaciones": [
+      "Cumplir límites de descarga al alcantarillado y obtener permiso del organismo operador.",
+      "Garantizar calidad del agua tratada para reúso en servicios al público.",
+      "Caracterizar y disponer lodos y biosólidos según su clase."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de descarga a alcantarillado",
+       "plazo": "Antes de descargar",
+       "ante": "Organismo operador"
+      }
+     ],
+     "sanciones": "Multas locales y federales; suspensión de descarga.",
+     "evidencia": [
+      "Análisis de descargas",
+      "Caracterización de lodos",
+      "Manifiestos de disposición"
+     ],
+     "preguntas": [
+      "¿Los lodos se caracterizan antes de su disposición?",
+      "¿El agua tratada de reúso cumple la NOM-003?"
+     ]
+    },
+    {
+     "id": "concesion_municipal",
+     "nombre": "Servicios municipales de agua (CPEUM art. 115) y concesiones o asociaciones público-privadas locales",
+     "sigla": "Concesiones locales",
+     "tipo": "ley",
+     "autoridad": "Municipios; congresos estatales",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (normativa local y armonización con la LGA)",
+     "aplica": "Empresas que operan servicios de agua por concesión o contrato con municipios.",
+     "obligaciones": [
+      "Operar conforme al título o contrato de concesión y las leyes estatales de agua.",
+      "Cumplir indicadores de servicio, tarifas aprobadas y rendición de cuentas.",
+      "Evaluar el riesgo de cambios regulatorios derivados de la LGA 2025."
+     ],
+     "tramites": [],
+     "sanciones": "Rescisión o rescate de la concesión.",
+     "evidencia": [
+      "Título o contrato",
+      "Indicadores de servicio",
+      "Resoluciones tarifarias"
+     ],
+     "preguntas": [
+      "¿Se cumplen los indicadores contractuales de servicio?",
+      "¿Se evaluó el riesgo de rescate o modificación de la concesión por la armonización con la Ley General de Aguas?"
+     ]
+    },
+    {
+     "id": "medicion_volumetrica",
+     "nombre": "Medición y reporte de volúmenes de extracción y descarga (disposiciones de CONAGUA y Ley Federal de Derechos)",
+     "sigla": "Medición CONAGUA",
+     "tipo": "disposición",
+     "autoridad": "CONAGUA",
+     "url": "https://www.gob.mx/conagua",
+     "ultima_reforma": "verificar",
+     "aplica": "Concesionarios con volúmenes relevantes de extracción o descarga.",
+     "obligaciones": [
+      "Instalar y mantener medidores y, cuando se exija, transmitir lecturas en línea.",
+      "Declarar y pagar derechos trimestrales por extracción y descarga."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de derechos",
+       "plazo": "Trimestral",
+       "ante": "CONAGUA / SAT"
+      }
+     ],
+     "sanciones": "Multas, determinación presuntiva de volúmenes y caducidad.",
+     "evidencia": [
+      "Certificados de calibración de medidores",
+      "Declaraciones de derechos"
+     ],
+     "preguntas": [
+      "¿Los medidores están calibrados y funcionando?",
+      "¿Los derechos trimestrales se declaran con base en las lecturas reales del medidor?"
+     ]
+    }
+   ]
+  },
+  "residuos_reciclaje": {
+   "nombre": "Gestión de residuos y reciclaje",
+   "reguladores": [
+    [
+     "SEMARNAT",
+     "https://www.gob.mx/semarnat"
+    ],
+    [
+     "PROFEPA",
+     "https://www.gob.mx/profepa"
+    ],
+    [
+     "Autoridades ambientales estatales y municipales",
+     "https://www.gob.mx/semarnat"
+    ],
+    [
+     "SICT (transporte de residuos peligrosos)",
+     "https://www.gob.mx/sct"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lgpgir_prestadores",
+     "nombre": "LGPGIR y su Reglamento: autorizaciones para prestadores de servicios de manejo de residuos peligrosos",
+     "sigla": "LGPGIR – prestadores",
+     "tipo": "ley",
+     "autoridad": "SEMARNAT; PROFEPA",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGPGIR.pdf",
+     "ultima_reforma": "verificar (no se confirmó reforma 2025 sobre plásticos o economía circular)",
+     "aplica": "Recolectores, transportistas, centros de acopio, recicladores, tratadores e incineradores de residuos peligrosos.",
+     "obligaciones": [
+      "Obtener autorización de SEMARNAT para cada etapa de manejo (acopio, almacenamiento, reciclaje, tratamiento, disposición).",
+      "Contar con seguro o garantía ambiental cuando la autorización lo exija.",
+      "Llevar bitácoras y presentar informes (COA) sobre residuos recibidos y su destino.",
+      "Cumplir los términos de la autorización y renovarla en plazo."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización de manejo de residuos peligrosos",
+       "plazo": "Antes de operar",
+       "ante": "SEMARNAT"
+      },
+      {
+       "que": "COA",
+       "plazo": "Anual",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Multas, clausura, revocación de la autorización, responsabilidad por remediación y delitos ambientales.",
+     "evidencia": [
+      "Autorizaciones vigentes",
+      "Pólizas de seguro ambiental",
+      "Bitácoras",
+      "COA"
+     ],
+     "preguntas": [
+      "¿Cada etapa de manejo realizada está amparada en la autorización?",
+      "¿Las cantidades recibidas cuadran con las destinadas?"
+     ]
+    },
+    {
+     "id": "nom083",
+     "nombre": "NOM-083-SEMARNAT-2003, Especificaciones de protección ambiental para sitios de disposición final de residuos sólidos urbanos y de manejo especial",
+     "sigla": "NOM-083",
+     "tipo": "NOM",
+     "autoridad": "SEMARNAT; autoridades estatales",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores de rellenos sanitarios.",
+     "obligaciones": [
+      "Cumplir criterios de ubicación, impermeabilización, control de lixiviados y biogás.",
+      "Monitorear acuíferos y llevar programa de clausura."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, clausura del sitio.",
+     "evidencia": [
+      "Estudios de ubicación",
+      "Monitoreo de lixiviados y biogás"
+     ],
+     "preguntas": [
+      "¿El relleno controla lixiviados y biogás conforme a la norma?",
+      "¿Existe programa de monitoreo de acuíferos y plan de clausura del sitio?"
+     ]
+    },
+    {
+     "id": "nom161",
+     "nombre": "NOM-161-SEMARNAT-2011, Residuos de manejo especial sujetos a plan de manejo (incluidos posconsumo: llantas, electrónicos, envases)",
+     "sigla": "NOM-161",
+     "tipo": "NOM",
+     "autoridad": "SEMARNAT; autoridades estatales",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Grandes generadores de residuos de manejo especial y responsables de planes de manejo posconsumo.",
+     "obligaciones": [
+      "Determinar si los residuos están sujetos a plan de manejo y registrarlo.",
+      "Reportar resultados del plan de manejo a la autoridad competente."
+     ],
+     "tramites": [
+      {
+       "que": "Registro del plan de manejo",
+       "plazo": "Al generar",
+       "ante": "SEMARNAT / autoridad estatal"
+      }
+     ],
+     "sanciones": "Multas federales y estatales.",
+     "evidencia": [
+      "Plan de manejo registrado",
+      "Reportes de avance"
+     ],
+     "preguntas": [
+      "¿Los residuos de manejo especial están cubiertos por un plan de manejo registrado?",
+      "¿Se reportan los resultados del plan de manejo a la autoridad competente?"
+     ]
+    },
+    {
+     "id": "basilea",
+     "nombre": "Importación y exportación de residuos peligrosos (Convenio de Basilea, LGPGIR y retorno de residuos de importaciones temporales IMMEX)",
+     "sigla": "Basilea",
+     "tipo": "tratado",
+     "autoridad": "SEMARNAT; SAT",
+     "url": "https://www.basel.int/",
+     "ultima_reforma": "verificar",
+     "aplica": "Recicladores que importan o exportan residuos y empresas IMMEX con residuos de insumos importados.",
+     "obligaciones": [
+      "Obtener autorización de importación o exportación de residuos peligrosos y el consentimiento del país receptor.",
+      "Retornar al país de origen los residuos peligrosos de insumos importados temporalmente, o tramitar la autorización aplicable.",
+      "Acompañar los embarques con el documento de movimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización de importación/exportación de residuos",
+       "plazo": "Por operación o vigencia",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Retención en aduana, multas, delitos ambientales.",
+     "evidencia": [
+      "Autorizaciones",
+      "Documentos de movimiento",
+      "Pedimentos de retorno"
+     ],
+     "preguntas": [
+      "¿Los residuos de insumos IMMEX se retornan o cuentan con autorización?",
+      "¿Cada importación o exportación de residuos peligrosos tiene autorización y documento de movimiento?"
+     ]
+    },
+    {
+     "id": "sitios_contaminados",
+     "nombre": "Remediación de sitios contaminados: NOM-138-SEMARNAT/SSA1-2012 (hidrocarburos en suelo) y NOM-147-SEMARNAT/SSA1-2004 (metales y metaloides)",
+     "sigla": "NOM-138 · NOM-147",
+     "tipo": "NOM",
+     "autoridad": "SEMARNAT; PROFEPA",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Propietarios de predios contaminados, empresas de remediación y adquirentes de terrenos industriales.",
+     "obligaciones": [
+      "Caracterizar el sitio y presentar propuesta de remediación cuando se superen los límites.",
+      "Obtener la conclusión del programa de remediación antes de liberar el predio.",
+      "Considerar la responsabilidad solidaria del adquirente de sitios contaminados (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Aprobación del programa de remediación",
+       "plazo": "Antes de remediar",
+       "ante": "SEMARNAT"
+      }
+     ],
+     "sanciones": "Obligación de remediar, multas y responsabilidad ambiental (LFRA).",
+     "evidencia": [
+      "Estudios de caracterización",
+      "Resolución de conclusión de remediación"
+     ],
+     "preguntas": [
+      "¿Se hizo una evaluación ambiental de sitio antes de adquirir o arrendar predios industriales?",
+      "¿Los predios con contaminación identificada tienen programa de remediación aprobado o concluido?"
+     ]
+    },
+    {
+     "id": "rsu_locales",
+     "nombre": "Residuos sólidos urbanos y plásticos: leyes estatales y reglamentos municipales (recolección, separación y prohibiciones de plásticos)",
+     "sigla": "RSU local",
+     "tipo": "disposición",
+     "autoridad": "Gobiernos estatales y municipales",
+     "url": "https://www.gob.mx/semarnat",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Empresas de recolección y reciclaje de residuos urbanos y de manejo especial.",
+     "obligaciones": [
+      "Obtener autorizaciones estatales o municipales para recolección, transporte y acopio.",
+      "Cumplir esquemas de separación en origen y registro de vehículos.",
+      "Seguir las iniciativas federales pendientes sobre plásticos de un solo uso (no publicadas al cierre de esta revisión)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización estatal o municipal",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad local"
+      }
+     ],
+     "sanciones": "Multas y retiro de autorizaciones locales.",
+     "evidencia": [
+      "Autorizaciones locales",
+      "Registro de vehículos"
+     ],
+     "preguntas": [
+      "¿Las rutas de recolección tienen autorización en cada municipio?",
+      "¿Los vehículos de recolección están registrados ante la autoridad local?"
+     ]
+    }
+   ]
+  },
+  "medios_publicidad": {
+   "nombre": "Medios, radiodifusión y publicidad",
+   "reguladores": [
+    [
+     "Comisión Reguladora de Telecomunicaciones (CRT)",
+     "https://www.gob.mx/atdt"
+    ],
+    [
+     "Agencia de Transformación Digital y Telecomunicaciones",
+     "https://www.gob.mx/atdt"
+    ],
+    [
+     "SEGOB (Dirección General de Radio, Televisión y Cinematografía)",
+     "https://www.gob.mx/segob"
+    ],
+    [
+     "PROFECO",
+     "https://www.gob.mx/profeco"
+    ],
+    [
+     "COFEPRIS (publicidad sanitaria)",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "INE",
+     "https://www.ine.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lmtr_contenidos",
+     "nombre": "Ley en Materia de Telecomunicaciones y Radiodifusión (2025): contenidos, tiempos de publicidad y derechos de las audiencias",
+     "sigla": "LMTR contenidos",
+     "tipo": "ley",
+     "autoridad": "CRT; ATDT; SEGOB",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LMTR.pdf",
+     "ultima_reforma": "2025-07-16",
+     "aplica": "Concesionarios de radio y televisión abierta y de televisión y audio restringidos.",
+     "obligaciones": [
+      "Respetar los tiempos máximos de mensajes comerciales; exceder el tope se sanciona con multa del doble de los ingresos obtenidos por el exceso.",
+      "Contar con defensoría de las audiencias (defensor designado por tres años, prorrogable hasta dos veces) y código de ética inscritos en el Registro Público de Concesiones.",
+      "Diferenciar información noticiosa de opinión y cumplir los lineamientos de derechos de las audiencias de la CRT (en consulta pública hasta el 2026-08-21; verificar versión final).",
+      "Solicitar la prórroga de concesión de radiodifusión a más tardar seis meses antes del vencimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción de defensor y código de ética",
+       "plazo": "Al designar / modificar",
+       "ante": "Registro Público de Concesiones (CRT)"
+      },
+      {
+       "que": "Prórroga de concesión",
+       "plazo": "Al menos 6 meses antes del vencimiento",
+       "ante": "CRT"
+      }
+     ],
+     "sanciones": "Multas del 0.01 % al 1 % de ingresos por falta de defensoría (art. 295, según texto consultado); doble de ingresos por exceso de publicidad; revocación de concesión.",
+     "evidencia": [
+      "Pautas y testigos de transmisión",
+      "Nombramiento del defensor",
+      "Código de ética inscrito"
+     ],
+     "preguntas": [
+      "¿Los minutos comerciales por hora están dentro del tope legal?",
+      "¿La defensoría de audiencias está inscrita y vigente?",
+      "¿Se adaptaron los noticieros a los lineamientos de la CRT de 2026?"
+     ]
+    },
+    {
+     "id": "tiempos_estado",
+     "nombre": "Tiempos de Estado y tiempos fiscales en radio y televisión (LMTR y decreto de pago en especie)",
+     "sigla": "Tiempos oficiales",
+     "tipo": "decreto",
+     "autoridad": "SEGOB; INE (en periodos electorales)",
+     "url": "https://www.gob.mx/segob",
+     "ultima_reforma": "verificar",
+     "aplica": "Concesionarios de radiodifusión.",
+     "obligaciones": [
+      "Transmitir gratuitamente los tiempos de Estado y los tiempos fiscales asignados.",
+      "Transmitir pautas del INE en periodos electorales."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y sanciones de la LMTR y la LGIPE.",
+     "evidencia": [
+      "Testigos de transmisión de tiempos oficiales"
+     ],
+     "preguntas": [
+      "¿Se transmiten íntegros los tiempos oficiales y pautas del INE?",
+      "¿Se conservan testigos de transmisión de los tiempos oficiales?"
+     ]
+    },
+    {
+     "id": "clasificacion_contenidos",
+     "nombre": "Lineamientos de clasificación de contenidos audiovisuales y protección de la programación infantil",
+     "sigla": "Clasificación",
+     "tipo": "disposición",
+     "autoridad": "SEGOB; CRT",
+     "url": "https://www.gob.mx/segob",
+     "ultima_reforma": "verificar",
+     "aplica": "Radiodifusores, televisión restringida y distribuidores de cine.",
+     "obligaciones": [
+      "Clasificar programas y películas y respetar las franjas horarias.",
+      "Supervisar que la programación infantil respete los principios del art. 3o. constitucional.",
+      "Obtener certificado de clasificación para exhibición cinematográfica."
+     ],
+     "tramites": [
+      {
+       "que": "Clasificación de películas",
+       "plazo": "Antes de exhibir",
+       "ante": "SEGOB (RTC)"
+      }
+     ],
+     "sanciones": "Multas y suspensión de transmisiones.",
+     "evidencia": [
+      "Certificados de clasificación",
+      "Parrillas por franja"
+     ],
+     "preguntas": [
+      "¿Los contenidos se transmiten en la franja que corresponde a su clasificación?",
+      "¿Las películas exhibidas tienen certificado de clasificación de SEGOB?"
+     ]
+    },
+    {
+     "id": "lfpc_publicidad",
+     "nombre": "Publicidad comercial al consumidor: LFPC (art. 32, publicidad engañosa o abusiva) y facultades de PROFECO",
+     "sigla": "LFPC publicidad",
+     "tipo": "ley",
+     "autoridad": "PROFECO",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPC.pdf",
+     "ultima_reforma": "2025-12-12",
+     "aplica": "Anunciantes, agencias de publicidad, influencers y plataformas.",
+     "obligaciones": [
+      "Asegurar que la publicidad sea veraz, comprobable y no induzca a error (incluida la publicidad comparativa).",
+      "Identificar claramente contenidos patrocinados en redes sociales (buena práctica; verificar lineamientos).",
+      "Conservar la evidencia que sustente las afirmaciones publicitarias."
+     ],
+     "tramites": [],
+     "sanciones": "Suspensión de la publicidad, publicidad correctiva y multas actualizadas anualmente.",
+     "evidencia": [
+      "Expediente de sustento de afirmaciones",
+      "Aprobaciones legales de campañas"
+     ],
+     "preguntas": [
+      "¿Cada afirmación publicitaria tiene evidencia documental?",
+      "¿Las colaboraciones pagadas con influencers se identifican como publicidad?"
+     ]
+    },
+    {
+     "id": "publicidad_sanitaria",
+     "nombre": "Reglamento de la LGS en materia de publicidad (medicamentos, suplementos, alimentos, bebidas alcohólicas, servicios de salud) y prohibiciones de publicidad de tabaco (LGCT)",
+     "sigla": "Publicidad sanitaria",
+     "tipo": "reglamento",
+     "autoridad": "COFEPRIS",
+     "url": "https://www.gob.mx/cofepris",
+     "ultima_reforma": "verificar",
+     "aplica": "Anunciantes de productos y servicios regulados y medios que los difunden.",
+     "obligaciones": [
+      "Obtener permiso o dar aviso de publicidad a COFEPRIS según el producto y medio.",
+      "Respetar horarios y restricciones de publicidad de alimentos y bebidas dirigida a menores (verificar lineamientos).",
+      "No difundir publicidad de tabaco ni de vapeadores (prohibidos por la reforma LGS de 2026).",
+      "Incluir leyendas obligatorias en medicamentos, suplementos y alcohol."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso / aviso de publicidad",
+       "plazo": "Antes de difundir",
+       "ante": "COFEPRIS"
+      }
+     ],
+     "sanciones": "Suspensión de anuncios, multas sanitarias; el medio responde solidariamente en algunos casos (verificar).",
+     "evidencia": [
+      "Permisos de publicidad",
+      "Material aprobado con leyendas"
+     ],
+     "preguntas": [
+      "¿Los anuncios de productos regulados tienen permiso o aviso de COFEPRIS?",
+      "¿Se rechazan pautas de tabaco o vapeadores?"
+     ]
+    },
+    {
+     "id": "propaganda_electoral",
+     "nombre": "Prohibición de contratar propaganda política en radio y televisión (CPEUM art. 41) y LGIPE",
+     "sigla": "CPEUM 41 · LGIPE",
+     "tipo": "ley",
+     "autoridad": "INE; Tribunal Electoral",
+     "url": "https://www.ine.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Concesionarios, anunciantes y agencias.",
+     "obligaciones": [
+      "No vender tiempo aire a partidos, candidatos ni terceros para propaganda política; solo transmitir los tiempos asignados por el INE.",
+      "Evitar propaganda gubernamental durante veda electoral."
+     ],
+     "tramites": [],
+     "sanciones": "Sanciones del INE (multas, suspensión de transmisiones).",
+     "evidencia": [
+      "Política de rechazo de contenido político pagado"
+     ],
+     "preguntas": [
+      "¿Existe control para rechazar contratación de propaganda política?",
+      "¿Se suspende la difusión de propaganda gubernamental durante las vedas electorales?"
+     ]
+    }
+   ]
+  },
+  "juegos_sorteos": {
+   "nombre": "Juegos con apuesta y sorteos",
+   "reguladores": [
+    [
+     "SEGOB – Dirección General de Juegos y Sorteos",
+     "https://www.juegosysorteos.gob.mx/"
+    ],
+    [
+     "SAT",
+     "https://www.sat.gob.mx/"
+    ],
+    [
+     "UIF",
+     "https://www.gob.mx/uif"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lfjs",
+     "nombre": "Ley Federal de Juegos y Sorteos (1947)",
+     "sigla": "LFJS",
+     "tipo": "ley",
+     "autoridad": "SEGOB",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFJS.pdf",
+     "ultima_reforma": "verificar (ley de 1947 vigente; SEGOB anunció en 2025 un proyecto de nueva ley y hay una iniciativa de oct-2025, sin publicación confirmada)",
+     "aplica": "Casinos, centros de apuestas remotas, libros foráneos, sitios de apuestas en línea, organizadores de sorteos.",
+     "obligaciones": [
+      "Operar juegos con apuesta y sorteos solo con permiso de SEGOB.",
+      "Abstenerse de juegos prohibidos por la ley.",
+      "Dar seguimiento al proyecto de nueva ley (posible creación de un órgano regulador; verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de juegos y sorteos",
+       "plazo": "Antes de operar",
+       "ante": "SEGOB"
+      }
+     ],
+     "sanciones": "Clausura, multas y delitos de la LFJS por operar sin permiso.",
+     "evidencia": [
+      "Permiso vigente y sus modificaciones",
+      "Autorizaciones de establecimientos"
+     ],
+     "preguntas": [
+      "¿Cada establecimiento o sitio en línea está amparado por permiso vigente?",
+      "¿Se monitorea el avance de la nueva ley?"
+     ]
+    },
+    {
+     "id": "rlfjs",
+     "nombre": "Reglamento de la Ley Federal de Juegos y Sorteos (reforma de noviembre de 2023)",
+     "sigla": "RLFJS",
+     "tipo": "reglamento",
+     "autoridad": "SEGOB",
+     "url": "https://www.dof.gob.mx/",
+     "ultima_reforma": "2023-11-16",
+     "aplica": "Permisionarios y operadores.",
+     "obligaciones": [
+      "No operar máquinas tragamonedas bajo nuevos permisos (prohibidas por la reforma de 2023).",
+      "Los permisos ya otorgados para máquinas tragamonedas tienen vigencia máxima improrrogable de 15 años desde la publicación del decreto.",
+      "Cumplir requisitos de operación, reportes de ingresos y sistemas de control en línea que fije SEGOB (verificar).",
+      "Promover el juego responsable y prohibir la entrada de menores."
+     ],
+     "tramites": [
+      {
+       "que": "Informes a SEGOB",
+       "plazo": "Según permiso (verificar)",
+       "ante": "SEGOB"
+      }
+     ],
+     "sanciones": "Revocación del permiso, clausura y multas.",
+     "evidencia": [
+      "Inventario de máquinas y fecha de su autorización",
+      "Reportes a SEGOB",
+      "Políticas de juego responsable"
+     ],
+     "preguntas": [
+      "¿Las máquinas tragamonedas operan bajo un permiso anterior a noviembre de 2023 y dentro del plazo de 15 años?",
+      "¿Se impide el acceso a menores?"
+     ]
+    },
+    {
+     "id": "sorteos_promocionales",
+     "nombre": "Permisos para sorteos con fines promocionales (Reglamento LFJS)",
+     "sigla": "Sorteos promocionales",
+     "tipo": "reglamento",
+     "autoridad": "SEGOB",
+     "url": "https://www.juegosysorteos.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas que organizan sorteos o concursos promocionales con premios.",
+     "obligaciones": [
+      "Obtener permiso de SEGOB antes de anunciar el sorteo.",
+      "Publicar bases, mecánica y fecha del sorteo; realizar la entrega de premios ante la autoridad o fedatario cuando se exija.",
+      "Pagar las garantías y derechos aplicables y retener impuestos sobre premios."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de sorteo",
+       "plazo": "Antes de iniciar la promoción",
+       "ante": "SEGOB"
+      }
+     ],
+     "sanciones": "Multas, suspensión del sorteo.",
+     "evidencia": [
+      "Permiso",
+      "Bases publicadas",
+      "Actas de entrega de premios"
+     ],
+     "preguntas": [
+      "¿Cada promoción con sorteo tuvo permiso previo?",
+      "¿Se entregaron todos los premios y se documentó?"
+     ]
+    },
+    {
+     "id": "ieps_juegos",
+     "nombre": "IEPS a juegos con apuestas y sorteos e ISR sobre premios",
+     "sigla": "IEPS juegos",
+     "tipo": "ley",
+     "autoridad": "SAT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LIEPS.pdf",
+     "ultima_reforma": "2025-11-07 (paquete 2026: reportes indican aumento de la tasa del 30 % al 50 %; verificar)",
+     "aplica": "Operadores de juegos con apuesta y sorteos, incluidos en línea.",
+     "obligaciones": [
+      "Calcular y pagar el IEPS mensual con la tasa vigente en 2026.",
+      "Retener el ISR sobre premios y emitir las constancias correspondientes.",
+      "Cumplir las obligaciones de sistemas de cómputo en línea con el SAT (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Pago mensual IEPS",
+       "plazo": "Día 17",
+       "ante": "SAT"
+      }
+     ],
+     "sanciones": "Recargos, multas y créditos fiscales.",
+     "evidencia": [
+      "Cálculos de IEPS",
+      "Constancias de retención por premios"
+     ],
+     "preguntas": [
+      "¿El cálculo del IEPS usa la tasa vigente de 2026?",
+      "¿Se retiene el ISR sobre premios?"
+     ]
+    },
+    {
+     "id": "lfpiorpi_juegos",
+     "nombre": "LFPIORPI: juegos con apuesta, concursos y sorteos como actividad vulnerable",
+     "sigla": "LFPIORPI juegos",
+     "tipo": "ley",
+     "autoridad": "SHCP-UIF; SAT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPIORPI.pdf",
+     "ultima_reforma": "2025-07-16",
+     "aplica": "Casinos, sitios en línea y organizadores de sorteos.",
+     "obligaciones": [
+      "Registrarse como actividad vulnerable.",
+      "Identificar a clientes que compran fichas, apuestan o cobran premios por encima del umbral de identificación (verificar umbrales en UMA tras la reforma).",
+      "Presentar avisos y cumplir las restricciones de efectivo.",
+      "Implementar monitoreo automatizado y auditoría según la reforma de 2025."
+     ],
+     "tramites": [
+      {
+       "que": "Avisos de actividad vulnerable",
+       "plazo": "Día 17 del mes siguiente",
+       "ante": "SAT (portal PLD)"
+      }
+     ],
+     "sanciones": "Multas LFPIORPI y revocación del permiso de juegos.",
+     "evidencia": [
+      "Expedientes de jugadores",
+      "Avisos presentados",
+      "Manual PLD"
+     ],
+     "preguntas": [
+      "¿Se identifica a todo jugador que supera el umbral de identificación?",
+      "¿Se presentan avisos por pagos de premios relevantes?"
+     ]
+    },
+    {
+     "id": "impuestos_locales_juegos",
+     "nombre": "Impuestos estatales sobre loterías, rifas, sorteos y juegos con apuesta, y licencias municipales",
+     "sigla": "Impuestos locales",
+     "tipo": "ley",
+     "autoridad": "Tesorerías estatales; municipios",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (cada entidad)",
+     "aplica": "Operadores con establecimientos o jugadores en cada entidad.",
+     "obligaciones": [
+      "Pagar el impuesto estatal sobre juegos y premios según la ley de hacienda local.",
+      "Obtener licencia de funcionamiento y uso de suelo compatible."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración estatal",
+       "plazo": "Mensual (verificar)",
+       "ante": "Tesorería estatal"
+      }
+     ],
+     "sanciones": "Créditos fiscales y clausura local.",
+     "evidencia": [
+      "Declaraciones estatales",
+      "Licencias municipales"
+     ],
+     "preguntas": [
+      "¿Se pagan los impuestos estatales en cada entidad donde se opera?",
+      "¿Cada establecimiento tiene licencia municipal y uso de suelo compatible con juegos con apuesta?"
+     ]
+    }
+   ]
+  },
+  "transporte_pasajeros": {
+   "nombre": "Transporte terrestre de pasajeros",
+   "reguladores": [
+    [
+     "SICT – Dirección General de Autotransporte Federal",
+     "https://www.gob.mx/sct"
+    ],
+    [
+     "Guardia Nacional (carreteras)",
+     "https://www.gob.mx/guardianacional"
+    ],
+    [
+     "Agencia Reguladora del Transporte Ferroviario",
+     "https://www.gob.mx/artf"
+    ],
+    [
+     "Secretarías de movilidad estatales",
+     "https://www.gob.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lcpaf_pasaje",
+     "nombre": "Ley de Caminos, Puentes y Autotransporte Federal y Reglamento de Autotransporte Federal: servicios de pasaje y turismo",
+     "sigla": "LCPAF – pasaje",
+     "tipo": "ley",
+     "autoridad": "SICT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LCPAF.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas de autobuses interurbanos, turismo y transporte de personal en caminos federales (la carga se trata en «logistica»).",
+     "obligaciones": [
+      "Obtener permiso de la SICT por modalidad (pasaje, turismo, personal) y dar de alta cada unidad.",
+      "Contratar seguro que cubra a los viajeros y daños a terceros (verificar coberturas mínimas).",
+      "Operar terminales autorizadas y respetar tarifas registradas cuando aplique."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de autotransporte federal de pasajeros",
+       "plazo": "Antes de operar",
+       "ante": "SICT"
+      },
+      {
+       "que": "Alta de unidades",
+       "plazo": "Al incorporarlas",
+       "ante": "SICT"
+      }
+     ],
+     "sanciones": "Multas, retiro de unidades y revocación del permiso.",
+     "evidencia": [
+      "Permisos y tarjetas de circulación federal",
+      "Pólizas de seguro de viajero y RC"
+     ],
+     "preguntas": [
+      "¿Todas las unidades en operación están dadas de alta en el permiso?",
+      "¿Las pólizas cubren a pasajeros y terceros?"
+     ]
+    },
+    {
+     "id": "medicina_preventiva",
+     "nombre": "Licencia federal de conductor y examen psicofísico integral (Reglamento del Servicio de Medicina Preventiva en el Transporte)",
+     "sigla": "Licencia federal · EPI",
+     "tipo": "reglamento",
+     "autoridad": "SICT (Medicina Preventiva en el Transporte)",
+     "url": "https://www.gob.mx/sct",
+     "ultima_reforma": "verificar",
+     "aplica": "Conductores de autotransporte federal.",
+     "obligaciones": [
+      "Que cada conductor tenga licencia federal vigente del tipo correcto.",
+      "Examen psicofísico integral vigente y exámenes toxicológicos aleatorios.",
+      "Respetar tiempos de conducción y descanso (NOM-087-SCT-2-2017, cubierta en «logistica»)."
+     ],
+     "tramites": [
+      {
+       "que": "Examen psicofísico integral",
+       "plazo": "Periódico (verificar)",
+       "ante": "SICT"
+      }
+     ],
+     "sanciones": "Multas y retiro de la unidad; responsabilidad en accidentes.",
+     "evidencia": [
+      "Licencias federales",
+      "Constancias de examen psicofísico",
+      "Bitácoras de horas de servicio"
+     ],
+     "preguntas": [
+      "¿Todos los conductores tienen licencia y examen psicofísico vigentes?",
+      "¿Se realizan pruebas toxicológicas?"
+     ]
+    },
+    {
+     "id": "nom012_pas",
+     "nombre": "NOM-012-SCT-2-2017, Peso y dimensiones máximas de vehículos (aplicada a autobuses)",
+     "sigla": "NOM-012",
+     "tipo": "NOM",
+     "autoridad": "SICT; Guardia Nacional",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "2017-12-26 (publicación; vigor 2018-02-24)",
+     "aplica": "Autobuses que circulan por caminos federales.",
+     "obligaciones": [
+      "Respetar el peso y dimensiones máximos por tipo de vehículo y camino.",
+      "Verificar las configuraciones autorizadas al adquirir unidades nuevas."
+     ],
+     "tramites": [],
+     "sanciones": "Multas e inmovilización.",
+     "evidencia": [
+      "Fichas técnicas de unidades"
+     ],
+     "preguntas": [
+      "¿Las unidades adquiridas cumplen las dimensiones autorizadas para las rutas?",
+      "¿Se verifican peso y dimensiones de las unidades antes de asignarlas a rutas con restricciones?"
+     ]
+    },
+    {
+     "id": "nom068",
+     "nombre": "NOM-068-SCT-2-2014, Condiciones físico-mecánicas y de seguridad para la operación de vehículos de autotransporte federal",
+     "sigla": "NOM-068",
+     "tipo": "NOM",
+     "autoridad": "SICT",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Unidades de pasaje y turismo.",
+     "obligaciones": [
+      "Verificar condiciones físico-mecánicas en unidades de verificación autorizadas en los plazos de la norma.",
+      "Programa de mantenimiento preventivo documentado."
+     ],
+     "tramites": [
+      {
+       "que": "Verificación físico-mecánica",
+       "plazo": "Periódica (verificar)",
+       "ante": "Unidad de verificación autorizada"
+      }
+     ],
+     "sanciones": "Multas y retiro de circulación.",
+     "evidencia": [
+      "Constancias de verificación",
+      "Bitácoras de mantenimiento"
+     ],
+     "preguntas": [
+      "¿Cada unidad tiene verificación físico-mecánica vigente?",
+      "¿Existe programa de mantenimiento preventivo documentado por unidad?"
+     ]
+    },
+    {
+     "id": "movilidad_local",
+     "nombre": "Transporte público local y por plataformas digitales (leyes estatales de movilidad)",
+     "sigla": "Movilidad local",
+     "tipo": "ley",
+     "autoridad": "Secretarías de movilidad estatales",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Transporte urbano, taxis, empresas de redes de transporte y plataformas.",
+     "obligaciones": [
+      "Obtener concesiones o permisos locales y registrar vehículos y conductores.",
+      "Pagar aportaciones o contribuciones por viaje cuando la ley local lo establezca (verificar).",
+      "Considerar las obligaciones laborales de plataformas (LFT, cubiertas en «ti_digital»)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de empresa de redes de transporte",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad local"
+      }
+     ],
+     "sanciones": "Multas, retiro de vehículos y cancelación de permisos locales.",
+     "evidencia": [
+      "Permisos locales",
+      "Padrón de conductores"
+     ],
+     "preguntas": [
+      "¿La operación en cada ciudad cuenta con registro local vigente?",
+      "¿Se pagan las aportaciones por viaje que exige la ley local, cuando aplican?"
+     ]
+    },
+    {
+     "id": "ferroviario_pasajeros",
+     "nombre": "Ley Reglamentaria del Servicio Ferroviario: transporte ferroviario de pasajeros",
+     "sigla": "LRSF",
+     "tipo": "ley",
+     "autoridad": "SICT; Agencia Reguladora del Transporte Ferroviario",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
+     "ultima_reforma": "verificar (reformas recientes para trenes de pasajeros)",
+     "aplica": "Concesionarios y asignatarios ferroviarios y operadores de trenes de pasajeros.",
+     "obligaciones": [
+      "Contar con concesión o asignación para el servicio de pasajeros.",
+      "Cumplir normas de seguridad ferroviaria y reportar accidentes.",
+      "Respetar derechos de paso y coordinación con servicios de carga (verificar régimen vigente)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidentes",
+       "plazo": "Inmediato (verificar)",
+       "ante": "ARTF"
+      }
+     ],
+     "sanciones": "Multas y revocación de la concesión.",
+     "evidencia": [
+      "Título de concesión",
+      "Reportes de seguridad"
+     ],
+     "preguntas": [
+      "¿Se reportan incidentes ferroviarios a la ARTF en plazo?",
+      "¿La concesión o asignación ampara el servicio de pasajeros que se presta?"
+     ]
+    }
+   ]
+  },
+  "restaurantes_alimentos_preparados": {
+   "nombre": "Restaurantes y alimentos preparados",
+   "reguladores": [
+    [
+     "COFEPRIS / autoridades sanitarias estatales",
+     "https://www.gob.mx/cofepris"
+    ],
+    [
+     "PROFECO",
+     "https://www.gob.mx/profeco"
+    ],
+    [
+     "Municipios (licencias y protección civil)",
+     "https://www.gob.mx/"
+    ],
+    [
+     "SECTUR (Distintivo H)",
+     "https://www.gob.mx/sectur"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "nom251_rest",
+     "nombre": "NOM-251-SSA1-2009 aplicada a servicios de alimentos preparados y aviso de funcionamiento",
+     "sigla": "NOM-251 restaurantes",
+     "tipo": "NOM",
+     "autoridad": "COFEPRIS; autoridades sanitarias estatales",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Restaurantes, cocinas industriales, comedores, cafeterías y dark kitchens.",
+     "obligaciones": [
+      "Presentar aviso de funcionamiento ante la autoridad sanitaria.",
+      "Controlar temperaturas de refrigeración, cocción y recalentamiento; evitar contaminación cruzada.",
+      "Programa de limpieza y control de plagas con proveedor autorizado.",
+      "Capacitar al personal en higiene y controlar su estado de salud."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso de funcionamiento",
+       "plazo": "Antes de operar",
+       "ante": "COFEPRIS / autoridad estatal"
+      }
+     ],
+     "sanciones": "Multas, suspensión de actividades y clausura sanitaria.",
+     "evidencia": [
+      "Bitácoras de temperatura",
+      "Certificados de control de plagas",
+      "Constancias de capacitación"
+     ],
+     "preguntas": [
+      "¿Se registran diariamente temperaturas de refrigeradores y cocción?",
+      "¿Hay certificado vigente de control de plagas?"
+     ]
+    },
+    {
+     "id": "licencias_rest",
+     "nombre": "Licencia de funcionamiento, uso de suelo, venta de alcohol y programa de protección civil (normativa estatal y municipal)",
+     "sigla": "Licencias restaurantes",
+     "tipo": "disposición",
+     "autoridad": "Municipios; gobiernos estatales",
+     "url": "https://www.gob.mx/",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Todos los establecimientos con servicio al público.",
+     "obligaciones": [
+      "Contar con licencia o aviso de funcionamiento del giro y uso de suelo compatible.",
+      "Licencia de venta de alcohol con alimentos y respeto de horarios.",
+      "Programa interno de protección civil, extintores y salidas de emergencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia / refrendo",
+       "plazo": "Anual (verificar)",
+       "ante": "Municipio"
+      }
+     ],
+     "sanciones": "Multas, clausura y retiro de licencia.",
+     "evidencia": [
+      "Licencias",
+      "Programa de protección civil",
+      "Constancias de recarga de extintores"
+     ],
+     "preguntas": [
+      "¿La licencia de alcohol corresponde al giro real (restaurante vs. bar)?",
+      "¿El programa interno de protección civil está vigente?"
+     ]
+    },
+    {
+     "id": "lfpc_rest",
+     "nombre": "LFPC aplicada a restaurantes: menú con precios visibles, propinas voluntarias y no discriminación",
+     "sigla": "LFPC restaurantes",
+     "tipo": "ley",
+     "autoridad": "PROFECO; CONAPRED",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPC.pdf",
+     "ultima_reforma": "2025-12-12",
+     "aplica": "Restaurantes y bares.",
+     "obligaciones": [
+      "Exhibir precios totales en menú visible antes de consumir.",
+      "No cobrar propina obligatoria ni incluirla en la cuenta sin consentimiento del cliente.",
+      "No negar el servicio por motivos discriminatorios ni condicionar consumo mínimo sin informarlo."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de PROFECO.",
+     "evidencia": [
+      "Menús y cartas con precios",
+      "Formato de tickets"
+     ],
+     "preguntas": [
+      "¿El ticket incluye propina sin consentimiento?",
+      "¿El menú muestra precios con impuestos?"
+     ]
+    },
+    {
+     "id": "propinas_lft",
+     "nombre": "Propinas como parte del salario y su distribución (LFT, trabajo en hoteles, restaurantes, bares)",
+     "sigla": "LFT propinas",
+     "tipo": "ley",
+     "autoridad": "STPS; IMSS",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf",
+     "ultima_reforma": "verificar (iniciativas de reforma sobre propinas)",
+     "aplica": "Restaurantes con meseros y personal de servicio.",
+     "obligaciones": [
+      "Considerar las propinas como parte del salario para efectos laborales (verificar tratamiento en IMSS e ISR).",
+      "No retener propinas pagadas con tarjeta; distribuirlas con reglas transparentes.",
+      "Pagar al menos el salario mínimo independientemente de las propinas."
+     ],
+     "tramites": [],
+     "sanciones": "Multas laborales y diferencias de cuotas IMSS.",
+     "evidencia": [
+      "Política de distribución de propinas",
+      "Conciliación de propinas con tarjeta"
+     ],
+     "preguntas": [
+      "¿Las propinas con tarjeta se entregan íntegras al personal?",
+      "¿Existe una política escrita y transparente de distribución de propinas?"
+     ]
+    },
+    {
+     "id": "humo_rest",
+     "nombre": "Espacios 100 % libres de humo de tabaco y emisiones (Reglamento de la LGCT) y prohibición de vapeadores",
+     "sigla": "LGCT espacios libres de humo",
+     "tipo": "reglamento",
+     "autoridad": "COFEPRIS; autoridades locales",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGCT.pdf",
+     "ultima_reforma": "verificar (Reglamento 2022); LGS 2026-01-15",
+     "aplica": "Restaurantes, bares y terrazas.",
+     "obligaciones": [
+      "Impedir fumar en espacios cerrados y en las áreas que el reglamento prohíbe (verificar alcance en terrazas).",
+      "Colocar señalización obligatoria.",
+      "No vender ni permitir vapeadores."
+     ],
+     "tramites": [],
+     "sanciones": "Multas sanitarias y locales.",
+     "evidencia": [
+      "Señalización",
+      "Política de no fumar"
+     ],
+     "preguntas": [
+      "¿El establecimiento está señalizado como espacio libre de humo?",
+      "¿Se retiraron vapeadores de la venta y se impide su uso en el local?"
+     ]
+    },
+    {
+     "id": "grasas_descargas",
+     "nombre": "Descargas de aguas residuales con grasas y trampas de grasa (NOM-002-SEMARNAT-1996 y reglamentos locales)",
+     "sigla": "Trampas de grasa",
+     "tipo": "NOM",
+     "autoridad": "Organismos operadores; municipios",
+     "url": "https://www.sinec.gob.mx/SINEC/",
+     "ultima_reforma": "verificar",
+     "aplica": "Cocinas comerciales.",
+     "obligaciones": [
+      "Instalar y limpiar trampas de grasa.",
+      "Entregar aceite usado a recolectores autorizados (manejo especial)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas locales y suspensión del servicio de drenaje.",
+     "evidencia": [
+      "Bitácora de limpieza de trampas",
+      "Manifiestos de aceite usado"
+     ],
+     "preguntas": [
+      "¿El aceite usado se entrega a un recolector autorizado con manifiesto?",
+      "¿Las trampas de grasa se limpian con la frecuencia documentada en bitácora?"
+     ]
+    },
+    {
+     "id": "distintivo_h",
+     "nombre": "Distintivo H y certificaciones voluntarias de inocuidad (SECTUR / Secretaría de Salud)",
+     "sigla": "Distintivo H",
+     "tipo": "disposición",
+     "autoridad": "SECTUR; Secretaría de Salud",
+     "url": "https://www.gob.mx/sectur",
+     "ultima_reforma": "verificar (norma mexicana de referencia vigente)",
+     "aplica": "Restaurantes, especialmente en destinos turísticos.",
+     "obligaciones": [
+      "Cumplir los requisitos de la norma de referencia y obtener el distintivo mediante consultor y verificador.",
+      "Mantener la vigencia anual (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Obtención / renovación del Distintivo H",
+       "plazo": "Anual (verificar)",
+       "ante": "SECTUR"
+      }
+     ],
+     "sanciones": "Pérdida del distintivo (voluntario).",
+     "evidencia": [
+      "Certificado de Distintivo H"
+     ],
+     "preguntas": [
+      "¿El distintivo exhibido está vigente?",
+      "¿Las prácticas de cocina observadas coinciden con los requisitos del distintivo?"
+     ]
+    }
+   ]
+  },
+  "seguridad_privada": {
+   "nombre": "Seguridad privada",
+   "reguladores": [
+    [
+     "SSPC – Dirección General de Seguridad Privada",
+     "https://www.gob.mx/sspc"
+    ],
+    [
+     "SEDENA (armas de fuego)",
+     "https://www.gob.mx/defensa"
+    ],
+    [
+     "Autoridades estatales de seguridad",
+     "https://www.gob.mx/sspc"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "lfsp",
+     "nombre": "Ley Federal de Seguridad Privada",
+     "sigla": "LFSP",
+     "tipo": "ley",
+     "autoridad": "SSPC",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFSP.pdf",
+     "ultima_reforma": "verificar (sin reforma 2025 confirmada; iniciativa de sept-2026 en ciberseguridad y eventos masivos)",
+     "aplica": "Prestadores de servicios de seguridad privada que operan en dos o más entidades (seguridad de personas, bienes, traslado de valores, alarmas y monitoreo, información, sistemas).",
+     "obligaciones": [
+      "Obtener autorización de la SSPC por modalidad y revalidarla en plazo (verificar periodicidad).",
+      "Registrar personal, armas, vehículos, equipos y uniformes; no usar insignias o uniformes similares a los de fuerzas armadas o policías.",
+      "Capacitar y adiestrar al personal; aplicar evaluaciones y exámenes toxicológicos.",
+      "Informar mensualmente altas, bajas e incidentes (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización / revalidación",
+       "plazo": "Antes de operar y periódicamente",
+       "ante": "SSPC"
+      },
+      {
+       "que": "Reportes de personal",
+       "plazo": "Periódicos (verificar)",
+       "ante": "SSPC"
+      }
+     ],
+     "sanciones": "Amonestación, multas, suspensión y revocación de la autorización.",
+     "evidencia": [
+      "Autorización vigente",
+      "Padrón de personal",
+      "Constancias de capacitación"
+     ],
+     "preguntas": [
+      "¿La autorización cubre todas las modalidades y entidades en que se presta servicio?",
+      "¿Todo el personal operativo está registrado?",
+      "¿Uniformes y vehículos evitan parecerse a los de fuerzas de seguridad pública?"
+     ]
+    },
+    {
+     "id": "reg_lfsp",
+     "nombre": "Reglamento de la Ley Federal de Seguridad Privada y Registro Nacional de Empresas, Personal y Equipo de Seguridad Privada",
+     "sigla": "Reg. LFSP",
+     "tipo": "reglamento",
+     "autoridad": "SSPC",
+     "url": "https://www.dof.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Prestadores autorizados.",
+     "obligaciones": [
+      "Inscribir al personal en el registro y obtener la clave de identificación correspondiente (verificar).",
+      "Cumplir requisitos de capital, póliza de fianza o seguro y oficinas."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción de personal",
+       "plazo": "Al contratar",
+       "ante": "SSPC"
+      }
+     ],
+     "sanciones": "Las de la LFSP.",
+     "evidencia": [
+      "Constancias de inscripción",
+      "Fianza o seguro"
+     ],
+     "preguntas": [
+      "¿La fianza o seguro exigido está vigente?",
+      "¿Todo el personal operativo está inscrito en el registro nacional de seguridad privada?"
+     ]
+    },
+    {
+     "id": "lfafe_privada",
+     "nombre": "Licencia oficial colectiva de portación de armas para empresas de seguridad privada (LFAFE)",
+     "sigla": "LFAFE – licencia colectiva",
+     "tipo": "ley",
+     "autoridad": "SEDENA; SSPC",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFAFE.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas que prestan servicios armados.",
+     "obligaciones": [
+      "Obtener licencia colectiva y registrar cada arma y portador.",
+      "Controlar armería, municiones y bitácoras de asignación.",
+      "Revalidar la licencia y reportar pérdidas o robos de inmediato."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia colectiva de portación",
+       "plazo": "Antes de portar; revalidación periódica",
+       "ante": "SEDENA"
+      }
+     ],
+     "sanciones": "Delitos por portación ilegal; revocación de la licencia.",
+     "evidencia": [
+      "Licencia colectiva",
+      "Bitácoras de armería",
+      "Denuncias de robo/pérdida"
+     ],
+     "preguntas": [
+      "¿Cada guardia armado está registrado en la licencia colectiva?",
+      "¿El inventario de armas y municiones cuadra con la bitácora?"
+     ]
+    },
+    {
+     "id": "seguridad_estatal",
+     "nombre": "Leyes estatales de seguridad privada (autorización local)",
+     "sigla": "Ley estatal",
+     "tipo": "ley",
+     "autoridad": "Secretarías de seguridad estatales",
+     "url": "https://www.gob.mx/sspc",
+     "ultima_reforma": "verificar (normativa local)",
+     "aplica": "Prestadores que operan en una sola entidad o requieren registro local adicional.",
+     "obligaciones": [
+      "Obtener autorización y registro estatal.",
+      "Cumplir requisitos locales de capacitación y uniformes."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización estatal",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad estatal"
+      }
+     ],
+     "sanciones": "Multas y clausura local.",
+     "evidencia": [
+      "Autorizaciones estatales"
+     ],
+     "preguntas": [
+      "¿Se tiene autorización en cada entidad donde se presta servicio?",
+      "¿Se cumplen los requisitos locales de capacitación y uniformes en cada entidad?"
+     ]
+    },
+    {
+     "id": "blindaje_traslado",
+     "nombre": "Blindaje de vehículos y traslado de valores: LFPIORPI (blindaje como actividad vulnerable) y requisitos de la LFSP",
+     "sigla": "Blindaje · valores",
+     "tipo": "ley",
+     "autoridad": "SHCP-UIF; SAT; SSPC",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPIORPI.pdf",
+     "ultima_reforma": "2025-07-16",
+     "aplica": "Blindadoras y empresas de traslado y custodia de valores.",
+     "obligaciones": [
+      "Registrar el blindaje como actividad vulnerable, identificar clientes y presentar avisos cuando se superen los umbrales (verificar).",
+      "Contar con autorización específica de la SSPC para traslado de valores.",
+      "Controles de custodia, rutas y seguros."
+     ],
+     "tramites": [
+      {
+       "que": "Avisos de actividad vulnerable",
+       "plazo": "Día 17 del mes siguiente",
+       "ante": "SAT (portal PLD)"
+      }
+     ],
+     "sanciones": "Multas LFPIORPI y LFSP.",
+     "evidencia": [
+      "Expedientes de clientes de blindaje",
+      "Pólizas de seguro de valores"
+     ],
+     "preguntas": [
+      "¿Se identifica al cliente y beneficiario controlador en cada blindaje?",
+      "¿El traslado de valores cuenta con autorización específica de la SSPC y seguro vigente?"
+     ]
+    }
+   ]
+  },
+  "outsourcing_servicios_especializados": {
+   "nombre": "Servicios especializados (subcontratación) y agencias de colocación",
+   "reguladores": [
+    [
+     "STPS – REPSE",
+     "https://repse.stps.gob.mx/"
+    ],
+    [
+     "IMSS",
+     "https://www.imss.gob.mx/"
+    ],
+    [
+     "INFONAVIT",
+     "https://portalmx.infonavit.org.mx/"
+    ],
+    [
+     "SAT",
+     "https://www.sat.gob.mx/"
+    ]
+   ],
+   "leyes": [
+    {
+     "id": "acuerdo_repse",
+     "nombre": "Acuerdo por el que se dan a conocer las disposiciones de carácter general para el registro de personas que presten servicios especializados o ejecuten obras especializadas (REPSE; las reglas generales están en «generales»)",
+     "sigla": "Acuerdo REPSE",
+     "tipo": "disposición",
+     "autoridad": "STPS",
+     "url": "https://repse.stps.gob.mx/",
+     "ultima_reforma": "verificar (publicado en 2021; revisar modificaciones)",
+     "aplica": "Empresas cuyo negocio es prestar servicios u obras especializadas con su propio personal (limpieza, seguridad, mantenimiento, TI, consultoría con personal en sitio).",
+     "obligaciones": [
+      "Registrar cada actividad especializada con su descripción y acreditar su carácter especializado (capacitación, certificaciones, permisos, maquinaria, nivel de riesgo, salarios).",
+      "Mantener al corriente obligaciones fiscales y de seguridad social para obtener y renovar el registro.",
+      "Avisar a la STPS de cambios de actividades, domicilio o estructura.",
+      "Asegurar que los contratos con clientes solo cubran actividades registradas."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso de modificación de actividades",
+       "plazo": "Al cambiar (verificar plazo)",
+       "ante": "STPS"
+      },
+      {
+       "que": "Renovación del registro",
+       "plazo": "Cada 3 años",
+       "ante": "STPS"
+      }
+     ],
+     "sanciones": "Negativa o cancelación del registro; multas de la LFT; no deducibilidad para clientes.",
+     "evidencia": [
+      "Constancia REPSE con actividades",
+      "Expediente que acredita la especialización"
+     ],
+     "preguntas": [
+      "¿Las actividades facturadas coinciden con las registradas en el REPSE?",
+      "¿Se tiene evidencia de especialización por cada actividad registrada?"
+     ]
+    },
+    {
+     "id": "icsoe",
+     "nombre": "Informativa de contratos de servicios u obras especializados (ICSOE) ante el IMSS (LSS art. 15-A)",
+     "sigla": "ICSOE",
+     "tipo": "ley",
+     "autoridad": "IMSS",
+     "url": "https://www.imss.gob.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Prestadores de servicios especializados.",
+     "obligaciones": [
+      "Presentar cuatrimestralmente la información de cada contrato (cliente, objeto, vigencia, trabajadores).",
+      "Registrar a los trabajadores asignados a cada contrato en la clave de registro patronal correcta.",
+      "Responder solidariamente con el cliente por cuotas no pagadas."
+     ],
+     "tramites": [
+      {
+       "que": "ICSOE",
+       "plazo": "Cuatrimestral (enero, mayo, septiembre)",
+       "ante": "IMSS"
+      }
+     ],
+     "sanciones": "Multas del IMSS y responsabilidad solidaria del contratante.",
+     "evidencia": [
+      "Acuses ICSOE",
+      "Cruce de contratos vs. ICSOE"
+     ],
+     "preguntas": [
+      "¿Todos los contratos vigentes se reportaron en la última ICSOE?",
+      "¿Los trabajadores asignados a cada contrato están registrados bajo la clave patronal correcta?"
+     ]
+    },
+    {
+     "id": "sisub",
+     "nombre": "Sistema de Información de Subcontratación (SISUB) del INFONAVIT (Ley del INFONAVIT art. 29 Bis)",
+     "sigla": "SISUB",
+     "tipo": "ley",
+     "autoridad": "INFONAVIT",
+     "url": "https://portalmx.infonavit.org.mx/",
+     "ultima_reforma": "verificar",
+     "aplica": "Prestadores de servicios especializados.",
+     "obligaciones": [
+      "Reportar cuatrimestralmente contratos y trabajadores asignados.",
+      "Mantener al corriente aportaciones y amortizaciones."
+     ],
+     "tramites": [
+      {
+       "que": "SISUB",
+       "plazo": "Cuatrimestral",
+       "ante": "INFONAVIT"
+      }
+     ],
+     "sanciones": "Multas y responsabilidad solidaria.",
+     "evidencia": [
+      "Acuses SISUB"
+     ],
+     "preguntas": [
+      "¿Se presentó el SISUB del último cuatrimestre?",
+      "¿Los contratos reportados en SISUB coinciden con los reportados en la ICSOE?"
+     ]
+    },
+    {
+     "id": "servicios_compartidos",
+     "nombre": "Servicios u obras complementarias o compartidas entre empresas del mismo grupo (LFT art. 15)",
+     "sigla": "Servicios intragrupo",
+     "tipo": "ley",
+     "autoridad": "STPS; SAT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Grupos empresariales con empresas de servicios que proveen personal o servicios a otras del grupo.",
+     "obligaciones": [
+      "Considerar que los servicios intragrupo son especializados solo si no forman parte del objeto social ni de la actividad preponderante de quien los recibe.",
+      "Registrar en el REPSE a la empresa de servicios del grupo y cumplir ICSOE/SISUB.",
+      "Documentar precios de transferencia de los servicios intragrupo."
+     ],
+     "tramites": [],
+     "sanciones": "Recalificación como subcontratación prohibida, multas, no deducibilidad y PTU omitida.",
+     "evidencia": [
+      "Análisis de objeto social vs. servicios",
+      "Contratos intragrupo",
+      "Estudio de precios de transferencia"
+     ],
+     "preguntas": [
+      "¿Se documentó por qué los servicios intragrupo no forman parte de la actividad preponderante del receptor?",
+      "¿La empresa de servicios del grupo tiene REPSE vigente y presenta ICSOE/SISUB?"
+     ]
+    },
+    {
+     "id": "agencias_colocacion",
+     "nombre": "Agencias de colocación e intermediación laboral (LFT y Reglamento de Agencias de Colocación de Trabajadores)",
+     "sigla": "Agencias de colocación",
+     "tipo": "reglamento",
+     "autoridad": "STPS",
+     "url": "https://www.gob.mx/stps",
+     "ultima_reforma": "verificar",
+     "aplica": "Agencias de reclutamiento y headhunters (intermediación permitida, sin ser patrones del personal colocado).",
+     "obligaciones": [
+      "Registrarse ante la STPS como agencia de colocación (verificar requisito y vigencia).",
+      "No cobrar al trabajador por la colocación.",
+      "Asegurar que el cliente contrate directamente al trabajador como patrón."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de agencia de colocación",
+       "plazo": "Antes de operar (verificar)",
+       "ante": "STPS"
+      }
+     ],
+     "sanciones": "Multas laborales; recalificación como subcontratación ilegal.",
+     "evidencia": [
+      "Constancia de registro",
+      "Contratos con clientes"
+     ],
+     "preguntas": [
+      "¿El personal colocado es contratado directamente por el cliente?",
+      "¿Se evita cualquier cobro al candidato?"
+     ]
+    },
+    {
+     "id": "ptu_tope",
+     "nombre": "Reparto de utilidades con tope (LFT art. 127, fr. VIII) aplicado a empresas de servicios",
+     "sigla": "PTU tope",
+     "tipo": "ley",
+     "autoridad": "STPS; SAT",
+     "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas de servicios especializados y empresas que internalizaron personal tras la reforma de 2021.",
+     "obligaciones": [
+      "Calcular la PTU con base en la renta gravable y aplicar el tope individual de tres meses de salario o el promedio de los últimos tres años, lo que más favorezca al trabajador.",
+      "Entregar la PTU en los plazos legales."
+     ],
+     "tramites": [
+      {
+       "que": "Pago de PTU",
+       "plazo": "Mayo (personas morales) / junio (personas físicas)",
+       "ante": "Trabajadores"
+      }
+     ],
+     "sanciones": "Multas laborales y reclamaciones de trabajadores.",
+     "evidencia": [
+      "Cálculo de PTU y aplicación de tope"
+     ],
+     "preguntas": [
+      "¿El cálculo del tope de PTU compara correctamente ambas opciones por trabajador?",
+      "¿La PTU se pagó dentro del plazo legal?"
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -69,6 +69,7 @@
         Los precios cambian: confírmalos con la desarrolladora. «Evaluar» calcula el riesgo completo de la ubicación. No es una recomendación de inversión.</p>
       <div class="barra" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
         <label>País <select id="de-pais"><option value="">Todos</option></select></label>
+        <label>Zona <select id="de-zona"><option value="">Todas</option></select></label>
         <label>Tipo <select id="de-tipo"><option value="">Todos</option></select></label>
         <label>Desarrolladora <select id="de-dev"><option value="">Todas</option></select></label>
         <label><input type="checkbox" id="de-nuevo"> Solo construcción nueva</label>
@@ -76,14 +77,14 @@
         <span id="de-exp"></span></div>
       <p class="meta" id="de-n"></p>
       <div class="desliza"><table class="t" id="de-tabla"></table></div>
-      <p class="meta"><a href="./?capas=inmuebles_seguimiento">Ver todos en el mapa (capa «Inmuebles en seguimiento»)</a></p>
+      <p class="meta"><a href="./?capas=inmuebles_seguimiento">Ver todos en el mapa (capa «Seguimiento a Inmuebles»)</a></p>
     </section>
 
     <section class="panel" id="p-lista" hidden>
       <div class="barra" style="display:flex;gap:8px;flex-wrap:wrap"><button type="button" class="btn" id="li-csv">Descargar CSV</button><button type="button" class="btn" id="li-json">Exportar JSON</button>
         <label class="btn">Importar JSON <input type="file" id="li-imp" accept="application/json" hidden></label></div>
       <div class="desliza"><table class="t" id="li-tabla"></table></div>
-      <p class="meta">También están en el mapa los inmuebles del repositorio InmuebleWarRoom (capa «Inmuebles en seguimiento»).</p>
+      <p class="meta">También están en el mapa los inmuebles del repositorio InmuebleWarRoom (capa «Seguimiento a Inmuebles»).</p>
     </section>
 
     <section class="panel" id="p-fuentes" hidden><p class="meta" id="fu-nota"></p><div id="fu-paises"></div></section>

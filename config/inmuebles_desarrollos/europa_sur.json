@@ -471,8 +471,8 @@
       "ciudad": "Málaga",
       "zona": "Distrito Zeta",
       "estado": "Andalucía",
-      "lat": 36.7213,
-      "lon": -4.4214,
+      "lat": 36.703663,
+      "lon": -4.484252,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -489,7 +489,8 @@
       "url": "https://www.elespanol.com/malaga/malaga-ciudad/20260514/zeta-place-nueva-promocion-aedas-homes-distrito-malaga-viviendas-euros/1003744245600_0.html",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "74 viviendas con garaje y trastero; 47,3 % vendido según la nota (mayo 2026). Dormitorios y entrega por confirmar con AEDAS. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "74 viviendas con garaje y trastero; 47,3 % vendido según la nota (mayo 2026). Dormitorios y entrega por confirmar con AEDAS. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-002",
@@ -497,9 +498,9 @@
       "ciudad": "Málaga",
       "zona": "La Térmica / zona oeste (Carretera de Cádiz)",
       "estado": "Andalucía",
-      "lat": 36.6895,
-      "lon": -4.4455,
-      "precision": "colonia",
+      "lat": 36.764791,
+      "lon": -4.442201,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -515,7 +516,8 @@
       "url": "https://www.eldebate.com/espana/andalucia/malaga/20241108/asi-termica-beach-exclusivo-proyecto-estrella-nueva-milla-oro-malaguena_242888_amp.html",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Precio de salida publicado en noviembre de 2024 (primer bloque); se anunció un segundo bloque. Precio probablemente desactualizado: verificar. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precio de salida publicado en noviembre de 2024 (primer bloque); se anunció un segundo bloque. Precio probablemente desactualizado: verificar. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-003",
@@ -523,8 +525,8 @@
       "ciudad": "Rincón de la Victoria",
       "zona": "Lo Cea - Los Cortijos",
       "estado": "Andalucía (Málaga)",
-      "lat": 36.7177,
-      "lon": -4.2755,
+      "lat": 36.716211,
+      "lon": -4.279377,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -541,7 +543,8 @@
       "url": "https://forbes.es/?p=312008",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Forbes España: pisos en altura por menos de 300.000 € y unifamiliares con jardín a 5 min del mar desde 460.000 €. Artículo sin fecha visible: verificar vigencia. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Forbes España: pisos en altura por menos de 300.000 € y unifamiliares con jardín a 5 min del mar desde 460.000 €. Artículo sin fecha visible: verificar vigencia. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-004",
@@ -549,8 +552,8 @@
       "ciudad": "Dénia",
       "zona": "Dénia",
       "estado": "Comunitat Valenciana (Alicante)",
-      "lat": 38.8408,
-      "lon": 0.1057,
+      "lat": 38.839402,
+      "lon": 0.11271,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -567,7 +570,8 @@
       "url": "https://brainsre.news/taylor-wimpey-espana-32-millones-viviendas-alicante/",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "86 apartamentos y dúplex, clase energética A. Precio 'desde 315.000 €' publicado en idealista/news; otra fuente da entrega feb-2028: verificar. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "86 apartamentos y dúplex, clase energética A. Precio 'desde 315.000 €' publicado en idealista/news; otra fuente da entrega feb-2028: verificar. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-005",
@@ -575,9 +579,9 @@
       "ciudad": "Finestrat",
       "zona": "Balcón de Finestrat",
       "estado": "Comunitat Valenciana (Alicante)",
-      "lat": 38.5673,
-      "lon": -0.2122,
-      "precision": "ciudad",
+      "lat": 38.567924,
+      "lon": -0.212232,
+      "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -593,7 +597,8 @@
       "url": "https://brainsre.news/taylor-wimpey-espana-32-millones-viviendas-alicante/",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "38 adosados de 3 dormitorios con piscina y jardines comunitarios; clase A. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "38 adosados de 3 dormitorios con piscina y jardines comunitarios; clase A. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-006",
@@ -601,9 +606,9 @@
       "ciudad": "Finestrat",
       "zona": "Entre Finestrat y Benidorm",
       "estado": "Comunitat Valenciana (Alicante)",
-      "lat": 38.5673,
-      "lon": -0.2122,
-      "precision": "ciudad",
+      "lat": 38.567924,
+      "lon": -0.212232,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -619,7 +624,8 @@
       "url": "https://alicanteplaza.es/alicanteplaza/noticia28050",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "1.ª fase: 30 apartamentos desde 242.000 € + IVA y 14 adosados desde 367.000 € + IVA (inversión 27 M€). Nota sin fecha clara: verificar si sigue en venta. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "1.ª fase: 30 apartamentos desde 242.000 € + IVA y 14 adosados desde 367.000 € + IVA (inversión 27 M€). Nota sin fecha clara: verificar si sigue en venta. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-007",
@@ -627,9 +633,9 @@
       "ciudad": "Santanyí",
       "zona": "Cala d'Or",
       "estado": "Illes Balears (Mallorca)",
-      "lat": 39.3725,
-      "lon": 3.228,
-      "precision": "colonia",
+      "lat": 39.35535,
+      "lon": 3.129164,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -645,7 +651,8 @@
       "url": "https://www.alimarket.es/construccion/noticia_amp/r447275/taylor-wimpey-pone-a-la-venta-una-nueva-promocion-exclusiva-en-la-costa-este-de-mallorca",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "36 apartamentos, certificado energético A; desde 430.000 € + IVA. Nota antigua: probable que esté vendida o entregada, verificar. Baleares: ITP en reventa e IVA 10 % en obra nueva. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "36 apartamentos, certificado energético A; desde 430.000 € + IVA. Nota antigua: probable que esté vendida o entregada, verificar. Baleares: ITP en reventa e IVA 10 % en obra nueva. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ESP-008",
@@ -653,8 +660,8 @@
       "ciudad": "Marbella",
       "zona": "Los Monteros",
       "estado": "Andalucía (Málaga)",
-      "lat": 36.5085,
-      "lon": -4.847,
+      "lat": 36.50292,
+      "lon": -4.822584,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -671,7 +678,8 @@
       "url": "https://metrovacesa.com/en/blog/metrovacesa-begins-construction-of-medblue-ii-a-development-of-45-multi-family-homes-in-marbella",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "45 viviendas; obra prevista a terminar a finales de 2025 (posible entrega inmediata o vendido). Rango 360.000–790.000 € según prensa (brainsre); Merca2 atribuye el 'desde 360.000' a Medblue I. Medblue III (51 viviendas, entrega 2S-2026) también en comercialización. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "45 viviendas; obra prevista a terminar a finales de 2025 (posible entrega inmediata o vendido). Rango 360.000–790.000 € según prensa (brainsre); Merca2 atribuye el 'desde 360.000' a Medblue I. Medblue III (51 viviendas, entrega 2S-2026) también en comercialización. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-001",
@@ -679,8 +687,8 @@
       "ciudad": "Vallauris",
       "zona": "Golfe-Juan",
       "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
-      "lat": 43.5667,
-      "lon": 7.075,
+      "lat": 43.568826,
+      "lon": 7.074102,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -697,7 +705,8 @@
       "url": "https://www.nexity.fr/neuf/0050__50061",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precios distintos según página/fecha (dès 260.000–330.000 €; T3 a 432.000 €; T5 a 1.234.000 €). Piscina, jardines privados, parking subterráneo. 'Pièces' francesas: T3 ≈ 2 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precios distintos según página/fecha (dès 260.000–330.000 €; T3 a 432.000 €; T5 a 1.234.000 €). Piscina, jardines privados, parking subterráneo. 'Pièces' francesas: T3 ≈ 2 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-002",
@@ -705,8 +714,8 @@
       "ciudad": "Antibes",
       "zona": "Antibes",
       "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
-      "lat": 43.5808,
-      "lon": 7.1251,
+      "lat": 43.585769,
+      "lon": 7.119269,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -723,7 +732,8 @@
       "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/alpes-maritimes",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Listado departamental de Nexity: 2 a 4 pièces dès 269.000 € (otro despliegue 277.000 €). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Listado departamental de Nexity: 2 a 4 pièces dès 269.000 € (otro despliegue 277.000 €). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-003",
@@ -731,8 +741,8 @@
       "ciudad": "Cagnes-sur-Mer",
       "zona": "Cagnes-sur-Mer",
       "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
-      "lat": 43.6637,
-      "lon": 7.149,
+      "lat": 43.657728,
+      "lon": 7.148427,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -749,7 +759,8 @@
       "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/alpes-maritimes",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "3 a 4 pièces desde 545.000 €; 4 pièces dès 640.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "3 a 4 pièces desde 545.000 €; 4 pièces dès 640.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-004",
@@ -757,8 +768,8 @@
       "ciudad": "Le Muy",
       "zona": "Le Muy",
       "estado": "Provence-Alpes-Côte d'Azur (Var)",
-      "lat": 43.4728,
-      "lon": 6.5664,
+      "lat": 43.460841,
+      "lon": 6.55757,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -775,7 +786,8 @@
       "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/var",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Terraza/balcón y parking. Otra captura muestra 167.499 €. Entrada más barata de Nexity en la zona. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Terraza/balcón y parking. Otra captura muestra 167.499 €. Entrada más barata de Nexity en la zona. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-005",
@@ -783,8 +795,8 @@
       "ciudad": "Toulon",
       "zona": "Toulon",
       "estado": "Provence-Alpes-Côte d'Azur (Var)",
-      "lat": 43.1242,
-      "lon": 5.928,
+      "lat": 43.125731,
+      "lon": 5.930492,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -801,7 +813,8 @@
       "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/var",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "2 a 4 pièces dès 198.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "2 a 4 pièces dès 198.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-006",
@@ -809,8 +822,8 @@
       "ciudad": "Puget-sur-Argens",
       "zona": "Puget-sur-Argens",
       "estado": "Provence-Alpes-Côte d'Azur (Var)",
-      "lat": 43.4556,
-      "lon": 6.6847,
+      "lat": 43.456048,
+      "lon": 6.682611,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -827,7 +840,8 @@
       "url": "https://www.nexity.fr/annonces-immobilieres/achat-vente/immobilier/neuf/var",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "OJO: precio con PTZ y TVA 5,5 %, reservado a residencia principal con topes de ingreso; un inversionista extranjero pagaría el precio con TVA 20 % (más alto). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "OJO: precio con PTZ y TVA 5,5 %, reservado a residencia principal con topes de ingreso; un inversionista extranjero pagaría el precio con TVA 20 % (más alto). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-007",
@@ -835,8 +849,8 @@
       "ciudad": "Nice",
       "zona": "Nice",
       "estado": "Provence-Alpes-Côte d'Azur (Alpes-Maritimes)",
-      "lat": 43.7102,
-      "lon": 7.262,
+      "lat": 43.700936,
+      "lon": 7.268391,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -853,7 +867,8 @@
       "url": "https://www.bouygues-immobilier.com/programme-neuf-nice/ref/6194",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "2 pièces entre 287.500 y 291.000 € con parking. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "2 pièces entre 287.500 y 291.000 € con parking. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-008",
@@ -861,8 +876,8 @@
       "ciudad": "Montpellier",
       "zona": "Montpellier",
       "estado": "Occitanie (Hérault)",
-      "lat": 43.6108,
-      "lon": 3.8767,
+      "lat": 43.611242,
+      "lon": 3.876734,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -879,7 +894,8 @@
       "url": "https://www.kaufmanbroad.fr/achat-immobilier-neuf/occitanie/herault/montpellier/lot/Appartement/35371_131",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lote 2 pièces de 42,76 m² con descuento de 6.000 € y TVA 5,5 % (condiciones de residencia principal/ingresos); oferta válida al 30/10. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Lote 2 pièces de 42,76 m² con descuento de 6.000 € y TVA 5,5 % (condiciones de residencia principal/ingresos); oferta válida al 30/10. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-009",
@@ -887,9 +903,9 @@
       "ciudad": "Soustons",
       "zona": "Centro (a <800 m del bourg)",
       "estado": "Nouvelle-Aquitaine (Landes)",
-      "lat": 43.7522,
-      "lon": -1.3283,
-      "precision": "ciudad",
+      "lat": 43.75079,
+      "lon": -1.32955,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -905,7 +921,8 @@
       "url": "https://www.nexity.fr/neuf/0048__48114",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "3 departamentos disponibles de 43 a 62 m². Las villas 4 pièces del mismo programa son BRS (bail réel solidaire: solo residencia principal con topes de ingreso), no aptas para inversionista. Costa atlántica, cerca de Hossegor. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "3 departamentos disponibles de 43 a 62 m². Las villas 4 pièces del mismo programa son BRS (bail réel solidaire: solo residencia principal con topes de ingreso), no aptas para inversionista. Costa atlántica, cerca de Hossegor. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-010",
@@ -913,8 +930,8 @@
       "ciudad": "Royan",
       "zona": "Antigua friche de La Robinière",
       "estado": "Nouvelle-Aquitaine (Charente-Maritime)",
-      "lat": 45.6244,
-      "lon": -1.0297,
+      "lat": 45.624533,
+      "lon": -1.028764,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -931,7 +948,8 @@
       "url": "https://www.nexity.fr/neuf/0011__11084_01",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "1 casa de 93 m² 'déjà livré'; precio con TVA 5,5 % (sujeto a condiciones), un no residente pagaría más. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "1 casa de 93 m² 'déjà livré'; precio con TVA 5,5 % (sujeto a condiciones), un no residente pagaría más. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA-011",
@@ -939,8 +957,8 @@
       "ciudad": "Dax",
       "zona": "Dax",
       "estado": "Nouvelle-Aquitaine (Landes)",
-      "lat": 43.7102,
-      "lon": -1.0536,
+      "lat": 43.708407,
+      "lon": -1.051877,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -957,7 +975,8 @@
       "url": "https://www.bouygues-immobilier.com/landes/dax",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "4 pièces 269.000–295.000 € según la captura; entrega 2027 (T1 o T2 según página). Ofertas de notaría gratuita (Pass'Proprio) sujetas a condiciones. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "4 pièces 269.000–295.000 € según la captura; entrega 2027 (T1 o T2 según página). Ofertas de notaría gratuita (Pass'Proprio) sujetas a condiciones. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA-001",
@@ -965,9 +984,9 @@
       "ciudad": "Anghiari",
       "zona": "Frazione Toppole, vocabolo Poderuzzo (casale n. 76)",
       "estado": "Toscana (Arezzo)",
-      "lat": 43.541,
-      "lon": 12.056,
-      "precision": "ciudad",
+      "lat": 43.540966,
+      "lon": 12.054581,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": false,
       "rehabilitacion": "desconocido",
@@ -983,7 +1002,8 @@
       "url": "https://www.astegiudiziarie.it/vendita-asta-fabbricato-rurale-anghiari-frazione-toppole-casale-n-76-vocabolo-poderuzzo-l2337392-p1316617",
       "fuente": "subasta oficial",
       "visto": "2026-10-22",
-      "nota": "Precio base 281.600 €, oferta mínima 211.200 €; ofertas hasta 18/11/2026 13:00, audiencia 19/11/2026 (venta sin incanto, modalidad sincrona mista). Precio bajó desde 440.000 € (mar-2026). Leer perizia: estado y ocupación. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precio base 281.600 €, oferta mínima 211.200 €; ofertas hasta 18/11/2026 13:00, audiencia 19/11/2026 (venta sin incanto, modalidad sincrona mista). Precio bajó desde 440.000 € (mar-2026). Leer perizia: estado y ocupación. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA-002",
@@ -991,8 +1011,8 @@
       "ciudad": "Casale Marittimo",
       "zona": "Via della Fornace 27",
       "estado": "Toscana (Pisa)",
-      "lat": 43.2972,
-      "lon": 10.6158,
+      "lat": 43.293219,
+      "lon": 10.615391,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": false,
@@ -1009,7 +1029,8 @@
       "url": "https://www.astegiudiziarie.it/vendita-asta-villetta-casale-marittimo-via-della-fornace-27-56040-casale-marittimo-pi-italia-l2319239-p1305619",
       "fuente": "subasta oficial",
       "visto": "2026-10-22",
-      "nota": "Precio base 313.500 €. Fecha de audiencia no confirmada (podría haber pasado). Costa Toscana (Cecina ~15 km). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precio base 313.500 €. Fecha de audiencia no confirmada (podría haber pasado). Costa Toscana (Cecina ~15 km). Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA-003",
@@ -1017,8 +1038,8 @@
       "ciudad": "Quartu Sant'Elena",
       "zona": "Loc. Margine Rosso, via Levante 34",
       "estado": "Cerdeña (Cagliari)",
-      "lat": 39.241,
-      "lon": 9.183,
+      "lat": 39.239973,
+      "lon": 9.188097,
       "precision": "ciudad",
       "tipo": "villa",
       "nuevo": false,
@@ -1035,7 +1056,8 @@
       "url": "https://www.astegiudiziarie.it/vendita-asta-villetta-quartu-sant-elena-loc-margine-rosso-via-levante-n-34-l2304655-p1296848",
       "fuente": "subasta oficial",
       "visto": "2026-10-22",
-      "nota": "Precio base 622.400 €. Fecha de audiencia no confirmada. Zona costera: revisar vincolo paesaggistico. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precio base 622.400 €. Fecha de audiencia no confirmada. Zona costera: revisar vincolo paesaggistico. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA-004",
@@ -1043,9 +1065,9 @@
       "ciudad": "Cartoceto",
       "zona": "Frazione Lucrezia, via Vittorio Veneto 31",
       "estado": "Marche (Pesaro e Urbino)",
-      "lat": 43.765,
-      "lon": 12.94,
-      "precision": "ciudad",
+      "lat": 43.765663,
+      "lon": 12.883458,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": false,
       "rehabilitacion": "desconocido",
@@ -1061,7 +1083,8 @@
       "url": "https://www.astegiudiziarie.it/vendita-asta-appartamento-cartoceto-frazione-lucrezia-via-vittorio-veneto-31-l2336839-p1316247",
       "fuente": "subasta oficial",
       "visto": "2026-10-22",
-      "nota": "Precio base 248.339 €. Fecha de audiencia no confirmada. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precio base 248.339 €. Fecha de audiencia no confirmada. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA-005",
@@ -1069,9 +1092,9 @@
       "ciudad": "Monza",
       "zona": "Via Vasari 30",
       "estado": "Lombardía (Monza e Brianza)",
-      "lat": 45.5845,
-      "lon": 9.2744,
-      "precision": "colonia",
+      "lat": 45.585991,
+      "lon": 9.303756,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1087,7 +1110,8 @@
       "url": "https://www.ilgiorno.it/monza-brianza/cronaca/il-nuovo-intervento-residenziale-trenta-68d19696",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Precios 'calmierati' ~3.150 €/m², desde 200.000 €. Al ser cooperativa con precio regulado puede exigir ser socio/residente y requisitos de ingreso: verificar elegibilidad de un no residente. A ~20 min de Milán. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precios 'calmierati' ~3.150 €/m², desde 200.000 €. Al ser cooperativa con precio regulado puede exigir ser socio/residente y requisitos de ingreso: verificar elegibilidad de un no residente. A ~20 min de Milán. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-001",
@@ -1095,8 +1119,8 @@
       "ciudad": "Heiligenhaus",
       "zona": "Südring",
       "estado": "Renania del Norte-Westfalia",
-      "lat": 51.3265,
-      "lon": 6.9714,
+      "lat": 51.329334,
+      "lon": 6.986424,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1113,7 +1137,8 @@
       "url": "https://www.bonava.de/immobilien/duesseldorf/heiligenhaus/suedringterrassen",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Reihenhäuser grandes cerca de Düsseldorf/Essen. Grunderwerbsteuer NRW 6,5 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Reihenhäuser grandes cerca de Düsseldorf/Essen. Grunderwerbsteuer NRW 6,5 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-002",
@@ -1121,9 +1146,9 @@
       "ciudad": "Schulzendorf",
       "zona": "Berliner Umland (sur de Berlín, cerca del aeropuerto BER)",
       "estado": "Brandeburgo",
-      "lat": 52.3586,
-      "lon": 13.5867,
-      "precision": "ciudad",
+      "lat": 52.364316,
+      "lon": 13.596091,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1139,7 +1164,8 @@
       "url": "https://www.bonava.de/immobilien/berliner-umland/schulzendorf/ritterschlag",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Casa de 114 m². Grunderwerbsteuer Brandeburgo 6,5 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Casa de 114 m². Grunderwerbsteuer Brandeburgo 6,5 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-003",
@@ -1147,8 +1173,8 @@
       "ciudad": "Bottrop",
       "zona": "Ruhrgebiet",
       "estado": "Renania del Norte-Westfalia",
-      "lat": 51.5236,
-      "lon": 6.9285,
+      "lat": 51.521581,
+      "lon": 6.929204,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1165,7 +1191,8 @@
       "url": "https://www.bonava.de/immobilien/ruhrgebiet/bottrop/eigener-feldblick",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Doppel- y Reihenhäuser. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Doppel- y Reihenhäuser. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-004",
@@ -1173,9 +1200,9 @@
       "ciudad": "Recklinghausen",
       "zona": "Hellbachquartier (Karlsbader Straße)",
       "estado": "Renania del Norte-Westfalia",
-      "lat": 51.6141,
-      "lon": 7.1979,
-      "precision": "colonia",
+      "lat": 51.614382,
+      "lon": 7.197855,
+      "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1191,7 +1218,8 @@
       "url": "https://www.bonava.de/immobilien/ruhrgebiet/recklinghausen/hellbachquartier/002-reihenhaus",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Reihenhaus de 5 Zimmer y 113 m²; el más barato hallado de Bonava. 'Zimmer' alemanes incluyen la sala: 4 Zimmer ≈ 3 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Reihenhaus de 5 Zimmer y 113 m²; el más barato hallado de Bonava. 'Zimmer' alemanes incluyen la sala: 4 Zimmer ≈ 3 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-005",
@@ -1199,8 +1227,8 @@
       "ciudad": "Wülfrath",
       "zona": "Bergisches Land",
       "estado": "Renania del Norte-Westfalia",
-      "lat": 51.2817,
-      "lon": 7.0384,
+      "lat": 51.281857,
+      "lon": 7.032806,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1217,7 +1245,8 @@
       "url": "https://www.bonava.de/immobilien/bergisches-land/wuelfrath/bergische-gaerten/012-reihenhaus",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "'Zimmer' alemanes incluyen la sala: 4 Zimmer ≈ 3 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "'Zimmer' alemanes incluyen la sala: 4 Zimmer ≈ 3 recámaras. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-006",
@@ -1225,8 +1254,8 @@
       "ciudad": "Frankfurt (Oder)",
       "zona": "Centro",
       "estado": "Brandeburgo",
-      "lat": 52.3471,
-      "lon": 14.5506,
+      "lat": 52.341227,
+      "lon": 14.549452,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1243,7 +1272,8 @@
       "url": "https://www.bonava.de/immobilien/berliner-umland/frankfurt-oder/cityterrassen",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Mezcla de departamentos y Reihenhäuser; frontera con Polonia, ~1 h a Berlín. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Mezcla de departamentos y Reihenhäuser; frontera con Polonia, ~1 h a Berlín. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-007",
@@ -1251,8 +1281,8 @@
       "ciudad": "Langen (Hessen)",
       "zona": "Römerquartier",
       "estado": "Hesse",
-      "lat": 49.9939,
-      "lon": 8.6703,
+      "lat": 49.991514,
+      "lon": 8.666702,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1269,7 +1299,8 @@
       "url": "https://www.bonava.de/immobilien/frankfurt-am-main/langen/roemerquartier",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Departamentos, Reihen- y Doppelhäuser; entre Fráncfort y Darmstadt. Grunderwerbsteuer Hesse 6 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Departamentos, Reihen- y Doppelhäuser; entre Fráncfort y Darmstadt. Grunderwerbsteuer Hesse 6 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-008",
@@ -1277,8 +1308,8 @@
       "ciudad": "Hoppegarten",
       "zona": "Koppelhain (este de Berlín)",
       "estado": "Brandeburgo",
-      "lat": 52.518,
-      "lon": 13.672,
+      "lat": 52.550231,
+      "lon": 13.641194,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1295,7 +1326,8 @@
       "url": "https://www.bonava.de/immobilien/berliner-umland/hoppegarten/koppelhain",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Departamentos, Reihen- y Doppelhäuser. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Departamentos, Reihen- y Doppelhäuser. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-009",
@@ -1303,9 +1335,9 @@
       "ciudad": "Zirchow",
       "zona": "Isla de Usedom (Mar Báltico)",
       "estado": "Mecklemburgo-Pomerania Occidental",
-      "lat": 53.8833,
-      "lon": 14.15,
-      "precision": "ciudad",
+      "lat": 53.891209,
+      "lon": 14.140797,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1321,7 +1353,8 @@
       "url": "https://www.bonava.de/immobilien/ostsee/usedom/zirchow/im-kiefernhain",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precios NETOS (sin IVA, modelo de inversión para renta vacacional con deducción de IVA); unidad de 69 m² a 207.000 € con precio fijo garantizado. Grunderwerbsteuer MV 6 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precios NETOS (sin IVA, modelo de inversión para renta vacacional con deducción de IVA); unidad de 69 m² a 207.000 € con precio fijo garantizado. Grunderwerbsteuer MV 6 %. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-010",
@@ -1329,8 +1362,8 @@
       "ciudad": "Loddin",
       "zona": "Kölpinsee, isla de Usedom",
       "estado": "Mecklemburgo-Pomerania Occidental",
-      "lat": 54.02,
-      "lon": 14.02,
+      "lat": 54.023024,
+      "lon": 14.006826,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1347,7 +1380,8 @@
       "url": "https://www.bonava.de/immobilien/ostsee/usedom/loddin-koelpinsee/bernsteinquartier",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "85 % vendido; precios netos. Unidades vistas: 2 Zimmer 66 m² 269.000 €, 3 Zimmer 88 m² 295.000 €, amueblada 101 m² 398.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "85 % vendido; precios netos. Unidades vistas: 2 Zimmer 66 m² 269.000 €, 3 Zimmer 88 m² 295.000 €, amueblada 101 m² 398.000 €. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DEU-011",
@@ -1355,8 +1389,8 @@
       "ciudad": "Heringsdorf",
       "zona": "Frente a la playa, isla de Usedom",
       "estado": "Mecklemburgo-Pomerania Occidental",
-      "lat": 53.954,
-      "lon": 14.168,
+      "lat": 53.954677,
+      "lon": 14.129571,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1373,7 +1407,8 @@
       "url": "https://www.bonava.de/immobilien/ostsee/usedom/heringsdorf/kaiserquartier",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Departamentos vacacionales junto a la playa; precios netos. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Departamentos vacacionales junto a la playa; precios netos. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CHE-001",
@@ -1381,8 +1416,8 @@
       "ciudad": "Estavayer (Montbrelloz)",
       "zona": "Montbrelloz",
       "estado": "Friburgo",
-      "lat": 46.8667,
-      "lon": 6.8167,
+      "lat": 46.8535,
+      "lon": 6.886607,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1399,7 +1434,8 @@
       "url": "https://www.steiner.ch/fr/projets/acheterlouer.html",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "29 departamentos PPE en 4 edificios; 2,5 pièces dès CHF 320.000, 5,5 pièces dès CHF 710.000. Precios de 2021: probablemente vendido. LEX KOLLER: un mexicano no residente NO puede comprar aquí (no es zona turística autorizada); solo con permiso B como residencia principal. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "29 departamentos PPE en 4 edificios; 2,5 pièces dès CHF 320.000, 5,5 pièces dès CHF 710.000. Precios de 2021: probablemente vendido. LEX KOLLER: un mexicano no residente NO puede comprar aquí (no es zona turística autorizada); solo con permiso B como residencia principal. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA-006",
@@ -1407,8 +1443,8 @@
       "ciudad": "Mussomeli",
       "zona": "Centro histórico",
       "estado": "Sicilia (Caltanissetta)",
-      "lat": 37.5786,
-      "lon": 13.7522,
+      "lat": 37.58024,
+      "lon": 13.753825,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": false,
@@ -1425,7 +1461,8 @@
       "url": "https://siviaggia.it/borghi/mussomeli-borgo-siciliano-stranieri/334402/amp/",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Precio simbólico de 1 €; obligación de rehabilitar (típicamente en 3 años) con depósito de garantía (≈5.000 € según prensa), más notario, gastos y obra (>20.000 € en total). Mussomeli figura entre los comuni sicilianos activos en 2026 (finanza.com). Verificar el bando vigente en el sitio oficial del Comune antes de cualquier trámite. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión."
+      "nota": "Precio simbólico de 1 €; obligación de rehabilitar (típicamente en 3 años) con depósito de garantía (≈5.000 € según prensa), más notario, gastos y obra (>20.000 € en total). Mussomeli figura entre los comuni sicilianos activos en 2026 (finanza.com). Verificar el bando vigente en el sitio oficial del Comune antes de cualquier trámite. Coordenadas aproximadas (centro de ciudad/zona conocido); no se pudo geocodificar con Nominatim en esta sesión.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }

@@ -386,12 +386,22 @@ pintarNube();
   const disponibles = (await Promise.all(H.JURISDICCIONES.map(async ([iso, n]) => {
     try { normas[iso] = await (await fetch(`config/normativa/${iso}.json`)).json(); return [iso, n]; } catch (e) { return null; }
   }))).filter(Boolean);
+  // México: sectores adicionales (agro, fintech, turismo, salud, educación, inmobiliario, química, IMMEX…).
+  const extraMX = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).catch(() => null);
+  if (normas.MEX && extraMX?.sectores) normas.MEX.sectores = { ...normas.MEX.sectores, ...extraMX.sectores };
   const claveN = () => `gp_norma_${$("nor-jur").value}`;
   const resp = () => leer(claveN(), {});
   let actuales = [];
   $("nor-jur").innerHTML = disponibles.map(([i, n]) => `<option value="${i}">${n}</option>`).join("");
   const sectores = await (await fetch("config/auditorias.json")).json().then((c) => c.sectores).catch(() => ({}));
-  $("nor-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + Object.entries(sectores).map(([k, s2]) => `<option value="${k}">${esc(s2.nombre)}</option>`).join("");
+  const pintarSectoresN = () => {
+    const extra = Object.entries(normas[$("nor-jur").value]?.sectores || {}).filter(([k]) => !sectores[k]);
+    const v = $("nor-sector").value;
+    $("nor-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + Object.entries(sectores).map(([k, s2]) => `<option value="${k}">${esc(s2.nombre)}</option>`).join("")
+      + (extra.length ? `<optgroup label="Más sectores (México)">${extra.map(([k, s2]) => `<option value="${k}">${esc(s2.nombre || k)}</option>`).join("")}</optgroup>` : "");
+    if ([...$("nor-sector").options].some((o) => o.value === v)) $("nor-sector").value = v;
+  };
+  pintarSectoresN();
   const SEMN = { verde: "#2E7D32", amarillo: "#F9A825", rojo: "#B71C1C", "sin evaluar": "var(--line)" };
   function resumenN() {
     const c = H.cumplimientoNormativa($("nor-jur").value, actuales, resp());
@@ -430,7 +440,7 @@ pintarNube();
     const d = resp(); (d[c.dataset.np] ||= {})[e.target.dataset.k] = e.target.value; guardar(claveN(), d);
     if (e.target.dataset.k === "estado") resumenN();
   });
-  $("nor-jur").onchange = pintarN; $("nor-sector").onchange = pintarN;
+  $("nor-jur").onchange = () => { pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
   let tq = 0; $("nor-q").oninput = () => { clearTimeout(tq); tq = setTimeout(pintarN, 250); };
   $("nor-cal").onclick = () => {
     const t = H.tramitesDe(actuales), c = $("nor-calendario");
@@ -467,4 +477,33 @@ pintarNube();
     prefijo: "he", clave: "gp_herr_esc", ayudaContexto: "El país elegido y sus eventos se agregan solos al contexto. Para una empresa (ingresos, empleados), usa DOMINUS OPS.",
     contexto: () => { const d = datosPais(); return { cliente: {}, sector: "", eventosPorArea: d.porArea, texto: d.texto }; },
   })).catch((e) => { $("herr-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
+}
+
+// ------------------------------------------------------------------ vulnerabilidades críticas
+{
+  let vulns = null;
+  const pintarV = async () => {
+    vulns ??= await fetch("data/vulnerabilidades.json").then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (!vulns) { $("vul-estado").textContent = "Los datos aún no están disponibles (se generan con la siguiente ingesta)."; return; }
+    const kevSel = $("vul-kev").checked;
+    const f = H.filtrarVulns(vulns.vulnerabilidades, { q: $("vul-q").value, soloKev: kevSel, minCvss: kevSel ? 0 : Number($("vul-cvss").value), minEpss: Number($("vul-epss").value) });
+    $("vul-estado").textContent = `${f.length} de ${vulns.vulnerabilidades.length} · actualizado ${String(vulns.generado_utc).slice(0, 16).replace("T", " ")} UTC · catálogo KEV: ${vulns.kev_total} explotadas en total`;
+    $("vul-tabla").innerHTML = `<tr><th>CVE</th><th>Producto</th><th>CVSS</th><th>EPSS</th><th>Explotada (KEV)</th><th>Publicada</th><th>Descripción (NVD, en inglés)</th></tr>` + f.map((v) => `<tr>
+      <td><a href="${esc(v.url)}" target="_blank" rel="noopener">${esc(v.id)}</a></td><td>${esc(v.producto)}</td>
+      <td style="color:${v.cvss >= 9 ? "#B71C1C" : ""}"><b>${v.cvss ?? "—"}</b>${v.version ? ` <span class="meta">v${esc(v.version)}</span>` : ""}</td>
+      <td>${v.epss == null ? "—" : `${(v.epss * 100).toFixed(1)} %`}</td>
+      <td>${v.kev ? `⚠️ sí, desde ${esc(v.kev.agregado)}${v.kev.ransomware === "Known" ? " · usada en ransomware" : ""}<br><span class="meta">${esc(v.kev.accion)}</span>` : "—"}</td>
+      <td>${esc(v.publicado)}</td><td class="meta">${esc(v.descripcion)}</td></tr>`).join("");
+  };
+  let tv = 0;
+  $("vul-q").addEventListener("input", () => { clearTimeout(tv); tv = setTimeout(pintarV, 250); });
+  for (const id of ["vul-kev", "vul-cvss", "vul-epss"]) $(id).addEventListener("change", pintarV);
+  document.querySelector('.pestanas button[data-p="informatica"]')?.addEventListener("click", pintarV, { once: true });
+  if (location.hash === "#informatica") pintarV();
+  import("./exportar.js").then((X) => {
+    $("vul-exp").innerHTML = X.htmlSelectorExportar("vulx");
+    $("vulx-btn").onclick = () => vulns && X.exportar($("vulx-fmt").value, ["id", "producto", "cvss", "version", "epss", "kev", "publicado", "descripcion", "url"],
+      H.filtrarVulns(vulns.vulnerabilidades, { q: $("vul-q").value, soloKev: $("vul-kev").checked, minCvss: Number($("vul-cvss").value), minEpss: Number($("vul-epss").value) }).map((v) => ({ ...v, kev: v.kev ? `sí (${v.kev.agregado})` : "" })),
+      { titulo: "Vulnerabilidades críticas", tabla: "vulnerabilidades" });
+  });
 }

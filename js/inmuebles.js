@@ -26,12 +26,14 @@ $("fu-paises").innerHTML = fuentes.paises.map((p) => `<details class="tarjeta"><
   <p class="meta"><b>Compradores extranjeros:</b> ${esc(p.extranjeros)}</p></details>`).join("");
 
 // ------------------------------------------------------------------ desarrollos en seguimiento
-const ARCHIVOS_DES = ["america", "europa_sur", "europa_norte"];
+const ARCHIVOS_DES = ["america", "europa_sur", "europa_norte", "mx_cdmx", "mx_estados", "mediterraneo_ita_hrv", "mediterraneo_fra_esp", "europa_centro_este", "caribe"];
 const desarrollos = await Promise.all(ARCHIVOS_DES.map((n) => getJSON(`config/inmuebles_desarrollos/${n}.json`).catch(() => ({ paises: {}, inmuebles: [] }))));
 const reglas = Object.assign({}, ...desarrollos.map((d) => d.paises || {}));
 const ofertas = desarrollos.flatMap((d) => d.inmuebles || []).map((x) => ({ ...x, compra: reglas[x.pais_iso3]?.compra_mexicanos?.puede || "" }));
 try {
-  const ar = await getJSON("https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json");
+  const [ar, corr] = await Promise.all([getJSON("https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json"),
+    getJSON("config/inmuebles_desarrollos/_ara_sadasi_geo.json").then((x) => x.coords || {}).catch(() => ({}))]);
+  for (const d of ar.developments || []) if (corr[d.id]) [d.lat, d.lon] = corr[d.id];
   for (const d of ar.developments || []) ofertas.push({ id: d.id, pais_iso3: "MEX", ciudad: d.city, estado: d.state, zona: d.city, lat: d.lat, lon: d.lon, tipo: "casa o departamento",
     nuevo: true, rehabilitacion: "no", desarrolladora: d.developer, proyecto: d.name, precio_desde: d.precio_min, precio_hasta: d.precio_max, moneda: "MXN", url: d.url,
     fuente: "InmueblesAraSadasi", visto: (ar.generated || "").slice(0, 10), compra: "sí" });
@@ -40,10 +42,11 @@ const nombrePaisDe = (iso) => reglas[iso]?.nombre || fuentes.paises.find((p) => 
 const opciones = (id, vals) => { $(id).innerHTML += [...new Set(vals.filter(Boolean))].sort().map((v) => `<option value="${esc(v)}">${esc(id === "de-pais" ? nombrePaisDe(v) : v)}</option>`).join(""); };
 opciones("de-pais", ofertas.map((o) => o.pais_iso3));
 opciones("de-tipo", ofertas.map((o) => o.tipo));
+opciones("de-zona", ofertas.map((o) => o.zona_objetivo));
 opciones("de-dev", ofertas.map((o) => o.desarrolladora));
 const REHAB = { no: "No", ligera: "Ligera", integral: "Integral", desconocido: "—" };
 const fmt = (n) => (n == null ? "—" : Number(n).toLocaleString("es-MX"));
-const filtradas = () => ofertas.filter((o) => (!$("de-pais").value || o.pais_iso3 === $("de-pais").value) && (!$("de-tipo").value || o.tipo === $("de-tipo").value)
+const filtradas = () => ofertas.filter((o) => (!$("de-pais").value || o.pais_iso3 === $("de-pais").value) && (!$("de-zona").value || o.zona_objetivo === $("de-zona").value) && (!$("de-tipo").value || o.tipo === $("de-tipo").value)
   && (!$("de-dev").value || o.desarrolladora === $("de-dev").value) && (!$("de-nuevo").checked || o.nuevo) && (!$("de-compra").checked || o.compra === "sí"));
 function pintarDes() {
   const f = filtradas();
@@ -54,7 +57,7 @@ function pintarDes() {
       <td>${fmt(o.precio_desde)} ${esc(o.moneda || "")}</td><td>${o.nuevo ? "Sí" : "No"}</td><td>${esc(REHAB[o.rehabilitacion] || o.rehabilitacion || "—")}</td><td>${esc(o.compra || "—")}</td><td>${esc(o.visto || "")}</td>
       <td>${o.lat != null ? `<button type="button" class="btn" data-evaluar="${o.lat},${o.lon},${esc(o.pais_iso3)}" data-nombre="${esc(`${o.proyecto || o.ciudad}`)}">Evaluar</button>` : ""}</td></tr>`).join("");
 }
-for (const id of ["de-pais", "de-tipo", "de-dev", "de-nuevo", "de-compra"]) $(id).addEventListener("change", pintarDes);
+for (const id of ["de-pais", "de-zona", "de-tipo", "de-dev", "de-nuevo", "de-compra"]) $(id).addEventListener("change", pintarDes);
 pintarDes();
 import("./exportar.js").then((X) => {
   $("de-exp").innerHTML = X.htmlSelectorExportar("dex");

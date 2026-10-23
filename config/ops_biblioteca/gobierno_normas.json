@@ -624,7 +624,7 @@
         "iso22301",
         "lean",
         "kanban",
-        "devops"
+        "devops_dora"
       ],
       "plantillas": [
         {
@@ -3001,9 +3001,9 @@
         "iso45001",
         "iso31000",
         "iso20000",
-        "sixsigma",
+        "six_sigma_dmaic",
         "lean",
-        "bpmn"
+        "bpm_bpmn"
       ],
       "plantillas": [
         {
@@ -7471,7 +7471,7 @@
         "iso42001",
         "iso20022",
         "cobit2019",
-        "sixsigma"
+        "six_sigma_dmaic"
       ],
       "plantillas": [
         {
@@ -7975,7 +7975,7 @@
         "cobit2019",
         "dmbok2",
         "iso20022",
-        "bpmn",
+        "bpm_bpmn",
         "pmbok",
         "itil4"
       ],

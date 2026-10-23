@@ -27,6 +27,15 @@ export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y amb
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
   ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: idiomas y creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"],
   ["Carreteras y calles: robos, bloqueos y protestas", "🚧", "#9C5B12"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+/** Polígono que abarca más de 90° de longitud o 60° de latitud: no es una zona real sino un relleno de todo el mapa. */
+function regionGigante(g) {
+  if (!g || !/Polygon/.test(g.type)) return false;
+  const xs = [], ys = [];
+  const rec = (c) => (typeof c[0] === "number" ? (xs.push(c[0]), ys.push(c[1])) : c.forEach(rec));
+  rec(g.coordinates);
+  return Math.max(...xs) - Math.min(...xs) > 90 || Math.max(...ys) - Math.min(...ys) > 60;
+}
+
 const POLOS = "Polos: Antártida, Groenlandia y Ártico";
 const MAR = "Mar: tráfico de barcos y pesca ilegal";
 const SALUD = "Salud: brotes y enfermedades";
@@ -804,6 +813,8 @@ export const CAPAS = [
   {
     id: "perturbaciones", grupo: "Desastres naturales", nombre: "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
     url: "data/vivos/perturbaciones.geojson", refresco_s: 1800, fuente: "NOAA NHC, Perspectiva del Tiempo Tropical",
+    // El NHC a veces manda una «región» que cubre todo el planeta (sin perturbación real): pintaba el mapa de amarillo.
+    derivar: (fc) => ({ ...fc, features: (fc.features || []).filter((f) => !regionGigante(f.geometry)) }),
     estilo: (p) => { const n = p.nivel_7d || p.nivel_2d; return { c: n === "alta" ? "#C62828" : n === "media" ? "#E2711D" : "#F2C230", r: p.kind.startsWith("ubicacion") ? 9 : 0 }; },
     etiqueta: (p) => (p.kind === "ubicacion_7d" && p.prob_7d != null ? `${p.prob_7d} % en 7 días` : ""),
     leyenda: [{ c: "#C62828", r: 6, t: "Probabilidad alta (> 60 %)" }, { c: "#E2711D", r: 6, t: "Media (40–60 %)" }, { c: "#F2C230", r: 6, t: "Baja (< 40 %)" },

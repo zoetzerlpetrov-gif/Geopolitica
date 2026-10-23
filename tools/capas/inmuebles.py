@@ -369,6 +369,6 @@ def features_desarrollos(datos, volcanes, limites):
                 "construccion": m2, "construccion_max": d.get("m2_hasta"), "recamaras": d.get("recamaras", ""), "entrega": d.get("entrega", ""),
                 "nuevo": bool(d.get("nuevo")), "rehab": d.get("rehabilitacion", "desconocido"), "origen": "Desarrollos por país", "auto": True,
                 "compra": reglas.get("puede", ""), "legal": (reglas.get("detalle") or "")[:500], "costa": (reglas.get("costa") or "")[:400],
-                "precision": d.get("precision", ""), "visto": d.get("visto", ""), "fuente_t": d.get("fuente", ""), "nota": (d.get("nota") or "")[:400],
+                "precision": d.get("precision", ""), "visto": d.get("visto", ""), "zona_objetivo": d.get("zona_objetivo", ""), "fuente_t": d.get("fuente", ""), "nota": (d.get("nota") or "")[:400],
                 "geo": geo, "geo_alerta": alerta, "url": d.get("url", "")}})
     return out

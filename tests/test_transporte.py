@@ -136,6 +136,12 @@ def test_perturbaciones_niveles():
     assert p["prob_7d"] == 70 and p["nivel_7d"] == "alta" and p["nivel_2d"] == "baja" and p["cuenca"] == "Atlantic"
 
 
+def test_perturbaciones_descarta_region_de_todo_el_mapa():
+    mundo = {"type": "Polygon", "coordinates": [[[-180, -90], [180, -90], [180, 90], [-180, 90], [-180, -90]]]}
+    zona = {"type": "Polygon", "coordinates": [[[-54.5, 29.4], [-48.9, 29.4], [-48.9, 37.2], [-54.5, 29.4]]]}
+    assert P.region_gigante(mundo) and not P.region_gigante(zona) and not P.region_gigante({"type": "Point", "coordinates": [0, 0]})
+
+
 # ------------------------------------------------------------------ zonas afectadas
 CUADRO = lambda x0, y0, x1, y1: {"type": "Polygon", "coordinates": [[[x0, y0], [x1, y0], [x1, y1], [x0, y1], [x0, y0]]]}  # noqa: E731
 POLIS = [

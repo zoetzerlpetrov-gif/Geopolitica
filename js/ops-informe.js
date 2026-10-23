@@ -1,5 +1,6 @@
 // DOMINUS OPS → Informe integral de las 6 fases (vista previa, IA opcional y exportación a Word, PDF, impresión).
 import * as I from "./ops-informe-logica.js";
+import { ARCHIVOS_BIBLIOTECA } from "./ops-logica.js";
 import { exportarDocumento, htmlSelectorDocumento } from "./exportar.js";
 
 const $ = (id) => document.getElementById(id);
@@ -8,7 +9,7 @@ const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } 
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 
 export async function iniciarInforme(cfg) {
-  const biblioteca = (await Promise.all(["gobierno_normas", "procesos_mejora"].map((n) => fetch(`config/ops_biblioteca/${n}.json`).then((r) => r.json()).catch(() => ({ metodologias: [] }))))).flatMap((g) => g.metodologias);
+  const biblioteca = (await Promise.all(ARCHIVOS_BIBLIOTECA.map((n) => fetch(`config/ops_biblioteca/${n}.json`).then((r) => r.json()).catch(() => ({ metodologias: [] }))))).flatMap((g) => g.metodologias);
   let op = leer("gp_ops_inf", { tarifas: I.TARIFAS, noOfrecidos: I.NO_OFRECIDOS, contingencia: 10, impuesto: 16, consultor: "", fecha: "", ia: {} });
   const datos = () => ({ cliente: leer("gp_ops_cliente", {}), dmi: leer("gp_ops_dmi", { puntos: {} }), gob: leer("gp_ops_gob", {}), raci: leer("gp_ops_raci", { filas: [] }),
     pl: leer("gp_ops_pl", {}), kpi: leer("gp_ops_kpi", []), esc: leer("gp_ops_esc", []), bib: leer("gp_ops_bib", {}) });

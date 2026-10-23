@@ -290,7 +290,7 @@ export function htmlFichaInmueble(props, sub, familia) {
     <div class="fecha">${esc(props.pais_n)} · ${esc(familia.nombre)}</div>
     <div class="chips"><span class="chip" style="background:${esc(sub?.color || "#999")};color:#111;border-color:${esc(sub?.color || "#999")}">${esc(sub?.nombre.es || props.st)}${auto ? " (geológico automático)" : ""}</span></div>
     <dl>
-      ${fila("Precio publicado", props.x)}${fila("Tipo", props.tipo)}${fila("Desarrolladora", props.desarrolladora)}${fila("Proyecto", props.proyecto)}${fila("Zona", props.zona)}
+      ${fila("Precio publicado", props.x)}${fila("Tipo", props.tipo)}${fila("Zona de búsqueda", props.zona_objetivo)}${fila("Desarrolladora o agencia", props.desarrolladora)}${fila("Proyecto", props.proyecto)}${fila("Zona", props.zona)}
       ${fila("Modelos y precios", props.modelos)}
       ${props.terreno != null && props.terreno !== "null" ? `<dt>Terreno</dt><dd>${m2(props.terreno)}</dd>` : ""}
       ${props.construccion != null && props.construccion !== "null" ? `<dt>Construcción</dt><dd>${m2(props.construccion)}${props.construccion_max && props.construccion_max !== "null" ? ` a ${m2(props.construccion_max)}` : ""}</dd>` : ""}

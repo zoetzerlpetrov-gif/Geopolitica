@@ -1,0 +1,42 @@
+name: Geocodificar inmuebles en seguimiento
+
+# Corrige y verifica coordenadas de config/inmuebles_desarrollos/*.json con OpenStreetMap Nominatim (una consulta por
+# segundo, con caché) y confirma que cada punto caiga en tierra y en su país. Se lanza a mano después de agregar
+# inmuebles; guarda los cambios en la misma rama.
+on:
+  workflow_dispatch:
+    inputs:
+      max:
+        description: "Máximo de inmuebles a revisar"
+        required: false
+        default: "2000"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: inmuebles-geo-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  geocodificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Geocodificar y verificar
+        run: python3 -u tools/inmuebles_geo.py --max "${{ github.event.inputs.max || '2000' }}"
+      - name: Guardar cambios en la rama
+        run: |
+          git config user.name "geopolitica-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add config/inmuebles_desarrollos
+          if git diff --cached --quiet; then echo "Sin cambios"; exit 0; fi
+          git commit -q -m "inmuebles: coordenadas verificadas con OpenStreetMap"
+          git pull -q --rebase origin "${GITHUB_REF#refs/heads/}"
+          git push -q origin "HEAD:${GITHUB_REF#refs/heads/}"

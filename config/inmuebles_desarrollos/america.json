@@ -438,8 +438,8 @@
       "ciudad": "Puebla",
       "zona": "Real Segovia",
       "estado": "Puebla",
-      "lat": 19.0414,
-      "lon": -98.2063,
+      "lat": 19.043798,
+      "lon": -98.198151,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -456,7 +456,8 @@
       "url": "https://www.vinte.com.mx/comunidades/puebla/real-segovia",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Interés social. Precio de contado; cambia según prototipo, crédito y gastos notariales."
+      "nota": "Interés social. Precio de contado; cambia según prototipo, crédito y gastos notariales.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-002",
@@ -464,8 +465,8 @@
       "ciudad": "Tecámac",
       "zona": "Real Belmonte",
       "estado": "Estado de México",
-      "lat": 19.713,
-      "lon": -98.968,
+      "lat": 19.711501,
+      "lon": -98.968354,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -482,7 +483,8 @@
       "url": "https://www.vinte.com.mx/comunidades/edomex/real-belmonte",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Interés social/medio. Precio de contado."
+      "nota": "Interés social/medio. Precio de contado.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-003",
@@ -490,9 +492,9 @@
       "ciudad": "Querétaro",
       "zona": "Real Solare",
       "estado": "Querétaro",
-      "lat": 20.5888,
-      "lon": -100.3899,
-      "precision": "ciudad",
+      "lat": 20.589835,
+      "lon": -100.285196,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -508,7 +510,8 @@
       "url": "https://www.vinte.com.mx/queretaro/real-solare",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Casas y departamentos; la página liga el precio a crédito Infonavit. Municipio exacto por verificar."
+      "nota": "Casas y departamentos; la página liga el precio a crédito Infonavit. Municipio exacto por verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-004",
@@ -516,8 +519,8 @@
       "ciudad": "Tecámac",
       "zona": "Reserva Castilla",
       "estado": "Estado de México",
-      "lat": 19.713,
-      "lon": -98.968,
+      "lat": 19.711501,
+      "lon": -98.968354,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -534,7 +537,8 @@
       "url": "https://www.vinte.com.mx/edomex/reserva-castilla",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Segmento medio."
+      "nota": "Segmento medio.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-005",
@@ -542,8 +546,8 @@
       "ciudad": "Pachuca",
       "zona": "Real Madeira",
       "estado": "Hidalgo",
-      "lat": 20.1011,
-      "lon": -98.7591,
+      "lat": 20.116541,
+      "lon": -98.741354,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -560,7 +564,8 @@
       "url": "https://www.vinte.com.mx/hidalgo/real-madeira",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Preventa; zona metropolitana de Pachuca (municipio exacto por verificar)."
+      "nota": "Preventa; zona metropolitana de Pachuca (municipio exacto por verificar).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-006",
@@ -568,8 +573,8 @@
       "ciudad": "Querétaro",
       "zona": "La Vista Residencial",
       "estado": "Querétaro",
-      "lat": 20.5888,
-      "lon": -100.3899,
+      "lat": 20.527793,
+      "lon": -100.399281,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -586,7 +591,8 @@
       "url": "https://www.vinte.com.mx/queretaro/la-vista",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Residencial."
+      "nota": "Residencial.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-007",
@@ -594,8 +600,8 @@
       "ciudad": "Playa del Carmen",
       "zona": "Fracc. Real Ibiza",
       "estado": "Quintana Roo",
-      "lat": 20.6296,
-      "lon": -87.0739,
+      "lat": 20.646285,
+      "lon": -87.080787,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -612,7 +618,8 @@
       "url": "https://www.vinte.com.mx/comunidades/quintana-roo/en-real-lucerna",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Dirección publicada: Flor de Ciruelo Mz 2 Lt 3, Fracc. Real Ibiza, Solidaridad. Coordenada = centro de Playa del Carmen. Mexicanos sin restricción de zona costera."
+      "nota": "Dirección publicada: Flor de Ciruelo Mz 2 Lt 3, Fracc. Real Ibiza, Solidaridad. Coordenada = centro de Playa del Carmen. Mexicanos sin restricción de zona costera.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-008",
@@ -620,8 +627,8 @@
       "ciudad": "Playa del Carmen",
       "zona": "Fracc. Real Ibiza",
       "estado": "Quintana Roo",
-      "lat": 20.6296,
-      "lon": -87.0739,
+      "lat": 20.646285,
+      "lon": -87.080787,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -638,7 +645,8 @@
       "url": "https://www.vinte.com.mx/comunidades/quintana-roo/en-real-amalfi",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Residencial cerca de la playa; misma dirección de Real Ibiza."
+      "nota": "Residencial cerca de la playa; misma dirección de Real Ibiza.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-009",
@@ -646,9 +654,9 @@
       "ciudad": "Cancún",
       "zona": "Real Valencia",
       "estado": "Quintana Roo",
-      "lat": 21.1619,
-      "lon": -86.8515,
-      "precision": "ciudad",
+      "lat": 21.147988,
+      "lon": -86.933936,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -664,7 +672,8 @@
       "url": "https://www.vinte.com.mx/quintana-roo/real-valencia",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Entrega inmediata según la página."
+      "nota": "Entrega inmediata según la página.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-010",
@@ -672,8 +681,8 @@
       "ciudad": "Cancún",
       "zona": "Catania Residencial",
       "estado": "Quintana Roo",
-      "lat": 21.1619,
-      "lon": -86.8515,
+      "lat": 21.152747,
+      "lon": -86.842576,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -690,7 +699,8 @@
       "url": "https://vinte.com.mx/comunidades/quintana-roo/catania-residencial",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Ubicación exacta en Quintana Roo por verificar."
+      "nota": "Ubicación exacta en Quintana Roo por verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-011",
@@ -698,8 +708,8 @@
       "ciudad": "Cuernavaca",
       "zona": "Punta Cuerna",
       "estado": "Morelos",
-      "lat": 18.9242,
-      "lon": -99.2216,
+      "lat": 18.933132,
+      "lon": -99.259958,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -716,7 +726,8 @@
       "url": "https://www.vinte.com.mx/morelos/punta-cuerna",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Departamentos y casas; precio de contado. Un modelo de 2 rec / 61.36 m² aparecía AGOTADO."
+      "nota": "Departamentos y casas; precio de contado. Un modelo de 2 rec / 61.36 m² aparecía AGOTADO.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-012",
@@ -724,8 +735,8 @@
       "ciudad": "Apodaca",
       "zona": "Montalto Residencial",
       "estado": "Nuevo León",
-      "lat": 25.7817,
-      "lon": -100.1886,
+      "lat": 25.787101,
+      "lon": -100.185077,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -742,7 +753,8 @@
       "url": "https://vinte.com.mx/comunidades/nuevo-leon/montalto-residencial",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Residencial plus; precio de contado sin mobiliario."
+      "nota": "Residencial plus; precio de contado sin mobiliario.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-013",
@@ -750,9 +762,9 @@
       "ciudad": "Tlajomulco de Zúñiga",
       "zona": "Valle de Tejeda",
       "estado": "Jalisco",
-      "lat": 20.474,
-      "lon": -103.447,
-      "precision": "ciudad",
+      "lat": 20.500867,
+      "lon": -103.372507,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -768,7 +780,8 @@
       "url": "https://javer.com.mx/desarrollos/valle-de-tejeda-iii",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Interés social; modelo Marsella, 2 rec, 1 baño."
+      "nota": "Interés social; modelo Marsella, 2 rec, 1 baño.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-014",
@@ -776,8 +789,8 @@
       "ciudad": "Reynosa",
       "zona": "Col. Las Pirámides",
       "estado": "Tamaulipas",
-      "lat": 26.0923,
-      "lon": -98.2775,
+      "lat": 26.092837,
+      "lon": -98.27795,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -794,7 +807,8 @@
       "url": "https://javer.com.mx/desarrollos/piramides",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Dirección publicada: Carretera San Fernando, Col. Las Pirámides, CP 88799. Modelo Albatros 2 rec. Coordenada = centro de Reynosa."
+      "nota": "Dirección publicada: Carretera San Fernando, Col. Las Pirámides, CP 88799. Modelo Albatros 2 rec. Coordenada = centro de Reynosa.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-015",
@@ -802,8 +816,8 @@
       "ciudad": "General Escobedo",
       "zona": "El Jaral",
       "estado": "Nuevo León",
-      "lat": 25.797,
-      "lon": -100.323,
+      "lat": 25.849904,
+      "lon": -100.322094,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -820,7 +834,8 @@
       "url": "https://javer.com.mx/desarrollos/el-jaral",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Albatros. La página mostraba error de aplicación; precio tomado del índice de búsqueda: verificar."
+      "nota": "Modelo Albatros. La página mostraba error de aplicación; precio tomado del índice de búsqueda: verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-016",
@@ -828,8 +843,8 @@
       "ciudad": "Aguascalientes",
       "zona": "Paseos del Sur",
       "estado": "Aguascalientes",
-      "lat": 21.8818,
-      "lon": -102.2916,
+      "lat": 21.819512,
+      "lon": -102.268213,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -846,7 +861,8 @@
       "url": "https://javer.com.mx/fraccionamientos/aguascalientes/paseos-del-sur",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Interés social; modelo Verona."
+      "nota": "Interés social; modelo Verona.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-017",
@@ -854,8 +870,8 @@
       "ciudad": "Zinacantepec",
       "zona": "Vistas del Nevado",
       "estado": "Estado de México",
-      "lat": 19.284,
-      "lon": -99.733,
+      "lat": 19.20277,
+      "lon": -99.813524,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -872,7 +888,8 @@
       "url": "https://javer.com.mx/desarrollos/vistas-del-nevado",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Águila Elite 2 rec; otros modelos desde $1,755,000 y $1,971,000."
+      "nota": "Modelo Águila Elite 2 rec; otros modelos desde $1,755,000 y $1,971,000.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-018",
@@ -880,8 +897,8 @@
       "ciudad": "Acolman",
       "zona": "Paseo de los Agaves",
       "estado": "Estado de México",
-      "lat": 19.635,
-      "lon": -98.912,
+      "lat": 19.638947,
+      "lon": -98.910954,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -898,7 +915,8 @@
       "url": "https://javer.com.mx/desarrollos/paseo-de-los-agaves",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "3 rec, 3.5 baños."
+      "nota": "3 rec, 3.5 baños.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-019",
@@ -906,8 +924,8 @@
       "ciudad": "Juárez",
       "zona": "Valle Condesa",
       "estado": "Nuevo León",
-      "lat": 25.648,
-      "lon": -100.095,
+      "lat": 25.604946,
+      "lon": -100.104688,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -924,7 +942,8 @@
       "url": "https://javer.com.mx/desarrollos/valle-condesa-sector-frances",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelos Aura Premium/Premier. Ubicación en Juárez, N.L. inferida por el polo Valle Condesa: verificar."
+      "nota": "Modelos Aura Premium/Premier. Ubicación en Juárez, N.L. inferida por el polo Valle Condesa: verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-020",
@@ -932,8 +951,8 @@
       "ciudad": "Tlajomulco de Zúñiga",
       "zona": "Beltura",
       "estado": "Jalisco",
-      "lat": 20.474,
-      "lon": -103.447,
+      "lat": 20.481874,
+      "lon": -103.40051,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -950,7 +969,8 @@
       "url": "https://javer.com.mx/desarrollos/beltura-residencial",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Milán."
+      "nota": "Modelo Milán.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-021",
@@ -958,8 +978,8 @@
       "ciudad": "Querétaro",
       "zona": "Privada Zekkei",
       "estado": "Querétaro",
-      "lat": 20.5888,
-      "lon": -100.3899,
+      "lat": 20.5923,
+      "lon": -100.391742,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -976,7 +996,8 @@
       "url": "https://javer.com.mx/desarrollos/privada-zekkei-ii",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Málaga, 3 rec, 3 baños, 2 estacionamientos."
+      "nota": "Modelo Málaga, 3 rec, 3 baños, 2 estacionamientos.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-022",
@@ -984,8 +1005,8 @@
       "ciudad": "Apodaca",
       "zona": "Concordia",
       "estado": "Nuevo León",
-      "lat": 25.7817,
-      "lon": -100.1886,
+      "lat": 25.763053,
+      "lon": -100.197438,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1002,7 +1023,8 @@
       "url": "https://www.javer.com.mx/desarrollos/mision-de-los-angeles",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Dirección publicada: Antiguo Camino Santo Domingo, CP 66600, zona Concordia. Modelo Aura Elite."
+      "nota": "Dirección publicada: Antiguo Camino Santo Domingo, CP 66600, zona Concordia. Modelo Aura Elite.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-023",
@@ -1010,9 +1032,9 @@
       "ciudad": "El Marqués",
       "zona": "Zibatá",
       "estado": "Querétaro",
-      "lat": 20.68,
-      "lon": -100.335,
-      "precision": "colonia",
+      "lat": 20.686486,
+      "lon": -100.328827,
+      "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1028,7 +1050,8 @@
       "url": "https://javer.com.mx/desarrollos/massaro",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Residencial plus; modelo Alba Roof Garden Plus, 3 rec, 3.5 baños."
+      "nota": "Residencial plus; modelo Alba Roof Garden Plus, 3 rec, 3.5 baños.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-024",
@@ -1036,8 +1059,8 @@
       "ciudad": "Monterrey",
       "zona": "Aura Residencial",
       "estado": "Nuevo León",
-      "lat": 25.6866,
-      "lon": -100.3161,
+      "lat": 25.680202,
+      "lon": -100.315258,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1054,7 +1077,8 @@
       "url": "https://www.monterrey.ruba.com.mx/aura-residencial/index.php",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelos Catania, Ferrara y Loira. Municipio exacto en la zona metropolitana por verificar."
+      "nota": "Modelos Catania, Ferrara y Loira. Municipio exacto en la zona metropolitana por verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-025",
@@ -1062,8 +1086,8 @@
       "ciudad": "Tizayuca",
       "zona": "Bosques de Ibiza",
       "estado": "Hidalgo",
-      "lat": 19.839,
-      "lon": -98.981,
+      "lat": 19.852579,
+      "lon": -98.95927,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1080,7 +1104,8 @@
       "url": "https://davivir.com.mx/bosques-de-ibiza-tizayuca/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "La portada dice 'desde $737,900' y la ficha $706,900 (2 rec): verificar."
+      "nota": "La portada dice 'desde $737,900' y la ficha $706,900 (2 rec): verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-026",
@@ -1088,8 +1113,8 @@
       "ciudad": "Tecámac",
       "zona": "Montecarlo",
       "estado": "Estado de México",
-      "lat": 19.713,
-      "lon": -98.968,
+      "lat": 19.711501,
+      "lon": -98.968354,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1106,7 +1131,8 @@
       "url": "https://davivir.com.mx/montecarlo-tecamac/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo 2 rec planta baja $837,000; otros $1,280,900 y $1,609,900."
+      "nota": "Modelo 2 rec planta baja $837,000; otros $1,280,900 y $1,609,900.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-027",
@@ -1114,9 +1140,9 @@
       "ciudad": "Veracruz",
       "zona": "Privanzas",
       "estado": "Veracruz",
-      "lat": 19.1738,
-      "lon": -96.1342,
-      "precision": "ciudad",
+      "lat": 19.147497,
+      "lon": -96.234996,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1132,7 +1158,8 @@
       "url": "https://www.hogar.com.mx/casas-y-departamentos-en-veracruz-privanzas/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Casas y departamentos; modelo Almendro. Página posiblemente con más de un año: verificar."
+      "nota": "Casas y departamentos; modelo Almendro. Página posiblemente con más de un año: verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-028",
@@ -1140,8 +1167,8 @@
       "ciudad": "Zapopan",
       "zona": "Hacienda Copala",
       "estado": "Jalisco",
-      "lat": 20.7214,
-      "lon": -103.3918,
+      "lat": 20.795081,
+      "lon": -103.477962,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1158,7 +1185,8 @@
       "url": "https://www.hogar.com.mx/departamentos-en-zapopan-hacienda-copala/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Fénix 4N."
+      "nota": "Modelo Fénix 4N.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-029",
@@ -1166,8 +1194,8 @@
       "ciudad": "Pachuca",
       "zona": "Novovento",
       "estado": "Hidalgo",
-      "lat": 20.1011,
-      "lon": -98.7591,
+      "lat": 20.116541,
+      "lon": -98.741354,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1184,7 +1212,8 @@
       "url": "https://www.hogar.com.mx/casas-en-pachuca-novovento-residencial/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Topacio."
+      "nota": "Modelo Topacio.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-030",
@@ -1192,8 +1221,8 @@
       "ciudad": "Querétaro",
       "zona": "Dos Valles",
       "estado": "Querétaro",
-      "lat": 20.5888,
-      "lon": -100.3899,
+      "lat": 20.647987,
+      "lon": -100.493601,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1210,7 +1239,8 @@
       "url": "https://www.hogar.com.mx/casa-en-queretaro-dos-valles-residencial/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Luneto."
+      "nota": "Modelo Luneto.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-031",
@@ -1218,8 +1248,8 @@
       "ciudad": "Culiacán",
       "zona": "Anteza",
       "estado": "Sinaloa",
-      "lat": 24.8091,
-      "lon": -107.394,
+      "lat": 24.797897,
+      "lon": -107.393395,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1236,7 +1266,8 @@
       "url": "https://www.hogar.com.mx/casas-en-culiacan-anteza-residencial/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelos Encino Verde a Encino Lila. Página con ~393 días de antigüedad: verificar."
+      "nota": "Modelos Encino Verde a Encino Lila. Página con ~393 días de antigüedad: verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-032",
@@ -1244,8 +1275,8 @@
       "ciudad": "Juárez",
       "zona": "Valle Condesa",
       "estado": "Nuevo León",
-      "lat": 25.648,
-      "lon": -100.095,
+      "lat": 25.604946,
+      "lon": -100.104688,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1262,7 +1293,8 @@
       "url": "https://www.alttahomes.com/juarez-nuevo-leon/altta-condesa",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Depto. Trébol PB $1,600,000; casa Cerezo 90 m², 3 rec, $1,882,000. Av. Eloy Cavazos y carretera a San Mateo."
+      "nota": "Depto. Trébol PB $1,600,000; casa Cerezo 90 m², 3 rec, $1,882,000. Av. Eloy Cavazos y carretera a San Mateo.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-033",
@@ -1270,9 +1302,9 @@
       "ciudad": "León",
       "zona": "Cordillera Residencial",
       "estado": "Guanajuato",
-      "lat": 21.1221,
-      "lon": -101.6824,
-      "precision": "ciudad",
+      "lat": 21.178835,
+      "lon": -101.750683,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1288,7 +1320,8 @@
       "url": "https://www.alttahomes.com/leon-guanajuato/cordillera-residencial/ceiba",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelos Ceiba ($2,120,000) y Almendro ($2,715,000)."
+      "nota": "Modelos Ceiba ($2,120,000) y Almendro ($2,715,000).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-034",
@@ -1296,9 +1329,9 @@
       "ciudad": "Corregidora",
       "zona": "Santa Fe II",
       "estado": "Querétaro",
-      "lat": 20.539,
-      "lon": -100.442,
-      "precision": "ciudad",
+      "lat": 20.58648,
+      "lon": -100.446157,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1314,7 +1347,8 @@
       "url": "https://www.alttahomes.com/corregidora-queretaro/santa-fe-2/oyamel",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Residencial plus; modelo Oyamel 219 m², 3 rec, 2.5 baños."
+      "nota": "Residencial plus; modelo Oyamel 219 m², 3 rec, 2.5 baños.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-035",
@@ -1322,8 +1356,8 @@
       "ciudad": "Aguascalientes",
       "zona": "Cantares",
       "estado": "Aguascalientes",
-      "lat": 21.8818,
-      "lon": -102.2916,
+      "lat": 21.880487,
+      "lon": -102.296719,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1340,7 +1374,8 @@
       "url": "https://www.alttahomes.com/aguascalientes-aguascalientes/cantares-residencial-aguascalientes",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelo Siena."
+      "nota": "Modelo Siena.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-036",
@@ -1348,9 +1383,9 @@
       "ciudad": "Ciudad de México",
       "zona": "Iztacalco",
       "estado": "Ciudad de México",
-      "lat": 19.3953,
-      "lon": -99.0973,
-      "precision": "ciudad",
+      "lat": 19.395745,
+      "lon": -99.097453,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1366,7 +1401,8 @@
       "url": "https://quierocasa.com.mx/desarrollos",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "65 departamentos; preventa."
+      "nota": "65 departamentos; preventa.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-037",
@@ -1374,8 +1410,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Cuauhtémoc",
       "estado": "Ciudad de México",
-      "lat": 19.4326,
-      "lon": -99.1469,
+      "lat": 19.43263,
+      "lon": -99.133178,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1392,7 +1428,8 @@
       "url": "https://quierocasa.com.mx/desarrollos",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Alcaldía Cuauhtémoc; coordenada aproximada."
+      "nota": "Alcaldía Cuauhtémoc; coordenada aproximada.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-038",
@@ -1400,8 +1437,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Del Valle",
       "estado": "Ciudad de México",
-      "lat": 19.385,
-      "lon": -99.168,
+      "lat": 19.383891,
+      "lon": -99.168861,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1418,7 +1455,8 @@
       "url": "https://www.begrand.mx/desarrollos-inmobiliarios/begrand-del-valle",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lujo; precios de referencia (disponibilidad a sep-2026)."
+      "nota": "Lujo; precios de referencia (disponibilidad a sep-2026).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-039",
@@ -1426,8 +1464,8 @@
       "ciudad": "Ciudad de México",
       "zona": "Santa Fe",
       "estado": "Ciudad de México",
-      "lat": 19.359,
-      "lon": -99.26,
+      "lat": 19.361039,
+      "lon": -99.261257,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -1444,7 +1482,8 @@
       "url": "https://www.begrand.mx/desarrollos-inmobiliarios/vitant-santa-fe",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Residencial plus/lujo; precios de referencia."
+      "nota": "Residencial plus/lujo; precios de referencia.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-040",
@@ -1452,9 +1491,9 @@
       "ciudad": "Ciudad de México",
       "zona": "El Contadero (Cuajimalpa)",
       "estado": "Ciudad de México",
-      "lat": 19.343,
-      "lon": -99.291,
-      "precision": "colonia",
+      "lat": 19.353283,
+      "lon": -99.294171,
+      "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1470,7 +1509,8 @@
       "url": "https://www.begrand.mx/desarrollos-inmobiliarios/begrand-contadero",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lujo; precio de referencia."
+      "nota": "Lujo; precio de referencia.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MEX-041",
@@ -1478,9 +1518,9 @@
       "ciudad": "El Marqués",
       "zona": "Zibatá",
       "estado": "Querétaro",
-      "lat": 20.68,
-      "lon": -100.335,
-      "precision": "colonia",
+      "lat": 20.686486,
+      "lon": -100.328827,
+      "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1496,7 +1536,8 @@
       "url": "https://zibata.com/oferta-inmobiliaria/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lotes residenciales desde 128 m² (Ziqua), 129 m² (Zanura) y premium desde 300 m² (Luanna). El sitio oficial no publica precio de lote: pedir lista."
+      "nota": "Lotes residenciales desde 128 m² (Ziqua), 129 m² (Zanura) y premium desde 300 m² (Luanna). El sitio oficial no publica precio de lote: pedir lista.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-001",
@@ -1504,8 +1545,8 @@
       "ciudad": "Ocala",
       "zona": "Marion Ranch",
       "estado": "Florida",
-      "lat": 29.1872,
-      "lon": -82.1401,
+      "lat": 29.187199,
+      "lon": -82.140092,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1522,7 +1563,8 @@
       "url": "https://www.lennar.com/new-homes/florida/ocala/ocala/marion-ranch",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Casas y townhomes; townhomes desde los $200K bajos (plan Ashford $224,290)."
+      "nota": "Casas y townhomes; townhomes desde los $200K bajos (plan Ashford $224,290).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-002",
@@ -1530,8 +1572,8 @@
       "ciudad": "Cape Coral",
       "zona": "Cape Coral",
       "estado": "Florida",
-      "lat": 26.5629,
-      "lon": -81.9495,
+      "lat": 26.608837,
+      "lon": -81.977426,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1548,7 +1590,8 @@
       "url": "https://www.lennar.com/new-homes/florida/naples-ft-myers/cape-coral/new-homes-in-cape-coral",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Opciones con frente a canal, sin HOA según la página. Zona de huracanes: revisar seguro y flood zone."
+      "nota": "Opciones con frente a canal, sin HOA según la página. Zona de huracanes: revisar seguro y flood zone.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-003",
@@ -1556,9 +1599,9 @@
       "ciudad": "Cocoa",
       "zona": "Cocoa",
       "estado": "Florida",
-      "lat": 28.3861,
-      "lon": -80.742,
-      "precision": "ciudad",
+      "lat": 28.359053,
+      "lon": -80.771248,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1574,7 +1617,8 @@
       "url": "https://www.lennar.com/new-homes/florida/space-coast-melbourne/cocoa/new-homes-in-cocoa",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Space Coast; plan Breeze desde $262,990."
+      "nota": "Space Coast; plan Breeze desde $262,990.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-004",
@@ -1582,8 +1626,8 @@
       "ciudad": "Miami",
       "zona": "Del Mar",
       "estado": "Florida",
-      "lat": 25.7617,
-      "lon": -80.1918,
+      "lat": 25.685648,
+      "lon": -80.157293,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1600,7 +1644,8 @@
       "url": "https://www.lennar.com/new-homes/florida/miami/miami/del-mar",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Townhomes en comunidad cerrada; coordenada = centro de Miami."
+      "nota": "Townhomes en comunidad cerrada; coordenada = centro de Miami.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-005",
@@ -1608,8 +1653,8 @@
       "ciudad": "Orlando",
       "zona": "Lake Nona",
       "estado": "Florida",
-      "lat": 28.39,
-      "lon": -81.25,
+      "lat": 28.397614,
+      "lon": -81.263912,
       "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1626,7 +1671,8 @@
       "url": "https://www.tollbrothers.com/luxury-homes-for-sale/Florida/Alora",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Página indexada con ~20 meses de antigüedad: verificar disponibilidad."
+      "nota": "Página indexada con ~20 meses de antigüedad: verificar disponibilidad.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-006",
@@ -1634,8 +1680,8 @@
       "ciudad": "San Antonio",
       "zona": "Sonora (CP 78221)",
       "estado": "Texas",
-      "lat": 29.4241,
-      "lon": -98.4936,
+      "lat": 29.405955,
+      "lon": -98.508566,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1652,7 +1698,8 @@
       "url": "https://www.drhorton.com/texas/san-antonio/san-antonio/sonora",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "'Homes from the $161s'; desde 813 sq ft (~75.5 m²). Coordenada = centro de San Antonio."
+      "nota": "'Homes from the $161s'; desde 813 sq ft (~75.5 m²). Coordenada = centro de San Antonio.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-007",
@@ -1660,8 +1707,8 @@
       "ciudad": "San Antonio",
       "zona": "Brookstone Creek (CP 78266)",
       "estado": "Texas",
-      "lat": 29.4241,
-      "lon": -98.4936,
+      "lat": 29.4246,
+      "lon": -98.495141,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1678,7 +1725,8 @@
       "url": "https://www.drhorton.com/texas/san-antonio/san-antonio/brookstone-creek",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "'From the $390s' con planes hasta los $470s."
+      "nota": "'From the $390s' con planes hasta los $470s.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-008",
@@ -1686,8 +1734,8 @@
       "ciudad": "Buckeye",
       "zona": "Mystic Vista",
       "estado": "Arizona",
-      "lat": 33.3703,
-      "lon": -112.5838,
+      "lat": 33.394337,
+      "lon": -112.57812,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1704,7 +1752,8 @@
       "url": "https://www.kbhome.com/new-homes-phoenix/mystic-vista-enclaves",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Dirección publicada: 24526 W. Kowalsky Ln., Buckeye, AZ 85326; casas listas para mudarse. Mystic Vista Traditions desde $296,990."
+      "nota": "Dirección publicada: 24526 W. Kowalsky Ln., Buckeye, AZ 85326; casas listas para mudarse. Mystic Vista Traditions desde $296,990.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "USA-009",
@@ -1790,8 +1839,8 @@
       "ciudad": "Calgary",
       "zona": "Cityscape (NE)",
       "estado": "Alberta",
-      "lat": 51.0447,
-      "lon": -114.0719,
+      "lat": 51.151606,
+      "lon": -113.968814,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1808,7 +1857,8 @@
       "url": "https://mattamyhomes.com/alberta/calgary/calgary/cityscape",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Townhome Brooke 1,342 sq ft, 3 rec, desde $459,990; unifamiliares hasta ~$821,990. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Townhome Brooke 1,342 sq ft, 3 rec, desde $459,990; unifamiliares hasta ~$821,990. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-002",
@@ -1816,9 +1866,9 @@
       "ciudad": "Calgary",
       "zona": "Yorkville",
       "estado": "Alberta",
-      "lat": 51.0447,
-      "lon": -114.0719,
-      "precision": "ciudad",
+      "lat": 50.870531,
+      "lon": -114.076523,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1834,7 +1884,8 @@
       "url": "https://mattamyhomes.com/alberta/calgary/calgary/yorkville/monarch",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Monarch $640,990; Fullerton $656,990. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Monarch $640,990; Fullerton $656,990. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-003",
@@ -1842,9 +1893,9 @@
       "ciudad": "Airdrie",
       "zona": "Southwinds",
       "estado": "Alberta",
-      "lat": 51.2917,
-      "lon": -114.0144,
-      "precision": "ciudad",
+      "lat": 51.25328,
+      "lon": -114.03049,
+      "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1860,7 +1911,8 @@
       "url": "https://mattamyhomes.com/alberta/calgary/airdrie/southwinds/ripley-end",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Airdrie forma parte de la CMA de Calgary. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Airdrie forma parte de la CMA de Calgary. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-004",
@@ -1868,8 +1920,8 @@
       "ciudad": "Edmonton",
       "zona": "Varias comunidades",
       "estado": "Alberta",
-      "lat": 53.5461,
-      "lon": -113.4938,
+      "lat": 53.546205,
+      "lon": -113.491241,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1886,7 +1938,8 @@
       "url": "https://mattamyhomes.com/edmonton/community-list.aspx",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Rango de todas las comunidades de Mattamy en Edmonton (datos estructurados de la página). Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Rango de todas las comunidades de Mattamy en Edmonton (datos estructurados de la página). Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-005",
@@ -1894,8 +1947,8 @@
       "ciudad": "Calgary",
       "zona": "Seton (SE)",
       "estado": "Alberta",
-      "lat": 51.0447,
-      "lon": -114.0719,
+      "lat": 50.880393,
+      "lon": -113.95866,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1912,7 +1965,8 @@
       "url": "https://www.brookfieldresidential.com/new-homes/alberta/calgary-and-area/calgary/seton/brightside",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Townhomes desde ~$209k. Alguna página de Brookfield tenía ~621 días: verificar. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Townhomes desde ~$209k. Alguna página de Brookfield tenía ~621 días: verificar. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-006",
@@ -1920,8 +1974,8 @@
       "ciudad": "Calgary",
       "zona": "Livingston (NE)",
       "estado": "Alberta",
-      "lat": 51.0447,
-      "lon": -114.0719,
+      "lat": 51.186657,
+      "lon": -114.069027,
       "precision": "ciudad",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1938,7 +1992,8 @@
       "url": "https://www.brookfieldresidential.com/new-homes/alberta/calgary-and-area/calgary/livingston/meridian",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Plan de 1 recámara desde $227,129. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Plan de 1 recámara desde $227,129. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-007",
@@ -1946,8 +2001,8 @@
       "ciudad": "Calgary",
       "zona": "East Hills Crossing",
       "estado": "Alberta",
-      "lat": 51.0447,
-      "lon": -114.0719,
+      "lat": 51.045606,
+      "lon": -114.057541,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1964,7 +2019,8 @@
       "url": "https://www.minto.com/calgary/new-homes/East-Hills-Crossing/collections-tag/Townhomes.html",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Condos y townhomes desde $199,990; townhomes Belvedere desde $464,990. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Condos y townhomes desde $199,990; townhomes Belvedere desde $464,990. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-008",
@@ -1972,8 +2028,8 @@
       "ciudad": "Ottawa",
       "zona": "Barrhaven",
       "estado": "Ontario",
-      "lat": 45.27,
-      "lon": -75.74,
+      "lat": 45.280172,
+      "lon": -75.759707,
       "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
@@ -1990,7 +2046,8 @@
       "url": "https://www.minto.com/ottawa/new-homes/Anthem/collections-tag/Metro-Townhomes.html",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "2 rec, 1,063 sq ft, sin HST en el precio (la página cita reembolso de HST a vivienda nueva hasta $1M desde abr-2026: verificar elegibilidad de no residentes). Ontario cobra NRST 25 % a extranjeros. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "2 rec, 1,063 sq ft, sin HST en el precio (la página cita reembolso de HST a vivienda nueva hasta $1M desde abr-2026: verificar elegibilidad de no residentes). Ontario cobra NRST 25 % a extranjeros. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-009",
@@ -1998,8 +2055,8 @@
       "ciudad": "Ottawa",
       "zona": "Kanata North",
       "estado": "Ontario",
-      "lat": 45.31,
-      "lon": -75.91,
+      "lat": 45.330722,
+      "lon": -75.92112,
       "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
@@ -2016,7 +2073,8 @@
       "url": "https://www.minto.com/ottawa/Kanata-new-homes/Brookline/collections-tag/Townhomes.html",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Avenue desde $489,900; Executive desde $569,900 (fase final). NRST 25 %. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Avenue desde $489,900; Executive desde $569,900 (fase final). NRST 25 %. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CAN-010",
@@ -2024,8 +2082,8 @@
       "ciudad": "Ottawa",
       "zona": "Wateridge Village",
       "estado": "Ontario",
-      "lat": 45.45,
-      "lon": -75.64,
+      "lat": 45.453236,
+      "lon": -75.631743,
       "precision": "colonia",
       "tipo": "townhouse",
       "nuevo": true,
@@ -2042,7 +2100,8 @@
       "url": "https://mattamyhomes.com/ontario/ottawa/ottawa/wateridge-village-at-rockcliffe-ii",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Townhome de 3 rec disponible, entrega feb-2027. NRST 25 %. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos)."
+      "nota": "Townhome de 3 rec disponible, entrega feb-2027. NRST 25 %. Dentro de una CMA: compra prohibida a no canadienses hasta el 1-ene-2027 salvo excepciones (ver compra_mexicanos).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-001",
@@ -2050,9 +2109,9 @@
       "ciudad": "Huacas (Santa Cruz)",
       "zona": "Natarundi",
       "estado": "Guanacaste",
-      "lat": 10.355,
-      "lon": -85.79,
-      "precision": "ciudad",
+      "lat": 10.36717,
+      "lon": -85.774959,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2068,7 +2127,8 @@
       "url": "https://concasa.com/natarundi-landing-page-apartamentos/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Modelos Central (72 m²) y Lateral (82 m²). Nota de prensa 2024 citaba $179,900. Zona costera: confirmar que la finca es titulada y fuera de la ZMT."
+      "nota": "Modelos Central (72 m²) y Lateral (82 m²). Nota de prensa 2024 citaba $179,900. Zona costera: confirmar que la finca es titulada y fuera de la ZMT.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-002",
@@ -2076,9 +2136,9 @@
       "ciudad": "Huacas (Santa Cruz)",
       "zona": "Natarundi",
       "estado": "Guanacaste",
-      "lat": 10.355,
-      "lon": -85.79,
-      "precision": "ciudad",
+      "lat": 10.36717,
+      "lon": -85.774959,
+      "precision": "colonia",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2094,7 +2154,8 @@
       "url": "https://concasa.com/natarundi-casas-en-guanacaste/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Las páginas de Concasa difieren ($225,900 / $229,900 / $235,900); se toma la mayor. Verificar."
+      "nota": "Las páginas de Concasa difieren ($225,900 / $229,900 / $235,900); se toma la mayor. Verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-003",
@@ -2102,8 +2163,8 @@
       "ciudad": "Alajuela",
       "zona": "Parque 160",
       "estado": "Alajuela",
-      "lat": 10.0163,
-      "lon": -84.2116,
+      "lat": 10.016505,
+      "lon": -84.213867,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2120,7 +2181,8 @@
       "url": "https://concasa.com/condominio-parque-160-alajuela/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "La página del proyecto dice desde $110,000; la portada de Concasa, $149,900: verificar."
+      "nota": "La página del proyecto dice desde $110,000; la portada de Concasa, $149,900: verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-004",
@@ -2128,8 +2190,8 @@
       "ciudad": "San Rafael de Alajuela",
       "zona": "Kamari Homes",
       "estado": "Alajuela",
-      "lat": 9.995,
-      "lon": -84.245,
+      "lat": 9.969945,
+      "lon": -84.211016,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -2146,7 +2208,8 @@
       "url": "https://concasa.com/condominio-kamari-homes-casas-en-san-rafael-alajuela/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Otras páginas muestran $139,900 y $99,500 (ene-2024): verificar."
+      "nota": "Otras páginas muestran $139,900 y $99,500 (ene-2024): verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-005",
@@ -2154,8 +2217,8 @@
       "ciudad": "La Guácima (Alajuela)",
       "zona": "Solara",
       "estado": "Alajuela",
-      "lat": 9.96,
-      "lon": -84.25,
+      "lat": 9.96165,
+      "lon": -84.246744,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -2172,7 +2235,8 @@
       "url": "https://concasa.com/condominio-solara-alajuela/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Directorio: Solara $167,500 y Solara Plus $220,500; portada: $189,900 / $234,900. Verificar."
+      "nota": "Directorio: Solara $167,500 y Solara Plus $220,500; portada: $189,900 / $234,900. Verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-006",
@@ -2180,8 +2244,8 @@
       "ciudad": "San Rafael de Alajuela",
       "zona": "Monte Alto",
       "estado": "Alajuela",
-      "lat": 9.995,
-      "lon": -84.245,
+      "lat": 9.969945,
+      "lon": -84.211016,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2198,7 +2262,8 @@
       "url": "https://www.concasa.com/proyectos-montealto?page=view",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Apartamentos de 3 rec; cuota estimada ~US$800/mes."
+      "nota": "Apartamentos de 3 rec; cuota estimada ~US$800/mes.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-007",
@@ -2206,9 +2271,9 @@
       "ciudad": "Curridabat",
       "zona": "Viridian Tower",
       "estado": "San José",
-      "lat": 9.912,
-      "lon": -84.034,
-      "precision": "ciudad",
+      "lat": 9.916165,
+      "lon": -84.030842,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2224,7 +2289,8 @@
       "url": "https://concasa.com/condominio-viridian-tower-apartamentos-en-curridabat/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Torre de apartamentos en el este de San José."
+      "nota": "Torre de apartamentos en el este de San José.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-008",
@@ -2232,9 +2298,9 @@
       "ciudad": "Tamarindo (Santa Cruz)",
       "zona": "Hacienda Pinilla – Los Almendros",
       "estado": "Guanacaste",
-      "lat": 10.245,
-      "lon": -85.84,
-      "precision": "colonia",
+      "lat": 10.299191,
+      "lon": -85.841135,
+      "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2250,7 +2316,8 @@
       "url": "https://www.haciendapinilla.com/archives/properties/golf-community-14",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lote de ~media acre (≈2,000 m²); cuota de mantenimiento US$118.97. Fecha de la ficha desconocida: verificar."
+      "nota": "Lote de ~media acre (≈2,000 m²); cuota de mantenimiento US$118.97. Fecha de la ficha desconocida: verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-009",
@@ -2258,9 +2325,9 @@
       "ciudad": "Tamarindo (Santa Cruz)",
       "zona": "Hacienda Pinilla – Las Brisas",
       "estado": "Guanacaste",
-      "lat": 10.245,
-      "lon": -85.84,
-      "precision": "colonia",
+      "lat": 10.299191,
+      "lon": -85.841135,
+      "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2276,7 +2343,8 @@
       "url": "https://www.haciendapinilla.com/archives/properties/mountain-view-community-14",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Lote de ~media acre; mantenimiento US$126.49. Verificar vigencia."
+      "nota": "Lote de ~media acre; mantenimiento US$126.49. Verificar vigencia.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI-010",
@@ -2284,9 +2352,9 @@
       "ciudad": "Tamarindo (Santa Cruz)",
       "zona": "Hacienda Pinilla",
       "estado": "Guanacaste",
-      "lat": 10.245,
-      "lon": -85.84,
-      "precision": "colonia",
+      "lat": 10.248739,
+      "lon": -85.824491,
+      "precision": "ciudad",
       "tipo": "villa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2302,7 +2370,8 @@
       "url": "https://www.haciendapinilla.com/real-estate.html",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "'Desde $595,000' en la página de bienes raíces (villas y lotes, 4,500 acres). Lujo."
+      "nota": "'Desde $595,000' en la página de bienes raíces (villas y lotes, 4,500 acres). Lujo.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-001",
@@ -2310,8 +2379,8 @@
       "ciudad": "Punta Cana",
       "zona": "Cana Bay / Cap Cana",
       "estado": "La Altagracia",
-      "lat": 18.48,
-      "lon": -68.41,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2328,7 +2397,8 @@
       "url": "https://novalproperties.com/en/projects/riviera-bay",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Desde USD 210,000."
+      "nota": "Desde USD 210,000.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-002",
@@ -2336,8 +2406,8 @@
       "ciudad": "Punta Cana",
       "zona": "Cana Bay / Cap Cana",
       "estado": "La Altagracia",
-      "lat": 18.48,
-      "lon": -68.41,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2354,7 +2424,8 @@
       "url": "https://novalproperties.com/en/projects/poseidonia-residences",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Desde USD 345,000; la desarrolladora reembolsa hasta USD 2,000 de viaje de visita."
+      "nota": "Desde USD 345,000; la desarrolladora reembolsa hasta USD 2,000 de viaje de visita.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-003",
@@ -2362,8 +2433,8 @@
       "ciudad": "Punta Cana",
       "zona": "River Island",
       "estado": "La Altagracia",
-      "lat": 18.582,
-      "lon": -68.405,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2380,7 +2451,8 @@
       "url": "https://novalproperties.com/en/projects/river-island",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "540 apartamentos amueblados. Página con ~1,400 días: precio probablemente desactualizado, verificar."
+      "nota": "540 apartamentos amueblados. Página con ~1,400 días: precio probablemente desactualizado, verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-004",
@@ -2388,8 +2460,8 @@
       "ciudad": "Punta Cana",
       "zona": "Cana Cove",
       "estado": "La Altagracia",
-      "lat": 18.582,
-      "lon": -68.405,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2406,7 +2478,8 @@
       "url": "https://novalproperties.com/en/landing/ready-units",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Unidad lista para entrega; otras unidades listas USD 319,000–429,000."
+      "nota": "Unidad lista para entrega; otras unidades listas USD 319,000–429,000.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-005",
@@ -2414,8 +2487,8 @@
       "ciudad": "Cap Cana",
       "zona": "Cap Cana",
       "estado": "La Altagracia",
-      "lat": 18.48,
-      "lon": -68.41,
+      "lat": 18.499993,
+      "lon": -68.389446,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2432,7 +2505,8 @@
       "url": "https://inmobiliariareservas.com/propiedad/apartamentos-en-cap-cana-1180",
       "fuente": "inmobiliaria del banco estatal (Banreservas)",
       "visto": "2026-10-22",
-      "nota": "Ficha de la inmobiliaria del banco estatal Banreservas; desarrollador no identificado en el resultado."
+      "nota": "Ficha de la inmobiliaria del banco estatal Banreservas; desarrollador no identificado en el resultado.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-006",
@@ -2440,8 +2514,8 @@
       "ciudad": "Verón-Punta Cana",
       "zona": "Vista Cana",
       "estado": "La Altagracia",
-      "lat": 18.64,
-      "lon": -68.49,
+      "lat": 18.573041,
+      "lon": -68.38623,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2458,7 +2532,8 @@
       "url": "https://inmobiliariareservas.com/propiedad/complejo-de-apartamento-con-un-modelo-condo-hotelero",
       "fuente": "inmobiliaria del banco estatal (Banreservas)",
       "visto": "2026-10-22",
-      "nota": "Modelo condo-hotel (renta administrada)."
+      "nota": "Modelo condo-hotel (renta administrada).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-007",
@@ -2466,8 +2541,8 @@
       "ciudad": "Santo Domingo Este",
       "zona": "Santo Domingo Este",
       "estado": "Santo Domingo",
-      "lat": 18.4886,
-      "lon": -69.857,
+      "lat": 18.504784,
+      "lon": -69.859021,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2484,7 +2559,8 @@
       "url": "https://www.inmobiliariareservas.com/propiedad/apartamentos-en-santo-domingo-este",
       "fuente": "inmobiliaria del banco estatal (Banreservas)",
       "visto": "2026-10-22",
-      "nota": "Segmento económico; fuera de zona turística."
+      "nota": "Segmento económico; fuera de zona turística.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-008",
@@ -2492,8 +2568,8 @@
       "ciudad": "Punta Cana",
       "zona": "Serena Village",
       "estado": "La Altagracia",
-      "lat": 18.582,
-      "lon": -68.405,
+      "lat": 18.600887,
+      "lon": -68.413958,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2510,7 +2586,8 @@
       "url": "https://encuentra.banreservas.com/property-landing/",
       "fuente": "portal de proyectos del banco estatal (Banreservas)",
       "visto": "2026-10-22",
-      "nota": "Portal de proyectos de Banreservas (financiamiento bancario)."
+      "nota": "Portal de proyectos de Banreservas (financiamiento bancario).",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-009",
@@ -2518,9 +2595,9 @@
       "ciudad": "Cap Cana",
       "zona": "St. Regis Cap Cana",
       "estado": "La Altagracia",
-      "lat": 18.48,
-      "lon": -68.41,
-      "precision": "ciudad",
+      "lat": 18.504439,
+      "lon": -68.38301,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2536,7 +2613,8 @@
       "url": "https://news.capcana.com/the-residences-at-the-st-regis-cap-cana-launches-sales/",
       "fuente": "prensa",
       "visto": "2026-10-22",
-      "nota": "Lanzamiento de ventas (~2022): 1 rec desde US$1M hasta penthouses >US$20M. Precio de lanzamiento, verificar vigente."
+      "nota": "Lanzamiento de ventas (~2022): 1 rec desde US$1M hasta penthouses >US$20M. Precio de lanzamiento, verificar vigente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-010",
@@ -2544,8 +2622,8 @@
       "ciudad": "Punta Cana",
       "zona": "Puntacana Resort – Hacienda del Mar",
       "estado": "La Altagracia",
-      "lat": 18.51,
-      "lon": -68.37,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "terreno",
       "nuevo": true,
@@ -2562,7 +2640,8 @@
       "url": "https://www.puntacana.com/homerentals/listings/hacienda-del-mar",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "El resultado describe lotes a US$530,000 y US$665,000 en una sección rotulada 'home rentals': confirmar que son ventas y su vigencia."
+      "nota": "El resultado describe lotes a US$530,000 y US$665,000 en una sección rotulada 'home rentals': confirmar que son ventas y su vigencia.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     }
   ]
 }
