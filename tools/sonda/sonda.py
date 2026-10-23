@@ -11,3 +11,8 @@ for p in ("MEX", "USA", "RUS", "CHN", "DEU"):
     print(p, [x["n"] for x in r.values() if x["p"] == p][:8])
 print("FRA", [x["n"] for x in r.values() if x["p"] == "FRA"][:15])
 print("sin país", [x["n"] for x in r.values() if not x["p"]][:15])
+import random, re
+random.seed(1)
+fra = [x["n"] for x in r.values() if x["p"] == "FRA"]
+print("FRA muestra", random.sample(fra, 40))
+print("FRA palabras", collections.Counter(w.lower() for n in fra for w in re.findall(r"[A-Za-zÀ-ÿ]{4,}", n)).most_common(30))
