@@ -51,3 +51,33 @@ test("esquema, gráfico sugerido, mapa y nombres de país", () => {
   assert.equal(A.nombrePais(paises, "MEX"), "México (MEX)");
   assert.deepEqual(A.resolverPaises("Mexico, usa ; Canadá, XYZ, mex", paises), ["MEX", "USA", "CAN", "XYZ"]);
 });
+
+test("valores de DuckDB-WASM (Arrow) → legibles y exportables", () => {
+  const d = Date.UTC(2026, 9, 5);
+  assert.equal(A.valorJS(d, { id: 8 }), "2026-10-05");
+  assert.equal(A.valorJS(d, { id: 10 }), "2026-10-05");
+  assert.equal(A.valorJS(Date.UTC(2026, 9, 22, 14, 30), { id: 10 }), "2026-10-22 14:30 UTC");
+  assert.equal(A.valorJS(42n, { id: 2 }), 42);
+  assert.equal(A.valorJS(2n ** 60n, { id: 2 }), "1152921504606846976");
+  assert.equal(A.valorJS({ toString: () => "1234" }, { id: 7, escala: 2 }), 12.34);
+  assert.equal(A.valorJS({ toString: () => "-5500" }, { id: 7, escala: 3 }), -5.5);
+  assert.equal(A.valorJS({ toString: () => "7" }, { id: 7, escala: 0 }), 7);
+  assert.equal(A.valorJS({ toString: () => "5" }, { id: 7, escala: 2 }), 0.05);
+  assert.equal(A.valorJS(null, { id: 8 }), null);
+  const filas = A.filasJS([{ name: "dia", type: { typeId: 8 } }, { name: "n", type: { typeId: 2 } }, { name: "s", type: { typeId: 7, scale: 0 } }],
+    [{ dia: d, n: 3n, s: { toString: () => "10" } }]);
+  assert.deepEqual(filas, [{ dia: "2026-10-05", n: 3, s: 10 }]);
+  assert.doesNotThrow(() => JSON.stringify(filas));
+  assert.equal(A.sugerirGrafico(["dia", "n"], [...filas, { dia: "2026-10-06", n: 4 }, { dia: "2026-10-07", n: 1 }]).tipo, "linea");
+});
+
+test("diagrama ER: la altura alcanza para la última tabla y los ejemplos están completos", () => {
+  const svg = A.diagramaER(), H = Number(svg.match(/viewBox="0 0 \d+ (\d+)"/)[1]);
+  const ys = [...svg.matchAll(/<rect[^>]*y="([\d.]+)"[^>]*height="([\d.]+)"/g)].map((m) => Number(m[1]) + Number(m[2]));
+  assert.ok(ys.length >= 4 && Math.max(...ys) < H, `${Math.max(...ys)} < ${H}`);
+  assert.ok(A.EJEMPLOS.length >= 20);
+  assert.equal(new Set(A.EJEMPLOS.map(([n]) => n)).size, A.EJEMPLOS.length);
+  for (const [, q] of A.EJEMPLOS) assert.match(q, /^(SELECT|WITH)\b[\s\S]*;$/);
+  const cols = Object.fromEntries(Object.entries(A.ESQUEMA).map(([t, d]) => [t, d.cols.map(([c]) => c)]));
+  assert.ok(cols.paises.includes("region_nombre"));
+});
