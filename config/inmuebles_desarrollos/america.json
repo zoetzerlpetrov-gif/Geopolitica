@@ -1761,9 +1761,9 @@
       "ciudad": "Buckeye",
       "zona": "Teravalis",
       "estado": "Arizona",
-      "lat": 33.600419,
-      "lon": -112.693266,
-      "precision": "colonia",
+      "lat": 33.3703,
+      "lon": -112.5838,
+      "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1779,8 +1779,7 @@
       "url": "https://www.meritagehomes.com/state/az/phoenix/meritage-homes-by-teravalis-estate-series",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "1,369–2,049 sq ft. Comunidad maestra Teravalis (norte de Buckeye); coordenada = centro de Buckeye. Estrés hídrico en la región.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "1,369–2,049 sq ft. Comunidad maestra Teravalis (norte de Buckeye); coordenada = centro de Buckeye. Estrés hídrico en la región."
     },
     {
       "id": "USA-010",
@@ -1788,8 +1787,8 @@
       "ciudad": "Maricopa",
       "zona": "El Rancho Santa Rosa",
       "estado": "Arizona",
-      "lat": 33.34883,
-      "lon": -112.49123,
+      "lat": 33.0581,
+      "lon": -112.0476,
       "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
@@ -1806,8 +1805,7 @@
       "url": "https://www.pulte.com/homes/arizona/phoenix/maricopa",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Dirección publicada: 42965 W Krista Dr, Maricopa, AZ 85138.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Dirección publicada: 42965 W Krista Dr, Maricopa, AZ 85138."
     },
     {
       "id": "USA-011",
@@ -1815,9 +1813,9 @@
       "ciudad": "Buckeye",
       "zona": "Festival Foothills",
       "estado": "Arizona",
-      "lat": 33.673968,
-      "lon": -112.612008,
-      "precision": "colonia",
+      "lat": 33.3703,
+      "lon": -112.5838,
+      "precision": "ciudad",
       "tipo": "casa",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -1833,8 +1831,7 @@
       "url": "https://www.pulte.com/homes/arizona/phoenix/buckeye/festival-foothills-209176",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "1,472–2,848 sq ft; casa lista (Bergamot) en 21511 N 276th Ave a $350,990.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "1,472–2,848 sq ft; casa lista (Bergamot) en 21511 N 276th Ave a $350,990."
     },
     {
       "id": "CAN-001",
@@ -2436,8 +2433,8 @@
       "ciudad": "Punta Cana",
       "zona": "River Island",
       "estado": "La Altagracia",
-      "lat": 18.556551,
-      "lon": -68.369161,
+      "lat": 18.582,
+      "lon": -68.405,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2454,8 +2451,7 @@
       "url": "https://novalproperties.com/en/projects/river-island",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "540 apartamentos amueblados. Página con ~1,400 días: precio probablemente desactualizado, verificar.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "540 apartamentos amueblados. Página con ~1,400 días: precio probablemente desactualizado, verificar."
     },
     {
       "id": "DOM-004",
@@ -2463,8 +2459,8 @@
       "ciudad": "Punta Cana",
       "zona": "Cana Cove",
       "estado": "La Altagracia",
-      "lat": 18.556551,
-      "lon": -68.369161,
+      "lat": 18.582,
+      "lon": -68.405,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2481,8 +2477,7 @@
       "url": "https://novalproperties.com/en/landing/ready-units",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Unidad lista para entrega; otras unidades listas USD 319,000–429,000.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Unidad lista para entrega; otras unidades listas USD 319,000–429,000."
     },
     {
       "id": "DOM-005",

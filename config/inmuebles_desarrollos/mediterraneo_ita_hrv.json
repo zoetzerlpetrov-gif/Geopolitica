@@ -347,8 +347,8 @@
       "ciudad": "Opatija",
       "zona": "Riviera de Opatija",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.334924,
-      "lon": 14.306783,
+      "lat": 45.338,
+      "lon": 14.3,
       "precision": "ciudad",
       "geocodificar": "Opatija, Primorsko-goranska županija, Hrvatska",
       "tipo": "departamento",
@@ -367,8 +367,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de la Riviera de Opatija.",
-      "zona_objetivo": "Kvarner (10 km de costa)",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Kvarner (10 km de costa)"
     },
     {
       "id": "HRV-010",
@@ -811,8 +810,8 @@
       "ciudad": "Como",
       "zona": "Centro",
       "estado": "Lombardia",
-      "lat": 45.939586,
-      "lon": 9.149361,
+      "lat": 45.811,
+      "lon": 9.085,
       "precision": "ciudad",
       "geocodificar": "Como, Lombardia, Italia",
       "tipo": "departamento",
@@ -831,8 +830,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; URL = portada de la agencia.",
-      "zona_objetivo": "Lago di Como 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Lago di Como 50 km"
     },
     {
       "id": "ITA2-007",
@@ -1217,8 +1215,8 @@
       "ciudad": "Lerici",
       "zona": "Lerici",
       "estado": "Liguria",
-      "lat": 44.073607,
-      "lon": 9.909914,
+      "lat": 44.076,
+      "lon": 9.911,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1237,8 +1235,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
     },
     {
       "id": "ITA2-021",
@@ -1246,8 +1243,8 @@
       "ciudad": "Lerici",
       "zona": "Lerici",
       "estado": "Liguria",
-      "lat": 44.073607,
-      "lon": 9.909914,
+      "lat": 44.076,
+      "lon": 9.911,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1266,8 +1263,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
     },
     {
       "id": "ITA2-022",
@@ -1275,8 +1271,8 @@
       "ciudad": "Lerici",
       "zona": "Centro",
       "estado": "Liguria",
-      "lat": 44.073607,
-      "lon": 9.909914,
+      "lat": 44.076,
+      "lon": 9.911,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1295,8 +1291,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
     },
     {
       "id": "ITA2-023",
@@ -1304,9 +1299,9 @@
       "ciudad": "Lerici",
       "zona": "Tellaro / Fiascherino",
       "estado": "Liguria",
-      "lat": 44.066235,
-      "lon": 9.924903,
-      "precision": "colonia",
+      "lat": 44.07,
+      "lon": 9.946,
+      "precision": "ciudad",
       "geocodificar": "Fiascherino, Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1324,8 +1319,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
     },
     {
       "id": "ITA2-024",
@@ -1768,9 +1762,9 @@
       "ciudad": "Salerno",
       "zona": "Torrione",
       "estado": "Campania",
-      "lat": 40.419442,
-      "lon": 15.310609,
-      "precision": "ciudad",
+      "lat": 40.67,
+      "lon": 14.78,
+      "precision": "colonia",
       "geocodificar": "Torrione, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1788,8 +1782,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-040",
@@ -1797,9 +1790,9 @@
       "ciudad": "Salerno",
       "zona": "Matierno",
       "estado": "Campania",
-      "lat": 40.419442,
-      "lon": 15.310609,
-      "precision": "ciudad",
+      "lat": 40.7,
+      "lon": 14.765,
+      "precision": "colonia",
       "geocodificar": "Matierno, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1817,8 +1810,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-041",
@@ -1826,9 +1818,9 @@
       "ciudad": "Salerno",
       "zona": "Pastena",
       "estado": "Campania",
-      "lat": 40.419442,
-      "lon": 15.310609,
-      "precision": "ciudad",
+      "lat": 40.665,
+      "lon": 14.79,
+      "precision": "colonia",
       "geocodificar": "Pastena, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1846,8 +1838,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-042",
@@ -1855,8 +1846,8 @@
       "ciudad": "Salerno",
       "zona": "Centro Storico",
       "estado": "Campania",
-      "lat": 40.619641,
-      "lon": 15.055677,
+      "lat": 40.681,
+      "lon": 14.76,
       "precision": "colonia",
       "geocodificar": "Centro Storico, Salerno, Campania, Italia",
       "tipo": "departamento",
@@ -1875,8 +1866,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-043",
@@ -1884,9 +1874,9 @@
       "ciudad": "Salerno",
       "zona": "Mercatello",
       "estado": "Campania",
-      "lat": 40.419442,
-      "lon": 15.310609,
-      "precision": "ciudad",
+      "lat": 40.658,
+      "lon": 14.805,
+      "precision": "colonia",
       "geocodificar": "Mercatello, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1904,8 +1894,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-044",
@@ -1913,9 +1902,9 @@
       "ciudad": "Salerno",
       "zona": "Lungoirno",
       "estado": "Campania",
-      "lat": 40.419442,
-      "lon": 15.310609,
-      "precision": "ciudad",
+      "lat": 40.672,
+      "lon": 14.773,
+      "precision": "colonia",
       "geocodificar": "Lungoirno, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1933,8 +1922,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-045",
@@ -1942,9 +1930,9 @@
       "ciudad": "Salerno",
       "zona": "Centro Storico (Piazza Matteo Luciani)",
       "estado": "Campania",
-      "lat": 40.419442,
-      "lon": 15.310609,
-      "precision": "ciudad",
+      "lat": 40.681,
+      "lon": 14.76,
+      "precision": "colonia",
       "geocodificar": "Piazza Matteo Luciani, Salerno, Campania, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1962,8 +1950,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "Salerno 50 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Salerno 50 km"
     },
     {
       "id": "ITA2-046",

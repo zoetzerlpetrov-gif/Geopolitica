@@ -62,14 +62,19 @@ def adelante(q, iso2, cache):
 
 
 def inversa(lat, lon, cache):
-    """País (ISO2 en minúsculas) del punto, o None si cae en el mar."""
-    k = f"r|{lat:.5f}|{lon:.5f}"
+    """País (ISO2 en minúsculas) del punto, o None si cae en el mar.
+
+    Nominatim devuelve el objeto más cercano aunque el punto esté en el agua; si ese objeto está a más de 3 km, el punto
+    se toma como mar (o como un lugar sin nada alrededor, que tampoco sirve para ubicar un inmueble).
+    """
+    k = f"r2|{lat:.5f}|{lon:.5f}"
     if k not in cache:
         try:
-            r = pedir("https://nominatim.openstreetmap.org/reverse?" + urllib.parse.urlencode({"format": "jsonv2", "lat": lat, "lon": lon, "zoom": 14}))
+            r = pedir("https://nominatim.openstreetmap.org/reverse?" + urllib.parse.urlencode({"format": "jsonv2", "lat": lat, "lon": lon, "zoom": 18}))
             cc = (r.get("address") or {}).get("country_code")
             agua = r.get("category") in ("natural", "water", "waterway") and r.get("type") in ("water", "bay", "strait", "coastline", "sea", "ocean", "lake")
-            cache[k] = None if (r.get("error") or not cc or agua) else cc
+            lejos = "lat" in r and km((lat, lon), (float(r["lat"]), float(r["lon"]))) > 3
+            cache[k] = None if (r.get("error") or not cc or agua or lejos) else cc
         except Exception as e:  # noqa: BLE001
             print(f"   inversa falló {lat},{lon}: {e}")
             return "?"
@@ -112,9 +117,10 @@ def main(argv=None):
                     cand = c
                     break
             ok = original[0] is not None and inversa(original[0], original[1], cache) in (iso2, "?")
-            # Se usa el punto de OpenStreetMap si el original cae en el mar u otro país, si no es la ubicación exacta del
-            # proyecto, o si está a más de 30 km de su colonia o ciudad (dato probablemente equivocado).
-            usar = cand and (not ok or x.get("precision") != "proyecto" or km(original, (cand["lat"], cand["lon"])) > 30)
+            # Se usa el punto de OpenStreetMap si el original cae en el mar u otro país. Si está en tierra y no es la
+            # ubicación exacta del proyecto, solo se afina cuando el punto nuevo queda a 15 km o menos: un salto mayor
+            # suele ser otro lugar con el mismo nombre o el centro de la provincia.
+            usar = cand and (not ok or (x.get("precision") != "proyecto" and km(original, (cand["lat"], cand["lon"])) <= 15))
             if usar:
                 nuevo = (round(cand["lat"], 6), round(cand["lon"], 6))
                 if inversa(nuevo[0], nuevo[1], cache) in (iso2, "?"):
@@ -130,7 +136,7 @@ def main(argv=None):
             json.dump(d, f, ensure_ascii=False, indent=2)
             f.write("\n")
         json.dump(cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
-    # ARA y SADASI: solo se corrigen los que caen en el mar o lejos de su ciudad.
+    # ARA y SADASI: solo se corrigen los que caen en el mar o fuera de México.
     try:
         req = urllib.request.Request(ARA, headers={"User-Agent": UA})
         devs = json.loads(urllib.request.urlopen(req, timeout=60).read())["developments"]
@@ -140,7 +146,7 @@ def main(argv=None):
                 continue
             ok = inversa(x["lat"], x["lon"], cache) in ("mx", "?")
             cand = adelante(f"{x.get('city')}, {x.get('state')}, México", "mx", cache)
-            if cand and (not ok or km((x["lat"], x["lon"]), (cand["lat"], cand["lon"])) > 30):
+            if cand and not ok:
                 corr[x["id"]] = [round(cand["lat"], 6), round(cand["lon"], 6)]
                 cambios.append(f"ARA/SADASI {x['id']}: ({x['lat']}, {x['lon']}) → {corr[x['id']]}{'' if ok else ' [estaba en el mar]'}")
         json.dump({"nota": "Correcciones de coordenadas para desarrollos de InmueblesAraSadasi que caían en el mar o lejos de su ciudad (tools/inmuebles_geo.py).", "coords": corr},

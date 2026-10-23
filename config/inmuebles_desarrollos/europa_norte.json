@@ -557,8 +557,8 @@
       "ciudad": "Helsinki",
       "zona": "Kruunuvuorenranta (Laajasalo)",
       "estado": "Uusimaa",
-      "lat": 60.164717,
-      "lon": 25.016789,
+      "lat": 60.166,
+      "lon": 24.99,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -575,8 +575,7 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/kruunuvuorenranta/helsingin-kultasirittaja/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Listo para habitar; 27 de 57 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Listo para habitar; 27 de 57 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
     },
     {
       "id": "FIN-003",
@@ -1366,8 +1365,8 @@
       "ciudad": "Hamar",
       "zona": "Smedhagen",
       "estado": "Innlandet",
-      "lat": 61.001494,
-      "lon": 11.164796,
+      "lat": 60.794,
+      "lon": 11.07,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1384,8 +1383,7 @@
       "url": "https://www.obos.no/bolig/omrade/hamar",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
     },
     {
       "id": "NOR-004",
@@ -1393,8 +1391,8 @@
       "ciudad": "Hamar",
       "zona": "Stålverket",
       "estado": "Innlandet",
-      "lat": 61.001494,
-      "lon": 11.164796,
+      "lat": 60.794,
+      "lon": 11.07,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -1411,8 +1409,7 @@
       "url": "https://www.obos.no/bolig/omrade/hamar",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Totalpris incluye costos de cierre. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
     },
     {
       "id": "NOR-005",
@@ -2661,9 +2658,9 @@
       "ciudad": "Moscú",
       "zona": "Bulvar Dmitriya Donskogo (Vostochnoe Butovo)",
       "estado": "Moscú",
-      "lat": 55.750541,
-      "lon": 37.617478,
-      "precision": "ciudad",
+      "lat": 55.569,
+      "lon": 37.577,
+      "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
       "rehabilitacion": "no",
@@ -2679,8 +2676,7 @@
       "url": "https://www.pik.ru/projects",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). El más barato de la lista de PIK (~5,4 M RUB). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). El más barato de la lista de PIK (~5,4 M RUB). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
     },
     {
       "id": "RUS-002",
@@ -2821,8 +2817,8 @@
       "ciudad": "Moscú",
       "zona": "Troparevo Park (Nueva Moscú)",
       "estado": "Moscú",
-      "lat": 55.750541,
-      "lon": 37.617478,
+      "lat": 55.62,
+      "lon": 37.43,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2839,8 +2835,7 @@
       "url": "https://samolet.ru/cluster/newmos/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Estudios desde 22,77 m². Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Estudios desde 22,77 m². Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
     },
     {
       "id": "RUS-008",
@@ -2848,8 +2843,8 @@
       "ciudad": "Moscú",
       "zona": "Olkhovyi Kvartal (Nueva Moscú)",
       "estado": "Moscú",
-      "lat": 55.750541,
-      "lon": 37.617478,
+      "lat": 55.56,
+      "lon": 37.47,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2866,8 +2861,7 @@
       "url": "https://samolet.ru/project/olkhovyi-kvartal/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "nota": "Precio 'desde' en rublos de la página oficial de la desarrolladora. Antes de cualquier operación revisar sanciones, controles cambiarios y viabilidad de pagos (ver compra_mexicanos). Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
     },
     {
       "id": "RUS-009",

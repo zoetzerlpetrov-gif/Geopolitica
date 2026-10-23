@@ -2548,9 +2548,9 @@
       "ciudad": "San Petersburgo",
       "zona": "Severnaya Dolina (Vyborgski)",
       "estado": "San Petersburgo",
-      "lat": 59.938732,
-      "lon": 30.316229,
-      "precision": "ciudad",
+      "lat": 60.073,
+      "lon": 30.35,
+      "precision": "colonia",
       "geocodificar": "Северная долина, Выборгский район, Санкт-Петербург, Россия",
       "tipo": "departamento",
       "nuevo": true,
@@ -2568,8 +2568,7 @@
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
       "nota": "Edificios terminados, junto al metro; 2 recámaras desde 9,63 M RUB. Dato leído el 2026-10-22 en el resultado del buscador que indexa la página (no se pudo abrir desde este entorno): verificar en la fuente.",
-      "zona_objetivo": "San Petersburgo 20 km",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "San Petersburgo 20 km"
     },
     {
       "id": "RUS2-010",

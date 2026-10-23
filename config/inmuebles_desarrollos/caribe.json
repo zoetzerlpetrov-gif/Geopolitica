@@ -952,8 +952,8 @@
       "ciudad": "Limón",
       "zona": "Playa Bonita",
       "estado": "Limón",
-      "lat": 10.009861,
-      "lon": -83.06346,
+      "lat": 10.009,
+      "lon": -83.067,
       "precision": "colonia",
       "geocodificar": "Playa Bonita, Limón, Limón, Costa Rica",
       "tipo": "terreno",
@@ -972,8 +972,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~4 402 m², uso residencial, hotelero o comercial. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Limón",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Limón"
     },
     {
       "id": "CRI2-028",
@@ -981,8 +980,8 @@
       "ciudad": "Limón",
       "zona": "Playa Bonita",
       "estado": "Limón",
-      "lat": 10.009861,
-      "lon": -83.06346,
+      "lat": 10.009,
+      "lon": -83.067,
       "precision": "colonia",
       "geocodificar": "Playa Bonita, Limón, Limón, Costa Rica",
       "tipo": "terreno",
@@ -1001,8 +1000,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Terreno de desarrollo, no vivienda. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Limón",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Limón"
     },
     {
       "id": "CRI2-029",
@@ -2149,9 +2147,9 @@
       "ciudad": "Providenciales",
       "zona": "Long Bay (Starla Villa)",
       "estado": "Caicos",
-      "lat": 21.937927,
-      "lon": -72.045125,
-      "precision": "ciudad",
+      "lat": 21.778,
+      "lon": -72.172,
+      "precision": "colonia",
       "geocodificar": "Long Bay Hills, Providenciales, Turks and Caicos Islands",
       "tipo": "villa",
       "nuevo": true,
@@ -2169,8 +2167,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "A tres lotes de la playa de Long Bay. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Long Bay",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Providenciales – Long Bay"
     },
     {
       "id": "TCA-009",
@@ -2178,9 +2175,9 @@
       "ciudad": "Providenciales",
       "zona": "Long Bay (Seastar Villa)",
       "estado": "Caicos",
-      "lat": 21.937927,
-      "lon": -72.045125,
-      "precision": "ciudad",
+      "lat": 21.778,
+      "lon": -72.172,
+      "precision": "colonia",
       "geocodificar": "Long Bay Hills, Providenciales, Turks and Caicos Islands",
       "tipo": "villa",
       "nuevo": false,
@@ -2198,8 +2195,7 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Providenciales – Long Bay",
-      "geo_fuente": "OpenStreetMap Nominatim"
+      "zona_objetivo": "Providenciales – Long Bay"
     },
     {
       "id": "TCA-010",
