@@ -328,3 +328,25 @@ def test_overpass_sin_respuesta_anota_las_zonas_antes_de_fallar(monkeypatch):
         pass
     # Con las zonas anotadas, main() rellena con los objetos de OSM de la corrida anterior.
     assert c.FALTANTES["desaladoras"] == [[0, 0, 30, 180]]
+
+
+def test_militar_usa_wikidata_aunque_overpass_no_responda(monkeypatch):
+    fila = lambda q, en, lon, lat, op="": {"x": {"value": f"http://www.wikidata.org/entity/{q}"}, "xEn": {"value": en},
+                                          "coord": {"value": f"Point({lon} {lat})"}, "n": {"value": "20"}, "iso": {"value": "USA"},
+                                          **({"opEn": {"value": op}} if op else {})}
+    respuestas = {"Q1324633": [fila("Q1", "Naval Station Norfolk", -76.3, 36.94, "United States Navy")],
+                  "Q245016": [fila("Q2", "Ramstein Air Base", 7.6, 49.44, "United States Air Force"), fila("Q1", "Naval Station Norfolk", -76.3, 36.94)],
+                  "Q131263": [fila("Q3", "Q3", 0, 0)]}
+    monkeypatch.setattr(c, "_sparql", lambda q: {"results": {"bindings": next((v for k, v in respuestas.items() if f"wd:{k} ;" in q), [])}})
+    monkeypatch.setattr(c, "overpass", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("Overpass no respondió")))
+    monkeypatch.setattr(c.time, "sleep", lambda s: None)
+    out = c.militar()
+    por_id = {f["properties"]["id"]: f["properties"] for f in out}
+    assert set(por_id) == {"wd:Q1", "wd:Q2"}  # sin repetidos y sin el que solo tiene QID por nombre
+    assert por_id["wd:Q1"]["st"] == "bases_navales" and por_id["wd:Q2"]["st"] == "bases_aereas"
+
+
+def test_subtipo_militar():
+    assert c.subtipo_militar("Base Aérea Militar No. 1", "", "bases_terrestres") == "bases_aereas"
+    assert c.subtipo_militar("Fort Bragg", "United States Army", "bases_terrestres") == "bases_terrestres"
+    assert c.subtipo_militar("Pentagon", "", "bases_terrestres") == "cuarteles_mando"
