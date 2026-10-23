@@ -36,6 +36,9 @@ OUT = os.path.join(ROOT, "vivos", "emergencias_aereas.geojson")
 AERONAVES = os.path.join(ROOT, "vivos", "aeronaves.json")
 CODIGOS = {"7700": "Emergencia general", "7600": "Falla de radio", "7500": "Interferencia ilícita (posible secuestro)"}
 AEROPUERTOS = os.path.join(ROOT, "vivos", "aeropuertos_icao.json")
+# Emergencias que reporta la prensa (tools/crimen/crimen.py las escribe cada hora con tools/transporte/emergencias_prensa.py):
+# cubren aviones que ningún receptor de ADS-B vio con el código, como buena parte de los vuelos dentro de México.
+PRENSA = os.path.join(ROOT, "vivos", "emergencias_prensa.geojson")
 OURAIRPORTS = "https://davidmegginson.github.io/ourairports-data/airports.csv"
 # Redes de receptores voluntarios con la misma API (formato readsb) y cobertura mundial: cada una ve aviones que la otra
 # no (adsb.fi tiene muchos receptores en Europa). Uso no comercial con atribución; una consulta por segundo como máximo.
@@ -174,6 +177,22 @@ def a_geojson(registros, t, lista_ap=()):
     return feats
 
 
+def notas_prensa(ruta):
+    """Features de emergencias aéreas en la prensa → mismas features con kind «prensa» (un punto por nota)."""
+    try:
+        feats = json.load(open(ruta, encoding="utf-8")).get("features", [])
+    except (OSError, ValueError):
+        return []
+    out = []
+    for i, f in enumerate(feats):
+        p = f.get("properties") or {}
+        if not p.get("url") or not f.get("geometry"):
+            continue
+        out.append({"type": "Feature", "geometry": f["geometry"],
+                    "properties": {**p, "id": f"prensa-{i}", "kind": "prensa", "squawk": "", "activo": False}})
+    return out
+
+
 def main():
     t = int(time.time())
     previo = {}
@@ -198,10 +217,12 @@ def main():
         estado["aeronaves.json"] = len(de_os)
     except (OSError, ValueError) as e:
         estado["aeronaves.json"] = f"error: {e}"[:120]
+    prensa = notas_prensa(PRENSA)
+    estado["prensa (48 h)"] = len(prensa)
     registros = combinar(previo.get("registros", []), nuevas, t)
     lista_ap = aeropuertos(t) if registros else []
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
-    json.dump({"type": "FeatureCollection", "generado_utc": iso(t), "fuentes": estado, "registros": registros, "features": a_geojson(registros, t, lista_ap)},
+    json.dump({"type": "FeatureCollection", "generado_utc": iso(t), "fuentes": estado, "registros": registros, "features": a_geojson(registros, t, lista_ap) + prensa},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"emergencias aéreas: {len(registros)} aeronaves (6 h) · {estado}")
     return 0

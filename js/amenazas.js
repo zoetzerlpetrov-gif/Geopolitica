@@ -97,6 +97,7 @@ export function clasificar(capa, p = {}, geom = null) {
     case "zonas_afectadas": return { sev: lim(p.sev_max || 3), tipo: "Zona posiblemente afectada", ic: "" };
     case "emergencias_aereas": {
       if (p.kind === "rastro") return { sev: 3, tipo: "Emergencia aérea", ic: "" };
+      if (p.kind === "prensa") return { sev: 3, tipo: "Emergencia aérea (reporte de prensa)", ic: "📰" };
       const s = p.squawk === "7500" ? 5 : p.squawk === "7700" ? 4 : 3;
       return { sev: p.activo ? s : Math.max(2, s - 1), tipo: `Emergencia aérea: ${p.codigo_texto || p.squawk}`, ic: p.squawk === "7500" ? "🚨" : "✈️" };
     }

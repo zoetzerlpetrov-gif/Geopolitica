@@ -1,4 +1,5 @@
 """Emergencias aéreas, trenes, avisos náuticos, perturbaciones tropicales y zonas afectadas (sin red)."""
+import json
 import os
 import sys
 from datetime import datetime, timedelta, timezone
@@ -233,3 +234,31 @@ def test_revaluar_festivos_de_corridas_anteriores():
     assert e["severidad"] == 2
     grave = R.revaluar_festivos({"titulo": "Balacera en desfile de Día de Muertos deja tres muertos", "resumen": "", "severidad": 4})
     assert grave["severidad"] == 4
+
+
+# ---------------------------------------------------------------- emergencias aéreas en la prensa
+import emergencias_prensa as EP  # noqa: E402
+
+
+def test_emergencia_en_prensa_cualquier_aerolinea():
+    si = ["Vuelo de Mexicana aterriza de emergencia en Mérida", "Mexicana de Aviación declara emergencia tras despegar del AIFA",
+          "Avión de Mexicana de Aviación regresa al AIFA por falla", "Vuelo de Volaris desviado a Mérida por mal tiempo",
+          "Delta plane makes emergency landing in Atlanta", "United flight diverted to Denver after engine fire",
+          "Turkish Airlines flight declares emergency over Romania", "Ryanair diverts to Berlin"]
+    no = ["Desvío de recursos en el AIFA, denuncia ASF", "Simulacro de aterrizaje de emergencia en el AICM", "Gobierno desvía fondos a Tren Maya",
+          "Sociedad Mexicana declara emergencia sanitaria", "Recursos desviados a cuentas en el AIFA"]
+    assert all(EP.es_emergencia_aerea(t) for t in si)
+    assert not any(EP.es_emergencia_aerea(t) for t in no)
+    assert EP.aerolinea_de("Avión de Mexicana de Aviación regresa al AIFA") == "Mexicana de Aviación"
+
+
+def test_emergencia_en_prensa_ubicacion_y_capa(tmp_path):
+    sin_lugar = lambda t: None  # noqa: E731
+    f = EP.de_titular("Mexicana declara emergencia tras despegar del AIFA", "https://medio.mx/n", "Medio", "2026-10-23T10:00:00Z", sin_lugar, "RSS")
+    assert f["properties"]["lugar"].startswith("AIFA") and f["geometry"]["coordinates"] == [-99.014, 19.741]
+    assert EP.de_titular("Delta plane makes emergency landing", "https://x.com/a", "X", "2026-10-23T10:00:00Z", sin_lugar, "GKG") is None
+    ruta = tmp_path / "p.geojson"
+    ruta.write_text(json.dumps({"features": [f]}), encoding="utf-8")
+    notas = E.notas_prensa(str(ruta))
+    assert notas[0]["properties"]["kind"] == "prensa" and notas[0]["properties"]["url"] == "https://medio.mx/n"
+    assert E.notas_prensa(str(tmp_path / "no_existe.json")) == []
