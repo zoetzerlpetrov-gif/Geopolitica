@@ -136,7 +136,8 @@
    "geometria": "punto",
    "fuente": "osm",
    "habilitada": true,
-   "zoom_etiquetas": 7
+   "zoom_etiquetas": 7,
+   "nota": "Wikidata (CC0): bases militares, cuarteles, bases navales y de misiles con coordenada, sin las cerradas, las que son patrimonio histórico ni los puestos de gendarmería. OpenStreetMap (ODbL) complementa con lo que Wikidata no tiene (sitios de pruebas nucleares, bases sin artículo). Solo nombre, tipo, país y operador públicos."
   },
   {
    "id": "cables",

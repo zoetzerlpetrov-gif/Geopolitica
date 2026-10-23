@@ -1346,6 +1346,8 @@ CLASES_MILITAR = [("Q1324633", "bases_navales", 4), ("Q21193688", "bases_terrest
 RX_AEREA = re.compile(r"air ?(force )?base|airfield|air station|aérea|aerea|aeródromo militar|авиабаз|luftwaffe|fliegerhorst|"
                       r"base aérienne|air force|fuerza aérea|naval air station", re.I)
 RX_NAVAL = re.compile(r"naval|navy|armada|marine corps base|base navale|военно-морск|marinestützpunkt", re.I)
+# Puestos de policía que Wikidata registra como cuarteles (≈ 3,600 brigadas de la Gendarmería francesa): no son bases.
+RX_NO_MILITAR = re.compile(r"gendarmer|brigade (de|d'|du|des|motoris)|peloton motoris|poste provisoire|guardia civil|carabinieri", re.I)
 RX_MANDO = re.compile(r"headquarters|cuartel general|pentagon|estado mayor|command center|mando", re.I)
 
 
@@ -1376,6 +1378,8 @@ def militar_wikidata():
             c = S.coord(S._v(f, "coord"))
             nombre = S._v(f, "xEs") or S._v(f, "xEn") or ""
             if not q or not c or not nombre or re.fullmatch(r"Q\d+", nombre) or q in regs:
+                continue
+            if RX_NO_MILITAR.search(f"{nombre} {S._v(f, 'xEn') or ''}"):
                 continue
             n = int(S._v(f, "n") or 0)
             regs[q] = {"id": f"wd:{q}", "n": nombre, "p": S._v(f, "iso") or "", "lon": c[0], "lat": c[1], "sl": n,

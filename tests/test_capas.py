@@ -336,7 +336,7 @@ def test_militar_usa_wikidata_aunque_overpass_no_responda(monkeypatch):
                                           **({"opEn": {"value": op}} if op else {})}
     respuestas = {"Q1324633": [fila("Q1", "Naval Station Norfolk", -76.3, 36.94, "United States Navy")],
                   "Q245016": [fila("Q2", "Ramstein Air Base", 7.6, 49.44, "United States Air Force"), fila("Q1", "Naval Station Norfolk", -76.3, 36.94)],
-                  "Q131263": [fila("Q3", "Q3", 0, 0)]}
+                  "Q131263": [fila("Q3", "Q3", 0, 0), fila("Q4", "Gendarmerie - Brigade de Sedan", 4.9, 49.7)]}
     monkeypatch.setattr(c, "_sparql", lambda q: {"results": {"bindings": next((v for k, v in respuestas.items() if f"wd:{k} ;" in q), [])}})
     monkeypatch.setattr(c, "overpass", lambda *a, **k: (_ for _ in ()).throw(RuntimeError("Overpass no respondió")))
     monkeypatch.setattr(c.time, "sleep", lambda s: None)
