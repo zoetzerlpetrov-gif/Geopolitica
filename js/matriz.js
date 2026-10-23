@@ -45,11 +45,11 @@ async function generar() {
   pintarGrid();
   const tTema = Object.entries(r.porTema).sort((a, b) => b[1].suma - a[1].suma);
   $("mz-temas").innerHTML = `<tr><th>Tema</th><th>Datos</th><th>Puntaje promedio</th><th>Máximo</th><th>Nivel máximo</th></tr>` + tTema.map(([t, v]) =>
-    `<tr><td>${esc(t)}</td><td>${v.n}</td><td>${(v.suma / v.n).toFixed(1)}</td><td>${v.max}</td><td>${M.nivelDe(v.max)}</td></tr>`).join("");
+    `<tr><td>${esc(t)}</td><td>${v.n}</td><td>${(v.suma / v.n).toFixed(1)}</td><td>${v.max}</td><td class="n-${M.nivelDe(v.max).replace("í", "i")}">${M.nivelDe(v.max)}</td></tr>`).join("");
   $("mz-fuentes-n").innerHTML = `<tr><th>Fuente</th><th>Datos del país</th></tr>` + Object.entries(r.porFuente).sort((a, b) => b[1] - a[1]).map(([f, n]) => `<tr><td>${esc(f)}</td><td>${n}</td></tr>`).join("");
   $("mz-top").innerHTML = filasTabla(r.filas.slice(0, 30));
 }
-const filasTabla = (fs) => `<tr><th>P</th><th>I</th><th>Nivel</th><th>Dato</th><th>Tema</th><th>Fuente</th><th>Fecha</th></tr>` + fs.map((f) => `<tr><td>${f.p}</td><td>${f.i}</td><td>${M.nivelDe(f.puntaje)}</td>
+const filasTabla = (fs) => `<tr><th>P</th><th>I</th><th>Nivel</th><th>Dato</th><th>Tema</th><th>Fuente</th><th>Fecha</th></tr>` + fs.map((f) => `<tr><td>${f.p}</td><td>${f.i}</td><td class="n-${M.nivelDe(f.puntaje).replace("í", "i")}">${M.nivelDe(f.puntaje)}</td>
   <td>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.titulo)}</a>` : esc(f.titulo)}</td><td>${esc(f.tema)}</td><td>${esc(f.fuente)}</td><td>${esc(f.fecha)}</td></tr>`).join("");
 function pintarGrid() {
   const c = ultimo.r.celdas;
@@ -73,13 +73,16 @@ $("mz-exp").innerHTML = htmlSelectorExportar("mzx");
 $("mzx-btn").onclick = () => ultimo && exportar($("mzx-fmt").value, ["p", "i", "puntaje", "titulo", "tema", "grupo", "fuente", "fecha", "url"], ultimo.r.filas.map((f) => ({ ...f, nivel: M.nivelDe(f.puntaje) })),
   { titulo: `Matriz de riesgo ${ultimo.nombre}`, nota: `Índice ${ultimo.r.indice}/100 · ${ultimo.r.filas.length} datos`, tabla: "matriz_riesgo" });
 $("mz-doc").innerHTML = htmlSelectorDocumento("mzd");
+// Colores en línea para el documento exportado (Word, PDF e impresión no cargan la hoja de estilos de la página).
+const COLOR_NIVEL = { bajo: "#81C784", medio: "#FFD54F", alto: "#FFB74D", "crítico": "#E57373" };
 $("mzd-btn").onclick = () => {
   if (!ultimo) return;
   const { nombre, r } = ultimo;
   const html = `<h1>Matriz de riesgo: ${esc(nombre)}</h1><p class="meta">DOMINUS OSINT · ${new Date().toISOString().slice(0, 10)} · fuentes: ${esc(Object.keys(r.porFuente).join(", "))}</p>
     <p><b>Índice de riesgo:</b> ${r.indice}/100 con ${r.filas.length} datos.</p>${$("mz-ia-res").hidden ? "" : `<h2>Resumen ejecutivo</h2><p>${esc($("mz-ia-res").textContent).replace(/\n/g, "<br>")}</p>`}
-    <h2>Matriz 5×5 (número de datos)</h2><table><tr><th>P \\ I</th>${[1, 2, 3, 4, 5].map((i) => `<th>${i}</th>`).join("")}</tr>${[5, 4, 3, 2, 1].map((p) => `<tr><th>${p}</th>${[1, 2, 3, 4, 5].map((i) => `<td>${r.celdas[p - 1][i - 1].length || ""}</td>`).join("")}</tr>`).join("")}</table>
-    <h2>Por tema</h2><table>${$("mz-temas").innerHTML}</table><h2>Riesgos principales</h2><table>${filasTabla(r.filas.slice(0, 40))}</table>`;
+    <h2>Matriz 5×5 (número de datos)</h2><table><tr><th>P \\ I</th>${[1, 2, 3, 4, 5].map((i) => `<th>${i}</th>`).join("")}</tr>${[5, 4, 3, 2, 1].map((p) => `<tr><th>${p}</th>${[1, 2, 3, 4, 5].map((i) => `<td style="background:${COLOR_NIVEL[M.nivelDe(p * i)]};text-align:center;font-weight:700">${r.celdas[p - 1][i - 1].length || ""}</td>`).join("")}</tr>`).join("")}</table>
+    <h2>Por tema</h2><table>${$("mz-temas").innerHTML}</table><h2>Riesgos principales</h2><table>${filasTabla(r.filas.slice(0, 40))}</table>`
+      .replace(/<td class="n-(bajo|medio|alto|critico)">/g, (_, n) => `<td style="background:${COLOR_NIVEL[n === "critico" ? "crítico" : n]};font-weight:600">`);
   exportarDocumento($("mzd-fmt").value, { titulo: `Matriz de riesgo ${nombre}`, html }).catch((e) => alert(e.message));
 };
 $("mz-ia").onclick = async () => {

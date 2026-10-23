@@ -128,3 +128,11 @@ test("cámara de Singapur: la ficha pide la imagen vigente", async () => {
   await rellenarCamaraSingapur(fig, async () => ({}));
   assert.match(fig.innerHTML, /no devolvió/);
 });
+
+import { fechasRelleno } from "../../js/imagenes.js";
+test("relleno de huecos: días u horas anteriores, nunca con «default»", () => {
+  assert.deepEqual(fechasRelleno({ relleno: 1 }, "2026-10-22"), ["2026-10-21"]);
+  assert.deepEqual(fechasRelleno({ relleno: 2 }, "2026-10-22T21:00:00Z"), ["2026-10-22T20:00:00Z", "2026-10-22T19:00:00Z"]);
+  assert.deepEqual(fechasRelleno({ relleno: 2 }, "default"), []);
+  assert.deepEqual(fechasRelleno({}, "2026-10-22"), []);
+});
