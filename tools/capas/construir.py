@@ -1328,15 +1328,17 @@ def ductos():
 
 
 # Instalaciones militares en Wikidata (CC0), con subclases: base militar (≈ 11 mil con coordenada), cuartel (≈ 6 mil),
-# base naval y base de misiles. Se excluyen las cerradas (P576). Es la base de la capa: una consulta por clase responde
+# base naval y base de misiles. Se excluyen las cerradas (P576) y las que son patrimonio (P1435: búnkeres de la Segunda
+# Guerra Mundial, cuarteles históricos), que en Francia eran miles y tapaban las activas. Es la base de la capa: una consulta por clase responde
 # en segundos para todo el mundo, mientras que Overpass suele no responder en el hemisferio norte.
 Q_MILITAR = """
 SELECT ?x ?xEs ?xEn ?coord ?n ?iso ?opEn WHERE {
   ?x wdt:P31/wdt:P279* wd:%s ; wdt:P625 ?coord ; wikibase:sitelinks ?n .
   FILTER NOT EXISTS { ?x wdt:P576 ?fin }
+  FILTER NOT EXISTS { ?x wdt:P1435 ?patrimonio }
   OPTIONAL { ?x rdfs:label ?xEs FILTER(lang(?xEs) = "es") }
   OPTIONAL { ?x rdfs:label ?xEn FILTER(lang(?xEn) = "en") }
-  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso }
+  OPTIONAL { ?x wdt:P17 ?pais . ?pais wdt:P298 ?iso FILTER NOT EXISTS { ?pais wdt:P576 ?finPais } }
   OPTIONAL { ?x wdt:P137 ?op . ?op rdfs:label ?opEn FILTER(lang(?opEn) = "en") }
 }"""
 CLASES_MILITAR = [("Q1324633", "bases_navales", 4), ("Q21193688", "bases_terrestres", 5), ("Q245016", "bases_terrestres", 6),

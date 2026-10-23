@@ -9,3 +9,5 @@ print(collections.Counter(x["st"] for x in r.values()))
 print(collections.Counter(x["p"] for x in r.values()).most_common(25))
 for p in ("MEX", "USA", "RUS", "CHN", "DEU"):
     print(p, [x["n"] for x in r.values() if x["p"] == p][:8])
+print("FRA", [x["n"] for x in r.values() if x["p"] == "FRA"][:15])
+print("sin país", [x["n"] for x in r.values() if not x["p"]][:15])
