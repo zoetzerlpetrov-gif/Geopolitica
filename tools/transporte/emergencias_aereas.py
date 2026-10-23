@@ -5,8 +5,8 @@ Códigos fijos de la OACI: 7700 emergencia general, 7600 falla de radio, 7500 in
 Un código puede ser un error del piloto o una prueba; la confirmación llega por la aerolínea, la autoridad o la prensa.
 
 Fuentes (sin llave):
-  1. adsb.lol `/v2/sqk/7700`, `/7600`, `/7500` (licencia ODbL; robots.txt lo permite): todas las aeronaves del mundo
-     con ese código que ve su red de receptores voluntarios.
+  1. adsb.lol, airplanes.live y adsb.fi `/v2/sqk/7700`, `/7600`, `/7500` (misma API; adsb.lol con licencia ODbL): todas
+     las aeronaves del mundo con ese código que ve cada red de receptores voluntarios.
   2. vivos/aeronaves.json (OpenSky + adsb.lol militares), que tools/vivos/actualizar.py acaba de escribir.
 Privacidad: se excluyen las aeronaves cuyo dueño pidió privacidad (banderas PIA/LADD de adsb.lol). Se guarda lo que la
 aeronave transmite (indicativo, matrícula, tipo, posición); nunca se vincula a personas.
@@ -37,6 +37,11 @@ AERONAVES = os.path.join(ROOT, "vivos", "aeronaves.json")
 CODIGOS = {"7700": "Emergencia general", "7600": "Falla de radio", "7500": "Interferencia ilícita (posible secuestro)"}
 AEROPUERTOS = os.path.join(ROOT, "vivos", "aeropuertos_icao.json")
 OURAIRPORTS = "https://davidmegginson.github.io/ourairports-data/airports.csv"
+# Redes de receptores voluntarios con la misma API (formato readsb) y cobertura mundial: cada una ve aviones que las otras
+# no (Europa, Asia y África tienen más receptores en airplanes.live y adsb.fi que en adsb.lol). Uso no comercial con
+# atribución; una consulta por segundo como máximo.
+REDES = [("adsb.lol", "https://api.adsb.lol/v2/sqk/"), ("airplanes.live", "https://api.airplanes.live/v2/sqk/"),
+         ("adsb.fi", "https://opendata.adsb.fi/api/v2/sqk/")]
 CONSERVAR_S = 6 * 3600
 MAX_RASTRO = 40
 
@@ -178,15 +183,16 @@ def main():
     except (OSError, ValueError):
         pass
     nuevas, estado = [], {}
-    for codigo in CODIGOS:
-        url = f"https://api.adsb.lol/v2/sqk/{codigo}"
-        try:
-            d = pedir(url)
-            vistos = [x for x in (de_adsblol(a, codigo, t) for a in d.get("ac") or []) if x]
-            nuevas += vistos
-            estado[f"adsb.lol {codigo}"] = len(vistos)
-        except Exception as e:  # noqa: BLE001
-            estado[f"adsb.lol {codigo}"] = f"error: {e}"[:120]
+    for red, base in REDES:
+        for codigo in CODIGOS:
+            try:
+                d = pedir(f"{base}{codigo}")
+                vistos = [dict(x, fuente=red) for x in (de_adsblol(a, codigo, t) for a in d.get("ac") or d.get("aircraft") or []) if x]
+                nuevas += vistos
+                estado[f"{red} {codigo}"] = len(vistos)
+            except Exception as e:  # noqa: BLE001
+                estado[f"{red} {codigo}"] = f"error: {e}"[:120]
+            time.sleep(1.5)  # límite de las APIs públicas: una consulta por segundo
     try:
         de_os = de_filas(json.load(open(AERONAVES, encoding="utf-8")), t)
         nuevas += de_os

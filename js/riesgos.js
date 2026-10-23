@@ -689,7 +689,7 @@ export const CAPAS = [
   },
   {
     id: "emergencias_aereas", grupo: "Emergencias, zonas afectadas y transporte", nombre: "Aviones en emergencia: squawk 7700, 7600 y 7500 (últimas 6 h)",
-    url: "data/vivos/emergencias_aereas.geojson", refresco_s: 600, fuente: "adsb.lol (ODbL) y OpenSky Network",
+    url: "data/vivos/emergencias_aereas.geojson", refresco_s: 600, fuente: "adsb.lol (ODbL), airplanes.live, adsb.fi y OpenSky Network (todo el mundo)",
     estilo: (p) => (p.kind === "rastro" ? { c: "#C62828", r: 0 } : { c: p.squawk === "7500" ? "#6A1B9A" : p.squawk === "7700" ? "#C62828" : "#E2711D", r: p.activo ? 10 : 7 }),
     etiqueta: (p) => (p.kind === "avion" ? `${p.indicativo || p.matricula || p.hex} · ${p.squawk}` : ""),
     leyenda: [{ ic: "✈️", t: "7700: emergencia general (falla técnica, médica, combustible…)" }, { c: "#E2711D", r: 6, t: "7600: falla de radio" },

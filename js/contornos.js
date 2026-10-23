@@ -9,7 +9,24 @@ const CUBRIENTES = /^(img-|clima-|tl-|bucle-|indice-)/;
 /** ¿Alguna de estas capas tapa el mapa base? */
 export const hayCubriente = (ids) => ids.some((id) => CUBRIENTES.test(id) && !/-(lineas|etiquetas|rayos)$/.test(id));
 
+const vigilados = new WeakSet();
+
 export function actualizarContornos(map, url = "data/base/countries.geojson") {
+  // Los bucles animados (nubes, color real GOES, lluvia IMERG) agregan sus capas después, cuando GIBS responde qué cuadros
+  // hay; sin esto, con una sola de ellas encendida la revisión llegaba antes que sus capas y el contorno no aparecía.
+  if (!vigilados.has(map)) {
+    vigilados.add(map);
+    let pendiente = false;
+    map.on("styledata", () => {
+      if (pendiente) return;
+      pendiente = true;
+      setTimeout(() => { pendiente = false; revisar(map, url); }, 50);
+    });
+  }
+  revisar(map, url);
+}
+
+function revisar(map, url) {
   const ids = (map.getStyle()?.layers || []).map((l) => l.id);
   const hace = hayCubriente(ids);
   if (hace && !map.getLayer(ID)) {

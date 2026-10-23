@@ -25,7 +25,12 @@
     .mzg .eje { text-align: center; font-size: 12px; color: var(--text-2); align-self: center; }
     .mzg button { min-height: 52px; font-weight: 700; color: #111; border: 1px solid #0002; cursor: pointer; }
     .mzg button[disabled] { opacity: .45; cursor: default; }
-    .n-bajo { background: #81C784; } .n-medio { background: #FFD54F; } .n-alto { background: #FFB74D; } .n-critico { background: #E57373; }
+    /* Con «.mzg button» delante: la regla general de botones (.mz button, fondo gris) es más específica que .n-bajo sola
+       y dejaba todas las celdas grises. */
+    .mzg button.n-bajo, .n-bajo { background: #81C784; } .mzg button.n-medio, .n-medio { background: #FFD54F; }
+    .mzg button.n-alto, .n-alto { background: #FFB74D; } .mzg button.n-critico, .n-critico { background: #E57373; }
+    .mzg button[disabled].n-bajo, .mzg button[disabled].n-medio, .mzg button[disabled].n-alto, .mzg button[disabled].n-critico { opacity: .4; }
+    td.n-bajo, td.n-medio, td.n-alto, td.n-critico { color: #111; font-weight: 600; }
     .indice { font-size: 32px; font-weight: 800; }
     .resp-ia { white-space: pre-wrap; }
   </style>
