@@ -2433,8 +2433,8 @@
       "ciudad": "Punta Cana",
       "zona": "River Island",
       "estado": "La Altagracia",
-      "lat": 18.582,
-      "lon": -68.405,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2451,7 +2451,8 @@
       "url": "https://novalproperties.com/en/projects/river-island",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "540 apartamentos amueblados. Página con ~1,400 días: precio probablemente desactualizado, verificar."
+      "nota": "540 apartamentos amueblados. Página con ~1,400 días: precio probablemente desactualizado, verificar.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-004",
@@ -2459,8 +2460,8 @@
       "ciudad": "Punta Cana",
       "zona": "Cana Cove",
       "estado": "La Altagracia",
-      "lat": 18.582,
-      "lon": -68.405,
+      "lat": 18.556551,
+      "lon": -68.369161,
       "precision": "ciudad",
       "tipo": "departamento",
       "nuevo": true,
@@ -2477,7 +2478,8 @@
       "url": "https://novalproperties.com/en/landing/ready-units",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Unidad lista para entrega; otras unidades listas USD 319,000–429,000."
+      "nota": "Unidad lista para entrega; otras unidades listas USD 319,000–429,000.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "DOM-005",

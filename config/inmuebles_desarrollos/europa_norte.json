@@ -557,8 +557,8 @@
       "ciudad": "Helsinki",
       "zona": "Kruunuvuorenranta (Laajasalo)",
       "estado": "Uusimaa",
-      "lat": 60.166,
-      "lon": 24.99,
+      "lat": 60.164717,
+      "lon": 25.016789,
       "precision": "colonia",
       "tipo": "departamento",
       "nuevo": true,
@@ -575,7 +575,8 @@
       "url": "https://kodit.skanska.fi/taloyhtiot/helsinki/kruunuvuorenranta/helsingin-kultasirittaja/",
       "fuente": "sitio de la desarrolladora",
       "visto": "2026-10-22",
-      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Listo para habitar; 27 de 57 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente."
+      "nota": "Precio = 'velaton hinta' (precio libre de deuda: incluye la parte del préstamo de la sociedad de vivienda). Se compran acciones de una asunto-osakeyhtiö. Listo para habitar; 27 de 57 disponibles. Precio leído el 2026-10-22 en el resultado del buscador que indexa la página oficial (no se pudo abrir la página directamente desde este entorno): verificar en la fuente.",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FIN-003",

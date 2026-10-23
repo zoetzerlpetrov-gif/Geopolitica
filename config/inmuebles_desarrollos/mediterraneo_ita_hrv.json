@@ -347,8 +347,8 @@
       "ciudad": "Opatija",
       "zona": "Riviera de Opatija",
       "estado": "Primorsko-goranska županija",
-      "lat": 45.338,
-      "lon": 14.3,
+      "lat": 45.334924,
+      "lon": 14.306783,
       "precision": "ciudad",
       "geocodificar": "Opatija, Primorsko-goranska županija, Hrvatska",
       "tipo": "departamento",
@@ -367,7 +367,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar; la URL es el listado de la Riviera de Opatija.",
-      "zona_objetivo": "Kvarner (10 km de costa)"
+      "zona_objetivo": "Kvarner (10 km de costa)",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "HRV-010",
@@ -1215,8 +1216,8 @@
       "ciudad": "Lerici",
       "zona": "Lerici",
       "estado": "Liguria",
-      "lat": 44.076,
-      "lon": 9.911,
+      "lat": 44.073607,
+      "lon": 9.909914,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1235,7 +1236,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-021",
@@ -1243,8 +1245,8 @@
       "ciudad": "Lerici",
       "zona": "Lerici",
       "estado": "Liguria",
-      "lat": 44.076,
-      "lon": 9.911,
+      "lat": 44.073607,
+      "lon": 9.909914,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1263,7 +1265,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-022",
@@ -1271,8 +1274,8 @@
       "ciudad": "Lerici",
       "zona": "Centro",
       "estado": "Liguria",
-      "lat": 44.076,
-      "lon": 9.911,
+      "lat": 44.073607,
+      "lon": 9.909914,
       "precision": "ciudad",
       "geocodificar": "Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
@@ -1291,7 +1294,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-023",
@@ -1299,9 +1303,9 @@
       "ciudad": "Lerici",
       "zona": "Tellaro / Fiascherino",
       "estado": "Liguria",
-      "lat": 44.07,
-      "lon": 9.946,
-      "precision": "ciudad",
+      "lat": 44.066235,
+      "lon": 9.924903,
+      "precision": "colonia",
       "geocodificar": "Fiascherino, Lerici, La Spezia, Liguria, Italia",
       "tipo": "departamento",
       "nuevo": false,
@@ -1319,7 +1323,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar",
-      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km"
+      "zona_objetivo": "La Spezia / Cinque Terre / Lerici 50 km",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "ITA2-024",

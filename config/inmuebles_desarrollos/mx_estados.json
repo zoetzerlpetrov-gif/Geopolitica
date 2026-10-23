@@ -328,9 +328,9 @@
       "ciudad": "San José del Cabo",
       "zona": "Puerto Los Cabos / La Playita",
       "estado": "Baja California Sur",
-      "lat": 23.065,
-      "lon": -109.675,
-      "precision": "colonia",
+      "lat": 23.076447,
+      "lon": -109.635162,
+      "precision": "ciudad",
       "geocodificar": "La Playita, San José del Cabo, Baja California Sur, México",
       "tipo": "terreno",
       "nuevo": true,
@@ -348,7 +348,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Lotes para construir (estate lots). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo"
+      "zona_objetivo": "Los Cabos (BCS) · San José del Cabo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-012",
@@ -617,9 +618,9 @@
       "ciudad": "Ixtapa",
       "zona": "Marina Ixtapa",
       "estado": "Guerrero",
-      "lat": 17.674,
-      "lon": -101.614,
-      "precision": "colonia",
+      "lat": 17.668134,
+      "lon": -101.617178,
+      "precision": "ciudad",
       "geocodificar": "Marina Ixtapa, Ixtapa, Zihuatanejo de Azueta, Guerrero, México",
       "tipo": "departamento",
       "nuevo": false,
@@ -637,7 +638,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Mantenimiento 7,500 MXN/mes. Penthouse 2 rec/170 m² en Mareia visto en 7.5 mdp (https://www.jjarq.mx/property/departamento-en-venta-mareia-marina-ixtapa-zihuatanejo). precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-022",
@@ -645,9 +647,9 @@
       "ciudad": "Ixtapa",
       "zona": "Marina Ixtapa (Porto Ixtapa)",
       "estado": "Guerrero",
-      "lat": 17.6735,
-      "lon": -101.6125,
-      "precision": "colonia",
+      "lat": 17.668134,
+      "lon": -101.617178,
+      "precision": "ciudad",
       "geocodificar": "Marina Ixtapa, Ixtapa, Zihuatanejo de Azueta, Guerrero, México",
       "tipo": "casa",
       "nuevo": false,
@@ -665,7 +667,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Usada; mantenimiento 13,000 MXN. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Ixtapa-Zihuatanejo"
+      "zona_objetivo": "Ixtapa-Zihuatanejo",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "MXE-023",

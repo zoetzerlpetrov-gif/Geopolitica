@@ -952,8 +952,8 @@
       "ciudad": "Limón",
       "zona": "Playa Bonita",
       "estado": "Limón",
-      "lat": 10.009,
-      "lon": -83.067,
+      "lat": 10.009861,
+      "lon": -83.06346,
       "precision": "colonia",
       "geocodificar": "Playa Bonita, Limón, Limón, Costa Rica",
       "tipo": "terreno",
@@ -972,7 +972,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "~4 402 m², uso residencial, hotelero o comercial. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Limón"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Limón",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-028",
@@ -980,8 +981,8 @@
       "ciudad": "Limón",
       "zona": "Playa Bonita",
       "estado": "Limón",
-      "lat": 10.009,
-      "lon": -83.067,
+      "lat": 10.009861,
+      "lon": -83.06346,
       "precision": "colonia",
       "geocodificar": "Playa Bonita, Limón, Limón, Costa Rica",
       "tipo": "terreno",
@@ -1000,7 +1001,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "Terreno de desarrollo, no vivienda. precio tomado del resultado de búsqueda; verificar.",
-      "zona_objetivo": "Costa Rica Caribe 10 km – Limón"
+      "zona_objetivo": "Costa Rica Caribe 10 km – Limón",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "CRI2-029",

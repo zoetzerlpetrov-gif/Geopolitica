@@ -1,4 +1,17 @@
 {
  "nota": "Correcciones de coordenadas para desarrollos de InmueblesAraSadasi que caían en el mar o lejos de su ciudad (tools/inmuebles_geo.py).",
- "coords": {}
+ "coords": {
+  "ara-amaralta": [
+   32.365166,
+   -117.055792
+  ],
+  "ara-dream-lagoons-veracruz": [
+   19.200343,
+   -96.138357
+  ],
+  "ara-puerta-paraiso-ver": [
+   19.200343,
+   -96.138357
+  ]
+ }
 }

@@ -1020,9 +1020,9 @@
       "ciudad": "Ajaccio",
       "zona": "Route des Sanguinaires",
       "estado": "Corse – Corse-du-Sud",
-      "lat": 41.915,
-      "lon": 8.68,
-      "precision": "colonia",
+      "lat": 41.908464,
+      "lon": 8.635993,
+      "precision": "ciudad",
       "geocodificar": "Route des Sanguinaires, Ajaccio, Corse-du-Sud, France",
       "tipo": "villa",
       "nuevo": false,
@@ -1040,7 +1040,8 @@
       "fuente": "sitio de la agencia",
       "visto": "2026-10-22",
       "nota": "precio tomado del resultado de búsqueda; verificar. Terreno 1 503 m². Punto en tierra sobre la carretera de los Sanguinaires.",
-      "zona_objetivo": "Córcega – Ajaccio"
+      "zona_objetivo": "Córcega – Ajaccio",
+      "geo_fuente": "OpenStreetMap Nominatim"
     },
     {
       "id": "FRA2-033",
