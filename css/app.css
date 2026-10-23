@@ -657,6 +657,15 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
   border: 1px solid var(--vidrio-borde); box-shadow: 0 12px 32px rgba(10, 20, 30, .25); display: grid; gap: 2px; }
 .menu-pop .aviso-sonido { font-size: 13px; color: var(--text); padding: 6px 4px; border-radius: 8px; }
 .menu-pop .aviso-sonido:hover { background: color-mix(in srgb, var(--accent) 10%, transparent); }
+/* En el celular los menús «Secciones» y «Opciones» se abren a todo el ancho, justo debajo de su botón y por encima de
+   los demás botones de la barra; el alto lo pone app.js (--pop-top) y lo que no cabe se desplaza dentro del menú. */
+@media (max-width: 760px) {
+  .menu-opciones .menu-pop { position: fixed; left: 8px; right: 8px; width: auto; top: var(--pop-top, 120px); z-index: 1000;
+    max-height: calc(100dvh - var(--pop-top, 120px) - 12px); overflow-y: auto; overscroll-behavior: contain; background: var(--surface); }
+  .menu-lista { min-width: 0; }
+  .menu-lista > a, .menu-lista > button { padding: 11px 10px; }
+  .menu-pop .aviso-sonido { padding: 9px 4px; }
+}
 
 /* En escritorio el panel flota sobre el mapa (el mapa ocupa todo el ancho). */
 @media (min-width: 761px) {

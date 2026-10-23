@@ -749,6 +749,14 @@ async function main() {
   document.addEventListener("click", (e) => {
     for (const m of [$("menu-opciones"), $("menu-secciones")]) if (m?.open && !m.contains(e.target)) m.open = false;
   });
+  // Al abrir un menú se cierra el otro y, en el celular, el menú se coloca justo debajo de su botón (ver .menu-pop en app.css).
+  for (const m of [$("menu-opciones"), $("menu-secciones")]) {
+    m?.addEventListener("toggle", () => {
+      if (!m.open) return;
+      for (const otro of [$("menu-opciones"), $("menu-secciones")]) if (otro && otro !== m) otro.open = false;
+      m.style.setProperty("--pop-top", `${Math.round(m.querySelector("summary").getBoundingClientRect().bottom + 8)}px`);
+    });
+  }
   $("btn-analisis")?.addEventListener("click", () => { $("menu-secciones").open = false; });
   $("btn-panel").onclick = () => {
     const layout = document.querySelector(".layout");
