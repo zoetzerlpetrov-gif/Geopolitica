@@ -27,8 +27,10 @@ permissions:
   pages: write
   id-token: write
 
+# Un solo grupo para todas las ramas: todas publican la misma rama datos-capas, y dos corridas a la vez se pisaban
+# (una que empezó con los datos viejos los volvía a publicar encima de la nueva).
 concurrency:
-  group: capas-${{ github.ref }}
+  group: capas
   cancel-in-progress: false
 
 jobs:
@@ -88,6 +90,8 @@ jobs:
         run: python3 -u tools/historia/cronologia.py capas/historia
 
       - name: Publicar en la rama datos-capas (reescrita, sin historial)
+        # Solo desde main: en otras ramas la corrida sirve para probar el constructor, no para publicar.
+        if: github.ref == 'refs/heads/main'
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
