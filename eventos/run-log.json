@@ -1,0 +1,351 @@
+{
+ "generado_utc": "2026-10-24T14:18:23Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-10-24T15:17:00Z",
+ "eventos_total": 3228,
+ "eventos_nuevos": 94,
+ "candidatos": 763,
+ "descartados": {
+  "fuera_de_ventana": 121,
+  "fuera_de_tema": 7,
+  "sin_clasificar": 163,
+  "red_social_sin_pais": 6,
+  "imagenes_portada": 48
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3228,
+  "sin_pais": 78,
+  "confianza_baja": 290,
+  "verificados": 11,
+  "con_varias_fuentes": 668,
+  "impacto_mexico": 921,
+  "confianza_media": 0.62,
+  "por_area": {
+   "seguridad": 1821,
+   "instituciones": 332,
+   "geoeconomia": 289,
+   "identidad": 225,
+   "tecnologia": 138,
+   "energia": 107,
+   "geografia": 90,
+   "clima": 78,
+   "regional": 50,
+   "demografia": 44,
+   "salud_nrbq": 25,
+   "riesgo": 18,
+   "infraestructura": 11
+  },
+  "por_tipo_fuente": {
+   "noticia": 1351,
+   "base_datos": 1802,
+   "analisis": 5,
+   "red_social": 70
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "Arrest made after fire at Hitler's mountaintop Eagle's Nest retreat",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cr93zwjw1k4qo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Father who killed Oregon school gunman describes anguish over children he couldn't save",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/crgj9ndwvj9jo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Seven missing after multi-storey building collapses in Kenya's capital",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c317kxyknwp2o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Freed US citizen was tortured in Russian jail, former Ukrainian prisoners say",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cx7vpmn6qzmlo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Doctors tell the BBC about the targeting of Sudanese hospitals by paramilitary fighters",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/c8x23gegwz34o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Blue Planet III: Moment octopus escapes death after hunt gone wrong",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/ck240lmvqjyjo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "'It's part of the culture' - New York bans horse-drawn carriages after more than 160 years",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/ck5yn9dqnqj7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Damaging hail pelts Phoenix in rare storm",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cm5ynpz5jj5do?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Hispanic voters helped bring Trump to power - in Texas, the tide may be turning",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmwyqn6ejyd4o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Un incendio destruye el 'Nido del Águila', la antigua residencia de montaña de Hitler en los Alpes",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/un-incendio-destruye-el-nido-del-águila-la-antigua-residencia-de-montaña-de-hitler-en-los-alpes/a-79748592?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "EE.UU. revela que Irán intensifica plan para atacar a sus funcionarios",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/ee-uu-revela-que-irán-intensifica-plan-para-atacar-a-sus-funcionarios/a-79748105?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Argentina: cuando el dinero se acaba antes que el mes",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/argentina-cuando-el-dinero-se-acaba-antes-que-el-mes/a-79745431?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Sri Lanka: la muerte de un elefante emblemático reaviva la preocupación por la pérdida de hábitat",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/sri-lanka-la-muerte-de-un-elefante-emblemático-reaviva-la-preocupación-por-la-pérdida-de-hábitat/a-79746520?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Ibrahim Maza, ¿el nuevo mago del Bayer Leverkusen?",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/ibrahim-maza-¿el-nuevo-mago-del-bayer-leverkusen/a-79746736?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Se fueron, vieron, y fracasaron: los hijos pródigos de la Bundesliga",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/se-fueron-vieron-y-fracasaron-los-hijos-pródigos-de-la-bundesliga/a-79740535?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "resumidos": 6,
+  "rechazados": 16,
+  "motivos": {
+   "copia": 15,
+   "largo": 1
+  },
+  "errores": [
+   "límite gratuito alcanzado (429): el resto queda para la siguiente corrida"
+  ],
+  "pendientes": 18
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 206,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 29,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 29,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 11,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.4,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 1.3,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.8,
+   "error": null
+  },
+  {
+   "id": "reliefweb",
+   "nombre": "ReliefWeb (OCHA)",
+   "estado": "omitida",
+   "eventos": 0,
+   "segundos": 0,
+   "error": "Falta el secreto RELIEFWEB_APPNAME"
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-10-24",
+   "total": 220,
+   "pdf": true,
+   "ia": true
+  },
+  "global": {
+   "fecha": "2026-10-24",
+   "total": 1073,
+   "pdf": true,
+   "ia": true
+  }
+ }
+}
