@@ -100,6 +100,14 @@
             <input type="checkbox" id="chk-coords"> 📍 Coordenadas bajo el puntero · clic derecho las copia</label>
           <label class="aviso-sonido" title="En la vista de globo, detrás de la Tierra se dibuja el cielo de este momento: estrellas, constelaciones, Vía Láctea, galaxias, planetas, la Luna con su fase y el Sol (este solo aparece al mirar el lado nocturno, donde de verdad está). No hace zoom: siempre gira con el globo.">
             <input type="checkbox" id="chk-universo"> 🌌 Cielo real detrás del globo</label>
+          <fieldset class="base-opciones" id="base-opciones" title="Qué dibuja el mapa base (Temático, Calles, Satélite y Relieve). No cambia las capas que tengas encendidas.">
+            <legend>Mapa base: qué se ve</legend>
+            <label><input type="checkbox" id="chk-estados"> Contornos de estados y provincias (todo el mundo)</label>
+            <div class="base-etiquetas" id="base-etiquetas" role="group" aria-label="Etiquetas del mapa base"></div>
+            <div class="base-atajos"><button type="button" class="txt-btn" data-etq="paises">Solo países</button>
+              <button type="button" class="txt-btn" data-etq="todas">Todas</button><button type="button" class="txt-btn" data-etq="ninguna">Ninguna</button></div>
+            <p class="meta" id="base-nota" hidden>Sin conexión con OpenFreeMap el mapa usa su versión local: no hay contornos de estados ni etiquetas de ciudades o calles.</p>
+          </fieldset>
         </div>
       </details>
       <select id="sel-idioma" class="sel-vista" title="Idioma" aria-label="Idioma" data-noi18n>

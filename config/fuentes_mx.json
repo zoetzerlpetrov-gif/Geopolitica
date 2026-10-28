@@ -30,6 +30,96 @@
       "id": "jornada_politica",
       "nombre": "La Jornada (política)",
       "url": "https://www.jornada.com.mx/rss/politica.xml?v=1"
+    },
+    {
+      "id": "transporte_mx",
+      "nombre": "Transporte.mx",
+      "url": "https://www.transporte.mx/feed/"
+    },
+    {
+      "id": "elfinanciero",
+      "nombre": "El Financiero",
+      "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml"
+    },
+    {
+      "id": "jornada_sociedad",
+      "nombre": "La Jornada (sociedad)",
+      "url": "https://www.jornada.com.mx/rss/sociedad.xml?v=1"
+    },
+    {
+      "id": "jornada_capital",
+      "nombre": "La Jornada (capital)",
+      "url": "https://www.jornada.com.mx/rss/capital.xml?v=1"
+    },
+    {
+      "id": "sdp",
+      "nombre": "SDP Noticias",
+      "url": "https://www.sdpnoticias.com/arc/outboundfeeds/rss/?outputType=xml"
+    },
+    {
+      "id": "razon",
+      "nombre": "La Razón",
+      "url": "https://www.razon.com.mx/arc/outboundfeeds/rss/?outputType=xml"
+    },
+    {
+      "id": "quadratin_michoacan",
+      "nombre": "Quadratín Michoacán",
+      "url": "https://www.quadratin.com.mx/feed/"
+    },
+    {
+      "id": "quadratin_edomex",
+      "nombre": "Quadratín Estado de México",
+      "url": "https://edomex.quadratin.com.mx/feed/"
+    },
+    {
+      "id": "quadratin_cdmx",
+      "nombre": "Quadratín CDMX",
+      "url": "https://mexico.quadratin.com.mx/feed/"
+    },
+    {
+      "id": "quadratin_oaxaca",
+      "nombre": "Quadratín Oaxaca",
+      "url": "https://oaxaca.quadratin.com.mx/feed/"
+    },
+    {
+      "id": "quadratin_hidalgo",
+      "nombre": "Quadratín Hidalgo",
+      "url": "https://hidalgo.quadratin.com.mx/feed/"
+    },
+    {
+      "id": "elsoldemexico",
+      "nombre": "El Sol de México (OEM)",
+      "url": "https://www.elsoldemexico.com.mx/rss.xml"
+    },
+    {
+      "id": "informador",
+      "nombre": "El Informador",
+      "url": "https://www.informador.mx/rss/ultimas-noticias.xml"
+    },
+    {
+      "id": "informador_jalisco",
+      "nombre": "El Informador (Jalisco)",
+      "url": "https://www.informador.mx/rss/jalisco.xml"
+    },
+    {
+      "id": "eleconomista",
+      "nombre": "El Economista",
+      "url": "https://www.eleconomista.com.mx/rss/ultimas-noticias"
+    },
+    {
+      "id": "expreso",
+      "nombre": "Expreso (Sonora)",
+      "url": "https://expreso.press/feed/"
+    },
+    {
+      "id": "diariodeyucatan",
+      "nombre": "Diario de Yucatán",
+      "url": "https://www.yucatan.com.mx/feed"
+    },
+    {
+      "id": "elnorte",
+      "nombre": "El Norte (Monterrey)",
+      "url": "https://www.elnorte.com/rss/portada.xml"
     }
   ],
   "descartadas": [
@@ -67,6 +157,36 @@
       "id": "sinembargo",
       "url": "https://www.sinembargo.mx/feed",
       "motivo": "robots.txt no permite leer el feed (comprobado el 2026-10-09)"
+    },
+    {
+      "id": "radioformula",
+      "url": "https://www.radioformula.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+      "motivo": "robots.txt no lo permite (sonda del 2026-10-28)"
+    },
+    {
+      "id": "24horas",
+      "url": "https://www.24-horas.mx/feed/",
+      "motivo": "robots.txt no lo permite (sonda del 2026-10-28)"
+    },
+    {
+      "id": "t21",
+      "url": "https://t21.com.mx/feed/",
+      "motivo": "robots.txt no lo permite (sonda del 2026-10-28)"
+    },
+    {
+      "id": "debate",
+      "url": "https://www.debate.com.mx/rss/feed.xml",
+      "motivo": "robots.txt no lo permite (sonda del 2026-10-28)"
+    },
+    {
+      "id": "elsiglo",
+      "url": "https://www.elsiglodetorreon.com.mx/rss/ultimas.xml",
+      "motivo": "403 (sonda del 2026-10-28)"
+    },
+    {
+      "id": "lasillarota",
+      "url": "https://lasillarota.com/rss/",
+      "motivo": "403 (sonda del 2026-10-28)"
     }
   ]
 }

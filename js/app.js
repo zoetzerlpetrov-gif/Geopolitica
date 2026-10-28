@@ -18,6 +18,7 @@ import * as BO from "./buscador_org.js";
 import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
 import * as M3 from "./modelos3d.js";
+import * as BC from "./base_capas.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -786,6 +787,34 @@ async function main() {
   $("sel-base").value = storage.get("gp_base") || "tematico";
   $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
   $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
+  // Mapa base: etiquetas por tipo y contornos de estados y provincias (js/base_capas.js). Se vuelve a aplicar cada
+  // vez que cambia el estilo (tema, mapa base o modo LITE), porque cada estilo nuevo trae sus capas visibles.
+  let baseCfg = BC.POR_OMISION;
+  try { baseCfg = { ...BC.POR_OMISION, ...JSON.parse(storage.get("gp_base_capas") || "{}") }; } catch { /* configuración dañada: valores por omisión */ }
+  baseCfg.etiquetas = { ...BC.POR_OMISION.etiquetas, ...(baseCfg.etiquetas || {}) };
+  const aplicarBase = () => {
+    const ok = BC.aplicar(api.map, baseCfg, { oscuro: temaActual() === "dark" || $("sel-base").value === "satelite" });
+    $("base-nota").hidden = ok !== false;
+  };
+  const guardarBase = () => { storage.set("gp_base_capas", JSON.stringify(baseCfg)); aplicarBase(); };
+  $("base-etiquetas").innerHTML = BC.GRUPOS.map(([k, nombre]) => `<label><input type="checkbox" data-grupo="${k}"${baseCfg.etiquetas[k] !== false ? " checked" : ""}> ${esc(nombre)}</label>`).join("");
+  $("base-etiquetas").addEventListener("change", (e) => {
+    const k = e.target.dataset.grupo;
+    if (!k) return;
+    baseCfg.etiquetas[k] = e.target.checked;
+    guardarBase();
+  });
+  $("chk-estados").checked = !!baseCfg.estados;
+  $("chk-estados").onchange = (e) => { baseCfg.estados = e.target.checked; guardarBase(); };
+  $("base-opciones").addEventListener("click", (e) => {
+    const modo = e.target.dataset?.etq;
+    if (!modo) return;
+    for (const [k] of BC.GRUPOS) baseCfg.etiquetas[k] = modo === "todas" || (modo === "paises" && k === "paises");
+    for (const c of $("base-etiquetas").querySelectorAll("input[data-grupo]")) c.checked = baseCfg.etiquetas[c.dataset.grupo];
+    guardarBase();
+  });
+  api.map.on("style.load", aplicarBase);
+  if (api.map.isStyleLoaded()) aplicarBase(); else api.map.once("load", aplicarBase);
   // «Peters (tamaño real)»: vista aparte dibujada en un lienzo encima del mapa (MapLibre no tiene esa proyección).
   let peters = null;
   const vistaPeters = async (on) => {
@@ -1388,8 +1417,8 @@ async function iniciarClima() {
     + `<p class="nota-capas">Modelo GFS de NOAA (1°, ~110 km), corrida ${esc(meta.corrida)}. Es un pronóstico numérico, no una medición: para avisos oficiales consulta al SMN o a tu servicio meteorológico.</p>`;
   const leyendas = () => {
     $("clima-leyendas").innerHTML = [clima.activas.has("viento") ? K.leyenda(K.VELOCIDADES.map(([v, c]) => [Math.round(v * 3.6), c]), "km/h") : "",
-      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "",
-      clima.activas.has("polar") && meta.leyendas.polar ? `${K.leyenda(meta.leyendas.polar, "°C a 850 hPa")}<p class="meta">Azul y morado: aire de origen polar o ártico a ~1,500 m de altura (850 hPa), donde no influye el calor del suelo. Las líneas marcan 0, −10 y −20 °C. Usa «Momento» o ▶ para ver hacia dónde avanza en los próximos 3 días. Pronóstico numérico GFS: para avisos, el SMN.</p>` : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
+      clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C", { fahrenheit: true }) : "",
+      clima.activas.has("polar") && meta.leyendas.polar ? `${K.leyenda(meta.leyendas.polar, "°C a 850 hPa", { fahrenheit: true })}<p class="meta">Azul y morado: aire de origen polar o ártico a ~1,500 m de altura (850 hPa), donde no influye el calor del suelo. Las líneas marcan 0, −10 y −20 °C. Usa «Momento» o ▶ para ver hacia dónde avanza en los próximos 3 días. Pronóstico numérico GFS: para avisos, el SMN.</p>` : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
       clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",
       ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES y Meteosat; en Asia y Oceanía, infrarrojo de Himawari en grises (NASA no publica su color real)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`
         + `<div class="carga-bucle" id="carga-${t}" role="status"><div class="carga-barra"><span></span></div><small>Descargando imágenes del satélite…</small></div>`)].join("");

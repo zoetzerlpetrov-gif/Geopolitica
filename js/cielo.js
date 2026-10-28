@@ -3,7 +3,7 @@
  * (asteroides cercanos, cometas, lluvias de estrellas, bólidos, Luna y eclipses). Funciones puras: reciben las
  * propiedades del objeto y devuelven HTML/SVG, para que se puedan probar sin mapa.
  */
-import { esc } from "./util.js";
+import { esc, difCF } from "./util.js";
 
 const fechaCorta = (t) => { const d = new Date(/Z$|[+-]\d\d:\d\d$/.test(String(t)) ? t : `${t}Z`); return Number.isNaN(d.getTime()) ? String(t || "") : d.toISOString().slice(0, 16).replace("T", " ") + " UTC"; };
 const num = (x, d = 1) => (x == null || Number.isNaN(Number(x)) ? "—" : Number(x).toFixed(d));
@@ -120,13 +120,13 @@ export function graficaOni(serie) {
       <line x1="0" x2="${ancho}" y1="${mitad}" y2="${mitad}" stroke="currentColor" stroke-width="0.5"/>
       <line x1="0" x2="${ancho}" y1="${y(0.5)}" y2="${y(0.5)}" stroke="#C62828" stroke-dasharray="3 2"/><line x1="0" x2="${ancho}" y1="${y(-0.5)}" y2="${y(-0.5)}" stroke="#1F6FB2" stroke-dasharray="3 2"/>
       ${rects}<text x="0" y="${alto + 11}" font-size="9" fill="currentColor">${esc(s[0][0])}</text><text x="${ancho}" y="${alto + 11}" font-size="9" text-anchor="end" fill="currentColor">${esc(s[s.length - 1][0])}</text></svg>
-    <p class="meta">Rojo: +0.5 °C o más (umbral de El Niño). Azul: −0.5 °C o menos (La Niña). Cada barra es un promedio de 3 meses (DJF = dic-ene-feb).</p>`;
+    <p class="meta">Rojo: +0.5 °C (+0.9 °F) o más (umbral de El Niño). Azul: −0.5 °C (−0.9 °F) o menos (La Niña). Cada barra es un promedio de 3 meses (DJF = dic-ene-feb).</p>`;
 }
 
 export function filasEnso(p) {
   const [nombre] = FASE_ENSO[p.fase_oni] || ["—"];
-  return [["Estado oficial (NOAA)", p.estado || "—"], ["Índice ONI más reciente", `${p.oni > 0 ? "+" : ""}${num(p.oni, 2)} °C (${esc(p.oni_trimestre)}): ${nombre} ${intensidadOni(p.oni)}`],
-    [`Anomalía semanal en ${p.nombre}`, p.anomalia == null ? "—" : `${p.anomalia > 0 ? "+" : ""}${num(p.anomalia)} °C (semana del ${esc(p.semana)})`],
+  return [["Estado oficial (NOAA)", p.estado || "—"], ["Índice ONI más reciente", `${difCF(p.oni, 2)}, ${esc(p.oni_trimestre)}: ${nombre} ${intensidadOni(p.oni)}`],
+    [`Anomalía semanal en ${p.nombre}`, p.anomalia == null ? "—" : `${difCF(p.anomalia)}, semana del ${esc(p.semana)}`],
     ...(p.sinopsis_en ? [["Resumen de NOAA (en inglés)", p.sinopsis_en]] : []), ...(p.emitido ? [["Discusión emitida", p.emitido]] : [])];
 }
 

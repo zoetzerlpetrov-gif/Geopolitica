@@ -18,12 +18,19 @@ from datetime import datetime, timezone
 
 # (subtipo, nombre, expresión sobre el título sin acentos y en minúsculas). El orden importa: gana la primera.
 TIPOS = [
-    ("caseta", "Toma de caseta", r"\btoma(n|ron)? (de )?(la |las )?casetas?\b|\bcasetas? tomadas?\b|\bpaso libre en (la |las )?casetas?\b|\btoll ?booths? (seized|taken)"),
-    ("robo_carga", "Robo a transporte de carga", r"\brob(o|an|aron) (a|de) (un |una |los |las )?(transporte de carga|tractocamion|trailer|traileres|transportistas?|carga|mercancia|tren(es)? de carga|pipas?|camion(es)? de carga)\b"
-     r"|\basalt\w* (a|de) (un |una |los )?(trailer|tractocamion|transportistas?|pipa|tren de carga|camion de carga)\b|\broba(n|ron) (un |una |el |la )?(tractocamion|trailer|pipa|camion de carga|cargamento)\b|\bcargo theft|\btruck hijack|\bhijacked (truck|trailer|cargo)"),
-    ("robo_publico", "Asalto en transporte público", r"\basalt\w* (en|a) (el |un |una |los )?(transporte publico|combis?|microbus(es)?|autobus(es)?|camion(es)? de pasajeros|metrobus|unidad(es)? de transporte|pasajeros|ruta)\b"
-     r"|\brob(o|an|aron) (en|a) (el |un |una |los )?(transporte publico|pasajeros|combis?|microbus(es)?|autobus(es)?)\b|\bbus robbery"),
-    ("robo_vehiculo", "Robo de vehículo", r"\brobo (de|del) (su )?(auto|automovil|vehiculo|camioneta|moto|motocicleta|coche|carro)s?\b|\brobo de (autos|vehiculos|camionetas|motos)\b"
+    ("caseta", "Toma de caseta", r"\b(toma|tomas|toman|tomaron|ocupan|ocuparon|liberan|liberaron|abren|abrieron|levantan|levantaron) (de )?(la |las |una )?(plumas de )?(la |las )?casetas?\b"
+     r"|\bcasetas? (tomadas?|liberadas?)\b|\bpaso libre (en|por) (la |las )?casetas?\b|\bboteo (en|de) (la |las )?casetas?\b|\b(cobro|cuota) (ilegal|voluntari[oa]) en (la |las )?casetas?\b"
+     r"|\btoll ?booths? (seized|taken|occupied)"),
+    ("robo_carga", "Robo a transporte de carga", r"\brob(o|os|an|aron) (a|al|de|del) (un |una |los |las )?(transporte de carga|autotransporte( de carga)?|(vehiculos|unidades) de carga|tractocamion(es)?|trailers?|traileres|transportistas?|carga|mercancia|cargamento|tren(es)?( de carga)?|pipas?|camion(es)? (de carga|con mercancia|repartidor(es)?))\b"
+     r"|\basalt\w* (a |al |de )?(un |una |los |el )?(trailers?|traileres|tractocamion(es)?|transportistas?|pipas?|tren(es)? de carga|camion(es)? (de carga|repartidor(es)?)|autotransporte|operador(es)? de (trailer|tractocamion|pipa))\b"
+     r"|\broba(n|ron) (un |una |el |la |los |las )?(tractocamion(es)?|trailers?|traileres|pipas?|camion(es)? (de carga|con mercancia|repartidor(es)?)|cargamento|mercancia)\b"
+     r"|\b(atraco|saqueo|rapina) (a|al|de|del) (un |una |el |los )?(tren|trailer|tractocamion|transportista|camion de carga)\b"
+     r"|\bcargo theft|\btruck hijack|\bhijacked (truck|trailer|cargo)|\btrain robbery"),
+    ("robo_publico", "Asalto en transporte público", r"\basalt\w* (en |a |al )?(el |un |una |los |las )?(transporte publico|combis?|microbus(es)?|autobus(es)?|camion(es)? (de pasajeros|urbanos?|de ruta)|metrobus|mexibus|unidad(es)? (de transporte|del transporte publico)|pasajeros|colectivos?|vagoneta)\b"
+     r"|\brob(o|os|an|aron) (en|a) (el |un |una |los |las )?(transporte publico|pasajeros|combis?|microbus(es)?|autobus(es)?|camion(es)? (de pasajeros|urbanos?)|colectivos?)\b"
+     r"|\batraco (en|a) (un |una |el )?(combi|autobus|microbus|colectivo|transporte publico)\b|\bbus robbery"),
+    # Incluye los asaltos carreteros a automovilistas («asalto múltiple en la Orizaba-Puebla»).
+    ("robo_vehiculo", "Robo de vehículo", r"\basalt\w* (multiple |masivo |carretero )?(a automovilistas )?(en|sobre) la (carretera|autopista|federal|[a-z]+-[a-z]+)\b|\brobo (de|del) (su )?(auto|automovil|vehiculo|camioneta|moto|motocicleta|coche|carro)s?\b|\brobo de (autos|vehiculos|camionetas|motos)\b"
      r"|\broban (un |una |su )?(auto|vehiculo|camioneta|moto|coche|carro)\b|\bcarjack|\bcar theft|\bstolen (car|vehicle)s?\b|\bdespoja(n|ron)? de su (vehiculo|camioneta|auto|coche|carro)\b"),
     ("bloqueo", "Bloqueo de carretera o calle", r"\bbloque(o|os|an|aron) (de |en |la |el |los |las )?(la |el )?(carretera|autopista|via|vias|avenida|calles?|tramo|vialidad|puente|acceso|paso|frontera|garita)\b"
      r"|\bnarcobloqueos?\b|\bbloqueos? carreteros?\b|\bcierra(n|ron) (la |el )?(carretera|autopista|via|puente)\b|\bquema(n|ron)? (de )?(vehiculos|autos|camiones|unidades)\b"

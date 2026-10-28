@@ -735,7 +735,10 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 
 /* Marca: cruz templaria (cruz patada roja) antes del nombre */
 .cruz-templaria { width: 1.15em; height: 1.15em; flex: none; filter: drop-shadow(0 0 1px rgba(0,0,0,.35)); }
-.topbar h1 > span { letter-spacing: 1.5px; font-weight: 800; }
+/* Nombre en dorado metálico (tonos de oro viejo a oro claro). La sombra fina lo separa del fondo claro u oscuro. */
+.topbar h1 > span { letter-spacing: 1.5px; font-weight: 800;
+  background: linear-gradient(180deg, #F3D57A 0%, #D4AF37 38%, #A67C1B 62%, #E2C25C 100%); -webkit-background-clip: text; background-clip: text;
+  color: transparent; filter: drop-shadow(0 1px 0 rgba(60, 40, 0, .45)); }
 
 /* Submenús (bloques plegables dentro de cada sección): franja del color de su sección, más tenue. */
 .bloque.plegable[data-grupo] > summary { margin: -10px -12px 0; padding: 7px 12px; background: color-mix(in srgb, var(--g, #888) 16%, transparent); }
@@ -783,3 +786,14 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .eei-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .eei-panel p { margin: 6px 0 0; }
 
+
+/* Opciones del mapa base (menú Opciones): etiquetas por tipo y contornos de estados. */
+.base-opciones { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px 8px; margin: 6px 0 2px; display: flex; flex-direction: column; gap: 4px; font-size: 13px; }
+.base-opciones legend { font-weight: 600; padding: 0 4px; }
+.base-opciones label { display: flex; gap: 6px; align-items: flex-start; }
+.base-etiquetas { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 10px; padding-left: 2px; }
+.base-atajos { display: flex; gap: 6px; flex-wrap: wrap; }
+@media (max-width: 520px) { .base-etiquetas { grid-template-columns: 1fr; } }
+/* Pronóstico: °F en pequeño bajo el °C. */
+.pr-tmax small, .pr-tmin small { display: block; font-size: 9px; font-weight: 500; opacity: .8; }
+.clima-leyenda .marcas-f { opacity: .8; font-size: .92em; }
