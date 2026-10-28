@@ -34,6 +34,7 @@ import fuentes as F  # noqa: E402
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import historial  # noqa: E402
 import vial  # noqa: E402
+import desaparecidos as DS  # noqa: E402
 sys.path.insert(0, os.path.join(ROOT, "tools", "transporte"))
 import emergencias_prensa as EP  # noqa: E402
 
@@ -112,6 +113,14 @@ def ubicar(titulo, estados, gaz, origen):
         lon, lat = gaz.centroide("MEX")
         return lon, lat, "México (sin lugar en el título)", "MEX", "país"
     return None
+
+
+def fecha_gkg(s):
+    """Fecha del GKG (AAAAMMDDhhmmss) → ISO, o None."""
+    try:
+        return datetime.strptime(s, "%Y%m%d%H%M%S").strftime("%Y-%m-%dT%H:%M:%SZ")
+    except (TypeError, ValueError):
+        return None
 
 
 def fecha_gdelt(s):
@@ -312,7 +321,7 @@ def clasificar_titular(titulo):
 def rss_mexico(estados, gaz):
     """Titulares de medios mexicanos (config/fuentes_mx.json) → features de crimen, ataques y deslaves."""
     cfg = json.load(open(os.path.join(ROOT, "config", "fuentes_mx.json"), encoding="utf-8"))
-    salida = {"crimen": [], "ataque": [], "deslave": [], "vial": [], "aereo": []}
+    salida = {"crimen": [], "ataque": [], "deslave": [], "vial": [], "aereo": [], "desap": []}
     estado_fuentes = {}
     for fuente in cfg["feeds"]:
         try:
@@ -334,6 +343,9 @@ def rss_mexico(estados, gaz):
             fv = vial.de_titular(c["titulo"], c["url"], fuente["nombre"], c["fecha_utc"], lambda t: ubicar(t, estados, gaz, "mx"), f"RSS de {fuente['nombre']}")
             if fv:
                 salida["vial"].append(fv)
+            fd = DS.de_titular(c["titulo"], c["url"], fuente["nombre"], c["fecha_utc"], lambda t: ubicar(t, estados, gaz, "mx"), f"RSS de {fuente['nombre']}")
+            if fd:
+                salida["desap"].append(fd)
             fa = EP.de_titular(c["titulo"], c["url"], fuente["nombre"], c["fecha_utc"], lambda t: ubicar(t, estados, gaz, "aereo"), f"RSS de {fuente['nombre']}")
             if fa:
                 salida["aereo"].append(fa)
@@ -369,7 +381,7 @@ def sigue_valido(f, clase):
     return clasificar_titular(p.get("title") or "")[0] == clase
 
 
-def guardar(ruta, nuevos, horas, fuente, extra=None, clase=None):
+def guardar(ruta, nuevos, horas, fuente, extra=None, clase=None, dedup=True):
     """Une con lo anterior (sin repetir enlaces), conserva las últimas `horas` y escribe el GeoJSON."""
     previos = []
     if os.path.exists(ruta):
@@ -381,7 +393,8 @@ def guardar(ruta, nuevos, horas, fuente, extra=None, clase=None):
     limite = (datetime.now(timezone.utc) - timedelta(hours=horas)).strftime("%Y-%m-%dT%H:%M:%SZ")
     feats = [f for f in feats if (f["properties"].get("date") or "") >= limite]
     feats.sort(key=lambda f: f["properties"].get("date") or "", reverse=True)
-    feats = deduplicar(feats)
+    if dedup:  # por títulos parecidos; sin él cuando los títulos son genéricos (casos de desaparición sin datos personales)
+        feats = deduplicar(feats)
     os.makedirs(os.path.dirname(ruta), exist_ok=True)
     json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "fuente": fuente,
                **(extra or {}), "features": feats}, open(ruta, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
@@ -396,7 +409,7 @@ def main():
             return 0
     estados = json.load(open(os.path.join(ROOT, "config", "mx_estados.json"), encoding="utf-8"))
     gaz = Gazetteer()
-    crimen, ataques, deslaves, errores, vias, aereos = [], [], [], [], [], []
+    crimen, ataques, deslaves, errores, vias, aereos, desap = [], [], [], [], [], [], []
     # 1) API de búsqueda de GDELT (suele limitar desde GitHub: una sola consulta de prueba).
     rp = urllib.robotparser.RobotFileParser("https://api.gdeltproject.org/robots.txt")
     try:
@@ -435,6 +448,7 @@ def main():
         deslaves += rss["deslave"]
         vias += rss["vial"]
         aereos += rss["aereo"]
+        desap += rss["desap"]
         print(f"crimen: RSS de México {fuentes_mx}")
     except Exception as e:  # noqa: BLE001
         errores.append(f"RSS México: {e}"[:160])
@@ -458,12 +472,18 @@ def main():
                     filas = list(T.filas_gkg(u))
                     vias += vial.de_gkg(filas, lambda t: ubicar(t, estados, gaz, "mx"), T.titulo_de)
                     aereos += EP.de_gkg(filas, T.nomenclator(), T.titulo_de)
+                    nom = T.nomenclator()
+                    desap += DS.de_gkg(filas, lambda t, nom=nom: (lambda u: u if u and u[4] != "país" else EP.ubicar_mundo(t, nom))(ubicar(t, estados, gaz, "mundo")),
+                                       T.titulo_de, fecha_gkg)
                 except Exception as e:  # noqa: BLE001  GDELT a veces no publica un archivo de 15 min
                     errores.append(f"GKG {u.rsplit('/', 1)[-1]}: {e}"[:120])
     except Exception as e:  # noqa: BLE001
         errores.append(f"GKG: {e}"[:160])
     fv = guardar(os.path.join(os.path.dirname(OUT), "vial.geojson"), vias, 72,
                  "Medios mexicanos, GDELT GKG y eventos CAMEO 14 de GDELT (señales de noticias, verificar)")
+    fdes = guardar(os.path.join(os.path.dirname(OUT), "desaparecidos.geojson"), desap, 168,
+                   "Medios mexicanos (RSS) y titulares de GDELT GKG de todo el mundo (señales de noticias, verificar; sin datos personales)", dedup=False)
+    print(f"crimen: desaparecidos y fosas (7 días): {len(fdes)}")
     fe = guardar(os.path.join(os.path.dirname(OUT), "emergencias_prensa.geojson"), aereos, 48,
                  "Medios mexicanos (RSS) y titulares de GDELT GKG de todo el mundo (verificar en la nota)")
     print(f"crimen: emergencias aéreas en prensa (48 h): {len(fe)}")

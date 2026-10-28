@@ -19,32 +19,39 @@ def traer(url, n=None, timeout=60):
         return r.status, dict(r.headers), r.read(n) if n else r.read(), r.geturl()
 
 
-# 1) SESNSP: enlaces de SharePoint de la página de datos abiertos, con descarga directa.
+# 1) SESNSP: SharePoint con galletas (como un navegador): primero el enlace, luego la descarga.
+import http.cookiejar  # noqa: E402
+cj = http.cookiejar.CookieJar()
+op = urllib.request.build_opener(urllib.request.HTTPCookieProcessor(cj))
+op.addheaders = [("User-Agent", "Mozilla/5.0 (compatible; Geopolitica-monitor/1.0)")]
 _, _, html, _ = traer("https://www.gob.mx/sesnsp/acciones-y-programas/datos-abiertos-de-incidencia-delictiva")
 html = html.decode("utf-8", "replace")
-for m in re.finditer(r'<a[^>]+href="(https://sspcgob-my\.sharepoint\.com/[^"]+)"[^>]*>(.*?)</a>', html, re.S):
-    url, texto = m.group(1), re.sub(r"<[^>]+>|\s+", " ", m.group(2)).strip()
-    ctx = re.sub(r"<[^>]+>|\s+", " ", html[max(0, m.start() - 300):m.start()])[-160:]
+m = re.search(r'<a[^>]+href="(https://sspcgob-my\.sharepoint\.com/[^"]+)"[^>]*>[^<]*Delitos\)\.\s*Incidencia delictiva estatal', html.replace("&nbsp;", " ").replace("&uacute;", "u"))
+url = m.group(1) if m else None
+print(f"SONDA SP enlace estatal 2026: {url}")
+if url:
     try:
-        st, h, b, final = traer(url + ("&" if "?" in url else "?") + "download=1", n=600000)
-        cd = h.get("Content-Disposition", "")
-        cab = b[:160]
-        if b[:2] == b"PK":
+        r = op.open(url, timeout=60)
+        print(f"SONDA SP paso1 {r.status} {r.geturl()[:160]} galletas={[c.name for c in cj]}")
+        cuerpo = r.read(3000)
+        print(f"SONDA SP paso1 cuerpo {cuerpo[:300]!r}")
+        final = r.geturl()
+        for cand in (url + "&download=1", final + ("&" if "?" in final else "?") + "download=1"):
             try:
-                z = zipfile.ZipFile(io.BytesIO(traer(url + "&download=1")[2]))
-                cab = f"ZIP {[ (i.filename, i.file_size) for i in z.infolist()][:5]}"
+                r2 = op.open(cand, timeout=90)
+                b = r2.read(2000000)
+                print(f"SONDA SP descarga {r2.status} {r2.headers.get('Content-Type')} {r2.headers.get('Content-Disposition','')[:120]} bytes={len(b)} inicio={b[:120]!r}")
+                if b[:2] == b"PK":
+                    z = zipfile.ZipFile(io.BytesIO(b + r2.read()))
+                    for info in z.infolist()[:5]:
+                        print(f"SONDA SP zip {info.filename} {info.file_size}")
+                        with z.open(info) as f:
+                            print("SONDA SP cab " + f.read(700).decode("latin-1", "replace").replace("\n", " ⏎ "))
+                break
             except Exception as e:  # noqa: BLE001
-                cab = f"ZIP (no leído: {e})"
-        print(f"SONDA SP «{texto}» ctx «{ctx}» → {st} {h.get('Content-Type')} {cd[:120]} | {cab!r:.300}")
+                print(f"SONDA SP descarga error {cand[:100]} {str(e)[:120]}")
     except Exception as e:  # noqa: BLE001
-        print(f"SONDA SP «{texto}» error {str(e)[:120]}")
-
-# 2) RNPDNO versión estadística: scripts y rutas que usa la página.
-_, _, b, _ = traer("https://versionpublicarnpdno.segob.gob.mx/Dashboard/Index")
-t = b.decode("utf-8", "replace")
-for m in sorted(set(re.findall(r'(?:src|href|url|action)\s*[:=]\s*["\']([^"\']+)["\']', t)))[:60]:
-    print(f"SONDA RNPDNO · {m}")
-print("SONDA RNPDNO robots: " + traer("https://versionpublicarnpdno.segob.gob.mx/robots.txt")[2][:300].decode("utf-8", "replace").replace("\n", " | ") if True else "")
+        print(f"SONDA SP paso1 error {str(e)[:150]}")
 
 # 3) GPSJam: últimas fechas del índice y un archivo del día.
 _, _, b, _ = traer("https://gpsjam.org/data/manifest.csv")
