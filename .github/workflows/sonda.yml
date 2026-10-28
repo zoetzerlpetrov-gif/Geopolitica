@@ -16,7 +16,7 @@ jobs:
         with:
           python-version: "3.12"
       - run: cd tools/sonda && npm init -y >/dev/null && npm i playwright@1.48.2 && npx playwright install --with-deps chromium firefox
-      - run: pip install pillow==11.3.0 && python3 tools/vivos/meteosat.py && mkdir -p data && (git fetch -q --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos | tar -x -C data) ; cp -r vivos/meteosat data/vivos/
+      - run: pip install pillow==11.3.0 && (timeout 240 python3 tools/vivos/meteosat.py || true) && mkdir -p data && (git fetch -q --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos | tar -x -C data) ; cp -r vivos/meteosat data/vivos/
       - run: (python3 -m http.server 8000 >/dev/null 2>&1 &) && sleep 2 && SITIO=http://localhost:8000/ NAV=firefox node tools/sonda/capturas.mjs; SITIO=http://localhost:8000/ NAV=chromium node tools/sonda/capturas.mjs
       - name: Subir capturas a una rama temporal
         run: |

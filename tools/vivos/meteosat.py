@@ -35,6 +35,8 @@ ANCHO = 2048
 PASO_MIN = 30
 CUADROS = 6
 RETRASO_MIN = 20  # EUMETView publica cada imagen ~10-15 min después de tomarla
+MAX_NUEVOS = 4    # descargas nuevas por corrida y producto: EUMETView a veces tarda minutos por imagen (oct 2026)
+LIMITE_S = 150    # tiempo total máximo de la corrida; lo que falte se baja en la siguiente (cada 20 min)
 
 
 def merc(lon, lat):
@@ -79,7 +81,7 @@ def a_webp(png):
 
 def bajar(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=90) as r:
+    with urllib.request.urlopen(req, timeout=45) as r:
         if not (r.headers.get("Content-Type") or "").startswith("image/"):
             raise ValueError(f"respuesta no es imagen: {r.read(200)!r}")
         return r.read()
@@ -97,13 +99,18 @@ def main():
     estado = {}
     for prod, capas in PRODUCTOS.items():
         vistos = {c["t"]: c for c in (previo.get("productos") or {}).get(prod, [])}
-        lista = []
-        for t in momentos(ahora):
+        lista, nuevos = [], 0
+        # Del más reciente al más antiguo: si el tiempo no alcanza, lo que falta son los cuadros viejos.
+        for t in reversed(momentos(ahora)):
             nombre = f"{prod}_{datetime.fromtimestamp(t, timezone.utc):%Y%m%d%H%M}.webp"
             ruta = os.path.join(CARPETA, nombre)
             if iso(t) in vistos and os.path.exists(ruta):
                 lista.append(vistos[iso(t)])
                 continue
+            if nuevos >= MAX_NUEVOS or time.time() - ahora > LIMITE_S:
+                estado[f"{prod} {iso(t)}"] = "pendiente (siguiente corrida)"
+                continue
+            nuevos += 1
             try:
                 webp = a_webp(bajar(url_cuadro(capas, t)))
             except Exception as e:  # noqa: BLE001  un cuadro faltante no detiene a los demás
@@ -115,7 +122,7 @@ def main():
             open(ruta, "wb").write(webp)
             lista.append({"t": iso(t), "archivo": nombre, "bytes": len(webp)})
             time.sleep(1)
-        indice["productos"][prod] = lista
+        indice["productos"][prod] = sorted(lista, key=lambda c: c["t"])
     # Se borran los cuadros que ya no están en el índice (el directorio se reescribe en cada corrida).
     usados = {c["archivo"] for l in indice["productos"].values() for c in l}
     for f in os.listdir(CARPETA):
