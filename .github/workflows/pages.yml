@@ -53,6 +53,7 @@ jobs:
           mkdir -p _site/data/capas
           if git fetch --depth 1 origin datos-capas 2>/dev/null; then
             git archive FETCH_HEAD capas | tar -x -C /tmp && cp /tmp/capas/manifest.json /tmp/capas/*.pmtiles /tmp/capas/*.geojson _site/data/capas/ 2>/dev/null || true
+            cp /tmp/capas/*.grupos.json _site/data/capas/ 2>/dev/null || true  # grupos por zona (números a zoom bajo; js/capas.js)
             cp /tmp/capas/buscar_*.json _site/data/capas/ 2>/dev/null || true  # índices del buscador de Organizaciones
             cp /tmp/capas/volcanes_lista.json _site/data/capas/ 2>/dev/null || true  # evaluador de inmuebles (inmuebles.html)
             cp -r /tmp/capas/historia _site/data/capas/ 2>/dev/null || true  # cronología por país (bloque Historia)

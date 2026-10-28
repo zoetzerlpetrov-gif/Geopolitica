@@ -1,0 +1,31 @@
+{
+ "descripcion": "Tecnologías y programas que las agencias de defensa, inteligencia y seguridad publican por sí mismas (portafolios, programas abiertos, transferencia de tecnología, documentos desclasificados). Solo información oficial y pública; cada entrada enlaza a su fuente.",
+ "agencias": [
+  {"id": "darpa", "pais": "USA", "nombre": "DARPA (Agencia de Proyectos de Investigación Avanzados de Defensa, EUA)", "tipo": "defensa", "url": "https://www.darpa.mil/research/programs",
+   "ejemplos": [["Gremlins", "Drones lanzados y recuperados en vuelo desde un avión de transporte"], ["OFFSET", "Enjambres de drones y robots para entornos urbanos"], ["ACE (Air Combat Evolution)", "Inteligencia artificial para combate aéreo; voló en el avión de pruebas X-62A VISTA"], ["Blackjack", "Constelación militar de satélites en órbita baja"], ["SubT Challenge", "Robots autónomos para túneles, cuevas y redes subterráneas"], ["RACER", "Vehículos terrestres autónomos fuera de camino"]]},
+  {"id": "iarpa", "pais": "USA", "nombre": "IARPA (investigación de la comunidad de inteligencia, EUA)", "tipo": "inteligencia", "url": "https://www.iarpa.gov/research-programs", "ejemplos": []},
+  {"id": "diu", "pais": "USA", "nombre": "DIU (Unidad de Innovación de Defensa, EUA): compra tecnología comercial para el Pentágono", "tipo": "defensa", "url": "https://www.diu.mil/", "ejemplos": []},
+  {"id": "techlink", "pais": "USA", "nombre": "TechLink: patentes y tecnologías del Departamento de Defensa disponibles para licencia", "tipo": "defensa", "url": "https://techlinkcenter.org/", "ejemplos": []},
+  {"id": "iqt", "pais": "USA", "nombre": "In-Q-Tel: fondo de capital de riesgo de la comunidad de inteligencia (CIA y otras); portafolio público", "tipo": "inteligencia", "url": "https://www.iqt.org/portfolio",
+   "ejemplos": [["Keyhole", "Visor de imágenes satelitales que Google compró en 2004 y dio origen a Google Earth"]]},
+  {"id": "cia", "pais": "USA", "nombre": "CIA: sala de lectura de documentos desclasificados (FOIA)", "tipo": "inteligencia", "url": "https://www.cia.gov/readingroom/", "ejemplos": []},
+  {"id": "nsa", "pais": "USA", "nombre": "NSA: programa de transferencia de tecnología y software publicado", "tipo": "inteligencia", "url": "https://www.nsa.gov/Research/Technology-Transfer/",
+   "ejemplos": [["Ghidra", "Herramienta de ingeniería inversa de software, publicada como código abierto en 2019 (github.com/NationalSecurityAgency/ghidra)"]]},
+  {"id": "fbi", "pais": "USA", "nombre": "FBI: The Vault (documentos liberados por FOIA) y servicios de información criminal (CJIS)", "tipo": "seguridad", "url": "https://vault.fbi.gov/",
+   "ejemplos": [["NGI (Next Generation Identification)", "Sistema de identificación biométrica (huellas, palma, iris y rostro) para las policías de EUA"]]},
+  {"id": "dhs", "pais": "USA", "nombre": "DHS, Dirección de Ciencia y Tecnología (seguridad nacional, fronteras, ciberseguridad)", "tipo": "seguridad", "url": "https://www.dhs.gov/science-and-technology", "ejemplos": []},
+  {"id": "sbir", "pais": "USA", "nombre": "SBIR/STTR: contratos de investigación a pequeñas empresas de todas las agencias (DoD, NASA, DHS…), con resumen público", "tipo": "defensa", "url": "https://www.sbir.gov/awards", "ejemplos": []},
+  {"id": "nasa", "pais": "USA", "nombre": "NASA: portafolio de transferencia de tecnología (patentes para licencia y software)", "tipo": "espacio", "url": "https://technology.nasa.gov/", "ejemplos": []},
+  {"id": "nist", "pais": "USA", "nombre": "NIST: estándares de criptografía (incluida la poscuántica) y ciberseguridad", "tipo": "seguridad", "url": "https://csrc.nist.gov/", "ejemplos": []},
+  {"id": "dasa", "pais": "GBR", "nombre": "Reino Unido: DASA (acelerador de defensa y seguridad)", "tipo": "defensa", "url": "https://www.gov.uk/government/organisations/defence-and-security-accelerator", "ejemplos": []},
+  {"id": "dstl", "pais": "GBR", "nombre": "Reino Unido: Dstl (laboratorio de ciencia y tecnología de defensa)", "tipo": "defensa", "url": "https://www.gov.uk/government/organisations/defence-science-and-technology-laboratory", "ejemplos": []},
+  {"id": "aid", "pais": "FRA", "nombre": "Francia: AID (Agencia de Innovación de Defensa)", "tipo": "defensa", "url": "https://www.defense.gouv.fr/aid", "ejemplos": []},
+  {"id": "nato_sto", "pais": "INT", "nombre": "OTAN: Organización de Ciencia y Tecnología (informes técnicos públicos)", "tipo": "defensa", "url": "https://www.sto.nato.int/", "ejemplos": []},
+  {"id": "cordis", "pais": "INT", "nombre": "Unión Europea: CORDIS (proyectos de investigación financiados, incluidos los de seguridad)", "tipo": "seguridad", "url": "https://cordis.europa.eu/", "ejemplos": []}
+ ],
+ "tips": [
+  "Los programas de DARPA e IARPA anuncian sus convocatorias (BAA) en SAM.gov: el nombre del programa y su objetivo son públicos aunque los resultados no lo sean.",
+  "Los contratos SBIR traen resumen técnico: sirven para ver qué problemas quiere resolver cada agencia.",
+  "Contrasta todo con la fuente oficial: muchas notas de prensa exageran capacidades o confunden prototipos con sistemas en servicio."
+ ]
+}

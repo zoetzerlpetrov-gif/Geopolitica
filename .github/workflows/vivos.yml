@@ -75,6 +75,11 @@ jobs:
         timeout-minutes: 2
         run: python3 tools/investigacion/leyes.py
 
+      - name: Empresas extranjeras que operan en México (Wikidata, cada semana; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 8
+        run: python3 tools/investigacion/extranjeras_mx.py
+
       - name: Emergencias aéreas (squawk 7700, 7600 y 7500; adsb.lol y OpenSky, cada corrida)
         continue-on-error: true
         timeout-minutes: 3

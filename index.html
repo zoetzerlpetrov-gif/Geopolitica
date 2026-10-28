@@ -385,6 +385,50 @@
           <ul id="lic-portales" class="fuentes"></ul>
           <p class="meta">Tips: en México revisa las bases (convocatoria, junta de aclaraciones, apertura y fallo) y que el proveedor no esté en el 69-B (bloque de arriba). En EUA, el código NAICS define a qué convocatorias puedes ofertar; en la UE, el código CPV. Ley aplicable: México, Ley de Adquisiciones, Arrendamientos y Servicios del Sector Público y Ley de Obras Públicas; EUA, Federal Acquisition Regulation (FAR); UE, Directivas 2014/24 y 2014/25.</p>
         </details>
+        <details class="bloque plegable" id="b-inv-patentes" data-grupo="investigacion">
+          <summary><h2>💡 Patentes públicas: comerciales, militares y de doble uso</h2></summary>
+          <p class="nota-capas">Arma la búsqueda en Google Patents, Espacenet, PATENTSCOPE, The Lens, USPTO e IMPI. Las clases CPC acotan por tecnología (armas, drones, radar, criptografía, nuclear…). Las invenciones con orden de secreto no se publican y no aparecen en ningún buscador.</p>
+          <form id="pat-form" role="search">
+            <input type="search" id="pat-q" class="verif-texto" placeholder="Palabras (en inglés hay más resultados): drone swarm, jammer…" aria-label="Palabras clave de la patente" autocomplete="off">
+            <input type="text" id="pat-titular" placeholder="Titular (empresa o universidad), opcional" aria-label="Titular de la patente" maxlength="120">
+            <label class="fila"><span>Clase</span><select id="pat-cpc" aria-label="Clase CPC"></select></label>
+            <label class="fila"><span>País</span><select id="pat-pais" aria-label="Oficina de patentes"><option value="">Todos</option><option value="US">Estados Unidos</option><option value="EP">Europa (EPO)</option><option value="WO">Internacional (PCT)</option><option value="CN">China</option><option value="JP">Japón</option><option value="KR">Corea del Sur</option><option value="RU">Rusia</option><option value="MX">México</option><option value="DE">Alemania</option><option value="FR">Francia</option><option value="GB">Reino Unido</option><option value="IL">Israel</option></select></label>
+            <label class="fila"><span>Desde el año</span><input type="number" id="pat-desde" min="1900" max="2100" step="1" placeholder="2020" aria-label="Año de prioridad desde"></label>
+            <button>Armar búsqueda</button> <button type="button" class="btn-limpiar" data-limpiar="pat-q pat-titular pat-desde pat-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
+          <div id="pat-res" aria-live="polite"></div>
+          <ul id="pat-tips" class="lista-corta"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-agencias" data-grupo="investigacion">
+          <summary><h2>🛰️ Tecnologías públicas de agencias (Pentágono, CIA, FBI, NSA y otras)</h2></summary>
+          <p class="nota-capas">Programas, portafolios y documentos que las propias agencias publican. Cada entrada enlaza a la fuente oficial.</p>
+          <form id="ag-form" role="search"><input type="search" id="ag-q" class="verif-texto" placeholder="Buscar (desde 3 letras): drones, satélites, biometría…" aria-label="Buscar agencia o programa" autocomplete="off">
+            <select id="ag-tipo" aria-label="Tipo de agencia"><option value="">Todas</option><option value="defensa">Defensa</option><option value="inteligencia">Inteligencia</option><option value="seguridad">Seguridad</option><option value="espacio">Espacio</option></select>
+            <button type="button" class="btn-limpiar" data-limpiar="ag-q" title="Borrar lo escrito">✕ Limpiar</button></form>
+          <div id="ag-res" aria-live="polite"></div>
+          <ul id="ag-tips" class="lista-corta"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-crimen-tec" data-grupo="investigacion">
+          <summary><h2>🧨 Tecnologías usadas por el crimen y el terrorismo (cómo reconocerlas)</h2></summary>
+          <p class="nota-capas">Enfoque defensivo con fuentes públicas: qué se ha documentado, cómo reconocerlo, qué hace la autoridad y qué norma aplica. No incluye instrucciones de uso.</p>
+          <form id="ct-form" role="search"><input type="search" id="ct-q" class="verif-texto" placeholder="Buscar (desde 3 letras): drones, GPS, cripto…" aria-label="Buscar tecnología" autocomplete="off">
+            <button type="button" class="btn-limpiar" data-limpiar="ct-q" title="Borrar lo escrito">✕ Limpiar</button></form>
+          <div id="ct-res" aria-live="polite"></div>
+          <h3>Informes públicos de referencia</h3>
+          <ul id="ct-fuentes" class="fuentes"></ul>
+        </details>
+        <details class="bloque plegable" id="b-inv-extranjeras" data-grupo="investigacion">
+          <summary><h2>🌐 Empresas extranjeras que operan en México</h2></summary>
+          <p class="nota-capas">Catálogo de Wikidata (matriz extranjera, filial en México, industria), renovado cada semana, y búsqueda en vivo en GLEIF (registro mundial de identificadores LEI, con la matriz última de cada empresa). Ninguna de las dos fuentes está completa.</p>
+          <form id="ext-form" role="search"><input type="search" id="ext-q" class="verif-texto" placeholder="Empresa o industria (desde 3 letras)" aria-label="Buscar empresa extranjera" autocomplete="off">
+            <label class="fila"><span>País de la matriz</span><select id="ext-pais" aria-label="País de la matriz"><option value="">Todos</option></select></label>
+            <label class="fila"><span>Industria</span><select id="ext-ind" aria-label="Industria"><option value="">Todas</option></select></label>
+            <button type="button" class="btn-limpiar" data-limpiar="ext-q ext-res ext-gleif-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
+          <div id="ext-res" aria-live="polite"></div>
+          <button type="button" id="ext-gleif">🔎 Buscar el nombre en GLEIF (empresas registradas en México y su matriz)</button>
+          <div id="ext-gleif-res" aria-live="polite"></div>
+          <h3>Otras fuentes</h3>
+          <ul id="ext-fuentes" class="fuentes"></ul>
+        </details>
         <details class="bloque plegable" id="b-inv-poder" data-grupo="investigacion">
           <summary><h2>🏛️ Poder político y declaraciones patrimoniales</h2></summary>
           <p class="nota-capas">Composición del Congreso, gobiernos estatales y municipales por partido, y declaraciones: fuentes oficiales. No se muestran automáticamente porque las fuentes abiertas disponibles estaban desactualizadas o bloquean programas (revisado el 21 de octubre de 2026); mostrar un dato viejo como actual sería peor que no mostrarlo.</p>
@@ -412,6 +456,8 @@
 
     <div class="mapa-wrap">
       <div id="map" role="region" aria-label="Mapa mundial de eventos. Usa la lista de eventos del panel para navegar con teclado."></div>
+      <form id="lug-form" class="lug-buscador" role="search" autocomplete="off"><input type="search" id="lug-q" placeholder="Buscar lugar o dirección" aria-label="Buscar lugar o dirección en el mapa" role="combobox" aria-expanded="false" aria-controls="lug-lista" aria-autocomplete="list">
+        <ul id="lug-lista" class="lug-lista" role="listbox" hidden></ul></form>
       <div id="aviso-base" class="aviso-base" hidden></div>
       <button type="button" id="coords-puntero" class="coords-puntero" hidden title="Clic para copiar"></button>
       <div id="cabina-barra" class="cabina-barra" hidden><span id="cabina-info"></span> <button type="button" id="cabina-salir">Salir de la cabina</button></div>

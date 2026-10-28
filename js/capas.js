@@ -102,6 +102,11 @@ export class GestorCapas {
     const f = this.familias.get(id);
     if (!f || !f.disponible || this.activas.has(id)) return;
     if (f.manifest.formato !== "geojson") await asegurarPMTiles();
+    // Grupos por zona: se descargan antes de ocultar los puntos sueltos; si no llegan (p. ej. 404), los puntos se ven a todo zoom.
+    if (f.geometria === "punto" && f.manifest.grupos && f.grupos === undefined) {
+      f.grupos = await fetch(f.manifest.grupos).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    }
+    if (this.activas.has(id)) return;
     this.activas.set(id, new Set(f.subtipos.map((s) => s.id)));
     this.#instalar(f);
     this.onCambio(this.totalActivas());
@@ -178,7 +183,7 @@ export class GestorCapas {
     const sl = geojson ? {} : { "source-layer": f.id };
     // Familias de puntos con grupos calculados en el servidor (tools/capas/zonas_grupos.py): círculos con el número
     // hasta zoom 7 y, desde ahí, los objetos sueltos.
-    const grupos = f.geometria === "punto" && f.manifest.grupos ? f.manifest.grupos : null;
+    const grupos = f.geometria === "punto" && f.grupos?.features?.length ? f.grupos : null;
     const desde = grupos ? { minzoom: GRUPOS_HASTA } : {};
 
     if (f.geometria !== "punto") {

@@ -357,3 +357,14 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | SESNSP, datos abiertos de incidencia delictiva estatal del fuero común (archivo ZIP en SharePoint enlazado desde gob.mx) | Cifras oficiales de robo a transportista, en transporte público y de vehículo, junto a las señales de noticias en la ficha de «Carreteras y calles» | Cada 3 días; se abre el enlace público y luego se descarga, como un navegador | Datos abiertos del gobierno de México |
 | Medios mexicanos (RSS) y GDELT GKG (titulares) | Capa «Personas desaparecidas y fosas clandestinas»: hallazgos, búsquedas e identificación (con título) y casos individuales (sin título, sin nombres) | Las mismas descargas de la capa de crimen | Solo enlace, medio, fecha y lugar aproximado; nunca el texto de la nota ni datos personales |
 | RNPDNO, Comisión Nacional de Búsqueda, NamUs, UBPD, CNDES, SIFEBU, CICR, ICMP, ONU, Interpol | Enlaces en la ficha para buscar o reportar a una persona | Solo enlace | — |
+
+## Fase 3: lugares, patentes, tecnologías y empresas extranjeras (octubre de 2026)
+
+| Fuente | Uso | Acceso | Licencia o condiciones |
+|---|---|---|---|
+| Photon (komoot), `photon.komoot.io/api` | Buscador de lugares y direcciones sobre el mapa | Desde el navegador, desde 3 letras y con 350 ms de espera entre teclas; no se guarda lo escrito | Datos © colaboradores de OpenStreetMap (ODbL); se muestra la atribución en la lista |
+| Google Patents, Espacenet, PATENTSCOPE, The Lens, USPTO Patent Public Search, IMPI SIGA | Bloque «Patentes públicas»: se arma la búsqueda con texto, clase CPC, titular, país y año | Solo enlace; no se descargan ni copian resultados | Condiciones de cada buscador |
+| Portales oficiales de DARPA, IARPA, DIU, TechLink, In-Q-Tel, CIA, NSA, FBI, DHS, SBIR, NASA, NIST, DASA, Dstl, AID, OTAN STO y CORDIS | Bloque «Tecnologías públicas de agencias» (`config/tec_agencias.json`) | Solo enlace y descripción propia breve | — |
+| Europol (IOCTA, SOCTA), UNODC, GAFI/FATF, FBI IC3 | Bloque «Tecnologías usadas por el crimen y el terrorismo» (`config/tec_crimen.json`), con enfoque defensivo | Solo enlace y resumen propio | — |
+| Wikidata, consulta SPARQL (P749 matriz, P355 filial, P2541 zona de operación, P17 país) | Catálogo «Empresas extranjeras que operan en México» (`vivos/empresas_extranjeras_mx.json`) | Tres consultas cada 7 días, con User-Agent identificado y reintentos | CC0 |
+| GLEIF API (`api.gleif.org`) | Búsqueda en vivo de entidades registradas en México con su matriz última | Desde el navegador al pulsar el botón; una consulta de matriz a la vez (límite de 60 por minuto) | CC0 |
