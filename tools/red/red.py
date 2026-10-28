@@ -48,7 +48,9 @@ SENAL_IODA = {"bgp": "Rutas BGP anunciadas", "ping-slash24": "Sondeo activo (pin
               "gtr-norm": "Tráfico hacia Google", "merit-nt": "Telescopio de red (tráfico no solicitado)"}
 HORAS_CORTES = 48
 
-THREATFOX = "https://threatfox.abuse.ch/export/json/recent/"
+# ThreatFox retiró sus exportaciones públicas (HTTP 410 desde oct 2026): ahora solo responde su API con una llave gratuita
+# (cuenta en abuse.ch). La llave va en el secreto ABUSECH_AUTH_KEY de GitHub, nunca en el código; sin ella se omite.
+THREATFOX = "https://threatfox-api.abuse.ch/api/v1/"
 FEODO = "https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.json"
 DBIP = "https://download.db-ip.com/free/dbip-country-lite-{mes}.csv.gz"
 DBIP_DIR = os.environ.get("DBIP_DIR", os.path.expanduser("~/.cache/dbip"))
@@ -256,6 +258,19 @@ def ips_threatfox(datos):
     return out
 
 
+def ips_threatfox_api(resp):
+    """Respuesta de la API de ThreatFox (get_iocs) → {ip: familia}, con el mismo criterio que la exportación."""
+    return ips_threatfox({"api": (resp or {}).get("data") or []}) if (resp or {}).get("query_status") == "ok" else {}
+
+
+def pedir_threatfox(llave, dias=2):
+    import urllib.request
+    req = urllib.request.Request(THREATFOX, data=json.dumps({"query": "get_iocs", "days": dias}).encode(),
+                                 headers={"User-Agent": F.UA, "Auth-Key": llave, "Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=120) as r:
+        return json.loads(r.read())
+
+
 def ips_feodo(lista):
     return {x["ip_address"]: x.get("malware") or "desconocido" for x in lista or [] if x.get("ip_address")}
 
@@ -286,11 +301,18 @@ def c2_por_pais(ips, geo, paises):
 def paso_c2(paises, ahora):
     geo, mes = cargar_dbip(ahora)
     ips, estado = {}, {}
-    for nombre, url, leer in (("threatfox", THREATFOX, ips_threatfox), ("feodo", FEODO, ips_feodo)):
+    llave = os.environ.get("ABUSECH_AUTH_KEY", "").strip()
+    for nombre, url, leer in (("threatfox", THREATFOX, ips_threatfox_api), ("feodo", FEODO, ips_feodo)):
         try:
-            if not F.permitido_por_robots(url):
-                raise PermissionError("robots.txt no lo permite")
-            nuevas = leer(json.loads(F.get(url, timeout=120)))
+            if nombre == "threatfox":
+                if not llave:
+                    estado[nombre] = "sin llave (agrega el secreto ABUSECH_AUTH_KEY; es gratis en auth.abuse.ch)"
+                    continue
+                nuevas = leer(pedir_threatfox(llave))
+            else:
+                if not F.permitido_por_robots(url):
+                    raise PermissionError("robots.txt no lo permite")
+                nuevas = leer(json.loads(F.get(url, timeout=120)))
             for ip, fam in nuevas.items():
                 ips.setdefault(ip, fam)
             estado[nombre] = f"ok ({len(nuevas)} IP)"

@@ -36,3 +36,12 @@ def test_unir_sin_duplicados_y_con_vias():
 def test_consultas_excluyen_matrices_mexicanas():
     for q in E.CONSULTAS.values():
         assert "FILTER(?pais != wd:Q96)" in q and "LIMIT" in q
+
+
+def test_threatfox_api_sin_llave_y_con_respuesta():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "red"))
+    import red as R
+    ok = {"query_status": "ok", "data": [{"threat_type": "botnet_cc", "ioc_type": "ip:port", "ioc_value": "1.2.3.4:443", "malware_printable": "Cobalt Strike"},
+                                         {"threat_type": "payload_delivery", "ioc_type": "url", "ioc_value": "http://5.6.7.8/x"}]}
+    assert R.ips_threatfox_api(ok) == {"1.2.3.4": "Cobalt Strike"}
+    assert R.ips_threatfox_api({"query_status": "no_result"}) == {}
