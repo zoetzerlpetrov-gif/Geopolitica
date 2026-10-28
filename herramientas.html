@@ -72,26 +72,26 @@
         <div class="barra"><input id="vul-q" placeholder="Producto, proveedor o CVE" aria-label="Buscar vulnerabilidad" style="min-width:240px">
           <label><input type="checkbox" id="vul-kev"> Solo explotadas (KEV)</label>
           <label>CVSS mínimo <select id="vul-cvss"><option value="0">cualquiera</option><option value="9" selected>9.0</option><option value="9.5">9.5</option><option value="10">10</option></select></label>
-          <label>EPSS mínimo <select id="vul-epss"><option value="0" selected>cualquiera</option><option value="0.1">10 %</option><option value="0.5">50 %</option></select></label><span id="vul-exp"></span></div>
+          <label>EPSS mínimo <select id="vul-epss"><option value="0" selected>cualquiera</option><option value="0.1">10 %</option><option value="0.5">50 %</option></select></label><button type="button" class="btn-limpiar" data-limpiar="vul-q" title="Borrar lo escrito y el resultado">✕ Limpiar</button><span id="vul-exp"></span></div>
         <p class="meta" id="vul-estado"></p><div class="desliza"><table class="t" id="vul-tabla"></table></div>
         <p class="meta">Qué hacer: 1) inventario de activos (¿usamos ese producto y versión?), 2) parche o mitigación del proveedor, 3) priorizar KEV y EPSS alto, 4) buscar indicios de explotación en registros. Referencias: NIST SP 800-40 (parches), CISA BOD 22-01, ISO/IEC 27002 control 8.8.</p></div>
       <div class="tarjeta"><h3>🔎 Extraer indicadores (IOC) de un texto</h3>
         <p class="meta">Pega un informe, un correo o un registro. Saca URL, dominios, IP, correos, hashes, CVE y carteras de Bitcoin. Acepta texto «desactivado» (hxxp, [.]).</p>
         <textarea id="ioc-texto" aria-label="Texto con indicadores"></textarea>
-        <div class="barra"><button type="button" id="ioc-btn">Extraer</button><button type="button" id="ioc-defang">Desactivar (defang) para compartir</button><button type="button" id="ioc-refang">Reactivar (refang)</button></div>
+        <div class="barra"><button type="button" id="ioc-btn">Extraer</button><button type="button" id="ioc-defang">Desactivar (defang) para compartir</button><button type="button" id="ioc-refang">Reactivar (refang)</button><button type="button" class="btn-limpiar" data-limpiar="ioc-texto ioc-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
         <div id="ioc-res"></div></div>
       <div class="tarjeta"><h3>✉️ Encabezados de un correo sospechoso</h3>
         <p class="meta">En Gmail: ⋮ → «Mostrar original». En Outlook: Archivo → Propiedades → «Encabezados de Internet». Copia y pega aquí todo el bloque.</p>
         <textarea id="enc-texto" aria-label="Encabezados del correo"></textarea>
-        <div class="barra"><button type="button" id="enc-btn">Analizar</button></div><div id="enc-res"></div></div>
+        <div class="barra"><button type="button" id="enc-btn">Analizar</button><button type="button" class="btn-limpiar" data-limpiar="enc-texto enc-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div><div id="enc-res"></div></div>
       <div class="tarjeta"><h3>🌐 DNS y correo de un dominio</h3>
         <p class="meta">Consulta los registros públicos (A, AAAA, MX, NS, TXT, CAA y la política DMARC) con DNS sobre HTTPS de Google (dns.google): solo se envía el nombre del dominio.</p>
-        <div class="barra"><input type="text" id="dns-dominio" placeholder="ejemplo.com.mx" aria-label="Dominio" style="max-width:320px"><button type="button" id="dns-btn">Consultar</button></div>
+        <div class="barra"><input type="text" id="dns-dominio" placeholder="ejemplo.com.mx" aria-label="Dominio" style="max-width:320px"><button type="button" id="dns-btn">Consultar</button><button type="button" class="btn-limpiar" data-limpiar="dns-dominio dns-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
         <div id="dns-res"></div></div>
       <div class="tarjeta"><h3>🔐 Huella (hash), Base64 y JWT</h3>
         <textarea id="cod-texto" aria-label="Texto a convertir"></textarea>
         <div class="barra"><button type="button" data-cod="sha256">SHA-256</button><button type="button" data-cod="sha1">SHA-1</button><button type="button" data-cod="sha512">SHA-512</button>
-          <button type="button" data-cod="b64">→ Base64</button><button type="button" data-cod="deb64">Base64 →</button><button type="button" data-cod="url">Decodificar URL</button><button type="button" data-cod="jwt">Leer JWT</button></div>
+          <button type="button" data-cod="b64">→ Base64</button><button type="button" data-cod="deb64">Base64 →</button><button type="button" data-cod="url">Decodificar URL</button><button type="button" data-cod="jwt">Leer JWT</button><button type="button" class="btn-limpiar" data-limpiar="cod-texto cod-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
         <div id="cod-res" class="mono"></div></div>
       <div class="tarjeta"><h3>📚 Consultas externas útiles (se abren en su sitio)</h3><ul id="enlaces-ti" class="fuentes"></ul></div>
     </section>
@@ -150,7 +150,7 @@
         evidencia que pide un auditor y preguntas para verificar. «Generales» aplica a toda empresa del país; al elegir un sector se suman sus leyes específicas.
         Revisado en octubre de 2026 con fuentes públicas; lo marcado «verificar» no se pudo confirmar en la fuente oficial. Confirma la versión vigente antes de emitir un informe.</p>
       <div class="barra"><select id="nor-jur" aria-label="Jurisdicción"></select><select id="nor-sector" aria-label="Sector"></select>
-        <input type="search" id="nor-q" placeholder="Buscar: CFDI, datos personales, REPSE, GDPR…" aria-label="Buscar en la normativa" style="min-width:240px"></div>
+        <input type="search" id="nor-q" placeholder="Buscar: CFDI, datos personales, REPSE, GDPR…" aria-label="Buscar en la normativa" style="min-width:240px"><button type="button" class="btn-limpiar" data-limpiar="nor-q" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
       <div id="nor-resumen" class="tarjeta"></div>
       <div class="barra"><span id="nor-exp"></span><button type="button" id="nor-cal">📅 Calendario de trámites</button><button type="button" id="nor-vaciar">Vaciar respuestas de esta jurisdicción</button></div>
       <div id="nor-calendario" hidden></div>

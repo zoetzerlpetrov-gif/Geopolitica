@@ -1,5 +1,6 @@
 // Interfaz de herramientas.html (caja del analista). La lógica está en herr-logica.js.
-import { esc, safeUrl } from "./util.js";
+import { esc, safeUrl, activarLimpiar } from "./util.js";
+activarLimpiar();
 import * as H from "./herr-logica.js";
 
 const $ = (id) => document.getElementById(id);

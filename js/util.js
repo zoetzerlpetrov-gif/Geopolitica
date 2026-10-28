@@ -168,3 +168,22 @@ export function fragmento(texto, palabras, largo = 110) {
   const ini = Math.max(0, k - Math.floor(largo / 3)), fin = Math.min(t.length, ini + largo);
   return `${ini > 0 ? "…" : ""}${resaltar(t.slice(ini, fin), palabras)}${fin < t.length ? "…" : ""}`;
 }
+
+/**
+ * Botones «Limpiar» (atributo data-limpiar con ids separados por espacios): vacían campos de texto y archivos, y el
+ * contenido de los contenedores de resultados. Se avisa con «input» para que los filtros en vivo se vuelvan a pintar.
+ */
+export function activarLimpiar(raiz = document) {
+  raiz.addEventListener("click", (e) => {
+    const b = e.target.closest?.("[data-limpiar]");
+    if (!b) return;
+    const ids = b.dataset.limpiar.split(/\s+/).filter(Boolean);
+    for (const id of ids) {
+      const el = document.getElementById(id);
+      if (!el) continue;
+      if (el.matches("input, textarea")) { el.value = ""; el.dispatchEvent(new Event("input", { bubbles: true })); }
+      else el.innerHTML = "";
+    }
+    document.getElementById(ids[0])?.focus();
+  });
+}

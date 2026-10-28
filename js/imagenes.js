@@ -8,6 +8,8 @@
 // Se usa la fecha de AYER (UTC) porque la imagen del día puede no estar completa; se puede elegir otro día.
 // Todas las capas se piden en EPSG:3857 (la proyección del mapa plano) para que encajen sin deformarse.
 
+import { conRespaldo, registrarProtocolo, leerDominio, urlDominios } from "./gibs.js";
+
 export const IMAGENES = {
   viirs_color: { nombre: "Color verdadero VIIRS (NOAA-20, sin huecos)", capa: "VIIRS_NOAA20_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
   modis_color: { nombre: "Color verdadero MODIS Terra (mañana, con huecos)", capa: "MODIS_Terra_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
@@ -34,7 +36,7 @@ export const IMAGENES = {
         ["rgb(237,83,0)", "3 a 4: denso; humo de incendios o polvo del Sahara"], ["rgb(185,0,14)", "4 a 5: muy denso"], ["rgb(115,0,25)", "5 o más: extremo; incendios enormes, tormentas de polvo o ceniza volcánica"]] } },
   // Hielo marino diario (GHRSST MUR, ~1 km, mezcla de satélites de microondas): porcentaje del mar cubierto de hielo.
   hielo_marino: { nombre: "Hielo marino: % del mar cubierto (GHRSST MUR, diario)", capa: "GHRSST_L4_MUR_Sea_Ice_Concentration", matriz: "GoogleMapsCompatible_Level7",
-    ext: "png", maxzoom: 7, opacidad: 0.8, fecha_fija: "default",
+    ext: "png", maxzoom: 7, opacidad: 0.8, fecha_fija: "default", paleta: true,
     leyenda: "Porcentaje de cada punto del mar cubierto de hielo (paleta oficial de NASA GIBS). El borde del hielo se mide desde 15 %. Se publica con ~2 días de retraso; se muestra siempre el día más reciente que haya publicado NASA. Ni el mapa plano ni el globo dibujan mosaicos más allá de 85° de latitud (límite de los mosaicos web), así que el centro del Ártico y de la Antártida queda sin color; el borde del hielo, que es lo que cambia, sí se ve.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/GHRSST_Sea_Ice_Concentration.xml).
     escala: { colores: ["rgb(78,0,78)", "rgb(184,0,184)", "rgb(127,0,255)", "rgb(0,90,255)", "rgb(0,234,191)", "rgb(15,175,0)", "rgb(225,245,0)", "rgb(255,177,0)", "rgb(255,26,26)", "rgb(255,153,153)"],
@@ -43,8 +45,8 @@ export const IMAGENES = {
         ["rgb(15,175,0)", "40 a 70 %: hielo abierto"], ["rgb(255,177,0)", "70 a 90 %: hielo cerrado"], ["rgb(255,153,153)", "Más de 90 %: banquisa casi continua"]] } },
   // Columna total de ozono (OMPS): el «agujero» es donde baja de 220 unidades Dobson, sobre la Antártida de agosto a diciembre.
   ozono_total: { nombre: "Capa de ozono: columna total (OMPS, diario)", capa: "OMPS_Ozone_Total_Column", matriz: "GoogleMapsCompatible_Level6", ext: "png",
-    maxzoom: 6, opacidad: 0.7,
-    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS.",
+    maxzoom: 6, opacidad: 0.7, relleno: 1,
+    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS. Las franjas que el satélite aún no barre ese día (a menudo sobre el Pacífico, junto a la línea de cambio de fecha) se rellenan con el día anterior.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_Ozone_Total_Column.xml).
     escala: { colores: ["rgb(71,160,179)", "rgb(130,205,164)", "rgb(195,231,159)", "rgb(240,236,146)", "rgb(253,203,121)", "rgb(249,146,84)", "rgb(231,89,72)"],
       marcas: ["125", "200", "275", "350", "425", "≥ 500 DU"],
@@ -56,11 +58,14 @@ export const IMAGENES = {
   // cada hora de día; con fecha «default» GIBS sirve la hora más reciente.
   // relleno: días (o horas, en productos por hora) anteriores que se dibujan debajo para tapar los huecos entre órbitas,
   // de nubes o de barridos incompletos; lo más reciente siempre queda encima.
+  // paleta: el producto solo publica PNG con paleta; lo demás que mande GIBS es ruido fuera de cobertura (js/gibs.js).
+  // limites: [oeste, sur, este, norte] de la cobertura; fuera de ahí el mapa ni siquiera pide mosaicos.
   no2_tropomi: { nombre: "NO₂: actividad industrial y tráfico (TROPOMI, diario, mundo)", capa: "TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column",
     matriz: "GoogleMapsCompatible_Level6", ext: "png", maxzoom: 6, opacidad: 0.75, relleno: 1,
     leyenda: "Columna troposférica de NO₂ (Sentinel-5P/TROPOMI, ~5 km). Mientras más intenso el color, más NO₂: ciudades grandes, centrales, refinerías y corredores de tráfico. Compara días: una caída fuerte en una zona industrial puede indicar paro o cierre. Los huecos entre órbitas o por nubes se rellenan con el día anterior. Leyenda oficial en NASA Worldview." },
   no2_tempo: { nombre: "NO₂ cada hora en América del Norte y México (TEMPO, hora más reciente)", capa: "TEMPO_L3_NO2_Vertical_Column_Troposphere",
-    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, por_hora: true, relleno: 2,
+    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, por_hora: true, relleno: 2, paleta: true,
+    limites: [-170, 5, -40, 75],
     leyenda: "Satélite geoestacionario TEMPO (NASA): mide el NO₂ cada hora de día sobre América del Norte, de Canadá a México. Mientras más intenso el color, más NO₂. Muestra la hora más reciente con el barrido completo (el primero de la mañana y el último de la tarde salen a medias y se saltan); los huecos por nubes o barridos parciales se rellenan con las 2 horas anteriores. De noche no hay datos. Leyenda oficial en NASA Worldview." },
   // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB (las «ENCC» dejaron de publicarse en 2023). Al
   // activarla, el navegador prueba cada candidata en los últimos días y usa la primera con imagen completa.
@@ -80,7 +85,9 @@ export const IMAGENES = {
 /** Un mosaico de z2 con el día completo pesa decenas de KB; uno vacío pesa menos de ~1.5 KB y uno de un día a medio
  * publicar, unos pocos KB (medido en GIBS en oct 2026). Por debajo de esto se considera incompleto. */
 export const MOSAICO_MINIMO = 8000;
-const MUESTRAS = [[2, 1, 1], [2, 1, 2]];  // América y Europa/África a latitudes medias
+// América, Europa/África y el Pacífico (a ambos lados de la línea de cambio de fecha, donde los productos diarios de
+// órbita polar quedan a medias: medido en oct 2026 con el ozono OMPS, 14 mil píxeles contra 41 mil del día anterior).
+const MUESTRAS = [[2, 1, 1], [2, 1, 2], [2, 2, 0], [2, 1, 3]];
 
 /** Bytes de los mosaicos de muestra de una capa en una fecha (0 si falla alguno). */
 async function bytesMuestra(capa, fecha, pedir) {
@@ -120,10 +127,12 @@ export const haceHoras = (h, ahora = new Date()) => new Date(Math.floor(ahora.ge
  * tarde cubren solo una parte (medido en oct 2026: 4 KB contra 18 KB del mismo mosaico a mediodía) y de noche no hay
  * nada (404). Se revisan las últimas `horas` y se toma la más reciente con al menos 85 % de los bytes de la mejor.
  */
-export async function mejorHora(def, pedir, ahora = new Date(), horas = 30) {
+export async function mejorHora(def, pedir, ahora = new Date(), horas = 30, publicadas = null) {
   const vistas = [];
-  for (let h = 1; h <= horas; h++) {
-    const t = haceHoras(h, ahora);
+  // Desde oct 2026 GIBS solo responde a la hora exacta de cada barrido de TEMPO (p. ej. 14:52:41Z): si se conoce la
+  // lista publicada se prueban esas horas; si no, horas en punto como antes.
+  const candidatas = publicadas?.length ? [...publicadas].reverse().slice(0, horas) : Array.from({ length: horas }, (_, i) => haceHoras(i + 1, ahora));
+  for (const t of candidatas) {
     let total = 0;
     for (const [z, y, x] of MUESTRAS_NA) {
       try {
@@ -186,6 +195,14 @@ export function fechasRelleno(def, fecha, n = def.relleno || 0) {
   });
 }
 
+/** Horas exactas publicadas de un producto por hora (las últimas 30 h hasta `hasta`); [] si GIBS no responde. */
+export async function horasPublicadas(def, hasta = new Date(), pedirTexto = async (u) => (await fetch(u)).text()) {
+  const iso = (d) => d.toISOString().replace(/\.\d{3}Z$/, "Z");
+  try {
+    return leerDominio(await pedirTexto(urlDominios(def.capa, def.matriz, iso(new Date(hasta.getTime() - 30 * 3600000)), iso(hasta))));
+  } catch (e) { return []; }
+}
+
 export function urlGIBS(def, fecha) {
   return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${def.capa}/default/${fecha}/${def.matriz}/{z}/{y}/{x}.${def.ext}`;
 }
@@ -201,14 +218,21 @@ export class Imagenes {
     // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
     const porOmision = fecha === ayerUTC();
     if (def.retraso_dias && porOmision) fecha = haceDias(def.retraso_dias);
-    else if (def.por_hora) fecha = porOmision ? await mejorHora(def, pedir) : `${fecha}T18:00:00Z`;  // otro día: mediodía en México
+    let rellenos = null;
+    if (def.por_hora) {
+      const publicadas = await horasPublicadas(def, porOmision ? new Date() : new Date(`${fecha}T23:59:59Z`));
+      fecha = porOmision ? await mejorHora(def, pedir, new Date(), 30, publicadas)
+        : publicadas.filter((t) => t <= `${fecha}T18:00:00Z`).at(-1) || `${fecha}T18:00:00Z`;  // otro día: cerca del mediodía en México
+      // Relleno con los barridos publicados anteriores (horas exactas), no con horas en punto que GIBS ya no reconoce.
+      if (publicadas.length) rellenos = publicadas.filter((t) => t < fecha).slice(-(def.relleno || 0)).reverse();
+    }
     else if (porOmision && def.capa && !def.fecha_fija) fecha = await mejorDia(def, pedir);  // día completo, no a medias
     if (def.fecha_fija && porOmision) fecha = def.fecha_fija;  // p. ej. «default» = lo más reciente que publique GIBS; otro día elegido se respeta
     if (def.candidatos) {
       eleccion = await elegirCandidata(def, fecha, pedir, porOmision ? [haceDias(1), haceDias(2), haceDias(3)] : [fecha]);
       if (!eleccion) throw new Error("NASA GIBS no devolvió imagen de luces nocturnas para esa fecha ni para la referencia anual");
     }
-    this.activas.set(id, { fecha, eleccion });
+    this.activas.set(id, { fecha, eleccion, rellenos });
     this.#instalar(id);
     return eleccion;
   }
@@ -233,18 +257,20 @@ export class Imagenes {
   #instalar(id) {
     if (this.map.getSource(`img-${id}`)) return;
     const def = IMAGENES[id];
-    const { fecha, eleccion } = this.activas.get(id);
+    const { fecha, eleccion, rellenos } = this.activas.get(id);
     const capa = eleccion || def;
-    this.map.addSource(`img-${id}`, { type: "raster", tiles: [urlGIBS(capa, eleccion?.fecha || fecha)], tileSize: 256, maxzoom: def.maxzoom,
-      attribution: "Imágenes: NASA GIBS / EOSDIS" });
+    registrarProtocolo();  // mosaicos con error o con ruido → transparentes (sin «estática»)
+    const fuente = (f) => ({ type: "raster", tiles: [conRespaldo(urlGIBS(capa, f), { paleta: !!def.paleta })], tileSize: 256, maxzoom: def.maxzoom,
+      ...(def.limites ? { bounds: def.limites } : {}), attribution: "Imágenes: NASA GIBS / EOSDIS" });
+    this.map.addSource(`img-${id}`, fuente(eleccion?.fecha || fecha));
     // Debajo de chokepoints, capas y eventos: primera capa propia del mapa.
     const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.map.addLayer({ id: `img-${id}`, type: "raster", source: `img-${id}`, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, antes);
     // Relleno: lo anterior va debajo de la capa principal (cada una se inserta justo antes de la que ya está arriba).
     let arriba = `img-${id}`;
-    fechasRelleno(def, eleccion?.fecha || fecha).forEach((f, k) => {
+    (rellenos || fechasRelleno(def, eleccion?.fecha || fecha)).forEach((f, k) => {
       const sid = `img-${id}-r${k + 1}`;
-      this.map.addSource(sid, { type: "raster", tiles: [urlGIBS(capa, f)], tileSize: 256, maxzoom: def.maxzoom, attribution: "Imágenes: NASA GIBS / EOSDIS" });
+      this.map.addSource(sid, fuente(f));
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, arriba);
       arriba = sid;
     });

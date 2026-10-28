@@ -80,6 +80,11 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/transporte/emergencias_aereas.py
 
+      - name: Meteosat (EUMETSAT) para los bucles de nubes y color real en Europa, África y Asia (cada corrida; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/vivos/meteosat.py
+
       - name: Trenes en circulación (Finlandia, Digitraffic, cada corrida)
         continue-on-error: true
         timeout-minutes: 2
