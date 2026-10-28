@@ -387,14 +387,17 @@ class Rayos {
 // momentos recientes y se pasan en bucle. «retraso» = cuánto tarda GIBS en publicar (medido en oct 2026).
 export const BUCLES = {
   nubes_ir: { capas: [["Himawari_AHI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"], ["GOES-West_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"],
-    ["GOES-East_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"]], paso: 10, cuadros: 8, retraso: 70, opacidad: 0.75, maxzoom: 6, eumetsat: "ir" },
+    ["GOES-East_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"]], paso: 10, cuadros: 6, retraso: 70, opacidad: 0.75, maxzoom: 6, eumetsat: "ir" },
   // Asia, Oceanía y el Pacífico occidental: GIBS no tiene color real de Himawari, así que ahí va su infrarrojo (debajo)
   // para que ninguna zona quede sin dibujar.
   geocolor: { capas: [["Himawari_AHI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"], ["GOES-West_ABI_GeoColor", "GoogleMapsCompatible_Level7"],
     ["GOES-East_ABI_GeoColor", "GoogleMapsCompatible_Level7"]],
-    paso: 10, cuadros: 8, retraso: 80, opacidad: 0.9, maxzoom: 7, eumetsat: "color" },
+    paso: 10, cuadros: 6, retraso: 80, opacidad: 0.9, maxzoom: 7, eumetsat: "color" },
   lluvia_sat: { capas: [["IMERG_Precipitation_Rate_30min", "GoogleMapsCompatible_Level6"]], paso: 30, cuadros: 6, retraso: 420, opacidad: 0.8, maxzoom: 6 },
 };
+
+/** Cuadros que se descargan a la vez (más compite por la red y retrasa el primero). */
+export const BUCLE_EN_PARALELO = 2;
 
 /** Momentos (ISO, UTC) del bucle: del más antiguo al más reciente publicado, en múltiplos del paso. */
 export function momentosBucle(def, ahora = new Date()) {
@@ -465,11 +468,12 @@ class BucleSatelite {
 
   /** Pregunta a GIBS qué momentos hay de cada capa; si no responde, usa momentos fijos cada «paso» minutos. */
   async #iniciar() {
-    const ahora = Date.now(), ini = isoMin(ahora - 4 * 3600000), fin = isoMin(ahora);
+    // Ventana de consulta: al menos 4 h, o el retraso del producto más los cuadros (IMERG llega con ~7 h de retraso).
+    const ahora = Date.now(), ini = isoMin(ahora - Math.max(4 * 60, this.def.retraso + this.def.paso * this.def.cuadros + 120) * 60000), fin = isoMin(ahora);
     let cuadros = null;
     try {
       const listas = await Promise.all(this.def.capas.map(async ([capa, matriz]) => {
-        const r = await fetch(urlDominios(capa, matriz, ini, fin));
+        const r = await fetch(urlDominios(capa, matriz, ini, fin), { signal: AbortSignal.timeout?.(8000) });  // si GIBS tarda, momentos fijos
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         return leerDominio(await r.text());
       }));
@@ -523,22 +527,34 @@ class BucleSatelite {
     this.agregados.add(k);
   }
 
+  /** Todas las imágenes del cuadro en la vista actual terminaron de bajar (bien o con fallas). */
+  #terminado(k) {
+    return this.agregados.has(k) && this.#ids(k).every((sid) => { try { return this.map.isSourceLoaded(sid); } catch (e) { return false; } });
+  }
+
+  /**
+   * Un cuadro falla si, ya descargado, tiene bastantes más mosaicos fallidos que los otros cuadros descargados. Solo se
+   * comparan cuadros terminados: antes se comparaba con el recién agregado (aún con 0 fallas), y las fallas normales
+   * fuera de la cobertura de cada satélite hacían descartar uno a uno los cuadros buenos (medido el 28-oct-2026).
+   */
   #fallido(k) {
-    const base = Math.min(...[...this.agregados].map((j) => this.errores.get(j) || 0));
+    if (!this.#terminado(k)) return false;
+    const otros = [...this.agregados].filter((j) => j !== k && this.#terminado(j));
+    if (!otros.length) return false;
+    const base = Math.min(...otros.map((j) => this.errores.get(j) || 0));
     return (this.errores.get(k) || 0) - base >= 3;
   }
 
-  /** Un cuadro está listo cuando todas sus imágenes de la vista actual ya se descargaron. */
-  #listo(k) {
-    if (!this.agregados.has(k) || this.#fallido(k)) return false;
-    return this.#ids(k).every((sid) => { try { return this.map.isSourceLoaded(sid); } catch (e) { return false; } });
-  }
+  /** Un cuadro está listo cuando todas sus imágenes de la vista actual ya se descargaron y no es un cuadro fallido. */
+  #listo(k) { return this.#terminado(k) && !this.#fallido(k); }
 
   #avisar() {
-    // Si todo lo pedido ya bajó (o falló), se pide el siguiente cuadro hacia atrás en el tiempo.
-    if ([...this.agregados].every((k) => this.#fallido(k) || this.#listo(k))) {
+    // Se piden hasta BUCLE_EN_PARALELO cuadros a la vez, del más reciente hacia atrás en el tiempo.
+    const pendientes = [...this.agregados].filter((k) => !this.#terminado(k)).length;
+    for (let n = pendientes; n < BUCLE_EN_PARALELO; n++) {
       const siguiente = [...this.momentos.keys()].reverse().find((k) => !this.agregados.has(k));
-      if (siguiente != null) this.#agregar(siguiente);
+      if (siguiente == null) break;
+      this.#agregar(siguiente);
     }
     const listos = this.momentos.filter((_, k) => this.#listo(k)).length;
     this.onProgreso?.(listos, this.momentos.length - [...this.agregados].filter((k) => this.#fallido(k)).length);

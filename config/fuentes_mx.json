@@ -120,6 +120,26 @@
       "id": "elnorte",
       "nombre": "El Norte (Monterrey)",
       "url": "https://www.elnorte.com/rss/portada.xml"
+    },
+    {
+      "id": "zonadocs",
+      "nombre": "ZonaDocs (Jalisco)",
+      "url": "https://www.zonadocs.mx/feed/"
+    },
+    {
+      "id": "pagina3",
+      "nombre": "Página 3 (Oaxaca)",
+      "url": "https://pagina3.mx/feed/"
+    },
+    {
+      "id": "piedepagina",
+      "nombre": "Pie de Página",
+      "url": "https://piedepagina.mx/feed/"
+    },
+    {
+      "id": "adondevan",
+      "nombre": "A dónde van los desaparecidos",
+      "url": "https://adondevanlosdesaparecidos.org/feed/"
     }
   ],
   "descartadas": [
