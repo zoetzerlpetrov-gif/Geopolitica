@@ -763,7 +763,7 @@ CAM_511 = {
     "CAM_511_ON": ("https://511on.ca", "CAN", "Ontario 511 (Ministerio de Transporte de Ontario)"),
     "CAM_511_AB": ("https://511.alberta.ca", "CAN", "511 Alberta (Gobierno de Alberta)"),
     "CAM_511_NY": ("https://511ny.org", "USA", "511NY (Departamento de Transporte de Nueva York)"),
-    "CAM_511_AZ": ("https://www.az511.com", "USA", "AZ511 (Departamento de Transporte de Arizona)"),
+    "CAM_511_AZ": ("https://www.az511.gov", "USA", "AZ511 (Departamento de Transporte de Arizona)"),
     "CAM_511_NV": ("https://www.nvroads.com", "USA", "NVRoads (Departamento de Transporte de Nevada)"),
     "CAM_511_GA": ("https://511ga.org", "USA", "511GA (Departamento de Transporte de Georgia)"),
 }
@@ -804,18 +804,26 @@ def camaras_wsdot(lista):
 
 
 def camaras_windy(d):
-    """Webcams de Windy (llave gratuita): solo el punto y el enlace a su reproductor; la imagen del plan gratuito caduca
-    a los 10 minutos, así que no se guarda."""
+    """Windy: reproductor oficial devuelto por la API; no guardar imágenes con token temporal."""
+    import camaras_mundo as M
     out = []
     for w in d.get("webcams") or []:
         loc = w.get("location") or {}
         lat, lon = _num(loc.get("latitude")), _num(loc.get("longitude"))
-        if lat is None or lon is None:
+        if lat is None or lon is None or w.get("status") == "inactive":
             continue
+        player = w.get("player") or {}
+        # Priorizar la secuencia del día; es un timelapse, nunca etiquetarlo como directo.
+        url = M.url_publica(player.get("day"), ["webcams.windy.com", "embed.windy.com"])
+        if url and not urllib.parse.urlsplit(url).path.startswith(("/webcams/public/embed/", "/embed/")):
+            url = ""
         out.append(feat(punto(lon, lat), {
-            "id": f"wy:{w.get('webcamId')}", "n": w.get("title") or "Webcam", "st": "ciudad", "p": (loc.get("country_code") or "").upper(),
+            "id": f"wy:{w.get('webcamId')}", "n": w.get("title") or "Webcam", "st": "turismo", "p": (loc.get("country_code") or "").upper(),
             "x": f"https://www.windy.com/webcams/{w.get('webcamId')}", "o": "Windy Webcams", "t": "operador_turistico",
-            "lugar": ", ".join(x for x in (loc.get("city"), loc.get("region"), loc.get("country")) if x), "nota": "Webcam publicada en Windy; ábrela en su sitio."}, 4))
+            **({"embed": url, "embed_tipo": "windy", "modo": "timelapse"} if url else {}),
+            "lic_url": "https://api.windy.com/webcams/terms",
+            "lugar": ", ".join(x for x in (loc.get("city"), loc.get("region"), loc.get("country")) if x),
+            "nota": "Webcams provided by Windy.com. El reproductor muestra una secuencia de imágenes; no equivale a video continuo." if url else "Webcam publicada en Windy; vista previa no disponible en la respuesta del operador."}, 4))
     return out
 
 
@@ -849,7 +857,7 @@ def camaras_con_llave():
 def get_json_gzip(url):
     """JSON con Accept-Encoding: gzip (Digitraffic lo pide) e identificación del cliente."""
     import gzip
-    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept-Encoding": "gzip", "Digitraffic-User": "Geopolitica-monitor"})
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "application/json", "Accept-Encoding": "gzip", "Digitraffic-User": "Geopolitica-monitor"})
     with urllib.request.urlopen(req, timeout=60) as r:
         datos = r.read()
         if r.headers.get("Content-Encoding") == "gzip" or datos[:2] == b"\x1f\x8b":
@@ -866,7 +874,7 @@ def _fuente_camaras(nombre, urls, parser, leer=None):
                 raise PermissionError("robots.txt no lo permite")
             feats += parser((leer or get_json_gzip)(u))
         except Exception as e:  # noqa: BLE001
-            errores.append(f"{u.split('?')[0].rsplit('/', 1)[-1]}: {e}"[:120])  # sin la consulta: puede llevar una llave
+            errores.append(type(e).__name__)  # sin la consulta: puede llevar una llave
     CAM_FUENTES[nombre] = (f"ok ({len(feats)})" if feats else "error") + (f"; fallaron {len(errores)} de {len(urls)}: {errores[0]}" if errores else "")
     print(f"   cámaras {nombre}: {CAM_FUENTES[nombre]}")
     return feats
@@ -885,16 +893,46 @@ def camaras_webcams_mx():
                 break
             pag += 1
 
-        def yt(url):
-            time.sleep(1)  # una página por segundo
+        # Dos conexiones como máximo y una nueva solicitud por segundo. El catálogo completo
+        # queda disponible aunque una página de video no responda dentro del presupuesto.
+        import concurrent.futures
+        import threading
+        limite = time.monotonic() + 480
+        turno = threading.Lock()
+        fallos = []
+        anteriores = {}
+        ruta_anterior = os.path.join(SALIDA, "camaras.geojson")
+        if os.path.exists(ruta_anterior):
             try:
-                return W.youtube_de(get(url, timeout=30, intentos=1).decode("utf-8", "replace"))
+                for f in json.load(open(ruta_anterior, encoding="utf-8")).get("features", []):
+                    p = f.get("properties") or {}
+                    if p.get("id", "").startswith("wdm:") and p.get("yt"):
+                        anteriores[p.get("x")] = p["yt"]
+            except (ValueError, OSError):
+                pass
+        def consultar_yt(url):
+            if time.monotonic() >= limite:
+                fallos.append(url)
+                return anteriores.get(url, "")
+            with turno:
+                if time.monotonic() >= limite:
+                    fallos.append(url)
+                    return anteriores.get(url, "")
+                time.sleep(1)
+            try:
+                req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "text/html"})
+                with urllib.request.urlopen(req, timeout=12) as r:
+                    return W.youtube_de(r.read(2 * 1024 * 1024).decode("utf-8", "replace"))
             except Exception:  # noqa: BLE001
-                return ""
-        cams = W.camaras(posts, cats, yt)
-        CAM_FUENTES["webcams_mx"] = f"ok ({len(cams)}, {sum(1 for c in cams if c['yt'])} con video)"
+                fallos.append(url)
+                return anteriores.get(url, "")
+        urls = list(dict.fromkeys(p.get("link", "") for p in posts if p.get("link")))
+        with concurrent.futures.ThreadPoolExecutor(max_workers=2) as ex:
+            videos = dict(zip(urls, ex.map(consultar_yt, urls)))
+        cams = W.camaras(posts, cats, lambda url: videos.get(url, ""))
+        CAM_FUENTES["webcams_mx"] = f"ok ({len(cams)}, {sum(1 for c in cams if c['yt'])} con video)" + (f"; fallaron {len(fallos)} páginas de video" if fallos else "")
     except Exception as e:  # noqa: BLE001
-        CAM_FUENTES["webcams_mx"] = f"error: {e}"[:200]
+        CAM_FUENTES["webcams_mx"] = f"error: {type(e).__name__}"
         return []
     print(f"   cámaras webcams_mx: {CAM_FUENTES['webcams_mx']}")
     return [feat(punto(c["lon"], c["lat"]), {"id": c["id"], "n": c["n"], "st": c["st"], "p": "MEX", "x": c["url"], "o": "Webcams de México",
@@ -914,19 +952,11 @@ def camaras(revisar=enlace_responde, externas=True):
         out.append(feat(punto(c["lon"], c["lat"]), {
             "id": f"cam:{c['id']}", "n": c["nombre"], "st": c["subtipo"], "p": c.get("pais_iso3", ""), "x": c["url"],
             "o": c["operador"], "t": c["tipo_operador"], "nota": c.get("nota", ""),
-            "v": f"{estado} ({hoy})"}, 1))
+            "v": f"{estado} ({hoy})", **({"aprox": 1} if "Ubicación aproximada" in c.get("nota", "") else {})}, 1))
     CAM_FUENTES["curadas"] = f"ok ({len(out)})"
     if externas:
-        out += camaras_webcams_mx()
-        out += _fuente_camaras("digitraffic", [DIGITRAFFIC], camaras_digitraffic)
-        out += _fuente_camaras("caltrans", [CALTRANS.format(d=d) for d in range(1, 13)], camaras_caltrans)
-        out += _fuente_camaras("nyc_dot", [NYC_DOT], camaras_nyc)
-        out += _fuente_camaras("singapur", [SINGAPUR], camaras_singapur)
-        out += _fuente_camaras("hong_kong", [HONG_KONG], camaras_hong_kong, leer=lambda u: get(u, timeout=60))
-        out += _fuente_camaras("nueva_zelanda", [NUEVA_ZELANDA], camaras_nueva_zelanda, leer=leer_json_aceptando)
-        out += _fuente_camaras("islandia", [ISLANDIA], camaras_islandia)
-        out += camaras_con_llave()
-        out += camaras_youtube()
+        import camaras_mundo
+        out = camaras_mundo.ampliar(sys.modules[__name__], out)
     return out
 
 
@@ -938,12 +968,32 @@ def camaras_youtube():
         return []
     import youtube_vivo as Y
     try:
-        ciudades = Y.Ciudades(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"])
-        cams = Y.camaras(llave, ciudades)
+        import camaras_mundo as M
+        regiones = json.load(open(os.path.join(ROOT, "config", "camaras_regiones.json"), encoding="utf-8"))
+        ciudades = Y.Ciudades(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"], regiones["aliases_ciudades"])
+        # Reservar 16 de las 40 búsquedas para las regiones solicitadas; rotar el resto.
+        hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        dia = datetime.now(timezone.utc).toordinal()
+        rotadas = Y.BUSQUEDAS[dia % len(Y.BUSQUEDAS):] + Y.BUSQUEDAS[:dia % len(Y.BUSQUEDAS)]
+        consultas_plan = list(dict.fromkeys(regiones["consultas_prioritarias"] + rotadas))[:40]
+        ruta = os.path.join(SALIDA, "camaras_cache", "youtube_consultas.json")
+        estado = json.load(open(ruta, encoding="utf-8")) if os.path.exists(ruta) else {}
+        prev_path = os.path.join(SALIDA, "camaras_cache", "youtube.json")
+        previo = json.load(open(prev_path, encoding="utf-8")) if os.path.exists(prev_path) else {}
+        if not estado and str(previo.get("actualizado_utc", "")).startswith(hoy):
+            # Migración: las búsquedas antiguas ya se hicieron hoy; no volver a cobrarlas.
+            estado = {q: hoy for q in Y.BUSQUEDAS}
+        disponibles = max(0, Y.BUSQUEDAS_MAX - sum(fecha == hoy for fecha in estado.values()))
+        consultas_plan = [q for q in consultas_plan if estado.get(q) != hoy][:disponibles]
+        ids = [f["properties"].get("yt") for f in previo.get("features", []) if f.get("properties", {}).get("yt")]
+        try:
+            cams = Y.camaras(llave, ciudades, busquedas=consultas_plan, ids_previos=ids, consultas=estado, hoy=hoy)
+        finally:
+            M.guardar(ruta, estado)
     except Exception as e:  # noqa: BLE001
-        CAM_FUENTES["youtube"] = f"error: {e}"[:200]
+        CAM_FUENTES["youtube"] = f"error: {type(e).__name__}"
         return []
-    CAM_FUENTES["youtube"] = f"ok ({len(cams)}, {sum(1 for c in cams if not c['aprox'])} con ubicación del canal)"
+    CAM_FUENTES["youtube"] = f"ok ({len(cams)}, {sum(1 for c in cams if not c['aprox'])} con ubicación del canal)" + (f"; fallaron {Y.ERRORES} búsquedas" if getattr(Y, "ERRORES", 0) else "")
     print(f"   cámaras youtube: {CAM_FUENTES['youtube']}")
     return [feat(punto(c["lon"], c["lat"]), {"id": f"yt:{c['id']}", "n": c["titulo"], "st": c["st"], "p": c["pais"], "x": f"https://www.youtube.com/watch?v={c['id']}",
                  "o": "Canal de YouTube", "t": "canal_youtube", "yt": c["id"], "canal": c["canal_url"], "lugar": c["lugar"], "aprox": 1 if c["aprox"] else 0,
@@ -2118,3 +2168,4 @@ def main(pedidas):
 
 if __name__ == "__main__":
     sys.exit(main(set(sys.argv[1:])))
+

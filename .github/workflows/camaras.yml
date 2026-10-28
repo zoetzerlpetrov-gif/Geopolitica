@@ -1,0 +1,78 @@
+name: Actualizar cámaras del mundo
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 8 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'config/camaras*.json'
+      - 'tools/capas/camaras_mundo.py'
+      - '.github/workflows/camaras.yml'
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# La misma rama de datos que el constructor general; no publicar simultáneamente.
+concurrency:
+  group: capas
+  cancel-in-progress: false
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recuperar las capas existentes
+        run: |
+          mkdir -p capas
+          # Si la rama no responde, no reemplazarla con un catálogo incompleto.
+          git fetch --depth 1 origin datos-capas
+          git archive FETCH_HEAD capas | tar -x
+          python3 tools/capas/verificar_solo_camaras.py guardar /tmp/capas-previas.json
+      - name: Actualizar únicamente cámaras
+        env:
+          YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+          WSDOT_ACCESS_CODE: ${{ secrets.WSDOT_ACCESS_CODE }}
+          WINDY_WEBCAMS_KEY: ${{ secrets.WINDY_WEBCAMS_KEY }}
+          CAM_511_ON: ${{ secrets.CAM_511_ON }}
+          CAM_511_AB: ${{ secrets.CAM_511_AB }}
+          CAM_511_NY: ${{ secrets.CAM_511_NY }}
+          CAM_511_AZ: ${{ secrets.CAM_511_AZ }}
+          CAM_511_NV: ${{ secrets.CAM_511_NV }}
+          CAM_511_GA: ${{ secrets.CAM_511_GA }}
+          CAM_NYC_ACUERDO: ${{ secrets.CAM_NYC_ACUERDO }}
+        run: |
+          python3 -u tools/capas/construir.py camaras
+          python3 tools/capas/verificar_solo_camaras.py verificar /tmp/capas-previas.json
+          test -s capas/camaras_estado.json
+      - name: Evidencia de cobertura y disponibilidad
+        uses: actions/upload-artifact@v4
+        with:
+          name: estado-camaras
+          path: capas/camaras_estado.json
+      - name: Publicar datos conservando todas las demás capas
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub
+          cp -r capas /tmp/pub/
+          cd /tmp/pub
+          git init -q
+          git checkout -q -b datos-capas
+          git config user.name 'geopolitica-bot'
+          git config user.email 'actions@users.noreply.github.com'
+          git add capas
+          git commit -q -m "cámaras $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-capas
+  publicar:
+    needs: construir
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit

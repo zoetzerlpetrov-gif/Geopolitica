@@ -314,6 +314,15 @@ a.boton:hover, a.boton:focus-visible { filter: brightness(1.1); }
   .aviso { font-size: 10px; }
 }
 @media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; } }
+.cam-preview { margin: 12px 0; }
+.cam-preview h4 { margin: 8px 0; }
+.cam-mini { padding: 0; border: 1px solid var(--border); border-radius: 6px; background: var(--surface-2); cursor: zoom-in; overflow: hidden; width: 100%; }
+.cam-mini:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.cam-mini img { width: 100%; display: block; }
+.cam-preview-sin { padding: 12px; border: 1px dashed var(--border); border-radius: 6px; }
+.cam-lightbox { width: min(1100px, 92vw); max-height: 90dvh; padding: 12px; background: var(--surface-2); color: var(--text); border: 1px solid var(--border); border-radius: 10px; }
+.cam-lightbox::backdrop { background: rgb(0 0 0 / 80%); }
+.cam-lightbox img { display: block; width: 100%; max-height: 78dvh; object-fit: contain; margin-top: 10px; }
 .cam-imgs { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 6px; margin: 8px 0; }
 .cam-imgs img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 6px; background: var(--surface-2); display: block; }
 .clima-leyenda { margin: 6px 0; font-size: 11px; }
@@ -547,6 +556,7 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .escala-tramos li { display: flex; align-items: center; gap: 6px; }
 .escala-tramos i { width: 14px; height: 10px; border-radius: 2px; flex: none; border: 1px solid rgba(0,0,0,.15); }
 .cam-video { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 6px 0; background: #000; border-radius: 6px; overflow: hidden; }
+.cam-video video { width: 100%; height: 100%; object-fit: contain; }
 .cam-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .espejo-riesgo { border-top: 1px dashed var(--line); margin-top: 4px; padding-top: 4px; }
 
@@ -772,3 +782,4 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .eei-video { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; }
 .eei-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .eei-panel p { margin: 6px 0 0; }
+

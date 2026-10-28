@@ -111,7 +111,7 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 | C3 | Satélites (SGP4 en worker), ficha GCAT, pases visibles y telescopios | Hecha; CelesTrak en pausa por su robots.txt (pendiente de permiso); órbitas de SatNOGS |
 | C4 | Aeronaves (OpenSky, adsb.lol) y buques (AISStream con clave): ficha con ruta o destino declarado, bandera y trayectoria | Hecha |
 | C5 | Recursos estratégicos e instalaciones militares públicas (OSM) | Hecha (cobertura parcial de OSM) |
-| C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas (solo enlace a la página oficial) | Hecha: 8 cámaras curadas en `config/camaras.json` |
+| C6 | Seguimiento, imágenes NASA GIBS; cámaras públicas | Cámaras: catálogos oficiales de CCTV, imágenes, clips, HLS y YouTube; actualización diaria y claves opcionales. [Fuentes y registro](docs/CAMARAS.md) |
 | 2 | Ingesta GDELT, ReliefWeb y RSS cada hora | Hecha; ReliefWeb requiere tu `appname` |
 | 4 | Línea de tiempo, mapa de calor por país, checklist de 10 pasos con notas, 7 lentes teóricas | Hecha |
 | 5 | Vista México con semáforo, matriz de riesgo 5 × 5 con CSV, modo aprendizaje | Hecha |
@@ -121,3 +121,4 @@ cd .. && python3 tools/make_sample_events.py   # datos de ejemplo de la Fase 1
 ## Exclusiones
 
 No se integran: domicilios, ubicaciones en tiempo real, familiares, contactos o vida personal de personas (incluidas figuras públicas); vínculos entre aviones privados o carteras de criptomonedas y personas con nombre; cámaras privadas o expuestas por error; escaneo de puertos o reconocimiento de redes; detalles operativos de instalaciones militares; scraping que viole términos de servicio. Detalle y motivos en [`SOURCES.md`](SOURCES.md#exclusiones-no-se-integran).
+

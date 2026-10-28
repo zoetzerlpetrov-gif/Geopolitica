@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-10-22T01:21:10Z",
+ "generado_utc": "2026-10-26T11:21:38Z",
  "fuente": "Wikidata (CC0)",
  "registros": [
   {
@@ -653,13 +653,13 @@
    "nombre": "Asian Cycling Confederation",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "MYS",
+   "pais_iso3": "KOR",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1053117",
    "sede": {
-    "lat": 3.7805,
-    "lon": 102.3144,
-    "ciudad": "Malasia"
+    "lat": 37.56,
+    "lon": 126.99,
+    "ciudad": "Seúl"
    },
    "indices": [],
    "personas": [],
@@ -721,13 +721,13 @@
    "nombre": "Global Partnership on Artificial Intelligence",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "CAN",
+   "pais_iso3": "FRA",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q105730365",
    "sede": {
-    "lat": 45.5033,
-    "lon": -73.5868,
-    "ciudad": "Montreal"
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
    },
    "indices": [],
    "personas": [],
@@ -4795,6 +4795,24 @@
    "url_fuente": null
   },
   {
+   "id": "Q11977461",
+   "nombre": "IDLO",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "ITA",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q11977461",
+   "sede": {
+    "lat": 41.8931,
+    "lon": 12.4828,
+    "ciudad": "Roma"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
    "id": "Q119847985",
    "nombre": "IUCN Oceania",
    "subtipo": "organismos_internacionales",
@@ -5941,9 +5959,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q127981543",
    "sede": {
-    "lat": -6.1619,
-    "lon": 106.857,
-    "ciudad": "Kemayoran"
+    "lat": -6.17,
+    "lon": 106.82,
+    "ciudad": "Yakarta Central"
    },
    "indices": [],
    "personas": [],
@@ -7139,6 +7157,24 @@
    "url_fuente": null
   },
   {
+   "id": "Q135841125",
+   "nombre": "Oficina Europea de Inteligencia Artificial",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "BEL",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q135841125",
+   "sede": {
+    "lat": 50.8467,
+    "lon": 4.3517,
+    "ciudad": "Bruselas"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
    "id": "Q1359568",
    "nombre": "alibaba.com",
    "subtipo": "empresas",
@@ -7571,13 +7607,13 @@
    "nombre": "Sociedad Europea de Cardiología",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "FRA",
+   "pais_iso3": "BEL",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1376977",
    "sede": {
-    "lat": 43.6222,
-    "lon": 7.05,
-    "ciudad": "Sophia Antípolis"
+    "lat": 50.8467,
+    "lon": 4.3517,
+    "ciudad": "Bruselas"
    },
    "indices": [],
    "personas": [],
@@ -7647,9 +7683,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1377229",
    "sede": {
-    "lat": 48.5918,
-    "lon": 7.77,
-    "ciudad": "Hôtel Schützenberger"
+    "lat": 48.5733,
+    "lon": 7.7522,
+    "ciudad": "Estrasburgo"
    },
    "indices": [],
    "personas": [],
@@ -8169,9 +8205,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q141130987",
    "sede": {
-    "lat": 47.4606,
-    "lon": 18.9578,
-    "ciudad": "Budaörs"
+    "lat": 47.4983,
+    "lon": 19.0408,
+    "ciudad": "Budapest"
    },
    "indices": [],
    "personas": [],
@@ -9657,13 +9693,13 @@
    "nombre": "Unión Geográfica Internacional",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "IND",
+   "pais_iso3": "ZAF",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1580153",
    "sede": {
-    "lat": 28.6667,
-    "lon": 77.2167,
-    "ciudad": "Delhi"
+    "lat": -33.9253,
+    "lon": 18.4239,
+    "ciudad": "Ciudad del Cabo"
    },
    "indices": [],
    "personas": [],
@@ -10613,13 +10649,13 @@
    "nombre": "Federación Internacional de Escalada Deportiva",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "ITA",
+   "pais_iso3": "CHE",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1666542",
    "sede": {
-    "lat": 45.0792,
-    "lon": 7.6761,
-    "ciudad": "Turín"
+    "lat": 46.948,
+    "lon": 7.4474,
+    "ciudad": "Berna"
    },
    "indices": [],
    "personas": [],
@@ -11279,9 +11315,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q17022457",
    "sede": {
-    "lat": 50.8331,
-    "lon": 4.3669,
-    "ciudad": "Ixelles"
+    "lat": 50.8467,
+    "lon": 4.3525,
+    "ciudad": "Región de Bruselas-Capital"
    },
    "indices": [],
    "personas": [],
@@ -11971,9 +12007,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q17495",
    "sede": {
-    "lat": 46.9391,
-    "lon": 7.4728,
-    "ciudad": "Union postale universelle UPU -Bern"
+    "lat": 46.948,
+    "lon": 7.4474,
+    "ciudad": "Berna"
    },
    "indices": [],
    "personas": [],
@@ -12165,9 +12201,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q176815",
    "sede": {
-    "lat": 46.2333,
-    "lon": 6.1167,
-    "ciudad": "Grand-Saconnex"
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
    },
    "indices": [],
    "personas": [],
@@ -12627,9 +12663,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q18386297",
    "sede": {
-    "lat": 41.8819,
-    "lon": -87.6278,
-    "ciudad": "Chicago"
+    "lat": 40.7128,
+    "lon": -74.0061,
+    "ciudad": "Nueva York"
    },
    "indices": [],
    "personas": [],
@@ -13391,9 +13427,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q192177",
    "sede": {
-    "lat": 41.3825,
-    "lon": 2.1769,
-    "ciudad": "Barcelona"
+    "lat": 41.3884,
+    "lon": 2.117,
+    "ciudad": "Palacio Real de Pedralbes"
    },
    "indices": [],
    "personas": [],
@@ -13865,13 +13901,13 @@
    "nombre": "Asociación de Atletismo de Norteamérica, Centroamérica y el Caribe",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "USA",
+   "pais_iso3": "BHS",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q2000365",
    "sede": {
-    "lat": 18.4408,
-    "lon": -66.0472,
-    "ciudad": "Santurce"
+    "lat": 25.0781,
+    "lon": -77.3386,
+    "ciudad": "Nasáu"
    },
    "indices": [],
    "personas": [],
@@ -16328,9 +16364,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q2534166",
    "sede": {
-    "lat": 51.4995,
-    "lon": -0.1333,
-    "ciudad": "Westminster"
+    "lat": 51.5072,
+    "lon": -0.1275,
+    "ciudad": "Londres"
    },
    "indices": [],
    "personas": [],
@@ -17552,9 +17588,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q283639",
    "sede": {
-    "lat": 46.2333,
-    "lon": 6.1167,
-    "ciudad": "Grand-Saconnex"
+    "lat": 46.218,
+    "lon": 6.166,
+    "ciudad": "Ginebra"
    },
    "indices": [],
    "personas": [],
@@ -22698,13 +22734,13 @@
    "nombre": "Organización Internacional para las Migraciones",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "CZE",
+   "pais_iso3": "CHE",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q472311",
    "sede": {
-    "lat": 50.0875,
-    "lon": 14.4214,
-    "ciudad": "Praga"
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
    },
    "indices": [],
    "personas": [],
@@ -26184,9 +26220,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q5937516",
    "sede": {
-    "lat": 50.8361,
-    "lon": 4.3861,
-    "ciudad": "Etterbeek"
+    "lat": 50.8467,
+    "lon": 4.3517,
+    "ciudad": "Bruselas"
    },
    "indices": [],
    "personas": [],
@@ -26396,9 +26432,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q5987345",
    "sede": {
-    "lat": 46.2197,
-    "lon": 6.1508,
-    "ciudad": "Villa Moynier"
+    "lat": 46.2,
+    "lon": 6.15,
+    "ciudad": "Ginebra"
    },
    "indices": [],
    "personas": [],
@@ -26698,13 +26734,13 @@
    "nombre": "Asociación internacional de interpreters de conferencias",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "CHE",
+   "pais_iso3": "FRA",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q6048438",
    "sede": {
-    "lat": 46.2,
-    "lon": 6.15,
-    "ciudad": "Ginebra"
+    "lat": 48.8567,
+    "lon": 2.3522,
+    "ciudad": "París"
    },
    "indices": [],
    "personas": [],
@@ -28796,13 +28832,13 @@
    "nombre": "Gobiernos Locales por la Sostenibilidad",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "DEU",
+   "pais_iso3": "USA",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q677691",
    "sede": {
-    "lat": 50.7353,
-    "lon": 7.1022,
-    "ciudad": "Bonn"
+    "lat": 40.7128,
+    "lon": -74.0061,
+    "ciudad": "Nueva York"
    },
    "indices": [],
    "personas": [],
@@ -29530,9 +29566,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q699152",
    "sede": {
-    "lat": 48.2347,
-    "lon": 16.4169,
-    "ciudad": "Vienna International Centre"
+    "lat": 48.2083,
+    "lon": 16.3725,
+    "ciudad": "Viena"
    },
    "indices": [],
    "personas": [],
@@ -29864,7 +29900,7 @@
    "nombre": "Unión Africana",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "ZAF",
+   "pais_iso3": "ETH",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q7159",
    "sede": {
@@ -30069,6 +30105,24 @@
     "lat": 51.5072,
     "lon": -0.1275,
     "ciudad": "Londres"
+   },
+   "indices": [],
+   "personas": [],
+   "fuente": "wikidata",
+   "url_fuente": null
+  },
+  {
+   "id": "Q729134",
+   "nombre": "EULEX",
+   "subtipo": "organismos_internacionales",
+   "sector": null,
+   "pais_iso3": "XKS",
+   "lei": null,
+   "wikidata": "https://www.wikidata.org/wiki/Q729134",
+   "sede": {
+    "lat": 42.6667,
+    "lon": 21.1667,
+    "ciudad": "Pristina"
    },
    "indices": [],
    "personas": [],
@@ -32382,13 +32436,13 @@
    "nombre": "Agencia de Naciones Unidas para los Refugiados de Palestina en Oriente Próximo",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "PSE",
+   "pais_iso3": "JOR",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q846656",
    "sede": {
-    "lat": 31.5075,
-    "lon": 34.4597,
-    "ciudad": "Gaza"
+    "lat": 31.95,
+    "lon": 35.9333,
+    "ciudad": "Amán"
    },
    "indices": [],
    "personas": [],
@@ -40062,8 +40116,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q93360852",
    "sede": {
-    "lat": 46.4775,
-    "lon": 30.7326,
+    "lat": 46.4842,
+    "lon": 30.7325,
     "ciudad": "Odesa"
    },
    "indices": [],
@@ -42318,9 +42372,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q939743",
    "sede": {
-    "lat": 48.595,
+    "lat": 48.5949,
     "lon": 7.7719,
-    "ciudad": "Palacio de Europa"
+    "ciudad": "Consejo de Europa"
    },
    "indices": [],
    "personas": [],
@@ -45675,8 +45729,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q97400315",
-    "Q57712"
+    "Q57712",
+    "Q97400315"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -45874,8 +45928,8 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q43274",
-    "Q28319076"
+    "Q28319076",
+    "Q43274"
    ],
    "fuente": "wikidata",
    "url_fuente": null

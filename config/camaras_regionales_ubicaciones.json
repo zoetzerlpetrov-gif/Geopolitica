@@ -1,0 +1,147 @@
+{
+  "nota": "CET: puntos de vías obtenidos mediante Nominatim / OpenStreetMap, aproximados. Kamchatka: centros aproximados del volcán observado, no del dispositivo.",
+  "cetsp": {
+    "225": {
+      "lat": -23.6001073,
+      "lon": -46.6523423,
+      "nombre_geocodificado": "Avenida Professor Ascendino Reis, Indianópolis, Moema, São Paulo, Região Sudeste, 04027-000, Brasil",
+      "aprox": 1
+    },
+    "184": {
+      "lat": -23.5734316,
+      "lon": -46.6675974,
+      "nombre_geocodificado": "Avenida Brasil, Jardim América, Jardins, Jardim Paulista, São Paulo, Região Sudeste, 01406-100, Brasil",
+      "aprox": 1
+    },
+    "220": {
+      "lat": -23.5867306,
+      "lon": -46.6900451,
+      "nombre_geocodificado": "Avenida Cidade Jardim, Vila Olímpia, Itaim Bibi, São Paulo, Região Sudeste, 01454-080, Brasil",
+      "aprox": 1
+    },
+    "180": {
+      "lat": -23.5505125,
+      "lon": -46.6480601,
+      "nombre_geocodificado": "Rua Caio Prado, Higienópolis, Consolação, São Paulo, Região Sudeste, 01305-900, Brasil",
+      "aprox": 1
+    },
+    "222": {
+      "lat": -23.5982843,
+      "lon": -46.668437,
+      "nombre_geocodificado": "Rua Diogo Jácome, Indianópolis, Moema, São Paulo, Região Sudeste, 04512-001, Brasil",
+      "aprox": 1
+    },
+    "200": {
+      "lat": -23.5811799,
+      "lon": -46.6800339,
+      "nombre_geocodificado": "Rua Jerônimo da Veiga, Vila Olímpia, Itaim Bibi, São Paulo, Região Sudeste, 04536-070, Brasil",
+      "aprox": 1
+    },
+    "31": {
+      "lat": -23.5876111,
+      "lon": -46.6751059,
+      "nombre_geocodificado": "Avenida Presidente Juscelino Kubitschek, Vila Olímpia, Itaim Bibi, São Paulo, Região Sudeste, 04543-010, Brasil",
+      "aprox": 1
+    },
+    "57": {
+      "lat": -23.5770981,
+      "lon": -46.6395576,
+      "nombre_geocodificado": "Rua Apeninos, Paraíso, Vila Mariana, São Paulo, Região Sudeste, 04101-000, Brasil",
+      "aprox": 1
+    }
+  },
+  "kamchatka": {
+    "NLC-AVH": {
+      "lat": 53.256,
+      "lon": 158.835
+    },
+    "SMA": {
+      "lat": 53.256,
+      "lon": 158.835
+    },
+    "AVH": {
+      "lat": 53.256,
+      "lon": 158.835
+    },
+    "Avachinsky": {
+      "lat": 53.256,
+      "lon": 158.835
+    },
+    "Bezymianny": {
+      "lat": 55.978,
+      "lon": 160.587
+    },
+    "BZG": {
+      "lat": 55.978,
+      "lon": 160.587
+    },
+    "Goreliy": {
+      "lat": 52.558,
+      "lon": 158.036
+    },
+    "Gorely-dvgb": {
+      "lat": 52.558,
+      "lon": 158.036
+    },
+    "PEPL": {
+      "lat": 53.637,
+      "lon": 159.173
+    },
+    "GPN": {
+      "lat": 53.637,
+      "lon": 159.173
+    },
+    "Kizimen": {
+      "lat": 55.131,
+      "lon": 160.32
+    },
+    "KLY": {
+      "lat": 56.056,
+      "lon": 160.642
+    },
+    "Kirisheva": {
+      "lat": 56.056,
+      "lon": 160.642
+    },
+    "Koryak2": {
+      "lat": 53.321,
+      "lon": 158.712
+    },
+    "GPN2": {
+      "lat": 54.135,
+      "lon": 159.674
+    },
+    "Mutnovsky-vak": {
+      "lat": 52.453,
+      "lon": 158.196
+    },
+    "ASA": {
+      "lat": 52.453,
+      "lon": 158.196
+    },
+    "Mutnovsky-kldg": {
+      "lat": 52.453,
+      "lon": 158.196
+    },
+    "Mutnovsky-grl": {
+      "lat": 52.453,
+      "lon": 158.196
+    },
+    "Tolbachik": {
+      "lat": 55.832,
+      "lon": 160.326
+    },
+    "PTolbachik": {
+      "lat": 55.832,
+      "lon": 160.326
+    },
+    "SHIVELUCH": {
+      "lat": 56.653,
+      "lon": 161.36
+    },
+    "Ebeko": {
+      "lat": 50.686,
+      "lon": 156.014
+    }
+  }
+}

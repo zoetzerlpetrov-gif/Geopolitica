@@ -23,10 +23,17 @@ API = "https://www.googleapis.com/youtube/v3/"
 BUSQUEDAS = ["live cam", "webcam live", "live webcam beach", "live cam city", "harbor live cam", "airport live cam",
              "volcano live cam", "cámara en vivo", "webcam en vivo", "câmera ao vivo", "Live-Kamera", "webcam en direct",
              "ライブカメラ", "веб-камера онлайн", "canal live cam", "ski live cam"]
-BUSQUEDAS_MAX = 16  # 1,600 unidades por corrida
+# Diversidad geográfica dentro de la cuota gratuita: 40 consultas, como máximo 4.000 unidades.
+BUSQUEDAS += ["Japan live cam", "South Korea live cam", "Taiwan live cam", "India live cam", "Nepal live cam",
+              "Thailand live cam", "Indonesia live cam", "Vietnam live cam", "Malaysia live cam", "Philippines live cam",
+              "Dubai live cam", "Istanbul live cam", "Jerusalem live cam", "Mecca live cam",
+              "South Africa live cam", "Namibia live cam", "Kenya live cam", "Seychelles live cam",
+              "Brazil live cam", "Argentina live cam", "Chile live cam", "Ecuador live cam",
+              "Australia live cam", "Antarctica live cam"]
+BUSQUEDAS_MAX = 40
 # Debe parecer cámara; no noticieros, música, juegos ni radios.
 ES_CAMARA = re.compile(r"(live ?cam|webcam|web cam|c[aá]mara en vivo|camara ao vivo|c[aâ]mera ao vivo|live-?kamera|en direct|"
-                       r"ライブカメラ|веб-?камер|livestream cam|cam live|earthcam|skyline)", re.I)
+                       r"ライブカメラ|веб[ -]?камер|онла[йи]н.*камер|كاميرا.*مباشر|라이브캠|실시간.*카메라|直播.*摄像|livestream cam|cam live|earthcam|skyline)", re.I)
 NO_CAMARA = re.compile(r"(news|noticias|noticiero|music|música|musica|lofi|lo-fi|radio|gaming|gameplay|minecraft|fortnite|"
                        r"concierto|concert|sermon|misa|stream highlights|asmr)", re.I)
 CATEGORIAS_FUERA = {"10", "20", "25"}  # música, videojuegos, noticias y política
@@ -37,7 +44,8 @@ TEMAS = [("yt_aeropuertos", r"airport|aeropuerto|aeroporto|flughafen|runway|plan
 
 
 def norm(t):
-    return unicodedata.normalize("NFD", str(t or "")).encode("ascii", "ignore").decode().lower()
+    limpio = "".join(c for c in unicodedata.normalize("NFD", str(t or "")) if not unicodedata.combining(c))
+    return unicodedata.normalize("NFC", limpio).lower()
 
 
 def llamar(llave, metodo, **params):
@@ -68,27 +76,49 @@ class Ciudades:
     """Busca nombres de ciudades (≥ 5 letras, palabra completa) en un texto. Gana el nombre más largo (más específico)
     y, a igual largo, la ciudad más poblada."""
 
-    def __init__(self, filas):
+    def __init__(self, filas, aliases=()):
         self.idx = {}
+        self.cjk = {}
         for nom, nom_es, iso3, lat, lon, _tipo, pob in filas:
             for n in {norm(nom), norm(nom_es)}:
                 if len(n) >= 5 and n not in AMBIGUOS and (n not in self.idx or (pob or 0) > self.idx[n][3]):
                     self.idx[n] = (lat, lon, iso3, pob or 0, nom_es or nom)
 
+        for alias in aliases:
+            objetivo = norm(alias.get("ciudad"))
+            candidatos = [r for r in filas if r[2] == alias.get("pais") and objetivo in {norm(r[0]), norm(r[1])}]
+            if not candidatos:
+                continue  # No inventar posiciones para nombres que no existen en el gazetteer.
+            nom, nom_es, iso3, lat, lon, _tipo, pob = max(candidatos, key=lambda r: r[6] or 0)
+            nombre = norm(alias["alias"])
+            destino = (lat, lon, iso3, pob or 0, nom_es or nom)
+            if any("\u3040" <= c <= "\u9fff" or "\uac00" <= c <= "\ud7af" for c in nombre):
+                self.cjk[nombre] = destino
+            else:
+                self.idx[re.sub(r"[^\w ]", " ", nombre)] = destino
+
     def en(self, texto):
-        t = f" {re.sub(r'[^a-z0-9 ]', ' ', norm(texto))} "
+        t = f" {re.sub(r'[^\w ]', ' ', norm(texto))} "
         hallados = [(n, v) for n, v in self.idx.items() if f" {n} " in t]
+        hallados += [(n, v) for n, v in self.cjk.items() if n in norm(texto)]
         return max(hallados, key=lambda nv: (len(nv[0]), nv[1][3]))[1] if hallados else None
 
 
-def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX]):
+def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX], ids_previos=(), consultas=None, hoy=""):
     """Devuelve [dict] con id, titulo, canal_url, lat, lon, aprox, pais, lugar, st."""
-    ids = []
+    global ERRORES
+    ERRORES = 0
+    ids = list(ids_previos)
     for q in busquedas:
+        if consultas is not None and hoy and consultas.get(q) == hoy:
+            continue
+        if consultas is not None and hoy:
+            consultas[q] = hoy  # Contar también intentos fallidos; no reintentar cuota el mismo día.
         try:
             r = llamar(llave, "search", part="id", type="video", eventType="live", maxResults=50, q=q)  # safeSearch=strict deja la búsqueda en vivo sin resultados
         except Exception as e:  # noqa: BLE001
-            print(f"   YouTube «{q}»: {e}")
+            ERRORES += 1
+            print(f"   YouTube «{q}»: {type(e).__name__}")
             continue
         ids += [it["id"]["videoId"] for it in r.get("items", []) if it.get("id", {}).get("videoId")]
     ids = list(dict.fromkeys(ids))
@@ -111,3 +141,4 @@ def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX]):
                         "lat": round(float(lat), 5), "lon": round(float(lon), 5), "aprox": aprox, "pais": pais, "lugar": lugar,
                         "st": tema(s.get("title", ""))})
     return out
+

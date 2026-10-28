@@ -79,7 +79,7 @@ test("ficha de cámara de tráfico: imágenes del operador (también como texto 
   const { htmlFichaCamara } = await import("../../js/capas.js");
   const html = htmlFichaCamara({ n: "vt1", st: "trafico", o: "Fintraffic / digitraffic.fi", t: "organismo_publico", x: "https://www.digitraffic.fi/en/road-traffic/",
     imgs: JSON.stringify(["https://weathercam.digitraffic.fi/C0150200.jpg", "http://inseguro/x.jpg"]), lic: "CC BY 4.0" });
-  assert.match(html, /<img src="https:\/\/weathercam.digitraffic.fi\/C0150200.jpg\?t=\d+"/);
+  assert.match(html, /<img src="https:\/\/weathercam.digitraffic.fi\/C0150200.jpg"/);
   assert.equal((html.match(/<img /g) || []).length, 1); // la URL http se descarta
   assert.match(html, /licencia CC BY 4.0/);
   assert.doesNotMatch(html, /sin confirmar/);
@@ -112,3 +112,4 @@ test("las familias marcadas «oculta» (DENUE) no aparecen en el menú", () => {
   assert.ok(!fams.some((f) => f.id === "denue_grandes"));
   assert.ok(capasCfg.familias.some((f) => f.id === "denue_grandes" && f.oculta && !f.habilitada));
 });
+

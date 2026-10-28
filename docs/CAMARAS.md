@@ -1,46 +1,160 @@
-# Cámaras públicas: fuentes y llaves
+# Cámaras públicas del mundo
 
-DOMINUS solo muestra cámaras que su operador publica para verse en abierto. Las imágenes se ven desde el servidor de cada operador; el sitio no las copia.
+La ampliación solo afecta a cámaras. Se consultan catálogos oficiales; nunca se escanean dispositivos ni se incorporan cámaras privadas expuestas. Los archivos de otras capas y sus metadatos se verifican por hash antes de cada publicación del workflow de cámaras.
 
-## Sin llave (activas)
+## Funcionamiento
 
-| Fuente | País | Licencia o términos |
-|---|---|---|
-| Lista curada (`config/camaras.json`) | Varios | Página oficial de cada operador |
-| Webcams de México | México | Publicación del operador (YouTube) |
-| Digitraffic (Fintraffic) | Finlandia | CC BY 4.0 |
-| Caltrans | EUA (California) | Datos públicos |
-| NYC DOT | EUA (Nueva York) | Información pública |
-| data.gov.sg (LTA) | Singapur | Singapore Open Data Licence |
-| Departamento de Transporte | Hong Kong | Términos de DATA.GOV.HK |
-| NZ Transport Agency | Nueva Zelanda | Datos públicos de NZTA |
-| Vegagerðin | Islandia | Datos públicos |
-| YouTube en vivo (secreto `YOUTUBE_API_KEY`) | Mundo | Reproductor oficial de YouTube |
+- `config/camaras_fuentes.json`: registro de fuentes, direcciones de API, permisos y dominios de medios admitidos.
+- `tools/capas/camaras_mundo.py`: importadores independientes, validación de coordenadas, eliminación de duplicados y caché por proveedor.
+- `capas/camaras_estado.json`: conteos reales por proveedor, errores sin secretos, países y fechas. Disponible como artefacto **estado-camaras** en cada ejecución de GitHub Actions.
+- Si una fuente falla, se conserva su catálogo anterior y la ficha lo advierte. Que el catálogo responda no verifica que cada cámara esté operativa ni que su imagen sea reciente.
+- Las imágenes y videos se solicitan directamente al operador al abrir una ficha. Los MP4 de TfL son clips, no video continuo. HLS se carga al pulsar el botón; si el operador no permite CORS o la cámara falla, queda el enlace original.
+- Actualización de metadatos diaria a las 08:17 UTC, manual o al modificar los archivos de cámaras. El workflow solo ejecuta `construir.py camaras`. La publicación conserva las demás capas byte por byte.
 
-## Con llave gratuita
+## Segunda ampliación: sin registro y con vista previa
 
-En uso desde el 22 de octubre de 2026: **WSDOT** y **Windy Webcams** (secretos ya agregados). Las de la plataforma 511 tienen lector listo pero no se usan; para activarlas habría que agregar su secreto y su línea `env` en `.github/workflows/capas.yml`.
+Se añaden seis catálogos públicos. No se utilizan nuevas cuentas, tokens ni certificados.
 
-Respondieron «Invalid Key» o «access code missing» en la prueba del 22 de octubre de 2026. La llave es gratuita: se pide en el sitio de cada operador y se guarda como **secreto de GitHub** (Settings → Secrets and variables → Actions → New repository secret). Sin el secreto, esa fuente se salta y el resto sigue funcionando.
+| Fuente | Cobertura | Formato y vista previa | Condiciones |
+|---|---|---|---|
+| DGT / NAP DATEX II 3.7 | España, salvo Cataluña y País Vasco | XML público; imagen JPEG original | Licencia de atribución del [catálogo DGT](https://nap.dgt.es/es/dataset/camaras-dgt-datex2-v3-7) |
+| ODOT / TripCheck | Oregón, EE. UU. | Inventario JSON del mapa público; imágenes originales | [Datos públicos gratuitos de ODOT](https://www.oregon.gov/ODOT/Maintenance/Pages/Traveler-Information.aspx). No usa la API registrada TTIP |
+| Highway Bureau / THB | Taiwán | XML público; URL de snapshot, diferenciada de la URL de stream | [Condiciones THB](https://thbapp.thb.gov.tw/opendata/): atribución y consultas al catálogo separadas por al menos 60 s; aquí una descarga diaria |
+| Vitoria-Gasteiz | España | GeoJSON e imágenes originales | [CC BY 4.0](https://www.vitoria-gasteiz.org/wb021/was/contenidoAction.do?idioma=en&uid=app_j34_0202) |
+| Iowa DOT | Iowa, EE. UU. | ArcGIS GeoJSON público; imágenes y video HLS cuando el catálogo los proporciona | [Feeds sin credenciales](https://iowadot.gov/travel-tools/iowa-511/511-data-feeds), CC BY 4.0 y condiciones 511 |
+| City of Austin | Austin, EE. UU. | Socrata público; snapshots de cámaras con estado TURNED_ON | [Condiciones City of Austin Open Data](https://data.austintexas.gov/stories/s/ranj-cccq); posiciones aproximadas señaladas |
 
-| Secreto | Fuente | Dónde pedir la llave (verifica el enlace vigente) |
-|---|---|---|
-| `CAM_511_ON` | Ontario 511 (Canadá) | 511on.ca → sección «Developers» / API |
-| `CAM_511_AB` | 511 Alberta (Canadá) | 511.alberta.ca → «Developers» |
-| `CAM_511_NY` | 511NY (EUA) | 511ny.org → «Developers» |
-| `CAM_511_AZ` | AZ511 (EUA) | az511.com → «Developers» |
-| `CAM_511_NV` | NVRoads (EUA) | nvroads.com → «Developers» |
-| `CAM_511_GA` | 511GA (EUA) | 511ga.org → «Developers» |
-| `WSDOT_ACCESS_CODE` | WSDOT (EUA, Washington) | wsdot.wa.gov/traffic/api → registro con correo |
-| `WINDY_WEBCAMS_KEY` | Windy Webcams (mundo) | api.windy.com/keys → plan gratuito de Webcams |
+Se amplía Tarktee (Estonia): unión de los catálogos XML de posiciones e imágenes por el UUID de la estación. La ficha muestra la fecha real de la captura; la imagen del catálogo diario no se presenta como video en vivo.
 
-Notas:
+Se amplía Windy utilizando únicamente la clave ya configurada: se pide `include=location,player` y se inserta `player.day` cuando la API proporciona un reproductor oficial válido. No se construyen URLs de reproductores a partir de un ID ni se publican claves o imágenes con tokens temporales. El reproductor se etiqueta como **secuencia de imágenes**, no como directo. Se mantiene el límite gratuito de resultados.
 
-- Windy, plan gratuito: la URL de la imagen caduca en minutos, así que DOMINUS guarda solo el punto y el enlace al reproductor de Windy. El plan gratuito tiene límites de consultas y pide atribución.
-- Ninguna llave se escribe en el código ni se publica: el error de una fuente se registra sin la parte de la URL que lleva la llave.
+### Uso dentro de la app
 
-## Descartadas
+1. Activar las cámaras y pulsar un punto del mapa abre la ficha con la vista previa disponible. También se puede usar [`camaras.html`](../camaras.html), visor con buscador y filtros de imágenes/video que no depende de WebGL. La URL `camaras.html?id=ID` abre una cámara concreta usando las mismas fichas.
+2. Pulsar una imagen abre una vista ampliada dentro de la misma página; puede cerrarse con el botón o con Escape.
+3. Si una imagen falla, se muestra el fallo y un botón para reintentar, conservando la URL exacta del operador.
+4. Los videos HLS y clips se reproducen dentro de la ficha. Los videos y reproductores externos se descargan al cerrar la ficha para detener su reproducción.
+5. Si el operador solo aporta un enlace, se indica explícitamente que no hay vista previa incorporable. No se ocultan bloqueos ni se usan proxies para evitarlos.
 
-- Quebec 511: protección anti-bots (Cloudflare). No se evade.
-- TII Irlanda: 403. Taiwán (freeway.gov.tw): no respondió desde GitHub.
-- Cámaras «expuestas por error» (Insecam, Shodan): nunca, aunque estén abiertas.
+El artefacto `estado-camaras` informa `con_preview` por proveedor y en total: significa que hay un medio incorporable en el catálogo, no que cada cámara esté comprobada en tiempo real. No se descargan masivamente imágenes ni se realizan grabaciones.
+
+Se probaron también Bilbao y Donostia: HTTP 403, sin incorporación. Ottawa permite consultar el catálogo sin registro, pero exige certificado para sus imágenes; queda pendiente y no se activa en esta ampliación.
+
+## Nuevos catálogos sin registro
+
+Las cantidades cambian; los conteos vigentes se obtienen del artefacto de ejecución, después de eliminar duplicados entre proveedores. Un punto puede agrupar varias vistas; un enlace a un portal no equivale a video incorporado.
+
+| Fuente | País | Acceso y costo | Presentación | Condiciones |
+|---|---|---|---|---|
+| [Transport for London](https://api.tfl.gov.uk/Place/Type/JamCam) | GBR | Catálogo público, sin clave | Imagen original y clips MP4 | [TfL Open Data Licence (Contains OS data © Crown copyright and database rights)](https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service) |
+| [DriveBC · Gobierno de British Columbia](https://www.drivebc.ca/api/webcams/) | CAN | Catálogo público, sin clave | Imagen original | [Open Government Licence – British Columbia; respetar créditos de colaboradores](https://www2.gov.bc.ca/gov/content/data/open-data/open-government-licence-bc) |
+| [City of Calgary](https://data.calgary.ca/resource/k7p9-kppz.json?$limit=5000) | CAN | Catálogo público, sin clave | Imagen original | [Open Calgary Terms of Use](https://data.calgary.ca/stories/s/Open-Calgary-Terms-of-Use/u45n-7awa/) |
+| [City of Vancouver](https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/web-cam-url-links/exports/json) | CAN | Catálogo público, sin clave | Página oficial (sin extraer señal) | [Open Government Licence – Vancouver (metadatos)](https://opendata.vancouver.ca/pages/licence/) |
+| [City of Toronto](https://opendata.toronto.ca/transportation/tmc/rescucameraimages/Data/tmcearthcameras.json) | CAN | Catálogo público, sin clave | Imagen original | [Open Government Licence – Toronto](https://open.toronto.ca/open-data-license/) |
+| [Statens vegvesen](https://ogckart-sn1.atlas.vegvesen.no/ogc/features/v1/collections/datex_3_1:CctvSimple/items?f=application/geo%2Bjson&limit=5000) | NOR | Catálogo público, sin clave | Imagen original y HLS disponible | [NLOD 2.0](https://dataut.vegvesen.no/en/dataset/webkamera) |
+| [Transport for NSW](https://data.livetraffic.com/cameras/traffic-cam.json) | AUS | Catálogo público, sin clave | Imagen original | [CC BY 4.0 · Transport for NSW](https://opendata.transport.nsw.gov.au/data/dataset/live-traffic-nsw) |
+| [Department of Transport and Main Roads, Queensland](https://data.qldtraffic.qld.gov.au/webcameras.geojson) | AUS | Catálogo público, sin clave | Imagen original | [CC BY 4.0; pueden aplicarse derechos de terceros](https://qldtraffic.qld.gov.au/more/More-Help-And-Info/Help-info/copyright.html) |
+| [Servei Català de Trànsit](https://www.gencat.cat/transit/opendata/cameres.xml) | ESP | Catálogo público, sin clave | Página oficial (sin extraer señal) | [Datos abiertos Generalitat; imágenes según operador](https://transit.gencat.cat/ca/serveis/dades-obertes/) |
+| [Dirección de Tráfico · Gobierno Vasco](https://opendata.euskadi.eus/contenidos/ds_localizaciones/camaras_trafico/opendata/camaras-trafico.json) | ESP | Catálogo público, sin clave | Imagen original | [CC BY 4.0 · Open Data Euskadi](https://opendata.euskadi.eus/inicio/) |
+| [GeoNet · GNS Science](https://images.geonet.org.nz/volcano/cameras/all.json) | NZL | Catálogo público, sin clave | Imagen original | [CC BY 3.0 NZ · GeoNet](https://www.geonet.org.nz/policy) |
+| [King County Road Services](https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/TRAFFICCAMERA_POINT_2029/FeatureServer/0/query?where=1%3D1&outFields=AssetID,Location,ImageURL,Live,Owner,CurrentStatus&f=geojson) | USA | Catálogo público, sin clave | Página oficial (sin extraer señal) | [Condiciones de datos de King County](https://gis-kingcounty.opendata.arcgis.com/) |
+| [WSDOT](https://data.wsdot.wa.gov/travelcenter/Cameras.json) | USA | Catálogo público, sin clave | Imagen original | [WSDOT · cámaras públicas de tráfico](https://wsdot.wa.gov/traffic/api/) |
+| [Autostrade per l’Italia](https://viabilita.autostrade.it/json/webcams.json) | ITA | Catálogo público, sin clave | Página oficial (sin extraer señal) | [Catálogo público; imágenes reservadas al operador](https://www.autostrade.it/en/condizioni-utilizzo) |
+| [Delaware Department of Transportation](https://tmc.deldot.gov/json/videocamera.json) | USA | Catálogo público, sin clave | Página oficial (sin extraer señal) | [Catálogo público; incorporación de señal no autorizada aquí](https://deldot.gov/Information/legal/index.shtml) |
+| [CITA · Administration des ponts et chaussées](https://www.cita.lu/kml/cameras.kml) | LUX | Catálogo público, sin clave | Página oficial (sin extraer señal) | [CC0 para ubicaciones; imágenes con condiciones propias](https://data.public.lu/en/datasets/cameras-sur-le-reseau-autoroutier/) |
+| [Transpordiamet · Tarktee](https://tarktee.transpordiamet.ee/api/v1/datex/roadCameraLocations) | EST | Catálogo público, sin clave | Página oficial (sin extraer señal) | [Datos públicos de Transpordiamet; imágenes en portal oficial](https://tarktee.ee/) |
+
+## Fuentes conservadas y ampliadas
+
+| Fuente | Cobertura | Requisito | Presentación |
+|---|---|---|---|
+| Fintraffic / Digitraffic | Finlandia | Gratis, sin clave; CC BY 4.0 | Imágenes originales, hasta 4 vistas por estación |
+| Caltrans | Los 12 distritos de California | Gratis, sin clave; condiciones de Caltrans | Imágenes originales |
+| LTA / data.gov.sg | Singapur | Gratis sin clave, con límite de consultas | Imagen vigente solicitada al abrir la ficha |
+| Transport Department / DATA.GOV.HK | Hong Kong | Gratis sin clave; condiciones DATA.GOV.HK | Imágenes originales |
+| NZTA | Nueva Zelanda | Gratis sin clave | Imágenes originales |
+| Vegagerðin | Islandia | Gratis sin clave | Imágenes originales, vistas agrupadas |
+| Webcams de México | México | API WordPress pública sin clave | Reproductor oficial de YouTube cuando el operador lo publica |
+| YouTube Data API v3 | Mundo | `YOUTUBE_API_KEY` | Reproductor oficial de transmisiones públicas con incorporación habilitada |
+| Windy Webcams v3 | Mundo | `WINDY_WEBCAMS_KEY` existente | Reproductor oficial de secuencia de imágenes cuando la API lo proporciona; no se guardan imágenes con token temporal |
+| WSDOT | Washington, EE. UU. | API con `WSDOT_ACCESS_CODE` o catálogo público alternativo sin clave | Imágenes originales; duplicados eliminados |
+| Lista curada | América, África, Asia, Europa y Antártida | Sin clave | Portales de USGS, INGV, SANParks, BAS, NIPR, IGP, IG-EPN, OVSICORI, INSIVUMEH y JMA; ubicaciones aproximadas claramente indicadas |
+
+YouTube amplía las búsquedas de 16 a 40: incluye Japón, Corea, Taiwán, India, Nepal, Tailandia, Indonesia, Vietnam, Malasia, Filipinas, Dubái, Estambul, Jerusalén, La Meca, Sudáfrica, Namibia, Kenia, Seychelles, Brasil, Argentina, Chile, Ecuador, Australia y Antártida. El plan reserva búsquedas regionales y rota las restantes, con hasta 40 intentos de búsqueda por día UTC (hasta 4.000 unidades), más las consultas de detalles. Una memoria diaria evita repetir consultas en ejecuciones adicionales. Los IDs previamente encontrados se revalidan aunque cambie el plan; las emisiones finalizadas o que ya no admiten incorporación se descartan. La cuota real depende del proyecto de Google. Solo se aceptan transmisiones con ubicación publicada por el canal o una ciudad reconocible en el título; estas últimas se marcan aproximadas.
+
+Windy conserva el límite existente de hasta 1.000 resultados por ejecución. No se afirma importar todo su catálogo ni se guardan URLs temporales. La cuota efectiva depende del plan asociado a la clave.
+
+## Registro gratuito: conectores listos
+
+Guardar las claves en **Settings → Secrets and variables → Actions → New repository secret**. Nunca pegar claves en issues, documentos ni el código. Ya están conectadas a ambos workflows (`camaras.yml` y `capas.yml`); tras guardar una, ejecutar **Actualizar cámaras del mundo → Run workflow** o esperar la próxima ejecución diaria. Sin la clave, el proveedor se omite y el resto continúa.
+
+| Proveedor | Registro | Secreto de GitHub | Estado del conector |
+|---|---|---|---|
+| Ontario 511 | [Developers](https://511on.ca/developers/doc) | `CAM_511_ON` | Listo, requiere clave propia |
+| Alberta 511 | [Developers](https://511.alberta.ca/developers/doc) | `CAM_511_AB` | Listo, requiere clave propia |
+| Nueva York 511 | [Developers](https://511ny.org/developers/doc) | `CAM_511_NY` | Listo, requiere clave propia |
+| Arizona 511 | [Developers](https://www.az511.gov/developers/doc) | `CAM_511_AZ` | Listo, requiere clave propia |
+| Nevada / NVRoads | [Developers](https://www.nvroads.com/developers/doc) | `CAM_511_NV` | Listo, requiere clave propia |
+| Georgia 511 | [Developers](https://511ga.org/developers/doc) | `CAM_511_GA` | Listo, requiere clave propia |
+| WSDOT | [Traffic API](https://wsdot.wa.gov/traffic/api/) | `WSDOT_ACCESS_CODE` | Existente; ahora hay alternativa pública sin registro |
+| Windy Webcams | [API keys](https://api.windy.com/keys) | `WINDY_WEBCAMS_KEY` | Existente; condiciones y límites del plan gratuito |
+| Google / YouTube | [Proyecto y API key](https://developers.google.com/youtube/v3/getting-started) | `YOUTUBE_API_KEY` | Existente, búsquedas regionales ampliadas |
+
+La documentación anterior del proyecto indica que las claves WSDOT y Windy ya estaban agregadas. No se leen ni se exponen sus valores. Los logs del workflow indican si cada fuente respondió con la configuración disponible.
+
+## Acuerdo previo para NYC DOT
+
+[NYC DOT Data Feeds](https://www.nyc.gov/html/dot/html/about/datafeeds.shtml) requiere acuerdo de datos para desarrolladores. Su acceso técnico sin clave no equivale a autorización de reutilización. Tras completar el acuerdo, crear el secreto **`CAM_NYC_ACUERDO` con valor `true`**. El conector está listo; mientras tanto no se incorporan sus imágenes ni se conserva una copia pública de su caché. Esto se distingue de 511NY, que es otro proveedor y usa su propia API key.
+
+## Registros, permisos o contratación pendientes
+
+Estas fuentes están documentadas como pendientes, **no se cuentan como integradas**. Los conectores que requieren credenciales y no se han validado están indicados expresamente.
+
+| Fuente | Acceso / acción necesaria |
+|---|---|
+| [WorldCam.io](https://worldcam.io/) | API empresarial; sin API gratuita verificada. No extraer su inventario por scraping. |
+| [ASFINAG · Austria](https://contentportal.asfinag.at/) | Portal de contenidos: solicitar credenciales propias y habilitación del producto webcams. |
+| [Trafikverket · Suecia](https://api.trafikinfo.trafikverket.se/) | API gratuita con clave propia; conector pendiente de validar con credenciales. |
+| [TDX · Taiwán](https://tdx.transportdata.tw/) | Client ID y Client Secret; cuota y condiciones según plan. Conector OAuth pendiente. |
+| [OHGO · Ohio](https://publicapi.ohgo.com/) | Solicitar API key; conector pendiente de validar con credenciales. |
+| [National Highways · Inglaterra](https://nationalhighways.co.uk/roads-and-travel/live-travel-updates/traffic-cameracctv-services/) | Licencia de reutilización de CCTV según uso; condiciones y posible costo por confirmar. |
+| [Traffic Scotland](https://www.traffic.gov.scot/copyright) | Solicitar permiso/servicio de imágenes; se prohíbe enlazar directamente imágenes sin autorización. |
+| [Florida 511](https://fl511.com/privacy) | Solicitar consentimiento de FDOT para redistribución/uso fuera del ámbito personal. |
+| [Houston TranStar](https://traffic.houstontranstar.org/disclaimer.aspx) | Se requiere consentimiento para imágenes, enlaces directos o iframe. |
+| [SkylineWebcams](https://www.skylinewebcams.com/en/faq.html) | No extraer señales. Solicitar autorización del programa de incorporación. |
+| [EarthCam](https://www.earthcam.com/) | Solicitar licencia o incorporación autorizada; no existe API abierta gratuita verificada. |
+| [OpenCCTV](https://opencctv.org/) | Verificar autorización del catálogo y de cada operador antes de importarlo. |
+| [Freeway Bureau · Taiwán (archivo XML)](https://tisvcloud.freeway.gov.tw/history/motc20/CCTV.xml) | El archivo público no respondió desde el entorno de prueba; usar TDX con credenciales. |
+
+
+Osiris y God's Eye son aplicaciones agregadoras, no una licencia alternativa sobre las cámaras de terceros. Esta ampliación conecta directamente fuentes oficiales coincidentes (p. ej., TfL, DriveBC, Noruega y NSW) y fuentes adicionales, evitando importar código con credenciales ajenas o asumir que una licencia de software cubre las imágenes.
+
+## Comprobación
+
+```sh
+python3 -m pytest tests/test_camaras_mundo.py tests/test_camaras_abiertas.py
+node --test tests/js/camaras_mundo.test.mjs tests/js/capas.test.mjs
+python3 tools/capas/construir.py camaras
+```
+
+Las pruebas incluyen JSONP sin evaluación de código, orden excepcional de coordenadas GeoNet, validación de medios, catálogos truncados, duplicados, fallos sin filtración de claves y la protección de otras capas. El workflow adjunta los resultados de la descarga real, separados del resultado de las pruebas unitarias.
+
+
+## Ampliación regional: Estados Unidos, Sudamérica, Europa, Rusia y Asia
+
+Los seis adaptadores adicionales no requieren nuevas credenciales. Comprobación de los catálogos originales el 28 de octubre de 2026: **810 puntos**, de los cuales **301 ofrecen imágenes publicadas por el operador** y **509 son enlaces al portal oficial**. Son capturas, no una promesa de video continuo; la cantidad puede variar en cada actualización.
+
+| Fuente | Región | Puntos verificados | Preview | Procedencia y límites |
+|---|---|---:|---|---|
+| [Seattle SDOT](https://web.seattle.gov/Travelers/) | Estados Unidos | 394 | Portal oficial | API JSON usada por el visor público; solo tipo SDOT, sin cámaras de socios. Las imágenes respondieron 403 en la prueba, por lo que no se anuncian como previews. |
+| [Tallinn](https://ristmikud.tallinn.ee/index.php/cams) | Estonia / Europa | 256 | Imagen | Nombres e IDs leídos del portal municipal. Posición aproximada de la ciudad de Tallinn, expresamente marcada; no se afirma conocer cada intersección. No se importan coordenadas de terceros con licencia incierta. |
+| [DGAC Chile](https://aipchile.dgac.gob.cl/index.php/camara/) | Chile / Sudamérica | 38 | Imagen | Índice, coordenadas y capturas oficiales; solo aeródromos publicados y civiles. Una solicitud nueva por segundo, máximo dos conexiones. La posición corresponde al aeródromo y se marca aproximada. |
+| [CET São Paulo](https://ssl.cetsp.com.br/consultas/cameras-cet.aspx) | Brasil / Sudamérica | 7 | Imagen | Solo cámaras activas con vía identificada. Coordenadas aproximadas de la vía mediante OpenStreetMap/Nominatim, con atribución ODbL; no representan la posición exacta del dispositivo. |
+| [İzmir / İZUM](https://acikveri.bizizmir.com/tr/dataset/trafik-kameralari) | Turquía / Asia occidental | 92 | Portal oficial | API CKAN sin clave. La licencia abierta del inventario municipal no autoriza automáticamente las imágenes. No se incorporan señales ni se presentan estos puntos como video reproducible. |
+| [Observación de volcanes de Kamchatka](https://kam.emsd.ru/visual-observations/) | Rusia / Asia | 23 | Portal oficial | Observaciones científicas publicadas intencionalmente. Punto aproximado del volcán observado, no del dispositivo. Incorporación de imágenes pendiente de verificar permiso. |
+
+Se comprobó una imagen original de Tallinn, CET y DGAC; esto no garantiza que todas las señales estén disponibles permanentemente ni constituye una licencia general para republicarlas. Cada ficha conserva atribución y enlace al operador. No se accede a equipos privados ni a cámaras que requieren autenticación.
+
+**Asia, Rusia y Medio Oriente mediante YouTube:** el plan incorpora consultas prioritarias para Japón, Corea, India, Dubái, La Meca, Estambul, Moscú y San Petersburgo, además de América y Europa. Se reconocen nombres locales en cirílico, árabe, japonés, coreano y chino, vinculados exclusivamente a ciudades existentes del catálogo. Las posiciones inferidas del título se marcan aproximadas. Se usa la clave ya configurada: no requiere otro registro. Una consulta no equivale a una cámara agregada; solo se publican resultados actualmente en vivo, geolocalizables y con incorporación permitida. No se garantiza cobertura nueva en todos los países en cada ejecución.
+
+**Fuentes aún pendientes:** PennDOT exige acuerdo de distribución de video; no se elude. Las cámaras municipales de Montevideo consultadas son un circuito cerrado, no un feed público. Los portales que no respondieron o no aclaran la reutilización no se cuentan como integrados. En Medio Oriente no se verificó una API regional gratuita de cámaras con incorporación irrestricta; la ampliación usa portales oficiales y las incorporaciones autorizadas de YouTube.

@@ -1,0 +1,20 @@
+body.cam-catalogo { display: block; height: auto; min-height: 100vh; overflow: auto; margin: 0; }
+.cam-catalogo .cam-cabecera { position: static; display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 18px 24px; height: auto; }
+.cam-catalogo h1 { font-size: 1.5rem; margin: 0; }
+.cam-catalogo main { max-width: 1250px; margin: auto; padding: 12px 24px 40px; }
+.cam-catalogo .cam-filtros { display: grid; grid-template-columns: minmax(180px, 2fr) minmax(150px, 1fr); gap: 16px; margin: 20px 0; }
+.cam-catalogo label { display: grid; gap: 6px; }
+.cam-catalogo input, .cam-catalogo select { width: 100%; padding: 10px; box-sizing: border-box; }
+.cam-catalogo .cam-columnas { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(300px, 2fr); gap: 24px; align-items: start; }
+.cam-catalogo #cam-resultados { list-style: none; padding: 0; margin: 0; }
+.cam-catalogo #cam-resultados button { display: block; width: 100%; padding: 12px; margin: 5px 0; text-align: left; color: inherit; background: var(--surface-2); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; }
+.cam-catalogo #cam-resultados button[aria-pressed="true"] { outline: 2px solid var(--accent); }
+.cam-catalogo #cam-resultados small { display: block; opacity: .75; margin-top: 5px; }
+.cam-catalogo #cam-visor { position: sticky; top: 16px; padding: 16px; border: 1px solid var(--border); border-radius: 8px; min-width: 0; }
+.cam-catalogo .cam-imgs { grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+.cam-catalogo .cam-imgs img { object-fit: contain; }
+@media (max-width: 700px) {
+  .cam-catalogo .cam-columnas, .cam-catalogo .cam-filtros { grid-template-columns: 1fr; }
+  .cam-catalogo #cam-visor { position: static; grid-row: 1; }
+  .cam-catalogo main { padding: 12px; }
+}

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark light">
+  <title>Cámaras públicas · DOMINUS OSINT</title>
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="css/camaras_catalogo.css">
+</head>
+<body class="cam-catalogo">
+  <header class="cam-cabecera"><h1>Cámaras públicas</h1><a href="index.html">Volver al mapa</a></header>
+  <main>
+    <p>Selecciona una cámara para ver su imagen o reproductor aquí mismo. La disponibilidad y la fecha de las imágenes dependen de cada operador.</p>
+    <p id="cam-carga" role="status">Cargando catálogo de cámaras…</p>
+    <div class="cam-filtros">
+      <label>Buscar cámara, país u operador<input id="cam-buscar" type="search" placeholder="Taiwán, DGT, Austin…" autocomplete="off"></label>
+      <label>Vista previa<select id="cam-medio"><option value="preview">Con vista previa</option><option value="todas">Todas</option><option value="video">Video o reproductor</option><option value="imagen">Imagen fija</option></select></label>
+    </div>
+    <div class="cam-columnas">
+      <section aria-label="Resultados de cámaras"><p id="cam-cuenta" role="status"></p><ul id="cam-resultados"></ul><button id="cam-mas" class="boton" type="button" hidden>Mostrar más cámaras</button></section>
+      <section id="cam-visor" aria-label="Vista previa de cámara"><p>Selecciona una cámara de la lista.</p></section>
+    </div>
+  </main>
+  <script type="module" src="js/camaras_catalogo.js?v=2"></script>
+</body>
+</html>
