@@ -3,7 +3,9 @@
 // rectángulos de «estática» gris donde no debería haber nada (por ejemplo, hielo marino en el ecuador). Con este
 // protocolo el mapa recibe un mosaico transparente y avisa del fallo para que los bucles animados lo sigan contando.
 
-const VACIO = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAC0lEQVR4nGNgAAIAAAUAAXpeqz8AAAAASUVORK5CYII=";
+// PNG transparente de 256×256 (334 bytes): del mismo tamaño que un mosaico, para que MapLibre no estire una imagen de
+// 1×1 sobre una textura de 256×256 a medio inicializar (eso también se veía como estática, medido en oct 2026).
+const VACIO = "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAABccqhmAAABFUlEQVR42u3BMQEAAADCoPVP7WsIoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAeAMBPAAB2ClDBAAAAABJRU5ErkJggg==";
 const PNG_VACIO = Uint8Array.from(atob(VACIO), (c) => c.charCodeAt(0)).buffer;
 export const PROTOCOLO = "gibsr";
 
