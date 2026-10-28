@@ -529,19 +529,21 @@ import("./agencia-logica.js").then((A) => {
         <p class="meta">Qué revisar: subdominios que no reconozcas, emisores que tu área no contrató y certificados por vencer. Cert Spotter muestra los certificados vigentes y recientes; para el historial completo, <a href="https://crt.sh/?q=${encodeURIComponent(d)}" target="_blank" rel="noopener">crt.sh</a>.</p>`;
     } catch (e) { $("ct-res").innerHTML = `<p class="aviso">No se pudo consultar: ${esc(e.message)}. Prueba en <a href="https://crt.sh/?q=${encodeURIComponent(d)}" target="_blank" rel="noopener">crt.sh</a>.</p>`; }
   });
+  let pedidoRed = 0;  // solo la consulta más reciente pinta su resultado (una anterior más lenta no lo sobrescribe)
   $("red-btn").addEventListener("click", async () => {
-    const q = $("red-q").value, c = A.urlsRipe(q);
+    const q = $("red-q").value, c = A.urlsRipe(q), n = ++pedidoRed;
     if (!c) { $("red-res").innerHTML = `<p class="aviso">Escribe una IP (8.8.8.8) o un ASN (AS8151).</p>`; return; }
     $("red-res").innerHTML = `<p class="meta">Consultando RIPEstat…</p>`;
     try {
       const r = Object.fromEntries(await Promise.all(Object.entries(c.urls).map(async ([k, u]) => [k, await (await fetch(u)).json()])));
+      if (n !== pedidoRed) return;
       const s = A.resumenRipe(c.tipo, r);
       $("red-res").innerHTML = c.tipo === "ip"
         ? kv({ "Red que la contiene": s.prefijo, "Anunciada en internet": s.anunciado ? "sí" : "no", "Sistema autónomo (titular)": s.asns.map((a) => `AS${a.asn} · ${a.titular}`).join("; ") || "—", "País del registro": s.pais })
         : `${kv({ "Sistema autónomo": s.asn, "Titular": s.titular, "Anunciado": s.anunciado ? "sí" : "no", "Bloques IPv4": String(s.prefijos_v4.length), "Direcciones IPv4 (aprox.)": s.direcciones_v4.toLocaleString("es-MX"), "Bloques IPv6": String(s.prefijos_v6.length) })}
           <p class="mono">${esc(s.prefijos_v4.slice(0, 60).join("  "))}${s.prefijos_v4.length > 60 ? " …" : ""}</p>`;
       $("red-res").innerHTML += `<p class="meta">Fuente: RIPEstat (RIPE NCC), con datos de los cinco registros regionales. El país es el del registro del bloque, no donde está físicamente el servidor.</p>`;
-    } catch (e) { $("red-res").innerHTML = `<p class="aviso">RIPEstat no respondió: ${esc(e.message)}</p>`; }
+    } catch (e) { if (n === pedidoRed) $("red-res").innerHTML = `<p class="aviso">RIPEstat no respondió: ${esc(e.message)}</p>`; }
   });
   $("cidr-btn").addEventListener("click", () => {
     const r = A.cidr($("cidr-q").value);

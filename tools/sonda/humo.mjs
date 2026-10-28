@@ -13,6 +13,7 @@ await ctx.route(`${BASE}**`, async (route) => {
   let ruta = decodeURIComponent(u.pathname.slice(1)) || "index.html";
   if (ruta.endsWith("/")) ruta += "index.html";
   try {
+    if (ruta.startsWith("data/")) throw new Error("datos: del sitio publicado (con rangos para PMTiles)");
     const f = join(RAIZ, ruta);
     if ((await stat(f)).isFile()) return route.fulfill({ status: 200, body: await readFile(f), headers: { "Content-Type": TIPOS[extname(f)] || "application/octet-stream" } });
   } catch (e) { /* no está en la rama: se pide al sitio publicado */ }
@@ -84,7 +85,7 @@ for (const t of await h.evaluate(() => [...document.querySelectorAll(".pestanas 
 actual = "agencias";
 await h.fill("#cidr-q", "192.168.10.37/27"); await h.click("#cidr-btn"); console.log("CIDR:", await h.evaluate(() => document.getElementById("cidr-res").innerText.slice(0, 200)));
 await h.fill("#ct-dominio", "sat.gob.mx"); await h.click("#ct-btn"); await h.waitForTimeout(10000); console.log("CERT:", await h.evaluate(() => document.getElementById("ct-res").innerText.slice(0, 500)));
-await h.fill("#red-q", "8.8.8.8"); await h.click("#red-btn"); await h.waitForTimeout(8000); console.log("RED IP:", await h.evaluate(() => document.getElementById("red-res").innerText.slice(0, 300)));
+await h.fill("#red-q", "8.8.8.8"); await h.click("#red-btn"); await h.waitForTimeout(15000); console.log("RED IP:", await h.evaluate(() => document.getElementById("red-res").innerText.slice(0, 300)));
 await h.fill("#red-q", "AS8151"); await h.click("#red-btn"); await h.waitForTimeout(8000); console.log("RED AS:", await h.evaluate(() => document.getElementById("red-res").innerText.slice(0, 300)));
 await h.fill("#cro-fecha", "2026-10-01"); await h.fill("#cro-hecho", "Recepción de denuncia"); await h.click("#cro-agregar");
 await h.fill("#cro-fecha", "2026-10-20"); await h.fill("#cro-hecho", "Dictamen pericial"); await h.click("#cro-agregar");
