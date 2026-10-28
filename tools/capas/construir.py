@@ -804,18 +804,26 @@ def camaras_wsdot(lista):
 
 
 def camaras_windy(d):
-    """Webcams de Windy (llave gratuita): solo el punto y el enlace a su reproductor; la imagen del plan gratuito caduca
-    a los 10 minutos, así que no se guarda."""
+    """Windy: reproductor oficial devuelto por la API; no guardar imágenes con token temporal."""
+    import camaras_mundo as M
     out = []
     for w in d.get("webcams") or []:
         loc = w.get("location") or {}
         lat, lon = _num(loc.get("latitude")), _num(loc.get("longitude"))
-        if lat is None or lon is None:
+        if lat is None or lon is None or w.get("status") == "inactive":
             continue
+        player = w.get("player") or {}
+        # Priorizar la secuencia del día; es un timelapse, nunca etiquetarlo como directo.
+        url = M.url_publica(player.get("day"), ["webcams.windy.com", "embed.windy.com"])
+        if url and not urllib.parse.urlsplit(url).path.startswith(("/webcams/public/embed/", "/embed/")):
+            url = ""
         out.append(feat(punto(lon, lat), {
             "id": f"wy:{w.get('webcamId')}", "n": w.get("title") or "Webcam", "st": "turismo", "p": (loc.get("country_code") or "").upper(),
             "x": f"https://www.windy.com/webcams/{w.get('webcamId')}", "o": "Windy Webcams", "t": "operador_turistico",
-            "lugar": ", ".join(x for x in (loc.get("city"), loc.get("region"), loc.get("country")) if x), "nota": "Webcam publicada en Windy; ábrela en su sitio."}, 4))
+            **({"embed": url, "embed_tipo": "windy", "modo": "timelapse"} if url else {}),
+            "lic_url": "https://api.windy.com/webcams/terms",
+            "lugar": ", ".join(x for x in (loc.get("city"), loc.get("region"), loc.get("country")) if x),
+            "nota": "Webcams provided by Windy.com. El reproductor muestra una secuencia de imágenes; no equivale a video continuo." if url else "Webcam publicada en Windy; vista previa no disponible en la respuesta del operador."}, 4))
     return out
 
 

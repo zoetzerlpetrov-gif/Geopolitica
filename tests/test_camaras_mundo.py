@@ -102,3 +102,50 @@ def test_guardia_detecta_cambio_en_otras_capas(tmp_path):
     assert antes == inventario(tmp_path)
     (tmp_path / 'volcanes.pmtiles').write_bytes(b'modificado')
     assert antes != inventario(tmp_path)
+
+
+def test_oregon_codifica_nombre_y_conserva_vistas_sin_travesia():
+    rows = [{'attributes': {'cameraId': 1, 'publishedImageId': 2, 'filename': 'I-5 @ Exit 1.JPG', 'title': 'I-5', 'latitude': 45, 'longitude': -123}},
+            {'attributes': {'cameraId': 2, 'filename': '../secret.jpg', 'latitude': 45, 'longitude': -123}}]
+    fs = M.normalizar(fuente('oregon'), json.dumps({'features': rows}))
+    assert len(fs) == 1
+    assert fs[0]['properties']['imgs'] == ['https://tripcheck.com/RoadCams/cams/I-5%20%40%20Exit%201.JPG']
+
+
+def test_dgt_datex37_extrae_imagen_y_posicion():
+    raw = '''<p xmlns:d="urn:device" xmlns:l="urn:location"><d:device id="7"><d:typeOfDevice>camera</d:typeOfDevice><l:pointCoordinates><l:latitude>42.26</l:latitude><l:longitude>-3.94</l:longitude></l:pointCoordinates><l:roadName>A-62</l:roadName><d:deviceUrl>https://etraffic.dgt.es/camarasEtraffic/7.jpg</d:deviceUrl></d:device></p>'''
+    f = M.normalizar(fuente('dgt'), raw)[0]
+    assert f['geometry']['coordinates'] == [-3.94, 42.26]
+    assert f['properties']['imgs'] == ['https://etraffic.dgt.es/camarasEtraffic/7.jpg']
+
+
+def test_taiwan_usa_snapshot_no_stream_como_imagen():
+    raw = '''<CCTVList xmlns="urn:traffic"><CCTVs><CCTV><CCTVID>T1</CCTVID><PositionLon>121.73</PositionLon><PositionLat>25.10</PositionLat><VideoStreamURL>https://cctv-ss02.thb.gov.tw/stream</VideoStreamURL><VideoImageURL>https://cctv-ss02.thb.gov.tw/T1/snapshot</VideoImageURL></CCTV></CCTVs></CCTVList>'''
+    p = M.normalizar(fuente('taiwan_thb'), raw)[0]['properties']
+    assert p['imgs'] == ['https://cctv-ss02.thb.gov.tw/T1/snapshot']
+    assert 'hls' not in p
+
+
+def test_iowa_separa_video_de_imagen_y_austin_excluye_proyectadas():
+    data = {'features': [{'geometry': {'coordinates': [-94.8, 41.5]}, 'properties': {'device_id': 7, 'ImageURL': 'https://atmsqf.iowadot.gov/x.jpeg', 'VideoURL': 'https://video.iowadot.gov/x.m3u8'}}]}
+    p = M.normalizar(fuente('iowa'), json.dumps(data))[0]['properties']
+    assert p['hls'].endswith('.m3u8') and p['imgs'][0].endswith('.jpeg')
+    rows = [{'camera_id': str(i), 'camera_status': estado, 'location': {'coordinates': [-97, 30]}, 'screenshot_address': f'https://cctv.austinmobility.io/image/{i}.jpg'} for i, estado in enumerate(['TURNED_ON', 'DESIRED', 'REMOVED'])]
+    fs = M.normalizar(fuente('austin'), json.dumps(rows))
+    assert len(fs) == 1 and fs[0]['properties']['aprox'] == 1
+
+
+def test_tarktee_asocia_imagenes_por_uuid_no_por_orden():
+    loc = '''<root xmlns="http://datex2.eu/schema/2/2_0"><predefinedLocation id="B"><predefinedLocationName><values><value>Camera</value></values></predefinedLocationName><longitude>26</longitude><latitude>58</latitude></predefinedLocation></root>'''
+    img = '''<root xmlns="http://datex2.eu/schema/2/2_0"><trafficView><trafficViewTime>2026-10-28T00:00:00Z</trafficViewTime><linearTrafficView><linearPredefinedLocationReference id="B"/><urlLinkAddress>https://tarktee.transpordiamet.ee/images/1/latest.jpg</urlLinkAddress></linearTrafficView></trafficView></root>'''
+    p = M.normalizar(fuente('tarktee'), {'ubicaciones': loc, 'imagenes': img})[0]['properties']
+    assert p['imgs'] == ['https://tarktee.transpordiamet.ee/images/1/latest.jpg'] and p['captura_utc'].endswith('Z')
+
+
+def test_windy_solo_reproductor_oficial_sin_clave_temporal():
+    import construir as C
+    d = {'webcams': [{'webcamId': 123, 'location': {'latitude': 40, 'longitude': -3}, 'player': {'day': 'https://webcams.windy.com/webcams/public/embed/player/123/day'}, 'images': {'current': {'preview': 'https://example.com/?token=SECRET'}}}]}
+    p = C.camaras_windy(d)[0]['properties']
+    assert p['embed_tipo'] == 'windy' and p['modo'] == 'timelapse' and 'imgs' not in p
+    d['webcams'][0]['player']['day'] += '?key=SECRET'
+    assert 'embed' not in C.camaras_windy(d)[0]['properties']

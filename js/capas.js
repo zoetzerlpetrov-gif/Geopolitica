@@ -9,6 +9,7 @@ import { detalle as detalleOrg } from "./buscador_org.js";
 import { esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, hayObjetoEncima } from "./util.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
 import { htmlBandera } from "./banderas.js";
+import { urlReproductorCamara } from "./camaras_preview.js";
 
 export const PRESUPUESTO_CAPAS = 6; // eventos + chokepoints + 4 familias; más allá se avisa
 
@@ -327,20 +328,26 @@ export function htmlFichaCamara(props, sub) {
   imgs = (Array.isArray(imgs) ? imgs : []).map(publico).filter(Boolean).slice(0, 4);
   const mp4 = publico(props.mp4), hls = publico(props.hls);
   const medio = mp4 || hls;
-  const ok = imgs.length > 0 || medio || props.sg || props.catalogo_utc || String(props.v || "").startsWith("ok");
+  const ok = imgs.length > 0 || medio || props.embed || props.sg || props.catalogo_utc || String(props.v || "").startsWith("ok");
   // Conservar la URL exacta del operador: agregar parámetros rompe algunos servicios y firmas.
-  const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
-    <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio. Si no carga, consulta al operador.</p>` : "";
+  const galeria = imgs.length ? `<section class="cam-preview" data-camara-preview>
+    <h4>Vista previa · imagen fija</h4><div class="cam-imgs">${imgs.map((u, i) => `<button type="button" class="cam-mini" data-camara-ampliar="${esc(u)}" aria-label="Ampliar vista ${i + 1} de ${esc(props.n)}"><img src="${esc(u)}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></button>`).join("")}</div>
+    <p class="meta" data-camara-estado role="status">Cargando imagen del operador…</p><button type="button" class="boton" data-camara-reintentar>Reintentar imagen</button>
+    <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio.</p></section>` : "";
+  const embed = urlReproductorCamara(props.embed, props.embed_tipo);
+  const reproductor = embed ? `<section class="cam-preview"><h4>Vista previa · secuencia de imágenes</h4>
+    <div class="cam-video"><iframe data-camara-frame src="${esc(embed)}" title="Secuencia de imágenes: ${esc(props.n)}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
+    <p class="meta">Reproductor oficial · Webcams provided by Windy.com. Secuencia de capturas; no es video continuo. Si no está disponible, consulta al operador.</p></section>` : "";
   const original = medio ? `<div class="cam-reproductor"><div class="cam-video"><video controls playsinline preload="none" ${mp4 ? "data-camara-native" : ""} ${imgs[0] ? `poster="${esc(imgs[0])}"` : ""}>
       <source src="${esc(medio)}" type="${mp4 ? "video/mp4" : "application/vnd.apple.mpegurl"}"></video></div>${hls && !mp4 ? `<button type="button" class="boton" data-camara-hls="${esc(hls)}">Cargar video HLS</button>` : ""}</div>
       <p class="meta">${mp4 ? "Clip reciente; no es una transmisión continua." : "Video HLS del operador; pulsa «Cargar video HLS». Si no responde, abre la página oficial."}
       <a href="${esc(medio)}" target="_blank" rel="noopener noreferrer">Abrir video original ↗</a></p>` : "";
   const yt = /^[\w-]{11}$/.test(String(props.yt || "")) ? props.yt : "";
-  const video = yt ? `<div class="cam-video"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=1&playsinline=1" title="En vivo: ${esc(props.n)}"
+  const video = yt ? `<div class="cam-video"><iframe data-camara-frame src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=1&playsinline=1" title="En vivo: ${esc(props.n)}"
       allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
     <p class="meta">En vivo con el reproductor de YouTube · transmisión de ${esc(props.o)}${props.lugar ? ` · ${esc(props.lugar)}` : ""}. Si la transmisión cambió, ábrela en su página.</p>` : "";
   const sgId = /^\d{1,6}$/.test(String(props.sg || "")) ? props.sg : "";
-  const sg = sgId ? `<figure class="cam-sg" data-sg="${sgId}"><p class="meta">Pidiendo la imagen más reciente a data.gov.sg…</p></figure>` : "";
+  const sg = sgId ? `<figure class="cam-sg cam-preview" data-camara-preview data-sg="${sgId}"><p class="meta" data-camara-estado>Pidiendo la imagen más reciente a data.gov.sg…</p></figure>` : "";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
@@ -349,7 +356,8 @@ export function htmlFichaCamara(props, sub) {
       ${props.catalogo_anterior ? `<span class="chip alerta">Catálogo anterior: actualización pendiente</span>` : ""}
       ${props.demorada ? `<span class="chip alerta">Imagen demorada según el operador</span>` : ""}
       ${ok ? "" : `<span class="chip alerta">Enlace sin confirmar en la última revisión</span>`}</div>
-    ${original}${galeria}${sg}${video}
+    ${original || galeria || sg || video || reproductor ? "" : `<p class="cam-preview-sin">Vista previa no disponible: el operador no proporcionó una imagen o un reproductor que podamos incorporar. La cámara puede consultarse en su portal oficial.</p>`}
+    ${original}${galeria}${sg}${video}${reproductor}
     <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">${deYoutube ? "Ver en YouTube" : imgs.length || medio ? "Sitio del operador" : "Ver la cámara en el sitio oficial"} ↗</a>
       ${deYoutube && props.canal ? ` <a href="${esc(safeUrl(props.canal))}" target="_blank" rel="noopener noreferrer">Canal ↗</a>` : ""}</p>
     ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
@@ -367,7 +375,7 @@ export async function rellenarCamaraSingapur(fig, pedir = (u) => fetch(u, { cach
     const d = await pedir("https://api.data.gov.sg/v1/transport/traffic-images");
     const c = (d?.items?.[0]?.cameras || []).find((x) => String(x.camera_id) === fig.dataset.sg);
     if (!c || !/^https:\/\//.test(c.image || "")) throw new Error("sin imagen");
-    fig.innerHTML = `<a href="${esc(c.image)}" target="_blank" rel="noopener noreferrer"><img src="${esc(c.image)}" alt="Cámara ${esc(fig.dataset.sg)}" referrerpolicy="no-referrer"></a>
+    fig.innerHTML = `<button type="button" class="cam-mini" data-camara-ampliar="${esc(c.image)}" aria-label="Ampliar cámara ${esc(fig.dataset.sg)}"><img src="${esc(c.image)}" alt="Cámara ${esc(fig.dataset.sg)}" referrerpolicy="no-referrer"></button>
       <figcaption class="meta">Tomada ${esc(String(c.timestamp || "").replace("T", " ").slice(0, 16))} (hora de Singapur) · LTA vía data.gov.sg, Singapore Open Data Licence.</figcaption>`;
   } catch (e) { fig.innerHTML = `<p class="meta">data.gov.sg no devolvió la imagen ahora; ábrela en el sitio del operador.</p>`; }
 }

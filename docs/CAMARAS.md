@@ -11,6 +11,35 @@ La ampliación solo afecta a cámaras. Se consultan catálogos oficiales; nunca 
 - Las imágenes y videos se solicitan directamente al operador al abrir una ficha. Los MP4 de TfL son clips, no video continuo. HLS se carga al pulsar el botón; si el operador no permite CORS o la cámara falla, queda el enlace original.
 - Actualización de metadatos diaria a las 08:17 UTC, manual o al modificar los archivos de cámaras. El workflow solo ejecuta `construir.py camaras`. La publicación conserva las demás capas byte por byte.
 
+## Segunda ampliación: sin registro y con vista previa
+
+Se añaden seis catálogos públicos. No se utilizan nuevas cuentas, tokens ni certificados.
+
+| Fuente | Cobertura | Formato y vista previa | Condiciones |
+|---|---|---|---|
+| DGT / NAP DATEX II 3.7 | España, salvo Cataluña y País Vasco | XML público; imagen JPEG original | Licencia de atribución del [catálogo DGT](https://nap.dgt.es/es/dataset/camaras-dgt-datex2-v3-7) |
+| ODOT / TripCheck | Oregón, EE. UU. | Inventario JSON del mapa público; imágenes originales | [Datos públicos gratuitos de ODOT](https://www.oregon.gov/ODOT/Maintenance/Pages/Traveler-Information.aspx). No usa la API registrada TTIP |
+| Highway Bureau / THB | Taiwán | XML público; URL de snapshot, diferenciada de la URL de stream | [Condiciones THB](https://thbapp.thb.gov.tw/opendata/): atribución y consultas al catálogo separadas por al menos 60 s; aquí una descarga diaria |
+| Vitoria-Gasteiz | España | GeoJSON e imágenes originales | [CC BY 4.0](https://www.vitoria-gasteiz.org/wb021/was/contenidoAction.do?idioma=en&uid=app_j34_0202) |
+| Iowa DOT | Iowa, EE. UU. | ArcGIS GeoJSON público; imágenes y video HLS cuando el catálogo los proporciona | [Feeds sin credenciales](https://iowadot.gov/travel-tools/iowa-511/511-data-feeds), CC BY 4.0 y condiciones 511 |
+| City of Austin | Austin, EE. UU. | Socrata público; snapshots de cámaras con estado TURNED_ON | [Condiciones City of Austin Open Data](https://data.austintexas.gov/stories/s/ranj-cccq); posiciones aproximadas señaladas |
+
+Se amplía Tarktee (Estonia): unión de los catálogos XML de posiciones e imágenes por el UUID de la estación. La ficha muestra la fecha real de la captura; la imagen del catálogo diario no se presenta como video en vivo.
+
+Se amplía Windy utilizando únicamente la clave ya configurada: se pide `include=location,player` y se inserta `player.day` cuando la API proporciona un reproductor oficial válido. No se construyen URLs de reproductores a partir de un ID ni se publican claves o imágenes con tokens temporales. El reproductor se etiqueta como **secuencia de imágenes**, no como directo. Se mantiene el límite gratuito de resultados.
+
+### Uso dentro de la app
+
+1. Activar las cámaras y pulsar un punto del mapa abre la ficha con la vista previa disponible.
+2. Pulsar una imagen abre una vista ampliada dentro de la misma página; puede cerrarse con el botón o con Escape.
+3. Si una imagen falla, se muestra el fallo y un botón para reintentar, conservando la URL exacta del operador.
+4. Los videos HLS y clips se reproducen dentro de la ficha. Los videos y reproductores externos se descargan al cerrar la ficha para detener su reproducción.
+5. Si el operador solo aporta un enlace, se indica explícitamente que no hay vista previa incorporable. No se ocultan bloqueos ni se usan proxies para evitarlos.
+
+El artefacto `estado-camaras` informa `con_preview` por proveedor y en total: significa que hay un medio incorporable en el catálogo, no que cada cámara esté comprobada en tiempo real. No se descargan masivamente imágenes ni se realizan grabaciones.
+
+Se probaron también Bilbao y Donostia: HTTP 403, sin incorporación. Ottawa permite consultar el catálogo sin registro, pero exige certificado para sus imágenes; queda pendiente y no se activa en esta ampliación.
+
 ## Nuevos catálogos sin registro
 
 Las cantidades cambian; los conteos vigentes se obtienen del artefacto de ejecución, después de eliminar duplicados entre proveedores. Un punto puede agrupar varias vistas; un enlace a un portal no equivale a video incorporado.
@@ -47,7 +76,7 @@ Las cantidades cambian; los conteos vigentes se obtienen del artefacto de ejecuc
 | Vegagerðin | Islandia | Gratis sin clave | Imágenes originales, vistas agrupadas |
 | Webcams de México | México | API WordPress pública sin clave | Reproductor oficial de YouTube cuando el operador lo publica |
 | YouTube Data API v3 | Mundo | `YOUTUBE_API_KEY` | Reproductor oficial de transmisiones públicas con incorporación habilitada |
-| Windy Webcams v3 | Mundo | `WINDY_WEBCAMS_KEY` | Atribución y enlace oficial; no guardar imágenes temporales del plan gratuito |
+| Windy Webcams v3 | Mundo | `WINDY_WEBCAMS_KEY` existente | Reproductor oficial de secuencia de imágenes cuando la API lo proporciona; no se guardan imágenes con token temporal |
 | WSDOT | Washington, EE. UU. | API con `WSDOT_ACCESS_CODE` o catálogo público alternativo sin clave | Imágenes originales; duplicados eliminados |
 | Lista curada | América, África, Asia, Europa y Antártida | Sin clave | Portales de USGS, INGV, SANParks, BAS, NIPR, IGP, IG-EPN, OVSICORI, INSIVUMEH y JMA; ubicaciones aproximadas claramente indicadas |
 

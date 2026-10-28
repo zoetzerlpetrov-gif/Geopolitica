@@ -75,3 +75,41 @@ test('los clips nativos también se detienen al cerrar la ficha', async () => {
     assert.equal(recargas, 1);
   } finally { globalThis.MutationObserver = anterior; }
 });
+
+test('previews: la imagen se amplía localmente y no abre una pestaña externa', () => {
+  const html = htmlFichaCamara({ n: 'DGT', imgs: ['https://etraffic.dgt.es/7.jpg'] });
+  assert.match(html, /data-camara-ampliar="https:\/\/etraffic.dgt.es\/7.jpg"/);
+  assert.match(html, /data-camara-reintentar/);
+  assert.doesNotMatch(html, /<a[^>]*href="https:\/\/etraffic.dgt.es\/7.jpg"/);
+});
+
+test('previews: reproductor de Windy permitido sin confundir secuencia con directo', async () => {
+  const { urlReproductorCamara } = await import('../../js/camaras_preview.js');
+  const embed = 'https://webcams.windy.com/webcams/public/embed/player/123/day';
+  const html = htmlFichaCamara({ n: 'Windy', embed, embed_tipo: 'windy' });
+  assert.match(html, /<iframe data-camara-frame/);
+  assert.match(html, /no es video continuo/);
+  for (const url of [embed + '?key=SECRET', 'https://evil.example/embed/', 'https://webcams.windy.com/not-embed/', 'javascript:alert(1)']) assert.equal(urlReproductorCamara(url, 'windy'), '');
+  assert.equal(urlReproductorCamara(embed, 'unknown'), '');
+});
+
+test('previews: cámara sin medio muestra explicación sin iframe arbitrario', () => {
+  const html = htmlFichaCamara({ n: 'Operador', embed: 'https://evil.example/embed/', embed_tipo: 'windy' });
+  assert.match(html, /Vista previa no disponible/);
+  assert.doesNotMatch(html, /<iframe|<img|<video/);
+});
+
+test('los reproductores incorporados se descargan al cerrar la ficha', async () => {
+  const { iniciarCamarasVideo } = await import('../../js/camaras_video.js');
+  const anterior = globalThis.MutationObserver;
+  let callback, quitado = false;
+  globalThis.MutationObserver = class { constructor(cb) { callback = cb; } observe() {} disconnect() {} };
+  const frame = { dataset: {}, isConnected: true, removeAttribute: k => { if (k === 'src') quitado = true; } };
+  const panel = { hidden: false };
+  try {
+    iniciarCamarasVideo({ querySelectorAll: s => s.startsWith('iframe') ? [frame] : [] }, panel);
+    assert.equal(quitado, false);
+    panel.hidden = true; callback();
+    assert.equal(quitado, true);
+  } finally { globalThis.MutationObserver = anterior; }
+});

@@ -237,12 +237,15 @@
       "operador": "Transpordiamet · Tarktee",
       "api": "https://tarktee.transpordiamet.ee/api/v1/datex/roadCameraLocations",
       "pagina": "https://tarktee.ee/",
-      "licencia": "Datos públicos de Transpordiamet; imágenes en portal oficial",
+      "licencia": "Datos públicos de Transpordiamet; fuente original identificada y fecha de captura",
       "terminos": "https://tarktee.ee/",
-      "hosts": [],
-      "medio": "enlace",
+      "hosts": [
+        "tarktee.transpordiamet.ee"
+      ],
+      "medio": "imagen",
       "estado": "activa",
-      "costo": "Sin costo de acceso"
+      "costo": "Sin costo de acceso",
+      "api_imagenes": "https://tarktee.transpordiamet.ee/api/v1/datex/roadCameraImages"
     },
     {
       "id": "worldcam",
@@ -334,6 +337,118 @@
       "pagina": "https://tisvcloud.freeway.gov.tw/history/motc20/CCTV.xml",
       "estado": "sin_respuesta",
       "nota": "El archivo público no respondió desde el entorno de prueba; usar TDX con credenciales."
+    },
+    {
+      "id": "dgt",
+      "pais": "ESP",
+      "operador": "Dirección General de Tráfico · DGT",
+      "api": "https://nap.dgt.es/datex2/v3/dgt/DevicePublication/camaras_datex2_v37.xml",
+      "pagina": "https://infocar.dgt.es/etraffic/",
+      "licencia": "Creative Commons Attribution · NAP DGT; normalizado a puntos GeoJSON",
+      "terminos": "https://nap.dgt.es/es/dataset/camaras-dgt-datex2-v3-7",
+      "hosts": [
+        "etraffic.dgt.es"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Gratuito, sin registro"
+    },
+    {
+      "id": "oregon",
+      "pais": "USA",
+      "operador": "ODOT · TripCheck",
+      "api": "https://tripcheck.com/Scripts/map/data/cctvinventory.js",
+      "pagina": "https://tripcheck.com/",
+      "licencia": "Datos públicos de ODOT; imágenes con atribución al operador",
+      "terminos": "https://www.oregon.gov/ODOT/Maintenance/Pages/Traveler-Information.aspx",
+      "hosts": [
+        "tripcheck.com",
+        "www.tripcheck.com"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Gratuito, sin registro"
+    },
+    {
+      "id": "taiwan_thb",
+      "pais": "TWN",
+      "operador": "Highway Bureau · Ministry of Transportation and Communications, Taiwan",
+      "api": "https://cctv-maintain.thb.gov.tw/opendataCCTVs.xml",
+      "pagina": "https://thbapp.thb.gov.tw/opendata/",
+      "licencia": "Condiciones de datos abiertos THB: atribución; consultas no más frecuentes que 60 segundos",
+      "terminos": "https://thbapp.thb.gov.tw/opendata/",
+      "hosts": [
+        "*.thb.gov.tw"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Gratuito, sin registro"
+    },
+    {
+      "id": "vitoria",
+      "pais": "ESP",
+      "operador": "Ayuntamiento de Vitoria-Gasteiz",
+      "api": "https://www.vitoria-gasteiz.org/c11-01w/cameras?action=list&format=GEOJSON",
+      "pagina": "https://www.vitoria-gasteiz.org/",
+      "licencia": "CC BY 4.0 · Ayuntamiento de Vitoria-Gasteiz",
+      "terminos": "https://www.vitoria-gasteiz.org/wb021/was/contenidoAction.do?idioma=en&uid=app_j34_0202",
+      "hosts": [
+        "www.vitoria-gasteiz.org"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Gratuito, sin registro"
+    },
+    {
+      "id": "donostia",
+      "operador": "Ayuntamiento de Donostia",
+      "pagina": "https://www.donostia.eus/datosabiertos/recursos/camaras-trafico/camarastraficocas.json",
+      "estado": "sin_respuesta",
+      "nota": "HTTP 403 en prueba sin registro; no se intenta evadir la restricción."
+    },
+    {
+      "id": "bilbao",
+      "operador": "Ayuntamiento de Bilbao",
+      "pagina": "https://www.bilbao.eus/aytoonline/srvDatasetCamaras?formato=geojson",
+      "estado": "sin_respuesta",
+      "nota": "HTTP 403 en prueba sin registro; no se intenta evadir la restricción."
+    },
+    {
+      "id": "iowa",
+      "pais": "USA",
+      "operador": "Iowa Department of Transportation",
+      "api": "https://services.arcgis.com/8lRhdTsQyJpO52F1/arcgis/rest/services/Traffic_Cameras_View/FeatureServer/0/query?where=1%3D1&outFields=device_id,Desc_,ImageURL,VideoURL,ORG,latitude,longitude&f=geojson&outSR=4326&resultRecordCount=5000",
+      "pagina": "https://511ia.org/",
+      "licencia": "CC BY 4.0 · Iowa DOT; condiciones de sus feeds 511",
+      "terminos": "https://iowadot.gov/travel-tools/iowa-511/511-data-feeds",
+      "hosts": [
+        "*.iowadot.gov"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Gratuito, sin registro"
+    },
+    {
+      "id": "austin",
+      "pais": "USA",
+      "operador": "City of Austin · Transportation & Public Works",
+      "api": "https://data.austintexas.gov/resource/b4k4-adkb.json?$limit=5000",
+      "pagina": "https://data.austintexas.gov/Transportation-and-Mobility/Traffic-Cameras/b4k4-adkb",
+      "licencia": "City of Austin Open Data Terms of Use; normalización de coordenadas y filtrado de cámaras activas",
+      "terminos": "https://data.austintexas.gov/stories/s/ranj-cccq",
+      "hosts": [
+        "cctv.austinmobility.io"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Gratuito, sin registro"
+    },
+    {
+      "id": "ottawa",
+      "operador": "City of Ottawa",
+      "pagina": "https://traffic.ottawa.ca/en/opendata",
+      "estado": "registro_pendiente",
+      "nota": "El catálogo es público, pero las imágenes requieren certificado obtenido mediante registro. Se deja pendiente para esta ampliación sin registro."
     }
   ]
 }

@@ -78,10 +78,36 @@ def campos(e):
 def registros(s, raw):
     """Normaliza cada esquema oficial a (id, nombre, lon, lat, extras)."""
     sid = s['id']
+    if sid in ('dgt', 'taiwan_thb'):
+        root = ET.fromstring(raw)
+        for e in root.iter():
+            tag = e.tag.rsplit('}', 1)[-1]
+            if tag != ('device' if sid == 'dgt' else 'CCTV'):
+                continue
+            p = {x.tag.rsplit('}', 1)[-1]: (x.text or '').strip() for x in e.iter() if x.text and x.text.strip()}
+            if sid == 'dgt':
+                if p.get('typeOfDevice') != 'camera':
+                    continue
+                nombre = ' · '.join(p[k] for k in ('roadName', 'kilometerPoint', 'province', 'roadDestination') if p.get(k))
+                yield e.get('id'), nombre, p.get('longitude'), p.get('latitude'), {'imgs': [p.get('deviceUrl')]}
+            else:
+                nombre = p.get('SurveillanceDescription') or ' · '.join(p.get(k, '') for k in ('RoadName', 'LocationMile', 'RoadDirection'))
+                # El feed distingue imagen fija de stream: no confundir MJPEG/HTML con HLS.
+                yield p.get('CCTVID'), nombre, p.get('PositionLon'), p.get('PositionLat'), {'imgs': [p.get('VideoImageURL')], 'lugar': p.get('RoadName', '')}
+        return
     if sid == 'tarktee':
         ns = {'d': 'http://datex2.eu/schema/2/2_0'}
+        images = {}
+        if isinstance(raw, dict):
+            for view in ET.fromstring(raw['imagenes']).findall('.//d:trafficView', ns):
+                reference = view.find('.//d:linearPredefinedLocationReference', ns)
+                urls = [x.text for x in view.findall('.//d:urlLinkAddress', ns) if x.text]
+                if reference is not None and urls:
+                    images[reference.get('id')] = (urls[:4], view.findtext('d:trafficViewTime', '', ns))
+            raw = raw['ubicaciones']
         for e in ET.fromstring(raw).findall('.//d:predefinedLocation', ns):
-            yield e.get('id'), e.findtext('.//d:predefinedLocationName/d:values/d:value', '', ns), e.findtext('.//d:longitude', '', ns), e.findtext('.//d:latitude', '', ns), {}
+            imgs, stamp = images.get(e.get('id'), ([], ''))
+            yield e.get('id'), e.findtext('.//d:predefinedLocationName/d:values/d:value', '', ns), e.findtext('.//d:longitude', '', ns), e.findtext('.//d:latitude', '', ns), {'imgs': imgs, 'captura_utc': stamp}
         return
     if sid == 'catalunya':
         for e in ET.fromstring(raw).iter():
@@ -106,7 +132,27 @@ def registros(s, raw):
             yield e.get('id'), e.findtext('k:name', 'Cámara CITA', ns), *xy[:2], {'x': match.group() if match else s['pagina']}
         return
     d = json_de(raw)
-    if sid in ('noruega', 'nsw', 'queensland', 'kingcounty'):
+    if sid in ('oregon', 'vitoria', 'iowa'):
+        if d.get('exceededTransferLimit'):
+            raise ValueError('catálogo truncado: requiere paginación')
+        for c in d.get('features', []):
+            if sid == 'iowa':
+                p = c.get('properties') or {}
+                xy = (c.get('geometry') or {}).get('coordinates') or []
+                if len(xy) >= 2:
+                    yield p.get('device_id'), p.get('Desc_'), *xy[:2], {'imgs': [p.get('ImageURL')], 'hls': p.get('VideoURL'), 'credito': p.get('ORG') or 'Iowa DOT'}
+            elif sid == 'oregon':
+                p = c.get('attributes') or {}
+                filename = str(p.get('filename') or '')
+                if not re.fullmatch(r'[^/\\\x00-\x1f]+\.(?:jpg|jpeg|png)', filename, re.I) or filename.startswith('.'):
+                    continue
+                yield str(p.get('cameraId')) + '-' + str(p.get('publishedImageId')), p.get('title'), p.get('longitude'), p.get('latitude'), {'imgs': ['https://tripcheck.com/RoadCams/cams/' + urllib.parse.quote(filename, safe='')]}
+            else:
+                p = c.get('properties') or {}
+                xy = (c.get('geometry') or {}).get('coordinates') or []
+                if len(xy) >= 2 and p.get('commStatusCode') != 'Desconectado':
+                    yield c.get('id'), str(p.get('nombre') or '').split('#')[0], *xy[:2], {'imgs': [p.get('imagen')]}
+    elif sid in ('noruega', 'nsw', 'queensland', 'kingcounty'):
         if d.get('exceededTransferLimit') or (d.get('numberMatched', 0) > len(d.get('features', []))):
             raise ValueError('catálogo truncado: requiere paginación')
         for f in d.get('features', []):
@@ -126,6 +172,12 @@ def registros(s, raw):
             elif str(p.get('CurrentStatus', '')).lower() == 'active':
                 image = str(p.get('ImageURL') or '').replace('http://info.kingcounty.gov/', 'https://info.kingcounty.gov/')
                 yield p.get('AssetID'), p.get('Location'), *xy[:2], {'imgs': [image], 'o': p.get('Owner') or s['operador']}
+    elif sid == 'austin':
+        for c in d:
+            xy = (c.get('location') or {}).get('coordinates') or []
+            if c.get('camera_status') != 'TURNED_ON' or len(xy) < 2:
+                continue
+            yield c.get('camera_id'), c.get('location_name'), *xy[:2], {'imgs': [c.get('screenshot_address')], 'aprox': 1, 'nota': 'Ubicación aproximada publicada por City of Austin; no equivale a un levantamiento de cada dispositivo.'}
     elif sid == 'tfl':
         for c in d:
             p = {x.get('key'): x.get('value') for x in c.get('additionalProperties', [])}
@@ -313,10 +365,18 @@ def ampliar(C, inicial):
                     f['properties']['p'] = C.iso3(f['properties']['p'])
             return fs, {'estado': 'catalogo_anterior' if fs else 'error', 'camaras': len(fs), 'actualizado_utc': previo.get('actualizado_utc'), 'error': type(e).__name__}
 
+    def leer_fuente(s):
+        raw = descargar(s['api'])
+        if s.get('api_imagenes'):
+            raw = {'ubicaciones': raw, 'imagenes': descargar(s['api_imagenes'])}
+        if s['id'] == 'wsdot_publico':
+            raw = raw.decode('cp1252')
+        return normalizar(s, raw)
+
     trabajos = []
     for s in config['fuentes']:
         if s['estado'] == 'activa':
-            trabajos.append((s['id'], lambda s=s: normalizar(s, descargar(s['api']).decode('cp1252') if s['id'] == 'wsdot_publico' else descargar(s['api']))))
+            trabajos.append((s['id'], lambda s=s: leer_fuente(s)))
         else:
             informe[s['id']] = {'estado': s['estado'], 'camaras': 0, 'detalle': s.get('nota', '')}
     legacy = [
@@ -352,7 +412,7 @@ def ampliar(C, inicial):
                 req = urllib.request.Request(u, headers={'User-Agent': UA, 'Accept': 'application/json', 'x-windy-api-key': key})
                 with urllib.request.urlopen(req, timeout=30) as r:
                     return json_de(r.read(MAX_BYTES))
-            return C._fuente_camaras('windy', [f'https://api.windy.com/webcams/api/v3/webcams?limit=50&offset={o}&include=location' for o in range(0, 1000, 50)], C.camaras_windy, leer=leer)
+            return C._fuente_camaras('windy', [f'https://api.windy.com/webcams/api/v3/webcams?limit=50&offset={o}&include=location,player' for o in range(0, 1000, 50)], C.camaras_windy, leer=leer)
         legacy.append(('windy', windy))
     else:
         informe['windy'] = {'estado': 'sin_clave', 'camaras': 0, 'secreto': 'WINDY_WEBCAMS_KEY'}
@@ -389,5 +449,8 @@ def ampliar(C, inicial):
     for sid, st in informe.items():
         st['publicadas'] = conteos.get(sid, 0)
         C.CAM_FUENTES[sid] = f"{st['estado']} ({st['publicadas']})" + (f" · {st['error']}" if st.get('error') else '')
-    guardar(salida / 'camaras_estado.json', {'generado_utc': ahora, 'total': len(out), 'paises': sorted({f['properties'].get('p') for f in out if f['properties'].get('p')}), 'fuentes': informe})
+    con_preview = lambda p: bool(p.get('imgs') or p.get('hls') or p.get('mp4') or p.get('yt') or p.get('sg') or p.get('embed'))
+    for sid, st in informe.items():
+        st['con_preview'] = sum(con_preview(f['properties']) for f in out if f['properties'].get('fuente') == sid)
+    guardar(salida / 'camaras_estado.json', {'generado_utc': ahora, 'total': len(out), 'con_preview': sum(con_preview(f['properties']) for f in out), 'paises': sorted({f['properties'].get('p') for f in out if f['properties'].get('p')}), 'fuentes': informe})
     return out
