@@ -23,7 +23,14 @@ API = "https://www.googleapis.com/youtube/v3/"
 BUSQUEDAS = ["live cam", "webcam live", "live webcam beach", "live cam city", "harbor live cam", "airport live cam",
              "volcano live cam", "cámara en vivo", "webcam en vivo", "câmera ao vivo", "Live-Kamera", "webcam en direct",
              "ライブカメラ", "веб-камера онлайн", "canal live cam", "ski live cam"]
-BUSQUEDAS_MAX = 16  # 1,600 unidades por corrida
+# Diversidad geográfica dentro de la cuota gratuita: 40 consultas, como máximo 4.000 unidades.
+BUSQUEDAS += ["Japan live cam", "South Korea live cam", "Taiwan live cam", "India live cam", "Nepal live cam",
+              "Thailand live cam", "Indonesia live cam", "Vietnam live cam", "Malaysia live cam", "Philippines live cam",
+              "Dubai live cam", "Istanbul live cam", "Jerusalem live cam", "Mecca live cam",
+              "South Africa live cam", "Namibia live cam", "Kenya live cam", "Seychelles live cam",
+              "Brazil live cam", "Argentina live cam", "Chile live cam", "Ecuador live cam",
+              "Australia live cam", "Antarctica live cam"]
+BUSQUEDAS_MAX = 40
 # Debe parecer cámara; no noticieros, música, juegos ni radios.
 ES_CAMARA = re.compile(r"(live ?cam|webcam|web cam|c[aá]mara en vivo|camara ao vivo|c[aâ]mera ao vivo|live-?kamera|en direct|"
                        r"ライブカメラ|веб-?камер|livestream cam|cam live|earthcam|skyline)", re.I)
@@ -83,12 +90,15 @@ class Ciudades:
 
 def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX]):
     """Devuelve [dict] con id, titulo, canal_url, lat, lon, aprox, pais, lugar, st."""
+    global ERRORES
+    ERRORES = 0
     ids = []
     for q in busquedas:
         try:
             r = llamar(llave, "search", part="id", type="video", eventType="live", maxResults=50, q=q)  # safeSearch=strict deja la búsqueda en vivo sin resultados
         except Exception as e:  # noqa: BLE001
-            print(f"   YouTube «{q}»: {e}")
+            ERRORES += 1
+            print(f"   YouTube «{q}»: {type(e).__name__}")
             continue
         ids += [it["id"]["videoId"] for it in r.get("items", []) if it.get("id", {}).get("videoId")]
     ids = list(dict.fromkeys(ids))
@@ -111,3 +121,4 @@ def camaras(llave, ciudades, busquedas=BUSQUEDAS[:BUSQUEDAS_MAX]):
                         "lat": round(float(lat), 5), "lon": round(float(lon), 5), "aprox": aprox, "pais": pais, "lugar": lugar,
                         "st": tema(s.get("title", ""))})
     return out
+

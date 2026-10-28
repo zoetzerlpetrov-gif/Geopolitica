@@ -1,0 +1,339 @@
+{
+  "version": 1,
+  "descripcion": "Catálogos de cámaras públicas: medios originales cuando están permitidos; enlaces oficiales en los demás casos. Activa no significa señal en vivo verificada.",
+  "fuentes": [
+    {
+      "id": "tfl",
+      "pais": "GBR",
+      "operador": "Transport for London",
+      "api": "https://api.tfl.gov.uk/Place/Type/JamCam",
+      "pagina": "https://tfl.gov.uk/traffic/status/",
+      "licencia": "TfL Open Data Licence (Contains OS data © Crown copyright and database rights)",
+      "terminos": "https://tfl.gov.uk/corporate/terms-and-conditions/transport-data-service",
+      "hosts": [
+        "s3-eu-west-1.amazonaws.com"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "drivebc",
+      "pais": "CAN",
+      "operador": "DriveBC · Gobierno de British Columbia",
+      "api": "https://www.drivebc.ca/api/webcams/",
+      "pagina": "https://www.drivebc.ca/",
+      "licencia": "Open Government Licence – British Columbia; respetar créditos de colaboradores",
+      "terminos": "https://www2.gov.bc.ca/gov/content/data/open-data/open-government-licence-bc",
+      "hosts": [
+        "www.drivebc.ca"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "calgary",
+      "pais": "CAN",
+      "operador": "City of Calgary",
+      "api": "https://data.calgary.ca/resource/k7p9-kppz.json?$limit=5000",
+      "pagina": "https://trafficcam.calgary.ca/",
+      "licencia": "Open Calgary Terms of Use",
+      "terminos": "https://data.calgary.ca/stories/s/Open-Calgary-Terms-of-Use/u45n-7awa/",
+      "hosts": [
+        "trafficcam.calgary.ca"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "vancouver",
+      "pais": "CAN",
+      "operador": "City of Vancouver",
+      "api": "https://opendata.vancouver.ca/api/explore/v2.1/catalog/datasets/web-cam-url-links/exports/json",
+      "pagina": "https://trafficcams.vancouver.ca/",
+      "licencia": "Open Government Licence – Vancouver (metadatos)",
+      "terminos": "https://opendata.vancouver.ca/pages/licence/",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "toronto",
+      "pais": "CAN",
+      "operador": "City of Toronto",
+      "api": "https://opendata.toronto.ca/transportation/tmc/rescucameraimages/Data/tmcearthcameras.json",
+      "pagina": "https://www.toronto.ca/services-payments/streets-parking-transportation/road-restrictions-closures/traffic-cameras/",
+      "licencia": "Open Government Licence – Toronto",
+      "terminos": "https://open.toronto.ca/open-data-license/",
+      "hosts": [
+        "opendata.toronto.ca"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "noruega",
+      "pais": "NOR",
+      "operador": "Statens vegvesen",
+      "api": "https://ogckart-sn1.atlas.vegvesen.no/ogc/features/v1/collections/datex_3_1:CctvSimple/items?f=application/geo%2Bjson&limit=5000",
+      "pagina": "https://www.vegvesen.no/trafikk/",
+      "licencia": "NLOD 2.0",
+      "terminos": "https://dataut.vegvesen.no/en/dataset/webkamera",
+      "hosts": [
+        "kamera.atlas.vegvesen.no",
+        "kamera.vegvesen.no"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "nsw",
+      "pais": "AUS",
+      "operador": "Transport for NSW",
+      "api": "https://data.livetraffic.com/cameras/traffic-cam.json",
+      "pagina": "https://www.livetraffic.com/",
+      "licencia": "CC BY 4.0 · Transport for NSW",
+      "terminos": "https://opendata.transport.nsw.gov.au/data/dataset/live-traffic-nsw",
+      "hosts": [
+        "webcams.transport.nsw.gov.au"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "queensland",
+      "pais": "AUS",
+      "operador": "Department of Transport and Main Roads, Queensland",
+      "api": "https://data.qldtraffic.qld.gov.au/webcameras.geojson",
+      "pagina": "https://qldtraffic.qld.gov.au/",
+      "licencia": "CC BY 4.0; pueden aplicarse derechos de terceros",
+      "terminos": "https://qldtraffic.qld.gov.au/more/More-Help-And-Info/Help-info/copyright.html",
+      "hosts": [
+        "cameras.qldtraffic.qld.gov.au"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "catalunya",
+      "pais": "ESP",
+      "operador": "Servei Català de Trànsit",
+      "api": "https://www.gencat.cat/transit/opendata/cameres.xml",
+      "pagina": "https://cit.transit.gencat.cat/",
+      "licencia": "Datos abiertos Generalitat; imágenes según operador",
+      "terminos": "https://transit.gencat.cat/ca/serveis/dades-obertes/",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "euskadi",
+      "pais": "ESP",
+      "operador": "Dirección de Tráfico · Gobierno Vasco",
+      "api": "https://opendata.euskadi.eus/contenidos/ds_localizaciones/camaras_trafico/opendata/camaras-trafico.json",
+      "pagina": "https://www.trafikoa.eus/",
+      "licencia": "CC BY 4.0 · Open Data Euskadi",
+      "terminos": "https://opendata.euskadi.eus/inicio/",
+      "hosts": [
+        "www.trafikoa.eus"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "geonet",
+      "pais": "NZL",
+      "operador": "GeoNet · GNS Science",
+      "api": "https://images.geonet.org.nz/volcano/cameras/all.json",
+      "pagina": "https://www.geonet.org.nz/volcano/cameras",
+      "licencia": "CC BY 3.0 NZ · GeoNet",
+      "terminos": "https://www.geonet.org.nz/policy",
+      "hosts": [
+        "images.geonet.org.nz"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "kingcounty",
+      "pais": "USA",
+      "operador": "King County Road Services",
+      "api": "https://services.arcgis.com/Ej0PsM5Aw677QF1W/arcgis/rest/services/TRAFFICCAMERA_POINT_2029/FeatureServer/0/query?where=1%3D1&outFields=AssetID,Location,ImageURL,Live,Owner,CurrentStatus&f=geojson",
+      "pagina": "https://kingcounty.gov/en/dept/local-services/roads",
+      "licencia": "Condiciones de datos de King County",
+      "terminos": "https://gis-kingcounty.opendata.arcgis.com/",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "wsdot_publico",
+      "pais": "USA",
+      "operador": "WSDOT",
+      "api": "https://data.wsdot.wa.gov/travelcenter/Cameras.json",
+      "pagina": "https://wsdot.com/travel/real-time/map/",
+      "licencia": "WSDOT · cámaras públicas de tráfico",
+      "terminos": "https://wsdot.wa.gov/traffic/api/",
+      "hosts": [
+        "images.wsdot.wa.gov"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "autostrade",
+      "pais": "ITA",
+      "operador": "Autostrade per l’Italia",
+      "api": "https://viabilita.autostrade.it/json/webcams.json",
+      "pagina": "https://www.autostrade.it/en/webcam",
+      "licencia": "Catálogo público; imágenes reservadas al operador",
+      "terminos": "https://www.autostrade.it/en/condizioni-utilizzo",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "deldot",
+      "pais": "USA",
+      "operador": "Delaware Department of Transportation",
+      "api": "https://tmc.deldot.gov/json/videocamera.json",
+      "pagina": "https://deldot.gov/map/",
+      "licencia": "Catálogo público; incorporación de señal no autorizada aquí",
+      "terminos": "https://deldot.gov/Information/legal/index.shtml",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "cita",
+      "pais": "LUX",
+      "operador": "CITA · Administration des ponts et chaussées",
+      "api": "https://www.cita.lu/kml/cameras.kml",
+      "pagina": "https://www.cita.lu/",
+      "licencia": "CC0 para ubicaciones; imágenes con condiciones propias",
+      "terminos": "https://data.public.lu/en/datasets/cameras-sur-le-reseau-autoroutier/",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso al catálogo; sujeto a términos del operador"
+    },
+    {
+      "id": "tarktee",
+      "pais": "EST",
+      "operador": "Transpordiamet · Tarktee",
+      "api": "https://tarktee.transpordiamet.ee/api/v1/datex/roadCameraLocations",
+      "pagina": "https://tarktee.ee/",
+      "licencia": "Datos públicos de Transpordiamet; imágenes en portal oficial",
+      "terminos": "https://tarktee.ee/",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Sin costo de acceso"
+    },
+    {
+      "id": "worldcam",
+      "operador": "WorldCam.io",
+      "pagina": "https://worldcam.io/",
+      "estado": "contrato_api",
+      "nota": "API empresarial; sin API gratuita verificada. No extraer su inventario por scraping."
+    },
+    {
+      "id": "asfinag",
+      "operador": "ASFINAG · Austria",
+      "pagina": "https://contentportal.asfinag.at/",
+      "estado": "registro_pendiente",
+      "nota": "Portal de contenidos: solicitar credenciales propias y habilitación del producto webcams."
+    },
+    {
+      "id": "trafikverket",
+      "operador": "Trafikverket · Suecia",
+      "pagina": "https://api.trafikinfo.trafikverket.se/",
+      "estado": "registro_pendiente",
+      "nota": "API gratuita con clave propia; conector pendiente de validar con credenciales."
+    },
+    {
+      "id": "tdx",
+      "operador": "TDX · Taiwán",
+      "pagina": "https://tdx.transportdata.tw/",
+      "estado": "registro_pendiente",
+      "nota": "Client ID y Client Secret; cuota y condiciones según plan. Conector OAuth pendiente."
+    },
+    {
+      "id": "ohgo",
+      "operador": "OHGO · Ohio",
+      "pagina": "https://publicapi.ohgo.com/",
+      "estado": "registro_pendiente",
+      "nota": "Solicitar API key; conector pendiente de validar con credenciales."
+    },
+    {
+      "id": "national_highways",
+      "operador": "National Highways · Inglaterra",
+      "pagina": "https://nationalhighways.co.uk/roads-and-travel/live-travel-updates/traffic-cameracctv-services/",
+      "estado": "permiso_pendiente",
+      "nota": "Licencia de reutilización de CCTV según uso; condiciones y posible costo por confirmar."
+    },
+    {
+      "id": "traffic_scotland",
+      "operador": "Traffic Scotland",
+      "pagina": "https://www.traffic.gov.scot/copyright",
+      "estado": "permiso_pendiente",
+      "nota": "Solicitar permiso/servicio de imágenes; se prohíbe enlazar directamente imágenes sin autorización."
+    },
+    {
+      "id": "fl511",
+      "operador": "Florida 511",
+      "pagina": "https://fl511.com/privacy",
+      "estado": "permiso_pendiente",
+      "nota": "Solicitar consentimiento de FDOT para redistribución/uso fuera del ámbito personal."
+    },
+    {
+      "id": "houston",
+      "operador": "Houston TranStar",
+      "pagina": "https://traffic.houstontranstar.org/disclaimer.aspx",
+      "estado": "permiso_pendiente",
+      "nota": "Se requiere consentimiento para imágenes, enlaces directos o iframe."
+    },
+    {
+      "id": "skyline",
+      "operador": "SkylineWebcams",
+      "pagina": "https://www.skylinewebcams.com/en/faq.html",
+      "estado": "permiso_pendiente",
+      "nota": "No extraer señales. Solicitar autorización del programa de incorporación."
+    },
+    {
+      "id": "earthcam",
+      "operador": "EarthCam",
+      "pagina": "https://www.earthcam.com/",
+      "estado": "permiso_pendiente",
+      "nota": "Solicitar licencia o incorporación autorizada; no existe API abierta gratuita verificada."
+    },
+    {
+      "id": "opencctv",
+      "operador": "OpenCCTV",
+      "pagina": "https://opencctv.org/",
+      "estado": "permiso_pendiente",
+      "nota": "Verificar autorización del catálogo y de cada operador antes de importarlo."
+    },
+    {
+      "id": "taiwan_archivo",
+      "operador": "Freeway Bureau · Taiwán (archivo XML)",
+      "pagina": "https://tisvcloud.freeway.gov.tw/history/motc20/CCTV.xml",
+      "estado": "sin_respuesta",
+      "nota": "El archivo público no respondió desde el entorno de prueba; usar TDX con credenciales."
+    }
+  ]
+}

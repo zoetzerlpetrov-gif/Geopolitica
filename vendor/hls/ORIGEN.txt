@@ -1,0 +1,5 @@
+hls.js 1.6.13 · light UMD
+https://github.com/video-dev/hls.js/releases/tag/v1.6.13
+https://cdn.jsdelivr.net/npm/hls.js@1.6.13/dist/hls.light.min.js
+Licencia Apache-2.0: LICENSE
+Solo se carga al solicitar video HLS en una ficha de cámara.

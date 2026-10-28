@@ -330,6 +330,7 @@ $("ficha-cuerpo").addEventListener("error", (e) => { if (e.target.matches?.("img
 new MutationObserver(() => {
   const c = $("ficha-cuerpo");
   if (c.querySelector("figure[data-img-tipo]:not([data-listo])")) import("./imagen_tipo.js").then((I) => I.rellenarImagenes(c));
+  if (c.querySelector("button[data-camara-hls]:not([data-listo])")) import("./camaras_video.js").then((V) => V.iniciarCamarasVideo(c, $("ficha")));
   const sg = c.querySelector("figure.cam-sg[data-sg]:not([data-listo])");
   if (sg) { sg.dataset.listo = "1"; import("./capas.js").then((K) => K.rellenarCamaraSingapur(sg)); }
 }).observe($("ficha-cuerpo"), { childList: true });
@@ -2003,3 +2004,4 @@ main().catch((e) => {
   console.error(e);
   $("estado-datos").textContent = `Error al cargar: ${e.message}`;
 });
+

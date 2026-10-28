@@ -309,36 +309,54 @@ export function htmlFichaInmueble(props, sub, familia) {
     <p class="meta">El precio y la disponibilidad pueden haber cambiado desde que se registró${auto ? "; confirma con la desarrolladora antes de decidir" : ""}. ${auto ? "El color de este punto solo considera la distancia a volcanes del Holoceno (Smithsonian GVP) y a límites de placas (PB2002); la seguridad, inundación y deslaves se calculan con «Evaluar riesgo completo»." : "La revisión automática solo mide distancias a volcanes del Holoceno y a límites de placas; no sustituye un dictamen de riesgos."} No es una recomendación de inversión.</p>`;
 }
 
-/** Ficha de una cámara: solo enlace a la página oficial del operador (la imagen no se copia). */
+/** Ficha de cámara pública; solo solicita medios cuando el usuario abre la ficha. */
 export function htmlFichaCamara(props, sub) {
   const oficial = props.t === "organismo_publico";
   const deYoutube = props.t === "canal_youtube";
-  // MapLibre entrega los arreglos de propiedades como texto JSON.
+  const publico = (u) => {
+    try {
+      const v = new URL(String(u || ""));
+      if (v.protocol !== "https:" || v.username || v.password || !v.hostname.includes(".") ||
+          /^(localhost|127\.|10\.|192\.168\.|169\.254\.|172\.(1[6-9]|2\d|3[01])\.)/.test(v.hostname) ||
+          /\.(local|internal)$/.test(v.hostname)) return "";
+      return v.href;
+    } catch { return ""; }
+  };
   let imgs = props.imgs || [];
-  if (typeof imgs === "string") { try { imgs = JSON.parse(imgs); } catch (e) { imgs = []; } }
-  imgs = imgs.filter((u) => /^https:\/\//.test(u)).slice(0, 4);
-  const ok = imgs.length > 0 || String(props.v || "").startsWith("ok");
-  const t = Math.floor(Date.now() / 300000); // evita la caché del navegador: imagen de los últimos 5 min
-  const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}${u.includes("?") ? "&" : "?"}t=${t}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
-    <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio.</p>` : "";
-  // Transmisión en vivo de YouTube (Webcams de México): reproductor oficial, sin sonido; el crédito y el enlace quedan abajo.
+  if (typeof imgs === "string") { try { imgs = JSON.parse(imgs); } catch { imgs = []; } }
+  imgs = (Array.isArray(imgs) ? imgs : []).map(publico).filter(Boolean).slice(0, 4);
+  const mp4 = publico(props.mp4), hls = publico(props.hls);
+  const medio = mp4 || hls;
+  const ok = imgs.length > 0 || medio || props.sg || props.catalogo_utc || String(props.v || "").startsWith("ok");
+  // Conservar la URL exacta del operador: agregar parámetros rompe algunos servicios y firmas.
+  const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
+    <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio. Si no carga, consulta al operador.</p>` : "";
+  const original = medio ? `<div class="cam-reproductor"><div class="cam-video"><video controls playsinline preload="none" ${imgs[0] ? `poster="${esc(imgs[0])}"` : ""}>
+      <source src="${esc(medio)}" type="${mp4 ? "video/mp4" : "application/vnd.apple.mpegurl"}"></video></div>${hls && !mp4 ? `<button type="button" class="boton" data-camara-hls="${esc(hls)}">Cargar video HLS</button>` : ""}</div>
+      <p class="meta">${mp4 ? "Clip reciente; no es una transmisión continua." : "Video HLS del operador; pulsa «Cargar video HLS». Si no responde, abre la página oficial."}
+      <a href="${esc(medio)}" target="_blank" rel="noopener noreferrer">Abrir video original ↗</a></p>` : "";
   const yt = /^[\w-]{11}$/.test(String(props.yt || "")) ? props.yt : "";
   const video = yt ? `<div class="cam-video"><iframe src="https://www.youtube-nocookie.com/embed/${yt}?autoplay=1&mute=1&playsinline=1" title="En vivo: ${esc(props.n)}"
       allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe></div>
     <p class="meta">En vivo con el reproductor de YouTube · transmisión de ${esc(props.o)}${props.lugar ? ` · ${esc(props.lugar)}` : ""}. Si la transmisión cambió, ábrela en su página.</p>` : "";
-  // Singapur: la URL de la imagen cambia cada minuto; se pide la vigente al abrir la ficha (rellenarCamaraSingapur).
   const sgId = /^\d{1,6}$/.test(String(props.sg || "")) ? props.sg : "";
   const sg = sgId ? `<figure class="cam-sg" data-sg="${sgId}"><p class="meta">Pidiendo la imagen más reciente a data.gov.sg…</p></figure>` : "";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
     <div class="chips"><span class="chip">${oficial ? "Organismo público" : deYoutube ? "Transmisión pública en YouTube" : "Operador turístico (publicación intencional)"}</span>${yt ? `<span class="chip estado-tiempo_real">En vivo</span>` : ""}
-      ${deYoutube && Number(props.aprox) ? `<span class="chip">Ubicación aproximada</span>` : ""}
+      ${Number(props.aprox) ? `<span class="chip">Ubicación aproximada</span>` : ""}
+      ${props.catalogo_anterior ? `<span class="chip alerta">Catálogo anterior: actualización pendiente</span>` : ""}
+      ${props.demorada ? `<span class="chip alerta">Imagen demorada según el operador</span>` : ""}
       ${ok ? "" : `<span class="chip alerta">Enlace sin confirmar en la última revisión</span>`}</div>
-    ${galeria}${sg}${video}
-    <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">${deYoutube ? "Ver en YouTube" : imgs.length ? "Sitio del operador" : "Ver la cámara en el sitio oficial"} ↗</a>
+    ${original}${galeria}${sg}${video}
+    <p><a class="boton" href="${esc(safeUrl(props.x))}" target="_blank" rel="noopener noreferrer">${deYoutube ? "Ver en YouTube" : imgs.length || medio ? "Sitio del operador" : "Ver la cámara en el sitio oficial"} ↗</a>
       ${deYoutube && props.canal ? ` <a href="${esc(safeUrl(props.canal))}" target="_blank" rel="noopener noreferrer">Canal ↗</a>` : ""}</p>
     ${props.nota ? `<p>${esc(props.nota)}</p>` : ""}
+    ${props.credito ? `<p class="meta">Crédito: ${esc(props.credito)}</p>` : ""}
+    ${props.lic_url && publico(props.lic_url) ? `<p class="meta"><a href="${esc(publico(props.lic_url))}" target="_blank" rel="noopener noreferrer">Licencia y condiciones del operador ↗</a></p>` : ""}
+    ${props.captura_utc ? `<p class="meta">Fecha de la imagen publicada por el operador: ${esc(props.captura_utc)}</p>` : ""}
+    ${props.catalogo_utc ? `<p class="meta">Catálogo consultado: ${esc(props.catalogo_utc)}. No confirma que la imagen sea actual ni que la cámara esté operativa.</p>` : ""}
     ${props.v ? `<dl><dt>Revisión del enlace</dt><dd>${esc(props.v)}</dd></dl>` : ""}
     <p class="meta">Solo se incluyen cámaras que su operador publica para verse en abierto; nunca cámaras expuestas por error. La imagen se muestra desde el servidor del operador, sin copiarla.</p>`;
 }
@@ -431,3 +449,4 @@ export function htmlFichaReligion(props, familia) {
     <p class="meta">«Populares o tradicionales» incluye religiones indígenas, chamanismo y animismo; «Otras», bahaí, sij, jainismo, sintoísmo, taoísmo, wicca y otras. Brujería y esoterismo no se miden por separado. «Sin afiliación» reúne a ateos, agnósticos y quienes no se identifican con ninguna.</p>
     <dl><dt>Fuente</dt><dd><a href="https://ourworldindata.org/religion" target="_blank" rel="noopener noreferrer">Pew Research Center vía Our World in Data</a> (CC BY 4.0)</dd></dl>`;
 }
+

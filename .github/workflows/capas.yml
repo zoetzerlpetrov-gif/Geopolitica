@@ -74,6 +74,13 @@ jobs:
           # Cámaras de tráfico con llave gratuita (opcionales: sin el secreto, esa fuente se salta). Ver docs/CAMARAS.md.
           WSDOT_ACCESS_CODE: ${{ secrets.WSDOT_ACCESS_CODE }}
           WINDY_WEBCAMS_KEY: ${{ secrets.WINDY_WEBCAMS_KEY }}
+          CAM_511_ON: ${{ secrets.CAM_511_ON }}
+          CAM_511_AB: ${{ secrets.CAM_511_AB }}
+          CAM_511_NY: ${{ secrets.CAM_511_NY }}
+          CAM_511_AZ: ${{ secrets.CAM_511_AZ }}
+          CAM_511_NV: ${{ secrets.CAM_511_NV }}
+          CAM_511_GA: ${{ secrets.CAM_511_GA }}
+          CAM_NYC_ACUERDO: ${{ secrets.CAM_NYC_ACUERDO }}
           INEGI_DENUE_API_KEY: ${{ secrets.INEGI_DENUE_API_KEY }}  # grandes establecimientos de México (familia «denue_grandes»)
           FAMILIAS: ${{ github.event.inputs.familias || (github.event.schedule == '20 */4 * * *' && 'lugares_culto lugares_culto_catolico lugares_culto_cristiano') || (github.event.schedule == '47 6 2 * *' && 'embajadas desaladoras farmaceuticas investigacion fronteras centros_datos militar recursos actividades') || '' }}
         run: |
@@ -107,3 +114,4 @@ jobs:
     if: github.ref == 'refs/heads/main'
     uses: ./.github/workflows/pages.yml
     secrets: inherit  # la llave de Esri (ESRI_API_KEY) se escribe al publicar
+

@@ -547,6 +547,7 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .escala-tramos li { display: flex; align-items: center; gap: 6px; }
 .escala-tramos i { width: 14px; height: 10px; border-radius: 2px; flex: none; border: 1px solid rgba(0,0,0,.15); }
 .cam-video { position: relative; width: 100%; aspect-ratio: 16 / 9; margin: 6px 0; background: #000; border-radius: 6px; overflow: hidden; }
+.cam-video video { width: 100%; height: 100%; object-fit: contain; }
 .cam-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .espejo-riesgo { border-top: 1px dashed var(--line); margin-top: 4px; padding-top: 4px; }
 
@@ -772,3 +773,4 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .eei-video { position: relative; aspect-ratio: 16 / 9; background: #000; border-radius: 6px; overflow: hidden; }
 .eei-video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .eei-panel p { margin: 6px 0 0; }
+
