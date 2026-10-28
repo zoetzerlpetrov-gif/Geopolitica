@@ -80,7 +80,7 @@ Las cantidades cambian; los conteos vigentes se obtienen del artefacto de ejecuc
 | WSDOT | Washington, EE. UU. | API con `WSDOT_ACCESS_CODE` o catálogo público alternativo sin clave | Imágenes originales; duplicados eliminados |
 | Lista curada | América, África, Asia, Europa y Antártida | Sin clave | Portales de USGS, INGV, SANParks, BAS, NIPR, IGP, IG-EPN, OVSICORI, INSIVUMEH y JMA; ubicaciones aproximadas claramente indicadas |
 
-YouTube amplía las búsquedas de 16 a 40: incluye Japón, Corea, Taiwán, India, Nepal, Tailandia, Indonesia, Vietnam, Malasia, Filipinas, Dubái, Estambul, Jerusalén, La Meca, Sudáfrica, Namibia, Kenia, Seychelles, Brasil, Argentina, Chile, Ecuador, Australia y Antártida. Hasta 4.000 unidades por ejecución más las consultas de detalles, dentro de la cuota habitual de 10.000 unidades/día; las ejecuciones adicionales comparten esa cuota. Solo se aceptan transmisiones con ubicación publicada por el canal o una ciudad reconocible en el título; estas últimas se marcan aproximadas.
+YouTube amplía las búsquedas de 16 a 40: incluye Japón, Corea, Taiwán, India, Nepal, Tailandia, Indonesia, Vietnam, Malasia, Filipinas, Dubái, Estambul, Jerusalén, La Meca, Sudáfrica, Namibia, Kenia, Seychelles, Brasil, Argentina, Chile, Ecuador, Australia y Antártida. El plan reserva búsquedas regionales y rota las restantes, con hasta 40 intentos de búsqueda por día UTC (hasta 4.000 unidades), más las consultas de detalles. Una memoria diaria evita repetir consultas en ejecuciones adicionales. Los IDs previamente encontrados se revalidan aunque cambie el plan; las emisiones finalizadas o que ya no admiten incorporación se descartan. La cuota real depende del proyecto de Google. Solo se aceptan transmisiones con ubicación publicada por el canal o una ciudad reconocible en el título; estas últimas se marcan aproximadas.
 
 Windy conserva el límite existente de hasta 1.000 resultados por ejecución. No se afirma importar todo su catálogo ni se guardan URLs temporales. La cuota efectiva depende del plan asociado a la clave.
 
@@ -138,3 +138,23 @@ python3 tools/capas/construir.py camaras
 ```
 
 Las pruebas incluyen JSONP sin evaluación de código, orden excepcional de coordenadas GeoNet, validación de medios, catálogos truncados, duplicados, fallos sin filtración de claves y la protección de otras capas. El workflow adjunta los resultados de la descarga real, separados del resultado de las pruebas unitarias.
+
+
+## Ampliación regional: Estados Unidos, Sudamérica, Europa, Rusia y Asia
+
+Los seis adaptadores adicionales no requieren nuevas credenciales. Comprobación de los catálogos originales el 28 de octubre de 2026: **810 puntos**, de los cuales **301 ofrecen imágenes publicadas por el operador** y **509 son enlaces al portal oficial**. Son capturas, no una promesa de video continuo; la cantidad puede variar en cada actualización.
+
+| Fuente | Región | Puntos verificados | Preview | Procedencia y límites |
+|---|---|---:|---|---|
+| [Seattle SDOT](https://web.seattle.gov/Travelers/) | Estados Unidos | 394 | Portal oficial | API JSON usada por el visor público; solo tipo SDOT, sin cámaras de socios. Las imágenes respondieron 403 en la prueba, por lo que no se anuncian como previews. |
+| [Tallinn](https://ristmikud.tallinn.ee/index.php/cams) | Estonia / Europa | 256 | Imagen | Nombres e IDs leídos del portal municipal. Posición aproximada de la ciudad de Tallinn, expresamente marcada; no se afirma conocer cada intersección. No se importan coordenadas de terceros con licencia incierta. |
+| [DGAC Chile](https://aipchile.dgac.gob.cl/index.php/camara/) | Chile / Sudamérica | 38 | Imagen | Índice, coordenadas y capturas oficiales; solo aeródromos publicados y civiles. Una solicitud nueva por segundo, máximo dos conexiones. La posición corresponde al aeródromo y se marca aproximada. |
+| [CET São Paulo](https://ssl.cetsp.com.br/consultas/cameras-cet.aspx) | Brasil / Sudamérica | 7 | Imagen | Solo cámaras activas con vía identificada. Coordenadas aproximadas de la vía mediante OpenStreetMap/Nominatim, con atribución ODbL; no representan la posición exacta del dispositivo. |
+| [İzmir / İZUM](https://acikveri.bizizmir.com/tr/dataset/trafik-kameralari) | Turquía / Asia occidental | 92 | Portal oficial | API CKAN sin clave. La licencia abierta del inventario municipal no autoriza automáticamente las imágenes. No se incorporan señales ni se presentan estos puntos como video reproducible. |
+| [Observación de volcanes de Kamchatka](https://kam.emsd.ru/visual-observations/) | Rusia / Asia | 23 | Portal oficial | Observaciones científicas publicadas intencionalmente. Punto aproximado del volcán observado, no del dispositivo. Incorporación de imágenes pendiente de verificar permiso. |
+
+Se comprobó una imagen original de Tallinn, CET y DGAC; esto no garantiza que todas las señales estén disponibles permanentemente ni constituye una licencia general para republicarlas. Cada ficha conserva atribución y enlace al operador. No se accede a equipos privados ni a cámaras que requieren autenticación.
+
+**Asia, Rusia y Medio Oriente mediante YouTube:** el plan incorpora consultas prioritarias para Japón, Corea, India, Dubái, La Meca, Estambul, Moscú y San Petersburgo, además de América y Europa. Se reconocen nombres locales en cirílico, árabe, japonés, coreano y chino, vinculados exclusivamente a ciudades existentes del catálogo. Las posiciones inferidas del título se marcan aproximadas. Se usa la clave ya configurada: no requiere otro registro. Una consulta no equivale a una cámara agregada; solo se publican resultados actualmente en vivo, geolocalizables y con incorporación permitida. No se garantiza cobertura nueva en todos los países en cada ejecución.
+
+**Fuentes aún pendientes:** PennDOT exige acuerdo de distribución de video; no se elude. Las cámaras municipales de Montevideo consultadas son un circuito cerrado, no un feed público. Los portales que no respondieron o no aclaran la reutilización no se cuentan como integrados. En Medio Oriente no se verificó una API regional gratuita de cámaras con incorporación irrestricta; la ampliación usa portales oficiales y las incorporaciones autorizadas de YouTube.

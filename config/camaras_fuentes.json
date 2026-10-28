@@ -449,6 +449,94 @@
       "pagina": "https://traffic.ottawa.ca/en/opendata",
       "estado": "registro_pendiente",
       "nota": "El catálogo es público, pero las imágenes requieren certificado obtenido mediante registro. Se deja pendiente para esta ampliación sin registro."
+    },
+    {
+      "id": "seattle",
+      "pais": "USA",
+      "operador": "Seattle Department of Transportation · SDOT",
+      "api": "https://web.seattle.gov/Travelers/api/Map/Data?zoomId=19&type=2",
+      "pagina": "https://web.seattle.gov/Travelers/",
+      "licencia": "Datos e imágenes públicas de tráfico de City of Seattle; atribución SDOT",
+      "terminos": "https://www.seattle.gov/transportation/projects-and-programs/programs/technology-program",
+      "hosts": [
+        "www.seattle.gov"
+      ],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Acceso público gratuito, sin registro",
+      "nota": "Inventario SDOT público. Las imágenes respondieron HTTP 403 durante la verificación; se conserva el acceso al visor oficial sin prometer preview."
+    },
+    {
+      "id": "tallinn",
+      "pais": "EST",
+      "operador": "Ayuntamiento de Tallinn",
+      "api": "https://ristmikud.tallinn.ee/index.php/cams",
+      "pagina": "https://ristmikud.tallinn.ee/index.php/cams",
+      "licencia": "Capturas originales del Ayuntamiento; atribución al operador. Posición aproximada de la ciudad.",
+      "terminos": "https://ristmikud.tallinn.ee/",
+      "hosts": [
+        "ristmikud.tallinn.ee"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Acceso público gratuito, sin registro"
+    },
+    {
+      "id": "dgac_chile",
+      "pais": "CHL",
+      "operador": "Dirección General de Aeronáutica Civil · Chile",
+      "api": "https://aipchile.dgac.gob.cl/index.php/camara/",
+      "pagina": "https://aipchile.dgac.gob.cl/index.php/camara/",
+      "licencia": "Cámaras meteorológicas publicadas por DGAC Chile; atribución al operador",
+      "terminos": "https://aipchile.dgac.gob.cl/index.php/camara/",
+      "hosts": [
+        "aipchile.dgac.gob.cl"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Acceso público gratuito, sin registro",
+      "api_coordenadas": "https://aipchile.dgac.gob.cl/aerodromo/ubicacion/designador/SCAR"
+    },
+    {
+      "id": "cetsp",
+      "pais": "BRA",
+      "operador": "Companhia de Engenharia de Tráfego · São Paulo",
+      "api": "https://cameras.cetsp.com.br/View/Cam.aspx",
+      "pagina": "https://ssl.cetsp.com.br/consultas/cameras-cet.aspx",
+      "licencia": "Imágenes originales publicadas por CET; coordenadas de vías © OpenStreetMap contributors (ODbL)",
+      "terminos": "https://ssl.cetsp.com.br/consultas/cameras-cet.aspx",
+      "hosts": [
+        "cameras.cetsp.com.br"
+      ],
+      "medio": "imagen",
+      "estado": "activa",
+      "costo": "Acceso público gratuito, sin registro"
+    },
+    {
+      "id": "izmir",
+      "pais": "TUR",
+      "operador": "İzmir Büyükşehir Belediyesi · İZUM",
+      "api": "https://acikveri.bizizmir.com/api/3/action/datastore_search?resource_id=b91cb15d-05c6-45b7-8a75-48e030aad368&limit=1000",
+      "pagina": "https://izum.izmir.bel.tr/",
+      "licencia": "Izmir Metropolitan Municipality Open Data License (solo inventario)",
+      "terminos": "https://acikveri.bizizmir.com/tr/dataset/trafik-kameralari",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Acceso público gratuito, sin registro"
+    },
+    {
+      "id": "kamchatka",
+      "pais": "RUS",
+      "operador": "Academia de Ciencias de Rusia · KФ ФИЦ ЕГС РАН",
+      "api": "https://kam.emsd.ru/visual-observations/",
+      "pagina": "https://kam.emsd.ru/visual-observations/",
+      "licencia": "Consulta pública del operador; permiso de incorporación de imágenes pendiente",
+      "terminos": "https://kam.emsd.ru/visual-observations/",
+      "hosts": [],
+      "medio": "enlace",
+      "estado": "activa",
+      "costo": "Acceso público gratuito, sin registro"
     }
   ]
 }

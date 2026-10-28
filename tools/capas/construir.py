@@ -968,8 +968,28 @@ def camaras_youtube():
         return []
     import youtube_vivo as Y
     try:
-        ciudades = Y.Ciudades(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"])
-        cams = Y.camaras(llave, ciudades)
+        import camaras_mundo as M
+        regiones = json.load(open(os.path.join(ROOT, "config", "camaras_regiones.json"), encoding="utf-8"))
+        ciudades = Y.Ciudades(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"], regiones["aliases_ciudades"])
+        # Reservar 16 de las 40 búsquedas para las regiones solicitadas; rotar el resto.
+        hoy = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        dia = datetime.now(timezone.utc).toordinal()
+        rotadas = Y.BUSQUEDAS[dia % len(Y.BUSQUEDAS):] + Y.BUSQUEDAS[:dia % len(Y.BUSQUEDAS)]
+        consultas_plan = list(dict.fromkeys(regiones["consultas_prioritarias"] + rotadas))[:40]
+        ruta = os.path.join(SALIDA, "camaras_cache", "youtube_consultas.json")
+        estado = json.load(open(ruta, encoding="utf-8")) if os.path.exists(ruta) else {}
+        prev_path = os.path.join(SALIDA, "camaras_cache", "youtube.json")
+        previo = json.load(open(prev_path, encoding="utf-8")) if os.path.exists(prev_path) else {}
+        if not estado and str(previo.get("actualizado_utc", "")).startswith(hoy):
+            # Migración: las búsquedas antiguas ya se hicieron hoy; no volver a cobrarlas.
+            estado = {q: hoy for q in Y.BUSQUEDAS}
+        disponibles = max(0, Y.BUSQUEDAS_MAX - sum(fecha == hoy for fecha in estado.values()))
+        consultas_plan = [q for q in consultas_plan if estado.get(q) != hoy][:disponibles]
+        ids = [f["properties"].get("yt") for f in previo.get("features", []) if f.get("properties", {}).get("yt")]
+        try:
+            cams = Y.camaras(llave, ciudades, busquedas=consultas_plan, ids_previos=ids, consultas=estado, hoy=hoy)
+        finally:
+            M.guardar(ruta, estado)
     except Exception as e:  # noqa: BLE001
         CAM_FUENTES["youtube"] = f"error: {type(e).__name__}"
         return []

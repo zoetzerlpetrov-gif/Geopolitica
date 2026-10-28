@@ -1,0 +1,152 @@
+{
+  "consultas_prioritarias": [
+    "USA traffic live cam",
+    "Moscow live webcam",
+    "Saint Petersburg live webcam",
+    "Россия веб камера онлайн",
+    "Brasil câmera ao vivo",
+    "Argentina cámara en vivo",
+    "Colombia cámara en vivo",
+    "Chile cámara en vivo",
+    "Japan live cam",
+    "Korea live cam",
+    "India live cam",
+    "Dubai live cam",
+    "Mecca live cam",
+    "Istanbul live cam",
+    "Europe live webcam",
+    "Italy live cam"
+  ],
+  "aliases_ciudades": [
+    {
+      "alias": "Москва",
+      "ciudad": "Moscow",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Санкт-Петербург",
+      "ciudad": "St.  Petersburg",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Санкт Петербург",
+      "ciudad": "St.  Petersburg",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Сочи",
+      "ciudad": "Sochi",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Казань",
+      "ciudad": "Kazan",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Владивосток",
+      "ciudad": "Vladivostok",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Новосибирск",
+      "ciudad": "Novosibirsk",
+      "pais": "RUS"
+    },
+    {
+      "alias": "Екатеринбург",
+      "ciudad": "Yekaterinburg",
+      "pais": "RUS"
+    },
+    {
+      "alias": "دبي",
+      "ciudad": "Dubai",
+      "pais": "ARE"
+    },
+    {
+      "alias": "الرياض",
+      "ciudad": "Riyadh",
+      "pais": "SAU"
+    },
+    {
+      "alias": "مكة",
+      "ciudad": "Makkah",
+      "pais": "SAU"
+    },
+    {
+      "alias": "المدينة المنورة",
+      "ciudad": "Medina",
+      "pais": "SAU"
+    },
+    {
+      "alias": "الدوحة",
+      "ciudad": "Doha",
+      "pais": "QAT"
+    },
+    {
+      "alias": "عمان",
+      "ciudad": "Amman",
+      "pais": "JOR"
+    },
+    {
+      "alias": "بيروت",
+      "ciudad": "Beirut",
+      "pais": "LBN"
+    },
+    {
+      "alias": "القاهرة",
+      "ciudad": "Cairo",
+      "pais": "EGY"
+    },
+    {
+      "alias": "İstanbul",
+      "ciudad": "Istanbul",
+      "pais": "TUR"
+    },
+    {
+      "alias": "서울",
+      "ciudad": "Seoul",
+      "pais": "KOR"
+    },
+    {
+      "alias": "東京",
+      "ciudad": "Tokyo",
+      "pais": "JPN"
+    },
+    {
+      "alias": "大阪",
+      "ciudad": "Osaka",
+      "pais": "JPN"
+    },
+    {
+      "alias": "京都市",
+      "ciudad": "Kyoto",
+      "pais": "JPN"
+    },
+    {
+      "alias": "北京",
+      "ciudad": "Beijing",
+      "pais": "CHN"
+    },
+    {
+      "alias": "上海",
+      "ciudad": "Shanghai",
+      "pais": "CHN"
+    },
+    {
+      "alias": "台北",
+      "ciudad": "Taipei",
+      "pais": "TWN"
+    },
+    {
+      "alias": "臺北",
+      "ciudad": "Taipei",
+      "pais": "TWN"
+    },
+    {
+      "alias": "香港",
+      "ciudad": "Hong Kong",
+      "pais": "HKG"
+    }
+  ]
+}

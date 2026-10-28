@@ -78,6 +78,10 @@ def campos(e):
 def registros(s, raw):
     """Normaliza cada esquema oficial a (id, nombre, lon, lat, extras)."""
     sid = s['id']
+    import camaras_regionales as R
+    if sid in R.IDS:
+        yield from R.registros(s, raw)
+        return
     if sid in ('dgt', 'taiwan_thb'):
         root = ET.fromstring(raw)
         for e in root.iter():
@@ -366,6 +370,12 @@ def ampliar(C, inicial):
             return fs, {'estado': 'catalogo_anterior' if fs else 'error', 'camaras': len(fs), 'actualizado_utc': previo.get('actualizado_utc'), 'error': type(e).__name__}
 
     def leer_fuente(s):
+        import camaras_regionales as R
+        if s['id'] in R.IDS:
+            raw = R.cargar(s, descargar, C.ROOT)
+            if raw.get('fallos'):
+                C.CAM_FUENTES[s['id']] = f"fallaron {raw['fallos']} páginas del operador"
+            return normalizar(s, raw)
         raw = descargar(s['api'])
         if s.get('api_imagenes'):
             raw = {'ubicaciones': raw, 'imagenes': descargar(s['api_imagenes'])}
@@ -426,7 +436,7 @@ def ampliar(C, inicial):
     cache_dir = salida / 'camaras_cache'
     if cache_dir.exists():
         for p in cache_dir.glob('*.json'):
-            if p.stem not in activos:
+            if p.stem not in activos and not (p.stem == 'youtube_consultas' and 'youtube' in activos):
                 p.unlink()
     with concurrent.futures.ThreadPoolExecutor(max_workers=5) as ex:
         futures = {ex.submit(ejecutar, sid, cb): sid for sid, cb in trabajos}
