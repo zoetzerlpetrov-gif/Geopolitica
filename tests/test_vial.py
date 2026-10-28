@@ -33,6 +33,8 @@ def test_clasificar_titulares_reales():
         "Manifestantes toman la caseta de Palo Blanco": "caseta",
         "Le roban la cartera en el Metro": None,
         "Asaltan a la tienda de conveniencia en Toluca": None,
+        "Asalto múltiple en la Orizaba-Puebla: cuatro familias se quedan sin vehículos": "robo_vehiculo",
+        "Cae en 9 meses robo a vehículos de carga 21%": "robo_carga",
     }
     for titulo, esperado in casos.items():
         assert V.clasificar(titulo) == esperado, titulo

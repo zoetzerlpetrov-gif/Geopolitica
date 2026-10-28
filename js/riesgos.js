@@ -6,7 +6,7 @@
 // Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, noticias
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
-import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, htmlImagenMedio } from "./util.js";
+import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, htmlImagenMedio, tempCF, difCF, aFahrenheit } from "./util.js";
 import { articuloTren, articuloWikipedia, huecoImagen } from "./imagen_tipo.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
 import * as P from "./polos.js";
@@ -404,7 +404,7 @@ export const CAPAS = [
     estilo: (p) => ({ c: NIVEL[Math.min(4, p.level || 0)], r: 3 + (p.level || 0) * 2 }),
     ficha: (p) => ({ titulo: p.name, chip: p.level_label || "",
       filas: [["Lluvia máxima diaria", `${p.max_rain_mm ?? "—"} mm`], ["Ráfaga máxima", `${p.max_gust_kmh ?? "—"} km/h`],
-        ["Temperatura", `${p.min_tmin_c ?? "—"} a ${p.max_tmax_c ?? "—"} °C`], ...(p.temp_label ? [["Aviso de temperatura", p.temp_label]] : [])],
+        ["Temperatura", `${tempCF(p.min_tmin_c)} a ${tempCF(p.max_tmax_c)}`], ...(p.temp_label ? [["Aviso de temperatura", p.temp_label]] : [])],
       url: "https://open-meteo.com", fuente: "Open-Meteo (modelos numéricos)" }),
     extra: (p) => graficaPronostico(lista(p.days)),
   },
@@ -449,9 +449,9 @@ export const CAPAS = [
     url: "data/vivos/enso.geojson", refresco_s: 21600, fuente: "NOAA Climate Prediction Center",
     derivar: (fc) => ({ ...fc, features: fc.features.map((f) => ({ ...f, properties: { ...f.properties, opacidad: 0.45 } })) }),
     estilo: (p) => ({ c: p.anomalia == null ? C.gris : p.anomalia >= 1.5 ? "#8E1B1B" : p.anomalia >= 0.5 ? "#D84315" : p.anomalia <= -1.5 ? "#0D3B66" : p.anomalia <= -0.5 ? "#1F6FB2" : "#8D99A6", r: 0 }),
-    etiqueta: (p) => `${p.nombre}: ${p.anomalia > 0 ? "+" : ""}${p.anomalia ?? "—"} °C`,
-    leyenda: [{ c: "#8E1B1B", r: 6, t: "+1.5 °C o más (cálido fuerte)" }, { c: "#D84315", r: 6, t: "+0.5 a +1.4 °C" }, { c: "#8D99A6", r: 6, t: "−0.4 a +0.4 °C (neutral)" },
-      { c: "#1F6FB2", r: 6, t: "−0.5 a −1.4 °C" }, { c: "#0D3B66", r: 6, t: "−1.5 °C o menos (frío fuerte)" },
+    etiqueta: (p) => `${p.nombre}: ${difCF(p.anomalia)}`,
+    leyenda: [{ c: "#8E1B1B", r: 6, t: "+1.5 °C (+2.7 °F) o más (cálido fuerte)" }, { c: "#D84315", r: 6, t: "+0.5 a +1.4 °C (+0.9 a +2.5 °F)" }, { c: "#8D99A6", r: 6, t: "−0.4 a +0.4 °C (−0.7 a +0.7 °F, neutral)" },
+      { c: "#1F6FB2", r: 6, t: "−0.5 a −1.4 °C (−0.9 a −2.5 °F)" }, { c: "#0D3B66", r: 6, t: "−1.5 °C (−2.7 °F) o menos (frío fuerte)" },
       { t: "Cajas del Pacífico ecuatorial que NOAA usa para medir El Niño (cálido) y La Niña (frío). Niño 3.4 es la referencia oficial. Toca una caja para ver el estado y sus efectos en México." }],
     ficha: (p) => ({ titulo: `${p.nombre}: ${K.FASE_ENSO[p.fase_oni]?.[0] || ""}`, chip: p.estado || "", filas: K.filasEnso(p),
       url: "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml", fuente: "NOAA CPC (discusión ENSO, índice ONI y SST semanal)" }),
@@ -1274,18 +1274,18 @@ export function graficaPronostico(dias) {
   const col = (d) => {
     const base = ((d.tmin - tmin) / rango) * ALTO_T, alto = Math.max(4, ((d.tmax - d.tmin) / rango) * ALTO_T);
     const lluvia = Math.max(d.rain > 0 ? 3 : 1, ((d.rain || 0) / maxLluvia) * ALTO_L);
-    return `<div class="pr-dia" title="${esc(d.date)}: máx ${d.tmax} °C, mín ${d.tmin} °C, lluvia ${d.rain ?? 0} mm, probabilidad ${d.pop ?? "—"} %, ráfagas ${d.gust ?? "—"} km/h">
+    return `<div class="pr-dia" title="${esc(d.date)}: máx ${tempCF(d.tmax)}, mín ${tempCF(d.tmin)}, lluvia ${d.rain ?? 0} mm, probabilidad ${d.pop ?? "—"} %, ráfagas ${d.gust ?? "—"} km/h">
       <div class="pr-ic">${ICONO_WMO(d.code ?? 0)}</div>
-      <div class="pr-tmax">${Math.round(d.tmax)}°</div>
+      <div class="pr-tmax">${Math.round(d.tmax)}°<small>${Math.round(aFahrenheit(d.tmax))}°F</small></div>
       <div class="pr-t" style="height:${ALTO_T}px"><span style="bottom:${base}px;height:${alto}px"></span></div>
-      <div class="pr-tmin">${Math.round(d.tmin)}°</div>
+      <div class="pr-tmin">${Math.round(d.tmin)}°<small>${Math.round(aFahrenheit(d.tmin))}°F</small></div>
       <div class="pr-l" style="height:${ALTO_L}px"><span style="height:${lluvia}px;opacity:${(0.35 + 0.65 * (d.pop ?? 100) / 100).toFixed(2)}"></span></div>
       <div class="pr-mm">${(d.rain ?? 0) >= 10 ? Math.round(d.rain) : (d.rain ?? 0).toFixed(1)} mm</div>
       <div class="pr-pop">${d.pop ?? "—"}%</div>
       <div class="pr-d">${esc(DIA(d.date))}</div></div>`;
   };
   return `<h4>Pronóstico de 7 días</h4><div class="pronostico-7">${dias.map(col).join("")}</div>
-    <p class="meta pr-ley"><span class="pr-ley-t"></span> temperatura mínima a máxima (°C) · <span class="pr-ley-l"></span> lluvia del día (mm) · % probabilidad de lluvia (barra más intensa = más probable)</p>`;
+    <p class="meta pr-ley"><span class="pr-ley-t"></span> temperatura mínima a máxima (°C arriba, °F abajo en pequeño) · <span class="pr-ley-l"></span> lluvia del día (mm) · % probabilidad de lluvia (barra más intensa = más probable)</p>`;
 }
 
 /** Ficha de un objeto de la capa de tsunamis (epicentro, zona, frente, llegada u observación). */
@@ -1348,6 +1348,13 @@ const LS_VISTOS = "geo_riesgos_vistos";
 const leerVistos = () => { try { return JSON.parse(localStorage.getItem(LS_VISTOS) || "{}"); } catch (e) { return {}; } };
 const guardarVistos = (v) => { try { localStorage.setItem(LS_VISTOS, JSON.stringify(v)); } catch (e) { /* sin almacenamiento */ } };
 
+// Agrupar por zona: al alejar, los objetos chicos y cercanos de una misma capa se juntan en un círculo con el número
+// de objetos; al acercar (o al hacer clic en el círculo) se separan. No se agrupan los fenómenos que se leen por su
+// forma o su tamaño (sismos, ciclones, tsunamis, auroras y perturbaciones tropicales) ni las capas de pocos puntos.
+export const SIN_AGRUPAR = /sismo|ciclon|huracan|tsunami|aurora|perturbac|nhc/;
+export const MIN_AGRUPAR = 25;
+export const AGRUPAR_HASTA_ZOOM = 6;
+
 export class Riesgos {
   /**
    * @param {object} o
@@ -1360,6 +1367,7 @@ export class Riesgos {
     this.activas = new Map(); this.relojes = new Map();
     this.filtro = { pais: "", tipo: "", sevMin: 1 };
     this.ocultos = new Map();  // capa → claves que no se dibujan
+    this.agrupadas = new Set(); // capas con grupos por zona (círculo con el número al alejar)
     this.nuevas = new Map();   // clave → hora en que apareció en esta sesión (parpadea 1 min)
     this.vistos = leerVistos();
     this.pulso = null;
@@ -1409,7 +1417,7 @@ export class Riesgos {
     this.#instalar(capa);
     if (capa.refresco_s) {
       this.relojes.set(id, setInterval(async () => {
-        try { const n = this.#cargarEn(capa, await this.#datos(capa)); this.map.getSource(`rg-${id}`)?.setData(n); this.onCambio(); } catch (e) { /* siguiente ciclo */ }
+        try { const n = this.#cargarEn(capa, await this.#datos(capa)); this.map.getSource(`rg-${id}`)?.setData(this.agrupadas.has(id) ? this.#filtrarDatos(id, n) : n); this.onCambio(); } catch (e) { /* siguiente ciclo */ }
       }, capa.refresco_s * 1000));
     }
     this.onCambio();
@@ -1424,12 +1432,13 @@ export class Riesgos {
     this.onCambio();
   }
 
-  #capasDe(id) { return ["area", "linea", "punto", "icono", "pulso", "texto", "toque"].map((s) => `rg-${id}-${s}`); }
+  #capasDe(id) { return ["area", "linea", "punto", "icono", "pulso", "texto", "toque", "grupo", "grupo-n"].map((s) => `rg-${id}-${s}`); }
 
   /** Oculta objetos de una capa por clave (p. ej. ciudades desmarcadas en «Calidad del aire por ciudad»). */
   setOcultos(id, claves) {
     if (claves?.size) this.ocultos.set(id, [...claves]); else this.ocultos.delete(id);
-    for (const l of this.#capasDe(id)) if (this.map.getLayer(l)) this.map.setFilter(l, this.#filtroDe(l));
+    for (const l of this.#capasDe(id)) if (this.map.getLayer(l) && !/-grupo(-n)?$/.test(l)) this.map.setFilter(l, this.#filtroDe(l));
+    this.#refrescarGrupos(id);
   }
 
   /** Datos ya cargados de una capa activa (o null). */
@@ -1482,12 +1491,41 @@ export class Riesgos {
   /** Filtro global (país ISO3, tipo, severidad mínima) aplicado en la GPU a todas las capas de riesgo. */
   setFiltro(filtro) {
     this.filtro = { ...this.filtro, ...filtro };
-    for (const id of this.activas.keys()) for (const l of this.#capasDe(id)) if (this.map.getLayer(l)) this.map.setFilter(l, this.#filtroDe(l));
+    for (const id of this.activas.keys()) {
+      for (const l of this.#capasDe(id)) if (this.map.getLayer(l) && !/-grupo(-n)?$/.test(l)) this.map.setFilter(l, this.#filtroDe(l));
+      this.#refrescarGrupos(id);
+    }
+  }
+
+  /** ¿La capa se agrupa por zona al alejar? Solo capas de muchos puntos chicos; nunca sismos, ciclones, tsunamis ni auroras. */
+  #agrupa(capa, gj) {
+    if (capa.agrupar === false || SIN_AGRUPAR.test(capa.id)) return false;
+    return gj.features.filter((f) => f.geometry?.type === "Point").length >= MIN_AGRUPAR;
+  }
+
+  /** Mismo criterio que el filtro de la GPU, en JS: los grupos deben contar solo lo que pasa los filtros. */
+  #filtrarDatos(id, gj) {
+    const capa = CAPAS.find((c) => c.id === id);
+    const oc = new Set(this.ocultos.get(id) || []);
+    const { sevMin, pais, tipo } = this.filtro;
+    return { ...gj, features: gj.features.filter((f) => {
+      const p = f.properties;
+      if (oc.has(p._k)) return false;
+      if (capa?.noAmenaza) return true;
+      return (p._sev || 1) >= sevMin && (!pais || p._pais === pais) && (!tipo || p._tipo === tipo);
+    }) };
+  }
+
+  #refrescarGrupos(id) {
+    if (!this.agrupadas.has(id)) return;
+    const gj = this.activas.get(id);
+    if (gj) this.map.getSource(`rg-${id}`)?.setData(this.#filtrarDatos(id, gj));
   }
 
   #filtroBase(capaId = "") {
-    if (CAPAS.find((c) => c.id === capaId.replace(/^rg-/, "").replace(/-[a-z]+$/, ""))?.noAmenaza) return ["all"];
-    const f = ["all", [">=", ["coalesce", ["get", "_sev"], 1], this.filtro.sevMin]];
+    // Los grupos (círculo con el número) tienen sus propias capas «-grupo»: las demás nunca los dibujan.
+    if (CAPAS.find((c) => c.id === capaId.replace(/^rg-/, "").replace(/-[a-z]+$/, ""))?.noAmenaza) return ["all", ["!", ["has", "point_count"]]];
+    const f = ["all", ["!", ["has", "point_count"]], [">=", ["coalesce", ["get", "_sev"], 1], this.filtro.sevMin]];
     if (this.filtro.pais) f.push(["==", ["get", "_pais"], this.filtro.pais]);
     if (this.filtro.tipo) f.push(["==", ["get", "_tipo"], this.filtro.tipo]);
     return f;
@@ -1522,7 +1560,10 @@ export class Riesgos {
     const src = `rg-${capa.id}`, m = this.map;
     if (m.getSource(src)) return;
     const gj = this.activas.get(capa.id);
-    m.addSource(src, { type: "geojson", data: gj, attribution: capa.url || capa.generar ? capa.fuente : "Clima Táctico" });
+    const agrupa = this.#agrupa(capa, gj);
+    if (agrupa) this.agrupadas.add(capa.id); else this.agrupadas.delete(capa.id);
+    m.addSource(src, { type: "geojson", data: agrupa ? this.#filtrarDatos(capa.id, gj) : gj, attribution: capa.url || capa.generar ? capa.fuente : "Clima Táctico",
+      ...(agrupa ? { cluster: true, clusterRadius: 42, clusterMaxZoom: AGRUPAR_HASTA_ZOOM, clusterProperties: { sevmax: ["max", ["coalesce", ["get", "_sev"], 1]] } } : {}) });
     this.#asegurarIconos(gj);
     const antes = m.getLayer("clusters") ? "clusters" : undefined;
     m.addLayer({ id: `${src}-area`, type: "fill", source: src, filter: this.#filtroDe(`${src}-area`), paint: { "fill-color": ["get", "_c"], "fill-opacity": ["coalesce", ["get", "opacidad"], 0.15] } }, antes);
@@ -1540,6 +1581,25 @@ export class Riesgos {
     m.addLayer({ id: `${src}-texto`, type: "symbol", source: src, filter: this.#filtroDe(`${src}-texto`),
       layout: { "text-field": ["get", "_lbl"], "text-font": ["Noto Sans Regular"], "text-size": 11, "text-offset": [0, 1.3], "text-anchor": "top", ...layoutEtiqueta(m) },
       paint: pinturaEtiqueta() }, antes);
+    if (agrupa) {
+      // Grupos por zona: círculo del color de la capa con cuántos objetos hay debajo; al acercar se separan.
+      const color = gj.features.find((f) => f.geometry?.type === "Point")?.properties._c || "#455A64";
+      m.addLayer({ id: `${src}-grupo`, type: "circle", source: src, filter: ["has", "point_count"],
+        paint: { "circle-color": color, "circle-opacity": 0.82, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1.5,
+          "circle-radius": ["step", ["get", "point_count"], 11, 10, 14, 50, 18, 200, 23] } }, antes);
+      m.addLayer({ id: `${src}-grupo-n`, type: "symbol", source: src, filter: ["has", "point_count"],
+        layout: { "text-field": ["get", "point_count_abbreviated"], "text-font": ["Noto Sans Regular"], "text-size": 11, "text-allow-overlap": true },
+        paint: { "text-color": "#ffffff" } }, antes);
+      m.on("click", `${src}-grupo`, async (e) => {
+        const f = e.features[0];
+        try {
+          const z = await m.getSource(src).getClusterExpansionZoom(f.properties.cluster_id);
+          m.easeTo({ center: f.geometry.coordinates, zoom: Math.min(z + 0.2, 12) });
+        } catch { m.easeTo({ center: f.geometry.coordinates, zoom: m.getZoom() + 2 }); }
+      });
+      m.on("mouseenter", `${src}-grupo`, () => { m.getCanvas().style.cursor = "pointer"; });
+      m.on("mouseleave", `${src}-grupo`, () => { m.getCanvas().style.cursor = ""; });
+    }
     // Zona de toque invisible (10 px) para elegir puntos pequeños (focos de incendio, ciudades) con facilidad.
     m.addLayer({ id: `${src}-toque`, type: "circle", source: src, filter: this.#filtroDe(`${src}-toque`), paint: { "circle-radius": 10, "circle-opacity": 0, "circle-stroke-width": 0 } }, antes);
     // Clic: punto > línea o borde > interior de un polígono (antes, el interior de un estado no respondía al toque).

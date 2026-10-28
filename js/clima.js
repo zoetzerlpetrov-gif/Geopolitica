@@ -231,17 +231,19 @@ export class Clima {
         "line-color": ["match", ["get", "t"], 0, "#7FC8F8", -10, "#2F6FDB", "#6A1B9A"], "line-width": ["match", ["get", "t"], 0, 1.6, 2.2],
         "line-dasharray": ["literal", [3, 1.5]] } }, antes);
       this.map.addLayer({ id: `${id}-etiquetas`, type: "symbol", source: `${id}-lineas`, layout: { ...layoutEtiqueta(this.map), "symbol-placement": "line", "symbol-spacing": 320,
-        "text-field": ["concat", ["to-string", ["get", "t"]], " °C"], "text-size": 11, "text-font": ["Noto Sans Regular"] },
+        "text-field": ["concat", ["to-string", ["get", "t"]], " °C / ", ["to-string", ["round", ["+", 32, ["*", 1.8, ["get", "t"]]]]], " °F"], "text-size": 11, "text-font": ["Noto Sans Regular"] },
         paint: pinturaEtiqueta() }, antes);
     }
   }
 }
 
 /** Barra de leyenda (HTML) a partir de [[valor, color], …]. */
-export function leyenda(paradas, unidad) {
+export function leyenda(paradas, unidad, { fahrenheit = false } = {}) {
   const grad = paradas.map(([, c], i) => `${c} ${Math.round((i / (paradas.length - 1)) * 100)}%`).join(", ");
+  // Con temperaturas, segunda fila de marcas en °F (mismas paradas convertidas).
+  const f = fahrenheit ? `<div class="marcas marcas-f">${paradas.map(([v]) => `<span>${Math.round(Number(v) * 1.8 + 32)}</span>`).join("")}<span>°F</span></div>` : "";
   return `<div class="clima-leyenda"><div class="barra" style="background:linear-gradient(90deg, ${grad})"></div>
-    <div class="marcas">${paradas.map(([v]) => `<span>${v}</span>`).join("")}<span>${unidad}</span></div></div>`;
+    <div class="marcas">${paradas.map(([v]) => `<span>${v}</span>`).join("")}<span>${unidad}</span></div>${f}</div>`;
 }
 
 // ------------------------------------------------------------------ rayos reales (GOES GLM)

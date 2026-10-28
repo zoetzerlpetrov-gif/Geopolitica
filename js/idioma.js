@@ -202,6 +202,40 @@ Apagar todas|Turn all off|Tout désactiver|Alle ausschalten|Spegni tutti
 Ninguna capa encendida|No layer turned on|Aucune couche activée|Keine Ebene eingeschaltet|Nessun livello attivo
 Severidad|Severity|Gravité|Schweregrad|Gravità
 Seguir|Follow|Suivre|Folgen|Segui
+📚 Secciones|📚 Sections|📚 Rubriques|📚 Bereiche|📚 Sezioni
+Secciones|Sections|Rubriques|Bereiche|Sezioni
+📊 Análisis: vista México y matriz de riesgo|📊 Analysis: Mexico view and risk matrix|📊 Analyse : vue Mexique et matrice des risques|📊 Analyse: Mexiko-Ansicht und Risikomatrix|📊 Analisi: vista Messico e matrice dei rischi
+📰 Noticiero DOMINUS|📰 DOMINUS Newscast|📰 Journal DOMINUS|📰 DOMINUS-Nachrichten|📰 Notiziario DOMINUS
+♟️ Narrativas y estrategia|♟️ Narratives and strategy|♟️ Récits et stratégie|♟️ Narrative und Strategie|♟️ Narrazioni e strategia
+🇲🇽 Reporte diario de México|🇲🇽 Mexico daily report|🇲🇽 Rapport quotidien Mexique|🇲🇽 Tagesbericht Mexiko|🇲🇽 Rapporto quotidiano Messico
+🌍 Reporte diario global|🌍 Global daily report|🌍 Rapport quotidien mondial|🌍 Globaler Tagesbericht|🌍 Rapporto quotidiano globale
+🏢 Inteligencia corporativa|🏢 Corporate intelligence|🏢 Intelligence d'entreprise|🏢 Unternehmensaufklärung|🏢 Intelligence aziendale
+🧰 Caja del analista|🧰 Analyst toolbox|🧰 Boîte à outils de l'analyste|🧰 Werkzeugkasten für Analysten|🧰 Cassetta dell'analista
+🏠 Inmuebles y riesgo|🏠 Real estate and risk|🏠 Immobilier et risque|🏠 Immobilien und Risiko|🏠 Immobili e rischio
+📊 Analítica|📊 Analytics|📊 Analytique|📊 Analytik|📊 Analitica
+⚖️ Marco normativo|⚖️ Regulatory framework|⚖️ Cadre réglementaire|⚖️ Rechtsrahmen|⚖️ Quadro normativo
+🏷️ Taxonomía de eventos|🏷️ Event taxonomy|🏷️ Taxonomie des événements|🏷️ Ereignistaxonomie|🏷️ Tassonomia degli eventi
+Relieve|Terrain|Relief|Relief|Rilievo
+⚙️ Opciones|⚙️ Options|⚙️ Options|⚙️ Optionen|⚙️ Opzioni
+Opciones|Options|Options|Optionen|Opzioni
+🌓 Tema|🌓 Theme|🌓 Thème|🌓 Design|🌓 Tema
+🛰️ Aviones y satélites en 3D (a su altura)|🛰️ Aircraft and satellites in 3D (at their altitude)|🛰️ Avions et satellites en 3D (à leur altitude)|🛰️ Flugzeuge und Satelliten in 3D (in ihrer Höhe)|🛰️ Aerei e satelliti in 3D (alla loro quota)
+✈️ Aviones en vivo al acercar (cada 15 s)|✈️ Live aircraft when zoomed in (every 15 s)|✈️ Avions en direct en zoomant (toutes les 15 s)|✈️ Live-Flugzeuge beim Hineinzoomen (alle 15 s)|✈️ Aerei in diretta ingrandendo (ogni 15 s)
+📍 Coordenadas bajo el puntero · clic derecho las copia|📍 Coordinates under the pointer · right-click copies them|📍 Coordonnées sous le pointeur · clic droit pour copier|📍 Koordinaten unter dem Zeiger · Rechtsklick kopiert sie|📍 Coordinate sotto il puntatore · clic destro le copia
+🌌 Cielo real detrás del globo|🌌 Real sky behind the globe|🌌 Ciel réel derrière le globe|🌌 Echter Himmel hinter dem Globus|🌌 Cielo reale dietro il globo
+Mapa base: qué se ve|Base map: what is shown|Fond de carte : ce qui s'affiche|Grundkarte: was angezeigt wird|Mappa di base: cosa si vede
+Contornos de estados y provincias (todo el mundo)|State and province outlines (worldwide)|Contours des États et provinces (monde entier)|Umrisse von Bundesstaaten und Provinzen (weltweit)|Confini di stati e province (tutto il mondo)
+Solo países|Countries only|Pays uniquement|Nur Länder|Solo paesi
+Países|Countries|Pays|Länder|Paesi
+Estados y provincias|States and provinces|États et provinces|Bundesstaaten und Provinzen|Stati e province
+Ciudades y pueblos|Cities and towns|Villes et villages|Städte und Orte|Città e paesi
+Calles y carreteras|Streets and roads|Rues et routes|Straßen und Wege|Strade e vie
+Mares, ríos y lagos|Seas, rivers and lakes|Mers, rivières et lacs|Meere, Flüsse und Seen|Mari, fiumi e laghi
+Aeropuertos, parques, montañas y lugares de interés|Airports, parks, mountains and points of interest|Aéroports, parcs, montagnes et lieux d'intérêt|Flughäfen, Parks, Berge und Sehenswürdigkeiten|Aeroporti, parchi, montagne e luoghi di interesse
+Sin conexión con OpenFreeMap el mapa usa su versión local: no hay contornos de estados ni etiquetas de ciudades o calles.|Without a connection to OpenFreeMap the map uses its local version: there are no state outlines or city and street labels.|Sans connexion à OpenFreeMap, la carte utilise sa version locale : pas de contours d'États ni de noms de villes ou de rues.|Ohne Verbindung zu OpenFreeMap nutzt die Karte ihre lokale Version: keine Umrisse von Bundesstaaten und keine Namen von Städten oder Straßen.|Senza connessione a OpenFreeMap la mappa usa la versione locale: niente confini di stati né nomi di città o strade.
+Opciones de la vista: sonido, 3D, coordenadas, cielo|View options: sound, 3D, coordinates, sky|Options d'affichage : son, 3D, coordonnées, ciel|Ansichtsoptionen: Ton, 3D, Koordinaten, Himmel|Opzioni di visualizzazione: suono, 3D, coordinate, cielo
+Anima a la vez todo lo que se puede animar con lo que tienes encendido|Animates at once everything that can be animated among the layers you have on|Anime en même temps tout ce qui peut l'être parmi les couches actives|Animiert gleichzeitig alles Animierbare der eingeschalteten Ebenen|Anima insieme tutto ciò che si può animare tra i livelli accesi
+Modo LITE: menos detalle y sin animaciones, para equipos lentos|LITE mode: less detail and no animations, for slow devices|Mode LITE : moins de détails et sans animations, pour appareils lents|LITE-Modus: weniger Details und keine Animationen, für langsame Geräte|Modalità LITE: meno dettagli e senza animazioni, per dispositivi lenti
 `;
 
 export const DICC = Object.fromEntries(FILAS.trim().split("\n").map((l) => l.split("|")).filter((c) => c.length === 5)

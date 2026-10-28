@@ -187,3 +187,17 @@ export function activarLimpiar(raiz = document) {
     document.getElementById(ids[0])?.focus();
   });
 }
+
+/** °C → °F (temperatura absoluta). */
+export const aFahrenheit = (c) => c * 9 / 5 + 32;
+/** «21 °C (70 °F)»; null o vacío → «—». `dec`: decimales de °C (los °F se redondean a entero). */
+export function tempCF(c, dec = 0) {
+  if (c == null || c === "" || Number.isNaN(Number(c))) return "—";
+  return `${Number(c).toFixed(dec)} °C (${Math.round(aFahrenheit(Number(c)))} °F)`;
+}
+/** Diferencia o anomalía: «+0.5 °C (+0.9 °F)». Una diferencia de 1 °C es de 1.8 °F (sin sumar 32). */
+export function difCF(c, dec = 1) {
+  if (c == null || c === "" || Number.isNaN(Number(c))) return "—";
+  const v = Number(c), signo = (x) => (x > 0 ? "+" : "");
+  return `${signo(v)}${v.toFixed(dec)} °C (${signo(v)}${(v * 1.8).toFixed(dec)} °F)`;
+}
