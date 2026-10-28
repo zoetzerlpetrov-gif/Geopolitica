@@ -46,7 +46,7 @@ async function iniciar() {
   };
   const buscar = () => { limite = 40; coincidencias = filtrarCamaras(camaras, $('cam-buscar').value, $('cam-medio').value); dibujar(); };
   try {
-    const r = await fetch('data/capas/camaras.geojson');
+    const r = await fetch('data/capas/camaras.geojson', { cache: 'no-cache' });
     if (!r.ok) throw new Error('catálogo no disponible');
     const data = await r.json();
     camaras = (data.features || []).map(f => f.properties).filter(p => p && p.id);
