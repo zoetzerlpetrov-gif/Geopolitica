@@ -2,12 +2,12 @@
 import { chromium } from "./node_modules/playwright/index.mjs";
 import fs from "node:fs";
 fs.mkdirSync("capturas", { recursive: true });
-const URL = "https://zoetzerlpetrov-gif.github.io/Geopolitica/";
+const URL = process.env.SITIO || "https://zoetzerlpetrov-gif.github.io/Geopolitica/";
 const casos = [["hielo", '[data-img="hielo_marino"]'], ["ozono", '[data-img="ozono_total"]'], ["tempo", '[data-img="no2_tempo"]'],
   ["nubes", '[data-clima="nubes_ir"]'], ["geocolor", '[data-clima="geocolor"]']];
 const b = await chromium.launch({ args: ["--use-gl=swiftshader", "--enable-webgl", "--ignore-gpu-blocklist"] });
 const log = [];
-for (const proy of ["mercator", "globe"]) {
+for (const proy of ["mercator"]) {
   for (const [n, sel] of casos) {
     const p = await b.newPage({ viewport: { width: 1600, height: 900 } });
     const fallas = [];
@@ -21,6 +21,7 @@ for (const proy of ["mercator", "globe"]) {
     const ok = await p.evaluate((s) => { const e = document.querySelector(s); if (!e) return false; e.click(); return true; }, sel);
     await p.waitForTimeout(30000);
     await p.screenshot({ path: `capturas/${proy}-${n}.png` });
+    if (n === "nubes" || n === "geocolor") { await p.waitForTimeout(25000); await p.screenshot({ path: `capturas/${proy}-${n}-2.png` }); }
     log.push(`== ${proy} ${n} checkbox=${ok}`, ...[...new Set(fallas)].slice(0, 25));
     await p.close();
   }

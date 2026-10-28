@@ -7,6 +7,7 @@
 // Se pausa mientras el mapa se mueve y cuando la pestaña no está visible.
 // Temperatura y lluvia: imágenes ya proyectadas a Web Mercator, como fuente "image" de MapLibre.
 import { getJSON, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
+import { conRespaldo, registrarProtocolo } from "./gibs.js";
 
 const BASE = "data/vivos/clima/";
 const LAT_MAX = 85.05112878;
@@ -423,6 +424,13 @@ class BucleSatelite {
       if (m) this.errores.set(Number(m[1]), (this.errores.get(Number(m[1])) || 0) + 1);
     };
     this.map.on("error", this.alError);
+    // Mosaicos de GIBS que fallaron (js/gibs.js los entrega transparentes): se cuentan por cuadro igual que los errores.
+    this.prefijos = new Map();
+    this.alFallarGibs = (e) => {
+      for (const [pre, ks] of this.prefijos) if (e.detail?.startsWith(pre)) ks.forEach((k) => this.errores.set(k, (this.errores.get(k) || 0) + 1));
+    };
+    globalThis.addEventListener?.("gibs-falla", this.alFallarGibs);
+    registrarProtocolo();
     this.vivo = true;
     this.#iniciar();
   }
@@ -476,7 +484,9 @@ class BucleSatelite {
     this.def.capas.forEach(([capa, matriz], j) => {
       const sid = `bucle-${this.id}-${k}-${j}`;
       if (this.map.getSource(sid)) return;
-      this.map.addSource(sid, { type: "raster", tiles: [urlBucle(capa, matriz, this.momentos[k].capas[j])], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
+      const url = urlBucle(capa, matriz, this.momentos[k].capas[j]), pre = url.split("{z}")[0];
+      this.prefijos.set(pre, [...(this.prefijos.get(pre) || []), k]);
+      this.map.addSource(sid, { type: "raster", tiles: [conRespaldo(url)], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
         "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
     });
@@ -527,6 +537,7 @@ class BucleSatelite {
     this.vivo = false;
     clearInterval(this.reloj);
     this.map.off("error", this.alError);
+    globalThis.removeEventListener?.("gibs-falla", this.alFallarGibs);
     this.agregados.forEach((k) => this.#ids(k).forEach((sid) => {
       if (this.map.getLayer(sid)) this.map.removeLayer(sid);
       if (this.map.getSource(sid)) this.map.removeSource(sid);

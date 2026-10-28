@@ -8,6 +8,8 @@
 // Se usa la fecha de AYER (UTC) porque la imagen del día puede no estar completa; se puede elegir otro día.
 // Todas las capas se piden en EPSG:3857 (la proyección del mapa plano) para que encajen sin deformarse.
 
+import { conRespaldo, registrarProtocolo } from "./gibs.js";
+
 export const IMAGENES = {
   viirs_color: { nombre: "Color verdadero VIIRS (NOAA-20, sin huecos)", capa: "VIIRS_NOAA20_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
   modis_color: { nombre: "Color verdadero MODIS Terra (mañana, con huecos)", capa: "MODIS_Terra_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
@@ -237,7 +239,8 @@ export class Imagenes {
     const def = IMAGENES[id];
     const { fecha, eleccion } = this.activas.get(id);
     const capa = eleccion || def;
-    this.map.addSource(`img-${id}`, { type: "raster", tiles: [urlGIBS(capa, eleccion?.fecha || fecha)], tileSize: 256, maxzoom: def.maxzoom,
+    registrarProtocolo();  // mosaicos con error → transparentes (sin «estática» gris)
+    this.map.addSource(`img-${id}`, { type: "raster", tiles: [conRespaldo(urlGIBS(capa, eleccion?.fecha || fecha))], tileSize: 256, maxzoom: def.maxzoom,
       attribution: "Imágenes: NASA GIBS / EOSDIS" });
     // Debajo de chokepoints, capas y eventos: primera capa propia del mapa.
     const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
@@ -246,7 +249,7 @@ export class Imagenes {
     let arriba = `img-${id}`;
     fechasRelleno(def, eleccion?.fecha || fecha).forEach((f, k) => {
       const sid = `img-${id}-r${k + 1}`;
-      this.map.addSource(sid, { type: "raster", tiles: [urlGIBS(capa, f)], tileSize: 256, maxzoom: def.maxzoom, attribution: "Imágenes: NASA GIBS / EOSDIS" });
+      this.map.addSource(sid, { type: "raster", tiles: [conRespaldo(urlGIBS(capa, f))], tileSize: 256, maxzoom: def.maxzoom, attribution: "Imágenes: NASA GIBS / EOSDIS" });
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, arriba);
       arriba = sid;
     });

@@ -13,7 +13,11 @@ jobs:
         with:
           node-version: "22"
       - run: cd tools/sonda && npm init -y >/dev/null && npm i playwright@1.48.2 && npx playwright install --with-deps chromium
-      - run: node tools/sonda/capturas.mjs
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pillow==11.3.0 && python3 tools/vivos/meteosat.py && ls -la vivos/meteosat && mkdir -p data && cp -r vivos data/vivos
+      - run: (python3 -m http.server 8000 >/dev/null 2>&1 &) && sleep 2 && SITIO=http://localhost:8000/ node tools/sonda/capturas.mjs
       - name: Subir capturas a una rama temporal
         run: |
           cd capturas
