@@ -63,6 +63,12 @@ function asegurarPMTiles() {
   return pmtilesListo;
 }
 
+// Grupos por zona calculados en el servidor (tools/capas/zonas_grupos.py): mismas bandas de zoom que allá.
+export const BANDAS_GRUPOS = [[0, 3], [3, 5], [5, 7]];
+export const GRUPOS_HASTA = 7;
+/** Suma de los conteos «c_<subtipo>» de los subtipos marcados (expresión de MapLibre). */
+export const sumaGrupo = (subtipos) => ["+", 0, 0, ...[...subtipos].map((st) => ["coalesce", ["get", `c_${st}`], 0])];
+
 export class GestorCapas {
   /**
    * @param {maplibregl.Map} map
@@ -105,6 +111,7 @@ export class GestorCapas {
     if (!this.activas.delete(id)) return;
     for (const capa of this.#idsCapas(id)) if (this.map.getLayer(capa)) this.map.removeLayer(capa);
     if (this.map.getSource(`cap-${id}`)) this.map.removeSource(`cap-${id}`);
+    if (this.map.getSource(`cap-${id}-g`)) this.map.removeSource(`cap-${id}-g`);
     this.onCambio(this.totalActivas());
   }
 
@@ -113,7 +120,22 @@ export class GestorCapas {
     if (!this.activas.has(id)) return;
     this.activas.set(id, new Set(subtipos));
     const filtro = ["in", ["get", "st"], ["literal", [...subtipos]]];
-    for (const capa of this.#idsCapas(id)) if (this.map.getLayer(capa)) this.map.setFilter(capa, this.#filtroCapa(capa, filtro));
+    for (const capa of this.#idsCapas(id)) if (this.map.getLayer(capa) && !/-g\d+n?$/.test(capa)) this.map.setFilter(capa, this.#filtroCapa(capa, filtro));
+    this.#pintarGrupos(id);
+  }
+
+  /** Grupos por zona: cada círculo suma solo los subtipos marcados (los conteos por subtipo vienen del servidor). */
+  #pintarGrupos(id) {
+    const suma = sumaGrupo(this.activas.get(id) || []);
+    BANDAS_GRUPOS.forEach((_, b) => {
+      const c = `cap-${id}-g${b}`, n = `${c}n`;
+      if (!this.map.getLayer(c)) return;
+      const filtro = ["all", ["==", ["get", "b"], b], [">", suma, 0]];
+      this.map.setFilter(c, filtro);
+      this.map.setFilter(n, filtro);
+      this.map.setPaintProperty(c, "circle-radius", ["step", suma, 9, 10, 12, 100, 16, 1000, 21, 10000, 26]);
+      this.map.setLayoutProperty(n, "text-field", ["number-format", suma, { locale: "es-MX" }]);
+    });
   }
 
   /** Tras cambiar el estilo base (tema), MapLibre borra las capas: se vuelven a montar las activas. */
@@ -122,7 +144,8 @@ export class GestorCapas {
   }
 
   #idsCapas(id) {
-    return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-ltoque`, `cap-${id}-punto`, `cap-${id}-toque`, `cap-${id}-texto`];
+    return [`cap-${id}-relleno`, `cap-${id}-linea`, `cap-${id}-ltoque`, `cap-${id}-punto`, `cap-${id}-toque`, `cap-${id}-texto`,
+      ...BANDAS_GRUPOS.flatMap((_, b) => [`cap-${id}-g${b}`, `cap-${id}-g${b}n`])];
   }
 
   #filtroCapa(capa, filtroSubtiposBase) {
@@ -153,6 +176,10 @@ export class GestorCapas {
     const filtro = ["in", ["get", "st"], ["literal", [...this.activas.get(f.id)]]];
     const antes = this.map.getLayer("clusters") ? "clusters" : undefined; // los eventos siempre quedan encima
     const sl = geojson ? {} : { "source-layer": f.id };
+    // Familias de puntos con grupos calculados en el servidor (tools/capas/zonas_grupos.py): círculos con el número
+    // hasta zoom 7 y, desde ahí, los objetos sueltos.
+    const grupos = f.geometria === "punto" && f.manifest.grupos ? f.manifest.grupos : null;
+    const desde = grupos ? { minzoom: GRUPOS_HASTA } : {};
 
     if (f.geometria !== "punto") {
       this.map.addLayer({ id: `${src}-relleno`, type: "fill", source: src, ...sl, filter: this.#filtroCapa(`${src}-relleno`, filtro),
@@ -165,7 +192,7 @@ export class GestorCapas {
       this.map.addLayer({ id: `${src}-ltoque`, type: "line", source: src, ...sl, filter: this.#filtroCapa("-ltoque", filtro),
         paint: { "line-color": "#000", "line-width": 10, "line-opacity": 0 } }, antes);
     }
-    this.map.addLayer({ id: `${src}-punto`, type: "circle", source: src, ...sl, filter: this.#filtroCapa("-punto", filtro),
+    this.map.addLayer({ id: `${src}-punto`, type: "circle", source: src, ...sl, ...desde, filter: this.#filtroCapa("-punto", filtro),
       paint: {
         "circle-color": color,
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.5, 8, 5, 12, 7],
@@ -174,14 +201,29 @@ export class GestorCapas {
         "circle-stroke-color": ["match", ["get", "nac"], ["e", "m"], "#1A1A1A", "#ffffff"],
       } }, antes);
     // Zona de toque invisible para elegir puntos pequeños (miden 2.5 px a zoom bajo).
-    this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, ...sl, filter: this.#filtroCapa("-punto", filtro),
+    this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, ...sl, ...desde, filter: this.#filtroCapa("-punto", filtro),
       paint: { "circle-radius": 9, "circle-opacity": 0, "circle-stroke-width": 0 } }, antes);
     // Etiquetas solo desde cierto zoom y con detección de colisiones (no se encimen).
-    this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, ...sl, minzoom: f.zoom_etiquetas ?? 6, filter: this.#filtroCapa("-texto", filtro),
+    this.map.addLayer({ id: `${src}-texto`, type: "symbol", source: src, ...sl, minzoom: Math.max(f.zoom_etiquetas ?? 6, grupos ? GRUPOS_HASTA : 0), filter: this.#filtroCapa("-texto", filtro),
       layout: { "text-field": ["get", "n"], "text-font": FONT, "text-size": 11, "text-offset": [0, 0.9], "text-anchor": "top",
         "symbol-sort-key": ["get", "z"], "symbol-avoid-edges": true, ...layoutEtiqueta(this.map) },
       paint: pinturaEtiqueta() }, antes);
 
+    if (grupos) {
+      if (!this.map.getSource(`${src}-g`)) this.map.addSource(`${src}-g`, { type: "geojson", data: grupos });
+      const tono = f.subtipos[0]?.color || "#455A64";
+      BANDAS_GRUPOS.forEach(([z0, z1], b) => {
+        this.map.addLayer({ id: `${src}-g${b}`, type: "circle", source: `${src}-g`, minzoom: z0, maxzoom: z1,
+          paint: { "circle-color": tono, "circle-opacity": 0.8, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1.5 } }, antes);
+        this.map.addLayer({ id: `${src}-g${b}n`, type: "symbol", source: `${src}-g`, minzoom: z0, maxzoom: z1,
+          layout: { "text-font": FONT, "text-size": 11, "text-allow-overlap": true, "text-ignore-placement": true },
+          paint: { "text-color": "#ffffff" } }, antes);
+        this.map.on("click", `${src}-g${b}`, (e) => this.map.easeTo({ center: e.features[0].geometry.coordinates, zoom: z1 + 0.3 }));
+        this.map.on("mouseenter", `${src}-g${b}`, () => { this.map.getCanvas().style.cursor = "pointer"; });
+        this.map.on("mouseleave", `${src}-g${b}`, () => { this.map.getCanvas().style.cursor = ""; });
+      });
+      this.#pintarGrupos(f.id);
+    }
     for (const capa of [`${src}-toque`, ...(f.geometria !== "punto" ? [`${src}-ltoque`] : []), ...(f.relleno ? [`${src}-relleno`] : [])]) {
       this.map.on("click", capa, (e) => {
         if (capa.endsWith("-relleno") && hayObjetoEncima(this.map, e.point)) return;  // el punto de encima tiene prioridad

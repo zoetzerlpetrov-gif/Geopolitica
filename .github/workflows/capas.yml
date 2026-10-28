@@ -90,6 +90,10 @@ jobs:
           ls -la capas/
           cat capas/manifest.json
 
+      - name: Grupos por zona de las familias que aún no los tienen (sin descargar nada)
+        continue-on-error: true
+        run: python3 -u tools/capas/zonas_grupos.py capas
+
       - name: Cronología histórica por país (Wikidata; en la corrida mensual o si se pide «historia»)
         if: github.event.schedule != '20 */4 * * *' && github.event.schedule != '47 6 2 * *' && (github.event.inputs.familias == '' || contains(github.event.inputs.familias, 'historia'))
         continue-on-error: true

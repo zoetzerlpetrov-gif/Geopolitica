@@ -38,6 +38,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 # reescribe en cada reconstrucción, y Pages la copia a data/capas/. Así los binarios no inflan main.
 SALIDA = os.path.join(ROOT, "capas")
 TMP = os.environ.get("RUNNER_TEMP", "/tmp")
+import zonas_grupos as ZG  # noqa: E402
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 # Instancias públicas de Overpass (se prueban en orden; cada una tiene sus propios límites de uso).
 OVERPASS = ["https://overpass-api.de/api/interpreter", "https://overpass.private.coffee/api/interpreter",
@@ -2134,6 +2135,8 @@ def main(pedidas):
             if fid in BUSCABLES:
                 with open(os.path.join(SALIDA, f"buscar_{fid}.json"), "w", encoding="utf-8") as f:
                     json.dump(indice_busqueda(feats), f, ensure_ascii=False, separators=(",", ":"))
+            # Grupos por zona (círculo con el número al alejar): el navegador no puede agrupar mosaicos vectoriales.
+            grupos_pub = ZG.escribir(SALIDA, fid, feats) if fam["geometria"] == "punto" else None
             subtipos, zoom_st = {}, {}
             for ft in feats:
                 st_ = ft["properties"]["st"]
@@ -2143,6 +2146,7 @@ def main(pedidas):
                 "archivo": f"data/capas/{os.path.basename(destino)}", "objetos": len(feats), "por_subtipo": subtipos, "zoom_por_subtipo": zoom_st,
                 **({"formato": "geojson"} if fid in FAMILIAS_GEOJSON else {}),
                 **({"indice": f"data/capas/buscar_{fid}.json"} if fid in BUSCABLES else {}),
+                **({"grupos": grupos_pub} if grupos_pub else {}),
                 "bytes": os.path.getsize(destino), "fuente": fam["fuente"],
                 **({"fuentes": dict(CAM_FUENTES)} if fid == "camaras" else {}),
                 "estado": "parcial" if FALTANTES.get(fid) else "ok",
