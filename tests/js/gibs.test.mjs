@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { cargarMosaico, conRespaldo, sinRespaldo } from "../../js/gibs.js";
+import { cargarMosaico, conRespaldo, sinRespaldo, esPngPaleta } from "../../js/gibs.js";
 
 const resp = (ok, tipo, cuerpo = new Uint8Array([1, 2, 3]).buffer) => async () => ({ ok, headers: { get: () => tipo }, arrayBuffer: async () => cuerpo });
 
@@ -42,30 +42,21 @@ test("TEMPO: se prueban las horas exactas publicadas (GIBS ya no acepta horas en
   assert.deepEqual(await horasPublicadas({ capa: "T", matriz: "M" }, new Date(), async () => { throw new Error("red"); }), []);
 });
 
-test("mosaico vacío de GIBS (paleta, gris o RGBA sin píxeles visibles) → PNG casi transparente propio", async () => {
-  const { esPngVacio } = await import("../../js/gibs.js");
-  const zlib = await import("node:zlib");
-  const crc = (b) => { let c = ~0; for (const x of b) { c ^= x; for (let k = 0; k < 8; k++) c = (c >>> 1) ^ (0xedb88320 & -(c & 1)); } return ~c >>> 0; };
-  const trozo = (t, d) => { const b = Buffer.alloc(12 + d.length); b.writeUInt32BE(d.length); b.write(t, 4); Buffer.from(d).copy(b, 8); b.writeUInt32BE(crc(b.subarray(4, 8 + d.length)), 8 + d.length); return b; };
-  const png = (tipo, canales, pix, trns) => {
-    const ih = Buffer.alloc(13); ih.writeUInt32BE(256); ih.writeUInt32BE(256, 4); ih[8] = 8; ih[9] = tipo;
-    const crudo = Buffer.alloc(256 * (1 + 256 * canales)); if (pix) crudo[1 + 300 + canales - 1] = pix;  // con alfa, en el canal alfa
-    const partes = [Buffer.from([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]), trozo("IHDR", ih)];
-    if (tipo === 3) partes.push(trozo("PLTE", Buffer.alloc(768)));
-    if (trns) partes.push(trozo("tRNS", Buffer.from(trns)));
-    partes.push(trozo("IDAT", zlib.deflateSync(crudo)), trozo("IEND", Buffer.alloc(0)));
-    const b = Buffer.concat(partes); return b.buffer.slice(b.byteOffset, b.byteOffset + b.length);
-  };
-  assert.equal(await esPngVacio(png(3, 1, 0, [0])), true);
-  assert.equal(await esPngVacio(png(3, 1, 5, [0])), false);      // un píxel con otro color de la paleta
-  assert.equal(await esPngVacio(png(3, 1, 0, [255])), false);    // el color 0 es opaco
-  assert.equal(await esPngVacio(png(3, 1, 0, null)), false);
-  assert.equal(await esPngVacio(png(0, 1, 0, [0, 0])), true);
-  assert.equal(await esPngVacio(png(6, 4, 0, null)), true);
-  assert.equal(await esPngVacio(png(6, 4, 9, null)), false);    // un píxel con alfa 9
-  assert.equal(await esPngVacio(new Uint8Array([0xff, 0xd8, 0xff]).buffer), false);  // JPEG
-  const vacio = png(3, 1, 0, [0]);
-  const r = await cargarMosaico("gibsr://gibs/x.png", undefined, resp(true, "image/png", vacio));
-  assert.notEqual(r.data.byteLength, vacio.byteLength);
-  assert.equal(await esPngVacio(r.data), false);  // el propio lleva alfa 1/255: la textura sí se escribe
+test("productos con paleta: un PNG que no es de paleta (ruido de GIBS fuera de cobertura) se dibuja transparente", async () => {
+  const u = "https://gibs.earthdata.nasa.gov/wmts/x/3/4/6.png";
+  const p = conRespaldo(u, { paleta: true });
+  assert.ok(p.startsWith("gibsp://"));
+  assert.equal(sinRespaldo(p), u);
+  const png = (tipo) => { const b = new Uint8Array(40); b.set([0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]); b[25] = tipo; return b.buffer; };
+  assert.equal(esPngPaleta(png(3)), true);
+  assert.equal(esPngPaleta(png(6)), false);
+  assert.equal(esPngPaleta(new Uint8Array([0xff, 0xd8, 0xff]).buffer), false);
+  const fallas = [];
+  const ruido = await cargarMosaico(p, undefined, resp(true, "image/png", png(6)), (x) => fallas.push(x));
+  assert.equal(ruido.data.byteLength, 334);  // el PNG transparente propio
+  assert.deepEqual(fallas, []);             // GIBS sí respondió: no cuenta como falla
+  const bueno = await cargarMosaico(p, undefined, resp(true, "image/png", png(3)));
+  assert.equal(bueno.data.byteLength, 40);
+  const sinFiltro = await cargarMosaico(conRespaldo(u), undefined, resp(true, "image/png", png(6)));
+  assert.equal(sinFiltro.data.byteLength, 40);  // las demás capas no se filtran
 });

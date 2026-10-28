@@ -36,7 +36,7 @@ export const IMAGENES = {
         ["rgb(237,83,0)", "3 a 4: denso; humo de incendios o polvo del Sahara"], ["rgb(185,0,14)", "4 a 5: muy denso"], ["rgb(115,0,25)", "5 o más: extremo; incendios enormes, tormentas de polvo o ceniza volcánica"]] } },
   // Hielo marino diario (GHRSST MUR, ~1 km, mezcla de satélites de microondas): porcentaje del mar cubierto de hielo.
   hielo_marino: { nombre: "Hielo marino: % del mar cubierto (GHRSST MUR, diario)", capa: "GHRSST_L4_MUR_Sea_Ice_Concentration", matriz: "GoogleMapsCompatible_Level7",
-    ext: "png", maxzoom: 7, opacidad: 0.8, fecha_fija: "default",
+    ext: "png", maxzoom: 7, opacidad: 0.8, fecha_fija: "default", paleta: true,
     leyenda: "Porcentaje de cada punto del mar cubierto de hielo (paleta oficial de NASA GIBS). El borde del hielo se mide desde 15 %. Se publica con ~2 días de retraso; se muestra siempre el día más reciente que haya publicado NASA. Ni el mapa plano ni el globo dibujan mosaicos más allá de 85° de latitud (límite de los mosaicos web), así que el centro del Ártico y de la Antártida queda sin color; el borde del hielo, que es lo que cambia, sí se ve.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/GHRSST_Sea_Ice_Concentration.xml).
     escala: { colores: ["rgb(78,0,78)", "rgb(184,0,184)", "rgb(127,0,255)", "rgb(0,90,255)", "rgb(0,234,191)", "rgb(15,175,0)", "rgb(225,245,0)", "rgb(255,177,0)", "rgb(255,26,26)", "rgb(255,153,153)"],
@@ -58,11 +58,14 @@ export const IMAGENES = {
   // cada hora de día; con fecha «default» GIBS sirve la hora más reciente.
   // relleno: días (o horas, en productos por hora) anteriores que se dibujan debajo para tapar los huecos entre órbitas,
   // de nubes o de barridos incompletos; lo más reciente siempre queda encima.
+  // paleta: el producto solo publica PNG con paleta; lo demás que mande GIBS es ruido fuera de cobertura (js/gibs.js).
+  // limites: [oeste, sur, este, norte] de la cobertura; fuera de ahí el mapa ni siquiera pide mosaicos.
   no2_tropomi: { nombre: "NO₂: actividad industrial y tráfico (TROPOMI, diario, mundo)", capa: "TROPOMI_L2_Nitrogen_Dioxide_Tropospheric_Column",
     matriz: "GoogleMapsCompatible_Level6", ext: "png", maxzoom: 6, opacidad: 0.75, relleno: 1,
     leyenda: "Columna troposférica de NO₂ (Sentinel-5P/TROPOMI, ~5 km). Mientras más intenso el color, más NO₂: ciudades grandes, centrales, refinerías y corredores de tráfico. Compara días: una caída fuerte en una zona industrial puede indicar paro o cierre. Los huecos entre órbitas o por nubes se rellenan con el día anterior. Leyenda oficial en NASA Worldview." },
   no2_tempo: { nombre: "NO₂ cada hora en América del Norte y México (TEMPO, hora más reciente)", capa: "TEMPO_L3_NO2_Vertical_Column_Troposphere",
-    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, por_hora: true, relleno: 2,
+    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.75, por_hora: true, relleno: 2, paleta: true,
+    limites: [-170, 5, -40, 75],
     leyenda: "Satélite geoestacionario TEMPO (NASA): mide el NO₂ cada hora de día sobre América del Norte, de Canadá a México. Mientras más intenso el color, más NO₂. Muestra la hora más reciente con el barrido completo (el primero de la mañana y el último de la tarde salen a medias y se saltan); los huecos por nubes o barridos parciales se rellenan con las 2 horas anteriores. De noche no hay datos. Leyenda oficial en NASA Worldview." },
   // Luces nocturnas: GIBS ha cambiado nombres de capas del sensor DNB (las «ENCC» dejaron de publicarse en 2023). Al
   // activarla, el navegador prueba cada candidata en los últimos días y usa la primera con imagen completa.
@@ -256,9 +259,10 @@ export class Imagenes {
     const def = IMAGENES[id];
     const { fecha, eleccion, rellenos } = this.activas.get(id);
     const capa = eleccion || def;
-    registrarProtocolo();  // mosaicos con error → transparentes (sin «estática» gris)
-    this.map.addSource(`img-${id}`, { type: "raster", tiles: [conRespaldo(urlGIBS(capa, eleccion?.fecha || fecha))], tileSize: 256, maxzoom: def.maxzoom,
-      attribution: "Imágenes: NASA GIBS / EOSDIS" });
+    registrarProtocolo();  // mosaicos con error o con ruido → transparentes (sin «estática»)
+    const fuente = (f) => ({ type: "raster", tiles: [conRespaldo(urlGIBS(capa, f), { paleta: !!def.paleta })], tileSize: 256, maxzoom: def.maxzoom,
+      ...(def.limites ? { bounds: def.limites } : {}), attribution: "Imágenes: NASA GIBS / EOSDIS" });
+    this.map.addSource(`img-${id}`, fuente(eleccion?.fecha || fecha));
     // Debajo de chokepoints, capas y eventos: primera capa propia del mapa.
     const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
     this.map.addLayer({ id: `img-${id}`, type: "raster", source: `img-${id}`, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, antes);
@@ -266,7 +270,7 @@ export class Imagenes {
     let arriba = `img-${id}`;
     (rellenos || fechasRelleno(def, eleccion?.fecha || fecha)).forEach((f, k) => {
       const sid = `img-${id}-r${k + 1}`;
-      this.map.addSource(sid, { type: "raster", tiles: [conRespaldo(urlGIBS(capa, f))], tileSize: 256, maxzoom: def.maxzoom, attribution: "Imágenes: NASA GIBS / EOSDIS" });
+      this.map.addSource(sid, fuente(f));
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, arriba);
       arriba = sid;
     });
