@@ -70,3 +70,32 @@ def test_aire_polar_transparente_arriba_de_cero():
     assert arr[0, 1, 3] > 100 and arr[1, 1, 3] > 150
     gj = gfs.geojson_isotermas(np.tile(np.linspace(10, -30, 181)[:, None], (1, 360)))
     assert {f["properties"]["t"] for f in gj["features"]} == {0, -10, -20}
+
+
+def test_vortice_polar_y_bolsas_frias():
+    import numpy as np
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "clima"))
+    import gfs as G
+    lat = 90 - np.arange(181)[:, None] * np.ones((1, 360))
+    lon = -180 + np.ones((181, 1)) * np.arange(360)[None, :]
+    # Altura a 10 hPa: mínimo en el polo norte (vórtice) y en el polo sur.
+    h10 = 31000 + 20 * np.abs(90 - np.abs(lat)) * 10
+    t10 = -70 + 0 * lat
+    u10 = 25 + 0 * lat
+    r = G.resumen_vortice(h10, t10, u10)
+    assert r["norte"]["centro"][1] == 90 and r["sur"]["centro"][1] == -90
+    assert r["norte"]["estado"] == "normal" and r["norte"]["u60_ms"] == 25
+    assert "calentamiento" in G.estado_vortice(-3) and G.estado_vortice(40).startswith("fuerte")
+    rel = G.campo_vortice(h10)
+    assert rel[0, 0] == 0 and np.isnan(rel[90, 0])
+    # Bolsa de aire frío sobre España (40° N, 4° O): baja cerrada y 8 °C más fría que su latitud.
+    t500 = -20 + 0 * lat
+    hgt = 5600 + 0 * lat
+    i, j = 50, 176
+    t500[i, j] = -28
+    hgt[i, j] = 5500
+    b = G.bolsas_frias(t500, hgt)
+    assert len(b) == 1 and b[0]["lon"] == -4 and b[0]["lat"] == 40 and b[0]["anomalia_c"] < -7
+    t500[60, 10] = -26  # frío pero sin baja cerrada: no cuenta
+    assert len(G.bolsas_frias(t500, hgt)) == 1
+    assert G.geojson_bolsas(b)["features"][0]["properties"]["t500_c"] == -28

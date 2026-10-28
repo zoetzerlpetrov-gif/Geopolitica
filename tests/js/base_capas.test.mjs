@@ -35,3 +35,10 @@ test("aplicar: oculta solo etiquetas del mapa base y agrega/quita contornos de e
   assert.ok(!capas.some((l) => l.id === ID_ESTADOS));
   assert.equal(capaEstados(undefined, false), null);
 });
+
+test("grupos de capas: suma solo los subtipos marcados", async () => {
+  const { sumaGrupo, BANDAS_GRUPOS, GRUPOS_HASTA } = await import("../../js/capas.js");
+  assert.deepEqual(sumaGrupo(new Set(["a", "b"])), ["+", 0, 0, ["coalesce", ["get", "c_a"], 0], ["coalesce", ["get", "c_b"], 0]]);
+  assert.deepEqual(sumaGrupo([]), ["+", 0, 0]);
+  assert.equal(BANDAS_GRUPOS.at(-1)[1], GRUPOS_HASTA);
+});

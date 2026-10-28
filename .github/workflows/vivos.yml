@@ -125,6 +125,16 @@ jobs:
         timeout-minutes: 8
         run: python3 tools/crimen/crimen.py
 
+      - name: Cifras oficiales de robos en carreteras y transporte (SESNSP, cada 3 días; si falla se conservan las anteriores)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/crimen/sesnsp.py
+
+      - name: Interferencia de GPS vista desde aviones (GPSJam, una vez al día; si falla se conserva la anterior)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: pip install -q h3==4.1.2 && python3 tools/vivos/gps_interferencia.py
+
       - name: Tsunamis (boletines oficiales de la NOAA, cada corrida; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 3
@@ -241,6 +251,11 @@ jobs:
         continue-on-error: true
         timeout-minutes: 5
         run: python3 tools/espacio/cielo.py
+
+      - name: Eclipses con franja de totalidad y anularidad (NASA, cada 7 días; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/espacio/eclipses.py
 
       - name: Mes en curso (llave de la caché de DB-IP)
         run: echo "MES=$(date -u +%Y-%m)" >> "$GITHUB_ENV"
