@@ -588,7 +588,24 @@ function eventosSinteticos(n) {
   return out;
 }
 
+/**
+ * MapLibre llega por <script> en index.html. Si esa descarga se corta (red móvil, caché del service worker a medias),
+ * la página quedaba con «maplibregl is not defined». Se reintenta una vez directo a la red antes de rendirse.
+ */
+async function asegurarMapLibre() {
+  if (globalThis.maplibregl) return;
+  await new Promise((ok, mal) => {
+    const s = document.createElement("script");
+    s.src = `vendor/maplibre-gl/maplibre-gl.js?reintento=${Date.now()}`;  // otra URL: no la toma de la caché rota
+    s.onload = ok;
+    s.onerror = () => mal(new Error("no se pudo descargar MapLibre (revisa tu conexión y recarga)"));
+    document.head.append(s);
+  });
+  if (!globalThis.maplibregl) throw new Error("MapLibre no se inicializó (recarga con Ctrl+Shift+R)");
+}
+
 async function main() {
+  await asegurarMapLibre();
   const tema = temaActual();
   lite = modoLite();
   // Reportes diarios: enlaces a los PDF del día (si ya se generaron).
@@ -2183,6 +2200,6 @@ if ("serviceWorker" in navigator && location.protocol === "https:") {
 
 main().catch((e) => {
   console.error(e);
-  $("estado-datos").textContent = `Error al cargar: ${e.message}`;
+  $("estado-datos").innerHTML = `Error al cargar: ${esc(e.message)} <button type="button" onclick="location.reload()">Reintentar</button>`;
 });
 

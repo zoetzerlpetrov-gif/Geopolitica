@@ -28,7 +28,9 @@ self.addEventListener("activate", (e) => {
 async function cacheFirst(req, nombre, limite) {
   const cache = await caches.open(nombre);
   const hit = await cache.match(req);
-  if (hit) return hit;
+  // Una copia vacía o cortada (p. ej. de una descarga interrumpida) no se usa: se borra y se pide de nuevo.
+  if (hit && hit.ok && hit.headers.get("content-length") !== "0") return hit;
+  if (hit) await cache.delete(req);
   const res = await fetch(req);
   if (res.ok) {
     await cache.put(req, res.clone());
