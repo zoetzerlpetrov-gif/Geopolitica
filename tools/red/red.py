@@ -52,6 +52,9 @@ HORAS_CORTES = 48
 # (cuenta en abuse.ch). La llave va en el secreto ABUSECH_AUTH_KEY de GitHub, nunca en el código; sin ella se omite.
 THREATFOX = "https://threatfox-api.abuse.ch/api/v1/"
 FEODO = "https://feodotracker.abuse.ch/downloads/ipblocklist_recommended.json"
+# C2IntelFeeds (drb-ra, datos de escaneo de Modat): IP de servidores C2 vistos en los últimos 7 días (Cobalt Strike,
+# Sliver, Metasploit…). Licencia CC BY-NC-SA 4.0: uso no comercial con atribución (retirar en la versión comercial).
+C2INTEL = "https://raw.githubusercontent.com/drb-ra/C2IntelFeeds/master/feeds/IPC2s.csv"
 DBIP = "https://download.db-ip.com/free/dbip-country-lite-{mes}.csv.gz"
 DBIP_DIR = os.environ.get("DBIP_DIR", os.path.expanduser("~/.cache/dbip"))
 
@@ -271,6 +274,19 @@ def pedir_threatfox(llave, dias=2):
         return json.loads(r.read())
 
 
+def ips_c2intel(texto):
+    """CSV «#ip,ioc» de C2IntelFeeds → {ip: familia} («Possible Cobaltstrike C2 IP» → «Cobaltstrike»)."""
+    out = {}
+    for linea in (texto or "").splitlines():
+        if not linea or linea.startswith("#") or "," not in linea:
+            continue
+        ip, ioc = linea.split(",", 1)
+        if RX_IP.match(ip.strip()):
+            fam = re.sub(r"^(possible|likely)\s+|\s+c2(\s+ip)?$", "", ioc.strip(), flags=re.I).strip() or "desconocido"
+            out.setdefault(ip.strip(), fam)
+    return out
+
+
 def ips_feodo(lista):
     return {x["ip_address"]: x.get("malware") or "desconocido" for x in lista or [] if x.get("ip_address")}
 
@@ -302,7 +318,7 @@ def paso_c2(paises, ahora):
     geo, mes = cargar_dbip(ahora)
     ips, estado = {}, {}
     llave = os.environ.get("ABUSECH_AUTH_KEY", "").strip()
-    for nombre, url, leer in (("threatfox", THREATFOX, ips_threatfox_api), ("feodo", FEODO, ips_feodo)):
+    for nombre, url, leer in (("threatfox", THREATFOX, ips_threatfox_api), ("feodo", FEODO, ips_feodo), ("c2intel", C2INTEL, ips_c2intel)):
         try:
             if nombre == "threatfox":
                 if not llave:
@@ -312,7 +328,8 @@ def paso_c2(paises, ahora):
             else:
                 if not F.permitido_por_robots(url):
                     raise PermissionError("robots.txt no lo permite")
-                nuevas = leer(json.loads(F.get(url, timeout=120)))
+                datos = F.get(url, timeout=120)
+                nuevas = leer(datos.decode("utf-8", "replace") if nombre == "c2intel" else json.loads(datos))
             for ip, fam in nuevas.items():
                 ips.setdefault(ip, fam)
             estado[nombre] = f"ok ({len(nuevas)} IP)"

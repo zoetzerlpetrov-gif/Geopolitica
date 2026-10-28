@@ -45,3 +45,10 @@ def test_threatfox_api_sin_llave_y_con_respuesta():
                                          {"threat_type": "payload_delivery", "ioc_type": "url", "ioc_value": "http://5.6.7.8/x"}]}
     assert R.ips_threatfox_api(ok) == {"1.2.3.4": "Cobalt Strike"}
     assert R.ips_threatfox_api({"query_status": "no_result"}) == {}
+
+
+def test_c2intel_csv():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "red"))
+    import red as R
+    txt = "#ip,ioc\n1.117.74.144,Possible Cobaltstrike C2 IP\n10.0.0.1,Possible Sliver C2 IP\nbasura\n"
+    assert R.ips_c2intel(txt) == {"1.117.74.144": "Cobaltstrike", "10.0.0.1": "Sliver"}
