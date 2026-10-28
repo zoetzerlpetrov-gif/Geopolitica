@@ -44,7 +44,7 @@ test('HLS solicita la señal al pulsar y libera el reproductor al cerrar la fich
   const boton = { dataset: { camaraHls: 'https://example.com/a.m3u8' }, parentElement: { querySelector: () => video }, addEventListener: (_, cb) => { click = cb; } };
   const panel = { hidden: false };
   try {
-    iniciarCamarasVideo({ querySelectorAll: () => [boton] }, panel);
+    iniciarCamarasVideo({ querySelectorAll: (selector) => selector.startsWith('button') ? [boton] : [] }, panel);
     assert.equal(source, undefined);
     await click();
     assert.equal(source, 'https://example.com/a.m3u8');
@@ -56,4 +56,22 @@ test('HLS solicita la señal al pulsar y libera el reproductor al cerrar la fich
     globalThis.Hls = prev.Hls;
     globalThis.MutationObserver = prev.MutationObserver;
   }
+});
+
+
+test('los clips nativos también se detienen al cerrar la ficha', async () => {
+  const { iniciarCamarasVideo } = await import('../../js/camaras_video.js');
+  const anterior = globalThis.MutationObserver;
+  let callback, pausas = 0, recargas = 0;
+  globalThis.MutationObserver = class { constructor(cb) { callback = cb; } observe() {} disconnect() {} };
+  const video = { dataset: {}, isConnected: true, pause() { pausas++; }, removeAttribute() {}, querySelectorAll: () => [], load() { recargas++; } };
+  const panel = { hidden: false };
+  try {
+    iniciarCamarasVideo({ querySelectorAll: (s) => s.startsWith('video') ? [video] : [] }, panel);
+    assert.equal(pausas, 0);
+    panel.hidden = true;
+    callback();
+    assert.equal(pausas, 1);
+    assert.equal(recargas, 1);
+  } finally { globalThis.MutationObserver = anterior; }
 });

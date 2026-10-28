@@ -331,7 +331,7 @@ export function htmlFichaCamara(props, sub) {
   // Conservar la URL exacta del operador: agregar parámetros rompe algunos servicios y firmas.
   const galeria = imgs.length ? `<div class="cam-imgs">${imgs.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer"><img src="${esc(u)}" alt="Vista ${i + 1} de ${esc(props.n)}" loading="lazy" referrerpolicy="no-referrer"></a>`).join("")}</div>
     <p class="meta">Imagen fija del servidor de ${esc(props.o)}${props.lic ? ` · licencia ${esc(props.lic)}` : ""}. No se guarda en este sitio. Si no carga, consulta al operador.</p>` : "";
-  const original = medio ? `<div class="cam-reproductor"><div class="cam-video"><video controls playsinline preload="none" ${imgs[0] ? `poster="${esc(imgs[0])}"` : ""}>
+  const original = medio ? `<div class="cam-reproductor"><div class="cam-video"><video controls playsinline preload="none" ${mp4 ? "data-camara-native" : ""} ${imgs[0] ? `poster="${esc(imgs[0])}"` : ""}>
       <source src="${esc(medio)}" type="${mp4 ? "video/mp4" : "application/vnd.apple.mpegurl"}"></video></div>${hls && !mp4 ? `<button type="button" class="boton" data-camara-hls="${esc(hls)}">Cargar video HLS</button>` : ""}</div>
       <p class="meta">${mp4 ? "Clip reciente; no es una transmisión continua." : "Video HLS del operador; pulsa «Cargar video HLS». Si no responde, abre la página oficial."}
       <a href="${esc(medio)}" target="_blank" rel="noopener noreferrer">Abrir video original ↗</a></p>` : "";

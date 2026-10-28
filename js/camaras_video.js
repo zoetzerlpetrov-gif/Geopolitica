@@ -15,6 +15,19 @@ function biblioteca() {
 }
 
 export function iniciarCamarasVideo(cuerpo, panel = cuerpo) {
+  for (const video of cuerpo.querySelectorAll('video[data-camara-native]:not([data-listo])')) {
+    video.dataset.listo = '1';
+    const observer = new MutationObserver(() => {
+      if (video.isConnected && !panel.hidden) return;
+      video.pause();
+      video.removeAttribute('src');
+      for (const source of video.querySelectorAll('source')) source.removeAttribute('src');
+      video.load();
+      observer.disconnect();
+    });
+    observer.observe(cuerpo, { childList: true, subtree: true });
+    if (panel !== cuerpo) observer.observe(panel, { attributes: true, attributeFilter: ['hidden'] });
+  }
   for (const boton of cuerpo.querySelectorAll('button[data-camara-hls]:not([data-listo])')) {
     boton.dataset.listo = '1';
     boton.addEventListener('click', async () => {
