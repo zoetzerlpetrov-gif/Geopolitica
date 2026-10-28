@@ -43,8 +43,8 @@ export const IMAGENES = {
         ["rgb(15,175,0)", "40 a 70 %: hielo abierto"], ["rgb(255,177,0)", "70 a 90 %: hielo cerrado"], ["rgb(255,153,153)", "Más de 90 %: banquisa casi continua"]] } },
   // Columna total de ozono (OMPS): el «agujero» es donde baja de 220 unidades Dobson, sobre la Antártida de agosto a diciembre.
   ozono_total: { nombre: "Capa de ozono: columna total (OMPS, diario)", capa: "OMPS_Ozone_Total_Column", matriz: "GoogleMapsCompatible_Level6", ext: "png",
-    maxzoom: 6, opacidad: 0.7,
-    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS.",
+    maxzoom: 6, opacidad: 0.7, relleno: 1,
+    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS. Las franjas que el satélite aún no barre ese día (a menudo sobre el Pacífico, junto a la línea de cambio de fecha) se rellenan con el día anterior.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_Ozone_Total_Column.xml).
     escala: { colores: ["rgb(71,160,179)", "rgb(130,205,164)", "rgb(195,231,159)", "rgb(240,236,146)", "rgb(253,203,121)", "rgb(249,146,84)", "rgb(231,89,72)"],
       marcas: ["125", "200", "275", "350", "425", "≥ 500 DU"],
@@ -80,7 +80,9 @@ export const IMAGENES = {
 /** Un mosaico de z2 con el día completo pesa decenas de KB; uno vacío pesa menos de ~1.5 KB y uno de un día a medio
  * publicar, unos pocos KB (medido en GIBS en oct 2026). Por debajo de esto se considera incompleto. */
 export const MOSAICO_MINIMO = 8000;
-const MUESTRAS = [[2, 1, 1], [2, 1, 2]];  // América y Europa/África a latitudes medias
+// América, Europa/África y el Pacífico (a ambos lados de la línea de cambio de fecha, donde los productos diarios de
+// órbita polar quedan a medias: medido en oct 2026 con el ozono OMPS, 14 mil píxeles contra 41 mil del día anterior).
+const MUESTRAS = [[2, 1, 1], [2, 1, 2], [2, 2, 0], [2, 1, 3]];
 
 /** Bytes de los mosaicos de muestra de una capa en una fecha (0 si falla alguno). */
 async function bytesMuestra(capa, fecha, pedir) {

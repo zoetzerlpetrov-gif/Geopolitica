@@ -347,9 +347,9 @@ class Rayos {
 // momentos recientes y se pasan en bucle. «retraso» = cuánto tarda GIBS en publicar (medido en oct 2026).
 export const BUCLES = {
   nubes_ir: { capas: [["Himawari_AHI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"], ["GOES-West_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"],
-    ["GOES-East_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"]], paso: 10, cuadros: 8, retraso: 70, opacidad: 0.75, maxzoom: 6 },
+    ["GOES-East_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"]], paso: 10, cuadros: 8, retraso: 70, opacidad: 0.75, maxzoom: 6, eumetsat: "ir" },
   geocolor: { capas: [["GOES-West_ABI_GeoColor", "GoogleMapsCompatible_Level7"], ["GOES-East_ABI_GeoColor", "GoogleMapsCompatible_Level7"]],
-    paso: 10, cuadros: 8, retraso: 80, opacidad: 0.9, maxzoom: 7 },
+    paso: 10, cuadros: 8, retraso: 80, opacidad: 0.9, maxzoom: 7, eumetsat: "color" },
   lluvia_sat: { capas: [["IMERG_Precipitation_Rate_30min", "GoogleMapsCompatible_Level6"]], paso: 30, cuadros: 6, retraso: 420, opacidad: 0.8, maxzoom: 6 },
 };
 
@@ -359,6 +359,19 @@ export function momentosBucle(def, ahora = new Date()) {
   const ultimo = Math.floor((ahora.getTime() - def.retraso * 60000) / paso) * paso;
   return Array.from({ length: def.cuadros }, (_, i) => new Date(ultimo - (def.cuadros - 1 - i) * paso).toISOString().replace(/\.\d{3}Z$/, "Z"));
 }
+
+// Europa, África, Medio Oriente, India y Rusia: Meteosat (EUMETSAT), que el servidor del sitio baja cada 20 min
+// (tools/vivos/meteosat.py) porque EUMETView no permite cargarlo directo desde el navegador. Cuadros cada 30 min.
+export const INDICE_METEOSAT = "data/vivos/meteosat/indice.json";
+
+/** Cuadro de Meteosat para un momento del bucle: el más reciente que no pase de él (o el más antiguo si todos son posteriores). */
+export function cuadroMeteosat(lista, t) {
+  if (!lista?.length) return null;
+  return [...lista].reverse().find((c) => c.t <= t) || lista[0];
+}
+
+/** Esquinas [O,N],[E,N],[E,S],[O,S] de la imagen (está en web Mercator, así que MapLibre la coloca sin deformarla). */
+export const esquinas = ([o, s, e, n]) => [[o, n], [e, n], [e, s], [o, s]];
 
 export const urlBucle = (capa, matriz, momento) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${capa}/default/${momento}/${matriz}/{z}/{y}/{x}.png`;
 export const urlDominios = (capa, matriz, ini, fin) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/${capa}/default/${matriz}/all/${ini}--${fin}.xml`;
@@ -426,6 +439,14 @@ class BucleSatelite {
       }));
       cuadros = cuadrosPublicados(listas, this.def.cuadros);
     } catch (e) { /* sin red hacia GIBS o formato distinto: se usan momentos fijos */ }
+    if (this.def.eumetsat) {
+      try {
+        const r = await fetch(INDICE_METEOSAT, { cache: "no-store" });
+        const ind = r.ok ? await r.json() : null;
+        const lista = ind?.productos?.[this.def.eumetsat];
+        if (lista?.length) this.eum = { lista, limites: ind.limites };
+      } catch (e) { /* sin cuadros de Meteosat: el bucle sigue solo con GIBS */ }
+    }
     if (!this.vivo) return;
     this.momentos = cuadros || momentosBucle(this.def).map((t) => ({ t, capas: this.def.capas.map(() => t) }));
     this.i = this.momentos.length - 1;
@@ -437,8 +458,21 @@ class BucleSatelite {
     this.reloj = setInterval(() => this.#siguiente(), 700);
   }
 
+  /** Ids de las capas de un cuadro: una por capa de GIBS y, si hay, la imagen de Meteosat. */
+  #ids(k) {
+    return [...this.def.capas.map((_, j) => `bucle-${this.id}-${k}-${j}`), ...(this.eum ? [`bucle-${this.id}-${k}-m`] : [])];
+  }
+
   #agregar(k) {
     const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+    // Meteosat va debajo de GOES y Himawari: donde se traslapan (bordes del disco) gana el satélite de GIBS.
+    const c = this.eum && cuadroMeteosat(this.eum.lista, this.momentos[k].t);
+    if (c && !this.map.getSource(`bucle-${this.id}-${k}-m`)) {
+      const sid = `bucle-${this.id}-${k}-m`;
+      this.map.addSource(sid, { type: "image", url: `data/vivos/meteosat/${c.archivo}`, coordinates: esquinas(this.eum.limites) });
+      this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
+        "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
+    }
     this.def.capas.forEach(([capa, matriz], j) => {
       const sid = `bucle-${this.id}-${k}-${j}`;
       if (this.map.getSource(sid)) return;
@@ -457,7 +491,7 @@ class BucleSatelite {
   /** Un cuadro está listo cuando todas sus imágenes de la vista actual ya se descargaron. */
   #listo(k) {
     if (!this.agregados.has(k) || this.#fallido(k)) return false;
-    return this.def.capas.every((_, j) => { try { return this.map.isSourceLoaded(`bucle-${this.id}-${k}-${j}`); } catch (e) { return false; } });
+    return this.#ids(k).every((sid) => { try { return this.map.isSourceLoaded(sid); } catch (e) { return false; } });
   }
 
   #avisar() {
@@ -484,10 +518,8 @@ class BucleSatelite {
     for (let n = 0; n < this.momentos.length; n++) { k = (k + 1) % this.momentos.length; if (this.#listo(k)) break; }
     if (k === anterior) return;
     this.i = k;
-    this.def.capas.forEach((_, j) => {
-      this.map.setPaintProperty(`bucle-${this.id}-${anterior}-${j}`, "raster-opacity", 0);
-      this.map.setPaintProperty(`bucle-${this.id}-${this.i}-${j}`, "raster-opacity", this.def.opacidad);
-    });
+    for (const sid of this.#ids(anterior)) if (this.map.getLayer(sid)) this.map.setPaintProperty(sid, "raster-opacity", 0);
+    for (const sid of this.#ids(this.i)) if (this.map.getLayer(sid)) this.map.setPaintProperty(sid, "raster-opacity", this.def.opacidad);
     this.onMomento?.(this.momentos[this.i].t);
   }
 
@@ -495,8 +527,7 @@ class BucleSatelite {
     this.vivo = false;
     clearInterval(this.reloj);
     this.map.off("error", this.alError);
-    this.agregados.forEach((k) => this.def.capas.forEach((__, j) => {
-      const sid = `bucle-${this.id}-${k}-${j}`;
+    this.agregados.forEach((k) => this.#ids(k).forEach((sid) => {
       if (this.map.getLayer(sid)) this.map.removeLayer(sid);
       if (this.map.getSource(sid)) this.map.removeSource(sid);
     }));

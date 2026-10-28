@@ -1,6 +1,7 @@
 // Punto de entrada: carga datos, crea el mapa y conecta la interfaz.
 /* global maplibregl */
-import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe, resaltar, fragmento, MIN_BUSQUEDA } from "./util.js";
+import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe, resaltar, fragmento, MIN_BUSQUEDA, activarLimpiar } from "./util.js";
+activarLimpiar();
 import { estiloBase, crearMapa } from "./map.js";
 import { iniciarIdioma } from "./idioma.js";
 import { htmlFicha } from "./card.js";
@@ -1377,7 +1378,7 @@ async function iniciarClima() {
   if (!meta.pasos?.length) { cont.innerHTML = `<p class="meta">Sin horizontes de pronóstico en la última corrida.</p>`; return; }
   const capas = [["viento", "Viento a 10 m (animado)"], ["temp", "Temperatura a 2 m"], ["lluvia", "Lluvia (mm/h)"],
     ["polar", "🥶 Aire polar y frentes de aire frío (temperatura a ~1,500 m)"], ["rayos", "⚡ Rayos en tiempo real (satélites GOES, últimos 20 min)"], ["nubes_ir", "☁️ Nubes en vivo (satélites, infrarrojo, animado)"],
-    ["geocolor", "🛰️ Color real GOES de día y de noche (América, animado)"], ["lluvia_sat", "🌧️ Lluvia medida por satélite (IMERG, animada)"]];
+    ["geocolor", "🛰️ Color real de día y de noche (GOES y Meteosat: América, Europa, África y Asia occidental, animado)"], ["lluvia_sat", "🌧️ Lluvia medida por satélite (IMERG, animada)"]];
   cont.innerHTML = capas.map(([id, n]) => `<label class="fila"><span><input type="checkbox" data-clima="${id}"> ${esc(n)}</span></label>`).join("")
     + `<label class="fila"><span>Momento</span><select id="clima-paso">${meta.pasos.map((p, i) => `<option value="${i}">${esc(K.etiquetaPaso(p.valido_utc))}</option>`).join("")}</select>
         <button type="button" class="icon-btn" id="clima-animar" aria-pressed="false" title="Recorre los momentos del pronóstico uno tras otro">▶</button></label>`
@@ -1388,7 +1389,7 @@ async function iniciarClima() {
       clima.activas.has("temp") ? K.leyenda(meta.leyendas.temp, "°C") : "",
       clima.activas.has("polar") && meta.leyendas.polar ? `${K.leyenda(meta.leyendas.polar, "°C a 850 hPa")}<p class="meta">Azul y morado: aire de origen polar o ártico a ~1,500 m de altura (850 hPa), donde no influye el calor del suelo. Las líneas marcan 0, −10 y −20 °C. Usa «Momento» o ▶ para ver hacia dónde avanza en los próximos 3 días. Pronóstico numérico GFS: para avisos, el SMN.</p>` : "", clima.activas.has("lluvia") ? K.leyenda(meta.leyendas.lluvia, "mm/h") : "",
       clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",
-      ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES (de noche, luces de ciudades)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`
+      ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES y Meteosat (de noche, luces de ciudades en América)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`
         + `<div class="carga-bucle" id="carga-${t}" role="status"><div class="carga-barra"><span></span></div><small>Descargando imágenes del satélite…</small></div>`)].join("");
   };
   // Avance de descarga de los cuadros: la animación arranca con los que ya llegaron y la barra se oculta al tener todos.

@@ -272,7 +272,7 @@
           <summary><h2>🛡️ Verificador de mensajes sospechosos</h2></summary>
           <p class="nota-capas">Pega un SMS, WhatsApp o correo que te parezca raro. Busca señales de fraude, phishing, extorsión telefónica y «secuestro virtual», y revisa sus enlaces. Se analiza solo en tu navegador: no se envía ni se guarda.</p>
           <form id="verif-form"><textarea id="verif-texto" rows="4" class="verif-texto" placeholder="Ej.: «Tu cuenta BBVA será bloqueada hoy. Confirma tu NIP en bbva-seguridad.xyz»" aria-label="Texto del mensaje"></textarea>
-            <button>Analizar</button></form>
+            <button>Analizar</button> <button type="button" class="btn-limpiar" data-limpiar="verif-texto verif-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="verif-res" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-herr-ia" data-grupo="herramientas">
@@ -289,21 +289,21 @@
             <button>Guardar llave</button></form>
           <p class="meta" id="ia-llave-ok" hidden></p>
           <form id="ia-form"><textarea id="ia-texto" rows="3" class="verif-texto" placeholder="Ej.: ¿Qué riesgos para México hay esta semana por aranceles?" aria-label="Pregunta para la IA"></textarea>
-            <button>Preguntar</button> <button type="button" id="ia-cancelar" hidden>Cancelar</button></form>
+            <button>Preguntar</button> <button type="button" id="ia-cancelar" hidden>Cancelar</button> <button type="button" class="btn-limpiar" data-limpiar="ia-texto ia-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="ia-res" aria-live="polite"></div>
           <p class="nota-capas">Tu llave se guarda solo en este navegador y solo se envía a Groq (api.groq.com). Tu pregunta y los títulos y resúmenes de las noticias elegidas se envían a Groq, en Estados Unidos, para generar la respuesta: no escribas datos personales.</p>
         </details>
         <details class="bloque plegable" id="b-herr-docs" data-grupo="herramientas">
           <summary><h2>📚 Buscar en archivos de documentos públicos</h2></summary>
           <p class="nota-capas">Arma la búsqueda en archivos desclasificados y de transparencia (The Black Vault, NARA, National Security Archive, FBI Vault, WikiLeaks, Internet Archive, DocumentCloud, CIA y la Plataforma Nacional de Transparencia). Cada enlace abre el sitio original.</p>
-          <form id="docs-form"><input type="text" id="docs-q" class="verif-texto" placeholder="Ej.: Tlatelolco 1968, Roswell, Operación Cóndor" aria-label="Qué buscar" maxlength="200"><button>Buscar</button></form>
+          <form id="docs-form"><input type="text" id="docs-q" class="verif-texto" placeholder="Ej.: Tlatelolco 1968, Roswell, Operación Cóndor" aria-label="Qué buscar" maxlength="200"><button>Buscar</button><button type="button" class="btn-limpiar" data-limpiar="docs-q docs-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <ul id="docs-res" class="lista-inv"></ul>
         </details>
         <details class="bloque plegable" id="b-herr-pwd" data-grupo="herramientas">
           <summary><h2>🔑 ¿Mi contraseña aparece en filtraciones?</h2></summary>
           <p class="nota-capas">Revisa si una contraseña está en las listas de filtraciones públicas de <a href="https://haveibeenpwned.com/Passwords" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. Tu contraseña no sale del navegador: se calcula su huella SHA-1 y solo se envían sus primeros 5 caracteres (anonimato k). No se guarda nada.</p>
           <form id="pwd-form" autocomplete="off"><input id="pwd-texto" type="password" class="verif-texto" autocomplete="off" aria-label="Contraseña a revisar" placeholder="Contraseña a revisar">
-            <button>Comprobar</button></form>
+            <button>Comprobar</button> <button type="button" class="btn-limpiar" data-limpiar="pwd-texto pwd-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="pwd-res" aria-live="polite"></div>
           <p class="nota-capas">Para saber si tu <b>correo</b> aparece en una filtración, consúltalo directamente en <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">haveibeenpwned.com</a> (este monitor no busca datos de personas).</p>
         </details>
@@ -314,13 +314,13 @@
         <details class="bloque plegable" id="b-inv-69b" data-grupo="investigacion">
           <summary><h2>🧾 Empresas que facturan operaciones simuladas (SAT 69-B)</h2></summary>
           <form id="inv-69b-form" role="search"><input type="search" id="inv-69b-q" class="verif-texto" placeholder="RFC o nombre (desde 3 letras)" aria-label="RFC o nombre a buscar" autocomplete="off">
-            <button>Buscar</button></form>
+            <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="inv-69b-q inv-69b-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="inv-69b-res" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-inv-buscados" data-grupo="investigacion">
           <summary><h2>🚨 Personas buscadas y desaparecidas (fichas oficiales)</h2></summary>
           <form id="inv-fbi-form" role="search"><input type="search" id="inv-fbi-q" class="verif-texto" placeholder="Nombre o delito en las fichas del FBI (en inglés)" aria-label="Buscar en las fichas del FBI" autocomplete="off">
-            <button>Buscar</button></form>
+            <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="inv-fbi-q inv-fbi-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="inv-fbi-res" aria-live="polite"></div>
           <ul id="inv-listas" class="fuentes"></ul>
         </details>
@@ -331,6 +331,7 @@
           <label class="fila"><span>Responsable</span><input type="text" id="cus-resp" maxlength="120"></label>
           <label class="fila"><span>Descripción</span><input type="text" id="cus-desc" maxlength="300"></label>
           <label class="fila"><span>Archivos</span><input type="file" id="cus-archivos" multiple></label>
+          <button type="button" class="btn-limpiar" data-limpiar="cus-caso cus-resp cus-desc cus-archivos cus-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button>
           <div id="cus-res" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-inv-vinculos" data-grupo="investigacion">
@@ -350,14 +351,14 @@
           <div id="inv-dof-res" aria-live="polite"></div>
           <h3>Leyes federales vigentes</h3>
           <form id="inv-leyes-form" role="search"><input type="search" id="inv-leyes-q" class="verif-texto" placeholder="Nombre de la ley (vacío = las reformadas más recientemente)" aria-label="Buscar ley federal" autocomplete="off">
-            <button>Buscar</button></form>
+            <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="inv-leyes-q inv-leyes-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="inv-leyes-res" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-inv-contratos" data-grupo="investigacion">
           <summary><h2>📑 Contratos públicos: verificador de proveedores y focos rojos</h2></summary>
           <p class="nota-capas">Pega los RFC o nombres de los proveedores de un contrato (uno por renglón) para revisarlos contra el listado 69-B del SAT. La revisión ocurre en tu navegador.</p>
           <textarea id="inv-prov-texto" class="verif-texto" rows="5" placeholder="ABC123456XY1&#10;Comercializadora Ejemplo SA de CV" aria-label="RFC o nombres de proveedores"></textarea>
-          <button type="button" id="inv-prov-btn">Verificar proveedores</button>
+          <button type="button" id="inv-prov-btn">Verificar proveedores</button> <button type="button" class="btn-limpiar" data-limpiar="inv-prov-texto inv-prov-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button>
           <div id="inv-prov-res" aria-live="polite"></div>
           <h3>Focos rojos en contratación pública</h3>
           <ul id="inv-focos" class="fuentes"></ul>
@@ -368,7 +369,7 @@
           <form id="lic-form" class="fila-botones"><input id="lic-q" class="verif-texto" placeholder="Ej.: ciberseguridad, vigilancia, agua potable, software" aria-label="Palabras clave">
             <select id="lic-fuente" aria-label="Fuente"><option value="">Todas las fuentes</option><option value="TED">Unión Europea (TED)</option><option value="Grants">EUA (Grants.gov)</option><option value="SAM">EUA (SAM.gov)</option></select>
             <label class="fila-check"><input type="checkbox" id="lic-abiertas" checked> Solo con plazo vigente</label>
-            <button>Buscar</button></form>
+            <button>Buscar</button><button type="button" class="btn-limpiar" data-limpiar="lic-q lic-res lic-usa-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="lic-res" aria-live="polite"></div>
           <button type="button" id="lic-usa">💵 Contratos adjudicados en EUA (USAspending, 12 meses)</button>
           <div id="lic-usa-res" aria-live="polite"></div>
