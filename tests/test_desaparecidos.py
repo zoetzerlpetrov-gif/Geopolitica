@@ -32,3 +32,9 @@ def test_casos_individuales_sin_titulo():
     assert g["properties"]["title"].startswith("Hallan fosa") and not g["properties"]["titulo_omitido"]
     pais = lambda t: (-102, 23, "México", "MEX", "país")  # noqa: E731
     assert D.de_titular("Hallan fosa clandestina en el país", "https://x/3", "M", "2026-10-28T10:00:00Z", pais, "RSS") is None
+
+
+def test_lugar_como_palabra_completa():
+    guarda = (-7.27, 40.54, "Guarda", "PRT", "estado")
+    assert D.lugar_completo("La Guardia Civil pide a los familiares de los desaparecidos acudir a los centros", guarda) is None
+    assert D.lugar_completo("Hallan fosa común en Guarda, Portugal", guarda) == guarda

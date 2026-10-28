@@ -75,6 +75,14 @@ def de_titular(titulo, url, medio, fecha, ubicar, via):
     return feature(titulo, url, medio, fecha, st, lugar, via)
 
 
+def lugar_completo(titulo, lugar):
+    """El lugar solo vale si su nombre aparece como palabra completa en el título («Guarda» no está en «Guardia Civil»)."""
+    if not lugar:
+        return None
+    nombre = norm(str(lugar[2]).split(",")[0])
+    return lugar if nombre and re.search(rf"\b{re.escape(nombre)}\b", norm(titulo)) else None
+
+
 def de_gkg(filas, ubicar, titulo_de, fecha_de):
     """Filas del GKG (cualquier medio del mundo) → features."""
     out = []
@@ -87,7 +95,7 @@ def de_gkg(filas, ubicar, titulo_de, fecha_de):
         fecha = fecha_de(f[1])
         if not fecha:
             continue
-        ft = de_titular(titulo, f[4], f[3], fecha, ubicar, "GDELT GKG (titular; lugar mencionado en el título)")
+        ft = de_titular(titulo, f[4], f[3], fecha, lambda t: lugar_completo(t, ubicar(t)), "GDELT GKG (titular; lugar mencionado en el título)")
         if ft:
             out.append(ft)
     return out

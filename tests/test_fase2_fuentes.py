@@ -9,10 +9,10 @@ import gps_interferencia as G  # noqa: E402
 
 
 def test_gps_niveles_y_filtro():
-    csv_ = "hex,count_good_aircraft,count_bad_aircraft\nA,1,0\nB,90,10\nC,95,1\nD,2,3\nE,1,1\n"
+    csv_ = "hex,count_good_aircraft,count_bad_aircraft\nA,1,0\nB,90,10\nC,95,1\nD,2,3\nE,1,1\nF,2,2\n"
     feats = G.features(csv_, "2026-10-24", contorno=lambda h: [[0, 0], [1, 0], [1, 1], [0, 0]])
     por = {f["properties"]["hex"]: f["properties"] for f in feats}
-    assert set(por) == {"B", "D"}  # A y E: menos de 3 aviones; C: menos de 2 %
+    assert set(por) == {"B", "D"}  # A, E y F: menos de 5 aviones; C: menos de 2 %
     assert por["B"]["nivel"] == "medio" and por["B"]["pct"] == 10.0
     assert por["D"]["nivel"] == "alto"
     assert G.ultima_fecha("date,suspect,num_bad_aircraft_hexes,source\n2026-10-23,false,612,merged\n2026-10-24,true,637,merged\n") == "2026-10-23"

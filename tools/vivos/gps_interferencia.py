@@ -22,7 +22,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos", "gps_interferencia.geojson")
 BASE = "https://gpsjam.org/data/"
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-MIN_AVIONES = 3
+MIN_AVIONES = 5
 UMBRAL_MEDIO, UMBRAL_ALTO = 0.02, 0.10
 
 
