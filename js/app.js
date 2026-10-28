@@ -480,6 +480,7 @@ async function abrirObjetoMovil(o, catalogo) {
 /** Encuadra lo dibujado dejando libre el espacio de la ficha. */
 function encuadrar(caja, maxZoom) {
   if (!caja) return;
+  vistaFicha ??= camaraActual(); // al cerrar la ficha se regresa a la vista de antes del acercamiento
   const movil = matchMedia("(max-width: 760px)").matches;
   api.map.fitBounds(caja, { padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 30, right: 30 } : { top: 60, bottom: 60, left: 60, right: 460 },
     maxZoom, duration: lite ? 0 : 800 });
@@ -519,6 +520,7 @@ async function abrirSatelite(o, catalogo) {
   trayectoria.mostrar(gj);
   // Una órbita completa rodea el planeta: se centra en el satélite (libre de la ficha) en vez de encuadrarla toda.
   const movil = matchMedia("(max-width: 760px)").matches;
+  vistaFicha ??= camaraActual();
   api.map.easeTo({ center: o.coords, zoom: Math.min(api.map.getZoom(), 2.2),
     padding: movil ? { top: 40, bottom: Math.round(innerHeight * 0.6), left: 0, right: 0 } : { top: 0, bottom: 0, left: 0, right: 440 }, duration: lite ? 0 : 800 });
 }
