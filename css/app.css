@@ -798,3 +798,9 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .pr-tmax small, .pr-tmin small { display: block; font-size: 9px; font-weight: 500; opacity: .8; }
 .clima-leyenda .marcas-f { opacity: .8; font-size: .92em; }
 .lista-corta { margin: 4px 0 6px; padding-left: 18px; font-size: 12px; } .lista-corta li { margin: 2px 0; }
+/* Buscador de lugares sobre el mapa (Photon). */
+.lug-buscador { position: absolute; top: 10px; left: calc(var(--panel-izq, 0px) + 10px); z-index: 4; width: min(320px, calc(100% - 90px)); }
+.lug-buscador input { width: 100%; box-sizing: border-box; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); box-shadow: var(--shadow); font-size: 13px; }
+.lug-lista { list-style: none; margin: 4px 0 0; padding: 4px 0; max-height: 50vh; overflow-y: auto; background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 8px; box-shadow: var(--shadow); font-size: 13px; }
+.lug-lista li { padding: 5px 10px; cursor: pointer; } .lug-lista li[data-i]:hover, .lug-lista li[aria-selected="true"] { background: var(--surface-2, #eef2f5); }
+.lug-lista .lug-atrib { cursor: default; font-size: 10px; text-align: right; }

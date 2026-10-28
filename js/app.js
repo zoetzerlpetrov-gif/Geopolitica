@@ -868,6 +868,8 @@ async function main() {
     $("verif-res").innerHTML = V.htmlResultado(V.analizarMensaje($("verif-texto").value));
   });
   iniciarInvestigacion();
+  iniciarTecnologia();
+  iniciarLugares();
   iniciarChatIA();
   $("pwd-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -1354,6 +1356,131 @@ async function iniciarInvestigacion() {
   $("vin-exportar").onclick = () => descargar(`vinculos-${new Date().toISOString().slice(0, 10)}.json`, "application/json", JSON.stringify(cuaderno, null, 1));
   $("vin-importar").onchange = async (e) => { try { const d = JSON.parse(await e.target.files[0].text()); if (Array.isArray(d.entidades) && Array.isArray(d.relaciones)) { cuaderno = d; pintarVin(); } } catch { alert("El archivo no es un cuaderno de vínculos válido."); } e.target.value = ""; };
   $("vin-borrar").onclick = () => { if (confirm("¿Borrar todas las entidades y relaciones de este navegador? Exporta antes si quieres conservarlas.")) { cuaderno = { entidades: [], relaciones: [] }; pintarVin(); } };
+}
+
+// Fase 3: patentes, tecnologías de agencias, tecnologías del crimen y empresas extranjeras en México.
+async function iniciarTecnologia() {
+  if (!$("b-inv-patentes")) return;
+  const T = await import("./tecnologia.js");
+  const cache = {};
+  const cargar = (k, url) => (cache[k] ??= getJSON(url).catch(() => null));
+  const tips = (id, xs) => { $(id).innerHTML = (xs || []).map((t) => `<li>${esc(t)}</li>`).join(""); };
+  $("b-inv-patentes").addEventListener("toggle", async () => {
+    if (!$("b-inv-patentes").open || $("pat-cpc").options.length) return;
+    const cat = await cargar("pat", "config/patentes.json");
+    if (!cat) { $("pat-res").innerHTML = `<p class="meta">No se pudo cargar el catálogo de clases.</p>`; return; }
+    $("pat-cpc").innerHTML = T.opcionesCpc(cat);
+    tips("pat-tips", cat.tips);
+  });
+  $("pat-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const cat = await cargar("pat", "config/patentes.json");
+    $("pat-res").innerHTML = T.htmlPatentes(cat, { q: $("pat-q").value, titular: $("pat-titular").value, pais: $("pat-pais").value, cpc: $("pat-cpc").value, desde: $("pat-desde").value });
+  });
+  const pintarAg = async () => {
+    const cat = await cargar("ag", "config/tec_agencias.json");
+    $("ag-res").innerHTML = cat ? T.htmlAgencias(T.filtrarAgencias(cat, { q: $("ag-q").value, tipo: $("ag-tipo").value })) : `<p class="meta">No se pudo cargar el catálogo.</p>`;
+    if (cat && !$("ag-tips").children.length) tips("ag-tips", cat.tips);
+  };
+  $("b-inv-agencias").addEventListener("toggle", () => $("b-inv-agencias").open && pintarAg());
+  $("ag-q").addEventListener("input", debounce(pintarAg, 250));
+  $("ag-tipo").addEventListener("change", pintarAg);
+  $("ag-form").addEventListener("submit", (e) => { e.preventDefault(); pintarAg(); });
+  const pintarCt = async () => {
+    const cat = await cargar("ct", "config/tec_crimen.json");
+    if (!cat) { $("ct-res").innerHTML = `<p class="meta">No se pudo cargar el catálogo.</p>`; return; }
+    $("ct-res").innerHTML = T.htmlCrimen(T.filtrarCrimen(cat, $("ct-q").value));
+    $("ct-fuentes").innerHTML = cat.fuentes_generales.map(([t, u]) => `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("");
+  };
+  $("b-inv-crimen-tec").addEventListener("toggle", () => $("b-inv-crimen-tec").open && pintarCt());
+  $("ct-q").addEventListener("input", debounce(pintarCt, 250));
+  $("ct-form").addEventListener("submit", (e) => { e.preventDefault(); pintarCt(); });
+  // Empresas extranjeras: catálogo semanal (Wikidata) + GLEIF en vivo.
+  const nombrePais = (iso, p) => paisNombre(iso) || p || iso;
+  const pintarExt = async () => {
+    const d = await cargar("ext", "data/vivos/empresas_extranjeras_mx.json");
+    if (!d) { $("ext-res").innerHTML = `<p class="meta">El catálogo aún no está disponible (se genera cada semana). Usa la búsqueda en GLEIF.</p>`; return; }
+    if ($("ext-pais").options.length < 2) {
+      if (!paises) await cargarPaises().catch(() => {});
+      $("ext-pais").innerHTML += T.paisesExtranjeras(d).map((p) => `<option value="${esc(p.iso)}">${esc(nombrePais(p.iso, p.pais))} (${p.n})</option>`).join("");
+      $("ext-ind").innerHTML += T.industriasExtranjeras(d).map((i) => `<option value="${esc(i)}">${esc(i)}</option>`).join("");
+    }
+    $("ext-res").innerHTML = T.htmlExtranjeras(d, T.filtrarExtranjeras(d, { q: $("ext-q").value, iso: $("ext-pais").value, industria: $("ext-ind").value }), nombrePais);
+  };
+  $("b-inv-extranjeras").addEventListener("toggle", () => {
+    if (!$("b-inv-extranjeras").open) return;
+    $("ext-fuentes").innerHTML = T.FUENTES_EXTRANJERAS.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("");
+    pintarExt();
+  });
+  $("ext-q").addEventListener("input", debounce(pintarExt, 250));
+  $("ext-pais").addEventListener("change", pintarExt);
+  $("ext-ind").addEventListener("change", pintarExt);
+  $("ext-form").addEventListener("submit", (e) => { e.preventDefault(); pintarExt(); });
+  $("ext-gleif").addEventListener("click", async () => {
+    const q = $("ext-q").value.trim();
+    if (q.length < MIN_BUSQUEDA) { $("ext-gleif-res").innerHTML = `<p class="meta">Escribe arriba al menos ${MIN_BUSQUEDA} letras del nombre.</p>`; return; }
+    $("ext-gleif-res").innerHTML = `<p class="meta">Consultando GLEIF…</p>`;
+    try {
+      const r = await fetch(T.urlGleifMx(q), { headers: { Accept: "application/vnd.api+json" } });
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const filas = ((await r.json()).data || []).map(T.filaGleif);
+      $("ext-gleif-res").innerHTML = T.htmlGleif(filas);
+      // Matriz última de cada una, de una en una (límite de uso de GLEIF: 60 consultas por minuto).
+      for (const f of filas) {
+        try {
+          const m = await fetch(`${T.GLEIF_API}/lei-records/${encodeURIComponent(f.lei)}/ultimate-parent`, { headers: { Accept: "application/vnd.api+json" } });
+          f.matriz = m.ok ? T.matrizGleif(await m.json()) : null;
+        } catch { f.matriz = null; }
+        $("ext-gleif-res").innerHTML = T.htmlGleif(filas);
+      }
+    } catch (err) { $("ext-gleif-res").innerHTML = `<p class="meta">GLEIF no respondió: ${esc(err.message)}</p>`; }
+  });
+}
+
+// Buscador de lugares sobre el mapa (Photon / OpenStreetMap).
+async function iniciarLugares() {
+  const campo = $("lug-q"), lista = $("lug-lista");
+  if (!campo) return;
+  const L = await import("./lugares.js");
+  let res = [], marca = null, sel = -1, pedido = 0;
+  const cerrar = () => { lista.hidden = true; campo.setAttribute("aria-expanded", "false"); sel = -1; };
+  const ir = (l) => {
+    if (!l) return;
+    cerrar();
+    campo.value = l.nombre;
+    if (l.bbox && !["Dirección", "Calle"].includes(l.tipo)) api.map.fitBounds(l.bbox, { padding: 40, maxZoom: 16, duration: lite ? 0 : 1200 });
+    else api.map.flyTo({ center: [l.lon, l.lat], zoom: Math.max(api.map.getZoom(), 16), duration: lite ? 0 : 1200 });
+    marca?.remove();
+    marca = new maplibregl.Marker({ color: "#C9A227" }).setLngLat([l.lon, l.lat])
+      .setPopup(new maplibregl.Popup({ offset: 24 }).setText(`${l.nombre}${l.detalle ? ` — ${l.detalle}` : ""}`)).addTo(api.map);
+  };
+  const buscar = debounce(async () => {
+    const q = campo.value;
+    if (!L.listoParaBuscar(q)) { cerrar(); return; }
+    const n = ++pedido, c = api.map.getCenter();
+    try {
+      const r = await fetch(L.urlPhoton(q, { lat: c.lat, lon: c.lng, idioma: document.documentElement.lang }));
+      const d = await r.json();
+      if (n !== pedido) return;
+      res = L.lugaresDe(d);
+    } catch { if (n !== pedido) return; res = []; }
+    lista.innerHTML = L.htmlLugares(res);
+    lista.hidden = false; campo.setAttribute("aria-expanded", "true"); sel = -1;
+  }, 350);
+  campo.addEventListener("input", buscar);
+  campo.addEventListener("keydown", (e) => {
+    if (lista.hidden || !res.length) return;
+    if (e.key === "ArrowDown" || e.key === "ArrowUp") {
+      e.preventDefault();
+      sel = (sel + (e.key === "ArrowDown" ? 1 : -1) + res.length) % res.length;
+      lista.querySelectorAll("[data-i]").forEach((li) => li.setAttribute("aria-selected", String(Number(li.dataset.i) === sel)));
+      campo.setAttribute("aria-activedescendant", `lug-op-${sel}`);
+    } else if (e.key === "Escape") cerrar();
+  });
+  $("lug-form").addEventListener("submit", (e) => { e.preventDefault(); ir(res[Math.max(sel, 0)]); });
+  lista.addEventListener("click", (e) => { const li = e.target.closest("[data-i]"); if (li) ir(res[Number(li.dataset.i)]); });
+  document.addEventListener("click", (e) => { if (!$("lug-form").contains(e.target)) cerrar(); });
+  campo.addEventListener("search", () => { if (!campo.value) { marca?.remove(); marca = null; cerrar(); } });
 }
 
 // ---------- Cambio en el tiempo (Sentinel-2 cloudless por año) ----------

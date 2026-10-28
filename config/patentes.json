@@ -1,0 +1,25 @@
+{
+ "descripcion": "Buscador de patentes públicas: arma la búsqueda en los buscadores oficiales y abiertos (no copia sus bases). Clases CPC (Clasificación Cooperativa de Patentes, EPO y USPTO) agrupadas por uso. Las invenciones con orden de secreto (en EUA, 35 U.S.C. 181) no se publican y no aparecen en ningún buscador.",
+ "buscadores": [
+  {"id": "google", "nombre": "Google Patents (mundo, texto completo)", "url": "https://patents.google.com/?q={q}{cpc_google}{titular_google}{pais_google}{desde_google}"},
+  {"id": "espacenet", "nombre": "Espacenet (Oficina Europea de Patentes, más de 150 millones de documentos)", "url": "https://worldwide.espacenet.com/patent/search?q={espacenet}"},
+  {"id": "patentscope", "nombre": "PATENTSCOPE (OMPI/WIPO, solicitudes PCT internacionales)", "url": "https://patentscope.wipo.int/search/es/result.jsf?query={patentscope}"},
+  {"id": "lens", "nombre": "The Lens (patentes y artículos científicos que las citan)", "url": "https://www.lens.org/lens/search/patent/list?q={q}"},
+  {"id": "uspto", "nombre": "USPTO Patent Public Search (EUA; la búsqueda se escribe en el portal)", "url": "https://ppubs.uspto.gov/pubwebapp/"},
+  {"id": "impi", "nombre": "IMPI, SIGA (México; la búsqueda se escribe en el portal)", "url": "https://siga.impi.gob.mx/"}
+ ],
+ "grupos": [
+  {"id": "defensa", "nombre": "Defensa y armamento", "clases": [["F41", "Armas"], ["F42", "Municiones y voladuras"], ["F41H", "Blindaje y vehículos blindados"], ["B63G", "Armamento en buques, minas y submarinos"], ["C06", "Explosivos"]]},
+  {"id": "aeroespacial", "nombre": "Aeronaves, drones y espacio", "clases": [["B64U", "Vehículos aéreos no tripulados (drones)"], ["B64C", "Aviones y helicópteros"], ["B64G", "Astronáutica y satélites"]]},
+  {"id": "sensores", "nombre": "Radar, sonar, navegación y guerra electrónica", "clases": [["G01S", "Radar, sonar, lidar y radionavegación (GNSS)"], ["H04K", "Comunicaciones secretas e interferencia (jamming)"], ["G01V", "Detección de objetos ocultos (geofísica, rayos X)"]]},
+  {"id": "ciber", "nombre": "Ciberseguridad, criptografía e IA", "clases": [["H04L9", "Mecanismos criptográficos"], ["G06F21", "Seguridad informática"], ["G06N", "Inteligencia artificial y aprendizaje automático"], ["G06V", "Reconocimiento de imágenes y video"]]},
+  {"id": "nuclear", "nombre": "Nuclear y energía", "clases": [["G21", "Física e ingeniería nuclear"], ["H01M", "Baterías y celdas de combustible"], ["Y02E", "Energía con menos emisiones"]]},
+  {"id": "comercial", "nombre": "Industria y comercio (ejemplos)", "clases": [["H01L", "Semiconductores"], ["B60L", "Vehículos eléctricos"], ["A61K", "Medicamentos"], ["G16H", "Informática para la salud"], ["G06Q", "Comercio electrónico y finanzas"]]}
+ ],
+ "tips": [
+  "Busca por titular (empresa o universidad) para ver en qué invierte un competidor: las patentes se publican unos 18 meses después de presentarse.",
+  "Una clase CPC acota mejor que una palabra: «dron» trae juguetes; B64U con F41 trae drones armados.",
+  "La familia de patentes (la misma invención en varios países) indica en qué mercados quiere protegerse el titular.",
+  "Que exista una patente no significa que el producto exista o funcione: es un derecho legal, no una prueba técnica."
+ ]
+}

@@ -237,6 +237,12 @@ Opciones de la vista: sonido, 3D, coordenadas, cielo|View options: sound, 3D, co
 Anima a la vez todo lo que se puede animar con lo que tienes encendido|Animates at once everything that can be animated among the layers you have on|Anime en même temps tout ce qui peut l'être parmi les couches actives|Animiert gleichzeitig alles Animierbare der eingeschalteten Ebenen|Anima insieme tutto ciò che si può animare tra i livelli accesi
 Modo LITE: menos detalle y sin animaciones, para equipos lentos|LITE mode: less detail and no animations, for slow devices|Mode LITE : moins de détails et sans animations, pour appareils lents|LITE-Modus: weniger Details und keine Animationen, für langsame Geräte|Modalità LITE: meno dettagli e senza animazioni, per dispositivi lenti
 Personas desaparecidas y fosas clandestinas|Missing persons and clandestine graves|Personnes disparues et fosses clandestines|Vermisste Personen und geheime Massengräber|Persone scomparse e fosse clandestine
+Patentes públicas: comerciales, militares y de doble uso|Public patents: commercial, military and dual-use|Brevets publics : commerciaux, militaires et à double usage|Öffentliche Patente: zivil, militärisch und Dual-Use|Brevetti pubblici: commerciali, militari e a duplice uso
+Tecnologías públicas de agencias (Pentágono, CIA, FBI, NSA y otras)|Public technologies of agencies (Pentagon, CIA, FBI, NSA and others)|Technologies publiques des agences (Pentagone, CIA, FBI, NSA et autres)|Öffentliche Technologien von Behörden (Pentagon, CIA, FBI, NSA und andere)|Tecnologie pubbliche delle agenzie (Pentagono, CIA, FBI, NSA e altre)
+Tecnologías usadas por el crimen y el terrorismo (cómo reconocerlas)|Technologies used by crime and terrorism (how to recognize them)|Technologies utilisées par le crime et le terrorisme (comment les reconnaître)|Von Kriminalität und Terrorismus genutzte Technologien (wie man sie erkennt)|Tecnologie usate dal crimine e dal terrorismo (come riconoscerle)
+Empresas extranjeras que operan en México|Foreign companies operating in Mexico|Entreprises étrangères opérant au Mexique|Ausländische Unternehmen mit Tätigkeit in Mexiko|Aziende straniere che operano in Messico
+Buscar lugar o dirección|Search place or address|Rechercher un lieu ou une adresse|Ort oder Adresse suchen|Cerca luogo o indirizzo
+Armar búsqueda|Build search|Préparer la recherche|Suche erstellen|Prepara la ricerca
 `;
 
 export const DICC = Object.fromEntries(FILAS.trim().split("\n").map((l) => l.split("|")).filter((c) => c.length === 5)
