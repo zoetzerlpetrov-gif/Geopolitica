@@ -26,7 +26,7 @@ export const BASES = [
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
   ["Mar: tráfico de barcos y pesca ilegal", "⚓", "#1B4F72"], ["Salud: brotes y enfermedades", "🦠", "#117A65"], ["Horas: zonas horarias del mundo", "🕒", "#6C5B7B"], ["Sociedad: idiomas y creadores de contenido", "📣", "#8E44AD"], ["Criminología: modalidades delictivas en noticias", "🔎", "#4A235A"],
-  ["Carreteras y calles: robos, bloqueos y protestas", "🚧", "#9C5B12"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
+  ["Carreteras y calles: robos, bloqueos y protestas", "🚧", "#9C5B12"], ["Personas desaparecidas y fosas clandestinas", "🕯️", "#5D4037"], ["Polos: Antártida, Groenlandia y Ártico", "🧊", "#3A7CA5"]];
 /** Polígono que abarca más de 90° de longitud o 60° de latitud: no es una zona real sino un relleno de todo el mapa. */
 function regionGigante(g) {
   if (!g || !/Polygon/.test(g.type)) return false;
@@ -223,11 +223,46 @@ export const TIPOS_VIAL = [
   ["protesta", "Protestas, marchas, paros y disturbios", "#5B3A8E", "📢", ["protesta", "paro", "protesta_violenta"]],
 ];
 let fuenteVial = null; // una sola descarga compartida por las 6 capas durante 10 min
+let oficialVial = null;  // cifras oficiales del SESNSP (vivos/sesnsp_robos.json, tools/crimen/sesnsp.py)
 async function datosVial() {
   if (fuenteVial && Date.now() - fuenteVial.t < 600e3) return fuenteVial.fc;
-  const fc = await getJSON("data/vivos/vial.geojson", { bust: true }).catch(() => ({ type: "FeatureCollection", features: [] }));
+  const [fc, of] = await Promise.all([getJSON("data/vivos/vial.geojson", { bust: true }).catch(() => ({ type: "FeatureCollection", features: [] })),
+    getJSON("data/vivos/sesnsp_robos.json", { bust: true }).catch(() => null)]);
   fuenteVial = { t: Date.now(), fc };
+  oficialVial = of;
   return fc;
+}
+
+// Capa de noticias → grupo de delitos del SESNSP (las demás capas de «Carreteras y calles» no tienen cifra oficial comparable).
+const SESNSP_DE = { robo_carga: "transportista", robo_publico: "transporte_publico", robo_vehiculo: "vehiculo" };
+const sinAcento = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+/** Estado del SESNSP mencionado en el lugar del titular («Celaya, Guanajuato» → «Guanajuato»). «México» es el Estado de México. */
+export function estadoSesnsp(lugar, estados) {
+  const l = sinAcento(lugar);
+  if (/ciudad de mexico|cdmx/.test(l)) return estados.find((e) => /ciudad de mexico/.test(sinAcento(e))) || null;
+  return [...estados].sort((a, b) => b.length - a.length).find((e) => {
+    const n = sinAcento(e).replace(/ de ignacio de la llave| de ocampo| de zaragoza/g, "");
+    return n === "mexico" ? /estado de mexico|edomex|\bmexico$/.test(l) && !/ciudad de mexico/.test(l) : l.includes(n);
+  }) || null;
+}
+
+/** Cifras oficiales y señales de noticias, lado a lado, para la ficha de un robo en carretera o transporte. */
+export function htmlOficialVial(p, capaId, of = oficialVial, fc = fuenteVial?.fc) {
+  const g = SESNSP_DE[capaId.replace(/^vial_/, "")];
+  if (!g || !of?.nacional?.[g]) return "";
+  const suma = (a) => (a || []).reduce((x, y) => x + (y || 0), 0);
+  const periodo = `${of.meses?.[0] || ""}–${(of.meses?.at(-1) || "").toLowerCase()} ${of.anio || ""}`;
+  const estado = p.pais_iso3 === "MEX" ? estadoSesnsp(p.lugar, Object.keys(of.por_estado || {})) : null;
+  const serie = estado ? of.por_estado[estado]?.[g] : null;
+  const noticias = (fc?.features || []).filter((f) => f.properties.st === capaId.replace(/^vial_/, "") && (!estado || estadoSesnsp(f.properties.lugar, [estado]))).length;
+  const fila = (t, v) => `<tr><td>${esc(t)}</td><td class="num">${typeof v === "number" ? v.toLocaleString("es-MX") : esc(v)}</td></tr>`;
+  return `<h4>Dos conteos distintos (no se suman)</h4><table class="tabla-mini">
+    ${estado ? fila(`Oficial SESNSP en ${estado}, ${periodo} (carpetas de investigación)`, suma(serie)) : ""}
+    ${estado && serie?.length ? fila(`Oficial SESNSP en ${estado}, ${of.meses.at(-1).toLowerCase()}`, serie.at(-1)) : ""}
+    ${fila(`Oficial SESNSP nacional, ${periodo}`, suma(of.nacional[g]))}
+    ${fila(`Señales de noticias en el mapa (72 h)${estado ? `, ${estado}` : ""}`, noticias)}</table>
+    <p class="meta">Oficial: ${esc(of.grupos?.[g] || "")}, fuero común, ${esc(of.fuente || "SESNSP")} (<a href="${esc(safeUrl(of.pagina || "https://www.gob.mx/sesnsp"))}" target="_blank" rel="noopener noreferrer">datos abiertos</a>).
+    Mide denuncias que abrieron una carpeta: no cuenta los robos no denunciados y llega con un mes de retraso. Las noticias son más rápidas pero incompletas y no son una estadística.</p>`;
 }
 export const CAPAS_VIAL = TIPOS_VIAL.map(([id, nombre, color, ic, sts]) => ({
   id: `vial_${id}`, grupo: VIAL, senal: true, nombre: `${ic} ${nombre} (noticias 72 h, verificar)`,
@@ -236,12 +271,61 @@ export const CAPAS_VIAL = TIPOS_VIAL.map(([id, nombre, color, ic, sts]) => ({
   estilo: (p) => ({ c: color, r: 3 + (p.severidad || 2) }),
   leyenda: [{ c: color, r: 6, t: nombre }, { t: id === "protesta"
     ? "En México, titulares de medios que nombran el lugar. En el mundo, eventos de GDELT con código CAMEO de protesta (14x) cubiertos por 5 notas o más; los que solo traen el país no se pintan."
-    : "Titulares de medios mexicanos que nombran la ciudad o el estado (sin lugar en el título no se pinta). Son señales para verificar, no cifras oficiales: las del SESNSP son mensuales y por estado." }],
+    : `Titulares de medios mexicanos que nombran la ciudad o el estado (sin lugar en el título no se pinta). Son señales para verificar, no cifras oficiales.${SESNSP_DE[id] ? " Al abrir un punto se muestra al lado la cifra oficial del SESNSP de ese estado y del país (mensual, por carpetas de investigación)." : ""}` }],
   ficha: (p) => ({ titulo: p.title, chip: `${p.tipo || nombre} · señal de noticias, verifica`,
     filas: [["Lugar", `${p.lugar || "—"}${p.precision === "estado" ? " (aprox.: centro del estado)" : ""}`], ["Severidad estimada", `${p.severidad || 2} de 5 (sube si el titular menciona violencia)`],
       ...(p.cameo ? [["Código CAMEO (GDELT)", `${p.cameo} · ${p.articulos || 1} nota(s)`]] : []), ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
       ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
+  extra: (p) => htmlOficialVial(p, `vial_${id}`),
   pie: "Antes de viajar por carretera en México: Guardia Nacional 088 y el estado de las vías en CAPUFE (@CAPUFE). Para denunciar: 089 (anónimo). No sustituye a las autoridades.",
+}));
+
+// Personas desaparecidas y fosas clandestinas (vivos/desaparecidos.geojson, tools/crimen/desaparecidos.py): señales de
+// noticias de 7 días, sin datos personales. Los casos individuales no guardan el título (que suele traer el nombre).
+const DESAP = "Personas desaparecidas y fosas clandestinas";
+export const TIPOS_DESAP = [
+  ["fosa", "Fosas clandestinas y hallazgo de restos", "#3E2723", "⚱️"],
+  ["busqueda", "Búsquedas de colectivos y comisiones", "#6D4C41", "🔦"],
+  ["identificacion", "Identificación de restos y crisis forense", "#5D6D7E", "🧬"],
+  ["desaparicion", "Reportes de personas desaparecidas (sin datos personales)", "#8E44AD", "🕯️"],
+];
+let fuenteDesap = null;
+async function datosDesap() {
+  if (fuenteDesap && Date.now() - fuenteDesap.t < 600e3) return fuenteDesap.fc;
+  const fc = await getJSON("data/vivos/desaparecidos.geojson", { bust: true }).catch(() => ({ type: "FeatureCollection", features: [] }));
+  fuenteDesap = { t: Date.now(), fc };
+  return fc;
+}
+// Registros oficiales para buscar a una persona o reportar una desaparición (el mapa no guarda datos de personas).
+const RECURSOS_DESAP = {
+  MEX: [["Registro Nacional de Personas Desaparecidas y No Localizadas (versión estadística)", "https://versionpublicarnpdno.segob.gob.mx/Dashboard/Index"],
+    ["Comisión Nacional de Búsqueda: reportar una desaparición", "https://cnbreportadesaparecidos.segob.gob.mx/"],
+    ["Alerta Amber México (niñas, niños y adolescentes)", "https://www.gob.mx/alertaamber"]],
+  USA: [["NamUs: personas desaparecidas y restos sin identificar", "https://namus.nij.ojp.gov/"], ["NCMEC (menores desaparecidos)", "https://www.missingkids.org/"]],
+  COL: [["Unidad de Búsqueda de Personas dadas por Desaparecidas (UBPD)", "https://ubpdbusquedadesaparecidos.co/"]],
+  ESP: [["Centro Nacional de Desaparecidos (CNDES)", "https://cndes-web.ses.mir.es/"]],
+  ARG: [["SIFEBU: personas extraviadas", "https://www.argentina.gob.ar/seguridad/personasextraviadas"]],
+};
+const RECURSOS_MUNDO = [["CICR: Restablecimiento del Contacto entre Familiares", "https://familylinks.icrc.org/"], ["ICMP (Comisión Internacional sobre Personas Desaparecidas)", "https://www.icmp.int/"],
+  ["ONU: Grupo de Trabajo sobre Desapariciones Forzadas", "https://www.ohchr.org/es/special-procedures/wg-disappearances"], ["Interpol: notificaciones amarillas", "https://www.interpol.int/es/Como-trabajamos/Notificaciones/Notificaciones-amarillas"]];
+export function htmlRecursosDesap(iso) {
+  const lista = [...(RECURSOS_DESAP[iso] || []), ...RECURSOS_MUNDO];
+  return `<h4>Dónde buscar o reportar</h4><ul class="fuentes">${lista.map(([t, u]) => `<li><a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("")}</ul>
+    <p class="meta">${iso === "MEX" ? "En México, una desaparición se reporta de inmediato (no hay que esperar 72 horas): 911, la fiscalía o la comisión de búsqueda del estado. " : ""}Este mapa no guarda nombres, fotos ni datos de personas.</p>`;
+}
+export const CAPAS_DESAP = TIPOS_DESAP.map(([id, nombre, color, ic]) => ({
+  id: `desap_${id}`, grupo: DESAP, senal: true, noAmenaza: true, nombre: `${ic} ${nombre} (noticias 7 días, verificar)`,
+  fuente: "Medios mexicanos (RSS) y titulares de GDELT GKG de todo el mundo", generar: datosDesap,
+  derivar: (fc) => ({ ...fc, features: (fc.features || []).filter((f) => f.properties.st === id) }),
+  estilo: () => ({ c: color, r: 6 }),
+  leyenda: [{ c: color, r: 6, t: nombre }, { t: id === "desaparicion"
+    ? "Notas de casos individuales: el mapa no guarda el título (suele traer el nombre), solo el lugar aproximado, el medio y el enlace a la nota."
+    : "Titulares de medios que nombran la ciudad o el estado. Son señales para verificar, no cifras oficiales; la cifra oficial de México está en el Registro Nacional (RNPDNO)." }],
+  ficha: (p) => ({ titulo: p.title, chip: `${p.tipo || nombre} · señal de noticias, verifica`,
+    filas: [["Lugar", `${p.lugar || "—"}${p.precision === "estado" ? " (aprox.: centro del estado)" : ""}`], ["Medio", p.source || "—"], ["Fecha", p.date ? fecha(p.date) : "—"],
+      ...(p.via ? [["Origen del dato", p.via]] : [])], url: p.url, fuente: p.source || "Noticia" }),
+  extra: (p) => htmlRecursosDesap(p.pais_iso3),
+  pie: "Información sensible: verifica en la nota y en las fuentes oficiales antes de compartir. No sustituye a las autoridades ni a las comisiones de búsqueda.",
 }));
 
 // Fenómenos anómalos: una capa por clase (todas leen vivos/anomalias.geojson). Van en su propio menú y NO entran a la
@@ -659,6 +743,18 @@ export const CAPAS = [
   ...VENTANAS_CRIMEN,
   ...CAPAS_MODALIDADES,
   ...CAPAS_VIAL,
+  ...CAPAS_DESAP,
+  {
+    id: "gps_interferencia", grupo: "Seguridad y ataques", nombre: "Interferencia de GPS (bloqueo o suplantación) vista desde aviones (GPSJam, diario)", noAmenaza: true,
+    url: "data/vivos/gps_interferencia.geojson", refresco_s: 21600, fuente: "GPSJam.org (datos de ADS-B Exchange y otros agregadores)",
+    estilo: (p) => ({ c: p.nivel === "alto" ? "#C62828" : "#F2B134", r: 4 }),
+    leyenda: [{ c: "#F2B134", r: 6, t: "2 a 10 % de los aviones con navegación por satélite degradada" }, { c: "#C62828", r: 6, t: "Más de 10 %" },
+      { t: "Cada hexágono (~1,770 km²) junta los reportes de un día. Mucha navegación mala en una zona suele indicar interferencia deliberada (en zonas de conflicto es frecuente), pero también puede venir de fallas del equipo. Se publica con 1 a 3 días de retraso." }],
+    ficha: (p) => ({ titulo: `Navegación GPS degradada: ${p.pct} % de los aviones`, chip: `nivel ${p.nivel} · ${p.fecha}`,
+      filas: [["Aviones con navegación mala", String(p.malos)], ["Aviones con navegación buena", String(p.buenos)], ["Día (UTC)", p.fecha],
+        ["Qué significa", "Los aviones reportan por ADS-B qué tan precisa es su posición por satélite. Si muchos la reportan mala en la misma zona, lo más probable es interferencia (jamming o spoofing)."]],
+      url: "https://gpsjam.org/", fuente: "GPSJam.org" }),
+  },
   {
     id: "conflictos_zonas", grupo: "Seguridad y ataques", nombre: "Zonas de conflicto armado: resumen, noticias y videos (lista curada)", noAmenaza: true,
     url: "data/base/conflictos.geojson", refresco_s: 86400, fuente: "Lista curada propia; polígonos de Natural Earth",
@@ -933,6 +1029,18 @@ export const CAPAS = [
     leyenda: [{ c: "#C9A227", r: 5, t: "Menos de 0.3 kilotones" }, { c: "#E2711D", r: 7, t: "0.3 a 1 kilotón" }, { c: "#C62828", r: 9, t: "1 kilotón o más" },
       { t: "Energía estimada de la explosión en el aire (1 kilotón = 1000 t de TNT)." }],
     ficha: (p) => ({ titulo: `Bólido del ${String(p.fecha_utc || "").slice(0, 10)}`, chip: p.energia_kt != null ? `${p.energia_kt} kt` : "", filas: K.filasBolido(p), url: p.url, fuente: "NASA/JPL CNEOS" }),
+  },
+  {
+    id: "eclipses", grupo: "Espacio", nombre: "Eclipses de Sol: franjas de totalidad y anularidad de los próximos años (NASA)", noAmenaza: true,
+    url: "data/vivos/eclipses.geojson", refresco_s: 86400, fuente: "NASA Eclipse Web Site (F. Espenak, GSFC)",
+    complementar: async (fc) => ({ ...fc, features: fc.features.map((f) => ({ ...f, properties: { ...f.properties, _otros: fc.otros || [] } })) }),
+    estilo: (p) => ({ c: { total: "#1B1B3A", anular: "#E09F3E", "híbrido": "#7B2CBF" }[p.tipo] || "#555", r: 4 }),
+    leyenda: [{ c: "#1B1B3A", r: 6, t: "Total: el Sol se oculta por completo dentro de la franja" }, { c: "#E09F3E", r: 6, t: "Anular: queda un anillo de Sol" },
+      { c: "#7B2CBF", r: 6, t: "Híbrido" }, { t: "Fuera de la franja el eclipse se ve parcial. La línea marca el centro, donde dura más. Nunca mires el Sol sin filtro certificado (ISO 12312-2)." }],
+    ficha: (p) => ({ titulo: `Eclipse ${p.tipo} de Sol, ${p.fecha}`, chip: `máximo ${p.hora_utc} UTC`,
+      filas: [["Duración máxima en el centro", p.duracion || "—"], ["Dónde se ve", p.region || "—"], ["Fecha y hora del máximo", `${p.fecha}, ${p.hora_utc} UTC`]],
+      url: p.franja_url || "https://eclipse.gsfc.nasa.gov/", fuente: "NASA (F. Espenak)" }),
+    extra: (p) => { const o = lista(p._otros); return o.length ? `<h4>Otros eclipses próximos (sin franja en el mapa)</h4><ul class="fuentes">${o.slice(0, 12).map((e) => `<li>${esc(e.fecha)} · ${e.cuerpo === "luna" ? "Luna" : "Sol"}, ${esc(e.tipo)} · ${esc(e.region || "")}</li>`).join("")}</ul>` : ""; },
   },
   {
     id: "nws", grupo: "Clima y ambiente", nombre: "Alertas meteorológicas de EUA (NWS, en vivo)", url: "https://api.weather.gov/alerts/active?status=actual&message_type=alert",

@@ -236,6 +236,7 @@ Sin conexión con OpenFreeMap el mapa usa su versión local: no hay contornos de
 Opciones de la vista: sonido, 3D, coordenadas, cielo|View options: sound, 3D, coordinates, sky|Options d'affichage : son, 3D, coordonnées, ciel|Ansichtsoptionen: Ton, 3D, Koordinaten, Himmel|Opzioni di visualizzazione: suono, 3D, coordinate, cielo
 Anima a la vez todo lo que se puede animar con lo que tienes encendido|Animates at once everything that can be animated among the layers you have on|Anime en même temps tout ce qui peut l'être parmi les couches actives|Animiert gleichzeitig alles Animierbare der eingeschalteten Ebenen|Anima insieme tutto ciò che si può animare tra i livelli accesi
 Modo LITE: menos detalle y sin animaciones, para equipos lentos|LITE mode: less detail and no animations, for slow devices|Mode LITE : moins de détails et sans animations, pour appareils lents|LITE-Modus: weniger Details und keine Animationen, für langsame Geräte|Modalità LITE: meno dettagli e senza animazioni, per dispositivi lenti
+Personas desaparecidas y fosas clandestinas|Missing persons and clandestine graves|Personnes disparues et fosses clandestines|Vermisste Personen und geheime Massengräber|Persone scomparse e fosse clandestine
 `;
 
 export const DICC = Object.fromEntries(FILAS.trim().split("\n").map((l) => l.split("|")).filter((c) => c.length === 5)

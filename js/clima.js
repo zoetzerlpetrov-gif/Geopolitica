@@ -184,8 +184,10 @@ export class Clima {
 
   async setPaso(i) {
     this.paso = i;
-    for (const t of ["temp", "lluvia", "polar"]) if (this.activas.has(t) && this.pasoActual[t]) this.map.getSource(`clima-${t}`)?.updateImage({ url: BASE + this.pasoActual[t], coordinates: COORDS });
+    for (const t of ["temp", "lluvia", "polar", "nieve", "vortice"]) if (this.activas.has(t) && this.pasoActual[t]) this.map.getSource(`clima-${t}`)?.updateImage({ url: BASE + this.pasoActual[t], coordinates: COORDS });
     if (this.activas.has("polar") && this.pasoActual.isotermas) this.map.getSource("clima-polar-lineas")?.setData(BASE + this.pasoActual.isotermas);
+    // Las bolsas de aire frío se calculan solo para ≈ ahora y +12 h: en los demás momentos se deja la más cercana.
+    if (this.activas.has("bolsas")) { const b = bolsasDe(this.meta, this.paso); if (b) this.map.getSource("clima-bolsas")?.setData(BASE + b); }
     if (this.activas.has("viento")) this.particulas.setCampo(await cargarViento(BASE + this.pasoActual.viento, this.meta));
   }
 
@@ -220,10 +222,21 @@ export class Clima {
   #instalar(tipo) {
     const id = `clima-${tipo}`;
     if (this.map.getSource(id)) return;
+    if (tipo === "bolsas") {
+      const b = bolsasDe(this.meta, this.paso);
+      if (!b) throw new Error("la corrida actual del modelo todavía no trae bolsas de aire frío; aparecerán en la siguiente (cada 6 h)");
+      this.map.addSource(id, { type: "geojson", data: BASE + b });
+      const antes = ["choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
+      this.map.addLayer({ id, type: "circle", source: id, paint: { "circle-color": ["interpolate", ["linear"], ["get", "anomalia_c"], -14, "#4A148C", -8, "#283593", -4, "#42A5F5"],
+        "circle-radius": ["interpolate", ["linear"], ["get", "anomalia_c"], -14, 16, -4, 8], "circle-opacity": 0.75, "circle-stroke-color": "#ffffff", "circle-stroke-width": 1.5 } }, antes);
+      this.map.addLayer({ id: `${id}-etiquetas`, type: "symbol", source: id, layout: { ...layoutEtiqueta(this.map), "text-field": ETIQUETA_BOLSA, "text-size": 11,
+        "text-font": ["Noto Sans Regular"], "text-offset": [0, 1.4], "text-anchor": "top" }, paint: pinturaEtiqueta() }, antes);
+      return;
+    }
     if (!this.pasoActual[tipo]) throw new Error("la corrida actual del modelo todavía no trae esta capa; aparecerá en la siguiente (cada 6 h)");
     this.map.addSource(id, { type: "image", url: BASE + this.pasoActual[tipo], coordinates: COORDS });
     const antes = ["paises-contorno", "choke-anillo", "clusters"].find((l) => this.map.getLayer(l));
-    this.map.addLayer({ id, type: "raster", source: id, paint: { "raster-opacity": tipo === "temp" ? 0.6 : 0.85, "raster-fade-duration": 0, "raster-resampling": "linear" } }, antes);
+    this.map.addLayer({ id, type: "raster", source: id, paint: { "raster-opacity": tipo === "temp" ? 0.6 : tipo === "vortice" ? 0.75 : 0.85, "raster-fade-duration": 0, "raster-resampling": "linear" } }, antes);
     if (tipo === "polar" && this.pasoActual.isotermas) {
       // Isotermas de 0, −10 y −20 °C a 850 hPa: el borde de la masa de aire frío y su núcleo.
       this.map.addSource(`${id}-lineas`, { type: "geojson", data: BASE + this.pasoActual.isotermas });
@@ -235,6 +248,28 @@ export class Clima {
         paint: pinturaEtiqueta() }, antes);
     }
   }
+}
+
+/** Archivo de bolsas de aire frío del momento `i` o, si no se calculó para él, del momento más cercano que lo tenga. */
+export function bolsasDe(meta, i) {
+  const pasos = meta?.pasos || [];
+  if (pasos[i]?.bolsas) return pasos[i].bolsas;
+  const con = pasos.map((p, k) => [k, p.bolsas]).filter(([, b]) => b);
+  if (!con.length) return null;
+  return con.reduce((a, b) => (Math.abs(b[0] - i) < Math.abs(a[0] - i) ? b : a))[1];
+}
+
+// «−24 °C / −11 °F (−9 °C de lo normal)» a 500 hPa, con la temperatura a 850 hPa si viene.
+export const ETIQUETA_BOLSA = ["concat", ["to-string", ["get", "t500_c"]], " °C / ", ["to-string", ["round", ["+", 32, ["*", 1.8, ["get", "t500_c"]]]]], " °F",
+  "\n", ["to-string", ["get", "anomalia_c"]], " °C vs. lo normal"];
+
+/** Resumen del vórtice polar por hemisferio (HTML). */
+export function htmlVortice(r) {
+  if (!r) return "";
+  const f = (c) => `${c} °C / ${Math.round(c * 1.8 + 32)} °F`;
+  const fila = (nombre, h) => h ? `<li><b>${nombre}:</b> ${h.estado}. Viento del oeste a 60° y 10 hPa: ${h.u60_ms} m/s (${Math.round(h.u60_ms * 3.6)} km/h).
+    Temperatura media sobre el polo a ~31 km: ${f(h.t_polo_c)}. Centro cerca de ${Math.abs(h.centro[1])}° ${h.centro[1] >= 0 ? "N" : "S"}, ${Math.abs(h.centro[0])}° ${h.centro[0] >= 0 ? "E" : "O"}.</li>` : "";
+  return `<ul class="lista-corta">${fila("Hemisferio norte", r.norte)}${fila("Hemisferio sur", r.sur)}</ul>`;
 }
 
 /** Barra de leyenda (HTML) a partir de [[valor, color], …]. */

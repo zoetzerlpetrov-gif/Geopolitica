@@ -26,6 +26,11 @@ export const IMAGENES = {
       tramos: [["rgb(8,40,100)", "Menos de 1.5 DU: nivel de fondo, sin fuente cercana"], ["rgb(36,114,180)", "1.5 a 2.5 DU: algo elevado (ciudades, industria lejana)"],
         ["rgb(109,175,213)", "2.5 a 3.5 DU: elevado; posible fundidora, refinería o central de carbón"], ["rgb(196,217,238)", "3.5 a 4.5 DU: alto"],
         ["rgb(247,251,255)", "4.5 DU o más: muy alto; erupción volcánica o emisión industrial fuerte"]] } },
+  // Nieve observada por satélite (NDSI de VIIRS en NOAA-20, ~375 m): dónde hay nieve hoy (el pronóstico de profundidad
+  // está en «Clima»). Las nubes tapan el suelo: se rellenan con los 2 días anteriores.
+  nieve_viirs: { nombre: "Nieve en el suelo vista por satélite (VIIRS NOAA-20, diario)", capa: "VIIRS_NOAA20_NDSI_Snow_Cover", matriz: "GoogleMapsCompatible_Level8",
+    ext: "png", maxzoom: 8, opacidad: 0.85, relleno: 2, paleta: true,
+    leyenda: "Cobertura de nieve (índice NDSI de NASA, paleta oficial de GIBS): blanco a azul claro = nieve. Donde hay nubes o es de noche el satélite no ve el suelo; esos huecos se rellenan con los 2 días anteriores. Para la profundidad pronosticada, «Clima» → «Nieve en el suelo»." },
   // Índice de aerosoles: humo de incendios, polvo del Sahara y ceniza volcánica (partículas que absorben luz UV).
   aerosoles: { nombre: "Aerosoles: humo, polvo y ceniza volcánica (OMPS)", capa: "OMPS_Aerosol_Index", matriz: "GoogleMapsCompatible_Level6", ext: "png",
     maxzoom: 6, opacidad: 0.75, leyenda: "Índice sin unidades de NASA (paleta oficial de GIBS). Mide partículas en la columna de aire, no la calidad del aire a ras de suelo. Los tramos de interpretación son orientativos.",

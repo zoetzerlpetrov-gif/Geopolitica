@@ -797,3 +797,4 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 /* Pronóstico: °F en pequeño bajo el °C. */
 .pr-tmax small, .pr-tmin small { display: block; font-size: 9px; font-weight: 500; opacity: .8; }
 .clima-leyenda .marcas-f { opacity: .8; font-size: .92em; }
+.lista-corta { margin: 4px 0 6px; padding-left: 18px; font-size: 12px; } .lista-corta li { margin: 2px 0; }

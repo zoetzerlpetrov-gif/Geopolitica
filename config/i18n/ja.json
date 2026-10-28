@@ -218,6 +218,7 @@
 "Sin conexión con OpenFreeMap el mapa usa su versión local: no hay contornos de estados ni etiquetas de ciudades o calles.": "OpenFreeMap に接続できないときは地図のローカル版を使用します：州の境界や都市・道路名は表示されません。",
 "Opciones de la vista: sonido, 3D, coordenadas, cielo": "表示オプション：音、3D、座標、空",
 "Anima a la vez todo lo que se puede animar con lo que tienes encendido": "オンにしているレイヤーのうち、動かせるものをまとめて再生",
-"Modo LITE: menos detalle y sin animaciones, para equipos lentos": "LITE モード：詳細を減らしアニメーションなし（低速な端末向け）"
+"Modo LITE: menos detalle y sin animaciones, para equipos lentos": "LITE モード：詳細を減らしアニメーションなし（低速な端末向け）",
+"Personas desaparecidas y fosas clandestinas": "行方不明者と秘密の墓"
 }
 }
