@@ -1,19 +1,18 @@
 <!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../vendor/maplibre-gl/maplibre-gl.css">
 <style>body{margin:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;width:1600px;height:900px}div.m{position:relative}div.m b{position:absolute;z-index:9;background:#fff;padding:2px 6px;font:14px sans-serif}</style></head><body>
-<div class="m" id="A"><b>A fade0 op.75 vacío</b></div><div class="m" id="B"><b>B fade300 op.75 vacío</b></div><div class="m" id="C"><b>C fade0 op1 vacío</b></div><div class="m" id="D"><b>D fade0 op.75 error</b></div>
+<div class="m" id="A"><b>A paleta 934</b></div><div class="m" id="B"><b>B paleta 1189</b></div><div class="m" id="C"><b>C gris 155</b></div><div class="m" id="D"><b>D VACIO propio</b></div>
 <script src="../../vendor/maplibre-gl/maplibre-gl.js"></script>
 <script type="module">
 import { cargarMosaico } from "../../js/gibs.js";
 const OZ = "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/OMPS_Ozone_Total_Column/default/2026-10-26/GoogleMapsCompatible_Level6/";
-maplibregl.addProtocol("vac", async (p, c) => { const [z, y, x] = p.url.split("://")[1].split("/").map(Number);
+const F = { A: "pal934.png", B: "pal1189.png", C: "gris155.png" };
+for (const k of ["A", "B", "C", "D"]) maplibregl.addProtocol("p" + k, async (p, c) => { const [z, y, x] = p.url.split("://")[1].split("/").map(Number);
   if ((x + y) % 2) return { data: await (await fetch(`${OZ}${z}/${y}/${x}.png`)).arrayBuffer() };
-  return cargarMosaico("https://x.invalid/404", c.signal, async () => ({ ok: false, headers: { get: () => "" } })); });
-maplibregl.addProtocol("err", async (p) => { const [z, y, x] = p.url.split("://")[1].split("/").map(Number);
-  if ((x + y) % 2) return { data: await (await fetch(`${OZ}${z}/${y}/${x}.png`)).arrayBuffer() };
-  throw new Error("404"); });
+  if (k === "D") return cargarMosaico("https://x.invalid/404", c.signal, async () => ({ ok: false, headers: { get: () => "" } }));
+  return { data: await (await fetch(F[k])).arrayBuffer() }; });
 const estilo = { version: 8, sources: { p: { type: "geojson", data: "../../data/base/countries-110m.geojson" } },
   layers: [{ id: "f", type: "background", paint: { "background-color": "#cfe3f2" } }, { id: "p", type: "fill", source: "p", paint: { "fill-color": "#f4f1ea" } }] };
-for (const [id, prot, fade, op] of [["A", "vac", 0, 0.75], ["B", "vac", 300, 0.75], ["C", "vac", 0, 1], ["D", "err", 0, 0.75]]) {
+for (const [id, prot, fade, op] of [["A", "pA", 300, 0.75], ["B", "pB", 300, 0.75], ["C", "pC", 300, 0.75], ["D", "pD", 300, 0.75]]) {
   const m = new maplibregl.Map({ container: id, style: estilo, center: [0, 20], zoom: 1.6, attributionControl: false });
   m.on("load", () => { m.addSource("r", { type: "raster", tiles: [`${prot}://{z}/{y}/{x}`], tileSize: 256, maxzoom: 6 });
     m.addLayer({ id: "r", type: "raster", source: "r", paint: { "raster-opacity": op, "raster-fade-duration": fade } }); });
