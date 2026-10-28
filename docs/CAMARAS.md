@@ -30,7 +30,7 @@ Se amplía Windy utilizando únicamente la clave ya configurada: se pide `includ
 
 ### Uso dentro de la app
 
-1. Activar las cámaras y pulsar un punto del mapa abre la ficha con la vista previa disponible.
+1. Activar las cámaras y pulsar un punto del mapa abre la ficha con la vista previa disponible. También se puede usar [`camaras.html`](../camaras.html), visor con buscador y filtros de imágenes/video que no depende de WebGL. La URL `camaras.html?id=ID` abre una cámara concreta usando las mismas fichas.
 2. Pulsar una imagen abre una vista ampliada dentro de la misma página; puede cerrarse con el botón o con Escape.
 3. Si una imagen falla, se muestra el fallo y un botón para reintentar, conservando la URL exacta del operador.
 4. Los videos HLS y clips se reproducen dentro de la ficha. Los videos y reproductores externos se descargan al cerrar la ficha para detener su reproducción.
