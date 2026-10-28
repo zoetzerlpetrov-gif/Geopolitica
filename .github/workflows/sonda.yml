@@ -12,13 +12,10 @@ jobs:
         with: { python-version: "3.12" }
       - uses: actions/setup-node@v4
         with: { node-version: "20" }
-      - name: Fuentes
-        continue-on-error: true
-        run: python3 tools/sonda/fuentes.py
       - run: npm i playwright@1.48.2 && npx playwright install --with-deps chromium
-      - name: PMTiles en el sitio publicado
+      - name: Humo (rama completa)
         continue-on-error: true
-        run: mkdir -p capturas && node tools/sonda/pmtiles.mjs | tee capturas/pm.txt
+        run: mkdir -p capturas && node tools/sonda/humo.mjs . | tee capturas/humo.txt
       - name: Subir capturas
         if: always()
         run: |

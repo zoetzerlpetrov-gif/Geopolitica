@@ -1181,6 +1181,17 @@ function iniciarImagenes() {
   const notaNoche = (r, error) => {
     $("img-noche-nota").textContent = r === undefined ? "" : r ? `Luces nocturnas: ${r.etiqueta} (${r.fecha}). Zonas de día salen oscuras: el sensor solo ve luz artificial de noche.` : `Luces nocturnas: ${error || "sin imagen"}`;
   };
+  // TEMPO: qué barrido se ve (hora de México) y, si la vista no incluye América del Norte, se lleva el mapa ahí.
+  const notaTempo = (cb) => {
+    const t = img.activas.get("no2_tempo")?.fecha;
+    let p = cb.closest(".opcion-capa").querySelector(".nota-tempo");
+    if (!p) { p = document.createElement("p"); p.className = "meta nota-tempo"; cb.closest(".opcion-capa").append(p); }
+    p.textContent = t && t !== "default"
+      ? `Barrido mostrado: ${new Date(t).toLocaleString("es-MX", { timeZone: "America/Mexico_City", dateStyle: "medium", timeStyle: "short" })} (hora del centro de México). NASA lo publica con unas 3 a 4 h de retraso; de noche no hay barridos nuevos.`
+      : "GIBS no indicó la hora del barrido: se muestra el más reciente que publique.";
+    const c = api.map.getCenter();
+    if (!(c.lng > -170 && c.lng < -40 && c.lat > 5 && c.lat < 75)) api.map.flyTo({ center: [-100, 35], zoom: Math.max(api.map.getZoom(), 2.6), duration: lite ? 0 : 1000 });
+  };
   cont.addEventListener("change", async (e) => {
     if (e.target.matches("[data-tl]")) { alternarTimelapse(e.target); return; }
     if (e.target.matches("[data-eei]")) { alternarEEI(e.target); return; }
@@ -1189,7 +1200,11 @@ function iniciarImagenes() {
     if (!id) return;
     if (!e.target.checked) { img.desactivar(id); if (id === "viirs_noche") notaNoche(undefined); avisarPresupuesto(); return; }
     if (id === "viirs_noche") $("img-noche-nota").textContent = "Buscando la imagen disponible más reciente…";
-    try { const r = await img.activar(id, fecha); if (id === "viirs_noche") notaNoche(r); } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
+    try {
+      const r = await img.activar(id, fecha);
+      if (id === "viirs_noche") notaNoche(r);
+      if (id === "no2_tempo") notaTempo(e.target);
+    } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
     avisarPresupuesto();
   });
 }

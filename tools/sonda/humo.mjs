@@ -74,6 +74,19 @@ await p.fill("#ext-q", "nissan"); await p.click("#ext-gleif"); await p.waitForTi
 await p.fill("#lic-q", "agua"); await p.click("#lic-form button:not(.btn-limpiar):not([type=button])").catch(() => p.evaluate(() => document.getElementById("lic-form").requestSubmit()));
 await p.waitForTimeout(4000); console.log("LICITACIONES agua:", await leer("lic-res")); console.log("PORTALES:", await leer("lic-portales"));
 await p.screenshot({ path: "capturas/humo-investigacion.png", fullPage: false });
+actual = "tempo";
+await p.evaluate(() => { const x = document.querySelector('[data-img="no2_tempo"]'); for (let d = x?.parentElement; d; d = d.parentElement) if (d.tagName === "DETAILS") d.open = true; x?.click(); });
+await p.waitForTimeout(15000); console.log("TEMPO:", await p.evaluate(() => document.querySelector(".nota-tempo")?.textContent || "(sin nota)"));
+await p.screenshot({ path: "capturas/humo-tempo.png" });
+await p.evaluate(() => document.querySelector('[data-img="no2_tempo"]')?.click());
+actual = "zonas_horarias";
+await p.evaluate(() => document.querySelector('[data-riesgo="zonas_horarias"]')?.click()); await p.waitForTimeout(5000);
+await p.screenshot({ path: "capturas/humo-zonas.png" }); await p.evaluate(() => document.querySelector('[data-riesgo="zonas_horarias"]')?.click());
+actual = "nubes_ir";
+await p.evaluate(() => document.querySelector('[data-clima="nubes_ir"]')?.click());
+for (let i = 0; i < 12; i++) { await p.waitForTimeout(5000); console.log(`NUBES t=${(i + 1) * 5}s:`, await p.evaluate(() => (document.getElementById("carga-nubes_ir")?.hidden ? "LISTO " : "") + (document.getElementById("carga-nubes_ir")?.textContent.trim() || ""))); }
+await p.screenshot({ path: "capturas/humo-nubes.png" });
+await p.evaluate(() => document.querySelector('[data-clima="nubes_ir"]')?.click());
 actual = "lugares";
 await p.fill("#lug-q", "Paseo de Montejo Merida"); await p.waitForTimeout(3000); console.log("LUGARES:", await leer("lug-lista"));
 await p.keyboard.press("Enter"); await p.waitForTimeout(3000); await p.screenshot({ path: "capturas/humo-lugar.png" });
