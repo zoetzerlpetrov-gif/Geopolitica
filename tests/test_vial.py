@@ -23,6 +23,16 @@ def test_clasificar_titulares_reales():
         "Cuba denuncia el bloqueo económico de Estados Unidos": None,
         "La marcha de la economía mexicana en el tercer trimestre": None,
         "Cargo theft rises at Laredo border crossing": "robo_carga",
+        # Formas frecuentes que antes no entraban (los tres tipos salían en cero, oct 2026)
+        "Asaltan combi en Ecatepec": "robo_publico",
+        "Asalto en camión urbano de Monterrey": "robo_publico",
+        "Asaltan a operador de tractocamión en Celaya": "robo_carga",
+        "Robo al autotransporte de carga sube 10% en Guanajuato": "robo_carga",
+        "Saqueo de tren en Celaya": "robo_carga",
+        "Normalistas liberan casetas en Guerrero": "caseta",
+        "Manifestantes toman la caseta de Palo Blanco": "caseta",
+        "Le roban la cartera en el Metro": None,
+        "Asaltan a la tienda de conveniencia en Toluca": None,
     }
     for titulo, esperado in casos.items():
         assert V.clasificar(titulo) == esperado, titulo
