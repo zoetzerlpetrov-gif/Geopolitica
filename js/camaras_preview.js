@@ -19,6 +19,7 @@ export function iniciarPreviewsCamaras(cuerpo, panel = cuerpo) {
     const actualizar = () => {
       const imgs = [...preview.querySelectorAll('img')].filter(i => !i.closest('.cam-lightbox'));
       const buenas = imgs.filter(i => i.complete && i.naturalWidth > 0).length;
+      if (!imgs.length) return;
       const malas = imgs.filter(i => i.dataset.errorCamara === '1').length;
       if (malas === imgs.length && malas) indicar('La imagen no respondió. Puedes reintentar aquí o consultar al operador.');
       else if (buenas) indicar(`Vista previa disponible${imgs.length > 1 ? ` · ${buenas} de ${imgs.length} vistas` : ''}. Pulsa la imagen para ampliarla aquí.`);
@@ -48,14 +49,16 @@ export function iniciarPreviewsCamaras(cuerpo, panel = cuerpo) {
       dialogo.setAttribute('aria-label', 'Vista ampliada de la cámara');
       const cerrar = document.createElement('button');
       cerrar.type = 'button'; cerrar.className = 'boton'; cerrar.textContent = 'Cerrar vista ampliada';
-      const img = document.createElement('img');
-      img.src = url; img.alt = boton.querySelector('img')?.alt || 'Vista de la cámara';
+      // Mover la imagen ya cargada evita otra petición al operador al ampliarla.
+      const img = boton.querySelector('img') || document.createElement('img');
+      if (!img.getAttribute('src')) img.src = url;
+      if (!img.alt) img.alt = 'Vista de la cámara';
       img.referrerPolicy = 'no-referrer';
       dialogo.append(cerrar, img);
       preview.append(dialogo);
       const actual = dialogo;
       cerrar.addEventListener('click', () => actual.close());
-      actual.addEventListener('close', () => { actual.remove(); if (boton.isConnected) boton.focus(); if (dialogo === actual) dialogo = null; }, { once: true });
+      actual.addEventListener('close', () => { if (boton.isConnected) boton.append(img); actual.remove(); if (boton.isConnected) { actualizar(); boton.focus(); } if (dialogo === actual) dialogo = null; }, { once: true });
       actual.showModal();
     });
     const observer = new MutationObserver(() => {
