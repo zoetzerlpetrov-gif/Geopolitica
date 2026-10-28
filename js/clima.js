@@ -349,7 +349,10 @@ class Rayos {
 export const BUCLES = {
   nubes_ir: { capas: [["Himawari_AHI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"], ["GOES-West_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"],
     ["GOES-East_ABI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"]], paso: 10, cuadros: 8, retraso: 70, opacidad: 0.75, maxzoom: 6, eumetsat: "ir" },
-  geocolor: { capas: [["GOES-West_ABI_GeoColor", "GoogleMapsCompatible_Level7"], ["GOES-East_ABI_GeoColor", "GoogleMapsCompatible_Level7"]],
+  // Asia, Oceanía y el Pacífico occidental: GIBS no tiene color real de Himawari, así que ahí va su infrarrojo (debajo)
+  // para que ninguna zona quede sin dibujar.
+  geocolor: { capas: [["Himawari_AHI_Band13_Clean_Infrared", "GoogleMapsCompatible_Level6"], ["GOES-West_ABI_GeoColor", "GoogleMapsCompatible_Level7"],
+    ["GOES-East_ABI_GeoColor", "GoogleMapsCompatible_Level7"]],
     paso: 10, cuadros: 8, retraso: 80, opacidad: 0.9, maxzoom: 7, eumetsat: "color" },
   lluvia_sat: { capas: [["IMERG_Precipitation_Rate_30min", "GoogleMapsCompatible_Level6"]], paso: 30, cuadros: 6, retraso: 420, opacidad: 0.8, maxzoom: 6 },
 };
@@ -486,7 +489,9 @@ class BucleSatelite {
       if (this.map.getSource(sid)) return;
       const url = urlBucle(capa, matriz, this.momentos[k].capas[j]), pre = url.split("{z}")[0];
       this.prefijos.set(pre, [...(this.prefijos.get(pre) || []), k]);
-      this.map.addSource(sid, { type: "raster", tiles: [conRespaldo(url)], tileSize: 256, maxzoom: this.def.maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
+      // Cada capa hasta el nivel de su matriz (Level6 → 6): más allá GIBS no tiene mosaicos y el mapa amplía los del nivel 6.
+      const maxzoom = Math.min(this.def.maxzoom, Number(/Level(\d+)/.exec(matriz)?.[1] || this.def.maxzoom));
+      this.map.addSource(sid, { type: "raster", tiles: [conRespaldo(url)], tileSize: 256, maxzoom, attribution: "Imágenes: NASA GIBS / NOAA / JMA" });
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": k === this.i ? this.def.opacidad : 0,
         "raster-opacity-transition": { duration: 250 }, "raster-fade-duration": 0 } }, antes);
     });
