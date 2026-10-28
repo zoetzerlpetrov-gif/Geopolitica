@@ -14,7 +14,7 @@ log.push(await p.evaluate(() => {
   const m = window.__mapa, gl = m.painter.context.gl, out = [], vistos = new Map();
   const fb = gl.createFramebuffer();
   for (const [id, tm] of Object.entries(m.style.tileManagers)) {
-    const tiles = Object.values(tm._tiles || {});
+    const tiles = tm._inViewTiles?.getAllTiles?.() || Object.values(tm._tiles || {});
     for (const t of tiles) {
       const tex = t.texture?.texture;
       let pix = "";
