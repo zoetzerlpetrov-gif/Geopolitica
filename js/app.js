@@ -633,7 +633,6 @@ async function main() {
     colores: Object.fromEntries(tax.lista.map((a) => [a.id, a.color])),
     onSelect: (id) => abrirFicha(id),
   });
-  if (new URLSearchParams(location.search).has("sonda")) window.__mapa = api.map;  // diagnóstico: acceso al mapa desde la consola
   iniciarIdioma({ map: api.map });
   const [choke, runLog, regiones] = await Promise.all([pChoke, pRunLog, pRegiones, pEventos]);
   estado.areas = new Set(tax.lista.map((a) => a.id));
