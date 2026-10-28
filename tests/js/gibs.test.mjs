@@ -29,3 +29,15 @@ test("Meteosat: cuadro más reciente que no pase del momento del bucle", async (
   assert.equal(cuadroMeteosat([], "x"), null);
   assert.deepEqual(esquinas([-80, -75, 150, 75]), [[-80, 75], [150, 75], [150, -75], [-80, -75]]);
 });
+
+test("TEMPO: se prueban las horas exactas publicadas (GIBS ya no acepta horas en punto)", async () => {
+  const { mejorHora, horasPublicadas } = await import("../../js/imagenes.js");
+  const xml = "<Domain>2026-10-28T13:52:41Z/2026-10-28T13:52:41Z/PT59M41S,2026-10-28T14:52:22Z/2026-10-28T14:52:22Z/PT59M41S</Domain>";
+  const pub = await horasPublicadas({ capa: "T", matriz: "M" }, new Date("2026-10-28T16:00:00Z"), async () => xml);
+  assert.deepEqual(pub, ["2026-10-28T13:52:41Z", "2026-10-28T14:52:22Z"]);
+  const pedidas = [];
+  const pedir = async (u) => { pedidas.push(u); return { ok: true, tipo: "image/png", bytes: u.includes("14:52:22") ? 18000 : 17000 }; };
+  assert.equal(await mejorHora({ capa: "T", matriz: "M", ext: "png" }, pedir, new Date(), 30, pub), "2026-10-28T14:52:22Z");
+  assert.ok(pedidas.every((u) => /T1[34]:52:/.test(u)));
+  assert.deepEqual(await horasPublicadas({ capa: "T", matriz: "M" }, new Date(), async () => { throw new Error("red"); }), []);
+});

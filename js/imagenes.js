@@ -8,7 +8,7 @@
 // Se usa la fecha de AYER (UTC) porque la imagen del día puede no estar completa; se puede elegir otro día.
 // Todas las capas se piden en EPSG:3857 (la proyección del mapa plano) para que encajen sin deformarse.
 
-import { conRespaldo, registrarProtocolo } from "./gibs.js";
+import { conRespaldo, registrarProtocolo, leerDominio, urlDominios } from "./gibs.js";
 
 export const IMAGENES = {
   viirs_color: { nombre: "Color verdadero VIIRS (NOAA-20, sin huecos)", capa: "VIIRS_NOAA20_CorrectedReflectance_TrueColor", matriz: "GoogleMapsCompatible_Level9", ext: "jpg", maxzoom: 9 },
@@ -124,10 +124,12 @@ export const haceHoras = (h, ahora = new Date()) => new Date(Math.floor(ahora.ge
  * tarde cubren solo una parte (medido en oct 2026: 4 KB contra 18 KB del mismo mosaico a mediodía) y de noche no hay
  * nada (404). Se revisan las últimas `horas` y se toma la más reciente con al menos 85 % de los bytes de la mejor.
  */
-export async function mejorHora(def, pedir, ahora = new Date(), horas = 30) {
+export async function mejorHora(def, pedir, ahora = new Date(), horas = 30, publicadas = null) {
   const vistas = [];
-  for (let h = 1; h <= horas; h++) {
-    const t = haceHoras(h, ahora);
+  // Desde oct 2026 GIBS solo responde a la hora exacta de cada barrido de TEMPO (p. ej. 14:52:41Z): si se conoce la
+  // lista publicada se prueban esas horas; si no, horas en punto como antes.
+  const candidatas = publicadas?.length ? [...publicadas].reverse().slice(0, horas) : Array.from({ length: horas }, (_, i) => haceHoras(i + 1, ahora));
+  for (const t of candidatas) {
     let total = 0;
     for (const [z, y, x] of MUESTRAS_NA) {
       try {
@@ -190,6 +192,14 @@ export function fechasRelleno(def, fecha, n = def.relleno || 0) {
   });
 }
 
+/** Horas exactas publicadas de un producto por hora (las últimas 30 h hasta `hasta`); [] si GIBS no responde. */
+export async function horasPublicadas(def, hasta = new Date(), pedirTexto = async (u) => (await fetch(u)).text()) {
+  const iso = (d) => d.toISOString().replace(/\.\d{3}Z$/, "Z");
+  try {
+    return leerDominio(await pedirTexto(urlDominios(def.capa, def.matriz, iso(new Date(hasta.getTime() - 30 * 3600000)), iso(hasta))));
+  } catch (e) { return []; }
+}
+
 export function urlGIBS(def, fecha) {
   return `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/${def.capa}/default/${fecha}/${def.matriz}/{z}/{y}/{x}.${def.ext}`;
 }
@@ -205,14 +215,21 @@ export class Imagenes {
     // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
     const porOmision = fecha === ayerUTC();
     if (def.retraso_dias && porOmision) fecha = haceDias(def.retraso_dias);
-    else if (def.por_hora) fecha = porOmision ? await mejorHora(def, pedir) : `${fecha}T18:00:00Z`;  // otro día: mediodía en México
+    let rellenos = null;
+    if (def.por_hora) {
+      const publicadas = await horasPublicadas(def, porOmision ? new Date() : new Date(`${fecha}T23:59:59Z`));
+      fecha = porOmision ? await mejorHora(def, pedir, new Date(), 30, publicadas)
+        : publicadas.filter((t) => t <= `${fecha}T18:00:00Z`).at(-1) || `${fecha}T18:00:00Z`;  // otro día: cerca del mediodía en México
+      // Relleno con los barridos publicados anteriores (horas exactas), no con horas en punto que GIBS ya no reconoce.
+      if (publicadas.length) rellenos = publicadas.filter((t) => t < fecha).slice(-(def.relleno || 0)).reverse();
+    }
     else if (porOmision && def.capa && !def.fecha_fija) fecha = await mejorDia(def, pedir);  // día completo, no a medias
     if (def.fecha_fija && porOmision) fecha = def.fecha_fija;  // p. ej. «default» = lo más reciente que publique GIBS; otro día elegido se respeta
     if (def.candidatos) {
       eleccion = await elegirCandidata(def, fecha, pedir, porOmision ? [haceDias(1), haceDias(2), haceDias(3)] : [fecha]);
       if (!eleccion) throw new Error("NASA GIBS no devolvió imagen de luces nocturnas para esa fecha ni para la referencia anual");
     }
-    this.activas.set(id, { fecha, eleccion });
+    this.activas.set(id, { fecha, eleccion, rellenos });
     this.#instalar(id);
     return eleccion;
   }
@@ -237,7 +254,7 @@ export class Imagenes {
   #instalar(id) {
     if (this.map.getSource(`img-${id}`)) return;
     const def = IMAGENES[id];
-    const { fecha, eleccion } = this.activas.get(id);
+    const { fecha, eleccion, rellenos } = this.activas.get(id);
     const capa = eleccion || def;
     registrarProtocolo();  // mosaicos con error → transparentes (sin «estática» gris)
     this.map.addSource(`img-${id}`, { type: "raster", tiles: [conRespaldo(urlGIBS(capa, eleccion?.fecha || fecha))], tileSize: 256, maxzoom: def.maxzoom,
@@ -247,7 +264,7 @@ export class Imagenes {
     this.map.addLayer({ id: `img-${id}`, type: "raster", source: `img-${id}`, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, antes);
     // Relleno: lo anterior va debajo de la capa principal (cada una se inserta justo antes de la que ya está arriba).
     let arriba = `img-${id}`;
-    fechasRelleno(def, eleccion?.fecha || fecha).forEach((f, k) => {
+    (rellenos || fechasRelleno(def, eleccion?.fecha || fecha)).forEach((f, k) => {
       const sid = `img-${id}-r${k + 1}`;
       this.map.addSource(sid, { type: "raster", tiles: [conRespaldo(urlGIBS(capa, f))], tileSize: 256, maxzoom: def.maxzoom, attribution: "Imágenes: NASA GIBS / EOSDIS" });
       this.map.addLayer({ id: sid, type: "raster", source: sid, paint: { "raster-opacity": def.opacidad ?? 0.85, "raster-fade-duration": 0 } }, arriba);

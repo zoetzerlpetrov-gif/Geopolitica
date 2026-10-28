@@ -33,3 +33,23 @@ export function registrarProtocolo(gl = globalThis.maplibregl) {
   gl.addProtocol(PROTOCOLO, (params, ctrl) => cargarMosaico(params.url, ctrl.signal, fetch,
     (url) => globalThis.dispatchEvent?.(new CustomEvent("gibs-falla", { detail: url }))));
 }
+
+const isoMin = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
+
+/** <Domain> de GIBS («ini/fin/PT10M,ini/fin/PT10M» o momentos sueltos) → momentos ISO publicados, ordenados. */
+export function leerDominio(xml) {
+  const txt = /<Domain>([^<]*)<\/Domain>/.exec(xml || "")?.[1] || "";
+  const out = new Set();
+  for (const parte of txt.split(",").map((x) => x.trim()).filter(Boolean)) {
+    const [a, b, per] = parte.split("/");
+    const m = /^PT(\d+)([MH])$/.exec(per || "");
+    const paso = m ? Number(m[1]) * (m[2] === "H" ? 3600000 : 60000) : 0;
+    const ini = Date.parse(a), fin = b ? Date.parse(b) : ini;
+    if (Number.isNaN(ini) || Number.isNaN(fin)) continue;
+    for (let t = ini; t <= fin && out.size < 2000; t += paso || Infinity) out.add(isoMin(t));
+  }
+  return [...out].sort();
+}
+
+/** Lista de momentos publicados de una capa entre `ini` y `fin` (ISO), de la API de dominios de GIBS. */
+export const urlDominios = (capa, matriz, ini, fin) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/${capa}/default/${matriz}/all/${ini}--${fin}.xml`;

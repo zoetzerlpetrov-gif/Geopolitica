@@ -7,7 +7,9 @@
 // Se pausa mientras el mapa se mueve y cuando la pestaña no está visible.
 // Temperatura y lluvia: imágenes ya proyectadas a Web Mercator, como fuente "image" de MapLibre.
 import { getJSON, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
-import { conRespaldo, registrarProtocolo } from "./gibs.js";
+import { conRespaldo, registrarProtocolo, leerDominio } from "./gibs.js";
+
+export { leerDominio };
 
 const BASE = "data/vivos/clima/";
 const LAT_MAX = 85.05112878;
@@ -381,20 +383,6 @@ export const urlBucle = (capa, matriz, momento) => `https://gibs.earthdata.nasa.
 export const urlDominios = (capa, matriz, ini, fin) => `https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/${capa}/default/${matriz}/all/${ini}--${fin}.xml`;
 const isoMin = (ms) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, "Z");
 
-/** <Domain> de GIBS («ini/fin/PT10M,ini/fin/PT10M» o momentos sueltos) → momentos ISO publicados, ordenados. */
-export function leerDominio(xml) {
-  const txt = /<Domain>([^<]*)<\/Domain>/.exec(xml || "")?.[1] || "";
-  const out = new Set();
-  for (const parte of txt.split(",").map((x) => x.trim()).filter(Boolean)) {
-    const [a, b, per] = parte.split("/");
-    const m = /^PT(\d+)([MH])$/.exec(per || "");
-    const paso = m ? Number(m[1]) * (m[2] === "H" ? 3600000 : 60000) : 0;
-    const ini = Date.parse(a), fin = b ? Date.parse(b) : ini;
-    if (Number.isNaN(ini) || Number.isNaN(fin)) continue;
-    for (let t = ini; t <= fin && out.size < 2000; t += paso || Infinity) out.add(isoMin(t));
-  }
-  return [...out].sort();
-}
 
 /**
  * Cuadros con lo que de verdad está publicado. GIBS no tiene todos los momentos de cada 10 min (GOES-Este puede
