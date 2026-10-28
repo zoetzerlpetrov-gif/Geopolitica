@@ -18,9 +18,9 @@ s, _, b = pedir(f"https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/TEMPO
 dom = re.search(rb"<Domain>([^<]*)</Domain>", b)
 print("DOMINIO TEMPO 30 h:", dom.group(1)[:3000] if dom else b[:300])
 horas = re.findall(rb"(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ)/\1", dom.group(1)) if dom else []
-for t in [h.decode() for h in horas][-8:]:
+for t in [h.decode() for h in horas][-2:]:
     fila = []
-    for z, y, x in [(3, 2, 1), (3, 2, 2), (3, 3, 1), (3, 3, 2), (4, 6, 3), (4, 6, 4), (4, 7, 3)]:
+    for z, y, x in [(2, 0, 0), (2, 1, 0), (2, 0, 1), (2, 1, 1), (1, 0, 0), (3, 3, 1), (3, 3, 2)]:
         u = f"https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/TEMPO_L3_NO2_Vertical_Column_Troposphere/default/{t}/GoogleMapsCompatible_Level7/{z}/{y}/{x}.png"
         s, ct, b = pedir(u)
         tipo = b[25] if len(b) > 25 and b[:4] == b"\x89PNG" else "-"

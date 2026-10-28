@@ -52,3 +52,20 @@ def test_c2intel_csv():
     import red as R
     txt = "#ip,ioc\n1.117.74.144,Possible Cobaltstrike C2 IP\n10.0.0.1,Possible Sliver C2 IP\nbasura\n"
     assert R.ips_c2intel(txt) == {"1.117.74.144": "Cobaltstrike", "10.0.0.1": "Sliver"}
+
+
+def test_detalles_por_lotes_y_filas():
+    vistos = []
+    def consultar(q):
+        vistos.append(q)
+        return [{"e": {"value": WD + "Q160746"}, "eLabel": {"value": "Nestlé"}, "industriaLabel": {"value": "alimentos"}, "web": {"value": "https://nestle.com"}},
+                {"e": {"value": WD + "Q39"}, "eLabel": {"value": "Suiza"}, "iso": {"value": "CH"}},
+                {"e": {"value": WD + "Q1"}, "eLabel": {"value": "Nestlé México"}}]
+    det = E.detalles(["Q160746", "Q39", "Q1", "Q1", ""], consultar)
+    assert len(vistos) == 1 and "wd:Q160746" in vistos[0]
+    filas = E.a_filas([("Q1", "Q160746", "Q39")], det)
+    r = E.unir({"filial_en_mexico": filas})
+    assert r[0]["matriz"] == "Nestlé" and r[0]["pais"] == "Suiza" and r[0]["iso"] == "CH" and r[0]["filial"] == "Nestlé México"
+    assert r[0]["industrias"] == ["alimentos"]
+    # sin presupuesto de tiempo no se consulta nada
+    assert E.detalles(["Q1"], consultar, presupuesto_s=-1) == {}
