@@ -20,7 +20,7 @@ await p.screenshot({ path: "capturas/estados-zoom.png" });
 await p.evaluate(() => {
   document.querySelector('[data-etq="todas"]').click();
   const c = document.getElementById("chk-estados"); c.checked = false; c.dispatchEvent(new Event("change", { bubbles: true }));
-  for (const id of ["crimen_7d", "vial_protesta"]) { const x = document.querySelector(`[data-riesgo="${id}"]`); if (x) { x.checked = true; x.dispatchEvent(new Event("change", { bubbles: true })); } }
+  for (const id of ["crimen_7d", "vial_protesta", "sismos"]) { const x = document.querySelector(`[data-riesgo="${id}"]`); if (x) { x.checked = true; x.dispatchEvent(new Event("change", { bubbles: true })); } }
 });
 for (let i = 0; i < 6; i++) { await p.mouse.wheel(0, 300); await p.waitForTimeout(400); }
 await p.waitForTimeout(12000);

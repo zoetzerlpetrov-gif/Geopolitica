@@ -13,6 +13,7 @@ jobs:
         with:
           node-version: "22"
       - run: cd tools/sonda && npm init -y >/dev/null && npm i playwright@1.48.2 && npx playwright install --with-deps chromium
+      - run: git fetch --depth 1 origin datos-vivos && git archive origin/datos-vivos vivos | tar -x -C data/
       - run: (python3 -m http.server 8000 >/dev/null 2>&1 &) && sleep 2 && node tools/sonda/capturas.mjs
       - name: Subir capturas a una rama temporal
         run: |
