@@ -1,13 +1,13 @@
 // Sonda temporal: capturas del sitio en vivo con cada capa (se borra antes del PR).
-import { chromium } from "./node_modules/playwright/index.mjs";
+import { chromium, firefox } from "./node_modules/playwright/index.mjs";
 import fs from "node:fs";
 fs.mkdirSync("capturas", { recursive: true });
 const URL = process.env.SITIO || "https://zoetzerlpetrov-gif.github.io/Geopolitica/";
-const casos = [["hielo", '[data-img="hielo_marino"]'], ["ozono", '[data-img="ozono_total"]'], ["tempo", '[data-img="no2_tempo"]'],
-  ["nubes", '[data-clima="nubes_ir"]'], ["geocolor", '[data-clima="geocolor"]']];
-const b = await chromium.launch({ args: ["--use-gl=swiftshader", "--enable-webgl", "--ignore-gpu-blocklist"] });
+const casos = [["hielo", '[data-img="hielo_marino"]'], ["tempo", '[data-img="no2_tempo"]'], ["geocolor", '[data-clima="geocolor"]']];
+const navegador = process.env.NAV === "firefox" ? firefox : chromium;
+const b = await navegador.launch(process.env.NAV === "firefox" ? {} : { args: ["--use-gl=swiftshader", "--enable-webgl", "--ignore-gpu-blocklist"] });
 const log = [];
-for (const proy of ["mercator"]) {
+for (const proy of [process.env.NAV || "chromium"]) {
   for (const [n, sel] of casos) {
     const p = await b.newPage({ viewport: { width: 1600, height: 900 } });
     const fallas = [];
@@ -16,16 +16,15 @@ for (const proy of ["mercator"]) {
     p.on("console", (m) => { if (m.type() === "error") fallas.push(`consola: ${m.text().slice(0, 200)}`); });
     await p.goto(URL, { waitUntil: "load", timeout: 90000 });
     await p.waitForTimeout(8000);
-    await p.evaluate((v) => { const s = document.getElementById("sel-proyeccion"); if (s && s.value !== v) { s.value = v; s.dispatchEvent(new Event("change", { bubbles: true })); } }, proy);
     await p.waitForTimeout(3000);
     const ok = await p.evaluate((s) => { const e = document.querySelector(s); if (!e) return false; e.click(); return true; }, sel);
     await p.waitForTimeout(30000);
     await p.screenshot({ path: `capturas/${proy}-${n}.png` });
-    if (n === "nubes" || n === "geocolor") { await p.waitForTimeout(25000); await p.screenshot({ path: `capturas/${proy}-${n}-2.png` }); }
+    if (n === "geocolor") { await p.waitForTimeout(25000); await p.screenshot({ path: `capturas/${proy}-${n}-2.png` }); }
     log.push(`== ${proy} ${n} checkbox=${ok}`, ...[...new Set(fallas)].slice(0, 25));
     await p.close();
   }
 }
-fs.writeFileSync("capturas/registro.txt", log.join("\n"));
+fs.appendFileSync("capturas/registro.txt", log.join("\n") + "\n");
 console.log(log.join("\n"));
 await b.close();

@@ -6,7 +6,7 @@ permissions:
 jobs:
   sonda:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,5 +15,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install pillow==11.3.0
-      - run: python3 -u tools/sonda/sonda.py
+      - run: cd tools/sonda && npm init -y >/dev/null && npm i playwright@1.48.2 && npx playwright install --with-deps chromium firefox
+      - run: pip install pillow==11.3.0 && python3 tools/vivos/meteosat.py && mkdir -p data && (git fetch -q --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos | tar -x -C data) ; cp -r vivos/meteosat data/vivos/
+      - run: (python3 -m http.server 8000 >/dev/null 2>&1 &) && sleep 2 && SITIO=http://localhost:8000/ NAV=firefox node tools/sonda/capturas.mjs; SITIO=http://localhost:8000/ NAV=chromium node tools/sonda/capturas.mjs
+      - name: Subir capturas a una rama temporal
+        run: |
+          cd capturas
+          git init -q && git checkout -q -b sonda-capturas
+          git config user.name "github-actions[bot]" && git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A && git commit -qm "capturas temporales"
+          git push -q --force "https://x-access-token:${{ github.token }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:sonda-capturas
