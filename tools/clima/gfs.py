@@ -346,11 +346,17 @@ def guardar_png(arr, ruta):
     Image.fromarray(arr).save(ruta, optimize=True)
 
 
+CAMPOS_META = ("nieve", "vortice")  # leyendas que debe traer meta.json de la versión actual
+
+
 def main():
     os.makedirs(OUT, exist_ok=True)
     ruta_meta = os.path.join(OUT, "meta.json")
     previo = json.load(open(ruta_meta, encoding="utf-8")) if os.path.exists(ruta_meta) else {}
     ahora = datetime.now(timezone.utc)
+    # Un meta.json de una versión anterior (sin vórtice ni nieve) se recalcula aunque sea reciente o de la misma corrida.
+    if not all(k in previo.get("leyendas", {}) for k in CAMPOS_META):
+        previo = {}
     if previo.get("generado_utc"):
         edad = ahora - datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
         if edad < timedelta(hours=3):

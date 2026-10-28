@@ -1462,6 +1462,15 @@ const guardarVistos = (v) => { try { localStorage.setItem(LS_VISTOS, JSON.string
 export const SIN_AGRUPAR = /sismo|ciclon|huracan|tsunami|aurora|perturbac|nhc/;
 export const MIN_AGRUPAR = 25;
 export const AGRUPAR_HASTA_ZOOM = 6;
+/**
+ * ¿Se agrupa por zona? Solo capas hechas únicamente de puntos (25 o más). Una fuente agrupada de MapLibre descarta
+ * polígonos y líneas, así que una capa con franjas o contornos (p. ej. zonas horarias: franjas + etiquetas) nunca se agrupa.
+ */
+export function agrupable(capa, gj) {
+  if (capa.agrupar === false || SIN_AGRUPAR.test(capa.id)) return false;
+  const fs = gj?.features || [];
+  return fs.length >= MIN_AGRUPAR && fs.every((f) => f.geometry?.type === "Point");
+}
 
 export class Riesgos {
   /**
@@ -1606,10 +1615,7 @@ export class Riesgos {
   }
 
   /** ¿La capa se agrupa por zona al alejar? Solo capas de muchos puntos chicos; nunca sismos, ciclones, tsunamis ni auroras. */
-  #agrupa(capa, gj) {
-    if (capa.agrupar === false || SIN_AGRUPAR.test(capa.id)) return false;
-    return gj.features.filter((f) => f.geometry?.type === "Point").length >= MIN_AGRUPAR;
-  }
+  #agrupa(capa, gj) { return agrupable(capa, gj); }
 
   /** Mismo criterio que el filtro de la GPU, en JS: los grupos deben contar solo lo que pasa los filtros. */
   #filtrarDatos(id, gj) {

@@ -19,6 +19,9 @@ jobs:
       - name: Navegador
         continue-on-error: true
         run: mkdir -p capturas && node tools/sonda/navegador.mjs
+      - name: Humo (rama completa)
+        continue-on-error: true
+        run: mkdir -p capturas && node tools/sonda/humo.mjs . | tee capturas/humo.txt
       - name: Subir capturas
         if: always()
         run: |

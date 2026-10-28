@@ -41,7 +41,7 @@
   </header>
   <main class="hz">
     <p class="meta">Todo se procesa en este navegador: los archivos y textos no se suben a ningún servidor. Las únicas consultas a internet son las
-      que tú pides en «DNS y correo de un dominio» (a dns.google) y se avisan antes. Es apoyo para el análisis, no un peritaje ni un antivirus.</p>
+      que tú pides en «DNS y correo de un dominio» (a dns.google) y en la pestaña Agencias (Cert Spotter y RIPEstat), y se avisan antes. Es apoyo para el análisis, no un peritaje ni un antivirus.</p>
     <nav class="pestanas" role="tablist" aria-label="Secciones">
       <button role="tab" aria-selected="true" data-p="archivos">📁 Auditoría de archivos</button>
       <button role="tab" aria-selected="false" data-p="informatica">💻 Informática y ciberseguridad</button>
@@ -51,6 +51,7 @@
       <button role="tab" aria-selected="false" data-p="normativa">⚖️ Normativa por país (MX, EUA, Canadá, UE, Rusia)</button>
       <button role="tab" aria-selected="false" data-p="escenarios">🎲 Simulación de escenarios</button>
       <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
+      <button role="tab" aria-selected="false" data-p="agencias">🏛️ Agencias: redes, certificados, casos y oficios</button>
     </nav>
 
     <section class="panel" id="p-archivos">
@@ -174,6 +175,44 @@
       <h2>Responsabilidad compartida</h2>
       <div class="desliza"><table class="t" id="nube-resp"></table></div>
       <p class="meta">Regla práctica: en cualquier modelo, los datos y las identidades siempre son responsabilidad del cliente. La mayoría de las filtraciones en la nube vienen de configuraciones del cliente, no del proveedor.</p>
+    </section>
+    <section class="panel" id="p-agencias" hidden>
+      <h2>Herramientas para equipos de seguridad, TI y administración</h2>
+      <p class="meta">Para inventariar lo que una organización expone en internet, ordenar un caso y llevar los plazos de los oficios. Ninguna herramienta localiza ni sigue a personas:
+        se consultan dominios y redes (registros técnicos públicos) y lo que capturas se queda en este navegador.</p>
+      <div class="tarjeta"><h3>📜 Certificados emitidos para un dominio (Certificate Transparency)</h3>
+        <p class="meta">Todo certificado HTTPS público queda en registros abiertos. Sirve para ver los subdominios que tu organización expone, quién emite sus certificados,
+          cuáles vencen pronto y detectar certificados que nadie pidió (posible suplantación). Consulta Cert Spotter (SSLMate): solo se envía el nombre del dominio; límite gratuito de unas 75 consultas por hora.</p>
+        <div class="barra"><input type="text" id="ct-dominio" placeholder="dependencia.gob.mx" aria-label="Dominio" style="max-width:320px"><button type="button" id="ct-btn">Consultar</button><button type="button" class="btn-limpiar" data-limpiar="ct-dominio ct-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
+        <div id="ct-res" aria-live="polite"></div></div>
+      <div class="tarjeta"><h3>🛰️ IP, sistema autónomo (ASN) y redes de una organización</h3>
+        <p class="meta">Escribe una IP (de un servidor, no de una persona) o un número de sistema autónomo (AS8151, AS28548…). Se consulta RIPEstat con datos públicos de los registros de internet (LACNIC, ARIN, RIPE…):
+          qué red anuncia esa IP, quién es el titular y qué bloques de direcciones anuncia. Útil para saber si un servidor sospechoso está en una nube, un proveedor local o una red del gobierno.</p>
+        <div class="barra"><input type="text" id="red-q" placeholder="8.8.8.8 o AS8151" aria-label="IP o ASN" style="max-width:240px"><button type="button" id="red-btn">Consultar</button><button type="button" class="btn-limpiar" data-limpiar="red-q red-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
+        <div id="red-res" aria-live="polite"></div></div>
+      <div class="tarjeta"><h3>🧮 Calculadora de subredes IPv4 (CIDR)</h3>
+        <div class="barra"><input type="text" id="cidr-q" placeholder="192.168.10.37/27" aria-label="Dirección con prefijo" style="max-width:220px"><button type="button" id="cidr-btn">Calcular</button></div>
+        <div id="cidr-res"></div></div>
+      <div class="tarjeta"><h3>🗓️ Cronología del caso</h3>
+        <p class="meta">Ordena los hechos por fecha con su fuente y nivel de confianza; señala huecos de 7 días o más (donde falta información). Se guarda en este navegador; descarga el CSV para respaldar.</p>
+        <div class="barra"><input type="date" id="cro-fecha" aria-label="Fecha"><input type="time" id="cro-hora" aria-label="Hora (opcional)">
+          <input type="text" id="cro-hecho" placeholder="Qué pasó" aria-label="Hecho" maxlength="500" style="min-width:240px"><input type="text" id="cro-fuente" placeholder="Fuente o evidencia" aria-label="Fuente" maxlength="300">
+          <select id="cro-conf" aria-label="Confianza"><option value="alta">Confianza alta</option><option value="media" selected>Confianza media</option><option value="baja">Confianza baja</option></select>
+          <button type="button" id="cro-agregar">Agregar</button></div>
+        <div id="cro-res"></div>
+        <div class="barra"><button type="button" id="cro-csv">Descargar CSV</button><button type="button" id="cro-vaciar">Vaciar cronología</button></div></div>
+      <div class="tarjeta"><h3>📨 Control de oficios y plazos (días hábiles de México)</h3>
+        <p class="meta">Registra cada oficio o solicitud con el plazo en días hábiles: calcula la fecha límite sin sábados, domingos ni los días de descanso de la Ley Federal del Trabajo (art. 74),
+          y pinta un semáforo. Agrega los días inhábiles que publique tu dependencia en el DOF (p. ej. Semana Santa o el 2 de noviembre). Se guarda en este navegador.</p>
+        <div class="barra"><input type="text" id="of-folio" placeholder="Folio" aria-label="Folio" maxlength="60" style="max-width:140px"><input type="date" id="of-recibido" aria-label="Fecha de recepción">
+          <input type="text" id="of-remitente" placeholder="Remitente (dependencia o área)" aria-label="Remitente" maxlength="160"><input type="text" id="of-asunto" placeholder="Asunto" aria-label="Asunto" maxlength="300">
+          <input type="text" id="of-area" placeholder="Área responsable" aria-label="Área responsable" maxlength="120"><label>Plazo <input type="number" id="of-dias" min="1" max="365" value="10" style="width:70px"> días hábiles</label>
+          <button type="button" id="of-agregar">Registrar</button></div>
+        <div class="barra"><label>Días inhábiles extra (AAAA-MM-DD, separados por coma) <input type="text" id="of-inhabiles" placeholder="2026-11-02, 2026-12-31" style="min-width:260px"></label></div>
+        <div class="desliza"><table class="t" id="of-tabla"></table></div>
+        <div class="barra"><button type="button" id="of-csv">Descargar CSV</button></div>
+        <p class="meta">Base legal de referencia: Ley Federal de Procedimiento Administrativo (arts. 28 y 17: los plazos se cuentan en días hábiles y, si la ley no fija otro, la autoridad tiene hasta 3 meses para resolver),
+          Ley General de Transparencia (20 días hábiles para responder solicitudes de información) y Ley General de Archivos (control de gestión documental).</p></div>
     </section>
   </main>
   <script type="module" src="js/herramientas.js"></script>
