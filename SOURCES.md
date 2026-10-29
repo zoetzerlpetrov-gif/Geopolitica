@@ -2,6 +2,8 @@
 
 Regla del proyecto: de cada nota o publicación solo se guarda **título, fuente, fecha, enlace y un resumen propio de máximo 2 frases**. Nunca el texto completo. El mapa muestra siempre la fuente y el enlace original.
 
+Versión comercial (Fase 7): las fuentes que no permiten uso comercial, o cuyos términos faltan por revisar, están en `config/comercial_licencias.json` con la acción para cada una (retirar, contratar o verificar). Una prueba revisa que toda fila de esta página marcada «no comercial» o «BY-NC» esté en esa lista.
+
 "Verificada" = la licencia se confirmó contra la página de la fuente. "Por verificar" = se tomó de documentación secundaria o de memoria y hay que confirmarla antes de depender de ella.
 
 ## Bibliotecas y mapa base (en uso)
