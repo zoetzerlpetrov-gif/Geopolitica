@@ -72,17 +72,30 @@ $("de-tabla").addEventListener("click", (e) => {
   prellenar({ lat: la, lon: lo, pais: iso, nombre: b.dataset.nombre });
 });
 
-// ------------------------------------------------------------------ zonas de México (Fase 5)
-const zonas = await getJSON("config/inmuebles_zonas_mx.json").catch(() => ({ zonas: [], portales: [], oficiales: [] }));
-$("zo-nota").textContent = `${zonas.nota || ""} Revisado: ${zonas.revisado || "—"}.`;
-$("zo-ciudad").innerHTML += Z.ciudadesZonas(zonas).map((c) => `<option>${esc(c)}</option>`).join("");
+// ------------------------------------------------------------------ zonas en seguimiento (Fase 5: México y otros 27 países)
+const [zonasMx, zonasMundo] = await Promise.all(["mx", "mundo"].map((n) => getJSON(`config/inmuebles_zonas_${n}.json`).catch(() => ({ zonas: [], portales: [], paises: {} }))));
+const zonas = Z.unirCatalogos(zonasMx, zonasMundo);
+// Reglas de compra para mexicanos: la primera lista de desarrollos que las trae (otras listas del mismo país pueden no tenerlas).
+const compraMx = {};
+for (const d of desarrollos) for (const [iso, r] of Object.entries(d.paises || {})) if (r?.compra_mexicanos?.detalle) compraMx[iso] ??= r.compra_mexicanos.detalle;
+$("zo-nota").textContent = `${zonasMx.nota || ""} ${zonasMundo.nota || ""} Revisado: ${zonasMundo.revisado || zonasMx.revisado || "—"}.`;
+$("zo-pais").innerHTML += [...new Set(zonas.zonas.map((z) => z.pais_iso3))].map((iso) => [iso, zonas.paises[iso]?.nombre || iso])
+  .sort((x, y) => (x[0] === "MEX" ? -1 : y[0] === "MEX" ? 1 : x[1].localeCompare(y[1], "es"))).map(([iso, n]) => `<option value="${esc(iso)}">${esc(n)}</option>`).join("");
+const llenarCiudades = () => { $("zo-ciudad").innerHTML = `<option value="">Todas</option>` + Z.ciudadesZonas(zonas, $("zo-pais").value).map((c) => `<option>${esc(c)}</option>`).join(""); };
+llenarCiudades();
 $("zo-tipo").innerHTML += [...new Set(zonas.zonas.flatMap((z) => z.tipos))].sort().map((t) => `<option>${esc(t)}</option>`).join("");
 $("zo-oficiales").innerHTML = enlaces(zonas.oficiales || []);
 function pintarZonas() {
-  const f = Z.filtrarZonas(zonas, { ciudad: $("zo-ciudad").value, tipo: $("zo-tipo").value });
-  $("zo-lista").innerHTML = f.length ? f.map((z) => Z.htmlZona(z, zonas.portales, ofertas, $("zo-tipo").value)).join("") : `<p class="meta">Sin zonas con ese filtro.</p>`;
+  if (!$("zo-pais").value) { $("zo-lista").innerHTML = `<p class="meta">${zonas.zonas.length} zonas en ${new Set(zonas.zonas.map((z) => z.pais_iso3)).size} países. Elige un país para verlas.</p>`; return; }
+  const f = Z.filtrarZonas(zonas, { pais: $("zo-pais").value, ciudad: $("zo-ciudad").value, tipo: $("zo-tipo").value });
+  $("zo-lista").innerHTML = f.length ? f.map((z) => Z.htmlZona(z, zonas.paises[z.pais_iso3]?.portales || [], ofertas, $("zo-tipo").value, {
+    idioma: zonas.idiomaDe(z.pais_iso3), pais: zonas.paises[z.pais_iso3],
+    compra: z.pais_iso3 === "MEX" ? "" : compraMx[z.pais_iso3] || zonas.paises[z.pais_iso3]?.compra || "" })).join("") : `<p class="meta">Sin zonas con ese filtro.</p>`;
 }
+$("zo-pais").addEventListener("change", () => { llenarCiudades(); pintarZonas(); });
 for (const id of ["zo-ciudad", "zo-tipo"]) $(id).addEventListener("change", pintarZonas);
+$("zo-pais").value = "MEX";
+llenarCiudades();
 pintarZonas();
 $("zo-lista").addEventListener("click", (e) => {
   const b = e.target.closest("[data-evaluar]");
