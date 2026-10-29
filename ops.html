@@ -56,6 +56,7 @@
       <button role="tab" aria-selected="false" data-p="tableros">📊 Tableros y War Room</button>
       <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
       <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
+      <button role="tab" aria-selected="false" data-p="autoaud">🛡️ Autoauditoría DOMINUS</button>
     </nav>
 
     <section class="panel" id="p-cliente" hidden>
@@ -210,8 +211,23 @@
       <p class="meta">Confidencialidad y mínimo privilegio · soberanía y residencia de datos · separación de líneas (corporativa, gobierno, defensa) · control de exportación (ITAR/EAR) · trazabilidad total · privacidad (LFPDPPP/GDPR) · resiliencia con RTO/RPO comprometidos.</p>
       <div class="barra"><button type="button" id="ops-exportar">Exportar todo lo capturado (JSON)</button><label class="btn">Importar <input type="file" id="ops-importar" accept="application/json" hidden></label></div>
     </section>
+    <section class="panel" id="p-autoaud" hidden>
+      <h2>Autoauditoría de DOMINUS (solo admin)</h2>
+      <p class="meta">Cada lunes un workflow revisa el propio proyecto contra ISO/IEC 27001, OWASP Top 10 y ASVS, NIST CSF 2.0, CIS Controls, ISO 22301, 27701, 31000,
+        LFPDPPP, cadena de suministro de software, WCAG y licencias de datos. Los controles automáticos leen el código; los manuales los actualizas en
+        <code>config/autoauditoria.json</code>. Es una autoevaluación, no una certificación: la certificación ISO la otorga un organismo acreditado.</p>
+      <div id="aa-estado" class="meta">Cargando…</div>
+      <div id="aa-resumen"></div>
+      <h3>Qué mejorar primero</h3>
+      <ol id="aa-mejoras" class="fuentes"></ol>
+      <h3>Todos los controles</h3>
+      <label class="fila"><span>Marco</span><select id="aa-marco"><option value="">Todos</option></select></label>
+      <label class="fila"><span>Estado</span><select id="aa-filtro"><option value="">Todos</option><option value="no_cumple">No cumple</option><option value="parcial">Parcial</option><option value="sin_evaluar">Sin evaluar</option><option value="cumple">Cumple</option></select></label>
+      <div class="desliza"><table class="t" id="aa-tabla"></table></div>
+    </section>
   </main>
   <script type="module" src="js/ops.js"></script>
+  <script type="module" src="js/autoauditoria.js"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>

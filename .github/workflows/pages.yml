@@ -60,6 +60,13 @@ jobs:
           else
             echo "Aún no existe la rama datos-capas"
           fi
+          # Autoauditoría semanal (DOMINUS OPS, solo admin): rama huérfana "datos-auditoria".
+          mkdir -p _site/data/autoauditoria
+          if git fetch --depth 1 origin datos-auditoria 2>/dev/null; then
+            git archive FETCH_HEAD autoauditoria | tar -x -C /tmp && cp /tmp/autoauditoria/*.json _site/data/autoauditoria/
+          else
+            echo "Aún no existe la rama datos-auditoria"
+          fi
           # Datos en movimiento: viven en la rama huérfana "datos-vivos" (workflow "Datos en movimiento").
           mkdir -p _site/data/vivos
           if git fetch --depth 1 origin datos-vivos 2>/dev/null; then
