@@ -1,0 +1,1303 @@
+{
+ "fecha_utc": "2026-10-29T16:21:07Z",
+ "puntaje_global": 51,
+ "marcos": [
+  {
+   "id": "iso27001",
+   "nombre": "ISO/IEC 27001:2022 (SGSI y Anexo A)",
+   "puntaje": 39,
+   "controles": 19,
+   "cumple": 6,
+   "parcial": 2,
+   "no_cumple": 10,
+   "sin_evaluar": 1,
+   "no_aplica": 0
+  },
+  {
+   "id": "owasp_top10",
+   "nombre": "OWASP Top 10 (2021)",
+   "puntaje": 50,
+   "controles": 9,
+   "cumple": 4,
+   "parcial": 1,
+   "no_cumple": 4,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "owasp_asvs",
+   "nombre": "OWASP ASVS 4.0.3 (nivel 2)",
+   "puntaje": 100,
+   "controles": 6,
+   "cumple": 6,
+   "parcial": 0,
+   "no_cumple": 0,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "nist_csf",
+   "nombre": "NIST Cybersecurity Framework 2.0",
+   "puntaje": 58,
+   "controles": 6,
+   "cumple": 3,
+   "parcial": 1,
+   "no_cumple": 2,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "cis",
+   "nombre": "CIS Critical Security Controls v8",
+   "puntaje": 40,
+   "controles": 6,
+   "cumple": 2,
+   "parcial": 0,
+   "no_cumple": 3,
+   "sin_evaluar": 1,
+   "no_aplica": 0
+  },
+  {
+   "id": "iso22301",
+   "nombre": "ISO 22301:2019 (continuidad del negocio)",
+   "puntaje": 25,
+   "controles": 2,
+   "cumple": 0,
+   "parcial": 1,
+   "no_cumple": 1,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "iso27701",
+   "nombre": "ISO/IEC 27701 (privacidad)",
+   "puntaje": 50,
+   "controles": 2,
+   "cumple": 1,
+   "parcial": 0,
+   "no_cumple": 1,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "iso31000",
+   "nombre": "ISO 31000:2018 (gestión de riesgos)",
+   "puntaje": 50,
+   "controles": 1,
+   "cumple": 0,
+   "parcial": 1,
+   "no_cumple": 0,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "lfpdppp",
+   "nombre": "LFPDPPP 2025 (datos personales, México)",
+   "puntaje": 0,
+   "controles": 3,
+   "cumple": 0,
+   "parcial": 0,
+   "no_cumple": 3,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "cadena",
+   "nombre": "Cadena de suministro de software (prácticas SLSA y OpenSSF)",
+   "puntaje": 67,
+   "controles": 4,
+   "cumple": 2,
+   "parcial": 0,
+   "no_cumple": 1,
+   "sin_evaluar": 1,
+   "no_aplica": 0
+  },
+  {
+   "id": "wcag",
+   "nombre": "WCAG 2.2 AA (accesibilidad)",
+   "puntaje": 100,
+   "controles": 1,
+   "cumple": 1,
+   "parcial": 0,
+   "no_cumple": 0,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  },
+  {
+   "id": "licencias",
+   "nombre": "Licencias de datos y propiedad intelectual (política propia)",
+   "puntaje": 75,
+   "controles": 2,
+   "cumple": 1,
+   "parcial": 1,
+   "no_cumple": 0,
+   "sin_evaluar": 0,
+   "no_aplica": 0
+  }
+ ],
+ "controles": [
+  {
+   "id": "iso_4_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 4.3",
+   "titulo": "Alcance del SGSI definido por escrito",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Escribir en una página qué cubre el SGSI: sitio público, versión comercial en Cloudflare, backend, repositorios, proveedores y personas.",
+   "estado": "no_cumple",
+   "detalle": "No hay documento de alcance."
+  },
+  {
+   "id": "iso_5_2",
+   "marco": "iso27001",
+   "ref": "Cláusula 5.2",
+   "titulo": "Política de seguridad de la información aprobada",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Redactar la política (objetivos, responsabilidades, revisión anual) y aprobarla con fecha y firma.",
+   "estado": "no_cumple",
+   "detalle": "docs/SEGURIDAD.md es una revisión técnica, no una política."
+  },
+  {
+   "id": "iso_6_1_2",
+   "marco": "iso27001",
+   "ref": "Cláusula 6.1.2",
+   "titulo": "Evaluación de riesgos de seguridad con método definido",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Usar la matriz 5×5 de DOMINUS OPS sobre nuestros activos y guardar el resultado con fecha.",
+   "estado": "no_cumple",
+   "detalle": "Hay matriz de riesgos para clientes (DOMINUS OPS), no para el propio proyecto."
+  },
+  {
+   "id": "iso_6_1_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 6.1.3",
+   "titulo": "Declaración de aplicabilidad (SoA)",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Listar los 93 controles del Anexo A, cuáles aplican, por qué, y su estado (esta autoauditoría sirve de base).",
+   "estado": "no_cumple",
+   "detalle": "No existe."
+  },
+  {
+   "id": "iso_7_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 7.3",
+   "titulo": "Concienciación en seguridad de quienes trabajan en el proyecto",
+   "tipo": "manual",
+   "prioridad": "baja",
+   "mejora": "Registrar capacitaciones (fecha, tema, persona).",
+   "estado": "sin_evaluar",
+   "detalle": ""
+  },
+  {
+   "id": "iso_9_2",
+   "marco": "iso27001",
+   "ref": "Cláusula 9.2",
+   "titulo": "Auditoría interna periódica",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Hacer una auditoría interna al año con lista de verificación y acciones correctivas.",
+   "estado": "parcial",
+   "detalle": "Esta autoauditoría automática corre cada semana; falta la auditoría interna humana con informe."
+  },
+  {
+   "id": "iso_9_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 9.3",
+   "titulo": "Revisión por la dirección",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Revisar cada trimestre el puntaje de esta página y decidir prioridades; guardar acta.",
+   "estado": "no_cumple",
+   "detalle": "No hay acta."
+  },
+  {
+   "id": "iso_a_5_15",
+   "marco": "iso27001",
+   "ref": "A.5.15",
+   "titulo": "Control de acceso por plan y rol",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Mover la validación del plan al Worker de Cloudflare (docs/SEGURIDAD.md, sección 3).",
+   "estado": "no_cumple",
+   "detalle": "El plan se valida solo en el navegador (sitio público). Pendiente para la versión comercial en Cloudflare."
+  },
+  {
+   "id": "iso_a_5_34",
+   "marco": "iso27001",
+   "ref": "A.5.34",
+   "titulo": "Privacidad y protección de datos personales",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Publicar aviso de privacidad (privacidad.html) antes de cobrar.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html)."
+  },
+  {
+   "id": "iso_a_5_24",
+   "marco": "iso27001",
+   "ref": "A.5.24",
+   "titulo": "Plan de respuesta a incidentes",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Escribir docs/INCIDENTES.md: quién responde, cómo se avisa, plazos (LFPDPPP pide avisar vulneraciones).",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito."
+  },
+  {
+   "id": "iso_a_8_4",
+   "marco": "iso27001",
+   "ref": "A.8.4",
+   "titulo": "Acceso al código fuente y secretos fuera del código",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Mover cualquier llave encontrada a GitHub Secrets y rotarla.",
+   "estado": "cumple",
+   "detalle": "Sin llaves ni archivos de llaves en el repositorio; los secretos viven en GitHub Secrets."
+  },
+  {
+   "id": "iso_a_8_5",
+   "marco": "iso27001",
+   "ref": "A.8.5",
+   "titulo": "Autenticación segura (contraseñas fuertes y segundo factor)",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Mantener Argon2id y TOTP en el backend y llevarlos a la versión comercial.",
+   "estado": "cumple",
+   "detalle": "Argon2id, TOTP y límite de intentos."
+  },
+  {
+   "id": "iso_a_8_8",
+   "marco": "iso27001",
+   "ref": "A.8.8",
+   "titulo": "Gestión de vulnerabilidades técnicas (dependencias)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar .github/dependabot.yml para pip, npm y GitHub Actions.",
+   "estado": "no_cumple",
+   "detalle": "No existe .github/dependabot.yml."
+  },
+  {
+   "id": "iso_a_8_9",
+   "marco": "iso27001",
+   "ref": "A.8.9",
+   "titulo": "Gestión de la configuración (versiones fijadas)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Fijar versiones exactas en requirements y package.json.",
+   "estado": "cumple",
+   "detalle": "Todas las dependencias tienen versión exacta."
+  },
+  {
+   "id": "iso_a_8_15",
+   "marco": "iso27001",
+   "ref": "A.8.15",
+   "titulo": "Registro de eventos con integridad",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Mantener la bitácora HMAC del backend y definir retención.",
+   "estado": "cumple",
+   "detalle": "Bitácora encadenada con HMAC en el backend."
+  },
+  {
+   "id": "iso_a_8_24",
+   "marco": "iso27001",
+   "ref": "A.8.24",
+   "titulo": "Uso de criptografía (HTTPS en todas las llamadas)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Cambiar a https:// las llamadas que usen http://.",
+   "estado": "parcial",
+   "detalle": "Enlaces http:// en: backend/dominus/connectors.py, js/app.js, js/erupcion.js, js/riesgos.js, tools/capas/camaras_mundo.py, tools/clima/tornados.py, tools/crimen/crimen.py, tools/investigacion/extranjeras_mx.py"
+  },
+  {
+   "id": "iso_a_8_25",
+   "marco": "iso27001",
+   "ref": "A.8.25",
+   "titulo": "Ciclo de desarrollo seguro (pruebas en cada cambio)",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Corregir las pruebas que fallan antes de publicar.",
+   "estado": "cumple",
+   "detalle": "Python: pasan (587 passed in 5.89s) · JavaScript: pasan (# duration_ms 2100.770739)"
+  },
+  {
+   "id": "iso_a_8_28",
+   "marco": "iso27001",
+   "ref": "A.8.28",
+   "titulo": "Codificación segura (sin eval, sin HTML sin escapar)",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Revisar los nuevos puntos de HTML sin escapar.",
+   "estado": "cumple",
+   "detalle": "Sin eval; 50 inserciones de HTML sin esc() revisadas a mano (solo números o texto propio)."
+  },
+  {
+   "id": "iso_a_8_29",
+   "marco": "iso27001",
+   "ref": "A.8.29",
+   "titulo": "Pruebas de seguridad en el desarrollo (análisis estático)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar el workflow de CodeQL (gratuito en repositorios públicos).",
+   "estado": "no_cumple",
+   "detalle": "No hay análisis estático (CodeQL) en CI."
+  },
+  {
+   "id": "owasp_a01",
+   "marco": "owasp_top10",
+   "ref": "A01",
+   "titulo": "Control de acceso roto",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Validar el plan en el servidor, no en el navegador.",
+   "estado": "no_cumple",
+   "detalle": "El plan se valida solo en el navegador (sitio público). Pendiente para la versión comercial en Cloudflare."
+  },
+  {
+   "id": "owasp_a02",
+   "marco": "owasp_top10",
+   "ref": "A02",
+   "titulo": "Fallas criptográficas",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Solo HTTPS y cookies Secure.",
+   "estado": "parcial",
+   "detalle": "Enlaces http:// en: backend/dominus/connectors.py, js/app.js, js/erupcion.js, js/riesgos.js, tools/capas/camaras_mundo.py, tools/clima/tornados.py, tools/crimen/crimen.py, tools/investigacion/extranjeras_mx.py"
+  },
+  {
+   "id": "owasp_a03",
+   "marco": "owasp_top10",
+   "ref": "A03",
+   "titulo": "Inyección (SQL, HTML, comandos)",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Usar consultas parametrizadas y esc() al insertar HTML.",
+   "estado": "cumple",
+   "detalle": "SQL solo con consultas parametrizadas (SQLAlchemy), comandos sin shell y HTML externo escapado."
+  },
+  {
+   "id": "owasp_a05",
+   "marco": "owasp_top10",
+   "ref": "A05",
+   "titulo": "Configuración de seguridad (encabezados y CSP)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar Content-Security-Policy desde el Worker de Cloudflare.",
+   "estado": "no_cumple",
+   "detalle": "0 de 19 páginas con CSP. GitHub Pages no permite encabezados: se resuelve en el Worker de Cloudflare."
+  },
+  {
+   "id": "owasp_a06",
+   "marco": "owasp_top10",
+   "ref": "A06",
+   "titulo": "Componentes vulnerables o desactualizados",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Activar Dependabot.",
+   "estado": "no_cumple",
+   "detalle": "No existe .github/dependabot.yml."
+  },
+  {
+   "id": "owasp_a07",
+   "marco": "owasp_top10",
+   "ref": "A07",
+   "titulo": "Fallas de identificación y autenticación",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Argon2id, TOTP y límite de intentos.",
+   "estado": "cumple",
+   "detalle": "Argon2id, TOTP y límite de intentos."
+  },
+  {
+   "id": "owasp_a08",
+   "marco": "owasp_top10",
+   "ref": "A08",
+   "titulo": "Integridad del software y de los datos (CI/CD)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Fijar cada acción de GitHub por su hash.",
+   "estado": "no_cumple",
+   "detalle": "0 de 37 usos de acciones externas fijados por hash."
+  },
+  {
+   "id": "owasp_a09",
+   "marco": "owasp_top10",
+   "ref": "A09",
+   "titulo": "Registro y monitoreo",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Bitácora con integridad y alertas.",
+   "estado": "cumple",
+   "detalle": "Bitácora encadenada con HMAC en el backend."
+  },
+  {
+   "id": "owasp_a10",
+   "marco": "owasp_top10",
+   "ref": "A10",
+   "titulo": "Falsificación de peticiones del lado del servidor (SSRF)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "El Worker solo debe aceptar orígenes y destinos de una lista.",
+   "estado": "cumple",
+   "detalle": "1 Worker(s) con lista de orígenes permitidos."
+  },
+  {
+   "id": "asvs_v2",
+   "marco": "owasp_asvs",
+   "ref": "V2",
+   "titulo": "Autenticación",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Argon2id + TOTP + límite de intentos.",
+   "estado": "cumple",
+   "detalle": "Argon2id, TOTP y límite de intentos."
+  },
+  {
+   "id": "asvs_v3",
+   "marco": "owasp_asvs",
+   "ref": "V3",
+   "titulo": "Manejo de sesiones (cookies HttpOnly, Secure, SameSite)",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Cookies HttpOnly, Secure y SameSite=Strict.",
+   "estado": "cumple",
+   "detalle": "Cookie de sesión HttpOnly y SameSite=Strict (Secure según configuración)."
+  },
+  {
+   "id": "asvs_v5",
+   "marco": "owasp_asvs",
+   "ref": "V5",
+   "titulo": "Validación, sanitización y codificación",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Escapar salidas y validar entradas.",
+   "estado": "cumple",
+   "detalle": "SQL solo con consultas parametrizadas (SQLAlchemy), comandos sin shell y HTML externo escapado."
+  },
+  {
+   "id": "asvs_v10",
+   "marco": "owasp_asvs",
+   "ref": "V10",
+   "titulo": "Código malicioso y rastreadores",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Sin scripts de terceros que rastreen.",
+   "estado": "cumple",
+   "detalle": "Sin analítica ni píxeles de terceros."
+  },
+  {
+   "id": "asvs_v12",
+   "marco": "owasp_asvs",
+   "ref": "V12",
+   "titulo": "Archivos y XML externos",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Leer XML externo con defusedxml.",
+   "estado": "cumple",
+   "detalle": "El backend lee XML con defusedxml."
+  },
+  {
+   "id": "asvs_v14",
+   "marco": "owasp_asvs",
+   "ref": "V14",
+   "titulo": "Configuración (encabezados de seguridad)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "CSP, HSTS, X-Frame-Options y nosniff en el backend.",
+   "estado": "cumple",
+   "detalle": "Backend con CSP, HSTS, X-Frame-Options y nosniff."
+  },
+  {
+   "id": "nist_gv",
+   "marco": "nist_csf",
+   "ref": "GV (Gobernar)",
+   "titulo": "Estrategia, roles y política de ciberseguridad",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Ver ISO 27001 cláusulas 5.2 y 5.3.",
+   "estado": "no_cumple",
+   "detalle": "Sin política ni roles escritos."
+  },
+  {
+   "id": "nist_id",
+   "marco": "nist_csf",
+   "ref": "ID (Identificar)",
+   "titulo": "Inventario de fuentes y activos",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Mantener config/entities.json y config/comercial_licencias.json al día.",
+   "estado": "cumple",
+   "detalle": "43 fuentes inventariadas, todas con licencia anotada."
+  },
+  {
+   "id": "nist_pr",
+   "marco": "nist_csf",
+   "ref": "PR (Proteger)",
+   "titulo": "Protección de secretos y accesos",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Secretos solo en GitHub Secrets.",
+   "estado": "cumple",
+   "detalle": "Sin llaves ni archivos de llaves en el repositorio; los secretos viven en GitHub Secrets."
+  },
+  {
+   "id": "nist_de",
+   "marco": "nist_csf",
+   "ref": "DE (Detectar)",
+   "titulo": "Detección continua (esta autoauditoría y pruebas)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Revisar el resultado semanal.",
+   "estado": "cumple",
+   "detalle": "Python: pasan (587 passed in 5.89s) · JavaScript: pasan (# duration_ms 2100.770739)"
+  },
+  {
+   "id": "nist_rs",
+   "marco": "nist_csf",
+   "ref": "RS (Responder)",
+   "titulo": "Respuesta a incidentes",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Plan de incidentes escrito.",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito."
+  },
+  {
+   "id": "nist_rc",
+   "marco": "nist_csf",
+   "ref": "RC (Recuperar)",
+   "titulo": "Recuperación de datos y servicio",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Los datos se regeneran desde las fuentes; documentar cómo restaurar el backend.",
+   "estado": "parcial",
+   "detalle": "El backend tiene respaldo (backup.py) y los datos públicos se regeneran desde las fuentes; falta docs/RECUPERACION.md."
+  },
+  {
+   "id": "cis_2",
+   "marco": "cis",
+   "ref": "Control 2",
+   "titulo": "Inventario de software (dependencias declaradas)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Versiones exactas.",
+   "estado": "cumple",
+   "detalle": "Todas las dependencias tienen versión exacta."
+  },
+  {
+   "id": "cis_3",
+   "marco": "cis",
+   "ref": "Control 3",
+   "titulo": "Protección de datos",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Aviso de privacidad y mínimos datos.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html)."
+  },
+  {
+   "id": "cis_5",
+   "marco": "cis",
+   "ref": "Control 5 y 6",
+   "titulo": "Cuentas y accesos con segundo factor (GitHub, Cloudflare, Mercado Pago, correo)",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Activar el segundo factor en todas las cuentas de administración y anotarlo aquí.",
+   "estado": "sin_evaluar",
+   "detalle": ""
+  },
+  {
+   "id": "cis_7",
+   "marco": "cis",
+   "ref": "Control 7",
+   "titulo": "Gestión continua de vulnerabilidades",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Dependabot.",
+   "estado": "no_cumple",
+   "detalle": "No existe .github/dependabot.yml."
+  },
+  {
+   "id": "cis_16",
+   "marco": "cis",
+   "ref": "Control 16",
+   "titulo": "Seguridad del software de aplicación",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Revisión de código y pruebas.",
+   "estado": "cumple",
+   "detalle": "Sin eval; 50 inserciones de HTML sin esc() revisadas a mano (solo números o texto propio)."
+  },
+  {
+   "id": "cis_17",
+   "marco": "cis",
+   "ref": "Control 17",
+   "titulo": "Respuesta a incidentes",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Plan escrito.",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito."
+  },
+  {
+   "id": "bc_8_2",
+   "marco": "iso22301",
+   "ref": "8.2",
+   "titulo": "Análisis de impacto al negocio (BIA)",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Definir qué servicio es crítico, tiempo máximo sin servicio (RTO) y pérdida de datos aceptable (RPO).",
+   "estado": "no_cumple",
+   "detalle": "Sin BIA."
+  },
+  {
+   "id": "bc_8_4",
+   "marco": "iso22301",
+   "ref": "8.4",
+   "titulo": "Planes de continuidad y recuperación",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Documentar la restauración.",
+   "estado": "parcial",
+   "detalle": "El backend tiene respaldo (backup.py) y los datos públicos se regeneran desde las fuentes; falta docs/RECUPERACION.md."
+  },
+  {
+   "id": "p_aviso",
+   "marco": "iso27701",
+   "ref": "Aviso y finalidad",
+   "titulo": "Aviso de privacidad y finalidad del tratamiento",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Publicar aviso.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html)."
+  },
+  {
+   "id": "p_minimo",
+   "marco": "iso27701",
+   "ref": "Minimización",
+   "titulo": "Sin rastreo de visitantes ni datos personales en el sitio",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Mantener cero rastreadores.",
+   "estado": "cumple",
+   "detalle": "Sin analítica ni píxeles de terceros."
+  },
+  {
+   "id": "r_proceso",
+   "marco": "iso31000",
+   "ref": "Cláusula 6",
+   "titulo": "Proceso de riesgos: identificar, analizar, evaluar y tratar",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Aplicarlo cada trimestre al proyecto.",
+   "estado": "parcial",
+   "detalle": "Existe el método (DOMINUS OPS) pero no se aplica al propio proyecto."
+  },
+  {
+   "id": "lf_aviso",
+   "marco": "lfpdppp",
+   "ref": "Aviso de privacidad",
+   "titulo": "Aviso de privacidad integral y simplificado",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Publicar privacidad.html con responsable, finalidades, transferencias y derechos ARCO.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html)."
+  },
+  {
+   "id": "lf_arco",
+   "marco": "lfpdppp",
+   "ref": "Derechos ARCO",
+   "titulo": "Procedimiento para atender acceso, rectificación, cancelación y oposición",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Definir correo y plazo de respuesta.",
+   "estado": "no_cumple",
+   "detalle": "Sin procedimiento."
+  },
+  {
+   "id": "lf_seguridad",
+   "marco": "lfpdppp",
+   "ref": "Medidas de seguridad",
+   "titulo": "Medidas de seguridad administrativas, técnicas y físicas",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Plan de incidentes y vulneraciones.",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito."
+  },
+  {
+   "id": "sc_pin",
+   "marco": "cadena",
+   "ref": "Acciones fijadas",
+   "titulo": "Acciones de GitHub fijadas por hash",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Cambiar @v4 por @<hash>.",
+   "estado": "no_cumple",
+   "detalle": "0 de 37 usos de acciones externas fijados por hash."
+  },
+  {
+   "id": "sc_permisos",
+   "marco": "cadena",
+   "ref": "Permisos mínimos",
+   "titulo": "Cada workflow declara sus permisos",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar «permissions:» a los workflows que no lo tienen.",
+   "estado": "cumple",
+   "detalle": "14 de 14 workflows declaran permisos."
+  },
+  {
+   "id": "sc_inyeccion",
+   "marco": "cadena",
+   "ref": "Inyección en workflows",
+   "titulo": "Datos de eventos fuera de los comandos run:",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Pasar datos de formularios por variables de entorno.",
+   "estado": "cumple",
+   "detalle": "Ningún workflow pega datos de eventos dentro de los comandos."
+  },
+  {
+   "id": "sc_rama",
+   "marco": "cadena",
+   "ref": "Rama protegida",
+   "titulo": "main protegida con revisión obligatoria",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Activar protección de rama en GitHub y anotar la fecha.",
+   "estado": "sin_evaluar",
+   "detalle": ""
+  },
+  {
+   "id": "w_idioma",
+   "marco": "wcag",
+   "ref": "3.1.1",
+   "titulo": "Idioma de cada página declarado",
+   "tipo": "auto",
+   "prioridad": "baja",
+   "mejora": "Agregar lang=\"es\" a las páginas que no lo tienen.",
+   "estado": "cumple",
+   "detalle": "Las 19 páginas declaran su idioma."
+  },
+  {
+   "id": "lic_fuentes",
+   "marco": "licencias",
+   "ref": "Fuentes verificadas",
+   "titulo": "Fuentes no comerciales resueltas antes de vender",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Resolver las fuentes pendientes de config/comercial_licencias.json.",
+   "estado": "parcial",
+   "detalle": "7 de 17 resueltas; pendientes: Global Fishing Watch API v3, OpenSky Network, EOX Sentinel-2 cloudless 2018–2025, Open-Meteo (pronóstico, oleaje, geocodificación, calidad del aire), OIEA PRIS, PeeringDB, adsb.lol, adsbdb.com"
+  },
+  {
+   "id": "lic_youtube",
+   "marco": "licencias",
+   "ref": "Reproductores",
+   "titulo": "Videos con youtube-nocookie",
+   "tipo": "auto",
+   "prioridad": "baja",
+   "mejora": "Cambiar reproductores a youtube-nocookie.",
+   "estado": "cumple",
+   "detalle": "Reproductores con youtube-nocookie."
+  }
+ ],
+ "mejoras": [
+  {
+   "id": "iso_4_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 4.3",
+   "titulo": "Alcance del SGSI definido por escrito",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Escribir en una página qué cubre el SGSI: sitio público, versión comercial en Cloudflare, backend, repositorios, proveedores y personas.",
+   "estado": "no_cumple",
+   "detalle": "No hay documento de alcance.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_5_2",
+   "marco": "iso27001",
+   "ref": "Cláusula 5.2",
+   "titulo": "Política de seguridad de la información aprobada",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Redactar la política (objetivos, responsabilidades, revisión anual) y aprobarla con fecha y firma.",
+   "estado": "no_cumple",
+   "detalle": "docs/SEGURIDAD.md es una revisión técnica, no una política.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_6_1_2",
+   "marco": "iso27001",
+   "ref": "Cláusula 6.1.2",
+   "titulo": "Evaluación de riesgos de seguridad con método definido",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Usar la matriz 5×5 de DOMINUS OPS sobre nuestros activos y guardar el resultado con fecha.",
+   "estado": "no_cumple",
+   "detalle": "Hay matriz de riesgos para clientes (DOMINUS OPS), no para el propio proyecto.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_a_5_15",
+   "marco": "iso27001",
+   "ref": "A.5.15",
+   "titulo": "Control de acceso por plan y rol",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Mover la validación del plan al Worker de Cloudflare (docs/SEGURIDAD.md, sección 3).",
+   "estado": "no_cumple",
+   "detalle": "El plan se valida solo en el navegador (sitio público). Pendiente para la versión comercial en Cloudflare.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_a_5_34",
+   "marco": "iso27001",
+   "ref": "A.5.34",
+   "titulo": "Privacidad y protección de datos personales",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Publicar aviso de privacidad (privacidad.html) antes de cobrar.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html).",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_a_5_24",
+   "marco": "iso27001",
+   "ref": "A.5.24",
+   "titulo": "Plan de respuesta a incidentes",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Escribir docs/INCIDENTES.md: quién responde, cómo se avisa, plazos (LFPDPPP pide avisar vulneraciones).",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "owasp_a01",
+   "marco": "owasp_top10",
+   "ref": "A01",
+   "titulo": "Control de acceso roto",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Validar el plan en el servidor, no en el navegador.",
+   "estado": "no_cumple",
+   "detalle": "El plan se valida solo en el navegador (sitio público). Pendiente para la versión comercial en Cloudflare.",
+   "marcos": [
+    "owasp_top10"
+   ]
+  },
+  {
+   "id": "nist_gv",
+   "marco": "nist_csf",
+   "ref": "GV (Gobernar)",
+   "titulo": "Estrategia, roles y política de ciberseguridad",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Ver ISO 27001 cláusulas 5.2 y 5.3.",
+   "estado": "no_cumple",
+   "detalle": "Sin política ni roles escritos.",
+   "marcos": [
+    "nist_csf"
+   ]
+  },
+  {
+   "id": "nist_rs",
+   "marco": "nist_csf",
+   "ref": "RS (Responder)",
+   "titulo": "Respuesta a incidentes",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Plan de incidentes escrito.",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito.",
+   "marcos": [
+    "nist_csf"
+   ]
+  },
+  {
+   "id": "cis_3",
+   "marco": "cis",
+   "ref": "Control 3",
+   "titulo": "Protección de datos",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Aviso de privacidad y mínimos datos.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html).",
+   "marcos": [
+    "cis"
+   ]
+  },
+  {
+   "id": "cis_17",
+   "marco": "cis",
+   "ref": "Control 17",
+   "titulo": "Respuesta a incidentes",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Plan escrito.",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito.",
+   "marcos": [
+    "cis"
+   ]
+  },
+  {
+   "id": "p_aviso",
+   "marco": "iso27701",
+   "ref": "Aviso y finalidad",
+   "titulo": "Aviso de privacidad y finalidad del tratamiento",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Publicar aviso.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html).",
+   "marcos": [
+    "iso27701"
+   ]
+  },
+  {
+   "id": "lf_aviso",
+   "marco": "lfpdppp",
+   "ref": "Aviso de privacidad",
+   "titulo": "Aviso de privacidad integral y simplificado",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Publicar privacidad.html con responsable, finalidades, transferencias y derechos ARCO.",
+   "estado": "no_cumple",
+   "detalle": "No hay aviso de privacidad (privacidad.html).",
+   "marcos": [
+    "lfpdppp"
+   ]
+  },
+  {
+   "id": "lf_arco",
+   "marco": "lfpdppp",
+   "ref": "Derechos ARCO",
+   "titulo": "Procedimiento para atender acceso, rectificación, cancelación y oposición",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Definir correo y plazo de respuesta.",
+   "estado": "no_cumple",
+   "detalle": "Sin procedimiento.",
+   "marcos": [
+    "lfpdppp"
+   ]
+  },
+  {
+   "id": "lf_seguridad",
+   "marco": "lfpdppp",
+   "ref": "Medidas de seguridad",
+   "titulo": "Medidas de seguridad administrativas, técnicas y físicas",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Plan de incidentes y vulneraciones.",
+   "estado": "no_cumple",
+   "detalle": "No hay plan de respuesta a incidentes escrito.",
+   "marcos": [
+    "lfpdppp"
+   ]
+  },
+  {
+   "id": "lic_fuentes",
+   "marco": "licencias",
+   "ref": "Fuentes verificadas",
+   "titulo": "Fuentes no comerciales resueltas antes de vender",
+   "tipo": "auto",
+   "prioridad": "alta",
+   "mejora": "Resolver las fuentes pendientes de config/comercial_licencias.json.",
+   "estado": "parcial",
+   "detalle": "7 de 17 resueltas; pendientes: Global Fishing Watch API v3, OpenSky Network, EOX Sentinel-2 cloudless 2018–2025, Open-Meteo (pronóstico, oleaje, geocodificación, calidad del aire), OIEA PRIS, PeeringDB, adsb.lol, adsbdb.com",
+   "marcos": [
+    "licencias"
+   ]
+  },
+  {
+   "id": "cis_5",
+   "marco": "cis",
+   "ref": "Control 5 y 6",
+   "titulo": "Cuentas y accesos con segundo factor (GitHub, Cloudflare, Mercado Pago, correo)",
+   "tipo": "manual",
+   "prioridad": "alta",
+   "mejora": "Activar el segundo factor en todas las cuentas de administración y anotarlo aquí.",
+   "estado": "sin_evaluar",
+   "detalle": "",
+   "marcos": [
+    "cis"
+   ]
+  },
+  {
+   "id": "iso_6_1_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 6.1.3",
+   "titulo": "Declaración de aplicabilidad (SoA)",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Listar los 93 controles del Anexo A, cuáles aplican, por qué, y su estado (esta autoauditoría sirve de base).",
+   "estado": "no_cumple",
+   "detalle": "No existe.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_9_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 9.3",
+   "titulo": "Revisión por la dirección",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Revisar cada trimestre el puntaje de esta página y decidir prioridades; guardar acta.",
+   "estado": "no_cumple",
+   "detalle": "No hay acta.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_a_8_8",
+   "marco": "iso27001",
+   "ref": "A.8.8",
+   "titulo": "Gestión de vulnerabilidades técnicas (dependencias)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar .github/dependabot.yml para pip, npm y GitHub Actions.",
+   "estado": "no_cumple",
+   "detalle": "No existe .github/dependabot.yml.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_a_8_29",
+   "marco": "iso27001",
+   "ref": "A.8.29",
+   "titulo": "Pruebas de seguridad en el desarrollo (análisis estático)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar el workflow de CodeQL (gratuito en repositorios públicos).",
+   "estado": "no_cumple",
+   "detalle": "No hay análisis estático (CodeQL) en CI.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "owasp_a05",
+   "marco": "owasp_top10",
+   "ref": "A05",
+   "titulo": "Configuración de seguridad (encabezados y CSP)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Agregar Content-Security-Policy desde el Worker de Cloudflare.",
+   "estado": "no_cumple",
+   "detalle": "0 de 19 páginas con CSP. GitHub Pages no permite encabezados: se resuelve en el Worker de Cloudflare.",
+   "marcos": [
+    "owasp_top10"
+   ]
+  },
+  {
+   "id": "owasp_a06",
+   "marco": "owasp_top10",
+   "ref": "A06",
+   "titulo": "Componentes vulnerables o desactualizados",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Activar Dependabot.",
+   "estado": "no_cumple",
+   "detalle": "No existe .github/dependabot.yml.",
+   "marcos": [
+    "owasp_top10"
+   ]
+  },
+  {
+   "id": "owasp_a08",
+   "marco": "owasp_top10",
+   "ref": "A08",
+   "titulo": "Integridad del software y de los datos (CI/CD)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Fijar cada acción de GitHub por su hash.",
+   "estado": "no_cumple",
+   "detalle": "0 de 37 usos de acciones externas fijados por hash.",
+   "marcos": [
+    "owasp_top10"
+   ]
+  },
+  {
+   "id": "cis_7",
+   "marco": "cis",
+   "ref": "Control 7",
+   "titulo": "Gestión continua de vulnerabilidades",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Dependabot.",
+   "estado": "no_cumple",
+   "detalle": "No existe .github/dependabot.yml.",
+   "marcos": [
+    "cis"
+   ]
+  },
+  {
+   "id": "bc_8_2",
+   "marco": "iso22301",
+   "ref": "8.2",
+   "titulo": "Análisis de impacto al negocio (BIA)",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Definir qué servicio es crítico, tiempo máximo sin servicio (RTO) y pérdida de datos aceptable (RPO).",
+   "estado": "no_cumple",
+   "detalle": "Sin BIA.",
+   "marcos": [
+    "iso22301"
+   ]
+  },
+  {
+   "id": "sc_pin",
+   "marco": "cadena",
+   "ref": "Acciones fijadas",
+   "titulo": "Acciones de GitHub fijadas por hash",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Cambiar @v4 por @<hash>.",
+   "estado": "no_cumple",
+   "detalle": "0 de 37 usos de acciones externas fijados por hash.",
+   "marcos": [
+    "cadena"
+   ]
+  },
+  {
+   "id": "iso_9_2",
+   "marco": "iso27001",
+   "ref": "Cláusula 9.2",
+   "titulo": "Auditoría interna periódica",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Hacer una auditoría interna al año con lista de verificación y acciones correctivas.",
+   "estado": "parcial",
+   "detalle": "Esta autoauditoría automática corre cada semana; falta la auditoría interna humana con informe.",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "iso_a_8_24",
+   "marco": "iso27001",
+   "ref": "A.8.24",
+   "titulo": "Uso de criptografía (HTTPS en todas las llamadas)",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Cambiar a https:// las llamadas que usen http://.",
+   "estado": "parcial",
+   "detalle": "Enlaces http:// en: backend/dominus/connectors.py, js/app.js, js/erupcion.js, js/riesgos.js, tools/capas/camaras_mundo.py, tools/clima/tornados.py, tools/crimen/crimen.py, tools/investigacion/extranjeras_mx.py",
+   "marcos": [
+    "iso27001"
+   ]
+  },
+  {
+   "id": "owasp_a02",
+   "marco": "owasp_top10",
+   "ref": "A02",
+   "titulo": "Fallas criptográficas",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Solo HTTPS y cookies Secure.",
+   "estado": "parcial",
+   "detalle": "Enlaces http:// en: backend/dominus/connectors.py, js/app.js, js/erupcion.js, js/riesgos.js, tools/capas/camaras_mundo.py, tools/clima/tornados.py, tools/crimen/crimen.py, tools/investigacion/extranjeras_mx.py",
+   "marcos": [
+    "owasp_top10"
+   ]
+  },
+  {
+   "id": "nist_rc",
+   "marco": "nist_csf",
+   "ref": "RC (Recuperar)",
+   "titulo": "Recuperación de datos y servicio",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Los datos se regeneran desde las fuentes; documentar cómo restaurar el backend.",
+   "estado": "parcial",
+   "detalle": "El backend tiene respaldo (backup.py) y los datos públicos se regeneran desde las fuentes; falta docs/RECUPERACION.md.",
+   "marcos": [
+    "nist_csf"
+   ]
+  },
+  {
+   "id": "bc_8_4",
+   "marco": "iso22301",
+   "ref": "8.4",
+   "titulo": "Planes de continuidad y recuperación",
+   "tipo": "auto",
+   "prioridad": "media",
+   "mejora": "Documentar la restauración.",
+   "estado": "parcial",
+   "detalle": "El backend tiene respaldo (backup.py) y los datos públicos se regeneran desde las fuentes; falta docs/RECUPERACION.md.",
+   "marcos": [
+    "iso22301"
+   ]
+  },
+  {
+   "id": "r_proceso",
+   "marco": "iso31000",
+   "ref": "Cláusula 6",
+   "titulo": "Proceso de riesgos: identificar, analizar, evaluar y tratar",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Aplicarlo cada trimestre al proyecto.",
+   "estado": "parcial",
+   "detalle": "Existe el método (DOMINUS OPS) pero no se aplica al propio proyecto.",
+   "marcos": [
+    "iso31000"
+   ]
+  },
+  {
+   "id": "sc_rama",
+   "marco": "cadena",
+   "ref": "Rama protegida",
+   "titulo": "main protegida con revisión obligatoria",
+   "tipo": "manual",
+   "prioridad": "media",
+   "mejora": "Activar protección de rama en GitHub y anotar la fecha.",
+   "estado": "sin_evaluar",
+   "detalle": "",
+   "marcos": [
+    "cadena"
+   ]
+  },
+  {
+   "id": "iso_7_3",
+   "marco": "iso27001",
+   "ref": "Cláusula 7.3",
+   "titulo": "Concienciación en seguridad de quienes trabajan en el proyecto",
+   "tipo": "manual",
+   "prioridad": "baja",
+   "mejora": "Registrar capacitaciones (fecha, tema, persona).",
+   "estado": "sin_evaluar",
+   "detalle": "",
+   "marcos": [
+    "iso27001"
+   ]
+  }
+ ]
+}

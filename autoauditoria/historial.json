@@ -1,0 +1,18 @@
+[
+ {
+  "fecha_utc": "2026-10-29T16:21:07Z",
+  "global": 51,
+  "iso27001": 39,
+  "owasp_top10": 50,
+  "owasp_asvs": 100,
+  "nist_csf": 58,
+  "cis": 40,
+  "iso22301": 25,
+  "iso27701": 50,
+  "iso31000": 50,
+  "lfpdppp": 0,
+  "cadena": 67,
+  "wcag": 100,
+  "licencias": 75
+ }
+]
