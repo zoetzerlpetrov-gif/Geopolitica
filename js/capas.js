@@ -322,6 +322,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
 
 /** Ficha de un inmueble en seguimiento (InmuebleWarRoom): precio, riesgo, revisión geológica automática y anuncio original. */
 export function htmlFichaInmueble(props, sub, familia) {
+  if (props.origen === "Zonas en seguimiento") return htmlFichaZona(props, sub, familia);
   const m2 = (n) => (n == null || n === "" || n === "null" ? "—" : `${Number(n).toLocaleString("es-MX")} m²`);
   const fila = (k, v) => (v && v !== "null" ? `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>` : "");
   const si = (v) => v === true || v === "true";
@@ -355,6 +356,18 @@ export function htmlFichaInmueble(props, sub, familia) {
     ${props.url ? `<p><a class="boton" href="${esc(safeUrl(props.url))}" target="_blank" rel="noopener noreferrer">Ver la página original ↗</a></p>` : ""}
     ${evaluar ? `<p><a class="boton" href="${esc(evaluar)}" target="_blank" rel="noopener">🧭 Evaluar riesgo completo (sismos, volcanes, pendiente, inundación, política e inseguridad)</a></p>` : ""}
     <p class="meta">El precio y la disponibilidad pueden haber cambiado desde que se registró${auto ? "; confirma con la desarrolladora antes de decidir" : ""}. ${auto ? "El color de este punto solo considera la distancia a volcanes del Holoceno (Smithsonian GVP) y a límites de placas (PB2002); la seguridad, inundación y deslaves se calculan con «Evaluar riesgo completo»." : "La revisión automática solo mide distancias a volcanes del Holoceno y a límites de placas; no sustituye un dictamen de riesgos."} No es una recomendación de inversión.</p>`;
+}
+
+/** Zona de búsqueda de inmuebles: sin precios; abre la zona en inmuebles.html con sus búsquedas, riesgos y reglas. */
+export function htmlFichaZona(props, sub, familia) {
+  const fila = (k, v) => (v && v !== "null" ? `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>` : "");
+  return `
+    <h3 id="ficha-titulo">${esc(props.n)}</h3>
+    <div class="fecha">${esc(props.pais_n)} · ${esc(familia.nombre)}</div>
+    <div class="chips"><span class="chip" style="background:${esc(sub?.color || "#9b7bd4")};color:#111;border-color:${esc(sub?.color || "#9b7bd4")}">${esc(sub?.nombre.es || "Zona de búsqueda")}</span></div>
+    <dl>${fila("Tipos que se buscan", props.tipo)}${fila("Colonias, barrios o lugares", props.zona)}${props.radio ? `<dt>Radio</dt><dd>${esc(String(props.radio))} km alrededor del punto</dd>` : ""}${fila("Riesgos principales", props.riesgo)}</dl>
+    <p><a class="boton" href="inmuebles.html?zona=${encodeURIComponent(props.zona_id || "")}" target="_blank" rel="noopener">📍 Abrir la zona: búsquedas en los portales, riesgos y reglas de compra</a></p>
+    <p class="meta">Es una zona de búsqueda, no un inmueble: DOMINUS no copia anuncios; los botones abren cada portal. No es una recomendación de inversión.</p>`;
 }
 
 /** Ficha de cámara pública; solo solicita medios cuando el usuario abre la ficha. */

@@ -242,3 +242,18 @@ def test_indice_de_busqueda_de_organizaciones():
           {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"id": "osm:n2", "n": "", "st": "embajadas_consulados"}}]
     assert C.indice_busqueda(fs) == [["Embajada de Japón", "embajadas_consulados", "MEX", -99.17123, 19.42, "osm:n1", "embassy|JP"]]
     assert {"empresas", "embajadas"} <= C.BUSCABLES
+
+
+def test_zonas_de_busqueda_en_la_capa_de_seguimiento():
+    import inmuebles as I
+    cats = [json.load(open(os.path.join(ROOT, "config", f"inmuebles_zonas_{n}.json"), encoding="utf-8")) for n in ("mx", "mundo")]
+    fs = I.features_zonas(cats)
+    assert len(fs) == sum(len(c["zonas"]) for c in cats)
+    ids = {f["properties"]["zona_id"] for f in fs}
+    assert {"rm-puerto-aventuras", "mer-centro", "ita-positano"} <= ids
+    assert all(f["properties"]["st"] == "inm_zona" and f["properties"]["origen"] == "Zonas en seguimiento" for f in fs)
+    pa = next(f for f in fs if f["properties"]["zona_id"] == "rm-puerto-aventuras")
+    assert pa["properties"]["pais_n"] == "México" and -88 < pa["geometry"]["coordinates"][0] < -87
+    cat = json.load(open(os.path.join(ROOT, "config", "entities.json"), encoding="utf-8"))
+    subtipos = {s["id"]: s["familia"] for k in cat["categorias"] for s in k["subtipos"] if s.get("familia")}
+    assert subtipos.get("inm_zona") == "inmuebles_seguimiento"

@@ -1890,6 +1890,9 @@ def inmuebles_seguimiento():
         with open(ruta, encoding="utf-8") as f:
             datos.append(json.load(f))
     out += I.features_desarrollos(datos, volcs, lims)
+    # Zonas de búsqueda de inmuebles.html (México y 27 países): sin precios, solo el centro de cada zona.
+    zonas = [json.load(open(os.path.join(ROOT, "config", f"inmuebles_zonas_{n}.json"), encoding="utf-8")) for n in ("mx", "mundo")]
+    out += I.features_zonas(zonas)
     return out
 
 

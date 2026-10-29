@@ -94,9 +94,17 @@ function pintarZonas() {
 }
 $("zo-pais").addEventListener("change", () => { llenarCiudades(); pintarZonas(); });
 for (const id of ["zo-ciudad", "zo-tipo"]) $(id).addEventListener("change", pintarZonas);
-$("zo-pais").value = "MEX";
+// inmuebles.html?zona=<id> (ficha de la zona en el mapa): abre la pestaña con esa zona desplegada.
+const zonaPedida = zonas.zonas.find((z) => z.id === new URLSearchParams(location.search).get("zona"));
+$("zo-pais").value = zonaPedida?.pais_iso3 || "MEX";
 llenarCiudades();
+if (zonaPedida) $("zo-ciudad").value = zonaPedida.ciudad;
 pintarZonas();
+if (zonaPedida) {
+  document.querySelector('.pestanas button[data-p="zonas"]').click();
+  const d = $("zo-lista").querySelector(`[data-zona="${CSS.escape(zonaPedida.id)}"]`);
+  if (d) { d.open = true; d.scrollIntoView({ block: "start" }); }
+}
 $("zo-lista").addEventListener("click", (e) => {
   const b = e.target.closest("[data-evaluar]");
   if (!b) return;

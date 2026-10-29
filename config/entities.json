@@ -5468,6 +5468,25 @@
      "familia": "inmuebles_seguimiento"
     },
     {
+     "id": "inm_zona",
+     "nombre": {
+      "es": "Zonas de búsqueda (México y 27 países)",
+      "en": "Search areas (Mexico and 27 countries)"
+     },
+     "icono": "◎",
+     "color": "#9b7bd4",
+     "fuente": "inmueblewarroom",
+     "licencia": "Catálogo propio; las búsquedas abren los portales, que no se copian",
+     "frecuencia": "manual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_seguimiento"
+    },
+    {
      "id": "sector_primario_1",
      "nombre": {
       "es": "Menos del 2 % del PIB",
