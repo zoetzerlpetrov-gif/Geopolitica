@@ -9,9 +9,11 @@
    Se consulta como mucho una vez por hora.
 2. Nortes: el SMN de México avisa de «evento de Norte» cuando, tras un frente frío, el viento del norte sopla fuerte
    en el Golfo de México y el Istmo de Tehuantepec («Tehuano»). El SMN no tiene una API abierta, así que aquí se
-   estima con el pronóstico horario de Open-Meteo (7 días) en puertos del Golfo y del Istmo: hay «Norte» cuando la
-   dirección del viento está entre 300° y 60° (del NO al NE) y la ráfaga llega a 50 km/h o más. Es una ESTIMACIÓN
-   propia; el aviso oficial es el del SMN (smn.conagua.gob.mx). Se consulta cada 3 h (1 petición).
+   estima con el modelo GFS de NOAA (0.25°, cada 3 h hasta 7 días; dominio público, permite uso comercial) en puertos
+   del Golfo y del Istmo: hay «Norte» cuando la dirección del viento a 10 m está entre 300° y 60° (del NO al NE) y la
+   ráfaga en superficie llega a 50 km/h o más. Es una ESTIMACIÓN propia; el aviso oficial es el del SMN
+   (smn.conagua.gob.mx). Se consulta cada 3 h (56 descargas pequeñas, solo la región del Golfo). Antes se usaba
+   Open-Meteo, que solo es gratuito para uso no comercial.
 
 Salidas: vivos/frentes.geojson y vivos/nortes.geojson. Si una fuente falla se conserva el archivo anterior.
 """
@@ -20,17 +22,19 @@ import math
 import os
 import re
 import sys
-import urllib.parse
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "ingest"))
 import fuentes as F  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import gfs_puntos as G  # noqa: E402
 
 OUT_FRENTES = os.path.join(ROOT, "vivos", "frentes.geojson")
 OUT_NORTES = os.path.join(ROOT, "vivos", "nortes.geojson")
 URL_WPC = "https://www.wpc.ncep.noaa.gov/discussions/codsus_hr"
-URL_PRONOSTICO = "https://api.open-meteo.com/v1/forecast"
+REGION_NORTES = (27, -99, -86, 13)   # N, O, E, S: Golfo de México, Península de Yucatán e Istmo
+HORAS_NORTES = list(range(3, 169, 3))
 TIPOS = {"COLD": ("frio", "Frente frío"), "WARM": ("calido", "Frente cálido"), "STNRY": ("estacionario", "Frente estacionario"),
          "OCFNT": ("ocluido", "Frente ocluido"), "TROF": ("vaguada", "Vaguada"), "DRYLINE": ("linea_seca", "Línea seca"),
          "SQLN": ("linea_turbonada", "Línea de turbonada")}
@@ -137,8 +141,25 @@ def del_norte(d):
     return d is not None and (d >= 300 or d <= 60)
 
 
-def nortes_de(respuestas, puertos=PUERTOS):
-    """Respuestas de Open-Meteo (una por puerto, mismo orden) → features con las horas de Norte de los próximos 7 días."""
+def viento_gfs(pasos):
+    """Pasos de gfs_puntos.series con ráfaga («gust») y viento U/V a 10 m («10u», «10v»), en m/s → dirección (°),
+    viento y ráfaga en km/h, con los nombres de Open-Meteo."""
+    out = []
+    for valido, fila in pasos:
+        u, v, g = fila.get("10u", []), fila.get("10v", []), fila.get("gust", [])
+        d, vel, raf = [], [], []
+        for k in range(max(len(u), len(g))):
+            uu, vv, gg = (u[k] if k < len(u) else None), (v[k] if k < len(v) else None), (g[k] if k < len(g) else None)
+            d.append(None if uu is None or vv is None else G.direccion_desde(uu, vv))
+            vel.append(None if uu is None or vv is None else math.hypot(uu, vv) * 3.6)
+            raf.append(None if gg is None else gg * 3.6)
+        out.append((valido, {"dir": d, "vel": vel, "raf": raf}))
+    return out
+
+
+def nortes_de(respuestas, puertos=PUERTOS, paso_h=1):
+    """Respuestas con forma de Open-Meteo (una por puerto, mismo orden; cada dato vale `paso_h` horas) → features con las
+    horas de Norte de los próximos 7 días."""
     feats = []
     for (nombre, lat, lon), r in zip(puertos, respuestas):
         h = (r or {}).get("hourly") or {}
@@ -150,7 +171,7 @@ def nortes_de(respuestas, puertos=PUERTOS):
         dias = sorted({x[0][:10] for x in horas})
         feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [lon, lat]}, "properties": {
             "name": nombre, "istmo": ISTMO in nombre, "nivel": nivel_rafaga(maxr), "rafaga_max_kmh": maxr,
-            "inicio": horas[0][0] if horas else "", "fin": horas[-1][0] if horas else "", "dias": dias, "horas": len(horas),
+            "inicio": horas[0][0] if horas else "", "fin": horas[-1][0] if horas else "", "dias": dias, "horas": len(horas) * paso_h,
             "serie": [[x[0], x[3]] for x in horas[:: max(1, len(horas) // 40)]]}})
     return feats
 
@@ -316,15 +337,13 @@ def actualizar_frentes(ahora):
 def actualizar_nortes(ahora):
     if not viejo(OUT_NORTES, 3, ahora):
         return "nortes: datos recientes"
-    q = {"latitude": ",".join(str(p[1]) for p in PUERTOS), "longitude": ",".join(str(p[2]) for p in PUERTOS),
-         "hourly": "wind_speed_10m,wind_direction_10m,wind_gusts_10m", "forecast_days": 7, "timezone": "UTC"}
-    datos = json.loads(F.get(f"{URL_PRONOSTICO}?{urllib.parse.urlencode(q)}", timeout=60))
-    datos = datos if isinstance(datos, list) else [datos]
-    if len(datos) != len(PUERTOS):
-        return f"nortes: respuesta con {len(datos)} puntos (se esperaban {len(PUERTOS)}); se conserva el anterior"
-    feats = nortes_de(datos)
+    url = lambda c, f: G.url_gfs(c, f, ["GUST", "UGRD", "VGRD"], ["surface", "10_m_above_ground"], REGION_NORTES)  # noqa: E731
+    pasos, corrida = G.series(PUERTOS, url, HORAS_NORTES, {"gust", "10u", "10v"}, ahora)
+    datos = G.a_horario(viento_gfs(pasos), PUERTOS, {"dir": "wind_direction_10m", "vel": "wind_speed_10m", "raf": "wind_gusts_10m"})
+    feats = nortes_de(datos, paso_h=3)
     guardar(OUT_NORTES, {"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"),
-                         "fuente": "Estimación propia con el pronóstico de Open-Meteo (el aviso oficial es del SMN)",
+                         "fuente": "Estimación propia con el modelo GFS de NOAA (el aviso oficial es del SMN)",
+                         "corrida": corrida.strftime("%Y-%m-%dT%H:%MZ"), "pasos": len(pasos),
                          "umbral": f"viento del NO al NE con ráfagas de {RAFAGA_NORTE} km/h o más", "features": feats})
     con = [f["properties"]["name"] for f in feats if f["properties"]["nivel"]]
     return f"nortes: {len(con)} de {len(feats)} puertos con Norte en 7 días: {', '.join(con[:8])}"
