@@ -372,3 +372,19 @@ def features_desarrollos(datos, volcanes, limites):
                 "precision": d.get("precision", ""), "visto": d.get("visto", ""), "zona_objetivo": d.get("zona_objetivo", ""), "fuente_t": d.get("fuente", ""), "nota": (d.get("nota") or "")[:400],
                 "geo": geo, "geo_alerta": alerta, "url": d.get("url", "")}})
     return out
+
+
+def features_zonas(catalogos):
+    """Zonas de búsqueda (config/inmuebles_zonas_mx.json y _mundo.json): un punto en el centro de cada zona. La ficha abre la
+    zona en inmuebles.html (búsquedas solo enlace, riesgos y reglas para mexicanos); aquí no hay precios ni anuncios."""
+    out = []
+    for cat in catalogos:
+        nombres = {iso: p.get("nombre", iso) for iso, p in (cat.get("paises") or {}).items()}
+        for z in cat.get("zonas", []):
+            out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [z["lon"], z["lat"]]}, "properties": {
+                "id": f"zona:{z['id']}", "n": f"{z['ciudad']} · {z['zona']}", "p": z.get("pais_iso3", ""), "st": "inm_zona", "z": 3,
+                "pais_n": nombres.get(z.get("pais_iso3"), "México" if z.get("pais_iso3") == "MEX" else z.get("pais_iso3", "")),
+                "origen": "Zonas en seguimiento", "zona_id": z["id"], "tipo": ", ".join(z.get("tipos", [])),
+                "zona": ", ".join(z.get("colonias", [])[:8]), "radio": z.get("radio_km"), "riesgo": " ".join(z.get("riesgos", [])[:3])[:600],
+                "precision": "zona"}})
+    return out
