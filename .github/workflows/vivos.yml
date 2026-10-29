@@ -188,6 +188,11 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/clima/cortes.py
 
+      - name: Protocolos, alertas y niveles oficiales (registro curado + avisos de viaje de EUA y Canadá, MI5, NTAS; cada 3 h; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/protocolos/protocolos.py
+
       - name: Salud (OMS, CDC y ECDC una vez al día; brotes en noticias de GDELT cada corrida; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 4

@@ -120,6 +120,11 @@
    "nombre": "Marco normativo"
   },
   {
+   "tipo": "pagina",
+   "href": "analista.html",
+   "nombre": "Mesa del analista"
+  },
+  {
    "tipo": "capa",
    "id": "inmuebles_seguimiento",
    "nombre": "Economía y finanzas · Seguimiento a Inmuebles"

@@ -17,3 +17,11 @@ test("solo cambian los enlaces a páginas del sitio", () => {
   assert.equal(paginaDe("./?vista=pago"), "index.html");
   assert.equal(paginaDe("matriz.html#a"), "matriz.html");
 });
+
+test("autoauditoría: tendencia contra la semana anterior", async () => {
+  const { tendencia, barra } = await import("../../js/autoauditoria.js");
+  assert.equal(tendencia([{ global: 40 }, { global: 45 }], "global"), "▲ 5");
+  assert.equal(tendencia([{ global: 45 }, { global: 40 }], "global"), "▼ 5");
+  assert.equal(tendencia([{ global: 45 }], "global"), "");
+  assert.match(barra(72), /72 %/);
+});
