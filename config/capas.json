@@ -149,6 +149,16 @@
    "nota": "TeleGeography Submarine Cable Map, CC BY-NC-SA 3.0: uso no comercial con atribución. Rutas esquemáticas. Habilitada a petición de quien administra el proyecto (2026-10-08)."
   },
   {
+   "id": "cables_osm",
+   "nombre": "Cables submarinos",
+   "categoria": "infraestructura",
+   "geometria": "linea",
+   "fuente": "osm",
+   "habilitada": true,
+   "sustituye": "cables",
+   "nota": "OpenStreetMap (ODbL): cables de telecomunicaciones trazados sobre el fondo marino (communication=line con location=underwater o submarine=yes). Sustituto con uso comercial de TeleGeography para la versión de pago: menos cables y sin puntos de aterrizaje. En la versión completa se sigue viendo TeleGeography."
+  },
+  {
    "id": "rutas_maritimas",
    "nombre": "Rutas marítimas del mundo",
    "categoria": "infraestructura",

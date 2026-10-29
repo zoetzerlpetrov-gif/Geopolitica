@@ -46,6 +46,7 @@
    "resumen": "Reconocimiento: mapa, eventos y alertas.",
    "incluye": [
     "Todo lo de Demo, con datos al día",
+    "Capas de infraestructura, conflictos y sociedad (aeropuertos, puertos, energía, minas, ductos, grupos armados, religiones, economía por país y más)",
     "Eventos y noticias",
     "Riesgos y clima",
     "En movimiento",
@@ -119,14 +120,14 @@
    "nombre": "Marco normativo"
   },
   {
-   "tipo": "bloque",
-   "id": "b-capas-ent",
-   "nombre": "Infraestructura, conflictos y sociedad (menú izquierdo)"
-  },
-  {
    "tipo": "capa",
    "id": "inmuebles_seguimiento",
    "nombre": "Economía y finanzas · Seguimiento a Inmuebles"
+  },
+  {
+   "tipo": "capa",
+   "id": "nodos_bitcoin",
+   "nombre": "Economía y finanzas · Nodos de Bitcoin por país"
   }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",
@@ -152,6 +153,9 @@
    "narrativas.html": "analyst",
    "matriz.html": "analyst"
   },
+  "bloques": {
+   "b-capas-ent": "recon"
+  },
   "nombres": {
    "eventos": "📰 Eventos y noticias",
    "capas": "🗺️ Capas del mapa (capas fijas)",
@@ -168,7 +172,8 @@
    "planes.html": "💳 Planes",
    "taxonomia.html": "🏷️ Taxonomía de eventos",
    "narrativas.html": "♟️ Narrativas y estrategia",
-   "matriz.html": "🧮 Matriz de riesgo por país"
+   "matriz.html": "🧮 Matriz de riesgo por país",
+   "b-capas-ent": "🏗️ Infraestructura, conflictos y sociedad"
   }
  }
 }

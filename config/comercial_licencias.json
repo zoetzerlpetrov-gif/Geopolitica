@@ -27,11 +27,11 @@
    "licencia": "CC BY-NC-SA 3.0",
    "accion": "sustituir",
    "donde": "tools/capas/construir.py; capa de cables submarinos",
-   "sustituto": "Cables submarinos de OpenStreetMap (etiqueta submarine=yes)",
+   "sustituto": "Cables submarinos de OpenStreetMap (communication=line con location=underwater o submarine=yes): familia cables_osm",
    "licencia_sustituto": "ODbL 1.0 (uso comercial con atribución)",
    "nota": "Menos cables y trazos más simples que TeleGeography.",
    "estado": "listo",
-   "prueba": "Overpass respondió 200 a la consulta de cables submarinos de OSM. Falta medir cuántos cables hay frente a TeleGeography."
+   "prueba": "Familia cables_osm agregada a tools/capas/construir.py y a config/capas.json; en la versión de pago ocupa el lugar de «cables». Menos cables que TeleGeography y sin puntos de aterrizaje."
   },
   {
    "patron": "OpenSanctions",
@@ -181,11 +181,24 @@
    "patron": "Bitnodes",
    "nombre": "Bitnodes",
    "licencia": "Datos públicos de la API",
-   "accion": "verificar",
+   "accion": "retirar",
    "donde": "Nodos de Bitcoin por país",
    "sustituto": "",
-   "estado": "por_verificar",
-   "prueba": "No se encontraron términos de uso comercial."
+   "estado": "listo",
+   "prueba": "No se encontraron términos de uso comercial.",
+   "nota": "Decisión de quien administra (29-oct-2026): fuera de la versión de pago; la capa queda solo para admin (config/planes.json, solo_admin)."
+  },
+  {
+   "patron": "Cámaras públicas",
+   "nombre": "Cámaras públicas (lista curada, catálogos oficiales, Windy, YouTube y Webcams de México)",
+   "licencia": "Distinta en cada operador",
+   "accion": "sustituir",
+   "donde": "Capa «Cámaras públicas» y página camaras.html",
+   "sustituto": "Solo operadores públicos con licencia abierta que permite uso comercial, más los enlaces a páginas oficiales de organismos públicos (lista curada)",
+   "licencia_sustituto": "CC BY 4.0, CC BY 3.0 NZ, NLOD 2.0, Open Government Licence (Columbia Británica, Toronto), TfL Open Data Licence, Singapore Open Data Licence",
+   "nota": "Quedan fuera de la versión de pago: YouTube, Windy, Webcams de México, operadores turísticos y los catálogos con «datos públicos» sin licencia explícita (Caltrans, NYC DOT, NZTA, Islandia, WSDOT, Hong Kong, Calgary, Queensland, entre otros) hasta verificar sus términos.",
+   "estado": "listo",
+   "prueba": "Filtro por fuente en js/licencias.js (camaraComercial) con la lista de config/comercial_licencias.json (version_pago.capas_filtradas.camaras)."
   }
  ],
  "estrategia": {
@@ -234,6 +247,30 @@
   },
   "bloques_solo_admin": {
    "b-aire": "Calidad del aire por ciudad (Open-Meteo Air Quality)."
+  },
+  "capas_filtradas": {
+   "camaras": {
+    "fuente": "camaras_abiertas",
+    "fuentes_ok": [
+     "digitraffic",
+     "singapur",
+     "tfl",
+     "drivebc",
+     "toronto",
+     "noruega",
+     "nsw",
+     "euskadi",
+     "vitoria",
+     "iowa",
+     "dgt",
+     "geonet"
+    ],
+    "enlaces_oficiales": true,
+    "nota": "Se muestran solo las cámaras de esas fuentes y los enlaces de la lista curada a páginas de organismos públicos (id «cam:», tipo organismo_publico). La imagen se pide al operador; no se guarda."
+   }
+  },
+  "capas_sustituidas": {
+   "cables": "cables_osm"
   }
  }
 }

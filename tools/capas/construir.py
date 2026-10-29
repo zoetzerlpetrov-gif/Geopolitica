@@ -562,6 +562,32 @@ def cables():
     return cables_de_geojson(c, a)
 
 
+# Sustituto comercial de TeleGeography: los cables que la comunidad de OpenStreetMap trazó sobre el fondo marino
+# (ODbL, uso comercial con atribución). Menos cables que TeleGeography y sin puntos de aterrizaje, pero con su trazo
+# real donde existe. En la versión de pago se muestra en lugar de «cables» (sustituye en config/capas.json).
+CABLES_OSM = ['way["communication"="line"]["location"~"underwater"]', 'way["communication"="line"]["submarine"="yes"]',
+              'way["telecom"="line"]["location"~"underwater"]']
+
+
+def cables_osm_de(elementos, pais_de=lambda lon, lat: ""):
+    """Ways de Overpass (out geom) → líneas de la familia cables_osm."""
+    out = []
+    for el in elementos:
+        geom = _linea_osm(el)
+        if not geom:
+            continue
+        t = el.get("tags", {})
+        lon, lat = geom["coordinates"][len(geom["coordinates"]) // 2]
+        out.append(feat(geom, {"id": f"osm:w{el['id']}", "n": t.get("name:es") or t.get("name") or "Cable submarino sin nombre en OSM",
+                               "st": "cables_submarinos_osm", "p": pais_de(lon, lat), "x": t.get("operator", "")}, 0 if t.get("name") else 3))
+    return out
+
+
+def cables_osm():
+    pa = Paises()
+    return cables_osm_de(overpass(CABLES_OSM, "cables_osm", salida="geom"), pa.de)
+
+
 # ------------------------------------------------------------ cámaras públicas (lista curada)
 def enlace_responde(url, robots=None, abrir=None):
     """'ok' si la página responde (< 400) y robots.txt lo permite; si no, el motivo. Sin reintentos."""
@@ -1172,7 +1198,7 @@ FALTANTES = {}  # familia -> cajas que no respondieron (se reporta en el manifie
 # hacen consultas nuevas; lo construido se publica y lo pendiente conserva su versión anterior.
 PLAZO = time.time() + 60 * float(os.environ.get("PLAZO_MIN", "70"))
 FAMILIAS_OSM = {"actividades", "centros_datos", "embajadas", "recursos", "militar", "presas", "ductos", "farmaceuticas", "petroleo_gas",
-                "fronteras", "desaladoras"}
+                "fronteras", "desaladoras", "cables_osm"}
 
 
 # Plazo por familia: sin él, una familia lenta (cajas que no responden y se dividen) se come el plazo de las
@@ -1976,7 +2002,7 @@ def lugares_culto_cristiano():
 FAMILIAS = {"zonas": zonas, "rutas_maritimas": rutas_maritimas, "lugares_culto": lugares_culto, "lugares_culto_cristiano": lugares_culto_cristiano,
             "lugares_culto_catolico": lugares_culto_catolico, "aeropuertos": aeropuertos, "puertos": puertos, "centrales": centrales,
             "centros_datos": centros_datos, "embajadas": embajadas, "recursos": recursos, "militar": militar,
-            "cables": cables, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
+            "cables": cables, "cables_osm": cables_osm, "camaras": camaras, "presas": presas, "ductos": ductos, "conflicto": conflicto, "religiones": religiones,
             "gobierno_forma": gobierno_forma, "gobierno_orientacion": gobierno_orientacion, "lugares_religiosos": lugares_religiosos,
             "grupos_criminales": grupos_criminales, "ferrocarriles": ferrocarriles, "autopistas": autopistas,
             "nuclear": nuclear, "investigacion": investigacion, "espacio": espacio, "farmaceuticas": farmaceuticas,

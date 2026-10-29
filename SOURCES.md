@@ -36,6 +36,7 @@ Por qué no CARTO: desde 2026 exige llave de API; sin ella los mosaicos salen co
 | GRanD / GOODD (Global Dam Watch) | Presas por uso | Gratis | Registro para descargar | — | CC BY 4.0 (por verificar) | Por verificar | Mundial, ~7,000 grandes presas | — | No usada (requiere registro); la reemplaza OSM |
 | OpenStreetMap: presas (`waterway=dam` con `wikidata`) | Presas relevantes; hidroeléctrica, riego u otros según etiquetas | Gratis | No | Overpass: cortesía de 15 s entre cajas | ODbL 1.0 | Sí, con atribución | Mundial | Mensual | Activa |
 | TeleGeography Submarine Cable Map (`api/v3/cable/cable-geo.json` y `landing-point/landing-point-geo.json`) | Cables submarinos (líneas) y puntos de aterrizaje | Gratis | No | — | CC BY-NC-SA 3.0, con atribución | **No** | Mundial | Mensual | Activa (aprobada el 2026-10-08). Rutas esquemáticas, no el trazado exacto. Si el proyecto se vuelve comercial hay que retirarla o licenciarla |
+| OpenStreetMap vía Overpass (`communication=line` con `location=underwater` o `submarine=yes`; `telecom=line` submarino) | Cables submarinos de la versión de pago (familia `cables_osm`, ocupa el lugar de TeleGeography) | Gratis | No | — | ODbL 1.0, con atribución | Sí | Mundial | Mensual | Activa desde 2026-10-29. Menos cables que TeleGeography y sin puntos de aterrizaje; en la versión completa se sigue viendo TeleGeography |
 | Global Energy Monitor | Ductos de petróleo y gas | Gratis | Formulario por descarga | — | CC BY 4.0 (por verificar) | Sí, con atribución | Mundial | — | No usada (formulario); si se descarga a mano y se sube al repositorio, se puede usar en lugar de OSM |
 | OpenStreetMap: ductos (`man_made=pipeline`, `substance` de petróleo o gas, con nombre) | Oleoductos y gasoductos troncales (líneas) | Gratis | No | Overpass | ODbL 1.0 | Sí, con atribución | Mundial; la cobertura depende de cada país | Mensual | Activa. Los ductos sin nombre (locales) se omiten |
 | OIEA PRIS | Reactores nucleares | Gratis | No | — | Términos del OIEA (por verificar) | Por verificar | Mundial | — | No integrada: sin licencia clara y sin robots.txt (404). Se usan Wikidata y las centrales nucleares de GPPD |
@@ -228,6 +229,8 @@ X/Twitter, Facebook, Instagram y LinkedIn de CIDOB y Elcano no se usan: no ofrec
 ## Cámaras públicas
 
 Lista curada en `config/camaras.json` más dos fuentes de datos abiertos de cámaras de carretera. Solo se incluyen cámaras que su operador publica para verse en abierto. La ficha muestra la imagen fija enlazada desde el servidor del operador (no se copia ni se guarda) y un botón a su sitio. El workflow **Construir capas** las actualiza cada mes, respeta `robots.txt` y deja el estado de cada fuente en el manifiesto.
+
+Versión de pago: solo se muestran las cámaras de fuentes con licencia abierta que permite uso comercial (Digitraffic, LTA Singapur, TfL, DriveBC, Toronto, Statens vegvesen, Transport for NSW, Open Data Euskadi, Vitoria-Gasteiz, Iowa DOT, DGT y GeoNet) y los enlaces curados a páginas de organismos públicos. YouTube, Windy, Webcams de México, operadores turísticos y catálogos sin licencia explícita quedan solo para admin. Lista en `config/comercial_licencias.json` (`version_pago.capas_filtradas.camaras`).
 
 | Cámaras | Operador | Tipo | Cómo se obtienen | Licencia |
 |---|---|---|---|---|

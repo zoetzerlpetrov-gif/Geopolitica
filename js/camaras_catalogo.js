@@ -1,6 +1,7 @@
 import { htmlFichaCamara, rellenarCamaraSingapur } from './capas.js';
 import { iniciarPreviewsCamaras } from './camaras_preview.js';
 import { iniciarCamarasVideo } from './camaras_video.js';
+import { vistaActual, camaraComercial } from './licencias.js';
 
 export function tienePreviewCamara(p) {
   return Boolean((Array.isArray(p.imgs) && p.imgs.length) || p.hls || p.mp4 || p.embed || p.yt || p.sg);
@@ -50,6 +51,11 @@ async function iniciar() {
     if (!r.ok) throw new Error('catálogo no disponible');
     const data = await r.json();
     camaras = (data.features || []).map(f => f.properties).filter(p => p && p.id);
+    // Versión de pago: solo cámaras de licencia abierta y enlaces oficiales (config/comercial_licencias.json).
+    if (vistaActual() === 'pago') {
+      const lic = await fetch('config/comercial_licencias.json').then(r => r.json());
+      camaras = camaras.filter(p => camaraComercial(p, lic.version_pago?.capas_filtradas?.camaras));
+    }
     $('cam-carga').textContent = `${camaras.length.toLocaleString('es')} cámaras en el catálogo. Las vistas previas se solicitan solo al seleccionarlas.`;
     buscar();
     const id = new URL(location.href).searchParams.get('id');
