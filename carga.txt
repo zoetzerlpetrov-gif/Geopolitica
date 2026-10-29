@@ -1,0 +1,14 @@
+[fria] navegación 0.1 s https://zoetzerlpetrov-gif.github.io/Geopolitica/
+[fria] t=3s {"estado":"Actualizado hace 49 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[fria] t=8s {"estado":"Actualizado hace 49 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[fria] t=15s {"estado":"Actualizado hace 50 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[fria] t=30s {"estado":"Actualizado hace 50 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[fria] t=45s {"estado":"Actualizado hace 50 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[fria] lentos: []
+[con-sw] navegación 0.1 s https://zoetzerlpetrov-gif.github.io/Geopolitica/
+[con-sw] t=3s {"estado":"Actualizado hace 50 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[con-sw] t=8s {"estado":"Actualizado hace 50 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[con-sw] t=15s {"estado":"Actualizado hace 50 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[con-sw] t=30s {"estado":"Actualizado hace 51 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[con-sw] t=45s {"estado":"Actualizado hace 51 min · 3383 eventos (71 nuevos)","canvas":true,"sw":true}
+[con-sw] lentos: []
