@@ -24,38 +24,79 @@ UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitic
 SPARQL = "https://query.wikidata.org/sparql"
 DIAS = 7
 
-# Partes comunes: ?matriz con sede (P159→P17) o país (P17) distinto de México; industria y sitio opcionales.
-_MATRIZ = """
-  ?matriz wdt:P17 ?pais. FILTER(?pais != wd:Q96)
-  ?pais wdt:P297 ?iso.
-  OPTIONAL { ?matriz wdt:P452 ?industria. }
-  OPTIONAL { ?matriz wdt:P856 ?web. }
-  SERVICE wikibase:label { bd:serviceParam wikibase:language "es,en". }"""
+# 1) Pares mínimos (solo identificadores): las consultas con etiquetas e industria sobre todo México agotaban el límite de
+#    60 s de Wikidata (HTTP 504, medido el 28-oct-2026). 2) Etiquetas, industria, sitio y país en lotes pequeños (VALUES).
+_FUERA = "?matriz wdt:P17 ?pais. FILTER(?pais != wd:Q96)"
 CONSULTAS = {
-    "filial_en_mexico": f"""SELECT DISTINCT ?filial ?filialLabel ?matriz ?matrizLabel ?paisLabel ?iso ?industriaLabel ?web WHERE {{
-  ?filial wdt:P17 wd:Q96; wdt:P749 ?matriz.
-  ?filial wdt:P31/wdt:P279* wd:Q4830453.{_MATRIZ}
-}} LIMIT 6000""",
-    "declara_filial": f"""SELECT DISTINCT ?filial ?filialLabel ?matriz ?matrizLabel ?paisLabel ?iso ?industriaLabel ?web WHERE {{
-  ?matriz wdt:P355 ?filial. ?filial wdt:P17 wd:Q96.{_MATRIZ}
-}} LIMIT 6000""",
-    "opera_en_mexico": f"""SELECT DISTINCT ?matriz ?matrizLabel ?paisLabel ?iso ?industriaLabel ?web WHERE {{
-  ?matriz wdt:P2541 wd:Q96; wdt:P31/wdt:P279* wd:Q4830453.{_MATRIZ}
-}} LIMIT 6000""",
+    "filial_en_mexico": f"SELECT DISTINCT ?filial ?matriz ?pais WHERE {{ ?filial wdt:P17 wd:Q96; wdt:P749 ?matriz. {_FUERA} }} LIMIT 8000",
+    "declara_filial": f"SELECT DISTINCT ?filial ?matriz ?pais WHERE {{ ?matriz wdt:P355 ?filial. ?filial wdt:P17 wd:Q96. {_FUERA} }} LIMIT 8000",
+    "opera_en_mexico": f"SELECT DISTINCT ?matriz ?pais WHERE {{ ?matriz wdt:P2541 wd:Q96; wdt:P452 []. {_FUERA} }} LIMIT 8000",
 }
+LOTE = 150
 
 
-def sparql(q, intentos=3):
+def consulta_detalle(qids):
+    """Etiqueta (es/en), industrias y sitio web de un lote de entidades."""
+    vals = " ".join(f"wd:{q}" for q in qids)
+    return f"""SELECT ?e ?eLabel ?industriaLabel ?web ?iso WHERE {{ VALUES ?e {{ {vals} }}
+  OPTIONAL {{ ?e wdt:P452 ?industria. }} OPTIONAL {{ ?e wdt:P856 ?web. }} OPTIONAL {{ ?e wdt:P297 ?iso. }}
+  SERVICE wikibase:label {{ bd:serviceParam wikibase:language "es,en". }} }}"""
+
+
+def detalles(qids, consultar, presupuesto_s=150, reloj=time.monotonic):
+    """{qid: {label, industrias, web, iso}} pidiendo por lotes; un lote que falle se omite (sin etiqueta no se publica).
+    Se detiene al agotar el presupuesto de tiempo, para no alargar «Datos en movimiento»."""
+    out = {}
+    qids = sorted(set(q for q in qids if q))
+    fin = reloj() + presupuesto_s
+    for i in range(0, len(qids), LOTE):
+        if reloj() > fin:
+            break
+        try:
+            filas = consultar(consulta_detalle(qids[i:i + LOTE]))
+        except Exception:  # noqa: BLE001
+            continue
+        for f in filas:
+            v = lambda k: f.get(k, {}).get("value", "")  # noqa: E731
+            d = out.setdefault(qid(v("e")), {"label": "", "industrias": [], "web": "", "iso": ""})
+            d["label"] = d["label"] or v("eLabel")
+            ind = v("industriaLabel")
+            if ind and not ind.startswith("Q") and ind not in d["industrias"]:
+                d["industrias"].append(ind)
+            d["web"] = d["web"] or v("web")
+            d["iso"] = d["iso"] or v("iso")
+    return out
+
+
+def a_filas(pares, det):
+    """Pares (filial, matriz, país) + detalles → filas con el formato de una respuesta SPARQL (para unir())."""
+    filas = []
+    for filial, matriz, pais in pares:
+        m, p, fl = det.get(matriz, {}), det.get(pais, {}), det.get(filial, {})
+        base = {"matriz": {"value": WD + matriz}, "matrizLabel": {"value": m.get("label") or matriz},
+                "paisLabel": {"value": p.get("label", "")}, "iso": {"value": p.get("iso", "")}, "web": {"value": m.get("web", "")}}
+        if filial:
+            base.update(filial={"value": WD + filial}, filialLabel={"value": fl.get("label") or filial})
+        for ind in m.get("industrias") or [""]:
+            filas.append({**base, "industriaLabel": {"value": ind}})
+    return filas
+
+
+WD = "http://www.wikidata.org/entity/"
+
+
+def sparql(q, intentos=1, espera=65):
+    """Consulta con tiempo límite corto: el paso corre dentro de «Datos en movimiento» (cada 20 min) y no debe alargarlo."""
     for i in range(intentos):
         try:
             req = urllib.request.Request(f"{SPARQL}?format=json&query={urllib.parse.quote(q)}",
                                          headers={"User-Agent": UA, "Accept": "application/sparql-results+json"})
-            with urllib.request.urlopen(req, timeout=180) as r:
+            with urllib.request.urlopen(req, timeout=espera) as r:
                 return json.loads(r.read())["results"]["bindings"]
         except Exception:  # noqa: BLE001
             if i == intentos - 1:
                 raise
-            time.sleep(20 * (i + 1))
+            time.sleep(5)
     return []
 
 
@@ -87,19 +128,37 @@ def unir(filas_por_via):
     return sorted((r for (m, fl), r in out.items() if fl or m not in con_filial), key=lambda r: (r["matriz"].lower(), r["filial"].lower()))
 
 
+INTENTO = os.path.join(ROOT, "vivos", "empresas_extranjeras_mx.intento")
+REINTENTO_H = 6
+
+
 def main():
+    ahora = datetime.now(timezone.utc)
     if os.path.exists(OUT):
         gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
-        if gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(days=DIAS):
+        if gen and ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(days=DIAS):
             print("extranjeras: datos de hace menos de 7 días; se conservan")
             return 0
-    filas, errores = {}, {}
+    # Un intento fallido reciente (Wikidata saturada) no se repite en cada corrida de 20 min, sino cada 6 h.
+    if os.path.exists(INTENTO):
+        try:
+            previo = datetime.strptime(open(INTENTO, encoding="utf-8").read().strip(), "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+            if ahora - previo < timedelta(hours=REINTENTO_H):
+                print("extranjeras: el último intento falló hace menos de 6 h; se espera")
+                return 0
+        except ValueError:
+            pass
+    os.makedirs(os.path.dirname(INTENTO), exist_ok=True)
+    open(INTENTO, "w", encoding="utf-8").write(ahora.strftime("%Y-%m-%dT%H:%M:%SZ"))
+    pares, errores = {}, {}
     for via, q in CONSULTAS.items():
         try:
-            filas[via] = sparql(q)
+            pares[via] = [(qid(f.get("filial", {}).get("value", "")), qid(f["matriz"]["value"]), qid(f["pais"]["value"])) for f in sparql(q)]
         except Exception as e:  # noqa: BLE001
             errores[via] = str(e)[:150]
-        time.sleep(5)
+        time.sleep(2)
+    det = detalles([x for ps in pares.values() for p in ps for x in p], sparql)
+    filas = {via: a_filas(ps, det) for via, ps in pares.items()}
     if not filas:
         print(f"extranjeras: ninguna consulta respondió {errores}; se conserva el anterior")
         return 0

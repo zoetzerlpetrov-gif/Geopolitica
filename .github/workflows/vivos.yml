@@ -77,7 +77,7 @@ jobs:
 
       - name: Empresas extranjeras que operan en México (Wikidata, cada semana; si falla se conserva el anterior)
         continue-on-error: true
-        timeout-minutes: 8
+        timeout-minutes: 4  # 3 consultas de ≤65 s; si Wikidata no responde se reintenta en 6 h (no en cada corrida)
         run: python3 tools/investigacion/extranjeras_mx.py
 
       - name: Emergencias aéreas (squawk 7700, 7600 y 7500; adsb.lol y OpenSky, cada corrida)
@@ -276,6 +276,7 @@ jobs:
         timeout-minutes: 6
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ABUSECH_AUTH_KEY: ${{ secrets.ABUSECH_AUTH_KEY }}  # opcional: llave gratuita de abuse.ch para ThreatFox
         run: python3 tools/red/red.py
 
       - name: Publicar en la rama datos-vivos (reescrita, sin historial; solo desde main)

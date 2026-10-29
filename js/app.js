@@ -588,7 +588,24 @@ function eventosSinteticos(n) {
   return out;
 }
 
+/**
+ * MapLibre llega por <script> en index.html. Si esa descarga se corta (red móvil, caché del service worker a medias),
+ * la página quedaba con «maplibregl is not defined». Se reintenta una vez directo a la red antes de rendirse.
+ */
+async function asegurarMapLibre() {
+  if (globalThis.maplibregl) return;
+  await new Promise((ok, mal) => {
+    const s = document.createElement("script");
+    s.src = `vendor/maplibre-gl/maplibre-gl.js?reintento=${Date.now()}`;  // otra URL: no la toma de la caché rota
+    s.onload = ok;
+    s.onerror = () => mal(new Error("no se pudo descargar MapLibre (revisa tu conexión y recarga)"));
+    document.head.append(s);
+  });
+  if (!globalThis.maplibregl) throw new Error("MapLibre no se inicializó (recarga con Ctrl+Shift+R)");
+}
+
 async function main() {
+  await asegurarMapLibre();
   const tema = temaActual();
   lite = modoLite();
   // Reportes diarios: enlaces a los PDF del día (si ya se generaron).
@@ -1181,6 +1198,17 @@ function iniciarImagenes() {
   const notaNoche = (r, error) => {
     $("img-noche-nota").textContent = r === undefined ? "" : r ? `Luces nocturnas: ${r.etiqueta} (${r.fecha}). Zonas de día salen oscuras: el sensor solo ve luz artificial de noche.` : `Luces nocturnas: ${error || "sin imagen"}`;
   };
+  // TEMPO: qué barrido se ve (hora de México) y, si la vista no incluye América del Norte, se lleva el mapa ahí.
+  const notaTempo = (cb) => {
+    const t = img.activas.get("no2_tempo")?.fecha;
+    let p = cb.closest(".opcion-capa").querySelector(".nota-tempo");
+    if (!p) { p = document.createElement("p"); p.className = "meta nota-tempo"; cb.closest(".opcion-capa").append(p); }
+    p.textContent = t && t !== "default"
+      ? `Barrido mostrado: ${new Date(t).toLocaleString("es-MX", { timeZone: "America/Mexico_City", dateStyle: "medium", timeStyle: "short" })} (hora del centro de México). NASA lo publica con unas 3 a 4 h de retraso; de noche no hay barridos nuevos.`
+      : "GIBS no indicó la hora del barrido: se muestra el más reciente que publique.";
+    const c = api.map.getCenter();
+    if (!(c.lng > -170 && c.lng < -40 && c.lat > 5 && c.lat < 75)) api.map.flyTo({ center: [-100, 35], zoom: Math.max(api.map.getZoom(), 2.6), duration: lite ? 0 : 1000 });
+  };
   cont.addEventListener("change", async (e) => {
     if (e.target.matches("[data-tl]")) { alternarTimelapse(e.target); return; }
     if (e.target.matches("[data-eei]")) { alternarEEI(e.target); return; }
@@ -1189,7 +1217,11 @@ function iniciarImagenes() {
     if (!id) return;
     if (!e.target.checked) { img.desactivar(id); if (id === "viirs_noche") notaNoche(undefined); avisarPresupuesto(); return; }
     if (id === "viirs_noche") $("img-noche-nota").textContent = "Buscando la imagen disponible más reciente…";
-    try { const r = await img.activar(id, fecha); if (id === "viirs_noche") notaNoche(r); } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
+    try {
+      const r = await img.activar(id, fecha);
+      if (id === "viirs_noche") notaNoche(r);
+      if (id === "no2_tempo") notaTempo(e.target);
+    } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
     avisarPresupuesto();
   });
 }
@@ -1550,6 +1582,8 @@ async function iniciarClima() {
       clima.activas.has("bolsas") ? `<p class="meta">Círculos: núcleos de aire frío en altura (~5.5 km, 500 hPa) aislados del flujo general, llamados DANA o «gota fría». Más grande y más morado = más frío que lo normal en esa latitud. Pueden dar tormentas fuertes, granizo o nevadas donde se instalan. Se calculan para ahora y +12 h.</p>` : "",
       clima.activas.has("vortice") && meta.leyendas?.vortice ? `${K.leyenda(meta.leyendas.vortice, "dam sobre el mínimo")}<p class="meta">Morado: núcleo del vórtice polar a ~31 km (10 hPa). Si se debilita o se parte, el aire ártico puede bajar a latitudes medias semanas después.</p>${K.htmlVortice(clima.pasoActual?.vortice_resumen)}` : "",
       clima.activas.has("nieve") && meta.leyendas?.nieve ? `${K.leyenda(meta.leyendas.nieve, "cm")}<p class="meta">Profundidad de nieve que estima el modelo GFS (pronóstico, no medición; 1°, ~110 km).</p>` : "",
+      // Capas nuevas del modelo que la última corrida todavía no trae: se avisa en vez de dejar el mapa en blanco.
+      ...["vortice", "nieve", "bolsas"].filter((t) => clima.activas.has(t) && !meta.pasos.some((p) => p[t])).map(() => `<p class="meta aviso-pendiente">Esta capa aún no tiene datos: se calcula con la siguiente corrida del modelo GFS (cada 6 h). Vuelve a intentarlo más tarde.</p>`),
       clima.activas.has("rayos") ? `${K.leyenda(K.LEYENDA_RAYOS, "min desde el último rayo")}<p class="meta">GLM de NOAA en GOES-19 y GOES-18: América, Atlántico y Pacífico oriental. El destello animado ocurre donde de verdad cayeron rayos, a su ritmo acelerado ×20.</p>` : "",
       ...["nubes_ir", "geocolor", "lluvia_sat"].filter((t) => clima.activas.has(t)).map((t) => `<p class="meta" id="momento-${t}">${{ nubes_ir: "Nubes (infrarrojo: blanco = topes fríos y altos, tormentas)", geocolor: "Color real GOES y Meteosat; en Asia y Oceanía, infrarrojo de Himawari en grises (NASA no publica su color real)", lluvia_sat: "Lluvia IMERG de NASA (mm/h)" }[t]}</p>`
         + `<div class="carga-bucle" id="carga-${t}" role="status"><div class="carga-barra"><span></span></div><small>Descargando imágenes del satélite…</small></div>`)].join("");
@@ -2166,6 +2200,6 @@ if ("serviceWorker" in navigator && location.protocol === "https:") {
 
 main().catch((e) => {
   console.error(e);
-  $("estado-datos").textContent = `Error al cargar: ${e.message}`;
+  $("estado-datos").innerHTML = `Error al cargar: ${esc(e.message)} <button type="button" onclick="location.reload()">Reintentar</button>`;
 });
 

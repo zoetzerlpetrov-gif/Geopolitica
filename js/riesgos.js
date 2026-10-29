@@ -942,17 +942,18 @@ export const CAPAS = [
   },
   {
     id: "c2_botnets", grupo: "Red y ciberseguridad", nombre: "Servidores de control de botnets por país (48 h, abuse.ch)", url: "data/vivos/red_c2.geojson", refresco_s: 3600,
-    fuente: "abuse.ch ThreatFox y Feodo Tracker; país por DB-IP",
+    fuente: "abuse.ch (ThreatFox y Feodo Tracker) y C2IntelFeeds; país por DB-IP",
     estilo: (p) => ({ c: "#6A1B9A", r: Math.min(24, 4 + Math.sqrt(p.n || 1) * 1.6) }),
     etiqueta: (p) => (p.n >= 25 ? `${p.n} C2` : ""),
     leyenda: [{ c: "#6A1B9A", r: 9, t: "Servidores de mando y control (C2) activos reportados; el tamaño crece con la cantidad" },
-      { t: "Un C2 alojado en un país casi nunca indica dónde está el atacante: suele ser un servidor rentado. No se publica ninguna dirección IP." }],
+      { t: "Un C2 alojado en un país casi nunca indica dónde está el atacante: suele ser un servidor rentado. No se publica ninguna dirección IP." },
+      { t: "Desde octubre de 2026 ThreatFox (la fuente principal) solo entrega datos con una llave gratuita de abuse.ch; sin ella la capa muestra solo Feodo Tracker, que hoy reporta muy pocos servidores." }],
     ficha: (p) => ({ titulo: `${p.n} servidores C2 de botnets en ${p.pais}`, chip: `${p.n_familias} familia(s) de malware`,
       filas: [["Familias más vistas", lista(p.familias).map(([f, n]) => `${/^unknown/i.test(f) ? "Sin identificar" : f} (${n})`).join(" · ") || "—"],
-        ["Ventana", "IOC reportados a ThreatFox en las últimas 48 h + lista recomendada de Feodo Tracker"],
+        ["Ventana", "IOC de ThreatFox de las últimas 48 h (si hay llave), lista recomendada de Feodo Tracker y C2 vistos por escaneo en 7 días (C2IntelFeeds)"],
         ["País de cada IP", "Base IP to Country Lite de DB-IP (CC BY 4.0). Puede fallar con redes anycast o VPN"],
         ["Para qué sirve", "Ver qué países y proveedores alojan más infraestructura criminal. Para bloquear, usa las listas originales de abuse.ch"]],
-      url: "https://threatfox.abuse.ch/browse/", fuente: "abuse.ch (CC0) · IP Geolocation by DB-IP" }),
+      url: "https://threatfox.abuse.ch/browse/", fuente: "abuse.ch (CC0) · C2IntelFeeds de drb-ra (CC BY-NC-SA 4.0) · IP Geolocation by DB-IP" }),
   },
   {
     id: "avisos_ics", grupo: "Red y ciberseguridad", nombre: "Avisos de sistemas industriales (ICS/SCADA) por país del fabricante (90 días, CISA)", url: "data/vivos/red_ics.geojson",
@@ -1462,6 +1463,15 @@ const guardarVistos = (v) => { try { localStorage.setItem(LS_VISTOS, JSON.string
 export const SIN_AGRUPAR = /sismo|ciclon|huracan|tsunami|aurora|perturbac|nhc/;
 export const MIN_AGRUPAR = 25;
 export const AGRUPAR_HASTA_ZOOM = 6;
+/**
+ * ¿Se agrupa por zona? Solo capas hechas únicamente de puntos (25 o más). Una fuente agrupada de MapLibre descarta
+ * polígonos y líneas, así que una capa con franjas o contornos (p. ej. zonas horarias: franjas + etiquetas) nunca se agrupa.
+ */
+export function agrupable(capa, gj) {
+  if (capa.agrupar === false || SIN_AGRUPAR.test(capa.id)) return false;
+  const fs = gj?.features || [];
+  return fs.length >= MIN_AGRUPAR && fs.every((f) => f.geometry?.type === "Point");
+}
 
 export class Riesgos {
   /**
@@ -1606,10 +1616,7 @@ export class Riesgos {
   }
 
   /** ¿La capa se agrupa por zona al alejar? Solo capas de muchos puntos chicos; nunca sismos, ciclones, tsunamis ni auroras. */
-  #agrupa(capa, gj) {
-    if (capa.agrupar === false || SIN_AGRUPAR.test(capa.id)) return false;
-    return gj.features.filter((f) => f.geometry?.type === "Point").length >= MIN_AGRUPAR;
-  }
+  #agrupa(capa, gj) { return agrupable(capa, gj); }
 
   /** Mismo criterio que el filtro de la GPU, en JS: los grupos deben contar solo lo que pasa los filtros. */
   #filtrarDatos(id, gj) {

@@ -44,3 +44,14 @@ test("clima: bolsas del momento más cercano y resumen del vórtice en °C y °F
   assert.match(h, /-70 °C \/ -94 °F/);
   assert.match(h, /90 km\/h/);
 });
+
+test("agrupación: solo capas hechas únicamente de puntos (las franjas de zonas horarias no se pierden)", async () => {
+  const { agrupable } = await import("../../js/riesgos.js");
+  const pt = { type: "Feature", geometry: { type: "Point", coordinates: [0, 0] }, properties: {} };
+  const pol = { type: "Feature", geometry: { type: "Polygon", coordinates: [[[0, 0], [1, 0], [1, 1], [0, 0]]] }, properties: {} };
+  assert.equal(agrupable({ id: "crimen" }, { features: Array(30).fill(pt) }), true);
+  assert.equal(agrupable({ id: "zonas_horarias" }, { features: [...Array(40).fill(pt), pol] }), false);
+  assert.equal(agrupable({ id: "crimen" }, { features: Array(10).fill(pt) }), false);
+  assert.equal(agrupable({ id: "sismos" }, { features: Array(30).fill(pt) }), false);
+  assert.equal(agrupable({ id: "x", agrupar: false }, { features: Array(30).fill(pt) }), false);
+});

@@ -36,3 +36,36 @@ def test_unir_sin_duplicados_y_con_vias():
 def test_consultas_excluyen_matrices_mexicanas():
     for q in E.CONSULTAS.values():
         assert "FILTER(?pais != wd:Q96)" in q and "LIMIT" in q
+
+
+def test_threatfox_api_sin_llave_y_con_respuesta():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "red"))
+    import red as R
+    ok = {"query_status": "ok", "data": [{"threat_type": "botnet_cc", "ioc_type": "ip:port", "ioc_value": "1.2.3.4:443", "malware_printable": "Cobalt Strike"},
+                                         {"threat_type": "payload_delivery", "ioc_type": "url", "ioc_value": "http://5.6.7.8/x"}]}
+    assert R.ips_threatfox_api(ok) == {"1.2.3.4": "Cobalt Strike"}
+    assert R.ips_threatfox_api({"query_status": "no_result"}) == {}
+
+
+def test_c2intel_csv():
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "red"))
+    import red as R
+    txt = "#ip,ioc\n1.117.74.144,Possible Cobaltstrike C2 IP\n10.0.0.1,Possible Sliver C2 IP\nbasura\n"
+    assert R.ips_c2intel(txt) == {"1.117.74.144": "Cobaltstrike", "10.0.0.1": "Sliver"}
+
+
+def test_detalles_por_lotes_y_filas():
+    vistos = []
+    def consultar(q):
+        vistos.append(q)
+        return [{"e": {"value": WD + "Q160746"}, "eLabel": {"value": "Nestlé"}, "industriaLabel": {"value": "alimentos"}, "web": {"value": "https://nestle.com"}},
+                {"e": {"value": WD + "Q39"}, "eLabel": {"value": "Suiza"}, "iso": {"value": "CH"}},
+                {"e": {"value": WD + "Q1"}, "eLabel": {"value": "Nestlé México"}}]
+    det = E.detalles(["Q160746", "Q39", "Q1", "Q1", ""], consultar)
+    assert len(vistos) == 1 and "wd:Q160746" in vistos[0]
+    filas = E.a_filas([("Q1", "Q160746", "Q39")], det)
+    r = E.unir({"filial_en_mexico": filas})
+    assert r[0]["matriz"] == "Nestlé" and r[0]["pais"] == "Suiza" and r[0]["iso"] == "CH" and r[0]["filial"] == "Nestlé México"
+    assert r[0]["industrias"] == ["alimentos"]
+    # sin presupuesto de tiempo no se consulta nada
+    assert E.detalles(["Q1"], consultar, presupuesto_s=-1) == {}

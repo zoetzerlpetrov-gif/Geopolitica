@@ -508,3 +508,90 @@ pintarNube();
       { titulo: "Vulnerabilidades críticas", tabla: "vulnerabilidades" });
   });
 }
+
+// ------------------------------------------------------------------ Fase 4: agencias (redes, certificados, casos y oficios)
+import("./agencia-logica.js").then((A) => {
+  if (!$("p-agencias")) return;
+  const hoy = () => new Date().toISOString().slice(0, 10);
+  $("ct-btn").addEventListener("click", async () => {
+    const d = $("ct-dominio").value.trim().toLowerCase().replace(/^https?:\/\//, "").split("/")[0];
+    if (!A.esDominio(d)) { $("ct-res").innerHTML = `<p class="aviso">Escribe solo el dominio, por ejemplo «sat.gob.mx».</p>`; return; }
+    $("ct-res").innerHTML = `<p class="meta">Consultando los registros de certificados de ${esc(d)}…</p>`;
+    try {
+      const r = await fetch(A.urlCertSpotter(d));
+      if (r.status === 429) throw new Error("se alcanzó el límite gratuito de consultas por hora; intenta más tarde");
+      if (!r.ok) throw new Error(`HTTP ${r.status}`);
+      const s = A.resumenCertificados(await r.json());
+      $("ct-res").innerHTML = `${kv({ "Certificados encontrados": String(s.total), "Vigentes hoy": String(s.vigentes), "Nombres distintos": String(s.subdominios.length), "Comodines (*.)": s.comodines.join(", ") || "ninguno" })}
+        ${s.vencen.length ? `<p class="aviso">Vencen en 30 días o menos: ${s.vencen.map((v) => `${esc(v.nombres.join(", "))} (${esc(v.vence)}, ${v.dias} días)`).join(" · ")}</p>` : `<p class="ok">Ningún certificado vigente vence en los próximos 30 días.</p>`}
+        <h4>Emisores</h4><p>${s.emisores.map(([e, n]) => `${esc(e)} (${n})`).join(" · ") || "—"}</p>
+        <h4>Nombres vistos en certificados</h4><div class="desliza"><table class="t"><tr><th>Nombre</th><th>Certificados</th><th>Último emitido</th></tr>${s.subdominios.slice(0, 300).map((x) => `<tr><td class="mono">${esc(x.nombre)}</td><td>${x.certs}</td><td>${esc(x.ultimo.slice(0, 10))}</td></tr>`).join("")}</table></div>
+        <p class="meta">Qué revisar: subdominios que no reconozcas, emisores que tu área no contrató y certificados por vencer. Cert Spotter muestra los certificados vigentes y recientes; para el historial completo, <a href="https://crt.sh/?q=${encodeURIComponent(d)}" target="_blank" rel="noopener">crt.sh</a>.</p>`;
+    } catch (e) { $("ct-res").innerHTML = `<p class="aviso">No se pudo consultar: ${esc(e.message)}. Prueba en <a href="https://crt.sh/?q=${encodeURIComponent(d)}" target="_blank" rel="noopener">crt.sh</a>.</p>`; }
+  });
+  let pedidoRed = 0;  // solo la consulta más reciente pinta su resultado (una anterior más lenta no lo sobrescribe)
+  $("red-btn").addEventListener("click", async () => {
+    const q = $("red-q").value, c = A.urlsRipe(q), n = ++pedidoRed;
+    if (!c) { $("red-res").innerHTML = `<p class="aviso">Escribe una IP (8.8.8.8) o un ASN (AS8151).</p>`; return; }
+    $("red-res").innerHTML = `<p class="meta">Consultando RIPEstat…</p>`;
+    try {
+      const r = Object.fromEntries(await Promise.all(Object.entries(c.urls).map(async ([k, u]) => [k, await (await fetch(u)).json()])));
+      if (n !== pedidoRed) return;
+      const s = A.resumenRipe(c.tipo, r);
+      $("red-res").innerHTML = c.tipo === "ip"
+        ? kv({ "Red que la contiene": s.prefijo, "Anunciada en internet": s.anunciado ? "sí" : "no", "Sistema autónomo (titular)": s.asns.map((a) => `AS${a.asn} · ${a.titular}`).join("; ") || "—", "País del registro": s.pais })
+        : `${kv({ "Sistema autónomo": s.asn, "Titular": s.titular, "Anunciado": s.anunciado ? "sí" : "no", "Bloques IPv4": String(s.prefijos_v4.length), "Direcciones IPv4 (aprox.)": s.direcciones_v4.toLocaleString("es-MX"), "Bloques IPv6": String(s.prefijos_v6.length) })}
+          <p class="mono">${esc(s.prefijos_v4.slice(0, 60).join("  "))}${s.prefijos_v4.length > 60 ? " …" : ""}</p>`;
+      $("red-res").innerHTML += `<p class="meta">Fuente: RIPEstat (RIPE NCC), con datos de los cinco registros regionales. El país es el del registro del bloque, no donde está físicamente el servidor.</p>`;
+    } catch (e) { if (n === pedidoRed) $("red-res").innerHTML = `<p class="aviso">RIPEstat no respondió: ${esc(e.message)}</p>`; }
+  });
+  $("cidr-btn").addEventListener("click", () => {
+    const r = A.cidr($("cidr-q").value);
+    $("cidr-res").innerHTML = r ? kv({ "Red": `${r.red}/${r.bits}`, "Máscara": r.mascara, "Comodín (wildcard)": r.comodin, "Primera utilizable": r.primera, "Última utilizable": r.ultima,
+      "Difusión (broadcast)": r.difusion, "Equipos posibles": r.equipos.toLocaleString("es-MX"), "Rango": r.privada ? `privado (${r.privada})` : "público" }) : `<p class="aviso">Formato: 192.168.10.37/27</p>`;
+  });
+  // Cronología
+  let cro = leer("agencias-cronologia", { hechos: [] });
+  const pintarCro = () => {
+    guardar("agencias-cronologia", cro);
+    const hs = A.huecos(cro);
+    $("cro-res").innerHTML = cro.hechos.length ? `<ol class="lista-inv">${cro.hechos.map((h) => `<li><b>${esc(h.fecha)}${h.hora ? ` ${esc(h.hora)}` : ""}</b> · ${esc(h.hecho)} <span class="meta">(${esc(h.fuente || "sin fuente")} · confianza ${esc(h.confianza)})</span> <button type="button" data-cro-quitar="${esc(h.id)}" aria-label="Quitar">✕</button></li>`).join("")}</ol>
+      ${hs.length ? `<p class="aviso">Huecos sin información: ${hs.map((x) => `${esc(x.desde)} → ${esc(x.hasta)} (${x.dias} días)`).join(" · ")}</p>` : ""}` : `<p class="meta">Sin hechos todavía.</p>`;
+  };
+  $("cro-agregar").addEventListener("click", () => {
+    cro = A.agregarHecho(cro, { fecha: $("cro-fecha").value, hora: $("cro-hora").value, hecho: $("cro-hecho").value, fuente: $("cro-fuente").value, confianza: $("cro-conf").value });
+    $("cro-hecho").value = ""; $("cro-fuente").value = ""; pintarCro();
+  });
+  $("cro-res").addEventListener("click", (e) => { const id = e.target.dataset?.croQuitar; if (id) { cro = A.quitarHecho(cro, id); pintarCro(); } });
+  $("cro-csv").addEventListener("click", () => descargar(`cronologia-${hoy()}.csv`, A.csvCronologia(cro), "text/csv"));
+  $("cro-vaciar").addEventListener("click", () => { if (confirm("¿Borrar todos los hechos de la cronología?")) { cro = { hechos: [] }; pintarCro(); } });
+  pintarCro();
+  // Oficios
+  let oficios = leer("agencias-oficios", []);
+  $("of-inhabiles").value = leer("agencias-inhabiles", "");
+  $("of-recibido").value = hoy();
+  const extra = () => $("of-inhabiles").value.split(/[,\s]+/).filter((x) => /^\d{4}-\d{2}-\d{2}$/.test(x));
+  const pintarOf = () => {
+    guardar("agencias-oficios", oficios); guardar("agencias-inhabiles", $("of-inhabiles").value);
+    const ex = extra();
+    $("of-tabla").innerHTML = `<tr><th>Folio</th><th>Recibido</th><th>Remitente</th><th>Asunto</th><th>Área</th><th>Límite</th><th>Estado</th><th>Semáforo</th><th></th></tr>` + oficios.map((o, i) => {
+      o.limite = A.venceHabiles(o.recibido, o.dias, ex);
+      const s = A.semaforo(o, hoy(), ex);
+      return `<tr><td>${esc(o.folio)}</td><td>${esc(o.recibido)}</td><td>${esc(o.remitente)}</td><td>${esc(o.asunto)}</td><td>${esc(o.area)}</td><td>${esc(o.limite)}</td>
+        <td><select data-of-estado="${i}">${Object.entries(A.ESTADOS_OFICIO).map(([k, n]) => `<option value="${k}"${o.estado === k ? " selected" : ""}>${esc(n)}</option>`).join("")}</select></td>
+        <td><span style="color:${s.color};font-weight:600">● ${esc(s.texto)}</span></td><td><button type="button" data-of-quitar="${i}" aria-label="Quitar">✕</button></td></tr>`;
+    }).join("");
+  };
+  $("of-agregar").addEventListener("click", () => {
+    const dias = Number($("of-dias").value);
+    if (!$("of-folio").value.trim() || !$("of-recibido").value || !(dias > 0)) { alert("Folio, fecha de recepción y plazo son obligatorios."); return; }
+    oficios.push({ folio: $("of-folio").value.trim(), recibido: $("of-recibido").value, remitente: $("of-remitente").value.trim(), asunto: $("of-asunto").value.trim(), area: $("of-area").value.trim(), dias, estado: "recibido" });
+    for (const id of ["of-folio", "of-remitente", "of-asunto"]) $(id).value = "";
+    pintarOf();
+  });
+  $("of-tabla").addEventListener("change", (e) => { const i = e.target.dataset?.ofEstado; if (i != null) { oficios[i].estado = e.target.value; pintarOf(); } });
+  $("of-tabla").addEventListener("click", (e) => { const i = e.target.dataset?.ofQuitar; if (i != null && confirm("¿Quitar este oficio?")) { oficios.splice(Number(i), 1); pintarOf(); } });
+  $("of-inhabiles").addEventListener("change", pintarOf);
+  $("of-csv").addEventListener("click", () => descargar(`oficios-${hoy()}.csv`, A.csvOficios(oficios), "text/csv"));
+  pintarOf();
+});
