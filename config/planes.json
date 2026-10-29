@@ -1,0 +1,56 @@
+{
+ "_nota": "Fase 7: planes de la versión comercial (repositorio privado dominus-osint-pro en Cloudflare). Este archivo es la fuente única de precios y permisos; el sitio público no cobra ni restringe nada. Las secciones de «solo_admin» solo las ve el correo de quien administra.",
+ "revisado": "2026-10-29",
+ "moneda_base": "USD",
+ "cobro": {
+  "moneda": "MXN",
+  "procesador": "Mercado Pago (suscripciones / preapproval)",
+  "tipo_cambio": {
+   "fuente": "Banco de México, API SIE",
+   "serie": "SF43718",
+   "nombre": "Tipo de cambio FIX (pesos por dólar)",
+   "enlace": "https://www.banxico.org.mx/tipcamb/main.do?page=tip&idioma=sp",
+   "regla": "Se usa el FIX publicado para el día de hoy (hora de Ciudad de México); si aún no se publica, el del último día hábil anterior.",
+   "redondeo": "Hacia arriba, al peso entero."
+  },
+  "texto": "{mxn} MXN al mes (USD {usd} al tipo de cambio FIX de Banxico del {fecha})"
+ },
+ "planes": [
+  {
+   "id": "recon",
+   "nombre": "Recon",
+   "usd": 4.99,
+   "estado": "propuesta",
+   "resumen": "Reconocimiento: mapa, eventos y alertas.",
+   "incluye": ["Mapa con capas fijas", "Eventos y noticias", "Riesgos y clima", "En movimiento", "Fenómenos anómalos", "Reportes diarios de México y global", "Taxonomía de eventos", "Tutorial"]
+  },
+  {
+   "id": "analyst",
+   "nombre": "Analyst",
+   "usd": 8.99,
+   "estado": "propuesta",
+   "resumen": "Análisis: todo lo de Recon más herramientas de investigación.",
+   "incluye": ["Todo lo de Recon", "Narrativas y estrategia", "Historia por país", "Herramientas del panel", "Investigación", "Matriz de riesgo por país"]
+  },
+  {
+   "id": "command",
+   "nombre": "Command",
+   "usd": 12.99,
+   "estado": "propuesta",
+   "resumen": "Mando: todo lo de Analyst más seguimiento propio.",
+   "incluye": ["Todo lo de Analyst", "Seguimiento (lugares, vuelos y barcos guardados)", "Exportar y descargar reportes"]
+  }
+ ],
+ "solo_admin": [
+  {"tipo": "pagina", "href": "noticiero.html", "nombre": "Noticiero DOMINUS"},
+  {"tipo": "pagina", "href": "corporativo.html", "nombre": "Inteligencia corporativa"},
+  {"tipo": "pagina", "href": "herramientas.html", "nombre": "Caja del analista"},
+  {"tipo": "pagina", "href": "ops.html", "nombre": "DOMINUS OPS"},
+  {"tipo": "pagina", "href": "inmuebles.html", "nombre": "Inmuebles y riesgo"},
+  {"tipo": "pagina", "href": "analitica.html", "nombre": "Analítica"},
+  {"tipo": "pagina", "href": "marco.html", "nombre": "Marco normativo"},
+  {"tipo": "bloque", "id": "b-capas-ent", "nombre": "Infraestructura, conflictos y sociedad (menú izquierdo)"},
+  {"tipo": "capa", "id": "inmuebles_seguimiento", "nombre": "Economía y finanzas · Seguimiento a Inmuebles"}
+ ],
+ "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp."
+}
