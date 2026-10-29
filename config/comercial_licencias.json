@@ -4,24 +4,163 @@
  "acciones": {
   "retirar": "Quitar de la versión comercial.",
   "contratar": "Usar solo con un plan o licencia comercial del proveedor; sin contrato, retirar.",
-  "verificar": "Leer los términos vigentes (o preguntar al proveedor) antes de usarla en la versión comercial."
+  "verificar": "Leer los términos vigentes (o preguntar al proveedor) antes de usarla en la versión comercial.",
+  "sustituir": "Cambiar por una fuente gratuita que sí permite uso comercial (campo «sustituto»).",
+  "enlace": "No mostrar el dato dentro de la app: solo un enlace al visor oficial del proveedor, donde la persona lo consulta con sus propios términos."
  },
  "fuentes": [
-  {"patron": "C2IntelFeeds", "nombre": "C2IntelFeeds (drb-ra)", "licencia": "CC BY-NC-SA 4.0", "accion": "retirar", "donde": "tools/red/red.py; capa de servidores de control de botnets", "alternativa": "abuse.ch Feodo Tracker y ThreatFox (CC0), que ya se usan"},
-  {"patron": "TeleGeography", "nombre": "TeleGeography Submarine Cable Map", "licencia": "CC BY-NC-SA 3.0", "accion": "contratar", "donde": "tools/capas/construir.py; capa de cables submarinos", "alternativa": "Cables de OpenStreetMap (submarine=yes, ODbL), con menos cobertura"},
-  {"patron": "OpenSanctions", "nombre": "OpenSanctions", "licencia": "CC BY-NC 4.0", "accion": "contratar", "donde": "No integrada", "alternativa": "Listas oficiales (OFAC SDN, ONU, UE), de dominio público o reutilizables"},
-  {"patron": "Global Fishing Watch", "nombre": "Global Fishing Watch API v3", "licencia": "CC BY-NC 4.0", "accion": "contratar", "donde": "Capas de apagados AIS, encuentros, merodeo, pesca y radar; js/riesgos.js", "alternativa": ""},
-  {"patron": "OpenSky", "nombre": "OpenSky Network", "licencia": "Términos de OpenSky: uso no comercial y de investigación", "accion": "contratar", "donde": "Aviones en vivo y trayectorias; cloudflare/vuelos", "alternativa": "adsb.lol (por verificar)"},
-  {"patron": "s2cloudless-AAAA", "nombre": "EOX Sentinel-2 cloudless 2018–2025", "licencia": "CC BY-NC-SA 4.0", "accion": "contratar", "donde": "Herramienta «Cambio en el tiempo»; js/timelapse.js", "alternativa": "La versión 2016 (CC BY 4.0) o imágenes de NASA GIBS"},
-  {"patron": "Sentinel-2 cloudless 2016", "nombre": "EOX Sentinel-2 cloudless 2016 (mapa base Satélite)", "licencia": "CC BY 4.0 (solo la versión 2016)", "accion": "verificar", "donde": "Mapa base «Satélite»", "alternativa": "Se puede usar con atribución; las versiones posteriores son no comerciales"},
-  {"patron": "Open-Meteo", "nombre": "Open-Meteo (pronóstico, oleaje, geocodificación, calidad del aire)", "licencia": "Datos CC BY 4.0; la API gratuita es solo para uso no comercial", "accion": "contratar", "donde": "Nortes, mar de fondo, calidad del aire, búsqueda de lugares", "alternativa": "Plan comercial de Open-Meteo o datos de NOAA/ECMWF abiertos procesados por el proyecto"},
-  {"patron": "GRanD / GOODD", "nombre": "GRanD / GOODD (Global Dam Watch)", "licencia": "Por verificar", "accion": "verificar", "donde": "Capa de presas", "alternativa": ""},
-  {"patron": "OIEA PRIS", "nombre": "OIEA PRIS", "licencia": "Términos del OIEA", "accion": "verificar", "donde": "Capa de reactores nucleares", "alternativa": ""},
-  {"patron": "PeeringDB", "nombre": "PeeringDB", "licencia": "Por verificar", "accion": "verificar", "donde": "Puntos de intercambio de internet", "alternativa": ""},
-  {"patron": "adsb.lol", "nombre": "adsb.lol", "licencia": "Por verificar", "accion": "verificar", "donde": "Vuelos militares y rutas", "alternativa": ""},
-  {"patron": "adsbdb.com", "nombre": "adsbdb.com", "licencia": "Por verificar", "accion": "verificar", "donde": "Ruta y foto del avión", "alternativa": ""},
-  {"patron": "AISStream", "nombre": "AISStream.io", "licencia": "Términos de AISStream", "accion": "verificar", "donde": "Barcos en vivo", "alternativa": ""},
-  {"patron": "CelesTrak", "nombre": "CelesTrak", "licencia": "Por verificar", "accion": "verificar", "donde": "Satélites", "alternativa": ""},
-  {"patron": "Bitnodes", "nombre": "Bitnodes", "licencia": "Datos públicos de la API", "accion": "verificar", "donde": "Nodos de Bitcoin por país", "alternativa": ""}
- ]
+  {
+   "patron": "C2IntelFeeds",
+   "nombre": "C2IntelFeeds (drb-ra)",
+   "licencia": "CC BY-NC-SA 4.0",
+   "accion": "sustituir",
+   "donde": "tools/red/red.py; capa de servidores de control de botnets",
+   "sustituto": "abuse.ch Feodo Tracker y ThreatFox",
+   "licencia_sustituto": "CC0",
+   "nota": "Ya se usan; solo se quita C2IntelFeeds."
+  },
+  {
+   "patron": "TeleGeography",
+   "nombre": "TeleGeography Submarine Cable Map",
+   "licencia": "CC BY-NC-SA 3.0",
+   "accion": "sustituir",
+   "donde": "tools/capas/construir.py; capa de cables submarinos",
+   "sustituto": "Cables submarinos de OpenStreetMap (etiqueta submarine=yes)",
+   "licencia_sustituto": "ODbL 1.0 (uso comercial con atribución)",
+   "nota": "Menos cables y trazos más simples que TeleGeography."
+  },
+  {
+   "patron": "OpenSanctions",
+   "nombre": "OpenSanctions",
+   "licencia": "CC BY-NC 4.0",
+   "accion": "sustituir",
+   "donde": "No integrada",
+   "sustituto": "Listas oficiales: OFAC SDN (EUA), Consolidada del Consejo de Seguridad de la ONU y lista consolidada de sanciones de la UE",
+   "licencia_sustituto": "Información pública de cada gobierno u organismo",
+   "nota": "No está integrada; se integraría desde las listas oficiales."
+  },
+  {
+   "patron": "Global Fishing Watch",
+   "nombre": "Global Fishing Watch API v3",
+   "licencia": "CC BY-NC 4.0",
+   "accion": "enlace",
+   "donde": "Capas de apagados AIS, encuentros, merodeo, pesca y radar; js/riesgos.js",
+   "sustituto": "Visor oficial globalfishingwatch.org/map",
+   "licencia_sustituto": "—",
+   "nota": "No hay sustituto abierto con apagados AIS y encuentros; se pide licencia comercial a GFW cuando haya ingresos."
+  },
+  {
+   "patron": "OpenSky",
+   "nombre": "OpenSky Network",
+   "licencia": "Términos de OpenSky: uso no comercial y de investigación",
+   "accion": "sustituir",
+   "donde": "Aviones en vivo y trayectorias; cloudflare/vuelos",
+   "sustituto": "adsb.lol (API y datos abiertos)",
+   "licencia_sustituto": "ODbL según su documentación (por verificar antes de lanzar)",
+   "nota": "Ya se usa para vuelos militares y rutas."
+  },
+  {
+   "patron": "s2cloudless-AAAA",
+   "nombre": "EOX Sentinel-2 cloudless 2018–2025",
+   "licencia": "CC BY-NC-SA 4.0",
+   "accion": "sustituir",
+   "donde": "Herramienta «Cambio en el tiempo»; js/timelapse.js",
+   "sustituto": "Imágenes Sentinel-2 de Copernicus (Copernicus Data Space) y mosaicos de NASA GIBS",
+   "licencia_sustituto": "Datos Copernicus: libres y con uso comercial; NASA GIBS: sin restricciones de uso (verificar la atribución)",
+   "nota": "Copernicus Data Space da una cuota mensual gratuita: el Worker debe limitar las peticiones."
+  },
+  {
+   "patron": "Sentinel-2 cloudless 2016",
+   "nombre": "EOX Sentinel-2 cloudless 2016 (mapa base Satélite)",
+   "licencia": "CC BY 4.0 (solo la versión 2016)",
+   "accion": "verificar",
+   "donde": "Mapa base «Satélite»",
+   "sustituto": "—",
+   "licencia_sustituto": "CC BY 4.0",
+   "nota": "Puede quedarse con atribución."
+  },
+  {
+   "patron": "Open-Meteo",
+   "nombre": "Open-Meteo (pronóstico, oleaje, geocodificación, calidad del aire)",
+   "licencia": "Datos CC BY 4.0; la API gratuita es solo para uso no comercial",
+   "accion": "sustituir",
+   "donde": "Nortes, mar de fondo, calidad del aire, búsqueda de lugares",
+   "sustituto": "MET Norway (api.met.no) para pronóstico; NOAA GFS y WaveWatch III (NOMADS) para viento y oleaje; GeoNames y el gazetteer propio para lugares; CAMS de Copernicus u OpenAQ para calidad del aire",
+   "licencia_sustituto": "MET Norway: CC BY 4.0 / NLOD; NOAA: dominio público; GeoNames: CC BY 4.0; CAMS: licencia Copernicus; OpenAQ: según cada proveedor (verificar)",
+   "nota": "MET Norway pide identificarse en el User-Agent y no saturar: hay que guardar las respuestas en caché en el Worker."
+  },
+  {
+   "patron": "GRanD / GOODD",
+   "nombre": "GRanD / GOODD (Global Dam Watch)",
+   "licencia": "Por verificar",
+   "accion": "verificar",
+   "donde": "Capa de presas",
+   "sustituto": ""
+  },
+  {
+   "patron": "OIEA PRIS",
+   "nombre": "OIEA PRIS",
+   "licencia": "Términos del OIEA",
+   "accion": "verificar",
+   "donde": "Capa de reactores nucleares",
+   "sustituto": ""
+  },
+  {
+   "patron": "PeeringDB",
+   "nombre": "PeeringDB",
+   "licencia": "Por verificar",
+   "accion": "verificar",
+   "donde": "Puntos de intercambio de internet",
+   "sustituto": ""
+  },
+  {
+   "patron": "adsb.lol",
+   "nombre": "adsb.lol",
+   "licencia": "Por verificar",
+   "accion": "verificar",
+   "donde": "Vuelos militares y rutas",
+   "sustituto": ""
+  },
+  {
+   "patron": "adsbdb.com",
+   "nombre": "adsbdb.com",
+   "licencia": "Por verificar",
+   "accion": "verificar",
+   "donde": "Ruta y foto del avión",
+   "sustituto": ""
+  },
+  {
+   "patron": "AISStream",
+   "nombre": "AISStream.io",
+   "licencia": "Términos de AISStream",
+   "accion": "verificar",
+   "donde": "Barcos en vivo",
+   "sustituto": ""
+  },
+  {
+   "patron": "CelesTrak",
+   "nombre": "CelesTrak",
+   "licencia": "Por verificar",
+   "accion": "verificar",
+   "donde": "Satélites",
+   "sustituto": ""
+  },
+  {
+   "patron": "Bitnodes",
+   "nombre": "Bitnodes",
+   "licencia": "Datos públicos de la API",
+   "accion": "verificar",
+   "donde": "Nodos de Bitcoin por país",
+   "sustituto": ""
+  }
+ ],
+ "estrategia": {
+  "regla": "La licencia limita el uso comercial del servicio, no quién paga la llave: una llave gratuita «no comercial» del cliente usada dentro de una app de pago sigue siendo uso comercial. Por eso no se resuelve pidiendo al cliente su propia llave, salvo con proveedores cuyos términos permitan llaves de terceros en apps comerciales (verificar uno por uno).",
+  "orden": [
+   "1. Sustituir por fuentes gratuitas con uso comercial permitido.",
+   "2. Si no hay sustituto, dejar solo el enlace al visor oficial.",
+   "3. Contratar licencia solo cuando los ingresos lo paguen."
+  ],
+  "costo_inicial": "Cloudflare Pages, Workers y D1 tienen plan gratuito y Mercado Pago cobra una comisión por cada pago recibido (no hay mensualidad). Con sustitutos gratuitos el arranque no requiere pagos; los límites exactos del plan gratuito se revisan en las páginas de precios de cada proveedor antes de lanzar."
+ }
 }

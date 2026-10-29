@@ -17,40 +17,117 @@
  },
  "planes": [
   {
+   "id": "demo",
+   "nombre": "Demo",
+   "usd": 0,
+   "estado": "propuesta",
+   "registro": "Correo obligatorio (el mismo acceso que los planes de pago)",
+   "resumen": "Prueba gratuita para conocer la app antes de pagar. Usa solo copias estáticas que ya genera el sitio, así que cada visita no consume llaves ni cuotas de APIs.",
+   "incluye": [
+    "Mapa con capas fijas",
+    "Eventos y noticias con 24 h de retraso (copia del día anterior)",
+    "Un reporte diario de México y uno global, del día anterior",
+    "Tutorial",
+    "Vista previa (solo nombres y descripción) de lo que trae cada plan"
+   ],
+   "no_incluye": [
+    "Vuelos y barcos en vivo",
+    "Consultas que llaman a una API al hacer clic (pronóstico por punto, búsqueda de lugares, calidad del aire por ciudad)",
+    "Herramientas, investigación y seguimiento",
+    "Descargas y exportaciones"
+   ],
+   "costo_por_visita": "Cero llamadas a APIs: los archivos se sirven desde el CDN de Cloudflare Pages."
+  },
+  {
    "id": "recon",
    "nombre": "Recon",
    "usd": 4.99,
-   "estado": "propuesta",
+   "estado": "aprobado",
    "resumen": "Reconocimiento: mapa, eventos y alertas.",
-   "incluye": ["Mapa con capas fijas", "Eventos y noticias", "Riesgos y clima", "En movimiento", "Fenómenos anómalos", "Reportes diarios de México y global", "Taxonomía de eventos", "Tutorial"]
+   "incluye": [
+    "Todo lo de Demo, con datos al día",
+    "Eventos y noticias",
+    "Riesgos y clima",
+    "En movimiento",
+    "Fenómenos anómalos",
+    "Reportes diarios de México y global",
+    "Taxonomía de eventos"
+   ]
   },
   {
    "id": "analyst",
    "nombre": "Analyst",
    "usd": 8.99,
-   "estado": "propuesta",
+   "estado": "aprobado",
    "resumen": "Análisis: todo lo de Recon más herramientas de investigación.",
-   "incluye": ["Todo lo de Recon", "Narrativas y estrategia", "Historia por país", "Herramientas del panel", "Investigación", "Matriz de riesgo por país"]
+   "incluye": [
+    "Todo lo de Recon",
+    "Narrativas y estrategia",
+    "Historia por país",
+    "Herramientas del panel",
+    "Investigación",
+    "Matriz de riesgo por país"
+   ]
   },
   {
    "id": "command",
    "nombre": "Command",
    "usd": 12.99,
-   "estado": "propuesta",
+   "estado": "aprobado",
    "resumen": "Mando: todo lo de Analyst más seguimiento propio.",
-   "incluye": ["Todo lo de Analyst", "Seguimiento (lugares, vuelos y barcos guardados)", "Exportar y descargar reportes"]
+   "incluye": [
+    "Todo lo de Analyst",
+    "Seguimiento (lugares, vuelos y barcos guardados)",
+    "Exportar y descargar reportes"
+   ]
   }
  ],
  "solo_admin": [
-  {"tipo": "pagina", "href": "noticiero.html", "nombre": "Noticiero DOMINUS"},
-  {"tipo": "pagina", "href": "corporativo.html", "nombre": "Inteligencia corporativa"},
-  {"tipo": "pagina", "href": "herramientas.html", "nombre": "Caja del analista"},
-  {"tipo": "pagina", "href": "ops.html", "nombre": "DOMINUS OPS"},
-  {"tipo": "pagina", "href": "inmuebles.html", "nombre": "Inmuebles y riesgo"},
-  {"tipo": "pagina", "href": "analitica.html", "nombre": "Analítica"},
-  {"tipo": "pagina", "href": "marco.html", "nombre": "Marco normativo"},
-  {"tipo": "bloque", "id": "b-capas-ent", "nombre": "Infraestructura, conflictos y sociedad (menú izquierdo)"},
-  {"tipo": "capa", "id": "inmuebles_seguimiento", "nombre": "Economía y finanzas · Seguimiento a Inmuebles"}
+  {
+   "tipo": "pagina",
+   "href": "noticiero.html",
+   "nombre": "Noticiero DOMINUS"
+  },
+  {
+   "tipo": "pagina",
+   "href": "corporativo.html",
+   "nombre": "Inteligencia corporativa"
+  },
+  {
+   "tipo": "pagina",
+   "href": "herramientas.html",
+   "nombre": "Caja del analista"
+  },
+  {
+   "tipo": "pagina",
+   "href": "ops.html",
+   "nombre": "DOMINUS OPS"
+  },
+  {
+   "tipo": "pagina",
+   "href": "inmuebles.html",
+   "nombre": "Inmuebles y riesgo"
+  },
+  {
+   "tipo": "pagina",
+   "href": "analitica.html",
+   "nombre": "Analítica"
+  },
+  {
+   "tipo": "pagina",
+   "href": "marco.html",
+   "nombre": "Marco normativo"
+  },
+  {
+   "tipo": "bloque",
+   "id": "b-capas-ent",
+   "nombre": "Infraestructura, conflictos y sociedad (menú izquierdo)"
+  },
+  {
+   "tipo": "capa",
+   "id": "inmuebles_seguimiento",
+   "nombre": "Economía y finanzas · Seguimiento a Inmuebles"
+  }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp."
 }

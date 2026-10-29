@@ -97,3 +97,16 @@ test("empresas extranjeras: sin resultado ofrece búsquedas para seguir investig
   assert.match(decodeURIComponent(h), /cámara de comercio México Israel/);
   assert.deepEqual(T.enlacesSinResultado("ab"), []);
 });
+
+test("zonas de Yucatán pedidas: Mérida norte, carretera a Progreso, costa Chuburná–Telchac, Motul y Conkal", () => {
+  const ids = ["mer-altabrisa", "mer-temozon-isla", "mer-san-ramon", "mer-cholul", "yuc-merida-conkal", "yuc-carretera-progreso", "yuc-progreso",
+    "yuc-costa-chuburna-chelem", "yuc-costa-chicxulub-uaymitun", "yuc-costa-sanbenito-telchac", "yuc-telchac-motul"];
+  for (const id of ids) {
+    const z = cat.zonas.find((x) => x.id === id);
+    assert.ok(z, id);
+    assert.ok(z.lat > 20.8 && z.lat < 21.45 && z.lon > -89.9 && z.lon < -89.1, `${id} fuera de la zona norte de Yucatán`);
+    assert.ok(z.tipos.includes("casa en privada") && z.tipos.includes("terreno") || z.tipos.includes("departamento"), id);
+  }
+  const l = Z.enlacesZona(cat.zonas.find((x) => x.id === "mer-cholul"), cat.portales, { tipo: "casa en privada" });
+  assert.match(decodeURIComponent(l[0][1]), /casa en privada en venta Mérida Yucatán/);
+});

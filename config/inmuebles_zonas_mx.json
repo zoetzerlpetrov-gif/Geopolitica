@@ -269,6 +269,442 @@
    "pais_iso3": "MEX"
   },
   {
+   "id": "mer-altabrisa",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Altabrisa y Montebello: departamentos y casas cerca de hospitales y plazas",
+   "lat": 21.024,
+   "lon": -89.592,
+   "radio_km": 2.5,
+   "tipos": [
+    "departamento",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Altabrisa",
+    "Montebello",
+    "Villas La Hacienda",
+    "Monterreal",
+    "Montes de Amé",
+    "Gonzalo Guerrero"
+   ],
+   "proyectos": [
+    "departamentos Altabrisa Mérida preventa",
+    "casas en privada Montebello Mérida"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Privadas y fraccionamientos cerrados: pide el reglamento, la cuota de mantenimiento y el estado de cuenta de la asociación de colonos.",
+    "Tráfico en el Periférico y en la calle 20 en horas pico: mide el tiempo de traslado antes de comprar."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-temozon-isla",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Temozón Norte y La Isla: torres de departamentos y privadas",
+   "lat": 21.06,
+   "lon": -89.6,
+   "radio_km": 2.5,
+   "tipos": [
+    "departamento",
+    "terreno",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Temozón Norte",
+    "La Isla Mérida",
+    "Santa Gertrudis Copó",
+    "Santa Rita Cholul"
+   ],
+   "proyectos": [
+    "departamentos La Isla Mérida",
+    "torre departamentos Temozón Norte preventa",
+    "Vía Montejo Mérida departamentos"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Privadas y fraccionamientos cerrados: pide el reglamento, la cuota de mantenimiento y el estado de cuenta de la asociación de colonos.",
+    "Preventas con urbanización por terminar: pide licencia de fraccionamiento del municipio, el calendario de obra por escrito y quién entrega las calles y el agua."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-san-ramon",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "San Ramón Norte, Cabo Norte y Benito Juárez Norte",
+   "lat": 21.04,
+   "lon": -89.625,
+   "radio_km": 2.2,
+   "tipos": [
+    "departamento",
+    "terreno",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "San Ramón Norte",
+    "Cabo Norte",
+    "Benito Juárez Norte",
+    "Xcumpich",
+    "Campestre"
+   ],
+   "proyectos": [
+    "casas San Ramón Norte Mérida",
+    "departamentos Cabo Norte Mérida"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Privadas y fraccionamientos cerrados: pide el reglamento, la cuota de mantenimiento y el estado de cuenta de la asociación de colonos."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-cholul",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Cholul y Sitpach: privadas, fraccionamientos y terrenos",
+   "lat": 21.044,
+   "lon": -89.553,
+   "radio_km": 3,
+   "tipos": [
+    "terreno",
+    "departamento",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Cholul",
+    "Sitpach",
+    "Santa Rita Cholul"
+   ],
+   "proyectos": [
+    "privada residencial Cholul Mérida",
+    "lotes residenciales Cholul",
+    "casas en fraccionamiento Cholul"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Muchos lotes vienen de tierras ejidales: exige escritura con dominio pleno y consulta el Registro Agrario Nacional antes de apartar.",
+    "Privadas y fraccionamientos cerrados: pide el reglamento, la cuota de mantenimiento y el estado de cuenta de la asociación de colonos.",
+    "Preventas con urbanización por terminar: pide licencia de fraccionamiento del municipio, el calendario de obra por escrito y quién entrega las calles y el agua."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "yuc-merida-conkal",
+   "ciudad": "Conkal",
+   "estado": "Yucatán",
+   "zona": "Corredor Mérida–Conkal: lotes y casas en privada",
+   "lat": 21.07,
+   "lon": -89.53,
+   "radio_km": 5,
+   "tipos": [
+    "terreno",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Conkal",
+    "Xcuyún",
+    "San Diego Cutz",
+    "Sitpach",
+    "Cholul"
+   ],
+   "proyectos": [
+    "lotes residenciales Conkal Yucatán",
+    "privada residencial Conkal",
+    "casas en venta Conkal Yucatán"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Muchos lotes vienen de tierras ejidales: exige escritura con dominio pleno y consulta el Registro Agrario Nacional antes de apartar.",
+    "Preventas con urbanización por terminar: pide licencia de fraccionamiento del municipio, el calendario de obra por escrito y quién entrega las calles y el agua.",
+    "Privadas y fraccionamientos cerrados: pide el reglamento, la cuota de mantenimiento y el estado de cuenta de la asociación de colonos."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "yuc-carretera-progreso",
+   "ciudad": "Carretera Mérida–Progreso",
+   "estado": "Yucatán",
+   "zona": "Carretera Mérida–Progreso: Xcanatún, Komchén, Chablekal y San Ignacio",
+   "lat": 21.12,
+   "lon": -89.63,
+   "radio_km": 10,
+   "tipos": [
+    "terreno",
+    "departamento",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Xcanatún",
+    "Komchén",
+    "Chablekal",
+    "Dzityá",
+    "Sierra Papacal",
+    "San Ignacio",
+    "Kikteil"
+   ],
+   "proyectos": [
+    "Yucatán Country Club",
+    "lotes residenciales carretera Mérida Progreso",
+    "casas en privada Xcanatún",
+    "lotes Komchén Yucatán"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Muchos lotes vienen de tierras ejidales: exige escritura con dominio pleno y consulta el Registro Agrario Nacional antes de apartar.",
+    "Preventas con urbanización por terminar: pide licencia de fraccionamiento del municipio, el calendario de obra por escrito y quién entrega las calles y el agua.",
+    "Privadas y fraccionamientos cerrados: pide el reglamento, la cuota de mantenimiento y el estado de cuenta de la asociación de colonos.",
+    "Ruido y tráfico pesado de la carretera federal 261 y del parque industrial de Sierra Papacal: visita el lote de día y de noche."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "yuc-progreso",
+   "ciudad": "Progreso",
+   "estado": "Yucatán",
+   "zona": "Progreso: casas y departamentos en el puerto",
+   "lat": 21.283,
+   "lon": -89.667,
+   "radio_km": 4,
+   "tipos": [
+    "departamento",
+    "terreno",
+    "condominio de playa",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Progreso Centro",
+    "Flamboyanes",
+    "Campestre Flamboyanes",
+    "Ismael García",
+    "Nueva Yucalpetén",
+    "Malecón de Progreso"
+   ],
+   "proyectos": [
+    "departamentos frente al mar Progreso Yucatán",
+    "casas en venta Progreso Yucatán"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes y marejadas: la costa norte de Yucatán está expuesta a marea de tormenta; Isidoro (2002) inundó puertos de la costa. Pregunta a qué altura sobre el nivel del mar está el lote.",
+    "Nortes de octubre a marzo: viento y oleaje fuertes que erosionan la playa; revisa si el frente de playa tiene espolones o pérdida de arena.",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Ciénaga y manglar detrás de la costa: el manglar está protegido por la Ley General de Vida Silvestre (art. 60 Ter); un lote con relleno sobre ciénaga puede no tener permiso y se inunda.",
+    "Salitre y humedad: corroen acero, aires acondicionados y herrería; suma mantenimiento anual.",
+    "Muchas casas de playa se rentan por temporada: si compras para rentar, revisa el reglamento municipal y el pago del impuesto por hospedaje.",
+    "Puerto de altura con tráfico de carga y cruceros: revisa ruido y paso de camiones si el inmueble está cerca del muelle o del libramiento."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "yuc-costa-chuburna-chelem",
+   "ciudad": "Costa yucateca",
+   "estado": "Yucatán",
+   "zona": "Costa poniente: Chuburná Puerto, Chelem y Yucalpetén",
+   "lat": 21.26,
+   "lon": -89.77,
+   "radio_km": 6,
+   "tipos": [
+    "terreno",
+    "departamento",
+    "condominio de playa",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Chuburná Puerto",
+    "Chelem",
+    "Yucalpetén"
+   ],
+   "proyectos": [
+    "casa de playa Chelem venta",
+    "terreno Chuburná Puerto venta",
+    "departamentos Chelem Yucatán"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes y marejadas: la costa norte de Yucatán está expuesta a marea de tormenta; Isidoro (2002) inundó puertos de la costa. Pregunta a qué altura sobre el nivel del mar está el lote.",
+    "Nortes de octubre a marzo: viento y oleaje fuertes que erosionan la playa; revisa si el frente de playa tiene espolones o pérdida de arena.",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Ciénaga y manglar detrás de la costa: el manglar está protegido por la Ley General de Vida Silvestre (art. 60 Ter); un lote con relleno sobre ciénaga puede no tener permiso y se inunda.",
+    "Salitre y humedad: corroen acero, aires acondicionados y herrería; suma mantenimiento anual.",
+    "Muchas casas de playa se rentan por temporada: si compras para rentar, revisa el reglamento municipal y el pago del impuesto por hospedaje."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "yuc-costa-chicxulub-uaymitun",
+   "ciudad": "Costa yucateca",
+   "estado": "Yucatán",
+   "zona": "Costa oriente: Chicxulub Puerto, Uaymitún y Xtampú",
+   "lat": 21.3,
+   "lon": -89.54,
+   "radio_km": 8,
+   "tipos": [
+    "terreno",
+    "departamento",
+    "condominio de playa",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Chicxulub Puerto",
+    "Uaymitún",
+    "Xtampú"
+   ],
+   "proyectos": [
+    "casa de playa Chicxulub Puerto venta",
+    "terreno Uaymitún venta",
+    "departamentos Chicxulub Puerto"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes y marejadas: la costa norte de Yucatán está expuesta a marea de tormenta; Isidoro (2002) inundó puertos de la costa. Pregunta a qué altura sobre el nivel del mar está el lote.",
+    "Nortes de octubre a marzo: viento y oleaje fuertes que erosionan la playa; revisa si el frente de playa tiene espolones o pérdida de arena.",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Ciénaga y manglar detrás de la costa: el manglar está protegido por la Ley General de Vida Silvestre (art. 60 Ter); un lote con relleno sobre ciénaga puede no tener permiso y se inunda.",
+    "Salitre y humedad: corroen acero, aires acondicionados y herrería; suma mantenimiento anual.",
+    "Muchas casas de playa se rentan por temporada: si compras para rentar, revisa el reglamento municipal y el pago del impuesto por hospedaje."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "yuc-costa-sanbenito-telchac",
+   "ciudad": "Costa yucateca",
+   "estado": "Yucatán",
+   "zona": "Costa oriente: San Benito y Telchac Puerto",
+   "lat": 21.335,
+   "lon": -89.33,
+   "radio_km": 9,
+   "tipos": [
+    "terreno",
+    "departamento",
+    "condominio de playa",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "San Benito",
+    "Telchac Puerto",
+    "Xcambó",
+    "Chabihau"
+   ],
+   "proyectos": [
+    "casa de playa Telchac Puerto venta",
+    "terreno San Benito Yucatán",
+    "condominio Telchac Puerto"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes y marejadas: la costa norte de Yucatán está expuesta a marea de tormenta; Isidoro (2002) inundó puertos de la costa. Pregunta a qué altura sobre el nivel del mar está el lote.",
+    "Nortes de octubre a marzo: viento y oleaje fuertes que erosionan la playa; revisa si el frente de playa tiene espolones o pérdida de arena.",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Ciénaga y manglar detrás de la costa: el manglar está protegido por la Ley General de Vida Silvestre (art. 60 Ter); un lote con relleno sobre ciénaga puede no tener permiso y se inunda.",
+    "Salitre y humedad: corroen acero, aires acondicionados y herrería; suma mantenimiento anual.",
+    "Muchas casas de playa se rentan por temporada: si compras para rentar, revisa el reglamento municipal y el pago del impuesto por hospedaje."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "al oriente de Telchac Puerto solo se incluye Chabihau como referencia."
+  },
+  {
+   "id": "yuc-telchac-motul",
+   "ciudad": "Motul",
+   "estado": "Yucatán",
+   "zona": "Entre Telchac Puerto y Motul: Telchac Pueblo, Dzemul y Motul",
+   "lat": 21.17,
+   "lon": -89.28,
+   "radio_km": 12,
+   "tipos": [
+    "terreno",
+    "casa",
+    "casa en fraccionamiento",
+    "casa en privada"
+   ],
+   "colonias": [
+    "Motul",
+    "Telchac Pueblo",
+    "Dzemul",
+    "Sinanché"
+   ],
+   "proyectos": [
+    "terrenos Motul Yucatán venta",
+    "casas en venta Motul Yucatán",
+    "terreno Telchac Pueblo"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Muchos lotes vienen de tierras ejidales: exige escritura con dominio pleno y consulta el Registro Agrario Nacional antes de apartar.",
+    "Servicios en comisarías y pueblos pequeños: confirma luz (CFE), agua potable o pozo y acceso pavimentado antes de comprar terreno."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
    "id": "man-gaviotas",
    "ciudad": "Manzanillo",
    "estado": "Colima",

@@ -12,7 +12,7 @@ def cargar(p):
 
 def test_planes_y_secciones_solo_admin_existen():
     cat = cargar("config/planes.json")
-    assert [(p["id"], p["usd"]) for p in cat["planes"]] == [("recon", 4.99), ("analyst", 8.99), ("command", 12.99)]
+    assert [(p["id"], p["usd"]) for p in cat["planes"]] == [("demo", 0), ("recon", 4.99), ("analyst", 8.99), ("command", 12.99)]
     assert cat["cobro"]["tipo_cambio"]["serie"] == "SF43718"
     index = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
     capas = {c["id"] for c in cargar("config/capas.json")["familias"]}
