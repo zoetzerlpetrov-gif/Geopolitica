@@ -805,3 +805,7 @@ img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; bo
 .lug-lista li { padding: 5px 10px; cursor: pointer; } .lug-lista li[data-i]:hover, .lug-lista li[aria-selected="true"] { background: var(--surface-2, #eef2f5); }
 .lug-lista .lug-atrib { cursor: default; font-size: 10px; text-align: right; }
 .chip.vista-pago { margin-left: 8px; font-size: 11px; vertical-align: middle; background: #1565C0; color: #fff; border-radius: 10px; padding: 2px 8px; }
+.chip.candado { margin-left: 6px; font-size: 11px; background: #5c5f66; color: #fff; border-radius: 10px; padding: 1px 7px; }
+.bloqueado-plan > :not(summary):not(.aviso-plan) { opacity: .5; filter: grayscale(.6); }
+.aviso-plan { margin: 6px 10px; padding: 6px 10px; border-left: 3px solid #E0A100; background: var(--surface); font-size: 13px; }
+.enlace-bloqueado { opacity: .75; }

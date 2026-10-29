@@ -45,3 +45,26 @@ test("capas y movimiento: sin fuentes no comerciales ni subtipos de CelesTrak", 
   assert.ok(r.movimiento.has("aeronaves") && r.movimiento.has("buques") && !r.movimiento.has("satelites"));
   assert.ok(r.paginas.has("noticiero.html") && r.bloques.has("b-capas-ent"));
 });
+
+test("planes: el grupo de un plan superior pide ese plan; el propio o inferior no", async () => {
+  const { planActual, planFaltante, fixDeIndicadores } = await import("../../js/licencias.js");
+  const { precioCorto, filasComparacion } = await import("../../js/planes.js");
+  assert.equal(planActual(planes, "?vista=pago&plan=recon", undefined), "recon");
+  assert.equal(planActual(planes, "?vista=pago", undefined), "command", "sin plan: el más alto");
+  assert.equal(planActual(planes, "?plan=xyz", undefined), "command");
+  assert.equal(planFaltante(planes, "recon", "grupos", "herramientas").id, "analyst");
+  assert.equal(planFaltante(planes, "recon", "grupos", "seguimiento").id, "command");
+  assert.equal(planFaltante(planes, "recon", "grupos", "riesgos"), null);
+  assert.equal(planFaltante(planes, "demo", "paginas", "matriz.html").id, "analyst");
+  assert.equal(planFaltante(planes, "command", "paginas", "matriz.html"), null);
+  assert.equal(planFaltante(planes, "demo", "paginas", "noticiero.html"), null, "sin regla: lo decide la lista de solo admin");
+  const fix = fixDeIndicadores({ grupos: [{ datos: [{ id: "SF46410", valor: 21 }, { id: "SF43718", valor: 18.4215, fecha: "2026-10-28" }] }] });
+  assert.deepEqual(fix, { fecha: "2026-10-28", valor: 18.4215 });
+  assert.equal(precioCorto(planes.planes.find((p) => p.id === "analyst"), fix), "166 MXN al mes");
+  assert.equal(precioCorto(planes.planes[0], fix), "Gratis");
+  assert.equal(precioCorto(planes.planes[1], null), "USD 4.99 al mes");
+  const filas = filasComparacion(planes);
+  assert.deepEqual(filas.find((f) => f.clave === "seguimiento").incluido, [false, false, false, true]);
+  assert.deepEqual(filas.find((f) => f.clave === "eventos").incluido, [true, true, true, true]);
+  for (const g of Object.keys(planes.acceso_por_plan.grupos)) assert.ok(planes.acceso_por_plan.nombres[g], g);
+});

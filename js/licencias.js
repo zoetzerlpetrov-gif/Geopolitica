@@ -3,6 +3,29 @@
 // uso_comercial === true) y no está en la lista «solo admin» de config/comercial_licencias.json. Lo demás solo lo ve
 // quien administra. En el sitio público (sin cobro) se ve todo; con ?vista=pago se simula la versión de pago.
 
+/** Plan que se simula en la vista de pago: ?plan=demo|recon|analyst|command (o window.DOMINUS_PLAN en la versión comercial).
+ *  Sin indicarlo, el plan más alto. */
+export function planActual(planes, search = globalThis.location?.search || "", global = globalThis.DOMINUS_PLAN) {
+  const ids = (planes?.planes || []).map((p) => p.id);
+  const pedido = global || new URLSearchParams(search).get("plan");
+  return ids.includes(pedido) ? pedido : ids.at(-1);
+}
+
+/** Plan que hace falta para un grupo del menú o una página, si el plan actual no alcanza; si alcanza (o no hay regla), null. */
+export function planFaltante(planes, actual, tipo, clave) {
+  const lista = planes?.planes || [];
+  const ids = lista.map((p) => p.id);
+  const req = planes?.acceso_por_plan?.[tipo]?.[clave];
+  if (!req || ids.indexOf(req) <= ids.indexOf(actual)) return null;
+  return lista.find((p) => p.id === req) || null;
+}
+
+/** FIX vigente desde vivos/indicadores.json (serie SF43718 de Banxico), o null. */
+export function fixDeIndicadores(ind) {
+  for (const g of ind?.grupos || []) for (const x of g.datos || []) if (x.id === "SF43718" && x.valor > 0) return { fecha: x.fecha, valor: x.valor };
+  return null;
+}
+
 /** «pago» si la página se abrió con ?vista=pago o si la versión comercial lo fija en window.DOMINUS_VISTA; si no, «completa». */
 export function vistaActual(search = globalThis.location?.search || "", global = globalThis.DOMINUS_VISTA) {
   if (global === "pago" || global === "admin") return global === "pago" ? "pago" : "completa";

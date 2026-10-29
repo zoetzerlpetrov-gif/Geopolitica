@@ -129,5 +129,46 @@
    "nombre": "Economía y finanzas · Seguimiento a Inmuebles"
   }
  ],
- "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp."
+ "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",
+ "acceso_por_plan": {
+  "_nota": "Plan mínimo para cada grupo del menú izquierdo (data-grupo) y cada sección. En la versión de pago lo de un plan superior se muestra con candado, el nombre del plan y su precio; lo de solo admin no se muestra.",
+  "grupos": {
+   "eventos": "demo",
+   "capas": "demo",
+   "reportes": "demo",
+   "movimiento": "recon",
+   "riesgos": "recon",
+   "anomalias": "recon",
+   "historia": "analyst",
+   "herramientas": "analyst",
+   "investigacion": "analyst",
+   "seguimiento": "command"
+  },
+  "paginas": {
+   "reporte.html": "demo",
+   "tutorial.html": "demo",
+   "planes.html": "demo",
+   "taxonomia.html": "recon",
+   "narrativas.html": "analyst",
+   "matriz.html": "analyst"
+  },
+  "nombres": {
+   "eventos": "📰 Eventos y noticias",
+   "capas": "🗺️ Capas del mapa (capas fijas)",
+   "reportes": "📑 Reportes diarios",
+   "movimiento": "✈️ En movimiento (satélites)",
+   "riesgos": "⚠️ Riesgos y clima",
+   "anomalias": "🛸 Fenómenos anómalos",
+   "historia": "📜 Historia por país",
+   "herramientas": "🧰 Herramientas del panel",
+   "investigacion": "🔎 Investigación",
+   "seguimiento": "⭐ Seguimiento",
+   "reporte.html": "🇲🇽🌍 Reportes diarios (página)",
+   "tutorial.html": "🎓 Tutorial",
+   "planes.html": "💳 Planes",
+   "taxonomia.html": "🏷️ Taxonomía de eventos",
+   "narrativas.html": "♟️ Narrativas y estrategia",
+   "matriz.html": "🧮 Matriz de riesgo por país"
+  }
+ }
 }

@@ -20,6 +20,7 @@ import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGION
 import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
 import * as LIC from "./licencias.js";
+import { precioCorto } from "./planes.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -44,7 +45,30 @@ const vistaLista = (async () => {
   for (const a of document.querySelectorAll("a[href]")) if (r.paginas.has((a.getAttribute("href") || "").split(/[?#]/)[0])) a.remove();
   // Los bloques se ocultan (no se borran): otras partes del código escriben en ellos.
   for (const id of [...r.bloques, ...r.bloquesLic]) { const el = document.getElementById(id); if (el) el.hidden = true; }
-  document.querySelector(".marca")?.insertAdjacentHTML("beforeend", `<span class="chip vista-pago" title="Simulación: así lo ve quien paga un plan">Vista de pago</span>`);
+  // Plan del cliente (?plan=demo|recon|analyst|command para simularlo). Lo de un plan superior se VE con candado,
+  // el nombre del plan y su precio, pero no se puede usar (inert). Lo de solo admin no se muestra: no está a la venta.
+  const plan = LIC.planActual(planes);
+  const nombrePlan = planes.planes.find((p) => p.id === plan)?.nombre || plan;
+  const fix = LIC.fixDeIndicadores(await getJSON("data/vivos/indicadores.json", { bust: true }).catch(() => null));
+  for (const s of document.querySelectorAll("summary.grupo-tit[data-grupo]")) {
+    const req = LIC.planFaltante(planes, plan, "grupos", s.dataset.grupo);
+    if (!req) continue;
+    const d = s.parentElement;
+    d.classList.add("bloqueado-plan");
+    s.insertAdjacentHTML("beforeend", `<span class="chip candado">🔒 ${esc(req.nombre)}</span>`);
+    for (const x of d.children) if (x !== s) x.inert = true;
+    s.insertAdjacentHTML("afterend", `<p class="aviso-plan">Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. <a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
+  }
+  for (const a of document.querySelectorAll("a[href]")) {
+    const req = LIC.planFaltante(planes, plan, "paginas", (a.getAttribute("href") || "").split(/[?#]/)[0]);
+    if (!req) continue;
+    a.classList.add("enlace-bloqueado");
+    a.textContent = `🔒 ${a.textContent.trim()} · plan ${req.nombre}`;
+    a.title = `Disponible desde el plan ${req.nombre} (${precioCorto(req, fix)})`;
+    a.href = `planes.html?plan=${plan}#${req.id}`;
+  }
+  document.querySelector('a[href="tutorial.html"]')?.insertAdjacentHTML("beforebegin", `<a href="planes.html?plan=${esc(plan)}">💳 Planes y precios</a>`);
+  document.querySelector(".marca")?.insertAdjacentHTML("beforeend", `<span class="chip vista-pago" title="Simulación: así lo ve quien paga este plan">Plan ${esc(nombrePlan)}</span>`);
   return r;
 })().catch((e) => { console.error("vista de pago", e); return null; });
 
