@@ -6,6 +6,8 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import sys
+import importlib.util
 
 
 def herramienta(nombre, argumentos):
@@ -38,7 +40,17 @@ def analizar(ruta, anclas=None):
     if anclas:
         pem = Path(anclas).resolve(strict=True)
         argumentos += ['--trust_anchors', str(pem)]
-    c2pa = herramienta('c2patool', argumentos)
+    if importlib.util.find_spec('c2pa') is not None:
+        cmd = [sys.executable, str(Path(__file__).with_name('c2pa_sdk.py')), str(archivo)]
+        if anclas:
+            cmd += ['--anclas', str(pem)]
+        try:
+            completed = subprocess.run(cmd, capture_output=True, text=True, timeout=45, check=False)
+            c2pa = json.loads(completed.stdout) if completed.returncode == 0 else {'estado': 'error', 'detalle': completed.stderr[:2000]}
+        except (ValueError, OSError, subprocess.TimeoutExpired) as exc:
+            c2pa = {'estado': 'error', 'detalle': str(exc)[:1500]}
+    else:
+        c2pa = herramienta('c2patool', argumentos)
     fecha = dt.datetime.now(dt.timezone.utc).isoformat()
     registro = {
         'titulo': archivo.name, 'sha256': h.hexdigest(), 'fecha': fecha[:10],

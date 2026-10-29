@@ -1,0 +1,8 @@
+.env
+private/
+*.db
+*.db-*
+*.dump
+*.dominus
+__pycache__/
+.pytest_cache/

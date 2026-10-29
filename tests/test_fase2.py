@@ -69,6 +69,7 @@ def test_exige_autorizacion():
 def test_hash_y_herramientas_ausentes(tmp_path, monkeypatch):
     p = tmp_path / 'archivo.txt'
     p.write_bytes(b'abc')
+    monkeypatch.setattr(multimedia.importlib.util, 'find_spec', lambda _: None)
     monkeypatch.setattr(multimedia.shutil, 'which', lambda _: None)
     r = multimedia.analizar(p)['registro']
     assert r['sha256'] == hashlib.sha256(b'abc').hexdigest()
@@ -80,6 +81,7 @@ def test_hash_y_herramientas_ausentes(tmp_path, monkeypatch):
 def test_multimedia_timeout_no_confunde_con_validacion(tmp_path, monkeypatch):
     p = tmp_path / 'archivo.txt'
     p.write_bytes(b'abc')
+    monkeypatch.setattr(multimedia.importlib.util, 'find_spec', lambda _: None)
     monkeypatch.setattr(multimedia.shutil, 'which', lambda _: '/tool')
     def timeout(*args, **kwargs):
         raise multimedia.subprocess.TimeoutExpired('tool', 45)

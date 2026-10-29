@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html tutorial.html planes.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html tutorial.html planes.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -87,6 +87,11 @@ jobs:
             fi
           else
             echo "Aún no existe la rama datos-eventos: se publican los datos de ejemplo"
+          fi
+          # Fases 2-3: solo estado genérico de fuentes, nunca expedientes privados.
+          mkdir -p _site/data/fase23
+          if git fetch --depth 1 origin datos-fase23 2>/dev/null; then
+            git show FETCH_HEAD:estado.json > _site/data/fase23/estado.json
           fi
           du -sh _site
 

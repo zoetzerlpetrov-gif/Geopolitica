@@ -69,3 +69,7 @@ SHA-256 siempre; `exiftool` y `c2patool` opcionales deben instalarse desde sus d
 ## Verificación
 
 `node --test 'tests/js/*.test.mjs'`, `python -m pytest -q`, `python ingest/validate.py`, `python ingest/validate_entities.py`. Pruebas de observadores usan dobles sin red: validan autorización, URL, TLS estricto por defecto, HEAD único sin redirecciones, exclusión de cookies, hash y ausencia/error de herramientas. La disponibilidad de cada servicio externo no puede garantizarse con estas pruebas.
+
+## Actualización Fases 2–3
+
+Se añadió backend privado autohospedable, conectores gratuitos programados y verificación con SDK oficial C2PA. La página local sigue funcionando sin backend. Instalación, alcance de cada fuente, límites, autenticación, pruebas y pendientes de despliegue: [FASE3.md](FASE3.md). No se activa un servidor privado ni un proveedor de pago desde GitHub Pages.

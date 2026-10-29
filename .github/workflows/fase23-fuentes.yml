@@ -1,0 +1,64 @@
+name: Fase 2-3 - Salud de fuentes gratuitas
+on:
+  schedule:
+    - cron: '27 4 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ['tools/fase23/monitor_publico.py', 'backend/dominus/connectors.py', '.github/workflows/fase23-fuentes.yml']
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: fase23-fuentes
+  cancel-in-progress: false
+jobs:
+  fuentes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install httpx==0.28.1 defusedxml==0.7.1
+      - name: Recuperar último estado público
+        run: |
+          mkdir -p monitor
+          if git fetch --depth 1 origin datos-fase23; then
+            git show FETCH_HEAD:estado.json > monitor/estado.json
+          fi
+      - name: Consultar fuentes sin claves ni expedientes
+        run: python tools/fase23/monitor_publico.py --salida monitor/estado.json
+      - name: Publicar solo metadatos del monitor en rama separada
+        run: |
+          cp monitor/estado.json /tmp/fase23-estado.json
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          if git fetch --depth 1 origin datos-fase23; then
+            git worktree add --detach /tmp/fase23-publico FETCH_HEAD
+          else
+            git worktree add --detach /tmp/fase23-publico HEAD
+            cd /tmp/fase23-publico
+            git checkout --orphan fase23-monitor
+            git rm -rf .
+            cd "$GITHUB_WORKSPACE"
+          fi
+          cp /tmp/fase23-estado.json /tmp/fase23-publico/estado.json
+          cd /tmp/fase23-publico
+          git add estado.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Fase 2-3: estado de fuentes públicas gratuitas'
+            git push origin HEAD:datos-fase23
+          fi
+  publicar:
+    needs: fuentes
+    uses: ./.github/workflows/pages.yml
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    secrets: inherit
