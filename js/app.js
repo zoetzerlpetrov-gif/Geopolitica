@@ -555,8 +555,25 @@ function cerrarFicha() {
 }
 
 // ---------- Datos ----------
-async function cargarEventos() {
-  const data = await getJSON("data/events.json", { bust: true });
+/** Copia de events.json que el service worker guardó en la visita anterior (o null). */
+async function copiaEventos() {
+  try {
+    const r = await caches.match(new URL("data/events.json", location.href).href);
+    return r ? { ...(await r.json()), _copia: true } : null;
+  } catch (e) { return null; }
+}
+
+// Con red lenta, events.json (≈1 MB comprimido) puede tardar más de 20 s. Al arrancar, si a los 6 s no ha llegado y hay
+// copia de la visita anterior, se muestra la copia y la versión nueva se aplica cuando termine de bajar.
+let eventosPendientes = null;
+async function cargarEventos({ inicial = false, datos = null } = {}) {
+  const red = datos || getJSON("data/events.json", { bust: true });
+  let data;
+  if (inicial) {
+    const espera = new Promise((ok) => setTimeout(ok, 6000)).then(copiaEventos);
+    data = await Promise.race([red, espera.then((c) => c || red)]);
+    if (data._copia) { eventosPendientes = red; console.info("events.json tarda: se usa la copia de la visita anterior mientras baja."); }
+  } else data = await red;
   eventos = data.eventos;
   const n = Number(new URLSearchParams(location.search).get("carga"));
   if (n > 0) eventos = eventos.concat(eventosSinteticos(Math.min(n, 200000)));
@@ -648,7 +665,7 @@ async function main() {
   const pChoke = getJSON("config/chokepoints.json");
   const pRunLog = getJSON("data/run-log.json", { bust: true });
   const pRegiones = getJSON("config/regions.json");
-  const pEventos = pTax.then((t) => { tax = prepararTaxonomia(t); return cargarEventos(); });
+  const pEventos = pTax.then((t) => { tax = prepararTaxonomia(t); return cargarEventos({ inicial: true }); });
   const base = await estiloBase(tema, { lite });
   // LITE: si index.html ya descargó el mapa base local, se entrega como objeto (el worker no lo vuelve a pedir).
   if (base.local) {
@@ -967,14 +984,19 @@ async function main() {
   btnLite.onclick = () => { storage.set("gp_lite", lite ? "0" : "1"); location.reload(); };
 
   arranque.listo = true;
-  iniciarRefresco({
-    runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"),
-    onNuevosDatos: async () => {
-      const antes = new Set(porId.keys());
-      await cargarEventos(); featureTxt.clear(); porId = new Map(eventos.map((e) => [e.id, e])); linea.setEventos(eventos); await aplicarFiltros(); pintarSeguimiento();
-      avisarNuevos(idsNuevos(antes, eventos));
-    },
-  });
+  const recargarEventos = async (datos = null) => {
+    const antes = new Set(porId.keys());
+    await cargarEventos({ datos }); featureTxt.clear(); porId = new Map(eventos.map((e) => [e.id, e])); linea.setEventos(eventos); await aplicarFiltros(); pintarSeguimiento();
+    avisarNuevos(idsNuevos(antes, eventos));
+  };
+  iniciarRefresco({ runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"), onNuevosDatos: () => recargarEventos() });
+  if (eventosPendientes) {
+    const aviso = $("aviso-base");
+    aviso.textContent = "Red lenta: se muestran los eventos de tu visita anterior mientras bajan los nuevos.";
+    aviso.hidden = false;
+    recargarEventos(eventosPendientes).then(() => { aviso.hidden = true; }).catch((e) => console.warn("events.json:", e.message));
+    eventosPendientes = null;
+  }
 }
 
 // ---------- Eventos nuevos: parpadeo de 60 s, marca NUEVO 1 h y sonido opcional ----------
@@ -2211,7 +2233,8 @@ function pintarSeguimiento() {
 }
 
 // Service worker: guarda MapLibre, estilos, fuentes y mosaicos del mapa base para que la segunda
-// visita no los vuelva a descargar. Los datos (events.json, run-log.json) siempre se piden a la red primero.
+// visita no los vuelva a descargar. Los datos (events.json, run-log.json) siempre se piden a la red primero; si
+// events.json tarda más de 6 s al abrir, se muestra la copia guardada y la nueva se aplica al llegar.
 if ("serviceWorker" in navigator && location.protocol === "https:") {
   navigator.serviceWorker.register("sw.js").catch((e) => console.warn("service worker:", e.message));
   // Si ya había un service worker y se instala uno nuevo (se publicó una versión), se recarga una vez para que
