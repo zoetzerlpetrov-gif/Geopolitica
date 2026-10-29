@@ -1,0 +1,555 @@
+{
+ "revisado": "2026-10-29",
+ "nota": "Zonas de México en seguimiento (Fase 5). DOMINUS no copia anuncios: cada botón abre la búsqueda en el portal o en el buscador y ahí ves la oferta del día. Las coordenadas marcan el centro aproximado de la zona. Los riesgos son un resumen general; el evaluador calcula el riesgo del punto exacto. Las referencias de precio son de prensa y se citan con fecha. No es recomendación de inversión.",
+ "portales": [
+  {
+   "nombre": "Inmuebles24",
+   "dominio": "inmuebles24.com"
+  },
+  {
+   "nombre": "Vivanuncios",
+   "dominio": "vivanuncios.com.mx"
+  },
+  {
+   "nombre": "Propiedades.com",
+   "dominio": "propiedades.com"
+  },
+  {
+   "nombre": "Lamudi",
+   "dominio": "lamudi.com.mx"
+  },
+  {
+   "nombre": "Pincali",
+   "dominio": "pincali.com"
+  },
+  {
+   "nombre": "Mercado Libre Inmuebles",
+   "dominio": "inmuebles.mercadolibre.com.mx"
+  },
+  {
+   "nombre": "Century 21 México",
+   "dominio": "century21mexico.com"
+  },
+  {
+   "nombre": "Engel & Völkers",
+   "dominio": "engelvoelkers.com"
+  }
+ ],
+ "oficiales": [
+  [
+   "Atlas Nacional de Riesgos (CENAPRED)",
+   "http://www.atlasnacionalderiesgos.gob.mx/"
+  ],
+  [
+   "Servicio Sismológico Nacional: catálogo de sismos",
+   "http://www2.ssn.unam.mx:8080/catalogo/"
+  ],
+  [
+   "SMN/Conagua: ciclones tropicales",
+   "https://smn.conagua.gob.mx/es/ciclones-tropicales/informacion-historica"
+  ],
+  [
+   "SESNSP: incidencia delictiva por municipio",
+   "https://www.gob.mx/sesnsp/acciones-y-programas/incidencia-delictiva-del-fuero-comun-nueva-metodologia"
+  ],
+  [
+   "Registro Agrario Nacional (tierras ejidales y comunales)",
+   "https://www.gob.mx/ran"
+  ],
+  [
+   "SHF: precios de la vivienda por estado",
+   "https://www.gob.mx/shf"
+  ],
+  [
+   "INDEP: subastas de inmuebles del gobierno",
+   "https://www.indep.gob.mx/"
+  ]
+ ],
+ "zonas": [
+  {
+   "id": "mer-norte",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Mérida norte: Temozón Norte, Altabrisa, Montebello",
+   "lat": 21.035,
+   "lon": -89.605,
+   "radio_km": 6,
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Temozón Norte",
+    "Altabrisa",
+    "Montebello",
+    "Santa Gertrudis Copó"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz."
+   ],
+   "referencias": [
+    {
+     "texto": "Prensa local (enero de 2026): casas en Altabrisa, Montebello, Temozón Norte y Santa Gertrudis Copó entre 3.5 y 6 millones de pesos en promedio.",
+     "fuente": "Por Esto!",
+     "url": "https://www.poresto.com/yucatan/merida/2026/1/8/costo-de-la-venta-de-casas-en-merida-precios-promedio-en-2026.html",
+     "fecha": "2026-01-08"
+    }
+   ],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-cholul-conkal",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Cholul, Sitpach y Conkal: terrenos en privada",
+   "lat": 21.05,
+   "lon": -89.55,
+   "radio_km": 7,
+   "tipos": [
+    "terreno",
+    "casa"
+   ],
+   "colonias": [
+    "Cholul",
+    "Sitpach",
+    "Conkal",
+    "Chablekal"
+   ],
+   "riesgos": [
+    "Mismo perfil natural que Mérida norte (huracanes, suelo cárstico, calor).",
+    "Muchos lotes vienen de tierras ejidales: exige escritura con dominio pleno y consulta el Registro Agrario Nacional antes de apartar.",
+    "Preventas con urbanización por terminar: pide licencia de fraccionamiento del municipio y el calendario de obra por escrito."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-poniente",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Poniente: Ciudad Caucel y Las Américas (vivienda de desarrolladoras, SADASI)",
+   "lat": 20.995,
+   "lon": -89.7,
+   "radio_km": 6,
+   "tipos": [
+    "casa"
+   ],
+   "colonias": [
+    "Ciudad Caucel",
+    "Las Américas",
+    "Juan Pablo II",
+    "Francisco de Montejo"
+   ],
+   "riesgos": [
+    "Mismo perfil natural que Mérida norte.",
+    "Zona de crecimiento rápido: revisa distancia a escuelas, hospitales y transporte, y si las calles ya fueron entregadas al municipio."
+   ],
+   "referencias": [
+    {
+     "texto": "Prensa local (enero de 2026): casas en Juan Pablo II, Francisco de Montejo, Ciudad Caucel y Las Américas entre 1.6 y 2.8 millones de pesos en promedio.",
+     "fuente": "Por Esto!",
+     "url": "https://www.poresto.com/yucatan/merida/2026/1/8/costo-de-la-venta-de-casas-en-merida-precios-promedio-en-2026.html",
+     "fecha": "2026-01-08"
+    }
+   ],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-haciendas",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Haciendas en los municipios alrededor de Mérida (única excepción al sur)",
+   "lat": 20.8,
+   "lon": -89.55,
+   "radio_km": 60,
+   "tipos": [
+    "hacienda"
+   ],
+   "colonias": [
+    "Tecoh",
+    "Timucuy",
+    "Abalá",
+    "Muna",
+    "Maxcanú",
+    "Huhí"
+   ],
+   "riesgos": [
+    "Cascos antiguos: muros de mampostería y techos de vigas; pide un dictamen estructural.",
+    "Pueden tener protección del INAH como monumento histórico: cualquier obra requiere permiso.",
+    "Tierras ejidales alrededor del casco: confirma en el Registro Agrario Nacional qué superficie es propiedad privada.",
+    "Agua de pozo y cenotes: revisa la concesión de agua (Conagua)."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "man-gaviotas",
+   "ciudad": "Manzanillo",
+   "estado": "Colima",
+   "zona": "Las Gaviotas, Salahua y Playa Azul",
+   "lat": 19.09,
+   "lon": -104.31,
+   "radio_km": 4,
+   "tipos": [
+    "departamento",
+    "condominio de playa"
+   ],
+   "colonias": [
+    "Las Gaviotas",
+    "Soleares",
+    "Salahua",
+    "Playa Azul",
+    "Palma Real"
+   ],
+   "riesgos": [
+    "Sismos y tsunamis: costa sobre la zona de subducción del Pacífico (sismos de 1995 M8.0, con tsunami, y de 2003 M7.4 en Tecomán).",
+    "Huracanes del Pacífico (por ejemplo Jova en 2011).",
+    "El Volcán de Colima está a unos 100 km: la ceniza puede llegar con ciertos vientos.",
+    "Inseguridad: el estado de Colima ha tenido en años recientes de las tasas de homicidio más altas del país; revisa las cifras del municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "man-santiago",
+   "ciudad": "Manzanillo",
+   "estado": "Colima",
+   "zona": "Península de Santiago, Las Hadas y Olas Altas (condominios de playa)",
+   "lat": 19.1,
+   "lon": -104.355,
+   "radio_km": 4,
+   "tipos": [
+    "condominio de playa",
+    "departamento"
+   ],
+   "colonias": [
+    "Península de Santiago",
+    "Las Hadas",
+    "Olas Altas",
+    "Club Santiago"
+   ],
+   "riesgos": [
+    "Mismo perfil que Las Gaviotas (sismos, tsunami, huracanes, inseguridad estatal).",
+    "Condominios en ladera: revisa muros de contención y cuotas de mantenimiento (algunas son trimestrales y altas)."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "pac-sur",
+   "ciudad": "Pachuca de Soto",
+   "estado": "Hidalgo",
+   "zona": "Sur y oriente: Fracc. del Sur, Forjadores, Villas de Pachuca y San Antonio el Desmonte",
+   "lat": 20.07,
+   "lon": -98.765,
+   "radio_km": 5,
+   "precision": "aproximada: verifica cada colonia con «Buscar coordenadas»",
+   "tipos": [
+    "casa",
+    "departamento"
+   ],
+   "colonias": [
+    "Fraccionamiento del Sur",
+    "Forjadores de Pachuca",
+    "Villas de Pachuca",
+    "San Antonio el Desmonte"
+   ],
+   "riesgos": [
+    "Sismicidad baja a moderada.",
+    "Antigua zona minera: en algunos barrios hay galerías bajo la ciudad; pide al municipio el uso de suelo y, si hay grietas, un estudio de suelo.",
+    "Vientos fuertes en febrero y marzo.",
+    "Abasto de agua: pregunta por tandeo en la colonia (CAASIM)."
+   ],
+   "referencias": [],
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "aca-diamante",
+   "ciudad": "Acapulco",
+   "estado": "Guerrero",
+   "zona": "Acapulco Diamante: Punta Diamante, Playa Diamante y Revolcadero",
+   "lat": 16.79,
+   "lon": -99.81,
+   "radio_km": 6,
+   "tipos": [
+    "departamento",
+    "condominio de playa",
+    "casa"
+   ],
+   "colonias": [
+    "Punta Diamante",
+    "Playa Diamante",
+    "Revolcadero",
+    "Granjas del Marqués"
+   ],
+   "riesgos": [
+    "Huracanes: Otis (octubre de 2023, categoría 5) y John (septiembre de 2024) causaron daños graves; pide evidencia de reparaciones estructurales y vidrios certificados.",
+    "Sismos y tsunamis: costa de Guerrero, una de las zonas de subducción más activas de México.",
+    "Zonas bajas de Revolcadero y Playa Diamante se inundan con lluvias intensas.",
+    "Inseguridad: Guerrero y Acapulco tienen tasas altas de homicidio y extorsión; revisa el SESNSP y avisos de viaje."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "aca-costera",
+   "ciudad": "Acapulco",
+   "estado": "Guerrero",
+   "zona": "Costera Miguel Alemán (Acapulco Dorado)",
+   "lat": 16.855,
+   "lon": -99.875,
+   "radio_km": 4,
+   "tipos": [
+    "departamento",
+    "condominio de playa"
+   ],
+   "colonias": [
+    "Costa Azul",
+    "Club Deportivo",
+    "Icacos",
+    "Hornos"
+   ],
+   "riesgos": [
+    "Mismo perfil que Acapulco Diamante.",
+    "Edificios de los años setenta y ochenta: pide dictamen estructural posterior a Otis y revisa el fondo de reserva del condominio."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "ixz-ixtapa",
+   "ciudad": "Ixtapa",
+   "estado": "Guerrero",
+   "zona": "Ixtapa: zona hotelera y Marina",
+   "lat": 17.66,
+   "lon": -101.61,
+   "radio_km": 4,
+   "tipos": [
+    "departamento",
+    "condominio de playa"
+   ],
+   "colonias": [
+    "Zona hotelera",
+    "Marina Ixtapa"
+   ],
+   "riesgos": [
+    "Sismos: costa de Guerrero (sismo de Papanoa de 2014, M7.2).",
+    "Huracanes del Pacífico.",
+    "Terrenos de FONATUR: confirma que el lote ya tiene escritura individual.",
+    "Inseguridad estatal de Guerrero; revisa el municipio de Zihuatanejo de Azueta en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "ixz-zihua",
+   "ciudad": "Zihuatanejo",
+   "estado": "Guerrero",
+   "zona": "Zihuatanejo: La Ropa, La Madera y El Almacén",
+   "lat": 17.632,
+   "lon": -101.548,
+   "radio_km": 3,
+   "tipos": [
+    "departamento",
+    "casa",
+    "condominio de playa"
+   ],
+   "colonias": [
+    "Playa La Ropa",
+    "La Madera",
+    "El Almacén"
+   ],
+   "riesgos": [
+    "Mismo perfil que Ixtapa.",
+    "Laderas de La Madera: revisa deslaves en lluvias."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "pes",
+   "ciudad": "Puerto Escondido",
+   "estado": "Oaxaca",
+   "zona": "Zicatela, La Punta, Bacocho y Rinconada",
+   "lat": 15.86,
+   "lon": -97.07,
+   "radio_km": 5,
+   "tipos": [
+    "casa",
+    "condominio de playa",
+    "terreno"
+   ],
+   "colonias": [
+    "Zicatela",
+    "La Punta",
+    "Bacocho",
+    "Rinconada",
+    "Brisas de Zicatela"
+   ],
+   "riesgos": [
+    "Sismos: costa de Oaxaca muy activa (Pinotepa 2018 M7.2; Huatulco 2020 M7.4).",
+    "Huracán Agatha (2022) tocó tierra en esta costa.",
+    "Muchos terrenos son de bienes comunales o ejidales: exige escritura pública inscrita y consulta el Registro Agrario Nacional.",
+    "Agua escasa en temporada seca: pregunta por pozo, pipa o red municipal."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "hux",
+   "ciudad": "Santa María Huatulco",
+   "estado": "Oaxaca",
+   "zona": "Tangolunda, Chahué, Santa Cruz y Conejos",
+   "lat": 15.765,
+   "lon": -96.13,
+   "radio_km": 7,
+   "tipos": [
+    "departamento",
+    "condominio de playa",
+    "casa"
+   ],
+   "colonias": [
+    "Tangolunda",
+    "Chahué",
+    "Santa Cruz",
+    "Conejos",
+    "La Crucecita"
+   ],
+   "riesgos": [
+    "Sismo de 2020 (M7.4) con epicentro cerca de La Crucecita; costa sujeta a tsunamis.",
+    "Huracanes del Pacífico (Agatha 2022 en la costa de Oaxaca).",
+    "Desarrollo planeado por FONATUR: confirma la escritura individual del lote y el reglamento del condominio.",
+    "Parque Nacional Huatulco al lado: no se construye dentro de sus límites."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "ver-boca",
+   "ciudad": "Boca del Río",
+   "estado": "Veracruz",
+   "zona": "Boca del Río: Costa de Oro, Mocambo, Once Once Mocambo y Residencial El Dorado",
+   "lat": 19.13,
+   "lon": -96.11,
+   "radio_km": 5,
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Costa de Oro",
+    "Mocambo",
+    "Once Once Mocambo",
+    "Residencial El Dorado",
+    "Fraccionamiento Las Lomas"
+   ],
+   "riesgos": [
+    "Inundaciones: zonas bajas junto a los ríos Jamapa y Cotaxtla (huracán Karl, 2010).",
+    "Nortes (frentes fríos) con rachas fuertes de octubre a marzo, y huracanes del Golfo.",
+    "Salitre: revisa corrosión de varillas en edificios cercanos al mar.",
+    "Inseguridad: Veracruz tiene alta incidencia de extorsión; revisa Boca del Río y Veracruz en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "ver-riviera",
+   "ciudad": "Alvarado (Riviera Veracruzana)",
+   "estado": "Veracruz",
+   "zona": "Riviera Veracruzana: Punta Tiburón, Playas del Conchal y Lomas",
+   "lat": 19.05,
+   "lon": -96.07,
+   "radio_km": 7,
+   "tipos": [
+    "casa",
+    "departamento",
+    "terreno"
+   ],
+   "colonias": [
+    "Punta Tiburón",
+    "Playas del Conchal",
+    "Lomas Residencial",
+    "Riviera Veracruzana"
+   ],
+   "riesgos": [
+    "Terreno bajo entre dunas, lagunas y manglar: revisa la cota del lote y el historial de inundación.",
+    "Huracanes y nortes del Golfo.",
+    "Pertenece en su mayoría al municipio de Alvarado: el predial, el agua y la seguridad dependen de ese municipio, no de Boca del Río.",
+    "Zona federal marítimo-terrestre de 20 m: no se compra, solo se concesiona (SEMARNAT)."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "mor-altozano",
+   "ciudad": "Morelia",
+   "estado": "Michoacán",
+   "zona": "Sur-oriente: Paseo Altozano y Tres Marías",
+   "lat": 19.672,
+   "lon": -101.155,
+   "radio_km": 4,
+   "tipos": [
+    "casa",
+    "departamento",
+    "terreno"
+   ],
+   "colonias": [
+    "Altozano",
+    "Tres Marías",
+    "Paseo Altozano"
+   ],
+   "riesgos": [
+    "Morelia tiene fallas geológicas con hundimiento del terreno en varias colonias; pide al municipio el atlas de riesgos de la colonia.",
+    "Lomas con pendiente: revisa deslaves y muros de contención.",
+    "Inseguridad: Michoacán tiene alta incidencia de extorsión y homicidio; revisa el municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "mor-poniente",
+   "ciudad": "Morelia",
+   "estado": "Michoacán",
+   "zona": "Vasco de Quiroga y Venti Abedules",
+   "lat": 19.7,
+   "lon": -101.21,
+   "radio_km": 5,
+   "precision": "aproximada: verifica cada colonia con «Buscar coordenadas»",
+   "tipos": [
+    "casa",
+    "departamento"
+   ],
+   "colonias": [
+    "Vasco de Quiroga",
+    "Venti Abedules"
+   ],
+   "riesgos": [
+    "Mismo perfil de fallas y hundimientos que el resto de Morelia.",
+    "Inseguridad estatal de Michoacán."
+   ],
+   "referencias": [],
+   "pais_iso3": "MEX"
+  }
+ ]
+}

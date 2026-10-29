@@ -1,6 +1,7 @@
 // Interfaz de inmuebles.html: evaluador de riesgo por ubicación, lista propia y fuentes oficiales por país.
 import { esc, safeUrl, getJSON } from "./util.js";
 import * as R from "./inmuebles-logica.js";
+import * as Z from "./inmuebles-zonas.js";
 
 const $ = (id) => document.getElementById(id);
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
@@ -65,6 +66,25 @@ import("./exportar.js").then((X) => {
     filtradas(), { titulo: "Desarrollos inmobiliarios en seguimiento", nota: "Precios publicados por las desarrolladoras en la fecha de consulta; confirmar antes de decidir." });
 });
 $("de-tabla").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-evaluar]");
+  if (!b) return;
+  const [la, lo, iso] = b.dataset.evaluar.split(",");
+  prellenar({ lat: la, lon: lo, pais: iso, nombre: b.dataset.nombre });
+});
+
+// ------------------------------------------------------------------ zonas de México (Fase 5)
+const zonas = await getJSON("config/inmuebles_zonas_mx.json").catch(() => ({ zonas: [], portales: [], oficiales: [] }));
+$("zo-nota").textContent = `${zonas.nota || ""} Revisado: ${zonas.revisado || "—"}.`;
+$("zo-ciudad").innerHTML += Z.ciudadesZonas(zonas).map((c) => `<option>${esc(c)}</option>`).join("");
+$("zo-tipo").innerHTML += [...new Set(zonas.zonas.flatMap((z) => z.tipos))].sort().map((t) => `<option>${esc(t)}</option>`).join("");
+$("zo-oficiales").innerHTML = enlaces(zonas.oficiales || []);
+function pintarZonas() {
+  const f = Z.filtrarZonas(zonas, { ciudad: $("zo-ciudad").value, tipo: $("zo-tipo").value });
+  $("zo-lista").innerHTML = f.length ? f.map((z) => Z.htmlZona(z, zonas.portales, ofertas, $("zo-tipo").value)).join("") : `<p class="meta">Sin zonas con ese filtro.</p>`;
+}
+for (const id of ["zo-ciudad", "zo-tipo"]) $(id).addEventListener("change", pintarZonas);
+pintarZonas();
+$("zo-lista").addEventListener("click", (e) => {
   const b = e.target.closest("[data-evaluar]");
   if (!b) return;
   const [la, lo, iso] = b.dataset.evaluar.split(",");
