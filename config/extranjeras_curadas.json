@@ -1,0 +1,19 @@
+{
+ "nota": "Empresas de origen extranjero en México que no aparecen en Wikidata ni en GLEIF, agregadas a mano con una fuente pública citada. Solo nombre, país de origen, giro, una nota propia breve y las fuentes. Para sugerir otra, agrega la fuente: sin fuente no entra.",
+ "revisado": "2026-10-29",
+ "empresas": [
+  {"filial": "ODIS Asversa, S.A. de C.V.", "matriz": "ODIS (Israel)", "iso": "IL", "pais": "Israel", "industrias": ["agua: tratamiento y reciclaje"],
+   "nota": "Diseña, fabrica y opera sistemas de tratamiento y reciclaje de agua. Según BNamericas, la empresa se fundó en Israel en 1972 y está en Ciudad de México desde 1992. En 2018 la CESPT (Tijuana) le adjudicó el acueducto de agua tratada al Valle de Guadalupe; Zeta Tijuana publicó cuestionamientos sobre el contrato y los permisos (2018-2019).",
+   "fuentes": [["BNamericas: ficha de la empresa", "https://bnamericas.com/en/company-profile/odis-asversa-sa-de-cv-odis-asversa"],
+               ["Zeta Tijuana (2018): adjudicación del acueducto al Valle de Guadalupe", "https://zetatijuana.com/2018/05/sin-contrato-adjudican-a-israelies-acueducto-para-vinedos/"],
+               ["Mexico News Daily: acueducto de agua reciclada de Tijuana al Valle de Guadalupe", "https://mexiconewsdaily.com/news/aqueduct-will-carry-recycled-water-from-tijuana-to-bajas-winemakers/"]]},
+  {"filial": "Netafim México (plantas en Reynosa, Culiacán y Hermosillo)", "matriz": "Netafim (origen israelí; desde 2018 de Orbia, empresa mexicana)", "iso": "IL", "pais": "Israel", "industrias": ["agua: riego por goteo", "plásticos agrícolas"],
+   "nota": "Fabricante de riego por goteo fundado en Israel. Opera una planta en Reynosa, una recicladora de mangueras de riego en Culiacán (2022) y una planta en Hermosillo (junio de 2026). Su dueña mayoritaria es Orbia, de México, así que por matriz ya no es extranjera.",
+   "fuentes": [["Orbia: programa de reciclaje de Netafim en México (Culiacán)", "https://www.orbia.com/this-is-orbia/news-and-stories/Orbias-Precision-Agriculture-Business-Netafim-Launches-Full-Scale-Circularity-Program-in-Mexico/"],
+               ["Expansión (2026): planta de Orbia Netafim en Hermosillo", "https://expansion.mx/empresas/2026/06/04/orbia-netafim-planta-hermosillo-riego-precision-america"]]},
+  {"filial": "Mekorot (convenio con Conagua, sin filial identificada)", "matriz": "Mekorot, empresa nacional de agua de Israel", "iso": "IL", "pais": "Israel", "industrias": ["agua: gestión y cooperación técnica"],
+   "nota": "Firmó un convenio de cooperación con Conagua en 2013 y trabajó una planta piloto y una estrategia de manejo del agua para la Comarca Lagunera. No se encontró un comunicado oficial posterior que dé por terminado el convenio. Es un acuerdo con el gobierno, no una empresa registrada en México.",
+   "fuentes": [["iAgua (2015): Conagua y Mekorot, segunda fase en la Comarca Lagunera", "https://www.iagua.es/noticias/mexico/conagua/15/11/10/conagua-y-mekorot-desarrollan-segunda-fase-solucionar-problemas"],
+               ["El Imparcial (oct. 2026): el acuerdo México-Israel por el agua", "https://www.elimparcial.com/mexico/2026/10/14/mexico-e-israel-firmaron-acuerdo-por-el-agua-que-prometia-remediacion-y-tecnologia-para-optimizar-su-uso/"]]}
+ ]
+}

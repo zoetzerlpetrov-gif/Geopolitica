@@ -89,18 +89,55 @@ export function industriasExtranjeras(d) {
 export function filtrarExtranjeras(d, { q = "", iso = "", industria = "" } = {}, max = 200) {
   q = q.trim();
   const res = (d?.empresas || []).filter((r) => (!iso || r.iso === iso) && (!industria || (r.industrias || []).includes(industria))
-    && (q.length < MIN_BUSQUEDA || contiene(`${r.matriz} ${r.filial} ${(r.industrias || []).join(" ")}`, q)));
+    && (q.length < MIN_BUSQUEDA || contiene(`${r.matriz} ${r.filial} ${(r.industrias || []).join(" ")} ${r.nota || ""}`, q)));
   return { total: res.length, filas: res.slice(0, max) };
 }
 
-const VIAS = { filial_en_mexico: "filial registrada en México", declara_filial: "la matriz declara filial en México", opera_en_mexico: "la matriz declara operar en México" };
+const VIAS = { filial_en_mexico: "filial registrada en México", declara_filial: "la matriz declara filial en México", opera_en_mexico: "la matriz declara operar en México",
+  gleif: "entidad registrada en México con matriz extranjera reportada a GLEIF", curada: "agregada a mano con fuente pública" };
 
-export function htmlExtranjeras(d, { total, filas }, nombrePais = (iso, p) => p) {
-  if (!total) return `<p class="meta">Sin coincidencias en el catálogo. Wikidata está incompleta: prueba la búsqueda en GLEIF de abajo.</p>`;
+/**
+ * Une el catálogo de Wikidata con el de GLEIF (entidades con domicilio legal en México cuya matriz está en otro país) y
+ * con la lista curada (config/extranjeras_curadas.json). Las fuentes se distinguen por su vía.
+ */
+export function unirExtranjeras(wd, gleif, curadas) {
+  const empresas = [...(wd?.empresas || [])];
+  for (const r of gleif?.empresas || []) empresas.push({ ...r, vias: ["gleif"] });
+  for (const c of curadas?.empresas || []) empresas.push({ ...c, vias: ["curada"] });
+  const fuentes = [wd?.empresas?.length && "Wikidata", gleif?.empresas?.length && "GLEIF", curadas?.empresas?.length && "lista curada"].filter(Boolean);
+  return { ...wd, fuente: fuentes.join(" + ") || wd?.fuente, empresas };
+}
+
+/** Sin resultados: búsquedas armadas para seguir investigando (se abren en su sitio; DOMINUS no descarga nada). */
+export function enlacesSinResultado(q, pais = "") {
+  q = q.trim();
+  if (q.length < MIN_BUSQUEDA) return [];
+  const g = (s) => `https://www.google.com/search?q=${encodeURIComponent(s)}`;
+  return [
+    ["Razón social en México (S.A. de C.V., S. de R.L.)", g(`"${q}" "S.A. de C.V." OR "S. de R.L." México`)],
+    ["Noticias y fichas de empresa (BNamericas)", g(`site:bnamericas.com ${q} México`)],
+    ["Diario Oficial de la Federación", g(`site:dof.gob.mx ${q}`)],
+    ["Contratos públicos (ComprasMX y gobiernos estatales)", g(`${q} contrato licitación México`)],
+    ...(pais ? [[`Cámara de comercio México-${pais}`, g(`cámara de comercio México ${pais} empresas socias`)]] : []),
+  ];
+}
+
+export function htmlExtranjeras(d, { total, filas }, nombrePais = (iso, p) => p, q = "", paisFiltro = "") {
+  if (!total) {
+    const l = enlacesSinResultado(q, paisFiltro);
+    return `<p class="meta">Sin coincidencias en el catálogo (Wikidata, GLEIF y lista curada). Muchas filiales pequeñas no están en ninguno: prueba la búsqueda en GLEIF de abajo${l.length ? " o estas búsquedas" : ""}.</p>${
+      l.length ? `<ul class="fuentes">${l.map(([n, u]) => `<li>${enlace(n, u)}</li>`).join("")}</ul>` : ""}`;
+  }
   const wd = (q) => `https://www.wikidata.org/wiki/${encodeURIComponent(q)}`;
+  const gl = (lei) => `https://search.gleif.org/#/record/${encodeURIComponent(lei)}`;
+  const origen = (r) => r.matriz_qid ? enlace("Wikidata", wd(r.matriz_qid)) : r.lei ? enlace("GLEIF", gl(r.lei)) : (r.fuentes || []).map(([n, u]) => enlace(n, u)).join(" · ");
+  const ligaMatriz = (r) => r.web || (r.matriz_qid ? wd(r.matriz_qid) : r.matriz_lei ? gl(r.matriz_lei) : r.fuentes?.[0]?.[1] || "");
+  const ligaFilial = (r) => r.filial_qid ? wd(r.filial_qid) : r.lei ? gl(r.lei) : "";
+  const nom = (t, u) => (u ? enlace(t, u) : esc(t));
   return `<p class="meta">${total} registro(s)${total > filas.length ? `, se muestran ${filas.length}` : ""} · fuente: ${esc(d.fuente || "Wikidata")}</p><ul class="fuentes">${filas.map((r) =>
-    `<li>${enlace(r.matriz, r.web || wd(r.matriz_qid))} <span class="meta">(${esc(nombrePais(r.iso, r.pais))})</span>${r.filial ? ` → ${enlace(r.filial, wd(r.filial_qid))}` : ""}
-      <br><span class="meta">${r.industrias?.length ? `${esc(r.industrias.slice(0, 3).join(", "))} · ` : ""}${esc((r.vias || []).map((v) => VIAS[v] || v).join("; "))} · ${enlace("Wikidata", wd(r.matriz_qid))}</span></li>`).join("")}</ul>`;
+    `<li>${nom(r.matriz, ligaMatriz(r))} <span class="meta">(${esc(nombrePais(r.iso, r.pais))})</span>${r.filial ? ` → ${nom(r.filial, ligaFilial(r))}` : ""}
+      ${r.nota ? `<br><span class="meta">${esc(r.nota)}</span>` : ""}
+      <br><span class="meta">${r.industrias?.length ? `${esc(r.industrias.slice(0, 3).join(", "))} · ` : ""}${esc((r.vias || []).map((v) => VIAS[v] || v).join("; "))} · ${origen(r)}</span></li>`).join("")}</ul>`;
 }
 
 // GLEIF (Global Legal Entity Identifier Foundation): API pública sin llave, con CORS.

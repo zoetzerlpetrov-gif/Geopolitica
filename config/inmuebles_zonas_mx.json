@@ -76,13 +76,17 @@
    "radio_km": 6,
    "tipos": [
     "departamento",
-    "casa"
+    "casa",
+    "villa"
    ],
    "colonias": [
     "Temozón Norte",
     "Altabrisa",
     "Montebello",
-    "Santa Gertrudis Copó"
+    "Santa Gertrudis Copó",
+    "Cabo Norte",
+    "Benito Juárez Norte",
+    "San Ramón Norte"
    ],
    "riesgos": [
     "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
@@ -96,11 +100,24 @@
      "fuente": "Por Esto!",
      "url": "https://www.poresto.com/yucatan/merida/2026/1/8/costo-de-la-venta-de-casas-en-merida-precios-promedio-en-2026.html",
      "fecha": "2026-01-08"
+    },
+    {
+     "texto": "Prensa local (enero de 2026): costo de venta y renta de casas en el norte de Mérida.",
+     "fuente": "Por Esto!",
+     "url": "https://www.poresto.com/yucatan/merida/2026/1/9/costo-de-la-venta-y-renta-de-casas-en-el-norte-de-merida-precios-promedio-en-2026.html",
+     "fecha": "2026-01-09"
     }
    ],
    "precision": "zona",
    "pais_iso3": "MEX",
-   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas.",
+   "proyectos": [
+    "Macora 86 Altabrisa",
+    "Álamo Serenity Montebello",
+    "The Vibes Montebello",
+    "Balea Villas Temozón",
+    "Cabo Norte Mérida villas"
+   ]
   },
   {
    "id": "mer-cholul-conkal",
@@ -112,13 +129,17 @@
    "radio_km": 7,
    "tipos": [
     "terreno",
-    "casa"
+    "casa",
+    "villa"
    ],
    "colonias": [
     "Cholul",
     "Sitpach",
     "Conkal",
-    "Chablekal"
+    "Chablekal",
+    "San Diego Cutz",
+    "Komchén",
+    "Dzityá"
    ],
    "riesgos": [
     "Mismo perfil natural que Mérida norte (huracanes, suelo cárstico, calor).",
@@ -128,7 +149,14 @@
    "referencias": [],
    "precision": "zona",
    "pais_iso3": "MEX",
-   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas.",
+   "proyectos": [
+    "San Diego Cutz MBP Desarrollos",
+    "Praderas del Mayab Conkal",
+    "Privada Elementa Conkal",
+    "Lotes Cumbres Mérida norte",
+    "Parque Natura Cholul"
+   ]
   },
   {
    "id": "mer-poniente",
@@ -145,7 +173,10 @@
     "Ciudad Caucel",
     "Las Américas",
     "Juan Pablo II",
-    "Francisco de Montejo"
+    "Francisco de Montejo",
+    "Ciudad Caucel poniente",
+    "Hacienda Teya",
+    "Dzununcán"
    ],
    "riesgos": [
     "Mismo perfil natural que Mérida norte.",
@@ -157,11 +188,56 @@
      "fuente": "Por Esto!",
      "url": "https://www.poresto.com/yucatan/merida/2026/1/8/costo-de-la-venta-de-casas-en-merida-precios-promedio-en-2026.html",
      "fecha": "2026-01-08"
+    },
+    {
+     "texto": "Prensa local (enero de 2026): colonias de Mérida con las viviendas más baratas para venta y renta.",
+     "fuente": "Por Esto!",
+     "url": "https://www.poresto.com/yucatan/merida/2026/1/14/colonias-de-merida-con-las-viviendas-mas-baratas-en-2026-para-venta-y-renta.html",
+     "fecha": "2026-01-14"
     }
    ],
    "precision": "zona",
    "pais_iso3": "MEX",
    "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas."
+  },
+  {
+   "id": "mer-centro",
+   "ciudad": "Mérida",
+   "estado": "Yucatán",
+   "zona": "Centro histórico: casonas, villas y departamentos boutique",
+   "lat": 20.9674,
+   "lon": -89.6237,
+   "radio_km": 2.5,
+   "tipos": [
+    "villa",
+    "casa",
+    "departamento"
+   ],
+   "colonias": [
+    "Centro",
+    "Santa Ana",
+    "Santiago",
+    "Santa Lucía",
+    "La Ermita",
+    "García Ginerés",
+    "Itzimná"
+   ],
+   "proyectos": [
+    "villas en venta centro Mérida casona",
+    "departamentos boutique centro Mérida"
+   ],
+   "riesgos": [
+    "Sismicidad baja: la península de Yucatán está lejos de los límites de placas activos.",
+    "Huracanes: Gilberto (1988) e Isidoro (2002) golpearon Mérida; revisa ventanas, techos y seguro.",
+    "Suelo cárstico con cenotes y acuífero poco profundo: pide estudio de mecánica de suelos y confirma drenaje y agua potable (JAPAY o pozo).",
+    "Calor extremo en abril y mayo: la orientación de la vivienda y el aislamiento térmico cambian el gasto de luz.",
+    "Casas del Centro histórico: zona de monumentos del INAH; remodelar requiere permiso y respetar la fachada.",
+    "Revisa instalaciones eléctricas e hidráulicas antiguas y humedad en muros de mampostería."
+   ],
+   "referencias": [],
+   "excluir": "sur de Mérida (al sur del Centro hasta el Periférico sur y más allá), salvo haciendas.",
+   "precision": "zona",
+   "pais_iso3": "MEX"
   },
   {
    "id": "mer-haciendas",
@@ -549,6 +625,182 @@
     "Inseguridad estatal de Michoacán."
    ],
    "referencias": [],
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "rm-puerto-aventuras",
+   "ciudad": "Puerto Aventuras",
+   "estado": "Quintana Roo",
+   "zona": "Puerto Aventuras: marina, campo de golf y frente de playa",
+   "lat": 20.497,
+   "lon": -87.229,
+   "radio_km": 4,
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "condominio de playa",
+    "terreno"
+   ],
+   "colonias": [
+    "Puerto Aventuras",
+    "Marina Puerto Aventuras",
+    "Chac Hal Al",
+    "Fatima Bay",
+    "Punta Matzoma"
+   ],
+   "proyectos": [
+    "condominios Puerto Aventuras marina venta",
+    "casas Puerto Aventuras golf venta"
+   ],
+   "riesgos": [
+    "Fraccionamiento cerrado con cuotas de mantenimiento altas: pide el reglamento y el estado de cuenta de la asociación de colonos.",
+    "Muelles y casas en la marina: revisa permisos de la Capitanía de Puerto y estado de los muros de contención.",
+    "Huracanes del Caribe: Wilma (2005) golpeó Cancún y Playa del Carmen; Beryl (2024) tocó tierra cerca de Tulum. Revisa ventanas, techos y seguro de huracán.",
+    "Sargazo en las playas entre la primavera y el otoño: afecta la renta vacacional de frente de playa.",
+    "Suelo cárstico con cenotes y ríos subterráneos: pide estudio de mecánica de suelos y confirma el drenaje (CAPA).",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Inseguridad: Quintana Roo reporta extorsión y narcomenudeo en zonas turísticas; revisa el municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "rm-akumal",
+   "ciudad": "Akumal",
+   "estado": "Quintana Roo",
+   "zona": "Akumal y Chemuyil: bahías y frente de playa",
+   "lat": 20.396,
+   "lon": -87.315,
+   "radio_km": 5,
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "condominio de playa"
+   ],
+   "colonias": [
+    "Akumal",
+    "Half Moon Bay Akumal",
+    "Aventuras Akumal",
+    "Chemuyil",
+    "Xpu-Ha"
+   ],
+   "proyectos": [],
+   "riesgos": [
+    "Área de refugio de tortugas marinas: obras y uso de playa con restricciones ambientales.",
+    "Huracanes del Caribe: Wilma (2005) golpeó Cancún y Playa del Carmen; Beryl (2024) tocó tierra cerca de Tulum. Revisa ventanas, techos y seguro de huracán.",
+    "Sargazo en las playas entre la primavera y el otoño: afecta la renta vacacional de frente de playa.",
+    "Suelo cárstico con cenotes y ríos subterráneos: pide estudio de mecánica de suelos y confirma el drenaje (CAPA).",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Inseguridad: Quintana Roo reporta extorsión y narcomenudeo en zonas turísticas; revisa el municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "rm-playa",
+   "ciudad": "Playa del Carmen",
+   "estado": "Quintana Roo",
+   "zona": "Playa del Carmen: centro, Playacar y norte",
+   "lat": 20.629,
+   "lon": -87.074,
+   "radio_km": 6,
+   "tipos": [
+    "departamento",
+    "casa",
+    "condominio de playa",
+    "terreno"
+   ],
+   "colonias": [
+    "Centro",
+    "Playacar",
+    "Zazil-Ha",
+    "Coco Beach",
+    "Playa del Carmen norte",
+    "Selvamar"
+   ],
+   "proyectos": [],
+   "riesgos": [
+    "Huracanes del Caribe: Wilma (2005) golpeó Cancún y Playa del Carmen; Beryl (2024) tocó tierra cerca de Tulum. Revisa ventanas, techos y seguro de huracán.",
+    "Sargazo en las playas entre la primavera y el otoño: afecta la renta vacacional de frente de playa.",
+    "Suelo cárstico con cenotes y ríos subterráneos: pide estudio de mecánica de suelos y confirma el drenaje (CAPA).",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Inseguridad: Quintana Roo reporta extorsión y narcomenudeo en zonas turísticas; revisa el municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "rm-tulum",
+   "ciudad": "Tulum",
+   "estado": "Quintana Roo",
+   "zona": "Tulum: zona hotelera, Aldea Zamá, La Veleta y región 15",
+   "lat": 20.211,
+   "lon": -87.465,
+   "radio_km": 8,
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Aldea Zamá",
+    "La Veleta",
+    "Región 15",
+    "Holistika",
+    "Zona hotelera Tulum"
+   ],
+   "proyectos": [],
+   "riesgos": [
+    "Muchos terrenos vienen de ejidos: exige escritura con dominio pleno y consulta el Registro Agrario Nacional.",
+    "Parque Nacional del Jaguar y Parque Nacional Tulum alrededor: no se construye dentro de sus límites.",
+    "Sobreoferta de departamentos para renta vacacional: revisa ocupación real antes de calcular rendimiento.",
+    "Huracanes del Caribe: Wilma (2005) golpeó Cancún y Playa del Carmen; Beryl (2024) tocó tierra cerca de Tulum. Revisa ventanas, techos y seguro de huracán.",
+    "Sargazo en las playas entre la primavera y el otoño: afecta la renta vacacional de frente de playa.",
+    "Suelo cárstico con cenotes y ríos subterráneos: pide estudio de mecánica de suelos y confirma el drenaje (CAPA).",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Inseguridad: Quintana Roo reporta extorsión y narcomenudeo en zonas turísticas; revisa el municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX"
+  },
+  {
+   "id": "rm-puerto-morelos",
+   "ciudad": "Puerto Morelos",
+   "estado": "Quintana Roo",
+   "zona": "Puerto Morelos: costa, ruta de los cenotes y fraccionamientos",
+   "lat": 20.847,
+   "lon": -86.875,
+   "radio_km": 6,
+   "tipos": [
+    "departamento",
+    "casa",
+    "terreno",
+    "condominio de playa"
+   ],
+   "colonias": [
+    "Puerto Morelos",
+    "Ruta de los Cenotes",
+    "Villas Morelos",
+    "Pescadores"
+   ],
+   "proyectos": [],
+   "riesgos": [
+    "Arrecife protegido (Parque Nacional Arrecife de Puerto Morelos): límites a obras en costa.",
+    "Huracanes del Caribe: Wilma (2005) golpeó Cancún y Playa del Carmen; Beryl (2024) tocó tierra cerca de Tulum. Revisa ventanas, techos y seguro de huracán.",
+    "Sargazo en las playas entre la primavera y el otoño: afecta la renta vacacional de frente de playa.",
+    "Suelo cárstico con cenotes y ríos subterráneos: pide estudio de mecánica de suelos y confirma el drenaje (CAPA).",
+    "Zona federal marítimo-terrestre (20 m desde la pleamar): no se compra, se usa por concesión de SEMARNAT.",
+    "Inseguridad: Quintana Roo reporta extorsión y narcomenudeo en zonas turísticas; revisa el municipio en el SESNSP."
+   ],
+   "referencias": [],
+   "precision": "zona",
    "pais_iso3": "MEX"
   }
  ]

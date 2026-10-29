@@ -68,6 +68,7 @@ export function htmlZona(z, portales, ofertas = [], tipoElegido = "", { idioma =
   return `<details class="tarjeta" data-zona="${esc(z.id)}"><summary>${pais && z.pais_iso3 !== "MEX" ? `${esc(pais.nombre)} · ` : ""}<b>${esc(z.ciudad)}</b> · ${esc(z.zona)} <span class="meta">(${esc(z.tipos.join(", "))}${cerca.length ? ` · ${cerca.length} desarrollo(s) en seguimiento` : ""})</span></summary>
     ${tipos.map((t) => `<p><b>Buscar ${esc(t)} (solo enlace):</b> ${enlacesZona(z, portales, { tipo: t, idioma }).map(([n, u]) => a(n, u)).join(" · ")}</p>`).join("")}
     <p><b>Por ${z.pais_iso3 === "MEX" ? "colonia" : "barrio o lugar"}:</b> ${z.colonias.map((c) => a(c, enlacesZona(z, [], { tipo: tipos[0], colonia: c, idioma })[0][1])).join(" · ")}</p>
+    ${(z.proyectos || []).length ? `<p><b>Proyectos y desarrolladoras (búsqueda por nombre):</b> ${z.proyectos.map((n) => a(n, `https://www.google.com/search?q=${encodeURIComponent(n)}`)).join(" · ")}</p>` : ""}
     ${z.excluir ? `<p class="meta">Fuera de alcance: ${esc(z.excluir)}</p>` : ""}
     ${compra ? `<p><b>🇲🇽 Para una persona mexicana:</b> ${esc(compra)}</p>` : ""}
     ${riesgos.length ? `<p><b>Riesgos de la zona y del país</b></p><ul class="lista-corta">${riesgos.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
