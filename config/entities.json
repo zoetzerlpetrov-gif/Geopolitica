@@ -107,8 +107,9 @@
    "nombre": "adsb.lol",
    "url": "https://adsb.lol",
    "licencia": "ODbL 1.0",
-   "uso_comercial": true,
-   "licencia_verificada": false
+   "uso_comercial": null,
+   "licencia_verificada": false,
+   "nota": "Por verificar: su historial se publica con ODbL, pero la API no declara licencia y anuncia que pedirá llave."
   },
   "aisstream": {
    "nombre": "AISStream.io",
@@ -121,8 +122,9 @@
    "nombre": "CelesTrak (grupos GP/OMM) · descarga automática en pausa por su robots.txt; se usa la última copia renovada con SatNOGS",
    "url": "https://celestrak.org",
    "licencia": "Uso libre con atribución; su robots.txt prohíbe a programas /NORAD/elements/gp*.php y /pub/",
-   "uso_comercial": true,
-   "licencia_verificada": false
+   "uso_comercial": null,
+   "licencia_verificada": false,
+   "nota": "Por verificar: CelesTrak no publica licencia y sus datos vienen de Space-Track, cuyos términos limitan la redistribución. En la versión de pago solo se usan los satélites de SatNOGS (CC BY-SA 4.0)."
   },
   "ofac": {
    "nombre": "OFAC SDN (Tesoro de EUA)",

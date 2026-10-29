@@ -39,6 +39,7 @@ import fuentes as F  # noqa: E402
 VIVOS = os.path.join(ROOT, "vivos")
 OUT_CORTES = os.path.join(VIVOS, "red_cortes.geojson")
 OUT_C2 = os.path.join(VIVOS, "red_c2.geojson")
+OUT_C2_COM = os.path.join(VIVOS, "red_c2_comercial.geojson")  # solo abuse.ch (CC0): versión de pago
 OUT_ICS = os.path.join(VIVOS, "red_ics.geojson")
 ESTADO_ICS = os.path.join(VIVOS, "red_ics_estado.json")
 
@@ -317,6 +318,7 @@ def c2_por_pais(ips, geo, paises):
 def paso_c2(paises, ahora):
     geo, mes = cargar_dbip(ahora)
     ips, estado = {}, {}
+    comerciales = {}  # solo abuse.ch (CC0); C2IntelFeeds es CC BY-NC-SA y queda fuera de la versión de pago
     llave = os.environ.get("ABUSECH_AUTH_KEY", "").strip()
     for nombre, url, leer in (("threatfox", THREATFOX, ips_threatfox_api), ("feodo", FEODO, ips_feodo), ("c2intel", C2INTEL, ips_c2intel)):
         try:
@@ -332,6 +334,8 @@ def paso_c2(paises, ahora):
                 nuevas = leer(datos.decode("utf-8", "replace") if nombre == "c2intel" else json.loads(datos))
             for ip, fam in nuevas.items():
                 ips.setdefault(ip, fam)
+                if nombre != "c2intel":
+                    comerciales.setdefault(ip, fam)
             estado[nombre] = f"ok ({len(nuevas)} IP)"
         except Exception as e:  # noqa: BLE001
             estado[nombre] = f"error: {e}"[:160]
@@ -340,7 +344,11 @@ def paso_c2(paises, ahora):
     feats, sin = c2_por_pais(ips, geo, paises)
     escribir(OUT_C2, {"type": "FeatureCollection", "generado_utc": iso(ahora), "ventana_h": 48, "total_ip": len(ips), "sin_pais": sin,
                       "geoip": f"DB-IP IP to Country Lite {mes} (CC BY 4.0)", "fuentes": estado, "features": feats})
-    return f"ok ({len(ips)} IP en {len(feats)} países; {estado})"
+    feats_c, sin_c = c2_por_pais(comerciales, geo, paises)
+    escribir(OUT_C2_COM, {"type": "FeatureCollection", "generado_utc": iso(ahora), "ventana_h": 48, "total_ip": len(comerciales), "sin_pais": sin_c,
+                          "geoip": f"DB-IP IP to Country Lite {mes} (CC BY 4.0)", "fuentes": {k: v for k, v in estado.items() if k != "c2intel"},
+                          "features": feats_c})
+    return f"ok ({len(ips)} IP en {len(feats)} países; solo abuse.ch: {len(comerciales)} IP; {estado})"
 
 
 # ------------------------------------------------------------------ 3. avisos ICS de CISA (CSAF)

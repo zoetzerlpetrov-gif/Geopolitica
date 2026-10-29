@@ -203,5 +203,41 @@
   "pendiente_pago": "Para uso comercial hay que pagar un plan o una licencia.",
   "pendiente_permiso": "Para uso comercial hay que pedir permiso por escrito al proveedor (puede pedir pago).",
   "por_verificar": "No se encontró el término de uso comercial; leerlo o preguntar al proveedor antes de lanzar."
+ },
+ "version_pago": {
+  "_nota": "Lo que la versión de pago NO muestra (solo quien administra lo ve). Además se ocultan las capas y subtipos cuya fuente en config/entities.json no tiene uso_comercial = true. Simulación en el sitio público: ?vista=pago. En el repositorio comercial, los archivos de datos de estas fuentes tampoco se publican para quien paga.",
+  "riesgos_solo_admin": {
+   "pronostico": "Open-Meteo (API gratuita solo no comercial). Sustituto en preparación: MET Norway.",
+   "nortes": "Open-Meteo. Sustituto en preparación: MET Norway.",
+   "mar_fondo": "Open-Meteo Marine. Sustituto en preparación: NOAA GFS-Wave.",
+   "aire": "Open-Meteo Air Quality. Sustituto: CAMS de Copernicus, requiere cuenta gratuita de ECMWF.",
+   "gfw_apagados": "Global Fishing Watch (CC BY-NC 4.0).",
+   "gfw_encuentros": "Global Fishing Watch (CC BY-NC 4.0).",
+   "gfw_merodeo": "Global Fishing Watch (CC BY-NC 4.0).",
+   "gfw_pesca_mx": "Global Fishing Watch (CC BY-NC 4.0).",
+   "gfw_puertos_mx": "Global Fishing Watch (CC BY-NC 4.0).",
+   "gfw_radar_mx": "Global Fishing Watch (CC BY-NC 4.0).",
+   "emergencias_aereas": "OpenSky (no comercial) y adsb.lol (licencia de la API por verificar).",
+   "trafico_maritimo": "AISStream (términos de uso comercial por verificar).",
+   "gps_interferencia": "GPSJam, con datos de ADS-B Exchange (uso comercial con licencia)."
+  },
+  "riesgos_sustituidos": {
+   "c2_botnets": {
+    "url": "data/vivos/red_c2_comercial.geojson",
+    "fuente": "abuse.ch: ThreatFox y Feodo Tracker (CC0); país por DB-IP (CC BY 4.0)"
+   }
+  },
+  "movimiento_solo_admin": {
+   "aeronaves": "OpenSky (no comercial) y adsb.lol (por verificar).",
+   "buques": "AISStream (por verificar)."
+  },
+  "funciones_solo_admin": {
+   "geocodificador_open_meteo": "Búsqueda de pueblos y playas fuera de la lista propia (Open-Meteo). La lista propia de ciudades sigue funcionando.",
+   "viento_ceniza_open_meteo": "Viento en altura para la ceniza de volcanes (Open-Meteo).",
+   "timelapse_eox": "Cambio en el tiempo con EOX 2018–2025 (CC BY-NC-SA 4.0). Queda NASA MODIS (GIBS)."
+  },
+  "bloques_solo_admin": {
+   "b-aire": "Calidad del aire por ciudad (Open-Meteo Air Quality)."
+  }
  }
 }
