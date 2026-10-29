@@ -45,7 +45,8 @@ def reciente(ts, ahora=None):
             t = t.replace(tzinfo=timezone.utc)
     except (TypeError, ValueError):
         return False
-    return ((ahora or datetime.now(timezone.utc)) - t).total_seconds() <= MAX_EDAD_MIN * 60
+    edad = ((ahora or datetime.now(timezone.utc)) - t).total_seconds()
+    return -120 <= edad <= MAX_EDAD_MIN * 60
 
 
 def pedir(url, datos=None, cabeceras=None):
@@ -62,6 +63,8 @@ def tren(red, pais, ident, lon, lat, **p):
     base = {"id": f"{red}-{ident}", "red": red, "pais": pais, "numero": str(ident), "tipo": "", "categoria": "", "operador": "", "origen": "",
             "destino": "", "linea": "", "vel_kmh": None, "retraso_min": None, "hora": None, "url": "", "fuente": ""}
     base.update({k: v for k, v in p.items() if v not in (None, "")})
+    base["recibido_utc"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    base["observado_utc"] = base["hora"]
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(float(lon), 4), round(float(lat), 4)]}, "properties": base}
 
 
@@ -157,7 +160,7 @@ def filadelfia_json(d):
             continue
         out.append(tren("filadelfia", "USA", t.get("trainno"), t["lon"], t["lat"], categoria="Cercanías", operador="SEPTA Regional Rail",
                         origen=t.get("SOURCE"), destino=t.get("dest"), linea=t.get("line"), retraso_min=t.get("late"),
-                        hora=datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), url="https://www.septa.org/schedules/rail/", fuente="SEPTA TrainView"))
+                        hora_tipo="desconocida", url="https://www.septa.org/schedules/rail/", fuente="SEPTA TrainView"))
     return out
 
 

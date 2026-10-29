@@ -5,6 +5,7 @@
 // - Solo se dibujan categorías "dibujable": true y subtipos con tipo_capa distinto de "ficha".
 //   Las personas (rol público) nunca tienen capa: viven solo dentro de las fichas.
 /* global maplibregl, pmtiles */
+import { precisionEspacial } from "./fase1-logica.js";
 import { detalle as detalleOrg } from "./buscador_org.js";
 import { esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, hayObjetoEncima } from "./util.js";
 import { htmlBloque as htmlErupcion } from "./erupcion.js";
@@ -306,6 +307,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
     <div class="chips"><span class="chip estado-${esc(familia.estado_dato)}">Dato ${esc(etiquetaEstado(familia.estado_dato))}</span></div>
     <dl>
       ${extra ? `<dt>Detalle</dt><dd>${extra}</dd>` : ""}
+      <dt>Precisión espacial</dt><dd>${esc(precisionEspacial(props))}</dd>
       ${htmlOperador(props)}
       <dt>Fuente</dt><dd>${url ? `<a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</a>` : esc(sub?.fuente_nombre || familia.fuente_nombre || familia.fuente)}</dd>
       <dt>Licencia</dt><dd>${esc(sub?.licencia || familia.licencia)}</dd>
@@ -424,6 +426,7 @@ export function htmlFichaCamara(props, sub) {
     ${props.credito ? `<p class="meta">Crédito: ${esc(props.credito)}</p>` : ""}
     ${props.lic_url && publico(props.lic_url) ? `<p class="meta"><a href="${esc(publico(props.lic_url))}" target="_blank" rel="noopener noreferrer">Licencia y condiciones del operador ↗</a></p>` : ""}
     ${props.captura_utc ? `<p class="meta">Fecha de la imagen publicada por el operador: ${esc(props.captura_utc)}</p>` : ""}
+    <p class="meta">${esc(precisionEspacial(props))}</p>
     ${props.catalogo_utc ? `<p class="meta">Catálogo consultado: ${esc(props.catalogo_utc)}. No confirma que la imagen sea actual ni que la cámara esté operativa.</p>` : ""}
     ${props.v ? `<dl><dt>Revisión del enlace</dt><dd>${esc(props.v)}</dd></dl>` : ""}
     <p class="meta">Solo se incluyen cámaras que su operador publica para verse en abierto; nunca cámaras expuestas por error. La imagen se muestra desde el servidor del operador, sin copiarla.</p>`;
