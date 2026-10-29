@@ -8,6 +8,7 @@ export function leerJSON(raw){
  throw Error('JSON no reconocido. Usa SARIF 2.1.0 o ZAP tradicional.');
 }
 export function leerXML(texto,Parser=globalThis.DOMParser){
+ texto=texto.replace(/<!DOCTYPE\s+nmaprun\s*>/i,'');
  if(/<!DOCTYPE|<!ENTITY/i.test(texto))throw Error('XML con DTD o entidades no permitido.');
  const doc=new Parser().parseFromString(texto,'application/xml');if(doc.querySelector('parsererror'))throw Error('XML inválido.');
  const t=(n,s)=>n.querySelector(s)?.textContent?.trim()||'';

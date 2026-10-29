@@ -19,7 +19,7 @@ Datos bajo `dominus_fase2_v1`. No hay backend, cifrado propio, usuarios, sincron
 
 En Hallazgos: documentar activos/fecha/referencia de autorización; seleccionar informe hasta 4 MB:
 - Nmap XML `nmaprun`, puertos `state=open`: registra exposición **informativa**, no vulnerabilidad confirmada.
-- Greenbone XML sin compresión: `report/results/result`, host, puerto, NVT OID, nombre, severidad y descripción. Se rechazan DTD/entidades; no admite contenedores base64 ni PDF.
+- Greenbone XML sin compresión: `report/results/result`, host, puerto, NVT OID, nombre, severidad y descripción. Solo se permite la declaración vacía `<!DOCTYPE nmaprun>` de Nmap; se rechazan DTD externos, subconjuntos y entidades; no admite contenedores base64 ni PDF.
 - OWASP ZAP JSON tradicional: `site[].alerts[].instances[]`, una fila por URI/alerta.
 - SARIF 2.1.0: `runs[].results[]`; una fila por ubicación (URI y línea), admite resultado sin ubicación. No ejecuta reglas ni scripts del informe.
 
