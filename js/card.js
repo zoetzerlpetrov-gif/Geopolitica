@@ -1,5 +1,6 @@
 // Ficha del evento (se abre al hacer clic en un punto o en la lista).
 import { esc, safeUrl, fecha, htmlImagenMedio } from "./util.js";
+import { htmlCalidad, precisionEspacial } from "./fase1-logica.js";
 import { ordenarLentes, rellenar } from "./analisis-logica.js";
 
 export const REGION = {
@@ -51,9 +52,11 @@ export function htmlFicha(ev, tax, paises, porId = new Map(), extra = {}) {
       <dt>Severidad</dt><dd><span class="sev" aria-label="${ev.severidad} de 5">${sev}</span> ${ev.severidad}/5</dd>
       <dt>Subtemas</dt><dd>${ev.subtemas.map((id) => esc(tax.subtemas.get(id) || id)).join("; ") || "—"}</dd>
       <dt>Actores</dt><dd>${ev.actores.map(esc).join(", ") || "—"}</dd>
-      <dt>Confianza</dt><dd>${Math.round(ev.confianza_clasificacion * 100)} % ${ev.verificado ? "· verificado" : "· sin verificar"}</dd>
+      <dt>Confianza de clasificación automática</dt><dd>${Math.round(ev.confianza_clasificacion * 100)} % (no mide la veracidad del hecho)</dd>
+      <dt>Precisión espacial</dt><dd>${esc(precisionEspacial(ev))}</dd>
     </dl>
 
+    ${htmlCalidad(ev)}
     ${relaciones(ev, porId, tax)}
 
     ${ev.impacto_mexico ? `<div class="pregunta impacto-mx"><b>Impacto para México</b>${esc(ev.impacto_mexico)}</div>` : ""}

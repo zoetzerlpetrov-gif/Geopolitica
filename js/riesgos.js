@@ -1,3 +1,4 @@
+import { edadPosicion } from "./fase1-logica.js";
 // Riesgos naturales y clima: capas del proyecto «Clima Táctico» (repositorio WarRoomViajero) dentro de este mapa.
 // Geopolítica genera su propia copia cada 6 h (tools/clima_tactico, en data/vivos/ct/) para no depender de ese
 // repositorio; si un archivo falta, se lee el de WarRoomViajero. Se leen solo al activar cada capa.
@@ -116,7 +117,7 @@ function capaTrenes(red, nombre, nota) {
     ficha: (p) => ({ titulo: `Tren ${p.tipo || ""} ${p.numero}`.replace(/\s+/g, " "), chip: [p.categoria, p.operador].filter(Boolean).join(" · ") || "tren",
       filas: [...(p.linea ? [["Línea o ruta", p.linea]] : []), ...(p.origen ? [["Origen", p.origen]] : []), ...(p.destino ? [["Destino", p.destino]] : []),
         ...(p.vel_kmh != null ? [["Velocidad", `${p.vel_kmh} km/h`]] : []), ...(p.retraso_min != null ? [["Retraso", `${p.retraso_min} min`]] : []),
-        ...(p.estado ? [["Estado", p.estado]] : []), ["Posición de", p.hora ? fecha(p.hora) : "—"]],
+        ...(p.estado ? [["Estado", p.estado]] : []), ["Edad de la posición", edadPosicion(p).texto], ...(p.recibido_utc ? [["Consulta al proveedor", fecha(p.recibido_utc)]] : [])],
       url: p.url, fuente: p.fuente, imagen: articuloTren(red, p.categoria, p.tipo) }),
   };
 }
