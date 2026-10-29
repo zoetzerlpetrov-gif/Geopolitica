@@ -6,4 +6,13 @@ jobs:
     timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - run: python3 -u tools/sonda/gleif.py
+      - run: |
+          time python3 -u tools/investigacion/extranjeras_gleif.py
+          python3 -c "
+          import json,collections
+          d=json.load(open('vivos/empresas_extranjeras_gleif.json')); e=d['empresas']
+          print(d['entidades_mx'], d['con_relacion'], len(e))
+          print(collections.Counter(r['pais'] for r in e).most_common(25))
+          print([ (r['filial'],r['matriz']) for r in e if r['iso']=='IL'])
+          print([ (r['filial'],r['matriz']) for r in e][:15])
+          import os; print(os.path.getsize('vivos/empresas_extranjeras_gleif.json'))"
