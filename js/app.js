@@ -19,6 +19,7 @@ import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
 import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
+import * as LIC from "./licencias.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -33,6 +34,19 @@ let regionDe = {};
 let porId = new Map();
 let tax, paises, api, gestor, mov, img, riesgos, clima, menu;
 let lite = false;
+// Versión de pago (Fase 7): con ?vista=pago (o la versión comercial) se quita lo que viene de fuentes sin uso comercial
+// y lo que el plan reserva a quien administra. En el sitio público, null: se ve todo.
+const vistaLista = (async () => {
+  if (LIC.vistaActual() !== "pago") return null;
+  const [lic, cat, planes] = await Promise.all([getJSON("config/comercial_licencias.json"), getJSON("config/entities.json"), getJSON("config/planes.json")]);
+  const r = LIC.restricciones(lic, cat, planes);
+  // Secciones y bloques del plan reservados a quien administra.
+  for (const a of document.querySelectorAll("a[href]")) if (r.paginas.has((a.getAttribute("href") || "").split(/[?#]/)[0])) a.remove();
+  // Los bloques se ocultan (no se borran): otras partes del código escriben en ellos.
+  for (const id of [...r.bloques, ...r.bloquesLic]) { const el = document.getElementById(id); if (el) el.hidden = true; }
+  document.querySelector(".marca")?.insertAdjacentHTML("beforeend", `<span class="chip vista-pago" title="Simulación: así lo ve quien paga un plan">Vista de pago</span>`);
+  return r;
+})().catch((e) => { console.error("vista de pago", e); return null; });
 
 function temaActual() {
   const t = document.documentElement.dataset.theme;
@@ -1062,7 +1076,8 @@ async function iniciarCapas() {
   ]);
   // Dos constructores (PMTiles mensual y Wikidata semanal) escriben manifiestos separados; aquí se combinan.
   const manifest = { familias: { ...mCapas.familias, ...mEntidades.familias } };
-  const familias = familiasDibujables(catalogo, capasCfg, manifest);
+  const rv = await vistaLista;
+  const familias = rv ? LIC.familiasPago(familiasDibujables(catalogo, capasCfg, manifest), rv) : familiasDibujables(catalogo, capasCfg, manifest);
   gestor = new GestorCapas(api.map, {
     chokepointsActivos: () => $("capa-chokepoints").checked,
     onCambio: avisarPresupuesto,
@@ -1600,6 +1615,8 @@ async function alternarTimelapse(cb) {
     diaIn.onchange = () => { diaIn.value = T.diaValido(diaIn.value); timelapse.setDia(diaIn.value); };
     barra.querySelector(".tl-cerrar").onclick = () => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
   }
+  // Versión de pago: solo NASA (EOX 2018–2025 es de uso no comercial).
+  if ((await vistaLista)?.funciones.has("timelapse_eox")) { timelapse.setFuente("nasa"); barra.querySelector(".tl-fuente").hidden = true; }
   timelapse.activar();
   registrarAnimacion({ id: "timelapse", nombre: "cambio en el tiempo (imágenes por año)", disponible: () => Boolean(timelapse?.activo),
     activa: () => Boolean(timelapse?.reloj), iniciar: () => timelapse.reproducir(), detener: () => timelapse.pausar() });
@@ -1685,6 +1702,8 @@ async function iniciarRiesgos() {
   const cont = $("riesgos-capas");
   if (!cont) return;
   const [R, A] = await Promise.all([import("./riesgos.js"), import("./amenazas.js")]);
+  const rv = await vistaLista;
+  if (rv) LIC.aplicarARiesgos(R.CAPAS, rv);
   // País de cada objeto: polígonos de países (110m) + nombres del gazetteer.
   const [fronteras] = await Promise.all([getJSON("data/base/countries-110m.geojson").catch(() => null), paises ? null : cargarPaises().catch(() => (paises = {}))]);
   const porNombre = {};
@@ -1899,7 +1918,7 @@ async function iniciarRiesgos() {
     const f = await cargarFuentesZona();
     // Si eligió una sugerencia, se usa tal cual; si no, el mejor candidato del texto.
     let z = ultimos.find((c) => c.etiqueta === q) || A.candidatosZona(q, f, 1)[0];
-    if (!z) {
+    if (!z && !rv?.funciones.has("geocodificador_open_meteo")) {
       // Lugares que no están en la lista (pueblos, playas): geocodificador de Open-Meteo (GeoNames), sin llave.
       $("rg-zona-res").textContent = "Buscando el lugar…";
       try {
@@ -1931,7 +1950,9 @@ async function iniciarRiesgos() {
     <p class="hnc-texto">${esc(hnc.texto)} El Doble No Circula solo aplica con contingencia declarada por la <a href="https://www.gob.mx/comisionambiental" target="_blank" rel="noopener noreferrer">CAMe</a>.</p>
     <div id="rg-vdm-aire"></div></div>`;
   const [man, esp, aireWrv, aireProp, feed] = await Promise.all([riesgos.manifiesto(), riesgos.espacial(),
-    R.leerArchivo("airquality.geojson").catch(() => null), getJSON("data/vivos/aire_ciudades.geojson", { bust: true }).catch(() => null),
+    // Versión de pago: la calidad del aire (Open-Meteo, no comercial) no se lee.
+    rv?.riesgos.has("aire") ? null : R.leerArchivo("airquality.geojson").catch(() => null),
+    rv?.riesgos.has("aire") ? null : getJSON("data/vivos/aire_ciudades.geojson", { bust: true }).catch(() => null),
     R.leerArchivo("security_feed.json").catch(() => null)]);
   // Calidad del aire: archivo propio (~490 ciudades) + Clima Táctico (~530 puntos, muchos turísticos de México).
   const indice = fronteras ? A.indicePaises(fronteras) : null;
@@ -2054,12 +2075,13 @@ async function iniciarMovimiento(catalogo) {
     onObjeto: (o) => abrirObjetoMovil(o, catalogo),
   });
   const pasoDe = { aeronaves: "aeronaves", buques: "buques", satelites: "satelites" };
-  cont.innerHTML = ["aeronaves", "buques", "satelites"].map((tipo) => {
+  const rv = await vistaLista;
+  cont.innerHTML = ["aeronaves", "buques", "satelites"].filter((t) => !rv?.movimiento.has(t)).map((tipo) => {
     const cat = catalogo.categorias.find((c) => c.id === tipo);
     const p = estado.pasos[pasoDe[tipo]];
     const ok = p && (p.estado === "ok" || p.objetos);
     const vistos = new Set();
-    const subs = cat.subtipos.filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
+    const subs = (rv ? LIC.subtiposPago(cat.subtipos, rv) : cat.subtipos).filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
     const ic = { aeronaves: "✈️", buques: "🚢", satelites: "🛰️" }[tipo];
     return `<details class="subgrupo-d" id="sg-mov-${tipo}" open><summary class="subgrupo"><span class="punto" style="--c:${esc(cat.subtipos[0].color)}"></span>${ic} ${esc(cat.nombre.es)}
       <span class="sg-n">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos` : "sin datos"}</span></summary><div class="capa-fam ${ok ? "" : "capa-off"}">

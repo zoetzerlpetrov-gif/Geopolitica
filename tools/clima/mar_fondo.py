@@ -2,30 +2,30 @@
 """Mar de fondo: oleaje de periodo largo que llega desde tormentas lejanas (pronóstico de 7 días).
 
 «Mar de fondo» es el oleaje («swell») que se formó lejos y llega a la costa aunque allí no haya viento: olas largas
-y potentes que causan corrientes de resaca, inundan malecones y cierran puertos. Aquí se usa la API marina de
-Open-Meteo (modelos de oleaje de MeteoFrance, DWD, ECMWF y NOAA; uso no comercial gratis, con atribución) en puntos
-frente a la costa de México y en puertos y estrechos del mundo.
+y potentes que causan corrientes de resaca, inundan malecones y cierran puertos. Aquí se usa el modelo de oleaje
+GFS-Wave de NOAA (0.25°, global; dominio público, permite uso comercial) en puntos frente a la costa de México y en
+puertos y estrechos del mundo: altura, periodo medio y dirección del oleaje de fondo total, cada 6 h hasta 7 días.
+Antes se usaba la API marina de Open-Meteo, que solo es gratuita para uso no comercial.
 
 Regla propia (ESTIMACIÓN, no aviso oficial): hay mar de fondo cuando el oleaje de fondo («swell») pronosticado mide
 2 m o más con un periodo de 12 s o más. Nivel: 2-2.9 m moderado, 3-3.9 m fuerte, 4 m o más muy fuerte. En México el
 aviso oficial es del SMN y de la Secretaría de Marina (capitanías de puerto).
-Se consulta cada 3 h en lotes de 100 puntos. Salida: vivos/mar_fondo.geojson.
+Se consulta cada 6 h (el modelo corre cada 6 h): 29 descargas de ~2 MB. Salida: vivos/mar_fondo.geojson.
 """
 import json
 import os
 import sys
-import time
-import urllib.parse
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "ingest"))
-import fuentes as F  # noqa: E402
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import gfs_puntos as G  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "mar_fondo.geojson")
-API = "https://marine-api.open-meteo.com/v1/marine"
+HORAS = list(range(0, 169, 6))
+PASO_H = 6
 ALTURA, PERIODO = 2.0, 12.0
-LOTE = 100
 # Frente a la costa de México (unos km mar adentro, para que caiga en una celda de mar del modelo).
 MEXICO = [("Ensenada, B.C.", 31.80, -116.80), ("San Quintín, B.C.", 30.35, -116.10), ("Guerrero Negro, B.C.S.", 27.90, -114.40),
           ("Bahía Magdalena, B.C.S.", 24.50, -112.20), ("Todos Santos, B.C.S.", 23.40, -110.40), ("Cabo San Lucas, B.C.S.", 22.80, -109.85),
@@ -68,7 +68,7 @@ def nivel(h):
     return 3 if h >= 4 else 2 if h >= 3 else 1 if h >= ALTURA else 0
 
 
-def feature(nombre, lat, lon, r, mexico):
+def feature(nombre, lat, lon, r, mexico, paso_h=1):
     h = (r or {}).get("hourly") or {}
     t, alt, per, dirc = h.get("time", []), h.get("swell_wave_height", []), h.get("swell_wave_period", []), h.get("swell_wave_direction", [])
     validos = [i for i, a in enumerate(alt) if a is not None]
@@ -82,45 +82,36 @@ def feature(nombre, lat, lon, r, mexico):
         "name": nombre, "mexico": mexico, "nivel": nivel(alt[emax]) if emax is not None else 0,
         "altura_max_m": round(alt[imax], 1), "periodo_en_max_s": round(per[imax] or 0, 1), "direccion_en_max": round(dirc[imax] or 0) if dirc else None,
         "hora_max": t[imax], "inicio": t[eventos[0]] if eventos else "", "fin": t[eventos[-1]] if eventos else "",
-        "horas_evento": len(eventos), "serie": [[t[i], round(alt[i], 2), round(per[i] or 0, 1)] for i in validos[::paso]]}}
+        "horas_evento": len(eventos) * paso_h, "serie": [[t[i], round(alt[i], 2), round(per[i] or 0, 1)] for i in validos[::paso]]}}
 
 
 def main():
     ahora = datetime.now(timezone.utc)
     try:
         gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
-        if ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(hours=3):
+        if ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(hours=PASO_H):
             print("mar de fondo: datos recientes")
             return 0
     except (OSError, ValueError):
         pass
-    feats, errores = [], 0
-    for ini in range(0, len(PUNTOS), LOTE):
-        lote = PUNTOS[ini:ini + LOTE]
-        q = {"latitude": ",".join(str(p[1]) for p in lote), "longitude": ",".join(str(p[2]) for p in lote),
-             "hourly": "swell_wave_height,swell_wave_period,swell_wave_direction", "forecast_days": 7, "timezone": "UTC"}
-        try:
-            datos = json.loads(F.get(f"{API}?{urllib.parse.urlencode(q)}", timeout=90))
-            datos = datos if isinstance(datos, list) else [datos]
-        except Exception as e:  # noqa: BLE001
-            print(f"mar de fondo: lote {ini // LOTE + 1} falló ({e})")
-            errores += 1
-            continue
-        for j, ((nombre, lat, lon), r) in enumerate(zip(lote, datos)):
-            f = feature(nombre, lat, lon, r, ini + j < len(MEXICO))
-            if f:
-                feats.append(f)
-        time.sleep(1)
+    try:
+        pasos, corrida = G.series(PUNTOS, G.url_olas, HORAS, {"shts", "mpts", "swdir"}, ahora)
+    except Exception as e:  # noqa: BLE001
+        print(f"mar de fondo: NOAA no respondió ({e}); se conserva el anterior")
+        return 0
+    datos = G.a_horario(pasos, PUNTOS, {"shts": "swell_wave_height", "mpts": "swell_wave_period", "swdir": "swell_wave_direction"})
+    feats = [f for k, ((nombre, lat, lon), r) in enumerate(zip(PUNTOS, datos)) if (f := feature(nombre, lat, lon, r, k < len(MEXICO), PASO_H))]
     if not feats:
         print("mar de fondo: sin datos; se conserva el anterior")
         return 0
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"type": "FeatureCollection", "generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "fuente": "Open-Meteo Marine (estimación propia; el aviso oficial es del SMN/SEMAR)",
+               "fuente": "Modelo GFS-Wave de NOAA (estimación propia; el aviso oficial es del SMN/SEMAR)",
+               "corrida": corrida.strftime("%Y-%m-%dT%H:%MZ"), "pasos": len(pasos),
                "umbral": f"oleaje de fondo de {ALTURA:g} m o más con periodo de {PERIODO:g} s o más", "features": feats},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     con = [f["properties"]["name"] for f in feats if f["properties"]["nivel"]]
-    print(f"mar de fondo: {len(feats)} puntos con datos, {len(con)} con mar de fondo en 7 días ({', '.join(con[:10])}); lotes fallidos: {errores}")
+    print(f"mar de fondo: {len(feats)} de {len(PUNTOS)} puntos con datos, {len(con)} con mar de fondo en 7 días ({', '.join(con[:10])}); corrida {corrida:%Y-%m-%d %H} UTC, {len(pasos)} pasos")
     return 0
 
 

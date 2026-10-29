@@ -1,6 +1,7 @@
 // Interfaz de matriz.html. Lógica en matriz-logica.js.
 import { esc, getJSON, safeUrl } from "./util.js";
 import * as M from "./matriz-logica.js";
+import * as LIC from "./licencias.js";
 import { exportar, exportarDocumento, htmlSelectorExportar, htmlSelectorDocumento } from "./exportar.js";
 
 const $ = (id) => document.getElementById(id);
@@ -14,6 +15,11 @@ const q = new URLSearchParams(location.search);
 $("mz-pais").innerHTML = Object.entries(paises).sort((a, b) => a[1].es.localeCompare(b[1].es, "es")).map(([i, p]) => `<option value="${i}">${esc(p.es)}</option>`).join("");
 $("mz-pais").value = (q.get("pais") || leer("gp_mz_pais", "MEX")).toUpperCase();
 
+// Versión de pago: sin las fuentes de uso no comercial (config/comercial_licencias.json).
+if (LIC.vistaActual() === "pago") {
+  const [lic, cat, planes] = await Promise.all([getJSON("config/comercial_licencias.json"), getJSON("config/entities.json"), getJSON("config/planes.json")]);
+  LIC.aplicarARiesgos(M.FUENTES, LIC.restricciones(lic, cat, planes));
+}
 const sel = new Set(leer("gp_mz_fuentes", M.FUENTES.filter((f) => f.id !== "anomalias" && f.id !== "bolidos").map((f) => f.id)));
 let grupoPrev = "";
 $("mz-fuentes").innerHTML = M.FUENTES.map((f) => { const t = f.grupo !== grupoPrev ? `<h3>${esc(f.grupo)}</h3>` : ""; grupoPrev = f.grupo;

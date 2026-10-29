@@ -57,3 +57,21 @@ def test_fecha_del_nombre():
     assert R.fecha_de_nombre("icsa-26-281-03.json").strftime("%Y-%m-%d") == "2026-10-08"
     assert R.fecha_de_nombre("icsma-25-001-01.json").strftime("%Y-%m-%d") == "2025-01-01"
     assert R.fecha_de_nombre("icsa-26-281-03.json.asc") is None
+
+
+def test_c2_version_de_pago_sin_c2intelfeeds(monkeypatch, tmp_path):
+    """El archivo de la versión de pago solo cuenta abuse.ch (CC0); C2IntelFeeds (CC BY-NC-SA) va solo en el completo."""
+    geo = R.GeoIP([("8.8.8.0", "8.8.8.255", "US"), ("1.0.0.0", "1.0.0.255", "AU")])
+    monkeypatch.setattr(R, "cargar_dbip", lambda ahora: (geo, "2026-10"))
+    monkeypatch.setattr(R.F, "permitido_por_robots", lambda url: True)
+    monkeypatch.delenv("ABUSECH_AUTH_KEY", raising=False)
+    respuestas = {R.FEODO: json.dumps([{"ip_address": "8.8.8.8", "malware": "QakBot"}]).encode(),
+                  R.C2INTEL: b"#ip,ioc\n1.0.0.9,Possible Cobaltstrike C2 IP\n"}
+    monkeypatch.setattr(R.F, "get", lambda url, timeout=0: respuestas[url])
+    escritos = {}
+    monkeypatch.setattr(R, "escribir", lambda ruta, datos: escritos.__setitem__(os.path.basename(ruta), datos))
+    R.paso_c2(P, R.datetime(2026, 10, 29, tzinfo=R.timezone.utc))
+    todo, pago = escritos["red_c2.geojson"], escritos["red_c2_comercial.geojson"]
+    assert todo["total_ip"] == 2 and {f["properties"]["pais_iso3"] for f in todo["features"]} == {"USA", "AUS"}
+    assert pago["total_ip"] == 1 and [f["properties"]["pais_iso3"] for f in pago["features"]] == ["USA"]
+    assert "c2intel" not in pago["fuentes"] and "c2intel" in todo["fuentes"]

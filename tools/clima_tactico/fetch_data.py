@@ -463,7 +463,7 @@ def fetch_gdacs():
 
 
 # -------------------------------------------------------------------------
-# 4) PRONOSTICO 7 DIAS  - Open-Meteo (lluvia, viento, nortes, tormentas)
+# 4) PRONOSTICO 7 DIAS  - MET Norway + ráfagas del GFS de NOAA (lluvia, viento, temperatura)
 # -------------------------------------------------------------------------
 
 # Puntos de interes: ciudades / destinos MX + capitales y destinos globales.
@@ -528,58 +528,140 @@ def temp_risk(max_tmax, min_tmin):
         return cold_lvl, cold_label, "frio"
     return 0, None, None
 
-LOTE_PRONOSTICO = 100
+# Fuente comercialmente libre (antes Open-Meteo, gratis solo para uso no comercial):
+#  - MET Norway Locationforecast 2.0 «complete» (CC BY 4.0; pide un User-Agent con contacto y no saturar): temperatura,
+#    lluvia, viento sostenido y símbolo del tiempo, por hora los primeros ~2.5 días y cada 6 h hasta ~9 días.
+#  - GFS 1° de NOAA (dominio público): ráfaga máxima, porque MET Norway solo da ráfagas en el norte de Europa.
+METNO = "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat={lat:.3f}&lon={lon:.3f}"
+UA_METNO = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
+HILOS_METNO = 5          # peticiones simultáneas (MET pide no pasar de 20 por segundo)
+DIAS_PRONOSTICO = 7
+# Símbolos de MET Norway → códigos WMO que ya usa la ficha (íconos de js/riesgos.js).
+SIMBOLO_WMO = [("thunder", 95), ("snowshowers", 85), ("heavysnow", 75), ("lightsnow", 71), ("snow", 73), ("sleet", 66),
+               ("heavyrainshowers", 82), ("lightrainshowers", 80), ("rainshowers", 81), ("heavyrain", 65), ("lightrain", 61),
+               ("rain", 63), ("fog", 45), ("partlycloudy", 2), ("cloudy", 3), ("fair", 1), ("clearsky", 0)]
 
 
-def _pronostico_lote(puntos, intentos=2):
-    """Pronóstico diario de Open-Meteo para un lote de puntos [(nombre, lat, lon)]. Lista de respuestas, una por punto."""
-    url = (
-        "https://api.open-meteo.com/v1/forecast"
-        f"?latitude={','.join(str(p[1]) for p in puntos)}&longitude={','.join(str(p[2]) for p in puntos)}"
-        "&daily=precipitation_sum,precipitation_probability_max,"
-        "wind_speed_10m_max,wind_gusts_10m_max,weather_code,temperature_2m_max,temperature_2m_min"
-        "&forecast_days=7&timezone=auto"
-    )
+def simbolo_a_wmo(simbolo):
+    """«heavyrainshowersandthunder_day» → 95. Se busca la primera clave contenida (las más específicas van antes)."""
+    base = (simbolo or "").split("_")[0]
+    return next((c for k, c in SIMBOLO_WMO if base and k in base), None)
+
+
+def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
+    """Respuesta de Locationforecast «complete» → resumen diario con los nombres de Open-Meteo. El día es el local
+    aproximado por la longitud (UTC + lon/15 h). La lluvia suma next_1_hours mientras hay datos horarios y next_6_hours
+    después (sin contar dos veces)."""
+    from datetime import timedelta
+    desfase = timedelta(hours=round(lon / 15))
+    por = {}
+    for paso in (resp.get("properties") or {}).get("timeseries", []):
+        t = datetime.strptime(paso["time"], "%Y-%m-%dT%H:%M:%SZ") + desfase
+        d = por.setdefault(t.strftime("%Y-%m-%d"), {"lluvia": 0.0, "tmax": None, "tmin": None, "viento": 0.0, "codigo": None})
+        datos = paso.get("data") or {}
+        inst = (datos.get("instant") or {}).get("details") or {}
+        temps = [inst.get("air_temperature")]
+        if "next_1_hours" in datos:
+            sig = datos["next_1_hours"]
+        else:
+            sig = datos.get("next_6_hours") or {}
+            det6 = sig.get("details") or {}
+            temps += [det6.get("air_temperature_max"), det6.get("air_temperature_min")]
+        d["lluvia"] += (sig.get("details") or {}).get("precipitation_amount") or 0
+        for x in temps:
+            if x is not None:
+                d["tmax"] = x if d["tmax"] is None else max(d["tmax"], x)
+                d["tmin"] = x if d["tmin"] is None else min(d["tmin"], x)
+        if inst.get("wind_speed") is not None:
+            d["viento"] = max(d["viento"], inst["wind_speed"] * 3.6)
+        c = simbolo_a_wmo((sig.get("summary") or {}).get("symbol_code"))
+        if c is not None:
+            d["codigo"] = c if d["codigo"] is None else max(d["codigo"], c)
+    fechas = sorted(por)[:dias]
+    return {"time": fechas, "precipitation_sum": [round(por[f]["lluvia"], 1) for f in fechas],
+            "precipitation_probability_max": [None] * len(fechas),
+            "wind_speed_10m_max": [round(por[f]["viento"], 1) for f in fechas],
+            "temperature_2m_max": [por[f]["tmax"] for f in fechas], "temperature_2m_min": [por[f]["tmin"] for f in fechas],
+            "weather_code": [por[f]["codigo"] for f in fechas]}
+
+
+def rafagas_diarias(pasos, puntos):
+    """Pasos de gfs_puntos.series con «gust» (m/s) → por punto {fecha local: ráfaga máxima km/h}."""
+    from datetime import timedelta
+    out = []
+    for k, (_, _, lon) in enumerate(puntos):
+        d = {}
+        for valido, fila in pasos:
+            g = (fila.get("gust") or [None] * len(puntos))[k]
+            if g is None:
+                continue
+            f = (valido + timedelta(hours=round(lon / 15))).strftime("%Y-%m-%d")
+            d[f] = max(d.get(f, 0.0), round(g * 3.6, 1))
+        out.append(d)
+    return out
+
+
+def _metno(punto, intentos=2):
+    _, lat, lon = punto
     for i in range(intentos):
-        texto = http_get(url)
         try:
-            res = json.loads(texto)
-            return res if isinstance(res, list) else [res]
-        except ValueError as e:
-            # Respuesta cortada o con error: se muestra un fragmento para poder diagnosticarla y se reintenta.
-            pos = getattr(e, "pos", 0) or 0
-            print(f"  [pronostico] respuesta no válida ({e}); cerca de: {texto[max(0, pos - 80):pos + 80]!r}")
+            req = urllib.request.Request(METNO.format(lat=lat, lon=lon), headers={"User-Agent": UA_METNO})
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+                return json.loads(r.read())
+        except Exception:  # noqa: BLE001
             if i == intentos - 1:
                 raise
-            time.sleep(5)
+            time.sleep(2)
+
+
+def _rafagas_gfs(puntos):
+    sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "clima"))
+    import gfs_puntos as G
+    url = lambda c, f: G.url_gfs(c, f, ["GUST"], ["surface"], resolucion="1p00")  # noqa: E731
+    pasos, _ = G.series(puntos, url, list(range(3, 24 * DIAS_PRONOSTICO + 1, 3)), {"gust"})
+    return rafagas_diarias(pasos, puntos)
 
 
 def fetch_forecast():
-    """Pronóstico de 7 días por lotes de 100 puntos (una sola petición con 533 llegaba malformada). Si un lote falla, se
-    conservan los puntos de ese lote del archivo anterior; si fallan todos, se conserva el archivo completo."""
-    feats = []
+    """Pronóstico de 7 días: MET Norway por punto (5 a la vez) y ráfagas de GFS. Si un punto falla, se conserva su dato
+    anterior; si fallan todos, se conserva el archivo completo."""
+    from concurrent.futures import ThreadPoolExecutor
     previos = {}
     try:
         with open(os.path.join(DATA_DIR, "forecast.geojson"), encoding="utf-8") as fh:
             previos = {f["properties"].get("name"): f for f in json.load(fh).get("features", [])}
     except (OSError, ValueError):
         pass
-    for ini in range(0, len(GRID), LOTE_PRONOSTICO):
-        lote = GRID[ini:ini + LOTE_PRONOSTICO]
+    try:
+        rafagas = _rafagas_gfs(GRID)
+    except Exception as e:  # noqa: BLE001
+        print(f"  [pronostico] ráfagas de GFS no disponibles ({e}); se dejan vacías")
+        rafagas = [{} for _ in GRID]
+
+    def uno(k):
         try:
-            res = _pronostico_lote(lote)
+            return k, _metno(GRID[k])
         except Exception as e:  # noqa: BLE001
-            print(f"  [pronostico] lote {ini}-{ini + len(lote) - 1} fallo: {e}")
-            feats += [previos[p[0]] for p in lote if p[0] in previos]
-            continue
-        feats += _features_pronostico(lote, res)
-        time.sleep(1)
-    print(f"  [pronostico] puntos: {len(feats)}")
-    return write_geojson("forecast.geojson", feats, preserve_if_empty=True)
+            return k, e
+
+    feats, fallidos = [], 0
+    with ThreadPoolExecutor(HILOS_METNO) as ex:
+        for k, r in sorted(ex.map(uno, range(len(GRID))), key=lambda x: x[0]):
+            name = GRID[k][0]
+            if isinstance(r, Exception):
+                fallidos += 1
+                if name in previos:
+                    feats.append(previos[name])
+                continue
+            daily = diarios_metno(r, GRID[k][2])
+            daily["wind_gusts_10m_max"] = [rafagas[k].get(f) for f in daily["time"]]
+            feats += _features_pronostico([GRID[k]], [{"daily": daily}])
+    print(f"  [pronostico] puntos: {len(feats)} (MET Norway fallidos: {fallidos})")
+    return write_geojson("forecast.geojson", feats, extra_meta={"fuente": "MET Norway (CC BY 4.0) y ráfagas del GFS de NOAA"}, preserve_if_empty=True)
 
 
 def _features_pronostico(lote, res):
-    """Respuestas de Open-Meteo de un lote → features con el resumen y los 7 días."""
+    """Resúmenes diarios (forma de Open-Meteo: MET Norway + ráfagas de GFS) de un lote → features con los 7 días."""
     feats = []
     for i, point in enumerate(res):
         if i >= len(lote):
@@ -594,10 +676,11 @@ def _features_pronostico(lote, res):
         tmin = daily.get("temperature_2m_min", []) or []
         wcode = daily.get("weather_code", []) or []
         dates = daily.get("time", []) or []
-        max_rain = max(rain) if rain else 0
-        max_gust = max(gust) if gust else 0
-        max_tmax = max(tmax) if tmax else None
-        min_tmin = min(tmin) if tmin else None
+        sin_nulos = lambda xs: [x for x in xs if x is not None]  # noqa: E731  (ráfagas de GFS pueden faltar algún día)
+        max_rain = max(sin_nulos(rain), default=0)
+        max_gust = max(sin_nulos(gust), default=0)
+        max_tmax = max(sin_nulos(tmax), default=None)
+        min_tmin = min(sin_nulos(tmin), default=None)
         temp_lvl, temp_label, temp_kind = temp_risk(max_tmax, min_tmin)
         lvl, label = risk_level(max_rain, max_gust)
         days = []

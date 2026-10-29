@@ -35,3 +35,16 @@ def test_cada_fuente_no_comercial_de_sources_esta_en_la_lista():
         if linea.startswith("|") and nc.search(linea) and not any(p in linea for p in patrones):
             faltan.append(linea[:100])
     assert not faltan, faltan
+
+
+def test_version_pago_apunta_a_elementos_que_existen():
+    v = cargar("config/comercial_licencias.json")["version_pago"]
+    index = open(os.path.join(ROOT, "index.html"), encoding="utf-8").read()
+    app = open(os.path.join(ROOT, "js", "app.js"), encoding="utf-8").read()
+    for b in v["bloques_solo_admin"]:
+        assert f'id="{b}"' in index, b
+    for f in v["funciones_solo_admin"]:
+        assert f'"{f}"' in app, f"js/app.js no revisa la función {f}"
+    assert set(v["movimiento_solo_admin"]) <= {"aeronaves", "buques", "satelites"}
+    red = open(os.path.join(ROOT, "tools", "red", "red.py"), encoding="utf-8").read()
+    assert "red_c2_comercial.geojson" in red and v["riesgos_sustituidos"]["c2_botnets"]["url"].endswith("red_c2_comercial.geojson")

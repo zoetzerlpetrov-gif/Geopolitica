@@ -4,7 +4,7 @@ import { edadPosicion } from "./fase1-logica.js";
 // repositorio; si un archivo falta, se lee el de WarRoomViajero. Se leen solo al activar cada capa.
 // Los sismos se piden en vivo a USGS desde el navegador (CORS abierto), como en el mapa original.
 //
-// Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, Open-Meteo, CENAPRED/Smithsonian, noticias
+// Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, MET Norway, NOAA GFS, CENAPRED/Smithsonian, noticias
 // (GDELT y Google News) y NOAA SWPC. Las capas de noticias son SEÑALES por verificar, no incidentes
 // confirmados, y siempre enlazan a la fuente.
 import { getJSON, esc, safeUrl, pinturaEtiqueta, layoutEtiqueta, htmlImagenMedio, tempCF, difCF, aFahrenheit } from "./util.js";
@@ -485,12 +485,12 @@ export const CAPAS = [
       filas: [["País", p.country || "—"], ["Desde", p.fromdate ? fecha(p.fromdate) : "—"]], url: p.url || "https://www.gdacs.org", fuente: "GDACS" }),
   },
   {
-    id: "pronostico", grupo: "Clima y ambiente", nombre: "Pronóstico 7 días: lluvia, viento y temperatura", archivos: ["forecast.geojson"], fuente: "Open-Meteo",
+    id: "pronostico", grupo: "Clima y ambiente", nombre: "Pronóstico 7 días: lluvia, viento y temperatura", archivos: ["forecast.geojson"], fuente: "MET Norway y GFS de NOAA",
     estilo: (p) => ({ c: NIVEL[Math.min(4, p.level || 0)], r: 3 + (p.level || 0) * 2 }),
     ficha: (p) => ({ titulo: p.name, chip: p.level_label || "",
       filas: [["Lluvia máxima diaria", `${p.max_rain_mm ?? "—"} mm`], ["Ráfaga máxima", `${p.max_gust_kmh ?? "—"} km/h`],
         ["Temperatura", `${tempCF(p.min_tmin_c)} a ${tempCF(p.max_tmax_c)}`], ...(p.temp_label ? [["Aviso de temperatura", p.temp_label]] : [])],
-      url: "https://open-meteo.com", fuente: "Open-Meteo (modelos numéricos)" }),
+      url: "https://api.met.no", fuente: "MET Norway (CC BY 4.0; la probabilidad de lluvia no está fuera del norte de Europa) y ráfagas del modelo GFS de NOAA" }),
     extra: (p) => graficaPronostico(lista(p.days)),
   },
   {
@@ -509,24 +509,24 @@ export const CAPAS = [
   },
   {
     id: "nortes", grupo: "Clima y ambiente", nombre: "Eventos de «Norte» en el Golfo de México e Istmo de Tehuantepec (estimación a 7 días)",
-    url: "data/vivos/nortes.geojson", refresco_s: 3600, fuente: "Estimación propia con el pronóstico de Open-Meteo",
+    url: "data/vivos/nortes.geojson", refresco_s: 3600, fuente: "Estimación propia con el modelo GFS de NOAA",
     estilo: (p) => ({ c: ["#8D99A6", "#E0A100", "#E2711D", "#C62828"][p.nivel || 0], r: 4 + 2 * (p.nivel || 0) }),
     etiqueta: (p) => (p.nivel ? `${p.rafaga_max_kmh} km/h` : ""),
     leyenda: [{ c: "#E0A100", r: 6, t: "Norte: ráfagas del norte de 50 a 69 km/h" }, { c: "#E2711D", r: 8, t: "Norte fuerte: 70 a 89 km/h" }, { c: "#C62828", r: 10, t: "Norte muy fuerte: 90 km/h o más" },
       { c: "#8D99A6", r: 4, t: "Sin Norte en 7 días" }, { t: "Estimación propia (viento del NO al NE con esas ráfagas). El aviso oficial es del SMN y las capitanías de puerto." }],
     ficha: (p) => ({ titulo: p.name, chip: K.nivelNorte(p.nivel), filas: K.filasNorte(p), url: "https://smn.conagua.gob.mx/es/pronosticos/avisos/aviso-de-frente-frio",
-      fuente: "Pronóstico Open-Meteo; aviso oficial: SMN" }),
+      fuente: "Modelo GFS de NOAA (cada 3 h); aviso oficial: SMN" }),
     extra: (p) => K.barras(p.serie, { titulo: "Ráfagas del norte (km/h)", unidad: "km/h", umbrales: [[50, "#E0A100", "50"], [70, "#E2711D", "70"], [90, "#C62828", "90"]] }),
   },
   {
     id: "mar_fondo", grupo: "Clima y ambiente", nombre: "Mar de fondo: oleaje largo en costas de México y del mundo (7 días)",
-    url: "data/vivos/mar_fondo.geojson", refresco_s: 3600, fuente: "Open-Meteo Marine (estimación propia)",
+    url: "data/vivos/mar_fondo.geojson", refresco_s: 3600, fuente: "Modelo GFS-Wave de NOAA (estimación propia)",
     estilo: (p) => ({ c: ["#5DADE2", "#E0A100", "#E2711D", "#C62828"][p.nivel || 0], r: p.nivel ? 4 + 2 * p.nivel : 3 }),
     etiqueta: (p) => (p.nivel ? `${p.altura_max_m} m` : ""),
     leyenda: [{ c: "#E0A100", r: 6, t: "Moderado: oleaje de fondo de 2 a 2.9 m (periodo de 12 s o más)" }, { c: "#E2711D", r: 8, t: "Fuerte: 3 a 3.9 m" },
       { c: "#C62828", r: 10, t: "Muy fuerte: 4 m o más" }, { c: "#5DADE2", r: 3, t: "Sin mar de fondo en 7 días" },
       { t: "Mar de fondo = olas largas que vienen de tormentas lejanas: corrientes de resaca y oleaje en malecones aunque no haya viento. Aviso oficial en México: SMN y SEMAR." }],
-    ficha: (p) => ({ titulo: p.name, chip: K.nivelMar(p.nivel), filas: K.filasMar(p), url: "https://open-meteo.com/en/docs/marine-weather-api", fuente: "Open-Meteo Marine (modelos de oleaje)" }),
+    ficha: (p) => ({ titulo: p.name, chip: K.nivelMar(p.nivel), filas: K.filasMar(p), url: "https://polar.ncep.noaa.gov/waves/", fuente: "Modelo de oleaje GFS-Wave de NOAA (cada 6 h)" }),
     extra: (p) => K.barras((p.serie || []).map(([t, h]) => [t, h]), { titulo: "Altura del oleaje de fondo (m)", unidad: "m", umbrales: [[2, "#E0A100", "2 m"], [3, "#E2711D", "3 m"], [4, "#C62828", "4 m"]] }),
   },
   {
@@ -563,7 +563,7 @@ export const CAPAS = [
         : [["Nivel de alerta", "Sin dato automático: consulta la fuente oficial"]]),
         ...(p.codigo_aviacion ? [["Código de aviación", p.codigo_aviacion]] : []), ["Nota", p.note || "—"], ["Ceniza", p.ash_note || "—"]],
       url: p.alerta_url || p.url, fuente: p.alerta_fuente || "Fuente oficial del volcán" }),
-    // Viento en altura (Open-Meteo): se pide al abrir la ficha y se dibuja hacia dónde iría la ceniza.
+    // Viento en altura (GFS de NOAA, tools/clima/gfs.py): se lee al abrir la ficha y se dibuja hacia dónde iría la ceniza.
     extra: (p, g) => `<div class="ceniza" data-lon="${g.coordinates[0]}" data-lat="${g.coordinates[1]}" data-nombre="${esc(p.name)}"><p class="meta">Calculando hacia dónde iría la ceniza…</p></div>`
       + htmlErupcion({ lon: g.coordinates[0], lat: g.coordinates[1], nombre: p.name, tipo: p.type || "", pais: p.country || "", gvp: (String(p.url || "").match(/vn=(\d+)/) || [])[1] || "" }),
     leyenda: [{ c: COLOR_ALERTA.verde, r: 6, t: "Verde / NORMAL" }, { c: COLOR_ALERTA.amarillo, r: 6, t: "Amarillo (fases 1–3) / ADVISORY" },
