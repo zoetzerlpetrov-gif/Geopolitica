@@ -22,15 +22,16 @@ RADIO_CELDAS = 4          # 4 celdas de 0.25° ≈ 45 km
 PAUSA_S = 0.6             # NOMADS bloquea por un rato a quien pide más de ~120 veces por minuto
 
 
-def url_gfs(corrida, f, variables, niveles, region=None):
-    """Filtro GRIB de GFS 0.25°: variables y niveles («10_m_above_ground», «surface») con recorte opcional (N, O, E, S)."""
+def url_gfs(corrida, f, variables, niveles, region=None, resolucion="0p25"):
+    """Filtro GRIB de GFS (0p25 o 1p00): variables y niveles («10_m_above_ground», «surface») con recorte opcional
+    (N, O, E, S)."""
     hh, fecha = corrida.strftime("%H"), corrida.strftime("%Y%m%d")
-    q = f"dir=%2Fgfs.{fecha}%2F{hh}%2Fatmos&file=gfs.t{hh}z.pgrb2.0p25.f{f:03d}"
+    q = f"dir=%2Fgfs.{fecha}%2F{hh}%2Fatmos&file=gfs.t{hh}z.pgrb2.{resolucion}.f{f:03d}"
     q += "".join(f"&var_{v}=on" for v in variables) + "".join(f"&lev_{n}=on" for n in niveles)
     if region:
         n, o, e, s = region
         q += f"&subregion=&toplat={n}&leftlon={o % 360}&rightlon={e % 360}&bottomlat={s}"
-    return f"{NOMADS}/filter_gfs_0p25.pl?{q}"
+    return f"{NOMADS}/filter_gfs_{resolucion}.pl?{q}"
 
 
 def url_olas(corrida, f):

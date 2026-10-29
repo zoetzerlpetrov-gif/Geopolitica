@@ -1,18 +1,12 @@
-"""Sonda temporal: nortes (GFS) y mar de fondo (GFS-Wave) con datos reales, como en el workflow."""
-import json, os, sys, time
-from datetime import datetime, timezone
-sys.path.insert(0, "tools/clima")
-import frentes as Fr, mar_fondo as M
-for f in ("vivos/nortes.geojson", "vivos/mar_fondo.geojson"):
-    if os.path.exists(f): os.remove(f)
-t0 = time.time(); print(Fr.actualizar_nortes(datetime.now(timezone.utc)), round(time.time() - t0), "s")
-d = json.load(open("vivos/nortes.geojson"))
-print("nortes", d["fuente"], d["corrida"], d["pasos"], len(d["features"]))
-for f in d["features"][:19]:
-    p = f["properties"]; print("  ", p["name"], p["nivel"], p["rafaga_max_kmh"], p["horas"], p["inicio"], p["fin"])
-t0 = time.time(); M.main(); print("mar_fondo", round(time.time() - t0), "s")
-d = json.load(open("vivos/mar_fondo.geojson"))
-print("mar", d["fuente"], d["corrida"], d["pasos"], len(d["features"]), "de", len(M.PUNTOS))
-faltan = sorted(set(n for n, _, _ in M.PUNTOS) - {f["properties"]["name"] for f in d["features"]}); print(" sin dato:", faltan)
-for f in d["features"][:40]:
-    p = f["properties"]; print("  ", p["name"], p["nivel"], p["altura_max_m"], p["periodo_en_max_s"], p["hora_max"], p["horas_evento"])
+"""Sonda temporal: pronóstico de 7 días con MET Norway + ráfagas de GFS, como en el workflow."""
+import json, os, sys, time, importlib.util, tempfile
+d = tempfile.mkdtemp(); os.environ["CLIMA_TACTICO_DIR"] = d
+spec = importlib.util.spec_from_file_location("fd", "tools/clima_tactico/fetch_data.py"); FD = importlib.util.module_from_spec(spec); spec.loader.exec_module(FD)
+t0 = time.time(); FD.fetch_forecast(); print("segundos", round(time.time() - t0))
+fc = json.load(open(os.path.join(d, "forecast.geojson")))
+print("meta", fc["metadata"], "puntos", len(fc["features"]), "de", len(FD.GRID))
+import collections
+print("niveles", collections.Counter(f["properties"]["level"] for f in fc["features"]))
+sin_raf = sum(1 for f in fc["features"] if not f["properties"]["max_gust_kmh"]); print("sin ráfaga", sin_raf)
+for f in fc["features"][:6] + [x for x in fc["features"] if x["properties"]["name"] in ("Madrid", "Tokio", "Merida")]:
+    p = f["properties"]; print(" ", p["name"], p["level_label"], p["max_rain_mm"], p["max_gust_kmh"], p["min_tmin_c"], p["max_tmax_c"], [(x["date"], x["code"], x["rain"], x["gust"]) for x in p["days"][:3]])
