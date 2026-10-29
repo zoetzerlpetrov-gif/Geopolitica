@@ -13,11 +13,13 @@ ID = re.compile(r'^[\w-]{1,100}$', re.ASCII)
 
 
 def document(value):
-    if not isinstance(value, dict) or set(value) - {'fase1', 'fase2'}:
-        raise ValueError('El expediente acepta solo fase1 y fase2.')
+    if not isinstance(value, dict) or set(value) - {'fase1', 'fase2', 'fase4'}:
+        raise ValueError('El expediente acepta fase1, fase2 y fase4.')
     if len(json.dumps(value).encode()) > 4 * 1024 * 1024:
         raise ValueError('Máximo 4 MB de datos documentales.')
     for phase, raw in value.items():
+        if phase == 'fase4':
+            continue
         if raw is None:
             continue
         if not isinstance(raw, dict) or type(raw.get('version')) is not int or raw.get('version') != (1 if phase == 'fase1' else 2):
@@ -116,6 +118,8 @@ def document(value):
             pairs = [(r['hipotesis'], r['codigo']) for r in raw['evidencias']]
             if len(pairs) != len(set(pairs)):
                 raise ValueError('Valoración de evidencia duplicada.')
+    from .phase4 import validate
+    validate(value)
     return value
 
 

@@ -19,7 +19,12 @@ jobs:
           cache: pip
           cache-dependency-path: backend/requirements.txt
       - run: pip install -r backend/requirements.txt pytest==8.4.2 pillow==13.0.0
-      - run: PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_c2pa.py backend/checks_http.py -q
+      - run: PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_phase4.py backend/checks_c2pa.py backend/checks_http.py -q
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --prefix /tmp/dominus-f4-js --no-save --no-audit --no-fund jsdom@27.4.0
+      - run: node --test backend/checks_phase4_ui.mjs
       - run: python -m compileall -q backend/dominus tools/fase2 tools/fase23
       - run: docker compose --env-file /dev/null -f backend/compose.yml config --quiet
         env:
@@ -62,6 +67,6 @@ jobs:
           cache: pip
           cache-dependency-path: backend/requirements.txt
       - run: pip install -r backend/requirements.txt pytest==8.4.2 pillow==13.0.0
-      - run: PYTHONPATH=backend python -m pytest backend/checks_backend.py -q
+      - run: PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_phase4.py -q
         env:
           TEST_DATABASE_URL: postgresql+psycopg://dominus:ephemeral-ci-only@127.0.0.1:5432/dominus_test

@@ -22,7 +22,7 @@ EPS no es OPS. EPS permite documentos europeos y listas semanales, no búsqueda 
 
 ## Inicio gratuito en un equipo propio
 
-Requisitos: Docker Engine con Compose v2 y Python 3 para generar configuración. No se compra infraestructura, no se acepta un contrato externo y no se usa un plan SaaS por defecto. El software no incluye el costo del equipo, electricidad, administración ni conectividad.
+Requisitos: Docker Engine con Compose v2 y Python 3 para generar configuración. Esta implementación no compra infraestructura, no crea cuentas externas ni activa un plan SaaS por defecto. Las herramientas de instalación tienen condiciones propias; revisar la licencia de Docker Desktop para uso empresarial o gubernamental. El software no incluye el costo del equipo, electricidad, administración ni conectividad.
 
 Desde la raíz del repositorio:
 
@@ -165,3 +165,9 @@ La interfaz privada todavía no integra el mapa público completo ni mensajes en
 - FastAPI seguridad: https://fastapi.tiangolo.com/tutorial/security/
 
 Para uso empresarial en México, definir antes de cargar información real: responsable del tratamiento, finalidad, acceso, conservación, transferencia y procedimiento de incidentes. El código implementa controles técnicos; no concede por sí mismo cumplimiento normativo ni autorización para tratar cualquier dato.
+
+## Tutorial integrado y Fase 4A
+
+El tutorial completo se lee en `plataforma.html#tutorial-f3`, sin abrir el repositorio. Su fuente es `docs/TUTORIAL_FASE3.md`; `tools/fase23/render_tutorial.py` regenera el HTML estático con la referencia operativa incluida. No carga Markdown remoto ni ejecuta instrucciones de la página.
+
+Fase 4A amplía los expedientes existentes con activos, entidades, relaciones y originales pequeños con custodia incremental. Ver docs/FASE4.md. Actualizar imágenes backend; no se modifican tablas ni claves. Las copias y revisiones existentes incluyen el documento fase4.

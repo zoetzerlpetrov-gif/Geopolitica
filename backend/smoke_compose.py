@@ -1,4 +1,5 @@
 """Aceptación del stack efímero CI; no imprime credenciales ni claves."""
+import base64
 import io
 import json
 from pathlib import Path
@@ -48,12 +49,18 @@ def main():
         Image.new('RGB', (16, 16)).save(raw, 'JPEG')
         r = c.post(path + '/c2pa', files={'file': ('unsigned-qa.jpg', raw.getvalue(), 'image/jpeg')})
         assert r.status_code == 200 and r.json()['result']['estado'] == 'sin_manifiesto', 'Verificador por socket falló.'
+        r = c.post(path + '/evidence', json={'version': 1, 'filename': 'ci.txt', 'content': base64.b64encode(b'QA original').decode(), 'source': 'CI sintetico', 'acquired_at': '2026-10-29T10:00:00-06:00', 'custodian': 'QA', 'reason': 'Aceptacion CI'})
+        assert r.status_code == 200, 'Recepcion Fase 4 fallo.'
+        eid = r.json()['id']
+        assert c.get(path + '/evidence/' + eid + '/download').content == b'QA original'
+        assert c.get('/assets/phase4.js').status_code == 200
         compose('restart', 'api')
         ready(c)
         assert c.get(path).json()['title'] == 'Caso CI efímero', 'Persistencia tras reinicio falló.'
+        assert c.get(path + '/evidence/' + eid + '/download').content == b'QA original', 'Original tras reinicio fallo.'
         assert c.post('/api/logout').status_code == 200
         assert c.get('/api/me').status_code == 401
-    print('Stack Docker: MFA, HTTP, PostGIS, C2PA sin red/sin claves, persistencia tras reinicio y cierre de sesión correctos.')
+    print('Stack Docker: MFA, HTTP, PostGIS, C2PA sin red/sin claves, Fase 4A originales/custodia, persistencia tras reinicio y cierre de sesión correctos.')
 
 
 if __name__ == '__main__':

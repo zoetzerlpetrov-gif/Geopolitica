@@ -229,6 +229,8 @@ def create_app(settings=None):
     @app.post('/api/orgs/{org}/cases')
     def new_case(org: str, body: NewCase, a=Depends(actor)):
         content = document(body.data)
+        from .phase4 import preserve_originals
+        preserve_originals({}, content)
         with store.tx() as s:
             membership(s, org, a, {'owner', 'analyst'})
             cid = uid()
@@ -253,6 +255,8 @@ def create_app(settings=None):
         content = document(body.data)
         with store.tx() as s:
             c = case_permission(s, cid, org, a, 'write')
+            from .phase4 import preserve_originals
+            preserve_originals(store.open(c.data, 'case:' + cid), content)
             payload = store.seal(content, 'case:' + cid)
             result = s.execute(update(Case).where(Case.id == cid, Case.version == body.version).values(data=payload, version=body.version + 1, updated=time.time()))
             if result.rowcount != 1:
@@ -503,6 +507,9 @@ def create_app(settings=None):
             case_permission(s, cid, org, a, 'write')
             audit(store, s, org, a['id'], 'c2pa.checked', cid)
         return {'sha256': hashlib.sha256(content).hexdigest(), 'result': result, 'stored_original': False}
+
+    from .phase4 import register
+    register(app, store, actor)
 
     @app.get('/api/schema')
     def schema(a=Depends(actor)):

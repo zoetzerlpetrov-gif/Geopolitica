@@ -1,2 +1,401 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Plataforma privada y fuentes · DOMINUS</title><link rel="stylesheet" href="css/fase1.css"><script type="module" src="js/plataforma.js"></script><link rel="stylesheet" href="css/fases.css"></head><body><header><div><p class="marca">DOMINUS · FASES 2 Y 3</p><h1>Fuentes y plataforma privada</h1><p>Estado público de conectores gratuitos y acceso a la guía de instalación.</p></div><a href="fase2.html">Análisis y expedientes</a></header><main><nav class="fases-nav" aria-label="Navegación de Fases 1 a 3"><a class="fases-inicio" href="index.html">← Mapa</a><a href="analista.html"><strong>Fase 1 · Mesa del analista</strong><span>Planificación y calidad</span></a><a href="fase2.html"><strong>Fase 2 · Análisis y expedientes</strong><span>Hipótesis, empresas y evidencia</span></a><a href="plataforma.html" aria-current="page"><strong>Fase 3 · Plataforma privada y fuentes</strong><span>Estado público y guía de instalación</span></a></nav><aside class="aviso"><b>Esta página es pública.</b> Los expedientes privados, cuentas, claves y consultas de clientes no se guardan ni se muestran aquí. El backend requiere iniciar la instalación privada; esta página no crea una cuenta ni activa un servidor.</aside><section id="fases" class="fases-centro"><h2>Centro de trabajo · Fases 1–3</h2><p>Selecciona una fase para abrir sus herramientas. Las Fases 1 y 2 funcionan en este navegador; la Fase 3 reúne el estado de fuentes y la instalación del entorno privado.</p><div class="fases-tarjetas"><a href="analista.html"><strong>Fase 1 · Mesa del analista</strong><span>Preguntas PIR / IR / EEI, cobertura de fuentes, productos, lecciones y relevo.</span><small>Disponible · almacenamiento local</small></a><a href="fase2.html"><strong>Fase 2 · Análisis y expedientes</strong><span>Hipótesis, empresas, evidencias e informes técnicos.</span><small>Disponible · almacenamiento local</small></a><a href="#privada"><strong>Fase 3 · Entorno privado</strong><span>Cuentas con MFA, permisos, expedientes compartidos, vigilancia y copias cifradas.</span><small>Requiere instalar el backend · no hay servidor privado conectado aquí</small></a></div><div class="atajos"><a href="#fuentes">Ver estado de fuentes gratuitas</a><a href="#c2pa">Ver verificación C2PA</a></div></section><section id="privada"><h2>Fase 3 · Backend autohospedable</h2><p>La instalación incluye PostgreSQL/PostGIS, acceso con contraseña y MFA, roles por organización, permisos revocables por expediente, edición con control de versiones, vigilancia programada, auditoría y copias cifradas. La interfaz privada funciona en el mismo origen que su API, separada de GitHub Pages.</p><div class="atajos"><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/blob/main/docs/FASE3.md">Guía de instalación y operación</a><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/tree/main/backend">Código del backend</a><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/workflows/fase3-ci.yml">Pruebas del backend</a></div><p>La ejecución en un equipo propio no requiere contratar SaaS. El funcionamiento continuo exige mantener ese equipo encendido; alojamiento, dominio y copias externas pueden generar costos. SSO es opcional y requiere configurar el proveedor de identidad. Las funciones locales de Fase 1 y 2 permanecen disponibles.</p></section><section id="fuentes"><h2>Salud de fuentes gratuitas</h2><p>El monitor programado utiliza consultas genéricas y solo publica estado, fechas, alcance y huellas. No representa los resultados de vigilancias privadas. Un fallo conserva la fecha del último éxito conocido.</p><p id="monitor-status" role="status">Cargando estado…</p><div id="monitor"></div><p>Programación diaria: 04:27 UTC (22:27 del día anterior en UTC−6). GitHub puede retrasar u omitir ejecuciones programadas; revisa siempre la fecha del último intento.</p></section><section id="c2pa"><h2>C2PA sin registro</h2><p>El verificador local ahora usa el SDK oficial de C2PA cuando está instalado. Puede validar la firma y evaluar confianza; la falta de credenciales no prueba falsedad. No consulta manifiestos remotos ni OCSP. La interfaz privada también admite verificación aislada de archivos hasta 4 MB.</p><p>Las pruebas generan certificados efímeros de laboratorio y comprueban un archivo firmado, un archivo alterado y otro sin manifiesto. No equivalen a aval institucional ni a certificación de una escena.</p></section></main><footer>Los datos públicos y las coincidencias requieren revisión humana. Consulta la cobertura de cada fuente.</footer>  <script type="module" src="js/vista_enlaces.js"></script>
+<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Plataforma privada y fuentes · DOMINUS</title><link rel="stylesheet" href="css/fase1.css"><script type="module" src="js/plataforma.js"></script><link rel="stylesheet" href="css/fases.css"></head><body><header><div><p class="marca">DOMINUS · FASES 1–4</p><h1>Fuentes y plataforma privada</h1><p>Accesos por fase, fuentes gratuitas y tutorial de instalación y operación.</p></div><a href="fase2.html">Análisis y expedientes</a></header><main><nav class="fases-nav" aria-label="Navegación de Fases 1 a 4"><a class="fases-inicio" href="index.html">← Mapa</a><a href="analista.html"><strong>Fase 1 · Mesa del analista</strong><span>Planificación y calidad</span></a><a href="fase2.html"><strong>Fase 2 · Análisis y expedientes</strong><span>Hipótesis, empresas y evidencia</span></a><a href="plataforma.html" aria-current="page"><strong>Fase 3 · Plataforma privada y fuentes</strong><span>Estado público y guía de instalación</span></a><a href="plataforma.html#fase4"><strong>Fase 4A · Operación y evidencia</strong><span>Relaciones, activos y custodia · backend privado</span></a></nav><aside class="aviso"><b>Esta página es pública.</b> Los expedientes privados, cuentas, claves y consultas de clientes no se guardan ni se muestran aquí. El backend requiere iniciar la instalación privada; esta página no crea una cuenta ni activa un servidor.</aside><section id="fases" class="fases-centro"><h2>Centro de trabajo · Fases 1–4</h2><p>Selecciona una fase para abrir sus herramientas. Las Fases 1 y 2 funcionan en este navegador; la Fase 3 reúne el estado de fuentes y la instalación del entorno privado.</p><div class="fases-tarjetas"><a href="analista.html"><strong>Fase 1 · Mesa del analista</strong><span>Preguntas PIR / IR / EEI, cobertura de fuentes, productos, lecciones y relevo.</span><small>Disponible · almacenamiento local</small></a><a href="fase2.html"><strong>Fase 2 · Análisis y expedientes</strong><span>Hipótesis, empresas, evidencias e informes técnicos.</span><small>Disponible · almacenamiento local</small></a><a href="#privada"><strong>Fase 3 · Entorno privado</strong><span>Cuentas con MFA, permisos, expedientes compartidos, vigilancia y copias cifradas.</span><small>Requiere instalar el backend · no hay servidor privado conectado aquí</small></a></div><div class="atajos"><a href="#tutorial-f3">Tutorial completo de Fase 3</a><a href="#fase4">Fase 4A · Activos y evidencia</a><a href="#fuentes">Ver estado de fuentes gratuitas</a><a href="#c2pa">Ver verificación C2PA</a></div></section><section id="privada"><h2>Fase 3 · Backend autohospedable</h2><p>La instalación incluye PostgreSQL/PostGIS, acceso con contraseña y MFA, roles por organización, permisos revocables por expediente, edición con control de versiones, vigilancia programada, auditoría y copias cifradas. La interfaz privada funciona en el mismo origen que su API, separada de GitHub Pages.</p><div class="atajos"><a href="#tutorial-f3">Leer tutorial aquí</a><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/blob/main/docs/FASE3.md">Referencia en el repositorio</a><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/tree/main/backend">Código del backend</a><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/workflows/fase3-ci.yml">Pruebas del backend</a></div><p>La ejecución en un equipo propio no requiere contratar SaaS. El funcionamiento continuo exige mantener ese equipo encendido; alojamiento, dominio y copias externas pueden generar costos. SSO es opcional y requiere configurar el proveedor de identidad. Las funciones locales de Fase 1 y 2 permanecen disponibles.</p></section><section id="fase4" class="fases-centro"><h2>Fase 4A · Expedientes, activos y evidencia</h2><aside class="aviso"><b>Primera entrega de Fase 4 · Requiere el backend privado actualizado.</b> No hay servidor privado conectado a esta página pública. Actualiza tu instalación siguiendo el tutorial y abre un expediente privado.</aside><p>Dentro del expediente abre «Fase 4A · Expediente unificado, activos y evidencia». Reutiliza la cuenta, permisos, cifrado y versiones de Fase 3.</p><ol><li><b>Activos:</b> registra una instalación, servicio, equipo, dominio o IP con responsable, identificador, ubicación y criticidad. Registrar una IP no ejecuta escaneos ni acredita autorización.</li><li><b>Entidades y eventos:</b> documenta empresas, personas de rol público o eventos con fuente y notas.</li><li><b>Relaciones:</b> conecta registros de Fase 1/2, entidades, activos y evidencias dentro del mismo caso. Escribe el fundamento; una relación declarada no confirma identidad ni causalidad.</li><li><b>Originales y custodia:</b> incorpora un original de hasta 512 KiB, origen, fecha con zona horaria y custodio. El servidor calcula SHA-256 y registra recepción, actor y transferencias declaradas. Descarga auditada y verificación de huella.</li><li><b>Vista unificada:</b> busca títulos y revisa sus relaciones sin duplicar registros.</li></ol><details><summary>Ejemplo guiado: suministro de combustible</summary><ol><li>Crea un expediente privado con datos ficticios.</li><li>En Activos crea «Terminal QA», responsable «Operaciones», identificador «TERM-QA-01».</li><li>En Entidades y eventos crea «Interrupción de suministro de prueba» y anota la fuente.</li><li>En Relaciones elige el evento → afecta → Terminal QA; agrega el fundamento.</li><li>Incorpora un TXT ficticio en Originales y custodia. Usa una fecha con zona, por ejemplo 2026-10-29T10:00:00-06:00.</li><li>Descarga el original, revisa su SHA-256 y registra una transferencia declarada. Esa transferencia no concede permisos.</li><li>Recarga el caso y comprueba persistencia e historial. Verifica acceso con otra cuenta autorizada.</li></ol></details><p>Límites: máximo global de 4 MB documentales por caso, incluyendo archivos codificados; no es almacenamiento de videos ni imágenes forenses de discos. Los originales se cifran y versionan; no se sustituyen por edición genérica. No hay antivirus, almacenamiento WORM ni sello temporal de tercero. La custodia registrada no acredita admisibilidad jurídica.</p><p><b>Siguientes entregas aún pendientes:</b> alertas/tablero/playbooks, integraciones/IA y entrevistas/Python. No se presentan como funciones activas de esta entrega.</p><div class="atajos"><a href="#tutorial-f3">Instalar o actualizar entorno privado</a><a href="https://github.com/zoetzerlpetrov-gif/Geopolitica/blob/main/docs/FASE4.md">Detalle técnico de Fase 4A</a></div></section><section id="fuentes"><h2>Salud de fuentes gratuitas</h2><p>El monitor programado utiliza consultas genéricas y solo publica estado, fechas, alcance y huellas. No representa los resultados de vigilancias privadas. Un fallo conserva la fecha del último éxito conocido.</p><p id="monitor-status" role="status">Cargando estado…</p><div id="monitor"></div><p>Programación diaria: 04:27 UTC (22:27 del día anterior en UTC−6). GitHub puede retrasar u omitir ejecuciones programadas; revisa siempre la fecha del último intento.</p></section><section id="c2pa"><h2>C2PA sin registro</h2><p>El verificador local ahora usa el SDK oficial de C2PA cuando está instalado. Puede validar la firma y evaluar confianza; la falta de credenciales no prueba falsedad. No consulta manifiestos remotos ni OCSP. La interfaz privada también admite verificación aislada de archivos hasta 4 MB.</p><p>Las pruebas generan certificados efímeros de laboratorio y comprueban un archivo firmado, un archivo alterado y otro sin manifiesto. No equivalen a aval institucional ni a certificación de una escena.</p></section><!-- tutorial-f3:inicio -->
+<section id="tutorial-f3" class="tutorial-fases" data-source-sha256="a6795f630ec054b67ecaf1107c5f8c2e855daf5fcb3a601c0c7aeaeb59df8b23"><h2>Fase 3 · Tutorial de instalación y operación</h2><p>Abre los pasos en orden. Los comandos se copian y ejecutan en tu terminal; esta página no instala software ni recibe tus claves.</p><details open><summary>Índice del tutorial y referencia operativa</summary><nav aria-label="Índice del tutorial Fase 3"><a href="#f3-paso-1">1. Entender qué vas a instalar</a><a href="#f3-paso-2">2. Preparar Windows, Linux o macOS</a><a href="#f3-paso-3">3. Descargar y ubicar el proyecto</a><a href="#f3-paso-4">4. Generar claves sin inventar contraseñas por defecto</a><a href="#f3-paso-5">5. Construir e inicializar la base</a><a href="#f3-paso-6">6. Crear la primera cuenta y activar servicios</a><a href="#f3-paso-7">7. Práctica guiada con datos ficticios</a><a href="#f3-paso-8">8. Añadir cuentas, permisos y revisión</a><a href="#f3-paso-9">9. Configurar vigilancia sin API key</a><a href="#f3-paso-10">10. Verificar multimedia con C2PA</a><a href="#f3-paso-11">11. Operación diaria, parada y actualización</a><a href="#f3-paso-12">12. Acceso desde varios equipos y HTTPS</a><a href="#f3-paso-13">13. Copias cifradas y recuperación</a><a href="#f3-paso-14">14. Recuperar una cuenta y conservar expedientes</a><a href="#f3-paso-15">15. Resolver errores sin perder datos</a><a href="#f3-paso-16">16. Checklist antes de información real</a><a href="#f3-operacion-1">Qué funciona y dónde</a><a href="#f3-operacion-2">Inicio gratuito en un equipo propio</a><a href="#f3-operacion-3">Importar y trabajar con Fase 1 y 2</a><a href="#f3-operacion-4">Vigilancia y fuentes</a><a href="#f3-operacion-5">C2PA: pendiente resuelto sin depender de c2patool</a><a href="#f3-operacion-6">Copias, recuperación y retención</a><a href="#f3-operacion-7">Recuperar cuentas y rotar claves</a><a href="#f3-operacion-8">SSO opcional</a><a href="#f3-operacion-9">Verificación y cobertura</a><a href="#f3-operacion-10">Registro de alcance Fase 3</a><a href="#f3-operacion-11">Referencias primarias</a><a href="#f3-operacion-12">Tutorial integrado y Fase 4A</a></nav></details><h3>Tutorial paso a paso</h3><p>Esta guía se lee completa desde el sitio web. Los comandos se ejecutan en tu computadora o servidor; los botones de copiar no ejecutan nada. GitHub Pages muestra esta guía y las fuentes públicas, pero no puede ejecutar Python, Docker, cuentas ni la base privada.</p><details id="f3-paso-1" open><summary>1. Entender qué vas a instalar</summary><p>Piensa en dos espacios: el <strong>sitio público</strong> es el mapa y las herramientas locales; el <strong>servidor privado</strong> es otra aplicación con inicio de sesión, expedientes compartidos y vigilancia. Instalar el segundo no cambia el primero.</p>
+<div class="tabla"><table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Para qué sirve</th>
+<th>Qué debes observar</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>API e interfaz privada</td>
+<td>Formularios, permisos y expedientes</td>
+<td>Abre en tu navegador en el puerto 8000</td>
+</tr>
+<tr>
+<td>PostgreSQL/PostGIS</td>
+<td>Guarda los registros y áreas</td>
+<td>Servicio db saludable, sin puerto abierto al exterior</td>
+</tr>
+<tr>
+<td>Worker</td>
+<td>Consulta las fuentes habilitadas</td>
+<td>Necesita el equipo encendido e Internet para sus consultas</td>
+</tr>
+<tr>
+<td>Backups</td>
+<td>Crea siete copias locales cifradas</td>
+<td>No sustituye una copia en otro equipo</td>
+</tr>
+<tr>
+<td>Validator</td>
+<td>Comprueba C2PA en aislamiento</td>
+<td>No tiene red ni las claves de la base</td>
+</tr>
+</tbody>
+</table></div>
+<p>Un <strong>contenedor</strong> ejecuta un componente aislado. Una <strong>imagen</strong> es su paquete de software. Un <strong>volumen</strong> conserva datos aunque reinicies un contenedor. Docker Compose coordina estos componentes. <strong>Loopback / 127.0.0.1</strong> significa «este mismo equipo»; no es una dirección para compartir con otra persona.</p>
+<p><strong>Resultado esperado:</strong> identificar dónde vivirán los datos. Empieza con información ficticia; todavía no cargues expedientes reales.</p></details><details id="f3-paso-2"><summary>2. Preparar Windows, Linux o macOS</summary><p>Necesitas Git, Python 3 y Docker con Compose v2. La conexión inicial descarga el repositorio, imágenes y dependencias. Verifica espacio disponible; el tamaño depende de imágenes, archivos y copias, no hay una cifra garantizada para todos los equipos.</p>
+<ul>
+<li><strong>Windows:</strong> instala Docker Desktop siguiendo su documentación oficial y usa contenedores Linux. La ruta habitual usa WSL 2; habilítalo según las instrucciones de Docker/Microsoft. Abre Docker Desktop y espera a que el motor esté en marcha. Usa PowerShell para los comandos de este tutorial. Comprueba <code>python --version</code>; si tu instalación solo reconoce <code>py</code>, sustituye <code>python</code> por <code>py -3</code> únicamente en los comandos Python del equipo anfitrión, nunca dentro del contenedor.</li>
+<li><strong>Linux:</strong> instala Docker Engine y el complemento Compose desde la documentación de tu distribución. Si tu operador requiere <code>sudo</code> para Docker, utiliza el procedimiento de permisos de tu organización. Pertenecer al grupo Docker da privilegios elevados sobre ese equipo.</li>
+<li><strong>macOS:</strong> instala una versión de Docker Desktop compatible con tu equipo y utiliza Terminal. Si Python se llama <code>python3</code>, sustituye <code>python</code> por <code>python3</code> solo en los comandos del anfitrión.</li>
+</ul>
+<p>Comprueba las herramientas una a una:</p>
+<pre><code class="language-sh">git --version
+python --version
+docker version
+docker compose version
+</code></pre>
+<p><strong>Resultado esperado:</strong> cada comando muestra su versión; <code>docker version</code> muestra cliente y servidor. Si dice que no se conecta al daemon, abre Docker o pide al operador iniciar el servicio. No continúes con el motor detenido.</p>
+<p>DOMINUS no contrata un servicio de alojamiento. Docker Desktop tiene condiciones propias: su uso personal y ciertos usos de pequeñas empresas son gratuitos; gobierno y otros usos empresariales requieren suscripción según su licencia. Docker Engine en Linux es una alternativa con condiciones diferentes. Revisa las condiciones vigentes antes de instalar en una empresa o dependencia.</p>
+<p>Referencias oficiales: <a href="https://docs.docker.com/desktop/setup/install/windows-install/">Windows</a>, <a href="https://docs.docker.com/desktop/features/wsl/">WSL 2</a>, <a href="https://docs.docker.com/engine/install/">Docker Engine</a>, <a href="https://docs.docker.com/compose/install/">Compose</a>, <a href="https://docs.docker.com/subscription-billing/desktop-license/">licencia Desktop</a>.</p></details><details id="f3-paso-3"><summary>3. Descargar y ubicar el proyecto</summary><p>Abre una terminal en la carpeta donde guardarás el proyecto. No uses una carpeta pública compartida para archivos privados.</p>
+<pre><code class="language-sh">git clone https://github.com/zoetzerlpetrov-gif/Geopolitica.git
+cd Geopolitica
+</code></pre>
+<p>Si ya tienes una copia de trabajo con modificaciones, no la sobrescribas ni hagas un reset: utiliza otra carpeta para esta instalación. En este punto debes estar en la raíz del proyecto, donde están las carpetas <code>backend</code> y <code>docs</code>. Puedes comprobarlo con <code>dir</code> en PowerShell o <code>ls</code> en Linux/macOS.</p>
+<p><strong>Resultado esperado:</strong> encontrar <code>backend/generar_entorno.py</code> y <code>backend/compose.yml</code>. El repositorio solo contiene código; tus cuentas y expedientes todavía no existen.</p></details><details id="f3-paso-4"><summary>4. Generar claves sin inventar contraseñas por defecto</summary><p>Desde la raíz del proyecto:</p>
+<pre><code class="language-sh">python backend/generar_entorno.py
+</code></pre>
+<p>Se crea <code>backend/.env</code> con configuración local y claves aleatorias. Si el archivo ya existe, el generador se niega a reemplazarlo: esto protege las claves de una instalación anterior. No lo borres para quitar el error.</p>
+<p><strong>MASTER_KEY</strong> permite descifrar datos. <strong>BACKUP_KEY</strong> protege la envoltura de las copias. Para recuperar todo necesitas ambas. Custódialas en un gestor o soporte protegido, separado del servidor. No pegues sus valores en el sitio público, chats, tickets ni capturas. En Windows revisa también los permisos NTFS de esa carpeta; el modo Unix 0600 no sustituye las ACL de Windows.</p>
+<p><strong>Resultado esperado:</strong> archivo creado una sola vez y claves bajo custodia. No necesitas registrarte en una API para generar este entorno.</p></details><details id="f3-paso-5"><summary>5. Construir e inicializar la base</summary><p>Entra a la carpeta backend y ejecuta cada línea cuando termine la anterior:</p>
+<pre><code class="language-sh">cd backend
+docker compose build
+docker compose up -d db
+docker compose run --rm api python -m dominus.cli init
+</code></pre>
+<p><code>build</code> prepara las imágenes. <code>up -d db</code> inicia la base en segundo plano. <code>init</code> crea las tablas e índices necesarios; no crea usuarios. La primera preparación puede tardar según la red y el equipo.</p>
+<pre><code class="language-sh">docker compose ps
+</code></pre>
+<p><strong>Resultado esperado:</strong> servicio db en marcha y saludable. Si la inicialización falla, no elimines volúmenes: consulta el apartado de errores y conserva el mensaje sin secretos.</p></details><details id="f3-paso-6"><summary>6. Crear la primera cuenta y activar servicios</summary><p>Crea una organización ficticia inicial y su propietario:</p>
+<pre><code class="language-sh">docker compose run --rm api python -m dominus.cli provision --organization &quot;Mi organización&quot; --username analista --role owner --output /app/backend/private/inicio.json
+docker compose up -d api worker backups validator
+</code></pre>
+<p>El archivo de inicio se escribe en un volumen privado, no en Git. Crea en el anfitrión una carpeta llamada <code>private</code> dentro de <code>backend</code> si aún no existe. En PowerShell puedes usar <code>New-Item -ItemType Directory -Force private</code>; en Linux/macOS, <code>mkdir -p private</code>. Luego copia el archivo:</p>
+<pre><code class="language-sh">docker compose cp api:/app/backend/private/inicio.json private/inicio.json
+</code></pre>
+<p>En Linux/macOS restringe el archivo con <code>chmod 600 private/inicio.json</code>. En Windows limita sus permisos al usuario que lo custodia. Ábrelo localmente con un editor: contiene la contraseña y la URI/semilla TOTP. Importa esa URI/semilla en una aplicación autenticadora compatible; cada usuario debe custodiar la suya. Ajusta la hora automática de computadora y teléfono.</p>
+<p>Abre en el navegador del <strong>mismo equipo</strong>: <strong>http://127.0.0.1:8000</strong>. Escribe usuario, contraseña y el código vigente de seis cifras del autenticador. Un código ya utilizado no se reutiliza para otro inicio de sesión.</p>
+<p>Cuando la contraseña y el autenticador estén bajo custodia segura, retira las copias de onboarding del anfitrión y del volumen privado mediante el procedimiento del operador. No elimines <code>.env</code> ni las claves de recuperación. La aplicación no borra esas copias automáticamente.</p>
+<p><strong>Resultado esperado:</strong> ver «Sesión privada activa», una organización seleccionable y el formulario Nuevo expediente. Tener Docker en marcha no significa que GitHub Pages se haya convertido en una app privada.</p></details><details id="f3-paso-7"><summary>7. Práctica guiada con datos ficticios</summary><ol>
+<li>Crea el expediente <strong>Prueba · suministro de combustible</strong>.</li>
+<li>En Fase 1 del sitio público crea una pregunta de prueba y exporta su respaldo JSON. Haz lo mismo con una ficha de Fase 2 si lo necesitas.</li>
+<li>En el servidor privado selecciona el expediente y usa <strong>Importar respaldo Fase 1 o 2</strong>. Revisa el contenido y confirma. Importar una fase reemplaza esa fase en el expediente; conserva las otras fases y el historial del servidor.</li>
+<li>Elige fase y sección, modifica un campo y registra el motivo. Guarda y observa que aumenta la versión.</li>
+<li>Recarga el expediente: el dato debe seguir disponible.</li>
+<li>Exporta una versión documental solo si necesitas una copia. Esa exportación está <strong>en claro</strong>; no es una copia cifrada completa del servidor.</li>
+</ol>
+<p>Los estados «aprobado» importados son anotaciones locales. La revisión autenticada requiere un revisor autorizado distinto del último editor y se refiere a una versión concreta. Un cambio posterior requiere una revisión nueva si tu proceso la exige.</p>
+<p><strong>Resultado esperado:</strong> la información persiste al recargar y el historial muestra quién guardó cada versión. La aplicación no certifica que los hechos registrados sean verdaderos.</p></details><details id="f3-paso-8"><summary>8. Añadir cuentas, permisos y revisión</summary><p>Desde <code>backend</code>, repite la provisión con un nombre y archivo nuevos:</p>
+<pre><code class="language-sh">docker compose exec api python -m dominus.cli provision --organization &quot;Mi organización&quot; --username revisor --role reviewer --output /app/backend/private/revisor-inicio.json
+</code></pre>
+<p>Entrega las credenciales y configuración MFA mediante un canal protegido bajo control del operador, siguiendo la misma custodia del primer usuario. No se envían por correo automáticamente. Roles disponibles: <code>owner</code>, <code>analyst</code>, <code>reviewer</code>, <code>viewer</code>.</p>
+<p>En el expediente, abre <strong>Acceso al expediente</strong>, elige un usuario de la organización, permiso y vigencia de uno a siete días. Pertenecer a la organización no da acceso a todos sus casos; el propietario de la organización sí tiene facultades de administración. Revocar acceso bloquea solicitudes posteriores, pero no retira archivos que la persona ya descargó.</p>
+<p>Para probar un segundo usuario local usa otro perfil o ventana privada del navegador. Para otro <strong>equipo físico</strong>, primero configura HTTPS como explica el paso 12. Dos personas que usan <code>127.0.0.1</code> en equipos distintos no se conectan al mismo servidor.</p>
+<p><strong>Resultado esperado:</strong> un usuario sin autorización no abre el caso; al conceder lectura puede consultarlo y no puede editarlo. La revisión exige el rol y permiso adecuados.</p></details><details id="f3-paso-9"><summary>9. Configurar vigilancia sin API key</summary><p>Selecciona un expediente y abre <strong>Fuentes y vigilancia</strong>. Lee el proveedor receptor y su cobertura, escribe el criterio y confirma el envío indicado. El worker trabaja mientras el equipo esté encendido. «Solicitar consulta» respeta cuotas y frecuencias; no significa respuesta inmediata.</p>
+<div class="tabla"><table>
+<thead>
+<tr>
+<th>Fuente</th>
+<th>Prueba o criterio</th>
+<th>Límite de interpretación</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OFAC SDN</td>
+<td>Nombre o alias de al menos tres caracteres</td>
+<td>Coincidencia candidata; confirmar identidad. No es todas las listas del mundo</td>
+</tr>
+<tr>
+<td>USAspending</td>
+<td>Palabras del contrato</td>
+<td>Contratos federales de EE. UU.; no todas las licitaciones mundiales</td>
+</tr>
+<tr>
+<td>EPO EPS semanal</td>
+<td>Prefijo EP opcional</td>
+<td>Publicaciones europeas; no búsqueda mundial por dueño</td>
+</tr>
+<tr>
+<td>EPO EPS documento</td>
+<td>EP1004359NWB1 como ejemplo público</td>
+<td>Documento conocido; no certifica vigencia jurídica</td>
+</tr>
+<tr>
+<td>SAT 69-B</td>
+<td>RFC exacto</td>
+<td>Copia del proyecto con fecha y corte; revisar la fuente oficial</td>
+</tr>
+</tbody>
+</table></div>
+<p>OFAC, SAT y EPS semanal filtran criterios en el servidor sobre descargas fijas. USAspending recibe palabras/periodo; EPS documento recibe el identificador. No se envía el expediente completo. Frecuencia mínima: 24 horas para OFAC, contratos y EPS semanal; siete días para documento EPS y copia SAT. Máximo 50 vigilancias por organización.</p>
+<p><strong>Resultado esperado:</strong> aparece una vigilancia y, tras su ejecución exitosa, fecha del último éxito y observación. Un error conserva el último resultado; revisa antigüedad y si hay cobertura parcial. El monitor de la página pública usa consultas genéricas y no muestra tus vigilancias.</p></details><details id="f3-paso-10"><summary>10. Verificar multimedia con C2PA</summary><p>En el expediente privado abre <strong>Verificar credenciales C2PA</strong>, selecciona un formato admitido de hasta 4 MB y ejecuta la verificación. El archivo viaja a tu servidor privado, se procesa en un contenedor sin red ni claves de la base y se elimina al terminar. No se conserva automáticamente como evidencia.</p>
+<p>Revisa por separado: presencia de manifiesto, integridad de firma, confianza y limitaciones. Un archivo sin manifiesto no es necesariamente falso y una firma válida no demuestra que la escena sea cierta. La verificación no consulta OCSP ni manifiestos remotos.</p>
+<p><strong>Resultado esperado:</strong> informe con huella y resultado; no una etiqueta automática de «verdadero». Para conservar un original pequeño en Fase 4A usa su acción de incorporación, que es independiente de C2PA.</p></details><details id="f3-paso-11"><summary>11. Operación diaria, parada y actualización</summary><p>Desde <code>backend</code>, comprobar servicios:</p>
+<pre><code class="language-sh">docker compose ps
+docker compose logs --tail=50 api worker backups validator
+</code></pre>
+<p>No compartas registros sin revisar datos sensibles. No muestres salidas de configuración completa ni variables de entorno. Si necesitas validar sintaxis, utiliza <code>docker compose config --quiet</code>.</p>
+<p>Para detener temporalmente y volver a iniciar sin borrar datos:</p>
+<pre><code class="language-sh">docker compose stop
+docker compose up -d api worker backups validator
+</code></pre>
+<p>No utilices <code>docker compose down -v</code>, <code>docker volume rm</code> ni limpieza de volúmenes en una instalación con datos: eliminan almacenamiento persistente. Apagar el equipo pausa vigilancias y copias; al encenderlo vuelve a revisar servicios y último éxito.</p>
+<p>Antes de actualizar: haz copia recuperable, conserva ambas claves, registra tu versión con <code>git rev-parse HEAD</code> y prueba la nueva versión en un entorno separado. Si tu checkout está limpio y ya validaste la actualización, desde la raíz ejecuta <code>git pull --ff-only</code>; después, desde backend:</p>
+<pre><code class="language-sh">docker compose stop api worker backups
+docker compose build
+docker compose run --rm api python -m dominus.cli init
+docker compose up -d api worker backups validator
+</code></pre>
+<p>No cambies el nombre de carpeta/proyecto Compose de una instalación existente sin planificar los volúmenes: podrías iniciar otra base vacía. Conserva la versión y configuración para una recuperación probada. No regeneres <code>.env</code> para actualizar.</p></details><details id="f3-paso-12"><summary>12. Acceso desde varios equipos y HTTPS</summary><p>Este es un paso de despliegue a cargo del operador. La configuración incluida publica la API solo en <code>127.0.0.1:8000</code>. <strong>No cambies ese enlace por 0.0.0.0 para saltarte la preparación.</strong></p>
+<p>Necesitas un host bajo tu control, DNS cuando corresponda, un certificado TLS válido y un proxy HTTPS que reenvíe las solicitudes a la API local. Configura <code>PUBLIC_ORIGIN</code> con el origen exacto, sin ruta, y <code>ALLOW_LOCAL_HTTP=0</code> en el entorno del servidor. El proxy debe conservar el Host correspondiente al origen configurado. Recréa los servicios para que lean la configuración:</p>
+<pre><code class="language-sh">docker compose up -d --force-recreate api worker backups
+</code></pre>
+<p>Solo el proxy debe ser accesible por los clientes; PostgreSQL no se publica. Las cookies de producción requieren HTTPS. No habilites CORS ni desactives comprobaciones de Host/origen como solución a un error.</p>
+<p><strong>Prueba de aceptación:</strong> desde dos equipos autorizados abrir el origen HTTPS real, iniciar sesión con cuentas distintas, leer el mismo caso autorizado, verificar permisos, editar con conflicto de versión y revocar un permiso. Revisar también caducidad del certificado, firewall y recuperación. El proyecto no configura automáticamente tu DNS, proxy ni hosting; por eso este tutorial no da por terminado ese despliegue.</p></details><details id="f3-paso-13"><summary>13. Copias cifradas y recuperación</summary><p>El servicio backups crea una copia al iniciar y cada 24 horas; retiene siete copias locales. Para una copia manual, desde backend:</p>
+<pre><code class="language-sh">docker compose exec api python -m dominus.cli backup --file /app/backend/private/manual.dominus
+docker compose cp api:/app/backend/private/manual.dominus private/manual.dominus
+</code></pre>
+<p>Usa un nombre de archivo nuevo en cada copia manual. Lleva la copia a un destino independiente, protegido y bajo tu control. Ver un archivo no prueba que puedas recuperarlo: ensaya restauración en un <strong>entorno separado</strong>, con base vacía y las claves originales.</p>
+<p>En ese entorno de recuperación, con la API iniciada y la base inicializada pero sin cuentas ni datos:</p>
+<pre><code class="language-sh">docker compose cp private/manual.dominus api:/app/backend/private/recuperar.dominus
+docker compose exec api python -m dominus.cli restore --file /app/backend/private/recuperar.dominus
+</code></pre>
+<p>No ejecutes provision antes de restaurar: la base dejaría de estar vacía. La restauración rechaza una base con datos, copia alterada o claves incompatibles. No borres producción para conseguir una base vacía. Mantén las consultas de vigilancia y tareas del entorno de prueba pausadas mientras compruebas la recuperación.</p>
+<p><strong>Resultado esperado:</strong> iniciar sesión nuevamente, recuperar el caso y sus versiones y comprobar auditoría. Las sesiones activas no se restauran. En Fase 4A comprueba también la descarga y huella de un original de prueba.</p></details><details id="f3-paso-14"><summary>14. Recuperar una cuenta y conservar expedientes</summary><p>Si un usuario pierde su contraseña o autenticador, el operador primero verifica su identidad por el procedimiento de la organización. Después, desde backend:</p>
+<pre><code class="language-sh">docker compose exec api python -m dominus.cli reset-user --username analista --output /app/backend/private/recuperacion-nueva.json
+</code></pre>
+<p>Se regeneran contraseña y TOTP, se revocan sesiones y se registra la recuperación. Custodia y retira el archivo como en el alta. No existe recuperación anónima por correo.</p>
+<p>Para suspender/restituir una cuenta:</p>
+<pre><code class="language-sh">docker compose exec api python -m dominus.cli disable-user --username analista
+docker compose exec api python -m dominus.cli enable-user --username analista
+</code></pre>
+<p>La restitución permite nuevos accesos; no reactiva sesiones previas. En Administración puedes consultar papelera y restaurar casos autorizados. Al enviar un caso a papelera se pausan sus vigilancias. La retención se configura entre uno y 3650 días; un bloqueo de conservación impide purga. Una copia antigua mantiene su propio ciclo: no desaparece por borrar un caso actual.</p>
+<p>La rotación de claves maestras y SSO se explican en la referencia operativa incluida debajo; requieren preparación del operador. No son necesarios para probar el acceso local con MFA.</p></details><details id="f3-paso-15"><summary>15. Resolver errores sin perder datos</summary><div class="tabla"><table>
+<thead>
+<tr>
+<th>Mensaje o síntoma</th>
+<th>Qué revisar</th>
+<th>Acción que evita perder información</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Docker no conecta al daemon</td>
+<td>Motor en marcha y contenedores Linux</td>
+<td>Inicia el motor; no regeneres claves</td>
+</tr>
+<tr>
+<td>.env ya existe</td>
+<td>Posible instalación previa</td>
+<td>Conserva el archivo y verifica su custodia</td>
+</tr>
+<tr>
+<td>Puerto 8000 ocupado</td>
+<td>Otra aplicación o instalación</td>
+<td>Identifica al propietario del puerto; no detengas procesos desconocidos</td>
+</tr>
+<tr>
+<td>No abre desde otro equipo</td>
+<td>127.0.0.1 solo es local</td>
+<td>Prepara proxy HTTPS y origen; no expongas HTTP de desarrollo</td>
+</tr>
+<tr>
+<td>Host u origen no permitido</td>
+<td>Dirección usada y PUBLIC_ORIGIN</td>
+<td>Corrige configuración del proxy/origen y recrea servicios</td>
+</tr>
+<tr>
+<td>Código MFA rechazado</td>
+<td>Hora del teléfono/equipo y código ya usado</td>
+<td>Sincroniza hora, espera un código nuevo; si perdiste la semilla usa recuperación por operador</td>
+</tr>
+<tr>
+<td>Conflicto 409 al guardar</td>
+<td>Otra edición o evidencia elevó la versión</td>
+<td>Conserva tu borrador, recarga y compara; no fuerces una sobrescritura</td>
+</tr>
+<tr>
+<td>Fuente con error o sin novedades</td>
+<td>Último éxito, cuota, worker y conectividad</td>
+<td>Conserva último resultado y revisa cobertura; no lo interpretes como ausencia de riesgo</td>
+</tr>
+<tr>
+<td>C2PA no responde</td>
+<td>Servicio validator y sus logs</td>
+<td>Restablece el contenedor; no le des red ni claves para resolverlo</td>
+</tr>
+<tr>
+<td>Copia no restaura</td>
+<td>Base realmente vacía, versión y ambas claves</td>
+<td>Ensaya en otro entorno; no borres producción</td>
+</tr>
+<tr>
+<td>Fase 4A aún no aparece</td>
+<td>Imagen backend anterior</td>
+<td>Copia, actualización y rebuild; refresca la interfaz privada</td>
+</tr>
+</tbody>
+</table></div></details><details id="f3-paso-16"><summary>16. Checklist antes de información real</summary><ul>
+<li>Identificar al operador y a quien autoriza accesos, conservación y recuperación.</li>
+<li>Confirmar MFA por usuario, claves bajo custodia y ausencia de credenciales por defecto.</li>
+<li>Probar permisos de lectura/escritura/revisión y revocación con cuentas distintas.</li>
+<li>Ensayar copia y restauración en otro entorno.</li>
+<li>Para varios equipos, validar TLS y el origen real; no usar el modo HTTP local.</li>
+<li>Definir finalidad, autorización para tratar datos, retención y procedimiento de incidentes conforme al contexto de la organización.</li>
+<li>Recordar que el historial HMAC no es WORM, las relaciones no prueban identidad y una recepción declarada no es validación jurídica de cadena de custodia.</li>
+</ul>
+<p>Este checklist es técnico y operativo; no acredita cumplimiento normativo ni sustituye la evaluación jurídica aplicable al caso.</p></details><h3>Referencia operativa completa</h3><p>Esta entrega agrega un backend ejecutable y separado del sitio público. No convierte GitHub Pages en un servidor privado. No modifica mapas, cámaras, transporte, ingestas previas ni planes comerciales. En los tableros y War Room públicos solo añade un aviso sobre la compartición heredada por instantánea, sin alterar sus funciones. La entrada pública es <code>plataforma.html</code>; enlaza desde Fase 2. Solo publica metadatos genéricos de salud de fuentes.</p><details id="f3-operacion-1"><summary>Qué funciona y dónde</summary><div class="tabla"><table>
+<thead>
+<tr>
+<th>Función</th>
+<th>Ejecución</th>
+<th>Registro/clave</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Expedientes F1/F2 compartidos, historial y conflictos</td>
+<td>Backend privado con base persistente</td>
+<td>Cuenta local provisionada, sin SaaS</td>
+</tr>
+<tr>
+<td>Contratos de Estados Unidos</td>
+<td>USAspending, paginación y filtros por periodo/palabras</td>
+<td>Sin API key</td>
+</tr>
+<tr>
+<td>Lista SDN OFAC</td>
+<td>Descarga XML oficial, nombres/alias y candidatos documentados</td>
+<td>Sin API key</td>
+</tr>
+<tr>
+<td>SAT 69-B</td>
+<td>Copia pública que ya produce este repositorio; RFC exacto y estados originales</td>
+<td>Sin API key; se indica antigüedad y corte</td>
+</tr>
+<tr>
+<td>Publicaciones de patentes europeas</td>
+<td>EPS REST: última semana y prefijo de publicación</td>
+<td>Sin registro de usuario ni API key</td>
+</tr>
+<tr>
+<td>Documento europeo conocido</td>
+<td>EPS XML y huella del documento</td>
+<td>Sin registro ni API key</td>
+</tr>
+<tr>
+<td>C2PA</td>
+<td>SDK oficial local y verificador aislado del backend</td>
+<td>Sin registro; anclas adicionales opcionales</td>
+</tr>
+<tr>
+<td>Programación privada</td>
+<td>Worker con base persistente, mientras el equipo esté encendido</td>
+<td>Sin servicio de automatización de pago</td>
+</tr>
+<tr>
+<td>Monitor público de conectores</td>
+<td>GitHub Actions, diariamente 04:27 UTC</td>
+<td>Usa la cuenta GitHub del proyecto; revisar políticas/cuotas Actions</td>
+</tr>
+<tr>
+<td>SSO opcional</td>
+<td>Proveedor OIDC configurado por el operador</td>
+<td>Cliente OIDC e identidad previamente vinculada</td>
+</tr>
+<tr>
+<td>EPO OPS / SAM.gov / OpenSanctions</td>
+<td>Solo bóveda para claves opcionales; no se activan conectores de pago</td>
+<td>OPS y SAM requieren registro; OpenSanctions comercial exige condiciones/licencia propias</td>
+</tr>
+</tbody>
+</table></div>
+<p>EPS no es OPS. EPS permite documentos europeos y listas semanales, no búsqueda mundial por titular ni estado jurídico consolidado. Ningún conector afirma cobertura mundial completa. La comparación OFAC es por nombres normalizados/alias y produce candidatos, no identidad confirmada. SAT 69-B no es la lista OFAC ni una lista genérica de culpabilidad.</p></details><details id="f3-operacion-2"><summary>Inicio gratuito en un equipo propio</summary><p>Requisitos: Docker Engine con Compose v2 y Python 3 para generar configuración. Esta implementación no compra infraestructura, no crea cuentas externas ni activa un plan SaaS por defecto. Las herramientas de instalación tienen condiciones propias; revisar la licencia de Docker Desktop para uso empresarial o gubernamental. El software no incluye el costo del equipo, electricidad, administración ni conectividad.</p>
+<p>Desde la raíz del repositorio:</p>
+<pre><code class="language-sh">python backend/generar_entorno.py
+cd backend
+docker compose build
+docker compose up -d db
+docker compose run --rm api python -m dominus.cli init
+docker compose run --rm api python -m dominus.cli provision --organization &quot;Mi organización&quot; --username analista --role owner --output /app/backend/private/inicio.json
+docker compose up -d api worker backups validator
+mkdir -p private
+docker compose cp api:/app/backend/private/inicio.json private/inicio.json
+</code></pre>
+<p>Abrir <strong>http://127.0.0.1:8000</strong> en ese mismo equipo. El servicio se enlaza a loopback; no queda publicado en Internet por esta configuración. El archivo <code>private/inicio.json</code> contiene la contraseña y URI/semilla TOTP: importarla en el autenticador del usuario, custodiar la contraseña y retirar ambas copias de onboarding del servidor/equipo cuando estén bajo custodia segura. En Linux restringir permisos de la copia con <code>chmod 600 private/inicio.json</code>. No enviar ese archivo al repositorio ni a una conversación. No hay contraseña ni semilla por defecto.</p>
+<p><code>backend/.env</code> se crea con modo 0600 y claves aleatorias distintas. Conservar MASTER_KEY y BACKUP_KEY fuera del servidor: perderlas impide recuperar datos cifrados. No imprimir <code>docker compose config</code> sin <code>--quiet</code>, ni compartir variables de entorno o volcados de contenedores. <code>backend/private/</code> y <code>.env</code> están excluidos de Git y de la imagen Docker.</p>
+<p>Crear otros usuarios con el mismo comando <code>provision</code>, cambiando usuario, organización y rol; cada archivo de salida debe ser nuevo. Los roles son owner, analyst, reviewer y viewer. Si el usuario ya existe, el propietario puede asignarlo a otra organización desde Administración; no se crea una segunda identidad por nombre.</p>
+<p>La interfaz borra los datos privados renderizados y los campos de formularios al cerrar sesión o recibir una respuesta de sesión no válida; cambiar de expediente limpia evidencias del anterior. Antes de descartar un formulario editado pide confirmación. Esto no puede retirar archivos ya descargados ni datos que un receptor autorizado haya copiado.</p>
+<h3>Acceso desde distintos equipos</h3>
+<p>La base compartida funciona desde varios clientes del mismo servidor, pero la configuración incluida solo escucha en loopback. Para una red o Internet hay que disponer de un host bajo control del propietario, un nombre DNS y TLS válido. Configurar un proxy HTTPS, establecer PUBLIC_ORIGIN con el origen exacto y ALLOW_LOCAL_HTTP=0, y reiniciar. Solo el proxy debe poder llegar al puerto de API; la base no tiene un puerto publicado. No habilitar CORS ni exponer HTTP de desarrollo para simular colaboración pública. El despliegue público no se realiza automáticamente ni se contrata alojamiento.</p>
+<p>No es necesario modificar GitHub Pages para utilizar la interfaz privada: esta se sirve desde el backend. No introducir una URL privada o credenciales en el repositorio público.</p></details><details id="f3-operacion-3"><summary>Importar y trabajar con Fase 1 y 2</summary><ol>
+<li>Exportar los respaldos JSON desde las páginas locales actuales.</li>
+<li>Iniciar sesión privada, elegir organización y crear un expediente.</li>
+<li>Importar cada respaldo y confirmar la importación. Se crea una versión del expediente, sin escribir el localStorage del sitio público.</li>
+<li>Elegir fase/sección para crear o editar registros. Fase 2 conserva el motivo e historial documental. El servidor valida esquema y relaciones además de la validación del cliente.</li>
+<li>Compartir con otro usuario de la organización por 1–7 días. Permisos independientes de lectura, escritura y revisión; revocables inmediatamente. Pertenecer a una organización no da acceso a todos sus expedientes: el propietario de organización sí tiene acceso de administración.</li>
+<li>El editor guarda con versión esperada. Si alguien guardó antes, devuelve conflicto 409 y conserva el formulario para revisión; no sobrescribe automáticamente.</li>
+<li>Un revisor autorizado distinto del último editor puede registrar una revisión de esa versión. Los estados “aprobado” que provienen de respaldos locales no son aprobación autenticada. La revisión tampoco certifica hechos ni decisiones institucionales.</li>
+<li>Las exportaciones individuales de expediente se descargan <strong>en claro</strong>, por acción explícita del usuario. Custodiarlas; no confundirlas con las copias automáticas cifradas.</li>
+</ol>
+<p>La búsqueda usa títulos (máximo 200 resultados por consulta). Títulos, nombres de usuario, membresías y metadatos de auditoría se indexan/almacenan en claro en la base; el cuerpo documental, revisiones, criterios de vigilancia, resultados, notas de revisión, semillas TOTP y secretos se cifran con AES-256-GCM y contexto por objeto. El cifrado de disco/volumen completo corresponde al operador. No hay envío automático de datos a motores de IA.</p></details><details id="f3-operacion-4"><summary>Vigilancia y fuentes</summary><p>Seleccionar un expediente, abrir Fuentes y vigilancia, elegir fuente y criterios. La interfaz muestra el host que recibirá la consulta y exige confirmación expresa. USAspending recibe palabras/periodo y EPS documento recibe el identificador público. OFAC, SAT y EPS semanal usan descargas fijas y filtran el criterio en el servidor privado, sin transmitirlo. Nunca se envía el cuerpo completo del expediente. No se admiten URL arbitrarias.</p>
+<ul>
+<li>OFAC: buscar nombre/alias con mínimo 3 caracteres. Revisar identificadores, jurisdicción y documento antes de atribuir una coincidencia. Cobertura solo SDN; no cubre todos los programas, jurisdicciones ni listas.</li>
+<li>USAspending: palabras clave y periodo; por defecto últimos 90 días. Hasta 10 páginas de 100 registros por ejecución. Si hay más, se conserva continuación y periodo para la siguiente ejecución. Un segmento parcial se marca; no se presenta como universo completo. No es un buscador mundial de licitaciones.</li>
+<li>EPS semanal: consulta última fecha disponible, lista publicaciones y filtra por prefijo EP opcional. No consulta Espacenet por scraping. Un nuevo documento no prueba que una patente esté vigente.</li>
+<li>EPS documento: identificador de publicación conocido como <code>EP1004359NWB1</code>; se conserva fecha, título, huella y enlace al XML. No descubre todas las familias o beneficiarios.</li>
+<li>SAT: RFC exacto, copia pública existente del proyecto y fecha de generación/corte. Si la copia tiene más de 14 días o fecha futura, se marca antigua; no se infiere ausencia en fuente oficial actual de una copia vieja.</li>
+</ul>
+<p>Workers con arrendamiento de 15 minutos evitan procesar a la vez la misma vigilancia en PostgreSQL. Reintentos con espera exponencial, caché de una hora separada por organización, destinos fijos HTTPS, resolución pública con IP fijada y SNI/validación TLS del hostname original, sin proxies de entorno ni redirecciones arbitrarias. Solo OFAC puede seguir una redirección del endpoint SDN al hostname exacto de su almacenamiento publicado, ruta Published terminada en SDN.XML, con IP pública fijada y TLS validado; no se registra su URL firmada. Una caída conserva el último resultado. Se deduplican resultados consecutivos sin cambios; si el estado cambia y luego vuelve, se registra otra transición. La huella ignora la fecha de descarga y el orden de filas.</p>
+<p>Cuotas conservadoras compartidas: máximo 60 peticiones/hora por host, 100 MB/7 días para EPS y 512 MB/7 días para los otros hosts. Cada descarga reserva su tamaño máximo y liquida los bytes reales si termina correctamente; errores consumen la reserva conservadora. EPS limita además la transferencia a 120 KiB/s y separa peticiones al menos 2 segundos. Frecuencia mínima: 24 h para OFAC/USAspending/EPS semanal; 7 días para EPS documento y copia SAT. Máximo 50 vigilancias por organización. “Solicitar consulta” no evita las cuotas. No se envían emails ni mensajes.</p>
+<p>El monitor de GitHub Actions usa consultas <strong>genéricas</strong>, no vigilancias privadas. Publica únicamente estado, fechas, cobertura y huella en <code>datos-fase23/estado.json</code>; Pages la copia a <code>data/fase23/estado.json</code>. Un job exitoso puede contener fuentes con error: ver estado individual. La programación puede retrasarse; no equivale a un SLA.</p></details><details id="f3-operacion-5"><summary>C2PA: pendiente resuelto sin depender de c2patool</summary><pre><code class="language-sh">python -m pip install -r backend/requirements.txt
+python tools/fase2/multimedia.py archivo.jpg --salida multimedia.json
+# Con anclas adicionales PEM seleccionadas por el operador:
+python tools/fase2/multimedia.py archivo.jpg --anclas confianza.pem --salida multimedia.json
+</code></pre>
+<p>El script prefiere <code>c2pa-python</code>; si no está instalado conserva el fallback de <code>c2patool</code>. El SDK está fijado en requirements. No firma ni modifica los originales. La verificación tiene validación criptográfica y confianza activadas; desactiva red, OCSP y búsqueda de manifiestos remotos. Esto limita las conclusiones sobre revocación y credenciales remotas. Anclas de laboratorio no equivalen a una CA institucional.</p>
+<p>El backend admite JPEG/PNG/WebP/AVIF/MP4/PDF hasta 4 MB. En Docker envía el archivo por socket Unix a un contenedor verificador con red deshabilitada, sin claves del backend, sin volumen de base/copias, sistema de archivos de solo lectura y temporales limitados. El proceso tiene límites de CPU, memoria y tiempo en Linux; elimina temporales al finalizar y deshabilita la red del SDK. Si el verificador configurado no responde, falla sin ejecutar un fallback dentro de la API. En pruebas/desarrollo sin MEDIA_SOCKET se usa un proceso local con entorno mínimo sin heredar secretos; este modo no sustituye el aislamiento del contenedor de producción. El original no se conserva. El SHA-256 y resultado se devuelven al usuario; no se incorporan como conclusión automática de un expediente. Para archivos mayores usar la herramienta local (hasta 100 MB para SDK), con custodia propia.</p>
+<p>Pruebas reales generan un certificado raíz y uno de firma efímeros de laboratorio: verifican una firma, distinguen confianza y detectan alteración de bytes; prueban también archivo sin manifiesto. No se incluyen claves privadas de prueba ni originales de usuarios en el repositorio.</p></details><details id="f3-operacion-6"><summary>Copias, recuperación y retención</summary><p>El contenedor <code>backups</code> crea una copia lógica cifrada al iniciar y cada 24 h; conserva siete archivos en el volumen privado. Es una copia local, <strong>no</strong> una copia externa ante pérdida del servidor. Copiarla a un destino independiente bajo control del propietario. La copia usa BACKUP_KEY distinta de MASTER_KEY; el cuerpo sigue cifrado con MASTER_KEY, por lo que ambas claves son necesarias para recuperación íntegra. No copia sesiones activas, intentos de login ni caché transitoria.</p>
+<p>Copia manual y recuperación:</p>
+<pre><code class="language-sh"># Desde backend/ con la instalación en marcha:
+docker compose exec api python -m dominus.cli backup --file /app/backend/private/manual.dominus
+docker compose cp api:/app/backend/private/manual.dominus private/manual.dominus
+# En una instalación de recuperación con las claves originales y base VACÍA inicializada:
+docker compose cp private/manual.dominus api:/app/backend/private/recuperar.dominus
+docker compose exec api python -m dominus.cli restore --file /app/backend/private/recuperar.dominus
+</code></pre>
+<p>La restauración rechaza bases no vacías, archivos alterados y claves incorrectas; se realiza en transacción. Las pruebas restauran datos y comprueban descifrado y cadena de auditoría. Probar periódicamente en un host independiente, también con las claves custodiadas, antes de considerar cubierta la recuperación operativa.</p>
+<p>Enviar a papelera exige propietario y confirmación del ID; deshabilita vigilancias. Conservación por caso de 1–3650 días tras la papelera, con bloqueo de conservación que impide purga. El worker elimina datos del caso solo cuando vence ese plazo y no hay bloqueo; queda evento de purga sin contenido documental. Las copias antiguas conservan su ciclo de siete archivos y requieren una política propia para archivos externos.</p>
+<p>Restaurar desde Administración → Consultar papelera → Restaurar expediente (propietario), o mediante API autenticada <code>POST /api/orgs/{org}/cases/{id}/restore</code>; propietario, mismo origen y CSRF. Conserva vigilancias pausadas. No hay endpoint HTTP de borrado inmediato de toda la base.</p>
+<p>La auditoría registra actor, acción, objeto y fecha, sin copiar consultas ni secretos. Cadena HMAC por organización con bloqueo transaccional: detecta cambios sin la clave, pero no es WORM ni prueba independiente contra el administrador que controla claves y base. Integrar sellado externo o almacenamiento inmutable si el uso exige esa garantía.</p></details><details id="f3-operacion-7"><summary>Recuperar cuentas y rotar claves</summary><pre><code class="language-sh">docker compose exec api python -m dominus.cli reset-user --username analista --output /app/backend/private/recuperacion-nueva.json
+</code></pre>
+<p>Regenera contraseña y TOTP, revoca sesiones y registra recuperación; verificar identidad del solicitante por el procedimiento del operador antes de ejecutarlo. Entregar el archivo por un canal bajo control del propietario y retirarlo del servidor. No es recuperación anónima ni por correo automático.</p>
+<p>Para suspender una cuenta, el operador ejecuta <code>python -m dominus.cli disable-user --username usuario</code>; revoca todas sus sesiones, incluidas las creadas por SSO. <code>enable-user</code> permite volver a iniciar sesión, sin restaurar sesiones anteriores. La administración global de cuentas se limita al operador, no a propietarios de un solo cliente.</p>
+<p>Las claves de proveedores se cambian en Administración por el propietario, sin volver a devolver el valor. No usar la bóveda como activación de licencias ni como almacén general de claves privadas. Para rotar MASTER_KEY: detener API/worker/backups, hacer copia recuperable, ejecutar offline <code>python -m dominus.cli rotate-master</code> con la clave anterior en MASTER_KEY y la nueva en NEW_MASTER_KEY, actualizar el entorno y reiniciar. Recifra todos los campos protegidos y la cadena HMAC y revoca sesiones. Custodiar las claves antiguas necesarias para copias antiguas; la rotación no recifra retroactivamente archivos externos. La operación requiere mantenimiento; no es rotación sin interrupción ni KMS/HSM administrado.</p></details><details id="f3-operacion-8"><summary>SSO opcional</summary><p>Se admite OIDC Authorization Code mediante Authlib con PKCE y validación de tokens del proveedor. Configurar OIDC_ISSUER HTTPS, OIDC_CLIENT_ID y OIDC_CLIENT_SECRET, callback exacto <code>https://tu-origen/auth/callback</code>. Vincular una identidad ya provisionada con <code>python -m dominus.cli link-sso --username usuario --subject sub-del-proveedor</code>. No se concede acceso por email, nombre ni claim de organización. El ID token debe declarar amr MFA/OTP/hwk; un proveedor que no lo emita requiere adaptar su configuración, no omitir la comprobación. El acceso local con MFA funciona sin SSO ni registro en terceros.</p>
+<p>La prueba real del flujo SSO con un proveedor concreto requiere su cliente y configuración; no se declara validado contra un proveedor no configurado. TLS público, correo transaccional y un proveedor externo no se crean de oficio.</p></details><details id="f3-operacion-9"><summary>Verificación y cobertura</summary><ul>
+<li>Suite existente Python y JavaScript sin retirar pruebas anteriores.</li>
+<li><code>PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_c2pa.py backend/checks_http.py -q</code> con dependencias del backend más pytest/Pillow.</li>
+<li>Workflow separado con SQLite y PostgreSQL/PostGIS real, construcción de imagen Docker y aceptación del stack efímero completo por HTTP: MFA, persistencia tras reiniciar API y verificador C2PA por socket, sin red ni secretos del backend.</li>
+<li>Flujo HTTP real con Uvicorn: acceso MFA, creación/lectura, CSRF y cierre de sesión. Pruebas de ediciones simultáneas, conservación de al menos un propietario ante cambios concurrentes de roles en PostgreSQL, restauración de geometrías e índices de auditoría, y separación de clientes con ID conocido, permisos por caso, expiración/revocación, MFA/replay, CSRF/Host, conflictos de edición, revisión independiente, secretos, auditoría alterada, respaldo/restauración/rotación y conservación.</li>
+<li>Conectores: contratos de formatos, paginación/continuación, cambios y errores, cuotas, destinos fijos, rechazo XXE y antigüedad. El monitor consulta servicios reales y muestra fallos individuales.</li>
+<li>Navegador: página pública de fuentes. La instalación privada requiere un host accesible al navegador; las pruebas de API no sustituyen una aceptación de usuario del despliegue final.</li>
+</ul></details><details id="f3-operacion-10"><summary>Registro de alcance Fase 3</summary><p>F088 identidad/roles/MFA y SSO opcional; F089 expedientes/War Room con acceso revocable; F090 secretos cifrados y cuotas; F094 PostGIS e índices; F092 worker/registro de conectores/cache/checkpoints; F093 estados/calidad/edad; F095 importaciones/destinos/procesos aislados/CSP; F098 módulos separados y adaptadores sin reescribir funciones previas; F099 pruebas operativas y permisos; F100 copias/retención/auditoría; F044 divulgación de criterios por proveedor, sin IA automática; F066 certificados, custodia de secretos y recuperación autorizada.</p>
+<p>Los enlaces heredados de warroom.html siguen siendo instantáneas legibles, sin autenticación, vencimiento ni revocación: no se pueden convertir en privados retroactivamente. Se añade aviso explícito en su vista y en DOMINUS OPS; la colaboración protegida se realiza exclusivamente en el backend nuevo.</p>
+<p>La interfaz privada todavía no integra el mapa público completo ni mensajes en tiempo real: consulta compartida bajo petición y vigilancia por worker. No se presenta el historial local previo ni Git público como evidencia privada autenticada.</p></details><details id="f3-operacion-11"><summary>Referencias primarias</summary><ul>
+<li>EPS REST: https://data.epo.org/publication-server/doc/EPS%20REST%20services.pdf</li>
+<li>Condiciones EPO: https://www.epo.org/en/service-support/ordering/fair-use</li>
+<li>USAspending: https://api.usaspending.gov/docs/endpoints</li>
+<li>OFAC SLS: https://ofac.treasury.gov/sanctions-list-service</li>
+<li>C2PA Python: https://github.com/contentauth/c2pa-python</li>
+<li>PostGIS Docker: https://github.com/postgis/docker-postgis</li>
+<li>FastAPI seguridad: https://fastapi.tiangolo.com/tutorial/security/</li>
+</ul>
+<p>Para uso empresarial en México, definir antes de cargar información real: responsable del tratamiento, finalidad, acceso, conservación, transferencia y procedimiento de incidentes. El código implementa controles técnicos; no concede por sí mismo cumplimiento normativo ni autorización para tratar cualquier dato.</p></details><details id="f3-operacion-12"><summary>Tutorial integrado y Fase 4A</summary><p>El tutorial completo se lee en <code>plataforma.html#tutorial-f3</code>, sin abrir el repositorio. Su fuente es <code>docs/TUTORIAL_FASE3.md</code>; <code>tools/fase23/render_tutorial.py</code> regenera el HTML estático con la referencia operativa incluida. No carga Markdown remoto ni ejecuta instrucciones de la página.</p>
+<p>Fase 4A amplía los expedientes existentes con activos, entidades, relaciones y originales pequeños con custodia incremental. Ver docs/FASE4.md. Actualizar imágenes backend; no se modifican tablas ni claves. Las copias y revisiones existentes incluyen el documento fase4.</p></details></section>
+<!-- tutorial-f3:fin --></main><footer>Los datos públicos y las coincidencias requieren revisión humana. Consulta la cobertura de cada fuente.</footer>  <script type="module" src="js/vista_enlaces.js"></script>
 </body></html>
