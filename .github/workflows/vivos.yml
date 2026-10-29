@@ -18,9 +18,11 @@ permissions:
 
 # Una corrida por rama: una subida a una rama de trabajo ya no cancela la corrida de main (así se atrasó la
 # publicación del noticiero el 21-oct-2026).
+# Sin cancelar la que está en curso: la corrida completa dura ≈21 min y se lanza cada 20 min, así que al cancelar,
+# ninguna llegaba a publicar (29-oct-2026). Ahora la nueva espera; GitHub deja solo una en espera.
 concurrency:
   group: vivos-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   actualizar:
