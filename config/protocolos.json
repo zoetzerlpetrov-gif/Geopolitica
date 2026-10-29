@@ -21,61 +21,130 @@
    "id": "fortress_america",
    "nombre": "FORTRESS America (Departamento de Defensa de EUA)",
    "organismo": "Departamento de Defensa de EUA",
-   "paises": ["USA"],
-   "lat": 38.871, "lon": -77.056,
-   "ambitos": ["militar", "infraestructura"],
+   "paises": [
+    "USA"
+   ],
+   "lat": 38.871,
+   "lon": -77.056,
+   "ambitos": [
+    "militar",
+    "infraestructura"
+   ],
    "fecha": "2026-09-30",
    "estado": "en implementación",
    "nivel": 3,
    "resumen": "Programa para que las bases militares grandes de EUA sigan operando al menos 90 días sin depender de la red civil de electricidad, agua, combustible y comunicaciones. El 7 de octubre de 2026 se pidió a ocho altos funcionarios ponerlo en marcha y se creó una oficina del programa. Es una medida de resiliencia, no una alerta de ataque.",
    "fuente": "DefenseScoop",
    "url": "https://defensescoop.com/2026/10/07/pentagon-memo-operationalize-fortress-america-program-office/",
-   "verificado": "2026-10-29"
+   "verificado": "2026-10-29",
+   "cisne_negro": true,
+   "emisor": "Estados Unidos",
+   "afectacion": "Bases militares de EUA: deben poder operar 90 días sin red civil de luz, agua, combustible y comunicaciones. Señal de preparación ante conflicto mayor, sabotaje o ciberataques a infraestructura.",
+   "desactivado": null
   },
   {
    "id": "ue_preparacion",
    "nombre": "Estrategia de la Unión de Preparación (Unión Europea)",
    "organismo": "Comisión Europea",
-   "paises": ["AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE"],
-   "lat": 50.844, "lon": 4.382,
-   "ambitos": ["civil", "seguridad", "infraestructura"],
+   "paises": [
+    "AUT",
+    "BEL",
+    "BGR",
+    "HRV",
+    "CYP",
+    "CZE",
+    "DNK",
+    "EST",
+    "FIN",
+    "FRA",
+    "DEU",
+    "GRC",
+    "HUN",
+    "IRL",
+    "ITA",
+    "LVA",
+    "LTU",
+    "LUX",
+    "MLT",
+    "NLD",
+    "POL",
+    "PRT",
+    "ROU",
+    "SVK",
+    "SVN",
+    "ESP",
+    "SWE"
+   ],
+   "lat": 50.844,
+   "lon": 4.382,
+   "ambitos": [
+    "civil",
+    "seguridad",
+    "infraestructura"
+   ],
    "fecha": "2025-03-26",
    "estado": "vigente",
    "nivel": 2,
    "resumen": "30 acciones para prepararse ante desastres, guerra, ciberataques y crisis de salud. Pide a la población poder valerse por sí misma al menos 72 horas (meta no obligatoria), reservas de equipo crítico, criterios mínimos para servicios esenciales, un centro de crisis de la UE y simulacros regulares.",
    "fuente": "Comisión Europea",
    "url": "https://commission.europa.eu/topics/preparedness_en",
-   "verificado": "2026-10-29"
+   "verificado": "2026-10-29",
+   "cisne_negro": false,
+   "emisor": "Unión Europea",
+   "afectacion": "Población y servicios esenciales de los 27 países de la UE: meta de 72 horas de autosuficiencia.",
+   "desactivado": null
   },
   {
    "id": "uk_be_ready",
    "nombre": "Campaña «Be Ready» (Reino Unido)",
    "organismo": "Cabinet Office del Reino Unido",
-   "paises": ["GBR"],
-   "lat": 51.503, "lon": -0.128,
-   "ambitos": ["civil", "infraestructura"],
+   "paises": [
+    "GBR"
+   ],
+   "lat": 51.503,
+   "lon": -0.128,
+   "ambitos": [
+    "civil",
+    "infraestructura"
+   ],
    "fecha": "2026-10-22",
    "estado": "vigente",
    "nivel": 2,
    "resumen": "Campaña para que cada hogar pueda arreglárselas al menos 72 horas si fallan la electricidad, el agua, el teléfono o internet por clima extremo, inundaciones o ciberataques. Fuente secundaria: confirmar en gov.uk.",
    "fuente": "Trending Topics (fuente secundaria)",
    "url": "https://www.trendingtopics.eu/emergency-supplies-uk-japan-scandinavia-preparedness/",
-   "verificado": "2026-10-29"
+   "verificado": "2026-10-29",
+   "cisne_negro": true,
+   "emisor": "Reino Unido",
+   "afectacion": "Hogares del Reino Unido: tener reservas para al menos 72 horas ante fallas de luz, agua, teléfono o internet.",
+   "desactivado": null
   },
   {
    "id": "jp_agencia_desastres",
    "nombre": "Llamado a tener reservas para 3 a 7 días (Japón)",
    "organismo": "Gobierno de Japón · nueva Agencia de Gestión de Desastres",
-   "paises": ["JPN"],
-   "lat": 35.676, "lon": 139.75,
-   "ambitos": ["civil", "alimentos", "agua"],
+   "paises": [
+    "JPN"
+   ],
+   "lat": 35.676,
+   "lon": 139.75,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
    "fecha": "2026-11-02",
    "estado": "anunciado",
    "nivel": 1,
    "resumen": "El ministro de Gestión de Desastres anunció un llamado a la población cuando abra la agencia el 2 de noviembre: reservas de comida, agua y artículos sanitarios para al menos 3 días, idealmente una semana. Japón ya recomendaba 3 días; no es un estándar nuevo.",
    "fuente": "The Asia Business Daily",
    "url": "https://www.asiae.co.kr/en/article/2026102808353250408",
-   "verificado": "2026-10-29"
+   "verificado": "2026-10-29",
+   "cisne_negro": true,
+   "emisor": "Japón",
+   "afectacion": "Hogares de Japón: reservas de comida, agua y artículos sanitarios para 3 a 7 días.",
+   "desactivado": null
   }
- ]
+ ],
+ "_nota_cisne_negro": "«cisne_negro»: true solo para casos excepcionales emitidos por un gobierno u organismo oficial (p. ej. FORTRESS America, el llamado del Reino Unido a guardar reservas). Esos aparecen como aviso fijo en el mapa, debajo del buscador, desde «fecha» hasta que se llene «desactivado» con la fecha en que el emisor lo retire. «afectacion» es una frase propia: a quién y a qué afecta."
 }

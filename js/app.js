@@ -991,6 +991,9 @@ async function main() {
   iniciarInvestigacion();
   iniciarTecnologia();
   iniciarLugares();
+  // Alertas oficiales excepcionales («cisne negro»): aviso fijo bajo el buscador mientras estén activas.
+  import("./alerta_cisne.js").then((M) => M.iniciarAlertaCisne((lon, lat) => api.map.flyTo({ center: [lon, lat], zoom: Math.max(api.map.getZoom(), 4), duration: lite ? 0 : 900 })))
+    .catch((e) => console.error("alerta cisne negro", e));
   iniciarChatIA();
   $("pwd-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();
