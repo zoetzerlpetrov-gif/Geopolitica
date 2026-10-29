@@ -29,6 +29,7 @@ export function fixVigente(datos, hoy) {
 
 /** Pesos = dólares × FIX, redondeado hacia arriba al peso entero. El redondeo previo a 6 decimales evita que 92.0000000001 suba a 93. */
 export function precioMxn(usd, fix) {
+  if (Number(usd) === 0) return 0;
   const x = Number(usd) * Number(fix);
   if (!(x > 0)) return null;
   return Math.ceil(Math.round(x * 1e6) / 1e6);
@@ -42,6 +43,7 @@ export function fechaLarga(iso) {
 
 /** Texto del precio: «93 MXN al mes (USD 4.99 al tipo de cambio FIX de Banxico del 28 de octubre de 2026)». */
 export function textoPrecio(plan, fix, plantilla = "{mxn} MXN al mes (USD {usd} al tipo de cambio FIX de Banxico del {fecha})") {
+  if (plan.usd === 0) return "Gratis, con registro";
   const mxn = fix ? precioMxn(plan.usd, fix.valor) : null;
   if (mxn == null) return `USD ${plan.usd.toFixed(2)} al mes (sin tipo de cambio disponible)`;
   return plantilla.replace("{mxn}", mxn.toLocaleString("es-MX")).replace("{usd}", plan.usd.toFixed(2)).replace("{fecha}", fechaLarga(fix.fecha));
@@ -49,7 +51,7 @@ export function textoPrecio(plan, fix, plantilla = "{mxn} MXN al mes (USD {usd} 
 
 /** Precios de todos los planes con el FIX vigente. */
 export const preciosPlanes = (cat, fix) =>
-  (cat?.planes || []).map((p) => ({ id: p.id, nombre: p.nombre, usd: p.usd, mxn: fix ? precioMxn(p.usd, fix.valor) : null, fix_fecha: fix?.fecha || null, texto: textoPrecio(p, fix, cat?.cobro?.texto) }));
+  (cat?.planes || []).map((p) => ({ id: p.id, nombre: p.nombre, usd: p.usd, mxn: p.usd === 0 ? 0 : fix ? precioMxn(p.usd, fix.valor) : null, fix_fecha: fix?.fecha || null, texto: textoPrecio(p, fix, cat?.cobro?.texto) }));
 
 /** ¿Esta página (por su href, sin parámetros) es solo para quien administra? */
 export function paginaSoloAdmin(cat, href) {

@@ -21,14 +21,16 @@ test("precio en pesos: dólares × FIX, hacia arriba al peso entero", () => {
   assert.equal(precioMxn(12.99, 18.4215), 240); // 239.29…
   assert.equal(precioMxn(5, 18.4), 92, "92.000 exacto no sube a 93");
   assert.equal(precioMxn(4.99, 0), null);
+  assert.equal(precioMxn(0, 18.4), 0);
+  assert.equal(textoPrecio(cat.planes[0], null), "Gratis, con registro");
 });
 
 test("texto del precio y precios de los tres planes", () => {
   const fix = { fecha: "2026-10-28", valor: 18.4215 };
-  assert.equal(textoPrecio(cat.planes[0], fix, cat.cobro.texto), "92 MXN al mes (USD 4.99 al tipo de cambio FIX de Banxico del 28 de octubre de 2026)");
-  assert.match(textoPrecio(cat.planes[0], null), /^USD 4\.99 al mes/);
+  assert.equal(textoPrecio(cat.planes[1], fix, cat.cobro.texto), "92 MXN al mes (USD 4.99 al tipo de cambio FIX de Banxico del 28 de octubre de 2026)");
+  assert.match(textoPrecio(cat.planes[1], null), /^USD 4\.99 al mes/);
   const p = preciosPlanes(cat, fix);
-  assert.deepEqual(p.map((x) => [x.id, x.usd, x.mxn]), [["recon", 4.99, 92], ["analyst", 8.99, 166], ["command", 12.99, 240]]);
+  assert.deepEqual(p.map((x) => [x.id, x.usd, x.mxn]), [["demo", 0, 0], ["recon", 4.99, 92], ["analyst", 8.99, 166], ["command", 12.99, 240]]);
   assert.match(hoyMexico(new Date("2026-10-29T03:00:00Z")), /^2026-10-28$/, "a las 21:00 de CDMX todavía es el 28");
 });
 
