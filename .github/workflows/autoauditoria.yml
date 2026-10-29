@@ -37,7 +37,11 @@ jobs:
         run: |
           mkdir -p autoauditoria
           if git fetch --depth 1 origin datos-auditoria 2>/dev/null; then git archive FETCH_HEAD autoauditoria | tar -x; fi
+      - name: Última revisión diaria de procesos (rama datos-estado)
+        run: if git fetch --depth 1 origin datos-estado 2>/dev/null; then git archive FETCH_HEAD estado | tar -x -C /tmp; fi
       - name: Evaluar
+        env:
+          ESTADO_PROCESOS: /tmp/estado/ultimo.json
         run: python3 tools/autoauditoria/autoauditoria.py autoauditoria
       - name: Publicar en la rama datos-auditoria
         if: github.ref == 'refs/heads/main'

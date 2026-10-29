@@ -83,6 +83,8 @@
           <a href="fase2.html">Fase 2 · Análisis y expedientes</a>
           <a href="plataforma.html#privada">Fase 3 · Plataforma privada y fuentes</a>
           <a href="tutorial.html" title="Guía completa con ejemplos resueltos de cada opción">🎓 Tutorial</a>
+          <a href="soporte.html" title="Informe de errores de este navegador para enviarlo a soporte (sin datos personales)">🛟 Soporte: informe de errores</a>
+          <a href="estado.html" title="Estado diario de los procesos, datos publicados, bitácora de incidencias, autoauditoría y soporte">🩺 Centro de control (admin)</a>
         </div>
       </details>
       <select id="sel-proyeccion" class="sel-vista" title="Proyección del mapa" aria-label="Proyección del mapa">
@@ -494,6 +496,7 @@
     Mapa base: <a href="https://openfreemap.org">OpenFreeMap</a> © <a href="https://www.openmaptiles.org/">OpenMapTiles</a>, datos © <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>. Fronteras: <a href="https://www.naturalearthdata.com/">Natural Earth</a>.
   </footer>
 
+  <script type="module" src="js/bitacora.js"></script>
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
   <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
   <script>try { maplibregl.prewarm(); } catch (e) {}</script>

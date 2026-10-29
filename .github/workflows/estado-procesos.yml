@@ -1,0 +1,61 @@
+name: Estado de los procesos
+
+# Revisión diaria (solo admin, estado.html): ¿cada workflow terminó bien a tiempo y el sitio tiene datos frescos?
+# Reglas en config/procesos.json. Publica en la rama huérfana «datos-estado» (último resultado, historial y bitácora
+# de 90 días); Pages la copia a data/estado/. Si algo está en «falla», la corrida termina en rojo y GitHub avisa por correo.
+# El Reloj también la lanza a las 13 h UTC si el cron de GitHub no se disparó.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "7 13 * * *"  # 07:07 en Ciudad de México
+
+permissions:
+  actions: read
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: estado-procesos
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      estado: ${{ steps.revisar.outputs.estado }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Historial y bitácora anteriores
+        run: |
+          mkdir -p estado
+          if git fetch --depth 1 origin datos-estado 2>/dev/null; then git archive FETCH_HEAD estado | tar -x; fi
+      - name: Revisar procesos y datos publicados
+        id: revisar
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          if python3 tools/estado_procesos/estado_procesos.py estado; then echo "estado=ok" >> "$GITHUB_OUTPUT"; else echo "estado=falla" >> "$GITHUB_OUTPUT"; fi
+      - name: Publicar en la rama datos-estado
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub && cp -r estado /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-estado
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add estado && git commit -q -m "estado de procesos $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-estado
+  publicar:
+    needs: revisar
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit
+  avisar:
+    needs: [revisar, publicar]
+    if: always() && needs.revisar.outputs.estado == 'falla'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hay procesos en falla (ver estado.html o el paso «Revisar» de esta corrida)
+        run: exit 1

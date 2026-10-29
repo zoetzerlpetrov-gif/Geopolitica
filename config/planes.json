@@ -133,6 +133,11 @@
    "tipo": "capa",
    "id": "nodos_bitcoin",
    "nombre": "Economía y finanzas · Nodos de Bitcoin por país"
+  },
+  {
+   "tipo": "pagina",
+   "href": "estado.html",
+   "nombre": "Centro de control"
   }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",
@@ -156,7 +161,8 @@
    "planes.html": "demo",
    "taxonomia.html": "recon",
    "narrativas.html": "analyst",
-   "matriz.html": "analyst"
+   "matriz.html": "analyst",
+   "soporte.html": "demo"
   },
   "bloques": {
    "b-capas-ent": "recon"
@@ -178,7 +184,8 @@
    "taxonomia.html": "🏷️ Taxonomía de eventos",
    "narrativas.html": "♟️ Narrativas y estrategia",
    "matriz.html": "🧮 Matriz de riesgo por país",
-   "b-capas-ent": "🏗️ Infraestructura, conflictos y sociedad"
+   "b-capas-ent": "🏗️ Infraestructura, conflictos y sociedad",
+   "soporte.html": "🛟 Soporte"
   }
  }
 }

@@ -280,10 +280,22 @@ def pruebas(cfg, correr=True):
     return r("cumple", " · ".join(f"{n}: pasan ({t})" for n, _, t in res))
 
 
+def procesos_publican(cfg):
+    """Resultado de la revisión diaria de procesos (tools/estado_procesos), si el workflow lo dejó en ESTADO_PROCESOS."""
+    ruta = os.environ.get("ESTADO_PROCESOS", "")
+    try:
+        res = json.load(open(ruta, encoding="utf-8"))
+    except (OSError, ValueError):
+        return r("sin_evaluar", "Aún no hay revisión diaria de procesos (workflow «Estado de los procesos»).")
+    malos = [x["nombre"] for x in res.get("workflows", []) + res.get("datos", []) if x.get("estado") in ("atraso", "falla")]
+    est = {"ok": "cumple", "atraso": "parcial", "falla": "no_cumple"}.get(res.get("estado_global"), "sin_evaluar")
+    return r(est, f"Revisión del {str(res.get('fecha_utc'))[:10]}: " + (f"con atraso o falla: {', '.join(malos[:6])}." if malos else "todos los procesos y datos al día."))
+
+
 VERIFICACIONES = {f.__name__: f for f in (secretos, codigo_seguro, inyeccion, actions_inyeccion, acciones_fijadas, permisos_workflows, dependabot, codeql,
                                           dependencias_fijadas, solo_https, rastreadores, youtube_nocookie, csp_sitio, encabezados_backend,
                                           backend_autenticacion, cookies, xml_seguro, bitacora, worker_origenes, plan_en_servidor, aviso_privacidad,
-                                          plan_incidentes, respaldo, inventario_fuentes, licencias_fuentes, idioma_paginas, pruebas)}
+                                          plan_incidentes, respaldo, inventario_fuentes, licencias_fuentes, idioma_paginas, pruebas, procesos_publican)}
 PRIORIDAD = {"alta": 0, "media": 1, "baja": 2}
 
 

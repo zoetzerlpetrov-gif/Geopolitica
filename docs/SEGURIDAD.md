@@ -57,6 +57,7 @@ En el sitio actual, el bloqueo por plan ocurre en el navegador. Alguien con cono
 ### Lo que el sitio guarda hoy
 - **En servidores del proyecto:** nada. No hay cuentas, formularios que se envíen ni analítica.
 - **En el navegador de la persona** (`localStorage`): preferencias como tema, idioma, capas abiertas y sonido, y lo que la persona guarda en «Seguimiento» o en el cuaderno. No sale de su equipo; se borra al limpiar los datos del sitio.
+- **Bitácora de errores para soporte** (`localStorage`, `js/bitacora.js`): hasta 100 errores de los últimos 14 días (página, tipo y ruta del archivo que falló, sin parámetros de la URL). No se envía sola: la persona la copia desde `soporte.html` si quiere pedir ayuda, y puede borrarla ahí mismo.
 - **La ubicación del dispositivo:** el sitio no la pide. No usa `navigator.geolocation`.
 
 ### Quién puede ver la visita

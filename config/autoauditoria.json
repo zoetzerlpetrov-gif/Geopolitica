@@ -215,6 +215,16 @@
    "prioridad": "media"
   },
   {
+   "id": "iso_a_8_16",
+   "marco": "iso27001",
+   "ref": "A.8.16",
+   "titulo": "Monitoreo diario de que los procesos automáticos publican",
+   "tipo": "auto",
+   "check": "procesos_publican",
+   "mejora": "Revisar en estado.html (Centro de control) qué proceso o dato está atrasado y corregirlo; la bitácora dice desde cuándo.",
+   "prioridad": "alta"
+  },
+  {
    "id": "owasp_a01",
    "marco": "owasp_top10",
    "ref": "A01",
@@ -505,6 +515,16 @@
    "tipo": "auto",
    "check": "respaldo",
    "mejora": "Documentar la restauración.",
+   "prioridad": "media"
+  },
+  {
+   "id": "bc_8_5",
+   "marco": "iso22301",
+   "ref": "8.5",
+   "titulo": "Continuidad del servicio de datos (procesos en operación)",
+   "tipo": "auto",
+   "check": "procesos_publican",
+   "mejora": "Mantener todos los procesos en «ok»; si uno falla varios días, documentar la causa en la bitácora y en docs/INCIDENTES.md.",
    "prioridad": "media"
   },
   {
