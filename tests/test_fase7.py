@@ -28,7 +28,7 @@ def test_planes_y_secciones_solo_admin_existen():
 def test_cada_fuente_no_comercial_de_sources_esta_en_la_lista():
     lic = cargar("config/comercial_licencias.json")
     patrones = [f["patron"] for f in lic["fuentes"]]
-    assert all(f["accion"] in lic["acciones"] for f in lic["fuentes"])
+    assert all(f["accion"] in lic["acciones"] and f["estado"] in lic["estados"] and f["prueba"] for f in lic["fuentes"])
     nc = re.compile(r"BY-NC|no comercial|non-commercial|\| \*\*No\*\*", re.I)
     faltan = []
     for linea in open(os.path.join(ROOT, "SOURCES.md"), encoding="utf-8"):
