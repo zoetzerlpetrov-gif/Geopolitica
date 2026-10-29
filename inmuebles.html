@@ -37,6 +37,7 @@
     <nav class="pestanas" role="tablist" aria-label="Secciones">
       <button role="tab" aria-selected="true" data-p="evaluar">🧭 Evaluar una ubicación</button>
       <button role="tab" aria-selected="false" data-p="desarrollos">🏗️ Desarrollos en seguimiento</button>
+      <button role="tab" aria-selected="false" data-p="zonas">📍 Zonas México</button>
       <button role="tab" aria-selected="false" data-p="lista">⭐ Mi lista</button>
       <button role="tab" aria-selected="false" data-p="fuentes">🌍 Fuentes por país (20)</button>
     </nav>
@@ -78,6 +79,15 @@
       <p class="meta" id="de-n"></p>
       <div class="desliza"><table class="t" id="de-tabla"></table></div>
       <p class="meta"><a href="./?capas=inmuebles_seguimiento">Ver todos en el mapa (capa «Seguimiento a Inmuebles»)</a></p>
+    </section>
+
+    <section class="panel" id="p-zonas" hidden>
+      <p class="meta" id="zo-nota"></p>
+      <div class="barra" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <label>Ciudad <select id="zo-ciudad"><option value="">Todas</option></select></label>
+        <label>Tipo <select id="zo-tipo"><option value="">Todos</option></select></label></div>
+      <div id="zo-lista"></div>
+      <p class="meta">Fuentes oficiales para revisar antes de pagar: <span id="zo-oficiales"></span></p>
     </section>
 
     <section class="panel" id="p-lista" hidden>
