@@ -59,5 +59,6 @@
     document.getElementById("pl-tabla").innerHTML = `<tr><th>Sección</th>${cat.planes.map((p) => `<th>${esc(p.nombre)}</th>`).join("")}</tr>`
       + filasComparacion(cat).map((f) => `<tr><td>${esc(f.nombre)}</td>${f.incluido.map((x) => `<td class="${x ? "si" : "no"}">${x ? "✓" : "🔒"}</td>`).join("")}</tr>`).join("");
   </script>
+  <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>

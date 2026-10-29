@@ -6,7 +6,7 @@
 
 export const CANAL_NASA = "UCLA_DiR1FfKNvjuUpBHmylQ";
 export const POSICION = "https://api.wheretheiss.at/v1/satellites/25544";
-export const urlVideo = (canal = CANAL_NASA) => `https://www.youtube.com/embed/live_stream?channel=${canal}&autoplay=1&mute=1&playsinline=1`;
+export const urlVideo = (canal = CANAL_NASA) => `https://www.youtube-nocookie.com/embed/live_stream?channel=${canal}&autoplay=1&mute=1&playsinline=1`;
 
 /** Respuesta de wheretheiss.at → {lat, lon, alt_km, vel_kmh, visibilidad} o null. */
 export function leerPosicion(d) {
