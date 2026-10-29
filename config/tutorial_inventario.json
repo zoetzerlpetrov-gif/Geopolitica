@@ -1,0 +1,3532 @@
+{
+ "generado": "2026-10-29",
+ "nota": "Generado por tools/tutorial/inventario.cjs a partir de index.html.",
+ "panel": [
+  {
+   "titulo": "📰 Eventos y noticias",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Filtros",
+     "opciones": [
+      {
+       "t": "Orden de la lista",
+       "ayuda": ""
+      },
+      {
+       "t": "Severidad mínima",
+       "ayuda": ""
+      },
+      {
+       "t": "Solo una severidad",
+       "ayuda": ""
+      },
+      {
+       "t": "País",
+       "ayuda": ""
+      },
+      {
+       "t": "Región",
+       "ayuda": ""
+      },
+      {
+       "t": "Religión mencionada",
+       "ayuda": "Eventos cuyo título o resumen menciona la religión (iglesias, mezquitas, sinagogas, templos, comunidades, líderes)"
+      },
+      {
+       "t": "Solo con impacto en México",
+       "ayuda": ""
+      },
+      {
+       "t": "Solo leyes, reformas y decretos",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "Áreas temáticas",
+     "opciones": [
+      {
+       "t": "1. Geografía y territorio",
+       "ayuda": ""
+      },
+      {
+       "t": "2. Seguridad y poder militar",
+       "ayuda": ""
+      },
+      {
+       "t": "3. Geoeconomía",
+       "ayuda": ""
+      },
+      {
+       "t": "4. Energía y recursos",
+       "ayuda": ""
+      },
+      {
+       "t": "5. Tecnología y ciberespacio",
+       "ayuda": ""
+      },
+      {
+       "t": "6. Demografía y migración",
+       "ayuda": ""
+      },
+      {
+       "t": "7. Clima y medio ambiente",
+       "ayuda": ""
+      },
+      {
+       "t": "8. Instituciones y derecho internacional",
+       "ayuda": ""
+      },
+      {
+       "t": "9. Identidad, ideología y narrativa",
+       "ayuda": ""
+      },
+      {
+       "t": "10. Geopolítica regional",
+       "ayuda": ""
+      },
+      {
+       "t": "11. Riesgo geopolítico aplicado",
+       "ayuda": ""
+      },
+      {
+       "t": "12. Infraestructura crítica y conectividad",
+       "ayuda": ""
+      },
+      {
+       "t": "13. Salud pública y riesgos NRBQ",
+       "ayuda": ""
+      }
+     ],
+     "sub": [
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Fronteras naturales (montañas, ríos, desiertos)",
+         "ayuda": ""
+        },
+        {
+         "t": "Disputas fronterizas y territoriales",
+         "ayuda": ""
+        },
+        {
+         "t": "Chokepoints (Ormuz, Malaca, Suez, Panamá, Bab el-Mandeb, Bósforo, Gibraltar, Taiwán)",
+         "ayuda": ""
+        },
+        {
+         "t": "Salida al mar",
+         "ayuda": ""
+        },
+        {
+         "t": "Profundidad estratégica",
+         "ayuda": ""
+        },
+        {
+         "t": "Zonas Económicas Exclusivas (200 millas náuticas)",
+         "ayuda": ""
+        },
+        {
+         "t": "Islas y mares en disputa",
+         "ayuda": ""
+        },
+        {
+         "t": "Puertos y aeropuertos estratégicos",
+         "ayuda": ""
+        },
+        {
+         "t": "Estrechos con tráfico en tiempo real",
+         "ayuda": ""
+        },
+        {
+         "t": "Zonas de exclusión aérea y marítima",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Conflictos armados activos",
+         "ayuda": ""
+        },
+        {
+         "t": "Disuasión nuclear",
+         "ayuda": ""
+        },
+        {
+         "t": "Alianzas (OTAN, AUKUS, otras)",
+         "ayuda": ""
+        },
+        {
+         "t": "Bases militares en el extranjero",
+         "ayuda": ""
+        },
+        {
+         "t": "Ejercicios y despliegues",
+         "ayuda": ""
+        },
+        {
+         "t": "Gasto militar",
+         "ayuda": ""
+        },
+        {
+         "t": "Guerra híbrida",
+         "ayuda": ""
+        },
+        {
+         "t": "Actores no estatales (milicias, cárteles, grupos insurgentes)",
+         "ayuda": ""
+        },
+        {
+         "t": "Terrorismo",
+         "ayuda": ""
+        },
+        {
+         "t": "Bases e instalaciones militares públicas",
+         "ayuda": ""
+        },
+        {
+         "t": "Vuelos militares",
+         "ayuda": ""
+        },
+        {
+         "t": "Buques de guerra",
+         "ayuda": ""
+        },
+        {
+         "t": "Protestas y disturbios",
+         "ayuda": ""
+        },
+        {
+         "t": "Pruebas de misiles",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Aranceles y guerras comerciales",
+         "ayuda": ""
+        },
+        {
+         "t": "Tratados comerciales",
+         "ayuda": ""
+        },
+        {
+         "t": "Sanciones financieras (SWIFT, reservas, listas OFAC/UE)",
+         "ayuda": ""
+        },
+        {
+         "t": "Controles de exportación",
+         "ayuda": ""
+        },
+        {
+         "t": "Cadenas de suministro",
+         "ayuda": ""
+        },
+        {
+         "t": "Nearshoring y friendshoring",
+         "ayuda": ""
+        },
+        {
+         "t": "Dólar y monedas de reserva",
+         "ayuda": ""
+        },
+        {
+         "t": "Deuda soberana",
+         "ayuda": ""
+        },
+        {
+         "t": "Mercados (índices, divisas, materias primas)",
+         "ayuda": ""
+        },
+        {
+         "t": "Bolsas de valores",
+         "ayuda": ""
+        },
+        {
+         "t": "VIX, diferencial de alto rendimiento y GSCPI",
+         "ayuda": ""
+        },
+        {
+         "t": "Sanciones (OFAC SDN, UE, OpenSanctions)",
+         "ayuda": ""
+        },
+        {
+         "t": "Comercio (UN Comtrade)",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Petróleo y gas (producción, OPEP+, ductos)",
+         "ayuda": ""
+        },
+        {
+         "t": "Minerales críticos (litio, cobre, cobalto, tierras raras)",
+         "ayuda": ""
+        },
+        {
+         "t": "Seguridad energética",
+         "ayuda": ""
+        },
+        {
+         "t": "Electricidad",
+         "ayuda": ""
+        },
+        {
+         "t": "Seguridad alimentaria (trigo, maíz, fertilizantes)",
+         "ayuda": ""
+        },
+        {
+         "t": "Agua transfronteriza",
+         "ayuda": ""
+        },
+        {
+         "t": "Precios de energía (EIA)",
+         "ayuda": ""
+        },
+        {
+         "t": "Centrales por tipo de combustible",
+         "ayuda": ""
+        },
+        {
+         "t": "Minas de minerales críticos",
+         "ayuda": ""
+        },
+        {
+         "t": "Petroleros",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Semiconductores y controles de exportación",
+         "ayuda": ""
+        },
+        {
+         "t": "Inteligencia artificial y cómputo",
+         "ayuda": ""
+        },
+        {
+         "t": "Cables submarinos",
+         "ayuda": ""
+        },
+        {
+         "t": "Satélites y espacio",
+         "ayuda": ""
+        },
+        {
+         "t": "Ciberataques",
+         "ayuda": ""
+        },
+        {
+         "t": "Soberanía de datos",
+         "ayuda": ""
+        },
+        {
+         "t": "5G/telecomunicaciones",
+         "ayuda": ""
+        },
+        {
+         "t": "Vulnerabilidades explotadas (CISA KEV, NVD)",
+         "ayuda": ""
+        },
+        {
+         "t": "Satélites y lanzamientos",
+         "ayuda": ""
+        },
+        {
+         "t": "Clima espacial (NOAA SWPC)",
+         "ayuda": ""
+        },
+        {
+         "t": "Centros de datos por tipo",
+         "ayuda": ""
+        },
+        {
+         "t": "Incidentes espaciales y satélites",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Bono demográfico",
+         "ayuda": ""
+        },
+        {
+         "t": "Envejecimiento",
+         "ayuda": ""
+        },
+        {
+         "t": "Natalidad",
+         "ayuda": ""
+        },
+        {
+         "t": "Migración y refugiados",
+         "ayuda": ""
+        },
+        {
+         "t": "Remesas",
+         "ayuda": ""
+        },
+        {
+         "t": "Urbanización",
+         "ayuda": ""
+        },
+        {
+         "t": "Desplazados internos",
+         "ayuda": ""
+        },
+        {
+         "t": "Desplazamientos forzados",
+         "ayuda": ""
+        },
+        {
+         "t": "Crisis humanitarias (ReliefWeb)",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Sequías y conflictos por agua",
+         "ayuda": ""
+        },
+        {
+         "t": "Deshielo del Ártico y nuevas rutas",
+         "ayuda": ""
+        },
+        {
+         "t": "Desastres extremos con efecto político",
+         "ayuda": ""
+        },
+        {
+         "t": "Transición energética",
+         "ayuda": ""
+        },
+        {
+         "t": "Migración climática",
+         "ayuda": ""
+        },
+        {
+         "t": "Acuerdos climáticos (COP)",
+         "ayuda": ""
+        },
+        {
+         "t": "Incendios (NASA FIRMS)",
+         "ayuda": ""
+        },
+        {
+         "t": "Sismos (USGS)",
+         "ayuda": ""
+        },
+        {
+         "t": "Eventos naturales (NASA EONET, GDACS)",
+         "ayuda": ""
+        },
+        {
+         "t": "Calidad del aire",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "ONU y Consejo de Seguridad (veto)",
+         "ayuda": ""
+        },
+        {
+         "t": "OMC y controversias",
+         "ayuda": ""
+        },
+        {
+         "t": "Corte Internacional de Justicia y Corte Penal Internacional",
+         "ayuda": ""
+        },
+        {
+         "t": "Tratados y su cumplimiento",
+         "ayuda": ""
+        },
+        {
+         "t": "Soberanía y no intervención",
+         "ayuda": ""
+        },
+        {
+         "t": "Elecciones y cambios de gobierno",
+         "ayuda": ""
+        },
+        {
+         "t": "Cumbres (G7, G20, BRICS, APEC)",
+         "ayuda": ""
+        },
+        {
+         "t": "Elecciones",
+         "ayuda": ""
+        },
+        {
+         "t": "Cumbres",
+         "ayuda": ""
+        },
+        {
+         "t": "Votaciones en la ONU",
+         "ayuda": ""
+        },
+        {
+         "t": "Embajadas",
+         "ayuda": ""
+        },
+        {
+         "t": "Leyes, reformas y decretos",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Nacionalismo y memoria histórica",
+         "ayuda": ""
+        },
+        {
+         "t": "Religión y etnicidad",
+         "ayuda": ""
+        },
+        {
+         "t": "Protestas y movimientos sociales",
+         "ayuda": ""
+        },
+        {
+         "t": "Desinformación y operaciones de influencia",
+         "ayuda": ""
+        },
+        {
+         "t": "Poder blando",
+         "ayuda": ""
+        },
+        {
+         "t": "Censura y libertad de prensa",
+         "ayuda": ""
+        },
+        {
+         "t": "Canales públicos de Telegram",
+         "ayuda": ""
+        },
+        {
+         "t": "Bluesky y redes abiertas",
+         "ayuda": ""
+        },
+        {
+         "t": "Mercados de predicción (expectativa agregada, no hecho)",
+         "ayuda": ""
+        },
+        {
+         "t": "Violencia y conflictos religiosos",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Norteamérica",
+         "ayuda": ""
+        },
+        {
+         "t": "Centroamérica y Caribe",
+         "ayuda": ""
+        },
+        {
+         "t": "Sudamérica",
+         "ayuda": ""
+        },
+        {
+         "t": "Europa Occidental",
+         "ayuda": ""
+        },
+        {
+         "t": "Europa del Este y Rusia",
+         "ayuda": ""
+        },
+        {
+         "t": "Medio Oriente",
+         "ayuda": ""
+        },
+        {
+         "t": "África del Norte y Sahel",
+         "ayuda": ""
+        },
+        {
+         "t": "África Subsahariana",
+         "ayuda": ""
+        },
+        {
+         "t": "Asia Central",
+         "ayuda": ""
+        },
+        {
+         "t": "Asia del Sur",
+         "ayuda": ""
+        },
+        {
+         "t": "Indo-Pacífico y Taiwán",
+         "ayuda": ""
+        },
+        {
+         "t": "Ártico",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Riesgo país",
+         "ayuda": ""
+        },
+        {
+         "t": "Escenarios e impacto",
+         "ayuda": ""
+        },
+        {
+         "t": "Continuidad de negocio (ISO 22301)",
+         "ayuda": ""
+        },
+        {
+         "t": "Cadena de suministro (ISO 28000)",
+         "ayuda": ""
+        },
+        {
+         "t": "Due diligence de proveedores y listas de sanciones",
+         "ayuda": ""
+        },
+        {
+         "t": "Matriz de riesgo (ISO 31000, COSO ERM)",
+         "ayuda": ""
+        },
+        {
+         "t": "Índice de Inestabilidad por País",
+         "ayuda": ""
+        },
+        {
+         "t": "Alertas",
+         "ayuda": ""
+        },
+        {
+         "t": "Listas de seguimiento",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Cables submarinos",
+         "ayuda": ""
+        },
+        {
+         "t": "Ductos de petróleo y gas",
+         "ayuda": ""
+        },
+        {
+         "t": "Centrales eléctricas",
+         "ayuda": ""
+        },
+        {
+         "t": "Presas",
+         "ayuda": ""
+        },
+        {
+         "t": "Puertos",
+         "ayuda": ""
+        },
+        {
+         "t": "Aeropuertos",
+         "ayuda": ""
+        },
+        {
+         "t": "Centros de datos",
+         "ayuda": ""
+        },
+        {
+         "t": "Caídas de internet",
+         "ayuda": ""
+        },
+        {
+         "t": "Incidentes aéreos y emergencias en vuelo",
+         "ayuda": ""
+        },
+        {
+         "t": "Incidentes marítimos y piratería",
+         "ayuda": ""
+        },
+        {
+         "t": "Trenes: accidentes y descarrilamientos",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Subcategorías",
+       "opciones": [
+        {
+         "t": "Brotes de enfermedades",
+         "ayuda": ""
+        },
+        {
+         "t": "Alertas OMS",
+         "ayuda": ""
+        },
+        {
+         "t": "Radiación ambiental",
+         "ayuda": ""
+        },
+        {
+         "t": "Incidentes nucleares o químicos",
+         "ayuda": ""
+        },
+        {
+         "t": "Sin subcategoría",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      }
+     ]
+    },
+    {
+     "titulo": "Línea de tiempo",
+     "opciones": [
+      {
+       "t": "Ventana",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "Lista de eventos",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "Titulares de seguridad (sin verificar)",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "⛰️ Deslaves y derrumbes",
+       "opciones": [],
+       "sub": []
+      },
+      {
+       "titulo": "🚧 Bloqueos, cierres y protestas",
+       "opciones": [],
+       "sub": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "titulo": "🗺️ Capas del mapa",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Capas fijas",
+     "opciones": [
+      {
+       "t": "Chokepoints marítimos",
+       "ayuda": ""
+      },
+      {
+       "t": "Índice de inestabilidad por país",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "Infraestructura, conflictos y sociedad",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "Organizaciones",
+       "opciones": [
+        {
+         "t": "🔎 Buscar empresa, organismo, embajada o consulado",
+         "ayuda": ""
+        },
+        {
+         "t": "Organismos internacionales y bolsas",
+         "ayuda": ""
+        },
+        {
+         "t": "Empresas: sedes por sector (energía, alimentos, hotelería, automotriz…)",
+         "ayuda": ""
+        },
+        {
+         "t": "Top 10 de empresas por país (cotizan o no en bolsa)",
+         "ayuda": ""
+        },
+        {
+         "t": "Embajadas y consulados",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Organismos internacionales",
+           "ayuda": ""
+          },
+          {
+           "t": "Bolsas de valores (sede e índices)",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Energía: petróleo, gas y electricidad",
+           "ayuda": ""
+          },
+          {
+           "t": "Minería y metales",
+           "ayuda": ""
+          },
+          {
+           "t": "Automotriz",
+           "ayuda": ""
+          },
+          {
+           "t": "Aeroespacial y defensa",
+           "ayuda": ""
+          },
+          {
+           "t": "Transporte y logística (aerolíneas, navieras)",
+           "ayuda": ""
+          },
+          {
+           "t": "Hotelería, restaurantes y turismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Alimentos y bebidas",
+           "ayuda": ""
+          },
+          {
+           "t": "Farmacéutica y salud",
+           "ayuda": ""
+          },
+          {
+           "t": "Química",
+           "ayuda": ""
+          },
+          {
+           "t": "Banca, seguros y finanzas",
+           "ayuda": ""
+          },
+          {
+           "t": "Telecomunicaciones",
+           "ayuda": ""
+          },
+          {
+           "t": "Tecnología e internet",
+           "ayuda": ""
+          },
+          {
+           "t": "Comercio, moda y bienes de consumo",
+           "ayuda": ""
+          },
+          {
+           "t": "Construcción e inmobiliarias",
+           "ayuda": ""
+          },
+          {
+           "t": "Medios y entretenimiento",
+           "ayuda": ""
+          },
+          {
+           "t": "Otros sectores o sin sector declarado",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Infraestructura",
+       "opciones": [
+        {
+         "t": "Aeropuertos",
+         "ayuda": ""
+        },
+        {
+         "t": "Puertos",
+         "ayuda": ""
+        },
+        {
+         "t": "Centrales eléctricas",
+         "ayuda": ""
+        },
+        {
+         "t": "Centros de datos",
+         "ayuda": ""
+        },
+        {
+         "t": "Cables submarinos",
+         "ayuda": ""
+        },
+        {
+         "t": "Rutas marítimas del mundo",
+         "ayuda": ""
+        },
+        {
+         "t": "Presas",
+         "ayuda": ""
+        },
+        {
+         "t": "Ductos de petróleo y gas",
+         "ayuda": ""
+        },
+        {
+         "t": "Vías férreas",
+         "ayuda": ""
+        },
+        {
+         "t": "Autopistas y carreteras troncales",
+         "ayuda": ""
+        },
+        {
+         "t": "Plantas nucleares y reactores de investigación",
+         "ayuda": ""
+        },
+        {
+         "t": "Centros de investigación: ciencias, salud, ambiente, tecnología, laboratorios y observatorios",
+         "ayuda": ""
+        },
+        {
+         "t": "Farmacéuticas: sedes y plantas",
+         "ayuda": ""
+        },
+        {
+         "t": "Puertos espaciales y sitios de lanzamiento",
+         "ayuda": ""
+        },
+        {
+         "t": "Cruces fronterizos",
+         "ayuda": ""
+        },
+        {
+         "t": "Plantas desaladoras",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Aeropuertos internacionales",
+           "ayuda": ""
+          },
+          {
+           "t": "Aeropuertos regionales",
+           "ayuda": ""
+          },
+          {
+           "t": "Aeródromos",
+           "ayuda": ""
+          },
+          {
+           "t": "Helipuertos",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Puertos grandes",
+           "ayuda": ""
+          },
+          {
+           "t": "Puertos medianos",
+           "ayuda": ""
+          },
+          {
+           "t": "Puertos pequeños",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Centrales: solar",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: hidroeléctrica",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: eólica",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: gas",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: carbón",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: petróleo",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: biomasa",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: residuos",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: nuclear",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: geotérmica",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: almacenamiento",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales: otros",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Centros de datos: IA de frontera",
+           "ayuda": ""
+          },
+          {
+           "t": "Centros de datos: hiperescala",
+           "ayuda": ""
+          },
+          {
+           "t": "Centros de datos: otros",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Cables submarinos",
+           "ayuda": ""
+          },
+          {
+           "t": "Puntos de aterrizaje de cables",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Rutas marítimas principales",
+           "ayuda": ""
+          },
+          {
+           "t": "Rutas marítimas secundarias",
+           "ayuda": ""
+          },
+          {
+           "t": "Rutas marítimas menores",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Presas: hidroeléctrica",
+           "ayuda": ""
+          },
+          {
+           "t": "Presas: riego",
+           "ayuda": ""
+          },
+          {
+           "t": "Presas: otros usos o sin dato",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Oleoductos",
+           "ayuda": ""
+          },
+          {
+           "t": "Gasoductos",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Vías férreas electrificadas",
+           "ayuda": ""
+          },
+          {
+           "t": "Vías férreas sin electrificar o sin dato",
+           "ayuda": ""
+          },
+          {
+           "t": "Transbordadores de trenes",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Autopistas (vías rápidas)",
+           "ayuda": ""
+          },
+          {
+           "t": "Carreteras troncales",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Centrales nucleares en operación o sin dato",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales nucleares en construcción o planeadas",
+           "ayuda": ""
+          },
+          {
+           "t": "Centrales nucleares cerradas o en desmantelamiento",
+           "ayuda": ""
+          },
+          {
+           "t": "Reactores nucleares de investigación",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Institutos y centros de investigación: ciencias (general)",
+           "ayuda": ""
+          },
+          {
+           "t": "Aceleradores de partículas",
+           "ayuda": ""
+          },
+          {
+           "t": "Investigación en salud y biomedicina",
+           "ayuda": ""
+          },
+          {
+           "t": "Investigación agrícola, marina, climática y ambiental",
+           "ayuda": ""
+          },
+          {
+           "t": "Investigación en tecnología, energía, física e ingeniería",
+           "ayuda": ""
+          },
+          {
+           "t": "Laboratorios de investigación",
+           "ayuda": ""
+          },
+          {
+           "t": "Observatorios astronómicos",
+           "ayuda": ""
+          },
+          {
+           "t": "Estaciones de investigación de campo y polares",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Farmacéuticas: sede corporativa",
+           "ayuda": ""
+          },
+          {
+           "t": "Farmacéuticas: plantas de medicamentos y vacunas",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Recursos estratégicos",
+       "opciones": [
+        {
+         "t": "Recursos estratégicos",
+         "ayuda": ""
+        },
+        {
+         "t": "Minas (todas las de Wikidata, con mineral y compañía cuando existe)",
+         "ayuda": ""
+        },
+        {
+         "t": "Actividades económicas: acuicultura, cultivos, parques industriales y centros comerciales",
+         "ayuda": ""
+        },
+        {
+         "t": "Campos de petróleo y gas, plataformas marinas",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Minería (minerales críticos, metales)",
+           "ayuda": ""
+          },
+          {
+           "t": "Energía (yacimientos, refinerías, terminales de GNL)",
+           "ayuda": ""
+          },
+          {
+           "t": "Agronomía (granos y fertilizantes)",
+           "ayuda": ""
+          },
+          {
+           "t": "Fábricas de semiconductores",
+           "ayuda": ""
+          },
+          {
+           "t": "Industria pesada",
+           "ayuda": ""
+          },
+          {
+           "t": "Otros",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Campos petroleros",
+           "ayuda": ""
+          },
+          {
+           "t": "Campos de gas natural",
+           "ayuda": ""
+          },
+          {
+           "t": "Plataformas marinas de petróleo y gas",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Instalaciones militares (solo información pública)",
+       "opciones": [
+        {
+         "t": "Instalaciones militares (públicas)",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Cuarteles generales de mando",
+           "ayuda": ""
+          },
+          {
+           "t": "Bases navales",
+           "ayuda": ""
+          },
+          {
+           "t": "Bases aéreas",
+           "ayuda": ""
+          },
+          {
+           "t": "Bases terrestres",
+           "ayuda": ""
+          },
+          {
+           "t": "Instalaciones nucleares",
+           "ayuda": ""
+          },
+          {
+           "t": "Fábricas e industria de defensa",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Zonas geográficas",
+       "opciones": [
+        {
+         "t": "Zonas geográficas",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Países",
+           "ayuda": ""
+          },
+          {
+           "t": "Océanos",
+           "ayuda": ""
+          },
+          {
+           "t": "Mares",
+           "ayuda": ""
+          },
+          {
+           "t": "Golfos y bahías",
+           "ayuda": ""
+          },
+          {
+           "t": "Estrechos",
+           "ayuda": ""
+          },
+          {
+           "t": "Lagos y lagunas",
+           "ayuda": ""
+          },
+          {
+           "t": "Ríos",
+           "ayuda": ""
+          },
+          {
+           "t": "Penínsulas",
+           "ayuda": ""
+          },
+          {
+           "t": "Desiertos",
+           "ayuda": ""
+          },
+          {
+           "t": "Cordilleras",
+           "ayuda": ""
+          },
+          {
+           "t": "Regiones",
+           "ayuda": ""
+          },
+          {
+           "t": "Mesetas y altiplanos",
+           "ayuda": ""
+          },
+          {
+           "t": "Llanuras y tierras bajas",
+           "ayuda": ""
+          },
+          {
+           "t": "Valles",
+           "ayuda": ""
+          },
+          {
+           "t": "Cañones y gargantas",
+           "ayuda": ""
+          },
+          {
+           "t": "Cuencas y depresiones",
+           "ayuda": ""
+          },
+          {
+           "t": "Deltas y humedales",
+           "ayuda": ""
+          },
+          {
+           "t": "Tundras",
+           "ayuda": ""
+          },
+          {
+           "t": "Glaciares y campos de hielo",
+           "ayuda": ""
+          },
+          {
+           "t": "Plataformas de hielo (Antártida)",
+           "ayuda": ""
+          },
+          {
+           "t": "Istmos",
+           "ayuda": ""
+          },
+          {
+           "t": "Costas",
+           "ayuda": ""
+          },
+          {
+           "t": "Piedemonte (faldas de montaña)",
+           "ayuda": ""
+          },
+          {
+           "t": "Islas y archipiélagos",
+           "ayuda": ""
+          },
+          {
+           "t": "Montes y picos (con altitud)",
+           "ayuda": ""
+          },
+          {
+           "t": "Pasos de montaña",
+           "ayuda": ""
+          },
+          {
+           "t": "Cabos",
+           "ayuda": ""
+          },
+          {
+           "t": "Cascadas",
+           "ayuda": ""
+          },
+          {
+           "t": "Fiordos",
+           "ayuda": ""
+          },
+          {
+           "t": "Géiseres y aguas termales",
+           "ayuda": ""
+          },
+          {
+           "t": "Placas tectónicas (nombres)",
+           "ayuda": ""
+          },
+          {
+           "t": "Límite de placas: subducción",
+           "ayuda": ""
+          },
+          {
+           "t": "Límite de placas: convergente (choque)",
+           "ayuda": ""
+          },
+          {
+           "t": "Límite de placas: divergente (dorsal o rift)",
+           "ayuda": ""
+          },
+          {
+           "t": "Límite de placas: transformante (falla lateral)",
+           "ayuda": ""
+          },
+          {
+           "t": "Cinturón (Anillo) de Fuego del Pacífico",
+           "ayuda": ""
+          },
+          {
+           "t": "Volcanes del Cinturón de Fuego",
+           "ayuda": ""
+          },
+          {
+           "t": "Volcanes (resto del mundo)",
+           "ayuda": ""
+          },
+          {
+           "t": "Volcanes vigilados en vivo (alerta oficial y ceniza) también en Riesgos → Amenazas",
+           "ayuda": ""
+          },
+          {
+           "t": "Volcanes inactivos (sin erupciones en ~12,000 años)",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Grupos armados, criminales y terroristas: dominio, disputa y presencia",
+       "opciones": [
+        {
+         "t": "Dominio y disputa de grupos armados (violencia registrada, 24 meses)",
+         "ayuda": ""
+        },
+        {
+         "t": "Grupos criminales y terroristas: sede y países donde operan",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Zona con un grupo dominante (≥ 70 % de la violencia)",
+           "ayuda": ""
+          },
+          {
+           "t": "Zona en disputa (dos o más grupos)",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Organización terrorista",
+           "ayuda": ""
+          },
+          {
+           "t": "Cártel de drogas",
+           "ayuda": ""
+          },
+          {
+           "t": "Mafia u organización criminal",
+           "ayuda": ""
+          },
+          {
+           "t": "Pandilla o club de motociclistas fuera de la ley",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Religión",
+       "opciones": [
+        {
+         "t": "Religiones por país (mayoritaria y composición)",
+         "ayuda": ""
+        },
+        {
+         "t": "Lugares religiosos relevantes (catedrales, mezquitas, templos…)",
+         "ayuda": ""
+        },
+        {
+         "t": "Todas las iglesias católicas (parroquias, capillas, templos, catedrales)",
+         "ayuda": ""
+        },
+        {
+         "t": "Todas las iglesias cristianas no católicas (ortodoxas, protestantes, evangélicas…)",
+         "ayuda": ""
+        },
+        {
+         "t": "Todos los lugares de culto de otras religiones (mezquitas, sinagogas, templos, santuarios…)",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Mayoría cristiana",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría musulmana",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría hindú",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría budista",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría judía",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría de religiones populares o tradicionales",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría de otras religiones",
+           "ayuda": ""
+          },
+          {
+           "t": "Mayoría sin afiliación religiosa",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Cristianismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Islam",
+           "ayuda": ""
+          },
+          {
+           "t": "Judaísmo",
+           "ayuda": ""
+          },
+          {
+           "t": "Hinduismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Budismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Sintoísmo",
+           "ayuda": ""
+          },
+          {
+           "t": "Sijismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Otras religiones",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Islam (mezquitas)",
+           "ayuda": ""
+          },
+          {
+           "t": "Judaísmo (sinagogas)",
+           "ayuda": ""
+          },
+          {
+           "t": "Hinduismo (templos)",
+           "ayuda": ""
+          },
+          {
+           "t": "Budismo (templos, pagodas)",
+           "ayuda": ""
+          },
+          {
+           "t": "Sintoísmo (santuarios)",
+           "ayuda": ""
+          },
+          {
+           "t": "Sijismo (gurdwaras)",
+           "ayuda": ""
+          },
+          {
+           "t": "Taoísmo y religión tradicional china",
+           "ayuda": ""
+          },
+          {
+           "t": "Jainismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Fe bahá'í",
+           "ayuda": ""
+          },
+          {
+           "t": "Satanismo y ocultismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Paganismo y neopaganismo",
+           "ayuda": ""
+          },
+          {
+           "t": "Religiones afroamericanas y espiritismo (vudú, santería, umbanda…)",
+           "ayuda": ""
+          },
+          {
+           "t": "Otras religiones o sin religión indicada",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Población y turismo",
+       "opciones": [
+        {
+         "t": "Densidad de población por país",
+         "ayuda": ""
+        },
+        {
+         "t": "Lugares turísticos: Patrimonio Mundial, Pueblos Mágicos, zonas arqueológicas, museos, playas y más",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Menos de 10 hab/km²",
+           "ayuda": ""
+          },
+          {
+           "t": "10 a 50 hab/km²",
+           "ayuda": ""
+          },
+          {
+           "t": "50 a 100 hab/km²",
+           "ayuda": ""
+          },
+          {
+           "t": "100 a 300 hab/km²",
+           "ayuda": ""
+          },
+          {
+           "t": "300 a 1,000 hab/km²",
+           "ayuda": ""
+          },
+          {
+           "t": "Más de 1,000 hab/km²",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Patrimonio Mundial de la UNESCO",
+           "ayuda": ""
+          },
+          {
+           "t": "Parques nacionales relevantes",
+           "ayuda": ""
+          },
+          {
+           "t": "Atracciones turísticas relevantes",
+           "ayuda": ""
+          },
+          {
+           "t": "Pueblos Mágicos de México",
+           "ayuda": ""
+          },
+          {
+           "t": "Centros históricos",
+           "ayuda": ""
+          },
+          {
+           "t": "Zonas y sitios arqueológicos",
+           "ayuda": ""
+          },
+          {
+           "t": "Museos relevantes",
+           "ayuda": ""
+          },
+          {
+           "t": "Castillos y palacios",
+           "ayuda": ""
+          },
+          {
+           "t": "Monumentos",
+           "ayuda": ""
+          },
+          {
+           "t": "Playas",
+           "ayuda": ""
+          },
+          {
+           "t": "Cenotes y cuevas",
+           "ayuda": ""
+          },
+          {
+           "t": "Cascadas",
+           "ayuda": ""
+          },
+          {
+           "t": "Parques temáticos, zoológicos y acuarios",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Economía y finanzas",
+       "opciones": [
+        {
+         "t": "Lista fiscal de la UE: jurisdicciones no cooperativas (paraísos fiscales)",
+         "ayuda": ""
+        },
+        {
+         "t": "Recaudación de impuestos (% del PIB)",
+         "ayuda": ""
+        },
+        {
+         "t": "Sector primario: agricultura, ganadería, pesca y silvicultura (% del PIB)",
+         "ayuda": ""
+        },
+        {
+         "t": "Sector secundario: industria, minería y construcción (% del PIB)",
+         "ayuda": ""
+        },
+        {
+         "t": "Sector terciario: servicios, comercio y turismo (% del PIB)",
+         "ayuda": ""
+        },
+        {
+         "t": "Principales cultivos y productos ganaderos por país",
+         "ayuda": ""
+        },
+        {
+         "t": "Acuicultura por país (toneladas de pescados, mariscos y algas cultivados)",
+         "ayuda": ""
+        },
+        {
+         "t": "Pagos: moneda digital de banco central (CBDC) por país",
+         "ayuda": ""
+        },
+        {
+         "t": "Pagos: situación legal de las criptomonedas por país",
+         "ayuda": ""
+        },
+        {
+         "t": "Pagos: efectivo protegido, limitado o desplazado por país",
+         "ayuda": ""
+        },
+        {
+         "t": "Tasa de interés de los bancos centrales",
+         "ayuda": ""
+        },
+        {
+         "t": "Nodos de Bitcoin por país",
+         "ayuda": ""
+        },
+        {
+         "t": "Bienes raíces: dónde suben o bajan los precios, por país y tipo",
+         "ayuda": ""
+        },
+        {
+         "t": "Bienes raíces en México: valor por m² por estado y tipo de vivienda",
+         "ayuda": ""
+        },
+        {
+         "t": "Seguimiento a Inmuebles",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Anexo I: no cooperativa (lista negra)",
+           "ayuda": ""
+          },
+          {
+           "t": "Anexo II: compromisos pendientes (lista gris)",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Menos del 10 % del PIB",
+           "ayuda": ""
+          },
+          {
+           "t": "10 % a 15 %",
+           "ayuda": ""
+          },
+          {
+           "t": "15 % a 20 %",
+           "ayuda": ""
+          },
+          {
+           "t": "20 % a 25 %",
+           "ayuda": ""
+          },
+          {
+           "t": "25 % a 30 %",
+           "ayuda": ""
+          },
+          {
+           "t": "30 % del PIB o más",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Menos de 1 %",
+           "ayuda": ""
+          },
+          {
+           "t": "1 % a 3 %",
+           "ayuda": ""
+          },
+          {
+           "t": "3 % a 5 %",
+           "ayuda": ""
+          },
+          {
+           "t": "5 % a 8 %",
+           "ayuda": ""
+          },
+          {
+           "t": "8 % a 12 %",
+           "ayuda": ""
+          },
+          {
+           "t": "12 % a 20 %",
+           "ayuda": ""
+          },
+          {
+           "t": "20 % o más",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "1 a 9 nodos",
+           "ayuda": ""
+          },
+          {
+           "t": "10 a 49",
+           "ayuda": ""
+          },
+          {
+           "t": "50 a 199",
+           "ayuda": ""
+          },
+          {
+           "t": "200 a 999",
+           "ayuda": ""
+          },
+          {
+           "t": "1,000 a 4,999",
+           "ayuda": ""
+          },
+          {
+           "t": "5,000 o más",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Tipo de inmueble (uno a la vez)",
+         "opciones": [
+          {
+           "t": "Vivienda (todas)",
+           "ayuda": ""
+          },
+          {
+           "t": "Casas",
+           "ayuda": ""
+          },
+          {
+           "t": "Departamentos",
+           "ayuda": ""
+          },
+          {
+           "t": "Terrenos",
+           "ayuda": ""
+          },
+          {
+           "t": "Oficinas",
+           "ayuda": ""
+          },
+          {
+           "t": "Locales comerciales",
+           "ayuda": ""
+          },
+          {
+           "t": "Oficinas y locales",
+           "ayuda": ""
+          },
+          {
+           "t": "Industriales y bodegas",
+           "ayuda": ""
+          },
+          {
+           "t": "Comercial (todos los tipos)",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Tipo de inmueble (uno a la vez)",
+         "opciones": [
+          {
+           "t": "Casa",
+           "ayuda": ""
+          },
+          {
+           "t": "Departamento",
+           "ayuda": ""
+          },
+          {
+           "t": "Condominio",
+           "ayuda": ""
+          },
+          {
+           "t": "Vivienda económica y social",
+           "ayuda": ""
+          },
+          {
+           "t": "Vivienda media y residencial",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        },
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Riesgo bajo",
+           "ayuda": ""
+          },
+          {
+           "t": "Riesgo moderado",
+           "ayuda": ""
+          },
+          {
+           "t": "Riesgo medio-alto",
+           "ayuda": ""
+          },
+          {
+           "t": "Riesgo alto",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Forma de gobierno",
+       "opciones": [
+        {
+         "t": "Forma de gobierno por país (república, monarquía…)",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Junta o gobierno militar",
+           "ayuda": ""
+          },
+          {
+           "t": "Teocracia",
+           "ayuda": ""
+          },
+          {
+           "t": "Estado de partido único",
+           "ayuda": ""
+          },
+          {
+           "t": "Monarquía absoluta",
+           "ayuda": ""
+          },
+          {
+           "t": "Monarquía constitucional o parlamentaria",
+           "ayuda": ""
+          },
+          {
+           "t": "República semipresidencial",
+           "ayuda": ""
+          },
+          {
+           "t": "República presidencial",
+           "ayuda": ""
+          },
+          {
+           "t": "República parlamentaria",
+           "ayuda": ""
+          },
+          {
+           "t": "Otra o sin dato",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "Orientación política del gobierno",
+       "opciones": [
+        {
+         "t": "Orientación política del gobierno (izquierda, derecha…)",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Comunista (partido único)",
+           "ayuda": ""
+          },
+          {
+           "t": "Extrema izquierda",
+           "ayuda": ""
+          },
+          {
+           "t": "Izquierda",
+           "ayuda": ""
+          },
+          {
+           "t": "Centroizquierda",
+           "ayuda": ""
+          },
+          {
+           "t": "Centro o amplio espectro",
+           "ayuda": ""
+          },
+          {
+           "t": "Centroderecha",
+           "ayuda": ""
+          },
+          {
+           "t": "Derecha",
+           "ayuda": ""
+          },
+          {
+           "t": "Extrema derecha",
+           "ayuda": ""
+          },
+          {
+           "t": "Sin partido (monarca, militar o independiente)",
+           "ayuda": ""
+          },
+          {
+           "t": "Sin dato de orientación",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "titulo": "Imágenes satelitales y cámaras",
+     "opciones": [
+      {
+       "t": "Color verdadero VIIRS (NOAA-20, sin huecos)",
+       "ayuda": ""
+      },
+      {
+       "t": "Color verdadero MODIS Terra (mañana, con huecos)",
+       "ayuda": ""
+      },
+      {
+       "t": "Color verdadero MODIS Aqua (tarde, con huecos)",
+       "ayuda": ""
+      },
+      {
+       "t": "SO₂ cerca del suelo (lluvia ácida, volcanes, industria · OMPS)",
+       "ayuda": ""
+      },
+      {
+       "t": "Aerosoles: humo, polvo y ceniza volcánica (OMPS)",
+       "ayuda": ""
+      },
+      {
+       "t": "Hielo marino: % del mar cubierto (GHRSST MUR, diario)",
+       "ayuda": ""
+      },
+      {
+       "t": "Capa de ozono: columna total (OMPS, diario)",
+       "ayuda": ""
+      },
+      {
+       "t": "NO₂: actividad industrial y tráfico (TROPOMI, diario, mundo)",
+       "ayuda": ""
+      },
+      {
+       "t": "NO₂ cada hora en América del Norte y México (TEMPO, hora más reciente)",
+       "ayuda": ""
+      },
+      {
+       "t": "Luces nocturnas VIIRS (apagones)",
+       "ayuda": ""
+      },
+      {
+       "t": "🕰️ Cambio en el tiempo: la misma zona año por año (2018–2025)",
+       "ayuda": ""
+      },
+      {
+       "t": "🛰️ Cámara de la Estación Espacial apuntando a la Tierra (NASA, en vivo)",
+       "ayuda": ""
+      },
+      {
+       "t": "Día (UTC)",
+       "ayuda": ""
+      },
+      {
+       "t": "Cámaras públicas",
+       "ayuda": ""
+      }
+     ],
+     "sub": [
+      {
+       "titulo": "Subtipos",
+       "opciones": [
+        {
+         "t": "Tráfico",
+         "ayuda": ""
+        },
+        {
+         "t": "Vigilancia de incendios forestales",
+         "ayuda": ""
+        },
+        {
+         "t": "Volcanes y clima",
+         "ayuda": ""
+        },
+        {
+         "t": "Canales y puertos",
+         "ayuda": ""
+        },
+        {
+         "t": "Turismo y paisaje",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: Ciudad de México",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: ciudades",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: plazas",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: Pueblos Mágicos",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: playas",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: volcanes",
+         "ayuda": ""
+        },
+        {
+         "t": "México en vivo: panorámicas",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: ciudades",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: playas y costas",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: puertos y canales",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: aeropuertos",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: volcanes",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: montaña y nieve",
+         "ayuda": ""
+        },
+        {
+         "t": "Mundo en vivo: calles y tráfico",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "titulo": "✈️ En movimiento",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Aviones, barcos y satélites",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "✈️ Aeronaves",
+       "opciones": [
+        {
+         "t": "Mostrar en el mapa",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Civil comercial",
+           "ayuda": ""
+          },
+          {
+           "t": "Carga",
+           "ayuda": ""
+          },
+          {
+           "t": "Aviación general",
+           "ayuda": ""
+          },
+          {
+           "t": "Militar",
+           "ayuda": ""
+          },
+          {
+           "t": "De Estado (gobiernos)",
+           "ayuda": ""
+          },
+          {
+           "t": "En tierra",
+           "ayuda": ""
+          },
+          {
+           "t": "Sancionada",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "🚢 Buques",
+       "opciones": [
+        {
+         "t": "Mostrar en el mapa",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Carga",
+           "ayuda": ""
+          },
+          {
+           "t": "Pasaje",
+           "ayuda": ""
+          },
+          {
+           "t": "Petroleros y tanqueros",
+           "ayuda": ""
+          },
+          {
+           "t": "Vela y recreo",
+           "ayuda": ""
+          },
+          {
+           "t": "Pesca",
+           "ayuda": ""
+          },
+          {
+           "t": "Militares",
+           "ayuda": ""
+          },
+          {
+           "t": "Remolque y servicio",
+           "ayuda": ""
+          },
+          {
+           "t": "Otros",
+           "ayuda": ""
+          },
+          {
+           "t": "Sancionados",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      },
+      {
+       "titulo": "🛰️ Satélites",
+       "opciones": [
+        {
+         "t": "Mostrar en el mapa",
+         "ayuda": ""
+        }
+       ],
+       "sub": [
+        {
+         "titulo": "Subtipos",
+         "opciones": [
+          {
+           "t": "Estaciones espaciales e ISS",
+           "ayuda": ""
+          },
+          {
+           "t": "Navegación GNSS (GPS, Galileo, GLONASS, BeiDou)",
+           "ayuda": ""
+          },
+          {
+           "t": "Starlink (≈8,000; apagado al inicio)",
+           "ayuda": ""
+          },
+          {
+           "t": "Internet satelital OneWeb",
+           "ayuda": ""
+          },
+          {
+           "t": "Telefonía satelital Iridium",
+           "ayuda": ""
+          },
+          {
+           "t": "Observación de la Tierra y recursos",
+           "ayuda": ""
+          },
+          {
+           "t": "Imágenes comerciales (Planet)",
+           "ayuda": ""
+          },
+          {
+           "t": "Científicos",
+           "ayuda": ""
+          },
+          {
+           "t": "Meteorológicos y observación de la Tierra",
+           "ayuda": ""
+          },
+          {
+           "t": "Geoestacionarios (TV y comunicaciones, fijos sobre el Ecuador)",
+           "ayuda": ""
+          },
+          {
+           "t": "Militares (solo catalogados públicamente)",
+           "ayuda": ""
+          },
+          {
+           "t": "Más brillantes / visibles",
+           "ayuda": ""
+          },
+          {
+           "t": "Telescopios espaciales (Hubble, Chandra, XMM…)",
+           "ayuda": ""
+          },
+          {
+           "t": "Pequeños, universitarios y de radioaficionados (SatNOGS)",
+           "ayuda": ""
+          }
+         ],
+         "sub": []
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "titulo": "🚆 Trenes",
+     "opciones": [
+      {
+       "t": "Finlandia: todos los trenes (Fintraffic)",
+       "ayuda": ""
+      },
+      {
+       "t": "Noruega: trenes de pasajeros (Entur)",
+       "ayuda": ""
+      },
+      {
+       "t": "Irlanda: trenes en marcha (Irish Rail)",
+       "ayuda": ""
+      },
+      {
+       "t": "EUA · Boston: trenes de cercanías (MBTA)",
+       "ayuda": ""
+      },
+      {
+       "t": "EUA · Filadelfia: trenes regionales (SEPTA)",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    }
+   ]
+  },
+  {
+   "titulo": "⚠️ Riesgos y clima",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Clima: viento, temperatura y lluvia",
+     "opciones": [
+      {
+       "t": "Viento a 10 m (animado)",
+       "ayuda": ""
+      },
+      {
+       "t": "Temperatura a 2 m",
+       "ayuda": ""
+      },
+      {
+       "t": "Lluvia (mm/h)",
+       "ayuda": ""
+      },
+      {
+       "t": "🥶 Aire polar y frentes de aire frío (temperatura a ~1,500 m)",
+       "ayuda": ""
+      },
+      {
+       "t": "🧊 Bolsas de aire frío (DANA o gota fría), en °C y °F",
+       "ayuda": ""
+      },
+      {
+       "t": "🌀 Vórtice polar (estratosfera, ~31 km de altura)",
+       "ayuda": ""
+      },
+      {
+       "t": "❄️ Nieve en el suelo (pronóstico, cm)",
+       "ayuda": ""
+      },
+      {
+       "t": "⚡ Rayos en tiempo real (satélites GOES, últimos 20 min)",
+       "ayuda": ""
+      },
+      {
+       "t": "☁️ Nubes en vivo (satélites, infrarrojo, animado)",
+       "ayuda": ""
+      },
+      {
+       "t": "🛰️ Color real de día y de noche (GOES, Meteosat y Himawari: todo el mundo, animado)",
+       "ayuda": ""
+      },
+      {
+       "t": "🌧️ Lluvia medida por satélite (IMERG, animada)",
+       "ayuda": ""
+      },
+      {
+       "t": "Momento ▶",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "Amenazas: capas en el mapa",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "🌋 Desastres naturales",
+       "opciones": [
+        {
+         "t": "Sismos M2.5+ (24 h, en vivo)",
+         "ayuda": ""
+        },
+        {
+         "t": "Ciclones, tifones y tormentas tropicales (todo el mundo)",
+         "ayuda": ""
+        },
+        {
+         "t": "Incendios activos (focos VIIRS, 24 h)",
+         "ayuda": ""
+        },
+        {
+         "t": "Alertas de desastre GDACS (ONU/UE)",
+         "ayuda": ""
+        },
+        {
+         "t": "Volcanes vigilados (alerta oficial y viento para la ceniza)",
+         "ayuda": ""
+        },
+        {
+         "t": "Tsunamis: boletines oficiales, zona de amenaza, frentes de onda y llegadas (NOAA)",
+         "ayuda": ""
+        },
+        {
+         "t": "Deslaves y movimientos de masa (noticias)",
+         "ayuda": ""
+        },
+        {
+         "t": "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🌦️ Clima y ambiente",
+       "opciones": [
+        {
+         "t": "Pronóstico 7 días: lluvia, viento y temperatura",
+         "ayuda": ""
+        },
+        {
+         "t": "Frentes fríos y cálidos, altas y bajas presiones (América del Norte y océanos vecinos)",
+         "ayuda": ""
+        },
+        {
+         "t": "Eventos de «Norte» en el Golfo de México e Istmo de Tehuantepec (estimación a 7 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "Mar de fondo: oleaje largo en costas de México y del mundo (7 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "El Niño / La Niña: estado oficial y temperatura del mar en las regiones Niño",
+         "ayuda": ""
+        },
+        {
+         "t": "Calidad del aire (US AQI)",
+         "ayuda": ""
+        },
+        {
+         "t": "Tornados, trombas marinas, granizo y tormentas (noticias del mundo, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Avisos meteorológicos oficiales de Europa (MeteoAlarm)",
+         "ayuda": ""
+        },
+        {
+         "t": "Alertas meteorológicas de EUA (NWS, en vivo)",
+         "ayuda": ""
+        },
+        {
+         "t": "Auroras: hasta dónde se verían según el Kp",
+         "ayuda": ""
+        },
+        {
+         "t": "Auroras: probabilidad de verla en la próxima hora (modelo OVATION)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🛡️ Seguridad y ataques",
+       "opciones": [
+        {
+         "t": "Señales de seguridad en noticias: México y mundo (verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Terrorismo, narcotráfico y crimen organizado (noticias 72 h, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Ataques: misiles, drones, bombas y artillería (48 h)",
+         "ayuda": ""
+        },
+        {
+         "t": "Crimen organizado, narcotráfico, mafias y terrorismo en noticias: últimos 7 días (conteo por zona)",
+         "ayuda": ""
+        },
+        {
+         "t": "Crimen organizado, narcotráfico, mafias y terrorismo en noticias: últimos 15 días (conteo por zona)",
+         "ayuda": ""
+        },
+        {
+         "t": "Crimen organizado, narcotráfico, mafias y terrorismo en noticias: últimos 30 días (conteo por zona)",
+         "ayuda": ""
+        },
+        {
+         "t": "Crimen organizado, narcotráfico, mafias y terrorismo en noticias: últimos 60 días (conteo por zona)",
+         "ayuda": ""
+        },
+        {
+         "t": "Crimen organizado, narcotráfico, mafias y terrorismo en noticias: últimos 90 días (conteo por zona)",
+         "ayuda": ""
+        },
+        {
+         "t": "Interferencia de GPS (bloqueo o suplantación) vista desde aviones (GPSJam, diario)",
+         "ayuda": ""
+        },
+        {
+         "t": "Zonas de conflicto armado: resumen, noticias y videos (lista curada)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🚨 Emergencias, zonas afectadas y transporte",
+       "opciones": [
+        {
+         "t": "Apagones y cortes de agua (noticias del mundo, 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Desplazamiento forzado: personas que huyeron de cada país y desplazados internos (ACNUR, anual)",
+         "ayuda": ""
+        },
+        {
+         "t": "Países que acogen refugiados y solicitantes de asilo (ACNUR, anual)",
+         "ayuda": ""
+        },
+        {
+         "t": "Zonas posiblemente afectadas: estados y provincias con eventos graves (48 h)",
+         "ayuda": ""
+        },
+        {
+         "t": "Aviones en emergencia: squawk 7700, 7600 y 7500 (6 h) y reportes de prensa (48 h), todas las aerolíneas",
+         "ayuda": ""
+        },
+        {
+         "t": "Avisos náuticos de seguridad: piratería, minas, barcos a la deriva, GPS (NGA)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🌐 Red y ciberseguridad",
+       "opciones": [
+        {
+         "t": "Cortes de internet por país (48 h, IODA)",
+         "ayuda": ""
+        },
+        {
+         "t": "Servidores de control de botnets por país (48 h, abuse.ch)",
+         "ayuda": ""
+        },
+        {
+         "t": "Avisos de sistemas industriales (ICS/SCADA) por país del fabricante (90 días, CISA)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🚀 Espacio",
+       "opciones": [
+        {
+         "t": "Próximos lanzamientos de cohetes (plataforma y fecha)",
+         "ayuda": ""
+        },
+        {
+         "t": "Asteroides que pasan cerca de la Tierra (próximos 30 días, menos de 19.5 distancias lunares)",
+         "ayuda": ""
+        },
+        {
+         "t": "Lluvias de estrellas y cometas visibles: desde dónde se ven",
+         "ayuda": ""
+        },
+        {
+         "t": "Bólidos: meteoros muy brillantes detectados (último año)",
+         "ayuda": ""
+        },
+        {
+         "t": "Eclipses de Sol: franjas de totalidad y anularidad de los próximos años (NASA)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "⚓ Mar: tráfico de barcos y pesca ilegal",
+       "opciones": [
+        {
+         "t": "Barcos en puertos y estrechos: cuántos hay y cómo cambia (AIS, cada hora)",
+         "ayuda": ""
+        },
+        {
+         "t": "Barcos que apagaron su AIS a propósito 12 h o más (Global Fishing Watch, 14 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "Encuentros entre barcos en el mar: posibles transbordos (Global Fishing Watch, 14 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "Buques de carga refrigerada merodeando en el mar: posible espera para transbordo (Global Fishing Watch, 14 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "Pesca en aguas de México: barcos extranjeros y en áreas protegidas sin pesca (Global Fishing Watch, 14 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "Puertos de México: visitas de barcos de pesca, carga refrigerada y apoyo (Global Fishing Watch, 14 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "Barcos vistos por radar satelital sin AIS en aguas de México (Sentinel-1, 30 días)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🦠 Salud: brotes y enfermedades",
+       "opciones": [
+        {
+         "t": "Brotes y avisos oficiales: OMS, CDC (viajeros) y ECDC",
+         "ayuda": ""
+        },
+        {
+         "t": "Brotes y aumentos de casos en noticias: gripe, dengue, estomacales y más (14 días, verificar)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🕒 Horas: zonas horarias del mundo",
+       "opciones": [
+        {
+         "t": "Zonas horarias con la hora local actual (se actualiza cada minuto)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "📣 Sociedad: idiomas y creadores de contenido",
+       "opciones": [
+        {
+         "t": "Idiomas que se hablan en cada país: el principal colorea el país (Unicode CLDR)",
+         "ayuda": ""
+        },
+        {
+         "t": "Creadores de contenido con más seguidores: hasta 100 por plataforma en YouTube, TikTok e Instagram (Wikidata)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🔎 Criminología: modalidades delictivas en noticias",
+       "opciones": [
+        {
+         "t": "Extorsión y cobro de piso (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Secuestro, rapto y desaparición (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Fraude, estafas y lavado de dinero (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Ciberdelito: ransomware, phishing, hackeos y sextorsión (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Trata y tráfico de personas (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Amenazas, intimidación y ataques a periodistas o autoridades (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Robo, asalto y robo de combustible (noticias 72 h a 7 días, verificar)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🚧 Carreteras y calles: robos, bloqueos y protestas",
+       "opciones": [
+        {
+         "t": "🚛 Robo a transporte de carga (noticias 72 h, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🚌 Asaltos en transporte público (noticias 72 h, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🚗 Robo de vehículos (noticias 72 h, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🎫 Tomas de casetas de cobro (noticias 72 h, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🚧 Bloqueos de carreteras y calles (incluye narcobloqueos) (noticias 72 h, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "📢 Protestas, marchas, paros y disturbios (noticias 72 h, verificar)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🕯️ Personas desaparecidas y fosas clandestinas",
+       "opciones": [
+        {
+         "t": "⚱️ Fosas clandestinas y hallazgo de restos (noticias 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🔦 Búsquedas de colectivos y comisiones (noticias 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🧬 Identificación de restos y crisis forense (noticias 7 días, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "🕯️ Reportes de personas desaparecidas (sin datos personales) (noticias 7 días, verificar)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "🧊 Polos: Antártida, Groenlandia y Ártico",
+       "opciones": [
+        {
+         "t": "Indicadores: hielo marino, agujero de ozono y deshielo de Groenlandia",
+         "ayuda": ""
+        },
+        {
+         "t": "Icebergs antárticos de más de 18 km (semanal)",
+         "ayuda": ""
+        },
+        {
+         "t": "Antártida: reclamos territoriales (congelados por el Tratado Antártico)",
+         "ayuda": ""
+        },
+        {
+         "t": "Bases científicas polares y sitios estratégicos de Groenlandia",
+         "ayuda": ""
+        },
+        {
+         "t": "Rutas marítimas del Ártico (trazo esquemático)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      }
+     ]
+    },
+    {
+     "titulo": "Clima espacial: Sol, tormentas y auroras",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "Amenazas activas: filtros y lista",
+     "opciones": [
+      {
+       "t": "Severidad mínima",
+       "ayuda": ""
+      },
+      {
+       "t": "País",
+       "ayuda": ""
+      },
+      {
+       "t": "Tipo",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "Calidad del aire por ciudad",
+     "opciones": [
+      {
+       "t": "Ver en el mapa",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "Valle de México: Hoy No Circula y aire",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  },
+  {
+   "titulo": "🛸 Fenómenos anómalos",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Avistamientos, objetos extraños y lugares",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "Casos, lugares y reportes",
+       "opciones": [
+        {
+         "t": "Noticias y blogs del último año (OVNI/UAP, luces, contactos)",
+         "ayuda": ""
+        },
+        {
+         "t": "Archivo de notas: más de un año (se conservan aunque la fuente las retire)",
+         "ayuda": ""
+        },
+        {
+         "t": "Casos históricos conocidos (Roswell, Campeche, Nimitz…)",
+         "ayuda": ""
+        },
+        {
+         "t": "Dónde se reporta más: reportes civiles 1910–2014 (NUFORC)",
+         "ayuda": ""
+        },
+        {
+         "t": "Objetos extraños: esferas metálicas y restos caídos",
+         "ayuda": ""
+        },
+        {
+         "t": "Figuras en cultivos (crop circles)",
+         "ayuda": ""
+        },
+        {
+         "t": "Orbes y luces que se repiten en el mismo lugar",
+         "ayuda": ""
+        },
+        {
+         "t": "Lugares con fama de «propensos» (oficiales y no verificados)",
+         "ayuda": ""
+        },
+        {
+         "t": "Oficinas oficiales que investigan reportes (AARO, GEIPAN)",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Por tipo de fenómeno (como TrackAlien)",
+       "opciones": [
+        {
+         "t": "Objetos aéreos no identificados (OVNI/UAP)",
+         "ayuda": ""
+        },
+        {
+         "t": "Luces en el cielo",
+         "ayuda": ""
+        },
+        {
+         "t": "Luces a ras de suelo",
+         "ayuda": ""
+        },
+        {
+         "t": "Objetos sumergidos o en el mar (USO)",
+         "ayuda": ""
+        },
+        {
+         "t": "Supuestos contactos, seres o abducciones",
+         "ayuda": ""
+        },
+        {
+         "t": "Sonidos inexplicados",
+         "ayuda": ""
+        },
+        {
+         "t": "Efectos electromagnéticos",
+         "ayuda": ""
+        },
+        {
+         "t": "Objetos sobre volcanes",
+         "ayuda": ""
+        },
+        {
+         "t": "Figuras en cultivos",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "titulo": "📜 Historia por país",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Consultar la historia de un país",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  },
+  {
+   "titulo": "📑 Reportes diarios",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Panorama del día (web y PDF)",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  },
+  {
+   "titulo": "🧰 Herramientas",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "📷 Foto: metadatos, ubicación y análisis forense (¿IA o editada?)",
+     "opciones": [
+      {
+       "t": "Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "🛡️ Verificador de mensajes sospechosos",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🤖 Preguntar a la IA sobre las noticias (con tu llave de Groq)",
+     "opciones": [
+      {
+       "t": "Recordarla en este navegador (no lo marques en computadoras compartidas)",
+       "ayuda": ""
+      }
+     ],
+     "sub": [
+      {
+       "titulo": "Cómo obtener tu llave de Groq (2 minutos)",
+       "opciones": [],
+       "sub": []
+      }
+     ]
+    },
+    {
+     "titulo": "📚 Buscar en archivos de documentos públicos",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🔑 ¿Mi contraseña aparece en filtraciones?",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  },
+  {
+   "titulo": "🔎 Investigación",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "🧾 Empresas que facturan operaciones simuladas (SAT 69-B)",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🚨 Personas buscadas y desaparecidas (fichas oficiales)",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🔐 Cadena de custodia: huella digital de evidencias",
+     "opciones": [
+      {
+       "t": "Caso o carpeta",
+       "ayuda": ""
+      },
+      {
+       "t": "Responsable",
+       "ayuda": ""
+      },
+      {
+       "t": "Descripción",
+       "ayuda": ""
+      },
+      {
+       "t": "Archivos",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "🕸️ Cuaderno de vínculos del caso",
+     "opciones": [
+      {
+       "t": "Importar",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "📜 Leyes y Diario Oficial por mes",
+     "opciones": [
+      {
+       "t": "Mes",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "📑 Contratos públicos: verificador de proveedores y focos rojos",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🏛️ Licitaciones públicas: México, Estados Unidos y Europa",
+     "opciones": [
+      {
+       "t": "Solo con plazo vigente",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "💡 Patentes públicas: comerciales, militares y de doble uso",
+     "opciones": [
+      {
+       "t": "Clase",
+       "ayuda": ""
+      },
+      {
+       "t": "País",
+       "ayuda": ""
+      },
+      {
+       "t": "Desde el año",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "🛰️ Tecnologías públicas de agencias (Pentágono, CIA, FBI, NSA y otras)",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🧨 Tecnologías usadas por el crimen y el terrorismo (cómo reconocerlas)",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "🌐 Empresas extranjeras que operan en México",
+     "opciones": [
+      {
+       "t": "País de la matriz",
+       "ayuda": ""
+      },
+      {
+       "t": "Industria",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "🏛️ Poder político y declaraciones patrimoniales",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "💸 Lavado de dinero, empresas fantasma y nepotismo: guías",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "Lavado de dinero: señales de alerta",
+       "opciones": [],
+       "sub": []
+      },
+      {
+       "titulo": "Empresas fantasma (facturación simulada)",
+       "opciones": [],
+       "sub": []
+      },
+      {
+       "titulo": "Nepotismo y conflicto de interés",
+       "opciones": [],
+       "sub": []
+      }
+     ]
+    },
+    {
+     "titulo": "📚 Fuentes públicas para investigar",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  },
+  {
+   "titulo": "⭐ Seguimiento",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "Lugares que sigues",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  }
+ ],
+ "secciones": [
+  {
+   "t": "📰 Noticiero DOMINUS",
+   "href": "noticiero.html",
+   "ayuda": "30 secciones e indicadores oficiales"
+  },
+  {
+   "t": "♟️ Narrativas y estrategia",
+   "href": "narrativas.html",
+   "ayuda": "Técnicas de poder, propaganda e influencia aplicadas a las noticias de hoy"
+  },
+  {
+   "t": "🇲🇽 Reporte diario de México",
+   "href": "reporte.html?tipo=mexico",
+   "ayuda": ""
+  },
+  {
+   "t": "🌍 Reporte diario global",
+   "href": "reporte.html?tipo=global",
+   "ayuda": ""
+  },
+  {
+   "t": "🏢 Inteligencia corporativa",
+   "href": "corporativo.html",
+   "ayuda": "Instalaciones de una empresa frente a los eventos del mapa, matriz de riesgo, escenarios y radar de competidores"
+  },
+  {
+   "t": "🧰 Caja del analista",
+   "href": "herramientas.html",
+   "ayuda": "Auditoría de archivos, informática y ciberseguridad, ACH, ICD 203, PMESII-PT, ASCOPE, METT-TC, CARVER defensivo"
+  },
+  {
+   "t": "🎖️ DOMINUS OPS",
+   "href": "ops.html",
+   "ayuda": "DOMINUS OPS: fases, diagnóstico de madurez (DMI), gobernanza, plantillas, Battle Rhythm y SITREP"
+  },
+  {
+   "t": "🏠 Inmuebles y riesgo",
+   "href": "inmuebles.html",
+   "ayuda": "Evaluador de riesgo por ubicación, lista de inmuebles y fuentes oficiales de precios y subastas en 20 países"
+  },
+  {
+   "t": "📊 Analítica",
+   "href": "analitica.html",
+   "ayuda": "Tendencias de 90 días, alertas de anomalía, comparador de países, SQL en el navegador, exportación y calidad de datos"
+  },
+  {
+   "t": "⚖️ Marco normativo",
+   "href": "marco.html",
+   "ayuda": "Leyes, tratados, estándares ISO y metodologías del proyecto"
+  },
+  {
+   "t": "🏷️ Taxonomía de eventos",
+   "href": "taxonomia.html",
+   "ayuda": ""
+  },
+  {
+   "t": "🎓 Tutorial",
+   "href": "tutorial.html",
+   "ayuda": "Guía completa con ejemplos resueltos de cada opción"
+  },
+  {
+   "t": "🇲🇽 Panorama de México",
+   "href": "reporte.html?tipo=mexico",
+   "ayuda": ""
+  },
+  {
+   "t": "🌍 Panorama global",
+   "href": "reporte.html?tipo=global",
+   "ayuda": ""
+  },
+  {
+   "t": "🧮 Matriz de riesgo por país (eliges fuentes)",
+   "href": "matriz.html",
+   "ayuda": ""
+  }
+ ]
+}
