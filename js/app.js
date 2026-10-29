@@ -604,8 +604,27 @@ async function asegurarMapLibre() {
   if (!globalThis.maplibregl) throw new Error("MapLibre no se inicializó (recarga con Ctrl+Shift+R)");
 }
 
+// Si el arranque tarda, se dice en qué paso va y qué probar (en vez de «Cargando…» sin fin).
+const arranque = { paso: "descargando MapLibre (vendor/maplibre-gl)", listo: false, mapaListo: false };
+const hayWebGL = () => { try { const c = document.createElement("canvas"); return Boolean(c.getContext("webgl2") || c.getContext("webgl")); } catch (e) { return false; } };
+function textoCargaLenta({ paso, listo, mapaListo }, webgl) {
+  if (!webgl) return "Tu navegador no tiene WebGL activo y el mapa no puede dibujarse. Activa la «aceleración por hardware» en la configuración del navegador y reinícialo, o prueba otro navegador.";
+  if (!listo) return `La carga va lenta: lleva más de 20 s en «${paso}». Prueba otra red (por ejemplo, datos del celular) o el modo ligero.`;
+  if (!mapaListo) return "Los datos ya cargaron, pero el mapa base (tiles.openfreemap.org) no termina de llegar. Prueba otra red o el modo ligero, que usa un mapa local.";
+  return "";
+}
+setTimeout(() => {
+  const t = textoCargaLenta(arranque, hayWebGL());
+  if (!t) return;
+  console.warn("Carga lenta:", arranque);
+  const caja = $("aviso-base");
+  caja.innerHTML = `${esc(t)} <button type="button" onclick="location.reload()">Reintentar</button> <button type="button" onclick="try{localStorage.setItem('gp_lite','1')}catch(e){};location.reload()">Modo ligero</button>`;
+  caja.hidden = false;
+}, 20000);
+
 async function main() {
   await asegurarMapLibre();
+  arranque.paso = "pidiendo el mapa base (OpenFreeMap; respaldo local a los 6 s)";
   const tema = temaActual();
   lite = modoLite();
   // Reportes diarios: enlaces a los PDF del día (si ya se generaron).
@@ -646,6 +665,7 @@ async function main() {
   }
 
   // Colores de área: se conocen hasta tener la taxonomía; mientras tanto el mapa ya dibuja el fondo.
+  arranque.paso = "descargando el catálogo de áreas (config/taxonomy.json)";
   const t = await pTax;
   tax ??= prepararTaxonomia(t);
   api = crearMapa({
@@ -654,7 +674,10 @@ async function main() {
     onSelect: (id) => abrirFicha(id),
   });
   iniciarIdioma({ map: api.map });
+  if (api.map.loaded()) arranque.mapaListo = true; else api.map.once("load", () => { arranque.mapaListo = true; });
+  arranque.paso = "descargando los eventos (data/events.json)";
   const [choke, runLog, regiones] = await Promise.all([pChoke, pRunLog, pRegiones, pEventos]);
+  arranque.paso = "preparando capas y filtros";
   estado.areas = new Set(tax.lista.map((a) => a.id));
   api.setChokepointsDatos({
     type: "FeatureCollection",
@@ -943,6 +966,7 @@ async function main() {
   btnLite.setAttribute("aria-pressed", String(lite));
   btnLite.onclick = () => { storage.set("gp_lite", lite ? "0" : "1"); location.reload(); };
 
+  arranque.listo = true;
   iniciarRefresco({
     runLog, elDatos: $("estado-datos"), elProxima: $("estado-proxima"),
     onNuevosDatos: async () => {
