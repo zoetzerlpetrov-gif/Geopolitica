@@ -7,7 +7,10 @@
  *  Sin indicarlo, el plan más alto. */
 export function planActual(planes, search = globalThis.location?.search || "", global = globalThis.DOMINUS_PLAN) {
   const ids = (planes?.planes || []).map((p) => p.id);
-  const pedido = global || new URLSearchParams(search).get("plan");
+  // Se toma el ÚLTIMO «plan=<válido>» del texto: así funciona aunque el enlace venga pegado dos veces
+  // (p. ej. «?vista=pago&plan=index.html?vista=pago&plan=demo»).
+  const validos = [...String(search).matchAll(/plan=([a-z]+)/gi)].map((m) => m[1].toLowerCase()).filter((x) => ids.includes(x));
+  const pedido = global || validos.at(-1);
   return ids.includes(pedido) ? pedido : ids.at(-1);
 }
 
@@ -29,7 +32,8 @@ export function fixDeIndicadores(ind) {
 /** «pago» si la página se abrió con ?vista=pago o si la versión comercial lo fija en window.DOMINUS_VISTA; si no, «completa». */
 export function vistaActual(search = globalThis.location?.search || "", global = globalThis.DOMINUS_VISTA) {
   if (global === "pago" || global === "admin") return global === "pago" ? "pago" : "completa";
-  return new URLSearchParams(search).get("vista") === "pago" ? "pago" : "completa";
+  // Basta con que «vista=pago» aparezca en el enlace, aunque venga mezclado («?vista=index.html?vista=pago»).
+  return /(?:^|[?&])vista=(?:[^&]*[?&])?vista=pago|(?:^|[?&])vista=pago(?:$|[&#])/i.test(String(search)) ? "pago" : "completa";
 }
 
 /** ¿La fuente permite uso comercial? Solo «sí» confirmado; «no» y «por verificar» (null) quedan para admin. */

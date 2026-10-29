@@ -68,3 +68,14 @@ test("planes: el grupo de un plan superior pide ese plan; el propio o inferior n
   assert.deepEqual(filas.find((f) => f.clave === "eventos").incluido, [true, true, true, true]);
   for (const g of Object.keys(planes.acceso_por_plan.grupos)) assert.ok(planes.acceso_por_plan.nombres[g], g);
 });
+
+test("enlaces mezclados o pegados dos veces siguen llevando a la vista de pago y al plan pedido", async () => {
+  const { vistaActual, planActual } = await import("../../js/licencias.js");
+  assert.equal(vistaActual("?vista=pago&plan=index.html?vista=pago&plan=demo", undefined), "pago");
+  assert.equal(planActual(planes, "?vista=pago&plan=index.html?vista=pago&plan=demo", undefined), "demo");
+  assert.equal(vistaActual("?vista=index.html?vista=pago&plan=recon", undefined), "pago");
+  assert.equal(planActual(planes, "?vista=index.html?vista=pago&plan=recon", undefined), "recon");
+  assert.equal(vistaActual("?vista=pagos", undefined), "completa");
+  assert.equal(vistaActual("?vista=admin", undefined), "completa");
+  assert.equal(vistaActual("?q=vista=pago", undefined), "completa");
+});
