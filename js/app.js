@@ -50,11 +50,27 @@ const vistaLista = (async () => {
   const plan = LIC.planActual(planes);
   const nombrePlan = planes.planes.find((p) => p.id === plan)?.nombre || plan;
   const fix = LIC.fixDeIndicadores(await getJSON("data/vivos/indicadores.json", { bust: true }).catch(() => null));
+  // Controles del contenido bloqueado: deshabilitados también los que se dibujan después (capas, riesgos…).
+  // Solo los <summary> responden: abren y cierran secciones.
+  const CONTROLES = "input, select, textarea, button";
+  const apagar = (raiz) => { for (const c of raiz.querySelectorAll(CONTROLES)) if (!c.closest("summary") && !c.disabled) c.disabled = true; };
+  const soloVer = (d) => {
+    apagar(d);
+    new MutationObserver(() => apagar(d)).observe(d, { childList: true, subtree: true, attributes: true, attributeFilter: ["disabled"] });
+    for (const tipo of ["click", "keydown"]) d.addEventListener(tipo, (e) => {
+      const sum = e.target.closest("summary");
+      if (sum && !e.target.closest(CONTROLES + ", a")) return;  // abrir o cerrar una sección
+      if (e.target.closest(".aviso-plan")) return;  // «Ver planes»
+      if (tipo === "keydown" && !["Enter", " "].includes(e.key) && !e.target.matches(CONTROLES)) return;
+      e.preventDefault(); e.stopPropagation();
+    }, true);
+  };
   const bloquear = (s, req) => {
     const d = s.parentElement;
     d.classList.add("bloqueado-plan");
     s.insertAdjacentHTML("beforeend", `<span class="chip candado">🔒 ${esc(req.nombre)}</span>`);
-    for (const x of d.children) if (x !== s) x.inert = true;
+    // Se puede desplegar y contraer todo (menús, secciones y subtipos) para ver qué incluye, pero no usarlo.
+    soloVer(d);
     s.insertAdjacentHTML("afterend", `<p class="aviso-plan">Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. <a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
   };
   for (const s of document.querySelectorAll("summary.grupo-tit[data-grupo]")) {
