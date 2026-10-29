@@ -62,3 +62,9 @@ def test_cisne_negro_en_registro_y_niveles():
     assert not por["nivel:GBR"]["cisne_negro"], "severo no es cisne negro; solo crítico"
     critico = P.nivel_reino_unido(b"<rss><channel><item><title>Current Threat Level: CRITICAL</title></item></channel></rss>", P.S.Paises(json.load(open(os.path.join(ROOT, "config", "gazetteer.json")))["paises"]))
     assert critico[0]["properties"]["cisne_negro"] and critico[0]["properties"]["nivel"] == 4
+
+
+def test_datos_vivos_no_cancela_la_corrida_en_curso():
+    """La corrida dura más que el intervalo del reloj: si se cancelara, ninguna publicaría."""
+    wf = open(os.path.join(ROOT, ".github", "workflows", "vivos.yml"), encoding="utf-8").read()
+    assert "cancel-in-progress: false" in wf
