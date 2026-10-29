@@ -1,6 +1,6 @@
 import {esc} from './util.js';
 import {CLAVE,MAX_BYTES,SECCIONES,vacio,validar,guardar,eliminar,ach,concentracion,exportarMarkdown} from './fase2-modelo.js';
-import {leerJSON,leerXML,importarHallazgos,informeLocal,candidatosGLEIF} from './fase2-importar.js';
+import {leerJSON,leerXML,importarHallazgos,informeLocal,candidatosGLEIF} from './fase2-importar.js?v=2';
 const $=s=>document.getElementById(s);let datos=vacio(),tipo='hipotesis',editando=null,bloqueado=false,req=[];
 function mensaje(t,error=false){$('estado').textContent=t;$('estado').dataset.error=String(error);}
 try{const raw=localStorage.getItem(CLAVE);if(raw)datos=validar(JSON.parse(raw));}catch(e){bloqueado=true;mensaje('No se puede leer el respaldo local. Exporta el archivo original antes de restaurar. '+e.message,true);}
