@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Planes DOMINUS OSINT</title>
+  <meta name="description" content="Qué incluye cada plan de DOMINUS OSINT y su precio en pesos con el tipo de cambio FIX de Banxico del día.">
+  <meta name="color-scheme" content="light dark">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .pl-wrap { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .pl-intro { color: var(--text-2); max-width: 75ch; }
+    .pl-tarjetas { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 16px 0; }
+    .pl-plan { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px; }
+    .pl-plan.actual { border: 2px solid #1565C0; }
+    .pl-plan h2 { margin: 0; font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); }
+    .pl-precio { font-size: 22px; font-weight: 700; margin: 6px 0 2px; }
+    .pl-plan ul { padding-left: 18px; margin: 8px 0; }
+    .pl-tabla { width: 100%; border-collapse: collapse; font-size: 14px; }
+    .pl-tabla th, .pl-tabla td { border-bottom: 1px solid var(--line); padding: 6px 8px; text-align: center; }
+    .pl-tabla th:first-child, .pl-tabla td:first-child { text-align: left; }
+    .pl-tabla-wrap { overflow-x: auto; }
+    .si { color: #2E7D32; font-weight: 700; } .no { color: var(--text-2); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Planes y precios</h1>
+  </header>
+  <main class="pl-wrap">
+    <p class="pl-intro">El precio se fija en dólares y se cobra en pesos con el <b>tipo de cambio FIX de Banxico</b> del día (o del último día hábil),
+      redondeado hacia arriba al peso. En el menú, lo que pertenece a un plan superior aparece con 🔒: puedes ver qué incluye, pero no usarlo.</p>
+    <p class="meta" id="pl-fix">Consultando el tipo de cambio…</p>
+    <div class="pl-tarjetas" id="pl-tarjetas">Cargando…</div>
+    <h2>Comparación por sección</h2>
+    <div class="pl-tabla-wrap"><table class="pl-tabla" id="pl-tabla"></table></div>
+    <p class="meta">Algunas capas del sitio público no están en ningún plan porque su fuente no permite uso comercial; por eso no aparecen aquí.</p>
+  </main>
+  <script type="module">
+    import { esc, getJSON } from "./js/util.js";
+    import { precioCorto, textoPrecio, filasComparacion } from "./js/planes.js";
+    import { fixDeIndicadores, planActual } from "./js/licencias.js";
+    const cat = await getJSON("config/planes.json");
+    const fix = fixDeIndicadores(await getJSON("data/vivos/indicadores.json", { bust: true }).catch(() => null));
+    const actual = new URLSearchParams(location.search).get("plan") ? planActual(cat) : "";
+    document.getElementById("pl-fix").textContent = fix ? `FIX de Banxico usado: ${fix.valor} pesos por dólar (${fix.fecha}).` : "Sin tipo de cambio disponible: se muestran los precios en dólares.";
+    document.getElementById("pl-tarjetas").innerHTML = cat.planes.map((p) => `
+      <section class="pl-plan${p.id === actual ? " actual" : ""}" id="${esc(p.id)}">
+        <h2>${esc(p.nombre)}${p.id === actual ? ` <span class="chip vista-pago">tu plan</span>` : ""}</h2>
+        <div class="pl-precio">${esc(precioCorto(p, fix))}</div>
+        <p class="meta">${esc(textoPrecio(p, fix, cat.cobro.texto))}</p>
+        <p>${esc(p.resumen)}</p>
+        <ul>${p.incluye.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+        ${(p.no_incluye || []).length ? `<p class="meta">No incluye: ${p.no_incluye.map(esc).join(" · ")}</p>` : ""}
+      </section>`).join("");
+    document.getElementById("pl-tabla").innerHTML = `<tr><th>Sección</th>${cat.planes.map((p) => `<th>${esc(p.nombre)}</th>`).join("")}</tr>`
+      + filasComparacion(cat).map((f) => `<tr><td>${esc(f.nombre)}</td>${f.incluido.map((x) => `<td class="${x ? "si" : "no"}">${x ? "✓" : "🔒"}</td>`).join("")}</tr>`).join("");
+  </script>
+</body>
+</html>

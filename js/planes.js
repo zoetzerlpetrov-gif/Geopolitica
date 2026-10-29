@@ -49,6 +49,13 @@ export function textoPrecio(plan, fix, plantilla = "{mxn} MXN al mes (USD {usd} 
   return plantilla.replace("{mxn}", mxn.toLocaleString("es-MX")).replace("{usd}", plan.usd.toFixed(2)).replace("{fecha}", fechaLarga(fix.fecha));
 }
 
+/** Precio corto para etiquetas: «Gratis», «92 MXN al mes» o, sin tipo de cambio, «USD 4.99 al mes». */
+export function precioCorto(plan, fix) {
+  if (plan.usd === 0) return "Gratis";
+  const mxn = fix ? precioMxn(plan.usd, fix.valor) : null;
+  return mxn == null ? `USD ${plan.usd.toFixed(2)} al mes` : `${mxn.toLocaleString("es-MX")} MXN al mes`;
+}
+
 /** Precios de todos los planes con el FIX vigente. */
 export const preciosPlanes = (cat, fix) =>
   (cat?.planes || []).map((p) => ({ id: p.id, nombre: p.nombre, usd: p.usd, mxn: p.usd === 0 ? 0 : fix ? precioMxn(p.usd, fix.valor) : null, fix_fecha: fix?.fecha || null, texto: textoPrecio(p, fix, cat?.cobro?.texto) }));
@@ -57,4 +64,19 @@ export const preciosPlanes = (cat, fix) =>
 export function paginaSoloAdmin(cat, href) {
   const base = String(href || "").split(/[?#]/)[0].split("/").pop();
   return (cat?.solo_admin || []).some((s) => s.tipo === "pagina" && s.href === base);
+}
+
+/** Tabla de comparación: una fila por grupo del menú o sección (acceso_por_plan) y una columna por plan; ✓ desde el
+ *  plan mínimo. `esc` escapa el texto. */
+export function filasComparacion(cat) {
+  const ids = (cat?.planes || []).map((p) => p.id);
+  const acc = cat?.acceso_por_plan || {};
+  const filas = [];
+  for (const tipo of ["grupos", "paginas"]) {
+    for (const [clave, req] of Object.entries(acc[tipo] || {})) {
+      if (clave === "planes.html") continue;
+      filas.push({ clave, nombre: acc.nombres?.[clave] || clave, incluido: ids.map((id) => ids.indexOf(id) >= ids.indexOf(req)) });
+    }
+  }
+  return filas.sort((a, b) => a.incluido.filter((x) => !x).length - b.incluido.filter((x) => !x).length);
 }
