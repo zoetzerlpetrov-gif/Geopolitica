@@ -1,6 +1,6 @@
 # Fases 2 y 3 · Plataforma privada y vigilancia gratuita
 
-Esta entrega agrega un backend ejecutable y separado del sitio público. No convierte GitHub Pages en un servidor privado. No modifica mapas, cámaras, transporte, ingestas previas, planes comerciales ni herramientas existentes. La entrada pública es `plataforma.html`; enlaza desde Fase 2. Solo publica metadatos genéricos de salud de fuentes.
+Esta entrega agrega un backend ejecutable y separado del sitio público. No convierte GitHub Pages en un servidor privado. No modifica mapas, cámaras, transporte, ingestas previas ni planes comerciales. En los tableros y War Room públicos solo añade un aviso sobre la compartición heredada por instantánea, sin alterar sus funciones. La entrada pública es `plataforma.html`; enlaza desde Fase 2. Solo publica metadatos genéricos de salud de fuentes.
 
 ## Qué funciona y dónde
 
@@ -33,7 +33,7 @@ docker compose build
 docker compose up -d db
 docker compose run --rm api python -m dominus.cli init
 docker compose run --rm api python -m dominus.cli provision --organization "Mi organización" --username analista --role owner --output /app/backend/private/inicio.json
-docker compose up -d api worker backups
+docker compose up -d api worker backups validator
 mkdir -p private
 docker compose cp api:/app/backend/private/inicio.json private/inicio.json
 ```
@@ -90,7 +90,7 @@ python tools/fase2/multimedia.py archivo.jpg --anclas confianza.pem --salida mul
 
 El script prefiere `c2pa-python`; si no está instalado conserva el fallback de `c2patool`. El SDK está fijado en requirements. No firma ni modifica los originales. La verificación tiene validación criptográfica y confianza activadas; desactiva red, OCSP y búsqueda de manifiestos remotos. Esto limita las conclusiones sobre revocación y credenciales remotas. Anclas de laboratorio no equivalen a una CA institucional.
 
-El backend admite JPEG/PNG/WebP/AVIF/MP4/PDF hasta 4 MB en un proceso separado con límites de CPU, memoria y tiempo en Linux, temporales eliminados al finalizar y sin red del SDK. El original no se conserva. El SHA-256 y resultado se devuelven al usuario; no se incorporan como conclusión automática de un expediente. Para archivos mayores usar la herramienta local (hasta 100 MB para SDK), con custodia propia.
+El backend admite JPEG/PNG/WebP/AVIF/MP4/PDF hasta 4 MB. En Docker envía el archivo por socket Unix a un contenedor verificador con red deshabilitada, sin claves del backend, sin volumen de base/copias, sistema de archivos de solo lectura y temporales limitados. El proceso tiene límites de CPU, memoria y tiempo en Linux; elimina temporales al finalizar y deshabilita la red del SDK. Si el verificador configurado no responde, falla sin ejecutar un fallback dentro de la API. En pruebas/desarrollo sin MEDIA_SOCKET se usa un proceso local con entorno mínimo sin heredar secretos; este modo no sustituye el aislamiento del contenedor de producción. El original no se conserva. El SHA-256 y resultado se devuelven al usuario; no se incorporan como conclusión automática de un expediente. Para archivos mayores usar la herramienta local (hasta 100 MB para SDK), con custodia propia.
 
 Pruebas reales generan un certificado raíz y uno de firma efímeros de laboratorio: verifican una firma, distinguen confianza y detectan alteración de bytes; prueban también archivo sin manifiesto. No se incluyen claves privadas de prueba ni originales de usuarios en el repositorio.
 
@@ -137,7 +137,7 @@ La prueba real del flujo SSO con un proveedor concreto requiere su cliente y con
 
 - Suite existente Python y JavaScript sin retirar pruebas anteriores.
 - `PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_c2pa.py backend/checks_http.py -q` con dependencias del backend más pytest/Pillow.
-- Workflow separado con SQLite y PostgreSQL/PostGIS real, y construcción de imagen Docker.
+- Workflow separado con SQLite y PostgreSQL/PostGIS real, construcción de imagen Docker y aceptación del stack efímero completo por HTTP: MFA, persistencia tras reiniciar API y verificador C2PA por socket, sin red ni secretos del backend.
 - Flujo HTTP real con Uvicorn: acceso MFA, creación/lectura, CSRF y cierre de sesión. Pruebas de separación de clientes con ID conocido, permisos por caso, expiración/revocación, MFA/replay, CSRF/Host, conflictos de edición, revisión independiente, secretos, auditoría alterada, respaldo/restauración/rotación y conservación.
 - Conectores: contratos de formatos, paginación/continuación, cambios y errores, cuotas, destinos fijos, rechazo XXE y antigüedad. El monitor consulta servicios reales y muestra fallos individuales.
 - Navegador: página pública de fuentes. La instalación privada requiere un host accesible al navegador; las pruebas de API no sustituyen una aceptación de usuario del despliegue final.
@@ -145,6 +145,8 @@ La prueba real del flujo SSO con un proveedor concreto requiere su cliente y con
 ## Registro de alcance Fase 3
 
 F088 identidad/roles/MFA y SSO opcional; F089 expedientes/War Room con acceso revocable; F090 secretos cifrados y cuotas; F094 PostGIS e índices; F092 worker/registro de conectores/cache/checkpoints; F093 estados/calidad/edad; F095 importaciones/destinos/procesos aislados/CSP; F098 módulos separados y adaptadores sin reescribir funciones previas; F099 pruebas operativas y permisos; F100 copias/retención/auditoría; F044 divulgación de criterios por proveedor, sin IA automática; F066 certificados, custodia de secretos y recuperación autorizada.
+
+Los enlaces heredados de warroom.html siguen siendo instantáneas legibles, sin autenticación, vencimiento ni revocación: no se pueden convertir en privados retroactivamente. Se añade aviso explícito en su vista y en DOMINUS OPS; la colaboración protegida se realiza exclusivamente en el backend nuevo.
 
 La interfaz privada todavía no integra el mapa público completo ni mensajes en tiempo real: consulta compartida bajo petición y vigilancia por worker. No se presenta el historial local previo ni Git público como evidencia privada autenticada.
 

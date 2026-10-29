@@ -28,6 +28,18 @@ jobs:
           BACKUP_KEY: test-compose-only
       - run: docker build -f backend/Dockerfile -t dominus-backend:ci .
       - run: docker run --rm dominus-backend:ci python -c "import c2pa; print(c2pa.sdk_version())"
+      - name: Aceptación del stack privado efímero
+        run: |
+          python backend/generar_entorno.py
+          docker compose --env-file backend/.env -f backend/compose.yml build
+          docker compose --env-file backend/.env -f backend/compose.yml up -d db validator
+          docker compose --env-file backend/.env -f backend/compose.yml run --rm api python -m dominus.cli init
+          docker compose --env-file backend/.env -f backend/compose.yml run --rm api python -m dominus.cli provision --organization CI --username qa-ci --output /app/backend/private/ci-onboarding.json
+          docker compose --env-file backend/.env -f backend/compose.yml up -d api worker backups validator
+          python backend/smoke_compose.py
+      - name: Retirar entorno efímero
+        if: always()
+        run: docker compose --env-file backend/.env -f backend/compose.yml down -v --remove-orphans
   postgis:
     runs-on: ubuntu-latest
     timeout-minutes: 10
