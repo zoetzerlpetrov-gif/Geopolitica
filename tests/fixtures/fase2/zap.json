@@ -1,0 +1,1 @@
+{"site":[{"@name":"https://example.org","alerts":[{"pluginid":"10001","alert":"Cabecera de prueba","riskdesc":"Low","desc":"Fixture sintético","instances":[{"uri":"https://example.org/"}]}]}]}

@@ -1,0 +1,1 @@
+{"version":"2.1.0","runs":[{"tool":{"driver":{"name":"QA sintético"}},"results":[{"ruleId":"TEST1","message":{"text":"Hallazgo de prueba"},"level":"warning","locations":[{"physicalLocation":{"artifactLocation":{"uri":"test.py"},"region":{"startLine":1}}}]}]}]}

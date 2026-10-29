@@ -1,0 +1,1 @@
+<report><results><result><host>192.0.2.10</host><port>443/tcp</port><nvt oid="test-oid"><name>Prueba TLS</name></nvt><name>Prueba TLS</name><severity>5.0</severity><description>Solo fixture sintético</description></result></results></report>
