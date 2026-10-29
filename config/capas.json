@@ -150,13 +150,13 @@
   },
   {
    "id": "cables_osm",
-   "nombre": "Cables submarinos",
+   "nombre": "Cables submarinos (cobertura parcial: OpenStreetMap)",
    "categoria": "infraestructura",
    "geometria": "linea",
    "fuente": "osm",
    "habilitada": true,
    "sustituye": "cables",
-   "nota": "OpenStreetMap (ODbL): cables de telecomunicaciones trazados sobre el fondo marino (communication=line con location=underwater o submarine=yes). Sustituto con uso comercial de TeleGeography para la versión de pago: menos cables y sin puntos de aterrizaje. En la versión completa se sigue viendo TeleGeography."
+   "nota": "OpenStreetMap (ODbL): cables de telecomunicaciones trazados sobre el fondo marino. Cobertura parcial medida el 2026-10-29: 909 tramos y unos 228 mil km (Atlántico y Caribe ≈180 mil km; Índico, Mediterráneo oriental y Asia ≈39 mil km; Pacífico ≈9 mil km, casi solo tramos cerca de la costa). Las rutas transoceánicas, sobre todo las del Pacífico, casi no están en OSM porque no se pueden verificar desde tierra. Sin puntos de aterrizaje. Sustituto con uso comercial de TeleGeography para la versión de pago; la versión completa sigue con TeleGeography."
   },
   {
    "id": "rutas_maritimas",

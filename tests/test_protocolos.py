@@ -52,3 +52,13 @@ def test_registro_tiene_fuente_y_resumen():
     cfg = json.load(open(os.path.join(ROOT, "config", "protocolos.json"), encoding="utf-8"))
     for r in cfg["registro"]:
         assert r["url"].startswith("https://") and r["resumen"] and r["verificado"] and set(r["ambitos"]) <= set(cfg["ambitos"]), r["id"]
+
+
+def test_cisne_negro_en_registro_y_niveles():
+    fc = P.construir(datetime(2026, 10, 29, tzinfo=timezone.utc), leer)
+    por = {f["properties"]["id"]: f["properties"] for f in fc["features"]}
+    assert por["reg:fortress_america"]["cisne_negro"] and por["reg:fortress_america"]["emisor"] == "Estados Unidos"
+    assert por["reg:uk_be_ready"]["cisne_negro"] and not por["reg:ue_preparacion"]["cisne_negro"]
+    assert not por["nivel:GBR"]["cisne_negro"], "severo no es cisne negro; solo crítico"
+    critico = P.nivel_reino_unido(b"<rss><channel><item><title>Current Threat Level: CRITICAL</title></item></channel></rss>", P.S.Paises(json.load(open(os.path.join(ROOT, "config", "gazetteer.json")))["paises"]))
+    assert critico[0]["properties"]["cisne_negro"] and critico[0]["properties"]["nivel"] == 4

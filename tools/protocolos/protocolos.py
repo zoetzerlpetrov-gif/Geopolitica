@@ -58,7 +58,10 @@ def registro(cfg, nom):
             "id": f"reg:{r['id']}", "tipo": "registro", "titulo": r["nombre"], "organismo": r["organismo"], "nivel": r.get("nivel", 2),
             "ambitos": ", ".join(cfg["ambitos"].get(a, a) for a in r.get("ambitos", [])), "estado": r.get("estado", ""),
             "fecha": r.get("fecha", ""), "paises": ", ".join(nombres) if len(nombres) <= 6 else f"{len(nombres)} países", "iso3": (r.get("paises") or [""])[0],
-            "resumen": r.get("resumen", ""), "url": r.get("url", ""), "fuente": r.get("fuente", "")}))
+            "resumen": r.get("resumen", ""), "url": r.get("url", ""), "fuente": r.get("fuente", ""),
+            # Aviso fijo en el mapa (js/alerta_cisne.js): solo casos excepcionales, desde «fecha» hasta «desactivado».
+            "cisne_negro": bool(r.get("cisne_negro")), "desactivado": r.get("desactivado") or "", "emisor": r.get("emisor", ""),
+            "afectacion": r.get("afectacion", "")}))
     return out
 
 
@@ -121,7 +124,8 @@ def nivel_reino_unido(xml_bytes, nom):
         "nivel": NIVEL_MI5.get(lvl, 2), "ambitos": "Seguridad y terrorismo", "estado": "vigente", "fecha": S.fecha_rss(it.findtext("pubDate") or "") or "", "paises": nombre, "iso3": "GBR",
         "resumen": f"Escala de 5 niveles: bajo, moderado, sustancial, severo y crítico. «{ES_MI5.get(lvl, lvl.lower()).capitalize()}» quiere decir que un ataque es "
                    + {"LOW": "muy poco probable.", "MODERATE": "posible, pero no probable.", "SUBSTANTIAL": "probable.", "SEVERE": "muy probable.", "CRITICAL": "muy probable en el corto plazo."}.get(lvl, "posible."),
-        "url": "https://www.mi5.gov.uk/threats-and-advice/threat-levels", "fuente": "MI5 (© Crown Copyright; solo nivel y enlace)"})]
+        "url": "https://www.mi5.gov.uk/threats-and-advice/threat-levels", "fuente": "MI5 (© Crown Copyright; solo nivel y enlace)",
+        "cisne_negro": lvl == "CRITICAL", "emisor": "Reino Unido", "afectacion": "Todo el Reino Unido: se espera un ataque terrorista en el corto plazo." if lvl == "CRITICAL" else ""})]
 
 
 def boletines_ntas(xml_bytes, nom):
@@ -135,7 +139,9 @@ def boletines_ntas(xml_bytes, nom):
         out.append(punto(lon - 3, lat, {
             "id": f"ntas:{a.get('id') or titulo[:20]}", "tipo": "boletin", "titulo": f"NTAS: {titulo}", "organismo": "Departamento de Seguridad Nacional de EUA (DHS)",
             "nivel": 4 if "imminent" in titulo.lower() else 3, "ambitos": "Seguridad y terrorismo", "estado": "vigente", "fecha": a.get("start", "") or "",
-            "paises": nombre, "iso3": "USA", "resumen": " ".join(texto.split()), "url": "https://www.dhs.gov/ntas", "fuente": "DHS (dominio público)"}))
+            "paises": nombre, "iso3": "USA", "resumen": " ".join(texto.split()), "url": "https://www.dhs.gov/ntas", "fuente": "DHS (dominio público)",
+            "cisne_negro": "imminent" in titulo.lower(), "emisor": "Estados Unidos",
+            "afectacion": "Estados Unidos: amenaza terrorista creíble, específica e inminente." if "imminent" in titulo.lower() else ""}))
     return out
 
 
@@ -170,15 +176,22 @@ def construir(ahora=None, leer=get):
     return {"type": "FeatureCollection", "actualizado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "fuentes": estado, "features": feats}
 
 
+def huella_registro():
+    """Huella de config/protocolos.json: si cambia (alta o baja de una alerta), se reconstruye sin esperar las 3 h."""
+    import hashlib
+    return hashlib.sha256(open(os.path.join(ROOT, "config", "protocolos.json"), "rb").read()).hexdigest()[:16]
+
+
 def main():
     try:
         previo = json.load(open(OUT, encoding="utf-8"))
         t = datetime.strptime(previo["actualizado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-        if datetime.now(timezone.utc) - t < timedelta(hours=HORAS_MIN):
+        if datetime.now(timezone.utc) - t < timedelta(hours=HORAS_MIN) and previo.get("registro") == huella_registro():
             print("protocolos: al día"); return 0
     except (OSError, ValueError, KeyError):
         pass
     fc = construir()
+    fc["registro"] = huella_registro()
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump(fc, open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     print(f"protocolos: {len(fc['features'])} puntos · {fc['fuentes']}")
