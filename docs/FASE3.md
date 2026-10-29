@@ -73,7 +73,7 @@ Seleccionar un expediente, abrir Fuentes y vigilancia, elegir fuente y criterios
 - EPS documento: identificador de publicación conocido como `EP1004359NWB1`; se conserva fecha, título, huella y enlace al XML. No descubre todas las familias o beneficiarios.
 - SAT: RFC exacto, copia pública existente del proyecto y fecha de generación/corte. Si la copia tiene más de 14 días o fecha futura, se marca antigua; no se infiere ausencia en fuente oficial actual de una copia vieja.
 
-Workers con arrendamiento de 15 minutos evitan procesar a la vez la misma vigilancia en PostgreSQL. Reintentos con espera exponencial, caché de una hora separada por organización, destinos fijos HTTPS, resolución pública con IP fijada y SNI/validación TLS del hostname original, sin redirecciones/proxies de entorno. Una caída conserva el último resultado. Se deduplican resultados consecutivos sin cambios; si el estado cambia y luego vuelve, se registra otra transición. La huella ignora la fecha de descarga y el orden de filas.
+Workers con arrendamiento de 15 minutos evitan procesar a la vez la misma vigilancia en PostgreSQL. Reintentos con espera exponencial, caché de una hora separada por organización, destinos fijos HTTPS, resolución pública con IP fijada y SNI/validación TLS del hostname original, sin proxies de entorno ni redirecciones arbitrarias. Solo OFAC puede seguir una redirección del endpoint SDN al hostname exacto de su almacenamiento publicado, ruta Published terminada en SDN.XML, con IP pública fijada y TLS validado; no se registra su URL firmada. Una caída conserva el último resultado. Se deduplican resultados consecutivos sin cambios; si el estado cambia y luego vuelve, se registra otra transición. La huella ignora la fecha de descarga y el orden de filas.
 
 Cuotas conservadoras compartidas: máximo 60 peticiones/hora por host, 100 MB/7 días para EPS y 512 MB/7 días para los otros hosts. Cada descarga reserva su tamaño máximo y liquida los bytes reales si termina correctamente; errores consumen la reserva conservadora. EPS limita además la transferencia a 120 KiB/s y separa peticiones al menos 2 segundos. Frecuencia mínima: 24 h para OFAC/USAspending/EPS semanal; 7 días para EPS documento y copia SAT. Máximo 50 vigilancias por organización. “Solicitar consulta” no evita las cuotas. No se envían emails ni mensajes.
 
@@ -136,9 +136,9 @@ La prueba real del flujo SSO con un proveedor concreto requiere su cliente y con
 ## Verificación y cobertura
 
 - Suite existente Python y JavaScript sin retirar pruebas anteriores.
-- `PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_c2pa.py -q` con dependencias del backend más pytest/Pillow.
+- `PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_c2pa.py backend/checks_http.py -q` con dependencias del backend más pytest/Pillow.
 - Workflow separado con SQLite y PostgreSQL/PostGIS real, y construcción de imagen Docker.
-- Pruebas de separación de clientes con ID conocido, permisos por caso, expiración/revocación, MFA/replay, CSRF/Host, conflictos de edición, revisión independiente, secretos, auditoría alterada, respaldo/restauración/rotación y conservación.
+- Flujo HTTP real con Uvicorn: acceso MFA, creación/lectura, CSRF y cierre de sesión. Pruebas de separación de clientes con ID conocido, permisos por caso, expiración/revocación, MFA/replay, CSRF/Host, conflictos de edición, revisión independiente, secretos, auditoría alterada, respaldo/restauración/rotación y conservación.
 - Conectores: contratos de formatos, paginación/continuación, cambios y errores, cuotas, destinos fijos, rechazo XXE y antigüedad. El monitor consulta servicios reales y muestra fallos individuales.
 - Navegador: página pública de fuentes. La instalación privada requiere un host accesible al navegador; las pruebas de API no sustituyen una aceptación de usuario del despliegue final.
 

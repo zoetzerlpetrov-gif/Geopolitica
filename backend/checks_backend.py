@@ -404,3 +404,24 @@ def test_private_media_process_unsigned_and_permissions(env, tmp_path):
     assert not r.json()['stored_original']
     assert c['viewer'].post(endpoint(cid, '/c2pa'), files={'file': ('qa.jpg', raw, 'image/jpeg')}).status_code == 403
     assert c['analyst'].post(endpoint(cid, '/c2pa'), files={'file': ('qa.exe', raw, 'application/octet-stream')}).status_code == 422
+
+
+def test_ofac_only_accepts_its_exact_published_storage(monkeypatch):
+    import httpx
+    from dominus.connectors import OFAC, OFAC_STORAGE
+    monkeypatch.setattr('dominus.connectors.socket.getaddrinfo', lambda *a, **k: [(None, None, None, None, ('1.1.1.1', 443))])
+    calls = []
+    destination = 'https://' + OFAC_STORAGE + '/Published/qa/SDN.XML?signature=ephemeral-test'
+    def respond(req):
+        calls.append(req)
+        if len(calls) == 1:
+            return httpx.Response(302, headers={'location': destination})
+        return httpx.Response(200, content=b'<sdnList/>')
+    h = PublicHTTP(client=httpx.Client(transport=httpx.MockTransport(respond)))
+    assert h.request('GET', OFAC) == b'<sdnList/>'
+    assert len(calls) == 2 and calls[1].headers['host'] == OFAC_STORAGE
+    assert calls[1].extensions['sni_hostname'] == OFAC_STORAGE
+    assert calls[1].url.host == '1.1.1.1'
+    h = PublicHTTP(client=httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(302, headers={'location': 'https://evil.example/Published/SDN.XML'}))))
+    with pytest.raises(ConnectorError):
+        h.request('GET', OFAC)

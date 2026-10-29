@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 import sys
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'backend'))
-from dominus.connectors import SOURCES, PublicHTTP, fetch_source, fingerprint
+from dominus.connectors import SOURCES, PublicHTTP, fetch_source, fingerprint, ConnectorError
 
 
 def main():
@@ -25,7 +25,7 @@ def main():
             r = fetch_source(source, defaults[source], PublicHTTP())
             row.update({'estado': 'antiguo' if r['datos'].get('stale') else 'parcial' if r['parcial'] else 'ok', 'ultimo_exito_utc': r['observado_utc'], 'corte': r['datos'].get('corte'), 'generado_utc_copia': r['datos'].get('generado_utc_copia'), 'bytes': r['bytes'], 'peticiones': r['requests'], 'huella_resultado': fingerprint(r), 'alcance': r['datos']['alcance']})
         except Exception as exc:
-            row.update({'estado': 'error', 'error': type(exc).__name__ + ': disponibilidad o esquema no verificados en este intento'})
+            row.update({'estado': 'error', 'error': type(exc).__name__ + ': ' + (str(exc)[:160] if isinstance(exc, ConnectorError) else 'fallo de red o formato; revisar disponibilidad')})
         rows.append(row)
         print(source + ': ' + row['estado'], flush=True)
     dest.parent.mkdir(parents=True, exist_ok=True)

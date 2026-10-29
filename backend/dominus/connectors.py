@@ -25,7 +25,8 @@ for _id, _meta in SOURCES.items():
 BASE_EPO = 'https://data.epo.org/publication-server/rest/v1.2'
 OFAC = 'https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.XML'
 SAT = 'https://zoetzerlpetrov-gif.github.io/Geopolitica/data/vivos/efos_69b.json'
-HOSTS = {s['recipient'] for s in SOURCES.values()}
+OFAC_STORAGE = 'wc2h-sls-prod-public-published.s3.us-gov-west-1.amazonaws.com'
+HOSTS = {s['recipient'] for s in SOURCES.values()} | {OFAC_STORAGE}
 
 
 class ConnectorError(Exception):
@@ -63,8 +64,16 @@ class PublicHTTP:
         headers = {'Host': u.hostname, 'User-Agent': 'DOMINUS-Intelligence/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)', 'Accept': 'application/json, application/xml, text/html'}
         with self.client.stream(method, pinned, json=body, headers=headers, extensions={'sni_hostname': u.hostname}) as res:
             self.requests += 1
+            if res.status_code in (301, 302, 303, 307, 308) and method == 'GET' and url == OFAC:
+                destination = res.headers.get('location', '')
+                target = urlsplit(destination)
+                if target.scheme != 'https' or target.hostname != OFAC_STORAGE or target.port not in (None, 443) or target.username or target.password or target.fragment or not target.path.startswith('/Published/') or not target.path.endswith('/SDN.XML'):
+                    raise ConnectorError('Redirección OFAC fuera del almacenamiento publicado permitido.')
+                if settle:
+                    settle(0)
+                return self.request('GET', destination, limit=limit)
             if res.status_code != 200:
-                raise ConnectorError('HTTP ' + str(res.status_code) + '; no se siguen redirecciones.')
+                raise ConnectorError('HTTP ' + str(res.status_code) + '; redirección no autorizada o fuente no disponible.')
             raw = bytearray()
             transfer_start = time.monotonic()
             for chunk in res.iter_bytes():
