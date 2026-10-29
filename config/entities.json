@@ -226,6 +226,14 @@
    "uso_comercial": null,
    "licencia_verificada": false
   },
+  "camaras_abiertas": {
+   "nombre": "Cámaras de operadores públicos con licencia abierta (subconjunto de camaras_publicas para la versión de pago)",
+   "url": "",
+   "licencia": "CC BY 4.0, NLOD 2.0, Open Government Licence, TfL Open Data Licence o Singapore Open Data Licence, según el operador; la imagen se pide al operador",
+   "uso_comercial": true,
+   "licencia_verificada": false,
+   "nota": "Lista de fuentes en config/comercial_licencias.json (version_pago.capas_filtradas.camaras)."
+  },
   "pb2002": {
    "nombre": "PB2002, modelo de placas de Peter Bird (2003), GeoJSON de fraxen/tectonicplates",
    "url": "https://github.com/fraxen/tectonicplates",
@@ -2214,6 +2222,27 @@
       "infraestructura"
      ],
      "familia": "cables"
+    },
+    {
+     "id": "cables_submarinos_osm",
+     "nombre": {
+      "es": "Cables submarinos (OpenStreetMap)",
+      "en": "Submarine cables (OpenStreetMap)"
+     },
+     "icono": "〰",
+     "color": "#5B4A9E",
+     "fuente": "osm",
+     "licencia": "ODbL 1.0 (atribución y compartir igual para bases derivadas)",
+     "frecuencia": "mensual",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 1,
+     "areas": [
+      "tecnologia",
+      "infraestructura"
+     ],
+     "familia": "cables_osm",
+     "geometria": "linea"
     },
     {
      "id": "ductos_petroleo",

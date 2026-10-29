@@ -50,14 +50,21 @@ const vistaLista = (async () => {
   const plan = LIC.planActual(planes);
   const nombrePlan = planes.planes.find((p) => p.id === plan)?.nombre || plan;
   const fix = LIC.fixDeIndicadores(await getJSON("data/vivos/indicadores.json", { bust: true }).catch(() => null));
-  for (const s of document.querySelectorAll("summary.grupo-tit[data-grupo]")) {
-    const req = LIC.planFaltante(planes, plan, "grupos", s.dataset.grupo);
-    if (!req) continue;
+  const bloquear = (s, req) => {
     const d = s.parentElement;
     d.classList.add("bloqueado-plan");
     s.insertAdjacentHTML("beforeend", `<span class="chip candado">🔒 ${esc(req.nombre)}</span>`);
     for (const x of d.children) if (x !== s) x.inert = true;
     s.insertAdjacentHTML("afterend", `<p class="aviso-plan">Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. <a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
+  };
+  for (const s of document.querySelectorAll("summary.grupo-tit[data-grupo]")) {
+    const req = LIC.planFaltante(planes, plan, "grupos", s.dataset.grupo);
+    if (req) bloquear(s, req);
+  }
+  // Bloques dentro de un grupo con su propio plan mínimo (p. ej. «Infraestructura, conflictos y sociedad» desde Recon).
+  for (const d of document.querySelectorAll("details.bloque[id]")) {
+    const req = LIC.planFaltante(planes, plan, "bloques", d.id), s = d.querySelector(":scope > summary");
+    if (req && s && !d.hidden) bloquear(s, req);
   }
   for (const a of document.querySelectorAll("a[href]")) {
     const req = LIC.planFaltante(planes, plan, "paginas", (a.getAttribute("href") || "").split(/[?#]/)[0]);
@@ -1104,7 +1111,9 @@ async function iniciarCapas() {
   // Dos constructores (PMTiles mensual y Wikidata semanal) escriben manifiestos separados; aquí se combinan.
   const manifest = { familias: { ...mCapas.familias, ...mEntidades.familias } };
   const rv = await vistaLista;
-  const familias = rv ? LIC.familiasPago(familiasDibujables(catalogo, capasCfg, manifest), rv) : familiasDibujables(catalogo, capasCfg, manifest);
+  // Las familias «sustituye» (p. ej. cables de OpenStreetMap) solo existen para la versión de pago.
+  const dibujables = familiasDibujables(catalogo, capasCfg, manifest);
+  const familias = rv ? LIC.familiasPago(dibujables, rv) : dibujables.filter((f) => !f.sustituye);
   gestor = new GestorCapas(api.map, {
     chokepointsActivos: () => $("capa-chokepoints").checked,
     onCambio: avisarPresupuesto,
@@ -1149,7 +1158,7 @@ async function iniciarCapas() {
     <div class="capa-fam ${f.disponible ? "" : "capa-off"}">
       <label class="fila"><span><input type="checkbox" data-fam="${esc(f.id)}" ${f.disponible ? "" : "disabled"}> ${esc(f.nombre)}</span>
         <span class="chip estado-${esc(f.estado_dato)}" title="Estado del dato">${esc(etiquetaEstado(f.estado_dato))}</span></label>
-      <div class="meta">${f.disponible ? `${f.manifest.estado === "parcial" ? "⚠️ Cobertura parcial: algunas zonas del mundo no respondieron en la última actualización. " : ""}${f.manifest.estado === "desactualizada" ? `⚠️ Versión anterior (del ${esc((f.manifest.actualizado_utc || "").slice(0, 10))}): la última actualización falló. ` : ""}${f.manifest.objetos.toLocaleString("es-MX")} objetos · ${(f.manifest.bytes / 1e6).toFixed(1)} MB en mosaicos (solo se baja lo visible) · ${esc(f.licencia)}`
+      <div class="meta">${f.disponible ? `${f.manifest.estado === "parcial" ? "⚠️ Cobertura parcial: algunas zonas del mundo no respondieron en la última actualización. " : ""}${f.manifest.estado === "desactualizada" ? `⚠️ Versión anterior (del ${esc((f.manifest.actualizado_utc || "").slice(0, 10))}): la última actualización falló. ` : ""}${f.manifest.objetos != null ? `${f.manifest.objetos.toLocaleString("es-MX")} objetos` : "Solo fuentes con licencia abierta"} · ${(f.manifest.bytes / 1e6).toFixed(1)} MB en mosaicos (solo se baja lo visible) · ${esc(f.licencia)}`
         : esc(f.habilitada ? (f.manifest?.estado === "error" ? "Error al construir: " + f.manifest.error : f.manifest?.estado === "pendiente" ? f.manifest.error : "Aún no se construye (workflow «Construir capas»)") : f.motivo || "Deshabilitada")}</div>
       ${f.disponible && f.id in UNO_A_LA_VEZ ? `<div class="rampa-precios" aria-label="Cambio de precio en 12 meses">${RAMPA_PRECIOS.map(([c, t]) => `<span><i style="background:${c}"></i>${esc(t)}</span>`).join("")}</div>` : ""}
       ${f.disponible && f.subtipos.length > 1 ? `<details${f.id in UNO_A_LA_VEZ ? " open" : ""}><summary>${f.id in UNO_A_LA_VEZ ? "Tipo de inmueble (uno a la vez)" : `Subtipos (${f.subtipos.length})`}</summary>${f.subtipos.map((st) => `

@@ -66,13 +66,13 @@ export function paginaSoloAdmin(cat, href) {
   return (cat?.solo_admin || []).some((s) => s.tipo === "pagina" && s.href === base);
 }
 
-/** Tabla de comparación: una fila por grupo del menú o sección (acceso_por_plan) y una columna por plan; ✓ desde el
+/** Tabla de comparación: una fila por grupo del menú, bloque o sección (acceso_por_plan) y una columna por plan; ✓ desde el
  *  plan mínimo. `esc` escapa el texto. */
 export function filasComparacion(cat) {
   const ids = (cat?.planes || []).map((p) => p.id);
   const acc = cat?.acceso_por_plan || {};
   const filas = [];
-  for (const tipo of ["grupos", "paginas"]) {
+  for (const tipo of ["grupos", "bloques", "paginas"]) {
     for (const [clave, req] of Object.entries(acc[tipo] || {})) {
       if (clave === "planes.html") continue;
       filas.push({ clave, nombre: acc.nombres?.[clave] || clave, incluido: ids.map((id) => ids.indexOf(id) >= ids.indexOf(req)) });

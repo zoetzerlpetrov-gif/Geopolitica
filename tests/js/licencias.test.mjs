@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { vistaActual, restricciones, aplicarARiesgos, familiasPago, subtiposPago, fuenteComercial } from "../../js/licencias.js";
+import { vistaActual, restricciones, aplicarARiesgos, familiasPago, subtiposPago, fuenteComercial, camaraComercial } from "../../js/licencias.js";
 import { CAPAS } from "../../js/riesgos.js";
 
 const leer = (p) => JSON.parse(readFileSync(new URL(`../../${p}`, import.meta.url)));
@@ -37,13 +37,33 @@ test("riesgos: se quitan los de solo admin y botnets pasa al archivo de abuse.ch
 });
 
 test("capas y movimiento: sin fuentes no comerciales ni subtipos de CelesTrak", () => {
-  const fams = [{ id: "cables", fuente: "telegeography", subtipos: [] }, { id: "aeropuertos", fuente: "ourairports", subtipos: [{ fuente: "ourairports" }] },
-    { id: "inmuebles_seguimiento", fuente: "wikidata", subtipos: [] }];
-  assert.deepEqual(familiasPago(fams, r).map((f) => f.id), ["aeropuertos"]);
+  const fams = [{ id: "cables", fuente: "telegeography", subtipos: [] }, { id: "cables_osm", fuente: "osm", sustituye: "cables", subtipos: [] },
+    { id: "aeropuertos", fuente: "ourairports", subtipos: [{ fuente: "ourairports" }] },
+    { id: "inmuebles_seguimiento", fuente: "wikidata", subtipos: [] }, { id: "nodos_bitcoin", fuente: "bitnodes", subtipos: [] }];
+  // Cables: TeleGeography (no comercial) se cambia por OpenStreetMap en el mismo lugar; Bitcoin e inmuebles: solo admin.
+  assert.deepEqual(familiasPago(fams, r).map((f) => f.id), ["cables_osm", "aeropuertos"]);
   const sats = cat.categorias.find((c) => c.id === "satelites").subtipos;
   assert.deepEqual(subtiposPago(sats, r).map((s) => s.fuente), ["satnogs"]);
   assert.ok(r.movimiento.has("aeronaves") && r.movimiento.has("buques") && !r.movimiento.has("satelites"));
-  assert.ok(r.paginas.has("noticiero.html") && r.bloques.has("b-capas-ent"));
+  assert.ok(r.paginas.has("noticiero.html") && !r.bloques.has("b-capas-ent"), "el bloque ya no es solo admin: va por plan");
+  assert.ok(r.capas.has("nodos_bitcoin") && r.capas.has("inmuebles_seguimiento"));
+});
+
+test("cámaras: solo licencias abiertas y enlaces oficiales de organismos públicos", () => {
+  const sub = (id, fuente) => ({ id, fuente });
+  const fam = { id: "camaras", fuente: "camaras_publicas", licencia: "x", manifest: { archivo: "a.geojson", grupos: "g.json", objetos: 9, por_subtipo: { trafico: 9 } },
+    subtipos: [sub("trafico", "camaras_publicas"), sub("wcmx_cdmx", "webcamsdemexico"), sub("yt_ciudades", "youtube_en_vivo")] };
+  const [f] = familiasPago([fam], r);
+  assert.equal(f.fuente, "camaras_abiertas");
+  assert.deepEqual(f.subtipos.map((s) => s.id), ["trafico"], "sin YouTube ni Webcams de México");
+  assert.equal(f.manifest.grupos, null, "los grupos del servidor cuentan todas las cámaras");
+  assert.equal(f.manifest.objetos, null);
+  assert.ok(f.filtroObjeto({ id: "dt:C01", t: "organismo_publico" }), "Digitraffic (CC BY 4.0) por prefijo");
+  assert.ok(f.filtroObjeto({ id: "x:1", fuente: "tfl" }));
+  assert.ok(f.filtroObjeto({ id: "cam:kilauea", t: "organismo_publico" }), "enlace a página oficial");
+  assert.ok(!f.filtroObjeto({ id: "cam:x", t: "operador_turistico" }));
+  for (const p of [{ id: "yt:abc" }, { id: "wy:1", fuente: "windy" }, { id: "wdm:1" }, { id: "ct:1", fuente: "caltrans" }, { id: "hk:1", fuente: "hong_kong" }])
+    assert.ok(!camaraComercial(p, lic.version_pago.capas_filtradas.camaras), p.id);
 });
 
 test("planes: el grupo de un plan superior pide ese plan; el propio o inferior no", async () => {

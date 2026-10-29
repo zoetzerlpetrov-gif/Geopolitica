@@ -53,7 +53,10 @@ export function restricciones(lic, catalogo, planes = {}) {
     bloques: admin("bloque"),
     bloquesLic: Object.keys(v.bloques_solo_admin || {}),
     capas: admin("capa"),
+    sustitutas: v.capas_sustituidas || {},
+    filtradas: v.capas_filtradas || {},
     fuenteOk: (id) => fuenteComercial(catalogo, id),
+    fuente: (id) => catalogo?.fuentes?.[id] || {},
   };
 }
 
@@ -70,10 +73,43 @@ export function aplicarARiesgos(capas, r) {
   return quitados.reverse();
 }
 
-/** Familias de capas (salida de familiasDibujables) sin las de fuentes no comerciales y sin sus subtipos no comerciales. */
+// Prefijo del id de cámaras de catálogos antiguos que aún no traen «fuente» (tools/capas/camaras_mundo.py).
+const PREFIJO_CAMARA = { dt: "digitraffic", sg: "singapur" };
+
+/** ¿Esta cámara se puede mostrar en la versión de pago? Solo fuentes con licencia abierta que permite uso comercial y,
+ *  si `enlaces_oficiales`, las de la lista curada que solo enlazan a la página de un organismo público. */
+export function camaraComercial(p, filtro) {
+  const id = String(p?.id || "");
+  const fuente = p?.fuente || PREFIJO_CAMARA[id.split(":")[0]];
+  if ((filtro?.fuentes_ok || []).includes(fuente)) return true;
+  return Boolean(filtro?.enlaces_oficiales && id.startsWith("cam:") && p.t === "organismo_publico");
+}
+
+/** Familias de capas (salida de familiasDibujables) para la versión de pago:
+ *  - sin las de solo admin;
+ *  - la de fuente no comercial se cambia por su sustituta (version_pago.capas_sustituidas: cables → cables_osm);
+ *  - la de version_pago.capas_filtradas se queda, pero solo con los objetos permitidos (filtroObjeto) y sin los
+ *    conteos ni grupos del servidor, que cuentan todo;
+ *  - sin subtipos de fuentes no comerciales. */
 export function familiasPago(familias, r) {
-  return familias.filter((f) => r.fuenteOk(f.fuente) && !r.capas.has(f.id))
-    .map((f) => ({ ...f, subtipos: f.subtipos.filter((s) => !s.fuente || r.fuenteOk(s.fuente)) }));
+  const porId = new Map(familias.map((f) => [f.id, f]));
+  const sustitutas = new Set(Object.values(r.sustitutas || {}));
+  const out = [];
+  for (const f of familias) {
+    if (r.capas.has(f.id) || sustitutas.has(f.id) || f.sustituye) continue;  // la sustituta entra en el lugar de la original
+    const filtro = r.filtradas?.[f.id];
+    if (filtro) {
+      const info = r.fuente?.(filtro.fuente) || {};
+      out.push({ ...f, fuente: filtro.fuente, fuente_original: f.fuente, licencia: info.licencia || f.licencia, fuente_nombre: info.nombre || f.fuente_nombre,
+        manifest: f.manifest && { ...f.manifest, grupos: null, por_subtipo: undefined, objetos: null },
+        filtroObjeto: (p) => camaraComercial(p, filtro) });
+      continue;
+    }
+    if (r.fuenteOk(f.fuente)) { out.push(f); continue; }
+    const s = porId.get(r.sustitutas?.[f.id]);
+    if (s && r.fuenteOk(s.fuente) && !r.capas.has(s.id)) out.push(s);
+  }
+  return out.map((f) => ({ ...f, subtipos: f.subtipos.filter((s) => !s.fuente || r.fuenteOk(s.fuente) || (f.fuente_original && s.fuente === f.fuente_original)) }));
 }
 
 /** Subtipos de una categoría en movimiento que se pueden mostrar (p. ej. satélites: solo grupos de SatNOGS). */

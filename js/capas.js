@@ -107,6 +107,11 @@ export class GestorCapas {
     if (f.geometria === "punto" && f.manifest.grupos && f.grupos === undefined) {
       f.grupos = await fetch(f.manifest.grupos).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     }
+    // Versión de pago con objetos filtrados por licencia (p. ej. cámaras): se baja el GeoJSON y se quita lo no permitido.
+    if (f.filtroObjeto && f.manifest.formato === "geojson" && f.datos === undefined) {
+      const d = await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+      f.datos = d ? { ...d, features: (d.features || []).filter((x) => f.filtroObjeto(x.properties || {})) } : { type: "FeatureCollection", features: [] };
+    }
     if (this.activas.has(id)) return;
     this.activas.set(id, new Set(f.subtipos.map((s) => s.id)));
     this.#instalar(f);
@@ -175,7 +180,7 @@ export class GestorCapas {
     if (this.map.getSource(src)) return;
     const geojson = f.manifest.formato === "geojson";
     // Familias pequeñas (cientos de puntos) se sirven como GeoJSON; las grandes, como PMTiles por rangos.
-    this.map.addSource(src, geojson ? { type: "geojson", data: f.manifest.archivo } : { type: "vector", url: `pmtiles://${new URL(f.manifest.archivo, location.href).href}` });
+    this.map.addSource(src, geojson ? { type: "geojson", data: f.datos ?? f.manifest.archivo } : { type: "vector", url: `pmtiles://${new URL(f.manifest.archivo, location.href).href}` });
     const color = ["match", ["get", "st"]];
     for (const s of f.subtipos) color.push(s.id, s.color);
     color.push("#888888");
