@@ -1,0 +1,4149 @@
+{
+ "revisado": "2026-10-29",
+ "nota": "Zonas internacionales en seguimiento (Fase 5). Igual que en México: cada botón abre la búsqueda en el portal del país (en su idioma) y DOMINUS no copia anuncios. Las reglas para una persona mexicana son un resumen general; confírmalas con notario o abogado del país. No es recomendación de inversión.",
+ "venta": {
+  "en": "for sale",
+  "it": "vendita",
+  "fr": "à vendre",
+  "de": "kaufen",
+  "ru": "купить",
+  "no": "til salgs",
+  "sv": "till salu",
+  "fi": "myytävänä",
+  "da": "til salg",
+  "el": "πωλείται",
+  "is": "til sölu",
+  "nl": "te koop",
+  "pl": "na sprzedaż",
+  "et": "müük",
+  "lv": "pārdod",
+  "lt": "parduodama",
+  "es": "en venta",
+  "sr": "prodaja"
+ },
+ "tipos_idioma": {
+  "en": {
+   "departamento": "apartment",
+   "casa": "house",
+   "terreno": "land",
+   "villa": "villa",
+   "cabaña": "chalet"
+  },
+  "it": {
+   "departamento": "appartamento",
+   "casa": "casa",
+   "terreno": "terreno",
+   "villa": "villa",
+   "cabaña": "baita"
+  },
+  "fr": {
+   "departamento": "appartement",
+   "casa": "maison",
+   "terreno": "terrain",
+   "villa": "villa",
+   "cabaña": "chalet"
+  },
+  "de": {
+   "departamento": "Wohnung",
+   "casa": "Haus",
+   "terreno": "Grundstück",
+   "villa": "Villa",
+   "cabaña": "Chalet"
+  },
+  "ru": {
+   "departamento": "квартиру",
+   "casa": "дом",
+   "terreno": "участок",
+   "villa": "виллу",
+   "cabaña": "дом"
+  },
+  "no": {
+   "departamento": "leilighet",
+   "casa": "hus",
+   "terreno": "tomt",
+   "villa": "villa",
+   "cabaña": "hytte"
+  },
+  "sv": {
+   "departamento": "lägenhet",
+   "casa": "villa",
+   "terreno": "tomt",
+   "villa": "villa",
+   "cabaña": "stuga"
+  },
+  "fi": {
+   "departamento": "asunto",
+   "casa": "omakotitalo",
+   "terreno": "tontti",
+   "villa": "huvila",
+   "cabaña": "mökki"
+  },
+  "da": {
+   "departamento": "lejlighed",
+   "casa": "hus",
+   "terreno": "grund",
+   "villa": "villa",
+   "cabaña": "sommerhus"
+  },
+  "el": {
+   "departamento": "διαμέρισμα",
+   "casa": "σπίτι",
+   "terreno": "οικόπεδο",
+   "villa": "βίλα",
+   "cabaña": "σπίτι"
+  },
+  "is": {
+   "departamento": "íbúð",
+   "casa": "hús",
+   "terreno": "lóð",
+   "villa": "einbýlishús",
+   "cabaña": "sumarhús"
+  },
+  "nl": {
+   "departamento": "appartement",
+   "casa": "huis",
+   "terreno": "bouwgrond",
+   "villa": "villa",
+   "cabaña": "chalet"
+  },
+  "pl": {
+   "departamento": "mieszkanie",
+   "casa": "dom",
+   "terreno": "działka",
+   "villa": "willa",
+   "cabaña": "domek"
+  },
+  "et": {
+   "departamento": "korter",
+   "casa": "maja",
+   "terreno": "krunt",
+   "villa": "villa",
+   "cabaña": "suvila"
+  },
+  "lv": {
+   "departamento": "dzīvoklis",
+   "casa": "māja",
+   "terreno": "zeme",
+   "villa": "villa",
+   "cabaña": "vasarnīca"
+  },
+  "lt": {
+   "departamento": "butas",
+   "casa": "namas",
+   "terreno": "sklypas",
+   "villa": "vila",
+   "cabaña": "sodyba"
+  },
+  "es": {
+   "departamento": "piso",
+   "casa": "casa",
+   "terreno": "terreno",
+   "villa": "chalet",
+   "cabaña": "casa rural"
+  },
+  "sr": {
+   "departamento": "stan",
+   "casa": "kuća",
+   "terreno": "plac",
+   "villa": "vila",
+   "cabaña": "kuća"
+  }
+ },
+ "paises": {
+  "ARE": {
+   "nombre": "Emiratos Árabes Unidos",
+   "idioma": "en",
+   "portales": [
+    {
+     "nombre": "Bayut",
+     "dominio": "bayut.com"
+    },
+    {
+     "nombre": "Property Finder",
+     "dominio": "propertyfinder.ae"
+    },
+    {
+     "nombre": "Dubizzle",
+     "dominio": "dubizzle.com"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Calor extremo en verano (más de 45 °C) y tormentas de arena.",
+    "Lluvias extraordinarias poco frecuentes pero con inundaciones urbanas (abril de 2024 en Dubái).",
+    "Mercado con mucha oferta en preventa (off-plan): revisa el registro del proyecto y la cuenta de garantía (escrow) ante la autoridad inmobiliaria."
+   ],
+   "compra": "Extranjeros, incluidos mexicanos, compran en propiedad plena (freehold) solo en las zonas designadas para extranjeros de Dubái y en las zonas de inversión de Abu Dabi. Registro en el Dubai Land Department o en el Department of Municipalities and Transport de Abu Dabi. Resumen general: confírmalo con un abogado local."
+  },
+  "ITA": {
+   "nombre": "Italia",
+   "idioma": "it",
+   "portales": [
+    {
+     "nombre": "Immobiliare.it",
+     "dominio": "immobiliare.it"
+    },
+    {
+     "nombre": "Idealista",
+     "dominio": "idealista.it"
+    },
+    {
+     "nombre": "Casa.it",
+     "dominio": "casa.it"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Sismos en buena parte del país (centro y sur, Sicilia y Calabria); consulta la clasificación sísmica del municipio.",
+    "Volcanes activos: Vesubio y Campos Flegreos (Nápoles), Etna (Catania), Stromboli y Vulcano (islas Eolias).",
+    "Inundaciones y deslaves (dissesto idrogeologico): consulta la plataforma IdroGEO del ISPRA."
+   ]
+  },
+  "MLT": {
+   "nombre": "Malta",
+   "idioma": "en",
+   "portales": [
+    {
+     "nombre": "Frank Salt",
+     "dominio": "franksalt.com.mt"
+    },
+    {
+     "nombre": "RE/MAX Malta",
+     "dominio": "remax-malta.com"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Escasez de agua dulce (se usa desalinización).",
+    "Construcción muy densa: revisa permisos de la Planning Authority y obras vecinas."
+   ]
+  },
+  "FRA": {
+   "nombre": "Francia",
+   "idioma": "fr",
+   "portales": [
+    {
+     "nombre": "SeLoger",
+     "dominio": "seloger.com"
+    },
+    {
+     "nombre": "Leboncoin",
+     "dominio": "leboncoin.fr"
+    },
+    {
+     "nombre": "Bien'ici",
+     "dominio": "bienici.com"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "El vendedor debe entregar el estado de riesgos (ERRIAL); también se consulta en Géorisques.",
+    "Avalanchas y deslaves en los Alpes (Courchevel, Chamonix, Annecy); incendios forestales en el sur.",
+    "Erosión costera en el Atlántico (La Rochelle) y riesgo de sumersión marina."
+   ]
+  },
+  "CHE": {
+   "nombre": "Suiza",
+   "idioma": "de",
+   "portales": [
+    {
+     "nombre": "Homegate",
+     "dominio": "homegate.ch"
+    },
+    {
+     "nombre": "ImmoScout24",
+     "dominio": "immoscout24.ch"
+    },
+    {
+     "nombre": "Comparis",
+     "dominio": "comparis.ch"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Avalanchas, deslaves y caída de rocas en zonas alpinas (Zermatt, Lauterbrunnen, Mürren, Sankt Moritz): cada cantón publica mapas de peligros.",
+    "Sismicidad moderada en Basilea y Valais."
+   ]
+  },
+  "AUT": {
+   "nombre": "Austria",
+   "idioma": "de",
+   "portales": [
+    {
+     "nombre": "willhaben",
+     "dominio": "willhaben.at"
+    },
+    {
+     "nombre": "ImmobilienScout24",
+     "dominio": "immobilienscout24.at"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Avalanchas, deslaves e inundaciones en zonas alpinas; Hallstatt tiene paso de agua y deslaves en laderas.",
+    "Mapas de peligros naturales en HORA (hora.gv.at)."
+   ],
+   "compra": "Una persona de fuera de la Unión Europea necesita permiso de la autoridad de tránsito de tierras de cada estado (Grundverkehrsbehörde); Salzburgo y Viena tienen reglas propias. Resumen general: confírmalo con un notario austriaco."
+  },
+  "SMR": {
+   "nombre": "San Marino",
+   "idioma": "it",
+   "portales": [
+    {
+     "nombre": "Immobiliare.it",
+     "dominio": "immobiliare.it"
+    },
+    {
+     "nombre": "Idealista",
+     "dominio": "idealista.it"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Terreno montañoso: revisa pendiente y deslaves."
+   ],
+   "compra": "Verificar: la compra de inmuebles por extranjeros no residentes está muy limitada y suele requerir autorización del Estado. Confírmalo con un notario sanmarinense antes de buscar."
+  },
+  "RUS": {
+   "nombre": "Rusia",
+   "idioma": "ru",
+   "portales": [
+    {
+     "nombre": "CIAN",
+     "dominio": "cian.ru"
+    },
+    {
+     "nombre": "Avito",
+     "dominio": "avito.ru"
+    },
+    {
+     "nombre": "DomClick",
+     "dominio": "domclick.ru"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Sanciones internacionales: pagar, transferir dinero y sacar el capital de la venta es complicado; revisa la situación vigente con un banco y un abogado.",
+    "Anapa y Sochi: sismicidad moderada; en Anapa hubo un derrame de combustóleo en las playas en diciembre de 2024.",
+    "Moscú y San Petersburgo: inviernos severos; revisa calefacción central y estado del edificio."
+   ]
+  },
+  "NOR": {
+   "nombre": "Noruega",
+   "idioma": "no",
+   "portales": [
+    {
+     "nombre": "FINN",
+     "dominio": "finn.no"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Deslaves de arcilla rápida (kvikkleire) y avalanchas: mapas de NVE."
+   ]
+  },
+  "SWE": {
+   "nombre": "Suecia",
+   "idioma": "sv",
+   "portales": [
+    {
+     "nombre": "Hemnet",
+     "dominio": "hemnet.se"
+    },
+    {
+     "nombre": "Booli",
+     "dominio": "booli.se"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inviernos largos en Laponia: costo de calefacción alto."
+   ]
+  },
+  "FIN": {
+   "nombre": "Finlandia",
+   "idioma": "fi",
+   "portales": [
+    {
+     "nombre": "Etuovi",
+     "dominio": "etuovi.com"
+    },
+    {
+     "nombre": "Oikotie",
+     "dominio": "asunnot.oikotie.fi"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inviernos largos en Laponia (Rovaniemi): costo de calefacción alto."
+   ]
+  },
+  "DNK": {
+   "nombre": "Dinamarca",
+   "idioma": "da",
+   "portales": [
+    {
+     "nombre": "Boligsiden",
+     "dominio": "boligsiden.dk"
+    },
+    {
+     "nombre": "Boliga",
+     "dominio": "boliga.dk"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inundaciones por marejadas y lluvias intensas en zonas bajas."
+   ],
+   "compra": "Una persona que no es residente ni ciudadana de la UE necesita permiso del Ministerio de Justicia; las casas de verano tienen reglas más estrictas. Resumen general: confírmalo con un abogado danés."
+  },
+  "DEU": {
+   "nombre": "Alemania",
+   "idioma": "de",
+   "portales": [
+    {
+     "nombre": "ImmobilienScout24",
+     "dominio": "immobilienscout24.de"
+    },
+    {
+     "nombre": "Immowelt",
+     "dominio": "immowelt.de"
+    },
+    {
+     "nombre": "Kleinanzeigen",
+     "dominio": "kleinanzeigen.de"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inundaciones fluviales (Rin, Elba, Danubio; Ahr en 2021): consulta los mapas de peligro de inundación de cada estado.",
+    "Impuesto de transmisión (Grunderwerbsteuer) de 3.5 % a 6.5 % según el estado, más notario y registro."
+   ]
+  },
+  "LIE": {
+   "nombre": "Liechtenstein",
+   "idioma": "de",
+   "portales": [
+    {
+     "nombre": "Homegate",
+     "dominio": "homegate.ch"
+    },
+    {
+     "nombre": "ImmoScout24",
+     "dominio": "immoscout24.ch"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Zona alpina: deslaves y avalanchas en laderas."
+   ],
+   "compra": "La compra de inmuebles requiere permiso según la ley de tránsito de tierras (Grundverkehrsgesetz) y en la práctica se limita a residentes. Verifícalo con un abogado local antes de buscar."
+  },
+  "GRC": {
+   "nombre": "Grecia",
+   "idioma": "el",
+   "portales": [
+    {
+     "nombre": "Spitogatos",
+     "dominio": "spitogatos.gr"
+    },
+    {
+     "nombre": "xe.gr",
+     "dominio": "xe.gr"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Sismicidad alta en casi todo el país y en las islas.",
+    "Incendios forestales en verano (Ática, Rodas, Eubea).",
+    "Islas cercanas a Turquía y zonas fronterizas: un comprador de fuera de la UE necesita permiso especial."
+   ],
+   "compra": "Una persona de fuera de la UE compra libremente fuera de las zonas fronterizas; en zonas fronterizas y varias islas del Egeo oriental necesita permiso. Resumen general: confírmalo con un abogado griego."
+  },
+  "USA": {
+   "nombre": "Estados Unidos",
+   "idioma": "en",
+   "portales": [
+    {
+     "nombre": "Zillow",
+     "dominio": "zillow.com"
+    },
+    {
+     "nombre": "Realtor.com",
+     "dominio": "realtor.com"
+    },
+    {
+     "nombre": "Redfin",
+     "dominio": "redfin.com"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Texas: tornados y granizo en Dallas-Fort Worth; huracanes e inundaciones en el Valle del Río Grande (McAllen); impuesto predial alto (cerca de 2 % anual del valor).",
+    "Seguros de vivienda cada vez más caros en zonas de huracán y granizo."
+   ]
+  },
+  "CAN": {
+   "nombre": "Canadá",
+   "idioma": "en",
+   "portales": [
+    {
+     "nombre": "REALTOR.ca",
+     "dominio": "realtor.ca"
+    },
+    {
+     "nombre": "Centris (Quebec)",
+     "dominio": "centris.ca"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inviernos severos; inundaciones primaverales en Quebec y Ottawa-Gatineau."
+   ]
+  },
+  "ISL": {
+   "nombre": "Islandia",
+   "idioma": "is",
+   "portales": [
+    {
+     "nombre": "mbl.is fasteignir",
+     "dominio": "mbl.is"
+    },
+    {
+     "nombre": "Vísir fasteignir",
+     "dominio": "visir.is"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Volcanes activos: península de Reykjanes (erupciones desde 2021 junto a Grindavík).",
+    "Sismos y avalanchas en fiordos."
+   ],
+   "compra": "Una persona de fuera del Espacio Económico Europeo necesita permiso del Ministerio de Justicia para comprar. Resumen general: confírmalo con un abogado islandés."
+  },
+  "LUX": {
+   "nombre": "Luxemburgo",
+   "idioma": "fr",
+   "portales": [
+    {
+     "nombre": "atHome",
+     "dominio": "athome.lu"
+    },
+    {
+     "nombre": "Immotop",
+     "dominio": "immotop.lu"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inundaciones fluviales en valles (Mosela, Alzette)."
+   ],
+   "compra": "Sin restricción general para compradores extranjeros. Resumen general: confírmalo con un notario."
+  },
+  "BEL": {
+   "nombre": "Bélgica",
+   "idioma": "fr",
+   "portales": [
+    {
+     "nombre": "Immoweb",
+     "dominio": "immoweb.be"
+    },
+    {
+     "nombre": "Zimmo",
+     "dominio": "zimmo.be"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inundaciones en el valle del Mosa (julio de 2021)."
+   ],
+   "compra": "Sin restricción general para compradores extranjeros. Resumen general: confírmalo con un notario."
+  },
+  "NLD": {
+   "nombre": "Países Bajos",
+   "idioma": "nl",
+   "portales": [
+    {
+     "nombre": "Funda",
+     "dominio": "funda.nl"
+    },
+    {
+     "nombre": "Pararius",
+     "dominio": "pararius.nl"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Gran parte del país está bajo el nivel del mar: revisa el riesgo de inundación y el terreno (hundimiento) en overstroomik.nl."
+   ]
+  },
+  "POL": {
+   "nombre": "Polonia",
+   "idioma": "pl",
+   "portales": [
+    {
+     "nombre": "Otodom",
+     "dominio": "otodom.pl"
+    },
+    {
+     "nombre": "OLX",
+     "dominio": "olx.pl"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inundaciones fluviales (Oder y Vístula; septiembre de 2024 en el suroeste)."
+   ]
+  },
+  "EST": {
+   "nombre": "Estonia",
+   "idioma": "et",
+   "portales": [
+    {
+     "nombre": "KV.ee",
+     "dominio": "kv.ee"
+    },
+    {
+     "nombre": "City24",
+     "dominio": "city24.ee"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inviernos fríos; frontera con Rusia en el este."
+   ]
+  },
+  "LVA": {
+   "nombre": "Letonia",
+   "idioma": "lv",
+   "portales": [
+    {
+     "nombre": "SS.lv",
+     "dominio": "ss.lv"
+    },
+    {
+     "nombre": "City24",
+     "dominio": "city24.lv"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inviernos fríos; frontera con Rusia y Bielorrusia en el este."
+   ]
+  },
+  "LTU": {
+   "nombre": "Lituania",
+   "idioma": "lt",
+   "portales": [
+    {
+     "nombre": "Aruodas",
+     "dominio": "aruodas.lt"
+    },
+    {
+     "nombre": "Domoplius",
+     "dominio": "domoplius.lt"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Inviernos fríos; frontera con Bielorrusia y Kaliningrado."
+   ]
+  },
+  "ESP": {
+   "nombre": "España",
+   "idioma": "es",
+   "portales": [
+    {
+     "nombre": "Idealista",
+     "dominio": "idealista.com"
+    },
+    {
+     "nombre": "Fotocasa",
+     "dominio": "fotocasa.es"
+    },
+    {
+     "nombre": "pisos.com",
+     "dominio": "pisos.com"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Baleares: lluvias torrenciales de otoño (DANA) y escasez de agua en verano.",
+    "Canarias: volcanismo activo (La Palma, 2021) y calima; Tenerife tiene el Teide."
+   ]
+  },
+  "MNE": {
+   "nombre": "Montenegro",
+   "idioma": "sr",
+   "portales": [
+    {
+     "nombre": "Realitica",
+     "dominio": "realitica.com"
+    },
+    {
+     "nombre": "Engel & Völkers",
+     "dominio": "engelvoelkers.com"
+    },
+    {
+     "nombre": "Sotheby's International Realty",
+     "dominio": "sothebysrealty.com"
+    }
+   ],
+   "riesgos": [
+    "Sismicidad alta en la costa (sismo de 1979).",
+    "Muchas construcciones sin legalizar: exige el registro catastral y el permiso de uso."
+   ],
+   "compra": "Extranjeros compran departamentos y casas; los terrenos agrícolas y bosques tienen restricciones. Resumen general: confírmalo con un abogado montenegrino."
+  }
+ },
+ "zonas": [
+  {
+   "id": "are-dubai",
+   "pais_iso3": "ARE",
+   "ciudad": "Dubai",
+   "estado": "",
+   "zona": "Toda la ciudad",
+   "lat": 25.2,
+   "lon": 55.27,
+   "radio_km": 30,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Dubai Marina",
+    "Downtown Dubai",
+    "Business Bay",
+    "Jumeirah Village Circle",
+    "Palm Jumeirah",
+    "Dubai Hills Estate",
+    "Arabian Ranches"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "are-abudhabi",
+   "pais_iso3": "ARE",
+   "ciudad": "Abu Dhabi",
+   "estado": "",
+   "zona": "Toda la ciudad",
+   "lat": 24.45,
+   "lon": 54.38,
+   "radio_km": 30,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Al Reem Island",
+    "Saadiyat Island",
+    "Yas Island",
+    "Al Raha Beach",
+    "Khalifa City"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-genova",
+   "pais_iso3": "ITA",
+   "ciudad": "Genova",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 44.407,
+   "lon": 8.934,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Genova"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-milano",
+   "pais_iso3": "ITA",
+   "ciudad": "Milano",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.464,
+   "lon": 9.19,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Milano"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-venezia",
+   "pais_iso3": "ITA",
+   "ciudad": "Venezia",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.438,
+   "lon": 12.335,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Venezia"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-torino",
+   "pais_iso3": "ITA",
+   "ciudad": "Torino",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.07,
+   "lon": 7.686,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Torino"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-bologna",
+   "pais_iso3": "ITA",
+   "ciudad": "Bologna",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 44.494,
+   "lon": 11.343,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Bologna"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-roma",
+   "pais_iso3": "ITA",
+   "ciudad": "Roma",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 41.903,
+   "lon": 12.496,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Roma"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-firenze",
+   "pais_iso3": "ITA",
+   "ciudad": "Firenze",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.77,
+   "lon": 11.255,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Firenze"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-pisa",
+   "pais_iso3": "ITA",
+   "ciudad": "Pisa",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.716,
+   "lon": 10.402,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Pisa"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-trieste",
+   "pais_iso3": "ITA",
+   "ciudad": "Trieste",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.65,
+   "lon": 13.777,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Trieste"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-ancona",
+   "pais_iso3": "ITA",
+   "ciudad": "Ancona",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.616,
+   "lon": 13.519,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Ancona"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-siena",
+   "pais_iso3": "ITA",
+   "ciudad": "Siena",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.318,
+   "lon": 11.331,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Siena"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-sanquirico",
+   "pais_iso3": "ITA",
+   "ciudad": "San Quirico d'Orcia",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.058,
+   "lon": 11.605,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "San Quirico d'Orcia"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-cinqueterre",
+   "pais_iso3": "ITA",
+   "ciudad": "Cinque Terre",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 44.128,
+   "lon": 9.712,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Cinque Terre"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-napoli",
+   "pais_iso3": "ITA",
+   "ciudad": "Napoli",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 40.852,
+   "lon": 14.268,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Napoli"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-amalfi",
+   "pais_iso3": "ITA",
+   "ciudad": "Amalfi",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 40.634,
+   "lon": 14.603,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Amalfi"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-positano",
+   "pais_iso3": "ITA",
+   "ciudad": "Positano",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 40.628,
+   "lon": 14.485,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Positano"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-sorrento",
+   "pais_iso3": "ITA",
+   "ciudad": "Sorrento",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 40.626,
+   "lon": 14.376,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Sorrento"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-salerno",
+   "pais_iso3": "ITA",
+   "ciudad": "Salerno",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 40.683,
+   "lon": 14.768,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Salerno"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-tropea",
+   "pais_iso3": "ITA",
+   "ciudad": "Tropea",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 38.677,
+   "lon": 15.898,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Tropea"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-cefalu",
+   "pais_iso3": "ITA",
+   "ciudad": "Cefalù",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 38.039,
+   "lon": 14.022,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Cefalù"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-milazzo",
+   "pais_iso3": "ITA",
+   "ciudad": "Milazzo",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 38.221,
+   "lon": 15.241,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Milazzo"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-messina",
+   "pais_iso3": "ITA",
+   "ciudad": "Messina",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 38.193,
+   "lon": 15.554,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Messina"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-taormina",
+   "pais_iso3": "ITA",
+   "ciudad": "Taormina",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 37.852,
+   "lon": 15.288,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Taormina"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-catania",
+   "pais_iso3": "ITA",
+   "ciudad": "Catania",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 37.507,
+   "lon": 15.083,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Catania"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-siracusa",
+   "pais_iso3": "ITA",
+   "ciudad": "Siracusa",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 37.075,
+   "lon": 15.287,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Siracusa"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-marzamemi",
+   "pais_iso3": "ITA",
+   "ciudad": "Marzamemi",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 36.739,
+   "lon": 15.117,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Marzamemi"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-lampedusa",
+   "pais_iso3": "ITA",
+   "ciudad": "Lampedusa",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 35.508,
+   "lon": 12.596,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Lampedusa"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-verona",
+   "pais_iso3": "ITA",
+   "ciudad": "Verona",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.438,
+   "lon": 10.992,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Verona"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-palermo",
+   "pais_iso3": "ITA",
+   "ciudad": "Palermo (costa siciliana norte)",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 38.116,
+   "lon": 13.361,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Palermo (costa siciliana norte)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-cerdena",
+   "pais_iso3": "ITA",
+   "ciudad": "Sardegna",
+   "estado": "",
+   "zona": "Costas de Cerdeña (Costa Smeralda, Alghero, Cagliari, Olbia)",
+   "lat": 40.12,
+   "lon": 9.01,
+   "radio_km": 120,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Costa Smeralda",
+    "Porto Cervo",
+    "Olbia",
+    "Alghero",
+    "Cagliari",
+    "Villasimius"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ita-eolie",
+   "pais_iso3": "ITA",
+   "ciudad": "Isole Eolie",
+   "estado": "",
+   "zona": "Islas Eolias (Lipari, Salina, Vulcano)",
+   "lat": 38.48,
+   "lon": 14.95,
+   "radio_km": 25,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Lipari",
+    "Salina",
+    "Vulcano",
+    "Panarea"
+   ],
+   "riesgos": [
+    "Volcanes activos en Stromboli y Vulcano."
+   ],
+   "referencias": []
+  },
+  {
+   "id": "ita-capri-ischia",
+   "pais_iso3": "ITA",
+   "ciudad": "Capri e Ischia",
+   "estado": "",
+   "zona": "Islas del golfo de Nápoles",
+   "lat": 40.66,
+   "lon": 14.05,
+   "radio_km": 20,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Capri",
+    "Anacapri",
+    "Ischia",
+    "Procida"
+   ],
+   "riesgos": [
+    "Ischia: sismo de 2017 y deslave de Casamicciola en 2022."
+   ],
+   "referencias": []
+  },
+  {
+   "id": "mlt",
+   "pais_iso3": "MLT",
+   "ciudad": "Malta",
+   "estado": "",
+   "zona": "Todo el país (Malta y Gozo)",
+   "lat": 35.92,
+   "lon": 14.43,
+   "radio_km": 25,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Sliema",
+    "St Julian's",
+    "Valletta",
+    "Mellieħa",
+    "Gozo"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "smr",
+   "pais_iso3": "SMR",
+   "ciudad": "San Marino",
+   "estado": "",
+   "zona": "Todo el territorio",
+   "lat": 43.94,
+   "lon": 12.46,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Città di San Marino",
+    "Borgo Maggiore",
+    "Serravalle"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-burdeos",
+   "pais_iso3": "FRA",
+   "ciudad": "Bordeaux",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 44.838,
+   "lon": -0.579,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Bordeaux"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-larochelle",
+   "pais_iso3": "FRA",
+   "ciudad": "La Rochelle",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.16,
+   "lon": -1.151,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "La Rochelle"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-lyon",
+   "pais_iso3": "FRA",
+   "ciudad": "Lyon",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.764,
+   "lon": 4.836,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Lyon"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-toulouse",
+   "pais_iso3": "FRA",
+   "ciudad": "Toulouse",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.605,
+   "lon": 1.444,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Toulouse"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-montpellier",
+   "pais_iso3": "FRA",
+   "ciudad": "Montpellier",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.611,
+   "lon": 3.877,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Montpellier"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-courchevel",
+   "pais_iso3": "FRA",
+   "ciudad": "Courchevel",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.415,
+   "lon": 6.634,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña",
+    "terreno"
+   ],
+   "colonias": [
+    "Courchevel"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-annecy",
+   "pais_iso3": "FRA",
+   "ciudad": "Annecy",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.899,
+   "lon": 6.129,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Annecy"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-chamonix",
+   "pais_iso3": "FRA",
+   "ciudad": "Chamonix-Mont-Blanc",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 45.924,
+   "lon": 6.869,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Chamonix-Mont-Blanc"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-saorge",
+   "pais_iso3": "FRA",
+   "ciudad": "Saorge",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.987,
+   "lon": 7.552,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Saorge"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-entrevaux",
+   "pais_iso3": "FRA",
+   "ciudad": "Entrevaux",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.951,
+   "lon": 6.811,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Entrevaux"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-moustiers",
+   "pais_iso3": "FRA",
+   "ciudad": "Moustiers-Sainte-Marie",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.846,
+   "lon": 6.221,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Moustiers-Sainte-Marie"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fra-sospel",
+   "pais_iso3": "FRA",
+   "ciudad": "Sospel",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 43.878,
+   "lon": 7.448,
+   "radio_km": 6,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Sospel"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-ginebra",
+   "pais_iso3": "CHE",
+   "ciudad": "Genève",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.204,
+   "lon": 6.143,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Genève"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-zermatt",
+   "pais_iso3": "CHE",
+   "ciudad": "Zermatt",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.02,
+   "lon": 7.749,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Zermatt"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-basilea",
+   "pais_iso3": "CHE",
+   "ciudad": "Basel",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 47.56,
+   "lon": 7.589,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Basel"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-zurich",
+   "pais_iso3": "CHE",
+   "ciudad": "Zürich",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 47.377,
+   "lon": 8.541,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Zürich"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-berna",
+   "pais_iso3": "CHE",
+   "ciudad": "Bern",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.948,
+   "lon": 7.447,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Bern"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-murren",
+   "pais_iso3": "CHE",
+   "ciudad": "Mürren",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.559,
+   "lon": 7.892,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Mürren"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-thun",
+   "pais_iso3": "CHE",
+   "ciudad": "Thun",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.758,
+   "lon": 7.628,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Thun"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-spiez",
+   "pais_iso3": "CHE",
+   "ciudad": "Spiez",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.686,
+   "lon": 7.68,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Spiez"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-interlaken",
+   "pais_iso3": "CHE",
+   "ciudad": "Interlaken",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.686,
+   "lon": 7.863,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Interlaken"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-lauterbrunnen",
+   "pais_iso3": "CHE",
+   "ciudad": "Lauterbrunnen",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.593,
+   "lon": 7.909,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Lauterbrunnen"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-lungern",
+   "pais_iso3": "CHE",
+   "ciudad": "Lungern (lago)",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.786,
+   "lon": 8.16,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Lungern (lago)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-lucerna",
+   "pais_iso3": "CHE",
+   "ciudad": "Luzern",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 47.05,
+   "lon": 8.309,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Luzern"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "che-stmoritz",
+   "pais_iso3": "CHE",
+   "ciudad": "St. Moritz",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 46.498,
+   "lon": 9.838,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "St. Moritz"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "aut-salzburgo",
+   "pais_iso3": "AUT",
+   "ciudad": "Salzburg",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 47.809,
+   "lon": 13.055,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Salzburg"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "aut-hallstatt",
+   "pais_iso3": "AUT",
+   "ciudad": "Hallstatt",
+   "estado": "",
+   "zona": "Hallstatt y lago",
+   "lat": 47.562,
+   "lon": 13.649,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Hallstatt"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "aut-viena",
+   "pais_iso3": "AUT",
+   "ciudad": "Wien",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 48.208,
+   "lon": 16.373,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Wien"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "lie",
+   "pais_iso3": "LIE",
+   "ciudad": "Liechtenstein",
+   "estado": "",
+   "zona": "Todo el país (Vaduz, Schaan, Triesen)",
+   "lat": 47.14,
+   "lon": 9.52,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Liechtenstein"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "rus-anapa",
+   "pais_iso3": "RUS",
+   "ciudad": "Анапа (Anapa)",
+   "estado": "",
+   "zona": "Anapa y 10 km alrededor (Vítiazevo, Dzhemete, Blagovéshchenskaya, Sukko)",
+   "lat": 44.894,
+   "lon": 37.316,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Джемете (Dzhemete)",
+    "Витязево (Vítiazevo)",
+    "Благовещенская (Blagovéshchenskaya)",
+    "Сукко (Sukko)",
+    "Су-Псех (Su-Psej)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "rus-rostov",
+   "pais_iso3": "RUS",
+   "ciudad": "Ростов-на-Дону (Rostov del Don)",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 47.236,
+   "lon": 39.713,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Ростов-на-Дону (Rostov del Don)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "rus-krasnodar",
+   "pais_iso3": "RUS",
+   "ciudad": "Краснодар (Krasnodar)",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 45.035,
+   "lon": 38.975,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Краснодар (Krasnodar)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "rus-moscu",
+   "pais_iso3": "RUS",
+   "ciudad": "Москва (Moscú)",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 55.756,
+   "lon": 37.617,
+   "radio_km": 20,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Москва (Moscú)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "rus-spb",
+   "pais_iso3": "RUS",
+   "ciudad": "Санкт-Петербург (San Petersburgo)",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 59.939,
+   "lon": 30.316,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Санкт-Петербург (San Petersburgo)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nor-oslo",
+   "pais_iso3": "NOR",
+   "ciudad": "Oslo",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 59.913,
+   "lon": 10.752,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Oslo"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nor-bergen",
+   "pais_iso3": "NOR",
+   "ciudad": "Bergen",
+   "estado": "",
+   "zona": "Ciudad y fiordos",
+   "lat": 60.391,
+   "lon": 5.322,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Bergen"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nor-tromso",
+   "pais_iso3": "NOR",
+   "ciudad": "Tromsø",
+   "estado": "",
+   "zona": "Ciudad (auroras)",
+   "lat": 69.649,
+   "lon": 18.956,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Tromsø"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nor-lofoten",
+   "pais_iso3": "NOR",
+   "ciudad": "Lofoten",
+   "estado": "",
+   "zona": "Islas Lofoten",
+   "lat": 68.23,
+   "lon": 14.56,
+   "radio_km": 40,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Lofoten"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nor-geiranger",
+   "pais_iso3": "NOR",
+   "ciudad": "Geiranger",
+   "estado": "",
+   "zona": "Fiordo de Geiranger",
+   "lat": 62.101,
+   "lon": 7.206,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Geiranger"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "swe-estocolmo",
+   "pais_iso3": "SWE",
+   "ciudad": "Stockholm",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 59.329,
+   "lon": 18.069,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Stockholm"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "swe-gotemburgo",
+   "pais_iso3": "SWE",
+   "ciudad": "Göteborg",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 57.709,
+   "lon": 11.975,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Göteborg"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "swe-kiruna",
+   "pais_iso3": "SWE",
+   "ciudad": "Kiruna y Abisko",
+   "estado": "",
+   "zona": "Laponia sueca",
+   "lat": 67.856,
+   "lon": 20.225,
+   "radio_km": 40,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Kiruna",
+    "Abisko",
+    "Jukkasjärvi"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fin-helsinki",
+   "pais_iso3": "FIN",
+   "ciudad": "Helsinki",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 60.17,
+   "lon": 24.938,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Helsinki"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fin-rovaniemi",
+   "pais_iso3": "FIN",
+   "ciudad": "Rovaniemi",
+   "estado": "",
+   "zona": "Rovaniemi y aldea de Santa Claus",
+   "lat": 66.503,
+   "lon": 25.729,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Rovaniemi",
+    "Santa Claus Village",
+    "Napapiiri"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "fin-saariselka",
+   "pais_iso3": "FIN",
+   "ciudad": "Saariselkä e Inari",
+   "estado": "",
+   "zona": "Laponia finlandesa",
+   "lat": 68.419,
+   "lon": 27.413,
+   "radio_km": 40,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Saariselkä",
+    "Inari",
+    "Ivalo"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-berlin",
+   "pais_iso3": "DEU",
+   "ciudad": "Berlin",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 52.52,
+   "lon": 13.405,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Berlin"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-munich",
+   "pais_iso3": "DEU",
+   "ciudad": "München",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 48.137,
+   "lon": 11.575,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "München"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-hamburgo",
+   "pais_iso3": "DEU",
+   "ciudad": "Hamburg",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 53.551,
+   "lon": 9.994,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Hamburg"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-frankfurt",
+   "pais_iso3": "DEU",
+   "ciudad": "Frankfurt am Main",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 50.11,
+   "lon": 8.682,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Frankfurt am Main"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-colonia",
+   "pais_iso3": "DEU",
+   "ciudad": "Köln",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 50.938,
+   "lon": 6.96,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Köln"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-dusseldorf",
+   "pais_iso3": "DEU",
+   "ciudad": "Düsseldorf",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 51.227,
+   "lon": 6.773,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Düsseldorf"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-bonn",
+   "pais_iso3": "DEU",
+   "ciudad": "Bonn",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 50.737,
+   "lon": 7.098,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Bonn"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-dresde",
+   "pais_iso3": "DEU",
+   "ciudad": "Dresden",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 51.05,
+   "lon": 13.738,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Dresden"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-heidelberg",
+   "pais_iso3": "DEU",
+   "ciudad": "Heidelberg",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 49.399,
+   "lon": 8.672,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Heidelberg"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-garmisch",
+   "pais_iso3": "DEU",
+   "ciudad": "Garmisch-Partenkirchen",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 47.492,
+   "lon": 11.096,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Garmisch-Partenkirchen"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-fussen",
+   "pais_iso3": "DEU",
+   "ciudad": "Füssen (Neuschwanstein)",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 47.57,
+   "lon": 10.7,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Füssen (Neuschwanstein)"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-rothenburg",
+   "pais_iso3": "DEU",
+   "ciudad": "Rothenburg ob der Tauber",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 49.377,
+   "lon": 10.179,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Rothenburg ob der Tauber"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-badenbaden",
+   "pais_iso3": "DEU",
+   "ciudad": "Baden-Baden",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 48.761,
+   "lon": 8.24,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Baden-Baden"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "deu-sylt",
+   "pais_iso3": "DEU",
+   "ciudad": "Sylt",
+   "estado": "",
+   "zona": "Ciudad y alrededores",
+   "lat": 54.906,
+   "lon": 8.312,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Sylt"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "grc-atenas",
+   "pais_iso3": "GRC",
+   "ciudad": "Αθήνα (Atenas)",
+   "estado": "",
+   "zona": "Atenas y Riviera de Atenas",
+   "lat": 37.98,
+   "lon": 23.73,
+   "radio_km": 20,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Glyfada",
+    "Vouliagmeni",
+    "Kifisia",
+    "Kolonaki"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "grc-salonica",
+   "pais_iso3": "GRC",
+   "ciudad": "Θεσσαλονίκη (Salónica)",
+   "estado": "",
+   "zona": "Ciudad y Halkidiki",
+   "lat": 40.64,
+   "lon": 22.94,
+   "radio_km": 40,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Thessaloniki",
+    "Halkidiki"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "grc-cicladas",
+   "pais_iso3": "GRC",
+   "ciudad": "Κυκλάδες (Cícladas)",
+   "estado": "",
+   "zona": "Mykonos, Santorini, Paros, Naxos y otras",
+   "lat": 37.08,
+   "lon": 25.15,
+   "radio_km": 90,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Mykonos",
+    "Santorini",
+    "Paros",
+    "Naxos",
+    "Syros",
+    "Milos"
+   ],
+   "riesgos": [
+    "Santorini: volcán activo y enjambre sísmico de febrero de 2025."
+   ],
+   "referencias": []
+  },
+  {
+   "id": "grc-creta",
+   "pais_iso3": "GRC",
+   "ciudad": "Κρήτη (Creta)",
+   "estado": "",
+   "zona": "Toda la isla",
+   "lat": 35.24,
+   "lon": 24.81,
+   "radio_km": 130,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Chania",
+    "Rethymno",
+    "Heraklion",
+    "Agios Nikolaos"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "grc-jonicas",
+   "pais_iso3": "GRC",
+   "ciudad": "Ιόνια νησιά (Jónicas)",
+   "estado": "",
+   "zona": "Corfú, Kefalonia, Zakynthos, Lefkada",
+   "lat": 38.9,
+   "lon": 20.4,
+   "radio_km": 150,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Corfu",
+    "Kefalonia",
+    "Zakynthos",
+    "Lefkada"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "grc-dodecaneso",
+   "pais_iso3": "GRC",
+   "ciudad": "Δωδεκάνησα (Dodecaneso)",
+   "estado": "",
+   "zona": "Rodas, Kos y otras",
+   "lat": 36.43,
+   "lon": 28.22,
+   "radio_km": 100,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Rhodes",
+    "Kos",
+    "Patmos"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "grc-sporadas",
+   "pais_iso3": "GRC",
+   "ciudad": "Σποράδες (Espóradas) y Egeo norte",
+   "estado": "",
+   "zona": "Skiathos, Skopelos, Lesbos, Quíos",
+   "lat": 39.16,
+   "lon": 23.49,
+   "radio_km": 150,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Skiathos",
+    "Skopelos",
+    "Lesvos",
+    "Chios"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-mcallen",
+   "pais_iso3": "USA",
+   "ciudad": "McAllen, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 26.203,
+   "lon": -98.23,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "McAllen, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-dallas",
+   "pais_iso3": "USA",
+   "ciudad": "Dallas, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 32.777,
+   "lon": -96.797,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Dallas, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-fortworth",
+   "pais_iso3": "USA",
+   "ciudad": "Fort Worth, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 32.755,
+   "lon": -97.331,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Fort Worth, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-arlington",
+   "pais_iso3": "USA",
+   "ciudad": "Arlington, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 32.736,
+   "lon": -97.108,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Arlington, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-irving",
+   "pais_iso3": "USA",
+   "ciudad": "Irving, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 32.814,
+   "lon": -96.949,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Irving, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-plano",
+   "pais_iso3": "USA",
+   "ciudad": "Plano, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 33.02,
+   "lon": -96.699,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Plano, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-garland",
+   "pais_iso3": "USA",
+   "ciudad": "Garland, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 32.913,
+   "lon": -96.639,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Garland, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-frisco",
+   "pais_iso3": "USA",
+   "ciudad": "Frisco, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 33.151,
+   "lon": -96.824,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Frisco, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-legacy",
+   "pais_iso3": "USA",
+   "ciudad": "Legacy West (Plano), TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 33.078,
+   "lon": -96.826,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Legacy West (Plano), TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-addison",
+   "pais_iso3": "USA",
+   "ciudad": "Addison, TX",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 32.961,
+   "lon": -96.829,
+   "radio_km": 8,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Addison, TX"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-nyc",
+   "pais_iso3": "USA",
+   "ciudad": "New York, NY",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 40.713,
+   "lon": -74.006,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "New York, NY"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-chicago",
+   "pais_iso3": "USA",
+   "ciudad": "Chicago, IL",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 41.878,
+   "lon": -87.63,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Chicago, IL"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-baltimore",
+   "pais_iso3": "USA",
+   "ciudad": "Baltimore, MD",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 39.29,
+   "lon": -76.612,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Baltimore, MD"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-nashville",
+   "pais_iso3": "USA",
+   "ciudad": "Nashville, TN",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 36.163,
+   "lon": -86.781,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Nashville, TN"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "usa-indianapolis",
+   "pais_iso3": "USA",
+   "ciudad": "Indianapolis, IN",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 39.768,
+   "lon": -86.158,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Indianapolis, IN"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "can-toronto",
+   "pais_iso3": "CAN",
+   "ciudad": "Toronto, ON",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 43.653,
+   "lon": -79.383,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Toronto, ON"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "can-montreal",
+   "pais_iso3": "CAN",
+   "ciudad": "Montréal, QC",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 45.502,
+   "lon": -73.567,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Montréal, QC"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "can-ottawa",
+   "pais_iso3": "CAN",
+   "ciudad": "Ottawa, ON",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 45.421,
+   "lon": -75.697,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Ottawa, ON"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "can-quebec",
+   "pais_iso3": "CAN",
+   "ciudad": "Québec, QC",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 46.813,
+   "lon": -71.208,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Québec, QC"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "can-mississauga",
+   "pais_iso3": "CAN",
+   "ciudad": "Mississauga, ON",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 43.589,
+   "lon": -79.644,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Mississauga, ON"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "can-niagara",
+   "pais_iso3": "CAN",
+   "ciudad": "Niagara Falls, ON",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 43.09,
+   "lon": -79.085,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Niagara Falls, ON"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "isl",
+   "pais_iso3": "ISL",
+   "ciudad": "Ísland",
+   "estado": "",
+   "zona": "Toda la isla",
+   "lat": 64.96,
+   "lon": -19.02,
+   "radio_km": 260,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña",
+    "terreno"
+   ],
+   "colonias": [
+    "Reykjavík",
+    "Akureyri",
+    "Selfoss",
+    "Hveragerði",
+    "Ísafjörður",
+    "Egilsstaðir"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "lux",
+   "pais_iso3": "LUX",
+   "ciudad": "Luxembourg",
+   "estado": "",
+   "zona": "Todo el país",
+   "lat": 49.61,
+   "lon": 6.13,
+   "radio_km": 40,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Luxembourg"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "bel-bruselas",
+   "pais_iso3": "BEL",
+   "ciudad": "Bruxelles",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 50.85,
+   "lon": 4.352,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Bruxelles"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "bel-amberes",
+   "pais_iso3": "BEL",
+   "ciudad": "Antwerpen",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 51.219,
+   "lon": 4.402,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Antwerpen"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "bel-gante",
+   "pais_iso3": "BEL",
+   "ciudad": "Gent",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 51.054,
+   "lon": 3.717,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Gent"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "bel-brujas",
+   "pais_iso3": "BEL",
+   "ciudad": "Brugge",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 51.209,
+   "lon": 3.225,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Brugge"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nld-amsterdam",
+   "pais_iso3": "NLD",
+   "ciudad": "Amsterdam",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 52.37,
+   "lon": 4.895,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Amsterdam"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nld-rotterdam",
+   "pais_iso3": "NLD",
+   "ciudad": "Rotterdam",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 51.924,
+   "lon": 4.478,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Rotterdam"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nld-utrecht",
+   "pais_iso3": "NLD",
+   "ciudad": "Utrecht",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 52.091,
+   "lon": 5.121,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Utrecht"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "nld-lahaya",
+   "pais_iso3": "NLD",
+   "ciudad": "Den Haag",
+   "estado": "",
+   "zona": "Ciudad y costa",
+   "lat": 52.07,
+   "lon": 4.3,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Den Haag"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "dnk-copenhague",
+   "pais_iso3": "DNK",
+   "ciudad": "København",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 55.676,
+   "lon": 12.568,
+   "radio_km": 12,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "København"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "dnk-aarhus",
+   "pais_iso3": "DNK",
+   "ciudad": "Aarhus",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 56.162,
+   "lon": 10.204,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Aarhus"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "dnk-skagen",
+   "pais_iso3": "DNK",
+   "ciudad": "Skagen",
+   "estado": "",
+   "zona": "Punta norte (turística)",
+   "lat": 57.72,
+   "lon": 10.584,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Skagen"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "pol-varsovia",
+   "pais_iso3": "POL",
+   "ciudad": "Warszawa",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 52.23,
+   "lon": 21.012,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Warszawa"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "pol-cracovia",
+   "pais_iso3": "POL",
+   "ciudad": "Kraków",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 50.065,
+   "lon": 19.945,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Kraków"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "pol-gdansk",
+   "pais_iso3": "POL",
+   "ciudad": "Gdańsk / Sopot / Gdynia",
+   "estado": "",
+   "zona": "Tricity (Báltico)",
+   "lat": 54.4,
+   "lon": 18.6,
+   "radio_km": 20,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Gdańsk / Sopot / Gdynia"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "pol-breslavia",
+   "pais_iso3": "POL",
+   "ciudad": "Wrocław",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 51.108,
+   "lon": 17.039,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Wrocław"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "pol-poznan",
+   "pais_iso3": "POL",
+   "ciudad": "Poznań",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 52.407,
+   "lon": 16.93,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Poznań"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "pol-zakopane",
+   "pais_iso3": "POL",
+   "ciudad": "Zakopane",
+   "estado": "",
+   "zona": "Montaña (turística)",
+   "lat": 49.299,
+   "lon": 19.95,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "cabaña"
+   ],
+   "colonias": [
+    "Zakopane"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "est-tallin",
+   "pais_iso3": "EST",
+   "ciudad": "Tallinn",
+   "estado": "",
+   "zona": "Ciudad y costa",
+   "lat": 59.437,
+   "lon": 24.754,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Tallinn"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "est-parnu",
+   "pais_iso3": "EST",
+   "ciudad": "Pärnu",
+   "estado": "",
+   "zona": "Costa báltica",
+   "lat": 58.385,
+   "lon": 24.497,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Pärnu"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "lva-riga",
+   "pais_iso3": "LVA",
+   "ciudad": "Rīga",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 56.95,
+   "lon": 24.105,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Rīga"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "lva-jurmala",
+   "pais_iso3": "LVA",
+   "ciudad": "Jūrmala",
+   "estado": "",
+   "zona": "Costa báltica",
+   "lat": 56.968,
+   "lon": 23.77,
+   "radio_km": 10,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Jūrmala"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ltu-vilna",
+   "pais_iso3": "LTU",
+   "ciudad": "Vilnius",
+   "estado": "",
+   "zona": "Ciudad",
+   "lat": 54.687,
+   "lon": 25.28,
+   "radio_km": 15,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Vilnius"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "ltu-klaipeda",
+   "pais_iso3": "LTU",
+   "ciudad": "Klaipėda y Palanga",
+   "estado": "",
+   "zona": "Costa báltica",
+   "lat": 55.8,
+   "lon": 21.1,
+   "radio_km": 20,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa"
+   ],
+   "colonias": [
+    "Klaipėda",
+    "Palanga",
+    "Neringa"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "esp-mallorca",
+   "pais_iso3": "ESP",
+   "ciudad": "Mallorca",
+   "estado": "",
+   "zona": "Toda la isla",
+   "lat": 39.62,
+   "lon": 2.98,
+   "radio_km": 60,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Palma",
+    "Port d'Andratx",
+    "Sóller",
+    "Pollença",
+    "Santanyí"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "esp-menorca",
+   "pais_iso3": "ESP",
+   "ciudad": "Menorca",
+   "estado": "",
+   "zona": "Toda la isla",
+   "lat": 39.95,
+   "lon": 4.11,
+   "radio_km": 30,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Maó",
+    "Ciutadella",
+    "Es Castell"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "esp-ibiza",
+   "pais_iso3": "ESP",
+   "ciudad": "Ibiza",
+   "estado": "",
+   "zona": "Toda la isla",
+   "lat": 38.98,
+   "lon": 1.43,
+   "radio_km": 25,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Eivissa",
+    "Santa Eulària des Riu",
+    "Sant Josep",
+    "Sant Antoni"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "esp-tenerife",
+   "pais_iso3": "ESP",
+   "ciudad": "Tenerife",
+   "estado": "",
+   "zona": "Toda la isla",
+   "lat": 28.29,
+   "lon": -16.63,
+   "radio_km": 50,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Santa Cruz de Tenerife",
+    "Adeje",
+    "Los Cristianos",
+    "Puerto de la Cruz"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "esp-laspalmas",
+   "pais_iso3": "ESP",
+   "ciudad": "Las Palmas de Gran Canaria",
+   "estado": "",
+   "zona": "Gran Canaria",
+   "lat": 27.96,
+   "lon": -15.59,
+   "radio_km": 45,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa"
+   ],
+   "colonias": [
+    "Las Palmas",
+    "Maspalomas",
+    "Mogán"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "esp-canarias",
+   "pais_iso3": "ESP",
+   "ciudad": "Islas Canarias (otras)",
+   "estado": "",
+   "zona": "Lanzarote, Fuerteventura, La Palma, La Gomera",
+   "lat": 28.6,
+   "lon": -15.0,
+   "radio_km": 220,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Lanzarote",
+    "Fuerteventura",
+    "La Palma",
+    "La Gomera",
+    "El Hierro"
+   ],
+   "riesgos": [],
+   "referencias": []
+  },
+  {
+   "id": "mne-costa",
+   "pais_iso3": "MNE",
+   "ciudad": "Costa de Montenegro",
+   "estado": "",
+   "zona": "Costa del Adriático (Herceg Novi a Ulcinj)",
+   "lat": 42.28,
+   "lon": 18.84,
+   "radio_km": 70,
+   "precision": "zona",
+   "tipos": [
+    "departamento",
+    "casa",
+    "villa",
+    "terreno"
+   ],
+   "colonias": [
+    "Herceg Novi",
+    "Kotor",
+    "Tivat",
+    "Budva",
+    "Bar",
+    "Ulcinj"
+   ],
+   "riesgos": [],
+   "referencias": []
+  }
+ ]
+}

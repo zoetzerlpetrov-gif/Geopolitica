@@ -44,3 +44,31 @@ test("filtro y html escapan texto", () => {
   assert.ok(!h.includes("<script>x"));
   assert.match(h, /data-evaluar=/);
 });
+
+const mundo = JSON.parse(readFileSync(new URL("../../config/inmuebles_zonas_mundo.json", import.meta.url)));
+
+test("mundo: todos los países pedidos, ids únicos con México, idioma y portales por país", () => {
+  const pedidos = ["ARE", "ITA", "MLT", "FRA", "CHE", "AUT", "SMR", "RUS", "NOR", "SWE", "FIN", "DEU", "LIE", "GRC", "USA", "CAN", "ISL", "LUX", "BEL", "NLD", "DNK", "POL", "EST", "LVA", "LTU", "ESP", "MNE"];
+  const enZonas = new Set(mundo.zonas.map((z) => z.pais_iso3));
+  for (const iso of pedidos) { assert.ok(enZonas.has(iso), iso); assert.ok(mundo.paises[iso].portales.length >= 2, iso); assert.ok(mundo.venta[mundo.paises[iso].idioma], iso); }
+  const u = Z.unirCatalogos(cat, mundo);
+  assert.equal(new Set(u.zonas.map((z) => z.id)).size, u.zonas.length);
+  for (const z of mundo.zonas) {
+    assert.ok(Math.abs(z.lat) <= 90 && Math.abs(z.lon) <= 180 && z.radio_km > 0, z.id);
+    for (const t of z.tipos) assert.ok(mundo.tipos_idioma[mundo.paises[z.pais_iso3].idioma][t], `${z.id} ${t}`);
+  }
+  for (const c of ["Positano", "Taormina", "Zermatt", "Hallstatt", "Courchevel", "Frisco, TX", "Niagara Falls, ON", "Rovaniemi"]) assert.ok(mundo.zonas.some((z) => z.ciudad === c), c);
+  assert.ok(mundo.zonas.some((z) => z.id === "rus-anapa" && z.radio_km >= 10));
+});
+
+test("mundo: búsqueda en el idioma del país y nombre del país en la tarjeta", () => {
+  const u = Z.unirCatalogos(cat, mundo);
+  const z = u.zonas.find((x) => x.id === "ita-positano");
+  const l = Z.enlacesZona(z, u.paises.ITA.portales, { tipo: "departamento", idioma: u.idiomaDe("ITA") });
+  assert.match(decodeURIComponent(l[0][1]), /site:immobiliare\.it appartamento vendita Positano/);
+  assert.equal(u.idiomaDe("MEX"), null);
+  const h = Z.htmlZona(z, u.paises.ITA.portales, [], "", { idioma: u.idiomaDe("ITA"), pais: u.paises.ITA, compra: "Prueba" });
+  assert.match(h, /Italia · <b>Positano/);
+  assert.match(h, /Para una persona mexicana:<\/b> Prueba/);
+  assert.equal(Z.filtrarZonas(u, { pais: "AUT" }).length, 3);
+});

@@ -37,7 +37,7 @@
     <nav class="pestanas" role="tablist" aria-label="Secciones">
       <button role="tab" aria-selected="true" data-p="evaluar">🧭 Evaluar una ubicación</button>
       <button role="tab" aria-selected="false" data-p="desarrollos">🏗️ Desarrollos en seguimiento</button>
-      <button role="tab" aria-selected="false" data-p="zonas">📍 Zonas México</button>
+      <button role="tab" aria-selected="false" data-p="zonas">📍 Zonas en seguimiento</button>
       <button role="tab" aria-selected="false" data-p="lista">⭐ Mi lista</button>
       <button role="tab" aria-selected="false" data-p="fuentes">🌍 Fuentes por país (20)</button>
     </nav>
@@ -84,6 +84,7 @@
     <section class="panel" id="p-zonas" hidden>
       <p class="meta" id="zo-nota"></p>
       <div class="barra" style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+        <label>País <select id="zo-pais"><option value="">Elige un país</option></select></label>
         <label>Ciudad <select id="zo-ciudad"><option value="">Todas</option></select></label>
         <label>Tipo <select id="zo-tipo"><option value="">Todos</option></select></label></div>
       <div id="zo-lista"></div>
