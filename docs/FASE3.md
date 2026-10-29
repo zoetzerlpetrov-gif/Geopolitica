@@ -44,6 +44,8 @@ Abrir **http://127.0.0.1:8000** en ese mismo equipo. El servicio se enlaza a loo
 
 Crear otros usuarios con el mismo comando `provision`, cambiando usuario, organización y rol; cada archivo de salida debe ser nuevo. Los roles son owner, analyst, reviewer y viewer. Si el usuario ya existe, el propietario puede asignarlo a otra organización desde Administración; no se crea una segunda identidad por nombre.
 
+La interfaz borra los datos privados renderizados y los campos de formularios al cerrar sesión o recibir una respuesta de sesión no válida; cambiar de expediente limpia evidencias del anterior. Antes de descartar un formulario editado pide confirmación. Esto no puede retirar archivos ya descargados ni datos que un receptor autorizado haya copiado.
+
 ### Acceso desde distintos equipos
 
 La base compartida funciona desde varios clientes del mismo servidor, pero la configuración incluida solo escucha en loopback. Para una red o Internet hay que disponer de un host bajo control del propietario, un nombre DNS y TLS válido. Configurar un proxy HTTPS, establecer PUBLIC_ORIGIN con el origen exacto y ALLOW_LOCAL_HTTP=0, y reiniciar. Solo el proxy debe poder llegar al puerto de API; la base no tiene un puerto publicado. No habilitar CORS ni exponer HTTP de desarrollo para simular colaboración pública. El despliegue público no se realiza automáticamente ni se contrata alojamiento.
@@ -113,7 +115,7 @@ La restauración rechaza bases no vacías, archivos alterados y claves incorrect
 
 Enviar a papelera exige propietario y confirmación del ID; deshabilita vigilancias. Conservación por caso de 1–3650 días tras la papelera, con bloqueo de conservación que impide purga. El worker elimina datos del caso solo cuando vence ese plazo y no hay bloqueo; queda evento de purga sin contenido documental. Las copias antiguas conservan su ciclo de siete archivos y requieren una política propia para archivos externos.
 
-Restaurar de papelera mediante API autenticada `POST /api/orgs/{org}/cases/{id}/restore`; propietario, mismo origen y CSRF. Conserva vigilancias pausadas. No hay endpoint HTTP de borrado inmediato de toda la base.
+Restaurar desde Administración → Consultar papelera → Restaurar expediente (propietario), o mediante API autenticada `POST /api/orgs/{org}/cases/{id}/restore`; propietario, mismo origen y CSRF. Conserva vigilancias pausadas. No hay endpoint HTTP de borrado inmediato de toda la base.
 
 La auditoría registra actor, acción, objeto y fecha, sin copiar consultas ni secretos. Cadena HMAC por organización con bloqueo transaccional: detecta cambios sin la clave, pero no es WORM ni prueba independiente contra el administrador que controla claves y base. Integrar sellado externo o almacenamiento inmutable si el uso exige esa garantía.
 
@@ -124,6 +126,8 @@ docker compose exec api python -m dominus.cli reset-user --username analista --o
 ```
 
 Regenera contraseña y TOTP, revoca sesiones y registra recuperación; verificar identidad del solicitante por el procedimiento del operador antes de ejecutarlo. Entregar el archivo por un canal bajo control del propietario y retirarlo del servidor. No es recuperación anónima ni por correo automático.
+
+Para suspender una cuenta, el operador ejecuta `python -m dominus.cli disable-user --username usuario`; revoca todas sus sesiones, incluidas las creadas por SSO. `enable-user` permite volver a iniciar sesión, sin restaurar sesiones anteriores. La administración global de cuentas se limita al operador, no a propietarios de un solo cliente.
 
 Las claves de proveedores se cambian en Administración por el propietario, sin volver a devolver el valor. No usar la bóveda como activación de licencias ni como almacén general de claves privadas. Para rotar MASTER_KEY: detener API/worker/backups, hacer copia recuperable, ejecutar offline `python -m dominus.cli rotate-master` con la clave anterior en MASTER_KEY y la nueva en NEW_MASTER_KEY, actualizar el entorno y reiniciar. Recifra todos los campos protegidos y la cadena HMAC y revoca sesiones. Custodiar las claves antiguas necesarias para copias antiguas; la rotación no recifra retroactivamente archivos externos. La operación requiere mantenimiento; no es rotación sin interrupción ni KMS/HSM administrado.
 
@@ -138,7 +142,7 @@ La prueba real del flujo SSO con un proveedor concreto requiere su cliente y con
 - Suite existente Python y JavaScript sin retirar pruebas anteriores.
 - `PYTHONPATH=backend python -m pytest backend/checks_backend.py backend/checks_c2pa.py backend/checks_http.py -q` con dependencias del backend más pytest/Pillow.
 - Workflow separado con SQLite y PostgreSQL/PostGIS real, construcción de imagen Docker y aceptación del stack efímero completo por HTTP: MFA, persistencia tras reiniciar API y verificador C2PA por socket, sin red ni secretos del backend.
-- Flujo HTTP real con Uvicorn: acceso MFA, creación/lectura, CSRF y cierre de sesión. Pruebas de separación de clientes con ID conocido, permisos por caso, expiración/revocación, MFA/replay, CSRF/Host, conflictos de edición, revisión independiente, secretos, auditoría alterada, respaldo/restauración/rotación y conservación.
+- Flujo HTTP real con Uvicorn: acceso MFA, creación/lectura, CSRF y cierre de sesión. Pruebas de ediciones simultáneas, conservación de al menos un propietario ante cambios concurrentes de roles en PostgreSQL, restauración de geometrías e índices de auditoría, y separación de clientes con ID conocido, permisos por caso, expiración/revocación, MFA/replay, CSRF/Host, conflictos de edición, revisión independiente, secretos, auditoría alterada, respaldo/restauración/rotación y conservación.
 - Conectores: contratos de formatos, paginación/continuación, cambios y errores, cuotas, destinos fijos, rechazo XXE y antigüedad. El monitor consulta servicios reales y muestra fallos individuales.
 - Navegador: página pública de fuentes. La instalación privada requiere un host accesible al navegador; las pruebas de API no sustituyen una aceptación de usuario del despliegue final.
 

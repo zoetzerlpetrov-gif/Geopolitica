@@ -112,11 +112,11 @@ def membership(s, org, actor, roles=ROLES):
     return m
 
 
-def case_permission(s, case_id, org, actor, permission='read', include_deleted=False):
+def case_permission(s, case_id, org, actor, permission='read', include_deleted=False, lock=False):
     m = membership(s, org, actor)
     if permission == 'write' and m.role not in ('owner', 'analyst'):
         raise HTTPException(403, 'Rol sin escritura.')
-    case = s.get(Case, case_id)
+    case = s.execute(select(Case).where(Case.id == case_id).with_for_update()).scalar_one_or_none() if lock else s.get(Case, case_id)
     if not case or case.org != org or (case.deleted_at and not include_deleted):
         raise HTTPException(404, 'Expediente no disponible.')
     if m.role == 'owner' or case.owner == actor['id']:

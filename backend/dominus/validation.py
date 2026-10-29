@@ -20,7 +20,7 @@ def document(value):
     for phase, raw in value.items():
         if raw is None:
             continue
-        if not isinstance(raw, dict) or raw.get('version') != (1 if phase == 'fase1' else 2):
+        if not isinstance(raw, dict) or type(raw.get('version')) is not int or raw.get('version') != (1 if phase == 'fase1' else 2):
             raise ValueError('Versión documental incompatible.')
         tipos = SCHEMA['fase1']['tipos'] if phase == 'fase1' else SCHEMA['fase2']
         if set(raw) - set(tipos) - {'version', 'actualizado'}:

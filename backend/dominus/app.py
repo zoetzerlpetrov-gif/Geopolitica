@@ -191,6 +191,7 @@ def create_app(settings=None):
     @app.put('/api/orgs/{org}/members')
     def member(org: str, body: Member, a=Depends(actor)):
         with store.tx() as s:
+            s.execute(select(Organization).where(Organization.id == org).with_for_update()).scalar_one_or_none()
             membership(s, org, a, {'owner'})
             u = s.execute(select(User).where(User.username == body.username)).scalar_one_or_none()
             if not u:
@@ -325,7 +326,7 @@ def create_app(settings=None):
     def policy(org: str, cid: str, body: Policy, a=Depends(actor)):
         with store.tx() as s:
             membership(s, org, a, {'owner'})
-            c = case_permission(s, cid, org, a, include_deleted=True)
+            c = case_permission(s, cid, org, a, include_deleted=True, lock=True)
             c.hold, c.retention_days = body.hold, body.retention_days
             lifecycle(c, 'policy', body.reason, a['id'])
             audit(store, s, org, a['id'], 'retention.changed', cid)
@@ -335,7 +336,7 @@ def create_app(settings=None):
     def trash(org: str, cid: str, body: Confirmation, a=Depends(actor)):
         with store.tx() as s:
             membership(s, org, a, {'owner'})
-            c = case_permission(s, cid, org, a)
+            c = case_permission(s, cid, org, a, lock=True)
             if c.hold or body.confirmation != cid:
                 raise HTTPException(409, 'Bloqueado por conservación o falta confirmación del ID.')
             c.deleted_at = time.time()
@@ -345,11 +346,17 @@ def create_app(settings=None):
             audit(store, s, org, a['id'], 'case.trashed', cid)
         return {'ok': True, 'message': 'Papelera; eliminación diferida conforme a la retención.'}
 
+    @app.get('/api/orgs/{org}/trash')
+    def trash_list(org: str, a=Depends(actor)):
+        with store.tx() as s:
+            membership(s, org, a, {'owner'})
+            return [{'id': c.id, 'title': c.title, 'hold': c.hold, 'purge_after': c.deleted_at + c.retention_days * 86400} for c in s.execute(select(Case).where(Case.org == org, Case.deleted_at.is_not(None)).order_by(Case.deleted_at.desc()).limit(200)).scalars()]
+
     @app.post('/api/orgs/{org}/cases/{cid}/restore')
     def restore(org: str, cid: str, a=Depends(actor)):
         with store.tx() as s:
             membership(s, org, a, {'owner'})
-            c = case_permission(s, cid, org, a, include_deleted=True)
+            c = case_permission(s, cid, org, a, include_deleted=True, lock=True)
             c.deleted_at = None
             lifecycle(c, 'restore', 'Restauración explícita de papelera', a['id'])
             audit(store, s, org, a['id'], 'case.restored', cid)

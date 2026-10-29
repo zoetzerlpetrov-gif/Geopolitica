@@ -6,7 +6,7 @@ import time
 from sqlalchemy import delete, select
 from .config import Settings
 from .connectors import BudgetError, PublicHTTP, SOURCES, fetch_source, fingerprint
-from .db import Cache, Case, CaseAccess, Observation, Quota, Revision, Store, Watch, Area, CaseReview
+from .db import Cache, Case, CaseAccess, Observation, Quota, Revision, Store, Watch, Area, CaseReview, Session, LoginAttempt
 from .security import audit
 
 
@@ -67,7 +67,7 @@ def collect(store, watch):
 def process_one(store, collector=collect, now=None):
     now = now or time.time()
     with store.tx() as s:
-        row = s.execute(select(Watch).join(Case, Watch.case == Case.id).where(Watch.enabled.is_(True), Watch.due <= now, Watch.lease_until <= now, Case.deleted_at.is_(None)).order_by(Watch.due).with_for_update(skip_locked=True).limit(1)).scalar_one_or_none()
+        row = s.execute(select(Watch).join(Case, Watch.case == Case.id).where(Watch.enabled.is_(True), Watch.due <= now, Watch.lease_until <= now, Case.deleted_at.is_(None)).order_by(Watch.due).with_for_update(of=Watch, skip_locked=True).limit(1)).scalar_one_or_none()
         if not row:
             return False
         row.lease_until = now + 900
@@ -80,7 +80,9 @@ def process_one(store, collector=collect, now=None):
         result = collector(store, watch)
         digest = fingerprint(result)
         with store.tx() as s:
-            row = s.execute(select(Watch).where(Watch.id == watch_id).with_for_update()).scalar_one()
+            row = s.execute(select(Watch).where(Watch.id == watch_id).with_for_update()).scalar_one_or_none()
+            if row is None:
+                return True
             case = s.get(Case, row.case)
             if case.deleted_at or not row.enabled:
                 row.lease_until = 0
@@ -99,6 +101,8 @@ def process_one(store, collector=collect, now=None):
         # Sin registrar consultas, datos del caso, tokens o errores remotos completos.
         with store.tx() as s:
             row = s.get(Watch, watch_id)
+            if row is None:
+                return True
             row.failures += 1
             row.status = 'quota' if isinstance(exc, BudgetError) else 'error'
             row.last_error = type(exc).__name__ + ': revisar disponibilidad, cuota o esquema de la fuente'
@@ -124,6 +128,8 @@ def purge(store, now=None):
             audit(store, s, case.org, 'worker', 'case.purged', case.id)
             s.delete(case)
         s.execute(delete(Cache).where(Cache.expires < now))
+        s.execute(delete(Session).where(Session.expires < now))
+        s.execute(delete(LoginAttempt).where(LoginAttempt.window < now - 2 * 86400))
 
 
 def main():

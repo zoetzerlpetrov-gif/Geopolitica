@@ -230,7 +230,8 @@ def test_hold_soft_delete_restore_purge(env):
     purge(store, now=time.time() + 2 * 86400)
     with store.tx() as s:
         assert s.get(Case, cid) is None
-    assert c['owner'].get('/api/orgs/o1/audit').json()['chain_valid']
+    with store.tx() as s:
+        assert verify_audit(store, s.execute(select(Audit).where(Audit.org == 'o1').order_by(Audit.id)).scalars().all())
 
 
 def test_watch_opsec_limits_retry_preserves_last_result(env):
@@ -425,3 +426,97 @@ def test_ofac_only_accepts_its_exact_published_storage(monkeypatch):
     h = PublicHTTP(client=httpx.Client(transport=httpx.MockTransport(lambda r: httpx.Response(302, headers={'location': 'https://evil.example/Published/SDN.XML'}))))
     with pytest.raises(ConnectorError):
         h.request('GET', OFAC)
+
+
+def test_two_concurrent_edits_only_one_commits(env):
+    from concurrent.futures import ThreadPoolExecutor
+    import threading
+    _, _, c, _, _ = env
+    cid = create(c['analyst'])
+    barrier = threading.Barrier(2)
+    def edit(name):
+        barrier.wait(timeout=5)
+        return c[name].put(endpoint(cid), json={'version': 1, 'data': {}, 'reason': 'Edición simultánea ' + name}).status_code
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(edit, n) for n in ('analyst', 'owner')]
+        results = [f.result(timeout=10) for f in futures]
+    assert sorted(results) == [200, 409]
+    assert c['owner'].get(endpoint(cid)).json()['version'] == 2
+    assert len(c['owner'].get(endpoint(cid, '/revisions')).json()) == 2
+
+
+def test_postgres_owner_demotion_cannot_remove_every_owner(env):
+    from concurrent.futures import ThreadPoolExecutor
+    import threading
+    _, store, c, _, _ = env
+    if store.engine.dialect.name != 'postgresql':
+        pytest.skip('Concurrencia de roles se verifica en PostgreSQL, base de producción.')
+    with store.tx() as s:
+        s.add(Membership(org='o1', user='other', role='owner'))
+    barrier = threading.Barrier(2)
+    def demote(actor, target):
+        barrier.wait(timeout=5)
+        return c[actor].put('/api/orgs/o1/members', json={'username': target, 'role': 'viewer'}).status_code
+    with ThreadPoolExecutor(max_workers=2) as pool:
+        futures = [pool.submit(demote, 'owner', 'other'), pool.submit(demote, 'other', 'owner')]
+        results = [f.result(timeout=10) for f in futures]
+    assert sorted(results) == [200, 403]
+    with store.tx() as s:
+        assert len(s.execute(select(Membership).where(Membership.org == 'o1', Membership.role == 'owner')).scalars().all()) == 1
+
+
+def test_watch_removed_during_fetch_exits_without_crashing(env):
+    _, store, c, _, _ = env
+    cid = create(c['analyst'])
+    response = c['analyst'].post(endpoint(cid, '/watches'), json={'source': 'ofac', 'parameters': {'query': 'QA Empresa'}, 'interval': 86400, 'acknowledge_external': True})
+    wid = response.json()['id']
+    def collector(store, watch):
+        with store.tx() as s:
+            s.delete(s.get(Watch, watch.id))
+        return {'datos': {'resultados': []}, 'parcial': False}
+    assert process_one(store, collector)
+    with store.tx() as s:
+        assert s.get(Watch, wid) is None
+
+
+def test_full_restore_rebuilds_geometry_and_audit_sequence(env):
+    _, store, c, _, _ = env
+    cid = create(c['owner'])
+    geo = {'type': 'Polygon', 'coordinates': [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]]}
+    r = c['owner'].post(endpoint(cid, '/areas'), json={'title': 'Área restaurable', 'geojson': geo})
+    assert r.status_code == 200
+    blob = export_all(store)
+    Base.metadata.drop_all(store.engine)
+    store.initialize()
+    counts = restore_all(store, blob)
+    assert counts['areas'] == 1
+    with store.tx() as s:
+        if store.engine.dialect.name == 'postgresql':
+            from sqlalchemy import text
+            assert s.execute(text('SELECT count(*) FROM areas WHERE ST_Intersects(geom,ST_MakeEnvelope(0,0,1,1,4326))')).scalar_one() == 1
+        from dominus.security import audit
+        audit(store, s, 'o1', 'operator', 'backup.restore_test', cid)
+        assert verify_audit(store, s.execute(select(Audit).where(Audit.org == 'o1').order_by(Audit.id)).scalars().all())
+
+
+def test_disabled_account_revokes_sessions_and_cannot_read_cases(env):
+    from dominus.cli import set_user_active
+    _, store, c, _, _ = env
+    cid = create(c['analyst'])
+    set_user_active(store, 'analyst', False)
+    assert c['analyst'].get('/api/me').status_code == 401
+    assert c['analyst'].get(endpoint(cid)).status_code == 401
+    set_user_active(store, 'analyst', True)
+    assert c['analyst'].get('/api/me').status_code == 401
+
+
+def test_trash_list_is_owner_only_and_restore_preserves_data(env):
+    _, _, c, _, _ = env
+    cid = create(c['owner'])
+    c['owner'].post(endpoint(cid, '/trash'), json={'confirmation': cid, 'reason': 'Prueba de recuperación'})
+    assert c['analyst'].get('/api/orgs/o1/trash').status_code == 403
+    assert c['other'].get('/api/orgs/o1/trash').status_code == 403
+    assert c['owner'].get('/api/orgs/o1/trash').json()[0]['id'] == cid
+    assert c['owner'].post(endpoint(cid, '/restore')).status_code == 200
+    assert c['owner'].get('/api/orgs/o1/trash').json() == []
+    assert c['owner'].get(endpoint(cid)).json()['data'] == {}

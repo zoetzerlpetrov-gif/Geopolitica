@@ -50,6 +50,15 @@ def provision(store, org_name, username, role='owner', output=None):
         return {'id': user_id, 'org': org.id, 'username': username}
 
 
+def set_user_active(store, username, active):
+    with store.tx() as s:
+        user = s.execute(select(User).where(User.username == username).with_for_update()).scalar_one()
+        user.active = active
+        s.execute(delete(Session).where(Session.user == user.id))
+        for m in s.execute(select(Membership).where(Membership.user == user.id)).scalars():
+            audit(store, s, m.org, 'operator', 'user.enabled' if active else 'user.disabled', user.id)
+
+
 def rotate_master(store, new_key):
     cfg = Settings(database_url=store.settings.database_url, origin=store.settings.origin, master_key=new_key,
                    backup_key=store.settings.backup_key, allow_local_http=store.settings.allow_local_http).validate()
@@ -100,6 +109,9 @@ def main():
     reset = sub.add_parser('reset-user')
     reset.add_argument('--username', required=True)
     reset.add_argument('--output', required=True)
+    for action in ('disable-user', 'enable-user'):
+        status_p = sub.add_parser(action)
+        status_p.add_argument('--username', required=True)
     sub.add_parser('rotate-master')
     oidc = sub.add_parser('link-sso')
     oidc.add_argument('--username', required=True)
@@ -127,6 +139,9 @@ def main():
             for m in s.execute(select(Membership).where(Membership.user == user.id)).scalars():
                 audit(store, s, m.org, 'operator', 'credentials.reset', user.id)
         print('Credenciales regeneradas y sesiones revocadas; archivo privado creado.')
+    elif a.action in ('disable-user', 'enable-user'):
+        set_user_active(store, a.username, a.action == 'enable-user')
+        print('Estado de cuenta actualizado y sesiones revocadas.')
     elif a.action == 'rotate-master':
         rotate_master(store, os.environ.get('NEW_MASTER_KEY', ''))
         print('Datos recifrados y sesiones revocadas. Actualiza MASTER_KEY y reinicia API/worker; conserva las claves antiguas para copias antiguas.')
@@ -135,7 +150,10 @@ def main():
             raise ValueError('Configura OIDC_ISSUER antes de vincular un sub.')
         with store.tx() as s:
             user = s.execute(select(User).where(User.username == a.username)).scalar_one()
-            user.oidc_subject = store.settings.oidc_issuer + '|' + a.subject
+            subject = store.settings.oidc_issuer + '|' + a.subject
+            if not a.subject or len(subject) > 300 or '\x00' in subject:
+                raise ValueError('Subject OIDC inválido o demasiado largo.')
+            user.oidc_subject = subject
             s.execute(delete(Session).where(Session.user == user.id))
         print('Identidad SSO vinculada; no se concede membresía por email ni por claims de organización.')
 
