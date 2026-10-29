@@ -83,7 +83,7 @@ const vistaLista = (async () => {
     if (req && s && !d.hidden) bloquear(s, req);
   }
   for (const a of document.querySelectorAll("a[href]")) {
-    const req = LIC.planFaltante(planes, plan, "paginas", (a.getAttribute("href") || "").split(/[?#]/)[0]);
+    const req = !a.classList.contains("enlace-bloqueado") && LIC.planFaltante(planes, plan, "paginas", (a.getAttribute("href") || "").split(/[?#]/)[0]);
     if (!req) continue;
     a.classList.add("enlace-bloqueado");
     a.textContent = `🔒 ${a.textContent.trim()} · plan ${req.nombre}`;

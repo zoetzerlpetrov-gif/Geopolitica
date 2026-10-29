@@ -30,7 +30,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: Geocodificar y verificar
-        run: python3 -u tools/inmuebles_geo.py --max "${{ github.event.inputs.max || '2000' }}"
+        # El dato del formulario pasa por una variable y se valida como número: nunca se pega dentro del comando.
+        env:
+          MAX: ${{ github.event.inputs.max || '2000' }}
+        run: |
+          case "$MAX" in ''|*[!0-9]*) echo "max debe ser un número" >&2; exit 1;; esac
+          python3 -u tools/inmuebles_geo.py --max "$MAX"
       - name: Guardar cambios en la rama
         run: |
           git config user.name "geopolitica-bot"
