@@ -68,7 +68,10 @@ const vistaLista = (async () => {
     a.href = `planes.html?plan=${plan}#${req.id}`;
   }
   document.querySelector('a[href="tutorial.html"]')?.insertAdjacentHTML("beforebegin", `<a href="planes.html?plan=${esc(plan)}">💳 Planes y precios</a>`);
-  document.querySelector(".marca")?.insertAdjacentHTML("beforeend", `<span class="chip vista-pago" title="Simulación: así lo ve quien paga este plan">Plan ${esc(nombrePlan)}</span>`);
+  // Selector para cambiar de plan simulado sin escribir enlaces (recarga con ?vista=pago&plan=…).
+  document.querySelector(".marca")?.insertAdjacentHTML("afterend", `<label class="vista-pago" title="Simulación: así lo ve quien paga este plan">Plan
+    <select id="sel-plan-pago">${planes.planes.map((p) => `<option value="${esc(p.id)}"${p.id === plan ? " selected" : ""}>${esc(p.nombre)}</option>`).join("")}</select></label>`);
+  document.getElementById("sel-plan-pago")?.addEventListener("change", (e) => { location.search = `?vista=pago&plan=${encodeURIComponent(e.target.value)}`; });
   return r;
 })().catch((e) => { console.error("vista de pago", e); return null; });
 
