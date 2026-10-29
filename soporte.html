@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Soporte DOMINUS</title>
+  <meta name="description" content="Informe de errores de este navegador para enviarlo a soporte: qué página falló y qué datos no cargaron, sin datos personales.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1080px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .ops h3 { font-size: 15px; margin: 12px 0 4px; }
+    .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .pestanas button { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .pestanas button[aria-selected="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    .panel[hidden] { display: none; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .ops textarea, .ops input[type=text], .ops input[type=number], .ops select { font: inherit; max-width: 100%; box-sizing: border-box; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .ops textarea { width: 100%; min-height: 110px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .btn { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+    .t td[contenteditable] { min-width: 80px; background: var(--surface-2); }
+    .desliza { overflow-x: auto; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .ciclo { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+    .ciclo div { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px; background: var(--surface); font-size: 13px; }
+    .rojo { background: rgba(183,28,28,.18); } .ambar { background: rgba(249,168,37,.25); } .verde { background: rgba(46,125,50,.18); }
+    .grande { font-size: 32px; font-weight: 700; }
+    .radar text { font-size: 10px; fill: var(--text); } .radar .malla { fill: none; stroke: var(--line); } .radar .area { fill: rgba(200,16,46,.25); stroke: #C8102E; stroke-width: 2; }
+    pre.sitrep { white-space: pre-wrap; background: var(--surface-2); padding: 10px; border-radius: var(--radius); font-size: 13px; }
+    .semaforo { display: inline-block; font-size: 22px; font-weight: 700; padding: 6px 14px; border-radius: 999px; }
+    .s-ok { background: rgba(46,125,50,.2); } .s-atraso { background: rgba(249,168,37,.3); } .s-falla { background: rgba(183,28,28,.25); } .s-sin_datos { background: var(--surface-2); }
+    tr.f-falla td:first-child { background: rgba(183,28,28,.18); } tr.f-atraso td:first-child, tr.f-aviso td:first-child { background: rgba(249,168,37,.25); } tr.f-ok td:first-child { background: rgba(46,125,50,.15); }
+    .hist { display: flex; gap: 3px; flex-wrap: wrap; } .hist .dia { width: 16px; height: 22px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>🛟 Soporte</h1>
+  </header>
+  <main class="ops">
+    <h2>Informe de errores de este navegador</h2>
+    <p>Si algo no carga o se ve mal, este navegador guarda una lista de los errores de los últimos 14 días: qué página falló y qué datos no llegaron.
+      Se guarda solo en tu equipo. Nadie lo recibe a menos que tú lo copies y lo envíes.</p>
+    <p class="meta">El informe incluye: fecha, página, tipo de error, navegador, tamaño de pantalla, idioma y plan. No incluye tus búsquedas, coordenadas,
+      ubicación, lugares guardados ni datos personales.</p>
+    <ol class="meta">
+      <li>Repite lo que falló (por ejemplo, abre la capa que no cargó).</li>
+      <li>Vuelve a esta página y pulsa «Copiar informe» o «Descargar».</li>
+      <li>Envíalo a soporte junto con una línea que diga qué estabas haciendo.</li>
+    </ol>
+    <div class="barra"><button type="button" id="sop-copiar">📋 Copiar informe</button><button type="button" id="sop-bajar">⬇️ Descargar (.txt)</button>
+      <button type="button" id="sop-borrar">🗑️ Borrar registro</button><span class="meta">Entradas: <b id="sop-n">0</b></span></div>
+    <p id="sop-aviso" class="meta" aria-live="polite"></p>
+    <pre class="sitrep" id="sop-texto"></pre>
+  </main>
+  <script type="module" src="js/soporte.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

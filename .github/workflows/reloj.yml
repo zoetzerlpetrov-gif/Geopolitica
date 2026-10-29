@@ -46,6 +46,12 @@ jobs:
           desde=$(date -u -d "-${ventana} minutes" +%Y-%m-%dT%H:%M:%SZ)
           n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/${wf}/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 0)
           if [ "$n" = "0" ]; then echo "Lanzando $wf"; gh workflow run "$wf" --ref main; else echo "$wf ya corrió en los últimos ${ventana} min: no se duplica"; fi
+          # Revisión diaria de procesos (estado.html): a las 13 h UTC, si su cron no corrió en las últimas 20 h.
+          if [ "$(date -u +%H)" = "13" ]; then
+            desde=$(date -u -d "-20 hours" +%Y-%m-%dT%H:%M:%SZ)
+            n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/estado-procesos.yml/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 1)
+            if [ "$n" = "0" ]; then echo "Lanzando estado-procesos.yml"; gh workflow run estado-procesos.yml --ref main; fi
+          fi
 
       - name: Programar el siguiente tic
         if: always()

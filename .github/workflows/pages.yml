@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html tutorial.html planes.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html tutorial.html planes.html estado.html soporte.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -66,6 +66,13 @@ jobs:
             git archive FETCH_HEAD autoauditoria | tar -x -C /tmp && cp /tmp/autoauditoria/*.json _site/data/autoauditoria/
           else
             echo "Aún no existe la rama datos-auditoria"
+          fi
+          # Estado diario de los procesos (estado.html, solo admin): rama huérfana "datos-estado".
+          mkdir -p _site/data/estado
+          if git fetch --depth 1 origin datos-estado 2>/dev/null; then
+            git archive FETCH_HEAD estado | tar -x -C /tmp && cp /tmp/estado/*.json _site/data/estado/
+          else
+            echo "Aún no existe la rama datos-estado"
           fi
           # Datos en movimiento: viven en la rama huérfana "datos-vivos" (workflow "Datos en movimiento").
           mkdir -p _site/data/vivos

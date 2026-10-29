@@ -1,6 +1,7 @@
 // Versión de pago en todas las páginas (Fase 7): los enlaces internos conservan ?vista=pago&plan=…, para que volver al
 // mapa o pasar a otra sección no lleve a la versión completa (admin) ni a otro plan. También impide abrir directo una
 // sección de solo admin o de un plan superior. Sin ?vista=pago no hace nada: la versión completa queda igual.
+import "./bitacora.js";  // bitácora local de errores para soporte (soporte.html), en todas las páginas
 import { vistaActual, planActual, planFaltante } from "./licencias.js";
 import { paginaSoloAdmin } from "./planes.js";
 

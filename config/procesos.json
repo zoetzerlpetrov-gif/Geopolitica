@@ -1,0 +1,28 @@
+{
+  "_nota": "Revisión diaria de los procesos automáticos (tools/estado_procesos/estado_procesos.py, workflow «Estado de los procesos»). «max_horas»: horas sin una corrida exitosa (o sin datos nuevos) antes de marcar atraso; al doble se marca falla. Se muestra en estado.html (solo admin).",
+  "workflows": [
+    {"id": "vivos", "nombre": "Datos en movimiento", "workflow": "vivos.yml", "cada": "20 min", "max_horas": 1,
+     "afecta": "Aviones, barcos, satélites, riesgos y clima, noticiero, protocolos y el aviso rojo «cisne negro»"},
+    {"id": "reloj", "nombre": "Reloj (respaldo del cron)", "workflow": "reloj.yml", "cada": "20 min", "max_horas": 1,
+     "afecta": "Lanza «Datos en movimiento» y la ingesta cuando el cron de GitHub no se dispara"},
+    {"id": "ingesta", "nombre": "Ingesta de eventos", "workflow": "ingest.yml", "cada": "1 h", "max_horas": 3,
+     "afecta": "Eventos y noticias del mapa, historial de 90 días y reportes diarios"},
+    {"id": "capas", "nombre": "Construir capas (PMTiles)", "workflow": "capas.yml", "cada": "4 h", "max_horas": 9,
+     "afecta": "Capas fijas: infraestructura, cables, organizaciones, historia por país"},
+    {"id": "camaras", "nombre": "Cámaras del mundo", "workflow": "camaras.yml", "cada": "1 día", "max_horas": 30,
+     "afecta": "Lista de cámaras públicas"},
+    {"id": "fuentes", "nombre": "Salud de fuentes gratuitas", "workflow": "fase23-fuentes.yml", "cada": "1 día", "max_horas": 30,
+     "afecta": "Monitor de fuentes de la plataforma (Fases 2-3)"},
+    {"id": "entidades", "nombre": "Entidades (Wikidata)", "workflow": "entidades.yml", "cada": "7 días", "max_horas": 194,
+     "afecta": "Catálogo de organizaciones y empresas"},
+    {"id": "autoauditoria", "nombre": "Autoauditoría semanal", "workflow": "autoauditoria.yml", "cada": "7 días", "max_horas": 194,
+     "afecta": "Evaluación contra ISO 27001, OWASP y demás marcos"}
+  ],
+  "datos": [
+    {"id": "d_vivos", "nombre": "Datos en movimiento publicados", "archivo": "data/vivos/estado.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "pasos"},
+    {"id": "d_eventos", "nombre": "Eventos publicados (ingesta)", "archivo": "data/run-log.json", "campo": "generado_utc", "max_horas": 3, "errores": "fuentes"},
+    {"id": "d_noticiero", "nombre": "Noticiero DOMINUS", "archivo": "data/vivos/noticiero.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "errores"},
+    {"id": "d_protocolos", "nombre": "Protocolos y alertas «cisne negro»", "archivo": "data/vivos/protocolos.geojson", "campo": "actualizado_utc", "max_horas": 4, "errores": "fuentes"},
+    {"id": "d_autoauditoria", "nombre": "Resultado de la autoauditoría", "archivo": "data/autoauditoria/ultimo.json", "campo": "fecha_utc", "max_horas": 194}
+  ]
+}
