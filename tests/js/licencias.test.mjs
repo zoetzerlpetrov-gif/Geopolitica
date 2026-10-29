@@ -26,7 +26,9 @@ test("riesgos: se quitan los de solo admin y botnets pasa al archivo de abuse.ch
   for (const id of r.riesgos) assert.ok(ids.has(id), `${id} no es una capa de riesgo`);
   const copia = CAPAS.map((c) => ({ ...c }));
   const quitados = aplicarARiesgos(copia, r);
-  assert.ok(quitados.includes("gfw_apagados") && quitados.includes("pronostico") && quitados.includes("emergencias_aereas"));
+  assert.ok(quitados.includes("gfw_apagados") && quitados.includes("aire") && quitados.includes("emergencias_aereas"));
+  for (const id of ["pronostico", "nortes", "mar_fondo"]) assert.ok(copia.some((c) => c.id === id), `${id} ya usa fuentes comerciales (MET Norway / NOAA)`);
+  for (const id of ["pronostico", "nortes", "mar_fondo"]) assert.ok(!/Open-Meteo/.test(copia.find((c) => c.id === id).fuente), id);
   assert.ok(!copia.some((c) => r.riesgos.has(c.id)));
   const c2 = copia.find((c) => c.id === "c2_botnets");
   assert.equal(c2.url, "data/vivos/red_c2_comercial.geojson");

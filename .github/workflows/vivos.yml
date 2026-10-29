@@ -242,9 +242,9 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/polos/polos.py
 
-      - name: Frentes (NOAA WPC, cada hora) y eventos de Norte en el Golfo (Open-Meteo, cada 3 h); si falla se conservan los anteriores
+      - name: Frentes (NOAA WPC, cada hora) y eventos de Norte en el Golfo (modelo GFS de NOAA, cada 3 h); si falla se conservan los anteriores
         continue-on-error: true
-        timeout-minutes: 2
+        timeout-minutes: 4
         run: python3 tools/clima/frentes.py
 
       - name: El Niño / La Niña (NOAA CPC, diario); si falla se conserva el anterior
@@ -252,9 +252,9 @@ jobs:
         timeout-minutes: 2
         run: python3 tools/clima/enso.py
 
-      - name: Mar de fondo (Open-Meteo Marine, cada 3 h); si falla se conserva el anterior
+      - name: Mar de fondo (modelo GFS-Wave de NOAA, cada 6 h); si falla se conserva el anterior
         continue-on-error: true
-        timeout-minutes: 3
+        timeout-minutes: 5
         run: python3 tools/clima/mar_fondo.py
 
       - name: Cielo (asteroides cercanos y cometas cada 12 h; bólidos, Luna y eclipses diario; NASA/JPL, COBS, USNO)

@@ -99,11 +99,11 @@
    "licencia": "Datos CC BY 4.0; la API gratuita es solo para uso no comercial",
    "accion": "sustituir",
    "donde": "Nortes, mar de fondo, calidad del aire, búsqueda de lugares",
-   "sustituto": "MET Norway (api.met.no) para pronóstico; NOAA GFS y WaveWatch III (NOMADS) para viento y oleaje; GeoNames y el gazetteer propio para lugares; CAMS de Copernicus u OpenAQ para calidad del aire",
+   "sustituto": "MET Norway (pronóstico), NOAA GFS y GFS-Wave (nortes, ráfagas y oleaje); pendiente: CAMS (aire) y GeoNames (lugares)",
    "licencia_sustituto": "MET Norway: CC BY 4.0 / NLOD; NOAA: dominio público; GeoNames: CC BY 4.0; CAMS: licencia Copernicus; OpenAQ: según cada proveedor (verificar)",
    "nota": "MET Norway pide identificarse en el User-Agent y no saturar: hay que guardar las respuestas en caché en el Worker.",
    "estado": "registro_gratis",
-   "prueba": "MET Norway (pronóstico) respondió 200 sin llave; su servicio de oleaje solo cubre Europa (422 en Yucatán), por eso el oleaje sale de NOAA. NOAA GFS y olas (NOMADS) respondieron con GRIB. GeoNames (descarga) respondió 200. Calidad del aire: CAMS respondió 200 al catálogo, pero descargar exige cuenta gratuita de ECMWF (licencia comercial por confirmar); OpenAQ respondió 401 sin llave y pide contactarlos para uso comercial."
+   "prueba": "Sustituido y probado con datos reales (29-oct-2026): pronóstico de 7 días con MET Norway (991 puntos) y ráfagas de GFS de NOAA; nortes con GFS de NOAA (19 de 19 puertos, 53 s); mar de fondo con GFS-Wave de NOAA (98 de 98 puntos, 73 s). Siguen con Open-Meteo, solo para admin: calidad del aire (CAMS requiere cuenta gratuita de ECMWF), búsqueda de lugares fuera de la lista propia y elevación del evaluador de inmuebles (página solo admin)."
   },
   {
    "patron": "GRanD / GOODD",
@@ -207,9 +207,6 @@
  "version_pago": {
   "_nota": "Lo que la versión de pago NO muestra (solo quien administra lo ve). Además se ocultan las capas y subtipos cuya fuente en config/entities.json no tiene uso_comercial = true. Simulación en el sitio público: ?vista=pago. En el repositorio comercial, los archivos de datos de estas fuentes tampoco se publican para quien paga.",
   "riesgos_solo_admin": {
-   "pronostico": "Open-Meteo (API gratuita solo no comercial). Sustituto en preparación: MET Norway.",
-   "nortes": "Open-Meteo. Sustituto en preparación: MET Norway.",
-   "mar_fondo": "Open-Meteo Marine. Sustituto en preparación: NOAA GFS-Wave.",
    "aire": "Open-Meteo Air Quality. Sustituto: CAMS de Copernicus, requiere cuenta gratuita de ECMWF.",
    "gfw_apagados": "Global Fishing Watch (CC BY-NC 4.0).",
    "gfw_encuentros": "Global Fishing Watch (CC BY-NC 4.0).",
@@ -233,7 +230,6 @@
   },
   "funciones_solo_admin": {
    "geocodificador_open_meteo": "Búsqueda de pueblos y playas fuera de la lista propia (Open-Meteo). La lista propia de ciudades sigue funcionando.",
-   "viento_ceniza_open_meteo": "Viento en altura para la ceniza de volcanes (Open-Meteo).",
    "timelapse_eox": "Cambio en el tiempo con EOX 2018–2025 (CC BY-NC-SA 4.0). Queda NASA MODIS (GIBS)."
   },
   "bloques_solo_admin": {

@@ -1782,8 +1782,7 @@ async function iniciarRiesgos() {
       if (ce) llenarConflicto(ce, R.desanidar(props));
       if (punto && geom?.type === "Point") zonaYVideos(capa, R.desanidar(props), punto);
       const div = document.querySelector("#ficha-cuerpo .ceniza");
-      if (div && rv?.funciones.has("viento_ceniza_open_meteo")) div.innerHTML = `<p class="meta">El cálculo de la ceniza con viento en altura no está en esta versión.</p>`;
-      else if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
+      if (div) import("./ceniza.js").then((C) => C.mostrarCeniza(api.map, div)).catch((e) => { div.innerHTML = `<p class="meta">No se pudo calcular el viento: ${esc(e.message)}</p>`; });
       prepararErupcion();
     },
   });
