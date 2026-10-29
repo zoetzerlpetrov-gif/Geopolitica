@@ -80,6 +80,11 @@ jobs:
         timeout-minutes: 4  # 3 consultas de ≤65 s; si Wikidata no responde se reintenta en 6 h (no en cada corrida)
         run: python3 tools/investigacion/extranjeras_mx.py
 
+      - name: Empresas registradas en México con matriz extranjera (GLEIF, CC0, cada semana; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 5  # ≈40 páginas de la API a 1 por segundo + archivo de relaciones de ≈24 MB (2-3 s)
+        run: python3 tools/investigacion/extranjeras_gleif.py
+
       - name: Emergencias aéreas (squawk 7700, 7600 y 7500; adsb.lol y OpenSky, cada corrida)
         continue-on-error: true
         timeout-minutes: 3

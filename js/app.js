@@ -1473,17 +1473,21 @@ async function iniciarTecnologia() {
   $("b-inv-crimen-tec").addEventListener("toggle", () => $("b-inv-crimen-tec").open && pintarCt());
   $("ct-q").addEventListener("input", debounce(pintarCt, 250));
   $("ct-form").addEventListener("submit", (e) => { e.preventDefault(); pintarCt(); });
-  // Empresas extranjeras: catálogo semanal (Wikidata) + GLEIF en vivo.
+  // Empresas extranjeras: catálogo semanal (Wikidata y GLEIF), lista curada con fuente y búsqueda en GLEIF en vivo.
   const nombrePais = (iso, p) => paisNombre(iso) || p || iso;
   const pintarExt = async () => {
-    const d = await cargar("ext", "data/vivos/empresas_extranjeras_mx.json");
-    if (!d) { $("ext-res").innerHTML = `<p class="meta">El catálogo aún no está disponible (se genera cada semana). Usa la búsqueda en GLEIF.</p>`; return; }
+    const [wd, gl, cur] = await Promise.all([cargar("ext", "data/vivos/empresas_extranjeras_mx.json"), cargar("ext-gleif", "data/vivos/empresas_extranjeras_gleif.json"),
+      cargar("ext-cur", "config/extranjeras_curadas.json")]);
+    if (!wd && !gl && !cur) { $("ext-res").innerHTML = `<p class="meta">El catálogo aún no está disponible (se genera cada semana). Usa la búsqueda en GLEIF.</p>`; return; }
+    const d = T.unirExtranjeras(wd, gl, cur);
     if ($("ext-pais").options.length < 2) {
       if (!paises) await cargarPaises().catch(() => {});
       $("ext-pais").innerHTML += T.paisesExtranjeras(d).map((p) => `<option value="${esc(p.iso)}">${esc(nombrePais(p.iso, p.pais))} (${p.n})</option>`).join("");
       $("ext-ind").innerHTML += T.industriasExtranjeras(d).map((i) => `<option value="${esc(i)}">${esc(i)}</option>`).join("");
     }
-    $("ext-res").innerHTML = T.htmlExtranjeras(d, T.filtrarExtranjeras(d, { q: $("ext-q").value, iso: $("ext-pais").value, industria: $("ext-ind").value }), nombrePais);
+    const iso = $("ext-pais").value;
+    $("ext-res").innerHTML = T.htmlExtranjeras(d, T.filtrarExtranjeras(d, { q: $("ext-q").value, iso, industria: $("ext-ind").value }), nombrePais,
+      $("ext-q").value, iso ? nombrePais(iso, "") : "");
   };
   $("b-inv-extranjeras").addEventListener("toggle", () => {
     if (!$("b-inv-extranjeras").open) return;

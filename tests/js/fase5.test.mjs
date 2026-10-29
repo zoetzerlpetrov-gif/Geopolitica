@@ -72,3 +72,28 @@ test("mundo: búsqueda en el idioma del país y nombre del país en la tarjeta",
   assert.match(h, /Para una persona mexicana:<\/b> Prueba/);
   assert.equal(Z.filtrarZonas(u, { pais: "AUT" }).length, 3);
 });
+
+import * as T from "../../js/tecnologia.js";
+const curadas = JSON.parse(readFileSync(new URL("../../config/extranjeras_curadas.json", import.meta.url)));
+
+test("empresas extranjeras: Wikidata + GLEIF + lista curada; ODIS Asversa aparece y trae fuentes", () => {
+  const wd = { fuente: "Wikidata (CC0)", empresas: [{ matriz: "Iberdrola", matriz_qid: "Q1", iso: "ES", pais: "España", filial: "", industrias: ["energía"], vias: ["opera_en_mexico"] }] };
+  const gl = { empresas: [{ filial: "Banco X Mexico SA", lei: "L1", matriz: "Banco X AG", matriz_lei: "L2", iso: "DE", pais: "Alemania", industrias: [] }] };
+  const d = T.unirExtranjeras(wd, gl, curadas);
+  assert.equal(d.fuente, "Wikidata + GLEIF + lista curada");
+  const odis = T.filtrarExtranjeras(d, { q: "asversa" });
+  assert.equal(odis.total, 1);
+  const h = T.htmlExtranjeras(d, odis);
+  assert.match(h, /bnamericas\.com/);
+  assert.match(h, /agregada a mano con fuente pública/);
+  assert.equal(T.filtrarExtranjeras(d, { iso: "IL" }).total, curadas.empresas.length);
+  assert.match(T.htmlExtranjeras(d, T.filtrarExtranjeras(d, { q: "banco x" })), /search\.gleif\.org\/#\/record\/L1/);
+  for (const c of curadas.empresas) for (const [, u] of c.fuentes) assert.match(u, /^https:\/\//);
+});
+
+test("empresas extranjeras: sin resultado ofrece búsquedas para seguir investigando", () => {
+  const h = T.htmlExtranjeras({ empresas: [] }, { total: 0, filas: [] }, undefined, "Empresa Inexistente", "Israel");
+  assert.match(h, /google\.com\/search/);
+  assert.match(decodeURIComponent(h), /cámara de comercio México Israel/);
+  assert.deepEqual(T.enlacesSinResultado("ab"), []);
+});
