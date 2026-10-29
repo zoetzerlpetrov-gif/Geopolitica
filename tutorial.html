@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tutorial de DOMINUS OSINT</title>
+  <meta name="description" content="Guía completa de DOMINUS OSINT: barra superior, cada opción del menú izquierdo, herramientas, investigación y las demás secciones, con ejemplos resueltos paso a paso.">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .tut { max-width: 980px; margin: 0 auto; padding: 16px; line-height: 1.55; }
+    .tut h2 { font-size: 20px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 30px 0 8px; border-bottom: 1px solid var(--line); padding-bottom: 4px; }
+    .tut h3 { font-size: 16px; margin: 18px 0 6px; }
+    .tut details.paso { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 12px; margin: 8px 0; background: var(--surface); }
+    .tut details.paso > summary { cursor: pointer; font-weight: 600; }
+    .tut .ejemplo { border-left: 4px solid var(--accent, #C8102E); background: var(--surface-2); padding: 8px 12px; margin: 10px 0; border-radius: 4px; }
+    .tut .ejemplo b.titulo { display: block; margin-bottom: 4px; }
+    .tut ol, .tut ul { padding-left: 22px; }
+    .tut kbd { border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; font-size: 12px; background: var(--surface-2); }
+    .tut .indice { columns: 2 240px; font-size: 14px; }
+    .tut .inv ul { columns: 2 260px; font-size: 13px; }
+    .tut .inv .grupo-inv { margin: 6px 0 10px; }
+    .tut .buscar { position: sticky; top: 0; background: var(--bg); padding: 8px 0; z-index: 2; }
+    .tut .buscar input { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
+    .tut [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <header class="topbar"><a class="link-btn" href="./">← Mapa</a><h1>Tutorial de DOMINUS OSINT</h1></header>
+  <main class="tut">
+    <p>Esta guía explica cada parte de DOMINUS OSINT desde cero: qué hace cada botón y casilla, de dónde salen los datos y cómo usar las herramientas con ejemplos resueltos.
+      La lista completa de opciones del menú izquierdo se genera a partir del propio mapa, así que coincide con lo que ves en pantalla.</p>
+    <div class="buscar"><input id="tut-q" type="search" placeholder="Buscar en el tutorial (desde 3 letras): sismos, licitaciones, contraseña, CIDR…" aria-label="Buscar en el tutorial"><p class="meta" id="tut-n"></p></div>
+
+    <nav aria-label="Contenido"><ul class="indice" id="tut-indice"></ul></nav>
+
+    <section id="t-inicio" data-tema>
+      <h2>1. Primeros pasos</h2>
+      <p>DOMINUS OSINT reúne información pública (noticias, datos oficiales, satélites, sensores) sobre un mapa del mundo. OSINT significa «inteligencia de fuentes abiertas»: todo lo que se muestra se puede consultar sin permisos especiales y cada dato enlaza a su fuente.</p>
+      <h3>Las cuatro partes de la pantalla</h3>
+      <ol>
+        <li><b>Barra superior</b>: menú «Secciones», tipo de vista (plano, globo, Peters), mapa base, «Animar», «Opciones», idioma y el estado de los datos («Actualizado hace 12 min · 3,383 eventos»).</li>
+        <li><b>Menú izquierdo</b>: grupos plegables (Eventos y noticias, Capas del mapa, En movimiento, Riesgos y clima, Fenómenos anómalos, Historia, Reportes, Herramientas, Investigación, Seguimiento). Cada casilla prende o apaga una capa.</li>
+        <li><b>Mapa</b>: arrástralo para moverte, usa la rueda del ratón o los botones «−» y «+» de abajo para acercarte. Clic derecho copia la latitud y longitud del punto.</li>
+        <li><b>Ficha</b>: al hacer clic en un punto, línea o país se abre una ficha con el detalle, la fuente y el enlace original.</li>
+      </ol>
+      <div class="ejemplo"><b class="titulo">Ejemplo resuelto: ver los sismos de hoy en México</b>
+        <ol>
+          <li>En el menú izquierdo abre «⚠️ Riesgos y clima» y luego «Amenazas: capas en el mapa» → «🌋 Desastres naturales».</li>
+          <li>Marca «Sismos M2.5+ (24 h, en vivo)». Aparecen círculos: más grandes y rojos = mayor magnitud.</li>
+          <li>Acércate a México con la rueda del ratón. Haz clic en un círculo: la ficha dice magnitud, profundidad, hora y el enlace al Servicio Geológico de EUA (USGS).</li>
+          <li>Para quitar la capa, desmarca la casilla.</li>
+        </ol></div>
+      <h3>Si el mapa tarda en cargar</h3>
+      <ul>
+        <li>Recarga sin caché con <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> (en Mac, <kbd>Cmd</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>).</li>
+        <li>Si a los 20 s sigue cargando, arriba aparece un aviso que dice en qué paso se detuvo y ofrece «Reintentar» y «Modo ligero».</li>
+        <li>Con red lenta, desde la segunda visita el mapa abre con los eventos de la visita anterior y luego se actualiza solo.</li>
+        <li>Algunas capas tienen muchos puntos pequeños y solo se dibujan desde cierto zoom; el menú lo indica («desde zoom 6»). Mientras tanto, el mapa muestra cuántos elementos hay por zona para que sepas dónde acercarte.</li>
+      </ul>
+    </section>
+
+    <section id="t-barra" data-tema>
+      <h2>2. Barra superior</h2>
+      <details class="paso" open><summary>📚 Secciones</summary>
+        <p>Abre las páginas especializadas. Cada una tiene su propio capítulo más abajo (capítulo 7). La lista completa:</p>
+        <ul id="tut-secciones"></ul></details>
+      <details class="paso"><summary>Vista: Plano 2D, Globo 3D y Peters</summary>
+        <ul><li><b>Plano 2D (Mercator)</b>: el mapa de siempre; deforma el tamaño cerca de los polos (Groenlandia se ve tan grande como África).</li>
+          <li><b>Globo 3D</b>: la Tierra como esfera; sirve para ver rutas largas, satélites y aviones a su altura.</li>
+          <li><b>Peters (tamaño real)</b>: conserva la superficie real de cada país; útil para comparar tamaños.</li></ul></details>
+      <details class="paso"><summary>Mapa base: Temático, Calles, Satélite y Relieve</summary>
+        <ul><li><b>Temático</b>: colores suaves para que destaquen los datos.</li><li><b>Calles</b>: nombres de calles y colonias (OpenFreeMap).</li>
+          <li><b>Satélite</b>: imagen Sentinel-2 y, de cerca, Esri.</li><li><b>Relieve</b>: montañas y valles sombreados.</li></ul>
+        <p>En «Opciones» → «Mapa base: qué se ve» eliges si se muestran nombres de países, estados, ciudades o calles, o «Solo países».</p></details>
+      <details class="paso"><summary>▶ Animar</summary><p>Reproduce los eventos en el tiempo (la línea de tiempo avanza sola). Sirve para ver cómo se movió un conflicto o una tormenta.</p></details>
+      <details class="paso"><summary>Región y buscador de lugares</summary><p>«Región» filtra los eventos por zona del mundo. El buscador (lupa) encuentra países, ciudades, colonias, calles, aeropuertos o negocios desde 3 letras (datos de OpenStreetMap vía Photon) y lleva el mapa ahí.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: ir al aeropuerto de Monterrey</b><ol><li>Escribe «aeropuerto monterrey».</li><li>Espera la lista (aparece después de 350 ms sin teclear).</li><li>Elige «Aeropuerto Internacional General Mariano Escobedo»: el mapa vuela ahí.</li></ol></div></details>
+      <details class="paso"><summary>⚙️ Opciones</summary>
+        <ul><li><b>🌓 Tema</b>: claro u oscuro.</li><li><b>🪶 LITE</b>: modo ligero para celulares o equipos lentos (mapa local, menos animaciones).</li>
+          <li><b>🔔 Sonido</b>: avisa con sonido cuando llegan eventos nuevos.</li><li><b>🛰️ Aviones y satélites en 3D</b>: los dibuja a su altura real en el globo.</li>
+          <li><b>✈️ Aviones en vivo al acercar</b>: al hacer zoom, los aviones se actualizan cada 15 s.</li><li><b>📍 Coordenadas bajo el puntero</b>: muestra latitud y longitud; clic derecho las copia.</li>
+          <li><b>🌌 Cielo real</b>: estrellas y cielo detrás del globo.</li><li><b>Contornos de estados</b> y <b>Solo países</b>: qué divisiones y nombres se ven.</li>
+          <li><b>Idioma</b>: 15 idiomas de interfaz (español, inglés, francés, alemán, italiano, portugués, ruso, chino, japonés, griego, neerlandés, sueco, noruego, danés y finés).</li>
+          <li><b>Contraer todo</b>: cierra todos los grupos del menú izquierdo.</li></ul></details>
+      <details class="paso"><summary>Estado de los datos</summary><p>«Actualizado hace X min · N eventos (M nuevos)» y la cuenta regresiva a la siguiente actualización. Si dice «el bot no ha publicado a tiempo», los datos tienen más de 2.5 h; al pasar el ratón ves qué fuentes fallaron.</p></details>
+    </section>
+
+    <section id="t-menu" data-tema>
+      <h2>3. Menú izquierdo: todas las opciones</h2>
+      <p>Cada grupo se explica abajo y al final viene la lista completa de sus casillas. Reglas generales:</p>
+      <ul>
+        <li>«Estático» = datos que cambian poco (se reconstruyen cada semana); «Retrasado» = en vivo con unos minutos de retraso; «Estimado» = posición calculada (satélites).</li>
+        <li>«Subtipos» permite prender solo una parte de la capa (por ejemplo, solo aeropuertos internacionales).</li>
+        <li>«desde zoom N»: la capa aparece al acercarte a ese nivel; el número del menú es cuántos elementos tiene.</li>
+        <li>Lo que dice «noticias … verificar» viene de titulares clasificados automáticamente: confirma con la fuente antes de usarlo.</li>
+      </ul>
+      <details class="paso" data-inv="Eventos y noticias"><summary>📰 Eventos y noticias</summary>
+        <p>Los eventos de la ingesta automática (noticias, GDELT, fuentes oficiales) clasificados en 13 áreas. Filtros: orden de la lista, severidad mínima o exacta (1 informativa a 5 extrema), país, región, religión mencionada y texto. «Áreas temáticas» prende o apaga áreas completas; «Subcategorías» filtra un tema (por ejemplo «Aranceles y guerras comerciales»). La «Línea de tiempo» limita la ventana (6 h a 90 días). «Titulares de seguridad» son notas sin verificar agrupadas por tipo.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: noticias graves sobre México en las últimas 24 h</b><ol><li>En «Filtros», «Severidad mínima» = 4 o más.</li><li>«País» = México.</li><li>En «Línea de tiempo», ventana 24 h.</li><li>Abre «Lista de eventos»: quedan ordenadas por severidad; clic en una abre la ficha con la fuente.</li><li>«Quitar filtros» vuelve al estado inicial.</li></ol></div></details>
+      <details class="paso" data-inv="Capas del mapa"><summary>🗺️ Capas del mapa</summary>
+        <p>Infraestructura (aeropuertos, puertos, centrales, cables submarinos, ductos, presas, vías), organizaciones (organismos, bolsas, empresas por sector, embajadas), recursos estratégicos, instalaciones militares públicas, zonas geográficas, grupos armados y criminales (dominio y disputa), religión, población y turismo, economía y finanzas, forma de gobierno y orientación política, e imágenes satelitales y cámaras públicas.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: cables submarinos que llegan a México</b><ol><li>«Infraestructura» → «Cables submarinos» → en «Subtipos» deja «Cables submarinos» y «Puntos de aterrizaje de cables».</li><li>Acércate a las costas de México.</li><li>Clic en una línea: nombre del cable, dueños, año y longitud (TeleGeography).</li></ol></div></details>
+      <details class="paso" data-inv="En movimiento"><summary>✈️ En movimiento</summary>
+        <p>Aviones (ADS-B), buques (AIS) y satélites (órbitas calculadas), con subtipos (comercial, carga, militar, Estado; carga, pasaje, petroleros; GNSS, Starlink, estaciones espaciales…), y trenes en vivo de los países que publican datos abiertos. Clic en un avión: ruta, foto del modelo y botón de cabina 3D.</p></details>
+      <details class="paso" data-inv="Riesgos y clima"><summary>⚠️ Riesgos y clima</summary>
+        <p>Clima animado (viento, temperatura, lluvia, aire polar, nieve, vórtice polar), desastres (sismos, ciclones, incendios, volcanes, tsunamis), seguridad (ataques, crimen organizado, interferencia de GPS), emergencias, red y ciberseguridad, espacio, mar, salud, zonas horarias, sociedad, criminología, carreteras, personas desaparecidas y fosas (sin datos personales), polos, clima espacial, calidad del aire y Hoy No Circula.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: ¿hay huracanes cerca de Acapulco?</b><ol><li>«Desastres naturales» → «Ciclones, tifones y tormentas tropicales».</li><li>Si hay uno, verás su cono de pronóstico (NHC) y la categoría.</li><li>Clic en el cono: velocidad del viento, presión y hora del próximo aviso oficial.</li></ol></div></details>
+      <details class="paso" data-inv="Fenómenos anómalos"><summary>🛸 Fenómenos anómalos</summary><p>Reportes públicos de avistamientos y objetos no identificados (noticias del último año, casos históricos, bases civiles), por tipo de fenómeno. Son reportes, no confirmaciones.</p></details>
+      <details class="paso" data-inv="Historia por país"><summary>📜 Historia por país</summary><p>Elige un país para ver su contexto histórico, conflictos y tratados principales (Wikidata y fuentes citadas).</p></details>
+      <details class="paso" data-inv="Reportes diarios"><summary>📑 Reportes diarios</summary><p>Panorama del día de México y del mundo en web y PDF, y la matriz de riesgo por país con las fuentes que elijas.</p></details>
+      <details class="paso" data-inv="Seguimiento"><summary>⭐ Seguimiento</summary><p>En la ficha de un lugar (aeropuerto, puerto, embajada, una de tus instalaciones…) presiona «Seguir». Aquí aparece agrupado por tipo, con cuántos eventos hay cerca y cuántos son nuevos desde tu última visita. Se guarda solo en tu navegador.</p></details>
+    </section>
+
+    <section id="t-herr" data-tema>
+      <h2>4. Herramientas (menú izquierdo)</h2>
+      <details class="paso" open><summary>📷 Foto: metadatos, ubicación y análisis forense</summary>
+        <p>Lee los metadatos EXIF de una foto (cámara, fecha, GPS) y busca indicios de IA o edición: credenciales de contenido C2PA, marcas IPTC de «generada por IA», parámetros de Stable Diffusion o ComfyUI y el programa de edición; además hace el análisis de nivel de error (ELA). La foto no sale de tu navegador.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto</b><ol><li>Clic en «Elige una foto» y selecciona una foto JPEG o HEIC de tu celular.</li><li>Si trae GPS, verás el punto en el mapa y la fecha y hora de la toma.</li><li>Revisa los indicios: cada uno trae su peso (por ejemplo, un manifiesto C2PA que dice «creado con un generador de IA» pesa mucho; un programa de edición en los metadatos pesa poco). En el ELA, zonas que brillan distinto pueden indicar edición. «Sin metadatos» es común en fotos reenviadas por WhatsApp o redes, que los borran.</li><li>«Quitar foto y resultados» limpia todo.</li></ol>
+          <p class="meta">Conclusión correcta: el análisis da indicios, no pruebas. Una foto sin EXIF no es falsa por eso.</p></div></details>
+      <details class="paso"><summary>🛡️ Verificador de mensajes sospechosos</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto</b><ol><li>Pega: «Tu cuenta BBVA será bloqueada hoy. Confirma tu NIP en bbva-seguridad.xyz».</li><li>Presiona «Analizar».</li><li>Resultado esperado: alerta alta por urgencia («hoy»), pedido de NIP (un banco nunca lo pide) y dominio que no es el oficial del banco.</li><li>Qué hacer: no abrir el enlace, llamar al número de tu tarjeta y reportar en la Policía Cibernética o la CONDUSEF.</li></ol></div></details>
+      <details class="paso"><summary>🤖 Preguntar a la IA sobre las noticias</summary><p>Usa tu propia llave gratuita de Groq (se guarda solo en tu navegador). La IA responde con base en los eventos cargados y cita cuáles usó.</p>
+        <ol><li>Abre «Cómo obtener tu llave de Groq» y sigue los pasos (cuenta gratuita en console.groq.com → API Keys → Create).</li><li>Pega la llave (empieza con gsk_) y «Guardar llave».</li><li>Pregunta: «¿Qué riesgos para México hay esta semana por aranceles?».</li></ol></details>
+      <details class="paso"><summary>📚 Buscar en archivos de documentos públicos</summary><p>Arma búsquedas en archivos desclasificados y bibliotecas públicas (CIA, FBI Vault, Archivo General de la Nación, Internet Archive y otros). Ejemplo: «Tlatelolco 1968» → «Buscar» → enlaces a cada archivo.</p></details>
+      <details class="paso"><summary>🔑 ¿Mi contraseña aparece en filtraciones?</summary><p>Consulta Have I Been Pwned sin enviar tu contraseña: el navegador calcula su huella SHA-1 y solo manda los primeros 5 caracteres (técnica «k-anonimato»).</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo</b><ol><li>Escribe una contraseña de prueba como «password123» → «Comprobar».</li><li>Resultado: aparece miles de veces en filtraciones; nunca la uses.</li><li>Si la tuya aparece: cámbiala en todos los sitios donde la repetías y activa la verificación en dos pasos.</li></ol></div></details>
+    </section>
+
+    <section id="t-inv" data-tema>
+      <h2>5. Investigación (menú izquierdo)</h2>
+      <p>Herramientas para periodismo, cumplimiento y análisis. Todas usan fuentes públicas y ninguna localiza ni sigue a personas.</p>
+      <details class="paso" open><summary>🧾 Empresas que facturan operaciones simuladas (SAT 69-B)</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo: revisar a un proveedor antes de pagarle</b><ol><li>Escribe su RFC (12 caracteres para empresa) o al menos 3 letras del nombre.</li><li>«Buscar». Si aparece, revisa la situación: «presunto» (el SAT lo investiga), «definitivo» (confirmado: sus facturas no sirven para deducir), «desvirtuado» o «sentencia favorable» (salió de la lista).</li><li>Si es «definitivo», no aceptes sus facturas y consulta a tu contador.</li></ol></div></details>
+      <details class="paso"><summary>🚨 Personas buscadas y desaparecidas (fichas oficiales)</summary><p>Busca en fichas oficiales públicas (por ejemplo, las del FBI, en inglés) por nombre o delito y enlaza a la ficha original. DOMINUS no guarda datos personales.</p></details>
+      <details class="paso"><summary>🔐 Cadena de custodia: huella digital de evidencias</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto</b><ol><li>Llena «Caso o carpeta» (CI-2026-001), «Responsable» y «Descripción».</li><li>Elige los archivos (fotos, PDF, audios).</li><li>El navegador calcula la huella SHA-256 de cada uno (64 caracteres hexadecimales) y arma el registro con fecha y hora.</li><li>Descarga el registro. Si alguien cambia un solo píxel del archivo, la huella cambia por completo: así demuestras que la evidencia no se alteró.</li></ol>
+          <p class="meta">Norma de referencia: ISO/IEC 27037 (identificación, recolección y preservación de evidencia digital).</p></div></details>
+      <details class="paso"><summary>🕸️ Cuaderno de vínculos del caso</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo</b><ol><li>Agrega entidades: «Comercializadora Ejemplo SA de CV», «Servicios Beta SC».</li><li>Relaciónalas: «socio de», con la fuente (acta constitutiva, DOF, nota periodística).</li><li>«Exportar» guarda el cuaderno en JSON; «Importar» lo recupera en otro equipo.</li></ol></div></details>
+      <details class="paso"><summary>📜 Leyes y Diario Oficial por mes</summary><p>Elige un mes para ver lo publicado en el DOF, o busca una ley federal vigente por nombre (vacío = las reformadas más recientemente). Enlaza al texto oficial de la Cámara de Diputados.</p></details>
+      <details class="paso"><summary>📑 Contratos públicos: verificador de proveedores y focos rojos</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo</b><ol><li>Pega una lista de RFC o nombres, uno por renglón.</li><li>«Verificar proveedores»: cruza cada renglón con el listado 69-B del SAT. «Presunto» o «Definitivo» es un foco rojo fuerte; no aparecer no garantiza nada, porque el listado solo incluye a quienes el SAT ya notificó.</li><li>Abre «Focos rojos en contratación pública» para la guía de otras señales que revisar a mano.</li></ol></div></details>
+      <details class="paso"><summary>🏛️ Licitaciones públicas: México, Estados Unidos y Europa</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo: licitaciones de ciberseguridad</b><ol><li>Escribe «ciberseguridad» y «Buscar».</li><li>Europa (TED) y EUA (Grants.gov) muestran convocatorias abiertas, que se actualizan cada 12 horas.</li><li>México y SAM.gov: DOMINUS arma la búsqueda y la abre en el portal oficial (ComprasMX protege su buscador con reCAPTCHA).</li><li>«Contratos adjudicados en EUA» muestra lo que el gobierno de EUA ya pagó en los últimos 12 meses (USAspending).</li></ol></div></details>
+      <details class="paso"><summary>💡 Patentes públicas</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo: enjambres de drones desde 2020</b><ol><li>Palabras: «drone swarm» (en inglés hay más resultados).</li><li>Clase: elige B64 (aeronaves) o F41 (armas) en la lista.</li><li>Desde: 2020 → «Armar búsqueda».</li><li>Se abren búsquedas listas en Google Patents, Espacenet y PATENTSCOPE.</li></ol></div></details>
+      <details class="paso"><summary>🛰️ Tecnologías públicas de agencias</summary><p>Catálogo de programas que publican DARPA, IARPA, NSA (por ejemplo Ghidra), FBI, NASA, OTAN y otras, con su enlace oficial. Escribe desde 3 letras: «drones», «satélites», «biometría».</p></details>
+      <details class="paso"><summary>🧨 Tecnologías usadas por el crimen y el terrorismo</summary><p>Enfoque defensivo: cómo reconocer drones con explosivos, inhibidores de señal, teléfonos cifrados, criptoactivos, deepfakes y otras; qué hace la autoridad y qué norma aplica. No incluye instrucciones de uso.</p></details>
+      <details class="paso"><summary>🌐 Empresas extranjeras que operan en México</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo</b><ol><li>Escribe «Bimbo» o una industria («automotriz») desde 3 letras; filtra por país de la matriz.</li><li>Cada registro dice cómo se sabe (filial registrada en México, la matriz declara filial…).</li><li>Si no aparece, «Buscar el nombre en GLEIF»: muestra entidades registradas en México con su identificador LEI y su matriz última; si la matriz es de otro país, se marca «extranjera».</li></ol></div></details>
+      <details class="paso"><summary>🏛️ Poder político, 💸 guías y 📚 fuentes</summary><p>Enlaces a declaraciones patrimoniales y de intereses, y guías de señales de alerta de lavado de dinero, empresas fantasma y nepotismo, con su base legal (LFPIORPI, Código Fiscal art. 69-B, Ley General de Responsabilidades Administrativas).</p></details>
+    </section>
+
+    <section id="t-caja" data-tema>
+      <h2>6. Caja del analista (herramientas.html)</h2>
+      <details class="paso" open><summary>📁 Auditoría de archivos</summary><p>Revisa archivos de Office, PDF e imágenes: metadatos ocultos (autor, empresa, software), macros, enlaces externos y huella SHA-256. Útil antes de publicar o de abrir un archivo recibido.</p></details>
+      <details class="paso"><summary>💻 Informática y ciberseguridad</summary><ul><li>Vulnerabilidades críticas recientes (NVD, catálogo KEV de CISA y probabilidad de explotación EPSS), buscables por producto.</li><li>Extraer indicadores (IOC) de un texto: URL, dominios, IP, correos, hashes, CVE y carteras de Bitcoin; desactivar (hxxp, [.]) para compartir.</li>
+          <li>Encabezados de un correo sospechoso (SPF, DKIM, DMARC, ruta de servidores).</li><li>DNS y correo de un dominio (A, MX, TXT, CAA y política DMARC).</li><li>Huella SHA-256/SHA-1/SHA-512, Base64 y lectura de JWT.</li></ul>
+        <div class="ejemplo"><b class="titulo">Ejemplo: ¿debo parchar ya?</b><ol><li>Busca «fortinet» y marca «Solo explotadas (KEV)».</li><li>Si aparece un CVE con CVSS 9.8 y EPSS 90 %, se está explotando y es muy probable que lo intenten contigo.</li><li>Orden de trabajo: ¿usamos ese producto y versión? → aplicar el parche o la mitigación del proveedor → revisar registros en busca de indicios (NIST SP 800-40, ISO/IEC 27002 control 8.8).</li></ol></div></details>
+      <details class="paso"><summary>🧠 Análisis de inteligencia</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo: Análisis de Hipótesis en Competencia (ACH)</b><ol><li>Escribe 3 hipótesis: «el apagón fue falla técnica», «fue sabotaje», «fue sobrecarga por calor».</li><li>Agrega evidencias: «temperatura récord ese día», «sin reivindicación», «varias subestaciones a la vez».</li><li>Califica cada celda: CC muy consistente, C consistente, N neutral, I inconsistente, II muy inconsistente.</li><li>La herramienta ordena las hipótesis por menos inconsistencias: gana la que menos contradice la evidencia, no la que tiene más a favor.</li></ol>
+          <p class="meta">Método de Richards Heuer (CIA, «Psychology of Intelligence Analysis»). La escala de probabilidad sigue la ICD 203.</p></div></details>
+      <details class="paso"><summary>🗂️ Marcos militar, político y corporativo</summary><p>PMESII-PT, ASCOPE, METT-TC, CARVER en enfoque defensivo, PESTEL, FODA y otros, con plantillas para llenar y exportar.</p></details>
+      <details class="paso"><summary>📋 Plantillas de auditoría por sector y ⚖️ normativa por país</summary><p>Listas de verificación por sector (financiero, salud, energía, gobierno…) y qué debe cumplir una empresa en México, EUA, Canadá, la UE y Rusia.</p></details>
+      <details class="paso"><summary>🎲 Simulación de escenarios</summary><p>Toma eventos del mapa y simula escenarios con modelos matemáticos (Monte Carlo, árboles de decisión) para estimar impacto y probabilidad. Los resultados son estimaciones con supuestos explícitos.</p></details>
+      <details class="paso"><summary>☁️ Nube y seguridad</summary><p>Autoevaluación de seguridad en la nube y modelo de responsabilidad compartida (qué protege el proveedor y qué te toca a ti).</p></details>
+      <details class="paso"><summary>🏛️ Agencias: redes, certificados, casos y oficios</summary>
+        <div class="ejemplo"><b class="titulo">Ejemplo 1: calculadora de subredes (CIDR)</b><p>Escribe <code>192.168.10.37/27</code>. Resultado:</p>
+          <ul><li>Red: 192.168.10.32 · Máscara: 255.255.255.224 (27 bits)</li><li>Primera dirección utilizable: 192.168.10.33 · Última: 192.168.10.62</li><li>Difusión (broadcast): 192.168.10.63 · Equipos posibles: 30</li><li>Es red privada (192.168.0.0/16): no se ve desde internet.</li></ul>
+          <p class="meta">Cómo se calcula: /27 deja 32 − 27 = 5 bits para equipos → 2⁵ = 32 direcciones, menos la de red y la de difusión = 30.</p></div>
+        <div class="ejemplo"><b class="titulo">Ejemplo 2: control de oficios en días hábiles</b><ol><li>Folio OF-123, recibido el lunes 9 de noviembre de 2026, plazo de 10 días hábiles.</li><li>La herramienta cuenta desde el día siguiente y salta sábados, domingos y el lunes 16 de noviembre (descanso obligatorio por el tercer lunes de noviembre, art. 74 de la Ley Federal del Trabajo).</li><li>Fecha límite: martes 24 de noviembre de 2026.</li><li>El viernes 20 el semáforo se pone naranja: «Vence en 2 día(s) hábil(es)».</li><li>Agrega en «días inhábiles extra» los que publique tu dependencia en el DOF.</li></ol></div>
+        <p>También: certificados emitidos para un dominio (Certificate Transparency), red y titular de una IP o ASN (RIPEstat) y cronología de un caso con detección de huecos de información.</p></details>
+    </section>
+
+    <section id="t-paginas" data-tema>
+      <h2>7. Otras secciones</h2>
+      <details class="paso"><summary>📰 Noticiero DOMINUS</summary><p>30 secciones temáticas con titulares de las últimas horas e indicadores oficiales (Banxico, tipo de cambio, tasas). Cada nota muestra fuente, fecha y enlace; DOMINUS no copia el texto completo.</p></details>
+      <details class="paso"><summary>♟️ Narrativas y estrategia</summary><p>Técnicas de poder, propaganda e influencia detectadas en las noticias de hoy, cómo protegerte y una biblioteca de obras de referencia.</p></details>
+      <details class="paso"><summary>🇲🇽 🌍 Reportes diarios y 🧮 Matriz de riesgo</summary><p>Panorama del día con lo más relevante por área y su PDF. La matriz 5×5 (probabilidad × impacto) se arma para cualquier país con las fuentes que elijas, por tema y por fuente.</p></details>
+      <details class="paso"><summary>🏢 Inteligencia corporativa</summary><p>1) Registra tus instalaciones; 2) matriz de riesgo 5×5 según ISO 31000; 3) exposición por país; 4) radar de competidores; 5) guías de método.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo</b><ol><li>Agrega «Planta Querétaro» con sus coordenadas (clic derecho en el mapa las copia).</li><li>La página cruza la planta con los eventos a 50 km: bloqueos, robos a transporte, clima.</li><li>Califica cada riesgo de 1 a 5 en probabilidad e impacto; el producto ubica el riesgo en la matriz (por ejemplo 4 × 4 = 16, zona roja).</li></ol></div></details>
+      <details class="paso"><summary>🎖️ DOMINUS OPS</summary><p>Metodología para consultoría de riesgos en 6 fases: cliente, mapa maestro, diagnóstico de madurez (DMI), gobernanza en nueve dimensiones, plantillas por fase, biblioteca de metodologías, simulación de escenarios, informe en PDF y Word, tableros y War Room, Battle Rhythm y SITREP (reporte de situación).</p></details>
+      <details class="paso"><summary>🏠 Inmuebles y riesgo</summary>
+        <p>Evaluador de riesgo por ubicación (sismos, volcanes, terreno, estabilidad política, inseguridad), desarrollos en seguimiento, zonas en seguimiento en México y 27 países (búsquedas solo enlace en los portales de cada país), tu lista y fuentes oficiales por país.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: departamento en Positano</b><ol><li>«Zonas en seguimiento» → País «Italia» → Ciudad «Positano».</li><li>Abre la tarjeta: botones de búsqueda en Immobiliare.it, Idealista y Casa.it en italiano («appartamento vendita Positano»).</li><li>Lee las reglas para una persona mexicana y los riesgos (sismos y el Vesubio, a unos 35 km).</li><li>Cuando encuentres un anuncio, «Evaluar una ubicación» con sus coordenadas y «Guardar en mi lista».</li></ol></div></details>
+      <details class="paso"><summary>📊 Analítica</summary><p>Tendencias de 90 días y alertas de temas fuera de lo normal, comparador de países, consultas SQL en el navegador (DuckDB), exportación en 9 formatos y calidad de datos por fuente.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo SQL</b><p><code>SELECT pais_iso3, COUNT(*) AS n FROM eventos WHERE severidad &gt;= 4 GROUP BY 1 ORDER BY n DESC LIMIT 10;</code> → los 10 países con más eventos graves.</p></div></details>
+      <details class="paso"><summary>⚖️ Marco normativo y 🏷️ Taxonomía</summary><p>Leyes, tratados, estándares ISO y metodologías que usa el proyecto; y la definición de las 13 áreas y sus subcategorías.</p></details>
+    </section>
+
+    <section id="t-faq" data-tema>
+      <h2>8. Problemas frecuentes</h2>
+      <details class="paso"><summary>Una capa no muestra nada</summary><ol><li>Revisa si dice «desde zoom N»: acércate.</li><li>Si dice «sin datos en la última construcción», la fuente no respondió esa semana.</li><li>Las capas de noticias de 72 h pueden estar en cero si no hubo notas.</li></ol></details>
+      <details class="paso"><summary>Cambios recién publicados no aparecen</summary><p>Recarga con <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>. La página se actualiza sola cuando detecta una versión nueva.</p></details>
+      <details class="paso"><summary>Mis listas desaparecieron</summary><p>Mi lista de inmuebles, oficios, cronologías, llave de Groq y lugares seguidos se guardan en tu navegador. Borrar datos de navegación o usar otro equipo los pierde: usa los botones de exportar.</p></details>
+    </section>
+
+    <section id="t-glosario" data-tema>
+      <h2>9. Glosario</h2>
+      <ul>
+        <li><b>OSINT</b>: inteligencia de fuentes abiertas.</li><li><b>Capa</b>: conjunto de datos que se dibuja sobre el mapa.</li>
+        <li><b>Zoom</b>: nivel de acercamiento (0 = mundo completo; 15 = calles).</li><li><b>ADS-B / AIS</b>: señales que transmiten aviones y barcos con su posición.</li>
+        <li><b>GDELT</b>: base de datos mundial que codifica noticias en eventos.</li><li><b>Severidad</b>: escala de 1 (informativa) a 5 (extrema) del impacto de un evento.</li>
+        <li><b>SHA-256</b>: huella digital de un archivo; cambia por completo si el archivo cambia.</li><li><b>CIDR</b>: forma de escribir una red IP con su tamaño (192.168.10.0/24).</li>
+        <li><b>LEI</b>: identificador internacional de entidades legales (GLEIF).</li><li><b>SITREP</b>: reporte breve de situación.</li>
+      </ul>
+    </section>
+  </main>
+  <script type="module" src="js/tutorial.js"></script>
+</body>
+</html>

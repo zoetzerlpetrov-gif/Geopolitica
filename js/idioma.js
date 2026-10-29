@@ -215,6 +215,7 @@ Secciones|Sections|Rubriques|Bereiche|Sezioni
 📊 Analítica|📊 Analytics|📊 Analytique|📊 Analytik|📊 Analitica
 ⚖️ Marco normativo|⚖️ Regulatory framework|⚖️ Cadre réglementaire|⚖️ Rechtsrahmen|⚖️ Quadro normativo
 🏷️ Taxonomía de eventos|🏷️ Event taxonomy|🏷️ Taxonomie des événements|🏷️ Ereignistaxonomie|🏷️ Tassonomia degli eventi
+🎓 Tutorial|🎓 Tutorial|🎓 Tutoriel|🎓 Anleitung|🎓 Tutorial
 Relieve|Terrain|Relief|Relief|Rilievo
 ⚙️ Opciones|⚙️ Options|⚙️ Options|⚙️ Optionen|⚙️ Opzioni
 Opciones|Options|Options|Optionen|Opzioni
