@@ -3,7 +3,7 @@ import {nodos} from './fase4-modelo.js?v=f5a';
 import {emptySpatial,geometry,validateSpatial,verifySpatial,digest,normalizeDataset,evaluateSpatial,compareSnapshots,reportCSV} from './fase5-modelo.js';
 import {vacio as emptyOps} from './operaciones-modelo.js';
 import {descargar} from './web-cripto.js';
-import {createSpatialMap} from './fase5-mapa.js';
+import {createSpatialMap} from './fase5-mapa.js?v=2';
 const $=id=>document.getElementById(id),el=(tag,t)=>{const n=document.createElement(tag);if(t!==undefined)n.textContent=String(t);return n;};const dirtyForms=new Set();let active=null,section='Áreas',busy=false,dirty=false,preview=null,report=null,coords=[],map=null,mode=false;
 const state=()=>active?.data.spatial||emptySpatial(),actor=()=>$('declarante').value.trim()||'Analista declarado';
 function status(t,error=false){$('estado').textContent=t;$('estado').dataset.error=String(error);}
