@@ -1,4 +1,4 @@
-import {createAI} from './ia-ui.js';
+import {createAI} from './ia-ui.js?v=2';
 import * as DB from './fase4-db.js?v=ia1';
 import {emptyResearch,validateResearch,verifyResearch,searchDocuments,previewSignals,RECIPES,recipeInput,reportText} from './laboratorio-modelo.js?v=ia1';
 import {vacio as emptyOps,validarOperaciones} from './operaciones-modelo.js';
