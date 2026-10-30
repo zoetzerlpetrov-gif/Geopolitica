@@ -62,6 +62,7 @@
       <button role="tab" aria-selected="false" data-p="us">🇺🇸 Estados Unidos</button>
       <button role="tab" aria-selected="false" data-p="eu">🇪🇺 Unión Europea</button>
       <button role="tab" aria-selected="false" data-p="gl">🌐 Global</button>
+      <button role="tab" aria-selected="false" data-p="precios">🛒 Precios México</button>
       <button role="tab" aria-selected="false" data-p="sindatos">📚 Índices sin datos</button>
       <button role="tab" aria-selected="false" data-p="portafolio">💼 Portafolio</button>
     </nav>
@@ -74,6 +75,15 @@
     <section class="panel" id="p-us" hidden></section>
     <section class="panel" id="p-eu" hidden></section>
     <section class="panel" id="p-gl" hidden></section>
+    <section class="panel" id="p-precios" hidden>
+      <h2>Precios de productos y servicios en México</h2>
+      <p class="meta">Precios al mayoreo en pesos por kilo en la Central de Abasto de la Ciudad de México (SNIIM, Secretaría de Economía), promedio mensual desde 2015;
+        gasolina y diésel en pesos por litro (promedio nacional de la Comisión Reguladora de Energía, guardado día con día); e índices del INPC de INEGI.
+        El precio al menudeo en tiendas y mercados suele ser mayor que el de mayoreo, pero sube y baja en la misma dirección. Borde rojo = subió más de 5 % en un año; verde = bajó.</p>
+      <label class="fila"><span>Buscar</span> <input type="text" id="pm-buscar" maxlength="60" placeholder="p. ej. jitomate, frijol, gasolina"></label>
+      <p class="meta" id="pm-estado"></p>
+      <div id="pm-lista"><p class="meta">Cargando…</p></div>
+    </section>
     <section class="panel" id="p-sindatos" hidden>
       <h2>Índices sin datos abiertos</h2>
       <p class="meta">Existen y se citan en medios, pero no hay una serie pública que se pueda bajar (o tiene licencia de pago). Se explican para entenderlos.</p>
@@ -82,7 +92,7 @@
     <section class="panel" id="p-portafolio" hidden>
       <h2>Portafolio (resumen)</h2>
       <p class="meta">Viene de tu panel Portafolio, que vive en su propio repositorio y se lee aquí al abrir esta pestaña. Si no responde, solo esta pestaña lo indica.
-        Sus señales son técnicas y automáticas: <b>no son asesoría financiera</b>. <a href="https://zoetzerlpetrov-gif.github.io/portafolio/" target="_blank" rel="noopener noreferrer">Abrir el panel completo</a></p>
+        Sus señales son técnicas y automáticas (comprar, rebote, esperar, precaución): <b>no son asesoría financiera</b>. <a href="https://zoetzerlpetrov-gif.github.io/portafolio/" target="_blank" rel="noopener noreferrer">Abrir el panel completo</a></p>
       <div class="pf-datos"><p class="meta">Cargando…</p></div>
     </section>
   </main>
