@@ -45,4 +45,4 @@ Límites adicionales: 200 incidentes, 500 tareas, 1000 decisiones y 30 procedimi
 
 ## Pendientes de fases posteriores
 
-IA con documentos, integraciones autenticadas, entrevistas compartimentadas, ejecución de análisis y las fases 5–8 no se declaran implementadas en esta entrega. Se prioriza que cada control visible corresponda a una función web disponible.
+Fases 4C/4D: laboratorio.html incorpora intercambio documental, búsqueda literal con citas, entrevistas cifradas y recetas Python web (docs/FASE4CD.md). IA generativa con documentos, integraciones autenticadas, entrevistas compartimentadas por roles y las fases 5–8 siguen pendientes. Se prioriza que cada control visible corresponda a una función web disponible.

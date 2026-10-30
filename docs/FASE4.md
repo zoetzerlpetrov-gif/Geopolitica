@@ -34,3 +34,7 @@ Se retiró la interfaz autohospedada. El sitio no presenta como activas sus cuen
 ## Continuación: Fase 4B
 
 operaciones.html añade indicadores y alertas observadas, tablero, incidentes, decisiones, tareas, procedimientos y exportaciones documentales. Comparte el expediente y sus respaldos cifrados mediante el campo opcional operations. Guía y pruebas de aceptación: docs/FASE4B.md. No evalúa con la página cerrada.
+
+## Continuación: Fases 4C y 4D
+
+laboratorio.html añade intercambio por archivos con vista previa, documentos y citas verificables, informes, entrevistas cifradas y recetas fijas de Python en el navegador. Alcance, tutorial y pendientes: docs/FASE4CD.md. Comparte los respaldos y versiones de Fase 4A mediante research opcional.
