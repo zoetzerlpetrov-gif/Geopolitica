@@ -31,7 +31,7 @@ La incorporación del feed público usa data/events.json por acción explícita.
 
 Hasta 100 reglas. Cada una define fuente, palabras combinadas con Y (sin expresiones regulares), país opcional, severidad/confianza mínimas, cantidad de señales distintas, ventana de 1–168 horas, persistencia de 0–60 minutos, responsable, pausa y silencio por una hora. Los incidentes se agrupan por regla: máximo uno abierto por regla, con señales adicionales vinculadas. No se fusionan automáticamente incidentes de reglas distintas.
 
-Las condiciones nuevas requieren observación. No se cierran incidentes automáticamente cuando baja un conteo. El cierre exige decisión explícita y todas las tareas completadas. Los temporizadores del navegador pueden suspenderse; no hay promesa de vigilancia continua ni SLA.
+Las condiciones nuevas requieren observación. La prioridad automática usa la severidad máxima de las señales coincidentes y puede elevarse con señales nuevas; no baja por sí sola. No se cierran incidentes automáticamente cuando baja un conteo. El cierre exige decisión explícita y todas las tareas completadas. Los temporizadores del navegador pueden suspenderse; no hay promesa de vigilancia continua ni SLA.
 
 ## Tablero, tareas y procedimientos
 

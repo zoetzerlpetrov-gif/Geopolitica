@@ -24,18 +24,19 @@ export function validarOperaciones(o,refs={}){
  for(const r of o.incidents)if(r.status==='cerrado'&&(!o.decisions.some(d=>d.incident===r.id&&d.kind==='cierre'&&d.at===r.closedAt)||o.tasks.some(t=>t.incident===r.id&&t.status!=='completada')))throw Error('Cierre sin decisión o con tareas abiertas.');
  return o;
 }
+const priorityFor=rows=>{const n=Math.max(...rows.map(s=>s.severity));return n>=5?'crítica':n>=4?'alta':n>=3?'media':'baja';};
 const normalize=s=>String(s).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 export function coincidentes(o,r,now){const words=normalize(r.query).split(/\s+/).filter(Boolean);return o.signals.filter(s=>s.source===r.source&&s.occurredAt<=now&&s.occurredAt>=now-r.windowHours*3600000&&(s.source!=='eventos'||now-s.batchAt<=86400000)&&s.severity>=r.minSeverity&&s.confidence>=r.minConfidence&&(!r.country||s.country===r.country)&&words.every(w=>normalize(s.title+' '+s.summary).includes(w)));}
 export function evaluar(input,now=Date.now()){
  const o=clone(input);let created=0,updated=0;for(const r of o.rules){let state=o.checks.find(c=>c.rule===r.id);if(!state){state={rule:r.id,sinceAt:0,observedAt:0,signature:'',armed:true};o.checks.push(state);}if(!r.enabled||r.snoozeUntil>now){state.sinceAt=0;state.observedAt=0;continue;}
  const rows=coincidentes(o,r,now),qualified=rows.length>=r.threshold;if(!qualified){if(state.sinceAt||state.signature||!state.armed){state.sinceAt=0;state.observedAt=now;state.signature='';state.armed=true;}continue;}
  const signature=rows.map(s=>s.id).sort().join('|'),existing=o.incidents.find(i=>i.rule===r.id&&i.status!=='cerrado');
- if(existing){const next=[...new Set([...existing.signalIds,...rows.map(s=>s.id)])];if(next.length!==existing.signalIds.length){existing.signalIds=next;existing.lastSeenAt=now;updated++;}state.signature=signature;state.armed=false;state.sinceAt=0;continue;}
+ if(existing){const priority=priorityFor(rows),escalate=PRIORIDADES.indexOf(priority)>PRIORIDADES.indexOf(existing.priority);if(escalate)existing.priority=priority;const next=[...new Set([...existing.signalIds,...rows.map(s=>s.id)])];if(next.length!==existing.signalIds.length||escalate){existing.signalIds=next;existing.lastSeenAt=now;updated++;}state.signature=signature;state.armed=false;state.sinceAt=0;continue;}
  if(!state.armed&&state.signature===signature)continue;
  // Persistencia observada: una pausa mayor de 6 minutos reinicia la cuenta.
  if(!state.sinceAt||now-state.observedAt>360000||now<state.observedAt)state.sinceAt=now;state.observedAt=now;
  if(now-state.sinceAt<r.persistenceMinutes*60000)continue;
- o.incidents.push({id:id(),rule:r.id,title:r.title,status:'nuevo',priority:r.minSeverity>=5?'crítica':r.minSeverity>=4?'alta':'media',owner:r.owner,reference:'',openedAt:now,lastSeenAt:now,closedAt:null,signalIds:rows.map(s=>s.id),appliedPlaybooks:[]});state.signature=signature;state.armed=false;state.sinceAt=0;created++;
+ o.incidents.push({id:id(),rule:r.id,title:r.title,status:'nuevo',priority:priorityFor(rows),owner:r.owner,reference:'',openedAt:now,lastSeenAt:now,closedAt:null,signalIds:rows.map(s=>s.id),appliedPlaybooks:[]});state.signature=signature;state.armed=false;state.sinceAt=0;created++;
  }return {operations:o,created,updated};
 }
 export function importarEventos(input,feed,now=Date.now()){
