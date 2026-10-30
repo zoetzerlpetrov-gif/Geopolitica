@@ -17,17 +17,16 @@ jobs:
               return urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
           import json
           B = "https://www.inegi.org.mx/app/indicesdeprecios/"
-          t = get(B + "Estructura.aspx")
-          f = re.search(r'<form action="Exportacion.aspx".*?</form>', t, re.S).group(0)
-          print("FORM", re.findall(r'name="([^"]+)"', f))
-          j = get(B + "Resources/estructuras.json")
-          print("JSON len", len(j)); print(j[:1500])
-          for m in list(re.finditer(r"objeto del gasto", j))[:10]:
-              print("  OBJ", j[max(0, m.start()-300):m.end()+100].replace("\n", " "))
-          js = get(B + "scripts/ExportacionAjaxInteraccion.min.js?1.9.4")
-          for m in list(re.finditer(r"_anioI|_formato|idEstructura|Exportacion", js))[:12]:
-              print("  JS", js[max(0, m.start()-200):m.end()+200].replace("\n", " "))
-          import urllib.robotparser as R
-          rp = R.RobotFileParser("https://www.inegi.org.mx/robots.txt"); rp.read()
-          print("robots Exportacion:", rp.can_fetch("*", B + "Exportacion.aspx"), "json:", rp.can_fetch("*", B + "Resources/estructuras.json"))
+          j = json.loads(get(B + "Resources/estructuras.json").lstrip("\ufeff"))
+          def recorre(x, ruta=""):
+              if isinstance(x, dict):
+                  txt = " | ".join(str(v) for k, v in x.items() if isinstance(v, str))
+                  if re.search(r"objeto del gasto|Consumidor", txt, re.I) and re.search(r"mensual|objeto", txt, re.I):
+                      print(ruta[:60], "::", txt[:220])
+                  for k, v in x.items():
+                      recorre(v, ruta + "/" + k)
+              elif isinstance(x, list):
+                  for v in x:
+                      recorre(v, ruta)
+          recorre(j)
           PY
