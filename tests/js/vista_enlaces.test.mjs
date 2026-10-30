@@ -42,3 +42,10 @@ test("alertas cisne negro: solo activas, ya en vigor y sin desactivar", async ()
   assert.ok(h.includes("Bases &lt;militares&gt;"), "texto escapado");
   assert.equal(htmlAlertas([]), "");
 });
+
+test("aviso cisne negro: al arrastrarlo no se sale del mapa", async () => {
+  const { acotar } = await import("../../js/alerta_cisne.js");
+  assert.deepEqual(acotar(500, 300, 360, 200, 1000, 800), { x: 500, y: 300 });
+  assert.deepEqual(acotar(-50, -20, 360, 200, 1000, 800), { x: 0, y: 0 });
+  assert.deepEqual(acotar(900, 790, 360, 200, 1000, 800), { x: 640, y: 760 }, "la barra roja sigue visible abajo");
+});
