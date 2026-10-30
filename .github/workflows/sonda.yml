@@ -16,8 +16,8 @@ jobs:
               req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 DOMINUS-OSINT"})
               return urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
           B = "https://www.inegi.org.mx/app/indicesdeprecios/"
-          lin = get(B + "Resources/estructuras.json").splitlines()
-          for n, l in enumerate(lin):
-              if re.search(r"objeto del gasto|Consumidor", l, re.I):
-                  print(n, " || ".join(x.strip() for x in lin[max(0, n-3):n+4]))
+          t = get(B + "Resources/estructuras.json")
+          print(len(t))
+          for m in re.finditer(r'"(?:id|titulo|subtitulo|nombre|clave)"\s*:\s*"([^"]*)"', t):
+              print(m.group(0)[:120])
           PY
