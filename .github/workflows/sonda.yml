@@ -15,18 +15,9 @@ jobs:
           def get(u):
               req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 DOMINUS-OSINT"})
               return urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
-          import json
           B = "https://www.inegi.org.mx/app/indicesdeprecios/"
-          j = json.loads(get(B + "Resources/estructuras.json").lstrip("\ufeff"))
-          def recorre(x, ruta=""):
-              if isinstance(x, dict):
-                  txt = " | ".join(str(v) for k, v in x.items() if isinstance(v, str))
-                  if re.search(r"objeto del gasto|Consumidor", txt, re.I) and re.search(r"mensual|objeto", txt, re.I):
-                      print(ruta[:60], "::", txt[:220])
-                  for k, v in x.items():
-                      recorre(v, ruta + "/" + k)
-              elif isinstance(x, list):
-                  for v in x:
-                      recorre(v, ruta)
-          recorre(j)
+          lin = get(B + "Resources/estructuras.json").splitlines()
+          for n, l in enumerate(lin):
+              if re.search(r"objeto del gasto|Consumidor", l, re.I):
+                  print(n, " || ".join(x.strip() for x in lin[max(0, n-3):n+4]))
           PY
