@@ -8,7 +8,7 @@ Entrada: laboratorio.html. Accesible desde Secciones y las páginas de fases. Co
 - Archivo máximo 500 KB, 1–200 filas. Una fila incompatible rechaza el archivo completo. Fechas con zona horaria, no futuras; severidad entera 1–5, confianza 0–1, país ISO3 o vacío y URL HTTPS sin credenciales o vacía. Códigos ISO3 se validan por forma, no por un catálogo de países.
 - ID derivado del contenido normalizado de cada señal. Reimportaciones idénticas se omiten; cambios de contenido son observaciones distintas. La operación añade señales manuales a Fase 4B sin evaluar reglas. El historial anota cantidad y SHA-256 del archivo. No importa tickets de Jira o ServiceNow.
 - Documentos de consulta: TXT UTF-8 o texto pegado, título y procedencia declarada. Hasta 50 documentos de 20 000 caracteres; TXT máximo 80 KB. No se ejecuta HTML ni contenido cargado. No se abre PDF/DOCX/URL externa.
-- Búsqueda literal por todos los términos de un fragmento, sin distinguir mayúsculas ni acentos. Bloques de hasta 500 unidades UTF-16 dentro de cada línea; hasta 30 resultados. Una frase que atraviesa el límite de bloque puede no coincidir. No es búsqueda semántica, IA ni comprobación de hechos.
+- Búsqueda literal por todos los términos de un fragmento, sin distinguir mayúsculas ni acentos. Bloques de hasta 500 unidades UTF-16 dentro de cada línea; hasta 30 resultados. Una frase que atraviesa el límite de bloque puede no coincidir. La pestaña Consultas no es búsqueda semántica, IA ni comprobación de hechos. La pestaña IA ofrece generación opcional (docs/IA_Y_COLABORACION_WEB.md).
 - Informes con pregunta, análisis humano y 1–10 citas exactas. Cada cita registra documento, huella, posición UTF-16 y texto; el validador comprueba coincidencia con el contenido almacenado. Hasta 100 informes. Exportación TXT/JSON en claro solo de documentos e informes; no incluye entrevistas ni operación. El JSON de informe es de entrega, no un respaldo reimportable; para recuperar se usa el respaldo de Fase 4A.
 
 ## Fase 4D disponible
@@ -24,7 +24,7 @@ Entrada: laboratorio.html. Accesible desde Secciones y las páginas de fases. Co
 
 Todo cabe dentro del máximo general de 4 MB por expediente y las cuotas del navegador. Los respaldos completos de Fase 4A incluyen research y siguen aceptando casos antiguos sin el campo. Al recuperar respaldos se comprueban huellas de documentos, entradas y recetas, además de los originales previos. Los documentos, informes y resultados persisten en claro; las entrevistas persisten cifradas incluso dentro de un respaldo sin cifrar. Conservar contraseñas fuera del expediente: no se recuperan.
 
-No hay llamadas automáticas a servicios de IA, servicios de entrevistas, redes sociales, correo o tickets; no hay vigilancia cerrada ni sincronización. Las integraciones autenticadas, IA generativa con referencias y entrevistas compartimentadas por roles quedan pendientes de un servicio privado web. Se distinguen de las funciones disponibles en la propia página.
+No hay llamadas automáticas a servicios de IA, servicios de entrevistas, redes sociales, correo o tickets; no hay vigilancia cerrada ni sincronización. La IA generativa está disponible como opción en navegador. La colaboración autenticada por copias cifradas requiere activar un proyecto propio desde colaboracion.html. Integraciones externas autenticadas y compartimentación individual de entrevistas siguen pendientes. Se distinguen de las funciones disponibles en la propia página.
 
 ## Prueba de aceptación
 

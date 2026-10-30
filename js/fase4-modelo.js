@@ -1,4 +1,4 @@
-import {validateResearch,verifyResearch} from './laboratorio-modelo.js';
+import {validateResearch,verifyResearch} from './laboratorio-modelo.js?v=ia1';
 import {validarOperaciones} from './operaciones-modelo.js';
 import {validarPaquete} from './fase1-logica.js';
 import {validar as validar2} from './fase2-modelo.js';

@@ -45,4 +45,4 @@ Límites adicionales: 200 incidentes, 500 tareas, 1000 decisiones y 30 procedimi
 
 ## Pendientes de fases posteriores
 
-Fases 4C/4D: laboratorio.html incorpora intercambio documental, búsqueda literal con citas, entrevistas cifradas y recetas Python web (docs/FASE4CD.md). IA generativa con documentos, integraciones autenticadas, entrevistas compartimentadas por roles y las fases 5–8 siguen pendientes. Se prioriza que cada control visible corresponda a una función web disponible.
+Fases 4C/4D: laboratorio.html incorpora intercambio documental, búsqueda literal con citas, entrevistas cifradas y recetas Python web (docs/FASE4CD.md). La continuación añade IA generativa en navegador y colaboración opcional con Supabase, pendiente de activar el proyecto propio (docs/IA_Y_COLABORACION_WEB.md). Integraciones externas autenticadas, entrevistas compartimentadas individualmente por roles y las fases 5–8 siguen pendientes. Se prioriza que cada control visible corresponda a una función web disponible.

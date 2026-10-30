@@ -1,9 +1,9 @@
 name: Entorno web - Expedientes y respaldos
 on:
   push:
-    paths: ['js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
+    paths: ['js/ia*.js', 'js/colaboracion*.js', 'colaboracion.html', 'config/colaboracion.sql', 'tools/checks_colaboracion_rls.mjs', 'js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
   pull_request:
-    paths: ['js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
+    paths: ['js/ia*.js', 'js/colaboracion*.js', 'colaboracion.html', 'config/colaboracion.sql', 'tools/checks_colaboracion_rls.mjs', 'js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
   workflow_dispatch:
 permissions:
   contents: read
@@ -16,5 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --prefix /tmp/dominus-web-js --no-save --no-audit --no-fund jsdom@27.4.0 fake-indexeddb@6.2.4
+      - run: npm install --prefix /tmp/dominus-web-js --no-save --no-audit --no-fund jsdom@27.4.0 fake-indexeddb@6.2.4 @electric-sql/pglite@0.3.14
       - run: node --test tools/checks_web_ui.mjs
+
+      - run: CLOUD_TEST_DEPS=/tmp/dominus-web-js/node_modules/ node --test tools/checks_colaboracion_rls.mjs
