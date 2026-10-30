@@ -45,3 +45,7 @@ Pruebas: geometrías/bordes/negativas, distancias de corredor y extremos, calida
 ## Pendientes del resto de Fase 5
 
 Vigilancia privada 24/7, rutas multimodales, corredores alternativos calculados sobre redes reales, horarios y planificación GTFS completa, expansión de redes que requieren registro, logística/carga y análisis energético especializado. Supabase preparado en la fase anterior no activa automáticamente vigilancia o tareas periódicas. Esta entrega es Fase 5A, no toda la Fase 5 ni las fases 6–8.
+
+## Continuación Fase 5B
+
+La misma página incorpora rutas web de automóvil, bicicleta y caminata con consulta explícita, alternativas, copia revisada y conversión a corredor. El plano SVG permite dibujar también sin WebGL. Detalles y límites: [FASE5B.md](FASE5B.md). Los otros modos y la vigilancia privada 24/7 siguen pendientes.
