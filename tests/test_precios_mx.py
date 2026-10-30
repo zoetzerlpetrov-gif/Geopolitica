@@ -85,3 +85,16 @@ def test_reintenta_5xx_y_no_4xx():
         assert False
     except urllib.error.HTTPError:
         assert len(llamadas) == 1
+
+
+def test_csv_de_inegi_latin1_mayusculas_y_duplicado(tmp_path):
+    titulo = "Índice Nacional de Precios al Consumidor. Base segunda quincena Julio 2018, Nacional, por objeto del gasto, 1.1.1 Tortilla de maíz"
+    texto = ('"Instituto Nacional de Estadística y Geografía",\r\n"Fecha de consulta: 30/10/2026",\r\n\r\n'
+             f'"Título","{titulo}",\r\n"Periodicidad","Mensual",\r\n'
+             '"Jul 2026","150.1",\r\n"Ago 2026","151.2",\r\n"Sep 2026","152.3",\r\n')
+    for nombre in ("A.CSV", "B.CSV"):  # el mismo archivo subido dos veces
+        (tmp_path / nombre).write_bytes(texto.encode("latin-1"))
+    M.ESPERAS = (0, 0)
+    d = M.construir({}, bajar=lambda *a, **k: (_ for _ in ()).throw(OSError("sin red")), carpeta_genericos=str(tmp_path), hoy=date(2026, 10, 30))
+    gen = [s for s in d["series"] if s["id"].startswith("gen_")]
+    assert [(s["id"], s["nombre"], s["puntos"][-1]) for s in gen] == [("gen_tortilla_de_maiz", "Tortilla de maíz", ["2026-09-01", 152.3])]

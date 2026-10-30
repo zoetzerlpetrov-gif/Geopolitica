@@ -23,6 +23,7 @@ import re
 import statistics
 import sys
 import time
+import unicodedata
 import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
@@ -226,7 +227,23 @@ def leer_genericos(texto):
                 pts = [(p, num(c)) for p, c in zip(per, f) if p and num(c) is not None]
                 if pts:
                     series[f[0].strip()] = pts
-    return {k: sorted(v) for k, v in series.items() if len(v) >= 3}
+    return {nombre_corto(k): sorted(v) for k, v in series.items() if len(v) >= 3}
+
+
+def nombre_corto(titulo):
+    """INEGI pone el título completo («Índice Nacional de Precios…, por objeto del gasto, 1.1.1 Tortilla de maíz»):
+    se deja solo el último tramo y sin la numeración."""
+    t = titulo.split(", ")[-1].strip() if titulo.startswith("Índice Nacional") else titulo.strip()
+    return re.sub(r"^[\d.]+\s*", "", t) or t
+
+
+def leer_texto(ruta):
+    """Los CSV de INEGI vienen en Latin-1; si el archivo es UTF-8 se lee como tal."""
+    crudo = open(ruta, "rb").read()
+    try:
+        return crudo.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return crudo.decode("latin-1")
 
 
 # ------------------------------------------------------------------ armado
@@ -288,10 +305,15 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
         agrega(sid, nombre, "Índices de precios (INPC)", "índice (2.ª quincena de julio de 2018 = 100)", f"INEGI · INPC · {ind}",
                "https://www.inegi.org.mx/temas/inpc/", "mensual", fn)
 
-    for ruta in sorted(glob.glob(os.path.join(carpeta_genericos or os.path.join(ROOT, "config", "inpc_genericos"), "*.csv"))):
+    vistos = set()
+    carpeta = carpeta_genericos or os.path.join(ROOT, "config", "inpc_genericos")
+    for ruta in sorted(r for r in glob.glob(os.path.join(carpeta, "*")) if r.lower().endswith(".csv")):
         try:
-            for nombre, pts in leer_genericos(open(ruta, encoding="utf-8-sig", errors="replace").read()).items():
-                sid = "gen_" + re.sub(r"[^a-z0-9]+", "_", nombre.lower()).strip("_")[:40]
+            for nombre, pts in leer_genericos(leer_texto(ruta)).items():
+                sid = "gen_" + re.sub(r"[^a-z0-9]+", "_", unicodedata.normalize("NFKD", nombre.lower()).encode("ascii", "ignore").decode()).strip("_")[:40]
+                if sid in vistos:  # el mismo índice en dos archivos (o dos veces el mismo archivo)
+                    continue
+                vistos.add(sid)
                 agrega(sid, nombre, "INPC por producto y servicio (archivo de INEGI)", "índice (2.ª quincena de julio de 2018 = 100)",
                        f"INEGI · Índices de precios · {os.path.basename(ruta)}", "https://www.inegi.org.mx/app/indicesdeprecios/", "mensual",
                        lambda pts=pts: [p for p in pts if p[0][:4] >= str(DESDE)])
