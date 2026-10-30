@@ -3,7 +3,7 @@
 
 Fuentes (todas oficiales y con robots.txt que lo permite):
   SNIIM (Secretaría de Economía)  Precios al mayoreo en pesos por kilo en la Central de Abasto de Iztapalapa (CDMX):
-                                  frutas, hortalizas y granos. Historia desde 2015; luego solo se piden los últimos 45 días.
+                                  frutas y hortalizas (granos pendientes). Historia desde 2015; luego solo se piden los últimos 45 días.
   Comisión Reguladora de Energía  Precio de gasolina regular, premium y diésel en cada gasolinera (publicación diaria);
                                   se guarda el promedio nacional de cada día, así la historia crece día con día.
   INEGI (API, INEGI_TOKEN)        INPC general y sus agregados: mercancías, servicios, agropecuarios, energéticos.
@@ -66,7 +66,7 @@ HORTALIZAS = [
     ("fresa", "Fresa", "Frutas", r"^Fresa"),
     ("uva", "Uva", "Frutas", r"^Uva"),
 ]
-GRANOS = [
+GRANOS = [  # nombres verificados en ConsultaGranos.aspx; aún sin lector (ver construir)
     ("frijol_negro", "Frijol negro", "Granos", r"^Frijol Negro -$"),
     ("frijol_pinto", "Frijol pinto", "Granos", r"^Frijol Pinto -$"),
     ("frijol_flor_mayo", "Frijol flor de mayo", "Granos", r"^Frijol Flor de mayo -$"),
@@ -250,8 +250,8 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
         series.append(reg)
         print(f"{sid:<22} {len(reg['puntos']):>4} {reg['puntos'][-1] if reg['puntos'] else ''} {reg.get('error', '')}", flush=True)
 
-    for consulta, resultados, lista, unidad in (("ConsultaFrutasYHortalizas.aspx", "ResultadosConsultaFechaFrutasYHortalizas.aspx", HORTALIZAS, "pesos por kg (mayoreo)"),
-                                                ("ConsultaGranos.aspx", "ResultadosConsultaFechaGranos.aspx", GRANOS, "pesos por kg (mayoreo)")):
+    # Los granos (GRANOS) no tienen consulta por URL en el SNIIM (solo formulario semanal/mensual con envío POST); pendientes.
+    for consulta, resultados, lista, unidad in (("ConsultaFrutasYHortalizas.aspx", "ResultadosConsultaFechaFrutasYHortalizas.aspx", HORTALIZAS, "pesos por kg (mayoreo)"),):
         try:
             opciones = opciones_producto(bajar_sniim(SNIIM + consulta).decode("utf-8", "replace"))
         except Exception as e:  # noqa: BLE001
