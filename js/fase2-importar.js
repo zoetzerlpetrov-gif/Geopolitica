@@ -1,4 +1,4 @@
-import {guardar,validar} from './fase2-modelo.js';
+import {guardar,validar} from './fase2-modelo.js?v=web1';
 const txt=v=>String(v??'');
 const nuevo=(herramienta,activo,regla,titulo,severidad,evidencia)=>({herramienta,activo:txt(activo),regla:txt(regla),titulo:txt(titulo)||'Sin título',severidad:txt(severidad)||'no informada',evidencia:txt(evidencia)});
 export function leerJSON(raw){
@@ -26,7 +26,7 @@ export function importarHallazgos(datos,filas,alcance){
  return {datos:d,agregados,duplicados};
 }
 export function informeLocal(raw){
- if(raw?.formato!=='dominus-fase2-informe-v1'||!['servicios','multimedia'].includes(raw.tipo)||!raw.registro||typeof raw.registro!=='object')throw Error('Informe local no reconocido.');
+ if(raw?.formato!=='dominus-fase2-informe-v1'||!['servicios','multimedia'].includes(raw.tipo)||!raw.registro||typeof raw.registro!=='object')throw Error('Informe JSON no reconocido.');
  return {tipo:raw.tipo,registro:raw.registro};
 }
 export function candidatosGLEIF(raw,fecha=new Date().toISOString().slice(0,10)){

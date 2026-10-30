@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: ['tools/fase23/monitor_publico.py', 'backend/dominus/connectors.py', '.github/workflows/fase23-fuentes.yml']
+    paths: ['tools/fase23/monitor_publico.py', 'tools/fase23/connectors.py', '.github/workflows/fase23-fuentes.yml']
 permissions:
   contents: write
   pages: write

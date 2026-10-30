@@ -4,8 +4,7 @@ import datetime as dt
 import json
 from pathlib import Path
 import sys
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'backend'))
-from dominus.connectors import SOURCES, PublicHTTP, fetch_source, fingerprint, ConnectorError
+from connectors import SOURCES, PublicHTTP, fetch_source, fingerprint, ConnectorError
 
 
 def main():

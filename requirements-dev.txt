@@ -4,3 +4,7 @@ numpy==2.3.3
 shapely==2.1.1
 fpdf2==2.8.4
 pypdf==6.1.1
+
+# Contratos del monitor público en la nube
+httpx==0.28.1
+defusedxml==0.7.1

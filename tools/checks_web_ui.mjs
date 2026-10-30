@@ -1,0 +1,37 @@
+// Pruebas de DOM e IndexedDB; no automatiza un navegador ni llama a servicios externos.
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {pathToFileURL} from 'node:url';
+const root=new URL('../',import.meta.url),deps=process.env.WEB_TEST_DEPS||'/tmp/dominus-web-js/node_modules/';
+const {JSDOM}=await import(pathToFileURL(deps+'jsdom/lib/api.js'));
+const {indexedDB}=await import(pathToFileURL(deps+'fake-indexeddb/build/esm/index.js'));
+globalThis.indexedDB=indexedDB;
+const DB=await import(new URL('js/fase4-db.js',root));
+const {vacio}=await import(new URL('js/fase4-modelo.js',root));
+const {descifrar}=await import(new URL('js/web-cripto.js',root));
+const wait=async predicate=>{for(let i=0;i<500;i++){if(predicate())return;await new Promise(r=>setTimeout(r,10));}throw Error('No terminó la operación web: '+globalThis.document?.getElementById('estado')?.textContent);};
+test('IndexedDB: dos ediciones simultáneas no pierden datos ni crean revisiones fantasma',async()=>{const c=await DB.guardar({title:'Conflicto QA',data:{fase4:vacio()}});const results=await Promise.allSettled([DB.guardar({id:c.id,title:c.title,data:{fase4:vacio()},expected:1,reason:'Primera'}),DB.guardar({id:c.id,title:c.title,data:{fase4:vacio()},expected:1,reason:'Segunda'})]);assert.equal(results.filter(r=>r.status==='fulfilled').length,1);assert.equal(results.filter(r=>r.status==='rejected').length,1);assert.equal((await DB.leer(c.id)).version,2);assert.equal((await DB.historial(c.id)).length,2);});
+test('Fase 4 web: crear, guardar, incorporar original, recargar y recuperar copia cifrada',async()=>{
+ const dom=new JSDOM(readFileSync(new URL('fase4.html',root),'utf8'),{url:'https://site.example/fase4.html'});
+ globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.localStorage=dom.window.localStorage;globalThis.confirm=()=>true;
+ const blobs=new Map(),downloads=[];globalThis.URL.createObjectURL=blob=>{const id='blob:qa-'+blobs.size;blobs.set(id,blob);return id;};globalThis.URL.revokeObjectURL=()=>{};dom.window.HTMLAnchorElement.prototype.click=function(){downloads.push({name:this.download,blob:blobs.get(this.href)});};
+ await import(new URL('js/fase4.js',root));
+ const $=id=>document.getElementById(id),event=(n,type)=>n.dispatchEvent(new dom.window.Event(type,{bubbles:true,cancelable:true}));
+ $('declarante').value='Analista QA declarado';const form=$('nuevo-caso');form.elements.title.value='Expediente UI QA';event(form,'submit');await wait(()=>$('caso-titulo').textContent==='Expediente UI QA');
+ const panel=$('phase4-workspace');let asset=panel.querySelector('form');asset.elements.title.value='<img src=x onerror=alert(1)> Terminal';asset.elements.owner.value='Operaciones';asset.elements.identifier.value='TERM-QA';event(asset,'submit');await wait(()=>panel.querySelector('article'));assert.equal(panel.querySelectorAll('img').length,0);
+ [...panel.querySelectorAll('nav button')].find(b=>b.textContent==='Originales y custodia').click();const original=panel.querySelector('form');const bytes=new TextEncoder().encode('original UI QA');Object.defineProperty(original.elements.file,'files',{value:[{name:'prueba.txt',size:bytes.length,arrayBuffer:async()=>bytes.buffer}]});for(const [key,value]of Object.entries({source:'Generación QA',acquired_at:'2026-10-29T10:00:00-06:00',custodian:'QA',reason:'Prueba documental'}))original.elements[key].value=value;event(original,'submit');await wait(()=>panel.querySelector('article')?.textContent.includes('prueba.txt'));
+ $('clave').value='contraseña sintética de prueba';$('exportar-cifrado').click();await wait(()=>downloads.length===1);assert.equal($('clave').value,'');const encrypted=JSON.parse(await downloads[0].blob.text()),plain=await descifrar(encrypted,'contraseña sintética de prueba');assert.equal(plain.data.fase4.assets.length,1);assert.equal(plain.data.fase4.evidence[0].filename,'prueba.txt');
+ const before=(await DB.listar()).length;const restore=$('restaurar');Object.defineProperty(restore.elements.file,'files',{value:[{size:1,text:async()=>JSON.stringify(encrypted)}]});restore.elements.password.value='contraseña sintética de prueba';event(restore,'submit');await wait(()=>$('caso-titulo').textContent==='Expediente UI QA · importado');assert.equal((await DB.listar()).length,before+1);assert.equal(restore.elements.password.value,'');
+ await $('recargar').onclick();[...panel.querySelectorAll('nav button')].find(b=>b.textContent==='Activos').click();assert.match(panel.textContent,/Terminal/);
+ const db=await DB.openDB();db.close();dom.window.close();
+});
+test('publicación web: IDs y anclas válidos, referencias a módulos existentes',()=>{for(const name of ['plataforma.html','fase4.html','fase2.html','analista.html']){const dom=new JSDOM(readFileSync(new URL(name,root),'utf8')),d=dom.window.document,ids=[...d.querySelectorAll('[id]')].map(n=>n.id);assert.equal(ids.length,new Set(ids).size,name);for(const a of d.querySelectorAll('a[href^="#"]'))assert.ok(d.getElementById(a.getAttribute('href').slice(1)),name+' '+a.href);for(const s of d.querySelectorAll('script[src],link[rel=stylesheet]')){const src=s.getAttribute('src')||s.getAttribute('href');assert.ok(readFileSync(new URL(src.split('?')[0],root)).length,src);}dom.window.close();}});
+
+test('Fase 3 web: hash y respaldo cifrado se completan sin subir archivos',async()=>{
+ const dom=new JSDOM(readFileSync(new URL('plataforma.html',root),'utf8'),{url:'https://site.example/plataforma.html'});globalThis.window=dom.window;globalThis.document=dom.window.document;globalThis.location=dom.window.location;globalThis.confirm=()=>true;let calls=[];globalThis.fetch=async url=>{calls.push(url);assert.equal(url,'data/fase23/estado.json');return {ok:true,json:async()=>({version:1,fuentes:[],generado_utc:'QA',alcance:'Prueba'})};};const blobs=new Map(),downloads=[];globalThis.URL.createObjectURL=blob=>{const id='blob:web-'+blobs.size;blobs.set(id,blob);return id;};dom.window.HTMLAnchorElement.prototype.click=function(){downloads.push(blobs.get(this.href));};
+ await import(new URL('js/plataforma.js',root));const $=id=>document.getElementById(id),event=n=>n.dispatchEvent(new dom.window.Event('submit',{cancelable:true}));const content={test:'respaldo UI'};const file={name:'qa.json',size:25,type:'application/json',lastModified:1793280000000,text:async()=>JSON.stringify(content),arrayBuffer:async()=>new TextEncoder().encode('abc').buffer};
+ Object.defineProperty($('archivo-web').elements.file,'files',{value:[file]});event($('archivo-web'));await wait(()=>$('archivo-resultado').textContent.includes('ba7816bf'));
+ const encrypt=$('cifrar-web');Object.defineProperty(encrypt.elements.file,'files',{value:[file]});encrypt.elements.password.value=encrypt.elements.confirmation.value='contraseña de prueba web';event(encrypt);await wait(()=>downloads.length===1);assert.equal(encrypt.elements.password.value,'');const pkg=JSON.parse(await downloads[0].text());assert.deepEqual(await descifrar(pkg,'contraseña de prueba web'),content);
+ const decrypt=$('abrir-web');Object.defineProperty(decrypt.elements.file,'files',{value:[{size:100,text:async()=>JSON.stringify(pkg)}]});decrypt.elements.password.value='contraseña de prueba web';event(decrypt);await wait(()=>downloads.length===2);assert.deepEqual(JSON.parse(await downloads[1].text()),content);assert.deepEqual(calls,['data/fase23/estado.json']);dom.window.close();
+});

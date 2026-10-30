@@ -197,13 +197,13 @@ def cookies(cfg):
 
 
 def xml_seguro(cfg):
-    inseguros = [f for f in archivos(".py") if f.startswith("backend/") and re.search(r"xml\.etree|from xml import|lxml", leer(f)) and "defusedxml" not in leer(f)]
-    return r("cumple", "El backend lee XML con defusedxml.") if not inseguros else r("parcial", f"XML sin defusedxml en: {', '.join(inseguros)}")
+    inseguros = [f for f in archivos(".py") if f.startswith("tools/fase23/") and re.search(r"xml\.etree|from xml import|lxml", leer(f)) and "defusedxml" not in leer(f)]
+    return r("cumple", "El monitor de fuentes en la nube lee XML con defusedxml.") if not inseguros else r("parcial", f"XML sin defusedxml en: {', '.join(inseguros)}")
 
 
 def bitacora(cfg):
     s = leer("backend/dominus/security.py")
-    return r("cumple", "Bitácora encadenada con HMAC en el backend.") if "hmac" in s and "audit" in s else r("no_cumple", "Sin bitácora con integridad.")
+    return r("cumple", "Bitácora encadenada con HMAC en el backend.") if "hmac" in s and "audit" in s else r("no_cumple", "Edición web: el historial del navegador es documental, sin integridad independiente.")
 
 
 def worker_origenes(cfg):
@@ -233,6 +233,8 @@ def plan_incidentes(cfg):
 def respaldo(cfg):
     if existe("docs/RECUPERACION.md"):
         return r("cumple", "Procedimiento de recuperación documentado.")
+    if existe("js/web-cripto.js") and existe("docs/TUTORIAL_FASE3.md"):
+        return r("parcial", "Respaldo cifrado descargable y recuperación web documentados; no hay copia privada automática en otro servidor.")
     if existe("backend/dominus/backup.py"):
         return r("parcial", "El backend tiene respaldo (backup.py) y los datos públicos se regeneran desde las fuentes; falta docs/RECUPERACION.md.")
     return r("no_cumple", "Sin respaldo ni procedimiento de recuperación.")

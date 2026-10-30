@@ -1,25 +1,25 @@
 # Seguridad y privacidad de DOMINUS OSINT
 
-Revisión del 29 de octubre de 2026 sobre el repositorio público (sitio en GitHub Pages, `backend/`, Worker `cloudflare/vuelos` y workflows). Es una revisión de código hecha por el equipo, no una auditoría externa ni una prueba de penetración. Antes de cobrar conviene contratar una prueba de penetración de la versión comercial.
+Revisión del 29 de octubre de 2026 sobre el repositorio público (sitio en GitHub Pages, edición web de Fases 1–4, Worker `cloudflare/vuelos` y workflows). Es una revisión de código hecha por el equipo, no una auditoría externa ni una prueba de penetración. Antes de cobrar conviene contratar una prueba de penetración de la versión comercial.
 
 ## 1. Qué se revisó y qué se encontró
 
 | Tema | Cómo se revisó | Resultado |
 |---|---|---|
 | Llaves y contraseñas en el código | Búsqueda de patrones de llaves (AWS, Google, GitHub, OpenAI, Slack, llaves privadas) en todo el repositorio | Ninguna. Las llaves viven en GitHub Secrets y los workflows las pasan como variables de entorno |
-| Inyección SQL | Búsqueda de consultas armadas con texto (`execute(f"…")`, `%`, `.format`, `text(f"…")`) | Ninguna. `backend/` usa SQLAlchemy con consultas parametrizadas; el único `text()` es una consulta fija en una prueba |
+| Inyección SQL | Búsqueda de consultas armadas con texto (`execute(f"…")`, `%`, `.format`, `text(f"…")`) | Ninguna. Fases 1–4 web no ejecutan SQL; IndexedDB conserva documentos en el navegador |
 | Inyección de HTML (XSS) | Revisión de cada `innerHTML`/`insertAdjacentHTML` con `${…}` sin `esc()` (42 casos) | Los 42 insertan números, textos propios del sitio o HTML ya escapado por funciones como `kv()`. Los datos externos (noticias, nombres de lugares, certificados) pasan por `esc()` |
-| XML externo (XXE) | `backend/dominus/connectors.py` | Usa `defusedxml` con entidades y DTD externas prohibidas |
+| XML externo (XXE) | `tools/fase23/connectors.py` | Usa `defusedxml` con entidades y DTD externas prohibidas |
 | Comandos del sistema | `subprocess`, `os.system`, `shell=True` | Solo listas de argumentos, sin shell y con tiempo límite |
 | Worker de vuelos | `cloudflare/vuelos/worker.js` | Solo responde a los orígenes de la lista y solo a cajas de búsqueda predefinidas: no sirve como proxy abierto |
 | Workflows de GitHub Actions | Datos de formularios o eventos pegados dentro de comandos `run:` | **1 hallazgo, corregido:** `inmuebles-geo.yml` pegaba el campo «max» dentro del comando. Ahora pasa por una variable y se valida como número |
-| Backend | `backend/dominus/security.py` y `app.py` | Contraseñas con Argon2id, segundo factor TOTP, límite de intentos por IP y por usuario, cookie `HttpOnly` y `SameSite=Strict`, token CSRF, encabezados CSP, HSTS, `X-Frame-Options` y bitácora encadenada con HMAC |
+| Expedientes web | `js/fase4-*` y `js/web-cripto.js` | Datos en navegador; exportación cifrada con contraseña. Sin cuentas, MFA, permisos compartidos ni auditoría independiente |
 | Rastreadores | Búsqueda de Google Analytics, Tag Manager, Meta Pixel, Hotjar, Clarity, Matomo y Plausible | Ninguno |
 | Encabezados del sitio público | GitHub Pages no permite configurarlos | Sin CSP en el sitio público. Se resuelve en Cloudflare (sección 3) |
 
 Pendientes recomendados (no son fallas activas):
 1. Fijar las acciones de GitHub por su hash (`actions/checkout@<sha>`) en lugar de `@v4`, para que un cambio en la acción no entre sin revisión.
-2. Activar Dependabot para `backend/requirements.txt` y `tools/package.json`.
+2. Activar Dependabot para los requisitos de workflows y `tools/package.json`.
 3. Agregar CSP y demás encabezados en la versión comercial.
 4. Hacer una prueba de penetración externa antes del lanzamiento.
 
@@ -29,14 +29,14 @@ La certificación ISO 27001 se otorga a una organización, no a un programa. Exi
 
 | Control (Anexo A) | Evidencia en el proyecto | Falta |
 |---|---|---|
-| 5.15 Control de acceso | Roles en `backend/` (owner, analyst, reviewer, viewer); planes en `config/planes.json` | Que el Worker comercial aplique el plan del lado del servidor |
+| 5.15 Control de acceso | Sin roles para expedientes del navegador; planes en `config/planes.json` | Que el Worker comercial aplique el plan del lado del servidor |
 | 5.23 Servicios en la nube | Cloudflare, GitHub | Registro de proveedores con sus términos y la ubicación de los datos |
 | 5.34 Privacidad y datos personales | Regla de no guardar datos personales más allá del enlace público | Aviso de privacidad (LFPDPPP) para la versión comercial |
 | 8.4 Acceso al código fuente | Repositorio comercial privado previsto | Protección de rama y revisión obligatoria |
-| 8.5 Autenticación segura | Argon2id + TOTP en `backend/` | Lo mismo en la versión comercial |
+| 8.5 Autenticación segura | No disponible en los expedientes de esta edición web | Lo mismo en la versión comercial |
 | 8.9 Gestión de la configuración | Todo en Git; secretos en GitHub Secrets | Inventario de secretos y su rotación |
-| 8.15 Registro de eventos | Bitácora HMAC en `backend/` | Retención mínima de registros (ver sección 4) |
-| 8.24 Criptografía | HTTPS, HMAC, Argon2id | Política de llaves |
+| 8.15 Registro de eventos | Historial documental en navegador, editable por quien controle el perfil | Retención mínima de registros (ver sección 4) |
+| 8.24 Criptografía | HTTPS y AES-GCM/PBKDF2 en archivos exportados | Política de llaves |
 | 8.25–8.29 Desarrollo seguro y pruebas | Pruebas automáticas en cada PR (581 de Python y 412 de JavaScript) | Análisis estático de seguridad (CodeQL) en CI y prueba de penetración |
 
 Para la parte web, la guía práctica es OWASP ASVS 4.0 nivel 2 y el OWASP Top 10 (2021). La revisión de la sección 1 cubre A03 (inyección) y parte de A05 (configuración).
@@ -79,3 +79,7 @@ En el sitio actual, el bloqueo por plan ocurre en el navegador. Alguien con cono
 - Registros de acceso con la IP truncada y borrado automático en 30 días o menos.
 - Ninguna analítica de terceros; si se necesita medir uso, contadores agregados en el propio Worker.
 - Opción de pagar y entrar sin dar el nombre real: el correo puede ser un alias.
+
+## Cambio de alcance: edición web
+
+Se retiraron los componentes autohospedados de Fases 3/4. Sus controles anteriores no se aplican al modo navegador ni se presentan como activos. Los archivos y las declaraciones del navegador no constituyen evidencia autenticada. Los respaldos cifrados protegen la copia descargada; no el almacenamiento persistente del sitio. La revisión histórica anterior no constituye certificación ni prueba de penetración de esta edición.

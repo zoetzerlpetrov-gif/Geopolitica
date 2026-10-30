@@ -1,32 +1,32 @@
-# Fase 4A · Expedientes unificados, activos y evidencia
+# Fase 4A · Expedientes web
 
-Primera entrega de la Fase 4. Requiere el backend privado de Fase 3 actualizado. No crea otra base ni duplica los expedientes. Las entregas siguientes (alertas/tablero/playbooks; integraciones/IA; entrevistas/Python) no se declaran implementadas aquí.
+Entrada: fase4.html. Funciona desde el navegador, sin servidor privado ni programas adicionales. Reutiliza las definiciones documentales de Fase 1/2; no modifica sus registros de origen.
 
-## Acceso y ejemplo
+## Funciones
 
-1. Inicia sesión privada, selecciona organización y expediente.
-2. Abre **Fase 4A · Expediente unificado, activos y evidencia**.
-3. En Activos crea «Terminal de prueba»: tipo instalación, responsable «Operaciones», identificador interno «TERM-QA-01», ubicación declarada y criticidad. No se consultan ni escanean las IP registradas.
-4. En Entidades y eventos crea «Interrupción de suministro de prueba», tipo evento y fuente documental.
-5. En Relaciones elige evento → afecta → terminal y documenta el fundamento. Puedes vincular también registros existentes de Fase 1/2 y originales incorporados, sin copiar sus campos. Referencias inexistentes, relaciones duplicadas o consigo mismas se rechazan.
-6. En Vista unificada busca títulos, observa identificadores y relaciones. Las relaciones son declaraciones del analista, no atribuciones automáticas.
-7. En Originales y custodia incorpora un archivo sintético, fuente/método de obtención, fecha con zona horaria, custodio y motivo. Ejemplo de fecha: 2026-10-29T10:00:00-06:00. El servidor calcula SHA-256, registra actor y recepción, crea una versión y un evento de auditoría.
-8. Descarga el original por acción explícita. Se verifica la huella y se audita; se entrega como archivo adjunto binario. Trátalo según su origen, la aplicación no lo analiza con antivirus.
-9. Registra una transferencia declarada, custodio y motivo. No concede acceso a ese custodio ni prueba que aceptó la recepción. Los permisos se administran por separado.
-10. Consulta historial de expediente y verifica que otra cuenta solo accede si tiene autorización vigente. El original sigue sujeto a conservación y papelera del caso.
+- Crear y abrir expedientes guardados en IndexedDB del origen y perfil actuales.
+- Incorporar Fase 1/2 mediante copia explícita del navegador o respaldo JSON.
+- Registrar activos, entidades/eventos y relaciones con fundamento.
+- Incorporar originales de hasta 512 KiB, calcular SHA-256 y registrar custodia declarada.
+- Buscar títulos y consultar relaciones desde una vista unificada.
+- Guardar versiones atómicas con detección de conflictos entre pestañas.
+- Exportar versión actual en claro o cifrada con contraseña.
+- Abrir respaldos como una copia nueva, comprobando esquema y hashes.
 
-## Integridad, protección y límites
+## Ejemplo
 
-El documento del caso incorpora fase4/version1 con entidades, activos, relaciones y originales. Se cifra en el mismo sobre AES-GCM que F1/F2 y se versiona en revisiones. No hay cambio de tablas: backup/restauración/rotación/retención existentes incluyen esta información. Los originales no se aceptan por importación ni edición genérica: solo por recepción dedicada. Los eventos de custodia solo se añaden por su acción autenticada; no se pueden cambiar/borrar por edición documental.
+Crea «Suministro QA». Añade activo «Terminal QA», evento «Interrupción de prueba» y relación evento → afecta → terminal. Incorpora un TXT ficticio, fecha con zona horaria y custodio declarado. Exporta cifrado y prueba recuperar una copia. No se autentican identidades por escribir un nombre.
 
-Límite de original: 512 KiB; máximo 30 originales por caso, sujeto al máximo global de 4 MB documentales incluyendo base64 y metadatos. La representación base64 aumenta el espacio aproximadamente un tercio. Cada versión conserva el documento completo; no usar como repositorio de videos o imágenes de disco. Para evidencia grande hace falta una siguiente entrega de almacenamiento de objetos, cuotas, retención y backup probados, no un enlace a una URL pública arbitraria.
+## Persistencia y límites
 
-Originales pequeños se conservan dentro del documento cifrado y las revisiones, no en rutas ejecutables ni carpetas públicas. No se descomprimen, previsualizan ni ejecutan; no hay descarga desde URL, antivirus, WORM ni sello de tiempo de tercero. La fecha de adquisición y custodio son declaraciones; recepción y actor son registrados por el servidor y dependen de su reloj. SHA-256 no confirma veracidad, autoría ni admisibilidad legal. El administrador con claves/base mantiene capacidades sobre el sistema; el HMAC no sustituye custodia independiente.
+Base dominus_fase4_web_v1; almacenes cases e history. Cada guardado compara versión esperada dentro de la misma transacción de lectura/escritura. Los originales no se reemplazan por edición de formularios; la custodia se añade mediante su acción. Un usuario con control del navegador puede alterar almacenamiento o archivos: no es WORM, control de acceso ni prueba independiente.
 
-Las exportaciones documentales en claro incluyen fase4 y originales codificados; no pegarlas en servicios públicos. Importar originales exportados a otro caso por edición documental se rechaza para no inventar recepción autenticada. Usa respaldo cifrado completo para recuperación íntegra; vuelve a incorporar de manera explícita si se inicia otro expediente.
+Máximo 4 MB por caso, 30 originales, 100 eventos de custodia por original y 500 registros por colección, además de cuotas del navegador. Los originales se guardan codificados y aumentan el tamaño. Cada versión conserva un documento completo. No hay reducción silenciosa de historial: si no hay espacio se rechaza el guardado. Exportar un expediente entrega la versión actual con sus originales/custodia, no todo el historial.
 
-La autorización es por caso: no hay compartimentos diferentes por evidencia en esta entrega. No incorporar identidades HUMINT que requieran permisos separados. Registrar una IP no autoriza tareas técnicas.
+El cifrado AES-GCM protege únicamente el archivo exportado. Datos persistidos en IndexedDB y formularios no se cifran automáticamente. No hay cuentas, roles, MFA, sincronización ni conservación administrada por una institución. No usar como repositorio confidencial de clientes sin controles adicionales del entorno.
 
-## Pruebas
+## Compatibilidad y retirada del modo anterior
 
-Checks de backend incluyen relaciones con F1/F2, rechazo de referencias huérfanas, conservación de originales por todas las rutas de escritura, custodia incremental autenticada, descarga idéntica/integridad, aislamiento por cliente/ACL/revocación, conflicto de versión, límites, cifrado en base, backup/restore, rotación de claves y purga del caso. La aceptación Docker comprueba también carga/descarga del original y persistencia tras reiniciar API.
+Las exportaciones documentales dominus-case-export-v1 se pueden abrir como copias nuevas después de validar esquema y originales. Actor, custodia y aprobaciones de origen se tratan como declaraciones importadas. Los respaldos completos cifrados del servicio anterior no son este formato y no se abren con el cifrador web. No se conecta ni publica una base anterior automáticamente.
+
+Se retiró la interfaz autohospedada. El sitio no presenta como activas sus cuentas, permisos, claves ni tareas. Alertas privadas, colaboración e IA con documentos privados siguen fuera de esta edición web.

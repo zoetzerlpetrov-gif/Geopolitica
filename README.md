@@ -10,6 +10,12 @@ Sitio estático en GitHub Pages; los eventos se actualizan cada hora con GitHub 
 
 > Los datos provienen de terceros. La clasificación es automática y puede tener errores. No es asesoría.
 
+## Uso web de Fases 1–4
+
+Abrir el sitio publicado. Fase 1: analista.html; Fase 2: fase2.html; Fase 3: plataforma.html; Fase 4A: fase4.html. No se requiere preparar la computadora. La guía está dentro de Fase 3. Los registros documentales se guardan en el navegador, con respaldos cifrados descargables; no se ofrecen cuentas ni sincronización privada en esta edición.
+
+Los procesos de fuentes y datos públicos se ejecutan en GitHub Actions. Los comandos de desarrollo de este repositorio están destinados a quienes mantienen el código, no a usuarios de la aplicación.
+
 ## Cómo está armado
 
 ```

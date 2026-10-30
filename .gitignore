@@ -9,3 +9,8 @@ __pycache__/
 /capas/
 /vivos/
 config/satelite.json
+
+# Custodia de configuraciones y datos de versiones anteriores
+**/.env
+**/private/
+node_modules/
