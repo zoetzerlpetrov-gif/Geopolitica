@@ -9,7 +9,7 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Patrones y resultados de granos
+      - name: Formulario de granos
         run: |
           python3 - <<'PY'
           import re, sys
@@ -17,19 +17,16 @@ jobs:
           sys.path.insert(0, "tools/economia")
           import precios_mx as M
           b = M.con_reintentos(M.PE.bajar)
-          for cons, lista in (("ConsultaFrutasYHortalizas.aspx", M.HORTALIZAS), ("ConsultaGranos.aspx", M.GRANOS)):
-              ops = M.opciones_producto(b(M.SNIIM + cons).decode("utf-8", "replace"))
-              for sid, _, _, pat in lista:
-                  print(cons[:14], sid, M.elegir(ops, pat))
-          for pag in ("ResultadosConsultaFechaGranos.aspx",):
-              u = M.url_resultados(pag, "347", date(2026, 9, 1), date(2026, 9, 30))
-              try:
-                  t = b(u).decode("utf-8", "replace")
-                  print("##", pag, len(t), "filas", M.filas_sniim(t)[:5])
-                  tabla = re.search(r"<table.*?</table>", t[t.find("Fecha"):] if "Fecha" in t else t, re.S)
-                  print(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "|", t[t.find("Fecha") - 200:t.find("Fecha") + 1500]))[:1500])
-              except Exception as e:
-                  print("##", pag, "ERROR", repr(e)[:200])
-          u = M.url_resultados("ResultadosConsultaFechaFrutasYHortalizas.aspx", "839", date(2026, 9, 1), date(2026, 9, 30))
-          print("## tomate", M.filas_sniim(b(u).decode("utf-8", "replace"))[:3])
+          t = b(M.SNIIM + "ConsultaGranos.aspx").decode("utf-8", "replace")
+          for m in re.finditer(r"Resultados[A-Za-z]*\.aspx[^\"']{0,400}", t):
+              print("URL>", m.group(0)[:500])
+          for sid in re.findall(r'<select[^>]*id="([^"]+)"', t):
+              sel = re.search(r'id="%s".*?</select>' % sid, t, re.S).group(0)
+              ops = re.findall(r'value="([^"]*)"[^>]*>([^<]*)<', sel)
+              print("SELECT", sid, len(ops), [o for o in ops if re.search("Iztapalapa|DF|Distrito|Ciudad de M|Kilo|Kg|Por", o[1], re.I)][:12], ops[:4])
+          for m in re.finditer(r"function [A-Za-z_]+\([^)]*\)\s*\{[^}]{0,900}", t):
+              if "aspx" in m.group(0) or "location" in m.group(0):
+                  print("JS>", re.sub(r"\s+", " ", m.group(0))[:900])
+          r = b(M.url_resultados("ResultadosConsultaFechaGranos.aspx", "347", date(2026, 9, 1), date(2026, 9, 30))).decode("utf-8", "replace")
+          print("RES>", re.sub(r"\s+", " ", re.sub(r"<script.*?</script>|<style.*?</style>", "", r, flags=re.S|re.I))[-2500:])
           PY
