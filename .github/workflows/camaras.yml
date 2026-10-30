@@ -16,9 +16,11 @@ permissions:
   pages: write
   id-token: write
 
-# La misma rama de datos que el constructor general; no publicar simultáneamente.
+# Grupo propio: compartir «capas» hacía que GitHub cancelara la corrida en espera cuando entraba una de
+# «Construir capas» (29 oct 2026). Ambos publican datos-capas con tools/capas/publicar_datos_capas.sh,
+# que fusiona con la versión vigente de la rama y sube con --force-with-lease, así que no se pisan.
 concurrency:
-  group: capas
+  group: camaras
   cancel-in-progress: false
 
 jobs:
@@ -61,17 +63,7 @@ jobs:
       - name: Publicar datos conservando todas las demás capas
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          mkdir /tmp/pub
-          cp -r capas /tmp/pub/
-          cd /tmp/pub
-          git init -q
-          git checkout -q -b datos-capas
-          git config user.name 'geopolitica-bot'
-          git config user.email 'actions@users.noreply.github.com'
-          git add capas
-          git commit -q -m "cámaras $(date -u +'%Y-%m-%d %H:%MZ')"
-          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-capas
+        run: tools/capas/publicar_datos_capas.sh camaras "cámaras $(date -u +'%Y-%m-%d %H:%MZ')"
   publicar:
     needs: construir
     uses: ./.github/workflows/pages.yml

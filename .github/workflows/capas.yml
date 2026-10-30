@@ -107,11 +107,8 @@ jobs:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           if [ -f capas/.sin_cambios ]; then echo "Lugares de culto completos y recientes: nada que publicar"; exit 0; fi
-          mkdir /tmp/pub && cp -r capas /tmp/pub/ && cd /tmp/pub
-          git init -q && git checkout -q -b datos-capas
-          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
-          git add capas && git commit -q -m "capas $(date -u +'%Y-%m-%d %H:%MZ')"
-          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-capas
+          # Fusiona con la rama vigente: conserva las cámaras si «Cámaras del mundo» publicó unas más recientes.
+          tools/capas/publicar_datos_capas.sh capas "capas $(date -u +'%Y-%m-%d %H:%MZ')"
 
   publicar:
     needs: construir
