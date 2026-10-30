@@ -1,93 +1,63 @@
-"""Sonda temporal: descubre y verifica series para la sección de economía (no se fusiona)."""
-import csv, io, json, os, re, urllib.request
+"""Sonda temporal 2: identificadores de INEGI y Banxico (INPC por genérico), FRED de precios y robots.txt."""
+import csv, io, json, os, re, sys, urllib.request
+sys.path.insert(0, "ingest")
+import fuentes as F
 
-UA = {"User-Agent": "DOMINUS-OSINT/1.0 (investigacion; contacto via github.com/zoetzerlpetrov-gif/Geopolitica)"}
+UA = {"User-Agent": "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"}
 def get(url, headers=None, t=60):
-    req = urllib.request.Request(url, headers={**UA, **(headers or {})})
-    with urllib.request.urlopen(req, timeout=t) as r:
+    with urllib.request.urlopen(urllib.request.Request(url, headers={**UA, **(headers or {})}), timeout=t) as r:
         return r.read()
-
 def p(*a): print(*a, flush=True)
 
-# 1) INEGI: catálogo completo del BIE y BISE, filtrado por palabras clave
+for u in ["https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE", "https://fred.stlouisfed.org/searchresults/?st=haircut",
+          "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_m",
+          "https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICATOR/1/es/0/false/BISE/2.0/x",
+          "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos",
+          "https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&accion=consultarCuadro&idCuadro=CP151&locale=es",
+          "https://www.newyorkfed.org/medialibrary/research/interactives/gscpi/downloads/gscpi_data.xlsx",
+          "https://raw.githubusercontent.com/TheEconomist/big-mac-data/master/output-data/big-mac-full-index.csv"]:
+    p("ROBOTS", F.permitido_por_robots(u), u[:110])
+
 tok = os.environ.get("INEGI_TOKEN", "")
-p("INEGI token presente:", bool(tok))
-claves = ["fondas", "taquer", "loncher", "cerveza", "cemento", "confianza del consumidor", "indicador global de la actividad",
-          "índice general", "indice general", "restaurantes", "esparcimiento", "viajeros internacionales", "ocupación hotelera",
-          "vehículos ligeros", "tortilla", "huevo", "corte de cabello", "tintorer", "lavander", "cine", "canasta", "producto interno bruto",
-          "inflación", "papel", "cartón", "carton", "servicios personales", "autoservicio", "producción industrial", "actividad industrial"]
-for fuente in ("BIE", "BISE"):
+base = "https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml"
+for url in [f"{base}/CL_INDICATOR/720066/es/BISE/2.0/{tok}?type=json", f"{base}/CL_INDICATOR/628194/es/BIE/2.0/{tok}?type=json",
+            f"{base}/CL_INDICATOR//es/BIE/2.0/{tok}?type=json"]:
     try:
-        raw = get(f"https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/CL_INDICATOR//es/{fuente}/2.0/{tok}?type=json", t=180)
-        d = json.loads(raw)
-        cods = d.get("CODE", [])
-        p(f"INEGI {fuente}: {len(cods)} indicadores en el catálogo")
-        for c in cods:
-            desc = str(c.get("Description", ""))
-            dl = desc.lower()
-            if any(k in dl for k in claves):
-                p(f"  {fuente} {c.get('value')} | {desc[:170]}")
+        b = get(url, t=120); p("INEGI CL", url.split("/CL_INDICATOR/")[1][:25], len(b), b[:400])
     except Exception as e:
-        p(f"INEGI {fuente} ERROR {type(e).__name__}: {str(e)[:200]}")
+        p("INEGI CL ERROR", url.split("/CL_INDICATOR/")[1][:25], type(e).__name__, str(e)[:100])
 
-# 2) BLS: lista de artículos del INPC de EUA (para armar IDs de FRED CUSR0000/CUUR0000)
+def inegi(i, fuente):
+    try:
+        d = json.loads(get(f"{base}/INDICATOR/{i}/es/0/true/{fuente}/2.0/{tok}?type=json", t=60))
+        s = d["Series"][0]; o = s.get("OBSERVATIONS") or []
+        meta = ""
+        try:
+            m = json.loads(get(f"{base}/CL_INDICATOR/{i}/es/{fuente}/2.0/{tok}?type=json", t=60)); meta = m["CODE"][0]["Description"]
+        except Exception as e:
+            meta = f"(sin nombre: {type(e).__name__})"
+        p(f"  INEGI {fuente} {i}: {meta[:120]} | {s.get('LASTUPDATE')} | {o[0] if o else None}")
+    except Exception as e:
+        p(f"  INEGI {fuente} {i} ERROR {type(e).__name__} {str(e)[:60]}")
+for i in ["628194", "910392", "910399", "454168", "454186", "737121", "736939", "735879", "494098", "720066", "6200093709", "214308", "216064", "702094", "444570"]:
+    for f in ("BIE", "BISE"):
+        inegi(i, f)
+
 try:
-    t = get("https://download.bls.gov/pub/time.series/cu/cu.item", {"User-Agent": "DOMINUS-OSINT investigacion zoetzerl.research@users.noreply.github.com"}).decode("utf-8", "replace")
-    for l in t.splitlines():
-        if re.search(r"cosmetic|haircut|dry clean|laundry|underwear|admission to movies|eggs|men's apparel|personal care", l, re.I):
-            p("  BLS", l.strip()[:150])
+    h = get("https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&accion=consultarCuadro&idCuadro=CP151&locale=es", t=90).decode("latin-1", "replace")
+    p("BANXICO CP151", len(h))
+    for m in re.finditer(r"(fonda|taquer|loncher|cerveza|tortilla|huevo|corte de cabello|tintorer|cine|restaurant|pollo|refresco)", h, re.I):
+        seg = h[max(0, m.start() - 400): m.end() + 100]
+        ids = re.findall(r"SP\d{3,6}", seg)
+        p("  BX", m.group(0), ids[-3:], re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", seg))[-160:])
 except Exception as e:
-    p("BLS ERROR", type(e).__name__, str(e)[:200])
+    p("BANXICO CP151 ERROR", type(e).__name__, str(e)[:100])
 
-# 3) FRED: verifica candidatos (último dato)
-fred = ["T10Y2Y", "SAHMREALTIME", "PCOPPUSDM", "IPG32221S", "IPN32221N", "RAILFRTCARLOADSD11", "RAILFRTINTERMODAL", "TRUCKD11",
-        "APU0000708111", "IPG336214S", "IPN336214N", "IPG336213S", "CUSR0000SEGB", "CUSR0000SEGB02", "CUSR0000SEGD01", "CUSR0000SEGD03",
-        "CUSR0000SERF02", "CUSR0000SAA1", "CUSR0000SEAA03", "CUSR0000SEAA", "MRTSSM722USS", "MRTSSM4451USS", "GDPC1", "A191RL1Q225SBEA",
-        "FEDFUNDS", "DFF", "INDPRO", "DEXMXUS", "CSCICP03MXM665S", "MEXCPIALLMINMEI", "MEXRGDPEXP"]
-for s in fred:
+for s in ["CUUR0000SEGB02", "CUUR0000SEGB", "CUSR0000SEGD02", "CUUR0000SEGD02", "CUUR0000SERF02", "CUUR0000SEAA04", "CUSR0000SEAA04", "CUUR0000SEGD03",
+          "CUSR0000SEFV", "CUSR0000SAF11", "CUSR0000SEFV01", "CUUR0000SERF01", "CUSR0000SERF01", "IPG322S", "IPG3222S", "IPN3222N", "PCU322211322211",
+          "WPU091403", "PCU3222113222110", "MEXPRCNTO01GPSAM", "MEXLOLITONOSTSAM", "IRLTLT01MXM156N", "INTDSRMXM193N", "CPALTT01MXM659N", "MEXCPICORMINMEI"]:
     try:
         rows = list(csv.reader(io.StringIO(get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={s}").decode())))
         p(f"  FRED {s}: {len(rows)-1} filas, último {rows[-1]}")
     except Exception as e:
-        p(f"  FRED {s} ERROR {type(e).__name__} {str(e)[:80]}")
-
-# 4) Eurostat: candidatos
-eu = {
-    "hicp_rest": "prc_hicp_manr?geo=EU27_2020&coicop=CP1111&unit=RCH_A",
-    "hicp_pelu": "prc_hicp_manr?geo=EU27_2020&coicop=CP1211&unit=RCH_A",
-    "hicp_tinto": "prc_hicp_manr?geo=EU27_2020&coicop=CP0314&unit=RCH_A",
-    "hicp_cine": "prc_hicp_manr?geo=EU27_2020&coicop=CP0942&unit=RCH_A",
-    "hicp_total": "prc_hicp_manr?geo=EU27_2020&coicop=CP00&unit=RCH_A",
-    "papel": "sts_inpr_m?geo=EU27_2020&nace_r2=C17&s_adj=SCA&unit=I21&indic_bt=PRD",
-    "papel2": "sts_inpr_m?geo=EU27_2020&nace_r2=C17&s_adj=SCA&unit=I15&indic_bt=PROD",
-    "indprod": "sts_inpr_m?geo=EU27_2020&nace_r2=B-D&s_adj=SCA&unit=I21&indic_bt=PRD",
-    "noches": "tour_occ_nim?geo=EU27_2020&c_resid=TOTAL&nace_r2=I551-I553&unit=NR",
-    "pib": "namq_10_gdp?geo=EU27_2020&na_item=B1GQ&unit=CLV_PCH_PRE&s_adj=SCA",
-    "esi": "ei_bssi_m_r2?geo=EU27_2020&indic=BS-ESI-I&s_adj=SA",
-    "tren": "rail_go_qnatint?geo=EU27_2020",
-}
-for k, q in eu.items():
-    try:
-        d = json.loads(get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/" + q + "&format=JSON&lang=en&lastTimePeriod=2"))
-        times = list(d["dimension"]["time"]["category"]["index"].keys())
-        p(f"  EU {k}: tiempos {times[-2:]} valores {list(d.get('value', {}).values())[-2:]} dims {d.get('id')}")
-    except Exception as e:
-        p(f"  EU {k} ERROR {type(e).__name__} {str(e)[:120]}")
-
-# 5) GSCPI (Fed de NY)
-for u in ["https://www.newyorkfed.org/medialibrary/research/interactives/gscpi/downloads/gscpi_data.xlsx",
-          "https://www.newyorkfed.org/medialibrary/research/interactives/gscpi/downloads/gscpi_data.csv"]:
-    try:
-        b = get(u); p("  GSCPI", u[-20:], len(b), b[:60])
-    except Exception as e:
-        p("  GSCPI ERROR", u[-20:], type(e).__name__, str(e)[:100])
-
-# 6) Banxico: candidatos
-bk = os.environ.get("BANXICO_API_KEY", "")
-for s in ["SF43718", "SF61745", "SE27803", "SL11298", "SG193", "SE5208", "SE5207"]:
-    try:
-        d = json.loads(get(f"https://www.banxico.org.mx/SieAPIRest/service/v1/series/{s}/datos/oportuno", {"Bmx-Token": bk, "Accept": "application/json"}))
-        se = d["bmx"]["series"][0]
-        p(f"  BANXICO {s}: {se.get('titulo','')[:110]} | {se.get('datos')}")
-    except Exception as e:
-        p(f"  BANXICO {s} ERROR {type(e).__name__} {str(e)[:80]}")
+        p(f"  FRED {s} ERROR {type(e).__name__}")
