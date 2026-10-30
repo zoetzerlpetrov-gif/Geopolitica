@@ -244,8 +244,8 @@
     }
   ],
   "reliefweb": {
-    "habilitada": true,
-    "nota": "Requiere el secreto RELIEFWEB_APPNAME con un appname preaprobado (obligatorio desde el 1 nov 2025). Sin él se omite.",
+    "habilitada": false,
+    "nota": "Deshabilitada el 30 oct 2026: nunca llegó el appname preaprobado de ReliefWeb (obligatorio desde el 1 nov 2025). Para reactivarla: guardar el secreto RELIEFWEB_APPNAME y poner habilitada en true. OMS e IFRC la sustituyen.",
     "url": "https://api.reliefweb.int/v2/reports",
     "limite": 100
   },
