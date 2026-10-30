@@ -1,0 +1,12 @@
+name: Sonda temporal
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 tools/sonda/sniim.py
