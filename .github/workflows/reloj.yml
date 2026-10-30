@@ -46,9 +46,11 @@ jobs:
           desde=$(date -u -d "-${ventana} minutes" +%Y-%m-%dT%H:%M:%SZ)
           n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/${wf}/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 0)
           if [ "$n" = "0" ]; then echo "Lanzando $wf"; gh workflow run "$wf" --ref main; else echo "$wf ya corrió en los últimos ${ventana} min: no se duplica"; fi
-          # Revisión diaria de procesos (estado.html): a las 13 h UTC, si su cron no corrió en las últimas 20 h.
+          # Revisión diaria de procesos (estado.html): a las 13 h UTC, si no ha corrido hoy desde las 12:00 UTC.
+          # (Antes se miraban las últimas 20 h: una corrida manual de la tarde anterior bastaba para saltarse
+          # la revisión del día siguiente, como pasó el 30 oct 2026 tras la corrida manual de las 19:14 UTC.)
           if [ "$(date -u +%H)" = "13" ]; then
-            desde=$(date -u -d "-20 hours" +%Y-%m-%dT%H:%M:%SZ)
+            desde=$(date -u +%Y-%m-%dT12:00:00Z)
             n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/estado-procesos.yml/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 1)
             if [ "$n" = "0" ]; then echo "Lanzando estado-procesos.yml"; gh workflow run estado-procesos.yml --ref main; fi
           fi
