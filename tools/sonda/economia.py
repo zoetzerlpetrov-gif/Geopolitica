@@ -1,63 +1,64 @@
-"""Sonda temporal 2: identificadores de INEGI y Banxico (INPC por genérico), FRED de precios y robots.txt."""
-import csv, io, json, os, re, sys, urllib.request
-sys.path.insert(0, "ingest")
-import fuentes as F
-
+"""Sonda temporal 3: identificadores de INEGI (BISE) por rangos y cuadros del INPC en Banxico; HICP nuevo de Eurostat."""
+import json, os, re, sys, urllib.request, html
 UA = {"User-Agent": "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"}
-def get(url, headers=None, t=60):
-    with urllib.request.urlopen(urllib.request.Request(url, headers={**UA, **(headers or {})}), timeout=t) as r:
+def get(url, t=60):
+    with urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=t) as r:
         return r.read()
 def p(*a): print(*a, flush=True)
-
-for u in ["https://fred.stlouisfed.org/graph/fredgraph.csv?id=UNRATE", "https://fred.stlouisfed.org/searchresults/?st=haircut",
-          "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/une_rt_m",
-          "https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml/INDICATOR/1/es/0/false/BISE/2.0/x",
-          "https://www.banxico.org.mx/SieAPIRest/service/v1/series/SF43718/datos",
-          "https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&accion=consultarCuadro&idCuadro=CP151&locale=es",
-          "https://www.newyorkfed.org/medialibrary/research/interactives/gscpi/downloads/gscpi_data.xlsx",
-          "https://raw.githubusercontent.com/TheEconomist/big-mac-data/master/output-data/big-mac-full-index.csv"]:
-    p("ROBOTS", F.permitido_por_robots(u), u[:110])
-
 tok = os.environ.get("INEGI_TOKEN", "")
 base = "https://www.inegi.org.mx/app/api/indicadores/desarrolladores/jsonxml"
-for url in [f"{base}/CL_INDICATOR/720066/es/BISE/2.0/{tok}?type=json", f"{base}/CL_INDICATOR/628194/es/BIE/2.0/{tok}?type=json",
-            f"{base}/CL_INDICATOR//es/BIE/2.0/{tok}?type=json"]:
-    try:
-        b = get(url, t=120); p("INEGI CL", url.split("/CL_INDICATOR/")[1][:25], len(b), b[:400])
-    except Exception as e:
-        p("INEGI CL ERROR", url.split("/CL_INDICATOR/")[1][:25], type(e).__name__, str(e)[:100])
 
-def inegi(i, fuente):
-    try:
-        d = json.loads(get(f"{base}/INDICATOR/{i}/es/0/true/{fuente}/2.0/{tok}?type=json", t=60))
-        s = d["Series"][0]; o = s.get("OBSERVATIONS") or []
-        meta = ""
-        try:
-            m = json.loads(get(f"{base}/CL_INDICATOR/{i}/es/{fuente}/2.0/{tok}?type=json", t=60)); meta = m["CODE"][0]["Description"]
-        except Exception as e:
-            meta = f"(sin nombre: {type(e).__name__})"
-        p(f"  INEGI {fuente} {i}: {meta[:120]} | {s.get('LASTUPDATE')} | {o[0] if o else None}")
-    except Exception as e:
-        p(f"  INEGI {fuente} {i} ERROR {type(e).__name__} {str(e)[:60]}")
-for i in ["628194", "910392", "910399", "454168", "454186", "737121", "736939", "735879", "494098", "720066", "6200093709", "214308", "216064", "702094", "444570"]:
-    for f in ("BIE", "BISE"):
-        inegi(i, f)
-
+# ¿Acepta varios identificadores separados por coma?
 try:
-    h = get("https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&accion=consultarCuadro&idCuadro=CP151&locale=es", t=90).decode("latin-1", "replace")
-    p("BANXICO CP151", len(h))
-    for m in re.finditer(r"(fonda|taquer|loncher|cerveza|tortilla|huevo|corte de cabello|tintorer|cine|restaurant|pollo|refresco)", h, re.I):
-        seg = h[max(0, m.start() - 400): m.end() + 100]
-        ids = re.findall(r"SP\d{3,6}", seg)
-        p("  BX", m.group(0), ids[-3:], re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", seg))[-160:])
+    b = get(f"{base}/CL_INDICATOR/720066,720069/es/BISE/2.0/{tok}?type=json"); p("multi", b[:300])
+    MULTI = b.count(b'"value"') >= 2
 except Exception as e:
-    p("BANXICO CP151 ERROR", type(e).__name__, str(e)[:100])
+    p("multi ERROR", e); MULTI = False
+CLAVES = re.compile(r"fonda|taquer|loncher|cerveza|cemento|confianza del consumidor|indicador global de la actividad|preparaci[oó]n de alimentos|esparcimiento|"
+                    r"tortilla|huevo|cine|alojamiento|hotel|turis|viajeros|veh[ií]culos ligeros|autom[oó]viles|consumo privado|INPC|precios al consumidor|"
+                    r"servicios personales|salones|peluquer|lavander", re.I)
+def escanear(ini, fin, paso=10):
+    n = 0
+    for a in range(ini, fin, paso):
+        ids = ",".join(str(x) for x in range(a, a + paso)) if MULTI else str(a)
+        try:
+            d = json.loads(get(f"{base}/CL_INDICATOR/{ids}/es/BISE/2.0/{tok}?type=json", t=40))
+            for c in d.get("CODE", []):
+                n += 1
+                if CLAVES.search(c.get("Description", "")):
+                    p(f"  BISE {c['value']} | {c['Description'][:160]}")
+        except Exception:
+            pass
+    p(f"rango {ini}-{fin}: {n} indicadores con nombre")
+if MULTI:
+    for ini, fin in [(719800, 721400), (628100, 628400), (910300, 910500), (454000, 454300), (736800, 737300), (6207000000, 6207000200)]:
+        escanear(ini, fin)
 
-for s in ["CUUR0000SEGB02", "CUUR0000SEGB", "CUSR0000SEGD02", "CUUR0000SEGD02", "CUUR0000SERF02", "CUUR0000SEAA04", "CUSR0000SEAA04", "CUUR0000SEGD03",
-          "CUSR0000SEFV", "CUSR0000SAF11", "CUSR0000SEFV01", "CUUR0000SERF01", "CUSR0000SERF01", "IPG322S", "IPG3222S", "IPN3222N", "PCU322211322211",
-          "WPU091403", "PCU3222113222110", "MEXPRCNTO01GPSAM", "MEXLOLITONOSTSAM", "IRLTLT01MXM156N", "INTDSRMXM193N", "CPALTT01MXM659N", "MEXCPICORMINMEI"]:
+# Banxico: lista de cuadros del sector precios (8) y el que tenga genéricos del INPC
+try:
+    h = get("https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?accion=consultarDirectorioCuadros&sector=8&sectorDescripcion=Precios&locale=es", 90).decode("utf-8", "replace")
+    cuadros = sorted(set(re.findall(r"idCuadro=(CP\d+)", h)))
+    p("Banxico cuadros precios:", cuadros[:80])
+    for m in re.finditer(r"idCuadro=(CP\d+)[^>]*>([^<]{3,140})", h):
+        p("  ", m.group(1), html.unescape(m.group(2)).strip()[:120])
+except Exception as e:
+    p("Banxico directorio ERROR", type(e).__name__, str(e)[:120])
+for cp in ["CP154", "CP155", "CP156", "CP157", "CP158", "CP160", "CP161", "CP162", "CP163", "CP164"]:
     try:
-        rows = list(csv.reader(io.StringIO(get(f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={s}").decode())))
-        p(f"  FRED {s}: {len(rows)-1} filas, último {rows[-1]}")
+        h = html.unescape(get(f"https://www.banxico.org.mx/SieInternet/consultarDirectorioInternetAction.do?sector=8&accion=consultarCuadro&idCuadro={cp}&locale=es", 90).decode("utf-8", "replace"))
+        t = re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", h))
+        tit = re.search(r"(Índice[^|]{0,120})", t)
+        hits = [(m.group(0), re.findall(r"SP\d{3,6}", h[max(0, m.start()-600):m.end()+50])[-1:] ) for m in re.finditer(r"fondas|taquer|cerveza|tortilla|huevo|cine|corte de cabello|tintorer", h, re.I)]
+        p(cp, len(h), (tit.group(1)[:100] if tit else ""), hits[:12])
     except Exception as e:
-        p(f"  FRED {s} ERROR {type(e).__name__}")
+        p(cp, "ERROR", type(e).__name__)
+
+# Eurostat: HICP después de 2025
+for q in ["prc_hicp_manr?geo=EU27_2020&coicop=CP00&unit=RCH_A", "prc_hicp_minr?geo=EU27_2020&coicop18=TOTAL&unit=RCH_A", "prc_hicp_minr?geo=EU27_2020",
+          "prc_hicp_manr?geo=EU27_2020&coicop18=TOTAL", "prc_hicp_mmor?geo=EU27_2020&coicop=CP00", "ei_cphi_m?geo=EU27_2020&indic=CP-HI00&unit=RT12"]:
+    try:
+        d = json.loads(get("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/" + q + "&format=JSON&lang=en&lastTimePeriod=1"))
+        dims = {k: list(d["dimension"][k]["category"]["index"].keys())[:6] for k in d.get("id", []) if k != "time"}
+        p("EU", q[:60], list(d["dimension"]["time"]["category"]["index"].keys()), list(d.get("value", {}).values())[:3], dims)
+    except Exception as e:
+        p("EU", q[:60], "ERROR", type(e).__name__, str(e)[:80])
