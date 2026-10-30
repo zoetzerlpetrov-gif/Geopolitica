@@ -6,10 +6,29 @@ permissions:
 jobs:
   sonda:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Prueba real de Precios en México
-        env:
-          INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
-        run: python3 tools/economia/precios_mx.py /tmp/eco && python3 -c "import json;d=json.load(open('/tmp/eco/precios_mx.json'));print('ERRORES', d['errores'])"
+      - name: Nombres reales en el SNIIM
+        run: |
+          python3 - <<'PY'
+          import re, sys, urllib.request
+          sys.path.insert(0, "tools/economia")
+          import precios_mx as M
+          B = M.SNIIM
+          for p in ["ConsultaFrutasYHortalizas.aspx", "ConsultaGranos.aspx", "ConsultaGranos.aspx?SubOpcion=6",
+                    "../Granos/ConsultaGranos.aspx", "../Agricolas/ConsultaGranosBasicos.aspx"]:
+              try:
+                  req = urllib.request.Request(B + p, headers={"User-Agent": "Mozilla/5.0 DOMINUS-OSINT"})
+                  t = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
+              except Exception as e:
+                  print("##", p, "ERROR", repr(e)[:200]); continue
+              ops = M.opciones_producto(t)
+              print("##", p, "len", len(t), "opciones", len(ops))
+              if not ops:
+                  print("   selects:", re.findall(r'<select[^>]*id="([^"]+)"', t)[:10])
+                  print("   enlaces granos:", sorted(set(re.findall(r'href="([^"]*[Gg]rano[^"]*)"', t)))[:15])
+              for v, n in ops:
+                  if re.search(r"jitomate|tomate|lim|ajo|frijol|arroz|garbanzo|lenteja|caf|ma[ií]z|az[uú]car|huevo|aguacate|pl[aá]tano", n, re.I):
+                      print("  ", v, "|", n)
+          PY

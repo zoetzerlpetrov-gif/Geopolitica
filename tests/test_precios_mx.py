@@ -35,6 +35,7 @@ def test_historia_completa_solo_la_primera_vez():
         pedidas.append(url)
         return RES.encode()
     M.PAUSA = 0
+    M.ESPERAS = (0, 0)
     M.serie_sniim("C.aspx", "R.aspx", "183", [], date(2026, 10, 30), bajar)
     assert len(pedidas) == 2026 - M.DESDE + 1
     pedidas.clear()
@@ -64,3 +65,23 @@ def test_si_una_fuente_falla_se_conserva_lo_anterior():
     assert por["cebolla_bola"]["puntos"] == [["2026-09-01", 20.0]] and por["cebolla_bola"]["error"]
     assert por["gasolina_regular"]["puntos"] == [["2026-10-29", 23.5]]
     assert any("CRE" in e for e in res["errores"])
+
+
+def test_reintenta_5xx_y_no_4xx():
+    import urllib.error
+    llamadas = []
+
+    def falla(code):
+        def b(url):
+            llamadas.append(url)
+            if len(llamadas) < 3:
+                raise urllib.error.HTTPError(url, code, "x", {}, None)
+            return b"ok"
+        return b
+    assert M.con_reintentos(falla(503), esperas=(0, 0, 0))("u") == b"ok" and len(llamadas) == 3
+    llamadas.clear()
+    try:
+        M.con_reintentos(falla(404), esperas=(0, 0, 0))("u")
+        assert False
+    except urllib.error.HTTPError:
+        assert len(llamadas) == 1

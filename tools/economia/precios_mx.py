@@ -35,7 +35,8 @@ DESDE = 2015
 SNIIM = "https://www.economia-sniim.gob.mx/nuevo/Consultas/MercadosNacionales/PreciosDeMercado/Agricolas/"
 DESTINO_ID, DESTINO = "100", "DF: Central de Abasto de Iztapalapa DF"
 CRE = "https://publicacionexterna.azurewebsites.net/publicaciones/prices"
-PAUSA = 0.8
+PAUSA = 1.5
+ESPERAS = (20, 60, 120)  # segundos antes de reintentar cuando el SNIIM responde 5xx (servidor saturado)
 
 # (id, nombre, categoría, patrón del nombre en la lista del SNIIM). El primero que coincida es el que se usa.
 HORTALIZAS = [
@@ -91,6 +92,20 @@ def num(t):
 
 
 # ------------------------------------------------------------------ SNIIM
+def con_reintentos(bajar, esperas=None):
+    """Envuelve «bajar»: si el servidor responde 5xx o no contesta, espera y reintenta (sin insistir con 4xx)."""
+    def envuelta(url, *a, **k):
+        for espera in (*(ESPERAS if esperas is None else esperas), None):
+            try:
+                return bajar(url, *a, **k)
+            except Exception as e:  # noqa: BLE001
+                codigo = getattr(e, "code", None)
+                if espera is None or (codigo is not None and codigo < 500) or isinstance(e, PermissionError):
+                    raise
+                time.sleep(espera)
+    return envuelta
+
+
 def opciones_producto(pagina_html):
     """Lista desplegable de productos: [(id, nombre)]."""
     sel = re.search(r'id="ddlProducto".*?</select>', pagina_html, re.S)
@@ -218,6 +233,7 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
     hoy = hoy or date.today()
     prev = {s["id"]: s for s in (previo or {}).get("series", [])}
     series, errores = [], []
+    bajar_sniim = con_reintentos(bajar)
 
     def agrega(sid, nombre, grupo, unidad, fuente, enlace, frecuencia, fn, nota=""):
         reg = {"id": sid, "nombre": nombre, "grupo": grupo, "unidad": unidad, "fuente": fuente, "enlace": enlace, "frecuencia": frecuencia, "nota": nota}
@@ -236,13 +252,13 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
     for consulta, resultados, lista, unidad in (("ConsultaFrutasYHortalizas.aspx", "ResultadosConsultaFechaFrutasYHortalizas.aspx", HORTALIZAS, "pesos por kg (mayoreo)"),
                                                 ("ConsultaGranos.aspx", "ResultadosConsultaFechaGranos.aspx", GRANOS, "pesos por kg (mayoreo)")):
         try:
-            opciones = opciones_producto(bajar(SNIIM + consulta).decode("utf-8", "replace"))
+            opciones = opciones_producto(bajar_sniim(SNIIM + consulta).decode("utf-8", "replace"))
         except Exception as e:  # noqa: BLE001
             opciones = []
             errores.append(f"SNIIM {consulta}: {type(e).__name__}")
         for sid, nombre, grupo, patron in lista:
             pid, nombre_sniim = elegir(opciones, patron)
-            fn = (lambda pid=pid, sid=sid: serie_sniim(consulta, resultados, pid, [tuple(x) for x in prev.get(sid, {}).get("puntos", [])], hoy, bajar)) if pid else \
+            fn = (lambda pid=pid, sid=sid: serie_sniim(consulta, resultados, pid, [tuple(x) for x in prev.get(sid, {}).get("puntos", [])], hoy, bajar_sniim)) if pid else \
                  (lambda patron=patron: (_ for _ in ()).throw(LookupError(f"producto no encontrado en la lista del SNIIM ({patron})")))
             agrega(sid, nombre, grupo, unidad, f"SNIIM · Central de Abasto CDMX{' · ' + nombre_sniim if nombre_sniim else ''}",
                    "https://www.economia-sniim.gob.mx/nuevo/", "mensual (promedio de precios diarios)", fn)
