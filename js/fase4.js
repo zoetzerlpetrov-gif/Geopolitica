@@ -1,4 +1,4 @@
-import {phase4} from './fase4-ui.js?v=web1';
+import {phase4} from './fase4-ui.js?v=web2';
 import * as DB from './fase4-db.js';
 import {validar,paquete,verificarOriginales,vacio} from './fase4-modelo.js';
 import {sha256,unbase64,cifrar,descifrar,descargar} from './web-cripto.js';
