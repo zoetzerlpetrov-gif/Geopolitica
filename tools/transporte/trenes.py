@@ -10,10 +10,12 @@ Redes (cada una con su licencia; todas permiten consulta automática según su r
   - EUA, Filadelfia: SEPTA TrainView (trenes regionales, con retraso en minutos).
 No incluidas: las que exigen registro y llave (Países Bajos NS, Suecia Trafikverket, Reino Unido Network Rail, Australia
 NSW, Japón ODPT, Taiwán TDX; ver README de la capa) y las que no publican una API (VIA Rail, Amtrak, Tren Maya).
+Adicionales: España, Renfe Cercanías (GTFS-RT JSON, CC BY 4.0); Malasia, KTMB (GTFS-RT Protobuf, CC BY 4.0).
 Salida: vivos/trenes.geojson (propiedad «red» para separar por país).
 """
 import gzip
 import json
+import math
 import os
 import re
 import sys
@@ -49,13 +51,15 @@ def reciente(ts, ahora=None):
     return -120 <= edad <= MAX_EDAD_MIN * 60
 
 
-def pedir(url, datos=None, cabeceras=None):
+def pedir(url, datos=None, cabeceras=None, limite=None):
     h = {"User-Agent": F.UA, "Accept-Encoding": "gzip", **(cabeceras or {})}
     if datos is not None:
         h["Content-Type"] = "application/json"
     req = urllib.request.Request(url, data=datos, headers=h)
     with urllib.request.urlopen(req, timeout=60) as r:
-        b = r.read()
+        b = r.read(limite + 1) if limite else r.read()
+        if limite and len(b) > limite:
+            raise ValueError("Feed mayor del límite permitido")
         return gzip.decompress(b) if b[:2] == b"\x1f\x8b" else b
 
 
@@ -168,7 +172,102 @@ def filadelfia():
     return filadelfia_json(json.loads(pedir("https://www3.septa.org/api/TrainView/index.php")))
 
 
-REDES = {"finlandia": finlandia, "noruega": noruega, "irlanda": irlanda, "boston": boston, "filadelfia": filadelfia}
+# GTFS-RT abierto adicional. Se conserva la hora del vehículo; la hora del feed no la sustituye.
+def gtfs_timestamp(value):
+    try:
+        if isinstance(value, bool):
+            return None
+        n = int(value)
+        if n <= 0:
+            return None
+        return datetime.fromtimestamp(n, timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    except (ValueError, TypeError, OverflowError, OSError):
+        return None
+
+
+def gtfs_vehicle(red, pais, ident, label, position, timestamp, route="", state=""):
+    try:
+        if isinstance(position.get("longitude"), bool) or isinstance(position.get("latitude"), bool):
+            return None
+        lon, lat = float(position["longitude"]), float(position["latitude"])
+        if not math.isfinite(lon) or not math.isfinite(lat) or abs(lon) > 180 or abs(lat) > 90:
+            return None
+        at = gtfs_timestamp(timestamp)
+        if not ident or not at or not reciente(at):
+            return None
+        speed = position.get("speed")
+        speed = float(speed) if speed is not None else None
+        if speed is not None and (not math.isfinite(speed) or speed < 0 or speed > 150):
+            speed = None
+        return tren(red, pais, str(ident), lon, lat, categoria="Cercanías" if red == "renfe" else "Pasajeros",
+                    operador="Renfe Cercanías" if red == "renfe" else "Keretapi Tanah Melayu Berhad (KTMB)",
+                    tipo=str(label or "")[:100], linea=str(route or "")[:200], estado=str(state or "")[:100],
+                    hora=at, vel_kmh=round(speed * 3.6, 1) if speed is not None else None,
+                    url="https://data.renfe.com/dataset/ubicacion-vehiculos" if red == "renfe" else "https://developer.data.gov.my/realtime-api/gtfs-realtime.en",
+                    fuente="Renfe Datos Abiertos (CC BY 4.0)" if red == "renfe" else "data.gov.my / KTMB (CC BY 4.0)")
+    except (ValueError, TypeError, KeyError):
+        return None
+
+
+def renfe_json(d):
+    out, seen = [], set()
+    if (d.get("header") or {}).get("incrementality", "FULL_DATASET") not in ("FULL_DATASET", 0):
+        raise ValueError("Se requiere instantánea completa GTFS-RT")
+    for entity in d.get("entity") or []:
+        if not isinstance(entity, dict):
+            continue
+        if entity.get("isDeleted"):
+            continue
+        v = entity.get("vehicle") or {}
+        vehicle = v.get("vehicle") or {}
+        ident = vehicle.get("id") or entity.get("id")
+        f = gtfs_vehicle("renfe", "ESP", ident, vehicle.get("label"), v.get("position") or {},
+                         v.get("timestamp"), (v.get("trip") or {}).get("routeId") or (v.get("trip") or {}).get("tripId"), v.get("currentStatus", ""))
+        if f and f["properties"]["id"] not in seen:
+            seen.add(f["properties"]["id"])
+            out.append(f)
+    return out
+
+
+def renfe():
+    return renfe_json(json.loads(pedir("https://gtfsrt.renfe.com/vehicle_positions.json", limite=10 * 1024 * 1024)))
+
+
+def ktmb_protobuf(raw):
+    from google.transit import gtfs_realtime_pb2
+    if len(raw) > 10 * 1024 * 1024:
+        raise ValueError("Feed KTMB mayor de 10 MB")
+    feed = gtfs_realtime_pb2.FeedMessage()
+    feed.ParseFromString(raw)
+    if not feed.IsInitialized():
+        raise ValueError("GTFS-RT incompleto")
+    if feed.header.incrementality != gtfs_realtime_pb2.FeedHeader.FULL_DATASET:
+        raise ValueError("Se requiere instantánea completa GTFS-RT")
+    out, seen = [], set()
+    for entity in feed.entity:
+        if entity.is_deleted or not entity.HasField("vehicle"):
+            continue
+        v = entity.vehicle
+        if not v.HasField("position") or not v.HasField("timestamp"):
+            continue
+        pos = {"longitude": v.position.longitude, "latitude": v.position.latitude}
+        if v.position.HasField("speed"):
+            pos["speed"] = v.position.speed
+        vehicle = v.vehicle
+        ident = vehicle.id or entity.id
+        f = gtfs_vehicle("ktmb", "MYS", ident, vehicle.label, pos, v.timestamp,
+                         v.trip.route_id or v.trip.trip_id)
+        if f and f["properties"]["id"] not in seen:
+            seen.add(f["properties"]["id"])
+            out.append(f)
+    return out
+
+
+def ktmb():
+    return ktmb_protobuf(pedir("https://api.data.gov.my/gtfs-realtime/vehicle-position/ktmb", limite=10 * 1024 * 1024))
+
+
+REDES = {"finlandia": finlandia, "noruega": noruega, "irlanda": irlanda, "boston": boston, "filadelfia": filadelfia, "renfe": renfe, "ktmb": ktmb}
 
 
 def main():

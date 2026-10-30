@@ -396,3 +396,7 @@ Son señales de noticias, no estadística oficial: las cifras oficiales de robo 
 | Inventario del menú (`config/tutorial_inventario.json`) | Tutorial: lista completa de opciones del menú izquierdo | Generado con `tools/tutorial/inventario.cjs` a partir de `index.html` servido localmente | Propio |
 | GLEIF: copia dorada de relaciones (`goldencopy.gleif.org`, archivo «rr») y API de registros LEI | Investigación → Empresas extranjeras: entidades con domicilio legal en México cuya matriz está en otro país | Cada 7 días; ≈40 consultas a 1 por segundo y un archivo de ≈24 MB | CC0 |
 | Lista curada de empresas extranjeras (`config/extranjeras_curadas.json`) | Investigación → Empresas extranjeras: casos que no están en Wikidata ni GLEIF (p. ej. ODIS Asversa) | Manual, con fuente pública citada en cada registro | Solo nombre, país, giro, nota propia y enlaces |
+
+## Fase 5A · Posiciones ferroviarias abiertas
+
+Renfe Cercanías (España): https://data.renfe.com/dataset/ubicacion-vehiculos · GTFS-RT JSON de https://gtfsrt.renfe.com/vehicle_positions.json · CC BY 4.0. KTMB (Malasia): https://developer.data.gov.my/realtime-api/gtfs-realtime.en · GTFS-RT Protobuf de https://api.data.gov.my/gtfs-realtime/vehicle-position/ktmb · CC BY 4.0. Consulta directa sin clave ni registro, con atribución en cada posición. Se conserva timestamp del vehículo y la cadencia propia del sitio; no se declara cobertura de toda la red de cada país. Las cinco redes previas se conservan.

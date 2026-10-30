@@ -104,11 +104,13 @@ export const REDES_TREN = [
   ["irlanda", "Irlanda: trenes en marcha (Irish Rail)", "Intercity, DART y cercanías, con retraso si lo hay."],
   ["boston", "EUA · Boston: trenes de cercanías (MBTA)", "Commuter Rail de Massachusetts."],
   ["filadelfia", "EUA · Filadelfia: trenes regionales (SEPTA)", "Regional Rail, con retraso en minutos."],
+  ["renfe", "España: Renfe Cercanías", "Posiciones GTFS-RT publicadas por Renfe; CC BY 4.0. No abarca toda la red ferroviaria española."],
+  ["ktmb", "Malasia: trenes KTMB", "Posiciones GTFS-RT publicadas por data.gov.my; CC BY 4.0. No abarca todas las redes de Malasia."],
 ];
 function capaTrenes(red, nombre, nota) {
   return {
     id: `trenes_${red}`, grupo: "Trenes", menu: "trenes", nombre, url: "data/vivos/trenes.geojson", refresco_s: 1200,
-    fuente: { finlandia: "Fintraffic / Digitraffic (CC BY 4.0)", noruega: "Entur (NLOD)", irlanda: "Irish Rail", boston: "MBTA V3 API", filadelfia: "SEPTA TrainView" }[red],
+    fuente: { finlandia: "Fintraffic / Digitraffic (CC BY 4.0)", noruega: "Entur (NLOD)", irlanda: "Irish Rail", boston: "MBTA V3 API", filadelfia: "SEPTA TrainView", renfe: "Renfe Datos Abiertos (CC BY 4.0)", ktmb: "data.gov.my / KTMB (CC BY 4.0)" }[red],
     derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.red === red) }),
     estilo: (p) => ({ c: p.categoria === "Larga distancia" ? "#1F6FB2" : p.categoria === "Carga" ? "#8D6E63" : ["Maniobras", "Maquinaria de vía", "Prueba", "Locomotora sola"].includes(p.categoria) ? C.gris : (p.retraso_min ?? 0) >= 10 ? C.naranja : "#2E9E6E", r: 5 }),
     etiqueta: (p) => (p.categoria === "Larga distancia" || red === "irlanda" ? `${p.tipo ? `${p.tipo} ` : ""}${p.numero}` : ""),

@@ -1,6 +1,6 @@
 import {cloudConfig,connectCloud} from './colaboracion-cliente.js';
-import * as DB from './fase4-db.js?v=ia2';
-import {paquete,verificarOriginales} from './fase4-modelo.js?v=ia2';
+import * as DB from './fase4-db.js?v=f5a';
+import {paquete,verificarOriginales} from './fase4-modelo.js?v=f5a';
 import {cifrar,descifrar} from './web-cripto.js';
 export function setupCloud({connect=connectCloud}={}){
 const $=id=>document.getElementById(id),el=(tag,t)=>{const n=document.createElement(tag);if(t!==undefined)n.textContent=String(t);return n;};let client=null,user=null,current=null,busy=false,expiry=null;

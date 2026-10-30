@@ -38,3 +38,7 @@ operaciones.html añade indicadores y alertas observadas, tablero, incidentes, d
 ## Continuación: Fases 4C y 4D
 
 laboratorio.html añade intercambio por archivos con vista previa, documentos y citas verificables, informes, entrevistas cifradas y recetas fijas de Python en el navegador. Alcance, tutorial y pendientes: docs/FASE4CD.md. Comparte los respaldos y versiones de Fase 4A mediante research opcional.
+
+## Continuación: Fase 5A
+
+fase5.html añade áreas, corredores, georreferencias, fuentes puntuales, evaluación de exposición y dependencias e informes comparables. Campo spatial opcional compatible con los respaldos existentes. Alcance y límites: docs/FASE5A.md.

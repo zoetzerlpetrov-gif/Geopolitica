@@ -1,9 +1,9 @@
 name: Entorno web - Expedientes y respaldos
 on:
   push:
-    paths: ['js/ia*.js', 'js/colaboracion*.js', 'colaboracion.html', 'config/colaboracion.sql', 'tools/checks_colaboracion_rls.mjs', 'js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
+    paths: ['js/fase5*.js', 'fase5.html', 'js/ia*.js', 'js/colaboracion*.js', 'colaboracion.html', 'config/colaboracion.sql', 'tools/checks_colaboracion_rls.mjs', 'js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
   pull_request:
-    paths: ['js/ia*.js', 'js/colaboracion*.js', 'colaboracion.html', 'config/colaboracion.sql', 'tools/checks_colaboracion_rls.mjs', 'js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
+    paths: ['js/fase5*.js', 'fase5.html', 'js/ia*.js', 'js/colaboracion*.js', 'colaboracion.html', 'config/colaboracion.sql', 'tools/checks_colaboracion_rls.mjs', 'js/laboratorio*.js', 'laboratorio.html', 'js/fase4*.js', 'js/operaciones*.js', 'operaciones.html', 'js/web-*.js', 'js/plataforma.js', 'fase4.html', 'plataforma.html', 'fase2.html', 'analista.html', 'tools/checks_web_ui.mjs', '.github/workflows/web-ci.yml']
   workflow_dispatch:
 permissions:
   contents: read

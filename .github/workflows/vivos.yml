@@ -35,7 +35,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: pip install websockets==15.0.1 numpy==2.3.3 pillow==11.3.0 pygrib==2.1.6 shapely==2.1.1
+      - run: pip install gtfs-realtime-bindings==1.0.0 websockets==15.0.1 numpy==2.3.3 pillow==11.3.0 pygrib==2.1.6 shapely==2.1.1
 
       - name: Recuperar la instantánea anterior (para TLE y sanciones)
         run: |
@@ -97,9 +97,9 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/vivos/meteosat.py
 
-      - name: Trenes en circulación (Finlandia, Digitraffic, cada corrida)
+      - name: Trenes en circulación (siete redes; incluye Renfe Cercanías y KTMB)
         continue-on-error: true
-        timeout-minutes: 2
+        timeout-minutes: 3
         run: python3 tools/transporte/trenes.py
 
       - name: Avisos náuticos de seguridad (NGA, NAVAREA; cada corrida)
