@@ -1,5 +1,5 @@
-import * as DB from './fase4-db.js?v=f5a';
-import {nodos} from './fase4-modelo.js?v=f5a';
+import * as DB from './fase4-db.js?v=f5b';
+import {nodos} from './fase4-modelo.js?v=f5b';
 import {vacio,ESTADOS,PRIORIDADES,validarOperaciones,importarEventos,evaluar,cambiarEstado,aplicarProcedimiento,resumen,ticketsCSV,plantillas} from './operaciones-modelo.js?v=2';
 import {descargar} from './web-cripto.js';
 const $=id=>document.getElementById(id),el=(tag,text)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=String(text);return n;};let active=null,section='Tablero',dirty=false,busy=false,timer=null,generation=0,submitting=false;const dirtyForms=new Set();

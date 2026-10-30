@@ -1,8 +1,8 @@
 import {createAI} from './ia-ui.js?v=3';
-import * as DB from './fase4-db.js?v=f5a';
-import {emptyResearch,validateResearch,verifyResearch,searchDocuments,previewSignals,RECIPES,recipeInput,reportText} from './laboratorio-modelo.js?v=f5a';
+import * as DB from './fase4-db.js?v=f5b';
+import {emptyResearch,validateResearch,verifyResearch,searchDocuments,previewSignals,RECIPES,recipeInput,reportText} from './laboratorio-modelo.js?v=f5b';
 import {vacio as emptyOps,validarOperaciones} from './operaciones-modelo.js';
-import {nodos} from './fase4-modelo.js?v=f5a';
+import {nodos} from './fase4-modelo.js?v=f5b';
 import {sha256,cifrar,descifrar,descargar} from './web-cripto.js';
 const $=id=>document.getElementById(id),el=(tag,t)=>{const n=document.createElement(tag);if(t!==undefined)n.textContent=String(t);return n;};
 const dirtyForms=new Set();
