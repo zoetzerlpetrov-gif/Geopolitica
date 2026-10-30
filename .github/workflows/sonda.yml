@@ -9,26 +9,27 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Nombres reales en el SNIIM
+      - name: Patrones y resultados de granos
         run: |
           python3 - <<'PY'
-          import re, sys, urllib.request
+          import re, sys
+          from datetime import date
           sys.path.insert(0, "tools/economia")
           import precios_mx as M
-          B = M.SNIIM
-          for p in ["ConsultaFrutasYHortalizas.aspx", "ConsultaGranos.aspx", "ConsultaGranos.aspx?SubOpcion=6",
-                    "../Granos/ConsultaGranos.aspx", "../Agricolas/ConsultaGranosBasicos.aspx"]:
+          b = M.con_reintentos(M.PE.bajar)
+          for cons, lista in (("ConsultaFrutasYHortalizas.aspx", M.HORTALIZAS), ("ConsultaGranos.aspx", M.GRANOS)):
+              ops = M.opciones_producto(b(M.SNIIM + cons).decode("utf-8", "replace"))
+              for sid, _, _, pat in lista:
+                  print(cons[:14], sid, M.elegir(ops, pat))
+          for pag in ("ResultadosConsultaFechaGranos.aspx",):
+              u = M.url_resultados(pag, "347", date(2026, 9, 1), date(2026, 9, 30))
               try:
-                  req = urllib.request.Request(B + p, headers={"User-Agent": "Mozilla/5.0 DOMINUS-OSINT"})
-                  t = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
+                  t = b(u).decode("utf-8", "replace")
+                  print("##", pag, len(t), "filas", M.filas_sniim(t)[:5])
+                  tabla = re.search(r"<table.*?</table>", t[t.find("Fecha"):] if "Fecha" in t else t, re.S)
+                  print(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "|", t[t.find("Fecha") - 200:t.find("Fecha") + 1500]))[:1500])
               except Exception as e:
-                  print("##", p, "ERROR", repr(e)[:200]); continue
-              ops = M.opciones_producto(t)
-              print("##", p, "len", len(t), "opciones", len(ops))
-              if not ops:
-                  print("   selects:", re.findall(r'<select[^>]*id="([^"]+)"', t)[:10])
-                  print("   enlaces granos:", sorted(set(re.findall(r'href="([^"]*[Gg]rano[^"]*)"', t)))[:15])
-              for v, n in ops:
-                  if re.search(r"jitomate|tomate|lim|ajo|frijol|arroz|garbanzo|lenteja|caf|ma[ií]z|az[uú]car|huevo|aguacate|pl[aá]tano", n, re.I):
-                      print("  ", v, "|", n)
+                  print("##", pag, "ERROR", repr(e)[:200])
+          u = M.url_resultados("ResultadosConsultaFechaFrutasYHortalizas.aspx", "839", date(2026, 9, 1), date(2026, 9, 30))
+          print("## tomate", M.filas_sniim(b(u).decode("utf-8", "replace"))[:3])
           PY
