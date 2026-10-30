@@ -9,24 +9,23 @@ jobs:
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
-      - name: Formulario de granos
+      - name: Formulario de granos 2
         run: |
           python3 - <<'PY'
-          import re, sys
+          import re, sys, urllib.parse
           from datetime import date
           sys.path.insert(0, "tools/economia")
           import precios_mx as M
           b = M.con_reintentos(M.PE.bajar)
           t = b(M.SNIIM + "ConsultaGranos.aspx").decode("utf-8", "replace")
-          for m in re.finditer(r"Resultados[A-Za-z]*\.aspx[^\"']{0,400}", t):
-              print("URL>", m.group(0)[:500])
-          for sid in re.findall(r'<select[^>]*id="([^"]+)"', t):
-              sel = re.search(r'id="%s".*?</select>' % sid, t, re.S).group(0)
-              ops = re.findall(r'value="([^"]*)"[^>]*>([^<]*)<', sel)
-              print("SELECT", sid, len(ops), [o for o in ops if re.search("Iztapalapa|DF|Distrito|Ciudad de M|Kilo|Kg|Por", o[1], re.I)][:12], ops[:4])
-          for m in re.finditer(r"function [A-Za-z_]+\([^)]*\)\s*\{[^}]{0,900}", t):
-              if "aspx" in m.group(0) or "location" in m.group(0):
-                  print("JS>", re.sub(r"\s+", " ", m.group(0))[:900])
-          r = b(M.url_resultados("ResultadosConsultaFechaGranos.aspx", "347", date(2026, 9, 1), date(2026, 9, 30))).decode("utf-8", "replace")
-          print("RES>", re.sub(r"\s+", " ", re.sub(r"<script.*?</script>|<style.*?</style>", "", r, flags=re.S|re.I))[-2500:])
+          print("FORM>", re.findall(r"<form[^>]*>", t))
+          print("INPUTS>", [x for x in re.findall(r'<input[^>]*name="([^"]+)"', t)])
+          print("RADIOS>", re.findall(r'<input[^>]*type="radio"[^>]*>', t)[:12])
+          for m in re.finditer(r"(?:window\.open|location|Resultados|\.aspx\?)[^;]{0,300}", t):
+              print("JS>", re.sub(r"\s+", " ", m.group(0))[:300])
+          for extra in ({"PreciosPorId": "1"}, {"PreciosPorId": "3"}, {"Destino": "DF: Central de Abasto de Iztapalapa DF", "DestinoId": "-1", "Destino": "Todos"}):
+              u = M.url_resultados("ResultadosConsultaFechaGranos.aspx", "347", date(2026, 9, 1), date(2026, 9, 30))
+              q = dict(urllib.parse.parse_qsl(u.split("?", 1)[1])); q.update(extra)
+              r = b(u.split("?")[0] + "?" + urllib.parse.urlencode(q)).decode("utf-8", "replace")
+              print("EXTRA", extra, len(r), M.filas_sniim(r)[:3], re.sub(r"\s+", " ", re.sub(r"<[^>]+>", " ", r))[1500:2300])
           PY
