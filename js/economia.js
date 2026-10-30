@@ -89,6 +89,51 @@ export function conteo(metas, datos) {
   return c;
 }
 
+/** Cambio contra el punto de hace ~1 año (mensual: 12 puntos; diaria: el más cercano a 365 días antes). */
+export function cambioAnual(puntos) {
+  if (!puntos || puntos.length < 2) return null;
+  const [f, v] = puntos.at(-1);
+  const meta = new Date(`${f}T00:00:00Z`); meta.setUTCFullYear(meta.getUTCFullYear() - 1);
+  let ref = null;
+  for (const p of puntos) { if (new Date(`${p[0]}T00:00:00Z`) <= meta) ref = p; else break; }
+  return ref && ref[1] ? Math.round((v / ref[1] - 1) * 1000) / 10 : null;
+}
+
+export function tarjetaPrecio(s) {
+  const pts = s.puntos || [];
+  if (!pts.length) return `<article class="ind s-gris"><h3>${esc(s.nombre)}</h3><p class="aviso">Sin datos todavía${s.error ? `: ${esc(s.error)}` : ""}.</p></article>`;
+  const [f, v] = pts.at(-1), prev = pts.length > 1 ? pts.at(-2)[1] : null;
+  const anual = cambioAnual(pts), vals = pts.map((x) => x[1]);
+  const min = Math.min(...vals), max = Math.max(...vals);
+  const pmes = prev ? Math.round((v / prev - 1) * 1000) / 10 : null;
+  const cls = anual == null ? "s-gris" : anual > 5 ? "s-rojo" : anual < -2 ? "s-verde" : "s-gris";
+  const pct = (x) => (x == null ? "—" : `${x > 0 ? "▲" : x < 0 ? "▼" : "="} ${Math.abs(x)} %`);
+  return `<article class="ind ${cls}"><header><h3>${esc(s.nombre)}</h3></header>
+    <p class="valor">${esc(num(v))} <small>${esc(s.unidad)}</small></p>
+    <p class="meta">${esc(fechaTxt(f))} · contra el dato anterior ${esc(pct(pmes))} · en un año ${esc(pct(anual))}</p>
+    <figure>${linea(pts, 300, 70)}<figcaption>${esc(fechaTxt(pts[0][0]))} – ${esc(fechaTxt(f))} · mín ${esc(num(min))} · máx ${esc(num(max))}</figcaption></figure>
+    ${s.error ? `<p class="aviso">La fuente falló en la última corrida; se muestra el último dato bueno. (${esc(s.error)})</p>` : ""}
+    ${s.nota ? `<p class="meta">${esc(s.nota)}</p>` : ""}
+    <p class="meta">Fuente: <a href="${esc(s.enlace)}" target="_blank" rel="noopener noreferrer">${esc(s.fuente)}</a> · ${esc(s.frecuencia)}</p></article>`;
+}
+
+async function precios() {
+  const cont = $("pm-lista");
+  let d;
+  try { d = await getJSON("data/economia/precios_mx.json", { bust: true }); }
+  catch { cont.innerHTML = `<p class="meta">Aún no hay precios publicados: se generan una vez al día con el workflow «Economía».</p>`; return; }
+  const pintar = () => {
+    const q = $("pm-buscar").value.trim().toLowerCase();
+    const series = d.series.filter((x) => !q || `${x.nombre} ${x.grupo}`.toLowerCase().includes(q));
+    const grupos = [...new Set(series.map((x) => x.grupo))];
+    cont.innerHTML = grupos.map((g) => `<h2>${esc(g)}</h2><div class="rejilla">${series.filter((x) => x.grupo === g).map(tarjetaPrecio).join("")}</div>`).join("")
+      || `<p class="meta">Nada coincide con «${esc(q)}».</p>`;
+  };
+  $("pm-buscar").addEventListener("input", pintar);
+  $("pm-estado").textContent = `Actualizado: ${new Date(d.generado_utc).toLocaleString("es-MX", { dateStyle: "medium", timeStyle: "short" })} · ${d.series.filter((x) => x.puntos?.length).length} productos y servicios con datos.`;
+  pintar();
+}
+
 async function portafolio() {
   const cont = $("p-portafolio");
   try {
@@ -98,9 +143,11 @@ async function portafolio() {
     const d = await r.json(), rep = d.report || {};
     const lista = (k) => (rep[k] || []).slice(0, 12).map((x) => `<li><b>${esc(x.ticker)}</b> ${esc(x.name || "")} · ${esc(num(x.price))}
       <span class="meta">${esc((x.reasons || []).join(" · "))}</span></li>`).join("") || "<li class=\"meta\">Ninguno.</li>";
+    if (!rep.precaucion && rep.vender) rep.precaucion = rep.vender;  // reportes anteriores
     cont.querySelector(".pf-datos").innerHTML = `<p class="meta">Generado: ${esc(String(d.generated_at || "").slice(0, 16).replace("T", " "))} (hora de Ciudad de México) ·
-      comprar ${(rep.comprar || []).length} · esperar ${(rep.esperar || []).length} · vender ${(rep.vender || []).length} · con error ${(rep.error || []).length}</p>
-      <div class="rejilla"><div class="ind"><h3>Señal «comprar»</h3><ul>${lista("comprar")}</ul></div><div class="ind"><h3>Señal «vender»</h3><ul>${lista("vender")}</ul></div></div>`;
+      comprar ${(rep.comprar || []).length} · rebote ${(rep.rebote || []).length} · esperar ${(rep.esperar || []).length} · precaución ${(rep.precaucion || []).length} · con error ${(rep.error || []).length}</p>
+      <div class="rejilla"><div class="ind"><h3>Señal «comprar»</h3><ul>${lista("comprar")}</ul></div><div class="ind"><h3>Señal «rebote»</h3><ul>${lista("rebote")}</ul></div>
+      <div class="ind"><h3>«Precaución»</h3><ul>${lista("precaucion")}</ul></div></div>`;
   } catch (e) {
     cont.querySelector(".pf-datos").innerHTML = `<p class="aviso">El Portafolio no está disponible en este momento (${esc(e.name === "AbortError" ? "no respondió" : e.message)}). El resto de esta página no depende de él.</p>`;
   }
@@ -113,6 +160,7 @@ async function iniciar() {
     for (const p of document.querySelectorAll("section.panel")) p.hidden = p.id !== `p-${b.dataset.p}`;
     history.replaceState(null, "", `#${b.dataset.p}`);
     if (b.dataset.p === "portafolio" && !b.dataset.cargado) { b.dataset.cargado = "1"; portafolio(); }
+    if (b.dataset.p === "precios" && !b.dataset.cargado) { b.dataset.cargado = "1"; precios(); }
   });
   const cfg = await getJSON("config/economia.json", { bust: true });
   let datos = {}, gen = null;

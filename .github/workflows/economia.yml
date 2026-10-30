@@ -20,7 +20,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 45  # la primera corrida de Precios en México baja la historia desde 2015 (~10 min)
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -37,6 +37,10 @@ jobs:
           INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
           BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
         run: python3 tools/economia/pulso_economico.py economia
+      - name: Precios en México (SNIIM, CRE, INPC; si falla se conservan los anteriores)
+        env:
+          INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
+        run: python3 tools/economia/precios_mx.py economia || echo "Precios en México no se actualizó"
       - name: Publicar en la rama datos-economia
         if: github.ref == 'refs/heads/main'
         env:
