@@ -15,16 +15,10 @@ jobs:
           def get(u):
               req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 DOMINUS-OSINT"})
               return urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
-          for u in ["https://www.inegi.org.mx/app/indicesdeprecios/",
-                    "https://www.inegi.org.mx/app/indicesdeprecios/Estructura.aspx",
-                    "https://www.inegi.org.mx/programas/inpc/2018/"]:
-              try:
-                  t = get(u)
-              except Exception as e:
-                  print("##", u, "ERROR", repr(e)[:150]); continue
-              print("##", u, len(t))
-              for h, txt in re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', t, re.S):
-                  txt = re.sub(r"<[^>]+>|\s+", " ", txt).strip()
-                  if re.search(r"indicesdeprecios|Estructura|objeto|gen[eé]rico|INPC|consumidor|tabulad", h + txt, re.I):
-                      print("  ", txt[:80], "->", h[:200])
+          for u in ["https://www.inegi.org.mx/app/indicesdeprecios/", "https://www.inegi.org.mx/app/indicesdeprecios/Estructura.aspx"]:
+              t = get(u)
+              print("##", u, len(t), "title:", re.findall(r"<title>(.*?)</title>", t, re.S)[:1])
+              for pat in [r"objeto del gasto", r"[Gg]en[eé]rico", r"idEstructura[^\"'&<]{0,80}", r"Estructura\.aspx\?[^\"'<]{0,200}", r"Tabulados?[^<]{0,80}", r"Consumidor[^<]{0,80}"]:
+                  for m in list(re.finditer(pat, t))[:8]:
+                      print("  [%s]" % pat[:12], re.sub(r"\s+", " ", t[max(0, m.start()-160):m.end()+160]))
           PY
