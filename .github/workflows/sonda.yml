@@ -6,7 +6,10 @@ permissions:
 jobs:
   sonda:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
-      - run: python3 tools/sonda/sniim.py
+      - name: Prueba real de Precios en México
+        env:
+          INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
+        run: python3 tools/economia/precios_mx.py /tmp/eco && python3 -c "import json;d=json.load(open('/tmp/eco/precios_mx.json'));print('ERRORES', d['errores'])"
