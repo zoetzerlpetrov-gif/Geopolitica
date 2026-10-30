@@ -30,3 +30,7 @@ El cifrado AES-GCM protege únicamente el archivo exportado. Datos persistidos e
 Las exportaciones documentales dominus-case-export-v1 se pueden abrir como copias nuevas después de validar esquema y originales. Actor, custodia y aprobaciones de origen se tratan como declaraciones importadas. Los respaldos completos cifrados del servicio anterior no son este formato y no se abren con el cifrador web. No se conecta ni publica una base anterior automáticamente.
 
 Se retiró la interfaz autohospedada. El sitio no presenta como activas sus cuentas, permisos, claves ni tareas. Alertas privadas, colaboración e IA con documentos privados siguen fuera de esta edición web.
+
+## Continuación: Fase 4B
+
+operaciones.html añade indicadores y alertas observadas, tablero, incidentes, decisiones, tareas, procedimientos y exportaciones documentales. Comparte el expediente y sus respaldos cifrados mediante el campo opcional operations. Guía y pruebas de aceptación: docs/FASE4B.md. No evalúa con la página cerrada.

@@ -48,3 +48,7 @@ Abre el sitio en otro perfil o equipo. En Fase 4 selecciona el respaldo, introdu
 ## Capacidades que esta edición no ofrece
 
 No hay cuentas, MFA, permisos compartidos, servidor privado, vigilancia individual con la página cerrada ni verificación de firmas C2PA/TLS. No se ofrecen instrucciones para preparar el equipo. Los informes de terceros se registran sin convertirlos en verificaciones propias.
+
+## Continuar con alertas y respuesta
+
+Abre operaciones.html y selecciona un expediente existente. Registra señales, define una regla, evalúa y revisa el incidente agrupado. Aplica un procedimiento para crear tareas. Las aprobaciones y decisiones son declaraciones; no ejecutan acciones fuera de la página. La guía detallada está dentro de Fase 4B y en docs/FASE4B.md. Los respaldos de Fase 4A incluyen estas operaciones.

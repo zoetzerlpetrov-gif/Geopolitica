@@ -1,4 +1,4 @@
-import {validar,preservar} from './fase4-modelo.js';
+import {validar,preservar} from './fase4-modelo.js?v=ops1';
 // IndexedDB: transacción y versión esperada evitan sobrescribir cambios de otra pestaña.
 let promise;
 export function openDB(){return promise??=new Promise((resolve,reject)=>{const r=indexedDB.open('dominus_fase4_web_v1',1);r.onupgradeneeded=()=>{r.result.createObjectStore('cases',{keyPath:'id'});const h=r.result.createObjectStore('history',{keyPath:'key'});h.createIndex('case','case');};r.onsuccess=()=>resolve(r.result);r.onerror=()=>{promise=null;reject(Error('No se pudo abrir el almacenamiento del navegador.'));};r.onblocked=()=>reject(Error('Cierra otras pestañas para abrir el almacenamiento.'));});}
