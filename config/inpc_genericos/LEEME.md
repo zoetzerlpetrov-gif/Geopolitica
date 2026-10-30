@@ -7,9 +7,13 @@ descargar desde la herramienta web **Índices de precios** de INEGI. Por eso se 
 
 ## Cómo descargarlo (una vez, y luego cada mes)
 
-1. Abre https://www.inegi.org.mx/app/indicesdeprecios/
-2. Entra a **Índice Nacional de Precios al Consumidor** y elige la estructura **por objeto del gasto**
-   (la que llega hasta el nivel de **genérico**). Los nombres exactos de los menús pueden variar un poco.
+1. Abre la liga directa del INPC nacional mensual:
+   https://www.inegi.org.mx/app/indicesdeprecios/Estructura.aspx?idEstructura=112001300040
+   (si se abre la página principal en blanco, con solo «Periodo» y «Restaurar», es porque no hay una estructura elegida;
+   esta liga ya la trae elegida).
+2. En el árbol, despliega **«Índice de precios al consumidor, por objeto del gasto»** hasta el último nivel
+   (los **genéricos**: «Tortilla de maíz», «Cerveza», «Electricidad»…). No uses «por origen de los bienes» ni
+   «por durabilidad»: esas no bajan a nivel producto.
 3. Marca los genéricos que quieras (o todos) y el periodo (por ejemplo, de 2015 a la fecha), con frecuencia **mensual**.
 4. Pulsa **Exportar** y elige el formato **CSV**.
 5. En GitHub, abre el repositorio Geopolitica → carpeta `config/inpc_genericos` → **Add file → Upload files**,

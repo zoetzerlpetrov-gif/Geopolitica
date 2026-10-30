@@ -98,3 +98,17 @@ def test_csv_de_inegi_latin1_mayusculas_y_duplicado(tmp_path):
     d = M.construir({}, bajar=lambda *a, **k: (_ for _ in ()).throw(OSError("sin red")), carpeta_genericos=str(tmp_path), hoy=date(2026, 10, 30))
     gen = [s for s in d["series"] if s["id"].startswith("gen_")]
     assert [(s["id"], s["nombre"], s["puntos"][-1]) for s in gen] == [("gen_tortilla_de_maiz", "Tortilla de maíz", ["2026-09-01", 152.3])]
+
+
+def test_prueba_otra_variedad_si_la_primera_no_tiene_precios():
+    lista = '<select id="ddlProducto"><option value="646">Pi&#241;a chica - Primera</option><option value="647">Pi&#241;a mediana - Primera</option></select>'
+
+    def bajar(url, **k):
+        if "Consulta" in url and "Resultados" not in url:
+            return lista.encode()
+        return (RES if "ProductoId=647" in url else "<table></table>").encode()
+    M.PAUSA = 0
+    M.ESPERAS = (0, 0)
+    d = M.construir({}, bajar=bajar, hoy=date(2026, 10, 30), carpeta_genericos="/nonexistent")
+    pina = next(s for s in d["series"] if s["id"] == "pina")
+    assert pina["puntos"] and "error" not in pina and pina["fuente"].endswith("Piña mediana - Primera")

@@ -53,7 +53,7 @@ HORTALIZAS = [
     ("calabacita", "Calabacita italiana", "Verduras", r"^Calabacita Italiana - Primera"),
     ("pepino", "Pepino", "Verduras", r"^Pepino"),
     ("lechuga", "Lechuga romanita", "Verduras", r"^Lechuga Romanita"),
-    ("ajo", "Ajo blanco", "Verduras", r"^Ajo Blanco - Primera"),
+    ("ajo", "Ajo", "Verduras", r"^Ajo (?:Blanco|Morado)"),
     ("aguacate_hass", "Aguacate hass", "Frutas", r"^Aguacate Hass - Primera"),
     ("limon_semilla", "Limón con semilla", "Frutas", r"^Lim(?:ó|o)n c/semilla # 4 - Primera"),
     ("limon_persa", "Limón persa (sin semilla)", "Frutas", r"^Lim(?:ó|o)n s/semilla - Primera"),
@@ -115,11 +115,12 @@ def opciones_producto(pagina_html):
             if v not in ("-1", "")]
 
 
-def elegir(opciones, patron):
-    for v, n in opciones:
-        if re.search(patron, n, re.I):
-            return v, n
-    return None, None
+def elegir(opciones, patron, maximo=1):
+    """Opciones de la lista del SNIIM cuyo nombre coincide con el patrón: (id, nombre) o, con maximo > 1, una lista."""
+    hallados = [(v, n) for v, n in opciones if re.search(patron, n, re.I)][:maximo]
+    if maximo > 1:
+        return hallados
+    return hallados[0] if hallados else (None, None)
 
 
 def filas_sniim(pagina_html):
@@ -275,11 +276,23 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
             opciones = []
             errores.append(f"SNIIM {consulta}: {type(e).__name__}")
         for sid, nombre, grupo, patron in lista:
-            pid, nombre_sniim = elegir(opciones, patron)
-            fn = (lambda pid=pid, sid=sid: serie_sniim(consulta, resultados, pid, [tuple(x) for x in prev.get(sid, {}).get("puntos", [])], hoy, bajar_sniim)) if pid else \
-                 (lambda patron=patron: (_ for _ in ()).throw(LookupError(f"producto no encontrado en la lista del SNIIM ({patron})")))
-            agrega(sid, nombre, grupo, unidad, f"SNIIM · Central de Abasto CDMX{' · ' + nombre_sniim if nombre_sniim else ''}",
+            # Si la primera variedad no tiene precios en Iztapalapa (p. ej. «Piña chica»), se prueban hasta 3 más.
+            candidatos, usado = elegir(opciones, patron, maximo=4), {}
+
+            def fn(sid=sid, patron=patron, candidatos=candidatos, usado=usado):
+                if not candidatos:
+                    raise LookupError(f"producto no encontrado en la lista del SNIIM ({patron})")
+                previos = [tuple(x) for x in prev.get(sid, {}).get("puntos", [])]
+                for pid, nombre_sniim in candidatos:
+                    pts = serie_sniim(consulta, resultados, pid, previos, hoy, bajar_sniim)
+                    if pts:
+                        usado["nombre"] = nombre_sniim
+                        return pts
+                return []
+            agrega(sid, nombre, grupo, unidad, "SNIIM · Central de Abasto CDMX",
                    "https://www.economia-sniim.gob.mx/nuevo/", "mensual (promedio de precios diarios)", fn)
+            if usado.get("nombre"):
+                series[-1]["fuente"] += " · " + usado["nombre"]
 
     # Gasolina: el promedio de hoy se agrega a la historia guardada.
     try:
