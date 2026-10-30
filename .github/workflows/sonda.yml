@@ -15,10 +15,19 @@ jobs:
           def get(u):
               req = urllib.request.Request(u, headers={"User-Agent": "Mozilla/5.0 DOMINUS-OSINT"})
               return urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
-          for u in ["https://www.inegi.org.mx/app/indicesdeprecios/", "https://www.inegi.org.mx/app/indicesdeprecios/Estructura.aspx"]:
-              t = get(u)
-              print("##", u, len(t), "title:", re.findall(r"<title>(.*?)</title>", t, re.S)[:1])
-              for pat in [r"objeto del gasto", r"[Gg]en[eé]rico", r"idEstructura[^\"'&<]{0,80}", r"Estructura\.aspx\?[^\"'<]{0,200}", r"Tabulados?[^<]{0,80}", r"Consumidor[^<]{0,80}"]:
-                  for m in list(re.finditer(pat, t))[:8]:
-                      print("  [%s]" % pat[:12], re.sub(r"\s+", " ", t[max(0, m.start()-160):m.end()+160]))
+          import json
+          B = "https://www.inegi.org.mx/app/indicesdeprecios/"
+          t = get(B + "Estructura.aspx")
+          f = re.search(r'<form action="Exportacion.aspx".*?</form>', t, re.S).group(0)
+          print("FORM", re.findall(r'name="([^"]+)"', f))
+          j = get(B + "Resources/estructuras.json")
+          print("JSON len", len(j)); print(j[:1500])
+          for m in list(re.finditer(r"objeto del gasto", j))[:10]:
+              print("  OBJ", j[max(0, m.start()-300):m.end()+100].replace("\n", " "))
+          js = get(B + "scripts/ExportacionAjaxInteraccion.min.js?1.9.4")
+          for m in list(re.finditer(r"_anioI|_formato|idEstructura|Exportacion", js))[:12]:
+              print("  JS", js[max(0, m.start()-200):m.end()+200].replace("\n", " "))
+          import urllib.robotparser as R
+          rp = R.RobotFileParser("https://www.inegi.org.mx/robots.txt"); rp.read()
+          print("robots Exportacion:", rp.can_fetch("*", B + "Exportacion.aspx"), "json:", rp.can_fetch("*", B + "Resources/estructuras.json"))
           PY
