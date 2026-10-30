@@ -1,0 +1,54 @@
+name: Economía
+
+# Una vez al día (solo admin, economia.html): indicadores de México, EUA y la UE e índices curiosos, según config/economia.json.
+# Independiente de Pulso Ciudadano y del Portafolio. Publica en la rama huérfana «datos-economia» (un solo commit);
+# Pages la copia a data/economia/. Si una fuente falla se conserva su último dato bueno.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 12 * * *"  # 06:41 en Ciudad de México
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: economia
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lector de Excel antiguo (GSCPI de la Fed de Nueva York)
+        run: pip install xlrd==2.0.1
+      - name: Datos anteriores (para conservar lo que falle)
+        run: |
+          mkdir -p economia
+          if git fetch --depth 1 origin datos-economia 2>/dev/null; then git archive FETCH_HEAD economia | tar -x; fi
+      - name: Actualizar indicadores
+        env:
+          INEGI_TOKEN: ${{ secrets.INEGI_TOKEN }}
+          BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
+        run: python3 tools/economia/pulso_economico.py economia
+      - name: Publicar en la rama datos-economia
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub && cp -r economia /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-economia
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add economia && git commit -q -m "economía $(date -u +'%Y-%m-%d')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-economia
+  publicar:
+    needs: actualizar
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit
