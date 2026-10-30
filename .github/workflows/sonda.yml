@@ -18,6 +18,8 @@ jobs:
           B = "https://www.inegi.org.mx/app/indicesdeprecios/"
           t = get(B + "Resources/estructuras.json")
           print(len(t))
-          for m in re.finditer(r'"(?:id|titulo|subtitulo|nombre|clave)"\s*:\s*"([^"]*)"', t):
-              print(m.group(0)[:120])
+          pares = re.findall(r'"id"\s*:\s*"(\d+)"\s*,\s*"subtitulo"\s*:\s*"([^"]*)"', t)
+          for i, sub in pares:
+              if len(i) <= 12 or not re.search(r", [A-Z][a-z.]+\. \(|\d\. ", sub):
+                  print(i, sub)
           PY
