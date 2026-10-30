@@ -23,6 +23,7 @@ import re
 import statistics
 import sys
 import time
+import unicodedata
 import urllib.parse
 import xml.etree.ElementTree as ET
 from datetime import date, datetime, timedelta, timezone
@@ -52,7 +53,7 @@ HORTALIZAS = [
     ("calabacita", "Calabacita italiana", "Verduras", r"^Calabacita Italiana - Primera"),
     ("pepino", "Pepino", "Verduras", r"^Pepino"),
     ("lechuga", "Lechuga romanita", "Verduras", r"^Lechuga Romanita"),
-    ("ajo", "Ajo blanco", "Verduras", r"^Ajo Blanco - Primera"),
+    ("ajo", "Ajo", "Verduras", r"^Ajo (?:Blanco|Morado)"),
     ("aguacate_hass", "Aguacate hass", "Frutas", r"^Aguacate Hass - Primera"),
     ("limon_semilla", "Limón con semilla", "Frutas", r"^Lim(?:ó|o)n c/semilla # 4 - Primera"),
     ("limon_persa", "Limón persa (sin semilla)", "Frutas", r"^Lim(?:ó|o)n s/semilla - Primera"),
@@ -114,11 +115,12 @@ def opciones_producto(pagina_html):
             if v not in ("-1", "")]
 
 
-def elegir(opciones, patron):
-    for v, n in opciones:
-        if re.search(patron, n, re.I):
-            return v, n
-    return None, None
+def elegir(opciones, patron, maximo=1):
+    """Opciones de la lista del SNIIM cuyo nombre coincide con el patrón: (id, nombre) o, con maximo > 1, una lista."""
+    hallados = [(v, n) for v, n in opciones if re.search(patron, n, re.I)][:maximo]
+    if maximo > 1:
+        return hallados
+    return hallados[0] if hallados else (None, None)
 
 
 def filas_sniim(pagina_html):
@@ -226,7 +228,23 @@ def leer_genericos(texto):
                 pts = [(p, num(c)) for p, c in zip(per, f) if p and num(c) is not None]
                 if pts:
                     series[f[0].strip()] = pts
-    return {k: sorted(v) for k, v in series.items() if len(v) >= 3}
+    return {nombre_corto(k): sorted(v) for k, v in series.items() if len(v) >= 3}
+
+
+def nombre_corto(titulo):
+    """INEGI pone el título completo («Índice Nacional de Precios…, por objeto del gasto, 1.1.1 Tortilla de maíz»):
+    se deja solo el último tramo y sin la numeración."""
+    t = titulo.split(", ")[-1].strip() if titulo.startswith("Índice Nacional") else titulo.strip()
+    return re.sub(r"^[\d.]+\s*", "", t) or t
+
+
+def leer_texto(ruta):
+    """Los CSV de INEGI vienen en Latin-1; si el archivo es UTF-8 se lee como tal."""
+    crudo = open(ruta, "rb").read()
+    try:
+        return crudo.decode("utf-8-sig")
+    except UnicodeDecodeError:
+        return crudo.decode("latin-1")
 
 
 # ------------------------------------------------------------------ armado
@@ -258,11 +276,23 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
             opciones = []
             errores.append(f"SNIIM {consulta}: {type(e).__name__}")
         for sid, nombre, grupo, patron in lista:
-            pid, nombre_sniim = elegir(opciones, patron)
-            fn = (lambda pid=pid, sid=sid: serie_sniim(consulta, resultados, pid, [tuple(x) for x in prev.get(sid, {}).get("puntos", [])], hoy, bajar_sniim)) if pid else \
-                 (lambda patron=patron: (_ for _ in ()).throw(LookupError(f"producto no encontrado en la lista del SNIIM ({patron})")))
-            agrega(sid, nombre, grupo, unidad, f"SNIIM · Central de Abasto CDMX{' · ' + nombre_sniim if nombre_sniim else ''}",
+            # Si la primera variedad no tiene precios en Iztapalapa (p. ej. «Piña chica»), se prueban hasta 3 más.
+            candidatos, usado = elegir(opciones, patron, maximo=4), {}
+
+            def fn(sid=sid, patron=patron, candidatos=candidatos, usado=usado):
+                if not candidatos:
+                    raise LookupError(f"producto no encontrado en la lista del SNIIM ({patron})")
+                previos = [tuple(x) for x in prev.get(sid, {}).get("puntos", [])]
+                for pid, nombre_sniim in candidatos:
+                    pts = serie_sniim(consulta, resultados, pid, previos, hoy, bajar_sniim)
+                    if pts:
+                        usado["nombre"] = nombre_sniim
+                        return pts
+                return []
+            agrega(sid, nombre, grupo, unidad, "SNIIM · Central de Abasto CDMX",
                    "https://www.economia-sniim.gob.mx/nuevo/", "mensual (promedio de precios diarios)", fn)
+            if usado.get("nombre"):
+                series[-1]["fuente"] += " · " + usado["nombre"]
 
     # Gasolina: el promedio de hoy se agrega a la historia guardada.
     try:
@@ -288,10 +318,15 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
         agrega(sid, nombre, "Índices de precios (INPC)", "índice (2.ª quincena de julio de 2018 = 100)", f"INEGI · INPC · {ind}",
                "https://www.inegi.org.mx/temas/inpc/", "mensual", fn)
 
-    for ruta in sorted(glob.glob(os.path.join(carpeta_genericos or os.path.join(ROOT, "config", "inpc_genericos"), "*.csv"))):
+    vistos = set()
+    carpeta = carpeta_genericos or os.path.join(ROOT, "config", "inpc_genericos")
+    for ruta in sorted(r for r in glob.glob(os.path.join(carpeta, "*")) if r.lower().endswith(".csv")):
         try:
-            for nombre, pts in leer_genericos(open(ruta, encoding="utf-8-sig", errors="replace").read()).items():
-                sid = "gen_" + re.sub(r"[^a-z0-9]+", "_", nombre.lower()).strip("_")[:40]
+            for nombre, pts in leer_genericos(leer_texto(ruta)).items():
+                sid = "gen_" + re.sub(r"[^a-z0-9]+", "_", unicodedata.normalize("NFKD", nombre.lower()).encode("ascii", "ignore").decode()).strip("_")[:40]
+                if sid in vistos:  # el mismo índice en dos archivos (o dos veces el mismo archivo)
+                    continue
+                vistos.add(sid)
                 agrega(sid, nombre, "INPC por producto y servicio (archivo de INEGI)", "índice (2.ª quincena de julio de 2018 = 100)",
                        f"INEGI · Índices de precios · {os.path.basename(ruta)}", "https://www.inegi.org.mx/app/indicesdeprecios/", "mensual",
                        lambda pts=pts: [p for p in pts if p[0][:4] >= str(DESDE)])
