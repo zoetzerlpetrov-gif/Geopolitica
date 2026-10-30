@@ -138,6 +138,11 @@
    "tipo": "pagina",
    "href": "estado.html",
    "nombre": "Centro de control"
+  },
+  {
+   "tipo": "pagina",
+   "href": "economia.html",
+   "nombre": "Economía"
   }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",

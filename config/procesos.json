@@ -9,6 +9,8 @@
      "afecta": "Eventos y noticias del mapa, historial de 90 días y reportes diarios"},
     {"id": "capas", "nombre": "Construir capas (PMTiles)", "workflow": "capas.yml", "cada": "4 h", "max_horas": 9,
      "afecta": "Capas fijas: infraestructura, cables, organizaciones, historia por país"},
+    {"id": "economia", "nombre": "Economía", "workflow": "economia.yml", "cada": "1 día", "max_horas": 30,
+     "afecta": "Sección Economía (indicadores de México, EUA y UE, índices curiosos)"},
     {"id": "camaras", "nombre": "Cámaras del mundo", "workflow": "camaras.yml", "cada": "1 día", "max_horas": 30,
      "afecta": "Lista de cámaras públicas"},
     {"id": "fuentes", "nombre": "Salud de fuentes gratuitas", "workflow": "fase23-fuentes.yml", "cada": "1 día", "max_horas": 30,
@@ -23,6 +25,7 @@
     {"id": "d_eventos", "nombre": "Eventos publicados (ingesta)", "archivo": "data/run-log.json", "campo": "generado_utc", "max_horas": 3, "errores": "fuentes"},
     {"id": "d_noticiero", "nombre": "Noticiero DOMINUS", "archivo": "data/vivos/noticiero.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "errores"},
     {"id": "d_protocolos", "nombre": "Protocolos y alertas «cisne negro»", "archivo": "data/vivos/protocolos.geojson", "campo": "actualizado_utc", "max_horas": 4, "errores": "fuentes"},
-    {"id": "d_autoauditoria", "nombre": "Resultado de la autoauditoría", "archivo": "data/autoauditoria/ultimo.json", "campo": "fecha_utc", "max_horas": 194}
+    {"id": "d_autoauditoria", "nombre": "Resultado de la autoauditoría", "archivo": "data/autoauditoria/ultimo.json", "campo": "fecha_utc", "max_horas": 194},
+    {"id": "d_economia", "nombre": "Indicadores económicos", "archivo": "data/economia/indicadores.json", "campo": "generado_utc", "max_horas": 30, "errores": "errores"}
   ]
 }
