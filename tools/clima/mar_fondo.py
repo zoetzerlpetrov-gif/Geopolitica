@@ -88,7 +88,10 @@ def feature(nombre, lat, lon, r, mexico, paso_h=1):
 def main():
     ahora = datetime.now(timezone.utc)
     try:
-        gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
+        texto = open(OUT, encoding="utf-8").read()
+        if "NaN" in texto:
+            raise ValueError("archivo anterior con NaN (no es JSON válido): se regenera")
+        gen = json.loads(texto).get("generado_utc", "")
         if ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(hours=PASO_H):
             print("mar de fondo: datos recientes")
             return 0
@@ -109,7 +112,7 @@ def main():
                "fuente": "Modelo GFS-Wave de NOAA (estimación propia; el aviso oficial es del SMN/SEMAR)",
                "corrida": corrida.strftime("%Y-%m-%dT%H:%MZ"), "pasos": len(pasos),
                "umbral": f"oleaje de fondo de {ALTURA:g} m o más con periodo de {PERIODO:g} s o más", "features": feats},
-              open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+              open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     con = [f["properties"]["name"] for f in feats if f["properties"]["nivel"]]
     print(f"mar de fondo: {len(feats)} de {len(PUNTOS)} puntos con datos, {len(con)} con mar de fondo en 7 días ({', '.join(con[:10])}); corrida {corrida:%Y-%m-%d %H} UTC, {len(pasos)} pasos")
     return 0

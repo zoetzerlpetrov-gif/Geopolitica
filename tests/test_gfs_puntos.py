@@ -77,3 +77,21 @@ def test_mar_de_fondo_con_gfs_wave():
     assert f["nivel"] == 2 and f["altura_max_m"] == 3.1 and f["horas_evento"] == 12 and f["inicio"] == "2026-10-30T06:00"
     assert M.feature(*puntos[1], datos[1], False, paso_h=6) is None   # celda de tierra: sin oleaje
     assert not math.isnan(f["periodo_en_max_s"])
+
+
+def test_series_convierte_nan_en_none():
+    nan = float("nan")
+
+    def leer(datos, nombres):
+        f = int(datos.decode()[-3:])
+        # El punto tiene dato en f000 (se elige la celda) y queda vacío (NaN) en f006.
+        return {"shts": ([20.0], [263.0], [[2.5 if f == 0 else nan]])}, datetime(2026, 10, 29, f % 24, tzinfo=timezone.utc)
+
+    url = lambda c, f: f"x/t{c:%H}z/f{f:03d}"  # noqa: E731
+    pasos, _ = G.series([("A", 20.0, -97.0)], url, [0, 6], {"shts"}, datetime(2026, 10, 29, 11, tzinfo=timezone.utc), pausa=0,
+                        get=lambda u: u.encode(), leer=leer)
+    assert [p[1]["shts"][0] for p in pasos] == [2.5, None]
+    datos = G.a_horario(pasos, [("A", 20.0, -97.0)], {"shts": "swell_wave_height", "mpts": "swell_wave_period", "swdir": "swell_wave_direction"})
+    f = M.feature("A", 20.0, -97.0, datos[0], True, 6)
+    import json
+    json.dumps(f, allow_nan=False)  # sin NaN: el navegador puede leerlo
