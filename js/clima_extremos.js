@@ -24,13 +24,13 @@ export const catIndiceCalor = (ic) => (ic == null || ic < 27 ? 0 : ic >= 51 ? 4 
 export function filasCalor(p) {
   return [["Onda de calor", p.onda_calor ? tramos(p.calor_tramos) : "No en los próximos 7 días"],
     ["Índice de calor máximo (lo que siente el cuerpo)", p.indice_calor_max_c != null ? `${tempCF(p.indice_calor_max_c)}${p.indice_calor_cat ? ` · ${p.indice_calor_cat}` : ""}` : "—"],
-    ["Umbral de calor de este lugar", p.climatologia ? "Promedio de la máxima del mes (2001-2020) + 5 °C, y al menos 30 °C" : "35 °C (aún sin climatología de este lugar)"]];
+    ["Umbral de calor de este lugar", p.climatologia ? "Promedio de la máxima del mes (1991-2020) + 5 °C, y al menos 30 °C" : "35 °C (aún sin climatología de este lugar)"]];
 }
 
 export function filasFrio(p) {
   return [["Ola de frío", p.ola_frio ? tramos(p.frio_tramos) : "No en los próximos 7 días"],
     ["Heladas (mínima de 0 °C o menos)", (p.heladas || []).length ? p.heladas.map(fecha).join(", ") : "No"],
-    ["Umbral de frío de este lugar", p.climatologia ? "Promedio de la mínima del mes (2001-2020) − 5 °C, y 5 °C o menos" : "0 °C (aún sin climatología de este lugar)"]];
+    ["Umbral de frío de este lugar", p.climatologia ? "Promedio de la mínima del mes (1991-2020) − 5 °C, y 5 °C o menos" : "0 °C (aún sin climatología de este lugar)"]];
 }
 
 export function filasUV(p) {

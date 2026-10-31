@@ -8,16 +8,12 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Fuentes candidatas 2
+      - uses: actions/checkout@v4
+      - name: calor.py con climatología real del CPC (lote de 6)
         run: |
-          UA="Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-          p() { echo "## $1"; curl -s -L -m 60 -A "$UA" -o /tmp/r -w "HTTP %{http_code} %{content_type} %{size_download}B %{url_effective}\n" "$1"; head -c ${2:-400} /tmp/r | tr '\n' ' '; echo; }
-          p "https://psl.noaa.gov/thredds/ncss/grid/Datasets/cpc_global_temp/tmax.day.ltm.1991-2020.nc?var=tmax&latitude=19.43&longitude=260.87&accept=csv" 500
-          p "https://psl.noaa.gov/thredds/ncss/Datasets/cpc_global_temp/tmax.day.ltm.1991-2020.nc?var=tmax&latitude=19.43&longitude=260.87&accept=csv" 500
-          curl -s -I -m 30 https://downloads.psl.noaa.gov/Datasets/cpc_global_temp/tmax.day.ltm.1991-2020.nc | grep -i -E "content-length|content-type"
-          p https://smn.conagua.gob.mx/robots.txt 600
-          curl -s -L -m 40 -A "$UA" https://smn.conagua.gob.mx/es/climatologia/monitor-de-sequia/monitor-de-sequia-en-mexico | grep -o -i '\(href\|src\)="[^"]*\(Sequia\|sequia\|MSM\|msm\)[^"]*"' | sort -u | head -25
-          curl -s -L -m 60 -A "$UA" "https://ows.globalfloods.eu/glofas-ows/ows.py?service=WMS&request=GetCapabilities&version=1.3.0" | grep -o "<Name>[^<]*</Name>\|<Title>[^<]*</Title>" | head -80 | tr '\n' ' '; echo
-          p https://www.drought.gov/robots.txt 400
-          p https://services9.arcgis.com/RHVPKKiFTONKtxq3/arcgis/rest/services/US_Drought_Intensity_v1/FeatureServer/3?f=json 300
-          p https://smn.conagua.gob.mx/tools/RESOURCES/Monitor%20de%20Sequia%20en%20Mexico/ 300
+          git fetch --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos/ct/forecast.geojson | tar -x
+          python3 -c "
+          import sys;sys.path.insert(0,'tools/clima');import calor as C;C.LOTE=6;C.main()"
+          python3 -c "
+          import json;b=json.load(open('vivos/clima_base.json'));print(json.dumps(b)[:700])
+          d=json.load(open('vivos/calor_frio.geojson'));print(d['con_climatologia']);print([ (f['properties']['name'],f['properties']['serie'][0]) for f in d['features'] if f['properties']['climatologia']][:6])"

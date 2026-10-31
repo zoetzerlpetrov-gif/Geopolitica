@@ -4,11 +4,13 @@
 No descarga pronóstico propio: lee vivos/ct/forecast.geojson, que ya genera «Clima Táctico» con MET Norway (CC BY 4.0)
 y trae por día la máxima, la mínima, el índice de calor (temperatura + humedad), el UV con cielo despejado y la
 fracción de niebla. Lo que agrega es la climatología de cada ciudad para saber qué es «anormal» ahí:
-promedio de la máxima y la mínima de cada mes 2001-2020 de NASA POWER (dominio público, permite uso comercial). Se
-descarga una sola vez por ciudad, poco a poco (LOTE por corrida) y se guarda en vivos/clima_base.json.
+promedio diario 1991-2020 de la máxima y la mínima del CPC de NOAA (rejilla de 0.5°, dominio público), pedido por punto
+al servicio THREDDS de NOAA PSL y resumido por mes. Se descarga una sola vez por ciudad, poco a poco (LOTE por corrida),
+y se guarda en vivos/clima_base.json. (NASA POWER se descartó: su robots.txt no permite consultar su API.)
 
 Reglas propias (ESTIMACIÓN; los avisos oficiales en México son del SMN y Protección Civil):
-- Día cálido: máxima ≥ promedio de la máxima del mes + 5 °C y ≥ 30 °C. Sin climatología todavía: máxima ≥ 35 °C.
+- Día cálido: máxima ≥ promedio de la máxima del mes + 5 °C y ≥ 30 °C. Sin climatología (todavía, o ciudad costera
+  que cae en una celda de mar del CPC): máxima ≥ 35 °C.
 - Onda de calor: 3 días seguidos o más cálidos. Nivel por el índice de calor más alto (categorías del NWS de EUA):
   1 precaución (< 32 °C), 2 precaución extrema (32-39), 3 peligro (39-51), 4 peligro extremo (≥ 51).
 - Día frío: mínima ≤ promedio de la mínima del mes − 5 °C y ≤ 5 °C. Sin climatología: mínima ≤ 0 °C.
@@ -30,11 +32,10 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 PRONOSTICO = os.path.join(ROOT, "vivos", "ct", "forecast.geojson")
 BASE = os.path.join(ROOT, "vivos", "clima_base.json")
 OUT = os.path.join(ROOT, "vivos", "calor_frio.geojson")
-POWER = ("https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=T2M_MAX,T2M_MIN&community=AG"
-         "&longitude={lon:.2f}&latitude={lat:.2f}&start=2001&end=2020&format=JSON")
+CPC = ("https://psl.noaa.gov/thredds/ncss/grid/Datasets/cpc_global_temp/{var}.day.ltm.1991-2020.nc"
+       "?var={var}&latitude={lat:.2f}&longitude={lon360:.2f}&temporal=all&accept=csv")
 UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 LOTE, PAUSA_S = 60, 1.0
-MESES = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"]
 CAT_CALOR = ["", "Precaución", "Precaución extrema", "Peligro", "Peligro extremo"]
 CAT_UV = [(11, "Extremo"), (8, "Muy alto"), (6, "Alto"), (3, "Moderado"), (0, "Bajo")]
 
@@ -43,24 +44,36 @@ def clave(lat, lon):
     return f"{lat:.2f},{lon:.2f}"
 
 
-def leer_power(texto):
-    """Respuesta de NASA POWER (climatología) → {"tmax": [12 meses], "tmin": [12 meses]}; None si falta algo."""
-    p = (json.loads(texto).get("properties") or {}).get("parameter") or {}
-    out = {}
-    for nombre, var in (("tmax", "T2M_MAX"), ("tmin", "T2M_MIN")):
-        vals = [(p.get(var) or {}).get(m) for m in MESES]
-        if any(v is None or v <= -900 for v in vals):
-            return None
-        out[nombre] = [round(float(v), 1) for v in vals]
-    return out
+def leer_cpc(texto):
+    """CSV de THREDDS (365 días de promedio 1991-2020) → 12 promedios mensuales; None si la celda no tiene dato (mar)."""
+    por_mes = [[] for _ in range(12)]
+    for linea in texto.splitlines()[1:]:
+        partes = linea.split(",")
+        if len(partes) < 5:
+            continue
+        try:
+            v = float(partes[-1])
+            mes = int(partes[0][5:7]) - 1
+        except ValueError:
+            continue
+        if v == v and -90 < v < 70:  # descarta NaN y valores de relleno
+            por_mes[mes].append(v)
+    if any(len(m) < 20 for m in por_mes):
+        return None
+    return [round(sum(m) / len(m), 1) for m in por_mes]
+
+
+def url_cpc(var, lat, lon):
+    return CPC.format(var=var, lat=lat, lon360=lon % 360)
 
 
 def completar_base(puntos, base, bajar=None, lote=LOTE, pausa=PAUSA_S):
-    """Descarga la climatología de hasta `lote` ciudades que aún no la tienen. Respeta robots.txt de NASA POWER."""
+    """Descarga la climatología de hasta `lote` ciudades que aún no la tienen (respeta robots.txt de NOAA PSL). Una
+    ciudad sin dato (celda de mar) se guarda como None para no volver a pedirla."""
     if bajar is None:
         import fuentes as F
-        if not F.permitido_por_robots(POWER.format(lat=0, lon=0)):
-            print("calor: robots.txt de NASA POWER no lo permite; se usan umbrales fijos")
+        if not F.permitido_por_robots(url_cpc("tmax", 0, 0)):
+            print("calor: robots.txt de NOAA PSL no lo permite; se usan umbrales fijos")
             return 0
 
         def bajar(url):
@@ -74,12 +87,13 @@ def completar_base(puntos, base, bajar=None, lote=LOTE, pausa=PAUSA_S):
         if nuevos >= lote:
             break
         try:
-            c = leer_power(bajar(POWER.format(lat=lat, lon=lon)))
+            tmax = leer_cpc(bajar(url_cpc("tmax", lat, lon)))
+            time.sleep(pausa)
+            tmin = leer_cpc(bajar(url_cpc("tmin", lat, lon))) if tmax else None
         except Exception as e:  # noqa: BLE001
-            print(f"calor: NASA POWER no respondió para {k} ({e})")
+            print(f"calor: NOAA PSL no respondió para {k} ({e})")
             break
-        if c:
-            base[k] = c
+        base[k] = {"tmax": tmax, "tmin": tmin} if tmax and tmin else None
         nuevos += 1
         time.sleep(pausa)
     return nuevos
@@ -160,12 +174,12 @@ def main():
         print("calor: pronóstico vacío; se conserva el anterior")
         return 0
     json.dump({"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-               "fuente": "MET Norway (pronóstico, CC BY 4.0) y NASA POWER (climatología 2001-2020); reglas propias, no aviso oficial",
+               "fuente": "MET Norway (pronóstico, CC BY 4.0) y CPC de NOAA (climatología 1991-2020); reglas propias, no aviso oficial",
                "con_climatologia": sum(1 for x in feats if x["properties"]["climatologia"]), "features": feats},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"), allow_nan=False)
     c = sum(1 for x in feats if x["properties"]["onda_calor"])
     fr = sum(1 for x in feats if x["properties"]["ola_frio"])
-    print(f"calor: {len(feats)} ciudades ({len(base)} con climatología, {n} nuevas): {c} con onda de calor, {fr} con ola de frío")
+    print(f"calor: {len(feats)} ciudades ({sum(1 for v in base.values() if v)} con climatología, {len(base)} consultadas, {n} nuevas): {c} con onda de calor, {fr} con ola de frío")
     return 0
 
 

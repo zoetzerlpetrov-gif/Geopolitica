@@ -44,15 +44,20 @@ def test_ola_de_frio_heladas_uv_y_niebla():
     assert r["uv_max"] == 6.5 and r["uv_cat"] == "Alto" and r["niebla"] and r["niebla_pct"] == 70
 
 
-def test_climatologia_de_nasa_power_y_descarga_por_lotes():
-    texto = json.dumps({"properties": {"parameter": {"T2M_MAX": {m: 30.0 for m in C.MESES} | {"ANN": 30},
-                                                    "T2M_MIN": {m: 15.0 for m in C.MESES}}}})
-    assert C.leer_power(texto) == {"tmax": [30.0] * 12, "tmin": [15.0] * 12}
-    assert C.leer_power(json.dumps({"properties": {"parameter": {"T2M_MAX": {m: -999 for m in C.MESES}}}})) is None
+def test_climatologia_del_cpc_y_descarga_por_lotes():
+    filas = ["time,station,latitude,longitude,tmax"]
+    for d in range(365):
+        mes = min(12, d // 30 + 1)
+        filas.append(f"0001-{mes:02d}-{(d % 28) + 1:02d}T00:00:00Z,P,19.25,-99.25,{20.0 + mes}")
+    texto = "\n".join(filas)
+    meses = C.leer_cpc(texto)
+    assert meses[0] == 21.0 and meses[11] == 32.0 and len(meses) == 12
+    assert C.leer_cpc("time,station,lat,lon,tmax\n0001-01-01T00:00:00Z,P,0,0,NaN") is None   # celda de mar
+    assert "longitude=260.87" in C.url_cpc("tmax", 19.43, -99.13)
     pedidas = []
     base = {C.clave(1, 1): {"tmax": [1] * 12, "tmin": [1] * 12}}
     n = C.completar_base([("a", 1, 1), ("b", 2, 2), ("c", 3, 3), ("d", 4, 4)], base, bajar=lambda u: pedidas.append(u) or texto, lote=2, pausa=0)
-    assert n == 2 and len(pedidas) == 2 and C.clave(2, 2) in base and C.clave(4, 4) not in base
+    assert n == 2 and len(pedidas) == 4 and base[C.clave(2, 2)]["tmax"][0] == 21.0 and C.clave(4, 4) not in base
 
 
 def campo_base():
