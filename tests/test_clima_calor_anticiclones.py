@@ -52,17 +52,21 @@ def test_climatologia_del_cpc_desde_la_rejilla_mensual():
     def leer(datos, var):
         mes = int(datos.decode())
         campo = np.full((lats.size, lons.size), (20.0 if var == "tmax" else 5.0) + mes)
-        campo[np.abs(lats - 30.25).argmin(), np.abs(lons - 220.25).argmin()] = np.nan   # una celda de mar
+        i, j = np.abs(lats - 30.25).argmin(), np.abs(lons - 220.25).argmin()
+        campo[i, j] = np.nan                       # ciudad costera en celda de mar: toma la de tierra vecina
+        i, j = np.abs(lats - 0.25).argmin(), np.abs(lons - 200.25).argmin()
+        campo[i - 1:i + 2, j - 1:j + 2] = np.nan   # isla rodeada de mar: sin climatología
         return lats, lons, campo
 
     def bajar(url):
         pedidas.append(url)
         return url.split("time=0001-")[1][:2].encode()
     base = {C.clave(1, 1): {"tmax": [1] * 12, "tmin": [1] * 12}}
-    n = C.completar_base([("a", 1, 1), ("CDMX", 19.43, -99.13), ("mar", 30.25, -139.75)], base, bajar=bajar, leer=leer, pausa=0)
-    assert n == 2 and len(pedidas) == 24 and "tmax.day.ltm.1991-2020.nc" in pedidas[0]
+    n = C.completar_base([("a", 1, 1), ("CDMX", 19.43, -99.13), ("costa", 30.25, -139.75), ("isla", 0.25, -159.75)], base, bajar=bajar, leer=leer, pausa=0)
+    assert n == 3 and len(pedidas) == 24 and "tmax.day.ltm.1991-2020.nc" in pedidas[0]
     assert base[C.clave(19.43, -99.13)]["tmax"][0] == 21.0 and base[C.clave(19.43, -99.13)]["tmin"][11] == 17.0
-    assert base[C.clave(30.25, -139.75)] is None
+    assert base[C.clave(30.25, -139.75)]["tmax"][0] == 21.0
+    assert base[C.clave(0.25, -159.75)] is None
     assert C.completar_base([("a", 1, 1)], base, bajar=bajar, leer=leer, pausa=0) == 0   # ya están todas
 
 
