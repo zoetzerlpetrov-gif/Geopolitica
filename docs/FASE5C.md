@@ -41,3 +41,7 @@ Pruebas de CSV/ZIP/CRC, fechas/calendarios/excepciones, servicios nocturnos, ref
 - https://gtfs.org/documentation/schedule/reference/
 
 Pendientes: expansión de catálogos mundiales precargados; frecuencias y transporte a demanda; conexiones entre plataformas con caminata verificada; varios feeds/días/transbordos; tarifas y accesibilidad; integración de retrasos/cancelaciones GTFS-RT; planificación aérea/marítima sin feed compatible, carga y restricciones especializadas; vigilancia privada con la página cerrada y siguientes fases. La recolección pública diaria no equivale a vigilancia periódica del expediente.
+
+## Continuación Fase 5D
+
+La misma página admite reglas de transbordo por ruta/viaje y conexiones entre plataformas con mínimo explícito GTFS, además de un ejemplo sintético local. Se conservan los planes anteriores. Ver [FASE5D.md](FASE5D.md) para alcance, prioridades y límites; las restricciones originales de Fase 5C sobre reglas específicas se sustituyen por ese alcance.

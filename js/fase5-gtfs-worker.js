@@ -1,5 +1,5 @@
 import {readGTFSZip} from './fase5-gtfs-zip.js';
-import {normalizeGTFS,searchTransit} from './fase5-gtfs-modelo.js?v=2';
+import {normalizeGTFS,searchTransit} from './fase5-gtfs-modelo.js?v=3';
 let feed=null;
 self.onmessage=async({data})=>{const {id,kind}=data;try{if(kind==='load'){feed=null;const buffer=data.buffer,bytes=new Uint8Array(buffer);
  // Hash del archivo binario, no del nombre ni de la fecha de descarga.
