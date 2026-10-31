@@ -99,6 +99,8 @@ def test_guardia_detecta_cambio_en_otras_capas(tmp_path):
     (tmp_path / 'volcanes.pmtiles').write_bytes(b'original')
     antes = inventario(tmp_path)
     (tmp_path / 'camaras.geojson').write_text('{}')
+    (tmp_path / 'camaras.grupos.json').write_text('{"features": []}')
+    (tmp_path / 'camaras.crudo.ndjson.gz').write_bytes(b'nuevo')
     assert antes == inventario(tmp_path)
     (tmp_path / 'volcanes.pmtiles').write_bytes(b'modificado')
     assert antes != inventario(tmp_path)
