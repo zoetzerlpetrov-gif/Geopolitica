@@ -12,6 +12,8 @@ Cada 6 h descarga del filtro GRIB de NOMADS solo la altura a 500 hPa y la temper
 Reglas propias (ESTIMACIÓN, no aviso oficial):
 - Anticiclón en altura: máximo local de altura a 500 hPa (ventana de ±5°) entre 15° y 70° de latitud, al menos 3 dam
   arriba del punto más bajo de la ventana. Anomalía = altura menos el promedio de su latitud (dam).
+- Alta subtropical (p. ej. la de México): entre 10° y 35°, máximo en ±8° con 588 dam o más (criterio operativo de la
+  línea de 5880 m) y al menos 1 dam de relieve; es ancha y plana, por eso no la detecta la regla anterior.
 - Domo de calor: anticiclón con anomalía ≥ +10 dam y aire a ~1.5 km (850 hPa) de 20 °C o más.
 - Persistencia: en cuántos de los 6 horizontes hay un anticiclón a menos de 6° del mismo lugar.
 - Bloqueo: índice de Tibaldi y Molteni (1990) en cada longitud: gradiente de altura entre 40° y 60° invertido y caída
@@ -38,10 +40,14 @@ FILTRO = ("https://nomads.ncep.noaa.gov/cgi-bin/filter_gfs_1p00.pl?dir=%2Fgfs.{f
           "&var_HGT=on&var_TMP=on&lev_500_mb=on&lev_850_mb=on")
 OBJETIVOS = [0, 24, 48, 72, 96, 120]
 RADIO, MIN_RELIEVE_M, UNIR = 5, 30.0, 10.0
+# Alta subtropical (la que el SMN llama «anticiclón en niveles medios» sobre México): ancha y casi plana, así que se
+# busca aparte con el criterio operativo de la línea de 588 dam (5880 m) a 500 hPa.
+SUB_LAT, SUB_RADIO, SUB_MIN_M, SUB_RELIEVE_M = (10, 35), 8, 5880.0, 10.0
 DOMO_ANOM_DAM, DOMO_T850 = 10.0, 20.0
 PERSISTE_GRADOS = 6.0
 BLOQUEO_ANCHO, BLOQUEO_DIAS = 12, 4
 CADA_H = 6
+VERSION = 2  # 2: altas subtropicales; un archivo de otra versión se rehace sin esperar las 6 h
 
 
 def anomalia(hgt):
@@ -56,27 +62,35 @@ def anticiclones(hgt500, t850):
     cand = []
     for i in range(filas):
         lat = 90 - i
-        if not (15 <= abs(lat) <= 70):
+        latitud_media = 15 <= abs(lat) <= 70
+        subtropical = SUB_LAT[0] <= abs(lat) <= SUB_LAT[1]
+        if not (latitud_media or subtropical):
             continue
-        i0, i1 = max(0, i - RADIO), min(filas, i + RADIO + 1)
         for j in range(hgt500.shape[1]):
             if anom[i, j] <= 0:  # una alta en altura queda por encima del promedio de su latitud
                 continue
             v = hgt500[i, j]
-            ventana = np.take(hgt500[i0:i1], range(j - RADIO, j + RADIO + 1), axis=1, mode="wrap")
-            if v < np.nanmax(ventana) or v - np.nanmin(ventana) < MIN_RELIEVE_M:
+            es_sub = subtropical and v >= SUB_MIN_M and _maximo(hgt500, i, j, SUB_RADIO, SUB_RELIEVE_M)
+            if not (es_sub or (latitud_media and _maximo(hgt500, i, j, RADIO, MIN_RELIEVE_M))):
                 continue
             a = float(anom[i, j]) / 10
             t = float(t850[i, j]) if t850 is not None else None
             cand.append({"lon": float(-180 + j), "lat": float(lat), "altura500_dam": round(float(v) / 10, 1), "anomalia_dam": round(a, 1),
                          "t850_c": round(t, 1) if t is not None else None,
-                         "domo_calor": bool(a >= DOMO_ANOM_DAM and t is not None and t >= DOMO_T850)})
+                         "domo_calor": bool(a >= DOMO_ANOM_DAM and t is not None and t >= DOMO_T850),
+                         "subtropical": bool(es_sub)})
     cand.sort(key=lambda c: -c["anomalia_dam"])
     elegidos = []
     for c in cand:
         if all(_dist(c, e) > UNIR for e in elegidos):
             elegidos.append(c)
     return elegidos
+
+
+def _maximo(hgt, i, j, radio, relieve):
+    """¿(i, j) es el punto más alto de su ventana de ±radio celdas y sobresale al menos `relieve` m del más bajo?"""
+    ventana = np.take(hgt[max(0, i - radio):i + radio + 1], range(j - radio, j + radio + 1), axis=1, mode="wrap")
+    return hgt[i, j] >= np.nanmax(ventana) and hgt[i, j] - np.nanmin(ventana) >= relieve
 
 
 def _dist(a, b):
@@ -134,7 +148,7 @@ def geojson(actuales, bloqueos, n_horizontes, corrida):
         for l0, l1, dias in lista:
             feats.append({"type": "Feature", "geometry": {"type": "LineString", "coordinates": [[x, lat] for x in range(l0, l1 + 1, 2)] + [[l1, lat]]},
                           "properties": {"kind": "bloqueo", "hemisferio": hemi, "lon_ini": l0, "lon_fin": l1, "dias": dias, "de_horizontes": n_horizontes}})
-    return {"type": "FeatureCollection", "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+    return {"type": "FeatureCollection", "version": VERSION, "generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
             "corrida": corrida.strftime("%Y-%m-%dT%H:%MZ") if corrida else "", "fuente": "Modelo GFS de NOAA (estimación propia)", "features": feats}
 
 
@@ -158,8 +172,9 @@ def leer(datos):
 def main():
     ahora = datetime.now(timezone.utc)
     try:
-        gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
-        if (ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() < CADA_H * 3600:
+        previo = json.load(open(OUT, encoding="utf-8"))
+        gen = previo.get("generado_utc", "")
+        if previo.get("version") == VERSION and (ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)).total_seconds() < CADA_H * 3600:
             print("anticiclones: datos recientes")
             return 0
     except (OSError, ValueError):

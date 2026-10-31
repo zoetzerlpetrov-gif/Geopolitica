@@ -264,7 +264,7 @@ jobs:
         timeout-minutes: 5
         run: python3 tools/clima/mar_fondo.py
 
-      - name: Ondas de calor, olas de frío, índice de calor, UV y niebla (pronóstico de Clima Táctico + climatología NASA POWER); si falla se conserva el anterior
+      - name: Ondas de calor, olas de frío, índice de calor, UV y niebla (pronóstico de Clima Táctico + climatología 1991-2020 del CPC de NOAA); si falla se conserva el anterior
         continue-on-error: true
         timeout-minutes: 4
         run: python3 tools/clima/calor.py

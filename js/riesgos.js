@@ -579,7 +579,7 @@ export const CAPAS = [
     id: "anticiclones", grupo: "Clima y ambiente", nombre: "🔆 Anticiclones en altura, domos de calor y bloqueos (modelo GFS, 5 días)",
     url: "data/vivos/anticiclones.geojson", refresco_s: 3600, fuente: "Modelo GFS de NOAA (estimación propia)",
     estilo: (p) => ({ c: CX.COLOR_ANTICICLON[p.kind] || CX.COLOR_ANTICICLON.alta, r: p.kind === "bloqueo" ? 0 : p.kind === "domo" ? 8 : 5 }),
-    etiqueta: (p) => (p.kind === "bloqueo" ? `Bloqueo ${p.dias} días` : p.kind === "domo" ? `Domo de calor +${p.anomalia_dam} dam` : p.anomalia_dam >= 10 ? `A +${p.anomalia_dam}` : ""),
+    etiqueta: (p) => (p.kind === "bloqueo" ? `Bloqueo ${p.dias} días` : p.kind === "domo" ? `Domo de calor +${p.anomalia_dam} dam` : p.anomalia_dam >= 10 ? `A +${p.anomalia_dam}` : p.subtropical ? `A ${p.altura500_dam}` : ""),
     leyenda: [{ c: CX.COLOR_ANTICICLON.domo, r: 8, t: "Domo de calor: alta en altura muy marcada con aire de 20 °C o más a ~1.5 km" },
       { c: CX.COLOR_ANTICICLON.alta, r: 5, t: "Anticiclón en altura (~5.5 km): cielo despejado, poca lluvia" },
       { c: CX.COLOR_ANTICICLON.bloqueo, r: 4, t: "Línea: bloqueo (la corriente en chorro se desvía 4 días o más; el tiempo se estanca)" },

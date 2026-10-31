@@ -87,6 +87,18 @@ def test_anticiclon_en_altura_y_domo_de_calor():
     assert A.persistencia(altas[:1], [altas, altas, []])[0]["horizontes"] == 2
 
 
+def test_alta_subtropical_ancha_y_plana_sobre_mexico():
+    # Como el 31-oct-2026: 592 dam en 19°N, 105°O con apenas ~20 m de relieve en ±5° (la regla de latitudes medias no la ve).
+    lat = np.arange(90, -91, -1.0)[:, None]
+    h = np.broadcast_to(5880 - 0.04 * (lat - 20) ** 2, (181, 360)).copy()
+    ii, jj = np.meshgrid(np.arange(181), np.arange(360), indexing="ij")
+    h += 40 * np.exp(-(((ii - 71) ** 2 + (jj - 75) ** 2) / 200.0))   # fila 71 = 19°N, columna 75 = 105°O
+    altas = A.anticiclones(h, np.full(h.shape, 21.0))
+    mx = [a for a in altas if a["lat"] == 19 and a["lon"] == -105]
+    assert mx and mx[0]["subtropical"] and not mx[0]["domo_calor"]
+    assert A.geojson(altas, {"norte": [], "sur": []}, 6, None)["version"] == A.VERSION
+
+
 def test_bloqueo_de_tibaldi_molteni():
     h = campo_base()
     for lat in range(30, 90):

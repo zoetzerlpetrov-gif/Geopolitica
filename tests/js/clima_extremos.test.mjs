@@ -17,5 +17,6 @@ test("fichas de calor, frío y anticiclones", () => {
   assert.match(CX.filasFrio(p)[1][1], /ene/);
   assert.deepEqual(CX.serie(p, "hi"), [["2026-06-02", 41]]);
   assert.match(CX.filasAnticiclon({ kind: "bloqueo", hemisferio: "norte", lon_ini: -10, lon_fin: 9, dias: 4, de_horizontes: 6 })[2][1], /-10° a 9°/);
+  assert.match(CX.filasAnticiclon({ kind: "alta", subtropical: true, altura500_dam: 592, anomalia_dam: 3, horizontes: 5, de_horizontes: 6 })[0][1], /subtropical/);
   assert.equal(CX.filasAnticiclon({ kind: "domo", domo_calor: true, altura500_dam: 592, anomalia_dam: 14, t850_c: 24, horizontes: 5, de_horizontes: 6 })[0][1].startsWith("Domo"), true);
 });

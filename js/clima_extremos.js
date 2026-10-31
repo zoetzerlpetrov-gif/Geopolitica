@@ -43,7 +43,9 @@ export function filasAnticiclon(p) {
     return [["Tipo", "Bloqueo (la corriente en chorro se desvía y el tiempo se queda igual)"], ["Hemisferio", p.hemisferio],
       ["Longitudes", `${p.lon_ini}° a ${p.lon_fin}°`], ["Días seguidos bloqueado (pronóstico)", `${p.dias} de ${p.de_horizontes}`]];
   }
-  return [["Tipo", p.domo_calor ? "Domo de calor (alta en altura con aire caliente debajo)" : "Anticiclón en altura"],
+  const tipo = p.domo_calor ? "Domo de calor (alta en altura con aire caliente debajo)"
+    : p.subtropical ? "Alta subtropical (el SMN la llama «anticiclón en niveles medios»): inhibe la lluvia y calienta la tarde" : "Anticiclón en altura";
+  return [["Tipo", tipo],
     ["Altura a 500 hPa (~5.5 km)", `${p.altura500_dam} dam`], ["Anomalía frente a su latitud", `${p.anomalia_dam > 0 ? "+" : ""}${p.anomalia_dam} dam`],
     ["Temperatura a ~1.5 km (850 hPa)", p.t850_c != null ? tempCF(p.t850_c) : "—"], ["Persistencia en el pronóstico", `${p.horizontes} de ${p.de_horizontes} días`]];
 }
