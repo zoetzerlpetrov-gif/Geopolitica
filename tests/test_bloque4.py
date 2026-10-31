@@ -221,7 +221,8 @@ def test_inmuebles_en_seguimiento_y_revision_geologica():
     volcanes = [(14.139, 40.827, "Campi Flegrei")]  # (lon, lat, nombre)
     fs = I.features_seguimiento(lista, volcanes, [])
     bacoli = next(f["properties"] for f in fs if "Bacoli" in f["properties"]["n"])
-    assert bacoli["st"] == "inm_riesgo_alto" and bacoli["geo_alerta"] and "Campi Flegrei" in bacoli["geo"]
+    assert bacoli["st"] == "inm_warroom" and bacoli["nivel"] == "red" and bacoli["color"] == I.RIESGO_COLOR["red"]
+    assert bacoli["geo_alerta"] and "Campi Flegrei" in bacoli["geo"]
     assert all(f["properties"]["url"].startswith("https://") for f in fs)
 
 
@@ -233,7 +234,7 @@ def test_familias_de_bienes_raices_registradas():
         assert fam in C.FAMILIAS and any(x["id"] == fam and x["habilitada"] for x in capas)
     assert {v[0] for v in I.TIPOS_PAIS.values()} <= {k for k, v in subtipos.items() if v == "inmuebles_pais"}
     assert {v[0] for v in I.TIPOS_MX.values()} <= {k for k, v in subtipos.items() if v == "inmuebles_mx"}
-    assert set(I.RIESGO_ST.values()) <= {k for k, v in subtipos.items() if v == "inmuebles_seguimiento"}
+    assert set(I.ORIGEN_ST.values()) <= {k for k, v in subtipos.items() if v == "inmuebles_seguimiento"}
 
 
 def test_indice_de_busqueda_de_organizaciones():

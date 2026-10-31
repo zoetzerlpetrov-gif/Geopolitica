@@ -2145,19 +2145,23 @@
          "titulo": "Subtipos",
          "opciones": [
           {
-           "t": "Riesgo bajo",
+           "t": "Lista propia (InmuebleWarRoom)",
            "ayuda": ""
           },
           {
-           "t": "Riesgo moderado",
+           "t": "Desarrollos ARA y SADASI",
            "ayuda": ""
           },
           {
-           "t": "Riesgo medio-alto",
+           "t": "Desarrollos y ofertas en 20 países",
            "ayuda": ""
           },
           {
-           "t": "Riesgo alto",
+           "t": "⭐ Mi lista (solo en este navegador)",
+           "ayuda": ""
+          },
+          {
+           "t": "Zonas de búsqueda (México y 27 países)",
            "ayuda": ""
           }
          ],
