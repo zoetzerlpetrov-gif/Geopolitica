@@ -6,29 +6,26 @@ permissions:
 jobs:
   sonda:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-      - name: Dependencias (igual que «Datos en movimiento»)
-        run: pip install -q numpy pygrib
-      - name: Pronóstico real (datos-vivos) + calor/frío con NASA POWER (lote chico)
+      - name: Fuentes candidatas
         run: |
-          git fetch --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos/ct/forecast.geojson | tar -x
-          python3 - <<'PY'
-          import json, sys, urllib.request
-          sys.path.insert(0, "tools/clima")
-          import calor as C
-          C.LOTE = 5
-          raise SystemExit(C.main())
-          PY
-          python3 -c "import json;d=json.load(open('vivos/calor_frio.geojson'));f=d['features'];print(len(f),d['con_climatologia']);print(json.dumps(f[0]['properties'],ensure_ascii=False)[:600])"
-          cat vivos/clima_base.json | head -c 400; echo
-      - name: MET Norway trae humedad, UV y niebla en un punto
-        run: |
-          curl -s -A "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)" "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=19.43&lon=-99.13" | python3 -c "
-          import json,sys;d=json.load(sys.stdin);ts=d['properties']['timeseries'];print(len(ts));print(sorted(ts[0]['data']['instant']['details']));print(sorted(ts[40]['data']['instant']['details']))"
-      - name: Anticiclones con GFS real
-        run: python3 tools/clima/anticiclones.py && python3 -c "import json;d=json.load(open('vivos/anticiclones.geojson'));import collections;print(collections.Counter(f['properties']['kind'] for f in d['features']));print([ (f['geometry']['coordinates'], f['properties'].get('anomalia_dam'), f['properties'].get('horizontes')) for f in d['features'] if f['properties']['kind']=='domo'][:8]);print([f['properties'] for f in d['features'] if f['properties']['kind']=='bloqueo'][:5])"
+          UA="Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
+          p() { echo "## $1"; curl -s -m 40 -A "$UA" -o /tmp/r -w "HTTP %{http_code} %{content_type} %{size_download}B\n" "$1"; head -c ${2:-400} /tmp/r | tr '\n' ' '; echo; }
+          p https://power.larc.nasa.gov/robots.txt 800
+          p "https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=T2M_MAX&community=AG&longitude=-99.13&latitude=19.43&format=JSON" 300
+          p https://droughtmonitor.unl.edu/robots.txt 400
+          p https://droughtmonitor.unl.edu/data/json/usdm_current.json 300
+          p https://smn.conagua.gob.mx/robots.txt 400
+          p https://smn.conagua.gob.mx/es/climatologia/monitor-de-sequia/monitor-de-sequia-en-mexico 300
+          curl -s -m 40 -A "$UA" https://smn.conagua.gob.mx/es/climatologia/monitor-de-sequia/monitor-de-sequia-en-mexico | grep -o -i 'href="[^"]*\(shp\|kmz\|zip\|geojson\|kml\)[^"]*"' | head -10
+          p https://smn.conagua.gob.mx/es/pronosticos/avisos/aviso-de-onda-de-calor 200
+          curl -s -m 40 -A "$UA" https://smn.conagua.gob.mx/ | grep -o -i 'href="[^"]*\(rss\|cap\|xml\|json\)[^"]*"' | sort -u | head -15
+          p https://www.ncei.noaa.gov/access/monitoring/nadm/ 200
+          p https://ows.globalfloods.eu/robots.txt 300
+          p "https://ows.globalfloods.eu/glofas-ows/ows.py?service=WMS&request=GetCapabilities&version=1.3.0" 300
+          curl -s -m 60 -A "$UA" "https://ows.globalfloods.eu/glofas-ows/ows.py?service=WMS&request=GetCapabilities&version=1.3.0" | grep -o "<Name>[^<]*</Name>" | head -40 | tr '\n' ' '; echo
+          curl -s -m 60 "https://gibs.earthdata.nasa.gov/wmts/epsg3857/best/1.0.0/WMTSCapabilities.xml" | grep -o "<ows:Identifier>[^<]*\(AOD\|Aerosol\|Dust\|Smoke\|Fog\)[^<]*</ows:Identifier>" | sort -u | head -30
+          p https://psl.noaa.gov/robots.txt 300
+          curl -s -m 40 -A "$UA" https://downloads.psl.noaa.gov/Datasets/cpc_global_temp/ | grep -o 'href="[^"]*ltm[^"]*"' | head -10
+          p https://api.water.noaa.gov/nwps/v1/gauges?bbox.xmin=-100\&bbox.ymin=25\&bbox.xmax=-95\&bbox.ymax=30 300
