@@ -112,6 +112,11 @@ def _leer(datos, nombres):
     return campos, valido
 
 
+def _num(x):
+    x = float(x)
+    return x if math.isfinite(x) else None
+
+
 def series(puntos, url_de, horas, nombres, ahora=None, pausa=PAUSA_S, get=_get, leer=_leer):
     """Descarga cada horizonte de la corrida más reciente disponible y devuelve (pasos, corrida) con el valor de cada
     variable en cada punto. `url_de(corrida, f)` arma la URL; `nombres`: shortName de pygrib que se leen."""
@@ -132,7 +137,9 @@ def series(puntos, url_de, horas, nombres, ahora=None, pausa=PAUSA_S, get=_get, 
             for nombre, (lats, lons, matriz) in campos.items():
                 if nombre not in indices:
                     indices[nombre] = [celda_con_dato(lats, lons, matriz, la, lo) for _, la, lo in puntos]
-                fila[nombre] = [None if ij is None else float(matriz[ij[0]][ij[1]]) for ij in indices[nombre]]
+                # Una celda con dato en el primer horizonte puede quedar vacía (NaN) en otro: se pasa como None,
+                # porque NaN no es JSON válido y el navegador rechazaría el archivo completo.
+                fila[nombre] = [None if ij is None else _num(matriz[ij[0]][ij[1]]) for ij in indices[nombre]]
             pasos.append((valido, fila))
             if n:
                 time.sleep(pausa)
