@@ -6,14 +6,17 @@ permissions:
 jobs:
   sonda:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
-      - name: calor.py con climatología real del CPC (lote de 6)
+      - name: calor.py con la rejilla mensual del CPC
         run: |
+          pip install -q numpy h5py
           git fetch --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos/ct/forecast.geojson | tar -x
+          time python3 tools/clima/calor.py
           python3 -c "
-          import sys;sys.path.insert(0,'tools/clima');import calor as C;C.LOTE=6;C.main()"
-          python3 -c "
-          import json;b=json.load(open('vivos/clima_base.json'));print(json.dumps(b)[:700])
-          d=json.load(open('vivos/calor_frio.geojson'));print(d['con_climatologia']);print([ (f['properties']['name'],f['properties']['serie'][0]) for f in d['features'] if f['properties']['climatologia']][:6])"
+          import json;b=json.load(open('vivos/clima_base.json'));print(len(b),sum(1 for v in b.values() if v));print(b.get('19.43,-99.13'))
+          d=json.load(open('vivos/calor_frio.geojson'));print(d['con_climatologia'])
+          for f in d['features']:
+              p=f['properties']
+              if p['onda_calor'] or p['ola_frio']: print(p['name'],p['onda_calor'],p['calor_tramos'],p['ola_frio'],p['frio_tramos'],p['serie'][0])"| head -40

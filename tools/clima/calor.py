@@ -4,9 +4,10 @@
 No descarga pronóstico propio: lee vivos/ct/forecast.geojson, que ya genera «Clima Táctico» con MET Norway (CC BY 4.0)
 y trae por día la máxima, la mínima, el índice de calor (temperatura + humedad), el UV con cielo despejado y la
 fracción de niebla. Lo que agrega es la climatología de cada ciudad para saber qué es «anormal» ahí:
-promedio diario 1991-2020 de la máxima y la mínima del CPC de NOAA (rejilla de 0.5°, dominio público), pedido por punto
-al servicio THREDDS de NOAA PSL y resumido por mes. Se descarga una sola vez por ciudad, poco a poco (LOTE por corrida),
-y se guarda en vivos/clima_base.json. (NASA POWER se descartó: su robots.txt no permite consultar su API.)
+promedio diario 1991-2020 de la máxima y la mínima del CPC de NOAA (rejilla de 0.5°, dominio público). Del servicio
+THREDDS de NOAA PSL se pide la rejilla mundial del día 15 de cada mes (24 archivos de ~1 MB, una sola vez) y se toma la
+celda de cada ciudad; queda en vivos/clima_base.json y solo se vuelve a pedir para ciudades nuevas.
+(NASA POWER se descartó: su robots.txt no permite consultar su API.)
 
 Reglas propias (ESTIMACIÓN; los avisos oficiales en México son del SMN y Protección Civil):
 - Día cálido: máxima ≥ promedio de la máxima del mes + 5 °C y ≥ 30 °C. Sin climatología (todavía, o ciudad costera
@@ -33,9 +34,9 @@ PRONOSTICO = os.path.join(ROOT, "vivos", "ct", "forecast.geojson")
 BASE = os.path.join(ROOT, "vivos", "clima_base.json")
 OUT = os.path.join(ROOT, "vivos", "calor_frio.geojson")
 CPC = ("https://psl.noaa.gov/thredds/ncss/grid/Datasets/cpc_global_temp/{var}.day.ltm.1991-2020.nc"
-       "?var={var}&latitude={lat:.2f}&longitude={lon360:.2f}&temporal=all&accept=csv")
+       "?var={var}&time=0001-{mes:02d}-15T00:00:00Z&accept=netcdf4")
 UA = "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)"
-LOTE, PAUSA_S = 60, 1.0
+PAUSA_S = 1.0
 CAT_CALOR = ["", "Precaución", "Precaución extrema", "Peligro", "Peligro extremo"]
 CAT_UV = [(11, "Extremo"), (8, "Muy alto"), (6, "Alto"), (3, "Moderado"), (0, "Bajo")]
 
@@ -44,59 +45,69 @@ def clave(lat, lon):
     return f"{lat:.2f},{lon:.2f}"
 
 
-def leer_cpc(texto):
-    """CSV de THREDDS (365 días de promedio 1991-2020) → 12 promedios mensuales; None si la celda no tiene dato (mar)."""
-    por_mes = [[] for _ in range(12)]
-    for linea in texto.splitlines()[1:]:
-        partes = linea.split(",")
-        if len(partes) < 5:
-            continue
-        try:
-            v = float(partes[-1])
-            mes = int(partes[0][5:7]) - 1
-        except ValueError:
-            continue
-        if v == v and -90 < v < 70:  # descarta NaN y valores de relleno
-            por_mes[mes].append(v)
-    if any(len(m) < 20 for m in por_mes):
-        return None
-    return [round(sum(m) / len(m), 1) for m in por_mes]
+def url_cpc(var, mes):
+    return CPC.format(var=var, mes=mes)
 
 
-def url_cpc(var, lat, lon):
-    return CPC.format(var=var, lat=lat, lon360=lon % 360)
+def leer_nc4(datos, var):
+    """NetCDF-4 de THREDDS (una fecha, rejilla mundial) → (lats, lons 0-360, matriz con NaN donde no hay dato)."""
+    import io
+    import h5py  # lo instala el workflow «Datos en movimiento» (también lo usa la capa de rayos)
+    import numpy as np
+    with h5py.File(io.BytesIO(datos), "r") as f:
+        v = f[var]
+        m = np.array(v[0] if v.ndim == 3 else v, dtype=float)
+        for attr in ("_FillValue", "missing_value"):
+            if attr in v.attrs:
+                m[m == float(np.ravel(v.attrs[attr])[0])] = np.nan
+        return np.array(f["lat"][:], dtype=float), np.array(f["lon"][:], dtype=float), m
 
 
-def completar_base(puntos, base, bajar=None, lote=LOTE, pausa=PAUSA_S):
-    """Descarga la climatología de hasta `lote` ciudades que aún no la tienen (respeta robots.txt de NOAA PSL). Una
-    ciudad sin dato (celda de mar) se guarda como None para no volver a pedirla."""
+def muestrear(lats, lons, campo, lat, lon):
+    """Valor de la celda más cercana (lon de la rejilla en 0-360). El CPC solo tiene tierra: si una ciudad costera cae en
+    una celda de mar se usa la celda de tierra vecina (hasta 1 celda, ~55 km). None si no hay ninguna."""
+    import numpy as np
+    i0 = int(np.abs(lats - lat).argmin())
+    j0 = int(np.abs(lons - (lon % 360)).argmin())
+    for di, dj in [(0, 0), (0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]:
+        i, j = i0 + di, (j0 + dj) % campo.shape[1]
+        if 0 <= i < campo.shape[0]:
+            v = float(campo[i, j])
+            if v == v and -90 < v < 70:
+                return round(v, 1)
+    return None
+
+
+def completar_base(puntos, base, bajar=None, leer=leer_nc4, pausa=PAUSA_S):
+    """Si hay ciudades sin climatología, pide la rejilla del día 15 de cada mes (máxima y mínima) y llena todas de una
+    vez. Una ciudad sin dato (celda de mar del CPC) se guarda como None para no volver a pedirla. Respeta robots.txt."""
+    faltan = [(lat, lon) for _, lat, lon in puntos if clave(lat, lon) not in base]
+    if not faltan:
+        return 0
     if bajar is None:
         import fuentes as F
-        if not F.permitido_por_robots(url_cpc("tmax", 0, 0)):
+        if not F.permitido_por_robots(url_cpc("tmax", 1)):
             print("calor: robots.txt de NOAA PSL no lo permite; se usan umbrales fijos")
             return 0
 
         def bajar(url):
-            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=60) as r:
-                return r.read().decode("utf-8")
-    nuevos = 0
-    for _, lat, lon in puntos:
-        k = clave(lat, lon)
-        if k in base:
-            continue
-        if nuevos >= lote:
-            break
-        try:
-            tmax = leer_cpc(bajar(url_cpc("tmax", lat, lon)))
-            time.sleep(pausa)
-            tmin = leer_cpc(bajar(url_cpc("tmin", lat, lon))) if tmax else None
-        except Exception as e:  # noqa: BLE001
-            print(f"calor: NOAA PSL no respondió para {k} ({e})")
-            break
-        base[k] = {"tmax": tmax, "tmin": tmin} if tmax and tmin else None
-        nuevos += 1
-        time.sleep(pausa)
-    return nuevos
+            with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=120) as r:
+                return r.read()
+    valores = {k: {"tmax": [], "tmin": []} for k in faltan}
+    try:
+        for var in ("tmax", "tmin"):
+            for mes in range(1, 13):
+                lats, lons, campo = leer(bajar(url_cpc(var, mes)), var)
+                for lat, lon in faltan:
+                    valores[(lat, lon)][var].append(muestrear(lats, lons, campo, lat, lon))
+                time.sleep(pausa)
+    except Exception as e:  # noqa: BLE001
+        print(f"calor: NOAA PSL no respondió ({e}); se usan umbrales fijos por ahora")
+        return 0
+    for (lat, lon), v in valores.items():
+        ok = all(x is not None for x in v["tmax"] + v["tmin"])
+        base[clave(lat, lon)] = v if ok else None
+    return len(faltan)
 
 
 def rachas(banderas):
