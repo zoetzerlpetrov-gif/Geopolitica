@@ -1,5 +1,5 @@
-import * as DB from './fase4-db.js?v=f5b';
-import {nodos} from './fase4-modelo.js?v=f5b';
+import * as DB from './fase4-db.js?v=f5c';
+import {nodos} from './fase4-modelo.js?v=f5c';
 import {emptySpatial,geometry,validateSpatial,verifySpatial,digest,normalizeDataset,evaluateSpatial,compareSnapshots,reportCSV} from './fase5-modelo.js';
 import {vacio as emptyOps} from './operaciones-modelo.js';
 import {descargar} from './web-cripto.js';

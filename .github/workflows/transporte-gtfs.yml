@@ -1,0 +1,52 @@
+name: Horarios públicos GTFS
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '10 18 * * *'
+  push:
+    branches: [main]
+    paths: ['tools/transporte/gtfs.py', '.github/workflows/transporte-gtfs.yml']
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: horarios-gtfs
+  cancel-in-progress: false
+jobs:
+  recopilar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Recuperar copias anteriores
+        shell: bash
+        run: |
+          mkdir -p /tmp/gtfs-previous
+          if git fetch --depth=1 origin datos-transporte; then
+            git rev-parse FETCH_HEAD > /tmp/gtfs-old-head
+            git archive FETCH_HEAD gtfs | tar -x -C /tmp/gtfs-previous
+          else
+            : > /tmp/gtfs-old-head
+          fi
+      - name: Consultar únicamente las fuentes públicas fijas
+        run: python3 tools/transporte/gtfs.py --output /tmp/gtfs-output/gtfs --previous /tmp/gtfs-previous/gtfs
+      - name: Publicar copias, conservando la fecha original si falla una fuente
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git checkout --orphan publicar-horarios
+          git rm -rf --ignore-unmatch . > /dev/null
+          cp -r /tmp/gtfs-output/gtfs .
+          git add gtfs
+          git commit -m 'Actualizar copias públicas de horarios GTFS'
+          GTFS_OLD_HEAD=$(cat /tmp/gtfs-old-head)
+          git push --force-with-lease="refs/heads/datos-transporte:$GTFS_OLD_HEAD" origin HEAD:datos-transporte
+  publicar:
+    needs: recopilar
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit

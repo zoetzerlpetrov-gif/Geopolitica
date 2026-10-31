@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html tutorial.html planes.html estado.html soporte.html economia.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html tutorial.html planes.html estado.html soporte.html economia.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -80,6 +80,12 @@ jobs:
             git archive FETCH_HEAD economia | tar -x -C /tmp && cp /tmp/economia/*.json _site/data/economia/
           else
             echo "Aún no existe la rama datos-economia"
+          fi
+          # Horarios estáticos públicos: rama independiente; nunca contiene consultas privadas.
+          mkdir -p _site/data/transporte
+          if git fetch --depth 1 origin datos-transporte 2>/dev/null; then
+            git archive FETCH_HEAD gtfs | tar -x -C /tmp
+            cp /tmp/gtfs/*.zip /tmp/gtfs/manifest.json _site/data/transporte/
           fi
           # Datos en movimiento: viven en la rama huérfana "datos-vivos" (workflow "Datos en movimiento").
           mkdir -p _site/data/vivos

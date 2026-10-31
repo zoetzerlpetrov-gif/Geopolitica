@@ -41,3 +41,7 @@ Fuentes primarias:
 - https://www.openstreetmap.org/copyright (datos y ODbL).
 
 Pendientes: transporte público con horarios/transbordos, rutas ferroviarias y marítimas operativas, planificación aérea/carga, restricciones de mercancías, vigilancia privada 24/7 y análisis energético especializado. Los marcadores de trenes son posiciones publicadas, no un planificador de itinerarios.
+
+## Continuación Fase 5C
+
+`transporte.html` incorpora horarios GTFS estáticos, cálculo local de trayectos directos y una conexión en la misma plataforma, con copia revisada en el expediente. No combina esta consulta con las rutas FOSSGIS ni con posiciones de trenes. Ver [FASE5C.md](FASE5C.md).
