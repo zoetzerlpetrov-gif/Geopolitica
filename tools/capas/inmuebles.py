@@ -291,7 +291,16 @@ def revision_geologica(lat, lon, volcanes, limites):
     return "; ".join(notas), alerta
 
 
-RIESGO_ST = {"green": "inm_riesgo_bajo", "yellow": "inm_riesgo_moderado", "orange": "inm_riesgo_medio", "red": "inm_riesgo_alto"}
+# Las casillas de la capa separan por origen (lista propia, ARA/SADASI, desarrollos por país, zonas, Mi lista);
+# el color de cada punto sigue siendo su nivel de riesgo («nivel» + «color», que el mapa usa antes que el del subtipo).
+RIESGO_COLOR = {"green": "#3ddc84", "yellow": "#f5d547", "orange": "#ff9d2f", "red": "#ff4d4d"}
+ORIGEN_ST = {"InmuebleWarRoom": "inm_warroom", "ARA/SADASI": "inm_ara_sadasi", "Desarrollos por país": "inm_desarrollos",
+             "Zonas en seguimiento": "inm_zona", "Mi lista": "inm_mi_lista"}
+
+
+def _riesgo(nivel):
+    nivel = nivel if nivel in RIESGO_COLOR else "yellow"
+    return {"nivel": nivel, "color": RIESGO_COLOR[nivel]}
 
 
 def features_seguimiento(props_lista, volcanes, limites):
@@ -300,7 +309,7 @@ def features_seguimiento(props_lista, volcanes, limites):
         geo, alerta = revision_geologica(p["lat"], p["lng"], volcanes, limites)
         precio = f"{p['priceLocal']} (≈ {p['priceUSD']:,} USD · {p['priceMXN']:,} MXN)" if p.get("priceUSD") else p.get("priceLocal", "")
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [p["lng"], p["lat"]]}, "properties": {
-            "id": f"iwr:{p['id']}", "n": f"{p['type']} · {p['city']}", "st": RIESGO_ST.get(p.get("riskLevel"), "inm_riesgo_moderado"), "p": "",
+            "id": f"iwr:{p['id']}", "n": f"{p['type']} · {p['city']}", "st": ORIGEN_ST["InmuebleWarRoom"], "origen": "InmuebleWarRoom", **_riesgo(p.get("riskLevel")), "p": "",
             "z": 2, "x": precio, "tipo": p["type"], "pais_n": p["country"], "riesgo": p.get("riskNotes", ""), "mercado": p.get("pricePosition", ""),
             "legal": p.get("legalNote", ""), "terreno": p.get("landM2"), "construccion": p.get("constM2"), "ciudad": p.get("nearestCity", ""),
             "aeropuerto": p.get("nearestAirport", ""), "geo": geo, "geo_alerta": alerta, "url": p.get("link", "")}})
@@ -338,7 +347,7 @@ def features_ara_sadasi(devs, volcanes, limites):
         modelos = "; ".join(f"{m.get('nombre', '')}: {m['precio']:,} MXN" for m in (d.get("modelos") or []) if m.get("precio"))[:400]
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [d["lon"], d["lat"]]}, "properties": {
             "id": f"aras:{d.get('id', d.get('name'))}", "n": f"{d.get('developer', '')} {d.get('name', '')} · {d.get('city', '')}", "p": "MEX",
-            "st": RIESGO_ST[nivel_geologico(d["lat"], d["lon"], volcanes, limites)], "z": 4,
+            "st": ORIGEN_ST["ARA/SADASI"], **_riesgo(nivel_geologico(d["lat"], d["lon"], volcanes, limites)), "z": 4,
             "x": _precio_txt(d.get("precio_min"), d.get("precio_max"), "MXN"), "tipo": "Casa o departamento nuevo", "pais_n": "México",
             "desarrolladora": d.get("developer", ""), "proyecto": d.get("name", ""), "zona": f"{d.get('city', '')}, {d.get('state', '')}",
             "modelos": modelos, "nuevo": True, "rehab": "no", "origen": "ARA/SADASI", "auto": True,
@@ -361,7 +370,7 @@ def features_desarrollos(datos, volcanes, limites):
             m2 = d.get("m2_desde")
             out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [d["lon"], d["lat"]]}, "properties": {
                 "id": f"des:{d['id']}", "n": f"{(d.get('tipo') or '').capitalize()} · {d.get('proyecto') or d.get('ciudad', '')} · {d.get('ciudad', '')}",
-                "p": d.get("pais_iso3", ""), "st": RIESGO_ST[nivel_geologico(d["lat"], d["lon"], volcanes, limites)], "z": 4,
+                "p": d.get("pais_iso3", ""), "st": ORIGEN_ST["Desarrollos por país"], **_riesgo(nivel_geologico(d["lat"], d["lon"], volcanes, limites)), "z": 4,
                 "x": _precio_txt(d.get("precio_desde"), d.get("precio_hasta"), d.get("moneda", "")), "tipo": d.get("tipo", ""),
                 "pais_n": (paises.get(d.get("pais_iso3")) or {}).get("nombre", d.get("pais_iso3", "")),
                 "desarrolladora": d.get("desarrolladora", ""), "proyecto": d.get("proyecto", ""),

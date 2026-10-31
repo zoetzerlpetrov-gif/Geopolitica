@@ -5423,13 +5423,13 @@
      "familia": "inmuebles_mx"
     },
     {
-     "id": "inm_riesgo_bajo",
+     "id": "inm_warroom",
      "nombre": {
-      "es": "Riesgo bajo",
-      "en": "Low risk"
+      "es": "Lista propia (InmuebleWarRoom)",
+      "en": "Own list (InmuebleWarRoom)"
      },
      "icono": "●",
-     "color": "#3ddc84",
+     "color": "#5aa9e6",
      "fuente": "inmueblewarroom",
      "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
      "frecuencia": "manual",
@@ -5442,15 +5442,34 @@
      "familia": "inmuebles_seguimiento"
     },
     {
-     "id": "inm_riesgo_moderado",
+     "id": "inm_ara_sadasi",
      "nombre": {
-      "es": "Riesgo moderado",
-      "en": "Moderate risk"
+      "es": "Desarrollos ARA y SADASI",
+      "en": "ARA and SADASI developments"
      },
      "icono": "●",
-     "color": "#f5d547",
+     "color": "#e07a5f",
      "fuente": "inmueblewarroom",
-     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+     "licencia": "Repositorio propio InmueblesAraSadasi; precios publicados por las desarrolladoras",
+     "frecuencia": "semanal",
+     "tipo_capa": "estatica",
+     "estado_dato": "estatico",
+     "zoom_min": 0,
+     "areas": [
+      "geoeconomia"
+     ],
+     "familia": "inmuebles_seguimiento"
+    },
+    {
+     "id": "inm_desarrollos",
+     "nombre": {
+      "es": "Desarrollos y ofertas en 20 países",
+      "en": "Developments and listings in 20 countries"
+     },
+     "icono": "●",
+     "color": "#81b29a",
+     "fuente": "inmueblewarroom",
+     "licencia": "Catálogo propio; los anuncios enlazados pertenecen a sus portales",
      "frecuencia": "manual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
@@ -5461,34 +5480,15 @@
      "familia": "inmuebles_seguimiento"
     },
     {
-     "id": "inm_riesgo_medio",
+     "id": "inm_mi_lista",
      "nombre": {
-      "es": "Riesgo medio-alto",
-      "en": "Medium-high risk"
+      "es": "⭐ Mi lista (solo en este navegador)",
+      "en": "⭐ My list (this browser only)"
      },
-     "icono": "●",
-     "color": "#ff9d2f",
+     "icono": "★",
+     "color": "#ffd700",
      "fuente": "inmueblewarroom",
-     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
-     "frecuencia": "manual",
-     "tipo_capa": "estatica",
-     "estado_dato": "estatico",
-     "zoom_min": 0,
-     "areas": [
-      "geoeconomia"
-     ],
-     "familia": "inmuebles_seguimiento"
-    },
-    {
-     "id": "inm_riesgo_alto",
-     "nombre": {
-      "es": "Riesgo alto",
-      "en": "High risk"
-     },
-     "icono": "●",
-     "color": "#ff4d4d",
-     "fuente": "inmueblewarroom",
-     "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
+     "licencia": "Datos de la persona usuaria guardados solo en su navegador; no se publican",
      "frecuencia": "manual",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",

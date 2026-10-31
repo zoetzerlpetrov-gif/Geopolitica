@@ -68,6 +68,36 @@ function asegurarPMTiles() {
 export const BANDAS_GRUPOS = [[0, 3], [3, 5], [5, 7]];
 export const GRUPOS_HASTA = 7;
 /** Suma de los conteos «c_<subtipo>» de los subtipos marcados (expresión de MapLibre). */
+/** Colores de los niveles de riesgo (iguales a tools/capas/inmuebles.py RIESGO_COLOR) y nombre de cada nivel. */
+export const RIESGO_INMUEBLE = { green: ["#3ddc84", "Riesgo bajo"], yellow: ["#f5d547", "Riesgo moderado"], orange: ["#ff9d2f", "Riesgo medio-alto"], red: ["#ff4d4d", "Riesgo alto"] };
+// «Mi lista» de inmuebles.html califica de 1 (bajo) a 4 (muy alto).
+const NIVEL_MI_LISTA = { 1: "green", 2: "yellow", 3: "orange", 4: "red" };
+
+/**
+ * «⭐ Mi lista» de inmuebles.html (localStorage, solo en este navegador) como puntos de la capa «Seguimiento a Inmuebles».
+ * Función pura: recibe la lista ya leída. Se descartan los que no tienen coordenadas válidas.
+ */
+export function objetosMiLista(lista) {
+  return (Array.isArray(lista) ? lista : []).flatMap((x, i) => {
+    const lat = Number(x?.lat), lon = Number(x?.lon);
+    if (!Number.isFinite(lat) || !Number.isFinite(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) return [];
+    const nivel = NIVEL_MI_LISTA[x.global] || "";
+    return [{ type: "Feature", geometry: { type: "Point", coordinates: [lon, lat] }, properties: {
+      id: `mi:${x.id || i}`, n: String(x.nombre || `${lat.toFixed(4)}, ${lon.toFixed(4)}`), st: "inm_mi_lista", origen: "Mi lista", p: x.pais || "", pais_n: x.pais || "",
+      tipo: x.tipo || "", x: [x.precio, x.moneda].filter(Boolean).join(" "), construccion: x.m2 || null, url: x.link || "", visto: x.fecha || "", z: 0,
+      ...(nivel ? { nivel, color: RIESGO_INMUEBLE[nivel][0] } : {}) } }];
+  });
+}
+
+/** Un grupo de una unidad por banda para cada objeto local: así se cuentan también a zoom bajo. */
+export function gruposDeObjetos(features, bandas = BANDAS_GRUPOS) {
+  return features.flatMap((f) => bandas.map((_, b) => ({ type: "Feature", geometry: f.geometry, properties: { b, n: 1, [`c_${f.properties.st}`]: 1 } })));
+}
+
+function leerLocal(clave) {
+  try { return JSON.parse(globalThis.localStorage?.getItem(clave) || "[]"); } catch { return []; }
+}
+
 export const sumaGrupo = (subtipos) => ["+", 0, 0, ...[...subtipos].map((st) => ["coalesce", ["get", `c_${st}`], 0])];
 
 export class GestorCapas {
@@ -111,6 +141,16 @@ export class GestorCapas {
     if (f.filtroObjeto && f.manifest.formato === "geojson" && f.datos === undefined) {
       const d = await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
       f.datos = d ? { ...d, features: (d.features || []).filter((x) => f.filtroObjeto(x.properties || {})) } : { type: "FeatureCollection", features: [] };
+    }
+    // Objetos guardados solo en este navegador (p. ej. «Mi lista» de inmuebles.html): se suman al GeoJSON publicado.
+    if (f.objetos_locales && f.manifest.formato === "geojson") {
+      const propios = objetosMiLista(leerLocal(f.objetos_locales));
+      if (propios.length) {
+        const d = f.datos ?? await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+        const base = (d?.features || []).filter((x) => x.properties?.st !== "inm_mi_lista");
+        f.datos = { type: "FeatureCollection", features: [...base, ...propios] };
+        if (f.grupos?.features) f.grupos = { ...f.grupos, features: [...f.grupos.features.filter((x) => !x.properties?.c_inm_mi_lista), ...gruposDeObjetos(propios)] };
+      }
     }
     if (this.activas.has(id)) return;
     this.activas.set(id, new Set(f.subtipos.map((s) => s.id)));
@@ -205,7 +245,8 @@ export class GestorCapas {
     }
     this.map.addLayer({ id: `${src}-punto`, type: "circle", source: src, ...sl, ...desde, filter: this.#filtroCapa("-punto", filtro),
       paint: {
-        "circle-color": color,
+        // «color_por_objeto» (config/capas.json): el color lo trae cada punto (p. ej. nivel de riesgo) y las casillas filtran otra cosa.
+        "circle-color": f.color_por_objeto ? ["coalesce", ["get", "color"], color] : color,
         "circle-radius": ["interpolate", ["linear"], ["zoom"], 2, 2.5, 8, 5, 12, 7],
         // Recursos operados por una compañía con sede en otro país (nac = e) o mixta (m): borde oscuro y más grueso.
         "circle-stroke-width": ["match", ["get", "nac"], ["e", "m"], 2, 1],
@@ -338,13 +379,15 @@ export function htmlFichaInmueble(props, sub, familia) {
   const REHAB = { no: "No (nuevo o listo para habitar)", ligera: "Sí, ligera", integral: "Sí, integral", desconocido: "Sin dato" };
   const COMPRA = { "sí": "✅ Sí", "con restricciones": "⚠️ Con restricciones", no: "⛔ No" };
   const evaluar = lat != null ? `inmuebles.html?lat=${Number(lat).toFixed(5)}&lon=${Number(lon).toFixed(5)}&pais=${encodeURIComponent(props.p || "")}&nombre=${encodeURIComponent(props.n || "")}` : "";
-  const fuente = props.origen === "ARA/SADASI" ? `<a href="https://github.com/zoetzerlpetrov-gif/InmueblesAraSadasi" target="_blank" rel="noopener noreferrer">InmueblesAraSadasi</a> (sitios de ARA y SADASI, cada lunes)`
+  const riesgo = RIESGO_INMUEBLE[props.nivel];
+  const fuente = props.origen === "Mi lista" ? "Tu «⭐ Mi lista» de Inmuebles y riesgo, guardada solo en este navegador"
+    : props.origen === "ARA/SADASI" ? `<a href="https://github.com/zoetzerlpetrov-gif/InmueblesAraSadasi" target="_blank" rel="noopener noreferrer">InmueblesAraSadasi</a> (sitios de ARA y SADASI, cada lunes)`
     : props.origen === "Desarrollos por país" ? `${esc(props.fuente_t || "sitio de la desarrolladora")}${props.visto ? `, consultado el ${esc(props.visto)}` : ""} (lista de DOMINUS por país)`
     : `<a href="https://github.com/zoetzerlpetrov-gif/inmueblewarroom" target="_blank" rel="noopener noreferrer">InmuebleWarRoom</a> (lista propia, revisada a mano)`;
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(props.pais_n)} · ${esc(familia.nombre)}</div>
-    <div class="chips"><span class="chip" style="background:${esc(sub?.color || "#999")};color:#111;border-color:${esc(sub?.color || "#999")}">${esc(sub?.nombre.es || props.st)}${auto ? " (geológico automático)" : ""}</span></div>
+    <div class="chips">${riesgo ? `<span class="chip" style="background:${riesgo[0]};color:#111;border-color:${riesgo[0]}">${riesgo[1]}${auto ? " (geológico automático)" : ""}</span>` : ""}<span class="chip">${esc(sub?.nombre.es || props.st)}</span></div>
     <dl>
       ${fila("Precio publicado", props.x)}${fila("Tipo", props.tipo)}${fila("Zona de búsqueda", props.zona_objetivo)}${fila("Desarrolladora o agencia", props.desarrolladora)}${fila("Proyecto", props.proyecto)}${fila("Zona", props.zona)}
       ${fila("Modelos y precios", props.modelos)}

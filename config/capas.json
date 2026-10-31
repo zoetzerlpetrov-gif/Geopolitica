@@ -507,7 +507,9 @@
    "fuente": "inmueblewarroom",
    "habilitada": true,
    "zoom_etiquetas": 4,
-   "nota": "Tres fuentes: (1) la lista revisada a mano de InmuebleWarRoom; (2) desarrollos de ARA y SADASI del repositorio InmueblesAraSadasi (precios publicados en sus sitios, cada lunes); (3) desarrollos nuevos y algunas subastas oficiales en 20 países, con desarrolladora, precio publicado y fecha de consulta, si requiere rehabilitación y si una persona mexicana puede comprar (incluidas reglas de costa). Color: el nivel revisado a mano o, si no existe, uno automático solo geológico (distancia a volcanes holocenos GVP y a límites de placas PB2002). La ficha abre el evaluador completo de riesgo por ubicación. No es recomendación de inversión."
+   "color_por_objeto": true,
+   "objetos_locales": "gp_inmuebles",
+   "nota": "Las casillas separan por origen: lista propia de InmuebleWarRoom, desarrollos de ARA y SADASI, desarrollos en 20 países, zonas de búsqueda y «⭐ Mi lista» (los inmuebles que guardas en Inmuebles y riesgo; se leen de este navegador y no se publican). El color del punto es su nivel de riesgo: verde bajo, amarillo moderado, naranja medio-alto, rojo alto; las zonas van en morado. Fuentes: (1) la lista revisada a mano de InmuebleWarRoom; (2) desarrollos de ARA y SADASI del repositorio InmueblesAraSadasi (precios publicados en sus sitios, cada lunes); (3) desarrollos nuevos y algunas subastas oficiales en 20 países, con desarrolladora, precio publicado y fecha de consulta, si requiere rehabilitación y si una persona mexicana puede comprar (incluidas reglas de costa). Color: el nivel revisado a mano o, si no existe, uno automático solo geológico (distancia a volcanes holocenos GVP y a límites de placas PB2002). La ficha abre el evaluador completo de riesgo por ubicación. No es recomendación de inversión."
   },
   {
    "id": "gobierno_forma",

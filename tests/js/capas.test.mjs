@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { familiasDibujables, urlFuente } from "../../js/capas.js";
+import { familiasDibujables, urlFuente, objetosMiLista, gruposDeObjetos, htmlFichaInmueble } from "../../js/capas.js";
 
 const leer = (r) => JSON.parse(readFileSync(new URL(`../../${r}`, import.meta.url)));
 const catalogo = leer("config/entities.json");
@@ -113,3 +113,23 @@ test("las familias marcadas «oculta» (DENUE) no aparecen en el menú", () => {
   assert.ok(capasCfg.familias.some((f) => f.id === "denue_grandes" && f.oculta && !f.habilitada));
 });
 
+
+test("Seguimiento a Inmuebles: casillas por origen, color por riesgo y «Mi lista» del navegador", () => {
+  const fam = familiasDibujables(catalogo, capasCfg, { familias: {} }).find((f) => f.id === "inmuebles_seguimiento");
+  assert.deepEqual(fam.subtipos.map((s) => s.id), ["inm_warroom", "inm_ara_sadasi", "inm_desarrollos", "inm_mi_lista", "inm_zona"]);
+  assert.equal(fam.color_por_objeto, true);
+  const lista = [{ id: "a1", nombre: "Depa Coyoacán", pais: "MEX", lat: 19.35, lon: -99.16, tipo: "departamento", precio: "4500000", moneda: "MXN", global: 3, link: "https://ejemplo.mx/a" },
+    { id: "a2", nombre: "Sin coordenadas", lat: "x", lon: null }];
+  const fs = objetosMiLista(lista);
+  assert.equal(fs.length, 1);
+  assert.deepEqual(fs[0].geometry.coordinates, [-99.16, 19.35]);
+  assert.equal(fs[0].properties.st, "inm_mi_lista");
+  assert.equal(fs[0].properties.nivel, "orange");
+  assert.equal(objetosMiLista("no es lista").length, 0);
+  const g = gruposDeObjetos(fs);
+  assert.deepEqual(g.map((x) => x.properties.b), [0, 1, 2]);
+  assert.equal(g[0].properties.c_inm_mi_lista, 1);
+  const html = htmlFichaInmueble({ ...fs[0].properties, _coords: [-99.16, 19.35] }, fam.subtipos.find((s) => s.id === "inm_mi_lista"), fam);
+  assert.match(html, /Riesgo medio-alto/);
+  assert.match(html, /solo en este navegador/);
+});
