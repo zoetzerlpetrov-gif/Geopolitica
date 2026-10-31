@@ -573,10 +573,11 @@ def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
     for paso in (resp.get("properties") or {}).get("timeseries", []):
         t = datetime.strptime(paso["time"], "%Y-%m-%dT%H:%M:%SZ") + desfase
         d = por.setdefault(t.strftime("%Y-%m-%d"), {"lluvia": 0.0, "tmax": None, "tmin": None, "viento": 0.0, "codigo": None,
-                                                    "ic": None, "uv": None, "niebla": None})
+                                                    "ic": None, "uv": None, "niebla": None, "horas": 0})
         datos = paso.get("data") or {}
         inst = (datos.get("instant") or {}).get("details") or {}
         temps = [inst.get("air_temperature")]
+        d["horas"] += 1 if "next_1_hours" in datos else 6 if "next_6_hours" in datos else 0
         if "next_1_hours" in datos:
             sig = datos["next_1_hours"]
         else:
@@ -605,7 +606,8 @@ def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
             "temperature_2m_max": [por[f]["tmax"] for f in fechas], "temperature_2m_min": [por[f]["tmin"] for f in fechas],
             "weather_code": [por[f]["codigo"] for f in fechas],
             "heat_index_max": [por[f]["ic"] for f in fechas], "uv_index_clear_sky_max": [por[f]["uv"] for f in fechas],
-            "fog_area_fraction_max": [por[f]["niebla"] for f in fechas]}
+            "fog_area_fraction_max": [por[f]["niebla"] for f in fechas],
+            "hours_covered": [min(24, por[f]["horas"]) for f in fechas]}
 
 
 def rafagas_diarias(pasos, puntos):
@@ -701,6 +703,7 @@ def _features_pronostico(lote, res):
         ic = daily.get("heat_index_max", []) or []
         uv = daily.get("uv_index_clear_sky_max", []) or []
         niebla = daily.get("fog_area_fraction_max", []) or []
+        horas = daily.get("hours_covered", []) or []
         dates = daily.get("time", []) or []
         sin_nulos = lambda xs: [x for x in xs if x is not None]  # noqa: E731  (ráfagas de GFS pueden faltar algún día)
         max_rain = max(sin_nulos(rain), default=0)
@@ -723,6 +726,7 @@ def _features_pronostico(lote, res):
                 "hi": ic[d] if d < len(ic) else None,
                 "uv": uv[d] if d < len(uv) else None,
                 "fog": niebla[d] if d < len(niebla) else None,
+                "h": horas[d] if d < len(horas) else None,   # horas del día que cubre el pronóstico (el 1.º y el último son parciales)
             })
         feats.append(feature(lon, lat, {
             "layer": "forecast",

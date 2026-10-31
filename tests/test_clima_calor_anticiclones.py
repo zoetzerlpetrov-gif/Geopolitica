@@ -103,3 +103,19 @@ def test_bloqueo_de_tibaldi_molteni():
     assert franjas and franjas[0][0] == -10 and franjas[0][1] == 9 and franjas[0][2] == 4
     gj = A.geojson([], {"norte": franjas, "sur": []}, 6, None)
     assert gj["features"][0]["properties"]["kind"] == "bloqueo" and gj["features"][0]["geometry"]["coordinates"][0] == [-10, 60]
+
+
+def test_normal_interpolada_y_dias_parciales():
+    doce = [float(10 * m) for m in range(12)]          # ene 0, feb 10, … dic 110
+    assert C.normal(doce, "2026-02-15") == 10.0
+    assert abs(C.normal(doce, "2026-11-01") - (90 + 10 * 17 / 31)) < 1e-9   # entre el 15-oct y el 15-nov
+    assert abs(C.normal(doce, "2026-12-31") - (110 - 110 * 16 / 31)) < 1e-9  # dic → ene del año siguiente
+    clima = {"tmax": [20.0] * 12, "tmin": [10.0] * 12}
+    dias = [dia(f"2026-07-0{k}", 40, 20) for k in range(1, 5)]
+    for d in dias:
+        d["h"] = 24
+    dias[0]["h"] = 6                                   # hoy parcial: no cuenta → solo 3 días completos
+    r = C.evaluar({"days": dias}, clima)
+    assert r["onda_calor"] and r["calor_tramos"][0]["inicio"] == "2026-07-02"
+    dias[3]["h"] = 12                                  # el último también parcial → 2 días: ya no hay onda
+    assert not C.evaluar({"days": dias}, clima)["onda_calor"]

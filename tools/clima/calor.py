@@ -10,11 +10,13 @@ celda de cada ciudad; queda en vivos/clima_base.json y solo se vuelve a pedir pa
 (NASA POWER se descartó: su robots.txt no permite consultar su API.)
 
 Reglas propias (ESTIMACIÓN; los avisos oficiales en México son del SMN y Protección Civil):
-- Día cálido: máxima ≥ promedio de la máxima del mes + 5 °C y ≥ 30 °C. Sin climatología (todavía, o ciudad costera
+- Promedio del día: interpolado entre los días 15 de cada mes. Días parciales del pronóstico (hoy y el último, con
+  menos de 18 h) no cuentan para ondas ni olas.
+- Día cálido: máxima ≥ promedio de la máxima de ese día + 5 °C y ≥ 30 °C. Sin climatología (todavía, o ciudad costera
   que cae en una celda de mar del CPC): máxima ≥ 35 °C.
 - Onda de calor: 3 días seguidos o más cálidos. Nivel por el índice de calor más alto (categorías del NWS de EUA):
   1 precaución (< 32 °C), 2 precaución extrema (32-39), 3 peligro (39-51), 4 peligro extremo (≥ 51).
-- Día frío: mínima ≤ promedio de la mínima del mes − 5 °C y ≤ 5 °C. Sin climatología: mínima ≤ 0 °C.
+- Día frío: mínima ≤ promedio de la mínima de ese día − 5 °C y ≤ 5 °C. Sin climatología: mínima ≤ 0 °C.
 - Ola de frío: 3 días seguidos o más fríos. Helada: algún día con mínima ≤ 0 °C.
 - UV: el máximo con cielo despejado (lo más alto posible ese día): 0-2 bajo, 3-5 moderado, 6-7 alto, 8-10 muy alto,
   11+ extremo (escala de la OMS).
@@ -26,7 +28,7 @@ import os
 import sys
 import time
 import urllib.request
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "ingest"))
@@ -110,6 +112,20 @@ def completar_base(puntos, base, bajar=None, leer=leer_nc4, pausa=PAUSA_S):
     return len(faltan)
 
 
+def normal(doce, fecha):
+    """Promedio del día: interpolación lineal entre los valores del día 15 de cada mes (el CPC da el promedio de ese
+    día). Sin esto, el 1 de noviembre se compararía con el 15 de noviembre (en otoño, ~2-4 °C más frío)."""
+    d = date.fromisoformat(fecha)
+    m = d.month - 1
+    if d.day >= 15:
+        a, b = date(d.year, d.month, 15), date(d.year + (d.month == 12), d.month % 12 + 1, 15)
+        i, j = m, (m + 1) % 12
+    else:
+        a, b = date(d.year - (d.month == 1), (d.month - 2) % 12 + 1, 15), date(d.year, d.month, 15)
+        i, j = (m - 1) % 12, m
+    return doce[i] + (doce[j] - doce[i]) * (d - a).days / (b - a).days
+
+
 def rachas(banderas):
     """[True, True, False, True, True, True] → [(3, 5)] : tramos de 3 o más días seguidos (índices inicio, fin)."""
     out, ini = [], None
@@ -136,16 +152,17 @@ def cat_uv(uv):
 def evaluar(props, clima):
     """Propiedades del pronóstico de una ciudad (+ su climatología o None) → resumen de calor, frío, UV y niebla."""
     dias = [d for d in props.get("days") or [] if d.get("date")]
-    mes = lambda d: int(d["date"][5:7]) - 1  # noqa: E731
-    umbral_c = [max(30.0, clima["tmax"][mes(d)] + 5) if clima else 35.0 for d in dias]
-    umbral_f = [min(5.0, clima["tmin"][mes(d)] - 5) if clima else 0.0 for d in dias]
-    calido = [d.get("tmax") is not None and d["tmax"] >= u for d, u in zip(dias, umbral_c)]
-    frio = [d.get("tmin") is not None and d["tmin"] <= u for d, u in zip(dias, umbral_f)]
+    umbral_c = [max(30.0, normal(clima["tmax"], d["date"]) + 5) if clima else 35.0 for d in dias]
+    umbral_f = [min(5.0, normal(clima["tmin"], d["date"]) - 5) if clima else 0.0 for d in dias]
+    # Un día parcial (el de hoy desde la hora de la corrida, o el último) no tiene su máxima y mínima reales: no cuenta.
+    completo = [d.get("h") is None or d["h"] >= 18 for d in dias]
+    calido = [c and d.get("tmax") is not None and d["tmax"] >= u for d, u, c in zip(dias, umbral_c, completo)]
+    frio = [c and d.get("tmin") is not None and d["tmin"] <= u for d, u, c in zip(dias, umbral_f, completo)]
     ondas, olas = rachas(calido), rachas(frio)
     ic_max = max((d["hi"] for d in dias if d.get("hi") is not None), default=None)
     uv_max = max((d["uv"] for d in dias if d.get("uv") is not None), default=None)
     niebla = max((d["fog"] for d in dias if d.get("fog") is not None), default=None)
-    heladas = [d["date"] for d in dias if d.get("tmin") is not None and d["tmin"] <= 0]
+    heladas = [d["date"] for d in dias if d.get("tmin") is not None and d["tmin"] <= 0]  # una helada cuenta aunque el día sea parcial
     tramo = lambda r: {"inicio": dias[r[0]]["date"], "fin": dias[r[1]]["date"], "dias": r[1] - r[0] + 1}  # noqa: E731
     ic_onda = max((d["hi"] for a, b in ondas for d in dias[a:b + 1] if d.get("hi") is not None), default=None)
     return {
