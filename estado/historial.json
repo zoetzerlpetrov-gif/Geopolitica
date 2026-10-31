@@ -1,0 +1,26 @@
+[
+ {
+  "fecha_utc": "2026-10-29T19:14:25Z",
+  "global": "atraso",
+  "ok": 12,
+  "sin_datos": 0,
+  "atraso": 1,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-10-30T18:32:11Z",
+  "global": "atraso",
+  "ok": 11,
+  "sin_datos": 1,
+  "atraso": 1,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-10-31T17:36:52Z",
+  "global": "falla",
+  "ok": 14,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 1
+ }
+]
