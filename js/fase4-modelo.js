@@ -1,4 +1,4 @@
-import {validateTransit,verifyTransit} from './fase5-gtfs-modelo.js?v=f5e';
+import {validateTransit,verifyTransit} from './fase5-gtfs-modelo.js?v=f5f';
 import {validateMobility,verifyMobility} from './fase5-rutas.js';
 import {validateSpatial,verifySpatial} from './fase5-modelo.js';
 import {validateResearch,verifyResearch} from './laboratorio-modelo.js?v=ia2';

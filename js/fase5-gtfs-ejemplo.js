@@ -20,3 +20,12 @@ export const FREQUENCY_DEMO_TABLES={
  'transfers.txt':'from_stop_id,to_stop_id,transfer_type,min_transfer_time\n',
  'frequencies.txt':'trip_id,start_time,end_time,headway_secs,exact_times\nT_BUS,08:00:00,09:00:00,900,1\n'
 };
+
+export const PATHWAY_DEMO_SOURCE={...DEMO_SOURCE,name:'SIMULACIÓN · Recorrido interno de estación'};
+export const PATHWAY_DEMO_TABLES={
+ ...DEMO_TABLES,
+ 'agency.txt':'agency_id,agency_name,agency_timezone\nQA,Operador ficticio Fase 5F,America/Mexico_City\n',
+ 'stops.txt':DEMO_TABLES['stops.txt']+'N1,Vestíbulo ficticio,,,3,ST1\n',
+ 'transfers.txt':'from_stop_id,to_stop_id,transfer_type,min_transfer_time\n',
+ 'pathways.txt':'pathway_id,from_stop_id,to_stop_id,pathway_mode,is_bidirectional,traversal_time\nSTAIR,P1,N1,2,0,90\nHALL,N1,Q1,1,0,330\nSLOW,P1,Q1,1,0,660\n'
+};

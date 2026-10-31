@@ -1,6 +1,6 @@
 import {phase4} from './fase4-ui.js?v=web2';
-import * as DB from './fase4-db.js?v=f5e';
-import {validar,paquete,verificarOriginales,vacio} from './fase4-modelo.js?v=f5e';
+import * as DB from './fase4-db.js?v=f5f';
+import {validar,paquete,verificarOriginales,vacio} from './fase4-modelo.js?v=f5f';
 import {sha256,unbase64,cifrar,descifrar,descargar} from './web-cripto.js';
 const $=id=>document.getElementById(id),node=(tag,text)=>{const n=document.createElement(tag);n.textContent=text;return n;};let current=null,busy=false;
 function status(text,error=false){$('estado').textContent=text;$('estado').dataset.error=String(error);}

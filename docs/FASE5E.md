@@ -40,3 +40,5 @@ El flujo de interfaz comprueba confirmación previa, tres resultados, búsqueda 
 Referencia primaria: https://gtfs.org/documentation/schedule/reference/#frequenciestxt.
 
 Pendientes: servicios por frecuencia sin salidas exactas con ventanas de espera explícitas, recorridos peatonales y GTFS pathways, continuidad a bordo, más transbordos/feeds/días, GTFS-RT, expansión del catálogo mundial, transporte especializado y vigilancia privada con la página cerrada. Esta entrega no completa todos los pendientes del proyecto.
+
+Continuación: [Fase 5F](FASE5F.md) incorpora recorridos internos documentados en `pathways.txt` con tiempo explícito en cada enlace. No verifica físicamente caminos, accesibilidad o cierres. Las salidas exactas de esta fase se conservan.
