@@ -37,3 +37,5 @@ Pruebas: ZIP generado/CRC, alcance mismo punto/documentado, dirección, mínimo 
 Referencia primaria: https://gtfs.org/documentation/schedule/reference/#transferstxt.
 
 Pendientes: recorridos peatonales verificados y GTFS pathways, enlaces a bordo, más transbordos/feeds/días, frecuencias, retrasos/cancelaciones, expansión mundial del catálogo, transporte especializado y vigilancia privada con la página cerrada. Esta entrega amplía conexiones documentales; no completa todos los pendientes del proyecto.
+
+Continuación: [Fase 5E](FASE5E.md) admite horarios comprimidos con `frequencies.txt` y `exact_times=1`. La exclusión de todas las frecuencias descrita aquí corresponde a la entrega 5D; los servicios sin salidas exactas siguen excluidos. Se conservan las reglas de conexión de esta fase.
