@@ -1,0 +1,34 @@
+name: Sonda temporal
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Dependencias (igual que «Datos en movimiento»)
+        run: pip install -q numpy pygrib
+      - name: Pronóstico real (datos-vivos) + calor/frío con NASA POWER (lote chico)
+        run: |
+          git fetch --depth 1 origin datos-vivos && git archive FETCH_HEAD vivos/ct/forecast.geojson | tar -x
+          python3 - <<'PY'
+          import json, sys, urllib.request
+          sys.path.insert(0, "tools/clima")
+          import calor as C
+          C.LOTE = 5
+          raise SystemExit(C.main())
+          PY
+          python3 -c "import json;d=json.load(open('vivos/calor_frio.geojson'));f=d['features'];print(len(f),d['con_climatologia']);print(json.dumps(f[0]['properties'],ensure_ascii=False)[:600])"
+          cat vivos/clima_base.json | head -c 400; echo
+      - name: MET Norway trae humedad, UV y niebla en un punto
+        run: |
+          curl -s -A "Geopolitica-monitor/1.0 (+https://github.com/zoetzerlpetrov-gif/Geopolitica)" "https://api.met.no/weatherapi/locationforecast/2.0/complete?lat=19.43&lon=-99.13" | python3 -c "
+          import json,sys;d=json.load(sys.stdin);ts=d['properties']['timeseries'];print(len(ts));print(sorted(ts[0]['data']['instant']['details']));print(sorted(ts[40]['data']['instant']['details']))"
+      - name: Anticiclones con GFS real
+        run: python3 tools/clima/anticiclones.py && python3 -c "import json;d=json.load(open('vivos/anticiclones.geojson'));import collections;print(collections.Counter(f['properties']['kind'] for f in d['features']));print([ (f['geometry']['coordinates'], f['properties'].get('anomalia_dam'), f['properties'].get('horizontes')) for f in d['features'] if f['properties']['kind']=='domo'][:8]);print([f['properties'] for f in d['features'] if f['properties']['kind']=='bloqueo'][:5])"

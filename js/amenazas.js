@@ -86,6 +86,10 @@ export function clasificar(capa, p = {}, geom = null) {
       tipo: { frio: "Frente frío", calido: "Frente cálido", estacionario: "Frente estacionario", ocluido: "Frente ocluido", alta: "Alta presión", baja: "Baja presión",
         zona: "Zona de influencia de un frente", tentativo_12h: "Posición tentativa de un frente" }[p.kind] || "Vaguada", ic: "" };
     case "nortes": return { sev: 1 + (p.nivel || 0), tipo: p.nivel ? "Evento de Norte" : "Sin Norte", ic: "" };
+    case "calor": return { sev: p.onda_calor ? 1 + (p.calor_nivel || 1) : 2, tipo: p.onda_calor ? "Onda de calor" : "Índice de calor alto", ic: p.calor_nivel >= 3 ? "🌡️" : "" };
+    case "frio": return { sev: 1 + (p.frio_nivel || 0), tipo: p.ola_frio ? "Ola de frío" : "Helada", ic: p.frio_nivel >= 3 ? "🥶" : "" };
+    case "niebla": return { sev: 2, tipo: "Niebla", ic: "" };
+    case "anticiclones": return { sev: p.kind === "domo" ? 3 : p.kind === "bloqueo" ? 2 : 1, tipo: p.kind === "domo" ? "Domo de calor" : p.kind === "bloqueo" ? "Bloqueo atmosférico" : "Anticiclón en altura", ic: "" };
     case "mar_fondo": return { sev: 1 + (p.nivel || 0), tipo: p.nivel ? "Mar de fondo" : "Oleaje normal", ic: "" };
     case "enso": return { sev: 1, tipo: "El Niño / La Niña", ic: "" };
     case "neo": return { sev: p.dist_ld < 1 ? 2 : 1, tipo: "Asteroide cercano", ic: "" };

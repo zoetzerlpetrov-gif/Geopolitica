@@ -264,6 +264,16 @@ jobs:
         timeout-minutes: 5
         run: python3 tools/clima/mar_fondo.py
 
+      - name: Ondas de calor, olas de frío, índice de calor, UV y niebla (pronóstico de Clima Táctico + climatología NASA POWER); si falla se conserva el anterior
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/clima/calor.py
+
+      - name: Anticiclones en altura, domos de calor y bloqueos (modelo GFS de NOAA, cada 6 h); si falla se conserva el anterior
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/clima/anticiclones.py
+
       - name: Cielo (asteroides cercanos y cometas cada 12 h; bólidos, Luna y eclipses diario; NASA/JPL, COBS, USNO)
         continue-on-error: true
         timeout-minutes: 5
