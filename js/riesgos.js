@@ -13,6 +13,7 @@ import { htmlBloque as htmlErupcion } from "./erupcion.js";
 import * as P from "./polos.js";
 import * as K from "./cielo.js";
 import * as GF from "./gfw.js";
+import * as CX from "./clima_extremos.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
@@ -530,6 +531,61 @@ export const CAPAS = [
       { t: "Mar de fondo = olas largas que vienen de tormentas lejanas: corrientes de resaca y oleaje en malecones aunque no haya viento. Aviso oficial en México: SMN y SEMAR." }],
     ficha: (p) => ({ titulo: p.name, chip: K.nivelMar(p.nivel), filas: K.filasMar(p), url: "https://polar.ncep.noaa.gov/waves/", fuente: "Modelo de oleaje GFS-Wave de NOAA (cada 6 h)" }),
     extra: (p) => K.barras((p.serie || []).map(([t, h]) => [t, h]), { titulo: "Altura del oleaje de fondo (m)", unidad: "m", umbrales: [[2, "#E0A100", "2 m"], [3, "#E2711D", "3 m"], [4, "#C62828", "4 m"]] }),
+  },
+  {
+    id: "calor", grupo: "Clima y ambiente", nombre: "🌡️ Ondas de calor e índice de calor (7 días, ~1,000 ciudades)",
+    url: "data/vivos/calor_frio.geojson", refresco_s: 3600, fuente: "MET Norway y climatología del CPC de NOAA (estimación propia)",
+    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.onda_calor || CX.catIndiceCalor(f.properties.indice_calor_max_c) >= 2) }),
+    estilo: (p) => ({ c: CX.COLOR_CALOR[p.onda_calor ? p.calor_nivel : 1], r: p.onda_calor ? 4 + 2 * p.calor_nivel : 4 }),
+    etiqueta: (p) => (p.onda_calor ? `${p.name}` : ""),
+    leyenda: [{ c: CX.COLOR_CALOR[1], r: 6, t: "Onda de calor: precaución" }, { c: CX.COLOR_CALOR[2], r: 8, t: "Onda de calor: precaución extrema (índice de calor 32 a 39 °C)" },
+      { c: CX.COLOR_CALOR[3], r: 10, t: "Onda de calor: peligro (39 a 51 °C)" }, { c: CX.COLOR_CALOR[4], r: 12, t: "Onda de calor: peligro extremo (51 °C o más)" },
+      { c: CX.COLOR_CALOR[1], r: 4, t: "Sin onda, pero con índice de calor de 32 °C o más algún día" },
+      { t: "Onda de calor = 3 días seguidos o más con la máxima arriba de lo normal para ese lugar y mes (promedio 1991-2020 + 5 °C). Índice de calor = lo que siente el cuerpo con la humedad. Estimación propia; aviso oficial: SMN." }],
+    ficha: (p) => ({ titulo: p.name, chip: CX.nivelCalor(p.onda_calor ? p.calor_nivel : 0), filas: CX.filasCalor(p), url: "https://smn.conagua.gob.mx/es/pronosticos/avisos/aviso-de-onda-de-calor",
+      fuente: "Pronóstico MET Norway (CC BY 4.0) + climatología CPC de NOAA; aviso oficial: SMN" }),
+    extra: (p) => K.barras(CX.serie(p, "tmax"), { titulo: "Temperatura máxima por día (°C)", unidad: "°C", umbrales: [[30, "#E0A100", "30"], [35, "#E2711D", "35"], [40, "#C62828", "40"]] }),
+  },
+  {
+    id: "frio", grupo: "Clima y ambiente", nombre: "🥶 Olas de frío y heladas (7 días, ~1,000 ciudades)",
+    url: "data/vivos/calor_frio.geojson", refresco_s: 3600, fuente: "MET Norway y climatología del CPC de NOAA (estimación propia)",
+    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.frio_nivel > 0) }),
+    estilo: (p) => ({ c: CX.COLOR_FRIO[p.frio_nivel || 0], r: 4 + 2 * (p.frio_nivel || 0) }),
+    etiqueta: (p) => (p.ola_frio ? p.name : ""),
+    leyenda: [{ c: CX.COLOR_FRIO[1], r: 6, t: "Helada (mínima de 0 °C o menos algún día)" }, { c: CX.COLOR_FRIO[2], r: 8, t: "Ola de frío (3 días o más muy por debajo de lo normal)" },
+      { c: CX.COLOR_FRIO[3], r: 10, t: "Ola de frío con heladas" }, { t: "Lo normal = promedio de la mínima de ese mes 1991-2020 (CPC de NOAA). Estimación propia; aviso oficial: SMN." }],
+    ficha: (p) => ({ titulo: p.name, chip: CX.nivelFrio(p.frio_nivel), filas: CX.filasFrio(p), url: "https://smn.conagua.gob.mx/es/", fuente: "Pronóstico MET Norway (CC BY 4.0) + climatología CPC de NOAA" }),
+    extra: (p) => K.barras(CX.serie(p, "tmin").map(([t, v]) => [t, Math.max(0, 10 - v)]), { titulo: "Qué tan fría la mínima (10 °C menos la mínima)", unidad: "°C bajo 10" }),
+  },
+  {
+    id: "uv", grupo: "Clima y ambiente", nombre: "☀️ Índice UV máximo con cielo despejado (7 días)", noAmenaza: true,
+    url: "data/vivos/calor_frio.geojson", refresco_s: 3600, fuente: "MET Norway (CC BY 4.0)",
+    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.uv_max != null) }),
+    estilo: (p) => ({ c: CX.colorUV(p.uv_max), r: 3 + Math.min(6, (p.uv_max || 0) / 2) }),
+    etiqueta: (p) => ((p.uv_max ?? 0) >= 11 ? `UV ${p.uv_max}` : ""),
+    leyenda: [...CX.COLOR_UV.map(([, c, t]) => ({ c, r: 6, t })), { t: "Escala de la OMS. Es el máximo posible con cielo despejado: con nubes baja. En la arena, el agua o la nieve el sol refleja y sube." }],
+    ficha: (p) => ({ titulo: p.name, chip: p.uv_cat, filas: CX.filasUV(p), url: "https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index", fuente: "MET Norway (CC BY 4.0)" }),
+  },
+  {
+    id: "niebla", grupo: "Clima y ambiente", nombre: "🌫️ Niebla probable (próximos ~2 días)",
+    url: "data/vivos/calor_frio.geojson", refresco_s: 3600, fuente: "MET Norway (CC BY 4.0)",
+    derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.niebla) }),
+    estilo: (p) => ({ c: "#7F8C8D", r: 4 + Math.round((p.niebla_pct || 50) / 25) }),
+    etiqueta: (p) => `${p.niebla_pct} %`,
+    leyenda: [{ c: "#7F8C8D", r: 7, t: "Alguna hora con 50 % o más del área cubierta de niebla" }, { t: "Afecta carreteras y aeropuertos. MET Norway lo da solo en los primeros ~2.5 días." }],
+    ficha: (p) => ({ titulo: p.name, chip: "niebla probable", filas: [["Área máxima con niebla", `${p.niebla_pct} %`]], url: "https://api.met.no", fuente: "MET Norway (CC BY 4.0)" }),
+  },
+  {
+    id: "anticiclones", grupo: "Clima y ambiente", nombre: "🔆 Anticiclones en altura, domos de calor y bloqueos (modelo GFS, 5 días)",
+    url: "data/vivos/anticiclones.geojson", refresco_s: 3600, fuente: "Modelo GFS de NOAA (estimación propia)",
+    estilo: (p) => ({ c: CX.COLOR_ANTICICLON[p.kind] || CX.COLOR_ANTICICLON.alta, r: p.kind === "bloqueo" ? 0 : p.kind === "domo" ? 8 : 5 }),
+    etiqueta: (p) => (p.kind === "bloqueo" ? `Bloqueo ${p.dias} días` : p.kind === "domo" ? `Domo de calor +${p.anomalia_dam} dam` : p.anomalia_dam >= 10 ? `A +${p.anomalia_dam}` : ""),
+    leyenda: [{ c: CX.COLOR_ANTICICLON.domo, r: 8, t: "Domo de calor: alta en altura muy marcada con aire de 20 °C o más a ~1.5 km" },
+      { c: CX.COLOR_ANTICICLON.alta, r: 5, t: "Anticiclón en altura (~5.5 km): cielo despejado, poca lluvia" },
+      { c: CX.COLOR_ANTICICLON.bloqueo, r: 4, t: "Línea: bloqueo (la corriente en chorro se desvía 4 días o más; el tiempo se estanca)" },
+      { t: "Los centros A del mapa de frentes son altas en superficie; estas son altas a 500 hPa, las que causan las ondas de calor. Persistencia = en cuántos de los próximos 5 días sigue ahí." }],
+    ficha: (p) => ({ titulo: p.kind === "bloqueo" ? `Bloqueo en el hemisferio ${p.hemisferio}` : p.domo_calor ? "Domo de calor" : "Anticiclón en altura",
+      chip: p.kind === "bloqueo" ? `${p.dias} días` : `${p.horizontes} de ${p.de_horizontes} días`, filas: CX.filasAnticiclon(p), url: "https://www.wpc.ncep.noaa.gov/", fuente: "Modelo GFS de NOAA, 1° (cada 6 h)" }),
   },
   {
     id: "enso", grupo: "Clima y ambiente", nombre: "El Niño / La Niña: estado oficial y temperatura del mar en las regiones Niño", noAmenaza: true,

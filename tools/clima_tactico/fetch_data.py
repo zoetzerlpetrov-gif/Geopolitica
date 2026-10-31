@@ -548,6 +548,21 @@ def simbolo_a_wmo(simbolo):
     return next((c for k, c in SIMBOLO_WMO if base and k in base), None)
 
 
+def indice_calor(t_c, hr):
+    """Índice de calor (temperatura que siente el cuerpo por calor y humedad), fórmula de Rothfusz del NWS de EUA con
+    sus ajustes. Solo aplica con 27 °C o más; abajo de eso se devuelve la temperatura del aire."""
+    if t_c is None or hr is None or t_c < 27:
+        return t_c
+    t = t_c * 9 / 5 + 32
+    hi = (-42.379 + 2.04901523 * t + 10.14333127 * hr - 0.22475541 * t * hr - 0.00683783 * t * t - 0.05481717 * hr * hr
+          + 0.00122874 * t * t * hr + 0.00085282 * t * hr * hr - 0.00000199 * t * t * hr * hr)
+    if hr < 13 and 80 <= t <= 112:
+        hi -= ((13 - hr) / 4) * ((17 - abs(t - 95)) / 17) ** 0.5
+    elif hr > 85 and 80 <= t <= 87:
+        hi += ((hr - 85) / 10) * ((87 - t) / 5)
+    return round(max(t_c, (hi - 32) * 5 / 9), 1)
+
+
 def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
     """Respuesta de Locationforecast «complete» → resumen diario con los nombres de Open-Meteo. El día es el local
     aproximado por la longitud (UTC + lon/15 h). La lluvia suma next_1_hours mientras hay datos horarios y next_6_hours
@@ -557,10 +572,12 @@ def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
     por = {}
     for paso in (resp.get("properties") or {}).get("timeseries", []):
         t = datetime.strptime(paso["time"], "%Y-%m-%dT%H:%M:%SZ") + desfase
-        d = por.setdefault(t.strftime("%Y-%m-%d"), {"lluvia": 0.0, "tmax": None, "tmin": None, "viento": 0.0, "codigo": None})
+        d = por.setdefault(t.strftime("%Y-%m-%d"), {"lluvia": 0.0, "tmax": None, "tmin": None, "viento": 0.0, "codigo": None,
+                                                    "ic": None, "uv": None, "niebla": None, "horas": 0})
         datos = paso.get("data") or {}
         inst = (datos.get("instant") or {}).get("details") or {}
         temps = [inst.get("air_temperature")]
+        d["horas"] += 1 if "next_1_hours" in datos else 6 if "next_6_hours" in datos else 0
         if "next_1_hours" in datos:
             sig = datos["next_1_hours"]
         else:
@@ -574,6 +591,11 @@ def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
                 d["tmin"] = x if d["tmin"] is None else min(d["tmin"], x)
         if inst.get("wind_speed") is not None:
             d["viento"] = max(d["viento"], inst["wind_speed"] * 3.6)
+        # Índice de calor (temperatura y humedad del mismo momento), UV con cielo despejado y fracción de niebla (%).
+        ic = indice_calor(inst.get("air_temperature"), inst.get("relative_humidity"))
+        for clave, x in (("ic", ic), ("uv", inst.get("ultraviolet_index_clear_sky")), ("niebla", inst.get("fog_area_fraction"))):
+            if x is not None:
+                d[clave] = x if d[clave] is None else max(d[clave], x)
         c = simbolo_a_wmo((sig.get("summary") or {}).get("symbol_code"))
         if c is not None:
             d["codigo"] = c if d["codigo"] is None else max(d["codigo"], c)
@@ -582,7 +604,10 @@ def diarios_metno(resp, lon, dias=DIAS_PRONOSTICO):
             "precipitation_probability_max": [None] * len(fechas),
             "wind_speed_10m_max": [round(por[f]["viento"], 1) for f in fechas],
             "temperature_2m_max": [por[f]["tmax"] for f in fechas], "temperature_2m_min": [por[f]["tmin"] for f in fechas],
-            "weather_code": [por[f]["codigo"] for f in fechas]}
+            "weather_code": [por[f]["codigo"] for f in fechas],
+            "heat_index_max": [por[f]["ic"] for f in fechas], "uv_index_clear_sky_max": [por[f]["uv"] for f in fechas],
+            "fog_area_fraction_max": [por[f]["niebla"] for f in fechas],
+            "hours_covered": [min(24, por[f]["horas"]) for f in fechas]}
 
 
 def rafagas_diarias(pasos, puntos):
@@ -675,6 +700,10 @@ def _features_pronostico(lote, res):
         tmax = daily.get("temperature_2m_max", []) or []
         tmin = daily.get("temperature_2m_min", []) or []
         wcode = daily.get("weather_code", []) or []
+        ic = daily.get("heat_index_max", []) or []
+        uv = daily.get("uv_index_clear_sky_max", []) or []
+        niebla = daily.get("fog_area_fraction_max", []) or []
+        horas = daily.get("hours_covered", []) or []
         dates = daily.get("time", []) or []
         sin_nulos = lambda xs: [x for x in xs if x is not None]  # noqa: E731  (ráfagas de GFS pueden faltar algún día)
         max_rain = max(sin_nulos(rain), default=0)
@@ -694,6 +723,10 @@ def _features_pronostico(lote, res):
                 "tmax": tmax[d] if d < len(tmax) else None,
                 "tmin": tmin[d] if d < len(tmin) else None,
                 "code": wcode[d] if d < len(wcode) else None,
+                "hi": ic[d] if d < len(ic) else None,
+                "uv": uv[d] if d < len(uv) else None,
+                "fog": niebla[d] if d < len(niebla) else None,
+                "h": horas[d] if d < len(horas) else None,   # horas del día que cubre el pronóstico (el 1.º y el último son parciales)
             })
         feats.append(feature(lon, lat, {
             "layer": "forecast",
