@@ -1,0 +1,343 @@
+{
+ "generado_utc": "2026-10-31T19:18:25Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-10-31T20:17:00Z",
+ "eventos_total": 3173,
+ "eventos_nuevos": 60,
+ "candidatos": 668,
+ "descartados": {
+  "fuera_de_ventana": 130,
+  "fuera_de_tema": 14,
+  "sin_clasificar": 184,
+  "red_social_sin_pais": 3,
+  "imagenes_portada": 40
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3173,
+  "sin_pais": 64,
+  "confianza_baja": 301,
+  "verificados": 13,
+  "con_varias_fuentes": 631,
+  "impacto_mexico": 866,
+  "confianza_media": 0.63,
+  "por_area": {
+   "seguridad": 1663,
+   "instituciones": 505,
+   "geoeconomia": 266,
+   "identidad": 193,
+   "tecnologia": 117,
+   "geografia": 91,
+   "energia": 89,
+   "clima": 59,
+   "infraestructura": 59,
+   "regional": 53,
+   "demografia": 37,
+   "riesgo": 31,
+   "salud_nrbq": 10
+  },
+  "por_tipo_fuente": {
+   "noticia": 1309,
+   "base_datos": 1801,
+   "analisis": 1,
+   "red_social": 62
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "Police deployed during stand-off over control of top Poland court",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/crz9824d5e88o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Global nature talks reach deal but money remains an issue",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cw1l32qyj8pqo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "They strangled us, says founder of Russian newspaper shut under pressure from authorities",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmewepdr109do?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "US inmate Christa Pike says she woke up 'confused and in pain' after failed execution",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ck62ydn7dj9eo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Canada stops using 'avalanche dogs' for rescues in Rocky Mountains, stirring outrage",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cwdd8q8e9e9yo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Mushroom murderer fails to overturn convictions in Australian court challenge",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ck8dz8j5n993o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: Blood donors get a Halloween fright in Thailand",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cmze42el49d9o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: Why Australia's mushroom murderer may now die in prison",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cmlykpd9kpy7o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "He questioned Thailand's monarchy dressed as Harry Potter. Now he's in jail for 34 years",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmjwepvd0qq9o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Responsible or panicked? Meet the people around the world already preparing for crisis",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ckreypn92w49o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "The Indian chef who brought curry to America - then vanished",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/crm941n0413o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Suited and booted: How Joseph Kabila went from president to rebel leader",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cr3wv311dwnlo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido Bayern Múnich vs. Borussia Dortmund",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-bayern-múnich-vs-borussia-dortmund/a-79817741?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "De México al Tíbet: los rituales más sorprendentes sobre la muerte",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/de-méxico-al-tíbet-los-rituales-más-sorprendentes-sobre-la-muerte/a-79812389?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Bayern Múnich: un \"der Klassiker\" marcado por las adversidades",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bayern-múnich-un-der-klassiker-marcado-por-las-adversidades/a-79811272?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "resumidos": 5,
+  "rechazados": 20,
+  "motivos": {
+   "copia": 14,
+   "insuficiente": 6
+  },
+  "errores": [
+   "límite gratuito alcanzado (429): el resto queda para la siguiente corrida"
+  ],
+  "pendientes": 15
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 111,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 31,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 26,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.2,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 1.1,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.9,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 1.6,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.5,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 2.0,
+   "error": null
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-10-31",
+   "total": 188,
+   "pdf": true,
+   "ia": true
+  },
+  "global": {
+   "fecha": "2026-10-31",
+   "total": 1077,
+   "pdf": true,
+   "ia": false
+  }
+ }
+}
