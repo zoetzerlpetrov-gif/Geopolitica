@@ -231,11 +231,20 @@ def leer_genericos(texto):
     return {nombre_corto(k): sorted(v) for k, v in series.items() if len(v) >= 3}
 
 
+_CODIGO = r"(?:Rama )?\d+(?:-\d+)?(?:\.\d+)*\.? "
+
+
 def nombre_corto(titulo):
-    """INEGI pone el título completo («Índice Nacional de Precios…, por objeto del gasto, 1.1.1 Tortilla de maíz»):
-    se deja solo el último tramo y sin la numeración."""
-    t = titulo.split(", ")[-1].strip() if titulo.startswith("Índice Nacional") else titulo.strip()
-    return re.sub(r"^[\d.]+\s*", "", t) or t
+    """INEGI pone el título completo («Índice nacional de precios…, Por objeto del gasto, Índice general, 1. Alimentos,
+    bebidas y tabaco, 1.1. Alimentos»): se deja el último nivel (el que empieza con su código) sin la numeración.
+    Los nombres pueden llevar comas, por eso se corta en el último código y no en la última coma."""
+    t = titulo.strip()
+    if not re.match(r"^Índice nacional", t, re.I):
+        return re.sub(r"^" + _CODIGO, "", t) or t
+    niveles = list(re.finditer(r"(?:^|, )(" + _CODIGO + ")", t))
+    if niveles:
+        return t[niveles[-1].end():].strip()
+    return t.split(", ")[-1].strip()
 
 
 def leer_texto(ruta):
@@ -276,19 +285,24 @@ def construir(previo, bajar=PE.bajar, inegi_token="", hoy=None, carpeta_generico
             opciones = []
             errores.append(f"SNIIM {consulta}: {type(e).__name__}")
         for sid, nombre, grupo, patron in lista:
-            # Si la primera variedad no tiene precios en Iztapalapa (p. ej. «Piña chica»), se prueban hasta 3 más.
-            candidatos, usado = elegir(opciones, patron, maximo=4), {}
+            # Si la primera variedad no tiene precios recientes en Iztapalapa (p. ej. «Piña chica»), se prueban hasta 5 más.
+            candidatos, usado = elegir(opciones, patron, maximo=6), {}
 
             def fn(sid=sid, patron=patron, candidatos=candidatos, usado=usado):
                 if not candidatos:
                     raise LookupError(f"producto no encontrado en la lista del SNIIM ({patron})")
-                previos = [tuple(x) for x in prev.get(sid, {}).get("puntos", [])]
+                anterior = prev.get(sid, {})
+                reciente = (hoy - timedelta(days=120)).isoformat()
+                mejor = []
                 for pid, nombre_sniim in candidatos:
+                    # La historia guardada solo se mezcla si viene de la misma variedad.
+                    previos = [tuple(x) for x in anterior.get("puntos", [])] if anterior.get("fuente", "").endswith(nombre_sniim) else []
                     pts = serie_sniim(consulta, resultados, pid, previos, hoy, bajar_sniim)
-                    if pts:
-                        usado["nombre"] = nombre_sniim
-                        return pts
-                return []
+                    if pts and (not mejor or pts[-1][0] > mejor[-1][0]):
+                        mejor, usado["nombre"] = pts, nombre_sniim
+                    if mejor and mejor[-1][0] >= reciente:  # con datos de los últimos 4 meses ya no se prueban más
+                        break
+                return mejor
             agrega(sid, nombre, grupo, unidad, "SNIIM · Central de Abasto CDMX",
                    "https://www.economia-sniim.gob.mx/nuevo/", "mensual (promedio de precios diarios)", fn)
             if usado.get("nombre"):

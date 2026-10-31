@@ -112,3 +112,25 @@ def test_prueba_otra_variedad_si_la_primera_no_tiene_precios():
     d = M.construir({}, bajar=bajar, hoy=date(2026, 10, 30), carpeta_genericos="/nonexistent")
     pina = next(s for s in d["series"] if s["id"] == "pina")
     assert pina["puntos"] and "error" not in pina and pina["fuente"].endswith("Piña mediana - Primera")
+
+
+def test_nombre_corto_de_inegi_con_comas_y_minusculas():
+    base = "Índice nacional de precios al consumidor. Base (mensual), Nacional, Por objeto del gasto, Índice general"
+    assert M.nombre_corto(base) == "Índice general"
+    assert M.nombre_corto(base + ", 1. Alimentos, bebidas y tabaco, 1.1. Alimentos, 1.1.1. Pan, tortillas y cereales") == "Pan, tortillas y cereales"
+    assert M.nombre_corto("Índice nacional, Nacional, Por origen, 31-33. Industrias, Rama 3118. Panadería y tortillas") == "Panadería y tortillas"
+
+
+def test_prefiere_la_variedad_con_datos_recientes():
+    lista = '<select id="ddlProducto"><option value="1">Uva Calmeria - Primera</option><option value="2">Uva Globo - Primera</option></select>'
+    vieja = RES.replace("2026", "2016")
+
+    def bajar(url, **k):
+        if "Consulta" in url and "Resultados" not in url:
+            return lista.encode()
+        return (RES if "ProductoId=2" in url else vieja if "ProductoId=1" in url else "").encode()
+    M.PAUSA = 0
+    M.ESPERAS = (0, 0)
+    d = M.construir({}, bajar=bajar, hoy=date(2026, 10, 30), carpeta_genericos="/nonexistent")
+    uva = next(s for s in d["series"] if s["id"] == "uva")
+    assert uva["fuente"].endswith("Uva Globo - Primera") and uva["puntos"][-1][0].startswith("2026")

@@ -11,9 +11,11 @@ descargar desde la herramienta web **Índices de precios** de INEGI. Por eso se 
    https://www.inegi.org.mx/app/indicesdeprecios/Estructura.aspx?idEstructura=112001300040
    (si se abre la página principal en blanco, con solo «Periodo» y «Restaurar», es porque no hay una estructura elegida;
    esta liga ya la trae elegida).
-2. En el árbol, despliega **«Índice de precios al consumidor, por objeto del gasto»** hasta el último nivel
-   (los **genéricos**: «Tortilla de maíz», «Cerveza», «Electricidad»…). No uses «por origen de los bienes» ni
-   «por durabilidad»: esas no bajan a nivel producto.
+2. En el árbol hay dos versiones del INPC. Usa la que dice **«Actualización de Canasta y Ponderadores 2024»**: la otra
+   («Base segunda quincena de Julio 2018» sin esa frase) es la serie anterior y **termina en julio de 2024**.
+   Dentro de ella despliega **«por objeto del gasto»** hasta el último nivel, el de los **genéricos**
+   («Tortilla de maíz», «Cerveza», «Electricidad»…). Los niveles intermedios («Pan, tortillas y cereales») también
+   se leen, pero agrupan varios productos. No uses «por origen de los bienes» ni «por durabilidad» si buscas productos.
 3. Marca los genéricos que quieras (o todos) y el periodo (por ejemplo, de 2015 a la fecha), con frecuencia **mensual**.
 4. Pulsa **Exportar** y elige el formato **CSV**.
 5. En GitHub, abre el repositorio Geopolitica → carpeta `config/inpc_genericos` → **Add file → Upload files**,
