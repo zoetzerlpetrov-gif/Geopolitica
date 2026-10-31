@@ -12,9 +12,10 @@ def inventario(base=Path('capas')):
         if not p.is_file():
             continue
         rel = p.relative_to(base)
-        # Todo lo que construir.py escribe para la familia «camaras»: camaras.geojson, camaras.grupos.json (grupos por zona),
-        # camaras.crudo.ndjson.gz (caché de objetos), su estado y su índice de búsqueda.
-        if rel.parts[0] == 'camaras_cache' or rel.name.startswith('camaras.') or str(rel) in ('camaras_estado.json', 'buscar_camaras.json', 'manifest.json'):
+        # Lo que «construir.py camaras» escribe (mismo contrato que fusionar_camaras.py), incluidos los grupos por zona
+        # y la caché de objetos, que antes faltaban y hacían fallar cada corrida.
+        if rel.parts[0] == 'camaras_cache' or str(rel) in ('camaras.geojson', 'camaras.grupos.json', 'camaras.crudo.ndjson.gz',
+                                                           'camaras_estado.json', 'buscar_camaras.json', 'manifest.json'):
             continue
         archivos[str(rel)] = hashlib.sha256(p.read_bytes()).hexdigest()
     manifest = json.loads((base / 'manifest.json').read_text())

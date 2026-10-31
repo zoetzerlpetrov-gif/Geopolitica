@@ -19,7 +19,7 @@ import sys
 from pathlib import Path
 
 # Mismo contrato que verificar_solo_camaras.py: lo único que una corrida de cámaras puede cambiar.
-ARCHIVOS_CAMARAS = {"camaras.geojson", "camaras_estado.json", "buscar_camaras.json"}
+ARCHIVOS_CAMARAS = {"camaras.geojson", "camaras.grupos.json", "camaras.crudo.ndjson.gz", "camaras_estado.json", "buscar_camaras.json"}
 CARPETAS_CAMARAS = {"camaras_cache"}
 
 
