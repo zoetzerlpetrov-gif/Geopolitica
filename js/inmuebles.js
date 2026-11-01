@@ -166,16 +166,45 @@ function prellenar({ lat, lon, pais, nombre }) {
 /** México: la tasa nacional (~24 por 100 mil) ponía «muy alto» en cualquier lugar, de Telchac Puerto a Michoacán.
  * Aquí se usa la del estado (SESNSP). El estado sale de OpenStreetMap (geocodificación inversa) o, si no responde,
  * de la capital más cercana de config/mx_estados.json. */
-let sesnsp = null, estadosMx = null;
+let sesnsp = null, estadosMx = null, regional = null, cdc = null;
+/** Estado o provincia del punto según OpenStreetMap (geocodificación inversa); null si no responde. */
+async function regionOsm(lat, lon, idioma = "es") {
+  try {
+    const r = await (await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=5&accept-language=${idioma}&lat=${lat}&lon=${lon}`)).json();
+    return r?.address?.state || r?.address?.province || null;
+  } catch (e) { return null; }
+}
+
+/** Estados Unidos (CDC, últimos 12 meses, en vivo) y Costa Rica (OIJ 2025, config/inseguridad_regional.json): la
+ * tasa nacional ponía igual a Maine que a Misisipi y a Heredia que a Limón. null si el país no tiene cifra regional. */
+async function inseguridadRegional(iso, lat, lon, cerca) {
+  if (iso === "USA") {
+    cdc ??= getJSON("https://data.cdc.gov/resource/fpsi-y8tj.json?intent=All_Homicide&period=TTM&$limit=60").then(R.tasasCdc).catch(() => null);
+    const tabla = await cdc;
+    if (!tabla) return null;
+    const nombre = await regionOsm(lat, lon, "en");  // CDC usa los nombres en inglés («Mississippi», no «Misisipi»)
+    const reg = R.regionDe(nombre, Object.keys(tabla));
+    const nac = { tasa_anual_100k: 5.8 };  // referencia nacional: Banco Mundial 2023
+    const per = reg ? tabla[reg].periodo : "";
+    return R.riesgoInseguridadRegion(reg || nombre, reg ? tabla[reg] : null, nac, cerca, `CDC, todas las causas de homicidio${per ? `, ${per}` : ""}`);
+  }
+  if (iso === "CRI") {
+    regional ??= getJSON("config/inseguridad_regional.json").catch(() => ({}));
+    const c = (await regional).CRI;
+    if (!c) return null;
+    const nombre = await regionOsm(lat, lon);
+    const reg = R.regionDe(nombre, Object.keys(c.regiones));
+    const dato = reg ? c.regiones[reg] : null;
+    return R.riesgoInseguridadRegion(reg || nombre, dato, c.nacional, cerca, `OIJ ${c.anio}`, { estimada: dato && !dato.oficial });
+  }
+  return null;
+}
+
 async function inseguridadMx(lat, lon, cerca) {
   sesnsp ??= getJSON("data/vivos/sesnsp_robos.json", { bust: true }).catch(() => ({}));
   const of = await sesnsp, hom = of.homicidio_doloso || {};
   const claves = Object.keys(hom).filter((k) => !k.startsWith("_"));
-  let nombre = null;
-  try {
-    const r = await (await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=5&accept-language=es&lat=${lat}&lon=${lon}`)).json();
-    nombre = r?.address?.state || null;
-  } catch (e) { /* sin red: se usa la capital más cercana */ }
+  const nombre = await regionOsm(lat, lon);  // sin red: se usa la capital más cercana
   let estado = R.estadoSesnspDe(nombre, claves);
   if (!estado) {
     estadosMx ??= getJSON("config/mx_estados.json").then((d) => d.estados || []).catch(() => []);
@@ -207,7 +236,8 @@ $("ev-btn").onclick = async () => {
   dims.push({ nombre: "Deslaves e inundación (terreno)", ...R.riesgoTerreno(R.pendiente(e), e[0] != null ? Math.round(e[0]) : null) });
   dims.push({ nombre: "Estabilidad política", ...R.riesgoPolitico(pv?.valor ?? null), anio: pv?.anio });
   const cerca = (ev.eventos || []).filter((x) => x.area_principal === "seguridad" && x.lat != null && R.distanciaKm(lat, lon, x.lat, x.lon) <= 50);
-  dims.push({ nombre: "Inseguridad", ...(iso === "MEX" ? await inseguridadMx(lat, lon, cerca) : R.riesgoInseguridad(hom?.valor ?? null, cerca)) });
+  dims.push({ nombre: "Inseguridad", ...(iso === "MEX" ? await inseguridadMx(lat, lon, cerca)
+    : (await inseguridadRegional(iso, lat, lon, cerca)) || R.riesgoInseguridad(hom?.valor ?? null, cerca)) });
   const global = R.riesgoGlobal(dims);
   const pm2 = R.precioM2($("ev-precio").value, $("ev-m2").value, $("ev-ref").value);
   ultimo = { id: Date.now().toString(36), nombre: $("ev-nombre").value || `${lat.toFixed(4)}, ${lon.toFixed(4)}`, pais: iso, lat, lon, tipo: $("ev-tipo").value,
