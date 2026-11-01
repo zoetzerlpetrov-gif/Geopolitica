@@ -1,0 +1,53 @@
+@import url("./tema.css?v=1");
+
+/* La misma paleta del mapa, con alias para los componentes de las fases existentes. */
+:root{
+ --fondo:var(--bg);--panel:var(--surface);--texto:var(--text);--linea:var(--line);--acento:var(--accent);--nota:var(--warn-bg);
+ --danger:#b3261e;
+}
+:root[data-theme=dark]{--danger:#ffb4ab}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--danger:#ffb4ab}}
+body[data-fases-ui]{margin:0;display:block;height:auto;min-height:100dvh;overflow:auto;background:var(--bg);color:var(--text);font:14px/1.5 var(--font)}
+body[data-fases-ui]>header{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto auto;align-items:center;gap:20px;padding:20px max(20px,calc((100% - 1240px)/2));background:var(--surface);color:var(--text);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+body[data-fases-ui]>header::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:var(--marca)}
+body[data-fases-ui]>header p{margin:6px 0 0;color:var(--text-2);max-width:76ch}
+body[data-fases-ui]>header a{color:var(--text);border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px;text-decoration:none;background:var(--surface-2);font-size:13px}
+body[data-fases-ui] .marca{display:flex;gap:7px;align-items:center;font-size:12px;letter-spacing:1px;font-weight:800}
+body[data-fases-ui] .marca span{background:var(--brand-name);background-clip:text;-webkit-background-clip:text;color:transparent;filter:drop-shadow(0 1px 0 rgba(60,40,0,.45))}
+body[data-fases-ui] .cruz-templaria{height:19px;width:19px;flex:none}
+body[data-fases-ui] h1{font-size:clamp(22px,2.2vw,29px);line-height:1.25;margin:8px 0;overflow-wrap:anywhere}
+body[data-fases-ui] h2{font-size:20px;line-height:1.35;margin:24px 0 12px}
+body[data-fases-ui] h3{font-size:16px;line-height:1.4}
+body[data-fases-ui] main{width:100%;max-width:1280px;margin:auto;padding:24px}
+body[data-fases-ui] a{color:var(--accent)}
+body[data-fases-ui] button,body[data-fases-ui] .atajos a,body[data-fases-ui] .centro-nav>a{min-height:38px;border:1px solid var(--line);border-radius:var(--radius);padding:8px 12px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer}
+body[data-fases-ui] button:hover,body[data-fases-ui] .atajos a:hover,body[data-fases-ui]>header a:hover{border-color:var(--accent)}
+body[data-fases-ui] button[aria-pressed=true],body[data-fases-ui] button[aria-selected=true],body[data-fases-ui] button[type=submit]{background:var(--accent);color:var(--surface);border-color:var(--accent)}
+body[data-fases-ui] button:disabled,body[data-fases-ui] input:disabled,body[data-fases-ui] select:disabled{opacity:.6;cursor:not-allowed}
+body[data-fases-ui] :is(button,a,input,select,textarea,summary):focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+body[data-fases-ui] :is(input,textarea,select){background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:9px;max-width:100%;font:inherit}
+body[data-fases-ui] :is(input[type=checkbox],input[type=radio]){display:inline-block;width:auto;accent-color:var(--accent)}
+body[data-fases-ui] input[type=file]::file-selector-button{border:1px solid var(--line);border-radius:6px;padding:6px 10px;background:var(--surface-2);color:var(--text);font:inherit;cursor:pointer;margin-right:10px}
+body[data-fases-ui] :is(article,form,.resumen>div,.op-kpis>div,.resultado-web,#especial:not(:empty),.tutorial-fases details,.fases-tarjetas a){background:var(--surface);color:var(--text);border:1px solid var(--line);border-radius:var(--radius)}
+body[data-fases-ui] :is(article,form){padding:20px}
+body[data-fases-ui] :is(details:not(.centro-menu):not(.centro-etapa)){border-color:var(--line);border-radius:var(--radius);background:var(--surface);color:var(--text)}
+body[data-fases-ui] summary{cursor:pointer}
+body[data-fases-ui] :is(table,td,th){border-color:var(--line);color:var(--text)}
+body[data-fases-ui] table{background:var(--surface);font-size:13px}
+body[data-fases-ui] th{background:var(--surface-2);font-weight:650}
+body[data-fases-ui] :is(td,th){padding:10px;overflow-wrap:anywhere}
+body[data-fases-ui] :is(pre,code){font-family:var(--mono)}
+body[data-fases-ui] pre{background:var(--surface-2);color:var(--text);border:1px solid var(--line);border-radius:6px;padding:14px;max-width:100%;overflow:auto}
+body[data-fases-ui] .aviso{background:var(--warn-bg);color:var(--warn-text);border-left:4px solid var(--warn-text);border-radius:0 var(--radius) var(--radius) 0;padding:14px 16px}
+body[data-fases-ui] #estado{background:var(--surface-2);color:var(--text);border-left:4px solid var(--accent);border-radius:0 var(--radius) var(--radius) 0;padding:10px 14px}
+body[data-fases-ui] #estado[data-error=true]{border-color:var(--danger);color:var(--danger)}
+body[data-fases-ui] :is(.ayuda,.meta,.op-tag,small,#motor-estado,#mapa-estado){color:var(--text-2);opacity:1}
+body[data-fases-ui] #privado{background:var(--surface-2);border-color:var(--accent)}
+body[data-fases-ui] .centro-nav{align-items:flex-start;gap:10px;margin:0 0 22px}
+body[data-fases-ui] .centro-menu{background:var(--surface);border-color:var(--line);color:var(--text);border-radius:var(--radius)}
+body[data-fases-ui] .centro-etapa{margin:0;padding:0;border:0;background:none}
+body[data-fases-ui] .centro-menu a{color:var(--text)}
+body[data-fases-ui] .centro-menu a[aria-current=page]{background:var(--surface-2)}
+body[data-fases-ui] footer{background:var(--surface);color:var(--text-2);border-top:1px solid var(--line);padding:20px;font-size:12px}
+@media(max-width:800px){body[data-fases-ui]>header{grid-template-columns:minmax(0,1fr) auto;padding:18px 16px;gap:12px}body[data-fases-ui]>header>div:first-child{grid-column:1/-1}body[data-fases-ui]>header a{justify-self:start;margin:0}body[data-fases-ui] main{padding:16px}body[data-fases-ui] :is(article,form){padding:16px}body[data-fases-ui] h1{font-size:24px}}
+@media print{body[data-fases-ui]{background:#fff;color:#000}body[data-fases-ui]>header{display:block;background:#fff;color:#000;box-shadow:none}body[data-fases-ui]>header::after,body[data-fases-ui] #fases-tema{display:none}body[data-fases-ui] .marca span{background:none;color:#000;filter:none}body[data-fases-ui] :is(article,form,details,table,td,th,pre,.aviso){background:#fff;color:#000;box-shadow:none}body[data-fases-ui] main{max-width:none;padding:0}}
