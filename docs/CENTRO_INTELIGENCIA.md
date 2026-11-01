@@ -7,7 +7,7 @@ Las cinco etapas agrupan planificación, análisis, herramientas/fuentes, expedi
 ## Uso
 
 1. Abre Secciones y sitúa el mouse sobre Centro de inteligencia. Se despliega el índice por etapas.
-2. Sitúa el mouse sobre una etapa para desplegar sus herramientas. Pulsa una herramienta para abrirla.
+2. Pulsa una etapa para desplegar sus herramientas. El puntero no expande las etapas intermedias al atravesarlas. Pulsa una herramienta para abrirla.
 3. Los grupos abiertos por el mouse permanecen disponibles al mover el puntero y desplazar el panel. Un clic puede fijarlos y el siguiente cerrarlos; Escape y cerrar Secciones también los cierran.
 4. En pantalla táctil, pulsa el nombre del centro y después la etapa. No depende de hover.
 5. Con teclado, usa Tab para llegar a los títulos; Enter o espacio alterna el grupo. Flecha abajo/derecha abre y enfoca el primer enlace. Escape cierra el grupo abierto más próximo y devuelve el foco a su título.
@@ -24,4 +24,4 @@ Esta entrega organiza la navegación y completa los accesos del índice. Los pen
 
 Corrección de selección de etapa 5: los grupos ya no se cierran en mouseleave/focusout y el panel desactiva el anclaje de desplazamiento. Se comprueban los accesos a fase5.html y transporte.html después de salir con el puntero y desplazar el panel.
 
-Las etapas esperan 180 ms de permanencia del puntero antes de abrirse; pasar rápidamente hacia una etapa inferior cancela la apertura pendiente de las intermedias. El clic sigue siendo inmediato.
+Centro de inteligencia conserva apertura por hover. Cada etapa interior se abre por clic, Enter, espacio o flecha; pasar con el puntero por las etapas intermedias no las despliega ni desplaza la etapa 5.
