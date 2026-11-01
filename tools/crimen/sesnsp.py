@@ -59,6 +59,44 @@ def descargar(url):
         return r.read()
 
 
+# Población por entidad, Censo de Población y Vivienda 2020 (INEGI). Sirve para la tasa de homicidio doloso por 100 mil.
+POBLACION_2020 = {
+    "Aguascalientes": 1425607, "Baja California": 3769020, "Baja California Sur": 798447, "Campeche": 928363,
+    "Coahuila de Zaragoza": 3146771, "Colima": 731391, "Chiapas": 5543828, "Chihuahua": 3741869, "Ciudad de México": 9209944,
+    "Durango": 1832650, "Guanajuato": 6166934, "Guerrero": 3540685, "Hidalgo": 3082841, "Jalisco": 8348151, "México": 16992418,
+    "Michoacán de Ocampo": 4748846, "Morelos": 1971520, "Nayarit": 1235456, "Nuevo León": 5784442, "Oaxaca": 4132148,
+    "Puebla": 6583278, "Querétaro": 2368467, "Quintana Roo": 1857985, "San Luis Potosí": 2822255, "Sinaloa": 3026943,
+    "Sonora": 2944840, "Tabasco": 2402598, "Tamaulipas": 3527735, "Tlaxcala": 1342977,
+    "Veracruz de Ignacio de la Llave": 8062579, "Yucatán": 2320898, "Zacatecas": 1622138,
+}
+
+
+def homicidios(filas, meses):
+    """Carpetas por homicidio doloso por entidad en los meses publicados → tasa anualizada por 100 mil habitantes.
+    Va aparte de los robos (no es un grupo de la capa «Carreteras y calles»). Las carpetas no son víctimas: una carpeta
+    puede tener varias; sirve para comparar estados, no para el número exacto de personas."""
+    if not meses:
+        return {}
+    por, total = {}, 0
+    for f in filas:
+        if not re.search(r"homicidio doloso", norm(f"{f.get('Tipo de delito', '')} {f.get('Subtipo de delito', '')}")):
+            continue
+        n = 0
+        for mes in MESES[:meses]:
+            v = (f.get(mes) or "").strip()
+            n += int(float(v)) if re.fullmatch(r"\d+(\.0+)?", v) else 0
+        estado = f.get("Entidad", "").strip()
+        por[estado] = por.get(estado, 0) + n
+        total += n
+    out = {}
+    for estado, n in por.items():
+        pob = POBLACION_2020.get(estado)
+        if pob:
+            out[estado] = {"carpetas": n, "tasa_anual_100k": round(n * 12 / meses / pob * 1e5, 1)}
+    out["_nacional"] = {"carpetas": total, "tasa_anual_100k": round(total * 12 / meses / sum(POBLACION_2020.values()) * 1e5, 1)}
+    return out
+
+
 def meses_publicados(descripcion):
     """«Enero - septiembre 2026 (…)» → 9; None si la descripción no lo dice (los meses sin publicar vienen en 0)."""
     vistos = [i + 1 for i, m in enumerate(MESES) if re.search(rf"\b{m.lower()}\b", norm(descripcion))]
@@ -97,7 +135,8 @@ def resumir(filas, hasta_mes=None):
 def main():
     if os.path.exists(OUT):
         gen = json.load(open(OUT, encoding="utf-8")).get("generado_utc", "")
-        if gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(days=3):
+        tiene_hom = "homicidio_doloso" in json.load(open(OUT, encoding="utf-8"))  # versión anterior: se rehace ya
+        if tiene_hom and gen and datetime.now(timezone.utc) - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(days=3):
             print("sesnsp: datos de hace menos de 3 días; se conservan")
             return 0
     req = urllib.request.Request(PAGINA, headers={"User-Agent": UA})
@@ -113,13 +152,17 @@ def main():
     z = zipfile.ZipFile(io.BytesIO(datos))
     csv_nombre = next(n for n in z.namelist() if n.lower().endswith(".csv"))
     texto = z.read(csv_nombre).decode("utf-8-sig", "replace")
-    r = resumir(csv.DictReader(io.StringIO(texto)), meses_publicados(nombre or ""))
+    hasta = meses_publicados(nombre or "")
+    r = resumir(csv.DictReader(io.StringIO(texto)), hasta)
+    hom = homicidios(csv.DictReader(io.StringIO(texto)), len(r["meses"]))
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"generado_utc": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "fuente": "SESNSP, incidencia delictiva estatal del fuero común (RNID)",
-               "archivo": csv_nombre, "descripcion": nombre, "pagina": PAGINA, "grupos": {k: n for k, n, _ in GRUPOS}, **r},
+               "archivo": csv_nombre, "descripcion": nombre, "pagina": PAGINA, "grupos": {k: n for k, n, _ in GRUPOS}, **r,
+               "homicidio_doloso": hom, "poblacion": "Censo de Población y Vivienda 2020 (INEGI)"},
               open(OUT, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     totales = {k: sum(v) for k, v in r["nacional"].items()}
-    print(f"sesnsp: {csv_nombre}, {len(r['por_estado'])} estados, meses {r['meses']}, nacional {totales}")
+    print(f"sesnsp: {csv_nombre}, {len(r['por_estado'])} estados, meses {r['meses']}, nacional {totales}, "
+          f"homicidio doloso nacional {hom.get('_nacional')}")
     return 0
 
 

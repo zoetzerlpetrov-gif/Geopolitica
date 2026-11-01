@@ -58,3 +58,20 @@ test("Boca del Río: anuncios a ~5 km de Plaza Río, con enlace, y zona de búsq
   assert.equal(R.urlCalle(19.1, -96.1), "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=19.100000,-96.100000");
   assert.match(R.urlMapillary(19.1, -96.1), /mapillary\.com\/app\/\?lat=19\.100000&lng=-96\.100000/);
 });
+
+test("Inseguridad en México por estado (SESNSP), no con la tasa nacional", () => {
+  const claves = ["Yucatán", "Michoacán de Ocampo", "México", "Ciudad de México", "Veracruz de Ignacio de la Llave", "Coahuila de Zaragoza"];
+  assert.equal(R.estadoSesnspDe("Yucatán", claves), "Yucatán");
+  assert.equal(R.estadoSesnspDe("Michoacán", claves), "Michoacán de Ocampo");
+  assert.equal(R.estadoSesnspDe("Estado de México", claves), "México");
+  assert.equal(R.estadoSesnspDe("Ciudad de México", claves), "Ciudad de México");
+  assert.equal(R.estadoSesnspDe("Veracruz", claves), "Veracruz de Ignacio de la Llave");
+  assert.equal(R.estadoSesnspDe("Texas", claves), null);
+  const nac = { tasa_anual_100k: 19.5 };
+  const yuc = R.riesgoInseguridadMx("Yucatán", { tasa_anual_100k: 2.1 }, nac, []);
+  assert.equal(yuc.nivel, 1);
+  assert.match(yuc.texto, /Yucatán: 2\.1 por 100 mil/);
+  assert.equal(R.riesgoInseguridadMx("Michoacán de Ocampo", { tasa_anual_100k: 31 }, nac, []).nivel, 4);
+  assert.equal(R.riesgoInseguridadMx("Yucatán", { tasa_anual_100k: 2.1 }, nac, [{ severidad: 4 }, { severidad: 4 }, { severidad: 5 }]).nivel, 2);
+  assert.equal(R.riesgoInseguridadMx(null, null, nac, []).nivel, null);
+});

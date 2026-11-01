@@ -163,6 +163,29 @@ function prellenar({ lat, lon, pais, nombre }) {
   setTimeout(() => $("ev-btn").click(), 0);
 }
 
+/** México: la tasa nacional (~24 por 100 mil) ponía «muy alto» en cualquier lugar, de Telchac Puerto a Michoacán.
+ * Aquí se usa la del estado (SESNSP). El estado sale de OpenStreetMap (geocodificación inversa) o, si no responde,
+ * de la capital más cercana de config/mx_estados.json. */
+let sesnsp = null, estadosMx = null;
+async function inseguridadMx(lat, lon, cerca) {
+  sesnsp ??= getJSON("data/vivos/sesnsp_robos.json", { bust: true }).catch(() => ({}));
+  const of = await sesnsp, hom = of.homicidio_doloso || {};
+  const claves = Object.keys(hom).filter((k) => !k.startsWith("_"));
+  let nombre = null;
+  try {
+    const r = await (await fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&zoom=5&accept-language=es&lat=${lat}&lon=${lon}`)).json();
+    nombre = r?.address?.state || null;
+  } catch (e) { /* sin red: se usa la capital más cercana */ }
+  let estado = R.estadoSesnspDe(nombre, claves);
+  if (!estado) {
+    estadosMx ??= getJSON("config/mx_estados.json").then((d) => d.estados || []).catch(() => []);
+    const cerca1 = (await estadosMx).map((e) => ({ e, d: R.distanciaKm(lat, lon, e.lat, e.lon) })).sort((a, b) => a.d - b.d)[0];
+    estado = cerca1 ? R.estadoSesnspDe(cerca1.e.nombre, claves) : null;
+  }
+  const periodo = of.meses?.length ? `${of.meses[0].toLowerCase()} a ${of.meses[of.meses.length - 1].toLowerCase()} ${of.anio || ""}`.trim() : "";
+  return R.riesgoInseguridadMx(estado, estado ? hom[estado] : null, hom._nacional, cerca, periodo);
+}
+
 $("ev-btn").onclick = async () => {
   const lat = Number($("ev-lat").value), lon = Number($("ev-lon").value), iso = $("ev-pais").value;
   const out = $("ev-res");
@@ -184,7 +207,7 @@ $("ev-btn").onclick = async () => {
   dims.push({ nombre: "Deslaves e inundación (terreno)", ...R.riesgoTerreno(R.pendiente(e), e[0] != null ? Math.round(e[0]) : null) });
   dims.push({ nombre: "Estabilidad política", ...R.riesgoPolitico(pv?.valor ?? null), anio: pv?.anio });
   const cerca = (ev.eventos || []).filter((x) => x.area_principal === "seguridad" && x.lat != null && R.distanciaKm(lat, lon, x.lat, x.lon) <= 50);
-  dims.push({ nombre: "Inseguridad", ...R.riesgoInseguridad(hom?.valor ?? null, cerca) });
+  dims.push({ nombre: "Inseguridad", ...(iso === "MEX" ? await inseguridadMx(lat, lon, cerca) : R.riesgoInseguridad(hom?.valor ?? null, cerca)) });
   const global = R.riesgoGlobal(dims);
   const pm2 = R.precioM2($("ev-precio").value, $("ev-m2").value, $("ev-ref").value);
   ultimo = { id: Date.now().toString(36), nombre: $("ev-nombre").value || `${lat.toFixed(4)}, ${lon.toFixed(4)}`, pais: iso, lat, lon, tipo: $("ev-tipo").value,
