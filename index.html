@@ -47,7 +47,7 @@
       if (lite) { pedir("data/base/countries-110m.geojson"); pedir("data/base/etiquetas-paises.geojson"); }
     })();
   </script>
-</head>
+<link rel="stylesheet" href="css/centro-menu.css?v=1"><script type="module" src="js/centro-menu.js?v=1"></script></head>
 <body>
   <a class="skip" href="#lista-eventos">Saltar a la lista de eventos</a>
 
@@ -78,16 +78,7 @@
           <a href="analitica.html" title="Tendencias de 90 días, alertas de anomalía, comparador de países, SQL en el navegador, exportación y calidad de datos">📊 Analítica</a>
           <a href="marco.html" title="Leyes, tratados, estándares ISO y metodologías del proyecto">⚖️ Marco normativo</a>
           <a href="taxonomia.html">🏷️ Taxonomía de eventos</a>
-          <a href="plataforma.html#fases" title="Accesos a la mesa del analista, expedientes, archivos, respaldos y fuentes">🗂️ Fases 1–5A · Centro de trabajo</a>
-          <a href="analista.html">Fase 1 · Mesa del analista</a>
-          <a href="fase2.html">Fase 2 · Análisis y expedientes</a>
-          <a href="plataforma.html">Fase 3 · Herramientas web</a>
-          <a href="plataforma.html#tutorial-f3">Fase 3 · Tutorial de uso web</a>
-          <a href="fase4.html">Fase 4A · Activos, relaciones y evidencia</a>
-          <a href="operaciones.html">Fase 4B · Tablero, alertas y respuesta</a>
-          <a href="laboratorio.html">Fases 4C / 4D · Laboratorio web</a>
-          <a href="colaboracion.html">Colaboración web · Supabase opcional</a>
-          <a href="fase5.html">Fases 5A / 5B · Áreas, rutas y exposición</a><a href="transporte.html">Fases 5C–5F · Horarios y conexiones</a>
+          <details class="centro-menu" data-centro-disclosure><summary>Centro de inteligencia</summary><div class="centro-menu-contenido"><a href="plataforma.html#fases">Ver todas las herramientas</a><details class="centro-etapa" data-centro-disclosure><summary>1 · Planificación</summary><div class="centro-etapa-enlaces"><a href="analista.html">Mesa del analista</a></div></details><details class="centro-etapa" data-centro-disclosure><summary>2 · Análisis</summary><div class="centro-etapa-enlaces"><a href="fase2.html">Hipótesis, empresas e investigaciones</a></div></details><details class="centro-etapa" data-centro-disclosure><summary>3 · Herramientas y fuentes</summary><div class="centro-etapa-enlaces"><a href="plataforma.html">Archivos, respaldos y fuentes</a><a href="plataforma.html#tutorial-f3">Tutorial de herramientas web</a></div></details><details class="centro-etapa" data-centro-disclosure><summary>4 · Expedientes y operaciones</summary><div class="centro-etapa-enlaces"><a href="fase4.html">Activos, relaciones y evidencia</a><a href="operaciones.html">Tablero, alertas y respuesta</a><a href="laboratorio.html">Laboratorio de análisis e intercambio</a><a href="colaboracion.html">Colaboración web opcional</a></div></details><details class="centro-etapa" data-centro-disclosure><summary>5 · Territorio y movilidad</summary><div class="centro-etapa-enlaces"><a href="fase5.html">Áreas de interés, rutas y exposición</a><a href="transporte.html">Horarios y conexiones de transporte</a></div></details></div></details>
           <a href="tutorial.html" title="Guía completa con ejemplos resueltos de cada opción">🎓 Tutorial</a>
           <a href="soporte.html" title="Informe de errores de este navegador para enviarlo a soporte (sin datos personales)">🛟 Soporte: informe de errores</a>
           <a href="economia.html" title="Indicadores de México, EUA y la UE, índices curiosos y resumen del Portafolio">📈 Economía (admin)</a>

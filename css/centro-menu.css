@@ -1,0 +1,18 @@
+/* Acordeones dentro del menú: no salen del panel ni se recortan en pantallas estrechas. */
+.centro-nav{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin:12px 0 20px}
+.centro-nav>a{padding:9px 12px;color:inherit}
+.centro-menu{min-width:0;color:var(--text,var(--texto,#172b3a));font:inherit}
+.centro-nav>.centro-menu{width:min(100%,460px);border:1px solid var(--line,var(--linea,#c9d2d9));border-radius:8px;background:var(--surface,var(--panel,#fff))}
+.centro-menu summary{padding:10px 12px;cursor:pointer;border-radius:6px;overflow-wrap:anywhere;line-height:1.4}
+.centro-menu>summary{font-weight:650}
+.centro-menu summary:hover,.centro-menu summary:focus-visible,.centro-menu a:hover,.centro-menu a:focus-visible{background:color-mix(in srgb,var(--accent,var(--acento,#2e6f8e)) 16%,var(--surface,var(--panel,#fff)))}
+.centro-menu summary:focus-visible,.centro-menu a:focus-visible{outline:2px solid var(--accent,var(--acento,#2e6f8e));outline-offset:-2px}
+.centro-menu-contenido{padding:2px 6px 8px 14px;border-left:2px solid var(--line,var(--linea,#c9d2d9));margin-left:10px}
+.centro-etapa>summary{font-weight:600;font-size:.94em}
+.centro-etapa-enlaces{padding:0 0 5px 16px}
+.centro-menu a{display:block;color:inherit;text-decoration:none;padding:9px 10px;border-radius:6px;line-height:1.4;overflow-wrap:anywhere}
+.centro-menu a[aria-current=page]{font-weight:700;border-left:3px solid var(--accent,var(--acento,#2e6f8e))}
+#menu-secciones .centro-menu{width:100%}
+@media(max-width:760px){.centro-menu summary,.centro-menu a{padding-top:12px;padding-bottom:12px}.centro-menu-contenido{padding-left:6px;margin-left:4px}.centro-etapa-enlaces{padding-left:8px}}
+
+#menu-secciones .menu-lista{max-height:calc(100dvh - var(--pop-top,120px) - 20px);overflow-y:auto;overscroll-behavior:contain}
