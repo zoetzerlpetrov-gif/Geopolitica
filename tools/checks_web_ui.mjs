@@ -151,3 +151,31 @@ test('Tema de fases: preferencia del mapa, alternancia, sincronización y almace
  win.dispatchEvent(new win.StorageEvent('storage',{key:'gp_theme',newValue:'dark'}));assert.equal(doc.documentElement.dataset.theme,'dark');win.dispatchEvent(new win.StorageEvent('storage',{key:'otra',newValue:'light'}));assert.equal(doc.documentElement.dataset.theme,'dark');win.localStorage.removeItem('gp_theme');media.matches=true;win.dispatchEvent(new win.StorageEvent('storage',{key:null}));assert.equal(doc.documentElement.hasAttribute('data-theme'),false);assert.equal(button.getAttribute('aria-pressed'),'true');media.matches=false;callbacks[0]();assert.equal(button.getAttribute('aria-pressed'),'false');win.dispatchEvent(new win.StorageEvent('storage',{key:'gp_theme',newValue:'desconocido'}));assert.equal(doc.documentElement.hasAttribute('data-theme'),false);dom.window.close();
  const limited=new JSDOM('<button id="fases-tema" type="button"></button>',{url:'https://site.example/'});Object.defineProperty(limited.window,'localStorage',{get(){throw Error('denegado');}});iniciarTemaFases(limited.window.document,limited.window);limited.window.document.querySelector('button').click();assert.equal(limited.window.document.documentElement.dataset.theme,'dark');limited.window.close();
 });
+
+test('Tutorial: capítulo de fases integrado al índice y al buscador, enlaces locales y ejemplos navegables',async()=>{
+ const dom=new JSDOM(readFileSync(new URL('tutorial.html',root),'utf8'),{url:'https://site.example/tutorial.html'});
+ globalThis.window=dom.window;globalThis.document=dom.window.document;
+ const inventory=JSON.parse(readFileSync(new URL('config/tutorial_inventario.json',root),'utf8'));
+ globalThis.fetch=async url=>{assert.equal(url,'config/tutorial_inventario.json');return {ok:true,json:async()=>inventory};};
+ await import(new URL('js/tutorial.js',root));
+ const d=dom.window.document,chapter=d.getElementById('t-fases'),ids=[...d.querySelectorAll('[id]')].map(n=>n.id);
+ assert.equal(ids.length,new Set(ids).size,'IDs únicos para navegación y búsqueda');
+ assert.ok(d.querySelector('#tut-indice a[href="#t-fases"]'));
+ assert.ok(chapter.querySelectorAll('details.paso .ejemplo').length>=8);
+ const targets=new Set();for(const a of chapter.querySelectorAll('a[href]')){
+  const href=a.getAttribute('href'),[file,hash]=href.split('#');targets.add(file);
+  const linked=new JSDOM(readFileSync(new URL(file,root),'utf8'));
+  if(hash)assert.ok(linked.window.document.getElementById(hash),href);
+  linked.window.close();
+ }
+ for(const file of ['analista.html','fase2.html','plataforma.html','fase4.html','operaciones.html','laboratorio.html','colaboracion.html','fase5.html','transporte.html'])assert.ok(targets.has(file),file);
+ const q=d.getElementById('tut-q'),search=text=>{q.value=text;q.dispatchEvent(new dom.window.Event('input',{bubbles:true}));};
+ for(const [term,block]of [['transbordo','t-fases-5cf'],['EJ-E1','t-fases-2'],['cifradas','t-fases-nube']]){
+  search(term);assert.equal(chapter.hidden,false);assert.equal(d.getElementById(block).hidden,false);assert.equal(d.getElementById(block).open,true);assert.match(d.getElementById('tut-n').textContent,/bloque/);
+ }
+ search('terminoimposibleficticio');assert.equal(chapter.hidden,true);assert.match(d.getElementById('tut-n').textContent,/Nada/);
+ search('');assert.equal(chapter.hidden,false);for(const s of d.querySelectorAll('section[data-tema]'))assert.equal(s.hidden,false);
+ assert.equal(d.querySelector('link[rel=stylesheet]').getAttribute('href'),'css/app.css','Diseño original del tutorial');
+ assert.ok(d.querySelector('#tut-secciones a[href="plataforma.html#fases"]'));
+ dom.window.close();
+});
