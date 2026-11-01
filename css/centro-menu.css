@@ -16,3 +16,6 @@
 @media(max-width:760px){.centro-menu summary,.centro-menu a{padding-top:12px;padding-bottom:12px}.centro-menu-contenido{padding-left:6px;margin-left:4px}.centro-etapa-enlaces{padding-left:8px}}
 
 #menu-secciones .menu-lista{max-height:calc(100dvh - var(--pop-top,120px) - 20px);overflow-y:auto;overscroll-behavior:contain}
+
+/* Desplegar una etapa no debe reanclar el panel y mover el objetivo del clic. */
+#menu-secciones .menu-lista,.centro-menu,.centro-menu *{overflow-anchor:none}
