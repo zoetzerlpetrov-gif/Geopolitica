@@ -26,6 +26,9 @@
     {"id": "d_noticiero", "nombre": "Noticiero DOMINUS", "archivo": "data/vivos/noticiero.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "errores"},
     {"id": "d_protocolos", "nombre": "Protocolos y alertas «cisne negro»", "archivo": "data/vivos/protocolos.geojson", "campo": "actualizado_utc", "max_horas": 4, "errores": "fuentes"},
     {"id": "d_autoauditoria", "nombre": "Resultado de la autoauditoría", "archivo": "data/autoauditoria/ultimo.json", "campo": "fecha_utc", "max_horas": 194},
-    {"id": "d_economia", "nombre": "Indicadores económicos", "archivo": "data/economia/indicadores.json", "campo": "generado_utc", "max_horas": 30, "errores": "errores"}
+    {"id": "d_economia", "nombre": "Indicadores económicos", "archivo": "data/economia/indicadores.json", "campo": "generado_utc", "max_horas": 30, "errores": "errores"},
+    {"id": "d_portafolio", "nombre": "Portafolio (panel propio): reporte diario y noticias", "archivo": "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json",
+     "campo": "generated_at", "max_horas": 30, "errores": "noticias.fuentes",
+     "minimo": {"campo": "noticias.instrumentos_con_noticias", "valor": 1, "texto": "Instrumentos con noticias"}}
   ]
 }

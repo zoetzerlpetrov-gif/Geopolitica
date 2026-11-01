@@ -22,7 +22,8 @@ def test_config_apunta_a_workflows_que_existen():
     for p in cfg["workflows"]:
         assert os.path.exists(os.path.join(ROOT, ".github", "workflows", p["workflow"])), p["workflow"]
         assert p["max_horas"] > 0 and p["afecta"]
-    assert {d["errores"] for d in cfg["datos"] if d.get("errores")} <= {"pasos", "fuentes", "errores"}
+    # «noticias.fuentes»: ruta dentro del archivo; lo que cuenta es la forma del último tramo.
+    assert {d["errores"].split(".")[-1] for d in cfg["datos"] if d.get("errores")} <= {"pasos", "fuentes", "errores"}
 
 
 def test_al_dia():
@@ -117,3 +118,15 @@ def test_autoauditoria_lee_la_revision_diaria(tmp_path, monkeypatch):
     monkeypatch.setenv("ESTADO_PROCESOS", str(f))
     r = A.procesos_publican({})
     assert r["estado"] == "parcial" and "Datos en movimiento" in r["detalle"]
+
+
+def test_portafolio_fecha_con_zona_y_minimo_de_noticias():
+    with open(os.path.join(ROOT, "config", "procesos.json"), encoding="utf-8") as fh:
+        regla = next(d for d in json.load(fh)["datos"] if d["id"] == "d_portafolio")
+    # «-06:00» (hora de CDMX) se convierte bien a UTC: 09:38 CDMX = 15:38 UTC.
+    assert E.iso(E.fecha("2026-10-29T09:38:23.891604-06:00")) == "2026-10-29T15:38:23Z"
+    sin = E.evaluar_dato(regla, {"generated_at": "2026-10-29T09:00:00-06:00", "report": {}}, AHORA)
+    assert sin["estado"] == "atraso" and "Instrumentos con noticias: 0" in sin["detalle"]
+    con = E.evaluar_dato(regla, {"generated_at": "2026-10-29T09:00:00-06:00", "noticias": {"instrumentos_con_noticias": 12,
+                                 "fuentes": {"https://a/rss": "100 titulares", "https://b/rss": "error: URLError"}}}, AHORA)
+    assert con["estado"] == "ok" and con["errores"] == ["https://b/rss: error: URLError"]

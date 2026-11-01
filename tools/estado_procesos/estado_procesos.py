@@ -26,10 +26,24 @@ DIAS_BITACORA = 90
 
 
 def fecha(s):
+    """ISO 8601 con o sin zona («…Z», «…-06:00» como el Portafolio); sin zona se toma como UTC."""
     try:
-        return datetime.strptime(str(s)[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+        t = datetime.fromisoformat(str(s).strip().replace("Z", "+00:00"))
     except (TypeError, ValueError):
-        return None
+        try:
+            t = datetime.strptime(str(s)[:19], "%Y-%m-%dT%H:%M:%S")
+        except (TypeError, ValueError):
+            return None
+    return (t if t.tzinfo else t.replace(tzinfo=timezone.utc)).astimezone(timezone.utc)
+
+
+def valor(datos, ruta):
+    """datos["a"]["b"] para la ruta «a.b»; None si falta algún tramo."""
+    for k in str(ruta or "").split("."):
+        if not isinstance(datos, dict):
+            return None
+        datos = datos.get(k)
+    return datos
 
 
 def iso(t):
@@ -112,7 +126,7 @@ def errores_de(datos, tipo):
     """Fuentes con error dentro de un archivo publicado, según su forma: «pasos» y «fuentes» (dict o lista) o «errores»."""
     if not tipo or not isinstance(datos, dict):
         return []
-    v = datos.get(tipo)
+    v = valor(datos, tipo)
     salida = []
     if isinstance(v, dict):
         for k, x in v.items():
@@ -140,6 +154,13 @@ def evaluar_dato(regla, datos, ahora):
     detalle = "Sin fecha en el archivo." if t is None else f"Generado hace {h} h (límite {regla['max_horas']} h)." if h > regla["max_horas"] else "Al día."
     if errs:
         detalle += f" {len(errs)} fuente(s) con error (se conservan sus datos anteriores)."
+    m = regla.get("minimo")
+    if m:  # p. ej. el Portafolio: al día pero sin una sola noticia también es un problema
+        n = valor(datos, m["campo"]) or 0
+        if not isinstance(n, (int, float)) or n < m["valor"]:
+            detalle += f" {m.get('texto', m['campo'])}: {n} (mínimo {m['valor']})."
+            if ORDEN[estado] < ORDEN["atraso"]:
+                estado = "atraso"
     return {"id": regla["id"], "nombre": regla["nombre"], "archivo": regla["archivo"], "estado": estado, "generado_utc": iso(t),
             "horas": h, "max_horas": regla["max_horas"], "errores": errs, "detalle": detalle}
 
@@ -199,7 +220,8 @@ def revisar(cfg, repo, sitio, token=None, ahora=None, get=_get):
     datos = []
     for regla in cfg["datos"]:
         try:
-            contenido = get(sitio.rstrip("/") + "/" + regla["archivo"] + f"?r={int(ahora.timestamp())}")
+            base = regla["archivo"] if regla["archivo"].startswith("http") else sitio.rstrip("/") + "/" + regla["archivo"]
+            contenido = get(base + f"?r={int(ahora.timestamp())}")
         except Exception:  # noqa: BLE001
             contenido = None
         datos.append(evaluar_dato(regla, contenido, ahora))

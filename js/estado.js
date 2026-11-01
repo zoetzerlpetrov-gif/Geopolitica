@@ -48,8 +48,11 @@ export function evaluarWorkflow(p, corridas, ahora = new Date()) {
 }
 
 /** Fuentes con error dentro de un archivo publicado («pasos», «fuentes» o «errores»). */
+/** datos.a.b para la ruta «a.b»; undefined si falta algún tramo. */
+export const valor = (datos, ruta) => String(ruta || "").split(".").reduce((x, k) => (x && typeof x === "object" ? x[k] : undefined), datos);
+
 export function erroresDe(datos, tipo) {
-  const v = tipo && datos ? datos[tipo] : null, out = [];
+  const v = tipo && datos ? valor(datos, tipo) : null, out = [];
   if (Array.isArray(v)) for (const x of v) {
     if (typeof x === "string") out.push(x.slice(0, 160));
     else if (x && x.estado != null && x.estado !== "ok") out.push(`${x.nombre || x.id}: ${String(x.error || x.estado).slice(0, 160)}`);
@@ -65,7 +68,16 @@ export function evaluarDato(regla, datos, ahora = new Date()) {
   const t = datos[regla.campo] || null, horas = h(ahora, t), errores = erroresDe(datos, regla.errores);
   let detalle = !t ? "Sin fecha en el archivo." : horas > regla.max_horas ? `Generado hace ${horas} h (límite ${regla.max_horas} h).` : "Al día.";
   if (errores.length) detalle += ` ${errores.length} fuente(s) con error (se conservan sus datos anteriores).`;
-  return { ...regla, estado: calificar(horas, regla.max_horas), generado_utc: t, horas, errores, detalle };
+  let estado = calificar(horas, regla.max_horas);
+  const m = regla.minimo;  // p. ej. el Portafolio: al día pero sin una sola noticia también es un problema
+  if (m) {
+    const n = valor(datos, m.campo) ?? 0;
+    if (typeof n !== "number" || n < m.valor) {
+      detalle += ` ${m.texto || m.campo}: ${n} (mínimo ${m.valor}).`;
+      if (ORDEN[estado] < ORDEN.atraso) estado = "atraso";
+    }
+  }
+  return { ...regla, estado, generado_utc: t, horas, errores, detalle };
 }
 
 export const peor = (items) => items.reduce((a, x) => (ORDEN[x.estado] > ORDEN[a] ? x.estado : a), "ok");
