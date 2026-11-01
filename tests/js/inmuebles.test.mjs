@@ -75,3 +75,20 @@ test("Inseguridad en México por estado (SESNSP), no con la tasa nacional", () =
   assert.equal(R.riesgoInseguridadMx("Yucatán", { tasa_anual_100k: 2.1 }, nac, [{ severidad: 4 }, { severidad: 4 }, { severidad: 5 }]).nivel, 2);
   assert.equal(R.riesgoInseguridadMx(null, null, nac, []).nivel, null);
 });
+
+test("Estados Unidos (CDC) y Costa Rica (OIJ) por región", () => {
+  const t = R.tasasCdc([{ intent: "All_Homicide", period: "TTM", name: "Mississippi", rate: "14.2", ttm_date_range: "June, 2025 to May, 2026" },
+    { intent: "All_Homicide", period: "TTM", name: "Vermont", rate: "-999.", ttm_date_range: "x" }, { intent: "FA_Deaths", period: "TTM", name: "Maine", rate: "9" }]);
+  assert.deepEqual(Object.keys(t), ["Mississippi", "Vermont"]);
+  assert.equal(t.Mississippi.periodo, "junio 2025 a mayo 2026");
+  assert.equal(R.riesgoInseguridadRegion("Mississippi", t.Mississippi, { tasa_anual_100k: 5.8 }, [], "CDC").nivel, 3);
+  assert.equal(R.riesgoInseguridadRegion("Vermont", t.Vermont, null, [], "CDC").nivel, 1);
+  const cri = JSON.parse(readFileSync(new URL("../../config/inseguridad_regional.json", import.meta.url))).CRI;
+  assert.equal(R.regionDe("Provincia de Limón", Object.keys(cri.regiones)), "Limón");
+  assert.equal(R.regionDe("San José", Object.keys(cri.regiones)), "San José");
+  assert.equal(R.riesgoInseguridadRegion("Limón", cri.regiones["Limón"], cri.nacional, [], "OIJ 2025").nivel, 4);
+  const her = R.riesgoInseguridadRegion("Heredia", cri.regiones.Heredia, cri.nacional, [], "OIJ 2025", { estimada: true });
+  assert.equal(her.nivel, 2);
+  assert.match(her.texto, /estimación/);
+  assert.equal(Object.values(cri.regiones).length, 7);
+});
