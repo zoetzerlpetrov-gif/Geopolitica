@@ -27,9 +27,9 @@ $("fu-paises").innerHTML = fuentes.paises.map((p) => `<details class="tarjeta"><
   <p class="meta"><b>Compradores extranjeros:</b> ${esc(p.extranjeros)}</p></details>`).join("");
 
 // ------------------------------------------------------------------ desarrollos en seguimiento
-const ARCHIVOS_DES = ["america", "europa_sur", "europa_norte", "mx_cdmx", "mx_estados", "mediterraneo_ita_hrv", "mediterraneo_fra_esp", "europa_centro_este", "caribe"];
+const ARCHIVOS_DES = ["america", "europa_sur", "europa_norte", "mx_cdmx", "mx_estados", "mx_veracruz", "mediterraneo_ita_hrv", "mediterraneo_fra_esp", "europa_centro_este", "caribe"];
 const desarrollos = await Promise.all(ARCHIVOS_DES.map((n) => getJSON(`config/inmuebles_desarrollos/${n}.json`).catch(() => ({ paises: {}, inmuebles: [] }))));
-const reglas = Object.assign({}, ...desarrollos.map((d) => d.paises || {}));
+const reglas = R.unirReglas(desarrollos.map((d) => d.paises || {}));
 const ofertas = desarrollos.flatMap((d) => d.inmuebles || []).map((x) => ({ ...x, compra: reglas[x.pais_iso3]?.compra_mexicanos?.puede || "" }));
 try {
   const [ar, corr] = await Promise.all([getJSON("https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json"),
@@ -52,11 +52,12 @@ const filtradas = () => ofertas.filter((o) => (!$("de-pais").value || o.pais_iso
 function pintarDes() {
   const f = filtradas();
   $("de-n").textContent = `${f.length} de ${ofertas.length} ofertas.`;
-  $("de-tabla").innerHTML = `<tr><th>País</th><th>Ciudad / zona</th><th>Tipo</th><th>Desarrolladora y proyecto</th><th>Precio desde</th><th>Nuevo</th><th>Rehabilitación</th><th>¿Mexicano compra?</th><th>Consultado</th><th></th></tr>`
+  $("de-tabla").innerHTML = `<tr><th>País</th><th>Ciudad / zona</th><th>Tipo</th><th>Desarrolladora y proyecto</th><th>Precio desde</th><th>Nuevo</th><th>Rehabilitación</th><th>¿Mexicano compra?</th><th>Consultado</th><th></th><th>Calle</th></tr>`
     + f.map((o) => `<tr><td>${esc(nombrePaisDe(o.pais_iso3))}</td><td>${esc([o.zona, o.ciudad].filter(Boolean).filter((v, i, a) => a.indexOf(v) === i).join(", "))}</td><td>${esc(o.tipo || "")}</td>
       <td>${o.url ? `<a href="${esc(safeUrl(o.url))}" target="_blank" rel="noopener">${esc(`${o.desarrolladora || ""} · ${o.proyecto || ""}`)}</a>` : esc(`${o.desarrolladora || ""} · ${o.proyecto || ""}`)}</td>
       <td>${fmt(o.precio_desde)} ${esc(o.moneda || "")}</td><td>${o.nuevo ? "Sí" : "No"}</td><td>${esc(REHAB[o.rehabilitacion] || o.rehabilitacion || "—")}</td><td>${esc(o.compra || "—")}</td><td>${esc(o.visto || "")}</td>
-      <td>${o.lat != null ? `<button type="button" class="btn" data-evaluar="${o.lat},${o.lon},${esc(o.pais_iso3)}" data-nombre="${esc(`${o.proyecto || o.ciudad}`)}">Evaluar</button>` : ""}</td></tr>`).join("");
+      <td>${o.lat != null ? `<button type="button" class="btn" data-evaluar="${o.lat},${o.lon},${esc(o.pais_iso3)}" data-nombre="${esc(`${o.proyecto || o.ciudad}`)}">Evaluar</button>` : ""}</td>
+      <td>${o.lat != null ? `<a href="${esc(R.urlCalle(o.lat, o.lon))}" target="_blank" rel="noopener noreferrer" title="Abre Google Street View en ese punto${o.precision && o.precision !== "proyecto" ? " (centro aproximado de la colonia)" : ""}">🚶 Ver</a>` : ""}</td></tr>`).join("");
 }
 for (const id of ["de-pais", "de-zona", "de-tipo", "de-dev", "de-nuevo", "de-compra"]) $(id).addEventListener("change", pintarDes);
 pintarDes();
