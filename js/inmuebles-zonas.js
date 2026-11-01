@@ -2,6 +2,7 @@
 // Funciones puras. DOMINUS no copia anuncios de portales: arma enlaces de búsqueda que abre la persona usuaria
 // y cruza las zonas con los desarrollos que ya tiene (ARA, SADASI y config/inmuebles_desarrollos).
 import { esc, safeUrl } from "./util.js";
+import { urlCalle, urlMapillary } from "./inmuebles-logica.js";
 
 const R_TIERRA = 6371;
 export function distanciaKm(la1, lo1, la2, lo2) {
@@ -73,9 +74,10 @@ export function htmlZona(z, portales, ofertas = [], tipoElegido = "", { idioma =
     ${compra ? `<p><b>🇲🇽 Para una persona mexicana:</b> ${esc(compra)}</p>` : ""}
     ${riesgos.length ? `<p><b>Riesgos de la zona y del país</b></p><ul class="lista-corta">${riesgos.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>` : ""}
     ${(z.referencias || []).length ? `<p><b>Referencias de precio (prensa):</b></p><ul class="lista-corta">${z.referencias.map((r) => `<li>${esc(r.texto)} ${a(`${r.fuente}, ${r.fecha}`, r.url)}</li>`).join("")}</ul>` : ""}
-    ${cerca.length ? `<p><b>Desarrollos en seguimiento a ${esc(String(z.radio_km))} km o menos:</b></p><ul class="lista-corta">${cerca.slice(0, 12).map((o) =>
-      `<li>${o.url ? a(`${o.desarrolladora || ""} · ${o.proyecto || o.ciudad || ""}`, o.url) : esc(o.proyecto || "")} <span class="meta">· desde ${fmt(o.precio_desde)} ${esc(o.moneda || "")} · ${o.km.toFixed(1)} km${o.visto ? ` · consultado ${esc(o.visto)}` : ""}</span></li>`).join("")}</ul>` : ""}
+    ${cerca.length ? `<p><b>Desarrollos en seguimiento a ${esc(String(z.radio_km))} km o menos:</b></p><ul class="lista-corta">${cerca.slice(0, 40).map((o) =>
+      `<li>${o.url ? a(`${o.desarrolladora || ""} · ${o.proyecto || o.ciudad || ""}`, o.url) : esc(o.proyecto || "")} <span class="meta">· ${o.tipo ? `${esc(o.tipo)} · ` : ""}desde ${fmt(o.precio_desde)} ${esc(o.moneda || "")} · ${o.km.toFixed(1)} km${o.visto ? ` · consultado ${esc(o.visto)}` : ""}</span> ${a("🚶 calle", urlCalle(o.lat, o.lon))}</li>`).join("")}</ul>` : ""}
     <p class="meta">Centro de la zona: ${z.lat}, ${z.lon} (${esc(z.precision)}), radio ${esc(String(z.radio_km))} km.</p>
     <p><button type="button" class="btn" data-evaluar="${z.lat},${z.lon},${esc(z.pais_iso3)}" data-nombre="${esc(`${z.ciudad} · ${z.zona}`)}">Evaluar el centro de la zona</button>
-      ${a("Ver en OpenStreetMap", `https://www.openstreetmap.org/?mlat=${z.lat}&mlon=${z.lon}#map=14/${z.lat}/${z.lon}`)}</p></details>`;
+      ${a("Ver en OpenStreetMap", `https://www.openstreetmap.org/?mlat=${z.lat}&mlon=${z.lon}#map=14/${z.lat}/${z.lon}`)}
+      · ${a("🚶 Ver la calle (Google Street View)", urlCalle(z.lat, z.lon))} · ${a("📷 Fotos de calle (Mapillary)", urlMapillary(z.lat, z.lon))}</p></details>`;
 }

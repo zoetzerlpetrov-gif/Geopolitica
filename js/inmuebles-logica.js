@@ -105,3 +105,20 @@ export function opcionesGeocodificacion(res) {
     .filter((o) => Number.isFinite(o.lat) && Number.isFinite(o.lon))
     .sort((a, b) => a.orden - b.orden);
 }
+
+
+/** Une las reglas por país de varios catálogos: la última gana, salvo «busqueda», que se suma (antes, el catálogo
+ * de Veracruz habría borrado las búsquedas de los demás estados de México). */
+export function unirReglas(lista) {
+  const out = {};
+  for (const paises of lista) for (const [iso, r] of Object.entries(paises || {})) {
+    const prev = out[iso] || {};
+    out[iso] = { ...prev, ...r, busqueda: [...(prev.busqueda || []), ...(r.busqueda || [])] };
+  }
+  return out;
+}
+
+/** Vista de calle de un punto, sin llave: Google Street View (URL pública de Google Maps) y Mapillary (fotos
+ * abiertas, CC BY-SA). Si Google no tiene foto justo ahí, muestra la más cercana o el mapa. */
+export const urlCalle = (lat, lon) => `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${Number(lat).toFixed(6)},${Number(lon).toFixed(6)}`;
+export const urlMapillary = (lat, lon) => `https://www.mapillary.com/app/?lat=${Number(lat).toFixed(6)}&lng=${Number(lon).toFixed(6)}&z=17`;

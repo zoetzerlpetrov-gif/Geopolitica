@@ -40,3 +40,21 @@ test("fuentes de inmuebles: 20 países con enlaces https", () => {
     for (const [, u] of [...p.precios, ...p.subastas, ...p.riesgo, ...p.portales]) assert.match(u, /^https?:\/\//, p.nombre);
   }
 });
+
+test("Boca del Río: anuncios a ~5 km de Plaza Río, con enlace, y zona de búsqueda; reglas por país sin perder búsquedas", () => {
+  const cat = JSON.parse(readFileSync(new URL("../../config/inmuebles_desarrollos/mx_veracruz.json", import.meta.url)));
+  const km = (a, b, c, d) => { const r = Math.PI / 180, x = Math.sin((c - a) * r / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin((d - b) * r / 2) ** 2; return 2 * 6371 * Math.asin(Math.sqrt(x)); };
+  assert.ok(cat.inmuebles.length >= 25);
+  for (const o of cat.inmuebles) {
+    assert.ok(km(19.1075, -96.1046, o.lat, o.lon) <= 5.5, o.id);
+    assert.match(o.url, /^https:\/\//);
+    assert.equal(o.zona_objetivo, "Boca del Río 5 km (Plaza Río)");
+  }
+  const zonas = JSON.parse(readFileSync(new URL("../../config/inmuebles_zonas_mx.json", import.meta.url))).zonas;
+  const z = zonas.find((x) => x.id === "ver-plaza-rio");
+  assert.ok(z && z.radio_km === 5 && z.colonias.includes("Las Palmas") && z.colonias.includes("El Dorado Residencial y Marina"));
+  const r = R.unirReglas([{ MEX: { busqueda: [["a", "u1"]] } }, { MEX: { busqueda: [["b", "u2"]] } }]);
+  assert.deepEqual(r.MEX.busqueda.map((x) => x[0]), ["a", "b"]);
+  assert.equal(R.urlCalle(19.1, -96.1), "https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=19.100000,-96.100000");
+  assert.match(R.urlMapillary(19.1, -96.1), /mapillary\.com\/app\/\?lat=19\.100000&lng=-96\.100000/);
+});

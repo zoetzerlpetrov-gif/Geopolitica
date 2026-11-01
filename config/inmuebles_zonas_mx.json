@@ -984,6 +984,65 @@
    "pais_iso3": "MEX"
   },
   {
+   "id": "ver-plaza-rio",
+   "ciudad": "Boca del Río",
+   "estado": "Veracruz",
+   "zona": "Plaza Río 5 km: Las Palmas, El Dorado Residencial y Marina, Río del Dorado, El Estero, Mocambo y Costa de Oro",
+   "lat": 19.1075,
+   "lon": -96.1046,
+   "radio_km": 5,
+   "tipos": [
+    "casa",
+    "departamento",
+    "villa",
+    "loft",
+    "terreno"
+   ],
+   "colonias": [
+    "Las Palmas",
+    "El Dorado Residencial y Marina",
+    "Río del Dorado",
+    "Lomas del Dorado",
+    "Cumbres Residencial",
+    "El Dorado",
+    "El Estero",
+    "El Morro",
+    "Graciano Sánchez",
+    "La Tampiquera",
+    "Lomas del Mar",
+    "Mocambo",
+    "Playa de Oro Mocambo",
+    "Adalberto Tejeda",
+    "Las Américas",
+    "Costa de Oro",
+    "Carranza",
+    "Lomas Residencial",
+    "Punto Lomas",
+    "Punta Tiburón"
+   ],
+   "riesgos": [
+    "Inundaciones: El Dorado, Río del Dorado, Lomas del Dorado, Cumbres y Las Palmas están junto al río Jamapa (huracán Karl, 2010); pide la cota del lote y el historial de inundación.",
+    "Nortes (frentes fríos) con rachas fuertes de octubre a marzo, y huracanes del Golfo.",
+    "Salitre en Mocambo, Costa de Oro y frente al mar: revisa corrosión de varillas y el mantenimiento del edificio.",
+    "Inseguridad: Veracruz tiene alta incidencia de extorsión; revisa Boca del Río, Medellín de Bravo y Alvarado en el SESNSP.",
+    "Tres municipios en el radio: Boca del Río, Medellín de Bravo (Las Palmas) y Alvarado (Lomas Residencial, Punto Lomas, Punta Tiburón); predial, agua y seguridad cambian según el municipio."
+   ],
+   "referencias": [],
+   "precision": "zona",
+   "pais_iso3": "MEX",
+   "proyectos": [
+    "Las Palmas Green",
+    "El Dorado Residencial y Marina",
+    "Río del Dorado",
+    "Lomas del Dorado",
+    "Torre Aurelio",
+    "Torre Asmara",
+    "Torre Diamante",
+    "Punto Lomas",
+    "Villas Calu"
+   ]
+  },
+  {
    "id": "ver-riviera",
    "ciudad": "Alvarado (Riviera Veracruzana)",
    "estado": "Veracruz",
