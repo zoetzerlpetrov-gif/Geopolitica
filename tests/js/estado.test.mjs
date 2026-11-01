@@ -40,3 +40,14 @@ test("bitácora local: sin parámetros de URL, agrupa repetidos y el informe se 
   const { cab, filas } = leerInforme(txt);
   assert.equal(cab["Vista"], "pago · plan recon"); assert.equal(filas.length, 2); assert.equal(filas[0].msg, "HTTP 404 en /data/x.json");
 });
+
+test("Portafolio: fecha con zona de CDMX y mínimo de instrumentos con noticias", () => {
+  const r = { id: "d_portafolio", nombre: "P", archivo: "https://x/daily_report.json", campo: "generated_at", max_horas: 30,
+    errores: "noticias.fuentes", minimo: { campo: "noticias.instrumentos_con_noticias", valor: 1, texto: "Instrumentos con noticias" } };
+  const sin = evaluarDato(r, { generated_at: "2026-10-29T09:00:00-06:00", report: {} }, AHORA);
+  assert.equal(sin.estado, "atraso");
+  assert.match(sin.detalle, /Instrumentos con noticias: 0/);
+  const con = evaluarDato(r, { generated_at: "2026-10-29T09:00:00-06:00", noticias: { instrumentos_con_noticias: 12, fuentes: { "https://b/rss": "error: URLError" } } }, AHORA);
+  assert.equal(con.estado, "ok");
+  assert.deepEqual(con.errores, ["https://b/rss: error: URLError"]);
+});
