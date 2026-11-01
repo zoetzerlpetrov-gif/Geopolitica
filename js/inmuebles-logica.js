@@ -69,6 +69,31 @@ export function riesgoInseguridad(homicidios, eventosCerca) {
     + `${eventosCerca.length} eventos de seguridad del mapa a menos de 50 km (${graves} graves). La cifra nacional no describe cada colonia: revisa la estadística local.` };
 }
 
+const sinAcento = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/^estado de /, "").trim();
+
+/** Nombre de estado de OpenStreetMap («Yucatán», «Estado de México», «Michoacán») → clave del SESNSP («Michoacán de
+ * Ocampo», «México»…); null si no coincide. «Ciudad de México» no se confunde con «México». */
+export function estadoSesnspDe(nombre, claves) {
+  const n = sinAcento(nombre);
+  if (!n) return null;
+  return claves.find((k) => sinAcento(k) === n) || claves.find((k) => sinAcento(k).startsWith(`${n} `) || n.startsWith(`${sinAcento(k)} `)) || null;
+}
+
+/** Inseguridad en México con la cifra del estado: homicidio doloso del SESNSP (carpetas de investigación de los meses
+ * publicados del año, anualizadas, por 100 mil habitantes del Censo 2020). Umbrales propios: menos de 4 bajo, 4 a 12
+ * medio, 12 a 25 alto, 25 o más muy alto (las carpetas cuentan un poco menos que las víctimas). Más de 3 eventos
+ * graves del mapa a 50 km suben un nivel. */
+export function riesgoInseguridadMx(estado, dato, nacional, eventosCerca, periodo = "") {
+  const graves = eventosCerca.filter((e) => e.severidad >= 4).length;
+  const t = dato?.tasa_anual_100k;
+  const base = t == null ? null : t >= 25 ? 4 : t >= 12 ? 3 : t >= 4 ? 2 : 1;
+  const nivel = base == null ? (graves >= 3 ? 3 : null) : Math.min(4, base + (graves >= 3 ? 1 : 0));
+  const txt = t == null ? `Sin cifra estatal${estado ? ` para ${estado}` : ""}`
+    : `Homicidio doloso en ${estado}: ${t.toFixed(1)} por 100 mil habitantes al año (SESNSP${periodo ? `, ${periodo}` : ""}, anualizado; nacional ${nacional?.tasa_anual_100k ?? "—"})`;
+  return { nivel, texto: `${txt}; ${eventosCerca.length} eventos de seguridad del mapa a menos de 50 km (${graves} graves). `
+    + "Es la cifra de todo el estado: la colonia puede ser más o menos segura; revisa también la estadística municipal del SESNSP." };
+}
+
 /** Calificación global: la peor dimensión pesa más (un riesgo muy alto no se compensa con otros bajos). */
 export function riesgoGlobal(dims) {
   const v = dims.map((d) => d.nivel).filter((n) => n >= 1);

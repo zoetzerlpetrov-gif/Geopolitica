@@ -29,3 +29,11 @@ def test_enlace_estatal():
     url, nombre = S.enlace_estatal(html)
     assert url.endswith("a?e=1") and "septiembre" in nombre.lower()
     assert S.meses_publicados(nombre) == 9
+
+
+def test_homicidio_doloso_por_estado_anualizado():
+    h = S.homicidios(csv.DictReader(io.StringIO(CSV)), 9)
+    assert h["México"]["carpetas"] == 81
+    assert h["México"]["tasa_anual_100k"] == round(81 * 12 / 9 / S.POBLACION_2020["México"] * 1e5, 1)
+    assert "Guanajuato" not in h and h["_nacional"]["carpetas"] == 81
+    assert len(S.POBLACION_2020) == 32 and S.homicidios([], 0) == {}
