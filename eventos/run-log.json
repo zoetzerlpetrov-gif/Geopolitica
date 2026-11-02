@@ -1,0 +1,343 @@
+{
+ "generado_utc": "2026-11-02T02:18:27Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-11-02T03:17:00Z",
+ "eventos_total": 2823,
+ "eventos_nuevos": 43,
+ "candidatos": 678,
+ "descartados": {
+  "fuera_de_ventana": 130,
+  "fuera_de_tema": 14,
+  "sin_clasificar": 178,
+  "red_social_sin_pais": 3,
+  "imagenes_portada": 32
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 2823,
+  "sin_pais": 55,
+  "confianza_baja": 280,
+  "verificados": 9,
+  "con_varias_fuentes": 591,
+  "impacto_mexico": 597,
+  "confianza_media": 0.63,
+  "por_area": {
+   "seguridad": 1514,
+   "instituciones": 416,
+   "identidad": 238,
+   "geoeconomia": 200,
+   "geografia": 93,
+   "tecnologia": 87,
+   "energia": 75,
+   "clima": 63,
+   "regional": 46,
+   "infraestructura": 31,
+   "demografia": 26,
+   "riesgo": 25,
+   "salud_nrbq": 9
+  },
+  "por_tipo_fuente": {
+   "noticia": 963,
+   "base_datos": 1800,
+   "analisis": 1,
+   "red_social": 59
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "Democrat endorses Republican candidate in key Michigan Senate race as party spat erupts",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c95ynzv88n68o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Global nature talks reach deal but money remains an issue",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cw1l32qyj8pqo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: Heidi Klum as giant severed hand for Halloween bash",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cj040yd1xdrlo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Democrats have high hopes for midterms, but polls have let them down before",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmg47p3edv4do?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Lindsay Clancy is back in court - where will her case go next?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ck3r5z3pw928o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Democrats are used to heartbreak in Texas - could Talarico turn the tide?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmy0r2y6zeddo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "'We came back from hell', say Ukrainians after years in Russia-occupied front-line city",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cqglw3k7djp1o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Boca Juniors gana el superclásico argentino al River Plate",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/boca-juniors-gana-el-superclásico-argentino-al-river-plate/a-79824836?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "La Izquierda en Berlín está cada vez más cerca de tomar el control del gobierno",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/la-izquierda-en-berlín-está-cada-vez-más-cerca-de-tomar-el-control-del-gobierno/a-79821376?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Trump dice que Estados Unidos todavía tiene que \"ocuparse\" de uno o dos objetivos en Irán",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/trump-dice-que-estados-unidos-todavía-tiene-que-ocuparse-de-uno-o-dos-objetivos-en-irán/a-79820100?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido Bayern Múnich vs. Borussia Dortmund",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-bayern-múnich-vs-borussia-dortmund/a-79817741?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "A los 20 años, Kimi Antonelli se convierte en el campeón más joven de la historia de la F1",
+   "fuente": "France 24 Español",
+   "url": "https://www.france24.com/es/deportes/20261102-a-los-20-a%C3%B1os-kimi-antonelli-se-convierte-en-el-campe%C3%B3n-m%C3%A1s-joven-de-la-historia-de-la-f1"
+  },
+  {
+   "titulo": "¿Qué pasaría si Trump decide no reconocer resultados adversos en las midterms?",
+   "fuente": "France 24 Español",
+   "url": "https://www.france24.com/es/ee-uu-y-canad%C3%A1/20261031-qu%C3%A9-pasar%C3%ADa-si-trump-decide-no-reconocer-resultados-adversos-en-las-midterms"
+  },
+  {
+   "titulo": "Midterms: una democracia bajo lupa",
+   "fuente": "France 24 Español",
+   "url": "https://www.france24.com/es/midterms-una-democracia-bajo-lupa"
+  },
+  {
+   "titulo": "Midterms 2026: tormenta en la campaña de Michigan; ¿peligran las opciones de El-Sayed?",
+   "fuente": "France 24 Español",
+   "url": "https://www.france24.com/es/ee-uu-y-canad%C3%A1/20261102-midterms-2026-tormenta-en-la-campa%C3%B1a-de-michigan-peligran-las-opciones-de-el-sayed"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "resumidos": 4,
+  "rechazados": 18,
+  "motivos": {
+   "copia": 14,
+   "insuficiente": 4
+  },
+  "errores": [
+   "límite gratuito alcanzado (429): el resto queda para la siguiente corrida"
+  ],
+  "pendientes": 18
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 139,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 17,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 1.1,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 19,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.0,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 7,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 1.6,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.5,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 2.0,
+   "error": null
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-11-01",
+   "total": 147,
+   "pdf": true,
+   "ia": true
+  },
+  "global": {
+   "fecha": "2026-11-01",
+   "total": 1034,
+   "pdf": true,
+   "ia": true
+  }
+ }
+}
