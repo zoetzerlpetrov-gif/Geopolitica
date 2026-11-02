@@ -1,0 +1,342 @@
+{
+ "generado_utc": "2026-11-01T22:08:59Z",
+ "corrida": "2026-11-01T18Z",
+ "fuente": "NOAA GFS 1° vía NOMADS",
+ "viento_escala_ms": 40.0,
+ "viento_altura_escala_ms": 90.0,
+ "rejilla_viento": {
+  "lon0": -180,
+  "lat0": 90,
+  "paso": 1,
+  "ancho": 360,
+  "alto": 181
+ },
+ "mercator_lat_max": 85.05112878,
+ "pasos": [
+  {
+   "f": 3,
+   "valido_utc": "2026-11-01T21:00:00Z",
+   "viento": "viento_f003.png",
+   "temp": "temp_f003.png",
+   "lluvia": "lluvia_f003.png",
+   "viento_max_ms": 33.6,
+   "nieve": "nieve_f003.png",
+   "vortice": "vortice_f003.png",
+   "vortice_resumen": {
+    "norte": {
+     "centro": [
+      80.0,
+      65.0
+     ],
+     "altura_min_dam": 2956.0,
+     "u60_ms": 6.6,
+     "t_polo_c": -61.1,
+     "estado": "débil (más probabilidad de irrupciones de aire ártico en latitudes medias)"
+    },
+    "sur": {
+     "centro": [
+      -2.0,
+      -75.0
+     ],
+     "altura_min_dam": 2915.3,
+     "u60_ms": 29.0,
+     "t_polo_c": -14.3,
+     "estado": "normal"
+    }
+   },
+   "polar": "polar_f003.png",
+   "isotermas": "isotermas_f003.geojson",
+   "t850_min": -44.3,
+   "bolsas": "bolsas_f003.geojson",
+   "alturas": {
+    "500": {
+     "archivo": "viento500_f003.png",
+     "km": 5.5
+    },
+    "300": {
+     "archivo": "viento300_f003.png",
+     "km": 9.2
+    },
+    "200": {
+     "archivo": "viento200_f003.png",
+     "km": 11.8
+    }
+   }
+  },
+  {
+   "f": 15,
+   "valido_utc": "2026-11-02T09:00:00Z",
+   "viento": "viento_f015.png",
+   "temp": "temp_f015.png",
+   "lluvia": "lluvia_f015.png",
+   "viento_max_ms": 36.4,
+   "nieve": "nieve_f015.png",
+   "vortice": "vortice_f015.png",
+   "vortice_resumen": {
+    "norte": {
+     "centro": [
+      81.0,
+      62.0
+     ],
+     "altura_min_dam": 2958.1,
+     "u60_ms": 4.6,
+     "t_polo_c": -59.9,
+     "estado": "débil (más probabilidad de irrupciones de aire ártico en latitudes medias)"
+    },
+    "sur": {
+     "centro": [
+      5.0,
+      -73.0
+     ],
+     "altura_min_dam": 2917.6,
+     "u60_ms": 28.4,
+     "t_polo_c": -10.7,
+     "estado": "normal"
+    }
+   },
+   "polar": "polar_f015.png",
+   "isotermas": "isotermas_f015.geojson",
+   "t850_min": -31.1,
+   "bolsas": "bolsas_f015.geojson",
+   "alturas": {
+    "500": {
+     "archivo": "viento500_f015.png",
+     "km": 5.5
+    },
+    "300": {
+     "archivo": "viento300_f015.png",
+     "km": 9.2
+    },
+    "200": {
+     "archivo": "viento200_f015.png",
+     "km": 11.8
+    }
+   }
+  },
+  {
+   "f": 27,
+   "valido_utc": "2026-11-02T21:00:00Z",
+   "viento": "viento_f027.png",
+   "temp": "temp_f027.png",
+   "lluvia": "lluvia_f027.png",
+   "viento_max_ms": 30.0,
+   "nieve": "nieve_f027.png",
+   "vortice": "vortice_f027.png",
+   "vortice_resumen": {
+    "norte": {
+     "centro": [
+      86.0,
+      61.0
+     ],
+     "altura_min_dam": 2957.3,
+     "u60_ms": 2.9,
+     "t_polo_c": -58.9,
+     "estado": "débil (más probabilidad de irrupciones de aire ártico en latitudes medias)"
+    },
+    "sur": {
+     "centro": [
+      11.0,
+      -73.0
+     ],
+     "altura_min_dam": 2923.8,
+     "u60_ms": 29.0,
+     "t_polo_c": -9.6,
+     "estado": "normal"
+    }
+   },
+   "polar": "polar_f027.png",
+   "isotermas": "isotermas_f027.geojson",
+   "t850_min": -43.4
+  },
+  {
+   "f": 51,
+   "valido_utc": "2026-11-03T21:00:00Z",
+   "viento": "viento_f051.png",
+   "temp": "temp_f051.png",
+   "lluvia": "lluvia_f051.png",
+   "viento_max_ms": 29.4,
+   "nieve": "nieve_f051.png",
+   "vortice": "vortice_f051.png",
+   "vortice_resumen": {
+    "norte": {
+     "centro": [
+      84.0,
+      62.0
+     ],
+     "altura_min_dam": 2965.2,
+     "u60_ms": 0.5,
+     "t_polo_c": -56.6,
+     "estado": "débil (más probabilidad de irrupciones de aire ártico en latitudes medias)"
+    },
+    "sur": {
+     "centro": [
+      30.0,
+      -75.0
+     ],
+     "altura_min_dam": 2931.5,
+     "u60_ms": 28.9,
+     "t_polo_c": -11.8,
+     "estado": "normal"
+    }
+   },
+   "polar": "polar_f051.png",
+   "isotermas": "isotermas_f051.geojson",
+   "t850_min": -41.9
+  },
+  {
+   "f": 75,
+   "valido_utc": "2026-11-04T21:00:00Z",
+   "viento": "viento_f075.png",
+   "temp": "temp_f075.png",
+   "lluvia": "lluvia_f075.png",
+   "viento_max_ms": 32.0,
+   "nieve": "nieve_f075.png",
+   "vortice": "vortice_f075.png",
+   "vortice_resumen": {
+    "norte": {
+     "centro": [
+      76.0,
+      63.0
+     ],
+     "altura_min_dam": 2972.9,
+     "u60_ms": -1.2,
+     "t_polo_c": -55.2,
+     "estado": "invertido: calentamiento estratosférico súbito (el vórtice se rompió o se desplazó)"
+    },
+    "sur": {
+     "centro": [
+      31.0,
+      -81.0
+     ],
+     "altura_min_dam": 2934.3,
+     "u60_ms": 25.9,
+     "t_polo_c": -17.2,
+     "estado": "normal"
+    }
+   },
+   "polar": "polar_f075.png",
+   "isotermas": "isotermas_f075.geojson",
+   "t850_min": -40.2
+  }
+ ],
+ "leyendas": {
+  "temp": [
+   [
+    -40,
+    "#6e40aa"
+   ],
+   [
+    -20,
+    "#3b4cc0"
+   ],
+   [
+    0,
+    "#6fa8dc"
+   ],
+   [
+    10,
+    "#7ccf8a"
+   ],
+   [
+    20,
+    "#f2d24b"
+   ],
+   [
+    30,
+    "#f08c3a"
+   ],
+   [
+    40,
+    "#c0392b"
+   ]
+  ],
+  "polar": [
+   [
+    -30,
+    "#6e1ea0"
+   ],
+   [
+    -20,
+    "#3c32c8"
+   ],
+   [
+    -10,
+    "#286ee1"
+   ],
+   [
+    -5,
+    "#5aa5eb"
+   ],
+   [
+    0,
+    "#96cdf5"
+   ]
+  ],
+  "lluvia": [
+   [
+    0.3,
+    "#78beff"
+   ],
+   [
+    1,
+    "#3c78e6"
+   ],
+   [
+    4,
+    "#32b45a"
+   ],
+   [
+    10,
+    "#f0d23c"
+   ],
+   [
+    25,
+    "#dc3c28"
+   ],
+   [
+    50,
+    "#a028a0"
+   ]
+  ],
+  "nieve": [
+   [
+    1,
+    "#e1f0ff"
+   ],
+   [
+    5,
+    "#bedcff"
+   ],
+   [
+    20,
+    "#8cb4f5"
+   ],
+   [
+    50,
+    "#6478dc"
+   ],
+   [
+    100,
+    "#9650c8"
+   ]
+  ],
+  "vortice": [
+   [
+    0,
+    "#5a148c"
+   ],
+   [
+    20,
+    "#3c3cc8"
+   ],
+   [
+    45,
+    "#3c8cdc"
+   ],
+   [
+    80,
+    "#78c8f0"
+   ]
+  ]
+ }
+}
