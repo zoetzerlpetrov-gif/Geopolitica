@@ -177,6 +177,7 @@ async function regionOsm(lat, lon, idioma = "es") {
 
 /** Estados Unidos (CDC, últimos 12 meses, en vivo) y Costa Rica (OIJ 2025, config/inseguridad_regional.json): la
  * tasa nacional ponía igual a Maine que a Misisipi y a Heredia que a Limón. null si el país no tiene cifra regional. */
+let eurostat = null;
 async function inseguridadRegional(iso, lat, lon, cerca) {
   if (iso === "USA") {
     cdc ??= getJSON("https://data.cdc.gov/resource/fpsi-y8tj.json?intent=All_Homicide&period=TTM&$limit=60").then(R.tasasCdc).catch(() => null);
@@ -248,6 +249,13 @@ $("ev-btn").onclick = async () => {
   const cerca = (ev.eventos || []).filter((x) => x.area_principal === "seguridad" && x.lat != null && R.distanciaKm(lat, lon, x.lat, x.lon) <= 50);
   dims.push({ nombre: "Inseguridad", ...(iso === "MEX" ? await inseguridadMx(lat, lon, cerca)
     : (await inseguridadRegional(iso, lat, lon, cerca)) || R.riesgoInseguridad(hom?.valor ?? null, cerca)) });
+  const geoEu = R.ISO3_EUROSTAT[iso];
+  if (geoEu) {
+    eurostat ??= getJSON("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/crim_off_cat?iccs=ICCS0401&iccs=ICCS0501&iccs=ICCS0502&unit=P_HTHAB&lastTimePeriod=3")
+      .then(R.robosEurostat).catch(() => { eurostat = null; return null; });
+    const tabla = await eurostat;
+    dims.push({ nombre: "Robos a vivienda y hurtos", ...(tabla ? R.riesgoRobosEuropa(geoEu, tabla) : { nivel: null, texto: "Eurostat no respondió." }) });
+  }
   const global = R.riesgoGlobal(dims);
   const pm2 = R.precioM2($("ev-precio").value, $("ev-m2").value, $("ev-ref").value);
   ultimo = { id: Date.now().toString(36), nombre: $("ev-nombre").value || `${lat.toFixed(4)}, ${lon.toFixed(4)}`, pais: iso, lat, lon, tipo: $("ev-tipo").value,
