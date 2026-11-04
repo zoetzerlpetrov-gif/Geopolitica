@@ -1,0 +1,22 @@
+name: Sonda temporal
+on:
+  push:
+    branches: [claude/pensive-ptolemy-bkwcue]
+    paths: [".github/workflows/sonda.yml", "tools/elecciones/**"]
+jobs:
+  sonda:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: |
+          python3 tools/elecciones/elecciones.py --forzar
+          python3 - <<'PY'
+          import json
+          d = json.load(open("vivos/elecciones.json"))
+          for e in d["elecciones"]:
+              print(e["estado"], e["fecha"], e["iso3"], e["tipo"], "|", e["nombre"][:70], "| gan:", e["ganador"], "| cand:", len(e["candidatos"]), "|", e["url"][:70])
+          PY
