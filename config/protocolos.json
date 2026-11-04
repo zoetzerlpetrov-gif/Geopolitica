@@ -1,6 +1,6 @@
 {
  "_nota": "Registro curado de protocolos, iniciativas y llamados oficiales de preparación que pueden afectar la seguridad, la economía, el abasto o la salud de un país. Cada entrada lleva su fuente; el resumen es propio. Para agregar una: copiar una entrada, poner fuente verificable y la fecha en que se revisó. El estado «anunciado» se usa cuando aún no entra en vigor.",
- "revisado": "2026-10-29",
+ "revisado": "2026-11-04",
  "ambitos": {
   "militar": "Militar y defensa",
   "seguridad": "Seguridad y terrorismo",
@@ -143,6 +143,292 @@
    "cisne_negro": true,
    "emisor": "Japón",
    "afectacion": "Hogares de Japón: reservas de comida, agua y artículos sanitarios para 3 a 7 días.",
+   "desactivado": null
+  },
+  {
+   "id": "se_una_semana",
+   "nombre": "Prepararse para una semana sin ayuda (Suecia)",
+   "organismo": "Myndigheten för civilt försvar (MCF, antes MSB)",
+   "paises": [
+    "SWE"
+   ],
+   "lat": 59.329,
+   "lon": 18.069,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "La autoridad sueca de defensa civil pide a cada hogar poder arreglárselas una semana con su propia comida, agua, calor y radio. Tiene la campaña «Sju dagar» para practicarlo y reparte el folleto «Om krisen eller kriget kommer» (Si llega la crisis o la guerra). Es una guía permanente, reforzada desde 2024.",
+   "fuente": "MCF (sitio oficial)",
+   "url": "https://www.mcf.se/sv/rad-till-privatpersoner/",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Suecia",
+   "afectacion": "Hogares de Suecia: reservas para una semana.",
+   "desactivado": null
+  },
+  {
+   "id": "ch_notvorrat",
+   "nombre": "Reserva de emergencia para una semana (Suiza)",
+   "organismo": "Oficina Federal para el Abastecimiento Económico del País (BWL)",
+   "paises": [
+    "CHE"
+   ],
+   "lat": 46.948,
+   "lon": 7.447,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "La BWL recomienda tener comida y artículos de consumo para alrededor de una semana, porque una interrupción del abasto podría durar varios días. Tiene una calculadora de la reserva por persona. Es una recomendación permanente.",
+   "fuente": "BWL (sitio oficial)",
+   "url": "https://www.bwl.admin.ch/de/notvorrat",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Suiza",
+   "afectacion": "Hogares de Suiza: reserva de alimentos y artículos para una semana.",
+   "desactivado": null
+  },
+  {
+   "id": "fi_72h",
+   "nombre": "Concepto 72 horas (Finlandia)",
+   "organismo": "Autoridades y organizaciones de Finlandia (72tuntia.fi)",
+   "paises": [
+    "FIN"
+   ],
+   "lat": 60.17,
+   "lon": 24.938,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "El concepto 72 horas describe el nivel de preparación en casa que recomiendan las autoridades y organizaciones finlandesas: poder pasar al menos tres días sin ayuda externa. Es una guía permanente.",
+   "fuente": "72tuntia.fi",
+   "url": "https://72tuntia.fi/en/",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Finlandia",
+   "afectacion": "Hogares de Finlandia: autosuficiencia de al menos 72 horas.",
+   "desactivado": null
+  },
+  {
+   "id": "be_prets_ensemble",
+   "nombre": "Folleto «Prêts. Ensemble.» (Bélgica)",
+   "organismo": "Centre de crise National de Bélgica",
+   "paises": [
+    "BEL"
+   ],
+   "lat": 50.846,
+   "lon": 4.352,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-10-01",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "El Centro Nacional de Crisis publicó el 1 de octubre de 2026 un folleto en cuatro idiomas para que cada hogar se prepare: seguir fuentes confiables, inscribirse a BE-Alert, tener un plan familiar y un kit de emergencia. Es parte de una campaña de cuatro años.",
+   "fuente": "Centre de crise National",
+   "url": "https://crisiscenter.be/fr/newsroom/prets-ensemble-le-centre-de-crise-national-publie-une-brochure-pour-aider-le-citoyen-se",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Bélgica",
+   "afectacion": "Hogares de Bélgica: plan familiar y kit de emergencia.",
+   "desactivado": null
+  },
+  {
+   "id": "de_bevorratung",
+   "nombre": "Reservas y mochila de emergencia (Alemania)",
+   "organismo": "Oficina Federal de Protección Civil (BBK)",
+   "paises": [
+    "DEU"
+   ],
+   "lat": 50.734,
+   "lon": 7.099,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "La BBK publica una guía para tener reservas de comida y agua en casa y una mochila de emergencia. Medios citan una reserva para 10 días; confirma la cifra en la guía oficial. Es una recomendación permanente.",
+   "fuente": "BBK (sitio oficial)",
+   "url": "https://www.bbk.bund.de/DE/Warnung-Vorsorge/Sicherheit-durch-Vorsorge/Materialien-Bevorratung/materialien-bevorratung_node.html",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Alemania",
+   "afectacion": "Hogares de Alemania: reservas de comida y agua (medios citan 10 días).",
+   "desactivado": null
+  },
+  {
+   "id": "no_egenberedskap",
+   "nombre": "Autopreparación de los hogares (Noruega)",
+   "organismo": "Dirección de Protección Civil (DSB)",
+   "paises": [
+    "NOR"
+   ],
+   "lat": 59.913,
+   "lon": 10.752,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "La DSB pide a cada hogar poder valerse por sí mismo ante cortes de luz, agua o comunicaciones. Medios citan una semana de reservas desde la guía de 2024; confirma la cifra en la página oficial.",
+   "fuente": "DSB (sitio oficial)",
+   "url": "https://www.sikkerhverdag.no/sikkerhverdag/egenberedskap/",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Noruega",
+   "afectacion": "Hogares de Noruega: reservas para varios días (medios citan una semana).",
+   "desactivado": null
+  },
+  {
+   "id": "dk_klar",
+   "nombre": "«Vær klar når krisen rammer» (Dinamarca)",
+   "organismo": "Agencia Danesa de Gestión de Emergencias (Beredskabsstyrelsen)",
+   "paises": [
+    "DNK"
+   ],
+   "lat": 55.676,
+   "lon": 12.568,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "La agencia danesa de emergencias tiene una guía para que la población esté lista cuando llegue una crisis. Medios citan reservas de agua, comida y medicinas para tres días; confirma la cifra en la página oficial.",
+   "fuente": "Beredskabsstyrelsen (sitio oficial)",
+   "url": "https://www.brs.dk/da/borger/var-klar-nar-krisen-rammer/",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Dinamarca",
+   "afectacion": "Hogares de Dinamarca: reservas para varios días (medios citan tres).",
+   "desactivado": null
+  },
+  {
+   "id": "pl_poradnik",
+   "nombre": "Guía de seguridad para la población (Polonia)",
+   "organismo": "Gobierno de Polonia",
+   "paises": [
+    "POL"
+   ],
+   "lat": 52.23,
+   "lon": 21.012,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "El gobierno polaco publica un «Poradnik bezpieczeństwa» (guía de seguridad) para que la población sepa prepararse ante emergencias y conflictos, con lista de reservas en casa.",
+   "fuente": "gov.pl",
+   "url": "https://www.gov.pl/web/poradnikbezpieczenstwa",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Polonia",
+   "afectacion": "Hogares de Polonia: guía oficial de preparación y reservas.",
+   "desactivado": null
+  },
+  {
+   "id": "ca_72h",
+   "nombre": "«Prepárate»: kit para 72 horas (Canadá)",
+   "organismo": "Seguridad Pública de Canadá",
+   "paises": [
+    "CAN"
+   ],
+   "lat": 45.421,
+   "lon": -75.697,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "La guía oficial canadiense pide que cada hogar pueda arreglárselas al menos 72 horas en una emergencia, con agua, comida no perecedera, radio y linterna. Es una recomendación permanente.",
+   "fuente": "Gobierno de Canadá",
+   "url": "https://www.getprepared.gc.ca/",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Canadá",
+   "afectacion": "Hogares de Canadá: kit para al menos 72 horas.",
+   "desactivado": null
+  },
+  {
+   "id": "us_ready",
+   "nombre": "Ready.gov: kit para al menos 3 días (EUA)",
+   "organismo": "FEMA (Ready.gov)",
+   "paises": [
+    "USA"
+   ],
+   "lat": 38.887,
+   "lon": -77.016,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-04",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "FEMA recomienda a cada hogar un kit básico con agua, comida y artículos para al menos tres días. Es una recomendación permanente y distinta de FORTRESS America, que es solo para bases militares.",
+   "fuente": "FEMA · Ready.gov",
+   "url": "https://www.ready.gov/kit",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "Estados Unidos",
+   "afectacion": "Hogares de EUA: kit para al menos tres días.",
+   "desactivado": null
+  },
+  {
+   "id": "mx_mochila",
+   "nombre": "Campaña de la mochila de emergencia (México)",
+   "organismo": "Protección Civil (CDMX y federal)",
+   "paises": [
+    "MEX"
+   ],
+   "lat": 19.432,
+   "lon": -99.133,
+   "ambitos": [
+    "civil",
+    "alimentos",
+    "agua"
+   ],
+   "fecha": "2026-11-02",
+   "estado": "vigente",
+   "nivel": 1,
+   "resumen": "Protección Civil recordó la mochila de emergencia a inicios de noviembre de 2026 y aclaró que la campaña no responde a las alertas de otros países ni a un riesgo inminente.",
+   "fuente": "Infobae México",
+   "url": "https://www.infobae.com/mexico/2026/11/03/mochila-de-emergencia-proteccion-civil-descarta-un-riesgo-inminente-y-explica-el-detras-de-la-recomendacion/",
+   "verificado": "2026-11-04",
+   "cisne_negro": true,
+   "emisor": "México",
+   "afectacion": "Hogares de México: mochila de emergencia (preventiva, sin alerta).",
    "desactivado": null
   }
  ],
