@@ -39,8 +39,10 @@ CADA_H = 3
 
 CONSULTA = """
 SELECT ?e ?nombreEs ?nombreEn ?fecha ?iso ?tipoEn ?ganadorEs ?ganadorEn ?artEs ?artEn WHERE {
-  ?e wdt:P31 ?tipo ; wdt:P585 ?fecha ; wdt:P17 ?pais .
+  hint:Query hint:optimizer "None" .
+  ?e wdt:P585 ?fecha . hint:Prior hint:rangeSafe true .
   FILTER(?fecha >= "%(desde)s"^^xsd:dateTime && ?fecha <= "%(hasta)s"^^xsd:dateTime)
+  ?e wdt:P31 ?tipo ; wdt:P17 ?pais .
   ?tipo wdt:P279* wd:Q40231 .
   ?pais wdt:P298 ?iso .
   FILTER NOT EXISTS { ?e wdt:P1001 ?j . FILTER(?j != ?pais) }
