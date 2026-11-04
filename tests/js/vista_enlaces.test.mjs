@@ -65,3 +65,17 @@ test("aviso cisne negro: secciones por tipo, buscador y países con riesgo alto 
   assert.match(html, /3 países/);
   assert.ok(!html.includes("ac-busca"), "buscador solo con más de 8");
 });
+
+test("robos de Eurostat: lectura del JSON-stat y nivel frente a la mediana", async () => {
+  const R = await import("../../js/inmuebles-logica.js");
+  const d = { id: ["freq", "iccs", "unit", "geo", "time"], size: [1, 2, 1, 3, 2],
+    dimension: { freq: { category: { index: { A: 0 } } }, iccs: { category: { index: { ICCS0401: 0, ICCS0501: 1 } } }, unit: { category: { index: { P_HTHAB: 0 } } },
+      geo: { category: { index: { ES: 0, FR: 1, PL: 2 } } }, time: { category: { index: { 2023: 0, 2024: 1 } } } },
+    value: { 0: 130, 1: 125, 2: 90, 3: 80, 4: 12, 5: 11, 6: 300, 8: 450, 9: 440, 10: 170, 11: 150 } };
+  const t = R.robosEurostat(d);
+  assert.equal(t.ES.robo, 125); assert.equal(t.ES.anio_robo, "2024");
+  assert.equal(t.ES.allanamiento, 300); assert.equal(t.ES.anio_allanamiento, "2023");  // 2024 sin dato: toma 2023
+  assert.equal(R.riesgoRobosEuropa("PL", t).nivel, null);  // informativo: no mueve la calificación global
+  assert.ok(R.riesgoRobosEuropa("PL", t).relativo < 100 && R.riesgoRobosEuropa("FR", t).relativo > 100);
+  assert.equal(R.riesgoRobosEuropa("XX", t).nivel, null);
+});

@@ -177,6 +177,7 @@ async function regionOsm(lat, lon, idioma = "es") {
 
 /** Estados Unidos (CDC, últimos 12 meses, en vivo) y Costa Rica (OIJ 2025, config/inseguridad_regional.json): la
  * tasa nacional ponía igual a Maine que a Misisipi y a Heredia que a Limón. null si el país no tiene cifra regional. */
+let eurostat = null;
 async function inseguridadRegional(iso, lat, lon, cerca) {
   if (iso === "USA") {
     cdc ??= getJSON("https://data.cdc.gov/resource/fpsi-y8tj.json?intent=All_Homicide&period=TTM&$limit=60").then(R.tasasCdc).catch(() => null);
@@ -215,15 +216,25 @@ async function inseguridadMx(lat, lon, cerca) {
   return R.riesgoInseguridadMx(estado, estado ? hom[estado] : null, hom._nacional, cerca, periodo);
 }
 
+/** Elevación (m) de cada [lat, lon] leyendo los mosaicos de relieve Terrarium (AWS Open Data, ~30 m por píxel a zoom 12).
+ * Sustituye a la API de elevación de Open-Meteo, cuyo robots.txt ya no permite consultas automáticas. */
+async function elevacionesTerreno(pts) {
+  const E = await import("./erupcion.js");
+  const [lat, lon] = pts[0];
+  const rej = await E.cargarRejilla(lon, lat, 1);
+  const out = pts.map(([la, lo]) => { const v = rej.elev(...rej.aPix(lo, la)); return Number.isFinite(v) ? v : null; });
+  return out.every((v) => v == null) ? null : out;
+}
+
 $("ev-btn").onclick = async () => {
   const lat = Number($("ev-lat").value), lon = Number($("ev-lon").value), iso = $("ev-pais").value;
   const out = $("ev-res");
   if (!(Math.abs(lat) <= 90 && Math.abs(lon) <= 180) || !$("ev-lat").value || !$("ev-lon").value) { out.innerHTML = `<p class="tarjeta">Escribe latitud y longitud en grados decimales.</p>`; return; }
-  out.innerHTML = `<p class="meta">Consultando USGS, Open-Meteo, Banco Mundial y los datos de DOMINUS…</p>`;
+  out.innerHTML = `<p class="meta">Consultando USGS, el relieve de AWS Terrain Tiles, Banco Mundial y los datos de DOMINUS…</p>`;
   const pts = R.puntosPendiente(lat, lon);
   const [sis, elev, pv, hom, ev, vol] = await Promise.all([
     json(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=${lat}&longitude=${lon}&maxradiuskm=150&minmagnitude=5&starttime=1975-01-01`).catch(() => null),
-    json(`https://api.open-meteo.com/v1/elevation?latitude=${pts.map((p) => p[0].toFixed(5)).join(",")}&longitude=${pts.map((p) => p[1].toFixed(5)).join(",")}`).catch(() => null),
+    elevacionesTerreno(pts).catch(() => null),
     iso ? indicadorBM(iso, "PV.EST").catch(() => null) : null,
     iso ? indicadorBM(iso, "VC.IHR.PSRC.P5").catch(() => null) : null,
     getJSON("data/events.json", { bust: true }).catch(() => ({ eventos: [] })),
@@ -232,12 +243,19 @@ $("ev-btn").onclick = async () => {
   const dims = [];
   dims.push({ nombre: "Sismos", ...(sis ? R.riesgoSismico(sis.features || []) : { nivel: null, texto: "USGS no respondió." }) });
   dims.push({ nombre: "Volcanes", ...(vol ? R.riesgoVolcanico(lat, lon, vol) : { nivel: null, texto: "Lista de volcanes no disponible todavía (se genera con la próxima reconstrucción de capas)." }) });
-  const e = elev?.elevation || [];
+  const e = elev || [];
   dims.push({ nombre: "Deslaves e inundación (terreno)", ...R.riesgoTerreno(R.pendiente(e), e[0] != null ? Math.round(e[0]) : null) });
   dims.push({ nombre: "Estabilidad política", ...R.riesgoPolitico(pv?.valor ?? null), anio: pv?.anio });
   const cerca = (ev.eventos || []).filter((x) => x.area_principal === "seguridad" && x.lat != null && R.distanciaKm(lat, lon, x.lat, x.lon) <= 50);
   dims.push({ nombre: "Inseguridad", ...(iso === "MEX" ? await inseguridadMx(lat, lon, cerca)
     : (await inseguridadRegional(iso, lat, lon, cerca)) || R.riesgoInseguridad(hom?.valor ?? null, cerca)) });
+  const geoEu = R.ISO3_EUROSTAT[iso];
+  if (geoEu) {
+    eurostat ??= getJSON("https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/crim_off_cat?iccs=ICCS0401&iccs=ICCS0501&iccs=ICCS0502&unit=P_HTHAB&lastTimePeriod=3")
+      .then(R.robosEurostat).catch(() => { eurostat = null; return null; });
+    const tabla = await eurostat;
+    dims.push({ nombre: "Robos a vivienda y hurtos", ...(tabla ? R.riesgoRobosEuropa(geoEu, tabla) : { nivel: null, texto: "Eurostat no respondió." }) });
+  }
   const global = R.riesgoGlobal(dims);
   const pm2 = R.precioM2($("ev-precio").value, $("ev-m2").value, $("ev-ref").value);
   ultimo = { id: Date.now().toString(36), nombre: $("ev-nombre").value || `${lat.toFixed(4)}, ${lon.toFixed(4)}`, pais: iso, lat, lon, tipo: $("ev-tipo").value,

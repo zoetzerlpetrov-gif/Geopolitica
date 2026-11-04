@@ -239,9 +239,9 @@ jobs:
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
         run: python3 tools/clima_tactico/actualizar.py
 
-      - name: Fenómenos anómalos (TrackAlien, NUFORC y catálogo propio; cada 6 h; si falla se conservan los anteriores)
+      - name: Fenómenos anómalos (TrackAlien, medios propios, GDELT en 15 idiomas, NUFORC y catálogo; cada 6 h; si falla se conservan los anteriores)
         continue-on-error: true
-        timeout-minutes: 3
+        timeout-minutes: 5
         run: python3 tools/anomalias/anomalias.py
 
       - name: Polos (hielo marino, ozono, Groenlandia, icebergs, bases y aurora; cada parte a su ritmo; si falla se conservan los anteriores)
@@ -300,6 +300,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ABUSECH_AUTH_KEY: ${{ secrets.ABUSECH_AUTH_KEY }}  # opcional: llave gratuita de abuse.ch para ThreatFox
         run: python3 tools/red/red.py
+
+      - name: Ciberataques reportados por la prensa, por país afectado (cada hora; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 4
+        run: python3 tools/red/ciberataques.py
+
+      - name: Radiación ambiental (Safecast cada hora y sitios históricos; si falla se conservan los sensores anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/radiacion/radiacion.py
 
       - name: Publicar en la rama datos-vivos (reescrita, sin historial; solo desde main)
         if: github.ref == 'refs/heads/main'

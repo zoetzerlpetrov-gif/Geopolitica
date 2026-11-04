@@ -174,3 +174,57 @@ export function unirReglas(lista) {
  * abiertas, CC BY-SA). Si Google no tiene foto justo ahí, muestra la más cercana o el mapa. */
 export const urlCalle = (lat, lon) => `https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=${Number(lat).toFixed(6)},${Number(lon).toFixed(6)}`;
 export const urlMapillary = (lat, lon) => `https://www.mapillary.com/app/?lat=${Number(lat).toFixed(6)}&lng=${Number(lon).toFixed(6)}&z=17`;
+
+/** Eurostat «crim_off_cat» (delitos registrados por la policía, por 100 mil habitantes) → {geo: {robo, allanamiento, hurto, anio}}.
+ * Se toma el año más reciente con dato de cada delito. */
+export const EUROSTAT_ICCS = { ICCS0401: "robo", ICCS0501: "allanamiento", ICCS0502: "hurto" };
+export const ISO3_EUROSTAT = { BEL: "BE", BGR: "BG", CZE: "CZ", DNK: "DK", DEU: "DE", EST: "EE", IRL: "IE", GRC: "EL", ESP: "ES", FRA: "FR", HRV: "HR",
+  ITA: "IT", CYP: "CY", LVA: "LV", LTU: "LT", LUX: "LU", HUN: "HU", MLT: "MT", NLD: "NL", AUT: "AT", POL: "PL", PRT: "PT", ROU: "RO", SVN: "SI",
+  SVK: "SK", FIN: "FI", SWE: "SE", ISL: "IS", LIE: "LI", NOR: "NO", CHE: "CH", BIH: "BA", MNE: "ME", MKD: "MK", ALB: "AL", SRB: "RS", TUR: "TR" };
+export function robosEurostat(d) {
+  const ids = d?.id || [], tam = d?.size || [], dim = d?.dimension || {};
+  if (!ids.length) return {};
+  const idx = Object.fromEntries(ids.map((k) => [k, dim[k].category.index]));
+  const tiempos = Object.keys(idx.time).sort().reverse();
+  const out = {};
+  for (const geo of Object.keys(idx.geo)) {
+    for (const [ic, nombre] of Object.entries(EUROSTAT_ICCS)) {
+      if (idx.iccs[ic] == null) continue;
+      for (const t of tiempos) {
+        let pos = 0;
+        for (let k = 0; k < ids.length; k++) {
+          const c = { iccs: ic, geo, time: t }[ids[k]];
+          pos = pos * tam[k] + (c == null ? 0 : idx[ids[k]][c]);
+        }
+        const v = d.value?.[pos];
+        if (v != null) { (out[geo] ??= {})[nombre] = v; out[geo][`anio_${nombre}`] = t; break; }
+      }
+    }
+  }
+  return out;
+}
+
+const UE_AELC = new Set(["BE", "BG", "CZ", "DK", "DE", "EE", "IE", "EL", "ES", "FR", "HR", "IT", "CY", "LV", "LT", "LU", "HU", "MT", "NL", "AT", "PL", "PT",
+  "RO", "SI", "SK", "FI", "SE", "IS", "LI", "NO", "CH"]);
+const mediana = (xs) => { const v = xs.filter((x) => Number.isFinite(x)).sort((a, b) => a - b); return v.length ? (v.length % 2 ? v[(v.length - 1) / 2] : (v[v.length / 2 - 1] + v[v.length / 2]) / 2) : null; };
+
+/** Robos de un país europeo frente a la mediana de la UE y la AELC (allanamiento pesa más: es el que toca la vivienda). Informativo. */
+export function riesgoRobosEuropa(geo, tabla) {
+  const d = tabla?.[geo];
+  if (!d) return { nivel: null, texto: "Eurostat no publica cifras de robos para este país." };
+  // Referencia: UE + AELC. Los Balcanes y Turquía registran muchos menos delitos por cómo se denuncia y bajarían la mediana.
+  const ref = Object.entries(tabla).filter(([g]) => UE_AELC.has(g)).map(([, x]) => x);
+  const rel = [];
+  for (const [k, peso] of [["allanamiento", 2], ["robo", 1], ["hurto", 1]]) {
+    const m = mediana(ref.map((x) => x[k]));
+    if (d[k] != null && d[k] > 0 && m) rel.push([Math.log(d[k] / m), peso]);
+  }
+  if (!rel.length) return { nivel: null, texto: "Sin cifras de robos del país." };
+  const r = Math.exp(rel.reduce((a, [x, p]) => a + x * p, 0) / rel.reduce((a, [, p]) => a + p, 0));  // media geométrica ponderada
+  // Sin nivel a propósito: entre países la cifra refleja sobre todo cuánto se denuncia y cómo registra cada policía
+  // (Suecia o Francia registran mucho más que Bulgaria o Rumanía). Se muestra como dato, no cambia la calificación global.
+  const nivel = null;
+  const f = (k) => (d[k] != null ? `${k} ${Math.round(d[k])} (${d[`anio_${k}`]})` : null);
+  return { nivel, texto: `Delitos registrados por la policía por 100 mil habitantes: ${[f("allanamiento"), f("robo"), f("hurto")].filter(Boolean).join(", ")}; `
+    + `${Math.round(r * 100)} % de la mediana de la UE y la AELC (Eurostat). Dato informativo, no cambia la calificación: es la cifra de todo el país y depende mucho de cuánto se denuncia.`, relativo: Math.round(r * 100) };
+}

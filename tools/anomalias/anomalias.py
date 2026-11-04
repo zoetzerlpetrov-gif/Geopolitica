@@ -12,6 +12,12 @@ Fuentes:
   (ciudad o estado; si no, el centro del país, marcado como aproximado). Sin lugar reconocible, la nota no se dibuja.
 - NUFORC (National UFO Reporting Center), versión geocodificada de github.com/planetsig/ufo-reports (≈ 80 mil
   reportes civiles, 1910–2014). Solo se publican CONTEOS por celda de 1°, sin el texto de los testigos.
+- Medios propios (FEEDS_PROPIOS): RSS de medios del tema (The Debrief, Liberation Times) y de un
+  medio sobre Irán (IranWire), solo si su robots.txt lo permite. De los medios generales solo pasan
+  las notas cuyo título habla del tema. Se guardan título, medio, fecha y enlace.
+- GDELT DOC 2.0 (índice de noticias del mundo): una búsqueda por corrida con términos en inglés, español, persa, árabe,
+  ruso y turco, para captar reportes de regiones que los medios en inglés no cubren (p. ej. Irán). Si el título no nombra
+  un lugar conocido, se usa el país del medio (marcado como aproximado).
 - config/anomalias.json: catálogo curado de luces recurrentes, objetos, figuras en cultivos, lugares y oficinas
   oficiales, con nivel de respaldo y enlace.
 
@@ -108,7 +114,17 @@ def _fuentes_ta(props):
 LUGARES_EXTRA = [("popocatepetl", -98.622, 19.023, "Popocatépetl", "MEX"), ("popo", -98.622, 19.023, "Popocatépetl", "MEX"),
                  ("cerro de la silla", -100.23, 25.63, "Cerro de la Silla, Monterrey", "MEX"), ("cdmx", -99.13, 19.43, "Ciudad de México", "MEX"),
                  ("playa miramar", -97.85, 22.29, "Playa Miramar, Ciudad Madero", "MEX"), ("polanco", -99.19, 19.43, "Polanco, CDMX", "MEX"),
-                 ("area 51", -115.81, 37.23, "Área 51", "USA"), ("roswell", -104.52, 33.39, "Roswell", "USA")]
+                 ("area 51", -115.81, 37.23, "Área 51", "USA"), ("roswell", -104.52, 33.39, "Roswell", "USA"),
+                 # Irán y vecinos escritos en persa o árabe (títulos que llegan de GDELT sin traducir).
+                 ("تهران", 51.389, 35.689, "Teherán", "IRN"), ("اصفهان", 51.668, 32.654, "Isfahán", "IRN"), ("شیراز", 52.531, 29.592, "Shiraz", "IRN"),
+                 ("مشهد", 59.606, 36.297, "Mashhad", "IRN"), ("تبریز", 46.292, 38.080, "Tabriz", "IRN"), ("کرج", 50.997, 35.840, "Karaj", "IRN"),
+                 ("قم", 50.876, 34.640, "Qom", "IRN"), ("اهواز", 48.669, 31.318, "Ahvaz", "IRN"), ("کرمانشاه", 47.065, 34.314, "Kermanshah", "IRN"),
+                 ("بندرعباس", 56.266, 27.183, "Bandar Abbás", "IRN"), ("یزد", 54.367, 31.897, "Yazd", "IRN"), ("بوشهر", 50.838, 28.923, "Bushehr", "IRN"),
+                 ("ایران", 53.69, 32.43, "Irán", "IRN"), ("إيران", 53.69, 32.43, "Irán", "IRN"), ("العراق", 43.68, 33.22, "Irak", "IRQ"),
+                 ("بغداد", 44.366, 33.315, "Bagdad", "IRQ"), ("الكويت", 47.48, 29.31, "Kuwait", "KWT"), ("السعودية", 45.08, 23.89, "Arabia Saudita", "SAU"),
+                 ("الإمارات", 54.0, 24.0, "Emiratos Árabes Unidos", "ARE"), ("قطر", 51.18, 25.35, "Catar", "QAT"), ("سوريا", 38.99, 34.80, "Siria", "SYR"),
+                 ("لبنان", 35.86, 33.85, "Líbano", "LBN"), ("الأردن", 36.24, 30.59, "Jordania", "JOR"), ("مصر", 30.80, 26.82, "Egipto", "EGY"),
+                 ("عمان", 55.92, 21.51, "Omán", "OMN"), ("البحرين", 50.56, 26.07, "Baréin", "BHR"), ("اليمن", 48.52, 15.55, "Yemen", "YEM")]
 ISO2_TA = {"US": "USA", "MX": "MEX", "BR": "BRA", "AR": "ARG", "CL": "CHL", "CO": "COL", "PE": "PER", "ES": "ESP", "GB": "GBR", "UK": "GBR",
            "CA": "CAN", "AU": "AUS", "RU": "RUS", "Russia": "RUS", "EE.UU.": "USA", "México": "MEX", "Reino Unido": "GBR"}
 
@@ -162,6 +178,116 @@ class Ubicador:
             if lon is not None:
                 return lon, lat, self.gaz.paises[iso]["es"], "país"
         return None
+
+
+# (medio, URL del RSS, dedicado al tema). Revisados el 04-nov-2026: su robots.txt permite leer el feed.
+FEEDS_PROPIOS = [
+    ("The Debrief", "https://thedebrief.org/feed/", False),
+    ("Liberation Times", "https://www.liberationtimes.com/home?format=rss", False),
+    ("IranWire", "https://iranwire.com/en/feed/", False),
+]
+GDELT_DOC = "https://api.gdeltproject.org/api/v2/doc/doc"
+# Dos consultas por corrida (GDELT pide máximo una cada 5 s): alfabeto latino y otros alfabetos.
+GDELT_CONSULTAS = [
+    '(ufo OR uap OR ovni OR "unidentified flying" OR "unidentified aerial" OR "objeto no identificado" OR "objeto voador" '
+    'OR "objet volant non identifié" OR "oggetto volante" OR "unbekanntes Flugobjekt" OR "tanımlanamayan uçan")',
+    '("بشقاب پرنده" OR "شیء ناشناس" OR "جسم ناشناس" OR "جسم غريب" OR "طبق طائر" OR "أطباق طائرة" OR НЛО OR "不明飞行物" '
+    'OR "未確認飛行物体" OR "미확인 비행" OR "यूएफओ" OR "עב״ם")',
+]
+PAUSA_GDELT_S = 8
+# Términos del tema en persa, árabe, ruso y turco (para los títulos que llegan de GDELT sin traducir).
+TEMA_OTROS = re.compile(r"(بشقاب پرنده|یوفو|شیء ناشناس|جسم ناشناس|اجسام ناشناس|اشیای ناشناس|پدیده ناشناخته|نور مرموز|"
+                        r"جسم غريب|أجسام غريبة|اجسام غريبة|طبق طائر|أطباق طائرة|جسم طائر مجهول|ظاهرة غامضة|"
+                        r"нло|неопознанн|tanımlanamayan|不明飞行物|未確認飛行物体|미확인 비행|यूएफओ|עב״ם|"
+                        r"objet volant|oggetto volante|unbekanntes flugobjekt|objeto voador|\bovnis?\b|\bufos?\b|\buaps?\b)", re.I)
+UA_PROPIO = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
+
+
+def _id_url(url):
+    import hashlib
+    return hashlib.sha1(url.encode("utf-8")).hexdigest()[:14]
+
+
+def nota_propia(titulo, url, fecha, medio, ubicador, dedicado=False, pais_medio=None, origen="rss"):
+    """Nota de un medio propio o de GDELT → feature de «anom_recientes», o None si no es del tema o no tiene lugar."""
+    titulo = re.sub(r"\s+", " ", str(titulo or "")).strip()
+    if not titulo or not str(url).startswith("http"):
+        return None
+    if not (dedicado or es_del_tema(titulo, [medio]) or TEMA_OTROS.search(sin_acentos(titulo))):
+        return None
+    u = ubicador.ubicar(titulo, "", [medio])
+    precision = None
+    if not u and pais_medio:
+        lon, lat = ubicador.gaz.centroide(pais_medio)
+        if lon is not None:
+            u, precision = (lon, lat, ubicador.gaz.paises[pais_medio]["es"], "país"), "país del medio (aproximado)"
+    if not u:
+        return None
+    lon, lat, lugar, prec = u
+    tipo = tipo_por_texto(titulo)
+    return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": {
+        "id": f"{origen}:{_id_url(url)}", "capa": "anom_recientes", "tipo": tipo, "tipo_nombre": TIPOS_TA.get(tipo, "Otro"),
+        "titulo": titulo[:160], "fecha": (fecha or "")[:10], "nivel": "medios", "credibilidad": "", "pais": "", "lugar": lugar,
+        "precision": precision or prec, "fuente": medio, "resumen": "", "url": url}}
+
+
+def xml_limpio(datos):
+    """Algunos RSS (Squarespace) traen entidades de HTML como &nbsp; que el XML no admite: se pasan a su carácter."""
+    import html.entities
+
+    def rep(m):
+        n = m.group(1).decode()
+        if n in ("amp", "lt", "gt", "quot", "apos"):
+            return m.group(0)
+        return html.entities.html5.get(n + ";", "").encode("utf-8")
+    return re.sub(rb"&([A-Za-z][A-Za-z0-9]*);", rep, datos)
+
+
+def de_feeds_propios(ubicador, leer=None, permitido=None, feeds=None):
+    permitido = permitido or F.permitido_por_robots
+    out, estado = [], {}
+    for medio, url, dedicado in feeds or FEEDS_PROPIOS:
+        if not permitido(url):
+            estado[medio] = "robots.txt no lo permite"
+            continue
+        try:
+            items = F.parsear_rss(xml_limpio(leer(url) if leer else F.get(url, timeout=40)), {"nombre": medio, "tipo": "noticia"})
+            nuevas = [n for n in (nota_propia(i["titulo"], i["url"], i["fecha_utc"], medio, ubicador, dedicado) for i in items) if n]
+            out += nuevas
+            estado[medio] = f"{len(items)} notas, {len(nuevas)} del tema"
+        except Exception as e:  # noqa: BLE001  un medio caído no detiene a los demás
+            estado[medio] = f"error: {type(e).__name__}"
+    return out, estado
+
+
+def de_gdelt(ubicador, leer=None, pausa=PAUSA_GDELT_S):
+    """Consultas a GDELT DOC (últimas 24 h, varios idiomas). Devuelve (features, estado)."""
+    import time
+    import urllib.parse
+    por_nombre = {sin_acentos(p.get("en", "")): i for i, p in ubicador.gaz.paises.items()}
+    out, notas = [], []
+    for k, q in enumerate(GDELT_CONSULTAS):
+        if k:
+            time.sleep(pausa)
+        url = GDELT_DOC + "?" + urllib.parse.urlencode({"query": q, "mode": "artlist", "format": "json", "maxrecords": 150, "timespan": "24h", "sort": "datedesc"})
+        try:
+            texto = (leer(url) if leer else F.get(url, timeout=60)).decode("utf-8", "replace")
+        except Exception as e:  # noqa: BLE001
+            notas.append(f"consulta {k + 1}: error {type(e).__name__}")
+            continue
+        if not texto.strip().startswith("{"):
+            notas.append(f"consulta {k + 1}: sin JSON (límite de GDELT)")
+            continue
+        n0 = len(out)
+        for a in json.loads(texto).get("articles", []):
+            sd = str(a.get("seendate") or "")
+            fecha = f"{sd[:4]}-{sd[4:6]}-{sd[6:8]}" if len(sd) >= 8 else ""
+            pais = por_nombre.get(sin_acentos(a.get("sourcecountry") or ""))
+            f = nota_propia(a.get("title"), a.get("url"), fecha, f"{a.get('domain') or 'GDELT'} (vía GDELT)", ubicador, pais_medio=pais, origen="gdelt")
+            if f:
+                out.append(f)
+        notas.append(f"consulta {k + 1}: {len(out) - n0} notas")
+    return out, "; ".join(notas)
 
 
 def nivel_ta(cred):
@@ -334,6 +460,11 @@ def main():
             except Exception as e:  # noqa: BLE001  se sigue con el archivo
                 nuevos = []
                 estado[capa] = f"error: {e}"
+            ubicador = Ubicador()
+            propios, est_feeds = de_feeds_propios(ubicador)
+            gd, estado["anom_gdelt"] = de_gdelt(ubicador)
+            estado["anom_medios"] = est_feeds
+            nuevos += propios + gd
             archivo = unir_archivo(archivo, nuevos, ahora)
             guardar_archivo(archivo, ahora)
             estado["anom_archivo"] = f"{len(archivo)} notas guardadas ({sum(1 for f in archivo if f['properties']['capa'] == 'anom_archivo')} de hace más de un año)"
