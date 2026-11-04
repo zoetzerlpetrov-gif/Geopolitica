@@ -79,19 +79,46 @@ export function estadoSesnspDe(nombre, claves) {
   return claves.find((k) => sinAcento(k) === n) || claves.find((k) => sinAcento(k).startsWith(`${n} `) || n.startsWith(`${sinAcento(k)} `)) || null;
 }
 
-/** Inseguridad en México con la cifra del estado: homicidio doloso del SESNSP (carpetas de investigación de los meses
- * publicados del año, anualizadas, por 100 mil habitantes del Censo 2020). Umbrales propios: menos de 4 bajo, 4 a 12
- * medio, 12 a 25 alto, 25 o más muy alto (las carpetas cuentan un poco menos que las víctimas). Más de 3 eventos
- * graves del mapa a 50 km suben un nivel. */
-export function riesgoInseguridadMx(estado, dato, nacional, eventosCerca, periodo = "") {
+/** Inseguridad con la cifra de la región (estado o provincia) en vez de la nacional: tasa anual de homicidios por
+ * 100 mil. Umbrales propios: menos de 4 bajo, 4 a 12 medio, 12 a 25 alto, 25 o más muy alto. Más de 3 eventos
+ * graves del mapa a 50 km suben un nivel. `fuente`: texto corto de dónde sale la tasa. */
+export function riesgoInseguridadRegion(region, dato, nacional, eventosCerca, fuente = "", { estimada = false } = {}) {
   const graves = eventosCerca.filter((e) => e.severidad >= 4).length;
   const t = dato?.tasa_anual_100k;
   const base = t == null ? null : t >= 25 ? 4 : t >= 12 ? 3 : t >= 4 ? 2 : 1;
   const nivel = base == null ? (graves >= 3 ? 3 : null) : Math.min(4, base + (graves >= 3 ? 1 : 0));
-  const txt = t == null ? `Sin cifra estatal${estado ? ` para ${estado}` : ""}`
-    : `Homicidio doloso en ${estado}: ${t.toFixed(1)} por 100 mil habitantes al año (SESNSP${periodo ? `, ${periodo}` : ""}, anualizado; nacional ${nacional?.tasa_anual_100k ?? "—"})`;
+  const txt = t == null ? `Sin cifra${region ? ` para ${region}` : " de la región"}${dato?.nota ? ` (${dato.nota})` : ""}`
+    : `Homicidios en ${region}: ${t.toFixed(1)} por 100 mil habitantes al año${estimada ? " (estimación)" : ""} (${fuente}; nacional ${nacional?.tasa_anual_100k ?? "—"})`;
   return { nivel, texto: `${txt}; ${eventosCerca.length} eventos de seguridad del mapa a menos de 50 km (${graves} graves). `
-    + "Es la cifra de todo el estado: la colonia puede ser más o menos segura; revisa también la estadística municipal del SESNSP." };
+    + "Es la cifra de toda la región: la colonia o el barrio pueden ser más o menos seguros; revisa también la estadística local." };
+}
+
+/** México: homicidio doloso del SESNSP (carpetas de los meses publicados, anualizadas por 100 mil del Censo 2020). */
+export const riesgoInseguridadMx = (estado, dato, nacional, eventosCerca, periodo = "") =>
+  riesgoInseguridadRegion(estado, dato, nacional, eventosCerca, `homicidio doloso, SESNSP${periodo ? `, ${periodo}` : ""}, anualizado`);
+
+/** Estados Unidos: filas de CDC («All_Homicide», últimos 12 meses) → {estado: {tasa_anual_100k}}. CDC oculta los
+ * conteos de 1 a 9 (tasa −999): se marca como «menos de 10 casos», que en cualquier estado es nivel bajo. */
+const MESES_EN = { January: "enero", February: "febrero", March: "marzo", April: "abril", May: "mayo", June: "junio", July: "julio",
+  August: "agosto", September: "septiembre", October: "octubre", November: "noviembre", December: "diciembre" };
+/** «June, 2025 to May, 2026» → «junio 2025 a mayo 2026». */
+export const periodoEs = (t) => String(t || "").replace(/([A-Z][a-z]+),? (\d{4})/g, (m, mes, a) => `${MESES_EN[mes] || mes} ${a}`).replace(" to ", " a ");
+
+export function tasasCdc(filas) {
+  const out = {};
+  for (const f of filas || []) {
+    if (f.intent !== "All_Homicide" || f.period !== "TTM") continue;
+    const t = Number(f.rate);
+    const periodo = periodoEs(f.ttm_date_range);
+    out[f.name] = t >= 0 ? { tasa_anual_100k: t, periodo } : { tasa_anual_100k: 0.5, periodo, nota: "menos de 10 casos; CDC no publica la cifra" };
+  }
+  return out;
+}
+
+/** Nombre de región de OpenStreetMap («Provincia de Limón», «California») → clave de la tabla. */
+export function regionDe(nombre, claves) {
+  const n = sinAcento(String(nombre || "").replace(/^provincia( de)? /i, ""));
+  return claves.find((k) => sinAcento(k) === n) || null;
 }
 
 /** Calificación global: la peor dimensión pesa más (un riesgo muy alto no se compensa con otros bajos). */

@@ -1,0 +1,59 @@
+{
+ "nota": "Homicidios por región para el evaluador de «Inmuebles y riesgo» en países donde la tasa nacional esconde diferencias grandes. Estados Unidos se consulta en vivo (CDC, «Mapping Injury, Overdose, and Violence – State», últimos 12 meses; dominio público). México sale del SESNSP (data/vivos/sesnsp_robos.json).",
+ "CRI": {
+  "fuente": "OIJ, cierre preliminar 2025 (conferencia del 5 de enero de 2026), citado por La Nación, CRHoy y El Observador",
+  "fuentes_url": [
+   "https://www.nacion.com/sucesos/el-2025-registro-873-homicidios-segun-oij/GAEGWWDUZBBY7N52C5LAIXP23U/story/",
+   "https://crhoy.com/nacionales/oij-pais-cerro-con-873-homicidios-en-el-2025/",
+   "https://observador.cr/costa-rica-cerro-el-2025-con-873-homicidios-y-mantiene-tendencia-por-tercer-ano-confirma-oij/"
+  ],
+  "anio": 2025,
+  "nacional": {
+   "homicidios": 873,
+   "tasa_anual_100k": 16.7
+  },
+  "nota": "San José y Limón traen la tasa que dio el OIJ. Para las otras provincias la tasa es una ESTIMACIÓN propia: homicidios del OIJ entre una población aproximada (proyección INEC redondeada, cuadrada con la tasa nacional de 16.7). Verificar con el «Análisis de homicidios dolosos 2025» del Observatorio de la Violencia (Ministerio de Justicia).",
+  "regiones": {
+   "San José": {
+    "homicidios": 293,
+    "tasa_anual_100k": 17.6,
+    "oficial": true
+   },
+   "Limón": {
+    "homicidios": 172,
+    "tasa_anual_100k": 37.7,
+    "oficial": true
+   },
+   "Puntarenas": {
+    "homicidios": 130,
+    "poblacion_aprox": 520000,
+    "tasa_anual_100k": 25.0,
+    "oficial": false
+   },
+   "Guanacaste": {
+    "homicidios": 79,
+    "poblacion_aprox": 410000,
+    "tasa_anual_100k": 19.3,
+    "oficial": false
+   },
+   "Cartago": {
+    "homicidios": 62,
+    "poblacion_aprox": 560000,
+    "tasa_anual_100k": 11.1,
+    "oficial": false
+   },
+   "Alajuela": {
+    "homicidios": 103,
+    "poblacion_aprox": 1100000,
+    "tasa_anual_100k": 9.4,
+    "oficial": false
+   },
+   "Heredia": {
+    "homicidios": 35,
+    "poblacion_aprox": 560000,
+    "tasa_anual_100k": 6.2,
+    "oficial": false
+   }
+  }
+ }
+}
