@@ -1,7 +1,6 @@
 import { edadPosicion } from "./fase1-logica.js";
-// Riesgos naturales y clima: capas del proyecto «Clima Táctico» (repositorio WarRoomViajero) dentro de este mapa.
-// Geopolítica genera su propia copia cada 6 h (tools/clima_tactico, en data/vivos/ct/) para no depender de ese
-// repositorio; si un archivo falta, se lee el de WarRoomViajero. Se leen solo al activar cada capa.
+// Riesgos naturales y clima: capas generadas por este proyecto cada 6 h (tools/clima_tactico → data/vivos/ct/).
+// Se leen solo al activar cada capa. No dependen de ningún otro repositorio.
 // Los sismos se piden en vivo a USGS desde el navegador (CORS abierto), como en el mapa original.
 //
 // Fuentes originales: USGS, NOAA NHC, NASA FIRMS, GDACS, MET Norway, NOAA GFS, CENAPRED/Smithsonian, noticias
@@ -17,13 +16,8 @@ import * as CX from "./clima_extremos.js";
 import { ESCALAS_NOAA, COLOR_ESCALA, NO_AFECTA, gDeKp, clasificar, claveDe, paisEn, paisDeLugar, enjambres, radiosTsunami, lineasAurora, registrarVistos, feedAPuntos, PARPADEO_MS, NUEVO_MS, SEVERIDADES,
   ESCALA_SISMO, estiloSismo, categoriaCiclon, sevAlertaVolcan, normalizar, BANDAS_AQI } from "./amenazas.js";
 
-// Primero la copia propia (tools/clima_tactico, mismo sitio: más rápida y sin depender de WarRoomViajero); si falta un
-// archivo, el sitio de WarRoomViajero y su repositorio como respaldo.
-export const BASES = [
-  "data/vivos/ct/",
-  "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/data/",
-  "https://raw.githubusercontent.com/zoetzerlpetrov-gif/WarRoomViajero/main/data/",
-];
+// Archivos generados por este mismo sitio (tools/clima_tactico, cada 6 h).
+export const BASES = ["data/vivos/ct/"];
 /** Orden e ícono de los subgrupos del panel. */
 export const GRUPOS = [["Desastres naturales", "🌋", "#C0392B"], ["Clima y ambiente", "🌦️", "#2471A3"], ["Seguridad y ataques", "🛡️", "#6C3483"],
   ["Emergencias, zonas afectadas y transporte", "🚨", "#B23A48"], ["Red y ciberseguridad", "🌐", "#1F6F8B"], ["Espacio", "🚀", "#34495E"],
@@ -87,7 +81,6 @@ const LEYENDA_SALUD = [{ c: COLOR_SALUD.grave, r: 6, t: "Graves: ébola, Marburg
   { c: COLOR_SALUD.prevenible, r: 6, t: "Prevenibles con vacuna: sarampión, difteria, meningitis" },
   { c: COLOR_SALUD.laboratorio, r: 6, t: "Incidente de bioseguridad en un laboratorio (según noticias)" }];
 
-export const ORIGEN = { nombre: "Clima Táctico (WarRoomViajero)", url: "https://zoetzerlpetrov-gif.github.io/WarRoomViajero/" };
 
 const C = { verde: "#2E9E6E", ambar: "#E0A100", naranja: "#E2711D", rojo: "#D23B3B", violeta: "#8E4FD1", cian: "#1F8A8A", gris: "#6f8a82" };
 const NIVEL = [C.verde, C.ambar, C.naranja, C.rojo, C.violeta];
@@ -354,7 +347,7 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
   const ids = extra.ids || [id];
   return {
     id, grupo: "Fenómenos anómalos", menu: "anomalias", noAmenaza: true, nombre, url: "data/vivos/anomalias.geojson", refresco_s: 21600,
-    fuente: "TrackAlien, NUFORC y catálogo propio",
+    fuente: "Blogs y medios especializados, GDELT, NUFORC y catálogo propio",
     subgrupo: extra.subgrupo || "Casos, lugares y reportes",
     derivar: (fc) => ({ ...fc, features: fc.features.filter(extra.filtro || ((f) => ids.includes(f.properties.capa))) }),
     estilo: (p) => (id === "anom_nuforc" ? { c: NIVELES_ANOM.civil[0], r: Math.min(16, 3 + Math.sqrt(p.n || 1) / 3) } : { c: (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[0], r: 6 }),
@@ -369,19 +362,19 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
       titulo: p.titulo, chip: p.tipo_nombre || nombre,
       filas: [...(p.fecha ? [["Fecha o periodo", String(p.fecha)]] : []), ...(p.desde ? [["Años con reportes", `${p.desde}–${p.hasta}`]] : []),
         ...(p.formas ? [["Formas más reportadas", p.formas]] : []), ...(p.resumen ? [["Qué se sabe", p.resumen]] : []),
-        ["Nivel de respaldo", (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[1]], ...(p.credibilidad ? [["Credibilidad según TrackAlien", p.credibilidad]] : []),
+        ["Nivel de respaldo", (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[1]], ...(p.credibilidad ? [["Credibilidad del caso", p.credibilidad]] : []),
         ...(p.pais && !p.lugar ? [["País", p.pais]] : []), ...(p.lugar ? [["Lugar", p.lugar]] : []),
         ...(p.aprox ? [["Ubicación", "Aproximada (pueblo o zona de referencia)"]] : []),
         ...(p.precision === "país" ? [["Ubicación", "Centro del país: el título no nombra una ciudad"]] : p.precision === "estado" ? [["Ubicación", "Centro del estado"]] : [])],
-      url: p.url, fuente: p.fuente || "TrackAlien", imagen: articuloWikipedia(p.url) }),
+      url: p.url, fuente: p.fuente || "Catálogo propio", imagen: articuloWikipedia(p.url) }),
     // Notas agrupadas por país: lista con enlace a cada original.
     extra: (p) => { const ns = lista(p.notas); return ns.length ? `<h4>Notas (${ns.length}${p.n > ns.length ? ` de ${p.n}` : ""})</h4><ul class="fuentes">${ns.map((x) => `<li><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a> <span class="meta">${esc(x.fuente)} · ${esc(x.fecha)}</span></li>`).join("")}</ul>` : ""; },
   };
 }
 export const ANOMALIAS = [
-  capaAnomalia("anom_recientes", "Noticias y blogs del último año (OVNI/UAP, luces, contactos)", "Notas que mencionan el tema en el título, de medios y blogs especializados, vía TrackAlien (se actualiza 2 veces al día). Muchas terminan explicadas (satélites, drones, cohetes).", { niveles: ["medios"] }),
-  capaAnomalia("anom_archivo", "Archivo de notas: más de un año (se conservan aunque la fuente las retire)", "Notas de medios y blogs que ya no están en TrackAlien o tienen más de 12 meses; el monitor las acumula desde octubre de 2026.", { niveles: ["medios"] }),
-  capaAnomalia("anom_historicos", "Casos históricos conocidos (Roswell, Campeche, Nimitz…)", "Casos seleccionados en TrackAlien con su nivel de credibilidad.", { niveles: ["oficial", "medios"] }),
+  capaAnomalia("anom_recientes", "Noticias y blogs del último año (OVNI/UAP, luces, contactos)", "Notas que mencionan el tema en el título, de blogs especializados, medios y GDELT en 15 idiomas (se actualiza cada 6 h). Muchas terminan explicadas (satélites, drones, cohetes).", { niveles: ["medios"] }),
+  capaAnomalia("anom_archivo", "Archivo de notas: más de un año (se conservan aunque la fuente las retire)", "Notas que su medio ya retiró o que tienen más de 12 meses; el monitor las acumula desde octubre de 2026.", { niveles: ["medios"] }),
+  capaAnomalia("anom_historicos", "Casos históricos conocidos (Roswell, Campeche, Nimitz…)", "Casos seleccionados a mano con su nivel de credibilidad.", { niveles: ["oficial", "medios"] }),
   capaAnomalia("anom_nuforc", "Dónde se reporta más: reportes civiles 1910–2014 (NUFORC)", "≈ 80 mil reportes del centro civil NUFORC (EUA), contados por celdas de ~110 km. Hay muchos más en EUA porque NUFORC es estadounidense: mide dónde se reporta, no dónde ocurre más."),
   capaAnomalia("anom_objeto", "Objetos extraños: esferas metálicas y restos caídos", "Esfera de Buga, esfera de Betz, anillo de Mukuku.", { niveles: ["medios", "explicado"] }),
   capaAnomalia("anom_cultivo", "Figuras en cultivos (crop circles)", "La mayoría en Wiltshire, Inglaterra; desde 1991 se sabe que muchas son obra de personas.", { niveles: ["explicado"] }),
@@ -389,7 +382,7 @@ export const ANOMALIAS = [
   capaAnomalia("anom_lugar", "Lugares con fama de «propensos» (oficiales y no verificados)", "Incluye sitios documentados por gobiernos y sitios conocidos solo por blogs, periódicos locales o turismo; el color dice cuál es cuál.", { ids: ["anom_lugar", "anom_triangulo"], niveles: ["oficial", "local", "explicado"] }),
   capaAnomalia("anom_oficina", "Oficinas oficiales que investigan reportes (AARO, GEIPAN)", "Dónde reportar o consultar casos analizados.", { niveles: ["oficial"] }),
 ];
-// Por tipo de fenómeno, con las categorías de TrackAlien: noticias + casos históricos (+ catálogo cuando aplica).
+// Por tipo de fenómeno: noticias + casos históricos (+ catálogo cuando aplica).
 // Las notas agrupadas por país entran en cada tipo que contienen («tipos»).
 export const TIPOS_ANOM = [
   ["ufo", "Objetos aéreos no identificados (OVNI/UAP)", "Objetos en el cielo sin identificar: discos, cilindros, triángulos, esferas."],
@@ -404,7 +397,7 @@ export const TIPOS_ANOM = [
 ];
 const TIPO_ANOM_CAPAS = new Set(["anom_recientes", "anom_archivo", "anom_historicos"]);
 export const ANOMALIAS_POR_TIPO = TIPOS_ANOM.map(([t, nombre, nota, catalogo = []]) => capaAnomalia(`anom_t_${t}`, nombre, nota, {
-  subgrupo: "Por tipo de fenómeno (como TrackAlien)",
+  subgrupo: "Por tipo de fenómeno",
   filtro: (f) => { const p = f.properties; return catalogo.includes(p.capa) || (TIPO_ANOM_CAPAS.has(p.capa) && (p.tipo === t || (p.tipos || []).includes(t))); },
 }));
 
@@ -637,7 +630,7 @@ export const CAPAS = [
   },
   {
     id: "seguridad", grupo: "Seguridad y ataques", nombre: "Señales de seguridad en noticias: México y mundo (verificar)", archivos: ["security_map.geojson"], fuente: "Google News / GDELT y medios del monitor",
-    // México: mapa y titulares de seguridad (como en Clima Táctico), ubicados por la ciudad o el estado que mencionan.
+    // México: mapa y titulares de seguridad, ubicados por la ciudad o el estado que mencionan.
     // Mundo: eventos de seguridad de la ingesta horaria (ya descargados por la app; no se pide nada más).
     complementar: async (fc, leer) => {
       const [feed, estados] = await Promise.all([leer("security_feed.json").catch(() => null), getJSON("config/mx_estados.json").catch(() => null)]);
@@ -1357,7 +1350,7 @@ function alertaColor(p) {
   return { GREEN: "verde", YELLOW: "amarillo", ORANGE: "naranja", RED: "rojo" }[String(p.codigo_aviacion || "").toUpperCase()] || "";
 }
 
-/** Une las alertas oficiales (vivos/volcanes_alerta.json) con la lista de volcanes de Clima Táctico. */
+/** Une las alertas oficiales (vivos/volcanes_alerta.json) con la lista de volcanes del generador propio. */
 async function complementarVolcanes(fc) {
   const al = await getJSON("data/vivos/volcanes_alerta.json", { bust: true }).catch(() => null);
   if (!al) return fc;
@@ -1377,7 +1370,7 @@ async function complementarVolcanes(fc) {
   return { ...fc, features: feats };
 }
 
-/** Clima Táctico y el archivo propio traen algunas ciudades iguales: se queda una por nombre y zona (~1°). */
+/** El generador de riesgos y el archivo propio traen algunas ciudades iguales: se queda una por nombre y zona (~1°). */
 export function sinCiudadesRepetidas(features) {
   const vistas = new Set();
   return features.filter((f) => {
@@ -1458,7 +1451,7 @@ export function htmlRiesgo(capa, props0, geom) {
       <dt>Fuente</dt><dd>${f.url ? `<a href="${esc(safeUrl(f.url))}" target="_blank" rel="noopener noreferrer">${esc(f.fuente)}</a>` : esc(f.fuente)}</dd></dl>
     ${capa.extra ? capa.extra(props, geom) : ""}
     ${capa.senal ? `<p class="meta">Señal detectada en cobertura noticiosa y ubicada de forma aproximada: no es un incidente confirmado. Verifica en la fuente y con autoridades locales.</p>` : ""}
-    <p class="meta">${capa.pie ? esc(capa.pie) : `${capa.archivos ? `Capa integrada desde <a href="${ORIGEN.url}" target="_blank" rel="noopener noreferrer">${esc(ORIGEN.nombre)}</a>. ` : ""}${capa.noAmenaza ? "" : "No sustituye a Protección Civil ni a los avisos oficiales."}`}</p>`;
+    <p class="meta">${capa.pie ? esc(capa.pie) : `${capa.archivos ? "Datos de la fuente indicada, procesados por DOMINUS cada 6 h. " : ""}${capa.noAmenaza ? "" : "No sustituye a Protección Civil ni a los avisos oficiales."}`}</p>`;
 }
 
 /** De los objetos bajo el clic, el más cercano al punto exacto. */
@@ -1483,7 +1476,7 @@ const ICONO_WMO = (c) => (c >= 95 ? "⛈️" : c >= 80 ? "🌦️" : c >= 71 ? "
 const DIA = (iso) => { const d = new Date(`${iso}T12:00:00Z`); return `${d.toLocaleDateString("es-MX", { weekday: "short", timeZone: "UTC" }).replace(".", "")} ${iso.slice(8, 10)}`; };
 
 /**
- * Gráfica de 7 días (como en Clima Táctico / WarRoomViajero, ampliada): por día, una barra flotante de la
+ * Gráfica de 7 días: por día, una barra flotante de la
  * temperatura mínima a la máxima (escala común de la semana), una barra de lluvia en mm y la probabilidad de
  * lluvia. HTML y CSS, sin bibliotecas: los números van escritos para no depender del color.
  */
@@ -1611,7 +1604,7 @@ export class Riesgos {
     if (capa.generar) fc = await capa.generar(leerArchivo);
     else if (capa.url) fc = await getJSON(capa.url, { bust: !capa.sinAnticache });
     else {
-      // Archivos de Clima Táctico + archivos propios (data/vivos/…); uno que falte no impide los demás.
+      // Archivos del generador de riesgos + archivos propios (data/vivos/…); uno que falte no impide los demás.
       const partes = await Promise.all([...capa.archivos.map((a) => leerArchivo(a).catch(() => null)), ...(capa.locales || []).map((u) => getJSON(u, { bust: true }).catch(() => null))]);
       if (partes.every((p) => !p)) throw new Error("sin datos");
       fc = { type: "FeatureCollection", features: partes.flatMap((p) => p?.features || []) };
@@ -1789,7 +1782,7 @@ export class Riesgos {
     const gj = this.activas.get(capa.id);
     const agrupa = this.#agrupa(capa, gj);
     if (agrupa) this.agrupadas.add(capa.id); else this.agrupadas.delete(capa.id);
-    m.addSource(src, { type: "geojson", data: agrupa ? this.#filtrarDatos(capa.id, gj) : gj, attribution: capa.url || capa.generar ? capa.fuente : "Clima Táctico",
+    m.addSource(src, { type: "geojson", data: agrupa ? this.#filtrarDatos(capa.id, gj) : gj, attribution: capa.url || capa.generar ? capa.fuente : (capa.fuente || "DOMINUS"),
       ...(agrupa ? { cluster: true, clusterRadius: 42, clusterMaxZoom: AGRUPAR_HASTA_ZOOM, clusterProperties: { sevmax: ["max", ["coalesce", ["get", "_sev"], 1]] } } : {}) });
     this.#asegurarIconos(gj);
     const antes = m.getLayer("clusters") ? "clusters" : undefined;
@@ -1845,7 +1838,7 @@ export class Riesgos {
     }
   }
 
-  /** Halo blanco que late durante 1 min alrededor de cada objeto nuevo (como en Clima Táctico). */
+  /** Halo blanco que late durante 1 min alrededor de cada objeto nuevo. */
   #arrancarPulso() {
     if (this.pulso) return;
     const t0 = performance.now();

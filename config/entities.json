@@ -255,9 +255,9 @@
    "uso_comercial": true,
    "licencia_verificada": false
   },
-  "inmueblewarroom": {
-   "nombre": "InmuebleWarRoom (repositorio propio de la cuenta)",
-   "url": "https://github.com/zoetzerlpetrov-gif/inmueblewarroom",
+  "inmuebles_propios": {
+   "nombre": "Lista propia de inmuebles en seguimiento (config/inmuebles_seguimiento.json)",
+   "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/blob/main/config/inmuebles_seguimiento.json",
    "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
    "uso_comercial": false,
    "licencia_verificada": true
@@ -5425,12 +5425,12 @@
     {
      "id": "inm_warroom",
      "nombre": {
-      "es": "Lista propia (InmuebleWarRoom)",
-      "en": "Own list (InmuebleWarRoom)"
+      "es": "Lista propia",
+      "en": "Own list"
      },
      "icono": "●",
      "color": "#5aa9e6",
-     "fuente": "inmueblewarroom",
+     "fuente": "inmuebles_propios",
      "licencia": "Repositorio propio; los anuncios enlazados pertenecen a sus portales",
      "frecuencia": "manual",
      "tipo_capa": "estatica",
@@ -5449,8 +5449,8 @@
      },
      "icono": "●",
      "color": "#e07a5f",
-     "fuente": "inmueblewarroom",
-     "licencia": "Repositorio propio InmueblesAraSadasi; precios publicados por las desarrolladoras",
+     "fuente": "inmuebles_propios",
+     "licencia": "Sitios oficiales de ARA y SADASI, revisados cada semana; precios publicados por las desarrolladoras",
      "frecuencia": "semanal",
      "tipo_capa": "estatica",
      "estado_dato": "estatico",
@@ -5468,7 +5468,7 @@
      },
      "icono": "●",
      "color": "#81b29a",
-     "fuente": "inmueblewarroom",
+     "fuente": "inmuebles_propios",
      "licencia": "Catálogo propio; los anuncios enlazados pertenecen a sus portales",
      "frecuencia": "manual",
      "tipo_capa": "estatica",
@@ -5487,7 +5487,7 @@
      },
      "icono": "★",
      "color": "#ffd700",
-     "fuente": "inmueblewarroom",
+     "fuente": "inmuebles_propios",
      "licencia": "Datos de la persona usuaria guardados solo en su navegador; no se publican",
      "frecuencia": "manual",
      "tipo_capa": "estatica",
@@ -5506,7 +5506,7 @@
      },
      "icono": "◎",
      "color": "#9b7bd4",
-     "fuente": "inmueblewarroom",
+     "fuente": "inmuebles_propios",
      "licencia": "Catálogo propio; las búsquedas abren los portales, que no se copian",
      "frecuencia": "manual",
      "tipo_capa": "estatica",

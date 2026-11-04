@@ -1,0 +1,858 @@
+{
+ "nota": "Casos históricos de fenómenos anómalos con su nivel de credibilidad y una referencia. Resumen propio; ninguno afirma que el fenómeno sea extraterrestre. Copiados el 04-nov-2026 de la lista curada de la persona dueña del proyecto; se mantienen aquí a mano.",
+ "casos": [
+  {
+   "id": "FH001",
+   "tipo": "ufo",
+   "fecha": "1947-07-08",
+   "titulo": "Roswell, Nuevo México — recuperación oficial de objeto no identificado",
+   "resumen": "El Army Air Field de Roswell emite un comunicado de prensa anunciando la recuperación de un 'platillo volador'. En 24 horas, el comunicado se retracta aludiendo a un globo meteorológico. El Mayor Jesse Marcel declara públicamente que el material no correspondía a ningún tipo conocido de aeronave. Caso seminal en la historia de los fenómenos aéreos no identificados.",
+   "credibilidad": "HISTÓRICO / VERIFICADO",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Roswell Daily Record (8-Jul-1947)",
+    "USAF Project Mogul report",
+    "Jesse Marcel testimony (1978)",
+    "Stanton Friedman investigation"
+   ],
+   "url": "",
+   "lon": -104.52,
+   "lat": 33.394
+  },
+  {
+   "id": "FH002",
+   "tipo": "ufo",
+   "fecha": "1947-06-24",
+   "titulo": "Kenneth Arnold — primer avistamiento moderno documentado",
+   "resumen": "El piloto privado Kenneth Arnold reporta ver nueve objetos brillantes volando en formación cerca del Monte Rainier, Washington. Describe su movimiento como 'platillos brincando en el agua', acuñando el término 'platillo volador'. La prensa mundial publica el caso; el USAF abre investigación. Es el inicio del registro sistemático moderno de UAPs.",
+   "credibilidad": "ALTO — piloto comercial con experiencia",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Arnold's personal report (USAF)",
+    "Chicago Sun-Times",
+    "NICAP archives"
+   ],
+   "url": "",
+   "lon": -121.0,
+   "lat": 47.0
+  },
+  {
+   "id": "FH003",
+   "tipo": "ufo",
+   "fecha": "1948-01-07",
+   "titulo": "Incidente Mantell — piloto de la USAF muere persiguiendo UAP",
+   "resumen": "El Capitán Thomas Mantell de la Guardia Nacional Aérea de Kentucky muere cuando su P-51 Mustang cae mientras perseguía un objeto grande y plateado. Sus últimas palabras por radio: 'el objeto va más rápido de lo que yo puedo'. USAF primero lo atribuye a Venus, luego a un globo Skyhook. Caso documentado en los archivos del Proyecto Blue Book.",
+   "credibilidad": "OFICIAL DOCUMENTADO",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "USAF Project Sign report",
+    "Godman AAF logs",
+    "Lexington Leader (8-Jan-1948)"
+   ],
+   "url": "",
+   "lon": -86.56,
+   "lat": 36.72
+  },
+  {
+   "id": "FH004",
+   "tipo": "lights_sky",
+   "fecha": "1951-08-25",
+   "titulo": "Luces de Lubbock, Texas — formación sobre ciudad universitaria",
+   "resumen": "Tres profesores de física del Texas Technological College observan por semanas formaciones de luces que cruzan el cielo a alta velocidad. El estudiante Carl Hart Jr. fotografía la formación. El USAF no encuentra explicación. Las fotos permanecen sin ser rebatidas como falsificaciones.",
+   "credibilidad": "MUY ALTA — testigos con formación científica",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "USAF Project Blue Book",
+    "Carl Hart Jr. photographs",
+    "Lubbock Evening Journal 1951"
+   ],
+   "url": "",
+   "lon": -101.86,
+   "lat": 33.58
+  },
+  {
+   "id": "FH005",
+   "tipo": "em",
+   "fecha": "1957-11-02",
+   "titulo": "Levelland, Texas — objetos apagan motores de vehículos",
+   "resumen": "En 7 horas, 15 testigos separados reportan que un objeto ovoide luminoso detiene los motores de sus automóviles. Los motores se reinician cuando el objeto se aleja. El Sheriff Weir Clem confirma el evento. USAF atribuye los apagones a tormenta eléctrica, contradiciendo los reportes de cielo despejado de todos los testigos.",
+   "credibilidad": "MUY ALTA — múltiples testigos independientes",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "USAF Blue Book (clasificado)",
+    "Lubbock Avalanche-Journal",
+    "Levelland PD report (Nov 1957)"
+   ],
+   "url": "",
+   "lon": -102.38,
+   "lat": 33.59
+  },
+  {
+   "id": "FH006",
+   "tipo": "contact",
+   "fecha": "1961-09-19",
+   "titulo": "Betty y Barney Hill — primer caso de abducción documentado",
+   "resumen": "La pareja reporta una brecha de dos horas en su viaje nocturno por New Hampshire, tras ver un objeto con luces de colores que descende hacia ellos. Bajo hipnosis regresiva con el Dr. Benjamin Simon, ambos describen de forma independiente el interior de una nave y seres de ojos grandes. El caso es investigado por NICAP y estudiado por el USAF.",
+   "credibilidad": "ALTA — investigación psiquiátrica documentada",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "John G. Fuller, 'Interrupted Journey' (1966)",
+    "Dr. Simon session transcripts",
+    "NICAP investigation"
+   ],
+   "url": "",
+   "lon": -71.66,
+   "lat": 44.15
+  },
+  {
+   "id": "FH007",
+   "tipo": "ufo",
+   "fecha": "1964-04-24",
+   "titulo": "Lonnie Zamora, Socorro NM — aterrizaje con marcas físicas verificadas",
+   "resumen": "El oficial de policía Lonnie Zamora reporta ver una llama azulada y un objeto ovalado con dos figuras humanoides. Encuentra quemaduras en el suelo y marcas de apoyo. El caso es investigado por el Dr. J. Allen Hynek del USAF, quien no puede encontrar explicación convencional. Considerado uno de los casos más sólidos del Proyecto Blue Book.",
+   "credibilidad": "MUY ALTA — evidencia física verificada",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "FBI report",
+    "USAF Blue Book case 8766",
+    "Hynek, 'The UFO Experience' (1972)"
+   ],
+   "url": "",
+   "lon": -106.9,
+   "lat": 34.06
+  },
+  {
+   "id": "FH008",
+   "tipo": "ufo",
+   "fecha": "1965-12-09",
+   "titulo": "Kecksburg, Pennsylvania — objeto acampanado recuperado por el ejército",
+   "resumen": "Miles de personas en cuatro estados y Canadá ven una bola de fuego brillante. En el bosque de Kecksburg, un objeto metálico acampanado con símbolos grabados es retirado en un camión del ejército sin identificación. La NASA revela documentos incompletos tras demanda FOIA en 2005. El caso permanece sin explicación oficial.",
+   "credibilidad": "ALTA — múltiples testigos y documentos parciales",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Pittsburgh Press (Dec 1965)",
+    "NASA FOIA release (2005)",
+    "NICAP investigation"
+   ],
+   "url": "",
+   "lon": -79.46,
+   "lat": 40.17
+  },
+  {
+   "id": "FH009",
+   "tipo": "lights_sky",
+   "fecha": "1966-04-17",
+   "titulo": "Persecución del Condado de Portage, Ohio — policías persiguen UAP 85 millas",
+   "resumen": "El ayudante del Sheriff Dale Spaur y el Diputado Barney Neff persiguen un objeto brillante por 85 millas desde Ohio hasta Pennsylvania. Más de una docena de policías y decenas de civiles lo confirman. J. Allen Hynek lo estudia. El USAF lo atribuye luego a Venus y un satélite, conclusión rechazada por los testigos.",
+   "credibilidad": "MUY ALTA — agentes de policía como testigos principales",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Hynek investigation",
+    "Canton Repository (1966)",
+    "NICAP case 7521"
+   ],
+   "url": "",
+   "lon": -81.18,
+   "lat": 41.16
+  },
+  {
+   "id": "FH010",
+   "tipo": "ufo",
+   "fecha": "1968-10-24",
+   "titulo": "Malmstrom AFB — misiles nucleares desactivados por UAP",
+   "resumen": "El Capitán Robert Salas reporta que un objeto rojo brillante sobrevolando la base desactivó 10 misiles Minuteman en sus silos. El mismo tipo de evento ocurre en la base vecina de Oscar Flight. Salas declara ante el Congreso en 2010. El USAF no ha ofrecido explicación satisfactoria.",
+   "credibilidad": "MUY ALTA — personal militar con acceso clasificado",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Salas testimony al Congreso (2010)",
+    "Robert Hastings, 'UFOs and Nukes' (2008)",
+    "FOIA documents AF"
+   ],
+   "url": "",
+   "lon": -101.35,
+   "lat": 48.41
+  },
+  {
+   "id": "FH011",
+   "tipo": "contact",
+   "fecha": "1975-11-05",
+   "titulo": "Travis Walton — desaparición y regreso en Arizona",
+   "resumen": "El trabajador forestal Travis Walton desaparece durante 5 días tras ser golpeado por un rayo de luz de un objeto en el bosque de Turkey Springs, AZ. Sus seis compañeros pasan pruebas de polígrafo. Walton reaparece 5 días después en estado de desorientación. El caso es el más extensamente documentado de abducción con múltiples testigos.",
+   "credibilidad": "ALTA — poligrafos y múltiples testigos",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Travis Walton, 'Fire in the Sky' (1978)",
+    "APRO investigation",
+    "Navajo County Sheriff report"
+   ],
+   "url": "",
+   "lon": -110.48,
+   "lat": 34.33
+  },
+  {
+   "id": "FH012",
+   "tipo": "ufo",
+   "fecha": "1967-03-16",
+   "titulo": "Malmstrom AFB March — misiles desactivados (Incidente Oscar)",
+   "resumen": "Días antes del incidente de octubre, otra oleada de desactivaciones de misiles nucleares ocurre en Malmstrom. Guardias reportan ovnis sobrevolando los silos. El Coronel Don Crawford afirma que más de 16 misiles Minuteman I fueron desactivados simultáneamente en un evento sin explicación técnica.",
+   "credibilidad": "MUY ALTA — personal de instalaciones nucleares",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Robert Hastings research",
+    "USAF logs (FOIA)",
+    "'UFOs at Nuclear Facilities' NPC Washington (2010)"
+   ],
+   "url": "",
+   "lon": -111.18,
+   "lat": 47.51
+  },
+  {
+   "id": "FH013",
+   "tipo": "uso",
+   "fecha": "1967-10-04",
+   "titulo": "Shag Harbour — objeto cae al mar, Canadá",
+   "resumen": "Once testigos, incluyendo pilotos y guardacostas, ven un objeto con cuatro luces naranjas caer en el agua. La RCMP y la Marina canadiense investigan durante semanas. Detectan con sonar objetos moviéndose bajo el agua. Canadá cataloga el caso oficialmente como no resuelto. Único caso de UAP con investigación oficial completa de Canadá.",
+   "credibilidad": "MUY ALTA — investigación naval oficial",
+   "pais": "Canadá",
+   "fuentes": [
+    "RCMP reports (desclasificados 2014)",
+    "Transport Canada records",
+    "Chris Styles & Don Ledger research"
+   ],
+   "url": "",
+   "lon": -65.73,
+   "lat": 43.47
+  },
+  {
+   "id": "FH014",
+   "tipo": "ufo",
+   "fecha": "1983-03-24",
+   "titulo": "Valle del Hudson — objeto triangular masivo, miles de testigos",
+   "resumen": "Durante años, miles de testigos en el Valle del Hudson (NY) reportan un objeto triangular silencioso de hasta 300 metros de lado, con luces de colores. Entre los testigos hay pilotos, policías e ingenieros. El investigador J. Allen Hynek lo estudia hasta su muerte. Más de 5,000 reportes registrados.",
+   "credibilidad": "MUY ALTA — documentación sistemática durante años",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Philip Imbrogno, 'Night Siege' (1987)",
+    "Hynek Center investigation",
+    "Poughkeepsie Journal 1984"
+   ],
+   "url": "",
+   "lon": -73.0,
+   "lat": 44.0
+  },
+  {
+   "id": "FH015",
+   "tipo": "ufo",
+   "fecha": "1987-11-11",
+   "titulo": "Gulf Breeze, Florida — fotografías de Ed Walters",
+   "resumen": "El constructor Ed Walters fotografía repetidamente un objeto en su ciudad durante meses. Los negativos son analizados por Polaroid y no se detectan alteraciones. MUFON conduce una investigación amplia. El caso divide a la comunidad investigadora pero las fotos nunca son definitivamente refutadas.",
+   "credibilidad": "MEDIA-ALTA — análisis fotográfico independiente",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Ed Walters, 'The Gulf Breeze Sightings' (1990)",
+    "MUFON investigation",
+    "Pensacola News Journal 1988"
+   ],
+   "url": "",
+   "lon": -87.16,
+   "lat": 30.36
+  },
+  {
+   "id": "FH016",
+   "tipo": "lights_sky",
+   "fecha": "1997-03-13",
+   "titulo": "Luces de Phoenix — 10,000 testigos, dos objetos distintos",
+   "resumen": "Una formación en V de más de 2 km de ancho cruza Arizona a baja altitud durante más de una hora. Simultáneamente, luces estacionarias aparecen sobre Phoenix. El Gobernador Fife Symington celebra una conferencia de prensa burlándose del evento, luego admite públicamente en 2007 que él mismo vio algo que 'no era de este mundo'. El USAF atribuye las luces a bengalas, sin explicar la formación inicial.",
+   "credibilidad": "MUY ALTA — el avistamiento más masivo de EE.UU.",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Arizona Republic (Mar 1997)",
+    "Gobernador Symington statement (2007)",
+    "MUFON 1997 report"
+   ],
+   "url": "",
+   "lon": -112.07,
+   "lat": 33.45
+  },
+  {
+   "id": "FH017",
+   "tipo": "ufo",
+   "fecha": "2008-01-08",
+   "titulo": "Stephenville, Texas — 200 testigos y F-16 confirman persecución",
+   "resumen": "Más de 200 residentes de Stephenville ven un objeto masivo y silencioso con luces. Cazas F-16 de la Base Carswell lo persiguen. El ejército inicialmente niega haber volado en la zona, luego lo confirma públicamente. MUFON recibe 300+ reportes en días.",
+   "credibilidad": "ALTA — Fuerza Aérea confirma actividad",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Dublin Citizen-Tribune (Jan 2008)",
+    "MUFON report 2008",
+    "USAF confirmation statement"
+   ],
+   "url": "",
+   "lon": -98.2,
+   "lat": 32.22
+  },
+  {
+   "id": "FH018",
+   "tipo": "ufo",
+   "fecha": "2004-11-14",
+   "titulo": "USS Nimitz — encuentro con el 'Tic-Tac', confirmado por el Pentágono",
+   "resumen": "El piloto Comandante David Fravor intercepta un objeto blanco ovoide sin alas ni propulsión visible que realiza maniobras imposibles para la física conocida. El sistema FLIR de otro avión graba el objeto. El Pentágono confirma y publica el video en 2020. Fravor declara ante el Congreso de EE.UU. en 2023. Es el caso UAP más analizado por instituciones oficiales en décadas.",
+   "credibilidad": "OFICIAL CONFIRMADO — DoD y Congreso",
+   "pais": "EE.UU. (Pacífico)",
+   "fuentes": [
+    "DoD release (Apr 2020)",
+    "NY Times (Dec 2017)",
+    "David Fravor testimony, Congreso EE.UU. (2023)",
+    "FLIR1 video desclasificado"
+   ],
+   "url": "",
+   "lon": -124.0,
+   "lat": 28.0
+  },
+  {
+   "id": "FH019",
+   "tipo": "ufo",
+   "fecha": "2014-08-01",
+   "titulo": "USS Roosevelt — avistamientos diarios de UAPs, pilotos de la US Navy",
+   "resumen": "El piloto Ryan Graves y otros aviadores del USS Theodore Roosevelt reportan ver UAPs 'todos los días' durante meses frente a la costa este. Los videos GIMBAL y GOFAST son grabados con sistemas FLIR. Graves declara ante el Congreso en 2023 que los objetos realizaban maniobras imposibles y ponían en riesgo la seguridad aérea.",
+   "credibilidad": "OFICIAL CONFIRMADO — US Navy y Congreso",
+   "pais": "EE.UU. (Atlántico)",
+   "fuentes": [
+    "DoD release (2020)",
+    "Ryan Graves testimony (Congreso 2023)",
+    "GIMBAL y GOFAST videos desclasificados"
+   ],
+   "url": "",
+   "lon": -75.0,
+   "lat": 35.0
+  },
+  {
+   "id": "FH020",
+   "tipo": "ufo",
+   "fecha": "2006-11-07",
+   "titulo": "Aeropuerto O'Hare — objeto horada las nubes, United Airlines y FAA",
+   "resumen": "Doce empleados de United Airlines y varios pilotos reportan un objeto metálico gris estacionario sobre la puerta C-17 del aeropuerto. El objeto asciende verticalmente a gran velocidad, perforando la nube y dejando un agujero circular que se observa durante minutos. La FAA no abre investigación por considera el caso como 'fenómeno climático'.",
+   "credibilidad": "MUY ALTA — personal aeronáutico con entrenamiento",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Chicago Tribune FOIA request (2007)",
+    "Jon Hilkevitch investigation",
+    "FAA records (incompletos)"
+   ],
+   "url": "",
+   "lon": -87.9,
+   "lat": 41.98
+  },
+  {
+   "id": "FH021",
+   "tipo": "ufo",
+   "fecha": "1996-01-01",
+   "titulo": "Skinwalker Ranch, Utah — fenómenos múltiples durante décadas",
+   "resumen": "La familia Sherman y luego el multimillonario Robert Bigelow documentan durante años desapariciones de ganado, objetos luminosos, figuras humanoides y fenómenos electromagnéticos en el rancho de 500 acres. Bigelow crea el National Institute for Discovery Science para investigarlo. El Departamento de Defensa financia secretamente la investigación (programa AAWSAP).",
+   "credibilidad": "MUY ALTA — investigación DoD confirmada (AAWSAP)",
+   "pais": "EE.UU.",
+   "fuentes": [
+    "Colm Kelleher, 'Hunt for the Skinwalker' (2005)",
+    "AAWSAP program (FOIA)",
+    "Jeremy Corbell documentales"
+   ],
+   "url": "",
+   "lon": -109.88,
+   "lat": 40.25
+  },
+  {
+   "id": "FH022",
+   "tipo": "contact",
+   "fecha": "1980-12-26",
+   "titulo": "Bosque Rendlesham — caso más documentado de UK",
+   "resumen": "Personal militar de la USAF en la RAF Bentwaters-Woodbridge, Suffolk, reporta una nave aterrizada con jeroglíficos durante tres noches consecutivas. El Teniente Coronel Charles Halt graba el evento en casete de audio. Se miden niveles de radiación anómalos y se encuentran marcas físicas en el suelo. Considerado el caso más creíble y documentado del Reino Unido.",
+   "credibilidad": "MUY ALTA — personal militar USAF, grabaciones",
+   "pais": "Reino Unido",
+   "fuentes": [
+    "Halt memo al MoD (13 Jan 1981)",
+    "MoD Freedom of Information release",
+    "'The Rendlesham Enigma' — Charles Halt (2020)"
+   ],
+   "url": "",
+   "lon": 1.45,
+   "lat": 52.09
+  },
+  {
+   "id": "FH023",
+   "tipo": "ufo",
+   "fecha": "1989-11-29",
+   "titulo": "Oleada belga — triángulos sobre toda Bélgica durante meses",
+   "resumen": "13,500 testigos reportan en oleadas objetos triangulares grandes y silenciosos con luces en las esquinas. La Fuerza Aérea Belga envía dos F-16 a interceptarlos; sus radares registran aceleraciones imposibles. El SOBEPS (sociedad científica belga) documenta el fenómeno. La FAB es la primera fuerza aérea en cooperar abiertamente con investigadores civiles.",
+   "credibilidad": "MUY ALTA — investigación oficial FAB",
+   "pais": "Bélgica",
+   "fuentes": [
+    "SOBEPS report (1991)",
+    "FAB press conference (1990)",
+    "La Libre Belgique 1989-1990"
+   ],
+   "url": "",
+   "lon": 4.35,
+   "lat": 50.85
+  },
+  {
+   "id": "FH024",
+   "tipo": "lights_sky",
+   "fecha": "1981-01-01",
+   "titulo": "Hessdalen — fenómeno persistente con monitoreo científico",
+   "resumen": "Luces no identificadas de diversas formas y colores se observan en el valle de Hessdalen desde los años 1980. Investigadores noruegos y europeos establecen una estación permanente con radar, cámaras y sensores electromagnéticos. Los datos muestran plasmas luminosos de comportamiento anómalo. El fenómeno continúa activo hasta la fecha.",
+   "credibilidad": "MUY ALTA — datos instrumentales continuos",
+   "pais": "Noruega",
+   "fuentes": [
+    "Proyecto Hessdalen (1983-actualidad)",
+    "SINTEF Norway research",
+    "Journal of Scientific Exploration"
+   ],
+   "url": "",
+   "lon": 11.0,
+   "lat": 62.87
+  },
+  {
+   "id": "FH025",
+   "tipo": "ufo",
+   "fecha": "1981-01-08",
+   "titulo": "Trans-en-Provence — aterrizaje con análisis botánico oficial",
+   "resumen": "El agricultor Renato Nicolai reporta un objeto que aterriza brevemente en su campo. El GEPAN (agencia gubernamental francesa) analiza el suelo y la vegetación dañada. El laboratorio nacional INRA concluye que la planta estuvo expuesta a calor intenso, radiación electromagnética o un campo eléctrico. Es el único caso donde un gobierno obtuvo evidencia física analizada por su propio laboratorio oficial.",
+   "credibilidad": "MUY ALTA — análisis oficial del GEPAN/INRA",
+   "pais": "Francia",
+   "fuentes": [
+    "GEPAN Technical Note No. 16 (1981)",
+    "INRA laboratory analysis",
+    "CNES France archives"
+   ],
+   "url": "",
+   "lon": 6.35,
+   "lat": 43.62
+  },
+  {
+   "id": "FH026",
+   "tipo": "crop",
+   "fecha": "1990-07-12",
+   "titulo": "Figuras de Wiltshire — anomalías físicas en cultivos",
+   "resumen": "Patrones geométricos complejos aparecen en campos de cereales de la región de Wiltshire (cerca de Stonehenge) en una sola noche, desde los años 1970s. El BLT Research Team del Dr. W.C. Levengood analiza las plantas dobladas y encuentra cambios celulares que no se replican con rodillos. Algunos casos son claramente humanos; otros presentan evidencia física no explicada.",
+   "credibilidad": "MEDIA — algunos casos sin explicación física",
+   "pais": "Reino Unido",
+   "fuentes": [
+    "BLT Research Team (Dr. Levengood)",
+    "CCCS (UK)",
+    "Wiltshire Gazette & Herald 1990"
+   ],
+   "url": "",
+   "lon": -1.8,
+   "lat": 51.3
+  },
+  {
+   "id": "FH027",
+   "tipo": "ufo",
+   "fecha": "1976-09-19",
+   "titulo": "Teherán 1976 — cazas de la FIAA pierden sistemas de armas",
+   "resumen": "La Fuerza Aérea Imperial iraní envía dos F-4 Phantom a interceptar un objeto brillante que maniobraba sobre la capital. Los sistemas de armas y las comunicaciones de ambos cazas fallan al acercarse al objeto. Un sub-objeto se desprende y se aproxima a uno de los F-4. El evento es documentado por la DIA de EE.UU. en un informe que califica el caso de 'excelente' en credibilidad.",
+   "credibilidad": "MUY ALTA — documentado por la DIA de EE.UU.",
+   "pais": "Irán",
+   "fuentes": [
+    "DIA report (desclasificado)",
+    "General Azarbarzin testimony",
+    "NICAP documentation"
+   ],
+   "url": "",
+   "lon": 51.4,
+   "lat": 35.7
+  },
+  {
+   "id": "FH028",
+   "tipo": "ufo",
+   "fecha": "1986-11-17",
+   "titulo": "JAL 1628 — portaaviones volador sobre Alaska",
+   "resumen": "El Capitán Kenjyu Terauchi de Japan Airlines reporta ser seguido durante 50 minutos por tres objetos, el mayor del tamaño de un portaaviones. El radar del Centro de Control de Tráfico Aéreo de la FAA confirma un contacto. El piloto es reasignado de funciones de vuelo tras hablar públicamente. La investigación de la FAA no puede refutar el avistamiento.",
+   "credibilidad": "MUY ALTA — confirmado por radar FAA",
+   "pais": "EE.UU. (Alaska)",
+   "fuentes": [
+    "FAA radar records",
+    "Japan Airlines official report",
+    "NICAP case documentation"
+   ],
+   "url": "",
+   "lon": -153.0,
+   "lat": 60.0
+  },
+  {
+   "id": "FH029",
+   "tipo": "lights_sky",
+   "fecha": "1977-09-20",
+   "titulo": "Petrozavodsk — medusa luminosa presenciada por miles",
+   "resumen": "A las 4 AM, miles de testigos en la ciudad soviética de Petrozavodsk ven un objeto luminoso que emite rayos en forma de medusa durante 10-12 minutos. La TASS (agencia oficial soviética) publica el suceso, algo extraordinario durante la Guerra Fría. Los estudios soviéticos posteriores no encuentran explicación convencional.",
+   "credibilidad": "ALTA — publicado por agencia oficial soviética TASS",
+   "pais": "Rusia (URSS)",
+   "fuentes": [
+    "TASS dispatch (Sep 1977)",
+    "Pravda report",
+    "Soviet Academy of Sciences investigation"
+   ],
+   "url": "",
+   "lon": 34.4,
+   "lat": 61.8
+  },
+  {
+   "id": "FH030",
+   "tipo": "ufo",
+   "fecha": "1966-04-06",
+   "titulo": "Westall, Melbourne — 200 testigos y aterrizaje en terreno escolar",
+   "resumen": "Más de 200 estudiantes y profesores de la escuela secundaria de Westall, Melbourne, ven un objeto plateado descender, aterrizar brevemente en un campo y subir. Los estudiantes son reunidos por las autoridades y se les dice que no hablen del evento. El asistente de tierra Clayton South describe un anillo quemado en el pasto. El caso permaneció suprimido durante décadas.",
+   "credibilidad": "ALTA — múltiples testigos directos, evidencia física",
+   "pais": "Australia",
+   "fuentes": [
+    "Shane Ryan investigation",
+    "Westall school records",
+    "Documentario 'Westall' (2010)"
+   ],
+   "url": "",
+   "lon": 145.13,
+   "lat": -37.97
+  },
+  {
+   "id": "FH031",
+   "tipo": "uso",
+   "fecha": "1978-10-21",
+   "titulo": "Frederick Valentich — desaparición sobre el Estrecho de Bass",
+   "resumen": "El piloto de 20 años Frederick Valentich reporta ser seguido por un objeto metálico verde con luces sobre el Estrecho de Bass. Su última transmisión de radio antes de cortarse: 'es una aeronave larga y brillante... justo encima de mí. Está estacionaria.' Ni él ni su Cessna 182 fueron encontrados jamás. La grabación de radio original existe en los archivos de la Autoridad Australiana de Aviación Civil.",
+   "credibilidad": "OFICIAL DOCUMENTADO — grabación de radio original",
+   "pais": "Australia",
+   "fuentes": [
+    "CASA Australia (transcripción radio completa)",
+    "CSIRO investigation",
+    "RAAF investigation report"
+   ],
+   "url": "",
+   "lon": 145.0,
+   "lat": -38.0
+  },
+  {
+   "id": "FH032",
+   "tipo": "contact",
+   "fecha": "1994-09-16",
+   "titulo": "Ariel School, Zimbabwe — 62 niños describen aterrizaje y seres",
+   "resumen": "62 niños de 6 a 12 años en la escuela primaria Ariel de Ruwa describen independientemente el aterrizaje de una nave y el contacto con seres de ojos grandes durante el recreo. El psiquiatra Dr. John Mack de Harvard los entrevista en sesiones separadas. Sus testimonios son consistentes entre sí y con décadas de diferencia. El evento fue filmado.",
+   "credibilidad": "ALTA — investigación Harvard, testimonios consistentes",
+   "pais": "Zimbabwe",
+   "fuentes": [
+    "Dr. John Mack (Harvard) interviews",
+    "Cynthia Hind investigation",
+    "'Ariel Phenomenon' (2022 documentary)"
+   ],
+   "url": "",
+   "lon": 31.05,
+   "lat": -17.83
+  },
+  {
+   "id": "FH033",
+   "tipo": "lights_sky",
+   "fecha": "1977-10-01",
+   "titulo": "Operação Prato, Colares — rayos que hieren a civiles",
+   "resumen": "Rayos luminosos provenientes de objetos no identificados hieren a decenas de residentes de la isla de Colares, dejando quemaduras, perforaciones y anemias. El ejército brasileño conduce la Operación Prato durante meses, documentando con fotografías y films. El Capitán Uyrangê Hollanda confirma en entrevista en 1997, antes de morir, que los documentos militares existen.",
+   "credibilidad": "ALTA — documentación militar brasileña",
+   "pais": "Brasil",
+   "fuentes": [
+    "Operação Prato (documentos militares)",
+    "Capitán Hollanda testimony (1997)",
+    "CBPDV investigation"
+   ],
+   "url": "",
+   "lon": -47.36,
+   "lat": -0.93
+  },
+  {
+   "id": "FH034",
+   "tipo": "contact",
+   "fecha": "1996-01-20",
+   "titulo": "Varginha, Brasil — recuperación de seres no humanos reportada",
+   "resumen": "Múltiples residentes de Varginha reportan ver criaturas con piel aceitosa y ojos rojos en distintos puntos de la ciudad. Bomberos y soldados acuden al lugar. Se reporta la recuperación de al menos dos seres por fuerzas militares brasileñas. El viticultor Vitório Pacaccini investiga el caso durante años. El gobierno brasileño nunca emite declaración oficial.",
+   "credibilidad": "ALTA — múltiples testigos en ubicaciones separadas",
+   "pais": "Brasil",
+   "fuentes": [
+    "MUFON Brasil investigation",
+    "Vitório Pacaccini research",
+    "A Tarde newspaper (Jan 1996)"
+   ],
+   "url": "",
+   "lon": -45.43,
+   "lat": -21.56
+  },
+  {
+   "id": "FH035",
+   "tipo": "ufo",
+   "fecha": "1986-05-19",
+   "titulo": "Apagón de São Paulo — FAB persigue 21 UAPs, caso desclasificado",
+   "resumen": "La Fuerza Aérea Brasileña (FAB) publica en 2010 un informe interno que reconoce la persecución de 21 objetos no identificados que se movían a alta velocidad durante un apagón que afectó varios estados. Las aeronaves de la FAB no pudieron alcanzarlos. Es el caso de persecución aérea más documentado de Brasil.",
+   "credibilidad": "OFICIAL CONFIRMADO — FAB 2010",
+   "pais": "Brasil",
+   "fuentes": [
+    "FAB informe desclasificado (2010)",
+    "Folha de São Paulo",
+    "CBPDV records"
+   ],
+   "url": "",
+   "lon": -46.63,
+   "lat": -23.55
+  },
+  {
+   "id": "FH036",
+   "tipo": "ufo",
+   "fecha": "1996-12-11",
+   "titulo": "Yukon 1996 — nave de más de 1 milla, 30 testigos en 800 km",
+   "resumen": "Más de 30 testigos en 11 ubicaciones separadas a lo largo de 800 km reportan la misma nave masiva de aproximadamente 1.5 km de largo moviéndose silenciosamente sobre el Yukon canadiense. Los testimonios recogidos independientemente son casi idénticos en descripción. UFO*BC realiza una de las investigaciones más detalladas en la historia canadiense.",
+   "credibilidad": "MUY ALTA — testimonios independientes correlacionados",
+   "pais": "Canadá",
+   "fuentes": [
+    "UFO*BC investigation",
+    "Whitehorse Star (Dec 1996)",
+    "UFOROM Canada report"
+   ],
+   "url": "",
+   "lon": -130.0,
+   "lat": 62.0
+  },
+  {
+   "id": "FH037",
+   "tipo": "contact",
+   "fecha": "1978-10-28",
+   "titulo": "El Trébol, Argentina — CE3 fotografiado",
+   "resumen": "El farmacéutico Dionisio Llanca reporta un encuentro cercano de tercer tipo con seres de aspecto humanoide. El médico Máximo Valentini registra síntomas físicos consistentes con exposición a radiación. El CIFE (Centro de Investigación de Fenómenos Extraños) documenta el caso. Es uno de los CE3 más estudiados de América del Sur.",
+   "credibilidad": "MEDIA-ALTA — evidencia médica documentada",
+   "pais": "Argentina",
+   "fuentes": [
+    "CIFE investigation",
+    "Dr. Valentini medical report",
+    "Revista 2001 (Argentina)"
+   ],
+   "url": "",
+   "lon": -61.71,
+   "lat": -32.19
+  },
+  {
+   "id": "FH038",
+   "tipo": "ufo",
+   "fecha": "1974-08-25",
+   "titulo": "Coyame, Chihuahua — colisión y recuperación de objeto no identificado",
+   "resumen": "Se registra en radares civiles y militares un objeto desconocido que colisiona con una avioneta sobre el desierto de Chihuahua. Un convoy militar mexicano recupera los restos. Según el investigador Eloy Rodríguez, el equipo que realizó la recuperación muere en circunstancias misteriosas. Documentos de la CIA obtenidos mediante FOIA hacen referencia al incidente.",
+   "credibilidad": "MEDIA — documentos CIA parciales",
+   "pais": "México",
+   "fuentes": [
+    "Chihuahua radar logs (parciales)",
+    "Eloy Rodríguez investigation",
+    "CIA FOIA references"
+   ],
+   "url": "",
+   "lon": -105.05,
+   "lat": 29.46
+  },
+  {
+   "id": "FH039",
+   "tipo": "ufo",
+   "fecha": "1991-07-11",
+   "titulo": "Eclipse solar CDMX 1991 — decenas de cámaras graban OVNI",
+   "resumen": "Durante el eclipse solar total del 11 de julio de 1991, decenas de personas que filmaban el fenómeno captaron en sus cámaras de video objetos metálicos plateados. La grabación más clara es del canal Televisa. Los objetos son visibles en múltiples videos independientes. El investigador Jaime Maussán inicia el 'Año 1' de la ufología mexicana moderna.",
+   "credibilidad": "ALTA — múltiples videos independientes simultáneos",
+   "pais": "México",
+   "fuentes": [
+    "La Jornada Jul 1991",
+    "Videos de turistas (1991)",
+    "Jaime Maussán compilation",
+    "Diario Excélsior Jul 1991"
+   ],
+   "url": "",
+   "lon": -99.13,
+   "lat": 19.43
+  },
+  {
+   "id": "FH041",
+   "tipo": "ufo",
+   "fecha": "2004-03-05",
+   "titulo": "Fuerza Aérea Mexicana, Campeche — radar y FLIR confirman 11 objetos",
+   "resumen": "Un avión de la Secretaría de la Defensa Nacional (SEDENA) que realizaba operaciones anti-narcóticos detecta con radar 11 objetos que lo rodean. La cámara FLIR capta objetos luminosos que se mueven y rodean la aeronave. El General Ricardo Vega García, Secretario de Defensa, reconoce y publica el video. Es el único caso en México con confirmación oficial militar.",
+   "credibilidad": "OFICIAL CONFIRMADO — SEDENA y FAM",
+   "pais": "México",
+   "fuentes": [
+    "SEDENA press release (May 2004)",
+    "General Vega García statement",
+    "Video FLIR Escuadrón 501 (publicado)"
+   ],
+   "url": "",
+   "lon": -90.53,
+   "lat": 19.83
+  },
+  {
+   "id": "FH042",
+   "tipo": "volcano",
+   "fecha": "2012-10-25",
+   "titulo": "Popocatépetl 2012 — objeto entra al cráter filmado por Webcam CENAPRED",
+   "resumen": "La cámara de monitoreo del CENAPRED (Centro Nacional de Prevención de Desastres) captura un objeto luminoso que entra al cráter del Popocatépetl en ángulo recto con respecto a la superficie. El video se difunde internacionalmente y genera debate. CENAPRED no emite declaración oficial sobre el objeto.",
+   "credibilidad": "MEDIA — grabación de cámara oficial, sin testigos directos",
+   "pais": "México",
+   "fuentes": [
+    "CENAPRED webcam footage (Oct 2012)",
+    "YouTube viral (millones de vistas)",
+    "Milenio TV cobertura"
+   ],
+   "url": "",
+   "lon": -98.62,
+   "lat": 19.02
+  },
+  {
+   "id": "FH043",
+   "tipo": "volcano",
+   "fecha": "2013-05-30",
+   "titulo": "Popocatépetl 2013 — cilindro entra al cráter en transmisión en vivo",
+   "resumen": "Durante una transmisión en vivo del volcán, un objeto cilíndrico luminoso de gran tamaño aparece sobrevolando el cráter y desciende hacia él. Miles de espectadores lo observan en tiempo real. El fenómeno se repite en varias ocasiones a lo largo de 2013 y años posteriores según testigos y monitoreos independientes.",
+   "credibilidad": "MEDIA — grabación pública en vivo",
+   "pais": "México",
+   "fuentes": [
+    "CENAPRED livestream (May 2013)",
+    "El Universal cobertura",
+    "YouTube: múltiples grabaciones verificadas"
+   ],
+   "url": "",
+   "lon": -98.63,
+   "lat": 19.02
+  },
+  {
+   "id": "FH044",
+   "tipo": "ufo",
+   "fecha": "2004-06-10",
+   "titulo": "Oleada de OVNIs sobre Monterrey, Nuevo León — 2004",
+   "resumen": "Durante varias semanas de junio de 2004, residentes del área metropolitana de Monterrey reportan múltiples avistamientos de objetos luminosos, formaciones en triángulo y esferas metálicas. Varios videos son grabados desde distintos puntos de la ciudad. El evento coincide temporalmente con el caso de la FAM en Campeche.",
+   "credibilidad": "MEDIA — múltiples grabaciones",
+   "pais": "México",
+   "fuentes": [
+    "El Norte Monterrey (Jun 2004)",
+    "Jaime Maussán programa",
+    "Reportes CEFP México"
+   ],
+   "url": "",
+   "lon": -100.31,
+   "lat": 25.67
+  },
+  {
+   "id": "FH045",
+   "tipo": "ufo",
+   "fecha": "2011-08-16",
+   "titulo": "OVNI sobre CDMX — objeto grabado por decenas en distintos puntos",
+   "resumen": "Un objeto esférico plateado que se mueve lentamente sobre la Ciudad de México es grabado simultáneamente por residentes en distintas colonias y en el Aeropuerto Internacional. La amplitud de grabaciones independientes desde distintos ángulos hace difícil una explicación sencilla como globo o dron.",
+   "credibilidad": "MEDIA — múltiples videos independientes",
+   "pais": "México",
+   "fuentes": [
+    "Milenio TV cobertura",
+    "Twitter trending México",
+    "Excélsior"
+   ],
+   "url": "",
+   "lon": -99.14,
+   "lat": 19.43
+  },
+  {
+   "id": "FH046",
+   "tipo": "ufo",
+   "fecha": "2014-07-01",
+   "titulo": "Tamaulipas — avistamientos militares y civiles en zona fronteriza",
+   "resumen": "Durante 2014 y años siguientes, Tamaulipas concentra un número desproporcionado de reportes de OVNIs, luces y formaciones extrañas, especialmente en zonas limítrofes con Texas. La zona presenta actividad aérea no convencional documentada por civiles en Reynosa, Matamoros y Nuevo Laredo.",
+   "credibilidad": "MEDIA — concentración de reportes en zona específica",
+   "pais": "México",
+   "fuentes": [
+    "SDP Noticias",
+    "Reportes MUFON zona fronteriza",
+    "Twitter locales Tamaulipas"
+   ],
+   "url": "",
+   "lon": -99.0,
+   "lat": 24.0
+  },
+  {
+   "id": "FH047",
+   "tipo": "ufo",
+   "fecha": "2015-03-15",
+   "titulo": "Tijuana — serie de avistamientos en zona metropolitana",
+   "resumen": "Durante meses de 2015, la zona de Tijuana registra múltiples avistamientos de objetos no identificados. Los reportes provienen tanto del lado mexicano como del lado estadounidense (San Diego), con descripciones de luces triangulares y esferas. El carácter transfronterizo del fenómeno genera cobertura en ambos países.",
+   "credibilidad": "MEDIA — reportes duales MX-EE.UU.",
+   "pais": "México",
+   "fuentes": [
+    "Frontera.info",
+    "NBC San Diego",
+    "Reportes MUFON San Diego"
+   ],
+   "url": "",
+   "lon": -117.02,
+   "lat": 32.53
+  },
+  {
+   "id": "FH048",
+   "tipo": "ufo",
+   "fecha": "2019-06-01",
+   "titulo": "San Luis Potosí — objetos grabados en zona desértica",
+   "resumen": "Una serie de grabaciones en zonas desérticas del estado de San Luis Potosí muestran objetos de formas diversas, incluyendo discos y esferas luminosas. Las grabaciones son analizadas por investigadores como Santiago Yturria y difundidas en programas especializados.",
+   "credibilidad": "BAJA-MEDIA — pocas verificaciones independientes",
+   "pais": "México",
+   "fuentes": [
+    "Santiago Yturria research",
+    "Tercer Milenio TV",
+    "Reportes CEFP"
+   ],
+   "url": "",
+   "lon": -100.98,
+   "lat": 22.16
+  },
+  {
+   "id": "FH049",
+   "tipo": "uso",
+   "fecha": "2019-04-10",
+   "titulo": "Golfo de México / Veracruz — luces submarinas costeras",
+   "resumen": "Pescadores y testigos en la zona costera de Veracruz reportan luces brillantes moviéndose bajo la superficie del Golfo de México en distintas noches. Las descripciones incluyen luces de colores (azul, verde) que se desplazan horizontalmente a velocidades mayores que las embarcaciones convencionales.",
+   "credibilidad": "MEDIA — testigos pesqueros directos",
+   "pais": "México",
+   "fuentes": [
+    "Reportes locales Veracruz",
+    "CEFP México",
+    "SDP Noticias"
+   ],
+   "url": "",
+   "lon": -96.13,
+   "lat": 19.17
+  },
+  {
+   "id": "FH050",
+   "tipo": "ufo",
+   "fecha": "1980-04-11",
+   "titulo": "Arequipa, Perú — piloto de la FAP dispara contra OVNI",
+   "resumen": "El Comandante Óscar Santa María de la Fuerza Aérea del Perú intercepta un objeto esférico sobre la base de La Joya. Dispara 64 proyectiles de 30 mm que impactan sin efecto aparente. El objeto asciende a más de 11,000 metros y se escapa. Santa María declara el caso ante la ONU en 1993.",
+   "credibilidad": "MUY ALTA — piloto militar, declaración ante ONU",
+   "pais": "Perú",
+   "fuentes": [
+    "Comandante Santa María testimony (ONU 1993)",
+    "FAP investigation",
+    "'UFOs: A Need to Know' documentary"
+   ],
+   "url": "",
+   "lon": -71.5,
+   "lat": -16.4
+  },
+  {
+   "id": "FH051",
+   "tipo": "ufo",
+   "fecha": "2008-07-18",
+   "titulo": "Antofagasta, Chile — CEFAA confirma UAP en video aéreo",
+   "resumen": "El Comité de Estudios de Fenómenos Aéreos Anómalos (CEFAA) de la Fuerza Aérea de Chile publica videos tomados por helicóptero de la Armada y de un avión CASA que muestran un objeto metálico que emite gases en el espectro infrarrojo. Es uno de los casos más verificados institucionalmente en América Latina.",
+   "credibilidad": "MUY ALTA — confirmado por CEFAA Chile",
+   "pais": "Chile",
+   "fuentes": [
+    "CEFAA report (2014)",
+    "The Huffington Post (2014)",
+    "Leslie Kean investigation"
+   ],
+   "url": "",
+   "lon": -70.4,
+   "lat": -23.65
+  }
+ ]
+}

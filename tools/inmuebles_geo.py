@@ -4,7 +4,7 @@
    ubicación exacta del proyecto, usa ese punto (centro de la colonia o de la ciudad).
 2. Verifica con geocodificación inversa que cada punto caiga en tierra y en su país; si cae en el mar o en otro país, lo
    reemplaza por el centro de su colonia o ciudad.
-3. Para los desarrollos de ARA y SADASI (repositorio InmueblesAraSadasi) escribe correcciones en
+3. Para los desarrollos de ARA y SADASI (tools/inmuebles/ara_sadasi.py) escribe correcciones en
    config/inmuebles_desarrollos/_ara_sadasi_geo.json, que aplica la construcción de capas.
 
 Política de uso de Nominatim: una consulta por segundo, User-Agent identificable y caché local de resultados
@@ -26,7 +26,7 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 CARPETA = os.path.join(ROOT, "config", "inmuebles_desarrollos")
 CACHE = os.path.join(CARPETA, "_geocache.json")
 UA = "DOMINUS-OSINT/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica; inmuebles en seguimiento)"
-ARA = "https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json"
+ARA_SADASI_SITIO = "https://zoetzerlpetrov-gif.github.io/Geopolitica/data/vivos/ara_sadasi.json"
 ULTIMA = [0.0]
 
 
@@ -138,8 +138,15 @@ def main(argv=None):
         json.dump(cache, open(CACHE, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
     # ARA y SADASI: solo se corrigen los que caen en el mar o fuera de México.
     try:
-        req = urllib.request.Request(ARA, headers={"User-Agent": UA})
-        devs = json.loads(urllib.request.urlopen(req, timeout=60).read())["developments"]
+        local = os.path.join(ROOT, "vivos", "ara_sadasi.json")
+        if os.path.exists(local):
+            devs = json.load(open(local, encoding="utf-8"))["developments"]
+        else:
+            try:
+                req = urllib.request.Request(ARA_SADASI_SITIO, headers={"User-Agent": UA})
+                devs = json.loads(urllib.request.urlopen(req, timeout=60).read())["developments"]
+            except Exception:  # noqa: BLE001  sin sitio publicado: la base guardada en config
+                devs = json.load(open(os.path.join(CARPETA, "_ara_sadasi_base.json"), encoding="utf-8"))["developments"]
         corr = {}
         for x in devs:
             if x.get("lat") is None:
@@ -149,7 +156,7 @@ def main(argv=None):
             if cand and not ok:
                 corr[x["id"]] = [round(cand["lat"], 6), round(cand["lon"], 6)]
                 cambios.append(f"ARA/SADASI {x['id']}: ({x['lat']}, {x['lon']}) → {corr[x['id']]}{'' if ok else ' [estaba en el mar]'}")
-        json.dump({"nota": "Correcciones de coordenadas para desarrollos de InmueblesAraSadasi que caían en el mar o lejos de su ciudad (tools/inmuebles_geo.py).", "coords": corr},
+        json.dump({"nota": "Correcciones de coordenadas para desarrollos de ARA y SADASI que caían en el mar o lejos de su ciudad (tools/inmuebles_geo.py).", "coords": corr},
                   open(os.path.join(CARPETA, "_ara_sadasi_geo.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     except Exception as e:  # noqa: BLE001
         print(f"   ARA/SADASI no disponible: {e}")

@@ -1,4 +1,4 @@
-"""Fenómenos anómalos (TrackAlien, NUFORC, catálogo) y bienes raíces (BIS, SHF, InmuebleWarRoom), sin red."""
+"""Fenómenos anómalos (notas, casos, NUFORC, catálogo) y bienes raíces (BIS, SHF, lista propia), sin red."""
 import io
 import json
 import os
@@ -23,7 +23,7 @@ def _ta(titulo, fuentes, fecha="2026-10-01", cred="BAJA (señal noticiosa)", tip
                            "credibility": cred, "country": "MX", "sources": fuentes}}
 
 
-def test_trackalien_recientes_filtra_ruido_y_exige_enlace():
+def test_notas_recientes_filtra_ruido_y_exige_enlace():
     fc = {"features": [
         _ta("Captan OVNI sobrevolando la Ciudad de México - Récord", "Récord|https://news.google.com/a"),
         _ta("Ситуация в аэропортах Москвы: введены ограничения", "ura.news|GDELT Global Knowledge Graph"),  # sin enlace ni tema
@@ -33,7 +33,7 @@ def test_trackalien_recientes_filtra_ruido_y_exige_enlace():
         _ta("The Vault Files: Tic-Tac", "The Black Vault|https://www.theblackvault.com/x"),                 # feed dedicado: pasa
         _ta("Captan OVNI en 2019", "Diario|https://example.com/e", fecha="2019-05-01"),                     # más de 12 meses: archivo
     ]}
-    r = A.de_trackalien(fc, True, HOY)
+    r = A.de_coleccion(fc, True, HOY)
     assert [f["properties"]["titulo"] for f in r] == ["Captan OVNI sobrevolando la Ciudad de México - Récord", "The Vault Files: Tic-Tac", "Captan OVNI en 2019"]
     assert r[2]["properties"]["capa"] == "anom_archivo"
     p = r[0]["properties"]
@@ -41,15 +41,15 @@ def test_trackalien_recientes_filtra_ruido_y_exige_enlace():
     assert p["resumen"] == ""  # nunca se guarda el texto de la nota
 
 
-def test_trackalien_historicos_sin_nuforc_y_con_nivel():
+def test_casos_historicos_sin_nuforc_y_con_nivel():
     fc = {"features": [_ta("Roswell", "Roswell Daily Record", "1947-07-08", "HISTÓRICO / VERIFICADO"),
                        _ta("Avistamiento NUFORC: Disk en x", "NUFORC — x|nuforc.org", "1966-10-10", "MEDIA (reporte civil NUFORC)"),
                        _ta("Campeche", "SEDENA", "2004-03-05", "OFICIAL CONFIRMADO — SEDENA")]}
-    r = A.de_trackalien(fc, False, HOY)
+    r = A.de_coleccion(fc, False, HOY)
     assert [(f["properties"]["titulo"], f["properties"]["nivel"]) for f in r] == [("Roswell", "oficial"), ("Campeche", "oficial")]
 
 
-def test_tipo_de_fenomeno_como_trackalien():
+def test_tipo_de_fenomeno():
     # El tipo de origen se respeta si es específico; «ufo» genérico se afina con el título.
     assert A.tipo_por_texto("Luces extrañas en el cielo de Monterrey", "ufo") == "lights_sky"
     assert A.tipo_por_texto("Captan cilindro volador cerca del volcán Popocatépetl") == "volcano"
@@ -66,7 +66,7 @@ def test_tipo_de_fenomeno_como_trackalien():
     assert len(g) == 1 and g[0]["properties"]["tipos"] == ["lights_sky", "ufo"]
 
 
-def test_archivo_de_notas_no_pierde_lo_que_trackalien_deja_de_publicar():
+def test_archivo_de_notas_no_pierde_lo_que_el_medio_deja_de_publicar():
     def nota(i, fecha):
         return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [0, 0]},
                 "properties": {"id": f"ta:{i}", "titulo": f"n{i}", "fecha": fecha, "capa": "anom_recientes"}}

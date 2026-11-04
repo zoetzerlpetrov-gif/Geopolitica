@@ -27,7 +27,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # con Clima Táctico (cada 6 h) la corrida larga dura ~12 min; GFW suma ~4 min una vez al día
+    timeout-minutes: 30  # con riesgos y clima (cada 6 h) la corrida larga dura ~12 min; GFW suma ~4 min una vez al día
     steps:
       - uses: actions/checkout@v4
 
@@ -232,14 +232,14 @@ jobs:
         timeout-minutes: 2
         run: python3 tools/espacio/lanzamientos.py
 
-      - name: Clima Táctico propio (copia del generador de WarRoomViajero, cada 6 h; si falla se conservan los anteriores)
+      - name: Riesgos y clima (generador propio, cada 6 h; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 12
         env:
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
         run: python3 tools/clima_tactico/actualizar.py
 
-      - name: Fenómenos anómalos (TrackAlien, medios propios, GDELT en 15 idiomas, NUFORC y catálogo; cada 6 h; si falla se conservan los anteriores)
+      - name: Fenómenos anómalos (blogs y medios propios, GDELT en 15 idiomas, NUFORC, casos y catálogo; cada 6 h; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 5
         run: python3 tools/anomalias/anomalias.py
@@ -264,7 +264,7 @@ jobs:
         timeout-minutes: 5
         run: python3 tools/clima/mar_fondo.py
 
-      - name: Ondas de calor, olas de frío, índice de calor, UV y niebla (pronóstico de Clima Táctico + climatología 1991-2020 del CPC de NOAA); si falla se conserva el anterior
+      - name: Ondas de calor, olas de frío, índice de calor, UV y niebla (pronóstico propio de riesgos y clima + climatología 1991-2020 del CPC de NOAA); si falla se conserva el anterior
         continue-on-error: true
         timeout-minutes: 4
         run: python3 tools/clima/calor.py
@@ -315,6 +315,11 @@ jobs:
         continue-on-error: true
         timeout-minutes: 4
         run: python3 tools/elecciones/elecciones.py
+
+      - name: Desarrollos de ARA y SADASI (sitios oficiales, una vez por semana; si falla se conserva lo anterior)
+        continue-on-error: true
+        timeout-minutes: 6
+        run: pip install -q requests==2.32.3 beautifulsoup4==4.12.3 && python3 tools/inmuebles/ara_sadasi.py
 
       - name: Publicar en la rama datos-vivos (reescrita, sin historial; solo desde main)
         if: github.ref == 'refs/heads/main'
