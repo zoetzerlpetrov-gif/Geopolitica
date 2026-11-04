@@ -215,15 +215,25 @@ async function inseguridadMx(lat, lon, cerca) {
   return R.riesgoInseguridadMx(estado, estado ? hom[estado] : null, hom._nacional, cerca, periodo);
 }
 
+/** Elevación (m) de cada [lat, lon] leyendo los mosaicos de relieve Terrarium (AWS Open Data, ~30 m por píxel a zoom 12).
+ * Sustituye a la API de elevación de Open-Meteo, cuyo robots.txt ya no permite consultas automáticas. */
+async function elevacionesTerreno(pts) {
+  const E = await import("./erupcion.js");
+  const [lat, lon] = pts[0];
+  const rej = await E.cargarRejilla(lon, lat, 1);
+  const out = pts.map(([la, lo]) => { const v = rej.elev(...rej.aPix(lo, la)); return Number.isFinite(v) ? v : null; });
+  return out.every((v) => v == null) ? null : out;
+}
+
 $("ev-btn").onclick = async () => {
   const lat = Number($("ev-lat").value), lon = Number($("ev-lon").value), iso = $("ev-pais").value;
   const out = $("ev-res");
   if (!(Math.abs(lat) <= 90 && Math.abs(lon) <= 180) || !$("ev-lat").value || !$("ev-lon").value) { out.innerHTML = `<p class="tarjeta">Escribe latitud y longitud en grados decimales.</p>`; return; }
-  out.innerHTML = `<p class="meta">Consultando USGS, Open-Meteo, Banco Mundial y los datos de DOMINUS…</p>`;
+  out.innerHTML = `<p class="meta">Consultando USGS, el relieve de AWS Terrain Tiles, Banco Mundial y los datos de DOMINUS…</p>`;
   const pts = R.puntosPendiente(lat, lon);
   const [sis, elev, pv, hom, ev, vol] = await Promise.all([
     json(`https://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&latitude=${lat}&longitude=${lon}&maxradiuskm=150&minmagnitude=5&starttime=1975-01-01`).catch(() => null),
-    json(`https://api.open-meteo.com/v1/elevation?latitude=${pts.map((p) => p[0].toFixed(5)).join(",")}&longitude=${pts.map((p) => p[1].toFixed(5)).join(",")}`).catch(() => null),
+    elevacionesTerreno(pts).catch(() => null),
     iso ? indicadorBM(iso, "PV.EST").catch(() => null) : null,
     iso ? indicadorBM(iso, "VC.IHR.PSRC.P5").catch(() => null) : null,
     getJSON("data/events.json", { bust: true }).catch(() => ({ eventos: [] })),
@@ -232,7 +242,7 @@ $("ev-btn").onclick = async () => {
   const dims = [];
   dims.push({ nombre: "Sismos", ...(sis ? R.riesgoSismico(sis.features || []) : { nivel: null, texto: "USGS no respondió." }) });
   dims.push({ nombre: "Volcanes", ...(vol ? R.riesgoVolcanico(lat, lon, vol) : { nivel: null, texto: "Lista de volcanes no disponible todavía (se genera con la próxima reconstrucción de capas)." }) });
-  const e = elev?.elevation || [];
+  const e = elev || [];
   dims.push({ nombre: "Deslaves e inundación (terreno)", ...R.riesgoTerreno(R.pendiente(e), e[0] != null ? Math.round(e[0]) : null) });
   dims.push({ nombre: "Estabilidad política", ...R.riesgoPolitico(pv?.valor ?? null), anio: pv?.anio });
   const cerca = (ev.eventos || []).filter((x) => x.area_principal === "seguridad" && x.lat != null && R.distanciaKm(lat, lon, x.lat, x.lon) <= 50);
