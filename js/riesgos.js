@@ -204,6 +204,9 @@ export function filtrarModalidad(fc, rx) {
   const norm = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   return { ...fc, features: (fc.features || []).filter((f) => rx.test(norm(f.properties.title))) };
 }
+const COLOR_RAD = { normal: "#2E9E6E", elevado: "#E0A100", alto: "#E2711D", muy_alto: "#C62828" };
+const COLOR_SITIO_RAD = { accidente: "#6A1B9A", fuente: "#6A1B9A", produccion: "#6A1B9A", pruebas: "#4E342E", bombardeo: "#212121" };
+const TIPO_SITIO_RAD = { accidente: "Accidente nuclear", fuente: "Fuente radiactiva perdida", produccion: "Producción de material nuclear", pruebas: "Zona de pruebas nucleares", bombardeo: "Bombardeo atómico" };
 const NOMBRE_CIBER = { ransomware: "Ransomware / extorsión", sabotaje: "Sabotaje de sistemas físicos o industriales", ddos: "Denegación de servicio (DDoS)",
   filtracion: "Filtración o robo de datos", cripto: "Robo de criptomonedas", espionaje: "Espionaje", fraude: "Phishing o fraude", intrusion: "Intrusión / hackeo" };
 const COLOR_CIBER = { ransomware: "#B71C1C", sabotaje: "#E2711D", ddos: "#8E24AA", filtracion: "#1F6FB2", cripto: "#C9A227", espionaje: "#455A64", fraude: "#2E9E6E", intrusion: "#5C6BC0" };
@@ -1062,6 +1065,22 @@ export const CAPAS = [
       url: lista(p.incidentes)[0]?.url, fuente: "Titular, medio y enlace; el texto está en cada medio" }),
     extra: (p) => `<h4>Notas (lo más reciente primero)</h4><ul class="fuentes">${lista(p.incidentes).map((a) => `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.t)}</a> · ${esc(a.f)} · ${esc(fecha(a.fecha))} · ${esc(a.tipo)}${lista(a.sectores).length ? ` · ${esc(lista(a.sectores).join(", "))}` : ""}</li>`).join("")}</ul>
       <p class="meta">Varias notas pueden hablar del mismo ataque. «Señalado» = el titular lo menciona como presunto responsable o lo niega; no es una atribución confirmada.${p.region ? " Este punto agrupa titulares que solo nombran la región, no un país." : ""}</p>`,
+  },
+  {
+    id: "radiacion", grupo: "Clima y ambiente", nombre: "Radiación: sensores en vivo (Safecast) y sitios de accidentes, pruebas y bombas", url: "data/vivos/radiacion.geojson",
+    refresco_s: 3600, fuente: "Safecast (CC0) y catálogo propio de sitios",
+    estilo: (p) => (p.k === "sitio" ? { c: COLOR_SITIO_RAD[p.tipo] || "#6A1B9A", r: 7 } : { c: COLOR_RAD[p.nivel] || "#2E9E6E", r: p.nivel === "normal" ? 4 : 7 }),
+    etiqueta: (p) => (p.k === "sitio" ? p.nombre : p.nivel !== "normal" ? `${p.usv_h} µSv/h` : ""),
+    leyenda: [{ c: COLOR_RAD.normal, r: 5, t: "Sensor: menos de 0.3 µSv/h (fondo natural habitual: 0.05 a 0.3)" }, { c: COLOR_RAD.elevado, r: 6, t: "Sensor: 0.3 a 1 µSv/h" },
+      { c: COLOR_RAD.alto, r: 7, t: "Sensor: 1 a 10 µSv/h" }, { c: COLOR_RAD.muy_alto, r: 7, t: "Sensor: 10 µSv/h o más" },
+      { c: COLOR_SITIO_RAD.accidente, r: 7, t: "☢️ Accidente nuclear o fuente perdida" }, { c: COLOR_SITIO_RAD.pruebas, r: 7, t: "💥 Zona de pruebas nucleares" }, { c: COLOR_SITIO_RAD.bombardeo, r: 7, t: "Bombardeo atómico" },
+      { t: "Sensores ciudadanos con lectura de las últimas 48 h; posición redondeada a ~1 km y sin datos de quien lo opera. Una lectura alta aislada puede ser falla." }],
+    ficha: (p) => (p.k === "sitio"
+      ? { titulo: `${p.nombre} (${p.anio})`, chip: `${TIPO_SITIO_RAD[p.tipo] || p.tipo}${p.ines ? ` · INES ${p.ines}` : ""}`,
+        filas: [["Qué pasó", p.texto], ["País", p.pais]], url: p.url, fuente: "Descripción propia; detalle en Wikipedia" }
+      : { titulo: `${p.usv_h} µSv/h${p.lugar ? ` en ${p.lugar}` : ""}`, chip: p.nivel_texto,
+        filas: [["Lectura", fecha(p.cuando_utc)], ["Tubo Geiger", p.tubo], ["Equivale a", `${(p.usv_h * 24 * 365 / 1000).toFixed(2)} mSv al año si se mantuviera (fondo mundial promedio ≈ 2.4 mSv/año)`]],
+        url: "https://map.safecast.org/", fuente: "Safecast (datos CC0)" }),
   },
   {
     id: "avisos_europa", grupo: "Clima y ambiente", nombre: "Avisos meteorológicos oficiales de Europa (MeteoAlarm)", url: "data/vivos/meteoalarm.geojson", refresco_s: 1200,

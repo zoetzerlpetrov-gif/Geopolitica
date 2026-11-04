@@ -79,6 +79,8 @@ export function clasificar(capa, p = {}, geom = null) {
     }
     case "cortes_internet": return { sev: p.en_curso ? (p.n_senales >= 2 ? 4 : 3) : 2, tipo: "Corte de internet", ic: p.en_curso ? "📵" : "" };
     case "c2_botnets": { const n = Number(p.n || 0); return { sev: n >= 100 ? 4 : n >= 25 ? 3 : n >= 5 ? 2 : 1, tipo: "Servidores C2 de botnets", ic: "" }; }
+    case "radiacion": return p.k === "sitio" ? { sev: 1, tipo: "Sitio con radiación histórica", ic: p.tipo === "pruebas" ? "💥" : "☢️" }
+      : { sev: { muy_alto: 4, alto: 3, elevado: 2 }[p.nivel] || 1, tipo: "Radiación medida (sensor)", ic: "" };
     case "ciberataques": { const n = Number(p.n_7d || 0); return { sev: n >= 6 ? 4 : n >= 3 ? 3 : n >= 1 ? 2 : 1, tipo: `Ciberataque: ${p.tipo_nombre || "reporte"}`, ic: p.icono || "💻" }; }
     case "avisos_ics": return { sev: p.explotados ? 4 : p.criticos ? 3 : 2, tipo: "Avisos ICS/SCADA", ic: "" };
     case "avisos_europa": return { sev: { 2: 2, 3: 4, 4: 5 }[p.nivel] || 2, tipo: `Aviso Europa: ${(Array.isArray(p.tipos) ? p.tipos[0] : "") || "clima"}`, ic: "" };
