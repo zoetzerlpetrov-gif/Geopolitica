@@ -19,7 +19,8 @@ export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
   const cont = caja.parentElement;
   const poner = (x, y) => {
     const p = acotar(x, y, caja.offsetWidth, caja.offsetHeight, cont.clientWidth, cont.clientHeight);
-    Object.assign(caja.style, { left: `${p.x}px`, top: `${p.y}px`, right: "auto" });
+    // Se sueltan las anclas de la derecha y de abajo: si no, una ventana anclada abajo (elecciones) se estira al moverla.
+    Object.assign(caja.style, { left: `${p.x}px`, top: `${p.y}px`, right: "auto", bottom: "auto" });
     return p;
   };
   const guardada = () => { try { return JSON.parse(localStorage.getItem(clave) || "null"); } catch { return null; } };
@@ -46,7 +47,7 @@ export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
   // Con la captura del puntero el doble clic llega a la caja, no a la barra: se usa dónde empezó el último toque.
   caja.addEventListener("dblclick", () => {
     if (!enBarra) return;
-    Object.assign(caja.style, { left: "", top: "", right: "" });
+    Object.assign(caja.style, { left: "", top: "", right: "", bottom: "" });
     try { localStorage.removeItem(clave); } catch { /* nada */ }
   });
   addEventListener("resize", aplicarGuardada);
