@@ -204,6 +204,10 @@ export function filtrarModalidad(fc, rx) {
   const norm = (t) => String(t || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
   return { ...fc, features: (fc.features || []).filter((f) => rx.test(norm(f.properties.title))) };
 }
+const NOMBRE_CIBER = { ransomware: "Ransomware / extorsión", sabotaje: "Sabotaje de sistemas físicos o industriales", ddos: "Denegación de servicio (DDoS)",
+  filtracion: "Filtración o robo de datos", cripto: "Robo de criptomonedas", espionaje: "Espionaje", fraude: "Phishing o fraude", intrusion: "Intrusión / hackeo" };
+const COLOR_CIBER = { ransomware: "#B71C1C", sabotaje: "#E2711D", ddos: "#8E24AA", filtracion: "#1F6FB2", cripto: "#C9A227", espionaje: "#455A64", fraude: "#2E9E6E", intrusion: "#5C6BC0" };
+
 export const CAPAS_MODALIDADES = MODALIDADES.map(([id, nombre, color, rx]) => ({
   id: `mod_${id}`, grupo: "Criminología: modalidades delictivas en noticias", noAmenaza: true, senal: true, nombre: `${nombre} (noticias 72 h a 7 días, verificar)`,
   fuente: "GDELT, medios mexicanos y medios del monitor", generar: titularesDelito, derivar: (fc) => filtrarModalidad(fc, rx),
@@ -1041,6 +1045,23 @@ export const CAPAS = [
       url: "https://www.cisa.gov/news-events/cybersecurity-advisories?f%5B0%5D=advisory_type%3A95", fuente: "CISA (dominio público, EUA)" }),
     extra: (p) => `<h4>Avisos más recientes</h4><ul class="fuentes">${lista(p.avisos).map((a) => `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.id)}</a> · ${esc(a.titulo)} · ${esc(a.fecha)}${a.cvss != null ? ` · CVSS ${esc(a.cvss)}` : ""}${a.explotado ? " · <b>explotación conocida</b>" : ""}</li>`).join("")}</ul>
       <p class="meta">CVSS mide la gravedad técnica de 0 a 10. Un aviso no significa un ataque: es una vulnerabilidad publicada con su parche o mitigación.</p>`,
+  },
+  {
+    id: "ciberataques", grupo: "Red y ciberseguridad", nombre: "Ciberataques reportados por la prensa, por país afectado (30 días)", url: "data/vivos/ciberataques.geojson",
+    refresco_s: 1800, fuente: "Medios de ciberseguridad (The Record, BleepingComputer, SecurityWeek, The Hacker News, Dark Reading, ESET, Hispasec…) y noticias de la ingesta",
+    estilo: (p) => ({ c: COLOR_CIBER[p.tipo] || "#5C6BC0", r: Math.min(22, 6 + Math.sqrt(p.n || 1) * 3) }),
+    etiqueta: (p) => (p.n >= 3 ? `${p.n}` : ""),
+    leyenda: [...Object.entries(NOMBRE_CIBER).map(([k, t]) => ({ c: COLOR_CIBER[k], r: 6, t })),
+      { t: "Ícono = sector más afectado: 🛒 supermercados y comercio, 🏥 salud, 🏛️ gobierno, ⚡ energía, 🏦 finanzas, ✈️ transporte, 📡 telecom, 🎓 educación, 🏭 industria, 🛡️ defensa, 💧 agua." },
+      { t: "El punto va en el país que el titular nombra como afectado. Un país señalado como atacante no pone punto: la atribución casi nunca se confirma con un titular. Sin IP, dominios ni personas." }],
+    ficha: (p) => ({ titulo: `${p.n} ${p.n === 1 ? "nota" : "notas"} de ciberataques en ${p.pais}`, chip: `${p.tipo_nombre} · ${p.n_7d} en 7 días · última ${fecha(p.ultimo_utc)}`,
+      filas: [["Tipos", lista(p.tipos).map(([t, n]) => `${t} (${n})`).join(" · ") || "—"],
+        ["Sectores", lista(p.sectores).map(([t, n]) => `${t} (${n})`).join(" · ") || "Sin sector claro en el titular"],
+        ["Señalados en los titulares", lista(p.senalados).map(([t, n]) => `${t} (${n})`).join(" · ") || "—"],
+        ["Medios", lista(p.medios).join(" · ")]],
+      url: lista(p.incidentes)[0]?.url, fuente: "Titular, medio y enlace; el texto está en cada medio" }),
+    extra: (p) => `<h4>Notas (lo más reciente primero)</h4><ul class="fuentes">${lista(p.incidentes).map((a) => `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.t)}</a> · ${esc(a.f)} · ${esc(fecha(a.fecha))} · ${esc(a.tipo)}${lista(a.sectores).length ? ` · ${esc(lista(a.sectores).join(", "))}` : ""}</li>`).join("")}</ul>
+      <p class="meta">Varias notas pueden hablar del mismo ataque. «Señalado» = el titular lo menciona como presunto responsable o lo niega; no es una atribución confirmada.${p.region ? " Este punto agrupa titulares que solo nombran la región, no un país." : ""}</p>`,
   },
   {
     id: "avisos_europa", grupo: "Clima y ambiente", nombre: "Avisos meteorológicos oficiales de Europa (MeteoAlarm)", url: "data/vivos/meteoalarm.geojson", refresco_s: 1200,
