@@ -41,6 +41,7 @@ async function iniciar() {
   if (falta) return salir(`🔒 Disponible desde el plan ${falta.nombre}`, "Tu plan actual no incluye esta sección.");
 
   const arreglar = (a) => {
+    if (a.hasAttribute("data-solo-admin")) { a.remove(); return; }  // enlaces externos de administración (p. ej. Portafolio)
     const href = a.getAttribute("href");
     if (!esInterno(href)) return;
     const destino = paginaDe(href);
