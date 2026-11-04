@@ -68,3 +68,26 @@ def test_datos_vivos_no_cancela_la_corrida_en_curso():
     """La corrida dura más que el intervalo del reloj: si se cancelara, ninguna publicaría."""
     wf = open(os.path.join(ROOT, ".github", "workflows", "vivos.yml"), encoding="utf-8").read()
     assert "cancel-in-progress: false" in wf
+
+
+def test_reino_unido_y_gdacs_rojo_son_cisne_negro():
+    nom = P.S.Paises(json.load(open(os.path.join(ROOT, "config", "gazetteer.json")))["paises"])
+    indice = {"links": {"children": [
+        {"api_url": "u/sudan", "web_url": "https://www.gov.uk/foreign-travel-advice/sudan", "public_updated_at": "2026-10-20T10:00:00+01:00", "details": {"country": {"name": "Sudan", "slug": "sudan"}}},
+        {"api_url": "u/spain", "web_url": "w", "public_updated_at": "2026-10-20T10:00:00+01:00", "details": {"country": {"name": "Spain", "slug": "spain"}}},
+        {"api_url": "u/mali", "web_url": "w", "public_updated_at": "X", "details": {"country": {"name": "Mali", "slug": "mali"}}}]}}
+    fichas = {"u/sudan": {"details": {"alert_status": ["avoid_all_travel_to_whole_country"]}}, "u/spain": {"details": {"alert_status": []}}}
+    cache = {"mali": {"actualizado": "X", "alertas": ["avoid_all_travel_to_parts"], "iso3": "MLI"}}   # sin cambio: no se vuelve a pedir
+    pedidas = []
+    def leer_uk(url):
+        pedidas.append(url)
+        return json.dumps(fichas[url]).encode()
+    uk = P.avisos_reino_unido(indice, cache, leer_uk, nom, pausa=0)
+    assert pedidas == ["u/sudan", "u/spain"] and set(uk) == {"SDN"} and uk["SDN"][0] == 4
+    v = {f["properties"]["iso3"]: f["properties"] for f in P.viajes({}, {}, nom, uk)}
+    assert v["SDN"]["cisne_negro"] and "Reino Unido" in v["SDN"]["afectacion"]
+    gd = {"features": [{"geometry": {"type": "Point", "coordinates": [80.0, 13.0]}, "properties": {"alertlevel": "Red", "eventtype": "TC", "eventid": 1,
+          "type_label": "Ciclón tropical", "name": "MURASU-26", "country": "India", "fromdate": "2026-11-01T00:00:00", "todate": "2026-11-03T06:00:00", "url": "https://gdacs"}},
+                       {"geometry": {"type": "Point", "coordinates": [0, 0]}, "properties": {"alertlevel": "Orange", "eventtype": "DR"}}]}
+    r = P.gdacs_rojos(gd, nom, datetime(2026, 11, 4, tzinfo=timezone.utc))
+    assert len(r) == 1 and r[0]["properties"]["cisne_negro"] and r[0]["properties"]["desactivado"] == "2026-11-06" and r[0]["properties"]["iso3"] == "IND"

@@ -782,13 +782,21 @@ label.vista-pago { display: inline-flex; align-items: center; gap: 4px; margin-l
 label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; padding: 1px 4px; }
 /* Aviso de alertas oficiales excepcionales («cisne negro»): arriba a la derecha del mapa, se arrastra por su barra roja.
    Las sugerencias del buscador (z-index 4) y la ficha de un evento (z-index 5) quedan encima. */
-.alerta-cisne { position: absolute; top: 10px; right: 10px; z-index: 3; width: min(360px, calc(100% - 90px)); max-height: 45vh; overflow-y: auto;
+.alerta-cisne { position: absolute; top: 10px; right: 10px; z-index: 3; width: min(380px, calc(100% - 90px)); max-height: min(55vh, 520px); overflow-y: auto; overscroll-behavior: contain;
   background: var(--surface); color: var(--text); border: 1px solid #B71C1C; border-left: 5px solid #B71C1C; border-radius: 8px; box-shadow: var(--shadow); font-size: 12.5px; }
 .alerta-cisne .ac-cab { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: #B71C1C; color: #fff; cursor: grab; touch-action: none; user-select: none; }
 @media (max-width: 760px) { .alerta-cisne { top: 52px; } }  /* en celular, debajo del buscador; sus sugerencias quedan encima */
 .alerta-cisne.arrastrando { opacity: .9; } .alerta-cisne.arrastrando .ac-cab { cursor: grabbing; }
 .alerta-cisne .ac-plegar { background: none; border: 0; color: #fff; font-size: 14px; cursor: pointer; }
 .alerta-cisne .ac-lista { list-style: none; margin: 0; padding: 4px 10px 8px; }
+.alerta-cisne .ac-cab { position: sticky; top: 0; z-index: 1; }  /* la barra roja no se va al desplazar la lista */
+.alerta-cisne .ac-busca { position: sticky; top: 32px; z-index: 1; width: calc(100% - 20px); margin: 6px 10px 0; padding: 4px 8px; font: inherit; font-size: 12px;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--panel, #fff); color: inherit; }
+.alerta-cisne .ac-sec { font-weight: 700; font-size: 12px; padding: 8px 0 2px; border-bottom: 0 !important; color: var(--muted, #666); }
+.alerta-cisne .ac-sec span { font-weight: 400; }
+.alerta-cisne .ac-sub { padding: 0 0 0 4px; } .alerta-cisne details summary { cursor: pointer; }
+.alerta-cisne .ac-ir2 { background: none; border: 0; padding: 0; text-align: left; color: inherit; cursor: pointer; font: inherit; }
+.alerta-cisne::-webkit-scrollbar { width: 10px; } .alerta-cisne::-webkit-scrollbar-thumb { background: #c9c9c9; border-radius: 6px; }
 .alerta-cisne .ac-lista li { padding: 6px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }
 .alerta-cisne .ac-lista li:last-child { border-bottom: 0; }
 .alerta-cisne .ac-ir { background: none; border: 0; padding: 0; text-align: left; color: inherit; cursor: pointer; font: inherit; }

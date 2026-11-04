@@ -64,17 +64,39 @@ export function alertasActivas(fc, hoy = new Date().toISOString().slice(0, 10)) 
     .sort((a, b) => (b.properties.nivel || 0) - (a.properties.nivel || 0) || String(b.properties.fecha).localeCompare(String(a.properties.fecha)));
 }
 
-/** HTML del aviso (una tarjeta por alerta). */
-export function htmlAlertas(feats) {
-  if (!feats.length) return "";
-  return `<div class="ac-cab"><b title="Arrastra esta barra para mover el aviso; doble clic lo regresa a su lugar">⚠️ ${feats.length === 1 ? "Alerta oficial activa" : `${feats.length} alertas oficiales activas`}</b>
-    <button type="button" class="ac-plegar" aria-expanded="true" title="Plegar o desplegar">▾</button></div><ul class="ac-lista">${feats.map((f, i) => {
-    const p = f.properties;
-    return `<li><button type="button" class="ac-ir" data-i="${i}" title="Ver en el mapa"><b>${esc(p.titulo)}</b></button>
-      <span class="ac-meta">Emite: <b>${esc(p.emisor || p.organismo)}</b> · desde ${esc(String(p.fecha || "").slice(0, 10))}${p.estado ? ` · ${esc(p.estado)}` : ""}</span>
-      ${p.afectacion ? `<span class="ac-af">Afecta: ${esc(p.afectacion)}</span>` : ""}
-      ${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Fuente: ${esc(p.fuente || "oficial")}</a>` : ""}</li>`;
-  }).join("")}</ul>`;
+/** Avisos de viaje de nivel 3 («reconsiderar el viaje» o «evitar lo no esencial»): no son cisne negro, pero completan
+ * la lista de países con alerta oficial. Van en una sección plegada. */
+export function alertasAltas(fc) {
+  return (fc?.features || []).filter((f) => f.properties?.tipo === "viaje" && !f.properties.cisne_negro && (f.properties.nivel || 0) >= 3)
+    .sort((a, b) => String(a.properties.paises).localeCompare(String(b.properties.paises), "es"));
+}
+
+const GRUPOS = [["registro", "🏛️ Llamados oficiales excepcionales"], ["nivel_nacional", "🛡️ Niveles nacionales de amenaza"], ["boletin", "🛡️ Niveles nacionales de amenaza"],
+  ["desastre", "🌪️ Desastres en alerta roja (GDACS)"], ["viaje", "⛔ No viajar a todo el país"]];
+const grupoDe = (t) => (GRUPOS.find(([k]) => k === t) || [null, "Otras alertas"])[1];
+
+const tarjeta = (p, i, clase = "ac-ir") => `<li data-busca="${esc(`${p.titulo} ${p.paises || ""} ${p.emisor || ""}`.toLowerCase())}">
+  <button type="button" class="${clase}" data-i="${i}" title="Ver en el mapa"><b>${esc(p.titulo)}</b></button>
+  <span class="ac-meta">Emite: <b>${esc(p.emisor || p.organismo)}</b> · desde ${esc(String(p.fecha || "").slice(0, 10))}${p.estado ? ` · ${esc(p.estado)}` : ""}</span>
+  ${p.afectacion ? `<span class="ac-af">Afecta: ${esc(p.afectacion)}</span>` : (p.resumen ? `<span class="ac-af">${esc(p.resumen)}</span>` : "")}
+  ${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Fuente: ${esc(p.fuente || "oficial")}</a>` : ""}</li>`;
+
+/** HTML del aviso: barra fija (arrastrable), buscador si hay muchas, secciones por tipo y lista con desplazamiento. */
+export function htmlAlertas(feats, altas = []) {
+  if (!feats.length && !altas.length) return "";
+  const paises = new Set([...feats, ...altas].map((f) => f.properties.iso3).filter(Boolean)).size;
+  const secciones = [];
+  for (const [, titulo] of GRUPOS.filter((g, i, a) => a.findIndex((x) => x[1] === g[1]) === i)) {
+    const items = feats.map((f, i) => [f, i]).filter(([f]) => grupoDe(f.properties.tipo) === titulo);
+    if (items.length) secciones.push(`<li class="ac-sec">${titulo} <span>(${items.length})</span></li>${items.map(([f, i]) => tarjeta(f.properties, i)).join("")}`);
+  }
+  const otros = feats.map((f, i) => [f, i]).filter(([f]) => grupoDe(f.properties.tipo) === "Otras alertas");
+  if (otros.length) secciones.push(`<li class="ac-sec">Otras alertas <span>(${otros.length})</span></li>${otros.map(([f, i]) => tarjeta(f.properties, i)).join("")}`);
+  return `<div class="ac-cab"><b title="Arrastra esta barra para mover el aviso; doble clic lo regresa a su lugar">⚠️ ${feats.length === 1 ? "1 alerta oficial activa" : `${feats.length} alertas oficiales activas`} · ${paises} países</b>
+    <button type="button" class="ac-plegar" aria-expanded="true" title="Plegar o desplegar">▾</button></div>
+    ${feats.length + altas.length > 8 ? `<input type="search" class="ac-busca" placeholder="Buscar país o alerta…" aria-label="Buscar en las alertas">` : ""}
+    <ul class="ac-lista">${secciones.join("")}
+    ${altas.length ? `<li class="ac-sec"><details><summary>⚠️ Riesgo alto: reconsiderar el viaje (${altas.length} países)</summary><ul class="ac-lista ac-sub">${altas.map((f, i) => tarjeta(f.properties, i, "ac-ir2")).join("")}</ul></details></li>` : ""}</ul>`;
 }
 
 /** Monta el aviso debajo del buscador de lugares. `irA(lon, lat)` centra el mapa en la alerta. */
@@ -90,25 +112,34 @@ export function iniciarAlertaCisne(irA) {
   if (globalThis.matchMedia?.("(max-width: 760px)").matches) caja.classList.add("plegado");
   form.after(caja);
   const reubicar = hacerArrastrable(caja);
-  let feats = [];
+  let feats = [], altas = [];
   const pintar = async () => {
     try {
       const r = await fetch(URL_DATOS, { cache: "no-cache" });
-      feats = r.ok ? alertasActivas(await r.json()) : [];
-    } catch { feats = []; }
+      const fc = r.ok ? await r.json() : null;
+      feats = alertasActivas(fc); altas = alertasAltas(fc);
+    } catch { feats = []; altas = []; }
     const plegado = caja.classList.contains("plegado");
-    caja.innerHTML = htmlAlertas(feats);
-    caja.hidden = !feats.length;
+    const busca = caja.querySelector(".ac-busca")?.value || "";
+    caja.innerHTML = htmlAlertas(feats, altas);
+    const b = caja.querySelector(".ac-busca");
+    if (b && busca) { b.value = busca; filtrar(busca); }
+    caja.hidden = !feats.length && !altas.length;
     caja.classList.toggle("plegado", plegado);
     const pl = caja.querySelector(".ac-plegar");
     if (pl && plegado) { pl.setAttribute("aria-expanded", "false"); pl.textContent = "▸"; }
     reubicar();
   };
+  const filtrar = (q) => {
+    const t = q.trim().toLowerCase();
+    for (const li of caja.querySelectorAll("li[data-busca]")) li.hidden = !!t && !li.dataset.busca.includes(t);
+  };
+  caja.addEventListener("input", (e) => { if (e.target.classList.contains("ac-busca")) filtrar(e.target.value); });
   caja.addEventListener("click", (e) => {
     const pl = e.target.closest(".ac-plegar");
     if (pl) { const p = caja.classList.toggle("plegado"); pl.setAttribute("aria-expanded", String(!p)); pl.textContent = p ? "▸" : "▾"; return; }
-    const ir = e.target.closest(".ac-ir");
-    if (ir && irA) { const c = feats[Number(ir.dataset.i)]?.geometry?.coordinates; if (c) irA(c[0], c[1]); }
+    const ir = e.target.closest(".ac-ir, .ac-ir2");
+    if (ir && irA) { const c = (ir.classList.contains("ac-ir2") ? altas : feats)[Number(ir.dataset.i)]?.geometry?.coordinates; if (c) irA(c[0], c[1]); }
   });
   pintar();
   setInterval(pintar, REFRESCO_MS);
