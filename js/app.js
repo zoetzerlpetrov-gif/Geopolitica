@@ -2022,7 +2022,7 @@ async function iniciarRiesgos() {
         <span><b>${esc(b.etiqueta)}</b>${b.i >= 2 ? " · ⚠ posible contingencia: verifica en la CAMe" : ""}<br><span class="meta">PM2.5 ${esc(cdmx.properties.pm2_5 ?? "—")} µg/m³ · ozono ${esc(cdmx.properties.ozone ?? "—")} µg/m³</span></span></div>
       <div class="aqi-escala">${A.BANDAS_AQI.map(([, n, c]) => `<span style="background:${c}" title="${esc(n)}"></span>`).join("")}<i class="aqi-marca" style="left:${(b.pos * 100).toFixed(1)}%"></i></div>
       <div class="aqi-ejes"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>+</span></div>
-      <p class="meta">Es el mismo índice que la capa «Calidad del aire»: un modelo (CAMS, vía Open-Meteo), no las estaciones oficiales. El dato oficial de la CDMX es el del
+      <p class="meta">Es el mismo índice que la capa «Calidad del aire» (${esc(cdmx.properties.fuente || "Clima Táctico")}), no las estaciones oficiales. El dato oficial de la CDMX es el del
         <a href="http://www.aire.cdmx.gob.mx/" target="_blank" rel="noopener noreferrer">SIMAT</a>, y las contingencias las declara la CAMe.</p>` : "";
   }
   pintarAire(aireFeats);

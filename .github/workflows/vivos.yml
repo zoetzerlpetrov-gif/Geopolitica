@@ -122,7 +122,7 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/clima/ciclones.py
 
-      - name: Calidad del aire en ~490 ciudades (Open-Meteo, cada 3 h; si falla se conservan los anteriores)
+      - name: Calidad del aire en ~490 ciudades (Sensor.Community mientras Open-Meteo siga cerrado por su robots.txt, cada 3 h; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 3
         run: python3 tools/clima/aire.py
