@@ -86,6 +86,28 @@ def tipo_de(*textos):
     return next((k for k, rx in TIPOS if re.search(rx, t)), "otra")
 
 
+# Elecciones que no son nacionales (aunque Wikidata les ponga el país): estados, municipios, cargos locales.
+LOCAL = re.compile(r"\b(local|municipal|regional|county|council|city|mayor|mayoral|by-election|gubernatorial|state (?:house|senate|legislative)|"
+                   r"district|provincial|province|board|secretary of state|attorney general|comptroller|lieutenant|primar(?:y|ies)|"
+                   r"cantonal|prefectural|assembly of [A-Z]|mäslihat|municipales|regionales|autonómicas|estatales)\b", re.I)
+
+
+def es_nacional(nombre_en, nombre_es, pais_en, fecha):
+    """True si parece una elección de todo el país: sin palabras locales, sin «en <lugar>» y con el año de su fecha."""
+    n = f"{nombre_en or ''} | {nombre_es or ''}"
+    if not (nombre_en or nombre_es) or LOCAL.search(n):
+        return False
+    if re.search(r"\b(in|en) (?!el |la |los |las )[A-Z]", nombre_en or "") or re.search(r" de 20\d\d en [A-Z]", nombre_es or ""):
+        return False
+    anios = set(re.findall(r"\b(19\d\d|20\d\d)\b", n))
+    if anios and fecha[:4] not in anios:  # p. ej. «second round … 2022» con fecha de 2026: dato mal cargado
+        return False
+    # EUA: muchas elecciones estatales no dicen «state»; se exige el nombre del país.
+    if pais_en == "United States" and "United States" not in (nombre_en or "") and "Estados Unidos" not in (nombre_es or ""):
+        return False
+    return True
+
+
 def regla(reglas, iso3, tipo):
     p = (reglas.get("paises") or {}).get(iso3) or {}
     return p.get(tipo) or (reglas.get("general") or {}).get(tipo) or (reglas.get("general") or {}).get("otra", "")
@@ -113,7 +135,7 @@ def construir(ahora=None, leer=None):
     for b in filas:
         qid = v(b, "e").rsplit("/", 1)[-1]
         iso3 = v(b, "iso")
-        if iso3 not in gaz:
+        if iso3 not in gaz or not es_nacional(v(b, "nombreEn"), v(b, "nombreEs"), gaz[iso3].get("en"), v(b, "fecha")[:10]):
             continue
         e = elecciones.setdefault(qid, {"id": qid, "nombre": v(b, "nombreEs") or v(b, "nombreEn") or qid, "fecha": v(b, "fecha")[:10],
                                         "iso3": iso3, "pais": gaz[iso3]["es"], "lat": gaz[iso3]["lat"], "lon": gaz[iso3]["lon"],
@@ -138,6 +160,8 @@ def construir(ahora=None, leer=None):
     visto, salida = {}, []
     for e in elecciones.values():
         tipos = e.pop("tipos") - {"otra"} or {"otra"}
+        if tipos == {"otra"} and not re.search(r"general|national|federal|nacional", e["nombre"], re.I):
+            continue  # p. ej. «2026 United States elections» (resumen de varias) o una sin tipo claro
         e["tipo"] = sorted(tipos, key=["presidencial", "legislativa", "referendum", "otra"].index)[0]
         e["regla"] = regla(reglas, e["iso3"], e["tipo"])
         if e["ganador"]:
