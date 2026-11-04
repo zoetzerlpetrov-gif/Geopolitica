@@ -239,9 +239,9 @@ jobs:
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
         run: python3 tools/clima_tactico/actualizar.py
 
-      - name: Fenómenos anómalos (TrackAlien, NUFORC y catálogo propio; cada 6 h; si falla se conservan los anteriores)
+      - name: Fenómenos anómalos (TrackAlien, medios propios, GDELT en 15 idiomas, NUFORC y catálogo; cada 6 h; si falla se conservan los anteriores)
         continue-on-error: true
-        timeout-minutes: 3
+        timeout-minutes: 5
         run: python3 tools/anomalias/anomalias.py
 
       - name: Polos (hielo marino, ozono, Groenlandia, icebergs, bases y aurora; cada parte a su ritmo; si falla se conservan los anteriores)
