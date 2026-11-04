@@ -2,7 +2,7 @@
 /* global maplibregl */
 import { getJSON, esc, safeUrl, fecha, storage, distanciaKm, debounce, sinAcentos, palabrasDe, resaltar, fragmento, MIN_BUSQUEDA, activarLimpiar } from "./util.js";
 activarLimpiar();
-import { estiloBase, crearMapa } from "./map.js";
+import { estiloBase, crearMapa, ICONO_AREA } from "./map.js";
 import { iniciarIdioma } from "./idioma.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
@@ -255,7 +255,7 @@ function pintarAreas() {
     <li><label>
       <input type="checkbox" data-area="${esc(a.id)}" ${estado.areas.has(a.id) ? "checked" : ""}>
       <span class="swatch" style="background:${esc(a.color)}"></span>
-      <span>${a.numero}. ${esc(a.nombre)}</span>
+      <span>${a.numero}. ${ICONO_AREA[a.id] || ""} ${esc(a.nombre)}</span>
       <span class="num" data-num="${esc(a.id)}">0</span>
     </label>
     <details class="subs"><summary>Subcategorías (${a.subtemas.length + 1})</summary>

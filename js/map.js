@@ -236,6 +236,21 @@ export function controlZoom(map) {
  * @param {boolean} o.lite            modo LITE: menos píxeles, sin copias del mundo, sin animaciones
  * @param {(id:string)=>void} o.onSelect
  */
+/** Ícono de cada una de las 13 áreas temáticas (config/taxonomy.json) para los puntos de noticias. */
+export const ICONO_AREA = { geografia: "🗺️", seguridad: "⚔️", geoeconomia: "💹", energia: "🛢️", tecnologia: "💻", demografia: "👥", clima: "🌪️",
+  instituciones: "⚖️", identidad: "📣", regional: "🌐", riesgo: "⚠️", infraestructura: "🏗️", salud_nrbq: "☣️" };
+
+function imagenArea(emoji) {
+  const c = document.createElement("canvas");
+  c.width = c.height = 64;
+  const g = c.getContext("2d");
+  g.font = "44px 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji',sans-serif";
+  g.textAlign = "center"; g.textBaseline = "middle";
+  g.shadowColor = "rgba(0,0,0,.5)"; g.shadowBlur = 4;
+  g.fillText(emoji, 32, 35);
+  return g.getImageData(0, 0, 64, 64);
+}
+
 export function crearMapa({ container, style, colores, chokepoints, tema: temaInicial, lite = false, onSelect }) {
   const map = new maplibregl.Map({
     container, style, center: [-20, 22], zoom: container.clientWidth < 600 ? 0.6 : 1.6, minZoom: 0.5, maxZoom: ZOOM_MAX,
@@ -312,6 +327,12 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
         "circle-stroke-width": 1.5, "circle-stroke-color": "#ffffff",
       },
     });
+    // Ícono del área temática encima de cada noticia suelta (los grupos siguen con su número).
+    map.addLayer({
+      id: "evento-icono", type: "symbol", source: "eventos", filter: ["!", ["has", "point_count"]], minzoom: 2.5,
+      layout: { "icon-image": ["concat", "area:", ["get", "a"]], "icon-size": ["interpolate", ["linear"], ["zoom"], 2.5, 0.42, 8, 0.66],
+        "icon-allow-overlap": true, "icon-ignore-placement": true },
+    });
     map.addLayer({
       id: "evento-sel", type: "circle", source: "eventos",
       filter: ["==", ["get", "id"], seleccion],
@@ -322,6 +343,11 @@ export function crearMapa({ container, style, colores, chokepoints, tema: temaIn
     });
   }
 
+  map.on("styleimagemissing", (e) => {
+    if (!e.id.startsWith("area:") || map.hasImage(e.id)) return;
+    const ic = ICONO_AREA[e.id.slice(5)];
+    if (ic) try { map.addImage(e.id, imagenArea(ic), { pixelRatio: 2 }); } catch (err) { /* sin canvas */ }
+  });
   // Cada vez que cambia el estilo base (tema claro/oscuro) se vuelven a montar las capas propias.
   map.on("style.load", agregarCapas);
   let proyeccion = "mercator";
