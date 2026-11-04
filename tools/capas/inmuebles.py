@@ -5,7 +5,7 @@
   residenciales) y WS_CPP (inmuebles comerciales: oficinas, locales, industriales y bodegas, terrenos comerciales).
 - México por estado (SHF, Sociedad Hipotecaria Federal): valor mediano por m² de los inmuebles valuados para crédito
   (casa, departamento, condominio, vivienda económica-social y media-residencial), trimestral desde 2018.
-- Inmuebles en seguimiento: la lista del repositorio InmuebleWarRoom (config/inmuebles_seguimiento.json) con su nivel
+- Inmuebles en seguimiento: la lista propia (config/inmuebles_seguimiento.json) con su nivel
   de riesgo y una revisión automática de cercanía a volcanes y a límites de placas.
 
 Todo es cambio en 12 meses del mismo indicador (mismo trimestre o mes del año anterior). Es nominal (sin descontar
@@ -270,7 +270,7 @@ def features_mx(estados_fc, shf_por_tipo):
     return out
 
 
-# ---------- Inmuebles en seguimiento (InmuebleWarRoom) ----------
+# ---------- Inmuebles en seguimiento (lista propia) ----------
 
 def distancia_km(lat1, lon1, lat2, lon2):
     r = math.radians
@@ -294,7 +294,7 @@ def revision_geologica(lat, lon, volcanes, limites):
 # Las casillas de la capa separan por origen (lista propia, ARA/SADASI, desarrollos por país, zonas, Mi lista);
 # el color de cada punto sigue siendo su nivel de riesgo («nivel» + «color», que el mapa usa antes que el del subtipo).
 RIESGO_COLOR = {"green": "#3ddc84", "yellow": "#f5d547", "orange": "#ff9d2f", "red": "#ff4d4d"}
-ORIGEN_ST = {"InmuebleWarRoom": "inm_warroom", "ARA/SADASI": "inm_ara_sadasi", "Desarrollos por país": "inm_desarrollos",
+ORIGEN_ST = {"Lista propia": "inm_warroom", "ARA/SADASI": "inm_ara_sadasi", "Desarrollos por país": "inm_desarrollos",
              "Zonas en seguimiento": "inm_zona", "Mi lista": "inm_mi_lista"}
 
 
@@ -309,7 +309,7 @@ def features_seguimiento(props_lista, volcanes, limites):
         geo, alerta = revision_geologica(p["lat"], p["lng"], volcanes, limites)
         precio = f"{p['priceLocal']} (≈ {p['priceUSD']:,} USD · {p['priceMXN']:,} MXN)" if p.get("priceUSD") else p.get("priceLocal", "")
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [p["lng"], p["lat"]]}, "properties": {
-            "id": f"iwr:{p['id']}", "n": f"{p['type']} · {p['city']}", "st": ORIGEN_ST["InmuebleWarRoom"], "origen": "InmuebleWarRoom", **_riesgo(p.get("riskLevel")), "p": "",
+            "id": f"iwr:{p['id']}", "n": f"{p['type']} · {p['city']}", "st": ORIGEN_ST["Lista propia"], "origen": "Lista propia", **_riesgo(p.get("riskLevel")), "p": "",
             "z": 2, "x": precio, "tipo": p["type"], "pais_n": p["country"], "riesgo": p.get("riskNotes", ""), "mercado": p.get("pricePosition", ""),
             "legal": p.get("legalNote", ""), "terreno": p.get("landM2"), "construccion": p.get("constM2"), "ciudad": p.get("nearestCity", ""),
             "aeropuerto": p.get("nearestAirport", ""), "geo": geo, "geo_alerta": alerta, "url": p.get("link", "")}})
@@ -338,7 +338,7 @@ def _precio_txt(desde, hasta, moneda):
 
 
 def features_ara_sadasi(devs, volcanes, limites):
-    """Desarrollos de ARA y SADASI (data/developments.json del repositorio InmueblesAraSadasi de la persona dueña)."""
+    """Desarrollos de ARA y SADASI (vivos/ara_sadasi.json, generado cada semana por tools/inmuebles/ara_sadasi.py)."""
     out = []
     for d in devs:
         if d.get("lat") is None or d.get("lon") is None:

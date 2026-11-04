@@ -368,7 +368,7 @@ export function htmlFichaEntidad({ familia, props, cercanos, seguido, personas =
   `;
 }
 
-/** Ficha de un inmueble en seguimiento (InmuebleWarRoom): precio, riesgo, revisión geológica automática y anuncio original. */
+/** Ficha de un inmueble en seguimiento (lista propia): precio, riesgo, revisión geológica automática y anuncio original. */
 export function htmlFichaInmueble(props, sub, familia) {
   if (props.origen === "Zonas en seguimiento") return htmlFichaZona(props, sub, familia);
   const m2 = (n) => (n == null || n === "" || n === "null" ? "—" : `${Number(n).toLocaleString("es-MX")} m²`);
@@ -381,9 +381,9 @@ export function htmlFichaInmueble(props, sub, familia) {
   const evaluar = lat != null ? `inmuebles.html?lat=${Number(lat).toFixed(5)}&lon=${Number(lon).toFixed(5)}&pais=${encodeURIComponent(props.p || "")}&nombre=${encodeURIComponent(props.n || "")}` : "";
   const riesgo = RIESGO_INMUEBLE[props.nivel];
   const fuente = props.origen === "Mi lista" ? "Tu «⭐ Mi lista» de Inmuebles y riesgo, guardada solo en este navegador"
-    : props.origen === "ARA/SADASI" ? `<a href="https://github.com/zoetzerlpetrov-gif/InmueblesAraSadasi" target="_blank" rel="noopener noreferrer">InmueblesAraSadasi</a> (sitios de ARA y SADASI, cada lunes)`
+    : props.origen === "ARA/SADASI" ? `Sitios oficiales de <a href="https://ara.com.mx/" target="_blank" rel="noopener noreferrer">ARA</a> y <a href="https://www.sadasi.com/" target="_blank" rel="noopener noreferrer">SADASI</a> (se revisan cada semana)`
     : props.origen === "Desarrollos por país" ? `${esc(props.fuente_t || "sitio de la desarrolladora")}${props.visto ? `, consultado el ${esc(props.visto)}` : ""} (lista de DOMINUS por país)`
-    : `<a href="https://github.com/zoetzerlpetrov-gif/inmueblewarroom" target="_blank" rel="noopener noreferrer">InmuebleWarRoom</a> (lista propia, revisada a mano)`;
+    : "Lista propia de seguimiento, revisada a mano";
   return `
     <h3 id="ficha-titulo">${esc(props.n)}</h3>
     <div class="fecha">${esc(props.pais_n)} · ${esc(familia.nombre)}</div>

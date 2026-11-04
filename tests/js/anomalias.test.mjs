@@ -32,7 +32,7 @@ test("cada capa filtra su clase y colorea por nivel de respaldo", () => {
   assert.ok(f.filas.some(([k, v]) => k === "Nivel de respaldo" && /no verificado/.test(v)));
 });
 
-test("capas por tipo de fenómeno (TrackAlien): noticias, históricos y catálogo que corresponde", async () => {
+test("capas por tipo de fenómeno: noticias, históricos y catálogo que corresponde", async () => {
   const { ANOMALIAS_POR_TIPO, TIPOS_ANOM } = await import("../../js/riesgos.js");
   assert.equal(ANOMALIAS_POR_TIPO.length, 9);
   assert.equal(TIPOS_ANOM.length, 9);

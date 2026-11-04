@@ -1,5 +1,5 @@
 import { ICONOS_SITIO } from "./polos.js";
-// Lógica pura de las capas de riesgo (portada de Clima Táctico / WarRoomViajero y ampliada):
+// Lógica pura de las capas de riesgo:
 // severidad 1–5, tipo, ícono y país de cada objeto; enjambres sísmicos, radios de tsunami, óvalo de
 // auroras, Hoy No Circula y registro de eventos nuevos. Sin DOM ni mapa: se prueba en node.
 
@@ -248,7 +248,7 @@ export function distanciaKm(lat1, lon1, lat2, lon2) {
   return 2 * R * Math.asin(Math.sqrt(a));
 }
 
-/** Posibles enjambres sísmicos en México: 5 o más sismos en una celda de ~50 km (heurística de Clima Táctico). */
+/** Posibles enjambres sísmicos en México: 5 o más sismos en una celda de ~50 km (heurística propia). */
 export function enjambres(features, { celda = 0.45, minimo = 5, caja = [-119, 14, -85, 33] } = {}) {
   const celdas = new Map();
   for (const f of features) {
@@ -286,7 +286,7 @@ export function radiosTsunami(f) {
 }
 
 // ---------------------------------------------------------------- auroras
-/** Latitud mínima aproximada donde puede verse la aurora para un Kp (fórmula de Clima Táctico). */
+/** Latitud mínima aproximada donde puede verse la aurora para un Kp (fórmula aproximada). */
 export const latAurora = (kp) => 67 - kp * 2.5;
 
 /** Líneas del borde de la aurora (norte y sur) para el Kp actual y para Kp 5, 7 y 9 de referencia. */

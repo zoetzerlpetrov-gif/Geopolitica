@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Ondas de calor, olas de frío, heladas, índice de calor, UV y niebla en ~1,000 ciudades (pronóstico de 7 días).
 
-No descarga pronóstico propio: lee vivos/ct/forecast.geojson, que ya genera «Clima Táctico» con MET Norway (CC BY 4.0)
+No descarga pronóstico propio: lee vivos/ct/forecast.geojson, que ya genera el generador de riesgos y clima con MET Norway (CC BY 4.0)
 y trae por día la máxima, la mínima, el índice de calor (temperatura + humedad), el UV con cielo despejado y la
 fracción de niebla. Lo que agrega es la climatología de cada ciudad para saber qué es «anormal» ahí:
 promedio diario 1991-2020 de la máxima y la mínima del CPC de NOAA (rejilla de 0.5°, dominio público). Del servicio

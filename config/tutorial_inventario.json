@@ -2145,7 +2145,7 @@
          "titulo": "Subtipos",
          "opciones": [
           {
-           "t": "Lista propia (InmuebleWarRoom)",
+           "t": "Lista propia",
            "ayuda": ""
           },
           {
@@ -3184,7 +3184,7 @@
        "sub": []
       },
       {
-       "titulo": "Por tipo de fenómeno (como TrackAlien)",
+       "titulo": "Por tipo de fenómeno",
        "opciones": [
         {
          "t": "Objetos aéreos no identificados (OVNI/UAP)",

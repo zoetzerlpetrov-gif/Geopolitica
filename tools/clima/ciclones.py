@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Ciclones de todo el mundo: tifones (Pacífico occidental), ciclones (Índico, Pacífico sur), huracanes y
-tormentas tropicales. Complementa la capa de Clima Táctico, que solo trae los del NHC (Atlántico y
-Pacífico oriental).
+tormentas tropicales. Complementa la capa de ciclones del NHC, que solo trae los del Atlántico y
+Pacífico oriental.
 
 Fuentes (sin llave):
   1. GDACS (ONU y Comisión Europea): lista de eventos de ciclón tropical (TC) con nivel de alerta y, para

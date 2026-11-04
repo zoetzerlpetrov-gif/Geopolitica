@@ -32,12 +32,12 @@ const desarrollos = await Promise.all(ARCHIVOS_DES.map((n) => getJSON(`config/in
 const reglas = R.unirReglas(desarrollos.map((d) => d.paises || {}));
 const ofertas = desarrollos.flatMap((d) => d.inmuebles || []).map((x) => ({ ...x, compra: reglas[x.pais_iso3]?.compra_mexicanos?.puede || "" }));
 try {
-  const [ar, corr] = await Promise.all([getJSON("https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json"),
+  const [ar, corr] = await Promise.all([getJSON("data/vivos/ara_sadasi.json", { bust: true }).catch(() => getJSON("config/inmuebles_desarrollos/_ara_sadasi_base.json")),
     getJSON("config/inmuebles_desarrollos/_ara_sadasi_geo.json").then((x) => x.coords || {}).catch(() => ({}))]);
   for (const d of ar.developments || []) if (corr[d.id]) [d.lat, d.lon] = corr[d.id];
   for (const d of ar.developments || []) ofertas.push({ id: d.id, pais_iso3: "MEX", ciudad: d.city, estado: d.state, zona: d.city, lat: d.lat, lon: d.lon, tipo: "casa o departamento",
     nuevo: true, rehabilitacion: "no", desarrolladora: d.developer, proyecto: d.name, precio_desde: d.precio_min, precio_hasta: d.precio_max, moneda: "MXN", url: d.url,
-    fuente: "InmueblesAraSadasi", visto: (ar.generated || "").slice(0, 10), compra: "sí" });
+    fuente: "Sitio oficial de " + d.developer, visto: (ar.generated || "").slice(0, 10), compra: "sí" });
 } catch (e) { /* sin ARA/SADASI: se muestran los demás */ }
 const nombrePaisDe = (iso) => reglas[iso]?.nombre || fuentes.paises.find((p) => p.iso3 === iso)?.nombre || iso;
 const opciones = (id, vals) => { $(id).innerHTML += [...new Set(vals.filter(Boolean))].sort().map((v) => `<option value="${esc(v)}">${esc(id === "de-pais" ? nombrePaisDe(v) : v)}</option>`).join(""); };

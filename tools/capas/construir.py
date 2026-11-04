@@ -1877,7 +1877,7 @@ def inmuebles_mx():
 
 
 def inmuebles_seguimiento():
-    """Inmuebles en seguimiento del repositorio InmuebleWarRoom, con revisión automática de volcanes y placas."""
+    """Inmuebles en seguimiento de la lista propia, con revisión automática de volcanes y placas."""
     import inmuebles as I
     lista = json.load(open(os.path.join(ROOT, "config", "inmuebles_seguimiento.json"), encoding="utf-8"))["inmuebles"]
     try:
@@ -1893,11 +1893,9 @@ def inmuebles_seguimiento():
         print(f"   límites de placas no disponibles: {e}")
         lims = []
     out = I.features_seguimiento(lista, volcs, lims)
-    # Desarrollos de ARA y SADASI: archivo público del repositorio InmueblesAraSadasi (se actualiza cada lunes).
+    # Desarrollos de ARA y SADASI: generados por este proyecto cada semana (tools/inmuebles/ara_sadasi.py).
     try:
-        req = urllib.request.Request(ARA_SADASI, headers={"User-Agent": UA})
-        with urllib.request.urlopen(req, timeout=60) as r:
-            devs = json.loads(r.read())["developments"]
+        devs = leer_ara_sadasi(UA)
         try:  # correcciones de coordenadas (tools/inmuebles_geo.py): puntos que caían en el mar o lejos de su ciudad
             corr = json.load(open(os.path.join(ROOT, "config", "inmuebles_desarrollos", "_ara_sadasi_geo.json"), encoding="utf-8")).get("coords", {})
         except Exception:  # noqa: BLE001
@@ -1922,7 +1920,21 @@ def inmuebles_seguimiento():
     return out
 
 
-ARA_SADASI = "https://raw.githubusercontent.com/zoetzerlpetrov-gif/InmueblesAraSadasi/main/data/developments.json"
+ARA_SADASI_SITIO = "https://zoetzerlpetrov-gif.github.io/Geopolitica/data/vivos/ara_sadasi.json"
+
+
+def leer_ara_sadasi(ua):
+    """Desarrollos de ARA y SADASI del propio proyecto (tools/inmuebles/ara_sadasi.py): copia local de vivos, la publicada
+    en el sitio de Geopolítica o, si no hay, la base guardada en config. No depende de otro repositorio."""
+    for ruta in (os.path.join(ROOT, "vivos", "ara_sadasi.json"),):
+        if os.path.exists(ruta):
+            return json.load(open(ruta, encoding="utf-8"))["developments"]
+    try:
+        req = urllib.request.Request(ARA_SADASI_SITIO, headers={"User-Agent": ua})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.loads(r.read())["developments"]
+    except Exception:  # noqa: BLE001
+        return json.load(open(os.path.join(ROOT, "config", "inmuebles_desarrollos", "_ara_sadasi_base.json"), encoding="utf-8"))["developments"]
 
 
 def fronteras():

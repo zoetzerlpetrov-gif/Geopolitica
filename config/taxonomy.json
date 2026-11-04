@@ -1737,7 +1737,7 @@
       "pregunta_guia": "¿Qué riesgo físico cambia el equilibrio?",
       "ejemplo": "Sequía de 2023 que redujo los tránsitos por el Canal de Panamá.",
       "ejemplo_mexico": "Sequías en el norte que afectan agricultura, industria y el tratado de aguas.",
-      "nota": "Aquí se reutiliza como contexto la capa meteorológica del repositorio WarRoomViajero.",
+      "nota": "Aquí se reutiliza como contexto la capa meteorológica de la sección Riesgos y clima.",
       "palabras_clave": {
         "es": [
           "sequía",

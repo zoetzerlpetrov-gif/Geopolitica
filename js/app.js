@@ -1753,7 +1753,7 @@ async function iniciarClima() {
   });
 }
 
-// ---------- Riesgos naturales y clima (Clima Táctico / WarRoomViajero) ----------
+// ---------- Riesgos naturales y clima ----------
 const FUENTE_MANIFIESTO = { incendios: "fires", gdacs: "gdacs", pronostico: "forecast", aire: "airquality", volcanes: "volcanoes",
   severo: "severe_weather" };
 
@@ -2001,7 +2001,7 @@ async function iniciarRiesgos() {
   };
   cont.addEventListener("change", alCambiarCapa);
   for (const idCont of ["trenes-capas", "anomalias-capas"]) $(idCont)?.addEventListener("change", alCambiarCapa);
-  // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX y otras ciudades (Clima Táctico).
+  // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX y otras ciudades.
   const hnc = A.hoyNoCircula();
   $("riesgos-vdm").innerHTML = `<div class="vdm"><h4>🚗 Hoy No Circula · Valle de México</h4>
     <div class="hnc-semana">${A.semanaHNC().map((d) => `<div class="hnc-dia${d.claro ? " claro" : ""}${d.hoy ? " hoy" : ""}" style="--c:${d.color}" title="${esc(d.engomado)}: placas ${esc(d.placas)}">
@@ -2013,7 +2013,7 @@ async function iniciarRiesgos() {
     rv?.riesgos.has("aire") ? null : R.leerArchivo("airquality.geojson").catch(() => null),
     rv?.riesgos.has("aire") ? null : getJSON("data/vivos/aire_ciudades.geojson", { bust: true }).catch(() => null),
     R.leerArchivo("security_feed.json").catch(() => null)]);
-  // Calidad del aire: archivo propio (~490 ciudades) + Clima Táctico (~530 puntos, muchos turísticos de México).
+  // Calidad del aire: archivo propio (~490 ciudades) + generador de riesgos y clima (~530 puntos, muchos turísticos de México).
   const indice = fronteras ? A.indicePaises(fronteras) : null;
   const aireFeats = R.sinCiudadesRepetidas([...(aireWrv?.features || []), ...(aireProp?.features || [])])  // mismo orden que la capa (las claves deben coincidir)
     .filter((f) => f.properties.us_aqi != null)
@@ -2026,7 +2026,7 @@ async function iniciarRiesgos() {
         <span><b>${esc(b.etiqueta)}</b>${b.i >= 2 ? " · ⚠ posible contingencia: verifica en la CAMe" : ""}<br><span class="meta">PM2.5 ${esc(cdmx.properties.pm2_5 ?? "—")} µg/m³ · ozono ${esc(cdmx.properties.ozone ?? "—")} µg/m³</span></span></div>
       <div class="aqi-escala">${A.BANDAS_AQI.map(([, n, c]) => `<span style="background:${c}" title="${esc(n)}"></span>`).join("")}<i class="aqi-marca" style="left:${(b.pos * 100).toFixed(1)}%"></i></div>
       <div class="aqi-ejes"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>+</span></div>
-      <p class="meta">Es el mismo índice que la capa «Calidad del aire» (${esc(cdmx.properties.fuente || "Clima Táctico")}), no las estaciones oficiales. El dato oficial de la CDMX es el del
+      <p class="meta">Es el mismo índice que la capa «Calidad del aire» (${esc(cdmx.properties.fuente || "modelo CAMS vía generador propio")}), no las estaciones oficiales. El dato oficial de la CDMX es el del
         <a href="http://www.aire.cdmx.gob.mx/" target="_blank" rel="noopener noreferrer">SIMAT</a>, y las contingencias las declara la CAMe.</p>` : "";
   }
   pintarAire(aireFeats);
@@ -2035,7 +2035,7 @@ async function iniciarRiesgos() {
     const grupos = A.agruparFeed(feed.items);
     $("feed-resumen").textContent = `${feed.items.length} titulares`;
     $("riesgos-feed").innerHTML = grupos.map(([g, l]) => `<details class="feed-grupo feed-${g.id}"><summary>${g.ic} ${esc(g.nombre)} <span class="contador">${l.length}</span></summary><ul class="fuentes">${l.map(enlace).join("")}</ul></details>`).join("")
-      + `<p class="meta">Titulares de Clima Táctico agrupados por palabras (puede equivocarse). Abre la nota original para confirmar. En el mapa: capa «Señales de seguridad en noticias».</p>`;
+      + `<p class="meta">Titulares de prensa agrupados por palabras (puede equivocarse). Abre la nota original para confirmar. En el mapa: capa «Señales de seguridad en noticias».</p>`;
   } else $("riesgos-feed").innerHTML = `<p class="meta">Sin titulares por ahora.</p>`;
 
   // ---- Calidad del aire por ciudad: lista con casillas (las desmarcadas no se dibujan) ----
@@ -2062,7 +2062,7 @@ async function iniciarRiesgos() {
         <span class="aqi-ciudad" style="background:${x.b.color};color:${x.b.texto}">${esc(x.f.properties.us_aqi)}</span>
         <span>${esc(x.f.properties.name)}<span class="meta"> · ${esc(x.pais)}</span></span></label>
         <button type="button" class="mini" data-aire-ir="${x.f.geometry.coordinates.slice(0, 2).join(",")}" title="Ver en el mapa">📍</button></li>`).join("")}</ul>
-      <p class="meta">Índice US AQI de la EPA calculado con el modelo CAMS (vía Open-Meteo) por Clima Táctico, 2 veces al día. Las casillas deciden qué ciudades se dibujan en el mapa.</p>`;
+      <p class="meta">Índice US AQI de la EPA calculado con el modelo CAMS (vía Open-Meteo) por el generador propio de DOMINUS cada 6 h. Las casillas deciden qué ciudades se dibujan en el mapa.</p>`;
     const aplicar = () => { storage.set(LS, JSON.stringify([...ocultas])); riesgos.setOcultos("aire", ocultas); };
     const cbCapa = cont.querySelector('[data-riesgo="aire"]');
     $("aire-mapa").checked = cbCapa?.checked || false;
@@ -2094,7 +2094,7 @@ async function iniciarRiesgos() {
     aplicar();
   }
   if (man) {
-    $("riesgos-nota").textContent = `Datos horneados por Clima Táctico el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos y alertas de EUA en vivo. Los eventos nuevos parpadean 1 min y llevan la marca NUEVO 1 h.`;
+    $("riesgos-nota").textContent = `Datos generados por DOMINUS el ${(man.generated || "").replace("T", " ").slice(0, 16)} UTC (se actualizan 2 veces al día); sismos y alertas de EUA en vivo. Los eventos nuevos parpadean 1 min y llevan la marca NUEVO 1 h.`;
     for (const [id, k] of Object.entries(FUENTE_MANIFIESTO)) {
       const n = man.sources?.[k]?.count;
       const cb = document.querySelector(`[data-riesgo="${id}"]`);

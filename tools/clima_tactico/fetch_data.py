@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLIMA TACTICO - Obtencion de datos para capas "horneadas" (2x/dia).
+Riesgos y clima de DOMINUS - Obtencion de datos para capas "horneadas" (cada 6 h).
 
 Genera archivos GeoJSON en ./data que el mapa lee de forma estatica.
 NO incluye las capas "en vivo" (sismos USGS y alertas NWS), que el navegador
@@ -11,7 +11,7 @@ solo biblioteca estandar de Python 3. Cada fuente esta aislada en try/except,
 de modo que si una falla, el resto se genera igual y el sitio nunca queda roto.
 
 Variables de entorno:
-  FIRMS_MAP_KEY   Clave gratuita de NASA FIRMS (requerida para incendios).
+  FIRMS_MAP_KEY   Clave gratuita de NASA FIRMS (opcional: sin ella se usa el archivo mundial público de 24 h).
                   Conseguir en: https://firms.modaps.eosdis.nasa.gov/api/map_key/
   FIRMS_WORLD     "1" (default) para incluir incendios globales (limitados).
 """
@@ -32,10 +32,9 @@ import hashlib
 import unicodedata
 from datetime import datetime, timezone; import calendar; from email.utils import parsedate_tz, mktime_tz; _parse_epoch = lambda s: (calendar.timegm(time.strptime(s.strip().rstrip("Z"), "%Y%m%dT%H%M%S")) if (s and re.match(r"^\d{8}T\d{6}Z?$", s.strip())) else (mktime_tz(parsedate_tz(s)) if (s and parsedate_tz(s)) else None)); _is_recent = lambda date_str, max_days=5: (lambda ep: True if ep is None else ((time.time()-ep) <= max_days*86400))(_parse_epoch(date_str))
 
-# Copia del generador de Clima Táctico (repositorio WarRoomViajero) para que Geopolítica no dependa de ese repositorio.
-# CLIMA_TACTICO_DIR permite escribir en vivos/ct (datos-vivos) en vez de ../data.
+# Generador propio de las capas de riesgos y clima. CLIMA_TACTICO_DIR permite escribir en vivos/ct (datos-vivos).
 DATA_DIR = os.environ.get("CLIMA_TACTICO_DIR") or os.path.join(os.path.dirname(__file__), "..", "data")
-USER_AGENT = "clima-tactico/1.0 (mapa de riesgos; GitHub Pages)"
+USER_AGENT = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 TIMEOUT = 45
 
 # -------------------------------------------------------------------------
@@ -234,12 +233,27 @@ def _match_ash(name, ash_list):
 # 1) INCENDIOS  - NASA FIRMS (VIIRS NRT, ultimas 24 h)
 # -------------------------------------------------------------------------
 
+FIRMS_PUBLICO = "https://firms.modaps.eosdis.nasa.gov/data/active_fire/noaa-20-viirs-c2/csv/J1_VIIRS_C2_Global_24h.csv"
+_PAISES = None
+
+
+def es_mexico(lon, lat):
+    """Caja de México y, si se puede, el polígono del país (ingest/geo.Paises)."""
+    global _PAISES
+    if not (14.4 <= lat <= 32.8 and -118.5 <= lon <= -86.6):
+        return False
+    try:
+        if _PAISES is None:
+            sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "..", "ingest"))
+            from geo import Paises
+            _PAISES = Paises()
+        return _PAISES.de(lon, lat) == "MEX"
+    except Exception:  # noqa: BLE001  sin polígonos, basta la caja
+        return True
+
+
 def fetch_fires():
     key = os.environ.get("FIRMS_MAP_KEY", "").strip()
-    if not key:
-        print("  [incendios] sin FIRMS_MAP_KEY: capa vacia")
-        return write_geojson("fires.geojson", [], {"note": "Falta FIRMS_MAP_KEY"})
-
     base = "https://firms.modaps.eosdis.nasa.gov/api/country/csv"
     src = "VIIRS_SNPP_NRT"
     feats = []
@@ -264,6 +278,26 @@ def fetch_fires():
                 "scope": scope,
             })))
         return out
+
+    if not key:
+        # Sin llave: archivo mundial público de FIRMS (últimas 24 h, NOAA-20 VIIRS; su robots.txt permite /data/).
+        # México se separa con su caja y el polígono del país; del resto del mundo, los 1500 más intensos.
+        try:
+            todos = parse_csv(http_get(FIRMS_PUBLICO), "world")
+            mx, wd = [], []
+            for frp, f in todos:
+                lon, lat = f["geometry"]["coordinates"][:2]
+                (mx if es_mexico(lon, lat) else wd).append((frp, f))
+            for t in (mx, wd):
+                t.sort(key=lambda x: x[0], reverse=True)
+            for _, f in mx:
+                f["properties"]["scope"] = "mx"
+            feats = [f for _, f in mx[:3000]] + [f for _, f in wd[:1500]]
+            print(f"  [incendios] archivo publico: Mexico {len(mx)}, mundo {len(wd)}")
+            return write_geojson("fires.geojson", feats, {"note": "Archivo público de NASA FIRMS (NOAA-20 VIIRS, 24 h)"})
+        except Exception as e:
+            print(f"  [incendios] archivo publico fallo: {e}")
+            return write_geojson("fires.geojson", [], {"note": f"Sin datos: {e}"})
 
     # Mexico (completo, cap 3000 por FRP)
     try:
@@ -1608,7 +1642,7 @@ def fetch_aircraft():
 
 def main():
     os.makedirs(DATA_DIR, exist_ok=True)
-    print(f"== CLIMA TACTICO :: actualizacion {now_iso()} ==")
+    print(f"== RIESGOS Y CLIMA :: actualizacion {now_iso()} ==")
     manifest = {"generated": now_iso(), "sources": {}}
 
     jobs = [

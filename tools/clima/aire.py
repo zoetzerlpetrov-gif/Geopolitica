@@ -29,7 +29,7 @@ API = "https://air-quality-api.open-meteo.com/v1/air-quality"
 VARIABLES = "us_aqi,pm2_5,pm10,ozone,nitrogen_dioxide,sulphur_dioxide,carbon_monoxide"
 CADA_H = 3
 BLOQUE = 100
-# Bandas del índice US AQI de la EPA: (máximo, nivel 0–5, etiqueta, color). Mismo esquema que Clima Táctico.
+# Bandas del índice US AQI de la EPA: (máximo, nivel 0–5, etiqueta, color). Mismo esquema que el resto del mapa.
 BANDAS = [(50, 0, "Buena", "#00e400"), (100, 1, "Moderada", "#ffd23f"), (150, 2, "Dañina para grupos sensibles", "#ff7e00"),
           (200, 3, "Dañina", "#ff0000"), (300, 4, "Muy dañina", "#8f3f97"), (10 ** 6, 5, "Peligrosa", "#7e0023")]
 

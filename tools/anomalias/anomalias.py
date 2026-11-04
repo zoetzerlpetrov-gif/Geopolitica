@@ -4,12 +4,10 @@
 Nada de esto afirma que un fenómeno sea real ni extraterrestre: son REPORTES, con su nivel de respaldo.
 
 Fuentes:
-- TrackAlien (repositorio público de la misma cuenta, github.com/zoetzerlpetrov-gif/trackalien), que se actualiza
-  2 veces al día: noticias y blogs recientes (Google News, The Black Vault, Inexplicata…) y casos históricos.
-  Aquí se filtra: de las notas generales solo pasan las que hablan del tema en el título; se guardan título, fuente,
-  fecha y enlace, nunca el texto de la nota. TrackAlien desplaza al azar las coordenadas de las noticias (de 1° a 8°,
-  y a veces las pone en cualquier punto del mundo), así que aquí se vuelven a ubicar con el lugar que nombra el título
-  (ciudad o estado; si no, el centro del país, marcado como aproximado). Sin lugar reconocible, la nota no se dibuja.
+- Casos históricos curados (config/anomalias_casos.json): Roswell, Campeche, Nimitz… con su nivel de credibilidad.
+- Blogs dedicados al tema (Inexplicata, Latest UFO Sightings, Open Minds, Mystery Wire): sus entradas pasan sin filtro.
+  Cada nota se ubica con el lugar que nombra el título (ciudad o estado; si no, el centro del país, marcado como
+  aproximado). Sin lugar reconocible, la nota no se dibuja. Se guardan título, fuente, fecha y enlace, nunca el texto.
 - NUFORC (National UFO Reporting Center), versión geocodificada de github.com/planetsig/ufo-reports (≈ 80 mil
   reportes civiles, 1910–2014). Solo se publican CONTEOS por celda de 1°, sin el texto de los testigos.
 - Medios propios (FEEDS_PROPIOS): RSS de medios del tema (The Debrief, Liberation Times) y de un
@@ -39,18 +37,18 @@ import fuentes as F  # noqa: E402
 from geo import Gazetteer  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "anomalias.geojson")
-# Archivo acumulado de notas (sin agrupar): TrackAlien solo publica las recientes; lo que deja de publicar se conserva aquí.
+# Archivo acumulado de notas (sin agrupar): los RSS solo publican las recientes; lo que dejan de publicar se conserva aquí.
 ARCHIVO = os.path.join(ROOT, "vivos", "anomalias_archivo.json")
 MAX_ARCHIVO = 20000
 CATALOGO = os.path.join(ROOT, "config", "anomalias.json")
-TA = "https://raw.githubusercontent.com/zoetzerlpetrov-gif/trackalien/main/data/"
+CASOS = os.path.join(ROOT, "config", "anomalias_casos.json")
 NUFORC = "https://raw.githubusercontent.com/planetsig/ufo-reports/master/csv-data/ufo-scrubbed-geocoded-time-standardized.csv"
 CADA_H = 6
 NUFORC_CADA_DIAS = 30  # el archivo no cambia desde 2014: basta con recalcular una vez al mes
 DIAS_RECIENTES = 365
 
-# Categorías de TrackAlien → nombre en español.
-TIPOS_TA = {"ufo": "Objeto aéreo no identificado", "uso": "Objeto sumergido o marítimo", "contact": "Supuesto contacto o seres",
+# Tipos de fenómeno → nombre en español.
+TIPOS_ANOM = {"ufo": "Objeto aéreo no identificado", "uso": "Objeto sumergido o marítimo", "contact": "Supuesto contacto o seres",
             "lights_sky": "Luces en el cielo", "lights_ground": "Luces a ras de suelo", "sound": "Sonidos inexplicados",
             "em": "Efectos electromagnéticos", "volcano": "Objetos sobre volcanes", "crop": "Figuras en cultivos"}
 # Feeds dedicados al tema: sus entradas pasan sin filtro de palabras.
@@ -63,7 +61,7 @@ TEMA = re.compile(r"\b(ovnis?|ufos?|uaps?|alienigenas?|extraterrestres?|platillo
                   r"agroglifos?|abduccion(?:es)?|abducted|humanoides?|nave (?:extraterrestre|nodriza)|luz extrana|luces extranas|"
                   r"luces misteriosas|strange lights?|mysterious lights?|cilindro volador|objeto volador|alien (?:encounter|life|contact|"
                   r"spacecraft|craft|bodies|technology)|non-human|no humanos?|aaro)\b", re.I)
-NIVEL_TA = (("OFICIAL", "oficial"), ("HISTÓRICO / VERIFICADO", "oficial"), ("MUY ALTA", "medios"), ("ALTA", "medios"),
+NIVEL_CRED = (("OFICIAL", "oficial"), ("HISTÓRICO / VERIFICADO", "oficial"), ("MUY ALTA", "medios"), ("ALTA", "medios"),
             ("MEDIA-ALTA", "medios"), ("NUFORC", "civil"))
 
 
@@ -71,7 +69,7 @@ def sin_acentos(t):
     return "".join(c for c in unicodedata.normalize("NFD", str(t or "")) if unicodedata.category(c) != "Mn").lower()
 
 
-# Tipo de TrackAlien deducido del título cuando la nota llega como «ufo» genérico (orden: lo más específico primero).
+# Tipo de fenómeno deducido del título cuando la nota llega como «ufo» genérico (orden: lo más específico primero).
 TIPO_POR_TEXTO = (
     ("crop", re.compile(r"\b(crop circles?|agroglifos?|figuras? en (?:los )?cultivos?)\b")),
     ("volcano", re.compile(r"\b(volcan(?:es)?|volcano(?:es)?|popocatepetl|crater)\b")),
@@ -86,7 +84,7 @@ TIPO_POR_TEXTO = (
 
 
 def tipo_por_texto(titulo, tipo_ta=""):
-    """Tipo de TrackAlien de una nota: el de origen si es específico; si es «ufo» o falta, se deduce del título."""
+    """Tipo de fenómeno de una nota: el de origen si es específico; si es «ufo» o falta, se deduce del título."""
     if tipo_ta and tipo_ta != "ufo":
         return tipo_ta
     t = sin_acentos(titulo)
@@ -103,7 +101,7 @@ def es_del_tema(titulo, fuentes):
     return bool(TEMA.search(sin_acentos(titulo)))
 
 
-def _fuentes_ta(props):
+def _fuentes_de(props):
     partes = [x.strip() for x in str(props.get("sources") or "").split("|") if x.strip()]
     url = next((x for x in partes if re.match(r"^https?://", x)), "")
     nombres = [x for x in partes if not re.match(r"^https?://", x) and x != "GDELT Global Knowledge Graph"]
@@ -125,7 +123,7 @@ LUGARES_EXTRA = [("popocatepetl", -98.622, 19.023, "Popocatépetl", "MEX"), ("po
                  ("الإمارات", 54.0, 24.0, "Emiratos Árabes Unidos", "ARE"), ("قطر", 51.18, 25.35, "Catar", "QAT"), ("سوريا", 38.99, 34.80, "Siria", "SYR"),
                  ("لبنان", 35.86, 33.85, "Líbano", "LBN"), ("الأردن", 36.24, 30.59, "Jordania", "JOR"), ("مصر", 30.80, 26.82, "Egipto", "EGY"),
                  ("عمان", 55.92, 21.51, "Omán", "OMN"), ("البحرين", 50.56, 26.07, "Baréin", "BHR"), ("اليمن", 48.52, 15.55, "Yemen", "YEM")]
-ISO2_TA = {"US": "USA", "MX": "MEX", "BR": "BRA", "AR": "ARG", "CL": "CHL", "CO": "COL", "PE": "PER", "ES": "ESP", "GB": "GBR", "UK": "GBR",
+ISO2_PAIS = {"US": "USA", "MX": "MEX", "BR": "BRA", "AR": "ARG", "CL": "CHL", "CO": "COL", "PE": "PER", "ES": "ESP", "GB": "GBR", "UK": "GBR",
            "CA": "CAN", "AU": "AUS", "RU": "RUS", "Russia": "RUS", "EE.UU.": "USA", "México": "MEX", "Reino Unido": "GBR"}
 
 
@@ -172,7 +170,7 @@ class Ubicador:
         if m:
             lon, lat, nombre, iso, prec, _ = self.lugares[m.group(1)]
             return lon, lat, nombre, prec
-        iso = self.gaz.pais_en_texto(titulo) or ISO2_TA.get(str(pais_ta).strip())
+        iso = self.gaz.pais_en_texto(titulo) or ISO2_PAIS.get(str(pais_ta).strip())
         if iso:
             lon, lat = self.gaz.centroide(iso)
             if lon is not None:
@@ -182,6 +180,10 @@ class Ubicador:
 
 # (medio, URL del RSS, dedicado al tema). Revisados el 04-nov-2026: su robots.txt permite leer el feed.
 FEEDS_PROPIOS = [
+    ("Inexplicata (es)", "https://inexplicata.blogspot.com/feeds/posts/default?alt=rss", True),
+    ("Latest UFO Sightings", "https://www.latest-ufo-sightings.net/feed", True),
+    ("Open Minds UFO News", "https://www.openminds.tv/feed", True),
+    ("Mystery Wire", "https://www.mysterywire.com/feed/", True),
     ("The Debrief", "https://thedebrief.org/feed/", False),
     ("Liberation Times", "https://www.liberationtimes.com/home?format=rss", False),
     ("IranWire", "https://iranwire.com/en/feed/", False),
@@ -226,7 +228,7 @@ def nota_propia(titulo, url, fecha, medio, ubicador, dedicado=False, pais_medio=
     lon, lat, lugar, prec = u
     tipo = tipo_por_texto(titulo)
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": {
-        "id": f"{origen}:{_id_url(url)}", "capa": "anom_recientes", "tipo": tipo, "tipo_nombre": TIPOS_TA.get(tipo, "Otro"),
+        "id": f"{origen}:{_id_url(url)}", "capa": "anom_recientes", "tipo": tipo, "tipo_nombre": TIPOS_ANOM.get(tipo, "Otro"),
         "titulo": titulo[:160], "fecha": (fecha or "")[:10], "nivel": "medios", "credibilidad": "", "pais": "", "lugar": lugar,
         "precision": precision or prec, "fuente": medio, "resumen": "", "url": url}}
 
@@ -290,16 +292,16 @@ def de_gdelt(ubicador, leer=None, pausa=PAUSA_GDELT_S):
     return out, "; ".join(notas)
 
 
-def nivel_ta(cred):
+def nivel_cred(cred):
     c = str(cred or "").upper()
-    for clave, nivel in NIVEL_TA:
+    for clave, nivel in NIVEL_CRED:
         if clave in c:
             return nivel
     return "medios"
 
 
-def de_trackalien(fc, recientes, hoy, ubicador=None):
-    """Features de TrackAlien → nuestro formato. `recientes`: True para el archivo de eventos recientes (se re-ubican)."""
+def de_coleccion(fc, recientes, hoy, ubicador=None):
+    """FeatureCollection de notas o casos → nuestro formato. `recientes`: True para notas recientes (se re-ubican)."""
     out = []
     if recientes and ubicador is None:
         ubicador = Ubicador()
@@ -310,7 +312,7 @@ def de_trackalien(fc, recientes, hoy, ubicador=None):
             lon, lat = (float(x) for x in f["geometry"]["coordinates"][:2])
         except (KeyError, TypeError, ValueError):
             continue
-        nombres, url = _fuentes_ta(p)
+        nombres, url = _fuentes_de(p)
         titulo = str(p.get("title") or "").strip()
         cred = str(p.get("credibility") or "")
         if recientes:
@@ -325,17 +327,35 @@ def de_trackalien(fc, recientes, hoy, ubicador=None):
         else:
             if "NUFORC" in cred:  # los reportes civiles van agregados por celda (densidad), no uno por uno
                 continue
-            capa, nivel = "anom_historicos", nivel_ta(cred)
+            capa, nivel = "anom_historicos", nivel_cred(cred)
             lugar, precision = "", "sitio"
         tipo = tipo_por_texto(titulo, p.get("type")) if recientes else (p.get("type") or "ufo")
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": {
-            "id": f"ta:{p.get('id')}", "capa": capa, "tipo": tipo, "tipo_nombre": TIPOS_TA.get(tipo, "Otro"),
+            "id": f"ta:{p.get('id')}", "capa": capa, "tipo": tipo, "tipo_nombre": TIPOS_ANOM.get(tipo, "Otro"),
             "titulo": titulo[:160], "fecha": p.get("date") or "", "nivel": nivel, "credibilidad": cred[:80],
-            "pais": p.get("country") or "", "lugar": lugar, "precision": precision, "fuente": ", ".join(nombres[:3]) or "TrackAlien",
-            # Casos históricos curados en TrackAlien: su resumen es propio del repositorio (no copia de una nota).
+            "pais": p.get("country") or "", "lugar": lugar, "precision": precision, "fuente": ", ".join(nombres[:3]) or "Casos curados (DOMINUS)",
+            # Casos históricos curados: su resumen es propio (no copia de una nota).
             "resumen": "" if recientes else str(p.get("description") or "")[:400],
-            "url": url or "https://github.com/zoetzerlpetrov-gif/trackalien"}})
+            "url": url or _busqueda_wikipedia(titulo)}})
     return out
+
+
+def _busqueda_wikipedia(titulo):
+    """Referencia para un caso sin enlace propio: búsqueda en Wikipedia con el lugar o nombre del caso."""
+    import urllib.parse
+    clave = re.split(r" [—–-] ", titulo or "")[0].strip() or titulo
+    return "https://es.wikipedia.org/w/index.php?search=" + urllib.parse.quote(clave)
+
+
+def casos_historicos(cfg):
+    """config/anomalias_casos.json → FeatureCollection con el mismo formato que leen las notas."""
+    feats = []
+    for c in (cfg or {}).get("casos", []):
+        feats.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [c["lon"], c["lat"]]}, "properties": {
+            "id": c["id"], "type": c.get("tipo"), "date": c.get("fecha"), "title": c.get("titulo"), "description": c.get("resumen"),
+            "credibility": c.get("credibilidad"), "country": c.get("pais"),
+            "sources": " | ".join([*c.get("fuentes", []), *([c["url"]] if c.get("url") else [])])}})
+    return {"type": "FeatureCollection", "features": feats}
 
 
 def unir_archivo(previas, nuevas, hoy, maximo=MAX_ARCHIVO):
@@ -419,17 +439,19 @@ def de_catalogo(cat):
 
 
 def leer_archivo(previo=None):
-    """Archivo de notas; la primera vez se siembra con las notas individuales de la corrida anterior."""
+    """Archivo de notas; la primera vez se siembra con las notas individuales de la corrida anterior. Se descartan las
+    notas sin enlace a su medio (las que solo apuntaban a un repositorio intermedio)."""
     try:
-        return json.load(open(ARCHIVO, encoding="utf-8"))["features"]
+        feats = json.load(open(ARCHIVO, encoding="utf-8"))["features"]
     except (OSError, ValueError, KeyError):
-        return [f for f in (previo or {}).get("features", []) if str(f["properties"].get("id", "")).startswith("ta:")
-                and f["properties"].get("capa") in ("anom_recientes", "anom_archivo")]
+        feats = [f for f in (previo or {}).get("features", []) if str(f["properties"].get("id", "")).startswith("ta:")
+                 and f["properties"].get("capa") in ("anom_recientes", "anom_archivo")]
+    return [f for f in feats if "github.com/" not in str(f["properties"].get("url", "")) and "githubusercontent" not in str(f["properties"].get("url", ""))]
 
 
 def guardar_archivo(feats, ahora):
     os.makedirs(os.path.dirname(ARCHIVO), exist_ok=True)
-    json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "nota": "Notas de TrackAlien acumuladas (título, medio, fecha y enlace; sin texto).",
+    json.dump({"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "nota": "Notas acumuladas de blogs, medios y GDELT (título, medio, fecha y enlace; sin texto).",
                "features": feats}, open(ARCHIVO, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 
 
@@ -449,34 +471,24 @@ def main():
     except (OSError, ValueError):
         pass
     feats, estado = [], {}
-    for nombre, recientes in (("events_recent.geojson", True), ("events_historical.geojson", False)):
-        capa = "anom_recientes" if recientes else "anom_historicos"
-        if recientes:
-            # Notas: se suman al archivo acumulado (lo que TrackAlien deja de publicar no se pierde).
-            archivo = leer_archivo(previo)
-            try:
-                nuevos = de_trackalien(json.loads(F.get(TA + nombre, timeout=60)), True, ahora)
-                estado[capa] = f"ok ({len(nuevos)} notas en TrackAlien)"
-            except Exception as e:  # noqa: BLE001  se sigue con el archivo
-                nuevos = []
-                estado[capa] = f"error: {e}"
-            ubicador = Ubicador()
-            propios, est_feeds = de_feeds_propios(ubicador)
-            gd, estado["anom_gdelt"] = de_gdelt(ubicador)
-            estado["anom_medios"] = est_feeds
-            nuevos += propios + gd
-            archivo = unir_archivo(archivo, nuevos, ahora)
-            guardar_archivo(archivo, ahora)
-            estado["anom_archivo"] = f"{len(archivo)} notas guardadas ({sum(1 for f in archivo if f['properties']['capa'] == 'anom_archivo')} de hace más de un año)"
-            feats += agrupar_por_pais(archivo)
-            continue
-        try:
-            nuevos = de_trackalien(json.loads(F.get(TA + nombre, timeout=60)), recientes, ahora)
-            feats += nuevos
-            estado[capa] = f"ok ({len(nuevos)})"
-        except Exception as e:  # noqa: BLE001  se conserva lo anterior de esta fuente
-            feats += _previas(previo, {capa})
-            estado[capa] = f"error: {e}"
+    # Notas: se suman al archivo acumulado (lo que un medio deja de publicar no se pierde).
+    archivo = leer_archivo(previo)
+    ubicador = Ubicador()
+    propios, est_feeds = de_feeds_propios(ubicador)
+    gd, estado["anom_gdelt"] = de_gdelt(ubicador)
+    estado["anom_medios"] = est_feeds
+    estado["anom_recientes"] = f"ok ({len(propios) + len(gd)} notas nuevas en esta corrida)"
+    archivo = unir_archivo(archivo, propios + gd, ahora)
+    guardar_archivo(archivo, ahora)
+    estado["anom_archivo"] = f"{len(archivo)} notas guardadas ({sum(1 for f in archivo if f['properties']['capa'] == 'anom_archivo')} de hace más de un año)"
+    feats += agrupar_por_pais(archivo)
+    try:
+        hist = de_coleccion(casos_historicos(json.load(open(CASOS, encoding="utf-8"))), False, ahora)
+        feats += hist
+        estado["anom_historicos"] = f"ok ({len(hist)})"
+    except Exception as e:  # noqa: BLE001  se conserva lo anterior
+        feats += _previas(previo, {"anom_historicos"})
+        estado["anom_historicos"] = f"error: {e}"
     nuforc_gen = previo.get("nuforc_generado_utc", "")
     viejo = not nuforc_gen or ahora - datetime.strptime(nuforc_gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) > timedelta(days=NUFORC_CADA_DIAS)
     if viejo:

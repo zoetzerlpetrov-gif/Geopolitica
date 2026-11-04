@@ -1,4 +1,4 @@
-// Capas de riesgos integradas desde Clima Táctico (WarRoomViajero).
+// Capas de riesgos y clima generadas por el propio proyecto.
 // Ejecutar:  node --test "tests/js/*.test.mjs"
 import { test } from "node:test";
 import assert from "node:assert/strict";
@@ -7,10 +7,8 @@ import { CAPAS, preparar, textoEspacial, htmlRiesgo, BASES } from "../../js/ries
 const capa = (id) => CAPAS.find((c) => c.id === id);
 const pt = (props, coords = [-99, 19]) => ({ type: "Feature", geometry: { type: "Point", coordinates: coords }, properties: props });
 
-test("las capas leen el mismo dominio primero y GitHub como respaldo", () => {
-  assert.equal(BASES[0], "data/vivos/ct/");  // copia propia primero: no depende de WarRoomViajero
-  assert.match(BASES[1], /^https:\/\/zoetzerlpetrov-gif\.github\.io\/WarRoomViajero\/data\/$/);
-  assert.match(BASES[2], /raw\.githubusercontent\.com/);
+test("las capas leen solo archivos del propio sitio (sin otro repositorio)", () => {
+  assert.deepEqual(BASES, ["data/vivos/ct/"]);
   assert.ok(CAPAS.every((c) => c.url || c.archivos?.length || c.generar));
 });
 
