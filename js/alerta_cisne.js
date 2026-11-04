@@ -71,6 +71,7 @@ export function alertasAltas(fc) {
     .sort((a, b) => String(a.properties.paises).localeCompare(String(b.properties.paises), "es"));
 }
 
+const LS_SECCIONES = "geo_cisne_secciones";
 const GRUPOS = [["registro", "🏛️ Llamados oficiales excepcionales"], ["nivel_nacional", "🛡️ Niveles nacionales de amenaza"], ["boletin", "🛡️ Niveles nacionales de amenaza"],
   ["desastre", "🌪️ Desastres en alerta roja (GDACS)"], ["viaje", "⛔ No viajar a todo el país"]];
 const grupoDe = (t) => (GRUPOS.find(([k]) => k === t) || [null, "Otras alertas"])[1];
@@ -82,21 +83,28 @@ const tarjeta = (p, i, clase = "ac-ir") => `<li data-busca="${esc(`${p.titulo} $
   ${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener noreferrer">Fuente: ${esc(p.fuente || "oficial")}</a>` : ""}</li>`;
 
 /** HTML del aviso: barra fija (arrastrable), buscador si hay muchas, secciones por tipo y lista con desplazamiento. */
-export function htmlAlertas(feats, altas = []) {
+/** Sección plegable: abierta salvo que la persona la haya cerrado (`estado[clave] === false`); «riesgo alto» empieza cerrada. */
+const seccion = (clave, titulo, n, cuerpo, estado, abierta = true) =>
+  `<li class="ac-sec ac-grupo" data-grupo="${esc(clave)}"><details${(estado[clave] ?? abierta) ? " open" : ""}><summary>${titulo} <span>(${n})</span></summary>`
+  + `<ul class="ac-lista ac-sub">${cuerpo}</ul></details></li>`;
+
+export function htmlAlertas(feats, altas = [], estado = {}) {
   if (!feats.length && !altas.length) return "";
   const paises = new Set([...feats, ...altas].map((f) => f.properties.iso3).filter(Boolean)).size;
   const secciones = [];
-  for (const [, titulo] of GRUPOS.filter((g, i, a) => a.findIndex((x) => x[1] === g[1]) === i)) {
+  for (const [clave, titulo] of GRUPOS.filter((g, i, a) => a.findIndex((x) => x[1] === g[1]) === i)) {
     const items = feats.map((f, i) => [f, i]).filter(([f]) => grupoDe(f.properties.tipo) === titulo);
-    if (items.length) secciones.push(`<li class="ac-sec">${titulo} <span>(${items.length})</span></li>${items.map(([f, i]) => tarjeta(f.properties, i)).join("")}`);
+    if (items.length) secciones.push(seccion(clave, titulo, items.length, items.map(([f, i]) => tarjeta(f.properties, i)).join(""), estado));
   }
   const otros = feats.map((f, i) => [f, i]).filter(([f]) => grupoDe(f.properties.tipo) === "Otras alertas");
-  if (otros.length) secciones.push(`<li class="ac-sec">Otras alertas <span>(${otros.length})</span></li>${otros.map(([f, i]) => tarjeta(f.properties, i)).join("")}`);
+  if (otros.length) secciones.push(seccion("otras", "Otras alertas", otros.length, otros.map(([f, i]) => tarjeta(f.properties, i)).join(""), estado));
+  if (altas.length) secciones.push(seccion("altas", "⚠️ Riesgo alto: reconsiderar el viaje", `${altas.length} países`, altas.map((f, i) => tarjeta(f.properties, i, "ac-ir2")).join(""), estado, false));
+  const varias = secciones.length > 1;
   return `<div class="ac-cab"><b title="Arrastra esta barra para mover el aviso; doble clic lo regresa a su lugar">⚠️ ${feats.length === 1 ? "1 alerta oficial activa" : `${feats.length} alertas oficiales activas`} · ${paises} países</b>
     <button type="button" class="ac-plegar" aria-expanded="true" title="Plegar o desplegar">▾</button></div>
-    ${feats.length + altas.length > 8 ? `<input type="search" class="ac-busca" placeholder="Buscar país o alerta…" aria-label="Buscar en las alertas">` : ""}
-    <ul class="ac-lista">${secciones.join("")}
-    ${altas.length ? `<li class="ac-sec"><details><summary>⚠️ Riesgo alto: reconsiderar el viaje (${altas.length} países)</summary><ul class="ac-lista ac-sub">${altas.map((f, i) => tarjeta(f.properties, i, "ac-ir2")).join("")}</ul></details></li>` : ""}</ul>`;
+    ${feats.length + altas.length > 8 || varias ? `<div class="ac-herr">${feats.length + altas.length > 8 ? `<input type="search" class="ac-busca" placeholder="Buscar país o alerta…" aria-label="Buscar en las alertas">` : ""}${varias
+      ? `<button type="button" class="ac-todas" data-abrir="1" title="Expandir todas las secciones">⊞</button><button type="button" class="ac-todas" data-abrir="0" title="Contraer todas las secciones">⊟</button>` : ""}</div>` : ""}
+    <ul class="ac-lista">${secciones.join("")}</ul>`;
 }
 
 /** Monta el aviso debajo del buscador de lugares. `irA(lon, lat)` centra el mapa en la alerta. */
@@ -113,6 +121,10 @@ export function iniciarAlertaCisne(irA) {
   form.after(caja);
   const reubicar = hacerArrastrable(caja);
   let feats = [], altas = [];
+  // Secciones que la persona abrió o cerró (se recuerdan en este navegador y al refrescar los datos).
+  let estado = {};
+  try { estado = JSON.parse(localStorage.getItem(LS_SECCIONES) || "{}") || {}; } catch { estado = {}; }
+  const guardar = () => { try { localStorage.setItem(LS_SECCIONES, JSON.stringify(estado)); } catch { /* sin almacenamiento */ } };
   const pintar = async () => {
     try {
       const r = await fetch(URL_DATOS, { cache: "no-cache" });
@@ -121,7 +133,7 @@ export function iniciarAlertaCisne(irA) {
     } catch { feats = []; altas = []; }
     const plegado = caja.classList.contains("plegado");
     const busca = caja.querySelector(".ac-busca")?.value || "";
-    caja.innerHTML = htmlAlertas(feats, altas);
+    caja.innerHTML = htmlAlertas(feats, altas, estado);
     const b = caja.querySelector(".ac-busca");
     if (b && busca) { b.value = busca; filtrar(busca); }
     caja.hidden = !feats.length && !altas.length;
@@ -133,9 +145,28 @@ export function iniciarAlertaCisne(irA) {
   const filtrar = (q) => {
     const t = q.trim().toLowerCase();
     for (const li of caja.querySelectorAll("li[data-busca]")) li.hidden = !!t && !li.dataset.busca.includes(t);
+    // Al buscar se abren las secciones con coincidencias y se ocultan las vacías; al borrar vuelve lo que la persona eligió.
+    for (const g of caja.querySelectorAll(".ac-grupo")) {
+      const d = g.querySelector("details");
+      const hay = [...g.querySelectorAll("li[data-busca]")].some((li) => !li.hidden);
+      g.hidden = !!t && !hay;
+      d.open = t ? hay : (estado[g.dataset.grupo] ?? g.dataset.grupo !== "altas");
+    }
   };
+  caja.addEventListener("toggle", (e) => {
+    const g = e.target.closest?.(".ac-grupo");
+    if (!g || caja.querySelector(".ac-busca")?.value.trim()) return;  // mientras se busca no se guarda
+    estado[g.dataset.grupo] = e.target.open;
+    guardar();
+  }, true);
   caja.addEventListener("input", (e) => { if (e.target.classList.contains("ac-busca")) filtrar(e.target.value); });
   caja.addEventListener("click", (e) => {
+    const todas = e.target.closest(".ac-todas");
+    if (todas) {
+      for (const g of caja.querySelectorAll(".ac-grupo")) { estado[g.dataset.grupo] = todas.dataset.abrir === "1"; g.querySelector("details").open = estado[g.dataset.grupo]; }
+      guardar();
+      return;
+    }
     const pl = e.target.closest(".ac-plegar");
     if (pl) { const p = caja.classList.toggle("plegado"); pl.setAttribute("aria-expanded", String(!p)); pl.textContent = p ? "▸" : "▾"; return; }
     const ir = e.target.closest(".ac-ir, .ac-ir2");
