@@ -34,3 +34,20 @@ def test_semaforo_cenapred():
     meta = '<meta name="description" content="&quot;El Semáforo de Alerta Volcánica del Popocatépetl se encuentra en AMARILLO FASE 2&quot;. El CENAPRED exhorta">'
     assert V.semaforo_de(meta) == ("Amarillo", 2)
     assert V.semaforo_de("Sin semáforo en el texto") is None
+
+
+def test_aire_desde_sensor_community():
+    import aire as A
+    datos = [
+        {"location": {"latitude": "48.85", "longitude": "2.35", "indoor": 0}, "sensordatavalues": [{"value_type": "P2", "value": "8.0"}, {"value_type": "P1", "value": "20"}]},
+        {"location": {"latitude": "48.86", "longitude": "2.34", "indoor": 0}, "sensordatavalues": [{"value_type": "P2", "value": "10.0"}, {"value_type": "P1", "value": "30"}]},
+        {"location": {"latitude": "48.86", "longitude": "2.34", "indoor": 1}, "sensordatavalues": [{"value_type": "P2", "value": "90"}]},     # interior: fuera
+        {"location": {"latitude": "48.87", "longitude": "2.33", "indoor": 0}, "sensordatavalues": [{"value_type": "P2", "value": "999"}]},    # saturado: fuera
+        {"location": {"latitude": "19.43", "longitude": "-99.13", "indoor": 0}, "sensordatavalues": [{"value_type": "P2", "value": "40"}]},   # solo 1 sensor
+    ]
+    lec = A.lecturas_sensor_community(datos)
+    assert len(lec) == 3
+    f = A.features_sensores([("París", "FRA", 48.856, 2.352, "capital"), ("Ciudad de México", "MEX", 19.43, -99.13, "capital")], lec)
+    assert len(f) == 1 and f[0]["properties"]["pm2_5"] == 9.0 and f[0]["properties"]["sensores"] == 2
+    assert f[0]["properties"]["us_aqi"] == 50 and f[0]["properties"]["level_label"] == "Buena"
+    assert A.aqi_de(35.4, A.CORTES_PM25) == 100 and A.aqi_de(55.4, A.CORTES_PM25) == 150 and A.aqi_de(None, A.CORTES_PM25) is None
