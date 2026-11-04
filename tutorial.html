@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tutorial de DOMINUS OSINT</title>
-  <meta name="description" content="Guía completa de DOMINUS OSINT: barra superior, cada opción del menú izquierdo, herramientas, investigación y las demás secciones, con ejemplos resueltos paso a paso.">
+  <meta name="description" content="Guía completa de DOMINUS OSINT: barra superior, cada opción del menú izquierdo, herramientas, investigación, fases del Centro de inteligencia y las demás secciones, con ejemplos resueltos paso a paso.">
   <meta name="color-scheme" content="light dark">
   <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
@@ -25,6 +25,8 @@
     .tut .inv .grupo-inv { margin: 6px 0 10px; }
     .tut .buscar { position: sticky; top: 0; background: var(--bg); padding: 8px 0; z-index: 2; }
     .tut .buscar input { width: 100%; font: inherit; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
+    .tut pre { max-width: 100%; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; padding: 10px; background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--radius); }
+    .tut details[id] { scroll-margin-top: 100px; }
     .tut [hidden] { display: none !important; }
   </style>
 </head>
@@ -33,7 +35,7 @@
   <main class="tut">
     <p>Esta guía explica cada parte de DOMINUS OSINT desde cero: qué hace cada botón y casilla, de dónde salen los datos y cómo usar las herramientas con ejemplos resueltos.
       La lista completa de opciones del menú izquierdo se genera a partir del propio mapa, así que coincide con lo que ves en pantalla.</p>
-    <div class="buscar"><input id="tut-q" type="search" placeholder="Buscar en el tutorial (desde 3 letras): sismos, licitaciones, contraseña, CIDR…" aria-label="Buscar en el tutorial"><p class="meta" id="tut-n"></p></div>
+    <div class="buscar"><input id="tut-q" type="search" placeholder="Buscar en el tutorial (desde 3 letras): sismos, licitaciones, contraseña, CIDR, fases, transbordo…" aria-label="Buscar en el tutorial"><p class="meta" id="tut-n"></p></div>
 
     <nav aria-label="Contenido"><ul class="indice" id="tut-indice"></ul></nav>
 
@@ -66,7 +68,7 @@
     <section id="t-barra" data-tema>
       <h2>2. Barra superior</h2>
       <details class="paso" open><summary>📚 Secciones</summary>
-        <p>Abre las páginas especializadas. Cada una tiene su propio capítulo más abajo (capítulo 7). La lista completa:</p>
+        <p>Abre las páginas especializadas. Las páginas especializadas se explican en el capítulo 7; las herramientas de las fases están en el <a href="#t-fases">capítulo 8, Centro de inteligencia</a>. La lista de accesos:</p>
         <ul id="tut-secciones"></ul></details>
       <details class="paso"><summary>Vista: Plano 2D, Globo 3D y Peters</summary>
         <ul><li><b>Plano 2D (Mercator)</b>: el mapa de siempre; deforma el tamaño cerca de los polos (Groenlandia se ve tan grande como África).</li>
@@ -192,15 +194,211 @@
       <details class="paso"><summary>⚖️ Marco normativo y 🏷️ Taxonomía</summary><p>Leyes, tratados, estándares ISO y metodologías que usa el proyecto; y la definición de las 13 áreas y sus subcategorías.</p></details>
     </section>
 
+    <section id="t-fases" data-tema>
+      <h2>8. Centro de inteligencia: las fases paso a paso</h2>
+      <p>Las fases organizan el trabajo del analista: formular una pregunta, contrastar explicaciones, conservar documentos, registrar decisiones y revisar el territorio. Son áreas de trabajo disponibles ahora; no necesitas completar una para abrir otra. Su numeración corresponde al desarrollo de estas herramientas, no a las fases de consultoría de DOMINUS OPS.</p>
+      <p>Abre <b>Secciones → Centro de inteligencia</b>. Coloca el puntero sobre «Centro de inteligencia» para desplegarlo y haz clic en una etapa para ver sus herramientas; también puedes recorrer los controles con <kbd>Tab</kbd> y activarlos con <kbd>Enter</kbd>. La etapa 5 agrupa territorio y transporte. <a href="plataforma.html#fases">Ver todas las herramientas</a> muestra el catálogo completo. En cada módulo, «Claro / Oscuro» cambia el tema y conserva la misma preferencia que el mapa.</p>
+
+      <details class="paso" id="t-fases-preparar" open><summary>Antes de empezar: dónde se guarda el trabajo y cómo practicar</summary>
+        <p>Usaremos un caso ficticio: <b>«Ejercicio · Continuidad de Planta Ejemplo»</b>. La pregunta es si un bloqueo podría afectar las entregas. Los nombres, señales y conclusiones del ejercicio son inventados: no describen una amenaza real.</p>
+        <ol>
+          <li>Utiliza el mismo navegador y la misma dirección del sitio durante el ejercicio. Fases 1 y 2 conservan sus propios registros; desde Fase 4A se incorporan copias al expediente. No se actualizan juntas automáticamente.</li>
+          <li>El <b>expediente</b> es la carpeta de trabajo que comparten los módulos de Fase 4 y Fase 5 en este navegador. Primero lo creas en Fase 4A; después lo eliges en «Expediente de este navegador» dentro de cada herramienta.</li>
+          <li>Escribe «EJERCICIO» en los registros de práctica. Para probar alertas, registra una señal manual; el importador del feed público rechaza ejemplos y no debe usarse para convertir una simulación en noticia.</li>
+          <li>Al terminar una sesión, guarda los formularios pendientes y descarga un respaldo. Borrar datos del sitio, cambiar de perfil o usar una ventana privada puede hacer que no encuentres los mismos registros.</li>
+        </ol>
+        <p class="meta">Todo se opera vía web. Python y la IA opcionales descargan motores para ejecutarlos en el navegador; la colaboración opcional requiere configurar un servicio alojado. Ninguna de estas instrucciones exige Docker, una terminal ni programas de escritorio.</p>
+      </details>
+
+      <details class="paso" id="t-fases-1"><summary>Fase 1 · Planificación: preguntar, buscar fuentes y entregar un análisis</summary>
+        <p><a href="analista.html">Abrir Mesa del analista</a>. Una pregunta útil indica qué decisión hay que tomar, quién responderá y cuándo. <b>PIR</b> es una prioridad de quien decide; <b>IR</b>, una necesidad de información; <b>EEI</b>, un dato específico que ayuda a responder. Puedes registrar cada tipo sin que el sitio cree una jerarquía automática.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: preparar una decisión sobre entregas</b>
+          <ol>
+            <li>En «Preguntas PIR / IR / EEI» escribe el título «EJERCICIO · Entregas de Planta Ejemplo», tipo PIR y pregunta «¿Existe evidencia suficiente para recomendar una ruta alternativa durante las próximas 48 horas?».</li>
+            <li>Responsable: «Analista de práctica». Selecciona una fecha límite. En «Criterio para considerar respondida la pregunta» escribe «Revisar avisos oficiales y el reporte del transportista; documentar fecha, tramo afectado y vacíos». Elige «en curso» y pulsa «Guardar registro». Pregunta, responsable, plazo y criterio son obligatorios al salir de borrador.</li>
+            <li>Abre «Cobertura de fuentes». Vincula el requerimiento, añade una fuente prevista, su enlace público, territorio, idioma, periodo y frecuencia de consulta. En vacíos anota «No contamos con confirmación del tramo exacto». Guarda.</li>
+            <li>En «Productos revisables» vincula la pregunta. Separa hechos, juicio, fuentes y fechas, confianza justificada, alternativas y acciones. Si todavía no hay evidencia, escribe «Información insuficiente» en lugar de afirmar que hay un bloqueo.</li>
+            <li>Antes de marcar «aprobado», registra juicio, fuentes, confianza y revisor. En «Briefing y relevo» anota pendientes, receptor y confirmación de recepción antes de cerrar. La app no envía ese relevo por correo.</li>
+            <li>En «Lecciones» compara la decisión con lo ocurrido y registra una mejora. Usa «Exportar respaldo JSON» para conservar todas las colecciones de Fase 1; «Exportar Markdown» descarga un registro para lectura.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> la pregunta aparece en la lista y el resumen indica si tiene una fuente planificada. Eso acredita planificación registrada, no que la fuente haya sido consultada ni que la pregunta esté resuelta.</p>
+        </div>
+        <p>«Fuentes y derechos» permite revisar licencias documentadas y condiciones del operador antes de reutilizar datos. Cambiar la modalidad a «Producto comercial» filtra el inventario: no concede permisos de redistribución.</p>
+      </details>
+
+      <details class="paso" id="t-fases-2"><summary>Fase 2 · Análisis: hipótesis, empresas y evidencia técnica</summary>
+        <p><a href="fase2.html">Abrir Análisis y expedientes</a>. Aquí se registran alternativas, fichas empresariales, contratos, sanciones, patentes, debida diligencia, teléfonos empresariales publicados, hallazgos técnicos, procedencia multimedia y cabeceras/TLS documentados.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: comparar dos explicaciones mediante ACH</b>
+          <ol>
+            <li>En «Hipótesis y ACH» crea H1: «EJERCICIO · Retraso por bloqueo», vinculada al requerimiento de Fase 1. Registra supuestos e indicadores que la refutarían. Guarda y usa «Nuevo registro» para crear H2: «EJERCICIO · Retraso por avería» con el mismo requerimiento.</li>
+            <li>En «Evidencias ACH» crea «Reporte ficticio del transportista», elige H1 e identificador compartido <code>EJ-E1</code>. Registra fuente «Simulación del tutorial», fecha, relación «neutral», peso 1 y límite «El reporte solo menciona retraso, sin causa».</li>
+            <li>Guarda la misma observación para H2 con el mismo identificador <code>EJ-E1</code>. Así el comparador sabe que valoraste una misma evidencia frente a ambas alternativas.</li>
+            <li>Revisa la comparación ACH del requerimiento. Ambas tienen cero peso de inconsistencia con esa evidencia neutral: el ejemplo no permite preferir ninguna. Documenta qué información necesitas para diferenciarlas.</li>
+            <li>Para dejar una hipótesis «revisada», completa conclusión, revisor e indicadores de refutación. Al editar un registro ya guardado, explica el motivo de la revisión.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> aparecen las dos hipótesis y su evidencia compartida. La inconsistencia ACH es un apoyo para comparar contradicciones; cero inconsistencias no significa certeza ni probabilidad del 100 %.</p>
+        </div>
+        <p>Para revisar un proveedor, comienza en «Fichas empresariales»: razón social, jurisdicción, fuente y fecha. Vincula después contratos, patentes y debida diligencia. Las consultas públicas disponibles muestran candidatos según su cobertura; abre el documento y verifica identidad, jurisdicción e identificador antes de incorporarlo. Una coincidencia de nombre no demuestra que sea la misma empresa; no aparecer en una lista tampoco certifica cumplimiento.</p>
+        <p>Los importadores técnicos leen informes ya disponibles y de alcance autorizado; no lanzan escaneos. Multimedia calcula SHA-256 y permite documentar resultados C2PA aportados, pero no verifica aquí sus firmas. Cabeceras/TLS analiza texto e informes aportados: no inspecciona certificados de servicios arbitrarios. Exporta el respaldo de Fase 2 antes de restaurar otro, porque la restauración reemplaza sus registros.</p>
+      </details>
+
+      <details class="paso" id="t-fases-3"><summary>Fase 3 · Archivos, cifrado y estado de fuentes gratuitas</summary>
+        <p><a href="plataforma.html">Abrir herramientas web</a> o <a href="plataforma.html#tutorial-f3">leer su tutorial específico</a>. <b>SHA-256</b> identifica los bytes de un archivo. El cifrado protege una copia descargada mediante contraseña; no cifra automáticamente las bases guardadas en el navegador.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: crear y recuperar un respaldo cifrado</b>
+          <ol>
+            <li>Exporta primero un respaldo JSON de Fase 1 o Fase 2 y comprueba que el archivo se descargó. En Fase 3, abre «Cifrar o abrir respaldo» y selecciona ese JSON en «Respaldo JSON en claro».</li>
+            <li>Escribe dos veces una contraseña nueva de al menos 12 caracteres que puedas custodiar fuera del sitio. Pulsa «Cifrar y descargar respaldo». Se descarga una copia cifrada; el JSON original continúa en tu carpeta de descargas.</li>
+            <li>En «Abrir una copia cifrada», selecciona el archivo cifrado recién descargado, escribe su contraseña y pulsa «Descifrar y descargar JSON en claro».</li>
+            <li>Abre el JSON recuperado para comprobar que corresponde al respaldo de práctica. Descifrar no restaura ni sustituye registros: para hacerlo debes importarlo desde su fase. Conserva una copia del trabajo actual antes de reemplazarlo.</li>
+            <li>En «Analizar archivo» puedes calcular SHA-256 del JSON original y del recuperado para comparar sus bytes. Si cambió el formato o el espaciado del JSON, la huella puede variar aunque los campos representen los mismos datos.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> obtienes el archivo cifrado y puedes abrirlo con la contraseña correcta. Una contraseña incorrecta impide descifrar; no existe recuperación por correo o cuenta.</p>
+        </div>
+        <p>«Estado de fuentes gratuitas» muestra fecha, cobertura y último resultado de consultas públicas genéricas como OFAC SDN, USAspending y publicaciones EPO. Un estado «ok» indica que esa comprobación respondió; no que tu proveedor esté libre de sanciones ni que exista vigilancia de tus expedientes. Revisa la fecha y el alcance de cada fuente.</p>
+      </details>
+
+      <details class="paso" id="t-fases-4a"><summary>Fase 4A · Crear un expediente, activos, relaciones y originales</summary>
+        <p><a href="fase4.html">Abrir Activos, relaciones y evidencia</a>. Un activo es aquello que quieres proteger o analizar: por ejemplo una instalación, un servicio o un suministro. El expediente reúne sus registros con copias de planificación y análisis.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: reunir el ejercicio en una carpeta de trabajo</b>
+          <ol>
+            <li>Escribe un nombre o alias de quien documenta. En «Título del expediente» introduce «Ejercicio · Continuidad de Planta Ejemplo» y pulsa «Crear expediente». Para abrirlo después, haz clic en su nombre en «Mis expedientes en este navegador».</li>
+            <li>En «Activos» registra «EJERCICIO · Planta Ejemplo», responsable «Operaciones de práctica» e identificador interno «EJ-PLANTA-01». Guarda y comprueba que aparece en la lista.</li>
+            <li>Revisa las opciones de incorporación de Fase 1/2. Incorpora las colecciones de práctica desde este navegador o desde sus respaldos. La incorporación reemplaza la copia de esa fase dentro del expediente, por lo que conviene respaldarlo antes. Son copias de ese momento; editar luego la colección original no actualiza el expediente automáticamente.</li>
+            <li>En «Originales y custodia» selecciona un archivo pequeño de práctica, por ejemplo un TXT que diga «Observación ficticia». Registra procedencia, fecha de adquisición, custodio y motivo. Conserva también el archivo fuera de la app.</li>
+            <li>Utiliza las relaciones para vincular las entidades y evidencias que hayas incorporado. Explica qué documento respalda cada relación, en vez de convertir una sospecha en una relación confirmada.</li>
+            <li>Descarga un respaldo cifrado completo desde esta página y prueba su recuperación. Recuperar una copia crea otro expediente; no es una mezcla automática de dos versiones.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> ves el título, la versión del expediente y el activo registrado. El expediente queda disponible en los selectores de Operaciones, Laboratorio, Territorio y Transporte dentro del mismo navegador.</p>
+        </div>
+        <p>Las fechas, custodios y aprobaciones anotadas son declaraciones. Una huella ayuda a comprobar integridad de bytes; no autentica por sí sola al autor ni convierte el historial local en una cadena de custodia certificada.</p>
+      </details>
+
+      <details class="paso" id="t-fases-4b"><summary>Fase 4B · Señales, reglas, incidentes y tareas</summary>
+        <p><a href="operaciones.html">Abrir Tablero, alertas y respuesta</a>. Una <b>señal</b> es una observación registrada; una <b>regla</b> expresa qué condiciones revisar; un <b>incidente</b> agrupa señales que cumplen esas condiciones. Un incidente de la app no confirma que haya ocurrido una amenaza real.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: generar una alerta de práctica</b>
+          <ol>
+            <li>Selecciona el expediente creado en Fase 4A. En «Señales» registra manualmente el título «EJERCICIO · Bloqueo simulado», resumen «Dato ficticio para probar la regla», fecha y hora recientes, país MEX, severidad 4 y confianza declarada 0.8. Guarda.</li>
+            <li>En «Reglas» crea una regla llamada «EJERCICIO · Revisar bloqueo», responsable «Analista de práctica» y palabra «bloqueo». Selecciona la fuente manual. Usa país MEX, umbral de una señal distinta y una ventana que incluya la señal. Configura severidad/confianza mínimas que la señal cumpla y persistencia 0 para este ejercicio inmediato. Guarda.</li>
+            <li>Pulsa «Evaluar reglas ahora». Revisa el tablero y «Incidentes»: debe aparecer un incidente abierto con su señal. Evaluar de nuevo sin cambios no debe crear otro incidente idéntico.</li>
+            <li>En «Procedimientos» puedes añadir las plantillas de revisión y respuesta. Aplica una al incidente abierto y revisa las tareas creadas; no ejecutan acciones sobre sistemas externos.</li>
+            <li>Registra el resultado de las tareas y las aprobaciones que exija el procedimiento. Para cerrar el incidente, completa las tareas y documenta un motivo. Exporta tickets si necesitas un archivo de seguimiento.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> un incidente de práctica, sus tareas y las decisiones documentadas. Si no aparece, compara palabra, país, fecha, umbral, persistencia y valores mínimos con la señal; no subas sus valores para aparentar un hecho real.</p>
+        </div>
+        <p>La evaluación periódica requiere esta página activa; el navegador puede suspender pestañas. Una pausa mayor de seis minutos reinicia el cómputo de persistencia observada. Exportar tickets no crea solicitudes en Jira/ServiceNow ni envía correos. La confianza de clasificación de un feed tampoco es la probabilidad de que la noticia sea cierta.</p>
+      </details>
+
+      <details class="paso" id="t-fases-4cd"><summary>Fases 4C / 4D · Laboratorio: documentos, citas, entrevistas, Python e IA</summary>
+        <p><a href="laboratorio.html">Abrir Laboratorio de análisis e intercambio</a> y seleccionar el expediente. Este módulo permite incorporar señales con vista previa, consultar textos, redactar informes con citas, cifrar entrevistas y ejecutar recetas fijas de análisis.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: escribir un informe que permita revisar su fuente</b>
+          <ol>
+            <li>En «Documentos» incorpora un texto de práctica con título «EJERCICIO · Aviso de entrega», fuente «Documento ficticio del tutorial» y contenido «La entrega de prueba se retrasa dos horas. La causa del retraso no ha sido confirmada». Pulsa «Guardar documento».</li>
+            <li>En «Consultas» busca «entrega retrasa». La búsqueda literal exige todos los términos, sin distinguir acentos; no interpreta sinónimos ni consulta internet.</li>
+            <li>Selecciona el fragmento para citarlo. Escribe la pregunta «¿Sabemos la causa del retraso?» y análisis «El texto declara un retraso de dos horas; no confirma su causa». Pulsa «Guardar informe con citas».</li>
+            <li>En «Informes» revisa documento, cita, posiciones y huella. Descarga el informe y comprueba que la cita corresponde al texto. Las exportaciones de informes están en claro y no incluyen las entrevistas cifradas.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> un informe con una referencia local comprobable. La cita demuestra de qué texto salió una frase, no que el documento sea auténtico o que su afirmación sea verdadera.</p>
+        </div>
+        <p>Para practicar «Entrevistas», usa un alias inventado, propósito y fundamento declarado, notas ficticias y una contraseña de al menos 12 caracteres. «Cifrar y guardar entrevista» persiste el contenido cifrado. Al descifrarlo para lectura, se bloquea al ocultar la pestaña o tras tres minutos; también puedes pulsar «Bloquear lectura». No existe recuperación de contraseña ni verificación automática del consentimiento.</p>
+        <p>En «Python» revisa la receta antes de pulsar «Descargar motor web y ejecutar». Las recetas cuentan datos de señales guardadas; no ejecutan código libre ni miden riesgo mundial. El resultado permanece en memoria hasta «Guardar ejecución». Puedes repetirlo con la entrada conservada. En IA, selecciona fragmentos, autoriza la descarga del modelo y revisa cada afirmación y cita del borrador antes de guardarlo: puede inventar información. Ambos motores requieren conexión para la primera descarga y recursos del navegador, sin instalar programas locales.</p>
+      </details>
+
+      <details class="paso" id="t-fases-nube"><summary>Colaboración web opcional · Compartir copias cifradas y controlar versiones</summary>
+        <p><a href="colaboracion.html">Abrir Colaboración y su tutorial de activación</a>. Esta es la excepción al trabajo sin cuenta: requiere tu propio proyecto Supabase y usuarios configurados desde su panel web. Permanece desactivada mientras no lo conectes. Consulta las cuotas vigentes del proveedor antes de usarlo con clientes.</p>
+        <ol>
+          <li>Primero practica con un expediente ficticio. Sigue el tutorial del módulo para crear el proyecto, ejecutar su SQL de configuración desde SQL Editor y configurar los usuarios y el acceso por código de correo.</li>
+          <li>Conecta Project URL y la clave pública publishable o anon. Nunca introduzcas claves secret ni service_role. Inicia sesión con un usuario ya registrado.</li>
+          <li>Elige el expediente local, un alias sin datos sensibles, motivo y contraseña de cifrado. Revisa el destino y autoriza expresamente el envío para crear la copia privada en nube.</li>
+          <li>El propietario agrega el UUID del participante con rol lector o editor. Entrega la contraseña por un canal separado; la app no envía invitaciones ni contraseñas.</li>
+          <li>El participante recupera una copia nueva en su navegador. Si tiene permiso de edición, puede publicar una nueva versión después de editarla. Ante un conflicto, recupera la última versión y compara antes de volver a publicar.</li>
+        </ol>
+        <p><b>Resultado esperado:</b> una copia cifrada con historial y permisos; no edición simultánea ni sincronización automática. Alias, ID, UUID de miembros, motivos y fechas son metadatos visibles. Revocar acceso impide nuevas consultas, pero no retira archivos ya descargados ni contraseñas conocidas. El tutorial interno explica la configuración completa y los límites de correo.</p>
+      </details>
+
+      <details class="paso" id="t-fases-5a"><summary>Fase 5A · Dibujar un área y revisar exposición territorial</summary>
+        <p><a href="fase5.html">Abrir Áreas de interés, exposición y movilidad</a>. Un polígono delimita una zona; un corredor combina una línea con un radio de proximidad. Las coordenadas GeoJSON usan <b>[longitud, latitud]</b>, en ese orden.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: guardar un área ficticia</b>
+          <ol>
+            <li>Selecciona tu expediente. Si WebGL no está disponible, utiliza «Usar plano sin WebGL»: ofrece un plano SVG orientativo con controles de movimiento y acercamiento.</li>
+            <li>En «Áreas» escribe «EJERCICIO · Zona de suministro», elige Polígono y pulsa «Dibujar con clics en mapa». Añade al menos tres vértices distintos. Revisa la geometría generada y pulsa «Guardar área o corredor».</li>
+            <li>Como alternativa reproducible, pega esta geometría en el campo GeoJSON y guarda. Delimita una zona ficticia amplia cerca de CDMX; no corresponde a una instalación real del ejercicio:</li>
+          </ol>
+          <pre><code>{"type":"Polygon","coordinates":[[[-99.20,19.35],[-99.10,19.35],[-99.10,19.45],[-99.20,19.45],[-99.20,19.35]]]}</code></pre>
+          <ol start="4">
+            <li>Selecciona el área guardada. En «Fuentes» incorpora las fuentes públicas que necesites de forma explícita. Revisa fecha de observación y precisión; abrir la página por sí solo no descarga eventos ni transporte.</li>
+            <li>En «Activos» puedes georreferenciar el activo del expediente. En «Analizar» revisa coincidencias o proximidad y conserva la evaluación si necesitas compararla después en «Historial».</li>
+          </ol>
+          <p><b>Resultado esperado:</b> el área figura en el selector y en el mapa. Puede haber cero coincidencias. Un evento dentro del polígono solo acredita coincidencia geométrica con los datos consultados; no demuestra afectación del activo ni cobertura de todo lo ocurrido allí.</p>
+        </div>
+        <p>El plano SVG usa longitud/latitud, sin calles ni escala de distancias. La superficie de un corredor no se dibuja como una franja a escala, aunque su radio se utilice en el cálculo. Las noticias pueden tener ubicaciones aproximadas: conserva ese límite en cualquier informe.</p>
+      </details>
+
+      <details class="paso" id="t-fases-5b"><summary>Fase 5B · Consultar una ruta web y documentar dependencias</summary>
+        <p>En la misma página de <a href="fase5.html">Territorio</a>, abre «Rutas web». Esta consulta es diferente de los horarios de transporte: pide a un proveedor una geometría orientativa para automóvil, bicicleta o caminata.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: comparar un trayecto de práctica con una zona</b>
+          <ol>
+            <li>Elige el expediente y el área de práctica. Abre «Rutas web» y revisa los campos de origen, destino, modalidad y proveedor.</li>
+            <li>Utiliza puntos públicos de práctica y respeta el orden que indica cada campo. No introduzcas domicilios privados ni rutas confidenciales para este ejercicio.</li>
+            <li>Lee el aviso del proveedor: calcular la ruta exige enviarle los extremos. Solo solicita la consulta si aceptas ese envío.</li>
+            <li>Revisa distancia, duración y geometría devueltas antes de guardarlas. Úsalas en el análisis espacial del expediente; documenta dependencias y qué cambiaría si una zona o activo se afectara.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> una ruta calculada si responde el proveedor y existe cobertura. No es una confirmación de paso libre, seguridad, tráfico actual o acceso autorizado. Tampoco planifica aquí aviones, barcos, ferris o todas las modalidades del mundo.</p>
+        </div>
+      </details>
+
+      <details class="paso" id="t-fases-5cf"><summary>Fases 5C–5F · Horarios GTFS: practicar viajes y conexiones</summary>
+        <p><a href="transporte.html">Abrir Horarios y conexiones de transporte</a>. <b>GTFS estático</b> es un conjunto de archivos que describe paradas, rutas, calendarios y horarios publicados. No indica por sí mismo dónde está un vehículo ahora. El buscador calcula en el navegador y no envía el trayecto a un planificador externo.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto 1 · Fase 5D: bus y tren ficticios</b>
+          <ol>
+            <li>Selecciona el expediente. Pulsa «Cargar ejemplo sintético de conexión · Fase 5D». Revisa la vista previa y confirma la fuente; cargarla no la incorpora automáticamente al expediente.</li>
+            <li>Comprueba origen «Origen ficticio», destino «Destino ficticio», una fecha de servicio válida, salida <code>07:55:00</code> y hasta un transbordo. Usa el modo que admite plataformas distintas con regla GTFS documentada.</li>
+            <li>Busca el viaje. El ejemplo publica bus de 08:00 a 08:20, seguido de tren de 08:30 a 08:50. La regla declara ocho minutos mínimos entre plataformas; los diez minutos disponibles permiten la conexión si el margen que hayas elegido también cabe.</li>
+            <li>Abre el detalle: deben aparecer dos etapas, su horario y la procedencia de la regla <code>transfers.txt</code>. Revisa antes de guardar el itinerario en el expediente.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> trayecto publicado de 50 minutos y un transbordo. Son datos ficticios; no compres un boleto ni tomes decisiones operativas con ellos.</p>
+        </div>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto 2 · Fase 5E: salidas fijas cada 15 minutos</b>
+          <ol>
+            <li>Guarda lo pendiente y pulsa «Cargar ejemplo de salidas exactas · Fase 5E». Revisa y confirma la nueva fuente. El origen y destino son ficticios; el buscador propone salida <code>08:05:00</code> y viaje directo.</li>
+            <li>Busca. La primera salida que sirve después de las 08:05 es 08:15 y llega a las 08:40: son 25 minutos de trayecto publicado.</li>
+            <li>Revisa el detalle: las cabeceras del ejemplo son 08:00, 08:15, 08:30 y 08:45. El extremo 09:00 queda excluido. El cálculo utiliza <code>exact_times=1</code>; los intervalos sin horas exactas siguen excluidos.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> horas calculadas desde el horario fijo, no posiciones ni predicciones en vivo.</p>
+        </div>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto 3 · Fase 5F: recorrer una estación</b>
+          <ol>
+            <li>Carga «Cargar ejemplo de recorrido interno · Fase 5F», revisa y confirma. Selecciona origen/destino ficticios, salida <code>07:55:00</code>, hasta un transbordo y el modo de recorridos internos documentados.</li>
+            <li>Busca y abre el detalle de la conexión. El ejemplo declara escaleras de 90 segundos y un pasillo de 330: total 420 segundos, siete minutos.</li>
+            <li>Comprueba la secuencia y su procedencia <code>pathways.txt</code>. Si el margen del analista supera los diez minutos disponibles, la conexión no cabe.</li>
+          </ol>
+          <p><b>Resultado esperado:</b> una conexión con sus enlaces y tiempos publicados. Esto no verifica que la escalera esté abierta ni que exista accesibilidad para una silla de ruedas.</p>
+        </div>
+        <p>Para una fuente real, usa «Ver fuentes públicas disponibles» o abre un ZIP GTFS con su procedencia y licencia. Las copias integradas actuales son de Malasia; no representan una red mundial completa. La búsqueda admite un feed, hasta un transbordo y dos horas de espera. No combina feeds ni incluye retrasos, cancelaciones, tarifas o accesibilidad verificada. Las conexiones entre plataformas requieren la regla o secuencia documental admitida; el sitio no inventa caminos entre paradas cercanas.</p>
+        <p>Al recargar la página debes volver a cargar la fuente para nuevas búsquedas: el feed completo permanece en memoria. Los itinerarios guardados sí se conservan en el expediente y sus respaldos cifrados de Fase 4A.</p>
+      </details>
+
+      <details class="paso" id="t-fases-cierre"><summary>Lista de comprobación: terminar el ejercicio y conservarlo</summary>
+        <ol>
+          <li><b>Pregunta:</b> ¿quedaron responsable, plazo y criterio de respuesta en Fase 1?</li>
+          <li><b>Análisis:</b> ¿separaste hechos, hipótesis, incertidumbre y fuentes? ¿Marcaste cada dato inventado como EJERCICIO?</li>
+          <li><b>Expediente:</b> ¿guardaste los formularios y comprobaste título y versión? ¿Las copias de Fase 1/2 corresponden al momento que querías conservar?</li>
+          <li><b>Decisiones:</b> ¿las tareas y motivos de cierre reflejan lo que se revisó, sin dar por verificada una amenaza?</li>
+          <li><b>Respaldo:</b> ¿descargaste las copias de Fase 1/2 y la copia completa cifrada del expediente? ¿Puedes abrirlas con la contraseña correcta sin reemplazar accidentalmente tu trabajo?</li>
+          <li><b>Privacidad:</b> ¿custodiaste contraseñas y archivos en claro? Si compartiste en nube, ¿revisaste destino, miembros y permisos?</li>
+        </ol>
+        <p>Si una herramienta aparece vacía, comprueba primero que elegiste el expediente correcto. Si una búsqueda GTFS no encuentra viajes, revisa la confirmación de fuente, calendario, hora, paradas, máximo de transbordos y modo de conexión. Si dos pestañas editan una misma versión, recarga y compara antes de guardar: no hay fusión automática de cambios.</p>
+      </details>
+    </section>
+
     <section id="t-faq" data-tema>
-      <h2>8. Problemas frecuentes</h2>
+      <h2>9. Problemas frecuentes</h2>
       <details class="paso"><summary>Una capa no muestra nada</summary><ol><li>Revisa si dice «desde zoom N»: acércate.</li><li>Si dice «sin datos en la última construcción», la fuente no respondió esa semana.</li><li>Las capas de noticias de 72 h pueden estar en cero si no hubo notas.</li></ol></details>
       <details class="paso"><summary>Cambios recién publicados no aparecen</summary><p>Recarga con <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd>. La página se actualiza sola cuando detecta una versión nueva.</p></details>
       <details class="paso"><summary>Mis listas desaparecieron</summary><p>Mi lista de inmuebles, oficios, cronologías, llave de Groq y lugares seguidos se guardan en tu navegador. Borrar datos de navegación o usar otro equipo los pierde: usa los botones de exportar.</p></details>
     </section>
 
     <section id="t-glosario" data-tema>
-      <h2>9. Glosario</h2>
+      <h2>10. Glosario</h2>
       <ul>
         <li><b>OSINT</b>: inteligencia de fuentes abiertas.</li><li><b>Capa</b>: conjunto de datos que se dibuja sobre el mapa.</li>
         <li><b>Zoom</b>: nivel de acercamiento (0 = mundo completo; 15 = calles).</li><li><b>ADS-B / AIS</b>: señales que transmiten aviones y barcos con su posición.</li>

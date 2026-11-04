@@ -3513,6 +3513,61 @@
    "ayuda": ""
   },
   {
+   "t": "Centro de inteligencia · Ver todas las herramientas",
+   "href": "plataforma.html#fases",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Mesa del analista",
+   "href": "analista.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Hipótesis, empresas e investigaciones",
+   "href": "fase2.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Archivos, respaldos y fuentes",
+   "href": "plataforma.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Tutorial de herramientas web",
+   "href": "plataforma.html#tutorial-f3",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Activos, relaciones y evidencia",
+   "href": "fase4.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Tablero, alertas y respuesta",
+   "href": "operaciones.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Laboratorio de análisis e intercambio",
+   "href": "laboratorio.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Colaboración web opcional",
+   "href": "colaboracion.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Áreas de interés, rutas y exposición",
+   "href": "fase5.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
+   "t": "Centro de inteligencia · Horarios y conexiones de transporte",
+   "href": "transporte.html",
+   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+  },
+  {
    "t": "🎓 Tutorial",
    "href": "tutorial.html",
    "ayuda": "Guía completa con ejemplos resueltos de cada opción"
