@@ -994,6 +994,10 @@ async function main() {
   // Alertas oficiales excepcionales («cisne negro»): aviso fijo bajo el buscador mientras estén activas.
   import("./alerta_cisne.js").then((M) => M.iniciarAlertaCisne((lon, lat) => api.map.flyTo({ center: [lon, lat], zoom: Math.max(api.map.getZoom(), 4), duration: lite ? 0 : 900 })))
     .catch((e) => console.error("alerta cisne negro", e));
+  // Elecciones nacionales en curso o próximas: ventana flotante movible, abajo a la derecha y plegada al inicio.
+  import("./elecciones.js").then((M) => M.iniciarElecciones($("lug-form")?.parentElement,
+    (lon, lat) => api.map.flyTo({ center: [lon, lat], zoom: Math.max(api.map.getZoom(), 3.5), duration: lite ? 0 : 900 })))
+    .catch((e) => console.error("elecciones", e));
   iniciarChatIA();
   $("pwd-form")?.addEventListener("submit", async (e) => {
     e.preventDefault();

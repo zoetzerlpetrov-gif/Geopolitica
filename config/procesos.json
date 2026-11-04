@@ -31,6 +31,7 @@
     {"id": "d_anomalias", "nombre": "Fenómenos anómalos", "archivo": "data/vivos/anomalias.geojson", "campo": "generado_utc", "max_horas": 8},
     {"id": "d_ciberataques", "nombre": "Ciberataques reportados por la prensa", "archivo": "data/vivos/ciberataques.geojson", "campo": "generado_utc", "max_horas": 4, "errores": "fuentes"},
     {"id": "d_radiacion", "nombre": "Radiación (sensores Safecast)", "archivo": "data/vivos/radiacion.geojson", "campo": "generado_utc", "max_horas": 4, "errores": "fuentes"},
+    {"id": "d_elecciones", "nombre": "Elecciones (Wikidata)", "archivo": "data/vivos/elecciones.json", "campo": "generado_utc", "max_horas": 10},
     {"id": "d_satelites", "nombre": "Satélites (TLE de SatNOGS)", "archivo": "data/vivos/satelites.json", "campo": "satnogs_utc", "max_horas": 14},
     {"id": "d_portafolio", "nombre": "Portafolio (panel propio): reporte diario y noticias", "archivo": "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json",
      "campo": "generated_at", "max_horas": 30, "errores": "noticias.fuentes",

@@ -14,19 +14,19 @@ export function acotar(x, y, ancho, alto, anchoCont, altoCont) {
   return { x: Math.round(Math.min(Math.max(0, x), Math.max(0, anchoCont - ancho))), y: Math.round(Math.min(Math.max(0, y), Math.max(0, altoCont - Math.min(alto, 40)))) };
 }
 
-/** Arrastre con mouse, dedo o lápiz desde la barra roja (no desde sus botones). */
-function hacerArrastrable(caja) {
+/** Arrastre con mouse, dedo o lápiz desde la barra (no desde sus botones). La posición se guarda con `clave`. */
+export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
   const cont = caja.parentElement;
   const poner = (x, y) => {
     const p = acotar(x, y, caja.offsetWidth, caja.offsetHeight, cont.clientWidth, cont.clientHeight);
     Object.assign(caja.style, { left: `${p.x}px`, top: `${p.y}px`, right: "auto" });
     return p;
   };
-  const guardada = () => { try { return JSON.parse(localStorage.getItem(CLAVE_POS) || "null"); } catch { return null; } };
+  const guardada = () => { try { return JSON.parse(localStorage.getItem(clave) || "null"); } catch { return null; } };
   const aplicarGuardada = () => { const g = guardada(); if (g && !caja.hidden) poner(g.x, g.y); };
   let ini = null, enBarra = false;
   caja.addEventListener("pointerdown", (e) => {
-    enBarra = !!e.target.closest(".ac-cab") && !e.target.closest("button");
+    enBarra = !!e.target.closest(barra) && !e.target.closest("button");
     if (!enBarra || e.button > 0) return;
     const r = caja.getBoundingClientRect(), rc = cont.getBoundingClientRect();
     ini = { dx: e.clientX - r.left + rc.left, dy: e.clientY - r.top + rc.top, id: e.pointerId };
@@ -39,7 +39,7 @@ function hacerArrastrable(caja) {
     if (!ini || e.pointerId !== ini.id) return;
     ini = null;
     caja.classList.remove("arrastrando");
-    try { localStorage.setItem(CLAVE_POS, JSON.stringify({ x: parseInt(caja.style.left, 10), y: parseInt(caja.style.top, 10) })); } catch { /* sin almacenamiento */ }
+    try { localStorage.setItem(clave, JSON.stringify({ x: parseInt(caja.style.left, 10), y: parseInt(caja.style.top, 10) })); } catch { /* sin almacenamiento */ }
   };
   caja.addEventListener("pointerup", soltar);
   caja.addEventListener("pointercancel", soltar);
@@ -47,7 +47,7 @@ function hacerArrastrable(caja) {
   caja.addEventListener("dblclick", () => {
     if (!enBarra) return;
     Object.assign(caja.style, { left: "", top: "", right: "" });
-    try { localStorage.removeItem(CLAVE_POS); } catch { /* nada */ }
+    try { localStorage.removeItem(clave); } catch { /* nada */ }
   });
   addEventListener("resize", aplicarGuardada);
   return aplicarGuardada;
