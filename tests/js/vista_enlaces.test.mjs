@@ -49,3 +49,19 @@ test("aviso cisne negro: al arrastrarlo no se sale del mapa", async () => {
   assert.deepEqual(acotar(-50, -20, 360, 200, 1000, 800), { x: 0, y: 0 });
   assert.deepEqual(acotar(900, 790, 360, 200, 1000, 800), { x: 640, y: 760 }, "la barra roja sigue visible abajo");
 });
+
+test("aviso cisne negro: secciones por tipo, buscador y países con riesgo alto aparte", async () => {
+  const { alertasAltas, htmlAlertas } = await import("../../js/alerta_cisne.js");
+  const f = (p) => ({ type: "Feature", geometry: { type: "Point", coordinates: [0, 0] }, properties: p });
+  const feats = [f({ titulo: "Aviso de viaje: Sudán", tipo: "viaje", cisne_negro: true, iso3: "SDN", paises: "Sudán", nivel: 4 }),
+    f({ titulo: "Ciclón en alerta roja", tipo: "desastre", cisne_negro: true, iso3: "IND", nivel: 4 })];
+  const fc = { features: [...feats, f({ titulo: "Aviso de viaje: Haití", tipo: "viaje", nivel: 3, iso3: "HTI", paises: "Haití" }), f({ titulo: "México", tipo: "viaje", nivel: 2, iso3: "MEX" })] };
+  const altas = alertasAltas(fc);
+  assert.equal(altas.length, 1);
+  const html = htmlAlertas(feats, altas);
+  assert.match(html, /No viajar a todo el país/);
+  assert.match(html, /Desastres en alerta roja/);
+  assert.match(html, /reconsiderar el viaje \(1 países\)/);
+  assert.match(html, /3 países/);
+  assert.ok(!html.includes("ac-busca"), "buscador solo con más de 8");
+});

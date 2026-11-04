@@ -8,6 +8,12 @@ Dos partes:
    - Avisos de viaje del Departamento de Estado de EUA (RSS; niveles 3 y 4).
    - Avisos de viaje de Canadá (JSON de travel.gc.ca, Licencia de Gobierno Abierto de Canadá; «evitar viajes no
      esenciales» y «evitar todo viaje»).
+   - Avisos de viaje del Reino Unido (FCDO, API de contenido de GOV.UK, Open Government Licence): solo si piden evitar
+     todo viaje (o todo salvo lo esencial) a TODO el país. Se consulta cada país solo cuando GOV.UK dice que cambió.
+   - Desastres en alerta roja de GDACS (ONU y Comisión Europea), del archivo que ya genera la capa de desastres.
+«Cisne negro» (aviso fijo del mapa): casos excepcionales del registro, MI5 crítico, NTAS inminente, «no viajar a todo
+el país» (EUA nivel 4, Canadá «evitar todo viaje» o Reino Unido «evitar todo viaje a todo el país») y alerta roja de
+GDACS mientras dure el evento.
    - Nivel nacional de amenaza terrorista del Reino Unido (RSS del MI5).
    - Boletines del National Terrorism Advisory System de EUA (DHS), solo si hay uno activo.
 Un aviso de viaje por país junta los de EUA y Canadá. Cada fuente falla por separado: si una no responde, se conserva
@@ -31,6 +37,12 @@ EUA_RSS = "https://travel.state.gov/_res/rss/TAsTWs.xml"
 CANADA = "https://data.international.gc.ca/travel-voyage/index-alpha-eng.json"
 MI5 = "https://www.mi5.gov.uk/UKThreatLevel/UKThreatLevel.xml"
 NTAS = "https://www.dhs.gov/ntas/1.1/feed.xml"
+FCDO = "https://www.gov.uk/api/content/foreign-travel-advice"
+FCDO_CACHE = os.path.join(ROOT, "vivos", "protocolos_fcdo.json")
+FCDO_MAX = 80          # países consultados por corrida (los que cambiaron primero); el resto, en las siguientes
+GDACS = os.path.join(ROOT, "vivos", "gdacs_mundo.geojson")
+NIVEL_UK = {"avoid_all_travel_to_whole_country": 4, "avoid_all_but_essential_travel_to_whole_country": 3}
+TEXTO_UK = {4: "Reino Unido: evitar todo viaje a todo el país", 3: "Reino Unido: evitar todo salvo lo esencial en todo el país"}
 HORAS_MIN = 3
 
 NIVEL_EUA = {3: "Nivel 3: reconsiderar el viaje", 4: "Nivel 4: no viajar"}
@@ -92,21 +104,79 @@ def avisos_canada(datos, iso2a3):
     return out
 
 
-def viajes(eua, can, nom):
-    """Un punto por país con los avisos de EUA y Canadá juntos; nivel = el más alto (EUA 4 o Canadá «evitar todo» = 4)."""
+def avisos_reino_unido(indice, cache, leer, nom, maximo=FCDO_MAX, pausa=0.5):
+    """Índice de GOV.UK + caché {slug: {actualizado, alertas, iso3}} → {iso3: (nivel 3|4, texto, enlace, fecha)}.
+    Solo se pide la ficha de los países cuya fecha cambió (máximo `maximo` por corrida)."""
+    import time
+    hijos = (indice.get("links") or {}).get("children") or []
+    pendientes = [h for h in hijos if (cache.get(h["details"]["country"]["slug"]) or {}).get("actualizado") != h.get("public_updated_at")]
+    for h in pendientes[:maximo]:
+        slug = h["details"]["country"]["slug"]
+        try:
+            d = json.loads(leer(h["api_url"]))
+        except Exception:  # noqa: BLE001  ese país se reintenta en la siguiente corrida
+            continue
+        lugar = nom.ubicar(h["details"]["country"]["name"])
+        cache[slug] = {"actualizado": h.get("public_updated_at"), "alertas": (d.get("details") or {}).get("alert_status") or [],
+                       "iso3": lugar[4] if lugar else "", "url": h.get("web_url", ""), "nombre": h["details"]["country"]["name"]}
+        time.sleep(pausa)
+    out = {}
+    for slug, c in cache.items():
+        nivel = max((NIVEL_UK.get(a, 0) for a in c.get("alertas", [])), default=0)
+        if nivel and c.get("iso3"):
+            out[c["iso3"]] = (nivel, TEXTO_UK[nivel], c.get("url", ""), str(c.get("actualizado", ""))[:16].replace("+", "") + "Z")
+    return out
+
+
+def viajes(eua, can, nom, uk=None):
+    """Un punto por país con los avisos de EUA, Canadá y Reino Unido juntos; nivel = el más alto (EUA 4, Canadá «evitar
+    todo» o Reino Unido «evitar todo viaje a todo el país» = 4). Nivel 4 de cualquiera = cisne negro (no viajar a todo
+    el país)."""
+    uk = uk or {}
     out = []
-    for iso3 in sorted(set(eua) | set(can)):
+    for iso3 in sorted(set(eua) | set(can) | set(uk)):
         if iso3 not in nom.datos:
             continue
         nombre, lat, lon, _, _ = nom.de(iso3)
-        e, c = eua.get(iso3), can.get(iso3)
-        nivel = max(e[0] if e else 0, (c[0] + 1) if c else 0)
-        detalle = ([f"EUA: {NIVEL_EUA[e[0]]}"] if e else []) + ([f"Canadá: {NIVEL_CANADA[c[0]]}"] if c else [])
+        e, c, u = eua.get(iso3), can.get(iso3), uk.get(iso3)
+        nivel = max(e[0] if e else 0, (c[0] + 1) if c else 0, u[0] if u else 0)
+        detalle = ([f"EUA: {NIVEL_EUA[e[0]]}"] if e else []) + ([f"Canadá: {NIVEL_CANADA[c[0]]}"] if c else []) + ([u[1]] if u else [])
+        emisores = [x for x, y in (("EUA", e and e[0] == 4), ("Canadá", c and c[0] == 3), ("Reino Unido", u and u[0] == 4)) if y]
         out.append(punto(lon, lat, {
-            "id": f"viaje:{iso3}", "tipo": "viaje", "titulo": f"Aviso de viaje: {nombre}", "organismo": " y ".join(x for x, y in (("Departamento de Estado de EUA", e), ("Gobierno de Canadá", c)) if y),
-            "nivel": nivel, "ambitos": "Avisos de viaje, seguridad", "estado": "vigente", "fecha": max(x[3] for x in (e, c) if x), "paises": nombre, "iso3": iso3,
+            "id": f"viaje:{iso3}", "tipo": "viaje", "titulo": f"Aviso de viaje: {nombre}",
+            "organismo": " y ".join(x for x, y in (("Departamento de Estado de EUA", e), ("Gobierno de Canadá", c), ("FCDO del Reino Unido", u)) if y),
+            "nivel": nivel, "ambitos": "Avisos de viaje, seguridad", "estado": "vigente", "fecha": max(x[3] for x in (e, c, u) if x), "paises": nombre, "iso3": iso3,
             "resumen": " · ".join(detalle) + ". Un aviso alto suele reflejar conflicto armado, terrorismo, crimen, secuestros o inestabilidad.",
-            "url": (e or c)[2], "url2": c[2] if e and c else "", "fuente": "travel.state.gov (dominio público) · travel.gc.ca (Licencia de Gobierno Abierto de Canadá)"}))
+            "url": (e or c or u)[2], "url2": c[2] if e and c else (u[2] if u and (e or c) else ""),
+            "fuente": "travel.state.gov (dominio público) · travel.gc.ca (Licencia de Gobierno Abierto de Canadá) · GOV.UK (Open Government Licence)",
+            "cisne_negro": nivel >= 4, "emisor": ", ".join(emisores),
+            "afectacion": f"Todo {nombre}: {' y '.join(emisores)} piden no viajar." if nivel >= 4 else ""}))
+    return out
+
+
+def gdacs_rojos(fc, nom, ahora):
+    """Desastres en alerta roja de GDACS (sismo, ciclón, inundación, sequía, volcán, incendio) → cisne negro mientras
+    dure el evento y 3 días después."""
+    out = []
+    for f in (fc or {}).get("features", []):
+        p = f.get("properties") or {}
+        if str(p.get("alertlevel", "")).lower() != "red" or not f.get("geometry"):
+            continue
+        c = f["geometry"]["coordinates"]
+        while isinstance(c[0], list):
+            c = c[0]
+        hasta = str(p.get("todate") or "")[:10]
+        try:
+            fin = (datetime.fromisoformat(hasta) + timedelta(days=3)).strftime("%Y-%m-%d") if hasta else ""
+        except ValueError:
+            fin = ""
+        lugar = nom.ubicar(p.get("country") or "")
+        out.append(punto(c[0], c[1], {
+            "id": f"gdacs:{p.get('eventtype')}{p.get('eventid')}", "tipo": "desastre", "titulo": f"{p.get('type_label') or p.get('eventtype')} en alerta roja: {p.get('name') or p.get('country', '')}",
+            "organismo": "GDACS (ONU y Comisión Europea)", "nivel": 4, "ambitos": "Desastres naturales", "estado": "en curso", "fecha": str(p.get("fromdate") or "")[:10],
+            "paises": p.get("country", ""), "iso3": lugar[4] if lugar else "", "resumen": "Alerta roja de GDACS: impacto humanitario alto probable; puede requerir ayuda internacional.",
+            "url": p.get("url", ""), "fuente": "GDACS (ONU y Comisión Europea)", "cisne_negro": True, "desactivado": fin, "emisor": "GDACS (ONU y UE)",
+            "afectacion": f"{p.get('country', '')}: {p.get('type_label', 'desastre')} con impacto alto probable."}))
     return out
 
 
@@ -167,7 +237,23 @@ def construir(ahora=None, leer=get):
         can = avisos_canada(json.loads(leer(CANADA)), gaz.get("iso2_a_iso3", {})); estado["canada"] = f"ok ({len(can)})"
     except Exception as e:  # noqa: BLE001
         estado["canada"] = f"error: {type(e).__name__}"
-    feats += viajes(eua or {}, can or {}, nom) if (eua is not None or can is not None) else anteriores({"viaje"})
+    uk = None
+    try:
+        try:
+            cache = json.load(open(FCDO_CACHE, encoding="utf-8"))
+        except (OSError, ValueError):
+            cache = {}
+        uk = avisos_reino_unido(json.loads(leer(FCDO)), cache, leer, nom)
+        json.dump(cache, open(FCDO_CACHE, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+        estado["reino_unido"] = f"ok ({len(uk)} con aviso a todo el país; {len(cache)} países revisados)"
+    except Exception as e:  # noqa: BLE001
+        estado["reino_unido"] = f"error: {type(e).__name__}"
+    feats += viajes(eua or {}, can or {}, nom, uk) if (eua is not None or can is not None or uk is not None) else anteriores({"viaje"})
+    try:
+        rojos = gdacs_rojos(json.load(open(GDACS, encoding="utf-8")), nom, ahora)
+        feats += rojos; estado["gdacs"] = f"ok ({len(rojos)} en alerta roja)"
+    except (OSError, ValueError) as e:
+        estado["gdacs"] = f"sin archivo de GDACS todavía ({type(e).__name__})"
     for nombre, url, fn, tipo in (("mi5", MI5, nivel_reino_unido, {"nivel_nacional"}), ("ntas", NTAS, boletines_ntas, {"boletin"})):
         try:
             nuevos = fn(leer(url), nom); feats += nuevos; estado[nombre] = f"ok ({len(nuevos)})"
