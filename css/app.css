@@ -795,6 +795,16 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .alerta-cisne .ac-sec { font-weight: 700; font-size: 12px; padding: 8px 0 2px; border-bottom: 0 !important; color: var(--muted, #666); }
 .alerta-cisne .ac-sec span { font-weight: 400; }
 .alerta-cisne .ac-sub { padding: 0 0 0 4px; } .alerta-cisne details summary { cursor: pointer; }
+.alerta-cisne .ac-grupo { padding: 4px 0 0; }
+.alerta-cisne .ac-grupo > details > summary { list-style: none; display: flex; align-items: center; gap: 6px; padding: 6px 4px; border-radius: 6px; user-select: none; }
+.alerta-cisne .ac-grupo > details > summary::-webkit-details-marker { display: none; }
+.alerta-cisne .ac-grupo > details > summary::before { content: "▸"; font-size: 11px; width: 10px; transition: transform .15s; }
+.alerta-cisne .ac-grupo > details[open] > summary::before { transform: rotate(90deg); }
+.alerta-cisne .ac-grupo > details > summary:hover { background: rgba(127, 127, 127, .12); }
+.alerta-cisne .ac-herr { display: flex; gap: 4px; align-items: center; position: sticky; top: 32px; z-index: 1; background: inherit; margin: 6px 10px 0; }
+.alerta-cisne .ac-herr .ac-busca { position: static; flex: 1; min-width: 0; width: auto; margin: 0; }
+.alerta-cisne .ac-herr:not(:has(.ac-busca)) { justify-content: flex-end; }
+.alerta-cisne .ac-todas { border: 1px solid rgba(127, 127, 127, .4); background: transparent; color: inherit; border-radius: 6px; padding: 2px 7px; cursor: pointer; font-size: 14px; line-height: 1.2; }
 .alerta-cisne .ac-ir2 { background: none; border: 0; padding: 0; text-align: left; color: inherit; cursor: pointer; font: inherit; }
 .alerta-cisne::-webkit-scrollbar { width: 10px; } .alerta-cisne::-webkit-scrollbar-thumb { background: #c9c9c9; border-radius: 6px; }
 .alerta-cisne .ac-lista li { padding: 6px 0; border-bottom: 1px solid var(--line); display: grid; gap: 2px; }

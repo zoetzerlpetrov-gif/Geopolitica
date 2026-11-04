@@ -61,9 +61,16 @@ test("aviso cisne negro: secciones por tipo, buscador y países con riesgo alto 
   const html = htmlAlertas(feats, altas);
   assert.match(html, /No viajar a todo el país/);
   assert.match(html, /Desastres en alerta roja/);
-  assert.match(html, /reconsiderar el viaje \(1 países\)/);
+  assert.match(html, /reconsiderar el viaje <span>\(1 países\)/);
   assert.match(html, /3 países/);
   assert.ok(!html.includes("ac-busca"), "buscador solo con más de 8");
+  // Cada sección se pliega: abierta por defecto, «riesgo alto» cerrada, y se respeta lo que la persona eligió.
+  assert.match(html, /data-grupo="viaje"><details open>/);
+  assert.match(html, /data-grupo="altas"><details>/);
+  assert.ok(html.includes("ac-todas"), "botones de expandir y contraer todo");
+  const h2 = htmlAlertas(feats, altas, { viaje: false, altas: true });
+  assert.match(h2, /data-grupo="viaje"><details>/);
+  assert.match(h2, /data-grupo="altas"><details open>/);
 });
 
 test("robos de Eurostat: lectura del JSON-stat y nivel frente a la mediana", async () => {
