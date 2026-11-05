@@ -1,7 +1,7 @@
-import { htmlFichaCamara, rellenarCamaraSingapur } from './capas.js';
+import { htmlFichaCamara, rellenarCamaraSingapur } from './capas.js?v=146';
 import { iniciarPreviewsCamaras } from './camaras_preview.js';
 import { iniciarCamarasVideo } from './camaras_video.js';
-import { camaraParaVistaComercial } from './licencias.js';
+import { camaraParaVistaComercial } from './licencias.js?v=146';
 
 export function tienePreviewCamara(p) {
   return Boolean((Array.isArray(p.imgs) && p.imgs.length) || p.hls || p.mp4 || p.embed || p.yt || p.sg);
@@ -52,7 +52,7 @@ async function iniciar() {
     if (!r.ok) throw new Error('catálogo no disponible');
     const data = await r.json();
     camaras = (data.features || []).map(f => f.properties).filter(p => p && p.id);
-    const lic = await fetch('config/comercial_licencias.json', { cache: 'no-cache' })
+    const lic = await fetch('config/comercial_licencias.json?v=146', { cache: 'no-cache' })
       .then(respuesta => respuesta.ok ? respuesta.json() : null)
       .catch(() => null);
     camaras = camaras.map(p => camaraParaVistaComercial(p, lic?.version_pago?.capas_filtradas?.camaras));

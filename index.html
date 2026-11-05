@@ -11,12 +11,12 @@
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
   <link rel="preload" href="https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf" as="fetch" crossorigin>
-  <link rel="modulepreload" href="js/app.js">
+  <link rel="modulepreload" href="js/app.js?v=146">
   <link rel="modulepreload" href="js/util.js">
   <link rel="modulepreload" href="js/map.js">
   <link rel="modulepreload" href="js/card.js">
   <link rel="modulepreload" href="js/refresh.js">
-  <link rel="modulepreload" href="js/capas.js">
+  <link rel="modulepreload" href="js/capas.js?v=146">
   <link rel="modulepreload" href="js/seguimiento.js">
   <link rel="modulepreload" href="js/movimiento.js">
   <link rel="modulepreload" href="js/imagenes.js">
@@ -538,7 +538,7 @@
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
   <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
   <script>try { maplibregl.prewarm(); } catch (e) {}</script>
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/app.js?v=146"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>

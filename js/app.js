@@ -6,7 +6,7 @@ import { estiloBase, crearMapa, ICONO_AREA } from "./map.js";
 import { iniciarIdioma } from "./idioma.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
-import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js";
+import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js?v=146";
 import * as seg from "./seguimiento.js";
 import { Movimiento, htmlFichaMovil, vueloDeFila, proyectar, SUB } from "./movimiento.js";
 import { Imagenes, IMAGENES, ayerUTC, haceDias } from "./imagenes.js";
@@ -19,7 +19,7 @@ import { idsNuevos, sonar, iniciarSonido, PARPADEO_EV_MS } from "./avisos.js";
 import { areasDeSubtemas, clavesSub, claveOtros, pasaSub, religionesEn, RELIGIONES } from "./temas.js";
 import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
-import * as LIC from "./licencias.js";
+import * as LIC from "./licencias.js?v=146";
 import { precioCorto } from "./planes.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
@@ -39,7 +39,7 @@ let lite = false;
 // y lo que el plan reserva a quien administra. En el sitio público, null: se ve todo.
 const vistaLista = (async () => {
   if (LIC.vistaActual() !== "pago") return null;
-  const [lic, cat, planes] = await Promise.all([getJSON("config/comercial_licencias.json"), getJSON("config/entities.json"), getJSON("config/planes.json")]);
+  const [lic, cat, planes] = await Promise.all([getJSON("config/comercial_licencias.json?v=146"), getJSON("config/entities.json"), getJSON("config/planes.json")]);
   const r = LIC.restricciones(lic, cat, planes);
   // Secciones y bloques del plan reservados a quien administra.
   for (const a of document.querySelectorAll("a[href]")) if (r.paginas.has((a.getAttribute("href") || "").split(/[?#]/)[0])) a.remove();
@@ -399,7 +399,7 @@ new MutationObserver(() => {
   if (c.querySelector("[data-camara-preview]:not([data-preview-listo])")) import("./camaras_preview.js").then((P) => P.iniciarPreviewsCamaras(c, $("ficha")));
   if (c.querySelector("button[data-camara-hls]:not([data-listo]), video[data-camara-native]:not([data-listo]), iframe[data-camara-frame]:not([data-listo])")) import("./camaras_video.js").then((V) => V.iniciarCamarasVideo(c, $("ficha")));
   const sg = c.querySelector("figure.cam-sg[data-sg]:not([data-listo])");
-  if (sg) { sg.dataset.listo = "1"; import("./capas.js").then((K) => K.rellenarCamaraSingapur(sg)); }
+  if (sg) { sg.dataset.listo = "1"; import("./capas.js?v=146").then((K) => K.rellenarCamaraSingapur(sg)); }
 }).observe($("ficha-cuerpo"), { childList: true });
 
 // Ficha de un avión con origen, destino y trayectoria (js/vuelos.js, se descarga al abrir la primera).
@@ -1155,7 +1155,7 @@ async function iniciarCapas() {
   if (rv) {
     familias = LIC.familiasPago(dibujables, rv);
   } else {
-    const licencias = await getJSON("config/comercial_licencias.json").catch(() => null);
+    const licencias = await getJSON("config/comercial_licencias.json?v=146").catch(() => null);
     const reglaCamaras = licencias?.version_pago?.capas_filtradas?.camaras;
     familias = dibujables.filter((f) => !f.sustituye).map((f) =>
       f.id === "camaras" ? LIC.capaCamarasComercial(f, reglaCamaras) : f);
