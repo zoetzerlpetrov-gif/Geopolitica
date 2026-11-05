@@ -65,3 +65,52 @@ test("una capa por categoría, en el menú corporativo, con ícono propio", () =
   assert.equal(CAPAS_CORP.find((c) => c.id === "corp_despidos").derivar(fc).features.length, 1);
   assert.equal(clasificar("corp_despidos", { icono: "✂️", n_7d: 7, cat_nombre: "Despidos" }).ic, "✂️");
 });
+
+test("búsqueda en vivo: Wikidata (solo organizaciones) y organigrama con la misma forma que el catálogo", async () => {
+  const V = await import("../../js/corp_vivo.js");
+  const respuestas = (url) => {
+    if (url.includes("wbsearchentities")) return { search: [{ id: "Q1", label: "Bimbo", description: "empresa" }, { id: "Q2", label: "Bimbo (canción)" }] };
+    const q = decodeURIComponent(url.split("query=")[1] || "");
+    if (q.includes("wd:Q43229")) return { results: { bindings: [{ e: { value: "http://www.wikidata.org/entity/Q1" }, pais: { value: "MEX" }, ind: { value: "alimentos" } }] } };
+    if (q.includes("?rol ?v")) return { results: { bindings: [
+      { rol: { value: "ceo" }, v: { value: "http://www.wikidata.org/entity/Q10" }, vLabel: { value: "Daniel Servitje" }, hum: { value: "1" } },
+      { rol: { value: "duenos" }, v: { value: "http://www.wikidata.org/entity/Q20" }, vLabel: { value: "Familia X" }, parte: { value: "0.37" } },
+      { rol: { value: "filiales" }, v: { value: "http://www.wikidata.org/entity/Q30" }, vLabel: { value: "Q30" } }] } };
+    return { results: { bindings: [{ eLabel: { value: "Grupo Bimbo" }, pais: { value: "MEX" }, lei: { value: "5493000RIXURZEBFEV60" }, bolsaLabel: { value: "BMV" }, tick: { value: "BIMBOA" } }] } };
+  };
+  const fetcher = async (url) => ({ ok: true, json: async () => respuestas(url) });
+  const c = await V.buscarWD("bimbo", fetcher);
+  assert.deepEqual(c.map((x) => x.id), ["Q1"]);  // la canción no es organización
+  const e = await V.organigramaWD("Q1", fetcher);
+  assert.equal(e.n, "Grupo Bimbo");
+  assert.deepEqual(e.ceo, [["Daniel Servitje", "Q10", "", 1]]);
+  assert.equal(e.duenos[0][2], "37 %");
+  assert.equal(e.filiales, undefined);  // sin nombre legible no se muestra
+  assert.equal(e.lei, "5493000RIXURZEBFEV60");
+  assert.deepEqual(e.bolsas, [["BMV", "BIMBOA"]]);
+  await assert.rejects(() => V.organigramaWD("Q1; DROP", fetcher));
+  const h = htmlOrganigrama(e, {});
+  assert.match(h, /consultada en este momento/);
+  assert.match(h, /data-lei="5493000RIXURZEBFEV60"/);
+  assert.match(h, /data-wd="Q20"/);  // un dueño que es organización se abre en vivo
+});
+
+test("GLEIF: estructura legal con matriz última, directa y filiales", async () => {
+  const V = await import("../../js/corp_vivo.js");
+  const reg = (lei, n, pais) => ({ id: lei, attributes: { lei, entity: { legalName: { name: n }, legalAddress: { country: pais, city: "X" }, status: "ACTIVE" } } });
+  const fetcher = async (url) => ({ ok: !url.endsWith("/direct-parent"), status: 404, json: async () => (
+    url.includes("direct-children") ? { meta: { pagination: { total: 18 } }, data: [reg("984500FEES8936E86D53", "GRUPO BIMBO UK LIMITED", "GB")] }
+      : url.includes("ultimate-parent") ? { data: reg("5493000RIXURZEBFEV60", "GRUPO BIMBO S A B DE C V", "MX") }
+        : url.includes("filter") ? { meta: { pagination: { total: 2 } }, data: [reg("984500FEES8936E86D53", "GRUPO BIMBO UK LIMITED", "GB")] }
+          : { data: reg("984500FEES8936E86D53", "GRUPO BIMBO UK LIMITED", "GB") }) });
+  const b = await V.buscarGLEIF("grupo bimbo", fetcher);
+  assert.equal(b.total, 2);
+  const s = await V.estructuraGLEIF("984500FEES8936E86D53", fetcher);
+  assert.equal(s.ultima.n, "GRUPO BIMBO S A B DE C V");
+  assert.equal(s.directa, null);  // 404: sin matriz directa declarada
+  assert.equal(s.totalFiliales, 18);
+  const h = V.htmlEstructuraGLEIF(s);
+  assert.ok(h.indexOf("Matriz última") < h.indexOf("Filiales directas"));
+  assert.match(h, /18, se muestran 1/);
+  await assert.rejects(() => V.estructuraGLEIF("../x", fetcher));
+});
