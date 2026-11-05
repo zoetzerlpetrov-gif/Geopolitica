@@ -36,7 +36,9 @@ const SALIDA = path.join(__dirname, "..", "..", "config", "tutorial_inventario.j
     const panel = [...document.querySelectorAll("#panel > details.grupo, #panel details.grupo")].filter((d) => !d.parentElement.closest("details.grupo")).map(bloque);
     const secciones = [...document.querySelectorAll("a[href$='.html'], a[href*='.html?']")].filter((a) => a.closest("#menu-secciones, .menu-secciones, details") && !/^https?:/.test(a.getAttribute("href")))
       .map((a) => ({ t: txt(a), href: a.getAttribute("href"), ayuda: a.title || "" }));
-    return { panel, secciones };
+    // Atajos del menú Secciones que abren un grupo del menú izquierdo (index.html#g-…).
+    const atajos = [...document.querySelectorAll("#menu-secciones [data-abrir-grupo]")].map((b) => ({ t: txt(b), href: `./#${b.dataset.abrirGrupo}`, ayuda: b.title || "" }));
+    return { panel, secciones: [...atajos, ...secciones] };
   });
   const dedup = (l) => l.filter((x, i, a) => a.findIndex((y) => y.t === x.t) === i);
   const podar = (b) => ({ ...b, opciones: dedup(b.opciones), sub: b.sub.map(podar) });

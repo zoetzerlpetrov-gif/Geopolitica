@@ -892,6 +892,19 @@ async function main() {
     setTimeout(() => api.map.resize(), 0);
   };
   if (matchMedia("(max-width: 760px)").matches) $("btn-panel").click();
+  // Atajos del menú Secciones a un grupo del menú izquierdo (p. ej. «Mundo corporativo»): muestra el panel, abre el grupo y lo enfoca.
+  document.querySelectorAll("[data-abrir-grupo]").forEach((b) => b.addEventListener("click", () => {
+    $("menu-secciones").open = false;
+    if (document.querySelector(".layout").classList.contains("sin-panel")) $("btn-panel").click();
+    const g = $(b.dataset.abrirGrupo);
+    if (!g) return;
+    g.open = true;
+    g.querySelector("details.bloque")?.setAttribute("open", "");
+    g.scrollIntoView({ block: "start", behavior: lite ? "auto" : "smooth" });
+  }));
+  // index.html#g-corporativo (enlace del tutorial): abre ese grupo al cargar.
+  if (/^#g-[a-z]+$/.test(location.hash)) document.querySelector(`[data-abrir-grupo="${location.hash.slice(1)}"]`)?.click()
+    ?? ($(location.hash.slice(1)) && ($(location.hash.slice(1)).open = true));
 
   // Vista: tema claro/oscuro, mapa base (temático, calles, satélite) y proyección (plano o globo 3D).
   const cambiarBase = async () => {
