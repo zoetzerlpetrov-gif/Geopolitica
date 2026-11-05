@@ -471,10 +471,11 @@
         </details>
         <details class="bloque plegable" id="b-corp-org" data-grupo="corporativo">
           <summary><h2>👔 Dueños, consejo y dirección (organigrama público)</h2></summary>
-          <p class="nota-capas">Unas 3,300 empresas que cotizan en bolsa y empresas mexicanas con director registrado. Busca por nombre, clave de cotización (AAPL, WALMEX) o el nombre de un directivo. Sale de Wikidata (CC0) cada semana: solo nombre y cargo vigente de cada persona, con enlace a la fuente.</p>
+          <p class="nota-capas">Tres fuentes en una búsqueda: el catálogo semanal (unas 3,300 empresas que cotizan, con búsqueda por clave como AAPL o por nombre de un directivo), Wikidata en vivo (cualquier organización registrada) y GLEIF en vivo (3.4 millones de personas morales con su matriz y filiales declaradas). Todo es CC0. De las personas solo se muestra nombre y cargo vigente, con enlace a la fuente.</p>
           <form id="corp-org-form" role="search"><input type="search" id="corp-org-q" class="verif-texto" placeholder="Ej.: Cemex, Toyota, NVDA, Carlos Slim" aria-label="Empresa, clave de cotización o persona" autocomplete="off">
-            <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="corp-org-q corp-org-res corp-org-ficha" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
+            <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="corp-org-q corp-org-res corp-org-vivo corp-org-ficha" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="corp-org-res" aria-live="polite"></div>
+          <div id="corp-org-vivo" aria-live="polite"></div>
           <div id="corp-org-ficha" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-corp-fuentes" data-grupo="corporativo">

@@ -4,6 +4,7 @@
 // De las personas solo se muestra el nombre y el cargo que ocupan en la empresa, con enlace a Wikidata.
 import { esc, safeUrl, getJSON, sinAcentos } from "./util.js";
 import { CATEGORIAS_CORP, htmlEmpresasCorp } from "./riesgos.js";
+import * as V from "./corp_vivo.js";
 
 const URL_NOTAS = "data/vivos/corporativo_estado.json";
 const URL_EMPRESAS = "data/vivos/corporativo_empresas.json";
@@ -82,7 +83,10 @@ export function enlacesOficiales(e) {
 
 const persona = (x, porId) => {
   const enCat = porId?.[x[1]];
-  const nombre = enCat ? `<button type="button" class="txt-btn corp-org" data-org="${esc(x[1])}">${esc(x[0])}</button>` : `<a href="${esc(WD(x[1]))}" target="_blank" rel="noopener noreferrer">${esc(x[0])}</a>`;
+  // Empresa del catálogo: su organigrama; otra organización: se arma en vivo desde Wikidata; persona: enlace a la fuente.
+  const nombre = enCat ? `<button type="button" class="txt-btn corp-org" data-org="${esc(x[1])}">${esc(x[0])}</button>`
+    : !x[3] ? `<button type="button" class="txt-btn corp-wd" data-wd="${esc(x[1])}">${esc(x[0])}</button>`
+      : `<a href="${esc(WD(x[1]))}" target="_blank" rel="noopener noreferrer">${esc(x[0])}</a>`;
   return `<li>${x[3] ? "👤 " : "🏢 "}${nombre}${x[2] ? ` <span class="meta">· ${esc(x[2])}</span>` : ""}</li>`;
 };
 const caja = (titulo, filas, porId, clase = "") => (filas?.length ? `<div class="org-caja ${clase}"><h5>${titulo}</h5><ul>${filas.map((x) => persona(x, porId)).join("")}</ul></div>` : "");
@@ -106,9 +110,11 @@ export function htmlOrganigrama(e, { porId = {}, notas = [], nombrePais = (i) =>
     ${nivel(consejo)}${nivel(direccion)}
     ${abajo ? `<div class="org-nivel">${abajo}</div>` : ""}
     ${vacio ? `<p class="meta">Wikidata no tiene cargos vigentes registrados para esta empresa. Revisa su informe anual o los registros de abajo.</p>` : ""}
-    <p class="meta">Fuente: Wikidata (CC0), editada por voluntarios: puede faltar gente o haber cargos atrasados. Solo se muestran cargos sin fecha de término.
+    <p class="meta">Fuente: Wikidata (CC0)${e.vivo ? ", consultada en este momento" : ", catálogo semanal"}; la editan voluntarios: puede faltar gente o haber cargos atrasados. Solo se muestran cargos sin fecha de término.
       Confirma en los reportes oficiales antes de usar el dato.</p>
     ${notasE.length ? `<h5>Noticias recientes de la empresa</h5><ul class="fuentes">${notasE.map((n) => `<li><a href="${esc(safeUrl(n.url))}" target="_blank" rel="noopener noreferrer">${esc(n.t)}</a> <span class="meta">${esc(n.f)} · ${esc((n.fecha || "").slice(0, 10))}</span></li>`).join("")}</ul>` : ""}
+    <p><button type="button" class="mini corp-gleif-q" data-q="${esc(e.en || e.n)}" data-lei="${esc(e.lei || "")}">🏛️ Estructura legal en GLEIF (matriz y filiales registradas)</button></p>
+    <div class="corp-gleif-res" aria-live="polite"></div>
     <h5>Dónde confirmar</h5><ul class="fuentes">${enlacesOficiales(e).map(([t, u]) => `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("")}</ul>
   </div>`;
 }
@@ -194,10 +200,56 @@ export function iniciarCorporativo({ abrirFicha } = {}) {
     $("corp-org-res").innerHTML = !cat ? `<p class="meta">El catálogo de empresas aún no está disponible (se renueva cada semana).</p>`
       : r.length ? `<ul class="lista-corta">${r.map(({ e, por }) => `<li><button type="button" class="txt-btn corp-org" data-org="${esc(e.id)}">${esc(e.n)}</button>
           <span class="meta">${esc([e.ind, ...(e.bolsas || []).slice(0, 2).map((b) => b[1]).filter(Boolean)].filter(Boolean).join(" · "))}${por ? ` · ${esc(por)}` : ""}</span></li>`).join("")}</ul>`
-        : `<p class="meta">Sin coincidencias en ${cat.empresas.length.toLocaleString("es-MX")} empresas. El catálogo incluye las que cotizan en bolsa y las mexicanas con director registrado en Wikidata.</p>`;
+        : `<p class="meta">Sin coincidencias en las ${cat.empresas.length.toLocaleString("es-MX")} empresas del catálogo semanal.</p>`;
+    // Más allá del catálogo: Wikidata y GLEIF en vivo (solo al pulsar «Buscar»).
+    const q = $("corp-org-q").value.trim();
+    if (q.length < 3) { $("corp-org-vivo").innerHTML = ""; return; }
+    $("corp-org-vivo").innerHTML = `<p class="meta">Buscando «${esc(q)}» en Wikidata y GLEIF…</p>`;
+    const [wd, gl] = await Promise.allSettled([V.buscarWD(q), V.buscarGLEIF(q)]);
+    if ($("corp-org-q").value.trim() !== q) return;  // ya se escribió otra búsqueda
+    $("corp-org-vivo").innerHTML = V.htmlResultadosVivos({ wd: wd.value, gleif: gl.value, errWD: wd.reason?.message, errGLEIF: gl.reason?.message,
+      local: new Set(r.map((x) => x.e.id)) });
   });
   // Clic en «👔 Empresa» en la lista, en un organigrama o en la ficha de un punto del mapa.
+  const mostrar = (html, enFicha) => {
+    if (enFicha && abrirFicha) abrirFicha(html);
+    else { $("corp-org-ficha").innerHTML = html; $("corp-org-ficha").scrollIntoView({ block: "nearest" }); }
+  };
   document.addEventListener("click", async (ev) => {
+    const enFicha = !!ev.target.closest("#ficha");
+    const w = ev.target.closest(".corp-wd");
+    if (w) {
+      await asegurar();
+      const local = porId()[w.dataset.wd];
+      if (local) { mostrarOrg(local.id, enFicha ? "ficha" : "panel"); return; }
+      mostrar(`<p class="meta">Consultando el organigrama en Wikidata…</p>`, enFicha);
+      try {
+        const e = await V.organigramaWD(w.dataset.wd);
+        const np = nombres();
+        mostrar(htmlOrganigrama(e, { porId: porId(), notas: datos?.notas || [], nombrePais: (i) => np[i] || i }), enFicha);
+      } catch (err) { mostrar(`<p class="meta">Wikidata no respondió (${esc(err.message)}). Intenta de nuevo en un minuto.</p>`, enFicha); }
+      return;
+    }
+    const l = ev.target.closest(".corp-lei");
+    if (l) {
+      mostrar(`<p class="meta">Consultando la estructura legal en GLEIF…</p>`, enFicha);
+      try { mostrar(V.htmlEstructuraGLEIF(await V.estructuraGLEIF(l.dataset.lei)), enFicha); }
+      catch (err) { mostrar(`<p class="meta">GLEIF no respondió (${esc(err.message)}).</p>`, enFicha); }
+      return;
+    }
+    const g = ev.target.closest(".corp-gleif-q");
+    if (g) {
+      const destino = g.closest(".organigrama")?.querySelector(".corp-gleif-res");
+      if (!destino) return;
+      destino.innerHTML = `<p class="meta">Consultando GLEIF…</p>`;
+      try {
+        if (g.dataset.lei) { destino.innerHTML = V.htmlEstructuraGLEIF(await V.estructuraGLEIF(g.dataset.lei)); return; }
+        const r = await V.buscarGLEIF(g.dataset.q);
+        destino.innerHTML = r.lista.length ? `<p class="meta">Elige la entidad legal (puede haber varias con nombre parecido):</p><ul class="lista-corta">${r.lista.map((x) => `<li><button type="button" class="txt-btn corp-lei" data-lei="${esc(x.lei)}">${esc(x.n)}</button> <span class="meta">${esc(x.pais)}</span></li>`).join("")}</ul>`
+          : `<p class="meta">GLEIF no tiene una entidad con ese nombre exacto. Búscala por su razón social en el buscador de arriba.</p>`;
+      } catch (err) { destino.innerHTML = `<p class="meta">GLEIF no respondió (${esc(err.message)}).</p>`; }
+      return;
+    }
     const b = ev.target.closest(".corp-org");
     if (!b) return;
     await asegurar();
