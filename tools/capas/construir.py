@@ -2177,7 +2177,7 @@ def main(pedidas):
                 with open(os.path.join(SALIDA, f"buscar_{fid}.json"), "w", encoding="utf-8") as f:
                     json.dump(indice_busqueda(feats), f, ensure_ascii=False, separators=(",", ":"))
             # Grupos por zona (círculo con el número al alejar): el navegador no puede agrupar mosaicos vectoriales.
-            grupos_pub = ZG.escribir(SALIDA, fid, feats) if fam["geometria"] == "punto" else None
+            grupos_pub = ZG.escribir(SALIDA, fid, feats) if fam["geometria"] in ("punto", "mixta") else None  # mixta: solo sus puntos
             subtipos, zoom_st = {}, {}
             for ft in feats:
                 st_ = ft["properties"]["st"]
