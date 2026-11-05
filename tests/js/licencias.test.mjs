@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { vistaActual, restricciones, aplicarARiesgos, familiasPago, subtiposPago, fuenteComercial, camaraComercial } from "../../js/licencias.js";
+import { vistaActual, restricciones, aplicarARiesgos, familiasPago, subtiposPago, fuenteComercial, camaraComercial, camaraParaVistaComercial } from "../../js/licencias.js";
 import { CAPAS } from "../../js/riesgos.js";
 
 const leer = (p) => JSON.parse(readFileSync(new URL(`../../${p}`, import.meta.url)));
@@ -49,22 +49,42 @@ test("capas y movimiento: sin fuentes no comerciales ni subtipos de CelesTrak", 
   assert.ok(r.capas.has("nodos_bitcoin") && r.capas.has("inmuebles_seguimiento"));
 });
 
-test("cámaras: solo licencias abiertas y enlaces oficiales de organismos públicos", () => {
+test("cámaras: conserva fichas, subtipos y grupos, con medios solo de fuentes aprobadas", async () => {
+  const { htmlFichaCamara } = await import("../../js/capas.js");
+  const { filtrarCamaras } = await import("../../js/camaras_catalogo.js");
+  const filtro = lic.version_pago.capas_filtradas.camaras;
   const sub = (id, fuente) => ({ id, fuente });
-  const fam = { id: "camaras", fuente: "camaras_publicas", licencia: "x", manifest: { archivo: "a.geojson", grupos: "g.json", objetos: 9, por_subtipo: { trafico: 9 } },
+  const fam = { id: "camaras", fuente: "camaras_publicas", manifest: { archivo: "a.geojson", grupos: "g.json", objetos: 3 },
     subtipos: [sub("trafico", "camaras_publicas"), sub("wcmx_cdmx", "webcamsdemexico"), sub("yt_ciudades", "youtube_en_vivo")] };
   const [f] = familiasPago([fam], r);
-  assert.equal(f.fuente, "camaras_abiertas");
-  assert.deepEqual(f.subtipos.map((s) => s.id), ["trafico"], "sin YouTube ni Webcams de México");
-  assert.equal(f.manifest.grupos, null, "los grupos del servidor cuentan todas las cámaras");
-  assert.equal(f.manifest.objetos, null);
-  assert.ok(f.filtroObjeto({ id: "dt:C01", t: "organismo_publico" }), "Digitraffic (CC BY 4.0) por prefijo");
-  assert.ok(f.filtroObjeto({ id: "x:1", fuente: "tfl" }));
-  assert.ok(f.filtroObjeto({ id: "cita:1", fuente: "cita", x: "https://www.cita.lu/webcam/map/1" }), "ubicación abierta con enlace oficial");
-  assert.ok(f.filtroObjeto({ id: "cam:kilauea", t: "organismo_publico" }), "enlace a página oficial");
-  assert.ok(!f.filtroObjeto({ id: "cam:x", t: "operador_turistico" }));
-  for (const p of [{ id: "yt:abc" }, { id: "wy:1", fuente: "windy" }, { id: "wdm:1" }, { id: "ct:1", fuente: "caltrans" }, { id: "hk:1", fuente: "hong_kong" }])
-    assert.ok(!camaraComercial(p, lic.version_pago.capas_filtradas.camaras), p.id);
+  assert.deepEqual(f.subtipos, fam.subtipos);
+  assert.deepEqual(f.manifest, fam.manifest);
+  const abierta = { id: "dt:C01", n: "Cámara de tráfico", imgs: ["https://example.com/1.jpg"] };
+  const youtube = { id: "yt:abcdefg1234", fuente: "youtube", n: "Ciudad de ejemplo", st: "yt_ciudades",
+    x: "https://www.youtube.com/watch?v=abcdefg1234", yt: "abcdefg1234", canal: "https://www.youtube.com/",
+    imgs: ["https://example.com/restringida.jpg"], mp4: "https://example.com/a.mp4", hls: "https://example.com/a.m3u8",
+    embed: "https://webcams.windy.com/webcams/public/embed/player/123/day", embed_tipo: "windy", sg: "1234" };
+  const cita = { id: "cita:1", fuente: "cita", n: "CITA", x: "https://www.cita.lu/webcam/map/1" };
+  const fichas = [abierta, youtube, cita].map(p => f.prepararObjeto(p));
+  assert.deepEqual(fichas.map(p => p.id), [abierta.id, youtube.id, cita.id]);
+  assert.deepEqual(fichas[0], abierta);
+  assert.deepEqual(fichas[2], cita);
+  assert.deepEqual(fichas[1], camaraParaVistaComercial(youtube, filtro));
+  assert.equal(fichas[1].x, youtube.x);
+  for (const medio of ["imgs", "mp4", "hls", "yt", "canal", "embed", "embed_tipo", "sg"]) assert.ok(!(medio in fichas[1]), medio);
+  const html = htmlFichaCamara(fichas[1]);
+  assert.match(html, /Acceso externo/);
+  assert.ok(html.includes(youtube.x));
+  assert.doesNotMatch(html, /<img|<video|<iframe|data-sg|data-camara/);
+  assert.match(htmlFichaCamara(fichas[0]), /<img/);
+  assert.equal(filtrarCamaras(fichas).length, 3);
+  assert.deepEqual(filtrarCamaras(fichas, "ciudad", "enlace").map(p => p.id), [youtube.id]);
+  assert.ok(camaraComercial({ id: "cam:kilauea", t: "organismo_publico" }, filtro));
+  assert.ok(!camaraComercial(youtube, filtro));
+  assert.ok(camaraParaVistaComercial(abierta).solo_enlace_comercial, "si la configuración falla se usa el enlace");
+  for (const x of ["javascript:alert(1)", "https://127.0.0.1/camara", "https://user:pass@example.com/camara", "https://example.com/?api_key=privada"]) {
+    assert.equal(camaraParaVistaComercial({ ...youtube, x }, filtro).x, "");
+  }
 });
 
 test("planes: el grupo de un plan superior pide ese plan; el propio o inferior no", async () => {

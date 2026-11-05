@@ -1,7 +1,7 @@
 import { htmlFichaCamara, rellenarCamaraSingapur } from './capas.js';
 import { iniciarPreviewsCamaras } from './camaras_preview.js';
 import { iniciarCamarasVideo } from './camaras_video.js';
-import { vistaActual, camaraComercial } from './licencias.js';
+import { camaraParaVistaComercial } from './licencias.js';
 
 export function tienePreviewCamara(p) {
   return Boolean((Array.isArray(p.imgs) && p.imgs.length) || p.hls || p.mp4 || p.embed || p.yt || p.sg);
@@ -12,6 +12,7 @@ export function filtrarCamaras(camaras, consulta = '', medio = 'todas') {
   const palabras = normal(consulta).split(/\s+/).filter(Boolean);
   return camaras.filter(p => {
     if (medio === 'preview' && !tienePreviewCamara(p)) return false;
+    if (medio === 'enlace' && (!p.x || tienePreviewCamara(p))) return false;
     if (medio === 'video' && !(p.hls || p.mp4 || p.embed || p.yt)) return false;
     if (medio === 'imagen' && !((Array.isArray(p.imgs) && p.imgs.length) || p.sg)) return false;
     const texto = normal([p.n, p.o, p.p, p.lugar, p.fuente, p.id].join(' '));
@@ -40,7 +41,7 @@ async function iniciar() {
     for (const p of coincidencias.slice(0, limite)) {
       const li = document.createElement('li'), boton = document.createElement('button'), nombre = document.createElement('strong'), detalle = document.createElement('small');
       boton.type = 'button'; boton.dataset.id = p.id; boton.setAttribute('aria-pressed', String(seleccion === p.id));
-      nombre.textContent = p.n || 'Cámara pública'; detalle.textContent = [p.p, p.o].filter(Boolean).join(' · ');
+      nombre.textContent = p.n || 'Cámara pública'; detalle.textContent = [p.p, p.o, p.solo_enlace_comercial ? 'Acceso externo' : ''].filter(Boolean).join(' · ');
       boton.append(nombre, detalle); boton.addEventListener('click', () => seleccionar(p)); li.append(boton); lista.append(li);
     }
     $('cam-mas').hidden = limite >= coincidencias.length;
@@ -51,16 +52,11 @@ async function iniciar() {
     if (!r.ok) throw new Error('catálogo no disponible');
     const data = await r.json();
     camaras = (data.features || []).map(f => f.properties).filter(p => p && p.id);
-    // Versión de pago: solo cámaras de licencia abierta y enlaces oficiales (config/comercial_licencias.json).
-    const comercial = vistaActual() === 'pago';
-    if (comercial) {
-      const respuesta = await fetch('config/comercial_licencias.json');
-      if (!respuesta.ok) throw new Error('Licencias no disponibles');
-      const lic = await respuesta.json();
-      camaras = camaras.filter(p => camaraComercial(p, lic.version_pago?.capas_filtradas?.camaras));
-    }
-    const alcance = comercial ? ' habilitadas para todos los planes' : ' en el catálogo';
-    $('cam-carga').textContent = `${camaras.length.toLocaleString('es')} cámaras${alcance}. Las vistas previas se solicitan al seleccionarlas.`;
+    const lic = await fetch('config/comercial_licencias.json', { cache: 'no-cache' })
+      .then(respuesta => respuesta.ok ? respuesta.json() : null)
+      .catch(() => null);
+    camaras = camaras.map(p => camaraParaVistaComercial(p, lic?.version_pago?.capas_filtradas?.camaras));
+    $('cam-carga').textContent = `${camaras.length.toLocaleString('es')} cámaras en el catálogo. Las vistas previas autorizadas se solicitan al seleccionarlas.`;
     buscar();
     const id = new URL(location.href).searchParams.get('id');
     const elegida = camaras.find(p => p.id === id);

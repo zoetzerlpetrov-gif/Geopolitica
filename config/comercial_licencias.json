@@ -194,11 +194,11 @@
    "licencia": "Distinta en cada operador",
    "accion": "sustituir",
    "donde": "Capa «Cámaras públicas» y página camaras.html",
-   "sustituto": "Solo operadores públicos con licencia abierta que permite uso comercial, más los enlaces a páginas oficiales de organismos públicos (lista curada)",
+   "sustituto": "Vistas previas de fuentes aprobadas y fichas con enlaces externos para las demás cámaras",
    "licencia_sustituto": "CC BY 4.0, CC BY 3.0 NZ, NLOD 2.0, Open Government Licence (Columbia Británica, Toronto), TfL Open Data Licence, Singapore Open Data Licence",
-   "nota": "Quedan fuera de la versión de pago: YouTube, Windy, Webcams de México, operadores turísticos y los catálogos con «datos públicos» sin licencia explícita (Caltrans, NYC DOT, NZTA, Islandia, WSDOT, Hong Kong, Calgary, Queensland, entre otros) hasta verificar sus términos.",
+   "nota": "YouTube, Windy, Webcams de México y las demás fuentes pendientes de aprobación comercial se consultan mediante enlaces al operador. Sus fichas se limitan a enlaces externos en todos los roles.",
    "estado": "listo",
-   "prueba": "Filtro por fuente en js/licencias.js (camaraComercial) con la lista de config/comercial_licencias.json (version_pago.capas_filtradas.camaras)."
+   "prueba": "El mapa y el catálogo aplican camaraParaVistaComercial de js/licencias.js con version_pago.capas_filtradas.camaras."
   }
  ],
  "estrategia": {
@@ -267,7 +267,7 @@
      "cita"
     ],
     "enlaces_oficiales": true,
-    "nota": "Se muestran solo las cámaras de esas fuentes y los enlaces de la lista curada a páginas de organismos públicos (id «cam:», tipo organismo_publico). Las ubicaciones CITA (CC0) enlazan al operador. Las vistas previas disponibles se piden al operador."
+    "nota": "El catálogo conserva todas las fichas. Las fuentes de fuentes_ok pueden mostrar sus vistas previas disponibles. Las ubicaciones CITA (CC0) enlazan al operador. Las fichas de otras fuentes solo conservan metadatos de búsqueda y un enlace público."
    }
   },
   "capas_sustituidas": {

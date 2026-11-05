@@ -1151,7 +1151,15 @@ async function iniciarCapas() {
   const rv = await vistaLista;
   // Las familias «sustituye» (p. ej. cables de OpenStreetMap) solo existen para la versión de pago.
   const dibujables = familiasDibujables(catalogo, capasCfg, manifest);
-  const familias = rv ? LIC.familiasPago(dibujables, rv) : dibujables.filter((f) => !f.sustituye);
+  let familias;
+  if (rv) {
+    familias = LIC.familiasPago(dibujables, rv);
+  } else {
+    const licencias = await getJSON("config/comercial_licencias.json").catch(() => null);
+    const reglaCamaras = licencias?.version_pago?.capas_filtradas?.camaras;
+    familias = dibujables.filter((f) => !f.sustituye).map((f) =>
+      f.id === "camaras" ? LIC.capaCamarasComercial(f, reglaCamaras) : f);
+  }
   gestor = new GestorCapas(api.map, {
     chokepointsActivos: () => $("capa-chokepoints").checked,
     onCambio: avisarPresupuesto,

@@ -1,7 +1,7 @@
 // Versión de pago y versión de quien administra (Fase 7). Funciones puras, salvo vistaActual().
-// Regla: en la versión de pago solo se muestra lo que viene de fuentes que permiten uso comercial (config/entities.json,
-// uso_comercial === true) y no está en la lista «solo admin» de config/comercial_licencias.json. Lo demás solo lo ve
-// quien administra. En el sitio público (sin cobro) se ve todo; con ?vista=pago se simula la versión de pago.
+// La vista comercial aplica las reglas de uso de las fuentes y las secciones reservadas a administración.
+// Las cámaras conservan su ficha y enlace al operador. La incorporación de sus medios se decide por fuente.
+// El sitio público permite simular la vista comercial con ?vista=pago.
 
 /** Plan que se simula en la vista de pago: ?plan=demo|recon|analyst|command (o window.DOMINUS_PLAN en la versión comercial).
  *  Sin indicarlo, el plan más alto. */
@@ -56,7 +56,6 @@ export function restricciones(lic, catalogo, planes = {}) {
     sustitutas: v.capas_sustituidas || {},
     filtradas: v.capas_filtradas || {},
     fuenteOk: (id) => fuenteComercial(catalogo, id),
-    fuente: (id) => catalogo?.fuentes?.[id] || {},
   };
 }
 
@@ -75,41 +74,61 @@ export function aplicarARiesgos(capas, r) {
 
 // Prefijo del id de cámaras de catálogos antiguos que aún no traen «fuente» (tools/capas/camaras_mundo.py).
 const PREFIJO_CAMARA = { dt: "digitraffic", sg: "singapur" };
+const fuenteCamara = (p) => p?.fuente || PREFIJO_CAMARA[String(p?.id || "").split(":")[0]];
+const fuenteConVistaPrevia = (p, filtro) => (filtro?.fuentes_ok || []).includes(fuenteCamara(p));
 
-/** ¿Esta cámara se puede mostrar en la versión de pago? Solo fuentes con licencia abierta que permite uso comercial y,
- *  si `enlaces_oficiales`, las de la lista curada que solo enlazan a la página de un organismo público. */
+/** La lista aprobada autoriza los medios disponibles. Las fichas oficiales curadas son enlaces al operador. */
 export function camaraComercial(p, filtro) {
   const id = String(p?.id || "");
-  const fuente = p?.fuente || PREFIJO_CAMARA[id.split(":")[0]];
-  if ((filtro?.fuentes_ok || []).includes(fuente)) return true;
+  if (fuenteConVistaPrevia(p, filtro)) return true;
   return Boolean(filtro?.enlaces_oficiales && id.startsWith("cam:") && p.t === "organismo_publico");
 }
 
-/** Familias de capas (salida de familiasDibujables) para la versión de pago:
- *  - sin las de solo admin;
- *  - la de fuente no comercial se cambia por su sustituta (version_pago.capas_sustituidas: cables → cables_osm);
- *  - la de version_pago.capas_filtradas se queda, pero solo con los objetos permitidos (filtroObjeto) y sin los
- *    conteos ni grupos del servidor, que cuentan todo;
- *  - sin subtipos de fuentes no comerciales. */
+function enlaceCamara(valor) {
+  try {
+    const url = new URL(valor);
+    if (!["https:", "http:"].includes(url.protocol) || url.username || url.password ||
+        !url.hostname.includes(".") || /^(?:0\.|10\.|127\.|169\.254\.|192\.168\.|172\.(?:1[6-9]|2\d|3[01])\.)/.test(url.hostname) ||
+        /\.(?:localhost|local|internal)$/.test(url.hostname)) return "";
+    const credencial = /^(?:key|api_key|apikey|accesscode|token|access_token|signature|x-amz-signature)$/i;
+    if ([...url.searchParams.keys()].some((clave) => credencial.test(clave))) return "";
+    return url.href;
+  } catch { return ""; }
+}
+
+/** Conserva los datos de búsqueda y el destino publicado. Los medios quedan fuera de la ficha de enlace. */
+export function camaraParaVistaComercial(p, filtro) {
+  if (fuenteConVistaPrevia(p, filtro)) return p;
+  const fuente = fuenteCamara(p);
+  const { id, n, st, p: pais, o, t, z, lugar, aprox } = p;
+  const x = enlaceCamara(p.x);
+  return { id, n, st, p: pais, o, t, z, lugar, aprox, fuente, x, solo_enlace_comercial: true };
+}
+
+export function capaCamarasComercial(familia, filtro) {
+  return {
+    ...familia,
+    licencia: "Vistas previas según licencia. Las demás cámaras abren en el sitio del operador",
+    prepararObjeto: (p) => camaraParaVistaComercial(p, filtro),
+  };
+}
+
+/** Aplica permisos y sustituciones a las familias. Las cámaras conservan sus subtipos y ubicaciones. */
 export function familiasPago(familias, r) {
   const porId = new Map(familias.map((f) => [f.id, f]));
   const sustitutas = new Set(Object.values(r.sustitutas || {}));
   const out = [];
   for (const f of familias) {
     if (r.capas.has(f.id) || sustitutas.has(f.id) || f.sustituye) continue;  // la sustituta entra en el lugar de la original
-    const filtro = r.filtradas?.[f.id];
-    if (filtro) {
-      const info = r.fuente?.(filtro.fuente) || {};
-      out.push({ ...f, fuente: filtro.fuente, fuente_original: f.fuente, licencia: info.licencia || f.licencia, fuente_nombre: info.nombre || f.fuente_nombre,
-        manifest: f.manifest && { ...f.manifest, grupos: null, por_subtipo: undefined, objetos: null },
-        filtroObjeto: (p) => camaraComercial(p, filtro) });
+    if (f.id === "camaras") {
+      out.push(capaCamarasComercial(f, r.filtradas?.camaras));
       continue;
     }
     if (r.fuenteOk(f.fuente)) { out.push(f); continue; }
     const s = porId.get(r.sustitutas?.[f.id]);
     if (s && r.fuenteOk(s.fuente) && !r.capas.has(s.id)) out.push(s);
   }
-  return out.map((f) => ({ ...f, subtipos: f.subtipos.filter((s) => !s.fuente || r.fuenteOk(s.fuente) || (f.fuente_original && s.fuente === f.fuente_original)) }));
+  return out.map((f) => f.id === "camaras" ? f : { ...f, subtipos: subtiposPago(f.subtipos, r) });
 }
 
 /** Subtipos de una categoría en movimiento que se pueden mostrar (p. ej. satélites: solo grupos de SatNOGS). */

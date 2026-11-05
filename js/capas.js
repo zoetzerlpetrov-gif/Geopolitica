@@ -140,10 +140,11 @@ export class GestorCapas {
     if (CON_GRUPOS.has(f.geometria) && f.manifest.grupos && f.grupos === undefined) {
       f.grupos = await fetch(f.manifest.grupos).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     }
-    // Versión de pago con objetos filtrados por licencia (p. ej. cámaras): se baja el GeoJSON y se quita lo no permitido.
-    if (f.filtroObjeto && f.manifest.formato === "geojson" && f.datos === undefined) {
+    // El mapa recibe la versión de cada ficha que corresponde a su fuente.
+    if (f.prepararObjeto && f.manifest.formato === "geojson" && f.datos === undefined) {
       const d = await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-      f.datos = d ? { ...d, features: (d.features || []).filter((x) => f.filtroObjeto(x.properties || {})) } : { type: "FeatureCollection", features: [] };
+      const features = (d?.features || []).map((x) => ({ ...x, properties: f.prepararObjeto(x.properties || {}) }));
+      f.datos = { type: "FeatureCollection", features };
     }
     // Objetos guardados solo en este navegador (p. ej. «Mi lista» de inmuebles.html): se suman al GeoJSON publicado.
     if (f.objetos_locales && f.manifest.formato === "geojson") {
@@ -437,6 +438,16 @@ export function htmlFichaZona(props, sub, familia) {
 
 /** Ficha de cámara pública; solo solicita medios cuando el usuario abre la ficha. */
 export function htmlFichaCamara(props, sub) {
+  if (props.solo_enlace_comercial) {
+    const url = safeUrl(props.x);
+    return `
+      <h3 id="ficha-titulo">${esc(props.n)}</h3>
+      <div class="fecha">${esc(sub?.nombre.es || props.st)} · ${esc(props.o)}</div>
+      <div class="chips"><span class="chip">Acceso externo</span></div>
+      ${url === "#" ? `<p class="meta">El enlace público del operador no está disponible.</p>`
+        : `<p>Consulta la cámara en la página del operador.</p>
+           <p><a class="boton" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Abrir cámara en el sitio del operador ↗</a></p>`}`;
+  }
   const oficial = props.t === "organismo_publico";
   const deYoutube = props.t === "canal_youtube";
   const publico = (u) => {
