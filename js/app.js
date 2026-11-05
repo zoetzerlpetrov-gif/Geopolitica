@@ -95,16 +95,50 @@ const vistaLista = (async () => {
   document.querySelector(".marca")?.insertAdjacentHTML("afterend", `<label class="vista-pago" title="Simulación: así lo ve quien paga este plan">Plan
     <select id="sel-plan-pago">${planes.planes.map((p) => `<option value="${esc(p.id)}"${p.id === plan ? " selected" : ""}>${esc(p.nombre)}</option>`).join("")}</select></label>`);
   document.getElementById("sel-plan-pago")?.addEventListener("change", (e) => { location.search = `?vista=pago&plan=${encodeURIComponent(e.target.value)}`; });
-  return r;
+  return { ...r, aireVDM: !LIC.planFaltante(planes, plan, "bloques", "rg-vdm-aire") };
 })().catch((e) => { console.error("vista de pago", e); return null; });
 
-const aireVDMBloqueado = vistaLista.then((permisos) => {
-  const bloqueado = permisos?.riesgos.has("aire") ?? (LIC.vistaActual() === "pago");
-  if (bloqueado) {
-    $("rg-vdm-aire-candado").hidden = false;
-    $("rg-vdm-aire").innerHTML = '<p class="meta">Disponible para Admin por las condiciones de uso de la fuente.</p>';
+let aireCiudades, aireRegional;
+const cargarAireCiudades = () => aireCiudades ??= getJSON("data/vivos/aire_ciudades.geojson", { bust: true }).catch(() => null);
+const cargarAireRegional = () => aireRegional ??= import("./riesgos.js")
+  .then((R) => R.leerArchivo("airquality.geojson")).catch(() => null);
+
+async function iniciarAireVDM() {
+  const cont = $("rg-vdm-aire");
+  const comercial = LIC.vistaActual() === "pago";
+  if (comercial && !(await vistaLista)?.aireVDM) {
+    cont.setAttribute("aria-disabled", "true");
+    cont.innerHTML = '<p class="meta">No disponible en este plan.</p>';
+    return;
   }
-  return bloqueado;
+
+  const [A, ciudades, regional] = await Promise.all([
+    import("./amenazas.js"), cargarAireCiudades(), comercial ? null : cargarAireRegional()
+  ]);
+  const esSensorComunitario = (p) => p.fuente?.startsWith("Sensor.Community");
+  const cdmx = [...(regional?.features || []), ...(ciudades?.features || [])]
+    .map((f) => f.properties)
+    .find((p) => p.us_aqi != null && /ciudad de m[eé]xico/i.test(p.name || "") && (!comercial || esSensorComunitario(p)));
+  const b = cdmx ? A.bandaAQI(cdmx.us_aqi) : null;
+  const simat = '<a href="https://www.aire.cdmx.gob.mx/" target="_blank" rel="noopener noreferrer">SIMAT</a>';
+  if (!b) {
+    cont.innerHTML = `<p class="meta">Sin datos de US AQI para la CDMX por ahora. Consulta el índice oficial de la ciudad en el ${simat}.</p>`;
+    return;
+  }
+
+  const fuente = esSensorComunitario(cdmx)
+    ? `<a href="https://sensor.community/" target="_blank" rel="noopener noreferrer">Sensor.Community</a> · <a href="https://opendatacommons.org/licenses/odbl/1-0/" target="_blank" rel="noopener noreferrer">ODbL</a> · ${esc(cdmx.sensores)} sensores ciudadanos (promedio de 24 h por sensor)`
+    : esc(cdmx.fuente || "Modelo CAMS vía generador propio");
+  const hora = cdmx.time ? ` · ${esc(cdmx.time.slice(0, 16).replace("T", " "))} UTC` : "";
+  cont.innerHTML = `<div class="aqi-principal"><span class="aqi-num" style="background:${b.color};color:${b.texto}">${esc(cdmx.us_aqi)}</span>
+      <span><b>${esc(b.etiqueta)}</b><br><span class="meta">PM2.5 ${esc(cdmx.pm2_5 ?? "—")} µg/m³ · ozono ${esc(cdmx.ozone ?? "—")} µg/m³</span></span></div>
+    <div class="aqi-escala">${A.BANDAS_AQI.map(([, n, c]) => `<span style="background:${c}" title="${esc(n)}"></span>`).join("")}<i class="aqi-marca" style="left:${(b.pos * 100).toFixed(1)}%"></i></div>
+    <div class="aqi-ejes"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>+</span></div>
+    <p class="meta">Fuente: ${fuente}${hora}. Consulta el índice oficial de la CDMX en el ${simat}. La CAMe declara las contingencias.</p>`;
+}
+iniciarAireVDM().catch((e) => {
+  console.error("calidad del aire CDMX", e);
+  $("rg-vdm-aire").textContent = "No se pudo cargar el US AQI de la CDMX.";
 });
 
 function temaActual() {
@@ -2031,26 +2065,16 @@ async function iniciarRiesgos() {
   $("riesgos-vdm").innerHTML = `<div class="hnc-semana">${A.semanaHNC().map((d) => `<div class="hnc-dia${d.claro ? " claro" : ""}${d.hoy ? " hoy" : ""}" style="--c:${d.color}" title="${esc(d.engomado)}: placas ${esc(d.placas)}">
       ${d.hoy ? "HOY" : d.dia}<b>${esc(d.placas.replace(" y ", "·"))}</b>${esc(d.engomado)}</div>`).join("")}</div>
     <p class="hnc-texto">${esc(hnc.texto)} El Doble No Circula solo aplica con contingencia declarada por la <a href="https://www.gob.mx/comisionambiental" target="_blank" rel="noopener noreferrer">CAMe</a>.</p>`;
-  const aireBloqueado = await aireVDMBloqueado;
+  const aireGlobalBloqueado = rv?.riesgos.has("aire") ?? (LIC.vistaActual() === "pago");
   const [man, esp, aireWrv, aireProp, feed] = await Promise.all([riesgos.manifiesto(), riesgos.espacial(),
-    aireBloqueado ? null : R.leerArchivo("airquality.geojson").catch(() => null),
-    aireBloqueado ? null : getJSON("data/vivos/aire_ciudades.geojson", { bust: true }).catch(() => null),
+    aireGlobalBloqueado ? null : cargarAireRegional(),
+    aireGlobalBloqueado ? null : cargarAireCiudades(),
     R.leerArchivo("security_feed.json").catch(() => null)]);
   // Calidad del aire: archivo propio (~490 ciudades) + generador de riesgos y clima (~530 puntos, muchos turísticos de México).
   const indice = fronteras ? A.indicePaises(fronteras) : null;
   const aireFeats = R.sinCiudadesRepetidas([...(aireWrv?.features || []), ...(aireProp?.features || [])])  // mismo orden que la capa (las claves deben coincidir)
     .filter((f) => f.properties.us_aqi != null)
     .map((f) => ({ f, iso: f.properties.pais_iso3 || (indice ? A.paisEn(indice, ...f.geometry.coordinates.slice(0, 2)) : null) || "" }));
-  const cdmx = aireFeats.find(({ f }) => /ciudad de m[eé]xico/i.test(f.properties.name || ""))?.f;
-  if (!aireBloqueado) {
-    const b = cdmx ? A.bandaAQI(cdmx.properties.us_aqi) : null;
-    $("rg-vdm-aire").innerHTML = b ? `<div class="aqi-principal"><span class="aqi-num" style="background:${b.color};color:${b.texto}">${esc(cdmx.properties.us_aqi)}</span>
-        <span><b>${esc(b.etiqueta)}</b>${b.i >= 2 ? " · ⚠ posible contingencia: verifica en la CAMe" : ""}<br><span class="meta">PM2.5 ${esc(cdmx.properties.pm2_5 ?? "—")} µg/m³ · ozono ${esc(cdmx.properties.ozone ?? "—")} µg/m³</span></span></div>
-      <div class="aqi-escala">${A.BANDAS_AQI.map(([, n, c]) => `<span style="background:${c}" title="${esc(n)}"></span>`).join("")}<i class="aqi-marca" style="left:${(b.pos * 100).toFixed(1)}%"></i></div>
-      <div class="aqi-ejes"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span><span>300</span><span>+</span></div>
-      <p class="meta">Es el mismo índice que la capa «Calidad del aire» (${esc(cdmx.properties.fuente || "modelo CAMS vía generador propio")}), no las estaciones oficiales. El dato oficial de la CDMX es el del
-        <a href="http://www.aire.cdmx.gob.mx/" target="_blank" rel="noopener noreferrer">SIMAT</a>, y las contingencias las declara la CAMe.</p>` : '<p class="meta">No hay datos de calidad del aire de la CDMX por ahora.</p>';
-  }
   pintarAire(aireFeats);
   if (feed?.items?.length) {
     const enlace = (it) => `<li><a href="${esc(safeUrl(it.url))}" target="_blank" rel="noopener noreferrer">${esc(String(it.title).trim().slice(0, 140))}</a>${it.source ? ` <span class="meta">· ${esc(it.source)}</span>` : ""}</li>`;

@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
   <link rel="preload" href="https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf" as="fetch" crossorigin>
-  <link rel="modulepreload" href="js/app.js?v=149">
+  <link rel="modulepreload" href="js/app.js?v=150">
   <link rel="modulepreload" href="js/util.js">
   <link rel="modulepreload" href="js/map.js">
   <link rel="modulepreload" href="js/card.js">
@@ -239,7 +239,7 @@
           <div class="vdm">
             <h4>🚗 Hoy No Circula · Valle de México</h4>
             <div id="riesgos-vdm"></div>
-            <h4 style="margin-top:10px">🌫️ Calidad del aire en la CDMX (US AQI)<span id="rg-vdm-aire-candado" class="chip candado" hidden>🔒 Admin</span></h4>
+            <h4 style="margin-top:10px">🌫️ Calidad del aire en la CDMX (US AQI)</h4>
             <div id="rg-vdm-aire" aria-live="polite"><p class="meta">Consultando disponibilidad de datos…</p></div>
           </div>
         </details>
@@ -542,7 +542,7 @@
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
   <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
   <script>try { maplibregl.prewarm(); } catch (e) {}</script>
-  <script type="module" src="js/app.js?v=149"></script>
+  <script type="module" src="js/app.js?v=150"></script>
   <script type="module" src="js/vista_enlaces.js?v=2"></script>
 </body>
 </html>
