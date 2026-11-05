@@ -36,5 +36,6 @@ test("texto del precio y precios de los tres planes", () => {
 
 test("secciones solo para quien administra", () => {
   for (const h of ["noticiero.html", "corporativo.html", "herramientas.html", "ops.html", "inmuebles.html?zona=x", "analitica.html", "marco.html"]) assert.ok(paginaSoloAdmin(cat, h), h);
-  for (const h of ["index.html", "reporte.html?tipo=mexico", "tutorial.html", "matriz.html"]) assert.ok(!paginaSoloAdmin(cat, h), h);
+  for (const h of ["analista.html", "fase2.html", "plataforma.html#tutorial-f3", "fase4.html", "operaciones.html", "laboratorio.html", "colaboracion.html", "fase5.html", "transporte.html"]) assert.ok(paginaSoloAdmin(cat, h), h);
+  for (const h of ["index.html", "reporte.html?tipo=mexico", "tutorial.html", "matriz.html", "camaras.html"]) assert.ok(!paginaSoloAdmin(cat, h), h);
 });

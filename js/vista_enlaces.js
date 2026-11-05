@@ -29,7 +29,8 @@ export function conVista(href, plan) {
 
 async function iniciar() {
   if (vistaActual() !== "pago") return;
-  const planes = await fetch("config/planes.json").then((r) => r.json());
+  for (const elemento of document.querySelectorAll("[data-solo-admin]")) elemento.remove();
+  const planes = await fetch("config/planes.json", { cache: "no-cache" }).then((r) => r.json());
   const plan = planActual(planes);
   const aqui = paginaDe(location.pathname.split("/").pop() || "index.html");
   const salir = (titulo, texto) => {
@@ -41,7 +42,7 @@ async function iniciar() {
   if (falta) return salir(`🔒 Disponible desde el plan ${falta.nombre}`, "Tu plan actual no incluye esta sección.");
 
   const arreglar = (a) => {
-    if (a.hasAttribute("data-solo-admin")) { a.remove(); return; }  // enlaces externos de administración (p. ej. Portafolio)
+    if (a.hasAttribute("data-solo-admin")) { a.remove(); return; }  // enlaces de administración agregados después del inicio
     const href = a.getAttribute("href");
     if (!esInterno(href)) return;
     const destino = paginaDe(href);

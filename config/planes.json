@@ -127,6 +127,46 @@
    "nombre": "Mesa del analista"
   },
   {
+   "tipo": "pagina",
+   "href": "fase2.html",
+   "nombre": "Hipótesis, empresas e investigaciones"
+  },
+  {
+   "tipo": "pagina",
+   "href": "plataforma.html",
+   "nombre": "Centro de inteligencia y herramientas web"
+  },
+  {
+   "tipo": "pagina",
+   "href": "fase4.html",
+   "nombre": "Activos, relaciones y evidencia"
+  },
+  {
+   "tipo": "pagina",
+   "href": "operaciones.html",
+   "nombre": "Tablero, alertas y respuesta"
+  },
+  {
+   "tipo": "pagina",
+   "href": "laboratorio.html",
+   "nombre": "Laboratorio de análisis e intercambio"
+  },
+  {
+   "tipo": "pagina",
+   "href": "colaboracion.html",
+   "nombre": "Colaboración web"
+  },
+  {
+   "tipo": "pagina",
+   "href": "fase5.html",
+   "nombre": "Áreas de interés, rutas y exposición"
+  },
+  {
+   "tipo": "pagina",
+   "href": "transporte.html",
+   "nombre": "Horarios y conexiones de transporte"
+  },
+  {
    "tipo": "capa",
    "id": "inmuebles_seguimiento",
    "nombre": "Economía y finanzas · Seguimiento a Inmuebles"
