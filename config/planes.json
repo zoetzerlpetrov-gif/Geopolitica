@@ -25,6 +25,7 @@
    "resumen": "Prueba gratuita para conocer la app antes de pagar. Usa solo copias estáticas que ya genera el sitio, así que cada visita no consume llaves ni cuotas de APIs.",
    "incluye": [
     "Mapa con capas fijas",
+    "Cámaras públicas habilitadas por licencia, con mapa, catálogo y vistas previas disponibles",
     "Eventos y noticias con 24 h de retraso (copia del día anterior)",
     "Mundo corporativo: noticias de empresas en el mapa y organigramas públicos (copia del día anterior)",
     "Un reporte diario de México y uno global, del día anterior",
@@ -37,7 +38,7 @@
     "Herramientas, investigación y seguimiento",
     "Descargas y exportaciones"
    ],
-   "costo_por_visita": "Cero llamadas a APIs: los archivos se sirven desde el CDN de Cloudflare Pages."
+   "costo_por_visita": "Los archivos base se sirven desde Cloudflare Pages. Las vistas previas de cámaras consultan al operador al abrir la ficha."
   },
   {
    "id": "recon",
@@ -165,6 +166,7 @@
   "paginas": {
    "reporte.html": "demo",
    "tutorial.html": "demo",
+   "camaras.html": "demo",
    "planes.html": "demo",
    "taxonomia.html": "recon",
    "narrativas.html": "analyst",
@@ -172,7 +174,8 @@
    "soporte.html": "demo"
   },
   "bloques": {
-   "b-capas-ent": "recon"
+   "b-capas-ent": "recon",
+   "b-capas-img": "demo"
   },
   "nombres": {
    "eventos": "📰 Eventos y noticias",
@@ -193,6 +196,8 @@
    "narrativas.html": "♟️ Narrativas y estrategia",
    "matriz.html": "🧮 Matriz de riesgo por país",
    "b-capas-ent": "🏗️ Infraestructura, conflictos y sociedad",
+   "b-capas-img": "Imágenes satelitales y cámaras",
+   "camaras.html": "Cámaras públicas (catálogo y vistas previas)",
    "soporte.html": "🛟 Soporte"
   }
  }

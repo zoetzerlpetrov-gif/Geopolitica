@@ -119,6 +119,6 @@ test('visor de cámaras: filtra acentos, varias palabras y tipo de preview', asy
   const cs = [{ id: '1', n: 'Cámara Québec', o: 'Ciudad', imgs: ['https://example.com/1.jpg'] }, { id: '2', n: 'Quebec video', hls: 'https://example.com/2.m3u8' }, { id: '3', n: 'Solo enlace' }];
   assert.deepEqual(filtrarCamaras(cs, 'quebec ciudad').map(p => p.id), ['1']);
   assert.deepEqual(filtrarCamaras(cs, '', 'video').map(p => p.id), ['2']);
-  assert.equal(filtrarCamaras(cs).length, 2);
-  assert.equal(filtrarCamaras(cs, '', 'todas').length, 3);
+  assert.deepEqual(filtrarCamaras(cs).map(p => p.id), ['1', '2', '3']);
+  assert.deepEqual(filtrarCamaras(cs, '', 'preview').map(p => p.id), ['1', '2']);
 });

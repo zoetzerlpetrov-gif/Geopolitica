@@ -263,10 +263,11 @@
      "vitoria",
      "iowa",
      "dgt",
-     "geonet"
+     "geonet",
+     "cita"
     ],
     "enlaces_oficiales": true,
-    "nota": "Se muestran solo las cámaras de esas fuentes y los enlaces de la lista curada a páginas de organismos públicos (id «cam:», tipo organismo_publico). La imagen se pide al operador; no se guarda."
+    "nota": "Se muestran solo las cámaras de esas fuentes y los enlaces de la lista curada a páginas de organismos públicos (id «cam:», tipo organismo_publico). Las ubicaciones CITA (CC0) enlazan al operador. Las vistas previas disponibles se piden al operador."
    }
   },
   "capas_sustituidas": {

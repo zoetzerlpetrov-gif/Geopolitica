@@ -60,6 +60,7 @@ test("cámaras: solo licencias abiertas y enlaces oficiales de organismos públi
   assert.equal(f.manifest.objetos, null);
   assert.ok(f.filtroObjeto({ id: "dt:C01", t: "organismo_publico" }), "Digitraffic (CC BY 4.0) por prefijo");
   assert.ok(f.filtroObjeto({ id: "x:1", fuente: "tfl" }));
+  assert.ok(f.filtroObjeto({ id: "cita:1", fuente: "cita", x: "https://www.cita.lu/webcam/map/1" }), "ubicación abierta con enlace oficial");
   assert.ok(f.filtroObjeto({ id: "cam:kilauea", t: "organismo_publico" }), "enlace a página oficial");
   assert.ok(!f.filtroObjeto({ id: "cam:x", t: "operador_turistico" }));
   for (const p of [{ id: "yt:abc" }, { id: "wy:1", fuente: "windy" }, { id: "wdm:1" }, { id: "ct:1", fuente: "caltrans" }, { id: "hk:1", fuente: "hong_kong" }])
@@ -77,6 +78,13 @@ test("planes: el grupo de un plan superior pide ese plan; el propio o inferior n
   assert.equal(planFaltante(planes, "recon", "grupos", "riesgos"), null);
   assert.equal(planFaltante(planes, "demo", "paginas", "matriz.html").id, "analyst");
   assert.equal(planFaltante(planes, "command", "paginas", "matriz.html"), null);
+  for (const { id } of planes.planes) {
+    assert.equal(planFaltante(planes, id, "grupos", "capas"), null, id);
+    assert.equal(planFaltante(planes, id, "bloques", "b-capas-img"), null, id);
+    assert.equal(planFaltante(planes, id, "paginas", "camaras.html"), null, id);
+  }
+  assert.equal(planFaltante(planes, "demo", "bloques", "b-capas-ent").id, "recon");
+  assert.ok(!r.paginas.has("camaras.html") && !r.capas.has("camaras") && !r.bloques.has("b-capas-img") && !r.bloquesLic.includes("b-capas-img"));
   assert.equal(planFaltante(planes, "demo", "paginas", "noticiero.html"), null, "sin regla: lo decide la lista de solo admin");
   const fix = fixDeIndicadores({ grupos: [{ datos: [{ id: "SF46410", valor: 21 }, { id: "SF43718", valor: 18.4215, fecha: "2026-10-28" }] }] });
   assert.deepEqual(fix, { fecha: "2026-10-28", valor: 18.4215 });
@@ -86,6 +94,9 @@ test("planes: el grupo de un plan superior pide ese plan; el propio o inferior n
   const filas = filasComparacion(planes);
   assert.deepEqual(filas.find((f) => f.clave === "seguimiento").incluido, [false, false, false, true]);
   assert.deepEqual(filas.find((f) => f.clave === "eventos").incluido, [true, true, true, true]);
+  for (const clave of ["camaras.html", "b-capas-img"]) {
+    assert.deepEqual(filas.find((f) => f.clave === clave).incluido, [true, true, true, true]);
+  }
   for (const g of Object.keys(planes.acceso_por_plan.grupos)) assert.ok(planes.acceso_por_plan.nombres[g], g);
 });
 

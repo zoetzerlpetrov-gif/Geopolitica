@@ -1166,8 +1166,7 @@ async function iniciarCapas() {
   });
   gestor.registrar(familias);
   const cont = $("capas-entidades");
-  // Las casillas de las familias viven en «Infraestructura…», salvo Cámaras públicas, que se mueve a «Imágenes satelitales
-  // y cámaras»: por eso los eventos y búsquedas usan la sección completa (raiz) y no solo este contenedor.
+  // Los controles de cámaras e infraestructura están en bloques hermanos del mismo grupo.
   const raiz = $("g-capas") || cont;
   // Subtítulo por categoría del catálogo (Infraestructura, Conflictos, Religiones…), en el orden del catálogo.
   const ordenCat = catalogo.categorias.map((c) => c.id);
@@ -1205,22 +1204,16 @@ async function iniciarCapas() {
   // Categorías que comparten sección del menú (mismo tema, datos y capas separados).
   const SECCION = { conflicto: "grupos_armados", grupos_criminales: "grupos_armados", religiones: "religion", lugares_religiosos: "religion" };
   const NOMBRE_SECCION = { grupos_armados: "Grupos armados, criminales y terroristas: dominio, disputa y presencia", religion: "Religión" };
-  const secs = [...new Set(familias.map((f) => SECCION[f.categoria] || f.categoria))];
+  const contCam = $("cam-capas");
+  const familiaCam = familias.find((f) => f.id === "camaras");
+  if (contCam && familiaCam) contCam.innerHTML = htmlFam(familiaCam);
+  const otrasFamilias = contCam ? familias.filter((f) => f.id !== "camaras") : familias;
+  const secs = [...new Set(otrasFamilias.map((f) => SECCION[f.categoria] || f.categoria))];
   cont.innerHTML = secs.map((c) => {
-    const fs = familias.filter((f) => (SECCION[f.categoria] || f.categoria) === c);
+    const fs = otrasFamilias.filter((f) => (SECCION[f.categoria] || f.categoria) === c);
     return `<details class="subgrupo-d" id="sg-capas-${esc(c)}"><summary class="subgrupo"><span class="punto" style="--c:${esc(fs[0].subtipos[0]?.color || "#888")}"></span>${esc(NOMBRE_SECCION[c] || nombreCat[c] || c)}
       <span class="sg-n" data-sg-cat="${esc(c)}">${((n) => `${n} ${n === 1 ? "capa" : "capas"}`)(fs.filter((f) => f.disponible).length)}</span></summary>${fs.map(htmlFam).join("")}</details>`;
   }).join("");
-  // Cámaras públicas: una sola opción, dentro de «Imágenes satelitales y cámaras» (con sus subtipos y fuentes).
-  const famCam = cont.querySelector('[data-fam="camaras"]')?.closest(".capa-fam");
-  if (famCam && $("cam-capas")) $("cam-capas").append(famCam);
-  // Su subsección de origen («Cámaras públicas» en Infraestructura, conflictos y sociedad) queda vacía: se quita el título.
-  for (const sg of cont.querySelectorAll(".subgrupo-d")) if (!sg.querySelector(".capa-fam")) sg.remove();
-  for (const n of cont.querySelectorAll("[data-sg-cat]")) {
-    const sec = n.closest("details");
-    const k = sec?.querySelectorAll(".capa-fam:not(.capa-off)").length ?? 0;
-    n.textContent = `${k} ${k === 1 ? "capa" : "capas"}`;
-  }
   // Buscador de Organizaciones: empresas, organismos y embajadas/consulados por nombre → vuela al punto y abre la ficha.
   const sgOrg = $("sg-capas-organizaciones");
   if (sgOrg) {
@@ -1306,8 +1299,11 @@ async function iniciarCapas() {
   // Enlaces compartibles y pruebas de carga: ?capas=aeropuertos,centrales&mov=aeronaves activa capas al abrir.
   const q = new URLSearchParams(location.search);
   for (const id of (q.get("capas") || "").split(",").filter(Boolean)) {
-    const cb = cont.querySelector(`[data-fam="${CSS.escape(id)}"]`);
-    if (cb && !cb.disabled) { cb.checked = true; await gestor.activar(id); }
+    const cb = raiz.querySelector(`[data-fam="${CSS.escape(id)}"]`);
+    if (cb && !cb.disabled && !cb.closest("[hidden], .bloqueado-plan")) {
+      cb.checked = true;
+      await gestor.activar(id);
+    }
   }
   for (const t of (q.get("mov") || "").split(",").filter(Boolean)) {
     const cb = $("mov-capas").querySelector(`[data-mov="${CSS.escape(t)}"]`);

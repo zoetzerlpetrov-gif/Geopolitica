@@ -7,7 +7,7 @@ export function tienePreviewCamara(p) {
   return Boolean((Array.isArray(p.imgs) && p.imgs.length) || p.hls || p.mp4 || p.embed || p.yt || p.sg);
 }
 
-export function filtrarCamaras(camaras, consulta = '', medio = 'preview') {
+export function filtrarCamaras(camaras, consulta = '', medio = 'todas') {
   const normal = s => String(s || '').normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase();
   const palabras = normal(consulta).split(/\s+/).filter(Boolean);
   return camaras.filter(p => {
@@ -52,16 +52,20 @@ async function iniciar() {
     const data = await r.json();
     camaras = (data.features || []).map(f => f.properties).filter(p => p && p.id);
     // Versión de pago: solo cámaras de licencia abierta y enlaces oficiales (config/comercial_licencias.json).
-    if (vistaActual() === 'pago') {
-      const lic = await fetch('config/comercial_licencias.json').then(r => r.json());
+    const comercial = vistaActual() === 'pago';
+    if (comercial) {
+      const respuesta = await fetch('config/comercial_licencias.json');
+      if (!respuesta.ok) throw new Error('Licencias no disponibles');
+      const lic = await respuesta.json();
       camaras = camaras.filter(p => camaraComercial(p, lic.version_pago?.capas_filtradas?.camaras));
     }
-    $('cam-carga').textContent = `${camaras.length.toLocaleString('es')} cámaras en el catálogo. Las vistas previas se solicitan solo al seleccionarlas.`;
+    const alcance = comercial ? ' habilitadas para todos los planes' : ' en el catálogo';
+    $('cam-carga').textContent = `${camaras.length.toLocaleString('es')} cámaras${alcance}. Las vistas previas se solicitan al seleccionarlas.`;
     buscar();
     const id = new URL(location.href).searchParams.get('id');
     const elegida = camaras.find(p => p.id === id);
     if (elegida) seleccionar(elegida, false);
-    else if (id) visor.textContent = 'Esta cámara ya no está en el catálogo. Puedes buscar otra.';
+    else if (id) visor.textContent = 'Esta cámara no está disponible en este catálogo. Puedes buscar otra.';
     $('cam-buscar').addEventListener('input', buscar);
     $('cam-medio').addEventListener('change', buscar);
     $('cam-mas').addEventListener('click', () => { limite += 40; dibujar(); });

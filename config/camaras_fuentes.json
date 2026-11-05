@@ -225,7 +225,7 @@
       "api": "https://www.cita.lu/kml/cameras.kml",
       "pagina": "https://www.cita.lu/",
       "licencia": "CC0 para ubicaciones; imágenes con condiciones propias",
-      "terminos": "https://data.public.lu/en/datasets/cameras-sur-le-reseau-autoroutier/",
+      "terminos": "https://data.public.lu/en/datasets/cita-cameras-autoroute/",
       "hosts": [],
       "medio": "enlace",
       "estado": "activa",
