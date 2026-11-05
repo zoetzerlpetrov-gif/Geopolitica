@@ -9,6 +9,10 @@ name: Reloj (respaldo del cron)
 # Para detenerla: Actions → «Reloj (respaldo del cron)» → cancelar la corrida en curso.
 on:
   workflow_dispatch:
+  # Resucitador: si la cadena se corta (p. ej. un 502 de la API al programar el siguiente tic, como el 4 nov 2026
+  # a las 09:41 UTC), este horario la vuelve a encender. Si ya hay un tic en curso o en cola, no hace nada.
+  schedule:
+    - cron: "23 * * * *"
 
 permissions:
   actions: write
@@ -27,7 +31,16 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       GH_REPO: ${{ github.repository }}  # gh necesita el repositorio: el job no clona el código
     steps:
+      - name: Si lo lanzó el horario y la cadena sigue viva, no hacer nada
+        id: vivo
+        if: github.event_name == 'schedule'
+        run: |
+          n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/reloj.yml/runs?per_page=20" \
+            --jq "[.workflow_runs[] | select(.id != ${GITHUB_RUN_ID} and (.status == \"in_progress\" or .status == \"queued\" or .status == \"waiting\" or .status == \"pending\"))] | length" || echo 1)
+          if [ "$n" != "0" ]; then echo "La cadena del reloj sigue viva ($n en curso o en cola): nada que hacer"; echo "sigue=1" >> "$GITHUB_OUTPUT"; else echo "La cadena estaba cortada: se vuelve a encender"; fi
+
       - name: Esperar al siguiente horario y lanzar el workflow que toca (si no corrió ya)
+        if: steps.vivo.outputs.sigue != '1'
         run: |
           ahora=$(date -u +%s)
           min=$(( (ahora / 60) % 60 ))
@@ -55,6 +68,11 @@ jobs:
             if [ "$n" = "0" ]; then echo "Lanzando estado-procesos.yml"; gh workflow run estado-procesos.yml --ref main; fi
           fi
 
-      - name: Programar el siguiente tic
-        if: always()
-        run: gh workflow run reloj.yml --ref main
+      - name: Programar el siguiente tic, con reintentos (un error pasajero de la API no debe cortar la cadena)
+        if: always() && steps.vivo.outputs.sigue != '1'
+        run: |
+          for i in 1 2 3 4 5; do
+            if gh workflow run reloj.yml --ref main; then exit 0; fi
+            echo "Intento $i falló; se reintenta en $((i * 15)) s"; sleep $((i * 15))
+          done
+          exit 1
