@@ -120,3 +120,16 @@ def test_catalogo_empresas(tmp_path, monkeypatch):
     assert d["fuentes"]["consejo"].startswith("error")
     # Solo nombre, cargo e identificador de cada persona: ningún otro dato personal.
     assert set(json.dumps(e["ceo"])) and len(e["ceo"][0]) == 4
+
+
+def test_catalogo_con_tope_de_tiempo(tmp_path, monkeypatch):
+    """Si se acaba el tiempo, lo que falta se conserva de la corrida anterior y se marca incompleto (reintento en 1 h)."""
+    monkeypatch.setattr(E, "OUT", str(tmp_path / "emp.json"))
+    W = "http://www.wikidata.org/entity/"
+    (tmp_path / "emp.json").write_text(json.dumps({"empresas": [{"id": "Q1", "n": "Cemex", "ceo": [["Ana", "Q9", "", 1]]}]}), encoding="utf-8")
+    t = iter(range(0, 10000, 100))
+    E.construir(AHORA, consulta=lambda q: [b(e=W + "Q1", s="40", les="Cemex", len="Cemex")] if "?s ?les" in q else [], pausa=0,
+                limite_s=250, reloj=lambda: next(t))
+    d = json.load(open(E.OUT, encoding="utf-8"))
+    assert d["completo"] is False and d["empresas"][0]["ceo"] == [["Ana", "Q9", "", 1]]
+    assert any("sin tiempo" in v for v in d["fuentes"].values())

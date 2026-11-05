@@ -27,7 +27,7 @@ concurrency:
 jobs:
   actualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 30  # con riesgos y clima (cada 6 h) la corrida larga dura ~12 min; GFW suma ~4 min una vez al día
+    timeout-minutes: 45  # la corrida larga (riesgos y clima cada 6 h, GFW diario) llegó a 30 min y se cortaba antes de publicar
     steps:
       - uses: actions/checkout@v4
 
@@ -306,9 +306,9 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/red/ciberataques.py
 
-      - name: Empresas y su organigrama público (Wikidata, cada 7 días; si falla se conserva lo anterior)
+      - name: Empresas y su organigrama público (Wikidata, cada 7 días, máximo 5 min; si falla se conserva lo anterior)
         continue-on-error: true
-        timeout-minutes: 20
+        timeout-minutes: 7
         run: python3 tools/corporativo/empresas.py
 
       - name: Mundo corporativo, noticias de empresas por categoría y país (cada hora; si falla se conservan las anteriores)

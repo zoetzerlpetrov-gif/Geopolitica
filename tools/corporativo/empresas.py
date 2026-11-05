@@ -30,6 +30,7 @@ OUT = os.path.join(ROOT, "vivos", "corporativo_empresas.json")
 SPARQL = "https://query.wikidata.org/sparql"
 UA = "Geopolitica-monitor/1.0 (https://github.com/zoetzerlpetrov-gif/Geopolitica)"
 CADA_DIAS = 7
+LIMITE_S = 300  # tope de la corrida: lo que no alcance se conserva de la semana anterior y se completa en la siguiente
 PAUSA_S = 3
 MIN_SITELINKS = 8
 MAX_POR_ROL = {"consejo": 20, "dir": 15, "filiales": 15, "duenos": 12, "fund": 8}
@@ -76,7 +77,7 @@ def leer_json(ruta, defecto=None):
         return defecto
 
 
-def consultar(query, intentos=4, espera_max=75):
+def consultar(query, intentos=3, espera_max=30):
     """Filas de una consulta SPARQL. Respeta el Retry-After de Wikidata."""
     datos = urllib.parse.urlencode({"query": query}).encode()
     for k in range(intentos):
@@ -178,8 +179,9 @@ def rol(empresas, clave, filas):
         empresas[e][clave] = [x[:4] for x in filas_e]
 
 
-def construir(ahora=None, consulta=consultar, pausa=PAUSA_S):
+def construir(ahora=None, consulta=consultar, pausa=PAUSA_S, limite_s=LIMITE_S, reloj=time.monotonic):
     ahora = ahora or datetime.now(timezone.utc)
+    t0 = reloj()
     previo = {e["id"]: e for e in (leer_json(OUT, {}) or {}).get("empresas", [])}
     estado = {}
     try:
@@ -191,7 +193,19 @@ def construir(ahora=None, consulta=consultar, pausa=PAUSA_S):
              ("bolsas", lambda f: bolsas(empresas, f), Q_BOLSAS, ("bolsas",)),
              ("alias", lambda f: alias(empresas, f), Q_ALIAS, ("al",))]
     pasos += [(c, (lambda c: lambda f: rol(empresas, c, f))(c), q_rol(p), (c,)) for c, p in ROLES]
+    def conservar(campos):
+        for q, emp in empresas.items():
+            for c in campos:
+                if c in previo.get(q, {}):
+                    emp[c] = previo[q][c]
+
+    completo = True
     for nombre, aplicar, query, campos in pasos:
+        if reloj() - t0 > limite_s:  # sin tiempo: lo de la semana anterior, y se reintenta en la próxima hora
+            estado[nombre] = "error: sin tiempo en esta corrida; se conserva el anterior"
+            conservar(campos)
+            completo = False
+            continue
         time.sleep(pausa)
         try:
             filas = consulta(query)
@@ -199,23 +213,24 @@ def construir(ahora=None, consulta=consultar, pausa=PAUSA_S):
             estado[nombre] = f"{len(filas)} filas"
         except Exception as e:  # noqa: BLE001  se conserva el dato de la corrida anterior
             estado[nombre] = f"error: {type(e).__name__}; se conserva el anterior"
-            for q, emp in empresas.items():
-                for c in campos:
-                    if c in previo.get(q, {}):
-                        emp[c] = previo[q][c]
+            conservar(campos)
+            completo = False
     lista = sorted(empresas.values(), key=lambda e: -e["s"])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
-        json.dump({"generado_utc": iso(ahora), "fuente": "Wikidata (CC0)", "min_sitelinks": MIN_SITELINKS, "fuentes": estado,
+        json.dump({"generado_utc": iso(ahora), "fuente": "Wikidata (CC0)", "min_sitelinks": MIN_SITELINKS, "completo": completo, "fuentes": estado,
                    "empresas": lista}, f, ensure_ascii=False, separators=(",", ":"))
     return f"{len(lista)} empresas; " + "; ".join(f"{k}: {v}" for k, v in estado.items())
 
 
 def main():
     ahora = datetime.now(timezone.utc)
-    gen = (leer_json(OUT, {}) or {}).get("generado_utc", "")
+    previo = leer_json(OUT, {}) or {}
+    gen = previo.get("generado_utc", "")
+    # Completo: cada 7 días. Incompleto (falló o se acabó el tiempo): se reintenta a la hora.
+    espera = timedelta(days=CADA_DIAS) if previo.get("completo", True) else timedelta(hours=1)
     try:
-        if ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < timedelta(days=CADA_DIAS):
+        if ahora - datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc) < espera:
             print("empresas: catálogo reciente")
             return 0
     except ValueError:
