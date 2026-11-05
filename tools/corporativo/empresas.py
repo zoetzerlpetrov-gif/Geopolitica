@@ -182,17 +182,22 @@ def rol(empresas, clave, filas):
 def construir(ahora=None, consulta=consultar, pausa=PAUSA_S, limite_s=LIMITE_S, reloj=time.monotonic):
     ahora = ahora or datetime.now(timezone.utc)
     t0 = reloj()
-    previo = {e["id"]: e for e in (leer_json(OUT, {}) or {}).get("empresas", [])}
+    anterior = leer_json(OUT, {}) or {}
+    previo = {e["id"]: e for e in anterior.get("empresas", [])}
+    # Consultas que ya salieron bien en los últimos 7 días: no se repiten (la corrida sigue donde se quedó la anterior).
+    hace = iso(ahora - timedelta(days=CADA_DIAS))
+    ok = {k: v for k, v in (anterior.get("pasos_ok") or {}).items() if v >= hace}
     estado = {}
     try:
         empresas = base(consulta(Q_BASE))
         estado["base"] = f"{len(empresas)} empresas"
     except Exception as e:  # noqa: BLE001  sin la lista base no se reescribe nada
         return f"sin cambios: la consulta base falló ({type(e).__name__})"
-    pasos = [("extra", lambda f: extra(empresas, f), Q_EXTRA, ("ind", "ind_en", "sede", "web")),
-             ("bolsas", lambda f: bolsas(empresas, f), Q_BOLSAS, ("bolsas",)),
-             ("alias", lambda f: alias(empresas, f), Q_ALIAS, ("al",))]
-    pasos += [(c, (lambda c: lambda f: rol(empresas, c, f))(c), q_rol(p), (c,)) for c, p in ROLES]
+    # Primero los cargos (lo que más se consulta), después industria, bolsas y alias.
+    pasos = [(c, (lambda c: lambda f: rol(empresas, c, f))(c), q_rol(p), (c,)) for c, p in ROLES]
+    pasos += [("extra", lambda f: extra(empresas, f), Q_EXTRA, ("ind", "ind_en", "sede", "web")),
+              ("bolsas", lambda f: bolsas(empresas, f), Q_BOLSAS, ("bolsas",)),
+              ("alias", lambda f: alias(empresas, f), Q_ALIAS, ("al",))]
     def conservar(campos):
         for q, emp in empresas.items():
             for c in campos:
@@ -201,6 +206,10 @@ def construir(ahora=None, consulta=consultar, pausa=PAUSA_S, limite_s=LIMITE_S, 
 
     completo = True
     for nombre, aplicar, query, campos in pasos:
+        if nombre in ok:
+            estado[nombre] = f"al día (consultado {ok[nombre][:10]})"
+            conservar(campos)
+            continue
         if reloj() - t0 > limite_s:  # sin tiempo: lo de la semana anterior, y se reintenta en la próxima hora
             estado[nombre] = "error: sin tiempo en esta corrida; se conserva el anterior"
             conservar(campos)
@@ -211,6 +220,7 @@ def construir(ahora=None, consulta=consultar, pausa=PAUSA_S, limite_s=LIMITE_S, 
             filas = consulta(query)
             aplicar(filas)
             estado[nombre] = f"{len(filas)} filas"
+            ok[nombre] = iso(ahora)
         except Exception as e:  # noqa: BLE001  se conserva el dato de la corrida anterior
             estado[nombre] = f"error: {type(e).__name__}; se conserva el anterior"
             conservar(campos)
@@ -218,7 +228,7 @@ def construir(ahora=None, consulta=consultar, pausa=PAUSA_S, limite_s=LIMITE_S, 
     lista = sorted(empresas.values(), key=lambda e: -e["s"])
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     with open(OUT, "w", encoding="utf-8") as f:
-        json.dump({"generado_utc": iso(ahora), "fuente": "Wikidata (CC0)", "min_sitelinks": MIN_SITELINKS, "completo": completo, "fuentes": estado,
+        json.dump({"generado_utc": iso(ahora), "fuente": "Wikidata (CC0)", "min_sitelinks": MIN_SITELINKS, "completo": completo, "pasos_ok": ok, "fuentes": estado,
                    "empresas": lista}, f, ensure_ascii=False, separators=(",", ":"))
     return f"{len(lista)} empresas; " + "; ".join(f"{k}: {v}" for k, v in estado.items())
 
