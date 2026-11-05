@@ -990,6 +990,8 @@ async function main() {
   });
   iniciarInvestigacion();
   iniciarTecnologia();
+  // Mundo corporativo: lista de noticias de empresas y organigrama público (las capas del mapa las monta iniciarRiesgos).
+  import("./corp_mundo.js").then((M) => M.iniciarCorporativo({ abrirFicha: abrirFichaHtml })).catch((e) => console.error("mundo corporativo", e));
   iniciarLugares();
   // Alertas oficiales excepcionales («cisne negro»): aviso fijo bajo el buscador mientras estén activas.
   import("./alerta_cisne.js").then((M) => M.iniciarAlertaCisne((lon, lat) => api.map.flyTo({ center: [lon, lat], zoom: Math.max(api.map.getZoom(), 4), duration: lite ? 0 : 900 })))
@@ -1885,13 +1887,13 @@ async function iniciarRiesgos() {
     api.map.flyTo({ center: sur ? [0, -78] : [-40, 74], zoom: 0.6, duration: lite ? 0 : 1200 });
   });
   // Capas que viven en otro menú (trenes en «En movimiento → Trenes»; fenómenos anómalos en su propio grupo): mismo motor, otra ubicación.
-  for (const [menu, idCont] of [["trenes", "trenes-capas"], ["anomalias", "anomalias-capas"]]) {
+  for (const [menu, idCont] of [["trenes", "trenes-capas"], ["anomalias", "anomalias-capas"], ["corporativo", "corporativo-capas"]]) {
     const c = $(idCont);
     if (!c) continue;
     const capas = R.CAPAS.filter((x) => x.menu === menu);
     const subgrupos = [...new Set(capas.map((x) => x.subgrupo).filter(Boolean))];
     // Con subgrupos (fenómenos anómalos: casos y lugares / por tipo), cada uno plegable como en «Amenazas».
-    c.innerHTML = subgrupos.length > 1 ? subgrupos.map((g, i) => `<details class="subgrupo-d" id="sg-${menu}-${i}"${i ? "" : " open"}><summary class="subgrupo" style="--c:var(--g-anomalias)"><span class="punto"></span>${esc(g)}
+    c.innerHTML = subgrupos.length > 1 ? subgrupos.map((g, i) => `<details class="subgrupo-d" id="sg-${menu}-${i}"${i && menu !== "corporativo" ? "" : " open"}><summary class="subgrupo" style="--c:var(--g-${menu}, var(--g-anomalias))"><span class="punto"></span>${esc(g)}
         <span class="sg-n">${capas.filter((x) => x.subgrupo === g).length} capas</span></summary>${capas.filter((x) => x.subgrupo === g).map(filaCapa).join("")}</details>`).join("")
       : capas.map(filaCapa).join("");
   }
@@ -2000,7 +2002,7 @@ async function iniciarRiesgos() {
     try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
   };
   cont.addEventListener("change", alCambiarCapa);
-  for (const idCont of ["trenes-capas", "anomalias-capas"]) $(idCont)?.addEventListener("change", alCambiarCapa);
+  for (const idCont of ["trenes-capas", "anomalias-capas", "corporativo-capas"]) $(idCont)?.addEventListener("change", alCambiarCapa);
   // Valle de México: Hoy No Circula (calculado aquí) + calidad del aire de la CDMX y otras ciudades.
   const hnc = A.hoyNoCircula();
   $("riesgos-vdm").innerHTML = `<div class="vdm"><h4>🚗 Hoy No Circula · Valle de México</h4>

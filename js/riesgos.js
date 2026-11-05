@@ -401,6 +401,54 @@ export const ANOMALIAS_POR_TIPO = TIPOS_ANOM.map(([t, nombre, nota, catalogo = [
   filtro: (f) => { const p = f.properties; return catalogo.includes(p.capa) || (TIPO_ANOM_CAPAS.has(p.capa) && (p.tipo === t || (p.tipos || []).includes(t))); },
 }));
 
+// Mundo corporativo (vivos/corporativo.geojson, de tools/corporativo/corporativo.py): un punto por país y categoría,
+// alrededor del centro del país. Viven en su propio grupo del menú («Mundo corporativo»).
+export const CATEGORIAS_CORP = [
+  ["quiebra", "Quiebras, insolvencias e impagos", "💥", "Finanzas y mercados"],
+  ["fraude", "Fraude, corrupción y lavado de dinero", "🚨", "Legal y cumplimiento"],
+  ["despidos", "Despidos y recortes de personal", "✂️", "Personas y gobierno corporativo"],
+  ["competencia", "Competencia y antimonopolio", "⚔️", "Legal y cumplimiento"],
+  ["litigio", "Demandas, juicios y arbitrajes", "⚖️", "Legal y cumplimiento"],
+  ["regulacion", "Multas, sanciones de reguladores y retiros de producto", "📜", "Legal y cumplimiento"],
+  ["directivos", "Cambios de CEO y alta dirección", "👔", "Personas y gobierno corporativo"],
+  ["consejo", "Consejos, accionistas y gobierno corporativo", "🪑", "Personas y gobierno corporativo"],
+  ["fusiones", "Fusiones, adquisiciones y ventas de negocios", "🤝", "Finanzas y mercados"],
+  ["inversion", "Inversiones, rondas y salidas a bolsa", "💰", "Finanzas y mercados"],
+  ["resultados", "Resultados financieros y contabilidad", "📊", "Finanzas y mercados"],
+  ["bolsa", "Bolsa, deuda y calificación crediticia", "📉", "Finanzas y mercados"],
+  ["precios", "Precios, tarifas y aranceles", "🏷️", "Mercado y clientes"],
+  ["laboral", "Huelgas, sindicatos y conflictos laborales", "✊", "Personas y gobierno corporativo"],
+  ["operaciones", "Plantas, cierres, expansión y cadena de suministro", "🏭", "Mercado y clientes"],
+  ["ciber", "Ciberataques y filtraciones de datos en empresas", "💻", "Mercado y clientes"],
+  ["esg", "Ambiente, derechos humanos y sostenibilidad", "🌱", "Mercado y clientes"],
+  ["marca", "Marcas, marketing y productos", "📣", "Mercado y clientes"],
+];
+export const GRUPOS_CORP = ["Personas y gobierno corporativo", "Legal y cumplimiento", "Finanzas y mercados", "Mercado y clientes"];
+const COLOR_GRUPO_CORP = { "Personas y gobierno corporativo": "#7B4F9E", "Legal y cumplimiento": "#B23A48", "Finanzas y mercados": "#1F6FB2", "Mercado y clientes": "#2E8B57" };
+const UBIC_CORP = { titular: "país que nombra el titular", sede: "país de la sede de la empresa nombrada (Wikidata)", medio: "país del medio (el titular no nombra otro)" };
+/** Lista de empresas de una nota con su botón de organigrama (lo atiende js/corp_mundo.js). */
+export const htmlEmpresasCorp = (emp) => lista(emp).map(([n, q]) => `<button type="button" class="mini corp-org" data-org="${esc(q)}" title="Ver dueños, consejo y dirección (Wikidata)">👔 ${esc(n)}</button>`).join(" ");
+// En el menú van por grupo (personas, legal, finanzas, mercado); dentro de cada grupo, en el orden de CATEGORIAS_CORP.
+export const CAPAS_CORP = [...CATEGORIAS_CORP].sort((a, b) => GRUPOS_CORP.indexOf(a[3]) - GRUPOS_CORP.indexOf(b[3])).map(([cat, nombre, ic, grupo]) => ({
+  id: `corp_${cat}`, grupo: "Mundo corporativo", menu: "corporativo", subgrupo: grupo, noAmenaza: true, nombre: `${ic} ${nombre}`,
+  url: "data/vivos/corporativo.geojson", refresco_s: 1800, fuente: "Medios de negocios (BBC, The Guardian, Nikkei Asia, Expansión, El Financiero, Folha, Handelsblatt, Industry Dive…)",
+  derivar: (fc) => ({ ...fc, features: (fc.features || []).filter((f) => f.properties.cat === cat) }),
+  estilo: (p) => ({ c: COLOR_GRUPO_CORP[grupo], r: Math.min(20, 5 + Math.sqrt(p.n || 1) * 2.5) }),
+  etiqueta: (p) => (p.n >= 3 ? `${p.n}` : ""),
+  leyenda: [{ t: `${ic} = ${nombre}. El ícono crece con las notas de los últimos 7 días; el número es el total de 30 días.` },
+    { t: "Un punto por país, alrededor de su centro: cada categoría tiene su lugar para que no se encimen. El país es el que nombra el titular; si no nombra ninguno, el de la sede de la empresa o el del medio (la ficha dice cuál). Se guarda título, medio, fecha y enlace, nunca el texto." }],
+  ficha: (p) => ({ titulo: `${p.n} ${p.n === 1 ? "nota" : "notas"}: ${nombre.toLowerCase()} · ${p.pais}`, chip: `${p.n_7d} en 7 días · última ${fecha(p.ultimo_utc)}`,
+    filas: [["Sectores", lista(p.sectores).map(([t, n]) => `${t} (${n})`).join(" · ") || "Sin sector claro en el titular"],
+      ["Empresas mencionadas", lista(p.empresas).map(([t, , n]) => `${t} (${n})`).join(" · ") || "Ninguna del catálogo"],
+      ["Medios", lista(p.medios).join(" · ")],
+      ...(p.por_medio || p.por_sede ? [["Ubicación", `${p.por_sede ? `${p.por_sede} por la sede de la empresa` : ""}${p.por_sede && p.por_medio ? " · " : ""}${p.por_medio ? `${p.por_medio} por el país del medio` : ""}; el resto, por el país del titular`]] : [])],
+    url: lista(p.notas)[0]?.url, fuente: "Titular, medio y enlace; el texto está en cada medio" }),
+  extra: (p) => `<h4>Notas (lo más reciente primero)</h4><ul class="fuentes corp-notas">${lista(p.notas).map((a) => `<li><a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.t)}</a>
+      <span class="meta">${esc(a.f)} · ${esc(fecha(a.fecha))}${lista(a.sectores).length ? ` · ${esc(lista(a.sectores).join(", "))}` : ""}${lista(a.otras).length ? ` · también: ${esc(lista(a.otras).join(", "))}` : ""}${a.ubic && a.ubic !== "titular" ? ` · ubicada por el ${esc(UBIC_CORP[a.ubic] || a.ubic)}` : ""}</span>
+      ${lista(a.empresas).length ? `<div>${htmlEmpresasCorp(a.empresas)}</div>` : ""}</li>`).join("")}</ul>
+    <p class="meta">La categoría sale de palabras clave del titular: verifica en la nota. Varias notas pueden hablar del mismo hecho.</p>`,
+}));
+
 /** Alertas del NWS sin geometría → punto en el promedio de los centroides de sus condados (SAME = «0» + FIPS). */
 export function ubicarPorCondados(fc, condados) {
   return { ...fc, features: (fc.features || []).map((f) => {
@@ -983,6 +1031,7 @@ export const CAPAS = [
   ...REDES_TREN.map(([red, nombre, nota]) => capaTrenes(red, nombre, nota)),
   ...ANOMALIAS,
   ...ANOMALIAS_POR_TIPO,
+  ...CAPAS_CORP,
   {
     id: "perturbaciones", grupo: "Desastres naturales", nombre: "Perturbaciones tropicales: posible formación de ciclón en 2 y 7 días (NHC)",
     url: "data/vivos/perturbaciones.geojson", refresco_s: 1800, fuente: "NOAA NHC, Perspectiva del Tiempo Tropical",
