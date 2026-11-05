@@ -1,5 +1,5 @@
 {
- "generado": "2026-10-29",
+ "generado": "2026-11-05",
  "nota": "Generado por tools/tutorial/inventario.cjs a partir de index.html.",
  "panel": [
   {
@@ -48,55 +48,55 @@
      "titulo": "Áreas temáticas",
      "opciones": [
       {
-       "t": "1. Geografía y territorio",
+       "t": "1. 🗺️ Geografía y territorio",
        "ayuda": ""
       },
       {
-       "t": "2. Seguridad y poder militar",
+       "t": "2. ⚔️ Seguridad y poder militar",
        "ayuda": ""
       },
       {
-       "t": "3. Geoeconomía",
+       "t": "3. 💹 Geoeconomía",
        "ayuda": ""
       },
       {
-       "t": "4. Energía y recursos",
+       "t": "4. 🛢️ Energía y recursos",
        "ayuda": ""
       },
       {
-       "t": "5. Tecnología y ciberespacio",
+       "t": "5. 💻 Tecnología y ciberespacio",
        "ayuda": ""
       },
       {
-       "t": "6. Demografía y migración",
+       "t": "6. 👥 Demografía y migración",
        "ayuda": ""
       },
       {
-       "t": "7. Clima y medio ambiente",
+       "t": "7. 🌪️ Clima y medio ambiente",
        "ayuda": ""
       },
       {
-       "t": "8. Instituciones y derecho internacional",
+       "t": "8. ⚖️ Instituciones y derecho internacional",
        "ayuda": ""
       },
       {
-       "t": "9. Identidad, ideología y narrativa",
+       "t": "9. 📣 Identidad, ideología y narrativa",
        "ayuda": ""
       },
       {
-       "t": "10. Geopolítica regional",
+       "t": "10. 🌐 Geopolítica regional",
        "ayuda": ""
       },
       {
-       "t": "11. Riesgo geopolítico aplicado",
+       "t": "11. ⚠️ Riesgo geopolítico aplicado",
        "ayuda": ""
       },
       {
-       "t": "12. Infraestructura crítica y conectividad",
+       "t": "12. 🏗️ Infraestructura crítica y conectividad",
        "ayuda": ""
       },
       {
-       "t": "13. Salud pública y riesgos NRBQ",
+       "t": "13. ☣️ Salud pública y riesgos NRBQ",
        "ayuda": ""
       }
      ],
@@ -2631,6 +2631,14 @@
       {
        "t": "EUA · Filadelfia: trenes regionales (SEPTA)",
        "ayuda": ""
+      },
+      {
+       "t": "España: Renfe Cercanías",
+       "ayuda": ""
+      },
+      {
+       "t": "Malasia: trenes KTMB",
+       "ayuda": ""
       }
      ],
      "sub": []
@@ -2757,6 +2765,26 @@
          "ayuda": ""
         },
         {
+         "t": "🌡️ Ondas de calor e índice de calor (7 días, ~1,000 ciudades)",
+         "ayuda": ""
+        },
+        {
+         "t": "🥶 Olas de frío y heladas (7 días, ~1,000 ciudades)",
+         "ayuda": ""
+        },
+        {
+         "t": "☀️ Índice UV máximo con cielo despejado (7 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "🌫️ Niebla probable (próximos ~2 días)",
+         "ayuda": ""
+        },
+        {
+         "t": "🔆 Anticiclones en altura, domos de calor y bloqueos (modelo GFS, 5 días)",
+         "ayuda": ""
+        },
+        {
          "t": "El Niño / La Niña: estado oficial y temperatura del mar en las regiones Niño",
          "ayuda": ""
         },
@@ -2766,6 +2794,10 @@
         },
         {
          "t": "Tornados, trombas marinas, granizo y tormentas (noticias del mundo, verificar)",
+         "ayuda": ""
+        },
+        {
+         "t": "Radiación: sensores en vivo (Safecast) y sitios de accidentes, pruebas y bombas",
          "ayuda": ""
         },
         {
@@ -2800,6 +2832,10 @@
         },
         {
          "t": "Ataques: misiles, drones, bombas y artillería (48 h)",
+         "ayuda": ""
+        },
+        {
+         "t": "Protocolos, alertas y niveles oficiales activados: defensa, seguridad, preparación, abasto y avisos de viaje",
          "ayuda": ""
         },
         {
@@ -2876,6 +2912,10 @@
         },
         {
          "t": "Avisos de sistemas industriales (ICS/SCADA) por país del fabricante (90 días, CISA)",
+         "ayuda": ""
+        },
+        {
+         "t": "Ciberataques reportados por la prensa, por país afectado (30 días)",
          "ayuda": ""
         }
        ],
@@ -3445,6 +3485,146 @@
    ]
   },
   {
+   "titulo": "🏢 Mundo corporativo",
+   "opciones": [],
+   "sub": [
+    {
+     "titulo": "🗺️ Noticias corporativas en el mapa (30 días)",
+     "opciones": [],
+     "sub": [
+      {
+       "titulo": "Personas y gobierno corporativo",
+       "opciones": [
+        {
+         "t": "✂️ Despidos y recortes de personal",
+         "ayuda": ""
+        },
+        {
+         "t": "👔 Cambios de CEO y alta dirección",
+         "ayuda": ""
+        },
+        {
+         "t": "🪑 Consejos, accionistas y gobierno corporativo",
+         "ayuda": ""
+        },
+        {
+         "t": "✊ Huelgas, sindicatos y conflictos laborales",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Legal y cumplimiento",
+       "opciones": [
+        {
+         "t": "🚨 Fraude, corrupción y lavado de dinero",
+         "ayuda": ""
+        },
+        {
+         "t": "⚔️ Competencia y antimonopolio",
+         "ayuda": ""
+        },
+        {
+         "t": "⚖️ Demandas, juicios y arbitrajes",
+         "ayuda": ""
+        },
+        {
+         "t": "📜 Multas, sanciones de reguladores y retiros de producto",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Finanzas y mercados",
+       "opciones": [
+        {
+         "t": "💥 Quiebras, insolvencias e impagos",
+         "ayuda": ""
+        },
+        {
+         "t": "🤝 Fusiones, adquisiciones y ventas de negocios",
+         "ayuda": ""
+        },
+        {
+         "t": "💰 Inversiones, rondas y salidas a bolsa",
+         "ayuda": ""
+        },
+        {
+         "t": "📊 Resultados financieros y contabilidad",
+         "ayuda": ""
+        },
+        {
+         "t": "📉 Bolsa, deuda y calificación crediticia",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      },
+      {
+       "titulo": "Mercado y clientes",
+       "opciones": [
+        {
+         "t": "🏷️ Precios, tarifas y aranceles",
+         "ayuda": ""
+        },
+        {
+         "t": "🏭 Plantas, cierres, expansión y cadena de suministro",
+         "ayuda": ""
+        },
+        {
+         "t": "💻 Ciberataques y filtraciones de datos en empresas",
+         "ayuda": ""
+        },
+        {
+         "t": "🌱 Ambiente, derechos humanos y sostenibilidad",
+         "ayuda": ""
+        },
+        {
+         "t": "📣 Marcas, marketing y productos",
+         "ayuda": ""
+        }
+       ],
+       "sub": []
+      }
+     ]
+    },
+    {
+     "titulo": "📰 Últimas noticias por categoría, sector y país",
+     "opciones": [
+      {
+       "t": "Categoría",
+       "ayuda": ""
+      },
+      {
+       "t": "Sector",
+       "ayuda": ""
+      },
+      {
+       "t": "País",
+       "ayuda": ""
+      },
+      {
+       "t": "Periodo",
+       "ayuda": ""
+      }
+     ],
+     "sub": []
+    },
+    {
+     "titulo": "👔 Dueños, consejo y dirección (organigrama público)",
+     "opciones": [],
+     "sub": []
+    },
+    {
+     "titulo": "📚 Dónde confirmar: registros y reportes oficiales",
+     "opciones": [],
+     "sub": []
+    }
+   ]
+  },
+  {
    "titulo": "⭐ Seguimiento",
    "opciones": [],
    "sub": [
@@ -3457,6 +3637,11 @@
   }
  ],
  "secciones": [
+  {
+   "t": "🏢 Mundo corporativo (en el mapa)",
+   "href": "./#g-corporativo",
+   "ayuda": "Noticias de empresas en el mapa (despidos, quiebras, fraudes, fusiones, CEO…) y organigramas: catálogo, Wikidata y GLEIF"
+  },
   {
    "t": "📰 Noticiero DOMINUS",
    "href": "noticiero.html",
@@ -3478,9 +3663,9 @@
    "ayuda": ""
   },
   {
-   "t": "🏢 Inteligencia corporativa",
+   "t": "🏭 Inteligencia corporativa: tus instalaciones",
    "href": "corporativo.html",
-   "ayuda": "Instalaciones de una empresa frente a los eventos del mapa, matriz de riesgo, escenarios y radar de competidores"
+   "ayuda": "Tus instalaciones (sedes, plantas, proveedores) frente a los eventos del mapa, matriz de riesgo, escenarios y radar de competidores"
   },
   {
    "t": "🧰 Caja del analista",
@@ -3513,64 +3698,69 @@
    "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Ver todas las herramientas",
-   "href": "plataforma.html#fases",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
-  },
-  {
-   "t": "Centro de inteligencia · Mesa del analista",
+   "t": "Mesa del analista",
    "href": "analista.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Hipótesis, empresas e investigaciones",
+   "t": "Hipótesis, empresas e investigaciones",
    "href": "fase2.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Archivos, respaldos y fuentes",
+   "t": "Archivos, respaldos y fuentes",
    "href": "plataforma.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Tutorial de herramientas web",
-   "href": "plataforma.html#tutorial-f3",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
-  },
-  {
-   "t": "Centro de inteligencia · Activos, relaciones y evidencia",
+   "t": "Activos, relaciones y evidencia",
    "href": "fase4.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Tablero, alertas y respuesta",
+   "t": "Tablero, alertas y respuesta",
    "href": "operaciones.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Laboratorio de análisis e intercambio",
+   "t": "Laboratorio de análisis e intercambio",
    "href": "laboratorio.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Colaboración web opcional",
+   "t": "Colaboración web opcional",
    "href": "colaboracion.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Áreas de interés, rutas y exposición",
+   "t": "Áreas de interés, rutas y exposición",
    "href": "fase5.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
-   "t": "Centro de inteligencia · Horarios y conexiones de transporte",
+   "t": "Horarios y conexiones de transporte",
    "href": "transporte.html",
-   "ayuda": "Herramienta de las fases; explicación en el capítulo 8 del tutorial"
+   "ayuda": ""
   },
   {
    "t": "🎓 Tutorial",
    "href": "tutorial.html",
    "ayuda": "Guía completa con ejemplos resueltos de cada opción"
+  },
+  {
+   "t": "🛟 Soporte: informe de errores",
+   "href": "soporte.html",
+   "ayuda": "Informe de errores de este navegador para enviarlo a soporte (sin datos personales)"
+  },
+  {
+   "t": "📈 Economía (admin)",
+   "href": "economia.html",
+   "ayuda": "Indicadores de México, EUA y la UE, índices curiosos y resumen del Portafolio"
+  },
+  {
+   "t": "🩺 Centro de control (admin)",
+   "href": "estado.html",
+   "ayuda": "Estado diario de los procesos, datos publicados, bitácora de incidencias, autoauditoría y soporte"
   },
   {
    "t": "🇲🇽 Panorama de México",

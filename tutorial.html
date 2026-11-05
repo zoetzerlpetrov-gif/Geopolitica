@@ -45,7 +45,7 @@
       <h3>Las cuatro partes de la pantalla</h3>
       <ol>
         <li><b>Barra superior</b>: menú «Secciones», tipo de vista (plano, globo, Peters), mapa base, «Animar», «Opciones», idioma y el estado de los datos («Actualizado hace 12 min · 3,383 eventos»).</li>
-        <li><b>Menú izquierdo</b>: grupos plegables (Eventos y noticias, Capas del mapa, En movimiento, Riesgos y clima, Fenómenos anómalos, Historia, Reportes, Herramientas, Investigación, Seguimiento). Cada casilla prende o apaga una capa.</li>
+        <li><b>Menú izquierdo</b>: grupos plegables (Eventos y noticias, Capas del mapa, En movimiento, Riesgos y clima, Fenómenos anómalos, Historia, Reportes, Herramientas, Investigación, Mundo corporativo, Seguimiento). Cada casilla prende o apaga una capa.</li>
         <li><b>Mapa</b>: arrástralo para moverte, usa la rueda del ratón o los botones «−» y «+» de abajo para acercarte. Clic derecho copia la latitud y longitud del punto.</li>
         <li><b>Ficha</b>: al hacer clic en un punto, línea o país se abre una ficha con el detalle, la fuente y el enlace original.</li>
       </ol>
@@ -88,6 +88,12 @@
           <li><b>🌌 Cielo real</b>: estrellas y cielo detrás del globo.</li><li><b>Contornos de estados</b> y <b>Solo países</b>: qué divisiones y nombres se ven.</li>
           <li><b>Idioma</b>: 15 idiomas de interfaz (español, inglés, francés, alemán, italiano, portugués, ruso, chino, japonés, griego, neerlandés, sueco, noruego, danés y finés).</li>
           <li><b>Contraer todo</b>: cierra todos los grupos del menú izquierdo.</li></ul></details>
+      <details class="paso"><summary>🚨 Ventanas flotantes: alertas oficiales y elecciones</summary>
+        <p>Sobre el mapa aparecen dos ventanas que solo se muestran cuando hay algo activo:</p>
+        <ul><li><b>Alertas oficiales activas («cisne negro»)</b>: llamados oficiales excepcionales (por ejemplo, que la población tenga agua y comida para varios días), desastres en alerta roja y países con aviso de «no viajar». Cada categoría se pliega o despliega con un clic en su título; el botón ⊞/⊟ abre o cierra todas.</li>
+          <li><b>🗳️ Elecciones</b> (abajo a la derecha, en azul): elecciones nacionales desde 14 días antes de la votación, durante el conteo y hasta 24 horas después de que se registra el ganador. Cada elección explica qué necesita un candidato para ganar y tiene «📍 Ver en el mapa».</li></ul>
+        <p>Las dos se mueven arrastrando su barra de título; doble clic la regresa a su lugar. El botón ▸/▾ las pliega para que no tapen el mapa.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo: ver solo los llamados oficiales excepcionales</b><ol><li>En la ventana de alertas, clic en «Desastres en alerta roja» y en «No viajar a todo el país» para plegarlas.</li><li>Queda abierta solo «Llamados oficiales excepcionales». El navegador recuerda qué dejaste abierto.</li></ol></div></details>
       <details class="paso"><summary>Estado de los datos</summary><p>«Actualizado hace X min · N eventos (M nuevos)» y la cuenta regresiva a la siguiente actualización. Si dice «el bot no ha publicado a tiempo», los datos tienen más de 2.5 h; al pasar el ratón ves qué fuentes fallaron.</p></details>
     </section>
 
@@ -111,7 +117,28 @@
       <details class="paso" data-inv="Riesgos y clima"><summary>⚠️ Riesgos y clima</summary>
         <p>Clima animado (viento, temperatura, lluvia, aire polar, nieve, vórtice polar), desastres (sismos, ciclones, incendios, volcanes, tsunamis), seguridad (ataques, crimen organizado, interferencia de GPS), emergencias, red y ciberseguridad, espacio, mar, salud, zonas horarias, sociedad, criminología, carreteras, personas desaparecidas y fosas (sin datos personales), polos, clima espacial, calidad del aire y Hoy No Circula.</p>
         <div class="ejemplo"><b class="titulo">Ejemplo: ¿hay huracanes cerca de Acapulco?</b><ol><li>«Desastres naturales» → «Ciclones, tifones y tormentas tropicales».</li><li>Si hay uno, verás su cono de pronóstico (NHC) y la categoría.</li><li>Clic en el cono: velocidad del viento, presión y hora del próximo aviso oficial.</li></ol></div></details>
-      <details class="paso" data-inv="Fenómenos anómalos"><summary>🛸 Fenómenos anómalos</summary><p>Reportes públicos de avistamientos y objetos no identificados (noticias del último año, casos históricos, bases civiles), por tipo de fenómeno. Son reportes, no confirmaciones.</p></details>
+      <details class="paso"><summary>🌐 Ciberataques y ☢️ radiación (dentro de Riesgos y clima)</summary>
+        <p><b>Red y ciberseguridad → Ciberataques reportados por la prensa</b>: un punto por país afectado (30 días), con el tipo de ataque (ransomware, DDoS, filtración, sabotaje…) y el sector como ícono (🏥 salud, 🛒 comercio, ⚡ energía…). El país que el titular señala como atacante no pone punto: la atribución casi nunca se confirma con un titular.</p>
+        <p><b>Radiación ambiental</b>: sensores ciudadanos de Safecast (µSv/h, últimas 48 h; normal de 0.05 a 0.3) y sitios históricos (Chernóbil, Fukushima, zonas de pruebas nucleares, Hiroshima y Nagasaki).</p></details>
+      <details class="paso" data-inv="Fenómenos anómalos"><summary>🛸 Fenómenos anómalos</summary><p>Reportes públicos de avistamientos y objetos no identificados (noticias del último año de blogs especializados, medios y GDELT en 15 idiomas, casos históricos curados, bases civiles), por tipo de fenómeno. El color de cada punto dice qué respaldo tiene: oficial, científico, medios, testigos, leyenda local o ya explicado. Son reportes, no confirmaciones.</p></details>
+      <details class="paso" data-inv="Mundo corporativo"><summary>🏢 Mundo corporativo</summary>
+        <p>Noticias de empresas de todos los sectores en el mapa (30 días) y quién dirige y quién es dueño de cada empresa. Está en todos los planes, desde Demo.</p>
+        <ul><li><b>Noticias corporativas en el mapa</b>: 18 capas en 4 grupos. <i>Personas y gobierno corporativo</i>: ✂️ despidos, 👔 cambios de CEO, 🪑 consejos y accionistas, ✊ huelgas. <i>Legal y cumplimiento</i>: 🚨 fraude, ⚔️ competencia, ⚖️ demandas, 📜 multas y retiros de producto. <i>Finanzas y mercados</i>: 💥 quiebras, 🤝 fusiones, 💰 inversiones y salidas a bolsa, 📊 resultados, 📉 bolsa y deuda. <i>Mercado y clientes</i>: 🏷️ precios y aranceles, 🏭 plantas y cadena de suministro, 💻 ciberincidentes, 🌱 ambiente, 📣 marcas. Cada país muestra un ícono por categoría alrededor de su centro.</li>
+          <li><b>Últimas noticias</b>: lista con filtros por categoría, sector (23), país, periodo (24 h, 7 o 30 días) y palabra.</li>
+          <li><b>Dueños, consejo y dirección</b>: busca por nombre, clave de cotización (AAPL, WALMEX) o directivo en tres fuentes: el catálogo semanal (~3,300 empresas que cotizan), Wikidata en vivo (cualquier organización registrada) y GLEIF en vivo (3.4 millones de personas morales con su matriz y filiales declaradas).</li>
+          <li><b>Dónde confirmar</b>: SEC EDGAR, BMV, CNBV, COFECE, IFECOM, Companies House, GLEIF, OpenCorporates, FTC y otros registros oficiales.</li></ul>
+        <p class="meta">De cada nota se guarda título, medio, fecha y enlace; el texto está en el medio. De las personas solo se muestra nombre y cargo vigente. La categoría sale de palabras del titular: confirma en la nota.</p>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: despidos anunciados en México esta semana</b><ol>
+          <li>Abre «🏢 Mundo corporativo» → «📰 Últimas noticias por categoría, sector y país».</li>
+          <li>Categoría = «✂️ Despidos y recortes de personal»; País = «México»; Periodo = «7 días».</li>
+          <li>Cada nota trae su medio y fecha; si nombra una empresa del catálogo aparece un botón «👔 Empresa» que abre su organigrama.</li>
+          <li>Para verlo en el mapa, marca la capa «✂️ Despidos y recortes de personal» en «Noticias corporativas en el mapa» y haz clic en el ícono de México.</li></ol></div>
+        <div class="ejemplo"><b class="titulo">Ejemplo resuelto: ¿a qué grupo pertenece una empresa y qué filiales tiene?</b><ol>
+          <li>En «👔 Dueños, consejo y dirección» escribe «Grupo Bimbo» y presiona «Buscar».</li>
+          <li>Aparecen tres listas: catálogo, 🌐 Wikidata y 🏛️ GLEIF. En GLEIF elige «GRUPO BIMBO S A B DE C V».</li>
+          <li>Verás su estructura legal: matriz última, matriz directa y sus filiales directas (México, Reino Unido, Canadá, Chile, Colombia, India, España…). Cada una se abre con un clic.</li>
+          <li>Para ver el consejo y la dirección, abre la empresa en la lista de Wikidata o del catálogo; confirma en el reporte anual o en la BMV.</li></ol></div>
+        <p class="meta">Diferencia con «🏢 Inteligencia corporativa» (menú Secciones): aquella página cruza <i>tus propias</i> instalaciones con los riesgos del mapa; Mundo corporativo sigue lo que pasa con las empresas del mundo.</p></details>
       <details class="paso" data-inv="Historia por país"><summary>📜 Historia por país</summary><p>Elige un país para ver su contexto histórico, conflictos y tratados principales (Wikidata y fuentes citadas).</p></details>
       <details class="paso" data-inv="Reportes diarios"><summary>📑 Reportes diarios</summary><p>Panorama del día de México y del mundo en web y PDF, y la matriz de riesgo por país con las fuentes que elijas.</p></details>
       <details class="paso" data-inv="Seguimiento"><summary>⭐ Seguimiento</summary><p>En la ficha de un lugar (aeropuerto, puerto, embajada, una de tus instalaciones…) presiona «Seguir». Aquí aparece agrupado por tipo, con cuántos eventos hay cerca y cuántos son nuevos desde tu última visita. Se guarda solo en tu navegador.</p></details>
@@ -191,6 +218,9 @@
         <div class="ejemplo"><b class="titulo">Ejemplo: departamento en Positano</b><ol><li>«Zonas en seguimiento» → País «Italia» → Ciudad «Positano».</li><li>Abre la tarjeta: botones de búsqueda en Immobiliare.it, Idealista y Casa.it en italiano («appartamento vendita Positano»).</li><li>Lee las reglas para una persona mexicana y los riesgos (sismos y el Vesubio, a unos 35 km).</li><li>Cuando encuentres un anuncio, «Evaluar una ubicación» con sus coordenadas y «Guardar en mi lista».</li></ol></div></details>
       <details class="paso"><summary>📊 Analítica</summary><p>Tendencias de 90 días y alertas de temas fuera de lo normal, comparador de países, consultas SQL en el navegador (DuckDB), exportación en 9 formatos y calidad de datos por fuente.</p>
         <div class="ejemplo"><b class="titulo">Ejemplo SQL</b><p><code>SELECT pais_iso3, COUNT(*) AS n FROM eventos WHERE severidad &gt;= 4 GROUP BY 1 ORDER BY n DESC LIMIT 10;</code> → los 10 países con más eventos graves.</p></div></details>
+      <details class="paso"><summary>🛟 Soporte: informe de errores</summary><p>Arma un informe con los errores que vio este navegador (sin datos personales) para enviarlo a soporte por correo.</p></details>
+      <details class="paso"><summary>📈 Economía, 💼 Portafolio y 🩺 Centro de control (solo administración)</summary>
+        <p><b>Economía</b>: indicadores de México, EUA y la UE. <b>Portafolio</b>: panel propio con señales técnicas, dividendos (con «Años para recuperar» la inversión) y noticias de cada instrumento; no es asesoría de inversión. <b>Centro de control</b>: estado diario de cada proceso automático, datos publicados y su antigüedad, bitácora de incidencias y autoauditoría. Estos enlaces no aparecen en la versión de pago.</p></details>
       <details class="paso"><summary>⚖️ Marco normativo y 🏷️ Taxonomía</summary><p>Leyes, tratados, estándares ISO y metodologías que usa el proyecto; y la definición de las 13 áreas y sus subcategorías.</p></details>
     </section>
 
