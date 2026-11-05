@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
   <link rel="preload" href="https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf" as="fetch" crossorigin>
-  <link rel="modulepreload" href="js/app.js?v=146">
+  <link rel="modulepreload" href="js/app.js?v=148">
   <link rel="modulepreload" href="js/util.js">
   <link rel="modulepreload" href="js/map.js">
   <link rel="modulepreload" href="js/card.js">
@@ -71,7 +71,6 @@
           <a href="narrativas.html" title="Técnicas de poder, propaganda e influencia aplicadas a las noticias de hoy">♟️ Narrativas y estrategia</a>
           <a href="reporte.html?tipo=mexico">🇲🇽 Reporte diario de México</a>
           <a href="reporte.html?tipo=global">🌍 Reporte diario global</a>
-          <button type="button" data-abrir-grupo="g-corporativo" title="Noticias de empresas en el mapa (despidos, quiebras, fraudes, fusiones, CEO…) y organigramas: catálogo, Wikidata y GLEIF">🏢 Mundo corporativo (en el mapa)</button>
           <a href="corporativo.html" title="Tus instalaciones (sedes, plantas, proveedores) frente a los eventos del mapa, matriz de riesgo, escenarios y radar de competidores">🏭 Inteligencia corporativa: tus instalaciones</a>
           <a href="herramientas.html" title="Auditoría de archivos, informática y ciberseguridad, ACH, ICD 203, PMESII-PT, ASCOPE, METT-TC, CARVER defensivo">🧰 Caja del analista</a>
           <a href="ops.html" title="DOMINUS OPS: fases, diagnóstico de madurez (DMI), gobernanza, plantillas, Battle Rhythm y SITREP">🎖️ DOMINUS OPS</a>
@@ -538,7 +537,7 @@
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
   <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
   <script>try { maplibregl.prewarm(); } catch (e) {}</script>
-  <script type="module" src="js/app.js?v=146"></script>
+  <script type="module" src="js/app.js?v=148"></script>
   <script type="module" src="js/vista_enlaces.js?v=2"></script>
 </body>
 </html>

@@ -3638,11 +3638,6 @@
  ],
  "secciones": [
   {
-   "t": "🏢 Mundo corporativo (en el mapa)",
-   "href": "./#g-corporativo",
-   "ayuda": "Noticias de empresas en el mapa (despidos, quiebras, fraudes, fusiones, CEO…) y organigramas: catálogo, Wikidata y GLEIF"
-  },
-  {
    "t": "📰 Noticiero DOMINUS",
    "href": "noticiero.html",
    "ayuda": "30 secciones e indicadores oficiales"
