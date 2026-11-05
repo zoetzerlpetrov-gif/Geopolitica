@@ -320,7 +320,7 @@ button.mini { font-size: 11px; padding: 1px 6px; border-radius: 10px; border: 1p
 .barra-fila .barra { height: 8px; background: var(--surface-2); border-radius: 4px; overflow: hidden; }
 .barra-fila .barra i { display: block; height: 100%; background: var(--accent); }
 /* Menú izquierdo: grupos con color e ícono */
-:root { --g-eventos: #2E6F8E; --g-capas: #2E9E6E; --g-movimiento: #6B5BA8; --g-riesgos: #D2691E; --g-seguimiento: #7A8691; --g-reportes: #8A5A2B; --g-anomalias: #4B3F8F; --g-historia: #7A5C3A; --g-herramientas: #2C7A7B; }
+:root { --g-eventos: #2E6F8E; --g-capas: #2E9E6E; --g-movimiento: #6B5BA8; --g-riesgos: #D2691E; --g-seguimiento: #7A8691; --g-reportes: #8A5A2B; --g-anomalias: #4B3F8F; --g-historia: #7A5C3A; --g-herramientas: #2C7A7B; --g-corporativo: #8A6D1F; }
 .grupo-tit { position: sticky; top: 0; z-index: 2; margin: 0; padding: 7px 12px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
   color: #fff; background: var(--g, #555); display: flex; gap: 8px; align-items: center; }
 .grupo-tit[data-grupo="eventos"] { --g: var(--g-eventos); } .grupo-tit[data-grupo="capas"] { --g: var(--g-capas); }
@@ -831,3 +831,18 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .ventana-elecciones .el-ir { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: inherit; padding: 2px 8px; }
 .ventana-elecciones .el-pie { margin: 0; padding: 4px 10px 8px; font-size: 11px; }
 @media (max-width: 760px) { .ventana-elecciones { bottom: 64px; } }
+
+/* Mundo corporativo: grupo del menú, filtros y organigrama público */
+.grupo-tit[data-grupo="corporativo"] { --g: var(--g-corporativo); } .bloque[data-grupo="corporativo"] { --g: var(--g-corporativo); }
+.corp-filtros { display: grid; gap: 4px; margin-bottom: 6px; }
+.corp-filtros select { max-width: 64%; min-width: 0; } .corp-filtros .btn-limpiar { justify-self: start; }
+.corp-notas li { margin-bottom: 6px; } .corp-notas .chip { font-size: 0.72rem; margin-right: 2px; }
+.corp-org { margin: 2px 2px 0 0; }
+.organigrama { display: flex; flex-direction: column; align-items: stretch; gap: 2px; }
+.organigrama h5 { margin: 6px 0 2px; font-size: 0.8rem; }
+.org-nivel { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.org-caja { flex: 1 1 140px; min-width: 0; border: 1px solid var(--line); border-left: 3px solid var(--g-corporativo); border-radius: 6px; padding: 4px 8px; background: var(--surface-2); }
+.org-caja ul { list-style: none; margin: 0; padding: 0; font-size: 0.82rem; max-height: 180px; overflow-y: auto; }
+.org-caja li { overflow-wrap: anywhere; }
+.org-empresa { border: 2px solid var(--g-corporativo); border-radius: 8px; padding: 6px 10px; text-align: center; }
+.org-flecha { text-align: center; color: var(--g-corporativo); font-size: 0.75rem; line-height: 1; }

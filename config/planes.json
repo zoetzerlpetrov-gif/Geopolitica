@@ -26,6 +26,7 @@
    "incluye": [
     "Mapa con capas fijas",
     "Eventos y noticias con 24 h de retraso (copia del día anterior)",
+    "Mundo corporativo: noticias de empresas en el mapa y organigramas públicos (copia del día anterior)",
     "Un reporte diario de México y uno global, del día anterior",
     "Tutorial",
     "Vista previa (solo nombres y descripción) de lo que trae cada plan"
@@ -158,6 +159,7 @@
    "historia": "analyst",
    "herramientas": "analyst",
    "investigacion": "analyst",
+   "corporativo": "demo",
    "seguimiento": "command"
   },
   "paginas": {
@@ -182,6 +184,7 @@
    "historia": "📜 Historia por país",
    "herramientas": "🧰 Herramientas del panel",
    "investigacion": "🔎 Investigación",
+   "corporativo": "🏢 Mundo corporativo",
    "seguimiento": "⭐ Seguimiento",
    "reporte.html": "🇲🇽🌍 Reportes diarios (página)",
    "tutorial.html": "🎓 Tutorial",

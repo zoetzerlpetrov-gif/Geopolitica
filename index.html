@@ -449,6 +449,40 @@
           <ul id="inv-fuentes" class="fuentes"></ul>
         </details>
       </details>
+      <details class="grupo" id="g-corporativo" data-grupo="corporativo">
+        <summary class="grupo-tit" data-grupo="corporativo"><span aria-hidden="true">🏢</span> Mundo corporativo</summary>
+        <p class="nota-capas">Noticias de empresas de todos los sectores: despidos, quiebras, fraudes, competencia, demandas, multas, cambios de CEO, consejos y accionistas, fusiones, inversiones, resultados, bolsa, precios, huelgas, plantas, marcas, ciberincidentes y sostenibilidad. De cada nota se guarda título, medio, fecha y enlace; el texto está en cada medio.</p>
+        <details class="bloque plegable" id="b-corp-mapa" data-grupo="corporativo" open>
+          <summary><h2>🗺️ Noticias corporativas en el mapa (30 días)</h2></summary>
+          <p class="nota-capas">Enciende una o varias categorías. Cada país muestra un ícono por categoría alrededor de su centro; el tamaño crece con las notas de la última semana.</p>
+          <div id="corporativo-capas" class="capas-entidades">Cargando…</div>
+        </details>
+        <details class="bloque plegable" id="b-corp-noticias" data-grupo="corporativo">
+          <summary><h2>📰 Últimas noticias por categoría, sector y país</h2></summary>
+          <div class="corp-filtros">
+            <label class="fila"><span>Categoría</span><select id="corp-cat" aria-label="Categoría"><option value="">Todas</option></select></label>
+            <label class="fila"><span>Sector</span><select id="corp-sector" aria-label="Sector económico"><option value="">Todos</option></select></label>
+            <label class="fila"><span>País</span><select id="corp-pais" aria-label="País"><option value="">Todos</option></select></label>
+            <label class="fila"><span>Periodo</span><select id="corp-dias" aria-label="Periodo"><option value="1">24 horas</option><option value="7" selected>7 días</option><option value="30">30 días</option></select></label>
+            <input type="search" id="corp-q" class="verif-texto" placeholder="Empresa o palabra (desde 3 letras)" aria-label="Buscar en los titulares" autocomplete="off">
+            <button type="button" class="btn-limpiar" data-limpiar="corp-q" title="Borrar lo escrito">✕ Limpiar</button>
+          </div>
+          <div id="corp-res" aria-live="polite"><p class="meta">Abre este bloque para cargar las noticias.</p></div>
+        </details>
+        <details class="bloque plegable" id="b-corp-org" data-grupo="corporativo">
+          <summary><h2>👔 Dueños, consejo y dirección (organigrama público)</h2></summary>
+          <p class="nota-capas">Unas 3,300 empresas que cotizan en bolsa y empresas mexicanas con director registrado. Busca por nombre, clave de cotización (AAPL, WALMEX) o el nombre de un directivo. Sale de Wikidata (CC0) cada semana: solo nombre y cargo vigente de cada persona, con enlace a la fuente.</p>
+          <form id="corp-org-form" role="search"><input type="search" id="corp-org-q" class="verif-texto" placeholder="Ej.: Cemex, Toyota, NVDA, Carlos Slim" aria-label="Empresa, clave de cotización o persona" autocomplete="off">
+            <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="corp-org-q corp-org-res corp-org-ficha" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
+          <div id="corp-org-res" aria-live="polite"></div>
+          <div id="corp-org-ficha" aria-live="polite"></div>
+        </details>
+        <details class="bloque plegable" id="b-corp-fuentes" data-grupo="corporativo">
+          <summary><h2>📚 Dónde confirmar: registros y reportes oficiales</h2></summary>
+          <ul id="corp-fuentes" class="fuentes"></ul>
+          <p class="meta">Tip: una noticia de despidos, quiebra o cambio de CEO de una empresa que cotiza casi siempre tiene un «evento relevante» (México, BMV/BIVA) o una forma 8-K (EUA, SEC) del mismo día. Ese documento es la versión oficial.</p>
+        </details>
+      </details>
       <details class="grupo" id="g-seguimiento" data-grupo="seguimiento">
         <summary class="grupo-tit" data-grupo="seguimiento"><span aria-hidden="true">⭐</span> Seguimiento <span id="seg-total" class="contador"></span></summary>
         <details class="bloque plegable" id="b-seguimiento" data-grupo="seguimiento" open>
