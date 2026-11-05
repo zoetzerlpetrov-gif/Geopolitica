@@ -100,6 +100,9 @@ function leerLocal(clave) {
 
 export const sumaGrupo = (subtipos) => ["+", 0, 0, ...[...subtipos].map((st) => ["coalesce", ["get", `c_${st}`], 0])];
 
+// Familias con grupos por zona (círculo con el número al alejar): las de puntos y las mixtas (p. ej. «zonas»: sus
+// puntos chicos, como volcanes, picos o cascadas, se cuentan; sus polígonos grandes se ven a todo zoom y no se agrupan).
+const CON_GRUPOS = new Set(["punto", "mixta"]);
 export class GestorCapas {
   /**
    * @param {maplibregl.Map} map
@@ -134,7 +137,7 @@ export class GestorCapas {
     if (!f || !f.disponible || this.activas.has(id)) return;
     if (f.manifest.formato !== "geojson") await asegurarPMTiles();
     // Grupos por zona: se descargan antes de ocultar los puntos sueltos; si no llegan (p. ej. 404), los puntos se ven a todo zoom.
-    if (f.geometria === "punto" && f.manifest.grupos && f.grupos === undefined) {
+    if (CON_GRUPOS.has(f.geometria) && f.manifest.grupos && f.grupos === undefined) {
       f.grupos = await fetch(f.manifest.grupos).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     }
     // Versión de pago con objetos filtrados por licencia (p. ej. cámaras): se baja el GeoJSON y se quita lo no permitido.
@@ -229,7 +232,7 @@ export class GestorCapas {
     const sl = geojson ? {} : { "source-layer": f.id };
     // Familias de puntos con grupos calculados en el servidor (tools/capas/zonas_grupos.py): círculos con el número
     // hasta zoom 7 y, desde ahí, los objetos sueltos.
-    const grupos = f.geometria === "punto" && f.grupos?.features?.length ? f.grupos : null;
+    const grupos = CON_GRUPOS.has(f.geometria) && f.grupos?.features?.length ? f.grupos : null;
     const desde = grupos ? { minzoom: GRUPOS_HASTA } : {};
 
     if (f.geometria !== "punto") {

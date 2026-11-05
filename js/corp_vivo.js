@@ -157,9 +157,9 @@ export function htmlEstructuraGLEIF(s) {
 export function htmlResultadosVivos({ wd, gleif, errWD, errGLEIF, local }) {
   const wdL = (wd || []).filter((x) => !local?.has(x.id));
   return `<h5>🌐 Wikidata: todas las organizaciones registradas</h5>${errWD ? `<p class="meta">No respondió (${esc(errWD)}). Intenta de nuevo en un minuto.</p>`
-      : wdL.length ? `<ul class="lista-corta">${wdL.map((x) => `<li><button type="button" class="txt-btn corp-wd" data-wd="${esc(x.id)}">${esc(x.n)}</button>
+      : wdL.length ? `<ul class="lista-corta corp-resultados">${wdL.map((x) => `<li><button type="button" class="mini corp-wd" data-wd="${esc(x.id)}">👔 Ver organigrama</button> <b>${esc(x.n)}</b>
         <span class="meta">${esc([x.pais, x.ind, x.desc].filter(Boolean).join(" · "))}</span></li>`).join("")}</ul>` : `<p class="meta">Sin organizaciones con ese nombre (aparte de las del catálogo).</p>`}
     <h5>🏛️ GLEIF: 3.4 millones de personas morales con LEI</h5>${errGLEIF ? `<p class="meta">No respondió (${esc(errGLEIF)}).</p>`
-      : gleif?.lista?.length ? `<ul class="lista-corta">${gleif.lista.map((x) => `<li>${btnLei(x)}</li>`).join("")}</ul>${gleif.total > gleif.lista.length ? `<p class="meta">${gleif.total.toLocaleString("es-MX")} coincidencias; se muestran ${gleif.lista.length}. Escribe el nombre más completo para acotar.</p>` : ""}`
+      : gleif?.lista?.length ? `<ul class="lista-corta corp-resultados">${gleif.lista.map((x) => `<li><button type="button" class="mini corp-lei" data-lei="${esc(x.lei)}">🏛️ Ver estructura</button> <b>${esc(x.n)}</b> <span class="meta">${esc([x.pais, x.ciudad].filter(Boolean).join(", "))}</span></li>`).join("")}</ul>${gleif.total > gleif.lista.length ? `<p class="meta">${gleif.total.toLocaleString("es-MX")} coincidencias; se muestran ${gleif.lista.length}. Escribe el nombre más completo para acotar.</p>` : ""}`
         : `<p class="meta">Sin entidades con ese nombre legal. Prueba con la razón social (p. ej. «Grupo Bimbo S A B de C V»).</p>`}`;
 }
