@@ -11,6 +11,10 @@ const URL_EMPRESAS = "data/vivos/corporativo_empresas.json";
 const URL_MAPA = "data/vivos/corporativo.geojson";
 const WD = (q) => `https://www.wikidata.org/wiki/${encodeURIComponent(q)}`;
 const MAX_LISTA = 60;
+// ISO3 → ISO2 (GLEIF usa ISO2) para elegir sola la entidad legal del país de la empresa.
+const ISO2 = { MEX: "MX", USA: "US", CAN: "CA", BRA: "BR", ARG: "AR", CHL: "CL", COL: "CO", PER: "PE", ESP: "ES", PRT: "PT", GBR: "GB", IRL: "IE",
+  FRA: "FR", DEU: "DE", ITA: "IT", NLD: "NL", BEL: "BE", LUX: "LU", CHE: "CH", AUT: "AT", SWE: "SE", NOR: "NO", DNK: "DK", FIN: "FI", POL: "PL",
+  RUS: "RU", TUR: "TR", ISR: "IL", SAU: "SA", ARE: "AE", ZAF: "ZA", IND: "IN", CHN: "CN", HKG: "HK", TWN: "TW", JPN: "JP", KOR: "KR", SGP: "SG", AUS: "AU" };
 const CAT = Object.fromEntries(CATEGORIAS_CORP.map(([k, n, ic, g]) => [k, { n, ic, g }]));
 // Nombre corto para las etiquetas de la lista.
 const CORTO = { quiebra: "Quiebra", fraude: "Fraude", despidos: "Despidos", competencia: "Competencia", litigio: "Demanda", regulacion: "Multa o regulador",
@@ -99,22 +103,20 @@ export function htmlOrganigrama(e, { porId = {}, notas = [], nombrePais = (i) =>
   const direccion = caja("Dirección general (CEO)", e.ceo, porId) + caja("Otros directivos", e.dir, porId);
   const abajo = caja("Filiales principales", e.filiales, porId) + caja("Fundadores", e.fund, porId, "org-lado");
   const flecha = `<div class="org-flecha" aria-hidden="true">▼</div>`;
-  const nivel = (html) => (html ? `<div class="org-nivel">${html}</div>${flecha}` : "");
+  // Niveles de arriba (dueños) hacia abajo (filiales), con una flecha solo ENTRE niveles que existen.
+  const niveles = [arriba, `<b>${esc(e.n)}</b>`, consejo, direccion, abajo].map((h, i) => (h ? `<div class="org-nivel${i === 1 ? " org-empresa" : ""}">${h}</div>` : "")).filter(Boolean);
   const notasE = notas.filter((n) => (n.empresas || []).some((x) => x[1] === e.id)).slice(0, 8);
   const vacio = !(e.ceo || e.pres || e.consejo || e.dir || e.duenos || e.matriz || e.filiales || e.fund);
   return `<div class="organigrama">
     <h4>👔 ${esc(e.n)}</h4>
     <p class="meta">${[e.pais ? nombrePais(e.pais) : "", e.ind, e.sede ? `sede: ${e.sede}` : "", ...(e.bolsas || []).map(([b, t]) => (t ? `${t} (${b})` : b))].filter(Boolean).map(esc).join(" · ")}</p>
-    ${nivel(arriba)}
-    <div class="org-nivel org-empresa"><b>${esc(e.n)}</b></div>${consejo || direccion || abajo ? flecha : ""}
-    ${nivel(consejo)}${nivel(direccion)}
-    ${abajo ? `<div class="org-nivel">${abajo}</div>` : ""}
-    ${vacio ? `<p class="meta">Wikidata no tiene cargos vigentes registrados para esta empresa. Revisa su informe anual o los registros de abajo.</p>` : ""}
+    ${niveles.join(flecha)}
+    ${vacio ? `<p class="meta">Wikidata no tiene cargos vigentes registrados para esta empresa. Abajo va su estructura legal según GLEIF; revisa también su informe anual o los registros oficiales.</p>` : ""}
+    <p><button type="button" class="mini corp-gleif-q" data-q="${esc(e.en || e.n)}" data-lei="${esc(e.lei || "")}" data-pais="${esc(ISO2[e.pais] || "")}">🏛️ Estructura legal en GLEIF (matriz y filiales registradas)</button></p>
+    <div class="corp-gleif-res" aria-live="polite"></div>
     <p class="meta">Fuente: Wikidata (CC0)${e.vivo ? ", consultada en este momento" : ", catálogo semanal"}; la editan voluntarios: puede faltar gente o haber cargos atrasados. Solo se muestran cargos sin fecha de término.
       Confirma en los reportes oficiales antes de usar el dato.</p>
     ${notasE.length ? `<h5>Noticias recientes de la empresa</h5><ul class="fuentes">${notasE.map((n) => `<li><a href="${esc(safeUrl(n.url))}" target="_blank" rel="noopener noreferrer">${esc(n.t)}</a> <span class="meta">${esc(n.f)} · ${esc((n.fecha || "").slice(0, 10))}</span></li>`).join("")}</ul>` : ""}
-    <p><button type="button" class="mini corp-gleif-q" data-q="${esc(e.en || e.n)}" data-lei="${esc(e.lei || "")}">🏛️ Estructura legal en GLEIF (matriz y filiales registradas)</button></p>
-    <div class="corp-gleif-res" aria-live="polite"></div>
     <h5>Dónde confirmar</h5><ul class="fuentes">${enlacesOficiales(e).map(([t, u]) => `<li><a href="${esc(safeUrl(u))}" target="_blank" rel="noopener noreferrer">${esc(t)}</a></li>`).join("")}</ul>
   </div>`;
 }
@@ -190,15 +192,14 @@ export function iniciarCorporativo({ abrirFicha } = {}) {
     const np = nombres();
     const html = cat ? htmlOrganigrama(e, { porId: porId(), notas: datos?.notas || [], nombrePais: (i) => np[i] || i })
       : `<p class="meta">El catálogo de empresas aún no está disponible (se renueva cada semana).</p>`;
-    if (destino === "ficha" && abrirFicha) abrirFicha(html);
-    else { $("corp-org-ficha").innerHTML = html; $("corp-org-ficha").scrollIntoView({ block: "nearest" }); }
+    mostrar(html, destino === "ficha");
   };
   $("corp-org-form").addEventListener("submit", async (ev) => {
     ev.preventDefault();
     await asegurar();
     const r = buscarEmpresas(cat, $("corp-org-q").value);
     $("corp-org-res").innerHTML = !cat ? `<p class="meta">El catálogo de empresas aún no está disponible (se renueva cada semana).</p>`
-      : r.length ? `<ul class="lista-corta">${r.map(({ e, por }) => `<li><button type="button" class="txt-btn corp-org" data-org="${esc(e.id)}">${esc(e.n)}</button>
+      : r.length ? `<h5>📒 Catálogo semanal (${r.length})</h5><ul class="lista-corta corp-resultados">${r.map(({ e, por }) => `<li><button type="button" class="mini corp-org" data-org="${esc(e.id)}">👔 Ver organigrama</button> <b>${esc(e.n)}</b>
           <span class="meta">${esc([e.ind, ...(e.bolsas || []).slice(0, 2).map((b) => b[1]).filter(Boolean)].filter(Boolean).join(" · "))}${por ? ` · ${esc(por)}` : ""}</span></li>`).join("")}</ul>`
         : `<p class="meta">Sin coincidencias en las ${cat.empresas.length.toLocaleString("es-MX")} empresas del catálogo semanal.</p>`;
     // Más allá del catálogo: Wikidata y GLEIF en vivo (solo al pulsar «Buscar»).
@@ -211,11 +212,27 @@ export function iniciarCorporativo({ abrirFicha } = {}) {
       local: new Set(r.map((x) => x.e.id)) });
   });
   // Clic en «👔 Empresa» en la lista, en un organigrama o en la ficha de un punto del mapa.
+  // El organigrama aparece ARRIBA de los resultados, con una barra para cerrarlo, y pide solo su estructura
+  // legal a GLEIF (así una empresa sin cargos en Wikidata no se ve vacía).
+  const BARRA = `<div class="org-barra"><b>👔 Organigrama</b><button type="button" class="mini corp-org-cerrar">✕ Cerrar y volver a los resultados</button></div>`;
   const mostrar = (html, enFicha) => {
-    if (enFicha && abrirFicha) abrirFicha(html);
-    else { $("corp-org-ficha").innerHTML = html; $("corp-org-ficha").scrollIntoView({ block: "nearest" }); }
+    let cont;
+    if (enFicha && abrirFicha) { abrirFicha(html); cont = document.getElementById("ficha-cuerpo"); }
+    else {
+      cont = $("corp-org-ficha");
+      cont.innerHTML = BARRA + html;
+      cont.classList.add("activo");
+      cont.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
+    const g = cont?.querySelector(".corp-gleif-q");
+    if (g && !g.dataset.auto) { g.dataset.auto = "1"; g.click(); }
   };
   document.addEventListener("click", async (ev) => {
+    if (ev.target.closest(".corp-org-cerrar")) {
+      $("corp-org-ficha").innerHTML = ""; $("corp-org-ficha").classList.remove("activo");
+      $("corp-org-res").scrollIntoView({ block: "start" });
+      return;
+    }
     const enFicha = !!ev.target.closest("#ficha");
     const w = ev.target.closest(".corp-wd");
     if (w) {
@@ -239,13 +256,20 @@ export function iniciarCorporativo({ abrirFicha } = {}) {
     }
     const g = ev.target.closest(".corp-gleif-q");
     if (g) {
+      g.hidden = true;  // ya se consultó (sola o con clic): no se repite
       const destino = g.closest(".organigrama")?.querySelector(".corp-gleif-res");
       if (!destino) return;
       destino.innerHTML = `<p class="meta">Consultando GLEIF…</p>`;
       try {
         if (g.dataset.lei) { destino.innerHTML = V.htmlEstructuraGLEIF(await V.estructuraGLEIF(g.dataset.lei)); return; }
         const r = await V.buscarGLEIF(g.dataset.q);
-        destino.innerHTML = r.lista.length ? `<p class="meta">Elige la entidad legal (puede haber varias con nombre parecido):</p><ul class="lista-corta">${r.lista.map((x) => `<li><button type="button" class="txt-btn corp-lei" data-lei="${esc(x.lei)}">${esc(x.n)}</button> <span class="meta">${esc(x.pais)}</span></li>`).join("")}</ul>`
+        const delPais = g.dataset.pais ? r.lista.filter((x) => x.pais === g.dataset.pais) : [];
+        if (delPais.length === 1) {  // una sola entidad con ese nombre en el país de la empresa: se abre sola
+          destino.innerHTML = V.htmlEstructuraGLEIF(await V.estructuraGLEIF(delPais[0].lei))
+            + (r.lista.length > 1 ? `<p class="meta">Otras entidades con nombre parecido: ${r.lista.filter((x) => x !== delPais[0]).map((x) => `<button type="button" class="txt-btn corp-lei" data-lei="${esc(x.lei)}">${esc(x.n)} (${esc(x.pais)})</button>`).join(" · ")}</p>` : "");
+          return;
+        }
+        destino.innerHTML = r.lista.length ? `<p class="meta">Elige la entidad legal (puede haber varias con nombre parecido):</p><ul class="lista-corta">${r.lista.map((x) => `<li><button type="button" class="mini corp-lei" data-lei="${esc(x.lei)}">🏛️ Ver estructura</button> <b>${esc(x.n)}</b> <span class="meta">${esc(x.pais)}</span></li>`).join("")}</ul>`
           : `<p class="meta">GLEIF no tiene una entidad con ese nombre exacto. Búscala por su razón social en el buscador de arriba.</p>`;
       } catch (err) { destino.innerHTML = `<p class="meta">GLEIF no respondió (${esc(err.message)}).</p>`; }
       return;

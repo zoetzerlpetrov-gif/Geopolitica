@@ -850,3 +850,6 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .org-caja li { overflow-wrap: anywhere; }
 .org-empresa { border: 2px solid var(--g-corporativo); border-radius: 8px; padding: 6px 10px; text-align: center; }
 .org-flecha { text-align: center; color: var(--g-corporativo); font-size: 0.75rem; line-height: 1; }
+.org-barra { display: flex; flex-wrap: wrap; gap: 6px; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+#corp-org-ficha.activo { border: 2px solid var(--g-corporativo); border-radius: 8px; padding: 8px; margin: 8px 0; background: var(--surface); scroll-margin-top: 80px; }
+.corp-resultados li { margin-bottom: 6px; } .corp-resultados .mini { margin-right: 4px; }

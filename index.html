@@ -475,9 +475,10 @@
           <p class="nota-capas">Tres fuentes en una búsqueda: el catálogo semanal (unas 3,300 empresas que cotizan, con búsqueda por clave como AAPL o por nombre de un directivo), Wikidata en vivo (cualquier organización registrada) y GLEIF en vivo (3.4 millones de personas morales con su matriz y filiales declaradas). Todo es CC0. De las personas solo se muestra nombre y cargo vigente, con enlace a la fuente.</p>
           <form id="corp-org-form" role="search"><input type="search" id="corp-org-q" class="verif-texto" placeholder="Ej.: Cemex, Toyota, NVDA, Carlos Slim" aria-label="Empresa, clave de cotización o persona" autocomplete="off">
             <button>Buscar</button> <button type="button" class="btn-limpiar" data-limpiar="corp-org-q corp-org-res corp-org-vivo corp-org-ficha" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
+          <p class="meta">Pulsa <b>Buscar</b> y luego <b>«👔 Ver organigrama»</b> (dueños, consejo, dirección y filiales) o <b>«🏛️ Ver estructura»</b> (matriz y filiales registradas en GLEIF) junto a la empresa. El organigrama se abre aquí mismo, arriba de los resultados.</p>
+          <div id="corp-org-ficha" aria-live="polite"></div>
           <div id="corp-org-res" aria-live="polite"></div>
           <div id="corp-org-vivo" aria-live="polite"></div>
-          <div id="corp-org-ficha" aria-live="polite"></div>
         </details>
         <details class="bloque plegable" id="b-corp-fuentes" data-grupo="corporativo">
           <summary><h2>📚 Dónde confirmar: registros y reportes oficiales</h2></summary>
