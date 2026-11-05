@@ -126,10 +126,34 @@ def test_catalogo_con_tope_de_tiempo(tmp_path, monkeypatch):
     """Si se acaba el tiempo, lo que falta se conserva de la corrida anterior y se marca incompleto (reintento en 1 h)."""
     monkeypatch.setattr(E, "OUT", str(tmp_path / "emp.json"))
     W = "http://www.wikidata.org/entity/"
-    (tmp_path / "emp.json").write_text(json.dumps({"empresas": [{"id": "Q1", "n": "Cemex", "ceo": [["Ana", "Q9", "", 1]]}]}), encoding="utf-8")
+    (tmp_path / "emp.json").write_text(json.dumps({"empresas": [{"id": "Q1", "n": "Cemex", "al": ["Cementos Mexicanos"]}]}), encoding="utf-8")
     t = iter(range(0, 10000, 100))
     E.construir(AHORA, consulta=lambda q: [b(e=W + "Q1", s="40", les="Cemex", len="Cemex")] if "?s ?les" in q else [], pausa=0,
                 limite_s=250, reloj=lambda: next(t))
     d = json.load(open(E.OUT, encoding="utf-8"))
-    assert d["completo"] is False and d["empresas"][0]["ceo"] == [["Ana", "Q9", "", 1]]
+    assert d["completo"] is False and d["empresas"][0]["al"] == ["Cementos Mexicanos"]  # no alcanzó: se conserva
     assert any("sin tiempo" in v for v in d["fuentes"].values())
+
+
+def test_catalogo_sigue_donde_se_quedo(tmp_path, monkeypatch):
+    """Una consulta que salió bien hace menos de 7 días no se repite: la siguiente corrida avanza con las que faltan."""
+    monkeypatch.setattr(E, "OUT", str(tmp_path / "emp.json"))
+    W = "http://www.wikidata.org/entity/"
+    (tmp_path / "emp.json").write_text(json.dumps({"pasos_ok": {"ceo": "2026-11-05T02:00:00Z"}, "completo": False,
+                                                   "empresas": [{"id": "Q1", "n": "Cemex", "ceo": [["Ana", "Q9", "", 1]]}]}), encoding="utf-8")
+    pedidas = []
+
+    def consulta(q):
+        pedidas.append(q)
+        if "?s ?les" in q:
+            return [b(e=W + "Q1", s="40", les="Cemex", len="Cemex")]
+        if "p:P127 " in q:
+            return [b(e=W + "Q1", v=W + "Q20", len="Fondo X")]
+        return []
+
+    E.construir(AHORA, consulta=consulta, pausa=0)
+    d = json.load(open(E.OUT, encoding="utf-8"))
+    assert not any("p:P169 " in q for q in pedidas)  # el CEO ya estaba al día
+    e = d["empresas"][0]
+    assert e["ceo"] == [["Ana", "Q9", "", 1]] and e["duenos"][0][0] == "Fondo X"
+    assert d["completo"] is True and set(d["pasos_ok"]) >= {"ceo", "duenos", "alias"}
