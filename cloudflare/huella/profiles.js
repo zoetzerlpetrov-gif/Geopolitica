@@ -5,6 +5,7 @@ const unclear = { status: "indeterminado" };
 
 const AVATAR_PATHS = {
   "avatars.githubusercontent.com": /^\/u\/\d+$/,
+  "0.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
   "gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
   "secure.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
   "www.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,

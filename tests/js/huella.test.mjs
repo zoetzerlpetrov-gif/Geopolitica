@@ -325,7 +325,10 @@ test("la consulta exacta exige autorización explícita y separa las evidencias 
         return new Response("clave", { headers: { "Content-Type": "application/pgp-keys" } });
       case "api.gravatar.com":
         assert.equal(url.pathname, "/v3/profiles/" + hash);
-        return Response.json({ hash, profile_url: "https://gravatar.com/prueba", display_name: "Prueba" });
+        return Response.json({
+          hash, profile_url: "https://gravatar.com/prueba", display_name: "Prueba",
+          avatar_url: `https://0.gravatar.com/avatar/${hash}?s=128`
+        });
       case "api.github.com":
         if (url.pathname === "/search/users") {
           assert.equal(url.searchParams.get("q"), email + " in:email");
@@ -359,6 +362,7 @@ test("la consulta exacta exige autorización explícita y separa las evidencias 
     ["DNS · certificado SMIMEA", "verificado"]
   ]);
   assert.equal(exact[1].url, "https://gravatar.com/prueba");
+  assert.equal(exact[1].avatar, `https://0.gravatar.com/avatar/${hash}`);
   assert.deepEqual(exact[2].evidence, [`https://github.com/demo/proyecto/commit/${sha}`]);
   assert.deepEqual(exact[3].profileLinks, ["https://github.com/equipo"]);
   assert.equal(exact[3].avatar, "https://avatars.githubusercontent.com/u/123");
