@@ -1,6 +1,6 @@
 # Huella digital OSINT
 
-La opción **Secciones → Huella digital OSINT** aparece en el mapa administrativo después de iniciar sesión. Demo, Recon, Analyst y Command siguen sin mostrarla. Cambiar la URL a `?vista=admin` no concede acceso. El ingreso se hace con GitHub y el Worker verifica el ID numérico contra la lista de administradores en cada solicitud. La sesión dura una hora. En el mapa público, el enlace **Acceso administrativo** al pie de página abre el mapa protegido en Cloudflare.
+La opción **Secciones → Huella digital OSINT** aparece en el mapa administrativo después de iniciar sesión. Demo, Recon, Analyst y Command siguen sin mostrarla. Cambiar la URL a `?vista=admin` no concede acceso. El ingreso se hace con GitHub y el Worker verifica el ID numérico contra la lista de administradores en cada solicitud. La sesión dura una hora. En el mapa público, **Secciones → Acceso administrativo** abre Huella en Cloudflare. La consola solicita el ingreso con GitHub si no hay sesión activa.
 
 ## Consultas
 

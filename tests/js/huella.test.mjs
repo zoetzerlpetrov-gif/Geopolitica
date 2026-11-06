@@ -148,6 +148,7 @@ test("combina DNS, alias e incidentes del sitio sin enviar un correo a los prove
 
 test("el enlace requiere verificación del Worker y la ruta queda fuera de la caché del mapa", () => {
   const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
+  assert.match(read("../../index.html"), /id="menu-secciones"[\s\S]*?id="acceso-mapa-admin" href="https:\/\/geopolitica\.zoetzerl-petrov\.workers\.dev\/admin\/huella\/"[^>]* hidden/);
   assert.match(read("../../index.html"), /<template id="huella-admin-menu" data-solo-admin><a href="admin\/huella\/" data-solo-admin>/);
   assert.match(read("../../js/huella-menu.js"), /r\.status === 204 && r\.headers\.get\("X-Dominus-Huella"\) === "admin"/);
   assert.ok(read("../../sw.js").includes('if (p.includes("/admin/huella/") || p.startsWith("/cuenta/")) return'));
