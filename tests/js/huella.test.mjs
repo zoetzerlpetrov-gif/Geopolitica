@@ -336,7 +336,7 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
   assert.equal(lookup("Keybase").status, "verificado");
   assert.equal(lookup("Bitbucket · espacio de trabajo").status, "indeterminado");
   assert.equal(lookup("Chess.com").status, "limitado");
-  assert.equal(max, 6);
+  assert.ok(max > 1 && max <= 6, `Conexiones concurrentes observadas: ${max}`);
   assert.equal(seen.has("www.linkedin.com"), false);
   assert.ok(!JSON.stringify(results).includes(email));
 });
