@@ -3,6 +3,28 @@ const part = encodeURIComponent;
 const missing = { status: "sin_resultado" };
 const unclear = { status: "indeterminado" };
 
+const AVATAR_PATHS = {
+  "avatars.githubusercontent.com": /^\/u\/\d+$/,
+  "gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
+  "secure.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
+  "www.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
+  "cdn.bsky.app": /^\/img\/avatar(?:_thumbnail)?\/plain\/did:[a-z0-9:._%-]+\/[a-z0-9]+@[a-z]+$/i,
+  "gitlab.com": /^\/uploads\/-\/system\/user\/avatar\/\d+\/[a-z0-9._%+-]+$/i
+};
+export const avatarOrigins = Object.keys(AVATAR_PATHS).map(host => `https://${host}`);
+
+export function publicAvatar(value) {
+  try {
+    if (typeof value !== "string" || value.length > 300) return undefined;
+    const url = new URL(value);
+    if (url.protocol !== "https:" || url.username || url.password || url.port ||
+        !Object.hasOwn(AVATAR_PATHS, url.hostname) || !AVATAR_PATHS[url.hostname].test(url.pathname)) return undefined;
+    return url.origin + url.pathname;
+  } catch {
+    return undefined;
+  }
+}
+
 function profile(expected, actual, url, name, detail = "Perfil público con el alias consultado.") {
   if (!equals(actual, expected)) return unclear;
   return { status: "verificado", url, name: typeof name === "string" ? name.slice(0, 120) : undefined, detail };
@@ -22,10 +44,38 @@ export function publicProfileChecks(alias, upstream, email) {
     }]);
   };
 
+  add("Stack Overflow · nombre visible", query("https://api.stackexchange.com/2.3/users", {
+    site: "stackoverflow", inname: alias, pagesize: "20"
+  }), data => {
+    if (data?.error_name === "throttle_violation") return { status: "limitado" };
+    if (!Array.isArray(data?.items)) return unclear;
+    const links = data.items
+      .filter(user => equals(user?.display_name, alias) && Number.isSafeInteger(user.user_id) && user.user_id > 0)
+      .slice(0, 5)
+      .map(user => `https://stackoverflow.com/users/${user.user_id}`);
+    if (links.length) return {
+      status: "indicio", profileLinks: [...new Set(links)],
+      detail: "Coincidencia exacta en el nombre visible de un perfil público. Stack Overflow permite nombres repetidos."
+    };
+    return data.has_more === false ? missing : unclear;
+  });
+
+  if (/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/i.test(alias)) {
+    const host = alias.toLowerCase() + ".wordpress.com";
+    add("WordPress.com · sitio público", query(`https://public-api.wordpress.com/rest/v1.1/sites/${host}`, {
+      fields: "ID,URL,is_private"
+    }), data => {
+      if (data?.is_private !== false || !Number.isSafeInteger(data.ID) ||
+          (data.URL !== `https://${host}` && data.URL !== `https://${host}/`)) return unclear;
+      return { status: "verificado", url: `https://${host}/`, detail: "La API confirmó el sitio público en ese subdominio." };
+    });
+  }
+
   add("GitLab.com", query("https://gitlab.com/api/v4/users", { username: alias, per_page: "1" }), data => {
     if (!Array.isArray(data)) return unclear;
     if (!data.length) return missing;
     const result = profile(alias, data[0]?.username, `https://gitlab.com/${safe}`, data[0]?.name);
+    if (result.status === "verificado") result.avatar = publicAvatar(data[0]?.avatar_url);
     if (result.status === "verificado" && email && equals(data[0]?.public_email, email)) {
       result.correlation = "El perfil de GitLab publica el mismo correo exacto ingresado.";
     }
@@ -42,9 +92,13 @@ export function publicProfileChecks(alias, upstream, email) {
   const actor = alias.includes(".") ? alias.toLowerCase() : alias.toLowerCase() + ".bsky.social";
   if (/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z](?:[a-z0-9-]*[a-z0-9])?$/.test(actor)) {
     add("Bluesky", query("https://public.api.bsky.app/xrpc/app.bsky.actor.getProfile", { actor }),
-      data => data?.error === "InvalidRequest" && data.message === "Profile not found" ? missing :
-        profile(actor, data?.handle, `https://bsky.app/profile/${part(actor)}`, data?.displayName,
-          `Perfil público del identificador completo ${actor}.`), { readBadRequest: true });
+      data => {
+        if (data?.error === "InvalidRequest" && data.message === "Profile not found") return missing;
+        const result = profile(actor, data?.handle, `https://bsky.app/profile/${part(actor)}`, data?.displayName,
+          `Perfil público del identificador completo ${actor}.`);
+        if (result.status === "verificado") result.avatar = publicAvatar(data?.avatar);
+        return result;
+      }, { readBadRequest: true });
   }
 
   for (const host of ["mastodon.social", "mastodon.online", "fosstodon.org"]) {
@@ -140,6 +194,16 @@ const PROFILE_PATHS = {
   "bitbucket.org": /^\/[\w.-]+$/,
   "keybase.io": /^\/[\w.-]+$/,
   "www.roblox.com": /^\/users\/\d+\/profile$/,
+  "facebook.com": /^\/[\w.]+$/,
+  "www.facebook.com": /^\/[\w.]+$/,
+  "www.reddit.com": /^\/(?:user|u)\/[\w-]+$/,
+  "www.pinterest.com": /^\/[\w-]+$/,
+  "www.threads.com": /^\/@[\w.]+$/,
+  "t.me": /^\/[\w]+$/,
+  "medium.com": /^\/@[\w.-]+$/,
+  "substack.com": /^\/@[\w.-]+$/,
+  "open.spotify.com": /^\/user\/[\w.-]+$/,
+  "vimeo.com": /^\/[\w-]+$/,
   "www.linkedin.com": /^\/in\/[\w.-]+$/,
   "instagram.com": /^\/[\w.-]+$/,
   "x.com": /^\/[\w]+$/,
@@ -177,7 +241,11 @@ export function declaredProfiles(accounts) {
 
 export function markCorrelations(results) {
   const links = new Set(results.flatMap(result => result.declaredProfiles || []));
+  const githubEmailLinks = new Set(results.find(result => result.source === "GitHub · correo del perfil público")?.profileLinks || []);
   for (const result of results) {
+    if (result.source === "GitHub" && result.status === "verificado" && githubEmailLinks.has(result.url)) {
+      result.correlation = "GitHub publica el correo exacto consultado en este perfil.";
+    }
     if (result.kind === "alias" && result.status === "verificado" && !result.correlation && links.has(publicLink(result.url))) {
       result.correlation = "Este perfil coincide con un enlace que publica el perfil de Gravatar asociado al correo consultado.";
     }

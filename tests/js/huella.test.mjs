@@ -141,7 +141,7 @@ test("combina DNS, alias e incidentes del sitio sin enviar un correo a los prove
     ["Have I Been Pwned · incidentes del sitio", "encontrado"],
     ["GitHub", "verificado"], ["Hacker News", "sin_resultado"], ["DEV Community", "limitado"]
   ]);
-  assert.equal(results.filter(result => result.kind === "alias").length, 23);
+  assert.equal(results.filter(result => result.kind === "alias").length, 25);
   assert.match(results[0].detail, /no acepta correo/);
   assert.deepEqual(results[3].incidents, [{ title: "Ejemplo", date: "2024-01-01", classes: ["Email addresses"], verified: false }]);
   assert.equal(results[4].url, "https://github.com/github");
@@ -234,13 +234,22 @@ test("la consulta exacta exige autorización explícita y separa las evidencias 
   const { cookie } = await signIn(t);
   const email = "equipo+qa@example.org";
   const hash = Buffer.from(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email))).toString("hex");
+  const owner = Buffer.from(await crypto.subtle.digest("SHA-256", new TextEncoder().encode("equipo+qa"))).subarray(0, 28).toString("hex");
   const sha = "a".repeat(40);
   const seen = [];
   t.mock.method(globalThis, "fetch", async (input) => {
     const url = new URL(input);
     seen.push(url);
     switch (url.hostname) {
-      case "dns.google": return Response.json({ Status: 0 });
+      case "dns.google": {
+        const type = Number(url.searchParams.get("type"));
+        if (type === 61 || type === 53) {
+          const label = type === 61 ? "_openpgpkey" : "_smimecert";
+          assert.equal(url.searchParams.get("name"), `${owner}.${label}.example.org`);
+          return Response.json({ Status: 0, Answer: [{ type, data: "clave o certificado público" }] });
+        }
+        return Response.json({ Status: 0 });
+      }
       case "haveibeenpwned.com": return Response.json([]);
       case "keys.openpgp.org":
         assert.equal(decodeURIComponent(url.pathname), "/vks/v1/by-email/" + email);
@@ -249,6 +258,14 @@ test("la consulta exacta exige autorización explícita y separa las evidencias 
         assert.equal(url.pathname, "/v3/profiles/" + hash);
         return Response.json({ hash, profile_url: "https://gravatar.com/prueba", display_name: "Prueba" });
       case "api.github.com":
+        if (url.pathname === "/search/users") {
+          assert.equal(url.searchParams.get("q"), email + " in:email");
+          return Response.json({ items: [
+            { login: "equipo", avatar_url: "https://avatars.githubusercontent.com/u/123?v=4", text_matches: [{ property: "email", fragment: email }] },
+            { login: "otra", text_matches: [{ property: "name", fragment: email }] },
+            { login: "prefijo", text_matches: [{ property: "email", fragment: "otro-" + email }] }
+          ] });
+        }
         assert.equal(url.searchParams.get("q"), "author-email:" + email);
         return Response.json({ total_count: 2, incomplete_results: false, items: [
           { sha, repository: { full_name: "demo/proyecto" }, commit: { author: { email } } },
@@ -267,10 +284,17 @@ test("la consulta exacta exige autorización explícita y separa las evidencias 
   assert.deepEqual(exact.map(({ source, status }) => [source, status]), [
     ["keys.openpgp.org · clave pública", "verificado"],
     ["Gravatar · perfil público", "verificado"],
-    ["GitHub · commits públicos", "verificado"]
+    ["GitHub · commits públicos", "verificado"],
+    ["GitHub · correo del perfil público", "verificado"],
+    ["DNS · clave OPENPGPKEY", "verificado"],
+    ["DNS · certificado SMIMEA", "verificado"]
   ]);
   assert.equal(exact[1].url, "https://gravatar.com/prueba");
   assert.deepEqual(exact[2].evidence, [`https://github.com/demo/proyecto/commit/${sha}`]);
+  assert.deepEqual(exact[3].profileLinks, ["https://github.com/equipo"]);
+  assert.equal(exact[3].avatar, "https://avatars.githubusercontent.com/u/123");
+  assert.equal(exact[4].records, undefined);
+  assert.equal(exact[5].records, undefined);
   assert.ok(seen.filter(url => /dns.google|haveibeenpwned.com|api.gravatar.com/.test(url.hostname))
     .every(url => !decodeURIComponent(url.href).includes(email)));
   assert.ok(!JSON.stringify(results).includes(email));
@@ -301,7 +325,7 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
             { url: "https://privado.example/equipo", is_hidden: false }
           ]
         });
-      case "gitlab.com": return Response.json([{ username: "equipo", public_email: email }]);
+      case "gitlab.com": return Response.json([{ username: "equipo", public_email: email, avatar_url: "https://tracking.example/avatar.png" }]);
       case "codeberg.org": return Response.json({ login: "equipo", visibility: "public" });
       case "gitea.com": return Response.json({ login: "otro-alias" });
       case "api.github.com":
@@ -315,6 +339,11 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
         assert.equal(options.method, "POST");
         assert.deepEqual(JSON.parse(options.body), { usernames: ["equipo"], excludeBannedUsers: true });
         return Response.json({ data: [{ name: "equipo", id: 123 }] });
+      case "api.stackexchange.com": return Response.json({ items: [
+        { display_name: "equipo", user_id: 4321 },
+        { display_name: "equipo distinto", user_id: 1234 }
+      ], has_more: false });
+      case "public-api.wordpress.com": return Response.json({ ID: 11, URL: "https://equipo.wordpress.com", is_private: false });
       case "keybase.io": return Response.json({ status: { code: 0 }, them: { basics: { username: "equipo" } } });
       case "api.bitbucket.org": return Response.json({ slug: "equipo", is_private: true });
       case "api.chess.com": return new Response(null, { status: 429 });
@@ -325,17 +354,21 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
   assert.equal(response.status, 200);
   const { results } = await response.json();
   const lookup = source => results.find(result => result.source === source);
-  assert.equal(results.filter(result => result.kind === "alias").length, 23);
+  assert.equal(results.filter(result => result.kind === "alias").length, 25);
   assert.deepEqual(lookup("Gravatar · perfil público").declaredProfiles,
     ["https://github.com/equipo", "https://www.linkedin.com/in/equipo"]);
   assert.match(lookup("GitHub").correlation, /Gravatar/);
   assert.match(lookup("GitLab.com").correlation, /mismo correo/);
+  assert.equal(lookup("GitLab.com").avatar, undefined);
   assert.equal(lookup("Codeberg").correlation, undefined);
   assert.equal(lookup("Gitea.com").status, "indeterminado");
   assert.equal(lookup("Bluesky").status, "sin_resultado");
   assert.equal(lookup("Mastodon · mastodon.social").status, "indeterminado");
   assert.equal(lookup("Roblox").url, "https://www.roblox.com/users/123/profile");
   assert.equal(lookup("Keybase").status, "verificado");
+  assert.equal(lookup("Stack Overflow · nombre visible").status, "indicio");
+  assert.deepEqual(lookup("Stack Overflow · nombre visible").profileLinks, ["https://stackoverflow.com/users/4321"]);
+  assert.equal(lookup("WordPress.com · sitio público").url, "https://equipo.wordpress.com/");
   assert.equal(lookup("Bitbucket · espacio de trabajo").status, "indeterminado");
   assert.equal(lookup("Chess.com").status, "limitado");
   assert.ok(max > 1 && max <= 6, `Conexiones concurrentes observadas: ${max}`);

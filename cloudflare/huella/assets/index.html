@@ -17,25 +17,25 @@
   </header>
   <main>
     <h1>Huella digital</h1>
-    <p>Consulta un dominio, un alias público o señales publicadas para un correo exacto. Cada resultado indica qué fuente se consultó.</p>
+    <p>Busca por correo, por alias público o por ambos. También puedes escribir un dominio por sí solo.</p>
     <section class="panel" aria-labelledby="consultar">
       <h2 id="consultar">Nueva consulta</h2>
       <form id="consulta" autocomplete="off">
         <div class="grid">
-          <label>Correo o dominio
+          <label>Correo exacto o dominio
             <input id="correo" maxlength="254" placeholder="equipo@example.org o example.org" autocapitalize="off" spellcheck="false">
-            <small>Por defecto se consulta solo el dominio, es decir, lo que va después de la arroba.</small>
+            <small>Si escribes un correo completo, se consulta la dirección. Puedes limitar la búsqueda a su dominio.</small>
           </label>
           <label>Alias público
             <input id="alias" maxlength="66" placeholder="@github o bsky.app" autocapitalize="off" spellcheck="false">
-            <small>Consulta perfiles públicos en hasta 23 fuentes. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
+            <small>Consulta perfiles o sitios públicos en hasta 25 fuentes. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
           </label>
         </div>
         <label class="opcion-correo">
-          <input id="correo-exacto" type="checkbox">
-          Buscar también el correo exacto en fuentes públicas
+          <input id="solo-dominio" type="checkbox">
+          Consultar solo el dominio del correo
         </label>
-        <small>Activa esta opción solo para una consulta autorizada. El Worker envía la dirección completa a keys.openpgp.org y GitHub, y su huella SHA-256 a Gravatar. Si incluyes un alias, Huella compara los resultados con los enlaces visibles de Gravatar y con el correo publicado en GitLab, cuando exista.</small>
+        <small>Al consultar un correo exacto, Huella envía la dirección a keys.openpgp.org y GitHub, su huella a Gravatar y una huella de la parte anterior a la arroba al DNS público. Si añades un alias, Huella compara los resultados con los enlaces visibles de Gravatar y con el correo publicado en GitLab, cuando exista.</small>
         <label class="opcion-correo">
           <input id="catalogo-ampliado" type="checkbox">
           Consultar catálogo ampliado por alias ({{catalogTotal}} fuentes adicionales)
@@ -52,6 +52,7 @@
       <h2 id="titulo-resultados">Resultados por fuente</h2>
       <p id="marca-tiempo"></p>
       <div id="resultados"></div>
+      <div id="redes-manuales"></div>
       <div id="resultados-catalogo"></div>
     </section>
     <section class="panel" aria-labelledby="limites">

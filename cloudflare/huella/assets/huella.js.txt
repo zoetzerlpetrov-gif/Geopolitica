@@ -3,6 +3,29 @@ const form = $("consulta");
 const status = $("estado");
 const results = $("resultados");
 const catalogResults = $("resultados-catalogo");
+const manualResults = $("redes-manuales");
+const manualNetworks = [
+  ["Facebook", "https://www.facebook.com/{}"],
+  ["Instagram", "https://www.instagram.com/{}/"],
+  ["LinkedIn", "https://www.linkedin.com/in/{}/"],
+  ["X", "https://x.com/{}"],
+  ["Reddit", "https://www.reddit.com/user/{}/"],
+  ["Threads", "https://www.threads.com/@{}"],
+  ["YouTube · identificador @", "https://www.youtube.com/@{}"],
+  ["Pinterest", "https://www.pinterest.com/{}/"],
+  ["Telegram", "https://t.me/{}"],
+  ["Snapchat", "https://www.snapchat.com/add/{}"],
+  ["Substack", "https://substack.com/@{}"],
+  ["Medium", "https://medium.com/@{}"],
+  ["Tumblr", "https://www.tumblr.com/{}"],
+  ["Vimeo", "https://vimeo.com/{}"],
+  ["VK", "https://vk.com/{}"],
+  ["Weibo", "https://weibo.com/n/{}"],
+  ["Spotify · ID público", "https://open.spotify.com/user/{}"],
+  ["Twitch", "https://www.twitch.tv/{}"],
+  ["Linktree", "https://linktr.ee/{}"],
+  ["Patreon", "https://www.patreon.com/{}"]
+];
 const search = $("buscar");
 const labels = {
   verificado: "Verificado en la fuente",
@@ -29,6 +52,21 @@ function render(group, result) {
   if (result.detail) element(card, "p", result.detail);
   if (result.correlation) element(card, "p", "Cruce de fuentes · " + result.correlation, "state verificado");
   if (result.name) element(card, "p", result.name);
+  if (result.avatar) {
+    const show = element(card, "button", "Mostrar avatar público", "secondary");
+    show.type = "button";
+    show.addEventListener("click", () => {
+      const avatar = document.createElement("img");
+      avatar.className = "avatar-publico";
+      avatar.alt = "Avatar público publicado por " + result.source;
+      avatar.referrerPolicy = "no-referrer";
+      avatar.addEventListener("error", () => {
+        avatar.replaceWith(document.createTextNode("La fuente no pudo cargar el avatar."));
+      }, { once: true });
+      avatar.src = result.avatar;
+      show.replaceWith(avatar);
+    }, { once: true });
+  }
   if (result.since && !Number.isNaN(Date.parse(result.since))) {
     element(card, "p", "Cuenta creada el " + new Date(result.since).toLocaleDateString("es-MX"));
   }
@@ -55,6 +93,15 @@ function render(group, result) {
       link.rel = "noopener noreferrer";
     }
   }
+  if (result.profileLinks?.length) {
+    const list = element(card, "ul", "", "records");
+    for (const url of result.profileLinks) {
+      const link = element(element(list, "li", ""), "a", "Abrir perfil coincidente");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
+  }
   if (result.evidence?.length) {
     const list = element(card, "ul", "", "records");
     for (const url of result.evidence) {
@@ -67,6 +114,21 @@ function render(group, result) {
   if (result.url) {
     const link = element(card, "a", result.kind === "catalogo" ? "Revisar página en la fuente" : "Abrir perfil público");
     link.href = result.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
+}
+
+function renderManualNetworks(username) {
+  const alias = username.replace(/^@/, "");
+  if (!alias) return;
+  const details = element(manualResults, "details", "");
+  element(details, "summary", `Redes y sitios populares · ${manualNetworks.length} enlaces para revisar`);
+  element(details, "p", "Enlaces sugeridos a partir del alias. Huella no visitó estas direcciones en esta sección. Algunos sitios requieren iniciar sesión o usan otro identificador.");
+  const list = element(details, "ul", "", "redes-lista");
+  for (const [name, template] of manualNetworks) {
+    const link = element(element(list, "li", ""), "a", name);
+    link.href = template.replace("{}", encodeURIComponent(alias));
     link.target = "_blank";
     link.rel = "noopener noreferrer";
   }
@@ -147,13 +209,9 @@ form.addEventListener("submit", async (event) => {
     status.textContent = "Revisa el formato del correo.";
     return;
   }
-  const expand = $("catalogo-ampliado").checked;
-  if (expand && !username) {
-    status.textContent = "Escribe un alias público para consultar el catálogo ampliado.";
-    return;
-  }
+  const expand = $("catalogo-ampliado").checked && Boolean(username.replace(/^@/, ""));
   const query = { domain, username };
-  if ($("correo-exacto").checked) {
+  if (input.includes("@") && !$("solo-dominio").checked) {
     if (!local || !/^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*$/i.test(local) || local.length > 64) {
       status.textContent = "Para consultar el correo exacto, escribe una dirección compatible, como equipo@example.org.";
       return;
@@ -166,6 +224,7 @@ form.addEventListener("submit", async (event) => {
   $("hallazgos").hidden = true;
   results.replaceChildren();
   catalogResults.replaceChildren();
+  manualResults.replaceChildren();
   status.textContent = "Consultando fuentes públicas…";
   try {
     const response = await fetch("consulta", {
@@ -190,6 +249,19 @@ form.addEventListener("submit", async (event) => {
     for (const [kind, title] of groups) {
       renderGroup(results, title, data.results.filter(result => result.kind === kind));
     }
+    renderManualNetworks(username);
+    if (!username && query.email) {
+      const githubAlias = data.results.find(result => result.source === "GitHub · correo del perfil público" &&
+        result.status === "verificado")?.profileLinks?.[0]?.split("/").at(-1);
+      if (githubAlias && /^[a-z0-9-]{1,39}$/i.test(githubAlias)) {
+        const pivot = element(manualResults, "button", "Usar alias público de GitHub", "secondary");
+        pivot.type = "button";
+        pivot.addEventListener("click", () => {
+          $("alias").value = githubAlias;
+          $("alias").focus();
+        });
+      }
+    }
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
     status.textContent = `${data.results.length} comprobaciones directas terminadas.`;
@@ -211,6 +283,7 @@ form.addEventListener("reset", () => {
   $("hallazgos").hidden = true;
   results.replaceChildren();
   catalogResults.replaceChildren();
+  manualResults.replaceChildren();
   status.textContent = "Consulta y resultados borrados de la pantalla.";
 });
 search.disabled = false;

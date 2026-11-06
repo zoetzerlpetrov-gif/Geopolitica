@@ -2,14 +2,14 @@ import { catalogInfo, inspectCatalog } from "./catalog.js";
 import { adminMap } from "./admin-map.js";
 import { authorized, begin, complete, configured, signOut } from "./auth.js";
 
-import { declaredProfiles, markCorrelations, publicProfileChecks } from "./profiles.js";
+import { avatarOrigins, declaredProfiles, markCorrelations, publicAvatar, publicProfileChecks } from "./profiles.js";
 
 import { activePlan, servePlans } from "../planes/service.js";
 
 const ROOT = "/admin/huella/";
 const HEADERS = {
   "Cache-Control": "private, no-store",
-  "Content-Security-Policy": "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
+  "Content-Security-Policy": `default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; img-src ${avatarOrigins.join(" ")}; base-uri 'none'; frame-ancestors 'none'; form-action 'none'`,
   "Referrer-Policy": "no-referrer",
   "X-Content-Type-Options": "nosniff"
 };
@@ -74,7 +74,7 @@ async function alias(source, id) {
     return {
       status: "verificado", url: `https://github.com/${encodeURIComponent(data.login)}`,
       detail: data.type === "Organization" ? "Organización" : "Cuenta pública",
-      since: data.created_at, name: data.name
+      since: data.created_at, name: data.name, avatar: publicAvatar(data.avatar_url)
     };
   }
 
@@ -130,7 +130,7 @@ async function gravatar(email) {
       !/^https:\/\/gravatar\.com\/[a-z0-9_-]+\/?$/i.test(data.profile_url)) return { status: "indeterminado" };
   return { status: "verificado", url: data.profile_url,
     name: typeof data.display_name === "string" ? data.display_name.slice(0, 120) : undefined,
-    declaredProfiles: declaredProfiles(data.verified_accounts),
+    declaredProfiles: declaredProfiles(data.verified_accounts), avatar: publicAvatar(data.avatar_url),
     detail: "Gravatar devolvió un perfil público asociado a la huella del correo." };
 }
 
@@ -155,6 +155,32 @@ async function publicCommits(email) {
   return { status: data.total_count === 0 && data.incomplete_results === false ? "sin_resultado" : "indeterminado" };
 }
 
+async function publicGitHubEmail(email) {
+  const query = new URLSearchParams({ q: `${email} in:email`, per_page: "10" });
+  const { data, status } = await upstream(`https://api.github.com/search/users?${query}`,
+    "application/vnd.github.text-match+json");
+  if (status) return { status: status === "sin_resultado" ? "indeterminado" : status };
+  if (!Array.isArray(data?.items)) return { status: "indeterminado" };
+  const matches = data.items.filter(item => typeof item?.login === "string" && /^[a-z0-9-]{1,39}$/i.test(item.login) &&
+    Array.isArray(item.text_matches) && item.text_matches.some(match => match?.property === "email" &&
+      typeof match.fragment === "string" && match.fragment.trim().toLowerCase() === email.toLowerCase()))
+    .slice(0, 5);
+  if (matches.length) return {
+    status: "verificado", profileLinks: [...new Set(matches.map(item => `https://github.com/${item.login}`))],
+    avatar: matches.length === 1 ? publicAvatar(matches[0].avatar_url) : undefined,
+    detail: "La búsqueda de GitHub devolvió ese correo exacto en el campo público del perfil."
+  };
+  return { status: data.total_count === 0 && data.incomplete_results === false ? "sin_resultado" : "indeterminado" };
+}
+
+async function emailDns(label, type, email, domain) {
+  const local = email.slice(0, email.indexOf("@"));
+  const hash = new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(local)));
+  const owner = Array.from(hash.subarray(0, 28), byte => byte.toString(16).padStart(2, "0")).join("");
+  const { status, detail } = await dns(`${owner}.${label}.${domain}`, type, () => true);
+  return { status, detail: status === "verificado" ? "El DNS del dominio publica un registro para esta dirección." : detail };
+}
+
 async function inspect({ domain, username, email }) {
   const checks = [];
   if (domain) {
@@ -170,7 +196,10 @@ async function inspect({ domain, username, email }) {
       `https://keys.openpgp.org/vks/v1/by-email/${encodeURIComponent(email)}`, "application/pgp-keys",
       "El servidor devolvió una clave pública cuyo titular habilitó la búsqueda por ese correo.")],
     ["Gravatar · perfil público", () => gravatar(email)],
-    ["GitHub · commits públicos", () => publicCommits(email)]
+    ["GitHub · commits públicos", () => publicCommits(email)],
+    ["GitHub · correo del perfil público", () => publicGitHubEmail(email)],
+    ["DNS · clave OPENPGPKEY", () => emailDns("_openpgpkey", 61, email, domain)],
+    ["DNS · certificado SMIMEA", () => emailDns("_smimecert", 53, email, domain)]
   );
   const aliasChecks = username ? [
     ["GitHub", () => alias("github", username)],
