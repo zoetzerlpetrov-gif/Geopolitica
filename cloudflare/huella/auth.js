@@ -98,21 +98,27 @@ export async function complete(request, url, env, root, activePlan) {
   if (!credentials) return deny("github-respuesta-invalida");
   if (!token.ok || typeof credentials.access_token !== "string" || !credentials.access_token) return deny("intercambio-github");
 
+  let profile;
   try {
     const user = await fetch("https://api.github.com/user", {
       headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${credentials.access_token}`, "User-Agent": "DOMINUS-Huella" },
-      redirect: "error", signal: AbortSignal.timeout(6500)
+      redirect: "manual", signal: AbortSignal.timeout(15000)
     });
     if (!user.ok) return deny("identidad-github");
-    const { id, type } = await user.json();
-    if (type !== "User" || !Number.isSafeInteger(id)) return deny("identidad-github");
+    profile = await user.json();
+  } catch {
+    return deny("identidad-github");
+  }
+  const { id, type } = profile || {};
+  if (type !== "User" || !Number.isSafeInteger(id) || id <= 0) return deny("identidad-github");
+  try {
     const allowed = mode === "planes" ? await activePlan?.(String(id)) : admins(env).includes(String(id));
     if (!allowed) return deny("sin-acceso");
     const payload = `${id}.${now() + TTL}`;
     const signature = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(mode === "planes" ? "planes." + payload : payload));
     return redirect(destination, [cleared, cookie(mode === "planes" ? PLAN_SESSION : SESSION, `${payload}.${b64url(signature)}`, TTL)]);
   } catch {
-    return deny("ingreso-no-disponible");
+    return deny("sesion-no-disponible");
   }
 }
 

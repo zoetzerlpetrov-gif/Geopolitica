@@ -34,7 +34,7 @@ El Worker mantiene cerrado el acceso si falta configuración. El código de OAut
 
 El Worker está disponible en `https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/`. Para usarla, configura ese origen en `OSINT_ORIGIN` y registra `https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/oauth/callback` como URL de retorno en la OAuth App de GitHub.
 
-En la consola, **Mapa principal** abre la vista autenticada de DOMINUS en el mismo host. Esta vista solicita únicamente archivos públicos a GitHub Pages y no reenvía la sesión del administrador. El menú **Secciones** comprueba la sesión del Worker antes de mostrar el enlace de Huella. La edición pública sigue en GitHub Pages.
+En la consola, **Mapa administrativo** abre la vista autenticada de DOMINUS en el mismo host. Esta vista solicita únicamente archivos públicos a GitHub Pages y no reenvía la sesión del administrador. El menú **Secciones** comprueba la sesión del Worker antes de mostrar el enlace de Huella. La edición pública sigue en GitHub Pages.
 
 ## Piloto de Recon, Analyst y Command
 

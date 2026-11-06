@@ -150,7 +150,7 @@ const LOGIN_MESSAGES = new Map([
   ["github-conexion", "Huella no pudo conectar con el servicio de autorización de GitHub."],
   ["github-respuesta-invalida", "El servicio de autorización de GitHub devolvió una respuesta inesperada."],
   ["identidad-github", "Huella no pudo verificar la cuenta con GitHub. Inténtalo de nuevo."],
-  ["ingreso-no-disponible", "No se pudo completar el ingreso en este momento. Inténtalo de nuevo."]
+  ["sesion-no-disponible", "GitHub confirmó tu identidad, pero Huella no pudo crear la sesión."]
 ]);
 
 export async function serve(request, env, assets) {
