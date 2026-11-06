@@ -141,7 +141,7 @@ test("combina DNS, alias e incidentes del sitio sin enviar un correo a los prove
     ["Have I Been Pwned · incidentes del sitio", "encontrado"],
     ["GitHub", "verificado"], ["Hacker News", "sin_resultado"], ["DEV Community", "limitado"]
   ]);
-  assert.equal(results.filter(result => result.kind === "alias").length, 25);
+  assert.equal(results.filter(result => result.kind === "alias").length, 28);
   assert.match(results[0].detail, /no acepta correo/);
   assert.deepEqual(results[3].incidents, [{ title: "Ejemplo", date: "2024-01-01", classes: ["Email addresses"], verified: false }]);
   assert.equal(results[4].url, "https://github.com/github");
@@ -179,6 +179,42 @@ test("la consulta directa de Bluesky funciona con las opciones de fetch de Worke
   assert.equal(lookup("GitHub").status, "indeterminado");
   assert.ok(targets.some(url => url.hostname === "public.api.bsky.app"));
   assert.ok(!targets.some(url => url.hostname === "externo.example"));
+});
+
+test("distingue resultados directos de X y Tumblr de referencias editoriales por alias", async (t) => {
+  const { cookie } = await signIn(t);
+  t.mock.method(globalThis, "fetch", async input => {
+    const url = new URL(input);
+    if (url.hostname === "publish.x.com") {
+      assert.equal(url.searchParams.get("url"), "https://x.com/ejemplo");
+      return Response.json({ type: "rich", url: "https://twitter.com/Ejemplo" });
+    }
+    if (url.hostname === "www.tumblr.com") return new Response(
+      '<link href="https://www.tumblr.com/ejemplo" rel="canonical">' +
+      '<meta content="https://www.tumblr.com/ejemplo" property="og:url">',
+      { headers: { "Content-Type": "text/html" } });
+    if (url.hostname === "query.wikidata.org") return Response.json({ results: { bindings: [
+      { item: { value: "http://www.wikidata.org/entity/Q123" },
+        property: { value: "http://www.wikidata.org/prop/direct/P2003" }, handle: { value: "ejemplo" } },
+      { item: { value: "http://www.wikidata.org/entity/Q456" },
+        property: { value: "http://www.wikidata.org/prop/direct/P7085" }, handle: { value: "otro" } },
+      { item: { value: "https://example.org/Q123" },
+        property: { value: "http://www.wikidata.org/prop/direct/P2003" }, handle: { value: "ejemplo" } }
+    ] } });
+    return new Response(null, { status: 404 });
+  });
+
+  const response = await serve(post({ username: "ejemplo" }, cookie), env, assets);
+  const { results } = await response.json();
+  const source = name => results.find(result => result.source === name);
+  assert.equal(source("X · cronología pública").url, "https://x.com/ejemplo");
+  assert.equal(source("X · cronología pública").status, "verificado");
+  assert.equal(source("Tumblr · blog público").status, "verificado");
+  assert.equal(source("Wikidata · referencias de redes").status, "indicio");
+  assert.deepEqual(source("Wikidata · referencias de redes").socialReferences, [
+    { platform: "Instagram", url: "https://www.instagram.com/ejemplo", reference: "https://www.wikidata.org/wiki/Q123" }
+  ]);
+  assert.equal(source("X · cronología pública").avatar, undefined);
 });
 
 test("el enlace requiere verificación del Worker y la ruta queda fuera de la caché del mapa", () => {
@@ -387,7 +423,7 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
   assert.equal(response.status, 200);
   const { results } = await response.json();
   const lookup = source => results.find(result => result.source === source);
-  assert.equal(results.filter(result => result.kind === "alias").length, 25);
+  assert.equal(results.filter(result => result.kind === "alias").length, 28);
   assert.deepEqual(lookup("Gravatar · perfil público").declaredProfiles,
     ["https://github.com/equipo", "https://www.linkedin.com/in/equipo"]);
   assert.match(lookup("GitHub").correlation, /Gravatar/);
@@ -471,6 +507,35 @@ test("el catálogo ampliado usa destinos HTTPS y opera en lotes autenticados sin
   const selection = (await music.json()).results;
   assert.equal(selection.length, catalogInfo.batchSize);
   assert.ok(selection.every(entry => entry.category === "music"));
+});
+
+test("cada categoría del catálogo usa sus destinos y el buscador de correo no la activa", async (t) => {
+  const { cookie } = await signIn(t);
+  const destinations = [];
+  t.mock.method(globalThis, "fetch", async input => {
+    destinations.push(String(input));
+    return new Response(null, { status: 404 });
+  });
+  for (const section of catalogInfo.sections) {
+    assert.ok(section.total > 0);
+    destinations.length = 0;
+    const request = new Request(root + "consulta/catalogo", {
+      method: "POST", headers: { Cookie: cookie, Origin: origin, "Content-Type": "application/json" },
+      body: JSON.stringify({ username: "ejemplo", offset: 0, category: section.id })
+    });
+    const response = await serve(request, env, assets);
+    assert.equal(response.status, 200);
+    const { results } = await response.json();
+    assert.equal(results.length, Math.min(section.total, catalogInfo.batchSize));
+    assert.equal(destinations.length, results.length);
+    assert.ok(destinations.every(url => url.includes("ejemplo")));
+  }
+  destinations.length = 0;
+  const response = await serve(post({ email: "equipo@example.org", domain: "example.org", searchEmail: true }, cookie), env, assets);
+  const { results, catalog: available } = await response.json();
+  assert.equal(results.filter(result => result.kind === "correo").length, 6);
+  assert.equal(available, undefined);
+  assert.ok(destinations.every(input => ["dns.google", "haveibeenpwned.com", "api.gravatar.com", "keys.openpgp.org", "api.github.com"].includes(new URL(input).hostname)));
 });
 
 test("el formulario distingue correo exacto, dominio y catálogo por alias", async (t) => {

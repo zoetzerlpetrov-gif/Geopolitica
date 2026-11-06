@@ -93,6 +93,18 @@ function render(group, result) {
       link.rel = "noopener noreferrer";
     }
   }
+  if (result.socialReferences?.length) {
+    const list = element(card, "ul", "", "records");
+    for (const entry of result.socialReferences) {
+      const row = element(list, "li", "");
+      for (const [url, label] of [[entry.url, entry.platform], [entry.reference, " · ficha en Wikidata"]]) {
+        const link = element(row, "a", label);
+        link.href = url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+      }
+    }
+  }
   if (result.profileLinks?.length) {
     const list = element(card, "ul", "", "records");
     for (const url of result.profileLinks) {
@@ -204,6 +216,50 @@ async function runCatalog(username, info, category, signal, directResults) {
     (completed < total ? ` Quedaron ${total - completed} sin procesar.` : "");
 }
 
+const PIVOT_SITES = {
+  "github.com": ["GitHub", /^\/([a-z0-9-]+)$/i],
+  "bsky.app": ["Bluesky", /^\/profile\/([a-z0-9.-]+)$/i],
+  "x.com": ["X", /^\/([a-z0-9_]+)$/i],
+  "instagram.com": ["Instagram", /^\/([a-z0-9_.]+)$/i],
+  "www.instagram.com": ["Instagram", /^\/([a-z0-9_.]+)$/i],
+  "www.tiktok.com": ["TikTok", /^\/@([a-z0-9_.]+)$/i],
+  "www.linkedin.com": ["LinkedIn", /^\/in\/([a-z0-9-]+)$/i],
+  "www.youtube.com": ["YouTube", /^\/@([a-z0-9_.-]+)$/i],
+  "www.reddit.com": ["Reddit", /^\/(?:user|u)\/([a-z0-9_-]+)$/i],
+  "medium.com": ["Medium", /^\/@([a-z0-9_.-]+)$/i],
+  "t.me": ["Telegram", /^\/([a-z0-9_]+)$/i]
+};
+
+function renderEmailPivots(entries) {
+  const links = entries.flatMap(result => {
+    if (result.kind !== "correo" || result.status !== "verificado") return [];
+    if (result.source === "GitHub · correo del perfil público") return result.profileLinks || [];
+    return result.declaredProfiles || [];
+  });
+  const pivots = new Map();
+  for (const link of links) {
+    const url = new URL(link);
+    if (!Object.hasOwn(PIVOT_SITES, url.hostname)) continue;
+    const [platform, pattern] = PIVOT_SITES[url.hostname];
+    const handle = pattern.exec(url.pathname.replace(/\/$/, ""))?.[1];
+    if (handle && /^[a-z0-9](?:[a-z0-9_.-]{0,63}[a-z0-9_-])?$/i.test(handle) && !pivots.has(handle.toLowerCase())) {
+      pivots.set(handle.toLowerCase(), { platform, handle });
+    }
+  }
+  if (!pivots.size) return;
+  element(manualResults, "p", "Alias publicados que puedes consultar por separado:");
+  const actions = element(manualResults, "div", "", "actions");
+  for (const { platform, handle } of pivots.values()) {
+    const button = element(actions, "button", `Usar @${handle} · ${platform}`, "secondary");
+    button.type = "button";
+    button.addEventListener("click", () => {
+      $("alias").value = handle;
+      updateScope();
+      $("alias").focus();
+    });
+  }
+}
+
 function updateScope() {
   const input = $("correo").value.trim();
   const hasEmail = input.includes("@");
@@ -283,28 +339,13 @@ form.addEventListener("submit", async (event) => {
     const data = await response.json();
     if (current.signal.aborted) return;
     describeEmailScope(query, data.results);
-    const groups = [
-      ["correo", "Correo exacto"],
-      ["alias", "Alias público"],
-      ["dominio", "Dominio"]
-    ];
-    for (const [kind, title] of groups) {
-      renderGroup(results, title, data.results.filter(result => result.kind === kind));
-    }
+    renderGroup(results, "Correo exacto", data.results.filter(result => result.kind === "correo"));
+    const aliasResults = data.results.filter(result => result.kind === "alias");
+    renderGroup(results, "Redes, comunidades y blogs · consulta directa", aliasResults.filter(result => result.category === "social"));
+    renderGroup(results, "Otras consultas directas por alias", aliasResults.filter(result => result.category !== "social"));
+    renderGroup(results, "Dominio", data.results.filter(result => result.kind === "dominio"));
     renderManualNetworks(username);
-    if (!username && query.email) {
-      const githubAlias = data.results.find(result => result.source === "GitHub · correo del perfil público" &&
-        result.status === "verificado")?.profileLinks?.[0]?.split("/").at(-1);
-      if (githubAlias && /^[a-z0-9-]{1,39}$/i.test(githubAlias)) {
-        const pivot = element(manualResults, "button", "Usar alias público de GitHub", "secondary");
-        pivot.type = "button";
-        pivot.addEventListener("click", () => {
-          $("alias").value = githubAlias;
-          updateScope();
-          $("alias").focus();
-        });
-      }
-    }
+    if (!username && query.email) renderEmailPivots(data.results);
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
     status.textContent = `${data.results.length} comprobaciones directas terminadas.`;

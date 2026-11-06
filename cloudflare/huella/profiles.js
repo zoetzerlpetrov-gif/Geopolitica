@@ -34,15 +34,104 @@ function query(url, parameters) {
   return url + "?" + new URLSearchParams(parameters);
 }
 
+const WIKIDATA_PROFILES = {
+  P2002: ["X", "https://x.com/"],
+  P2003: ["Instagram", "https://www.instagram.com/"],
+  P2013: ["Facebook", "https://www.facebook.com/"],
+  P7085: ["TikTok", "https://www.tiktok.com/@"],
+  P6634: ["LinkedIn", "https://www.linkedin.com/in/"],
+  P3836: ["Pinterest", "https://www.pinterest.com/"],
+  P3789: ["Telegram", "https://t.me/"],
+  P5797: ["Twitch", "https://www.twitch.tv/"],
+  P11245: ["YouTube", "https://www.youtube.com/@"],
+  P3899: ["Medium", "https://medium.com/@"],
+  P11892: ["Threads", "https://www.threads.com/@"]
+};
+
+function wikidataQuery(alias) {
+  const properties = Object.keys(WIKIDATA_PROFILES).map(key => "wdt:" + key).join(" ");
+  const handles = [...new Set([alias, alias.toLowerCase(), "@" + alias, "@" + alias.toLowerCase()])];
+  return `SELECT DISTINCT ?item ?property ?handle WHERE {
+    VALUES ?property { ${properties} }
+    VALUES ?handle { ${handles.map(handle => JSON.stringify(handle)).join(" ")} }
+    ?item ?property ?handle .
+  } LIMIT 15`;
+}
+
+function wikidataProfiles(data, alias) {
+  const bindings = data?.results?.bindings;
+  if (!Array.isArray(bindings)) return unclear;
+  if (!bindings.length) return missing;
+  const evidence = [];
+  const seen = new Set();
+  for (const row of bindings) {
+    const id = /^https?:\/\/www\.wikidata\.org\/entity\/(Q[1-9]\d*)$/.exec(row?.item?.value || "")?.[1];
+    const key = /^https?:\/\/www\.wikidata\.org\/prop\/direct\/(P\d+)$/.exec(row?.property?.value || "")?.[1];
+    const handle = typeof row?.handle?.value === "string" ? row.handle.value.replace(/^@/, "") : "";
+    if (!id || !Object.hasOwn(WIKIDATA_PROFILES, key) || !equals(handle, alias)) continue;
+    const [platform, base] = WIKIDATA_PROFILES[key];
+    const url = base + part(handle);
+    const reference = `https://www.wikidata.org/wiki/${id}`;
+    if (seen.has(url + reference)) continue;
+    seen.add(url + reference);
+    evidence.push({ platform, url, reference });
+  }
+  return evidence.length ? {
+    status: "indicio", socialReferences: evidence,
+    detail: "Wikidata registra este alias para los perfiles enlazados. Cada enlace incluye su ficha de referencia."
+  } : unclear;
+}
+
+function exactXProfile(data, alias) {
+  if (data?.type !== "rich" || typeof data.url !== "string") return unclear;
+  try {
+    const url = new URL(data.url);
+    if (url.protocol !== "https:" || !["x.com", "twitter.com"].includes(url.hostname) || url.username || url.password ||
+        url.port || !equals(url.pathname.replace(/^\//, "").replace(/\/$/, ""), alias)) return unclear;
+    return { status: "verificado", url: `https://x.com/${part(alias)}`,
+      detail: "El servicio público de X devolvió la cronología de este alias." };
+  } catch {
+    return unclear;
+  }
+}
+
+function tumblrProfile(body, alias) {
+  if (typeof body !== "string") return unclear;
+  const url = `https://www.tumblr.com/${part(alias.toLowerCase())}`;
+  const tags = body.match(/<(?:meta|link)\b[^>]{1,1024}>/gi) || [];
+  const canonical = tags.some(tag => /\brel="canonical"/i.test(tag) && tag.includes(`href="${url}"`));
+  const openGraph = tags.some(tag => /\bproperty="og:url"/i.test(tag) && tag.includes(`content="${url}"`));
+  return canonical && openGraph
+    ? { status: "verificado", url, detail: "La página pública de Tumblr declaró el mismo alias en sus metadatos." } : unclear;
+}
+
 export function publicProfileChecks(alias, upstream, email) {
   const safe = part(alias);
   const checks = [];
   const add = (source, url, parse, options) => {
     checks.push([source, async () => {
-      const { data, status } = await upstream(url, "application/json", options);
-      return status ? { status } : parse(data);
+      const category = options?.category;
+      try {
+        const { data, status } = await upstream(url, options?.text ? "text/html" : "application/json", options);
+        return { category, ...(status ? { status } : parse(data)) };
+      } catch {
+        return { category, ...unclear };
+      }
     }]);
   };
+
+  if (/^[a-z0-9_]{1,15}$/i.test(alias)) {
+    add("X · cronología pública", query("https://publish.x.com/oembed", {
+      url: `https://x.com/${safe}`, omit_script: "true"
+    }), data => exactXProfile(data, alias), { category: "social" });
+  }
+  if (/^[a-z0-9](?:[a-z0-9-]{0,30}[a-z0-9])?$/i.test(alias)) {
+    add("Tumblr · blog público", `https://www.tumblr.com/${safe.toLowerCase()}`, data => tumblrProfile(data, alias),
+      { text: true, category: "social" });
+  }
+  add("Wikidata · referencias de redes", query("https://query.wikidata.org/sparql", {
+    query: wikidataQuery(alias), format: "json"
+  }), data => wikidataProfiles(data, alias), { category: "social" });
 
   add("Stack Overflow · nombre visible", query("https://api.stackexchange.com/2.3/users", {
     site: "stackoverflow", inname: alias, pagesize: "20"
@@ -68,7 +157,7 @@ export function publicProfileChecks(alias, upstream, email) {
       if (data?.is_private !== false || !Number.isSafeInteger(data.ID) ||
           (data.URL !== `https://${host}` && data.URL !== `https://${host}/`)) return unclear;
       return { status: "verificado", url: `https://${host}/`, detail: "La API confirmó el sitio público en ese subdominio." };
-    });
+    }, { category: "social" });
   }
 
   add("GitLab.com", query("https://gitlab.com/api/v4/users", { username: alias, per_page: "1" }), data => {
@@ -98,13 +187,13 @@ export function publicProfileChecks(alias, upstream, email) {
           `Perfil público del identificador completo ${actor}.`);
         if (result.status === "verificado") result.avatar = publicAvatar(data?.avatar);
         return result;
-      }, { readBadRequest: true });
+      }, { readBadRequest: true, category: "social" });
   }
 
   for (const host of ["mastodon.social", "mastodon.online", "fosstodon.org"]) {
     add(`Mastodon · ${host}`, query(`https://${host}/api/v1/accounts/lookup`, { acct: alias }),
       data => profile(alias, data?.acct, `https://${host}/@${safe}`, data?.display_name,
-        "Cuenta pública de esta instancia de Mastodon."));
+        "Cuenta pública de esta instancia de Mastodon."), { category: "social" });
   }
 
   add("PeerTube · Framatube", `https://framatube.org/api/v1/accounts/${safe}`,

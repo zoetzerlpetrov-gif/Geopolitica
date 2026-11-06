@@ -30,7 +30,7 @@ export const catalogInfo = {
   sections: sections.map(([id, label]) => ({ id, label, total: bySection.get(id).length }))
 };
 
-async function readSignatureBody(response) {
+export async function readSignatureBody(response) {
   const reader = response.body?.getReader();
   if (!reader) return { text: "", complete: true };
   const decoder = new TextDecoder();

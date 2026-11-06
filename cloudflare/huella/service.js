@@ -1,4 +1,4 @@
-import { catalogInfo, inspectCatalog } from "./catalog.js";
+import { catalogInfo, inspectCatalog, readSignatureBody } from "./catalog.js";
 import { adminMap } from "./admin-map.js";
 import { authorized, begin, complete, configured, signOut } from "./auth.js";
 
@@ -44,14 +44,17 @@ function providerStatus(response) {
   if (!response.ok) return "indeterminado";
 }
 
-async function upstream(url, accept = "application/json", { body, readBadRequest } = {}) {
+async function upstream(url, accept = "application/json", { body, readBadRequest, text } = {}) {
   const response = await provider(url, accept, body);
   if (response.status === 204) return { data: null };
   if (readBadRequest && response.status === 400) return { data: await response.json() };
   const status = providerStatus(response);
-  if (!status) return { data: await response.json() };
+  if (!status && !text) return { data: await response.json() };
+  if (!status && /^text\/html(?:;|$)/i.test(response.headers.get("Content-Type") || "")) {
+    return { data: (await readSignatureBody(response)).text };
+  }
   await response.body?.cancel();
-  return { status };
+  return { status: status || "indeterminado" };
 }
 
 async function dns(name, type, select) {
