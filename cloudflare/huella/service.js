@@ -146,6 +146,9 @@ const LOGIN_MESSAGES = new Map([
   ["retorno-oauth", "GitHub rechazó la URL de retorno. Comprueba la Redirect URI en la configuración de la OAuth App."],
   ["correo-sin-verificar", "GitHub pide verificar el correo de la cuenta antes de autorizar el acceso."],
   ["intercambio-github", "GitHub no pudo completar el intercambio de autorización. Inténtalo de nuevo."],
+  ["github-tiempo", "GitHub no respondió a tiempo al confirmar el ingreso. Inicia otro intento."],
+  ["github-conexion", "Huella no pudo conectar con el servicio de autorización de GitHub."],
+  ["github-respuesta-invalida", "El servicio de autorización de GitHub devolvió una respuesta inesperada."],
   ["identidad-github", "Huella no pudo verificar la cuenta con GitHub. Inténtalo de nuevo."],
   ["ingreso-no-disponible", "No se pudo completar el ingreso en este momento. Inténtalo de nuevo."]
 ]);

@@ -75,22 +75,30 @@ export async function complete(request, url, env, root, activePlan) {
   if (url.searchParams.get("error") === "access_denied") return deny("autorizacion-cancelada");
   if (!code || code.length > 512) return deny("codigo-rechazado");
 
+  const form = new URLSearchParams({
+    client_id: env.OSINT_GITHUB_CLIENT_ID.trim(), client_secret: env.OSINT_GITHUB_CLIENT_SECRET.trim(),
+    code, redirect_uri: callback(url, root), code_verifier: verifier
+  });
+  let token;
   try {
-    const token = await fetch("https://github.com/login/oauth/access_token", {
+    token = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
-      headers: { Accept: "application/json", "User-Agent": "DOMINUS-Huella" },
-      body: new URLSearchParams({
-        client_id: env.OSINT_GITHUB_CLIENT_ID.trim(), client_secret: env.OSINT_GITHUB_CLIENT_SECRET.trim(),
-        code, redirect_uri: callback(url, root), code_verifier: verifier
-      }),
-      redirect: "error", signal: AbortSignal.timeout(6500)
+      headers: { Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded", "User-Agent": "DOMINUS-Huella" },
+      body: form.toString(),
+      redirect: "manual", signal: AbortSignal.timeout(15000)
     });
-    const credentials = await token.json();
-    if (credentials?.error === "incorrect_client_credentials") return deny("credenciales-oauth");
-    if (credentials?.error === "redirect_uri_mismatch") return deny("retorno-oauth");
-    if (credentials?.error === "bad_verification_code") return deny("codigo-rechazado");
-    if (credentials?.error === "unverified_user_email") return deny("correo-sin-verificar");
-    if (!token.ok || typeof credentials?.access_token !== "string" || !credentials.access_token) return deny("intercambio-github");
+  } catch (error) {
+    return deny(error?.name === "TimeoutError" ? "github-tiempo" : "github-conexion");
+  }
+  const credentials = await token.json().catch(() => null);
+  if (credentials?.error === "incorrect_client_credentials") return deny("credenciales-oauth");
+  if (credentials?.error === "redirect_uri_mismatch") return deny("retorno-oauth");
+  if (credentials?.error === "bad_verification_code") return deny("codigo-rechazado");
+  if (credentials?.error === "unverified_user_email") return deny("correo-sin-verificar");
+  if (!credentials) return deny("github-respuesta-invalida");
+  if (!token.ok || typeof credentials.access_token !== "string" || !credentials.access_token) return deny("intercambio-github");
+
+  try {
     const user = await fetch("https://api.github.com/user", {
       headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${credentials.access_token}`, "User-Agent": "DOMINUS-Huella" },
       redirect: "error", signal: AbortSignal.timeout(6500)

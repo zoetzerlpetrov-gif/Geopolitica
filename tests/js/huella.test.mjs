@@ -32,9 +32,11 @@ async function signIn(t, id = 123) {
   const { authorization, state, oauthCookie } = await begin();
   const fetchMock = t.mock.method(globalThis, "fetch", async (url, options) => {
     if (url === "https://github.com/login/oauth/access_token") {
-      assert.equal(options.body.get("code"), "demo-code");
-      assert.equal(options.body.get("redirect_uri"), root + "oauth/callback");
-      const verifier = options.body.get("code_verifier");
+      assert.equal(options.headers["Content-Type"], "application/x-www-form-urlencoded");
+      const body = new URLSearchParams(options.body);
+      assert.equal(body.get("code"), "demo-code");
+      assert.equal(body.get("redirect_uri"), root + "oauth/callback");
+      const verifier = body.get("code_verifier");
       const sha = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
       assert.equal(Buffer.from(sha).toString("base64url"), authorization.searchParams.get("code_challenge"));
       assert.equal(authorization.searchParams.get("code_challenge_method"), "S256");
