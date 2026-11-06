@@ -16,6 +16,15 @@ La opción **Secciones → Huella digital OSINT** aparece en el mapa administrat
 - **Exposición individual.** La búsqueda de incidentes del sitio no comprueba una dirección concreta. Para revisar una dirección propia, la consola enlaza a HIBP y deja que la persona capture su correo allí. La API automatizada para una dirección requiere un plan o clave compatible y queda fuera de esta versión.
 - La consola no almacena consultas ni resultados. Usa los servicios externos solo para identificadores de investigaciones autorizadas.
 
+## Activar el conector de YouTube
+
+1. Selecciona o crea un proyecto en [Google Cloud](https://console.cloud.google.com/). En **APIs y servicios → Biblioteca**, habilita [YouTube Data API v3](https://console.cloud.google.com/apis/library/youtube.googleapis.com).
+2. En **APIs y servicios → Credenciales**, crea una **Clave de API**. En **Restricciones de API**, limita la clave a **YouTube Data API v3**. El Worker hace la solicitud desde el servidor, por lo que no debe usarse una restricción de referente web para el navegador.
+3. En Cloudflare abre **Workers & Pages → geopolitica → Settings → Variables and Secrets → Add**. Selecciona **Secret**, usa el nombre `HUELLA_YOUTUBE_API_KEY`, pega la clave y selecciona **Deploy**.
+4. Abre Huella y consulta `@GoogleDevelopers`. La tarjeta **YouTube · API oficial** debe mostrar el enlace al canal y, si la API devuelve una miniatura compatible, el botón **Mostrar avatar público**.
+
+Huella envía el alias y la clave al endpoint oficial de Google. La clave viaja en la cabecera `x-goog-api-key` y no se devuelve al navegador. Cuando falta la clave, el conector no consulta a Google. Cuando la clave está configurada, un error de acceso o cuota se muestra como no concluyente. Un resultado vacío del endpoint oficial se muestra como sin resultado.
+
 ## Activar desde el navegador, sin Cloudflare Access
 
 El mapa administrativo y el Worker deben compartir un host HTTPS bajo tu control. GitHub Pages sirve archivos estáticos y no puede ejecutar la validación de sesión en `github.io`. El Worker puede convivir con la copia del mapa en un dominio personalizado. El módulo no requiere una política de Cloudflare Access.

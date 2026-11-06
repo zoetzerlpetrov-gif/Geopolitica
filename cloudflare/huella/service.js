@@ -23,8 +23,8 @@ function dnsUrl(name, type) {
   return `https://dns.google/resolve?${query}`;
 }
 
-async function provider(url, accept, body) {
-  const headers = { Accept: accept, "User-Agent": "DOMINUS-Huella" };
+async function provider(url, accept, body, extraHeaders) {
+  const headers = { Accept: accept, "User-Agent": "DOMINUS-Huella", ...extraHeaders };
   if (body) headers["Content-Type"] = "application/json";
   return fetch(url, {
     headers,
@@ -44,8 +44,8 @@ function providerStatus(response) {
   if (!response.ok) return "indeterminado";
 }
 
-async function upstream(url, accept = "application/json", { body, readBadRequest, text } = {}) {
-  const response = await provider(url, accept, body);
+async function upstream(url, accept = "application/json", { body, readBadRequest, text, headers } = {}) {
+  const response = await provider(url, accept, body, headers);
   if (response.status === 204) return { data: null };
   if (readBadRequest && response.status === 400) return { data: await response.json() };
   const status = providerStatus(response);
@@ -185,7 +185,7 @@ async function emailDns(label, type, email, domain) {
   return { status, detail: status === "verificado" ? "El DNS del dominio publica un registro para esta dirección." : detail };
 }
 
-async function inspect({ domain, username, email }) {
+async function inspect({ domain, username, email }, youtubeKey) {
   const checks = [];
   if (domain) {
     checks.push(
@@ -209,7 +209,7 @@ async function inspect({ domain, username, email }) {
     ["GitHub", () => alias("github", username)],
     ["Hacker News", () => alias("hn", username)],
     ["DEV Community", () => alias("dev", username)],
-    ...publicProfileChecks(username, upstream, email)
+    ...publicProfileChecks(username, upstream, email, youtubeKey)
   ] : [];
   const jobs = [
     ...checks.map(([source, run], index) => [source, run, index < 4 ? "dominio" : "correo"]),
@@ -328,12 +328,13 @@ export async function serve(request, env, assets) {
     }
     const query = readQuery(input);
     if (!query) return json({ error: "Indica un dominio, correo o alias válido." }, 400);
-    return json({ ...await inspect(query), catalog: query.username ? catalogInfo : undefined });
+    return json({ ...await inspect(query, env.HUELLA_YOUTUBE_API_KEY?.trim()), catalog: query.username ? catalogInfo : undefined });
   }
   const asset = assets.get(route);
   if (asset && request.method === "GET") {
     const [body, type] = asset;
     const page = route === "" ? body.replace("{{catalogTotal}}", String(catalogInfo.total))
+      .replace("{{youtubeStatus}}", env.HUELLA_YOUTUBE_API_KEY?.trim() ? "clave configurada" : "pendiente de configurar")
       .replace("{{catalogCategories}}", catalogInfo.sections.map(({ id, label, total }) =>
         `<option value="${id}">${label} (${total})</option>`).join("")) : body;
     return new Response(page,

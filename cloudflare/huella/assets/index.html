@@ -28,7 +28,7 @@
           </label>
           <label>Alias público
             <input id="alias" maxlength="66" placeholder="@github o bsky.app" autocapitalize="off" spellcheck="false">
-            <small>Consulta hasta 28 fuentes directas y, por defecto, el catálogo ampliado. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
+            <small>Consulta fuentes directas y, por defecto, el catálogo ampliado. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
           </label>
         </div>
         <label id="opciones-correo" hidden>Al buscar un correo completo
@@ -51,6 +51,7 @@
         <small>Se envía solo el alias a las fuentes seleccionadas. Consultar todas las categorías puede tardar varios minutos.
           Datos adaptados de <a href="https://github.com/WebBreacher/WhatsMyName" target="_blank" rel="noopener noreferrer">WhatsMyName</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>)
           y <a href="https://github.com/soxoj/maigret" target="_blank" rel="noopener noreferrer">Maigret</a> (MIT).</small>
+        <p><small>YouTube Data API · {{youtubeStatus}}</small></p>
         <p id="alcance-consulta" aria-live="polite">Escribe un correo, un dominio o un alias público.</p>
         <div class="actions">
           <button type="submit" id="buscar" disabled>Consultar fuentes</button>

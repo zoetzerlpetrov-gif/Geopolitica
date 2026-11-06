@@ -650,3 +650,58 @@ test("el formulario distingue correo exacto, dominio y catálogo por alias", asy
     assert.equal(rows[index].children[1].textContent, `${section.total} de ${section.total}`);
   }
 });
+
+test("YouTube confirma el canal por alias y mantiene la clave en la petición al proveedor", async (t) => {
+  const { cookie } = await signIn(t);
+  const youtubeEnv = { ...env, HUELLA_YOUTUBE_API_KEY: "clave-local-de-prueba" };
+  const search = { username: "@GoogleDevelopers" };
+  const id = "UC" + "a".repeat(22);
+  const avatar = "https://yt3.googleusercontent.com/ytc/foto-publica=s88-c-k-c0x00ffffff-no-rj";
+  let calls = 0;
+  let response = Response.json({ items: [{
+    id, snippet: { title: "Google for Developers", customUrl: "@googledevelopers", thumbnails: { medium: { url: avatar } } }
+  }] });
+  t.mock.method(globalThis, "fetch", async (input, options) => {
+    const url = new URL(input);
+    if (url.origin !== "https://www.googleapis.com") {
+      assert.equal(options.headers["x-goog-api-key"], undefined);
+      return new Response(null, { status: 404 });
+    }
+    calls++;
+    assert.equal(url.pathname, "/youtube/v3/channels");
+    assert.equal(url.searchParams.get("forHandle"), "@GoogleDevelopers");
+    assert.equal(url.searchParams.has("key"), false);
+    assert.equal(options.headers["x-goog-api-key"], youtubeEnv.HUELLA_YOUTUBE_API_KEY);
+    assert.equal(options.redirect, "manual");
+    return response;
+  });
+
+  const run = async bindings => {
+    const result = await serve(post(search, cookie), bindings, assets);
+    const body = await result.text();
+    assert.ok(!body.includes(youtubeEnv.HUELLA_YOUTUBE_API_KEY));
+    return JSON.parse(body).results.find(result => result.source === "YouTube · API oficial");
+  };
+  assert.equal(await run(env), undefined);
+  assert.equal(calls, 0);
+  assert.deepEqual(await run(youtubeEnv), {
+    source: "YouTube · API oficial", kind: "alias", category: "social", status: "verificado",
+    url: "https://www.youtube.com/channel/" + id, name: "Google for Developers", avatar,
+    detail: "YouTube devolvió un canal público para el identificador consultado."
+  });
+  response = Response.json({ items: [] });
+  assert.equal((await run(youtubeEnv)).status, "sin_resultado");
+  response = Response.json({ error: { message: "Acceso denegado" } }, { status: 403 });
+  assert.equal((await run(youtubeEnv)).status, "indeterminado");
+  response = Response.json({ items: [{ id, snippet: { title: "Otra cuenta", customUrl: "@otro" } }] });
+  assert.equal((await run(youtubeEnv)).status, "indeterminado");
+
+  const pageAssets = new Map(assets);
+  const template = readFileSync(new URL("../../cloudflare/huella/assets/index.html", import.meta.url), "utf8");
+  pageAssets.set("", [template, "text/html"]);
+  const page = await serve(get("", cookie), youtubeEnv, pageAssets);
+  const html = await page.text();
+  assert.match(html, /YouTube Data API · clave configurada/);
+  assert.doesNotMatch(html, /clave-local-de-prueba/);
+  assert.match(page.headers.get("content-security-policy"), /https:\/\/yt3\.googleusercontent\.com/);
+});

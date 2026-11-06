@@ -3,7 +3,10 @@ const part = encodeURIComponent;
 const missing = { status: "sin_resultado" };
 const unclear = { status: "indeterminado" };
 
+const youtubeAvatarPath = /^\/(?:ytc\/)?[a-z0-9_-]+(?:=[a-z0-9_-]+)?$/i;
 const AVATAR_PATHS = {
+  "yt3.ggpht.com": youtubeAvatarPath,
+  "yt3.googleusercontent.com": youtubeAvatarPath,
   "avatars.githubusercontent.com": /^\/u\/\d+$/,
   "0.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
   "gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
@@ -106,7 +109,24 @@ function tumblrProfile(body, alias) {
     ? { status: "verificado", url, detail: "La página pública de Tumblr declaró el mismo alias en sus metadatos." } : unclear;
 }
 
-export function publicProfileChecks(alias, upstream, email) {
+function youtubeChannel(data, alias) {
+  if (!Array.isArray(data?.items)) return unclear;
+  if (!data.items.length) return missing;
+  const [channel] = data.items;
+  const snippet = channel?.snippet;
+  if (data.items.length !== 1 || typeof channel?.id !== "string" ||
+      !/^UC[a-z0-9_-]{22}$/i.test(channel.id) || typeof snippet?.title !== "string") return unclear;
+  const handle = snippet.customUrl;
+  if (typeof handle === "string" && handle.startsWith("@") && !equals(handle.slice(1), alias)) return unclear;
+  const avatar = ["medium", "high", "default"].map(size => publicAvatar(snippet.thumbnails?.[size]?.url)).find(Boolean);
+  return {
+    status: "verificado", url: `https://www.youtube.com/channel/${channel.id}`,
+    name: snippet.title.slice(0, 120), avatar,
+    detail: "YouTube devolvió un canal público para el identificador consultado."
+  };
+}
+
+export function publicProfileChecks(alias, upstream, email, youtubeKey) {
   const safe = part(alias);
   const checks = [];
   const add = (source, url, parse, options) => {
@@ -133,6 +153,15 @@ export function publicProfileChecks(alias, upstream, email) {
   add("Wikidata · referencias de redes", query("https://query.wikidata.org/sparql", {
     query: wikidataQuery(alias), format: "json"
   }), data => wikidataProfiles(data, alias), { category: "social" });
+
+  if (youtubeKey && /^[a-z0-9][a-z0-9_.-]{1,28}[a-z0-9]$/i.test(alias)) {
+    add("YouTube · API oficial", query("https://www.googleapis.com/youtube/v3/channels", {
+      part: "snippet", forHandle: "@" + alias,
+      fields: "items(id,snippet(title,customUrl,thumbnails(default,medium,high)))"
+    }), data => youtubeChannel(data, alias), {
+      headers: { "x-goog-api-key": youtubeKey }, category: "social"
+    });
+  }
 
   add("Stack Overflow · nombre visible", query("https://api.stackexchange.com/2.3/users", {
     site: "stackoverflow", inname: alias, pagesize: "20"
