@@ -1,3 +1,4 @@
+import { catalogInfo, inspectCatalog } from "./catalog.js";
 import { adminMap } from "./admin-map.js";
 import { authorized, begin, complete, configured, signOut } from "./auth.js";
 
@@ -196,7 +197,7 @@ async function inspect({ domain, username, email }) {
   return { checkedAt: new Date().toISOString(), results };
 }
 
-async function readQuery(request) {
+async function readJson(request) {
   // Lee hasta 1 KiB también cuando el cliente omite Content-Length.
   const reader = request.body?.getReader();
   if (!reader) return null;
@@ -210,16 +211,27 @@ async function readQuery(request) {
     offset += value.length;
   }
   const input = JSON.parse(new TextDecoder().decode(bytes.subarray(0, offset)));
-  if (!input || typeof input !== "object") return null;
+  return input && typeof input === "object" && !Array.isArray(input) ? input : null;
+}
+
+function validAlias(username) {
+  return /^[a-z0-9](?:[a-z0-9_.-]{0,63}[a-z0-9_-])?$/i.test(username);
+}
+
+function readAlias(value) {
+  return typeof value === "string" ? value.trim().replace(/^@/, "") : "";
+}
+
+function readQuery(input) {
   const domain = typeof input.domain === "string" ? input.domain.trim().toLowerCase() : "";
-  const username = typeof input.username === "string" ? input.username.trim().replace(/^@/, "") : "";
+  const username = readAlias(input.username);
   const email = typeof input.email === "string" ? input.email.trim() : "";
   if ("email" in input && (!email || input.searchEmail !== true || email.length > 254 ||
       !/^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*@[a-z0-9.-]+$/i.test(email) ||
       email.indexOf("@") > 64 || email.split("@")[1].toLowerCase() !== domain)) return null;
   if (!domain && !username) return null;
   if (domain && (domain.length > 253 || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(domain))) return null;
-  if (username && !/^[a-z0-9](?:[a-z0-9_.-]{0,63}[a-z0-9_-])?$/i.test(username)) return null;
+  if (username && !validAlias(username)) return null;
   return { domain, username, email };
 }
 
@@ -266,19 +278,30 @@ export async function serve(request, env, assets) {
   if (route === "sesion" && request.method === "GET") {
     return new Response(null, { status: 204, headers: { ...HEADERS, "X-Dominus-Huella": "admin" } });
   }
-  if (route === "consulta" && request.method === "POST") {
+  if ((route === "consulta" || route === "consulta/catalogo") && request.method === "POST") {
     if (request.headers.get("Origin") !== url.origin ||
         request.headers.get("Content-Type")?.split(";")[0] !== "application/json") {
       return json({ error: "Origen o formato de solicitud inválido." }, 403);
     }
-    const query = await readQuery(request).catch(() => null);
+    const input = await readJson(request).catch(() => null);
+    if (!input) return json({ error: "Solicitud inválida." }, 400);
+    if (route === "consulta/catalogo") {
+      const username = readAlias(input.username);
+      if (!validAlias(username) || Object.keys(input).some(key => key !== "username" && key !== "offset")) {
+        return json({ error: "El catálogo requiere un alias válido." }, 400);
+      }
+      const batch = await inspectCatalog(username, input.offset);
+      return batch ? json(batch) : json({ error: "Lote inválido." }, 400);
+    }
+    const query = readQuery(input);
     if (!query) return json({ error: "Indica un dominio, correo o alias válido." }, 400);
-    return json(await inspect(query));
+    return json({ ...await inspect(query), catalog: query.username ? catalogInfo : undefined });
   }
   const asset = assets.get(route);
   if (asset && request.method === "GET") {
     const [body, type] = asset;
-    return new Response(body, { headers: { ...HEADERS, "Content-Type": type } });
+    return new Response(route === "" ? body.replace("{{catalogTotal}}", String(catalogInfo.total)) : body,
+      { headers: { ...HEADERS, "Content-Type": type } });
   }
   return json({ error: "Ruta inexistente" }, 404);
 }

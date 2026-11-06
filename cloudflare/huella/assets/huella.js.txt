@@ -2,10 +2,12 @@ const $ = (id) => document.getElementById(id);
 const form = $("consulta");
 const status = $("estado");
 const results = $("resultados");
+const catalogResults = $("resultados-catalogo");
 const search = $("buscar");
 const labels = {
   verificado: "Verificado en la fuente",
   encontrado: "Registrado en el catálogo",
+  indicio: "Indicio de perfil",
   sin_resultado: "Sin resultado",
   indeterminado: "No concluyente",
   limitado: "No concluyente · límite del proveedor"
@@ -63,11 +65,76 @@ function render(group, result) {
     }
   }
   if (result.url) {
-    const link = element(card, "a", "Abrir perfil público");
+    const link = element(card, "a", result.kind === "catalogo" ? "Revisar página en la fuente" : "Abrir perfil público");
     link.href = result.url;
     link.target = "_blank";
     link.rel = "noopener noreferrer";
   }
+}
+
+function renderGroup(parent, title, entries) {
+  if (!entries.length) return;
+  const matched = entries.filter(result => ["verificado", "encontrado", "indicio"].includes(result.status));
+  const other = entries.filter(result => !matched.includes(result));
+  const section = element(parent, "section", "");
+  element(section, "h3", `${title} · ${matched.length} de ${entries.length} con resultado`);
+  if (matched.length) {
+    const group = element(section, "div", "", "grid");
+    for (const result of matched) render(group, result);
+  }
+  if (other.length) {
+    const details = element(section, "details", "");
+    element(details, "summary", `Ver las otras ${other.length} comprobaciones`);
+    const group = element(details, "div", "", "grid");
+    for (const result of other) render(group, result);
+  }
+}
+
+async function runCatalog(username, { total, batchSize }, signal, directResults) {
+  const resultsByOffset = new Map();
+  const profileLinks = new Set(directResults.flatMap(result => result.declaredProfiles || []));
+  let nextOffset = 0;
+  let completed = 0;
+  let expired = false;
+  const run = async () => {
+    while (!signal.aborted && !expired && nextOffset < total) {
+      const offset = nextOffset;
+      nextOffset += batchSize;
+      try {
+        const response = await fetch("consulta/catalogo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ username, offset }),
+          signal,
+          redirect: "error",
+          cache: "no-store"
+        });
+        if (response.status === 403) expired = true;
+        if (response.ok) {
+          const batch = await response.json();
+          if (!signal.aborted && batch.offset === offset && Array.isArray(batch.results)) {
+            resultsByOffset.set(offset, batch.results);
+            completed += batch.results.length;
+          }
+        }
+      } catch {
+        // Continúa con los demás lotes si la conexión de uno falla.
+      }
+      if (!signal.aborted) status.textContent = `Catálogo ampliado · ${completed} de ${total} fuentes procesadas.`;
+    }
+  };
+  await Promise.all([run(), run()]);
+  if (signal.aborted) return;
+  const entries = [...resultsByOffset.keys()].sort((a, b) => a - b).flatMap(offset => resultsByOffset.get(offset));
+  for (const result of entries) {
+    if (result.status === "indicio" && profileLinks.has(result.url.replace(/\/$/, ""))) {
+      result.correlation = "Gravatar publica un enlace visible a esta misma página.";
+    }
+  }
+  renderGroup(catalogResults, "Catálogo ampliado", entries);
+  status.textContent = expired ? "La sesión venció durante el catálogo. Los resultados completados siguen visibles." :
+    `Catálogo ampliado · ${completed} de ${total} fuentes procesadas.` +
+    (completed < total ? ` Quedaron ${total - completed} sin procesar.` : "");
 }
 
 form.addEventListener("submit", async (event) => {
@@ -78,6 +145,11 @@ form.addEventListener("submit", async (event) => {
   const [local, domain] = input.includes("@") ? input.split("@") : ["", input];
   if (input.includes("@") && (!local || !domain || input.indexOf("@") !== input.lastIndexOf("@"))) {
     status.textContent = "Revisa el formato del correo.";
+    return;
+  }
+  const expand = $("catalogo-ampliado").checked;
+  if (expand && !username) {
+    status.textContent = "Escribe un alias público para consultar el catálogo ampliado.";
     return;
   }
   const query = { domain, username };
@@ -93,6 +165,7 @@ form.addEventListener("submit", async (event) => {
   search.disabled = true;
   $("hallazgos").hidden = true;
   results.replaceChildren();
+  catalogResults.replaceChildren();
   status.textContent = "Consultando fuentes públicas…";
   try {
     const response = await fetch("consulta", {
@@ -115,26 +188,12 @@ form.addEventListener("submit", async (event) => {
       ["dominio", "Dominio"]
     ];
     for (const [kind, title] of groups) {
-      const entries = data.results.filter(result => result.kind === kind);
-      if (!entries.length) continue;
-      const matched = entries.filter(result => ["verificado", "encontrado"].includes(result.status));
-      const pending = entries.filter(result => !matched.includes(result));
-      const section = element(results, "section", "");
-      element(section, "h3", `${title} · ${matched.length} de ${entries.length} con resultado`);
-      if (matched.length) {
-        const group = element(section, "div", "", "grid");
-        for (const result of matched) render(group, result);
-      }
-      if (pending.length) {
-        const details = element(section, "details", "");
-        element(details, "summary", `Ver las otras ${pending.length} comprobaciones`);
-        const group = element(details, "div", "", "grid");
-        for (const result of pending) render(group, result);
-      }
+      renderGroup(results, title, data.results.filter(result => result.kind === kind));
     }
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
-    status.textContent = `${data.results.length} comprobaciones terminadas.`;
+    status.textContent = `${data.results.length} comprobaciones directas terminadas.`;
+    if (expand && data.catalog) await runCatalog(username, data.catalog, current.signal, data.results);
   } catch {
     if (!current.signal.aborted) status.textContent = "No se pudo completar la consulta. Comprueba la conexión y tu sesión.";
   } finally {
@@ -151,6 +210,7 @@ form.addEventListener("reset", () => {
   search.disabled = false;
   $("hallazgos").hidden = true;
   results.replaceChildren();
+  catalogResults.replaceChildren();
   status.textContent = "Consulta y resultados borrados de la pantalla.";
 });
 search.disabled = false;

@@ -1,6 +1,8 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { catalog } from "../../cloudflare/huella/catalog-data.js";
+import { catalogInfo } from "../../cloudflare/huella/catalog.js";
 import { serve } from "../../cloudflare/huella/service.js";
 
 const origin = "https://dominus.example";
@@ -339,4 +341,63 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
   assert.ok(max > 1 && max <= 6, `Conexiones concurrentes observadas: ${max}`);
   assert.equal(seen.has("www.linkedin.com"), false);
   assert.ok(!JSON.stringify(results).includes(email));
+});
+
+test("el catálogo supera 100 destinos HTTPS y opera en lotes autenticados sin reenviar correos", async (t) => {
+  const { cookie } = await signIn(t);
+  const url = root + "consulta/catalogo";
+  const request = (value, session = cookie, originOverride = origin) => new Request(url, {
+    method: "POST", headers: { Origin: originOverride, Cookie: session, "Content-Type": "application/json" },
+    body: JSON.stringify(value)
+  });
+  const hosts = catalog.map(([, , target, link]) => {
+    for (const template of [target, link || target]) {
+      const parsed = new URL(template.replace("{account}", "demo-qa"));
+      assert.equal(parsed.protocol, "https:");
+      assert.equal(parsed.username + parsed.password + parsed.port + parsed.hash, "");
+      assert.match(parsed.hostname, /^[a-z0-9][a-z0-9.-]+\.[a-z]{2,}$/i);
+      assert.ok(parsed.href.includes("demo-qa"));
+    }
+    return new URL((link || target).replace("{account}", "demo-qa")).hostname.replace(/^www\./, "");
+  });
+  assert.equal(new Set(hosts).size, catalogInfo.total);
+  assert.ok(catalogInfo.total > 100);
+
+  let requests = 0;
+  t.mock.method(globalThis, "fetch", async (target, options) => {
+    const index = catalog.findIndex(rule => rule[2].replace("{account}", "demo-qa") === target);
+    assert.ok(index >= 0);
+    assert.equal(options.redirect, "manual");
+    assert.equal(options.headers.Cookie, undefined);
+    requests++;
+    const [, , , , positive, missingCode, negative] = catalog[index];
+    if (index === 0) return new Response(positive);
+    if (index === 1) return new Response(negative, { status: missingCode });
+    if (index === 2) return new Response(positive, { status: 302, headers: { Location: "https://example.org/" } });
+    if (index === 3) return new Response(positive, { status: 429 });
+    if (index === 4) return new Response("x".repeat(200 * 1024) + positive);
+    return new Response("respuesta inesperada");
+  });
+
+  const query = { username: "@demo-qa", offset: 0 };
+  assert.equal((await serve(request(query, ""), env, assets)).status, 403);
+  assert.equal((await serve(request(query, cookie, "https://otra.example"), env, assets)).status, 403);
+  for (const value of [{ ...query, offset: 1 }, { ...query, email: "qa@example.org" },
+    { ...query, username: "../../admin" }, { ...query, url: "https://otra.example" }]) {
+    assert.equal((await serve(request(value), env, assets)).status, 400);
+  }
+  assert.equal(requests, 0);
+
+  const first = await serve(request(query), env, assets);
+  const { results } = await first.json();
+  assert.equal(results.length, catalogInfo.batchSize);
+  assert.deepEqual(results.slice(0, 5).map(entry => entry.status),
+    ["indicio", "sin_resultado", "indeterminado", "limitado", "indeterminado"]);
+  assert.ok(results.every(entry => entry.kind === "catalogo"));
+  assert.ok(results.every(entry => !("body" in entry)));
+
+  const lastOffset = Math.floor((catalogInfo.total - 1) / catalogInfo.batchSize) * catalogInfo.batchSize;
+  const last = await serve(request({ ...query, offset: lastOffset }), env, assets);
+  assert.equal((await last.json()).results.length, catalogInfo.total - lastOffset);
+  assert.equal(requests, catalogInfo.batchSize + catalogInfo.total - lastOffset);
 });
