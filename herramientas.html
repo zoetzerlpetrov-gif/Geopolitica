@@ -14,6 +14,9 @@
     .hz { max-width: 1040px; margin: 0 auto; padding: 16px; }
     .hz h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
     .hz h3 { font-size: 15px; margin: 14px 0 4px; }
+    .hz details.tarjeta > summary { cursor: pointer; min-height: 28px; }
+    .hz details.tarjeta > summary h3 { margin: 0; }
+    .hz details.tarjeta > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
     .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
     .pestanas button { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
     .pestanas button[aria-selected="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
@@ -53,9 +56,11 @@
       <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
       <button role="tab" aria-selected="false" data-p="agencias">🏛️ Agencias: redes, certificados, casos y oficios</button>
     </nav>
+    <p class="meta">Selecciona el título de una herramienta para abrirla. Vuelve a seleccionar el título para plegarla.</p>
 
     <section class="panel" id="p-archivos">
       <h2>Auditoría de archivos</h2>
+      <details class="tarjeta plegable"><summary><h3>Revisar archivos y descargar informe</h3></summary>
       <p class="meta">Elige uno o varios archivos (PDF, Word, Excel, PowerPoint, OpenDocument, ZIP, imágenes, ejecutables, texto…). Para cada uno se revisa:
         qué es de verdad (por sus primeros bytes, no por la extensión), su huella SHA-256 y SHA-1, la entropía, los metadatos (autor, empresa, programa, fechas),
         macros, JavaScript, vínculos externos, objetos incrustados, hojas ocultas y los indicadores (URL, correos, IP) que contiene.</p>
@@ -63,11 +68,12 @@
       <div id="aud-res" aria-live="polite"></div>
       <p class="meta">Para fotos (EXIF, GPS, posible IA o edición) usa también «Foto: metadatos y análisis forense» en el menú Herramientas del mapa. Referencias:
         ISO/IEC 27037 (identificación y preservación de evidencia digital), NIST SP 800-86 (forense en respuesta a incidentes), NIST SP 800-83 (malware).</p>
+      </details>
     </section>
 
     <section class="panel" id="p-informatica" hidden>
       <h2>Informática y ciberseguridad</h2>
-      <div class="tarjeta"><h3>🛡️ Vulnerabilidades críticas recientes (NVD, CISA KEV y EPSS)</h3>
+      <details class="tarjeta plegable"><summary><h3>🛡️ Vulnerabilidades críticas recientes (NVD, CISA KEV y EPSS)</h3></summary>
         <p class="meta">CVE críticos (CVSS ≥ 9) publicados en los últimos 30 días según NVD (NIST), más los que CISA agregó a su catálogo de vulnerabilidades explotadas activamente (KEV) en 60 días.
           EPSS es la probabilidad estimada de que se explote en los próximos 30 días (FIRST). Se actualiza cada 6 horas. Busca por producto o proveedor: php, gitlab, litellm, fortinet, cisco…</p>
         <div class="barra"><input id="vul-q" placeholder="Producto, proveedor o CVE" aria-label="Buscar vulnerabilidad" style="min-width:240px">
@@ -75,61 +81,63 @@
           <label>CVSS mínimo <select id="vul-cvss"><option value="0">cualquiera</option><option value="9" selected>9.0</option><option value="9.5">9.5</option><option value="10">10</option></select></label>
           <label>EPSS mínimo <select id="vul-epss"><option value="0" selected>cualquiera</option><option value="0.1">10 %</option><option value="0.5">50 %</option></select></label><button type="button" class="btn-limpiar" data-limpiar="vul-q" title="Borrar lo escrito y el resultado">✕ Limpiar</button><span id="vul-exp"></span></div>
         <p class="meta" id="vul-estado"></p><div class="desliza"><table class="t" id="vul-tabla"></table></div>
-        <p class="meta">Qué hacer: 1) inventario de activos (¿usamos ese producto y versión?), 2) parche o mitigación del proveedor, 3) priorizar KEV y EPSS alto, 4) buscar indicios de explotación en registros. Referencias: NIST SP 800-40 (parches), CISA BOD 22-01, ISO/IEC 27002 control 8.8.</p></div>
-      <div class="tarjeta"><h3>🔎 Extraer indicadores (IOC) de un texto</h3>
+        <p class="meta">Qué hacer: 1) inventario de activos (¿usamos ese producto y versión?), 2) parche o mitigación del proveedor, 3) priorizar KEV y EPSS alto, 4) buscar indicios de explotación en registros. Referencias: NIST SP 800-40 (parches), CISA BOD 22-01, ISO/IEC 27002 control 8.8.</p></details>
+      <details class="tarjeta plegable"><summary><h3>🔎 Extraer indicadores (IOC) de un texto</h3></summary>
         <p class="meta">Pega un informe, un correo o un registro. Saca URL, dominios, IP, correos, hashes, CVE y carteras de Bitcoin. Acepta texto «desactivado» (hxxp, [.]).</p>
         <textarea id="ioc-texto" aria-label="Texto con indicadores"></textarea>
         <div class="barra"><button type="button" id="ioc-btn">Extraer</button><button type="button" id="ioc-defang">Desactivar (defang) para compartir</button><button type="button" id="ioc-refang">Reactivar (refang)</button><button type="button" class="btn-limpiar" data-limpiar="ioc-texto ioc-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
-        <div id="ioc-res"></div></div>
-      <div class="tarjeta"><h3>✉️ Encabezados de un correo sospechoso</h3>
+        <div id="ioc-res"></div></details>
+      <details class="tarjeta plegable"><summary><h3>✉️ Encabezados de un correo sospechoso</h3></summary>
         <p class="meta">En Gmail: ⋮ → «Mostrar original». En Outlook: Archivo → Propiedades → «Encabezados de Internet». Copia y pega aquí todo el bloque.</p>
         <textarea id="enc-texto" aria-label="Encabezados del correo"></textarea>
-        <div class="barra"><button type="button" id="enc-btn">Analizar</button><button type="button" class="btn-limpiar" data-limpiar="enc-texto enc-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div><div id="enc-res"></div></div>
-      <div class="tarjeta"><h3>🌐 DNS y correo de un dominio</h3>
+        <div class="barra"><button type="button" id="enc-btn">Analizar</button><button type="button" class="btn-limpiar" data-limpiar="enc-texto enc-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div><div id="enc-res"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🌐 DNS y correo de un dominio</h3></summary>
         <p class="meta">Consulta los registros públicos (A, AAAA, MX, NS, TXT, CAA y la política DMARC) con DNS sobre HTTPS de Google (dns.google): solo se envía el nombre del dominio.</p>
         <div class="barra"><input type="text" id="dns-dominio" placeholder="ejemplo.com.mx" aria-label="Dominio" style="max-width:320px"><button type="button" id="dns-btn">Consultar</button><button type="button" class="btn-limpiar" data-limpiar="dns-dominio dns-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
-        <div id="dns-res"></div></div>
-      <div class="tarjeta"><h3>🔐 Huella (hash), Base64 y JWT</h3>
+        <div id="dns-res"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🔐 Huella (hash), Base64 y JWT</h3></summary>
         <textarea id="cod-texto" aria-label="Texto a convertir"></textarea>
         <div class="barra"><button type="button" data-cod="sha256">SHA-256</button><button type="button" data-cod="sha1">SHA-1</button><button type="button" data-cod="sha512">SHA-512</button>
           <button type="button" data-cod="b64">→ Base64</button><button type="button" data-cod="deb64">Base64 →</button><button type="button" data-cod="url">Decodificar URL</button><button type="button" data-cod="jwt">Leer JWT</button><button type="button" class="btn-limpiar" data-limpiar="cod-texto cod-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
-        <div id="cod-res" class="mono"></div></div>
-      <div class="tarjeta"><h3>📚 Consultas externas útiles (se abren en su sitio)</h3><ul id="enlaces-ti" class="fuentes"></ul></div>
+        <div id="cod-res" class="mono"></div></details>
+      <details class="tarjeta plegable"><summary><h3>📚 Consultas externas útiles (se abren en su sitio)</h3></summary><ul id="enlaces-ti" class="fuentes"></ul></details>
     </section>
 
     <section class="panel" id="p-analisis" hidden>
       <h2>Análisis de inteligencia</h2>
-      <div class="tarjeta"><h3>🎯 Lenguaje de probabilidad (ICD 203)</h3>
+      <details class="tarjeta plegable"><summary><h3>🎯 Lenguaje de probabilidad (ICD 203)</h3></summary>
         <p class="meta">La directiva ICD 203 de la comunidad de inteligencia de EUA pide expresar la probabilidad con palabras fijas, para que «probable» signifique lo mismo para todos.</p>
         <div class="barra"><input type="range" id="icd-pct" min="1" max="99" value="70" aria-label="Probabilidad en %" style="flex:1"><b id="icd-txt"></b></div>
-        <div class="desliza"><table class="t" id="icd-tabla"></table></div></div>
-      <div class="tarjeta"><h3>⚖️ Análisis de hipótesis en competencia (ACH)</h3>
+        <div class="desliza"><table class="t" id="icd-tabla"></table></div></details>
+      <details class="tarjeta plegable"><summary><h3>⚖️ Análisis de hipótesis en competencia (ACH)</h3></summary>
         <p class="meta">Método de Richards Heuer (CIA). Escribe hipótesis que se excluyan entre sí y la evidencia. Califica cada celda: CC muy consistente, C consistente, N neutral,
           I inconsistente, II muy inconsistente. Gana la hipótesis con <b>menos</b> evidencia en contra, no la que tiene más a favor. Se guarda en este navegador.</p>
         <div class="barra"><input type="text" id="ach-pregunta" placeholder="Pregunta de inteligencia (p. ej. ¿Por qué cayó la producción en la planta X?)" style="flex:1 1 320px">
           <button type="button" id="ach-ia">🤖 Sugerir hipótesis y evidencia con IA</button></div>
         <div id="ach-ia-res" class="tarjeta" hidden style="white-space:pre-wrap"></div>
         <div class="barra"><button type="button" id="ach-h">+ Hipótesis</button><button type="button" id="ach-e">+ Evidencia</button><button type="button" id="ach-md">Copiar como Markdown</button><button type="button" id="ach-limpiar">Vaciar</button></div>
-        <div class="desliza"><table class="t" id="ach-tabla"></table></div><div id="ach-res"></div></div>
-      <div class="tarjeta"><h3>🏷️ Calificar fuente e información (escala del Almirantazgo/OTAN)</h3><div id="escala"></div></div>
-      <div class="tarjeta"><h3>🛡️ CARVER defensivo: qué activos propios proteger primero</h3>
+        <div class="desliza"><table class="t" id="ach-tabla"></table></div><div id="ach-res"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🏷️ Calificar fuente e información (escala del Almirantazgo/OTAN)</h3></summary><div id="escala"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🛡️ CARVER defensivo: qué activos propios proteger primero</h3></summary>
         <p class="meta">Califica de 1 a 10 cada activo de tu organización. Mientras más alto el total, antes conviene protegerlo (ISO 31000, ISO 22301). Se guarda en este navegador.</p>
         <div class="barra"><button type="button" id="carver-mas">+ Activo</button></div>
-        <div class="desliza"><table class="t" id="carver-tabla"></table></div></div>
-      <div class="tarjeta"><h3>👥 Mapa de actores: poder e interés</h3>
+        <div class="desliza"><table class="t" id="carver-tabla"></table></div></details>
+      <details class="tarjeta plegable"><summary><h3>👥 Mapa de actores: poder e interés</h3></summary>
         <p class="meta">Instituciones, empresas, grupos u organismos (no personas privadas). Poder e interés de 1 a 5.</p>
         <div class="barra"><button type="button" id="act-mas">+ Actor</button></div>
-        <div class="desliza"><table class="t" id="act-tabla"></table></div></div>
+        <div class="desliza"><table class="t" id="act-tabla"></table></div></details>
     </section>
 
     <section class="panel" id="p-marcos" hidden>
       <h2>Marcos de análisis</h2>
+      <details class="tarjeta plegable"><summary><h3>Elegir y completar un marco de análisis</h3></summary>
       <p class="meta">Plantillas usadas en planeación militar (doctrina de EUA y OTAN), análisis político y estrategia corporativa. Elige una, llénala y descárgala.
         Se guarda en este navegador mientras escribes.</p>
       <div class="barra"><select id="marco-sel" aria-label="Marco" style="max-width:420px"></select><input type="text" id="marco-titulo" placeholder="Título (p. ej. Venezuela, octubre 2026)" aria-label="Título" style="max-width:360px">
         <button type="button" id="marco-md">Descargar Markdown</button><button type="button" id="marco-limpiar">Vaciar</button></div>
       <p class="meta" id="marco-uso"></p>
       <div id="marco-campos"></div>
+      </details>
     </section>
     <section class="panel" id="p-auditorias" hidden>
       <h2>Plantillas de auditoría por sector</h2>
@@ -138,10 +146,12 @@
         Lo que captures se guarda solo en este navegador.</p>
       <div class="barra"><select id="aud-sector" aria-label="Sector" style="max-width:420px"></select>
         <button type="button" id="aud-informe">Descargar informe (Markdown)</button><button type="button" id="aud-vaciar">Vaciar este sector</button></div>
-      <div class="tarjeta"><div class="cp-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px">
+      <details class="tarjeta plegable"><summary><h3>Datos de la auditoría y cumplimiento global</h3></summary>
+      <div class="cp-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px">
         <label>Empresa <input type="text" id="aud-empresa" maxlength="120"></label><label>Alcance <input type="text" id="aud-alcance" maxlength="200" placeholder="Planta Saltillo, 2025"></label>
-        <label>Auditor(es) <input type="text" id="aud-auditor" maxlength="120"></label><label>Fecha <input type="text" id="aud-fecha" maxlength="10" placeholder="AAAA-MM-DD"></label></div></div>
+        <label>Auditor(es) <input type="text" id="aud-auditor" maxlength="120"></label><label>Fecha <input type="text" id="aud-fecha" maxlength="10" placeholder="AAAA-MM-DD"></label></div>
       <div id="aud-resumen"></div>
+      </details>
       <details class="tarjeta"><summary><b>Método (ISO 19011:2018) y normas del sector</b></summary><div id="aud-metodo"></div></details>
       <div id="aud-areas"></div>
     </section>
@@ -152,9 +162,11 @@
         Revisado en octubre de 2026 con fuentes públicas; lo marcado «verificar» no se pudo confirmar en la fuente oficial. Confirma la versión vigente antes de emitir un informe.</p>
       <div class="barra"><select id="nor-jur" aria-label="Jurisdicción"></select><select id="nor-sector" aria-label="Sector"></select>
         <input type="search" id="nor-q" placeholder="Buscar: CFDI, datos personales, REPSE, GDPR…" aria-label="Buscar en la normativa" style="min-width:240px"><button type="button" class="btn-limpiar" data-limpiar="nor-q" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
+      <details class="tarjeta plegable"><summary><h3>Resumen de cumplimiento</h3></summary>
       <div id="nor-resumen" class="tarjeta"></div>
-      <div class="barra"><span id="nor-exp"></span><button type="button" id="nor-cal">📅 Calendario de trámites</button><button type="button" id="nor-vaciar">Vaciar respuestas de esta jurisdicción</button></div>
-      <div id="nor-calendario" hidden></div>
+      </details>
+      <div class="barra"><span id="nor-exp"></span><button type="button" id="nor-vaciar">Vaciar respuestas de esta jurisdicción</button></div>
+      <details class="tarjeta plegable" id="nor-cal"><summary><h3>📅 Calendario de trámites</h3></summary><div id="nor-calendario"></div></details>
       <div id="nor-leyes"></div>
       <p class="meta" id="nor-fuentes"></p>
     </section>
@@ -169,39 +181,42 @@
       <h2>Nube y seguridad: autoevaluación</h2>
       <p class="meta">Responde cada control (Sí, Parcial, No, No aplica). El resultado se agrupa en las seis funciones del NIST Cybersecurity Framework 2.0.
         Las referencias apuntan a CIS Controls v8.1, CIS Benchmarks, CSA Cloud Controls Matrix (CCM) e ISO/IEC 27017. Se guarda solo en este navegador.</p>
-      <div id="nube-res" class="tarjeta"></div>
+      <details class="tarjeta plegable"><summary><h3>Resultados de la autoevaluación</h3></summary>
+      <div id="nube-res"></div>
       <div class="barra"><button type="button" id="nube-md">Descargar resultado (Markdown)</button><button type="button" id="nube-vaciar">Vaciar</button></div>
+      </details>
       <div id="nube-ctl"></div>
-      <h2>Responsabilidad compartida</h2>
+      <details class="tarjeta plegable"><summary><h3>Responsabilidad compartida</h3></summary>
       <div class="desliza"><table class="t" id="nube-resp"></table></div>
       <p class="meta">Regla práctica: en cualquier modelo, los datos y las identidades siempre son responsabilidad del cliente. La mayoría de las filtraciones en la nube vienen de configuraciones del cliente, no del proveedor.</p>
+      </details>
     </section>
     <section class="panel" id="p-agencias" hidden>
       <h2>Herramientas para equipos de seguridad, TI y administración</h2>
       <p class="meta">Para inventariar lo que una organización expone en internet, ordenar un caso y llevar los plazos de los oficios. Ninguna herramienta localiza ni sigue a personas:
         se consultan dominios y redes (registros técnicos públicos) y lo que capturas se queda en este navegador.</p>
-      <div class="tarjeta"><h3>📜 Certificados emitidos para un dominio (Certificate Transparency)</h3>
+      <details class="tarjeta plegable"><summary><h3>📜 Certificados emitidos para un dominio (Certificate Transparency)</h3></summary>
         <p class="meta">Todo certificado HTTPS público queda en registros abiertos. Sirve para ver los subdominios que tu organización expone, quién emite sus certificados,
           cuáles vencen pronto y detectar certificados que nadie pidió (posible suplantación). Consulta Cert Spotter (SSLMate): solo se envía el nombre del dominio; límite gratuito de unas 75 consultas por hora.</p>
         <div class="barra"><input type="text" id="ct-dominio" placeholder="dependencia.gob.mx" aria-label="Dominio" style="max-width:320px"><button type="button" id="ct-btn">Consultar</button><button type="button" class="btn-limpiar" data-limpiar="ct-dominio ct-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
-        <div id="ct-res" aria-live="polite"></div></div>
-      <div class="tarjeta"><h3>🛰️ IP, sistema autónomo (ASN) y redes de una organización</h3>
+        <div id="ct-res" aria-live="polite"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🛰️ IP, sistema autónomo (ASN) y redes de una organización</h3></summary>
         <p class="meta">Escribe una IP (de un servidor, no de una persona) o un número de sistema autónomo (AS8151, AS28548…). Se consulta RIPEstat con datos públicos de los registros de internet (LACNIC, ARIN, RIPE…):
           qué red anuncia esa IP, quién es el titular y qué bloques de direcciones anuncia. Útil para saber si un servidor sospechoso está en una nube, un proveedor local o una red del gobierno.</p>
         <div class="barra"><input type="text" id="red-q" placeholder="8.8.8.8 o AS8151" aria-label="IP o ASN" style="max-width:240px"><button type="button" id="red-btn">Consultar</button><button type="button" class="btn-limpiar" data-limpiar="red-q red-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
-        <div id="red-res" aria-live="polite"></div></div>
-      <div class="tarjeta"><h3>🧮 Calculadora de subredes IPv4 (CIDR)</h3>
+        <div id="red-res" aria-live="polite"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🧮 Calculadora de subredes IPv4 (CIDR)</h3></summary>
         <div class="barra"><input type="text" id="cidr-q" placeholder="192.168.10.37/27" aria-label="Dirección con prefijo" style="max-width:220px"><button type="button" id="cidr-btn">Calcular</button></div>
-        <div id="cidr-res"></div></div>
-      <div class="tarjeta"><h3>🗓️ Cronología del caso</h3>
+        <div id="cidr-res"></div></details>
+      <details class="tarjeta plegable"><summary><h3>🗓️ Cronología del caso</h3></summary>
         <p class="meta">Ordena los hechos por fecha con su fuente y nivel de confianza; señala huecos de 7 días o más (donde falta información). Se guarda en este navegador; descarga el CSV para respaldar.</p>
         <div class="barra"><input type="date" id="cro-fecha" aria-label="Fecha"><input type="time" id="cro-hora" aria-label="Hora (opcional)">
           <input type="text" id="cro-hecho" placeholder="Qué pasó" aria-label="Hecho" maxlength="500" style="min-width:240px"><input type="text" id="cro-fuente" placeholder="Fuente o evidencia" aria-label="Fuente" maxlength="300">
           <select id="cro-conf" aria-label="Confianza"><option value="alta">Confianza alta</option><option value="media" selected>Confianza media</option><option value="baja">Confianza baja</option></select>
           <button type="button" id="cro-agregar">Agregar</button></div>
         <div id="cro-res"></div>
-        <div class="barra"><button type="button" id="cro-csv">Descargar CSV</button><button type="button" id="cro-vaciar">Vaciar cronología</button></div></div>
-      <div class="tarjeta"><h3>📨 Control de oficios y plazos (días hábiles de México)</h3>
+        <div class="barra"><button type="button" id="cro-csv">Descargar CSV</button><button type="button" id="cro-vaciar">Vaciar cronología</button></div></details>
+      <details class="tarjeta plegable"><summary><h3>📨 Control de oficios y plazos (días hábiles de México)</h3></summary>
         <p class="meta">Registra cada oficio o solicitud con el plazo en días hábiles: calcula la fecha límite sin sábados, domingos ni los días de descanso de la Ley Federal del Trabajo (art. 74),
           y pinta un semáforo. Agrega los días inhábiles que publique tu dependencia en el DOF (p. ej. Semana Santa o el 2 de noviembre). Se guarda en este navegador.</p>
         <div class="barra"><input type="text" id="of-folio" placeholder="Folio" aria-label="Folio" maxlength="60" style="max-width:140px"><input type="date" id="of-recibido" aria-label="Fecha de recepción">
@@ -212,10 +227,10 @@
         <div class="desliza"><table class="t" id="of-tabla"></table></div>
         <div class="barra"><button type="button" id="of-csv">Descargar CSV</button></div>
         <p class="meta">Base legal de referencia: Ley Federal de Procedimiento Administrativo (arts. 28 y 17: los plazos se cuentan en días hábiles y, si la ley no fija otro, la autoridad tiene hasta 3 meses para resolver),
-          Ley General de Transparencia (20 días hábiles para responder solicitudes de información) y Ley General de Archivos (control de gestión documental).</p></div>
+          Ley General de Transparencia (20 días hábiles para responder solicitudes de información) y Ley General de Archivos (control de gestión documental).</p></details>
     </section>
   </main>
-  <script type="module" src="js/herramientas.js"></script>
+  <script type="module" src="js/herramientas.js?v=plegables"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>

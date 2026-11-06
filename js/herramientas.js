@@ -367,7 +367,7 @@ function pintarNube() {
     `<td class="${p[k] == null ? "" : p[k] >= 80 ? "ok" : p[k] >= 50 ? "bajo" : "alto"}">${p[k] == null ? "—" : `${p[k]} %`}</td>`).join("")}</tr></table></div>
     <p class="meta">${Object.keys(nube).length} de ${H.CONTROLES_NUBE.length} controles respondidos. Prioriza los «No» de Proteger y Detectar: son los que más incidentes evitan.</p>`;
 }
-$("nube-ctl").innerHTML = Object.entries(H.FUNCIONES_CSF).map(([k, nombre]) => `<details class="tarjeta" open><summary><b>${k} · ${nombre}</b></summary>${H.CONTROLES_NUBE.map(([f, c, r], i) => f !== k ? "" :
+$("nube-ctl").innerHTML = Object.entries(H.FUNCIONES_CSF).map(([k, nombre]) => `<details class="tarjeta plegable"><summary><b>${k} · ${nombre}</b></summary>${H.CONTROLES_NUBE.map(([f, c, r], i) => f !== k ? "" :
   `<div class="barra" style="justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:6px"><span style="flex:1 1 360px">${esc(c)}<br><span class="meta">${esc(r)}</span></span>
    <select data-nube="${i}" aria-label="Respuesta"><option value="">—</option>${RESP_N.map(([v, n]) => `<option value="${v}" ${nube[i] === v ? "selected" : ""}>${n}</option>`).join("")}</select></div>`).join("")}</details>`).join("");
 $("nube-ctl").addEventListener("change", (e) => { const i = e.target.dataset.nube; if (i === undefined) return; if (e.target.value) nube[i] = e.target.value; else delete nube[i]; pintarNube(); });
@@ -432,7 +432,7 @@ pintarNube();
       </details>`;
     }).join("") || `<p class="meta">Sin coincidencias.</p>`;
     $("nor-fuentes").innerHTML = `${esc(n.nota || "")} ${(n.fuentes_oficiales || []).length ? `Fuentes oficiales: ${n.fuentes_oficiales.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`).join(" · ")}` : ""}`;
-    $("nor-calendario").hidden = true;
+    if ($("nor-cal").open) pintarCalendario();
     resumenN();
   }
   $("p-normativa").addEventListener("change", (e) => {
@@ -443,11 +443,11 @@ pintarNube();
   });
   $("nor-jur").onchange = () => { pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
   let tq = 0; $("nor-q").oninput = () => { clearTimeout(tq); tq = setTimeout(pintarN, 250); };
-  $("nor-cal").onclick = () => {
+  function pintarCalendario() {
     const t = H.tramitesDe(actuales), c = $("nor-calendario");
-    c.hidden = !c.hidden;
     c.innerHTML = `<div class="desliza"><table class="t"><tr><th>Ley</th><th>Trámite o reporte</th><th>Plazo</th><th>Ante</th></tr>${t.map((x) => `<tr><td>${esc(x.ley)}</td><td>${esc(x.que)}</td><td>${esc(x.plazo)}</td><td>${esc(x.ante)}</td></tr>`).join("")}</table></div>`;
-  };
+  }
+  $("nor-cal").addEventListener("toggle", () => { if ($("nor-cal").open) pintarCalendario(); });
   $("nor-vaciar").onclick = () => { if (confirm("¿Vaciar todas las respuestas de esta jurisdicción?")) { try { localStorage.removeItem(claveN()); } catch (e) { /* nada */ } pintarN(); } };
   import("./exportar.js").then((X) => {
     $("nor-exp").innerHTML = X.htmlSelectorExportar("norx");
@@ -474,8 +474,8 @@ pintarNube();
   const pintarResumenEsc = () => { const d = datosPais(); $("hesc-resumen").textContent = `${d.sel.length} eventos vigentes · ${Object.entries(d.porArea).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([a, n]) => `${a}: ${n}`).join(" · ")}`; };
   $("hesc-pais").onchange = pintarResumenEsc;
   pintarResumenEsc();
-  import("./escenarios.js").then((E) => E.montarSimulador($("herr-esc"), {
-    prefijo: "he", clave: "gp_herr_esc", ayudaContexto: "El país elegido y sus eventos se agregan solos al contexto. Para una empresa (ingresos, empleados), usa DOMINUS OPS.",
+  import("./escenarios.js?v=plegables").then((E) => E.montarSimulador($("herr-esc"), {
+    prefijo: "he", clave: "gp_herr_esc", plegables: true, ayudaContexto: "El país elegido y sus eventos se agregan solos al contexto. Para una empresa (ingresos, empleados), usa DOMINUS OPS.",
     contexto: () => { const d = datosPais(); return { cliente: {}, sector: "", eventosPorArea: d.porArea, texto: d.texto }; },
   })).catch((e) => { $("herr-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
 }

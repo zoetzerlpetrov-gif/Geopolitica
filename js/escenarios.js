@@ -47,6 +47,18 @@ export async function montarSimulador(raiz, op) {
       <p class="meta">Escalas: probabilidad anual &lt;1 %, 1–5 %, 5–20 %, 20–50 %, ≥50 %; impacto (VaR 95 % sobre ingresos anuales) &lt;0.1 %, 0.1–1 %, 1–5 %, 5–15 %, ≥15 %. ISO 31000:2018 e ISO/IEC 31010:2019.
         El motor (js/ciencia.js) y la base de modelos (config/modelos_ciencia.json) son los mismos en cualquier navegador; los datos que captures se quedan en este equipo.</p></div>`;
 
+  if (op.plegables) {
+    for (const tarjeta of raiz.querySelectorAll(":scope > .tarjeta")) {
+      const titulo = tarjeta.firstElementChild;
+      const detalles = document.createElement("details");
+      detalles.className = "tarjeta plegable";
+      const resumen = document.createElement("summary");
+      resumen.append(titulo);
+      detalles.append(resumen, ...tarjeta.childNodes);
+      tarjeta.replaceWith(detalles);
+    }
+  }
+
   const contextoTexto = () => { const c = op.contexto(); return [c.texto, $("ctx").value].filter(Boolean).join("\n"); };
   const ctxSim = () => { const c = op.contexto(); const cl = { ingresos: 100000000, empleados: 100, margen: 10, ...Object.fromEntries(Object.entries(c.cliente || {}).filter(([, v]) => v !== "" && v != null)) }; return { cliente: cl, faltan: !(Number(c.cliente?.ingresos) > 0) }; };
   // El contexto automático (cliente o eventos) se suma al texto que escribas aquí.
@@ -95,7 +107,17 @@ export async function montarSimulador(raiz, op) {
     $("libre-res").innerHTML = r.length ? `<p class="meta">Modelos sugeridos (${origen}). Revisa los parámetros antes de simular:</p><ul class="fuentes">${r.map((x) => `<li><a href="#" data-ver="${x.id}">${esc(porId[x.id].nombre)}</a> <span class="meta">${esc(x.motivo)}${Object.keys(x.ajustes).length ? ` · ajustes: ${esc(JSON.stringify(x.ajustes))}` : ""}</span></li>`).join("")}</ul>`
       : `<p class="meta">No se encontró un modelo parecido. Elige uno en «Simular».</p>`;
   };
-  raiz.addEventListener("click", (e) => { const a = e.target.closest("[data-ver]"); if (!a) return; e.preventDefault(); $("sel").value = a.dataset.ver; pintarParams(); $("sel").scrollIntoView({ behavior: "smooth", block: "center" }); });
+  raiz.addEventListener("click", (e) => {
+    const a = e.target.closest("[data-ver]");
+    if (!a) return;
+    e.preventDefault();
+    const selector = $("sel");
+    selector.value = a.dataset.ver;
+    pintarParams();
+    const detalles = selector.closest("details.plegable");
+    if (op.plegables && detalles) detalles.open = true;
+    selector.scrollIntoView({ behavior: "smooth", block: "center" });
+  });
 
   // ---------- parámetros
   function pintarParams() {
