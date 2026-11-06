@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
+import { runInNewContext } from "node:vm";
 import { catalog, catalogInfo } from "../../cloudflare/huella/catalog.js";
 import { serve } from "../../cloudflare/huella/service.js";
 
@@ -437,4 +438,85 @@ test("el catálogo ampliado usa destinos HTTPS y opera en lotes autenticados sin
   const selection = (await music.json()).results;
   assert.equal(selection.length, catalogInfo.batchSize);
   assert.ok(selection.every(entry => entry.category === "music"));
+});
+
+test("el formulario distingue correo exacto, dominio y catálogo por alias", async (t) => {
+  const { cookie } = await signIn(t);
+  const email = "ejemplo@example.org";
+  const sent = [];
+  const browserRequests = [];
+  t.mock.method(globalThis, "fetch", async input => {
+    const url = new URL(input);
+    sent.push(url);
+    if (url.hostname === "dns.google") return Response.json({ Status: 0, Answer: [] });
+    if (url.hostname === "haveibeenpwned.com") return Response.json([]);
+    if (url.hostname === "api.github.com" && url.pathname === "/users/github") return Response.json({ login: "github" });
+    if (url.hostname === "api.github.com" && url.pathname.startsWith("/search/")) {
+      return Response.json({ total_count: 0, incomplete_results: false, items: [] });
+    }
+    return new Response(null, { status: 404 });
+  });
+
+  const create = () => ({
+    value: "", checked: false, children: [], listeners: {},
+    addEventListener(event, listener) { this.listeners[event] = listener; },
+    append(node) { this.children.push(node); },
+    replaceChildren() { this.children.length = 0; }
+  });
+  const nodes = new Map();
+  const node = id => {
+    if (!nodes.has(id)) nodes.set(id, create());
+    return nodes.get(id);
+  };
+  node("modo-correo").value = "exacto";
+  node("catalogo-categoria").value = "social";
+  const client = readFileSync(new URL("../../cloudflare/huella/assets/huella.js.txt", import.meta.url), "utf8");
+  runInNewContext(client, {
+    AbortController, queueMicrotask,
+    document: { getElementById: node, createElement: create },
+    fetch(path, options) {
+      browserRequests.push({ path, query: JSON.parse(options.body) });
+      return serve(new Request(root + path, {
+        ...options, headers: { ...options.headers, Origin: origin, Cookie: cookie }
+      }), env, assets);
+    }
+  });
+
+  const input = node("consulta").listeners.input;
+  const submit = () => node("consulta").listeners.submit({ preventDefault() {} });
+  node("correo").value = email;
+  node("catalogo-ampliado").checked = true;
+  input();
+  assert.equal(node("catalogo-ampliado").disabled, true);
+  assert.equal(node("catalogo-categoria").disabled, true);
+  assert.match(node("alcance-consulta").textContent, /6 comprobaciones por correo exacto/);
+  await submit();
+  assert.deepEqual(browserRequests.splice(0), [{
+    path: "consulta", query: { username: "", domain: "example.org", email, searchEmail: true }
+  }]);
+  assert.match(node("resultados").children[0].textContent, /0 de 6 comprobaciones/);
+  assert.match(node("resultados").children[1].textContent, /escribe un alias público/);
+  assert.ok(sent.some(url => url.hostname === "keys.openpgp.org"));
+
+  node("modo-correo").value = "dominio";
+  input();
+  sent.length = 0;
+  await submit();
+  assert.deepEqual(browserRequests.splice(0), [{
+    path: "consulta", query: { username: "", domain: "example.org" }
+  }]);
+  assert.equal(sent.length, 4);
+  assert.ok(sent.every(url => !url.href.includes("ejemplo")));
+
+  node("modo-correo").value = "exacto";
+  node("alias").value = "@github";
+  input();
+  assert.equal(node("catalogo-categoria").disabled, false);
+  await submit();
+  const [main, ...batches] = browserRequests;
+  assert.deepEqual(main.query, { username: "github", domain: "example.org", email, searchEmail: true });
+  const total = catalogInfo.sections.find(section => section.id === "social").total;
+  assert.equal(batches.length, Math.ceil(total / catalogInfo.batchSize));
+  assert.ok(batches.every(({ query }) => query.username === "github" && query.category === "social" && !("email" in query)));
+  assert.match(node("estado").textContent, new RegExp(`${total} de ${total}`));
 });

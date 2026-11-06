@@ -31,17 +31,19 @@
             <small>Consulta perfiles o sitios públicos en hasta 25 fuentes. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
           </label>
         </div>
-        <label class="opcion-correo">
-          <input id="solo-dominio" type="checkbox">
-          Consultar solo el dominio del correo
+        <label id="opciones-correo" hidden>Al buscar un correo completo
+          <select id="modo-correo">
+            <option value="exacto">Correo exacto y dominio</option>
+            <option value="dominio">Solo dominio · omite la dirección exacta</option>
+          </select>
         </label>
         <small>Al consultar un correo exacto, Huella envía la dirección a keys.openpgp.org y GitHub, su huella a Gravatar y una huella de la parte anterior a la arroba al DNS público. Si añades un alias, Huella compara los resultados con los enlaces visibles de Gravatar y con el correo publicado en GitLab, cuando exista.</small>
         <label class="opcion-correo">
-          <input id="catalogo-ampliado" type="checkbox">
+          <input id="catalogo-ampliado" type="checkbox" disabled>
           Consultar catálogo ampliado por alias ({{catalogTotal}} fuentes adicionales)
         </label>
         <label for="catalogo-categoria">Categoría del catálogo ampliado
-          <select id="catalogo-categoria">
+          <select id="catalogo-categoria" disabled>
             <option value="all">Todas las categorías</option>
             {{catalogCategories}}
           </select>
@@ -49,6 +51,7 @@
         <small>Se envía solo el alias a las fuentes seleccionadas. Consultar todas las categorías puede tardar varios minutos.
           Datos adaptados de <a href="https://github.com/WebBreacher/WhatsMyName" target="_blank" rel="noopener noreferrer">WhatsMyName</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>)
           y <a href="https://github.com/soxoj/maigret" target="_blank" rel="noopener noreferrer">Maigret</a> (MIT).</small>
+        <p id="alcance-consulta" aria-live="polite">Escribe un correo, un dominio o un alias público.</p>
         <div class="actions">
           <button type="submit" id="buscar" disabled>Consultar fuentes</button>
           <button type="reset" class="secondary">Limpiar</button>

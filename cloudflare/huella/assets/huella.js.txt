@@ -202,20 +202,55 @@ async function runCatalog(username, info, category, signal, directResults) {
     (completed < total ? ` Quedaron ${total - completed} sin procesar.` : "");
 }
 
+function updateScope() {
+  const input = $("correo").value.trim();
+  const hasEmail = input.includes("@");
+  const hasAlias = Boolean($("alias").value.trim().replace(/^@/, ""));
+  const catalog = $("catalogo-ampliado");
+  $("opciones-correo").hidden = !hasEmail;
+  catalog.disabled = !hasAlias;
+  $("catalogo-categoria").disabled = !hasAlias || !catalog.checked;
+  const scope = [];
+  if (hasEmail && $("modo-correo").value === "exacto") scope.push("Se harán 6 comprobaciones por correo exacto y 4 de dominio.");
+  else if (input) scope.push("Se harán 4 comprobaciones del dominio.");
+  if (hasAlias) scope.push(catalog.checked
+    ? "Se consultarán las fuentes directas por alias y la categoría seleccionada del catálogo."
+    : "Se consultarán las fuentes directas por alias.");
+  else if (input) scope.push("El catálogo de redes, comunidades y blogs requiere un alias público.");
+  $("alcance-consulta").textContent = scope.join(" ") || "Escribe un correo, un dominio o un alias público.";
+}
+
+function describeEmailScope(query, entries) {
+  if (query.email) {
+    const emailResults = entries.filter(result => result.kind === "correo");
+    const hits = emailResults.filter(result => result.status === "verificado" || result.status === "encontrado").length;
+    const unresolved = emailResults.filter(result => result.status === "indeterminado" || result.status === "limitado").length;
+    element(results, "p", `Correo exacto · ${hits} de ${emailResults.length} comprobaciones con coincidencia pública.` +
+      (unresolved ? ` ${unresolved} quedaron sin una respuesta concluyente.` : ""));
+  }
+  if (!query.username && query.domain) {
+    element(results, "p", "Para buscar en redes, comunidades y blogs, escribe un alias público, como el identificador que aparece después de @ en el perfil.");
+  }
+}
+
+form.addEventListener("input", updateScope);
+form.addEventListener("change", updateScope);
+updateScope();
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (pending) return;
   const input = $("correo").value.trim();
-  const username = $("alias").value.trim();
+  const username = $("alias").value.trim().replace(/^@/, "");
   const [local, domain] = input.includes("@") ? input.split("@") : ["", input];
   if (input.includes("@") && (!local || !domain || input.indexOf("@") !== input.lastIndexOf("@"))) {
     status.textContent = "Revisa el formato del correo.";
     return;
   }
-  const expand = $("catalogo-ampliado").checked && Boolean(username.replace(/^@/, ""));
+  const expand = $("catalogo-ampliado").checked && Boolean(username);
   const category = $("catalogo-categoria").value;
   const query = { domain, username };
-  if (input.includes("@") && !$("solo-dominio").checked) {
+  if (input.includes("@") && $("modo-correo").value === "exacto") {
     if (!local || !/^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*$/i.test(local) || local.length > 64) {
       status.textContent = "Para consultar el correo exacto, escribe una dirección compatible, como equipo@example.org.";
       return;
@@ -245,6 +280,7 @@ form.addEventListener("submit", async (event) => {
     }
     const data = await response.json();
     if (current.signal.aborted) return;
+    describeEmailScope(query, data.results);
     const groups = [
       ["correo", "Correo exacto"],
       ["alias", "Alias público"],
@@ -262,6 +298,7 @@ form.addEventListener("submit", async (event) => {
         pivot.type = "button";
         pivot.addEventListener("click", () => {
           $("alias").value = githubAlias;
+          updateScope();
           $("alias").focus();
         });
       }
@@ -289,6 +326,7 @@ form.addEventListener("reset", () => {
   catalogResults.replaceChildren();
   manualResults.replaceChildren();
   status.textContent = "Consulta y resultados borrados de la pantalla.";
+  queueMicrotask(updateScope);
 });
 search.disabled = false;
 
