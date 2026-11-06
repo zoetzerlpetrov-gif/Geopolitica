@@ -20,18 +20,28 @@ function dnsUrl(name, type) {
   return `https://dns.google/resolve?${query}`;
 }
 
-async function upstream(url, accept = "application/json") {
-  const response = await fetch(url, {
+async function provider(url, accept) {
+  return fetch(url, {
     headers: { Accept: accept, "User-Agent": "DOMINUS-Huella" },
     redirect: "error",
     signal: AbortSignal.timeout(6500)
   });
+}
+
+function providerStatus(response) {
   if (response.status === 429 || (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0")) {
-    return { status: "limitado" };
+    return "limitado";
   }
-  if (response.status === 404) return { status: "sin_resultado" };
-  if (!response.ok) return { status: "indeterminado" };
-  return { data: await response.json() };
+  if (response.status === 404) return "sin_resultado";
+  if (!response.ok) return "indeterminado";
+}
+
+async function upstream(url, accept = "application/json") {
+  const response = await provider(url, accept);
+  const status = providerStatus(response);
+  if (!status) return { data: await response.json() };
+  await response.body?.cancel();
+  return { status };
 }
 
 async function dns(name, type, select) {
@@ -92,7 +102,50 @@ async function incidentesDominio(domain) {
   };
 }
 
-async function inspect({ domain, username }) {
+async function publicResource(url, type, detail) {
+  const response = await provider(url, type);
+  const status = providerStatus(response);
+  const contentType = response.headers.get("Content-Type") || "";
+  await response.body?.cancel();
+  if (status) return { status };
+  return response.status === 200 && contentType.toLowerCase().startsWith(type)
+    ? { status: "verificado", detail } : { status: "indeterminado" };
+}
+
+async function gravatar(email) {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email.toLowerCase()));
+  const hash = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("");
+  const { data, status } = await upstream(`https://api.gravatar.com/v3/profiles/${hash}`);
+  if (status) return { status };
+  if (data?.hash !== hash || typeof data.profile_url !== "string" ||
+      !/^https:\/\/gravatar\.com\/[a-z0-9_-]+\/?$/i.test(data.profile_url)) return { status: "indeterminado" };
+  return { status: "verificado", url: data.profile_url,
+    name: typeof data.display_name === "string" ? data.display_name.slice(0, 120) : undefined,
+    detail: "Gravatar devolvió un perfil público asociado a la huella del correo." };
+}
+
+async function publicCommits(email) {
+  const query = new URLSearchParams({ q: `author-email:${email}`, per_page: "5" });
+  const { data, status } = await upstream(`https://api.github.com/search/commits?${query}`, "application/vnd.github+json");
+  if (status) return { status: status === "sin_resultado" ? "indeterminado" : status };
+  if (!Array.isArray(data?.items)) return { status: "indeterminado" };
+  const records = data.items
+    .filter(item => typeof item?.commit?.author?.email === "string" &&
+      item.commit.author.email.toLowerCase() === email.toLowerCase())
+    .map(item => {
+      const repo = item.repository?.full_name;
+      const sha = item.sha;
+      return typeof repo === "string" && /^[\w.-]+\/[\w.-]+$/.test(repo) &&
+        typeof sha === "string" && /^[a-f0-9]{40}$/i.test(sha) ? `https://github.com/${repo}/commit/${sha}` : "";
+    }).filter(Boolean);
+  if (records.length) return {
+    status: "verificado", evidence: [...new Set(records)],
+    detail: "El correo figura como autor en el metadato de estos commits públicos. Ese campo lo elige quien crea el commit."
+  };
+  return { status: data.total_count === 0 && data.incomplete_results === false ? "sin_resultado" : "indeterminado" };
+}
+
+async function inspect({ domain, username, email }) {
   const checks = [];
   if (domain) {
     checks.push(
@@ -102,6 +155,13 @@ async function inspect({ domain, username }) {
       ["Have I Been Pwned · incidentes del sitio", () => incidentesDominio(domain)]
     );
   }
+  if (email) checks.push(
+    ["keys.openpgp.org · clave pública", () => publicResource(
+      `https://keys.openpgp.org/vks/v1/by-email/${encodeURIComponent(email)}`, "application/pgp-keys",
+      "El servidor devolvió una clave pública cuyo titular habilitó la búsqueda por ese correo.")],
+    ["Gravatar · perfil público", () => gravatar(email)],
+    ["GitHub · commits públicos", () => publicCommits(email)]
+  );
   if (username) checks.push(
     ["GitHub", () => alias("github", username)],
     ["Hacker News", () => alias("hn", username)],
@@ -131,10 +191,14 @@ async function readQuery(request) {
   if (!input || typeof input !== "object") return null;
   const domain = typeof input.domain === "string" ? input.domain.trim().toLowerCase() : "";
   const username = typeof input.username === "string" ? input.username.trim().replace(/^@/, "") : "";
+  const email = typeof input.email === "string" ? input.email.trim() : "";
+  if ("email" in input && (!email || input.searchEmail !== true || email.length > 254 ||
+      !/^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*@[a-z0-9.-]+$/i.test(email) ||
+      email.indexOf("@") > 64 || email.split("@")[1].toLowerCase() !== domain)) return null;
   if (!domain && !username) return null;
   if (domain && (domain.length > 253 || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(domain))) return null;
   if (username && !/^[a-z0-9][a-z0-9_-]{0,38}$/i.test(username)) return null;
-  return { domain, username };
+  return { domain, username, email };
 }
 
 const LOGIN_MESSAGES = new Map([
@@ -186,7 +250,7 @@ export async function serve(request, env, assets) {
       return json({ error: "Origen o formato de solicitud inválido." }, 403);
     }
     const query = await readQuery(request).catch(() => null);
-    if (!query) return json({ error: "Indica un dominio o alias válido." }, 400);
+    if (!query) return json({ error: "Indica un dominio, correo o alias válido." }, 400);
     return json(await inspect(query));
   }
   const asset = assets.get(route);

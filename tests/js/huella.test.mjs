@@ -225,3 +225,49 @@ test("el mapa temporal pide sesión Admin y conserva el menú y las solicitudes 
   assert.equal((await serve(request("/redirect.html", { Cookie: session }), previewEnv, assets)).status, 502);
   assert.equal(external.mock.callCount(), 5);
 });
+
+test("la consulta exacta exige autorización explícita y separa las evidencias de cada proveedor", async (t) => {
+  const { cookie } = await signIn(t);
+  const email = "equipo+qa@example.org";
+  const hash = Buffer.from(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(email))).toString("hex");
+  const sha = "a".repeat(40);
+  const seen = [];
+  t.mock.method(globalThis, "fetch", async (input) => {
+    const url = new URL(input);
+    seen.push(url);
+    switch (url.hostname) {
+      case "dns.google": return Response.json({ Status: 0 });
+      case "haveibeenpwned.com": return Response.json([]);
+      case "keys.openpgp.org":
+        assert.equal(decodeURIComponent(url.pathname), "/vks/v1/by-email/" + email);
+        return new Response("clave", { headers: { "Content-Type": "application/pgp-keys" } });
+      case "api.gravatar.com":
+        assert.equal(url.pathname, "/v3/profiles/" + hash);
+        return Response.json({ hash, profile_url: "https://gravatar.com/prueba", display_name: "Prueba" });
+      case "api.github.com":
+        assert.equal(url.searchParams.get("q"), "author-email:" + email);
+        return Response.json({ total_count: 2, incomplete_results: false, items: [
+          { sha, repository: { full_name: "demo/proyecto" }, commit: { author: { email } } },
+          { sha, repository: { full_name: "demo/otro" }, commit: { author: { email: "otro@example.org" } } }
+        ] });
+      default: assert.fail("Proveedor inesperado");
+    }
+  });
+
+  assert.equal((await serve(post({ domain: "example.org", email }, cookie), env, assets)).status, 400);
+  assert.equal((await serve(post({ domain: "otro.example", email, searchEmail: true }, cookie), env, assets)).status, 400);
+  assert.deepEqual(seen, []);
+  const response = await serve(post({ domain: "example.org", email, searchEmail: true }, cookie), env, assets);
+  const { results } = await response.json();
+  const exact = results.slice(4);
+  assert.deepEqual(exact.map(({ source, status }) => [source, status]), [
+    ["keys.openpgp.org · clave pública", "verificado"],
+    ["Gravatar · perfil público", "verificado"],
+    ["GitHub · commits públicos", "verificado"]
+  ]);
+  assert.equal(exact[1].url, "https://gravatar.com/prueba");
+  assert.deepEqual(exact[2].evidence, [`https://github.com/demo/proyecto/commit/${sha}`]);
+  assert.ok(seen.filter(url => /dns.google|haveibeenpwned.com|api.gravatar.com/.test(url.hostname))
+    .every(url => !decodeURIComponent(url.href).includes(email)));
+  assert.ok(!JSON.stringify(results).includes(email));
+});

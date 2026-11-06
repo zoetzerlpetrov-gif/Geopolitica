@@ -17,20 +17,25 @@
   </header>
   <main>
     <h1>Huella digital</h1>
-    <p>Consulta señales públicas de un alias y revisa la configuración de correo de un dominio. Puedes combinar ambas búsquedas.</p>
+    <p>Consulta un dominio, un alias público o señales publicadas para un correo exacto. Cada resultado indica qué fuente se consultó.</p>
     <section class="panel" aria-labelledby="consultar">
       <h2 id="consultar">Nueva consulta</h2>
       <form id="consulta" autocomplete="off">
         <div class="grid">
           <label>Correo o dominio
             <input id="correo" maxlength="254" placeholder="equipo@example.org o example.org" autocapitalize="off" spellcheck="false">
-            <small>La parte anterior a la arroba se queda en el navegador.</small>
+            <small>Por defecto se consulta solo el dominio, es decir, lo que va después de la arroba.</small>
           </label>
           <label>Alias público
             <input id="alias" maxlength="40" placeholder="@github" autocapitalize="off" spellcheck="false">
             <small>Consulta coincidencias exactas en GitHub, Hacker News y DEV Community.</small>
           </label>
         </div>
+        <label class="opcion-correo">
+          <input id="correo-exacto" type="checkbox">
+          Buscar también el correo exacto en fuentes públicas
+        </label>
+        <small>Activa esta opción solo para una consulta autorizada. El Worker envía la dirección completa a keys.openpgp.org y GitHub, y su huella SHA-256 a Gravatar.</small>
         <div class="actions">
           <button type="submit" id="buscar" disabled>Consultar fuentes</button>
           <button type="reset" class="secondary">Limpiar</button>
@@ -46,10 +51,10 @@
     <section class="panel" aria-labelledby="limites">
       <h2 id="limites">Cómo interpretar los resultados</h2>
       <ul>
-        <li><b>Verificado</b> indica un perfil público con el alias consultado o un registro DNS devuelto por la fuente. Un alias repetido puede pertenecer a personas distintas.</li>
+        <li><b>Verificado</b> indica una coincidencia en la fuente indicada. Un perfil, una clave o un commit aportan señales distintas sobre la dirección. Un alias repetido puede pertenecer a personas distintas.</li>
         <li><b>Sin resultado</b> se refiere a esa consulta y fuente. <b>No concluyente</b> incluye errores, respuestas inesperadas y límites de servicio.</li>
         <li>MX describe el destino del correo del dominio. SPF y DMARC describen políticas de envío y validación publicadas en DNS. No validan la existencia de un buzón. DMARC muestra el registro del dominio ingresado, sin resolver herencia.</li>
-        <li>Para verificar exposición de tu correo o de un dominio administrado, abre <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a> y captura tus datos allí si corresponde. La consulta automática revisa incidentes públicos del sitio por dominio. Para ese paso se envía solo el dominio a HIBP.</li>
+        <li>Para verificar exposición de tu correo o de un dominio administrado, abre <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. La consulta automática de HIBP revisa incidentes del sitio por dominio. Para revisar si un correo concreto aparece en una filtración, usa el enlace a HIBP. Para ese paso se envía solo el dominio a HIBP.</li>
       </ul>
     </section>
   </main>

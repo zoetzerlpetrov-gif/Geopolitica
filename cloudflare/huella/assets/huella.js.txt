@@ -42,6 +42,15 @@ function render(result) {
     }
     if (result.count > result.incidents.length) element(card, "p", `Mostrando ${result.incidents.length} de ${result.count} incidentes.`);
   }
+  if (result.evidence?.length) {
+    const list = element(card, "ul", "", "records");
+    for (const url of result.evidence) {
+      const link = element(element(list, "li", ""), "a", "Abrir commit público");
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
+  }
   if (result.url) {
     const link = element(card, "a", "Abrir perfil público");
     link.href = result.url;
@@ -60,6 +69,14 @@ form.addEventListener("submit", async (event) => {
     status.textContent = "Revisa el formato del correo.";
     return;
   }
+  const query = { domain, username };
+  if ($("correo-exacto").checked) {
+    if (!local || !/^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*$/i.test(local) || local.length > 64) {
+      status.textContent = "Para consultar el correo exacto, escribe una dirección compatible, como equipo@example.org.";
+      return;
+    }
+    Object.assign(query, { email: input, searchEmail: true });
+  }
   const current = new AbortController();
   pending = current;
   search.disabled = true;
@@ -70,13 +87,13 @@ form.addEventListener("submit", async (event) => {
     const response = await fetch("consulta", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ domain, username }),
+      body: JSON.stringify(query),
       signal: current.signal,
       redirect: "error",
       cache: "no-store"
     });
     if (!response.ok) {
-      status.textContent = response.status === 400 ? "Indica un dominio o alias válido." : "La consulta no está disponible. Comprueba tu sesión de administrador.";
+      status.textContent = response.status === 400 ? "Revisa el formato del dominio, correo o alias." : "La consulta no está disponible. Comprueba tu sesión de administrador.";
       return;
     }
     const data = await response.json();

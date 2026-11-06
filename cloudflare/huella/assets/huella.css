@@ -38,6 +38,7 @@ input { min-width: 0; background: var(--bg); }
 button { background: var(--accent); color: var(--panel); font-weight: 650; cursor: pointer; }
 button:disabled { opacity: .65; cursor: default; }
 button.secondary { color: var(--text); background: var(--panel); }
+.opcion-correo { display: flex; align-items: baseline; gap: .55rem; margin-top: 1rem; }
 .actions { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1rem; }
 .state { font-weight: 650; color: var(--muted); }
 .verificado { color: var(--ok); }

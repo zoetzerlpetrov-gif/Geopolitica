@@ -1,11 +1,12 @@
 # Huella digital OSINT
 
-La opción **Secciones → Huella digital OSINT** aparece en el mapa administrativo después de iniciar sesión. Demo, Recon, Analyst y Command siguen sin mostrarla. Cambiar la URL a `?vista=admin` no concede acceso. El ingreso se hace con GitHub y el Worker verifica el ID numérico contra la lista de administradores en cada solicitud. La sesión dura una hora.
+La opción **Secciones → Huella digital OSINT** aparece en el mapa administrativo después de iniciar sesión. Demo, Recon, Analyst y Command siguen sin mostrarla. Cambiar la URL a `?vista=admin` no concede acceso. El ingreso se hace con GitHub y el Worker verifica el ID numérico contra la lista de administradores en cada solicitud. La sesión dura una hora. En el mapa público, el enlace **Acceso administrativo** al pie de página abre el mapa protegido en Cloudflare.
 
 ## Consultas
 
 - **Alias.** Coincidencia exacta en GitHub, Hacker News y DEV Community. Un alias idéntico puede corresponder a personas distintas.
-- **Correo o dominio.** MX, SPF y DMARC vía DNS público de Google e incidentes públicos del sitio según Have I Been Pwned (HIBP). Se envía solo el dominio. La tarjeta de incidentes indica nombre, fecha y clases de datos, con el estado de verificación del proveedor. Por ejemplo, `adobe.com` permite comprobar que el catálogo devuelve incidentes del sitio.
+- **Correo o dominio.** MX, SPF y DMARC vía DNS público de Google e incidentes públicos del sitio según Have I Been Pwned (HIBP). Por defecto se envía solo el dominio. La tarjeta de incidentes indica nombre, fecha y clases de datos, con el estado de verificación del proveedor. Por ejemplo, `adobe.com` permite comprobar que el catálogo devuelve incidentes del sitio.
+- **Correo exacto (opcional).** Envía la dirección a keys.openpgp.org para comprobar una clave pública publicada y a GitHub para comprobar metadatos de commits públicos. Envía el SHA-256 de la dirección normalizada a Gravatar para buscar un perfil público. Las tres consultas funcionan sin clave. Estas coincidencias requieren interpretación y pueden faltar aunque la dirección exista.
 - **Exposición individual.** La búsqueda de incidentes del sitio no comprueba una dirección concreta. Para revisar una dirección propia, la consola enlaza a HIBP y deja que la persona capture su correo allí. La API automatizada para una dirección requiere un plan o clave compatible y queda fuera de esta versión.
 - La consola no almacena consultas ni resultados. Usa los servicios externos solo para identificadores de investigaciones autorizadas.
 
