@@ -6,7 +6,6 @@ const catalogResults = $("resultados-catalogo");
 const manualResults = $("redes-manuales");
 const manualNetworks = [
   ["Facebook", "https://www.facebook.com/{}"],
-  ["Instagram", "https://www.instagram.com/{}/"],
   ["LinkedIn", "https://www.linkedin.com/in/{}/"],
   ["X", "https://x.com/{}"],
   ["Reddit", "https://www.reddit.com/user/{}/"],
@@ -134,6 +133,15 @@ function render(group, result) {
 function renderManualNetworks(username) {
   const alias = username.replace(/^@/, "");
   if (!alias) return;
+  if (/^[a-z0-9_.]{1,30}$/i.test(alias)) {
+    const card = element(manualResults, "section", "", "panel");
+    element(card, "h3", "Instagram · revisión manual");
+    element(card, "p", "El enlace abre el perfil en Instagram. Las referencias públicas, si existen, aparecen en la tarjeta de Wikidata.");
+    const link = element(card, "a", `Abrir @${alias} en Instagram`);
+    link.href = `https://www.instagram.com/${encodeURIComponent(alias)}/`;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
   const details = element(manualResults, "details", "");
   element(details, "summary", `Redes y sitios populares · ${manualNetworks.length} enlaces para revisar`);
   element(details, "p", "Enlaces sugeridos a partir del alias. Huella no visitó estas direcciones en esta sección. Algunos sitios requieren iniciar sesión o usan otro identificador.");
@@ -163,6 +171,25 @@ function renderGroup(parent, title, entries) {
       (unresolved ? ` · ${unresolved} sin respuesta concluyente` : ""));
     const group = element(details, "div", "", "grid");
     for (const result of other) render(group, result);
+  }
+}
+
+function renderCoverage(parent, sections, entries) {
+  if (!sections.length) return;
+  const table = element(parent, "table", "", "cobertura-catalogo");
+  element(table, "caption", "Cobertura del catálogo por categoría");
+  const heading = element(element(table, "thead", ""), "tr", "");
+  for (const text of ["Categoría", "Procesadas", "Con indicio", "No concluyentes"]) {
+    element(heading, "th", text).scope = "col";
+  }
+  const rows = element(table, "tbody", "");
+  for (const section of sections) {
+    const matches = entries.filter(result => section.categories.includes(result.category));
+    const row = element(rows, "tr", "");
+    element(row, "th", section.label).scope = "row";
+    element(row, "td", `${matches.length} de ${section.total}`);
+    element(row, "td", String(matches.filter(result => result.status === "indicio").length));
+    element(row, "td", String(matches.filter(result => ["indeterminado", "limitado"].includes(result.status)).length));
   }
 }
 
@@ -210,6 +237,7 @@ async function runCatalog(username, info, category, signal, directResults) {
       result.correlation = "Gravatar publica un enlace visible a esta misma página.";
     }
   }
+  renderCoverage(catalogResults, section ? [section] : (info.sections || []), entries);
   renderGroup(catalogResults, section ? `Catálogo ampliado · ${section.label}` : "Catálogo ampliado", entries);
   status.textContent = expired ? "La sesión venció durante el catálogo. Los resultados completados siguen visibles." :
     `Catálogo ampliado · ${completed} de ${total} fuentes procesadas.` +
@@ -271,8 +299,9 @@ function updateScope() {
   const scope = [];
   if (hasEmail && $("modo-correo").value === "exacto") scope.push("Se harán 6 comprobaciones por correo exacto y 4 de dominio.");
   else if (input) scope.push("Se harán 4 comprobaciones del dominio.");
+  const selection = $("catalogo-categoria");
   if (hasAlias) scope.push(catalog.checked
-    ? "Se consultarán las fuentes directas por alias y la categoría seleccionada del catálogo."
+    ? `Se consultarán las fuentes directas por alias y el catálogo: ${selection.selectedOptions?.[0]?.textContent?.trim() || "categoría seleccionada"}.`
     : "Se consultarán las fuentes directas por alias.");
   else if (input) scope.push("El catálogo de redes, comunidades y blogs requiere un alias público.");
   $("alcance-consulta").textContent = scope.join(" ") || "Escribe un correo, un dominio o un alias público.";

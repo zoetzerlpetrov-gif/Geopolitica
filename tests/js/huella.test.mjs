@@ -621,4 +621,32 @@ test("el formulario distingue correo exacto, dominio y catálogo por alias", asy
   assert.equal(batches.length, Math.ceil(total / catalogInfo.batchSize));
   assert.ok(batches.every(({ query }) => query.username === "github" && query.category === "social" && !("email" in query)));
   assert.match(node("estado").textContent, new RegExp(`${total} de ${total}`));
+
+  const html = readFileSync(new URL("../../cloudflare/huella/assets/index.html", import.meta.url), "utf8");
+  assert.match(html, /id="catalogo-ampliado"[^>]*\bchecked\b/);
+  assert.match(html, /<option value="all">Todas las categorías<\/option>/);
+  node("correo").value = "";
+  node("alias").value = "elonmusk";
+  node("catalogo-categoria").value = "all";
+  browserRequests.length = 0;
+  sent.length = 0;
+  input();
+  await submit();
+  const [direct, ...allBatches] = browserRequests;
+  assert.equal(direct.query.username, "elonmusk");
+  assert.equal(allBatches.length, Math.ceil(catalogInfo.total / catalogInfo.batchSize));
+  assert.ok(allBatches.every(({ query }) => query.username === "elonmusk" && query.category === "all"));
+  const sentUrls = new Set(sent.map(url => url.href));
+  for (const [, , target] of catalog) assert.ok(sentUrls.has(new URL(target.replace("{account}", "elonmusk")).href));
+  assert.ok(!sent.some(url => url.hostname === "www.instagram.com"));
+  const instagram = node("redes-manuales").children[0];
+  assert.equal(instagram.children[0].textContent, "Instagram · revisión manual");
+  assert.equal(instagram.children[2].href, "https://www.instagram.com/elonmusk/");
+  const table = node("resultados-catalogo").children[0];
+  const rows = table.children[2].children;
+  assert.equal(rows.length, catalogInfo.sections.length);
+  for (const [index, section] of catalogInfo.sections.entries()) {
+    assert.equal(rows[index].children[0].textContent, section.label);
+    assert.equal(rows[index].children[1].textContent, `${section.total} de ${section.total}`);
+  }
 });

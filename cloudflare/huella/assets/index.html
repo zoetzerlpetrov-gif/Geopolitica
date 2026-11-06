@@ -28,7 +28,7 @@
           </label>
           <label>Alias público
             <input id="alias" maxlength="66" placeholder="@github o bsky.app" autocapitalize="off" spellcheck="false">
-            <small>Consulta perfiles o sitios públicos en hasta 28 fuentes. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
+            <small>Consulta hasta 28 fuentes directas y, por defecto, el catálogo ampliado. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
           </label>
         </div>
         <label id="opciones-correo" hidden>Al buscar un correo completo
@@ -39,7 +39,7 @@
         </label>
         <small>Al consultar un correo exacto, Huella envía la dirección a keys.openpgp.org y GitHub, su huella a Gravatar y una huella de la parte anterior a la arroba al DNS público. Si añades un alias, Huella compara los resultados con los enlaces visibles de Gravatar y con el correo publicado en GitLab, cuando exista.</small>
         <label class="opcion-correo">
-          <input id="catalogo-ampliado" type="checkbox" disabled>
+          <input id="catalogo-ampliado" type="checkbox" checked disabled>
           Consultar catálogo ampliado por alias ({{catalogTotal}} fuentes adicionales)
         </label>
         <label for="catalogo-categoria">Categoría del catálogo ampliado
@@ -62,8 +62,8 @@
     <section id="hallazgos" aria-labelledby="titulo-resultados" hidden>
       <h2 id="titulo-resultados">Resultados por fuente</h2>
       <p id="marca-tiempo"></p>
-      <div id="resultados"></div>
       <div id="redes-manuales"></div>
+      <div id="resultados"></div>
       <div id="resultados-catalogo"></div>
     </section>
     <section class="panel" aria-labelledby="limites">

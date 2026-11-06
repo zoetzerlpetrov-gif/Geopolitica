@@ -53,3 +53,7 @@ button.secondary { color: var(--text); background: var(--panel); }
 .avatar-publico { display: block; width: 96px; height: 96px; object-fit: cover; border-radius: .5rem; margin: .5rem 0; }
 
 #catalogo-categoria, #modo-correo { font: inherit; max-width: 25rem; padding: .4rem; }
+
+.cobertura-catalogo { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+.cobertura-catalogo caption { text-align: left; font-weight: 700; }
+.cobertura-catalogo th, .cobertura-catalogo td { padding: .35rem; text-align: left; border-bottom: 1px solid var(--line); overflow-wrap: anywhere; }

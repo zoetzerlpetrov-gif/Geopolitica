@@ -27,7 +27,7 @@ bySection.set("all", catalog);
 export const catalogInfo = {
   total: catalog.length,
   batchSize: BATCH_SIZE,
-  sections: sections.map(([id, label]) => ({ id, label, total: bySection.get(id).length }))
+  sections: sections.map(([id, label, categories]) => ({ id, label, categories, total: bySection.get(id).length }))
 };
 
 export async function readSignatureBody(response) {
