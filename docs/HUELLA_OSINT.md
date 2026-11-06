@@ -14,7 +14,7 @@ La opción **Secciones → Huella digital OSINT** aparece en el mapa administrat
 El mapa administrativo y el Worker deben compartir un host HTTPS bajo tu control. GitHub Pages sirve archivos estáticos y no puede ejecutar la validación de sesión en `github.io`. El Worker puede convivir con la copia del mapa en un dominio personalizado. El módulo no requiere una política de Cloudflare Access.
 
 1. En GitHub abre **Settings → Developer settings → OAuth Apps → New OAuth App**. Crea una aplicación dedicada para Huella. En **Homepage URL** indica el origen HTTPS del mapa administrativo. En **Authorization callback URL** indica ese mismo origen seguido de `/admin/huella/oauth/callback`. Guarda el Client ID y genera un Client Secret. La aplicación no solicita permisos adicionales para repositorios.
-2. En Cloudflare **Workers & Pages**, abre el Worker existente `geopolitica` o conecta este repositorio si todavía no está desplegado. Selecciona `cloudflare/huella` como directorio raíz y usa `npx wrangler@4 deploy` como comando del servicio de compilación. Los comandos corren en el servicio de compilación, desde el panel web. Conserva deshabilitadas las URL de vista previa y `workers.dev`. El flujo **Configurar OAuth de Huella en Cloudflare** puede sincronizar el Client ID y el Client Secret ya guardados en GitHub Actions con el Worker `geopolitica`.
+2. En Cloudflare **Workers & Pages**, abre el Worker existente `geopolitica` o conecta este repositorio si todavía no está desplegado. Selecciona `cloudflare/huella` como directorio raíz y usa `npx wrangler@4 deploy` como comando del servicio de compilación. Los comandos corren en el servicio de compilación, desde el panel web. Mantén deshabilitadas las URL de vista previa. `workers.dev` está habilitado para la dirección temporal descrita abajo. El flujo **Configurar OAuth de Huella en Cloudflare** puede sincronizar el Client ID y el Client Secret ya guardados en GitHub Actions con el Worker `geopolitica`.
 3. En **Settings → Variables and Secrets** del Worker configura lo siguiente:
 
    | Nombre | Tipo | Valor |
@@ -29,6 +29,12 @@ El mapa administrativo y el Worker deben compartir un host HTTPS bajo tu control
 5. Abre `https://tu-host/admin/huella/` en el navegador y selecciona **Continuar con GitHub**. Después del ingreso, vuelve al mapa y abre **Secciones**. Prueba el alias `github` y el dominio `adobe.com`. En una ventana privada, verifica que la consola solicite iniciar sesión y que abrir directamente la API no entregue resultados. Configura límites de peticiones en la ruta antes de dar acceso a varios administradores.
 
 El Worker mantiene cerrado el acceso si falta configuración. El código de OAuth valida estado y PKCE, usa cookies HttpOnly con una firma del servidor, y conserva únicamente el identificador de sesión firmado en la cookie. El token de GitHub se usa para verificar la identidad durante el ingreso y no se guarda en el navegador.
+
+## Dirección temporal sin dominio propio
+
+El Worker está disponible en `https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/`. Para usarla, configura ese origen en `OSINT_ORIGIN` y registra `https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/oauth/callback` como URL de retorno en la OAuth App de GitHub.
+
+En la consola, **Mapa principal** abre la vista autenticada de DOMINUS en el mismo host. Esta vista solicita únicamente archivos públicos a GitHub Pages y no reenvía la sesión del administrador. El menú **Secciones** comprueba la sesión del Worker antes de mostrar el enlace de Huella. La edición pública sigue en GitHub Pages.
 
 ## Piloto de Recon, Analyst y Command
 

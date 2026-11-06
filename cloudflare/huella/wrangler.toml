@@ -1,7 +1,7 @@
 name = "geopolitica"
 main = "worker.js"
 compatibility_date = "2026-11-01"
-workers_dev = false
+workers_dev = true
 preview_urls = false
 keep_vars = true
 

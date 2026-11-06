@@ -172,3 +172,39 @@ test("la sesión de clientes se separa de Admin y cada permiso usa el plan vigen
   active = null;
   assert.equal((await serve(request("sesion", session), pilot, assets)).status, 403);
 });
+
+test("el mapa temporal pide sesión Admin y conserva el menú y las solicitudes Range", async (t) => {
+  const worker = "https://geopolitica.zoetzerl-petrov.workers.dev";
+  const previewEnv = { ...env, OSINT_ORIGIN: worker };
+  const request = (path, headers) => new Request(worker + path, { headers });
+  assert.equal((await serve(request("/"), previewEnv, assets)).headers.get("Location"), "/admin/huella/ingreso");
+  assert.equal((await serve(request("/data/test.json"), previewEnv, assets)).status, 403);
+
+  const start = await serve(request("/admin/huella/oauth/inicio"), previewEnv, assets);
+  const state = new URL(start.headers.get("Location")).searchParams.get("state");
+  const oauth = start.headers.getSetCookie()[0].split(";")[0];
+  const external = t.mock.method(globalThis, "fetch", async (url, options) => {
+    if (url === "https://github.com/login/oauth/access_token") return Response.json({ access_token: "prueba" });
+    if (url === "https://api.github.com/user") return Response.json({ id: 123, type: "User" });
+    assert.equal(url.origin, "https://zoetzerlpetrov-gif.github.io");
+    assert.equal(options.headers.get("Cookie"), null);
+    if (url.pathname.endsWith("redirect.html")) {
+      return new Response(null, { status: 302, headers: { Location: "/Geopolitica//externo.example/" } });
+    }
+    if (url.pathname.endsWith(".pmtiles")) {
+      assert.equal(options.headers.get("Range"), "bytes=0-5");
+      return new Response("abcdef", { status: 206, headers: { "Content-Range": "bytes 0-5/6" } });
+    }
+    assert.equal(url.pathname, "/Geopolitica/");
+    return new Response('<template id="huella-admin-menu"></template>', { headers: { "Set-Cookie": "no=forward" } });
+  });
+  const complete = await serve(request("/admin/huella/oauth/callback?code=demo&state=" + state, { Cookie: oauth }), previewEnv, assets);
+  const session = complete.headers.getSetCookie().find(x => x.startsWith("__Host-dominus-huella=")).split(";")[0];
+  const page = await serve(request("/", { Cookie: session }), previewEnv, assets);
+  assert.match(await page.text(), /huella-admin-menu/);
+  assert.equal(page.headers.get("Set-Cookie"), null);
+  assert.equal((await serve(request("/admin/huella/sesion", { Cookie: session }), previewEnv, assets)).status, 204);
+  assert.equal((await serve(request("/data/test.pmtiles", { Cookie: session, Range: "bytes=0-5" }), previewEnv, assets)).status, 206);
+  assert.equal((await serve(request("/redirect.html", { Cookie: session }), previewEnv, assets)).status, 502);
+  assert.equal(external.mock.callCount(), 5);
+});

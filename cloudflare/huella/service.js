@@ -1,3 +1,4 @@
+import { adminMap } from "./admin-map.js";
 import { authorized, begin, complete, configured, signOut } from "./auth.js";
 
 import { activePlan, servePlans } from "../planes/service.js";
@@ -139,7 +140,7 @@ async function readQuery(request) {
 export async function serve(request, env, assets) {
   const url = new URL(request.url);
   if (url.pathname.startsWith("/cuenta/")) return servePlans(request, url, env, ROOT);
-  if (!url.pathname.startsWith(ROOT)) return json({ error: "Ruta inexistente" }, 404);
+  if (!url.pathname.startsWith(ROOT)) return await adminMap(request, url, env) || json({ error: "Ruta inexistente" }, 404);
   if (!configured(url, env)) return json({ error: "Ingreso administrativo sin configurar." }, 503);
   const route = url.pathname.slice(ROOT.length);
   if (request.method === "GET") {
