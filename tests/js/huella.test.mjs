@@ -132,5 +132,43 @@ test("el enlace requiere verificación del Worker y la ruta queda fuera de la ca
   const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
   assert.match(read("../../index.html"), /<template id="huella-admin-menu" data-solo-admin><a href="admin\/huella\/" data-solo-admin>/);
   assert.match(read("../../js/huella-menu.js"), /r\.status === 204 && r\.headers\.get\("X-Dominus-Huella"\) === "admin"/);
-  assert.match(read("../../sw.js"), /p\.includes\("\/admin\/huella\/"\)\) return/);
+  assert.ok(read("../../sw.js").includes('if (p.includes("/admin/huella/") || p.startsWith("/cuenta/")) return'));
+});
+
+test("la sesión de clientes se separa de Admin y cada permiso usa el plan vigente de D1", async (t) => {
+  let active = "recon";
+  const pilot = {
+    ...env,
+    OSINT_PLANS_DB: {
+      prepare(sql) {
+        assert.match(sql, /active = 1.*expires_at/);
+        return { bind: (id) => ({ first: async () => id === "456" && active ? { plan: active } : null }) };
+      }
+    }
+  };
+  const base = origin + "/cuenta/";
+  const request = (path, cookie) => new Request(base + path, { headers: cookie ? { Cookie: cookie } : {} });
+  assert.equal((await serve(request("sesion"), pilot, assets)).status, 403);
+  assert.equal((await serve(request(""), env, assets)).status, 503);
+
+  const start = await serve(request("ingreso"), pilot, assets);
+  const state = new URL(start.headers.get("location")).searchParams.get("state");
+  const oauth = start.headers.getSetCookie()[0].split(";")[0];
+  t.mock.method(globalThis, "fetch", async (url) => url.endsWith("/access_token")
+    ? Response.json({ access_token: "prueba" }) : Response.json({ id: 456, type: "User" }));
+  const callback = await serve(get("oauth/callback?code=demo-code&state=" + state, oauth), pilot, assets);
+  assert.equal(callback.headers.get("location"), "/cuenta/");
+  const session = callback.headers.getSetCookie().find(value => value.startsWith("__Host-dominus-planes=")).split(";")[0];
+  assert.equal((await serve(get("sesion", session), pilot, assets)).status, 403);
+  assert.equal((await serve(get("sesion", session.replace("-planes", "-huella")), pilot, assets)).status, 403);
+  assert.deepEqual(await (await serve(request("sesion?plan=command", session), pilot, assets)).json(), { plan: "recon" });
+  assert.equal((await serve(request("permiso?grupo=riesgos", session), pilot, assets)).status, 200);
+  assert.equal((await serve(request("permiso?grupo=investigacion", session), pilot, assets)).status, 403);
+  active = "analyst";
+  assert.equal((await serve(request("permiso?grupo=investigacion", session), pilot, assets)).status, 200);
+  assert.equal((await serve(request("permiso?grupo=seguimiento", session), pilot, assets)).status, 403);
+  active = "command";
+  assert.equal((await serve(request("permiso?grupo=seguimiento", session), pilot, assets)).status, 200);
+  active = null;
+  assert.equal((await serve(request("sesion", session), pilot, assets)).status, 403);
 });

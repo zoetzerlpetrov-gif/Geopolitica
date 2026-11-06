@@ -1,10 +1,16 @@
-name = "dominus-huella"
+name = "geopolitica"
 main = "worker.js"
 compatibility_date = "2026-11-01"
 workers_dev = false
 preview_urls = false
+keep_vars = true
 
 [[rules]]
 type = "Text"
 globs = ["**/*.html", "**/*.css", "**/*.txt"]
 fallthrough = true
+
+[[d1_databases]]
+binding = "OSINT_PLANS_DB"
+database_name = "dominusosint-planes"
+database_id = "ef42877a-4f83-499a-8bed-bd4c498688de"

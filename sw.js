@@ -9,7 +9,7 @@
 //   StaleWhileRevalidate  estilos y TileJSON de OpenFreeMap.
 //   NetworkFirst data/*.json (eventos, run-log): siempre intenta lo más reciente; sin red usa la copia.
 // No intercepta peticiones con encabezado Range (archivos .pmtiles): el navegador las cachea solo.
-const VERSION = "v151"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
+const VERSION = "v152"; // subir al cambiar la estructura de index.html/js: borra la copia vieja de la app
 const C_ESTATICO = `estatico-${VERSION}`;
 const C_APP = `app-${VERSION}`;
 const C_MOSAICOS = `mosaicos-${VERSION}`;
@@ -76,7 +76,7 @@ self.addEventListener("fetch", (e) => {
 
   if (url.origin === self.location.origin) {
     const p = url.pathname;
-    if (p.includes("/admin/huella/")) return; // acceso autenticado, sin caché local
+    if (p.includes("/admin/huella/") || p.startsWith("/cuenta/")) return; // acceso autenticado, sin caché local
     if (p.includes("/data/") && p.endsWith(".json")) return e.respondWith(networkFirst(req, C_DATOS));
     if (p.includes("/vendor/")) return e.respondWith(cacheFirst(req, C_ESTATICO));
     if (/\.(html|css|js|json|geojson)$|\/$/.test(p)) return e.respondWith(networkFirst(req, C_APP, { cache: "no-cache" }));

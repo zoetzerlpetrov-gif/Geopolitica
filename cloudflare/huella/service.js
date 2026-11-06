@@ -1,5 +1,7 @@
 import { authorized, begin, complete, configured, signOut } from "./auth.js";
 
+import { activePlan, servePlans } from "../planes/service.js";
+
 const ROOT = "/admin/huella/";
 const HEADERS = {
   "Cache-Control": "private, no-store",
@@ -136,12 +138,13 @@ async function readQuery(request) {
 
 export async function serve(request, env, assets) {
   const url = new URL(request.url);
+  if (url.pathname.startsWith("/cuenta/")) return servePlans(request, url, env, ROOT);
   if (!url.pathname.startsWith(ROOT)) return json({ error: "Ruta inexistente" }, 404);
   if (!configured(url, env)) return json({ error: "Ingreso administrativo sin configurar." }, 503);
   const route = url.pathname.slice(ROOT.length);
   if (request.method === "GET") {
     if (route === "oauth/inicio") return begin(url, env, ROOT);
-    if (route === "oauth/callback") return complete(request, url, env, ROOT);
+    if (route === "oauth/callback") return complete(request, url, env, ROOT, (id) => activePlan(env.OSINT_PLANS_DB, id));
     if (route === "ingreso" || route === "huella.css") {
       const [body, type] = assets.get(route);
       const message = route === "ingreso" && url.searchParams.get("estado") === "sin-acceso"

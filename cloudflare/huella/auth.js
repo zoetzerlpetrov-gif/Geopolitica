@@ -1,6 +1,7 @@
 // OAuth identifica la cuenta. El permiso se comprueba localmente por ID numérico de GitHub.
 const STATE = "__Host-dominus-huella-oauth";
 const SESSION = "__Host-dominus-huella";
+const PLAN_SESSION = "__Host-dominus-planes";
 const TTL = 3600;
 const OAUTH_TTL = 600;
 const UTF8 = new TextEncoder();
@@ -23,13 +24,19 @@ export function configured(url, env) {
       env.OSINT_SESSION_SECRET?.length >= 32 && admins(env).length);
 }
 
-export async function authorized(request, env) {
-  const value = read(request, SESSION);
-  if (!value || !/^[1-9][0-9]{0,19}\.[0-9]{1,12}\.[A-Za-z0-9_-]{43}$/.test(value)) return false;
+export async function sessionId(request, env, mode = "admin") {
+  const value = read(request, mode === "planes" ? PLAN_SESSION : SESSION);
+  if (!value || !/^[1-9][0-9]{0,19}\.[0-9]{1,12}\.[A-Za-z0-9_-]{43}$/.test(value)) return null;
   const [id, expires, signature] = value.split(".");
-  if (+expires <= now() || +expires > now() + TTL || !admins(env).includes(id)) return false;
+  const current = now();
+  if (+expires <= current || +expires > current + TTL) return null;
   const bytes = Uint8Array.from(atob(signature.replaceAll("-", "+").replaceAll("_", "/") + "="), char => char.charCodeAt(0));
-  return crypto.subtle.verify("HMAC", await key(env), bytes, UTF8.encode(`${id}.${expires}`));
+  const payload = mode === "planes" ? `planes.${id}.${expires}` : `${id}.${expires}`;
+  return await crypto.subtle.verify("HMAC", await key(env), bytes, UTF8.encode(payload)) ? id : null;
+}
+
+export async function authorized(request, env) {
+  return admins(env).includes(await sessionId(request, env));
 }
 
 function redirect(location, cookies = []) {
@@ -40,7 +47,7 @@ function redirect(location, cookies = []) {
 
 const callback = (url, root) => `${url.origin}${root}oauth/callback`;
 
-export async function begin(url, env, root) {
+export async function begin(url, env, root, mode = "admin") {
   const state = random();
   const verifier = random();
   const challenge = b64url(await crypto.subtle.digest("SHA-256", UTF8.encode(verifier)));
@@ -49,15 +56,17 @@ export async function begin(url, env, root) {
     code_challenge: challenge, code_challenge_method: "S256"
   });
   return redirect(`https://github.com/login/oauth/authorize?${params}`, [
-    cookie(STATE, `${state}.${verifier}.${now() + OAUTH_TTL}`, OAUTH_TTL)
+    cookie(STATE, `${state}.${verifier}.${now() + OAUTH_TTL}.${mode}`, OAUTH_TTL)
   ]);
 }
 
-export async function complete(request, url, env, root) {
+export async function complete(request, url, env, root, activePlan) {
   const cleared = cookie(STATE, "", 0);
-  const deny = () => redirect(`${root}ingreso?estado=sin-acceso`, [cleared]);
   const stored = read(request, STATE);
-  if (!stored || !/^[A-Za-z0-9_-]{43}\.[A-Za-z0-9_-]{43}\.[0-9]{1,12}$/.test(stored)) return deny();
+  const mode = stored?.endsWith(".planes") ? "planes" : "admin";
+  const destination = mode === "planes" ? "/cuenta/" : root;
+  const deny = () => redirect(`${destination}${mode === "planes" ? "" : "ingreso"}?estado=sin-acceso`, [cleared]);
+  if (!stored || !/^[A-Za-z0-9_-]{43}\.[A-Za-z0-9_-]{43}\.[0-9]{1,12}\.(?:admin|planes)$/.test(stored)) return deny();
   const [state, verifier, expires] = stored.split(".");
   const code = url.searchParams.get("code");
   if (url.searchParams.get("state") !== state || +expires <= now() || !code || code.length > 512) return deny();
@@ -81,15 +90,17 @@ export async function complete(request, url, env, root) {
     });
     if (!user.ok) return deny();
     const { id, type } = await user.json();
-    if (type !== "User" || !Number.isSafeInteger(id) || !admins(env).includes(String(id))) return deny();
+    if (type !== "User" || !Number.isSafeInteger(id)) return deny();
+    const allowed = mode === "planes" ? await activePlan?.(String(id)) : admins(env).includes(String(id));
+    if (!allowed) return deny();
     const payload = `${id}.${now() + TTL}`;
-    const signature = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(payload));
-    return redirect(root, [cleared, cookie(SESSION, `${payload}.${b64url(signature)}`, TTL)]);
+    const signature = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(mode === "planes" ? "planes." + payload : payload));
+    return redirect(destination, [cleared, cookie(mode === "planes" ? PLAN_SESSION : SESSION, `${payload}.${b64url(signature)}`, TTL)]);
   } catch {
     return deny();
   }
 }
 
-export function signOut() {
-  return new Response(null, { status: 204, headers: { ...headers, "Set-Cookie": cookie(SESSION, "", 0) } });
+export function signOut(mode = "admin") {
+  return new Response(null, { status: 204, headers: { ...headers, "Set-Cookie": cookie(mode === "planes" ? PLAN_SESSION : SESSION, "", 0) } });
 }
