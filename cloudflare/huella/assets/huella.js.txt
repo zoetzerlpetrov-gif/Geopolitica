@@ -1,0 +1,96 @@
+const $ = (id) => document.getElementById(id);
+const form = $("consulta");
+const status = $("estado");
+const results = $("resultados");
+const search = $("buscar");
+const labels = {
+  verificado: "Verificado en la fuente",
+  sin_resultado: "Sin resultado",
+  indeterminado: "No concluyente",
+  limitado: "No concluyente · límite del proveedor"
+};
+let pending;
+
+function element(parent, tag, text, className) {
+  const node = document.createElement(tag);
+  node.textContent = text;
+  if (className) node.className = className;
+  parent.append(node);
+  return node;
+}
+
+function render(result) {
+  const card = element(results, "article", "", "panel");
+  element(card, "h3", result.source);
+  element(card, "p", labels[result.status], "state " + result.status);
+  if (result.detail) element(card, "p", result.detail);
+  if (result.name) element(card, "p", result.name);
+  if (result.since && !Number.isNaN(Date.parse(result.since))) {
+    element(card, "p", "Cuenta creada el " + new Date(result.since).toLocaleDateString("es-MX"));
+  }
+  if (result.records?.length) {
+    const list = element(card, "ul", "", "records");
+    for (const record of result.records) element(list, "li", record);
+  }
+  if (result.url) {
+    const link = element(card, "a", "Abrir perfil público");
+    link.href = result.url;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+  }
+}
+
+form.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  if (pending) return;
+  const input = $("correo").value.trim();
+  const username = $("alias").value.trim();
+  const [local, domain] = input.includes("@") ? input.split("@") : ["", input];
+  if (input.includes("@") && (!local || !domain || input.indexOf("@") !== input.lastIndexOf("@"))) {
+    status.textContent = "Revisa el formato del correo.";
+    return;
+  }
+  const current = new AbortController();
+  pending = current;
+  search.disabled = true;
+  $("hallazgos").hidden = true;
+  results.replaceChildren();
+  status.textContent = "Consultando fuentes públicas…";
+  try {
+    const response = await fetch("consulta", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ domain, username }),
+      signal: current.signal,
+      redirect: "error",
+      cache: "no-store"
+    });
+    if (!response.ok) {
+      status.textContent = response.status === 400 ? "Indica un dominio o alias válido." : "La consulta no está disponible. Comprueba tu sesión de administrador.";
+      return;
+    }
+    const data = await response.json();
+    if (current.signal.aborted) return;
+    for (const result of data.results) render(result);
+    $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
+    $("hallazgos").hidden = false;
+    status.textContent = `${data.results.length} comprobaciones terminadas.`;
+  } catch {
+    if (!current.signal.aborted) status.textContent = "No se pudo completar la consulta. Comprueba la conexión y tu sesión.";
+  } finally {
+    if (pending === current) {
+      pending = null;
+      search.disabled = false;
+    }
+  }
+});
+
+form.addEventListener("reset", () => {
+  pending?.abort();
+  pending = null;
+  search.disabled = false;
+  $("hallazgos").hidden = true;
+  results.replaceChildren();
+  status.textContent = "Consulta y resultados borrados de la pantalla.";
+});
+search.disabled = false;

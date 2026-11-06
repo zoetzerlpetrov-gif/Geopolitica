@@ -1,0 +1,153 @@
+// Cloudflare Access autentica la sesión. La lista explícita limita el módulo a administradores.
+const ROOT = "/admin/huella/";
+const HEADERS = {
+  "Cache-Control": "private, no-store",
+  "Content-Security-Policy": "default-src 'none'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'none'; frame-ancestors 'none'; form-action 'none'",
+  "Referrer-Policy": "no-referrer",
+  "X-Content-Type-Options": "nosniff"
+};
+
+function json(value, status = 200) {
+  return Response.json(value, { status, headers: HEADERS });
+}
+
+function dnsUrl(name, type) {
+  const query = new URLSearchParams({ name, type, edns_client_subnet: "0.0.0.0/0" });
+  return `https://dns.google/resolve?${query}`;
+}
+
+async function upstream(url, accept = "application/json") {
+  const response = await fetch(url, {
+    headers: { Accept: accept, "User-Agent": "DOMINUS-Huella" },
+    redirect: "error",
+    signal: AbortSignal.timeout(6500)
+  });
+  if (response.status === 429 || (response.status === 403 && response.headers.get("x-ratelimit-remaining") === "0")) {
+    return { status: "limitado" };
+  }
+  if (response.status === 404) return { status: "sin_resultado" };
+  if (!response.ok) return { status: "indeterminado" };
+  return { data: await response.json() };
+}
+
+async function dns(name, type, select) {
+  const { data, status } = await upstream(dnsUrl(name, type));
+  if (status) return { status: status === "sin_resultado" ? "indeterminado" : status };
+  if (data.Status === 3) return { status: "sin_resultado", detail: "Nombre DNS inexistente" };
+  if (data.Status !== 0 || data.TC) return { status: "indeterminado" };
+  const records = (data.Answer || []).filter(r => r.type === type && typeof r.data === "string")
+    .map(r => r.data).filter(select).slice(0, 12);
+  const detail = type === 15 && records.length === 1 && records[0] === "0 ."
+    ? "Null MX: el dominio declara que no acepta correo." : undefined;
+  return { status: records.length ? "verificado" : "sin_resultado", records, detail };
+}
+
+async function alias(source, id) {
+  const safe = encodeURIComponent(id);
+  if (source === "github") {
+    const { data, status } = await upstream(`https://api.github.com/users/${safe}`);
+    if (status) return { status };
+    if (data.login?.toLowerCase() !== id.toLowerCase()) return { status: "indeterminado" };
+    return {
+      status: "verificado", url: `https://github.com/${encodeURIComponent(data.login)}`,
+      detail: data.type === "Organization" ? "Organización" : "Cuenta pública",
+      since: data.created_at, name: data.name
+    };
+  }
+
+  if (source === "dev") {
+    const { data, status } = await upstream(`https://dev.to/api/users/by_username?url=${safe}`, "application/vnd.forem.api-v1+json");
+    if (status) return { status };
+    if (data.username?.toLowerCase() !== id.toLowerCase()) return { status: "indeterminado" };
+    return { status: "verificado", url: `https://dev.to/${encodeURIComponent(data.username)}`, detail: "Cuenta pública", name: data.name };
+  }
+
+  const { data, status } = await upstream(`https://hacker-news.firebaseio.com/v0/user/${safe}.json`);
+  if (status) return { status };
+  if (data === null) return { status: "sin_resultado" };
+  if (data.id !== id) return { status: "indeterminado" };
+  return {
+    status: "verificado", url: `https://news.ycombinator.com/user?id=${safe}`,
+    detail: "Cuenta pública", since: Number.isFinite(data.created) ? new Date(data.created * 1000).toISOString() : undefined
+  };
+}
+
+async function inspect({ domain, username }) {
+  const checks = [];
+  if (domain) {
+    checks.push(
+      ["MX", () => dns(domain, 15, () => true)],
+      ["SPF", () => dns(domain, 16, r => /^"?v=spf1(?:\s|")/i.test(r))],
+      ["DMARC", () => dns(`_dmarc.${domain}`, 16, r => /^"?v=dmarc1(?:;|")/i.test(r))]
+    );
+  }
+  if (username) checks.push(
+    ["GitHub", () => alias("github", username)],
+    ["Hacker News", () => alias("hn", username)],
+    ["DEV Community", () => alias("dev", username)]
+  );
+  const results = await Promise.all(checks.map(async ([source, run]) => {
+    try { return { source, ...await run() }; }
+    catch { return { source, status: "indeterminado" }; }
+  }));
+  return { checkedAt: new Date().toISOString(), results };
+}
+
+async function authorized(env, ctx) {
+  const list = (env.OSINT_ADMIN_EMAILS || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
+  if (!ctx.access || !list.length) return false;
+  try {
+    const identity = await ctx.access.getIdentity();
+    return Boolean(identity?.email && list.includes(identity.email.toLowerCase()));
+  } catch {
+    return false;
+  }
+}
+
+async function readQuery(request) {
+  // Lee hasta 1 KiB también cuando el cliente omite Content-Length.
+  const reader = request.body?.getReader();
+  if (!reader) return null;
+  const bytes = new Uint8Array(1024);
+  let offset = 0;
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    if (offset + value.length > bytes.length) { await reader.cancel(); return null; }
+    bytes.set(value, offset);
+    offset += value.length;
+  }
+  const input = JSON.parse(new TextDecoder().decode(bytes.subarray(0, offset)));
+  if (!input || typeof input !== "object") return null;
+  const domain = typeof input.domain === "string" ? input.domain.trim().toLowerCase() : "";
+  const username = typeof input.username === "string" ? input.username.trim().replace(/^@/, "") : "";
+  if (!domain && !username) return null;
+  if (domain && (domain.length > 253 || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(domain))) return null;
+  if (username && !/^[a-z0-9][a-z0-9_-]{0,38}$/i.test(username)) return null;
+  return { domain, username };
+}
+
+export async function serve(request, env, ctx, assets) {
+  const url = new URL(request.url);
+  if (!url.pathname.startsWith(ROOT)) return json({ error: "Ruta inexistente" }, 404);
+  if (!await authorized(env, ctx)) return json({ error: "Acceso reservado a administradores." }, 403);
+  const route = url.pathname.slice(ROOT.length);
+  if (route === "sesion" && request.method === "GET") {
+    return new Response(null, { status: 204, headers: { ...HEADERS, "X-Dominus-Huella": "admin" } });
+  }
+  if (route === "consulta" && request.method === "POST") {
+    if (request.headers.get("Origin") !== url.origin ||
+        request.headers.get("Content-Type")?.split(";")[0] !== "application/json") {
+      return json({ error: "Origen o formato de solicitud inválido." }, 403);
+    }
+    const query = await readQuery(request).catch(() => null);
+    if (!query) return json({ error: "Indica un dominio o alias válido." }, 400);
+    return json(await inspect(query));
+  }
+  const asset = assets.get(route);
+  if (asset && request.method === "GET") {
+    const [body, type] = asset;
+    return new Response(body, { headers: { ...HEADERS, "Content-Type": type } });
+  }
+  return json({ error: "Ruta inexistente" }, 404);
+}
