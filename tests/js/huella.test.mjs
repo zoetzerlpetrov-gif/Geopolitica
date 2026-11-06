@@ -39,6 +39,7 @@ async function signIn(t, id = 123) {
       assert.equal(Buffer.from(sha).toString("base64url"), authorization.searchParams.get("code_challenge"));
       assert.equal(authorization.searchParams.get("code_challenge_method"), "S256");
       assert.equal(authorization.searchParams.has("scope"), false);
+      assert.equal(authorization.searchParams.get("prompt"), "select_account");
       return Response.json({ access_token: "token-never-in-browser" });
     }
     assert.equal(url, "https://api.github.com/user");
@@ -76,11 +77,25 @@ test("la consola y la API requieren sesión válida. La URL y las cabeceras no c
 test("OAuth rechaza estado inválido y cuentas fuera de la lista", async (t) => {
   const { oauthCookie } = await begin();
   const callback = await serve(get("oauth/callback?code=demo-code&state=invalido", oauthCookie), env, assets);
-  assert.match(callback.headers.get("location"), /sin-acceso$/);
+  assert.match(callback.headers.get("location"), /intento-vencido$/);
   assert.equal(callback.headers.getSetCookie().length, 1);
   const unauthorized = await signIn(t, 456);
   assert.equal(unauthorized.cookie, undefined);
   assert.match(unauthorized.callback.headers.get("location"), /sin-acceso$/);
+});
+
+test("OAuth distingue credenciales rechazadas y conserva los datos de GitHub fuera del aviso", async (t) => {
+  const { state, oauthCookie } = await begin();
+  t.mock.method(globalThis, "fetch", async () => Response.json({
+    error: "incorrect_client_credentials", error_description: "detalle del proveedor"
+  }, { status: 401 }));
+  const callback = await serve(get("oauth/callback?code=demo-code&state=" + state, oauthCookie), env, assets);
+  assert.equal(callback.headers.get("location"), "/admin/huella/ingreso?estado=credenciales-oauth");
+  assert.equal(callback.headers.getSetCookie().length, 1);
+  const page = await serve(get("ingreso?estado=credenciales-oauth"), env, assets);
+  const html = await page.text();
+  assert.match(html, /rechazó las credenciales/);
+  assert.doesNotMatch(html, /detalle del proveedor/);
 });
 
 test("rechaza consultas de otro origen y cuerpos inválidos", async (t) => {

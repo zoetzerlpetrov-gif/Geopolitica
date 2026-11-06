@@ -20,7 +20,7 @@ function admins(env) {
 
 export function configured(url, env) {
   return url.protocol === "https:" && url.origin === env.OSINT_ORIGIN &&
-    Boolean(env.OSINT_GITHUB_CLIENT_ID && env.OSINT_GITHUB_CLIENT_SECRET &&
+    Boolean(env.OSINT_GITHUB_CLIENT_ID?.trim() && env.OSINT_GITHUB_CLIENT_SECRET?.trim() &&
       env.OSINT_SESSION_SECRET?.length >= 32 && admins(env).length);
 }
 
@@ -52,7 +52,8 @@ export async function begin(url, env, root, mode = "admin") {
   const verifier = random();
   const challenge = b64url(await crypto.subtle.digest("SHA-256", UTF8.encode(verifier)));
   const params = new URLSearchParams({
-    client_id: env.OSINT_GITHUB_CLIENT_ID, redirect_uri: callback(url, root), state,
+    client_id: env.OSINT_GITHUB_CLIENT_ID.trim(), redirect_uri: callback(url, root), state,
+    prompt: "select_account",
     code_challenge: challenge, code_challenge_method: "S256"
   });
   return redirect(`https://github.com/login/oauth/authorize?${params}`, [
@@ -65,39 +66,45 @@ export async function complete(request, url, env, root, activePlan) {
   const stored = read(request, STATE);
   const mode = stored?.endsWith(".planes") ? "planes" : "admin";
   const destination = mode === "planes" ? "/cuenta/" : root;
-  const deny = () => redirect(`${destination}${mode === "planes" ? "" : "ingreso"}?estado=sin-acceso`, [cleared]);
-  if (!stored || !/^[A-Za-z0-9_-]{43}\.[A-Za-z0-9_-]{43}\.[0-9]{1,12}\.(?:admin|planes)$/.test(stored)) return deny();
+  const deny = (reason) => redirect(
+    `${destination}${mode === "planes" ? "?estado=sin-acceso" : "ingreso?estado=" + reason}`, [cleared]);
+  if (!stored || !/^[A-Za-z0-9_-]{43}\.[A-Za-z0-9_-]{43}\.[0-9]{1,12}\.(?:admin|planes)$/.test(stored)) return deny("intento-vencido");
   const [state, verifier, expires] = stored.split(".");
   const code = url.searchParams.get("code");
-  if (url.searchParams.get("state") !== state || +expires <= now() || !code || code.length > 512) return deny();
+  if (url.searchParams.get("state") !== state || +expires <= now()) return deny("intento-vencido");
+  if (url.searchParams.get("error") === "access_denied") return deny("autorizacion-cancelada");
+  if (!code || code.length > 512) return deny("codigo-rechazado");
 
   try {
     const token = await fetch("https://github.com/login/oauth/access_token", {
       method: "POST",
-      headers: { Accept: "application/json" },
+      headers: { Accept: "application/json", "User-Agent": "DOMINUS-Huella" },
       body: new URLSearchParams({
-        client_id: env.OSINT_GITHUB_CLIENT_ID, client_secret: env.OSINT_GITHUB_CLIENT_SECRET,
+        client_id: env.OSINT_GITHUB_CLIENT_ID.trim(), client_secret: env.OSINT_GITHUB_CLIENT_SECRET.trim(),
         code, redirect_uri: callback(url, root), code_verifier: verifier
       }),
       redirect: "error", signal: AbortSignal.timeout(6500)
     });
-    if (!token.ok) return deny();
     const credentials = await token.json();
-    if (typeof credentials.access_token !== "string" || !credentials.access_token) return deny();
+    if (credentials?.error === "incorrect_client_credentials") return deny("credenciales-oauth");
+    if (credentials?.error === "redirect_uri_mismatch") return deny("retorno-oauth");
+    if (credentials?.error === "bad_verification_code") return deny("codigo-rechazado");
+    if (credentials?.error === "unverified_user_email") return deny("correo-sin-verificar");
+    if (!token.ok || typeof credentials?.access_token !== "string" || !credentials.access_token) return deny("intercambio-github");
     const user = await fetch("https://api.github.com/user", {
       headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${credentials.access_token}`, "User-Agent": "DOMINUS-Huella" },
       redirect: "error", signal: AbortSignal.timeout(6500)
     });
-    if (!user.ok) return deny();
+    if (!user.ok) return deny("identidad-github");
     const { id, type } = await user.json();
-    if (type !== "User" || !Number.isSafeInteger(id)) return deny();
+    if (type !== "User" || !Number.isSafeInteger(id)) return deny("identidad-github");
     const allowed = mode === "planes" ? await activePlan?.(String(id)) : admins(env).includes(String(id));
-    if (!allowed) return deny();
+    if (!allowed) return deny("sin-acceso");
     const payload = `${id}.${now() + TTL}`;
     const signature = await crypto.subtle.sign("HMAC", await key(env), UTF8.encode(mode === "planes" ? "planes." + payload : payload));
     return redirect(destination, [cleared, cookie(mode === "planes" ? PLAN_SESSION : SESSION, `${payload}.${b64url(signature)}`, TTL)]);
   } catch {
-    return deny();
+    return deny("ingreso-no-disponible");
   }
 }
 

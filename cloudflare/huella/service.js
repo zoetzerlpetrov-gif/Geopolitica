@@ -137,6 +137,19 @@ async function readQuery(request) {
   return { domain, username };
 }
 
+const LOGIN_MESSAGES = new Map([
+  ["sin-acceso", "La cuenta de GitHub elegida no tiene acceso de administrador. Elige la cuenta autorizada al volver a iniciar sesión."],
+  ["intento-vencido", "El intento de ingreso venció o perdió su sesión. Pulsa Continuar con GitHub y completa el proceso en esta pestaña."],
+  ["autorizacion-cancelada", "La autorización de GitHub se canceló. Puedes iniciar el proceso de nuevo."],
+  ["codigo-rechazado", "GitHub rechazó el código de ingreso o este ya no es válido. Inicia un intento nuevo."],
+  ["credenciales-oauth", "GitHub rechazó las credenciales de la OAuth App. Se debe comprobar el Client ID y el Client Secret configurados en Huella."],
+  ["retorno-oauth", "GitHub rechazó la URL de retorno. Comprueba la Redirect URI en la configuración de la OAuth App."],
+  ["correo-sin-verificar", "GitHub pide verificar el correo de la cuenta antes de autorizar el acceso."],
+  ["intercambio-github", "GitHub no pudo completar el intercambio de autorización. Inténtalo de nuevo."],
+  ["identidad-github", "Huella no pudo verificar la cuenta con GitHub. Inténtalo de nuevo."],
+  ["ingreso-no-disponible", "No se pudo completar el ingreso en este momento. Inténtalo de nuevo."]
+]);
+
 export async function serve(request, env, assets) {
   const url = new URL(request.url);
   if (url.pathname.startsWith("/cuenta/")) return servePlans(request, url, env, ROOT);
@@ -148,8 +161,8 @@ export async function serve(request, env, assets) {
     if (route === "oauth/callback") return complete(request, url, env, ROOT, (id) => activePlan(env.OSINT_PLANS_DB, id));
     if (route === "ingreso" || route === "huella.css") {
       const [body, type] = assets.get(route);
-      const message = route === "ingreso" && url.searchParams.get("estado") === "sin-acceso"
-        ? '<p role="alert">No se pudo iniciar sesión. Usa una cuenta autorizada e inténtalo de nuevo.</p>' : "";
+      const reason = route === "ingreso" && LOGIN_MESSAGES.get(url.searchParams.get("estado"));
+      const message = reason ? `<p role="alert">${reason}</p>` : "";
       return new Response(route === "ingreso" ? body.replace("<h1>Ingreso administrativo</h1>", "<h1>Ingreso administrativo</h1>" + message) : body,
         { headers: { ...HEADERS, "Content-Type": type } });
     }
