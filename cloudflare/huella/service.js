@@ -1,6 +1,8 @@
 import { adminMap } from "./admin-map.js";
 import { authorized, begin, complete, configured, signOut } from "./auth.js";
 
+import { declaredProfiles, markCorrelations, publicProfileChecks } from "./profiles.js";
+
 import { activePlan, servePlans } from "../planes/service.js";
 
 const ROOT = "/admin/huella/";
@@ -20,9 +22,13 @@ function dnsUrl(name, type) {
   return `https://dns.google/resolve?${query}`;
 }
 
-async function provider(url, accept) {
+async function provider(url, accept, body) {
+  const headers = { Accept: accept, "User-Agent": "DOMINUS-Huella" };
+  if (body) headers["Content-Type"] = "application/json";
   return fetch(url, {
-    headers: { Accept: accept, "User-Agent": "DOMINUS-Huella" },
+    headers,
+    method: body ? "POST" : "GET",
+    body: body ? JSON.stringify(body) : undefined,
     redirect: "error",
     signal: AbortSignal.timeout(6500)
   });
@@ -36,8 +42,10 @@ function providerStatus(response) {
   if (!response.ok) return "indeterminado";
 }
 
-async function upstream(url, accept = "application/json") {
-  const response = await provider(url, accept);
+async function upstream(url, accept = "application/json", { body, readBadRequest } = {}) {
+  const response = await provider(url, accept, body);
+  if (response.status === 204) return { data: null };
+  if (readBadRequest && response.status === 400) return { data: await response.json() };
   const status = providerStatus(response);
   if (!status) return { data: await response.json() };
   await response.body?.cancel();
@@ -121,6 +129,7 @@ async function gravatar(email) {
       !/^https:\/\/gravatar\.com\/[a-z0-9_-]+\/?$/i.test(data.profile_url)) return { status: "indeterminado" };
   return { status: "verificado", url: data.profile_url,
     name: typeof data.display_name === "string" ? data.display_name.slice(0, 120) : undefined,
+    declaredProfiles: declaredProfiles(data.verified_accounts),
     detail: "Gravatar devolvió un perfil público asociado a la huella del correo." };
 }
 
@@ -162,15 +171,28 @@ async function inspect({ domain, username, email }) {
     ["Gravatar · perfil público", () => gravatar(email)],
     ["GitHub · commits públicos", () => publicCommits(email)]
   );
-  if (username) checks.push(
+  const aliasChecks = username ? [
     ["GitHub", () => alias("github", username)],
     ["Hacker News", () => alias("hn", username)],
-    ["DEV Community", () => alias("dev", username)]
-  );
-  const results = await Promise.all(checks.map(async ([source, run]) => {
-    try { return { source, ...await run() }; }
-    catch { return { source, status: "indeterminado" }; }
+    ["DEV Community", () => alias("dev", username)],
+    ...publicProfileChecks(username, upstream, email)
+  ] : [];
+  const jobs = [
+    ...checks.map(([source, run], index) => [source, run, index < 4 ? "dominio" : "correo"]),
+    ...aliasChecks.map(([source, run]) => [source, run, "alias"])
+  ];
+  const results = new Array(jobs.length);
+  let next = 0;
+  // Workers admite seis conexiones a la espera de cabeceras por petición.
+  await Promise.all(Array.from({ length: Math.min(6, jobs.length) }, async () => {
+    while (next < jobs.length) {
+      const index = next++;
+      const [source, run, kind] = jobs[index];
+      try { results[index] = { source, kind, ...await run() }; }
+      catch { results[index] = { source, kind, status: "indeterminado" }; }
+    }
   }));
+  markCorrelations(results);
   return { checkedAt: new Date().toISOString(), results };
 }
 
@@ -197,7 +219,7 @@ async function readQuery(request) {
       email.indexOf("@") > 64 || email.split("@")[1].toLowerCase() !== domain)) return null;
   if (!domain && !username) return null;
   if (domain && (domain.length > 253 || !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?(?:\.[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?)+$/i.test(domain))) return null;
-  if (username && !/^[a-z0-9][a-z0-9_-]{0,38}$/i.test(username)) return null;
+  if (username && !/^[a-z0-9](?:[a-z0-9_.-]{0,63}[a-z0-9_-])?$/i.test(username)) return null;
   return { domain, username, email };
 }
 

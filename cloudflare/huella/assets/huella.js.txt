@@ -20,11 +20,12 @@ function element(parent, tag, text, className) {
   return node;
 }
 
-function render(result) {
-  const card = element(results, "article", "", "panel");
+function render(group, result) {
+  const card = element(group, "article", "", "panel");
   element(card, "h3", result.source);
   element(card, "p", labels[result.status], "state " + result.status);
   if (result.detail) element(card, "p", result.detail);
+  if (result.correlation) element(card, "p", "Cruce de fuentes · " + result.correlation, "state verificado");
   if (result.name) element(card, "p", result.name);
   if (result.since && !Number.isNaN(Date.parse(result.since))) {
     element(card, "p", "Cuenta creada el " + new Date(result.since).toLocaleDateString("es-MX"));
@@ -41,6 +42,16 @@ function render(result) {
       if (incident.classes.length) element(entry, "small", incident.classes.join(", "));
     }
     if (result.count > result.incidents.length) element(card, "p", `Mostrando ${result.incidents.length} de ${result.count} incidentes.`);
+  }
+  if (result.declaredProfiles?.length) {
+    element(card, "p", "Enlaces visibles publicados en Gravatar");
+    const list = element(card, "ul", "", "records");
+    for (const url of result.declaredProfiles) {
+      const link = element(element(list, "li", ""), "a", url);
+      link.href = url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+    }
   }
   if (result.evidence?.length) {
     const list = element(card, "ul", "", "records");
@@ -98,7 +109,29 @@ form.addEventListener("submit", async (event) => {
     }
     const data = await response.json();
     if (current.signal.aborted) return;
-    for (const result of data.results) render(result);
+    const groups = [
+      ["correo", "Correo exacto"],
+      ["alias", "Alias público"],
+      ["dominio", "Dominio"]
+    ];
+    for (const [kind, title] of groups) {
+      const entries = data.results.filter(result => result.kind === kind);
+      if (!entries.length) continue;
+      const matched = entries.filter(result => ["verificado", "encontrado"].includes(result.status));
+      const pending = entries.filter(result => !matched.includes(result));
+      const section = element(results, "section", "");
+      element(section, "h3", `${title} · ${matched.length} de ${entries.length} con resultado`);
+      if (matched.length) {
+        const group = element(section, "div", "", "grid");
+        for (const result of matched) render(group, result);
+      }
+      if (pending.length) {
+        const details = element(section, "details", "");
+        element(details, "summary", `Ver las otras ${pending.length} comprobaciones`);
+        const group = element(details, "div", "", "grid");
+        for (const result of pending) render(group, result);
+      }
+    }
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
     status.textContent = `${data.results.length} comprobaciones terminadas.`;

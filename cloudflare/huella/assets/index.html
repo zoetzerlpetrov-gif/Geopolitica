@@ -27,15 +27,15 @@
             <small>Por defecto se consulta solo el dominio, es decir, lo que va después de la arroba.</small>
           </label>
           <label>Alias público
-            <input id="alias" maxlength="40" placeholder="@github" autocapitalize="off" spellcheck="false">
-            <small>Consulta coincidencias exactas en GitHub, Hacker News y DEV Community.</small>
+            <input id="alias" maxlength="66" placeholder="@github o bsky.app" autocapitalize="off" spellcheck="false">
+            <small>Consulta perfiles públicos en hasta 23 fuentes. Para Bluesky puedes escribir un identificador completo, como bsky.app.</small>
           </label>
         </div>
         <label class="opcion-correo">
           <input id="correo-exacto" type="checkbox">
           Buscar también el correo exacto en fuentes públicas
         </label>
-        <small>Activa esta opción solo para una consulta autorizada. El Worker envía la dirección completa a keys.openpgp.org y GitHub, y su huella SHA-256 a Gravatar.</small>
+        <small>Activa esta opción solo para una consulta autorizada. El Worker envía la dirección completa a keys.openpgp.org y GitHub, y su huella SHA-256 a Gravatar. Si incluyes un alias, Huella compara los resultados con los enlaces visibles de Gravatar y con el correo publicado en GitLab, cuando exista.</small>
         <div class="actions">
           <button type="submit" id="buscar" disabled>Consultar fuentes</button>
           <button type="reset" class="secondary">Limpiar</button>
@@ -46,12 +46,13 @@
     <section id="hallazgos" aria-labelledby="titulo-resultados" hidden>
       <h2 id="titulo-resultados">Resultados por fuente</h2>
       <p id="marca-tiempo"></p>
-      <div id="resultados" class="grid"></div>
+      <div id="resultados"></div>
     </section>
     <section class="panel" aria-labelledby="limites">
       <h2 id="limites">Cómo interpretar los resultados</h2>
       <ul>
         <li><b>Verificado</b> indica una coincidencia en la fuente indicada. Un perfil, una clave o un commit aportan señales distintas sobre la dirección. Un alias repetido puede pertenecer a personas distintas.</li>
+        <li><b>Cruce de fuentes</b> indica que dos resultados comparten un enlace público o que un perfil publica el mismo correo. Comprueba la evidencia antes de atribuir los perfiles a alguien.</li>
         <li><b>Sin resultado</b> se refiere a esa consulta y fuente. <b>No concluyente</b> incluye errores, respuestas inesperadas y límites de servicio.</li>
         <li>MX describe el destino del correo del dominio. SPF y DMARC describen políticas de envío y validación publicadas en DNS. No validan la existencia de un buzón. DMARC muestra el registro del dominio ingresado, sin resolver herencia.</li>
         <li>Para verificar exposición de tu correo o de un dominio administrado, abre <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. La consulta automática de HIBP revisa incidentes del sitio por dominio. Para revisar si un correo concreto aparece en una filtración, usa el enlace a HIBP. Para ese paso se envía solo el dominio a HIBP.</li>

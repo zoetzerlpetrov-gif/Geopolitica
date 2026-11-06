@@ -134,11 +134,12 @@ test("combina DNS, alias e incidentes del sitio sin enviar un correo a los prove
   });
   const response = await serve(post({ domain: "EXAMPLE.org", username: "@github" }, cookie), env, assets);
   const { results } = await response.json();
-  assert.deepEqual(results.map(({ source, status }) => [source, status]), [
+  assert.deepEqual(results.slice(0, 7).map(({ source, status }) => [source, status]), [
     ["MX", "verificado"], ["SPF", "verificado"], ["DMARC", "indeterminado"],
     ["Have I Been Pwned · incidentes del sitio", "encontrado"],
     ["GitHub", "verificado"], ["Hacker News", "sin_resultado"], ["DEV Community", "limitado"]
   ]);
+  assert.equal(results.filter(result => result.kind === "alias").length, 23);
   assert.match(results[0].detail, /no acepta correo/);
   assert.deepEqual(results[3].incidents, [{ title: "Ejemplo", date: "2024-01-01", classes: ["Email addresses"], verified: false }]);
   assert.equal(results[4].url, "https://github.com/github");
@@ -269,5 +270,72 @@ test("la consulta exacta exige autorización explícita y separa las evidencias 
   assert.deepEqual(exact[2].evidence, [`https://github.com/demo/proyecto/commit/${sha}`]);
   assert.ok(seen.filter(url => /dns.google|haveibeenpwned.com|api.gravatar.com/.test(url.hostname))
     .every(url => !decodeURIComponent(url.href).includes(email)));
+  assert.ok(!JSON.stringify(results).includes(email));
+});
+
+test("separa coincidencias de alias y cruces respaldados por enlaces públicos", async (t) => {
+  const { cookie } = await signIn(t);
+  const email = "equipo@example.org";
+  let active = 0;
+  let max = 0;
+  const seen = new Set();
+  t.mock.method(globalThis, "fetch", async (input, options) => {
+    const url = new URL(input);
+    seen.add(url.hostname);
+    active++;
+    max = Math.max(max, active);
+    await new Promise(resolve => setImmediate(resolve));
+    active--;
+    switch (url.hostname) {
+      case "api.gravatar.com":
+        return Response.json({
+          hash: url.pathname.split("/").at(-1), profile_url: "https://gravatar.com/equipo",
+          verified_accounts: [
+            { url: "https://github.com/equipo/?ref=gravatar", is_hidden: false },
+            { url: "https://codeberg.org/equipo", is_hidden: true },
+            { url: "https://www.linkedin.com/in/equipo", is_hidden: false },
+            { url: "https://github.com/login/oauth/authorize", is_hidden: false },
+            { url: "https://privado.example/equipo", is_hidden: false }
+          ]
+        });
+      case "gitlab.com": return Response.json([{ username: "equipo", public_email: email }]);
+      case "codeberg.org": return Response.json({ login: "equipo", visibility: "public" });
+      case "gitea.com": return Response.json({ login: "otro-alias" });
+      case "api.github.com":
+        return url.pathname.startsWith("/users/") ? Response.json({ login: "equipo" }) :
+          Response.json({ items: [], total_count: 0, incomplete_results: false });
+      case "public.api.bsky.app":
+        assert.equal(url.searchParams.get("actor"), "equipo.bsky.social");
+        return Response.json({ error: "InvalidRequest", message: "Profile not found" }, { status: 400 });
+      case "mastodon.social": return Response.json({ acct: "equipo@otro.example" });
+      case "users.roblox.com":
+        assert.equal(options.method, "POST");
+        assert.deepEqual(JSON.parse(options.body), { usernames: ["equipo"], excludeBannedUsers: true });
+        return Response.json({ data: [{ name: "equipo", id: 123 }] });
+      case "keybase.io": return Response.json({ status: { code: 0 }, them: { basics: { username: "equipo" } } });
+      case "api.bitbucket.org": return Response.json({ slug: "equipo", is_private: true });
+      case "api.chess.com": return new Response(null, { status: 429 });
+      default: return new Response(null, { status: 404 });
+    }
+  });
+  const response = await serve(post({ domain: "example.org", email, searchEmail: true, username: "equipo" }, cookie), env, assets);
+  assert.equal(response.status, 200);
+  const { results } = await response.json();
+  const lookup = source => results.find(result => result.source === source);
+  assert.equal(results.filter(result => result.kind === "alias").length, 23);
+  assert.deepEqual(lookup("Gravatar · perfil público").declaredProfiles,
+    ["https://github.com/equipo", "https://www.linkedin.com/in/equipo"]);
+  assert.match(lookup("GitHub").correlation, /Gravatar/);
+  assert.match(lookup("GitLab.com").correlation, /mismo correo/);
+  assert.equal(lookup("Codeberg").correlation, undefined);
+  assert.equal(lookup("Gitea.com").status, "indeterminado");
+  assert.equal(lookup("Bluesky").status, "sin_resultado");
+  assert.equal(lookup("Mastodon · mastodon.social").status, "indeterminado");
+  assert.equal(lookup("Roblox").url, "https://www.roblox.com/users/123/profile");
+  assert.equal(lookup("Keybase").status, "verificado");
+  assert.equal(lookup("Bitbucket · espacio de trabajo").status, "indeterminado");
+  assert.equal(lookup("Chess.com").status, "limitado");
+  assert.equal(max, 6);
+  assert.equal(seen.has("www.linkedin.com"), false);
   assert.ok(!JSON.stringify(results).includes(email));
 });

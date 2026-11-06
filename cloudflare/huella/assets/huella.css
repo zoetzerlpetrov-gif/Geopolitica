@@ -44,3 +44,6 @@ button.secondary { color: var(--text); background: var(--panel); }
 .verificado { color: var(--ok); }
 .indeterminado, .limitado { color: var(--warn); }
 .records { overflow-wrap: anywhere; padding-left: 1.4rem; }
+
+#resultados details { margin: .8rem 0 1.4rem; }
+#resultados summary { cursor: pointer; color: var(--accent); }
