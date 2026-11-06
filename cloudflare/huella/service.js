@@ -30,7 +30,8 @@ async function provider(url, accept, body) {
     headers,
     method: body ? "POST" : "GET",
     body: body ? JSON.stringify(body) : undefined,
-    redirect: "error",
+    // Workers acepta "manual"; providerStatus descarta respuestas 3xx.
+    redirect: "manual",
     signal: AbortSignal.timeout(6500)
   });
 }

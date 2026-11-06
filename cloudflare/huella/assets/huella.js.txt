@@ -146,7 +146,9 @@ function renderGroup(parent, title, entries) {
   }
   if (other.length) {
     const details = element(section, "details", "");
-    element(details, "summary", `Ver las otras ${other.length} comprobaciones`);
+    const unresolved = other.filter(result => result.status === "indeterminado" || result.status === "limitado").length;
+    element(details, "summary", `Ver las otras ${other.length} comprobaciones` +
+      (unresolved ? ` · ${unresolved} sin respuesta concluyente` : ""));
     const group = element(details, "div", "", "grid");
     for (const result of other) render(group, result);
   }

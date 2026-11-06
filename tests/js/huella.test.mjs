@@ -148,6 +148,35 @@ test("combina DNS, alias e incidentes del sitio sin enviar un correo a los prove
   assert.ok(seen.every(url => !url.href.includes("@")));
 });
 
+test("la consulta directa de Bluesky funciona con las opciones de fetch de Workers y descarta redirecciones", async (t) => {
+  const { cookie } = await signIn(t);
+  const targets = [];
+  t.mock.method(globalThis, "fetch", async (input, options) => {
+    // Workers lanza antes de iniciar la petición si redirect es "error".
+    if (options.redirect === "error") throw new TypeError("Modo de redirección incompatible con Workers");
+    assert.equal(options.redirect, "manual");
+    const url = new URL(input);
+    targets.push(url);
+    if (url.hostname === "public.api.bsky.app") {
+      assert.equal(url.searchParams.get("actor"), "bsky.app");
+      return Response.json({ handle: "bsky.app", displayName: "Bluesky" });
+    }
+    if (url.hostname === "api.github.com") return new Response(null, {
+      status: 302, headers: { Location: "https://externo.example/perfil" }
+    });
+    return new Response(null, { status: 404 });
+  });
+
+  const response = await serve(post({ username: "@bsky.app" }, cookie), env, assets);
+  const { results } = await response.json();
+  const lookup = source => results.find(result => result.source === source);
+  assert.equal(lookup("Bluesky").status, "verificado");
+  assert.equal(lookup("Bluesky").url, "https://bsky.app/profile/bsky.app");
+  assert.equal(lookup("GitHub").status, "indeterminado");
+  assert.ok(targets.some(url => url.hostname === "public.api.bsky.app"));
+  assert.ok(!targets.some(url => url.hostname === "externo.example"));
+});
+
 test("el enlace requiere verificación del Worker y la ruta queda fuera de la caché del mapa", () => {
   const read = (path) => readFileSync(new URL(path, import.meta.url), "utf8");
   assert.match(read("../../index.html"), /id="menu-secciones"[\s\S]*?id="acceso-mapa-admin" href="https:\/\/geopolitica\.zoetzerl-petrov\.workers\.dev\/admin\/huella\/"[^>]* hidden/);
