@@ -152,7 +152,10 @@ function renderGroup(parent, title, entries) {
   }
 }
 
-async function runCatalog(username, { total, batchSize }, signal, directResults) {
+async function runCatalog(username, info, category, signal, directResults) {
+  const section = info.sections?.find(entry => entry.id === category);
+  const total = section?.total ?? info.total;
+  const batchSize = info.batchSize;
   const resultsByOffset = new Map();
   const profileLinks = new Set(directResults.flatMap(result => result.declaredProfiles || []));
   let nextOffset = 0;
@@ -166,7 +169,7 @@ async function runCatalog(username, { total, batchSize }, signal, directResults)
         const response = await fetch("consulta/catalogo", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ username, offset }),
+          body: JSON.stringify({ username, offset, category }),
           signal,
           redirect: "error",
           cache: "no-store"
@@ -193,7 +196,7 @@ async function runCatalog(username, { total, batchSize }, signal, directResults)
       result.correlation = "Gravatar publica un enlace visible a esta misma página.";
     }
   }
-  renderGroup(catalogResults, "Catálogo ampliado", entries);
+  renderGroup(catalogResults, section ? `Catálogo ampliado · ${section.label}` : "Catálogo ampliado", entries);
   status.textContent = expired ? "La sesión venció durante el catálogo. Los resultados completados siguen visibles." :
     `Catálogo ampliado · ${completed} de ${total} fuentes procesadas.` +
     (completed < total ? ` Quedaron ${total - completed} sin procesar.` : "");
@@ -210,6 +213,7 @@ form.addEventListener("submit", async (event) => {
     return;
   }
   const expand = $("catalogo-ampliado").checked && Boolean(username.replace(/^@/, ""));
+  const category = $("catalogo-categoria").value;
   const query = { domain, username };
   if (input.includes("@") && !$("solo-dominio").checked) {
     if (!local || !/^[a-z0-9_%+-]+(?:\.[a-z0-9_%+-]+)*$/i.test(local) || local.length > 64) {
@@ -265,7 +269,7 @@ form.addEventListener("submit", async (event) => {
     $("marca-tiempo").textContent = "Consulta del " + new Date(data.checkedAt).toLocaleString("es-MX");
     $("hallazgos").hidden = false;
     status.textContent = `${data.results.length} comprobaciones directas terminadas.`;
-    if (expand && data.catalog) await runCatalog(username, data.catalog, current.signal, data.results);
+    if (expand && data.catalog) await runCatalog(username, data.catalog, category, current.signal, data.results);
   } catch {
     if (!current.signal.aborted) status.textContent = "No se pudo completar la consulta. Comprueba la conexión y tu sesión.";
   } finally {

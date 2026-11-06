@@ -1,9 +1,34 @@
-import { catalog } from "./catalog-data.js";
+import { catalog as whatsMyNameCatalog } from "./catalog-data.js";
+import { maigretCatalog } from "./catalog-maigret.js";
 
 const BATCH_SIZE = 12;
 const MAX_BYTES = 192 * 1024;
 
-export const catalogInfo = { total: catalog.length, batchSize: BATCH_SIZE };
+export const catalog = [...whatsMyNameCatalog, ...maigretCatalog];
+const sections = [
+  ["social", "Redes sociales, comunidades y blogs", ["social", "blog"]],
+  ["music", "Música", ["music"]],
+  ["media", "Video, fotografía y arte", ["video", "images", "art"]],
+  ["sport", "Deporte y ejercicio", ["sport"]],
+  ["shopping", "Compras y tiendas", ["shopping"]],
+  ["travel", "Viajes y mapas", ["travel"]],
+  ["news", "Noticias y medios", ["news"]],
+  ["services", "Servicios y trabajo", ["business"]],
+  ["gaming", "Videojuegos", ["gaming"]],
+  ["learning", "Educación y aficiones", ["education", "hobby"]],
+  ["tech", "Tecnología y desarrollo", ["tech", "coding"]],
+  ["misc", "Otros sitios públicos", ["misc"]]
+];
+
+const bySection = new Map(sections.map(([id, , categories]) =>
+  [id, catalog.filter(([, category]) => categories.includes(category))]));
+bySection.set("all", catalog);
+
+export const catalogInfo = {
+  total: catalog.length,
+  batchSize: BATCH_SIZE,
+  sections: sections.map(([id, label]) => ({ id, label, total: bySection.get(id).length }))
+};
 
 async function readSignatureBody(response) {
   const reader = response.body?.getReader();
@@ -61,9 +86,10 @@ async function detect(rule, alias) {
   return { ...base, status: "indeterminado" };
 }
 
-export async function inspectCatalog(alias, offset) {
-  if (!Number.isInteger(offset) || offset < 0 || offset >= catalog.length || offset % BATCH_SIZE) return null;
-  const rules = catalog.slice(offset, offset + BATCH_SIZE);
+export async function inspectCatalog(alias, offset, category = "all") {
+  const selection = bySection.get(category);
+  if (!selection || !Number.isInteger(offset) || offset < 0 || offset >= selection.length || offset % BATCH_SIZE) return null;
+  const rules = selection.slice(offset, offset + BATCH_SIZE);
   const results = [];
   for (let index = 0; index < rules.length; index += 6) {
     results.push(...await Promise.all(rules.slice(index, index + 6).map(rule => detect(rule, alias))));

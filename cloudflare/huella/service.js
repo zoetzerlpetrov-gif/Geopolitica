@@ -316,10 +316,10 @@ export async function serve(request, env, assets) {
     if (!input) return json({ error: "Solicitud inválida." }, 400);
     if (route === "consulta/catalogo") {
       const username = readAlias(input.username);
-      if (!validAlias(username) || Object.keys(input).some(key => key !== "username" && key !== "offset")) {
+      if (!validAlias(username) || Object.keys(input).some(key => !["username", "offset", "category"].includes(key))) {
         return json({ error: "El catálogo requiere un alias válido." }, 400);
       }
-      const batch = await inspectCatalog(username, input.offset);
+      const batch = await inspectCatalog(username, input.offset, input.category);
       return batch ? json(batch) : json({ error: "Lote inválido." }, 400);
     }
     const query = readQuery(input);
@@ -329,7 +329,10 @@ export async function serve(request, env, assets) {
   const asset = assets.get(route);
   if (asset && request.method === "GET") {
     const [body, type] = asset;
-    return new Response(route === "" ? body.replace("{{catalogTotal}}", String(catalogInfo.total)) : body,
+    const page = route === "" ? body.replace("{{catalogTotal}}", String(catalogInfo.total))
+      .replace("{{catalogCategories}}", catalogInfo.sections.map(({ id, label, total }) =>
+        `<option value="${id}">${label} (${total})</option>`).join("")) : body;
+    return new Response(page,
       { headers: { ...HEADERS, "Content-Type": type } });
   }
   return json({ error: "Ruta inexistente" }, 404);

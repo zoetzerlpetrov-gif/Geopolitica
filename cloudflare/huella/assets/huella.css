@@ -51,3 +51,5 @@ button.secondary { color: var(--text); background: var(--panel); }
 .redes-lista { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: .35rem 1rem; }
 
 .avatar-publico { display: block; width: 96px; height: 96px; object-fit: cover; border-radius: .5rem; margin: .5rem 0; }
+
+#catalogo-categoria { font: inherit; max-width: 25rem; padding: .4rem; }

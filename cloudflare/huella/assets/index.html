@@ -40,7 +40,15 @@
           <input id="catalogo-ampliado" type="checkbox">
           Consultar catálogo ampliado por alias ({{catalogTotal}} fuentes adicionales)
         </label>
-        <small>Envía solo el alias público a las fuentes del catálogo, en lotes. Puede tardar. El catálogo adapta datos de <a href="https://github.com/WebBreacher/WhatsMyName" target="_blank" rel="noopener noreferrer">WhatsMyName</a> bajo <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>.</small>
+        <label for="catalogo-categoria">Categoría del catálogo ampliado
+          <select id="catalogo-categoria">
+            <option value="all">Todas las categorías</option>
+            {{catalogCategories}}
+          </select>
+        </label>
+        <small>Se envía solo el alias a las fuentes seleccionadas. Consultar todas las categorías puede tardar varios minutos.
+          Datos adaptados de <a href="https://github.com/WebBreacher/WhatsMyName" target="_blank" rel="noopener noreferrer">WhatsMyName</a> (<a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a>)
+          y <a href="https://github.com/soxoj/maigret" target="_blank" rel="noopener noreferrer">Maigret</a> (MIT).</small>
         <div class="actions">
           <button type="submit" id="buscar" disabled>Consultar fuentes</button>
           <button type="reset" class="secondary">Limpiar</button>

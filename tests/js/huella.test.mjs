@@ -1,8 +1,7 @@
 import { readFileSync } from "node:fs";
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { catalog } from "../../cloudflare/huella/catalog-data.js";
-import { catalogInfo } from "../../cloudflare/huella/catalog.js";
+import { catalog, catalogInfo } from "../../cloudflare/huella/catalog.js";
 import { serve } from "../../cloudflare/huella/service.js";
 
 const origin = "https://dominus.example";
@@ -376,7 +375,7 @@ test("separa coincidencias de alias y cruces respaldados por enlaces públicos",
   assert.ok(!JSON.stringify(results).includes(email));
 });
 
-test("el catálogo supera 100 destinos HTTPS y opera en lotes autenticados sin reenviar correos", async (t) => {
+test("el catálogo ampliado usa destinos HTTPS y opera en lotes autenticados sin reenviar correos", async (t) => {
   const { cookie } = await signIn(t);
   const url = root + "consulta/catalogo";
   const request = (value, session = cookie, originOverride = origin) => new Request(url, {
@@ -388,13 +387,14 @@ test("el catálogo supera 100 destinos HTTPS y opera en lotes autenticados sin r
       const parsed = new URL(template.replace("{account}", "demo-qa"));
       assert.equal(parsed.protocol, "https:");
       assert.equal(parsed.username + parsed.password + parsed.port + parsed.hash, "");
-      assert.match(parsed.hostname, /^[a-z0-9][a-z0-9.-]+\.[a-z]{2,}$/i);
+      assert.match(parsed.hostname, /^[a-z0-9][a-z0-9.-]*\.[a-z]{2,}$/i);
       assert.ok(parsed.href.includes("demo-qa"));
     }
     return new URL((link || target).replace("{account}", "demo-qa")).hostname.replace(/^www\./, "");
   });
   assert.equal(new Set(hosts).size, catalogInfo.total);
-  assert.ok(catalogInfo.total > 100);
+  assert.ok(catalogInfo.total >= 300);
+  assert.equal(catalogInfo.sections.reduce((total, section) => total + section.total, 0), catalogInfo.total);
 
   let requests = 0;
   t.mock.method(globalThis, "fetch", async (target, options) => {
@@ -416,7 +416,7 @@ test("el catálogo supera 100 destinos HTTPS y opera en lotes autenticados sin r
   assert.equal((await serve(request(query, ""), env, assets)).status, 403);
   assert.equal((await serve(request(query, cookie, "https://otra.example"), env, assets)).status, 403);
   for (const value of [{ ...query, offset: 1 }, { ...query, email: "qa@example.org" },
-    { ...query, username: "../../admin" }, { ...query, url: "https://otra.example" }]) {
+    { ...query, username: "../../admin" }, { ...query, url: "https://otra.example" }, { ...query, category: "desconocida" }]) {
     assert.equal((await serve(request(value), env, assets)).status, 400);
   }
   assert.equal(requests, 0);
@@ -433,4 +433,8 @@ test("el catálogo supera 100 destinos HTTPS y opera en lotes autenticados sin r
   const last = await serve(request({ ...query, offset: lastOffset }), env, assets);
   assert.equal((await last.json()).results.length, catalogInfo.total - lastOffset);
   assert.equal(requests, catalogInfo.batchSize + catalogInfo.total - lastOffset);
+  const music = await serve(request({ ...query, category: "music" }), env, assets);
+  const selection = (await music.json()).results;
+  assert.equal(selection.length, catalogInfo.batchSize);
+  assert.ok(selection.every(entry => entry.category === "music"));
 });
