@@ -8,7 +8,7 @@ const AVATAR_PATHS = {
   "gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
   "secure.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
   "www.gravatar.com": /^\/avatar\/[a-f0-9]{32,64}(?:\.[a-z]+)?$/i,
-  "cdn.bsky.app": /^\/img\/avatar(?:_thumbnail)?\/plain\/did:[a-z0-9:._%-]+\/[a-z0-9]+@[a-z]+$/i,
+  "cdn.bsky.app": /^\/img\/avatar(?:_thumbnail)?\/plain\/did:[a-z0-9:._%-]+\/[a-z0-9]+(?:@[a-z]+)?$/i,
   "gitlab.com": /^\/uploads\/-\/system\/user\/avatar\/\d+\/[a-z0-9._%+-]+$/i
 };
 export const avatarOrigins = Object.keys(AVATAR_PATHS).map(host => `https://${host}`);

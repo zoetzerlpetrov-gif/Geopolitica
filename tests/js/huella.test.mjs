@@ -159,7 +159,10 @@ test("la consulta directa de Bluesky funciona con las opciones de fetch de Worke
     targets.push(url);
     if (url.hostname === "public.api.bsky.app") {
       assert.equal(url.searchParams.get("actor"), "bsky.app");
-      return Response.json({ handle: "bsky.app", displayName: "Bluesky" });
+      return Response.json({
+        handle: "bsky.app", displayName: "Bluesky",
+        avatar: "https://cdn.bsky.app/img/avatar/plain/did:plc:example/bafkreiexample"
+      });
     }
     if (url.hostname === "api.github.com") return new Response(null, {
       status: 302, headers: { Location: "https://externo.example/perfil" }
@@ -172,6 +175,7 @@ test("la consulta directa de Bluesky funciona con las opciones de fetch de Worke
   const lookup = source => results.find(result => result.source === source);
   assert.equal(lookup("Bluesky").status, "verificado");
   assert.equal(lookup("Bluesky").url, "https://bsky.app/profile/bsky.app");
+  assert.equal(lookup("Bluesky").avatar, "https://cdn.bsky.app/img/avatar/plain/did:plc:example/bafkreiexample");
   assert.equal(lookup("GitHub").status, "indeterminado");
   assert.ok(targets.some(url => url.hostname === "public.api.bsky.app"));
   assert.ok(!targets.some(url => url.hostname === "externo.example"));
