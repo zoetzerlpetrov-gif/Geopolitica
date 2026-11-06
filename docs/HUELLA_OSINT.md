@@ -1,22 +1,33 @@
 # Huella digital OSINT
 
-La consola está en **Secciones → Huella digital OSINT** dentro de la edición administrativa. El menú consulta la sesión del Worker al abrirse. GitHub Pages no ejecuta el Worker y su compilación excluye la consola. El enlace no se muestra en Demo, Recon, Analyst ni Command. Cambiar parámetros como `?vista=admin` no autentica una cuenta.
+La opción **Secciones → Huella digital OSINT** aparece en el mapa administrativo después de iniciar sesión. Demo, Recon, Analyst y Command siguen sin mostrarla. Cambiar la URL a `?vista=admin` no concede acceso. El ingreso se hace con GitHub y el Worker verifica el ID numérico contra la lista de administradores en cada solicitud. La sesión dura una hora.
 
-## Alcance
+## Consultas
 
-- Alias público exacto en GitHub, Hacker News y DEV Community. Cada resultado indica la fuente y, si existe, enlaza al perfil. Coincidir en un alias no demuestra que dos cuentas pertenezcan a la misma persona.
-- Correo o dominio con comprobaciones MX, SPF y DMARC vía DNS público de Google. Se envía solo el dominio. La interfaz no prueba si un buzón acepta mensajes y no usa recuperación de contraseñas.
-- Resultados separados en verificado, sin resultado y no concluyente. El estado de límite del proveedor también es no concluyente. Las fuentes son independientes y se consultan en paralelo.
-- La consola no conserva consultas ni resultados. La aplicación no integra catálogos de filtraciones, registros de infostealers ni búsquedas de titular por correo. Ofrece un enlace a Have I Been Pwned para una comprobación propia y separada.
+- **Alias.** Coincidencia exacta en GitHub, Hacker News y DEV Community. Un alias idéntico puede corresponder a personas distintas.
+- **Correo o dominio.** MX, SPF y DMARC vía DNS público de Google e incidentes públicos del sitio según Have I Been Pwned (HIBP). Se envía solo el dominio. La tarjeta de incidentes indica nombre, fecha y clases de datos, con el estado de verificación del proveedor. Por ejemplo, `adobe.com` permite comprobar que el catálogo devuelve incidentes del sitio.
+- **Exposición individual.** La búsqueda de incidentes del sitio no comprueba una dirección concreta. Para revisar una dirección propia, la consola enlaza a HIBP y deja que la persona capture su correo allí. La API automatizada para una dirección requiere un plan o clave compatible y queda fuera de esta versión.
+- La consola no almacena consultas ni resultados. Usa los servicios externos solo para identificadores de investigaciones autorizadas.
 
-## Activar en el alojamiento administrativo desde la web
+## Activar desde el navegador, sin Cloudflare Access
 
-1. Despliega `cloudflare/huella` como Worker `dominus-huella`. En Workers & Pages puedes conectar este repositorio, seleccionar `cloudflare/huella` como directorio raíz y usar `npx wrangler@4 deploy` como comando de despliegue del servicio de compilación. El navegador del administrador no necesita instalar nada.
-2. En el Worker agrega el secreto `OSINT_ADMIN_EMAILS` con los correos administrativos separados por comas. Mantén deshabilitados `workers.dev` y las URL de vista previa.
-3. En el mismo host donde vive el mapa administrativo, enruta `/admin/huella/*` al Worker. La edición administrativa debe publicar el mapa en la raíz de ese host. En Cloudflare Access protege el mapa administrativo y la ruta del Worker con la aplicación y política de administradores, con autenticación multifactor. La solicitud debe invocar al Worker directamente desde esa ruta protegida. Sirve sus recursos mediante el Worker para que todas las solicitudes pasen por autenticación.
-4. Abre el mapa administrativo, inicia sesión y abre **Secciones**. Prueba `github` como alias público o `example.org` como dominio. Ese dominio anuncia Null MX y la consola muestra que declara no recibir correo.
-5. Repite en una ventana sin sesión y con una cuenta ajena a la lista. La ruta directa y la API deben quedar bloqueadas. Configura un límite de peticiones en la ruta de consulta antes de habilitarla para varios administradores.
+El mapa administrativo y el Worker deben compartir un host HTTPS bajo tu control. GitHub Pages sirve archivos estáticos y no puede ejecutar la validación de sesión en `github.io`. El Worker puede convivir con la copia del mapa en un dominio personalizado. El módulo no requiere una política de Cloudflare Access.
 
-Si la ruta, Cloudflare Access o la lista de administradores no están configurados, el sistema queda cerrado.
+1. En GitHub abre **Settings → Developer settings → OAuth Apps → New OAuth App**. Crea una aplicación dedicada para Huella. En **Homepage URL** indica el origen HTTPS del mapa administrativo. En **Authorization callback URL** indica ese mismo origen seguido de `/admin/huella/oauth/callback`. Guarda el Client ID y genera un Client Secret. La aplicación no solicita permisos adicionales para repositorios.
+2. En Cloudflare **Workers & Pages**, conecta este repositorio. Selecciona `cloudflare/huella` como directorio raíz y usa `npx wrangler@4 deploy` como comando del servicio de compilación. Los comandos corren en el servicio de compilación, desde el panel web. Conserva deshabilitadas las URL de vista previa y `workers.dev`.
+3. En **Settings → Variables and Secrets** del Worker configura lo siguiente:
 
-[Cloudflare Access para Workers](https://developers.cloudflare.com/workers/configuration/cloudflare-access/) · [API de DNS de Google](https://developers.google.com/speed/public-dns/docs/doh/json) · [API pública de Hacker News](https://github.com/HackerNews/API)
+   | Nombre | Tipo | Valor |
+   |---|---|---|
+   | `OSINT_ORIGIN` | Variable | El origen HTTPS del mapa administrativo, sin barra final. |
+   | `OSINT_GITHUB_CLIENT_ID` | Variable | Client ID de la OAuth App. |
+   | `OSINT_GITHUB_CLIENT_SECRET` | Secreto | Client Secret de la OAuth App. |
+   | `OSINT_SESSION_SECRET` | Secreto | Valor aleatorio de 32 caracteres o más, independiente del Client Secret. Usa el generador de tu gestor de contraseñas. |
+   | `OSINT_ADMIN_GITHUB_IDS` | Variable | IDs numéricos de las cuentas autorizadas, separados por comas. Para consultar tu ID, abre `https://api.github.com/users/TU_USUARIO` y localiza el campo `id`. |
+
+4. Crea una ruta **Workers Routes** para `tu-host/admin/huella/*` en el host del mapa administrativo. Publica el mapa con el último código en la raíz de ese mismo host. No compartas secretos en GitHub ni en enlaces.
+5. Abre `https://tu-host/admin/huella/` en el navegador y selecciona **Continuar con GitHub**. Después del ingreso, vuelve al mapa y abre **Secciones**. Prueba el alias `github` y el dominio `adobe.com`. En una ventana privada, verifica que la consola solicite iniciar sesión y que abrir directamente la API no entregue resultados. Configura límites de peticiones en la ruta antes de dar acceso a varios administradores.
+
+El Worker mantiene cerrado el acceso si falta configuración. El código de OAuth valida estado y PKCE, usa cookies HttpOnly con una firma del servidor, y conserva únicamente el identificador de sesión firmado en la cookie. El token de GitHub se usa para verificar la identidad durante el ingreso y no se guarda en el navegador.
+
+[OAuth de GitHub](https://docs.github.com/en/apps/oauth-apps/building-oauth-apps/authorizing-oauth-apps) · [API de Have I Been Pwned](https://haveibeenpwned.com/API/V3)

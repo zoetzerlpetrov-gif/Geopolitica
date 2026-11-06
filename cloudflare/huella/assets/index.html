@@ -13,6 +13,7 @@
   <header>
     <a href="../../">← Mapa principal</a>
     <span>DOMINUS OSINT · ADMIN</span>
+    <button id="salir" type="button" class="secondary">Cerrar sesión</button>
   </header>
   <main>
     <h1>Huella digital</h1>
@@ -48,7 +49,7 @@
         <li><b>Verificado</b> indica un perfil público con el alias consultado o un registro DNS devuelto por la fuente. Un alias repetido puede pertenecer a personas distintas.</li>
         <li><b>Sin resultado</b> se refiere a esa consulta y fuente. <b>No concluyente</b> incluye errores, respuestas inesperadas y límites de servicio.</li>
         <li>MX describe el destino del correo del dominio. SPF y DMARC describen políticas de envío y validación publicadas en DNS. No validan la existencia de un buzón. DMARC muestra el registro del dominio ingresado, sin resolver herencia.</li>
-        <li>Para verificar exposición de tu correo o de un dominio administrado, abre <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a> y captura tus datos allí si corresponde. La consola no transmite la dirección a ese servicio.</li>
+        <li>Para verificar exposición de tu correo o de un dominio administrado, abre <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a> y captura tus datos allí si corresponde. La consulta automática revisa incidentes públicos del sitio por dominio. Para ese paso se envía solo el dominio a HIBP.</li>
       </ul>
     </section>
   </main>

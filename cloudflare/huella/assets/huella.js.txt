@@ -5,6 +5,7 @@ const results = $("resultados");
 const search = $("buscar");
 const labels = {
   verificado: "Verificado en la fuente",
+  encontrado: "Registrado en el catálogo",
   sin_resultado: "Sin resultado",
   indeterminado: "No concluyente",
   limitado: "No concluyente · límite del proveedor"
@@ -31,6 +32,15 @@ function render(result) {
   if (result.records?.length) {
     const list = element(card, "ul", "", "records");
     for (const record of result.records) element(list, "li", record);
+  }
+  if (result.incidents?.length) {
+    const list = element(card, "ul", "", "records");
+    for (const incident of result.incidents) {
+      const state = incident.verified ? "verificado por HIBP" : "sin verificar por HIBP";
+      const entry = element(list, "li", [incident.title, incident.date, state].filter(Boolean).join(" · "));
+      if (incident.classes.length) element(entry, "small", incident.classes.join(", "));
+    }
+    if (result.count > result.incidents.length) element(card, "p", `Mostrando ${result.incidents.length} de ${result.count} incidentes.`);
   }
   if (result.url) {
     const link = element(card, "a", "Abrir perfil público");
@@ -94,3 +104,13 @@ form.addEventListener("reset", () => {
   status.textContent = "Consulta y resultados borrados de la pantalla.";
 });
 search.disabled = false;
+
+$("salir").addEventListener("click", async () => {
+  try {
+    const response = await fetch("salir", { method: "POST", redirect: "error" });
+    if (![204, 403].includes(response.status)) throw new Error();
+    location.replace("ingreso");
+  } catch {
+    status.textContent = "No se pudo cerrar la sesión. Inténtalo de nuevo.";
+  }
+});

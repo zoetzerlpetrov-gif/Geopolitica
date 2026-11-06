@@ -1,4 +1,5 @@
-// Cloudflare Access autentica la sesión. La lista explícita limita el módulo a administradores.
+import { authorized, begin, complete, configured, signOut } from "./auth.js";
+
 const ROOT = "/admin/huella/";
 const HEADERS = {
   "Cache-Control": "private, no-store",
@@ -72,13 +73,30 @@ async function alias(source, id) {
   };
 }
 
+async function incidentesDominio(domain) {
+  const { data, status } = await upstream("https://haveibeenpwned.com/api/v3/breaches?" + new URLSearchParams({ Domain: domain }));
+  if (status || !Array.isArray(data)) return { status: status === "limitado" ? status : "indeterminado" };
+  const exact = data.filter(item => item?.Domain?.toLowerCase() === domain && typeof item.Title === "string");
+  const incidents = exact.sort((a, b) => String(b.BreachDate).localeCompare(String(a.BreachDate)))
+    .slice(0, 12).map(({ Title, BreachDate, DataClasses, IsVerified }) => ({
+      title: Title, date: BreachDate, verified: IsVerified === true,
+      classes: Array.isArray(DataClasses) ? DataClasses.filter(item => typeof item === "string").slice(0, 12) : []
+    }));
+  return {
+    status: exact.length ? "encontrado" : "sin_resultado", incidents,
+    detail: "Incidentes de este sitio en el catálogo público. El resultado se refiere al dominio, no a una dirección de correo.",
+    count: exact.length
+  };
+}
+
 async function inspect({ domain, username }) {
   const checks = [];
   if (domain) {
     checks.push(
       ["MX", () => dns(domain, 15, () => true)],
       ["SPF", () => dns(domain, 16, r => /^"?v=spf1(?:\s|")/i.test(r))],
-      ["DMARC", () => dns(`_dmarc.${domain}`, 16, r => /^"?v=dmarc1(?:;|")/i.test(r))]
+      ["DMARC", () => dns(`_dmarc.${domain}`, 16, r => /^"?v=dmarc1(?:;|")/i.test(r))],
+      ["Have I Been Pwned · incidentes del sitio", () => incidentesDominio(domain)]
     );
   }
   if (username) checks.push(
@@ -91,17 +109,6 @@ async function inspect({ domain, username }) {
     catch { return { source, status: "indeterminado" }; }
   }));
   return { checkedAt: new Date().toISOString(), results };
-}
-
-async function authorized(env, ctx) {
-  const list = (env.OSINT_ADMIN_EMAILS || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
-  if (!ctx.access || !list.length) return false;
-  try {
-    const identity = await ctx.access.getIdentity();
-    return Boolean(identity?.email && list.includes(identity.email.toLowerCase()));
-  } catch {
-    return false;
-  }
 }
 
 async function readQuery(request) {
@@ -127,11 +134,29 @@ async function readQuery(request) {
   return { domain, username };
 }
 
-export async function serve(request, env, ctx, assets) {
+export async function serve(request, env, assets) {
   const url = new URL(request.url);
   if (!url.pathname.startsWith(ROOT)) return json({ error: "Ruta inexistente" }, 404);
-  if (!await authorized(env, ctx)) return json({ error: "Acceso reservado a administradores." }, 403);
+  if (!configured(url, env)) return json({ error: "Ingreso administrativo sin configurar." }, 503);
   const route = url.pathname.slice(ROOT.length);
+  if (request.method === "GET") {
+    if (route === "oauth/inicio") return begin(url, env, ROOT);
+    if (route === "oauth/callback") return complete(request, url, env, ROOT);
+    if (route === "ingreso" || route === "huella.css") {
+      const [body, type] = assets.get(route);
+      const message = route === "ingreso" && url.searchParams.get("estado") === "sin-acceso"
+        ? '<p role="alert">No se pudo iniciar sesión. Usa una cuenta autorizada e inténtalo de nuevo.</p>' : "";
+      return new Response(route === "ingreso" ? body.replace("<h1>Ingreso administrativo</h1>", "<h1>Ingreso administrativo</h1>" + message) : body,
+        { headers: { ...HEADERS, "Content-Type": type } });
+    }
+  }
+  if (!await authorized(request, env)) {
+    if (route === "" && request.method === "GET") return new Response(null, {
+      status: 303, headers: { ...HEADERS, Location: ROOT + "ingreso" }
+    });
+    return json({ error: "Acceso reservado a administradores." }, 403);
+  }
+  if (route === "salir" && request.method === "POST" && request.headers.get("Origin") === url.origin) return signOut();
   if (route === "sesion" && request.method === "GET") {
     return new Response(null, { status: 204, headers: { ...HEADERS, "X-Dominus-Huella": "admin" } });
   }
