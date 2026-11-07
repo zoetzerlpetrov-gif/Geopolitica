@@ -1,0 +1,2211 @@
+{
+ "fuente": "Resumen de grafología de la persona usuaria (Excel), convertido sin cambios de contenido.",
+ "secciones": [
+  {
+   "id": "orden",
+   "nombre": "Orden",
+   "lema": "Tu mundo propio",
+   "descripcion": "Capacidad de organización, observación, y adpatación del escribiente.",
+   "grupos": [
+    {
+     "id": "estructura",
+     "nombre": "Estructura",
+     "rasgos": [
+      {
+       "id": "ordenada_esmerada_exageradamente_ordenada",
+       "nombre": "Ordenada\nesmerada=exageradamente ordenada.",
+       "nota": "",
+       "interpretacion": "Organizado, apegado a lineamientos.\nDerecho reservado\nIzquierdo apegado a reglas nivel social, independización.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "desordenada_desalinada_exageradamente_desordenada",
+       "nombre": "Desordenada\ndesaliñada=exageradamente desordenada.",
+       "nota": "",
+       "interpretacion": "No le gusta seguir las reglas, improvisación.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "equilibrio",
+     "nombre": "Equilibrio",
+     "rasgos": [
+      {
+       "id": "proporcionada_mediana_sobria_aireada_clara_modelo_caligrafic",
+       "nombre": "Proporcionada\nmediana, sobria, aireada, clara, modelo caligráfico.",
+       "nota": "",
+       "interpretacion": "Zonas equilibradas.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "desproporcionada_bizarra_muy_grande_muy_pequena_hacia_arriba",
+       "nombre": "Desproporcionada\nbizarra, muy grande, muy pequeña, hacia arriba y/o hacia abajo.",
+       "nota": "",
+       "interpretacion": "Depende de la zona es el desequilibrio.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "organizacion",
+     "nombre": "Organización",
+     "rasgos": [
+      {
+       "id": "enredada_letra_apretada_es_facil_de_enredar",
+       "nombre": "Enredada\nletra apretada es fácil de enredar.",
+       "nota": "",
+       "interpretacion": "Hampas y jambas se pueden juntar y enredar.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cruzada",
+       "nombre": "Cruzada",
+       "nota": "",
+       "interpretacion": "Manera de violentar el texto.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "hiperpuesta",
+       "nombre": "Hiperpuesta",
+       "nota": "",
+       "interpretacion": "Corrigiendo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "direcciones_multiples",
+       "nombre": "Direcciones múltiples",
+       "nota": "",
+       "interpretacion": "Persona creativa pero puede tener desorden.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "subrayada",
+       "nombre": "Subrayada",
+       "nota": "",
+       "interpretacion": "Enfatiza pero por preocuparse por lo importante no conoce lo urgente.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "margenes_como_te_desenvuelves_en_la_vida",
+     "nombre": "Márgenes (cómo te desenvuelves en la vida)",
+     "rasgos": [
+      {
+       "id": "superior",
+       "nombre": "Superior",
+       "nota": "",
+       "interpretacion": "Qué tan facil se familiariza y toma acción. Comportamiento dentro del medio, qué tanto se acerca, aleja o guarda las normas.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "izquierdo",
+       "nombre": "Izquierdo",
+       "nota": "",
+       "interpretacion": "Lo que le es familiar, origen y como lo maneja. Muestra el orden, el tren de vida, la relación con el gasto-ahorro, el sentido estético y los movimientos yo-tú.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "derecho",
+       "nombre": "Derecho",
+       "nota": "",
+       "interpretacion": "Qué tan espontáneo y como mantiene ese ímpetu. Cómo marchamos al futuro: firmes, energéticos, decididos, paralizados o inseguros. Nuestra posición ante el porvenir, ante los otros, nuestra realización.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "inferior",
+       "nombre": "Inferior",
+       "nota": "",
+       "interpretacion": "Qué tan resistente y constante es el autor. Dominio que tiene el escritor sobre sí mismo. Qué tanto constrola su actividad y sus instintos.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dimension",
+   "nombre": "Dimensión",
+   "lema": "Concepto de sí mismo",
+   "descripcion": "Expansión de las tendencias, impulso y necesidades del escribiente y la irradiación de su energía como también la idea que tiene de sí mismo.",
+   "grupos": [
+    {
+     "id": "tamano",
+     "nombre": "Tamaño",
+     "rasgos": [
+      {
+       "id": "exag_grande_4mm",
+       "nombre": "Exag. grande +4mm",
+       "nota": "",
+       "interpretacion": "ARTISTA-HUMANISTA, TRABAJO SOLO O COMPAÑIA\nEspontáneo, dramático, generoso, poca tolerancia a la frustración.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "grande_3_5_mm",
+       "nombre": "Grande 3.5 mm",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "mediana_o_normal_3mm",
+       "nombre": "Mediana o normal 3mm",
+       "nota": "",
+       "interpretacion": "Serenidad, equilibrio emocional, rutinario, conformista.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "pequena_2_5_mm",
+       "nombre": "Pequeña 2.5 mm",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "exag_pequena_2mm",
+       "nombre": "Exag. pequeña 2mm",
+       "nota": "",
+       "interpretacion": "TECNICO-NORMATIVO, TRABAJAN SOLOS\nIntrovertido, inseguro, falta de firmeza.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "anchura",
+     "nombre": "Anchura",
+     "rasgos": [
+      {
+       "id": "adosada",
+       "nombre": "Adosada",
+       "nota": "",
+       "interpretacion": "Se juntan demasiado las letras, se enciman.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "comprimida",
+       "nombre": "Comprimida",
+       "nota": "",
+       "interpretacion": "Timidez, cauteloso, callado.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "extendida",
+       "nombre": "Extendida",
+       "nota": "",
+       "interpretacion": "Necesidad de contacto, de reconocimiento, aceptación.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "altura",
+     "nombre": "Altura",
+     "rasgos": [
+      {
+       "id": "sobrealzada",
+       "nombre": "Sobrealzada",
+       "nota": "",
+       "interpretacion": "Orgullo, distinción, necesidad reconocimiento, llamar atención.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "rebajada",
+       "nombre": "Rebajada",
+       "nota": "",
+       "interpretacion": "Vive su realidad al máximo (presión fuerte) o energía baja, sumisa y pasiva (presión baja).",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "espaciamiento",
+     "nombre": "Espaciamiento",
+     "rasgos": [
+      {
+       "id": "espaciada",
+       "nombre": "Espaciada",
+       "nota": "",
+       "interpretacion": "Entre palabras",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "aireada",
+       "nombre": "Aireada",
+       "nota": "",
+       "interpretacion": "Letras y palabras",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "apretada",
+       "nombre": "Apretada",
+       "nota": "",
+       "interpretacion": "Entre renglones y letras",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "proporcion_espacio_entre_hampa_y_jamba_1_5_ovalos",
+     "nombre": "Proporción espacio entre hampa y jamba 1.5 óvalos",
+     "rasgos": [
+      {
+       "id": "baja",
+       "nombre": "Baja",
+       "nota": "",
+       "interpretacion": "Le cuesta pensar de manera diferente, mas emocional.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "prol_hacia_arriba",
+       "nombre": "Prol. hacia arriba",
+       "nota": "",
+       "interpretacion": "Razonamiento duro si es anguloso, fantasía o utopía si es curvo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "prol_hacia_abajo",
+       "nombre": "Prol. hacia abajo",
+       "nota": "",
+       "interpretacion": "Acerado agresividad verbal, todo debe ser sustentado, vive de la experiencia, necesidades biológicas.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "prol_hacia_arriba_y_abajo",
+       "nombre": "Prol. hacia arriba y abajo",
+       "nota": "",
+       "interpretacion": "Piensan y actúan pero no contemplan la finalidad con la que hacen, pierden empatía.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "sobria",
+       "nombre": "Sobria",
+       "nota": "",
+       "interpretacion": "Equilibrado entre negro y blanco.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "forma",
+   "nombre": "Forma",
+   "lema": "Eres como escribes",
+   "descripcion": "Modales, nivel cultural, intereses y preocupaciones, forma de ponerlos en prática e incluso estados de ánimo del escribiente con respecto a lograr o no sus ambiciones o ideales.",
+   "grupos": [
+    {
+     "id": "anatomia",
+     "nombre": "Anatomía",
+     "rasgos": [
+      {
+       "id": "cuadrada",
+       "nombre": "Cuadrada",
+       "nota": "",
+       "interpretacion": "Persona rígida, todo debe ser comprobable.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "angulosa",
+       "nombre": "Angulosa",
+       "nota": "",
+       "interpretacion": "Tajante",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "curva",
+       "nombre": "Curva",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "redonda",
+       "nombre": "Redonda",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "semiangulosa_semiredonda",
+       "nombre": "Semiangulosa-semiredonda",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "legibilidad_facilidad_para_dejarse_entender",
+     "nombre": "Legibilidad (facilidad para dejarse entender)",
+     "rasgos": [
+      {
+       "id": "clara",
+       "nombre": "Clara",
+       "nota": "",
+       "interpretacion": "Puede ser exigente o demandante ya que deja todo claro.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "confusa",
+       "nombre": "Confusa",
+       "nota": "",
+       "interpretacion": "Puede caer en mentira o evitar preguntas, quedar bien.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "trazado_numero_de_trazos",
+     "nombre": "Trazado (número de trazos)",
+     "rasgos": [
+      {
+       "id": "complicada",
+       "nombre": "Complicada",
+       "nota": "",
+       "interpretacion": "Fácil de alterar, quisquillosa, rebelde.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "sencilla",
+       "nombre": "Sencilla",
+       "nota": "",
+       "interpretacion": "Equánime, sencilla, va al grano. Semiangulosa, curva semiredonda",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "simplificada",
+       "nombre": "Simplificada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "gestos_tipos",
+     "nombre": "Gestos tipos",
+     "rasgos": [
+      {
+       "id": "arqueada_arco",
+       "nombre": "Arqueada (arco)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "guirnalda",
+       "nombre": "Guirnalda",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "bucles",
+       "nombre": "Bucles",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "latigazos",
+       "nombre": "Latigazos",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "arpones_gancho_y_arpon",
+       "nombre": "Arpones (gancho y arpón)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "anillada_guirnalda_bucle",
+       "nombre": "Anillada (guirnalda+bucle)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "filiforme_serpentina",
+       "nombre": "Filiforme (serpentina)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "particularidades",
+     "nombre": "Particularidades",
+     "rasgos": [
+      {
+       "id": "dentada_dan_forma_de_ues",
+       "nombre": "Dentada (dan forma de úes)",
+       "nota": "",
+       "interpretacion": "Abierto, influenciable, manipulable.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "encadenada_reafirma_el_trazo",
+       "nombre": "Encadenada (reafirma el trazo)",
+       "nota": "",
+       "interpretacion": "Reafirmar información, perfeccionista, corroborar.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "modelo_caligrafico",
+     "nombre": "Modelo caligráfico",
+     "rasgos": [
+      {
+       "id": "caligrafica",
+       "nombre": "Caligráfica",
+       "nota": "",
+       "interpretacion": "Valores morales, convicciones.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "tipografica",
+       "nombre": "Tipográfica",
+       "nota": "",
+       "interpretacion": "Tajante, duro, no le gustan verse vulnerables, poco tolerantes.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "extrana_o_bizarra",
+       "nombre": "Extraña o bizarra",
+       "nota": "",
+       "interpretacion": "Rasgo de originalidad, sobresalir, creatividad, distinguirse.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "coligamiento",
+     "nombre": "Coligamiento",
+     "rasgos": [
+      {
+       "id": "guirnalda",
+       "nombre": "Guirnalda",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "angulo",
+       "nombre": "Ángulo",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "arco",
+       "nombre": "Arco",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "mezclas_u_otros",
+       "nombre": "Mezclas u otros",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "inclinacion",
+   "nombre": "Inclinación",
+   "lema": "Afecto, pasiones, sentimientos",
+   "descripcion": "Necesidad de contactarse con los demás. Puede ser espontánea y natural, contenida, inhibida, ambivalente o rechazada. Índice y postura del escribiente para lograr sus metas y objetivos, a sus aspiraciones personales y profesionales.",
+   "grupos": [
+    {
+     "id": "posicion",
+     "nombre": "Posición",
+     "rasgos": [
+      {
+       "id": "vertical_90_85_a_95",
+       "nombre": "Vertical 90° (85 a 95°)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "inclinada",
+       "nombre": "Inclinada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Poco inclinada (70a80°)",
+        "Inclinada (65a50°)",
+        "Muy inclinada-tumbada (50-45°)"
+       ]
+      },
+      {
+       "id": "invertida",
+       "nombre": "Invertida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Poco invertida (100a110°)",
+        "Invertida (115a125°)",
+        "Muy invertida (+130°)"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "desviaciones",
+     "nombre": "Desviaciones",
+     "rasgos": [
+      {
+       "id": "enderezada_trata_de_corregir_el_trazo_y_es_involuntario",
+       "nombre": "Enderezada (trata de corregir el trazo y es involuntario)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "torcida_vertical_u_horizontal_temblores_mas_fuertes",
+       "nombre": "Torcida (vertical u horizontal) – temblores más fuertes.",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "estabilidad",
+     "nombre": "Estabilidad",
+     "rasgos": [
+      {
+       "id": "rigida",
+       "nombre": "Rígida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "constante",
+       "nombre": "Constante",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "vibrante_u_oscilante",
+       "nombre": "Vibrante u oscilante",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "desigual_o_irregular",
+       "nombre": "Desigual o irregular",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "direccion",
+   "nombre": "Dirección",
+   "lema": "Estado de ánimo",
+   "descripcion": "Variaicones de ánimo, de humor y de voluntad del escribiente. Reflejo de la estabilidad, constancia y de grado de madurez en los principios que rigen la conducta, principios morales y convicciones.",
+   "grupos": [
+    {
+     "id": "orientacion",
+     "nombre": "Orientación",
+     "rasgos": [
+      {
+       "id": "horizontal_aprox_0",
+       "nombre": "Horizontal (aprox 0°)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "ascendente_1a50",
+       "nombre": "Ascendente (1a50°)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Lig. ascendente (5mm)",
+        "Ascendente (10a30°)",
+        "Trepadora (45°)"
+       ]
+      },
+      {
+       "id": "descendente_5a10",
+       "nombre": "Descendente (5a10°)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Lig. descendente (5°)",
+        "Decsndente (6a10°)",
+        "Hundida (10° hacia abajo)"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "trayecto",
+     "nombre": "Trayecto",
+     "rasgos": [
+      {
+       "id": "rigida",
+       "nombre": "Rigida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "sinuosa",
+       "nombre": "Sinuosa",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "serpentina",
+       "nombre": "Serpentina",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "convexa",
+       "nombre": "Convexa",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "concava",
+       "nombre": "Concava",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "superpuesta_descendente",
+       "nombre": "Superpuesta descendente",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "superpuesta_ascendente",
+       "nombre": "Superpuesta ascendente",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "con_ascenso_al_final",
+       "nombre": "Con ascenso al final",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "con_descenso_al_final",
+       "nombre": "Con descenso al final",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "velocidad",
+   "nombre": "Velocidad",
+   "lema": "Inteligencia y agilidad mental",
+   "descripcion": "Tipo de inteligencia del escribiente, ritmo con que desarrolla la actividad y es la manifestación del temperamento del escribiente, de sus tendencias, impulsos y carácter.",
+   "grupos": [
+    {
+     "id": "intensidad",
+     "nombre": "Intensidad",
+     "rasgos": [
+      {
+       "id": "lenta_120_lxm",
+       "nombre": "Lenta (120 lxm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "pausada_o_mesurada_140_lxm",
+       "nombre": "Pausada o mesurada (140 lxm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "acelerada_160_lxm",
+       "nombre": "Acelerada (160 lxm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "rapida_180_lxm",
+       "nombre": "Rápida (180 lxm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "precipitada_200_lxm",
+       "nombre": "Precipitada (200 lxm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "fluidez",
+     "nombre": "Fluidez",
+     "rasgos": [
+      {
+       "id": "constrenida",
+       "nombre": "Constreñida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "contenida",
+       "nombre": "Contenida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "dinamogena",
+       "nombre": "Dinamógena",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "espontanea",
+       "nombre": "Espontánea",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "movida",
+       "nombre": "Movida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "impulsividad",
+     "nombre": "Impulsividad",
+     "rasgos": [
+      {
+       "id": "floja",
+       "nombre": "Floja",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "retardada",
+       "nombre": "Retardada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "resuelta",
+       "nombre": "Resuelta",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "aguzada",
+       "nombre": "Aguzada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "lanzada",
+       "nombre": "Lanzada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "continuidad",
+   "nombre": "Continuidad",
+   "lema": "Interacción con los demás",
+   "descripcion": "Tipo de inteligencia del escribiente, capacidad para concatenar ideas, intuición y posibilidad combinar ambos tipos de recursos.",
+   "grupos": [
+    {
+     "id": "ligazon",
+     "nombre": "Ligazón",
+     "rasgos": [
+      {
+       "id": "hiperligada",
+       "nombre": "Hiperligada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "ligada",
+       "nombre": "Ligada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "agrupada",
+       "nombre": "Agrupada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "desligada",
+       "nombre": "Desligada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Brain spray",
+        "Brain wave"
+       ]
+      },
+      {
+       "id": "palotes",
+       "nombre": "Palotes",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "fragmentada",
+       "nombre": "Fragmentada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "punteada",
+       "nombre": "Punteada",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Brisados",
+        "Rosarios",
+        "Puntos",
+        "Botones"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "grado_de_variabilidad",
+     "nombre": "Grado de variabilidad",
+     "rasgos": [
+      {
+       "id": "regular",
+       "nombre": "Regular",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Homogeneidad",
+        "Uniformidad",
+        "Monótona",
+        "Automata",
+        "Estable"
+       ]
+      },
+      {
+       "id": "desigual",
+       "nombre": "Desigual",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Matizada",
+        "Proteiforme",
+        "Entrecortada",
+        "Agitada",
+        "Discordante",
+        "Inestable"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "grado_de_soltura",
+     "nombre": "Grado de soltura",
+     "rasgos": [
+      {
+       "id": "suelta",
+       "nombre": "Suelta",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Despejada"
+       ]
+      },
+      {
+       "id": "inhibida",
+       "nombre": "Inhibida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Vacilante",
+        "Inacabada",
+        "Suspendida",
+        "Retocada",
+        "En etapas",
+        "Punteada",
+        "Temblorosa"
+       ]
+      },
+      {
+       "id": "desarrollo",
+       "nombre": "Desarrollo",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Gladiolada",
+        "Creciente",
+        "Cilíndrica o uniforme",
+        "Desigual o irregular",
+        "Aumentos bruscos de tamaño"
+       ]
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "presion",
+   "nombre": "Presión",
+   "lema": "Fuerza o vitalidad",
+   "descripcion": "Energía de las tendencias, del sentimiento, voluntad, e instinto del escribiente. Nivel de posibilidad de realización y productividad de la personalidad. Tensión muscular ejercida sobre el papel con el útil inscriptor.",
+   "grupos": [
+    {
+     "id": "calibre",
+     "nombre": "Calibre",
+     "rasgos": [
+      {
+       "id": "ligera_0_25mm",
+       "nombre": "Ligera (0.25mm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "pesada_0_75a1mm",
+       "nombre": "Pesada (0.75a1mm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "gruesa_1mm",
+       "nombre": "Gruesa (1mm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "espesa_3_4mm",
+       "nombre": "Espesa (+3/4mm)",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "calidad",
+     "nombre": "Calidad",
+     "rasgos": [
+      {
+       "id": "relieve",
+       "nombre": "Relieve",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Desplazada"
+       ]
+      },
+      {
+       "id": "plana",
+       "nombre": "Plana",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": [
+        "Plana firme",
+        "Plana suave"
+       ]
+      }
+     ]
+    },
+    {
+     "id": "pureza",
+     "nombre": "Pureza",
+     "rasgos": [
+      {
+       "id": "espasmodica",
+       "nombre": "Espasmódica",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "nitida",
+       "nombre": "Nítida",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "pastosa",
+       "nombre": "Pastosa",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "borrosa_y_con_bolsas",
+       "nombre": "Borrosa y con bolsas",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "profundidad",
+     "nombre": "Profundidad",
+     "rasgos": [
+      {
+       "id": "firme",
+       "nombre": "Firme",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "blanda",
+       "nombre": "Blanda",
+       "nota": "",
+       "interpretacion": "",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "gestos_tipos",
+   "nombre": "Gestos tipos",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "curvos",
+     "nombre": "Curvos",
+     "rasgos": [
+      {
+       "id": "bucle",
+       "nombre": "Bucle",
+       "nota": "",
+       "interpretacion": "AMABILIDAD (+)\nContacto amable, simpatía, seducción, imaginación.\nDIPLOMACIA (-) \nFalsedad, astucia, capacidad para lograr propósitos con mínimo esfuerzo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "lazo",
+       "nombre": "Lazo",
+       "nota": "",
+       "interpretacion": "SEDUCCIÓN (+)\nTacto, coquetería, habilidad comercial, diplomacia.\nENVOLVIMIENTO (-) \nFacilidad para enredar a los demás y conseguir lo que se propone, acaparamiento, vanidad, deseo de atraer la atención.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "guirnalda",
+       "nombre": "Guirnalda",
+       "nota": "",
+       "interpretacion": "RECEPTIVIDAD (+)\nReceptividad, amabilidad, adaptable.\nINFLUENCIABLE (-) \nExageración, imaginación exaltada, se derrumba ante el primer obstáculo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "arco",
+       "nombre": "Arco",
+       "nota": "",
+       "interpretacion": "HERMETISMO (+) \nReservado, autocontrol consciente, cuida apariencias.\nHIPOCRECÍA (-)\nDesconfianza, egoísmo, poca espontaneidad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "espiral",
+       "nombre": "Espiral",
+       "nota": "",
+       "interpretacion": "VANIDAD (+)\nDiplomacia, vanidad, coquetería.\nEGOCENTRISMOS (-) \nEgocéntrico, narcicista, coquetería, orgullo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "inflados",
+       "nombre": "Inflados",
+       "nota": "",
+       "interpretacion": "IMAGINACIÓN (+)\nImaginación, entusiasmo, vanidad, jovialidad.\nEXAGERACIÓN (-)\nExhibicionismo, falta de medida de apreciación de la realidad, autoestima inflado.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "nudos",
+       "nombre": "Nudos",
+       "nota": "",
+       "interpretacion": "RESERVA (+) \nReservado en vida emocional, diplomacia,represión del sufrimiento.\nOCULTACIÓN (-)\nDesconfianza, disimulo, cobardía.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "serpentinas",
+       "nombre": "Serpentinas",
+       "nota": "",
+       "interpretacion": "JOVIALIDAD (+) \nCordial, simpatía, alegre, diplomacia.\nIMPRECISIÓN (-) \nActitud camaleónica, astucia, tendecia a huir de las responsabilidades.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "angulosos",
+     "nombre": "Angulosos",
+     "rasgos": [
+      {
+       "id": "maza_y_o_boton",
+       "nombre": "Maza y/o botón",
+       "nota": "",
+       "interpretacion": "ENÉRGICO (+)\nLa carga emocioal se canaliza en actividad, energía y valor.\nBESTIAL (-)\nTendencia a explosividad, cólera, violencia, brusquedad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "triangulos",
+       "nombre": "Triángulos",
+       "nota": "",
+       "interpretacion": "FIRMEZA (+)\nDon de mando, liderazgo, seguridad, dominancia.\nIMPOSITIVO (-)\nDeseo de mandar y de imponer deseos propios a los demás.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "golpe_de_sable",
+       "nombre": "Golpe de sable",
+       "nota": "",
+       "interpretacion": "ACTIVO (+)\nAudacia, calculador, estratégico, dinámismo.\nREACTIVO (-)\nAgresivo, dominante, asertivo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "golpe_de_latigo",
+       "nombre": "Golpe de látigo",
+       "nota": "",
+       "interpretacion": "AUDAZ (+)\nPersonalidad dinámica, imagiación, audacia, vivacidad.\nINTEMPESTIVO (-)\nEgoísmo, descaro, impaciencia, ambición.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "gancho",
+       "nombre": "Gancho",
+       "nota": "",
+       "interpretacion": "PERSEVERANCIA (+)\nFirmeza, constancia, obstinación.\nAPRENSIVO (-)\nDeseo por buscar seguridad, aferrar.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "arpon",
+       "nombre": "Arpón",
+       "nota": "",
+       "interpretacion": "TENACIDAD (+)\nResistencia, firmeza, constancia, energía, decisión.\nTERQUEDAD (-)\nObstinación, intolerante, resentimiento, agresividad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cruzamientos_o_aspas",
+       "nombre": "Cruzamientos o aspas",
+       "nota": "",
+       "interpretacion": "PRECISIÓN (+)\nObjetivo, analítico, determinante, decisión, firmeza.\nCRÍTICO (-)\nCrueldad, sadismo, instintivo, radical.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "diente_de_jabali",
+       "nombre": "Diente de jabalí",
+       "nota": "",
+       "interpretacion": "AGRESIVIDAD(+)\nDefensa, combatividad, competitivo.\nCRUELDAD(-)\nCrueldad, maldad, instinto criminal, rencor.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "puntas_y_o_agujas",
+       "nombre": "Puntas y/o agujas",
+       "nota": "",
+       "interpretacion": "PRECISO (+)\nAgreesivo, analítico, competitivo, combatividad.\nHOSTIL (-)\nHacia abajo: sentimiento de odio y rencor.\nHacia arriba zona derecha: rebelde ante autoridad.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "rasgos_tipo",
+   "nombre": "Rasgos tipo",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "general",
+     "nombre": "",
+     "rasgos": [
+      {
+       "id": "ala_de_gallina",
+       "nombre": "Ala de gallina",
+       "nota": "",
+       "interpretacion": "Trazo curvo: protector, consentidor.\nTrazo anguloso o invasivo en parte superior: control sobreprotección, hace que la gente dependa de la persona.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "ancla",
+       "nombre": "Ancla",
+       "nota": "",
+       "interpretacion": "Búsqueda de materialismo y satisfacción instintiva, imponen autoridad con mando, tajante, no toleran sumisión.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "anillado",
+       "nombre": "Anillado",
+       "nota": "",
+       "interpretacion": "Seducción, amabilidad, interés por contacto social, egoísmo satisfecho a través de seducción y fantasía.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "arco_de_flecha",
+       "nombre": "Arco de flecha",
+       "nota": "",
+       "interpretacion": "Capacidad de estrategia, fija su mirada en un propósito, respuesta rápida.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "banderin",
+       "nombre": "Banderín",
+       "nota": "",
+       "interpretacion": "Analítico, concentrado, selectivos, pueden ser muy críticos y punzantes.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "boca_de_lobo",
+       "nombre": "Boca de lobo",
+       "nota": "",
+       "interpretacion": "Astucia, cautela, frialdad, ambicioso en metas.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cola_de_escorpion",
+       "nombre": "Cola de escorpión",
+       "nota": "",
+       "interpretacion": "Agresividad, autocrítica, duro consigo mismo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cola_de_puerco",
+       "nombre": "Cola de puerco",
+       "nota": "",
+       "interpretacion": "Egocentrismo, deseos de acaparamiento, despreocupados por falta de compromiso.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cuartos_o_habitaciones",
+       "nombre": "Cuartos o habitaciones",
+       "nota": "",
+       "interpretacion": "Necesidad de delimitar o resguardar intimidad, calculado, precavido, desconfiado.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cuna_de_moises_bucle_acostado_lado_izquierdo",
+       "nombre": "Cuna de moisés \n(bucle acostado lado izquierdo)",
+       "nota": "",
+       "interpretacion": "Independencia, criterio y convecciones propias muy fuertes, desprendidos de familia.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "dientes_de_tiburon_enlaces_angulosos",
+       "nombre": "Dientes de tiburón\n(enlaces angulosos)",
+       "nota": "",
+       "interpretacion": "Actitud combativa, fuerte autoestima, rectitud moral, sentido del deber, inteligencia analítica.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "embrion",
+       "nombre": "Embrión",
+       "nota": "",
+       "interpretacion": "Infantilismo, inseguridad, deseo de sentirse protegido.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "enroscado",
+       "nombre": "Enroscado",
+       "nota": "",
+       "interpretacion": "Discreción, prudencia, reserva, disimulo, narcisismo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "espada_de_esparta",
+       "nombre": "Espada de esparta",
+       "nota": "",
+       "interpretacion": "Personas descorazonadas, sádicas, venganza o revancha, controlar, imponer ideas.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "espejos",
+       "nombre": "Espejos",
+       "nota": "",
+       "interpretacion": "Debate interno fuerte, dilema entre razón e instinto, o entre vida privada y social.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "garras_o_unas_de_gato",
+       "nombre": "Garras o uñas de gato",
+       "nota": "",
+       "interpretacion": "Deseos de acaparación material.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "mascaras",
+       "nombre": "Máscaras",
+       "nota": "",
+       "interpretacion": "Hacia arriba: Optimismo, contacto amable, generoso.\nHacia arriba y atrás: Acaparamiento, sacar provecho, amabilidad interesada.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "matriz",
+       "nombre": "Matriz",
+       "nota": "",
+       "interpretacion": "Figura femenina o materna muy importante que puede ser determinante en su vida, la vida personal puede ser relevante en cada decisión que toma.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "megafono_o_trompeta",
+       "nombre": "Megáfono o trompeta",
+       "nota": "",
+       "interpretacion": "Personas visuales, fáciles de sorprender, puede exagerar o drmatizar lo acontecido, aman incondicionalmente, francos, entusiastas.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "navajas_o_espadas",
+       "nombre": "Navajas o espadas",
+       "nota": "",
+       "interpretacion": "Energía fría, indiferencia, tendencia a descofianza.\nHacia arriba: Irritabilidad.\nHacia abajo: Crueldad.\nHacia izquierda: Masoquismo.\nHacia derecha: Sadismo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "ojos",
+       "nombre": "Ojos",
+       "nota": "",
+       "interpretacion": "Les gusta ser observados, apreciados o las miradas, como vanidad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "rieles_de_tren",
+       "nombre": "Rieles de tren",
+       "nota": "",
+       "interpretacion": "Les gusta un proyecto de vida bien establecido, buscan estabilidad en la vida con metas claras, siempre tienen un plan B.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "rizos_o_florituras",
+       "nombre": "Rizos o florituras",
+       "nota": "",
+       "interpretacion": "Gustan verse atractivas, vistas y admiradas físicamente, saben seducir y acaparar la atención para conseguir intereses personales.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "toque_de_midas",
+       "nombre": "Toque de midas",
+       "nota": "",
+       "interpretacion": "Quiere traducir todo en números, viendo oportunidades o riesgos para beneficiar o prevenir situaciones.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "velas_de_barco_parte_curva_acentuada_hacia_la_derecha",
+       "nombre": "Velas de barco\n(parte curva acentuada hacia la derecha)",
+       "nota": "",
+       "interpretacion": "No les gusta la rutina y buscan algo nuevo, curiosos, aventureros, rompen monotonía.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "rasgos_del_diablo_en_la_s_caligrafica_hacia_la_izquierda",
+       "nombre": "Rasgos del diablo\nen la s caligráfica hacia la izquierda",
+       "nota": "",
+       "interpretacion": "Egoísmo y deses de apropiación de cosas ajenas, se guardan las cosas para sí.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "submarinos_se_extiende_a_la_derecha",
+       "nombre": "Submarinos \n(se extiende a la derecha)",
+       "nota": "",
+       "interpretacion": "Rasgos de mitómanos o de querer hacer un trabajo sucio o por debajo de la mesa sin ser descubierto.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "derivados_de_imperfecciones_o_accidentes",
+   "nombre": "Derivados de imperfecciones o accidentes",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "general",
+     "nombre": "",
+     "rasgos": [
+      {
+       "id": "abreaciones",
+       "nombre": "Abreaciones",
+       "nota": "",
+       "interpretacion": "Franqueza o descuido.\nPrecaución o temor.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "agitaciones",
+       "nombre": "Agitaciones",
+       "nota": "",
+       "interpretacion": "Intensidad con que se enoja o irrita y lo que vive y dura esta emoción.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "bolsas_de_tinta",
+       "nombre": "Bolsas de tinta",
+       "nota": "",
+       "interpretacion": "Llanto contenido o aguante emocional.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "brisado",
+       "nombre": "Brisado",
+       "nota": "",
+       "interpretacion": "Angustia pronunciada, ansiedad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "correcciones_o_retoques",
+       "nombre": "Correcciones o retoques",
+       "nota": "",
+       "interpretacion": "Necesidad de claridad, de perfección, poca seguridad en sí mismo, impaciente, nervioso.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "dentados_ovalos_incompletos_y_abiertos_en_fora_de_ues",
+       "nombre": "Dentados\n(óvalos incompletos y abiertos en fora de \"úes\")",
+       "nota": "",
+       "interpretacion": "Receptividad, acumular información, no sabe filtrar, analizar y tener criterio de lo que asimila en el exterior.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "emplastamiento",
+       "nombre": "Emplastamiento",
+       "nota": "",
+       "interpretacion": "Predominio a tendencias materiales, sensualidad, glotonería, buena memoria visual.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "encadenados",
+       "nombre": "Encadenados",
+       "nota": "",
+       "interpretacion": "Necesidad de reafirmar o corroborar algo:\nSuperior: necesidad de corroborar información.\nInferior: Angustia por poder afirmar la existencia de algo o miedo de perder algo material.\nArriba abajo: Necesita autoafirmarse algo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "enmaranados",
+       "nombre": "Enmarañados",
+       "nota": "",
+       "interpretacion": "Confusión o poca claridad de ideas:\nSuperior: Confusión de ideas.\nZona Media: Confuso a nivel emocional o sentimental.\nInferior: Poca claridad de perspectiva para concretar una idea o proyecto.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "frenado_o_contenciones",
+       "nombre": "Frenado o contenciones",
+       "nota": "",
+       "interpretacion": "Detención para pensar (inicio trazo) o actuar (final del trazo), precavido, calculador, autosabotaje.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "globos",
+       "nombre": "Globos",
+       "nota": "",
+       "interpretacion": "Inmadurez, exagera o dramatiza la frustración ante la impotencia de no poder hacer más.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "humo",
+       "nombre": "Humo",
+       "nota": "",
+       "interpretacion": "Inercia, debilidad, apatía.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "inflamientos_de_tinta",
+       "nombre": "Inflamientos de tinta",
+       "nota": "",
+       "interpretacion": "Debe repetirse en más de una letra y en la misma zona, existencia de elemento ajeno al cuerpo humano",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "pedestal",
+       "nombre": "Pedestal",
+       "nota": "",
+       "interpretacion": "Satisfacción narcicista, deseo de que su YO esté sobre un pedestal sobre los demás, se esmera en modales, coquetería y seducción.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "pies_curvos",
+       "nombre": "Pies curvos",
+       "nota": "",
+       "interpretacion": "Diplomacia, evita problemas para no complicarlos o crear asperezas, flexibles para negociar o conciliar.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "puntos_negros",
+       "nombre": "Puntos negros",
+       "nota": "",
+       "interpretacion": "Indica desde malestar en el cuerpo hasta dolor conastante, debe presentarse en más letras en la misma zona.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "reenganches",
+       "nombre": "Reenganches",
+       "nota": "",
+       "interpretacion": "Dificultad en coordinación de movimientos, lentitud, fatiga.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "rosarios",
+       "nombre": "Rosarios",
+       "nota": "",
+       "interpretacion": "Sufrimimento, angustia, miedo, preocupación.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "temblores",
+       "nombre": "Temblores",
+       "nota": "",
+       "interpretacion": "Puede ser por vejez, infecciones, lesiones en brazo, mano y hombro, intoxicaciones, temor, inquietud, frío, susto, fatiga, amenaza.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "torsiones_o_enderezados",
+       "nombre": "Torsiones o enderezados",
+       "nota": "",
+       "interpretacion": "Ansiedad, inquietud, timidez, debilidad, cauteloso, solapado.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "abreaciones",
+   "nombre": "Abreaciones",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "aberturas",
+     "nombre": "Aberturas",
+     "rasgos": [
+      {
+       "id": "zona_superior",
+       "nombre": "Zona superior",
+       "nota": "",
+       "interpretacion": "Hacia Derecha: Franqueza, noble, amistad, amor, ternura, leal.\nHacia Arriba: Fuerte receptividad y abertura a influencias. Se ilusiona fácilmente, falta de discreción en las relaciones con los demás.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "zona_inferior",
+       "nombre": "Zona inferior",
+       "nota": "",
+       "interpretacion": "Búsqueda material",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "zon_izquierda",
+       "nombre": "Zon izquierda",
+       "nota": "",
+       "interpretacion": "Pasado presente",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "cerraduras",
+     "nombre": "Cerraduras",
+     "rasgos": [
+      {
+       "id": "zona_superior",
+       "nombre": "Zona superior",
+       "nota": "",
+       "interpretacion": "Ermetismo racional",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "zona_inferior",
+       "nombre": "Zona inferior",
+       "nota": "",
+       "interpretacion": "Búsqueda de ahorro",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "zon_izquierda",
+       "nombre": "Zon izquierda",
+       "nota": "",
+       "interpretacion": "Cerrar ciclos – no recordar",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "zona_derecha",
+       "nombre": "Zona derecha",
+       "nota": "",
+       "interpretacion": "Cautelo sociedad",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "espacio_grafico",
+   "nombre": "Espacio gráfico",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "general",
+     "nombre": "",
+     "rasgos": [
+      {
+       "id": "cuchillos_2_a_3_lineas",
+       "nombre": "Cuchillos (2 a 3 líneas)",
+       "nota": "",
+       "interpretacion": "Ansiedad, reflexión, duda, búsqueda de perfección.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "chimeneas_4_o_mas_lineas",
+       "nombre": "Chimeneas (4 o más líneas)",
+       "nota": "",
+       "interpretacion": "Precauciones, evasiones, temor, sentimiento de vacío.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "fantasmas_cuchillo_o_chimenea_derecho",
+       "nombre": "Fantasmas (cuchillo o chimenea derecho)",
+       "nota": "",
+       "interpretacion": "Miedo a la sociedad, al futuro, inseguridad del porvenir.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "cascadas_mas_de_4_lineas",
+       "nombre": "Cascadas (más de 4 líneas)",
+       "nota": "",
+       "interpretacion": "Angustia intensa, neurosis obsesiva.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "firma",
+   "nombre": "Firma",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "grado_de_constancia",
+     "nombre": "Grado de constancia",
+     "rasgos": [
+      {
+       "id": "constante",
+       "nombre": "Constante",
+       "nota": "",
+       "interpretacion": "Madurez, seguridad, se amolda menos a los cambios.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "variable",
+       "nombre": "Variable",
+       "nota": "",
+       "interpretacion": "Versatil, voluble, inconstante.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "situacion",
+     "nombre": "Situación",
+     "rasgos": [
+      {
+       "id": "proxima_al_texto",
+       "nombre": "Próxima al texto",
+       "nota": "",
+       "interpretacion": "Acercamiento, franqueza, cercanía",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "invadiendo_el_texto_una_parte",
+       "nombre": "Invadiendo el texto – una parte",
+       "nota": "",
+       "interpretacion": "Empalagoso, metiche, controlador.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "firma_entre_el_texto_casi_totalidad",
+       "nombre": "Firma entre el texto – casi totalidad",
+       "nota": "",
+       "interpretacion": "Búsqueda aceptación, protagonismo, inseguridad, narcisismo.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "correctamente_situada",
+       "nombre": "Correctamente situada",
+       "nota": "",
+       "interpretacion": "Respeto, integración, equilibrio, formalidad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "alejada_del_texto",
+       "nombre": "Alejada del texto",
+       "nota": "",
+       "interpretacion": "Aislamiento, temor a contactos sociales, da espacio, necesidad de lo suyo.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "respecto_al_espacio_o_margen",
+     "nombre": "Respecto al espacio o margen",
+     "rasgos": [
+      {
+       "id": "izquierda",
+       "nombre": "Izquierda",
+       "nota": "",
+       "interpretacion": "Vinculación al pasado, tradicionalismo, apego a familia.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "centro",
+       "nombre": "Centro",
+       "nota": "",
+       "interpretacion": "Autocontrol, reflexión, seguridad, eficiencia, ego grande.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "derecha",
+       "nombre": "Derecha",
+       "nota": "",
+       "interpretacion": "Extroversión, sociable, con planes y realización, impulsivo.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "predominio_nom_y_o_apellido",
+     "nombre": "Predominio nom. y/o apellido",
+     "rasgos": [
+      {
+       "id": "predominio_del_nombre",
+       "nombre": "Predominio del nombre",
+       "nota": "",
+       "interpretacion": "Búsqueda de independencia, aceptación, franco, orgulloso de él, ego.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "predominio_del_primer_apellido",
+       "nombre": "Predominio del primer apellido",
+       "nota": "",
+       "interpretacion": "Jerarquía social, identificación con figura paterna, de género (hombre), autoridad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "predominio_del_segundo_apellido",
+       "nombre": "Predominio del segundo apellido",
+       "nota": "",
+       "interpretacion": "Importamcia figura materna, apego a tradiciones, protección, dependencia.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "con_iniciales",
+       "nombre": "Con iniciales",
+       "nota": "",
+       "interpretacion": "Deseo de no comprometerse, falta de autoidentificación, evasión.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "legibilidad",
+     "nombre": "Legibilidad",
+     "rasgos": [
+      {
+       "id": "legible",
+       "nombre": "Legible",
+       "nota": "",
+       "interpretacion": "Responsabilidad, sinceridad, honestidad, seguridad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "semilegible",
+       "nombre": "Semilegible",
+       "nota": "",
+       "interpretacion": "Impaciencia, ansiedad, líder humano, búsqueda de autenticidad.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "ilegible",
+       "nombre": "Ilegible",
+       "nota": "",
+       "interpretacion": "Ocultamiento, sensación de jerarquía, dificultad para admitir autoridad.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "ejecucion_de_la_firma",
+     "nombre": "Ejecución de la firma",
+     "rasgos": [
+      {
+       "id": "con_letras_mayores_que_el_texto",
+       "nombre": "Con letras mayores que el texto",
+       "nota": "",
+       "interpretacion": "Se siente más importante de lo que puede manifestar, prepotencia, seguridad, Orgullo, imponente.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "coincide_con_letras_del_texto",
+       "nombre": "Coincide con letras del texto",
+       "nota": "",
+       "interpretacion": "Equilibrado, mesurado, conformista, empatía.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "con_letras_menores_que_el_texto",
+       "nombre": "Con letras menores que el texto",
+       "nota": "",
+       "interpretacion": "Se minimiza comparado con los demás, temor.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    },
+    {
+     "id": "direccion_de_las_firmas",
+     "nombre": "Dirección de las firmas",
+     "rasgos": [
+      {
+       "id": "ascendente",
+       "nombre": "Ascendente",
+       "nota": "",
+       "interpretacion": "Resistencia a dificultades, optimismo, gente de retos.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "horizontal",
+       "nombre": "Horizontal",
+       "nota": "",
+       "interpretacion": "Estable emocionalmente, constante, rutinario, realista.",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "descendente",
+       "nombre": "Descendente",
+       "nota": "",
+       "interpretacion": "Desánimo, aceptación de autoridad, tenaz, obstinado, visión negativa, irritable, falta de liderazgo.",
+       "indicadores": "",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "temperamento",
+   "nombre": "Temperamento",
+   "lema": "",
+   "descripcion": "",
+   "grupos": [
+    {
+     "id": "general",
+     "nombre": "",
+     "rasgos": [
+      {
+       "id": "bilioso_activo_y_emotivo",
+       "nombre": "Bilioso (activo y emotivo)",
+       "nota": "",
+       "interpretacion": "Individualista, líder nato, las tareas que emprende las realiza con firmeza y empuje, exigente con los demás y consigo mismo.",
+       "indicadores": "Presión firme.\nDestaca angulosidad.\nEscritura pequeña.\nTexto concentrado y condensado.\nOrdenado.",
+       "variantes": []
+      },
+      {
+       "id": "sanguineo_activo_y_no_emotivo",
+       "nombre": "Sanguíneo (activo y no emotivo)",
+       "nota": "",
+       "interpretacion": "Abierto, comunicativo, sociable, amistosovanidoso, dado a placeres y e especial a lo sexual.",
+       "indicadores": "Mayúsculas adornadas o infladas.\nPresión en relieve.\nEscritura más grande de lo normal.\nPredominio de curva sobre ángulo.\nDistribución de escritura amplia.",
+       "variantes": []
+      },
+      {
+       "id": "nervioso_no_activo_y_emotivo",
+       "nombre": "Nervioso (no activo y emotivo)",
+       "nota": "",
+       "interpretacion": "Receptivo sintiendo profundamente, inquieto, irritable, intuitivo.",
+       "indicadores": "Inclinación vibrante (enderezados o desiguales).\nAgitación.\nPresión ligera.\nDesordenado.\nPuede tener trazos filiformes.\nVelocidad rápida o precipitada.",
+       "variantes": []
+      },
+      {
+       "id": "linfatico_no_activo_no_emotivo",
+       "nombre": "Linfático (no activo no emotivo)",
+       "nota": "",
+       "interpretacion": "Tranquilo, lento en lo que hace, minucia lenta y reiterativa.",
+       "indicadores": "Velocidad lenta o pausada.\nLetra regular.\nEscritura inacabada.\nEscritura redondeada.\nEscritura bien hecha.",
+       "variantes": []
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
