@@ -411,13 +411,18 @@ pintarNube();
 
 // ------------------------------------------------------------------ normativa por jurisdicción
 {
-  const normas = {}, ESTADOS = { cumple: "Cumple", parcial: "Cumple parcialmente", no: "No cumple", na: "No aplica" };
-  const disponibles = (await Promise.all(H.JURISDICCIONES.map(async ([iso, n]) => {
-    try { normas[iso] = await (await fetch(`config/normativa/${iso}.json`)).json(); return [iso, n]; } catch (e) { return null; }
-  }))).filter(Boolean);
-  // México: sectores adicionales (agro, fintech, turismo, salud, educación, inmobiliario, química, IMMEX…).
-  const extraMX = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).catch(() => null);
-  if (normas.MEX && extraMX?.sectores) normas.MEX.sectores = { ...normas.MEX.sectores, ...extraMX.sectores };
+  const normas = {}, cargando = {}, ESTADOS = { cumple: "Cumple", parcial: "Cumple parcialmente", no: "No cumple", na: "No aplica" };
+  // Cada catálogo se descarga solo cuando se elige su jurisdicción (son 21; México suma sus sectores adicionales).
+  const cargarNorma = (iso) => (cargando[iso] ||= fetch(`config/normativa/${iso}.json`).then((r) => (r.ok ? r.json() : null)).then(async (n) => {
+    if (n && iso === "MEX") {
+      const x = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).catch(() => null);
+      if (x?.sectores) n.sectores = { ...n.sectores, ...x.sectores };
+    }
+    normas[iso] = n;
+    return n;
+  }).catch(() => null));
+  const disponibles = H.JURISDICCIONES;
+  await cargarNorma("MEX");
   const claveN = () => `gp_norma_${$("nor-jur").value}`;
   const resp = () => leer(claveN(), {});
   let actuales = [];
@@ -478,7 +483,7 @@ pintarNube();
     const d = resp(); (d[c.dataset.np] ||= {})[e.target.dataset.k] = e.target.value; guardar(claveN(), d);
     if (e.target.dataset.k === "estado") resumenN();
   });
-  $("nor-jur").onchange = () => { pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
+  $("nor-jur").onchange = async () => { await cargarNorma($("nor-jur").value); pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
   $("p-normativa").addEventListener("click", (e) => {
     const b = e.target.closest("[data-bit-pais]");
     if (b) irABitacora({ pais: b.dataset.bitPais, ley: b.dataset.bitLey || "", dias: b.dataset.bitLey ? "90" : "30" });
@@ -491,6 +496,53 @@ pintarNube();
   }
   $("nor-cal").addEventListener("toggle", () => { if ($("nor-cal").open) pintarCalendario(); });
   $("nor-vaciar").onclick = () => { if (confirm("¿Vaciar todas las respuestas de esta jurisdicción?")) { try { localStorage.removeItem(claveN()); } catch (e) { /* nada */ } pintarN(); } };
+  // Plantilla de proyecto en Excel (de la idea al cierre), por sector y países, con su base normativa.
+  {
+    const cfgPlan = await fetch("config/plan_proyecto.json").then((r) => r.json()).catch(() => null);
+    const extraS = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).then((x) => x.sectores || {}).catch(() => ({}));
+    $("plan-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + H.sectoresOrdenados(sectores, extraS).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
+    $("plan-paises").innerHTML = H.JURISDICCIONES.map(([i, n]) => `<label style="display:inline-flex;gap:4px;align-items:center;margin:2px 10px 2px 0"><input type="checkbox" value="${i}"${i === "MEX" ? " checked" : ""}> ${esc(n)}</label>`).join("");
+    const lunes = new Date(); lunes.setDate(lunes.getDate() + ((8 - lunes.getDay()) % 7 || 7));
+    $("plan-inicio").value = lunes.toISOString().slice(0, 10);
+    const opcionesPlan = async () => {
+      const paises = [...$("plan-paises").querySelectorAll("input:checked")].map((c) => c.value);
+      await Promise.all(paises.map(cargarNorma));
+      const sector = $("plan-sector").value, extranjera = $("plan-extranjera").checked && paises.includes("MEX");
+      const nombres = Object.fromEntries(H.JURISDICCIONES.map(([i, n]) => [i, n.replace(/^[^\p{L}]+/u, "")]));
+      const P = await import("./plan-proyecto.js");
+      const plan = P.construirPlan({ cfg: cfgPlan, catalogos: normas, jurisdicciones: paises, sector, extranjera, nombres });
+      const sectorNombre = $("plan-sector").selectedOptions[0]?.textContent || "";
+      const titulo = `${$("plan-nombre").value.trim() || "Plan de proyecto"} · ${sectorNombre} · ${paises.map((p) => nombres[p]).join(", ")}`;
+      return { plan, paises, sector, extranjera, nombres, sectorNombre, titulo, inicio: new Date(`${$("plan-inicio").value || lunes.toISOString().slice(0, 10)}T00:00:00Z`) };
+    };
+    const resumenPlan = async () => {
+      if (!cfgPlan) { $("plan-resumen").textContent = "No se pudo cargar config/plan_proyecto.json."; return; }
+      const o = await opcionesPlan();
+      $("plan-resumen").textContent = o.paises.length ? `${o.plan.tareas.length} tareas en 11 fases · ${o.plan.base.length} leyes y normas · ${o.plan.auditoria.length} preguntas de auditoría · ${o.plan.riesgos.length} riesgos · ${o.plan.recurrentes.length} obligaciones recurrentes`
+        : "Elige al menos un país.";
+    };
+    $("p-normativa").addEventListener("change", (e) => { if (e.target.closest("#nor-plan")) resumenPlan(); });
+    $("nor-plan").addEventListener("toggle", () => { if ($("nor-plan").open) resumenPlan(); });
+    const archivo = (o, ext) => `plan-${(o.sector || "general")}-${o.paises.join("-")}-${new Date().toISOString().slice(0, 10)}.${ext}`;
+    $("plan-xlsx").onclick = async () => {
+      const o = await opcionesPlan();
+      if (!o.paises.length) return;
+      $("plan-xlsx").disabled = true; $("plan-xlsx").textContent = "Generando…";
+      try {
+        const X = await import("./plan-excel.js");
+        const bytes = await X.excelPlanComprimido(o.plan, { cfg: cfgPlan, titulo: o.titulo, inicio: o.inicio, sectorNombre: o.sector ? o.sectorNombre : "", paises: o.paises.map((p) => o.nombres[p]), extranjera: o.extranjera, revisado: normas.MEX?.revisado || "" });
+        const url = URL.createObjectURL(new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
+        const a = Object.assign(document.createElement("a"), { href: url, download: archivo(o, "xlsx") }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+      } catch (err) { $("plan-resumen").textContent = `No se pudo generar el Excel: ${err.message}`; }
+      $("plan-xlsx").disabled = false; $("plan-xlsx").textContent = "⬇ Descargar Excel";
+    };
+    $("plan-json").onclick = async () => {
+      const o = await opcionesPlan();
+      if (!o.paises.length) return;
+      const X = await import("./plan-excel.js");
+      descargar(archivo(o, "json"), JSON.stringify(X.jsonPlan(o.plan, { titulo: o.titulo, inicio: o.inicio, sector: o.sector, paises: o.paises, extranjera: o.extranjera }), null, 1), "application/json");
+    };
+  }
   import("./exportar.js").then((X) => {
     $("nor-exp").innerHTML = X.htmlSelectorExportar("norx");
     $("norx-btn").onclick = () => X.exportar($("norx-fmt").value, ["jurisdiccion", "area", "ley", "autoridad", "pregunta", "resultado", "hallazgo", "evidencia", "url"],

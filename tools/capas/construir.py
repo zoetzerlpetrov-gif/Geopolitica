@@ -1892,7 +1892,12 @@ def inmuebles_seguimiento():
     except Exception as e:  # noqa: BLE001
         print(f"   límites de placas no disponibles: {e}")
         lims = []
-    out = I.features_seguimiento(lista, volcs, lims)
+    try:  # precios convertidos con el tipo de cambio del día (BCE, datos abiertos; antes quedaban fijos en la fecha de la lista)
+        tasas = I.tasas_bce(get(I.BCE, timeout=30).decode("utf-8", "replace"))
+    except Exception as e:  # noqa: BLE001
+        print(f"   tipos de cambio del BCE no disponibles: {e}")
+        tasas = None
+    out = I.features_seguimiento(lista, volcs, lims, tasas)
     # Desarrollos de ARA y SADASI: generados por este proyecto cada semana (tools/inmuebles/ara_sadasi.py).
     try:
         devs = leer_ara_sadasi(UA)

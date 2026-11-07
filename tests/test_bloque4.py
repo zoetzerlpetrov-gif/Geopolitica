@@ -258,3 +258,16 @@ def test_zonas_de_busqueda_en_la_capa_de_seguimiento():
     cat = json.load(open(os.path.join(ROOT, "config", "entities.json"), encoding="utf-8"))
     subtipos = {s["id"]: s["familia"] for k in cat["categorias"] for s in k["subtipos"] if s.get("familia")}
     assert subtipos.get("inm_zona") == "inmuebles_seguimiento"
+
+
+def test_inmuebles_precios_con_tipo_de_cambio_del_dia():
+    xml = ("<Cube><Cube time='2026-11-06'><Cube currency='USD' rate='1.1165'/><Cube currency='CAD' rate='1.5600'/>"
+           "<Cube currency='MXN' rate='20.5000'/></Cube></Cube>")
+    t = I.tasas_bce(xml)
+    assert t["fecha"] == "2026-11-06" and t["EUR"] == 1.0
+    assert I.convertir("60,000 CAD", t) == {"USD": round(60000 / 1.56 * 1.1165), "MXN": round(60000 / 1.56 * 20.5), "EUR": round(60000 / 1.56)}
+    assert I.convertir("Consultar", t) is None and I.tasas_bce("<html>") is None
+    lista = json.load(open(os.path.join(ROOT, "config", "inmuebles_seguimiento.json"), encoding="utf-8"))["inmuebles"]
+    fs = I.features_seguimiento(lista, [], [], t)
+    assert any("tipo de cambio del BCE del 2026-11-06" in f["properties"]["x"] for f in fs)
+    assert any("tipo de cambio de la lista" in f["properties"]["x"] for f in I.features_seguimiento(lista, [], []))

@@ -169,6 +169,20 @@
       </details>
       <div class="barra"><span id="nor-exp"></span><button type="button" id="nor-vaciar">Vaciar respuestas de esta jurisdicción</button></div>
       <details class="tarjeta plegable" id="nor-cal"><summary><h3>📅 Calendario de trámites</h3></summary><div id="nor-calendario"></div></details>
+      <details class="tarjeta plegable" id="nor-plan"><summary><h3>📊 Plantilla de proyecto en Excel (para project manager)</h3></summary>
+        <p class="meta">Plan de la idea al cierre en 11 fases. Incluye las tareas de cualquier proyecto y cada trámite y obligación de las leyes del país y del sector elegidos,
+          con su base normativa, autoridad, plazo legal, responsable, duración, fechas que se recalculan, Gantt semanal, tablero, calendario de obligaciones recurrentes,
+          auditoría, riesgos, matriz RACI y diccionario de columnas para importarlo después en DOMINUS. Para quitar lo que no uses marca «No» en «¿Aplica?» o borra las filas.
+          Las duraciones son estimaciones; no es asesoría legal.</p>
+        <div class="cp-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
+          <label>Nombre del proyecto <input type="text" id="plan-nombre" maxlength="80" placeholder="Planta Querétaro"></label>
+          <label>Sector <select id="plan-sector"></select></label>
+          <label>Inicio <input type="date" id="plan-inicio"></label>
+          <label style="align-self:end"><input type="checkbox" id="plan-extranjera"> Empresa extranjera que opera en México</label></div>
+        <p><b>Países donde opera</b> (México primero):</p><div id="plan-paises"></div>
+        <p class="meta" id="plan-resumen"></p>
+        <div class="barra"><button type="button" id="plan-xlsx">⬇ Descargar Excel</button><button type="button" id="plan-json">Descargar datos (JSON) para importar</button></div>
+      </details>
       <div id="nor-alertas"></div>
       <div id="nor-leyes"></div>
       <p class="meta" id="nor-fuentes"></p>
