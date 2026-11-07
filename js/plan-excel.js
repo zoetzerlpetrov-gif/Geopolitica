@@ -52,7 +52,8 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
           case "avance": return { v: 0, s: "porcentaje" };
           case "prioridad": return { v: x.prioridad, s: x.prioridad === "Crítica" ? "critica" : "numero" };
           case "url": return x.url ? { f: `HYPERLINK("${String(x.url).replace(/"/g, "")}","Texto oficial")`, s: "enlace" } : t("");
-          case "notas": return t("");
+          case "notas": case "escalar": return t("");
+          case "presupuesto": case "costo": return { v: "", s: "numero" };
           default: return t(x[k] ?? "");
         }
       });
@@ -86,7 +87,7 @@ export function hojasPlan(plan, { cfg, titulo, inicio, sectorNombre = "", paises
     { rango: `${C.estado}${filaD}:${C.estado}${ultimaReal}`, formula: `$${C.estado}${filaD}="Bloqueado"`, estilo: "vencido" },
   );
   const anchos = { id: 22, fase: 18, seccion: 18, tarea: 48, entregable: 46, pais: 12, ambito: 13, base: 20, referencia: 30, autoridad: 22, plazo: 22, frecuencia: 12, rol: 18,
-    prioridad: 9, pred: 18, dias: 9, base_dias: 30, inicio: 11, fin: 11, aplica: 8, estado: 11, avance: 8, evidencia: 30, riesgo: 34, url: 12, notas: 24 };
+    prioridad: 9, pred: 18, dias: 9, base_dias: 30, inicio: 11, fin: 11, aplica: 8, estado: 11, avance: 8, evidencia: 30, riesgo: 34, url: 12, notas: 24, escalar: 28, presupuesto: 13, costo: 13 };
   const hojaPlan = { nombre: "Plan", color: "1F2A44", filas, zoom: 90, congelar: { fila: FILA_ENC, col: 4 }, filtro: `A${FILA_ENC}:${col(G0 - 1)}${ultimaReal}`,
     cols: COLUMNAS_PLAN.map(([k]) => anchos[k] || 14), combinar: ["A1:L1", `A3:${col(G0 - 1)}3`, "A2:B2"], altos: { 3: 30, [FILA_ENC]: 32 },
     validaciones: [{ rango: rango("aplica"), lista: ["Sí", "No"] }, { rango: rango("estado"), lista: cfg.estados }, { rango: rango("prioridad"), lista: cfg.prioridades },

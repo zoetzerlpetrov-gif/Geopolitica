@@ -78,6 +78,7 @@ export const CSS_PLAN = `.pl-gantt{width:100%;height:auto}.pl-barra{display:flex
 export function montarSeguimiento(raiz, { bitacora = Promise.resolve([]), alCambiar = () => {} } = {}) {
   raiz.innerHTML = `<div class="pl-barra"><label class="boton">📥 Importar plan (.xlsx o .json) <input type="file" accept=".xlsx,.json" hidden data-pl="archivo"></label>
     <select data-pl="sel" aria-label="Plan importado" style="max-width:420px"></select><button type="button" data-pl="borrar">Quitar este plan</button></div>
+    <p class="meta">☁️ Para guardarlo en la nube, tener varios planes por empresa y sector, y compartir un tablero que se actualiza solo con directivos, usa la <a href="cartera.html">Cartera de proyectos</a>.</p>
     <p class="meta" data-pl="estado"></p><div class="tb-grid" data-pl="vista"></div>`;
   const q = (k) => raiz.querySelector(`[data-pl="${k}"]`);
   let entradas = [];

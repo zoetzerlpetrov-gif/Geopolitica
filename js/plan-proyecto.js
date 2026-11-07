@@ -186,4 +186,6 @@ export const COLUMNAS_PLAN = [
   ["base_dias", "Base de la duración", "Ley, artículo o criterio del que sale la duración."], ["inicio", "Inicio", "Se calcula con la predecesora y los días inhábiles."], ["fin", "Fin", "Inicio + duración en días hábiles."],
   ["aplica", "¿Aplica?", "«No» la excluye de fechas, avance y tablero sin borrarla."], ["estado", "Estado", "Pendiente, En curso, Hecho, Bloqueado o No aplica."], ["avance", "Avance %", "0 a 100 %."],
   ["evidencia", "Evidencia", "Lo que un auditor pediría para comprobarlo."], ["riesgo", "Riesgo si no se hace", "Sanción o consecuencia según el catálogo."], ["url", "Fuente oficial", "Enlace al texto oficial."],
-  ["notas", "Notas", "Libre."]];
+  ["notas", "Notas", "Libre."],
+  ["escalar", "Escalar al directivo", "Lo que se necesita del directivo (firma, presupuesto, gestión). Vacío o «No» = nada que escalar."],
+  ["presupuesto", "Presupuesto", "Monto planeado de la tarea (opcional; misma moneda en todo el plan)."], ["costo", "Costo real", "Monto gastado a la fecha (opcional)."]];
