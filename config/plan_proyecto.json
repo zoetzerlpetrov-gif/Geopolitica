@@ -1,0 +1,1631 @@
+{
+ "_nota": "Plantilla de plan de proyecto (de la idea al cierre) para la Caja del analista → Normativa por país. Las tareas «G-…» aplican a cualquier país (su base normativa se toma del catálogo del país por área); las «X-…» son la ruta de una empresa extranjera que opera en México. Además, cada trámite y obligación de las leyes del país y del sector elegido se convierte en tarea. Duraciones en días hábiles: estimaciones de referencia, no plazos legales; ajústalas.",
+ "version": "2026-11",
+ "fases": [
+  [
+   "F0",
+   "0. Diagnóstico, viabilidad y decisión",
+   "Entender el mercado, la regulación del sector y del país, el costo y los permisos críticos antes de comprometer dinero."
+  ],
+  [
+   "F1",
+   "1. Estructura legal y constitución",
+   "Elegir el vehículo (sociedad, sucursal, oficina de representación), constituirlo y dejar listos poderes y registros corporativos."
+  ],
+  [
+   "F2",
+   "2. Registros fiscales, laborales, bancarios y de comercio exterior",
+   "Darse de alta ante hacienda, seguridad social, bancos y aduanas para poder facturar, contratar, pagar e importar."
+  ],
+  [
+   "F3",
+   "3. Permisos, licencias y autorizaciones del sector",
+   "Obtener los permisos del regulador del sector antes de operar (sin ellos la operación es ilegal)."
+  ],
+  [
+   "F4",
+   "4. Sitio, construcción e instalaciones",
+   "Uso de suelo, impacto ambiental, licencia de construcción, protección civil e instalaciones conforme a normas técnicas."
+  ],
+  [
+   "F5",
+   "5. Personas, contratación y seguridad laboral",
+   "Contratar con contratos, altas y prestaciones de ley; organizar seguridad e higiene antes de que entre el primer trabajador."
+  ],
+  [
+   "F6",
+   "6. Datos, tecnología, integridad y controles",
+   "Privacidad, ciberseguridad, anticorrupción, prevención de lavado y controles internos diseñados antes de arrancar."
+  ],
+  [
+   "F7",
+   "7. Preapertura y arranque de operaciones",
+   "Verificar que todo lo obligatorio está en orden, hacer la auditoría de preapertura y arrancar con registro de evidencia."
+  ],
+  [
+   "F8",
+   "8. Operación y cumplimiento recurrente",
+   "Declaraciones, reportes, renovaciones y obligaciones periódicas mientras la empresa opere (calendario)."
+  ],
+  [
+   "F9",
+   "9. Monitoreo, auditoría, incidentes y mejora",
+   "Auditorías internas, respuesta a incidentes regulados, seguimiento de cambios normativos (Bitácora normativa) y mejora."
+  ],
+  [
+   "F10",
+   "10. Cierre del proyecto o salida del país",
+   "Último paso: cerrar el proyecto, entregar, o liquidar la operación y dar de baja registros sin dejar pasivos."
+  ]
+ ],
+ "roles": [
+  [
+   "PAT",
+   "Patrocinador / dirección"
+  ],
+  [
+   "PM",
+   "Project manager"
+  ],
+  [
+   "LEG",
+   "Legal y corporativo"
+  ],
+  [
+   "FIS",
+   "Fiscal y contabilidad"
+  ],
+  [
+   "FIN",
+   "Finanzas y tesorería"
+  ],
+  [
+   "RH",
+   "Recursos humanos"
+  ],
+  [
+   "EHS",
+   "Seguridad, salud y ambiente (EHS)"
+  ],
+  [
+   "TI",
+   "TI y seguridad de la información"
+  ],
+  [
+   "CUM",
+   "Cumplimiento (compliance)"
+  ],
+  [
+   "OPE",
+   "Operaciones"
+  ],
+  [
+   "GES",
+   "Gestor de trámites / representante legal"
+  ],
+  [
+   "COM",
+   "Comercial y marketing"
+  ]
+ ],
+ "tareas": [
+  {
+   "id": "G-F0-01",
+   "fase": "F0",
+   "seccion": "Arranque del proyecto",
+   "tarea": "Acta de constitución del proyecto (project charter): objetivo, alcance, patrocinador, presupuesto y criterios de éxito",
+   "entregable": "Acta firmada por el patrocinador",
+   "rol": "PM",
+   "dias": 3,
+   "pred": "",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 21502:2020 (gestión de proyectos); PMBOK 7.ª ed. (dominio de desempeño de planificación)"
+  },
+  {
+   "id": "G-F0-02",
+   "fase": "F0",
+   "seccion": "Arranque del proyecto",
+   "tarea": "Registro de interesados: autoridades, reguladores, socios, comunidad, sindicato, clientes y proveedores clave",
+   "entregable": "Matriz de interesados con poder e interés",
+   "rol": "PM",
+   "dias": 2,
+   "pred": "G-F0-01",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 21502:2020; PMBOK 7.ª ed. (interesados)"
+  },
+  {
+   "id": "G-F0-03",
+   "fase": "F0",
+   "seccion": "Diagnóstico regulatorio",
+   "tarea": "Mapa regulatorio del país y del sector: leyes generales y del sector, autoridades, permisos previos y plazos (usar Caja del analista → Normativa por país)",
+   "entregable": "Mapa regulatorio con dueño por ley",
+   "rol": "LEG",
+   "dias": 8,
+   "pred": "G-F0-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo",
+    "Fiscal y contable",
+    "Laboral y seguridad social",
+    "Inversión extranjera, comercio exterior y sanciones"
+   ],
+   "ref": "Catálogo de Normativa por país de DOMINUS; confirmar versión vigente en la fuente oficial"
+  },
+  {
+   "id": "G-F0-04",
+   "fase": "F0",
+   "seccion": "Diagnóstico regulatorio",
+   "tarea": "Revisar si la actividad está reservada, restringida o requiere autorización previa para inversión extranjera",
+   "entregable": "Opinión legal sobre restricciones de inversión",
+   "rol": "LEG",
+   "dias": 5,
+   "pred": "G-F0-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Inversión extranjera, comercio exterior y sanciones"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F0-05",
+   "fase": "F0",
+   "seccion": "Diagnóstico regulatorio",
+   "tarea": "Verificar contrapartes, socios y beneficiarios finales contra listas de sanciones (ONU, OFAC, UE, listas locales) y de personas bloqueadas",
+   "entregable": "Reporte de debida diligencia de contrapartes",
+   "rol": "CUM",
+   "dias": 3,
+   "pred": "G-F0-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Inversión extranjera, comercio exterior y sanciones",
+    "Prevención de lavado de dinero"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F0-06",
+   "fase": "F0",
+   "seccion": "Diagnóstico regulatorio",
+   "tarea": "Evaluar si la operación requiere notificación previa de concentración ante la autoridad de competencia",
+   "entregable": "Análisis de umbrales de competencia",
+   "rol": "LEG",
+   "dias": 3,
+   "pred": "G-F0-03",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Competencia"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F0-07",
+   "fase": "F0",
+   "seccion": "Viabilidad",
+   "tarea": "Estudio de mercado y modelo de negocio (demanda, precios, competencia, canales)",
+   "entregable": "Estudio de mercado",
+   "rol": "COM",
+   "dias": 15,
+   "pred": "G-F0-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F0-08",
+   "fase": "F0",
+   "seccion": "Viabilidad",
+   "tarea": "Modelo financiero con costos regulatorios (derechos, permisos, seguros, garantías) y calendario de flujo",
+   "entregable": "Modelo financiero aprobado",
+   "rol": "FIN",
+   "dias": 10,
+   "pred": "G-F0-07",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F0-09",
+   "fase": "F0",
+   "seccion": "Viabilidad",
+   "tarea": "Selección preliminar del sitio: uso de suelo compatible, servicios, riesgos naturales y sociales",
+   "entregable": "Terna de sitios evaluados",
+   "rol": "OPE",
+   "dias": 10,
+   "pred": "G-F0-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Ambiental y sostenibilidad (ESG)"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F0-10",
+   "fase": "F0",
+   "seccion": "Viabilidad",
+   "tarea": "Registro inicial de riesgos del proyecto (regulatorio, país, ESG, seguridad, cadena de suministro) usando la Simulación de escenarios",
+   "entregable": "Registro de riesgos con dueño y respuesta",
+   "rol": "PM",
+   "dias": 3,
+   "pred": "G-F0-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 31000:2018 (gestión del riesgo)"
+  },
+  {
+   "id": "G-F0-11",
+   "fase": "F0",
+   "seccion": "Decisión",
+   "tarea": "Decisión de inversión (go / no go) y aprobación del presupuesto y del plan",
+   "entregable": "Acta de decisión",
+   "rol": "PAT",
+   "dias": 2,
+   "pred": "G-F0-08",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-01",
+   "fase": "F1",
+   "seccion": "Vehículo legal",
+   "tarea": "Elegir vehículo legal: sociedad local (S.A., S. de R.L., S.A.S. u otra), sucursal de sociedad extranjera u oficina de representación; considerar efectos fiscales y de responsabilidad",
+   "entregable": "Memorando de estructura",
+   "rol": "LEG",
+   "dias": 5,
+   "pred": "G-F0-11",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo",
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-02",
+   "fase": "F1",
+   "seccion": "Vehículo legal",
+   "tarea": "Autorización de uso de denominación o razón social",
+   "entregable": "Autorización de denominación",
+   "rol": "GES",
+   "dias": 2,
+   "pred": "G-F1-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-03",
+   "fase": "F1",
+   "seccion": "Constitución",
+   "tarea": "Redactar estatutos (objeto, capital, órganos de gobierno, facultades) y aprobarlos con los socios",
+   "entregable": "Estatutos aprobados",
+   "rol": "LEG",
+   "dias": 7,
+   "pred": "G-F1-02",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-04",
+   "fase": "F1",
+   "seccion": "Constitución",
+   "tarea": "Formalizar la constitución ante fedatario público e inscribirla en el registro mercantil",
+   "entregable": "Escritura o acta inscrita",
+   "rol": "GES",
+   "dias": 10,
+   "pred": "G-F1-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-05",
+   "fase": "F1",
+   "seccion": "Constitución",
+   "tarea": "Otorgar poderes al representante legal (actos de administración, pleitos y cobranzas, títulos de crédito) con límites claros",
+   "entregable": "Poderes otorgados",
+   "rol": "LEG",
+   "dias": 3,
+   "pred": "G-F1-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-06",
+   "fase": "F1",
+   "seccion": "Gobierno corporativo",
+   "tarea": "Libros corporativos (actas, registro de socios o acciones, variaciones de capital) y calendario de órganos de gobierno",
+   "entregable": "Libros corporativos abiertos",
+   "rol": "LEG",
+   "dias": 2,
+   "pred": "G-F1-04",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-07",
+   "fase": "F1",
+   "seccion": "Gobierno corporativo",
+   "tarea": "Registrar al beneficiario final / beneficiario controlador y conservar la documentación",
+   "entregable": "Expediente de beneficiario final",
+   "rol": "CUM",
+   "dias": 3,
+   "pred": "G-F1-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo",
+    "Prevención de lavado de dinero",
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F1-08",
+   "fase": "F1",
+   "seccion": "Propiedad intelectual",
+   "tarea": "Buscar anterioridades y registrar marcas, nombres comerciales y dominios (incluida la versión en idioma local)",
+   "entregable": "Solicitudes de registro presentadas",
+   "rol": "LEG",
+   "dias": 5,
+   "pred": "G-F1-02",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Propiedad intelectual"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-01",
+   "fase": "F2",
+   "seccion": "Registro fiscal",
+   "tarea": "Inscribir a la empresa en el registro de contribuyentes, obtener firma electrónica y habilitar el buzón o canal de notificaciones fiscales",
+   "entregable": "Constancia de inscripción y firma electrónica",
+   "rol": "FIS",
+   "dias": 5,
+   "pred": "G-F1-04",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-02",
+   "fase": "F2",
+   "seccion": "Registro fiscal",
+   "tarea": "Configurar facturación electrónica, catálogo de cuentas y contabilidad conforme a la norma local",
+   "entregable": "Sistema de facturación y contabilidad en operación",
+   "rol": "FIS",
+   "dias": 10,
+   "pred": "G-F2-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-03",
+   "fase": "F2",
+   "seccion": "Registro fiscal",
+   "tarea": "Definir política de precios de transferencia para operaciones con partes relacionadas",
+   "entregable": "Política y estudio de precios de transferencia",
+   "rol": "FIS",
+   "dias": 15,
+   "pred": "G-F2-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-04",
+   "fase": "F2",
+   "seccion": "Bancos y tesorería",
+   "tarea": "Abrir cuentas bancarias (expediente de conocimiento del cliente con beneficiario final)",
+   "entregable": "Cuentas bancarias activas",
+   "rol": "FIN",
+   "dias": 10,
+   "pred": "G-F2-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Prevención de lavado de dinero"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-05",
+   "fase": "F2",
+   "seccion": "Registro laboral",
+   "tarea": "Registrar a la empresa como empleador ante seguridad social y fondos obligatorios (pensión, vivienda, riesgos de trabajo)",
+   "entregable": "Registro patronal",
+   "rol": "RH",
+   "dias": 5,
+   "pred": "G-F2-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-06",
+   "fase": "F2",
+   "seccion": "Registro laboral",
+   "tarea": "Registros estatales o locales de nómina y empleo",
+   "entregable": "Constancias de registro local",
+   "rol": "FIS",
+   "dias": 3,
+   "pred": "G-F2-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable",
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-07",
+   "fase": "F2",
+   "seccion": "Comercio exterior",
+   "tarea": "Registro como importador / exportador y en padrones sectoriales; elegir agente aduanal y clasificar mercancías",
+   "entregable": "Registro de importador y clasificación arancelaria",
+   "rol": "OPE",
+   "dias": 15,
+   "pred": "G-F2-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Inversión extranjera, comercio exterior y sanciones"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F2-08",
+   "fase": "F2",
+   "seccion": "Seguros",
+   "tarea": "Contratar seguros obligatorios y recomendados (responsabilidad civil, ambiental, daños, transporte, riesgos de trabajo complementario)",
+   "entregable": "Pólizas vigentes",
+   "rol": "FIN",
+   "dias": 7,
+   "pred": "G-F1-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F3-01",
+   "fase": "F3",
+   "seccion": "Permisos del sector",
+   "tarea": "Confirmar con el regulador del sector la lista de permisos, el orden de trámite y los requisitos técnicos (reunión previa si existe)",
+   "entregable": "Lista de permisos validada",
+   "rol": "GES",
+   "dias": 5,
+   "pred": "G-F0-11",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "Leyes del sector en la hoja «Base normativa»"
+  },
+  {
+   "id": "G-F3-02",
+   "fase": "F3",
+   "seccion": "Permisos del sector",
+   "tarea": "Integrar expedientes técnicos y legales de cada permiso (planos, memorias, pólizas, capacidad técnica y financiera)",
+   "entregable": "Expedientes completos",
+   "rol": "OPE",
+   "dias": 15,
+   "pred": "G-F3-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F3-03",
+   "fase": "F3",
+   "seccion": "Permisos del sector",
+   "tarea": "Presentar solicitudes, pagar derechos y dar seguimiento a prevenciones del regulador",
+   "entregable": "Acuses y pagos de derechos",
+   "rol": "GES",
+   "dias": 30,
+   "pred": "G-F3-02",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F3-04",
+   "fase": "F3",
+   "seccion": "Permisos del sector",
+   "tarea": "Registrar condiciones y vencimientos de cada permiso en el calendario de cumplimiento",
+   "entregable": "Matriz de permisos con vencimientos",
+   "rol": "CUM",
+   "dias": 2,
+   "pred": "G-F3-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F4-01",
+   "fase": "F4",
+   "seccion": "Sitio",
+   "tarea": "Constancia de uso de suelo / zonificación compatible con la actividad",
+   "entregable": "Constancia de uso de suelo",
+   "rol": "GES",
+   "dias": 15,
+   "pred": "G-F0-09",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Ambiental y sostenibilidad (ESG)"
+   ],
+   "ref": "Reglamentos municipales de desarrollo urbano"
+  },
+  {
+   "id": "G-F4-02",
+   "fase": "F4",
+   "seccion": "Ambiental",
+   "tarea": "Evaluación de impacto ambiental y autorización (federal, estatal o municipal según la actividad)",
+   "entregable": "Resolución de impacto ambiental",
+   "rol": "EHS",
+   "dias": 60,
+   "pred": "G-F4-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Ambiental y sostenibilidad (ESG)"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F4-03",
+   "fase": "F4",
+   "seccion": "Ambiental",
+   "tarea": "Registro como generador de residuos y plan de manejo; permisos de descarga, emisiones y uso de agua cuando apliquen",
+   "entregable": "Registros y permisos ambientales",
+   "rol": "EHS",
+   "dias": 20,
+   "pred": "G-F4-02",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Ambiental y sostenibilidad (ESG)"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F4-04",
+   "fase": "F4",
+   "seccion": "Construcción",
+   "tarea": "Licencia de construcción, director responsable de obra y seguros de obra",
+   "entregable": "Licencia de construcción",
+   "rol": "OPE",
+   "dias": 20,
+   "pred": "G-F4-01",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "Reglamento de construcción local"
+  },
+  {
+   "id": "G-F4-05",
+   "fase": "F4",
+   "seccion": "Construcción",
+   "tarea": "Construcción, adecuación e instalaciones (eléctricas, gas, contra incendio) conforme a normas técnicas, con bitácora de obra",
+   "entregable": "Obra terminada con bitácora",
+   "rol": "OPE",
+   "dias": 60,
+   "pred": "G-F4-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F4-06",
+   "fase": "F4",
+   "seccion": "Protección civil",
+   "tarea": "Programa interno de protección civil, análisis de riesgos del inmueble y visto bueno de protección civil / bomberos",
+   "entregable": "Programa interno y dictamen aprobado",
+   "rol": "EHS",
+   "dias": 15,
+   "pred": "G-F4-05",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F4-07",
+   "fase": "F4",
+   "seccion": "Licencias locales",
+   "tarea": "Licencia de funcionamiento o aviso de apertura municipal y anuncios",
+   "entregable": "Licencia de funcionamiento",
+   "rol": "GES",
+   "dias": 10,
+   "pred": "G-F4-06",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-01",
+   "fase": "F5",
+   "seccion": "Organización",
+   "tarea": "Estructura organizacional, descripciones de puesto, tabulador y política de compensación conforme a mínimos legales",
+   "entregable": "Organigrama y descripciones de puesto",
+   "rol": "RH",
+   "dias": 10,
+   "pred": "G-F1-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-02",
+   "fase": "F5",
+   "seccion": "Contratación",
+   "tarea": "Contratos individuales de trabajo por escrito, alta en seguridad social desde el primer día y expediente laboral",
+   "entregable": "Contratos y altas",
+   "rol": "RH",
+   "dias": 5,
+   "pred": "G-F2-05",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-03",
+   "fase": "F5",
+   "seccion": "Contratación",
+   "tarea": "Revisar subcontratación de servicios: solo servicios especializados con registro vigente del proveedor",
+   "entregable": "Matriz de proveedores de servicios con registro",
+   "rol": "LEG",
+   "dias": 5,
+   "pred": "G-F5-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-04",
+   "fase": "F5",
+   "seccion": "Contratación",
+   "tarea": "Permisos de trabajo y visas para personal extranjero",
+   "entregable": "Permisos migratorios",
+   "rol": "RH",
+   "dias": 30,
+   "pred": "G-F1-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": "Ley migratoria del país"
+  },
+  {
+   "id": "G-F5-05",
+   "fase": "F5",
+   "seccion": "Reglas internas",
+   "tarea": "Reglamento interior de trabajo, políticas de jornada, vacaciones, acoso y hostigamiento, y canal de quejas",
+   "entregable": "Reglamento y políticas publicadas",
+   "rol": "RH",
+   "dias": 10,
+   "pred": "G-F5-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-06",
+   "fase": "F5",
+   "seccion": "Seguridad y salud",
+   "tarea": "Diagnóstico de seguridad y salud, servicios preventivos, comisión de seguridad e higiene y programa anual",
+   "entregable": "Diagnóstico, comisión y programa",
+   "rol": "EHS",
+   "dias": 10,
+   "pred": "G-F4-05",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Seguridad y salud en el trabajo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-07",
+   "fase": "F5",
+   "seccion": "Seguridad y salud",
+   "tarea": "Equipo de protección personal, señalización, brigadas y simulacros",
+   "entregable": "EPP entregado y brigadas formadas",
+   "rol": "EHS",
+   "dias": 10,
+   "pred": "G-F5-06",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Seguridad y salud en el trabajo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F5-08",
+   "fase": "F5",
+   "seccion": "Capacitación",
+   "tarea": "Plan de capacitación (inducción, seguridad, cumplimiento, privacidad) con constancias",
+   "entregable": "Plan y constancias",
+   "rol": "RH",
+   "dias": 10,
+   "pred": "G-F5-02",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social",
+    "Seguridad y salud en el trabajo"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F6-01",
+   "fase": "F6",
+   "seccion": "Privacidad",
+   "tarea": "Inventario de datos personales, avisos de privacidad, bases legales y procedimiento de derechos de los titulares",
+   "entregable": "Inventario y avisos publicados",
+   "rol": "CUM",
+   "dias": 10,
+   "pred": "G-F2-02",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Protección de datos y ciberseguridad"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F6-02",
+   "fase": "F6",
+   "seccion": "Privacidad",
+   "tarea": "Contratos con encargados (nube, nómina, call center) y mecanismo para transferencias internacionales de datos",
+   "entregable": "Contratos firmados",
+   "rol": "LEG",
+   "dias": 10,
+   "pred": "G-F6-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Protección de datos y ciberseguridad"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F6-03",
+   "fase": "F6",
+   "seccion": "Ciberseguridad",
+   "tarea": "Controles mínimos: inventario de activos, accesos con doble factor, respaldos probados, parches, registro de eventos y plan de respuesta a incidentes",
+   "entregable": "Plan de seguridad y respuesta a incidentes",
+   "rol": "TI",
+   "dias": 20,
+   "pred": "G-F2-02",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Protección de datos y ciberseguridad"
+   ],
+   "ref": "ISO/IEC 27001:2022; NIST CSF 2.0"
+  },
+  {
+   "id": "G-F6-04",
+   "fase": "F6",
+   "seccion": "Integridad",
+   "tarea": "Programa de integridad: código de ética, política anticorrupción, regalos y conflictos de interés, diligencia de terceros y canal de denuncias",
+   "entregable": "Programa de integridad aprobado",
+   "rol": "CUM",
+   "dias": 15,
+   "pred": "G-F1-05",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Anticorrupción e integridad"
+   ],
+   "ref": "ISO 37001:2016 (antisoborno); ISO 37301:2021 (cumplimiento)"
+  },
+  {
+   "id": "G-F6-05",
+   "fase": "F6",
+   "seccion": "Lavado de dinero",
+   "tarea": "Determinar si la empresa es sujeto obligado (actividad vulnerable / financiera) y, si lo es, alta, manual y oficial de cumplimiento",
+   "entregable": "Determinación y alta, si aplica",
+   "rol": "CUM",
+   "dias": 10,
+   "pred": "G-F1-07",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Prevención de lavado de dinero"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F6-06",
+   "fase": "F6",
+   "seccion": "Consumidor y producto",
+   "tarea": "Términos y condiciones, garantías, publicidad, etiquetado y certificaciones de producto",
+   "entregable": "Términos y etiquetas revisados",
+   "rol": "LEG",
+   "dias": 10,
+   "pred": "G-F3-01",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Protección al consumidor y producto"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F6-07",
+   "fase": "F6",
+   "seccion": "Controles",
+   "tarea": "Matriz de obligaciones: cada ley con dueño, control, evidencia, frecuencia y fecha de revisión (base: hojas «Base normativa» y «Auditoría»)",
+   "entregable": "Matriz de obligaciones",
+   "rol": "CUM",
+   "dias": 5,
+   "pred": "G-F0-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 37301:2021"
+  },
+  {
+   "id": "G-F7-01",
+   "fase": "F7",
+   "seccion": "Preapertura",
+   "tarea": "Auditoría de preapertura con la hoja «Auditoría»: permisos vigentes, registros, seguridad, privacidad y evidencia",
+   "entregable": "Informe de preapertura sin hallazgos críticos",
+   "rol": "CUM",
+   "dias": 5,
+   "pred": "G-F4-07",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 19011:2018 (auditoría)"
+  },
+  {
+   "id": "G-F7-02",
+   "fase": "F7",
+   "seccion": "Preapertura",
+   "tarea": "Pruebas operativas y de seguridad (arranque en frío, simulacro, prueba de respaldo)",
+   "entregable": "Actas de pruebas",
+   "rol": "OPE",
+   "dias": 5,
+   "pred": "G-F7-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": ""
+  },
+  {
+   "id": "G-F7-03",
+   "fase": "F7",
+   "seccion": "Arranque",
+   "tarea": "Aviso de inicio de operaciones a las autoridades que lo exijan y primera facturación",
+   "entregable": "Avisos presentados",
+   "rol": "GES",
+   "dias": 2,
+   "pred": "G-F7-02",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F7-04",
+   "fase": "F7",
+   "seccion": "Arranque",
+   "tarea": "Lecciones aprendidas y entrega a operación (handover) con calendario de cumplimiento",
+   "entregable": "Acta de entrega",
+   "rol": "PM",
+   "dias": 2,
+   "pred": "G-F7-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 21502:2020 (cierre de fase)"
+  },
+  {
+   "id": "G-F8-01",
+   "fase": "F8",
+   "seccion": "Fiscal",
+   "tarea": "Declaraciones y pagos de impuestos del periodo (renta, consumo / IVA, retenciones)",
+   "entregable": "Acuses y pagos",
+   "rol": "FIS",
+   "dias": 1,
+   "pred": "G-F7-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable"
+   ],
+   "ref": "",
+   "frecuencia": "Mensual"
+  },
+  {
+   "id": "G-F8-02",
+   "fase": "F8",
+   "seccion": "Laboral",
+   "tarea": "Cuotas de seguridad social y fondos obligatorios; nómina con recibos electrónicos",
+   "entregable": "Pagos y recibos",
+   "rol": "RH",
+   "dias": 1,
+   "pred": "G-F7-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": "",
+   "frecuencia": "Mensual"
+  },
+  {
+   "id": "G-F8-03",
+   "fase": "F8",
+   "seccion": "Fiscal",
+   "tarea": "Declaración anual, dictamen o información fiscal y estados financieros anuales",
+   "entregable": "Declaración anual y estados financieros",
+   "rol": "FIS",
+   "dias": 10,
+   "pred": "G-F7-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Fiscal y contable"
+   ],
+   "ref": "",
+   "frecuencia": "Anual"
+  },
+  {
+   "id": "G-F8-04",
+   "fase": "F8",
+   "seccion": "Gobierno corporativo",
+   "tarea": "Asamblea o reunión anual de socios (aprobar estados financieros y administración)",
+   "entregable": "Acta de asamblea",
+   "rol": "LEG",
+   "dias": 2,
+   "pred": "G-F7-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo"
+   ],
+   "ref": "",
+   "frecuencia": "Anual"
+  },
+  {
+   "id": "G-F8-05",
+   "fase": "F8",
+   "seccion": "Permisos",
+   "tarea": "Renovar permisos, licencias y certificaciones antes de su vencimiento; pagar derechos anuales",
+   "entregable": "Permisos vigentes",
+   "rol": "GES",
+   "dias": 5,
+   "pred": "G-F7-03",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "",
+   "frecuencia": "Según vencimiento"
+  },
+  {
+   "id": "G-F8-06",
+   "fase": "F8",
+   "seccion": "Reportes al regulador",
+   "tarea": "Reportes periódicos al regulador del sector (operación, volúmenes, calidad, seguridad)",
+   "entregable": "Acuses de reportes",
+   "rol": "OPE",
+   "dias": 1,
+   "pred": "G-F7-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "",
+   "frecuencia": "Según la norma del sector"
+  },
+  {
+   "id": "G-F8-07",
+   "fase": "F8",
+   "seccion": "Ambiental y seguridad",
+   "tarea": "Reportes ambientales y de seguridad (emisiones, residuos, accidentes, comisiones)",
+   "entregable": "Acuses y actas",
+   "rol": "EHS",
+   "dias": 2,
+   "pred": "G-F7-03",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [
+    "Ambiental y sostenibilidad (ESG)",
+    "Seguridad y salud en el trabajo"
+   ],
+   "ref": "",
+   "frecuencia": "Anual / trimestral"
+  },
+  {
+   "id": "G-F9-01",
+   "fase": "F9",
+   "seccion": "Monitoreo normativo",
+   "tarea": "Revisar la Bitácora normativa de DOMINUS cada día hábil y asignar dueño a cada cambio de impacto alto o medio",
+   "entregable": "Registro de cambios atendidos",
+   "rol": "CUM",
+   "dias": 1,
+   "pred": "G-F7-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "",
+   "frecuencia": "Diaria"
+  },
+  {
+   "id": "G-F9-02",
+   "fase": "F9",
+   "seccion": "Auditoría",
+   "tarea": "Auditoría interna anual de cumplimiento con la hoja «Auditoría» y plan de acciones correctivas",
+   "entregable": "Informe de auditoría y plan de acción",
+   "rol": "CUM",
+   "dias": 10,
+   "pred": "G-F7-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 19011:2018",
+   "frecuencia": "Anual"
+  },
+  {
+   "id": "G-F9-03",
+   "fase": "F9",
+   "seccion": "Incidentes",
+   "tarea": "Protocolos de respuesta a incidentes regulados (accidentes, derrames, fugas de datos, retiros de producto) con plazos de aviso a la autoridad",
+   "entregable": "Protocolos probados",
+   "rol": "EHS",
+   "dias": 5,
+   "pred": "G-F7-02",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [
+    "Seguridad y salud en el trabajo",
+    "Protección de datos y ciberseguridad",
+    "Ambiental y sostenibilidad (ESG)"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F9-04",
+   "fase": "F9",
+   "seccion": "Riesgo",
+   "tarea": "Actualizar el registro de riesgos y repetir la simulación de escenarios con los cambios normativos recientes",
+   "entregable": "Registro de riesgos actualizado",
+   "rol": "PM",
+   "dias": 2,
+   "pred": "G-F7-04",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 31000:2018",
+   "frecuencia": "Trimestral"
+  },
+  {
+   "id": "G-F10-01",
+   "fase": "F10",
+   "seccion": "Cierre del proyecto",
+   "tarea": "Cierre formal del proyecto: entregables aceptados, contratos cerrados, archivo de evidencia y lecciones aprendidas",
+   "entregable": "Acta de cierre",
+   "rol": "PM",
+   "dias": 5,
+   "pred": "G-F7-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "ISO 21502:2020; PMBOK 7.ª ed."
+  },
+  {
+   "id": "G-F10-02",
+   "fase": "F10",
+   "seccion": "Salida (solo si se deja de operar)",
+   "tarea": "Liquidar obligaciones laborales (finiquitos e indemnizaciones) y bajas en seguridad social",
+   "entregable": "Finiquitos y bajas",
+   "rol": "RH",
+   "dias": 15,
+   "pred": "G-F10-01",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Laboral y seguridad social"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F10-03",
+   "fase": "F10",
+   "seccion": "Salida (solo si se deja de operar)",
+   "tarea": "Cancelar o transferir permisos y licencias; cierre ambiental del sitio (abandono, remediación si aplica)",
+   "entregable": "Constancias de cancelación y cierre",
+   "rol": "EHS",
+   "dias": 30,
+   "pred": "G-F10-01",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Ambiental y sostenibilidad (ESG)"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "G-F10-04",
+   "fase": "F10",
+   "seccion": "Salida (solo si se deja de operar)",
+   "tarea": "Disolución y liquidación de la sociedad, aviso de cancelación fiscal y baja de registros",
+   "entregable": "Acta de liquidación y bajas",
+   "rol": "LEG",
+   "dias": 60,
+   "pred": "G-F10-02",
+   "prioridad": "Media",
+   "leyes": [],
+   "areas": [
+    "Societario y gobierno corporativo",
+    "Fiscal y contable"
+   ],
+   "ref": ""
+  },
+  {
+   "id": "X-F1-01",
+   "fase": "F1",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Apostillar (Convenio de La Haya de 1961) o legalizar los documentos corporativos de la matriz (acta constitutiva, poderes, acuerdos del consejo)",
+   "entregable": "Documentos apostillados",
+   "rol": "LEG",
+   "dias": 15,
+   "pred": "G-F0-11",
+   "prioridad": "Crítica",
+   "leyes": [],
+   "areas": [],
+   "ref": "Convención de La Haya por la que se suprime el requisito de legalización (1961)",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F1-02",
+   "fase": "F1",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Traducir al español por perito traductor autorizado los documentos que se presentan ante fedatario y autoridades",
+   "entregable": "Traducciones periciales",
+   "rol": "GES",
+   "dias": 7,
+   "pred": "X-F1-01",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F1-03",
+   "fase": "F1",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Revisar en la Ley de Inversión Extranjera si la actividad está reservada al Estado o a mexicanos, tiene tope de participación o requiere resolución favorable de la Comisión Nacional de Inversiones Extranjeras",
+   "entregable": "Opinión de LIE y, si aplica, resolución",
+   "rol": "LEG",
+   "dias": 10,
+   "pred": "G-F0-04",
+   "prioridad": "Crítica",
+   "leyes": [
+    "MEX:lie"
+   ],
+   "areas": [],
+   "ref": "LIE (actividades reservadas, topes y resolución de la CNIE)",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F1-04",
+   "fase": "F1",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Si opera como sucursal o persona moral extranjera: autorización de la Secretaría de Economía e inscripción en el Registro Público de Comercio",
+   "entregable": "Autorización e inscripción",
+   "rol": "GES",
+   "dias": 20,
+   "pred": "X-F1-02",
+   "prioridad": "Crítica",
+   "leyes": [
+    "MEX:lie",
+    "MEX:lgsm"
+   ],
+   "areas": [],
+   "ref": "LIE (personas morales extranjeras) y LGSM",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F1-05",
+   "fase": "F1",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Inscribir la sociedad con inversión extranjera en el Registro Nacional de Inversiones Extranjeras (RNIE)",
+   "entregable": "Constancia de inscripción en el RNIE",
+   "rol": "GES",
+   "dias": 10,
+   "pred": "G-F1-04",
+   "prioridad": "Crítica",
+   "leyes": [
+    "MEX:lie"
+   ],
+   "areas": [],
+   "ref": "LIE: plazo de 40 días hábiles desde la constitución o la participación (verificar en la LIE vigente)",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F1-06",
+   "fase": "F1",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Representante legal residente en México con poderes notariales y firma electrónica; domicilio fiscal en México",
+   "entregable": "Poderes y domicilio",
+   "rol": "LEG",
+   "dias": 5,
+   "pred": "G-F1-05",
+   "prioridad": "Crítica",
+   "leyes": [
+    "MEX:cff"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F2-01",
+   "fase": "F2",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Inscribir en el RFC a los socios o accionistas extranjeros (o usar el RFC genérico cuando la regla lo permita) y documentarlos ante el fedatario",
+   "entregable": "RFC de socios",
+   "rol": "FIS",
+   "dias": 5,
+   "pred": "X-F1-02",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:cff"
+   ],
+   "areas": [],
+   "ref": "CFF (inscripción en el RFC de socios y accionistas)",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F2-02",
+   "fase": "F2",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Analizar el tratado para evitar la doble imposición con el país de la matriz, retenciones a pagos al extranjero (regalías, intereses, dividendos, servicios) y requisitos de residencia fiscal",
+   "entregable": "Memorando fiscal internacional",
+   "rol": "FIS",
+   "dias": 10,
+   "pred": "G-F2-01",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:lisr"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F2-03",
+   "fase": "F2",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Precios de transferencia: estudio anual, declaración informativa de partes relacionadas y, si aplica por umbrales, informes maestro, local y país por país",
+   "entregable": "Estudio y calendario de informes",
+   "rol": "FIS",
+   "dias": 20,
+   "pred": "G-F2-03",
+   "prioridad": "Crítica",
+   "leyes": [
+    "MEX:lisr"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F2-04",
+   "fase": "F2",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Beneficiario controlador: identificar a las personas físicas detrás de la matriz extranjera y mantener el expediente actualizado",
+   "entregable": "Expediente de beneficiario controlador",
+   "rol": "CUM",
+   "dias": 5,
+   "pred": "G-F1-07",
+   "prioridad": "Crítica",
+   "leyes": [
+    "MEX:benef_controlador_cff"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F2-05",
+   "fase": "F2",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Comercio exterior: padrón de importadores (y sectoriales), reglas de origen del T-MEC y programa IMMEX si aplica",
+   "entregable": "Padrones y certificaciones",
+   "rol": "OPE",
+   "dias": 20,
+   "pred": "G-F2-07",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:ley_aduanera",
+    "MEX:tmec"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F5-01",
+   "fase": "F5",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Visas y residencia temporal con permiso para trabajar del personal expatriado; inscripción del empleador ante migración",
+   "entregable": "Documentos migratorios",
+   "rol": "RH",
+   "dias": 30,
+   "pred": "G-F1-04",
+   "prioridad": "Alta",
+   "leyes": [],
+   "areas": [],
+   "ref": "Ley de Migración y su Reglamento",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F5-02",
+   "fase": "F5",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Expatriados: seguridad social, retenciones y convenio de seguridad social con el país de origen si existe",
+   "entregable": "Memorando de expatriados",
+   "rol": "RH",
+   "dias": 10,
+   "pred": "X-F5-01",
+   "prioridad": "Media",
+   "leyes": [
+    "MEX:lss",
+    "MEX:lisr"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F6-01",
+   "fase": "F6",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Transferencias de datos personales a la matriz: aviso de privacidad, consentimiento cuando aplique y cláusulas contractuales",
+   "entregable": "Cláusulas de transferencia",
+   "rol": "LEG",
+   "dias": 7,
+   "pred": "G-F6-02",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:lfpdppp"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F6-02",
+   "fase": "F6",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Programa anticorrupción alineado con la ley de la matriz (FCPA, UK Bribery Act u otra) y con la Ley General de Responsabilidades Administrativas",
+   "entregable": "Programa integrado",
+   "rol": "CUM",
+   "dias": 10,
+   "pred": "G-F6-04",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:lgra",
+    "MEX:ocde_anticohecho"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera"
+  },
+  {
+   "id": "X-F8-01",
+   "fase": "F8",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Informe económico anual y avisos de cambios al RNIE (capital, socios, domicilio, actividad)",
+   "entregable": "Acuses del RNIE",
+   "rol": "GES",
+   "dias": 3,
+   "pred": "G-F7-03",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:lie"
+   ],
+   "areas": [],
+   "ref": "LIE y su Reglamento (plazos: verificar)",
+   "solo": "extranjera",
+   "frecuencia": "Anual"
+  },
+  {
+   "id": "X-F8-02",
+   "fase": "F8",
+   "seccion": "Empresa extranjera en México",
+   "tarea": "Declaraciones informativas de operaciones con partes relacionadas y con el extranjero",
+   "entregable": "Acuses",
+   "rol": "FIS",
+   "dias": 3,
+   "pred": "G-F7-03",
+   "prioridad": "Alta",
+   "leyes": [
+    "MEX:lisr",
+    "MEX:cff"
+   ],
+   "areas": [],
+   "ref": "",
+   "solo": "extranjera",
+   "frecuencia": "Anual"
+  }
+ ],
+ "raci": {
+  "F0": {
+   "PAT": "A",
+   "PM": "R",
+   "LEG": "R",
+   "FIN": "R",
+   "COM": "C",
+   "CUM": "C",
+   "OPE": "C"
+  },
+  "F1": {
+   "PAT": "A",
+   "LEG": "R",
+   "GES": "R",
+   "FIS": "C",
+   "PM": "C"
+  },
+  "F2": {
+   "PAT": "I",
+   "FIS": "R",
+   "FIN": "R",
+   "RH": "R",
+   "OPE": "R",
+   "PM": "A",
+   "GES": "C"
+  },
+  "F3": {
+   "PAT": "I",
+   "PM": "A",
+   "GES": "R",
+   "OPE": "R",
+   "LEG": "C",
+   "EHS": "C",
+   "CUM": "C"
+  },
+  "F4": {
+   "PM": "A",
+   "OPE": "R",
+   "EHS": "R",
+   "GES": "R",
+   "LEG": "C"
+  },
+  "F5": {
+   "PM": "A",
+   "RH": "R",
+   "EHS": "R",
+   "LEG": "C",
+   "CUM": "C"
+  },
+  "F6": {
+   "PM": "A",
+   "CUM": "R",
+   "TI": "R",
+   "LEG": "R",
+   "RH": "C",
+   "OPE": "C"
+  },
+  "F7": {
+   "PAT": "A",
+   "PM": "R",
+   "CUM": "R",
+   "OPE": "R",
+   "EHS": "C",
+   "GES": "C"
+  },
+  "F8": {
+   "OPE": "A",
+   "FIS": "R",
+   "RH": "R",
+   "GES": "R",
+   "EHS": "R",
+   "CUM": "C",
+   "PM": "I"
+  },
+  "F9": {
+   "PAT": "A",
+   "CUM": "R",
+   "EHS": "R",
+   "TI": "R",
+   "PM": "C"
+  },
+  "F10": {
+   "PAT": "A",
+   "PM": "R",
+   "LEG": "R",
+   "RH": "R",
+   "EHS": "R",
+   "FIS": "R"
+  }
+ },
+ "estados": [
+  "Pendiente",
+  "En curso",
+  "Hecho",
+  "Bloqueado",
+  "No aplica"
+ ],
+ "prioridades": [
+  "Crítica",
+  "Alta",
+  "Media",
+  "Baja"
+ ]
+}

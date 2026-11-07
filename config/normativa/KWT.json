@@ -1,0 +1,517 @@
+{
+ "jurisdiccion": "KWT",
+ "nombre": "Kuwait",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Kuwait. Para extranjeras pesan el impuesto de 15 % sobre la renta, la licencia de KDIPA y la kuwaitización. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Ministerio de Comercio e Industria",
+   "https://www.moci.gov.kw/"
+  ],
+  [
+   "Ministerio de Finanzas (impuestos)",
+   "https://www.mof.gov.kw/"
+  ],
+  [
+   "KDIPA",
+   "https://kdipa.gov.kw/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "kw_sociedades",
+     "nombre": "Ley de Sociedades (Ley 1/2016)",
+     "sigla": "Law 1/2016",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio e Industria",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades y sucursales.",
+     "obligaciones": [
+      "Registro comercial y licencia; renovación.",
+      "Estados financieros auditados."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de licencia comercial",
+       "plazo": "Según la licencia",
+       "ante": "MoCI"
+      }
+     ],
+     "sanciones": "Multas y cancelación.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El registro comercial está vigente?",
+      "¿Los estados están auditados?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "kw_impuestos",
+     "nombre": "Impuesto sobre la renta de entidades extranjeras (Decreto 3/1955, 15 %) e impuesto mínimo complementario a multinacionales (Ley 157/2024, desde 2025)",
+     "sigla": "Decree 3/1955 / Law 157/2024",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Finanzas (Administración de Impuestos)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Entidades extranjeras con actividad en Kuwait; grupos multinacionales sobre el umbral.",
+     "obligaciones": [
+      "Declaración anual en 3.5 meses tras el cierre.",
+      "Retención de 5 % en pagos a contratistas hasta obtener el certificado de cumplimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual del impuesto",
+       "plazo": "Día 15 del cuarto mes tras el cierre",
+       "ante": "Ministerio de Finanzas"
+      }
+     ],
+     "sanciones": "Multas de 1 % mensual.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La declaración se presentó en plazo?",
+      "¿Se obtuvo el certificado de liberación fiscal?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "kw_trabajo",
+     "nombre": "Ley del Trabajo en el Sector Privado (Ley 6/2010)",
+     "sigla": "Law 6/2010",
+     "tipo": "ley",
+     "autoridad": "Autoridad Pública de Mano de Obra (PAM)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador; cuotas de kuwaitíes por sector.",
+     "obligaciones": [
+      "Permisos de trabajo y pago de salarios por banco.",
+      "Cuotas de nacionalización."
+     ],
+     "tramites": [
+      {
+       "que": "Archivo de salarios",
+       "plazo": "Mensual",
+       "ante": "PAM"
+      }
+     ],
+     "sanciones": "Multas y suspensión del expediente.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen las cuotas de kuwaitíes?",
+      "¿Los permisos de trabajo están vigentes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "kw_sst",
+     "nombre": "Decisiones de la PAM sobre seguridad y trabajo al aire libre en verano",
+     "sigla": "PAM decisions",
+     "tipo": "ley",
+     "autoridad": "PAM",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Trabajo al aire libre.",
+     "obligaciones": [
+      "Prohibición de trabajo al aire libre de 11:00 a 16:00 de junio a agosto."
+     ],
+     "tramites": [],
+     "sanciones": "Multas por trabajador.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se aplica la restricción de verano?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "kw_datos",
+     "nombre": "Reglamento de Protección de la Privacidad de Datos de la CITRA (2024)",
+     "sigla": "CITRA Regulation",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Regulación de Comunicaciones y Tecnología de la Información (CITRA)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de servicios de comunicaciones y TI y sus tratamientos de datos.",
+     "obligaciones": [
+      "Notificar violaciones en 72 horas.",
+      "Consentimiento y derechos de los titulares."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de violación de datos",
+       "plazo": "72 horas",
+       "ante": "CITRA"
+      }
+     ],
+     "sanciones": "Sanciones de la CITRA.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Hay procedimiento de notificación en 72 horas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "kw_pld",
+     "nombre": "Ley contra el Lavado de Dinero y el Financiamiento del Terrorismo (Ley 106/2013)",
+     "sigla": "Law 106/2013",
+     "tipo": "ley",
+     "autoridad": "Unidad de Inteligencia Financiera de Kuwait (KwFIU)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Instituciones financieras y actividades designadas.",
+     "obligaciones": [
+      "Debida diligencia y reportes sospechosos."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "Sin demora",
+       "ante": "KwFIU"
+      }
+     ],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "kw_anticorrupcion",
+     "nombre": "Ley de la Autoridad Anticorrupción (Ley 2/2016)",
+     "sigla": "Law 2/2016",
+     "tipo": "ley",
+     "autoridad": "Autoridad Anticorrupción de Kuwait (Nazaha)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Funcionarios y quienes tratan con el gobierno.",
+     "obligaciones": [
+      "Prohibido el soborno; declaración patrimonial de funcionarios."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión y multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Existe política anticorrupción?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "kw_competencia",
+     "nombre": "Ley de Protección de la Competencia (Ley 72/2020)",
+     "sigla": "Law 72/2020",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Protección de la Competencia",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Concentraciones y conductas.",
+     "obligaciones": [
+      "Notificar concentraciones sobre umbrales."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Antes de cerrar",
+       "ante": "Autoridad de Competencia"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 % de las ventas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evaluaron los umbrales?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "kw_consumidor",
+     "nombre": "Ley de Protección al Consumidor (Ley 39/2014)",
+     "sigla": "Law 39/2014",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio e Industria",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Vendedores a consumidores.",
+     "obligaciones": [
+      "Información en árabe y garantías."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen las reglas de información?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "kw_ambiental",
+     "nombre": "Ley de Protección Ambiental (Ley 42/2014)",
+     "sigla": "Law 42/2014",
+     "tipo": "ley",
+     "autoridad": "Autoridad Pública del Medio Ambiente (EPA)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Proyectos con impacto.",
+     "obligaciones": [
+      "EIA y permisos ambientales."
+     ],
+     "tramites": [
+      {
+       "que": "Aprobación EIA",
+       "plazo": "Antes de construir",
+       "ante": "EPA"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los permisos están vigentes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "kw_inversion",
+     "nombre": "Ley de Promoción de la Inversión Directa (Ley 116/2013)",
+     "sigla": "Law 116/2013",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Promoción de Inversión Directa de Kuwait (KDIPA)",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros que buscan 100 % de propiedad o incentivos.",
+     "obligaciones": [
+      "Licencia de KDIPA para inversión extranjera."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de inversión",
+       "plazo": "Antes de operar",
+       "ante": "KDIPA"
+      }
+     ],
+     "sanciones": "Revocación de beneficios.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se tramitó la licencia de KDIPA?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "kw_pi",
+     "nombre": "Ley de Marcas del CCG (Ley 13/2015)",
+     "sigla": "Law 13/2015",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio e Industria",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas.",
+     "obligaciones": [
+      "Registrar marcas."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "MoCI"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "kw_valores",
+     "nombre": "Ley de la Autoridad de Mercados de Capitales (Ley 7/2010)",
+     "sigla": "Law 7/2010",
+     "tipo": "ley",
+     "autoridad": "CMA de Kuwait; Boursa Kuwait",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas.",
+     "obligaciones": [
+      "Estados financieros y revelaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "Según la CMA",
+       "ante": "CMA"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se publican en plazo?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "kw_hidrocarburos",
+     "nombre": "Ley de Petróleo y acuerdos con Kuwait Petroleum Corporation",
+     "sigla": "KPC",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Petróleo; KPC",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Servicios y proyectos petroleros.",
+     "obligaciones": [
+      "Contratos con KPC y sus filiales; contenido local."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de contenido local?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "kw_bancos",
+     "nombre": "Ley del Banco Central de Kuwait (Ley 32/1968)",
+     "sigla": "Law 32/1968",
+     "tipo": "ley",
+     "autoridad": "Banco Central de Kuwait",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos y pagos.",
+     "obligaciones": [
+      "Licencia del Banco Central."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia bancaria",
+       "plazo": "Antes de operar",
+       "ante": "Banco Central de Kuwait"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "kw_seguros",
+     "nombre": "Ley de Seguros (Ley 125/2019)",
+     "sigla": "Law 125/2019",
+     "tipo": "ley",
+     "autoridad": "Unidad de Regulación de Seguros",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras.",
+     "obligaciones": [
+      "Licencia y solvencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguros",
+       "plazo": "Antes de operar",
+       "ante": "Unidad de Regulación de Seguros"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumple la solvencia?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "kw_telecom",
+     "nombre": "Ley de la CITRA (Ley 37/2014)",
+     "sigla": "Law 37/2014",
+     "tipo": "ley",
+     "autoridad": "CITRA",
+     "url": "https://www.moci.gov.kw/",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores y equipos.",
+     "obligaciones": [
+      "Licencia y homologación."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación",
+       "plazo": "Antes de vender",
+       "ante": "CITRA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los equipos están homologados?"
+     ]
+    }
+   ]
+  }
+ }
+}

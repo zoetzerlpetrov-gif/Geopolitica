@@ -1,0 +1,1046 @@
+{
+ "jurisdiccion": "BRA",
+ "nombre": "Brasil",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Brasil. Para extranjeras pesan el procurador residente, el registro de la inversión en el Banco Central y la reforma tributaria del consumo (2026–2033). Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Planalto: legislación federal",
+   "https://www4.planalto.gov.br/legislacao/"
+  ],
+  [
+   "Diário Oficial da União",
+   "https://www.in.gov.br/"
+  ],
+  [
+   "Receita Federal",
+   "https://www.gov.br/receitafederal/"
+  ],
+  [
+   "ANPD",
+   "https://www.gov.br/anpd/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "br_sociedades",
+     "nombre": "Lei das S.A. (Lei 6.404/1976) y Código Civil (sociedades limitadas, Lei 10.406/2002)",
+     "sigla": "LSA / CC",
+     "tipo": "ley federal",
+     "autoridad": "Juntas Comerciais estatales; DREI; Receita Federal (CNPJ)",
+     "url": "https://www4.planalto.gov.br/legislacao/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades anónimas y limitadas; la sociedad extranjera que opera directamente necesita autorización del gobierno federal (DREI).",
+     "obligaciones": [
+      "Inscripción en la Junta Comercial y obtención del CNPJ.",
+      "Administrador residente en Brasil; el socio extranjero necesita CNPJ/CPF y un procurador residente.",
+      "Asamblea o reunión anual de socios en 4 meses tras el cierre."
+     ],
+     "tramites": [
+      {
+       "que": "Reunión o asamblea anual de socios",
+       "plazo": "4 meses tras el cierre (30 de abril)",
+       "ante": "Interno; registro en la Junta Comercial"
+      },
+      {
+       "que": "Registro de cambios contractuales",
+       "plazo": "30 días desde el acto",
+       "ante": "Junta Comercial"
+      }
+     ],
+     "sanciones": "Responsabilidad personal de administradores y nulidad de actos no registrados.",
+     "evidencia": [
+      "Contrato social o estatutos",
+      "Tarjeta CNPJ",
+      "Poderes del procurador"
+     ],
+     "preguntas": [
+      "¿El socio extranjero tiene procurador residente con poderes vigentes?",
+      "¿Se celebró la reunión anual en los 4 meses siguientes al cierre?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "br_tributos",
+     "nombre": "Impuestos sobre la renta (IRPJ y CSLL), contribuciones PIS/COFINS, ICMS (estatal) e ISS (municipal); SPED y NF-e",
+     "sigla": "IRPJ/CSLL/PIS/COFINS",
+     "tipo": "ley federal",
+     "autoridad": "Receita Federal do Brasil; secretarías de hacienda estatales y municipales",
+     "url": "https://www4.planalto.gov.br/legislacao/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda persona jurídica; régimen de lucro real, presumido o Simples Nacional.",
+     "obligaciones": [
+      "Emitir nota fiscal electrónica (NF-e o NFS-e) en cada operación.",
+      "Escrituración digital: ECD (contable), ECF (fiscal), EFD-Contribuciones y EFD ICMS/IPI.",
+      "Precios de transferencia con el estándar OCDE desde 2024 (Lei 14.596/2023)."
+     ],
+     "tramites": [
+      {
+       "que": "ECD (Escrituración Contable Digital)",
+       "plazo": "Último día hábil de mayo (verificar)",
+       "ante": "Receita Federal (SPED)"
+      },
+      {
+       "que": "ECF (Escrituración Contable Fiscal)",
+       "plazo": "Último día hábil de julio",
+       "ante": "Receita Federal (SPED)"
+      },
+      {
+       "que": "DCTFWeb y pagos mensuales",
+       "plazo": "Mensual",
+       "ante": "Receita Federal"
+      }
+     ],
+     "sanciones": "Multas por atraso de las declaraciones (por mes o fracción), multa de oficio de 75 % (hasta 150 % con fraude).",
+     "evidencia": [
+      "NF-e emitidas",
+      "Recibos SPED",
+      "Documentación de precios de transferencia"
+     ],
+     "preguntas": [
+      "¿La ECD y la ECF se transmitieron en plazo?",
+      "¿Se aplicó el nuevo régimen de precios de transferencia (Lei 14.596/2023)?"
+     ]
+    },
+    {
+     "id": "br_reforma_tributaria",
+     "nombre": "Reforma tributaria del consumo: Enmienda Constitucional 132/2023 y Ley Complementaria 214/2025 (IBS, CBS e Impuesto Selectivo)",
+     "sigla": "EC 132 / LC 214",
+     "tipo": "ley complementaria",
+     "autoridad": "Receita Federal; Comité Gestor del IBS",
+     "url": "https://www4.planalto.gov.br/legislacao/",
+     "ultima_reforma": "2025-01-16 (LC 214)",
+     "aplica": "Toda empresa: sustituye gradualmente PIS, COFINS, IPI, ICMS e ISS entre 2026 y 2033.",
+     "obligaciones": [
+      "2026: año de prueba con CBS de 0.9 % e IBS de 0.1 % destacados en la nota fiscal.",
+      "Adaptar sistemas de facturación y precios al IVA dual.",
+      "CBS plena desde 2027; transición del IBS de 2029 a 2033."
+     ],
+     "tramites": [
+      {
+       "que": "Destacar CBS e IBS en documentos fiscales",
+       "plazo": "Desde el 1 de enero de 2026",
+       "ante": "Receita Federal / Comité Gestor"
+      }
+     ],
+     "sanciones": "Las reglas de sanción del período de prueba se definen en la regulación (verificar).",
+     "evidencia": [
+      "Plan de implementación",
+      "Pruebas de facturación"
+     ],
+     "preguntas": [
+      "¿Los sistemas de facturación ya destacan CBS e IBS en 2026?",
+      "¿Hay plan de transición 2026–2033 con impacto en precios y contratos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "br_clt",
+     "nombre": "Consolidación de las Leyes del Trabajo (CLT), reforma laboral (Lei 13.467/2017), FGTS y eSocial",
+     "sigla": "CLT",
+     "tipo": "ley federal",
+     "autoridad": "Ministerio del Trabajo y Empleo (MTE); Receita Federal; Caixa (FGTS)",
+     "url": "https://www4.planalto.gov.br/legislacao/",
+     "ultima_reforma": "2017-07-13 (reforma)",
+     "aplica": "Todo empleador; trabajadores extranjeros necesitan autorización de residencia para trabajo.",
+     "obligaciones": [
+      "Registro de cada trabajador en eSocial antes de que empiece.",
+      "Depósito mensual del FGTS (8 %) vía FGTS Digital y aportaciones al INSS.",
+      "Pago de aguinaldo (13.º salario) en dos parcelas y vacaciones con un tercio adicional."
+     ],
+     "tramites": [
+      {
+       "que": "Admisión en eSocial",
+       "plazo": "Antes del inicio de labores",
+       "ante": "eSocial"
+      },
+      {
+       "que": "FGTS Digital",
+       "plazo": "Día 20 del mes siguiente",
+       "ante": "Caixa / MTE"
+      },
+      {
+       "que": "13.º salario",
+       "plazo": "1.ª parcela al 30 de noviembre; 2.ª al 20 de diciembre",
+       "ante": "Trabajador"
+      }
+     ],
+     "sanciones": "Multas por trabajador no registrado y adeudos laborales en tribunales.",
+     "evidencia": [
+      "Eventos de eSocial",
+      "Guías del FGTS",
+      "Contratos y nómina"
+     ],
+     "preguntas": [
+      "¿Todos los eventos laborales se envían a eSocial en plazo?",
+      "¿El FGTS se deposita cada mes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "br_nr",
+     "nombre": "Normas Reglamentadoras (NR) del MTE: NR-1 (GRO/PGR, incluye riesgos psicosociales), NR-4 (SESMT), NR-5 (CIPA), NR-7 (PCMSO)",
+     "sigla": "NR",
+     "tipo": "norma",
+     "autoridad": "MTE",
+     "url": "https://www.gov.br/trabalho-e-emprego/pt-br/acesso-a-informacao/participacao-social/conselhos-e-orgaos-colegiados/comissao-tripartite-partitaria-permanente/normas-regulamentadora",
+     "ultima_reforma": "2025 (NR-1; verificar)",
+     "aplica": "Todo empleador con trabajadores bajo CLT.",
+     "obligaciones": [
+      "Programa de Gestión de Riesgos (PGR) con inventario de riesgos; riesgos psicosociales exigibles desde mayo de 2026 (verificar).",
+      "Programa de control médico (PCMSO) con exámenes de ingreso, periódicos y de salida.",
+      "Comisión interna (CIPA) y servicio especializado (SESMT) según tamaño y riesgo."
+     ],
+     "tramites": [
+      {
+       "que": "Comunicación de accidente de trabajo (CAT)",
+       "plazo": "Primer día hábil siguiente (inmediato si hay muerte)",
+       "ante": "INSS vía eSocial"
+      }
+     ],
+     "sanciones": "Multas por infracción y embargo o prohibición de actividades.",
+     "evidencia": [
+      "PGR",
+      "PCMSO y ASO",
+      "Actas de la CIPA"
+     ],
+     "preguntas": [
+      "¿El PGR incluye riesgos psicosociales?",
+      "¿Los exámenes médicos están al día (ASO)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "br_lgpd",
+     "nombre": "Ley General de Protección de Datos (Lei 13.709/2018) y resoluciones de la ANPD",
+     "sigla": "LGPD",
+     "tipo": "ley federal",
+     "autoridad": "Autoridad Nacional de Protección de Datos (ANPD)",
+     "url": "https://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm",
+     "ultima_reforma": "2024 (resoluciones ANPD; verificar)",
+     "aplica": "Quien trate datos personales en Brasil o de personas en Brasil.",
+     "obligaciones": [
+      "Base legal, encargado (DPO) designado y registro de operaciones.",
+      "Comunicar incidentes relevantes a la ANPD y a los titulares en 3 días hábiles (Resolución 15/2024).",
+      "Transferencia internacional con cláusulas estándar de la ANPD (Resolución 19/2024)."
+     ],
+     "tramites": [
+      {
+       "que": "Comunicación de incidente de seguridad",
+       "plazo": "3 días hábiles",
+       "ante": "ANPD y titulares"
+      }
+     ],
+     "sanciones": "Multa de hasta 2 % de la facturación en Brasil, limitada a 50 millones de reales por infracción.",
+     "evidencia": [
+      "Registro de operaciones",
+      "Plan de respuesta a incidentes"
+     ],
+     "preguntas": [
+      "¿Hay DPO designado y publicado?",
+      "¿Los contratos de transferencia internacional usan las cláusulas de la ANPD?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "br_pld",
+     "nombre": "Ley de Lavado de Dinero (Lei 9.613/1998, reformada por Lei 12.683/2012)",
+     "sigla": "Lei 9.613",
+     "tipo": "ley federal",
+     "autoridad": "COAF (Consejo de Control de Actividades Financieras) y reguladores sectoriales",
+     "url": "https://www.planalto.gov.br/ccivil_03/leis/l9613.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Sujetos obligados: financieras, inmobiliarias, joyerías, comercio de bienes de lujo, juegos, contadores y otros.",
+     "obligaciones": [
+      "Política, identificación de clientes y beneficiario final.",
+      "Comunicación de operaciones sospechosas y en efectivo al COAF (SISCOAF).",
+      "Declaración anual de no ocurrencia si no hubo comunicaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de no ocurrencia",
+       "plazo": "Enero de cada año (según la norma sectorial; verificar)",
+       "ante": "COAF / regulador"
+      }
+     ],
+     "sanciones": "Multas de hasta 20 millones de reales e inhabilitación.",
+     "evidencia": [
+      "Política PLD",
+      "Comunicaciones al COAF"
+     ],
+     "preguntas": [
+      "¿La empresa es sujeto obligado y está registrada en el COAF?",
+      "¿Presentó la declaración de no ocurrencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "br_anticorrupcion",
+     "nombre": "Ley Anticorrupción / Empresa Limpia (Lei 12.846/2013) y Decreto 11.129/2022",
+     "sigla": "Lei 12.846",
+     "tipo": "ley federal",
+     "autoridad": "Contraloría General de la Unión (CGU)",
+     "url": "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2013/lei/l12846.htm",
+     "ultima_reforma": "2022-07-11 (Decreto)",
+     "aplica": "Personas jurídicas por actos contra la administración pública nacional o extranjera (responsabilidad objetiva).",
+     "obligaciones": [
+      "Programa de integridad (compliance) que reduce la multa si es efectivo.",
+      "Diligencia de terceros y registros contables fieles."
+     ],
+     "tramites": [],
+     "sanciones": "Multa de 0.1 % a 20 % de la facturación bruta, publicación de la condena y prohibición de contratar con el Estado.",
+     "evidencia": [
+      "Programa de integridad",
+      "Due diligence de terceros"
+     ],
+     "preguntas": [
+      "¿Existe programa de integridad evaluado con los parámetros del Decreto 11.129/2022?",
+      "¿Se hace diligencia de agentes que tratan con el gobierno?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "br_competencia",
+     "nombre": "Ley de Defensa de la Competencia (Lei 12.529/2011)",
+     "sigla": "Lei 12.529",
+     "tipo": "ley federal",
+     "autoridad": "CADE",
+     "url": "https://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12529.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Operaciones donde un grupo factura en Brasil al menos 750 millones de reales y otro al menos 75 millones; conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar la concentración antes de cerrar (control previo).",
+      "No intercambiar información sensible con competidores."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de acto de concentración",
+       "plazo": "Antes de consumar",
+       "ante": "CADE"
+      }
+     ],
+     "sanciones": "Multa de 0.1 % a 20 % de la facturación; nulidad de operaciones no notificadas (gun jumping).",
+     "evidencia": [
+      "Análisis de umbrales"
+     ],
+     "preguntas": [
+      "¿Se revisaron los umbrales del CADE antes de cerrar?",
+      "¿Hay política de trato con competidores?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "br_cdc",
+     "nombre": "Código de Defensa del Consumidor (Lei 8.078/1990)",
+     "sigla": "CDC",
+     "tipo": "ley federal",
+     "autoridad": "Senacon; Procons estatales y municipales",
+     "url": "https://www.planalto.gov.br/ccivil_03/leis/l8078compilado.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de bienes y servicios a consumidores en Brasil.",
+     "obligaciones": [
+      "Derecho de arrepentimiento de 7 días en compras fuera del establecimiento.",
+      "Responsabilidad objetiva por defectos y retiro (recall) comunicado a Senacon.",
+      "Servicio de atención al cliente (SAC) según el Decreto 11.034/2022."
+     ],
+     "tramites": [
+      {
+       "que": "Comunicación de recall",
+       "plazo": "Inmediata al conocer el riesgo",
+       "ante": "Senacon"
+      }
+     ],
+     "sanciones": "Multas de los Procons y acciones colectivas.",
+     "evidencia": [
+      "Registro de quejas",
+      "Procedimiento de recall"
+     ],
+     "preguntas": [
+      "¿Se respeta el arrepentimiento de 7 días en ventas en línea?",
+      "¿Los retiros se comunican a Senacon?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "br_ambiental",
+     "nombre": "Política Nacional del Medio Ambiente (Lei 6.938/1981), Ley de Crímenes Ambientales (Lei 9.605/1998) y Ley General de Licenciamiento Ambiental (Lei 15.190/2025)",
+     "sigla": "PNMA / licenciamiento",
+     "tipo": "ley federal",
+     "autoridad": "IBAMA; órganos ambientales estatales",
+     "url": "https://www.planalto.gov.br/ccivil_03/leis/l6938.htm",
+     "ultima_reforma": "2025-08 (Lei 15.190; verificar)",
+     "aplica": "Actividades potencialmente contaminantes o que usan recursos naturales.",
+     "obligaciones": [
+      "Licencia previa, de instalación y de operación.",
+      "Inscripción en el Catastro Técnico Federal (CTF/APP) e informe anual RAPP.",
+      "Pago de la Tasa de Control y Fiscalización Ambiental (TCFA)."
+     ],
+     "tramites": [
+      {
+       "que": "Informe Anual de Actividades Potencialmente Contaminantes (RAPP)",
+       "plazo": "31 de marzo",
+       "ante": "IBAMA"
+      },
+      {
+       "que": "TCFA",
+       "plazo": "Trimestral",
+       "ante": "IBAMA"
+      }
+     ],
+     "sanciones": "Multas de hasta 50 millones de reales, suspensión y responsabilidad penal de la empresa.",
+     "evidencia": [
+      "Licencias",
+      "Recibos CTF/RAPP"
+     ],
+     "preguntas": [
+      "¿Las licencias ambientales están vigentes?",
+      "¿Se presentó el RAPP?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "br_capital_extranjero",
+     "nombre": "Nuevo marco cambiario (Lei 14.286/2021) y registro de inversión extranjera directa (SCE-IED) en el Banco Central",
+     "sigla": "Lei 14.286",
+     "tipo": "ley federal",
+     "autoridad": "Banco Central do Brasil (BCB); Siscomex",
+     "url": "https://www.planalto.gov.br/ccivil_03/_ato2019-2022/2021/lei/l14286.htm",
+     "ultima_reforma": "2021-12-29",
+     "aplica": "Empresas receptoras de inversión extranjera; importadores y exportadores.",
+     "obligaciones": [
+      "Registro de la inversión extranjera directa y sus cambios en el SCE-IED.",
+      "Declaración económico-financiera anual de la receptora (según umbrales).",
+      "Habilitación en el Radar (Siscomex) para importar o exportar."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de inversión extranjera en el SCE-IED",
+       "plazo": "30 días desde el hecho (verificar)",
+       "ante": "BCB"
+      },
+      {
+       "que": "Declaración anual de la receptora",
+       "plazo": "Según el calendario del BCB",
+       "ante": "BCB"
+      }
+     ],
+     "sanciones": "Multas cambiarias y problemas para repatriar capital y dividendos.",
+     "evidencia": [
+      "Comprobantes SCE-IED",
+      "Habilitación Radar"
+     ],
+     "preguntas": [
+      "¿La inversión y los aumentos de capital están registrados en el SCE-IED?",
+      "¿La empresa tiene habilitación Radar?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "br_pi",
+     "nombre": "Ley de Propiedad Industrial (Lei 9.279/1996)",
+     "sigla": "LPI",
+     "tipo": "ley federal",
+     "autoridad": "INPI",
+     "url": "https://www.planalto.gov.br/ccivil_03/leis/l9279.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas, patentes y diseños; contratos de transferencia de tecnología.",
+     "obligaciones": [
+      "Registrar marcas en el INPI (primer solicitante).",
+      "Registrar en el INPI los contratos de licencia y transferencia de tecnología para deducir y remitir regalías."
+     ],
+     "tramites": [
+      {
+       "que": "Prórroga de marca",
+       "plazo": "Cada 10 años (último año de vigencia)",
+       "ante": "INPI"
+      }
+     ],
+     "sanciones": "Pérdida de derechos y de la deducción fiscal de regalías.",
+     "evidencia": [
+      "Certificados del INPI",
+      "Contratos registrados"
+     ],
+     "preguntas": [
+      "¿Las marcas clave están registradas en el INPI?",
+      "¿Los contratos de regalías están registrados?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "br_valores",
+     "nombre": "Ley del Mercado de Valores (Lei 6.385/1976) y Resolución CVM 80/2022",
+     "sigla": "Lei 6.385",
+     "tipo": "ley federal",
+     "autoridad": "Comisión de Valores Mobiliarios (CVM); B3",
+     "url": "https://www.planalto.gov.br/ccivil_03/leis/l6385.htm",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras registradas en la CVM.",
+     "obligaciones": [
+      "Formulario de referencia anual y estados financieros auditados.",
+      "Divulgación inmediata de hechos relevantes."
+     ],
+     "tramites": [
+      {
+       "que": "Formulario de referencia",
+       "plazo": "5 meses tras el cierre",
+       "ante": "CVM"
+      }
+     ],
+     "sanciones": "Multas y suspensión del registro.",
+     "evidencia": [
+      "Formulario de referencia",
+      "Hechos relevantes"
+     ],
+     "preguntas": [
+      "¿Se presentó el formulario de referencia en plazo?",
+      "¿Hay política de divulgación de hechos relevantes?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "br_auto",
+     "nombre": "Programa MOVER (Lei 14.902/2024), certificación del Inmetro y normas de emisiones PROCONVE",
+     "sigla": "MOVER / Inmetro",
+     "tipo": "ley federal",
+     "autoridad": "MDIC; Inmetro; IBAMA; Senatran",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "2024-06 (MOVER)",
+     "aplica": "Fabricantes e importadores de vehículos y autopartes.",
+     "obligaciones": [
+      "Requisitos de eficiencia y seguridad para comercializar.",
+      "Certificación de autopartes del Inmetro.",
+      "Licencia de emisiones (LCVM) del IBAMA."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia para uso de configuración de vehículo (LCVM)",
+       "plazo": "Antes de comercializar",
+       "ante": "IBAMA"
+      }
+     ],
+     "sanciones": "Multas y prohibición de venta.",
+     "evidencia": [
+      "LCVM",
+      "Certificados Inmetro"
+     ],
+     "preguntas": [
+      "¿Cada modelo tiene LCVM y certificaciones?",
+      "¿Se cumplen las metas del programa MOVER si recibe incentivos?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "br_electricidad",
+     "nombre": "Marco del sector eléctrico (Leis 9.074/1995, 10.848/2004) y regulación de la ANEEL",
+     "sigla": "Lei 10.848 / 9.074",
+     "tipo": "ley federal",
+     "autoridad": "ANEEL; ONS; CCEE",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Generación, transmisión, distribución y comercialización.",
+     "obligaciones": [
+      "Concesión, autorización o registro según la actividad.",
+      "Adhesión a la CCEE para operar en el mercado libre."
+     ],
+     "tramites": [
+      {
+       "que": "Adhesión a la CCEE",
+       "plazo": "Antes de comercializar energía",
+       "ante": "CCEE"
+      }
+     ],
+     "sanciones": "Multas de la ANEEL de hasta 2 % de la facturación y caducidad.",
+     "evidencia": [
+      "Actos de la ANEEL",
+      "Contratos CCEE"
+     ],
+     "preguntas": [
+      "¿La autorización de la ANEEL está vigente?",
+      "¿Está adherida a la CCEE?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "br_petroleo",
+     "nombre": "Ley del Petróleo (Lei 9.478/1997) y Nueva Ley del Gas (Lei 14.134/2021)",
+     "sigla": "Lei 9.478 / Lei 14.134",
+     "tipo": "ley federal",
+     "autoridad": "Agencia Nacional del Petróleo, Gas Natural y Biocombustibles (ANP)",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, producción, refinación, transporte, distribución y reventa de combustibles.",
+     "obligaciones": [
+      "Autorización de la ANP para cada actividad.",
+      "Envío de datos de movimiento de productos (SIMP).",
+      "Contenido local en contratos de exploración."
+     ],
+     "tramites": [
+      {
+       "que": "Datos de movimiento de productos (SIMP)",
+       "plazo": "Mensual (día 15; verificar)",
+       "ante": "ANP"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de reales y revocación.",
+     "evidencia": [
+      "Autorizaciones",
+      "Envíos SIMP"
+     ],
+     "preguntas": [
+      "¿Cada instalación tiene autorización de la ANP?",
+      "¿Se envían los datos al SIMP en plazo?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "br_aviacion",
+     "nombre": "Código Brasileño de Aeronáutica (Lei 7.565/1986) y reglamentos RBAC",
+     "sigla": "CBA",
+     "tipo": "ley federal",
+     "autoridad": "ANAC",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Aerolíneas, talleres, fabricantes y escuelas.",
+     "obligaciones": [
+      "Certificación según RBAC 121, 135 o 145.",
+      "Programa de seguridad operacional (SMS)."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de organización de mantenimiento (RBAC 145)",
+       "plazo": "Antes de operar",
+       "ante": "ANAC"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Certificados",
+      "Manual SMS"
+     ],
+     "preguntas": [
+      "¿Los certificados de la ANAC están vigentes?",
+      "¿Existe SMS aprobado?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "br_farma",
+     "nombre": "Ley de Vigilancia Sanitaria (Lei 6.360/1976) y resoluciones RDC de la ANVISA",
+     "sigla": "Lei 6.360 / RDC",
+     "tipo": "ley federal",
+     "autoridad": "ANVISA",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes, importadores y distribuidores de medicamentos y dispositivos médicos.",
+     "obligaciones": [
+      "Autorización de funcionamiento de empresa (AFE).",
+      "Registro de productos y buenas prácticas.",
+      "Farmacovigilancia y tecnovigilancia."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de registro de medicamento",
+       "plazo": "Cada 10 años",
+       "ante": "ANVISA"
+      }
+     ],
+     "sanciones": "Multas, interdicción y cancelación.",
+     "evidencia": [
+      "AFE",
+      "Registros"
+     ],
+     "preguntas": [
+      "¿La AFE está vigente?",
+      "¿Cada producto tiene registro o notificación en la ANVISA?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "br_construccion",
+     "nombre": "Ley de Licitaciones y Contratos (Lei 14.133/2021), Anotación de Responsabilidad Técnica (ART) y NR-18",
+     "sigla": "Lei 14.133 / ART",
+     "tipo": "ley federal",
+     "autoridad": "CONFEA/CREA; órganos contratantes; MTE",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "2021-04-01 (Lei 14.133)",
+     "aplica": "Constructoras e ingenierías.",
+     "obligaciones": [
+      "Registro en el CREA y ART por cada obra o servicio.",
+      "Programa de gestión de riesgos de obra (NR-18)."
+     ],
+     "tramites": [
+      {
+       "que": "Anotación de Responsabilidad Técnica (ART)",
+       "plazo": "Antes de iniciar la obra",
+       "ante": "CREA"
+      }
+     ],
+     "sanciones": "Multas y sanciones contractuales.",
+     "evidencia": [
+      "ART",
+      "Registros CREA"
+     ],
+     "preguntas": [
+      "¿Cada obra tiene ART registrada?",
+      "¿Se cumple NR-18?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "br_controlados",
+     "nombre": "Control de exportación de bienes sensibles (Lei 9.112/1995) y productos controlados por el Ejército (Decreto 10.030/2019)",
+     "sigla": "Lei 9.112 / PCE",
+     "tipo": "ley federal",
+     "autoridad": "MCTI; Comando del Ejército (DFPC)",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exportadores de bienes de uso dual y empresas que manejan productos controlados (armas, explosivos, químicos).",
+     "obligaciones": [
+      "Licencia de exportación de bienes sensibles.",
+      "Registro ante el Ejército para productos controlados."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación de bienes sensibles",
+       "plazo": "Antes de exportar",
+       "ante": "MCTI"
+      }
+     ],
+     "sanciones": "Multas, decomiso y responsabilidad penal.",
+     "evidencia": [
+      "Licencias",
+      "Certificado de registro"
+     ],
+     "preguntas": [
+      "¿Hay registro vigente ante el Ejército?",
+      "¿Se obtienen licencias para bienes sensibles?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "br_seguros",
+     "nombre": "Sistema Nacional de Seguros (Decreto-Ley 73/1966) y Ley del Contrato de Seguro (Lei 15.040/2024)",
+     "sigla": "DL 73 / Lei 15.040",
+     "tipo": "ley federal",
+     "autoridad": "SUSEP",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "2024-12 (Lei 15.040; verificar vigencia)",
+     "aplica": "Aseguradoras, reaseguradoras y corredores.",
+     "obligaciones": [
+      "Autorización de la SUSEP y capital mínimo.",
+      "Adaptar pólizas a la nueva ley del contrato de seguro."
+     ],
+     "tramites": [
+      {
+       "que": "Envíos periódicos (FIP)",
+       "plazo": "Mensual",
+       "ante": "SUSEP"
+      }
+     ],
+     "sanciones": "Multas y cancelación.",
+     "evidencia": [
+      "Autorización",
+      "Pólizas"
+     ],
+     "preguntas": [
+      "¿Las pólizas se adaptaron a la Lei 15.040/2024?",
+      "¿Se cumplen los requisitos de capital?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "br_bancos",
+     "nombre": "Sistema Financiero Nacional (Lei 4.595/1964) y normas del CMN y el BCB",
+     "sigla": "Lei 4.595",
+     "tipo": "ley federal",
+     "autoridad": "Banco Central do Brasil; CMN",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, financieras, instituciones de pago y prestadores de servicios de activos virtuales.",
+     "obligaciones": [
+      "Autorización del BCB.",
+      "Gestión de riesgos y ciberseguridad (Resolución CMN 4.893/2021)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de incidentes relevantes",
+       "plazo": "Según la norma",
+       "ante": "BCB"
+      }
+     ],
+     "sanciones": "Multas de hasta 2 000 millones de reales o 0.5 % de los ingresos (Lei 13.506/2017).",
+     "evidencia": [
+      "Autorizaciones",
+      "Política de ciberseguridad"
+     ],
+     "preguntas": [
+      "¿La actividad requiere autorización del BCB?",
+      "¿Existe política de ciberseguridad aprobada por el consejo?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "br_mineria",
+     "nombre": "Código de Minería (Decreto-Ley 227/1967), Política Nacional de Seguridad de Presas (Lei 12.334/2010 reformada por Lei 14.066/2020) y CFEM",
+     "sigla": "Código de Minería / Lei 12.334",
+     "tipo": "ley federal",
+     "autoridad": "Agencia Nacional de Minería (ANM)",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de derechos mineros y de presas de jales.",
+     "obligaciones": [
+      "Informe Anual de Lavra (RAL).",
+      "Plan de seguridad de presas y declaración de estabilidad.",
+      "Pago de regalías (CFEM)."
+     ],
+     "tramites": [
+      {
+       "que": "Informe Anual de Lavra (RAL)",
+       "plazo": "15 de marzo (verificar)",
+       "ante": "ANM"
+      },
+      {
+       "que": "Declaración de condición de estabilidad de presa",
+       "plazo": "Semestral (marzo y septiembre)",
+       "ante": "ANM"
+      }
+     ],
+     "sanciones": "Multas de hasta 1 000 millones de reales (presas) y caducidad.",
+     "evidencia": [
+      "RAL",
+      "Declaraciones de estabilidad"
+     ],
+     "preguntas": [
+      "¿Se presentó el RAL?",
+      "¿Las presas tienen declaración de estabilidad vigente?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "br_alimentos",
+     "nombre": "Inspección de productos de origen animal (SIF, MAPA) y etiquetado nutricional frontal (RDC 429/2020)",
+     "sigla": "MAPA / ANVISA",
+     "tipo": "norma",
+     "autoridad": "MAPA; ANVISA",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "2020-10 (RDC 429)",
+     "aplica": "Productores, importadores y distribuidores de alimentos y bebidas.",
+     "obligaciones": [
+      "Registro en el SIF para productos de origen animal.",
+      "Etiquetado nutricional frontal (lupa)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de establecimiento en el SIF",
+       "plazo": "Antes de producir",
+       "ante": "MAPA"
+      }
+     ],
+     "sanciones": "Multas, decomiso e interdicción.",
+     "evidencia": [
+      "Registros",
+      "Etiquetas"
+     ],
+     "preguntas": [
+      "¿Los productos de origen animal tienen registro SIF?",
+      "¿Las etiquetas tienen el sello frontal?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "br_telecom",
+     "nombre": "Ley General de Telecomunicaciones (Lei 9.472/1997)",
+     "sigla": "LGT",
+     "tipo": "ley federal",
+     "autoridad": "ANATEL",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Prestadores de servicios de telecomunicaciones y fabricantes de equipos.",
+     "obligaciones": [
+      "Autorización o dispensa según el servicio.",
+      "Homologación de equipos por la ANATEL."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación de equipos",
+       "plazo": "Antes de vender",
+       "ante": "ANATEL"
+      }
+     ],
+     "sanciones": "Multas y decomiso de equipos.",
+     "evidencia": [
+      "Certificados de homologación"
+     ],
+     "preguntas": [
+      "¿Los equipos vendidos están homologados?",
+      "¿El servicio tiene autorización?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "br_marco_civil",
+     "nombre": "Marco Civil de Internet (Lei 12.965/2014) y ECA Digital (Lei 15.211/2025, protección de menores en línea)",
+     "sigla": "Marco Civil / ECA Digital",
+     "tipo": "ley federal",
+     "autoridad": "ANPD; Poder Judicial",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "2025-09 (ECA Digital; verificar vigencia)",
+     "aplica": "Proveedores de aplicaciones e internet con usuarios en Brasil.",
+     "obligaciones": [
+      "Guardar registros de acceso a aplicaciones 6 meses.",
+      "Medidas de protección de menores (verificación de edad, controles parentales) según la ECA Digital."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de hasta 10 % de la facturación en Brasil y suspensión.",
+     "evidencia": [
+      "Política de retención de registros"
+     ],
+     "preguntas": [
+      "¿Se guardan los registros de acceso 6 meses?",
+      "¿Se evaluaron las obligaciones de la ECA Digital?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "br_logistica",
+     "nombre": "Transporte de carga por carretera (Lei 11.442/2007, registro RNTRC) y Operador Económico Autorizado",
+     "sigla": "Lei 11.442 / OEA",
+     "tipo": "ley federal",
+     "autoridad": "ANTT; Receita Federal",
+     "url": "https://www.planalto.gov.br/",
+     "ultima_reforma": "verificar",
+     "aplica": "Transportistas de carga y agentes de comercio exterior.",
+     "obligaciones": [
+      "Inscripción en el RNTRC.",
+      "Documento electrónico de transporte (CT-e y MDF-e)."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción en el RNTRC",
+       "plazo": "Antes de operar; renovación periódica",
+       "ante": "ANTT"
+      }
+     ],
+     "sanciones": "Multas y retención de carga.",
+     "evidencia": [
+      "Registro RNTRC",
+      "CT-e"
+     ],
+     "preguntas": [
+      "¿Los vehículos y la empresa están en el RNTRC?",
+      "¿Se emiten CT-e y MDF-e?"
+     ]
+    }
+   ]
+  }
+ }
+}

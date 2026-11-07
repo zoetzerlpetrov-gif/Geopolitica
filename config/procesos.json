@@ -18,7 +18,9 @@
     {"id": "entidades", "nombre": "Entidades (Wikidata)", "workflow": "entidades.yml", "cada": "7 días", "max_horas": 194,
      "afecta": "Catálogo de organizaciones y empresas"},
     {"id": "autoauditoria", "nombre": "Autoauditoría semanal", "workflow": "autoauditoria.yml", "cada": "7 días", "max_horas": 194,
-     "afecta": "Evaluación contra ISO 27001, OWASP y demás marcos"}
+     "afecta": "Evaluación contra ISO 27001, OWASP y demás marcos"},
+    {"id": "normativa", "nombre": "Monitor normativo (diarios oficiales)", "workflow": "normativa.yml", "cada": "12 h", "max_horas": 30,
+     "afecta": "Bitácora normativa, avisos de cambios en el catálogo de normativa y en auditorías, riesgo regulatorio en la simulación de escenarios"}
   ],
   "datos": [
     {"id": "d_vivos", "nombre": "Datos en movimiento publicados", "archivo": "data/vivos/estado.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "pasos"},
@@ -35,6 +37,7 @@
     {"id": "d_corp_empresas", "nombre": "Empresas y organigramas (Wikidata)", "archivo": "data/vivos/corporativo_empresas.json", "campo": "generado_utc", "max_horas": 200, "errores": "fuentes"},
     {"id": "d_elecciones", "nombre": "Elecciones (Wikidata)", "archivo": "data/vivos/elecciones.json", "campo": "generado_utc", "max_horas": 10},
     {"id": "d_satelites", "nombre": "Satélites (TLE de SatNOGS)", "archivo": "data/vivos/satelites.json", "campo": "satnogs_utc", "max_horas": 14},
+    {"id": "d_normativa", "nombre": "Bitácora normativa (diarios oficiales)", "archivo": "data/normativa/estado.json", "campo": "generado_utc", "max_horas": 30, "errores": "fuentes"},
     {"id": "d_portafolio", "nombre": "Portafolio (panel propio): reporte diario y noticias", "archivo": "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json",
      "campo": "generated_at", "max_horas": 30, "errores": "noticias.fuentes",
      "minimo": {"campo": "noticias.instrumentos_con_noticias", "valor": 1, "texto": "Instrumentos con noticias"}}

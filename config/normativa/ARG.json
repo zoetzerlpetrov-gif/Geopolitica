@@ -1,0 +1,986 @@
+{
+ "jurisdiccion": "ARG",
+ "nombre": "Argentina",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Argentina. La Ley Bases (27.742/2024) y el DNU 70/2023 cambiaron reglas laborales, energéticas y de inversión: confirma la versión vigente. ARCA reemplazó a la AFIP en 2024. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Normativa nacional (InfoLEG / argentina.gob.ar)",
+   "https://www.argentina.gob.ar/normativa"
+  ],
+  [
+   "Boletín Oficial",
+   "https://www.boletinoficial.gob.ar/"
+  ],
+  [
+   "ARCA",
+   "https://www.arca.gob.ar/"
+  ],
+  [
+   "IGJ",
+   "https://www.argentina.gob.ar/justicia/igj"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "ar_sociedades",
+     "nombre": "Ley General de Sociedades (Ley 19.550) y Ley de Sociedades por Acciones Simplificadas (Ley 27.349)",
+     "sigla": "LGS 19.550",
+     "tipo": "ley nacional",
+     "autoridad": "Inspección General de Justicia (IGJ, CABA) y registros provinciales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades locales y sociedades extranjeras que operan en el país (sucursal: art. 118; participación en sociedad local: art. 123).",
+     "obligaciones": [
+      "Inscripción de la sociedad extranjera y de su representante legal en Argentina.",
+      "Presentación de estados contables anuales ante el registro.",
+      "Registro de beneficiarios finales ante la IGJ / ARCA."
+     ],
+     "tramites": [
+      {
+       "que": "Estados contables anuales",
+       "plazo": "Dentro de los 15 días posteriores a la asamblea (verificar según el registro)",
+       "ante": "IGJ o registro provincial"
+      },
+      {
+       "que": "Régimen informativo de sociedades extranjeras (art. 118/123)",
+       "plazo": "Anual",
+       "ante": "IGJ"
+      }
+     ],
+     "sanciones": "Multas, irregularidad de la sociedad y responsabilidad solidaria de administradores.",
+     "evidencia": [
+      "Estatuto",
+      "Constancia de inscripción",
+      "Actas"
+     ],
+     "preguntas": [
+      "¿La sociedad extranjera accionista está inscrita bajo el art. 123?",
+      "¿Se presentaron los estados contables y el régimen informativo anual?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "ar_tributos",
+     "nombre": "Impuesto a las Ganancias (Ley 20.628, t.o. 2019), IVA (Ley 23.349), Ingresos Brutos provincial y facturación electrónica",
+     "sigla": "Ganancias / IVA",
+     "tipo": "ley nacional",
+     "autoridad": "Agencia de Recaudación y Control Aduanero (ARCA, ex AFIP); organismos provinciales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa con actividad en Argentina; Ingresos Brutos en cada provincia donde opera (Convenio Multilateral).",
+     "obligaciones": [
+      "Factura electrónica en todas las operaciones.",
+      "Declaración jurada anual de Ganancias y anticipos.",
+      "IVA mensual (alícuota general 21 %) y Convenio Multilateral de Ingresos Brutos."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración jurada de Ganancias (sociedades)",
+       "plazo": "Quinto mes posterior al cierre",
+       "ante": "ARCA"
+      },
+      {
+       "que": "IVA mensual",
+       "plazo": "Mes siguiente según terminación de CUIT",
+       "ante": "ARCA"
+      },
+      {
+       "que": "Precios de transferencia (F. 2668 / estudio)",
+       "plazo": "Según calendario de ARCA",
+       "ante": "ARCA"
+      }
+     ],
+     "sanciones": "Multas de 50 % a 100 % del impuesto omitido (hasta 10 veces por defraudación), clausura y Ley Penal Tributaria.",
+     "evidencia": [
+      "Declaraciones juradas",
+      "Comprobantes electrónicos"
+     ],
+     "preguntas": [
+      "¿La declaración anual de Ganancias se presentó en el quinto mes posterior al cierre?",
+      "¿Se distribuye correctamente la base de Ingresos Brutos entre provincias?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "ar_lct",
+     "nombre": "Ley de Contrato de Trabajo (Ley 20.744), con las reformas de la Ley Bases (Ley 27.742/2024) y convenios colectivos",
+     "sigla": "LCT 20.744",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Trabajo; ARCA (aportes); Superintendencia de Riesgos del Trabajo (SRT)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "2024-07-08 (Ley Bases)",
+     "aplica": "Todo empleador; los convenios colectivos por actividad fijan salarios y condiciones.",
+     "obligaciones": [
+      "Alta temprana en «Mi Simplificación» antes del inicio.",
+      "Libro de Sueldos Digital y declaración F. 931 mensual (aportes y contribuciones).",
+      "Afiliación obligatoria a una ART (riesgos del trabajo)."
+     ],
+     "tramites": [
+      {
+       "que": "Alta temprana",
+       "plazo": "Antes del inicio de la relación",
+       "ante": "ARCA"
+      },
+      {
+       "que": "F. 931 (aportes y contribuciones)",
+       "plazo": "Mensual",
+       "ante": "ARCA"
+      }
+     ],
+     "sanciones": "Multas e indemnizaciones; la Ley Bases eliminó las multas por falta de registro de la Ley 24.013, pero subsisten deudas y sanciones de ARCA.",
+     "evidencia": [
+      "Libro de sueldos digital",
+      "Constancias de alta",
+      "Contrato con la ART"
+     ],
+     "preguntas": [
+      "¿Todos los trabajadores tienen alta temprana?",
+      "¿Se aplica el convenio colectivo correcto?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "ar_higiene",
+     "nombre": "Ley de Higiene y Seguridad en el Trabajo (Ley 19.587, Decreto 351/79) y Ley de Riesgos del Trabajo (Ley 24.557)",
+     "sigla": "Ley 19.587 / 24.557",
+     "tipo": "ley nacional",
+     "autoridad": "SRT; autoridades provinciales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo establecimiento con trabajadores.",
+     "obligaciones": [
+      "Servicio de higiene y seguridad y de medicina del trabajo según dotación.",
+      "Relevamiento General de Riesgos Laborales (RGRL).",
+      "Denuncia de accidentes a la ART."
+     ],
+     "tramites": [
+      {
+       "que": "Relevamiento General de Riesgos Laborales",
+       "plazo": "Anual (a través de la ART)",
+       "ante": "SRT / ART"
+      }
+     ],
+     "sanciones": "Multas, clausura y responsabilidad civil.",
+     "evidencia": [
+      "RGRL",
+      "Mediciones ambientales laborales"
+     ],
+     "preguntas": [
+      "¿Se presentó el RGRL?",
+      "¿Existe servicio de higiene y seguridad?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "ar_datos",
+     "nombre": "Ley de Protección de los Datos Personales (Ley 25.326)",
+     "sigla": "Ley 25.326",
+     "tipo": "ley nacional",
+     "autoridad": "Agencia de Acceso a la Información Pública (AAIP)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Responsables de bases de datos con datos personales.",
+     "obligaciones": [
+      "Inscribir las bases de datos en el Registro Nacional de Bases de Datos.",
+      "Consentimiento informado y derecho de acceso (respuesta en 10 días).",
+      "Transferencia internacional solo a países adecuados o con contratos modelo de la AAIP."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción y renovación de bases de datos",
+       "plazo": "Anual (verificar)",
+       "ante": "AAIP"
+      }
+     ],
+     "sanciones": "Apercibimiento, multas y clausura de la base.",
+     "evidencia": [
+      "Constancia de inscripción",
+      "Contratos de transferencia"
+     ],
+     "preguntas": [
+      "¿Las bases de datos están inscritas ante la AAIP?",
+      "¿Se usan contratos modelo para transferencias internacionales?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "ar_pld",
+     "nombre": "Ley de Encubrimiento y Lavado de Activos (Ley 25.246, reformada por Ley 27.739/2024)",
+     "sigla": "Ley 25.246",
+     "tipo": "ley nacional",
+     "autoridad": "Unidad de Información Financiera (UIF)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "2024-03 (Ley 27.739)",
+     "aplica": "Sujetos obligados: financieras, aseguradoras, inmobiliarias, escribanos, contadores, proveedores de activos virtuales y otros.",
+     "obligaciones": [
+      "Inscripción ante la UIF y oficial de cumplimiento.",
+      "Debida diligencia y beneficiario final.",
+      "Reportes de operaciones sospechosas y sistemáticos."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa de lavado",
+       "plazo": "30 días desde que se concluye que es sospechosa (verificar)",
+       "ante": "UIF"
+      },
+      {
+       "que": "Autoevaluación de riesgos",
+       "plazo": "Anual",
+       "ante": "UIF"
+      }
+     ],
+     "sanciones": "Multas de 1 a 10 veces el valor de los bienes de la operación.",
+     "evidencia": [
+      "Manual PLD",
+      "Reportes"
+     ],
+     "preguntas": [
+      "¿La empresa es sujeto obligado inscrito?",
+      "¿Se hizo la autoevaluación de riesgos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "ar_rppj",
+     "nombre": "Ley de Responsabilidad Penal de las Personas Jurídicas (Ley 27.401)",
+     "sigla": "Ley 27.401",
+     "tipo": "ley nacional",
+     "autoridad": "Oficina Anticorrupción (guías); Poder Judicial",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Personas jurídicas privadas por cohecho, tráfico de influencias, balances falsos y otros delitos.",
+     "obligaciones": [
+      "Programa de integridad adecuado al riesgo (obligatorio para contratar con el Estado nacional en ciertos contratos).",
+      "Código de ética, capacitación y canal de denuncias."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de 2 a 5 veces el beneficio indebido, suspensión de actividades y pérdida de beneficios estatales.",
+     "evidencia": [
+      "Programa de integridad",
+      "Registro de capacitaciones"
+     ],
+     "preguntas": [
+      "¿Existe programa de integridad con los elementos del art. 23?",
+      "¿Hay canal de denuncias?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "ar_competencia",
+     "nombre": "Ley de Defensa de la Competencia (Ley 27.442)",
+     "sigla": "Ley 27.442",
+     "tipo": "ley nacional",
+     "autoridad": "Comisión Nacional de Defensa de la Competencia / Autoridad Nacional de la Competencia",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Concentraciones económicas que superan el umbral de volumen de negocios (expresado en módulos) y conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar concentraciones que superen los umbrales (régimen previo cuando opere la Autoridad; verificar estado).",
+      "No celebrar acuerdos entre competidores."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Según el régimen vigente (verificar si es previo o posterior)",
+       "ante": "CNDC"
+      }
+     ],
+     "sanciones": "Multas de hasta 30 % del volumen de negocios o el doble del beneficio.",
+     "evidencia": [
+      "Análisis de umbrales"
+     ],
+     "preguntas": [
+      "¿Se analizó si la operación requería notificación?",
+      "¿Hay política de trato con competidores?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "ar_consumidor",
+     "nombre": "Ley de Defensa del Consumidor (Ley 24.240)",
+     "sigla": "Ley 24.240",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Industria y Comercio; autoridades locales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de bienes y servicios a consumidores.",
+     "obligaciones": [
+      "Botón de arrepentimiento y botón de baja en sitios web.",
+      "Derecho de revocación de 10 días en ventas a distancia.",
+      "Información clara de precios."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, clausura y daño punitivo.",
+     "evidencia": [
+      "Registro de reclamos"
+     ],
+     "preguntas": [
+      "¿El sitio tiene botón de arrepentimiento y de baja?",
+      "¿Se atienden los reclamos de la ventanilla federal?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "ar_ambiental",
+     "nombre": "Ley General del Ambiente (Ley 25.675), seguro ambiental obligatorio (art. 22) y Ley de Residuos Peligrosos (Ley 24.051)",
+     "sigla": "LGA 25.675",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio del Interior (Ambiente); autoridades provinciales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Actividades riesgosas para el ambiente; generadores de residuos peligrosos.",
+     "obligaciones": [
+      "Evaluación de impacto ambiental provincial antes de iniciar.",
+      "Seguro ambiental obligatorio para actividades riesgosas.",
+      "Inscripción como generador de residuos peligrosos y manifiestos."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración jurada de generador de residuos peligrosos",
+       "plazo": "Anual",
+       "ante": "Autoridad ambiental"
+      }
+     ],
+     "sanciones": "Multas, clausura y responsabilidad por daño ambiental.",
+     "evidencia": [
+      "Declaración de impacto ambiental",
+      "Póliza ambiental"
+     ],
+     "preguntas": [
+      "¿La actividad tiene seguro ambiental vigente?",
+      "¿Está inscrita como generador de residuos peligrosos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "ar_inversion",
+     "nombre": "Ley de Inversiones Extranjeras (Ley 21.382), normas cambiarias del BCRA y Régimen de Incentivo para Grandes Inversiones (RIGI, Ley 27.742)",
+     "sigla": "Ley 21.382 / BCRA / RIGI",
+     "tipo": "ley nacional",
+     "autoridad": "Banco Central (BCRA); ARCA (aduana); Ministerio de Economía",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "2024-07-08 (RIGI)",
+     "aplica": "Empresas con inversión, deuda o pagos con el exterior; importadores y exportadores.",
+     "obligaciones": [
+      "Relevamiento de Activos y Pasivos Externos (Comunicación «A» 6401).",
+      "Cumplir las restricciones cambiarias vigentes para acceder al mercado de cambios (verificar flexibilizaciones de 2025).",
+      "Inscripción en el registro de importadores/exportadores."
+     ],
+     "tramites": [
+      {
+       "que": "Relevamiento de Activos y Pasivos Externos",
+       "plazo": "Trimestral y anual según montos",
+       "ante": "BCRA"
+      }
+     ],
+     "sanciones": "Sanciones de la Ley Penal Cambiaria.",
+     "evidencia": [
+      "Presentaciones al BCRA",
+      "Constancias aduaneras"
+     ],
+     "preguntas": [
+      "¿Se presenta el Relevamiento de Activos y Pasivos Externos?",
+      "¿La empresa evaluó su adhesión al RIGI (inversiones mayores a 200 millones de dólares)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "ar_pi",
+     "nombre": "Ley de Marcas (Ley 22.362) y Ley de Patentes (Ley 24.481)",
+     "sigla": "Ley 22.362 / 24.481",
+     "tipo": "ley nacional",
+     "autoridad": "Instituto Nacional de la Propiedad Industrial (INPI)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas y patentes.",
+     "obligaciones": [
+      "Registrar marcas y declarar uso a mitad de vigencia (5 años).",
+      "Registrar contratos de transferencia de tecnología con el exterior."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "INPI"
+      }
+     ],
+     "sanciones": "Caducidad y pérdida de derechos.",
+     "evidencia": [
+      "Títulos de registro"
+     ],
+     "preguntas": [
+      "¿Se presentó la declaración jurada de uso de marca?",
+      "¿Están registrados los contratos de tecnología?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "ar_valores",
+     "nombre": "Ley de Mercado de Capitales (Ley 26.831, reformada por Ley 27.440)",
+     "sigla": "Ley 26.831",
+     "tipo": "ley nacional",
+     "autoridad": "Comisión Nacional de Valores (CNV)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras con oferta pública y agentes del mercado.",
+     "obligaciones": [
+      "Estados financieros trimestrales y anuales (NIIF).",
+      "Hechos relevantes de inmediato en la Autopista de Información Financiera."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "70 días tras el cierre (verificar)",
+       "ante": "CNV"
+      }
+     ],
+     "sanciones": "Multas, suspensión y cancelación de la oferta pública.",
+     "evidencia": [
+      "Estados financieros",
+      "Hechos relevantes"
+     ],
+     "preguntas": [
+      "¿Los estados se presentaron en plazo?",
+      "¿Hay procedimiento de hechos relevantes?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "ar_auto",
+     "nombre": "Ley de Tránsito (Ley 24.449) y Licencia para Configuración de Modelo (LCM)",
+     "sigla": "Ley 24.449 / LCM",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Industria; Agencia Nacional de Seguridad Vial",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores de vehículos.",
+     "obligaciones": [
+      "LCM por cada modelo antes de patentar.",
+      "Certificados de autopartes de seguridad."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia para Configuración de Modelo",
+       "plazo": "Antes de comercializar",
+       "ante": "Secretaría de Industria"
+      }
+     ],
+     "sanciones": "Prohibición de patentamiento y multas.",
+     "evidencia": [
+      "LCM"
+     ],
+     "preguntas": [
+      "¿Cada modelo tiene LCM?",
+      "¿Las autopartes de seguridad tienen certificado?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "ar_electricidad",
+     "nombre": "Marco Regulatorio Eléctrico (Ley 24.065) y ente regulador unificado de gas y electricidad (Ley 27.742)",
+     "sigla": "Ley 24.065",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Energía; ENRE (en transición al ente unificado); CAMMESA",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Generadores, transportistas, distribuidores y grandes usuarios.",
+     "obligaciones": [
+      "Habilitación como agente del Mercado Eléctrico Mayorista.",
+      "Normas de seguridad pública y calidad del servicio."
+     ],
+     "tramites": [
+      {
+       "que": "Alta como agente del MEM",
+       "plazo": "Antes de operar",
+       "ante": "Secretaría de Energía / CAMMESA"
+      }
+     ],
+     "sanciones": "Multas y sanciones del ente regulador.",
+     "evidencia": [
+      "Habilitaciones"
+     ],
+     "preguntas": [
+      "¿Está habilitado como agente del MEM?",
+      "¿Cumple las normas de calidad?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "ar_hidrocarburos",
+     "nombre": "Ley de Hidrocarburos (Ley 17.319, reformada por Leyes 27.007 y 27.742) y Marco Regulatorio del Gas (Ley 24.076)",
+     "sigla": "Ley 17.319 / 24.076",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Energía; provincias (titulares del recurso); ENARGAS",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "2024-07-08 (Ley 27.742)",
+     "aplica": "Exploración, explotación, transporte, refinación y comercialización.",
+     "obligaciones": [
+      "Permisos de exploración y concesiones provinciales.",
+      "Inscripción en registros de la Secretaría de Energía.",
+      "Regalías a la provincia."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de producción y regalías",
+       "plazo": "Mensual",
+       "ante": "Provincia / Secretaría de Energía"
+      }
+     ],
+     "sanciones": "Multas, caducidad de concesiones.",
+     "evidencia": [
+      "Títulos de concesión",
+      "Liquidaciones de regalías"
+     ],
+     "preguntas": [
+      "¿Las concesiones están vigentes y con regalías pagadas?",
+      "¿La empresa está inscrita en los registros de la Secretaría?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "ar_aviacion",
+     "nombre": "Código Aeronáutico (Ley 17.285) y regulaciones RAAC",
+     "sigla": "Código Aeronáutico",
+     "tipo": "ley nacional",
+     "autoridad": "Administración Nacional de Aviación Civil (ANAC)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Explotadores aéreos, talleres y escuelas.",
+     "obligaciones": [
+      "Certificado de explotador y de taller aeronáutico.",
+      "Programa de seguridad operacional."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de taller aeronáutico de reparación",
+       "plazo": "Antes de operar",
+       "ante": "ANAC"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Certificados"
+     ],
+     "preguntas": [
+      "¿Los certificados de la ANAC están vigentes?",
+      "¿Existe SMS?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "ar_farma",
+     "nombre": "Ley de Medicamentos (Ley 16.463) y disposiciones de la ANMAT",
+     "sigla": "Ley 16.463",
+     "tipo": "ley nacional",
+     "autoridad": "ANMAT",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Laboratorios, importadores y distribuidores de medicamentos y productos médicos.",
+     "obligaciones": [
+      "Habilitación del establecimiento y registro de productos.",
+      "Trazabilidad de medicamentos (Sistema Nacional de Trazabilidad)."
+     ],
+     "tramites": [
+      {
+       "que": "Reinscripción de certificado de producto",
+       "plazo": "Cada 5 años",
+       "ante": "ANMAT"
+      }
+     ],
+     "sanciones": "Multas, clausura y decomiso.",
+     "evidencia": [
+      "Certificados",
+      "Reportes de trazabilidad"
+     ],
+     "preguntas": [
+      "¿Los productos están registrados en la ANMAT?",
+      "¿Se informa la trazabilidad?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "ar_construccion",
+     "nombre": "Ley de Obras Públicas (Ley 13.064), Ley de Contratos de Participación Público-Privada (Ley 27.328) y seguridad en la construcción (Decreto 911/96)",
+     "sigla": "Ley 13.064 / Dec. 911/96",
+     "tipo": "ley nacional",
+     "autoridad": "Organismos contratantes; SRT",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Inscripción en el Registro de Constructores de Obras Públicas.",
+      "Aviso de obra y programa de seguridad aprobado por la ART."
+     ],
+     "tramites": [
+      {
+       "que": "Aviso de inicio de obra",
+       "plazo": "5 días antes del inicio (verificar)",
+       "ante": "ART"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Avisos de obra",
+      "Programas de seguridad"
+     ],
+     "preguntas": [
+      "¿Cada obra tiene aviso y programa de seguridad?",
+      "¿La empresa está inscrita en el registro de constructores?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "ar_sensibles",
+     "nombre": "Régimen de control de exportaciones sensibles y material bélico (Decreto 603/92)",
+     "sigla": "Decreto 603/92",
+     "tipo": "decreto",
+     "autoridad": "Comisión Nacional de Control de Exportaciones Sensibles y Material Bélico",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Exportadores de bienes de uso dual y material bélico.",
+     "obligaciones": [
+      "Licencia previa de exportación.",
+      "Certificado de uso final."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación sensible",
+       "plazo": "Antes de exportar",
+       "ante": "Comisión Nacional de Control"
+      }
+     ],
+     "sanciones": "Sanciones penales y aduaneras.",
+     "evidencia": [
+      "Licencias"
+     ],
+     "preguntas": [
+      "¿Los productos se clasificaron contra las listas?",
+      "¿Se obtuvo la licencia?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "ar_seguros",
+     "nombre": "Ley de Entidades de Seguros (Ley 20.091) y Ley de Seguros (Ley 17.418)",
+     "sigla": "Ley 20.091",
+     "tipo": "ley nacional",
+     "autoridad": "Superintendencia de Seguros de la Nación (SSN)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras, reaseguradoras e intermediarios.",
+     "obligaciones": [
+      "Autorización de la SSN y capitales mínimos.",
+      "Estados contables trimestrales."
+     ],
+     "tramites": [
+      {
+       "que": "Estados contables trimestrales",
+       "plazo": "Según calendario de la SSN",
+       "ante": "SSN"
+      }
+     ],
+     "sanciones": "Multas y revocación.",
+     "evidencia": [
+      "Autorización",
+      "Estados contables"
+     ],
+     "preguntas": [
+      "¿Se cumplen los capitales mínimos?",
+      "¿Los productores están matriculados?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "ar_bancos",
+     "nombre": "Ley de Entidades Financieras (Ley 21.526) y registro de proveedores de activos virtuales (Ley 27.739)",
+     "sigla": "Ley 21.526",
+     "tipo": "ley nacional",
+     "autoridad": "BCRA; CNV (PSAV)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Entidades financieras y proveedores de servicios de activos virtuales.",
+     "obligaciones": [
+      "Autorización del BCRA.",
+      "Registro de PSAV ante la CNV."
+     ],
+     "tramites": [
+      {
+       "que": "Regímenes informativos",
+       "plazo": "Según calendario del BCRA",
+       "ante": "BCRA"
+      }
+     ],
+     "sanciones": "Multas y revocación.",
+     "evidencia": [
+      "Autorizaciones"
+     ],
+     "preguntas": [
+      "¿La actividad requiere autorización o registro?",
+      "¿Se cumplen los regímenes informativos?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "ar_mineria",
+     "nombre": "Código de Minería, Ley de Inversiones Mineras (Ley 24.196), Ley de Protección Ambiental Minera (Ley 24.585) y Ley de Glaciares (Ley 26.639)",
+     "sigla": "Código de Minería",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Minería; autoridades mineras provinciales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración y explotación minera.",
+     "obligaciones": [
+      "Informe de impacto ambiental minero y actualización bienal.",
+      "Respetar el inventario de glaciares y ambiente periglacial."
+     ],
+     "tramites": [
+      {
+       "que": "Actualización del informe de impacto ambiental",
+       "plazo": "Cada 2 años",
+       "ante": "Autoridad minera provincial"
+      }
+     ],
+     "sanciones": "Multas, suspensión y caducidad.",
+     "evidencia": [
+      "Declaración de impacto ambiental"
+     ],
+     "preguntas": [
+      "¿El informe de impacto ambiental está actualizado?",
+      "¿Se verificó que no hay glaciares en el área?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "ar_alimentos",
+     "nombre": "Código Alimentario Argentino (Ley 18.284), SENASA y Ley de Etiquetado Frontal (Ley 27.642)",
+     "sigla": "CAA / Ley 27.642",
+     "tipo": "ley nacional",
+     "autoridad": "ANMAT (INAL); SENASA; autoridades sanitarias provinciales",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Elaboradores, importadores y comercializadores de alimentos.",
+     "obligaciones": [
+      "Registro Nacional de Establecimiento (RNE) y de Producto (RNPA).",
+      "Sellos de advertencia en el frente del envase."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto alimenticio (RNPA)",
+       "plazo": "Antes de comercializar; renovación cada 5 años",
+       "ante": "Autoridad sanitaria"
+      }
+     ],
+     "sanciones": "Multas, decomiso y clausura.",
+     "evidencia": [
+      "RNE",
+      "RNPA"
+     ],
+     "preguntas": [
+      "¿Los productos tienen RNPA?",
+      "¿Las etiquetas tienen los sellos requeridos?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "ar_telecom",
+     "nombre": "Ley Argentina Digital (Ley 27.078)",
+     "sigla": "Ley 27.078",
+     "tipo": "ley nacional",
+     "autoridad": "Ente Nacional de Comunicaciones (ENACOM)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Prestadores de servicios TIC.",
+     "obligaciones": [
+      "Licencia única y registro de cada servicio.",
+      "Homologación de equipos."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de servicio TIC",
+       "plazo": "Antes de prestar",
+       "ante": "ENACOM"
+      }
+     ],
+     "sanciones": "Multas y caducidad.",
+     "evidencia": [
+      "Licencia"
+     ],
+     "preguntas": [
+      "¿Los servicios están registrados ante el ENACOM?",
+      "¿Los equipos están homologados?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "ar_economia_conocimiento",
+     "nombre": "Régimen de Promoción de la Economía del Conocimiento (Ley 27.506)",
+     "sigla": "Ley 27.506",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Economía",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas de software, servicios digitales y profesionales que se inscriben para obtener beneficios fiscales.",
+     "obligaciones": [
+      "Inscripción y cumplimiento de requisitos (exportaciones, I+D, calidad).",
+      "Informe anual de cumplimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual de cumplimiento",
+       "plazo": "Anual",
+       "ante": "Ministerio de Economía"
+      }
+     ],
+     "sanciones": "Pérdida de beneficios y reintegro.",
+     "evidencia": [
+      "Constancia de inscripción"
+     ],
+     "preguntas": [
+      "¿La empresa está inscrita en el régimen?",
+      "¿Se presentó el informe anual?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "ar_logistica",
+     "nombre": "Transporte automotor de cargas (Ley 24.653, registro RUTA) y Código Aduanero (Ley 22.415)",
+     "sigla": "Ley 24.653 / Código Aduanero",
+     "tipo": "ley nacional",
+     "autoridad": "Secretaría de Transporte; ARCA (Aduana)",
+     "url": "https://www.argentina.gob.ar/normativa",
+     "ultima_reforma": "verificar",
+     "aplica": "Transportistas de carga y operadores de comercio exterior.",
+     "obligaciones": [
+      "Inscripción en el RUTA.",
+      "Registro de operadores aduaneros."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción en el RUTA",
+       "plazo": "Antes de operar",
+       "ante": "Secretaría de Transporte"
+      }
+     ],
+     "sanciones": "Multas y retención de mercancías.",
+     "evidencia": [
+      "Constancias"
+     ],
+     "preguntas": [
+      "¿La empresa está inscrita en el RUTA?",
+      "¿Los operadores aduaneros están registrados?"
+     ]
+    }
+   ]
+  }
+ }
+}

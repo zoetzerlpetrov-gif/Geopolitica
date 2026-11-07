@@ -303,11 +303,38 @@ def _riesgo(nivel):
     return {"nivel": nivel, "color": RIESGO_COLOR[nivel]}
 
 
-def features_seguimiento(props_lista, volcanes, limites):
+BCE = "https://www.ecb.europa.eu/stats/eurofxref/eurofxref-daily.xml"
+
+
+def tasas_bce(xml):
+    """Tipos de cambio de referencia del Banco Central Europeo (euros → moneda): {"fecha", "EUR": 1, "USD": …, "MXN": …}."""
+    t = re.search(r"time=['\"](\d{4}-\d{2}-\d{2})['\"]", xml)
+    tasas = {m.group(1): float(m.group(2)) for m in re.finditer(r"currency=['\"]([A-Z]{3})['\"]\s+rate=['\"]([\d.]+)['\"]", xml)}
+    if not t or "USD" not in tasas or "MXN" not in tasas:
+        return None
+    return {"fecha": t.group(1), "EUR": 1.0, **tasas}
+
+
+def convertir(precio_local, tasas):
+    """«60,000 CAD» → {"USD", "MXN", "EUR"} con los tipos del BCE; None si no se puede."""
+    m = re.match(r"^\s*([\d.,]+)\s*([A-Z]{3})\s*$", str(precio_local or ""))
+    if not m or not tasas or m.group(2) not in tasas:
+        return None
+    monto = float(m.group(1).replace(",", ""))
+    eur = monto / tasas[m.group(2)]
+    return {k: round(eur * tasas[k]) for k in ("USD", "MXN", "EUR")}
+
+
+def features_seguimiento(props_lista, volcanes, limites, tasas=None):
+    """`tasas`: tipos de cambio del día (tasas_bce); sin ellos se usan los montos guardados en la lista."""
     out = []
     for p in props_lista:
         geo, alerta = revision_geologica(p["lat"], p["lng"], volcanes, limites)
-        precio = f"{p['priceLocal']} (≈ {p['priceUSD']:,} USD · {p['priceMXN']:,} MXN)" if p.get("priceUSD") else p.get("priceLocal", "")
+        conv = convertir(p.get("priceLocal"), tasas)
+        if conv:
+            precio = f"{p['priceLocal']} (≈ {conv['USD']:,} USD · {conv['MXN']:,} MXN; tipo de cambio del BCE del {tasas['fecha']})"
+        else:
+            precio = f"{p['priceLocal']} (≈ {p['priceUSD']:,} USD · {p['priceMXN']:,} MXN; tipo de cambio de la lista)" if p.get("priceUSD") else p.get("priceLocal", "")
         out.append({"type": "Feature", "geometry": {"type": "Point", "coordinates": [p["lng"], p["lat"]]}, "properties": {
             "id": f"iwr:{p['id']}", "n": f"{p['type']} · {p['city']}", "st": ORIGEN_ST["Lista propia"], "origen": "Lista propia", **_riesgo(p.get("riskLevel")), "p": "",
             "z": 2, "x": precio, "tipo": p["type"], "pais_n": p["country"], "riesgo": p.get("riskNotes", ""), "mercado": p.get("pricePosition", ""),

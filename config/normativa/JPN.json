@@ -1,0 +1,1066 @@
+{
+ "jurisdiccion": "JPN",
+ "nombre": "Japón",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Japón. Para empresas extranjeras pesan la FEFTA (inversión y exportaciones), el registro de sucursal con representante residente y el sistema de facturas calificadas. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "e-Gov: base de leyes de Japón",
+   "https://laws.e-gov.go.jp/"
+  ],
+  [
+   "Traducciones oficiales al inglés (Japanese Law Translation)",
+   "https://www.japaneselawtranslation.go.jp/"
+  ],
+  [
+   "NTA",
+   "https://www.nta.go.jp/"
+  ],
+  [
+   "JETRO: establecer una empresa",
+   "https://www.jetro.go.jp/en/invest/setting_up/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "jp_sociedades",
+     "nombre": "Ley de Sociedades (会社法, Ley n.º 86 de 2005)",
+     "sigla": "Companies Act",
+     "tipo": "ley nacional",
+     "autoridad": "Oficinas de Asuntos Legales (registro mercantil, Ministerio de Justicia)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Kabushiki kaisha (KK), godo kaisha (GK) y sucursales de sociedades extranjeras.",
+     "obligaciones": [
+      "Registro de constitución y de cambios en 2 semanas.",
+      "Al menos un representante; la sucursal de sociedad extranjera necesita un representante residente en Japón.",
+      "Publicación de estados financieros (kessan kokoku)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de cambios de consejeros, domicilio o capital",
+       "plazo": "2 semanas",
+       "ante": "Oficina de Asuntos Legales"
+      },
+      {
+       "que": "Junta ordinaria de accionistas",
+       "plazo": "Dentro de los 3 meses siguientes al cierre (según estatutos)",
+       "ante": "Interno"
+      }
+     ],
+     "sanciones": "Multas administrativas (karyo) de hasta 1 millón de yenes a los directivos.",
+     "evidencia": [
+      "Certificado de registro (tokibo tohon)",
+      "Actas de juntas"
+     ],
+     "preguntas": [
+      "¿Los cambios de consejeros y domicilio se registraron en 2 semanas?",
+      "¿Se publican los estados financieros anuales?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "jp_impuesto_sociedades",
+     "nombre": "Ley del Impuesto sobre Sociedades e impuestos locales (enterprise tax, inhabitants tax)",
+     "sigla": "CTA",
+     "tipo": "ley nacional",
+     "autoridad": "Agencia Nacional de Impuestos (NTA)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades residentes y establecimientos permanentes de extranjeras.",
+     "obligaciones": [
+      "Declaración en 2 meses tras el cierre (prórroga de 1 mes posible).",
+      "Documentación de precios de transferencia (archivo local, maestro e informe país por país según umbrales).",
+      "Retención en salarios, honorarios y pagos a no residentes."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración del impuesto sobre sociedades",
+       "plazo": "2 meses tras el cierre (prórroga de 1 mes)",
+       "ante": "NTA"
+      },
+      {
+       "que": "Pago de retenciones",
+       "plazo": "Día 10 del mes siguiente",
+       "ante": "NTA"
+      }
+     ],
+     "sanciones": "Recargos por mora y por declaración tardía o incompleta (10–40 %).",
+     "evidencia": [
+      "Declaraciones",
+      "Archivo local de precios de transferencia"
+     ],
+     "preguntas": [
+      "¿La declaración se presentó en plazo?",
+      "¿Existe archivo local de precios de transferencia?"
+     ]
+    },
+    {
+     "id": "jp_consumo",
+     "nombre": "Ley del Impuesto al Consumo (10 %, 8 % reducido) y sistema de facturas calificadas (desde oct-2023)",
+     "sigla": "Consumption Tax Act",
+     "tipo": "ley nacional",
+     "autoridad": "NTA",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2023-10-01 (facturas calificadas)",
+     "aplica": "Empresas con ventas gravadas superiores a 10 millones de yenes o registradas como emisoras de facturas calificadas; servicios digitales de extranjeros a consumidores japoneses.",
+     "obligaciones": [
+      "Registrarse como emisor de facturas calificadas para que el cliente acredite el impuesto.",
+      "Declaración anual y pagos provisionales."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración del impuesto al consumo",
+       "plazo": "2 meses tras el cierre",
+       "ante": "NTA"
+      }
+     ],
+     "sanciones": "Recargos y pérdida del crédito del cliente.",
+     "evidencia": [
+      "Registro de emisor de facturas",
+      "Facturas"
+     ],
+     "preguntas": [
+      "¿La empresa tiene número de registro de facturas calificadas?",
+      "¿Las facturas tienen todos los datos exigidos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "jp_normas_laborales",
+     "nombre": "Ley de Normas Laborales (労働基準法) y reforma de estilo de trabajo (2019)",
+     "sigla": "LSA",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Salud, Trabajo y Bienestar (MHLW); Oficinas de Inspección de Normas Laborales",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2019-04-01 (reforma)",
+     "aplica": "Todo empleador; reglas de trabajo obligatorias con 10 o más trabajadores.",
+     "obligaciones": [
+      "Acuerdo del artículo 36 presentado para cualquier horas extra; tope general de 45 h al mes y 360 h al año.",
+      "Reglas de trabajo (shugyo kisoku) presentadas a la inspección.",
+      "5 días de vacaciones pagadas tomadas al año por trabajador con 10 o más días."
+     ],
+     "tramites": [
+      {
+       "que": "Acuerdo del artículo 36 (horas extra)",
+       "plazo": "Antes de que inicie su vigencia; anual",
+       "ante": "Oficina de Inspección de Normas Laborales"
+      },
+      {
+       "que": "Reglas de trabajo",
+       "plazo": "Al adoptarlas o modificarlas",
+       "ante": "Oficina de Inspección"
+      }
+     ],
+     "sanciones": "Prisión de hasta 6 meses o multas de hasta 300 000 yenes; publicación del nombre de la empresa.",
+     "evidencia": [
+      "Acuerdo 36",
+      "Registros de asistencia",
+      "Reglas de trabajo"
+     ],
+     "preguntas": [
+      "¿Está presentado el acuerdo del artículo 36 vigente?",
+      "¿Se controlan las horas reales y las vacaciones tomadas?"
+     ]
+    },
+    {
+     "id": "jp_seguro_social",
+     "nombre": "Leyes de Seguro de Salud, de Pensiones para Empleados, de Seguro de Empleo y de Accidentes de Trabajo",
+     "sigla": "Shakai Hoken",
+     "tipo": "ley nacional",
+     "autoridad": "Servicio de Pensiones de Japón; Hello Work; MHLW",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empleadores con trabajadores, incluidos extranjeros (salvo convenios de seguridad social).",
+     "obligaciones": [
+      "Inscribir a los trabajadores en 5 días (salud y pensiones).",
+      "Declaración anual de salarios (santei) y de seguros laborales (nendo koshin)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de salarios (santei kiso todoke)",
+       "plazo": "1 al 10 de julio",
+       "ante": "Servicio de Pensiones de Japón"
+      },
+      {
+       "que": "Actualización anual de seguros laborales",
+       "plazo": "1 de junio a 10 de julio",
+       "ante": "Oficina de Trabajo"
+      }
+     ],
+     "sanciones": "Cobro de cuotas de hasta 2 años atrás con recargos.",
+     "evidencia": [
+      "Comprobantes de inscripción",
+      "Declaraciones anuales"
+     ],
+     "preguntas": [
+      "¿Todos los trabajadores que cumplen requisitos están inscritos?",
+      "¿Se presentó la declaración santei de julio?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "jp_seguridad_salud",
+     "nombre": "Ley de Seguridad y Salud Industrial (労働安全衛生法)",
+     "sigla": "ISHA",
+     "tipo": "ley nacional",
+     "autoridad": "MHLW; Oficinas de Inspección",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador; con 50 o más trabajadores: responsable de salud, médico industrial y comité.",
+     "obligaciones": [
+      "Exámenes médicos anuales y prueba de estrés (50 o más trabajadores).",
+      "Evaluación de riesgos de sustancias químicas.",
+      "Reporte de accidentes con 4 o más días de baja."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de resultados de la prueba de estrés",
+       "plazo": "Anual",
+       "ante": "Oficina de Inspección"
+      },
+      {
+       "que": "Reporte de accidente de trabajo",
+       "plazo": "Sin demora (4 o más días de baja)",
+       "ante": "Oficina de Inspección"
+      }
+     ],
+     "sanciones": "Multas y prisión; órdenes de suspensión.",
+     "evidencia": [
+      "Resultados de exámenes",
+      "Actas del comité"
+     ],
+     "preguntas": [
+      "¿Se hacen los exámenes médicos y la prueba de estrés anuales?",
+      "¿Hay médico industrial nombrado (50 o más)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "jp_appi",
+     "nombre": "Ley de Protección de Información Personal (APPI, reformas 2020–2022)",
+     "sigla": "APPI",
+     "tipo": "ley nacional",
+     "autoridad": "Comisión de Protección de Información Personal (PPC)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2022-04-01",
+     "aplica": "Toda empresa que trate datos personales de personas en Japón, incluidas extranjeras que les ofrecen servicios.",
+     "obligaciones": [
+      "Especificar y publicar el propósito de uso.",
+      "Consentimiento para transferir datos a terceros en el extranjero, informando el régimen del país (salvo países equivalentes como la UE).",
+      "Reportar filtraciones a la PPC: aviso preliminar en 3 a 5 días y reporte final en 30 días (60 si fue malicioso)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de filtración de datos personales",
+       "plazo": "Preliminar 3–5 días; final 30 o 60 días",
+       "ante": "PPC"
+      }
+     ],
+     "sanciones": "Órdenes de la PPC; multas de hasta 100 millones de yenes a la empresa por desobedecerlas.",
+     "evidencia": [
+      "Política de privacidad",
+      "Registro de incidentes"
+     ],
+     "preguntas": [
+      "¿Hay procedimiento para reportar filtraciones a la PPC en plazo?",
+      "¿Se informa el país de destino al transferir datos fuera?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "jp_pld",
+     "nombre": "Ley de Prevención de la Transferencia de Productos del Delito",
+     "sigla": "APTCP",
+     "tipo": "ley nacional",
+     "autoridad": "Agencia Nacional de Policía (JAFIC); supervisores sectoriales (FSA y otros)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores especificados: instituciones financieras, inmobiliarias, comerciantes de metales y joyas, servicios postales y de oficina virtual, abogados y contadores.",
+     "obligaciones": [
+      "Verificación de identidad y beneficiario final.",
+      "Conservación de registros 7 años.",
+      "Reporte de operaciones sospechosas."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "Sin demora",
+       "ante": "Supervisor sectorial / JAFIC"
+      }
+     ],
+     "sanciones": "Órdenes correctivas y sanciones penales.",
+     "evidencia": [
+      "Registros de verificación",
+      "Reportes"
+     ],
+     "preguntas": [
+      "¿La empresa es operador especificado?",
+      "¿Existen reportes de operaciones sospechosas cuando procede?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "jp_cohecho",
+     "nombre": "Ley de Prevención de la Competencia Desleal (soborno a funcionarios extranjeros, art. 18) y Código Penal",
+     "sigla": "UCPA",
+     "tipo": "ley nacional",
+     "autoridad": "Fiscalía; METI (guía)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2024-04-01 (reforma)",
+     "aplica": "Empresas japonesas y sus empleados, también por actos fuera de Japón (desde 2024, con penas mayores).",
+     "obligaciones": [
+      "Prohibido ofrecer beneficios indebidos a funcionarios extranjeros.",
+      "Programa de cumplimiento conforme a la guía del METI."
+     ],
+     "tramites": [],
+     "sanciones": "Personas: hasta 10 años de prisión; empresa: multa de hasta 1 000 millones de yenes (reforma 2024).",
+     "evidencia": [
+      "Política anticorrupción",
+      "Diligencia de terceros"
+     ],
+     "preguntas": [
+      "¿Existe política anticorrupción con controles a agentes?",
+      "¿Se capacita a quienes tratan con funcionarios?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "jp_antimonopolio",
+     "nombre": "Ley Antimonopolio (独占禁止法)",
+     "sigla": "AMA",
+     "tipo": "ley nacional",
+     "autoridad": "Comisión de Comercio Justo de Japón (JFTC)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa; notificación previa de concentraciones si el adquirente tiene más de 20 000 millones de yenes en ventas en Japón y la adquirida más de 5 000 millones.",
+     "obligaciones": [
+      "Notificar fusiones y adquisiciones sobre los umbrales y esperar 30 días.",
+      "No abusar de posición de negociación superior con proveedores (incluida la ley de subcontratación)."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Antes de cerrar; espera de 30 días",
+       "ante": "JFTC"
+      }
+     ],
+     "sanciones": "Recargos (surcharge) de 10 % de las ventas afectadas y órdenes de cese.",
+     "evidencia": [
+      "Análisis de umbrales",
+      "Contratos con proveedores"
+     ],
+     "preguntas": [
+      "¿Se revisaron los umbrales antes de la operación?",
+      "¿Los pagos a subcontratistas cumplen los plazos (60 días)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "jp_consumidor",
+     "nombre": "Ley contra Premios Injustificados y Representaciones Engañosas, Ley de Contratos de Consumo, Ley de Transacciones Comerciales Especificadas y Ley de Responsabilidad por Productos",
+     "sigla": "Keihyo-ho / PL",
+     "tipo": "ley nacional",
+     "autoridad": "Agencia de Asuntos del Consumidor (CAA)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2023-10-01 (marketing encubierto)",
+     "aplica": "Empresas que venden o anuncian a consumidores en Japón, incluido el comercio en línea.",
+     "obligaciones": [
+      "Publicidad veraz; marketing encubierto («stealth marketing») prohibido desde oct-2023.",
+      "Avisos legales obligatorios en ventas por internet (tokushoho).",
+      "Responsabilidad objetiva por productos defectuosos."
+     ],
+     "tramites": [],
+     "sanciones": "Órdenes de medidas, recargos de 3 % de las ventas afectadas.",
+     "evidencia": [
+      "Revisión legal de publicidad",
+      "Aviso tokushoho"
+     ],
+     "preguntas": [
+      "¿La publicidad con influencers está identificada como tal?",
+      "¿La tienda en línea publica el aviso de la Ley de Transacciones Especificadas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "jp_ambiental",
+     "nombre": "Ley de Uso Racional de la Energía, Ley de Gestión de Residuos y Ley de Promoción de Medidas contra el Calentamiento Global",
+     "sigla": "Energy Conservation Act / Waste Act",
+     "tipo": "ley nacional",
+     "autoridad": "METI; Ministerio del Medio Ambiente",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas con consumo de energía de 1 500 kl de crudo equivalente o más; generadoras de residuos industriales.",
+     "obligaciones": [
+      "Informe periódico de energía y plan de mediano plazo.",
+      "Manifiestos de residuos industriales.",
+      "Reporte de emisiones de gases de efecto invernadero (consumidores especificados)."
+     ],
+     "tramites": [
+      {
+       "que": "Informe periódico y plan de mediano plazo de energía",
+       "plazo": "31 de julio de cada año",
+       "ante": "METI"
+      },
+      {
+       "que": "Informe anual de manifiestos de residuos",
+       "plazo": "30 de junio",
+       "ante": "Prefectura"
+      }
+     ],
+     "sanciones": "Órdenes, publicación del nombre y multas.",
+     "evidencia": [
+      "Informes de energía",
+      "Manifiestos"
+     ],
+     "preguntas": [
+      "¿Se presentó el informe periódico de energía?",
+      "¿Los manifiestos de residuos están completos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "jp_fefta",
+     "nombre": "Ley de Divisas y Comercio Exterior (FEFTA)",
+     "sigla": "FEFTA",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Finanzas (MOF); METI; ministerios del sector",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros en empresas japonesas; exportadores de bienes y tecnología controlados; sanciones de Japón.",
+     "obligaciones": [
+      "Notificación previa (6 meses antes) para inversiones en sectores designados; reporte posterior en 45 días en los demás.",
+      "Licencia del METI para exportar bienes y tecnología controlados.",
+      "Cumplir las sanciones financieras de Japón."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación previa de inversión extranjera directa",
+       "plazo": "Dentro de los 6 meses previos (espera de 30 días)",
+       "ante": "Banco de Japón al MOF"
+      },
+      {
+       "que": "Reporte posterior de inversión",
+       "plazo": "45 días tras la inversión",
+       "ante": "Banco de Japón"
+      }
+     ],
+     "sanciones": "Órdenes de desinversión, multas y prisión.",
+     "evidencia": [
+      "Notificaciones FEFTA",
+      "Clasificación de exportaciones"
+     ],
+     "preguntas": [
+      "¿Se notificó la inversión si el sector es designado?",
+      "¿Se clasifican los productos contra la lista de control de exportaciones?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "jp_pi",
+     "nombre": "Ley de Patentes y Ley de Marcas",
+     "sigla": "Patent / Trademark Act",
+     "tipo": "ley nacional",
+     "autoridad": "Oficina Japonesa de Patentes (JPO)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de patentes y marcas en Japón (registro de primer solicitante).",
+     "obligaciones": [
+      "Registrar marcas en Japón, incluida la transliteración en katakana.",
+      "Pagar anualidades de patentes."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "JPO"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [
+      "Certificados de registro"
+     ],
+     "preguntas": [
+      "¿Las marcas clave están registradas en la JPO?",
+      "¿Se pagan las anualidades a tiempo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "jp_valores",
+     "nombre": "Ley de Instrumentos Financieros y Bolsas (FIEA) y J-SOX",
+     "sigla": "FIEA",
+     "tipo": "ley nacional",
+     "autoridad": "Agencia de Servicios Financieros (FSA); Bolsa de Tokio",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas y sociedades con más de 1 000 accionistas.",
+     "obligaciones": [
+      "Informe anual de valores en 3 meses y reporte de control interno (J-SOX).",
+      "Informe de gran tenencia (más de 5 %) en 5 días hábiles.",
+      "Código de gobierno corporativo de la Bolsa de Tokio (cumplir o explicar)."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual de valores (yuho)",
+       "plazo": "3 meses tras el cierre",
+       "ante": "FSA (EDINET)"
+      }
+     ],
+     "sanciones": "Multas, recargos y responsabilidad penal.",
+     "evidencia": [
+      "Informe anual",
+      "Evaluación J-SOX"
+     ],
+     "preguntas": [
+      "¿Se presentó el informe anual con el reporte de control interno?",
+      "¿Se reportan las tenencias de más de 5 %?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "jp_auto",
+     "nombre": "Ley de Vehículos de Transporte por Carretera (homologación y retiros)",
+     "sigla": "Road Transport Vehicle Act",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Territorio, Infraestructura, Transporte y Turismo (MLIT)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores de vehículos y partes.",
+     "obligaciones": [
+      "Homologación de tipo y normas de seguridad (incluidas las de ciberseguridad UN R155/R156).",
+      "Notificar retiros antes de iniciarlos."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de retiro (recall)",
+       "plazo": "Antes de iniciar el retiro",
+       "ante": "MLIT"
+      }
+     ],
+     "sanciones": "Órdenes de retiro y multas.",
+     "evidencia": [
+      "Certificados de homologación",
+      "Expedientes de retiro"
+     ],
+     "preguntas": [
+      "¿Los retiros se notifican al MLIT?",
+      "¿Se cumplen UN R155/R156 en modelos nuevos?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "jp_electricidad",
+     "nombre": "Ley del Negocio Eléctrico",
+     "sigla": "Electricity Business Act",
+     "tipo": "ley nacional",
+     "autoridad": "METI (ANRE); Comisión de Vigilancia de los Mercados de Electricidad y Gas",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Generadores, transmisores y comercializadores de electricidad.",
+     "obligaciones": [
+      "Registro o licencia según la actividad.",
+      "Normas técnicas y jefe técnico de electricidad en instalaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de comercializador minorista",
+       "plazo": "Antes de vender",
+       "ante": "METI"
+      }
+     ],
+     "sanciones": "Órdenes de mejora y revocación.",
+     "evidencia": [
+      "Registros",
+      "Nombramiento del jefe técnico"
+     ],
+     "preguntas": [
+      "¿Se cuenta con el registro de comercializador o generador?",
+      "¿Hay jefe técnico de electricidad nombrado?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "jp_gas_seguridad",
+     "nombre": "Ley del Negocio del Gas, Ley de Seguridad del Gas a Alta Presión y Ley de Servicios contra Incendios (materiales peligrosos)",
+     "sigla": "Gas Business Act / HPGSA",
+     "tipo": "ley nacional",
+     "autoridad": "METI; Agencia de Manejo de Incendios y Desastres",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Importación, almacenamiento y distribución de gas y combustibles.",
+     "obligaciones": [
+      "Permisos de instalaciones de gas a alta presión.",
+      "Permiso de instalaciones de materiales peligrosos y responsable certificado."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de instalación de materiales peligrosos",
+       "plazo": "Antes de construir y operar",
+       "ante": "Municipio / bomberos"
+      }
+     ],
+     "sanciones": "Suspensión y multas.",
+     "evidencia": [
+      "Permisos",
+      "Inspecciones"
+     ],
+     "preguntas": [
+      "¿Las instalaciones tienen permiso?",
+      "¿Hay responsable certificado de materiales peligrosos?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "jp_aviacion",
+     "nombre": "Ley de Aeronáutica Civil",
+     "sigla": "Civil Aeronautics Act",
+     "tipo": "ley nacional",
+     "autoridad": "Oficina de Aviación Civil de Japón (JCAB, MLIT)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Aerolíneas, talleres, fabricantes y operadores de drones.",
+     "obligaciones": [
+      "Certificados de operador, de tipo y de organización de mantenimiento.",
+      "Registro de drones de más de 100 g."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de drones",
+       "plazo": "Antes de volar",
+       "ante": "MLIT"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Certificados",
+      "Registro de drones"
+     ],
+     "preguntas": [
+      "¿Los certificados de la JCAB están vigentes?",
+      "¿Los drones están registrados?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "jp_pmd",
+     "nombre": "Ley de Productos Farmacéuticos y Dispositivos Médicos (薬機法)",
+     "sigla": "PMD Act",
+     "tipo": "ley nacional",
+     "autoridad": "MHLW; Agencia de Productos Farmacéuticos y Dispositivos Médicos (PMDA)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de autorización de comercialización, fabricantes y distribuidores.",
+     "obligaciones": [
+      "Licencia de titular de comercialización y aprobación de cada producto.",
+      "Farmacovigilancia (GVP) y calidad (GQP)."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de licencia de titular",
+       "plazo": "Cada 5 años",
+       "ante": "Prefectura / MHLW"
+      }
+     ],
+     "sanciones": "Recargos de 4.5 % sobre ventas por publicidad engañosa; suspensión.",
+     "evidencia": [
+      "Licencias",
+      "Procedimientos GVP/GQP"
+     ],
+     "preguntas": [
+      "¿Se cuenta con la licencia de titular de comercialización?",
+      "¿Hay sistema GVP/GQP?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "jp_construccion",
+     "nombre": "Ley del Negocio de la Construcción y Ley de Normas de Edificación",
+     "sigla": "Construction Business Act",
+     "tipo": "ley nacional",
+     "autoridad": "MLIT; gobiernos de prefectura",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras con contratos de 5 millones de yenes o más.",
+     "obligaciones": [
+      "Licencia de construcción (renovación cada 5 años).",
+      "Ingeniero responsable en cada obra.",
+      "Confirmación de edificación antes de construir."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de licencia de construcción",
+       "plazo": "Cada 5 años (30 días antes)",
+       "ante": "MLIT o prefectura"
+      }
+     ],
+     "sanciones": "Suspensión y revocación.",
+     "evidencia": [
+      "Licencia",
+      "Registros de obra"
+     ],
+     "preguntas": [
+      "¿La licencia de construcción está vigente?",
+      "¿Cada obra tiene ingeniero responsable?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "jp_export_control",
+     "nombre": "Control de exportaciones de la FEFTA (Lista del Anexo 1 y control catch-all)",
+     "sigla": "FEFTA / Export Trade Control Order",
+     "tipo": "ley nacional",
+     "autoridad": "METI",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exportadores de armas, bienes de uso dual y tecnología.",
+     "obligaciones": [
+      "Licencia de exportación o transferencia de tecnología.",
+      "Programa interno de cumplimiento registrado (CP)."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación",
+       "plazo": "Antes de exportar",
+       "ante": "METI"
+      }
+     ],
+     "sanciones": "Prohibición de exportar hasta 3 años, multas y prisión.",
+     "evidencia": [
+      "Programa de cumplimiento",
+      "Licencias"
+     ],
+     "preguntas": [
+      "¿Existe programa interno de cumplimiento?",
+      "¿Se aplica el control catch-all a usuarios finales?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "jp_seguros",
+     "nombre": "Ley del Negocio de Seguros",
+     "sigla": "Insurance Business Act",
+     "tipo": "ley nacional",
+     "autoridad": "FSA",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras e intermediarios.",
+     "obligaciones": [
+      "Licencia, margen de solvencia y régimen de solvencia económica (ESR) desde 2025.",
+      "Registro de agentes y corredores."
+     ],
+     "tramites": [
+      {
+       "que": "Informe de negocio",
+       "plazo": "Anual",
+       "ante": "FSA"
+      }
+     ],
+     "sanciones": "Órdenes de mejora y revocación.",
+     "evidencia": [
+      "Informes de solvencia"
+     ],
+     "preguntas": [
+      "¿Se cumplen los indicadores de solvencia?",
+      "¿Los agentes están registrados?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "jp_bancos",
+     "nombre": "Ley Bancaria y Ley de Servicios de Pago",
+     "sigla": "Banking Act / PSA",
+     "tipo": "ley nacional",
+     "autoridad": "FSA",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, emisores de medios de pago y casas de cambio de criptoactivos.",
+     "obligaciones": [
+      "Licencia o registro según la actividad.",
+      "Separación de fondos de clientes en servicios de pago y criptoactivos."
+     ],
+     "tramites": [
+      {
+       "que": "Informe de negocio",
+       "plazo": "Anual",
+       "ante": "FSA"
+      }
+     ],
+     "sanciones": "Órdenes de mejora y revocación.",
+     "evidencia": [
+      "Licencias",
+      "Conciliaciones de fondos de clientes"
+     ],
+     "preguntas": [
+      "¿La actividad requiere licencia o registro de la FSA?",
+      "¿Se separan los fondos de clientes?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "jp_mineria",
+     "nombre": "Ley de Minería (reforma 2011) y Ley de Seguridad Minera",
+     "sigla": "Mining Act",
+     "tipo": "ley nacional",
+     "autoridad": "METI",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración y explotación minera.",
+     "obligaciones": [
+      "Permiso de derechos mineros (con criterios de capacidad técnica).",
+      "Plan de seguridad minera."
+     ],
+     "tramites": [
+      {
+       "que": "Solicitud de derechos mineros",
+       "plazo": "Antes de explorar",
+       "ante": "METI"
+      }
+     ],
+     "sanciones": "Revocación y multas.",
+     "evidencia": [
+      "Permisos",
+      "Plan de seguridad"
+     ],
+     "preguntas": [
+      "¿Los derechos mineros están vigentes?",
+      "¿Hay plan de seguridad?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "jp_alimentos",
+     "nombre": "Ley de Sanidad Alimentaria (HACCP obligatorio desde jun-2021) y Ley de Etiquetado de Alimentos",
+     "sigla": "Food Sanitation Act / Food Labeling Act",
+     "tipo": "ley nacional",
+     "autoridad": "MHLW; Agencia de Asuntos del Consumidor",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2021-06-01 (HACCP)",
+     "aplica": "Productores, importadores y vendedores de alimentos.",
+     "obligaciones": [
+      "Plan HACCP.",
+      "Notificación de importación de alimentos en cada envío.",
+      "Etiquetado en japonés con alérgenos y país de origen."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de importación de alimentos",
+       "plazo": "Cada envío, antes del despacho",
+       "ante": "Estación de cuarentena del MHLW"
+      }
+     ],
+     "sanciones": "Retiro, suspensión y multas.",
+     "evidencia": [
+      "Plan HACCP",
+      "Notificaciones de importación"
+     ],
+     "preguntas": [
+      "¿Hay plan HACCP?",
+      "¿Las etiquetas cumplen la Ley de Etiquetado?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "jp_telecom",
+     "nombre": "Ley del Negocio de Telecomunicaciones y Ley de Radio",
+     "sigla": "Telecommunications Business Act",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Asuntos Internos y Comunicaciones (MIC)",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2023-06-16 (reforma)",
+     "aplica": "Operadores de telecomunicaciones, incluidos servicios extranjeros a usuarios en Japón.",
+     "obligaciones": [
+      "Registro o notificación como operador; representante en Japón para extranjeros.",
+      "Secreto de las comunicaciones y reglas de datos de usuarios (2023)."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de operador",
+       "plazo": "Antes de iniciar",
+       "ante": "MIC"
+      }
+     ],
+     "sanciones": "Órdenes y multas.",
+     "evidencia": [
+      "Registro",
+      "Políticas"
+     ],
+     "preguntas": [
+      "¿Se notificó o registró como operador?",
+      "¿Se publica la política de envío de información de usuarios a terceros?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "jp_plataformas",
+     "nombre": "Ley de Transparencia de Plataformas Digitales y Ley de Competencia en Software Móvil (plena vigencia dic-2025)",
+     "sigla": "TFDPA / MSCA",
+     "tipo": "ley nacional",
+     "autoridad": "METI; JFTC",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2025-12-18 (MSCA; verificar)",
+     "aplica": "Grandes plataformas designadas (comercio, publicidad, sistemas operativos móviles y tiendas de aplicaciones).",
+     "obligaciones": [
+      "Divulgar condiciones a los usuarios comerciales.",
+      "Informe anual de cumplimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual de plataforma especificada",
+       "plazo": "Anual",
+       "ante": "METI / JFTC"
+      }
+     ],
+     "sanciones": "Recomendaciones, órdenes y recargos.",
+     "evidencia": [
+      "Informe anual"
+     ],
+     "preguntas": [
+      "¿La empresa está designada como plataforma especificada?",
+      "¿Se presentó el informe anual?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "jp_logistica",
+     "nombre": "Ley del Negocio de Transporte de Carga por Camión y Ley de Eficiencia Logística (reforma 2024)",
+     "sigla": "Motor Truck Transportation Business Act",
+     "tipo": "ley nacional",
+     "autoridad": "MLIT",
+     "url": "https://laws.e-gov.go.jp/",
+     "ultima_reforma": "2024 (reforma)",
+     "aplica": "Transportistas de carga y grandes remitentes.",
+     "obligaciones": [
+      "Tope de 960 h extra al año para conductores desde abril de 2024.",
+      "Remitentes especificados: nombrar director de logística (CLO) y plan de eficiencia desde abril de 2026."
+     ],
+     "tramites": [
+      {
+       "que": "Plan de mediano y largo plazo de eficiencia logística",
+       "plazo": "Anual (remitentes especificados, desde 2026)",
+       "ante": "MLIT"
+      }
+     ],
+     "sanciones": "Órdenes, publicación y multas.",
+     "evidencia": [
+      "Registros de horas",
+      "Nombramiento del CLO"
+     ],
+     "preguntas": [
+      "¿Se controlan las horas de los conductores?",
+      "¿La empresa es remitente especificado y nombró CLO?"
+     ]
+    }
+   ]
+  }
+ }
+}

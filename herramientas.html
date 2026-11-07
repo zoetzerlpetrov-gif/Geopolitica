@@ -51,7 +51,8 @@
       <button role="tab" aria-selected="false" data-p="analisis">🧠 Análisis de inteligencia</button>
       <button role="tab" aria-selected="false" data-p="marcos">🗂️ Marcos militar, político y corporativo</button>
       <button role="tab" aria-selected="false" data-p="auditorias">📋 Plantillas de auditoría por sector</button>
-      <button role="tab" aria-selected="false" data-p="normativa">⚖️ Normativa por país (MX, EUA, Canadá, UE, Rusia)</button>
+      <button role="tab" aria-selected="false" data-p="normativa">⚖️ Normativa por país (21 jurisdicciones)</button>
+      <button role="tab" aria-selected="false" data-p="bitacora">📜 Bitácora normativa (cambios diarios)</button>
       <button role="tab" aria-selected="false" data-p="escenarios">🎲 Simulación de escenarios</button>
       <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
       <button role="tab" aria-selected="false" data-p="agencias">🏛️ Agencias: redes, certificados, casos y oficios</button>
@@ -153,6 +154,7 @@
       <div id="aud-resumen"></div>
       </details>
       <details class="tarjeta"><summary><b>Método (ISO 19011:2018) y normas del sector</b></summary><div id="aud-metodo"></div></details>
+      <div id="aud-cambios"></div>
       <div id="aud-areas"></div>
     </section>
     <section class="panel" id="p-normativa" hidden>
@@ -167,8 +169,39 @@
       </details>
       <div class="barra"><span id="nor-exp"></span><button type="button" id="nor-vaciar">Vaciar respuestas de esta jurisdicción</button></div>
       <details class="tarjeta plegable" id="nor-cal"><summary><h3>📅 Calendario de trámites</h3></summary><div id="nor-calendario"></div></details>
+      <details class="tarjeta plegable" id="nor-plan"><summary><h3>📊 Plantilla de proyecto en Excel (para project manager)</h3></summary>
+        <p class="meta">Plan de la idea al cierre en 11 fases. Incluye las tareas de cualquier proyecto y cada trámite y obligación de las leyes del país y del sector elegidos,
+          con su base normativa, autoridad, plazo legal, responsable, duración, fechas que se recalculan, Gantt semanal, tablero, calendario de obligaciones recurrentes,
+          auditoría, riesgos, matriz RACI y diccionario de columnas para importarlo después en DOMINUS. Para quitar lo que no uses marca «No» en «¿Aplica?» o borra las filas.
+          Las duraciones son estimaciones; no es asesoría legal.</p>
+        <div class="cp-form" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px">
+          <label>Nombre del proyecto <input type="text" id="plan-nombre" maxlength="80" placeholder="Planta Querétaro"></label>
+          <label>Sector <select id="plan-sector"></select></label>
+          <label>Inicio <input type="date" id="plan-inicio"></label>
+          <label style="align-self:end"><input type="checkbox" id="plan-extranjera"> Empresa extranjera que opera en México</label></div>
+        <p><b>Países donde opera</b> (México primero):</p><div id="plan-paises"></div>
+        <p class="meta" id="plan-resumen"></p>
+        <div class="barra"><button type="button" id="plan-xlsx">⬇ Descargar Excel</button><button type="button" id="plan-json">Descargar datos (JSON) para importar</button></div>
+      </details>
+      <div id="nor-alertas"></div>
       <div id="nor-leyes"></div>
       <p class="meta" id="nor-fuentes"></p>
+    </section>
+    <section class="panel" id="p-bitacora" hidden>
+      <h2>Bitácora normativa: cambios diarios en leyes y regulaciones</h2>
+      <p class="meta">Cada día se revisan los diarios oficiales (DOF de México, Federal Register de EUA, Canada Gazette, Diario Oficial de la UE, e-Gov de Japón,
+        portal oficial de Rusia y Boletín Oficial de Argentina) y se cruzan con el catálogo de Normativa por país. Cada entrada dice qué leyes, sectores,
+        trámites y preguntas de auditoría toca y qué hacer. Es histórica: nada se borra. Solo se guarda el título oficial y el enlace al original.
+        El impacto es una clasificación automática por reglas; lo marcado «revisada» lo confirmó una persona.</p>
+      <div class="barra"><select id="bit-pais" aria-label="País"></select><select id="bit-sector" aria-label="Sector"></select>
+        <select id="bit-impacto" aria-label="Impacto"><option value="am">Impacto alto y medio</option><option value="">Todos los impactos</option><option value="alto">Solo alto</option><option value="medio">Solo medio</option><option value="bajo">Solo bajo</option></select>
+        <select id="bit-dias" aria-label="Periodo"><option value="7">Últimos 7 días</option><option value="30" selected>Últimos 30 días</option><option value="90">Últimos 90 días</option><option value="365">Último año</option><option value="0">Toda la historia</option></select>
+        <input type="search" id="bit-q" placeholder="Buscar: hidrocarburos, aduanera, REACH…" aria-label="Buscar en la bitácora" style="min-width:220px">
+        <button type="button" class="btn-limpiar" data-limpiar="bit-q" title="Borrar lo escrito y el resultado">✕ Limpiar</button></div>
+      <div id="bit-resumen" class="tarjeta"></div>
+      <div class="barra"><span id="bit-exp"></span></div>
+      <div id="bit-lista"></div>
+      <details class="tarjeta plegable"><summary><h3>Fuentes y estado del monitor</h3></summary><div id="bit-fuentes"></div></details>
     </section>
     <section class="panel" id="p-escenarios" hidden>
       <h2>Simulación de escenarios a partir de los eventos del mapa</h2>

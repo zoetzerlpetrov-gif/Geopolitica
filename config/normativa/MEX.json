@@ -1,7 +1,7 @@
 {
   "jurisdiccion": "MEX",
   "nombre": "México",
-  "revisado": "2026-10",
+  "revisado": "2026-11",
   "nota": "Mapa ley por ley de lo que debe cumplir cualquier empresa que opera en México («generales») y de lo que se añade por sector («sectores», mismas claves que config/auditorias.json). Cada ficha resume obligaciones, trámites, sanciones, evidencia que un auditor debe pedir y preguntas sí/no que pueden usarse como controles de la lista de verificación. Se priorizan las reformas 2024-2026 (nueva LFPDPPP, LFCE y Comisión Nacional Antimonopolio, LMTR y CRT/ATDT, leyes energéticas y CNE, LFPIORPI, jornada de 40 horas, CFF y Ley Aduanera 2026, Ley General de Aguas, LGS 2026). Son resúmenes propios, no texto legal ni asesoría: donde dice «verificar» el dato no pudo confirmarse en fuente oficial; antes de emitir un informe confirma la versión vigente en el DOF, en la biblioteca de leyes de la Cámara de Diputados o en el sitio del regulador, y revisa también la normativa estatal y municipal aplicable.",
   "fuentes_oficiales": [
     [
@@ -88,7 +88,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de Economía (PSM y registros); jueces mercantiles",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGSM.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-12-26 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Toda sociedad mercantil constituida en México (S.A., S. de R.L., S.A.S., S.C. por remisión, etc.).",
           "obligaciones": [
             "Celebrar la asamblea ordinaria anual dentro de los cuatro meses siguientes al cierre del ejercicio para aprobar el informe de los administradores y los estados financieros (arts. 172 y 181).",
@@ -137,7 +137,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de Economía (Registro Público de Comercio); tribunales",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CCom.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-02-18 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Comerciantes personas físicas y morales; contratos mercantiles y comercio electrónico.",
           "obligaciones": [
             "Inscribir en el Registro Público de Comercio los actos mercantiles que lo requieran (constitución, poderes, reformas) (arts. 18-21).",
@@ -171,7 +171,7 @@
           "tipo": "ley",
           "autoridad": "Instituto Federal de Especialistas de Concursos Mercantiles (IFECOM); jueces de distrito",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LCM.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-01-16 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Comerciantes en incumplimiento generalizado de sus obligaciones de pago.",
           "obligaciones": [
             "Identificar los supuestos de incumplimiento generalizado (art. 10) para valorar oportunamente la solicitud de concurso o una reestructura.",
@@ -207,7 +207,7 @@
           "tipo": "ley",
           "autoridad": "SAT (SHCP); PRODECON como defensoría del contribuyente",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CFF.pdf",
-          "ultima_reforma": "2025-11-07",
+          "ultima_reforma": "2026-04-09 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-11-07",
           "aplica": "Todas las personas morales y físicas con actividad económica en México o con fuente de riqueza en el país.",
           "obligaciones": [
             "Inscribirse en el RFC y presentar los avisos de cambio de domicilio, actividad, socios o accionistas y representantes (art. 27).",
@@ -365,7 +365,7 @@
           "tipo": "ley",
           "autoridad": "SAT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LISR.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2024-04-01 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Personas morales residentes y establecimientos permanentes de extranjeros; retenedores.",
           "obligaciones": [
             "Presentar pagos provisionales mensuales a más tardar el día 17 del mes siguiente (art. 14).",
@@ -416,7 +416,7 @@
           "tipo": "ley",
           "autoridad": "SAT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LIVA.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2021-11-12 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Quienes enajenan bienes, prestan servicios independientes, otorgan el uso de bienes o importan en territorio nacional; plataformas digitales extranjeras.",
           "obligaciones": [
             "Trasladar y cobrar el IVA por separado en el CFDI y enterar el pago definitivo mensual a más tardar el día 17 (art. 5-D).",
@@ -454,7 +454,7 @@
           "tipo": "ley",
           "autoridad": "SAT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LIEPS.pdf",
-          "ultima_reforma": "2025-11-07 (verificar)",
+          "ultima_reforma": "2025-12-22 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-11-07 (verificar)",
           "aplica": "Fabricantes, productores, importadores y enajenantes de bienes gravados (bebidas alcohólicas y saborizadas, tabacos, combustibles, plaguicidas, alimentos de alta densidad calórica, juegos con apuestas, telecomunicaciones, entre otros).",
           "obligaciones": [
             "Calcular y pagar el IEPS mensual cuando se enajenen o importen bienes gravados (art. 5).",
@@ -590,7 +590,7 @@
           "tipo": "ley",
           "autoridad": "STPS (inspección); Centro Federal de Conciliación y Registro Laboral (CFCRL); tribunales laborales",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFT.pdf",
-          "ultima_reforma": "2026-05-01",
+          "ultima_reforma": "2026-05-14 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2026-05-01",
           "aplica": "Todo patrón con trabajadores subordinados en México.",
           "obligaciones": [
             "Formalizar contratos individuales por escrito con las condiciones de trabajo (arts. 24-25).",
@@ -718,7 +718,7 @@
           "tipo": "ley",
           "autoridad": "IMSS",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LSS.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-01-15 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Patrones con trabajadores subordinados (régimen obligatorio).",
           "obligaciones": [
             "Registrarse como patrón e inscribir a los trabajadores, comunicar altas, bajas y modificaciones de salario dentro de 5 días hábiles (art. 15).",
@@ -764,7 +764,7 @@
           "tipo": "ley",
           "autoridad": "INFONAVIT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar (reforma 2025)",
+          "ultima_reforma": "2025-02-21 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (reforma 2025)",
           "aplica": "Patrones con trabajadores subordinados.",
           "obligaciones": [
             "Inscribir a los trabajadores y pagar aportaciones del 5 % del salario base (art. 29, fr. II), bimestralmente.",
@@ -1291,7 +1291,7 @@
           "tipo": "ley",
           "autoridad": "FGR; UIF (denuncias)",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPF.pdf",
-          "ultima_reforma": "2025-07-16 (verificar)",
+          "ultima_reforma": "2026-03-13 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-07-16 (verificar)",
           "aplica": "Cualquier persona, incluidas personas morales (CPF art. 11 Bis).",
           "obligaciones": [
             "Abstenerse de adquirir, transferir, administrar o invertir recursos a sabiendas o con indicios de procedencia ilícita.",
@@ -1469,7 +1469,7 @@
           "tipo": "ley",
           "autoridad": "Comisión Nacional Antimonopolio (sustituye a la COFECE desde julio de 2025)",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFCE.pdf",
-          "ultima_reforma": "2025-07-16",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-07-16",
           "aplica": "Todos los agentes económicos.",
           "obligaciones": [
             "No celebrar acuerdos entre competidores para fijar precios, restringir oferta, dividir mercados, coordinar posturas en licitaciones o intercambiar información con esos fines (prácticas monopólicas absolutas, art. 53).",
@@ -1508,7 +1508,7 @@
           "tipo": "ley",
           "autoridad": "PROFECO",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPC.pdf",
-          "ultima_reforma": "2025-12-12",
+          "ultima_reforma": "2025-12-23 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-12-12",
           "aplica": "Proveedores de bienes y servicios a consumidores (incluido el comercio electrónico).",
           "obligaciones": [
             "Informar precios totales y condiciones de forma veraz y respetarlos (arts. 7 y 7 Bis).",
@@ -1636,7 +1636,7 @@
           "tipo": "ley",
           "autoridad": "SEMARNAT; PROFEPA; ASEA para hidrocarburos",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGEEPA.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-01-19 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Obras y actividades de jurisdicción federal; fuentes fijas de emisiones federales; la regulación local aplica al resto.",
           "obligaciones": [
             "Obtener autorización de impacto ambiental (MIA) antes de iniciar las obras o actividades del art. 28.",
@@ -1680,7 +1680,7 @@
           "tipo": "ley",
           "autoridad": "SEMARNAT; PROFEPA; autoridades estatales (manejo especial) y municipales (urbanos)",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGPGIR.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-01-19 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Generadores de residuos peligrosos y de manejo especial.",
           "obligaciones": [
             "Registrarse como generador y categorizarse: microgenerador (<400 kg/año), pequeño (400 kg a <10 t/año) o gran generador (≥10 t/año).",
@@ -1743,7 +1743,7 @@
           "tipo": "ley",
           "autoridad": "SEMARNAT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LGCC.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2024-04-01 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Establecimientos sujetos a reporte (emisiones directas e indirectas de 25,000 t CO2e o más al año en sectores listados).",
           "obligaciones": [
             "Medir, calcular y reportar anualmente las emisiones de GEI en el RENE (vía COA).",
@@ -1844,7 +1844,7 @@
           "tipo": "ley",
           "autoridad": "PROFEPA; jueces de distrito",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFRA.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Cualquier persona que cause daño ambiental.",
           "obligaciones": [
             "Reparar los daños ambientales o, si no es posible, compensarlos.",
@@ -1874,7 +1874,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de Economía (Dirección General de Inversión Extranjera, RNIE); Comisión Nacional de Inversiones Extranjeras",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LIE.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2024-05-27 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Sociedades mexicanas con participación de inversión extranjera, personas extranjeras que realizan actos de comercio habitualmente en México y fideicomisos con IED.",
           "obligaciones": [
             "Respetar actividades reservadas y límites de participación extranjera; obtener resolución favorable de la CNIE cuando se requiera (arts. 5-9).",
@@ -1916,7 +1916,7 @@
           "tipo": "ley",
           "autoridad": "Agencia Nacional de Aduanas de México (ANAM); SAT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LAdua.pdf",
-          "ultima_reforma": "2025-11-19",
+          "ultima_reforma": "2025-12-27 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-11-19",
           "aplica": "Importadores, exportadores, agentes aduanales, transportistas y recintos.",
           "obligaciones": [
             "Estar inscrito en el padrón de importadores (y en sectores específicos cuando aplique).",
@@ -1957,7 +1957,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de Economía; SAT/ANAM",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LCE.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-05-01 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Importadores y exportadores.",
           "obligaciones": [
             "Obtener permisos previos, avisos automáticos o certificaciones de NOM requeridos para la fracción arancelaria.",
@@ -1988,7 +1988,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de Economía; SHCP; ANAM",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LIGIE.pdf",
-          "ultima_reforma": "verificar (aranceles 2026)",
+          "ultima_reforma": "2026-10-13 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (aranceles 2026)",
           "aplica": "Importadores y exportadores.",
           "obligaciones": [
             "Clasificar correctamente las mercancías en la TIGIE (fracción y NICO).",
@@ -2077,7 +2077,7 @@
           "tipo": "ley",
           "autoridad": "IMPI",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPPI.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-04-03 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Titulares y usuarios de marcas, patentes, diseños y secretos industriales.",
           "obligaciones": [
             "Registrar marcas y avisos comerciales; renovar cada 10 años y presentar la declaración de uso al tercer año del registro (verificar artículo).",
@@ -2115,7 +2115,7 @@
           "tipo": "ley",
           "autoridad": "INDAUTOR; IMPI (infracciones en materia de comercio)",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFDA.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-05-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Empresas que crean, usan o licencian obras (software, contenidos, diseños, bases de datos).",
           "obligaciones": [
             "Formalizar por escrito las transmisiones de derechos patrimoniales (art. 30) y los contratos de obra por encargo (art. 83).",
@@ -2151,7 +2151,7 @@
           "tipo": "ley",
           "autoridad": "CNBV",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LMV.pdf",
-          "ultima_reforma": "2023-12-28 (verificar posteriores)",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2023-12-28 (verificar posteriores)",
           "aplica": "Emisoras con valores inscritos en el RNV (acciones o deuda), incluidas las emisoras simplificadas.",
           "obligaciones": [
             "Integrar el consejo con al menos 25 % de consejeros independientes y contar con comités de auditoría y prácticas societarias (arts. 24 y 42-43).",
@@ -2483,7 +2483,7 @@
           "tipo": "ley",
           "autoridad": "Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública (REPUVE)",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2021-05-20 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Armadoras, importadores y distribuidores de vehículos.",
           "obligaciones": [
             "Inscribir los vehículos que fabriquen, ensamblen o importen.",
@@ -2689,7 +2689,7 @@
           "tipo": "ley",
           "autoridad": "SENER; CNE",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "2025-03-18 (Reglamento 2025-10-03)",
+          "ultima_reforma": "2026-01-15 (última reforma de la ley según la Cámara de Diputados) · antes registrado: 2025-03-18 (Reglamento 2025-10-03)",
           "aplica": "Participantes del sector energético y grandes consumidores.",
           "obligaciones": [
             "Atender metas de energía limpia y eficiencia energética aplicables.",
@@ -2821,6 +2821,37 @@
           ]
         },
         {
+          "id": "dacg_comercializacion_cne",
+          "nombre": "Disposiciones Administrativas de Carácter General que regulan la actividad de comercialización de gas natural, petrolíferos, gas licuado de petróleo y petroquímicos (CNE)",
+          "sigla": "DACG comercialización CNE",
+          "tipo": "disposición administrativa",
+          "autoridad": "CNE",
+          "url": "https://dof.gob.mx/nota_detalle.php?codigo=5803022&fecha=05/11/2026",
+          "ultima_reforma": "2026-11-05 (publicación en el DOF)",
+          "aplica": "Quien tenga o solicite permiso de comercialización de gas natural, petrolíferos, gas LP o petroquímicos, y otros permisionarios que compran o venden a comercializadores (según el ámbito de aplicación del acuerdo; verificar en el texto oficial).",
+          "obligaciones": [
+            "Contar con permiso vigente de comercialización otorgado por la CNE conforme a la Ley del Sector Hidrocarburos y su Reglamento.",
+            "Revisar en el texto oficial las obligaciones nuevas de información, registro de contratos y condiciones de venta que establecen estas disposiciones (verificar)."
+          ],
+          "tramites": [
+            {
+              "que": "Solicitud o actualización del permiso de comercialización y registros ante la CNE",
+              "plazo": "Según las disposiciones y sus transitorios (verificar)",
+              "ante": "CNE (Oficialía de Partes Electrónica)"
+            }
+          ],
+          "sanciones": "Las previstas en la Ley del Sector Hidrocarburos para permisionarios (verificar montos).",
+          "evidencia": [
+            "Permiso de comercialización vigente",
+            "Contratos de compraventa registrados ante la CNE (si aplica)",
+            "Acuses de reportes a la CNE"
+          ],
+          "preguntas": [
+            "¿La empresa identificó si estas disposiciones le aplican (comercializador o contraparte de comercializadores)?",
+            "¿Se adaptaron contratos, registros y reportes a las nuevas disposiciones dentro de los plazos transitorios?"
+          ]
+        },
+        {
           "id": "sasisopa",
           "nombre": "Ley de la ASEA y Disposiciones administrativas de carácter general del Sistema de Administración de Seguridad Industrial, Seguridad Operativa y Protección al Medio Ambiente (SASISOPA)",
           "sigla": "ASEA / SASISOPA",
@@ -2942,7 +2973,7 @@
           "tipo": "ley",
           "autoridad": "FGR",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2021-11-12 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Toda persona en la cadena de hidrocarburos.",
           "obligaciones": [
             "No adquirir, almacenar ni enajenar combustibles sin acreditar su legal procedencia.",
@@ -3410,7 +3441,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría Anticorrupción y Buen Gobierno; dependencias contratantes",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LOPSRM.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Contratistas de obra pública federal.",
           "obligaciones": [
             "Participar mediante la plataforma electrónica de contrataciones y cumplir requisitos de propuesta.",
@@ -3566,7 +3597,7 @@
           "tipo": "ley",
           "autoridad": "SEDATU; gobiernos estatales y municipales",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2024-04-01 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Desarrollos inmobiliarios y obras.",
           "obligaciones": [
             "Obtener licencias de uso de suelo, construcción y, en su caso, fraccionamiento.",
@@ -3615,7 +3646,7 @@
           "tipo": "ley",
           "autoridad": "Secretaría de la Defensa Nacional",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFAFE.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-05-29 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Fabricantes, importadores, comerciantes y usuarios de armas, municiones, explosivos y sustancias químicas relacionadas (incluye minería y construcción).",
           "obligaciones": [
             "Obtener permiso general o extraordinario de la Defensa para fabricar, comprar, almacenar, transportar o consumir explosivos y artificios.",
@@ -3709,7 +3740,7 @@
           "tipo": "ley",
           "autoridad": "Consejo de Seguridad Nacional; dependencias contratantes",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Proveedores de defensa y seguridad.",
           "obligaciones": [
             "Proteger la información clasificada recibida de dependencias.",
@@ -3781,7 +3812,7 @@
           "tipo": "ley",
           "autoridad": "CNSF; SHCP",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LISF.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Instituciones de seguros, fianzas, sociedades mutualistas e intermediarios.",
           "obligaciones": [
             "Mantener el requerimiento de capital de solvencia, fondos propios admisibles y capital mínimo pagado.",
@@ -3852,7 +3883,7 @@
           "tipo": "ley",
           "autoridad": "CNSF; CONDUSEF; tribunales",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2013-04-04 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Contratos de seguro.",
           "obligaciones": [
             "Entregar póliza y condiciones generales al asegurado.",
@@ -3910,7 +3941,7 @@
           "tipo": "ley",
           "autoridad": "CONDUSEF",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LPDUSF.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Instituciones de seguros y fianzas.",
           "obligaciones": [
             "Mantener la Unidad Especializada de Atención a Usuarios (UNE) y responder reclamaciones en plazo.",
@@ -4145,7 +4176,7 @@
           "tipo": "ley",
           "autoridad": "CONDUSEF; Banxico",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LPDUSF.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Instituciones financieras.",
           "obligaciones": [
             "Mantener la UNE y responder reclamaciones en plazo.",
@@ -4177,7 +4208,7 @@
           "tipo": "ley",
           "autoridad": "IPAB",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2022-05-11 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Instituciones de banca múltiple.",
           "obligaciones": [
             "Pagar las cuotas ordinarias al IPAB.",
@@ -4208,7 +4239,7 @@
           "tipo": "ley",
           "autoridad": "Banxico; CONDUSEF",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2024-01-24 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Usuarios de sociedades de información crediticia.",
           "obligaciones": [
             "Obtener autorización expresa del cliente antes de consultar su historial.",
@@ -4302,7 +4333,7 @@
           "tipo": "ley",
           "autoridad": "SAT; SE",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFD.pdf",
-          "ultima_reforma": "verificar (cambios 2026)",
+          "ultima_reforma": "2025-12-28 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (cambios 2026)",
           "aplica": "Titulares de concesiones mineras.",
           "obligaciones": [
             "Pagar semestralmente el derecho sobre la superficie concesionada.",
@@ -4561,7 +4592,7 @@
           "tipo": "ley",
           "autoridad": "SENASICA",
           "url": "https://www.gob.mx/senasica",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2024-05-21 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Procesadores de cárnicos, importadores de productos agropecuarios.",
           "obligaciones": [
             "Certificación TIF cuando se procesan cárnicos para comercio federal o exportación.",
@@ -4761,7 +4792,7 @@
           "tipo": "ley",
           "autoridad": "SAT; CRT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFD.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-12-28 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Concesionarios de espectro.",
           "obligaciones": [
             "Pagar anualmente los derechos por uso del espectro.",
@@ -4953,7 +4984,7 @@
           "tipo": "ley",
           "autoridad": "FGR",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPF.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-03-13 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Todas las empresas con sistemas de información.",
           "obligaciones": [
             "Políticas de uso aceptable y control de accesos para prevenir accesos ilícitos.",
@@ -5023,7 +5054,7 @@
           "tipo": "ley",
           "autoridad": "SICT",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LCPAF.pdf",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
           "aplica": "Permisionarios de autotransporte federal de carga y pasaje.",
           "obligaciones": [
             "Obtener permiso de la SICT por unidad y mantener placas federales.",

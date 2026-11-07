@@ -303,6 +303,23 @@ $("marco-md").onclick = () => { guardarMarco(); const v = marcos[sel.value]; des
 $("marco-limpiar").onclick = () => { if (confirm("¿Vaciar esta plantilla?")) { delete marcos[sel.value]; guardar("gp_marcos", marcos); pintarMarco(); } };
 pintarMarco();
 
+// ------------------------------------------------------------------ bitácora normativa (carga compartida)
+// La usan Normativa (avisos por ley), Auditorías (avisos por sector), la pestaña Bitácora y la Simulación de escenarios.
+const jsonO = (u, def) => fetch(u).then((r) => (r.ok ? r.json() : def)).catch(() => def);
+let BIT = { entradas: [], estado: null, generado: null };
+const bitacoraP = Promise.all([jsonO("data/normativa/bitacora.json", { entradas: [] }), jsonO("config/normativa/bitacora_notas.json", {}), jsonO("data/normativa/estado.json", null)])
+  .then(([b, n, e]) => (BIT = { entradas: H.conNotas(b.entradas || [], n), estado: e, generado: b.generado_utc }));
+const COLOR_IMP = { alto: "#B71C1C", medio: "#E2711D", bajo: "#607D8B" };
+const chipImp = (i) => `<span style="display:inline-block;padding:1px 8px;border-radius:10px;background:${COLOR_IMP[i] || "#607D8B"};color:#fff;font-size:.8em">${esc(H.IMPACTOS[i] || i)}</span>`;
+/** Abre la pestaña Bitácora con filtros. */
+function irABitacora({ pais = "", sector = "", ley = "", q = "", dias = "90", impacto = "am" } = {}) {
+  const fijar = (id, v) => { const el = $(id); if (el && [...(el.options || [])].some((o) => o.value === v)) el.value = v; };
+  fijar("bit-pais", pais); fijar("bit-sector", sector); fijar("bit-dias", String(dias)); fijar("bit-impacto", impacto);
+  $("bit-q").value = q; $("bit-q").dataset.ley = ley;
+  document.querySelector('.pestanas button[data-p="bitacora"]')?.click();
+  document.dispatchEvent(new CustomEvent("bitacora:pintar"));
+}
+
 // ------------------------------------------------------------------ plantillas de auditoría
 const audSel = $("aud-sector");
 let audCfg = null;
@@ -335,7 +352,18 @@ function pintarAud() {
       <textarea data-k="nota" placeholder="Qué se encontró (condición) y por qué importa (efecto)" aria-label="Hallazgo">${esc(r.nota || "")}</textarea>
       <input type="text" data-k="evidencia" placeholder="Evidencia revisada (documento, muestra, entrevista)" value="${esc(r.evidencia || "")}" aria-label="Evidencia revisada"></div>`; }).join("")}</details>`).join("");
   pintarResumenAud();
+  pintarCambiosAud();
 }
+
+function pintarCambiosAud() {
+  const sel = H.filtrarBitacora(BIT.entradas, { sector: audSel.value, impacto: "am", dias: 90 });
+  $("aud-cambios").innerHTML = sel.length ? `<div class="tarjeta"><p><b>🆕 ${sel.length} cambios normativos en los últimos 90 días tocan este sector</b>
+    (${sel.filter((e) => e.impacto === "alto").length} de impacto alto). Revisa si cambian los controles, la evidencia o las preguntas antes de calificar.</p>
+    <ul>${sel.slice(0, 5).map((e) => `<li>${chipImp(e.impacto)} ${esc(e.fecha)} · ${esc(e.pais)} · <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo.slice(0, 140))}</a></li>`).join("")}</ul>
+    <button type="button" id="aud-ver-bit">Ver todos en la Bitácora normativa</button></div>` : "";
+  $("aud-ver-bit")?.addEventListener("click", () => irABitacora({ sector: audSel.value }));
+}
+bitacoraP.then(() => { if (audCfg) pintarCambiosAud(); });
 
 function guardarAud(e) {
   const d = audDatos();
@@ -383,23 +411,27 @@ pintarNube();
 
 // ------------------------------------------------------------------ normativa por jurisdicción
 {
-  const normas = {}, ESTADOS = { cumple: "Cumple", parcial: "Cumple parcialmente", no: "No cumple", na: "No aplica" };
-  const disponibles = (await Promise.all(H.JURISDICCIONES.map(async ([iso, n]) => {
-    try { normas[iso] = await (await fetch(`config/normativa/${iso}.json`)).json(); return [iso, n]; } catch (e) { return null; }
-  }))).filter(Boolean);
-  // México: sectores adicionales (agro, fintech, turismo, salud, educación, inmobiliario, química, IMMEX…).
-  const extraMX = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).catch(() => null);
-  if (normas.MEX && extraMX?.sectores) normas.MEX.sectores = { ...normas.MEX.sectores, ...extraMX.sectores };
+  const normas = {}, cargando = {}, ESTADOS = { cumple: "Cumple", parcial: "Cumple parcialmente", no: "No cumple", na: "No aplica" };
+  // Cada catálogo se descarga solo cuando se elige su jurisdicción (son 21; México suma sus sectores adicionales).
+  const cargarNorma = (iso) => (cargando[iso] ||= fetch(`config/normativa/${iso}.json`).then((r) => (r.ok ? r.json() : null)).then(async (n) => {
+    if (n && iso === "MEX") {
+      const x = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).catch(() => null);
+      if (x?.sectores) n.sectores = { ...n.sectores, ...x.sectores };
+    }
+    normas[iso] = n;
+    return n;
+  }).catch(() => null));
+  const disponibles = H.JURISDICCIONES;
+  await cargarNorma("MEX");
   const claveN = () => `gp_norma_${$("nor-jur").value}`;
   const resp = () => leer(claveN(), {});
   let actuales = [];
   $("nor-jur").innerHTML = disponibles.map(([i, n]) => `<option value="${i}">${n}</option>`).join("");
   const sectores = await (await fetch("config/auditorias.json")).json().then((c) => c.sectores).catch(() => ({}));
   const pintarSectoresN = () => {
-    const extra = Object.entries(normas[$("nor-jur").value]?.sectores || {}).filter(([k]) => !sectores[k]);
     const v = $("nor-sector").value;
-    $("nor-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + Object.entries(sectores).map(([k, s2]) => `<option value="${k}">${esc(s2.nombre)}</option>`).join("")
-      + (extra.length ? `<optgroup label="Más sectores (México)">${extra.map(([k, s2]) => `<option value="${k}">${esc(s2.nombre || k)}</option>`).join("")}</optgroup>` : "");
+    $("nor-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>`
+      + H.sectoresOrdenados(sectores, normas[$("nor-jur").value]?.sectores || {}).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
     if ([...$("nor-sector").options].some((o) => o.value === v)) $("nor-sector").value = v;
   };
   pintarSectoresN();
@@ -414,12 +446,21 @@ pintarNube();
     const jur = $("nor-jur").value, n = normas[jur];
     if (!n) { $("nor-leyes").innerHTML = `<p class="meta">Esta jurisdicción aún no está disponible.</p>`; return; }
     actuales = H.leyesDe(n, $("nor-sector").value, $("nor-q").value);
+    const sinSector = $("nor-sector").value && !n.sectores?.[$("nor-sector").value];
+    const alertas = H.alertasPorLey(BIT.entradas, jur, 90);
+    const recientes = H.filtrarBitacora(BIT.entradas, { pais: jur, impacto: "am", dias: 30 });
+    $("nor-alertas").innerHTML = recientes.length ? `<div class="tarjeta"><p><b>🆕 ${recientes.length} cambios normativos en los últimos 30 días en esta jurisdicción</b>
+      (${recientes.filter((e) => e.impacto === "alto").length} de impacto alto). Las leyes afectadas llevan la marca 🆕.</p>
+      <button type="button" data-bit-pais="${esc(jur)}">Ver la Bitácora normativa de esta jurisdicción</button></div>` : "";
     const r = resp();
     const lista = (xs) => (xs || []).length ? `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
     let areaPrev = "";
     $("nor-leyes").innerHTML = actuales.map(({ area, ley: l }) => {
       const tit = area !== areaPrev ? `<h3>${esc(area)}</h3>` : ""; areaPrev = area;
-      return `${tit}<details class="tarjeta"><summary><b>${esc(l.sigla ? `${l.sigla} — ` : "")}${esc(l.nombre)}</b> <span class="meta">${esc(l.tipo || "")} · ${esc(l.autoridad || "")}</span></summary>
+      const al = alertas[l.id] || [];
+      return `${tit}<details class="tarjeta"><summary><b>${esc(l.sigla ? `${l.sigla} — ` : "")}${esc(l.nombre)}</b> <span class="meta">${esc(l.tipo || "")} · ${esc(l.autoridad || "")}</span>${al.length ? ` <span title="Cambios en la bitácora (90 días)">🆕 ${al.length}</span>` : ""}</summary>
+        ${al.length ? `<div class="tarjeta"><b>Cambios recientes que la tocan (bitácora, 90 días)</b><ul>${al.slice(0, 5).map((e) => `<li>${chipImp(e.impacto)} ${esc(e.fecha)} · <a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo.slice(0, 150))}</a></li>`).join("")}</ul>
+          <button type="button" data-bit-ley="${esc(l.id)}" data-bit-pais="${esc(jur)}">Ver en la Bitácora normativa</button></div>` : ""}
         <p><b>A quién aplica:</b> ${esc(l.aplica || "")}</p>
         <p class="meta">Última reforma: ${esc(l.ultima_reforma || "verificar")}${l.url ? ` · <a href="${esc(l.url)}" target="_blank" rel="noopener">texto oficial</a>` : ""}</p>
         <b>Obligaciones</b>${lista(l.obligaciones)}
@@ -431,6 +472,7 @@ pintarNube();
             <input type="text" data-k="nota" value="${esc(x.nota || "")}" placeholder="Hallazgo o evidencia revisada" aria-label="Hallazgo" style="flex:1"></div></div>`; }).join("")}
       </details>`;
     }).join("") || `<p class="meta">Sin coincidencias.</p>`;
+    if (sinSector) $("nor-leyes").insertAdjacentHTML("afterbegin", `<p class="meta">Este sector aún no tiene leyes específicas en esta jurisdicción: se muestran las generales.</p>`);
     $("nor-fuentes").innerHTML = `${esc(n.nota || "")} ${(n.fuentes_oficiales || []).length ? `Fuentes oficiales: ${n.fuentes_oficiales.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${esc(t)}</a>`).join(" · ")}` : ""}`;
     if ($("nor-cal").open) pintarCalendario();
     resumenN();
@@ -441,7 +483,12 @@ pintarNube();
     const d = resp(); (d[c.dataset.np] ||= {})[e.target.dataset.k] = e.target.value; guardar(claveN(), d);
     if (e.target.dataset.k === "estado") resumenN();
   });
-  $("nor-jur").onchange = () => { pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
+  $("nor-jur").onchange = async () => { await cargarNorma($("nor-jur").value); pintarSectoresN(); pintarN(); }; $("nor-sector").onchange = pintarN;
+  $("p-normativa").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-bit-pais]");
+    if (b) irABitacora({ pais: b.dataset.bitPais, ley: b.dataset.bitLey || "", dias: b.dataset.bitLey ? "90" : "30" });
+  });
+  bitacoraP.then(() => pintarN());
   let tq = 0; $("nor-q").oninput = () => { clearTimeout(tq); tq = setTimeout(pintarN, 250); };
   function pintarCalendario() {
     const t = H.tramitesDe(actuales), c = $("nor-calendario");
@@ -449,6 +496,53 @@ pintarNube();
   }
   $("nor-cal").addEventListener("toggle", () => { if ($("nor-cal").open) pintarCalendario(); });
   $("nor-vaciar").onclick = () => { if (confirm("¿Vaciar todas las respuestas de esta jurisdicción?")) { try { localStorage.removeItem(claveN()); } catch (e) { /* nada */ } pintarN(); } };
+  // Plantilla de proyecto en Excel (de la idea al cierre), por sector y países, con su base normativa.
+  {
+    const cfgPlan = await fetch("config/plan_proyecto.json").then((r) => r.json()).catch(() => null);
+    const extraS = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).then((x) => x.sectores || {}).catch(() => ({}));
+    $("plan-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + H.sectoresOrdenados(sectores, extraS).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
+    $("plan-paises").innerHTML = H.JURISDICCIONES.map(([i, n]) => `<label style="display:inline-flex;gap:4px;align-items:center;margin:2px 10px 2px 0"><input type="checkbox" value="${i}"${i === "MEX" ? " checked" : ""}> ${esc(n)}</label>`).join("");
+    const lunes = new Date(); lunes.setDate(lunes.getDate() + ((8 - lunes.getDay()) % 7 || 7));
+    $("plan-inicio").value = lunes.toISOString().slice(0, 10);
+    const opcionesPlan = async () => {
+      const paises = [...$("plan-paises").querySelectorAll("input:checked")].map((c) => c.value);
+      await Promise.all(paises.map(cargarNorma));
+      const sector = $("plan-sector").value, extranjera = $("plan-extranjera").checked && paises.includes("MEX");
+      const nombres = Object.fromEntries(H.JURISDICCIONES.map(([i, n]) => [i, n.replace(/^[^\p{L}]+/u, "")]));
+      const P = await import("./plan-proyecto.js");
+      const plan = P.construirPlan({ cfg: cfgPlan, catalogos: normas, jurisdicciones: paises, sector, extranjera, nombres });
+      const sectorNombre = $("plan-sector").selectedOptions[0]?.textContent || "";
+      const titulo = `${$("plan-nombre").value.trim() || "Plan de proyecto"} · ${sectorNombre} · ${paises.map((p) => nombres[p]).join(", ")}`;
+      return { plan, paises, sector, extranjera, nombres, sectorNombre, titulo, inicio: new Date(`${$("plan-inicio").value || lunes.toISOString().slice(0, 10)}T00:00:00Z`) };
+    };
+    const resumenPlan = async () => {
+      if (!cfgPlan) { $("plan-resumen").textContent = "No se pudo cargar config/plan_proyecto.json."; return; }
+      const o = await opcionesPlan();
+      $("plan-resumen").textContent = o.paises.length ? `${o.plan.tareas.length} tareas en 11 fases · ${o.plan.base.length} leyes y normas · ${o.plan.auditoria.length} preguntas de auditoría · ${o.plan.riesgos.length} riesgos · ${o.plan.recurrentes.length} obligaciones recurrentes`
+        : "Elige al menos un país.";
+    };
+    $("p-normativa").addEventListener("change", (e) => { if (e.target.closest("#nor-plan")) resumenPlan(); });
+    $("nor-plan").addEventListener("toggle", () => { if ($("nor-plan").open) resumenPlan(); });
+    const archivo = (o, ext) => `plan-${(o.sector || "general")}-${o.paises.join("-")}-${new Date().toISOString().slice(0, 10)}.${ext}`;
+    $("plan-xlsx").onclick = async () => {
+      const o = await opcionesPlan();
+      if (!o.paises.length) return;
+      $("plan-xlsx").disabled = true; $("plan-xlsx").textContent = "Generando…";
+      try {
+        const X = await import("./plan-excel.js");
+        const bytes = await X.excelPlanComprimido(o.plan, { cfg: cfgPlan, titulo: o.titulo, inicio: o.inicio, sectorNombre: o.sector ? o.sectorNombre : "", paises: o.paises.map((p) => o.nombres[p]), extranjera: o.extranjera, revisado: normas.MEX?.revisado || "" });
+        const url = URL.createObjectURL(new Blob([bytes], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
+        const a = Object.assign(document.createElement("a"), { href: url, download: archivo(o, "xlsx") }); document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000);
+      } catch (err) { $("plan-resumen").textContent = `No se pudo generar el Excel: ${err.message}`; }
+      $("plan-xlsx").disabled = false; $("plan-xlsx").textContent = "⬇ Descargar Excel";
+    };
+    $("plan-json").onclick = async () => {
+      const o = await opcionesPlan();
+      if (!o.paises.length) return;
+      const X = await import("./plan-excel.js");
+      descargar(archivo(o, "json"), JSON.stringify(X.jsonPlan(o.plan, { titulo: o.titulo, inicio: o.inicio, sector: o.sector, paises: o.paises, extranjera: o.extranjera }), null, 1), "application/json");
+    };
+  }
   import("./exportar.js").then((X) => {
     $("nor-exp").innerHTML = X.htmlSelectorExportar("norx");
     $("norx-btn").onclick = () => X.exportar($("norx-fmt").value, ["jurisdiccion", "area", "ley", "autoridad", "pregunta", "resultado", "hallazgo", "evidencia", "url"],
@@ -457,13 +551,70 @@ pintarNube();
   pintarN();
 }
 
+// ------------------------------------------------------------------ bitácora normativa (pestaña)
+{
+  const nombreJ = Object.fromEntries(H.JURISDICCIONES);
+  const plantillaS = await jsonO("config/auditorias.json", { sectores: {} }).then((c) => c.sectores || {});
+  const extraS = await jsonO("config/normativa/MEX_sectores.json", { sectores: {} }).then((c) => c.sectores || {});
+  $("bit-pais").innerHTML = `<option value="">Todos los países</option>` + H.JURISDICCIONES.map(([i, n]) => `<option value="${i}">${esc(n)}</option>`).join("");
+  $("bit-sector").innerHTML = `<option value="">Todos los sectores</option>` + H.sectoresOrdenados(plantillaS, extraS).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
+  let mostrar = 100, actualesB = [];
+  const filtros = () => ({ pais: $("bit-pais").value, sector: $("bit-sector").value, impacto: $("bit-impacto").value, dias: Number($("bit-dias").value), q: $("bit-q").value, ley: $("bit-q").dataset.ley || "" });
+  function pintarB() {
+    actualesB = H.filtrarBitacora(BIT.entradas, filtros());
+    const f = filtros(), porPais = {};
+    for (const e of actualesB) porPais[e.pais] = (porPais[e.pais] || 0) + 1;
+    $("bit-resumen").innerHTML = `<p><b>${actualesB.length} cambios</b> con estos filtros · alto ${actualesB.filter((e) => e.impacto === "alto").length} · medio ${actualesB.filter((e) => e.impacto === "medio").length} · bajo ${actualesB.filter((e) => e.impacto === "bajo").length}
+      ${f.ley ? ` · solo la ley «${esc(f.ley)}» <button type="button" id="bit-sin-ley">Quitar</button>` : ""}</p>
+      <p class="meta">${Object.entries(porPais).sort((a, b) => b[1] - a[1]).map(([p, n]) => `${esc(nombreJ[p] || p)}: ${n}`).join(" · ")}${BIT.generado ? ` · bitácora actualizada ${esc(BIT.generado.replace("T", " ").slice(0, 16))} UTC` : ""}</p>`;
+    $("bit-sin-ley")?.addEventListener("click", () => { $("bit-q").dataset.ley = ""; mostrar = 100; pintarB(); });
+    const lista = (xs) => xs.length ? `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
+    $("bit-lista").innerHTML = !BIT.entradas.length ? `<p class="meta">La bitácora aún no tiene datos publicados (el monitor corre a las 06:41 y 20:41 de Ciudad de México).</p>`
+      : actualesB.slice(0, mostrar).map((e) => `<div class="tarjeta" style="border-left:4px solid ${COLOR_IMP[e.impacto] || "#607D8B"}">
+        <p>${chipImp(e.impacto)} <b>${esc(e.fecha)}</b> · ${esc(nombreJ[e.pais] || e.pais)} · ${esc(e.tipo)} · <span class="meta">${esc(e.fuente)}</span>${e.revisada ? " · ✅ revisada" : ""}</p>
+        <p><a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo)}</a></p>
+        ${e.emisor ? `<p class="meta">${esc(e.emisor)}</p>` : ""}${e.resumen ? `<p>${esc(e.resumen)}</p>` : ""}
+        <b>Qué afecta y qué hacer</b>${lista(e.afectaciones || [])}
+        ${(e.leyes || []).length ? `<p>Leyes del catálogo: ${e.leyes.map((l) => `<button type="button" data-nor-jur="${esc(e.pais)}" data-nor-q="${esc(l.sigla || l.nombre)}" title="${esc(l.nombre)}">${esc(l.sigla || l.nombre.slice(0, 40))}${l.por === "autoridad" ? " (por autoridad)" : ""}</button>`).join(" ")}</p>` : ""}
+        ${(e.sectores || []).length ? `<p class="meta">Sectores: ${esc(e.sectores.map((k) => plantillaS[k]?.nombre || extraS[k]?.nombre || k).join(", "))} · ${e.preguntas || 0} preguntas de auditoría relacionadas</p>` : ""}
+        <p class="meta">Estado: ${esc(e.estado || "por revisar")} · detectado ${esc(e.detectado || "")}</p></div>`).join("")
+        + (actualesB.length > mostrar ? `<button type="button" id="bit-mas">Mostrar ${Math.min(100, actualesB.length - mostrar)} más</button>` : "")
+      || `<p class="meta">Sin cambios con estos filtros. Prueba un periodo más largo o «Todos los impactos».</p>`;
+    $("bit-mas")?.addEventListener("click", () => { mostrar += 100; pintarB(); });
+    const est = BIT.estado;
+    $("bit-fuentes").innerHTML = est ? `<div class="desliza"><table class="t"><tr><th>País</th><th>Fuente</th><th>Estado</th><th>Nuevas en la última corrida</th></tr>
+      ${Object.entries(est.fuentes || {}).map(([k, v]) => `<tr><td>${esc(nombreJ[k] || k)}</td><td>${esc(v.fuente)}</td><td>${v.ok ? "✅ al día" : `⚠️ ${esc(v.error || "error")}`}</td><td>${v.nuevas ?? 0}</td></tr>`).join("")}</table></div>
+      <p><b>Sin fuente automática</b> (revisión semanal de la tarea de Claude en las fuentes oficiales del catálogo):</p>
+      <ul>${Object.entries(est.sin_fuente || {}).map(([k, v]) => `<li>${esc(nombreJ[k] || k)}: ${esc(v)}</li>`).join("")}</ul>
+      ${(est.desactualizadas || []).length ? `<p><b>Leyes del catálogo con reforma oficial más reciente que la registrada:</b></p><ul>${est.desactualizadas.map((d) => `<li>${esc(d.sigla || d.ley_id)}: catálogo ${esc(d.catalogo)} → oficial ${esc(d.oficial)}</li>`).join("")}</ul>` : `<p class="meta">Todas las fechas de última reforma de México coinciden con la compilación de la Cámara de Diputados.</p>`}`
+      : `<p class="meta">Aún no hay estado publicado del monitor.</p>`;
+  }
+  for (const id of ["bit-pais", "bit-sector", "bit-impacto", "bit-dias"]) $(id).onchange = () => { mostrar = 100; pintarB(); };
+  let tb = 0; $("bit-q").oninput = () => { clearTimeout(tb); tb = setTimeout(() => { mostrar = 100; pintarB(); }, 250); };
+  document.addEventListener("bitacora:pintar", () => { mostrar = 100; pintarB(); });
+  $("p-bitacora").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-nor-jur]");
+    if (!b) return;
+    $("nor-jur").value = b.dataset.norJur; $("nor-jur").dispatchEvent(new Event("change"));
+    $("nor-q").value = b.dataset.norQ; $("nor-q").dispatchEvent(new Event("input"));
+    document.querySelector('.pestanas button[data-p="normativa"]')?.click();
+  });
+  import("./exportar.js").then((X) => {
+    $("bit-exp").innerHTML = X.htmlSelectorExportar("bitx");
+    $("bitx-btn").onclick = () => X.exportar($("bitx-fmt").value, ["fecha", "pais", "impacto", "tipo", "titulo", "emisor", "leyes", "sectores", "afectaciones", "estado", "url"],
+      actualesB.map((e) => ({ fecha: e.fecha, pais: e.pais, impacto: e.impacto, tipo: e.tipo, titulo: e.titulo, emisor: e.emisor, leyes: (e.leyes || []).map((l) => l.sigla || l.id).join("; "),
+        sectores: (e.sectores || []).join("; "), afectaciones: (e.afectaciones || []).join(" | "), estado: e.estado || "", url: e.url })), { titulo: "Bitácora normativa", tabla: "bitacora" });
+  });
+  bitacoraP.then(pintarB);
+}
+
 // ------------------------------------------------------------------ simulación de escenarios con los eventos del mapa
 {
   const [evd, gz] = await Promise.all([fetch("data/events.json").then((r) => r.json()).catch(() => ({ eventos: [] })), fetch("config/gazetteer.json").then((r) => r.json()).catch(() => ({ paises: {} }))]);
   const evs = evd.eventos || [], cuenta = {};
   for (const e of evs) if (e.pais_iso3) cuenta[e.pais_iso3] = (cuenta[e.pais_iso3] || 0) + 1;
   const nombre = (i) => gz.paises?.[i]?.es || i;
-  $("hesc-pais").innerHTML = `<option value="">Todo el mundo</option>` + Object.keys(gz.paises || {}).sort((a, b) => (cuenta[b] || 0) - (cuenta[a] || 0) || nombre(a).localeCompare(nombre(b), "es"))
+  $("hesc-pais").innerHTML = `<option value="">Todo el mundo</option>` + H.mexicoPrimero(Object.keys(gz.paises || {}).map((i) => [i, nombre(i)])).map(([i]) => i)
     .map((i) => `<option value="${i}" ${i === "MEX" ? "selected" : ""}>${esc(nombre(i))}${cuenta[i] ? ` (${cuenta[i]})` : ""}</option>`).join("");
   const datosPais = () => {
     const iso = $("hesc-pais").value, sel = evs.filter((e) => !iso || e.pais_iso3 === iso), porArea = {};
@@ -471,12 +622,21 @@ pintarNube();
     const graves = sel.filter((e) => e.severidad >= 4).slice(0, 8).map((e) => `- ${e.titulo}`).join("\n");
     return { iso, sel, porArea, texto: `País: ${iso ? nombre(iso) : "todo el mundo"}. Eventos vigentes: ${sel.length}. Por tema: ${Object.entries(porArea).sort((a, b) => b[1] - a[1]).map(([a, n]) => `${a} ${n}`).join(", ")}.${graves ? `\nEventos graves recientes:\n${graves}` : ""}` };
   };
-  const pintarResumenEsc = () => { const d = datosPais(); $("hesc-resumen").textContent = `${d.sel.length} eventos vigentes · ${Object.entries(d.porArea).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([a, n]) => `${a}: ${n}`).join(" · ")}`; };
+  const pintarResumenEsc = () => {
+    const d = datosPais(), r = H.riesgoRegulatorio(BIT.entradas, { pais: d.iso });
+    $("hesc-resumen").textContent = `${d.sel.length} eventos vigentes · ${Object.entries(d.porArea).sort((a, b) => b[1] - a[1]).slice(0, 4).map(([a, n]) => `${a}: ${n}`).join(" · ")}`
+      + (r.n ? ` · ${r.n} cambios normativos en 90 días (alto ${r.alto})` : "");
+  };
+  bitacoraP.then(pintarResumenEsc);
   $("hesc-pais").onchange = pintarResumenEsc;
   pintarResumenEsc();
   import("./escenarios.js?v=plegables").then((E) => E.montarSimulador($("herr-esc"), {
     prefijo: "he", clave: "gp_herr_esc", plegables: true, ayudaContexto: "El país elegido y sus eventos se agregan solos al contexto. Para una empresa (ingresos, empleados), usa DOMINUS OPS.",
-    contexto: () => { const d = datosPais(); return { cliente: {}, sector: "", eventosPorArea: d.porArea, texto: d.texto }; },
+    contexto: () => {
+      const d = datosPais(), r = H.riesgoRegulatorio(BIT.entradas, { pais: d.iso });
+      const porArea = { ...d.porArea, instituciones: (d.porArea.instituciones || 0) + r.peso };
+      return { cliente: {}, sector: "", eventosPorArea: porArea, texto: [d.texto, r.texto].filter(Boolean).join("\n") };
+    },
   })).catch((e) => { $("herr-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
 }
 

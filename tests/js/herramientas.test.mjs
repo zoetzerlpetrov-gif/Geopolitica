@@ -157,3 +157,65 @@ test("filtro de vulnerabilidades", async () => {
   assert.deepEqual(H.filtrarVulns(l, { soloKev: true, minCvss: 9 }).map((v) => v.id), ["CVE-2", "CVE-3"]);
   assert.deepEqual(H.filtrarVulns(l, { minEpss: 0.5 }).map((v) => v.id), ["CVE-3"]);
 });
+
+test("normativa: México primero y los demás de la A a la Z; sectores en una sola lista alfabética", async () => {
+  const H = await import("../../js/herr-logica.js");
+  assert.equal(H.JURISDICCIONES[0][0], "MEX");
+  const resto = H.JURISDICCIONES.slice(1).map(([, n]) => n.replace(/^[^\p{L}]+/u, ""));
+  assert.deepEqual(resto, [...resto].sort((a, b) => a.localeCompare(b, "es")));
+  for (const iso of ["CHN", "JPN", "BRA", "ARG", "CHL", "SAU", "ARE", "ISR", "TUR", "MDO"]) assert.ok(H.JURISDICCIONES.some(([i]) => i === iso), iso);
+  assert.deepEqual(H.mexicoPrimero([["ARG", "Argentina"], ["MEX", "México"], ["AUT", "Austria"], ["ALB", "Albania"]]).map(([i]) => i), ["MEX", "ALB", "ARG", "AUT"]);
+  const s = H.sectoresOrdenados({ telecom: { nombre: "Telecomunicaciones" }, alimentos: { nombre: "Alimentos y bebidas" } }, { agropecuario: { nombre: " Agropecuario" }, telecom: { nombre: "otro" } });
+  assert.deepEqual(s, [["agropecuario", "Agropecuario"], ["alimentos", "Alimentos y bebidas"], ["telecom", "Telecomunicaciones"]]);
+});
+
+test("normativa: cada jurisdicción tiene su archivo con la estructura completa", async () => {
+  const H = await import("../../js/herr-logica.js");
+  const { readFileSync } = await import("node:fs");
+  const plantilla = JSON.parse(readFileSync(new URL("../../config/auditorias.json", import.meta.url))).sectores;
+  for (const [iso] of H.JURISDICCIONES) {
+    const n = JSON.parse(readFileSync(new URL(`../../config/normativa/${iso}.json`, import.meta.url)));
+    assert.equal(n.jurisdiccion, iso);
+    assert.ok(n.nombre && n.revisado && (n.fuentes_oficiales || []).length, `${iso}: encabezado`);
+    const ids = new Set();
+    const leyes = [...n.generales.flatMap((g) => g.leyes), ...Object.values(n.sectores || {}).flatMap((s) => s.leyes)];
+    for (const l of leyes) {
+      for (const k of ["id", "nombre", "autoridad", "aplica"]) assert.ok(l[k], `${iso}/${l.id}: falta ${k}`);
+      assert.ok(!ids.has(l.id), `${iso}: id repetido ${l.id}`); ids.add(l.id);
+      assert.ok((l.obligaciones || []).length && (l.preguntas || []).length, `${iso}/${l.id}: obligaciones y preguntas`);
+      for (const t of l.tramites || []) assert.ok(t.que && t.plazo && t.ante, `${iso}/${l.id}: trámite incompleto`);
+      if (l.url) assert.match(l.url, /^https?:\/\//);
+    }
+    assert.ok(n.generales.length >= 8, `${iso}: pocas áreas generales`);
+    if (iso !== "MEX") for (const k of Object.keys(n.sectores || {})) assert.ok(plantilla[k], `${iso}: sector desconocido ${k}`);
+  }
+});
+
+test("bitácora normativa: notas revisadas, filtros, avisos por ley y riesgo regulatorio", async () => {
+  const H = await import("../../js/herr-logica.js");
+  const AH = Date.parse("2026-11-07T12:00:00Z");
+  const E = [
+    { id: "a", pais: "MEX", fecha: "2026-11-05", impacto: "medio", titulo: "Acuerdo de la CNE sobre comercialización de petrolíferos", sectores: ["hidrocarburos"], leyes: [{ id: "lsh", sigla: "LSH", nombre: "Ley del Sector Hidrocarburos", sector: "hidrocarburos" }], afectaciones: ["auto"] },
+    { id: "b", pais: "MEX", fecha: "2026-10-23", impacto: "alto", titulo: "Decreto que reforma la Ley Aduanera", sectores: ["logistica"], leyes: [{ id: "ley_aduanera", sigla: "LA", nombre: "Ley Aduanera" }], afectaciones: [] },
+    { id: "c", pais: "EUR", fecha: "2026-06-01", impacto: "bajo", titulo: "Reglamento de ejecución", sectores: [], leyes: [] },
+  ];
+  const n = H.conNotas(E, { a: { resumen: "Nuevas reglas", afectaciones: ["confirmada"], estado: "incorporado" } });
+  assert.deepEqual(n[0].afectaciones, ["confirmada", "auto"]);
+  assert.ok(n[0].revisada && n[0].estado === "incorporado" && !n[1].revisada);
+  assert.deepEqual(H.filtrarBitacora(n, { impacto: "am" }, AH).map((e) => e.id), ["a", "b"]);
+  assert.deepEqual(H.filtrarBitacora(n, { sector: "hidrocarburos" }, AH).map((e) => e.id), ["a"]);
+  assert.deepEqual(H.filtrarBitacora(n, { dias: 7 }, AH).map((e) => e.id), ["a"]);
+  assert.deepEqual(H.filtrarBitacora(n, { q: "aduanera" }, AH).map((e) => e.id), ["b"]);
+  assert.deepEqual(H.filtrarBitacora(n, { ley: "lsh" }, AH).map((e) => e.id), ["a"]);
+  assert.deepEqual(Object.keys(H.alertasPorLey(n, "MEX", 90, AH)).sort(), ["ley_aduanera", "lsh"]);
+  const r = H.riesgoRegulatorio(n, { pais: "MEX" }, AH);
+  assert.equal(r.n, 2); assert.equal(r.peso, 3);
+  assert.match(r.texto, /impacto alto 1, medio 1/);
+  assert.equal(H.riesgoRegulatorio(n, { pais: "JPN" }, AH).texto, "");
+  // El escenario de cambio normativo se propone cuando el contexto trae cambios recientes.
+  const { proponer } = await import("../../js/ciencia.js");
+  const { readFileSync } = await import("node:fs");
+  const cat = JSON.parse(readFileSync(new URL("../../config/escenarios.json", import.meta.url))).escenarios;
+  const p = proponer(cat, { texto: r.texto, eventosPorArea: { instituciones: r.peso } });
+  assert.equal(p[0].id, "cambio_normativo");
+});

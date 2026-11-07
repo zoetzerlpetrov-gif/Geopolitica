@@ -1,0 +1,737 @@
+{
+ "jurisdiccion": "EGY",
+ "nombre": "Egipto",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Egipto. Cambios recientes: control previo de concentraciones (2024), nueva Ley del Trabajo (2025) y facturación electrónica obligatoria. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "GAFI",
+   "https://www.gafi.gov.eg/"
+  ],
+  [
+   "Autoridad Tributaria",
+   "https://www.eta.gov.eg/"
+  ],
+  [
+   "Autoridad de Competencia",
+   "https://www.eca.org.eg/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "eg_sociedades",
+     "nombre": "Ley de Sociedades (Ley 159/1981) y Ley de Inversión (Ley 72/2017)",
+     "sigla": "Law 159/1981 / Law 72/2017",
+     "tipo": "ley",
+     "autoridad": "Autoridad General de Inversión y Zonas Francas (GAFI)",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades egipcias y sucursales extranjeras.",
+     "obligaciones": [
+      "Constitución en la GAFI y registro mercantil.",
+      "Asamblea anual y presentación de estados auditados."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación del registro mercantil",
+       "plazo": "Cada 5 años",
+       "ante": "Registro mercantil"
+      }
+     ],
+     "sanciones": "Multas y responsabilidad de directivos.",
+     "evidencia": [
+      "Registro mercantil",
+      "Estatutos"
+     ],
+     "preguntas": [
+      "¿Los estados auditados se presentaron?",
+      "¿El registro mercantil está vigente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "eg_impuestos",
+     "nombre": "Ley del Impuesto sobre la Renta (Ley 91/2005, 22.5 %), Ley del IVA (Ley 67/2016, 14 %), Ley Unificada de Procedimientos Fiscales (Ley 206/2020) y facturación y recibo electrónicos",
+     "sigla": "Income Tax Law 91/2005 / VAT Law 67/2016",
+     "tipo": "ley",
+     "autoridad": "Autoridad Tributaria de Egipto (ETA)",
+     "url": "https://www.eta.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa contribuyente.",
+     "obligaciones": [
+      "Factura electrónica y recibo electrónico en el sistema de la ETA.",
+      "Declaración anual en 4 meses tras el cierre.",
+      "IVA mensual."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual del impuesto sobre la renta",
+       "plazo": "4 meses tras el cierre (30 de abril)",
+       "ante": "ETA"
+      }
+     ],
+     "sanciones": "Multas e intereses.",
+     "evidencia": [
+      "Declaraciones",
+      "Facturas electrónicas"
+     ],
+     "preguntas": [
+      "¿La empresa está integrada al sistema de factura electrónica?",
+      "¿La declaración anual se presentó en 4 meses?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "eg_trabajo",
+     "nombre": "Nueva Ley del Trabajo (Ley 14/2025, vigente desde septiembre de 2025) y Ley de Seguro Social (Ley 148/2019)",
+     "sigla": "Labour Law 14/2025",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo; Autoridad Nacional de Seguro Social",
+     "url": "https://www.manpower.gov.eg/",
+     "ultima_reforma": "2025-09-01 (Ley 14/2025; verificar)",
+     "aplica": "Todo empleador; tope a la proporción de trabajadores extranjeros y permisos de trabajo.",
+     "obligaciones": [
+      "Contratos escritos e inscripción en el seguro social.",
+      "Permiso de trabajo para extranjeros."
+     ],
+     "tramites": [
+      {
+       "que": "Aportaciones al seguro social",
+       "plazo": "Mensual",
+       "ante": "Autoridad Nacional de Seguro Social"
+      }
+     ],
+     "sanciones": "Multas por trabajador.",
+     "evidencia": [
+      "Contratos",
+      "Comprobantes de aportación"
+     ],
+     "preguntas": [
+      "¿Todos los trabajadores están inscritos en el seguro social?",
+      "¿Los extranjeros tienen permiso de trabajo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "eg_sst",
+     "nombre": "Disposiciones de seguridad y salud ocupacional de la ley laboral y decretos ministeriales",
+     "sigla": "Labour Law (OSH)",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo establecimiento.",
+     "obligaciones": [
+      "Medidas de seguridad, comité y responsable según tamaño."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidente",
+       "plazo": "Inmediato (verificar)",
+       "ante": "Oficina de trabajo"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [
+      "Plan de seguridad"
+     ],
+     "preguntas": [
+      "¿Hay plan de seguridad y responsable?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "eg_datos",
+     "nombre": "Ley de Protección de Datos Personales (Ley 151/2020) y su reglamento",
+     "sigla": "PDPL 151/2020",
+     "tipo": "ley",
+     "autoridad": "Centro de Protección de Datos Personales",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "2020 (reglamento; verificar vigencia)",
+     "aplica": "Responsables y encargados que tratan datos en Egipto.",
+     "obligaciones": [
+      "Licencia o permiso del Centro para ciertos tratamientos y transferencias.",
+      "Notificar violaciones en 72 horas."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de violación de datos",
+       "plazo": "72 horas",
+       "ante": "Centro de Protección de Datos"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de libras y prisión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se tramitó la licencia del Centro si aplica?",
+      "¿Hay procedimiento de notificación en 72 horas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "eg_pld",
+     "nombre": "Ley contra el Lavado de Dinero (Ley 80/2002)",
+     "sigla": "AML Law 80/2002",
+     "tipo": "ley",
+     "autoridad": "Unidad de Lucha contra el Lavado de Dinero y el Financiamiento del Terrorismo (EMLCU)",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Instituciones financieras y actividades no financieras designadas.",
+     "obligaciones": [
+      "Debida diligencia y reportes sospechosos."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "Sin demora",
+       "ante": "EMLCU"
+      }
+     ],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "eg_cohecho",
+     "nombre": "Código Penal (arts. 103–111, soborno)",
+     "sigla": "Penal Code",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Control Administrativo; fiscalía",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Personas y empresas.",
+     "obligaciones": [
+      "Prohibido el soborno a funcionarios."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión y multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Existe política anticorrupción?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "eg_competencia",
+     "nombre": "Ley de Protección de la Competencia (Ley 3/2005, con control previo de concentraciones desde 2024 por la Ley 175/2022)",
+     "sigla": "Law 3/2005 (Law 175/2022)",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Competencia de Egipto (ECA)",
+     "url": "https://www.eca.org.eg/",
+     "ultima_reforma": "2024-06-01 (control previo)",
+     "aplica": "Concentraciones sobre umbrales de ventas en Egipto y conductas anticompetitivas.",
+     "obligaciones": [
+      "Obtener la aprobación previa de concentraciones."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Antes de cerrar",
+       "ante": "ECA"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 % de las ventas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evaluaron los umbrales de control previo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "eg_consumidor",
+     "nombre": "Ley de Protección al Consumidor (Ley 181/2018)",
+     "sigla": "Law 181/2018",
+     "tipo": "ley",
+     "autoridad": "Agencia de Protección al Consumidor",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Vendedores a consumidores.",
+     "obligaciones": [
+      "Información en árabe y derecho de devolución de 14 días."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se respeta la devolución en 14 días?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "eg_ambiental",
+     "nombre": "Ley Ambiental (Ley 4/1994)",
+     "sigla": "Law 4/1994",
+     "tipo": "ley",
+     "autoridad": "Agencia Egipcia de Asuntos Ambientales (EEAA)",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Proyectos con impacto ambiental.",
+     "obligaciones": [
+      "Evaluación de impacto ambiental y registro ambiental de la instalación."
+     ],
+     "tramites": [
+      {
+       "que": "Aprobación EIA",
+       "plazo": "Antes de construir",
+       "ante": "EEAA"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El proyecto tiene aprobación EIA?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "eg_inversion",
+     "nombre": "Ley de Inversión (Ley 72/2017), registro de fábricas extranjeras (Decreto 43/2016) y registro previo de envíos (ACI)",
+     "sigla": "Investment Law / Decree 43/2016",
+     "tipo": "ley",
+     "autoridad": "GAFI; Organización General de Control de Exportaciones e Importaciones (GOEIC); Aduanas",
+     "url": "https://www.goeic.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros e importadores.",
+     "obligaciones": [
+      "Registro del importador y de las fábricas extranjeras de productos listados.",
+      "Registro anticipado de carga (ACI) en la plataforma Nafeza."
+     ],
+     "tramites": [
+      {
+       "que": "Registro anticipado de carga (ACI)",
+       "plazo": "Antes del embarque",
+       "ante": "Aduanas (Nafeza)"
+      }
+     ],
+     "sanciones": "Rechazo de la mercancía.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los proveedores extranjeros están registrados en la GOEIC?",
+      "¿Los envíos tienen ACI?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "eg_pi",
+     "nombre": "Ley de Protección de los Derechos de Propiedad Intelectual (Ley 82/2002)",
+     "sigla": "Law 82/2002",
+     "tipo": "ley",
+     "autoridad": "Autoridad Egipcia de Propiedad Intelectual",
+     "url": "https://www.gafi.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas y patentes.",
+     "obligaciones": [
+      "Registrar marcas y renovar."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "Oficina de marcas"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas en Egipto?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "eg_valores",
+     "nombre": "Ley del Mercado de Capitales (Ley 95/1992)",
+     "sigla": "Capital Market Law 95/1992",
+     "tipo": "ley",
+     "autoridad": "Autoridad Reguladora Financiera (FRA); Bolsa de Egipto",
+     "url": "https://fra.gov.eg/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas.",
+     "obligaciones": [
+      "Estados financieros y revelación de hechos relevantes."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "Según calendario de la FRA",
+       "ante": "FRA"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se publican los estados en plazo?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "eg_hidro",
+     "nombre": "Acuerdos petroleros (EGPC, EGAS) y Ley de Regulación del Mercado de Gas (Ley 196/2017)",
+     "sigla": "Petroleum agreements / Law 196/2017",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Petróleo; EGPC; EGAS; Autoridad Reguladora del Gas",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, producción y gas.",
+     "obligaciones": [
+      "Acuerdo de concesión aprobado por ley; licencia de actividades de gas."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de actividades de gas",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad Reguladora del Mercado de Gas"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia de gas está vigente?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "eg_electricidad",
+     "nombre": "Ley de Electricidad (Ley 87/2015)",
+     "sigla": "Electricity Law 87/2015",
+     "tipo": "ley",
+     "autoridad": "Agencia Reguladora de Electricidad (EgyptERA)",
+     "ultima_reforma": "verificar",
+     "aplica": "Generación y distribución.",
+     "obligaciones": [
+      "Licencia de la EgyptERA."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia eléctrica",
+       "plazo": "Antes de operar",
+       "ante": "EgyptERA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia está vigente?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "eg_bancos",
+     "nombre": "Ley del Banco Central y del Sistema Bancario (Ley 194/2020)",
+     "sigla": "Law 194/2020",
+     "tipo": "ley",
+     "autoridad": "Banco Central de Egipto",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, pagos y fintech.",
+     "obligaciones": [
+      "Licencia del Banco Central."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia bancaria o de pagos",
+       "plazo": "Antes de operar",
+       "ante": "Banco Central de Egipto"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "eg_seguros",
+     "nombre": "Ley Unificada de Seguros (Ley 155/2024)",
+     "sigla": "Insurance Law 155/2024",
+     "tipo": "ley",
+     "autoridad": "FRA",
+     "ultima_reforma": "2024 (verificar)",
+     "aplica": "Aseguradoras e intermediarios.",
+     "obligaciones": [
+      "Licencia y solvencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguros",
+       "plazo": "Antes de operar",
+       "ante": "FRA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de solvencia?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "eg_farma",
+     "nombre": "Ley de la Autoridad Egipcia de Medicamentos (Ley 151/2019)",
+     "sigla": "Law 151/2019",
+     "tipo": "ley",
+     "autoridad": "Autoridad Egipcia de Medicamentos (EDA)",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores.",
+     "obligaciones": [
+      "Registro de productos."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto",
+       "plazo": "Antes de comercializar",
+       "ante": "EDA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados en la EDA?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "eg_alimentos",
+     "nombre": "Ley de la Autoridad Nacional de Seguridad Alimentaria (Ley 1/2017)",
+     "sigla": "Law 1/2017",
+     "tipo": "ley",
+     "autoridad": "NFSA",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores e importadores.",
+     "obligaciones": [
+      "Registro y etiquetado en árabe."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto",
+       "plazo": "Antes de importar",
+       "ante": "NFSA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados en la NFSA?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "eg_telecom",
+     "nombre": "Ley de Regulación de las Telecomunicaciones (Ley 10/2003)",
+     "sigla": "Law 10/2003",
+     "tipo": "ley",
+     "autoridad": "NTRA",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores y equipos.",
+     "obligaciones": [
+      "Licencia y homologación."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación de equipos",
+       "plazo": "Antes de vender",
+       "ante": "NTRA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los equipos están homologados?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "eg_ti",
+     "nombre": "Ley de Delitos Cibernéticos (Ley 175/2018)",
+     "sigla": "Law 175/2018",
+     "tipo": "ley",
+     "autoridad": "NTRA; fiscalía",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de servicios digitales.",
+     "obligaciones": [
+      "Conservar datos de tráfico 180 días."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se conservan los datos de tráfico?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "eg_construccion",
+     "nombre": "Ley de Edificación (Ley 119/2008)",
+     "sigla": "Law 119/2008",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Vivienda; gobernaciones",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Permiso de construcción."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar",
+       "ante": "Gobernación"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La obra tiene permiso?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "eg_mineria",
+     "nombre": "Ley de Recursos Minerales (Ley 198/2014, reformada en 2020)",
+     "sigla": "Law 198/2014",
+     "tipo": "ley",
+     "autoridad": "Autoridad Egipcia de Recursos Minerales",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración y explotación.",
+     "obligaciones": [
+      "Licencias y regalías."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia minera",
+       "plazo": "Antes de explorar",
+       "ante": "Autoridad de Recursos Minerales"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias están vigentes?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "eg_logistica",
+     "nombre": "Ley de Aduanas (Ley 207/2020)",
+     "sigla": "Customs Law 207/2020",
+     "tipo": "ley",
+     "autoridad": "Autoridad Aduanera de Egipto",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores y operadores.",
+     "obligaciones": [
+      "Declaraciones aduaneras y ACI."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración aduanera",
+       "plazo": "Antes del despacho",
+       "ante": "Aduanas"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las declaraciones se presentan por Nafeza?"
+     ]
+    }
+   ]
+  }
+ }
+}

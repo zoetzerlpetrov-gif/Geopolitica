@@ -76,3 +76,19 @@ test("relieve: elevación coloreada y sombreado debajo del agua y los nombres", 
   assert.equal(base.layers.length, 4); // no modifica el estilo original
   assert.ok(TINTAS_RELIEVE.every(([m], i, a) => i === 0 || m > a[i - 1][0])); // alturas en orden creciente
 });
+
+test("brillo LED de la costa: blanco en oscuro, dorado en claro, justo encima del agua y solo sobre océanos", async () => {
+  const { conBrilloCosta, BRILLO_COSTA } = await import("../../js/map.js");
+  for (const [nombre, tema] of [["dark", "dark"], ["positron", "light"]]) {
+    const st = conBrilloCosta(aligerarEstilo(carga(nombre)), tema);
+    const ids = st.layers.map((l) => l.id);
+    const i = ids.indexOf("water");
+    assert.deepEqual(ids.slice(i + 1, i + 4), ["costa-brillo-halo", "costa-brillo-medio", "costa-brillo-hilo"]);
+    const halo = st.layers[i + 1];
+    assert.equal(halo.paint["line-color"], BRILLO_COSTA[tema][0]);
+    assert.deepEqual(halo.filter, ["==", ["get", "class"], "ocean"]);
+  }
+  assert.equal(BRILLO_COSTA.dark[0], "#FFFFFF");
+  const sinAgua = { version: 8, sources: {}, layers: [{ id: "fondo", type: "background" }] };
+  assert.equal(conBrilloCosta(sinAgua).layers.length, 1);  // el respaldo local no tiene océanos: no se toca
+});

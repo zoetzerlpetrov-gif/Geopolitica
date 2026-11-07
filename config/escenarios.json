@@ -2329,6 +2329,76 @@
    ],
    "interpretacion": "",
    "base": false
+  },
+  {
+   "id": "cambio_normativo",
+   "nombre": "Cambio normativo que la empresa no adopta a tiempo (nueva ley, reforma, regla o norma técnica)",
+   "categoria": "Cumplimiento",
+   "descripcion": "Frecuencia y severidad (Poisson + lognormal, Monte Carlo): cuántos cambios normativos relevantes llegan al año y cuánto cuesta no adaptarse a tiempo (multas, permisos detenidos, rediseño de procesos).",
+   "modelo": "frecuencia_severidad",
+   "parametros": [
+    {
+     "k": "lambda",
+     "etiqueta": "Cambios relevantes por año que la empresa podría no adoptar a tiempo",
+     "valor": 0.6,
+     "unidad": "eventos/año",
+     "ayuda": "Referencia: cambios de impacto alto de tu país y sector en la Bitácora normativa del último año × fracción que tu equipo no alcanza a atender (supuesto a ajustar).",
+     "tipo": "numero"
+    },
+    {
+     "k": "p50",
+     "etiqueta": "Costo en un caso típico (p50)",
+     "valor": "cliente.ingresos*0.002",
+     "unidad": "moneda",
+     "ayuda": "Adecuación tardía, asesoría y multa menor (supuesto).",
+     "tipo": "numero"
+    },
+    {
+     "k": "p90",
+     "etiqueta": "Costo en un caso grave (p90)",
+     "valor": "cliente.ingresos*0.02",
+     "unidad": "moneda",
+     "ayuda": "Suspensión de permiso, clausura parcial o multa mayor (supuesto).",
+     "tipo": "numero"
+    }
+   ],
+   "palabras": [
+    "reforma",
+    "decreto",
+    "nueva ley",
+    "normativa",
+    "regulación",
+    "disposiciones",
+    "norma oficial",
+    "nom-",
+    "cambio normativo",
+    "cambios normativos",
+    "dof",
+    "diario oficial",
+    "entrada en vigor"
+   ],
+   "areas_eventos": [
+    "instituciones"
+   ],
+   "sectores": [
+    "hidrocarburos",
+    "energia_electrica",
+    "farmaceutico",
+    "bancos",
+    "seguros",
+    "alimentos",
+    "mineria",
+    "telecom",
+    "logistica"
+   ],
+   "mitigaciones": [
+    "Revisar cada día la Bitácora normativa y asignar un responsable por cambio de impacto alto",
+    "Plan de adecuación con fechas de entrada en vigor y transitorios",
+    "Matriz de obligaciones por ley con dueño, evidencia y fecha de última revisión",
+    "Asesoría legal temprana en cambios de su sector"
+   ],
+   "interpretacion": "",
+   "base": true
   }
  ]
 }
