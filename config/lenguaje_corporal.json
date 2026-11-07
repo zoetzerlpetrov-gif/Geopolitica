@@ -294,7 +294,8 @@
    "estados": [
     "seguridad",
     "desacuerdo"
-   ]
+   ],
+   "auto": "menton_arriba"
   },
   {
    "id": "menton_abajo",
@@ -388,7 +389,8 @@
    "alternativas": "Pantallas, lectura.",
    "estados": [
     "carga_cognitiva"
-   ]
+   ],
+   "auto": "parpadeo_bajo"
   },
   {
    "id": "ojos_cerrados",
@@ -441,7 +443,8 @@
     "interes",
     "seguridad",
     "enojo"
-   ]
+   ],
+   "auto": "mirada_sostenida"
   },
   {
    "id": "evitar_mirada",
@@ -521,7 +524,8 @@
    "estados": [
     "desacuerdo",
     "tension"
-   ]
+   ],
+   "auto": "frotarse_ojo"
   },
   {
    "id": "asentir",
@@ -533,7 +537,8 @@
    "estados": [
     "interes",
     "sintonia"
-   ]
+   ],
+   "auto": "asentir"
   },
   {
    "id": "negar_cabeza",
@@ -544,7 +549,8 @@
    "alternativas": "Hábito al hablar.",
    "estados": [
     "desacuerdo"
-   ]
+   ],
+   "auto": "negar_cabeza"
   },
   {
    "id": "cabeza_ladeada",
@@ -645,7 +651,8 @@
    "alternativas": "Cansancio físico real.",
    "estados": [
     "aburrimiento"
-   ]
+   ],
+   "auto": "mano_mejilla"
   },
   {
    "id": "tocar_oreja",
@@ -720,7 +727,8 @@
    "estados": [
     "tension",
     "interes"
-   ]
+   ],
+   "auto": "acomodar_cabello"
   },
   {
    "id": "frotar_cara",
@@ -864,7 +872,8 @@
    "alternativas": "Frío, hábito, protocolo.",
    "estados": [
     "inseguridad"
-   ]
+   ],
+   "auto": "manos_ocultas"
   },
   {
    "id": "manos_entrelazadas",
@@ -876,7 +885,8 @@
    "estados": [
     "tension",
     "inseguridad"
-   ]
+   ],
+   "auto": "manos_juntas"
   },
   {
    "id": "frotar_manos",
@@ -1090,7 +1100,8 @@
    "alternativas": "",
    "estados": [
     "inseguridad"
-   ]
+   ],
+   "auto": "encogimiento_rapido"
   },
   {
    "id": "inclinarse_adelante",
@@ -1102,7 +1113,8 @@
    "estados": [
     "interes",
     "enojo"
-   ]
+   ],
+   "auto": "inclinarse_adelante"
   },
   {
    "id": "echarse_atras",
@@ -1114,7 +1126,8 @@
    "estados": [
     "desacuerdo",
     "deseo_irse"
-   ]
+   ],
+   "auto": "echarse_atras"
   },
   {
    "id": "torso_girado",
@@ -1137,7 +1150,8 @@
    "alternativas": "",
    "estados": [
     "seguridad"
-   ]
+   ],
+   "auto": "postura_expandida"
   },
   {
    "id": "postura_encogida",
@@ -1302,7 +1316,8 @@
    "estados": [
     "tension",
     "aburrimiento"
-   ]
+   ],
+   "auto": "pies_inquietos"
   },
   {
    "id": "pies_se_detienen",

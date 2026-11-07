@@ -165,7 +165,11 @@ export function medirRenglon(M, r, incl = 90) {
   const chicos = todos.map((g) => g.ancho).filter((a) => a < 0.45 * xh);
   const umbralPalabra = Math.max(0.45 * xh, chicos.length >= 3 ? 2.2 * mediana(chicos) : 0);
   const huecos = todos.filter((g) => g.ancho >= umbralPalabra);
-  return { xh, hampa: r.nucleo.y0 - r.y0, jamba: r.y1 - r.nucleo.y1, x0, x1, angulo, curva, finalSube, huecos, palabras: huecos.length + 1 };
+  // tramos de cada palabra (en x «enderezada» por la inclinación)
+  const tramos = []; let desde = x0;
+  for (const g of huecos) { tramos.push([desde, g.x0 - 1]); desde = g.x1 + 1; }
+  tramos.push([desde, x1]);
+  return { xh, hampa: r.nucleo.y0 - r.y0, jamba: r.y1 - r.nucleo.y1, x0, x1, angulo, curva, finalSube, huecos, palabras: huecos.length + 1, tramos, pts, k };
 }
 
 /** Inclinación de los trazos (grados respecto del renglón: 90 = vertical, <90 hacia la derecha, >90 hacia la izquierda). */
@@ -275,6 +279,162 @@ export function medir(img, recorte = null, mmPorPx = null) {
     cascadas: cad.filter((c) => c.lineas >= 5).length,
     huecosDerecha: cad.filter((c) => c.x0 > (bx0 + bx1) / 2).length,
     caja: { x0: bx0, x1: bx1, y0: by0, y1: by1 },
+    avanzado: avanzado(M, lineas, xh, grosorPx),
     lineas: lineas.map((l) => ({ xh: l.xh, angulo: l.angulo, inclinacion: l.inclinacion, palabras: l.palabras, y0: l.y0, y1: l.y1, x0: l.x0, x1: l.x1 })),
   };
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// Medidas avanzadas: componentes conectados (ligazón), bucles, bolsas de tinta, relieve, angulosidad, guirnaldas y
+// arcos, sinuosidad, imbricación, desarrollo de las palabras, subrayados y regularidad. Son aproximaciones: el
+// informe las marca como «estimadas» y la persona las confirma o las quita viendo el original.
+
+/** Etiqueta componentes 8-conexos de `valor` en una máscara. Devuelve [{n, x0,x1,y0,y1, cx, cy, borde}]. */
+export function componentes(m, w, h, valor = 1, con8 = true) {
+  const et = new Int32Array(w * h).fill(-1), out = [], pila = [];
+  const vec = con8 ? [-1, 1, -w, w, -w - 1, -w + 1, w - 1, w + 1] : [-1, 1, -w, w];
+  for (let i = 0; i < m.length; i++) {
+    if (m[i] !== valor || et[i] >= 0) continue;
+    const c = { n: 0, x0: w, x1: 0, y0: h, y1: 0, sx: 0, sy: 0, borde: false }, id = out.length;
+    et[i] = id; pila.push(i);
+    while (pila.length) {
+      const j = pila.pop(), x = j % w, y = (j / w) | 0;
+      c.n++; c.sx += x; c.sy += y; if (x < c.x0) c.x0 = x; if (x > c.x1) c.x1 = x; if (y < c.y0) c.y0 = y; if (y > c.y1) c.y1 = y;
+      if (x === 0 || y === 0 || x === w - 1 || y === h - 1) c.borde = true;
+      for (const d of vec) {
+        const q = j + d; if (q < 0 || q >= m.length) continue;
+        const qx = q % w; if (Math.abs(qx - x) > 1) continue;
+        if (m[q] === valor && et[q] < 0) { et[q] = id; pila.push(q); }
+      }
+    }
+    c.cx = c.sx / c.n; c.cy = c.sy / c.n; out.push(c);
+  }
+  return out;
+}
+
+/** Erosión con un cuadrado de lado 2r+1 (imagen integral): cuenta zonas de tinta más gruesas que el trazo. */
+function manchas(m, w, h, r) {
+  const I = new Int32Array((w + 1) * (h + 1));
+  for (let y = 0; y < h; y++) { let fila = 0; for (let x = 0; x < w; x++) { fila += m[y * w + x]; I[(y + 1) * (w + 1) + x + 1] = I[y * (w + 1) + x + 1] + fila; } }
+  const lado = 2 * r + 1, total = lado * lado, e = new Uint8Array(w * h);
+  for (let y = r; y < h - r; y++) for (let x = r; x < w - r; x++) {
+    const a = I[(y - r) * (w + 1) + x - r], b = I[(y - r) * (w + 1) + x + r + 1], c = I[(y + r + 1) * (w + 1) + x - r], d = I[(y + r + 1) * (w + 1) + x + r + 1];
+    if (d - b - c + a === total) e[y * w + x] = 1;
+  }
+  return componentes(e, w, h, 1).filter((c) => c.n >= 2);
+}
+
+export function avanzado(M, lineas, xh, grosorPx) {
+  const { w, h, m, g } = M, out = {};
+  const enLinea = (y) => lineas.findIndex((l) => y >= l.y0 && y <= l.y1);
+  const gr = Number.isFinite(grosorPx) ? grosorPx : 2;
+  // 1) Componentes de tinta → ligazón (piezas por palabra frente a letras estimadas)
+  const comps = componentes(m, w, h, 1).filter((c) => c.n >= gr * gr * 2 && Math.max(c.x1 - c.x0, c.y1 - c.y0) >= xh * 0.4);
+  const puntos = componentes(m, w, h, 1).filter((c) => c.n < gr * gr * 2 || Math.max(c.x1 - c.x0, c.y1 - c.y0) < xh * 0.4).length;
+  let piezas = 0, letras = 0, palabras = 0;
+  for (const [li, l] of lineas.entries()) for (const [a, b] of l.tramos) {
+    const ancho = b - a + 1; if (ancho < xh * 0.6) continue;
+    const en = comps.filter((c) => enLinea(c.cy) === li && (c.cx - (l.nucleo.y1 - c.cy) * l.k) >= a - 1 && (c.cx - (l.nucleo.y1 - c.cy) * l.k) <= b + 1).length;
+    if (!en) continue;
+    piezas += en; letras += Math.max(1, ancho / (0.8 * xh)); palabras++;
+  }
+  out.piezasPorPalabra = palabras ? piezas / palabras : null;
+  out.piezasPorLetra = letras ? piezas / letras : null;
+  out.puntosPorPalabra = palabras ? puntos / palabras : null;
+  // 2) Huecos cerrados (bucles y óvalos): fondo que no toca el borde, por zona
+  const fondo = new Uint8Array(m.length); for (let i = 0; i < m.length; i++) fondo[i] = m[i] ? 0 : 1;
+  const huecos = componentes(fondo, w, h, 1, false).filter((c) => !c.borde && c.n >= gr * gr * 1.5 && c.n < xh * xh * 6);
+  let arriba = 0, medio = 0, abajo = 0;
+  for (const c of huecos) {
+    const li = enLinea(c.cy); if (li < 0) continue; const l = lineas[li];
+    if (c.cy < l.nucleo.y0) arriba++; else if (c.cy > l.nucleo.y1) abajo++; else medio++;
+  }
+  out.buclesHampaPorPalabra = palabras ? arriba / palabras : null;
+  out.buclesJambaPorPalabra = palabras ? abajo / palabras : null;
+  out.ovalosPorPalabra = palabras ? medio / palabras : null;
+  // 3) Bolsas de tinta: zonas rellenas más gruesas que 2,5 trazos
+  out.bolsas = manchas(m, w, h, Math.max(2, Math.round(gr * 1.25))).length;
+  out.bolsasPorPalabra = palabras ? out.bolsas / palabras : null;
+  // 4) Relieve: variación del grosor (rachas horizontales cortas de los trazos)
+  const rachas = [];
+  for (const l of lineas) for (let y = l.nucleo.y0; y <= l.nucleo.y1; y += 2) { let c = 0; for (let x = l.x0; x <= l.x1 + 1; x++) { if (x <= l.x1 && m[y * w + x]) c++; else if (c) { if (c <= 4 * gr) rachas.push(c); c = 0; } } }
+  out.variacionGrosor = rachas.length > 20 ? desv(rachas) / media(rachas) : null;
+  // 5) Orientación de los bordes en la zona media: angulosidad, guirnaldas y arcos; 6) nitidez del borde
+  const hist = new Float64Array(12); let horArriba = 0, horAbajo = 0, borde = 0, transicion = 0, tinta = 0;
+  const gp = M.grisPapel, gt = M.grisTinta, rango = Math.max(20, gp - gt);
+  for (const l of lineas) {
+    const tercio = (l.nucleo.y1 - l.nucleo.y0) / 3;
+    for (let y = Math.max(1, l.nucleo.y0); y <= Math.min(h - 2, l.nucleo.y1); y++) for (let x = Math.max(1, l.x0 - 2); x <= Math.min(w - 2, l.x1 + 2); x++) {
+      const i = y * w + x;
+      const v = (g[i] - gt) / rango; if (m[i]) tinta++; if (v > 0.25 && v < 0.75) transicion++;
+      const gx = (g[i - w + 1] + 2 * g[i + 1] + g[i + w + 1]) - (g[i - w - 1] + 2 * g[i - 1] + g[i + w - 1]);
+      const gy = (g[i + w - 1] + 2 * g[i + w] + g[i + w + 1]) - (g[i - w - 1] + 2 * g[i - w] + g[i - w + 1]);
+      const mag = Math.hypot(gx, gy); if (mag < 60) continue;
+      borde++;
+      let a = Math.atan2(-gx, -gy) * RAD; a = ((a % 180) + 180) % 180;
+      hist[Math.min(11, Math.floor(a / 15))] += mag;
+      if (a < 25 || a > 155) { if (y > l.nucleo.y1 - tercio) horAbajo += mag; else if (y < l.nucleo.y0 + tercio) horArriba += mag; }
+    }
+  }
+  const tot = hist.reduce((a, b) => a + b, 0);
+  out.entropiaBordes = tot ? -hist.reduce((s, v) => (v ? s + (v / tot) * Math.log(v / tot) : s), 0) / Math.log(12) : null;
+  out.guirnalda = horArriba + horAbajo ? horAbajo / (horArriba + horAbajo) : null; // >0,5 más curvas abiertas arriba (guirnalda)
+  out.nitidez = tinta ? transicion / tinta : null; // más alto = borde más difuso
+  // 7) Separación media entre trazos verticales en la línea media (anchura de las letras)
+  const seps = [];
+  for (const l of lineas) {
+    const y = Math.round((l.nucleo.y0 + l.nucleo.y1) / 2); let runs = 0, tintaX = 0, dentro = false;
+    for (const [a, b] of l.tramos) for (let x = a; x <= b; x++) { const on = m[y * w + x] === 1; if (on && !dentro) runs++; dentro = on; tintaX++; }
+    if (runs > 3) seps.push(tintaX / runs / xh);
+  }
+  out.separacionTrazos = seps.length ? mediana(seps) : null;
+  // 8) Sinuosidad del renglón e imbricación de las palabras
+  const resid = [], difPal = [];
+  for (const l of lineas) {
+    if (l.pts.length >= 4) {
+      const { m: pm, b } = regresion(l.pts);
+      for (const p of l.pts) resid.push((p.y - (pm * p.x + b)) / xh);
+      for (const [a, z] of l.tramos) {
+        // rebanadas finas dentro de la palabra (en x «enderezada»: se corrige con la inclinación)
+        const paso = Math.max(3, Math.round(xh / 2)), ps = [];
+        for (let x0 = a; x0 + paso <= z + 1; x0 += paso) {
+          let c = 0, sy = 0;
+          for (let y = l.nucleo.y0; y <= l.nucleo.y1; y++) for (let x = x0; x < x0 + paso; x++) { const xr = Math.round(x + (l.nucleo.y1 - y) * l.k); if (xr >= 0 && xr < w && m[y * w + xr]) { c++; sy += y; } }
+          if (c > 2) ps.push({ x: x0 + paso / 2, y: sy / c, w: c });
+        }
+        if (ps.length < 4) continue;
+        difPal.push((-Math.atan(regresion(ps).m) + Math.atan(pm)) * RAD);
+      }
+    }
+  }
+  out.sinuosidad = resid.length > 6 ? desv(resid) : null;
+  out.imbricacion = difPal.length >= 3 ? mediana(difPal) : null; // + cada palabra sube; − cada palabra baja
+  // 9) Desarrollo: altura de la tinta al final de la palabra frente al inicio
+  const razones = [];
+  for (const l of lineas) for (const [a, z] of l.tramos) {
+    const ancho = z - a; if (ancho < xh * 2) continue;
+    const alto = (x0, x1) => { let top = Infinity, bot = -Infinity; for (let y = l.nucleo.y0 - Math.round(xh * 0.3); y <= l.nucleo.y1 + Math.round(xh * 0.3); y++) for (let x = x0; x <= x1; x++) if (m[y * w + x]) { if (y < top) top = y; if (y > bot) bot = y; } return bot - top; };
+    const i = alto(a, a + Math.round(ancho / 3)), f = alto(z - Math.round(ancho / 3), z);
+    if (i > 0 && f > 0) razones.push(f / i);
+  }
+  out.desarrollo = razones.length >= 3 ? mediana(razones) : null;
+  // 10) Subrayados: rachas horizontales largas fuera de la zona media
+  let subrayados = 0, previa = false;
+  for (let y = 0; y < h; y++) {
+    // una raya es una racha larga que concentra casi toda la tinta de la fila (la escritura son muchas rachas cortas)
+    let larga = false, c = 0, mayor = 0, total = 0;
+    for (let x = 0; x <= w; x++) { if (x < w && m[y * w + x]) { c++; total++; } else { mayor = Math.max(mayor, c); c = 0; } }
+    if (mayor > 5 * xh && mayor >= 0.6 * total) larga = true;
+    if (larga && !previa) subrayados++; // filas contiguas de una misma raya cuentan como una
+    previa = larga;
+  }
+  out.subrayados = subrayados;
+  // 11) Regularidad del orden: inicio de renglón e interlineado
+  // renglones de longitud normal (una firma o una línea final corta no cuentan para el orden)
+  const largoMed = mediana(lineas.map((l) => l.x1 - l.x0));
+  const normales = lineas.filter((l) => l.x1 - l.x0 >= 0.5 * largoMed);
+  const inicios = normales.map((l) => l.x0), centros = lineas.map((l) => (l.nucleo.y0 + l.nucleo.y1) / 2), inter = centros.slice(1).map((c, i) => c - centros[i]);
+  out.variacionInicio = normales.length >= 3 ? desv(inicios) / xh : null;
+  out.variacionInterlineado = inter.length >= 2 ? desv(inter) / media(inter) : null;
+  return out;
 }

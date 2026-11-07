@@ -42,6 +42,7 @@ export function rasgosCuadro({ b = null, cara = null, pose = null, ancho = 1, al
     f.roll = (Math.atan2(oD.y - oI.y, oD.x - oI.x) * 180) / Math.PI;
     f.yaw = (nariz.x - ojos.x) / io;
     f.pitch = (nariz.y - ojos.y) / Math.max(1, boca.y - ojos.y);
+    f.cercania = io / Math.max(1, ancho); // tamaño de la cara en el cuadro: sube si se acerca a la cámara
   }
   if (pose && pose.length >= 25) {
     const ok = (i) => pose[i] && (pose[i].visibility ?? 1) > 0.5;
@@ -57,6 +58,13 @@ export function rasgosCuadro({ b = null, cara = null, pose = null, ancho = 1, al
       f.mano_menton = !f.mano_boca && cerca(menton, 0.3) ? 1 : 0;
       f.tocar_oreja = (ok(7) && cerca(P(7), 0.25)) || (ok(8) && cerca(P(8), 0.25)) ? 1 : 0;
       f.tocar_cuello = !f.mano_boca && !f.mano_menton && cerca(cuello, 0.3) ? 1 : 0;
+      f.frotarse_ojo = (ok(2) && cerca(P(2), 0.16)) || (ok(5) && cerca(P(5), 0.16)) ? 1 : 0;
+      const mejilla = (o) => ({ x: (P(o).x + boca.x) / 2, y: (P(o).y + boca.y) / 2 });
+      f.mano_mejilla = !f.mano_boca && ((ok(7) && cerca(mejilla(7), 0.2)) || (ok(8) && cerca(mejilla(8), 0.2))) ? 1 : 0;
+      const ojosY = Math.min(ok(2) ? P(2).y : Infinity, ok(5) ? P(5).y : Infinity);
+      const manosArriba = manos.filter((m) => m.y < ojosY - 0.15 * sw && Math.abs(m.x - nariz.x) < 0.9 * sw);
+      f.acomodar_cabello = manosArriba.length && !(ok(15) && ok(16) && P(15).y < ojosY && P(16).y < ojosY) ? 1 : 0;
+      if (ok(23) && ok(24)) f.manos_ocultas = !ok(15) && !ok(16) && (pose[15]?.visibility ?? 0) < 0.3 && (pose[16]?.visibility ?? 0) < 0.3 ? 1 : 0;
       if (ok(15) && ok(16)) {
         const mI = P(15), mD = P(16), lado = (p) => Math.sign(p.x - cx);
         const altura = (m) => m.y > hI.y - 0.1 * sw && (!ok(23) || m.y < P(23).y + 0.2 * sw);
@@ -68,8 +76,12 @@ export function rasgosCuadro({ b = null, cara = null, pose = null, ancho = 1, al
           f.manos_cadera = dist(mI, P(23)) < 0.4 * sw && dist(mD, P(24)) < 0.4 * sw && codoFuera ? 1 : 0;
         }
         f.munecas = [mI.x / sw, mI.y / sw, mD.x / sw, mD.y / sw];
+        f.manos_juntas = dist(mI, mD) < 0.3 * sw && mI.y > hI.y + 0.2 * sw && !f.brazos_cruzados ? 1 : 0;
+        const codos = ok(13) && ok(14) ? Math.abs(P(13).x - P(14).x) / sw : 0;
+        f.postura_expandida = Math.abs(mI.x - mD.x) / sw > 2.2 || codos > 1.9 ? 1 : 0;
       }
-      if (ok(7) && ok(8)) f.hombros = ((hI.y - P(7).y) + (hD.y - P(8).y)) / 2 / sw;
+      if (ok(7) && ok(8)) { f.hombros = ((hI.y - P(7).y) + (hD.y - P(8).y)) / 2 / sw; f.hombro_asim = ((hI.y - P(7).y) - (hD.y - P(8).y)) / sw; }
+      if (ok(27) && ok(28)) f.tobillos = [P(27).x / sw, P(27).y / sw, P(28).x / sw, P(28).y / sw];
       f.escala = sw;
     }
   }
@@ -85,6 +97,8 @@ export const REGLAS = {
   mano_boca: { umbral: 0.5, min: 0.4 }, tocar_nariz: { umbral: 0.5, min: 0.3 }, mano_menton: { umbral: 0.5, min: 0.8 },
   tocar_oreja: { umbral: 0.5, min: 0.3 }, tocar_cuello: { umbral: 0.5, min: 0.3 }, brazos_cruzados: { umbral: 0.5, min: 1.5 },
   manos_cadera: { umbral: 0.5, min: 1.5 }, manos_cabeza: { umbral: 0.5, min: 1 },
+  frotarse_ojo: { umbral: 0.5, min: 0.3 }, mano_mejilla: { umbral: 0.5, min: 1.5 }, acomodar_cabello: { umbral: 0.5, min: 0.3 },
+  manos_ocultas: { umbral: 0.5, min: 3 }, manos_juntas: { umbral: 0.5, min: 1.5 }, postura_expandida: { umbral: 0.5, min: 1 },
 };
 
 function segmentos(muestras, activo, min) {
@@ -131,13 +145,44 @@ export function eventosDeSerie(cuadros, base = null) {
       const tz = tasa(a, a + 10);
       if (tz >= Math.max(25, tBase * 1.5) && (a < b0 || a >= b1)) eventos.push({ senal: "parpadeo", t0: a, t1: a + 10, pico: tz, detalle: `${Math.round(tz)}/min (línea base ${Math.round(tBase)}/min)` });
     }
+    // Parpadeo que casi se detiene: 12 s o más sin parpadear, si en la línea base parpadeaba al menos 8 veces por minuto
+    if (tBase >= 8) {
+      const marcas = [ojos[0].t, ...parpadeos, ojos[ojos.length - 1].t];
+      for (let i = 1; i < marcas.length; i++) if (marcas[i] - marcas[i - 1] >= 12 && (marcas[i - 1] >= b1 || marcas[i] <= b0)) eventos.push({ senal: "parpadeo_bajo", t0: marcas[i - 1], t1: marcas[i], pico: 0, detalle: `${Math.round(marcas[i] - marcas[i - 1])} s sin parpadear` });
+    }
   }
+  // Mirada sostenida: si en la línea base desviaba la mirada a menudo y luego la fija 6 s o más
+  { const lat = valores("mirada_lateral"), baj = new Map(valores("mirada_abajo").map((m) => [m.t, m.v]));
+    if (lat.length) {
+      const fija = lat.map((m) => ({ t: m.t, v: m.v < 0.25 && (baj.get(m.t) ?? 0) < 0.25 ? 1 : 0 }));
+      const enB = fija.filter((m) => m.t >= b0 && m.t <= b1);
+      if (enB.length > 10 && media(enB.map((m) => m.v)) < 0.7) for (const s of segmentos(fija.filter((m) => m.t < b0 || m.t > b1), (m) => m.v === 1, 6)) eventos.push({ senal: "mirada_sostenida", ...s, detalle: `${Math.round(s.t1 - s.t0)} s` });
+    } }
   // Cabeza: cambios frente a la línea base
   const cab = [["roll", "cabeza_ladeada", (v, m) => Math.abs(v - m) > 12, 0.8], ["yaw", "cabeza_girada", (v, m) => Math.abs(v - m) > 0.3, 0.8], ["pitch", "cabeza_abajo", (v, m) => v - m > 0.12, 0.8]];
   for (const [k, senal, regla, min] of cab) {
     const xs = valores(k); if (!xs.length) continue; const bs = baseDe(k); const m0 = bs.n ? bs.m : mediana(xs.map((x) => x.v));
     for (const s of segmentos(xs, (m) => regla(m.v, m0), min)) eventos.push({ senal, ...s, pico: s.pico - m0, detalle: "" });
   }
+  // Barbilla arriba (la nariz se acerca a los ojos en la imagen)
+  { const xs = valores("pitch"), bs = baseDe("pitch"); if (xs.length && bs.n) for (const s of segmentos(xs, (m) => m.v - bs.m < -0.12, 0.8)) eventos.push({ senal: "menton_arriba", ...s, detalle: "" }); }
+  // Acercarse o alejarse de la cámara (tamaño de la cara frente a la línea base)
+  { const xs = valores("cercania"), bs = baseDe("cercania"); if (xs.length && bs.n && bs.m > 0) {
+    for (const s of segmentos(xs, (m) => m.v > bs.m * 1.15, 1)) eventos.push({ senal: "inclinarse_adelante", ...s, detalle: "se acerca a la cámara" });
+    for (const s of segmentos(xs, (m) => m.v < bs.m * 0.85, 1)) eventos.push({ senal: "echarse_atras", ...s, detalle: "se aleja de la cámara" });
+  } }
+  // Asentir y negar: oscilaciones de la cabeza en ventanas de 1,5 s
+  for (const [k, senal, amp] of [["pitch", "asentir", 0.035], ["yaw", "negar_cabeza", 0.07]]) {
+    const xs = valores(k); if (xs.length < 15) continue;
+    for (let a = 0; a + 1.5 <= dur; a += 0.75) {
+      const w = xs.filter((m) => m.t >= a && m.t < a + 1.5); if (w.length < 6) continue;
+      const mm = media(w.map((m) => m.v)); let cruces = 0, prev = 0, maxi = 0;
+      for (const m of w) { const d = m.v - mm; maxi = Math.max(maxi, Math.abs(d)); const sg = Math.abs(d) > amp / 2 ? Math.sign(d) : 0; if (sg && prev && sg !== prev) cruces++; if (sg) prev = sg; }
+      if (cruces >= 2 && maxi > amp) { const u = eventos[eventos.length - 1]; if (u && u.senal === senal && u.t1 >= a) u.t1 = a + 1.5; else eventos.push({ senal, t0: a, t1: a + 1.5, pico: maxi, detalle: `${cruces} cambios de sentido` }); }
+    }
+  }
+  // Encoger un solo hombro (asimetría breve frente a la línea base)
+  { const xs = valores("hombro_asim"), bs = baseDe("hombro_asim"); if (xs.length && bs.n) for (const s of segmentos(xs, (m) => Math.abs(m.v - bs.m) > 0.12, 0.2)) if (s.t1 - s.t0 < 2) eventos.push({ senal: "encogimiento_rapido", ...s, detalle: "" }); }
   // Hombros encogidos: la distancia oreja-hombro baja 20 % frente a la línea base
   { const xs = valores("hombros"), bs = baseDe("hombros"); if (xs.length && bs.n) for (const s of segmentos(xs, (m) => m.v < bs.m * 0.8, 0.8)) eventos.push({ senal: "hombros_arriba", ...s, detalle: "" }); }
   // Movimiento de manos: inquietud (más del doble) y congelarse (menos de la cuarta parte)
@@ -146,6 +191,17 @@ export function eventosDeSerie(cuadros, base = null) {
     for (let i = 1; i < cuadros.length; i++) {
       const a = cuadros[i - 1].f.munecas, z = cuadros[i].f.munecas, dt = cuadros[i].t - cuadros[i - 1].t;
       if (a && z && dt > 0) mov.push({ t: cuadros[i].t, v: (Math.hypot(z[0] - a[0], z[1] - a[1]) + Math.hypot(z[2] - a[2], z[3] - a[3])) / dt });
+    }
+    // Pies o piernas inquietos (movimiento de los tobillos)
+    const movP = [];
+    for (let i = 1; i < cuadros.length; i++) {
+      const a = cuadros[i - 1].f.tobillos, z = cuadros[i].f.tobillos, dt = cuadros[i].t - cuadros[i - 1].t;
+      if (a && z && dt > 0) movP.push({ t: cuadros[i].t, v: (Math.hypot(z[0] - a[0], z[1] - a[1]) + Math.hypot(z[2] - a[2], z[3] - a[3])) / dt });
+    }
+    if (movP.length > 10) {
+      const pv = []; for (let a = 0; a + 2 <= dur + 0.01; a += 1) { const xs = movP.filter((m) => m.t >= a && m.t < a + 2).map((m) => m.v); if (xs.length) pv.push({ t: a, v: media(xs) }); }
+      const bm = mediana(pv.filter((w) => w.t >= b0 && w.t + 2 <= b1 + 0.01).map((w) => w.v));
+      for (const s of segmentos(pv, (w) => w.v > Math.max(0.3, bm * 2.5) && (w.t < b0 || w.t >= b1), 1)) eventos.push({ senal: "pies_inquietos", t0: s.t0, t1: s.t1 + 2, pico: s.pico, detalle: "" });
     }
     if (mov.length > 10) {
       const ventana = 2, porVentana = [];

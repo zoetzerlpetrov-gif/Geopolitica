@@ -3,11 +3,14 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { escritura, lienzo, trazo } from "./sintetico-escritura.mjs";
 import { medir, sesgo, mascara } from "../../js/grafo-medir.js";
-import { clasificar, clasificarFirma, temperamento, informe, indice, TEMPERAMENTOS, clave } from "../../js/grafo-logica.js";
+import { clasificar, clasificarAvanzado, clasificarFirma, temperamento, informe, indice, TEMPERAMENTOS, clave } from "../../js/grafo-logica.js";
+import { redactar, cuartillas, interpretacion, AREAS, SINDROMES } from "../../js/grafo-redaccion.js";
+import { ejemplo } from "../../js/grafo-ejemplos.js";
 import { rasgosCuadro, eventosDeSerie, lectura, tipoEnlace, reloj, REGLAS, senalDeAuto } from "../../js/conducta-logica.js";
 
 const CAT_G = JSON.parse(readFileSync(new URL("../../config/grafologia.json", import.meta.url), "utf8"));
 const CAT_C = JSON.parse(readFileSync(new URL("../../config/lenguaje_corporal.json", import.meta.url), "utf8"));
+const COMP_G = JSON.parse(readFileSync(new URL("../../config/grafologia_complemento.json", import.meta.url), "utf8"));
 const cerca = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, `${msg}: ${a} vs ${b}`);
 
 test("grafología: mide inclinación, dirección, tamaño y espacios de una escritura sintética", () => {
@@ -81,7 +84,8 @@ test("grafología: indicadores de temperamento apuntan a rasgos que existen", ()
 });
 
 test("lenguaje corporal: catálogo coherente", () => {
-  const autosConRegla = new Set([...Object.keys(REGLAS), "parpadeo", "ojos_cerrados", "cabeza_ladeada", "cabeza_girada", "cabeza_abajo", "hombros_arriba", "inquietud", "congelarse"]);
+  const autosConRegla = new Set([...Object.keys(REGLAS), "parpadeo", "ojos_cerrados", "cabeza_ladeada", "cabeza_girada", "cabeza_abajo", "hombros_arriba", "inquietud", "congelarse",
+    "menton_arriba", "inclinarse_adelante", "echarse_atras", "asentir", "negar_cabeza", "encogimiento_rapido", "pies_inquietos", "parpadeo_bajo", "mirada_sostenida"]);
   for (const s of CAT_C.senales) {
     assert.ok(CAT_C.zonas.some((z) => z.id === s.zona), `${s.id}: zona`);
     for (const e of s.estados) assert.ok(CAT_C.estados[e], `${s.id}: estado ${e}`);
@@ -144,4 +148,72 @@ test("lenguaje corporal: enlaces", () => {
   assert.equal(tipoEnlace("https://drive.google.com/file/d/x/view").tipo, "nube");
   assert.equal(tipoEnlace("javascript:alert(1)").tipo, "invalido");
   assert.equal(reloj(75), "01:15");
+});
+
+test("grafología: medidas avanzadas y rasgos estimados", () => {
+  const idx = indice(CAT_G);
+  const vertical = medir(escritura({ incl: 90 }), null, 0.15), inclinada = medir(escritura({ incl: 65, hueco: 2.5 }), null, 0.15);
+  // letras sintéticas verticales quedan separadas; inclinadas se tocan
+  assert.ok(vertical.avanzado.piezasPorPalabra > 3, `piezas ${vertical.avanzado.piezasPorPalabra}`);
+  assert.ok(inclinada.avanzado.piezasPorPalabra <= 1.2);
+  const a = clasificarAvanzado(inclinada, clasificar(inclinada));
+  for (const x of a) { assert.ok(idx.has(x.clave), x.clave); assert.equal(x.confianza, "estimado"); if (x.variante) assert.ok(idx.get(x.clave).rasgo.variantes.includes(x.variante), x.variante); }
+  const k = a.map((x) => x.clave);
+  assert.ok(k.includes("continuidad/ligazon/ligada"));
+  assert.ok(k.some((c) => c.startsWith("velocidad/intensidad/")), "velocidad estimada");
+  assert.ok(k.includes("orden/estructura/ordenada_esmerada_exageradamente_ordenada"));
+  assert.ok(clasificarAvanzado(vertical, clasificar(vertical)).some((x) => x.clave === "continuidad/ligazon/desligada"));
+  // subrayado
+  const img = escritura({ renglones: 2 }); trazo(img, 80, 130, 900, 130, 3); // entre el renglón 1 (base 120) y el 2
+  assert.ok(medir(img).avanzado.subrayados > 0);
+});
+
+test("grafología: dibujo de ejemplo para cada rasgo", () => {
+  for (const s of CAT_G.secciones) for (const g of s.grupos) for (const r of g.rasgos) {
+    if (s.id === "temperamento") continue;
+    const svg = ejemplo(clave(s.id, g.id, r.id), r.variantes[0] || "");
+    assert.match(svg, /^<svg /, `${s.id}/${g.id}/${r.id}`);
+    assert.doesNotMatch(svg, /NaN|undefined/, `${s.id}/${g.id}/${r.id}`);
+  }
+});
+
+test("grafología: lecturas complementarias solo para rasgos sin interpretación", () => {
+  const idx = indice(CAT_G);
+  for (const k of Object.keys(COMP_G.interpretaciones)) { assert.ok(idx.has(k), k); assert.equal(idx.get(k).rasgo.interpretacion, "", k); }
+  const i = interpretacion(idx.get("gestos_tipos/curvos/bucle").rasgo);
+  assert.match(i.positivo, /^amabilidad: contacto amable/i); assert.match(i.negativo, /^diplomacia: falsedad/i);
+});
+
+test("grafología: análisis escrito en tres extensiones", () => {
+  const m = medir(escritura({ incl: 65, hueco: 2.5, dir: 2 }), null, 0.15), b = clasificar(m, { hojaCompleta: true });
+  const sel = new Map([...b.map((x) => [x.clave, { ...x, origen: "medido" }]), ...clasificarAvanzado(m, b).map((x) => [x.clave, { ...x, origen: "estimado" }])]);
+  for (const k of ["gestos_tipos/curvos/bucle", "presion/profundidad/firme", "forma/anatomia/angulosa", "firma/situacion/proxima_al_texto"]) sel.set(k, { origen: "manual" });
+  const op = (extension, areas) => redactar(CAT_G, COMP_G, sel, { extension, areas, medidas: { texto: m }, datos: { persona: "Ana" } });
+  const breve = op("breve", ["personal", "laboral"]), media = op("media", ["personal", "laboral", "pareja"]), completa = op("completa", Object.keys(AREAS));
+  assert.ok(cuartillas(breve) <= 1, `breve ${breve.palabras}`);
+  assert.ok(cuartillas(media) >= 1.8 && cuartillas(media) <= 4.5, `media ${media.palabras}`);
+  assert.ok(cuartillas(completa) > 5, `completa ${completa.palabras}`);
+  const titulos = completa.secciones.map((x) => x.titulo);
+  for (const t of ["I. Datos generales", "III. Metodología y fundamentos", "VII. Temperamento", "IX. Síntesis por áreas", "XI. Limitaciones, validez y uso ético", "XII. Conclusiones"]) assert.ok(titulos.includes(t), t);
+  const todo = JSON.stringify(completa);
+  assert.match(todo, /Pellat/); assert.match(todo, /Ana/); assert.doesNotMatch(todo, /undefined|NaN|\[object/);
+  assert.ok(media.secciones.some((x) => x.titulo === "Pareja y vida afectiva"));
+  // los síndromes apuntan a rasgos que existen
+  const idx = indice(CAT_G);
+  for (const x of SINDROMES) for (const k of (x.todos || x.algun.flat())) assert.ok(idx.has(k), k);
+});
+
+test("lenguaje corporal: nuevos detectores (asentir, acercarse, barbilla arriba, sin parpadear)", () => {
+  const cuadros = serie(60, 10, (t) => ({
+    pitch: 0.5 + (t >= 30 && t < 33 ? 0.06 * Math.sin(t * 2 * Math.PI * 2) : 0) + (t >= 45 && t < 48 ? -0.2 : 0),
+    cercania: t >= 36 && t < 40 ? 0.12 : 0.1,
+    ojos: t < 20 ? ((t * 10) % 40 < 1 ? 0.9 : 0.05) : t < 40 ? 0.05 : ((t * 10) % 40 < 1 ? 0.9 : 0.05),
+  }));
+  const { eventos } = eventosDeSerie(cuadros, [0, 15]);
+  const de = (s) => eventos.filter((e) => e.senal === s);
+  assert.ok(de("asentir").length >= 1, "asentir"); cerca(de("asentir")[0].t0, 30, 1, "inicio de asentir");
+  assert.ok(de("inclinarse_adelante").length === 1, "se acerca a la cámara");
+  assert.ok(de("menton_arriba").length === 1, "barbilla arriba");
+  assert.ok(de("parpadeo_bajo").length >= 1, "sin parpadear");
+  for (const e of eventos) assert.ok(senalDeAuto(CAT_C, e.senal), `sin señal en el catálogo: ${e.senal}`);
 });
