@@ -49,7 +49,10 @@ grant execute on function public.dominus_planes_rol(uuid) to authenticated;
 
 -- Planes
 drop policy if exists dominus_planes_leer on public.dominus_planes;
-create policy dominus_planes_leer on public.dominus_planes for select to authenticated using (public.dominus_planes_rol(id) is not null);
+-- «owner = auth.uid()» va primero: al crear un plan, la página pide el registro de vuelta (INSERT … RETURNING) y la
+-- función, que consulta la tabla, todavía no ve la fila nueva; sin esta condición la creación se rechaza.
+create policy dominus_planes_leer on public.dominus_planes for select to authenticated
+  using (owner = (select auth.uid()) or public.dominus_planes_rol(id) is not null);
 drop policy if exists dominus_planes_crear on public.dominus_planes;
 create policy dominus_planes_crear on public.dominus_planes for insert to authenticated with check (owner = (select auth.uid()));
 drop policy if exists dominus_planes_editar on public.dominus_planes;
