@@ -1,0 +1,82 @@
+[
+ {
+  "fecha_utc": "2026-10-29T19:14:25Z",
+  "global": "atraso",
+  "ok": 12,
+  "sin_datos": 0,
+  "atraso": 1,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-10-30T18:32:11Z",
+  "global": "atraso",
+  "ok": 11,
+  "sin_datos": 1,
+  "atraso": 1,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-10-31T17:36:52Z",
+  "global": "falla",
+  "ok": 14,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 1
+ },
+ {
+  "fecha_utc": "2026-11-01T18:21:47Z",
+  "global": "ok",
+  "ok": 16,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-11-02T22:17:05Z",
+  "global": "ok",
+  "ok": 16,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-11-03T20:02:27Z",
+  "global": "ok",
+  "ok": 16,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-11-04T20:23:30Z",
+  "global": "falla",
+  "ok": 12,
+  "sin_datos": 0,
+  "atraso": 6,
+  "falla": 4
+ },
+ {
+  "fecha_utc": "2026-11-05T20:34:20Z",
+  "global": "ok",
+  "ok": 24,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-11-06T19:55:03Z",
+  "global": "atraso",
+  "ok": 22,
+  "sin_datos": 0,
+  "atraso": 2,
+  "falla": 0
+ },
+ {
+  "fecha_utc": "2026-11-07T17:59:02Z",
+  "global": "ok",
+  "ok": 26,
+  "sin_datos": 0,
+  "atraso": 0,
+  "falla": 0
+ }
+]

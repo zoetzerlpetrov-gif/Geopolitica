@@ -1,0 +1,1064 @@
+[
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261107170000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-07T17:59:02Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "camaras",
+  "nombre": "Cámaras del mundo",
+  "estado": "atraso",
+  "detalle": "Lleva 40.0 h sin terminar bien (límite 30 h). 1 falla(s) seguida(s). Pasos fallidos: publicar / publicar → Publicar.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/42247651153",
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261107121500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261107120000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261107114500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "duenos: error: HTTPError; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "alias: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_normativa",
+  "nombre": "Bitácora normativa (diarios oficiales)",
+  "estado": "aviso",
+  "detalle": "ARG: URLError: <urlopen error timed out>",
+  "url": null,
+  "fecha_utc": "2026-11-07T13:01:09Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "capas",
+  "nombre": "Construir capas (PMTiles)",
+  "estado": "atraso",
+  "detalle": "Lleva 12.4 h sin terminar bien (límite 9 h).",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/42248112489",
+  "fecha_utc": "2026-11-06T19:55:03Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "camaras",
+  "nombre": "Cámaras del mundo",
+  "estado": "atraso",
+  "detalle": "1 falla(s) seguida(s). Pasos fallidos: publicar / publicar → Publicar.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/42247651153",
+  "fecha_utc": "2026-11-06T19:55:03Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261106193000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-06T19:55:03Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261106191500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-06T19:55:03Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261106123000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261106121500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261106120000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "duenos: error: HTTPError; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "alias: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-06T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261105200000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-05T20:34:20Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261105194500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-05T20:34:20Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261105193000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-05T20:34:20Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "duenos: error: HTTPError; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T20:34:20Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "vivos",
+  "nombre": "Datos en movimiento",
+  "estado": "atraso",
+  "detalle": "4 corridas canceladas en 24 h: revisar la concurrencia del workflow.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/42036052199",
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "reloj",
+  "nombre": "Reloj (respaldo del cron)",
+  "estado": "falla",
+  "detalle": "Lleva 29.3 h sin terminar bien (límite 1 h). 1 falla(s) seguida(s). Pasos fallidos: tic → Programar el siguiente tic.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/42047257152",
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "ingesta",
+  "nombre": "Ingesta de eventos",
+  "estado": "falla",
+  "detalle": "Lleva 7.8 h sin terminar bien (límite 3 h).",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/42047270517",
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "falla",
+  "detalle": "Generado hace 7.9 h (límite 3 h). 2 fuente(s) con error (se conservan sus datos anteriores).",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261105133000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261105131500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261105130000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "fund: error: HTTPError; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "duenos: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "matriz: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "filiales: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "extra: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "bolsas: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_corp_empresas",
+  "nombre": "Empresas y organigramas (Wikidata)",
+  "estado": "aviso",
+  "detalle": "alias: error: sin tiempo en esta corrida; se conserva el anterior",
+  "url": null,
+  "fecha_utc": "2026-11-05T14:40:29Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "vivos",
+  "nombre": "Datos en movimiento",
+  "estado": "falla",
+  "detalle": "Lleva 4.9 h sin terminar bien (límite 1 h).",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/41892638875",
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "reloj",
+  "nombre": "Reloj (respaldo del cron)",
+  "estado": "falla",
+  "detalle": "Lleva 11.0 h sin terminar bien (límite 1 h). 1 falla(s) seguida(s). Pasos fallidos: tic → Programar el siguiente tic.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/41806751825",
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_vivos",
+  "nombre": "Datos en movimiento publicados",
+  "estado": "falla",
+  "detalle": "Generado hace 5.2 h (límite 1.5 h).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "atraso",
+  "detalle": "Generado hace 3.1 h (límite 3 h). 2 fuente(s) con error (se conservan sus datos anteriores).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "falla",
+  "detalle": "Generado hace 5.0 h (límite 1.5 h). 4 fuente(s) con error (se conservan sus datos anteriores).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261104150000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261104144500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261104143000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "The Northern Miner: HTTP Error 504: Gateway Time-out",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_protocolos",
+  "nombre": "Protocolos y alertas «cisne negro»",
+  "estado": "atraso",
+  "detalle": "Generado hace 6.1 h (límite 4 h).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_aire",
+  "nombre": "Calidad del aire (Sensor.Community)",
+  "estado": "atraso",
+  "detalle": "Generado hace 6.9 h (límite 6 h).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_anomalias",
+  "nombre": "Fenómenos anómalos",
+  "estado": "atraso",
+  "detalle": "Generado hace 10.8 h (límite 8 h).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_ciberataques",
+  "nombre": "Ciberataques reportados por la prensa",
+  "estado": "atraso",
+  "detalle": "Generado hace 5.0 h (límite 4 h).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "datos",
+  "id": "d_radiacion",
+  "nombre": "Radiación (sensores Safecast)",
+  "estado": "atraso",
+  "detalle": "Generado hace 5.0 h (límite 4 h).",
+  "url": null,
+  "fecha_utc": "2026-11-04T20:23:30Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103194500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T20:02:27Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103193000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T20:02:27Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103191500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T20:02:27Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103190000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T20:02:27Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "vivos",
+  "nombre": "Datos en movimiento",
+  "estado": "atraso",
+  "detalle": "1 falla(s) seguida(s). Pasos fallidos: publicar / publicar → Publicar.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/41640600384",
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103123000.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103121500.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103120000.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103114500.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103121500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261103120000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "GDACS: not well-formed (invalid token): line 116, column 111",
+  "url": null,
+  "fecha_utc": "2026-11-03T13:01:17Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102220000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T22:17:05Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102214500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T22:17:05Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102213000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T22:17:05Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102211500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T22:17:05Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-02T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-02T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102123000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102121500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261102120000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-02T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_protocolos",
+  "nombre": "Protocolos y alertas «cisne negro»",
+  "estado": "aviso",
+  "detalle": "ntas: error: HTTPError",
+  "url": null,
+  "fecha_utc": "2026-11-02T13:01:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101180000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T18:21:47Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101174500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T18:21:47Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101173000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T18:21:47Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101123000.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101124500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101123000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101121500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261101120000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_protocolos",
+  "nombre": "Protocolos y alertas «cisne negro»",
+  "estado": "aviso",
+  "detalle": "ntas: error: HTTPError",
+  "url": null,
+  "fecha_utc": "2026-11-01T13:01:10Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "camaras",
+  "nombre": "Cámaras del mundo",
+  "estado": "falla",
+  "detalle": "Lleva 74.4 h sin terminar bien (límite 30 h). 3 falla(s) seguida(s). Pasos fallidos: construir → Actualizar únicamente cámaras.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/41210595634",
+  "fecha_utc": "2026-10-31T17:36:52Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261031171500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-31T17:36:52Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261031170000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-31T17:36:52Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261031164500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-31T17:36:52Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "camaras",
+  "nombre": "Cámaras del mundo",
+  "estado": "falla",
+  "detalle": "Lleva 69.8 h sin terminar bien (límite 30 h). 2 falla(s) seguida(s). Pasos fallidos: construir → Actualizar únicamente cámaras.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/41077167785",
+  "fecha_utc": "2026-10-31T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-10-31T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-10-31T13:01:10Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_protocolos",
+  "nombre": "Protocolos y alertas «cisne negro»",
+  "estado": "aviso",
+  "detalle": "ntas: error: HTTPError",
+  "url": null,
+  "fecha_utc": "2026-10-31T13:01:10Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "camaras",
+  "nombre": "Cámaras del mundo",
+  "estado": "atraso",
+  "detalle": "Lleva 51.3 h sin terminar bien (límite 30 h). 2 falla(s) seguida(s). Pasos fallidos: construir → Actualizar únicamente cámaras.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/41077167785",
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "fuentes",
+  "nombre": "Salud de fuentes gratuitas",
+  "estado": "sin_datos",
+  "detalle": "No se pudo consultar GitHub: HTTPError",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261030181500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "Rumbo Minero: mismatched tag: line 93, column 2",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "Splash247: mismatched tag: line 93, column 2",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_protocolos",
+  "nombre": "Protocolos y alertas «cisne negro»",
+  "estado": "aviso",
+  "detalle": "ntas: error: HTTPError",
+  "url": null,
+  "fecha_utc": "2026-10-30T18:32:11Z"
+ },
+ {
+  "tipo": "proceso",
+  "id": "vivos",
+  "nombre": "Datos en movimiento",
+  "estado": "atraso",
+  "detalle": "38 corridas canceladas en 24 h: revisar la concurrencia del workflow.",
+  "url": "https://github.com/zoetzerlpetrov-gif/Geopolitica/actions/runs/40936190099",
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "El País Internacional: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "International Crisis Group: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_eventos",
+  "nombre": "Eventos publicados (ingesta)",
+  "estado": "aviso",
+  "detalle": "ReliefWeb (OCHA): Falta el secreto RELIEFWEB_APPNAME",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261029184500.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261029183000.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261029184500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261029183000.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_noticiero",
+  "nombre": "Noticiero DOMINUS",
+  "estado": "aviso",
+  "detalle": "20261029181500.translation.gkg.csv.zip: HTTP Error 404: Not Found",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ },
+ {
+  "tipo": "fuente",
+  "id": "d_protocolos",
+  "nombre": "Protocolos y alertas «cisne negro»",
+  "estado": "aviso",
+  "detalle": "ntas: error: HTTPError",
+  "url": null,
+  "fecha_utc": "2026-10-29T19:14:25Z"
+ }
+]
