@@ -1,0 +1,455 @@
+{
+ "jurisdiccion": "MDO",
+ "nombre": "Medio Oriente: Irak, Irán, Líbano, Siria, Yemen y Palestina",
+ "revisado": "2026-11",
+ "nota": "Archivo regional para países de Medio Oriente con alto riesgo de sanciones o conflicto. Para estos mercados la obligación principal de una empresa extranjera suele venir de sanciones de EUA, la UE y la ONU, más que de la ley local. Las sanciones cambian con frecuencia: confirma el estado vigente antes de cualquier operación. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "OFAC: programas por país",
+   "https://ofac.treasury.gov/sanctions-programs-and-country-information"
+  ],
+  [
+   "Mapa de sanciones de la UE",
+   "https://www.sanctionsmap.eu/"
+  ],
+  [
+   "Lista consolidada del Consejo de Seguridad de la ONU",
+   "https://main.un.org/securitycouncil/es/content/un-sc-consolidated-list"
+  ],
+  [
+   "GAFI: jurisdicciones bajo vigilancia",
+   "https://www.fatf-gafi.org/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "mdo_irq_sociedades",
+     "nombre": "Irak: Ley de Sociedades (Ley 21/1997) y registro de sucursales extranjeras",
+     "sigla": "IRQ Companies Law 21/1997",
+     "tipo": "ley",
+     "autoridad": "Registrador de Sociedades (Ministerio de Comercio); en el Kurdistán iraquí, registro regional propio",
+     "url": "https://www.mot.gov.iq/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades iraquíes y sucursales u oficinas de empresas extranjeras.",
+     "obligaciones": [
+      "Registro de la sucursal antes de operar; renovación anual de la licencia.",
+      "Estados financieros auditados por un contador iraquí."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de registro de sucursal",
+       "plazo": "Anual",
+       "ante": "Registrador de Sociedades"
+      }
+     ],
+     "sanciones": "Multas y cancelación del registro.",
+     "evidencia": [
+      "Certificado de registro"
+     ],
+     "preguntas": [
+      "¿La sucursal está registrada en Bagdad o en Erbil según donde opera?",
+      "¿Los estados se auditan localmente?"
+     ]
+    },
+    {
+     "id": "mdo_lbn_comercio",
+     "nombre": "Líbano: Código de Comercio y registro mercantil",
+     "sigla": "LBN Code of Commerce",
+     "tipo": "ley",
+     "autoridad": "Registro Mercantil (Ministerio de Justicia)",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades libanesas y sucursales extranjeras.",
+     "obligaciones": [
+      "Registro mercantil y de beneficiarios económicos.",
+      "Junta anual y estados auditados."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El registro mercantil está actualizado?",
+      "¿Se identifican los beneficiarios finales?"
+     ]
+    },
+    {
+     "id": "mdo_pse_sociedades",
+     "nombre": "Palestina: Decreto-Ley de Sociedades (42/2021)",
+     "sigla": "PSE Decree-Law 42/2021",
+     "tipo": "decreto-ley",
+     "autoridad": "Ministerio de Economía Nacional (Registro de Sociedades)",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades en Cisjordania (Gaza bajo control distinto).",
+     "obligaciones": [
+      "Registro y presentación anual de estados."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El registro está vigente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "mdo_irq_impuestos",
+     "nombre": "Irak: Ley del Impuesto sobre la Renta (Ley 113/1982, tasa general de 15 %; 35 % en contratos petroleros)",
+     "sigla": "IRQ Income Tax Law 113/1982",
+     "tipo": "ley",
+     "autoridad": "Comisión General de Impuestos; en el Kurdistán, Ministerio de Finanzas regional",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas y sucursales con ingresos en Irak; retenciones en contratos con el gobierno.",
+     "obligaciones": [
+      "Declaración anual con estados auditados (antes del 31 de mayo).",
+      "Retenciones de 3 % a 10 % en pagos de contratos (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual",
+       "plazo": "31 de mayo",
+       "ante": "Comisión General de Impuestos"
+      }
+     ],
+     "sanciones": "Multas y retención de pagos de contratos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La declaración se presentó antes del 31 de mayo?",
+      "¿Se obtuvo el certificado de no adeudo para cobrar contratos?"
+     ]
+    },
+    {
+     "id": "mdo_lbn_impuestos",
+     "nombre": "Líbano: Impuesto sobre la Renta (17 % a sociedades) e IVA (11 %)",
+     "sigla": "LBN Income Tax / VAT",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Finanzas",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas contribuyentes.",
+     "obligaciones": [
+      "Declaraciones anuales y de IVA trimestrales."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual",
+       "plazo": "Según el calendario del Ministerio de Finanzas",
+       "ante": "Ministerio de Finanzas"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las declaraciones se presentan en plazo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "mdo_irq_trabajo",
+     "nombre": "Irak: Ley del Trabajo (Ley 37/2015) y Ley de Pensiones y Seguro Social (Ley 18/2023)",
+     "sigla": "IRQ Labour Law 37/2015",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo y Asuntos Sociales",
+     "ultima_reforma": "verificar",
+     "aplica": "Empleadores; cuotas de trabajadores iraquíes y permisos para extranjeros.",
+     "obligaciones": [
+      "Permisos de trabajo y visas para extranjeros.",
+      "Inscripción en el seguro social."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los extranjeros tienen permiso y visa vigentes?",
+      "¿Se aporta al seguro social?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "mdo_lbn_datos",
+     "nombre": "Líbano: Ley de Transacciones Electrónicas y Datos Personales (Ley 81/2018)",
+     "sigla": "LBN Law 81/2018",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Economía y Comercio",
+     "ultima_reforma": "verificar",
+     "aplica": "Tratamiento de datos personales en Líbano.",
+     "obligaciones": [
+      "Declarar o solicitar licencia para ciertos tratamientos."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se presentaron las declaraciones de tratamiento?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "mdo_pld_region",
+     "nombre": "Leyes contra el lavado de dinero: Irak (Ley 39/2015) y Líbano (Ley 44/2015); Líbano está en la lista gris del GAFI desde octubre de 2024",
+     "sigla": "AML (IRQ 39/2015, LBN 44/2015)",
+     "tipo": "ley",
+     "autoridad": "Oficina contra el Lavado de Dinero de Irak (Banco Central); Comisión Especial de Investigación del Líbano",
+     "url": "https://www.fatf-gafi.org/",
+     "ultima_reforma": "verificar",
+     "aplica": "Instituciones financieras y empresas que reciben o hacen pagos en la región.",
+     "obligaciones": [
+      "Debida diligencia reforzada en operaciones con la región (recomendación del GAFI).",
+      "Identificar beneficiarios finales y origen de fondos."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, cierre de cuentas por bancos corresponsales.",
+     "evidencia": [
+      "Expedientes de debida diligencia reforzada"
+     ],
+     "preguntas": [
+      "¿Se aplica diligencia reforzada a clientes y pagos de estos países?",
+      "¿Se documenta el origen de fondos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "mdo_anticorrupcion",
+     "nombre": "Comisión Federal de Integridad de Irak y Comisión Nacional Anticorrupción del Líbano (Ley 175/2020)",
+     "sigla": "IRQ Integrity / LBN NACC Law 175/2020",
+     "tipo": "ley",
+     "autoridad": "Comisión Federal de Integridad (Irak); Comisión Nacional Anticorrupción (Líbano)",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas que contratan con el gobierno o tratan con funcionarios.",
+     "obligaciones": [
+      "Prohibido el soborno; las leyes extranjeras (FCPA, UK Bribery Act, Ley 27.401 o LGRA en México) también aplican a la empresa matriz.",
+      "Diligencia de agentes locales."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión, multas y exclusión de contratos.",
+     "evidencia": [
+      "Due diligence de terceros"
+     ],
+     "preguntas": [
+      "¿Se hace diligencia reforzada de agentes y socios locales?",
+      "¿Se registran los pagos a funcionarios (permisos, aduanas)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "mdo_competencia",
+     "nombre": "Irak: Ley de Competencia y Prevención de Monopolios (Ley 14/2010); Líbano: Ley de Competencia (Ley 281/2022)",
+     "sigla": "IRQ Law 14/2010 / LBN Law 281/2022",
+     "tipo": "ley",
+     "autoridad": "Consejo de Competencia (Irak); Autoridad Nacional de Competencia (Líbano)",
+     "ultima_reforma": "verificar",
+     "aplica": "Concentraciones y conductas en estos mercados.",
+     "obligaciones": [
+      "Evaluar la notificación de concentraciones con efectos locales."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evaluó la obligación de notificar?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "mdo_irq_ambiental",
+     "nombre": "Irak: Ley de Protección y Mejora del Medio Ambiente (Ley 27/2009)",
+     "sigla": "IRQ Law 27/2009",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Medio Ambiente",
+     "ultima_reforma": "verificar",
+     "aplica": "Proyectos industriales y petroleros.",
+     "obligaciones": [
+      "Evaluación de impacto ambiental y permisos."
+     ],
+     "tramites": [
+      {
+       "que": "Aprobación ambiental",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Medio Ambiente"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El proyecto tiene aprobación ambiental?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "mdo_irn_sanciones",
+     "nombre": "Irán: embargo integral de EUA (31 CFR 560 y sanciones secundarias), medidas restrictivas de la UE y sanciones de la ONU restablecidas en septiembre de 2025 (mecanismo de «snapback»)",
+     "sigla": "IRN sanctions",
+     "tipo": "sanciones internacionales",
+     "autoridad": "OFAC (EUA); Consejo de la UE; Consejo de Seguridad de la ONU; autoridades locales de cada país",
+     "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information",
+     "ultima_reforma": "2025-09-28 (snapback ONU; verificar)",
+     "aplica": "Toda empresa con bancos, socios, accionistas o proveedores sujetos a jurisdicción de EUA o la UE; sanciones secundarias de EUA alcanzan a no estadounidenses en energía, finanzas, transporte y metales.",
+     "obligaciones": [
+      "No realizar operaciones con Irán sin licencia; filtrar contrapartes, buques y bancos.",
+      "Revisar cláusulas de sanciones en contratos y la exposición a sanciones secundarias."
+     ],
+     "tramites": [],
+     "sanciones": "Multas civiles y penales de EUA (por operación), bloqueo de activos e inclusión en listas.",
+     "evidencia": [
+      "Registros de filtrado",
+      "Licencias OFAC si existen"
+     ],
+     "preguntas": [
+      "¿Existe filtrado contra las listas SDN, UE y ONU de clientes, proveedores, buques y bancos?",
+      "¿Hay cláusula de sanciones en los contratos?"
+     ]
+    },
+    {
+     "id": "mdo_syr_sanciones",
+     "nombre": "Siria: EUA revocó el programa general de sanciones (Orden Ejecutiva de 30-jun-2025) y la UE levantó las sanciones económicas en mayo de 2025, pero siguen designadas personas y grupos (terrorismo, ex régimen) y controles de exportación",
+     "sigla": "SYR sanctions",
+     "tipo": "sanciones internacionales",
+     "autoridad": "OFAC; Departamento de Comercio de EUA (BIS); Consejo de la UE",
+     "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information",
+     "ultima_reforma": "2025-07-01 (verificar cambios posteriores)",
+     "aplica": "Empresas que evalúan entrar a Siria tras el levantamiento parcial.",
+     "obligaciones": [
+      "Filtrar contrapartes contra las designaciones vigentes (terrorismo, ex régimen, derechos humanos).",
+      "Verificar si los bienes requieren licencia de exportación de EUA o la UE.",
+      "Revisar el estado de la Ley César (verificar derogación)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y bloqueo de activos si se opera con personas designadas.",
+     "evidencia": [
+      "Memorando legal de sanciones vigentes"
+     ],
+     "preguntas": [
+      "¿Se confirmó el estado vigente de las sanciones antes de operar?",
+      "¿Se filtran las contrapartes contra las designaciones que siguen vigentes?"
+     ]
+    },
+    {
+     "id": "mdo_yem_sanciones",
+     "nombre": "Yemen: designación de Ansarallah (hutíes) como organización terrorista extranjera por EUA (2025) y embargo de armas de la ONU (Resolución 2216)",
+     "sigla": "YEM sanctions",
+     "tipo": "sanciones internacionales",
+     "autoridad": "Departamento de Estado y OFAC (EUA); Consejo de Seguridad de la ONU",
+     "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information",
+     "ultima_reforma": "2025-03 (designación FTO)",
+     "aplica": "Empresas de transporte marítimo, seguros, energía y ayuda que operan en Yemen o el Mar Rojo.",
+     "obligaciones": [
+      "Evitar apoyo material a los hutíes (incluidos pagos de puertos y combustibles en zonas bajo su control).",
+      "Diligencia de rutas y puertos."
+     ],
+     "tramites": [],
+     "sanciones": "Responsabilidad penal por apoyo material a terrorismo y bloqueo de activos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evalúan los pagos en zonas controladas por los hutíes?",
+      "¿Las rutas por el Mar Rojo tienen evaluación de riesgo?"
+     ]
+    },
+    {
+     "id": "mdo_lbn_irq_sanciones",
+     "nombre": "Líbano e Irak: designaciones de Hezbolá y de milicias y bancos iraquíes vinculados a Irán (EUA, UE, Reino Unido) y controles del Banco Central de Irak sobre transferencias en dólares",
+     "sigla": "LBN / IRQ sanctions",
+     "tipo": "sanciones internacionales",
+     "autoridad": "OFAC; Banco Central de Irak; Banco Central del Líbano",
+     "url": "https://ofac.treasury.gov/sanctions-programs-and-country-information",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas con contrapartes en Líbano e Irak.",
+     "obligaciones": [
+      "Filtrar contrapartes contra designaciones de Hezbolá y grupos vinculados.",
+      "Usar bancos autorizados para transferencias en dólares a Irak."
+     ],
+     "tramites": [],
+     "sanciones": "Bloqueo de activos y cierre de cuentas corresponsales.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se filtran socios y bancos libaneses e iraquíes?",
+      "¿Los pagos a Irak pasan por bancos autorizados?"
+     ]
+    },
+    {
+     "id": "mdo_irq_inversion",
+     "nombre": "Irak: Ley de Inversión (Ley 13/2006) y licencias de la Comisión Nacional de Inversión",
+     "sigla": "IRQ Investment Law 13/2006",
+     "tipo": "ley",
+     "autoridad": "Comisión Nacional de Inversión; Junta de Inversión del Kurdistán",
+     "url": "https://investpromo.gov.iq/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros.",
+     "obligaciones": [
+      "Licencia de inversión para obtener beneficios y garantías."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de inversión",
+       "plazo": "Antes de invertir",
+       "ante": "Comisión Nacional de Inversión"
+      }
+     ],
+     "sanciones": "Pérdida de beneficios.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El proyecto tiene licencia de inversión?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "mdo_irq_petroleo",
+     "nombre": "Irak: contratos de servicios técnicos del Ministerio de Petróleo y contratos de reparto de producción del Gobierno Regional del Kurdistán",
+     "sigla": "IRQ oil contracts",
+     "tipo": "contratos",
+     "autoridad": "Ministerio de Petróleo de Irak; Ministerio de Recursos Naturales del Kurdistán",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas petroleras y de servicios.",
+     "obligaciones": [
+      "Contratos con el gobierno federal o regional (con disputa legal entre ambos).",
+      "Impuesto de 35 % sobre ingresos de contratos petroleros (Ley 19/2010)."
+     ],
+     "tramites": [],
+     "sanciones": "Rescisión y litigios.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evaluó el riesgo legal federal-regional?",
+      "¿Se cumple el impuesto de 35 %?"
+     ]
+    }
+   ]
+  }
+ }
+}

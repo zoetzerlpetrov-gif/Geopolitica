@@ -1,0 +1,816 @@
+{
+ "jurisdiccion": "ARE",
+ "nombre": "Emiratos Árabes Unidos",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en los Emiratos Árabes Unidos (territorio continental). DIFC y ADGM tienen derecho propio (de tradición anglosajona) en sociedades, laboral y datos; confirma qué régimen aplica. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Legislación de los EAU",
+   "https://uaelegislation.gov.ae/"
+  ],
+  [
+   "Autoridad Federal de Impuestos",
+   "https://tax.gov.ae/"
+  ],
+  [
+   "MOHRE",
+   "https://www.mohre.gov.ae/"
+  ],
+  [
+   "Oficina Ejecutiva de Control y No Proliferación",
+   "https://www.uaeiec.gov.ae/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "ae_sociedades",
+     "nombre": "Ley de Sociedades Comerciales (Decreto-Ley Federal 32/2021) y Resolución 109/2023 de beneficiario final",
+     "sigla": "CCL",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Ministerio de Economía; departamentos de desarrollo económico de cada emirato; autoridades de zonas francas",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "2021-09-20",
+     "aplica": "Sociedades en territorio continental (mainland); las zonas francas (incluidos DIFC y ADGM) tienen reglas propias.",
+     "obligaciones": [
+      "Licencia comercial del emirato y renovación anual.",
+      "Registro de beneficiario final y de socios.",
+      "Desde 2021 se permite 100 % de capital extranjero en la mayoría de actividades."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de licencia comercial",
+       "plazo": "Anual",
+       "ante": "Departamento de desarrollo económico"
+      },
+      {
+       "que": "Actualización de beneficiario final",
+       "plazo": "15 días tras el cambio (verificar)",
+       "ante": "Registrador"
+      }
+     ],
+     "sanciones": "Multas administrativas de hasta 100 000 dírhams por beneficiario final.",
+     "evidencia": [
+      "Licencia comercial",
+      "Memorando de asociación"
+     ],
+     "preguntas": [
+      "¿La licencia comercial está vigente?",
+      "¿El registro de beneficiario final está actualizado?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "ae_impuestos",
+     "nombre": "Impuesto sobre Sociedades (Decreto-Ley Federal 47/2022: 9 % sobre utilidades mayores a 375 000 dírhams), impuesto mínimo complementario de 15 % para multinacionales (2025) e IVA de 5 %",
+     "sigla": "CT Law / VAT",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Autoridad Federal de Impuestos (FTA)",
+     "url": "https://tax.gov.ae/",
+     "ultima_reforma": "2023-06-01 (impuesto sobre sociedades)",
+     "aplica": "Empresas en territorio continental y en zonas francas (estas pueden tener 0 % si califican).",
+     "obligaciones": [
+      "Registro en EmaraTax y declaración anual en 9 meses tras el cierre.",
+      "Documentación de precios de transferencia.",
+      "Declaración de IVA trimestral; facturación electrónica obligatoria por fases desde 2026 (verificar)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración del impuesto sobre sociedades",
+       "plazo": "9 meses tras el cierre",
+       "ante": "FTA"
+      },
+      {
+       "que": "Declaración de IVA",
+       "plazo": "28 días tras el período",
+       "ante": "FTA"
+      }
+     ],
+     "sanciones": "Multas por registro tardío (10 000 dírhams) y por declaración tardía.",
+     "evidencia": [
+      "Declaraciones",
+      "Archivo de precios de transferencia"
+     ],
+     "preguntas": [
+      "¿La empresa se registró para el impuesto sobre sociedades?",
+      "¿La declaración se presentó en 9 meses?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "ae_trabajo",
+     "nombre": "Ley de Relaciones Laborales (Decreto-Ley Federal 33/2021), emiratización y seguro de desempleo",
+     "sigla": "Labour Law",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Ministerio de Recursos Humanos y Emiratización (MOHRE)",
+     "url": "https://www.mohre.gov.ae/",
+     "ultima_reforma": "2022-02-02",
+     "aplica": "Empleadores del territorio continental (DIFC y ADGM tienen leyes laborales propias).",
+     "obligaciones": [
+      "Contratos de duración determinada registrados en MOHRE y permisos de trabajo.",
+      "Salarios por el Sistema de Protección de Salarios (WPS).",
+      "Metas de emiratización (empresas de 50 o más: 2 % anual de puestos calificados) y seguro de desempleo para trabajadores."
+     ],
+     "tramites": [
+      {
+       "que": "Avance de emiratización",
+       "plazo": "Semestral (30 de junio y 31 de diciembre)",
+       "ante": "MOHRE"
+      }
+     ],
+     "sanciones": "Multas de 96 000 dírhams por cada emiratí no contratado (2025, aumenta cada año) y suspensión de permisos.",
+     "evidencia": [
+      "Contratos MOHRE",
+      "Reportes WPS"
+     ],
+     "preguntas": [
+      "¿Los salarios se pagan por WPS?",
+      "¿Se cumplen las metas de emiratización?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "ae_sst",
+     "nombre": "Resolución Ministerial 44/2022 sobre seguridad y salud ocupacional y sistemas de cada emirato (p. ej. OSHAD en Abu Dabi)",
+     "sigla": "OSH",
+     "tipo": "resolución",
+     "autoridad": "MOHRE; autoridades de cada emirato",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "2022",
+     "aplica": "Todo empleador; pausa de mediodía en verano (12:30 a 15:00, 15 de junio a 15 de septiembre).",
+     "obligaciones": [
+      "Evaluación de riesgos y medidas de protección.",
+      "Reporte de accidentes."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidente de trabajo",
+       "plazo": "Inmediato (verificar)",
+       "ante": "MOHRE / policía"
+      }
+     ],
+     "sanciones": "Multas por trabajador expuesto.",
+     "evidencia": [
+      "Evaluación de riesgos"
+     ],
+     "preguntas": [
+      "¿Se aplica la pausa de mediodía?",
+      "¿Se reportan los accidentes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "ae_pdpl",
+     "nombre": "Ley Federal de Protección de Datos Personales (Decreto-Ley Federal 45/2021) y leyes propias del DIFC (2020) y ADGM (2021)",
+     "sigla": "PDPL",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Oficina de Datos de los EAU; comisionados del DIFC y ADGM",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "2021 (reglamento ejecutivo pendiente; verificar)",
+     "aplica": "Quien trate datos de personas en los EAU (fuera de zonas con ley propia).",
+     "obligaciones": [
+      "Base legal y derechos de los titulares.",
+      "Notificar violaciones de datos (plazos según reglamento; en DIFC sin demora)."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de violación de datos",
+       "plazo": "Según el reglamento (verificar)",
+       "ante": "Oficina de Datos / comisionado"
+      }
+     ],
+     "sanciones": "Multas según reglamento ejecutivo (verificar) y hasta 100 000 dólares en DIFC por infracción.",
+     "evidencia": [
+      "Registro de tratamientos"
+     ],
+     "preguntas": [
+      "¿Se identificó qué ley aplica (federal, DIFC o ADGM)?",
+      "¿Hay procedimiento de notificación de violaciones?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "ae_pld",
+     "nombre": "Ley contra el Lavado de Dinero y el Financiamiento del Terrorismo (Decreto-Ley Federal 10/2025, que sustituyó al 20/2018; verificar) y goAML",
+     "sigla": "AML Law",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Unidad de Inteligencia Financiera; Ministerio de Economía (actividades no financieras)",
+     "url": "https://www.uaefiu.gov.ae/",
+     "ultima_reforma": "2025 (verificar)",
+     "aplica": "Instituciones financieras y actividades no financieras designadas (inmobiliarias, metales preciosos, auditores, proveedores corporativos).",
+     "obligaciones": [
+      "Registro en goAML.",
+      "Debida diligencia y reportes de operaciones sospechosas.",
+      "Reporte de operaciones en efectivo de 55 000 dírhams o más (inmobiliarias y metales)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "Sin demora",
+       "ante": "Unidad de Inteligencia Financiera"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de dírhams y suspensión.",
+     "evidencia": [
+      "Manual PLD",
+      "Registro goAML"
+     ],
+     "preguntas": [
+      "¿La empresa está registrada en goAML?",
+      "¿Se filtran los clientes contra las listas locales y de la ONU?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "ae_cohecho",
+     "nombre": "Código Penal (Decreto-Ley Federal 31/2021): soborno público, privado y de funcionarios extranjeros",
+     "sigla": "Penal Code",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Fiscalía; autoridades de rendición de cuentas de cada emirato",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "2021",
+     "aplica": "Personas y empresas.",
+     "obligaciones": [
+      "Prohibido el soborno en sector público y privado.",
+      "Controles a intermediarios."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión y multas; la empresa puede ser sancionada con multa.",
+     "evidencia": [
+      "Política anticorrupción"
+     ],
+     "preguntas": [
+      "¿Existe política anticorrupción?",
+      "¿Hay diligencia de agentes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "ae_competencia",
+     "nombre": "Ley de Regulación de la Competencia (Decreto-Ley Federal 36/2023) y umbrales de concentración (Resolución de Gabinete 3/2025)",
+     "sigla": "Competition Law",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Ministerio de Economía",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "2023-12-31 (vigencia)",
+     "aplica": "Concentraciones que superan 300 millones de dírhams de ventas combinadas en los EAU o 40 % del mercado (verificar) y conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar al menos 90 días antes de cerrar.",
+      "No celebrar acuerdos de precios."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "90 días antes de cerrar",
+       "ante": "Ministerio de Economía"
+      }
+     ],
+     "sanciones": "Multas de 2 % a 10 % de las ventas.",
+     "evidencia": [
+      "Análisis de umbrales"
+     ],
+     "preguntas": [
+      "¿Se evaluaron los umbrales?",
+      "¿Hay política de competencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "ae_consumidor",
+     "nombre": "Ley Federal de Protección al Consumidor (15/2020) y Ley de Comercio Electrónico (Decreto-Ley 14/2023)",
+     "sigla": "Consumer Protection Law",
+     "tipo": "ley federal",
+     "autoridad": "Ministerio de Economía",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores a consumidores.",
+     "obligaciones": [
+      "Información en árabe, garantía y retiro de productos defectuosos.",
+      "Reglas de comercio electrónico."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de hasta 2 millones de dírhams.",
+     "evidencia": [
+      "Registro de quejas"
+     ],
+     "preguntas": [
+      "¿Las etiquetas y facturas están en árabe?",
+      "¿Hay proceso de retiro?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "ae_ambiental",
+     "nombre": "Ley Federal de Protección Ambiental (24/1999) y Ley de Reducción de los Efectos del Cambio Climático (Decreto-Ley Federal 11/2024, vigente desde 2025)",
+     "sigla": "Climate Law",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Ministerio de Cambio Climático y Medio Ambiente; autoridades de cada emirato",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "2025-05-30 (vigencia; verificar)",
+     "aplica": "Proyectos con impacto ambiental; entidades con emisiones (medición y reporte de gases de efecto invernadero).",
+     "obligaciones": [
+      "Permiso ambiental del emirato.",
+      "Medir y reportar emisiones de gases de efecto invernadero y plan de reducción."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de emisiones de gases de efecto invernadero",
+       "plazo": "Anual (según reglamento; verificar)",
+       "ante": "Ministerio de Cambio Climático"
+      }
+     ],
+     "sanciones": "Multas de hasta 2 millones de dírhams.",
+     "evidencia": [
+      "Inventario de emisiones"
+     ],
+     "preguntas": [
+      "¿Se miden y reportan las emisiones?",
+      "¿Los permisos ambientales están vigentes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "ae_sanciones",
+     "nombre": "Sanciones financieras dirigidas (Resolución de Gabinete 74/2020) y Ley de Bienes Estratégicos (Ley Federal 13/2007)",
+     "sigla": "TFS / Strategic Goods",
+     "tipo": "ley federal",
+     "autoridad": "Oficina Ejecutiva de Control y No Proliferación; Autoridad Federal de Aduanas",
+     "url": "https://www.uaeiec.gov.ae/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda persona física o moral; exportadores y reexportadores de bienes de uso dual.",
+     "obligaciones": [
+      "Congelar fondos de personas en las listas local y de la ONU sin demora (24 horas) y reportar.",
+      "Licencia para exportar o reexportar bienes estratégicos."
+     ],
+     "tramites": [
+      {
+       "que": "Congelamiento y reporte a la Oficina Ejecutiva",
+       "plazo": "24 horas",
+       "ante": "Oficina Ejecutiva de Control y No Proliferación"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de dírhams y prisión.",
+     "evidencia": [
+      "Registro de filtrado de listas"
+     ],
+     "preguntas": [
+      "¿La empresa está suscrita a las notificaciones de listas de la Oficina Ejecutiva?",
+      "¿Se controlan las reexportaciones de bienes de uso dual?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "ae_pi",
+     "nombre": "Ley de Marcas (Decreto-Ley Federal 36/2021) y Ley de Propiedad Industrial (11/2021)",
+     "sigla": "Trademarks Law",
+     "tipo": "decreto-ley federal",
+     "autoridad": "Ministerio de Economía",
+     "url": "https://uaelegislation.gov.ae/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas y patentes.",
+     "obligaciones": [
+      "Registrar marcas ante el Ministerio de Economía."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "Ministerio de Economía"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [
+      "Certificados"
+     ],
+     "preguntas": [
+      "¿Las marcas están registradas en los EAU?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "ae_valores",
+     "nombre": "Reglamentos de la autoridad federal de valores (SCA) y de las bolsas ADX y DFM",
+     "sigla": "SCA",
+     "tipo": "ley federal",
+     "autoridad": "Autoridad de Valores y Materias Primas (SCA; verificar nombre vigente)",
+     "url": "https://www.sca.gov.ae/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas.",
+     "obligaciones": [
+      "Estados financieros trimestrales y anuales.",
+      "Revelación inmediata de información relevante."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "3 meses tras el cierre (verificar)",
+       "ante": "SCA / bolsa"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Estados financieros"
+     ],
+     "preguntas": [
+      "¿Los estados se publican en plazo?",
+      "¿Se revelan los hechos relevantes?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "ae_electricidad",
+     "nombre": "Regulación eléctrica de cada emirato (Departamento de Energía de Abu Dabi; DEWA y Consejo Supremo de Energía de Dubái)",
+     "sigla": "DoE / DEWA",
+     "tipo": "ley",
+     "autoridad": "Reguladores de cada emirato",
+     "ultima_reforma": "verificar",
+     "aplica": "Generación, distribución y autoconsumo solar.",
+     "obligaciones": [
+      "Licencia o aprobación del regulador del emirato."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia o aprobación de conexión",
+       "plazo": "Antes de operar",
+       "ante": "Regulador del emirato"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La instalación tiene aprobación del regulador del emirato?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "ae_hidro",
+     "nombre": "Concesiones de petróleo y gas de cada emirato (ADNOC y Consejo Supremo del Petróleo en Abu Dabi)",
+     "sigla": "Concesiones / SPC",
+     "tipo": "ley",
+     "autoridad": "Consejo Supremo del Petróleo; ADNOC; autoridades de cada emirato",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, producción y servicios petroleros.",
+     "obligaciones": [
+      "Contrato de concesión o de servicios; requisitos de valor agregado local (programa ICV)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumple el programa de valor en el país (ICV)?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "ae_bancos",
+     "nombre": "Decreto-Ley Federal 14/2018 sobre el Banco Central y las Instituciones Financieras",
+     "sigla": "CBUAE Law",
+     "tipo": "ley",
+     "autoridad": "Banco Central de los EAU (CBUAE)",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, financieras y pagos.",
+     "obligaciones": [
+      "Licencia del CBUAE."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia del CBUAE",
+       "plazo": "Antes de operar",
+       "ante": "CBUAE"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia del CBUAE?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "ae_seguros",
+     "nombre": "Decreto-Ley Federal 48/2023 sobre Actividades de Seguros",
+     "sigla": "Insurance Law",
+     "tipo": "ley",
+     "autoridad": "CBUAE",
+     "ultima_reforma": "2023",
+     "aplica": "Aseguradoras e intermediarios.",
+     "obligaciones": [
+      "Licencia y solvencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguros",
+       "plazo": "Antes de operar",
+       "ante": "CBUAE"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de solvencia?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "ae_telecom",
+     "nombre": "Ley Federal de Telecomunicaciones (Decreto-Ley 3/2003 y reformas)",
+     "sigla": "Telecom Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Regulación de Telecomunicaciones y Gobierno Digital (TDRA)",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores y equipos.",
+     "obligaciones": [
+      "Licencia y homologación de equipos."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación de equipos",
+       "plazo": "Antes de vender",
+       "ante": "TDRA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los equipos están homologados por la TDRA?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "ae_ti",
+     "nombre": "Activos virtuales: Autoridad Reguladora de Activos Virtuales de Dubái (VARA) y normas del CBUAE",
+     "sigla": "VARA / CBUAE",
+     "tipo": "ley",
+     "autoridad": "VARA; CBUAE; reguladores de zonas francas",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de activos virtuales y servicios digitales financieros.",
+     "obligaciones": [
+      "Licencia de VARA u otro regulador competente."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de activos virtuales",
+       "plazo": "Antes de operar",
+       "ante": "VARA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad con activos virtuales tiene licencia?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "ae_farma",
+     "nombre": "Registro de medicamentos y dispositivos",
+     "sigla": "EDE",
+     "tipo": "ley",
+     "autoridad": "Establecimiento de Medicamentos de los EAU (EDE, desde 2024); autoridades de salud de cada emirato",
+     "ultima_reforma": "2024",
+     "aplica": "Fabricantes, importadores y distribuidores.",
+     "obligaciones": [
+      "Registro de producto y licencia de establecimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto",
+       "plazo": "Antes de comercializar",
+       "ante": "EDE"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "ae_alimentos",
+     "nombre": "Ley Federal de Seguridad Alimentaria (10/2015)",
+     "sigla": "Food Safety Law",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Cambio Climático y Medio Ambiente; municipios",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores e importadores.",
+     "obligaciones": [
+      "Registro de productos y etiquetado en árabe; certificado halal."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto alimenticio",
+       "plazo": "Antes de importar",
+       "ante": "Municipio / ZAD"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados en el municipio?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "ae_construccion",
+     "nombre": "Códigos de construcción y permisos de cada emirato",
+     "sigla": "Building codes",
+     "tipo": "ley",
+     "autoridad": "Municipios",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Clasificación de contratista y permiso de obra."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar",
+       "ante": "Municipio"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La obra tiene permiso municipal?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "ae_aviacion",
+     "nombre": "Reglamentos de aviación civil",
+     "sigla": "CAR",
+     "tipo": "ley",
+     "autoridad": "Autoridad General de Aviación Civil (GCAA)",
+     "ultima_reforma": "verificar",
+     "aplica": "Aerolíneas, talleres y operadores de drones.",
+     "obligaciones": [
+      "Certificados y registro de drones."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de operador",
+       "plazo": "Antes de operar",
+       "ante": "GCAA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los certificados de la GCAA están vigentes?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "ae_defensa",
+     "nombre": "Bienes estratégicos y programa de compensaciones de defensa",
+     "sigla": "Strategic Goods",
+     "tipo": "ley",
+     "autoridad": "Oficina Ejecutiva de Control y No Proliferación; Consejo Tawazun",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de defensa.",
+     "obligaciones": [
+      "Licencia de exportación de bienes estratégicos."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de bienes estratégicos",
+       "plazo": "Antes de exportar",
+       "ante": "Oficina Ejecutiva"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se tramitan las licencias de bienes estratégicos?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "ae_logistica",
+     "nombre": "Ley Aduanera Común del CCG y reglas de zonas francas",
+     "sigla": "GCC Customs Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad Federal de Identidad, Ciudadanía, Aduanas y Seguridad Portuaria; aduanas de cada emirato",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores, exportadores y operadores logísticos.",
+     "obligaciones": [
+      "Código aduanero y declaraciones electrónicas."
+     ],
+     "tramites": [
+      {
+       "que": "Registro aduanero",
+       "plazo": "Antes de importar",
+       "ante": "Aduana del emirato"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa tiene código de importador?"
+     ]
+    }
+   ]
+  }
+ }
+}

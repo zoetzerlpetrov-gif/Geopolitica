@@ -1,0 +1,551 @@
+{
+ "jurisdiccion": "QAT",
+ "nombre": "Catar",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Catar (territorio continental). El Centro Financiero de Catar (QFC) tiene reglas propias. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Al Meezan (portal legal de Catar)",
+   "https://www.almeezan.qa/"
+  ],
+  [
+   "Autoridad General de Impuestos",
+   "https://www.gta.gov.qa/"
+  ],
+  [
+   "Ministerio de Comercio e Industria",
+   "https://www.moci.gov.qa/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "qa_sociedades",
+     "nombre": "Ley de Sociedades Comerciales (Ley 11/2015)",
+     "sigla": "Law 11/2015",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio e Industria (MoCI)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades y sucursales extranjeras.",
+     "obligaciones": [
+      "Registro comercial y licencia; renovación anual.",
+      "Estados financieros auditados."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación del registro comercial",
+       "plazo": "Anual",
+       "ante": "MoCI"
+      }
+     ],
+     "sanciones": "Multas y cancelación del registro.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El registro comercial está vigente?",
+      "¿Los estados están auditados?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "qa_impuestos",
+     "nombre": "Ley del Impuesto sobre la Renta (Ley 24/2018, 10 % a la participación extranjera) e impuesto mínimo complementario a multinacionales (2025)",
+     "sigla": "Law 24/2018",
+     "tipo": "ley",
+     "autoridad": "Autoridad General de Impuestos (GTA)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas con participación extranjera; las de capital qatarí y del CCG pagan zakat o están exentas en esa parte.",
+     "obligaciones": [
+      "Declaración anual en 4 meses en el portal Dhareeba.",
+      "Retención de 5 % a 7 % en pagos a no residentes."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual del impuesto sobre la renta",
+       "plazo": "4 meses tras el cierre",
+       "ante": "GTA (Dhareeba)"
+      }
+     ],
+     "sanciones": "Multas e intereses.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La declaración se presentó en 4 meses?",
+      "¿Se retienen y enteran los pagos a no residentes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "qa_trabajo",
+     "nombre": "Ley del Trabajo (Ley 14/2004, reformada en 2020: fin del permiso de salida y salario mínimo)",
+     "sigla": "Law 14/2004",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador.",
+     "obligaciones": [
+      "Contratos registrados y salarios por el Sistema de Protección de Salarios (WPS).",
+      "Salario mínimo y prestaciones de alojamiento y alimentación."
+     ],
+     "tramites": [
+      {
+       "que": "Archivo del WPS",
+       "plazo": "Mensual",
+       "ante": "Ministerio de Trabajo"
+      }
+     ],
+     "sanciones": "Multas y bloqueo de servicios.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los salarios se pagan por el WPS?",
+      "¿Se respeta el salario mínimo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "qa_sst",
+     "nombre": "Decisiones ministeriales sobre seguridad y estrés por calor",
+     "sigla": "Ministerial decisions (heat stress)",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Trabajo al aire libre.",
+     "obligaciones": [
+      "Prohibición de trabajo al aire libre de 10:00 a 15:30 del 1 de junio al 15 de septiembre (verificar fechas).",
+      "Evaluación de riesgos por calor."
+     ],
+     "tramites": [],
+     "sanciones": "Cierre del sitio y multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se aplica la restricción de verano?",
+      "¿Hay evaluación de estrés por calor?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "qa_datos",
+     "nombre": "Ley de Protección de la Privacidad de Datos Personales (Ley 13/2016)",
+     "sigla": "Law 13/2016",
+     "tipo": "ley",
+     "autoridad": "Agencia Nacional de Ciberseguridad (NCSA)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Responsables que tratan datos en Catar.",
+     "obligaciones": [
+      "Notificar violaciones a la autoridad y a los titulares.",
+      "Medidas de seguridad y evaluación de riesgos."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de violación de datos",
+       "plazo": "72 horas (según guía; verificar)",
+       "ante": "NCSA"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de riales.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Hay procedimiento de notificación de violaciones?",
+      "¿Se aplican las guías de la NCSA?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "qa_pld",
+     "nombre": "Ley contra el Lavado de Dinero y el Financiamiento del Terrorismo (Ley 20/2019)",
+     "sigla": "Law 20/2019",
+     "tipo": "ley",
+     "autoridad": "Unidad de Información Financiera de Catar (QFIU)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Instituciones financieras y actividades designadas.",
+     "obligaciones": [
+      "Debida diligencia y reportes sospechosos."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "Sin demora",
+       "ante": "QFIU"
+      }
+     ],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "qa_competencia",
+     "nombre": "Ley de Protección de la Competencia (Ley 19/2006)",
+     "sigla": "Law 19/2006",
+     "tipo": "ley",
+     "autoridad": "Comité de Protección de la Competencia (MoCI)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Conductas y concentraciones dominantes.",
+     "obligaciones": [
+      "Notificar adquisiciones que generen dominio."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evaluó la obligación de notificar?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "qa_consumidor",
+     "nombre": "Ley de Protección al Consumidor (Ley 8/2008)",
+     "sigla": "Law 8/2008",
+     "tipo": "ley",
+     "autoridad": "MoCI",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Vendedores a consumidores.",
+     "obligaciones": [
+      "Información en árabe, garantías y precios exhibidos."
+     ],
+     "tramites": [],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las facturas y etiquetas están en árabe?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "qa_ambiental",
+     "nombre": "Ley de Protección Ambiental (Ley 30/2002)",
+     "sigla": "Law 30/2002",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Medio Ambiente y Cambio Climático",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Proyectos con impacto ambiental.",
+     "obligaciones": [
+      "Permiso ambiental y EIA."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso ambiental",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Medio Ambiente"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El permiso ambiental está vigente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "qa_inversion",
+     "nombre": "Ley de Regulación de la Inversión de Capital No Qatarí (Ley 1/2019)",
+     "sigla": "Law 1/2019",
+     "tipo": "ley",
+     "autoridad": "MoCI; Agencia de Promoción de Inversiones",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros (hasta 100 % en la mayoría de sectores con aprobación).",
+     "obligaciones": [
+      "Aprobación para participación extranjera superior a 49 %.",
+      "Cumplir las sanciones de la ONU y listas nacionales."
+     ],
+     "tramites": [
+      {
+       "que": "Aprobación de inversión extranjera",
+       "plazo": "Antes de operar",
+       "ante": "MoCI"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se obtuvo la aprobación de inversión extranjera?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "qa_pi",
+     "nombre": "Ley de Marcas (Ley 9/2002)",
+     "sigla": "Law 9/2002",
+     "tipo": "ley",
+     "autoridad": "MoCI (Oficina de Marcas)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas.",
+     "obligaciones": [
+      "Registrar marcas."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "MoCI"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "qa_valores",
+     "nombre": "Ley de la Autoridad de Mercados Financieros de Catar (Ley 8/2012)",
+     "sigla": "Law 8/2012",
+     "tipo": "ley",
+     "autoridad": "QFMA; Bolsa de Catar",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas.",
+     "obligaciones": [
+      "Estados financieros y revelaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "Según la QFMA",
+       "ante": "QFMA"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se publican los estados en plazo?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "qa_hidrocarburos",
+     "nombre": "Recursos naturales (Ley 3/2007) y acuerdos con QatarEnergy",
+     "sigla": "QatarEnergy",
+     "tipo": "ley",
+     "autoridad": "QatarEnergy; Ministerio de Estado para Asuntos de Energía",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, producción y GNL.",
+     "obligaciones": [
+      "Acuerdos de participación o servicios con QatarEnergy y su programa de valor local (Tawteen)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de Tawteen?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "qa_bancos",
+     "nombre": "Ley del Banco Central de Catar (Ley 13/2012)",
+     "sigla": "Law 13/2012",
+     "tipo": "ley",
+     "autoridad": "Banco Central de Catar (QCB)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos y pagos.",
+     "obligaciones": [
+      "Licencia del QCB."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia del QCB",
+       "plazo": "Antes de operar",
+       "ante": "QCB"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia del QCB?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "qa_telecom",
+     "nombre": "Ley de Telecomunicaciones (Ley 34/2006)",
+     "sigla": "Law 34/2006",
+     "tipo": "ley",
+     "autoridad": "Autoridad Reguladora de Comunicaciones (CRA)",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores y equipos.",
+     "obligaciones": [
+      "Licencia y homologación."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación de equipos",
+       "plazo": "Antes de vender",
+       "ante": "CRA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los equipos están homologados?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "qa_alimentos",
+     "nombre": "Ley de Control de Alimentos Humanos (Ley 8/1990)",
+     "sigla": "Law 8/1990",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Salud Pública",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores e importadores.",
+     "obligaciones": [
+      "Registro, etiquetado en árabe y halal."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto",
+       "plazo": "Antes de importar",
+       "ante": "Ministerio de Salud Pública"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos cumplen el etiquetado?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "qa_farmaceutico",
+     "nombre": "Registro de medicamentos",
+     "sigla": "MOPH",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Salud Pública",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores.",
+     "obligaciones": [
+      "Registro de producto y de la empresa."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto",
+       "plazo": "Antes de comercializar",
+       "ante": "Ministerio de Salud Pública"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "qa_construccion",
+     "nombre": "Ley de Organización de Edificios (Ley 4/1985)",
+     "sigla": "Law 4/1985",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Municipalidad",
+     "url": "https://www.almeezan.qa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Permiso de construcción."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar",
+       "ante": "Ministerio de Municipalidad"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La obra tiene permiso?"
+     ]
+    }
+   ]
+  }
+ }
+}

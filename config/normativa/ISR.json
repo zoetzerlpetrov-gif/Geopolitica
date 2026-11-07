@@ -1,0 +1,788 @@
+{
+ "jurisdiccion": "ISR",
+ "nombre": "Israel",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Israel. Puntos de atención recientes: la Enmienda 13 de privacidad (agosto de 2025), el IVA de 18 % y los controles de exportación de defensa y uso dual. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Nevo / gov.il: información legal",
+   "https://www.gov.il/en/departments/legalInfo"
+  ],
+  [
+   "Autoridad Tributaria",
+   "https://www.gov.il/en/departments/israel_tax_authority/govil-landing-page"
+  ],
+  [
+   "Autoridad de Protección de la Privacidad",
+   "https://www.gov.il/en/departments/the_privacy_protection_authority/govil-landing-page"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "il_sociedades",
+     "nombre": "Ley de Sociedades 5759-1999",
+     "sigla": "Companies Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Corporaciones de Israel (Registrador de Sociedades)",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades israelíes y sociedades extranjeras registradas.",
+     "obligaciones": [
+      "Informe anual y pago de la tasa anual al Registrador.",
+      "Registro de cambios de consejeros y accionistas."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual al Registrador",
+       "plazo": "Anual",
+       "ante": "Registrador de Sociedades"
+      }
+     ],
+     "sanciones": "Multas y designación como «sociedad infractora».",
+     "evidencia": [
+      "Certificado de constitución",
+      "Registro de accionistas"
+     ],
+     "preguntas": [
+      "¿Se pagó la tasa anual y se presentó el informe anual?",
+      "¿El registro de accionistas está actualizado?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "il_impuestos",
+     "nombre": "Ordenanza del Impuesto sobre la Renta (23 % a sociedades) y Ley del IVA (18 % desde enero de 2025)",
+     "sigla": "ITO / VAT Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad Tributaria de Israel",
+     "url": "https://www.gov.il/en/departments/israel_tax_authority/govil-landing-page",
+     "ultima_reforma": "2025-01-01 (IVA 18 %)",
+     "aplica": "Toda empresa residente o con establecimiento permanente.",
+     "obligaciones": [
+      "Informe anual (formulario 1214) y pagos anticipados mensuales.",
+      "Facturas con número de asignación (allocation number) de la Autoridad sobre el umbral vigente.",
+      "IVA mensual o bimestral."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual de sociedad",
+       "plazo": "5 meses tras el cierre (prórrogas usuales)",
+       "ante": "Autoridad Tributaria"
+      }
+     ],
+     "sanciones": "Multas, intereses y responsabilidad penal.",
+     "evidencia": [
+      "Informes anuales",
+      "Facturas"
+     ],
+     "preguntas": [
+      "¿Las facturas sobre el umbral tienen número de asignación?",
+      "¿El informe anual se presentó en plazo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "il_trabajo",
+     "nombre": "Leyes laborales: Ley de Horas de Trabajo y Descanso, Ley de Indemnización por Despido, pensión obligatoria y Ley de Prevención del Acoso Sexual",
+     "sigla": "Labor laws",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Economía (Administración de Regulación y Cumplimiento Laboral)",
+     "url": "https://www.gov.il/en/departments/ministry_of_economy/govil-landing-page",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador; los extranjeros necesitan permiso de la Autoridad de Población e Inmigración.",
+     "obligaciones": [
+      "Aportaciones de pensión y de indemnización desde el inicio.",
+      "Aviso escrito de condiciones de empleo en 30 días.",
+      "Reglamento contra el acoso sexual y encargado de quejas (25 o más trabajadores)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas administrativas por trabajador y demandas en tribunales laborales.",
+     "evidencia": [
+      "Recibos de nómina",
+      "Avisos de condiciones"
+     ],
+     "preguntas": [
+      "¿Se entrega el aviso de condiciones de empleo?",
+      "¿Hay encargado de prevención del acoso?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "il_sst",
+     "nombre": "Ordenanza de Seguridad en el Trabajo (1970) y Reglamento del Plan de Gestión de la Seguridad (2013)",
+     "sigla": "Work Safety Ordinance",
+     "tipo": "ley",
+     "autoridad": "Administración de Seguridad y Salud Ocupacional (Ministerio de Trabajo)",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Empleadores; plan de gestión de la seguridad obligatorio con 50 o más trabajadores o en ciertas actividades.",
+     "obligaciones": [
+      "Plan de gestión de seguridad y responsable de seguridad.",
+      "Comité de seguridad según tamaño."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidente de trabajo",
+       "plazo": "Inmediato (accidentes graves)",
+       "ante": "Administración de Seguridad"
+      }
+     ],
+     "sanciones": "Órdenes de seguridad y multas.",
+     "evidencia": [
+      "Plan de seguridad"
+     ],
+     "preguntas": [
+      "¿Existe plan de gestión de seguridad?",
+      "¿Hay comité de seguridad?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "il_privacidad",
+     "nombre": "Ley de Protección de la Privacidad (1981), Enmienda 13 (vigente desde el 14-ago-2025) y Reglamento de Seguridad de Datos (2017)",
+     "sigla": "PPL (Amend. 13)",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Protección de la Privacidad",
+     "url": "https://www.gov.il/en/departments/the_privacy_protection_authority/govil-landing-page",
+     "ultima_reforma": "2025-08-14 (Enmienda 13)",
+     "aplica": "Bases de datos con información personal en Israel.",
+     "obligaciones": [
+      "Medidas de seguridad según el nivel de la base de datos.",
+      "Reportar incidentes graves de seguridad.",
+      "Encargado de protección de datos en ciertos casos (Enmienda 13)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de incidente de seguridad grave",
+       "plazo": "Inmediato (verificar plazo)",
+       "ante": "Autoridad de Protección de la Privacidad"
+      }
+     ],
+     "sanciones": "Multas administrativas ampliadas por la Enmienda 13.",
+     "evidencia": [
+      "Documento de definiciones de base de datos",
+      "Procedimientos de seguridad"
+     ],
+     "preguntas": [
+      "¿Se clasificaron las bases de datos por nivel de seguridad?",
+      "¿Se designó encargado de protección de datos si aplica?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "il_pld",
+     "nombre": "Ley de Prohibición del Lavado de Dinero (2000)",
+     "sigla": "PMLL",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Prohibición del Lavado de Dinero (IMPA); supervisores sectoriales",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Instituciones financieras, comerciantes de piedras preciosas, abogados y contadores en ciertos actos.",
+     "obligaciones": [
+      "Identificación del cliente y reportes a la IMPA."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación inusual",
+       "plazo": "Sin demora",
+       "ante": "IMPA"
+      }
+     ],
+     "sanciones": "Sanciones financieras y penales.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?",
+      "¿Se reportan operaciones inusuales?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "il_cohecho",
+     "nombre": "Ley Penal (soborno, incluido a funcionarios extranjeros, art. 291A)",
+     "sigla": "Penal Law 291A",
+     "tipo": "ley",
+     "autoridad": "Fiscalía del Estado",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Personas y empresas, también por actos en el extranjero.",
+     "obligaciones": [
+      "Programa de cumplimiento anticorrupción (guía de la Fiscalía)."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión y multas a la empresa.",
+     "evidencia": [
+      "Política anticorrupción"
+     ],
+     "preguntas": [
+      "¿Existe programa anticorrupción?",
+      "¿Se hace diligencia de intermediarios?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "il_competencia",
+     "nombre": "Ley de Competencia Económica (5748-1988)",
+     "sigla": "Economic Competition Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Competencia de Israel",
+     "url": "https://www.gov.il/en/departments/competition_authority/govil-landing-page",
+     "ultima_reforma": "verificar",
+     "aplica": "Fusiones sobre los umbrales de ventas en Israel (actualizados cada año) y conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar fusiones sobre umbrales y esperar la aprobación (30 días).",
+      "No celebrar arreglos restrictivos."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de fusión",
+       "plazo": "Antes de cerrar",
+       "ante": "Autoridad de Competencia"
+      }
+     ],
+     "sanciones": "Multas de hasta 8 % de las ventas y prisión por cártel.",
+     "evidencia": [
+      "Análisis de umbrales"
+     ],
+     "preguntas": [
+      "¿Se revisaron los umbrales vigentes?",
+      "¿Hay programa de cumplimiento?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "il_consumidor",
+     "nombre": "Ley de Protección al Consumidor (1981) y normas obligatorias del Instituto de Normas de Israel (reforma de importación «lo que sirve para Europa sirve para Israel», 2025)",
+     "sigla": "Consumer Protection Law / Standards",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Protección al Consumidor y Comercio Justo; Ministerio de Economía",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "2025 (reforma de importación; verificar)",
+     "aplica": "Vendedores a consumidores e importadores.",
+     "obligaciones": [
+      "Cancelación de transacciones a distancia en 14 días.",
+      "Cumplir normas obligatorias o declarar conformidad europea cuando la reforma lo permite."
+     ],
+     "tramites": [],
+     "sanciones": "Multas administrativas y demandas colectivas.",
+     "evidencia": [
+      "Declaraciones de conformidad"
+     ],
+     "preguntas": [
+      "¿Se respeta la cancelación en 14 días?",
+      "¿Los productos cumplen las normas obligatorias?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "il_ambiental",
+     "nombre": "Ley de Licencias de Negocios (condiciones ambientales), Ley de Aire Limpio (2008) y Ley del Registro de Emisiones y Transferencia de Contaminantes (2012)",
+     "sigla": "Business Licensing / PRTR",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Protección Ambiental; municipios",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Negocios listados en la orden de licencias y emisores.",
+     "obligaciones": [
+      "Licencia de negocio con condiciones ambientales.",
+      "Reporte anual al Registro de Emisiones (PRTR)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte al Registro de Emisiones (PRTR)",
+       "plazo": "Anual",
+       "ante": "Ministerio de Protección Ambiental"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [
+      "Licencia de negocio",
+      "Reportes PRTR"
+     ],
+     "preguntas": [
+      "¿La licencia de negocio está vigente?",
+      "¿Se presentó el reporte PRTR?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "il_export_control",
+     "nombre": "Ley de Control de Exportaciones de Defensa (2007), Orden de Control de Bienes de Uso Dual y Ordenanza de Comercio con el Enemigo",
+     "sigla": "DECA / Trading with the Enemy",
+     "tipo": "ley",
+     "autoridad": "Agencia de Control de Exportaciones de Defensa (DECA, Ministerio de Defensa); Ministerio de Economía",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Exportadores de equipo de defensa y bienes de uso dual; operaciones con países enemigos.",
+     "obligaciones": [
+      "Licencia de mercadeo y de exportación de defensa.",
+      "Licencia para bienes de uso dual."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación de defensa",
+       "plazo": "Antes de exportar",
+       "ante": "DECA"
+      }
+     ],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [
+      "Licencias"
+     ],
+     "preguntas": [
+      "¿Los productos se clasificaron contra las listas?",
+      "¿Se tramitaron las licencias de mercadeo y exportación?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "il_pi",
+     "nombre": "Ley de Patentes (1967) y Ordenanza de Marcas",
+     "sigla": "Patents Law / Trademarks Ordinance",
+     "tipo": "ley",
+     "autoridad": "Oficina de Patentes de Israel (ILPO)",
+     "url": "https://www.gov.il/en/departments/legalInfo",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de patentes y marcas.",
+     "obligaciones": [
+      "Registrar marcas y pagar renovaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "ILPO"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas en Israel?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "il_valores",
+     "nombre": "Ley de Valores (1968)",
+     "sigla": "Securities Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Valores de Israel (ISA); Bolsa de Tel Aviv",
+     "url": "https://www.isa.gov.il/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas en Tel Aviv (incluidas las de doble listado).",
+     "obligaciones": [
+      "Reportes periódicos e inmediatos (MAGNA)."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual",
+       "plazo": "3 meses tras el cierre",
+       "ante": "ISA (MAGNA)"
+      }
+     ],
+     "sanciones": "Sanciones administrativas y penales.",
+     "evidencia": [
+      "Reportes"
+     ],
+     "preguntas": [
+      "¿Los reportes inmediatos se presentan en plazo?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "il_defensa",
+     "nombre": "Registro y licencias de exportación de defensa",
+     "sigla": "DECA",
+     "tipo": "ley",
+     "autoridad": "DECA (Ministerio de Defensa)",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes y exportadores de defensa.",
+     "obligaciones": [
+      "Registro de exportador de defensa y licencias por operación."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de exportador de defensa",
+       "plazo": "Antes de mercadear",
+       "ante": "DECA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa está en el registro de exportadores de defensa?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "il_bancos",
+     "nombre": "Ley Bancaria (Licencias) y directivas de supervisión",
+     "sigla": "Banking (Licensing) Law",
+     "tipo": "ley",
+     "autoridad": "Banco de Israel (Supervisión de Bancos)",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos y emisores de medios de pago.",
+     "obligaciones": [
+      "Licencia y directivas de gestión bancaria (incluida ciberseguridad)."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia bancaria",
+       "plazo": "Antes de operar",
+       "ante": "Banco de Israel"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen las directivas de supervisión?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "il_seguros",
+     "nombre": "Ley de Supervisión de Servicios Financieros (Seguros)",
+     "sigla": "Insurance Supervision Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad del Mercado de Capitales, Seguros y Ahorro",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras y agentes.",
+     "obligaciones": [
+      "Licencia y solvencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguros",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad del Mercado de Capitales"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de solvencia?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "il_telecom",
+     "nombre": "Ley de Comunicaciones (Telecomunicaciones y Radiodifusión, 1982)",
+     "sigla": "Communications Law",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comunicaciones",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores de telecomunicaciones.",
+     "obligaciones": [
+      "Licencia general o especial y homologación de equipos."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de telecomunicaciones",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Comunicaciones"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia está vigente?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "il_farma",
+     "nombre": "Ordenanza de Farmacéuticos y reglamentos de registro de medicamentos y dispositivos (AMAR)",
+     "sigla": "Pharmacists Ordinance",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Salud",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de registro, fabricantes e importadores.",
+     "obligaciones": [
+      "Registro de producto y titular local."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de medicamento",
+       "plazo": "Antes de comercializar",
+       "ante": "Ministerio de Salud"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados en el Ministerio de Salud?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "il_alimentos",
+     "nombre": "Ley de Protección de la Salud Pública (Alimentos) 2015 y etiquetado frontal de advertencia",
+     "sigla": "Food Law 2015",
+     "tipo": "ley",
+     "autoridad": "Servicio Nacional de Alimentos (Ministerio de Salud)",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores e importadores.",
+     "obligaciones": [
+      "Registro de importador y etiquetas de advertencia (sodio, azúcar, grasas saturadas)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de importador de alimentos",
+       "plazo": "Antes de importar",
+       "ante": "Servicio Nacional de Alimentos"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las etiquetas cumplen el etiquetado frontal?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "il_electricidad",
+     "nombre": "Ley del Sector Eléctrico (1996)",
+     "sigla": "Electricity Sector Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Electricidad",
+     "ultima_reforma": "verificar",
+     "aplica": "Generadores y proveedores.",
+     "obligaciones": [
+      "Licencia de producción o suministro."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia eléctrica",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad de Electricidad"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia está vigente?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "il_hidro",
+     "nombre": "Ley del Petróleo (1952) y Ley del Sector del Gas Natural (2002)",
+     "sigla": "Petroleum Law / Natural Gas Sector Law",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Energía e Infraestructura",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, producción y transporte de gas.",
+     "obligaciones": [
+      "Licencias y arrendamientos; reglas de exportación de gas."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exploración",
+       "plazo": "Antes de explorar",
+       "ante": "Comisionado del Petróleo"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias y arrendamientos están vigentes?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "il_construccion",
+     "nombre": "Ley de Planificación y Construcción (1965) y Ley de Registro de Contratistas (1969)",
+     "sigla": "Planning and Building Law",
+     "tipo": "ley",
+     "autoridad": "Autoridades de planificación; Registrador de Contratistas",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Permiso de construcción y registro de contratista."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar",
+       "ante": "Comité local de planificación"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿El contratista está registrado en la clasificación adecuada?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "il_ti",
+     "nombre": "Directivas de la Dirección Nacional de Ciberseguridad y Enmienda 13 de privacidad",
+     "sigla": "Cyber Directorate",
+     "tipo": "ley",
+     "autoridad": "Dirección Nacional de Ciberseguridad",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de servicios críticos y empresas de tecnología.",
+     "obligaciones": [
+      "Aplicar la metodología de defensa de la Dirección en organizaciones reguladas."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se aplica la metodología de ciberdefensa?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "il_aviacion",
+     "nombre": "Ley de Aviación (2011)",
+     "sigla": "Aviation Law 2011",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Aviación Civil de Israel (CAAI)",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores, talleres y drones.",
+     "obligaciones": [
+      "Certificados de la CAAI."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de operador",
+       "plazo": "Antes de operar",
+       "ante": "CAAI"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los certificados están vigentes?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "il_logistica",
+     "nombre": "Ordenanza de Aduanas y Orden de Importación Libre",
+     "sigla": "Customs Ordinance",
+     "tipo": "ley",
+     "autoridad": "Autoridad Tributaria (Aduanas); Ministerio de Economía",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores y agentes.",
+     "obligaciones": [
+      "Declaración aduanera y requisitos de normas en la importación."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de importación",
+       "plazo": "Antes de liberar",
+       "ante": "Aduanas"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de importación?"
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -74,6 +74,13 @@ jobs:
           else
             echo "Aún no existe la rama datos-estado"
           fi
+          # Bitácora normativa (Caja del analista → Bitácora normativa): rama "datos-normativa", con historial.
+          mkdir -p _site/data/normativa
+          if git fetch --depth 1 origin datos-normativa 2>/dev/null; then
+            git archive FETCH_HEAD normativa | tar -x -C /tmp && cp /tmp/normativa/*.json _site/data/normativa/
+          else
+            echo "Aún no existe la rama datos-normativa"
+          fi
           # Economía (economia.html, solo admin): rama huérfana "datos-economia".
           mkdir -p _site/data/economia
           if git fetch --depth 1 origin datos-economia 2>/dev/null; then

@@ -1,0 +1,519 @@
+{
+ "jurisdiccion": "OMN",
+ "nombre": "Omán",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Omán. Atención a la omanización y a la nueva Ley del Trabajo de 2023. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Gaceta Oficial y legislación (Ministerio de Justicia)",
+   "https://www.mjla.gov.om/"
+  ],
+  [
+   "Autoridad Tributaria",
+   "https://tms.taxoman.gov.om/"
+  ],
+  [
+   "Ministerio de Comercio",
+   "https://www.moci.gov.om/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "om_sociedades",
+     "nombre": "Ley de Sociedades Comerciales (Real Decreto 18/2019)",
+     "sigla": "RD 18/2019",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio, Industria y Promoción de Inversiones",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades y sucursales.",
+     "obligaciones": [
+      "Registro comercial y renovación.",
+      "Estados auditados."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación del registro comercial",
+       "plazo": "Según el registro",
+       "ante": "Ministerio de Comercio"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El registro está vigente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "om_impuestos",
+     "nombre": "Ley del Impuesto sobre la Renta (Real Decreto 28/2009, 15 %) e IVA (Real Decreto 121/2020, 5 %)",
+     "sigla": "RD 28/2009 / RD 121/2020",
+     "tipo": "ley",
+     "autoridad": "Autoridad Tributaria",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa contribuyente.",
+     "obligaciones": [
+      "Declaración anual en 4 meses y IVA trimestral."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual",
+       "plazo": "4 meses tras el cierre",
+       "ante": "Autoridad Tributaria"
+      }
+     ],
+     "sanciones": "Multas e intereses.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las declaraciones se presentan en plazo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "om_trabajo",
+     "nombre": "Ley del Trabajo (Real Decreto 53/2023) y Ley de Protección Social (Real Decreto 52/2023)",
+     "sigla": "RD 53/2023 / RD 52/2023",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo; Fondo de Protección Social",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador; metas de omanización por sector.",
+     "obligaciones": [
+      "Contratos registrados y salarios por WPS.",
+      "Aportes de protección social.",
+      "Plan de omanización."
+     ],
+     "tramites": [
+      {
+       "que": "Aportes de protección social",
+       "plazo": "Mensual",
+       "ante": "Fondo de Protección Social"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen las metas de omanización?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "om_sst",
+     "nombre": "Reglamento de seguridad y salud ocupacional y prohibición de trabajo al mediodía en verano",
+     "sigla": "Ministerial decision",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador.",
+     "obligaciones": [
+      "Medidas de seguridad; pausa de 12:30 a 15:30 de junio a agosto."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se aplica la pausa?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "om_datos",
+     "nombre": "Ley de Protección de Datos Personales (Real Decreto 6/2022) y su reglamento (2024)",
+     "sigla": "RD 6/2022",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Transporte, Comunicaciones y Tecnología de la Información",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Responsables que tratan datos en Omán.",
+     "obligaciones": [
+      "Permisos para tratar datos sensibles y notificar violaciones en 72 horas."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de violación",
+       "plazo": "72 horas",
+       "ante": "Ministerio de Transporte y TI"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Hay procedimiento de notificación?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "om_pld",
+     "nombre": "Ley contra el Lavado de Dinero (Real Decreto 30/2016)",
+     "sigla": "RD 30/2016",
+     "tipo": "ley",
+     "autoridad": "Centro Nacional de Información Financiera",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sujetos obligados.",
+     "obligaciones": [
+      "Debida diligencia y reportes."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte sospechoso",
+       "plazo": "Sin demora",
+       "ante": "Centro Nacional de Información Financiera"
+      }
+     ],
+     "sanciones": "Multas y prisión.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "om_competencia",
+     "nombre": "Ley de Protección de la Competencia (Real Decreto 67/2014)",
+     "sigla": "RD 67/2014",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Protección al Consumidor y la Competencia",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Concentraciones dominantes y conductas.",
+     "obligaciones": [
+      "Aprobación previa de concentraciones que generen dominio."
+     ],
+     "tramites": [
+      {
+       "que": "Solicitud de aprobación",
+       "plazo": "Antes de cerrar",
+       "ante": "Autoridad de Competencia"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se evaluó la notificación?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "om_consumidor",
+     "nombre": "Ley de Protección al Consumidor (Real Decreto 66/2014)",
+     "sigla": "RD 66/2014",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Protección al Consumidor",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Vendedores a consumidores.",
+     "obligaciones": [
+      "Información en árabe y garantías."
+     ],
+     "tramites": [],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen las reglas de información?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "om_ambiental",
+     "nombre": "Ley de Conservación del Medio Ambiente (Real Decreto 114/2001)",
+     "sigla": "RD 114/2001",
+     "tipo": "ley",
+     "autoridad": "Autoridad Ambiental",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Proyectos con impacto.",
+     "obligaciones": [
+      "Permiso ambiental."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso ambiental",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad Ambiental"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿El permiso está vigente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "om_inversion",
+     "nombre": "Ley de Inversión de Capital Extranjero (Real Decreto 50/2019)",
+     "sigla": "RD 50/2019",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio, Industria y Promoción de Inversiones",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros (100 % permitido salvo actividades excluidas).",
+     "obligaciones": [
+      "Licencia de inversión extranjera."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de inversión",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Comercio"
+      }
+     ],
+     "sanciones": "Cancelación.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad no está en la lista excluida?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "om_pi",
+     "nombre": "Ley de Derechos de Propiedad Industrial (Real Decreto 67/2008)",
+     "sigla": "RD 67/2008",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas.",
+     "obligaciones": [
+      "Registrar marcas."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "Ministerio de Comercio"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "om_valores",
+     "nombre": "Ley del Mercado de Valores (Real Decreto 46/2022)",
+     "sigla": "RD 46/2022",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Servicios Financieros (FSA); Bolsa de Mascate",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas.",
+     "obligaciones": [
+      "Estados y revelaciones."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "Según la FSA",
+       "ante": "FSA"
+      }
+     ],
+     "sanciones": "Multas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se publican en plazo?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "om_hidrocarburos",
+     "nombre": "Ley de Petróleo y Gas (Real Decreto 8/2011)",
+     "sigla": "RD 8/2011",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Energía y Minerales",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración y producción.",
+     "obligaciones": [
+      "Acuerdos de exploración y producción; valor en el país (ICV)."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumple el programa ICV?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "om_energia_electrica",
+     "nombre": "Ley del Sector (Real Decreto 78/2004)",
+     "sigla": "RD 78/2004",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Servicios Públicos (APSR)",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Electricidad y agua.",
+     "obligaciones": [
+      "Licencia de la APSR."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia",
+       "plazo": "Antes de operar",
+       "ante": "APSR"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia está vigente?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "om_bancos",
+     "nombre": "Ley Bancaria (Real Decreto 2/2025; verificar)",
+     "sigla": "Banking Law",
+     "tipo": "ley",
+     "autoridad": "Banco Central de Omán",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos y pagos.",
+     "obligaciones": [
+      "Licencia del Banco Central."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia",
+       "plazo": "Antes de operar",
+       "ante": "Banco Central de Omán"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "om_mineria",
+     "nombre": "Ley de Minería (Real Decreto 19/2019)",
+     "sigla": "RD 19/2019",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Energía y Minerales",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración y explotación.",
+     "obligaciones": [
+      "Licencias mineras."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia minera",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Energía y Minerales"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias están vigentes?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "om_telecom",
+     "nombre": "Ley de Regulación de Telecomunicaciones",
+     "sigla": "TRA",
+     "tipo": "ley",
+     "autoridad": "Autoridad Reguladora de Telecomunicaciones",
+     "url": "https://www.mjla.gov.om/",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores y equipos.",
+     "obligaciones": [
+      "Licencia y homologación."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación",
+       "plazo": "Antes de vender",
+       "ante": "TRA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los equipos están homologados?"
+     ]
+    }
+   ]
+  }
+ }
+}

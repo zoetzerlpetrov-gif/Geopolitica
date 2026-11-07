@@ -181,6 +181,27 @@ export function conRelieve(style, theme = "light") {
   return s;
 }
 
+// Brillo tipo LED en la orilla de los continentes (solo el mapa temático): blanco con el tema oscuro, dorado con el
+// claro. Tres líneas sobre el borde de los océanos: un halo ancho y difuso, otro medio y un hilo nítido al centro.
+// Son capas del estilo, así que se ven igual en el plano 2D y en el globo 3D.
+export const BRILLO_COSTA = { dark: ["#FFFFFF", "#F4F8FF"], light: ["#E0A526", "#FFD45C"] };
+export function conBrilloCosta(style, theme = "light") {
+  const s = structuredClone(style);
+  const agua = s.layers.find((l) => l.type === "fill" && l["source-layer"] === "water");
+  if (!agua) return s;
+  const [halo, hilo] = BRILLO_COSTA[theme === "dark" ? "dark" : "light"];
+  const base = { type: "line", source: agua.source, "source-layer": "water", filter: ["==", ["get", "class"], "ocean"], layout: { "line-join": "round", "line-cap": "round" } };
+  const ancho = (a, b, c) => ["interpolate", ["linear"], ["zoom"], 0, a, 4, b, 9, c];
+  const oscuro = theme === "dark";
+  const capas = [
+    { ...base, id: "costa-brillo-halo", paint: { "line-color": halo, "line-width": ancho(5, 9, 14), "line-blur": ancho(5, 9, 14), "line-opacity": oscuro ? 0.14 : 0.32 } },
+    { ...base, id: "costa-brillo-medio", paint: { "line-color": halo, "line-width": ancho(2.2, 4, 6), "line-blur": ancho(2, 3.5, 5), "line-opacity": oscuro ? 0.24 : 0.5 } },
+    { ...base, id: "costa-brillo-hilo", paint: { "line-color": hilo, "line-width": ancho(0.5, 0.9, 1.3), "line-opacity": oscuro ? 0.6 : 0.95 } },
+  ];
+  s.layers.splice(s.layers.indexOf(agua) + 1, 0, ...capas);
+  return s;
+}
+
 /**
  * LITE: mapa local ligero. Si no, estilo de OpenFreeMap; si no responde en 6 s, el respaldo local.
  * `base`: «tematico» (claro u oscuro según el tema), «calles» (OpenFreeMap Liberty), «satelite» (Sentinel-2 y, de cerca, Esri)
@@ -200,7 +221,8 @@ export async function estiloBase(theme, { lite = false, base = "tematico" } = {}
     if (!r.ok) throw new Error(`HTTP ${r.status}`);
     // «Calles» (Liberty) colorea sus etiquetas por tipo y ya se lee bien; solo se ajustan los estilos temáticos.
     const tono = base === "calles" ? null : theme === "dark" ? "oscuro" : "claro";
-    return { style: aligerarEstilo(await r.json(), { lite: lite && base !== "calles", tono }), remoto: true };
+    const estilo = aligerarEstilo(await r.json(), { lite: lite && base !== "calles", tono });
+    return { style: base === "calles" ? estilo : conBrilloCosta(estilo, theme), remoto: true };
   } catch (e) {
     console.warn("OpenFreeMap no disponible, se usa el mapa base local:", e.message);
     return { style: estiloLocal(theme), remoto: false };

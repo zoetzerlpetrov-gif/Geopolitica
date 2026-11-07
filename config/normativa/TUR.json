@@ -1,0 +1,857 @@
+{
+ "jurisdiccion": "TUR",
+ "nombre": "Turquía",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Turquía. Atención a la inflación en montos de multas (se actualizan cada año), a VERBİS y a la Ley del Clima de 2025. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Mevzuat (legislación oficial)",
+   "https://www.mevzuat.gov.tr/"
+  ],
+  [
+   "Resmî Gazete",
+   "https://www.resmigazete.gov.tr/"
+  ],
+  [
+   "GİB",
+   "https://www.gib.gov.tr/"
+  ],
+  [
+   "KVKK",
+   "https://www.kvkk.gov.tr/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "tr_sociedades",
+     "nombre": "Código de Comercio Turco (Ley 6102)",
+     "sigla": "TCC 6102",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio; registros mercantiles (MERSIS)",
+     "url": "https://www.mevzuat.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades anónimas y limitadas, y sucursales extranjeras.",
+     "obligaciones": [
+      "Registro en MERSIS y publicación en la Gaceta del Registro Mercantil.",
+      "Junta general en 3 meses tras el cierre.",
+      "Auditoría independiente si se superan los umbrales."
+     ],
+     "tramites": [
+      {
+       "que": "Junta general ordinaria",
+       "plazo": "3 meses tras el cierre",
+       "ante": "Interno; registro"
+      }
+     ],
+     "sanciones": "Multas administrativas y responsabilidad de consejeros.",
+     "evidencia": [
+      "Estatutos",
+      "Gaceta del Registro"
+     ],
+     "preguntas": [
+      "¿Se celebró la junta general en 3 meses?",
+      "¿Aplica auditoría independiente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "tr_impuestos",
+     "nombre": "Ley del Impuesto sobre Sociedades (Ley 5520, 25 %), Ley del IVA (Ley 3065, 20 % general) y libros y facturas electrónicos",
+     "sigla": "CTL 5520 / VAT 3065",
+     "tipo": "ley",
+     "autoridad": "Administración de Ingresos (GİB)",
+     "url": "https://www.gib.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa contribuyente en Turquía.",
+     "obligaciones": [
+      "Declaración anual del impuesto sobre sociedades y pagos provisionales trimestrales.",
+      "Factura electrónica y libro electrónico (e-defter) según umbrales.",
+      "Precios de transferencia y formulario anual."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración del impuesto sobre sociedades",
+       "plazo": "Último día de abril (año calendario)",
+       "ante": "GİB"
+      }
+     ],
+     "sanciones": "Multas por pérdida fiscal (hasta 3 veces el impuesto con fraude) e intereses.",
+     "evidencia": [
+      "Declaraciones",
+      "e-defter"
+     ],
+     "preguntas": [
+      "¿La declaración anual se presentó a fines de abril?",
+      "¿La empresa está en e-factura y e-defter si le corresponde?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "tr_trabajo",
+     "nombre": "Ley del Trabajo (Ley 4857), Ley de Seguridad Social (Ley 5510) y Ley de Fuerza Laboral Internacional (Ley 6735)",
+     "sigla": "Labour Law 4857 / SSI 5510",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo y Seguridad Social; SGK",
+     "url": "https://www.sgk.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador; permisos de trabajo para extranjeros.",
+     "obligaciones": [
+      "Alta de cada trabajador en el SGK antes del inicio.",
+      "Declaración mensual de primas y servicios (MUHSGK).",
+      "Permiso de trabajo para extranjeros."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración mensual de primas (MUHSGK)",
+       "plazo": "Día 26 del mes siguiente",
+       "ante": "SGK / GİB"
+      }
+     ],
+     "sanciones": "Multas administrativas por trabajador y cuotas con recargos.",
+     "evidencia": [
+      "Altas en SGK",
+      "Permisos de trabajo"
+     ],
+     "preguntas": [
+      "¿Todos los trabajadores están dados de alta antes del inicio?",
+      "¿Los extranjeros tienen permiso de trabajo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "tr_sst",
+     "nombre": "Ley de Seguridad y Salud en el Trabajo (Ley 6331)",
+     "sigla": "OHS Law 6331",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Trabajo y Seguridad Social",
+     "url": "https://www.mevzuat.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo empleador.",
+     "obligaciones": [
+      "Evaluación de riesgos y especialista en seguridad y médico del trabajo según tamaño y peligrosidad.",
+      "Reporte de accidentes de trabajo en 3 días hábiles."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de accidente de trabajo",
+       "plazo": "3 días hábiles",
+       "ante": "SGK"
+      }
+     ],
+     "sanciones": "Multas administrativas y paralización.",
+     "evidencia": [
+      "Evaluación de riesgos",
+      "Contratos de servicios de SST"
+     ],
+     "preguntas": [
+      "¿Hay evaluación de riesgos vigente?",
+      "¿Los accidentes se reportan en 3 días hábiles?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "tr_kvkk",
+     "nombre": "Ley de Protección de Datos Personales (Ley 6698, reformada en 2024 sobre transferencias internacionales)",
+     "sigla": "KVKK 6698",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Protección de Datos Personales (KVKK)",
+     "url": "https://www.kvkk.gov.tr/",
+     "ultima_reforma": "2024-06-01 (reforma)",
+     "aplica": "Responsables de datos en Turquía.",
+     "obligaciones": [
+      "Registro en VERBİS cuando se superan los umbrales.",
+      "Transferencias internacionales con cláusulas estándar notificadas a la Autoridad en 5 días hábiles.",
+      "Notificar violaciones en 72 horas."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de violación de datos",
+       "plazo": "72 horas",
+       "ante": "KVKK"
+      }
+     ],
+     "sanciones": "Multas administrativas actualizadas cada año.",
+     "evidencia": [
+      "Inventario de datos",
+      "Cláusulas estándar"
+     ],
+     "preguntas": [
+      "¿La empresa está registrada en VERBİS si corresponde?",
+      "¿Las cláusulas estándar se notificaron en 5 días hábiles?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "tr_pld",
+     "nombre": "Ley de Prevención del Lavado de Ingresos del Delito (Ley 5549) y Ley 6415 (financiamiento del terrorismo)",
+     "sigla": "Law 5549",
+     "tipo": "ley",
+     "autoridad": "MASAK (Junta de Investigación de Delitos Financieros)",
+     "url": "https://masak.hmb.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Sujetos obligados (bancos, aseguradoras, inmobiliarias, comerciantes de metales y vehículos, entre otros).",
+     "obligaciones": [
+      "Identificación del cliente y reportes sospechosos.",
+      "Congelar activos de personas en listas."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "10 días hábiles (verificar)",
+       "ante": "MASAK"
+      }
+     ],
+     "sanciones": "Multas administrativas y penales.",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?",
+      "¿Se filtra contra las listas de congelamiento?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "tr_cohecho",
+     "nombre": "Código Penal Turco (art. 252 soborno) y medidas de seguridad a personas jurídicas (art. 60)",
+     "sigla": "TCK 252",
+     "tipo": "ley",
+     "autoridad": "Fiscalía",
+     "url": "https://www.mevzuat.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Personas y empresas.",
+     "obligaciones": [
+      "Prohibido el soborno, incluido el privado y el de funcionarios extranjeros."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión, decomiso y cancelación de licencias de la empresa.",
+     "evidencia": [
+      "Política anticorrupción"
+     ],
+     "preguntas": [
+      "¿Hay política anticorrupción?",
+      "¿Se hace diligencia de terceros?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "tr_competencia",
+     "nombre": "Ley de Protección de la Competencia (Ley 4054)",
+     "sigla": "Law 4054",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Competencia de Turquía",
+     "url": "https://www.rekabet.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Concentraciones sobre los umbrales de ventas en Turquía (revisados en 2022) y conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar concentraciones antes de cerrar.",
+      "No participar en acuerdos restrictivos."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Antes de cerrar",
+       "ante": "Autoridad de Competencia"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 % de las ventas.",
+     "evidencia": [
+      "Análisis de umbrales"
+     ],
+     "preguntas": [
+      "¿Se revisaron los umbrales de notificación?",
+      "¿Hay programa de cumplimiento?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "tr_consumidor",
+     "nombre": "Ley de Protección al Consumidor (Ley 6502) y Ley de Seguridad de Productos y Reglamentos Técnicos (Ley 7223)",
+     "sigla": "Law 6502 / 7223",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio",
+     "url": "https://www.mevzuat.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Vendedores a consumidores, fabricantes e importadores.",
+     "obligaciones": [
+      "Derecho de desistimiento de 14 días en ventas a distancia.",
+      "Marcado de conformidad y retiro de productos inseguros."
+     ],
+     "tramites": [],
+     "sanciones": "Multas administrativas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se respeta el desistimiento de 14 días?",
+      "¿Los productos tienen la conformidad requerida?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "tr_ambiental",
+     "nombre": "Ley Ambiental (Ley 2872), Reglamento de Evaluación de Impacto Ambiental y Ley del Clima (Ley 7552, 2025, sistema de comercio de emisiones)",
+     "sigla": "Env. Law 2872 / Climate Law",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Medio Ambiente, Urbanización y Cambio Climático",
+     "url": "https://www.mevzuat.gov.tr/",
+     "ultima_reforma": "2025-07 (Ley del Clima; verificar)",
+     "aplica": "Proyectos e instalaciones con impacto ambiental; grandes emisores.",
+     "obligaciones": [
+      "Decisión de evaluación de impacto ambiental antes de invertir.",
+      "Permiso ambiental.",
+      "Monitoreo, reporte y verificación de emisiones para el comercio de emisiones."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso ambiental",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Medio Ambiente"
+      }
+     ],
+     "sanciones": "Multas y cierre.",
+     "evidencia": [
+      "Decisión EIA",
+      "Permiso ambiental"
+     ],
+     "preguntas": [
+      "¿El proyecto tiene decisión EIA?",
+      "¿La empresa está alcanzada por el sistema de comercio de emisiones?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "tr_inversion",
+     "nombre": "Ley de Inversión Extranjera Directa (Ley 4875) y régimen de control de exportaciones",
+     "sigla": "FDI Law 4875",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Industria y Tecnología; Ministerio de Comercio",
+     "url": "https://www.mevzuat.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros; exportadores de bienes controlados.",
+     "obligaciones": [
+      "Informar la inversión y la actividad al sistema electrónico de inversión extranjera.",
+      "Licencias para exportar bienes de uso dual y defensa."
+     ],
+     "tramites": [
+      {
+       "que": "Formularios de información de inversión extranjera",
+       "plazo": "Anual (mayo; verificar)",
+       "ante": "Ministerio de Industria"
+      }
+     ],
+     "sanciones": "Multas y sanciones aduaneras.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se reportó la información de inversión extranjera?",
+      "¿Se controlan las exportaciones de bienes de uso dual?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "tr_pi",
+     "nombre": "Código de Propiedad Industrial (Ley 6769)",
+     "sigla": "IP Code 6769",
+     "tipo": "ley",
+     "autoridad": "TÜRKPATENT",
+     "url": "https://www.turkpatent.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas y patentes.",
+     "obligaciones": [
+      "Registrar marcas y renovar a los 10 años."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "TÜRKPATENT"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las marcas están registradas en Turquía?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "tr_valores",
+     "nombre": "Ley de Mercados de Capitales (Ley 6362) y normas de reporte de sostenibilidad (TSRS)",
+     "sigla": "CML 6362",
+     "tipo": "ley",
+     "autoridad": "Junta de Mercados de Capitales (SPK); Borsa Istanbul; KGK (TSRS)",
+     "url": "https://www.spk.gov.tr/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas y grandes empresas alcanzadas por TSRS.",
+     "obligaciones": [
+      "Estados financieros y revelaciones en la Plataforma de Divulgación Pública (KAP).",
+      "Reporte de sostenibilidad conforme a TSRS si aplica."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "70 días tras el cierre (verificar)",
+       "ante": "SPK / KAP"
+      }
+     ],
+     "sanciones": "Multas administrativas.",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se publican los estados en KAP en plazo?",
+      "¿La empresa está alcanzada por TSRS?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "tr_electricidad",
+     "nombre": "Ley del Mercado Eléctrico (Ley 6446)",
+     "sigla": "Electricity Market Law 6446",
+     "tipo": "ley",
+     "autoridad": "Autoridad Reguladora del Mercado de Energía (EPDK)",
+     "ultima_reforma": "verificar",
+     "aplica": "Generación, distribución y comercialización.",
+     "obligaciones": [
+      "Licencia de la EPDK."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de generación o suministro",
+       "plazo": "Antes de operar",
+       "ante": "EPDK"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia de la EPDK está vigente?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "tr_hidro",
+     "nombre": "Ley del Mercado Petrolero (5015), Ley del Mercado de Gas Natural (4646) y Ley del Petróleo Turco (6491)",
+     "sigla": "Laws 5015 / 4646 / 6491",
+     "tipo": "ley",
+     "autoridad": "EPDK; Ministerio de Energía y Recursos Naturales",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, refinación, distribución y estaciones de servicio.",
+     "obligaciones": [
+      "Licencias de la EPDK por actividad."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de mercado petrolero o de gas",
+       "plazo": "Antes de operar",
+       "ante": "EPDK"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Cada actividad tiene licencia de la EPDK?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "tr_bancos",
+     "nombre": "Ley Bancaria (Ley 5411)",
+     "sigla": "Banking Law 5411",
+     "tipo": "ley",
+     "autoridad": "Agencia de Regulación y Supervisión Bancaria (BDDK); Banco Central (pagos)",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos y financieras.",
+     "obligaciones": [
+      "Licencia de la BDDK."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia bancaria",
+       "plazo": "Antes de operar",
+       "ante": "BDDK"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia de la BDDK?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "tr_seguros",
+     "nombre": "Ley de Seguros (Ley 5684)",
+     "sigla": "Insurance Law 5684",
+     "tipo": "ley",
+     "autoridad": "Agencia de Regulación de Seguros y Pensiones (SEDDK)",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras e intermediarios.",
+     "obligaciones": [
+      "Licencia y solvencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguros",
+       "plazo": "Antes de operar",
+       "ante": "SEDDK"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de solvencia?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "tr_telecom",
+     "nombre": "Ley de Comunicaciones Electrónicas (Ley 5809)",
+     "sigla": "Law 5809",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Tecnologías de la Información y Comunicación (BTK)",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores de telecomunicaciones.",
+     "obligaciones": [
+      "Autorización de la BTK."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización de la BTK",
+       "plazo": "Antes de operar",
+       "ante": "BTK"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La autorización está vigente?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "tr_ti",
+     "nombre": "Ley de Internet (Ley 5651, representante local de redes sociales) y Ley de Ciberseguridad (Ley 7545, 2025)",
+     "sigla": "Law 5651 / Cybersecurity Law 7545",
+     "tipo": "ley",
+     "autoridad": "BTK; Presidencia de Ciberseguridad",
+     "ultima_reforma": "2025-03 (Ley 7545; verificar)",
+     "aplica": "Redes sociales con más de 1 millón de usuarios diarios en Turquía y proveedores de servicios críticos.",
+     "obligaciones": [
+      "Representante local y localización de datos de usuarios turcos (redes sociales).",
+      "Reporte de incidentes y requisitos de ciberseguridad."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa nombró representante local si aplica?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "tr_farma",
+     "nombre": "Reglamentos de productos médicos de la Agencia Turca de Medicamentos y Dispositivos Médicos",
+     "sigla": "TİTCK",
+     "tipo": "ley",
+     "autoridad": "TİTCK",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de registro y fabricantes.",
+     "obligaciones": [
+      "Licencia de producto y farmacovigilancia; trazabilidad (İTS)."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de producto",
+       "plazo": "Antes de comercializar",
+       "ante": "TİTCK"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos tienen licencia de la TİTCK?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "tr_alimentos",
+     "nombre": "Ley de Servicios Veterinarios, Sanidad Vegetal, Alimentos y Piensos (Ley 5996)",
+     "sigla": "Law 5996",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Agricultura y Silvicultura",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores e importadores.",
+     "obligaciones": [
+      "Registro o aprobación del establecimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de establecimiento alimentario",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Agricultura"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿El establecimiento está registrado?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "tr_mineria",
+     "nombre": "Ley de Minería (Ley 3213)",
+     "sigla": "Mining Law 3213",
+     "tipo": "ley",
+     "autoridad": "Dirección General de Asuntos Mineros y Petroleros (MAPEG)",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración y explotación.",
+     "obligaciones": [
+      "Licencias y regalías."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de explotación",
+       "plazo": "Antes de explotar",
+       "ante": "MAPEG"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias mineras están vigentes?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "tr_construccion",
+     "nombre": "Ley de Zonificación (Ley 3194) y supervisión de edificaciones",
+     "sigla": "Zoning Law 3194",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Medio Ambiente y Urbanización; municipios",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Permiso de construcción y supervisión de obra; normas sísmicas."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar",
+       "ante": "Municipio"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La obra tiene permiso y supervisión?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "tr_defensa",
+     "nombre": "Autorizaciones de la industria de defensa y licencias de exportación",
+     "sigla": "SSB",
+     "tipo": "ley",
+     "autoridad": "Presidencia de Industrias de Defensa (SSB); Ministerio de Defensa Nacional",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes y exportadores de defensa.",
+     "obligaciones": [
+      "Certificado de actividad y licencias de exportación."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación de defensa",
+       "plazo": "Antes de exportar",
+       "ante": "Ministerio de Defensa Nacional"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se tienen las autorizaciones de defensa?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "tr_logistica",
+     "nombre": "Ley de Aduanas (Ley 4458) y Ley de Transporte por Carretera (Ley 4925)",
+     "sigla": "Customs Law 4458 / Road Transport Law 4925",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Comercio (Aduanas); Ministerio de Transporte",
+     "ultima_reforma": "verificar",
+     "aplica": "Transportistas e importadores.",
+     "obligaciones": [
+      "Certificado de autorización de transporte y obligaciones aduaneras."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de autorización de transporte",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Transporte"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿El certificado de autorización está vigente?"
+     ]
+    }
+   ]
+  },
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "tr_auto",
+     "nombre": "Homologación de vehículos",
+     "sigla": "Type approval",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Industria y Tecnología",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores.",
+     "obligaciones": [
+      "Homologación de tipo."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación de tipo",
+       "plazo": "Antes de vender",
+       "ante": "Ministerio de Industria"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los modelos están homologados?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "tr_aviacion",
+     "nombre": "Reglamentos de aviación civil",
+     "sigla": "SHGM",
+     "tipo": "ley",
+     "autoridad": "Dirección General de Aviación Civil (SHGM)",
+     "ultima_reforma": "verificar",
+     "aplica": "Aerolíneas y talleres.",
+     "obligaciones": [
+      "Certificados de la SHGM."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de operador",
+       "plazo": "Antes de operar",
+       "ante": "SHGM"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los certificados están vigentes?"
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,880 @@
+{
+ "jurisdiccion": "SAU",
+ "nombre": "Arabia Saudita",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Arabia Saudita. Para extranjeras pesan la licencia de MISA, la saudización (Nitaqat), la sede regional para contratos públicos y la facturación electrónica de ZATCA. Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Oficina de Expertos del Consejo de Ministros (leyes)",
+   "https://laws.boe.gov.sa/"
+  ],
+  [
+   "MISA",
+   "https://misa.gov.sa/"
+  ],
+  [
+   "ZATCA",
+   "https://zatca.gov.sa/"
+  ],
+  [
+   "SDAIA",
+   "https://sdaia.gov.sa/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "sa_sociedades",
+     "nombre": "Ley de Sociedades (Real Decreto M/132 de 2022, vigente desde el 19-ene-2023) y Ley del Registro Comercial (2025)",
+     "sigla": "Companies Law",
+     "tipo": "real decreto",
+     "autoridad": "Ministerio de Comercio (MoC)",
+     "url": "https://laws.boe.gov.sa/",
+     "ultima_reforma": "2023-01-19",
+     "aplica": "Sociedades saudíes y sucursales de sociedades extranjeras.",
+     "obligaciones": [
+      "Registro comercial y licencia del Ministerio de Inversión (MISA) cuando hay capital extranjero.",
+      "Estados financieros anuales presentados al MoC en 6 meses.",
+      "Registro de beneficiario final."
+     ],
+     "tramites": [
+      {
+       "que": "Presentación de estados financieros",
+       "plazo": "6 meses tras el cierre",
+       "ante": "MoC (Qawaem)"
+      }
+     ],
+     "sanciones": "Multas de hasta 500 000 riyales y responsabilidad de gerentes.",
+     "evidencia": [
+      "Registro comercial",
+      "Licencia MISA",
+      "Estatutos"
+     ],
+     "preguntas": [
+      "¿La licencia de MISA y el registro comercial están vigentes?",
+      "¿Se presentaron los estados financieros en 6 meses?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "sa_zakat_impuestos",
+     "nombre": "Ley del Impuesto sobre la Renta (20 % sobre la participación extranjera), Reglamento de Zakat (2.5 % sobre la participación saudí y del CCG), IVA de 15 % y facturación electrónica FATOORA",
+     "sigla": "Income Tax / Zakat / VAT",
+     "tipo": "real decreto",
+     "autoridad": "Autoridad de Zakat, Impuestos y Aduanas (ZATCA)",
+     "url": "https://zatca.gov.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa con actividad en el Reino; retención en pagos a no residentes (5 % a 20 %).",
+     "obligaciones": [
+      "Declaración anual de zakat e impuesto en 120 días.",
+      "Facturación electrónica integrada con ZATCA (fase 2 por olas).",
+      "Retenciones mensuales a no residentes."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de zakat e impuesto sobre la renta",
+       "plazo": "120 días tras el cierre",
+       "ante": "ZATCA"
+      },
+      {
+       "que": "Declaración de IVA",
+       "plazo": "Mensual o trimestral (último día del mes siguiente)",
+       "ante": "ZATCA"
+      }
+     ],
+     "sanciones": "Multas de 5 % a 25 % del impuesto y multas por facturación electrónica.",
+     "evidencia": [
+      "Declaraciones",
+      "Certificado de zakat"
+     ],
+     "preguntas": [
+      "¿Se presentó la declaración de zakat/impuesto en 120 días?",
+      "¿La facturación está integrada con FATOORA?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "sa_trabajo",
+     "nombre": "Ley del Trabajo (Real Decreto M/51 de 2005, reformas vigentes desde feb-2025), Nitaqat (saudización) y GOSI",
+     "sigla": "Labor Law",
+     "tipo": "real decreto",
+     "autoridad": "Ministerio de Recursos Humanos y Desarrollo Social (MHRSD); GOSI",
+     "url": "https://laws.boe.gov.sa/",
+     "ultima_reforma": "2025-02 (reforma)",
+     "aplica": "Todo empleador; los extranjeros necesitan visa de trabajo e iqama.",
+     "obligaciones": [
+      "Contratos registrados en la plataforma Qiwa.",
+      "Cuotas de saudización según el programa Nitaqat.",
+      "Salarios por el Sistema de Protección de Salarios (Mudad) y aportes a GOSI."
+     ],
+     "tramites": [
+      {
+       "que": "Carga de nómina en el Sistema de Protección de Salarios",
+       "plazo": "Mensual",
+       "ante": "MHRSD (Mudad)"
+      }
+     ],
+     "sanciones": "Multas por trabajador, suspensión de servicios del ministerio y bloqueo de visas.",
+     "evidencia": [
+      "Contratos en Qiwa",
+      "Certificado Nitaqat"
+     ],
+     "preguntas": [
+      "¿La empresa está en la banda verde de Nitaqat o superior?",
+      "¿Los salarios se pagan por el sistema de protección de salarios?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "sa_sst",
+     "nombre": "Reglamentos de seguridad y salud ocupacional del MHRSD y Código de Construcción Saudí",
+     "sigla": "OSH Regulations",
+     "tipo": "reglamento",
+     "autoridad": "MHRSD; Consejo Nacional de Seguridad y Salud Ocupacional",
+     "url": "https://laws.boe.gov.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Todo establecimiento; prohibición de trabajo al sol de 12:00 a 15:00 del 15 de junio al 15 de septiembre.",
+     "obligaciones": [
+      "Evaluación de riesgos y responsable de seguridad.",
+      "Reportar accidentes graves."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidente de trabajo",
+       "plazo": "Según el reglamento (verificar)",
+       "ante": "MHRSD / GOSI"
+      }
+     ],
+     "sanciones": "Multas por trabajador expuesto.",
+     "evidencia": [
+      "Evaluación de riesgos"
+     ],
+     "preguntas": [
+      "¿Se respeta la prohibición de trabajo al aire libre en verano?",
+      "¿Hay evaluación de riesgos actualizada?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "sa_pdpl",
+     "nombre": "Ley de Protección de Datos Personales (Real Decreto M/19 de 2021, aplicable desde el 14-sep-2024) y Controles Esenciales de Ciberseguridad (ECC-2:2024)",
+     "sigla": "PDPL",
+     "tipo": "real decreto",
+     "autoridad": "SDAIA (Autoridad de Datos e IA); Autoridad Nacional de Ciberseguridad (NCA)",
+     "url": "https://sdaia.gov.sa/",
+     "ultima_reforma": "2024-09-14 (aplicación)",
+     "aplica": "Quien trate datos de personas en el Reino; los ECC aplican a entidades gubernamentales y operadores de infraestructura crítica y sus proveedores.",
+     "obligaciones": [
+      "Notificar incidentes a SDAIA en 72 horas.",
+      "Transferencias fuera del Reino solo con las garantías del reglamento de transferencias.",
+      "Registro en la plataforma nacional de datos cuando corresponda."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de incidente de datos personales",
+       "plazo": "72 horas",
+       "ante": "SDAIA"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de riyales (el doble en reincidencia).",
+     "evidencia": [
+      "Registro de actividades",
+      "Evaluaciones de impacto"
+     ],
+     "preguntas": [
+      "¿Hay procedimiento para notificar en 72 horas?",
+      "¿Las transferencias internacionales tienen garantías?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "sa_pld",
+     "nombre": "Ley contra el Lavado de Dinero (Real Decreto M/20 de 2017)",
+     "sigla": "AML Law",
+     "tipo": "real decreto",
+     "autoridad": "Dirección General de Investigación Financiera (SAFIU); Banco Central (SAMA)",
+     "url": "https://laws.boe.gov.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Instituciones financieras y actividades no financieras designadas.",
+     "obligaciones": [
+      "Debida diligencia, beneficiario final y reportes sospechosos.",
+      "Aplicar las listas nacionales y de la ONU de terrorismo."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operación sospechosa",
+       "plazo": "Inmediato",
+       "ante": "SAFIU"
+      }
+     ],
+     "sanciones": "Multas de hasta 50 millones de riyales y prisión.",
+     "evidencia": [
+      "Política PLD"
+     ],
+     "preguntas": [
+      "¿La empresa es sujeto obligado?",
+      "¿Se filtran clientes contra listas de sanciones?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "sa_soborno",
+     "nombre": "Ley contra el Soborno (reformada para incluir al sector privado y a funcionarios extranjeros)",
+     "sigla": "Anti-Bribery Law",
+     "tipo": "real decreto",
+     "autoridad": "Autoridad de Supervisión y Anticorrupción (Nazaha)",
+     "url": "https://laws.boe.gov.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empresas y sus empleados en el sector público y privado.",
+     "obligaciones": [
+      "Prohibido ofrecer o recibir sobornos, incluidos pagos a funcionarios extranjeros.",
+      "Controles a intermediarios."
+     ],
+     "tramites": [],
+     "sanciones": "Prisión de hasta 10 años y multas de hasta 1 millón de riyales; multa a la empresa de hasta 10 veces el soborno.",
+     "evidencia": [
+      "Política anticorrupción"
+     ],
+     "preguntas": [
+      "¿Existe política anticorrupción con diligencia de agentes?",
+      "¿Se registran regalos y hospitalidad?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "sa_competencia",
+     "nombre": "Ley de Competencia (Real Decreto M/75 de 2019)",
+     "sigla": "Competition Law",
+     "tipo": "real decreto",
+     "autoridad": "Autoridad General de Competencia (GAC)",
+     "url": "https://gac.gov.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Concentraciones que superan los umbrales de ventas (combinadas mundiales de 200 millones de riyales, con requisitos en el Reino; verificar) y conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar concentraciones 90 días antes de cerrar.",
+      "No celebrar acuerdos de precios."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Al menos 90 días antes de cerrar",
+       "ante": "GAC"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 % de las ventas o 10 millones de riyales.",
+     "evidencia": [
+      "Análisis de umbrales"
+     ],
+     "preguntas": [
+      "¿Se evaluaron los umbrales de la GAC?",
+      "¿Hay política de competencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "sa_consumidor",
+     "nombre": "Ley de Comercio Electrónico (2019), Ley contra el Fraude Comercial y sistema de conformidad de productos SALEEM",
+     "sigla": "E-Commerce / SALEEM",
+     "tipo": "real decreto",
+     "autoridad": "MoC; Organización Saudí de Normalización (SASO)",
+     "url": "https://saber.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Vendedores a consumidores y fabricantes e importadores de productos regulados.",
+     "obligaciones": [
+      "Certificado de conformidad del producto en SALEEM antes de importar.",
+      "Información clara en ventas en línea."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de conformidad de producto (SALEEM)",
+       "plazo": "Antes de importar",
+       "ante": "SASO"
+      }
+     ],
+     "sanciones": "Multas, decomiso y suspensión.",
+     "evidencia": [
+      "Certificados"
+     ],
+     "preguntas": [
+      "¿Los productos tienen certificado SALEEM?",
+      "¿La tienda en línea cumple la Ley de Comercio Electrónico?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "sa_ambiental",
+     "nombre": "Ley Ambiental (Real Decreto M/165 de 2020)",
+     "sigla": "Environmental Law",
+     "tipo": "real decreto",
+     "autoridad": "Centro Nacional de Cumplimiento Ambiental (NCEC)",
+     "url": "https://ncec.gov.sa/",
+     "ultima_reforma": "2020",
+     "aplica": "Proyectos e instalaciones con impacto ambiental.",
+     "obligaciones": [
+      "Permiso ambiental de construcción y de operación.",
+      "Monitoreo y reporte de emisiones."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso ambiental de operación",
+       "plazo": "Antes de operar; renovación periódica",
+       "ante": "NCEC"
+      }
+     ],
+     "sanciones": "Multas de hasta 20 millones de riyales y cierre.",
+     "evidencia": [
+      "Permisos ambientales"
+     ],
+     "preguntas": [
+      "¿Los permisos ambientales están vigentes?",
+      "¿Se reportan los monitoreos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "sa_inversion",
+     "nombre": "Ley de Inversión (2025) y Ley contra el Encubrimiento Comercial (tasattur, 2020)",
+     "sigla": "Investment Law / Anti-Concealment",
+     "tipo": "real decreto",
+     "autoridad": "Ministerio de Inversión (MISA); MoC; ZATCA (aduanas)",
+     "url": "https://misa.gov.sa/",
+     "ultima_reforma": "2025 (Ley de Inversión; verificar)",
+     "aplica": "Inversionistas extranjeros; empresas que contratan con el gobierno (programa de sede regional).",
+     "obligaciones": [
+      "Registro o licencia de inversión ante MISA.",
+      "Prohibido que un extranjero opere a nombre de un saudí (encubrimiento).",
+      "Sede regional en el Reino para contratos con el gobierno (desde 2024)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de inversión",
+       "plazo": "Antes de operar",
+       "ante": "MISA"
+      }
+     ],
+     "sanciones": "Multas de hasta 5 millones de riyales por encubrimiento, prisión y deportación.",
+     "evidencia": [
+      "Licencia MISA"
+     ],
+     "preguntas": [
+      "¿La inversión está registrada en MISA?",
+      "¿La empresa necesita sede regional para contratar con el gobierno?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "sa_pi",
+     "nombre": "Ley de Marcas (ley del CCG) y Ley de Patentes",
+     "sigla": "Trademarks / Patents",
+     "tipo": "real decreto",
+     "autoridad": "Autoridad Saudí de Propiedad Intelectual (SAIP)",
+     "url": "https://saip.gov.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas y patentes.",
+     "obligaciones": [
+      "Registrar marcas ante la SAIP.",
+      "Renovar a los 10 años."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "SAIP"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [
+      "Certificados"
+     ],
+     "preguntas": [
+      "¿Las marcas están registradas en el Reino?",
+      "¿Se renuevan a tiempo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "sa_valores",
+     "nombre": "Ley del Mercado de Capitales y reglamentos de la CMA",
+     "sigla": "Capital Market Law",
+     "tipo": "real decreto",
+     "autoridad": "Autoridad del Mercado de Capitales (CMA); Tadawul",
+     "url": "https://cma.org.sa/",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisoras listadas.",
+     "obligaciones": [
+      "Estados financieros trimestrales y anuales.",
+      "Revelación de hechos relevantes."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales",
+       "plazo": "3 meses tras el cierre",
+       "ante": "CMA / Tadawul"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Estados financieros"
+     ],
+     "preguntas": [
+      "¿Los estados se publican en plazo?",
+      "¿Se revelan los hechos relevantes?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "sa_electricidad",
+     "nombre": "Ley de Electricidad",
+     "sigla": "Electricity Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad Reguladora de Electricidad (SERA); Ministerio de Energía",
+     "ultima_reforma": "verificar",
+     "aplica": "Generación, transmisión y distribución.",
+     "obligaciones": [
+      "Licencia de la autoridad reguladora."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de actividad eléctrica",
+       "plazo": "Antes de operar",
+       "ante": "SERA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La licencia está vigente?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "sa_hidro",
+     "nombre": "Ley de Hidrocarburos (2017) y reglamento de comercio de productos petroleros",
+     "sigla": "Hydrocarbons Law",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Energía",
+     "ultima_reforma": "verificar",
+     "aplica": "Exploración, producción (concesión de Saudi Aramco) y comercio de productos petroleros.",
+     "obligaciones": [
+      "Licencia del Ministerio de Energía para comercio y distribución de combustibles."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de comercio de productos petroleros",
+       "plazo": "Antes de operar",
+       "ante": "Ministerio de Energía"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias de combustibles están vigentes?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "sa_farma",
+     "nombre": "Ley de Establecimientos y Productos Farmacéuticos",
+     "sigla": "SFDA Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad Saudí de Alimentos y Medicamentos (SFDA)",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes, importadores y distribuidores.",
+     "obligaciones": [
+      "Registro de producto y licencia de establecimiento.",
+      "Trazabilidad (RSD) de medicamentos."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto",
+       "plazo": "Antes de comercializar",
+       "ante": "SFDA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los productos están registrados en la SFDA?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "sa_alimentos",
+     "nombre": "Ley de Alimentos",
+     "sigla": "Food Law",
+     "tipo": "ley",
+     "autoridad": "SFDA",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores e importadores de alimentos.",
+     "obligaciones": [
+      "Registro de establecimiento y productos; etiquetado en árabe; certificado halal."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de producto alimenticio",
+       "plazo": "Antes de importar",
+       "ante": "SFDA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las etiquetas están en árabe y con certificación halal?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "sa_bancos",
+     "nombre": "Ley de Control Bancario y reglas del Banco Central de Arabia Saudita (SAMA)",
+     "sigla": "Banking Control Law",
+     "tipo": "ley",
+     "autoridad": "SAMA",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos, financieras, fintech y pagos.",
+     "obligaciones": [
+      "Licencia de SAMA; marco de ciberseguridad de SAMA."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de SAMA",
+       "plazo": "Antes de operar",
+       "ante": "SAMA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La actividad requiere licencia de SAMA?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "sa_seguros",
+     "nombre": "Ley de Control de Empresas de Seguro Cooperativo",
+     "sigla": "Cooperative Insurance Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad de Seguros (IA, desde 2023)",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras e intermediarios.",
+     "obligaciones": [
+      "Licencia y requisitos de solvencia."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguros",
+       "plazo": "Antes de operar",
+       "ante": "Autoridad de Seguros"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los requisitos de solvencia?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "sa_telecom",
+     "nombre": "Ley de Comunicaciones y Tecnologías de la Información (2022)",
+     "sigla": "Communications and IT Law",
+     "tipo": "ley",
+     "autoridad": "Comisión de Comunicaciones, Espacio y Tecnología (CST)",
+     "ultima_reforma": "verificar",
+     "aplica": "Telecomunicaciones, nube y servicios digitales.",
+     "obligaciones": [
+      "Licencia o registro de la CST; marco regulatorio de nube."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia o registro de la CST",
+       "plazo": "Antes de operar",
+       "ante": "CST"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los servicios de nube están registrados ante la CST?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "sa_ti",
+     "nombre": "Controles de Ciberseguridad de la Nube (NCA) y Marco Regulatorio de Nube (CST)",
+     "sigla": "NCA CCC / Cloud",
+     "tipo": "ley",
+     "autoridad": "NCA; CST",
+     "ultima_reforma": "verificar",
+     "aplica": "Proveedores de servicios en la nube y clientes gubernamentales.",
+     "obligaciones": [
+      "Cumplir los controles de la NCA y clasificar los datos alojados."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Se cumplen los controles de nube de la NCA?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "sa_construccion",
+     "nombre": "Código de Construcción Saudí y clasificación de contratistas",
+     "sigla": "Saudi Building Code",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Asuntos Municipales, Rurales y Vivienda",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras.",
+     "obligaciones": [
+      "Clasificación de contratista y permisos de obra (Balady)."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar",
+       "ante": "Municipio (Balady)"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La clasificación de contratista cubre el tamaño de la obra?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "sa_mineria",
+     "nombre": "Ley de Inversión Minera (2020)",
+     "sigla": "Mining Investment Law",
+     "tipo": "ley",
+     "autoridad": "Ministerio de Industria y Recursos Minerales",
+     "ultima_reforma": "2020",
+     "aplica": "Exploración y explotación.",
+     "obligaciones": [
+      "Licencias de exploración y explotación; plan de cierre."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia minera",
+       "plazo": "Antes de explorar",
+       "ante": "Ministerio de Industria y Recursos Minerales"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias mineras están vigentes?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "sa_defensa",
+     "nombre": "Licencias de industria militar",
+     "sigla": "GAMI",
+     "tipo": "ley",
+     "autoridad": "Autoridad General de Industrias Militares (GAMI)",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes y proveedores de defensa.",
+     "obligaciones": [
+      "Licencia de la GAMI y requisitos de contenido local."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de industria militar",
+       "plazo": "Antes de operar",
+       "ante": "GAMI"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿La empresa tiene licencia de la GAMI?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "sa_aviacion",
+     "nombre": "Ley de Aviación Civil",
+     "sigla": "Civil Aviation Law",
+     "tipo": "ley",
+     "autoridad": "Autoridad General de Aviación Civil (GACA)",
+     "ultima_reforma": "verificar",
+     "aplica": "Aerolíneas, talleres y aeropuertos.",
+     "obligaciones": [
+      "Certificados de la GACA."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de operador",
+       "plazo": "Antes de operar",
+       "ante": "GACA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los certificados están vigentes?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "sa_logistica",
+     "nombre": "Reglamentos de la Autoridad General de Transporte y Ley Aduanera Común del CCG",
+     "sigla": "TGA / Customs",
+     "tipo": "ley",
+     "autoridad": "Autoridad General de Transporte (TGA); ZATCA",
+     "ultima_reforma": "verificar",
+     "aplica": "Transportistas y operadores logísticos.",
+     "obligaciones": [
+      "Licencia de actividad de transporte y registro aduanero."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de transporte",
+       "plazo": "Antes de operar",
+       "ante": "TGA"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Las licencias de la TGA están vigentes?"
+     ]
+    }
+   ]
+  },
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "sa_auto",
+     "nombre": "Reglamentos técnicos de vehículos de la SASO",
+     "sigla": "SASO vehicles",
+     "tipo": "ley",
+     "autoridad": "SASO",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores de vehículos.",
+     "obligaciones": [
+      "Certificado de conformidad del vehículo y de eficiencia de combustible."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de conformidad del vehículo",
+       "plazo": "Antes de importar",
+       "ante": "SASO"
+      }
+     ],
+     "sanciones": "Multas, suspensión o revocación de licencias (verificar montos en la norma).",
+     "evidencia": [],
+     "preguntas": [
+      "¿Los modelos tienen certificado de conformidad?"
+     ]
+    }
+   ]
+  }
+ }
+}

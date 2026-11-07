@@ -1,0 +1,1002 @@
+{
+ "jurisdiccion": "CHL",
+ "nombre": "Chile",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en Chile. Cambios recientes con efecto amplio: Ley de Delitos Económicos (2023), Ley Karin (2024), jornada de 40 horas (gradual a 2028) y nueva ley de datos personales (vigente desde diciembre de 2026). Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Ley Chile (Biblioteca del Congreso Nacional)",
+   "https://www.bcn.cl/leychile"
+  ],
+  [
+   "Diario Oficial",
+   "https://www.diariooficial.interior.gob.cl/"
+  ],
+  [
+   "SII",
+   "https://www.sii.cl/"
+  ],
+  [
+   "Dirección del Trabajo",
+   "https://www.dt.gob.cl/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "cl_sociedades",
+     "nombre": "Ley de Sociedades Anónimas (Ley 18.046), Código de Comercio (SpA y limitadas) y Registro de Empresas y Sociedades (Ley 20.659)",
+     "sigla": "Ley 18.046",
+     "tipo": "ley",
+     "autoridad": "Conservador de Bienes Raíces / Registro de Comercio; Ministerio de Economía (RES); CMF (sociedades abiertas)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Sociedades chilenas y agencias de sociedades extranjeras.",
+     "obligaciones": [
+      "Inscripción y publicación del extracto en el Diario Oficial (o registro electrónico RES).",
+      "Junta ordinaria anual dentro del cuatrimestre siguiente al cierre (sociedades anónimas).",
+      "La agencia de sociedad extranjera necesita mandatario con poder amplio en Chile."
+     ],
+     "tramites": [
+      {
+       "que": "Junta ordinaria de accionistas",
+       "plazo": "Cuatrimestre siguiente al cierre (30 de abril)",
+       "ante": "Interno"
+      }
+     ],
+     "sanciones": "Nulidad, responsabilidad de directores y sanciones de la CMF.",
+     "evidencia": [
+      "Escritura social",
+      "Inscripción",
+      "Actas"
+     ],
+     "preguntas": [
+      "¿Se celebró la junta ordinaria antes del 30 de abril?",
+      "¿El mandatario de la agencia extranjera tiene poder vigente?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "cl_tributos",
+     "nombre": "Ley sobre Impuesto a la Renta (DL 824) e Impuesto al Valor Agregado (DL 825)",
+     "sigla": "LIR / Ley IVA",
+     "tipo": "decreto ley",
+     "autoridad": "Servicio de Impuestos Internos (SII)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Toda empresa con domicilio o actividad en Chile. Primera categoría: 27 % en régimen general; IVA: 19 %.",
+     "obligaciones": [
+      "Documentos tributarios electrónicos (factura y boleta electrónica).",
+      "Declaración mensual F29 (IVA y pagos provisionales) y anual F22.",
+      "Declaraciones juradas anuales (incluida la de precios de transferencia, DJ 1907)."
+     ],
+     "tramites": [
+      {
+       "que": "Formulario 29 (IVA y PPM)",
+       "plazo": "Día 20 del mes siguiente con facturación electrónica",
+       "ante": "SII"
+      },
+      {
+       "que": "Formulario 22 (renta anual)",
+       "plazo": "Abril",
+       "ante": "SII"
+      },
+      {
+       "que": "Declaraciones juradas anuales",
+       "plazo": "Marzo (según calendario del SII)",
+       "ante": "SII"
+      }
+     ],
+     "sanciones": "Multas de 10 % a 30 % del impuesto adeudado, intereses y sanciones penales por fraude.",
+     "evidencia": [
+      "F29 y F22",
+      "Declaraciones juradas"
+     ],
+     "preguntas": [
+      "¿Se presentan F29 y F22 en plazo?",
+      "¿Se presentó la DJ 1907 de precios de transferencia si aplica?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "cl_codigo_trabajo",
+     "nombre": "Código del Trabajo, Ley de 40 horas (Ley 21.561) y Ley Karin (Ley 21.643, acoso laboral)",
+     "sigla": "Código del Trabajo",
+     "tipo": "ley",
+     "autoridad": "Dirección del Trabajo (DT); Superintendencia de Pensiones; Superintendencia de Seguridad Social (SUSESO)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2024-08-01 (Ley Karin)",
+     "aplica": "Todo empleador; al menos 85 % de los trabajadores deben ser chilenos en empresas con más de 25 (art. 19, con excepciones).",
+     "obligaciones": [
+      "Contrato escrito en 15 días (5 en contratos cortos).",
+      "Jornada: 44 h desde abril de 2024, 42 h desde abril de 2026 y 40 h desde abril de 2028.",
+      "Protocolo de prevención del acoso laboral, sexual y violencia (Ley Karin) y procedimiento de investigación.",
+      "Libro de Remuneraciones Electrónico mensual y cotizaciones (AFP, salud, seguro de cesantía)."
+     ],
+     "tramites": [
+      {
+       "que": "Libro de Remuneraciones Electrónico",
+       "plazo": "Mensual (empresas con 5 o más trabajadores)",
+       "ante": "Dirección del Trabajo"
+      },
+      {
+       "que": "Pago de cotizaciones previsionales",
+       "plazo": "Día 13 del mes siguiente (verificar)",
+       "ante": "Previred / instituciones"
+      }
+     ],
+     "sanciones": "Multas de la DT por trabajador afectado y nulidad del despido si hay cotizaciones impagas.",
+     "evidencia": [
+      "Contratos",
+      "Libro de remuneraciones",
+      "Protocolo Ley Karin"
+     ],
+     "preguntas": [
+      "¿La jornada ya está en 42 horas?",
+      "¿Existe protocolo Ley Karin y se investigan las denuncias en 30 días?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "cl_sst",
+     "nombre": "Ley de Accidentes del Trabajo y Enfermedades Profesionales (Ley 16.744) y Reglamento de Gestión Preventiva de Riesgos (DS 44 de 2024)",
+     "sigla": "Ley 16.744 / DS 44",
+     "tipo": "ley",
+     "autoridad": "SUSESO; mutualidades; Seremi de Salud; DT",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2025-02 (DS 44 vigente; verificar)",
+     "aplica": "Todo empleador (afiliación a una mutualidad o al ISL).",
+     "obligaciones": [
+      "Matriz de riesgos y programa de trabajo preventivo.",
+      "Comité paritario con más de 25 trabajadores y departamento de prevención con más de 100.",
+      "Reglamento interno de higiene y seguridad."
+     ],
+     "tramites": [
+      {
+       "que": "Denuncia de accidente (DIAT)",
+       "plazo": "24 horas",
+       "ante": "Mutualidad / ISL"
+      },
+      {
+       "que": "Aviso de accidente grave o fatal",
+       "plazo": "Inmediato",
+       "ante": "Inspección del Trabajo y Seremi de Salud"
+      }
+     ],
+     "sanciones": "Multas y paralización de faenas.",
+     "evidencia": [
+      "Matriz de riesgos",
+      "Actas del comité paritario"
+     ],
+     "preguntas": [
+      "¿Hay matriz de riesgos y programa preventivo según el DS 44?",
+      "¿El comité paritario está constituido?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "cl_datos",
+     "nombre": "Ley de Protección de Datos Personales (Ley 21.719, vigente desde el 1-dic-2026, que reforma la Ley 19.628)",
+     "sigla": "Ley 21.719 / 19.628",
+     "tipo": "ley",
+     "autoridad": "Agencia de Protección de Datos Personales",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2024-12-13 (publicación; vigencia 2026-12-01)",
+     "aplica": "Responsables y encargados que tratan datos de personas en Chile, incluidos extranjeros que les ofrecen bienes o servicios.",
+     "obligaciones": [
+      "Base de licitud, información y derechos ARCO más portabilidad.",
+      "Reportar vulneraciones de seguridad a la Agencia sin dilación.",
+      "Modelo de prevención de infracciones (voluntario, atenúa sanciones)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de vulneración de seguridad",
+       "plazo": "Sin dilación indebida",
+       "ante": "Agencia de Protección de Datos"
+      }
+     ],
+     "sanciones": "Multas de hasta 20 000 UTM y, para grandes empresas reincidentes, hasta 4 % de los ingresos.",
+     "evidencia": [
+      "Registro de actividades",
+      "Política de privacidad"
+     ],
+     "preguntas": [
+      "¿La empresa se preparó para la entrada en vigor de diciembre de 2026?",
+      "¿Hay procedimiento para reportar vulneraciones?"
+     ]
+    },
+    {
+     "id": "cl_ciberseguridad",
+     "nombre": "Ley Marco de Ciberseguridad (Ley 21.663)",
+     "sigla": "Ley 21.663",
+     "tipo": "ley",
+     "autoridad": "Agencia Nacional de Ciberseguridad (ANCI)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2024-04-08",
+     "aplica": "Prestadores de servicios esenciales y operadores de importancia vital (energía, telecomunicaciones, banca, salud, transporte, servicios digitales, entre otros).",
+     "obligaciones": [
+      "Reportar incidentes: alerta temprana en 3 horas, segundo informe en 72 horas y final en 15 días.",
+      "Sistema de gestión de seguridad de la información (operadores de importancia vital)."
+     ],
+     "tramites": [
+      {
+       "que": "Alerta temprana de incidente",
+       "plazo": "3 horas",
+       "ante": "CSIRT Nacional (ANCI)"
+      }
+     ],
+     "sanciones": "Multas de hasta 40 000 UTM.",
+     "evidencia": [
+      "Plan de respuesta",
+      "Registro de incidentes"
+     ],
+     "preguntas": [
+      "¿La empresa fue calificada como operador de importancia vital?",
+      "¿El procedimiento cumple los plazos de 3 h, 72 h y 15 días?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "cl_pld",
+     "nombre": "Ley que crea la Unidad de Análisis Financiero (Ley 19.913)",
+     "sigla": "Ley 19.913",
+     "tipo": "ley",
+     "autoridad": "Unidad de Análisis Financiero (UAF)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Sujetos obligados (bancos, casas de cambio, inmobiliarias, casinos, notarios, exportadores e importadores en zona franca, entre otros).",
+     "obligaciones": [
+      "Registro ante la UAF y oficial de cumplimiento.",
+      "Reportes de operaciones sospechosas (ROS) y en efectivo sobre 450 UF."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operaciones en efectivo",
+       "plazo": "Trimestral (o semestral según el tipo)",
+       "ante": "UAF"
+      }
+     ],
+     "sanciones": "Multas de hasta 3 000 UF.",
+     "evidencia": [
+      "Manual de prevención",
+      "Reportes"
+     ],
+     "preguntas": [
+      "¿La empresa es sujeto obligado registrado?",
+      "¿Se envían los reportes de efectivo?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "cl_rppj",
+     "nombre": "Responsabilidad penal de las personas jurídicas (Ley 20.393) ampliada por la Ley de Delitos Económicos (Ley 21.595, 2023)",
+     "sigla": "Ley 20.393 / 21.595",
+     "tipo": "ley",
+     "autoridad": "Ministerio Público; tribunales",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2023-08-17 (Ley 21.595)",
+     "aplica": "Personas jurídicas por cohecho, lavado, delitos económicos y ambientales y más de 200 delitos.",
+     "obligaciones": [
+      "Modelo de prevención de delitos efectivo, con evaluación de riesgos y canal de denuncias.",
+      "Encargado de prevención con autonomía."
+     ],
+     "tramites": [],
+     "sanciones": "Multas, prohibición de contratar con el Estado y disolución.",
+     "evidencia": [
+      "Modelo de prevención",
+      "Matriz de riesgos penales"
+     ],
+     "preguntas": [
+      "¿El modelo de prevención se actualizó a la Ley 21.595?",
+      "¿Está certificado o evaluado por un tercero?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "cl_competencia",
+     "nombre": "Decreto Ley 211 de Defensa de la Libre Competencia",
+     "sigla": "DL 211",
+     "tipo": "decreto ley",
+     "autoridad": "Fiscalía Nacional Económica (FNE); Tribunal de Defensa de la Libre Competencia",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Operaciones de concentración que superan los umbrales en UF fijados por la FNE (control previo obligatorio desde 2017) y conductas anticompetitivas.",
+     "obligaciones": [
+      "Notificar la operación antes de perfeccionarla si supera los umbrales.",
+      "No participar en carteles (delito penal)."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de operación de concentración",
+       "plazo": "Antes de perfeccionarla",
+       "ante": "FNE"
+      }
+     ],
+     "sanciones": "Multas de hasta 30 % de las ventas o el doble del beneficio; cárcel por colusión.",
+     "evidencia": [
+      "Programa de cumplimiento"
+     ],
+     "preguntas": [
+      "¿Se revisaron los umbrales vigentes de la FNE?",
+      "¿Existe programa de cumplimiento de libre competencia?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "cl_consumidor",
+     "nombre": "Ley de Protección de los Derechos de los Consumidores (Ley 19.496, reformada por la Ley Pro Consumidor 21.398)",
+     "sigla": "Ley 19.496",
+     "tipo": "ley",
+     "autoridad": "SERNAC",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2021-12-24 (Ley 21.398)",
+     "aplica": "Proveedores de bienes y servicios a consumidores.",
+     "obligaciones": [
+      "Derecho de retracto de 10 días en compras a distancia.",
+      "Garantía legal de 6 meses.",
+      "Información de precios y condiciones."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de hasta 2 550 UTM por infracción y juicios colectivos.",
+     "evidencia": [
+      "Registro de reclamos"
+     ],
+     "preguntas": [
+      "¿Se respeta el retracto de 10 días?",
+      "¿Se atiende la garantía legal de 6 meses?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "cl_ambiental",
+     "nombre": "Ley sobre Bases Generales del Medio Ambiente (Ley 19.300), Ley REP (Ley 20.920) y Ley Marco de Cambio Climático (Ley 21.455)",
+     "sigla": "Ley 19.300",
+     "tipo": "ley",
+     "autoridad": "Servicio de Evaluación Ambiental (SEA); Superintendencia del Medio Ambiente (SMA); Ministerio del Medio Ambiente",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Proyectos del art. 10 de la Ley 19.300 y productores de productos prioritarios (envases, neumáticos, aparatos eléctricos y otros).",
+     "obligaciones": [
+      "Resolución de calificación ambiental (RCA) antes de ejecutar.",
+      "Declaraciones en el Registro de Emisiones y Transferencia de Contaminantes (RETC).",
+      "Metas de recolección y valorización (Ley REP)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual en la Ventanilla Única del RETC",
+       "plazo": "Anual (según el calendario del MMA)",
+       "ante": "Ministerio del Medio Ambiente"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 000 UTA, clausura y revocación de la RCA.",
+     "evidencia": [
+      "RCA",
+      "Reportes a la SMA"
+     ],
+     "preguntas": [
+      "¿El proyecto tiene RCA y cumple sus condiciones?",
+      "¿Se presentaron las declaraciones del RETC?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "cl_inversion",
+     "nombre": "Ley Marco de Inversión Extranjera Directa (Ley 20.848) y Compendio de Normas de Cambios Internacionales del Banco Central",
+     "sigla": "Ley 20.848 / CNCI",
+     "tipo": "ley",
+     "autoridad": "InvestChile; Banco Central de Chile; Servicio Nacional de Aduanas",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Inversionistas extranjeros y empresas con operaciones de cambio.",
+     "obligaciones": [
+      "Informar al Banco Central las operaciones de cambio internacionales (inversiones, créditos, aportes) según el Capítulo XIV.",
+      "Certificado de inversionista extranjero (opcional, InvestChile)."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de operaciones de cambio (Capítulo XIV)",
+       "plazo": "Según el plazo del Compendio (verificar)",
+       "ante": "Banco Central"
+      }
+     ],
+     "sanciones": "Multas de hasta 3 veces el monto de la operación no informada (verificar).",
+     "evidencia": [
+      "Reportes al Banco Central"
+     ],
+     "preguntas": [
+      "¿Se informaron al Banco Central las inversiones y créditos del exterior?",
+      "¿Se evaluó solicitar el certificado de InvestChile?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "cl_pi",
+     "nombre": "Ley de Propiedad Industrial (Ley 19.039)",
+     "sigla": "Ley 19.039",
+     "tipo": "ley",
+     "autoridad": "Instituto Nacional de Propiedad Industrial (INAPI)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de marcas y patentes.",
+     "obligaciones": [
+      "Registrar marcas en el INAPI.",
+      "Pagar las tasas de mantención de patentes."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años",
+       "ante": "INAPI"
+      }
+     ],
+     "sanciones": "Pérdida de derechos.",
+     "evidencia": [
+      "Títulos"
+     ],
+     "preguntas": [
+      "¿Las marcas clave están registradas en Chile?",
+      "¿Se renuevan antes del vencimiento?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "cl_valores",
+     "nombre": "Ley de Mercado de Valores (Ley 18.045) y NCG 461 (memoria integrada con sostenibilidad)",
+     "sigla": "Ley 18.045",
+     "tipo": "ley",
+     "autoridad": "Comisión para el Mercado Financiero (CMF)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Emisores inscritos en el Registro de Valores.",
+     "obligaciones": [
+      "Estados financieros trimestrales y anuales (NIIF).",
+      "Hechos esenciales de inmediato.",
+      "Memoria anual con información de sostenibilidad (NCG 461)."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros anuales auditados",
+       "plazo": "Según calendario de la CMF (marzo)",
+       "ante": "CMF"
+      }
+     ],
+     "sanciones": "Multas de hasta 15 000 UF o 30 % del valor de la operación.",
+     "evidencia": [
+      "Estados financieros",
+      "Memoria"
+     ],
+     "preguntas": [
+      "¿La memoria incluye la información de sostenibilidad de la NCG 461?",
+      "¿Se comunican los hechos esenciales a tiempo?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "cl_auto",
+     "nombre": "Homologación vehicular (Centro de Control y Certificación Vehicular) y Ley REP para neumáticos",
+     "sigla": "Homologación 3CV",
+     "tipo": "decreto",
+     "autoridad": "Ministerio de Transportes y Telecomunicaciones (MTT)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores y fabricantes de vehículos.",
+     "obligaciones": [
+      "Homologación de cada modelo antes de vender.",
+      "Cumplir metas REP de neumáticos."
+     ],
+     "tramites": [
+      {
+       "que": "Homologación de modelo",
+       "plazo": "Antes de comercializar",
+       "ante": "3CV / MTT"
+      }
+     ],
+     "sanciones": "Prohibición de venta y multas.",
+     "evidencia": [
+      "Certificados de homologación"
+     ],
+     "preguntas": [
+      "¿Los modelos están homologados?",
+      "¿Se cumplen las metas REP?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "cl_electricidad",
+     "nombre": "Ley General de Servicios Eléctricos (DFL 4/2006)",
+     "sigla": "LGSE",
+     "tipo": "ley",
+     "autoridad": "Comisión Nacional de Energía; Superintendencia de Electricidad y Combustibles (SEC); Coordinador Eléctrico Nacional",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Generadores, transmisores y distribuidores.",
+     "obligaciones": [
+      "Concesiones y coordinación con el Coordinador Eléctrico.",
+      "Normas técnicas de seguridad y calidad."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de instalaciones eléctricas (TE1)",
+       "plazo": "Al poner en servicio",
+       "ante": "SEC"
+      }
+     ],
+     "sanciones": "Multas de la SEC de hasta 10 000 UTA.",
+     "evidencia": [
+      "Declaraciones SEC"
+     ],
+     "preguntas": [
+      "¿La empresa está coordinada en el SEN?",
+      "¿Cumple la norma técnica?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "cl_combustibles",
+     "nombre": "Reglamento de seguridad de combustibles líquidos (DS 160) y contratos especiales de operación petrolera",
+     "sigla": "DS 160 / CEOP",
+     "tipo": "decreto",
+     "autoridad": "SEC; Ministerio de Energía",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Producción, almacenamiento, transporte y venta de combustibles.",
+     "obligaciones": [
+      "Inscripción de instalaciones de combustibles ante la SEC.",
+      "Planes de seguridad y emergencia."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción de instalación de combustibles",
+       "plazo": "Antes de operar",
+       "ante": "SEC"
+      }
+     ],
+     "sanciones": "Multas y clausura.",
+     "evidencia": [
+      "Inscripciones"
+     ],
+     "preguntas": [
+      "¿Las instalaciones están inscritas en la SEC?",
+      "¿Hay plan de emergencia?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "cl_aviacion",
+     "nombre": "Código Aeronáutico (Ley 18.916) y normas DAN",
+     "sigla": "Código Aeronáutico",
+     "tipo": "ley",
+     "autoridad": "Dirección General de Aeronáutica Civil (DGAC); Junta de Aeronáutica Civil",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores aéreos, talleres y operadores de drones.",
+     "obligaciones": [
+      "Certificado de operador y de centro de mantenimiento.",
+      "Registro y autorización de drones."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de centro de mantenimiento",
+       "plazo": "Antes de operar",
+       "ante": "DGAC"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Certificados"
+     ],
+     "preguntas": [
+      "¿Los certificados de la DGAC están vigentes?",
+      "¿Los drones están registrados?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "cl_farma",
+     "nombre": "Código Sanitario y Reglamento del Sistema Nacional de Control de Productos Farmacéuticos (DS 3/2010)",
+     "sigla": "Código Sanitario / DS 3",
+     "tipo": "decreto",
+     "autoridad": "Instituto de Salud Pública (ISP)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Laboratorios, importadores y droguerías.",
+     "obligaciones": [
+      "Registro sanitario de cada producto.",
+      "Buenas prácticas de manufactura y farmacovigilancia."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de registro sanitario",
+       "plazo": "Cada 5 años",
+       "ante": "ISP"
+      }
+     ],
+     "sanciones": "Multas, decomiso y clausura.",
+     "evidencia": [
+      "Registros sanitarios"
+     ],
+     "preguntas": [
+      "¿Los productos tienen registro del ISP?",
+      "¿Se reportan las reacciones adversas?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "cl_construccion",
+     "nombre": "Ley General de Urbanismo y Construcciones y su Ordenanza General",
+     "sigla": "LGUC / OGUC",
+     "tipo": "ley",
+     "autoridad": "MINVU; Direcciones de Obras Municipales (DOM)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras e inmobiliarias.",
+     "obligaciones": [
+      "Permiso de edificación antes de construir.",
+      "Recepción final de obra."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de edificación",
+       "plazo": "Antes de iniciar",
+       "ante": "DOM municipal"
+      }
+     ],
+     "sanciones": "Multas y demolición.",
+     "evidencia": [
+      "Permisos",
+      "Recepción final"
+     ],
+     "preguntas": [
+      "¿Cada obra tiene permiso de edificación?",
+      "¿Se obtuvo la recepción final?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "cl_armas",
+     "nombre": "Ley de Control de Armas (Ley 17.798)",
+     "sigla": "Ley 17.798",
+     "tipo": "ley",
+     "autoridad": "Dirección General de Movilización Nacional (DGMN)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes, importadores, exportadores y comerciantes de armas, explosivos y sustancias químicas controladas.",
+     "obligaciones": [
+      "Inscripción y autorizaciones de la DGMN.",
+      "Autorización de importación y exportación."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización de exportación o importación",
+       "plazo": "Antes de cada operación",
+       "ante": "DGMN"
+      }
+     ],
+     "sanciones": "Sanciones penales.",
+     "evidencia": [
+      "Autorizaciones"
+     ],
+     "preguntas": [
+      "¿La empresa está inscrita ante la DGMN?",
+      "¿Cada operación tiene autorización?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "cl_seguros",
+     "nombre": "Ley de Seguros (DFL 251)",
+     "sigla": "DFL 251",
+     "tipo": "ley",
+     "autoridad": "CMF",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras, reaseguradoras y corredores.",
+     "obligaciones": [
+      "Autorización de la CMF y requisitos de patrimonio.",
+      "Registro de corredores."
+     ],
+     "tramites": [
+      {
+       "que": "Estados financieros trimestrales",
+       "plazo": "Según calendario de la CMF",
+       "ante": "CMF"
+      }
+     ],
+     "sanciones": "Multas y revocación.",
+     "evidencia": [
+      "Estados financieros"
+     ],
+     "preguntas": [
+      "¿Se cumplen los requisitos de patrimonio?",
+      "¿Los corredores están inscritos?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "cl_bancos",
+     "nombre": "Ley General de Bancos y Ley Fintec (Ley 21.521)",
+     "sigla": "LGB / Ley Fintec",
+     "tipo": "ley",
+     "autoridad": "CMF; Banco Central",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2023-01-04 (Ley Fintec)",
+     "aplica": "Bancos, emisores de medios de pago y prestadores de servicios financieros basados en tecnología.",
+     "obligaciones": [
+      "Autorización o registro ante la CMF.",
+      "Sistema de finanzas abiertas (Ley Fintec)."
+     ],
+     "tramites": [
+      {
+       "que": "Inscripción en el registro de prestadores Fintec",
+       "plazo": "Antes de prestar",
+       "ante": "CMF"
+      }
+     ],
+     "sanciones": "Multas y revocación.",
+     "evidencia": [
+      "Registros"
+     ],
+     "preguntas": [
+      "¿La actividad requiere registro en la CMF?",
+      "¿Se cumple el calendario de finanzas abiertas?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "cl_mineria",
+     "nombre": "Código de Minería, Reglamento de Seguridad Minera (DS 132), Ley de Cierre de Faenas (Ley 20.551) y royalty minero (Ley 21.591)",
+     "sigla": "Código de Minería / Ley 20.551",
+     "tipo": "ley",
+     "autoridad": "SERNAGEOMIN; SII",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2023-08 (royalty)",
+     "aplica": "Titulares de concesiones y faenas mineras.",
+     "obligaciones": [
+      "Plan de cierre aprobado y garantías.",
+      "Método de explotación aprobado.",
+      "Pago del royalty según ventas de cobre y litio."
+     ],
+     "tramites": [
+      {
+       "que": "Actualización del plan de cierre",
+       "plazo": "Cada 5 años",
+       "ante": "SERNAGEOMIN"
+      }
+     ],
+     "sanciones": "Multas y paralización.",
+     "evidencia": [
+      "Plan de cierre",
+      "Garantías"
+     ],
+     "preguntas": [
+      "¿El plan de cierre está aprobado y garantizado?",
+      "¿Se paga el royalty?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "cl_alimentos",
+     "nombre": "Reglamento Sanitario de los Alimentos (DS 977/96) y Ley de Composición Nutricional y Publicidad (Ley 20.606, sellos «ALTO EN»)",
+     "sigla": "RSA / Ley 20.606",
+     "tipo": "decreto",
+     "autoridad": "Ministerio de Salud (Seremi); SAG",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Productores, importadores y vendedores de alimentos.",
+     "obligaciones": [
+      "Autorización sanitaria del establecimiento.",
+      "Sellos de advertencia y restricciones de publicidad dirigida a menores."
+     ],
+     "tramites": [
+      {
+       "que": "Autorización sanitaria",
+       "plazo": "Antes de operar",
+       "ante": "Seremi de Salud"
+      }
+     ],
+     "sanciones": "Multas y clausura.",
+     "evidencia": [
+      "Autorización",
+      "Etiquetas"
+     ],
+     "preguntas": [
+      "¿El establecimiento tiene autorización sanitaria?",
+      "¿Las etiquetas llevan los sellos?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "cl_telecom",
+     "nombre": "Ley General de Telecomunicaciones (Ley 18.168)",
+     "sigla": "Ley 18.168",
+     "tipo": "ley",
+     "autoridad": "Subsecretaría de Telecomunicaciones (SUBTEL)",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Concesionarios y permisionarios de telecomunicaciones.",
+     "obligaciones": [
+      "Concesión o permiso según el servicio.",
+      "Homologación de equipos."
+     ],
+     "tramites": [
+      {
+       "que": "Concesión de servicio público",
+       "plazo": "Antes de operar",
+       "ante": "SUBTEL"
+      }
+     ],
+     "sanciones": "Multas y caducidad.",
+     "evidencia": [
+      "Decretos de concesión"
+     ],
+     "preguntas": [
+      "¿La concesión está vigente?",
+      "¿Los equipos están homologados?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "cl_delitos_informaticos",
+     "nombre": "Ley de Delitos Informáticos (Ley 21.459)",
+     "sigla": "Ley 21.459",
+     "tipo": "ley",
+     "autoridad": "Ministerio Público",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "2022-06-20",
+     "aplica": "Empresas de tecnología y quienes custodian sistemas e información.",
+     "obligaciones": [
+      "Incluir los delitos informáticos en el modelo de prevención de delitos.",
+      "Controles de acceso y registro de eventos."
+     ],
+     "tramites": [],
+     "sanciones": "Penas a personas y a la empresa (Ley 20.393).",
+     "evidencia": [
+      "Matriz de riesgos penales"
+     ],
+     "preguntas": [
+      "¿El modelo de prevención cubre delitos informáticos?",
+      "¿Se conservan los registros de acceso?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "cl_aduanas",
+     "nombre": "Ordenanza de Aduanas (DFL 30) y Ley de Tránsito (Ley 18.290)",
+     "sigla": "Ordenanza de Aduanas",
+     "tipo": "ley",
+     "autoridad": "Servicio Nacional de Aduanas; MTT",
+     "url": "https://www.bcn.cl/leychile",
+     "ultima_reforma": "verificar",
+     "aplica": "Importadores, exportadores, agentes de aduana y transportistas.",
+     "obligaciones": [
+      "Declaraciones aduaneras electrónicas.",
+      "Operador Económico Autorizado (voluntario)."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de ingreso (DIN)",
+       "plazo": "Antes del retiro de la mercancía",
+       "ante": "Aduanas"
+      }
+     ],
+     "sanciones": "Multas y comiso.",
+     "evidencia": [
+      "DIN y DUS"
+     ],
+     "preguntas": [
+      "¿Las declaraciones se presentan por agente de aduana habilitado?",
+      "¿Se evaluó la certificación OEA?"
+     ]
+    }
+   ]
+  }
+ }
+}

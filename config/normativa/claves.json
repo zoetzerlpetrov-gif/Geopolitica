@@ -1,0 +1,362 @@
+{
+ "_nota": "Nombres oficiales en el idioma de cada diario (japonés, ruso, inglés, portugués) para reconocer qué ley del catálogo menciona una publicación. Lo usa tools/normativa/monitor.py. Clave: id de la ley en config/normativa/<país>.json.",
+ "JPN": {
+  "jp_sociedades": [
+   "会社法"
+  ],
+  "jp_impuesto_sociedades": [
+   "法人税法"
+  ],
+  "jp_consumo": [
+   "消費税法"
+  ],
+  "jp_normas_laborales": [
+   "労働基準法"
+  ],
+  "jp_seguro_social": [
+   "健康保険法",
+   "厚生年金保険法",
+   "雇用保険法",
+   "労働者災害補償保険法"
+  ],
+  "jp_seguridad_salud": [
+   "労働安全衛生法"
+  ],
+  "jp_appi": [
+   "個人情報の保護に関する法律"
+  ],
+  "jp_pld": [
+   "犯罪による収益の移転防止に関する法律"
+  ],
+  "jp_cohecho": [
+   "不正競争防止法"
+  ],
+  "jp_antimonopolio": [
+   "私的独占の禁止及び公正取引の確保に関する法律",
+   "下請代金支払遅延等防止法"
+  ],
+  "jp_consumidor": [
+   "不当景品類及び不当表示防止法",
+   "消費者契約法",
+   "特定商取引に関する法律",
+   "製造物責任法"
+  ],
+  "jp_ambiental": [
+   "エネルギーの使用の合理化",
+   "廃棄物の処理及び清掃に関する法律",
+   "地球温暖化対策の推進に関する法律"
+  ],
+  "jp_fefta": [
+   "外国為替及び外国貿易法"
+  ],
+  "jp_pi": [
+   "特許法",
+   "商標法"
+  ],
+  "jp_valores": [
+   "金融商品取引法"
+  ],
+  "jp_auto": [
+   "道路運送車両法"
+  ],
+  "jp_electricidad": [
+   "電気事業法"
+  ],
+  "jp_gas_seguridad": [
+   "ガス事業法",
+   "高圧ガス保安法",
+   "消防法"
+  ],
+  "jp_aviacion": [
+   "航空法"
+  ],
+  "jp_pmd": [
+   "医薬品、医療機器等の品質、有効性及び安全性の確保等に関する法律"
+  ],
+  "jp_construccion": [
+   "建設業法",
+   "建築基準法"
+  ],
+  "jp_export_control": [
+   "輸出貿易管理令",
+   "外国為替令"
+  ],
+  "jp_seguros": [
+   "保険業法"
+  ],
+  "jp_bancos": [
+   "銀行法",
+   "資金決済に関する法律"
+  ],
+  "jp_mineria": [
+   "鉱業法",
+   "鉱山保安法"
+  ],
+  "jp_alimentos": [
+   "食品衛生法",
+   "食品表示法"
+  ],
+  "jp_telecom": [
+   "電気通信事業法",
+   "電波法"
+  ],
+  "jp_plataformas": [
+   "特定デジタルプラットフォームの透明性及び公正性の向上に関する法律",
+   "スマートフォンにおいて利用される特定ソフトウェアに係る競争の促進に関する法律"
+  ],
+  "jp_logistica": [
+   "貨物自動車運送事業法",
+   "物資の流通の効率化に関する法律"
+  ]
+ },
+ "RUS": {
+  "ru_codigo_civil": [
+   "Гражданский кодекс"
+  ],
+  "ru_codigo_fiscal_iva": [
+   "Налоговый кодекс"
+  ],
+  "ru_impuesto_beneficios": [
+   "Налоговый кодекс"
+  ],
+  "ru_codigo_trabajo": [
+   "Трудовой кодекс"
+  ],
+  "ru_datos_personales": [
+   "О персональных данных"
+  ],
+  "ru_informacion": [
+   "Об информации, информационных технологиях"
+  ],
+  "ru_pld": [
+   "О противодействии легализации"
+  ],
+  "ru_anticorrupcion": [
+   "О противодействии коррупции"
+  ],
+  "ru_competencia": [
+   "О защите конкуренции"
+  ],
+  "ru_consumidores": [
+   "О защите прав потребителей"
+  ],
+  "ru_inv_extranjera": [
+   "Об иностранных инвестициях"
+  ],
+  "ru_estrategicas": [
+   "стратегическое значение"
+  ],
+  "ru_divisas": [
+   "О валютном регулировании"
+  ],
+  "ru_control_exportaciones": [
+   "Об экспортном контроле"
+  ],
+  "ru_ambiental": [
+   "Об охране окружающей среды"
+  ],
+  "ru_residuos": [
+   "Об отходах производства"
+  ],
+  "ru_valores": [
+   "О рынке ценных бумаг"
+  ],
+  "ru_ooo": [
+   "Об обществах с ограниченной ответственностью"
+  ],
+  "ru_ao": [
+   "Об акционерных обществах"
+  ],
+  "ru_contabilidad": [
+   "О бухгалтерском учете"
+  ],
+  "ru_decretos_contramedidas": [
+   "специальных экономических мерах",
+   "недружественн"
+  ]
+ },
+ "CAN": {
+  "ca_ita": [
+   "Income Tax Act",
+   "Income Tax Regulations"
+  ],
+  "ca_eta_gst": [
+   "Excise Tax Act"
+  ],
+  "ca_clc3": [
+   "Canada Labour Code"
+  ],
+  "ca_clc2": [
+   "Canada Labour Code",
+   "Occupational Health and Safety Regulations"
+  ],
+  "ca_pipeda": [
+   "Personal Information Protection and Electronic Documents Act"
+  ],
+  "ca_pcmltfa": [
+   "Proceeds of Crime (Money Laundering) and Terrorist Financing"
+  ],
+  "ca_cfpoa": [
+   "Corruption of Foreign Public Officials Act"
+  ],
+  "ca_competition": [
+   "Competition Act"
+  ],
+  "ca_ccpsa": [
+   "Canada Consumer Product Safety Act"
+  ],
+  "ca_cepa": [
+   "Canadian Environmental Protection Act"
+  ],
+  "ca_ggppa": [
+   "Greenhouse Gas Pollution Pricing Act"
+  ],
+  "ca_iaa": [
+   "Impact Assessment Act"
+  ],
+  "ca_ica": [
+   "Investment Canada Act"
+  ],
+  "ca_sema": [
+   "Special Economic Measures Act",
+   "Justice for Victims of Corrupt Foreign Officials"
+  ],
+  "ca_eipa": [
+   "Export and Import Permits Act",
+   "Export Control List"
+  ],
+  "ca_customs": [
+   "Customs Tariff",
+   "Customs Act"
+  ],
+  "ca_mvsa": [
+   "Motor Vehicle Safety"
+  ],
+  "ca_cer_elec": [
+   "Canadian Energy Regulator"
+  ],
+  "ca_cer_pipe": [
+   "Canadian Energy Regulator",
+   "Onshore Pipeline"
+  ],
+  "ca_clean_elec": [
+   "Clean Electricity Regulations"
+  ],
+  "ca_methane": [
+   "Methane"
+  ],
+  "ca_cfr": [
+   "Clean Fuel Regulations"
+  ]
+ },
+ "USA": {
+  "us_ofac": [
+   "Office of Foreign Assets Control"
+  ],
+  "us_ear": [
+   "Export Administration Regulations",
+   "Bureau of Industry and Security"
+  ],
+  "us_itar": [
+   "International Traffic in Arms"
+  ],
+  "us_cfius": [
+   "Committee on Foreign Investment"
+  ],
+  "us_bsa": [
+   "Bank Secrecy Act",
+   "Financial Crimes Enforcement Network"
+  ],
+  "us_hsr": [
+   "Premerger Notification"
+  ],
+  "us_osha_1904": [
+   "Recording and Reporting Occupational Injuries"
+  ],
+  "us_caa": [
+   "Greenhouse Gas Reporting Program"
+  ],
+  "us_tsca": [
+   "Toxic Substances Control Act"
+  ],
+  "us_customs": [
+   "Harmonized Tariff Schedule",
+   "Uyghur Forced Labor"
+  ],
+  "us_sec_cyber": [
+   "Cybersecurity Risk Management"
+  ],
+  "us_cta_boi": [
+   "Beneficial Ownership Information"
+  ]
+ },
+ "BRA": {
+  "br_lgpd": [
+   "13.709",
+   "Proteção de Dados"
+  ],
+  "br_anticorrupcion": [
+   "12.846"
+  ],
+  "br_competencia": [
+   "12.529"
+  ],
+  "br_cdc": [
+   "8.078"
+  ],
+  "br_pld": [
+   "9.613"
+  ],
+  "br_ambiental": [
+   "6.938",
+   "9.605",
+   "15.190",
+   "Licenciamento Ambiental"
+  ],
+  "br_capital_extranjero": [
+   "14.286"
+  ],
+  "br_pi": [
+   "9.279"
+  ],
+  "br_valores": [
+   "6.385"
+  ],
+  "br_reforma_tributaria": [
+   "Complementar nº 214",
+   "IBS",
+   "CBS"
+  ],
+  "br_petroleo": [
+   "9.478",
+   "14.134"
+  ],
+  "br_electricidad": [
+   "10.848",
+   "9.074"
+  ],
+  "br_farma": [
+   "6.360"
+  ],
+  "br_telecom": [
+   "9.472"
+  ],
+  "br_marco_civil": [
+   "12.965",
+   "15.211"
+  ],
+  "br_logistica": [
+   "11.442"
+  ],
+  "br_bancos": [
+   "4.595"
+  ],
+  "br_seguros": [
+   "15.040"
+  ],
+  "br_mineria": [
+   "12.334",
+   "14.066"
+  ]
+ }
+}

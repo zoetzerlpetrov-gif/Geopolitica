@@ -1,0 +1,11 @@
+{
+ "_nota": "Notas revisadas por una persona (o por la tarea diaria de Claude, con revisión humana en el PR) para entradas de la bitácora normativa: resumen propio breve, afectaciones confirmadas y estado. Clave: id de la entrada en data/normativa/bitacora.json. Nunca copiar el texto de la norma: solo un resumen propio y el enlace oficial.",
+ "MEX:dof:5803022": {
+  "resumen": "La Comisión Nacional de Energía publicó nuevas disposiciones administrativas de carácter general para la comercialización de gas natural, petrolíferos, gas LP y petroquímicos. Se agregó al catálogo de México (sector Hidrocarburos) como ficha nueva; obligaciones y plazos marcados «verificar» hasta revisar el texto oficial.",
+  "afectaciones": [
+   "Comercializadores con permiso de la CNE y sus contrapartes: revisar contratos, registros y reportes con la nueva regulación.",
+   "Catálogo: ficha «DACG comercialización CNE» agregada en Hidrocarburos con 2 preguntas de auditoría nuevas."
+  ],
+  "estado": "incorporado al catálogo (2026-11-07)"
+ }
+}

@@ -444,7 +444,25 @@ export const RESPONSABILIDAD = [
 ];
 
 // ------------------------------------------------------------------ normativa por jurisdicción (config/normativa/*.json)
-export const JURISDICCIONES = [["MEX", "🇲🇽 México"], ["USA", "🇺🇸 Estados Unidos"], ["CAN", "🇨🇦 Canadá"], ["EUR", "🇪🇺 Unión Europea"], ["RUS", "🇷🇺 Rusia"]];
+/** Sin la bandera ni acentos: para ordenar de la A a la Z. */
+const nombreSinBandera = (n) => String(n).replace(/^[^\p{L}]+/u, "");
+/** México siempre primero; los demás de la A a la Z (en español). Sirve para cualquier lista [[iso, nombre]]. */
+export function mexicoPrimero(lista) {
+  return [...lista].sort((a, b) => (b[0] === "MEX") - (a[0] === "MEX") || nombreSinBandera(a[1]).localeCompare(nombreSinBandera(b[1]), "es"));
+}
+// Medio Oriente: un archivo por país con economía y regulación propias, y «MDO» para los demás de la región
+// (Irak, Irán, Líbano, Siria, Yemen y Palestina), donde lo que más pesa son las sanciones internacionales.
+export const JURISDICCIONES = mexicoPrimero([["MEX", "🇲🇽 México"], ["USA", "🇺🇸 Estados Unidos"], ["CAN", "🇨🇦 Canadá"], ["EUR", "🇪🇺 Unión Europea"], ["RUS", "🇷🇺 Rusia"],
+  ["CHN", "🇨🇳 China"], ["JPN", "🇯🇵 Japón"], ["BRA", "🇧🇷 Brasil"], ["ARG", "🇦🇷 Argentina"], ["CHL", "🇨🇱 Chile"],
+  ["SAU", "🇸🇦 Arabia Saudita"], ["ARE", "🇦🇪 Emiratos Árabes Unidos"], ["QAT", "🇶🇦 Catar"], ["KWT", "🇰🇼 Kuwait"], ["BHR", "🇧🇭 Baréin"], ["OMN", "🇴🇲 Omán"],
+  ["ISR", "🇮🇱 Israel"], ["TUR", "🇹🇷 Turquía"], ["EGY", "🇪🇬 Egipto"], ["JOR", "🇯🇴 Jordania"],
+  ["MDO", "🌍 Medio Oriente: Irak, Irán, Líbano, Siria, Yemen y Palestina"]]);
+
+/** Sectores de la plantilla y los propios de la jurisdicción en una sola lista, de la A a la Z por nombre. */
+export function sectoresOrdenados(plantilla = {}, propios = {}) {
+  const todos = { ...Object.fromEntries(Object.entries(propios).map(([k, s]) => [k, s.nombre || k])), ...Object.fromEntries(Object.entries(plantilla).map(([k, s]) => [k, s.nombre || k])) };
+  return Object.entries(todos).map(([k, n]) => [k, String(n).trim()]).sort((a, b) => a[1].localeCompare(b[1], "es"));
+}
 
 const sinAcento = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 
@@ -499,4 +517,52 @@ export function filtrarVulns(lista, { q = "", soloKev = false, minCvss = 0, minE
     const t = sinAcento(`${v.id} ${v.producto} ${v.descripcion} ${v.kev?.proveedor || ""} ${v.kev?.producto || ""}`);
     return p.every((x) => t.includes(x));
   }).slice(0, max);
+}
+
+// ------------------------------------------------------------------ bitácora normativa (data/normativa/bitacora.json)
+export const IMPACTOS = { alto: "Alto", medio: "Medio", bajo: "Bajo" };
+const DIA_MS = 86400000;
+
+/** Agrega a cada entrada las notas revisadas por una persona (config/normativa/bitacora_notas.json): resumen propio,
+ *  afectaciones confirmadas (van primero) y estado («incorporado al catálogo», «no aplica»…). */
+export function conNotas(entradas = [], notas = {}) {
+  return entradas.map((e) => {
+    const n = notas[e.id];
+    if (!n) return e;
+    return { ...e, resumen: n.resumen || e.resumen, estado: n.estado || e.estado, impacto: n.impacto || e.impacto,
+      afectaciones: [...(n.afectaciones || []), ...(e.afectaciones || []).filter((a) => !(n.afectaciones || []).includes(a))], revisada: true };
+  });
+}
+
+/** Filtros de la bitácora: país, sector, impacto («am» = alto y medio), últimos N días, texto y ley del catálogo. */
+export function filtrarBitacora(entradas = [], { pais = "", sector = "", impacto = "", dias = 0, q = "", ley = "" } = {}, ahora = Date.now()) {
+  const desde = dias ? new Date(ahora - dias * DIA_MS).toISOString().slice(0, 10) : "";
+  const p = sinAcento(q).split(/\s+/).filter((x) => x.length > 1);
+  return entradas.filter((e) => {
+    if (pais && e.pais !== pais) return false;
+    if (sector && !(e.sectores || []).includes(sector) && !(e.leyes || []).some((l) => l.sector === sector)) return false;
+    if (impacto === "am" ? !["alto", "medio"].includes(e.impacto) : impacto && e.impacto !== impacto) return false;
+    if (desde && (e.fecha || "") < desde) return false;
+    if (ley && !(e.leyes || []).some((l) => l.id === ley)) return false;
+    if (!p.length) return true;
+    const t = sinAcento([e.titulo, e.emisor, e.resumen, ...(e.afectaciones || []), ...(e.leyes || []).map((l) => `${l.sigla} ${l.nombre}`)].join(" "));
+    return p.every((x) => t.includes(x));
+  });
+}
+
+/** Cambios recientes por ley del catálogo de una jurisdicción: {id_ley: [entradas]}. */
+export function alertasPorLey(entradas = [], jur, dias = 90, ahora = Date.now()) {
+  const out = {};
+  for (const e of filtrarBitacora(entradas, { pais: jur, dias }, ahora)) for (const l of e.leyes || []) (out[l.id] ||= []).push(e);
+  return out;
+}
+
+/** Riesgo regulatorio para la simulación de escenarios: cambios recientes del país (y sector) con su peso y un texto de contexto. */
+export function riesgoRegulatorio(entradas = [], { pais = "", sector = "", dias = 90 } = {}, ahora = Date.now()) {
+  const sel = filtrarBitacora(entradas, { pais, sector, impacto: "am", dias }, ahora);
+  const alto = sel.filter((e) => e.impacto === "alto").length, medio = sel.length - alto;
+  const top = sel.slice().sort((a, b) => (a.impacto === "alto" ? 0 : 1) - (b.impacto === "alto" ? 0 : 1) || (b.fecha || "").localeCompare(a.fecha || "")).slice(0, 6);
+  return { n: sel.length, alto, medio, peso: alto * 2 + medio,
+    texto: sel.length ? `Cambios normativos recientes (Bitácora normativa, últimos ${dias} días${pais ? `, ${pais}` : ""}${sector ? `, sector ${sector}` : ""}): ${sel.length} (impacto alto ${alto}, medio ${medio}).\n`
+      + top.map((e) => `- ${e.fecha} ${e.titulo.slice(0, 160)} → ${(e.afectaciones || [])[0] || ""}`).join("\n") : "" };
 }

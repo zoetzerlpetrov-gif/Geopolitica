@@ -1,6 +1,6 @@
 {
  "jurisdiccion": "MEX",
- "revisado": "2026-10",
+ "revisado": "2026-11",
  "nota": "Complemento de config/normativa/MEX.json: sectores económicos adicionales con el mismo esquema de ficha por ley (obligaciones, trámites, sanciones, evidencia y preguntas sí/no). No repite las leyes de «generales» (fiscal, laboral, datos personales, PLD general, consumidor, ambiental general, comercio exterior) salvo cuando el sector tiene un régimen especial. Se incorporan reformas 2024-2026 confirmadas en fuentes públicas (p. ej., Ley General de Aguas 2025-12-11, LFPIORPI 2025-07-16, LMTR 2025-07-16, LGS 2026-01-15, LGE 2026-01-15, LGT 2025-11-14 y su Reglamento 2025-11-25, reforma constitucional sobre maíz 2025-03-17, leyes financieras 2025-11-14, TIGIE/PROSEC 2025-12-29 y 2026-04-23, Anexo I IMMEX 2025-08-28). Son resúmenes propios, no texto legal ni asesoría: donde dice «verificar» el dato no pudo confirmarse en fuente oficial; antes de emitir un informe confirma la versión vigente en el DOF, en la biblioteca de leyes de la Cámara de Diputados o en el sitio del regulador, y revisa la normativa estatal y municipal.",
  "sectores": {
   "agropecuario": {
@@ -74,7 +74,7 @@
      "tipo": "ley",
      "autoridad": "SENASICA",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFSV.pdf",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2022-05-11 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Productores agrícolas, empacadoras, viveros y quienes movilizan o exportan productos vegetales.",
      "obligaciones": [
       "Acatar campañas fitosanitarias y cuarentenas de las zonas donde se produce.",
@@ -112,7 +112,7 @@
      "tipo": "ley",
      "autoridad": "SENASICA; SADER",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFSA.pdf",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2024-05-21 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Ranchos, engordas, granjas avícolas y porcícolas, rastros municipales y movilizadores de ganado.",
      "obligaciones": [
       "Identificar el ganado con el arete del Sistema Nacional de Identificación Individual de Ganado (SINIIGA) y registrar la unidad de producción.",
@@ -220,7 +220,7 @@
      "tipo": "ley",
      "autoridad": "SNICS (SADER)",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2018-05-11 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Productores, certificadores y comercializadores de semilla; obtentores de variedades.",
      "obligaciones": [
       "Comercializar semilla con la etiqueta e información de calidad exigidas y, si es certificada, con la calificación del SNICS.",
@@ -258,7 +258,7 @@
      "tipo": "ley",
      "autoridad": "SADER",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LDRS.pdf",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2024-06-07 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Productores y empresas que reciben apoyos, precios de garantía o participan en programas de fomento.",
      "obligaciones": [
       "Cumplir las reglas de operación del programa (padrones, comprobación de apoyos y no duplicidad).",
@@ -867,7 +867,7 @@
      "tipo": "ley",
      "autoridad": "CONSAR",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LSAR.pdf",
-     "ultima_reforma": "verificar (reforma de comisiones de dic-2020; SCJN avaló el tope del art. 37 el 2025-10-30)",
+     "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (reforma de comisiones de dic-2020; SCJN avaló el tope del art. 37 el 2025-10-30)",
      "aplica": "Afores, Siefores, PENSIONISSSTE y empresas operadoras de la Base de Datos Nacional SAR; patrones en lo relativo a aportaciones.",
      "obligaciones": [
       "Cobrar comisiones dentro del tope del art. 37 (calculado con promedio internacional) y aprobadas por la Junta de Gobierno de la CONSAR (0.54 % para 2026 según prensa; verificar acuerdo).",
@@ -1060,7 +1060,7 @@
      "tipo": "ley",
      "autoridad": "SE; registro público de comercio",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lgsc.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2025-04-16 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Cooperativas de producción, consumo y de ahorro y préstamo (en lo no previsto por la LRASCAP).",
      "obligaciones": [
       "Constituir la cooperativa conforme a sus requisitos (bases constitutivas, capital variable, fondos sociales).",
@@ -1092,7 +1092,7 @@
      "tipo": "ley",
      "autoridad": "CNBV; CONDUSEF",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Sociedades financieras de objeto múltiple, centros cambiarios y transmisores de dinero.",
      "obligaciones": [
       "Obtener dictamen técnico de PLD de la CNBV antes del registro (SOFOM ENR).",
@@ -1188,7 +1188,7 @@
      "tipo": "ley",
      "autoridad": "CNBV",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Uniones de crédito y sus socios.",
      "obligaciones": [
       "Autorización de la CNBV y operación exclusiva con socios.",
@@ -1925,7 +1925,7 @@
      "tipo": "ley",
      "autoridad": "SEP; autoridades estatales; instituciones públicas autónomas",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2026-01-15 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Universidades e institutos particulares.",
      "obligaciones": [
       "Obtener RVOE para cada programa y modalidad (escolar, no escolarizada, mixta) antes de inscribir alumnos.",
@@ -1986,7 +1986,7 @@
      "tipo": "ley",
      "autoridad": "SEP; DIF; autoridades estatales",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2026-01-15 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Escuelas con alumnos menores de edad.",
      "obligaciones": [
       "Contar con protocolos para prevenir, detectar y atender abuso sexual, maltrato y acoso escolar.",
@@ -2126,7 +2126,7 @@
      "tipo": "ley",
      "autoridad": "CONAVI; SEDATU; INFONAVIT; FOVISSSTE",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2026-04-29 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Desarrolladores de vivienda que se comercializa con créditos o subsidios de organismos públicos.",
      "obligaciones": [
       "Registrar la oferta de vivienda en el RUV y cumplir sus criterios de ubicación, habitabilidad y calidad.",
@@ -2499,7 +2499,7 @@
      "tipo": "ley",
      "autoridad": "SE / autoridad nacional ante la OPAQ (verificar)",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Plantas que producen, procesan o consumen sustancias de las listas de la Convención sobre Armas Químicas.",
      "obligaciones": [
       "Presentar declaraciones anuales de actividades con sustancias listadas.",
@@ -3628,7 +3628,7 @@
      "tipo": "ley",
      "autoridad": "SICT",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LCPAF.pdf",
-     "ultima_reforma": "verificar",
+     "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados)",
      "aplica": "Empresas de autobuses interurbanos, turismo y transporte de personal en caminos federales (la carga se trata en «logistica»).",
      "obligaciones": [
       "Obtener permiso de la SICT por modalidad (pasaje, turismo, personal) y dar de alta cada unidad.",
@@ -3780,7 +3780,7 @@
      "tipo": "ley",
      "autoridad": "SICT; Agencia Reguladora del Transporte Ferroviario",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/index.htm",
-     "ultima_reforma": "verificar (reformas recientes para trenes de pasajeros)",
+     "ultima_reforma": "2025-11-14 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (reformas recientes para trenes de pasajeros)",
      "aplica": "Concesionarios y asignatarios ferroviarios y operadores de trenes de pasajeros.",
      "obligaciones": [
       "Contar con concesión o asignación para el servicio de pasajeros.",
@@ -4046,7 +4046,7 @@
      "tipo": "ley",
      "autoridad": "SSPC",
      "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFSP.pdf",
-     "ultima_reforma": "verificar (sin reforma 2025 confirmada; iniciativa de sept-2026 en ciberseguridad y eventos masivos)",
+     "ultima_reforma": "2011-10-17 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (sin reforma 2025 confirmada; iniciativa de sept-2026 en ciberseguridad y eventos masivos)",
      "aplica": "Prestadores de servicios de seguridad privada que operan en dos o más entidades (seguridad de personas, bienes, traslado de valores, alarmas y monitoreo, información, sistemas).",
      "obligaciones": [
       "Obtener autorización de la SSPC por modalidad y revalidarla en plazo (verificar periodicidad).",

@@ -1,0 +1,1168 @@
+{
+ "jurisdiccion": "CHN",
+ "nombre": "China",
+ "revisado": "2026-11",
+ "nota": "Mapa ley por ley de lo que debe cumplir una empresa en China continental (no incluye Hong Kong, Macao ni Taiwán). Para empresas extranjeras pesan sobre todo la Lista Negativa, el control de cambios (SAFE) y las reglas de datos (PIPL). Revisado en noviembre de 2026 con fuentes públicas; «verificar» indica que la fecha o el detalle no se confirmó en la fuente oficial. Resumen propio, no es asesoría legal.",
+ "fuentes_oficiales": [
+  [
+   "Base Nacional de Leyes y Reglamentos (NPC)",
+   "https://flk.npc.gov.cn/"
+  ],
+  [
+   "Consejo de Estado (inglés)",
+   "https://english.www.gov.cn/"
+  ],
+  [
+   "SAMR",
+   "https://www.samr.gov.cn/"
+  ],
+  [
+   "CAC",
+   "https://www.cac.gov.cn/"
+  ],
+  [
+   "MOFCOM",
+   "https://www.mofcom.gov.cn/"
+  ]
+ ],
+ "generales": [
+  {
+   "area": "Societario y gobierno corporativo",
+   "leyes": [
+    {
+     "id": "cn_sociedades",
+     "nombre": "Ley de Sociedades de la República Popular China (revisión 2023, vigente desde el 1-jul-2024)",
+     "sigla": "Company Law",
+     "tipo": "ley nacional",
+     "autoridad": "SAMR (registro mercantil)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2023-12-29 (vigente 2024-07-01)",
+     "aplica": "Sociedades de responsabilidad limitada y por acciones, incluidas las empresas de capital extranjero (WFOE y joint ventures).",
+     "obligaciones": [
+      "Aportación total del capital suscrito en un máximo de 5 años desde la constitución (sociedades limitadas).",
+      "Deberes de lealtad y diligencia de consejeros, supervisores y alta dirección; responsabilidad por aportaciones no pagadas.",
+      "Publicación anual de información en el Sistema Nacional de Publicidad de Crédito Empresarial."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual de la empresa en el Sistema Nacional de Publicidad de Crédito Empresarial",
+       "plazo": "1 de enero a 30 de junio de cada año",
+       "ante": "SAMR"
+      },
+      {
+       "que": "Registro de cambios (representante legal, capital, domicilio, estatutos)",
+       "plazo": "30 días desde el acuerdo",
+       "ante": "SAMR local"
+      }
+     ],
+     "sanciones": "Multas, inclusión en la lista de operación anormal y en la de incumplidores graves; responsabilidad de accionistas por capital no aportado.",
+     "evidencia": [
+      "Licencia comercial (营业执照)",
+      "Estatutos y actas de accionistas",
+      "Comprobantes de aportación de capital"
+     ],
+     "preguntas": [
+      "¿El calendario de aportación de capital cumple el plazo de 5 años?",
+      "¿Se presentó el informe anual en el sistema de publicidad de crédito (1 ene–30 jun)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Fiscal y contable",
+   "leyes": [
+    {
+     "id": "cn_isr",
+     "nombre": "Ley del Impuesto sobre la Renta de las Empresas",
+     "sigla": "EIT Law",
+     "tipo": "ley nacional",
+     "autoridad": "Administración Estatal de Impuestos (STA)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2018 (verificar)",
+     "aplica": "Empresas residentes (tasa general 25 %) y no residentes con establecimiento o ingresos de fuente china (retención 10 % en dividendos, intereses y regalías, salvo tratado).",
+     "obligaciones": [
+      "Pagos provisionales trimestrales y declaración anual de conciliación.",
+      "Precios de transferencia: declaración de operaciones con partes relacionadas y documentación (archivo maestro y local) si se superan los umbrales.",
+      "Retención del impuesto a no residentes."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración anual de conciliación del impuesto empresarial",
+       "plazo": "31 de mayo del año siguiente",
+       "ante": "STA"
+      },
+      {
+       "que": "Pago provisional",
+       "plazo": "15 días después del cierre de cada trimestre",
+       "ante": "STA"
+      },
+      {
+       "que": "Formulario de operaciones con partes relacionadas",
+       "plazo": "Con la declaración anual",
+       "ante": "STA"
+      }
+     ],
+     "sanciones": "Recargos diarios de 0.05 %, multas de 50 % a 5 veces el impuesto omitido y baja de calificación crediticia fiscal.",
+     "evidencia": [
+      "Declaraciones y acuses",
+      "Estudio de precios de transferencia",
+      "Contratos intercompañía"
+     ],
+     "preguntas": [
+      "¿Se presentó la conciliación anual antes del 31 de mayo?",
+      "¿Existe documentación de precios de transferencia para las operaciones con partes relacionadas?"
+     ]
+    },
+    {
+     "id": "cn_iva",
+     "nombre": "Ley del Impuesto al Valor Agregado (adoptada en diciembre de 2024, vigente desde el 1-ene-2026) y sistema de facturación electrónica (fapiao)",
+     "sigla": "VAT Law",
+     "tipo": "ley nacional",
+     "autoridad": "STA",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-12-25 (vigente 2026-01-01)",
+     "aplica": "Venta de bienes, servicios, intangibles e inmuebles en China e importaciones. Tasas generales de 13 %, 9 % y 6 %.",
+     "obligaciones": [
+      "Emitir fapiao (factura oficial, cada vez más electrónica «全电发票») por cada operación.",
+      "Declaración mensual o trimestral y crédito del impuesto pagado en compras con fapiao válido."
+     ],
+     "tramites": [
+      {
+       "que": "Declaración de IVA",
+       "plazo": "Día 15 del mes siguiente (o del trimestre)",
+       "ante": "STA"
+      }
+     ],
+     "sanciones": "Multas y responsabilidad penal por emisión de fapiao falsos.",
+     "evidencia": [
+      "Registro de fapiao emitidos y recibidos",
+      "Declaraciones de IVA"
+     ],
+     "preguntas": [
+      "¿Todas las ventas tienen fapiao emitido en el sistema oficial?",
+      "¿Se depuraron las compras sin fapiao válido antes de acreditar el IVA?"
+     ]
+    },
+    {
+     "id": "cn_contabilidad",
+     "nombre": "Ley de Contabilidad y Normas Contables para Empresas (ASBE)",
+     "sigla": "Accounting Law",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Finanzas (MOF)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024 (verificar)",
+     "aplica": "Todas las empresas; las de inversión extranjera además requieren auditoría anual por un despacho chino (CPA).",
+     "obligaciones": [
+      "Llevar libros en chino y en renminbi conforme a ASBE.",
+      "Estados financieros anuales auditados por contador público chino (empresas con inversión extranjera)."
+     ],
+     "tramites": [
+      {
+       "que": "Auditoría de estados financieros anuales",
+       "plazo": "Antes de la conciliación fiscal (en la práctica, abril–mayo)",
+       "ante": "Despacho CPA chino"
+      }
+     ],
+     "sanciones": "Multas a la empresa y a los responsables; inhabilitación del personal contable.",
+     "evidencia": [
+      "Estados financieros auditados",
+      "Libros contables"
+     ],
+     "preguntas": [
+      "¿Los estados anuales están auditados por un CPA registrado en China?",
+      "¿Se conservan los registros el plazo legal (30 años para libros y comprobantes)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Laboral y seguridad social",
+   "leyes": [
+    {
+     "id": "cn_contrato_laboral",
+     "nombre": "Ley de Contrato de Trabajo (2008, reformada en 2012) y Ley del Trabajo",
+     "sigla": "Labor Contract Law",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Recursos Humanos y Seguridad Social (MOHRSS)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2012 (verificar)",
+     "aplica": "Todo empleador en China continental.",
+     "obligaciones": [
+      "Contrato escrito dentro del primer mes de relación; si no, doble salario desde el segundo mes.",
+      "Indemnización por terminación de un mes por año trabajado (con tope).",
+      "Permiso de trabajo y residencia para extranjeros."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de trabajo para extranjeros",
+       "plazo": "Antes de que empiecen a trabajar",
+       "ante": "Oficina local de ciencia y tecnología / SAFEA"
+      }
+     ],
+     "sanciones": "Doble salario, indemnizaciones y multas; para extranjeros sin permiso, multa y deportación.",
+     "evidencia": [
+      "Contratos laborales",
+      "Permisos de trabajo de extranjeros",
+      "Reglamento interior aprobado"
+     ],
+     "preguntas": [
+      "¿Todos los trabajadores tienen contrato escrito firmado en el primer mes?",
+      "¿Los extranjeros tienen permiso de trabajo vigente?"
+     ]
+    },
+    {
+     "id": "cn_seguridad_social",
+     "nombre": "Ley del Seguro Social y fondo de vivienda (Housing Provident Fund)",
+     "sigla": "Social Insurance Law",
+     "tipo": "ley nacional",
+     "autoridad": "MOHRSS; STA (recaudación); centros locales del fondo de vivienda",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Empleadores y trabajadores, incluidos extranjeros (salvo convenios bilaterales).",
+     "obligaciones": [
+      "Inscribir a cada trabajador en 30 días y aportar a pensión, salud, desempleo, riesgos de trabajo y maternidad.",
+      "Aportar al fondo de vivienda según la tasa local."
+     ],
+     "tramites": [
+      {
+       "que": "Alta de trabajadores en el seguro social",
+       "plazo": "30 días desde la contratación",
+       "ante": "Oficina local de seguridad social"
+      }
+     ],
+     "sanciones": "Pago de cuotas omitidas con recargo de 0.05 % diario y multas de 1 a 3 veces.",
+     "evidencia": [
+      "Comprobantes de aportación",
+      "Nómina"
+     ],
+     "preguntas": [
+      "¿Todos los trabajadores están inscritos con su salario real como base?",
+      "¿Se aporta al fondo de vivienda?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Seguridad y salud en el trabajo",
+   "leyes": [
+    {
+     "id": "cn_seguridad_produccion",
+     "nombre": "Ley de Seguridad en la Producción (revisión 2021)",
+     "sigla": "Work Safety Law",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Gestión de Emergencias (MEM)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2021-06-10",
+     "aplica": "Todas las unidades productivas; obligaciones reforzadas en minería, química, construcción y metalurgia.",
+     "obligaciones": [
+      "El representante legal es el primer responsable de la seguridad.",
+      "Sistema de doble prevención: clasificación de riesgos y eliminación de peligros ocultos.",
+      "Capacitación y seguro de responsabilidad por seguridad en industrias de alto riesgo."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de accidentes de producción",
+       "plazo": "1 hora al gobierno local",
+       "ante": "Departamento de gestión de emergencias"
+      }
+     ],
+     "sanciones": "Multas de hasta 100 millones de yuanes en accidentes graves; responsabilidad penal de directivos.",
+     "evidencia": [
+      "Matriz de riesgos",
+      "Registros de capacitación",
+      "Planes de emergencia"
+     ],
+     "preguntas": [
+      "¿Existe un responsable de seguridad nombrado y capacitado?",
+      "¿Hay registro de identificación y corrección de peligros?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección de datos y ciberseguridad",
+   "leyes": [
+    {
+     "id": "cn_pipl",
+     "nombre": "Ley de Protección de Información Personal (2021)",
+     "sigla": "PIPL",
+     "tipo": "ley nacional",
+     "autoridad": "Administración del Ciberespacio de China (CAC)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2021-08-20",
+     "aplica": "Quien trate datos personales en China y quien los trate fuera para ofrecer bienes o servicios a personas en China.",
+     "obligaciones": [
+      "Base legal (consentimiento u otra), aviso de privacidad y consentimiento separado para datos sensibles y transferencias.",
+      "Transferencia internacional solo con evaluación de seguridad de la CAC, contrato estándar o certificación (salvo excepciones de 2024).",
+      "Evaluación de impacto y auditorías periódicas de cumplimiento."
+     ],
+     "tramites": [
+      {
+       "que": "Registro del contrato estándar de transferencia internacional",
+       "plazo": "10 días hábiles desde su entrada en vigor",
+       "ante": "CAC provincial"
+      },
+      {
+       "que": "Auditoría de cumplimiento de datos personales",
+       "plazo": "Periódica (cada 2 años si se tratan más de 10 millones de personas)",
+       "ante": "Interna o tercero"
+      }
+     ],
+     "sanciones": "Hasta 50 millones de yuanes o 5 % de los ingresos del año anterior; suspensión de servicios.",
+     "evidencia": [
+      "Aviso de privacidad",
+      "Evaluaciones de impacto",
+      "Contratos estándar registrados"
+     ],
+     "preguntas": [
+      "¿Hay mapa de los datos personales que salen de China y el mecanismo usado?",
+      "¿Se hizo la evaluación de impacto antes de tratar datos sensibles?"
+     ]
+    },
+    {
+     "id": "cn_ciber_datos",
+     "nombre": "Ley de Ciberseguridad (reformada en 2025, vigente 2026) y Ley de Seguridad de los Datos (2021)",
+     "sigla": "CSL / DSL",
+     "tipo": "ley nacional",
+     "autoridad": "CAC; Ministerio de Seguridad Pública (MPS)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2025-10-28 (vigente 2026-01-01; verificar)",
+     "aplica": "Operadores de redes; operadores de infraestructura crítica de información (CIIO) con obligaciones adicionales.",
+     "obligaciones": [
+      "Protección por niveles (MLPS 2.0): clasificación y registro de sistemas ante la policía.",
+      "Clasificación de datos; los «datos importantes» requieren evaluación antes de salir de China.",
+      "Notificación de incidentes."
+     ],
+     "tramites": [
+      {
+       "que": "Registro y evaluación MLPS (nivel 3 o superior: evaluación anual)",
+       "plazo": "Al poner en operación; luego anual",
+       "ante": "Oficina local de seguridad pública"
+      }
+     ],
+     "sanciones": "Multas, suspensión de operaciones y revocación de licencias.",
+     "evidencia": [
+      "Certificado de registro MLPS",
+      "Inventario y clasificación de datos"
+     ],
+     "preguntas": [
+      "¿Los sistemas están clasificados y registrados en el MLPS?",
+      "¿Se identificaron los datos importantes?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Prevención de lavado de dinero",
+   "leyes": [
+    {
+     "id": "cn_pld",
+     "nombre": "Ley contra el Lavado de Dinero (revisión 2024, vigente desde el 1-ene-2025)",
+     "sigla": "AML Law",
+     "tipo": "ley nacional",
+     "autoridad": "Banco Popular de China (PBOC)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-11-08",
+     "aplica": "Instituciones financieras y actividades no financieras designadas (inmobiliarias, metales preciosos, contadores, abogados en ciertos actos); todas las empresas deben dar información de beneficiario final.",
+     "obligaciones": [
+      "Debida diligencia del cliente y beneficiario final.",
+      "Reportes de operaciones grandes y sospechosas.",
+      "Registro del beneficiario final (Medidas de administración de beneficiarios finales, 2024)."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de beneficiario final",
+       "plazo": "Al constituirse o al cambiar (plazo de transición hasta 2025-11-01)",
+       "ante": "SAMR (sistema de registro)"
+      }
+     ],
+     "sanciones": "Multas a la institución y a los responsables; suspensión.",
+     "evidencia": [
+      "Expediente KYC",
+      "Registro de beneficiario final"
+     ],
+     "preguntas": [
+      "¿La empresa registró su beneficiario final en el sistema de registro mercantil?",
+      "¿Existen procedimientos para reportar operaciones sospechosas (si es sujeto obligado)?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Anticorrupción e integridad",
+   "leyes": [
+    {
+     "id": "cn_competencia_desleal",
+     "nombre": "Ley contra la Competencia Desleal (revisión 2025) y Ley Penal (soborno)",
+     "sigla": "AUCL",
+     "tipo": "ley nacional",
+     "autoridad": "SAMR; Comisión Nacional de Supervisión; fiscalía",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2025-06-27 (vigente 2025-10-15)",
+     "aplica": "Empresas y sus empleados y agentes; el soborno comercial y a funcionarios.",
+     "obligaciones": [
+      "Prohibido dar o recibir beneficios para obtener ventajas comerciales; los descuentos deben registrarse en libros.",
+      "Responsabilidad de la empresa por actos de sus empleados salvo prueba de que no estaban relacionados con su negocio."
+     ],
+     "tramites": [],
+     "sanciones": "Multas de 100 000 a 5 millones de yuanes y decomiso; prisión por soborno.",
+     "evidencia": [
+      "Política anticorrupción",
+      "Registro de regalos y comidas"
+     ],
+     "preguntas": [
+      "¿Los descuentos y comisiones están registrados en la contabilidad?",
+      "¿Hay controles de regalos, hospitalidad y pagos a terceros?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Competencia",
+   "leyes": [
+    {
+     "id": "cn_antimonopolio",
+     "nombre": "Ley Antimonopolio (reformada en 2022) y umbrales de notificación de concentraciones (2024)",
+     "sigla": "AML (antimonopoly)",
+     "tipo": "ley nacional",
+     "autoridad": "SAMR",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2022-06-24",
+     "aplica": "Acuerdos, abuso de posición dominante y concentraciones con efectos en China.",
+     "obligaciones": [
+      "Notificar concentraciones antes de cerrar si se superan los umbrales (ingresos globales de 12 000 millones de yuanes o en China de 4 000 millones, y al menos dos partes con 800 millones cada una en China).",
+      "No celebrar acuerdos de precios o reparto de mercados."
+     ],
+     "tramites": [
+      {
+       "que": "Notificación de concentración",
+       "plazo": "Antes de cerrar la operación",
+       "ante": "SAMR"
+      }
+     ],
+     "sanciones": "Hasta 10 % de las ventas del año anterior; por no notificar, hasta 10 % si hay efecto anticompetitivo.",
+     "evidencia": [
+      "Análisis de umbrales",
+      "Políticas comerciales"
+     ],
+     "preguntas": [
+      "¿Se analizó si la operación requería notificación a la SAMR?",
+      "¿Las políticas comerciales evitan fijación de precios de reventa?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Protección al consumidor y producto",
+   "leyes": [
+    {
+     "id": "cn_consumidor",
+     "nombre": "Ley de Protección de los Derechos del Consumidor, su Reglamento (2024) y Ley de Calidad del Producto",
+     "sigla": "Consumer Protection Law",
+     "tipo": "ley nacional",
+     "autoridad": "SAMR",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024 (verificar)",
+     "aplica": "Empresas que venden bienes o servicios a consumidores en China, incluido el comercio electrónico.",
+     "obligaciones": [
+      "Información veraz; devolución sin causa en 7 días para ventas a distancia (con excepciones).",
+      "Indemnización punitiva de tres veces el precio por fraude.",
+      "Certificación obligatoria CCC para productos incluidos en el catálogo."
+     ],
+     "tramites": [
+      {
+       "que": "Certificación CCC",
+       "plazo": "Antes de vender o importar",
+       "ante": "Organismo designado por la CNCA"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 veces las ganancias ilegales y suspensión.",
+     "evidencia": [
+      "Certificados CCC",
+      "Registro de quejas"
+     ],
+     "preguntas": [
+      "¿Los productos sujetos a CCC tienen certificado vigente?",
+      "¿Existe proceso de devolución en 7 días para ventas en línea?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Ambiental y sostenibilidad (ESG)",
+   "leyes": [
+    {
+     "id": "cn_ambiental",
+     "nombre": "Ley de Protección Ambiental (2014), Ley de Evaluación de Impacto Ambiental y Reglamento de Permisos de Descarga de Contaminantes (2021)",
+     "sigla": "EPL",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Ecología y Medio Ambiente (MEE)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2014-04-24",
+     "aplica": "Proyectos de construcción y empresas que emiten contaminantes.",
+     "obligaciones": [
+      "Evaluación de impacto ambiental aprobada antes de construir.",
+      "Permiso de descarga de contaminantes y monitoreo propio.",
+      "Multas diarias continuas mientras no se corrija."
+     ],
+     "tramites": [
+      {
+       "que": "Informe de ejecución del permiso de descarga",
+       "plazo": "Anual (y trimestral o mensual según el permiso)",
+       "ante": "MEE local"
+      }
+     ],
+     "sanciones": "Multa diaria acumulable, cierre y responsabilidad penal.",
+     "evidencia": [
+      "Aprobación EIA",
+      "Permiso de descarga",
+      "Informes de monitoreo"
+     ],
+     "preguntas": [
+      "¿El proyecto tiene la aprobación EIA?",
+      "¿El permiso de descarga está vigente y se reportan los monitoreos?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Inversión extranjera, comercio exterior y sanciones",
+   "leyes": [
+    {
+     "id": "cn_inversion_extranjera",
+     "nombre": "Ley de Inversión Extranjera (2019, vigente 2020) y Lista Negativa de acceso al mercado",
+     "sigla": "FIL",
+     "tipo": "ley nacional",
+     "autoridad": "MOFCOM; NDRC",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2019-03-15",
+     "aplica": "Inversionistas extranjeros y empresas con inversión extranjera.",
+     "obligaciones": [
+      "No invertir en sectores prohibidos y cumplir límites de participación en los restringidos (Lista Negativa).",
+      "Reporte de información de inversión extranjera.",
+      "Revisión de seguridad nacional para inversiones sensibles."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte anual de información de inversión extranjera",
+       "plazo": "Con el informe anual (1 ene–30 jun)",
+       "ante": "MOFCOM vía sistema SAMR"
+      }
+     ],
+     "sanciones": "Corrección ordenada, multas de 100 000 a 500 000 yuanes por no reportar.",
+     "evidencia": [
+      "Análisis de Lista Negativa",
+      "Acuses de reportes"
+     ],
+     "preguntas": [
+      "¿Se verificó la actividad contra la Lista Negativa vigente?",
+      "¿Se presentó el reporte anual de información de inversión extranjera?"
+     ]
+    },
+    {
+     "id": "cn_control_export",
+     "nombre": "Ley de Control de Exportaciones (2020), Reglamento de Bienes de Uso Dual (2024), Ley contra Sanciones Extranjeras (2021) y Lista de Entidades No Confiables",
+     "sigla": "ECL / AFSL",
+     "tipo": "ley nacional",
+     "autoridad": "MOFCOM; Aduanas (GACC)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-12-01 (Reglamento)",
+     "aplica": "Exportadores de bienes controlados y empresas que apliquen sanciones extranjeras contra entidades chinas.",
+     "obligaciones": [
+      "Licencia para exportar bienes de uso dual, incluidos minerales críticos (galio, germanio, grafito, tierras raras).",
+      "No aplicar medidas extranjeras discriminatorias contra entidades chinas.",
+      "Registro aduanero del importador/exportador."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación de uso dual",
+       "plazo": "Antes de exportar",
+       "ante": "MOFCOM"
+      }
+     ],
+     "sanciones": "Multas de 5 a 10 veces el valor ilegal, inclusión en listas y responsabilidad penal.",
+     "evidencia": [
+      "Clasificación de productos",
+      "Licencias",
+      "Política de sanciones"
+     ],
+     "preguntas": [
+      "¿Se clasificaron los productos contra la lista de control de uso dual?",
+      "¿La política de sanciones del grupo contempla el conflicto con la ley china?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Propiedad intelectual",
+   "leyes": [
+    {
+     "id": "cn_pi",
+     "nombre": "Ley de Patentes (2020), Ley de Marcas y Ley de Derechos de Autor",
+     "sigla": "Patent / Trademark Law",
+     "tipo": "ley nacional",
+     "autoridad": "Administración Nacional de Propiedad Intelectual (CNIPA)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Titulares de patentes, marcas y obras; China aplica el principio de primer registrante en marcas.",
+     "obligaciones": [
+      "Registrar marcas en China (incluida la versión en caracteres chinos) antes de entrar al mercado.",
+      "Pagar anualidades de patentes.",
+      "Las invenciones hechas en China requieren examen de confidencialidad antes de patentarse en el extranjero."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de marca",
+       "plazo": "Cada 10 años (12 meses antes del vencimiento)",
+       "ante": "CNIPA"
+      }
+     ],
+     "sanciones": "Pérdida de derechos; daños punitivos de hasta 5 veces por infracción dolosa.",
+     "evidencia": [
+      "Certificados de registro",
+      "Contratos de licencia"
+     ],
+     "preguntas": [
+      "¿Las marcas, incluida la versión en chino, están registradas en la CNIPA?",
+      "¿Se pidió el examen de confidencialidad antes de patentar fuera una invención hecha en China?"
+     ]
+    }
+   ]
+  },
+  {
+   "area": "Valores (si cotiza)",
+   "leyes": [
+    {
+     "id": "cn_valores",
+     "nombre": "Ley de Valores (2019) y reglas de la CSRC para emisiones en el extranjero (2023)",
+     "sigla": "Securities Law",
+     "tipo": "ley nacional",
+     "autoridad": "Comisión Reguladora de Valores de China (CSRC)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2019-12-28",
+     "aplica": "Emisoras en Shanghái, Shenzhen o Pekín y empresas chinas que coticen fuera (registro ante la CSRC).",
+     "obligaciones": [
+      "Revelación veraz y oportuna de información y de hechos relevantes.",
+      "Registro ante la CSRC de ofertas en el extranjero en 3 días hábiles tras la solicitud fuera."
+     ],
+     "tramites": [
+      {
+       "que": "Informe anual de emisora",
+       "plazo": "4 meses tras el cierre",
+       "ante": "CSRC y bolsa"
+      }
+     ],
+     "sanciones": "Multas de hasta 10 millones de yuanes por revelación falsa; prohibición de acceso al mercado.",
+     "evidencia": [
+      "Informes periódicos",
+      "Actas del consejo"
+     ],
+     "preguntas": [
+      "¿Hay procedimiento para revelar hechos relevantes a tiempo?",
+      "¿Se registró ante la CSRC la oferta en el extranjero?"
+     ]
+    }
+   ]
+  }
+ ],
+ "sectores": {
+  "automotriz": {
+   "nombre": "Automotriz y autopartes",
+   "leyes": [
+    {
+     "id": "cn_auto",
+     "nombre": "Certificación obligatoria CCC, Reglamento de Retiro de Productos Automotores Defectuosos y Disposiciones sobre Seguridad de Datos Automotrices (2021)",
+     "sigla": "CCC / recall",
+     "tipo": "reglamento",
+     "autoridad": "SAMR; MIIT; CAC",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Fabricantes e importadores de vehículos y autopartes; empresas que recolectan datos de vehículos.",
+     "obligaciones": [
+      "Homologación y certificación CCC.",
+      "Retiro de productos defectuosos y reporte a la SAMR.",
+      "Datos de vehículos tratados en China por defecto; los importantes requieren evaluación para salir."
+     ],
+     "tramites": [
+      {
+       "que": "Reporte de investigación de defectos y plan de retiro",
+       "plazo": "5 días hábiles desde que se confirma el defecto",
+       "ante": "SAMR"
+      }
+     ],
+     "sanciones": "Multas y retiro obligatorio.",
+     "evidencia": [
+      "Certificados CCC",
+      "Expediente de retiros"
+     ],
+     "preguntas": [
+      "¿Los modelos tienen CCC y homologación del MIIT?",
+      "¿Se reportan defectos y retiros a la SAMR?"
+     ]
+    }
+   ]
+  },
+  "energia_electrica": {
+   "nombre": "Energía eléctrica (generación, transmisión, distribución, renovables)",
+   "leyes": [
+    {
+     "id": "cn_energia",
+     "nombre": "Ley de Energía (vigente 1-ene-2025), Ley de Energía Eléctrica y Ley de Energías Renovables",
+     "sigla": "Energy Law",
+     "tipo": "ley nacional",
+     "autoridad": "Administración Nacional de Energía (NEA); NDRC",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-11-08 (Ley de Energía)",
+     "aplica": "Generación, transmisión, distribución y venta de electricidad.",
+     "obligaciones": [
+      "Licencia de negocio eléctrico para generación, transmisión y suministro.",
+      "Metas de consumo de energía renovable y conexión a red."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de negocio eléctrico",
+       "plazo": "Antes de operar",
+       "ante": "NEA"
+      }
+     ],
+     "sanciones": "Multas y revocación de licencia.",
+     "evidencia": [
+      "Licencia de la NEA",
+      "Contratos de conexión"
+     ],
+     "preguntas": [
+      "¿Se cuenta con la licencia de negocio eléctrico de la NEA?",
+      "¿Se cumplen las obligaciones de consumo de renovables?"
+     ]
+    }
+   ]
+  },
+  "hidrocarburos": {
+   "nombre": "Hidrocarburos (exploración, refinación, ductos, estaciones de servicio)",
+   "leyes": [
+    {
+     "id": "cn_hidro",
+     "nombre": "Ley de Recursos Minerales (revisión 2024, vigente 1-jul-2025) y Ley de Protección de Oleoductos y Gasoductos",
+     "sigla": "Mineral Resources Law",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Recursos Naturales (MNR); NEA",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-11-08",
+     "aplica": "Exploración y producción de petróleo y gas, ductos y almacenamiento.",
+     "obligaciones": [
+      "Derechos de exploración y explotación por licitación.",
+      "Protección de ductos y planes de emergencia."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de derechos de exploración o explotación",
+       "plazo": "Antes de iniciar",
+       "ante": "MNR"
+      }
+     ],
+     "sanciones": "Multas, decomiso y revocación de derechos.",
+     "evidencia": [
+      "Títulos de derechos",
+      "Programa de integridad"
+     ],
+     "preguntas": [
+      "¿Los derechos minero-petroleros están vigentes?",
+      "¿Existe programa de integridad de ductos?"
+     ]
+    }
+   ]
+  },
+  "aeronautico": {
+   "nombre": "Aeronáutico y aeroespacial",
+   "leyes": [
+    {
+     "id": "cn_aviacion",
+     "nombre": "Ley de Aviación Civil y reglamentos CCAR",
+     "sigla": "Civil Aviation Law",
+     "tipo": "ley nacional",
+     "autoridad": "Administración de Aviación Civil de China (CAAC)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Aerolíneas, talleres de mantenimiento, fabricantes de aeronaves y partes.",
+     "obligaciones": [
+      "Certificado de operador aéreo y de mantenimiento (CCAR-145).",
+      "Certificado de tipo y de producción para fabricantes."
+     ],
+     "tramites": [
+      {
+       "que": "Certificado de organización de mantenimiento",
+       "plazo": "Antes de operar; renovación periódica",
+       "ante": "CAAC"
+      }
+     ],
+     "sanciones": "Multas y suspensión de certificados.",
+     "evidencia": [
+      "Certificados CAAC",
+      "Manual de la organización"
+     ],
+     "preguntas": [
+      "¿Los certificados CAAC están vigentes?",
+      "¿El taller CCAR-145 aprueba sus auditorías?"
+     ]
+    }
+   ]
+  },
+  "farmaceutico": {
+   "nombre": "Farmacéutico y dispositivos médicos",
+   "leyes": [
+    {
+     "id": "cn_farma",
+     "nombre": "Ley de Administración de Medicamentos (2019) y Reglamento de Dispositivos Médicos (2021)",
+     "sigla": "DAL",
+     "tipo": "ley nacional",
+     "autoridad": "Administración Nacional de Productos Médicos (NMPA)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2019-08-26",
+     "aplica": "Titulares de autorización de comercialización (MAH), fabricantes, distribuidores e importadores.",
+     "obligaciones": [
+      "Registro de medicamentos y dispositivos; el titular extranjero designa un agente en China.",
+      "Buenas prácticas de manufactura y distribución; farmacovigilancia."
+     ],
+     "tramites": [
+      {
+       "que": "Renovación de registro de medicamento o dispositivo",
+       "plazo": "Cada 5 años (6 meses antes)",
+       "ante": "NMPA"
+      }
+     ],
+     "sanciones": "Multas de hasta 30 veces el valor de los productos y prohibición de actividades.",
+     "evidencia": [
+      "Certificados de registro",
+      "Reportes de farmacovigilancia"
+     ],
+     "preguntas": [
+      "¿Cada producto tiene registro vigente de la NMPA?",
+      "¿El agente legal en China está designado?"
+     ]
+    }
+   ]
+  },
+  "construccion": {
+   "nombre": "Construcción e infraestructura",
+   "leyes": [
+    {
+     "id": "cn_construccion",
+     "nombre": "Ley de Construcción, Ley de Licitaciones y certificados de calificación de empresas",
+     "sigla": "Construction Law",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Vivienda y Desarrollo Urbano-Rural (MOHURD)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Constructoras, diseñadoras y supervisoras de obra.",
+     "obligaciones": [
+      "Certificado de calificación según el tipo y tamaño de obra.",
+      "Permiso de construcción antes de iniciar obra.",
+      "Licitación obligatoria en obras con fondos públicos sobre los umbrales."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de construcción",
+       "plazo": "Antes de iniciar obra",
+       "ante": "Autoridad local de vivienda"
+      }
+     ],
+     "sanciones": "Multas, suspensión y revocación de calificaciones.",
+     "evidencia": [
+      "Certificados de calificación",
+      "Permisos de obra"
+     ],
+     "preguntas": [
+      "¿La calificación de la empresa corresponde al tamaño de la obra?",
+      "¿Hay permiso de construcción?"
+     ]
+    }
+   ]
+  },
+  "defensa": {
+   "nombre": "Defensa, armamento y bienes de uso dual (cumplimiento)",
+   "leyes": [
+    {
+     "id": "cn_uso_dual",
+     "nombre": "Reglamento de Control de Exportaciones de Bienes de Uso Dual (vigente 1-dic-2024)",
+     "sigla": "Dual-use Regulations",
+     "tipo": "reglamento",
+     "autoridad": "MOFCOM",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-12-01",
+     "aplica": "Exportadores de bienes, tecnologías y servicios de uso dual, incluida la reexportación desde fuera de China en ciertos casos.",
+     "obligaciones": [
+      "Programa interno de cumplimiento.",
+      "Certificado de usuario y uso final.",
+      "Licencia general o individual según el caso."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de exportación de uso dual",
+       "plazo": "Antes de exportar (MOFCOM resuelve en 45 días hábiles)",
+       "ante": "MOFCOM"
+      }
+     ],
+     "sanciones": "Multas, inclusión en lista de control y responsabilidad penal.",
+     "evidencia": [
+      "Programa de cumplimiento",
+      "Certificados de usuario final"
+     ],
+     "preguntas": [
+      "¿Existe programa interno de cumplimiento de exportaciones?",
+      "¿Se obtiene certificado de usuario final?"
+     ]
+    }
+   ]
+  },
+  "seguros": {
+   "nombre": "Seguros y fianzas",
+   "leyes": [
+    {
+     "id": "cn_seguros",
+     "nombre": "Ley de Seguros",
+     "sigla": "Insurance Law",
+     "tipo": "ley nacional",
+     "autoridad": "Administración Nacional de Regulación Financiera (NFRA)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Aseguradoras, reaseguradoras e intermediarios.",
+     "obligaciones": [
+      "Licencia de la NFRA; requisitos de solvencia C-ROSS II.",
+      "Gobierno corporativo y aprobación de directivos."
+     ],
+     "tramites": [
+      {
+       "que": "Informe de solvencia",
+       "plazo": "Trimestral",
+       "ante": "NFRA"
+      }
+     ],
+     "sanciones": "Multas, restricción de negocios y revocación.",
+     "evidencia": [
+      "Informes de solvencia",
+      "Aprobaciones de directivos"
+     ],
+     "preguntas": [
+      "¿Se cumplen los indicadores de solvencia?",
+      "¿Los directivos tienen aprobación de la NFRA?"
+     ]
+    }
+   ]
+  },
+  "bancos": {
+   "nombre": "Bancos y servicios financieros",
+   "leyes": [
+    {
+     "id": "cn_bancos",
+     "nombre": "Ley de Bancos Comerciales y normas de la NFRA y el PBOC",
+     "sigla": "Commercial Banking Law",
+     "tipo": "ley nacional",
+     "autoridad": "NFRA; PBOC; SAFE (divisas)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Bancos y entidades financieras; las empresas que operan divisas deben cumplir las reglas de SAFE.",
+     "obligaciones": [
+      "Licencia bancaria y capital regulatorio.",
+      "Control de cambios: registro de deuda externa y de inversión directa ante bancos/SAFE."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de deuda externa",
+       "plazo": "15 días hábiles tras firmar el contrato",
+       "ante": "SAFE local"
+      }
+     ],
+     "sanciones": "Multas y restricciones de operación.",
+     "evidencia": [
+      "Registros SAFE",
+      "Reportes regulatorios"
+     ],
+     "preguntas": [
+      "¿Los préstamos intercompañía del exterior están registrados ante SAFE?",
+      "¿Se cumplen los requisitos de capital?"
+     ]
+    }
+   ]
+  },
+  "mineria": {
+   "nombre": "Minería",
+   "leyes": [
+    {
+     "id": "cn_mineria",
+     "nombre": "Ley de Recursos Minerales (revisión 2024, vigente 1-jul-2025)",
+     "sigla": "Mineral Resources Law",
+     "tipo": "ley nacional",
+     "autoridad": "MNR; MEM (seguridad minera)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2024-11-08",
+     "aplica": "Exploración y explotación minera; la inversión extranjera está restringida o prohibida en minerales estratégicos (tierras raras).",
+     "obligaciones": [
+      "Derechos minerales por licitación o subasta.",
+      "Restauración ecológica de la mina.",
+      "Licencia de seguridad para la producción minera."
+     ],
+     "tramites": [
+      {
+       "que": "Licencia de seguridad minera",
+       "plazo": "Antes de producir; renovación cada 3 años",
+       "ante": "MEM provincial"
+      }
+     ],
+     "sanciones": "Multas, cierre y revocación.",
+     "evidencia": [
+      "Títulos mineros",
+      "Plan de restauración"
+     ],
+     "preguntas": [
+      "¿Los derechos mineros están vigentes?",
+      "¿Existe fondo o plan de restauración?"
+     ]
+    }
+   ]
+  },
+  "alimentos": {
+   "nombre": "Alimentos y bebidas",
+   "leyes": [
+    {
+     "id": "cn_alimentos",
+     "nombre": "Ley de Seguridad Alimentaria (2015, reformada en 2021) y Decreto 248 de la GACC (registro de fabricantes extranjeros)",
+     "sigla": "Food Safety Law",
+     "tipo": "ley nacional",
+     "autoridad": "SAMR; Aduanas (GACC)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2021-04-29",
+     "aplica": "Productores, distribuidores e importadores de alimentos; fabricantes extranjeros que exportan a China.",
+     "obligaciones": [
+      "Licencia de producción o venta de alimentos.",
+      "Registro del fabricante extranjero ante la GACC antes de exportar.",
+      "Etiquetado en chino."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de fabricante extranjero de alimentos",
+       "plazo": "Antes de exportar; vigencia de 5 años",
+       "ante": "GACC"
+      }
+     ],
+     "sanciones": "Multas de hasta 30 veces el valor y revocación de licencias.",
+     "evidencia": [
+      "Licencias",
+      "Registro GACC",
+      "Etiquetas"
+     ],
+     "preguntas": [
+      "¿El fabricante extranjero está registrado ante la GACC?",
+      "¿La etiqueta en chino cumple la norma GB 7718?"
+     ]
+    }
+   ]
+  },
+  "telecom": {
+   "nombre": "Telecomunicaciones",
+   "leyes": [
+    {
+     "id": "cn_telecom",
+     "nombre": "Reglamento de Telecomunicaciones y licencias de servicios de valor agregado",
+     "sigla": "Telecom Regulations",
+     "tipo": "reglamento",
+     "autoridad": "Ministerio de Industria y Tecnologías de la Información (MIIT)",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Operadores de telecomunicaciones y servicios de valor agregado (internet, nube, centros de datos).",
+     "obligaciones": [
+      "Licencia MIIT; límites a la participación extranjera en varios servicios.",
+      "Registro ICP de sitios web alojados en China."
+     ],
+     "tramites": [
+      {
+       "que": "Inspección anual de licencia de telecomunicaciones",
+       "plazo": "Anual (1 ene–31 mar)",
+       "ante": "MIIT"
+      }
+     ],
+     "sanciones": "Multas, cierre de sitios y revocación.",
+     "evidencia": [
+      "Licencia MIIT",
+      "Registro ICP"
+     ],
+     "preguntas": [
+      "¿Se cuenta con licencia de valor agregado o registro ICP?",
+      "¿La participación extranjera respeta los límites?"
+     ]
+    }
+   ]
+  },
+  "ti_digital": {
+   "nombre": "Tecnología, nube y servicios digitales",
+   "leyes": [
+    {
+     "id": "cn_ia_algoritmos",
+     "nombre": "Medidas Provisionales de Servicios de IA Generativa (2023), Disposiciones de Recomendación Algorítmica (2022) y Medidas de Etiquetado de Contenido Sintético (2025)",
+     "sigla": "GenAI Measures",
+     "tipo": "reglamento",
+     "autoridad": "CAC",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "2025-03 (etiquetado; verificar)",
+     "aplica": "Proveedores de servicios de IA generativa y algoritmos de recomendación al público en China.",
+     "obligaciones": [
+      "Registro de algoritmos y evaluación de seguridad.",
+      "Etiquetado explícito e implícito del contenido generado por IA (desde el 1-sep-2025).",
+      "Datos de entrenamiento de fuentes legales."
+     ],
+     "tramites": [
+      {
+       "que": "Registro de algoritmos",
+       "plazo": "10 días hábiles desde el inicio del servicio",
+       "ante": "CAC"
+      }
+     ],
+     "sanciones": "Multas y suspensión del servicio.",
+     "evidencia": [
+      "Registro de algoritmos",
+      "Evaluación de seguridad"
+     ],
+     "preguntas": [
+      "¿Los algoritmos están registrados ante la CAC?",
+      "¿El contenido generado lleva las etiquetas requeridas?"
+     ]
+    }
+   ]
+  },
+  "logistica": {
+   "nombre": "Transporte y logística",
+   "leyes": [
+    {
+     "id": "cn_logistica",
+     "nombre": "Reglamento de Transporte por Carretera, Ley Postal (permisos de mensajería) y Ley de Aduanas",
+     "sigla": "Road Transport / Postal Law",
+     "tipo": "ley nacional",
+     "autoridad": "Ministerio de Transporte; Oficina Estatal de Correos; GACC",
+     "url": "https://flk.npc.gov.cn/",
+     "ultima_reforma": "verificar",
+     "aplica": "Transportistas de carga, empresas de mensajería y agentes aduanales.",
+     "obligaciones": [
+      "Permiso de transporte de carga por carretera.",
+      "Permiso de negocio de mensajería expresa.",
+      "Registro aduanero y clasificación arancelaria correcta."
+     ],
+     "tramites": [
+      {
+       "que": "Permiso de negocio de mensajería expresa",
+       "plazo": "Antes de operar",
+       "ante": "Oficina Estatal de Correos"
+      }
+     ],
+     "sanciones": "Multas y suspensión.",
+     "evidencia": [
+      "Permisos",
+      "Registro aduanero"
+     ],
+     "preguntas": [
+      "¿Están vigentes los permisos de transporte y mensajería?",
+      "¿La empresa tiene registro aduanero?"
+     ]
+    }
+   ]
+  }
+ }
+}

@@ -1,0 +1,72 @@
+name: Monitor normativo
+
+# Revisa cada día los diarios oficiales (DOF de México y los de EUA, Canadá, UE, Japón, Rusia y Argentina), los cruza con
+# el catálogo de normativa (config/normativa/*.json) y agrega a la bitácora histórica lo que afecta a leyes, sectores,
+# trámites y preguntas de auditoría (tools/normativa/monitor.py). La bitácora vive en la rama «datos-normativa» CON
+# historial: cada corrida agrega un commit y nunca reescribe ni borra entradas. Pages la copia a data/normativa/.
+# Corre a las 06:41 y a las 20:41 de Ciudad de México (el DOF publica ediciones matutinas y vespertinas).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "41 12 * * *"
+    - cron: "41 2 * * *"
+
+permissions:
+  actions: read
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: normativa
+  cancel-in-progress: false
+
+jobs:
+  revisar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bitácora anterior y datos del DOF
+        run: |
+          mkdir -p normativa vivos
+          if git fetch origin datos-normativa 2>/dev/null; then git archive FETCH_HEAD normativa | tar -x; cp normativa/bitacora.json /tmp/bitacora_previa.json; fi
+          if git fetch --depth 1 origin datos-vivos 2>/dev/null; then
+            git archive FETCH_HEAD vivos/dof.json vivos/leyes_federales.json | tar -x || true
+          fi
+          ls -la normativa vivos
+      - name: Revisar diarios oficiales
+        run: python3 tools/normativa/monitor.py normativa vivos
+      - name: Verificar que la bitácora solo crece
+        run: |
+          python3 - <<'PY'
+          import json, os, sys
+          nueva = {e["id"] for e in json.load(open("normativa/bitacora.json"))["entradas"]}
+          previa = {e["id"] for e in json.load(open("/tmp/bitacora_previa.json"))["entradas"]} if os.path.exists("/tmp/bitacora_previa.json") else set()
+          if previa - nueva:
+              sys.exit(f"La bitácora perdería {len(previa - nueva)} entradas: no se publica")
+          print(f"ok: {len(previa)} -> {len(nueva)} entradas")
+          PY
+      - name: Publicar en la rama datos-normativa (agrega un commit, sin reescribir)
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          URL="https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          if git ls-remote --exit-code --heads "$URL" datos-normativa >/dev/null 2>&1; then
+            git clone -q --single-branch --branch datos-normativa "$URL" /tmp/pub
+          else
+            mkdir /tmp/pub && cd /tmp/pub && git init -q && git checkout -q --orphan datos-normativa && cd -
+          fi
+          mkdir -p /tmp/pub/normativa && cp normativa/*.json /tmp/pub/normativa/
+          cd /tmp/pub
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add normativa
+          if git diff --cached --quiet; then echo "Sin cambios"; exit 0; fi
+          git commit -q -m "bitácora normativa $(date -u +'%Y-%m-%d %H:%MZ')"
+          git push -q "$URL" HEAD:datos-normativa
+  publicar:
+    needs: revisar
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit
