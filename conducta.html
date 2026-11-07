@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Conducta y escritura · DOMINUS</title>
+  <meta name="description" content="Observación de lenguaje corporal en video o foto (cambios frente a la línea base y cúmulos de señales) y análisis grafológico de escritura y firma con medidas de la imagen. Todo corre en tu navegador.">
+  <meta name="color-scheme" content="light dark">
+  <meta name="referrer" content="no-referrer">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .hz { max-width: 1100px; margin: 0 auto; padding: 16px; }
+    .hz h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 18px 0 6px; }
+    .hz h3 { font-size: 15px; margin: 12px 0 4px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .tarjeta > summary { cursor: pointer; min-height: 28px; }
+    .hz input, .hz select, .hz textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); max-width: 100%; box-sizing: border-box; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .hz .btn { font: inherit; min-height: 38px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .barra button.prim, .hz .btn.prim { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    .barra button[aria-pressed="true"] { outline: 2px solid var(--accent, #C8102E); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .aviso { border-left: 4px solid #E65100; padding: 8px 10px; background: var(--surface-2); border-radius: 6px; font-size: 13px; }
+    .pestanas { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0 12px; }
+    .pestanas button { font: inherit; min-height: 40px; padding: 4px 14px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .pestanas button[aria-selected="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
+    .desliza { overflow-x: auto; }
+    .medio-caja { position: relative; max-width: 100%; }
+    .medio-caja video, .medio-caja img, .medio-caja iframe { max-width: 100%; max-height: 60vh; display: block; border-radius: 8px; background: #000; }
+    .medio-caja iframe { width: 100%; aspect-ratio: 16 / 9; height: auto; border: 0; }
+    .zonas { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 8px; }
+    .zonas fieldset { border: 1px solid var(--line); border-radius: 8px; padding: 6px 8px; margin: 0; }
+    .zonas legend { font-size: 13px; font-weight: 600; }
+    .zonas button { font: inherit; font-size: 12px; text-align: left; width: 100%; margin: 2px 0; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .zonas button.auto::after { content: " 🤖"; font-size: 11px; }
+    .zonas details { border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; }
+    .zonas summary { font-size: 13px; font-weight: 600; cursor: pointer; }
+    .guia-zona h3 { margin-top: 14px; }
+    progress { width: 100%; height: 14px; }
+    .barras .fila { display: grid; grid-template-columns: minmax(140px, 220px) 1fr 40px; gap: 8px; align-items: center; font-size: 13px; margin: 3px 0; }
+    .barras .fila > div { height: 12px; border-radius: 6px; background: var(--accent, #C8102E); }
+    .momento { border-left: 4px solid #E65100; padding: 6px 10px; margin: 6px 0; background: var(--surface-2); border-radius: 6px; }
+    .momento button { font: inherit; font-size: 12px; }
+    #g-lienzo { max-width: 100%; touch-action: none; cursor: crosshair; border: 1px solid var(--line); border-radius: 6px; display: block; }
+    .grafo-sec summary b { font-size: 14px; }
+    .grafo-grupo { margin: 6px 0 10px; }
+    .grafo-grupo h4 { margin: 4px 0; font-size: 13px; }
+    .rasgo { display: grid; grid-template-columns: 22px 1fr; gap: 4px; font-size: 13px; padding: 2px 0; }
+    .rasgo .det { color: var(--text-2); font-size: 12px; }
+    .medido { background: #2E7D3222; border-radius: 4px; }
+    .medido-tag { font-size: 11px; color: #2E7D32; font-weight: 600; }
+    .inf-item { margin: 6px 0; padding-left: 8px; border-left: 3px solid var(--line); }
+    [hidden] { display: none !important; }
+    @media print { .no-imprimir { display: none !important; } .panel[hidden] { display: none !important; } body { background: #fff; color: #000; } }
+  </style>
+</head>
+<body>
+  <header class="topbar no-imprimir">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>Conducta y escritura</h1><a href="herramientas.html">Caja del analista</a>
+  </header>
+  <main class="hz">
+    <p class="meta">Dos herramientas de observación que corren en tu navegador: los videos, fotos e imágenes que elijas <b>no se suben a ningún servidor</b> ni se guardan.
+      Lo único que se descarga de internet son los modelos de detección de puntos del cuerpo (MediaPipe, de Google) la primera vez que analizas un video.</p>
+    <nav class="pestanas no-imprimir" role="tablist" aria-label="Herramientas">
+      <button type="button" role="tab" data-panel="p-cuerpo" aria-selected="true">🧍 Lenguaje corporal</button>
+      <button type="button" role="tab" data-panel="p-grafo" aria-selected="false">✍️ Grafología: escritura y firma</button>
+    </nav>
+    <p id="estado" class="meta" role="status" aria-live="polite"></p>
+
+    <!-- ===================== LENGUAJE CORPORAL ===================== -->
+    <section class="panel" id="p-cuerpo">
+      <p class="aviso" id="c-aviso"></p>
+      <details class="tarjeta"><summary><b>📌 Cómo leer el cuerpo sin engañarte (6 reglas)</b></summary><div id="c-principios"></div></details>
+      <details class="tarjeta" id="c-guia-caja"><summary><b>📖 Guía de señales: qué observar, lectura frecuente y otras explicaciones</b> <span class="meta" id="c-guia-n"></span></summary>
+        <div class="barra"><input id="c-guia-buscar" placeholder="Buscar señal o lectura (ej.: cuello, enojo, pies)" style="flex:1;min-width:240px" aria-label="Buscar en la guía"></div>
+        <div id="c-guia"></div></details>
+      <details class="tarjeta"><summary><b>🙂 Las 7 expresiones de emoción en el rostro</b></summary><div id="c-emociones"></div></details>
+      <details class="tarjeta"><summary><b>🗣️ Cómo conducir la conversación para observar mejor</b></summary><div id="c-entrevista"></div></details>
+
+      <div class="tarjeta">
+        <h2>1. Elige el video o la foto</h2>
+        <div class="barra no-imprimir">
+          <label class="btn prim">📁 Subir video o foto <input type="file" id="c-archivo" accept="video/*,image/*,.heic,.heif" hidden></label>
+          <span class="meta">o pega un enlace público:</span>
+          <input id="c-url" type="url" placeholder="https://www.youtube.com/watch?v=… · enlace directo a .mp4 · TikTok, Instagram…" style="flex:1;min-width:260px" aria-label="Enlace del video">
+          <button type="button" id="c-usar-url">Usar enlace</button>
+        </div>
+        <p class="meta">Archivo propio o enlace directo a un .mp4/.webm con permiso de lectura: análisis automático y codificación manual. YouTube y Vimeo: se reproducen aquí con su reproductor oficial y se codifica a mano.
+          TikTok, Instagram, Facebook, X y nubes: no descargo sus videos (sus términos de uso lo prohíben); ábrelo en su sitio y codifica con el cronómetro, o descárgalo con la opción oficial de la app si tienes permiso y súbelo aquí.</p>
+        <div id="c-medio" class="medio-caja"></div>
+        <div id="c-crono" class="barra" hidden><b>⏱️ Cronómetro:</b> <span id="c-crono-t" class="mono">00:00</span>
+          <button type="button" id="c-crono-ini">▶️ Iniciar</button><button type="button" id="c-crono-pausa">⏸️ Pausa</button><button type="button" id="c-crono-cero">↺ Cero</button>
+          <span class="meta">Arráncalo junto con el video para que las marcas lleven el segundo correcto.</span></div>
+      </div>
+
+      <div class="tarjeta" id="c-auto-caja" hidden>
+        <h2>2. Análisis automático (rostro y postura)</h2>
+        <p class="meta">Detecta 27 señales con puntos del rostro y del cuerpo, cuadro por cuadro, y las compara con la <b>línea base</b>: el tramo en que la persona habla de algo neutral.
+          Elige ese tramo; si no lo sabes, se usa el primer 20 % del video (5 a 30 s).</p>
+        <div class="barra">
+          <label>Línea base de <input id="c-b0" type="number" min="0" step="1" value="0" style="width:80px"> s a <input id="c-b1" type="number" min="1" step="1" style="width:80px"> s</label>
+          <label>Muestreo <select id="c-fps"><option value="10" selected>10 cuadros/s (detecta parpadeos)</option><option value="5">5 cuadros/s (más rápido)</option></select></label>
+          <label><input type="checkbox" id="c-pose" checked> Incluir postura y manos</label>
+          <button type="button" id="c-analizar" class="prim">🔍 Analizar</button>
+          <button type="button" id="c-detener" hidden>Detener</button>
+        </div>
+        <progress id="c-progreso" max="1" value="0" hidden></progress>
+      </div>
+
+      <div class="tarjeta">
+        <h2>3. Marcar señales a mano</h2>
+        <p class="meta">Pulsa una señal en el momento en que la ves; queda marcada con el segundo del video (o del cronómetro). Las marcadas con 🤖 también las detecta el análisis automático.
+          Úsalo para lo que la cámara no ve bien: pies, palmas, voz, incongruencias entre lo que dice y lo que hace.</p>
+        <div class="barra"><label>Nota para la siguiente marca <input id="c-nota" placeholder="Ej.: pregunta sobre el viaje" style="min-width:260px"></label></div>
+        <div id="c-zonas" class="zonas"></div>
+      </div>
+
+      <div class="tarjeta" id="c-resultado">
+        <h2>4. Resultado</h2>
+        <div id="c-resumen"><p class="meta">Aún no hay señales. Analiza el video o marca señales a mano.</p></div>
+        <div class="barra no-imprimir"><button type="button" id="c-imprimir">🖨️ Informe / PDF</button><button type="button" id="c-json">⬇️ Descargar JSON</button><button type="button" id="c-limpiar">🗑️ Borrar marcas</button></div>
+      </div>
+    </section>
+
+    <!-- ===================== GRAFOLOGÍA ===================== -->
+    <section class="panel" id="p-grafo" hidden>
+      <p class="aviso" id="g-aviso"></p>
+      <div class="tarjeta">
+        <h2>1. Sube la foto de la escritura o la firma</h2>
+        <div class="barra no-imprimir"><label class="btn prim">📁 Elegir imagen <input type="file" id="g-archivo" accept="image/*,.heic,.heif" hidden></label>
+          <span class="meta">JPEG, PNG, WebP, HEIC/HEIF (iPhone y Android). Foto de frente, con buena luz, sin sombras y con la hoja derecha.</span></div>
+      </div>
+      <div class="tarjeta" id="g-trabajo" hidden>
+        <h2>2. Marca qué es texto y qué es firma</h2>
+        <p class="meta">Arrastra sobre la imagen para dibujar un rectángulo. Primero elige qué vas a marcar. Puedes marcar solo texto, solo firma o ambos.</p>
+        <div class="barra no-imprimir">
+          <button type="button" id="g-modo-texto" aria-pressed="true">▭ Marcar texto (azul)</button>
+          <button type="button" id="g-modo-firma" aria-pressed="false">▭ Marcar firma (rojo)</button>
+          <button type="button" id="g-todo">Toda la imagen es texto</button>
+          <button type="button" id="g-sin-firma">Quitar firma</button>
+        </div>
+        <canvas id="g-lienzo"></canvas>
+        <div class="barra">
+          <label><input type="checkbox" id="g-hoja"> El rectángulo azul es la hoja completa (así los márgenes son reales)</label>
+        </div>
+        <div class="barra">
+          <label>Escala: <select id="g-escala">
+            <option value="carta">El rectángulo azul mide el ancho de una hoja carta (216 mm)</option>
+            <option value="a4">… de una hoja A4 (210 mm)</option>
+            <option value="media">… de media carta (140 mm)</option>
+            <option value="otra">Otra: escribo el ancho real del rectángulo azul</option>
+            <option value="nada" selected>No sé la medida (sin milímetros)</option>
+          </select></label>
+          <label id="g-mm-caja" hidden>Ancho real <input id="g-mm" type="number" min="10" step="1" style="width:90px"> mm</label>
+          <button type="button" id="g-medir" class="prim">📏 Medir</button>
+        </div>
+        <div id="g-medidas"></div>
+      </div>
+      <div class="tarjeta" id="g-lista-caja" hidden>
+        <h2>3. Revisa y completa los rasgos</h2>
+        <p class="meta">Los rasgos en verde (📏) salieron de las medidas; quítalos si no coinciden con lo que ves. Lo demás (forma, gestos tipo, rasgos tipo, velocidad, presión al tacto, abreaciones…) se marca a mano observando el original.
+          Las interpretaciones vienen de tu resumen de grafología.</p>
+        <div id="g-lista"></div>
+      </div>
+      <div class="tarjeta" id="g-informe-caja" hidden>
+        <h2>4. Informe</h2>
+        <div id="g-informe"></div>
+        <div class="barra no-imprimir"><button type="button" id="g-imprimir">🖨️ Informe / PDF</button><button type="button" id="g-json">⬇️ Descargar JSON</button></div>
+      </div>
+    </section>
+  </main>
+  <script type="module" src="js/conducta.js"></script>
+</body>
+</html>
