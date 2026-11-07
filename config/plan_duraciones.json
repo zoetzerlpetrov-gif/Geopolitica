@@ -1,0 +1,17 @@
+{
+ "_nota": "Duración de cada trámite en la plantilla de proyecto (js/plan-proyecto.js). Orden: 1) reglas de esta lista (la primera que coincide), 2) plazo legal escrito en el trámite del catálogo (días hábiles, días naturales, meses u horas), 3) regla general «previo» del país, 4) estimación. Cada tarea muestra la base en la columna «Base de la duración». Las reglas citan la ley; lo que no está confirmado dice «verificar».",
+ "reglas": [
+  {"pais": "MEX", "patron": "impacto ambiental|manifestaci[oó]n de impacto|\\bMIA\\b", "dias": 80,
+   "base": "LGEEPA art. 35 Bis: la SEMARNAT resuelve la MIA en 60 días hábiles (ampliable hasta 60 más) + ~20 días hábiles para integrar el estudio (estimación)"},
+  {"pais": "MEX", "patron": "alta .{0,40}(imss|seguro social)|alta de trabajadores|altas? en el seguro social|registro patronal", "dias": 5,
+   "base": "LSS art. 15, fr. I: inscribir a los trabajadores en un plazo no mayor de 5 días hábiles"},
+  {"pais": "MEX", "patron": "rnie|registro nacional de inversiones extranjeras", "dias": 40,
+   "base": "LIE: inscripción en el RNIE dentro de 40 días hábiles (verificar artículo vigente)"},
+  {"pais": "MEX", "previo": true, "dias": 63,
+   "base": "LFPA art. 17: la autoridad federal resuelve en máximo 3 meses (≈63 días hábiles) salvo plazo específico; los trámites estatales y municipales siguen su ley local"},
+  {"pais": "*", "previo": true, "sector": true, "dias": 40,
+   "base": "Estimación: el catálogo no tiene plazo legal de resolución para este trámite; confirmar con el regulador"},
+  {"pais": "*", "previo": true, "dias": 15,
+   "base": "Estimación: el catálogo no tiene plazo legal para este trámite general; confirmar con la autoridad"}
+ ]
+}

@@ -6,9 +6,10 @@ import { crc32 } from "./fase5-gtfs-zip.js";
 
 /** Estilos de celda disponibles (nombre → índice en styles.xml). */
 export const ESTILOS = { normal: 0, titulo: 1, encabezado: 2, fase: 3, seccion: 4, texto: 5, fecha: 6, numero: 7, porcentaje: 8, nota: 9, hito: 10,
-  enlace: 11, critica: 12, fechaHito: 13, subtitulo: 14, numeroHito: 15 };
+  enlace: 11, critica: 12, fechaHito: 13, subtitulo: 14, numeroHito: 15, mes: 16, dia: 17, numeroGrande: 18 };
 /** Formatos para el formato condicional (nombre → índice dxf). */
-export const DXF = { gantt: 0, ganttHito: 1, hecho: 2, vencido: 3, hoy: 4, noAplica: 5, alerta: 6 };
+export const DXF = { gantt: 0, ganttHito: 1, hecho: 2, vencido: 3, hoy: 4, noAplica: 5, alerta: 6, ganttHecho: 7, ganttVencido: 8, ganttCurso: 9, ganttBloqueado: 10,
+  faseFila: 11, proximo: 12, enProceso: 13 };
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c])).replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, "");
 
@@ -58,8 +59,8 @@ function hojaXML(h) {
 
 const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">
-<numFmts count="1"><numFmt numFmtId="164" formatCode="yyyy-mm-dd"/></numFmts>
-<fonts count="8">
+<numFmts count="3"><numFmt numFmtId="164" formatCode="yyyy-mm-dd"/><numFmt numFmtId="165" formatCode="mmm"/><numFmt numFmtId="166" formatCode="d"/></numFmts>
+<fonts count="10">
 <font><sz val="10"/><name val="Calibri"/></font>
 <font><b/><sz val="16"/><color rgb="FF1F2A44"/><name val="Calibri"/></font>
 <font><b/><sz val="10"/><color rgb="FFFFFFFF"/><name val="Calibri"/></font>
@@ -68,6 +69,8 @@ const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <font><u/><sz val="10"/><color rgb="FF1155CC"/><name val="Calibri"/></font>
 <font><b/><sz val="10"/><color rgb="FFB71C1C"/><name val="Calibri"/></font>
 <font><b/><sz val="10"/><name val="Calibri"/></font>
+<font><b/><sz val="8"/><color rgb="FF1F2A44"/><name val="Calibri"/></font>
+<font><b/><sz val="18"/><color rgb="FF1F2A44"/><name val="Calibri"/></font>
 </fonts>
 <fills count="7">
 <fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>
@@ -80,7 +83,7 @@ const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>
 <border><left style="thin"><color rgb="FFC9D1DB"/></left><right style="thin"><color rgb="FFC9D1DB"/></right><top style="thin"><color rgb="FFC9D1DB"/></top><bottom style="thin"><color rgb="FFC9D1DB"/></bottom><diagonal/></border></borders>
 <cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>
-<cellXfs count="16">
+<cellXfs count="19">
 <xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>
 <xf numFmtId="0" fontId="1" fillId="0" borderId="0" xfId="0" applyFont="1"/>
 <xf numFmtId="0" fontId="2" fillId="2" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment wrapText="1" vertical="center" horizontal="center"/></xf>
@@ -97,9 +100,12 @@ const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <xf numFmtId="164" fontId="7" fillId="5" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" horizontal="center"/></xf>
 <xf numFmtId="0" fontId="3" fillId="0" borderId="0" xfId="0" applyFont="1"/>
 <xf numFmtId="0" fontId="7" fillId="5" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" horizontal="center"/></xf>
+<xf numFmtId="165" fontId="8" fillId="3" borderId="0" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyAlignment="1"><alignment horizontal="left"/></xf>
+<xf numFmtId="166" fontId="8" fillId="4" borderId="1" xfId="0" applyNumberFormat="1" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center"/></xf>
+<xf numFmtId="0" fontId="9" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment horizontal="center" vertical="center"/></xf>
 </cellXfs>
 <cellStyles count="1"><cellStyle name="Normal" xfId="0" builtinId="0"/></cellStyles>
-<dxfs count="7">
+<dxfs count="14">
 <dxf><fill><patternFill><bgColor rgb="FF4A7FB5"/></patternFill></fill></dxf>
 <dxf><fill><patternFill><bgColor rgb="FFC8A13A"/></patternFill></fill></dxf>
 <dxf><font><color rgb="FF1B5E20"/></font><fill><patternFill><bgColor rgb="FFDCEFD9"/></patternFill></fill></dxf>
@@ -107,6 +113,13 @@ const ESTILOS_XML = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <dxf><fill><patternFill><bgColor rgb="FFFFF2B3"/></patternFill></fill></dxf>
 <dxf><font><strike/><color rgb="FF9AA3AD"/></font></dxf>
 <dxf><font><b/><color rgb="FF8A5A00"/></font><fill><patternFill><bgColor rgb="FFFFE9C2"/></patternFill></fill></dxf>
+<dxf><fill><patternFill><bgColor rgb="FF43A047"/></patternFill></fill></dxf>
+<dxf><fill><patternFill><bgColor rgb="FFD32F2F"/></patternFill></fill></dxf>
+<dxf><fill><patternFill><bgColor rgb="FF1F4E8C"/></patternFill></fill></dxf>
+<dxf><fill><patternFill><bgColor rgb="FFEF8A17"/></patternFill></fill></dxf>
+<dxf><font><b/><color rgb="FF1F2A44"/></font><fill><patternFill><bgColor rgb="FFF6E7B8"/></patternFill></fill></dxf>
+<dxf><font><b/><color rgb="FF7A5200"/></font><fill><patternFill><bgColor rgb="FFFFF2B3"/></patternFill></fill></dxf>
+<dxf><font><color rgb="FF1F4E8C"/></font><fill><patternFill><bgColor rgb="FFD6E6F5"/></patternFill></fill></dxf>
 </dxfs>
 </styleSheet>`;
 

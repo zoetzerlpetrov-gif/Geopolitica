@@ -499,6 +499,7 @@ pintarNube();
   // Plantilla de proyecto en Excel (de la idea al cierre), por sector y países, con su base normativa.
   {
     const cfgPlan = await fetch("config/plan_proyecto.json").then((r) => r.json()).catch(() => null);
+    const durPlan = await fetch("config/plan_duraciones.json").then((r) => r.json()).then((x) => x.reglas || []).catch(() => []);
     const extraS = await fetch("config/normativa/MEX_sectores.json").then((r) => r.json()).then((x) => x.sectores || {}).catch(() => ({}));
     $("plan-sector").innerHTML = `<option value="">Solo generales (toda empresa)</option>` + H.sectoresOrdenados(sectores, extraS).map(([k, n]) => `<option value="${k}">${esc(n)}</option>`).join("");
     $("plan-paises").innerHTML = H.JURISDICCIONES.map(([i, n]) => `<label style="display:inline-flex;gap:4px;align-items:center;margin:2px 10px 2px 0"><input type="checkbox" value="${i}"${i === "MEX" ? " checked" : ""}> ${esc(n)}</label>`).join("");
@@ -510,7 +511,7 @@ pintarNube();
       const sector = $("plan-sector").value, extranjera = $("plan-extranjera").checked && paises.includes("MEX");
       const nombres = Object.fromEntries(H.JURISDICCIONES.map(([i, n]) => [i, n.replace(/^[^\p{L}]+/u, "")]));
       const P = await import("./plan-proyecto.js");
-      const plan = P.construirPlan({ cfg: cfgPlan, catalogos: normas, jurisdicciones: paises, sector, extranjera, nombres });
+      const plan = P.construirPlan({ cfg: cfgPlan, catalogos: normas, jurisdicciones: paises, sector, extranjera, nombres, duraciones: durPlan });
       const sectorNombre = $("plan-sector").selectedOptions[0]?.textContent || "";
       const titulo = `${$("plan-nombre").value.trim() || "Plan de proyecto"} · ${sectorNombre} · ${paises.map((p) => nombres[p]).join(", ")}`;
       return { plan, paises, sector, extranjera, nombres, sectorNombre, titulo, inicio: new Date(`${$("plan-inicio").value || lunes.toISOString().slice(0, 10)}T00:00:00Z`) };
