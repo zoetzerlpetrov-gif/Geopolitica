@@ -190,13 +190,23 @@ export function conBrilloCosta(style, theme = "light") {
   const agua = s.layers.find((l) => l.type === "fill" && l["source-layer"] === "water");
   if (!agua) return s;
   const [halo, hilo] = BRILLO_COSTA[theme === "dark" ? "dark" : "light"];
-  const base = { type: "line", source: agua.source, "source-layer": "water", filter: ["==", ["get", "class"], "ocean"], layout: { "line-join": "round", "line-cap": "round" } };
+  // A zoom bajo el agua de los mosaicos viene partida en el meridiano 180°, y su contorno dibujaba dos rectas verticales
+  // en los extremos del mapa. Hasta el zoom 5 el brillo usa una costa propia (Natural Earth, sin fronteras ni cortes:
+  // tools/mapa/costas.py); desde el 5, el contorno del océano de los mosaicos, que coincide con el detalle del mapa.
+  s.sources["costas-ne"] = { type: "geojson", data: "data/base/costas.geojson" };
+  const CAMBIO = 5;
+  const deMosaico = { type: "line", source: agua.source, "source-layer": "water", filter: ["==", ["get", "class"], "ocean"], minzoom: CAMBIO, layout: { "line-join": "round", "line-cap": "round" } };
+  const deCosta = { type: "line", source: "costas-ne", maxzoom: CAMBIO, layout: { "line-join": "round", "line-cap": "round" } };
   const ancho = (a, b, c) => ["interpolate", ["linear"], ["zoom"], 0, a, 4, b, 9, c];
   const oscuro = theme === "dark";
+  const pinturas = [
+    ["halo", { "line-color": halo, "line-width": ancho(5, 9, 14), "line-blur": ancho(5, 9, 14), "line-opacity": oscuro ? 0.14 : 0.32 }],
+    ["medio", { "line-color": halo, "line-width": ancho(2.2, 4, 6), "line-blur": ancho(2, 3.5, 5), "line-opacity": oscuro ? 0.24 : 0.5 }],
+    ["hilo", { "line-color": hilo, "line-width": ancho(0.5, 0.9, 1.3), "line-opacity": oscuro ? 0.6 : 0.95 }],
+  ];
   const capas = [
-    { ...base, id: "costa-brillo-halo", paint: { "line-color": halo, "line-width": ancho(5, 9, 14), "line-blur": ancho(5, 9, 14), "line-opacity": oscuro ? 0.14 : 0.32 } },
-    { ...base, id: "costa-brillo-medio", paint: { "line-color": halo, "line-width": ancho(2.2, 4, 6), "line-blur": ancho(2, 3.5, 5), "line-opacity": oscuro ? 0.24 : 0.5 } },
-    { ...base, id: "costa-brillo-hilo", paint: { "line-color": hilo, "line-width": ancho(0.5, 0.9, 1.3), "line-opacity": oscuro ? 0.6 : 0.95 } },
+    ...pinturas.map(([n, paint]) => ({ ...deCosta, id: `costa-brillo-${n}-bajo`, paint })),
+    ...pinturas.map(([n, paint]) => ({ ...deMosaico, id: `costa-brillo-${n}`, paint })),
   ];
   s.layers.splice(s.layers.indexOf(agua) + 1, 0, ...capas);
   return s;
