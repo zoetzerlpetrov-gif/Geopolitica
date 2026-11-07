@@ -51,8 +51,16 @@ async function entrar() {
   if (plan && registros.some((r) => r.id === plan)) await abrir(plan);
 }
 
+// Modo visor: si la sesión no es dueña de ningún plan visible (p. ej. un directivo que abrió un enlace compartido),
+// se ocultan la navegación, el alta de planes, los enlaces para compartir y la guía. RLS ya impide los cambios.
+const fijarVisor = (on) => document.body.classList.toggle("visor", on);
+// Quien conectó el proyecto escribiendo URL y clave en este navegador es quien lo administra (aunque aún no tenga planes).
+const DUENO = "gp_cartera_admin";
+const esAdmin = () => { try { return localStorage.getItem(DUENO) === "1"; } catch (e) { return false; } };
+
 async function cargarLista() {
   registros = await nube.todos();
+  fijarVisor(!esAdmin() && !registros.some((r) => r.owner === yo.id));
   versiones = Object.fromEntries(registros.map((r) => [r.id, r.version]));
   pintarLista();
   estado(`${registros.length} plan(es) visibles con tu acceso · actualizado ${new Date().toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" })} · se revisa cada minuto`);
@@ -90,6 +98,7 @@ async function abrir(id) {
   $("c-ejecutivo").innerHTML = htmlEjecutivo(v, reg);
   $("c-tablero").innerHTML = widgetsPlan(reg.datos, resumenPlan(reg.datos), { cambios });
   $("c-admin").hidden = rol === "lector";
+  $("c-enlace").hidden = rol !== "dueno";
   $("c-dueno").hidden = rol !== "dueno";
   $("c-rol").textContent = `(tu rol: ${rol === "dueno" ? "dueño" : rol})`;
   if (rol === "dueno") await pintarMiembros();
@@ -123,7 +132,7 @@ async function copiar(texto) {
 }
 
 // ------------------------------------------------------------------ eventos
-$("c-conectar").onclick = () => correr(() => conectar($("c-url").value.trim(), $("c-key").value.trim()));
+$("c-conectar").onclick = () => correr(async () => { try { localStorage.setItem(DUENO, "1"); } catch (e) { /* modo privado */ } await conectar($("c-url").value.trim(), $("c-key").value.trim()); });
 $("c-pedir").onclick = () => correr(async () => { await nube.pedirCodigo($("c-correo").value); estado("Código enviado. Revisa tu correo (y la carpeta de spam)."); });
 $("c-verificar").onclick = () => correr(async () => { yo = await nube.verificar($("c-correo").value, $("c-codigo").value.trim()); $("c-codigo").value = ""; await entrar(); });
 $("c-salir").onclick = () => correr(async () => { await nube.salir(); yo = null; actual = null; mostrar("acceso"); estado("Sesión cerrada en este navegador."); });
@@ -134,15 +143,41 @@ $("c-imprimir").onclick = () => { for (const d of document.querySelectorAll("#c-
 $("c-imprimir-cartera").onclick = () => window.print();
 $("c-enlace").onclick = () => copiar(enlaceDirectivo(location.href, cfg, actual.id));
 $("c-enlace-cartera").onclick = () => copiar(enlaceDirectivo(location.href, cfg));
-$("c-archivo-nuevo").onchange = (e) => { archivoNuevo = e.target.files?.[0] || null; if (archivoNuevo) estado(`Archivo listo: ${archivoNuevo.name}. Escribe la empresa y pulsa «Subir a la cartera».`); };
+// Al elegir el archivo se lee de inmediato y se muestra qué se tomó (nombre, tamaño, título, tareas, países).
+const tamano = (b) => (b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`);
+function fichaArchivo(texto, error = false) {
+  $("c-archivo-ficha").hidden = !texto;
+  $("c-archivo-ficha").dataset.error = String(error);
+  $("c-archivo-info").textContent = texto;
+}
+function quitarArchivo() { archivoNuevo = null; $("c-archivo-nuevo").value = ""; fichaArchivo(""); }
+$("c-archivo-quitar").onclick = quitarArchivo;
+$("c-archivo-nuevo").onchange = async (e) => {
+  const f = e.target.files?.[0];
+  archivoNuevo = null;
+  if (!f) { fichaArchivo(""); return; }
+  fichaArchivo(`⏳ Leyendo ${f.name} (${tamano(f.size)})…`);
+  try {
+    const plan = await importarArchivo(f.name, new Uint8Array(await f.arrayBuffer()));
+    archivoNuevo = { nombre: f.name, plan };
+    $("c-local").value = "";
+    if (!$("c-sector").value && plan.sector) $("c-sector").value = plan.sector;
+    const paises = (plan.paises || []).join(", ");
+    fichaArchivo(`✅ ${f.name} (${tamano(f.size)}) · «${plan.titulo}» · ${plan.tareas.length} tareas${paises ? ` · ${paises}` : ""}. Escribe la empresa y pulsa «Subir a la cartera».`);
+  } catch (err) {
+    $("c-archivo-nuevo").value = "";
+    fichaArchivo(`❌ No se pudo leer ${f.name}: ${err.message}`, true);
+  }
+};
+$("c-local").addEventListener("change", () => { if ($("c-local").value) quitarArchivo(); });
 $("c-subir").onclick = () => correr(async () => {
   let plan = null;
-  if (archivoNuevo) plan = await importarArchivo(archivoNuevo.name, new Uint8Array(await archivoNuevo.arrayBuffer()));
+  if (archivoNuevo) plan = archivoNuevo.plan;
   else if ($("c-local").value) plan = leerPlanes().planes.find((p) => p.id === $("c-local").value);
   if (!plan) throw new Error("Elige un plan de este navegador o un archivo.");
   const reg = await nube.subir({ empresa: $("c-empresa").value, sector: $("c-sector").value || plan.sector || "", titulo: plan.titulo, paises: plan.paises || [], datos: planParaNube(plan) });
   await nube.guardarCorte(reg.id, corteDe(plan));
-  archivoNuevo = null; $("c-archivo-nuevo").value = ""; $("c-subir-caja").open = false;
+  quitarArchivo(); $("c-subir-caja").open = false;
   await cargarLista(); await abrir(reg.id);
   estado("Plan subido. Ábrelo en «Actualizar y compartir» para compartirlo con tus directivos.");
 });
@@ -183,5 +218,6 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) revi
   const e = leerEnlace(location.hash), g = leerCfg();
   const url = e.url || g?.url || "", key = e.key || g?.key || "";
   $("c-url").value = url; $("c-key").value = key;
+  fijarVisor(!!(e.url && e.key));
   if (url && key) correr(() => conectar(url, key)); else { mostrar("conectar"); estado("Conecta tu proyecto de Supabase para empezar (guía al final de la página)."); }
 }

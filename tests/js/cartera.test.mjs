@@ -91,4 +91,6 @@ test("enlace para compartir y SQL con seguridad por filas", () => {
   for (const tabla of ["dominus_planes", "dominus_planes_miembros", "dominus_planes_cortes"]) assert.match(sql, new RegExp(`alter table public\\.${tabla} enable row level security`));
   assert.match(sql, /revoke all on public\.dominus_planes, public\.dominus_planes_miembros, public\.dominus_planes_cortes from anon/);
   assert.doesNotMatch(sql, /service_role|drop table/i);
+  // INSERT … RETURNING: la lectura del dueño no puede depender de una consulta que aún no ve la fila nueva.
+  assert.match(sql, /policy dominus_planes_leer[^;]*using \(owner = \(select auth\.uid\(\)\) or public\.dominus_planes_rol\(id\) is not null\);/);
 });
