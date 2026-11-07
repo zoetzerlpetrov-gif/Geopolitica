@@ -1,0 +1,70 @@
+{
+ "generado_utc": "2026-11-07T17:49:42Z",
+ "fuente": "© EUMETSAT (EUMETView WMS)",
+ "limites": [
+  -80.0,
+  -75.0,
+  150.0,
+  75.0
+ ],
+ "productos": {
+  "ir": [
+   {
+    "t": "2026-11-07T14:30:00Z",
+    "archivo": "ir_202611071430.webp",
+    "bytes": 169516
+   },
+   {
+    "t": "2026-11-07T15:00:00Z",
+    "archivo": "ir_202611071500.webp",
+    "bytes": 169662
+   },
+   {
+    "t": "2026-11-07T15:30:00Z",
+    "archivo": "ir_202611071530.webp",
+    "bytes": 168856
+   },
+   {
+    "t": "2026-11-07T16:00:00Z",
+    "archivo": "ir_202611071600.webp",
+    "bytes": 168000
+   },
+   {
+    "t": "2026-11-07T16:30:00Z",
+    "archivo": "ir_202611071630.webp",
+    "bytes": 167004
+   },
+   {
+    "t": "2026-11-07T17:00:00Z",
+    "archivo": "ir_202611071700.webp",
+    "bytes": 166870
+   }
+  ],
+  "color": [
+   {
+    "t": "2026-11-07T15:30:00Z",
+    "archivo": "color_202611071530.webp",
+    "bytes": 264050
+   },
+   {
+    "t": "2026-11-07T16:00:00Z",
+    "archivo": "color_202611071600.webp",
+    "bytes": 259450
+   },
+   {
+    "t": "2026-11-07T16:30:00Z",
+    "archivo": "color_202611071630.webp",
+    "bytes": 258612
+   },
+   {
+    "t": "2026-11-07T17:00:00Z",
+    "archivo": "color_202611071700.webp",
+    "bytes": 256420
+   }
+  ]
+ },
+ "errores": {
+  "color 2026-11-07T15:00:00Z": "pendiente (siguiente corrida)",
+  "color 2026-11-07T14:30:00Z": "pendiente (siguiente corrida)"
+ }
+}
