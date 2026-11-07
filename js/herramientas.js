@@ -609,6 +609,12 @@ pintarNube();
   bitacoraP.then(pintarB);
 }
 
+// ------------------------------------------------------------------ seguimiento de proyecto (plan importado)
+Promise.all([import("./plan-tablero.js"), import("./tableros-logica.js")]).then(([S, T]) => {
+  const st = document.createElement("style"); st.textContent = T.CSS_TABLEROS + S.CSS_PLAN; document.head.appendChild(st);
+  S.montarSeguimiento($("seg-raiz"), { bitacora: bitacoraP.then((b) => b.entradas) });
+}).catch((e) => { $("seg-raiz").innerHTML = `<p class="meta">No se pudo cargar el seguimiento: ${esc(e.message)}</p>`; });
+
 // ------------------------------------------------------------------ simulación de escenarios con los eventos del mapa
 {
   const [evd, gz] = await Promise.all([fetch("data/events.json").then((r) => r.json()).catch(() => ({ eventos: [] })), fetch("config/gazetteer.json").then((r) => r.json()).catch(() => ({ paises: {} }))]);

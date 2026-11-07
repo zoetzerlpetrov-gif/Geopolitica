@@ -3,6 +3,8 @@ import * as T from "./tableros-logica.js";
 import * as I from "./ops-informe-logica.js";
 import { dmi, nivelDMI } from "./ops-logica.js";
 import { exportarDocumento, htmlSelectorDocumento } from "./exportar.js";
+import { planActivo } from "./plan-tablero.js";
+import { resumenPlan } from "./plan-importar.js";
 
 const $ = (id) => document.getElementById(id);
 const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch (e) { return def; } };
@@ -16,7 +18,9 @@ export async function datosTablero(cfg, publicos) {
     pl: leer("gp_ops_pl", {}), kpi: leer("gp_ops_kpi", []), esc: leer("gp_ops_esc", []) };
   const total = dmi(d.dmi.puntos || {});
   const paisesCliente = [c.pais, ...String(c.paises || "").split(/[,\s]+/)].map((x) => String(x || "").toUpperCase()).filter((x) => /^[A-Z]{3}$/.test(x));
+  const plan = planActivo();
   return { ...publicos(paisesCliente), cliente: c, kpi: d.kpi, esc: d.esc, gob: d.gob, gobDims: cfg.gobernanza.map(([x]) => x), paisesCliente,
+    plan: plan ? { plan, resumen: resumenPlan(plan) } : null,
     dmi: { total, nivel: nivelDMI(total, cfg.dmi.niveles), puntos: d.dmi.puntos, dimensiones: cfg.dmi.dimensiones }, fases: I.estadoFases(cfg, d) };
 }
 
@@ -98,6 +102,7 @@ export async function iniciarTableros(cfg) {
   $("tb-doc").innerHTML = htmlSelectorDocumento("tbd");
   $("tbd-btn").onclick = () => exportarDocumento($("tbd-fmt").value, { titulo: `Tablero ${actual().nombre}`, html: `<style>${T.CSS_TABLEROS}</style><h1>${esc(actual().nombre)}</h1><p class="meta">${esc(leer("gp_ops_cliente", {}).nombre || "")} · ${new Date().toISOString().slice(0, 16).replace("T", " ")} UTC</p><div class="tb-grid">${$("tb-vista").innerHTML}</div>` }).catch((e) => { $("tb-estado").textContent = e.message; });
   const st = document.createElement("style"); st.textContent = T.CSS_TABLEROS; document.head.appendChild(st);
+  document.addEventListener("plan:cambio", () => pintar());
   llenarSel();
   document.querySelector('.pestanas button[data-p="tableros"]')?.addEventListener("click", pintar);
   setInterval(async () => { if (!$("p-tableros").hidden) { publicos = await publicosDelSitio(); pintar(); } }, 60000);

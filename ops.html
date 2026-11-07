@@ -53,6 +53,7 @@
       <button role="tab" aria-selected="false" data-p="biblioteca">📚 Biblioteca de metodologías</button>
       <button role="tab" aria-selected="false" data-p="riesgos">🎲 Risk Management y escenarios</button>
       <button role="tab" aria-selected="false" data-p="informe">📄 Informe de las 6 fases</button>
+      <button role="tab" aria-selected="false" data-p="proyecto">🗂️ Proyecto (plan importado)</button>
       <button role="tab" aria-selected="false" data-p="tableros">📊 Tableros y War Room</button>
       <button role="tab" aria-selected="false" data-p="ritmo">⏱️ Battle Rhythm y SITREP</button>
       <button role="tab" aria-selected="false" data-p="doctrina">📜 Doctrina y salas</button>
@@ -100,6 +101,13 @@
       <div id="inf-vista" class="tarjeta" style="background:#fff;color:#111"></div>
     </section>
 
+    <section class="panel" id="p-proyecto" hidden>
+      <h2>Proyecto: seguimiento del plan importado</h2>
+      <p class="meta">Importa el Excel (o JSON) de la plantilla de proyecto de la Caja del analista → Normativa por país. Verás avance, semáforo de vencimientos (vencido, 7, 30 y 60 días),
+        Gantt por fase, lo que está en proceso, lo cumplido y los cambios normativos que tocan sus leyes. El plan activo también alimenta los widgets «Proyecto» de los Tableros.
+        Se guarda solo en este navegador.</p>
+      <div id="ops-proy"></div>
+    </section>
     <section class="panel" id="p-tableros" hidden>
       <h2>Tableros (dashboards) y War Room del cliente</h2>
       <p class="meta"><b>Compartición por instantánea pública:</b> quien posea el enlace puede leer la copia; no hay autenticación, vencimiento ni revocación. Usa solo datos publicables. Para documentar casos en este navegador y generar respaldos cifrados, usa <a href="fase4.html">Fase 4A web</a>; no ofrece permisos compartidos.</p>

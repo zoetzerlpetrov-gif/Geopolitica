@@ -53,6 +53,7 @@
       <button role="tab" aria-selected="false" data-p="auditorias">📋 Plantillas de auditoría por sector</button>
       <button role="tab" aria-selected="false" data-p="normativa">⚖️ Normativa por país (21 jurisdicciones)</button>
       <button role="tab" aria-selected="false" data-p="bitacora">📜 Bitácora normativa (cambios diarios)</button>
+      <button role="tab" aria-selected="false" data-p="seguimiento">📋 Seguimiento de proyecto</button>
       <button role="tab" aria-selected="false" data-p="escenarios">🎲 Simulación de escenarios</button>
       <button role="tab" aria-selected="false" data-p="nube">☁️ Nube y seguridad</button>
       <button role="tab" aria-selected="false" data-p="agencias">🏛️ Agencias: redes, certificados, casos y oficios</button>
@@ -182,6 +183,7 @@
         <p><b>Países donde opera</b> (México primero):</p><div id="plan-paises"></div>
         <p class="meta" id="plan-resumen"></p>
         <div class="barra"><button type="button" id="plan-xlsx">⬇ Descargar Excel</button><button type="button" id="plan-json">Descargar datos (JSON) para importar</button></div>
+        <p class="meta">Cuando lo llenes, impórtalo en la pestaña «📋 Seguimiento de proyecto» (o en DOMINUS OPS → Proyecto) para ver su tablero.</p>
       </details>
       <div id="nor-alertas"></div>
       <div id="nor-leyes"></div>
@@ -202,6 +204,13 @@
       <div class="barra"><span id="bit-exp"></span></div>
       <div id="bit-lista"></div>
       <details class="tarjeta plegable"><summary><h3>Fuentes y estado del monitor</h3></summary><div id="bit-fuentes"></div></details>
+    </section>
+    <section class="panel" id="p-seguimiento" hidden>
+      <h2>Seguimiento de proyecto (plan importado)</h2>
+      <p class="meta">Importa el Excel de la plantilla de proyecto (o su JSON) y ve su avance: semáforo de vencimientos, Gantt por fase, avance por fase y país,
+        lo vencido y lo que vence en los próximos 60 días, lo que está en proceso, lo cumplido y los cambios de la Bitácora normativa que tocan sus leyes.
+        Se guarda solo en este navegador y también aparece en DOMINUS OPS → Proyecto y en sus Tableros. Al actualizar el Excel, vuelve a importarlo.</p>
+      <div id="seg-raiz"></div>
     </section>
     <section class="panel" id="p-escenarios" hidden>
       <h2>Simulación de escenarios a partir de los eventos del mapa</h2>
