@@ -134,15 +134,41 @@ $("c-imprimir").onclick = () => { for (const d of document.querySelectorAll("#c-
 $("c-imprimir-cartera").onclick = () => window.print();
 $("c-enlace").onclick = () => copiar(enlaceDirectivo(location.href, cfg, actual.id));
 $("c-enlace-cartera").onclick = () => copiar(enlaceDirectivo(location.href, cfg));
-$("c-archivo-nuevo").onchange = (e) => { archivoNuevo = e.target.files?.[0] || null; if (archivoNuevo) estado(`Archivo listo: ${archivoNuevo.name}. Escribe la empresa y pulsa «Subir a la cartera».`); };
+// Al elegir el archivo se lee de inmediato y se muestra qué se tomó (nombre, tamaño, título, tareas, países).
+const tamano = (b) => (b < 1024 * 1024 ? `${Math.max(1, Math.round(b / 1024))} KB` : `${(b / 1024 / 1024).toFixed(1)} MB`);
+function fichaArchivo(texto, error = false) {
+  $("c-archivo-ficha").hidden = !texto;
+  $("c-archivo-ficha").dataset.error = String(error);
+  $("c-archivo-info").textContent = texto;
+}
+function quitarArchivo() { archivoNuevo = null; $("c-archivo-nuevo").value = ""; fichaArchivo(""); }
+$("c-archivo-quitar").onclick = quitarArchivo;
+$("c-archivo-nuevo").onchange = async (e) => {
+  const f = e.target.files?.[0];
+  archivoNuevo = null;
+  if (!f) { fichaArchivo(""); return; }
+  fichaArchivo(`⏳ Leyendo ${f.name} (${tamano(f.size)})…`);
+  try {
+    const plan = await importarArchivo(f.name, new Uint8Array(await f.arrayBuffer()));
+    archivoNuevo = { nombre: f.name, plan };
+    $("c-local").value = "";
+    if (!$("c-sector").value && plan.sector) $("c-sector").value = plan.sector;
+    const paises = (plan.paises || []).join(", ");
+    fichaArchivo(`✅ ${f.name} (${tamano(f.size)}) · «${plan.titulo}» · ${plan.tareas.length} tareas${paises ? ` · ${paises}` : ""}. Escribe la empresa y pulsa «Subir a la cartera».`);
+  } catch (err) {
+    $("c-archivo-nuevo").value = "";
+    fichaArchivo(`❌ No se pudo leer ${f.name}: ${err.message}`, true);
+  }
+};
+$("c-local").addEventListener("change", () => { if ($("c-local").value) quitarArchivo(); });
 $("c-subir").onclick = () => correr(async () => {
   let plan = null;
-  if (archivoNuevo) plan = await importarArchivo(archivoNuevo.name, new Uint8Array(await archivoNuevo.arrayBuffer()));
+  if (archivoNuevo) plan = archivoNuevo.plan;
   else if ($("c-local").value) plan = leerPlanes().planes.find((p) => p.id === $("c-local").value);
   if (!plan) throw new Error("Elige un plan de este navegador o un archivo.");
   const reg = await nube.subir({ empresa: $("c-empresa").value, sector: $("c-sector").value || plan.sector || "", titulo: plan.titulo, paises: plan.paises || [], datos: planParaNube(plan) });
   await nube.guardarCorte(reg.id, corteDe(plan));
-  archivoNuevo = null; $("c-archivo-nuevo").value = ""; $("c-subir-caja").open = false;
+  quitarArchivo(); $("c-subir-caja").open = false;
   await cargarLista(); await abrir(reg.id);
   estado("Plan subido. Ábrelo en «Actualizar y compartir» para compartirlo con tus directivos.");
 });

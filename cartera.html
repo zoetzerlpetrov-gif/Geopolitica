@@ -23,6 +23,8 @@
     table.t { border-collapse: collapse; width: 100%; font-size: 13px; } .t th, .t td { border: 1px solid var(--line); padding: 4px 6px; text-align: left; vertical-align: top; }
     .desliza { overflow-x: auto; }
     #c-estado[data-error="true"] { color: #C62828; }
+    #c-archivo-ficha { border: 1px solid #2E7D32; border-radius: 8px; padding: 6px 10px; }
+    #c-archivo-ficha[data-error="true"] { border-color: #C62828; color: #C62828; }
     pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; max-height: 360px; overflow: auto; }
     [hidden] { display: none !important; }
   </style>
@@ -71,6 +73,8 @@
         <p class="meta">Desde los planes que ya importaste en este navegador (Caja del analista → Seguimiento de proyecto) o desde el Excel/JSON de la plantilla.</p>
         <div class="barra"><select id="c-local" aria-label="Plan de este navegador"></select><span class="meta">o</span>
           <label class="btn">📥 Archivo .xlsx o .json <input type="file" id="c-archivo-nuevo" accept=".xlsx,.json" hidden></label></div>
+        <div class="barra" id="c-archivo-ficha" hidden><span id="c-archivo-info" role="status" aria-live="polite"></span>
+          <button type="button" id="c-archivo-quitar" title="Quitar este archivo">✕ Quitar</button></div>
         <div class="barra"><input id="c-empresa" placeholder="Empresa (obligatorio)" maxlength="120" aria-label="Empresa"><input id="c-sector" placeholder="Sector" maxlength="120" aria-label="Sector">
           <button type="button" id="c-subir" class="prim">Subir a la cartera</button></div>
       </details>
