@@ -56,7 +56,7 @@ function leyesCatalogo(norma, sector) {
  * Plan completo. `catalogos`: {iso: norma}; `jurisdicciones`: lista de iso (México primero); `extranjera`: agrega la ruta de
  * empresa extranjera en México. Devuelve tareas (orden de fase), base normativa, auditoría, riesgos y calendario recurrente.
  */
-export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], sector = "", extranjera = false, nombres = {} }) {
+export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], sector = "", extranjera = false, nombres = {}, duraciones = [] }) {
   const fases = Object.fromEntries(cfg.fases.map(([id, n]) => [id, n]));
   const tareas = [], base = [], auditoria = [], riesgos = [], recurrentes = [];
   const yaGlobal = new Set();
@@ -78,7 +78,7 @@ export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], s
       tareas.push({ id: idT(t.id), fase: t.fase, faseNombre: fases[t.fase], seccion: t.seccion, tarea: t.tarea, entregable: t.entregable,
         pais: esGlobal(t.id) ? "Todos" : pais, iso: esGlobal(t.id) ? "" : iso, ambito: t.solo === "extranjera" ? "Empresa extranjera en México" : "General",
         base: unicas.map((x) => corto(x.ley)).join("; "), referencia: t.ref || "", autoridad: [...new Set(unicas.map((x) => x.ley.autoridad).filter(Boolean))].join("; ").slice(0, 300),
-        plazo: "", frecuencia: t.frecuencia || "", rol: t.rol, prioridad: t.prioridad, pred: t.pred ? idT(t.pred) : "", dias: t.dias,
+        plazo: "", frecuencia: t.frecuencia || "", rol: t.rol, prioridad: t.prioridad, pred: t.pred ? idT(t.pred) : "", dias: t.dias, base_dias: "Estimación de referencia (plantilla)",
         evidencia: t.entregable, riesgo: unicas.map((x) => x.ley.sanciones).filter(Boolean)[0] || "", url: unicas.find((x) => x.ley.url)?.ley.url || "", origen: "plantilla" });
     }
     // 2) Cada ley del catálogo: implementar sus obligaciones; cada trámite: tarea con su plazo legal y autoridad.
@@ -90,7 +90,7 @@ export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], s
       tareas.push({ id: idL, fase: fA, faseNombre: fases[fA], seccion: area, tarea: `Cumplir ${corto(ley)}: ${ley.nombre}`,
         entregable: (ley.obligaciones || []).join(" • ").slice(0, 1500), pais, iso, ambito: esSector ? "Sector" : "General", base: corto(ley), referencia: ley.nombre,
         autoridad: ley.autoridad || "", plazo: "", frecuencia: "", rol, prioridad: esSector ? "Crítica" : "Alta", pred: idT(ANCLA[fA]),
-        dias: esSector ? 10 : 5, evidencia: (ley.evidencia || []).join("; "), riesgo: ley.sanciones || "", url: ley.url || "", origen: "catálogo", aplica_a: ley.aplica || "" });
+        dias: esSector ? 10 : 5, base_dias: "Estimación de referencia", evidencia: (ley.evidencia || []).join("; "), riesgo: ley.sanciones || "", url: ley.url || "", origen: "catálogo", aplica_a: ley.aplica || "" });
       (ley.tramites || []).forEach((tr, i) => {
         const f = faseDeTramite(tr.plazo, fA, tr.que), frec = f === "F8" || f === "F9" ? frecuenciaDe(`${tr.plazo} ${tr.que}`) : "";
         const id = `${iso}-T-${ley.id}-${i + 1}`;
@@ -98,8 +98,9 @@ export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], s
         tareas.push({ id, fase: f, faseNombre: fases[f], seccion: area, tarea: `Trámite: ${tr.que}`, entregable: `Acuse o constancia ante ${tr.ante}`, pais, iso,
           ambito: esSector ? "Sector" : "General", base: corto(ley), referencia: ley.nombre, autoridad: tr.ante, plazo: tr.plazo, frecuencia: frec, rol,
           prioridad: f === "F3" || /antes de operar/i.test(tr.plazo) ? "Crítica" : "Alta", pred: f === fA ? idL : idT(ANCLA[f]),
-          dias: f === "F8" || f === "F9" ? 1 : esSector ? 20 : 5, evidencia: (ley.evidencia || []).join("; "), riesgo: ley.sanciones || "", url: ley.url || "", origen: "catálogo" });
-        if (f === "F8" || f === "F9") recurrentes.push({ id, pais, ley: corto(ley), tramite: tr.que, plazo: tr.plazo, ante: tr.ante, frecuencia: frec || "Según la norma", rol });
+          ...((d) => ({ dias: d.dias, base_dias: d.base }))(duracionTramite(tr, { iso, sector: esSector, fase: f, ley }, duraciones)),
+          evidencia: (ley.evidencia || []).join("; "), riesgo: ley.sanciones || "", url: ley.url || "", origen: "catálogo" });
+        if (f === "F8" || f === "F9") recurrentes.push({ id, pais, ley: corto(ley), tramite: tr.que, plazo: tr.plazo, ante: tr.ante, frecuencia: frec || "Según la norma", rol, proxima: proximaFecha(tr.plazo) });
       });
       base.push({ pais, iso, area, ambito: esSector ? "Sector" : "General", sigla: ley.sigla || "", nombre: ley.nombre, tipo: ley.tipo || "", autoridad: ley.autoridad || "",
         aplica: ley.aplica || "", obligaciones: (ley.obligaciones || []).join(" • "), tramites: (ley.tramites || []).map((t) => `${t.que} (${t.plazo}; ante ${t.ante})`).join(" • "),
@@ -117,6 +118,49 @@ export function construirPlan({ cfg, catalogos = {}, jurisdicciones = ["MEX"], s
   const ids = new Set(tareas.map((t) => t.id));
   for (const t of tareas) if (t.pred && !ids.has(t.pred)) t.pred = "";
   return { tareas, base, auditoria, riesgos, recurrentes };
+}
+
+const MESES = { enero: 1, febrero: 2, marzo: 3, abril: 4, mayo: 5, junio: 6, julio: 7, agosto: 8, septiembre: 9, octubre: 10, noviembre: 11, diciembre: 12 };
+
+/**
+ * Duración de un trámite y su base: reglas de config/plan_duraciones.json, el plazo legal escrito en el catálogo,
+ * la regla general del país para trámites previos o una estimación. Devuelve {dias, base}.
+ */
+export function duracionTramite(tr, { iso, sector = false, fase = "", ley = {} }, reglas = []) {
+  const texto = String(tr.que || ""), plazo = String(tr.plazo || "");
+  const previo = PREVIO.test(plazo) && !EVENTO.test(plazo);
+  for (const r of reglas) {
+    if (r.pais !== "*" && r.pais !== iso) continue;
+    if (r.patron && !new RegExp(r.patron, "i").test(texto)) continue;
+    if (!r.patron && (!r.previo || !previo || (r.sector && !sector) || fase === "F8" || fase === "F9")) continue;
+    if (r.patron || !leerPlazo(plazo)) return { dias: r.dias, base: r.base };
+  }
+  const p = leerPlazo(plazo);
+  if (p) return p;
+  if (fase === "F8" || fase === "F9") return { dias: 1, base: "Presentación o aviso: 1 día por cada vez (la fecha límite está en «Plazo legal»)" };
+  return { dias: sector ? 20 : 5, base: "Estimación de referencia" };
+}
+
+/** «5 días hábiles», «30 días», «3 meses», «72 horas» → {dias hábiles, base}. */
+export function leerPlazo(plazo = "") {
+  let m;
+  if ((m = plazo.match(/(\d+)\s*(?:horas?|h)\b/i))) return { dias: 1, base: `Plazo legal: ${m[1]} horas` };
+  if ((m = plazo.match(/(\d+)\s*d[ií]as?\s*h[aá]biles/i))) return { dias: +m[1], base: `Plazo legal: ${m[1]} días hábiles` };
+  if ((m = plazo.match(/(\d+)\s*d[ií]as?(?!\s*h[aá]biles)/i))) return { dias: Math.max(1, Math.ceil(+m[1] * 5 / 7)), base: `Plazo legal: ${m[1]} días naturales (≈${Math.max(1, Math.ceil(+m[1] * 5 / 7))} hábiles)` };
+  if ((m = plazo.match(/(\d+)\s*semanas?/i))) return { dias: +m[1] * 5, base: `Plazo legal: ${m[1]} semanas` };
+  if ((m = plazo.match(/(\d+)\s*mes(?:es)?(?!\s*siguiente)/i)) && !/del mes|cada \d+ mes/i.test(plazo)) return { dias: +m[1] * 21, base: `Plazo legal: ${m[1]} meses (≈${+m[1] * 21} hábiles)` };
+  return null;
+}
+
+/** Próxima fecha de una obligación recurrente, si el plazo la dice: {tipo: "mensual", dia} | {tipo: "anual", mes, dia} | {tipo: "fin_mes"}. */
+export function proximaFecha(plazo = "") {
+  const p = plazo.toLowerCase();
+  let m;
+  if ((m = p.match(/d[ií]a (\d{1,2}) del mes siguiente|d[ií]a (\d{1,2}) de cada mes/))) return { tipo: "mensual", dia: +(m[1] || m[2]) };
+  if (/[uú]ltimo d[ií]a del mes siguiente/.test(p)) return { tipo: "fin_mes" };
+  if ((m = p.match(/[uú]ltimo d[ií]a (?:h[aá]bil )?de (enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/))) return { tipo: "anual", mes: MESES[m[1]], dia: 0 };
+  if ((m = p.match(/(\d{1,2}) de (enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre)/))) return { tipo: "anual", mes: MESES[m[2]], dia: +m[1] };
+  return null;
 }
 
 /** Días inhábiles obligatorios de México (LFT art. 74) para los años dados: fechas ISO. */
@@ -138,7 +182,8 @@ export const COLUMNAS_PLAN = [
   ["base", "Base normativa", "Ley(es) del catálogo que sustentan la tarea."], ["referencia", "Referencia", "Nombre completo de la ley o norma técnica / estándar."],
   ["autoridad", "Autoridad", "Ante quién se hace o quién vigila."], ["plazo", "Plazo legal", "Plazo que fija la norma (texto del catálogo)."], ["frecuencia", "Frecuencia", "Para obligaciones recurrentes."],
   ["rol", "Responsable (rol)", "Rol sugerido; reemplázalo por la persona."], ["prioridad", "Prioridad", "Crítica, Alta, Media o Baja."], ["pred", "Predecesora", "ID de la tarea que debe terminar antes."],
-  ["dias", "Duración (días hábiles)", "Estimación de referencia; ajústala."], ["inicio", "Inicio", "Se calcula con la predecesora y los días inhábiles."], ["fin", "Fin", "Inicio + duración en días hábiles."],
+  ["dias", "Duración (días hábiles)", "Del plazo legal del trámite cuando existe; si no, estimación. Ajústala."],
+  ["base_dias", "Base de la duración", "Ley, artículo o criterio del que sale la duración."], ["inicio", "Inicio", "Se calcula con la predecesora y los días inhábiles."], ["fin", "Fin", "Inicio + duración en días hábiles."],
   ["aplica", "¿Aplica?", "«No» la excluye de fechas, avance y tablero sin borrarla."], ["estado", "Estado", "Pendiente, En curso, Hecho, Bloqueado o No aplica."], ["avance", "Avance %", "0 a 100 %."],
   ["evidencia", "Evidencia", "Lo que un auditor pediría para comprobarlo."], ["riesgo", "Riesgo si no se hace", "Sanción o consecuencia según el catálogo."], ["url", "Fuente oficial", "Enlace al texto oficial."],
   ["notas", "Notas", "Libre."]];

@@ -53,6 +53,12 @@ eventosOps.then((evs) => import("./escenarios.js").then((E) => E.montarSimulador
         c.sitios && `Sitios: ${c.sitios}.`, c.proveedores && `Proveedores críticos: ${c.proveedores}.`, c.contexto, dmiTxt && `Madurez DMI por dimensión: ${dmiTxt}.`, reg.texto].filter(Boolean).join("\n") };
   },
 }))).catch((e) => { $("ops-esc").innerHTML = `<p class="meta">No se pudo cargar el simulador: ${esc(e.message)}</p>`; });
+Promise.all([import("./plan-tablero.js"), import("./tableros-logica.js")]).then(([S, T]) => {
+  const st = document.createElement("style"); st.textContent = T.CSS_TABLEROS + S.CSS_PLAN; document.head.appendChild(st);
+  const bit = Promise.all([getJSON("data/normativa/bitacora.json").catch(() => ({ entradas: [] })), getJSON("config/normativa/bitacora_notas.json").catch(() => ({}))])
+    .then(([b, n]) => conNotas(b.entradas || [], n));
+  S.montarSeguimiento($("ops-proy"), { bitacora: bit, alCambiar: () => document.dispatchEvent(new CustomEvent("plan:cambio")) });
+}).catch((e) => { $("ops-proy").innerHTML = `<p class="meta">No se pudo cargar el seguimiento: ${esc(e.message)}</p>`; });
 import("./ops-tableros.js").then((M) => M.iniciarTableros(cfg)).catch((e) => { $("tb-estado").textContent = `No se pudieron cargar los tableros: ${e.message}`; });
 import("./ops-informe.js").then((M) => M.iniciarInforme(cfg)).catch((e) => { $("inf-estado").textContent = `No se pudo cargar el informe: ${e.message}`; });
 import("./ops-biblioteca.js").then((B) => B.iniciarBiblioteca()).catch((e) => { $("bib-ficha").innerHTML = `<p class="meta">No se pudo cargar la biblioteca: ${esc(e.message)}</p>`; });

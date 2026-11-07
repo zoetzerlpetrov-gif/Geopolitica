@@ -1,6 +1,9 @@
 // Tableros de DOMINUS OPS (sin DOM): catálogo de widgets, tableros predefinidos, dibujo de cada widget como HTML/SVG,
 // validación de lo que proponga la IA y empaquetado del War Room para compartir por enlace.
 
+import { widgetsPlan, ganttFasesSVG } from "./plan-tablero.js";
+import { SEMAFORO } from "./plan-importar.js";
+
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const n0 = (x) => (x == null || !Number.isFinite(Number(x)) ? "—" : Number(x).toLocaleString("es-MX", { maximumFractionDigits: 0 }));
 const COLOR = { bajo: "#2E7D32", medio: "#F9A825", alto: "#E65100", crítico: "#B71C1C", verde: "#2E7D32", amarillo: "#F9A825", ambar: "#F9A825", rojo: "#B71C1C" };
@@ -23,6 +26,11 @@ export const WIDGETS = {
   eventos_graves: ["Eventos graves recientes", "Lista con enlace a la fuente", 2],
   indice_pais: ["Índice de riesgo por país", "Índice DOMINUS (30 días) de cada país del cliente", 1],
   texto: ["Nota", "Texto libre del consultor", 1],
+  plan_avance: ["Proyecto: avance", "Avance del plan importado, tareas hechas y fin estimado", 1],
+  plan_semaforo: ["Proyecto: semáforo de vencimientos", "Vencido, vence en 7, 30 y 60 días, en proceso y cumplido", 1],
+  plan_gantt: ["Proyecto: Gantt por fase", "Barras de cada fase con su avance y la línea de hoy", 2],
+  plan_vencimientos: ["Proyecto: vencido y por vencer", "Tareas y obligaciones vencidas o que vencen en 60 días", 3],
+  plan_completo: ["Proyecto: tablero completo", "Todos los indicadores del plan importado", 3],
 };
 
 /** Tableros que vienen de fábrica. */
@@ -30,6 +38,7 @@ export const PREDEFINIDOS = [
   { id: "ejecutivo", nombre: "Ejecutivo (dirección general)", widgets: ["dmi_total", "riesgo_total", "eventos_total", "dmi_radar", "fases_avance", "riesgos_top", "kpis_semaforo"] },
   { id: "riesgos", nombre: "Riesgos (comité de riesgos)", widgets: ["riesgo_total", "riesgos_matriz", "riesgos_perdida_cat", "riesgos_top", "indice_pais"] },
   { id: "operacion", nombre: "Operación y KPIs", widgets: ["kpi_n", "dmi_total", "kpis_semaforo", "fases_avance", "gob_semaforo"] },
+  { id: "proyecto", nombre: "Proyecto (plan importado)", widgets: ["plan_avance", "plan_semaforo", "riesgo_total", "plan_gantt", "plan_vencimientos"] },
   { id: "warroom", nombre: "War Room (cliente, tiempo real)", widgets: ["reloj", "eventos_total", "indice_pais", "riesgo_total", "eventos_area", "eventos_graves", "riesgos_matriz", "kpis_semaforo"] },
 ].map((t) => ({ ...t, widgets: t.widgets.map((tipo) => ({ tipo, titulo: WIDGETS[tipo][0] })) }));
 
@@ -77,6 +86,16 @@ export function widgetHTML(w, d) {
         return g.length ? `<ul class="tb-lista">${g.map((e) => `<li><a href="${esc(e.url || "#")}" target="_blank" rel="noopener noreferrer">${esc(e.titulo)}</a><span class="tb-sub"> ${esc(d.paises?.[e.pais_iso3] || e.pais_iso3 || "")} · ${esc(String(e.fecha_utc || "").slice(0, 16).replace("T", " "))}</span></li>`).join("")}</ul>` : `<p class="tb-sub">Sin eventos graves</p>`; }
       case "indice_pais": { const ps = d.paisesCliente || []; return ps.length ? barras(ps.map((p) => { const v = Number(d.indice?.[p]?.indice) || 0; return { k: d.paises?.[p] || p, v, t: v ? String(v) : "—", c: v >= 60 ? COLOR.rojo : v >= 35 ? COLOR.medio : COLOR.verde }; }), 100) : `<p class="tb-sub">Captura el país del cliente</p>`; }
       case "texto": return `<p>${esc(w.texto || "").replace(/\n/g, "<br>")}</p>`;
+      case "plan_avance": case "plan_semaforo": case "plan_gantt": case "plan_vencimientos": case "plan_completo": {
+        const p = d.plan;
+        if (!p?.resumen) return `<p class="tb-sub">Importa un plan en la pestaña «Proyecto».</p>`;
+        const r = p.resumen;
+        if (w.tipo === "plan_avance") return numero(`${Math.round(r.avance * 100)} %`, `${esc(p.plan.titulo)} · ${r.hechas}/${r.total} tareas · fin ${esc(r.finEstimado || "—")}`);
+        if (w.tipo === "plan_semaforo") { const m = Math.max(1, ...Object.values(r.semaforo)); return barras(SEMAFORO.map(([k, n, c]) => ({ k: n, v: r.semaforo[k], c })), m); }
+        if (w.tipo === "plan_gantt") return ganttFasesSVG(r.fases);
+        if (w.tipo === "plan_vencimientos") return r.proximos.length ? `<table class="tb-t"><tr><th>Fecha</th><th>Qué</th><th>Responsable</th><th>Estado</th></tr>${r.proximos.slice(0, w.n || 12).map((x) => `<tr><td>${esc(x.fecha)} <span class="tb-sub">(${x.dias} d)</span></td><td>${esc(x.que)}</td><td>${esc(x.rol)}</td><td>${esc(x.estado)}</td></tr>`).join("")}</table>` : `<p class="tb-sub">Nada vencido ni por vencer en 60 días.</p>`;
+        return `<div class="tb-grid">${widgetsPlan(p.plan, r, { cambios: p.cambios || [] })}</div>`;
+      }
       default: return `<p class="tb-sub">Widget desconocido</p>`;
     }
   })();
