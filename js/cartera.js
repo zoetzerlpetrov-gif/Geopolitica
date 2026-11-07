@@ -51,8 +51,16 @@ async function entrar() {
   if (plan && registros.some((r) => r.id === plan)) await abrir(plan);
 }
 
+// Modo visor: si la sesión no es dueña de ningún plan visible (p. ej. un directivo que abrió un enlace compartido),
+// se ocultan la navegación, el alta de planes, los enlaces para compartir y la guía. RLS ya impide los cambios.
+const fijarVisor = (on) => document.body.classList.toggle("visor", on);
+// Quien conectó el proyecto escribiendo URL y clave en este navegador es quien lo administra (aunque aún no tenga planes).
+const DUENO = "gp_cartera_admin";
+const esAdmin = () => { try { return localStorage.getItem(DUENO) === "1"; } catch (e) { return false; } };
+
 async function cargarLista() {
   registros = await nube.todos();
+  fijarVisor(!esAdmin() && !registros.some((r) => r.owner === yo.id));
   versiones = Object.fromEntries(registros.map((r) => [r.id, r.version]));
   pintarLista();
   estado(`${registros.length} plan(es) visibles con tu acceso · actualizado ${new Date().toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" })} · se revisa cada minuto`);
@@ -90,6 +98,7 @@ async function abrir(id) {
   $("c-ejecutivo").innerHTML = htmlEjecutivo(v, reg);
   $("c-tablero").innerHTML = widgetsPlan(reg.datos, resumenPlan(reg.datos), { cambios });
   $("c-admin").hidden = rol === "lector";
+  $("c-enlace").hidden = rol !== "dueno";
   $("c-dueno").hidden = rol !== "dueno";
   $("c-rol").textContent = `(tu rol: ${rol === "dueno" ? "dueño" : rol})`;
   if (rol === "dueno") await pintarMiembros();
@@ -123,7 +132,7 @@ async function copiar(texto) {
 }
 
 // ------------------------------------------------------------------ eventos
-$("c-conectar").onclick = () => correr(() => conectar($("c-url").value.trim(), $("c-key").value.trim()));
+$("c-conectar").onclick = () => correr(async () => { try { localStorage.setItem(DUENO, "1"); } catch (e) { /* modo privado */ } await conectar($("c-url").value.trim(), $("c-key").value.trim()); });
 $("c-pedir").onclick = () => correr(async () => { await nube.pedirCodigo($("c-correo").value); estado("Código enviado. Revisa tu correo (y la carpeta de spam)."); });
 $("c-verificar").onclick = () => correr(async () => { yo = await nube.verificar($("c-correo").value, $("c-codigo").value.trim()); $("c-codigo").value = ""; await entrar(); });
 $("c-salir").onclick = () => correr(async () => { await nube.salir(); yo = null; actual = null; mostrar("acceso"); estado("Sesión cerrada en este navegador."); });
@@ -209,5 +218,6 @@ document.addEventListener("visibilitychange", () => { if (!document.hidden) revi
   const e = leerEnlace(location.hash), g = leerCfg();
   const url = e.url || g?.url || "", key = e.key || g?.key || "";
   $("c-url").value = url; $("c-key").value = key;
+  fijarVisor(!!(e.url && e.key));
   if (url && key) correr(() => conectar(url, key)); else { mostrar("conectar"); estado("Conecta tu proyecto de Supabase para empezar (guía al final de la página)."); }
 }

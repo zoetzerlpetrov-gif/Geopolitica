@@ -27,12 +27,14 @@
     #c-archivo-ficha[data-error="true"] { border-color: #C62828; color: #C62828; }
     pre { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 12px; max-height: 360px; overflow: auto; }
     [hidden] { display: none !important; }
+    /* Modo visor: quien solo recibe planes compartidos no ve navegación, alta de planes ni la guía del dueño. */
+    body.visor .solo-dueno { display: none !important; }
   </style>
 </head>
-<body>
+<body class="visor">
   <header class="topbar no-imprimir">
-    <a class="link-btn" href="./">← Mapa</a>
-    <h1>Cartera de proyectos</h1><a href="herramientas.html#seguimiento">Seguimiento local</a>
+    <a class="link-btn solo-dueno" href="./">← Mapa</a>
+    <h1>Cartera de proyectos</h1><a class="solo-dueno" href="herramientas.html#seguimiento">Seguimiento local</a>
   </header>
   <main class="hz">
     <p class="meta no-imprimir">Varios planes de proyecto (de una o varias empresas y sectores) guardados en <b>tu propio proyecto de Supabase</b>. Quien tenga acceso ve
@@ -57,7 +59,7 @@
     </section>
 
     <section id="c-sesion" class="no-imprimir" hidden>
-      <div class="barra"><span class="meta" id="c-usuario"></span><button type="button" id="c-salir">Salir</button><button type="button" id="c-enlace-cartera">🔗 Copiar enlace de la cartera</button></div>
+      <div class="barra"><span class="meta" id="c-usuario"></span><button type="button" id="c-salir">Salir</button><button type="button" id="c-enlace-cartera" class="solo-dueno">🔗 Copiar enlace de la cartera</button></div>
     </section>
 
     <section id="c-cartera" hidden>
@@ -69,7 +71,7 @@
       <div id="c-lista" class="ct-grid"></div>
       <p class="meta">Barra: avance real; la rayita negra marca lo planeado a hoy. Reglas del estado: 🔴 permiso o tarea crítica vencida, más de 10 % vencidas o más de 15 días de retraso
         contra la línea base · 🟡 vencidas, bloqueos, decisiones pendientes o algo crítico que vence en 7 días · 🟢 lo demás.</p>
-      <details class="tarjeta no-imprimir" id="c-subir-caja"><summary><b>➕ Agregar un plan a la cartera</b></summary>
+      <details class="tarjeta no-imprimir solo-dueno" id="c-subir-caja"><summary><b>➕ Agregar un plan a la cartera</b></summary>
         <p class="meta">Desde los planes que ya importaste en este navegador (Caja del analista → Seguimiento de proyecto) o desde el Excel/JSON de la plantilla.</p>
         <div class="barra"><select id="c-local" aria-label="Plan de este navegador"></select><span class="meta">o</span>
           <label class="btn">📥 Archivo .xlsx o .json <input type="file" id="c-archivo-nuevo" accept=".xlsx,.json" hidden></label></div>
@@ -81,7 +83,7 @@
     </section>
 
     <section id="c-detalle" hidden>
-      <div class="barra no-imprimir"><button type="button" id="c-volver">← Cartera</button><button type="button" id="c-imprimir">🖨️ Informe / PDF</button><button type="button" id="c-enlace">🔗 Copiar enlace de este plan</button></div>
+      <div class="barra no-imprimir"><button type="button" id="c-volver">← Cartera</button><button type="button" id="c-imprimir">🖨️ Informe / PDF</button><button type="button" id="c-enlace" class="solo-dueno">🔗 Copiar enlace de este plan</button></div>
       <h2 id="c-titulo"></h2>
       <div id="c-ejecutivo"></div>
       <details class="tarjeta"><summary><b>📊 Tablero completo del plan</b></summary><div id="c-tablero" class="tb-grid"></div></details>
@@ -100,14 +102,14 @@
       </details>
     </section>
 
-    <details class="tarjeta no-imprimir" id="c-guia">
+    <details class="tarjeta no-imprimir solo-dueno" id="c-guia">
       <summary><b>📘 Guía paso a paso para el dueño (una sola vez)</b></summary>
       <ol>
         <li>Entra a <a href="https://supabase.com/dashboard" target="_blank" rel="noopener noreferrer">supabase.com/dashboard</a> con tu cuenta y pulsa <b>New project</b>. Nombre: «dominus-cartera». Región: la más cercana (por ejemplo, East US). Guarda la contraseña de la base de datos en tu gestor de contraseñas (no la escribas en DOMINUS). Espera a que el proyecto quede listo (1–2 minutos).</li>
         <li>Menú izquierdo → <b>SQL Editor</b> → <b>New query</b>. Pulsa abajo «Ver SQL», cópialo completo, pégalo y pulsa <b>Run</b>. Debe decir «Success». Se puede volver a ejecutar sin perder datos.</li>
-        <li><b>Authentication → Sign In / Providers</b>: deja activado <b>Email</b>. En <b>Authentication → Emails → Magic Link</b> (plantilla del código), agrega <code>{{ .Token }}</code> en el cuerpo para que el correo traiga el código de 6 dígitos.</li>
+        <li><b>Authentication → Sign In / Providers</b>: deja activado <b>Email</b> y apaga <b>Allow new users to sign up</b>.</li>
         <li><b>Authentication → Users → Add user → Send invitation</b> (o «Create new user»): agrega tu correo y el de cada directivo o editor. Esta página no crea usuarios sola.</li>
-        <li>Correo para personas fuera de tu equipo: el servicio de correo incluido en Supabase solo envía a los miembros de tu organización y con límites bajos. Para tus directivos configura un SMTP propio en <b>Authentication → Emails → SMTP Settings</b> (por ejemplo, el correo de tu empresa o un servicio como Resend o Brevo; revisa sus límites y costos).</li>
+        <li>Antes de la plantilla, el correo: Supabase solo deja editar las plantillas con un SMTP propio, y su correo incluido solo envía a los miembros de tu organización y con límites bajos. Configura un SMTP propio en <b>Authentication → Emails → SMTP Settings</b> (el correo de tu empresa, Gmail con contraseña de aplicación, o un servicio como Resend o Brevo; revisa sus límites y costos). Después, en <b>Authentication → Emails → Templates → Magic link or OTP</b>, pon <code>{{ .Token }}</code> en el cuerpo para que el correo traiga el código.</li>
         <li><b>Project Settings → API Keys</b>: copia la <b>Project URL</b> y la <b>publishable key</b>. Pégalas arriba en «Conectar el proyecto». Nunca copies la «secret» ni la «service_role».</li>
         <li>Entra con tu correo y el código. En «Agregar un plan a la cartera» sube cada plan con su empresa y sector. Abre el plan → «Actualizar y compartir» → comparte con el correo del directivo como «Lector».</li>
         <li>Pulsa «Copiar enlace de este plan» (o de la cartera) y mándaselo. El directivo lo abre, escribe su correo, recibe el código y ve el tablero. La página se actualiza sola cada minuto cuando tú vuelves a subir el Excel.</li>
