@@ -4,11 +4,12 @@ name: Monitor normativo
 # el catálogo de normativa (config/normativa/*.json) y agrega a la bitácora histórica lo que afecta a leyes, sectores,
 # trámites y preguntas de auditoría (tools/normativa/monitor.py). La bitácora vive en la rama «datos-normativa» CON
 # historial: cada corrida agrega un commit y nunca reescribe ni borra entradas. Pages la copia a data/normativa/.
-# Corre a las 06:41 y a las 20:41 de Ciudad de México (el DOF publica ediciones matutinas y vespertinas).
+# Corre a las 08:41 y a las 20:41 de Ciudad de México (el DOF publica su edición matutina hacia las 8:00 y a veces
+# ediciones vespertinas). México no tiene horario de verano desde 2022: 08:41 CDMX = 14:41 UTC todo el año.
 on:
   workflow_dispatch:
   schedule:
-    - cron: "41 12 * * *"
+    - cron: "41 14 * * *"
     - cron: "41 2 * * *"
 
 permissions:
