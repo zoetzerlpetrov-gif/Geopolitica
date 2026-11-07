@@ -569,7 +569,7 @@ pintarNube();
       <p class="meta">${Object.entries(porPais).sort((a, b) => b[1] - a[1]).map(([p, n]) => `${esc(nombreJ[p] || p)}: ${n}`).join(" · ")}${BIT.generado ? ` · bitácora actualizada ${esc(BIT.generado.replace("T", " ").slice(0, 16))} UTC` : ""}</p>`;
     $("bit-sin-ley")?.addEventListener("click", () => { $("bit-q").dataset.ley = ""; mostrar = 100; pintarB(); });
     const lista = (xs) => xs.length ? `<ul>${xs.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>` : "";
-    $("bit-lista").innerHTML = !BIT.entradas.length ? `<p class="meta">La bitácora aún no tiene datos publicados (el monitor corre a las 06:41 y 20:41 de Ciudad de México).</p>`
+    $("bit-lista").innerHTML = !BIT.entradas.length ? `<p class="meta">La bitácora aún no tiene datos publicados (el monitor corre a las 08:41 y 20:41 de Ciudad de México).</p>`
       : actualesB.slice(0, mostrar).map((e) => `<div class="tarjeta" style="border-left:4px solid ${COLOR_IMP[e.impacto] || "#607D8B"}">
         <p>${chipImp(e.impacto)} <b>${esc(e.fecha)}</b> · ${esc(nombreJ[e.pais] || e.pais)} · ${esc(e.tipo)} · <span class="meta">${esc(e.fuente)}</span>${e.revisada ? " · ✅ revisada" : ""}</p>
         <p><a href="${esc(e.url)}" target="_blank" rel="noopener">${esc(e.titulo)}</a></p>
