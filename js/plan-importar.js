@@ -51,7 +51,8 @@ function normalizarTarea(t) {
   return { id: texto(t.id), fase: texto(t.fase || t.faseNombre), seccion: texto(t.seccion), tarea: texto(t.tarea), pais: texto(t.pais), ambito: texto(t.ambito),
     base: texto(t.base), autoridad: texto(t.autoridad), plazo: texto(t.plazo), frecuencia: texto(t.frecuencia), rol: texto(t.rol), prioridad: texto(t.prioridad) || "Media",
     pred: texto(t.pred), dias: Number(t.dias) || 0, inicio: t.inicio || null, fin: t.fin || null, aplica: texto(t.aplica) === "No" ? "No" : "Sí", estado,
-    avance: estado === "Hecho" ? 1 : Math.max(0, Math.min(1, avance)), url: texto(t.url), hito: texto(t.id).startsWith("HITO-") };
+    avance: estado === "Hecho" ? 1 : Math.max(0, Math.min(1, avance)), url: texto(t.url), hito: texto(t.id).startsWith("HITO-"),
+    escalar: texto(t.escalar), presupuesto: t.presupuesto ?? "", costo: t.costo ?? "" };
 }
 
 /** JSON de la plantilla («Descargar datos (JSON) para importar») → plan normalizado. */
