@@ -1,0 +1,343 @@
+{
+ "generado_utc": "2026-11-07T18:18:16Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-11-07T19:17:00Z",
+ "eventos_total": 3094,
+ "eventos_nuevos": 86,
+ "candidatos": 754,
+ "descartados": {
+  "fuera_de_ventana": 126,
+  "fuera_de_tema": 14,
+  "sin_clasificar": 166,
+  "red_social_sin_pais": 4,
+  "imagenes_portada": 39
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3094,
+  "sin_pais": 70,
+  "confianza_baja": 276,
+  "verificados": 10,
+  "con_varias_fuentes": 727,
+  "impacto_mexico": 866,
+  "confianza_media": 0.63,
+  "por_area": {
+   "seguridad": 1565,
+   "instituciones": 555,
+   "geoeconomia": 300,
+   "identidad": 178,
+   "tecnologia": 108,
+   "geografia": 93,
+   "energia": 83,
+   "clima": 59,
+   "riesgo": 45,
+   "demografia": 44,
+   "regional": 39,
+   "salud_nrbq": 13,
+   "infraestructura": 12
+  },
+  "por_tipo_fuente": {
+   "noticia": 1243,
+   "base_datos": 1800,
+   "analisis": 5,
+   "red_social": 46
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "UK cannot 'cherry pick' EU single market deal, Barnier tells BBC",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c9kgjj206nzpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "With Stephen Miller pick, Trump readies for a battle",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/crp3gg2z171go?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Paraguay's president impeached and under house arrest after bank collapse",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c68jzzvjgdy9o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Pope in 'pretty good health' as he starts Latin America tour",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c60e0001ve9wo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Meghan's father Thomas Markle under house arrest after child sex abuse material charge",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cqgkvv8m8pgyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Texas mayor instructs police to limit co-operation with ICE",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/c8dx33d22zkro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "New wave of bomb threats hit European airlines",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cq62yy064vjpo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Kenyan doomsday cult leader given life sentence for murdering 191 people",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cm5yne5984l0o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Gaza wedding festival sees 250 couples married at the same time",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/ckr5ygm78j76o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: Is it the end of the road for Tesla's Cybertruck?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cv8ezz9ll7nyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Bomb hoaxes: Messages reveal how threat was passed on by air traffic control",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cq398m8w41lyo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "The young Somali woman changing how the world sees Mogadishu",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cq0k0lg48705o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "US midterm results spark fears in Israel over future of two countries' ties",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cx30ee8018lvo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "BUNDESLIGA: escuche el partido Stuttgart vs. Werder Bremen",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/bundesliga-escuche-el-partido-stuttgart-vs-werder-bremen/a-79886759?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Tiroteo en la Plaza Mayor de Cracovia deja cinco muertos",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/tiroteo-en-la-plaza-mayor-de-cracovia-deja-cinco-muertos/a-79887135?maca=spa-rss-sp-all-1122-rdf"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "groq",
+  "modelo": "openai/gpt-oss-120b",
+  "resumidos": 7,
+  "rechazados": 15,
+  "motivos": {
+   "copia": 14,
+   "insuficiente": 1
+  },
+  "errores": [
+   "límite gratuito alcanzado (429): el resto queda para la siguiente corrida"
+  ],
+  "pendientes": 18
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 206,
+   "segundos": 1.0,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 23,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 22,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.2,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 27,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 39,
+   "segundos": 0.8,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.7,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 1.3,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.8,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.7,
+   "error": null
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-11-07",
+   "total": 205,
+   "pdf": true,
+   "ia": true
+  },
+  "global": {
+   "fecha": "2026-11-07",
+   "total": 1141,
+   "pdf": true,
+   "ia": true
+  }
+ }
+}
