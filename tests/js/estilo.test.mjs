@@ -83,11 +83,22 @@ test("brillo LED de la costa: blanco en oscuro, dorado en claro, justo encima de
     const st = conBrilloCosta(aligerarEstilo(carga(nombre)), tema);
     const ids = st.layers.map((l) => l.id);
     const i = ids.indexOf("water");
-    assert.deepEqual(ids.slice(i + 1, i + 4), ["costa-brillo-halo", "costa-brillo-medio", "costa-brillo-hilo"]);
-    const halo = st.layers[i + 1];
+    assert.deepEqual(ids.slice(i + 1, i + 7), ["costa-brillo-halo-bajo", "costa-brillo-medio-bajo", "costa-brillo-hilo-bajo", "costa-brillo-halo", "costa-brillo-medio", "costa-brillo-hilo"]);
+    // zoom bajo: costa propia (sin el corte del meridiano 180°); desde el 5, el contorno del océano de los mosaicos
+    const bajo = st.layers[i + 1], halo = st.layers[i + 4];
+    assert.equal(bajo.source, "costas-ne"); assert.equal(bajo.maxzoom, 5); assert.equal(st.sources["costas-ne"].data, "data/base/costas.geojson");
+    assert.equal(halo.minzoom, 5);
     assert.equal(halo.paint["line-color"], BRILLO_COSTA[tema][0]);
+    assert.deepEqual(bajo.paint, halo.paint);
     assert.deepEqual(halo.filter, ["==", ["get", "class"], "ocean"]);
   }
+  // la costa propia no trae tramos sobre el meridiano 180° ni fronteras terrestres (p. ej. México–EE. UU. en 31,3° N)
+  const costa = JSON.parse(readFileSync(new URL("../../data/base/costas.geojson", import.meta.url), "utf8")).features[0].geometry.coordinates;
+  const tramos = costa.flatMap((l) => l.slice(1).map((b, k) => [l[k], b]));
+  assert.ok(tramos.length > 5000);
+  assert.ok(tramos.filter(([a, b]) => Math.abs(a[0]) >= 179.99 && Math.abs(b[0]) >= 179.99).length === 0);
+  const frontera = (c) => c[1] > 31.2 && c[1] < 31.4 && c[0] > -111 && c[0] < -108.3;
+  assert.equal(tramos.filter(([a, b]) => frontera(a) && frontera(b)).length, 0);
   assert.equal(BRILLO_COSTA.dark[0], "#FFFFFF");
   const sinAgua = { version: 8, sources: {}, layers: [{ id: "fondo", type: "background" }] };
   assert.equal(conBrilloCosta(sinAgua).layers.length, 1);  // el respaldo local no tiene océanos: no se toca
