@@ -1,7 +1,9 @@
 // Página «Conducta y escritura»: lenguaje corporal (video/foto) y grafología (imagen). Todo local en el navegador.
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
-import { AVISO, clasificar, clasificarFirma, informe, clave } from "./grafo-logica.js";
+import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave } from "./grafo-logica.js";
+import { ejemplo } from "./grafo-ejemplos.js";
+import { redactar, aHTML, aTexto, cuartillas, AREAS, EXTENSIONES } from "./grafo-redaccion.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -16,7 +18,8 @@ for (const b of document.querySelectorAll(".pestanas button")) b.onclick = () =>
 };
 if (location.hash === "#grafologia") document.querySelector('[data-panel="p-grafo"]').click();
 
-const [CAT_C, CAT_G] = await Promise.all([fetch("config/lenguaje_corporal.json").then((r) => r.json()), fetch("config/grafologia.json").then((r) => r.json())]);
+const [CAT_C, CAT_G, COMP_G] = await Promise.all([fetch("config/lenguaje_corporal.json").then((r) => r.json()), fetch("config/grafologia.json").then((r) => r.json()),
+  fetch("config/grafologia_complemento.json").then((r) => (r.ok ? r.json() : { interpretaciones: {} })).catch(() => ({ interpretaciones: {} }))]);
 $("c-aviso").textContent = AVISO_CONDUCTA;
 $("g-aviso").textContent = AVISO;
 $("c-principios").innerHTML = `<ol>${CAT_C.principios.map((p) => `<li><b>${esc(p.nombre)}.</b> ${esc(p.texto)}</li>`).join("")}</ol><p class="meta">${esc(CAT_C.fuente)}</p>`;
@@ -45,6 +48,7 @@ const tiempoCrono = () => crono.acumulado + (crono.inicio ? (performance.now() -
 
 function tiempoActual() {
   if (medio?.tipo === "video") return medio.el.currentTime;
+  if (medio?.tipo === "captura") return medio.inicio ? (performance.now() - medio.inicio) / 1000 : 0;
   if (medio?.tipo === "youtube" && yt?.getCurrentTime) return yt.getCurrentTime();
   return tiempoCrono();
 }
@@ -81,6 +85,7 @@ $("c-zonas").addEventListener("click", (e) => {
 
 function limpiarMedio() {
   if (medio?.url) URL.revokeObjectURL(medio.url);
+  if (medio?.flujo) for (const t of medio.flujo.getTracks()) t.stop();
   medio = null; auto = null; foto = null; yt = null; $("c-medio").innerHTML = ""; $("c-auto-caja").hidden = true; $("c-crono").hidden = true;
 }
 function mostrarCrono() { $("c-crono").hidden = false; }
@@ -146,10 +151,26 @@ $("c-usar-url").onclick = () => {
   }
 };
 
-function prepararAuto(esFoto) {
+// Otra pestaña o ventana (YouTube, TikTok, Instagram, una videollamada…): el navegador pide permiso para compartirla
+// y la página analiza los cuadros que ve, en vivo. No se descarga el video ni se guarda la grabación.
+$("c-captura").onclick = async () => {
+  if (!navigator.mediaDevices?.getDisplayMedia) { estado("Este navegador no permite compartir pantalla (prueba con Chrome, Edge o Firefox en computadora).", true); return; }
+  try {
+    const flujo = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 15 }, audio: false, preferCurrentTab: false, selfBrowserSurface: "exclude" });
+    limpiarMedio();
+    const v = document.createElement("video"); Object.assign(v, { srcObject: flujo, muted: true, playsInline: true, autoplay: true }); await v.play().catch(() => {});
+    $("c-medio").appendChild(v); medio = { tipo: "captura", el: v, flujo, nombre: "pestaña compartida", analizable: true, inicio: null };
+    flujo.getVideoTracks()[0].addEventListener("ended", () => { detener = true; estado("Se dejó de compartir la pestaña."); });
+    prepararAuto(false, true);
+    estado("Pestaña compartida. Pon el video en reproducción y pulsa «Analizar en vivo». Lo que ves se analiza aquí; no se graba ni se sube.");
+  } catch (err) { estado(err.name === "NotAllowedError" ? "No se compartió ninguna pestaña." : `No se pudo compartir: ${err.message}`, true); }
+};
+
+function prepararAuto(esFoto, vivo = false) {
   $("c-auto-caja").hidden = false;
   for (const id of ["c-b0", "c-b1", "c-fps"]) $(id).closest("label").hidden = esFoto;
-  $("c-analizar").textContent = esFoto ? "🔍 Analizar la foto" : "🔍 Analizar el video";
+  $("c-analizar").textContent = esFoto ? "🔍 Analizar la foto" : vivo ? "🔴 Analizar en vivo" : "🔍 Analizar el video";
+  if (vivo) { $("c-b0").value = 0; $("c-b1").value = 20; }
 }
 
 let det = null;
@@ -185,6 +206,24 @@ $("c-analizar").onclick = async () => {
       foto = Object.entries(REGLAS).filter(([k, r]) => (f[k] ?? 0) >= r.umbral).map(([k]) => ({ senal: k, t0: 0, t1: 0, origen: "automático", enBase: false, detalle: `valor ${fx(f[k], 2)}` }));
       if (Number.isFinite(f.roll) && Math.abs(f.roll) > 12) foto.push({ senal: "cabeza_ladeada", t0: 0, t1: 0, origen: "automático", enBase: false, detalle: `${fx(f.roll, 0)}°` });
       estado(`Foto analizada: ${foto.length} señal(es) presentes. ${rc.faceLandmarks?.length ? "" : "No se vio el rostro. "}${conPose && !rp?.landmarks?.length ? "No se vio el cuerpo." : ""}`);
+    } else if (medio.tipo === "captura") {
+      // en vivo: un cuadro cada 1/fps s hasta que se detenga o se deje de compartir (máximo 15 min)
+      const d = await detectores("VIDEO", conPose), fps = Number($("c-fps").value), cuadros = [], v = medio.el;
+      detener = false; $("c-detener").hidden = false; medio.inicio = performance.now(); let sinCara = 0, ultimo = -1;
+      while (!detener && (performance.now() - medio.inicio) / 1000 < 900) {
+        await new Promise((r) => setTimeout(r, 1000 / fps));
+        if (!v.videoWidth) continue;
+        const ms = Math.round(performance.now()); if (ms <= ultimo) continue; ultimo = ms;
+        const t = (performance.now() - medio.inicio) / 1000;
+        const rc = d.cara.detectForVideo(v, ms), rp = d.pose ? d.pose.detectForVideo(v, ms) : null;
+        if (!rc.faceLandmarks?.length) sinCara++;
+        cuadros.push({ t, f: rasgosCuadro({ b: rc.faceBlendshapes?.[0] ? mapaBlend(rc.faceBlendshapes[0].categories) : null, cara: rc.faceLandmarks?.[0] || null, pose: rp?.landmarks?.[0] || null, ancho: v.videoWidth, alto: v.videoHeight }) });
+        if (cuadros.length % 10 === 0) { estado(`🔴 Analizando en vivo: ${reloj(t)} · ${cuadros.length} cuadros${sinCara > cuadros.length * 0.5 ? " · no se ve bien el rostro" : ""}. Pulsa «Detener» para ver el resultado.`); if (cuadros.length % 50 === 0) { auto = { ...eventosDeSerie(cuadros, [Number($("c-b0").value) || 0, Math.max(1, Number($("c-b1").value) || 20)]), cuadros: cuadros.length, sinCara, duracion: t, fps }; pintarResultado(); } }
+      }
+      const dur = cuadros.length ? cuadros[cuadros.length - 1].t : 0;
+      const b0 = Number($("c-b0").value) || 0, b1 = Math.max(b0 + 1, Number($("c-b1").value) || 20);
+      auto = { ...eventosDeSerie(cuadros, [b0, b1]), cuadros: cuadros.length, sinCara, duracion: dur, fps };
+      estado(`Análisis en vivo terminado: ${reloj(dur)}, ${cuadros.length} cuadros, ${auto.eventos.length} evento(s). Los segundos cuentan desde que pulsaste «Analizar en vivo».`);
     } else {
       const v = medio.el, dur = v.duration;
       if (!Number.isFinite(dur) || dur <= 0) throw new Error("El video aún no está listo; espera a que cargue.");
@@ -225,8 +264,18 @@ function svgLinea(evs, dur, base) {
   </svg><p class="meta">🟧 automático · 🟦 marcado a mano · ⬜ dentro de la línea base (verde). Toca una barra para ir a ese segundo.</p>`;
 }
 
+// Marca en los botones de señales las que se detectaron (automático) o marcaste (a mano), con su número de veces.
+function marcarBotones(evs) {
+  const n = {}; for (const e of evs) if (!e.enBase) n[e.s.id] = (n[e.s.id] || 0) + 1;
+  for (const b of document.querySelectorAll("#c-zonas [data-senal]")) {
+    const k = n[b.dataset.senal] || 0; b.classList.toggle("detectado", k > 0); b.dataset.n = k ? `×${k}` : "";
+  }
+  for (const d of document.querySelectorAll("#c-zonas details")) if (d.querySelector(".detectado")) d.open = true;
+}
+
 function pintarResultado() {
   const evs = todosEventos();
+  marcarBotones(evs);
   if (!evs.length) { $("c-resumen").innerHTML = `<p class="meta">${auto ? "El análisis no encontró cambios frente a la línea base. " : ""}Aún no hay señales. Analiza el video o marca señales a mano.</p>`; return; }
   const L = lectura(CAT_C, evs);
   const dur = auto?.duracion || Math.max(10, ...evs.map((e) => e.t1)) ;
@@ -327,9 +376,11 @@ $("g-medir").onclick = () => {
       medFirma = rFirma ? medir(img, rFirma, k) : null;
       seleccion = new Map();
       if (medTexto && !medTexto.vacio) for (const c of clasificar(medTexto, { hojaCompleta: hoja })) seleccion.set(c.clave, { ...c, origen: "medido" });
+      if (medTexto && !medTexto.vacio) for (const c of clasificarAvanzado(medTexto, [...seleccion.values()])) if (!seleccion.has(c.clave)) seleccion.set(c.clave, { ...c, origen: "estimado" });
       if (medFirma && !medFirma.vacio) for (const c of clasificarFirma(medFirma, medTexto, rFirma, rTexto, { hojaCompleta: hoja })) seleccion.set(c.clave, { ...c, origen: "medido" });
       dibujar(); pintarMedidas(k); pintarLista(); pintarInforme();
-      estado(`Medición lista: ${seleccion.size} rasgo(s) sugeridos por las medidas. Revisa la lista y marca lo demás observando el original.`);
+      const nM = [...seleccion.values()].filter((e) => e.origen === "medido").length, nE = seleccion.size - nM;
+      estado(`Medición lista: ${nM} rasgo(s) medidos (📏) y ${nE} estimados (🔎) marcados por omisión. Revísalos y marca lo demás observando el original.`);
     } catch (err) { estado(`No se pudo medir: ${err.message}`, true); }
   }, 30);
 };
@@ -360,19 +411,23 @@ function pintarLista() {
     return `<details class="tarjeta grafo-sec" ${n ? "open" : ""}><summary><b>${esc(s.nombre)}</b>${s.lema ? ` <span class="meta">(${esc(s.lema)})</span>` : ""} ${n ? `<span class="medido-tag">· ${n} marcado(s)</span>` : ""}</summary>
       ${s.descripcion ? `<p class="meta">${esc(s.descripcion)}</p>` : ""}
       ${s.grupos.map((g) => `<div class="grafo-grupo">${g.nombre ? `<h4>${esc(g.nombre)}</h4>` : ""}${g.rasgos.map((r) => {
-        const k = clave(s.id, g.id, r.id), e = seleccion.get(k);
-        return `<label class="rasgo ${e?.origen === "medido" ? "medido" : ""}"><input type="checkbox" data-k="${esc(k)}" ${e ? "checked" : ""}>
+        const k = clave(s.id, g.id, r.id), e = seleccion.get(k), comp = COMP_G.interpretaciones?.[k];
+        return `<label class="rasgo ${e?.origen === "medido" ? "medido" : e?.origen === "estimado" ? "estimado" : ""}"><input type="checkbox" data-k="${esc(k)}" ${e ? "checked" : ""}>
+          <span class="ej-caja" data-ej="${esc(k)}" title="Dibujo esquemático de ejemplo">${ejemplo(k, e?.variante || "")}</span>
           <span><b>${esc(r.nombre)}</b>${r.nota ? ` <span class="det">${esc(r.nota)}</span>` : ""}
           ${r.variantes.length ? ` <select data-var="${esc(k)}" aria-label="Variante"><option value="">—</option>${r.variantes.map((v) => `<option ${e?.variante === v ? "selected" : ""}>${esc(v)}</option>`).join("")}</select>` : ""}
-          ${e?.origen === "medido" ? ` <span class="medido-tag">📏 ${esc(e.valor)}</span>` : ""}
-          ${r.interpretacion ? `<br><span class="det">${esc(r.interpretacion)}</span>` : ""}</span></label>`;
+          ${e?.origen === "medido" ? ` <span class="medido-tag">📏 ${esc(e.valor)}</span>` : e?.origen === "estimado" ? ` <span class="estimado-tag">🔎 ${esc(e.valor)}</span>` : ""}
+          ${r.interpretacion ? `<br><span class="det">${esc(r.interpretacion)}</span>` : comp ? `<br><span class="det">${esc(comp)} <i>(lectura complementaria)</i></span>` : ""}</span></label>`;
       }).join("")}</div>`).join("")}</details>`;
   }).join("");
 }
 $("g-lista").addEventListener("change", (e) => {
   const k = e.target.dataset.k, kv = e.target.dataset.var;
   if (k) { if (e.target.checked) seleccion.set(k, { origen: "manual", variante: e.target.closest("label").querySelector("select")?.value || "" }); else seleccion.delete(k); e.target.closest("label").classList.remove("medido"); }
-  if (kv) { const s = seleccion.get(kv) || { origen: "manual" }; s.variante = e.target.value; seleccion.set(kv, s); e.target.closest("label").querySelector("input").checked = true; }
+  if (kv) {
+    const s = seleccion.get(kv) || { origen: "manual" }; s.variante = e.target.value; seleccion.set(kv, s); e.target.closest("label").querySelector("input").checked = true;
+    const caja = e.target.closest("label").querySelector(".ej-caja"); if (caja) caja.innerHTML = ejemplo(kv, s.variante);
+  }
   pintarInforme();
 });
 
@@ -382,9 +437,9 @@ function pintarInforme() {
   const maxT = Math.max(...inf.temperamento.map((t) => t.puntaje), 0.01);
   $("g-informe").innerHTML = `
     ${inf.secciones.length ? inf.secciones.map((s) => `<h3>${esc(s.nombre)}${s.lema ? ` · <span class="meta">${esc(s.lema)}</span>` : ""}</h3>
-      ${s.items.map((i) => `<div class="inf-item"><b>${esc(i.rasgo)}</b>${i.variante ? ` (${esc(i.variante)})` : ""} ${i.origen === "medido" ? `<span class="medido-tag">📏 ${esc(i.valor)}</span>` : `<span class="meta">observado</span>`}
-        ${i.interpretacion ? `<br>${esc(i.interpretacion)}` : `<br><span class="meta">Tu resumen no trae interpretación para este rasgo.</span>`}
-        ${i.origen === "medido" && i.motivo ? `<br><span class="meta">Cómo se midió: ${esc(i.motivo)}</span>` : ""}</div>`).join("")}`).join("") : `<p class="meta">Aún no hay rasgos marcados.</p>`}
+      ${s.items.map((i) => `<div class="inf-item"><b>${esc(i.rasgo)}</b>${i.variante ? ` (${esc(i.variante)})` : ""} ${i.origen === "medido" ? `<span class="medido-tag">📏 ${esc(i.valor)}</span>` : i.origen === "estimado" ? `<span class="estimado-tag">🔎 ${esc(i.valor)}</span>` : `<span class="meta">observado</span>`}
+        ${i.interpretacion ? `<br>${esc(i.interpretacion)}` : COMP_G.interpretaciones?.[i.clave] ? `<br>${esc(COMP_G.interpretaciones[i.clave])} <span class="meta">(lectura complementaria)</span>` : `<br><span class="meta">Tu resumen no trae interpretación para este rasgo.</span>`}
+        ${i.origen !== "manual" && i.motivo ? `<br><span class="meta">Cómo se midió: ${esc(i.motivo)}</span>` : ""}</div>`).join("")}`).join("") : `<p class="meta">Aún no hay rasgos marcados.</p>`}
     <h3>Temperamento (indicadores de tu resumen que se cumplen)</h3>
     <div class="barras">${inf.temperamento.map((t) => `<div class="fila"><span>${esc(t.nombre)}</span><div style="width:${(t.puntaje / maxT) * 100}%;${t.puntaje ? "" : "opacity:.15"}"></div><span>${t.cumple.length}/${t.total}</span></div>
       <p class="meta" style="margin:0 0 6px">${t.cumple.length ? `Cumple: ${esc(t.cumple.join(" · "))}. ` : ""}${esc(t.descripcion)}</p>`).join("")}</div>
@@ -393,3 +448,27 @@ function pintarInforme() {
 }
 $("g-imprimir").onclick = () => window.print();
 $("g-json").onclick = () => descargar("grafologia.json", { generado: new Date().toISOString(), medidas: { texto: medTexto, firma: medFirma }, informe: informe(CAT_G, seleccion) });
+
+// ---------- análisis escrito ----------
+$("g-areas").innerHTML = Object.entries(AREAS).map(([id, a], i) => `<label><input type="checkbox" value="${id}" ${i < 3 ? "checked" : ""}> ${esc(a.nombre)}</label>`).join("");
+$("g-extension").innerHTML = Object.entries(EXTENSIONES).map(([id, e], i) => `<label><input type="radio" name="g-ext" value="${id}" ${i === 1 ? "checked" : ""}> ${esc(e.nombre)}</label>`).join("");
+let ultimoDoc = null;
+$("g-todas-areas").onclick = () => { const cs = [...document.querySelectorAll("#g-areas input")]; const todas = cs.every((c) => c.checked); for (const c of cs) c.checked = !todas; };
+$("g-redactar").onclick = () => {
+  if (!seleccion.size) { estado("Marca o mide al menos un rasgo antes de redactar.", true); return; }
+  const areas = [...document.querySelectorAll("#g-areas input:checked")].map((c) => c.value);
+  const extension = document.querySelector('input[name="g-ext"]:checked')?.value || "media";
+  ultimoDoc = redactar(CAT_G, COMP_G, seleccion, { extension, areas, medidas: { texto: medTexto, firma: medFirma },
+    datos: { persona: $("g-persona").value.trim(), fecha: $("g-fecha").value, analista: $("g-analista").value.trim(), motivo: $("g-motivo").value.trim() } });
+  const c = cuartillas(ultimoDoc), objetivo = EXTENSIONES[extension].objetivo;
+  $("g-escrito").innerHTML = `<p class="meta">≈ ${ultimoDoc.palabras} palabras · ${c.toFixed(1)} cuartillas (250 palabras por cuartilla).${extension === "completa" && c < objetivo ? " Con más rasgos marcados el dictamen crece." : ""}</p><div class="escrito">${aHTML(ultimoDoc)}</div>`;
+  $("g-escrito-botones").hidden = false;
+  $("g-escrito").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+$("g-copiar").onclick = async () => { if (!ultimoDoc) return; try { await navigator.clipboard.writeText(aTexto(ultimoDoc)); estado("Texto copiado."); } catch (e) { estado("No se pudo copiar; selecciona el texto a mano.", true); } };
+$("g-word").onclick = () => {
+  if (!ultimoDoc) return;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${ultimoDoc.titulo}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5}h2{font-size:16pt}h3{font-size:13pt;margin-top:14pt}table{border-collapse:collapse}th,td{border:1px solid #999;padding:3pt 6pt;text-align:left}</style></head><body>${aHTML(ultimoDoc)}</body></html>`;
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff", html], { type: "application/msword" })); a.download = "analisis-grafologico.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+$("g-imprimir-escrito").onclick = () => { document.body.classList.add("solo-escrito"); window.print(); setTimeout(() => document.body.classList.remove("solo-escrito"), 500); };

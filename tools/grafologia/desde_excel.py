@@ -61,7 +61,8 @@ def convertir(ruta):
             sec["grupos"].append(grupo)
         if b:
             partes = [p.strip() for p in b.split(" / ") if p.strip()]
-            item = {"id": clave(partes[0]), "nombre": partes[0].capitalize(), "nota": " ".join(partes[1:]),
+            nombre, *resto = partes[0].split("\n")  # el id conserva el texto completo para no cambiar las claves
+            item = {"id": clave(partes[0]), "nombre": nombre.strip().capitalize(), "nota": " ".join([*(x.strip() for x in resto), *partes[1:]]).strip(),
                     "interpretacion": c if not d else d, "indicadores": c if d else "", "variantes": []}
             grupo["rasgos"].append(item)
         elif c and item is not None:

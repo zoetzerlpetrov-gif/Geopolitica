@@ -37,6 +37,8 @@
     .zonas legend { font-size: 13px; font-weight: 600; }
     .zonas button { font: inherit; font-size: 12px; text-align: left; width: 100%; margin: 2px 0; padding: 4px 6px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); color: var(--text); cursor: pointer; }
     .zonas button.auto::after { content: " 🤖"; font-size: 11px; }
+    .zonas button.detectado { border-color: #E65100; background: #E6510022; font-weight: 600; }
+    .zonas button.detectado::after { content: " 🤖 " attr(data-n); color: #E65100; }
     .zonas details { border: 1px solid var(--line); border-radius: 8px; padding: 4px 8px; }
     .zonas summary { font-size: 13px; font-weight: 600; cursor: pointer; }
     .guia-zona h3 { margin-top: 14px; }
@@ -53,6 +55,14 @@
     .rasgo .det { color: var(--text-2); font-size: 12px; }
     .medido { background: #2E7D3222; border-radius: 4px; }
     .medido-tag { font-size: 11px; color: #2E7D32; font-weight: 600; }
+    .estimado { background: #1565C018; border-radius: 4px; }
+    .estimado-tag { font-size: 11px; color: #1565C0; font-weight: 600; }
+    .rasgo { grid-template-columns: 22px 104px 1fr !important; align-items: start; }
+    .ej-caja svg { width: 100px; height: 50px; background: var(--surface-2); border-radius: 6px; color: var(--text); }
+    .checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 12px; font-size: 14px; }
+    .escrito { border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; background: var(--surface); line-height: 1.55; max-height: 70vh; overflow: auto; }
+    .escrito h2 { margin-top: 0; } .escrito p { margin: 6px 0; text-align: justify; }
+    @media print { body.solo-escrito .hz > *:not(#p-grafo), body.solo-escrito #p-grafo > *:not(#g-escrito-caja), body.solo-escrito #g-escrito-caja > *:not(#g-escrito) { display: none !important; } body.solo-escrito .escrito { max-height: none; overflow: visible; border: 0; } }
     .inf-item { margin: 6px 0; padding-left: 8px; border-left: 3px solid var(--line); }
     [hidden] { display: none !important; }
     @media print { .no-imprimir { display: none !important; } .panel[hidden] { display: none !important; } body { background: #fff; color: #000; } }
@@ -90,6 +100,8 @@
           <input id="c-url" type="url" placeholder="https://www.youtube.com/watch?v=… · enlace directo a .mp4 · TikTok, Instagram…" style="flex:1;min-width:260px" aria-label="Enlace del video">
           <button type="button" id="c-usar-url">Usar enlace</button>
         </div>
+        <div class="barra no-imprimir"><button type="button" id="c-captura">🖥️ Analizar un video de otra pestaña (YouTube, TikTok, Instagram…)</button>
+          <span class="meta">Compartes la pestaña donde se reproduce el video, como en una videollamada, y se analiza lo que ves en vivo. No se descarga ni se graba.</span></div>
         <p class="meta">Archivo propio o enlace directo a un .mp4/.webm con permiso de lectura: análisis automático y codificación manual. YouTube y Vimeo: se reproducen aquí con su reproductor oficial y se codifica a mano.
           TikTok, Instagram, Facebook, X y nubes: no descargo sus videos (sus términos de uso lo prohíben); ábrelo en su sitio y codifica con el cronómetro, o descárgalo con la opción oficial de la app si tienes permiso y súbelo aquí.</p>
         <div id="c-medio" class="medio-caja"></div>
@@ -100,7 +112,7 @@
 
       <div class="tarjeta" id="c-auto-caja" hidden>
         <h2>2. Análisis automático (rostro y postura)</h2>
-        <p class="meta">Detecta 27 señales con puntos del rostro y del cuerpo, cuadro por cuadro, y las compara con la <b>línea base</b>: el tramo en que la persona habla de algo neutral.
+        <p class="meta">Detecta 42 señales con puntos del rostro y del cuerpo, cuadro por cuadro, y las compara con la <b>línea base</b>: el tramo en que la persona habla de algo neutral.
           Elige ese tramo; si no lo sabes, se usa el primer 20 % del video (5 a 30 s).</p>
         <div class="barra">
           <label>Línea base de <input id="c-b0" type="number" min="0" step="1" value="0" style="width:80px"> s a <input id="c-b1" type="number" min="1" step="1" style="width:80px"> s</label>
@@ -114,7 +126,7 @@
 
       <div class="tarjeta">
         <h2>3. Marcar señales a mano</h2>
-        <p class="meta">Pulsa una señal en el momento en que la ves; queda marcada con el segundo del video (o del cronómetro). Las marcadas con 🤖 también las detecta el análisis automático.
+        <p class="meta">Pulsa una señal en el momento en que la ves; queda marcada con el segundo del video (o del cronómetro). Las marcadas con 🤖 también las detecta el análisis automático; después del análisis, las detectadas se resaltan en naranja con el número de veces.
           Úsalo para lo que la cámara no ve bien: pies, palmas, voz, incongruencias entre lo que dice y lo que hace.</p>
         <div class="barra"><label>Nota para la siguiente marca <input id="c-nota" placeholder="Ej.: pregunta sobre el viaje" style="min-width:260px"></label></div>
         <div id="c-zonas" class="zonas"></div>
@@ -163,14 +175,30 @@
       </div>
       <div class="tarjeta" id="g-lista-caja" hidden>
         <h2>3. Revisa y completa los rasgos</h2>
-        <p class="meta">Los rasgos en verde (📏) salieron de las medidas; quítalos si no coinciden con lo que ves. Lo demás (forma, gestos tipo, rasgos tipo, velocidad, presión al tacto, abreaciones…) se marca a mano observando el original.
-          Las interpretaciones vienen de tu resumen de grafología.</p>
+        <p class="meta">Marcados por omisión: en verde (📏) lo <b>medido</b> en la imagen (tamaño, inclinación, dirección, espacios, márgenes, grosor) y en azul (🔎) lo <b>estimado</b> por la computadora (ligazón, ángulo o curva, guirnalda o arco, anchura, sinuosidad, imbricación, desarrollo, relieve, nitidez, bucles, bolsas de tinta, subrayados, orden, equilibrio y velocidad). Quita lo que no coincida con el original.
+          Los gestos tipo, rasgos tipo, abreaciones y la mayoría de los accidentes dependen de la forma de cada letra: márcalos a mano comparando con el dibujo de ejemplo (esquemático, no es una muestra real).
+          Las interpretaciones vienen de tu resumen; cuando falta, se muestra una lectura complementaria marcada como tal.</p>
         <div id="g-lista"></div>
       </div>
       <div class="tarjeta" id="g-informe-caja" hidden>
         <h2>4. Informe</h2>
         <div id="g-informe"></div>
         <div class="barra no-imprimir"><button type="button" id="g-imprimir">🖨️ Informe / PDF</button><button type="button" id="g-json">⬇️ Descargar JSON</button></div>
+      </div>
+      <div class="tarjeta" id="g-escrito-caja">
+        <h2>5. Análisis escrito</h2>
+        <p class="meta">Redacta un análisis con los rasgos marcados. Elige las áreas y la extensión. La versión completa sigue la estructura de un dictamen (datos, método, medidas, análisis por géneros, temperamento, firma, áreas, limitaciones y conclusiones).</p>
+        <h3>¿Qué áreas quieres analizar?</h3>
+        <div class="checks" id="g-areas"></div>
+        <div class="barra"><button type="button" id="g-todas-areas">Marcar o quitar todas</button></div>
+        <h3>Extensión</h3>
+        <div class="checks" id="g-extension"></div>
+        <h3>Datos del documento (opcionales)</h3>
+        <div class="barra"><input id="g-persona" placeholder="Persona o seudónimo" aria-label="Persona"><input id="g-fecha" type="date" aria-label="Fecha de la muestra" title="Fecha de la muestra">
+          <input id="g-analista" placeholder="Analista" aria-label="Analista"><input id="g-motivo" placeholder="Motivo del análisis" style="min-width:240px" aria-label="Motivo"></div>
+        <div class="barra"><button type="button" id="g-redactar" class="prim">✍️ Redactar análisis</button></div>
+        <div id="g-escrito"></div>
+        <div class="barra no-imprimir" id="g-escrito-botones" hidden><button type="button" id="g-copiar">📋 Copiar texto</button><button type="button" id="g-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="g-imprimir-escrito">🖨️ Imprimir / PDF</button></div>
       </div>
     </section>
   </main>

@@ -13,16 +13,16 @@
      "rasgos": [
       {
        "id": "ordenada_esmerada_exageradamente_ordenada",
-       "nombre": "Ordenada\nesmerada=exageradamente ordenada.",
-       "nota": "",
+       "nombre": "Ordenada",
+       "nota": "Esmerada=Exageradamente ordenada.",
        "interpretacion": "Organizado, apegado a lineamientos.\nDerecho reservado\nIzquierdo apegado a reglas nivel social, independización.",
        "indicadores": "",
        "variantes": []
       },
       {
        "id": "desordenada_desalinada_exageradamente_desordenada",
-       "nombre": "Desordenada\ndesaliñada=exageradamente desordenada.",
-       "nota": "",
+       "nombre": "Desordenada",
+       "nota": "Desaliñada=Exageradamente desordenada.",
        "interpretacion": "No le gusta seguir las reglas, improvisación.",
        "indicadores": "",
        "variantes": []
@@ -35,16 +35,16 @@
      "rasgos": [
       {
        "id": "proporcionada_mediana_sobria_aireada_clara_modelo_caligrafic",
-       "nombre": "Proporcionada\nmediana, sobria, aireada, clara, modelo caligráfico.",
-       "nota": "",
+       "nombre": "Proporcionada",
+       "nota": "Mediana, sobria, aireada, clara, modelo caligráfico.",
        "interpretacion": "Zonas equilibradas.",
        "indicadores": "",
        "variantes": []
       },
       {
        "id": "desproporcionada_bizarra_muy_grande_muy_pequena_hacia_arriba",
-       "nombre": "Desproporcionada\nbizarra, muy grande, muy pequeña, hacia arriba y/o hacia abajo.",
-       "nota": "",
+       "nombre": "Desproporcionada",
+       "nota": "Bizarra, muy grande, muy pequeña, hacia arriba y/o hacia abajo.",
        "interpretacion": "Depende de la zona es el desequilibrio.",
        "indicadores": "",
        "variantes": []
@@ -57,8 +57,8 @@
      "rasgos": [
       {
        "id": "enredada_letra_apretada_es_facil_de_enredar",
-       "nombre": "Enredada\nletra apretada es fácil de enredar.",
-       "nota": "",
+       "nombre": "Enredada",
+       "nota": "Letra apretada es fácil de enredar.",
        "interpretacion": "Hampas y jambas se pueden juntar y enredar.",
        "indicadores": "",
        "variantes": []
@@ -1485,16 +1485,16 @@
       },
       {
        "id": "cuna_de_moises_bucle_acostado_lado_izquierdo",
-       "nombre": "Cuna de moisés \n(bucle acostado lado izquierdo)",
-       "nota": "",
+       "nombre": "Cuna de moisés",
+       "nota": "(Bucle acostado lado izquierdo)",
        "interpretacion": "Independencia, criterio y convecciones propias muy fuertes, desprendidos de familia.",
        "indicadores": "",
        "variantes": []
       },
       {
        "id": "dientes_de_tiburon_enlaces_angulosos",
-       "nombre": "Dientes de tiburón\n(enlaces angulosos)",
-       "nota": "",
+       "nombre": "Dientes de tiburón",
+       "nota": "(Enlaces angulosos)",
        "interpretacion": "Actitud combativa, fuerte autoestima, rectitud moral, sentido del deber, inteligencia analítica.",
        "indicadores": "",
        "variantes": []
@@ -1605,24 +1605,24 @@
       },
       {
        "id": "velas_de_barco_parte_curva_acentuada_hacia_la_derecha",
-       "nombre": "Velas de barco\n(parte curva acentuada hacia la derecha)",
-       "nota": "",
+       "nombre": "Velas de barco",
+       "nota": "(Parte curva acentuada hacia la derecha)",
        "interpretacion": "No les gusta la rutina y buscan algo nuevo, curiosos, aventureros, rompen monotonía.",
        "indicadores": "",
        "variantes": []
       },
       {
        "id": "rasgos_del_diablo_en_la_s_caligrafica_hacia_la_izquierda",
-       "nombre": "Rasgos del diablo\nen la s caligráfica hacia la izquierda",
-       "nota": "",
+       "nombre": "Rasgos del diablo",
+       "nota": "En la S caligráfica hacia la izquierda",
        "interpretacion": "Egoísmo y deses de apropiación de cosas ajenas, se guardan las cosas para sí.",
        "indicadores": "",
        "variantes": []
       },
       {
        "id": "submarinos_se_extiende_a_la_derecha",
-       "nombre": "Submarinos \n(se extiende a la derecha)",
-       "nota": "",
+       "nombre": "Submarinos",
+       "nota": "(Se extiende a la derecha)",
        "interpretacion": "Rasgos de mitómanos o de querer hacer un trabajo sucio o por debajo de la mesa sin ser descubierto.",
        "indicadores": "",
        "variantes": []
@@ -1683,8 +1683,8 @@
       },
       {
        "id": "dentados_ovalos_incompletos_y_abiertos_en_fora_de_ues",
-       "nombre": "Dentados\n(óvalos incompletos y abiertos en fora de \"úes\")",
-       "nota": "",
+       "nombre": "Dentados",
+       "nota": "(Óvalos incompletos y abiertos en fora de \"úes\")",
        "interpretacion": "Receptividad, acumular información, no sabe filtrar, analizar y tener criterio de lo que asimila en el exterior.",
        "indicadores": "",
        "variantes": []

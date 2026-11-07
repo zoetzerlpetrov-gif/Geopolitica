@@ -98,6 +98,84 @@ export function clasificar(med, { hojaCompleta = false } = {}) {
 }
 
 /**
+ * Rasgos estimados con las medidas avanzadas (componentes, bordes, bucles…). Menos confiables que las de clasificar():
+ * van con confianza «estimado» para que la persona los confirme viendo el original.
+ */
+export function clasificarAvanzado(med, base = []) {
+  const A = med?.avanzado; if (!A || med.vacio) return [];
+  const out = [], add = (k, valor, motivo, variante = "") => out.push({ clave: k, valor, motivo, variante, confianza: "estimado" });
+  const tiene = (k) => base.some((b) => b.clave === k) || out.some((b) => b.clave === k);
+  // Ligazón
+  if (A.piezasPorPalabra != null) {
+    const ppw = A.piezasPorPalabra, ppl = A.piezasPorLetra;
+    const id = ppw <= 1.15 ? (med.espacioPalabras != null && med.espacioPalabras < 0.8 ? "hiperligada" : "ligada") : ppl >= 1.3 ? "fragmentada" : ppl >= 0.75 ? "desligada" : "agrupada";
+    add(clave("continuidad", "ligazon", id), `${fx(ppw)} piezas por palabra · ${fx(ppl, 2)} por letra`, "Trazos sin levantar la pluma: cuántas piezas separadas tiene cada palabra frente a las letras estimadas.");
+  }
+  // Anatomía (ángulo o curva) por la variedad de orientaciones de los bordes
+  if (A.entropiaBordes != null) {
+    const e = A.entropiaBordes;
+    const id = e < 0.72 ? "angulosa" : e < 0.82 ? "semiangulosa_semiredonda" : "curva";
+    add(clave("forma", "anatomia", id), `variedad de direcciones ${fx(e, 2)}`, "Con letra angulosa los bordes se concentran en pocas direcciones; con letra curva se reparten en todas.");
+  }
+  // Coligamiento: curvas abiertas arriba (guirnalda) o abajo (arco)
+  if (A.guirnalda != null && (A.guirnalda > 0.6 || A.guirnalda < 0.4)) {
+    const g = A.guirnalda > 0.6;
+    add(clave("forma", "coligamiento", g ? "guirnalda" : "arco"), `${Math.round((g ? A.guirnalda : 1 - A.guirnalda) * 100)} % de los enlaces horizontales en la parte ${g ? "baja" : "alta"} de la zona media`, "Dónde quedan los trazos horizontales que unen las letras.");
+  }
+  // Anchura de las letras
+  if (A.separacionTrazos != null) {
+    if (A.separacionTrazos < 0.3) add(clave("dimension", "anchura", "comprimida"), `${fx(A.separacionTrazos, 2)} × zona media entre trazos`, "Distancia media entre trazos verticales en la línea media.");
+    else if (A.separacionTrazos > 0.6) add(clave("dimension", "anchura", "extendida"), `${fx(A.separacionTrazos, 2)} × zona media entre trazos`, "Distancia media entre trazos verticales en la línea media.");
+  }
+  // Trayecto del renglón e imbricación
+  if (A.sinuosidad != null && A.sinuosidad > 0.12 && !tiene("direccion/trayecto/sinuosa")) add(clave("direccion", "trayecto", A.sinuosidad > 0.25 ? "serpentina" : "sinuosa"), `ondulación ${fx(A.sinuosidad, 2)} × zona media`, "Cuánto se separa la base de las letras de una recta dentro de cada renglón.");
+  if (A.imbricacion != null && Math.abs(A.imbricacion) > 2) add(clave("direccion", "trayecto", A.imbricacion < 0 ? "superpuesta_descendente" : "superpuesta_ascendente"), `${A.imbricacion > 0 ? "+" : ""}${fx(A.imbricacion)}° por palabra`, "Cada palabra, por separado, sube o baja aunque el renglón vaya recto (imbricada).");
+  // Desarrollo de la palabra
+  if (A.desarrollo != null && (A.desarrollo < 0.75 || A.desarrollo > 1.3)) add(clave("continuidad", "grado_de_soltura", "desarrollo"), `final ${fx(A.desarrollo, 2)} × el inicio`, "Altura de las últimas letras de cada palabra frente a las primeras.", A.desarrollo < 0.75 ? "Gladiolada" : "Creciente");
+  // Calidad y pureza del trazo
+  if (A.variacionGrosor != null) {
+    if (A.variacionGrosor > 0.45) add(clave("presion", "calidad", "relieve"), `variación del grosor ${fx(A.variacionGrosor, 2)}`, "Contraste entre trazos gruesos y finos.");
+    else if (A.variacionGrosor < 0.2) add(clave("presion", "calidad", "plana"), `variación del grosor ${fx(A.variacionGrosor, 2)}`, "Trazos de grosor casi igual.");
+  }
+  if (A.nitidez != null) {
+    if (A.nitidez < 0.25) add(clave("presion", "pureza", "nitida"), `borde difuso ${fx(A.nitidez, 2)}`, "Proporción de píxeles de transición en el borde del trazo (depende también del enfoque de la foto).");
+    else if (A.nitidez > 0.7) add(clave("presion", "pureza", A.nitidez > 1.2 ? "borrosa_y_con_bolsas" : "pastosa"), `borde difuso ${fx(A.nitidez, 2)}`, "Proporción de píxeles de transición en el borde del trazo (depende también del enfoque de la foto).");
+  }
+  // Bucles, bolsas de tinta, subrayados
+  const bucles = (A.buclesHampaPorPalabra || 0) + (A.buclesJambaPorPalabra || 0);
+  if (bucles >= 0.5) {
+    const v = `${fx(bucles, 1)} por palabra (hampas ${fx(A.buclesHampaPorPalabra, 1)} · jambas ${fx(A.buclesJambaPorPalabra, 1)})`;
+    add(clave("forma", "gestos_tipos", "bucles"), v, "Huecos cerrados por arriba o por debajo de la zona media.");
+    add(clave("gestos_tipos", "curvos", "bucle"), v, "Huecos cerrados por arriba o por debajo de la zona media.");
+  }
+  if (A.bolsasPorPalabra != null && A.bolsasPorPalabra > 0.15) add(clave("derivados_de_imperfecciones_o_accidentes", "general", "bolsas_de_tinta"), `${A.bolsas} zona(s)`, "Zonas rellenas de tinta más gruesas que dos trazos y medio.");
+  if (A.subrayados > 0) add(clave("orden", "organizacion", "subrayada"), `${A.subrayados} raya(s) larga(s)`, "Trazos horizontales de más de 5 veces la zona media fuera de la línea de escritura.");
+  // Orden y equilibrio
+  if (A.variacionInicio != null && A.variacionInterlineado != null) {
+    if (A.variacionInicio < 0.6 && A.variacionInterlineado < 0.12 && (med.variacionDireccion ?? 0) < 1.5 && !med.enredos) add(clave("orden", "estructura", "ordenada_esmerada_exageradamente_ordenada"), `inicio ±${fx(A.variacionInicio, 2)} × zona media · interlineado ±${Math.round(A.variacionInterlineado * 100)} %`, "Renglones que empiezan en el mismo lugar, con separación pareja y dirección constante.");
+    else if (A.variacionInicio > 1.5 || A.variacionInterlineado > 0.3 || med.enredos > 1) add(clave("orden", "estructura", "desordenada_desalinada_exageradamente_desordenada"), `inicio ±${fx(A.variacionInicio, 2)} × zona media · interlineado ±${Math.round(A.variacionInterlineado * 100)} %`, "Inicio de renglón, interlineado o renglones que se tocan muy irregulares.");
+  }
+  if (med.hampa >= 0.6 && med.hampa <= 1.8 && med.jamba >= 0.6 && med.jamba <= 1.8 && med.variacionTamano < 0.2) add(clave("orden", "equilibrio", "proporcionada_mediana_sobria_aireada_clara_modelo_caligrafic"), `hampas ${fx(med.hampa)} · jambas ${fx(med.jamba)} × zona media`, "Zonas superior, media e inferior en proporción.");
+  else if (med.hampa > 2.2 || med.jamba > 2.2 || (med.hampa < 0.35 && med.jamba < 0.35)) add(clave("orden", "equilibrio", "desproporcionada_bizarra_muy_grande_muy_pequena_hacia_arriba"), `hampas ${fx(med.hampa)} · jambas ${fx(med.jamba)} × zona media`, "Una zona domina mucho sobre las otras.");
+  // Velocidad estimada por indicios (inclinación, ligazón, presión, espacio, dirección, forma)
+  const todos = [...base, ...out].map((x) => x.clave), hay = (k) => todos.includes(k);
+  let v = 0; const motivos = [];
+  const suma = (cond, n, txt) => { if (cond) { v += n; motivos.push(`${n > 0 ? "+" : "−"} ${txt}`); } };
+  suma(hay("inclinacion/posicion/inclinada"), 1, "inclinada");
+  suma(hay("continuidad/ligazon/ligada") || hay("continuidad/ligazon/hiperligada"), 1, "ligada");
+  suma(hay("presion/calibre/ligera_0_25mm"), 0.5, "presión ligera");
+  suma(hay("dimension/espaciamiento/espaciada") || hay("dimension/espaciamiento/aireada"), 0.5, "espaciada");
+  suma(hay("direccion/orientacion/ascendente_1a50"), 0.5, "ascendente");
+  suma(hay("forma/anatomia/curva") || hay("forma/coligamiento/guirnalda"), 0.5, "curva o en guirnalda");
+  suma(hay("continuidad/ligazon/desligada") || hay("continuidad/ligazon/fragmentada"), -1, "desligada");
+  suma(hay("inclinacion/posicion/invertida") || hay("inclinacion/posicion/vertical_90_85_a_95"), -0.5, "vertical o invertida");
+  suma(hay("inclinacion/estabilidad/rigida") && hay("continuidad/grado_de_variabilidad/regular"), -0.5, "muy regular");
+  const idV = v >= 2.5 ? "rapida_180_lxm" : v >= 1.5 ? "acelerada_160_lxm" : v >= 0.5 ? "pausada_o_mesurada_140_lxm" : "lenta_120_lxm";
+  add(clave("velocidad", "intensidad", idV), `indicios ${v > 0 ? "+" : ""}${v}: ${motivos.join(", ") || "sin indicios"}`, "La velocidad real se mide viendo escribir (letras por minuto); aquí se estima con indicios de la escritura terminada.");
+  return out;
+}
+
+/**
  * Firma frente al texto (mismas coordenadas de imagen). texto/firma = medir(); cajas = recortes {x,y,w,h};
  * hoja = ancho de referencia (recorte del texto si es la hoja completa).
  */
