@@ -1,0 +1,952 @@
+{
+ "fuente": "Resumen del manual de grafología de la persona usuaria (J. Tovar Molina): tests proyectivos gráficos, áreas simbólicas de la hoja, valores gráficos del dibujo, partes de la figura humana, el árbol y la casa, garabatos y colores. Las lecturas de los modificadores de cada parte son principios generales del análisis de dibujos (lectura complementaria).",
+ "aviso": "Los tests proyectivos de dibujo son herramientas de exploración, no de diagnóstico. Su interpretación requiere formación en psicología, más de un dibujo y entrevista; con niños, el desarrollo gráfico depende de la edad. No los uses para decidir sobre una persona ni para diagnosticar. El manual incluye algunas lecturas clínicas que aquí no se reproducen.",
+ "materiales": [
+  "Una hoja blanca tamaño carta para cada dibujo, entregada por separado.",
+  "Lápiz de grado H de preferencia (no lapicero, que da un solo grosor), sacapuntas y borrador.",
+  "Opcional: útiles de distintos tipos y colores (plumones, plumas, colores; para niños, crayones no tóxicos).",
+  "Tiempo libre y un lugar sin distracciones. Aclara que no se califica el valor artístico.",
+  "Guarda los originales en protectores y trabaja sobre copias."
+ ],
+ "tests": [
+  {
+   "id": "htp",
+   "nombre": "Casa – Árbol – Persona (H-T-P) del manual",
+   "consigna": "En hojas separadas: 1) dibuja una figura humana; 2) una figura del sexo opuesto a la anterior; 3) dibújate a ti mismo; 4) un árbol; 5) una casa.",
+   "partes": [
+    "figura",
+    "arbol",
+    "casa"
+   ]
+  },
+  {
+   "id": "nino_adulto_anciano",
+   "nombre": "Un niño, un adulto y un anciano",
+   "consigna": "Dibuja un niño, un adulto y un anciano.",
+   "partes": [
+    "figura"
+   ]
+  },
+  {
+   "id": "libre_historia",
+   "nombre": "Dibujo libre con una historia",
+   "consigna": "Haz el dibujo que quieras y después cuenta o escribe una historia sobre él.",
+   "partes": []
+  },
+  {
+   "id": "garabatos",
+   "nombre": "Garabatos o dibujos automáticos",
+   "consigna": "Trazos espontáneos o «distraídos»; mejor si se hicieron sin pensar en que serían analizados.",
+   "partes": [
+    "garabatos"
+   ]
+  },
+  {
+   "id": "tres_arboles",
+   "nombre": "Los tres árboles",
+   "consigna": "Dibuja tres árboles, cada uno en su hoja, según la consigna de la escuela que sigas.",
+   "partes": [
+    "arbol"
+   ]
+  },
+  {
+   "id": "casa",
+   "nombre": "Test de la casa",
+   "consigna": "Dibuja una casa.",
+   "partes": [
+    "casa"
+   ]
+  },
+  {
+   "id": "casa_pueblo",
+   "nombre": "La casa y el pueblo",
+   "consigna": "Dibuja una casa y el pueblo donde está.",
+   "partes": [
+    "casa"
+   ]
+  },
+  {
+   "id": "machover",
+   "nombre": "Figura humana (Karen Machover)",
+   "consigna": "Dibuja una persona; luego, una persona del sexo opuesto. Proyecta cómo se percibe la persona a sí misma y a los demás.",
+   "partes": [
+    "figura"
+   ]
+  },
+  {
+   "id": "linea_ondulada",
+   "nombre": "La línea ondulada",
+   "consigna": "Traza una línea ondulada de un lado a otro de la hoja.",
+   "partes": []
+  },
+  {
+   "id": "persona_lluvia",
+   "nombre": "Una persona bajo la lluvia",
+   "consigna": "Dibuja una persona bajo la lluvia. Se observa cómo se protege (paraguas, ropa, refugio) ante la presión del entorno.",
+   "partes": [
+    "figura"
+   ]
+  },
+  {
+   "id": "bender",
+   "nombre": "Test visomotor de Bender",
+   "consigna": "Copia de las láminas del test. Requiere las láminas originales y su protocolo de calificación; aquí solo se anotan observaciones del trazo.",
+   "partes": []
+  },
+  {
+   "id": "arbol",
+   "nombre": "Test del árbol",
+   "consigna": "Dibuja un árbol (que no sea pino ni palmera, si sigues la consigna clásica).",
+   "partes": [
+    "arbol"
+   ]
+  },
+  {
+   "id": "familia",
+   "nombre": "Dibujo de la familia",
+   "consigna": "Dibuja una familia (o a tu familia). Se observa quién aparece, el orden, el tamaño y la distancia entre figuras.",
+   "partes": [
+    "figura"
+   ]
+  },
+  {
+   "id": "animal",
+   "nombre": "Dibujo de un animal",
+   "consigna": "Dibuja un animal.",
+   "partes": []
+  },
+  {
+   "id": "pareja",
+   "nombre": "Dibujo de una pareja",
+   "consigna": "Dibuja una pareja.",
+   "partes": [
+    "figura"
+   ]
+  },
+  {
+   "id": "paisaje",
+   "nombre": "Test del paisaje",
+   "consigna": "Dibuja un paisaje.",
+   "partes": []
+  },
+  {
+   "id": "dos_trabajando",
+   "nombre": "Dos personas trabajando",
+   "consigna": "Dibuja a dos personas trabajando.",
+   "partes": [
+    "figura"
+   ]
+  },
+  {
+   "id": "persona_cinetica",
+   "nombre": "Una persona haciendo algo (cinética)",
+   "consigna": "Dibuja a una persona haciendo algo.",
+   "partes": [
+    "figura"
+   ]
+  }
+ ],
+ "valores": [
+  {
+   "id": "situacion",
+   "nombre": "Situación en la hoja (dónde se acumula el dibujo)",
+   "opciones": [
+    {
+     "id": "superior",
+     "nombre": "Zona superior",
+     "lectura": "el espíritu consciente, los sueños, la imaginación y la ambición: mira hacia lo alto, lo noble o lo espiritual; también alegría o euforia"
+    },
+    {
+     "id": "inferior",
+     "nombre": "Zona inferior",
+     "lectura": "lo material, las necesidades físicas y los instintos; según el conjunto, apego a lo concreto, pesimismo o mucha actividad"
+    },
+    {
+     "id": "izquierda",
+     "nombre": "Zona izquierda",
+     "lectura": "el pasado, la introversión, la relación con la madre y los valores familiares: inhibición, timidez o apego a la rutina"
+    },
+    {
+     "id": "derecha",
+     "nombre": "Zona derecha",
+     "lectura": "el futuro, la extraversión y la relación con el padre y con los demás: comunicación, planes y confianza en el porvenir; en exceso, impaciencia"
+    },
+    {
+     "id": "centro",
+     "nombre": "Centro",
+     "lectura": "el estado emocional del yo en el presente: buena adaptación, objetividad y control de sí"
+    },
+    {
+     "id": "superior_izquierda",
+     "nombre": "Superior izquierda",
+     "lectura": "preocupaciones del pasado o dificultad para proyectarse al futuro"
+    },
+    {
+     "id": "superior_derecha",
+     "nombre": "Superior derecha",
+     "lectura": "necesidad de contacto con el exterior, imaginación y curiosidad por lo nuevo"
+    },
+    {
+     "id": "inferior_izquierda",
+     "nombre": "Inferior izquierda",
+     "lectura": "inseguridad, introversión, desconfianza o dificultad para adaptarse a algo nuevo"
+    },
+    {
+     "id": "inferior_derecha",
+     "nombre": "Inferior derecha",
+     "lectura": "necesidades físicas y materiales"
+    }
+   ]
+  },
+  {
+   "id": "dimension",
+   "nombre": "Dimensión (espacio que ocupa el dibujo)",
+   "opciones": [
+    {
+     "id": "muy_grande",
+     "nombre": "Muy grande (no cabe en la hoja)",
+     "lectura": "amplias miras con poco interés por el detalle; posible compensación de un sentimiento de inferioridad. Si quedó cortado, conviene pedirlo de nuevo en otra hoja"
+    },
+    {
+     "id": "grande",
+     "nombre": "Grande (ocupa casi toda la hoja)",
+     "lectura": "extraversión, vitalidad, orgullo, visión global, generosidad y quizá vanidad"
+    },
+    {
+     "id": "normal",
+     "nombre": "Normal (alrededor de la mitad de la hoja)",
+     "lectura": "adaptación a las normas, equilibrio entre introversión y extraversión y una valoración ajustada de sí"
+    },
+    {
+     "id": "pequeno",
+     "nombre": "Pequeño (alrededor de una cuarta parte)",
+     "lectura": "sencillez, introversión, tendencia al ahorro y razonamiento analítico; con trazo débil, poca vitalidad"
+    },
+    {
+     "id": "muy_pequeno",
+     "nombre": "Muy pequeño (una octava parte o menos)",
+     "lectura": "introversión marcada, temor al esfuerzo, ahorro excesivo o inhibición; también capacidad de especializarse y profundizar en el detalle"
+    }
+   ]
+  },
+  {
+   "id": "direccion",
+   "nombre": "Dirección del dibujo o de sus elementos",
+   "opciones": [
+    {
+     "id": "izquierda",
+     "nombre": "Hacia la izquierda",
+     "lectura": "distanciamiento de los demás, vida interior rica; en la casa (humo, camino, picaporte), conflicto entre lo que es y lo que desea ser"
+    },
+    {
+     "id": "derecha",
+     "nombre": "Hacia la derecha",
+     "lectura": "extraversión, iniciativa, avance confiado al porvenir y deseo de independencia"
+    },
+    {
+     "id": "ambivalente",
+     "nombre": "Ambivalente (elementos en direcciones opuestas)",
+     "lectura": "la persona parece dividida; observar qué elemento contradice a los demás"
+    },
+    {
+     "id": "desigual",
+     "nombre": "Desigual (asimetría entre los lados)",
+     "lectura": "leer cada lado por el espacio simbólico: la izquierda, la vida íntima y familiar; la derecha, la vida social y pública"
+    }
+   ]
+  },
+  {
+   "id": "forma",
+   "nombre": "Forma del trazo",
+   "opciones": [
+    {
+     "id": "recta",
+     "nombre": "Predominio de líneas rectas",
+     "lectura": "fuerza, predominio de la razón y claridad de ideas; sequedad o frialdad en lo afectivo"
+    },
+    {
+     "id": "curva",
+     "nombre": "Predominio de curvas",
+     "lectura": "afectividad, sensibilidad, imaginación y suavidad en el trato"
+    },
+    {
+     "id": "angulo",
+     "nombre": "Predominio de ángulos",
+     "lectura": "razonamiento e introversión; con trazo firme, tenacidad y resistencia; con trazo débil, obstinación que no se sostiene"
+    },
+    {
+     "id": "zigzag",
+     "nombre": "Zigzag",
+     "lectura": "agresividad súbita, explosividad, expresiones duras"
+    },
+    {
+     "id": "circulos",
+     "nombre": "Círculos cerrados",
+     "lectura": "según la zona, egoísmo, aislamiento, introversión o desconfianza"
+    },
+    {
+     "id": "remolinos",
+     "nombre": "Remolinos (curvas continuas sin levantar el útil)",
+     "lectura": "ideación feliz, dinamismo, reflejos ágiles y expresividad"
+    }
+   ]
+  },
+  {
+   "id": "fuerza",
+   "nombre": "Fuerza del trazo (presión)",
+   "opciones": [
+    {
+     "id": "deficiente",
+     "nombre": "Deficiente, con temblores o interrupciones",
+     "lectura": "inhibición, timidez y falta de energía; puede deberse a cansancio, edad o salud"
+    },
+    {
+     "id": "fina",
+     "nombre": "Fina o débil pero uniforme",
+     "lectura": "delicadeza en el trato, emotividad, vida interior; riesgo de alejarse de la realidad"
+    },
+    {
+     "id": "firme",
+     "nombre": "Firme o normal",
+     "lectura": "vitalidad, seguridad en sí y en su criterio, fuerza del yo frente al entorno"
+    },
+    {
+     "id": "fuerte",
+     "nombre": "Fuerte, excesiva o pastosa",
+     "lectura": "mucha energía física y sensualidad, que en exceso puede volverse brusquedad"
+    }
+   ]
+  },
+  {
+   "id": "continuidad",
+   "nombre": "Continuidad del trazo",
+   "opciones": [
+    {
+     "id": "continua",
+     "nombre": "Línea continua, sin levantar el útil",
+     "lectura": "extraversión, comunicación, dinamismo y constancia; en dibujos torpes, rutina"
+    },
+    {
+     "id": "media",
+     "nombre": "Continuidad media (pocas detenciones)",
+     "lectura": "equilibrio entre intuición y deducción, entre vida interior y contacto; persistencia razonada"
+    },
+    {
+     "id": "sueltas",
+     "nombre": "Líneas sueltas, en muchos trazos",
+     "lectura": "introversión e intuición; buenas ideas con poca persistencia para realizarlas; reserva"
+    },
+    {
+     "id": "porosas",
+     "nombre": "Rayas «peludas» (muchas rayitas encimadas)",
+     "lectura": "inseguridad de fondo, mucha sensibilidad e influenciabilidad, falta de aplomo"
+    }
+   ]
+  },
+  {
+   "id": "desarrollo",
+   "nombre": "Desarrollo del dibujo",
+   "opciones": [
+    {
+     "id": "escueto",
+     "nombre": "Escueto o esquematizado",
+     "lectura": "agilidad, aprovechamiento del esfuerzo y control de la afectividad; si es por cansancio, torpeza"
+    },
+    {
+     "id": "incompleto",
+     "nombre": "Incompleto o a medio hacer",
+     "lectura": "deseo de ocultarse o de permanecer en la sombra; autocontrol fuerte e inseguridad"
+    },
+    {
+     "id": "elaborado",
+     "nombre": "Elaborado o complicado (mucho sombreado)",
+     "lectura": "concentración y gusto por el detalle; también encubrimiento de la personalidad y fantasía"
+    },
+    {
+     "id": "original",
+     "nombre": "Original o artístico",
+     "lectura": "fantasía personal y sentido artístico, a veces como compensación de inseguridades"
+    },
+    {
+     "id": "exotico",
+     "nombre": "Exótico o extraño",
+     "lectura": "deseo de apartarse de lo establecido, originalidad o alejamiento de la realidad"
+    }
+   ]
+  },
+  {
+   "id": "dinamismo",
+   "nombre": "Dinamismo o eficacia",
+   "opciones": [
+    {
+     "id": "infantil",
+     "nombre": "Infantil o inmaduro (rígido, sin profundidad)",
+     "lectura": "esperable hasta los 14 años; en adultos, rasgos de inmadurez"
+    },
+    {
+     "id": "torpe",
+     "nombre": "Torpe o dificultoso",
+     "lectura": "dificultades de ideación o de relación, menos vitalidad o cierre afectivo"
+    },
+    {
+     "id": "agil",
+     "nombre": "Ágil o dinámico",
+     "lectura": "rapidez, facilidad de contacto y reflejos rápidos"
+    }
+   ]
+  },
+  {
+   "id": "armonia",
+   "nombre": "Equilibrio y armonía",
+   "opciones": [
+    {
+     "id": "armonico",
+     "nombre": "Armónico o proporcionado",
+     "lectura": "armonía con el entorno y consigo mismo; equilibrio entre lo espiritual y lo material; dominio de sí"
+    },
+    {
+     "id": "deforme",
+     "nombre": "Deforme o desproporcionado",
+     "lectura": "dificultades de contacto y relación; las deformaciones suelen señalar conflicto en la zona deformada"
+    }
+   ]
+  }
+ ],
+ "partes": {
+  "figura": [
+   {
+    "grupo": "Cabeza",
+    "representa": "el área racional: intelecto, imaginación, reflexión y toma de decisiones",
+    "partes": [
+     {
+      "id": "cabello",
+      "nombre": "Cabello",
+      "representa": "potencia física, sensualidad y vanidad"
+     },
+     {
+      "id": "expresion",
+      "nombre": "Expresión del rostro",
+      "representa": "la emoción presente y la necesidad de expresarla"
+     },
+     {
+      "id": "frente",
+      "nombre": "Frente",
+      "representa": "las ideas, el pensamiento y las aspiraciones"
+     },
+     {
+      "id": "cejas",
+      "nombre": "Cejas",
+      "representa": "el tacto y la diplomacia al expresarse"
+     },
+     {
+      "id": "orejas",
+      "nombre": "Orejas",
+      "representa": "la receptividad y la toma de decisiones"
+     },
+     {
+      "id": "ojos",
+      "nombre": "Ojos",
+      "representa": "el contacto con el entorno: apertura o cierre, confianza o temor"
+     },
+     {
+      "id": "nariz",
+      "nombre": "Nariz",
+      "representa": "el acercamiento social y el temperamento activo o pasivo"
+     },
+     {
+      "id": "boca",
+      "nombre": "Boca",
+      "representa": "la expresión verbal, la seguridad y la afectividad"
+     },
+     {
+      "id": "labios",
+      "nombre": "Labios",
+      "representa": "sensualidad y vanidad"
+     },
+     {
+      "id": "dientes",
+      "nombre": "Dientes",
+      "representa": "lo instintivo: agresividad y defensa"
+     },
+     {
+      "id": "menton",
+      "nombre": "Mentón y mandíbula",
+      "representa": "firmeza, tenacidad y empuje práctico"
+     }
+    ]
+   },
+   {
+    "grupo": "Tronco",
+    "representa": "el área emocional: sentimientos, sensibilidad y voluntad",
+    "partes": [
+     {
+      "id": "cuello",
+      "nombre": "Cuello",
+      "representa": "el filtro entre la razón y el sentimiento"
+     },
+     {
+      "id": "hombros",
+      "nombre": "Hombros",
+      "representa": "la voluntad de enfrentar las cosas y la fuerza vital"
+     },
+     {
+      "id": "pecho",
+      "nombre": "Pecho",
+      "representa": "la identidad de género y de rol"
+     },
+     {
+      "id": "brazos",
+      "nombre": "Brazos",
+      "representa": "los contactos sociales y la demostración de afecto"
+     },
+     {
+      "id": "manos",
+      "nombre": "Manos (dedos y uñas)",
+      "representa": "la productividad y la forma de actuar sobre el mundo"
+     }
+    ]
+   },
+   {
+    "grupo": "Parte inferior",
+    "representa": "el área instintiva: impulsos y necesidades físicas",
+    "partes": [
+     {
+      "id": "cadera",
+      "nombre": "Cadera y entrepierna",
+      "representa": "la sexualidad y su control"
+     },
+     {
+      "id": "articulaciones",
+      "nombre": "Articulaciones",
+      "representa": "defensa, fortaleza y flexibilidad"
+     },
+     {
+      "id": "piernas",
+      "nombre": "Piernas",
+      "representa": "seguridad, aplomo y cómo se para ante la vida"
+     },
+     {
+      "id": "pies",
+      "nombre": "Pies",
+      "representa": "aplomo y seguridad"
+     },
+     {
+      "id": "dedos_pie",
+      "nombre": "Dedos del pie",
+      "representa": "el nivel de agresividad"
+     }
+    ]
+   },
+   {
+    "grupo": "Accesorios",
+    "representa": "la imagen social",
+    "partes": [
+     {
+      "id": "ropa",
+      "nombre": "Ropa",
+      "representa": "la apariencia social y la vanidad"
+     },
+     {
+      "id": "bolsillos",
+      "nombre": "Bolsillos",
+      "representa": "egocentrismo e independencia"
+     },
+     {
+      "id": "lentes",
+      "nombre": "Lentes",
+      "representa": "intelectualidad o pretensión de ella"
+     },
+     {
+      "id": "corbata",
+      "nombre": "Corbata",
+      "representa": "aceptación social e imagen"
+     },
+     {
+      "id": "botones",
+      "nombre": "Botones",
+      "representa": "dependencia materna o de la infancia"
+     },
+     {
+      "id": "sombrero",
+      "nombre": "Sombrero",
+      "representa": "la autoridad"
+     },
+     {
+      "id": "zapatos",
+      "nombre": "Zapatos",
+      "representa": "seguridad y aplomo"
+     },
+     {
+      "id": "cinturon",
+      "nombre": "Cinturón o cintura",
+      "representa": "el control de los impulsos"
+     },
+     {
+      "id": "joyas",
+      "nombre": "Joyas o accesorios",
+      "representa": "vanidad"
+     },
+     {
+      "id": "pipa",
+      "nombre": "Pipa o cigarro",
+      "representa": "lo oral"
+     }
+    ]
+   }
+  ],
+  "arbol": [
+   {
+    "grupo": "Árbol",
+    "representa": "la figura paterna, la imagen inconsciente de sí y el desarrollo de la vida",
+    "partes": [
+     {
+      "id": "raices",
+      "nombre": "Raíces",
+      "representa": "los instintos"
+     },
+     {
+      "id": "suelo",
+      "nombre": "Suelo",
+      "representa": "la estabilidad y el aplomo ante la realidad"
+     },
+     {
+      "id": "tronco",
+      "nombre": "Tronco",
+      "representa": "la fortaleza, la estabilidad emocional y la autovaloración"
+     },
+     {
+      "id": "ramas",
+      "nombre": "Ramas",
+      "representa": "las relaciones personales (los «brazos» de la persona)"
+     },
+     {
+      "id": "follaje",
+      "nombre": "Follaje o copa",
+      "representa": "las ideas y la forma de razonar"
+     }
+    ]
+   }
+  ],
+  "casa": [
+   {
+    "grupo": "Casa",
+    "representa": "el hogar, la figura materna y la convivencia familiar",
+    "partes": [
+     {
+      "id": "techo",
+      "nombre": "Techo",
+      "representa": "la mente, las inquietudes y la creatividad"
+     },
+     {
+      "id": "ventanas",
+      "nombre": "Ventanas",
+      "representa": "el deseo de contemplar la vida exterior (los ojos de la casa)"
+     },
+     {
+      "id": "puerta",
+      "nombre": "Puerta",
+      "representa": "la intimidad de la persona"
+     },
+     {
+      "id": "camino",
+      "nombre": "Camino",
+      "representa": "el acceso a su vida íntima"
+     },
+     {
+      "id": "jardin",
+      "nombre": "Jardín",
+      "representa": "cómo se acomoda el mundo exterior con la intimidad"
+     },
+     {
+      "id": "chimenea",
+      "nombre": "Chimenea y humo",
+      "representa": "el afecto en la casa y su expresión"
+     }
+    ]
+   }
+  ]
+ },
+ "modificadores": [
+  {
+   "id": "exagerada",
+   "nombre": "Exagerada o muy grande",
+   "lectura": "se le da mucha importancia a lo que representa, o hay conflicto en esa área"
+  },
+  {
+   "id": "pequena",
+   "nombre": "Muy pequeña",
+   "lectura": "se resta importancia o se inhibe lo que representa"
+  },
+  {
+   "id": "omitida",
+   "nombre": "Omitida",
+   "lectura": "posible negación o conflicto en lo que representa"
+  },
+  {
+   "id": "borrada",
+   "nombre": "Borrada o retocada",
+   "lectura": "inseguridad o ansiedad respecto de lo que representa"
+  },
+  {
+   "id": "sombreada",
+   "nombre": "Sombreada o remarcada",
+   "lectura": "preocupación o tensión en lo que representa"
+  },
+  {
+   "id": "desproporcionada",
+   "nombre": "Desproporcionada o deforme",
+   "lectura": "conflicto en la zona que representa"
+  }
+ ],
+ "garabatos": [
+  {
+   "id": "grandes",
+   "nombre": "Grandes",
+   "lectura": "energía e imaginación; seguridad aparente, impulsividad y gusto por el riesgo"
+  },
+  {
+   "id": "pequenos",
+   "nombre": "Pequeños",
+   "lectura": "observación, retención de detalles, paciencia y serenidad"
+  },
+  {
+   "id": "confusos",
+   "nombre": "Confusos",
+   "lectura": "aburrimiento o liberación de pasiones contenidas; deseo de cambiar una situación monótona"
+  },
+  {
+   "id": "simples",
+   "nombre": "Simples",
+   "lectura": "comprensión, serenidad, método y gusto por lo planificado"
+  },
+  {
+   "id": "oscuros",
+   "nombre": "Oscuros y sombreados",
+   "lectura": "tristeza o ansiedad contenida; un momento difícil"
+  },
+  {
+   "id": "claros",
+   "nombre": "Claros",
+   "lectura": "objetividad y gusto por lo simple; buena actitud ante los problemas"
+  },
+  {
+   "id": "curvos",
+   "nombre": "Curvos",
+   "lectura": "dulzura, afecto, imaginación y creatividad"
+  },
+  {
+   "id": "rectos",
+   "nombre": "Rectos",
+   "lectura": "sentido práctico y cálculo; dificultad para mostrar sentimientos"
+  },
+  {
+   "id": "flechas",
+   "nombre": "Flechas",
+   "lectura": "búsqueda de nuevos horizontes y fuerza para cambiar; según hacia dónde apunte, enojo"
+  },
+  {
+   "id": "flechas_curvas",
+   "nombre": "Flechas curvas",
+   "lectura": "lucha por el éxito con menos agresividad"
+  },
+  {
+   "id": "laberinto",
+   "nombre": "Laberintos",
+   "lectura": "búsqueda de una meta en medio de la confusión"
+  },
+  {
+   "id": "circulos_marcos",
+   "nombre": "Círculos y marcos",
+   "lectura": "introversión y dificultad para comunicar necesidades; con suavidad y color, ganas de vivir"
+  },
+  {
+   "id": "geometricas",
+   "nombre": "Formas geométricas",
+   "lectura": "análisis y planificación; necesidad de control"
+  },
+  {
+   "id": "geometricas_unidas",
+   "nombre": "Figuras geométricas unidas o intercaladas",
+   "lectura": "frialdad, autocontrol afectivo, exceso de racionalidad y necesidad de orden"
+  },
+  {
+   "id": "geometricas_rellenas",
+   "nombre": "Figuras geométricas rellenas",
+   "lectura": "intento de suavizar asperezas; sensibilidad"
+  },
+  {
+   "id": "criaturas",
+   "nombre": "Criaturas",
+   "lectura": "poca transparencia, desconfianza o miedo al rechazo"
+  },
+  {
+   "id": "cuadros",
+   "nombre": "Cuadros",
+   "lectura": "búsqueda de orden y respeto por las reglas; incomodidad ante lo imprevisto"
+  },
+  {
+   "id": "cuadros_lineas",
+   "nombre": "Cuadros rellenos de líneas paralelas",
+   "lectura": "orden, asociación lógica, precisión y concentración"
+  },
+  {
+   "id": "cuadriculados",
+   "nombre": "Cuadriculados",
+   "lectura": "preocupación o tensión; sensación de estar atrapado"
+  },
+  {
+   "id": "cadenas",
+   "nombre": "Cadenas",
+   "lectura": "vínculo con la pareja si es continua; deseo de libertad si está rota"
+  },
+  {
+   "id": "zigzag",
+   "nombre": "Zigzag",
+   "lectura": "enojo; tensión que se acumula y se descarga de golpe"
+  },
+  {
+   "id": "blancos_negros",
+   "nombre": "Cuadros blancos y negros alternados",
+   "lectura": "ambivalencia; mucho orden"
+  },
+  {
+   "id": "espiral_centrifuga",
+   "nombre": "Espiral del centro hacia afuera",
+   "lectura": "expansión y deseo de ampliar horizontes; temor a la soledad"
+  },
+  {
+   "id": "espiral_centripeta",
+   "nombre": "Espiral de afuera hacia el centro",
+   "lectura": "egocentrismo y peso del pasado"
+  },
+  {
+   "id": "espirales_s",
+   "nombre": "Espirales unidas en «s» acostada",
+   "lectura": "búsqueda de perfección, idealismo, ambivalencia"
+  },
+  {
+   "id": "rectangulos",
+   "nombre": "Rectángulos",
+   "lectura": "gusto por la disciplina; agresividad contenida"
+  },
+  {
+   "id": "triangulo_arriba",
+   "nombre": "Triángulos hacia arriba",
+   "lectura": "energía y empuje"
+  },
+  {
+   "id": "triangulo_abajo",
+   "nombre": "Triángulos hacia abajo",
+   "lectura": "pasividad o poca ambición"
+  },
+  {
+   "id": "puntos",
+   "nombre": "Puntos",
+   "lectura": "impulsividad y agresividad mal controlada"
+  },
+  {
+   "id": "rayado",
+   "nombre": "Rayado intenso",
+   "lectura": "enojo y descontrol; en niños, mucha actividad"
+  },
+  {
+   "id": "mancha",
+   "nombre": "Manchas de tinta",
+   "lectura": "descontento de sí o angustia"
+  },
+  {
+   "id": "mancha_explosion",
+   "nombre": "Mancha en explosión",
+   "lectura": "excitabilidad y reflejos rápidos"
+  },
+  {
+   "id": "aros_sueltos",
+   "nombre": "Aros sueltos",
+   "lectura": "introversión y aislamiento"
+  },
+  {
+   "id": "aros_entrelazados",
+   "nombre": "Aros entrelazados",
+   "lectura": "deseo de salir del aislamiento y adaptarse"
+  }
+ ],
+ "colores": [
+  {
+   "id": "azul",
+   "nombre": "Azul",
+   "clave": "calma, serenidad, entendimiento",
+   "ninos": "si domina, gran control de sí; celeste, tendencia a ser espectador más que actor",
+   "adultos": "cercanía, equilibrio, sinceridad y lealtad; el azul marino, eficiencia y necesidad de impresionar"
+  },
+  {
+   "id": "verde",
+   "nombre": "Verde",
+   "clave": "reposo, equilibrio, esperanza",
+   "ninos": "si domina, riesgo de pereza o inhibición; con otros indicadores, rebeldía",
+   "adultos": "deseo de destacar de forma inteligente; adaptabilidad"
+  },
+  {
+   "id": "morado",
+   "nombre": "Morado o violeta",
+   "clave": "inquietud, idealismo, pudor",
+   "ninos": "puede reflejar presión de los padres y miedo a no cumplir sus expectativas",
+   "adultos": "espiritualidad e imaginación; en exceso, necesidad de mostrarse"
+  },
+  {
+   "id": "rojo",
+   "nombre": "Rojo",
+   "clave": "actividad, energía, pasión",
+   "ninos": "si domina, exuberancia o excitabilidad",
+   "adultos": "fuerza, deseo de destacar y de ser el centro de atención"
+  },
+  {
+   "id": "rosa",
+   "nombre": "Rosa",
+   "clave": "calidez",
+   "ninos": "superación de problemas recientes",
+   "adultos": "deseo de no crecer, pasividad o necesidad de atención"
+  },
+  {
+   "id": "amarillo",
+   "nombre": "Amarillo",
+   "clave": "adaptación, dinamismo, apertura",
+   "ninos": "si domina, tensión con la figura paterna o en la familia; también curiosidad y alegría",
+   "adultos": "alegría, optimismo y deseo de brillar"
+  },
+  {
+   "id": "naranja",
+   "nombre": "Naranja",
+   "clave": "comunicación social",
+   "ninos": "incertidumbre o deseo de atención",
+   "adultos": "deseo de destacar en la comunicación; calidez"
+  },
+  {
+   "id": "cafe",
+   "nombre": "Café o marrón",
+   "clave": "seriedad, prudencia, «pies en la tierra»",
+   "ninos": "posible responsabilidad prematura o control excesivo de sí",
+   "adultos": "necesidad de hacerse notar"
+  },
+  {
+   "id": "gris",
+   "nombre": "Gris",
+   "clave": "transición",
+   "ninos": "inseguridad en sus elecciones; influenciable",
+   "adultos": "deseo de pasar desapercibido o adaptarse"
+  },
+  {
+   "id": "negro",
+   "nombre": "Negro",
+   "clave": "vida interior, reserva, melancolía",
+   "ninos": "conviene atender su emotividad",
+   "adultos": "formalidad, elegancia y ambición convencional"
+  },
+  {
+   "id": "blanco",
+   "nombre": "Blanco (sin color)",
+   "clave": "neutralidad",
+   "ninos": "en exceso, rechazo de límites",
+   "adultos": "—"
+  }
+ ]
+}

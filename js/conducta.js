@@ -19,9 +19,10 @@ const fx = (v, d = 1) => (v == null || Number.isNaN(v) ? "—" : Number(v).toFix
 // ---------- pestañas ----------
 for (const b of document.querySelectorAll(".pestanas button")) b.onclick = () => {
   for (const o of document.querySelectorAll(".pestanas button")) { o.setAttribute("aria-selected", String(o === b)); $(o.dataset.panel).hidden = o !== b; }
-  try { history.replaceState(null, "", `#${b.dataset.panel === "p-grafo" ? "grafologia" : "cuerpo"}`); } catch (e) { /* nada */ }
+  try { history.replaceState(null, "", `#${{ "p-grafo": "grafologia", "p-dibujo": "dibujos" }[b.dataset.panel] || "cuerpo"}`); } catch (e) { /* nada */ }
 };
 if (location.hash === "#grafologia") document.querySelector('[data-panel="p-grafo"]').click();
+if (location.hash === "#dibujos") document.querySelector('[data-panel="p-dibujo"]').click();
 
 const [CAT_C, CAT_G, COMP_G] = await Promise.all([fetch("config/lenguaje_corporal.json").then((r) => r.json()), fetch("config/grafologia.json").then((r) => r.json()),
   fetch("config/grafologia_complemento.json").then((r) => (r.ok ? r.json() : { interpretaciones: {} })).catch(() => ({ interpretaciones: {} }))]);
