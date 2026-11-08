@@ -53,6 +53,16 @@
     .grafo-grupo h4 { margin: 4px 0; font-size: 13px; }
     .rasgo { display: grid; grid-template-columns: 22px 1fr; gap: 4px; font-size: 13px; padding: 2px 0; }
     .rasgo .det { color: var(--text-2); font-size: 12px; }
+    .obs-ed { margin: 0 0 8px 26px; font-size: 13px; border-left: 3px solid #E6510066; padding-left: 8px; }
+    .obs-ed summary { cursor: pointer; color: var(--text-2); }
+    .obs-lugares { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2px 10px; margin: 4px 0; }
+    .obs-ed textarea { width: 100%; min-height: 44px; }
+    .rasgo.letra-fila { grid-template-columns: 22px 1fr !important; }
+    .letras-botones { display: flex; flex-wrap: wrap; gap: 4px; margin: 6px 0; }
+    .letras-botones button { font: inherit; min-width: 40px; min-height: 38px; padding: 2px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .letras-botones button[aria-pressed="true"] { background: var(--accent, #C8102E); color: #fff; border-color: transparent; }
+    .letras-botones button.con { border-color: #E65100; font-weight: 700; }
+    .letras-botones button sup { font-size: 10px; }
     .medido { background: #2E7D3222; border-radius: 4px; }
     .medido-tag { font-size: 11px; color: #2E7D32; font-weight: 600; }
     .estimado { background: #1565C018; border-radius: 4px; }
@@ -217,6 +227,11 @@
           Los gestos tipo, rasgos tipo, abreaciones y la mayoría de los accidentes dependen de la forma de cada letra: márcalos a mano comparando con el dibujo de ejemplo (esquemático, no es una muestra real).
           Las interpretaciones vienen de tu resumen; cuando falta, se muestra una lectura complementaria marcada como tal.</p>
         <div id="g-lista"></div>
+        <details class="tarjeta" id="g-letras-caja"><summary><b>🔤 Letras y números</b> <span class="meta">(opcional: los que sean distintos al modelo caligráfico o llamen la atención)</span> <span id="g-letras-n" class="medido-tag"></span></summary>
+          <p class="meta">Elige una letra o un número para ver sus variantes. Marca solo lo que veas en el original. Cada variante trae su lectura tradicional (lectura complementaria, no viene de tu resumen) y puedes indicar dónde la encontraste. Al final de cada letra están los rasgos generales: más grande o más pequeña que las demás, otra inclinación, forma propia, adornada, retocada…</p>
+          <div id="g-letras-botones" class="letras-botones" role="group" aria-label="Letras y números"></div>
+          <div id="g-letras-panel"></div>
+        </details>
       </div>
       <div class="tarjeta" id="g-informe-caja" hidden>
         <h2>4. Informe</h2>

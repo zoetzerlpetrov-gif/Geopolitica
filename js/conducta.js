@@ -4,7 +4,8 @@ import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA, deten
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
-import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura, escalaGrafo, rasgosDeFirmaSola } from "./grafo-logica.js";
+import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura, escalaGrafo, rasgosDeFirmaSola, CON_OBSERVACIONES, LUGARES, FRECUENCIAS } from "./grafo-logica.js";
+import { unirLetras, SECCION_LETRAS } from "./grafo-letras.js";
 import { ejemplo } from "./grafo-ejemplos.js";
 import { redactar, aHTML, aTexto, cuartillas, AREAS, EXTENSIONES } from "./grafo-redaccion.js";
 
@@ -23,6 +24,8 @@ if (location.hash === "#grafologia") document.querySelector('[data-panel="p-graf
 
 const [CAT_C, CAT_G, COMP_G] = await Promise.all([fetch("config/lenguaje_corporal.json").then((r) => r.json()), fetch("config/grafologia.json").then((r) => r.json()),
   fetch("config/grafologia_complemento.json").then((r) => (r.ok ? r.json() : { interpretaciones: {} })).catch(() => ({ interpretaciones: {} }))]);
+// Letras y números: una sección más del catálogo (lecturas complementarias)
+unirLetras(CAT_G, COMP_G, await fetch("config/grafologia_letras.json").then((r) => (r.ok ? r.json() : null)).catch(() => null));
 $("c-aviso").textContent = AVISO_CONDUCTA;
 $("g-aviso").textContent = AVISO;
 $("c-principios").innerHTML = `<ol>${CAT_C.principios.map((p) => `<li><b>${esc(p.nombre)}.</b> ${esc(p.texto)}</li>`).join("")}</ol><p class="meta">${esc(CAT_C.fuente)}</p>`;
@@ -560,7 +563,7 @@ function pintarMedidas(k, esc0 = {}) {
 
 function pintarLista() {
   $("g-lista-caja").hidden = false;
-  $("g-lista").innerHTML = CAT_G.secciones.filter((s) => s.id !== "temperamento").map((s) => {
+  $("g-lista").innerHTML = CAT_G.secciones.filter((s) => s.id !== "temperamento" && s.id !== SECCION_LETRAS).map((s) => {
     const n = s.grupos.reduce((a, g) => a + g.rasgos.filter((r) => seleccion.has(clave(s.id, g.id, r.id))).length, 0);
     return `<details class="tarjeta grafo-sec" ${n ? "open" : ""}><summary><b>${esc(s.nombre)}</b>${s.lema ? ` <span class="meta">(${esc(s.lema)})</span>` : ""} ${n ? `<span class="medido-tag">· ${n} marcado(s)</span>` : ""}</summary>
       ${s.descripcion ? `<p class="meta">${esc(s.descripcion)}</p>` : ""}
@@ -571,28 +574,89 @@ function pintarLista() {
           <span><b>${esc(r.nombre)}</b>${r.nota ? ` <span class="det">${esc(r.nota)}</span>` : ""}
           ${r.variantes.length ? ` <select data-var="${esc(k)}" aria-label="Variante"><option value="">—</option>${r.variantes.map((v) => `<option ${e?.variante === v ? "selected" : ""}>${esc(v)}</option>`).join("")}</select>` : ""}
           ${e?.origen === "medido" ? ` <span class="medido-tag">📏 ${esc(e.valor)}</span>` : e?.origen === "estimado" ? ` <span class="estimado-tag">🔎 ${esc(e.valor)}</span>` : ""}
-          ${r.interpretacion ? `<br><span class="det">${esc(r.interpretacion)}</span>` : comp ? `<br><span class="det">${esc(comp)} <i>(lectura complementaria)</i></span>` : ""}</span></label>`;
+          ${r.interpretacion ? `<br><span class="det">${esc(r.interpretacion)}</span>` : comp ? `<br><span class="det">${esc(comp)} <i>(lectura complementaria)</i></span>` : ""}</span></label>${e && CON_OBSERVACIONES.has(s.id) ? editorObs(k, e.obs) : ""}`;
       }).join("")}</div>`).join("")}</details>`;
   }).join("");
+  pintarLetras();
 }
-$("g-lista").addEventListener("change", (e) => {
+
+// ---------- observaciones por rasgo (dónde se encontró) ----------
+function editorObs(k, obs = {}) {
+  obs = obs || {};
+  const lleno = obs.lugares?.length || obs.nota || obs.letras || obs.frecuencia;
+  return `<div class="obs-ed" data-obs="${esc(k)}"><details ${lleno ? "open" : ""}><summary>📍 Dónde se encontró y observaciones (opcional)</summary>
+    <div class="obs-lugares">${LUGARES.map((l) => `<label title="Se relaciona con ${esc(l.lee)}"><input type="checkbox" data-lugar="${l.id}" ${obs.lugares?.includes(l.id) ? "checked" : ""}> ${esc(l.nombre)}</label>`).join("")}</div>
+    <div class="barra"><label>Frecuencia <select data-campo="frecuencia"><option value="">—</option>${Object.entries(FRECUENCIAS).map(([v, x]) => `<option value="${v}" ${obs.frecuencia === v ? "selected" : ""}>${esc(x)}</option>`).join("")}</select></label>
+      <label>En qué letras o números <input data-campo="letras" value="${esc(obs.letras || "")}" placeholder="Ej.: g, y, f" style="width:130px"></label></div>
+    <textarea data-campo="nota" rows="2" placeholder="Observación libre (opcional). Ej.: solo aparece al final del escrito.">${esc(obs.nota || "")}</textarea></details></div>`;
+}
+let tInforme = null;
+function alCambiarRasgos(e) {
+  const ed = e.target.closest(".obs-ed");
+  if (ed) {
+    const s = seleccion.get(ed.dataset.obs); if (!s) return;
+    const o = (s.obs ||= { lugares: [], letras: "", frecuencia: "", nota: "" });
+    if (e.target.dataset.lugar) o.lugares = [...ed.querySelectorAll("[data-lugar]:checked")].map((x) => x.dataset.lugar);
+    else if (e.target.dataset.campo) o[e.target.dataset.campo] = e.target.value;
+    clearTimeout(tInforme); tInforme = setTimeout(pintarInforme, e.type === "input" ? 400 : 0);
+    return;
+  }
+  if (e.type === "input") return;
   const k = e.target.dataset.k, kv = e.target.dataset.var;
-  if (k) { if (e.target.checked) seleccion.set(k, { origen: "manual", variante: e.target.closest("label").querySelector("select")?.value || "" }); else seleccion.delete(k); e.target.closest("label").classList.remove("medido"); }
+  if (k) {
+    const label = e.target.closest("label");
+    if (e.target.checked) seleccion.set(k, { origen: "manual", variante: label.querySelector("select")?.value || "" }); else seleccion.delete(k);
+    label.classList.remove("medido");
+    const sig = label.nextElementSibling?.matches?.(".obs-ed") ? label.nextElementSibling : null;
+    if (!e.target.checked) sig?.remove();
+    else if (!sig && CON_OBSERVACIONES.has(k.split("/")[0])) label.insertAdjacentHTML("afterend", editorObs(k));
+    if (k.startsWith(`${SECCION_LETRAS}/`)) contarLetras();
+  }
   if (kv) {
     const s = seleccion.get(kv) || { origen: "manual" }; s.variante = e.target.value; seleccion.set(kv, s); e.target.closest("label").querySelector("input").checked = true;
     const caja = e.target.closest("label").querySelector(".ej-caja"); if (caja) caja.innerHTML = ejemplo(kv, s.variante);
   }
   pintarInforme();
-});
+}
+for (const id of ["g-lista", "g-letras-panel"]) { $(id).addEventListener("change", alCambiarRasgos); $(id).addEventListener("input", alCambiarRasgos); }
 
+// ---------- letras y números ----------
+let letraActual = "";
+const SEC_L = () => CAT_G.secciones.find((s) => s.id === SECCION_LETRAS);
+const etiquetaLetra = (g) => ({ enie: "ñ", mayusculas: "ABC", yo: "Yo", numeros: "123" }[g.id] || g.nombre.replace(/^(Letra|Número) /, ""));
+function contarLetras() {
+  const S = SEC_L(); if (!S) return;
+  let total = 0;
+  for (const b of $("g-letras-botones").querySelectorAll("button")) {
+    const g = S.grupos.find((x) => x.id === b.dataset.l), n = g.rasgos.filter((r) => seleccion.has(clave(S.id, g.id, r.id))).length; total += n;
+    b.classList.toggle("con", n > 0); b.innerHTML = `${esc(etiquetaLetra(g))}${n ? `<sup>${n}</sup>` : ""}`;
+  }
+  $("g-letras-n").textContent = total ? `· ${total} marcado(s)` : "";
+}
+function pintarLetras() {
+  const S = SEC_L(); if (!S) { $("g-letras-caja").hidden = true; return; }
+  $("g-letras-botones").innerHTML = S.grupos.map((g) => `<button type="button" data-l="${esc(g.id)}" aria-pressed="${g.id === letraActual}" title="${esc(g.nombre)}: ${esc(g.simboliza)}"></button>`).join("");
+  contarLetras();
+  const g = S.grupos.find((x) => x.id === letraActual);
+  if (!g) { $("g-letras-panel").innerHTML = '<p class="meta">Elige una letra o un número.</p>'; return; }
+  const fila = (r) => {
+    const k = clave(S.id, g.id, r.id), e = seleccion.get(k);
+    return `<label class="rasgo letra-fila"><input type="checkbox" data-k="${esc(k)}" ${e ? "checked" : ""}><span><b>${esc(r.nombre)}</b><br><span class="det">${esc(COMP_G.interpretaciones?.[k] || "")}</span></span></label>${e ? editorObs(k, e.obs) : ""}`;
+  };
+  $("g-letras-panel").innerHTML = `<h3>${esc(g.nombre)}</h3><p class="meta">Representa ${esc(g.simboliza)}.</p>
+    <div class="grafo-grupo"><h4>Variantes de ${g.tipo === "numero" ? "este número" : g.tipo === "mayuscula" ? "estas mayúsculas" : "esta letra"}</h4>${g.rasgos.filter((r) => !r.generica).map(fila).join("")}</div>
+    <div class="grafo-grupo"><h4>Rasgos generales</h4>${g.rasgos.filter((r) => r.generica).map(fila).join("")}</div>`;
+}
+$("g-letras-botones").addEventListener("click", (e) => { const b = e.target.closest("button[data-l]"); if (!b) return; letraActual = letraActual === b.dataset.l ? "" : b.dataset.l; pintarLetras(); });
 function pintarInforme() {
   const inf = informe(CAT_G, seleccion);
   $("g-informe-caja").hidden = false;
   const maxT = Math.max(...inf.temperamento.map((t) => t.puntaje), 0.01);
   $("g-informe").innerHTML = `
     ${inf.secciones.length ? inf.secciones.map((s) => `<h3>${esc(s.nombre)}${s.lema ? ` · <span class="meta">${esc(s.lema)}</span>` : ""}</h3>
-      ${s.items.map((i) => `<div class="inf-item"><b>${esc(i.rasgo)}</b>${i.variante ? ` (${esc(i.variante)})` : ""} ${i.origen === "medido" ? `<span class="medido-tag">📏 ${esc(i.valor)}</span>` : i.origen === "estimado" ? `<span class="estimado-tag">🔎 ${esc(i.valor)}</span>` : `<span class="meta">observado</span>`}
+      ${s.items.map((i) => `<div class="inf-item"><b>${s.id === SECCION_LETRAS ? `${esc(i.grupo)}: ` : ""}${esc(i.rasgo)}</b>${i.variante ? ` (${esc(i.variante)})` : ""} ${i.origen === "medido" ? `<span class="medido-tag">📏 ${esc(i.valor)}</span>` : i.origen === "estimado" ? `<span class="estimado-tag">🔎 ${esc(i.valor)}</span>` : `<span class="meta">observado</span>`}
         ${i.interpretacion ? `<br>${esc(i.interpretacion)}` : COMP_G.interpretaciones?.[i.clave] ? `<br>${esc(COMP_G.interpretaciones[i.clave])} <span class="meta">(lectura complementaria)</span>` : `<br><span class="meta">Tu resumen no trae interpretación para este rasgo.</span>`}
+        ${i.observacion ? `<br><span class="meta">📍 ${esc(i.observacion)}</span>` : ""}
         ${i.origen !== "manual" && i.motivo ? `<br><span class="meta">Cómo se midió: ${esc(i.motivo)}</span>` : ""}</div>`).join("")}`).join("") : `<p class="meta">Aún no hay rasgos marcados.</p>`}
     <h3>Temperamento (indicadores de tu resumen que se cumplen)</h3>
     <div class="barras">${inf.temperamento.map((t) => `<div class="fila"><span>${esc(t.nombre)}</span><div style="width:${(t.puntaje / maxT) * 100}%;${t.puntaje ? "" : "opacity:.15"}"></div><span>${t.cumple.length}/${t.total}</span></div>

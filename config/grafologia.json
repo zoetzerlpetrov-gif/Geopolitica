@@ -1832,10 +1832,18 @@
        "variantes": []
       },
       {
-       "id": "zon_izquierda",
-       "nombre": "Zon izquierda",
+       "id": "zona_izquierda",
+       "nombre": "Zona izquierda",
        "nota": "",
        "interpretacion": "Pasado presente",
+       "indicadores": "",
+       "variantes": []
+      },
+      {
+       "id": "zona_derecha",
+       "nombre": "Zona derecha",
+       "nota": "",
+       "interpretacion": "",
        "indicadores": "",
        "variantes": []
       }
@@ -1862,8 +1870,8 @@
        "variantes": []
       },
       {
-       "id": "zon_izquierda",
-       "nombre": "Zon izquierda",
+       "id": "zona_izquierda",
+       "nombre": "Zona izquierda",
        "nota": "",
        "interpretacion": "Cerrar ciclos – no recordar",
        "indicadores": "",

@@ -254,7 +254,7 @@ export function informe(catalogo, seleccion) {
     for (const g of s.grupos) for (const r of g.rasgos) {
       const k = clave(s.id, g.id, r.id), e = seleccion.get(k);
       if (!e) continue;
-      items.push({ clave: k, grupo: g.nombre, rasgo: r.nombre, nota: r.nota, variante: e.variante || "", interpretacion: r.interpretacion || "", valor: e.valor || "", motivo: e.motivo || "", origen: e.origen || "manual" });
+      items.push({ clave: k, grupo: g.nombre, rasgo: r.nombre, nota: r.nota, variante: e.variante || "", interpretacion: r.interpretacion || "", valor: e.valor || "", motivo: e.motivo || "", origen: e.origen || "manual", observacion: textoObservacion(e.obs).texto });
     }
     if (items.length) secciones.push({ id: s.id, nombre: s.nombre, lema: s.lema, items });
   }
@@ -310,4 +310,38 @@ export function escalaGrafo(opcion, { anchoImg, altoImg, anchoAzul = 0, mmAzul =
 export function rasgosDeFirmaSola(lista) {
   return (lista || []).filter((c) => !/^(orden|espacio_grafico|direccion)\/|^dimension\/espaciamiento\//.test(c.clave))
     .map((c) => ({ ...c, motivo: `${c.motivo} (medido en la firma)` }));
+}
+
+/** Secciones en que cada rasgo admite «dónde se encontró» y observaciones (opcional). */
+export const CON_OBSERVACIONES = new Set(["gestos_tipos", "rasgos_tipo", "derivados_de_imperfecciones_o_accidentes", "letras_y_numeros"]);
+
+/** Lugares donde se puede encontrar un rasgo y su lectura según el simbolismo del espacio (Max Pulver, 1931). */
+export const LUGARES = [
+  { id: "zona_superior", nombre: "Zona superior (hampas, puntos, acentos)", lee: "lo intelectual, las ideas y las aspiraciones" },
+  { id: "zona_media", nombre: "Zona media (cuerpo de las letras)", lee: "el yo, la afectividad y la vida cotidiana" },
+  { id: "zona_inferior", nombre: "Zona inferior (jambas)", lee: "lo material, lo instintivo y lo físico" },
+  { id: "inicio_palabra", nombre: "Al inicio de palabra", lee: "la forma de empezar: el yo y lo que viene del pasado" },
+  { id: "final_palabra", nombre: "Al final de palabra", lee: "la forma de terminar y de ir hacia los demás y el futuro" },
+  { id: "izquierda", nombre: "Lado izquierdo de la hoja", lee: "el pasado, el yo y el origen" },
+  { id: "centro", nombre: "Centro de la hoja", lee: "el presente" },
+  { id: "derecha", nombre: "Lado derecho de la hoja", lee: "el futuro y los demás" },
+  { id: "arriba", nombre: "Parte de arriba de la hoja (comienzo del escrito)", lee: "la forma de presentarse al empezar" },
+  { id: "abajo", nombre: "Parte de abajo de la hoja (final del escrito)", lee: "cómo se sostiene la energía hasta el final; si aparece solo ahí, posible cansancio" },
+  { id: "mayusculas", nombre: "En mayúsculas", lee: "la autoimagen y la forma de presentarse" },
+  { id: "firma", nombre: "En la firma", lee: "la imagen pública que se desea proyectar" },
+  { id: "numeros", nombre: "En números", lee: "la relación con lo material y el dinero" },
+];
+export const FRECUENCIAS = { aislado: "una sola vez (indicio débil)", ocasional: "ocasionalmente", frecuente: "con frecuencia (rasgo habitual)" };
+
+/** Observación de un rasgo → { corto, texto } para el informe y el análisis escrito. obs: { lugares, letras, frecuencia, nota }. */
+export function textoObservacion(obs) {
+  if (!obs) return { corto: "", texto: "" };
+  const ls = (obs.lugares || []).map((id) => LUGARES.find((l) => l.id === id)).filter(Boolean);
+  const partes = [ls.map((l) => l.nombre.replace(/\s*\(.*\)$/, "").toLowerCase()).join(", "), obs.letras ? `letras o números: ${obs.letras}` : "", (FRECUENCIAS[obs.frecuencia] || "").replace(/\s*\(.*\)$/, "")].filter(Boolean);
+  if (!partes.length && !obs.nota) return { corto: "", texto: "" };
+  const corto = partes.join("; ");
+  let texto = partes.length ? `Se encontró: ${corto}.` : "";
+  if (ls.length) texto += ` Según el simbolismo del espacio (Max Pulver), ${ls.map((l) => `${l.nombre.replace(/\s*\(.*\)$/, "").toLowerCase()} remite a ${l.lee}`).join("; ")}.`;
+  if (obs.nota) texto += ` Observación: ${String(obs.nota).trim().replace(/[.\s]+$/, "")}.`;
+  return { corto, texto: texto.trim() };
 }
