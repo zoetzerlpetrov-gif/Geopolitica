@@ -1562,7 +1562,8 @@
    "alternativas": "Pensar con cuidado, idioma, nervios.",
    "estados": [
     "carga_cognitiva"
-   ]
+   ],
+   "auto": "pausas_largas"
   },
   {
    "id": "tono_sube",
@@ -1573,19 +1574,21 @@
    "alternativas": "Emoción positiva, entusiasmo.",
    "estados": [
     "tension"
-   ]
+   ],
+   "auto": "tono_sube"
   },
   {
    "id": "volumen_cambia",
    "zona": "voz",
-   "nombre": "Cambio brusco de volumen",
-   "como": "Sube o baja la voz de golpe.",
-   "lectura": "Enojo (sube) o inseguridad (baja).",
+   "nombre": "Sube el volumen de golpe",
+   "como": "La voz se vuelve notablemente más fuerte que en su línea base.",
+   "lectura": "Enojo, énfasis o necesidad de imponerse.",
    "alternativas": "",
    "estados": [
     "enojo",
     "inseguridad"
-   ]
+   ],
+   "auto": "volumen_cambia"
   },
   {
    "id": "habla_rapida",
@@ -1597,7 +1600,8 @@
    "estados": [
     "tension",
     "deseo_irse"
-   ]
+   ],
+   "auto": "habla_rapida"
   },
   {
    "id": "muletillas",
@@ -1688,6 +1692,541 @@
    "alternativas": "Persona preparada para una entrevista.",
    "estados": [
     "carga_cognitiva"
+   ]
+  },
+  {
+   "id": "arquear_ceja",
+   "zona": "rostro",
+   "nombre": "Arquear una sola ceja",
+   "como": "Una ceja sube y la otra no.",
+   "lectura": "Escepticismo, duda o sorpresa ante lo que oye.",
+   "alternativas": "Gesto habitual al hablar en algunas personas.",
+   "estados": [
+    "evaluacion",
+    "desacuerdo"
+   ],
+   "auto": "arquear_ceja"
+  },
+  {
+   "id": "entrecerrar_ojos",
+   "zona": "ojos",
+   "nombre": "Entrecerrar los ojos",
+   "como": "Párpados que se cierran a medias sin parpadear.",
+   "lectura": "Sospecha, evaluación o desagrado.",
+   "alternativas": "Luz fuerte, miopía, sonrisa intensa.",
+   "estados": [
+    "evaluacion",
+    "desacuerdo"
+   ],
+   "auto": "entrecerrar_ojos"
+  },
+  {
+   "id": "lamerse_labios",
+   "zona": "rostro",
+   "nombre": "Lamerse o humedecerse los labios",
+   "como": "La lengua asoma o recorre los labios.",
+   "lectura": "Boca seca por estrés o nervios.",
+   "alternativas": "Labios resecos, comer, hábito.",
+   "estados": [
+    "tension"
+   ],
+   "auto": "lamerse_labios"
+  },
+  {
+   "id": "inflar_mejillas",
+   "zona": "rostro",
+   "nombre": "Inflar las mejillas o soplar",
+   "como": "Mejillas infladas y aire que sale.",
+   "lectura": "Alivio, agobio o frustración («uf»).",
+   "alternativas": "Cansancio físico.",
+   "estados": [
+    "tension",
+    "tristeza"
+   ],
+   "auto": "inflar_mejillas"
+  },
+  {
+   "id": "fruncir_boca",
+   "zona": "rostro",
+   "nombre": "Fruncir la boca («piquito»)",
+   "como": "Labios adelantados y apretados.",
+   "lectura": "Desacuerdo o reflexión sobre algo que no convence.",
+   "alternativas": "Concentración, hábito.",
+   "estados": [
+    "desacuerdo",
+    "evaluacion"
+   ],
+   "auto": "fruncir_boca"
+  },
+  {
+   "id": "boca_de_lado",
+   "zona": "rostro",
+   "nombre": "Boca hacia un lado",
+   "como": "Los labios se jalan hacia una comisura.",
+   "lectura": "Duda, escepticismo o contención.",
+   "alternativas": "Hábito, asimetría facial.",
+   "estados": [
+    "evaluacion",
+    "desacuerdo"
+   ],
+   "auto": "boca_de_lado"
+  },
+  {
+   "id": "mirar_arriba",
+   "zona": "ojos",
+   "nombre": "Mirar hacia arriba",
+   "como": "Los ojos suben sin mover la cabeza.",
+   "lectura": "Recordar o construir una idea; también fastidio («poner los ojos en blanco»).",
+   "alternativas": "Pensar es normal; no indica mentira.",
+   "estados": [
+    "carga_cognitiva",
+    "desagrado"
+   ],
+   "auto": "mirar_arriba"
+  },
+  {
+   "id": "cubrirse_ojos",
+   "zona": "manos_rostro",
+   "nombre": "Cubrirse los ojos con las manos",
+   "como": "Una o ambas manos tapan los ojos.",
+   "lectura": "Bloqueo: no querer ver, vergüenza o abrumarse.",
+   "alternativas": "Cansancio, luz.",
+   "estados": [
+    "tristeza",
+    "inseguridad",
+    "desacuerdo"
+   ],
+   "auto": "cubrirse_ojos"
+  },
+  {
+   "id": "cabeza_entre_manos",
+   "zona": "manos_rostro",
+   "nombre": "Cabeza entre las manos",
+   "como": "Ambas manos sostienen la cabeza por los lados.",
+   "lectura": "Agobio, desánimo o frustración.",
+   "alternativas": "Cansancio, dolor de cabeza.",
+   "estados": [
+    "tristeza",
+    "tension"
+   ],
+   "auto": "cabeza_entre_manos"
+  },
+  {
+   "id": "tocarse_labios",
+   "zona": "manos_rostro",
+   "nombre": "Dedos en los labios",
+   "como": "Uno o varios dedos rozan o presionan los labios.",
+   "lectura": "Contener palabras, duda o búsqueda de calma.",
+   "alternativas": "Hábito al pensar.",
+   "estados": [
+    "tension",
+    "evaluacion"
+   ]
+  },
+  {
+   "id": "sostener_frente",
+   "zona": "manos_rostro",
+   "nombre": "Sostenerse la frente",
+   "como": "La palma se apoya en la frente.",
+   "lectura": "Agobio, preocupación o «no puede ser».",
+   "alternativas": "Dolor de cabeza.",
+   "estados": [
+    "tension",
+    "tristeza"
+   ]
+  },
+  {
+   "id": "destello_cejas",
+   "zona": "rostro",
+   "nombre": "Destello de cejas",
+   "como": "Ambas cejas suben y bajan muy rápido al ver a alguien.",
+   "lectura": "Reconocimiento y agrado al saludar.",
+   "alternativas": "",
+   "estados": [
+    "alegria",
+    "interes"
+   ]
+  },
+  {
+   "id": "barbilla_arrugada",
+   "zona": "rostro",
+   "nombre": "Barbilla arrugada o temblorosa",
+   "como": "El mentón se arruga como piel de naranja.",
+   "lectura": "Tristeza o llanto contenido.",
+   "alternativas": "Frío.",
+   "estados": [
+    "tristeza"
+   ]
+  },
+  {
+   "id": "narinas_abiertas",
+   "zona": "rostro",
+   "nombre": "Fosas nasales que se abren",
+   "como": "Las narinas se ensanchan al respirar.",
+   "lectura": "Enojo, esfuerzo o preparación para actuar.",
+   "alternativas": "Ejercicio, respiración por la nariz.",
+   "estados": [
+    "enojo",
+    "tension"
+   ]
+  },
+  {
+   "id": "ojos_humedos",
+   "zona": "ojos",
+   "nombre": "Ojos húmedos o lágrimas",
+   "como": "Brillo en los ojos o lágrimas.",
+   "lectura": "Emoción intensa (tristeza, alegría o rabia).",
+   "alternativas": "Alergia, viento, cansancio.",
+   "estados": [
+    "tristeza",
+    "sorpresa_miedo"
+   ]
+  },
+  {
+   "id": "mirada_perdida",
+   "zona": "ojos",
+   "nombre": "Mirada perdida",
+   "como": "Ojos fijos en un punto, sin enfocar.",
+   "lectura": "Desconexión, recuerdo absorbente o cansancio.",
+   "alternativas": "Pensar intensamente.",
+   "estados": [
+    "carga_cognitiva",
+    "aburrimiento",
+    "tristeza"
+   ]
+  },
+  {
+   "id": "cabeza_adelante",
+   "zona": "cabeza",
+   "nombre": "Adelantar la cabeza",
+   "como": "La cabeza se proyecta hacia el otro sin mover el torso.",
+   "lectura": "Interés intenso o confrontación.",
+   "alternativas": "Escuchar mejor, vista.",
+   "estados": [
+    "interes",
+    "enojo"
+   ]
+  },
+  {
+   "id": "gesto_alto",
+   "zona": "brazos_manos",
+   "nombre": "Palma hacia el otro («alto»)",
+   "como": "Mano levantada con la palma hacia el interlocutor.",
+   "lectura": "Rechazo, pedir que pare o defensa.",
+   "alternativas": "Pedir la palabra.",
+   "estados": [
+    "desacuerdo",
+    "enojo"
+   ]
+  },
+  {
+   "id": "contar_dedos",
+   "zona": "brazos_manos",
+   "nombre": "Contar con los dedos",
+   "como": "Enumera puntos tocando los dedos.",
+   "lectura": "Organización del discurso y seguridad en lo que expone.",
+   "alternativas": "Hábito.",
+   "estados": [
+    "seguridad",
+    "carga_cognitiva"
+   ]
+  },
+  {
+   "id": "mano_en_pecho",
+   "zona": "brazos_manos",
+   "nombre": "Mano en el pecho",
+   "como": "Palma sobre el pecho al hablar.",
+   "lectura": "Expresión de sinceridad o emoción; también gesto aprendido para parecer sincero.",
+   "alternativas": "Saludo, hábito cultural.",
+   "estados": [
+    "sintonia",
+    "tristeza"
+   ]
+  },
+  {
+   "id": "retorcer_manos",
+   "zona": "brazos_manos",
+   "nombre": "Retorcerse las manos",
+   "como": "Las manos se aprietan y giran una sobre otra.",
+   "lectura": "Ansiedad o preocupación intensa.",
+   "alternativas": "Frío, dolor.",
+   "estados": [
+    "tension",
+    "inseguridad"
+   ]
+  },
+  {
+   "id": "manos_atras",
+   "zona": "brazos_manos",
+   "nombre": "Manos detrás de la espalda",
+   "como": "Las manos se juntan en la espalda, de pie.",
+   "lectura": "Seguridad y autoridad; si se aprietan, contención.",
+   "alternativas": "Protocolo, espera.",
+   "estados": [
+    "seguridad"
+   ]
+  },
+  {
+   "id": "pulgar_arriba",
+   "zona": "brazos_manos",
+   "nombre": "Pulgar arriba",
+   "como": "Gesto de aprobación con el pulgar.",
+   "lectura": "Acuerdo o aprobación (su sentido cambia por cultura).",
+   "alternativas": "",
+   "estados": [
+    "sintonia"
+   ]
+  },
+  {
+   "id": "golpe_puno_palma",
+   "zona": "brazos_manos",
+   "nombre": "Golpear la palma con el puño",
+   "como": "Puño que choca suave con la otra mano.",
+   "lectura": "Énfasis, determinación o enojo contenido.",
+   "alternativas": "",
+   "estados": [
+    "enojo",
+    "seguridad"
+   ]
+  },
+  {
+   "id": "erguirse",
+   "zona": "torso",
+   "nombre": "Erguirse de golpe",
+   "como": "La espalda se endereza de pronto.",
+   "lectura": "Alerta, sorpresa o preparación para responder.",
+   "alternativas": "Cambio de postura por comodidad.",
+   "estados": [
+    "sorpresa_miedo",
+    "interes"
+   ]
+  },
+  {
+   "id": "desplomarse",
+   "zona": "torso",
+   "nombre": "Desplomarse en la silla",
+   "como": "El cuerpo se hunde y pierde tono.",
+   "lectura": "Desánimo, cansancio o resignación.",
+   "alternativas": "Cansancio físico.",
+   "estados": [
+    "tristeza",
+    "aburrimiento"
+   ]
+  },
+  {
+   "id": "balanceo",
+   "zona": "torso",
+   "nombre": "Balancearse adelante y atrás",
+   "como": "Movimiento rítmico del torso.",
+   "lectura": "Autoconsuelo ante la ansiedad.",
+   "alternativas": "Hábito, música.",
+   "estados": [
+    "tension"
+   ]
+  },
+  {
+   "id": "girar_hacia",
+   "zona": "torso",
+   "nombre": "Girar el torso hacia la persona",
+   "como": "El pecho se orienta hacia quien habla.",
+   "lectura": "Interés y apertura.",
+   "alternativas": "",
+   "estados": [
+    "interes",
+    "sintonia"
+   ]
+  },
+  {
+   "id": "ajustar_ropa",
+   "zona": "objetos",
+   "nombre": "Ajustarse la ropa (corbata, cuello, puños)",
+   "como": "Arreglarse la ropa sin necesidad.",
+   "lectura": "Nervios o deseo de causar buena impresión.",
+   "alternativas": "La ropa realmente se movió.",
+   "estados": [
+    "tension",
+    "interes"
+   ]
+  },
+  {
+   "id": "desabotonar",
+   "zona": "objetos",
+   "nombre": "Desabotonarse el saco o quitárselo",
+   "como": "Abre o se quita la prenda durante la plática.",
+   "lectura": "Apertura o comodidad creciente.",
+   "alternativas": "Calor.",
+   "estados": [
+    "sintonia"
+   ]
+  },
+  {
+   "id": "revisar_celular",
+   "zona": "objetos",
+   "nombre": "Revisar el celular",
+   "como": "Mira o manipula el teléfono mientras el otro habla.",
+   "lectura": "Desinterés o evasión.",
+   "alternativas": "Espera algo urgente.",
+   "estados": [
+    "aburrimiento",
+    "deseo_irse"
+   ]
+  },
+  {
+   "id": "mirar_documentos",
+   "zona": "objetos",
+   "nombre": "Refugiarse en papeles o pantalla",
+   "como": "Mira documentos para no mirar al otro.",
+   "lectura": "Evitar el contacto en un tema incómodo.",
+   "alternativas": "Consulta real de datos.",
+   "estados": [
+    "inseguridad",
+    "tension"
+   ]
+  },
+  {
+   "id": "cruzar_descruzar",
+   "zona": "piernas",
+   "nombre": "Cruzar y descruzar las piernas varias veces",
+   "como": "Cambia el cruce de piernas con frecuencia.",
+   "lectura": "Incomodidad o impaciencia.",
+   "alternativas": "Silla incómoda.",
+   "estados": [
+    "tension",
+    "deseo_irse"
+   ]
+  },
+  {
+   "id": "pies_hacia_dentro",
+   "zona": "piernas",
+   "nombre": "Puntas de los pies hacia dentro",
+   "como": "Rodillas y puntas juntas hacia dentro.",
+   "lectura": "Timidez o inseguridad.",
+   "alternativas": "Postura habitual.",
+   "estados": [
+    "inseguridad"
+   ]
+  },
+  {
+   "id": "patear_ligero",
+   "zona": "piernas",
+   "nombre": "Patadita del pie colgando",
+   "como": "El pie cruzado da golpecitos al aire.",
+   "lectura": "Molestia o impaciencia.",
+   "alternativas": "Hábito.",
+   "estados": [
+    "tension",
+    "enojo"
+   ]
+  },
+  {
+   "id": "terminar_frases",
+   "zona": "interaccion",
+   "nombre": "Termina las frases del otro",
+   "como": "Completa lo que el otro iba a decir.",
+   "lectura": "Sintonía o impaciencia por tomar la palabra.",
+   "alternativas": "",
+   "estados": [
+    "sintonia",
+    "seguridad"
+   ]
+  },
+  {
+   "id": "sonrisa_destiempo",
+   "zona": "interaccion",
+   "nombre": "Sonrisa a destiempo",
+   "como": "Sonríe en un momento serio o doloroso del relato.",
+   "lectura": "Incomodidad o descarga de tensión.",
+   "alternativas": "Personalidad, nervios en general.",
+   "estados": [
+    "tension"
+   ]
+  },
+  {
+   "id": "buscar_aprobacion",
+   "zona": "interaccion",
+   "nombre": "Mira a un tercero buscando aprobación",
+   "como": "Después de responder, mira a otra persona del grupo.",
+   "lectura": "Inseguridad o necesidad de respaldo.",
+   "alternativas": "Dirigirse a quien tiene la información.",
+   "estados": [
+    "inseguridad"
+   ]
+  },
+  {
+   "id": "calificadores",
+   "zona": "voz",
+   "nombre": "«Honestamente», «la verdad», «te lo juro»",
+   "como": "Refuerza su sinceridad sin que se la pidan.",
+   "lectura": "Necesidad de ser creído; puede ser un hábito de lenguaje.",
+   "alternativas": "Estilo propio al hablar.",
+   "estados": [
+    "tension",
+    "inseguridad"
+   ]
+  },
+  {
+   "id": "pregunta_evasiva",
+   "zona": "voz",
+   "nombre": "Responde con otra pregunta",
+   "como": "Contesta «¿por qué lo preguntas?» o similar.",
+   "lectura": "Ganar tiempo o evitar el tema.",
+   "alternativas": "No entendió la pregunta.",
+   "estados": [
+    "carga_cognitiva",
+    "desacuerdo"
+   ]
+  },
+  {
+   "id": "habla_lenta",
+   "zona": "voz",
+   "nombre": "Habla más lenta que su línea base",
+   "como": "Baja el ritmo de sílabas por segundo.",
+   "lectura": "Cuidado al elegir palabras, cansancio o tristeza.",
+   "alternativas": "Énfasis deliberado.",
+   "estados": [
+    "carga_cognitiva",
+    "tristeza"
+   ],
+   "auto": "habla_lenta"
+  },
+  {
+   "id": "voz_monotona",
+   "zona": "voz",
+   "nombre": "Voz monótona",
+   "como": "El tono casi no sube ni baja.",
+   "lectura": "Desánimo, cansancio o respuesta aprendida.",
+   "alternativas": "Estilo propio, lectura.",
+   "estados": [
+    "tristeza",
+    "aburrimiento",
+    "carga_cognitiva"
+   ],
+   "auto": "voz_monotona"
+  },
+  {
+   "id": "voz_baja",
+   "zona": "voz",
+   "nombre": "Baja el volumen",
+   "como": "Habla notablemente más bajo que en su línea base.",
+   "lectura": "Inseguridad, tristeza o tema delicado.",
+   "alternativas": "Distancia al micrófono.",
+   "estados": [
+    "inseguridad",
+    "tristeza"
+   ],
+   "auto": "voz_baja"
+  },
+  {
+   "id": "voz_temblorosa",
+   "zona": "voz",
+   "nombre": "Voz temblorosa o entrecortada",
+   "como": "La voz vibra o se corta.",
+   "lectura": "Emoción intensa o miedo.",
+   "alternativas": "Frío, edad, condición física.",
+   "estados": [
+    "tension",
+    "sorpresa_miedo",
+    "tristeza"
    ]
   }
  ],
