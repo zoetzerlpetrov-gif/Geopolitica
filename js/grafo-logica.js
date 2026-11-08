@@ -278,3 +278,36 @@ export function avisosEscritura(med) {
   }
   return out;
 }
+
+/** Medidas de hojas (mm, ancho × largo en vertical). */
+export const HOJAS = { carta: [216, 279], a4: [210, 297], oficio: [216, 340], media: [140, 216] };
+
+/**
+ * Milímetros por píxel según la opción de escala.
+ * opcion: "nada" | "img-carta" | "img-a4" | "img-oficio" | "img-media" | "img-otra" (la imagen es la hoja completa)
+ *         | "carta" | "a4" | "media" | "otra" (el rectángulo azul mide ese ancho).
+ * Devuelve { k, aviso, desc } (k = null si no hay escala).
+ */
+export function escalaGrafo(opcion, { anchoImg, altoImg, anchoAzul = 0, mmAzul = 0, hojaAncho = 0, hojaAlto = 0 } = {}) {
+  if (!opcion || opcion === "nada") return { k: null, aviso: "", desc: "" };
+  if (opcion.startsWith("img-")) {
+    let [a, l] = opcion === "img-otra" ? [Number(hojaAncho), Number(hojaAlto)] : HOJAS[opcion.slice(4)] || [0, 0];
+    if (!(a > 0 && l > 0) || !(anchoImg > 0 && altoImg > 0)) return { k: null, aviso: "Escribe el ancho y el largo de la hoja en milímetros.", desc: "" };
+    // Hoja acostada: se gira la medida para que coincida con la foto
+    if ((anchoImg > altoImg) !== (a > l)) [a, l] = [l, a];
+    const kx = a / anchoImg, ky = l / altoImg, k = (kx + ky) / 2, dif = Math.abs(kx - ky) / k;
+    const aviso = dif > 0.08 ? `La proporción de la foto (${anchoImg}×${altoImg} px) no coincide con la de la hoja (${a}×${l} mm), con ${Math.round(dif * 100)} % de diferencia: puede estar recortada, con bordes de más o en perspectiva. Usé el promedio; para más precisión, recorta la foto justo a la orilla de la hoja o escanéala.` : "";
+    return { k, aviso, desc: `la imagen es una hoja de ${a} × ${l} mm` };
+  }
+  const mm = { carta: 216, a4: 210, media: 140 }[opcion] ?? Number(mmAzul);
+  if (!(anchoAzul > 0)) return { k: null, aviso: "Esta escala usa el ancho del rectángulo azul: márcalo o elige «La foto es la hoja completa».", desc: "" };
+  if (!(mm > 0)) return { k: null, aviso: "Escribe el ancho real del rectángulo azul en milímetros.", desc: "" };
+  return { k: mm / anchoAzul, aviso: "", desc: `el rectángulo azul mide ${mm} mm de ancho` };
+}
+
+/** Rasgos que sí se pueden leer en una firma sola (sin texto): se quitan márgenes, orden, espacios entre renglones y la dirección
+ *  de los renglones (la firma tiene su propio rasgo de dirección). */
+export function rasgosDeFirmaSola(lista) {
+  return (lista || []).filter((c) => !/^(orden|espacio_grafico|direccion)\/|^dimension\/espaciamiento\//.test(c.clave))
+    .map((c) => ({ ...c, motivo: `${c.motivo} (medido en la firma)` }));
+}

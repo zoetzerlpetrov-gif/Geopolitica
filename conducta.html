@@ -168,13 +168,21 @@
           <span class="meta">JPEG, PNG, WebP, HEIC/HEIF (iPhone y Android). Foto de frente, con buena luz, sin sombras y con la hoja derecha.</span></div>
       </div>
       <div class="tarjeta" id="g-trabajo" hidden>
-        <h2>2. Marca qué es texto y qué es firma</h2>
-        <p class="meta">Arrastra sobre la imagen para dibujar un rectángulo. Primero elige qué vas a marcar. Puedes marcar solo texto, solo firma o ambos.</p>
+        <h2>2. Indica qué contiene la imagen y márcalo</h2>
+        <div class="barra no-imprimir" role="radiogroup" aria-label="Contenido de la imagen">
+          <b>La imagen tiene:</b>
+          <label><input type="radio" name="g-contenido" value="texto" checked> Solo texto</label>
+          <label><input type="radio" name="g-contenido" value="firma"> Solo firma</label>
+          <label><input type="radio" name="g-contenido" value="ambos"> Texto y firma</label>
+        </div>
+        <p class="meta" id="g-ayuda-marcar">Con «Solo texto» o «Solo firma» se toma toda la imagen; si quieres limitarla, arrastra sobre la imagen para dibujar el rectángulo. Con «Texto y firma», dibuja los dos: elige primero cuál vas a marcar.</p>
         <div class="barra no-imprimir">
-          <button type="button" id="g-modo-texto" aria-pressed="true">▭ Marcar texto (azul)</button>
-          <button type="button" id="g-modo-firma" aria-pressed="false">▭ Marcar firma (rojo)</button>
+          <button type="button" id="g-modo-texto" aria-pressed="true">▭ Dibujar texto (azul)</button>
+          <button type="button" id="g-modo-firma" aria-pressed="false">▭ Dibujar firma (rojo)</button>
           <button type="button" id="g-todo">Toda la imagen es texto</button>
-          <button type="button" id="g-sin-firma">Quitar firma</button>
+          <button type="button" id="g-todo-firma">Toda la imagen es firma</button>
+          <button type="button" id="g-sin-texto">✕ Quitar texto (azul)</button>
+          <button type="button" id="g-sin-firma">✕ Quitar firma (rojo)</button>
         </div>
         <canvas id="g-lienzo"></canvas>
         <div class="barra">
@@ -182,12 +190,22 @@
         </div>
         <div class="barra">
           <label>Escala: <select id="g-escala">
-            <option value="carta">El rectángulo azul mide el ancho de una hoja carta (216 mm)</option>
-            <option value="a4">… de una hoja A4 (210 mm)</option>
-            <option value="media">… de media carta (140 mm)</option>
-            <option value="otra">Otra: escribo el ancho real del rectángulo azul</option>
             <option value="nada" selected>No sé la medida (sin milímetros)</option>
+            <optgroup label="La foto o el escaneo es la hoja completa (de orilla a orilla)">
+              <option value="img-carta">Hoja carta (216 × 279 mm)</option>
+              <option value="img-a4">Hoja A4 (210 × 297 mm)</option>
+              <option value="img-oficio">Hoja oficio (216 × 340 mm)</option>
+              <option value="img-media">Media carta (140 × 216 mm)</option>
+              <option value="img-otra">Otra: escribo el ancho y el largo de la hoja</option>
+            </optgroup>
+            <optgroup label="El rectángulo azul mide el ancho de…">
+              <option value="carta">… una hoja carta (216 mm)</option>
+              <option value="a4">… una hoja A4 (210 mm)</option>
+              <option value="media">… media carta (140 mm)</option>
+              <option value="otra">Otra: escribo el ancho real del rectángulo azul</option>
+            </optgroup>
           </select></label>
+          <span id="g-hoja-caja" hidden>Hoja: ancho <input id="g-hoja-ancho" type="number" min="20" step="1" style="width:80px"> mm × largo <input id="g-hoja-alto" type="number" min="20" step="1" style="width:80px"> mm</span>
           <label id="g-mm-caja" hidden>Ancho real <input id="g-mm" type="number" min="10" step="1" style="width:90px"> mm</label>
           <button type="button" id="g-medir" class="prim">📏 Medir</button>
         </div>

@@ -320,3 +320,46 @@ test("Conducta y escritura es solo para administración", () => {
   const w = raiz("js/transcribir-worker.js");
   assert.ok(w.includes('tipo: "tramo"') && w.includes("silencio("));
 });
+
+test("grafología: escala por hoja completa o por rectángulo azul", async () => {
+  const { escalaGrafo, HOJAS } = await import("../../js/grafo-logica.js");
+  assert.deepEqual(HOJAS.carta, [216, 279]);
+  assert.equal(escalaGrafo("nada", { anchoImg: 1000, altoImg: 1300 }).k, null);
+  // Carta escaneada en vertical a 1700×2200 px: ≈ 0,127 mm/px y sin aviso
+  const c = escalaGrafo("img-carta", { anchoImg: 1700, altoImg: 2200 });
+  assert.ok(Math.abs(c.k - (216 / 1700 + 279 / 2200) / 2) < 1e-9); assert.equal(c.aviso, "");
+  // Hoja acostada: gira la medida
+  const g = escalaGrafo("img-a4", { anchoImg: 2970, altoImg: 2100 });
+  assert.ok(Math.abs(g.k - 0.1) < 1e-9); assert.match(g.desc, /297 × 210/);
+  // Medida escrita a mano y proporción que no cuadra (foto recortada)
+  const o = escalaGrafo("img-otra", { anchoImg: 1000, altoImg: 1000, hojaAncho: 200, hojaAlto: 300 });
+  assert.ok(o.k > 0); assert.match(o.aviso, /proporción/);
+  assert.match(escalaGrafo("img-otra", { anchoImg: 1000, altoImg: 1000, hojaAncho: 200 }).aviso, /ancho y el largo/);
+  // Rectángulo azul
+  assert.equal(escalaGrafo("carta", { anchoImg: 900, altoImg: 900, anchoAzul: 1080 }).k, 0.2);
+  assert.equal(escalaGrafo("otra", { anchoAzul: 500, mmAzul: 100 }).k, 0.2);
+  assert.match(escalaGrafo("carta", { anchoImg: 900, altoImg: 900, anchoAzul: 0 }).aviso, /rectángulo azul/);
+});
+
+test("grafología: solo firma usa rasgos generales y el análisis escrito lo explica", async () => {
+  const { rasgosDeFirmaSola } = await import("../../js/grafo-logica.js");
+  const m = medir(escritura({ renglones: 1, palabras: 2, incl: 70, dir: 4, w: 700, h: 200, margen: 40 }), null, 0.15);
+  const todos = clasificar(m), firma = rasgosDeFirmaSola(todos);
+  assert.ok(firma.length > 0 && firma.length < todos.length);
+  assert.ok(firma.every((c) => !/^(orden|espacio_grafico|direccion)\/|^dimension\/espaciamiento\//.test(c.clave)));
+  assert.ok(firma.some((c) => c.clave.startsWith("inclinacion/")));
+  assert.ok(firma.every((c) => /medido en la firma/.test(c.motivo)));
+  const sel = new Map([...firma.map((x) => [x.clave, { ...x, origen: "medido" }]), ...clasificarFirma(m, null, { x: 0, y: 0 }, null).map((x) => [x.clave, { ...x, origen: "medido" }])]);
+  assert.ok(sel.has("firma/direccion_de_las_firmas/ascendente"));
+  const doc = redactar(CAT_G, COMP_G, sel, { extension: "completa", areas: Object.keys(AREAS), medidas: { texto: null, firma: m }, datos: {} });
+  const s = doc.secciones.find((x) => x.titulo === "VIII. La firma");
+  assert.ok(s && /Solo se analizó una firma/.test(s.parrafos[0]));
+  assert.ok(!doc.secciones.some((x) => x.titulo === "VIII. La firma frente al texto"));
+});
+
+test("grafología: la página permite elegir texto, firma o ambos y quitar cualquiera", () => {
+  const h = readFileSync(new URL("../../conducta.html", import.meta.url), "utf8");
+  for (const v of ["texto", "firma", "ambos"]) assert.ok(h.includes(`name="g-contenido" value="${v}"`), v);
+  for (const id of ["g-sin-texto", "g-sin-firma", "g-todo-firma", "g-hoja-ancho", "g-hoja-alto"]) assert.ok(h.includes(`id="${id}"`), id);
+  for (const v of ["img-carta", "img-a4", "img-oficio", "img-media", "img-otra"]) assert.ok(h.includes(`value="${v}"`), v);
+});
