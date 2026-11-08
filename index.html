@@ -285,6 +285,41 @@
       <details class="grupo" id="g-herramientas" data-grupo="herramientas">
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
         <p class="nota-capas">Más herramientas en la <a href="herramientas.html">🧰 Caja del analista</a>: auditoría de archivos (PDF, Office, ZIP, ejecutables), informática y ciberseguridad (IOC, encabezados de correo, DNS, hashes, JWT) y análisis de inteligencia (ACH, ICD 203, PMESII-PT, ASCOPE, METT-TC, CARVER defensivo, pre-mortem, Mission Brief).</p>
+        <details class="bloque plegable" id="b-herr-contactos" data-grupo="herramientas">
+          <summary><h2>Correo y teléfono: análisis técnico</h2></summary>
+          <p class="nota-capas">Elige una consulta. Los campos y resultados se mantienen en esta página hasta que los limpies o la cierres.</p>
+          <details class="ia-ayuda">
+            <summary>Correo o dominio</summary>
+            <form id="contacto-correo" autocomplete="off">
+              <label for="contacto-direccion">Dirección o dominio</label>
+              <input id="contacto-direccion" class="verif-texto" maxlength="320" placeholder="equipo@example.org o example.org" required>
+              <p class="nota-capas">Google Public DNS recibe solo el dominio para buscar MX, SPF y DMARC. Estos registros describen la configuración de correo del dominio.</p>
+              <label class="fila-check"><input name="perfil" type="checkbox"> Buscar también un perfil público de Gravatar con la huella SHA-256 del correo</label>
+              <button type="submit">Consultar</button> <button type="reset">Limpiar</button>
+            </form>
+            <div id="contacto-correo-res" aria-live="polite"></div>
+          </details>
+          <details class="ia-ayuda">
+            <summary>Encabezados de un correo recibido</summary>
+            <form id="contacto-cabeceras" autocomplete="off">
+              <label for="contacto-original">Pega los encabezados del mensaje original</label>
+              <textarea id="contacto-original" rows="4" class="verif-texto" maxlength="65536" placeholder="From: …&#10;Reply-To: …&#10;Authentication-Results: …&#10;Received: …" spellcheck="false" required></textarea>
+              <p class="nota-capas">En Gmail, abre el mensaje y elige Más → Mostrar original. El análisis se realiza en tu navegador.</p>
+              <button type="submit">Analizar</button> <button type="reset">Limpiar</button>
+            </form>
+            <div id="contacto-cabeceras-res" aria-live="polite"></div>
+          </details>
+          <details class="ia-ayuda">
+            <summary>Número telefónico</summary>
+            <form id="contacto-telefono" autocomplete="off">
+              <label for="contacto-numero">Número con prefijo internacional</label>
+              <input id="contacto-numero" class="verif-texto" type="tel" maxlength="50" placeholder="+52 55 1234 5678" required>
+              <p class="nota-capas">Sin prefijo se interpreta como número de México. La numeración indica el país o territorio asignado y, cuando es posible, el tipo de línea. El número se analiza en tu navegador.</p>
+              <button type="submit">Analizar</button> <button type="reset">Limpiar</button>
+            </form>
+            <div id="contacto-telefono-res" aria-live="polite"></div>
+          </details>
+        </details>
         <details class="bloque plegable" id="b-herr-foto" data-grupo="herramientas" open>
           <summary><h2>📷 Foto: metadatos, ubicación y análisis forense (¿IA o editada?)</h2></summary>
           <label class="fila-apilada"><span>Elige una foto (JPEG, HEIC/HEIF de iPhone y Android, AVIF, WebP, PNG, TIFF o DNG)</span><input type="file" id="foto-exif" accept="image/*,.heic,.heif,.avif,.webp,.dng,.tif,.tiff"></label>
@@ -549,5 +584,6 @@
   <script type="module" src="js/app.js?v=150"></script>
   <script type="module" src="js/vista_enlaces.js?v=2"></script>
   <script type="module" src="js/huella-menu.js"></script>
+  <script type="module" src="js/contactos.js"></script>
 </body>
 </html>
