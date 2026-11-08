@@ -5,16 +5,67 @@ import { readFileSync } from "node:fs";
 import { consultarDNS, consultarGravatar, interpretarDireccion, interpretarEncabezados, interpretarTelefono } from "../../js/contactos.js";
 import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, proveedorCorreo } from "../../js/contactos-fuentes.js";
 import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces } from "../../js/contactos-eml.js";
+import { buscarLadaMx, busquedasPublicas, consultarCorreoGithub } from "../../js/contactos-publicos.js";
 
 test("el módulo de contactos aparece en Herramientas, fuera del acceso administrativo", () => {
   const html = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
   const lateral = html.slice(html.indexOf('id="g-herramientas"'), html.indexOf('id="b-herr-foto"'));
   assert.match(lateral, /<details class="bloque plegable" id="b-herr-contactos" data-grupo="herramientas">/);
   for (const id of ["contacto-correo", "contacto-cabeceras", "contacto-telefono"]) {
-    assert.ok(lateral.includes(`<form id="${id}"`));
+    assert.ok(lateral.includes(`<form id="${id}" class="contacto-form"`));
   }
   assert.doesNotMatch(lateral, /data-solo-admin|\/admin\/huella/);
   assert.match(html, /<script type="module" src="js\/contactos\.js"><\/script>/);
+  assert.match(lateral, /<fieldset class="contacto-opciones">[\s\S]*?<legend>Fuentes opcionales<\/legend>/);
+  assert.match(lateral, /<input name="github" type="checkbox">/);
+});
+
+test("GitHub exige evidencia exacta y separa perfiles de cambios de código públicos", async () => {
+  const email = "equipo@example.org";
+  const sha = "a".repeat(40);
+  const fecha = new Date("2026-11-07T20:00:00Z");
+  const datos = await consultarCorreoGithub(email, async (url, opciones) => {
+    assert.equal(url.origin, "https://api.github.com");
+    assert.equal(opciones.referrerPolicy, "no-referrer");
+    if (url.pathname === "/search/users") {
+      assert.equal(url.searchParams.get("q"), `${email} in:email`);
+      return Response.json({ total_count: 2, items: [{ login: "equipo" }, { login: "otro" }] });
+    }
+    if (url.pathname === "/users/equipo") return Response.json({ email: "Equipo@example.org", name: "Nombre publicado", company: "Ejemplo", location: "México" });
+    if (url.pathname === "/users/otro") return Response.json({ email: "diferente@example.org", name: "Excluir" });
+    assert.equal(url.pathname, "/search/commits");
+    assert.equal(url.searchParams.get("q"), `author-email:${email} author-date:2021-11-07..2026-11-07`);
+    const commit = (email, date) => ({ sha, repository: { full_name: "equipo/proyecto" }, commit: { author: { email, date, name: "Autor" } } });
+    return Response.json({ total_count: 20, items: [
+      commit(email, "2021-11-06T20:00:00Z"),
+      commit("otro@example.org", "2026-11-01T20:00:00Z"),
+      commit(email, "2026-11-01T20:00:00Z"),
+      commit(email, "2026-11-01T20:00:00Z"),
+    ] });
+  }, fecha);
+  assert.deepEqual(datos.perfiles, { parcial: false, filas: [
+    { enlace: "https://github.com/equipo", etiqueta: "@equipo", datos: "Perfil público · Nombre publicado · Ejemplo · México" },
+  ] });
+  assert.deepEqual(datos.cambios, { parcial: true, filas: [
+    { enlace: `https://github.com/equipo/proyecto/commit/${sha}`, etiqueta: "equipo/proyecto · aaaaaaa", datos: "2026-11-01 · Autor declarado: Autor" },
+  ] });
+  assert.match((await consultarCorreoGithub(email, async () => new Response(null, { status: 403 }))).perfiles.estado, /no disponible/);
+  assert.match((await consultarCorreoGithub("", () => assert.fail("No debe consultar sin correo"))).estado, /correo completo/);
+});
+
+test("la lada usa el prefijo mexicano más específico y conserva su fuente", () => {
+  const tabla = new Map([["5255", "Ciudad de México"], ["52551", "Ejemplo más específico"], ["52999", "Conkal/Mérida"]]);
+  assert.deepEqual(buscarLadaMx("+525512345678", tabla), { lada: "551", region: "Ejemplo más específico", fuente: "Google libphonenumber" });
+  assert.deepEqual(buscarLadaMx("+525612345678", tabla), { lada: "56", region: "Ciudad de México", fuente: "IFT" });
+  assert.deepEqual(buscarLadaMx("+529991234567", tabla), { lada: "999", region: "Conkal/Mérida", fuente: "Google libphonenumber" });
+  assert.equal(buscarLadaMx("+442079460958", tabla), null);
+});
+
+test("los enlaces de menciones conservan la coincidencia literal y separan categorías", () => {
+  const consultas = busquedasPublicas(["+525512345678", "5512345678", "5512345678"]);
+  assert.equal(new URL(consultas[0][1]).searchParams.get("q"), '("+525512345678" OR "5512345678")');
+  assert.match(new URL(consultas[1][1]).searchParams.get("q"), /site:linkedin\.com/);
+  assert.match(new URL(consultas[2][1]).searchParams.get("q"), /site:gob\.mx/);
 });
 
 test("separa el correo del dominio DNS y admite dominios internacionalizados", () => {

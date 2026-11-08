@@ -1,6 +1,7 @@
 import { analizarEncabezados, huella } from "./herr-logica.js";
 import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, proveedorCorreo, registrosDNS } from "./contactos-fuentes.js";
 import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces, señalesEncabezados } from "./contactos-eml.js";
+import { busquedasPublicas, consultarCorreoGithub, consultarLadaMx } from "./contactos-publicos.js";
 
 const TIPOS_LINEA = {
   FIXED_LINE: "Fija", MOBILE: "Móvil", FIXED_LINE_OR_MOBILE: "Fija o móvil",
@@ -178,6 +179,29 @@ function enlaceExterno(url, texto) {
   return enlace;
 }
 
+function mencionesPublicas(valores) {
+  const grupo = document.createElement("div");
+  grupo.className = "contacto-acciones";
+  grupo.append(...busquedasPublicas(valores).map(([texto, url]) => enlaceExterno(url, texto)));
+  return [mensaje("Menciones públicas. Al abrir un enlace, Google recibe el dato para buscar páginas indexadas. Revisa la publicación original para confirmar el contexto."), grupo];
+}
+
+function evidenciaGithub(resultado, titulo) {
+  if (resultado.estado) return [mensaje(titulo), mensaje(resultado.estado)];
+  const contenido = document.createElement("ul");
+  contenido.className = "lista-inv";
+  for (const fila of resultado.filas) {
+    const item = document.createElement("li");
+    item.append(enlaceExterno(fila.enlace, fila.etiqueta), ` · ${fila.datos}`);
+    contenido.append(item);
+  }
+  return [
+    mensaje(titulo),
+    resultado.filas.length ? contenido : mensaje("Sin coincidencias exactas en los resultados consultados."),
+    ...(resultado.parcial ? [mensaje("Cobertura parcial de los resultados de GitHub.")] : []),
+  ];
+}
+
 function lista(filas) {
   const elemento = document.createElement("ul");
   elemento.className = "lista-inv";
@@ -222,12 +246,13 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
   vincular("contacto-correo", async (formulario) => {
     const { dominio, correo } = interpretarDireccion(document.getElementById("contacto-direccion").value);
     const ampliar = formulario.elements.infraestructura.checked;
-    const [registros, perfil, infra, rdap, incidentes] = await Promise.all([
+    const [registros, perfil, infra, rdap, incidentes, github] = await Promise.all([
       consultarDNS(dominio),
       formulario.elements.perfil.checked ? consultarGravatar(correo) : null,
       ampliar ? consultarInfraestructura(dominio) : null,
       ampliar ? consultarRdap(dominio) : null,
       ampliar ? consultarIncidentesDominio(dominio) : null,
+      formulario.elements.github.checked ? consultarCorreoGithub(correo) : null,
     ]);
     const mx = registros.find(([etiqueta]) => etiqueta === "MX")[1];
     const resultados = [
@@ -246,11 +271,14 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
       else if (!incidentes.cantidad) resultados.push(mensaje("El catálogo no devolvió incidentes para este dominio exacto."));
       else resultados.push(mensaje(`Mostrando ${incidentes.filas.length} de ${incidentes.cantidad} incidentes.`), lista(incidentes.filas));
     }
-    if (correo) {
-      const buscador = new URL("https://www.google.com/search");
-      buscador.searchParams.set("q", `"${correo}"`);
-      resultados.push(mensaje("Menciones públicas. Si abres esta búsqueda, Google recibe el correo completo."),
-        enlaceExterno(buscador.href, "Buscar la dirección exacta en la web ↗"));
+    if (correo) resultados.push(...mencionesPublicas([correo]));
+    if (github) {
+      if (github.estado) resultados.push(mensaje(github.estado));
+      else resultados.push(
+        ...evidenciaGithub(github.perfiles, "GitHub · Perfiles que publican este correo exacto"),
+        ...evidenciaGithub(github.cambios, "GitHub · Cambios públicos con este correo de autor en los últimos 5 años"),
+        mensaje("Los datos de autor se toman del cambio publicado. La fecha corresponde a ese registro de código."),
+      );
     }
     if (!perfil) return resultados;
     if (perfil.estado) return [...resultados, mensaje(perfil.estado)];
@@ -318,9 +346,19 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
   });
   vincular("contacto-telefono", async () => {
     const entrada = document.getElementById("contacto-numero").value;
+    const filas = interpretarTelefono(entrada, await obtenerAnalizadorTelefonico());
+    const datos = Object.fromEntries(filas);
+    const numero = datos["Formato E.164"];
+    if (numero.startsWith("+52")) {
+      const zona = await consultarLadaMx(numero);
+      filas.push(["Lada y región de numeración en México", zona
+        ? `${zona.lada} · ${zona.region} · Fuente: ${zona.fuente}`
+        : "Sin coincidencia en la tabla local. Consulta el SNS."]);
+    }
     return [
-      lista(interpretarTelefono(entrada, await obtenerAnalizadorTelefonico())),
-      mensaje("Este resultado describe la numeración. La identidad, el operador actual y la ubicación física quedan sin verificar."),
+      lista(filas),
+      mensaje("La región corresponde a la numeración. Consulta el SNS para datos de asignación. El operador actual puede cambiar por portabilidad."),
+      ...mencionesPublicas([numero, datos["Dígitos nacionales"], !datos["Extensión"] && datos["Formato nacional"]]),
     ];
   });
 }
