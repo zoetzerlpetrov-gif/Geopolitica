@@ -261,3 +261,20 @@ export function informe(catalogo, seleccion) {
   const temp = temperamento([...seleccion.keys()]).map((t) => ({ ...t, ...(() => { const e = idx.get(clave("temperamento", "general", t.id)); return { nombre: e?.rasgo.nombre || t.id, descripcion: e?.rasgo.interpretacion || "" }; })() }));
   return { secciones, temperamento: temp, total: seleccion.size, aviso: AVISO };
 }
+
+/**
+ * Avisos sobre el tipo de escritura: sin espacios entre palabras (chino, japonés, coreano) o alineada a la derecha
+ * (árabe, hebreo, de derecha a izquierda). El catálogo está pensado para la escritura cursiva latina.
+ */
+export function avisosEscritura(med) {
+  if (!med || med.vacio || !med.lineas?.length) return [];
+  const out = [], L = med.lineas, xh = med.zonaMediaPx || 1;
+  const largos = L.filter((l) => l.x1 - l.x0 > 12 * xh);
+  if (largos.length && largos.reduce((a, l) => a + l.palabras, 0) / largos.length <= 1.5) out.push("Casi no hay espacios entre palabras. Si es escritura china, japonesa o coreana, las medidas de palabras, ligazón, espacios y espacio gráfico no aplican, y el catálogo (pensado para la cursiva latina) no corresponde.");
+  if (L.length >= 3) {
+    const d = (xs) => { const m = xs.reduce((a, b) => a + b, 0) / xs.length; return Math.sqrt(xs.reduce((a, x) => a + (x - m) ** 2, 0) / (xs.length - 1)); };
+    const ini = d(L.map((l) => l.x0)), fin = d(L.map((l) => l.x1));
+    if (ini > 1.5 * xh && fin < 0.5 * ini) out.push("Los renglones se alinean a la derecha y su inicio varía. Si la escritura va de derecha a izquierda (árabe, hebreo), los márgenes izquierdo y derecho y la inclinación se leen al revés, y en árabe la ligazón es obligatoria.");
+  }
+  return out;
+}

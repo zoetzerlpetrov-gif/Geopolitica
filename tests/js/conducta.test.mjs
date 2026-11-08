@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { escritura, lienzo, trazo } from "./sintetico-escritura.mjs";
 import { medir, sesgo, mascara } from "../../js/grafo-medir.js";
-import { clasificar, clasificarAvanzado, clasificarFirma, temperamento, informe, indice, TEMPERAMENTOS, clave } from "../../js/grafo-logica.js";
+import { clasificar, clasificarAvanzado, clasificarFirma, temperamento, informe, indice, TEMPERAMENTOS, clave, avisosEscritura } from "../../js/grafo-logica.js";
 import { redactar, cuartillas, interpretacion, AREAS, SINDROMES } from "../../js/grafo-redaccion.js";
 import { ejemplo } from "../../js/grafo-ejemplos.js";
 import { rasgosCuadro, eventosDeSerie, lectura, tipoEnlace, reloj, REGLAS, senalDeAuto } from "../../js/conducta-logica.js";
@@ -268,4 +268,32 @@ test("voz: tono, pausas, volumen y ritmo frente a la línea base", async () => {
   assert.ok(de("volumen_cambia").some((e) => e.t0 >= 38 && e.t0 <= 41), "voz más fuerte hacia los 40 s");
   assert.ok(de("habla_rapida").some((e) => e.t0 >= 45 && e.t0 <= 52), "habla más rápida hacia los 50 s");
   for (const e of eventos) assert.ok(senalDeAuto(CAT_C, e.senal), e.senal);
+});
+
+test("idiomas: detección por texto y avisos en el informe", async () => {
+  const { idiomaDeTexto, idiomasDe } = await import("../../js/transcribir.js");
+  const { informeConducta, informeTexto } = await import("../../js/conducta-informe.js");
+  assert.equal(idiomaDeTexto("¿Y qué pasó con el pago de marzo? Yo no firmé nada."), "spanish");
+  assert.equal(idiomaDeTexto("And so my fellow Americans ask not what your country can do for you"), "english");
+  assert.equal(idiomaDeTexto("Eu não sei o que você está falando"), "portuguese");
+  assert.equal(idiomaDeTexto("你好，我不知道这件事"), "chinese");
+  assert.equal(idiomaDeTexto("Tôi không biết điều đó, cảm ơn bạn"), "vietnamese");
+  assert.equal(idiomaDeTexto("ok"), "");
+  const I = idiomasDe([{ idioma: "chinese" }, { idioma: "chinese" }, { idioma: "spanish" }, { idioma: "spanish" }]);
+  assert.ok(I.tonal && I.varios);
+  const ev = [{ senal: "tono_sube", t0: 40, t1: 44, origen: "automático (voz)", enBase: false }, { senal: "ceno", t0: 41, t1: 42, origen: "automático", enBase: false }];
+  const base = { cuadros: 600, sinCara: 0, duracion: 60, base: [0, 15], fps: 10, voz: { voz: 60, tonoBase: 180 } };
+  const d = informeTexto(informeConducta(CAT_C, ev, { ...base, idiomas: I }));
+  assert.match(d, /idioma tonal/); assert.match(d, /cambió de idioma/);
+  assert.doesNotMatch(d, /tono de voz más agudo \(1 vez/, "en idioma tonal no se interpreta el tono");
+  assert.match(informeTexto(informeConducta(CAT_C, ev, base)), /tono de voz más agudo/);
+});
+
+test("grafología: avisos de escritura sin espacios o alineada a la derecha", () => {
+  assert.deepEqual(avisosEscritura(medir(escritura({ hueco: 2 }))), [], "cursiva latina normal: sin avisos");
+  const sinEsp = medir(escritura({ palabras: 1, letras: 30, renglones: 4 }));
+  assert.ok(avisosEscritura(sinEsp).some((a) => /espacios entre palabras/.test(a)));
+  // renglones alineados a la derecha con inicio variable
+  const med = { zonaMediaPx: 20, lineas: [0, 1, 2, 3].map((i) => ({ x0: 100 + i * 60, x1: 1000, palabras: 5 })) };
+  assert.ok(avisosEscritura(med).some((a) => /derecha a izquierda/.test(a)));
 });

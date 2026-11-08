@@ -1,7 +1,7 @@
 // Informe de lenguaje corporal y voz (≈ 500 palabras) con lo detectado automáticamente y lo marcado a mano. Redacción con
 // plantillas, sin IA: describe hallazgos, momentos y preguntas a explorar; no emite veredictos (no hay señal de la mentira).
 import { lectura, reloj, senalDeAuto } from "./conducta-logica.js";
-import { textoEntre } from "./transcribir.js";
+import { textoEntre, NOMBRE_IDIOMA } from "./transcribir.js";
 
 const sinPunto = (t) => String(t || "").trim().replace(/[.;,\s]+$/, "");
 const minus = (t) => (t ? t[0].toLowerCase() + t.slice(1) : t);
@@ -15,7 +15,9 @@ const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
  * auto: { cuadros, sinCara, duracion, base, fps } o null · opciones: { fuente, desfase (s del video al iniciar), persona, contexto }
  */
 export function informeConducta(catalogo, eventos, auto = null, { fuente = "", desfase = 0, persona = "", contexto = "" } = {}) {
-  const evs = eventos.map((e) => ({ ...e, s: e.s || senalDeAuto(catalogo, e.senal) })).filter((e) => e.s);
+  // En idiomas tonales, el tono más agudo y la monotonía dependen de las palabras: no se interpretan.
+  const tonal = !!auto?.idiomas?.tonal;
+  const evs = eventos.map((e) => ({ ...e, s: e.s || senalDeAuto(catalogo, e.senal) })).filter((e) => e.s && !(tonal && ["tono_sube", "voz_monotona"].includes(e.s.id) && /voz/.test(e.origen || "")));
   const fuera = evs.filter((e) => !e.enBase);
   const L = lectura(catalogo, evs);
   const t = (x) => reloj(x + desfase);
@@ -36,6 +38,13 @@ export function informeConducta(catalogo, eventos, auto = null, { fuente = "", d
   const voz = fuera.filter((e) => /voz/.test(e.origen || "") || e.s.zona === "voz");
   const conteo = {}; for (const e of fuera) (conteo[e.s.id] ||= []).push(e);
   const dicho = (desde, hasta, max = 170) => { const tx = textoEntre(auto?.transcripcion, desde, hasta); return tx ? (tx.length > max ? `…${tx.slice(-max)}` : tx) : ""; };
+  const I = auto?.idiomas;
+  if (I?.idiomas?.length) {
+    const nombres = I.idiomas.map((i) => NOMBRE_IDIOMA[i] || i);
+    secciones[0].parrafos.push(`Idioma${nombres.length > 1 ? "s" : ""} del audio: ${lista(nombres)}.`
+      + (I.tonal ? " Al tratarse de un idioma tonal, en el que el tono distingue palabras, las señales de tono más agudo y voz monótona tienen poco valor y no se interpretan." : "")
+      + (I.varios ? " Como la persona cambió de idioma, los cambios de ritmo y tono pueden deberse al idioma y no a la emoción; solo deben compararse tramos en el mismo idioma." : ""));
+  }
   if (auto?.transcripcion?.length) secciones[0].parrafos.push("El audio se transcribió automáticamente en el navegador para ubicar qué se dijo antes de cada señal; la transcripción puede contener errores y no distingue quién habla.");
 
   if (!fuera.length) {
