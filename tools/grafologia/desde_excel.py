@@ -69,7 +69,21 @@ def convertir(ruta):
             item["variantes"].append(c.capitalize())
         elif c:
             grupo["rasgos"].append({"id": clave(c), "nombre": c.capitalize(), "nota": "", "interpretacion": "", "indicadores": "", "variantes": []})
-    return {"fuente": "Resumen de grafología de la persona usuaria (Excel), convertido sin cambios de contenido.", "secciones": secciones}
+    corregir(secciones)
+    return {"fuente": "Resumen de grafología de la persona usuaria (Excel), convertido sin cambios de contenido (salvo las correcciones de corregir()).", "secciones": secciones}
+
+
+def corregir(secciones):
+    """Correcciones pedidas por la persona: «Zon izquierda» → «Zona izquierda» y abertura hacia la zona derecha."""
+    for s in secciones:
+        if s["id"] != "abreaciones":
+            continue
+        for g in s["grupos"]:
+            for r in g["rasgos"]:
+                if r["id"] == "zon_izquierda":
+                    r["id"], r["nombre"] = "zona_izquierda", "Zona izquierda"
+            if g["id"] == "aberturas" and not any(r["id"] == "zona_derecha" for r in g["rasgos"]):
+                g["rasgos"].append({"id": "zona_derecha", "nombre": "Zona derecha", "nota": "", "interpretacion": "", "indicadores": "", "variantes": []})
 
 
 if __name__ == "__main__":

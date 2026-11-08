@@ -116,10 +116,10 @@ const ICONOS = {
 
 function abreacion(zona, abierta) {
   // óvalo con hueco hacia la zona
-  const gap = { zona_superior: [215, 325], zona_inferior: [35, 145], zon_izquierda: [125, 235], zona_derecha: [-55, 55] }[zona] || [0, 0];
+  const gap = { zona_superior: [215, 325], zona_inferior: [35, 145], zona_izquierda: [125, 235], zona_derecha: [-55, 55] }[zona] || [0, 0];
   const pts = []; for (let a = 0; a <= 360; a += 10) { const dentro = abierta ? !(a >= ((gap[0] + 360) % 360) && a <= ((gap[1] + 360) % 360)) : true; if (dentro || (gap[0] < 0 && !(a >= 360 + gap[0] || a <= gap[1]))) pts.push([50 + 14 * Math.cos((a * Math.PI) / 180), 26 + 11 * Math.sin((a * Math.PI) / 180)]); }
   const d = pts.map((p, i) => `${i ? "L" : "M"}${r1(p[0])},${r1(p[1])}`).join(" ");
-  const extra = !abierta ? (zona === "zona_superior" ? P("M50,15 L58,8") : zona === "zona_inferior" ? P("M50,37 L56,44") : zona === "zon_izquierda" ? P("M36,26 L28,22") : P("M64,26 L72,22")) : "";
+  const extra = !abierta ? (zona === "zona_superior" ? P("M50,15 L58,8") : zona === "zona_inferior" ? P("M50,37 L56,44") : zona === "zona_izquierda" ? P("M36,26 L28,22") : P("M64,26 L72,22")) : "";
   return P(d) + extra;
 }
 

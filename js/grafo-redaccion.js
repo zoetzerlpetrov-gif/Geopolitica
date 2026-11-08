@@ -2,12 +2,12 @@
 // o completa (> 5 cuartillas, con estructura de dictamen). Usa las interpretaciones del resumen de la persona y, cuando
 // faltan, las lecturas complementarias (config/grafologia_complemento.json), marcadas como tales.
 // Todo es texto generado con plantillas: no hay IA ni datos externos.
-import { clave, indice, temperamento, AVISO } from "./grafo-logica.js";
+import { clave, indice, temperamento, AVISO, textoObservacion } from "./grafo-logica.js";
 
 export const PALABRAS_POR_CUARTILLA = 250;
 
 export const AREAS = {
-  personal: { nombre: "Personalidad y mundo interior", secciones: ["dimension", "inclinacion", "direccion", "presion", "derivados_de_imperfecciones_o_accidentes", "abreaciones", "rasgos_tipo", "gestos_tipos"],
+  personal: { nombre: "Personalidad y mundo interior", secciones: ["dimension", "inclinacion", "direccion", "presion", "derivados_de_imperfecciones_o_accidentes", "abreaciones", "rasgos_tipo", "gestos_tipos", "letras_y_numeros"],
     intro: "Este apartado reúne lo que la escritura sugiere sobre cómo se percibe la persona, cómo vive sus emociones y con qué energía enfrenta lo cotidiano." },
   laboral: { nombre: "Trabajo, método y desempeño", secciones: ["orden", "velocidad", "continuidad", "forma", "presion", "direccion", "espacio_grafico", "dimension"],
     intro: "En el terreno laboral interesan la organización, el ritmo, la constancia, la forma de razonar y la energía disponible para sostener las tareas." },
@@ -74,6 +74,7 @@ function nombreRasgo(sec, grupo, r, e) {
   if (grupo.id.startsWith("margenes")) n = `margen ${n}`;
   else if (sec.id === "abreaciones") n = `${grupo.id === "aberturas" ? "abertura" : "cerradura"} en la ${n.replace("zon ", "zona ")}`;
   else if (sec.id === "firma") n = `firma: ${grupo.nombre.toLowerCase()}, ${n}`;
+  else if (sec.id === "letras_y_numeros") n = `${grupo.nombre.toLowerCase().replace(/^letra /, "la letra ").replace(/^número /, "el número ")}: ${n}`;
   else if (sec.id === "espacio_grafico") n = `espacio gráfico: ${n}`;
   else if (["calibre", "calidad", "pureza", "profundidad"].includes(grupo.id)) n = `presión ${n}`;
   else if (grupo.id === "intensidad") n = `velocidad ${n}`;
@@ -103,6 +104,7 @@ function fraseRasgo(item, k, corto = false) {
   if (I.negativo) base += `${I.positivo ? "; si se exagera o lo acompañan rasgos negativos" : " Si se exagera o lo acompañan rasgos negativos, se lee como"}, ${minus(I.negativo)}`;
   if (I.positivo || I.negativo) base += ".";
   if (I.complemento) base += " (Lectura complementaria: no viene del resumen de referencia).";
+  if (item.obs) { const o = textoObservacion(item.obs); if (corto ? o.corto : o.texto) base += corto ? ` (${o.corto}).` : ` ${o.texto}`; }
   return base;
 }
 
@@ -112,7 +114,7 @@ export function rasgosElegidos(catalogo, complemento, seleccion) {
   for (const s of catalogo.secciones) for (const g of s.grupos) for (const r of g.rasgos) {
     const k = clave(s.id, g.id, r.id), e = seleccion.get(k); if (!e) continue;
     const comp = complemento?.interpretaciones?.[k] || "";
-    items.push({ clave: k, seccion: s.id, seccionNombre: s.nombre, lema: s.lema, grupo: g.nombre, nombre: nombreRasgo(s, g, r, e), rasgo: r, valor: e.valor || "", motivo: e.motivo || "", origen: e.origen || "manual", interp: interpretacion(r, comp) });
+    items.push({ clave: k, seccion: s.id, seccionNombre: s.nombre, lema: s.lema, grupo: g.nombre, nombre: nombreRasgo(s, g, r, e), rasgo: r, valor: e.valor || "", motivo: e.motivo || "", origen: e.origen || "manual", obs: e.obs || null, interp: interpretacion(r, comp) });
   }
   return items;
 }

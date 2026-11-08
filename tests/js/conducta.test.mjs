@@ -363,3 +363,61 @@ test("grafología: la página permite elegir texto, firma o ambos y quitar cualq
   for (const id of ["g-sin-texto", "g-sin-firma", "g-todo-firma", "g-hoja-ancho", "g-hoja-alto"]) assert.ok(h.includes(`id="${id}"`), id);
   for (const v of ["img-carta", "img-a4", "img-oficio", "img-media", "img-otra"]) assert.ok(h.includes(`value="${v}"`), v);
 });
+
+test("grafología: abreaciones con «Zona izquierda» y abertura hacia la zona derecha", () => {
+  const ab = CAT_G.secciones.find((s) => s.id === "abreaciones");
+  for (const g of ab.grupos) {
+    assert.ok(g.rasgos.some((r) => r.id === "zona_izquierda" && r.nombre === "Zona izquierda"), g.id);
+    assert.ok(!g.rasgos.some((r) => /^zon_|^Zon /.test(r.id + " " + r.nombre)), g.id);
+    assert.ok(g.rasgos.some((r) => r.id === "zona_derecha"), g.id);
+  }
+  assert.match(COMP_G.interpretaciones["abreaciones/aberturas/zona_derecha"], /derecha/i);
+  assert.ok(ejemplo("abreaciones/aberturas/zona_izquierda", "").includes("<"));
+});
+
+test("grafología: observaciones de dónde se encontró cada rasgo", async () => {
+  const { textoObservacion, LUGARES, CON_OBSERVACIONES } = await import("../../js/grafo-logica.js");
+  assert.ok(["gestos_tipos", "rasgos_tipo", "derivados_de_imperfecciones_o_accidentes", "letras_y_numeros"].every((s) => CON_OBSERVACIONES.has(s)));
+  assert.ok(LUGARES.length >= 10 && new Set(LUGARES.map((l) => l.id)).size === LUGARES.length);
+  assert.deepEqual(textoObservacion(null), { corto: "", texto: "" });
+  assert.deepEqual(textoObservacion({ lugares: [], letras: "", frecuencia: "", nota: "" }), { corto: "", texto: "" });
+  const o = textoObservacion({ lugares: ["zona_inferior", "final_palabra"], letras: "g, y", frecuencia: "frecuente", nota: "más marcado al final." });
+  assert.equal(o.corto, "zona inferior, al final de palabra; letras o números: g, y; con frecuencia");
+  assert.match(o.texto, /Max Pulver/); assert.match(o.texto, /zona inferior remite a lo material/); assert.match(o.texto, /Observación: más marcado al final\.$/);
+  // En el informe y en el análisis escrito
+  const sel = new Map([["gestos_tipos/angulosos/gancho", { origen: "manual", obs: { lugares: ["zona_inferior"], letras: "g", frecuencia: "ocasional", nota: "" } }]]);
+  const inf = informe(CAT_G, sel);
+  assert.match(inf.secciones[0].items[0].observacion, /zona inferior/);
+  const doc = redactar(CAT_G, COMP_G, sel, { extension: "completa", areas: ["personal"], medidas: {}, datos: {} });
+  assert.ok(doc.secciones.some((s) => s.parrafos.some((p) => /gancho.*Se encontró: zona inferior; letras o números: g; ocasionalmente/.test(p))));
+});
+
+test("grafología: letras y números como sección con lecturas complementarias", async () => {
+  const { seccionLetras, unirLetras, SECCION_LETRAS } = await import("../../js/grafo-letras.js");
+  const datos = JSON.parse(readFileSync(new URL("../../config/grafologia_letras.json", import.meta.url), "utf8"));
+  const ids = datos.caracteres.map((c) => c.id);
+  for (const c of [..."abcdefghijklmnopqrstuvwxyz"].filter((x) => x !== "ñ")) assert.ok(ids.includes(c), c);
+  for (const c of ["enie", "mayusculas", "yo", "numeros", ..."0123456789".split("").map((d) => "n" + d)]) assert.ok(ids.includes(c), c);
+  assert.equal(new Set(ids).size, ids.length);
+  const { seccion, interpretaciones } = seccionLetras(datos);
+  for (const g of seccion.grupos) {
+    assert.equal(new Set(g.rasgos.map((r) => r.id)).size, g.rasgos.length, g.id);
+    for (const r of g.rasgos) { const t = interpretaciones[`${SECCION_LETRAS}/${g.id}/${r.id}`]; assert.ok(t && !t.includes("{s}") && /^[A-ZÁÉÍÓÚÑ]/.test(t), `${g.id}/${r.id}`); }
+  }
+  // la p del ejemplo: palo corto («chaparra»), óvalo abierto y largo
+  const p = seccion.grupos.find((g) => g.id === "p").rasgos.map((r) => r.id);
+  for (const id of ["ovalo_abierto", "palo_corto", "palo_largo", "ovalo_grande"]) assert.ok(p.includes(id), id);
+  const g = seccion.grupos.find((x) => x.id === "g").rasgos.map((r) => r.id);
+  assert.ok(g.includes("jamba_angulosa") && g.includes("jamba_bucle_amplio"));
+  // Se une al catálogo antes de temperamento, una sola vez, y se redacta como lectura complementaria
+  const cat = JSON.parse(JSON.stringify(CAT_G)), comp = JSON.parse(JSON.stringify(COMP_G));
+  unirLetras(cat, comp, datos); unirLetras(cat, comp, datos);
+  const ord = cat.secciones.map((s) => s.id);
+  assert.equal(ord.filter((s) => s === SECCION_LETRAS).length, 1); assert.equal(ord.indexOf(SECCION_LETRAS), ord.indexOf("temperamento") - 1);
+  const sel = new Map([["letras_y_numeros/p/palo_corto", { origen: "manual" }], ["letras_y_numeros/g/gen_mas_grande", { origen: "manual", obs: { lugares: ["zona_inferior"] } }]]);
+  const doc = redactar(cat, comp, sel, { extension: "completa", areas: ["personal"], medidas: {}, datos: {} });
+  const todo = doc.secciones.flatMap((s) => s.parrafos).join(" ");
+  assert.match(todo, /la letra p: palo corto \(p chaparra\)/); assert.match(todo, /Lectura complementaria/);
+  assert.match(todo, /la letra g: más grande que las demás/);
+  assert.equal(informe(cat, sel).secciones.find((s) => s.id === SECCION_LETRAS).items.length, 2);
+});
