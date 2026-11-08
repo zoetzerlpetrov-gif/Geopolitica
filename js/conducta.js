@@ -160,7 +160,7 @@ $("c-captura").onclick = async () => {
     limpiarMedio();
     const v = document.createElement("video"); Object.assign(v, { srcObject: flujo, muted: true, playsInline: true, autoplay: true }); await v.play().catch(() => {});
     $("c-medio").appendChild(v); medio = { tipo: "captura", el: v, flujo, nombre: "pestaña compartida", analizable: true, inicio: null };
-    flujo.getVideoTracks()[0].addEventListener("ended", () => { detener = true; estado("Se dejó de compartir la pestaña."); });
+    flujo.getVideoTracks()[0].addEventListener("ended", () => { detener = true; medio?.parar?.(); estado("Se dejó de compartir la pestaña."); });
     prepararAuto(false, true);
     estado("Pestaña compartida. Pon el video en reproducción y pulsa «Analizar en vivo». Lo que ves se analiza aquí; no se graba ni se sube.");
   } catch (err) { estado(err.name === "NotAllowedError" ? "No se compartió ninguna pestaña." : `No se pudo compartir: ${err.message}`, true); }
@@ -192,7 +192,8 @@ async function detectores(modo, conPose) {
 
 const buscar = (v, t) => new Promise((ok) => { const fin = () => { v.removeEventListener("seeked", fin); ok(); }; v.addEventListener("seeked", fin); v.currentTime = t; });
 
-$("c-detener").onclick = () => { detener = true; };
+$("c-detener").onclick = () => { detener = true; medio?.parar?.(); };
+const vivo = (t) => { $("c-vivo").hidden = !t; $("c-vivo").textContent = t; };
 $("c-analizar").onclick = async () => {
   if (!medio?.analizable) return;
   const conPose = $("c-pose").checked;
@@ -207,23 +208,57 @@ $("c-analizar").onclick = async () => {
       if (Number.isFinite(f.roll) && Math.abs(f.roll) > 12) foto.push({ senal: "cabeza_ladeada", t0: 0, t1: 0, origen: "automático", enBase: false, detalle: `${fx(f.roll, 0)}°` });
       estado(`Foto analizada: ${foto.length} señal(es) presentes. ${rc.faceLandmarks?.length ? "" : "No se vio el rostro. "}${conPose && !rp?.landmarks?.length ? "No se vio el cuerpo." : ""}`);
     } else if (medio.tipo === "captura") {
-      // en vivo: un cuadro cada 1/fps s hasta que se detenga o se deje de compartir (máximo 15 min)
+      // En vivo. Los cuadros se leen del flujo compartido (MediaStreamTrackProcessor en Chrome y Edge): siguen llegando
+      // aunque esta pestaña quede en segundo plano mientras miras el video. En otros navegadores se toman del <video>.
+      detener = false; $("c-detener").hidden = false;
+      const parar = new Promise((r) => { medio.parar = r; });
+      vivo("Preparando los modelos de detección… (la primera vez descarga unos 10 MB)");
       const d = await detectores("VIDEO", conPose), fps = Number($("c-fps").value), cuadros = [], v = medio.el;
-      detener = false; $("c-detener").hidden = false; medio.inicio = performance.now(); let sinCara = 0, ultimo = -1;
-      while (!detener && (performance.now() - medio.inicio) / 1000 < 900) {
-        await new Promise((r) => setTimeout(r, 1000 / fps));
-        if (!v.videoWidth) continue;
-        const ms = Math.round(performance.now()); if (ms <= ultimo) continue; ultimo = ms;
-        const t = (performance.now() - medio.inicio) / 1000;
-        const rc = d.cara.detectForVideo(v, ms), rp = d.pose ? d.pose.detectForVideo(v, ms) : null;
-        if (!rc.faceLandmarks?.length) sinCara++;
-        cuadros.push({ t, f: rasgosCuadro({ b: rc.faceBlendshapes?.[0] ? mapaBlend(rc.faceBlendshapes[0].categories) : null, cara: rc.faceLandmarks?.[0] || null, pose: rp?.landmarks?.[0] || null, ancho: v.videoWidth, alto: v.videoHeight }) });
-        if (cuadros.length % 10 === 0) { estado(`🔴 Analizando en vivo: ${reloj(t)} · ${cuadros.length} cuadros${sinCara > cuadros.length * 0.5 ? " · no se ve bien el rostro" : ""}. Pulsa «Detener» para ver el resultado.`); if (cuadros.length % 50 === 0) { auto = { ...eventosDeSerie(cuadros, [Number($("c-b0").value) || 0, Math.max(1, Number($("c-b1").value) || 20)]), cuadros: cuadros.length, sinCara, duracion: t, fps }; pintarResultado(); } }
+      if (detener) throw new Error("Se detuvo antes de empezar.");
+      const pista = medio.flujo.getVideoTracks()[0];
+      let leer = null;
+      if ("MediaStreamTrackProcessor" in window) {
+        const lector = new window.MediaStreamTrackProcessor({ track: pista }).readable.getReader();
+        medio.lector = lector;
+        leer = async () => { const r = await Promise.race([lector.read(), parar.then(() => ({ done: true }))]); return r.done ? null : r.value; };
       }
+      medio.inicio = performance.now(); let sinCara = 0, ultimo = 0, ultimoAviso = 0;
+      const b0 = () => Number($("c-b0").value) || 0, b1 = () => Math.max(b0() + 1, Number($("c-b1").value) || 20);
+      while (!detener && (performance.now() - medio.inicio) / 1000 < 900) {
+        let fuente = v, ancho = v.videoWidth, alto = v.videoHeight, cuadro = null;
+        if (leer) {
+          cuadro = await leer(); if (!cuadro) break;
+          if (performance.now() - ultimo < 1000 / fps) { cuadro.close(); continue; }
+          fuente = await createImageBitmap(cuadro); ancho = cuadro.displayWidth; alto = cuadro.displayHeight; cuadro.close();
+        } else {
+          await Promise.race([new Promise((r) => setTimeout(r, 1000 / fps)), parar]);
+          if (detener || !v.videoWidth) continue;
+        }
+        const ms = Math.max(ultimo + 1, Math.round(performance.now())); ultimo = ms;
+        const t = (ms - medio.inicio) / 1000;
+        const rc = d.cara.detectForVideo(fuente, ms), rp = d.pose ? d.pose.detectForVideo(fuente, ms) : null;
+        if (fuente !== v) fuente.close();
+        if (!rc.faceLandmarks?.length) sinCara++;
+        cuadros.push({ t, f: rasgosCuadro({ b: rc.faceBlendshapes?.[0] ? mapaBlend(rc.faceBlendshapes[0].categories) : null, cara: rc.faceLandmarks?.[0] || null, pose: rp?.landmarks?.[0] || null, ancho, alto }) });
+        if (performance.now() - ultimoAviso > 1000) {
+          ultimoAviso = performance.now();
+          const pct = Math.round((1 - sinCara / cuadros.length) * 100);
+          vivo(`🔴 Analizando: ${reloj(t)} · ${cuadros.length} cuadros · rostro visible en ${pct} %${t < b1() ? ` · tomando la línea base (hasta ${b1()} s)` : ""}. Pulsa «Detener» para ver el resultado.`);
+          document.title = `🔴 ${reloj(t)} · Conducta y escritura`;
+          if (cuadros.length >= 20 && cuadros.length % 25 < fps) { auto = { ...eventosDeSerie(cuadros, [b0(), b1()]), cuadros: cuadros.length, sinCara, duracion: t, fps }; pintarResultado(); }
+        }
+      }
+      try { medio.lector?.releaseLock(); } catch (e) { /* nada */ }
+      document.title = "Conducta y escritura · DOMINUS";
       const dur = cuadros.length ? cuadros[cuadros.length - 1].t : 0;
-      const b0 = Number($("c-b0").value) || 0, b1 = Math.max(b0 + 1, Number($("c-b1").value) || 20);
-      auto = { ...eventosDeSerie(cuadros, [b0, b1]), cuadros: cuadros.length, sinCara, duracion: dur, fps };
-      estado(`Análisis en vivo terminado: ${reloj(dur)}, ${cuadros.length} cuadros, ${auto.eventos.length} evento(s). Los segundos cuentan desde que pulsaste «Analizar en vivo».`);
+      if (!cuadros.length) throw new Error("No llegó ningún cuadro de la pestaña compartida. Revisa que el video se esté reproduciendo y vuelve a compartir.");
+      auto = { ...eventosDeSerie(cuadros, [b0(), b1()]), cuadros: cuadros.length, sinCara, duracion: dur, fps };
+      const pct = Math.round((1 - sinCara / cuadros.length) * 100);
+      const msj = `Análisis en vivo terminado: ${reloj(dur)} analizados, ${cuadros.length} cuadros, rostro visible en ${pct} % · ${auto.eventos.filter((e) => !e.enBase).length} señal(es) fuera de la línea base.`
+        + (dur <= b1() ? ` Duró menos que la línea base (${b1()} s): todo se usó como referencia; deja correr más tiempo.` : "")
+        + (pct < 50 ? " Se vio poco el rostro: agranda el video o usa pantalla completa en la otra pestaña." : "");
+      vivo(msj); estado(msj);
+      $("c-resultado").scrollIntoView({ behavior: "smooth", block: "start" });
     } else {
       const v = medio.el, dur = v.duration;
       if (!Number.isFinite(dur) || dur <= 0) throw new Error("El video aún no está listo; espera a que cargue.");
@@ -276,7 +311,12 @@ function marcarBotones(evs) {
 function pintarResultado() {
   const evs = todosEventos();
   marcarBotones(evs);
-  if (!evs.length) { $("c-resumen").innerHTML = `<p class="meta">${auto ? "El análisis no encontró cambios frente a la línea base. " : ""}Aún no hay señales. Analiza el video o marca señales a mano.</p>`; return; }
+  if (!evs.length) {
+    $("c-resumen").innerHTML = auto
+      ? `<p class="aviso">Se analizaron ${auto.cuadros} cuadros (${reloj(auto.duracion)}) y no hubo cambios frente a la línea base (${reloj(auto.base[0])}–${reloj(auto.base[1])}): la persona se mantuvo como en ese tramo. Eso también es información. Si esperabas reacciones, revisa que el rostro se vea grande y de frente, que la línea base sea un tramo tranquilo y que el análisis dure bastante más que la línea base. Puedes marcar a mano lo que la cámara no capta.</p>`
+      : `<p class="meta">Aún no hay señales. Analiza el video o marca señales a mano.</p>`;
+    return;
+  }
   const L = lectura(CAT_C, evs);
   const dur = auto?.duracion || Math.max(10, ...evs.map((e) => e.t1)) ;
   const maxPeso = Math.max(1, ...L.estados.map((e) => e.peso));
