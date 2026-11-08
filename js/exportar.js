@@ -4,7 +4,7 @@ import * as X from "./exportar-logica.js";
 
 const LIB = {
   jspdf: "https://cdn.jsdelivr.net/npm/jspdf@2.5.2/+esm",
-  autotable: "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/+esm",
+  autotable: "https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.4/dist/jspdf.plugin.autotable.mjs",
   xlsx: "https://cdn.jsdelivr.net/npm/xlsx@0.18.5/+esm",
 };
 
@@ -80,7 +80,7 @@ async function aPDF(cols, filas, { titulo, nota, svg }) {
     doc.addImage(c.toDataURL("image/png"), "PNG", 40, y, ancho, alto);
     y += alto + 12;
   }
-  (at.default || at.autoTable)(doc, { startY: y, head: [cols], body: filas.map((f) => cols.map((k) => celda(f[k]))), styles: { fontSize: 8 }, headStyles: { fillColor: [200, 16, 46] } });
+  at.default(doc, { startY: y, head: [cols], body: filas.map((f) => cols.map((k) => celda(f[k]))), styles: { fontSize: 8 }, headStyles: { fillColor: [200, 16, 46] } });
   return doc.output("blob");
 }
 
@@ -134,18 +134,70 @@ export async function exportarDocumento(formato, { titulo = "Documento", html = 
     setTimeout(() => v.print(), 400);
     return;
   }
-  // PDF: jsPDF dibuja el HTML con html2canvas (ambas librerías se cargan solo al pedir el PDF).
-  const [{ jsPDF }, h2c] = await Promise.all([import(LIB.jspdf), import("https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/+esm")]);
-  window.html2canvas = h2c.default || h2c;
-  const caja = document.createElement("div");
-  caja.style.cssText = "position:fixed;left:-10000px;top:0;width:760px;background:#fff;color:#111";
-  caja.innerHTML = `<style>${ESTILO_DOC.replace(/body\{/, ".doc-pdf{")}</style><div class="doc-pdf">${html}</div>`;
-  document.body.appendChild(caja);
-  try {
-    const doc = new jsPDF({ unit: "pt", format: "letter" });
-    await doc.html(caja, { margin: [36, 36, 36, 36], autoPaging: "text", width: 540, windowWidth: 760, html2canvas: { scale: 0.71 } });
-    descargarBlob(`${base}.pdf`, doc.output("blob"));
-  } finally { caja.remove(); }
+  // PDF de texto (seleccionable y nítido), con saltos de página limpios y número de página.
+  descargarBlob(`${base}.pdf`, await documentoAPDF(titulo, html));
+}
+
+/** Dibuja HTML sencillo (encabezados, párrafos, listas, tablas e imágenes) en un PDF de texto con jsPDF. */
+export async function documentoAPDF(titulo, html) {
+  const { jsPDF } = await import(LIB.jspdf);
+  const at = await import(LIB.autotable);
+  const doc = new jsPDF({ unit: "pt", format: "letter" });
+  const autoTable = at.default;
+  const M = 50, W = doc.internal.pageSize.getWidth() - 2 * M, H = doc.internal.pageSize.getHeight();
+  let y = M;
+  // Las fuentes estándar del PDF solo tienen Latin-1: se quitan emojis y símbolos que saldrían como basura.
+  const limpio = (s) => String(s || "").replace(/[\u2012-\u2015]/g, "—").replace(/[^\t\n\r\x20-\x7E\xA0-\xFF\u2013\u2014\u2018\u2019\u201C\u201D\u2022\u2026\u20AC]/g, "").replace(/\s+/g, " ").trim();
+  const espacio = (alto) => { if (y + alto > H - M) { doc.addPage(); y = M; } };
+  const texto = (s, { size = 10.5, bold = false, sangria = 0, antes = 0, despues = 5, gris = false } = {}) => {
+    const t = limpio(s); if (!t) return;
+    y += antes; doc.setFont("helvetica", bold ? "bold" : "normal"); doc.setFontSize(size); doc.setTextColor(gris ? 90 : 17);
+    const lh = size * 1.38, lineas = doc.splitTextToSize(t, W - sangria);
+    if (bold) espacio(lh * Math.min(3, lineas.length + 2)); // un título no queda solo al final de la hoja
+    for (const l of lineas) { espacio(lh); doc.text(l, M + sangria, y + size); y += lh; }
+    y += despues;
+  };
+  const BLOQUES = new Set(["P", "DIV", "SECTION", "ARTICLE", "UL", "OL", "LI", "TABLE", "H1", "H2", "H3", "H4", "H5", "H6", "DETAILS", "SUMMARY", "BLOCKQUOTE", "FIGURE", "IMG", "HEADER", "FOOTER", "DL", "DT", "DD", "PRE"]);
+  const tieneBloques = (el) => [...el.children].some((c) => BLOQUES.has(c.tagName));
+  const tabla = (el) => {
+    const filas = [...el.rows].map((r) => [...r.cells].map((c) => limpio(c.textContent)));
+    if (!filas.length) return;
+    const conCab = el.rows[0] && [...el.rows[0].cells].every((c) => c.tagName === "TH") && filas.length > 1;
+    autoTable(doc, { startY: y, margin: { left: M, right: M }, head: conCab ? [filas[0]] : undefined, body: conCab ? filas.slice(1) : filas,
+      styles: { fontSize: 8.5, cellPadding: 3, overflow: "linebreak" }, headStyles: { fillColor: [200, 16, 46] }, theme: "grid" });
+    y = (doc.lastAutoTable?.finalY ?? y) + 10;
+  };
+  const imagen = (el) => {
+    const src = el.getAttribute("src") || ""; if (!src.startsWith("data:image/")) return;
+    const ancho = Math.min(W, el.naturalWidth || W), alto = el.naturalWidth ? (ancho * el.naturalHeight) / el.naturalWidth : W * 0.6;
+    espacio(alto + 6);
+    try { doc.addImage(src, src.includes("png") ? "PNG" : "JPEG", M, y, ancho, alto); y += alto + 8; } catch (e) { /* imagen no compatible */ }
+  };
+  const recorrer = (nodo, sangria = 0, numerada = false) => {
+    let n = 0;
+    for (const c of nodo.childNodes) {
+      if (c.nodeType === 3) { texto(c.textContent, { sangria }); continue; }
+      if (c.nodeType !== 1 || ["STYLE", "SCRIPT", "BUTTON", "SVG", "svg", "TEMPLATE"].includes(c.tagName)) continue;
+      const tag = c.tagName;
+      if (tag === "H1") texto(c.textContent, { size: 17, bold: true, antes: 4, despues: 8 });
+      else if (tag === "H2") texto(c.textContent, { size: 14, bold: true, antes: 8, despues: 6 });
+      else if (tag === "H3") texto(c.textContent, { size: 12, bold: true, antes: 6, despues: 4 });
+      else if (/^H[4-6]$/.test(tag) || tag === "SUMMARY" || tag === "DT") texto(c.textContent, { size: 11, bold: true, antes: 4, despues: 3 });
+      else if (tag === "UL" || tag === "OL") recorrer(c, sangria + 14, tag === "OL");
+      else if (tag === "LI") { n++; if (tieneBloques(c)) recorrer(c, sangria); else texto(`${numerada ? `${n}.` : "•"} ${c.textContent}`, { sangria, despues: 3 }); }
+      else if (tag === "TABLE") tabla(c);
+      else if (tag === "IMG") imagen(c);
+      else if (tag === "BR") y += 4;
+      else if (BLOQUES.has(tag) || tieneBloques(c)) { if (tieneBloques(c)) recorrer(c, sangria); else texto(c.textContent, { sangria, gris: c.classList?.contains("meta") }); }
+      else texto(c.textContent, { sangria });
+    }
+  };
+  const cuerpo = new DOMParser().parseFromString(`<body>${html}</body>`, "text/html").body;
+  if (titulo && !cuerpo.querySelector("h1")) texto(titulo, { size: 17, bold: true, despues: 8 });
+  recorrer(cuerpo);
+  const total = doc.getNumberOfPages();
+  for (let i = 1; i <= total; i++) { doc.setPage(i); doc.setFont("helvetica", "normal"); doc.setFontSize(8); doc.setTextColor(120); doc.text(`${limpio(titulo).slice(0, 80)} · página ${i} de ${total}`, M, H - 24); }
+  return doc.output("blob");
 }
 
 /** Selector de formato para documentos. */

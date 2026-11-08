@@ -853,3 +853,18 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .org-barra { display: flex; flex-wrap: wrap; gap: 6px; justify-content: space-between; align-items: center; margin-bottom: 6px; }
 #corp-org-ficha.activo { border: 2px solid var(--g-corporativo); border-radius: 8px; padding: 8px; margin: 8px 0; background: var(--surface); scroll-margin-top: 80px; }
 .corp-resultados li { margin-bottom: 6px; } .corp-resultados .mini { margin-right: 4px; }
+
+/* ---------- Impresión (Ctrl+P en cualquier página) ----------
+   Las cajas con barra de desplazamiento se imprimen completas (si no, Chrome corta lo que no cabe en una hoja),
+   y no salen la barra superior, los botones ni los controles marcados como no imprimibles. */
+@media print {
+  html, body { height: auto !important; overflow: visible !important; background: #fff !important; color: #000 !important; }
+  body:not(:has(#map)) { display: block !important; }
+  .topbar, .no-imprimir, .no-print, .skip { display: none !important; }
+  main, section, article, .hz, .tarjeta, .desliza, .escrito, .panel:not(.layout > .panel), details, .bloque { overflow: visible !important; max-height: none !important; height: auto !important; box-shadow: none !important; }
+  .inf-item, tr, img, svg, canvas, figure { break-inside: avoid; }
+  table { border-collapse: collapse; } th, td { color: #000 !important; }
+  img, svg, canvas { max-width: 100% !important; height: auto; }
+  a { color: #000 !important; }
+  @page { margin: 14mm; }
+}
