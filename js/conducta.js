@@ -4,7 +4,7 @@ import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA, deten
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
-import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura } from "./grafo-logica.js";
+import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura, escalaGrafo, rasgosDeFirmaSola } from "./grafo-logica.js";
 import { ejemplo } from "./grafo-ejemplos.js";
 import { redactar, aHTML, aTexto, cuartillas, AREAS, EXTENSIONES } from "./grafo-redaccion.js";
 
@@ -441,7 +441,7 @@ $("g-archivo").onchange = async (e) => {
     base = document.createElement("canvas"); base.width = Math.round(bmp.width * k); base.height = Math.round(bmp.height * k);
     base.getContext("2d").drawImage(bmp, 0, 0, base.width, base.height);
     lienzo.width = base.width; lienzo.height = base.height;
-    rTexto = { x: 0, y: 0, w: base.width, h: base.height }; rFirma = null; medTexto = medFirma = null; seleccion = new Map();
+    rTexto = rFirma = null; medTexto = medFirma = null; seleccion = new Map(); aplicarContenido();
     $("g-trabajo").hidden = false; $("g-lista-caja").hidden = true; $("g-informe-caja").hidden = true; $("g-medidas").innerHTML = "";
     dibujar();
     estado(`Imagen lista: ${f.name} (${base.width}×${base.height}). No sale de tu navegador.`);
@@ -470,18 +470,46 @@ lienzo.addEventListener("pointermove", (ev) => {
   const r = { x: Math.min(arrastre.x, p.x), y: Math.min(arrastre.y, p.y), w: Math.abs(p.x - arrastre.x), h: Math.abs(p.y - arrastre.y) };
   if (modo === "texto") rTexto = r; else rFirma = r; dibujar();
 });
-lienzo.addEventListener("pointerup", () => { arrastre = null; for (const r of [rTexto, rFirma]) if (r && (r.w < 10 || r.h < 10)) { if (r === rTexto) rTexto = null; else rFirma = null; } dibujar(); });
+lienzo.addEventListener("pointerup", () => { if (!arrastre) return; arrastre = null; for (const r of [rTexto, rFirma]) if (r && (r.w < 10 || r.h < 10)) { if (r === rTexto) rTexto = null; else rFirma = null; } sincronizarContenido(); dibujar(); });
 const fijarModo = (m) => { modo = m; $("g-modo-texto").setAttribute("aria-pressed", String(m === "texto")); $("g-modo-firma").setAttribute("aria-pressed", String(m === "firma")); };
+const todaLaImagen = () => ({ x: 0, y: 0, w: base.width, h: base.height });
+const contenido = () => document.querySelector('input[name="g-contenido"]:checked')?.value || "texto";
+const fijarContenido = (v) => { const r = document.querySelector(`input[name="g-contenido"][value="${v}"]`); if (r) r.checked = true; };
+/** Ajusta los rectángulos al contenido elegido (al subir la imagen o al cambiar la opción). */
+function aplicarContenido() {
+  if (!base) return;
+  const c = contenido();
+  if (c === "texto") { rTexto = rTexto || todaLaImagen(); rFirma = null; medFirma = null; fijarModo("texto"); }
+  else if (c === "firma") { rFirma = rFirma || todaLaImagen(); rTexto = null; medTexto = null; fijarModo("firma"); }
+  else { // ambos: si uno ocupaba toda la imagen, se quita para que dibujes los dos
+    const entera = (r) => r && r.x === 0 && r.y === 0 && r.w === base.width && r.h === base.height;
+    if (entera(rTexto)) rTexto = null; if (entera(rFirma)) rFirma = null;
+    fijarModo(rTexto && !rFirma ? "firma" : "texto");
+  }
+  botonesMarcar(); dibujar();
+}
+/** El contenido declarado sigue a los rectángulos que hay (al dibujar o quitar uno). */
+function sincronizarContenido() {
+  if (rTexto && rFirma) fijarContenido("ambos"); else if (rTexto) fijarContenido("texto"); else if (rFirma) fijarContenido("firma");
+  botonesMarcar();
+}
+function botonesMarcar() {
+  $("g-sin-texto").disabled = !rTexto; $("g-sin-firma").disabled = !rFirma;
+  const falta = contenido() === "ambos" ? (!rTexto ? "Falta dibujar el rectángulo azul (texto)." : !rFirma ? "Falta dibujar el rectángulo rojo (firma)." : "") : "";
+  $("g-ayuda-marcar").textContent = falta || "Arrastra sobre la imagen para dibujar o rehacer el rectángulo del tipo elegido. Puedes quitar cualquiera de los dos con su botón ✕.";
+}
+document.querySelectorAll('input[name="g-contenido"]').forEach((r) => r.addEventListener("change", aplicarContenido));
 $("g-modo-texto").onclick = () => fijarModo("texto");
 $("g-modo-firma").onclick = () => fijarModo("firma");
-$("g-todo").onclick = () => { if (base) { rTexto = { x: 0, y: 0, w: base.width, h: base.height }; dibujar(); } };
-$("g-sin-firma").onclick = () => { rFirma = null; medFirma = null; dibujar(); };
-$("g-escala").onchange = () => { $("g-mm-caja").hidden = $("g-escala").value !== "otra"; };
+$("g-todo").onclick = () => { if (base) { rTexto = todaLaImagen(); rFirma = null; medFirma = null; fijarModo("texto"); sincronizarContenido(); dibujar(); } };
+$("g-todo-firma").onclick = () => { if (base) { rFirma = todaLaImagen(); rTexto = null; medTexto = null; fijarModo("firma"); sincronizarContenido(); dibujar(); } };
+$("g-sin-texto").onclick = () => { rTexto = null; medTexto = null; fijarModo("texto"); sincronizarContenido(); dibujar(); };
+$("g-sin-firma").onclick = () => { rFirma = null; medFirma = null; fijarModo("firma"); sincronizarContenido(); dibujar(); };
+$("g-escala").onchange = () => { const v = $("g-escala").value; $("g-mm-caja").hidden = v !== "otra"; $("g-hoja-caja").hidden = v !== "img-otra"; };
 
-function mmPorPx() {
-  const v = $("g-escala").value, ref = rTexto || rFirma; if (!ref || v === "nada") return null;
-  const mm = { carta: 216, a4: 210, media: 140 }[v] ?? Number($("g-mm").value);
-  return mm > 0 ? mm / ref.w : null;
+function escalaActual() {
+  return escalaGrafo($("g-escala").value, { anchoImg: base?.width, altoImg: base?.height, anchoAzul: rTexto?.w || 0, mmAzul: $("g-mm").value,
+    hojaAncho: $("g-hoja-ancho").value, hojaAlto: $("g-hoja-alto").value });
 }
 
 $("g-medir").onclick = () => {
@@ -489,21 +517,26 @@ $("g-medir").onclick = () => {
   estado("Midiendo…");
   setTimeout(() => {
     try {
-      const img = base.getContext("2d").getImageData(0, 0, base.width, base.height), k = mmPorPx(), hoja = $("g-hoja").checked;
+      const esc0 = escalaActual(), k = esc0.k, img = base.getContext("2d").getImageData(0, 0, base.width, base.height), hoja = $("g-hoja").checked;
       medTexto = rTexto ? medir(img, rTexto, k) : null;
       medFirma = rFirma ? medir(img, rFirma, k) : null;
       seleccion = new Map();
       if (medTexto && !medTexto.vacio) for (const c of clasificar(medTexto, { hojaCompleta: hoja })) seleccion.set(c.clave, { ...c, origen: "medido" });
       if (medTexto && !medTexto.vacio) for (const c of clasificarAvanzado(medTexto, [...seleccion.values()])) if (!seleccion.has(c.clave)) seleccion.set(c.clave, { ...c, origen: "estimado" });
       if (medFirma && !medFirma.vacio) for (const c of clasificarFirma(medFirma, medTexto, rFirma, rTexto, { hojaCompleta: hoja })) seleccion.set(c.clave, { ...c, origen: "medido" });
-      dibujar(); pintarMedidas(k); pintarLista(); pintarInforme();
+      // Solo firma: tamaño, inclinación, presión, forma, continuidad y velocidad se leen en la propia firma
+      if (!rTexto && medFirma && !medFirma.vacio) {
+        for (const c of rasgosDeFirmaSola(clasificar(medFirma))) if (!seleccion.has(c.clave)) seleccion.set(c.clave, { ...c, origen: "medido" });
+        for (const c of rasgosDeFirmaSola(clasificarAvanzado(medFirma, [...seleccion.values()]))) if (!seleccion.has(c.clave)) seleccion.set(c.clave, { ...c, origen: "estimado" });
+      }
+      dibujar(); pintarMedidas(k, esc0); pintarLista(); pintarInforme();
       const nM = [...seleccion.values()].filter((e) => e.origen === "medido").length, nE = seleccion.size - nM;
       estado(`Medición lista: ${nM} rasgo(s) medidos (📏) y ${nE} estimados (🔎) marcados por omisión. Revísalos y marca lo demás observando el original.`);
     } catch (err) { estado(`No se pudo medir: ${err.message}`, true); }
   }, 30);
 };
 
-function pintarMedidas(k) {
+function pintarMedidas(k, esc0 = {}) {
   const fila = (n, t, f) => `<tr><th>${n}</th><td>${t ?? "—"}</td><td>${f ?? "—"}</td></tr>`;
   const m = (x) => x && !x.vacio;
   const T = medTexto, F = medFirma;
@@ -519,7 +552,9 @@ function pintarMedidas(k) {
     ${fila("Cuchillos · chimeneas", m(T) ? `${T.cuchillos} · ${T.chimeneas}` : null, null)}
   </table></div>
   ${avisosEscritura(T).map((x) => `<p class="aviso">${esc(x)}</p>`).join("")}
-  <p class="meta">${k ? `Escala: ${fx(k, 3)} mm por píxel.` : "Sin escala: no hay milímetros (tamaño y calibre no se clasifican)."} La dirección se mide respecto del borde de la foto: si la hoja salió girada, ese giro se suma.
+  ${esc0.aviso ? `<p class="aviso">${esc(esc0.aviso)}</p>` : ""}
+  ${!T && F ? '<p class="meta">Muestra de <b>solo firma</b>: tamaño, inclinación, presión, forma, ligazón y velocidad se leen en la firma; márgenes, orden y espacios entre renglones no aplican.</p>' : ""}
+  <p class="meta">${k ? `Escala: ${fx(k, 3)} mm por píxel (${esc(esc0.desc || "")}).` : "Sin escala: no hay milímetros (tamaño y calibre no se clasifican)."} La dirección se mide respecto del borde de la foto: si la hoja salió girada, ese giro se suma.
     ${(T && T.vacio) || (F && F.vacio) ? "<b>En un rectángulo no encontré tinta.</b>" : ""}</p>`;
 }
 
