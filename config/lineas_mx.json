@@ -1,0 +1,563 @@
+{
+ "fuente": "https://portal.crt.gob.mx/plataformas-de-consulta-de-las-companias-telefonicas",
+ "consultado": "2026-11-08",
+ "nota": "Lista oficial de la CRT. Varias marcas comparten la misma página de consulta.",
+ "plataformas": [
+  {
+   "id": "registro-telcel-com-vinculatulinea",
+   "url": "https://registro.telcel.com/vinculatulinea",
+   "marcas": [
+    "Telcel"
+   ],
+   "principal": true
+  },
+  {
+   "id": "att-com-mx-controlpersonal",
+   "url": "https://att.com.mx/controlpersonal",
+   "marcas": [
+    "AT&T, Unefon y WIM marca digital AT&T"
+   ],
+   "principal": true
+  },
+  {
+   "id": "movistar-com-mx-consulta-tu-linea",
+   "url": "https://www.movistar.com.mx/consulta-tu-linea",
+   "marcas": [
+    "Teléfonica Movistar"
+   ],
+   "principal": true
+  },
+  {
+   "id": "rnu-altanredes-com-consulta",
+   "url": "https://rnu.altanredes.com/consulta",
+   "marcas": [
+    "2y2x",
+    "Abafon",
+    "Abib",
+    "Abix",
+    "Addinteli",
+    "AI Telecomm",
+    "Appcel",
+    "Axios Mobile",
+    "BienCel",
+    "Bigcel",
+    "Bromovil",
+    "Bnext",
+    "CFE",
+    "Chip Macropay",
+    "CoolMobile",
+    "Comunicaciones Green",
+    "Conect2",
+    "Conectacel México",
+    "Chuliphone",
+    "Diré Movil",
+    "ENI Networks",
+    "Fangio Mobile",
+    "Fibracell",
+    "FRC Mobile",
+    "Gamers",
+    "Gane",
+    "Glovo Telecom",
+    "Gmovil",
+    "Grupo Inten",
+    "Hashtag",
+    "Hicel",
+    "I AM Abundance",
+    "Interlinked",
+    "Inxel/Internet para el Bienestar",
+    "Iusatel",
+    "Inphonity",
+    "IPB Conec-Rural",
+    "JRmovil",
+    "JRmovil/Internet para el Bienestar",
+    "Kolors Mobile",
+    "Likephone",
+    "Maya Móvil",
+    "Maifon",
+    "México Móvil",
+    "Mexfon",
+    "Mi móvil/Altán",
+    "MobileArionet",
+    "Movired",
+    "Móvil para Todos",
+    "MOVER-T MÓVIL",
+    "Miio",
+    "Mujer Móvil",
+    "Nabi",
+    "Netmas",
+    "Netwey",
+    "Ocean Móvil",
+    "On-Link",
+    "Orange",
+    "OUI/Altán",
+    "Othisi Mobile",
+    "Pagacel",
+    "Playcell",
+    "Red Blak",
+    "Red Dog",
+    "Redicoppel",
+    "Redy Movil",
+    "Retemex",
+    "RETESEC",
+    "Rex Movil",
+    "Rincel",
+    "Secure Witness",
+    "Sfon",
+    "Sueñainc",
+    "Spot 1",
+    "Softcell",
+    "Starline",
+    "Telefónica Luna",
+    "Telgen",
+    "Telmovil",
+    "Teracel",
+    "TIC-OMV",
+    "Tuis",
+    "Turbored",
+    "Ultracel",
+    "Valor Telecomm",
+    "Vasanta",
+    "VivaMX",
+    "Wiki Katat",
+    "Wimotelecom"
+   ],
+   "principal": true,
+   "grupo": "Red Altán"
+  },
+  {
+   "id": "btz-mx-consultaregistro",
+   "url": "https://btz.mx/consultaregistro",
+   "marcas": [
+    "Bait"
+   ],
+   "principal": true
+  },
+  {
+   "id": "virginmobile-mx-v1-consultatulinea",
+   "url": "https://virginmobile.mx/v1/consultatulinea",
+   "marcas": [
+    "Virgin Mobile"
+   ],
+   "principal": true
+  },
+  {
+   "id": "vinculatulinea-com-ahorrocel",
+   "url": "https://vinculatulinea.com/Ahorrocel",
+   "marcas": [
+    "AhorroCel"
+   ],
+   "principal": false
+  },
+  {
+   "id": "airbus-mx-com-registratulinea",
+   "url": "https://airbus-mx.com/registratulinea",
+   "marcas": [
+    "Airbus"
+   ],
+   "principal": false
+  },
+  {
+   "id": "alestramovil-mx-vinculatulinea",
+   "url": "https://www.alestramovil.mx/vinculatulinea",
+   "marcas": [
+    "Alestra móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-allce-mx-consulta",
+   "url": "https://vinculacion.allce.mx/consulta",
+   "marcas": [
+    "ALLCE"
+   ],
+   "principal": false
+  },
+  {
+   "id": "consultavinculacion-beemovil-mx",
+   "url": "https://consultavinculacion.beemovil.mx/",
+   "marcas": [
+    "Bee Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "beneleit-mx-consultalineas",
+   "url": "https://beneleit.mx/consultalineas",
+   "marcas": [
+    "Beneleit Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "facturacion-bestel-com-mx",
+   "url": "https://facturacion.bestel.com.mx",
+   "marcas": [
+    "Bestel",
+    "Cablecom"
+   ],
+   "principal": false
+  },
+  {
+   "id": "registro-blackfon-mx",
+   "url": "https://registro.blackfon.mx/",
+   "marcas": [
+    "BlackFon"
+   ],
+   "principal": false
+  },
+  {
+   "id": "buenocell-mx-vinculatulinea",
+   "url": "https://buenocell.mx/vinculatulinea",
+   "marcas": [
+    "BuenoCell"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-celfi-com-mx-consulta",
+   "url": "https://vinculacion.celfi.com.mx/consulta",
+   "marcas": [
+    "Celsfi"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculatulinea-com-chedrauimovil",
+   "url": "https://vinculatulinea.com/Chedrauimovil",
+   "marcas": [
+    "Chedraui Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "dalefon-mx-vinculatulinea",
+   "url": "https://www.dalefon.mx/vinculatulinea",
+   "marcas": [
+    "Dalefon"
+   ],
+   "principal": false
+  },
+  {
+   "id": "internetbienestarmex-com-vinculatulinea",
+   "url": "https://www.internetbienestarmex.com/vinculatulinea",
+   "marcas": [
+    "Dalefon/Internet para el Bienestar"
+   ],
+   "principal": false
+  },
+  {
+   "id": "consulta-logisticaacn-mx",
+   "url": "https://consulta.logisticaacn.mx",
+   "marcas": [
+    "Dua",
+    "Fedego!",
+    "Flash Mobile"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculatulinea-com-freedompop",
+   "url": "https://vinculatulinea.com/Freedompop",
+   "marcas": [
+    "Freedompop"
+   ],
+   "principal": false
+  },
+  {
+   "id": "crmxpace-com-fusiont-vinculacion",
+   "url": "https://crmxpace.com/fusiont/vinculacion",
+   "marcas": [
+    "Fusion-T"
+   ],
+   "principal": false
+  },
+  {
+   "id": "rnu-grupobitelit-com",
+   "url": "https://rnu.grupobitelit.com/",
+   "marcas": [
+    "Grupo Bitelit"
+   ],
+   "principal": false
+  },
+  {
+   "id": "movilidad-ientc-net-vinculatulinea",
+   "url": "https://movilidad.ientc.net/vinculatulinea",
+   "marcas": [
+    "IENTC Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculate-infynit-mx",
+   "url": "https://vinculate.infynit.mx/",
+   "marcas": [
+    "Infynit"
+   ],
+   "principal": false
+  },
+  {
+   "id": "inxel-mx-consulta-vinculacion",
+   "url": "https://inxel.mx/consulta-vinculacion",
+   "marcas": [
+    "Inxel"
+   ],
+   "principal": false
+  },
+  {
+   "id": "izzi-mx-login",
+   "url": "https://www.izzi.mx/login",
+   "marcas": [
+    "Izzi"
+   ],
+   "principal": false
+  },
+  {
+   "id": "jamachulelmovil-com-consulta-vinculacion",
+   "url": "https://www.jamachulelmovil.com/consulta-vinculacion",
+   "marcas": [
+    "Jamachulel Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "movil-linkteconectamos-com-consultar-vinculacion",
+   "url": "https://movil.linkteconectamos.com/consultar-vinculacion/",
+   "marcas": [
+    "Link Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "consultavinculacion-megamovil-mx",
+   "url": "https://consultavinculacion.megamovil.mx",
+   "marcas": [
+    "Mega Móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-mimovil-com-mx-consulta",
+   "url": "https://vinculacion.mimovil.com.mx/consulta",
+   "marcas": [
+    "Mi móvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "mirlo-com-vincularlinea-consulta",
+   "url": "https://mirlo.com/vincularlinea/consulta",
+   "marcas": [
+    "Mirlo"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-mosi-mx-consulta",
+   "url": "https://vinculacion.mosi.mx/consulta",
+   "marcas": [
+    "Mosi"
+   ],
+   "principal": false
+  },
+  {
+   "id": "consultavinculacion-newww-mx",
+   "url": "https://consultavinculacion.newww.mx",
+   "marcas": [
+    "Newww"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-nextormovil-mx",
+   "url": "https://vinculacion.nextormovil.mx",
+   "marcas": [
+    "Nextor Movil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculatulinea-com-oui-welcome",
+   "url": "https://vinculatulinea.com/oui/welcome",
+   "marcas": [
+    "OUI"
+   ],
+   "principal": false
+  },
+  {
+   "id": "verificar-oxiomobile-com-consultatuslineas",
+   "url": "https://verificar.oxiomobile.com/consultatuslineas",
+   "marcas": [
+    "Oxio"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculatulinea-com-oxxocel",
+   "url": "https://vinculatulinea.com/Oxxocel",
+   "marcas": [
+    "OXXO CEL"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-celink-mx",
+   "url": "https://vinculacion.celink.mx/",
+   "marcas": [
+    "Pandamovil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "poramorapueblaconecta-com-consulta-vinculacion",
+   "url": "https://www.poramorapueblaconecta.com/consulta-vinculacion",
+   "marcas": [
+    "Por Amor a Puebla Conecta"
+   ],
+   "principal": false
+  },
+  {
+   "id": "consultavinculacion-redaguila-com-mx",
+   "url": "https://consultavinculacion.redaguila.com.mx",
+   "marcas": [
+    "Red Aguila"
+   ],
+   "principal": false
+  },
+  {
+   "id": "redpotencia-net-lineasvinculadas",
+   "url": "https://redpotencia.net/lineasvinculadas",
+   "marcas": [
+    "Red Potencia"
+   ],
+   "principal": false
+  },
+  {
+   "id": "internetbienestar-net-lineasvinculadas",
+   "url": "https://internetbienestar.net/lineasvinculadas",
+   "marcas": [
+    "Red Potencia/Internet para el Bienestar"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculacion-redphone-com-mx-consulta",
+   "url": "https://vinculacion.redphone.com.mx/consulta",
+   "marcas": [
+    "Redphone"
+   ],
+   "principal": false
+  },
+  {
+   "id": "redphone-vinculacion-koonolmexico-com-consulta",
+   "url": "https://redphone.vinculacion.koonolmexico.com/consulta",
+   "marcas": [
+    "Redphone Koonol"
+   ],
+   "principal": false
+  },
+  {
+   "id": "micuenta-sky-com-mx",
+   "url": "https://micuenta.sky.com.mx",
+   "marcas": [
+    "Sky"
+   ],
+   "principal": false
+  },
+  {
+   "id": "soriup-mx-consultavinculacion",
+   "url": "https://www.soriup.mx/consultavinculacion",
+   "marcas": [
+    "Sorcel"
+   ],
+   "principal": false
+  },
+  {
+   "id": "tokamovil-mx-cumplimiento-consulta-vinculacion",
+   "url": "https://tokamovil.mx/cumplimiento/consulta-vinculacion",
+   "marcas": [
+    "Tokamóvil"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculatulinea-com-ubercel",
+   "url": "https://vinculatulinea.com/Ubercel",
+   "marcas": [
+    "Uber Cel"
+   ],
+   "principal": false
+  },
+  {
+   "id": "ubix-mx-vinculatulinea",
+   "url": "https://www.ubix.mx/vinculatulinea/",
+   "marcas": [
+    "Ubix"
+   ],
+   "principal": false
+  },
+  {
+   "id": "viasatprepago-com-mx-vinculatulinea",
+   "url": "https://viasatprepago.com.mx/vinculatulinea/",
+   "marcas": [
+    "Viasat"
+   ],
+   "principal": false
+  },
+  {
+   "id": "kyc-n3t-mx-lang-es-tab-consulta",
+   "url": "https://kyc.n3t.mx/?lang=es&tab=consulta",
+   "marcas": [
+    "Vinoc"
+   ],
+   "principal": false
+  },
+  {
+   "id": "viralcel-com-mi-linea",
+   "url": "https://www.viralcel.com/mi-linea",
+   "marcas": [
+    "Viral Cel"
+   ],
+   "principal": false
+  },
+  {
+   "id": "weex-mx-consultalineas-html",
+   "url": "https://weex.mx/consultalineas.html",
+   "marcas": [
+    "Weex"
+   ],
+   "principal": false
+  },
+  {
+   "id": "wiicel-com",
+   "url": "https://wiicel.com",
+   "marcas": [
+    "Wiicel"
+   ],
+   "principal": false
+  },
+  {
+   "id": "mirlo-com-vinculatulinea-consulta",
+   "url": "https://mirlo.com/vinculatulinea/consulta",
+   "marcas": [
+    "WOZ"
+   ],
+   "principal": false
+  },
+  {
+   "id": "mx-yomobile-com-consulta",
+   "url": "https://mx.yomobile.com/consulta",
+   "marcas": [
+    "Yo mobile"
+   ],
+   "principal": false
+  },
+  {
+   "id": "vinculatulinea-com-yobitelecom",
+   "url": "https://vinculatulinea.com/YobiTelecom",
+   "marcas": [
+    "Yobi Telecom"
+   ],
+   "principal": false
+  }
+ ]
+}
