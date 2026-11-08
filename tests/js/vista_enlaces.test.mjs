@@ -48,6 +48,12 @@ test("aviso cisne negro: al arrastrarlo no se sale del mapa", async () => {
   assert.deepEqual(acotar(500, 300, 360, 200, 1000, 800), { x: 500, y: 300 });
   assert.deepEqual(acotar(-50, -20, 360, 200, 1000, 800), { x: 0, y: 0 });
   assert.deepEqual(acotar(900, 790, 360, 200, 1000, 800), { x: 640, y: 760 }, "la barra roja sigue visible abajo");
+  // posición guardada en la mitad derecha: conserva la distancia al borde derecho aunque el mapa cambie de ancho
+  const { posicionGuardada } = await import("../../js/alerta_cisne.js");
+  assert.deepEqual(posicionGuardada({ x: 900, y: 10, cw: 1300, ch: 800 }, 1000, 800), { x: 600, y: 10 });
+  assert.deepEqual(posicionGuardada({ x: 100, y: 600, cw: 1300, ch: 800 }, 1000, 700), { x: 100, y: 500 }, "abajo a la izquierda: conserva la distancia al borde inferior");
+  assert.deepEqual(posicionGuardada({ x: 900, y: 10 }, 1000, 800), { x: 900, y: 10 }, "posición guardada antes de este cambio");
+  assert.equal(posicionGuardada(null, 1000, 800), null);
 });
 
 test("aviso cisne negro: secciones por tipo, buscador y países con riesgo alto aparte", async () => {

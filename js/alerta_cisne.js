@@ -14,6 +14,24 @@ export function acotar(x, y, ancho, alto, anchoCont, altoCont) {
   return { x: Math.round(Math.min(Math.max(0, x), Math.max(0, anchoCont - ancho))), y: Math.round(Math.min(Math.max(0, y), Math.max(0, altoCont - Math.min(alto, 40)))) };
 }
 
+/**
+ * Posición guardada → posición actual. Si la ventana estaba en la mitad derecha (o inferior) del mapa, conserva la
+ * distancia al borde derecho (o inferior): así sigue a la derecha aunque el mapa cambie de ancho al recargar.
+ */
+export function posicionGuardada(g, anchoCont, altoCont) {
+  if (!g || !Number.isFinite(g.x) || !Number.isFinite(g.y)) return null;
+  const x = g.cw && g.x > g.cw / 2 ? anchoCont - (g.cw - g.x) : g.x;
+  const y = g.ch && g.y > g.ch / 2 ? altoCont - (g.ch - g.y) : g.y;
+  return { x, y };
+}
+
+/** Si la ventana se sale por abajo (p. ej. al desplegarla cerca del borde), la sube lo necesario. `margen` deja libre la escala. */
+export function mantenerVisible(caja, margen = 86) {
+  const cont = caja.parentElement; if (!cont || caja.hidden || !caja.style.top) return;
+  const top = parseInt(caja.style.top, 10), alto = caja.offsetHeight, limite = cont.clientHeight - margen;
+  if (top + alto > limite) caja.style.top = `${Math.max(0, limite - alto)}px`;
+}
+
 /** Arrastre con mouse, dedo o lápiz desde la barra (no desde sus botones). La posición se guarda con `clave`. */
 export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
   const cont = caja.parentElement;
@@ -24,7 +42,12 @@ export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
     return p;
   };
   const guardada = () => { try { return JSON.parse(localStorage.getItem(clave) || "null"); } catch { return null; } };
-  const aplicarGuardada = () => { const g = guardada(); if (g && !caja.hidden) poner(g.x, g.y); };
+  const aplicarGuardada = () => {
+    const g = guardada();
+    // Mientras el mapa aún no tiene su tamaño final (al cargar), no se aplica: si no, la ventana quedaría pegada a la izquierda.
+    if (!g || caja.hidden || cont.clientWidth < caja.offsetWidth + 40) return;
+    const p = posicionGuardada(g, cont.clientWidth, cont.clientHeight); if (p) poner(p.x, p.y);
+  };
   let ini = null, enBarra = false;
   caja.addEventListener("pointerdown", (e) => {
     enBarra = !!e.target.closest(barra) && !e.target.closest("button");
@@ -40,7 +63,7 @@ export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
     if (!ini || e.pointerId !== ini.id) return;
     ini = null;
     caja.classList.remove("arrastrando");
-    try { localStorage.setItem(clave, JSON.stringify({ x: parseInt(caja.style.left, 10), y: parseInt(caja.style.top, 10) })); } catch { /* sin almacenamiento */ }
+    try { localStorage.setItem(clave, JSON.stringify({ x: parseInt(caja.style.left, 10), y: parseInt(caja.style.top, 10), cw: cont.clientWidth, ch: cont.clientHeight })); } catch { /* sin almacenamiento */ }
   };
   caja.addEventListener("pointerup", soltar);
   caja.addEventListener("pointercancel", soltar);
@@ -51,6 +74,8 @@ export function hacerArrastrable(caja, clave = CLAVE_POS, barra = ".ac-cab") {
     try { localStorage.removeItem(clave); } catch { /* nada */ }
   });
   addEventListener("resize", aplicarGuardada);
+  // El mapa cambia de tamaño al terminar de cargar (y al abrir o cerrar el menú): se vuelve a ubicar entonces.
+  if (typeof ResizeObserver !== "undefined") new ResizeObserver(() => aplicarGuardada()).observe(cont);
   return aplicarGuardada;
 }
 

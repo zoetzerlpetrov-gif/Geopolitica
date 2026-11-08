@@ -3,7 +3,7 @@
 // (tools/elecciones/elecciones.py). Se mueve arrastrando su barra azul, se pliega y no tapa el mapa: va abajo a la
 // derecha y cada elección se abre con un clic para ver qué necesita un candidato para ganar.
 import { esc, safeUrl } from "./util.js";
-import { hacerArrastrable } from "./alerta_cisne.js";
+import { hacerArrastrable, mantenerVisible } from "./alerta_cisne.js";
 
 const URL_DATOS = "data/vivos/elecciones.json";
 const REFRESCO_MS = 30 * 60 * 1000;
@@ -87,11 +87,12 @@ export function iniciarElecciones(contenedor, irA) {
     if (!d.dataset?.id) return;
     if (d.open) { abierta = d.dataset.id; for (const o of caja.querySelectorAll("details[open]")) if (o !== d) o.open = false; }
     else if (abierta === d.dataset.id) abierta = "";
+    mantenerVisible(caja); // si se desplegó cerca del borde de abajo, sube para que se lea
     try { localStorage.setItem(CLAVE_ABIERTA, abierta); } catch { /* nada */ }
   }, true);
   caja.addEventListener("click", (e) => {
     const pl = e.target.closest(".el-plegar");
-    if (pl) { const p = caja.classList.toggle("plegado"); pl.setAttribute("aria-expanded", String(!p)); pl.textContent = p ? "▸" : "▾"; return; }
+    if (pl) { const p = caja.classList.toggle("plegado"); pl.setAttribute("aria-expanded", String(!p)); pl.textContent = p ? "▸" : "▾"; mantenerVisible(caja); return; }
     const ir = e.target.closest(".el-ir");
     if (ir && irA) { const x = lista[Number(ir.dataset.i)]; if (x) irA(x.lon, x.lat); }
   });
