@@ -4,6 +4,7 @@ import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA, deten
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
+import { imprimirSolo } from "./imprimir.js";
 import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura, escalaGrafo, rasgosDeFirmaSola, CON_OBSERVACIONES, LUGARES, FRECUENCIAS, ambienteGrafico, clavesElegidas, TEXTO_AMBIENTE } from "./grafo-logica.js";
 import { unirLetras, SECCION_LETRAS } from "./grafo-letras.js";
 import { unirManual } from "./grafo-manual.js";
@@ -426,7 +427,7 @@ $("c-resumen").addEventListener("click", (e) => {
   const q = e.target.closest("[data-quitar]"); if (q) { marcas.splice(Number(q.dataset.quitar), 1); pintarResultado(); return; }
   const t = e.target.closest("[data-t]"); if (t) { e.preventDefault(); irA(Number(t.dataset.t)); }
 });
-$("c-imprimir").onclick = () => window.print();
+$("c-imprimir").onclick = () => imprimirSolo([$("c-resultado")], { titulo: "Lenguaje corporal: resultado del análisis" });
 $("c-limpiar").onclick = () => { if (marcas.length && confirm("¿Borrar las señales marcadas a mano?")) { marcas = []; pintarResultado(); } };
 $("c-json").onclick = () => {
   const evs = todosEventos();
@@ -672,7 +673,7 @@ function pintarInforme() {
     <p class="meta">Los temperamentos suelen mezclarse; el puntaje solo cuenta cuántos de sus indicadores marcaste.</p>
     <p class="aviso">${esc(inf.aviso)}</p>`;
 }
-$("g-imprimir").onclick = () => window.print();
+$("g-imprimir").onclick = () => imprimirSolo([$("g-lienzo"), $("g-medidas"), $("g-informe")], { titulo: "Grafología: informe de rasgos" });
 $("g-json").onclick = () => descargar("grafologia.json", { generado: new Date().toISOString(), medidas: { texto: medTexto, firma: medFirma }, informe: informe(CAT_G, seleccion) });
 
 // ---------- análisis escrito ----------
@@ -705,7 +706,7 @@ $("g-word").onclick = () => {
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>${ultimoDoc.titulo}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5}h2{font-size:16pt}h3{font-size:13pt;margin-top:14pt}table{border-collapse:collapse}th,td{border:1px solid #999;padding:3pt 6pt;text-align:left}</style></head><body>${aHTML(ultimoDoc)}</body></html>`;
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff", html], { type: "application/msword" })); a.download = "analisis-grafologico.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
-$("g-imprimir-escrito").onclick = () => { document.body.classList.add("solo-escrito"); window.print(); setTimeout(() => document.body.classList.remove("solo-escrito"), 500); };
+$("g-imprimir-escrito").onclick = () => imprimirSolo([$("g-escrito").querySelector(".escrito") || $("g-escrito")]);
 
 function avisoIdiomas() {
   const I = auto?.idiomas; if (!I?.idiomas?.length) return "";
@@ -732,4 +733,4 @@ $("c-inf-word").onclick = () => {
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>${ultimoInforme.titulo}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5}h2{font-size:16pt}h3{font-size:13pt;margin-top:12pt}</style></head><body>${informeHTML(ultimoInforme)}</body></html>`;
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff", html], { type: "application/msword" })); a.download = "informe-lenguaje-corporal.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
-$("c-inf-imprimir").onclick = () => { document.body.classList.add("solo-informe"); window.print(); setTimeout(() => document.body.classList.remove("solo-informe"), 500); };
+$("c-inf-imprimir").onclick = () => imprimirSolo([$("c-informe").querySelector(".escrito") || $("c-informe")]);

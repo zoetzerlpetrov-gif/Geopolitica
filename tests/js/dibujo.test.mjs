@@ -69,3 +69,19 @@ test("la pestaña está en la página de conducta (solo administración)", () =>
   assert.ok(h.includes('data-panel="p-dibujo"') && h.includes('id="p-dibujo"') && h.includes("js/dibujo.js"));
   for (const id of ["d-test", "d-archivo", "d-valores", "d-partes", "d-garabatos", "d-colores", "d-redactar"]) assert.ok(h.includes(`id="${id}"`), id);
 });
+
+test("imprimir: los informes usan imprimirSolo y la impresión expande las cajas con desplazamiento", () => {
+  const leer = (f) => readFileSync(new URL(`../../${f}`, import.meta.url), "utf8");
+  for (const f of ["js/conducta.js", "js/cartera.js", "js/dibujo.js"]) {
+    const t = leer(f);
+    assert.ok(t.includes('from "./imprimir.js"'), `${f} importa imprimir.js`);
+    assert.ok(!/window\.print\(\)/.test(t), `${f} no imprime toda la página`);
+  }
+  const imp = leer("js/imprimir.js");
+  assert.ok(imp.includes("body.imprimiendo > *:not(#zona-impresion)") && imp.includes('addEventListener("afterprint"') && imp.includes("toDataURL"));
+  const css = leer("css/app.css").split("Impresión (Ctrl+P")[1];
+  assert.ok(css && /overflow: visible !important/.test(css) && /\.escrito/.test(css) && /\.desliza/.test(css));
+  const exp = leer("js/exportar.js");
+  assert.ok(!exp.includes("html2canvas@"), "el PDF de documentos ya no es una imagen");
+  assert.ok(exp.includes("jspdf.plugin.autotable.mjs") && exp.includes("export async function documentoAPDF"));
+});

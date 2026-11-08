@@ -1546,7 +1546,7 @@ async function iniciarInvestigacion() {
   });
   // Cadena de custodia
   let registros = [];
-  const descargar = (nombre, tipo, texto) => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([texto], { type: tipo })); a.download = nombre; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); };
+  const descargar = (nombre, tipo, texto) => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([/csv/.test(tipo) && !String(texto).startsWith("\ufeff") ? "\ufeff" + texto : texto], { type: tipo })); a.download = nombre; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000); };
   const datosCaso = () => ({ caso: $("cus-caso").value, responsable: $("cus-resp").value, descripcion: $("cus-desc").value });
   $("cus-archivos").addEventListener("change", async (e) => {
     $("cus-res").innerHTML = `<p class="meta">Calculando huellas…</p>`;

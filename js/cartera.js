@@ -1,6 +1,7 @@
 // Página «Cartera de proyectos» (cartera.html): conexión al Supabase del dueño, acceso por código, lista de planes,
 // vista ejecutiva para directivos que se refresca sola, actualización y permisos por correo.
 import { conectarCartera, enlaceDirectivo, leerEnlace, cloudConfig } from "./cartera-nube.js";
+import { imprimirSolo } from "./imprimir.js";
 import { vistaEjecutiva, filaCartera, porSector, corteDe, planParaNube } from "./cartera-logica.js";
 import { htmlTarjeta, htmlSectores, htmlEjecutivo, CSS_CARTERA } from "./cartera-vista.js";
 import { importarArchivo, resumenPlan, cambiosQueTocan } from "./plan-importar.js";
@@ -139,8 +140,8 @@ $("c-salir").onclick = () => correr(async () => { await nube.salir(); yo = null;
 for (const id of ["c-f-empresa", "c-f-sector", "c-f-estado"]) $(id).onchange = pintarLista;
 $("c-lista").addEventListener("click", (e) => { const b = e.target.closest("[data-plan]"); if (b) correr(() => abrir(b.dataset.plan)); });
 $("c-volver").onclick = () => { actual = null; try { history.replaceState(null, "", enlaceDirectivo(location.href, cfg)); } catch (e) { /* nada */ } mostrar("sesion"); };
-$("c-imprimir").onclick = () => { for (const d of document.querySelectorAll("#c-detalle details")) d.open = d.id !== "c-admin"; window.print(); };
-$("c-imprimir-cartera").onclick = () => window.print();
+$("c-imprimir").onclick = () => { const z = imprimirSolo([$("c-detalle")]); z.querySelectorAll(".no-imprimir").forEach((x) => x.remove()); };
+$("c-imprimir-cartera").onclick = () => imprimirSolo([$("c-cartera")]);
 $("c-enlace").onclick = () => copiar(enlaceDirectivo(location.href, cfg, actual.id));
 $("c-enlace-cartera").onclick = () => copiar(enlaceDirectivo(location.href, cfg));
 // Al elegir el archivo se lee de inmediato y se muestra qué se tomó (nombre, tamaño, título, tareas, países).

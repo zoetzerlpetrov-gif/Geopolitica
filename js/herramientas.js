@@ -8,7 +8,7 @@ const leer = (k, def) => { try { return JSON.parse(localStorage.getItem(k)) ?? d
 const guardar = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* modo privado */ } };
 const descargar = (nombre, texto, tipo = "text/markdown") => {
   const a = document.createElement("a");
-  a.href = URL.createObjectURL(new Blob([texto], { type: tipo })); a.download = nombre; a.click();
+  a.href = URL.createObjectURL(new Blob([/csv/.test(tipo) && !String(texto).startsWith("\ufeff") ? "\ufeff" + texto : texto], { type: tipo })); a.download = nombre; a.click();
   setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
 const kv = (o) => `<dl class="kv">${Object.entries(o).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(v)}</dd>`).join("")}</dl>`;

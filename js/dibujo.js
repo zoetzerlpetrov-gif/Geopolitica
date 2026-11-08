@@ -1,6 +1,7 @@
 // Pestaña «Dibujos: tests proyectivos» de conducta.html. Todo corre en el navegador; la imagen no se sube.
 import { medirDibujo, preMarcar, redactarDibujo } from "./dibujo-logica.js";
 import { aHTML, aTexto } from "./grafo-redaccion.js";
+import { imprimirSolo } from "./imprimir.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -99,6 +100,6 @@ $("d-word").onclick = () => {
   const html = `<!doctype html><html><head><meta charset="utf-8"><title>${esc(ultimo.titulo)}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5}table{border-collapse:collapse}th,td{border:1px solid #999;padding:3pt 6pt;text-align:left}</style></head><body>${aHTML(ultimo)}</body></html>`;
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["﻿", html], { type: "application/msword" })); a.download = "test-proyectivo.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
-$("d-imprimir").onclick = () => window.print();
+$("d-imprimir").onclick = () => imprimirSolo([$("d-informe").querySelector(".escrito"), bmp ? $("d-lienzo") : null]);
 
 pintarTest(); pintarValores(); pintarColores();
