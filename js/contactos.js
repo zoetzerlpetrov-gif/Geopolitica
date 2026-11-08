@@ -236,7 +236,9 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
     ];
     if (rdap) {
       resultados.push(mensaje("Registro del dominio · RDAP"), rdap.filas ? lista(rdap.filas) : mensaje(rdap.estado));
-      if (rdap.estado) resultados.push(enlaceExterno("https://lookup.icann.org/", "Abrir ICANN Lookup"));
+      if (rdap.estado) resultados.push(dominio.endsWith(".mx")
+        ? enlaceExterno("https://whois.registry.mx/index.jsf?lng=es", "Abrir WHOIS de Registry .MX")
+        : enlaceExterno("https://lookup.icann.org/", "Abrir ICANN Lookup"));
     }
     if (incidentes) {
       resultados.push(mensaje("Incidentes del sitio o dominio · Have I Been Pwned. Esta consulta usa el dominio del incidente."));

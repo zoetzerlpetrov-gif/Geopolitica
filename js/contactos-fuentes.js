@@ -90,7 +90,7 @@ export async function consultarRdap(dominio, fetcher = fetch) {
     }
     return { estado: "El registro RDAP no devolvió un dominio para la búsqueda." };
   } catch {
-    return { estado: "RDAP no disponible en este navegador o registro. Puedes consultar ICANN Lookup." };
+    return { estado: "RDAP no disponible en este navegador o registro. Usa el enlace de consulta externa." };
   }
 }
 
