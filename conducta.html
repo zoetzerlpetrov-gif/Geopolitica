@@ -85,11 +85,12 @@
     <h1>Conducta y escritura</h1><a href="herramientas.html">Caja del analista</a>
   </header>
   <main class="hz">
-    <p class="meta">Dos herramientas de observación que corren en tu navegador: los videos, fotos e imágenes que elijas <b>no se suben a ningún servidor</b> ni se guardan.
+    <p class="meta">Herramientas de observación que corren en tu navegador: los videos, fotos e imágenes que elijas <b>no se suben a ningún servidor</b> ni se guardan.
       Lo único que se descarga de internet son los modelos de detección de puntos del cuerpo (MediaPipe, de Google) la primera vez que analizas un video.</p>
     <nav class="pestanas no-imprimir" role="tablist" aria-label="Herramientas">
       <button type="button" role="tab" data-panel="p-cuerpo" aria-selected="true">🧍 Lenguaje corporal</button>
       <button type="button" role="tab" data-panel="p-grafo" aria-selected="false">✍️ Grafología: escritura y firma</button>
+      <button type="button" role="tab" data-panel="p-dibujo" aria-selected="false">🎨 Dibujos: tests proyectivos</button>
     </nav>
     <p id="estado" class="meta" role="status" aria-live="polite"></p>
 
@@ -267,8 +268,54 @@
         <div class="barra no-imprimir" id="g-escrito-botones" hidden><button type="button" id="g-copiar">📋 Copiar texto</button><button type="button" id="g-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="g-imprimir-escrito">🖨️ Imprimir / PDF</button></div>
       </div>
     </section>
+    <!-- ===================== TESTS PROYECTIVOS DE DIBUJO ===================== -->
+    <section class="panel" id="p-dibujo" hidden>
+      <p class="aviso" id="d-aviso"></p>
+      <div class="tarjeta">
+        <h2>1. Elige el test</h2>
+        <div class="barra"><label>Test <select id="d-test"></select></label></div>
+        <p id="d-consigna"></p>
+        <details><summary>Materiales y cómo pedir el dibujo (tu manual)</summary><ul id="d-materiales"></ul></details>
+      </div>
+      <div class="tarjeta">
+        <h2>2. Foto o escaneo del dibujo (opcional)</h2>
+        <div class="barra no-imprimir"><label class="btn prim">📁 Elegir imagen <input type="file" id="d-archivo" accept="image/*" hidden></label>
+          <span class="meta">Toma la foto de la hoja completa, de frente y recortada a sus orillas: la ubicación y el tamaño se miden respecto de la hoja.</span></div>
+        <canvas id="d-lienzo" hidden style="max-width:100%;max-height:70vh;border-radius:8px"></canvas>
+        <div id="d-medidas"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>3. Valores gráficos del dibujo</h2>
+        <p class="meta">Marcados por omisión: 📏 lo medido en la foto (situación y dimensión) y 🔎 lo estimado (presión, por el contraste del trazo). Corrige lo que no coincida con el original.</p>
+        <div id="d-valores" class="zonas"></div>
+      </div>
+      <div class="tarjeta" id="d-partes-caja">
+        <h2>4. Elementos del dibujo</h2>
+        <p class="meta">Marca solo lo que llame la atención en cada parte: exagerada, muy pequeña, omitida, borrada, sombreada o deforme. Lo que representa cada parte viene de tu manual; la lectura de cada modificador es complementaria.</p>
+        <div id="d-partes"></div>
+      </div>
+      <div class="tarjeta" id="d-garabatos-caja">
+        <h2>Garabatos</h2>
+        <div id="d-garabatos" class="zonas"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>Colores (si el dibujo tiene color o la tinta no es azul ni negra)</h2>
+        <div class="barra"><label>Lectura para <select id="d-etapa"><option value="adultos">jóvenes y adultos</option><option value="ninos">niños y adolescentes (hasta 16 años)</option></select></label></div>
+        <div id="d-colores" class="zonas"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>5. Informe</h2>
+        <div class="barra"><input id="d-persona" placeholder="Persona o seudónimo" aria-label="Persona"><input id="d-edad" type="number" min="2" max="110" placeholder="Edad" aria-label="Edad" style="width:90px">
+          <input id="d-fecha" type="date" aria-label="Fecha del dibujo" title="Fecha del dibujo"><input id="d-analista" placeholder="Analista" aria-label="Analista"></div>
+        <textarea id="d-obs" rows="3" style="width:100%" placeholder="Observaciones del analista (opcional): qué contó la persona del dibujo, en qué orden lo hizo, si borró mucho…" aria-label="Observaciones"></textarea>
+        <div class="barra"><button type="button" id="d-redactar" class="prim">✍️ Redactar informe</button></div>
+        <div id="d-informe"></div>
+        <div class="barra no-imprimir" id="d-informe-botones" hidden><button type="button" id="d-copiar">📋 Copiar texto</button><button type="button" id="d-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="d-imprimir">🖨️ Imprimir / PDF</button></div>
+      </div>
+    </section>
   </main>
   <script type="module" src="js/conducta.js"></script>
+  <script type="module" src="js/dibujo.js"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>
