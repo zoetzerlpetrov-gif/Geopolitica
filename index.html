@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
   <link rel="preload" href="https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf" as="fetch" crossorigin>
-  <link rel="modulepreload" href="js/app.js?v=150">
+  <link rel="modulepreload" href="js/app.js?v=177">
   <link rel="modulepreload" href="js/util.js">
   <link rel="modulepreload" href="js/map.js">
   <link rel="modulepreload" href="js/card.js">
@@ -580,7 +580,7 @@
 
     <div class="mapa-wrap">
       <div id="map" role="region" aria-label="Mapa mundial de eventos. Usa la lista de eventos del panel para navegar con teclado."></div>
-      <form id="lug-form" class="lug-buscador" role="search" autocomplete="off"><input type="search" id="lug-q" placeholder="Buscar lugar o dirección" aria-label="Buscar lugar o dirección en el mapa" role="combobox" aria-expanded="false" aria-controls="lug-lista" aria-autocomplete="list">
+      <form id="lug-form" class="lug-buscador" role="search" autocomplete="off"><input type="search" id="lug-q" placeholder="Buscar lugar o coordenadas" aria-label="Buscar lugar, dirección o coordenadas en el mapa" role="combobox" aria-expanded="false" aria-controls="lug-lista" aria-autocomplete="list">
         <ul id="lug-lista" class="lug-lista" role="listbox" hidden></ul></form>
       <div id="aviso-base" class="aviso-base" hidden></div>
       <button type="button" id="coords-puntero" class="coords-puntero" hidden title="Clic para copiar"></button>
@@ -617,7 +617,7 @@
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
   <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
   <script>try { maplibregl.prewarm(); } catch (e) {}</script>
-  <script type="module" src="js/app.js?v=150"></script>
+  <script type="module" src="js/app.js?v=177"></script>
   <script type="module" src="js/vista_enlaces.js?v=2"></script>
   <script type="module" src="js/huella-menu.js"></script>
   <script type="module" src="js/contactos.js"></script>

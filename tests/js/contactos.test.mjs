@@ -7,6 +7,7 @@ import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, pr
 import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces } from "../../js/contactos-eml.js";
 import { buscarLadaMx, consultarCorreoGithub, urlMencion } from "../../js/contactos-publicos.js";
 import { consultarIpPublica, interpretarIpPublica } from "../../js/contactos-ip.js";
+import { abrirCoordenadasMapa, conectarCoordenadasMapa, leerCoordenadas, puntoGeografico, textoCoordenadas } from "../../js/coordenadas-mapa.js";
 
 test("el módulo de contactos aparece en Herramientas, fuera del acceso administrativo", () => {
   const html = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
@@ -98,7 +99,7 @@ test("la IP separa geolocalización, BGP y PTR cuando un proveedor falla", async
     assert.equal(opciones.referrerPolicy, "no-referrer");
     if (url.hostname === "ip-info.com") {
       assert.equal(url.searchParams.get("ip"), ip);
-      return Response.json({ ip, city: "Teterboro", region: "New Jersey", is_anycast: true });
+      return Response.json({ ip, city: "Teterboro", region: "New Jersey", latitude: 40.8618, longitude: -74.0587, is_anycast: true });
     }
     if (url.pathname.includes("prefix-overview")) return Response.json({ status: "ok", data: {
       announced: true, resource: "204.79.197.0/24", asns: [{ asn: 8068, holder: "Microsoft Corporation" }],
@@ -109,10 +110,37 @@ test("la IP separa geolocalización, BGP y PTR cuando un proveedor falla", async
     return Response.json({ Status: 0, Answer: [{ type: 12, data: "a-0010.a-msedge.net." }] });
   });
   assert.equal(Object.fromEntries(resultado.ubicacion.filas)["Ciudad estimada"], "Teterboro");
+  assert.deepEqual(resultado.ubicacion.coordenadas, { lat: 40.8618, lon: -74.0587 });
   assert.match(Object.fromEntries(resultado.ubicacion.filas).Anycast, /varias ubicaciones/);
   assert.equal(Object.fromEntries(resultado.registro.filas)["ASN y organización"], "AS8068 · Microsoft Corporation");
   assert.equal(Object.fromEntries(resultado.dns.filas)["Nombre inverso (PTR)"], "a-0010.a-msedge.net.");
   await assert.rejects(() => consultarIpPublica("192.168.0.1", () => assert.fail("No consultar una IP privada")), /pública válida/);
+});
+
+test("el buscador distingue coordenadas decimales de nombres y conserva el orden latitud, longitud", () => {
+  const esperado = { lat: 40.8618, lon: -74.0587 };
+  assert.deepEqual(leerCoordenadas(" 40.8618, -74.0587 "), esperado);
+  assert.deepEqual(leerCoordenadas("40.8618 -74.0587"), esperado);
+  assert.equal(textoCoordenadas(esperado), "40.8618, -74.0587");
+  assert.equal(leerCoordenadas("91, 180"), null);
+  assert.equal(leerCoordenadas("10, 181"), null);
+  assert.equal(leerCoordenadas("Avenida 5 de Mayo"), undefined);
+  assert.equal(puntoGeografico(null, null), null);
+  assert.equal(puntoGeografico("40", "-74"), null);
+  assert.deepEqual(puntoGeografico(0, 0), { lat: 0, lon: 0 });
+});
+
+test("la ficha de IP pasa el punto y la vista elegida al mapa principal", async () => {
+  const punto = { lat: 40.8618, lon: -74.0587 };
+  const vista = { base: "satelite", proyeccion: "globe", aproximada: true };
+  await assert.rejects(() => abrirCoordenadasMapa(punto, vista), /se está preparando/);
+  conectarCoordenadasMapa((p, v) => {
+    assert.deepEqual(p, punto);
+    assert.deepEqual(v, vista);
+    return true;
+  });
+  assert.equal(await abrirCoordenadasMapa(punto, vista), true);
+  conectarCoordenadasMapa(null);
 });
 
 test("separa el correo del dominio DNS y admite dominios internacionalizados", () => {

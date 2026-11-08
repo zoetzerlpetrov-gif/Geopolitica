@@ -1,5 +1,6 @@
 import { esIPv4, resumenRipe, urlsRipe } from "./agencia-logica.js";
 import { registrosDNS } from "./contactos-fuentes.js";
+import { puntoGeografico } from "./coordenadas-mapa.js";
 
 export function interpretarIpPublica(entrada) {
   const valor = entrada.trim();
@@ -55,7 +56,7 @@ export async function consultarIpPublica(entrada, fetcher = fetch) {
       ["Zona horaria estimada", texto(d.timezone)], ["Proveedor reportado", texto(d.isp)],
       ["Anycast", d.is_anycast === true ? "Sí · la dirección puede anunciarse desde varias ubicaciones." : ""],
     ].filter(([, valor]) => valor);
-    return { filas };
+    return { filas, coordenadas: puntoGeografico(d.latitude, d.longitude) };
   }).catch(() => estado("La fuente de geolocalización no respondió o no devolvió esta IP."));
 
   const red = Promise.allSettled(Object.entries(urlsRipe(ip).urls).map(async ([clave, enlace]) => {

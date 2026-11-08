@@ -3,6 +3,7 @@ import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, pr
 import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces, señalesEncabezados } from "./contactos-eml.js";
 import { AMBITOS_MENCIONES, BUSCADORES_MENCIONES, consultarCorreoGithub, consultarLadaMx, urlMencion } from "./contactos-publicos.js";
 import { consultarIpPublica } from "./contactos-ip.js";
+import { abrirCoordenadasMapa, BASES_COORDENADAS, PROYECCIONES_COORDENADAS, textoCoordenadas } from "./coordenadas-mapa.js";
 
 const TIPOS_LINEA = {
   FIXED_LINE: "Fija", MOBILE: "Móvil", FIXED_LINE_OR_MOBILE: "Fija o móvil",
@@ -180,6 +181,15 @@ function enlaceExterno(url, texto) {
   return enlace;
 }
 
+function selectorContacto(grupo, etiqueta, opciones, actual) {
+  const label = document.createElement("label");
+  const select = document.createElement("select");
+  select.append(...opciones.map(([texto, valor]) => new Option(texto, valor, false, valor === actual)));
+  label.append(etiqueta, select);
+  grupo.append(label);
+  return select;
+}
+
 function mencionesPublicas(valores) {
   const opciones = [...new Set(valores.filter(Boolean))];
   const grupo = document.createElement("fieldset");
@@ -187,27 +197,54 @@ function mencionesPublicas(valores) {
   const titulo = document.createElement("legend");
   titulo.textContent = "Menciones públicas";
   grupo.append(titulo, mensaje("El buscador elegido recibe el dato cuando abres la búsqueda. Confirma el contexto en la publicación original."));
-  const selector = (etiqueta, filas) => {
-    const label = document.createElement("label");
-    const select = document.createElement("select");
-    select.append(...filas.map(([texto, valor]) => new Option(texto, valor)));
-    label.append(etiqueta, select);
-    grupo.append(label);
-    return select;
-  };
-  const motor = selector("Buscador", BUSCADORES_MENCIONES.map(([nombre]) => [nombre, nombre]));
-  const ambito = selector("Dónde buscar", [["Web general", ""]]);
+  const motor = selectorContacto(grupo, "Buscador", BUSCADORES_MENCIONES.map(([nombre]) => [nombre, nombre]));
+  const ambito = selectorContacto(grupo, "Dónde buscar", [["Web general", ""]]);
   for (const [etiqueta, sitios] of AMBITOS_MENCIONES) {
     const categoria = document.createElement("optgroup");
     categoria.label = etiqueta;
     categoria.append(...sitios.map(([nombre, dominio]) => new Option(nombre, dominio)));
     ambito.append(categoria);
   }
-  const formato = opciones.length > 1 ? selector("Formato del número", opciones.map((valor) => [valor, valor])) : null;
+  const formato = opciones.length > 1 ? selectorContacto(grupo, "Formato del número", opciones.map((valor) => [valor, valor])) : null;
   const enlace = enlaceExterno(urlMencion(opciones[0], motor.value), "Abrir búsqueda ↗");
   grupo.append(enlace);
   grupo.addEventListener("change", () => { enlace.href = urlMencion(formato?.value ?? opciones[0], motor.value, ambito.value); });
   return [grupo];
+}
+
+function vistaCoordenadas(punto) {
+  const grupo = document.createElement("fieldset");
+  grupo.className = "contacto-opciones contacto-menciones";
+  const titulo = document.createElement("legend");
+  titulo.textContent = "Coordenadas estimadas";
+  const valor = document.createElement("code");
+  valor.textContent = textoCoordenadas(punto);
+  grupo.append(titulo, valor, mensaje("El marcador representa la estimación de IP Info a escala de ciudad."));
+  const proyeccion = selectorContacto(grupo, "Vista para la IP", PROYECCIONES_COORDENADAS.map(([id, nombre]) => [nombre, id]),
+    Math.abs(punto.lat) > 85.051129 ? "globe" : document.getElementById("sel-proyeccion")?.value);
+  const base = selectorContacto(grupo, "Mapa base para la IP", BASES_COORDENADAS.map(([id, nombre]) => [nombre, id]), document.getElementById("sel-base")?.value);
+  const acciones = document.createElement("div");
+  acciones.className = "contacto-acciones";
+  const boton = document.createElement("button");
+  boton.type = "button";
+  boton.textContent = "Ver coordenadas en el mapa";
+  const aviso = mensaje("");
+  aviso.setAttribute("role", "status");
+  acciones.append(boton);
+  grupo.append(acciones, aviso);
+  boton.addEventListener("click", async () => {
+    boton.disabled = true;
+    aviso.textContent = "Abriendo el mapa…";
+    try {
+      const abierto = await abrirCoordenadasMapa(punto, { base: base.value, proyeccion: proyeccion.value, aproximada: true });
+      aviso.textContent = abierto ? "Ubicación aproximada marcada en el mapa." : "";
+    } catch (error) {
+      aviso.textContent = error.message;
+    } finally {
+      boton.disabled = false;
+    }
+  });
+  return grupo;
 }
 
 function evidenciaGithub(resultado, titulo) {
@@ -395,6 +432,7 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
     ]) {
       resultados.push(mensaje(titulo), fuente.estado || !fuente.filas.length
         ? mensaje(fuente.estado || "Sin datos publicados para esta IP.") : lista(fuente.filas));
+      if (fuente.coordenadas) resultados.push(vistaCoordenadas(fuente.coordenadas));
     }
     resultados.push(mensaje("La estimación puede variar entre bases de datos. El país del registro describe la asignación del bloque."),
       enlaceExterno(`https://ipinfo.io/${encodeURIComponent(resultado.ip)}`, "Comparar la ubicación en IPinfo ↗"));

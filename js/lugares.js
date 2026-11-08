@@ -32,9 +32,9 @@ export function lugarDe(f) {
 
 export const lugaresDe = (d) => (d?.features || []).map(lugarDe).filter((l) => l.nombre && Number.isFinite(l.lon) && Number.isFinite(l.lat));
 
-export const htmlLugares = (ls) => ls.length
+export const htmlLugares = (ls, { atribucion = true } = {}) => ls.length
   ? ls.map((l, i) => `<li role="option" id="lug-op-${i}" data-i="${i}" tabindex="-1"><b>${esc(l.nombre)}</b> <span class="meta">${esc(l.tipo)}</span>${l.detalle ? `<br><span class="meta">${esc(l.detalle)}</span>` : ""}</li>`).join("")
-    + `<li class="meta lug-atrib" aria-hidden="true">${esc(ATRIBUCION)}</li>`
+    + (atribucion ? `<li class="meta lug-atrib" aria-hidden="true">${esc(ATRIBUCION)}</li>` : "")
   : `<li class="meta">Sin resultados</li>`;
 
 export const listoParaBuscar = (q) => q.trim().length >= MIN_BUSQUEDA;

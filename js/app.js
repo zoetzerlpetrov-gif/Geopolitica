@@ -21,6 +21,7 @@ import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
 import * as LIC from "./licencias.js?v=146";
 import { precioCorto } from "./planes.js";
+import { conectarCoordenadasMapa, leerCoordenadas, textoCoordenadas } from "./coordenadas-mapa.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
 
@@ -947,9 +948,12 @@ async function main() {
   }
 
   // Vista: tema claro/oscuro, mapa base (temático, calles, satélite) y proyección (plano o globo 3D).
+  let pedidoBase = 0;
   const cambiarBase = async () => {
-    const b = await estiloBase(temaActual(), { lite, base: $("sel-base").value });
-    api.setTema(temaActual(), b.style);
+    const pedido = ++pedidoBase, tema = temaActual();
+    const b = await estiloBase(tema, { lite, base: $("sel-base").value });
+    if (pedido !== pedidoBase) return;
+    api.setTema(tema, b.style);
     api.map.once("style.load", () => aplicarFiltros());
   };
   $("btn-tema").onclick = async () => {
@@ -960,7 +964,7 @@ async function main() {
   };
   $("sel-base").value = storage.get("gp_base") || "tematico";
   $("sel-proyeccion").value = storage.get("gp_proyeccion") || "mercator";
-  $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); cambiarBase(); };
+  $("sel-base").onchange = () => { storage.set("gp_base", $("sel-base").value); return cambiarBase(); };
   // Mapa base: etiquetas por tipo y contornos de estados y provincias (js/base_capas.js). Se vuelve a aplicar cada
   // vez que cambia el estilo (tema, mapa base o modo LITE), porque cada estilo nuevo trae sus capas visibles.
   let baseCfg = BC.POR_OMISION;
@@ -1045,7 +1049,16 @@ async function main() {
   iniciarTecnologia();
   // Mundo corporativo: lista de noticias de empresas y organigrama público (las capas del mapa las monta iniciarRiesgos).
   import("./corp_mundo.js").then((M) => M.iniciarCorporativo({ abrirFicha: abrirFichaHtml })).catch((e) => console.error("mundo corporativo", e));
-  iniciarLugares();
+  iniciarLugares(async (base, proyeccion) => {
+    if (base !== $("sel-base").value) {
+      $("sel-base").value = base;
+      await $("sel-base").onchange();
+    }
+    if (proyeccion !== $("sel-proyeccion").value) {
+      $("sel-proyeccion").value = proyeccion;
+      await $("sel-proyeccion").onchange();
+    }
+  });
   // Alertas oficiales excepcionales («cisne negro»): aviso fijo bajo el buscador mientras estén activas.
   import("./alerta_cisne.js").then((M) => M.iniciarAlertaCisne((lon, lat) => api.map.flyTo({ center: [lon, lat], zoom: Math.max(api.map.getZoom(), 4), duration: lite ? 0 : 900 })))
     .catch((e) => console.error("alerta cisne negro", e));
@@ -1653,36 +1666,73 @@ async function iniciarTecnologia() {
 }
 
 // Buscador de lugares sobre el mapa (Photon / OpenStreetMap).
-async function iniciarLugares() {
+async function iniciarLugares(cambiarVista) {
   const campo = $("lug-q"), lista = $("lug-lista");
   if (!campo) return;
   const L = await import("./lugares.js");
-  let res = [], marca = null, sel = -1, pedido = 0;
+  let res = [], marca = null, sel = -1, pedido = 0, destino = 0;
   const cerrar = () => { lista.hidden = true; campo.setAttribute("aria-expanded", "false"); sel = -1; };
-  const ir = (l) => {
+  const ir = (l, zoom = Math.max(api.map.getZoom(), 16)) => {
     if (!l) return;
+    pedido++;
     cerrar();
     campo.value = l.nombre;
     if (l.bbox && !["Dirección", "Calle"].includes(l.tipo)) api.map.fitBounds(l.bbox, { padding: 40, maxZoom: 16, duration: lite ? 0 : 1200 });
-    else api.map.flyTo({ center: [l.lon, l.lat], zoom: Math.max(api.map.getZoom(), 16), duration: lite ? 0 : 1200 });
+    else api.map.flyTo({ center: [l.lon, l.lat], zoom, duration: lite ? 0 : 1200 });
     marca?.remove();
     marca = new maplibregl.Marker({ color: "#C9A227" }).setLngLat([l.lon, l.lat])
       .setPopup(new maplibregl.Popup({ offset: 24 }).setText(`${l.nombre}${l.detalle ? ` — ${l.detalle}` : ""}`)).addTo(api.map);
   };
-  const buscar = debounce(async () => {
+  const irCoordenadas = async (punto, {
+    base = $("sel-base").value,
+    proyeccion = $("sel-proyeccion").value === "globe" || Math.abs(punto.lat) > 85.051129 ? "globe" : "mercator",
+    aproximada = false,
+  } = {}) => {
+    if (proyeccion === "mercator" && Math.abs(punto.lat) > 85.051129) throw new Error("Elige Globo 3D para mostrar esa latitud.");
+    const n = ++destino;
+    await cambiarVista(base, proyeccion);
+    if (n !== destino) return false;
+    if (aproximada && matchMedia("(max-width: 760px)").matches && $("btn-panel").getAttribute("aria-expanded") === "true") {
+      $("btn-panel").click();
+      api.map.resize();
+      api.map.getCanvas().focus({ preventScroll: true });
+    }
+    ir({ ...punto, nombre: textoCoordenadas(punto), detalle: aproximada ? "Ubicación aproximada de IP · IP Info" : "Coordenadas" },
+      proyeccion === "globe" ? 5 : aproximada ? 9 : 14);
+    return true;
+  };
+  conectarCoordenadasMapa(irCoordenadas);
+  const seleccionar = (l) => {
+    if (!l) return;
+    if (l.tipo === "Coordenadas") irCoordenadas(l).catch(() => {});
+    else { destino++; ir(l); }
+  };
+  const mostrar = (html) => {
+    lista.innerHTML = html;
+    lista.hidden = false; campo.setAttribute("aria-expanded", "true"); sel = -1;
+  };
+  const mostrarRango = () => mostrar('<li class="meta">Usa latitud entre −90 y 90 y longitud entre −180 y 180.</li>');
+  const buscar = debounce(async (n) => {
+    if (n !== pedido) return;
     const q = campo.value;
+    const punto = leerCoordenadas(q);
+    if (punto !== undefined) {
+      res = punto ? [{ ...punto, nombre: textoCoordenadas(punto), tipo: "Coordenadas" }] : [];
+      if (punto) mostrar(L.htmlLugares(res, { atribucion: false }));
+      else mostrarRango();
+      return;
+    }
     if (!L.listoParaBuscar(q)) { cerrar(); return; }
-    const n = ++pedido, c = api.map.getCenter();
+    const c = api.map.getCenter();
     try {
       const r = await fetch(L.urlPhoton(q, { lat: c.lat, lon: c.lng, idioma: document.documentElement.lang }));
       const d = await r.json();
       if (n !== pedido) return;
       res = L.lugaresDe(d);
     } catch { if (n !== pedido) return; res = []; }
-    lista.innerHTML = L.htmlLugares(res);
-    lista.hidden = false; campo.setAttribute("aria-expanded", "true"); sel = -1;
+    mostrar(L.htmlLugares(res));
   }, 350);
-  campo.addEventListener("input", buscar);
+  campo.addEventListener("input", () => { res = []; cerrar(); buscar(++pedido); });
   campo.addEventListener("keydown", (e) => {
     if (lista.hidden || !res.length) return;
     if (e.key === "ArrowDown" || e.key === "ArrowUp") {
@@ -1692,10 +1742,16 @@ async function iniciarLugares() {
       campo.setAttribute("aria-activedescendant", `lug-op-${sel}`);
     } else if (e.key === "Escape") cerrar();
   });
-  $("lug-form").addEventListener("submit", (e) => { e.preventDefault(); ir(res[Math.max(sel, 0)]); });
-  lista.addEventListener("click", (e) => { const li = e.target.closest("[data-i]"); if (li) ir(res[Number(li.dataset.i)]); });
+  $("lug-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const punto = leerCoordenadas(campo.value);
+    if (punto) { pedido++; seleccionar({ ...punto, tipo: "Coordenadas" }); }
+    else if (punto === null) mostrarRango();
+    else seleccionar(res[Math.max(sel, 0)]);
+  });
+  lista.addEventListener("click", (e) => { const li = e.target.closest("[data-i]"); if (li) seleccionar(res[Number(li.dataset.i)]); });
   document.addEventListener("click", (e) => { if (!$("lug-form").contains(e.target)) cerrar(); });
-  campo.addEventListener("search", () => { if (!campo.value) { marca?.remove(); marca = null; cerrar(); } });
+  campo.addEventListener("search", () => { if (!campo.value) { pedido++; destino++; marca?.remove(); marca = null; cerrar(); } });
 }
 
 // ---------- Cambio en el tiempo (Sentinel-2 cloudless por año) ----------
