@@ -2,7 +2,7 @@
 // o completa (> 5 cuartillas, con estructura de dictamen). Usa las interpretaciones del resumen de la persona y, cuando
 // faltan, las lecturas complementarias (config/grafologia_complemento.json), marcadas como tales.
 // Todo es texto generado con plantillas: no hay IA ni datos externos.
-import { clave, indice, temperamento, AVISO, textoObservacion } from "./grafo-logica.js";
+import { clave, indice, temperamento, AVISO, textoObservacion, clavesElegidas, ambienteGrafico, TEXTO_AMBIENTE } from "./grafo-logica.js";
 
 export const PALABRAS_POR_CUARTILLA = 250;
 
@@ -24,6 +24,20 @@ export const AREAS = {
   bienestar: { nombre: "Energía y estado de ánimo", secciones: ["presion", "direccion", "derivados_de_imperfecciones_o_accidentes", "velocidad", "inclinacion"],
     intro: "La energía y el ánimo se leen en la presión, la dirección de los renglones y los accidentes del trazo; estos últimos también pueden deberse a causas físicas." },
 };
+
+/** Útil inscriptor (tu manual): nota técnica para el análisis y lectura que el manual da a su elección. */
+export const UTILES = {
+  boligrafo: { nombre: "Bolígrafo o punta mediana", tecnica: "es el más usado, da una línea clara y no favorece adornos, por lo que es adecuado para el análisis", lectura: "sentido práctico, equilibrio entre lo privado y lo público y capacidad de organización" },
+  plumon: { nombre: "Plumón, marcador o punta gruesa", tecnica: "dificulta evaluar la presión, aunque hace más visibles algunos rasgos", lectura: "fuerza de carácter, decisión y necesidad de causar impresión" },
+  gel: { nombre: "Pluma de gel o pluma fuente", tecnica: "la tinta fluida puede hacer que los trazos parezcan más pesados por la pluma y no por la presión", lectura: "gusto por lo sensorial, formalidad y buena opinión de sí" },
+  lapiz: { nombre: "Lápiz o lapicero", tecnica: "permite evaluar bien la presión, pero se decolora con el tiempo", lectura: "detallismo, observación y análisis" },
+  crayon: { nombre: "Crayón", tecnica: "no es adecuado para un análisis grafológico", lectura: "" },
+  color: { nombre: "Útil de color", tecnica: "depende del tipo de útil; el color agrega una lectura propia", lectura: "posible necesidad de atención" },
+};
+export const MODELOS_CALIGRAFICOS = { palmer_frances: "Palmer francés", palmer_ingles: "Palmer inglés", script: "Script", tipografico: "Tipográfico (de imprenta)", caligrafico: "Caligráfico", otro: "Otro o no se sabe" };
+export const TIPOS_ESTUDIO = { base: "Estudio grafológico base", inductiva: "Estudio por grafología inductiva", sencillo: "Estudio muy sencillo", informal: "Estudio informal" };
+const ELEMENTOS = "Según tu manual, cada elemento del escrito responde a una pregunta distinta: el texto, al yo social (cómo se desenvuelve con los demás); las mayúsculas, al valor que se da frente a los demás; los números y la fecha, a cómo administra sus recursos (dinero, tiempo y esfuerzo); el nombre completo, al concepto de su origen y su familia; la firma, a cómo es realmente en su vida íntima; y la rúbrica, a cómo protege esa intimidad. En el texto, el primer tercio muestra «cómo pienso» (la letra todavía cuidada), el tercio medio «cómo me demuestro» y el último tercio «cómo soy realmente», porque la mano ya escribe con más soltura.";
+const ESTIMULO = "Palabras estímulo – reflejo: son palabras con carga emocional para el autor (nombres de personas cercanas, «dinero», «trabajo», etc.). Se compara cómo las escribe frente al resto del texto; los cambios de tamaño, presión, inclinación, dirección o los retoques en esas palabras se leen como la reacción emocional que le provocan (escuela emocional).";
 
 export const EXTENSIONES = { breve: { nombre: "Breve (½ cuartilla)", objetivo: 0.5 }, media: { nombre: "Mediana (≈ 2,5 cuartillas)", objetivo: 2.5 }, completa: { nombre: "Completa tipo dictamen (más de 5 cuartillas)", objetivo: 5 } };
 
@@ -127,7 +141,7 @@ const contar = (doc) => doc.secciones.reduce((n, s) => n + [s.titulo, ...(s.parr
  */
 export function redactar(catalogo, complemento, seleccion, { extension = "media", areas = ["personal", "laboral"], medidas = {}, datos = {} } = {}) {
   const items = rasgosElegidos(catalogo, complemento, seleccion);
-  const temp = temperamento([...seleccion.keys()]);
+  const temp = temperamento(clavesElegidas(seleccion));
   const idx = indice(catalogo);
   const nombreTemp = (t) => idx.get(clave("temperamento", "general", t.id))?.rasgo.nombre.toLowerCase() || t.id;
   const descTemp = (t) => sinPunto(idx.get(clave("temperamento", "general", t.id))?.rasgo.interpretacion || "");
@@ -135,6 +149,10 @@ export function redactar(catalogo, complemento, seleccion, { extension = "media"
   const segundo = temp[1] && temp[1].puntaje > 0 ? temp[1] : null;
   const areasSel = areas.filter((a) => AREAS[a]);
   const quien = datos.persona ? `de ${datos.persona}` : "de la persona evaluada";
+  const amb = ambienteGrafico(clavesElegidas(seleccion));
+  const estimulo = (datos.estimulo || []).filter((x) => x && x.palabra);
+  const util = UTILES[datos.util];
+  const parrafosEstimulo = () => [ESTIMULO, ...estimulo.map((x) => `«${sinPunto(x.palabra)}»: ${x.obs ? sinPunto(x.obs) : "sin observación anotada"}.${x.interp ? ` Interpretación: ${sinPunto(x.interp)}.` : ""}`)];
   const sind = SINDROMES.filter((x) => (x.todos ? x.todos.every((k) => seleccion.has(k)) : x.algun.every((grupo) => grupo.some((k) => seleccion.has(k)))));
   // en el orden de prioridad del área (la primera sección pesa más)
   const deSeccion = (ids) => items.filter((i) => ids.includes(i.seccion)).sort((a, b) => ids.indexOf(a.seccion) - ids.indexOf(b.seccion));
@@ -163,6 +181,7 @@ export function redactar(catalogo, complemento, seleccion, { extension = "media"
         + (dominante ? ` El temperamento con más indicadores es el ${nombreTemp(dominante)} (${dominante.cumple.length} de ${dominante.total})${segundo ? `, seguido del ${nombreTemp(segundo)}` : ""}.` : ""),
       top.map((it, k) => fraseRasgo(it, k, true)).join(" "),
       areasSel.length ? areasSel.map((a) => { const it = deSeccion(AREAS[a].secciones).find((i) => !top.includes(i) && (i.interp.texto || i.interp.positivo)); return it ? `En ${AREAS[a].nombre.split(" ")[0].toLowerCase() === "trabajo" ? "lo laboral" : AREAS[a].nombre.toLowerCase()}: ${it.nombre}, ${minus(primera(it.interp.texto || it.interp.positivo))}.` : ""; }).join(" ") : "",
+      amb.resultado !== "insuficiente" ? amb.texto : "",
       "Es una lectura de escuela grafológica, sin validez científica demostrada; úsese como observación y no para decidir sobre la persona.",
     ]);
     doc.palabras = contar(doc); return doc;
@@ -185,28 +204,35 @@ export function redactar(catalogo, complemento, seleccion, { extension = "media"
 
   if (extension === "media") {
     sec("Introducción", [`Este análisis describe la escritura ${quien}${datos.fecha ? ` (muestra del ${datos.fecha})` : ""} según una escuela grafológica, a partir de ${items.length} rasgos: ${items.filter((i) => i.origen === "medido").length} medidos en la imagen, ${items.filter((i) => i.origen === "estimado").length} estimados por la computadora y ${items.filter((i) => i.origen === "manual").length} observados por quien analiza.${datos.motivo ? ` Motivo del análisis: ${sinPunto(datos.motivo)}.` : ""}`,
-      "La grafología lee los rasgos en conjunto: un rasgo aislado no basta, y cada interpretación es una hipótesis que se refuerza o se debilita con los demás rasgos."]);
+      "La grafología lee los rasgos en conjunto: un rasgo aislado no basta, y cada interpretación es una hipótesis que se refuerza o se debilita con los demás rasgos.",
+      amb.resultado !== "insuficiente" ? `${amb.texto} ${amb.resultado === "negativo" ? "Las lecturas negativas de cada rasgo pesan más en este caso." : amb.resultado === "positivo" ? "Las lecturas positivas de cada rasgo pesan más en este caso." : "Conviene leer cada rasgo en sus dos sentidos."}` : ""]);
     const porSec = {}; for (const it of items) (porSec[it.seccionNombre] ||= []).push(it);
     sec("Rasgos principales", Object.entries(porSec).map(([n, its], j) => `${n}${its[0].lema ? ` (${its[0].lema.toLowerCase()})` : ""}: ${its.slice(0, 1).map((it, k) => fraseRasgo(it, k + j, true)).join(" ")}`));
     if (sind.length) sec("Rasgos que se refuerzan entre sí", sind.map((x) => x.texto));
     if (dominante) sec("Temperamento", [`El temperamento con más indicadores es el ${nombreTemp(dominante)} (${dominante.cumple.length} de ${dominante.total}: ${dominante.cumple.join(", ").toLowerCase()}). La escuela lo describe así: ${minus(descTemp(dominante))}.${segundo ? ` Le sigue el ${nombreTemp(segundo)} (${segundo.cumple.length} de ${segundo.total}), lo que sugiere una mezcla de ambos.` : ""}`]);
     for (const a of areasSel) sec(AREAS[a].nombre, parrafoArea(a, Math.max(2, Math.round(6 / Math.max(1, areasSel.length))), true));
     if (firma || items.some((i) => i.seccion === "firma")) sec("La firma", [items.filter((i) => i.seccion === "firma").map((it, k) => fraseRasgo(it, k)).join(" ") || "Se midió la firma, pero no se marcaron rasgos de firma.", "La firma representa la imagen que la persona proyecta hacia fuera; el texto, cómo se conduce en lo cotidiano. Las diferencias entre ambos son las que la escuela considera más reveladoras."]);
+    if (estimulo.length) sec("Palabras estímulo – reflejo", parrafosEstimulo());
     sec("Consideraciones", ["Es una lectura de escuela grafológica, sin validez científica demostrada para evaluar personalidad (Neter y Ben-Shakhar, 1989; Dean, 1992). No debe usarse para contratar, despedir, otorgar crédito ni como prueba legal."]);
     doc.palabras = contar(doc); return doc;
   }
 
   // ---------------- completa: estructura de dictamen ----------------
   sec("I. Datos generales", [], [["Persona evaluada", datos.persona || "—"], ["Fecha de la muestra", datos.fecha || "—"], ["Fecha del análisis", new Date().toLocaleDateString("es-MX", { day: "numeric", month: "long", year: "numeric" })], ["Analista", datos.analista || "—"],
+    ...[["Edad", datos.edad], ["Sexo", datos.sexo], ["Mano con que escribe", datos.mano], ["Tipo de documento", datos.documento],
+      ["Útil inscriptor", util?.nombre], ["Modelo caligráfico aprendido", MODELOS_CALIGRAFICOS[datos.modelo]], ["Tipo de estudio", TIPOS_ESTUDIO[datos.estudio]]].filter(([, v]) => v),
     ["Material", `Imagen digital de ${texto ? "un texto manuscrito" : ""}${texto && firma ? " y " : ""}${firma ? "una firma" : ""}`.replace("de  y", "de")], ["Rasgos considerados", `${items.length} (${items.filter((i) => i.origen === "medido").length} medidos, ${items.filter((i) => i.origen === "estimado").length} estimados, ${items.filter((i) => i.origen === "manual").length} observados)`]]);
   sec("II. Objeto y alcance", [`Describir, según la escuela grafológica de referencia, los rasgos de la escritura ${quien} y su interpretación en: ${areasSel.map((a) => AREAS[a].nombre.toLowerCase()).join("; ") || "todas las áreas"}.${datos.motivo ? ` Motivo: ${sinPunto(datos.motivo)}.` : ""}`,
     "El alcance es descriptivo. No se pronuncia sobre la autoría de la escritura ni sobre la veracidad de su contenido, y no sustituye una evaluación psicológica."]);
   sec("III. Metodología y fundamentos", [LEYES,
     "El procedimiento seguido fue: (1) digitalizar la muestra y delimitar texto y firma; (2) medir en la imagen el tamaño de la zona media, las hampas y jambas, la inclinación, la dirección y la regularidad de los renglones, los espacios, los márgenes y el grosor del trazo; (3) estimar con procedimientos de visión por computadora la ligazón, la angulosidad, el tipo de enlace, la sinuosidad, el desarrollo de las palabras, la calidad del trazo, los bucles y las bolsas de tinta; (4) completar por observación directa los rasgos que no se pueden medir (gestos tipo, rasgos tipo, abreaciones, accidentes); (5) interpretar cada rasgo con el resumen de referencia y (6) leerlos en conjunto, buscando los rasgos que se refuerzan entre sí.",
+    ELEMENTOS,
+    datos.modelo && datos.modelo !== "otro" ? `El modelo caligráfico aprendido fue ${MODELOS_CALIGRAFICOS[datos.modelo]}. Como dice el axioma que recoge tu manual, «la grafología empieza cuando termina la caligrafía»: solo lo que se aparta de ese modelo tiene valor de interpretación.` : "",
+    util ? `Útil inscriptor: ${util.nombre.toLowerCase()}; ${util.tecnica}.${util.lectura ? ` Tu manual asocia su elección con ${util.lectura}.` : ""}` : "",
     "Las medidas en milímetros dependen de la escala indicada al medir; la dirección de los renglones se mide respecto del borde de la imagen, por lo que un giro de la foto se suma a ella. La presión real solo se comprueba en el papel original (relieve al reverso)."]);
   if (filasMedidas.length) sec("IV. Descripción de la muestra y medidas", ["Medidas obtenidas de la imagen:"], filasMedidas);
   const porSeccion = catalogo.secciones.filter((s) => s.id !== "temperamento").map((s) => ({ s, its: items.filter((i) => i.seccion === s.id) })).filter((x) => x.its.length);
-  sec("V. Análisis por géneros gráficos", porSeccion.map(({ s, its }, j) => `${s.nombre}${s.lema ? ` (${s.lema.toLowerCase()})` : ""}. ${s.descripcion ? oracion(s.descripcion) + " " : ""}${its.map((it, k) => fraseRasgo(it, k + j) + (it.motivo && it.origen !== "manual" ? ` Cómo se obtuvo: ${minus(sinPunto(it.motivo))}.` : "")).join(" ")}`));
+  sec("V. Análisis por géneros gráficos", [`${TEXTO_AMBIENTE} ${amb.texto}`, ...porSeccion.map(({ s, its }, j) => `${s.nombre}${s.lema ? ` (${s.lema.toLowerCase()})` : ""}. ${s.descripcion ? oracion(s.descripcion) + " " : ""}${its.map((it, k) => fraseRasgo(it, k + j) + (it.motivo && it.origen !== "manual" ? ` Cómo se obtuvo: ${minus(sinPunto(it.motivo))}.` : "")).join(" ")}`)]);
   sec("VI. Rasgos que se refuerzan entre sí", sind.length ? sind.map((x) => x.texto) : ["Con los rasgos marcados no aparece ninguna de las combinaciones que la escuela lee en conjunto. Cada rasgo debe tomarse, por tanto, como un indicio aislado y más débil."]);
   sec("VII. Temperamento", [
     "La escuela clásica describe cuatro temperamentos (bilioso, sanguíneo, nervioso y linfático) a partir de dos ejes: actividad y emotividad. Cada uno tiene indicadores gráficos; se contó cuántos se cumplen en la muestra.",
@@ -223,6 +249,7 @@ export function redactar(catalogo, complemento, seleccion, { extension = "media"
     positivos.length ? `Fortalezas que la escuela atribuiría a los rasgos observados: ${positivos.join("; ")}.` : "Los rasgos marcados no traen lecturas positivas explícitas en el resumen de referencia.",
     negativos.length ? `Aspectos a vigilar si los rasgos se presentan exagerados o acompañados de otros negativos: ${negativos.join("; ")}.` : "Los rasgos marcados no traen lecturas negativas explícitas en el resumen de referencia.",
     "Que un rasgo tenga lectura positiva o negativa depende del conjunto: el mismo rasgo puede ser recurso o dificultad según la calidad general de la escritura (armonía, soltura y regularidad)."]);
+  if (estimulo.length) sec("Palabras estímulo – reflejo", parrafosEstimulo());
   sec("XI. Limitaciones, validez y uso ético", [VALIDEZ, AVISO.replace(VALIDEZ, ""),
     "Limitaciones de esta muestra: se trabajó con una imagen digital (no con el original), por lo que la presión, el relieve y la calidad de la tinta se estimaron con la foto; la muestra es única y no permite valorar cambios en el tiempo; y varios rasgos dependen del criterio de quien observa."]);
   sec("XII. Conclusiones", [

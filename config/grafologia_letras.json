@@ -1,5 +1,12 @@
 {
- "fuente": "Lecturas tradicionales de la grafología (simbolismo de las zonas y del espacio de Max Pulver, 1931, y escuela de rasgos), redactadas como síntesis general. No vienen del resumen de la persona usuaria: se muestran como lectura complementaria.",
+ "fuente": "Lo que representa cada letra (grafología inductiva), las lecturas de los números y las reglas de aplicación resumen el manual de grafología de la persona usuaria (J. Tovar Molina). Las demás variantes son lecturas tradicionales generales (zonas y simbolismo del espacio de Max Pulver, 1931; escuela de rasgos) y se muestran como lectura complementaria.",
+ "reglas_inductiva": [
+  "Solo se aplica cuando la letra se aparta claramente del modelo caligráfico y da un sello personal a la escritura.",
+  "La letra debe repetirse igual a lo largo del escrito; si cambia solo en ciertas palabras, eso también se analiza.",
+  "Una letra que copia el modelo (Palmer, script o tipográfica) no tiene valor singular: habla de equilibrio y madurez.",
+  "Una letra no define a la persona: es un detalle que complementa el estudio completo, nunca lo sustituye.",
+  "También puede observarse en la firma (el yo íntimo)."
+ ],
  "genericas": [
   [
    "mas_grande",
@@ -47,7 +54,7 @@
    "id": "a",
    "nombre": "Letra a",
    "tipo": "letra",
-   "simboliza": "la comunicación y la apertura hacia los demás (su óvalo)",
+   "simboliza": "la vida afectiva y las relaciones de afecto con los demás",
    "variantes": [
     [
      "ovalo_abierto_arriba",
@@ -74,13 +81,15 @@
      "En forma de imprenta (a de dos pisos)",
      "cultura, gusto por la lectura y por la forma clara"
     ]
-   ]
+   ],
+   "estructura": "la comunicación y la apertura hacia los demás (su óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "b",
    "nombre": "Letra b",
    "tipo": "letra",
-   "simboliza": "la relación entre las ideas (hampa) y el yo íntimo (óvalo)",
+   "simboliza": "la administración del presupuesto y las reservas; la lucha diaria por lo material y necesario",
    "variantes": [
     [
      "hampa_bucle_amplio",
@@ -107,13 +116,15 @@
      "Óvalo cerrado",
      "reserva sobre lo íntimo"
     ]
-   ]
+   ],
+   "estructura": "la relación entre las ideas (hampa) y el yo íntimo (óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "c",
    "nombre": "Letra c",
    "tipo": "letra",
-   "simboliza": "la adaptación y el trato con los demás (curva abierta a la derecha)",
+   "simboliza": "el egoísmo",
    "variantes": [
     [
      "curva_amplia",
@@ -130,13 +141,15 @@
      "Con gancho inicial",
      "apego a ideas, costumbres o personas del pasado"
     ]
-   ]
+   ],
+   "estructura": "la adaptación y el trato con los demás (curva abierta a la derecha)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "d",
    "nombre": "Letra d",
    "tipo": "letra",
-   "simboliza": "la autoestima, las ideas propias y la reacción ante la crítica (hampa) junto con el yo (óvalo)",
+   "simboliza": "la vida y orientación intelectual, espiritual y psíquica",
    "variantes": [
     [
      "hampa_palo",
@@ -173,13 +186,15 @@
      "Óvalo abierto arriba",
      "franqueza y facilidad para comunicar; en exceso, indiscreción o dificultad para guardar confidencias"
     ]
-   ]
+   ],
+   "estructura": "la autoestima, las ideas propias y la reacción ante la crítica (hampa) junto con el yo (óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "e",
    "nombre": "Letra e",
    "tipo": "letra",
-   "simboliza": "la receptividad y la sociabilidad (su ojo)",
+   "simboliza": "los contactos sociales y las relaciones superficiales diarias",
    "variantes": [
     [
      "ojo_abierto",
@@ -196,13 +211,15 @@
      "En forma de épsilon (ε)",
      "cultura y gusto por la forma"
     ]
-   ]
+   ],
+   "estructura": "la receptividad y la sociabilidad (su ojo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "f",
    "nombre": "Letra f",
    "tipo": "letra",
-   "simboliza": "el equilibrio entre planear (parte de arriba) y ejecutar (parte de abajo); recorre las tres zonas",
+   "simboliza": "la síntesis de la vida profesional, intelectual, afectiva y sexual; el grado de éxito global",
    "variantes": [
     [
      "bucles_proporcionados",
@@ -229,13 +246,15 @@
      "Con nudo en el cruce",
      "tenacidad; termina lo que empieza"
     ]
-   ]
+   ],
+   "estructura": "el equilibrio entre planear (parte de arriba) y ejecutar (parte de abajo); recorre las tres zonas",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "g",
    "nombre": "Letra g",
    "tipo": "letra",
-   "simboliza": "lo instintivo, lo material y la vida afectiva (su jamba) y la comunicación (su óvalo)",
+   "simboliza": "el sexo, la coquetería, el encanto y la seducción",
    "variantes": [
     [
      "jamba_bucle_amplio",
@@ -292,13 +311,15 @@
      "Óvalo bien cerrado",
      "reserva y discreción; sabe guardar lo propio"
     ]
-   ]
+   ],
+   "estructura": "lo instintivo, lo material y la vida afectiva (su jamba) y la comunicación (su óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "h",
    "nombre": "Letra h",
    "tipo": "letra",
-   "simboliza": "las ideas (hampa) y el trato con los demás (su arco)",
+   "simboliza": "la realización de los ideales en la vida cotidiana; la idea que dirige la actividad diaria",
    "variantes": [
     [
      "hampa_bucle_amplio",
@@ -325,13 +346,15 @@
      "Arco redondo",
      "amabilidad y adaptación"
     ]
-   ]
+   ],
+   "estructura": "las ideas (hampa) y el trato con los demás (su arco)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "i",
    "nombre": "Letra i",
    "tipo": "letra",
-   "simboliza": "la atención al detalle, la precisión y la memoria (su punto)",
+   "simboliza": "la precisión, científica o de otro tipo",
    "variantes": [
     [
      "punto_preciso",
@@ -367,14 +390,22 @@
      "punto_raya",
      "Punto en forma de raya o acento",
      "rapidez, impaciencia o irritabilidad"
+    ],
+    [
+     "puntos_desiguales",
+     "Puntos desiguales a lo largo del escrito",
+     "el manual lo cuenta entre los indicadores del temperamento nervioso: atención y precisión variables",
+     "m"
     ]
-   ]
+   ],
+   "estructura": "la atención al detalle, la precisión y la memoria (su punto)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "j",
    "nombre": "Letra j",
    "tipo": "letra",
-   "simboliza": "el detalle (su punto) y lo instintivo y material (su jamba)",
+   "simboliza": "la vida privada y el balance personal de la actividad diaria",
    "variantes": [
     [
      "jamba_bucle_amplio",
@@ -411,13 +442,15 @@
      "Sin punto",
      "prisa o descuido de los detalles"
     ]
-   ]
+   ],
+   "estructura": "el detalle (su punto) y lo instintivo y material (su jamba)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "k",
    "nombre": "Letra k",
    "tipo": "letra",
-   "simboliza": "la actitud ante la autoridad y los desafíos (su lazo central)",
+   "simboliza": "el nivel de adaptación y la habilidad manual",
    "variantes": [
     [
      "lazo_exagerado",
@@ -439,13 +472,15 @@
      "Hampa en palo simple, sin bucle",
      "pensamiento práctico, directo y sobrio"
     ]
-   ]
+   ],
+   "estructura": "la actitud ante la autoridad y los desafíos (su lazo central)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "l",
    "nombre": "Letra l",
    "tipo": "letra",
-   "simboliza": "las aspiraciones y la vida intelectual (su hampa)",
+   "simboliza": "la imaginación, los proyectos y los mandatos de los padres que influyen en la actividad",
    "variantes": [
     [
      "hampa_bucle_amplio",
@@ -472,13 +507,40 @@
      "Hampa baja o corta",
      "realismo, aspiraciones modestas o poca confianza en las propias ideas"
     ]
-   ]
+   ],
+   "estructura": "las aspiraciones y la vida intelectual (su hampa)",
+   "fuente_simboliza": "manual"
+  },
+  {
+   "id": "ll",
+   "nombre": "Letra ll",
+   "tipo": "letra",
+   "simboliza": "la relación entre la vida privada y la profesional o pública",
+   "variantes": [
+    [
+     "hampas_iguales",
+     "Las dos hampas iguales",
+     "equilibrio entre la vida privada y la pública"
+    ],
+    [
+     "primera_mayor",
+     "Primera hampa más alta",
+     "predomina la vida privada"
+    ],
+    [
+     "segunda_mayor",
+     "Segunda hampa más alta",
+     "predomina la vida profesional o pública"
+    ]
+   ],
+   "estructura": "la relación entre dos ámbitos (sus dos hampas)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "m",
    "nombre": "Letra m",
    "tipo": "letra",
-   "simboliza": "la relación con los demás y el orgullo (sus arcos)",
+   "simboliza": "el yo íntimo, familiar y social puesto en escena cada día",
    "variantes": [
     [
      "arcos_redondos",
@@ -510,13 +572,15 @@
      "Filiforme (como hilo)",
      "habilidad, rapidez; también evasión"
     ]
-   ]
+   ],
+   "estructura": "la relación con los demás y el orgullo (sus arcos)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "n",
    "nombre": "Letra n",
    "tipo": "letra",
-   "simboliza": "la relación con los demás (sus arcos)",
+   "simboliza": "los problemas escondidos; complemento de la m",
    "variantes": [
     [
      "arcos_redondos",
@@ -538,13 +602,15 @@
      "Filiforme (como hilo)",
      "habilidad, rapidez; también evasión"
     ]
-   ]
+   ],
+   "estructura": "la relación con los demás (sus arcos)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "enie",
    "nombre": "Letra ñ",
    "tipo": "letra",
-   "simboliza": "la comunicación (arcos) y el impulso (su tilde)",
+   "simboliza": "el comportamiento social",
    "variantes": [
     [
      "tilde_larga",
@@ -561,13 +627,15 @@
      "Tilde adelantada",
      "impaciencia"
     ]
-   ]
+   ],
+   "estructura": "la comunicación (arcos) y el impulso (su tilde)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "o",
    "nombre": "Letra o",
    "tipo": "letra",
-   "simboliza": "la comunicación, la sinceridad y la vida íntima (su óvalo)",
+   "simboliza": "la vida afectiva y social, la relación con el dinero y la vida práctica cotidiana",
    "variantes": [
     [
      "ovalo_abierto_arriba",
@@ -594,13 +662,15 @@
      "Óvalo grande respecto de las demás letras",
      "expansividad emocional; necesidad de ser escuchado"
     ]
-   ]
+   ],
+   "estructura": "la comunicación, la sinceridad y la vida íntima (su óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "p",
    "nombre": "Letra p",
    "tipo": "letra",
-   "simboliza": "la energía física, lo material y la actividad (palo) y el yo afectivo (óvalo)",
+   "simboliza": "el trabajo y la actividad cotidiana en conjunto",
    "variantes": [
     [
      "ovalo_abierto",
@@ -647,13 +717,15 @@
      "Base del palo angulosa",
      "firmeza o tensión en lo material"
     ]
-   ]
+   ],
+   "estructura": "la energía física, lo material y la actividad (palo) y el yo afectivo (óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "q",
    "nombre": "Letra q",
    "tipo": "letra",
-   "simboliza": "lo material e instintivo (jamba) y la comunicación (óvalo)",
+   "simboliza": "la vida sexual en su conjunto",
    "variantes": [
     [
      "jamba_bucle_amplio",
@@ -700,13 +772,15 @@
      "Óvalo bien cerrado",
      "reserva y discreción; sabe guardar lo propio"
     ]
-   ]
+   ],
+   "estructura": "lo material e instintivo (jamba) y la comunicación (óvalo)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "r",
    "nombre": "Letra r",
    "tipo": "letra",
-   "simboliza": "la habilidad manual y la agudeza",
+   "simboliza": "la canalización de la energía, la conciencia profesional y las aptitudes técnicas",
    "variantes": [
     [
      "de_imprenta",
@@ -723,13 +797,15 @@
      "Redondeada",
      "suavidad y adaptación"
     ]
-   ]
+   ],
+   "estructura": "la habilidad manual y la agudeza",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "s",
    "nombre": "Letra s",
    "tipo": "letra",
-   "simboliza": "la flexibilidad y la adaptación",
+   "simboliza": "el dinero y la conciencia moral",
    "variantes": [
     [
      "de_imprenta",
@@ -751,13 +827,15 @@
      "Cerrada con lazo",
      "reserva y cautela"
     ]
-   ]
+   ],
+   "estructura": "la flexibilidad y la adaptación",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "t",
    "nombre": "Letra t",
    "tipo": "letra",
-   "simboliza": "la voluntad, la ambición y la capacidad de dirigir (su barra)",
+   "simboliza": "la voluntad",
    "variantes": [
     [
      "barra_alta",
@@ -815,17 +893,31 @@
      "tenacidad y persistencia"
     ],
     [
+     "barras_centradas",
+     "Barras altas, centradas y bien hechas",
+     "el manual lo cuenta entre los indicadores del temperamento bilioso: voluntad firme y dirigida",
+     "m"
+    ],
+    [
+     "barras_desiguales",
+     "Barras desiguales a lo largo del escrito",
+     "el manual lo cuenta entre los indicadores del temperamento nervioso: voluntad cambiante",
+     "m"
+    ],
+    [
      "palo_con_bucle",
      "Palo con bucle",
      "la escuela de rasgos lo asocia con sensibilidad a la crítica sobre el propio trabajo"
     ]
-   ]
+   ],
+   "estructura": "la voluntad, la ambición y la capacidad de dirigir (su barra)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "u",
    "nombre": "Letra u",
    "tipo": "letra",
-   "simboliza": "la receptividad y el trato",
+   "simboliza": "el sentido de la realidad",
    "variantes": [
     [
      "redonda",
@@ -837,13 +929,15 @@
      "Angulosa (como v)",
      "firmeza y espíritu crítico"
     ]
-   ]
+   ],
+   "estructura": "la receptividad y el trato",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "v",
    "nombre": "Letra v",
    "tipo": "letra",
-   "simboliza": "la agudeza y el análisis (su vértice)",
+   "simboliza": "el impulso de dar: sacrificio, entrega y también desilusión",
    "variantes": [
     [
      "vertice_agudo",
@@ -855,13 +949,15 @@
      "Redondeada (como u)",
      "suavidad y adaptación"
     ]
-   ]
+   ],
+   "estructura": "la agudeza y el análisis (su vértice)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "w",
    "nombre": "Letra w",
    "tipo": "letra",
-   "simboliza": "la agudeza y el trato (sus vértices)",
+   "simboliza": "el complemento de la v",
    "variantes": [
     [
      "vertices_agudos",
@@ -873,13 +969,15 @@
      "Redondeada",
      "suavidad y adaptación"
     ]
-   ]
+   ],
+   "estructura": "la agudeza y el trato (sus vértices)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "x",
    "nombre": "Letra x",
    "tipo": "letra",
-   "simboliza": "la decisión (su cruce)",
+   "simboliza": "la madurez afectiva",
    "variantes": [
     [
      "cruce_firme",
@@ -891,13 +989,15 @@
      "Hecha con dos curvas separadas",
      "indecisión o búsqueda de consenso"
     ]
-   ]
+   ],
+   "estructura": "la decisión (su cruce)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "y",
    "nombre": "Letra y",
    "tipo": "letra",
-   "simboliza": "lo instintivo, lo material y la vida afectiva (su jamba)",
+   "simboliza": "el balance personal y de la actividad cotidiana y profesional",
    "variantes": [
     [
      "jamba_bucle_amplio",
@@ -944,13 +1044,15 @@
      "Jamba que termina hacia la derecha y enlaza con la letra siguiente",
      "energía orientada a la acción y hacia los demás; buen paso de la idea a la realización"
     ]
-   ]
+   ],
+   "estructura": "lo instintivo, lo material y la vida afectiva (su jamba)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "z",
    "nombre": "Letra z",
    "tipo": "letra",
-   "simboliza": "lo material (su jamba, si la tiene)",
+   "simboliza": "la realización de la vida sexual",
    "variantes": [
     [
      "con_jamba_bucle",
@@ -962,7 +1064,9 @@
      "Angulosa",
      "firmeza y tensión"
     ]
-   ]
+   ],
+   "estructura": "lo material (su jamba, si la tiene)",
+   "fuente_simboliza": "manual"
   },
   {
    "id": "mayusculas",
@@ -1024,8 +1128,98 @@
    "id": "numeros",
    "nombre": "Números en general",
    "tipo": "numero",
-   "simboliza": "la relación con lo material y el dinero",
+   "simboliza": "la administración de los recursos: dinero, tiempo, esfuerzo y la precisión con los datos",
    "variantes": [
+    [
+     "dibujados_lentamente",
+     "Dibujados lentamente, con cuidado casi artístico",
+     "ve el dinero como un medio y no como un fin; prefiere no hablar de él, gasta por gusto estético y valora las cosas por lo que valen, no por lo que cuestan; los negocios no son su fuerte",
+     "m"
+    ],
+    [
+     "trazados_rapidamente",
+     "Trazados con rapidez y naturalidad, sin perder legibilidad",
+     "buena disposición para los negocios, la compraventa y la negociación; calibra el valor del dinero y le da importancia",
+     "m"
+    ],
+    [
+     "raros_complicados",
+     "Raros, complicados o adornados al punto de dificultar su lectura",
+     "el manual lo asocia con inclinación a falsear presupuestos o a especular de forma equívoca; dificultad para administrarse (indicio que debe confirmarse con el ambiente gráfico)",
+     "m"
+    ],
+    [
+     "gran_tamano",
+     "De gran tamaño respecto de las minúsculas",
+     "valoración de la vida desde lo económico; tendencia a medir personas y cosas por su precio; posible despilfarro",
+     "m"
+    ],
+    [
+     "muy_pequenos",
+     "Muy pequeños respecto del texto",
+     "timidez ante lo económico; siente el mundo de las cifras como complicado o fuera de su alcance; tendencia a economizar",
+     "m"
+    ],
+    [
+     "irregulares",
+     "Irregulares o desiguales de tamaño",
+     "poca constancia y organización en lo económico; dificultad para distribuir gastos; también flexibilidad para adaptarse",
+     "m"
+    ],
+    [
+     "diferente_direccion",
+     "En diferente dirección",
+     "poca noción del valor del dinero; confunde cifras y presupuestos; puede ser engañado con facilidad",
+     "m"
+    ],
+    [
+     "aplastados",
+     "Aplastados (más anchos que altos)",
+     "sensación de dependencia económica y falta de espíritu emprendedor",
+     "m"
+    ],
+    [
+     "apretados",
+     "Apretados entre sí",
+     "control y desconfianza extrema con el dinero; miedo a gastar; ansiedad por lo económico",
+     "m"
+    ],
+    [
+     "espaciados",
+     "Espaciados, cada cifra con su lugar",
+     "desprendimiento y generosidad, si están bien trazados",
+     "m"
+    ],
+    [
+     "a_la_derecha",
+     "Fecha o números colocados a la derecha",
+     "no está a gusto con los recursos que maneja y busca nuevas oportunidades",
+     "m"
+    ],
+    [
+     "a_la_izquierda",
+     "Fecha o números colocados a la izquierda",
+     "se siente cómodo con cómo administra lo que tiene",
+     "m"
+    ],
+    [
+     "primeros_grandes",
+     "Los primeros números más grandes",
+     "se sentía más satisfecho antes con lo que ganaba o tenía",
+     "m"
+    ],
+    [
+     "ultimos_grandes",
+     "Los últimos números más grandes",
+     "espera un mejor porvenir económico con otros recursos",
+     "m"
+    ],
+    [
+     "en_la_firma",
+     "Números o signos de dinero en la firma",
+     "presencia de lo económico en su yo social y laboral; según su lugar: arriba a la derecha, aspiraciones; abajo, pequeños o tachados, culpa por el dinero",
+     "m"
+    ],
     [
      "claros",
      "Claros y legibles",
@@ -1034,27 +1228,7 @@
     [
      "retocados",
      "Retocados o corregidos",
-     "preocupación o inseguridad con el dinero; la escuela lo marca como indicio a vigilar (débil por sí solo)"
-    ],
-    [
-     "ilegibles",
-     "Confusos o ilegibles",
-     "descuido o confusión en lo material"
-    ],
-    [
-     "mas_grandes",
-     "Más grandes que las letras",
-     "importancia dada a lo material o al dinero"
-    ],
-    [
-     "mas_pequenos",
-     "Más pequeños que las letras",
-     "poco interés por lo material o tendencia al ahorro"
-    ],
-    [
-     "adornados",
-     "Adornados",
-     "deseo de aparentar en lo material"
+     "preocupación o inseguridad con el dinero; indicio a vigilar, débil por sí solo"
     ],
     [
      "angulosos",

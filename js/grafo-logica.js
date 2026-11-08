@@ -201,38 +201,64 @@ export function clasificarFirma(firma, texto, cajaFirma, cajaTexto, { hojaComple
 
 // Indicadores de temperamento del catálogo, traducidos a rasgos del propio catálogo (alguno basta para cada indicador).
 export const TEMPERAMENTOS = {
+  // Indicadores de tu resumen y de la hoja de análisis del manual. «clave#Variante» exige esa variante marcada.
   bilioso_activo_y_emotivo: [
     ["Presión firme", ["presion/profundidad/firme", "presion/calibre/pesada_0_75a1mm", "presion/calibre/gruesa_1mm"]],
     ["Destaca angulosidad", ["forma/anatomia/angulosa", "forma/coligamiento/angulo"]],
     ["Escritura pequeña", ["dimension/tamano/pequena_2_5_mm", "dimension/tamano/exag_pequena_2mm"]],
     ["Texto concentrado y condensado", ["dimension/espaciamiento/apretada", "dimension/anchura/comprimida"]],
     ["Ordenado", ["orden/estructura/ordenada_esmerada_exageradamente_ordenada"]],
+    ["Puntuación correcta y firme", ["letras_y_numeros/i/punto_preciso"]],
+    ["Barras de la «t» altas, centradas y bien hechas", ["letras_y_numeros/t/barras_centradas", "letras_y_numeros/t/barra_alta"]],
+    ["Presión vertical acentuada", ["presion/sentido/vertical"]],
+    ["Velocidad mesurada a rápida", ["velocidad/intensidad/pausada_o_mesurada_140_lxm", "velocidad/intensidad/acelerada_160_lxm", "velocidad/intensidad/rapida_180_lxm"]],
+    ["Escritura gladiolada", ["continuidad/grado_de_soltura/desarrollo#Gladiolada"]],
+    ["Cruces en los trazos de la firma o la rúbrica", ["gestos_tipos/angulosos/cruzamientos_o_aspas"]],
   ],
   sanguineo_activo_y_no_emotivo: [
-    ["Mayúsculas adornadas o infladas", ["gestos_tipos/curvos/inflados", "rasgos_tipo/general/rizos_o_florituras"]],
+    ["Mayúsculas adornadas o infladas", ["gestos_tipos/curvos/inflados", "rasgos_tipo/general/rizos_o_florituras", "letras_y_numeros/mayusculas/gen_adornada"]],
     ["Presión en relieve", ["presion/calidad/relieve"]],
     ["Escritura más grande de lo normal", ["dimension/tamano/grande_3_5_mm", "dimension/tamano/exag_grande_4mm"]],
     ["Predominio de curva sobre ángulo", ["forma/anatomia/curva", "forma/anatomia/redonda", "forma/coligamiento/guirnalda"]],
     ["Distribución amplia", ["dimension/espaciamiento/espaciada", "dimension/espaciamiento/aireada", "dimension/anchura/extendida"]],
+    ["Velocidad rápida", ["velocidad/intensidad/rapida_180_lxm", "velocidad/intensidad/acelerada_160_lxm"]],
+    ["De ligada a agrupada", ["continuidad/ligazon/ligada", "continuidad/ligazon/agrupada"]],
+    ["Preferentemente inclinada", ["inclinacion/posicion/inclinada"]],
+    ["Líneas ascendentes", ["direccion/orientacion/ascendente_1a50"]],
   ],
   nervioso_no_activo_y_emotivo: [
     ["Inclinación vibrante (enderezados o desiguales)", ["inclinacion/estabilidad/vibrante_u_oscilante", "inclinacion/estabilidad/desigual_o_irregular", "inclinacion/desviaciones/enderezada_trata_de_corregir_el_trazo_y_es_involuntario"]],
-    ["Agitación", ["derivados_de_imperfecciones_o_accidentes/general/agitaciones"]],
+    ["Movilidad y agitación", ["derivados_de_imperfecciones_o_accidentes/general/agitaciones", "velocidad/fluidez/movida"]],
     ["Presión ligera", ["presion/calibre/ligera_0_25mm", "presion/profundidad/blanda"]],
     ["Desordenado", ["orden/estructura/desordenada_desalinada_exageradamente_desordenada"]],
     ["Trazos filiformes", ["forma/gestos_tipos/filiforme_serpentina"]],
     ["Velocidad rápida o precipitada", ["velocidad/intensidad/rapida_180_lxm", "velocidad/intensidad/precipitada_200_lxm"]],
+    ["De desligada a agrupada", ["continuidad/ligazon/desligada", "continuidad/ligazon/agrupada"]],
+    ["Texto confuso y poco legible", ["forma/legibilidad_facilidad_para_dejarse_entender/confusa"]],
+    ["Puntos de la «i» desiguales", ["letras_y_numeros/i/puntos_desiguales"]],
+    ["Barras de la «t» desiguales", ["letras_y_numeros/t/barras_desiguales"]],
   ],
   linfatico_no_activo_no_emotivo: [
     ["Velocidad lenta o pausada", ["velocidad/intensidad/lenta_120_lxm", "velocidad/intensidad/pausada_o_mesurada_140_lxm"]],
-    ["Letra regular", ["continuidad/grado_de_variabilidad/regular"]],
+    ["Letra regular a monótona", ["continuidad/grado_de_variabilidad/regular"]],
     ["Escritura inacabada", ["continuidad/grado_de_soltura/inhibida"]],
     ["Escritura redondeada", ["forma/anatomia/redonda", "forma/anatomia/curva"]],
     ["Escritura bien hecha", ["forma/modelo_caligrafico/caligrafica", "orden/estructura/ordenada_esmerada_exageradamente_ordenada"]],
+    ["Líneas descendentes", ["direccion/orientacion/descendente_5a10"]],
+    ["Estabilidad y armonía", ["inclinacion/estabilidad/constante", "orden/equilibrio/proporcionada_mediana_sobria_aireada_clara_modelo_caligrafic"]],
+    ["Trazo pesado y blanco", ["presion/calidad/plana", "presion/calibre/pesada_0_75a1mm"]],
   ],
 };
 
+
 /** Puntaje de cada temperamento con los rasgos elegidos (Set o array de claves). */
+/** Claves elegidas más «clave#Variante» de las variantes marcadas (para indicadores que piden una variante). */
+export function clavesElegidas(seleccion) {
+  const out = [];
+  for (const [k, e] of seleccion) { out.push(k); if (e?.variante) out.push(`${k}#${e.variante}`); }
+  return out;
+}
+
 export function temperamento(elegidos) {
   const s = new Set(elegidos);
   return Object.entries(TEMPERAMENTOS).map(([id, inds]) => {
@@ -258,7 +284,7 @@ export function informe(catalogo, seleccion) {
     }
     if (items.length) secciones.push({ id: s.id, nombre: s.nombre, lema: s.lema, items });
   }
-  const temp = temperamento([...seleccion.keys()]).map((t) => ({ ...t, ...(() => { const e = idx.get(clave("temperamento", "general", t.id)); return { nombre: e?.rasgo.nombre || t.id, descripcion: e?.rasgo.interpretacion || "" }; })() }));
+  const temp = temperamento(clavesElegidas(seleccion)).map((t) => ({ ...t, ...(() => { const e = idx.get(clave("temperamento", "general", t.id)); return { nombre: e?.rasgo.nombre || t.id, descripcion: e?.rasgo.interpretacion || "" }; })() }));
   return { secciones, temperamento: temp, total: seleccion.size, aviso: AVISO };
 }
 
@@ -317,6 +343,14 @@ export const CON_OBSERVACIONES = new Set(["gestos_tipos", "rasgos_tipo", "deriva
 
 /** Lugares donde se puede encontrar un rasgo y su lectura según el simbolismo del espacio (Max Pulver, 1931). */
 export const LUGARES = [
+  { id: "texto", nombre: "En el texto", lee: "el yo social: cómo se desenvuelve y se muestra con los demás", fuente: "manual" },
+  { id: "primer_tercio", nombre: "En el primer tercio del texto", lee: "«cómo pienso»: la letra todavía «posada», la imagen ideal que quiere dar", fuente: "manual" },
+  { id: "tercio_medio", nombre: "En el tercio medio del texto", lee: "«cómo me demuestro»: la escritura en plena expresión, cómo se muestra en un ambiente ya conocido", fuente: "manual" },
+  { id: "ultimo_tercio", nombre: "En el último tercio del texto", lee: "«cómo soy realmente»: el trazo más espontáneo, cuánto sostiene su palabra, su voluntad y su estabilidad", fuente: "manual" },
+  { id: "saludo", nombre: "En el saludo o el destinatario", lee: "cómo se siente ante la persona o institución a la que se dirige", fuente: "manual" },
+  { id: "fecha", nombre: "En la fecha", lee: "la administración de los recursos (dinero, tiempo, esfuerzo)", fuente: "manual" },
+  { id: "nombre_completo", nombre: "En el nombre completo", lee: "el concepto de su origen y su familia, y la percepción de sus figuras paterna y materna", fuente: "manual" },
+  { id: "rubrica", nombre: "En la rúbrica", lee: "cómo protege su intimidad y su verdadero yo (mecanismos de defensa)", fuente: "manual" },
   { id: "zona_superior", nombre: "Zona superior (hampas, puntos, acentos)", lee: "lo intelectual, las ideas y las aspiraciones" },
   { id: "zona_media", nombre: "Zona media (cuerpo de las letras)", lee: "el yo, la afectividad y la vida cotidiana" },
   { id: "zona_inferior", nombre: "Zona inferior (jambas)", lee: "lo material, lo instintivo y lo físico" },
@@ -327,9 +361,9 @@ export const LUGARES = [
   { id: "derecha", nombre: "Lado derecho de la hoja", lee: "el futuro y los demás" },
   { id: "arriba", nombre: "Parte de arriba de la hoja (comienzo del escrito)", lee: "la forma de presentarse al empezar" },
   { id: "abajo", nombre: "Parte de abajo de la hoja (final del escrito)", lee: "cómo se sostiene la energía hasta el final; si aparece solo ahí, posible cansancio" },
-  { id: "mayusculas", nombre: "En mayúsculas", lee: "la autoimagen y la forma de presentarse" },
-  { id: "firma", nombre: "En la firma", lee: "la imagen pública que se desea proyectar" },
-  { id: "numeros", nombre: "En números", lee: "la relación con lo material y el dinero" },
+  { id: "mayusculas", nombre: "En mayúsculas", lee: "el valor que se da frente a los demás (yo social)", fuente: "manual" },
+  { id: "firma", nombre: "En la firma", lee: "cómo es realmente en sí y en su vida íntima (yo íntimo y verdadero)", fuente: "manual" },
+  { id: "numeros", nombre: "En números", lee: "cómo administra sus recursos: dinero, tiempo y esfuerzo", fuente: "manual" },
 ];
 export const FRECUENCIAS = { aislado: "una sola vez (indicio débil)", ocasional: "ocasionalmente", frecuente: "con frecuencia (rasgo habitual)" };
 
@@ -341,7 +375,48 @@ export function textoObservacion(obs) {
   if (!partes.length && !obs.nota) return { corto: "", texto: "" };
   const corto = partes.join("; ");
   let texto = partes.length ? `Se encontró: ${corto}.` : "";
-  if (ls.length) texto += ` Según el simbolismo del espacio (Max Pulver), ${ls.map((l) => `${l.nombre.replace(/\s*\(.*\)$/, "").toLowerCase()} remite a ${l.lee}`).join("; ")}.`;
+  const lectura = (xs) => xs.map((l) => { const n = l.nombre.replace(/\s*\(.*\)$/, "").toLowerCase(); return `${n.startsWith("en ") ? `lo encontrado ${n}` : n} remite a ${l.lee}`; }).join("; ");
+  const pulver = ls.filter((l) => l.fuente !== "manual"), manual = ls.filter((l) => l.fuente === "manual");
+  if (pulver.length) texto += ` Según el simbolismo del espacio (Max Pulver), ${lectura(pulver)}.`;
+  if (manual.length) texto += ` Según los elementos de estudio de tu manual, ${lectura(manual)}.`;
   if (obs.nota) texto += ` Observación: ${String(obs.nota).trim().replace(/[.\s]+$/, "")}.`;
   return { corto, texto: texto.trim() };
+}
+
+/** Ambiente gráfico (tu manual): rasgos progresivos (positivo) y regresivos (negativo). «clave#Variante» exige la variante. */
+export const AMBIENTE = {
+  progresivos: [
+    "orden/estructura/ordenada_esmerada_exageradamente_ordenada", "orden/equilibrio/proporcionada_mediana_sobria_aireada_clara_modelo_caligrafic",
+    "forma/legibilidad_facilidad_para_dejarse_entender/clara", "forma/anatomia/curva", "forma/anatomia/redonda", "forma/anatomia/semiangulosa_semiredonda",
+    "forma/coligamiento/guirnalda", "forma/modelo_caligrafico/caligrafica", "forma/modelo_caligrafico/tipografica", "forma/trazado_numero_de_trazos/sencilla",
+    "forma/trazado_numero_de_trazos/simplificada", "inclinacion/posicion/inclinada", "inclinacion/posicion/vertical_90_85_a_95", "inclinacion/estabilidad/vibrante_u_oscilante",
+    "direccion/orientacion/horizontal_aprox_0", "direccion/orientacion/ascendente_1a50", "direccion/trayecto/concava", "direccion/trayecto/convexa",
+    "velocidad/intensidad/pausada_o_mesurada_140_lxm", "velocidad/intensidad/acelerada_160_lxm", "velocidad/intensidad/rapida_180_lxm", "velocidad/fluidez/dinamogena",
+    "velocidad/impulsividad/lanzada", "continuidad/ligazon/ligada", "continuidad/ligazon/agrupada", "presion/calidad/relieve", "presion/pureza/nitida", "presion/profundidad/firme",
+  ],
+  regresivos: [
+    "orden/estructura/desordenada_desalinada_exageradamente_desordenada", "orden/equilibrio/desproporcionada_bizarra_muy_grande_muy_pequena_hacia_arriba",
+    "forma/legibilidad_facilidad_para_dejarse_entender/confusa", "dimension/tamano/exag_grande_4mm", "dimension/tamano/exag_pequena_2mm", "dimension/altura/sobrealzada",
+    "dimension/altura/rebajada", "dimension/anchura/comprimida", "forma/anatomia/angulosa", "forma/coligamiento/arco", "forma/modelo_caligrafico/extrana_o_bizarra",
+    "forma/trazado_numero_de_trazos/complicada", "inclinacion/posicion/invertida", "inclinacion/estabilidad/rigida", "direccion/orientacion/descendente_5a10",
+    "direccion/trayecto/sinuosa", "direccion/trayecto/superpuesta_descendente", "direccion/trayecto/superpuesta_ascendente", "direccion/trayecto/con_descenso_al_final",
+    "velocidad/intensidad/lenta_120_lxm", "velocidad/intensidad/precipitada_200_lxm", "velocidad/impulsividad/retardada", "continuidad/grado_de_variabilidad/desigual",
+    "continuidad/ligazon/desligada", "continuidad/ligazon/fragmentada", "derivados_de_imperfecciones_o_accidentes/general/reenganches",
+    "derivados_de_imperfecciones_o_accidentes/general/temblores", "derivados_de_imperfecciones_o_accidentes/general/correcciones_o_retoques",
+    "derivados_de_imperfecciones_o_accidentes/general/torsiones_o_enderezados", "presion/calidad/relieve#Desplazada", "presion/pureza/pastosa", "presion/profundidad/blanda",
+  ],
+};
+export const TEXTO_AMBIENTE = "Tu manual pide valorar el ambiente gráfico antes de interpretar: es positivo (progresivo) cuando el orden, la continuidad, la proporción y el equilibrio se mantienen, con espontaneidad y armonía y sin manchas, tachaduras ni enmiendas; es negativo (regresivo) cuando en todo o casi todo falta orden y proporción. Varias lecturas cambian de sentido según el ambiente (por ejemplo, los óvalos cerrados con buclecito o doble anillo).";
+
+/** Cuenta rasgos progresivos y regresivos marcados. claves: lista de clavesElegidas(). */
+export function ambienteGrafico(claves) {
+  const s = new Set(claves);
+  const neg = AMBIENTE.regresivos.filter((k) => s.has(k));
+  const conVarNeg = new Set(neg.filter((k) => k.includes("#")).map((k) => k.split("#")[0]));
+  const pos = AMBIENTE.progresivos.filter((k) => s.has(k) && !conVarNeg.has(k));
+  const total = pos.length + neg.length, r = total ? pos.length / total : 0;
+  const resultado = total < 3 ? "insuficiente" : r >= 0.65 ? "positivo" : r <= 0.35 ? "negativo" : "mixto";
+  const nombre = { positivo: "positivo (progresivo)", negativo: "negativo (regresivo)", mixto: "mixto", insuficiente: "sin rasgos suficientes para valorarlo" }[resultado];
+  const texto = total ? `Ambiente gráfico ${nombre}: ${pos.length} rasgo(s) progresivo(s) y ${neg.length} regresivo(s) entre los marcados.` : "Aún no hay rasgos marcados para valorar el ambiente gráfico.";
+  return { positivos: pos, negativos: neg, resultado, texto };
 }

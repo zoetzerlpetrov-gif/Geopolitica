@@ -9,17 +9,18 @@ export function seccionLetras(datos) {
   const interpretaciones = {};
   const grupos = (datos?.caracteres || []).map((c) => {
     const rasgos = [
-      ...c.variantes.map(([id, nombre, lectura]) => ({ id, nombre, lectura })),
+      ...c.variantes.map(([id, nombre, lectura, fuente]) => ({ id, nombre, lectura, manual: fuente === "m" })),
       ...(datos.genericas || []).map(([id, nombre, lectura]) => ({ id: `gen_${id}`, nombre, lectura: lectura.replaceAll("{s}", c.simboliza), generica: true })),
     ].map((r) => {
-      interpretaciones[`${SECCION_LETRAS}/${c.id}/${r.id}`] = may(r.lectura);
-      return { id: r.id, nombre: r.nombre, nota: "", interpretacion: "", indicadores: "", variantes: [], generica: !!r.generica };
+      // Lo que viene del manual de la persona va como interpretación propia; lo demás, como lectura complementaria
+      if (!r.manual) interpretaciones[`${SECCION_LETRAS}/${c.id}/${r.id}`] = may(r.lectura);
+      return { id: r.id, nombre: r.nombre, nota: "", interpretacion: r.manual ? may(r.lectura) : "", indicadores: "", variantes: [], generica: !!r.generica };
     });
-    return { id: c.id, nombre: c.nombre, tipo: c.tipo, simboliza: c.simboliza, rasgos };
+    return { id: c.id, nombre: c.nombre, tipo: c.tipo, simboliza: c.simboliza, estructura: c.estructura || "", inductiva: c.fuente_simboliza === "manual", rasgos };
   });
   return {
     seccion: { id: SECCION_LETRAS, nombre: "Letras y números", lema: "Letras representativas o distintas del modelo caligráfico",
-      descripcion: "Cada letra o número tiene una lectura tradicional según las partes que lo forman (óvalos, hampas, jambas, barras, puntos) y la zona en que se trazan. Se marcan solo los que llaman la atención: por tamaño, forma o diferencia con el modelo escolar.", grupos },
+      descripcion: "Cada letra o número tiene una lectura según lo que representa (grafología inductiva) y las partes que lo forman (óvalos, hampas, jambas, barras, puntos). Se marcan solo los que se apartan del modelo caligráfico y se repiten a lo largo del escrito.", grupos, reglas: datos.reglas_inductiva || [] },
     interpretaciones,
   };
 }

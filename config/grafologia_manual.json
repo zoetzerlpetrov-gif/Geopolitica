@@ -1,0 +1,22 @@
+{
+ "fuente": "Manual de grafología y hoja de análisis comparativo de la persona usuaria (J. Tovar Molina). Las lecturas están resumidas; las marcadas en «complementarias» no vienen del manual.",
+ "grupos_nuevos": [
+  {"seccion": "presion", "grupo": {"id": "sentido", "nombre": "Sentido (hacia dónde se carga la presión)", "rasgos": [
+   {"id": "vertical", "nombre": "En sentido vertical", "nota": "Más fuerza en los trazos que bajan."},
+   {"id": "horizontal", "nombre": "En sentido horizontal", "nota": "Más fuerza en los trazos que avanzan (barras, enlaces, finales)."}]}},
+  {"seccion": "abreaciones", "grupo": {"id": "casos_particulares", "nombre": "Casos particulares de óvalos cerrados", "rasgos": [
+   {"id": "buclecito", "nombre": "Cerrados con un pequeño bucle", "interpretacion": "Puede callar parte de lo que piensa o hace para no frustrar sus objetivos; frecuente en actividades comerciales. En ambiente gráfico positivo, trato cálido y envolvente que evita el conflicto; en ambiente negativo, disimulo o fingimiento."},
+   {"id": "doble_anillo", "nombre": "Cerrados con doble anillo", "interpretacion": "Según el ambiente gráfico, va desde la habilidad para negociar asuntos delicados hasta la ocultación deliberada. Reserva premeditada; también inseguridad, posesividad y miedo al cambio."},
+   {"id": "nudo", "nombre": "Cerrados con nudo", "nota": "No confundir con el lazo, que es un adorno curvo y armónico.", "interpretacion": "Trazo retorcido que suele combinarse con ángulos y ambiente gráfico negativo: tendencia a sujetar la voluntad de otros o doble moral. El manual aclara que solo señala una tendencia latente; un acto depende además del móvil y de la oportunidad."}]}}
+ ],
+ "variantes_nuevas": [
+  {"clave": "continuidad/grado_de_soltura/inhibida", "variante": "Temblorosa"}
+ ],
+ "interpretaciones": {
+  "abreaciones/aberturas/zona_derecha": "Óvalos abiertos arriba y a la derecha: franqueza y apertura en la amistad, el amor y la ternura; lealtad y cumplimiento de compromisos, siempre que el trazo sea firme y el conjunto armónico. Busca la conexión y confía mucho en los suyos."
+ },
+ "complementarias": {
+  "presion/sentido/vertical": "Energía puesta en sostener las propias convicciones y en la voluntad; firmeza. Tu hoja de análisis la cuenta entre los indicadores del temperamento bilioso cuando está acentuada",
+  "presion/sentido/horizontal": "Energía dirigida a la acción, al avance y al contacto con los demás"
+ }
+}

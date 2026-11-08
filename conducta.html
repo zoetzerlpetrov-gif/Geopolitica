@@ -228,7 +228,8 @@
           Las interpretaciones vienen de tu resumen; cuando falta, se muestra una lectura complementaria marcada como tal.</p>
         <div id="g-lista"></div>
         <details class="tarjeta" id="g-letras-caja"><summary><b>🔤 Letras y números</b> <span class="meta">(opcional: los que sean distintos al modelo caligráfico o llamen la atención)</span> <span id="g-letras-n" class="medido-tag"></span></summary>
-          <p class="meta">Elige una letra o un número para ver sus variantes. Marca solo lo que veas en el original. Cada variante trae su lectura tradicional (lectura complementaria, no viene de tu resumen) y puedes indicar dónde la encontraste. Al final de cada letra están los rasgos generales: más grande o más pequeña que las demás, otra inclinación, forma propia, adornada, retocada…</p>
+          <p class="meta">Elige una letra o un número para ver sus variantes. Marca solo lo que veas en el original y, si quieres, indica dónde lo encontraste. Lo que representa cada letra (grafología inductiva) y las lecturas de los números resumen tu manual; las lecturas marcadas «(lectura complementaria)» no vienen de tu material. Al final de cada letra están los rasgos generales: más grande o más pequeña que las demás, otra inclinación, forma propia, adornada, retocada…</p>
+          <details class="meta" id="g-letras-reglas"></details>
           <div id="g-letras-botones" class="letras-botones" role="group" aria-label="Letras y números"></div>
           <div id="g-letras-panel"></div>
         </details>
@@ -249,6 +250,18 @@
         <h3>Datos del documento (opcionales)</h3>
         <div class="barra"><input id="g-persona" placeholder="Persona o seudónimo" aria-label="Persona"><input id="g-fecha" type="date" aria-label="Fecha de la muestra" title="Fecha de la muestra">
           <input id="g-analista" placeholder="Analista" aria-label="Analista"><input id="g-motivo" placeholder="Motivo del análisis" style="min-width:240px" aria-label="Motivo"></div>
+        <details class="tarjeta"><summary><b>Datos del autor y de la muestra</b> <span class="meta">(opcionales, de la hoja de análisis de tu manual)</span></summary>
+          <div class="barra"><input id="g-edad" type="number" min="5" max="110" placeholder="Edad" aria-label="Edad" style="width:90px">
+            <select id="g-sexo" aria-label="Sexo"><option value="">Sexo —</option><option>Mujer</option><option>Hombre</option><option>Otro</option></select>
+            <select id="g-mano" aria-label="Mano con que escribe"><option value="">Mano —</option><option>Diestra</option><option>Zurda</option><option>Ambidiestra</option></select>
+            <input id="g-documento" placeholder="Tipo de documento (carta, formulario…)" aria-label="Tipo de documento" style="min-width:220px"></div>
+          <div class="barra"><select id="g-util" aria-label="Útil inscriptor"></select><select id="g-modelo" aria-label="Modelo caligráfico"></select><select id="g-estudio" aria-label="Tipo de estudio"></select></div>
+          <p class="meta" id="g-util-nota"></p>
+        </details>
+        <details class="tarjeta"><summary><b>Palabras estímulo – reflejo</b> <span class="meta">(opcional)</span></summary>
+          <p class="meta">Palabras con carga emocional para el autor (nombres de personas cercanas, «dinero», «trabajo»…). Anota cómo cambia su escritura en esas palabras frente al resto del texto: tamaño, presión, inclinación, dirección, retoques.</p>
+          <div class="desliza"><table class="t" id="g-estimulo"><tr><th>#</th><th>Palabra</th><th>Observación</th><th>Interpretación</th></tr></table></div>
+        </details>
         <div class="barra"><button type="button" id="g-redactar" class="prim">✍️ Redactar análisis</button></div>
         <div id="g-escrito"></div>
         <div class="barra no-imprimir" id="g-escrito-botones" hidden><button type="button" id="g-copiar">📋 Copiar texto</button><button type="button" id="g-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="g-imprimir-escrito">🖨️ Imprimir / PDF</button></div>

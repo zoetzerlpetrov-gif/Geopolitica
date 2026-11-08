@@ -11,6 +11,12 @@ import { rasgosCuadro, eventosDeSerie, lectura, tipoEnlace, reloj, REGLAS, senal
 const CAT_G = JSON.parse(readFileSync(new URL("../../config/grafologia.json", import.meta.url), "utf8"));
 const CAT_C = JSON.parse(readFileSync(new URL("../../config/lenguaje_corporal.json", import.meta.url), "utf8"));
 const COMP_G = JSON.parse(readFileSync(new URL("../../config/grafologia_complemento.json", import.meta.url), "utf8"));
+// Catálogo como lo arma la página: resumen + agregados del manual + letras y números
+const { unirManual } = await import("../../js/grafo-manual.js");
+const { unirLetras } = await import("../../js/grafo-letras.js");
+const LETRAS = JSON.parse(readFileSync(new URL("../../config/grafologia_letras.json", import.meta.url), "utf8"));
+const MANUAL = JSON.parse(readFileSync(new URL("../../config/grafologia_manual.json", import.meta.url), "utf8"));
+const unido = () => { const cat = JSON.parse(JSON.stringify(CAT_G)), comp = JSON.parse(JSON.stringify(COMP_G)); unirManual(cat, comp, MANUAL); unirLetras(cat, comp, LETRAS); return { cat, comp }; };
 const cerca = (a, b, tol, msg) => assert.ok(Math.abs(a - b) <= tol, `${msg}: ${a} vs ${b}`);
 
 test("grafología: mide inclinación, dirección, tamaño y espacios de una escritura sintética", () => {
@@ -69,10 +75,14 @@ test("grafología: firma frente al texto", () => {
 });
 
 test("grafología: indicadores de temperamento apuntan a rasgos que existen", () => {
-  const idx = indice(CAT_G);
+  const idx = indice(unido().cat);
   for (const [id, inds] of Object.entries(TEMPERAMENTOS)) {
     assert.ok(idx.has(clave("temperamento", "general", id)), id);
-    for (const [, ks] of inds) for (const k of ks) assert.ok(idx.has(k), `${id}: ${k}`);
+    for (const [, ks] of inds) for (const k of ks) {
+      const [base, variante] = k.split("#");
+      assert.ok(idx.has(base), `${id}: ${k}`);
+      if (variante) assert.ok(idx.get(base).rasgo.variantes.includes(variante), `${id}: variante ${k}`);
+    }
   }
   const t = temperamento(["presion/calibre/pesada_0_75a1mm", "forma/anatomia/angulosa", "dimension/tamano/pequena_2_5_mm"]);
   assert.equal(t[0].id, "bilioso_activo_y_emotivo");
@@ -371,7 +381,14 @@ test("grafología: abreaciones con «Zona izquierda» y abertura hacia la zona d
     assert.ok(!g.rasgos.some((r) => /^zon_|^Zon /.test(r.id + " " + r.nombre)), g.id);
     assert.ok(g.rasgos.some((r) => r.id === "zona_derecha"), g.id);
   }
-  assert.match(COMP_G.interpretaciones["abreaciones/aberturas/zona_derecha"], /derecha/i);
+  const { cat, comp } = unido();
+  const der = indice(cat).get("abreaciones/aberturas/zona_derecha").rasgo;
+  assert.match(der.interpretacion, /derecha/i); assert.equal(comp.interpretaciones["abreaciones/aberturas/zona_derecha"], undefined);
+  for (const id of ["buclecito", "doble_anillo", "nudo"]) assert.ok(indice(cat).get(`abreaciones/casos_particulares/${id}`).rasgo.interpretacion, id);
+  assert.ok(indice(cat).has("presion/sentido/vertical") && comp.interpretaciones["presion/sentido/vertical"]);
+  assert.ok(indice(cat).get("continuidad/grado_de_soltura/inhibida").rasgo.variantes.includes("Temblorosa"));
+  // no duplica al unir dos veces
+  unirManual(cat, comp, MANUAL); assert.equal(cat.secciones.find((s) => s.id === "presion").grupos.filter((g) => g.id === "sentido").length, 1);
   assert.ok(ejemplo("abreaciones/aberturas/zona_izquierda", "").includes("<"));
 });
 
@@ -402,7 +419,7 @@ test("grafología: letras y números como sección con lecturas complementarias"
   const { seccion, interpretaciones } = seccionLetras(datos);
   for (const g of seccion.grupos) {
     assert.equal(new Set(g.rasgos.map((r) => r.id)).size, g.rasgos.length, g.id);
-    for (const r of g.rasgos) { const t = interpretaciones[`${SECCION_LETRAS}/${g.id}/${r.id}`]; assert.ok(t && !t.includes("{s}") && /^[A-ZÁÉÍÓÚÑ]/.test(t), `${g.id}/${r.id}`); }
+    for (const r of g.rasgos) { const t = r.interpretacion || interpretaciones[`${SECCION_LETRAS}/${g.id}/${r.id}`]; assert.ok(t && !t.includes("{s}") && /^[A-ZÁÉÍÓÚÑ]/.test(t), `${g.id}/${r.id}`); }
   }
   // la p del ejemplo: palo corto («chaparra»), óvalo abierto y largo
   const p = seccion.grupos.find((g) => g.id === "p").rasgos.map((r) => r.id);
@@ -420,4 +437,49 @@ test("grafología: letras y números como sección con lecturas complementarias"
   assert.match(todo, /la letra p: palo corto \(p chaparra\)/); assert.match(todo, /Lectura complementaria/);
   assert.match(todo, /la letra g: más grande que las demás/);
   assert.equal(informe(cat, sel).secciones.find((s) => s.id === SECCION_LETRAS).items.length, 2);
+});
+
+test("grafología (manual): grafología inductiva, números y reglas", () => {
+  const { cat } = unido(), idx = indice(cat), L = cat.secciones.find((s) => s.id === "letras_y_numeros");
+  const g = (id) => L.grupos.find((x) => x.id === id);
+  assert.ok(g("a").inductiva && /vida afectiva/.test(g("a").simboliza));
+  assert.equal(g("t").simboliza, "la voluntad"); assert.ok(g("ll") && /vida privada/.test(g("ll").simboliza));
+  assert.ok(L.reglas.length >= 4 && L.reglas.some((r) => /modelo caligráfico/.test(r)));
+  for (const id of ["dibujados_lentamente", "trazados_rapidamente", "raros_complicados", "gran_tamano", "muy_pequenos", "irregulares", "diferente_direccion", "aplastados", "apretados", "espaciados", "a_la_derecha", "a_la_izquierda", "primeros_grandes", "ultimos_grandes", "en_la_firma"]) {
+    const r = idx.get(`letras_y_numeros/numeros/${id}`)?.rasgo; assert.ok(r && r.interpretacion, id);
+  }
+  // el rasgo general usa lo que representa la letra según el manual
+  assert.match(idx.get("letras_y_numeros/t/gen_mas_grande") ? "ok" : "", /ok/);
+});
+
+test("grafología (manual): ambiente gráfico y temperamento con variantes", async () => {
+  const { ambienteGrafico, clavesElegidas, temperamento } = await import("../../js/grafo-logica.js");
+  const pos = new Map(["orden/estructura/ordenada_esmerada_exageradamente_ordenada", "forma/anatomia/curva", "continuidad/ligazon/ligada", "presion/pureza/nitida"].map((k) => [k, { origen: "manual" }]));
+  assert.equal(ambienteGrafico(clavesElegidas(pos)).resultado, "positivo");
+  const neg = new Map(["direccion/orientacion/descendente_5a10", "forma/anatomia/angulosa", "presion/pureza/pastosa", "derivados_de_imperfecciones_o_accidentes/general/temblores"].map((k) => [k, { origen: "manual" }]));
+  assert.equal(ambienteGrafico(clavesElegidas(neg)).resultado, "negativo");
+  assert.equal(ambienteGrafico([]).resultado, "insuficiente");
+  // relieve «desplazada» cuenta como regresivo y no como progresivo
+  const a = ambienteGrafico(clavesElegidas(new Map([["presion/calidad/relieve", { variante: "Desplazada" }]])));
+  assert.deepEqual([a.positivos.length, a.negativos.length], [0, 1]);
+  const sel = new Map([["continuidad/grado_de_soltura/desarrollo", { variante: "Gladiolada" }], ["presion/sentido/vertical", {}], ["letras_y_numeros/t/barras_centradas", {}]]);
+  const b = temperamento(clavesElegidas(sel)).find((t) => t.id === "bilioso_activo_y_emotivo");
+  assert.ok(b.cumple.includes("Escritura gladiolada") && b.cumple.includes("Presión vertical acentuada") && b.cumple.length === 3);
+});
+
+test("grafología (manual): datos del autor, útil, elementos, ambiente y palabras estímulo en el dictamen", () => {
+  const { cat, comp } = unido();
+  const sel = new Map([["forma/anatomia/curva", { origen: "manual" }], ["continuidad/ligazon/ligada", { origen: "manual" }], ["orden/estructura/ordenada_esmerada_exageradamente_ordenada", { origen: "manual" }],
+    ["gestos_tipos/curvos/bucle", { origen: "manual", obs: { lugares: ["rubrica", "ultimo_tercio"] } }]]);
+  const datos = { persona: "Ana", edad: "34", mano: "Zurda", util: "plumon", modelo: "script", estudio: "base", estimulo: [{ palabra: "Mamá", obs: "más pequeña y retocada", interp: "" }, { palabra: "" }] };
+  const doc = redactar(cat, comp, sel, { extension: "completa", areas: ["personal"], medidas: {}, datos });
+  const filas = doc.secciones[0].filas.map(([a, b]) => `${a}: ${b}`).join(" | "), todo = doc.secciones.flatMap((s) => s.parrafos).join(" ");
+  assert.match(filas, /Edad: 34/); assert.match(filas, /Mano con que escribe: Zurda/); assert.match(filas, /Útil inscriptor: Plumón/); assert.match(filas, /Modelo caligráfico aprendido: Script/);
+  assert.match(todo, /dificulta evaluar la presión/); assert.match(todo, /«la grafología empieza cuando termina la caligrafía»/);
+  assert.match(todo, /el primer tercio muestra «cómo pienso»/); assert.match(todo, /Ambiente gráfico positivo/);
+  assert.match(todo, /la rúbrica remite a cómo protege su intimidad/);
+  const est = doc.secciones.find((s) => s.titulo === "Palabras estímulo – reflejo");
+  assert.ok(est && est.parrafos.length === 2 && /«Mamá»: más pequeña y retocada\./.test(est.parrafos[1]));
+  const media = redactar(cat, comp, sel, { extension: "media", areas: ["personal"], medidas: {}, datos });
+  assert.ok(media.secciones.some((s) => s.titulo === "Palabras estímulo – reflejo"));
 });
