@@ -814,7 +814,7 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .alerta-cisne.plegado .ac-lista { display: none; }
 
 /* Ventana de elecciones: abajo a la derecha del mapa, azul, movible y plegable (no tapa el mapa). */
-.ventana-elecciones { position: absolute; right: 10px; bottom: 40px; z-index: 3; width: min(360px, calc(100% - 90px)); max-height: min(45vh, 440px); overflow-y: auto;
+.ventana-elecciones { position: absolute; right: 10px; bottom: 86px; z-index: 3; width: min(360px, calc(100% - 90px)); max-height: min(45vh, 440px); overflow-y: auto;
   overscroll-behavior: contain; background: var(--surface); color: var(--text); border: 1px solid #1F4E9A; border-left: 5px solid #1F4E9A; border-radius: 8px;
   box-shadow: var(--shadow); font-size: 12.5px; }
 .ventana-elecciones .el-cab { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: #1F4E9A; color: #fff;
@@ -830,7 +830,7 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .ventana-elecciones .el-det p { margin: 4px 0; } .ventana-elecciones .el-nom { font-weight: 700; }
 .ventana-elecciones .el-ir { font: inherit; font-size: 12px; cursor: pointer; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: inherit; padding: 2px 8px; }
 .ventana-elecciones .el-pie { margin: 0; padding: 4px 10px 8px; font-size: 11px; }
-@media (max-width: 760px) { .ventana-elecciones { bottom: 64px; } }
+@media (max-width: 760px) { .ventana-elecciones { bottom: 100px; } }
 
 /* Mundo corporativo: grupo del menú, filtros y organigrama público */
 .grupo-tit[data-grupo="corporativo"] { --g: var(--g-corporativo); } .bloque[data-grupo="corporativo"] { --g: var(--g-corporativo); }
