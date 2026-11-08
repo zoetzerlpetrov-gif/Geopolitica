@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-08T09:25:38Z",
+ "generado_utc": "2026-11-08T19:07:46Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,7 +13,7 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 7,
+   "nuevas": 3,
    "error": "",
    "hasta": "2026-11-08"
   },
@@ -29,7 +29,7 @@
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 0,
    "error": "",
    "hasta": "2026-11-08"
   },
