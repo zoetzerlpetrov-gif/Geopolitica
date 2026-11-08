@@ -7,5 +7,28 @@
    "Catálogo: ficha «DACG comercialización CNE» agregada en Hidrocarburos con 2 preguntas de auditoría nuevas."
   ],
   "estado": "incorporado al catálogo (2026-11-07)"
+ },
+ "MEX:dof:5802077": {
+  "resumen": "Decreto presidencial que reforma y adiciona varias disposiciones de la Ley Aduanera (DOF 23-oct-2026). Al 8-nov-2026 la Cámara de Diputados aún no publica el texto consolidado, por lo que los artículos modificados y su entrada en vigor quedan por confirmar.",
+  "afectaciones": [
+   "Importadores, exportadores, agentes aduanales y operadores logísticos: revisar con su agente aduanal los artículos reformados y su fecha de entrada en vigor.",
+   "Catálogo: ficha «Ley Aduanera» de México marcada con el decreto del 2026-10-23 (verificar cuando la Cámara de Diputados publique el texto vigente)."
+  ],
+  "estado": "pendiente: confirmar artículos reformados y vigencia en el texto consolidado de la Cámara de Diputados"
+ },
+ "MEX:dof:5802719": {
+  "resumen": "Acuerdo de la ASEA (Semarnat) que simplifica trámites del sector hidrocarburos y expide o modifica sus formatos (DOF 2-nov-2026).",
+  "afectaciones": [
+   "Regulados de la ASEA (estaciones de servicio, transporte, almacenamiento y distribución de hidrocarburos): usar los formatos nuevos en sus trámites."
+  ],
+  "estado": "pendiente: revisar en la página de la ASEA qué trámites y formatos cambian antes de actualizar la ficha"
+ },
+ "MEX:dof:5802362": {
+  "resumen": "Lineamientos de la Secretaría de Energía para aprobar, actualizar y vigilar a los organismos de evaluación de la conformidad de las normas de calidad de hidrocarburos y petrolíferos (DOF 28-oct-2026).",
+  "afectaciones": [
+   "Laboratorios y unidades de verificación de calidad de combustibles: revisar requisitos de aprobación y vigilancia.",
+   "Permisionarios de petrolíferos: confirmar que su organismo de evaluación siga aprobado."
+  ],
+  "estado": "pendiente: revisar el texto oficial en el sitio de la SENER antes de agregar trámites a la ficha"
  }
 }
