@@ -4,10 +4,11 @@ import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA, deten
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
-import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura, escalaGrafo, rasgosDeFirmaSola, CON_OBSERVACIONES, LUGARES, FRECUENCIAS } from "./grafo-logica.js";
+import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura, escalaGrafo, rasgosDeFirmaSola, CON_OBSERVACIONES, LUGARES, FRECUENCIAS, ambienteGrafico, clavesElegidas, TEXTO_AMBIENTE } from "./grafo-logica.js";
 import { unirLetras, SECCION_LETRAS } from "./grafo-letras.js";
+import { unirManual } from "./grafo-manual.js";
 import { ejemplo } from "./grafo-ejemplos.js";
-import { redactar, aHTML, aTexto, cuartillas, AREAS, EXTENSIONES } from "./grafo-redaccion.js";
+import { redactar, aHTML, aTexto, cuartillas, AREAS, EXTENSIONES, UTILES, MODELOS_CALIGRAFICOS, TIPOS_ESTUDIO } from "./grafo-redaccion.js";
 
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -24,7 +25,9 @@ if (location.hash === "#grafologia") document.querySelector('[data-panel="p-graf
 
 const [CAT_C, CAT_G, COMP_G] = await Promise.all([fetch("config/lenguaje_corporal.json").then((r) => r.json()), fetch("config/grafologia.json").then((r) => r.json()),
   fetch("config/grafologia_complemento.json").then((r) => (r.ok ? r.json() : { interpretaciones: {} })).catch(() => ({ interpretaciones: {} }))]);
-// Letras y números: una sección más del catálogo (lecturas complementarias)
+// Agregados del manual y la hoja de análisis (sentido de la presión, óvalos, lecturas que faltaban)
+unirManual(CAT_G, COMP_G, await fetch("config/grafologia_manual.json").then((r) => (r.ok ? r.json() : null)).catch(() => null));
+// Letras y números: una sección más del catálogo
 unirLetras(CAT_G, COMP_G, await fetch("config/grafologia_letras.json").then((r) => (r.ok ? r.json() : null)).catch(() => null));
 $("c-aviso").textContent = AVISO_CONDUCTA;
 $("g-aviso").textContent = AVISO;
@@ -635,15 +638,17 @@ function contarLetras() {
 }
 function pintarLetras() {
   const S = SEC_L(); if (!S) { $("g-letras-caja").hidden = true; return; }
+  if (!$("g-letras-reglas").innerHTML && S.reglas?.length) $("g-letras-reglas").innerHTML = `<summary>Cuándo aplicar la grafología inductiva (tu manual)</summary><ol>${S.reglas.map((r) => `<li>${esc(r)}</li>`).join("")}</ol>`;
   $("g-letras-botones").innerHTML = S.grupos.map((g) => `<button type="button" data-l="${esc(g.id)}" aria-pressed="${g.id === letraActual}" title="${esc(g.nombre)}: ${esc(g.simboliza)}"></button>`).join("");
   contarLetras();
   const g = S.grupos.find((x) => x.id === letraActual);
   if (!g) { $("g-letras-panel").innerHTML = '<p class="meta">Elige una letra o un número.</p>'; return; }
   const fila = (r) => {
     const k = clave(S.id, g.id, r.id), e = seleccion.get(k);
-    return `<label class="rasgo letra-fila"><input type="checkbox" data-k="${esc(k)}" ${e ? "checked" : ""}><span><b>${esc(r.nombre)}</b><br><span class="det">${esc(COMP_G.interpretaciones?.[k] || "")}</span></span></label>${e ? editorObs(k, e.obs) : ""}`;
+    const lee = r.interpretacion ? esc(r.interpretacion) : `${esc(COMP_G.interpretaciones?.[k] || "")} <i>(lectura complementaria)</i>`;
+    return `<label class="rasgo letra-fila"><input type="checkbox" data-k="${esc(k)}" ${e ? "checked" : ""}><span><b>${esc(r.nombre)}</b><br><span class="det">${lee}</span></span></label>${e ? editorObs(k, e.obs) : ""}`;
   };
-  $("g-letras-panel").innerHTML = `<h3>${esc(g.nombre)}</h3><p class="meta">Representa ${esc(g.simboliza)}.</p>
+  $("g-letras-panel").innerHTML = `<h3>${esc(g.nombre)}</h3><p class="meta">${g.inductiva ? `<b>Grafología inductiva (tu manual):</b> representa ${esc(g.simboliza)}.${g.estructura ? ` Por sus partes se relaciona también con ${esc(g.estructura)}.` : ""}` : `Representa ${esc(g.simboliza)}.`}</p>
     <div class="grafo-grupo"><h4>Variantes de ${g.tipo === "numero" ? "este número" : g.tipo === "mayuscula" ? "estas mayúsculas" : "esta letra"}</h4>${g.rasgos.filter((r) => !r.generica).map(fila).join("")}</div>
     <div class="grafo-grupo"><h4>Rasgos generales</h4>${g.rasgos.filter((r) => r.generica).map(fila).join("")}</div>`;
 }
@@ -658,7 +663,9 @@ function pintarInforme() {
         ${i.interpretacion ? `<br>${esc(i.interpretacion)}` : COMP_G.interpretaciones?.[i.clave] ? `<br>${esc(COMP_G.interpretaciones[i.clave])} <span class="meta">(lectura complementaria)</span>` : `<br><span class="meta">Tu resumen no trae interpretación para este rasgo.</span>`}
         ${i.observacion ? `<br><span class="meta">📍 ${esc(i.observacion)}</span>` : ""}
         ${i.origen !== "manual" && i.motivo ? `<br><span class="meta">Cómo se midió: ${esc(i.motivo)}</span>` : ""}</div>`).join("")}`).join("") : `<p class="meta">Aún no hay rasgos marcados.</p>`}
-    <h3>Temperamento (indicadores de tu resumen que se cumplen)</h3>
+    <h3>Ambiente gráfico</h3>
+    ${(() => { const a = ambienteGrafico(clavesElegidas(seleccion)); return `<p><b>${esc(a.texto)}</b></p><p class="meta">${esc(TEXTO_AMBIENTE)}</p>`; })()}
+    <h3>Temperamento (indicadores de tu resumen y de la hoja de análisis que se cumplen)</h3>
     <div class="barras">${inf.temperamento.map((t) => `<div class="fila"><span>${esc(t.nombre)}</span><div style="width:${(t.puntaje / maxT) * 100}%;${t.puntaje ? "" : "opacity:.15"}"></div><span>${t.cumple.length}/${t.total}</span></div>
       <p class="meta" style="margin:0 0 6px">${t.cumple.length ? `Cumple: ${esc(t.cumple.join(" · "))}. ` : ""}${esc(t.descripcion)}</p>`).join("")}</div>
     <p class="meta">Los temperamentos suelen mezclarse; el puntaje solo cuenta cuántos de sus indicadores marcaste.</p>
@@ -672,12 +679,20 @@ $("g-areas").innerHTML = Object.entries(AREAS).map(([id, a], i) => `<label><inpu
 $("g-extension").innerHTML = Object.entries(EXTENSIONES).map(([id, e], i) => `<label><input type="radio" name="g-ext" value="${id}" ${i === 1 ? "checked" : ""}> ${esc(e.nombre)}</label>`).join("");
 let ultimoDoc = null;
 $("g-todas-areas").onclick = () => { const cs = [...document.querySelectorAll("#g-areas input")]; const todas = cs.every((c) => c.checked); for (const c of cs) c.checked = !todas; };
+// Datos del autor y palabras estímulo – reflejo (opcionales)
+const opciones = (sel, vacio, mapa, f = (v) => v) => { $(sel).innerHTML = `<option value="">${vacio}</option>` + Object.entries(mapa).map(([k, v]) => `<option value="${k}">${esc(f(v))}</option>`).join(""); };
+opciones("g-util", "Útil inscriptor —", UTILES, (u) => u.nombre); opciones("g-modelo", "Modelo caligráfico aprendido —", MODELOS_CALIGRAFICOS); opciones("g-estudio", "Tipo de estudio —", TIPOS_ESTUDIO);
+$("g-util").onchange = () => { const u = UTILES[$("g-util").value]; $("g-util-nota").textContent = u ? `Para el análisis: ${u.tecnica}.${u.lectura ? ` Tu manual asocia su elección con ${u.lectura}.` : ""}` : ""; };
+$("g-estimulo").insertAdjacentHTML("beforeend", Array.from({ length: 10 }, (_, i) => `<tr data-i="${i}"><td>${i + 1}</td><td><input data-c="palabra" aria-label="Palabra ${i + 1}" style="width:110px"></td><td><input data-c="obs" aria-label="Observación ${i + 1}" style="width:100%;min-width:180px"></td><td><input data-c="interp" aria-label="Interpretación ${i + 1}" style="width:100%;min-width:180px"></td></tr>`).join(""));
+
 $("g-redactar").onclick = () => {
   if (!seleccion.size) { estado("Marca o mide al menos un rasgo antes de redactar.", true); return; }
   const areas = [...document.querySelectorAll("#g-areas input:checked")].map((c) => c.value);
   const extension = document.querySelector('input[name="g-ext"]:checked')?.value || "media";
   ultimoDoc = redactar(CAT_G, COMP_G, seleccion, { extension, areas, medidas: { texto: medTexto, firma: medFirma },
-    datos: { persona: $("g-persona").value.trim(), fecha: $("g-fecha").value, analista: $("g-analista").value.trim(), motivo: $("g-motivo").value.trim() } });
+    datos: { persona: $("g-persona").value.trim(), fecha: $("g-fecha").value, analista: $("g-analista").value.trim(), motivo: $("g-motivo").value.trim(),
+      edad: $("g-edad").value, sexo: $("g-sexo").value, mano: $("g-mano").value, documento: $("g-documento").value.trim(), util: $("g-util").value, modelo: $("g-modelo").value, estudio: $("g-estudio").value,
+      estimulo: [...$("g-estimulo").querySelectorAll("tr[data-i]")].map((tr) => ({ palabra: tr.querySelector("[data-c=palabra]").value.trim(), obs: tr.querySelector("[data-c=obs]").value.trim(), interp: tr.querySelector("[data-c=interp]").value.trim() })) } });
   const c = cuartillas(ultimoDoc), objetivo = EXTENSIONES[extension].objetivo;
   $("g-escrito").innerHTML = `<p class="meta">≈ ${ultimoDoc.palabras} palabras · ${c.toFixed(1)} cuartillas (250 palabras por cuartilla).${extension === "completa" && c < objetivo ? " Con más rasgos marcados el dictamen crece." : ""}</p><div class="escrito">${aHTML(ultimoDoc)}</div>`;
   $("g-escrito-botones").hidden = false;
