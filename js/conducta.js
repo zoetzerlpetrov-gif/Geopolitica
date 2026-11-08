@@ -1,4 +1,5 @@
 // Página «Conducta y escritura»: lenguaje corporal (video/foto) y grafología (imagen). Todo local en el navegador.
+import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
 import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave } from "./grafo-logica.js";
@@ -52,9 +53,23 @@ function tiempoActual() {
   if (medio?.tipo === "youtube" && yt?.getCurrentTime) return yt.getCurrentTime();
   return tiempoCrono();
 }
+// Desfase: en qué segundo iba el video de la otra pestaña cuando empezó el análisis en vivo (lo escribe la persona).
+function desfase() {
+  if (medio?.tipo !== "captura") return 0;
+  const v = String($("c-desfase")?.value || "").trim(); if (!v) return 0;
+  const p = v.split(":").map(Number); if (p.some((x) => !Number.isFinite(x))) return 0;
+  return p.reduce((a, x) => a * 60 + x, 0);
+}
+const rv = (t) => reloj(t + desfase()); // tiempo del video para mostrar
 function irA(t) {
-  if (medio?.tipo === "video") { medio.el.currentTime = Math.max(0, t); medio.el.scrollIntoView({ block: "center", behavior: "smooth" }); }
-  else if (medio?.tipo === "youtube" && yt?.seekTo) yt.seekTo(Math.max(0, t), true);
+  if (medio?.tipo === "video") { medio.el.currentTime = Math.max(0, t); medio.el.play?.().catch(() => {}); medio.el.scrollIntoView({ block: "center", behavior: "smooth" }); }
+  else if (medio?.tipo === "youtube" && yt?.seekTo) { yt.seekTo(Math.max(0, t), true); $("c-medio").scrollIntoView({ block: "center", behavior: "smooth" }); }
+  else {
+    // pestaña compartida, Vimeo o red social: DOMINUS no controla ese reproductor; se indica el minuto a buscar
+    const sinDesfase = medio?.tipo === "captura" && !desfase();
+    const msj = `▶️ En el video de la otra pestaña (o de su sitio), ve al minuto ${rv(Math.max(0, t))}.${sinDesfase ? " Ese minuto cuenta desde que pulsaste «Analizar en vivo»; para que coincida con el del video, escribe en «Minuto del video al iniciar» en qué minuto iba." : ""}`;
+    estado(msj); vivo(msj); $("c-vivo").scrollIntoView({ block: "center", behavior: "smooth" });
+  }
 }
 
 // botones de señales por zona (plegables) y guía completa
@@ -170,6 +185,7 @@ function prepararAuto(esFoto, vivo = false) {
   $("c-auto-caja").hidden = false;
   for (const id of ["c-b0", "c-b1", "c-fps"]) $(id).closest("label").hidden = esFoto;
   $("c-analizar").textContent = esFoto ? "🔍 Analizar la foto" : vivo ? "🔴 Analizar en vivo" : "🔍 Analizar el video";
+  $("c-desfase-caja").hidden = !vivo;
   if (vivo) { $("c-b0").value = 0; $("c-b1").value = 20; }
 }
 
@@ -294,8 +310,8 @@ function svgLinea(evs, dur, base) {
   const marcasT = []; for (let t = 0; t <= dur; t += Math.max(5, Math.ceil(dur / 10 / 5) * 5)) marcasT.push(t);
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Línea de tiempo de señales" style="font-size:11px">
     ${base ? `<rect x="${x(base[0])}" y="0" width="${Math.max(1, x(base[1]) - x(base[0]))}" height="${H - 18}" fill="#2E7D32" opacity="0.12"><title>Línea base</title></rect>` : ""}
-    ${marcasT.map((t) => `<line x1="${x(t)}" x2="${x(t)}" y1="0" y2="${H - 18}" stroke="currentColor" opacity="0.12"/><text x="${x(t)}" y="${H - 5}" text-anchor="middle" fill="currentColor" opacity="0.7">${reloj(t)}</text>`).join("")}
-    ${filas.map((id, i) => { const s = CAT_C.senales.find((z) => z.id === id); return `<text x="0" y="${i * fila + 13}" fill="currentColor">${esc(s.nombre.slice(0, 28))}</text>${evs.filter((e) => e.s.id === id).map((e) => `<rect data-t="${e.t0}" x="${x(e.t0)}" y="${i * fila + 3}" width="${Math.max(3, x(e.t1) - x(e.t0))}" height="12" rx="3" fill="${e.origen === "manual" ? "#1565C0" : e.enBase ? "#9E9E9E" : "#E65100"}" style="cursor:pointer"><title>${reloj(e.t0)} ${esc(s.nombre)}${e.detalle ? ` · ${esc(e.detalle)}` : ""}${e.nota ? ` · ${esc(e.nota)}` : ""}</title></rect>`).join("")}`; }).join("")}
+    ${marcasT.map((t) => `<line x1="${x(t)}" x2="${x(t)}" y1="0" y2="${H - 18}" stroke="currentColor" opacity="0.12"/><text x="${x(t)}" y="${H - 5}" text-anchor="middle" fill="currentColor" opacity="0.7">${rv(t)}</text>`).join("")}
+    ${filas.map((id, i) => { const s = CAT_C.senales.find((z) => z.id === id); return `<text x="0" y="${i * fila + 13}" fill="currentColor">${esc(s.nombre.slice(0, 28))}</text>${evs.filter((e) => e.s.id === id).map((e) => `<rect data-t="${e.t0}" x="${x(e.t0)}" y="${i * fila + 3}" width="${Math.max(3, x(e.t1) - x(e.t0))}" height="12" rx="3" fill="${e.origen === "manual" ? "#1565C0" : e.enBase ? "#9E9E9E" : "#E65100"}" style="cursor:pointer"><title>${rv(e.t0)} ${esc(s.nombre)}${e.detalle ? ` · ${esc(e.detalle)}` : ""}${e.nota ? ` · ${esc(e.nota)}` : ""}</title></rect>`).join("")}`; }).join("")}
   </svg><p class="meta">🟧 automático · 🟦 marcado a mano · ⬜ dentro de la línea base (verde). Toca una barra para ir a ese segundo.</p>`;
 }
 
@@ -327,14 +343,14 @@ function pintarResultado() {
     <div class="barras">${L.estados.slice(0, 8).map((e) => `<div class="fila"><span title="${esc(e.texto)}">${esc(e.nombre)}</span><div style="width:${(e.peso / maxPeso) * 100}%"></div><span>${e.peso}</span></div><p class="meta" style="margin:0 0 6px">${esc(e.senales.join(" · "))}</p>`).join("")}</div>
     <p class="meta">El número es cuántas señales distintas apuntan a esa lectura (fuera de la línea base). Una lectura con 1 o 2 señales no es concluyente.</p>
     ${esFoto ? "" : `<h3>🎯 Momentos para explorar (cúmulos de 3 o más señales en 5 s)</h3>
-    ${L.momentos.length ? L.momentos.map((m) => `<div class="momento"><b>${reloj(m.t0)}–${reloj(m.t1)}</b> · ${esc(m.estados.map((e) => `${e.nombre} (${e.n})`).join(", "))}
-      <br><span class="meta">${esc(m.senales.join(" · "))}</span><br><button type="button" data-t="${Math.max(0, m.t0 - 3)}" class="btn no-imprimir">▶️ Ver desde 3 s antes</button>
+    ${L.momentos.length ? L.momentos.map((m) => `<div class="momento"><b>${rv(m.t0)}–${rv(m.t1)}</b> · ${esc(m.estados.map((e) => `${e.nombre} (${e.n})`).join(", "))}
+      <br><span class="meta">${esc(m.senales.join(" · "))}</span><br><button type="button" data-t="${Math.max(0, m.t0 - 3)}" class="btn no-imprimir">▶️ ${medio?.tipo === "video" || medio?.tipo === "youtube" ? "Ver desde 3 s antes" : `Buscar el minuto ${rv(Math.max(0, m.t0 - 3))}`}</button>
       <span class="meta">Revisa qué se preguntó o dijo justo antes y vuelve a preguntar sobre ese punto de otra forma.</span></div>`).join("") : `<p class="meta">No hay cúmulos: ninguna combinación de 3 señales distintas en 5 s.</p>`}
     <h3>Línea de tiempo</h3><div class="desliza">${svgLinea(evs, dur, auto?.base)}</div>`}
     <details class="tarjeta"><summary><b>Todas las señales (${evs.length})</b></summary><div class="desliza"><table class="t"><tr><th>Tiempo</th><th>Señal</th><th>Origen</th><th>Detalle</th><th class="no-imprimir"></th></tr>
-      ${evs.sort((a, b) => a.t0 - b.t0).map((e, i) => `<tr><td>${esFoto ? "—" : `<a href="#" data-t="${e.t0}">${reloj(e.t0)}</a>`}</td><td>${esc(e.s.nombre)}</td><td>${e.origen}${e.enBase ? " (línea base)" : ""}</td><td>${esc([e.detalle, e.nota].filter(Boolean).join(" · "))}</td>
+      ${evs.sort((a, b) => a.t0 - b.t0).map((e, i) => `<tr><td>${esFoto ? "—" : `<a href="#" data-t="${e.t0}">${rv(e.t0)}</a>`}</td><td>${esc(e.s.nombre)}</td><td>${e.origen}${e.enBase ? " (línea base)" : ""}</td><td>${esc([e.detalle, e.nota].filter(Boolean).join(" · "))}</td>
       <td class="no-imprimir">${e.origen === "manual" ? `<button type="button" data-quitar="${marcas.indexOf(marcas.find((m) => m.t0 === e.t0 && m.senal === e.senal))}">Quitar</button>` : ""}</td></tr>`).join("")}</table></div></details>
-    ${auto ? `<p class="meta">Análisis automático: ${auto.cuadros} cuadros a ${auto.fps} por segundo · línea base ${reloj(auto.base[0])}–${reloj(auto.base[1])}${auto.sinCara ? ` · sin rostro visible en ${auto.sinCara} cuadros` : ""}.</p>` : ""}
+    ${auto ? `<p class="meta">Análisis automático: ${auto.cuadros} cuadros a ${auto.fps} por segundo · línea base ${rv(auto.base[0])}–${rv(auto.base[1])}${auto.sinCara ? ` · sin rostro visible en ${auto.sinCara} cuadros` : ""}.</p>` : ""}
     <p class="aviso">${esc(AVISO_CONDUCTA)}</p>`;
 }
 $("c-resumen").addEventListener("click", (e) => {
@@ -512,3 +528,22 @@ $("g-word").onclick = () => {
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff", html], { type: "application/msword" })); a.download = "analisis-grafologico.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
 $("g-imprimir-escrito").onclick = () => { document.body.classList.add("solo-escrito"); window.print(); setTimeout(() => document.body.classList.remove("solo-escrito"), 500); };
+
+// ---------- informe de una cuartilla ----------
+let ultimoInforme = null;
+$("c-redactar").onclick = () => {
+  const evs = todosEventos();
+  if (!evs.length && !auto) { estado("Analiza el video o marca señales antes de redactar el informe.", true); return; }
+  const fuente = medio?.tipo === "captura" ? "un video reproducido en otra pestaña (análisis en vivo)" : medio?.tipo === "imagen" ? "una fotografía" : medio?.nombre ? `el video «${medio.nombre}»` : medio?.tipo === "youtube" ? "un video de YouTube" : "un video";
+  ultimoInforme = informeConducta(CAT_C, evs, auto, { fuente, desfase: desfase(), persona: $("c-persona").value.trim(), contexto: $("c-contexto").value.trim() });
+  $("c-informe").innerHTML = `<p class="meta">≈ ${ultimoInforme.palabras} palabras · ${(ultimoInforme.palabras / 250).toFixed(1)} cuartillas</p><div class="escrito">${informeHTML(ultimoInforme)}</div>`;
+  $("c-informe-botones").hidden = false;
+  $("c-informe").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+$("c-inf-copiar").onclick = async () => { if (!ultimoInforme) return; try { await navigator.clipboard.writeText(informeTexto(ultimoInforme)); estado("Informe copiado."); } catch (e) { estado("No se pudo copiar; selecciona el texto a mano.", true); } };
+$("c-inf-word").onclick = () => {
+  if (!ultimoInforme) return;
+  const html = `<!doctype html><html><head><meta charset="utf-8"><title>${ultimoInforme.titulo}</title><style>body{font-family:Calibri,Arial,sans-serif;font-size:12pt;line-height:1.5}h2{font-size:16pt}h3{font-size:13pt;margin-top:12pt}</style></head><body>${informeHTML(ultimoInforme)}</body></html>`;
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff", html], { type: "application/msword" })); a.download = "informe-lenguaje-corporal.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
+};
+$("c-inf-imprimir").onclick = () => { document.body.classList.add("solo-informe"); window.print(); setTimeout(() => document.body.classList.remove("solo-informe"), 500); };

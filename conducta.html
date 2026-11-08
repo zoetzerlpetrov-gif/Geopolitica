@@ -62,6 +62,7 @@
     .checks { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 12px; font-size: 14px; }
     .escrito { border: 1px solid var(--line); border-radius: 8px; padding: 12px 16px; background: var(--surface); line-height: 1.55; max-height: 70vh; overflow: auto; }
     .escrito h2 { margin-top: 0; } .escrito p { margin: 6px 0; text-align: justify; }
+    @media print { body.solo-informe .hz > *:not(#p-cuerpo), body.solo-informe #p-cuerpo > *:not(#c-informe-caja), body.solo-informe #c-informe-caja > *:not(#c-informe) { display: none !important; } body.solo-informe .escrito { max-height: none; overflow: visible; border: 0; } }
     @media print { body.solo-escrito .hz > *:not(#p-grafo), body.solo-escrito #p-grafo > *:not(#g-escrito-caja), body.solo-escrito #g-escrito-caja > *:not(#g-escrito) { display: none !important; } body.solo-escrito .escrito { max-height: none; overflow: visible; border: 0; } }
     .inf-item { margin: 6px 0; padding-left: 8px; border-left: 3px solid var(--line); }
     [hidden] { display: none !important; }
@@ -118,6 +119,7 @@
           <label>Línea base de <input id="c-b0" type="number" min="0" step="1" value="0" style="width:80px"> s a <input id="c-b1" type="number" min="1" step="1" style="width:80px"> s</label>
           <label>Muestreo <select id="c-fps"><option value="10" selected>10 cuadros/s (detecta parpadeos)</option><option value="5">5 cuadros/s (más rápido)</option></select></label>
           <label><input type="checkbox" id="c-pose" checked> Incluir postura y manos</label>
+          <label id="c-desfase-caja" hidden title="Para que los tiempos del resultado coincidan con los del video">Minuto del video al iniciar <input id="c-desfase" placeholder="mm:ss" style="width:80px" inputmode="numeric"> <span class="meta">(opcional)</span></label>
           <button type="button" id="c-analizar" class="prim">🔍 Analizar</button>
           <button type="button" id="c-detener" hidden>Detener</button>
         </div>
@@ -137,6 +139,14 @@
         <h2>4. Resultado</h2>
         <div id="c-resumen"><p class="meta">Aún no hay señales. Analiza el video o marca señales a mano.</p></div>
         <div class="barra no-imprimir"><button type="button" id="c-imprimir">🖨️ Informe / PDF</button><button type="button" id="c-json">⬇️ Descargar JSON</button><button type="button" id="c-limpiar">🗑️ Borrar marcas</button></div>
+      </div>
+      <div class="tarjeta" id="c-informe-caja">
+        <h2>5. Informe del análisis (≈ 1 cuartilla)</h2>
+        <p class="meta">Junta lo detectado automáticamente y lo que marcaste a mano en un informe de consultoría: material y método, hallazgos principales, evolución en el tiempo, momentos para explorar, tus observaciones, otras explicaciones posibles, recomendaciones y alcance. No da veredictos.</p>
+        <div class="barra"><input id="c-persona" placeholder="Persona o seudónimo (opcional)" aria-label="Persona"><input id="c-contexto" placeholder="Contexto: entrevista de trabajo, rueda de prensa… (opcional)" style="min-width:300px" aria-label="Contexto">
+          <button type="button" id="c-redactar" class="prim">📝 Redactar informe</button></div>
+        <div id="c-informe"></div>
+        <div class="barra no-imprimir" id="c-informe-botones" hidden><button type="button" id="c-inf-copiar">📋 Copiar texto</button><button type="button" id="c-inf-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="c-inf-imprimir">🖨️ Imprimir / PDF</button></div>
       </div>
     </section>
 

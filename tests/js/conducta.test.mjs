@@ -217,3 +217,20 @@ test("lenguaje corporal: nuevos detectores (asentir, acercarse, barbilla arriba,
   assert.ok(de("parpadeo_bajo").length >= 1, "sin parpadear");
   for (const e of eventos) assert.ok(senalDeAuto(CAT_C, e.senal), `sin señal en el catálogo: ${e.senal}`);
 });
+
+test("lenguaje corporal: informe de una cuartilla", async () => {
+  const { informeConducta, informeTexto } = await import("../../js/conducta-informe.js");
+  const cuadros = serie(90, 10, (t) => ({ ceno: t >= 40 && t < 43 ? 0.7 : 0.05, labios_apretados: t >= 41 && t < 44 ? 0.6 : 0.05, mano_boca: t >= 42 && t < 43.5 ? 1 : 0, ojos: 0.05 }));
+  const { eventos, base } = eventosDeSerie(cuadros, [0, 15]);
+  const auto = { cuadros: cuadros.length, sinCara: 30, duracion: 90, base, fps: 10 };
+  const manual = [{ senal: "si_y_no", t0: 42, t1: 43, origen: "manual", enBase: false, nota: "pregunta sobre el pago" }];
+  const d = informeConducta(CAT_C, [...eventos, ...manual], auto, { fuente: "el video «prueba.mp4»", persona: "P1", contexto: "una entrevista", desfase: 60 });
+  const txt = informeTexto(d);
+  assert.ok(d.palabras >= 150 && d.palabras <= 380, `${d.palabras} palabras`);
+  for (const t of ["Material y método", "Hallazgos principales", "Momentos para explorar", "Observaciones del analista", "Recomendaciones", "Alcance"]) assert.ok(d.secciones.some((s) => s.titulo === t), t);
+  assert.match(txt, /pregunta sobre el pago/); assert.match(txt, /incongruencia/);
+  assert.match(txt, /01:4[0-4]/, "los tiempos llevan el desfase (60 s + 40 s)");
+  assert.doesNotMatch(txt, /undefined|NaN|miente\b(?! ni)/);
+  const vacio = informeConducta(CAT_C, [], { cuadros: 100, sinCara: 0, duracion: 60, base: [0, 15], fps: 10 });
+  assert.ok(vacio.secciones.some((s) => /comportamiento estable/.test(s.parrafos.join(" "))));
+});
