@@ -1,6 +1,6 @@
 // Página «Conducta y escritura»: lenguaje corporal (video/foto) y grafología (imagen). Todo local en el navegador.
 import { cuadrosAudio, eventosVoz } from "./voz-logica.js";
-import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA } from "./transcribir.js";
+import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA, detenerTranscripcion, transcribiendo } from "./transcribir.js";
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
@@ -242,6 +242,7 @@ function grabadoraVoz(flujo, inicio) {
 /** Suma los eventos de voz al análisis y devuelve un resumen corto. */
 async function sumarVoz(audio, base) {
   if (!auto) return "";
+  let notaTrans = "";
   const cuadrosVoz = audio?.cuadros;
   if (!cuadrosVoz || cuadrosVoz.length < 50) { auto.voz = null; return " Voz: no se encontró audio para analizar."; }
   const { eventos, resumen } = eventosVoz(cuadrosVoz, base);
@@ -249,16 +250,21 @@ async function sumarVoz(audio, base) {
   if ($("c-idioma").value) auto.idiomas = { idiomas: [$("c-idioma").value], tonal: TONALES.has($("c-idioma").value), varios: false };
   // Transcripción (opcional): qué se dijo o preguntó antes de cada señal. Corre en el navegador con Whisper.
   if ($("c-transcribir").checked && resumen.voz >= 5) {
+    const boton = $("c-detener"), barra = $("c-progreso");
+    boton.hidden = false; boton.textContent = "⏹ Detener transcripción"; barra.hidden = false; barra.value = 0;
     try {
-      auto.transcripcion = await transcribir(a16k(audio.mono, audio.sr), { inicio: audio.inicio, idioma: $("c-idioma").value, progreso: (t) => { estado(t); vivo(t); } });
+      auto.transcripcion = await transcribir(a16k(audio.mono, audio.sr), { inicio: audio.inicio, idioma: $("c-idioma").value, modelo: $("c-modelo").value,
+        progreso: (t) => { estado(t); vivo(t); }, avance: (f) => { barra.value = f; } });
       auto.idiomas = idiomasDe(auto.transcripcion);
     } catch (e) { auto.transcripcion = null; estado(`No se pudo transcribir: ${e.message}`, true); }
+    finally { boton.textContent = "Detener"; }
+    if (auto.transcripcion?.parcial) notaTrans = ` Transcripción detenida: se conservaron ${auto.transcripcion.length} fragmento(s).`;
   }
   auto.eventos = [...auto.eventos, ...eventos].sort((a, b) => a.t0 - b.t0); auto.voz = resumen;
-  return ` Voz: hubo habla en ${resumen.voz} % del tiempo${resumen.tonoBase ? `, tono base ≈ ${resumen.tonoBase} Hz` : ""}; ${eventos.filter((e) => !e.enBase).length} señal(es) de voz.`;
+  return ` Voz: hubo habla en ${resumen.voz} % del tiempo${resumen.tonoBase ? `, tono base ≈ ${resumen.tonoBase} Hz` : ""}; ${eventos.filter((e) => !e.enBase).length} señal(es) de voz.${notaTrans}`;
 }
 
-$("c-detener").onclick = () => { detener = true; medio?.parar?.(); };
+$("c-detener").onclick = () => { if (transcribiendo()) { detenerTranscripcion(); return; } detener = true; medio?.parar?.(); };
 const vivo = (t) => { $("c-vivo").hidden = !t; $("c-vivo").textContent = t; };
 $("c-analizar").onclick = async () => {
   if (!medio?.analizable) return;

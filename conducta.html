@@ -120,7 +120,9 @@
           <label>Muestreo <select id="c-fps"><option value="10" selected>10 cuadros/s (detecta parpadeos)</option><option value="5">5 cuadros/s (más rápido)</option></select></label>
           <label><input type="checkbox" id="c-pose" checked> Incluir postura y manos</label>
           <label title="Tono, volumen, pausas y ritmo, frente a la línea base"><input type="checkbox" id="c-voz" checked> Incluir voz</label>
-          <label title="Modelo Whisper (≈ 77 MB, se descarga una vez y corre en tu navegador; el audio no se envía a ningún lado)"><input type="checkbox" id="c-transcribir"> Transcribir lo que se dice <span class="meta">(≈ 77 MB la primera vez)</span></label>
+          <label title="Modelo Whisper: se descarga una vez y corre en tu navegador; el audio no se envía a ningún lado"><input type="checkbox" id="c-transcribir"> Transcribir lo que se dice</label>
+          <label title="«Preciso» se equivoca menos; «Rápido» tarda alrededor de un tercio. Sin tarjeta gráfica compatible, «Preciso» puede tardar más que la duración del video.">Modelo <select id="c-modelo">
+            <option value="base">Preciso (≈ 77 MB la primera vez)</option><option value="tiny">Rápido (≈ 40 MB la primera vez)</option></select></label>
           <label title="Idioma del audio. «Detectar» deja que Whisper lo reconozca y transcriba sin traducir.">Idioma <select id="c-idioma">
             <option value="">Detectar automáticamente</option><option value="spanish">Español</option><option value="english">Inglés</option><option value="portuguese">Portugués</option>
             <option value="french">Francés</option><option value="italian">Italiano</option><option value="german">Alemán</option><option value="russian">Ruso</option><option value="arabic">Árabe</option>
@@ -221,5 +223,6 @@
     </section>
   </main>
   <script type="module" src="js/conducta.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>

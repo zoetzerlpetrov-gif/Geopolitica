@@ -1,7 +1,5 @@
-// Transcripción local del audio con Whisper (modelo «whisper-base» multilingüe, ≈ 77 MB, de Hugging Face) mediante
-// transformers.js. El modelo se descarga una vez y queda en la caché del navegador; el audio nunca sale de la computadora.
-const TRANSFORMERS = "https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.5.1/dist/transformers.min.js";
-const MODELO = "onnx-community/whisper-base";
+// Transcripción local del audio con Whisper (multilingüe, de Hugging Face) mediante transformers.js, en un trabajador
+// (js/transcribir-worker.js). El modelo se descarga una vez y queda en la caché del navegador; el audio nunca sale de la computadora.
 
 /** Remuestrea a 16 kHz mono (lo que espera Whisper) con interpolación lineal. */
 export function a16k(muestras, sr) {
@@ -16,11 +14,6 @@ export function textoEntre(segmentos, desde, hasta) {
   return (segmentos || []).filter((s) => s.t1 >= desde && s.t0 <= hasta).map((s) => s.texto.trim()).filter(Boolean).join(" ").replace(/\s+/g, " ").trim();
 }
 
-let tubo = null;
-/**
- * Transcribe audio mono a 16 kHz. `inicio`: segundo en que empieza ese audio (para alinear con el análisis).
- * Devuelve [{ t0, t1, texto }]. `progreso(texto)` informa la descarga del modelo.
- */
 // Palabras muy frecuentes para distinguir idiomas con alfabeto latino.
 const FRECUENTES = {
   spanish: ["que", "de", "el", "la", "y", "en", "los", "no", "se", "por", "es", "lo", "pero", "con", "una", "para", "está", "yo"],
@@ -54,30 +47,63 @@ export const NOMBRE_IDIOMA = { spanish: "español", english: "inglés", portugue
 /** Idiomas tonales: el tono distingue palabras, así que «tono más agudo» y «voz monótona» pierden valor. */
 export const TONALES = new Set(["chinese", "cantonese", "vietnamese", "thai", "lao", "burmese", "yoruba", "punjabi", "hausa", "lingala"]);
 
-/**
- * idioma: nombre en inglés que entiende Whisper («spanish», «english»…) o vacío para detectarlo solo.
- * Devuelve [{ t0, t1, texto, idioma }] (idioma = el detectado o el elegido).
- */
-export async function transcribir(audio16k, { inicio = 0, idioma = "", progreso = () => {} } = {}) {
-  if (!tubo) {
-    const { pipeline } = await import(TRANSFORMERS);
-    const archivos = {};
-    // WebGPU solo si el navegador entrega un adaptador; si no, en CPU (WebAssembly)
-    let gpu = false; try { gpu = !!(await globalThis.navigator?.gpu?.requestAdapter()); } catch (e) { gpu = false; }
-    tubo = await pipeline("automatic-speech-recognition", MODELO, {
-      dtype: "q8",
-      device: gpu ? "webgpu" : "wasm",
-      progress_callback: (p) => {
-        if (p.status === "progress" && p.total) { archivos[p.file] = [p.loaded, p.total]; const [a, b] = Object.values(archivos).reduce((s, [x, y]) => [s[0] + x, s[1] + y], [0, 0]); progreso(`Descargando el modelo de transcripción: ${Math.round(a / 1e6)} de ${Math.round(b / 1e6)} MB (solo la primera vez)…`); }
-      },
-    });
+/** Modelos disponibles: «base» es más preciso; «tiny» es unas 3 veces más rápido pero se equivoca más. */
+export const MODELOS = { base: "onnx-community/whisper-base", tiny: "onnx-community/whisper-tiny" };
+
+/** Texto para el usuario con el avance de la transcripción. hecho y total: segundos de audio; seg: segundos transcurridos. */
+export function textoAvance(hecho, total, seg) {
+  const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+  const pct = total ? Math.min(100, Math.round((hecho / total) * 100)) : 0;
+  let falta = "";
+  if (hecho > 0 && seg > 0 && hecho < total) {
+    const r = ((total - hecho) * seg) / hecho;
+    falta = r < 60 ? " · falta menos de 1 min" : ` · faltan ≈ ${Math.round(r / 60)} min`;
   }
-  progreso("Transcribiendo el audio en tu navegador…");
-  // task «transcribe»: escribe en el idioma original (sin traducir). Sin idioma, Whisper lo detecta en cada tramo.
-  const r = await tubo(audio16k, { ...(idioma ? { language: idioma } : {}), task: "transcribe", chunk_length_s: 30, stride_length_s: 5, return_timestamps: true, return_language: true });
-  const trozos = r.chunks || [{ timestamp: [0, audio16k.length / 16000], text: r.text || "" }];
-  return trozos.map((c) => ({ t0: inicio + (c.timestamp?.[0] ?? 0), t1: inicio + (c.timestamp?.[1] ?? c.timestamp?.[0] ?? 0), texto: String(c.text || "").trim(), idioma: idioma || c.language || idiomaDeTexto(c.text) }))
-    .filter((s) => s.texto && !/^\[.*\]$|^\(.*\)$/.test(s.texto)); // quita «[Música]», «(aplausos)»
+  return `Transcribiendo el audio en tu navegador: ${mmss(hecho)} de ${mmss(total)} (${pct} %)${falta}. Pulsa «Detener transcripción» para quedarte con lo que lleve.`;
+}
+
+/** Quita marcas como «[Música]» y completa el idioma con el texto si Whisper no lo dio. */
+export function limpiarSegmentos(segs, idioma = "") {
+  return (segs || []).map((s) => ({ ...s, texto: String(s.texto || "").trim(), idioma: idioma || s.idioma || idiomaDeTexto(s.texto) }))
+    .filter((s) => s.texto && !/^\[.*\]$|^\(.*\)$/.test(s.texto));
+}
+
+let trabajador = null, enCurso = null;
+/** Detiene la transcripción en curso; la promesa se resuelve con lo transcrito hasta ese momento (parcial: true). */
+export function detenerTranscripcion() {
+  if (!enCurso) return false;
+  trabajador?.terminate(); trabajador = null; // el modelo se vuelve a cargar de la caché la próxima vez
+  enCurso.terminar(true);
+  return true;
+}
+export const transcribiendo = () => !!enCurso;
+
+/**
+ * Transcribe audio mono a 16 kHz en un trabajador (no congela la página y se puede detener).
+ * idioma: nombre en inglés que entiende Whisper («spanish», «english»…) o vacío para detectarlo solo.
+ * modelo: "base" o "tiny". Devuelve [{ t0, t1, texto, idioma }] y, si se detuvo, la propiedad parcial = true.
+ */
+export function transcribir(audio16k, { inicio = 0, idioma = "", modelo = "base", progreso = () => {}, avance = () => {} } = {}) {
+  if (enCurso) detenerTranscripcion();
+  const dur = audio16k.length / 16000, t0 = performance.now(), segs = [];
+  return new Promise((ok, mal) => {
+    let empezo = null;
+    enCurso = { terminar: (parcial) => { enCurso = null; const r = limpiarSegmentos(segs, idioma); if (parcial) r.parcial = true; ok(r); } };
+    trabajador = trabajador || new Worker(new URL("./transcribir-worker.js", import.meta.url));
+    trabajador.onmessage = ({ data: m }) => {
+      if (m.tipo === "descarga") progreso(`Descargando el modelo de transcripción: ${Math.round(m.a / 1e6)} de ${Math.round(m.b / 1e6)} MB (solo la primera vez)…`);
+      else if (m.tipo === "listo") { empezo = performance.now(); progreso(textoAvance(0, dur, 0)); avance(0); }
+      else if (m.tipo === "tramo") {
+        segs.push(...m.segs);
+        const hecho = Math.min(dur, (m.i + 1) * 30);
+        progreso(textoAvance(hecho, dur, (performance.now() - (empezo ?? t0)) / 1000)); avance(hecho / dur);
+      } else if (m.tipo === "fin") enCurso?.terminar(false);
+      else if (m.tipo === "error") { enCurso = null; trabajador?.terminate(); trabajador = null; mal(new Error(m.mensaje)); }
+    };
+    trabajador.onerror = (e) => { if (!enCurso) return; enCurso = null; trabajador?.terminate(); trabajador = null; mal(new Error(e.message || "falló el trabajador de transcripción")); };
+    progreso(empezo ? textoAvance(0, dur, 0) : "Preparando el modelo de transcripción…");
+    trabajador.postMessage({ audio: audio16k, inicio, idioma, modelo: MODELOS[modelo] || MODELOS.base });
+  });
 }
 
 /** Resumen de idiomas de una transcripción: { idiomas: [...], tonal, varios }. */

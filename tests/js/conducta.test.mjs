@@ -297,3 +297,26 @@ test("grafología: avisos de escritura sin espacios o alineada a la derecha", ()
   const med = { zonaMediaPx: 20, lineas: [0, 1, 2, 3].map((i) => ({ x0: 100 + i * 60, x1: 1000, palabras: 5 })) };
   assert.ok(avisosEscritura(med).some((a) => /derecha a izquierda/.test(a)));
 });
+
+test("transcripción: avance con tiempo restante y limpieza de segmentos", async () => {
+  const { textoAvance, limpiarSegmentos, MODELOS, transcribiendo, detenerTranscripcion } = await import("../../js/transcribir.js");
+  assert.match(textoAvance(90, 600, 60), /1:30 de 10:00 \(15 %\) · faltan ≈ 6 min/);
+  assert.match(textoAvance(570, 600, 300), /falta menos de 1 min/);
+  assert.doesNotMatch(textoAvance(0, 600, 0), /falta/);
+  assert.match(textoAvance(600, 600, 120), /100 %/);
+  const s = limpiarSegmentos([{ t0: 0, t1: 2, texto: "[Música]" }, { t0: 2, t1: 5, texto: " hola que tal como estás tú " }, { t0: 5, t1: 6, texto: "(aplausos)" }]);
+  assert.equal(s.length, 1); assert.equal(s[0].texto, "hola que tal como estás tú"); assert.equal(s[0].idioma, "spanish");
+  assert.equal(limpiarSegmentos([{ texto: "hello there how are you" }], "english")[0].idioma, "english");
+  assert.ok(MODELOS.base.includes("whisper-base") && MODELOS.tiny.includes("whisper-tiny"));
+  assert.equal(transcribiendo(), false); assert.equal(detenerTranscripcion(), false);
+});
+
+test("Conducta y escritura es solo para administración", () => {
+  const raiz = (f) => readFileSync(new URL(`../../${f}`, import.meta.url), "utf8");
+  const planes = JSON.parse(raiz("config/planes.json"));
+  assert.ok(planes.solo_admin.some((s) => s.tipo === "pagina" && s.href === "conducta.html"));
+  assert.ok(raiz("conducta.html").includes("js/vista_enlaces.js"));
+  for (const f of ["index.html", "herramientas.html"]) for (const a of raiz(f).match(/<a [^>]*href="conducta\.html"[^>]*>/g)) assert.match(a, /data-solo-admin/, f);
+  const w = raiz("js/transcribir-worker.js");
+  assert.ok(w.includes('tipo: "tramo"') && w.includes("silencio("));
+});
