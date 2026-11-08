@@ -85,7 +85,8 @@ test("grafología: indicadores de temperamento apuntan a rasgos que existen", ()
 
 test("lenguaje corporal: catálogo coherente", () => {
   const autosConRegla = new Set([...Object.keys(REGLAS), "parpadeo", "ojos_cerrados", "cabeza_ladeada", "cabeza_girada", "cabeza_abajo", "hombros_arriba", "inquietud", "congelarse",
-    "menton_arriba", "inclinarse_adelante", "echarse_atras", "asentir", "negar_cabeza", "encogimiento_rapido", "pies_inquietos", "parpadeo_bajo", "mirada_sostenida"]);
+    "menton_arriba", "inclinarse_adelante", "echarse_atras", "asentir", "negar_cabeza", "encogimiento_rapido", "pies_inquietos", "parpadeo_bajo", "mirada_sostenida",
+    "tono_sube", "volumen_cambia", "voz_baja", "pausas_largas", "habla_rapida", "habla_lenta", "voz_monotona"]);
   for (const s of CAT_C.senales) {
     assert.ok(CAT_C.zonas.some((z) => z.id === s.zona), `${s.id}: zona`);
     for (const e of s.estados) assert.ok(CAT_C.estados[e], `${s.id}: estado ${e}`);
@@ -93,6 +94,9 @@ test("lenguaje corporal: catálogo coherente", () => {
   }
   for (const a of autosConRegla) assert.ok(senalDeAuto(CAT_C, a), `detector ${a} sin señal en el catálogo`);
   assert.ok(!CAT_C.estados.mentira, "no hay un estado «mentira»");
+  assert.ok(CAT_C.senales.length >= 150, `${CAT_C.senales.length} señales`);
+  assert.equal(new Set(CAT_C.senales.map((s) => s.id)).size, CAT_C.senales.length, "ids únicos");
+  for (const s of CAT_C.senales) assert.ok(s.como && s.lectura, `${s.id}: qué observar y lectura`);
 });
 
 function serie(dur, fps, f) { const out = []; for (let t = 0; t <= dur + 1e-9; t += 1 / fps) out.push({ t: +t.toFixed(3), f: f(t) }); return out; }
@@ -226,11 +230,42 @@ test("lenguaje corporal: informe de una cuartilla", async () => {
   const manual = [{ senal: "si_y_no", t0: 42, t1: 43, origen: "manual", enBase: false, nota: "pregunta sobre el pago" }];
   const d = informeConducta(CAT_C, [...eventos, ...manual], auto, { fuente: "el video «prueba.mp4»", persona: "P1", contexto: "una entrevista", desfase: 60 });
   const txt = informeTexto(d);
-  assert.ok(d.palabras >= 150 && d.palabras <= 380, `${d.palabras} palabras`);
-  for (const t of ["Material y método", "Hallazgos principales", "Momentos para explorar", "Observaciones del analista", "Recomendaciones", "Alcance"]) assert.ok(d.secciones.some((s) => s.titulo === t), t);
+  assert.ok(d.palabras >= 380 && d.palabras <= 650, `${d.palabras} palabras`);
+  for (const t of ["Material y método", "Hallazgos principales", "Momentos para explorar", "Qué podría significar cada señal", "Observaciones del analista", "Recomendaciones", "Alcance"]) assert.ok(d.secciones.some((s) => s.titulo === t), t);
+  // con voz y transcripción: sección de voz y contexto de lo dicho antes del momento
+  const conVoz = informeConducta(CAT_C, [...eventos, ...manual, { senal: "tono_sube", t0: 41, t1: 45, origen: "automático (voz)", enBase: false, detalle: "190 Hz (línea base 150 Hz)" }],
+    { ...auto, voz: { voz: 70, tonoBase: 150, volumenBase: -20, silabasBase: 4 }, transcripcion: [{ t0: 33, t1: 39, texto: "¿Y qué pasó con el pago de marzo?" }] }, { fuente: "x" });
+  const tv = informeTexto(conVoz);
+  assert.ok(conVoz.secciones.some((s) => s.titulo === "Lo que muestra la voz"));
+  assert.match(tv, /Antes se dijo: «¿Y qué pasó con el pago de marzo\?»/);
+  assert.match(tv, /tono base ≈ 150 Hz/);
   assert.match(txt, /pregunta sobre el pago/); assert.match(txt, /incongruencia/);
   assert.match(txt, /01:4[0-4]/, "los tiempos llevan el desfase (60 s + 40 s)");
   assert.doesNotMatch(txt, /undefined|NaN|miente\b(?! ni)/);
   const vacio = informeConducta(CAT_C, [], { cuadros: 100, sinCara: 0, duracion: 60, base: [0, 15], fps: 10 });
   assert.ok(vacio.secciones.some((s) => /comportamiento estable/.test(s.parrafos.join(" "))));
+});
+
+test("voz: tono, pausas, volumen y ritmo frente a la línea base", async () => {
+  const { cuadrosAudio, eventosVoz, tono } = await import("../../js/voz-logica.js");
+  const sr = 16000, seno = new Float32Array(640); for (let i = 0; i < 640; i++) seno[i] = Math.sin((2 * Math.PI * 180 * i) / sr);
+  cerca(tono(seno, sr), 180, 2, "tono de 180 Hz");
+  // «habla» sintética: tono con sílabas y pausas cortas; tramos con tono alto, silencio, voz fuerte y habla rápida
+  const tramos = [{ de: 20, a: 25, f0: 195 }, { de: 30, a: 33.5, calla: true }, { de: 40, a: 45, amp: 0.7 }, { de: 50, a: 56, silabas: 8 }];
+  const en = (t, k) => tramos.find((r) => t >= r.de && t < r.a && r[k] !== undefined)?.[k];
+  const x = new Float32Array(60 * sr); let fase = 0, s = 1;
+  for (let i = 0; i < x.length; i++) {
+    const t = i / sr, f0 = en(t, "f0") ?? 150, amp = en(t, "amp") ?? 0.2, sil = en(t, "silabas") ?? 4;
+    fase += (2 * Math.PI * f0) / sr; s = (s * 16807) % 2147483647;
+    const env = en(t, "calla") || t % 3 > 2.6 ? 0 : Math.max(0, Math.sin(Math.PI * sil * t)) ** 0.5;
+    x[i] = amp * env * (Math.sin(fase) + 0.4 * Math.sin(2 * fase)) + (s / 2147483647 - 0.5) * 0.002;
+  }
+  const { eventos, resumen } = eventosVoz(cuadrosAudio(x, sr), [0, 15]);
+  cerca(resumen.tonoBase, 150, 5, "tono de la línea base");
+  const de = (k) => eventos.filter((e) => e.senal === k);
+  assert.ok(de("tono_sube").some((e) => e.t0 >= 18 && e.t0 <= 22), "tono más agudo hacia los 20 s");
+  assert.ok(de("pausas_largas").some((e) => e.t0 >= 29 && e.t0 <= 31), "pausa larga hacia los 30 s");
+  assert.ok(de("volumen_cambia").some((e) => e.t0 >= 38 && e.t0 <= 41), "voz más fuerte hacia los 40 s");
+  assert.ok(de("habla_rapida").some((e) => e.t0 >= 45 && e.t0 <= 52), "habla más rápida hacia los 50 s");
+  for (const e of eventos) assert.ok(senalDeAuto(CAT_C, e.senal), e.senal);
 });

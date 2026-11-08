@@ -102,7 +102,7 @@
           <button type="button" id="c-usar-url">Usar enlace</button>
         </div>
         <div class="barra no-imprimir"><button type="button" id="c-captura">🖥️ Analizar un video de otra pestaña (YouTube, TikTok, Instagram…)</button>
-          <span class="meta">Compartes la pestaña donde se reproduce el video, como en una videollamada, y se analiza lo que ves en vivo. No se descarga ni se graba.</span></div>
+          <span class="meta">Compartes la pestaña donde se reproduce el video, como en una videollamada, y se analiza en vivo lo que ves y oyes (activa «Compartir audio de la pestaña» para la voz). No se descarga ni se graba.</span></div>
         <p class="meta">Archivo propio o enlace directo a un .mp4/.webm con permiso de lectura: análisis automático y codificación manual. YouTube y Vimeo: se reproducen aquí con su reproductor oficial y se codifica a mano.
           TikTok, Instagram, Facebook, X y nubes: no descargo sus videos (sus términos de uso lo prohíben); ábrelo en su sitio y codifica con el cronómetro, o descárgalo con la opción oficial de la app si tienes permiso y súbelo aquí.</p>
         <div id="c-medio" class="medio-caja"></div>
@@ -113,12 +113,14 @@
 
       <div class="tarjeta" id="c-auto-caja" hidden>
         <h2>2. Análisis automático (rostro y postura)</h2>
-        <p class="meta">Detecta 42 señales con puntos del rostro y del cuerpo, cuadro por cuadro, y las compara con la <b>línea base</b>: el tramo en que la persona habla de algo neutral.
+        <p class="meta">Detecta 51 señales con puntos del rostro y del cuerpo y 7 de la voz (tono, volumen, pausas, ritmo y monotonía), cuadro por cuadro, y las compara con la <b>línea base</b>: el tramo en que la persona habla de algo neutral.
           Elige ese tramo; si no lo sabes, se usa el primer 20 % del video (5 a 30 s).</p>
         <div class="barra">
           <label>Línea base de <input id="c-b0" type="number" min="0" step="1" value="0" style="width:80px"> s a <input id="c-b1" type="number" min="1" step="1" style="width:80px"> s</label>
           <label>Muestreo <select id="c-fps"><option value="10" selected>10 cuadros/s (detecta parpadeos)</option><option value="5">5 cuadros/s (más rápido)</option></select></label>
           <label><input type="checkbox" id="c-pose" checked> Incluir postura y manos</label>
+          <label title="Tono, volumen, pausas y ritmo, frente a la línea base"><input type="checkbox" id="c-voz" checked> Incluir voz</label>
+          <label title="Modelo Whisper (≈ 77 MB, se descarga una vez y corre en tu navegador; el audio no se envía a ningún lado)"><input type="checkbox" id="c-transcribir"> Transcribir lo que se dice <span class="meta">(≈ 77 MB la primera vez)</span></label>
           <label id="c-desfase-caja" hidden title="Para que los tiempos del resultado coincidan con los del video">Minuto del video al iniciar <input id="c-desfase" placeholder="mm:ss" style="width:80px" inputmode="numeric"> <span class="meta">(opcional)</span></label>
           <button type="button" id="c-analizar" class="prim">🔍 Analizar</button>
           <button type="button" id="c-detener" hidden>Detener</button>

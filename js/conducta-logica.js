@@ -35,6 +35,13 @@ export function rasgosCuadro({ b = null, cara = null, pose = null, ancho = 1, al
     f.boca_abierta = b.jawOpen || 0;
     f.mirada_abajo = prom(b.eyeLookDownLeft, b.eyeLookDownRight);
     f.mirada_lateral = Math.max(prom(b.eyeLookOutLeft, b.eyeLookInRight), prom(b.eyeLookInLeft, b.eyeLookOutRight));
+    f.arquear_ceja = Math.abs((b.browOuterUpLeft || 0) - (b.browOuterUpRight || 0));
+    f.entrecerrar_ojos = f.ojos < 0.4 ? prom(b.eyeSquintLeft, b.eyeSquintRight) : 0; // no cuenta el parpadeo
+    f.lamerse_labios = b.tongueOut || 0;
+    f.inflar_mejillas = b.cheekPuff || 0;
+    f.fruncir_boca = b.mouthPucker || 0;
+    f.boca_de_lado = Math.max(b.mouthLeft || 0, b.mouthRight || 0);
+    f.mirar_arriba = prom(b.eyeLookUpLeft, b.eyeLookUpRight);
   }
   if (cara && cara.length > 263) {
     const P = (i) => ({ x: cara[i].x * ancho, y: cara[i].y * alto });
@@ -59,6 +66,12 @@ export function rasgosCuadro({ b = null, cara = null, pose = null, ancho = 1, al
       f.tocar_oreja = (ok(7) && cerca(P(7), 0.25)) || (ok(8) && cerca(P(8), 0.25)) ? 1 : 0;
       f.tocar_cuello = !f.mano_boca && !f.mano_menton && cerca(cuello, 0.3) ? 1 : 0;
       f.frotarse_ojo = (ok(2) && cerca(P(2), 0.16)) || (ok(5) && cerca(P(5), 0.16)) ? 1 : 0;
+      if (ok(15) && ok(16) && ok(2) && ok(5)) {
+        const mI = P(15), mD = P(16), cercaDe = (m, q, r) => dist(m, q) < r * sw;
+        const ojoI = P(2), ojoD = P(5), oI = ok(7) ? P(7) : ojoI, oD = ok(8) ? P(8) : ojoD;
+        f.cubrirse_ojos = (cercaDe(mI, ojoI, 0.3) || cercaDe(mI, ojoD, 0.3)) && (cercaDe(mD, ojoD, 0.3) || cercaDe(mD, ojoI, 0.3)) ? 1 : 0;
+        f.cabeza_entre_manos = !f.cubrirse_ojos && ((cercaDe(mI, oI, 0.35) && cercaDe(mD, oD, 0.35)) || (cercaDe(mI, oD, 0.35) && cercaDe(mD, oI, 0.35))) ? 1 : 0;
+      }
       const mejilla = (o) => ({ x: (P(o).x + boca.x) / 2, y: (P(o).y + boca.y) / 2 });
       f.mano_mejilla = !f.mano_boca && ((ok(7) && cerca(mejilla(7), 0.2)) || (ok(8) && cerca(mejilla(8), 0.2))) ? 1 : 0;
       const ojosY = Math.min(ok(2) ? P(2).y : Infinity, ok(5) ? P(5).y : Infinity);
@@ -99,6 +112,9 @@ export const REGLAS = {
   manos_cadera: { umbral: 0.5, min: 1.5 }, manos_cabeza: { umbral: 0.5, min: 1 },
   frotarse_ojo: { umbral: 0.5, min: 0.3 }, mano_mejilla: { umbral: 0.5, min: 1.5 }, acomodar_cabello: { umbral: 0.5, min: 0.3 },
   manos_ocultas: { umbral: 0.5, min: 3 }, manos_juntas: { umbral: 0.5, min: 1.5 }, postura_expandida: { umbral: 0.5, min: 1 },
+  arquear_ceja: { umbral: 0.3, min: 0.3 }, entrecerrar_ojos: { umbral: 0.45, min: 0.6 }, lamerse_labios: { umbral: 0.3, min: 0.15 },
+  inflar_mejillas: { umbral: 0.35, min: 0.3 }, fruncir_boca: { umbral: 0.5, min: 0.4 }, boca_de_lado: { umbral: 0.4, min: 0.4 },
+  mirar_arriba: { umbral: 0.45, min: 0.5 }, cubrirse_ojos: { umbral: 0.5, min: 0.5 }, cabeza_entre_manos: { umbral: 0.5, min: 1.5 },
 };
 
 function segmentos(muestras, activo, min) {

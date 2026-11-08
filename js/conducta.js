@@ -1,4 +1,6 @@
 // Página «Conducta y escritura»: lenguaje corporal (video/foto) y grafología (imagen). Todo local en el navegador.
+import { cuadrosAudio, eventosVoz } from "./voz-logica.js";
+import { transcribir, a16k, textoEntre } from "./transcribir.js";
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
@@ -116,7 +118,7 @@ $("c-archivo").onchange = async (e) => {
     if (f.type.startsWith("video/") || /\.(mp4|mov|m4v|webm|ogv|3gp)$/i.test(f.name)) {
       const url = URL.createObjectURL(f), v = document.createElement("video");
       Object.assign(v, { src: url, controls: true, playsInline: true, preload: "auto" });
-      $("c-medio").appendChild(v); medio = { tipo: "video", el: v, url, nombre: f.name, analizable: true };
+      $("c-medio").appendChild(v); medio = { tipo: "video", el: v, url, nombre: f.name, analizable: true, archivo: f };
       v.onloadedmetadata = () => { const [b0, b1] = lineaBasePorOmision(v.duration || 0); $("c-b0").value = Math.round(b0); $("c-b1").value = Math.round(b1); };
       prepararAuto(false);
       estado(`Video listo: ${f.name}. No se sube a ningún lado.`);
@@ -171,7 +173,7 @@ $("c-usar-url").onclick = () => {
 $("c-captura").onclick = async () => {
   if (!navigator.mediaDevices?.getDisplayMedia) { estado("Este navegador no permite compartir pantalla (prueba con Chrome, Edge o Firefox en computadora).", true); return; }
   try {
-    const flujo = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 15 }, audio: false, preferCurrentTab: false, selfBrowserSurface: "exclude" });
+    const flujo = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: 15 }, audio: true, preferCurrentTab: false, selfBrowserSurface: "exclude", systemAudio: "include" });
     limpiarMedio();
     const v = document.createElement("video"); Object.assign(v, { srcObject: flujo, muted: true, playsInline: true, autoplay: true }); await v.play().catch(() => {});
     $("c-medio").appendChild(v); medio = { tipo: "captura", el: v, flujo, nombre: "pestaña compartida", analizable: true, inicio: null };
@@ -208,6 +210,51 @@ async function detectores(modo, conPose) {
 
 const buscar = (v, t) => new Promise((ok) => { const fin = () => { v.removeEventListener("seeked", fin); ok(); }; v.addEventListener("seeked", fin); v.currentTime = t; });
 
+// ---------- voz ----------
+/** Audio de un archivo o enlace de video → cuadros de voz. null si no tiene audio o no se pudo leer. */
+async function vozDeArchivo(origen) {
+  try {
+    const datos = origen instanceof Blob ? await origen.arrayBuffer() : await (await fetch(origen, { mode: "cors" })).arrayBuffer();
+    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    const buf = await ac.decodeAudioData(datos); ac.close?.();
+    const n = buf.length, mono = new Float32Array(n);
+    for (let c = 0; c < buf.numberOfChannels; c++) { const ch = buf.getChannelData(c); for (let i = 0; i < n; i++) mono[i] += ch[i] / buf.numberOfChannels; }
+    return { cuadros: cuadrosAudio(mono, buf.sampleRate), mono, sr: buf.sampleRate, inicio: 0 };
+  } catch (e) { return null; }
+}
+/** Graba en memoria el audio de la pestaña compartida mientras dura el análisis en vivo (no se guarda en ningún lado). */
+function grabadoraVoz(flujo, inicio) {
+  const pista = flujo.getAudioTracks()[0]; if (!pista) return null;
+  const ac = new (window.AudioContext || window.webkitAudioContext)(), fuente = ac.createMediaStreamSource(new MediaStream([pista]));
+  const proc = ac.createScriptProcessor(4096, 1, 1), mudo = ac.createGain(); mudo.gain.value = 0;
+  const trozos = []; let t0 = null;
+  proc.onaudioprocess = (e) => { if (t0 == null) t0 = (performance.now() - inicio) / 1000; trozos.push(new Float32Array(e.inputBuffer.getChannelData(0))); };
+  fuente.connect(proc); proc.connect(mudo); mudo.connect(ac.destination);
+  return {
+    terminar() {
+      try { proc.disconnect(); fuente.disconnect(); } catch (e) { /* nada */ }
+      const total = trozos.reduce((a, x) => a + x.length, 0), m = new Float32Array(total); let k = 0; for (const x of trozos) { m.set(x, k); k += x.length; }
+      const sr = ac.sampleRate; ac.close?.();
+      return total ? { cuadros: cuadrosAudio(m, sr, { inicio: t0 || 0 }), mono: m, sr, inicio: t0 || 0 } : null;
+    },
+  };
+}
+/** Suma los eventos de voz al análisis y devuelve un resumen corto. */
+async function sumarVoz(audio, base) {
+  if (!auto) return "";
+  const cuadrosVoz = audio?.cuadros;
+  if (!cuadrosVoz || cuadrosVoz.length < 50) { auto.voz = null; return " Voz: no se encontró audio para analizar."; }
+  const { eventos, resumen } = eventosVoz(cuadrosVoz, base);
+  // Transcripción (opcional): qué se dijo o preguntó antes de cada señal. Corre en el navegador con Whisper.
+  if ($("c-transcribir").checked && resumen.voz >= 5) {
+    try {
+      auto.transcripcion = await transcribir(a16k(audio.mono, audio.sr), { inicio: audio.inicio, progreso: (t) => { estado(t); vivo(t); } });
+    } catch (e) { auto.transcripcion = null; estado(`No se pudo transcribir: ${e.message}`, true); }
+  }
+  auto.eventos = [...auto.eventos, ...eventos].sort((a, b) => a.t0 - b.t0); auto.voz = resumen;
+  return ` Voz: hubo habla en ${resumen.voz} % del tiempo${resumen.tonoBase ? `, tono base ≈ ${resumen.tonoBase} Hz` : ""}; ${eventos.filter((e) => !e.enBase).length} señal(es) de voz.`;
+}
+
 $("c-detener").onclick = () => { detener = true; medio?.parar?.(); };
 const vivo = (t) => { $("c-vivo").hidden = !t; $("c-vivo").textContent = t; };
 $("c-analizar").onclick = async () => {
@@ -239,6 +286,7 @@ $("c-analizar").onclick = async () => {
         leer = async () => { const r = await Promise.race([lector.read(), parar.then(() => ({ done: true }))]); return r.done ? null : r.value; };
       }
       medio.inicio = performance.now(); let sinCara = 0, ultimo = 0, ultimoAviso = 0;
+      const grab = $("c-voz").checked ? grabadoraVoz(medio.flujo, medio.inicio) : null;
       const b0 = () => Number($("c-b0").value) || 0, b1 = () => Math.max(b0() + 1, Number($("c-b1").value) || 20);
       while (!detener && (performance.now() - medio.inicio) / 1000 < 900) {
         let fuente = v, ancho = v.videoWidth, alto = v.videoHeight, cuadro = null;
@@ -269,8 +317,9 @@ $("c-analizar").onclick = async () => {
       const dur = cuadros.length ? cuadros[cuadros.length - 1].t : 0;
       if (!cuadros.length) throw new Error("No llegó ningún cuadro de la pestaña compartida. Revisa que el video se esté reproduciendo y vuelve a compartir.");
       auto = { ...eventosDeSerie(cuadros, [b0(), b1()]), cuadros: cuadros.length, sinCara, duracion: dur, fps };
+      const notaVoz = $("c-voz").checked ? (grab ? await sumarVoz(grab.terminar(), [b0(), b1()]) : " Voz: la pestaña se compartió sin audio (al compartir, activa «Compartir audio de la pestaña»).") : "";
       const pct = Math.round((1 - sinCara / cuadros.length) * 100);
-      const msj = `Análisis en vivo terminado: ${reloj(dur)} analizados, ${cuadros.length} cuadros, rostro visible en ${pct} % · ${auto.eventos.filter((e) => !e.enBase).length} señal(es) fuera de la línea base.`
+      const msj = `Análisis en vivo terminado: ${reloj(dur)} analizados, ${cuadros.length} cuadros, rostro visible en ${pct} % · ${auto.eventos.filter((e) => !e.enBase).length} señal(es) fuera de la línea base.${notaVoz}`
         + (dur <= b1() ? ` Duró menos que la línea base (${b1()} s): todo se usó como referencia; deja correr más tiempo.` : "")
         + (pct < 50 ? " Se vio poco el rostro: agranda el video o usa pantalla completa en la otra pestaña." : "");
       vivo(msj); estado(msj);
@@ -293,7 +342,9 @@ $("c-analizar").onclick = async () => {
       }
       const b0 = Number($("c-b0").value) || 0, b1 = Math.max(b0 + 1, Number($("c-b1").value) || lineaBasePorOmision(dur)[1]);
       auto = { ...eventosDeSerie(cuadros, [b0, b1]), cuadros: cuadros.length, sinCara, duracion: dur, fps };
-      estado(`${detener ? "Análisis detenido" : "Análisis terminado"}: ${cuadros.length} cuadros, ${auto.eventos.length} evento(s).${sinCara > cuadros.length * 0.3 ? ` En ${Math.round((sinCara / cuadros.length) * 100)} % de los cuadros no se vio el rostro.` : ""}`);
+      let notaVoz = "";
+      if ($("c-voz").checked) { estado("Analizando la voz…"); notaVoz = await sumarVoz(await vozDeArchivo(medio.archivo || v.currentSrc), [b0, b1]); }
+      estado(`${detener ? "Análisis detenido" : "Análisis terminado"}: ${cuadros.length} cuadros, ${auto.eventos.length} evento(s).${sinCara > cuadros.length * 0.3 ? ` En ${Math.round((sinCara / cuadros.length) * 100)} % de los cuadros no se vio el rostro.` : ""}${notaVoz}`);
     }
     pintarResultado();
   } catch (err) { estado(`No se pudo analizar: ${err.message}`, true); }
@@ -311,8 +362,8 @@ function svgLinea(evs, dur, base) {
   return `<svg viewBox="0 0 ${W} ${H}" width="100%" role="img" aria-label="Línea de tiempo de señales" style="font-size:11px">
     ${base ? `<rect x="${x(base[0])}" y="0" width="${Math.max(1, x(base[1]) - x(base[0]))}" height="${H - 18}" fill="#2E7D32" opacity="0.12"><title>Línea base</title></rect>` : ""}
     ${marcasT.map((t) => `<line x1="${x(t)}" x2="${x(t)}" y1="0" y2="${H - 18}" stroke="currentColor" opacity="0.12"/><text x="${x(t)}" y="${H - 5}" text-anchor="middle" fill="currentColor" opacity="0.7">${rv(t)}</text>`).join("")}
-    ${filas.map((id, i) => { const s = CAT_C.senales.find((z) => z.id === id); return `<text x="0" y="${i * fila + 13}" fill="currentColor">${esc(s.nombre.slice(0, 28))}</text>${evs.filter((e) => e.s.id === id).map((e) => `<rect data-t="${e.t0}" x="${x(e.t0)}" y="${i * fila + 3}" width="${Math.max(3, x(e.t1) - x(e.t0))}" height="12" rx="3" fill="${e.origen === "manual" ? "#1565C0" : e.enBase ? "#9E9E9E" : "#E65100"}" style="cursor:pointer"><title>${rv(e.t0)} ${esc(s.nombre)}${e.detalle ? ` · ${esc(e.detalle)}` : ""}${e.nota ? ` · ${esc(e.nota)}` : ""}</title></rect>`).join("")}`; }).join("")}
-  </svg><p class="meta">🟧 automático · 🟦 marcado a mano · ⬜ dentro de la línea base (verde). Toca una barra para ir a ese segundo.</p>`;
+    ${filas.map((id, i) => { const s = CAT_C.senales.find((z) => z.id === id); return `<text x="0" y="${i * fila + 13}" fill="currentColor">${esc(s.nombre.slice(0, 28))}</text>${evs.filter((e) => e.s.id === id).map((e) => `<rect data-t="${e.t0}" x="${x(e.t0)}" y="${i * fila + 3}" width="${Math.max(3, x(e.t1) - x(e.t0))}" height="12" rx="3" fill="${e.origen === "manual" ? "#1565C0" : e.enBase ? "#9E9E9E" : /voz/.test(e.origen) ? "#7B1FA2" : "#E65100"}" style="cursor:pointer"><title>${rv(e.t0)} ${esc(s.nombre)}${e.detalle ? ` · ${esc(e.detalle)}` : ""}${e.nota ? ` · ${esc(e.nota)}` : ""}</title></rect>`).join("")}`; }).join("")}
+  </svg><p class="meta">🟧 automático (cuerpo) · 🟪 automático (voz) · 🟦 marcado a mano · ⬜ dentro de la línea base (verde). Toca una barra para ir a ese segundo.</p>`;
 }
 
 // Marca en los botones de señales las que se detectaron (automático) o marcaste (a mano), con su número de veces.
@@ -344,9 +395,10 @@ function pintarResultado() {
     <p class="meta">El número es cuántas señales distintas apuntan a esa lectura (fuera de la línea base). Una lectura con 1 o 2 señales no es concluyente.</p>
     ${esFoto ? "" : `<h3>🎯 Momentos para explorar (cúmulos de 3 o más señales en 5 s)</h3>
     ${L.momentos.length ? L.momentos.map((m) => `<div class="momento"><b>${rv(m.t0)}–${rv(m.t1)}</b> · ${esc(m.estados.map((e) => `${e.nombre} (${e.n})`).join(", "))}
-      <br><span class="meta">${esc(m.senales.join(" · "))}</span><br><button type="button" data-t="${Math.max(0, m.t0 - 3)}" class="btn no-imprimir">▶️ ${medio?.tipo === "video" || medio?.tipo === "youtube" ? "Ver desde 3 s antes" : `Buscar el minuto ${rv(Math.max(0, m.t0 - 3))}`}</button>
+      <br><span class="meta">${esc(m.senales.join(" · "))}</span>${(() => { const tx = textoEntre(auto?.transcripcion, m.t0 - 10, m.t0 + 1); return tx ? `<br>🗣️ <i>Lo que se dijo antes (${rv(Math.max(0, m.t0 - 10))}–${rv(m.t0)}):</i> «${esc(tx.length > 300 ? `…${tx.slice(-300)}` : tx)}»` : ""; })()}<br><button type="button" data-t="${Math.max(0, m.t0 - 3)}" class="btn no-imprimir">▶️ ${medio?.tipo === "video" || medio?.tipo === "youtube" ? "Ver desde 3 s antes" : `Buscar el minuto ${rv(Math.max(0, m.t0 - 3))}`}</button>
       <span class="meta">Revisa qué se preguntó o dijo justo antes y vuelve a preguntar sobre ese punto de otra forma.</span></div>`).join("") : `<p class="meta">No hay cúmulos: ninguna combinación de 3 señales distintas en 5 s.</p>`}
     <h3>Línea de tiempo</h3><div class="desliza">${svgLinea(evs, dur, auto?.base)}</div>`}
+    ${auto?.transcripcion?.length ? `<details class="tarjeta"><summary><b>📝 Transcripción automática (${auto.transcripcion.length} fragmentos)</b></summary><p class="meta">Hecha en tu navegador con Whisper; puede tener errores y no distingue quién habla.</p>${auto.transcripcion.map((x) => `<p><a href="#" data-t="${x.t0}">${rv(x.t0)}</a> ${esc(x.texto)}</p>`).join("")}</details>` : ""}
     <details class="tarjeta"><summary><b>Todas las señales (${evs.length})</b></summary><div class="desliza"><table class="t"><tr><th>Tiempo</th><th>Señal</th><th>Origen</th><th>Detalle</th><th class="no-imprimir"></th></tr>
       ${evs.sort((a, b) => a.t0 - b.t0).map((e, i) => `<tr><td>${esFoto ? "—" : `<a href="#" data-t="${e.t0}">${rv(e.t0)}</a>`}</td><td>${esc(e.s.nombre)}</td><td>${e.origen}${e.enBase ? " (línea base)" : ""}</td><td>${esc([e.detalle, e.nota].filter(Boolean).join(" · "))}</td>
       <td class="no-imprimir">${e.origen === "manual" ? `<button type="button" data-quitar="${marcas.indexOf(marcas.find((m) => m.t0 === e.t0 && m.senal === e.senal))}">Quitar</button>` : ""}</td></tr>`).join("")}</table></div></details>
