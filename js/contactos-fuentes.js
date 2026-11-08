@@ -9,7 +9,7 @@ export async function registrosDNS(nombre, tipo, fetcher = fetch) {
   const datos = await respuesta.json();
   if (datos.Status === 3) return null;
   if (datos.Status !== 0 || datos.TC) throw new Error("DNS no disponible");
-  const tipos = { A: 1, NS: 2, MX: 15, TXT: 16, AAAA: 28, CAA: 257 };
+  const tipos = { A: 1, NS: 2, PTR: 12, MX: 15, TXT: 16, AAAA: 28, CAA: 257 };
   return (datos.Answer || []).filter(({ type }) => type === tipos[tipo])
     .map(({ data }) => tipo === "TXT" ? data.replace(/^"|"$/g, "").replace(/"\s+"/g, "") : data);
 }

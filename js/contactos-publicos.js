@@ -61,19 +61,25 @@ export async function consultarCorreoGithub(correo, fetcher = fetch, fecha = new
   return { perfiles: salida(perfiles), cambios: salida(cambios) };
 }
 
-export function busquedasPublicas(valores) {
-  const frase = [...new Set(valores.filter(Boolean))].map((valor) => `"${valor}"`).join(" OR ");
-  const base = frase.includes(" OR ") ? `(${frase})` : frase;
-  const url = (filtro) => {
-    const buscador = new URL("https://www.google.com/search");
-    buscador.searchParams.set("q", [base, filtro].filter(Boolean).join(" "));
-    return buscador.href;
-  };
-  return [
-    ["Web general", url("")],
-    ["Redes indexadas", url("(site:linkedin.com OR site:facebook.com OR site:instagram.com OR site:x.com OR site:tiktok.com OR site:reddit.com)")],
-    ["Registros y directorios en México", url("(site:gob.mx OR site:edu.mx OR site:org.mx)")],
-  ];
+export const BUSCADORES_MENCIONES = [
+  ["Google", "https://www.google.com/search"],
+  ["Bing", "https://www.bing.com/search"],
+  ["DuckDuckGo", "https://duckduckgo.com/"],
+  ["Brave Search", "https://search.brave.com/search"],
+];
+
+export const AMBITOS_MENCIONES = [
+  ["Redes indexadas", [["LinkedIn", "linkedin.com"], ["Facebook", "facebook.com"], ["Instagram", "instagram.com"],
+    ["X", "x.com"], ["TikTok", "tiktok.com"], ["Reddit", "reddit.com"]]],
+  ["Registros y directorios en México", [["Gobierno", "gob.mx"], ["Educación", "edu.mx"], ["Organizaciones", "org.mx"]]],
+];
+
+export function urlMencion(valor, motor, dominio = "") {
+  const destino = BUSCADORES_MENCIONES.find(([nombre]) => nombre === motor);
+  if (!destino || (dominio && !AMBITOS_MENCIONES.some(([, opciones]) => opciones.some(([, sitio]) => sitio === dominio)))) return "";
+  const url = new URL(destino[1]);
+  url.searchParams.set("q", dominio ? `"${valor}" site:${dominio}` : `"${valor}"`);
+  return url.href;
 }
 
 let cargarLadas;

@@ -1,7 +1,8 @@
 import { analizarEncabezados, huella } from "./herr-logica.js";
 import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, proveedorCorreo, registrosDNS } from "./contactos-fuentes.js";
 import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces, señalesEncabezados } from "./contactos-eml.js";
-import { busquedasPublicas, consultarCorreoGithub, consultarLadaMx } from "./contactos-publicos.js";
+import { AMBITOS_MENCIONES, BUSCADORES_MENCIONES, consultarCorreoGithub, consultarLadaMx, urlMencion } from "./contactos-publicos.js";
+import { consultarIpPublica } from "./contactos-ip.js";
 
 const TIPOS_LINEA = {
   FIXED_LINE: "Fija", MOBILE: "Móvil", FIXED_LINE_OR_MOBILE: "Fija o móvil",
@@ -180,10 +181,33 @@ function enlaceExterno(url, texto) {
 }
 
 function mencionesPublicas(valores) {
-  const grupo = document.createElement("div");
-  grupo.className = "contacto-acciones";
-  grupo.append(...busquedasPublicas(valores).map(([texto, url]) => enlaceExterno(url, texto)));
-  return [mensaje("Menciones públicas. Al abrir un enlace, Google recibe el dato para buscar páginas indexadas. Revisa la publicación original para confirmar el contexto."), grupo];
+  const opciones = [...new Set(valores.filter(Boolean))];
+  const grupo = document.createElement("fieldset");
+  grupo.className = "contacto-opciones contacto-menciones";
+  const titulo = document.createElement("legend");
+  titulo.textContent = "Menciones públicas";
+  grupo.append(titulo, mensaje("El buscador elegido recibe el dato cuando abres la búsqueda. Confirma el contexto en la publicación original."));
+  const selector = (etiqueta, filas) => {
+    const label = document.createElement("label");
+    const select = document.createElement("select");
+    select.append(...filas.map(([texto, valor]) => new Option(texto, valor)));
+    label.append(etiqueta, select);
+    grupo.append(label);
+    return select;
+  };
+  const motor = selector("Buscador", BUSCADORES_MENCIONES.map(([nombre]) => [nombre, nombre]));
+  const ambito = selector("Dónde buscar", [["Web general", ""]]);
+  for (const [etiqueta, sitios] of AMBITOS_MENCIONES) {
+    const categoria = document.createElement("optgroup");
+    categoria.label = etiqueta;
+    categoria.append(...sitios.map(([nombre, dominio]) => new Option(nombre, dominio)));
+    ambito.append(categoria);
+  }
+  const formato = opciones.length > 1 ? selector("Formato del número", opciones.map((valor) => [valor, valor])) : null;
+  const enlace = enlaceExterno(urlMencion(opciones[0], motor.value), "Abrir búsqueda ↗");
+  grupo.append(enlace);
+  grupo.addEventListener("change", () => { enlace.href = urlMencion(formato?.value ?? opciones[0], motor.value, ambito.value); });
+  return [grupo];
 }
 
 function evidenciaGithub(resultado, titulo) {
@@ -360,5 +384,20 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
       mensaje("La región corresponde a la numeración. Consulta el SNS para datos de asignación. El operador actual puede cambiar por portabilidad."),
       ...mencionesPublicas([numero, datos["Dígitos nacionales"], !datos["Extensión"] && datos["Formato nacional"]]),
     ];
+  });
+  vincular("contacto-ip", async () => {
+    const resultado = await consultarIpPublica(document.getElementById("contacto-ip-entrada").value);
+    const resultados = [mensaje(`IPv${resultado.version} · ${resultado.ip}`)];
+    for (const [titulo, fuente] of [
+      ["Ubicación aproximada · IP Info (Shifter)", resultado.ubicacion],
+      ["Registro y enrutamiento · RIPEstat", resultado.registro],
+      ["DNS inverso · Google Public DNS", resultado.dns],
+    ]) {
+      resultados.push(mensaje(titulo), fuente.estado || !fuente.filas.length
+        ? mensaje(fuente.estado || "Sin datos publicados para esta IP.") : lista(fuente.filas));
+    }
+    resultados.push(mensaje("La estimación puede variar entre bases de datos. El país del registro describe la asignación del bloque."),
+      enlaceExterno(`https://ipinfo.io/${encodeURIComponent(resultado.ip)}`, "Comparar la ubicación en IPinfo ↗"));
+    return resultados;
   });
 }

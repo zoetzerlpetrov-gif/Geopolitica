@@ -50,3 +50,17 @@
   border-radius: 6px;
   background: var(--surface-2);
 }
+
+.contacto-menciones { margin-top: 10px; }
+.contacto-menciones label { display: grid; gap: 3px; }
+.contacto-menciones select {
+  width: 100%;
+  min-height: 30px;
+  padding: 4px 6px;
+  font: inherit;
+  color: var(--text);
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+.contacto-menciones > a { justify-self: start; }

@@ -293,7 +293,7 @@
           <p><a class="link-btn" href="identidad.html">Abrir Protección de identidad →</a> <a href="identidad.html#ruta">Encontré una línea que no es mía</a> · <a href="identidad.html#prevencion">Prevención</a></p>
         </details>
         <details class="bloque plegable" id="b-herr-contactos" data-grupo="herramientas">
-          <summary><h2>Correo y teléfono: análisis técnico</h2></summary>
+          <summary><h2>Correo, teléfono e IP: análisis técnico</h2></summary>
           <p class="nota-capas">Elige una consulta. Los campos y resultados se mantienen en esta página hasta que los limpies o la cierres.</p>
           <details class="ia-ayuda">
             <summary>Correo o dominio</summary>
@@ -344,6 +344,16 @@
             </form>
             <div id="contacto-telefono-res" aria-live="polite"></div>
             <p class="nota-capas">Para México, consulta los <a href="https://sns.ift.org.mx/sns-frontend/consulta-numeracion/numeracion-geografica.xhtml" target="_blank" rel="noopener noreferrer">datos de numeración y concesionarios del SNS</a> y los <a href="https://herramientaconsultayreporta.condusef.gob.mx/consultar-numero" target="_blank" rel="noopener noreferrer">reportes de CONDUSEF</a>. Ingresa el número en el portal. Un reporte corresponde al número mostrado, que puede haber sido suplantado.</p>
+          </details>
+          <details class="ia-ayuda">
+            <summary>Localización aproximada de una IP</summary>
+            <form id="contacto-ip" class="contacto-form" autocomplete="off">
+              <label for="contacto-ip-entrada">Dirección IPv4 o IPv6 pública</label>
+              <input id="contacto-ip-entrada" class="verif-texto" maxlength="45" placeholder="204.79.197.212" spellcheck="false" required>
+              <p class="nota-capas">Al consultar, se envía la IP a IP Info y RIPEstat, y el nombre de DNS inverso a Google Public DNS. La ubicación se estima a nivel de red.</p>
+              <div class="contacto-acciones"><button type="submit">Consultar IP</button><button type="reset">Limpiar</button></div>
+            </form>
+            <div id="contacto-ip-res" aria-live="polite"></div>
           </details>
         </details>
         <details class="bloque plegable" id="b-herr-foto" data-grupo="herramientas" open>

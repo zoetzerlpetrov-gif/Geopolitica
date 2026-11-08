@@ -5,13 +5,14 @@ import { readFileSync } from "node:fs";
 import { consultarDNS, consultarGravatar, interpretarDireccion, interpretarEncabezados, interpretarTelefono } from "../../js/contactos.js";
 import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, proveedorCorreo } from "../../js/contactos-fuentes.js";
 import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces } from "../../js/contactos-eml.js";
-import { buscarLadaMx, busquedasPublicas, consultarCorreoGithub } from "../../js/contactos-publicos.js";
+import { buscarLadaMx, consultarCorreoGithub, urlMencion } from "../../js/contactos-publicos.js";
+import { consultarIpPublica, interpretarIpPublica } from "../../js/contactos-ip.js";
 
 test("el módulo de contactos aparece en Herramientas, fuera del acceso administrativo", () => {
   const html = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
   const lateral = html.slice(html.indexOf('id="g-herramientas"'), html.indexOf('id="b-herr-foto"'));
   assert.match(lateral, /<details class="bloque plegable" id="b-herr-contactos" data-grupo="herramientas">/);
-  for (const id of ["contacto-correo", "contacto-cabeceras", "contacto-telefono"]) {
+  for (const id of ["contacto-correo", "contacto-cabeceras", "contacto-telefono", "contacto-ip"]) {
     assert.ok(lateral.includes(`<form id="${id}" class="contacto-form"`));
   }
   assert.doesNotMatch(lateral, /data-solo-admin|\/admin\/huella/);
@@ -61,11 +62,57 @@ test("la lada usa el prefijo mexicano más específico y conserva su fuente", ()
   assert.equal(buscarLadaMx("+442079460958", tabla), null);
 });
 
-test("los enlaces de menciones conservan la coincidencia literal y separan categorías", () => {
-  const consultas = busquedasPublicas(["+525512345678", "5512345678", "5512345678"]);
-  assert.equal(new URL(consultas[0][1]).searchParams.get("q"), '("+525512345678" OR "5512345678")');
-  assert.match(new URL(consultas[1][1]).searchParams.get("q"), /site:linkedin\.com/);
-  assert.match(new URL(consultas[2][1]).searchParams.get("q"), /site:gob\.mx/);
+test("los cuatro buscadores conservan las comillas, el prefijo telefónico y el sitio elegido", () => {
+  const destinos = {
+    Google: "https://www.google.com/search",
+    Bing: "https://www.bing.com/search",
+    DuckDuckGo: "https://duckduckgo.com/",
+    "Brave Search": "https://search.brave.com/search",
+  };
+  for (const [motor, destino] of Object.entries(destinos)) {
+    const url = new URL(urlMencion("+525512345678", motor, "linkedin.com"));
+    assert.equal(url.origin + url.pathname, destino);
+    assert.equal(url.searchParams.get("q"), '"+525512345678" site:linkedin.com');
+    assert.equal(new URL(urlMencion("equipo@example.org", motor)).searchParams.get("q"), '"equipo@example.org"');
+  }
+  assert.equal(urlMencion("equipo@example.org", "https://example.org"), "");
+  assert.equal(urlMencion("equipo@example.org", "Bing", "example.org"), "");
+});
+
+test("valida IP públicas y construye nombres de DNS inverso para IPv4 e IPv6", () => {
+  assert.deepEqual(interpretarIpPublica("204.79.197.212"), { ip: "204.79.197.212", version: 4, reverso: "212.197.79.204.in-addr.arpa" });
+  assert.deepEqual(interpretarIpPublica("[2606:4700:4700:0:0:0:0:1111]"), {
+    ip: "2606:4700:4700::1111", version: 6,
+    reverso: "1.1.1.1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.7.4.0.0.7.4.6.0.6.2.ip6.arpa",
+  });
+  for (const invalida of ["10.1.2.3", "127.0.0.1", "100.64.1.2", "192.0.2.8", "010.1.2.3", "256.1.2.3", "::1", "fc00::1", "fe80::1",
+    "2001:db8::1", "3fff:100::1", "2606:::1111", "https://example.org"]) {
+    assert.throws(() => interpretarIpPublica(invalida), /pública válida/);
+  }
+});
+
+test("la IP separa geolocalización, BGP y PTR cuando un proveedor falla", async () => {
+  const ip = "204.79.197.212";
+  const resultado = await consultarIpPublica(ip, async (entrada, opciones) => {
+    const url = new URL(entrada);
+    assert.equal(opciones.referrerPolicy, "no-referrer");
+    if (url.hostname === "ip-info.com") {
+      assert.equal(url.searchParams.get("ip"), ip);
+      return Response.json({ ip, city: "Teterboro", region: "New Jersey", is_anycast: true });
+    }
+    if (url.pathname.includes("prefix-overview")) return Response.json({ status: "ok", data: {
+      announced: true, resource: "204.79.197.0/24", asns: [{ asn: 8068, holder: "Microsoft Corporation" }],
+    } });
+    if (url.pathname.includes("rir-geo")) return new Response(null, { status: 500 });
+    assert.equal(url.hostname, "dns.google");
+    assert.equal(url.searchParams.get("name"), "212.197.79.204.in-addr.arpa");
+    return Response.json({ Status: 0, Answer: [{ type: 12, data: "a-0010.a-msedge.net." }] });
+  });
+  assert.equal(Object.fromEntries(resultado.ubicacion.filas)["Ciudad estimada"], "Teterboro");
+  assert.match(Object.fromEntries(resultado.ubicacion.filas).Anycast, /varias ubicaciones/);
+  assert.equal(Object.fromEntries(resultado.registro.filas)["ASN y organización"], "AS8068 · Microsoft Corporation");
+  assert.equal(Object.fromEntries(resultado.dns.filas)["Nombre inverso (PTR)"], "a-0010.a-msedge.net.");
+  await assert.rejects(() => consultarIpPublica("192.168.0.1", () => assert.fail("No consultar una IP privada")), /pública válida/);
 });
 
 test("separa el correo del dominio DNS y admite dominios internacionalizados", () => {
