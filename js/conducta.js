@@ -1,10 +1,10 @@
 // Página «Conducta y escritura»: lenguaje corporal (video/foto) y grafología (imagen). Todo local en el navegador.
 import { cuadrosAudio, eventosVoz } from "./voz-logica.js";
-import { transcribir, a16k, textoEntre } from "./transcribir.js";
+import { transcribir, a16k, textoEntre, idiomasDe, TONALES, NOMBRE_IDIOMA } from "./transcribir.js";
 import { informeConducta, informeHTML, informeTexto } from "./conducta-informe.js";
 import { AVISO_CONDUCTA, rasgosCuadro, mapaBlend, eventosDeSerie, lineaBasePorOmision, lectura, senalDeAuto, reloj, tipoEnlace, REGLAS } from "./conducta-logica.js";
 import { medir } from "./grafo-medir.js";
-import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave } from "./grafo-logica.js";
+import { AVISO, clasificar, clasificarAvanzado, clasificarFirma, informe, clave, avisosEscritura } from "./grafo-logica.js";
 import { ejemplo } from "./grafo-ejemplos.js";
 import { redactar, aHTML, aTexto, cuartillas, AREAS, EXTENSIONES } from "./grafo-redaccion.js";
 
@@ -245,10 +245,13 @@ async function sumarVoz(audio, base) {
   const cuadrosVoz = audio?.cuadros;
   if (!cuadrosVoz || cuadrosVoz.length < 50) { auto.voz = null; return " Voz: no se encontró audio para analizar."; }
   const { eventos, resumen } = eventosVoz(cuadrosVoz, base);
+  // Idioma elegido a mano (sin transcripción): también sirve para avisar si es tonal
+  if ($("c-idioma").value) auto.idiomas = { idiomas: [$("c-idioma").value], tonal: TONALES.has($("c-idioma").value), varios: false };
   // Transcripción (opcional): qué se dijo o preguntó antes de cada señal. Corre en el navegador con Whisper.
   if ($("c-transcribir").checked && resumen.voz >= 5) {
     try {
-      auto.transcripcion = await transcribir(a16k(audio.mono, audio.sr), { inicio: audio.inicio, progreso: (t) => { estado(t); vivo(t); } });
+      auto.transcripcion = await transcribir(a16k(audio.mono, audio.sr), { inicio: audio.inicio, idioma: $("c-idioma").value, progreso: (t) => { estado(t); vivo(t); } });
+      auto.idiomas = idiomasDe(auto.transcripcion);
     } catch (e) { auto.transcripcion = null; estado(`No se pudo transcribir: ${e.message}`, true); }
   }
   auto.eventos = [...auto.eventos, ...eventos].sort((a, b) => a.t0 - b.t0); auto.voz = resumen;
@@ -398,6 +401,7 @@ function pintarResultado() {
       <br><span class="meta">${esc(m.senales.join(" · "))}</span>${(() => { const tx = textoEntre(auto?.transcripcion, m.t0 - 10, m.t0 + 1); return tx ? `<br>🗣️ <i>Lo que se dijo antes (${rv(Math.max(0, m.t0 - 10))}–${rv(m.t0)}):</i> «${esc(tx.length > 300 ? `…${tx.slice(-300)}` : tx)}»` : ""; })()}<br><button type="button" data-t="${Math.max(0, m.t0 - 3)}" class="btn no-imprimir">▶️ ${medio?.tipo === "video" || medio?.tipo === "youtube" ? "Ver desde 3 s antes" : `Buscar el minuto ${rv(Math.max(0, m.t0 - 3))}`}</button>
       <span class="meta">Revisa qué se preguntó o dijo justo antes y vuelve a preguntar sobre ese punto de otra forma.</span></div>`).join("") : `<p class="meta">No hay cúmulos: ninguna combinación de 3 señales distintas en 5 s.</p>`}
     <h3>Línea de tiempo</h3><div class="desliza">${svgLinea(evs, dur, auto?.base)}</div>`}
+    ${avisoIdiomas()}
     ${auto?.transcripcion?.length ? `<details class="tarjeta"><summary><b>📝 Transcripción automática (${auto.transcripcion.length} fragmentos)</b></summary><p class="meta">Hecha en tu navegador con Whisper; puede tener errores y no distingue quién habla.</p>${auto.transcripcion.map((x) => `<p><a href="#" data-t="${x.t0}">${rv(x.t0)}</a> ${esc(x.texto)}</p>`).join("")}</details>` : ""}
     <details class="tarjeta"><summary><b>Todas las señales (${evs.length})</b></summary><div class="desliza"><table class="t"><tr><th>Tiempo</th><th>Señal</th><th>Origen</th><th>Detalle</th><th class="no-imprimir"></th></tr>
       ${evs.sort((a, b) => a.t0 - b.t0).map((e, i) => `<tr><td>${esFoto ? "—" : `<a href="#" data-t="${e.t0}">${rv(e.t0)}</a>`}</td><td>${esc(e.s.nombre)}</td><td>${e.origen}${e.enBase ? " (línea base)" : ""}</td><td>${esc([e.detalle, e.nota].filter(Boolean).join(" · "))}</td>
@@ -508,6 +512,7 @@ function pintarMedidas(k) {
     ${fila("Grosor del trazo", m(T) ? `${T.grosorPx} px${T.grosorMm != null ? ` · ${fx(T.grosorMm, 2)} mm` : ""}` : null, m(F) ? `${F.grosorPx} px${F.grosorMm != null ? ` · ${fx(F.grosorMm, 2)} mm` : ""}` : null)}
     ${fila("Cuchillos · chimeneas", m(T) ? `${T.cuchillos} · ${T.chimeneas}` : null, null)}
   </table></div>
+  ${avisosEscritura(T).map((x) => `<p class="aviso">${esc(x)}</p>`).join("")}
   <p class="meta">${k ? `Escala: ${fx(k, 3)} mm por píxel.` : "Sin escala: no hay milímetros (tamaño y calibre no se clasifican)."} La dirección se mide respecto del borde de la foto: si la hoja salió girada, ese giro se suma.
     ${(T && T.vacio) || (F && F.vacio) ? "<b>En un rectángulo no encontré tinta.</b>" : ""}</p>`;
 }
@@ -580,6 +585,14 @@ $("g-word").onclick = () => {
   const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(["\ufeff", html], { type: "application/msword" })); a.download = "analisis-grafologico.doc"; a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 2000);
 };
 $("g-imprimir-escrito").onclick = () => { document.body.classList.add("solo-escrito"); window.print(); setTimeout(() => document.body.classList.remove("solo-escrito"), 500); };
+
+function avisoIdiomas() {
+  const I = auto?.idiomas; if (!I?.idiomas?.length) return "";
+  const nombres = I.idiomas.map((i) => NOMBRE_IDIOMA[i] || i).join(", ");
+  return `<p class="${I.tonal || I.varios ? "aviso" : "meta"}">Idioma${I.idiomas.length > 1 ? "s" : ""} detectado${I.idiomas.length > 1 ? "s" : ""}: ${esc(nombres)}.`
+    + (I.tonal ? " Es un idioma tonal: el tono cambia el significado de las palabras, así que «tono más agudo» y «voz monótona» no son confiables." : "")
+    + (I.varios ? " La persona cambia de idioma: el ritmo y el tono varían con cada idioma; conviene tomar una línea base en cada uno y comparar solo dentro del mismo idioma." : "") + "</p>";
+}
 
 // ---------- informe de una cuartilla ----------
 let ultimoInforme = null;
