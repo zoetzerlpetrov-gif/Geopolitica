@@ -1,4 +1,6 @@
-import { analizarEncabezados, huella, leerDoH } from "./herr-logica.js";
+import { analizarEncabezados, huella } from "./herr-logica.js";
+import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, proveedorCorreo, registrosDNS } from "./contactos-fuentes.js";
+import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces, señalesEncabezados } from "./contactos-eml.js";
 
 const TIPOS_LINEA = {
   FIXED_LINE: "Fija", MOBILE: "Móvil", FIXED_LINE_OR_MOBILE: "Fija o móvil",
@@ -37,20 +39,27 @@ export async function consultarDNS(dominio, fetcher = fetch) {
     ["DMARC", `_dmarc.${dominio}`, "TXT", (valor) => /^v=DMARC1(?:\s*;|$)/i.test(valor)],
   ].map(async ([etiqueta, nombre, tipo, aplica]) => {
     try {
-      const consulta = new URL("https://dns.google/resolve");
-      consulta.search = new URLSearchParams({ name: nombre, type: tipo });
-      const respuesta = await fetcher(consulta, { referrerPolicy: "no-referrer", signal: AbortSignal.timeout(8000) });
-      if (!respuesta.ok) throw new Error();
-      const datos = await respuesta.json();
-      if (datos.Status === 3) return [etiqueta, "Sin registro. DNS no reconoce este nombre."];
-      if (datos.Status !== 0 || datos.TC) throw new Error();
-      const valores = leerDoH(datos).filter((r) => r.tipo === tipo)
-        .map((r) => tipo === "TXT" ? r.valor.replace(/"\s+"/g, "") : r.valor).filter(aplica);
+      const registros = await registrosDNS(nombre, tipo, fetcher);
+      if (!registros) return [etiqueta, "Sin registro. DNS no reconoce este nombre."];
+      const valores = registros.filter(aplica);
+      if (tipo === "MX" && valores.length === 1 && /^0\s+\.$/.test(valores[0])) {
+        return [etiqueta, "0 . · Null MX. El dominio declara que no recibe correo."];
+      }
       return [etiqueta, valores.join(" · ") || "Sin registro publicado."];
     } catch {
       return [etiqueta, "Consulta no disponible. Inténtalo de nuevo."];
     }
   }));
+}
+
+function enlaceHttps(valor) {
+  try {
+    const url = new URL(valor);
+    if (url.protocol === "https:" && !url.username && !url.password) return url.href;
+  } catch {
+    // La fuente puede omitir el enlace.
+  }
+  return "";
 }
 
 function enlaceGravatar(valor, avatar = false) {
@@ -79,6 +88,13 @@ export async function consultarGravatar(correo, fetcher = fetch) {
     return {
       nombre: typeof perfil.display_name === "string" ? perfil.display_name : "",
       ubicacion: typeof perfil.location === "string" ? perfil.location : "",
+      biografia: typeof perfil.description === "string" ? perfil.description : "",
+      cargo: typeof perfil.job_title === "string" ? perfil.job_title : "",
+      empresa: typeof perfil.company === "string" ? perfil.company : "",
+      cuentas: (Array.isArray(perfil.verified_accounts) ? perfil.verified_accounts : []).filter((cuenta) => cuenta?.is_hidden !== true).slice(0, 12).flatMap((cuenta) => {
+        const url = enlaceHttps(cuenta?.url);
+        return url ? [{ url, nombre: String(cuenta.service_label || cuenta.service_type || new URL(url).hostname) }] : [];
+      }),
       enlace: enlaceGravatar(perfil.profile_url),
       avatar: enlaceGravatar(perfil.avatar_url, true),
     };
@@ -105,6 +121,8 @@ export function interpretarTelefono(entrada, parsear) {
   return [
     ["Formato internacional", numero.formatInternational()],
     ["Formato E.164", numero.number],
+    ["Formato nacional", numero.formatNational?.()],
+    ["Dígitos nacionales", numero.nationalNumber],
     ["Extensión", numero.ext],
     ["País o territorio de numeración", territorio],
     ["Prefijo internacional", `+${numero.countryCallingCode}`],
@@ -151,6 +169,15 @@ function mensaje(texto) {
   return elemento;
 }
 
+function enlaceExterno(url, texto) {
+  const enlace = document.createElement("a");
+  enlace.href = url;
+  enlace.target = "_blank";
+  enlace.rel = "noopener noreferrer";
+  enlace.textContent = texto;
+  return enlace;
+}
+
 function lista(filas) {
   const elemento = document.createElement("ul");
   elemento.className = "lista-inv";
@@ -194,22 +221,51 @@ function vincular(id, ejecutar) {
 if (typeof document !== "undefined" && document.getElementById("b-herr-contactos")) {
   vincular("contacto-correo", async (formulario) => {
     const { dominio, correo } = interpretarDireccion(document.getElementById("contacto-direccion").value);
-    const [registros, perfil] = await Promise.all([
+    const ampliar = formulario.elements.infraestructura.checked;
+    const [registros, perfil, infra, rdap, incidentes] = await Promise.all([
       consultarDNS(dominio),
       formulario.elements.perfil.checked ? consultarGravatar(correo) : null,
+      ampliar ? consultarInfraestructura(dominio) : null,
+      ampliar ? consultarRdap(dominio) : null,
+      ampliar ? consultarIncidentesDominio(dominio) : null,
     ]);
-    const resultados = [mensaje(`Registros DNS de ${dominio}`), lista(registros)];
+    const mx = registros.find(([etiqueta]) => etiqueta === "MX")[1];
+    const resultados = [
+      mensaje(`Registros de ${dominio} · Google Public DNS · ${new Date().toLocaleString("es-MX")}`),
+      lista([...registros, ["Proveedor probable según MX", proveedorCorreo(mx.split(" · "))], ...(infra || [])]),
+    ];
+    if (rdap) {
+      resultados.push(mensaje("Registro del dominio · RDAP"), rdap.filas ? lista(rdap.filas) : mensaje(rdap.estado));
+      if (rdap.estado) resultados.push(enlaceExterno("https://lookup.icann.org/", "Abrir ICANN Lookup"));
+    }
+    if (incidentes) {
+      resultados.push(mensaje("Incidentes del sitio o dominio · Have I Been Pwned. Esta consulta usa el dominio del incidente."));
+      if (incidentes.estado) resultados.push(mensaje(incidentes.estado));
+      else if (!incidentes.cantidad) resultados.push(mensaje("El catálogo no devolvió incidentes para este dominio exacto."));
+      else resultados.push(mensaje(`Mostrando ${incidentes.filas.length} de ${incidentes.cantidad} incidentes.`), lista(incidentes.filas));
+    }
+    if (correo) {
+      const buscador = new URL("https://www.google.com/search");
+      buscador.searchParams.set("q", `"${correo}"`);
+      resultados.push(mensaje("Menciones públicas. Si abres esta búsqueda, Google recibe el correo completo."),
+        enlaceExterno(buscador.href, "Buscar la dirección exacta en la web ↗"));
+    }
     if (!perfil) return resultados;
     if (perfil.estado) return [...resultados, mensaje(perfil.estado)];
-    resultados.push(mensaje("Perfil público de Gravatar. El nombre, la foto y la ubicación son datos publicados por el perfil."));
-    resultados.push(lista([["Nombre publicado", perfil.nombre], ["Ubicación declarada", perfil.ubicacion]]));
-    if (perfil.enlace) {
-      const enlace = document.createElement("a");
-      enlace.href = perfil.enlace;
-      enlace.target = "_blank";
-      enlace.rel = "noopener noreferrer";
-      enlace.textContent = "Abrir perfil público en Gravatar";
-      resultados.push(enlace);
+    resultados.push(mensaje("Perfil público de Gravatar · Datos publicados por el perfil."), lista([
+      ["Nombre publicado", perfil.nombre], ["Ubicación declarada", perfil.ubicacion], ["Biografía", perfil.biografia],
+      ["Cargo publicado", perfil.cargo], ["Empresa publicada", perfil.empresa],
+    ]));
+    if (perfil.enlace) resultados.push(enlaceExterno(perfil.enlace, "Abrir perfil público en Gravatar"));
+    if (perfil.cuentas.length) {
+      const cuentas = document.createElement("ul");
+      cuentas.className = "lista-inv";
+      for (const cuenta of perfil.cuentas) {
+        const item = document.createElement("li");
+        item.append(enlaceExterno(cuenta.url, `${cuenta.nombre} · ${new URL(cuenta.url).hostname}`));
+        cuentas.append(item);
+      }
+      resultados.push(mensaje("Cuentas vinculadas y marcadas como verificadas por Gravatar"), cuentas);
     }
     if (perfil.avatar) {
       const imagen = document.createElement("img");
@@ -224,16 +280,38 @@ if (typeof document !== "undefined" && document.getElementById("b-herr-contactos
     }
     return resultados;
   });
-  vincular("contacto-cabeceras", () => {
-    const r = interpretarEncabezados(document.getElementById("contacto-original").value);
+  vincular("contacto-cabeceras", async (formulario) => {
+    const archivo = document.getElementById("contacto-eml").files[0];
+    const consultarClaves = formulario.elements.claves.checked;
+    const eml = archivo ? await analizarArchivoCorreo(archivo) : null;
+    const entrada = eml?.bruto ?? formulario.elements["contacto-original"].value;
+    const r = interpretarEncabezados(entrada);
     const resultados = [lista([
       ["Remitente declarado", r.de], ["Responder a", r.replyTo], ["Dirección de rebote", r.returnPath],
-      ["Fecha declarada", r.fecha], ["ID del mensaje", r.idMensaje],
+      ["Asunto", eml?.correo.subject || r.asunto], ["Fecha declarada", r.fecha], ["ID del mensaje", r.idMensaje],
       ["SPF reportado", r.spf], ["DKIM reportado", r.dkim], ["DMARC reportado", r.dmarc],
-    ]), mensaje("Los resultados de autenticación y los saltos provienen del texto pegado. Para atribuirlos, verifica qué servidor añadió cada encabezado.")];
+      ...señalesEncabezados(entrada),
+    ]), mensaje("Los resultados de autenticación y los saltos provienen del mensaje analizado. Para atribuirlos, verifica qué servidor añadió cada encabezado.")];
     if (r.recibidos.length) resultados.push(mensaje("Saltos reportados, del más antiguo al más reciente"), lista(
       r.recibidos.map(({ de, por, ip, fecha }, i) => [`Salto ${i + 1}`, [de, por && `recibido por ${por}`, ip, fecha].filter(Boolean).join(" · ")]),
     ));
+    if (eml) {
+      // El contenido de un template es inerte: no se adjunta al DOM ni se cargan recursos del mensaje.
+      const plantilla = document.createElement("template");
+      plantilla.innerHTML = eml.correo.html || "";
+      const enlaces = [...plantilla.content.querySelectorAll("a[href], area[href], form[action]")]
+        .map((elemento) => elemento.getAttribute("href") ?? elemento.getAttribute("action"));
+      const dominios = dominiosEnlaces(eml.correo.text, enlaces);
+      resultados.push(mensaje("Dominios en enlaces y formularios · Se muestran como texto"),
+        dominios.length ? lista(dominios.map((dominio, i) => [String(i + 1), dominio])) : mensaje("Sin enlaces HTTP o HTTPS detectados."),
+        mensaje(`Adjuntos · ${eml.adjuntos.length} de ${eml.totalAdjuntos} analizados`));
+      if (eml.adjuntos.length) resultados.push(lista(eml.adjuntos));
+    }
+    if (consultarClaves) {
+      const firmas = await consultarFirmas(entrada, Boolean(eml));
+      resultados.push(mensaje("DKIM · Claves publicadas al momento de la consulta"),
+        firmas.length ? lista(firmas) : mensaje("El mensaje no contiene una cabecera DKIM-Signature."));
+    }
     return resultados;
   });
   vincular("contacto-telefono", async () => {

@@ -295,16 +295,20 @@
               <input id="contacto-direccion" class="verif-texto" maxlength="320" placeholder="equipo@example.org o example.org" required>
               <p class="nota-capas">Google Public DNS recibe solo el dominio para buscar MX, SPF y DMARC. Estos registros describen la configuración de correo del dominio.</p>
               <label class="fila-check"><input name="perfil" type="checkbox"> Buscar también un perfil público de Gravatar con la huella SHA-256 del correo</label>
+              <label class="fila-check"><input name="infraestructura" type="checkbox" checked> Ampliar con DNS, registro RDAP e incidentes del dominio en Have I Been Pwned. Se comparte solo el dominio.</label>
               <button type="submit">Consultar</button> <button type="reset">Limpiar</button>
             </form>
             <div id="contacto-correo-res" aria-live="polite"></div>
+            <p class="nota-capas">Para revisar un buzón propio en filtraciones, usa <a href="https://haveibeenpwned.com/" target="_blank" rel="noopener noreferrer">Have I Been Pwned</a>. Para entregabilidad de un buzón, puedes consultar <a href="https://hunter.io/email-verifier" target="_blank" rel="noopener noreferrer">Hunter</a> por separado.</p>
           </details>
           <details class="ia-ayuda">
-            <summary>Encabezados de un correo recibido</summary>
+            <summary>Encabezados o archivo original .eml</summary>
             <form id="contacto-cabeceras" autocomplete="off">
               <label for="contacto-original">Pega los encabezados del mensaje original</label>
-              <textarea id="contacto-original" rows="4" class="verif-texto" maxlength="65536" placeholder="From: …&#10;Reply-To: …&#10;Authentication-Results: …&#10;Received: …" spellcheck="false" required></textarea>
-              <p class="nota-capas">En Gmail, abre el mensaje y elige Más → Mostrar original. El análisis se realiza en tu navegador.</p>
+              <textarea id="contacto-original" rows="4" class="verif-texto" maxlength="65536" placeholder="From: …&#10;Reply-To: …&#10;Authentication-Results: …&#10;Received: …" spellcheck="false"></textarea>
+              <label class="fila-apilada"><span>O elige el archivo original .eml (hasta 10 MB)</span><input id="contacto-eml" type="file" accept=".eml,message/rfc822"></label>
+              <label class="fila-check"><input name="claves" type="checkbox"> Consultar claves DKIM actuales. Google Public DNS recibe el dominio firmante y el selector.</label>
+              <p class="nota-capas">En Gmail, abre el mensaje y elige Más → Mostrar original. Si eliges un archivo, se analiza ese archivo. El mensaje y los adjuntos se procesan en tu navegador.</p>
               <button type="submit">Analizar</button> <button type="reset">Limpiar</button>
             </form>
             <div id="contacto-cabeceras-res" aria-live="polite"></div>
@@ -318,6 +322,7 @@
               <button type="submit">Analizar</button> <button type="reset">Limpiar</button>
             </form>
             <div id="contacto-telefono-res" aria-live="polite"></div>
+            <p class="nota-capas">Para números de México, consulta el <a href="https://sns.ift.org.mx/sns-frontend/consulta-numeracion/numeracion-geografica.xhtml" target="_blank" rel="noopener noreferrer">Sistema Nacional de Numeración</a> y los <a href="https://herramientaconsultayreporta.condusef.gob.mx/consultar-numero" target="_blank" rel="noopener noreferrer">reportes de CONDUSEF</a>. El número se escribe en cada portal. Un reporte corresponde al número mostrado, que puede haber sido suplantado.</p>
           </details>
         </details>
         <details class="bloque plegable" id="b-herr-foto" data-grupo="herramientas" open>

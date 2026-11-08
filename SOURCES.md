@@ -409,3 +409,14 @@ Renfe Cercanías (España): https://data.renfe.com/dataset/ubicacion-vehiculos �
 
 ### Fase 5C: horarios estáticos GTFS
 - **data.gov.my / KTMB, BAS.MY Johor Bahru y BAS.MY Kangar:** https://developer.data.gov.my/realtime-api/gtfs-static.en. Feeds `/gtfs-static/ktmb`, `/gtfs-static/mybas-johor`, `/gtfs-static/mybas-kangar`. CC BY 4.0 con atribución al operador/data.gov.my. Sin registro ni claves en las consultas realizadas. ZIP públicos recogidos diariamente en la nube y publicados en la rama independiente `datos-transporte`; el cálculo del trayecto ocurre en el navegador sin transmitir origen/destino. Calendarios y fechas de carga/recolección se muestran por separado. No son posiciones en vivo ni confirmación de operación. Subconjunto, tutorial y límites: `docs/FASE5C.md`.
+
+### Herramientas · Correo y teléfono
+
+| Fuente | Uso | Acceso y tratamiento |
+|---|---|---|
+| [Google Public DNS](https://developers.google.com/speed/public-dns/docs/doh/json) | Registros DNS de correo e infraestructura, clave pública DKIM | Al consultar. Envía solo el nombre DNS, incluido el selector si se solicitan claves DKIM |
+| [IANA RDAP Bootstrap](https://data.iana.org/rdap/dns.json) y registros RDAP oficiales | Fecha de registro, registrador, estados y vigencia publicada | Al consultar la ficha ampliada. Envía el dominio al registro RDAP de la extensión |
+| [Have I Been Pwned](https://haveibeenpwned.com/API/v3#AllBreaches) | Incidentes públicos indexados por dominio del sitio | Sin clave. Envía solo el dominio. Para una consulta por buzón propio, se ofrece un enlace externo |
+| [Gravatar](https://docs.gravatar.com/rest-api/) | Campos de perfil público y cuentas públicas vinculadas | Opcional. Consulta por huella SHA-256 de la dirección normalizada |
+| [PostalMime 4.2.0](https://github.com/postalsys/postal-mime) | Lectura de archivos .eml y adjuntos | MIT-0. Copia en `vendor/postal-mime`; procesa el mensaje localmente |
+| [Sistema Nacional de Numeración](https://sns.ift.org.mx/sns-frontend/consulta-numeracion/numeracion-geografica.xhtml) y [CONDUSEF](https://herramientaconsultayreporta.condusef.gob.mx/consultar-numero) | Consultas oficiales externas sobre numeración y reportes en México | Enlaces sin parámetros de búsqueda. La persona introduce el número directamente en el portal |

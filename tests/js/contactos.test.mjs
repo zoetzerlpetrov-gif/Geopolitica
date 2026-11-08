@@ -1,8 +1,10 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { createHash } from "node:crypto";
+import { createHash, generateKeyPairSync, sign } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { consultarDNS, consultarGravatar, interpretarDireccion, interpretarEncabezados, interpretarTelefono } from "../../js/contactos.js";
+import { consultarIncidentesDominio, consultarInfraestructura, consultarRdap, proveedorCorreo } from "../../js/contactos-fuentes.js";
+import { analizarArchivoCorreo, consultarFirmas, dominiosEnlaces } from "../../js/contactos-eml.js";
 
 test("el módulo de contactos aparece en Herramientas, fuera del acceso administrativo", () => {
   const html = readFileSync(new URL("../../index.html", import.meta.url), "utf8");
@@ -46,20 +48,103 @@ test("DNS solo usa el dominio y separa un error del servicio de un registro ause
   ]);
 });
 
-test("Gravatar recibe la huella del correo y los enlaces quedan limitados a Gravatar", async () => {
+test("Gravatar recibe la huella y muestra solamente cuentas públicas con enlaces HTTPS", async () => {
   const hash = createHash("sha256").update("equipo@example.org").digest("hex");
   assert.deepEqual(await consultarGravatar("Equipo@EXAMPLE.ORG", async (url, opciones) => {
     assert.equal(url, `https://api.gravatar.com/v3/profiles/${hash}`);
     assert.equal(opciones.referrerPolicy, "no-referrer");
     return Response.json({
       hash, display_name: "Equipo", location: "México",
+      description: "Biografía", job_title: "Analista", company: "Ejemplo",
+      verified_accounts: [
+        { service_label: "GitHub", url: "https://github.com/example" },
+        { service_label: "Oculta", url: "https://example.org", is_hidden: true },
+        { service_label: "Inválida", url: "javascript:alert(1)" },
+      ],
       profile_url: "https://gravatar.com.ejemplo.org/usuario",
       avatar_url: `https://0.gravatar.com/avatar/${hash}`,
     });
-  }), { nombre: "Equipo", ubicacion: "México", enlace: "", avatar: `https://0.gravatar.com/avatar/${hash}` });
+  }), {
+    nombre: "Equipo", ubicacion: "México", biografia: "Biografía", cargo: "Analista", empresa: "Ejemplo",
+    cuentas: [{ nombre: "GitHub", url: "https://github.com/example" }], enlace: "", avatar: `https://0.gravatar.com/avatar/${hash}`,
+  });
   assert.match((await consultarGravatar("", () => assert.fail("No debe consultar la red"))).estado, /dirección de correo/);
   assert.match((await consultarGravatar("equipo@example.org", async () => new Response(null, { status: 404 }))).estado, /Sin perfil/);
   assert.match((await consultarGravatar("equipo@example.org", async () => new Response(null, { status: 429 }))).estado, /no disponible/);
+});
+
+test("distingue Null MX y reconoce proveedores por el hostname completo", async () => {
+  const registros = await consultarDNS("example.org", async (url) => Response.json({
+    Status: 0, Answer: url.searchParams.get("type") === "MX" ? [{ type: 15, data: "0 ." }] : [],
+  }));
+  assert.match(registros[0][1], /declara que no recibe correo/);
+  assert.equal(proveedorCorreo(["10 ejemplo.mail.protection.outlook.com.", "20 outlook.com.evil.example."]), "Microsoft 365");
+  assert.equal(proveedorCorreo(["10 evilmail.protection.outlook.com."]), "");
+});
+
+test("RDAP usa el registro IANA y reconoce el dominio padre de un subdominio", async () => {
+  const urls = [];
+  const rdap = await consultarRdap("mx.example.org", async (url) => {
+    urls.push(String(url));
+    if (urls.length === 1) return Response.json({ services: [[["org"], ["https://rdap.example/rdap/"]]] });
+    if (urls.length === 2) return new Response(null, { status: 404 });
+    return Response.json({ objectClassName: "domain", ldhName: "example.org", events: [{ eventAction: "registration", eventDate: "2001-01-02T00:00:00Z" }] });
+  });
+  assert.deepEqual(urls, ["https://data.iana.org/rdap/dns.json", "https://rdap.example/rdap/domain/mx.example.org", "https://rdap.example/rdap/domain/example.org"]);
+  assert.equal(Object.fromEntries(rdap.filas)["Dominio registrado"], "example.org");
+  assert.equal(Object.fromEntries(rdap.filas)["Alta en el registro"], "2001-01-02T00:00:00Z");
+});
+
+test("infraestructura DNS y catálogo de incidentes solo consultan nombres de dominio", async () => {
+  const registros = await consultarInfraestructura("example.org", async (url) => {
+    assert.ok(url.searchParams.get("name").endsWith("example.org"));
+    assert.equal(url.searchParams.get("edns_client_subnet"), "0.0.0.0/0");
+    const mta = url.searchParams.get("name").startsWith("_mta-sts");
+    return Response.json({ Status: 0, Answer: mta ? [{ type: 16, data: '"v=STSv1; id=1"' }] : [] });
+  });
+  assert.equal(Object.fromEntries(registros)["MTA-STS · anuncio DNS"], "v=STSv1; id=1");
+  const incidentes = await consultarIncidentesDominio("example.org", async (url) => {
+    assert.equal(url.searchParams.get("Domain"), "example.org");
+    return Response.json([
+      { Domain: "example.org", Name: "Ejemplo", BreachDate: "2025-01-01", IsVerified: true, DataClasses: ["Email addresses"] },
+      { Domain: "otro.example.org", Name: "Otro" },
+    ]);
+  });
+  assert.deepEqual(incidentes, { cantidad: 1, filas: [["Ejemplo", "2025-01-01 · Verificado por HIBP · Email addresses"]] });
+});
+
+test("analiza un .eml multipart y calcula la huella del adjunto decodificado", async () => {
+  const eml = [
+    "From: Equipo <equipo@example.org>", "Subject: Aviso", "MIME-Version: 1.0", 'Content-Type: multipart/mixed; boundary="test"', "",
+    "--test", "Content-Type: text/plain", "", "Visita https://example.org/path?token=local", "--test", 'Content-Type: application/octet-stream; name="a.bin"',
+    'Content-Disposition: attachment; filename="a.bin"', "Content-Transfer-Encoding: base64", "", "AAH/", "--test--", "",
+  ].join("\r\n");
+  const analisis = await analizarArchivoCorreo(new File([eml], "mensaje.eml"));
+  const hash = createHash("sha256").update(Buffer.from([0, 1, 255])).digest("hex");
+  assert.deepEqual(analisis.adjuntos, [["a.bin", `application/octet-stream · 3 bytes · SHA-256 ${hash}`]]);
+  assert.deepEqual(dominiosEnlaces(analisis.correo.text, ["javascript:alert(1)", "https://example.net/private", "https://example.org/otro"]), ["example.net", "example.org"]);
+  await assert.rejects(() => analizarArchivoCorreo(new File(["From: a@example.org"], "truncado.eml")), /mensaje .eml completo/);
+});
+
+test("DKIM comprueba el mensaje original y detecta cambios de cuerpo o cabeceras firmadas", async () => {
+  const cuerpo = "Hola \tmundo \t\r\n\r\n";
+  const bh = createHash("sha256").update("Hola mundo\r\n").digest("base64");
+  for (const tipo of ["rsa", "ed25519"]) {
+    const claves = tipo === "rsa" ? generateKeyPairSync("rsa", { modulusLength: 2048 }) : generateKeyPairSync("ed25519");
+    const dkim = `v=1; a=${tipo}-sha256; c=relaxed/relaxed; d=example.org; s=test; h=from:subject; bh=${bh}; b=`;
+    const canon = Buffer.from(`from:Equipo <equipo@example.org>\r\nsubject:Hola mundo\r\ndkim-signature:${dkim}`);
+    const firma = tipo === "rsa" ? sign("sha256", canon, claves.privateKey) : sign(null, createHash("sha256").update(canon).digest(), claves.privateKey);
+    const mensaje = `DKIM-Signature: ${dkim}${firma.toString("base64")}\r\nFrom: Equipo <equipo@example.org>\r\nSubject: Hola\r\n\tmundo\r\n\r\n${cuerpo}`;
+    const publica = tipo === "rsa" ? claves.publicKey.export({ format: "der", type: "pkcs1" }).toString("base64") : claves.publicKey.export({ format: "jwk" }).x;
+    const resolver = async (nombre) => {
+      assert.equal(nombre, "test._domainkey.example.org");
+      return [`v=DKIM1; k=${tipo}; p=${Buffer.from(publica, "base64").toString("base64")}`];
+    };
+    assert.match((await consultarFirmas(mensaje, true, resolver))[0][1], /Firma criptográfica válida/);
+    assert.match((await consultarFirmas(mensaje.replace("Hola \tmundo", "Otro cuerpo"), true, resolver))[0][1], /hash del cuerpo no coincide/);
+    assert.match((await consultarFirmas(mensaje.replace("Equipo <", "Otro <"), true, resolver))[0][1], /firma criptográfica no coincide/);
+    assert.match((await consultarFirmas(mensaje, false, resolver))[0][1], /Usa el .eml completo/);
+  }
 });
 
 test("se leen encabezados plegados y se ignoran encabezados falsos dentro del cuerpo", () => {
