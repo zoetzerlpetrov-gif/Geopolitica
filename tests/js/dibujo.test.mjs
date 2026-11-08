@@ -85,3 +85,25 @@ test("imprimir: los informes usan imprimirSolo y la impresión expande las cajas
   assert.ok(!exp.includes("html2canvas@"), "el PDF de documentos ya no es una imagen");
   assert.ok(exp.includes("jspdf.plugin.autotable.mjs") && exp.includes("export async function documentoAPDF"));
 });
+
+test("conducta y escritura y sus catálogos solo se ven en la versión de administración", () => {
+  const leer = (f) => readFileSync(new URL(`../../${f}`, import.meta.url), "utf8");
+  const planes = JSON.parse(leer("config/planes.json"));
+  assert.ok(planes.solo_admin.some((s) => s.href === "conducta.html"));
+  // Las únicas páginas que mencionan la sección la marcan como solo de administración
+  for (const f of ["index.html", "herramientas.html", "tutorial.html"]) {
+    const h = leer(f);
+    for (const m of h.matchAll(/<[^>]*(?:conducta\.html|Conducta y escritura)[^>]*>/g)) assert.match(m[0], /data-solo-admin|<summary/, `${f}: ${m[0].slice(0, 80)}`);
+    if (f === "tutorial.html") assert.match(h, /<details class="paso" data-solo-admin><summary>🧍 Conducta y escritura/);
+  }
+  // Los catálogos de grafología, lenguaje corporal y dibujos solo los carga conducta (página solo de administración)
+  const fs = require_fs();
+  for (const f of fs.readdirSync(new URL("../../js/", import.meta.url))) {
+    const t = leer(`js/${f}`);
+    const propio = /^(conducta|dibujo|grafo-|transcribir)/.test(f);
+    if (/config\/(grafologia|lenguaje_corporal|dibujo_proyectivo)/.test(t)) assert.ok(propio, `js/${f} carga un catálogo de administración`);
+    if (!propio) assert.ok(!/from "\.\/(conducta|dibujo|grafo-)/.test(t), `js/${f} importa un módulo de conducta`);
+  }
+});
+import { readdirSync } from "node:fs";
+function require_fs() { return { readdirSync }; }
