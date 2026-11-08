@@ -185,6 +185,11 @@
    "tipo": "pagina",
    "href": "economia.html",
    "nombre": "Economía"
+  },
+  {
+   "tipo": "pagina",
+   "href": "conducta.html",
+   "nombre": "Conducta y escritura (lenguaje corporal y grafología)"
   }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",
