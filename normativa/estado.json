@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-08T19:07:46Z",
+ "generado_utc": "2026-11-09T10:14:27Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,9 +13,9 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 5,
    "error": "",
-   "hasta": "2026-11-08"
+   "hasta": "2026-11-09"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,15 +23,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-08"
+   "hasta": "2026-11-09"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-08"
+   "hasta": "2026-11-09"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-08"
+   "hasta": "2026-11-09"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 4,
    "error": "",
-   "hasta": "2026-11-08"
+   "hasta": "2026-11-09"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -76,19 +76,24 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-08",
-  "CAN": "2026-11-08",
-  "EUR": "2026-11-08",
-  "JPN": "2026-11-08",
-  "RUS": "2026-11-08",
+  "USA": "2026-11-09",
+  "CAN": "2026-11-09",
+  "EUR": "2026-11-09",
+  "JPN": "2026-11-09",
+  "RUS": "2026-11-09",
   "MEX": "2026-11-06"
  },
  "desactualizadas": [],
  "por_pais": {
   "USA": {
-   "total": 24,
+   "total": 26,
    "alto": 0,
-   "ultimos_30d": 24
+   "ultimos_30d": 22
+  },
+  "EUR": {
+   "total": 47,
+   "alto": 5,
+   "ultimos_30d": 44
   },
   "RUS": {
    "total": 4,
@@ -98,13 +103,8 @@
   "MEX": {
    "total": 535,
    "alto": 42,
-   "ultimos_30d": 32
-  },
-  "EUR": {
-   "total": 46,
-   "alto": 5,
-   "ultimos_30d": 45
+   "ultimos_30d": 28
   }
  },
- "agregadas_hoy": 0
+ "agregadas_hoy": 3
 }
