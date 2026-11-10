@@ -1,11 +1,11 @@
 {
- "generado_utc": "2026-11-09T23:33:50Z",
+ "generado_utc": "2026-11-10T10:19:35Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 0,
    "error": "",
    "hasta": "2026-11-09"
   },
@@ -15,7 +15,7 @@
    "estado": "ok",
    "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-09"
+   "hasta": "2026-11-10"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,15 +23,15 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-09"
+   "hasta": "2026-11-10"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-09"
+   "hasta": "2026-11-10"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-09"
+   "hasta": "2026-11-10"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 3,
    "error": "",
-   "hasta": "2026-11-09"
+   "hasta": "2026-11-10"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -76,11 +76,11 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-09",
-  "CAN": "2026-11-09",
-  "EUR": "2026-11-09",
-  "JPN": "2026-11-09",
-  "RUS": "2026-11-09",
+  "USA": "2026-11-10",
+  "CAN": "2026-11-10",
+  "EUR": "2026-11-10",
+  "JPN": "2026-11-10",
+  "RUS": "2026-11-10",
   "MEX": "2026-11-09"
  },
  "desactualizadas": [],
@@ -96,9 +96,9 @@
    "ultimos_30d": 7
   },
   "EUR": {
-   "total": 47,
+   "total": 48,
    "alto": 5,
-   "ultimos_30d": 44
+   "ultimos_30d": 45
   },
   "MEX": {
    "total": 535,
@@ -106,5 +106,5 @@
    "ultimos_30d": 28
   }
  },
- "agregadas_hoy": 3
+ "agregadas_hoy": 1
 }
