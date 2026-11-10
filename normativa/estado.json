@@ -1,19 +1,19 @@
 {
- "generado_utc": "2026-11-10T10:19:35Z",
+ "generado_utc": "2026-11-10T20:59:37Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-09"
+   "hasta": "2026-11-10"
   },
   "USA": {
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 5,
    "error": "",
    "hasta": "2026-11-10"
   },
@@ -45,7 +45,7 @@
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 1,
    "error": "",
    "hasta": "2026-11-10"
   },
@@ -81,30 +81,30 @@
   "EUR": "2026-11-10",
   "JPN": "2026-11-10",
   "RUS": "2026-11-10",
-  "MEX": "2026-11-09"
+  "MEX": "2026-11-10"
  },
  "desactualizadas": [],
  "por_pais": {
   "USA": {
-   "total": 26,
+   "total": 29,
    "alto": 0,
-   "ultimos_30d": 22
+   "ultimos_30d": 25
   },
   "RUS": {
-   "total": 7,
+   "total": 8,
    "alto": 0,
-   "ultimos_30d": 7
+   "ultimos_30d": 8
+  },
+  "MEX": {
+   "total": 536,
+   "alto": 42,
+   "ultimos_30d": 29
   },
   "EUR": {
    "total": 48,
    "alto": 5,
    "ultimos_30d": 45
-  },
-  "MEX": {
-   "total": 535,
-   "alto": 42,
-   "ultimos_30d": 28
   }
  },
- "agregadas_hoy": 1
+ "agregadas_hoy": 5
 }
