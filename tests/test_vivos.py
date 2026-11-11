@@ -204,3 +204,28 @@ def test_malla_de_puntos_cubre_mexico_y_es_moderada():
     import actualizar as A
     assert 60 <= len(A.PUNTOS_ADSBLOL) <= 140  # ~1-2 min por corrida con la pausa de cortesía
     assert any(abs(la - 19.5) < 4 and abs(lo + 99) < 5 for la, lo in A.PUNTOS_ADSBLOL)
+
+
+def test_aeronaves_comercial_espera_y_reintenta_ante_429(tmp_path, monkeypatch):
+    """adsb.lol limita el ritmo (HTTP 429): se espera lo que pide y se reintenta la misma zona, sin perderla."""
+    import urllib.error
+    import actualizar as A
+    monkeypatch.setattr(A, "OUT", str(tmp_path))
+    llamadas, esperas = [], []
+
+    def pedir(u):
+        llamadas.append(u)
+        if u.endswith("/250") and llamadas.count(u) == 1:
+            raise urllib.error.HTTPError(u, 429, "Too Many Requests", {"Retry-After": "7"}, None)
+        return {"ac": [{"hex": "0d%04x" % len(llamadas), "flight": "AMX1", "lat": 19.4, "lon": -99.1, "alt_baro": 12000}]}
+
+    n = A.aeronaves_comercial(pedir, puntos=[(19.0, -99.0), (25.0, -100.0)], pausa=0, dormir=esperas.append)
+    d = json.load(open(tmp_path / "aeronaves_comercial.json"))
+    assert d["fuentes"]["consultas"] == 3 and n == 3
+    assert esperas == [7, 7]
+
+
+def test_aeronaves_comercial_va_antes_que_las_rutas_de_administracion():
+    import actualizar as A
+    pasos = list(A.PASOS)
+    assert pasos.index("aeronaves_comercial") < pasos.index("aeronaves")
