@@ -100,7 +100,7 @@ test("conducta y escritura y sus catálogos solo se ven en la versión de admini
   const fs = require_fs();
   for (const f of fs.readdirSync(new URL("../../js/", import.meta.url))) {
     const t = leer(`js/${f}`);
-    const propio = /^(conducta|dibujo|grafo-|transcribir)/.test(f);
+    const propio = /^(conducta|dibujo|grafo-|grafoscopia|transcribir)/.test(f);
     if (/config\/(grafologia|lenguaje_corporal|dibujo_proyectivo)/.test(t)) assert.ok(propio, `js/${f} carga un catálogo de administración`);
     if (!propio) assert.ok(!/from "\.\/(conducta|dibujo|grafo-)/.test(t), `js/${f} importa un módulo de conducta`);
   }

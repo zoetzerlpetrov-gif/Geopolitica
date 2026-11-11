@@ -57,7 +57,8 @@ export function mascara(img, recorte = null) {
   const m = new Uint8Array(w * h);
   let tinta = 0, sumaT = 0, sumaP = 0, nP = 0;
   for (let i = 0; i < m.length; i++) {
-    if (n[i] <= t) { m[i] = 1; tinta++; sumaT += g[i]; } else { sumaP += g[i]; nP++; }
+    // mismo redondeo que el histograma de Otsu (si no, un escaneo limpio de dos tonos queda sin tinta)
+    if ((n[i] | 0) <= t) { m[i] = 1; tinta++; sumaT += g[i]; } else { sumaP += g[i]; nP++; }
   }
   return { w, h, m, g, umbral: t, tinta, grisTinta: tinta ? sumaT / tinta : NaN, grisPapel: nP ? sumaP / nP : NaN };
 }
