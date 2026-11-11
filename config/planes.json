@@ -216,7 +216,8 @@
    "taxonomia.html": "recon",
    "narrativas.html": "analyst",
    "matriz.html": "analyst",
-   "soporte.html": "demo"
+   "soporte.html": "demo",
+   "privacidad.html": "demo"
   },
   "bloques": {
    "b-capas-ent": "recon",
@@ -245,7 +246,8 @@
    "b-capas-img": "Imágenes satelitales y cámaras",
    "rg-vdm-aire": "Calidad del aire en la CDMX (US AQI)",
    "camaras.html": "Cámaras públicas (catálogo y vistas previas)",
-   "soporte.html": "🛟 Soporte"
+   "soporte.html": "🛟 Soporte",
+   "privacidad.html": "🔒 Aviso de privacidad"
   }
  }
 }

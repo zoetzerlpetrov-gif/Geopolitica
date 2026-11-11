@@ -1,0 +1,21 @@
+# Avisos de dependencias con vulnerabilidades o desactualizadas (gratis en GitHub).
+# Abre PR agrupados una vez a la semana; nada se integra solo: cada PR pasa por «pruebas».
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    groups:
+      acciones:
+        patterns: ["*"]
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      python:
+        patterns: ["*"]

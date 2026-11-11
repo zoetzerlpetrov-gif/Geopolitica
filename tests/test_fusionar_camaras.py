@@ -79,6 +79,13 @@ def _git(*args, cwd):
     return subprocess.run(["git", *args], cwd=cwd, check=True, capture_output=True, text=True).stdout.strip()
 
 
+def publicar_git(d, remoto, mensaje, env=None):
+    """Publica la carpeta capas/ de `d` en la rama datos-capas de `remoto` (sin shell: argumentos en lista)."""
+    for args in (["init", "-q"], ["checkout", "-q", "-b", "datos-capas"], ["add", "capas"], ["commit", "-q", "-m", mensaje],
+                 ["push", "-q", "--force", str(remoto), "HEAD:datos-capas"]):
+        subprocess.run(["git", *args], cwd=d, check=True, env=env)
+
+
 @pytest.mark.skipif(shutil.which("git") is None, reason="sin git")
 def test_publicacion_no_pisa_lo_publicado_en_medio(tmp_path):
     """Si «Construir capas» publica mientras «Cámaras» prepara su push, el lease falla y se reintenta."""
@@ -90,8 +97,7 @@ def test_publicacion_no_pisa_lo_publicado_en_medio(tmp_path):
     def publicar_rama(texto_cables, cam_fecha, cam_texto):
         d = tmp_path / f"semilla-{texto_cables}"
         hacer_capas(d / "capas", cam_fecha, cam_texto, texto_cables)
-        subprocess.run(f"git init -q && git checkout -q -b datos-capas && git add capas && git commit -q -m s "
-                       f"&& git push -q --force {remoto} HEAD:datos-capas", shell=True, cwd=d, check=True, env=env)
+        publicar_git(d, remoto, "s", env)
 
     publicar_rama("cables-v1", "2026-10-28T00:00:00Z", "cam-vieja")
 
@@ -107,8 +113,7 @@ def test_publicacion_no_pisa_lo_publicado_en_medio(tmp_path):
         "import test_fusionar_camaras as T\n"
         f"d = {str(tmp_path / 'semilla-v2')!r}\n"
         "T.hacer_capas(os.path.join(d, 'capas'), '2026-10-28T00:00:00Z', 'cam-vieja', 'cables-v2')\n"
-        f"subprocess.run('git init -q && git checkout -q -b datos-capas && git add capas && git commit -q -m v2 "
-        f"&& git push -q --force {remoto} HEAD:datos-capas', shell=True, cwd=d, check=True)\n")
+        f"T.publicar_git(d, {str(remoto)!r}, 'v2')\n")
     (trabajo / "tools" / "capas" / "fusionar_camaras.py").write_text(
         "import os, runpy, sys\n"
         f"if not os.path.exists({str(marca)!r}):\n"

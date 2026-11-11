@@ -1,7 +1,7 @@
 {
  "_nota": "Autoauditoría semanal de DOMINUS (solo admin). Controles «auto»: los evalúa tools/autoauditoria/autoauditoria.py cada semana. Controles «manual»: cambia «estado» (cumple, parcial, no_cumple, no_aplica, sin_evaluar) y «evidencia» cuando avances. «sin_evaluar» no suma ni resta: aparece como pendiente.",
  "revisado": "2026-10-29",
- "linea_base_html_sin_escape": 50,
+ "linea_base_html_sin_escape": 64,
  "marcos": {
   "iso27001": "ISO/IEC 27001:2022 (SGSI y Anexo A)",
   "owasp_top10": "OWASP Top 10 (2021)",
@@ -661,5 +661,18 @@
    "prioridad": "baja"
   }
  ],
- "_nota_linea_base": "50 inserciones revisadas a mano el 2026-10-29: insertan números, constantes o HTML ya armado con esc(). Si el conteo sube, revisar las nuevas y actualizar este número."
+ "_nota_linea_base": "50 inserciones revisadas a mano el 2026-10-29: insertan números, constantes o HTML ya armado con esc(). Si el conteo sube, revisar las nuevas y actualizar este número. 2026-11-11: revisadas a mano 14 nuevas (grafoscopia.js, dibujo.js, conducta.js, identidad.js, herramientas.js, cartera.js, app.js): solo números, textos fijos del código o HTML ya escapado por aHTML/dictamenHTML/informeHTML.",
+ "http_excepciones": {
+  "_nota": "Hosts que se quedan en http:// a propósito. Revisar cada trimestre; si alguno ofrece HTTPS, cambiarlo y quitarlo de aquí.",
+  "datex2.eu": "Identificador del esquema XML DATEX II (no es una conexión).",
+  "www.opengis.net": "Identificador del espacio de nombres KML (no es una conexión).",
+  "www.wikidata.org/entity/": "Prefijo de identificadores de Wikidata dentro de los datos (no es una conexión).",
+  "omawww.sat.gob.mx": "Listado 69-B del SAT; no respondió por HTTPS en la prueba del 2026-11-11 (verificar).",
+  "www.atlasnacionalderiesgos.gob.mx": "Solo enlace para la persona; no respondió por HTTPS el 2026-11-11 (verificar).",
+  "www.ssn.unam.mx": "Solo enlace para la persona; no respondió por HTTPS el 2026-11-11 (verificar).",
+  "websdr.ewi.utwente.nl:8901": "Receptor WebSDR que solo se ofrece por http en el puerto 8901 (solo enlace).",
+  "trafficcam.calgary.ca": "Cámaras de Calgary: por HTTPS respondió 403 el 2026-11-11 (verificar).",
+  "publication.pravo.gov.ru": "Portal oficial de Rusia; no respondió por HTTPS el 2026-11-11 (verificar).",
+  "api.irishrail.ie": "API de Irish Rail: por HTTPS respondió 500 el 2026-11-11 (verificar)."
+ }
 }

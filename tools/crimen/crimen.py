@@ -162,7 +162,7 @@ def a_feature(art, origen, estados, gaz):
 
 
 # ---------------------------------------------------------------- archivos de eventos de GDELT 2.0
-ULTIMA = "http://data.gdeltproject.org/gdeltv2/lastupdate.txt"
+ULTIMA = "https://data.gdeltproject.org/gdeltv2/lastupdate.txt"
 TIPOS_ACTOR = {"CRM": "Crimen organizado", "INS": "Insurgencia", "REB": "Grupo rebelde", "UAF": "Grupo armado", "SEP": "Separatistas"}
 RAICES_VIOLENTAS = {"13", "14", "15", "17", "18", "19", "20"}  # amenazas, protestas violentas, fuerza, coerción, asalto, combate, violencia masiva
 # Índices de columnas del formato de eventos de GDELT 2.0 (61 columnas).

@@ -174,7 +174,7 @@ def registros(s, raw):
             elif sid == 'queensland':
                 yield p.get('id'), p.get('description'), *xy[:2], {'imgs': [p.get('image_url')], 'lugar': p.get('locality', ''), 'o': p.get('image_sourced_from') or s['operador']}
             elif str(p.get('CurrentStatus', '')).lower() == 'active':
-                image = str(p.get('ImageURL') or '').replace('http://info.kingcounty.gov/', 'https://info.kingcounty.gov/')
+                image = str(p.get('ImageURL') or '').replace('https://info.kingcounty.gov/', 'https://info.kingcounty.gov/')
                 yield p.get('AssetID'), p.get('Location'), *xy[:2], {'imgs': [image], 'o': p.get('Owner') or s['operador']}
     elif sid == 'austin':
         for c in d:
