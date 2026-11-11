@@ -68,7 +68,7 @@
     <section id="t-barra" data-tema>
       <h2>2. Barra superior</h2>
       <details class="paso" open><summary>📚 Secciones</summary>
-        <p>Abre las páginas especializadas. Las páginas especializadas se explican en el capítulo 7; las herramientas de las fases están en el <a href="#t-fases">capítulo 8, Centro de inteligencia</a>. La lista de accesos:</p>
+        <p>Abre las páginas especializadas, que se explican en <a href="#t-paginas">«Otras secciones»</a><span data-solo-admin>; las herramientas de las fases están en el <a href="#t-fases">capítulo 8, Centro de inteligencia</a></span>. La lista de accesos:</p>
         <ul id="tut-secciones"></ul></details>
       <details class="paso"><summary>Vista: Plano 2D, Globo 3D y Peters</summary>
         <ul><li><b>Plano 2D (Mercator)</b>: el mapa de siempre; deforma el tamaño cerca de los polos (Groenlandia se ve tan grande como África).</li>
@@ -138,7 +138,7 @@
           <li>Aparecen tres listas: catálogo, 🌐 Wikidata y 🏛️ GLEIF. En GLEIF elige «GRUPO BIMBO S A B DE C V».</li>
           <li>Verás su estructura legal: matriz última, matriz directa y sus filiales directas (México, Reino Unido, Canadá, Chile, Colombia, India, España…). Cada una se abre con un clic.</li>
           <li>Para ver el consejo y la dirección, abre la empresa en la lista de Wikidata o del catálogo; confirma en el reporte anual o en la BMV.</li></ol></div>
-        <p class="meta">Diferencia con «🏢 Inteligencia corporativa» (menú Secciones): aquella página cruza <i>tus propias</i> instalaciones con los riesgos del mapa; Mundo corporativo sigue lo que pasa con las empresas del mundo.</p></details>
+        <p class="meta" data-solo-admin>Diferencia con «🏢 Inteligencia corporativa» (menú Secciones → 🔐 Admin): aquella página cruza <i>tus propias</i> instalaciones con los riesgos del mapa; Mundo corporativo sigue lo que pasa con las empresas del mundo.</p></details>
       <details class="paso" data-inv="Historia por país"><summary>📜 Historia por país</summary><p>Elige un país para ver su contexto histórico, conflictos y tratados principales (Wikidata y fuentes citadas).</p></details>
       <details class="paso" data-inv="Reportes diarios"><summary>📑 Reportes diarios</summary><p>Panorama del día de México y del mundo en web y PDF, y la matriz de riesgo por país con las fuentes que elijas.</p></details>
       <details class="paso" data-inv="Seguimiento"><summary>⭐ Seguimiento</summary><p>En la ficha de un lugar (aeropuerto, puerto, embajada, una de tus instalaciones…) presiona «Seguir». Aquí aparece agrupado por tipo, con cuántos eventos hay cerca y cuántos son nuevos desde tu última visita. Se guarda solo en tu navegador.</p></details>
@@ -184,7 +184,7 @@
       <details class="paso"><summary>🏛️ Poder político, 💸 guías y 📚 fuentes</summary><p>Enlaces a declaraciones patrimoniales y de intereses, y guías de señales de alerta de lavado de dinero, empresas fantasma y nepotismo, con su base legal (LFPIORPI, Código Fiscal art. 69-B, Ley General de Responsabilidades Administrativas).</p></details>
     </section>
 
-    <section id="t-caja" data-tema>
+    <section data-solo-admin id="t-caja" data-tema>
       <h2>6. Caja del analista (herramientas.html)</h2>
       <details class="paso" open><summary>📁 Auditoría de archivos</summary><p>Revisa archivos de Office, PDF e imágenes: metadatos ocultos (autor, empresa, software), macros, enlaces externos y huella SHA-256. Útil antes de publicar o de abrir un archivo recibido.</p></details>
       <details class="paso"><summary>💻 Informática y ciberseguridad</summary><ul><li>Vulnerabilidades críticas recientes (NVD, catálogo KEV de CISA y probabilidad de explotación EPSS), buscables por producto.</li><li>Extraer indicadores (IOC) de un texto: URL, dominios, IP, correos, hashes, CVE y carteras de Bitcoin; desactivar (hxxp, [.]) para compartir.</li>
@@ -211,27 +211,28 @@
 
     <section id="t-paginas" data-tema>
       <h2>7. Otras secciones</h2>
-      <details class="paso"><summary>📰 Noticiero DOMINUS</summary><p>30 secciones temáticas con titulares de las últimas horas e indicadores oficiales (Banxico, tipo de cambio, tasas). Cada nota muestra fuente, fecha y enlace; DOMINUS no copia el texto completo.</p></details>
+      <details class="paso" data-solo-admin><summary>📰 Noticiero DOMINUS</summary><p>30 secciones temáticas con titulares de las últimas horas e indicadores oficiales (Banxico, tipo de cambio, tasas). Cada nota muestra fuente, fecha y enlace; DOMINUS no copia el texto completo.</p></details>
       <details class="paso"><summary>♟️ Narrativas y estrategia</summary><p>Técnicas de poder, propaganda e influencia detectadas en las noticias de hoy, cómo protegerte y una biblioteca de obras de referencia.</p></details>
       <details class="paso"><summary>🇲🇽 🌍 Reportes diarios y 🧮 Matriz de riesgo</summary><p>Panorama del día con lo más relevante por área y su PDF. La matriz 5×5 (probabilidad × impacto) se arma para cualquier país con las fuentes que elijas, por tema y por fuente.</p></details>
-      <details class="paso"><summary>🏢 Inteligencia corporativa</summary><p>1) Registra tus instalaciones; 2) matriz de riesgo 5×5 según ISO 31000; 3) exposición por país; 4) radar de competidores; 5) guías de método.</p>
+      <details class="paso" data-solo-admin><summary>🏢 Inteligencia corporativa</summary><p>1) Registra tus instalaciones; 2) matriz de riesgo 5×5 según ISO 31000; 3) exposición por país; 4) radar de competidores; 5) guías de método.</p>
         <div class="ejemplo"><b class="titulo">Ejemplo</b><ol><li>Agrega «Planta Querétaro» con sus coordenadas (clic derecho en el mapa las copia).</li><li>La página cruza la planta con los eventos a 50 km: bloqueos, robos a transporte, clima.</li><li>Califica cada riesgo de 1 a 5 en probabilidad e impacto; el producto ubica el riesgo en la matriz (por ejemplo 4 × 4 = 16, zona roja).</li></ol></div></details>
-      <details class="paso"><summary>🎖️ DOMINUS OPS</summary><p>Metodología para consultoría de riesgos en 6 fases: cliente, mapa maestro, diagnóstico de madurez (DMI), gobernanza en nueve dimensiones, plantillas por fase, biblioteca de metodologías, simulación de escenarios, informe en PDF y Word, tableros y War Room, Battle Rhythm y SITREP (reporte de situación).</p></details>
-      <details class="paso"><summary>🏠 Inmuebles y riesgo</summary>
+      <details class="paso" data-solo-admin><summary>🎖️ DOMINUS OPS</summary><p>Metodología para consultoría de riesgos en 6 fases: cliente, mapa maestro, diagnóstico de madurez (DMI), gobernanza en nueve dimensiones, plantillas por fase, biblioteca de metodologías, simulación de escenarios, informe en PDF y Word, tableros y War Room, Battle Rhythm y SITREP (reporte de situación).</p></details>
+      <details class="paso" data-solo-admin><summary>🏠 Inmuebles y riesgo</summary>
         <p>Evaluador de riesgo por ubicación (sismos, volcanes, terreno, estabilidad política, inseguridad), desarrollos en seguimiento, zonas en seguimiento en México y 27 países (búsquedas solo enlace en los portales de cada país), tu lista y fuentes oficiales por país.</p>
         <div class="ejemplo"><b class="titulo">Ejemplo: departamento en Positano</b><ol><li>«Zonas en seguimiento» → País «Italia» → Ciudad «Positano».</li><li>Abre la tarjeta: botones de búsqueda en Immobiliare.it, Idealista y Casa.it en italiano («appartamento vendita Positano»).</li><li>Lee las reglas para una persona mexicana y los riesgos (sismos y el Vesubio, a unos 35 km).</li><li>Cuando encuentres un anuncio, «Evaluar una ubicación» con sus coordenadas y «Guardar en mi lista».</li></ol></div></details>
-      <details class="paso"><summary>📊 Analítica</summary><p>Tendencias de 90 días y alertas de temas fuera de lo normal, comparador de países, consultas SQL en el navegador (DuckDB), exportación en 9 formatos y calidad de datos por fuente.</p>
+      <details class="paso" data-solo-admin><summary>📊 Analítica</summary><p>Tendencias de 90 días y alertas de temas fuera de lo normal, comparador de países, consultas SQL en el navegador (DuckDB), exportación en 9 formatos y calidad de datos por fuente.</p>
         <div class="ejemplo"><b class="titulo">Ejemplo SQL</b><p><code>SELECT pais_iso3, COUNT(*) AS n FROM eventos WHERE severidad &gt;= 4 GROUP BY 1 ORDER BY n DESC LIMIT 10;</code> → los 10 países con más eventos graves.</p></div></details>
       <details class="paso"><summary>🛟 Soporte: informe de errores</summary><p>Arma un informe con los errores que vio este navegador (sin datos personales) para enviarlo a soporte por correo.</p></details>
-      <details class="paso"><summary>📈 Economía, 💼 Portafolio y 🩺 Centro de control (solo administración)</summary>
+      <details class="paso" data-solo-admin><summary>📈 Economía, 💼 Portafolio y 🩺 Centro de control (solo administración)</summary>
         <p><b>Economía</b>: indicadores de México, EUA y la UE. <b>Portafolio</b>: panel propio con señales técnicas, dividendos (con «Años para recuperar» la inversión) y noticias de cada instrumento; no es asesoría de inversión. <b>Centro de control</b>: estado diario de cada proceso automático, datos publicados y su antigüedad, bitácora de incidencias y autoauditoría. Estos enlaces no aparecen en la versión de pago.</p></details>
-      <details class="paso"><summary>⚖️ Marco normativo y 🏷️ Taxonomía</summary><p>Leyes, tratados, estándares ISO y metodologías que usa el proyecto; y la definición de las 13 áreas y sus subcategorías.</p></details>
+      <details class="paso" data-solo-admin><summary>⚖️ Marco normativo</summary><p>Leyes, tratados, estándares ISO y metodologías que usa el proyecto.</p></details>
+      <details class="paso"><summary>🏷️ Taxonomía</summary><p>La definición de las 13 áreas y sus subcategorías.</p></details>
     </section>
 
-    <section id="t-fases" data-tema>
+    <section data-solo-admin id="t-fases" data-tema>
       <h2>8. Centro de inteligencia: las fases paso a paso</h2>
       <p>Las fases organizan el trabajo del analista: formular una pregunta, contrastar explicaciones, conservar documentos, registrar decisiones y revisar el territorio. Son áreas de trabajo disponibles ahora; no necesitas completar una para abrir otra. Su numeración corresponde al desarrollo de estas herramientas, no a las fases de consultoría de DOMINUS OPS.</p>
-      <p>Abre <b>Secciones → Centro de inteligencia</b>. Coloca el puntero sobre «Centro de inteligencia» para desplegarlo y haz clic en una etapa para ver sus herramientas; también puedes recorrer los controles con <kbd>Tab</kbd> y activarlos con <kbd>Enter</kbd>. La etapa 5 agrupa territorio y transporte. <a href="plataforma.html#fases">Ver todas las herramientas</a> muestra el catálogo completo. En cada módulo, «Claro / Oscuro» cambia el tema y conserva la misma preferencia que el mapa.</p>
+      <p>Abre <b>Secciones → 🔐 Admin → Centro de inteligencia</b>. Coloca el puntero sobre «Centro de inteligencia» para desplegarlo y haz clic en una etapa para ver sus herramientas; también puedes recorrer los controles con <kbd>Tab</kbd> y activarlos con <kbd>Enter</kbd>. La etapa 5 agrupa territorio y transporte. <a href="plataforma.html#fases">Ver todas las herramientas</a> muestra el catálogo completo. En cada módulo, «Claro / Oscuro» cambia el tema y conserva la misma preferencia que el mapa.</p>
 
       <details class="paso" id="t-fases-preparar" open><summary>Antes de empezar: dónde se guarda el trabajo y cómo practicar</summary>
         <p>Usaremos un caso ficticio: <b>«Ejercicio · Continuidad de Planta Ejemplo»</b>. La pregunta es si un bloqueo podría afectar las entregas. Los nombres, señales y conclusiones del ejercicio son inventados: no describen una amenaza real.</p>

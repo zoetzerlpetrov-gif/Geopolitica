@@ -657,7 +657,8 @@ export const CAPAS = [
     estilo: (p) => ({ c: /^#[0-9a-f]{6}$/i.test(p.color || "") ? p.color : NIVEL[Math.min(4, p.level || 0)], r: 4 + Math.min(4, p.level || 0) }),
     ficha: (p) => ({ titulo: p.name, chip: `${p.level_label || ""} · AQI ${p.us_aqi ?? "—"}`,
       filas: [...(p.pais_iso3 ? [["País", p.pais_iso3]] : []), ["PM2.5", `${p.pm2_5 ?? "—"} µg/m³`], ["PM10", `${p.pm10 ?? "—"} µg/m³`], ["Ozono", `${p.ozone ?? "—"} µg/m³`], ["NO₂", `${p.no2 ?? "—"} µg/m³`]],
-      url: "https://open-meteo.com/en/docs/air-quality-api", fuente: "Open-Meteo Air Quality (modelo CAMS)" }),
+      url: /CAMS de Copernicus/.test(p.fuente || "") ? "https://atmosphere.copernicus.eu/" : /Sensor\.Community/.test(p.fuente || "") ? "https://sensor.community/" : "https://open-meteo.com/en/docs/air-quality-api",
+      fuente: p.fuente || "Open-Meteo Air Quality (modelo CAMS)" }),
   },
   {
     id: "volcanes", grupo: "Desastres naturales", nombre: "Volcanes vigilados (alerta oficial y viento para la ceniza)", archivos: ["volcanoes.geojson"], fuente: "CENAPRED / USGS / Smithsonian",
@@ -1660,6 +1661,8 @@ export class Riesgos {
       fc = { type: "FeatureCollection", features: partes.flatMap((p) => p?.features || []) };
     }
     if (capa.complementar) fc = await capa.complementar(fc, leerArchivo);
+    // Versión de pago: se quitan los puntos de una fuente sin permiso comercial (p. ej. Open-Meteo en calidad del aire).
+    if (capa.excluir_fuente) fc = { ...fc, features: (fc.features || []).filter((f) => !String(f.properties?.fuente || "").includes(capa.excluir_fuente)) };
     return capa.derivar ? capa.derivar(fc) : fc;
   }
 

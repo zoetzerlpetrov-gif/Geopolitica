@@ -46,7 +46,12 @@ async function iniciar() {
     const href = a.getAttribute("href");
     if (!esInterno(href)) return;
     const destino = paginaDe(href);
-    if (paginaSoloAdmin(planes, destino)) { a.remove(); return; }
+    if (paginaSoloAdmin(planes, destino)) {
+      // Invisible para clientes: si el enlace es lo único de su renglón de lista, se quita el renglón entero.
+      const li = a.closest("li");
+      if (li && li.querySelectorAll("a[href]").length === 1) li.remove(); else a.remove();
+      return;
+    }
     // Sección de un plan superior: se ve con candado y lleva a la comparación de planes.
     const req = !a.classList.contains("enlace-bloqueado") && planFaltante(planes, plan, "paginas", destino);
     if (req) {

@@ -48,6 +48,7 @@ export function restricciones(lic, catalogo, planes = {}) {
     riesgos: new Set(Object.keys(v.riesgos_solo_admin || {})),
     sustituciones: v.riesgos_sustituidos || {},
     movimiento: new Set(Object.keys(v.movimiento_solo_admin || {})),
+    movimientoSust: v.movimiento_sustituidos || {},
     funciones: new Set(Object.keys(v.funciones_solo_admin || {})),
     paginas: admin("pagina"),
     bloques: admin("bloque"),

@@ -6,6 +6,7 @@ no acumular historial; el workflow de Pages la copia a data/vivos/):
   vivos/satelites.json   TLE por grupo (ver satelites()): SatNOGS DB + última copia de CelesTrak, cada 6 h
   vivos/satcat/0-9.json  ficha de cada satélite (GCAT, CC BY 4.0) por último dígito del NORAD; diaria
   vivos/aeronaves.json   posiciones ADS-B: OpenSky (global, anónimo) + adsb.lol (militares)
+  vivos/aeronaves_comercial.json  solo adsb.lol (ODbL), para la versión de pago
   vivos/buques.json      posiciones AIS de AISStream: ventana de 3 min y buques no oídos se conservan 2 h
   vivos/sanciones.json   matrículas de aeronaves e IMO de buques en la lista SDN de OFAC (diaria)
   vivos/estado.json      qué fuente respondió, cuántos objetos y cuándo
@@ -689,7 +690,63 @@ def buques(segundos=None):
     return len(filas)
 
 
-PASOS = {"sanciones": sanciones, "satelites": satelites, "aeronaves": aeronaves, "buques": buques}
+# ------------------------------------------------------------------ aeronaves para la versión de pago (solo adsb.lol)
+# OpenSky solo permite uso no comercial; adsb.fi y airplanes.live, también. adsb.lol publica sus datos como abiertos
+# (ODbL 1.0: se puede usar comercialmente con atribución y compartiendo igual las bases derivadas). Su API pública no
+# entrega todo el mundo de una vez: se pide por puntos (radio máximo 250 millas náuticas) sobre las zonas que más importan.
+def _malla(lat0, lat1, lon0, lon1, paso_lat=6.5, paso_lon=8.0):
+    pts, lat = [], lat0
+    while lat <= lat1 + 1e-9:
+        lon = lon0
+        while lon <= lon1 + 1e-9:
+            pts.append((round(lat, 1), round(lon, 1)))
+            lon += paso_lon
+        lat += paso_lat
+    return pts
+
+
+PUNTOS_ADSBLOL = (
+    _malla(14.5, 33.0, -117.5, -86.0, 5.5, 6.5)        # México con más detalle
+    + _malla(26.0, 52.0, -124.0, -68.0)                 # EUA y sur de Canadá
+    + _malla(8.0, 22.0, -92.0, -60.0, 7.0, 8.0)         # Centroamérica y Caribe
+    + _malla(-35.0, 6.0, -80.0, -40.0, 10.0, 11.0)      # Sudamérica
+    + _malla(36.0, 60.0, -9.0, 30.0)                    # Europa
+    + [(50.0, -40.0), (47.0, -25.0), (45.0, -50.0)]     # Atlántico norte (rutas transatlánticas)
+)
+PAUSA_ADSBLOL = 0.8  # segundos entre consultas, por cortesía (sus límites son dinámicos)
+
+
+def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL):
+    """vivos/aeronaves_comercial.json: mismas columnas que aeronaves.json, solo con datos de adsb.lol (ODbL)."""
+    pedir = pedir or (lambda u: json.loads(get(u, timeout=40)))
+    sanc = set(leer("sanciones.json", {}).get("matriculas", []))
+    filas, errores, consultas = {}, 0, 0
+    for u in ["https://api.adsb.lol/v2/mil"] + [f"https://api.adsb.lol/v2/point/{la}/{lo}/250" for la, lo in puntos]:
+        try:
+            d = pedir(u)
+            consultas += 1
+            for a in d.get("ac") or []:
+                f = fila_adsblol(a, sanc)
+                if f:
+                    filas[f[0]] = f
+            errores = 0
+        except Exception as e:  # noqa: BLE001
+            errores += 1
+            print(f"  adsb.lol {u}: {e}")
+            if errores >= 5:  # el servicio no está respondiendo: se publica lo que haya
+                break
+        if pausa:
+            time.sleep(pausa)
+    if not filas:
+        raise RuntimeError("adsb.lol no respondió")
+    escribir("aeronaves_comercial.json", {"generado_utc": ahora(), "campos": CAMPOS_AVION,
+             "fuentes": {"adsb.lol": len(filas), "consultas": consultas},
+             "licencia": "Datos de adsb.lol bajo Open Database License (ODbL) 1.0 · © colaboradores de adsb.lol",
+             "a": list(filas.values())})
+    return len(filas)
+
+
+PASOS = {"sanciones": sanciones, "satelites": satelites, "aeronaves": aeronaves, "aeronaves_comercial": aeronaves_comercial, "buques": buques}
 
 
 def main(pedidos):

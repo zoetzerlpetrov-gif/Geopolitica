@@ -2,8 +2,7 @@
 
 Uso:  python3 tools/noticiero_video/subir.py DIR   (DIR con noticiero.mp4, guion.json y descripcion.txt)
 Variables de entorno (GitHub → Settings → Secrets; nunca en el código): YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN.
-YT_PRIVACIDAD: private (por omisión), unlisted o public. Un proyecto de API sin auditar solo puede subir videos
-privados; tras la auditoría de Google se cambia a public. Si faltan las llaves, no hace nada y termina sin error.
+El noticiero es solo para administración: los videos siempre se suben como privados (solo los ve la cuenta del canal). Si faltan las llaves, no hace nada y termina sin error.
 """
 import json
 import os
@@ -16,9 +15,9 @@ SUBIDA_URL = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=res
 
 
 def metadatos(g, descripcion, privacidad="private"):
-    """Cuerpo de la petición: título, descripción, categoría Noticias y política (25), español, voz sintética declarada."""
-    if privacidad not in ("private", "unlisted", "public"):
-        privacidad = "private"
+    """Cuerpo de la petición: título, descripción, categoría Noticias y política (25), español, voz sintética declarada.
+    El noticiero en video es solo para administración: siempre se sube como privado, sin importar lo que se pida."""
+    privacidad = "private"
     return {
         "snippet": {"title": g["titulo"][:100], "description": descripcion[:4900], "categoryId": "25", "defaultLanguage": "es-419",
                     "defaultAudioLanguage": "es-419", "tags": ["noticias", "México", "mundo", "economía", "DOMINUS"]},
@@ -43,7 +42,7 @@ def subir(directorio):
         descripcion = f.read()
     video = os.path.join(directorio, "noticiero.mp4")
     acceso = token_de_acceso(cid, secreto, refresco)
-    cuerpo = json.dumps(metadatos(g, descripcion, os.environ.get("YT_PRIVACIDAD", "private"))).encode("utf-8")
+    cuerpo = json.dumps(metadatos(g, descripcion)).encode("utf-8")
     ini = urllib.request.Request(SUBIDA_URL, data=cuerpo, method="POST", headers={
         "Authorization": f"Bearer {acceso}", "Content-Type": "application/json; charset=UTF-8",
         "X-Upload-Content-Type": "video/mp4", "X-Upload-Content-Length": str(os.path.getsize(video))})

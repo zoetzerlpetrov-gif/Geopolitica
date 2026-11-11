@@ -190,6 +190,16 @@
    "tipo": "pagina",
    "href": "conducta.html",
    "nombre": "Conducta y escritura (lenguaje corporal y grafología)"
+  },
+  {
+   "tipo": "pagina",
+   "href": "cartera.html",
+   "nombre": "Cartera de proyectos"
+  },
+  {
+   "tipo": "pagina",
+   "href": "identidad.html",
+   "nombre": "Protección de identidad (¿Hay líneas registradas con mi CURP?)"
   }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",

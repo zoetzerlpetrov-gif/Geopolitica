@@ -47,15 +47,15 @@ Responde solo con JSON con esta forma:
  "mediano_plazo":{"escenarios":[...]}, "largo_plazo":{"escenarios":[...]}}"""
 
 
-def eventos_para_ia(rep):
-    """Destacados y los principales de cada sección (solo notas de medios), sin repetir; máximo MAX_EVENTOS."""
+def eventos_para_ia(rep, maximo=MAX_EVENTOS):
+    """Destacados y los principales de cada sección (solo notas de medios), sin repetir; máximo `maximo`."""
     vistos, out = set(), []
     grupos = [rep.get("destacados", [])] + [s["eventos"] for s in rep["secciones"]] + [(rep.get("entorno") or {}).get("eventos", [])]
     for grupo in grupos:
         # Solo notas de medios: las señales automáticas de GDELT son plantillas («Coerción: Australian (Baja California)»)
         # que el modelo tomaba como hechos.
         for e in grupo:
-            if not e.get("automatico") and e["id"] not in vistos and len(out) < MAX_EVENTOS:
+            if not e.get("automatico") and e["id"] not in vistos and len(out) < maximo:
                 vistos.add(e["id"])
                 out.append(e)
     return out
@@ -111,40 +111,40 @@ def _json_de(texto):
 
 
 def pedir(rep, eventos, cfg, clave, modelo, json_mode=True):
-    cuerpo = {"model": modelo, "temperature": 0.3, "max_tokens": 5000,
+    cuerpo = {"model": modelo, "temperature": 0.3, "max_tokens": cfg.get("max_tokens_panorama", 5000),
               "messages": [{"role": "system", "content": INSTRUCCIONES}, {"role": "user", "content": mensaje_usuario(rep, eventos)}]}
     if json_mode:
         cuerpo["response_format"] = {"type": "json_object"}
-    if "gpt-oss" in modelo or "qwen" in modelo:
+    if cfg.get("proveedor") != "local" and ("gpt-oss" in modelo or "qwen" in modelo):
         cuerpo["reasoning_effort"] = "low"  # con «medium» el razonamiento agotaba los tokens y el JSON salía cortado
         cuerpo["reasoning_format"] = "hidden"
     req = urllib.request.Request(cfg["url"], data=json.dumps(cuerpo).encode(),
                                  headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json", "User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with urllib.request.urlopen(req, timeout=cfg.get("timeout_s", 120)) as r:
         return json.loads(r.read())["choices"][0]["message"]["content"]
 
 
-def reciente(previo, t):
+def reciente(previo, t, horas=HORAS_ENTRE):
     p = (previo or {}).get("panorama_ia")
     if not p:
         return None
     gen = datetime.strptime(p["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-    return p if t - gen < timedelta(hours=HORAS_ENTRE) else None
+    return p if t - gen < timedelta(hours=horas) else None
 
 
 def panorama(rep, previo, cfg, clave, t, pedir_fn=pedir, dormir=time.sleep):
     """Panorama nuevo, el previo si es reciente o si falla la IA, o None. Nunca lanza excepción."""
     guardado = (previo or {}).get("panorama_ia")
-    if reciente(previo, t) or not clave:
+    if reciente(previo, t, cfg.get("horas_panorama", HORAS_ENTRE)) or not clave:
         return guardado
-    eventos = eventos_para_ia(rep)
+    eventos = eventos_para_ia(rep, cfg.get("eventos_panorama", MAX_EVENTOS))
     if len(eventos) < 3:
         return guardado
     ids = {e["id"] for e in eventos}
     errores = []
     for modelo in cfg.get("modelos_panorama") or cfg.get("modelos", [])[:3]:
         esperas = 0
-        for json_mode in (True, False, False):
+        for json_mode in ((True,) if cfg.get("proveedor") == "local" else (True, False, False)):
             try:
                 horizontes = validar(_json_de(pedir_fn(rep, eventos, cfg, clave, modelo, json_mode)), ids)
             except urllib.error.HTTPError as e:

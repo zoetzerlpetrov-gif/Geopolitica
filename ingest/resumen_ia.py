@@ -87,14 +87,14 @@ def pedir(titulo, texto, fuente, cfg, clave, modelo):
             {"role": "user", "content": f"Fuente: {fuente}\nTítulo: {titulo}\nTexto del medio (solo para entender, no copiar): {texto[:1200]}"},
         ],
     }
-    if "gpt-oss" in modelo or "qwen" in modelo:
+    if cfg.get("proveedor") != "local" and ("gpt-oss" in modelo or "qwen" in modelo):
         # Modelos que razonan antes de responder: poco razonamiento y oculto, para que no se coma la respuesta.
         cuerpo["reasoning_effort"] = "low"
         cuerpo["reasoning_format"] = "hidden"
     req = urllib.request.Request(cfg["url"], data=json.dumps(cuerpo).encode(),
                                  headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json", "User-Agent": UA})
     try:
-        with urllib.request.urlopen(req, timeout=45) as r:
+        with urllib.request.urlopen(req, timeout=cfg.get("timeout_s", 45)) as r:
             d = json.loads(r.read())
     except urllib.error.HTTPError as e:
         detalle = e.read()[:300].decode("utf-8", "replace")
@@ -114,12 +114,18 @@ def elegir(eventos, textos, maximo):
     return candidatos[:maximo]
 
 
-def resumir(eventos, textos, cfg, clave, pedir_fn=pedir, dormir=time.sleep):
-    """Pone resumen de IA en los eventos elegidos (modifica en sitio). Devuelve estadísticas para el run-log."""
+def resumir(eventos, textos, cfg, clave, pedir_fn=pedir, dormir=time.sleep, reloj=time.monotonic):
+    """Pone resumen de IA en los eventos elegidos (modifica en sitio). Devuelve estadísticas para el run-log.
+    Con `presupuesto_s` (IA local en CPU) se detiene al agotar ese tiempo: lo demás queda para la siguiente corrida."""
+    inicio, presupuesto = reloj(), cfg.get("presupuesto_s")
     est = {"proveedor": cfg.get("proveedor", "groq"), "modelo": None, "resumidos": 0, "rechazados": 0, "motivos": {}, "errores": [], "pendientes": 0}
     modelos = list(cfg["modelos"])
     elegidos = elegir(eventos, textos, cfg["max_por_corrida"])
     for i, ev in enumerate(elegidos):
+        if presupuesto and reloj() - inicio > presupuesto:
+            est["errores"].append(f"tope de {presupuesto} s alcanzado: el resto queda para la siguiente corrida")
+            est["pendientes"] = len(elegidos) - i
+            return est
         titulo, texto, fuente = textos[ev["id"]]
         while modelos:
             try:

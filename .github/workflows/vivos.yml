@@ -127,6 +127,14 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/clima/aire.py
 
+      - name: Calidad del aire con CAMS de Copernicus (modelo global; una vez al día; solo si existe ADS_API_KEY)
+        continue-on-error: true
+        timeout-minutes: 15
+        env:
+          ADS_API_KEY: ${{ secrets.ADS_API_KEY }}
+        run: |
+          if [ -n "$ADS_API_KEY" ]; then pip install -q cdsapi==0.7.6 netCDF4==1.7.2 && python3 tools/clima/aire_cams.py; else echo "sin ADS_API_KEY"; fi
+
       - name: Alertas volcánicas oficiales (CENAPRED y USGS, cada 3 h; si falla se conservan las anteriores)
         continue-on-error: true
         timeout-minutes: 3

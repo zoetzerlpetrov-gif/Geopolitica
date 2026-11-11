@@ -205,7 +205,9 @@ export class Movimiento {
 
   async #cargar(tipo) {
     const n = Number(new URLSearchParams(location.search).get("aviones"));
-    const d = tipo === "aeronaves" && n > 0 ? avionesSinteticos(Math.min(n, 50000)) : await getJSON(`data/vivos/${tipo}.json`, { bust: true });
+    // La versión de pago puede pedir otro archivo con fuentes de uso comercial (p. ej. aeronaves_comercial).
+    const archivo = this.archivos?.[tipo] || tipo;
+    const d = tipo === "aeronaves" && n > 0 ? avionesSinteticos(Math.min(n, 50000)) : await getJSON(`data/vivos/${archivo}.json`, { bust: true });
     const campos = d.campos;
     this.datos[tipo] = {
       generado: d.generado_utc, campos, filas: tipo === "aeronaves" ? d.a : d.b,

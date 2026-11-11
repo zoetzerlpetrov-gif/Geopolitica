@@ -16,7 +16,9 @@ test("el módulo de contactos aparece en Herramientas, fuera del acceso administ
   for (const id of ["contacto-correo", "contacto-cabeceras", "contacto-telefono", "contacto-ip"]) {
     assert.ok(lateral.includes(`<form id="${id}" class="contacto-form"`));
   }
-  assert.doesNotMatch(lateral, /data-solo-admin|\/admin\/huella/);
+  // El bloque de contactos es para clientes (otros bloques del grupo pueden ser solo de administración).
+  const bloque = lateral.slice(lateral.indexOf('id="b-herr-contactos"'));
+  assert.doesNotMatch(bloque.slice(0, bloque.indexOf("</details>")), /data-solo-admin|\/admin\/huella/);
   assert.match(html, /<script type="module" src="js\/contactos\.js"><\/script>/);
   assert.match(lateral, /<fieldset class="contacto-opciones">[\s\S]*?<legend>Fuentes opcionales<\/legend>/);
   assert.match(lateral, /<input name="github" type="checkbox">/);

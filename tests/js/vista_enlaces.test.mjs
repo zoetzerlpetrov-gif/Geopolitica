@@ -92,3 +92,14 @@ test("robos de Eurostat: lectura del JSON-stat y nivel frente a la mediana", asy
   assert.ok(R.riesgoRobosEuropa("PL", t).relativo < 100 && R.riesgoRobosEuropa("FR", t).relativo > 100);
   assert.equal(R.riesgoRobosEuropa("XX", t).nivel, null);
 });
+
+import { htmlInventario, esOpcionAdmin } from "../../js/tutorial-logica.js";
+test("tutorial en versión de pago: las opciones de administración no aparecen ni por su nombre", () => {
+  const b = { titulo: "Grupo", opciones: [{ t: "Seguimiento a Inmuebles" }, { t: "🌋 Volcanes" }, { t: "Pesca ilegal (Global Fishing Watch, 14 días)" }],
+    sub: [{ titulo: "✈️ Aeronaves", opciones: [{ t: "Mostrar en el mapa" }], sub: [] }, { titulo: "🛰️ Satélites", opciones: [{ t: "Mostrar en el mapa" }], sub: [] }] };
+  const ocultar = (t) => esOpcionAdmin(t, new Set(["Seguimiento a Inmuebles"]), ["Aeronaves", "Global Fishing Watch"]);
+  const h = htmlInventario(b, 0, ocultar);
+  assert.ok(h.includes("Volcanes") && h.includes("Satélites"));
+  for (const x of ["Inmuebles", "Global Fishing", "Aeronaves"]) assert.ok(!h.includes(x), x);
+  assert.ok(htmlInventario(b).includes("Aeronaves"), "sin filtro (administración) se ve todo");
+});

@@ -255,7 +255,7 @@
   "ia": {
     "habilitada": true,
     "proveedor": "groq",
-    "nota": "Requiere el secreto GROQ_API_KEY (console.groq.com/keys). Si un modelo se retira se usa el siguiente de la lista.",
+    "nota": "Por omisión: modelo abierto local (ver «local»). Groq queda solo como respaldo si se configura GROQ_API_KEY y no hay modelo local.",
     "url": "https://api.groq.com/openai/v1/chat/completions",
     "modelos": [
       "openai/gpt-oss-120b",
@@ -270,7 +270,18 @@
       "openai/gpt-oss-20b",
       "qwen/qwen3.8-27b"
     ],
-    "nota_panorama": "Modelos para el panorama de los reportes diarios. Lista revisada con /openai/v1/models el 2026-10-16: llama-3.3-70b, llama-4-scout, llama-3.1-8b y qwen3-32b ya no están activos."
+    "nota_panorama": "Modelos para el panorama de los reportes diarios. Lista revisada con /openai/v1/models el 2026-10-16: llama-3.3-70b, llama-4-scout, llama-3.1-8b y qwen3-32b ya no están activos.",
+    "local": {
+      "modelo": "Qwen3-4B-Instruct-2507-Q4_K_M",
+      "licencia": "Apache-2.0 (Qwen3); se ejecuta con llama.cpp (MIT) dentro de GitHub Actions",
+      "nota": "Se usa cuando el workflow levanta el servidor local (IA_LOCAL_URL). Sin llaves ni términos de terceros; ningún texto sale de GitHub.",
+      "max_por_corrida": 6,
+      "timeout_s": 240,
+      "presupuesto_s": 360,
+      "max_tokens_panorama": 900,
+      "eventos_panorama": 15,
+      "horas_panorama": 12
+    }
   },
   "humanitarias": {
     "oms": true,
