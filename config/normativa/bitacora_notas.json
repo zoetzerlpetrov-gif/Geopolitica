@@ -30,5 +30,26 @@
    "Permisionarios de petrolíferos: confirmar que su organismo de evaluación siga aprobado."
   ],
   "estado": "pendiente: revisar el texto oficial en el sitio de la SENER antes de agregar trámites a la ficha"
+ },
+ "EUR:32019R0787R(10)": {
+  "resumen": "Corrección de errores de una versión lingüística del Reglamento (UE) 2019/787 sobre definición y etiquetado de bebidas espirituosas (9-nov-2026). No crea obligaciones nuevas.",
+  "afectaciones": [
+   "Productores e importadores de bebidas espirituosas en la UE: solo verificar que su etiquetado use el texto corregido."
+  ],
+  "estado": "no aplica (corrección de errores sin obligaciones nuevas)"
+ },
+ "MEX:dof:5801839": {
+  "resumen": "Decreto de expropiación por causa de utilidad pública de un predio de 9,885.80 m² a favor de la Federación, relacionado con el sector hidrocarburos.",
+  "afectaciones": [
+   "Solo afecta al predio y a sus propietarios; no crea obligaciones generales para empresas."
+  ],
+  "estado": "no aplica (acto particular de expropiación)"
+ },
+ "MEX:dof:5801837": {
+  "resumen": "Decreto de expropiación por causa de utilidad pública de un predio de 9,885.80 m² a favor de la Federación, relacionado con el sector hidrocarburos (publicación gemela de la 5801839).",
+  "afectaciones": [
+   "Solo afecta al predio y a sus propietarios; no crea obligaciones generales para empresas."
+  ],
+  "estado": "no aplica (acto particular de expropiación)"
  }
 }
