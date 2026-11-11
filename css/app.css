@@ -869,3 +869,13 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
   a { color: #000 !important; }
   @page { margin: 14mm; }
 }
+
+/* Submenú «Admin» dentro de Secciones: agrupa lo que solo ve la administración (en la vista de pago no existe). */
+.admin-menu { border-top: 1px solid var(--line); margin-top: 4px; padding-top: 4px; }
+.admin-menu > summary { padding: 8px 10px; border-radius: 6px; cursor: pointer; font-weight: 650; color: var(--text); }
+.admin-menu > summary:hover, .admin-menu > summary:focus-visible { background: var(--surface-2); }
+.admin-menu-contenido { display: flex; flex-direction: column; gap: 2px; padding: 2px 0 6px 10px; margin-left: 10px; border-left: 2px solid var(--line); }
+.admin-menu-contenido > a { display: block; padding: 8px 10px; border-radius: 6px; color: var(--text); text-decoration: none; }
+.admin-menu-contenido > a:hover, .admin-menu-contenido > a:focus-visible { background: var(--surface-2); }
+.admin-menu-contenido > a[hidden] { display: none; }
+@media (max-width: 760px) { .admin-menu > summary, .admin-menu-contenido > a { padding: 11px 10px; } }
