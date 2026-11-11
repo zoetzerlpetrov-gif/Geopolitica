@@ -11,7 +11,7 @@
   <link rel="preconnect" href="https://tiles.openfreemap.org" crossorigin>
   <!-- Se piden en paralelo con MapLibre (sin esto, los módulos y las fuentes esperan a que termine). -->
   <link rel="preload" href="https://tiles.openfreemap.org/fonts/Noto%20Sans%20Regular/0-255.pbf" as="fetch" crossorigin>
-  <link rel="modulepreload" href="js/app.js?v=178">
+  <link rel="modulepreload" href="js/app.js?v=179">
   <link rel="modulepreload" href="js/util.js">
   <link rel="modulepreload" href="js/map.js">
   <link rel="modulepreload" href="js/card.js">
@@ -67,7 +67,7 @@
       <details class="menu-opciones menu-secciones" id="menu-secciones">
         <summary class="icon-btn" title="Análisis, noticiero, narrativas, reportes, marco normativo y taxonomía">📚 Secciones</summary>
         <div class="menu-pop menu-lista" role="group" aria-label="Secciones">
-          <a id="acceso-mapa-admin" href="https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/" title="Abre la consola protegida de administración" hidden>🔐 Acceso administrativo</a>
+          <a id="acceso-mapa-admin" href="https://geopolitica.zoetzerl-petrov.workers.dev/admin/huella/" data-solo-admin title="Abre la consola protegida de administración" hidden>🔐 Acceso administrativo</a>
           <button id="btn-analisis" type="button" title="Vista México, matriz de riesgo y modo aprendizaje">📊 Análisis: vista México y matriz de riesgo</button>
           <a href="noticiero.html" title="30 secciones e indicadores oficiales">📰 Noticiero DOMINUS</a>
           <a href="narrativas.html" title="Técnicas de poder, propaganda e influencia aplicadas a las noticias de hoy">♟️ Narrativas y estrategia</a>
@@ -286,8 +286,8 @@
 
       <details class="grupo" id="g-herramientas" data-grupo="herramientas">
         <summary class="grupo-tit" data-grupo="herramientas"><span aria-hidden="true">🧰</span> Herramientas</summary>
-        <p class="nota-capas">Más herramientas en la <a href="herramientas.html">🧰 Caja del analista</a>: auditoría de archivos (PDF, Office, ZIP, ejecutables), informática y ciberseguridad (IOC, encabezados de correo, DNS, hashes, JWT) y análisis de inteligencia (ACH, ICD 203, PMESII-PT, ASCOPE, METT-TC, CARVER defensivo, pre-mortem, Mission Brief).</p>
-        <details class="bloque plegable" id="b-herr-identidad" data-grupo="herramientas">
+        <p class="nota-capas" data-solo-admin>Más herramientas en la <a href="herramientas.html">🧰 Caja del analista</a>: auditoría de archivos (PDF, Office, ZIP, ejecutables), informática y ciberseguridad (IOC, encabezados de correo, DNS, hashes, JWT) y análisis de inteligencia (ACH, ICD 203, PMESII-PT, ASCOPE, METT-TC, CARVER defensivo, pre-mortem, Mission Brief).</p>
+        <details class="bloque plegable" id="b-herr-identidad" data-grupo="herramientas" data-solo-admin>
           <summary><h2>🛡️ ¿Hay líneas registradas con mi CURP?</h2></summary>
           <p class="nota-capas">La CRT publica 149 marcas de telefonía con 58 páginas de consulta distintas (89 marcas comparten la de la red Altán). La herramienta te lleva página por página, guarda tu avance en este navegador y, si aparece una línea que no es tuya, te dice qué hacer y te da los escritos para la compañía, la CRT, la solicitud ARCO y la denuncia. Tu CURP no se envía a ningún servidor.</p>
           <p><a class="link-btn" href="identidad.html">Abrir Protección de identidad →</a> <a href="identidad.html#ruta">Encontré una línea que no es mía</a> · <a href="identidad.html#prevencion">Prevención</a></p>
@@ -617,8 +617,8 @@
   <script src="vendor/maplibre-gl/maplibre-gl.js"></script>
   <!-- Arranca los workers de MapLibre mientras se ejecutan los módulos de la app (no espera a crear el mapa). -->
   <script>try { maplibregl.prewarm(); } catch (e) {}</script>
-  <script type="module" src="js/app.js?v=178"></script>
-  <script type="module" src="js/vista_enlaces.js?v=2"></script>
+  <script type="module" src="js/app.js?v=179"></script>
+  <script type="module" src="js/vista_enlaces.js?v=3"></script>
   <script type="module" src="js/huella-menu.js"></script>
   <script type="module" src="js/contactos.js"></script>
 </body>

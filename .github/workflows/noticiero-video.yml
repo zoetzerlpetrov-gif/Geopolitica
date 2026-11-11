@@ -3,7 +3,7 @@ name: Noticiero en video
 # Cada mañana arma el Noticiero DOMINUS en video (tools/noticiero_video): resúmenes propios de los reportes diarios de
 # México y global, indicadores de Economía y conteo del Portafolio; voz sintética Piper (es_MX). El video queda como
 # artefacto de la corrida (7 días) y, si existen los secretos YT_CLIENT_ID, YT_CLIENT_SECRET y YT_REFRESH_TOKEN, se
-# sube a YouTube como privado (variable YT_PRIVACIDAD para cambiarlo cuando Google apruebe la auditoría de la API).
+# sube a YouTube siempre como privado: el noticiero en video es solo para administración.
 on:
   workflow_dispatch:
     inputs:
@@ -69,5 +69,4 @@ jobs:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-          YT_PRIVACIDAD: ${{ vars.YT_PRIVACIDAD || 'private' }}
         run: python3 tools/noticiero_video/subir.py salida

@@ -2100,6 +2100,15 @@ async function iniciarRiesgos() {
         const g = r.results?.[0];
         if (g) z = { nombre: g.name, etiqueta: `${g.name}${g.admin1 ? `, ${g.admin1}` : ""}, ${g.country || ""}`, lat: g.latitude, lon: g.longitude, radio_km: A.RADIO_ZONA_KM };
       } catch (err) { /* sin conexión al geocodificador */ }
+    } else if (!z) {
+      // Versión de pago: Nominatim de OpenStreetMap (ODbL, uso comercial con atribución). Una sola consulta al enviar,
+      // como pide su política de uso (sin autocompletar, máximo 1 por segundo).
+      $("rg-zona-res").textContent = "Buscando el lugar…";
+      try {
+        const r = await getJSON(`https://nominatim.openstreetmap.org/search?format=jsonv2&limit=1&accept-language=es&q=${encodeURIComponent(q)}`);
+        const g = r?.[0];
+        if (g) z = { nombre: g.name || q, etiqueta: `${g.display_name} (© OpenStreetMap)`, lat: Number(g.lat), lon: Number(g.lon), radio_km: A.RADIO_ZONA_KM };
+      } catch (err) { /* sin conexión al geocodificador */ }
     }
     if (!z) { $("rg-zona-res").textContent = "No encontré esa zona. Escribe una ciudad, un estado de México o un país."; return; }
     ponerZona(z, z.iso3 ? `Amenazas en ${z.nombre} (todo el país).` : `Amenazas a menos de ${z.radio_km} km de ${z.etiqueta || z.nombre} (distancia en línea recta).`);

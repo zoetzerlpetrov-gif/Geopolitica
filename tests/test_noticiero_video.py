@@ -63,8 +63,8 @@ def test_guion_completo_con_economia_portafolio_y_descripcion():
 def test_metadatos_youtube_privado_y_voz_sintetica_declarada():
     m = S.metadatos({"titulo": "t" * 150}, "d", "public")
     assert len(m["snippet"]["title"]) == 100 and m["snippet"]["categoryId"] == "25"
-    assert m["status"]["containsSyntheticMedia"] is True and m["status"]["privacyStatus"] == "public"
-    assert S.metadatos({"titulo": "t"}, "d", "cualquiera")["status"]["privacyStatus"] == "private"
+    assert m["status"]["containsSyntheticMedia"] is True
+    assert m["status"]["privacyStatus"] == "private", "solo administración: nunca público aunque se pida"
 
 
 def test_subir_sin_llaves_no_hace_nada(monkeypatch, tmp_path):
