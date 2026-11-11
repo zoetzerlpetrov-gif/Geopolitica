@@ -80,7 +80,130 @@ export const MEDIDAS = [
   { id: "guirnalda", nombre: "Tendencia a guirnalda (+) o arco (−)", unidad: "", tol: 0.1, de: (m) => m.avanzado?.guirnalda },
   { id: "variacionGrosor", nombre: "Variación del grosor (relieve)", unidad: "", tol: 0.08, de: (m) => m.avanzado?.variacionGrosor },
   { id: "sinuosidad", nombre: "Sinuosidad de la línea base", unidad: "", tol: 0.05, de: (m) => m.avanzado?.sinuosidad },
+  { id: "temblor", nombre: "Temblor del trazo (alargamiento fino, %)", unidad: " %", tol: 1.5, de: (m) => (m.trazo?.temblor == null ? NaN : m.trazo.temblor * 100) },
+  { id: "extremos", nombre: "Grosor en los extremos / grosor medio (1 = romos)", unidad: "", tol: 0.12, de: (m) => m.trazo?.extremos },
+  { id: "piezas", nombre: "Piezas separadas del trazo", unidad: "", tol: 1, de: (m) => m.trazo?.piezas },
+  { id: "puntas", nombre: "Puntas (inicios y finales de trazo)", unidad: "", tol: 2, de: (m) => m.trazo?.puntas },
 ];
+
+// ---------------------------------------------------------------------------------------------------------------
+// Medidas del trazo sobre la máscara de tinta: temblor (borde dentado), extremos romos o afilados, piezas y puntas.
+// Esqueleto con el adelgazamiento de Zhang y Suen; grosor con la distancia de chaflán 3-4 al fondo.
+
+function recorteTinta({ w, h, m }, max = 900) {
+  let x0 = w, x1 = -1, y0 = h, y1 = -1;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (m[y * w + x]) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; }
+  if (x1 < 0) return null;
+  const paso = Math.max(1, Math.ceil(Math.max(x1 - x0 + 1, y1 - y0 + 1) / max)); // reduce con «máximo» (no corta trazos finos)
+  const W = Math.ceil((x1 - x0 + 1) / paso) + 2, H = Math.ceil((y1 - y0 + 1) / paso) + 2, o = new Uint8Array(W * H);
+  for (let y = y0; y <= y1; y++) for (let x = x0; x <= x1; x++) if (m[y * w + x]) o[(1 + ((y - y0) / paso | 0)) * W + 1 + ((x - x0) / paso | 0)] = 1;
+  return { w: W, h: H, m: o };
+}
+
+const perimetro = ({ w, h, m }) => { let p = 0; for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const i = y * w + x; if (m[i] && (!m[i - 1] || !m[i + 1] || !m[i - w] || !m[i + w])) p++; } return p; };
+
+function mayoria({ w, h, m }) {
+  const o = new Uint8Array(w * h);
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    let s = 0; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) s += m[(y + dy) * w + x + dx];
+    o[y * w + x] = s >= 5 ? 1 : 0;
+  }
+  return { w, h, m: o };
+}
+
+function distancia({ w, h, m }) {
+  const d = new Float32Array(w * h), INF = 1e9;
+  for (let i = 0; i < d.length; i++) d[i] = m[i] ? INF : 0;
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) { const i = y * w + x; if (d[i]) d[i] = Math.min(d[i], d[i - 1] + 3, d[i - w] + 3, d[i - w - 1] + 4, d[i - w + 1] + 4); }
+  for (let y = h - 2; y > 0; y--) for (let x = w - 2; x > 0; x--) { const i = y * w + x; if (d[i]) d[i] = Math.min(d[i], d[i + 1] + 3, d[i + w] + 3, d[i + w + 1] + 4, d[i + w - 1] + 4); }
+  return d;
+}
+
+/** Esqueleto de 1 píxel (Zhang y Suen). */
+export function esqueleto({ w, h, m }) {
+  const s = Uint8Array.from(m);
+  const vec = (i) => [s[i - w], s[i - w + 1], s[i + 1], s[i + w + 1], s[i + w], s[i + w - 1], s[i - 1], s[i - w - 1]];
+  let cambio = true;
+  for (let it = 0; cambio && it < 200; it++) {
+    cambio = false;
+    for (const paso of [0, 1]) {
+      const borrar = [];
+      for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+        const i = y * w + x; if (!s[i]) continue;
+        const p = vec(i), b = p.reduce((a, v) => a + v, 0); if (b < 2 || b > 6) continue;
+        let a = 0; for (let k = 0; k < 8; k++) if (!p[k] && p[(k + 1) % 8]) a++;
+        if (a !== 1) continue;
+        if (paso === 0 ? (p[0] * p[2] * p[4] === 0 && p[2] * p[4] * p[6] === 0) : (p[0] * p[2] * p[6] === 0 && p[0] * p[4] * p[6] === 0)) borrar.push(i);
+      }
+      if (borrar.length) { cambio = true; for (const i of borrar) s[i] = 0; }
+    }
+  }
+  return s;
+}
+
+/** Recorre el esqueleto en cadenas de píxeles (de punta a punta o en lazos). */
+function cadenas(sk, w, h) {
+  const vis = new Uint8Array(w * h), vec = (i) => { const o = []; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && sk[i + dy * w + dx]) o.push(i + dy * w + dx); return o; };
+  const out = [], inicios = [];
+  for (let i = w; i < sk.length - w; i++) if (sk[i]) (vec(i).length === 1 ? inicios.unshift(i) : inicios.push(i));
+  for (const ini of inicios) {
+    if (vis[ini]) continue;
+    const c = []; let i = ini;
+    while (i != null && !vis[i]) { vis[i] = 1; c.push([i % w, (i / w) | 0]); i = vec(i).find((j) => !vis[j]); }
+    if (c.length >= 12) out.push(c);
+  }
+  return out;
+}
+
+/**
+ * Temblor: cuánto «se alarga» el trazo al medirlo en pasos de 2 px frente a pasos de 8 px (tortuosidad fina).
+ * Una curva suave mide casi lo mismo en ambas escalas; un trazo tembloroso zigzaguea y en la escala fina sale más largo.
+ * Devuelve (L2 / L8 − 1), ponderado por la longitud de cada cadena.
+ */
+function temblorDe(sk, w, h) {
+  let l2 = 0, l8 = 0;
+  for (const c of cadenas(sk, w, h)) {
+    if (c.length < 17) continue;
+    const n = c.length - ((c.length - 1) % 8);
+    for (let j = 0; j + 2 < n; j += 2) l2 += Math.hypot(c[j + 2][0] - c[j][0], c[j + 2][1] - c[j][1]);
+    for (let j = 0; j + 8 < n; j += 8) l8 += Math.hypot(c[j + 8][0] - c[j][0], c[j + 8][1] - c[j][1]);
+  }
+  return l8 ? l2 / l8 - 1 : null;
+}
+
+const mediana = (xs) => { if (!xs.length) return NaN; const a = [...xs].sort((p, q) => p - q), k = a.length >> 1; return a.length % 2 ? a[k] : (a[k - 1] + a[k]) / 2; };
+
+/**
+ * Medidas del trazo: temblor (alargamiento del esqueleto en escala fina frente a escala gruesa), borde (perímetro real /
+ * perímetro suavizado), extremos
+ * (grosor en las puntas / grosor medio; cerca de 1 = extremos romos, típicos del trazo lento; bajo = afilados, de un
+ * trazo rápido), puntas (inicios y finales) y piezas (trazos separados, es decir, levantamientos del útil).
+ */
+export function trazo(mask) {
+  const M = recorteTinta(mask); if (!M) return null;
+  const pSuave = perimetro(mayoria(M)), p = perimetro(M);
+  const d = distancia(M), sk = esqueleto(M), { w, h } = M;
+  const gros = [], extremos = [];
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    const i = y * w + x; if (!sk[i]) continue;
+    const g = (2 * d[i]) / 3; gros.push(g);
+    let n = 0; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if ((dx || dy) && sk[i + dy * w + dx]) n++;
+    if (n === 1) extremos.push(g);
+  }
+  const gm = mediana(gros);
+  // piezas: componentes 8-conexos con más de 3 trazos de grosor de largo (sin contar motas)
+  const vis = new Uint8Array(w * h), minN = Math.max(6, gm * gm * 3);
+  let piezas = 0;
+  for (let i = 0; i < M.m.length; i++) {
+    if (!M.m[i] || vis[i]) continue;
+    let n = 0; const pila = [i]; vis[i] = 1;
+    while (pila.length) { const j = pila.pop(); n++; const x = j % w, y = (j / w) | 0;
+      for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) { const xx = x + dx, yy = y + dy, k = yy * w + xx; if (xx >= 0 && xx < w && yy >= 0 && yy < h && M.m[k] && !vis[k]) { vis[k] = 1; pila.push(k); } } }
+    if (n >= minN) piezas++;
+  }
+  const tb = temblorDe(sk, w, h);
+  return { borde: r2(p / Math.max(1, pSuave)), temblor: tb == null ? null : r2(tb * 100) / 100, extremos: extremos.length && gm ? r2(mediana(extremos) / gm) : null, puntas: extremos.length, piezas, grosor: r2(gm) };
+}
 
 /**
  * Compara cada medida de la dubitada con el rango de las indubitadas.
@@ -143,6 +266,51 @@ export function analizarSuperposicion(dubN, indubsN) {
   const maxEntre = e.length ? Math.max(...e) : NaN, maxDub = d.length ? Math.max(...d) : NaN;
   const calco = Number.isFinite(maxDub) && maxDub >= 0.6 && (!Number.isFinite(maxEntre) || maxDub > maxEntre + 0.12);
   return { conDub: conDub.map(r2), entre: entre.map(r2), maxEntre: r2(maxEntre), maxDub: r2(maxDub), mediaEntre: r2(media(e)), mediaDub: r2(media(d)), calco };
+}
+
+// Qué medidas respaldan cada elemento del cotejo. Los que dependen de la forma de las letras usan la superposición.
+const POR_ELEMENTO = {
+  habilidad: ["temblor", "extremos"], velocidad: ["extremos", "temblor", "variacionGrosor"], ritmo: ["variacionGrosor", "sinuosidad", "temblor"],
+  presion: ["variacionGrosor", "grosor"], inclinacion: ["inclinacion"], proporciones: ["proporcion", "hampa", "jamba"], alineacion: ["direccion", "sinuosidad"],
+  espaciado: ["espacioPalabras"], enlaces: ["ligazon", "piezas", "puntas"], uniones: ["guirnalda"], ataques: ["extremos", "puntas"], remates: ["extremos", "puntas"],
+  estructura: ["proporcion", "piezas", "puntas"],
+};
+const POR_FORMA = ["morfologia", "gestos", "rubrica"]; // con la superposición
+export const SOLO_A_MANO = ["puntuacion", "orden", "ubicacion"]; // necesitan lupa o el documento completo
+
+const fmtV = (m) => `${m.dubitada}${m.unidad} (indubitadas ${m.min}–${m.max}${m.unidad})`;
+
+/**
+ * Propuesta automática: { cotejo: { id: { valor, nota } }, senales: { id: motivo } }. La persona perita la revisa;
+ * lo que cambie a mano manda. medidas = compararMedidas(...), sup = analizarSuperposicion(...), copia = bool.
+ */
+export function analisisAutomatico(medidas = [], sup = null, { copia = false } = {}) {
+  const por = Object.fromEntries(medidas.filter((m) => m.estado !== "sin_dato").map((m) => [m.id, m]));
+  const cotejo = {}, senales = {};
+  for (const [el, ids] of Object.entries(POR_ELEMENTO)) {
+    const ms = ids.map((i) => por[i]).filter(Boolean); if (!ms.length) continue;
+    const fuera = ms.filter((m) => m.estado === "fuera");
+    const valor = !fuera.length ? "coincide" : fuera.length * 2 > ms.length ? "diverge" : "variacion";
+    let nota = ms.map((m) => `${m.nombre}: ${fmtV(m)}${m.estado === "fuera" ? " ⚠️" : ""}`).join("; ");
+    if (el === "presion" && copia) nota += ". Estimada por el grosor: en copia o foto la presión real no se puede valorar";
+    cotejo[el] = { valor, nota: `🤖 ${nota}.` };
+  }
+  if (sup && Number.isFinite(sup.mediaDub) && Number.isFinite(sup.mediaEntre)) {
+    const dif = sup.mediaDub - sup.mediaEntre, minE = Math.min(...(sup.entre || []).filter(Number.isFinite));
+    const valor = sup.mediaDub >= minE - 0.05 ? "coincide" : dif > -0.2 ? "variacion" : "diverge";
+    const nota = `🤖 Superposición: la dubitada coincide en ${Math.round(sup.mediaDub * 100)} % en promedio con las indubitadas; las indubitadas entre sí, ${Math.round(sup.mediaEntre * 100)} %. Confirma letra por letra con la vista ampliada.`;
+    for (const el of POR_FORMA) cotejo[el] = { valor, nota };
+  }
+  const alto = (id) => por[id]?.estado === "fuera" && por[id].dubitada > por[id].max;
+  const bajo = (id) => por[id]?.estado === "fuera" && por[id].dubitada < por[id].min;
+  if (alto("temblor")) senales.temblor = `borde del trazo más irregular que en todas las indubitadas (${fmtV(por.temblor)})`;
+  if (alto("extremos")) senales.lentitud = `extremos más gruesos (romos) que en las indubitadas (${fmtV(por.extremos)})`;
+  else if (bajo("variacionGrosor") && alto("temblor") === false && por.variacionGrosor) senales.lentitud = `grosor más parejo que en las indubitadas (${fmtV(por.variacionGrosor)}), típico de un trazo dibujado`;
+  const cortes = ["piezas", "puntas", "ligazon"].find(alto);
+  if (cortes) senales.levantamientos = `más cortes del trazo que en las indubitadas: ${por[cortes].nombre.toLowerCase()} ${fmtV(por[cortes])}`;
+  if (sup?.calco) senales.calco = `coincidencia de ${Math.round(sup.maxDub * 100)} % con una indubitada, mayor que la de las auténticas entre sí (${Math.round(sup.maxEntre * 100)} %)`;
+  if (cotejo.morfologia?.valor === "coincide" && (cotejo.velocidad?.valor === "diverge" || senales.lentitud || senales.temblor)) senales.forma_sin_ritmo = "la forma coincide, pero la velocidad o la calidad del trazo no";
+  return { cotejo, senales };
 }
 
 /**
@@ -209,7 +377,7 @@ export function redactarDictamen(estado = {}, datos = {}) {
   const filasC = [];
   for (const g of ELEMENTOS) for (const it of g.items) {
     const c = estado.cotejo?.[it.id]; if (!c?.valor) continue;
-    filasC.push([it.nombre, VALORES_COTEJO[c.valor] || c.valor, c.nota ? sinPunto(c.nota) : "—"]);
+    filasC.push([it.nombre, VALORES_COTEJO[c.valor] || c.valor, c.nota ? sinPunto(String(c.nota).replace(/^🤖\s*/u, "").replace(/ ⚠️/gu, " (fuera del rango)")) : "—"]);
   }
   if (filasC.length) sec("Cotejo", [], { tabla: { cab: ["Elemento", "Resultado", "Observación"], filas: filasC } });
   const sen = SENALES.filter((s) => (estado.senales || []).includes(s.id));

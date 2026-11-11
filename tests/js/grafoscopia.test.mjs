@@ -99,3 +99,60 @@ test("página: pestaña de peritaje en Conducta y escritura (solo administració
   const planes = JSON.parse(readFileSync(new URL("../../config/planes.json", import.meta.url), "utf8"));
   assert.ok(planes.solo_admin.some((s) => s.href === "conducta.html"));
 });
+
+// ---------- medidas del trazo y análisis automático ----------
+import { trazo, esqueleto, analisisAutomatico, SOLO_A_MANO } from "../../js/grafoscopia-logica.js";
+
+function lienzo(w, h) { return { w, h, m: new Uint8Array(w * h) }; }
+function disco(M, cx, cy, r) { for (let y = Math.floor(cy - r); y <= cy + r; y++) for (let x = Math.floor(cx - r); x <= cx + r; x++) if (x >= 0 && y >= 0 && x < M.w && y < M.h && (x - cx) ** 2 + (y - cy) ** 2 <= r * r) M.m[y * M.w + x] = 1; }
+/** Línea horizontal de grosor `g`; `afilar` adelgaza los extremos (trazo rápido); `temblor` agrega ondulación fina. */
+function linea({ g = 5, afilar = false, temblor = 0 } = {}) {
+  const M = lienzo(400, 80);
+  for (let x = 40; x <= 360; x++) {
+    const t = Math.min(x - 40, 360 - x) / 60, r = afilar ? Math.max(0.6, (g / 2) * Math.min(1, t)) : g / 2;
+    disco(M, x, 40 + (temblor ? temblor * Math.sin(x * 0.6) : 0), r);
+  }
+  return M;
+}
+
+test("trazo: extremos romos (lento) frente a afilados (rápido); temblor sube la irregularidad del borde", () => {
+  const romo = trazo(linea()), afilado = trazo(linea({ afilar: true })), tembloroso = trazo(linea({ g: 3, temblor: 2 }));
+  assert.equal(romo.puntas, 2); assert.equal(romo.piezas, 1);
+  assert.ok(romo.extremos > 0.75, `romo ${romo.extremos}`);
+  assert.ok(afilado.extremos < romo.extremos - 0.2, `afilado ${afilado.extremos} vs romo ${romo.extremos}`);
+  assert.ok(tembloroso.temblor > romo.temblor * 2 && tembloroso.temblor > 0.05, `temblor ${tembloroso.temblor} vs ${romo.temblor}`);
+  const dos = linea(); for (let y = 0; y < 80; y++) for (let x = 195; x <= 205; x++) dos.m[y * 400 + x] = 0;
+  assert.equal(trazo(dos).piezas, 2, "un corte del trazo = 2 piezas (levantamiento)");
+  assert.equal(trazo(lienzo(50, 50)), null);
+});
+
+test("esqueleto de 1 píxel conserva la conexión", () => {
+  const M = linea({ g: 9 }), s = esqueleto(M);
+  let n = 0; for (let x = 60; x < 340; x++) { let c = 0; for (let y = 0; y < 80; y++) c += s[y * 400 + x]; if (c === 1) n++; }
+  assert.ok(n > 260, `columnas con un solo píxel: ${n}`);
+});
+
+const mm = (id, dub, min, max, estado, nombre = id) => ({ id, nombre, unidad: "", dubitada: dub, min, max, media: (min + max) / 2, desv: 0.1, estado });
+
+test("análisis automático: propone cotejo con notas y marca señales con su motivo", () => {
+  const medidas = [mm("inclinacion", 71, 68, 73, "dentro"), mm("temblor", 1.4, 1.1, 1.15, "fuera"), mm("extremos", 0.95, 0.5, 0.6, "fuera"),
+    mm("variacionGrosor", 0.3, 0.3, 0.5, "dentro"), mm("piezas", 6, 2, 3, "fuera"), mm("proporcion", 3, 2.8, 3.2, "dentro")];
+  const sup = { mediaDub: 0.5, mediaEntre: 0.52, entre: [0.48, 0.55], maxDub: 0.6, maxEntre: 0.55, calco: false };
+  const a = analisisAutomatico(medidas, sup, { copia: true });
+  assert.equal(a.cotejo.inclinacion.valor, "coincide"); assert.ok(a.cotejo.inclinacion.nota.includes("68–73"));
+  assert.equal(a.cotejo.habilidad.valor, "diverge", "temblor y extremos fuera");
+  assert.equal(a.cotejo.velocidad.valor, "diverge");
+  assert.equal(a.cotejo.morfologia.valor, "coincide", "la forma coincide según la superposición");
+  assert.ok(a.cotejo.presion.nota.includes("copia"));
+  assert.ok(a.senales.temblor && a.senales.lentitud && a.senales.levantamientos && a.senales.forma_sin_ritmo);
+  assert.ok(!a.senales.calco);
+  for (const id of SOLO_A_MANO) assert.ok(!a.cotejo[id], `${id} se deja a mano`);
+  const limpio = analisisAutomatico([mm("inclinacion", 71, 68, 73, "dentro"), mm("temblor", 1.1, 1.1, 1.15, "dentro")], { ...sup, calco: true, maxDub: 0.95 });
+  assert.deepEqual(Object.keys(limpio.senales), ["calco"]);
+});
+
+test("dictamen: las notas automáticas salen sin emojis", () => {
+  const doc = redactarDictamen({ cotejo: { inclinacion: { valor: "coincide", nota: "🤖 Inclinación: 71 (indubitadas 68–73) ⚠️." } } }, {});
+  const fila = doc.secciones.find((s) => s.titulo === "Cotejo").tabla.filas[0];
+  assert.ok(!fila[2].includes("🤖") && fila[2].includes("(fuera del rango)"));
+});
