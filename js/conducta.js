@@ -24,6 +24,7 @@ for (const b of document.querySelectorAll(".pestanas button")) b.onclick = () =>
 };
 if (location.hash === "#grafologia") document.querySelector('[data-panel="p-grafo"]').click();
 if (location.hash === "#dibujos") document.querySelector('[data-panel="p-dibujo"]').click();
+if (location.hash === "#grafoscopia") document.querySelector('[data-panel="p-pericia"]').click();
 
 const [CAT_C, CAT_G, COMP_G] = await Promise.all([fetch("config/lenguaje_corporal.json").then((r) => r.json()), fetch("config/grafologia.json").then((r) => r.json()),
   fetch("config/grafologia_complemento.json").then((r) => (r.ok ? r.json() : { interpretaciones: {} })).catch(() => ({ interpretaciones: {} }))]);

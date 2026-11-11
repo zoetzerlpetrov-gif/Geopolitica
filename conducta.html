@@ -75,6 +75,9 @@
     @media print { body.solo-informe .hz > *:not(#p-cuerpo), body.solo-informe #p-cuerpo > *:not(#c-informe-caja), body.solo-informe #c-informe-caja > *:not(#c-informe) { display: none !important; } body.solo-informe .escrito { max-height: none; overflow: visible; border: 0; } }
     @media print { body.solo-escrito .hz > *:not(#p-grafo), body.solo-escrito #p-grafo > *:not(#g-escrito-caja), body.solo-escrito #g-escrito-caja > *:not(#g-escrito) { display: none !important; } body.solo-escrito .escrito { max-height: none; overflow: visible; border: 0; } }
     .inf-item { margin: 6px 0; padding-left: 8px; border-left: 3px solid var(--line); }
+    .p-lienzo { max-width: 100%; max-height: 50vh; display: block; touch-action: none; cursor: crosshair; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
+    .p-rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0 10px; }
+    .p-pista.medido, .p-pista { color: #2E7D32; }
     [hidden] { display: none !important; }
     @media print { .no-imprimir { display: none !important; } .panel[hidden] { display: none !important; } body { background: #fff; color: #000; } }
   </style>
@@ -91,6 +94,7 @@
       <button type="button" role="tab" data-panel="p-cuerpo" aria-selected="true">🧍 Lenguaje corporal</button>
       <button type="button" role="tab" data-panel="p-grafo" aria-selected="false">✍️ Grafología: escritura y firma</button>
       <button type="button" role="tab" data-panel="p-dibujo" aria-selected="false">🎨 Dibujos: tests proyectivos</button>
+      <button type="button" role="tab" data-panel="p-pericia" aria-selected="false">🔍 Grafoscopía: peritaje</button>
     </nav>
     <p id="estado" class="meta" role="status" aria-live="polite"></p>
 
@@ -313,9 +317,65 @@
         <div class="barra no-imprimir" id="d-informe-botones" hidden><button type="button" id="d-copiar">📋 Copiar texto</button><button type="button" id="d-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="d-imprimir">🖨️ Imprimir / PDF</button></div>
       </div>
     </section>
+    <section class="panel" id="p-pericia" hidden>
+      <p class="aviso">La grafoscopía determina <b>quién hizo</b> una firma o escritura comparándola con muestras auténticas; no interpreta la personalidad (eso es grafología). Las medidas automáticas son apoyo: la conclusión la decide y firma la persona perita, de preferencia viendo los originales con lupa y luz rasante.</p>
+      <div class="tarjeta">
+        <h2>1. Datos del caso</h2>
+        <div class="barra"><input id="p-expediente" placeholder="Expediente o asunto" aria-label="Expediente"><input id="p-solicitante" placeholder="Solicitante o autoridad" aria-label="Solicitante"><input id="p-perito" placeholder="Perito" aria-label="Perito"><input id="p-cedula" placeholder="Cédula o registro" aria-label="Cédula"></div>
+        <div class="barra"><input id="p-lugar" placeholder="Lugar" aria-label="Lugar"><input id="p-fecha" type="date" aria-label="Fecha del dictamen" title="Fecha del dictamen"></div>
+        <textarea id="p-planteamiento" rows="2" style="width:100%" aria-label="Planteamiento del problema" placeholder="Planteamiento del problema. Ej.: Determinar si la firma que obra al calce del contrato de fecha … fue realizada o no por el mismo puño y letra que las firmas indubitadas de …"></textarea>
+        <input id="p-instrumentos" style="width:100%" aria-label="Instrumentos" placeholder="Instrumentos usados (opcional). Ej.: lupa 10×, luz rasante, escáner a 600 ppp">
+      </div>
+      <div class="tarjeta">
+        <h2>2. Muestra dubitada (la que está en duda)</h2>
+        <div class="barra no-imprimir"><label class="btn prim">📁 Elegir imagen <input type="file" id="p-dub-archivo" accept="image/*" hidden></label>
+          <span class="meta">Escaneo o foto de frente, con luz pareja. Después arrastra sobre la imagen para recortar solo la firma o el texto que se compara.</span></div>
+        <div id="p-dub-caja"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>3. Muestras indubitadas (auténticas, de comparación) <span class="meta" id="p-indub-n"></span></h2>
+        <div class="barra no-imprimir"><label class="btn prim">📁 Agregar imágenes <input type="file" id="p-indub-archivo" accept="image/*" multiple hidden></label>
+          <span class="meta">De la misma naturaleza (firma con firma, texto con texto). En la práctica habitual se buscan al menos 10, de fechas cercanas a la dubitada. Hasta 12.</span></div>
+        <label class="meta"><input type="checkbox" id="p-contemporaneas" checked> Las indubitadas son de fechas cercanas a la dubitada (unos 2 años antes o después)</label>
+        <div id="p-indub-caja" class="p-rejilla"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>4. Mediciones comparadas</h2>
+        <div id="p-medidas"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>5. Superposición</h2>
+        <p class="meta">Las dos muestras se llevan al mismo tamaño y se enciman: <span style="color:#C8202A">rojo</span> = solo dubitada, <span style="color:#1E64C8">azul</span> = solo indubitada, morado oscuro = coinciden. Dos firmas auténticas nunca coinciden exacto.</p>
+        <div class="barra"><label>Comparar con <select id="p-sup-sel"></select></label><label>Opacidad de la dubitada <input type="range" id="p-sup-op" min="20" max="100" value="85"></label></div>
+        <canvas id="p-sup" hidden style="max-width:100%;border:1px solid var(--line);border-radius:6px;background:#fff"></canvas>
+        <p id="p-sup-txt" class="meta"></p>
+      </div>
+      <div class="tarjeta">
+        <h2>6. Cotejo elemento por elemento</h2>
+        <p class="meta">Marca cada elemento al comparar la dubitada con el conjunto de indubitadas. 📏 = hay una medida automática; si cae dentro del rango se sugiere «Coincide», que puedes cambiar.</p>
+        <div id="p-cotejo"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>7. Señales de falsificación o alteración</h2>
+        <div id="p-senales" class="checks"></div>
+      </div>
+      <div class="tarjeta">
+        <h2>8. Conclusión</h2>
+        <div id="p-sugerida"></div>
+        <label>Conclusión del dictamen <select id="p-nivel" style="max-width:100%"></select></label>
+        <textarea id="p-consideraciones" rows="3" style="width:100%" aria-label="Consideraciones" placeholder="Consideraciones técnicas propias (opcional): qué coincidencias o divergencias pesan más y por qué."></textarea>
+      </div>
+      <div class="tarjeta">
+        <h2>9. Dictamen</h2>
+        <div class="barra"><button type="button" id="p-redactar" class="prim">✍️ Redactar dictamen</button></div>
+        <div id="p-dictamen"></div>
+        <div class="barra no-imprimir" id="p-dictamen-botones" hidden><button type="button" id="p-copiar">📋 Copiar texto</button><button type="button" id="p-word">⬇️ Descargar para Word (.doc)</button><button type="button" id="p-pdf">⬇️ PDF</button><button type="button" id="p-imprimir">🖨️ Imprimir con anexos</button></div>
+      </div>
+    </section>
   </main>
   <script type="module" src="js/conducta.js"></script>
   <script type="module" src="js/dibujo.js"></script>
+  <script type="module" src="js/grafoscopia.js"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>
