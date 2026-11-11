@@ -713,17 +713,39 @@ PUNTOS_ADSBLOL = (
     + _malla(36.0, 60.0, -9.0, 30.0)                    # Europa
     + [(50.0, -40.0), (47.0, -25.0), (45.0, -50.0)]     # Atlántico norte (rutas transatlánticas)
 )
-PAUSA_ADSBLOL = 0.8  # segundos entre consultas, por cortesía (sus límites son dinámicos)
+PAUSA_ADSBLOL = 1.5  # segundos entre consultas, por cortesía (sus límites son dinámicos)
+ESPERA_429_MAX = 30  # tope de espera cuando adsb.lol pide bajar el ritmo (HTTP 429)
+PRESUPUESTO_ADSBLOL = 360  # segundos máximos del paso: lo que no alcance se consulta en la siguiente corrida
 
 
-def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL):
-    """vivos/aeronaves_comercial.json: mismas columnas que aeronaves.json, solo con datos de adsb.lol (ODbL)."""
+def _espera_429(e, intento):
+    """Segundos a esperar tras un HTTP 429: lo que diga Retry-After (con tope) o 5, 10, 20 s."""
+    try:
+        return min(ESPERA_429_MAX, max(1, int(float(e.headers.get("Retry-After")))))
+    except (AttributeError, TypeError, ValueError):
+        return min(ESPERA_429_MAX, 5 * 2 ** intento)
+
+
+def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL, dormir=time.sleep, reloj=time.monotonic,
+                        presupuesto=PRESUPUESTO_ADSBLOL):
+    """vivos/aeronaves_comercial.json: mismas columnas que aeronaves.json, solo con datos de adsb.lol (ODbL).
+    Si adsb.lol responde 429 (demasiadas peticiones) se espera y se reintenta la misma zona hasta 3 veces."""
     pedir = pedir or (lambda u: json.loads(get(u, timeout=40)))
     sanc = set(leer("sanciones.json", {}).get("matriculas", []))
-    filas, errores, consultas = {}, 0, 0
+    filas, errores, consultas, inicio = {}, 0, 0, reloj()
     for u in ["https://api.adsb.lol/v2/mil"] + [f"https://api.adsb.lol/v2/point/{la}/{lo}/250" for la, lo in puntos]:
+        if reloj() - inicio > presupuesto:
+            print(f"  adsb.lol: tope de {presupuesto} s; se publica lo consultado")
+            break
         try:
-            d = pedir(u)
+            for intento in range(4):
+                try:
+                    d = pedir(u)
+                    break
+                except urllib.error.HTTPError as e:
+                    if e.code != 429 or intento == 3:
+                        raise
+                    dormir(_espera_429(e, intento))
             consultas += 1
             for a in d.get("ac") or []:
                 f = fila_adsblol(a, sanc)
@@ -736,7 +758,7 @@ def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL):
             if errores >= 5:  # el servicio no está respondiendo: se publica lo que haya
                 break
         if pausa:
-            time.sleep(pausa)
+            dormir(pausa)
     if not filas:
         raise RuntimeError("adsb.lol no respondió")
     escribir("aeronaves_comercial.json", {"generado_utc": ahora(), "campos": CAMPOS_AVION,
@@ -746,7 +768,8 @@ def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL):
     return len(filas)
 
 
-PASOS = {"sanciones": sanciones, "satelites": satelites, "aeronaves": aeronaves, "aeronaves_comercial": aeronaves_comercial, "buques": buques}
+# aeronaves_comercial va antes que aeronaves: este último pide hasta 100 lotes de rutas a adsb.lol y agota su límite.
+PASOS = {"sanciones": sanciones, "satelites": satelites, "aeronaves_comercial": aeronaves_comercial, "aeronaves": aeronaves, "buques": buques}
 
 
 def main(pedidos):
