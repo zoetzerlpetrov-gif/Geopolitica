@@ -484,6 +484,18 @@ def calidad(eventos):
     }
 
 
+def config_ia(ia_cfg, env):
+    """Si existe IA_LOCAL_URL (servidor de llama.cpp levantado en el workflow con un modelo abierto), los resúmenes y el
+    panorama se piden ahí: gratis, sin llave y sin términos de terceros. Si no, queda la configuración de fuentes.json."""
+    url = env.get("IA_LOCAL_URL", "").strip()
+    if not url:
+        return ia_cfg
+    local = ia_cfg.get("local", {})
+    return {**ia_cfg, "proveedor": "local", "url": url, "modelos": [env.get("IA_LOCAL_MODELO", "").strip() or local.get("modelo", "local")],
+            "max_por_corrida": local.get("max_por_corrida", 15), "pausa_s": 0, "timeout_s": local.get("timeout_s", 420),
+            "max_tokens_panorama": local.get("max_tokens_panorama", 1800)}
+
+
 def generar_reportes(salida, eventos, t, ia_cfg, clave_ia):
     """Reportes diarios de México y global (ingest/reporte.py). Un fallo aquí no detiene la ingesta."""
     try:
@@ -524,13 +536,15 @@ def main(argv=None):
 
     candidatos, salud = recolectar(cfg, os.environ.get("RELIEFWEB_APPNAME", "").strip())
     clave_ia = os.environ.get("GROQ_API_KEY", "").strip()
-    ia_cfg = cfg.get("ia", {})
+    ia_cfg = config_ia(cfg.get("ia", {}), os.environ)
+    if ia_cfg.get("proveedor") == "local":
+        clave_ia = "local"  # el servidor local (llama.cpp) no pide llave
     resumidor = None
     if ia_cfg.get("habilitada") and clave_ia:
         resumidor = lambda evs, textos: resumen_ia.resumir(evs, textos, ia_cfg, clave_ia)  # noqa: E731
     eventos, descartados = procesar(candidatos, anteriores, cfg, t, Gazetteer(), Paises(), Clasificador(taxonomy), taxonomy, resumidor)
     descartados["imagenes_portada"] = buscar_imagenes(eventos, t, cfg.get("max_imagenes_portada", 60))
-    est_ia = descartados.pop("ia", {"omitido": "sin el secreto GROQ_API_KEY" if not clave_ia else "deshabilitado en config/fuentes.json"})
+    est_ia = descartados.pop("ia", {"omitido": "sin modelo local (IA_LOCAL_URL) ni el secreto GROQ_API_KEY" if not clave_ia else "deshabilitado en config/fuentes.json"})
     print(f"IA: {est_ia}")
     ejemplos = descartados.pop("ejemplos")  # títulos sin área: van aparte en el run-log
 

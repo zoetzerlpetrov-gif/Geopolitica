@@ -221,7 +221,6 @@
  "version_pago": {
   "_nota": "Lo que la versión de pago NO muestra (solo quien administra lo ve). Además se ocultan las capas y subtipos cuya fuente en config/entities.json no tiene uso_comercial = true. Simulación en el sitio público: ?vista=pago. En el repositorio comercial, los archivos de datos de estas fuentes tampoco se publican para quien paga.",
   "riesgos_solo_admin": {
-   "aire": "Open-Meteo Air Quality. Sustituto: CAMS de Copernicus, requiere cuenta gratuita de ECMWF.",
    "gfw_apagados": "Global Fishing Watch (CC BY-NC 4.0).",
    "gfw_encuentros": "Global Fishing Watch (CC BY-NC 4.0).",
    "gfw_merodeo": "Global Fishing Watch (CC BY-NC 4.0).",
@@ -236,6 +235,15 @@
    "c2_botnets": {
     "url": "data/vivos/red_c2_comercial.geojson",
     "fuente": "abuse.ch: ThreatFox y Feodo Tracker (CC0); país por DB-IP (CC BY 4.0)"
+   },
+   "aire": {
+    "archivos": [],
+    "locales": [
+     "data/vivos/aire_ciudades.geojson",
+     "data/vivos/aire_cams.geojson"
+    ],
+    "excluir_fuente": "Open-Meteo",
+    "fuente": "Sensor.Community (ODbL) y CAMS de Copernicus"
    }
   },
   "movimiento_solo_admin": {

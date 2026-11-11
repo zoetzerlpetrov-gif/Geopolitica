@@ -24,7 +24,7 @@ concurrency:
 jobs:
   ingerir:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35  # la IA local (resúmenes y panorama) agrega unos minutos
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
@@ -42,10 +42,36 @@ jobs:
           fi
           ls eventos | head
 
+      # IA local para los resúmenes propios y el panorama: modelo abierto Qwen3-4B-Instruct-2507 (Apache-2.0) con
+      # llama.cpp (MIT), dentro de esta máquina. Sin llaves ni términos de terceros; ningún texto sale de GitHub.
+      # Ambos archivos se verifican por su huella SHA-256 antes de usarse.
+      - name: Caché del modelo abierto y de llama.cpp
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/llm
+          key: llm-qwen3-4b-2507-q4km-llamacpp-b12292
+      - name: Descargar y verificar el modelo y llama.cpp (solo la primera vez)
+        continue-on-error: true
+        run: |
+          mkdir -p ~/.cache/llm && cd ~/.cache/llm
+          [ -f modelo.gguf ] || curl -sSfL -o modelo.gguf "https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
+          [ -f llama.tgz ] || curl -sSfL -o llama.tgz "https://github.com/ggml-org/llama.cpp/releases/download/b12292/llama-b12292-bin-ubuntu-x64.tar.gz"
+          printf '%s  %s\n' 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597 modelo.gguf ffaf53f17a4601493e6ffb5869c9f0c7d400bb7e124fe0096eee3b65a5862568 llama.tgz | sha256sum -c -
+          [ -x llama-b12292/llama-server ] || tar xzf llama.tgz
+      - name: Arrancar la IA local
+        id: ia
+        continue-on-error: true
+        run: |
+          cd ~/.cache/llm
+          printf '%s  %s\n' 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597 modelo.gguf | sha256sum -c -
+          nohup ./llama-b12292/llama-server -m modelo.gguf --host 127.0.0.1 --port 8080 -c 8192 -t "$(nproc)" --jinja > ~/llama.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:8080/health && echo "url=http://127.0.0.1:8080/v1/chat/completions" >> "$GITHUB_OUTPUT"
+
       - name: Ingerir, clasificar y validar
         env:
           RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
-          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
         run: python3 ingest/run.py --salida eventos
 
       - name: Caché de los polígonos de estados y provincias (Natural Earth, se generan una vez)

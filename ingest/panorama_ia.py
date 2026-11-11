@@ -111,16 +111,16 @@ def _json_de(texto):
 
 
 def pedir(rep, eventos, cfg, clave, modelo, json_mode=True):
-    cuerpo = {"model": modelo, "temperature": 0.3, "max_tokens": 5000,
+    cuerpo = {"model": modelo, "temperature": 0.3, "max_tokens": cfg.get("max_tokens_panorama", 5000),
               "messages": [{"role": "system", "content": INSTRUCCIONES}, {"role": "user", "content": mensaje_usuario(rep, eventos)}]}
     if json_mode:
         cuerpo["response_format"] = {"type": "json_object"}
-    if "gpt-oss" in modelo or "qwen" in modelo:
+    if cfg.get("proveedor") != "local" and ("gpt-oss" in modelo or "qwen" in modelo):
         cuerpo["reasoning_effort"] = "low"  # con «medium» el razonamiento agotaba los tokens y el JSON salía cortado
         cuerpo["reasoning_format"] = "hidden"
     req = urllib.request.Request(cfg["url"], data=json.dumps(cuerpo).encode(),
                                  headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json", "User-Agent": UA})
-    with urllib.request.urlopen(req, timeout=120) as r:
+    with urllib.request.urlopen(req, timeout=cfg.get("timeout_s", 120)) as r:
         return json.loads(r.read())["choices"][0]["message"]["content"]
 
 

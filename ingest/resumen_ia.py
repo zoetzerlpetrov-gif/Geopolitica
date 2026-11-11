@@ -87,14 +87,14 @@ def pedir(titulo, texto, fuente, cfg, clave, modelo):
             {"role": "user", "content": f"Fuente: {fuente}\nTítulo: {titulo}\nTexto del medio (solo para entender, no copiar): {texto[:1200]}"},
         ],
     }
-    if "gpt-oss" in modelo or "qwen" in modelo:
+    if cfg.get("proveedor") != "local" and ("gpt-oss" in modelo or "qwen" in modelo):
         # Modelos que razonan antes de responder: poco razonamiento y oculto, para que no se coma la respuesta.
         cuerpo["reasoning_effort"] = "low"
         cuerpo["reasoning_format"] = "hidden"
     req = urllib.request.Request(cfg["url"], data=json.dumps(cuerpo).encode(),
                                  headers={"Authorization": f"Bearer {clave}", "Content-Type": "application/json", "User-Agent": UA})
     try:
-        with urllib.request.urlopen(req, timeout=45) as r:
+        with urllib.request.urlopen(req, timeout=cfg.get("timeout_s", 45)) as r:
             d = json.loads(r.read())
     except urllib.error.HTTPError as e:
         detalle = e.read()[:300].decode("utf-8", "replace")
