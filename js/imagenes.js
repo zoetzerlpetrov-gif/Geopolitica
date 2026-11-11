@@ -34,6 +34,16 @@ export const IMAGENES = {
       marcas: ["0", "1", "2", "3", "4", "≥ 5"],
       tramos: [["rgb(235,235,215)", "Menos de 1: aire sin aerosoles notables"], ["rgb(223,223,98)", "1 a 2: ligero (bruma, polvo leve)"], ["rgb(255,230,0)", "2 a 3: moderado"],
         ["rgb(237,83,0)", "3 a 4: denso; humo de incendios o polvo del Sahara"], ["rgb(185,0,14)", "4 a 5: muy denso"], ["rgb(115,0,25)", "5 o más: extremo; incendios enormes, tormentas de polvo o ceniza volcánica"]] } },
+  // Polvo del Sahara: cada verano boreal (junio a agosto, sobre todo) nubes de polvo cruzan el Atlántico y llegan al Caribe,
+  // la península de Yucatán, el Golfo de México y Texas. GOES-East (geoestacionario, sobre 75° O) lo ve cada 10 minutos
+  // con la combinación «Dust RGB» (infrarrojo: sirve de día y de noche). Cubre América, el Atlántico y el oeste de África.
+  polvo_goes: { nombre: "Polvo del Sahara y tormentas de polvo: América y Atlántico (GOES-East, cada 10 min)", capa: "GOES-East_ABI_Dust",
+    matriz: "GoogleMapsCompatible_Level7", ext: "png", maxzoom: 7, opacidad: 0.7, fecha_fija: "default", limites: [-155, -75, 5, 75],
+    leyenda: "Imagen «Dust RGB» del satélite GOES-East (NOAA/NASA), la más reciente (cada 10 min, de día y de noche). Cómo leerla: el polvo se ve rosa a magenta; el mar y el cielo despejado, azul a violeta; el desierto sin nubes, azul claro o cian; las nubes altas y gruesas, rojo oscuro a café; las nubes bajas, tonos pálidos. Una mancha rosa que sale de África hacia el Caribe es la nube de polvo del Sahara. Es una imagen de satélite, no un aviso: para calidad del aire en México consulta la capa «Calidad del aire» y a las autoridades (SINAICA, SMN)." },
+  // Puntaje de polvo AIRS (satélite Aqua): una pasada diaria de día, todo el planeta, ~50 km por píxel.
+  polvo_airs: { nombre: "Polvo en el aire: puntaje diario, todo el mundo (AIRS, Aqua)", capa: "AIRS_L2_Dust_Score_Day", matriz: "GoogleMapsCompatible_Level6", ext: "png",
+    maxzoom: 6, opacidad: 0.8, fecha_fija: "default", paleta: true,
+    leyenda: "Puntaje de polvo del sensor AIRS (NASA, satélite Aqua), pasada de día más reciente que publique GIBS. Solo marca dónde hay polvo detectado (más intenso = más polvo); donde no hay color no se detectó o había nubes. Paleta oficial de NASA GIBS. Aqua es un satélite de 2002 en fase final de misión: si un día no hay datos, usa la capa de GOES-East o la de aerosoles." },
   // Hielo marino diario (GHRSST MUR, ~1 km, mezcla de satélites de microondas): porcentaje del mar cubierto de hielo.
   hielo_marino: { nombre: "Hielo marino: % del mar cubierto (GHRSST MUR, diario)", capa: "GHRSST_L4_MUR_Sea_Ice_Concentration", matriz: "GoogleMapsCompatible_Level7",
     ext: "png", maxzoom: 7, opacidad: 0.8, fecha_fija: "default", paleta: true,

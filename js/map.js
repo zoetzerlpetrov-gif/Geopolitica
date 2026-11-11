@@ -2,6 +2,7 @@
 // no se crean elementos HTML por marcador, por eso escala a decenas de miles de puntos.
 /* global maplibregl */
 import { pinturaEtiqueta, layoutEtiqueta } from "./util.js";
+import { protegerMapLibre } from "./antimeridiano.js";
 
 const OFM = {
   light: "https://tiles.openfreemap.org/styles/positron",
@@ -284,6 +285,7 @@ function imagenArea(emoji) {
 }
 
 export function crearMapa({ container, style, colores, chokepoints, tema: temaInicial, lite = false, onSelect }) {
+  protegerMapLibre(); // ninguna línea o polígono cruza el mapa de lado a lado en la línea de cambio de fecha
   const map = new maplibregl.Map({
     container, style, center: [-20, 22], zoom: container.clientWidth < 600 ? 0.6 : 1.6, minZoom: 0.5, maxZoom: ZOOM_MAX,
     attributionControl: { compact: true },

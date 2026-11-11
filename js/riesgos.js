@@ -1,4 +1,5 @@
 import { edadPosicion } from "./fase1-logica.js";
+import { geometriaSegura } from "./antimeridiano.js";
 // Riesgos naturales y clima: capas generadas por este proyecto cada 6 h (tools/clima_tactico → data/vivos/ct/).
 // Se leen solo al activar cada capa. No dependen de ningún otro repositorio.
 // Los sismos se piden en vivo a USGS desde el navegador (CORS abierto), como en el mapa original.
@@ -1300,7 +1301,7 @@ export function preparar(capa, fc, ctx = {}) {
     const p = f.properties || {};
     const e = capa.estilo(p, f.geometry);
     const k = clasificar(capa.id, p, f.geometry);
-    return { type: "Feature", geometry: f.geometry,
+    return { type: "Feature", geometry: geometriaSegura(f.geometry),
       properties: { ...p, _c: e.c, _r: e.r, _i: i, _lbl: capa.etiqueta ? capa.etiqueta(p, f.geometry) : "", _sev: k.sev, _tipo: k.tipo, _ic: k.ic ? `emoji:${k.ic}` : "", _pais: paisDe(capa.id, p, f.geometry, ctx) || "",
         _k: claveDe(capa.id, p, f.geometry), _t: tiempo(p) } };
   });
