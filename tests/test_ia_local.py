@@ -49,3 +49,40 @@ def test_peticion_local_sin_parametros_de_groq(monkeypatch):
     resumen_ia.pedir("Título", "Texto", "Medio", c, "local", "qwen3-4b")
     cuerpo, timeout = enviados[0]
     assert "reasoning_effort" not in cuerpo and timeout == c["timeout_s"]
+
+
+def test_tope_de_tiempo_deja_pendientes_para_la_siguiente_corrida():
+    """En CPU cada resumen tarda; al agotar `presupuesto_s` se detiene para que la ingesta de cada hora no se caiga."""
+    import resumen_ia
+    eventos = [{"id": f"e{i}", "severidad": 3, "fecha_utc": "2026-11-11T00:00:00Z", "nivel_alerta": "RUTINA"} for i in range(6)]
+    textos = {e["id"]: ("Título", "Texto del medio sobre el tema.", "Medio") for e in eventos}
+    t = [0]
+
+    def reloj():
+        return t[0]
+
+    def pedir(*a):
+        t[0] += 100  # cada resumen «tarda» 100 s
+        return "Resumen propio del tema."
+
+    c = {**run.config_ia(cfg(), {"IA_LOCAL_URL": "http://x"}), "presupuesto_s": 250}
+    est = resumen_ia.resumir(eventos, textos, c, "local", pedir_fn=pedir, dormir=lambda s: None, reloj=reloj)
+    assert est["pendientes"] == 3 and any("tope" in e for e in est["errores"])
+
+
+def test_panorama_local_mas_ligero():
+    import panorama_ia
+    c = run.config_ia(cfg(), {"IA_LOCAL_URL": "http://x"})
+    assert c["eventos_panorama"] <= 20 and c["max_tokens_panorama"] <= 1000 and c["horas_panorama"] >= 12
+    rep = {"destacados": [], "secciones": [{"eventos": [{"id": f"nt-{i}"} for i in range(40)]}]}
+    assert len(panorama_ia.eventos_para_ia(rep, c["eventos_panorama"])) == c["eventos_panorama"]
+    llamadas = []
+
+    def pedir(*a):
+        llamadas.append(a)
+        raise TimeoutError
+
+    rep = {**rep, "tipo": "global", "titulo": "x", "fecha": "2026-11-11", "panorama_reglas": ""}
+    from datetime import datetime, timezone
+    assert panorama_ia.panorama(rep, None, c, "local", datetime.now(timezone.utc), pedir_fn=pedir) is None
+    assert len(llamadas) == 1, "en local se intenta una sola vez: cada intento en CPU tarda minutos"

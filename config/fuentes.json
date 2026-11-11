@@ -275,9 +275,12 @@
       "modelo": "Qwen3-4B-Instruct-2507-Q4_K_M",
       "licencia": "Apache-2.0 (Qwen3); se ejecuta con llama.cpp (MIT) dentro de GitHub Actions",
       "nota": "Se usa cuando el workflow levanta el servidor local (IA_LOCAL_URL). Sin llaves ni términos de terceros; ningún texto sale de GitHub.",
-      "max_por_corrida": 15,
-      "timeout_s": 420,
-      "max_tokens_panorama": 1800
+      "max_por_corrida": 6,
+      "timeout_s": 240,
+      "presupuesto_s": 360,
+      "max_tokens_panorama": 900,
+      "eventos_panorama": 15,
+      "horas_panorama": 12
     }
   },
   "humanitarias": {

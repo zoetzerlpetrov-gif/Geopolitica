@@ -47,15 +47,15 @@ Responde solo con JSON con esta forma:
  "mediano_plazo":{"escenarios":[...]}, "largo_plazo":{"escenarios":[...]}}"""
 
 
-def eventos_para_ia(rep):
-    """Destacados y los principales de cada sección (solo notas de medios), sin repetir; máximo MAX_EVENTOS."""
+def eventos_para_ia(rep, maximo=MAX_EVENTOS):
+    """Destacados y los principales de cada sección (solo notas de medios), sin repetir; máximo `maximo`."""
     vistos, out = set(), []
     grupos = [rep.get("destacados", [])] + [s["eventos"] for s in rep["secciones"]] + [(rep.get("entorno") or {}).get("eventos", [])]
     for grupo in grupos:
         # Solo notas de medios: las señales automáticas de GDELT son plantillas («Coerción: Australian (Baja California)»)
         # que el modelo tomaba como hechos.
         for e in grupo:
-            if not e.get("automatico") and e["id"] not in vistos and len(out) < MAX_EVENTOS:
+            if not e.get("automatico") and e["id"] not in vistos and len(out) < maximo:
                 vistos.add(e["id"])
                 out.append(e)
     return out
@@ -124,27 +124,27 @@ def pedir(rep, eventos, cfg, clave, modelo, json_mode=True):
         return json.loads(r.read())["choices"][0]["message"]["content"]
 
 
-def reciente(previo, t):
+def reciente(previo, t, horas=HORAS_ENTRE):
     p = (previo or {}).get("panorama_ia")
     if not p:
         return None
     gen = datetime.strptime(p["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
-    return p if t - gen < timedelta(hours=HORAS_ENTRE) else None
+    return p if t - gen < timedelta(hours=horas) else None
 
 
 def panorama(rep, previo, cfg, clave, t, pedir_fn=pedir, dormir=time.sleep):
     """Panorama nuevo, el previo si es reciente o si falla la IA, o None. Nunca lanza excepción."""
     guardado = (previo or {}).get("panorama_ia")
-    if reciente(previo, t) or not clave:
+    if reciente(previo, t, cfg.get("horas_panorama", HORAS_ENTRE)) or not clave:
         return guardado
-    eventos = eventos_para_ia(rep)
+    eventos = eventos_para_ia(rep, cfg.get("eventos_panorama", MAX_EVENTOS))
     if len(eventos) < 3:
         return guardado
     ids = {e["id"] for e in eventos}
     errores = []
     for modelo in cfg.get("modelos_panorama") or cfg.get("modelos", [])[:3]:
         esperas = 0
-        for json_mode in (True, False, False):
+        for json_mode in ((True,) if cfg.get("proveedor") == "local" else (True, False, False)):
             try:
                 horizontes = validar(_json_de(pedir_fn(rep, eventos, cfg, clave, modelo, json_mode)), ids)
             except urllib.error.HTTPError as e:

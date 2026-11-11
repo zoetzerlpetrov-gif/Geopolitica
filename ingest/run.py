@@ -491,9 +491,11 @@ def config_ia(ia_cfg, env):
     if not url:
         return ia_cfg
     local = ia_cfg.get("local", {})
-    return {**ia_cfg, "proveedor": "local", "url": url, "modelos": [env.get("IA_LOCAL_MODELO", "").strip() or local.get("modelo", "local")],
+    modelo = env.get("IA_LOCAL_MODELO", "").strip() or local.get("modelo", "local")
+    return {**ia_cfg, "proveedor": "local", "url": url, "modelos": [modelo], "modelos_panorama": [modelo],
             "max_por_corrida": local.get("max_por_corrida", 15), "pausa_s": 0, "timeout_s": local.get("timeout_s", 420),
-            "max_tokens_panorama": local.get("max_tokens_panorama", 1800)}
+            "max_tokens_panorama": local.get("max_tokens_panorama", 900), "presupuesto_s": local.get("presupuesto_s", 360),
+            "eventos_panorama": local.get("eventos_panorama", 15), "horas_panorama": local.get("horas_panorama", 12)}
 
 
 def generar_reportes(salida, eventos, t, ia_cfg, clave_ia):
