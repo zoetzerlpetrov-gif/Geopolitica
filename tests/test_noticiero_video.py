@@ -96,3 +96,15 @@ def test_permiso_caducado_da_aviso_claro():
         subir.token_de_acceso("id", "secreto", "token", abrir=abrir)
     assert "autorizar.py" in subir.AVISO_CADUCO and "YT_REFRESH_TOKEN" in subir.AVISO_CADUCO
     assert subir.AVISO_CADUCO.startswith("::error")
+
+
+def test_explica_los_403_de_youtube_en_espanol():
+    import json
+    import subir
+    cuerpo = json.dumps({"error": {"code": 403, "message": "The request cannot be completed",
+                                   "errors": [{"reason": "youtubeSignupRequired", "domain": "youtube.header"}]}})
+    motivo, texto = subir.explicar_error(cuerpo)
+    assert motivo == "youtubeSignupRequired" and "canal" in texto
+    motivo, texto = subir.explicar_error(json.dumps({"error": {"message": "x", "details": [{"reason": "SERVICE_DISABLED"}]}}))
+    assert motivo == "SERVICE_DISABLED" and "Biblioteca" in texto
+    assert subir.explicar_error("no es json") == ("", "")

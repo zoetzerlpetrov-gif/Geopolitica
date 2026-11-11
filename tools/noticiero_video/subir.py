@@ -36,6 +36,35 @@ class PermisoCaducado(RuntimeError):
     pass
 
 
+# Motivos frecuentes de HTTP 403 al subir (campo error.errors[].reason de la API de YouTube) → qué hacer.
+MOTIVOS_403 = {
+    "youtubeSignupRequired": "La cuenta que autorizó no tiene canal de YouTube. Corre autorizar.py y, al elegir cuenta, "
+                             "elige la del canal (si es un canal de marca, elígelo en la lista de canales).",
+    "accessNotConfigured": "La API «YouTube Data API v3» no está habilitada en el proyecto de Google Cloud donde creaste el "
+                           "ID de cliente OAuth. Habilítala en APIs y servicios → Biblioteca, en ese mismo proyecto.",
+    "SERVICE_DISABLED": "La API «YouTube Data API v3» no está habilitada en el proyecto del ID de cliente OAuth. "
+                        "Habilítala en APIs y servicios → Biblioteca, en ese mismo proyecto.",
+    "quotaExceeded": "Se agotó la cuota diaria de la API de YouTube del proyecto. Se reinicia a medianoche, hora del Pacífico; "
+                     "si pasa seguido, usa un proyecto de Google Cloud aparte solo para el noticiero.",
+    "insufficientPermissions": "El permiso concedido no incluye subir videos. Corre autorizar.py otra vez y acepta el permiso.",
+    "forbidden": "YouTube no permite subir con esta cuenta (canal suspendido, sin verificar por teléfono o con límite de "
+                 "subidas). Revisa youtube.com/verify y el estado del canal en YouTube Studio.",
+}
+
+
+def explicar_error(cuerpo):
+    """Respuesta de error de Google (JSON) → (motivo, explicación en español)."""
+    try:
+        err = json.loads(cuerpo).get("error", {})
+    except (ValueError, AttributeError):
+        return "", ""
+    motivos = [x.get("reason", "") for x in err.get("errors") or []] + [x.get("reason", "") for x in err.get("details") or []]
+    for m in motivos:
+        if m in MOTIVOS_403:
+            return m, MOTIVOS_403[m]
+    return (motivos[0] if motivos else ""), str(err.get("message", ""))[:300]
+
+
 def token_de_acceso(cid, secreto, refresco, abrir=urllib.request.urlopen):
     datos = urllib.parse.urlencode({"client_id": cid, "client_secret": secreto, "refresh_token": refresco, "grant_type": "refresh_token"}).encode()
     try:
@@ -67,8 +96,13 @@ def subir(directorio):
     ini = urllib.request.Request(SUBIDA_URL, data=cuerpo, method="POST", headers={
         "Authorization": f"Bearer {acceso}", "Content-Type": "application/json; charset=UTF-8",
         "X-Upload-Content-Type": "video/mp4", "X-Upload-Content-Length": str(os.path.getsize(video))})
-    with urllib.request.urlopen(ini, timeout=60) as r:
-        destino = r.headers["Location"]
+    try:
+        with urllib.request.urlopen(ini, timeout=60) as r:
+            destino = r.headers["Location"]
+    except urllib.error.HTTPError as e:
+        motivo, texto = explicar_error(e.read().decode("utf-8", "replace"))
+        print(f"::error title=YouTube rechazó la subida (HTTP {e.code} {motivo})::{texto} El video quedó como artefacto de esta corrida.")
+        sys.exit(1)
     with open(video, "rb") as f:
         put = urllib.request.Request(destino, data=f.read(), method="PUT", headers={"Authorization": f"Bearer {acceso}", "Content-Type": "video/mp4"})
     with urllib.request.urlopen(put, timeout=600) as r:
