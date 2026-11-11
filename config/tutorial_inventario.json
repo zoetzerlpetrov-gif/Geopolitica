@@ -3711,8 +3711,18 @@
    "ayuda": ""
   },
   {
+   "t": "Ver todas las herramientas",
+   "href": "plataforma.html#fases",
+   "ayuda": ""
+  },
+  {
    "t": "Archivos, respaldos y fuentes",
    "href": "plataforma.html",
+   "ayuda": ""
+  },
+  {
+   "t": "Tutorial de herramientas web",
+   "href": "plataforma.html#tutorial-f3",
    "ayuda": ""
   },
   {
