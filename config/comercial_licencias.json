@@ -6,7 +6,8 @@
   "contratar": "Usar solo con un plan o licencia comercial del proveedor; sin contrato, retirar.",
   "verificar": "Leer los términos vigentes (o preguntar al proveedor) antes de usarla en la versión comercial.",
   "sustituir": "Cambiar por una fuente gratuita que sí permite uso comercial (campo «sustituto»).",
-  "enlace": "No mostrar el dato dentro de la app: solo un enlace al visor oficial del proveedor, donde la persona lo consulta con sus propios términos."
+  "enlace": "No mostrar el dato dentro de la app: solo un enlace al visor oficial del proveedor, donde la persona lo consulta con sus propios términos.",
+  "usar": "Usar en la versión comercial respetando su licencia abierta (atribución y, si aplica, compartir igual)."
  },
  "fuentes": [
   {
@@ -64,10 +65,10 @@
    "accion": "sustituir",
    "donde": "Aviones en vivo y trayectorias; cloudflare/vuelos",
    "sustituto": "adsb.lol (API y datos abiertos)",
-   "licencia_sustituto": "ODbL según su documentación (por verificar antes de lanzar)",
-   "nota": "Ya se usa para vuelos militares y rutas.",
-   "estado": "por_verificar",
-   "prueba": "adsb.lol respondió 200 sin llave (/v2/mil y /v2/point). Su repositorio de historial declara ODbL, pero la API no publica licencia, y anuncia que pedirá llave a cambio de aportar un receptor."
+   "licencia_sustituto": "ODbL 1.0 (datos abiertos de adsb.lol)",
+   "nota": "Versión de pago: aviones solo de adsb.lol (vivos/aeronaves_comercial.json). OpenSky queda solo para administración.",
+   "estado": "listo",
+   "prueba": "2026-11-11: OpenSky, adsb.fi y airplanes.live prohíben el uso comercial gratuito; adsb.lol publica sus datos como abiertos (ODbL). Decisión de la persona responsable: usar adsb.lol y compartir datos no privados si se pide."
   },
   {
    "patron": "s2cloudless-AAAA",
@@ -140,12 +141,12 @@
   {
    "patron": "adsb.lol",
    "nombre": "adsb.lol",
-   "licencia": "Por verificar",
-   "accion": "verificar",
+   "licencia": "ODbL 1.0 (datos abiertos)",
+   "accion": "usar",
    "donde": "Vuelos militares y rutas",
    "sustituto": "",
-   "estado": "por_verificar",
-   "prueba": "Respondió 200 sin llave; la licencia de la API no está publicada."
+   "estado": "listo",
+   "prueba": "2026-11-11: /v2/point y /v2/mil responden sin llave. Se excluyen aviones con privacidad pedida (PIA/LADD). Si exigen llave por aportar un receptor, se tramita."
   },
   {
    "patron": "adsbdb.com",
@@ -238,7 +239,6 @@
    }
   },
   "movimiento_solo_admin": {
-   "aeronaves": "OpenSky (no comercial) y adsb.lol (por verificar).",
    "buques": "AISStream (por verificar)."
   },
   "funciones_solo_admin": {
@@ -272,6 +272,13 @@
   },
   "capas_sustituidas": {
    "cables": "cables_osm"
+  },
+  "movimiento_sustituidos": {
+   "aeronaves": {
+    "archivo": "aeronaves_comercial",
+    "fuente": "adsb.lol · Open Database License (ODbL) 1.0",
+    "nota": "Solo adsb.lol; sin OpenSky ni trayectoria detallada de OpenSky."
+   }
   }
  }
 }

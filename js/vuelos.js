@@ -9,6 +9,7 @@
 //   - Hacia dónde va: línea discontinua con el rumbo actual (30 min) y, con ruta, arco al destino.
 // Privacidad: ruta y trayectoria solo para aerolíneas, carga, militares y vuelos de Estado; nunca
 // aviación general. No se muestra propietario.
+import { vistaActual } from "./licencias.js";
 import { getJSON, esc, distanciaKm, pinturaEtiqueta, layoutEtiqueta } from "./util.js";
 import { articuloAvion, huecoImagen } from "./imagen_tipo.js";
 import { htmlBandera, paisDeHex } from "./banderas.js";
@@ -151,9 +152,12 @@ export async function datosVuelo(v) {
     }));
   }
   const clave = v.hex.slice(0, 1).toLowerCase();
-  if (!shards.has(clave)) shards.set(clave, getJSON(`data/vivos/rastros/${clave}.json`, { bust: true }).catch(() => ({ r: {} })));
-  tareas.push(shards.get(clave).then((d) => { out.rastro = d.r[v.hex] || []; out.fuenteRastro = "instantaneas"; }));
-  tareas.push(trayectoriaOpenSky(v.hex).then((p) => { if (p) { out.rastroDetallado = p; } }));
+  if (vistaActual() !== "pago" && !shards.has(clave)) shards.set(clave, getJSON(`data/vivos/rastros/${clave}.json`, { bust: true }).catch(() => ({ r: {} })));
+  // Versión de pago: sin OpenSky (no comercial) ni rastros armados con sus posiciones; solo posición y ruta.
+  if (vistaActual() !== "pago") {
+    tareas.push(shards.get(clave).then((d) => { out.rastro = d.r[v.hex] || []; out.fuenteRastro = "instantaneas"; }));
+    tareas.push(trayectoriaOpenSky(v.hex).then((p) => { if (p) { out.rastroDetallado = p; } }));
+  }
   await Promise.all(tareas);
   if (out.rastroDetallado) { out.rastro = out.rastroDetallado; out.fuenteRastro = "opensky"; }
   delete out.rastroDetallado;

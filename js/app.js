@@ -2246,6 +2246,10 @@ async function iniciarMovimiento(catalogo) {
   });
   const pasoDe = { aeronaves: "aeronaves", buques: "buques", satelites: "satelites" };
   const rv = await vistaLista;
+  if (rv?.movimientoSust) {
+    mov.archivos = Object.fromEntries(Object.entries(rv.movimientoSust).map(([t, x]) => [t, x.archivo]));
+    for (const [t, x] of Object.entries(rv.movimientoSust)) if (x.archivo) pasoDe[t] = x.archivo;
+  }
   cont.innerHTML = ["aeronaves", "buques", "satelites"].filter((t) => !rv?.movimiento.has(t)).map((tipo) => {
     const cat = catalogo.categorias.find((c) => c.id === tipo);
     const p = estado.pasos[pasoDe[tipo]];

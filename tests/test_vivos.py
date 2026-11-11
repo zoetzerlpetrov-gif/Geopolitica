@@ -179,3 +179,28 @@ def test_conservar_buques_no_oidos_hasta_2_horas():
     assert out[0][2] == 0.1          # la posición nueva gana a la vieja
     assert out[1][8] == 600 + 1200   # la edad crece con el tiempo transcurrido
     assert v.conservar_buques([nueva], {**previo, "campos": ["mmsi"]}, t) == [nueva]
+
+
+def test_aeronaves_comercial_solo_adsblol_sin_privados(tmp_path, monkeypatch):
+    import actualizar as A
+    monkeypatch.setattr(A, "OUT", str(tmp_path))
+    vistos = []
+
+    def pedir(u):
+        vistos.append(u)
+        if u.endswith("/mil"):
+            return {"ac": [{"hex": "ae0001", "flight": "RCH1 ", "lat": 30.0, "lon": -100.0, "alt_baro": 30000, "dbFlags": 1}]}
+        return {"ac": [{"hex": "0d0001", "flight": "AMX123", "lat": 19.4, "lon": -99.1, "alt_baro": 12000, "gs": 400},
+                       {"hex": "a00002", "flight": "N123", "lat": 20.0, "lon": -99.0, "alt_baro": 5000, "dbFlags": 8}]}  # LADD: privado
+
+    n = A.aeronaves_comercial(pedir, puntos=[(19.0, -99.0), (25.0, -100.0)], pausa=0)
+    d = json.load(open(tmp_path / "aeronaves_comercial.json"))
+    assert n == 2 and {f[0] for f in d["a"]} == {"ae0001", "0d0001"}
+    assert all("adsb.lol" in u for u in vistos) and not any("opensky" in u for u in vistos)
+    assert "ODbL" in d["licencia"] and d["campos"] == A.CAMPOS_AVION
+
+
+def test_malla_de_puntos_cubre_mexico_y_es_moderada():
+    import actualizar as A
+    assert 60 <= len(A.PUNTOS_ADSBLOL) <= 140  # ~1-2 min por corrida con la pausa de cortesía
+    assert any(abs(la - 19.5) < 4 and abs(lo + 99) < 5 for la, lo in A.PUNTOS_ADSBLOL)
