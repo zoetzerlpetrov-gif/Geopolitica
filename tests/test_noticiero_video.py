@@ -80,3 +80,19 @@ def test_sin_llaves_en_el_codigo():
         assert "GOCSPX-" not in t and "1//0" not in t, f
     wf = open(os.path.join(raiz, ".github/workflows/noticiero-video.yml"), encoding="utf-8").read()
     assert "${{ github.event.inputs.fecha }}" not in wf.split("run:")[-1], "la fecha manual va por variable de entorno"
+
+
+def test_permiso_caducado_da_aviso_claro():
+    """Con la app en modo Prueba el refresh token dura 7 días: Google responde invalid_grant y se avisa qué hacer."""
+    import io
+    import urllib.error
+    import pytest
+    import subir
+
+    def abrir(req, timeout):
+        raise urllib.error.HTTPError(req.full_url, 400, "Bad Request", {}, io.BytesIO(b'{"error": "invalid_grant"}'))
+
+    with pytest.raises(subir.PermisoCaducado):
+        subir.token_de_acceso("id", "secreto", "token", abrir=abrir)
+    assert "autorizar.py" in subir.AVISO_CADUCO and "YT_REFRESH_TOKEN" in subir.AVISO_CADUCO
+    assert subir.AVISO_CADUCO.startswith("::error")

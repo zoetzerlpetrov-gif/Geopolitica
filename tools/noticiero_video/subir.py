@@ -7,6 +7,7 @@ El noticiero es solo para administración: los videos siempre se suben como priv
 import json
 import os
 import sys
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -25,10 +26,26 @@ def metadatos(g, descripcion, privacidad="private"):
     }
 
 
-def token_de_acceso(cid, secreto, refresco):
+AVISO_CADUCO = ("::error title=Permiso de YouTube caducado::El permiso para subir videos ya no es válido (la app de Google "
+                "está en modo Prueba y el token dura 7 días, o se revocó). En tu computadora corre "
+                "python3 tools/noticiero_video/autorizar.py y reemplaza el secreto YT_REFRESH_TOKEN en GitHub. "
+                "El video de hoy quedó como artefacto de esta corrida.")
+
+
+class PermisoCaducado(RuntimeError):
+    pass
+
+
+def token_de_acceso(cid, secreto, refresco, abrir=urllib.request.urlopen):
     datos = urllib.parse.urlencode({"client_id": cid, "client_secret": secreto, "refresh_token": refresco, "grant_type": "refresh_token"}).encode()
-    with urllib.request.urlopen(urllib.request.Request(TOKEN_URL, data=datos), timeout=60) as r:
-        return json.load(r)["access_token"]
+    try:
+        with abrir(urllib.request.Request(TOKEN_URL, data=datos), timeout=60) as r:
+            return json.load(r)["access_token"]
+    except urllib.error.HTTPError as e:
+        cuerpo = e.read()[:300].decode("utf-8", "replace") if hasattr(e, "read") else ""
+        if e.code in (400, 401) and ("invalid_grant" in cuerpo or "unauthorized_client" in cuerpo):
+            raise PermisoCaducado(cuerpo) from None
+        raise
 
 
 def subir(directorio):
@@ -41,7 +58,11 @@ def subir(directorio):
     with open(os.path.join(directorio, "descripcion.txt"), encoding="utf-8") as f:
         descripcion = f.read()
     video = os.path.join(directorio, "noticiero.mp4")
-    acceso = token_de_acceso(cid, secreto, refresco)
+    try:
+        acceso = token_de_acceso(cid, secreto, refresco)
+    except PermisoCaducado:
+        print(AVISO_CADUCO)
+        sys.exit(1)  # la corrida queda en rojo y GitHub avisa por correo; el artefacto ya se guardó
     cuerpo = json.dumps(metadatos(g, descripcion)).encode("utf-8")
     ini = urllib.request.Request(SUBIDA_URL, data=cuerpo, method="POST", headers={
         "Authorization": f"Bearer {acceso}", "Content-Type": "application/json; charset=UTF-8",
