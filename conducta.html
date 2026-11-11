@@ -77,7 +77,7 @@
     .inf-item { margin: 6px 0; padding-left: 8px; border-left: 3px solid var(--line); }
     .p-lienzo { max-width: 100%; max-height: 50vh; display: block; touch-action: none; cursor: crosshair; border: 1px solid var(--line); border-radius: 6px; background: #fff; }
     .p-rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 0 10px; }
-    .p-pista.medido, .p-pista { color: #2E7D32; }
+    .p-pista { color: #2E7D32; } .p-pista.auto, [data-pista-sen] { color: #B45309; font-weight: 600; } #p-auto-resumen:empty { display: none; }
     [hidden] { display: none !important; }
     @media print { .no-imprimir { display: none !important; } .panel[hidden] { display: none !important; } body { background: #fff; color: #000; } }
   </style>
@@ -352,11 +352,13 @@
       </div>
       <div class="tarjeta">
         <h2>6. Cotejo elemento por elemento</h2>
-        <p class="meta">Marca cada elemento al comparar la dubitada con el conjunto de indubitadas. 📏 = hay una medida automática; si cae dentro del rango se sugiere «Coincide», que puedes cambiar.</p>
+        <p class="meta">Al cargar las imágenes, el análisis automático (🤖) propone el resultado y la observación de cada elemento que se puede medir, y deja para ti (🔎) los que piden lupa o el documento completo. Cambia lo que no coincida con lo que ves: lo que edites (✍️) ya no se sobrescribe.</p>
+        <p class="aviso" id="p-auto-resumen"></p>
         <div id="p-cotejo"></div>
       </div>
       <div class="tarjeta">
         <h2>7. Señales de falsificación o alteración</h2>
+        <p class="meta">🤖 Las que detecta el análisis del trazo se marcan solas con su motivo; desmárcalas si no las confirmas en el original y agrega las que veas tú.</p>
         <div id="p-senales" class="checks"></div>
       </div>
       <div class="tarjeta">

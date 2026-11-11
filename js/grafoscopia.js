@@ -1,6 +1,6 @@
 // Pestaña «Grafoscopía: peritaje» de conducta.html. Todo corre en el navegador; las imágenes no se suben.
 import { medir, mascara } from "./grafo-medir.js";
-import { ELEMENTOS, VALORES_COTEJO, SENALES, ESCALA, MEDIDAS, compararMedidas, normalizar, analizarSuperposicion, sugerirConclusion, redactarDictamen, dictamenHTML, dictamenTexto } from "./grafoscopia-logica.js";
+import { ELEMENTOS, VALORES_COTEJO, SENALES, ESCALA, MEDIDAS, compararMedidas, normalizar, analizarSuperposicion, analisisAutomatico, trazo, SOLO_A_MANO, sugerirConclusion, redactarDictamen, dictamenHTML, dictamenTexto } from "./grafoscopia-logica.js";
 import { imprimirSolo } from "./imprimir.js";
 import { descargarBlob, documentoAPDF } from "./exportar.js";
 
@@ -9,7 +9,7 @@ const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "
 const MAX_LADO = 1400, MAX_INDUB = 12;
 
 // Cada muestra: { id, rol: "dub" | "indub", lienzo, img: ImageData, recorte, med, norm, descripcion, fecha, tipo, copia }
-const estado = { dub: null, indubs: [], cotejo: {}, senales: [], nivel: null, medidas: [], superposicion: null };
+const estado = { dub: null, indubs: [], cotejo: {}, senales: [], senalesManual: new Set(), nivel: null, medidas: [], superposicion: null, auto: null };
 let ultimo = null, sigId = 1;
 
 // ---------- catálogos fijos ----------
@@ -24,11 +24,14 @@ $("p-cotejo").addEventListener("change", (e) => {
   const tr = e.target.closest("tr[data-el]"); if (!tr) return;
   const c = (estado.cotejo[tr.dataset.el] ||= {});
   c.valor = tr.querySelector("[data-valor]").value; c.nota = tr.querySelector("[data-nota]").value; c.origen = "manual";
-  tr.querySelector("[data-pista]").classList.remove("medido");
+  tr.querySelector("[data-pista]").textContent = " · ✍️ editado por ti";
   pintarConclusion();
 });
-$("p-cotejo").addEventListener("input", (e) => { const tr = e.target.closest("tr[data-el]"); if (tr && e.target.matches("[data-nota]")) (estado.cotejo[tr.dataset.el] ||= {}).nota = e.target.value; });
-$("p-senales").addEventListener("change", () => { estado.senales = [...$("p-senales").querySelectorAll("[data-sen]:checked")].map((x) => x.dataset.sen); pintarConclusion(); });
+$("p-cotejo").addEventListener("input", (e) => { const tr = e.target.closest("tr[data-el]"); if (tr && e.target.matches("[data-nota]")) { const c = (estado.cotejo[tr.dataset.el] ||= {}); c.nota = e.target.value; c.origen = "manual"; tr.querySelector("[data-pista]").textContent = " · ✍️ editado por ti"; } });
+$("p-senales").addEventListener("change", (e) => {
+  if (e.target.dataset.sen) { estado.senalesManual.add(e.target.dataset.sen); e.target.closest("label").querySelector("[data-pista-sen]").classList.remove("auto"); }
+  estado.senales = [...$("p-senales").querySelectorAll("[data-sen]:checked")].map((x) => x.dataset.sen); pintarConclusion();
+});
 $("p-nivel").addEventListener("change", () => { estado.nivel = Number($("p-nivel").value); });
 $("p-contemporaneas").addEventListener("change", pintarConclusion);
 
@@ -42,8 +45,10 @@ async function leerImagen(f) {
 
 function medirMuestra(s) {
   try {
+    const M = mascara(s.img, s.recorte);
     s.med = medir(s.img, s.recorte);
-    s.norm = normalizar(mascara(s.img, s.recorte));
+    if (!s.med.vacio) s.med.trazo = trazo(M);
+    s.norm = normalizar(M);
   } catch (e) { s.med = { vacio: true }; s.norm = null; }
 }
 
@@ -111,7 +116,8 @@ const fmt = (v, u) => (v == null ? "—" : `${v}${u}`);
 function actualizar() {
   for (const s of [estado.dub, ...estado.indubs].filter(Boolean)) {
     const caja = document.querySelector(`.p-muestra[data-id="${s.id}"] .p-medidas`); if (!caja) continue;
-    caja.textContent = !s.med || s.med.vacio ? "No encontré trazo en esta zona: recorta solo la firma o el texto, con buena luz." : `${s.recorte ? "Recortada. " : "Imagen completa (arrastra sobre ella para recortar solo la firma). "}Inclinación ${s.med.inclinacion?.toFixed?.(1) ?? "—"}°, ${s.med.renglones} renglón(es).`;
+    const t = s.med?.trazo;
+    caja.textContent = !s.med || s.med.vacio ? "No encontré trazo en esta zona: recorta solo la firma o el texto, con buena luz." : `${s.recorte ? "Recortada. " : "Imagen completa (arrastra sobre ella para recortar solo la firma). "}🤖 Inclinación ${s.med.inclinacion?.toFixed?.(1) ?? "—"}°, ${s.med.renglones} renglón(es)${t ? `, ${t.piezas} pieza(s), ${t.puntas} puntas, temblor ${t.temblor ?? "—"}, extremos ${t.extremos ?? "—"}` : ""}.`;
   }
   const listos = estado.indubs.filter((s) => s.med && !s.med.vacio);
   estado.medidas = estado.dub?.med && !estado.dub.med.vacio && listos.length ? compararMedidas(estado.dub.med, listos.map((s) => s.med)) : [];
@@ -144,19 +150,32 @@ function pintarSuperposicion() {
 }
 $("p-sup-sel").onchange = pintarSuperposicion; $("p-sup-op").oninput = pintarSuperposicion;
 
-/** Sugiere «Coincide» en los elementos que tienen medida dentro del rango (si la persona no los ha tocado). */
+/** Aplica el análisis automático al cotejo y a las señales, sin tocar lo que la persona ya cambió a mano. */
 function pintarPistas() {
-  const porMedida = Object.fromEntries(estado.medidas.map((m) => [m.id, m]));
+  const listos = estado.medidas.length > 0;
+  estado.auto = listos ? analisisAutomatico(estado.medidas, estado.superposicion, { copia: material().copia }) : { cotejo: {}, senales: {} };
   for (const g of ELEMENTOS) for (const it of g.items) {
-    const pista = document.querySelector(`[data-pista="${it.id}"]`), m = it.medida ? porMedida[it.medida] : null;
-    const tr = pista?.closest("tr"), c = estado.cotejo[it.id];
-    if (!pista) continue;
-    pista.textContent = m && m.estado !== "sin_dato" ? ` · 📏 ${m.estado === "dentro" ? "medida dentro del rango" : "medida fuera del rango: revisa"}` : "";
-    if (m?.estado === "dentro" && (!c || c.origen === "medido")) { estado.cotejo[it.id] = { ...(c || {}), valor: "coincide", origen: "medido" }; tr.querySelector("[data-valor]").value = "coincide"; }
-    if (m?.estado !== "dentro" && c?.origen === "medido") { delete estado.cotejo[it.id]; tr.querySelector("[data-valor]").value = ""; }
+    const tr = document.querySelector(`tr[data-el="${it.id}"]`); if (!tr) continue;
+    const pista = tr.querySelector("[data-pista]"), c = estado.cotejo[it.id], a = estado.auto.cotejo[it.id];
+    if (c?.origen === "manual") continue;
+    if (a) {
+      estado.cotejo[it.id] = { valor: a.valor, nota: a.nota, origen: "auto" };
+      tr.querySelector("[data-valor]").value = a.valor; tr.querySelector("[data-nota]").value = a.nota;
+      pista.textContent = " · 🤖 propuesto por el análisis automático";
+    } else {
+      if (c?.origen === "auto") { delete estado.cotejo[it.id]; tr.querySelector("[data-valor]").value = ""; tr.querySelector("[data-nota]").value = ""; }
+      pista.textContent = listos && SOLO_A_MANO.includes(it.id) ? " · 🔎 se valora a mano (lupa o documento completo)" : "";
+    }
   }
-  const pc = document.querySelector('[data-pista-sen="calco"]');
-  if (pc) pc.textContent = estado.superposicion?.calco ? "⚠️ la superposición lo sugiere" : "";
+  for (const sen of SENALES) {
+    const cb = document.querySelector(`[data-sen="${sen.id}"]`), pista = document.querySelector(`[data-pista-sen="${sen.id}"]`), motivo = estado.auto.senales[sen.id];
+    if (!cb) continue;
+    if (!estado.senalesManual.has(sen.id)) { cb.checked = Boolean(motivo); pista.classList.toggle("auto", Boolean(motivo)); }
+    pista.textContent = motivo ? `🤖 ${motivo}` : "";
+  }
+  estado.senales = [...$("p-senales").querySelectorAll("[data-sen]:checked")].map((x) => x.dataset.sen);
+  const n = Object.values(estado.cotejo).filter((c) => c.origen === "auto").length, ns = Object.keys(estado.auto.senales).length;
+  $("p-auto-resumen").textContent = listos ? `🤖 El análisis automático propuso ${n} de ${ELEMENTOS.reduce((t, g) => t + g.items.length, 0)} elementos y ${ns} señal(es). Revisa cada uno: cambia el resultado o la observación si no coincide con lo que ves; lo que edites ya no se sobrescribe.` : "";
 }
 
 function material() {
@@ -169,7 +188,18 @@ function pintarConclusion() {
   $("p-sugerida").innerHTML = `<p><b>Sugerida: ${sug.nivel}. ${esc(sug.conclusion.texto)}</b></p><ul>${sug.razones.map((r) => `<li>${esc(r)}</li>`).join("")}</ul>
     <p class="meta">Coincidencias ${sug.conteo.coincidencias} · variaciones naturales ${sug.conteo.variaciones} · divergencias ${sug.conteo.divergencias} · señales ${sug.conteo.senales}. La conclusión final la eliges tú abajo.</p>`;
   if (!estado.nivel) $("p-nivel").value = String(sug.nivel);
+  if (!$("p-consideraciones").dataset.editado) $("p-consideraciones").value = consideracionesAuto();
 }
+
+/** Borrador de consideraciones a partir del análisis automático (editable). */
+function consideracionesAuto() {
+  if (!estado.auto || !estado.medidas.length) return "";
+  const fuera = estado.medidas.filter((m) => m.estado === "fuera").map((m) => m.nombre.toLowerCase());
+  const sen = Object.keys(estado.auto.senales).map((id) => SENALES.find((s) => s.id === id)?.nombre.toLowerCase()).filter(Boolean);
+  return [fuera.length ? `Las medidas que se apartan del rango de las indubitadas son: ${fuera.join(", ")}.` : "Todas las medidas comparables de la dubitada caen dentro del rango de variación de las indubitadas.",
+    sen.length ? `El análisis del trazo señala: ${sen.join(", ")}; deben confirmarse con lupa y luz rasante sobre el original.` : "El análisis del trazo no encontró señales de falsificación (temblor, extremos romos, cortes anómalos ni coincidencia excesiva)."].join(" ");
+}
+$("p-consideraciones").addEventListener("input", () => { $("p-consideraciones").dataset.editado = "1"; });
 
 // ---------- dictamen ----------
 function datos() {
