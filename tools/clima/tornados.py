@@ -7,7 +7,7 @@ todo el mundo cada 15 min y etiqueta cada nota con temas (p. ej. NATURAL_DISASTE
 lugares que menciona, con coordenadas. Se usan dos flujos: notas en inglés y notas traducidas de 65 idiomas
 (así entra «tromba d'aria» de un diario italiano).
 
-Archivos: http://data.gdeltproject.org/gdeltv2/lastupdate.txt y lastupdate-translation.txt → *.gkg.csv.zip.
+Archivos: https://data.gdeltproject.org/gdeltv2/lastupdate.txt y lastupdate-translation.txt → *.gkg.csv.zip.
 Sin llave ni límite de consultas (son archivos estáticos). En cada corrida se leen los últimos 4 de cada flujo
 (1 h) y se acumulan 7 días en vivos/tornados.geojson.
 
@@ -33,8 +33,8 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 import fuentes as F  # noqa: E402
 
 OUT = os.path.join(ROOT, "vivos", "tornados.geojson")
-FLUJOS = {"ingles": "http://data.gdeltproject.org/gdeltv2/lastupdate.txt",
-          "traducido": "http://data.gdeltproject.org/gdeltv2/lastupdate-translation.txt"}
+FLUJOS = {"ingles": "https://data.gdeltproject.org/gdeltv2/lastupdate.txt",
+          "traducido": "https://data.gdeltproject.org/gdeltv2/lastupdate-translation.txt"}
 DIAS = 7
 csv.field_size_limit(10_000_000)
 

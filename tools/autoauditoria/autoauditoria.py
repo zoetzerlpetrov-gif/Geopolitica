@@ -147,9 +147,22 @@ def dependencias_fijadas(cfg):
 
 
 def solo_https(cfg):
-    malos = [f for f in archivos(".js", ".py") if (f.startswith(("js/", "tools/", "backend/", "cloudflare/", "ingest/"))) and
-             re.search(r"[\"'`]http://(?!localhost|127\.0\.0\.1|0\.0\.0\.0|www\.w3\.org|cv\.iptc\.org|purl\.org|schemas\.|ns\.adobe\.com)[a-z0-9-]+\.[a-z]", leer(f))]
-    return r("cumple", "Todas las llamadas usan HTTPS.") if not malos else r("parcial", f"Enlaces http:// en: {', '.join(malos[:8])}")
+    """Llamadas y enlaces http://. Los hosts de cfg["http_excepciones"] (identificadores de esquemas o servidores sin
+    HTTPS comprobado) quedan como riesgo aceptado y documentado."""
+    exc = [k for k in (cfg.get("http_excepciones") or {}) if not k.startswith("_")]
+    patron = re.compile(r"[\"'`]http://(?!localhost|127\.0\.0\.1|0\.0\.0\.0|www\.w3\.org|cv\.iptc\.org|purl\.org|schemas\.|ns\.adobe\.com)([a-z0-9-]+\.[a-z][^\"'`\s]*)")
+    malos, aceptados = [], set()
+    for f in archivos(".js", ".py"):
+        if not f.startswith(("js/", "tools/", "backend/", "cloudflare/", "ingest/")):
+            continue
+        for m in patron.finditer(leer(f)):
+            host = next((e for e in exc if m.group(1).startswith(e)), None)
+            if host:
+                aceptados.add(host)
+            elif f not in malos:
+                malos.append(f)
+    nota = f" {len(aceptados)} host(s) en http:// documentados como excepción en config/autoauditoria.json." if aceptados else ""
+    return r("cumple", "Todas las llamadas usan HTTPS." + nota) if not malos else r("parcial", f"Enlaces http:// en: {', '.join(malos[:8])}")
 
 
 def rastreadores(cfg):

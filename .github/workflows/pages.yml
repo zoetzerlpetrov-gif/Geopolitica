@@ -30,7 +30,7 @@ jobs:
       url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - name: Clonar repositorio
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # Punta de la rama (no el commit que disparó el workflow): así, cuando la ingesta
           # horaria llama a este workflow tras commitear data/, se publica el dato nuevo.
@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -130,11 +130,11 @@ jobs:
           du -sh _site
 
       - name: Empaquetar
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:
           path: _site
 
       - name: Publicar
         id: deploy
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
 

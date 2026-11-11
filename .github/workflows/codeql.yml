@@ -1,0 +1,32 @@
+name: CodeQL
+
+# Análisis estático de seguridad (gratuito en repositorios públicos): JavaScript y Python, en cada PR a main y
+# una vez por semana. Los hallazgos aparecen en GitHub → Security → Code scanning.
+on:
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: "23 9 * * 1"  # lunes 03:23 en Ciudad de México
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  analizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        lenguaje: [javascript-typescript, python]
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: github/codeql-action/init@9418214df1f2c4b8128c770156c409013b07d6b9 # v3
+        with:
+          languages: ${{ matrix.lenguaje }}
+          queries: security-extended
+      - uses: github/codeql-action/analyze@9418214df1f2c4b8128c770156c409013b07d6b9 # v3
+        with:
+          category: "/language:${{ matrix.lenguaje }}"
