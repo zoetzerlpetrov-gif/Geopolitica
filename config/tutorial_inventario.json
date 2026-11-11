@@ -2305,6 +2305,14 @@
        "ayuda": ""
       },
       {
+       "t": "Polvo del Sahara y tormentas de polvo: América y Atlántico (GOES-East, cada 10 min)",
+       "ayuda": ""
+      },
+      {
+       "t": "Polvo en el aire: puntaje diario, todo el mundo (AIRS, Aqua)",
+       "ayuda": ""
+      },
+      {
        "t": "Hielo marino: % del mar cubierto (GHRSST MUR, diario)",
        "ayuda": ""
       },

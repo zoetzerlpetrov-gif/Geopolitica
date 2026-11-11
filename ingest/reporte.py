@@ -245,10 +245,10 @@ def leer_previo(salida, tipo, fecha):
     return None
 
 
-def indice_y_limpieza(salida, dias):
-    """Borra reportes de más de `dias` días y escribe reportes/indice.json."""
+def indice_y_limpieza(salida, dias, ahora=None):
+    """Borra reportes de más de `dias` días (contados desde `ahora`, la hora de la corrida) y escribe reportes/indice.json."""
     raiz = os.path.join(salida, "reportes")
-    corte = (datetime.now(TZ_MX) - timedelta(days=dias)).strftime("%Y-%m-%d")
+    corte = ((ahora or datetime.now(timezone.utc)).astimezone(TZ_MX) - timedelta(days=dias)).strftime("%Y-%m-%d")
     indice = {}
     for tipo in ("mexico", "global"):
         lista = []
@@ -287,5 +287,5 @@ def generar(salida, eventos, t, panorama_fn=None, pdf_fn=None, fix_fn=banxico_fi
         guardar(salida, rep, pdf_fn)
         hechos[tipo] = {"fecha": rep["fecha"], "total": rep["cifras"]["total"], "pdf": bool(rep.get("pdf")),
                         "ia": bool(rep.get("panorama_ia")), **({"pdf_error": rep["pdf_error"]} if rep.get("pdf_error") else {})}
-    indice_y_limpieza(salida, cfg["dias_conservados"])
+    indice_y_limpieza(salida, cfg["dias_conservados"], t)
     return hechos

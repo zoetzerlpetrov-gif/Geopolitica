@@ -1,5 +1,6 @@
 // Interfaz de analitica.html. Lógica en analitica-logica.js.
 import { esc, getJSON } from "./util.js";
+import { protegerMapLibre } from "./antimeridiano.js";
 import * as A from "./analitica-logica.js";
 import { exportar, htmlSelectorExportar } from "./exportar.js";
 import { REGION } from "./card.js";
@@ -125,7 +126,7 @@ async function mapaResultado(pts) {
   const max = Math.max(1, ...pts.map((p) => p.valor || 0));
   const datos = { type: "FeatureCollection", features: pts.map((p) => ({ type: "Feature", geometry: { type: "Point", coordinates: [p.lon, p.lat] }, properties: { e: p.etiqueta, v: p.valor, r: 4 + 14 * Math.sqrt((p.valor || 0) / max) } })) };
   if (!mini) {
-    mini = new maplibregl.Map({ container: caja, attributionControl: false, style: { version: 8, sources: { p: { type: "geojson", data: "data/base/countries-110m.geojson" } },
+    protegerMapLibre(); mini = new maplibregl.Map({ container: caja, attributionControl: false, style: { version: 8, sources: { p: { type: "geojson", data: "data/base/countries-110m.geojson" } },
       layers: [{ id: "fondo", type: "background", paint: { "background-color": "#cfe3f2" } }, { id: "p", type: "fill", source: "p", paint: { "fill-color": "#f4f1ea", "fill-outline-color": "#9aa" } }] }, center: [0, 20], zoom: 0.6 });
     await new Promise((ok) => mini.once("load", ok));
     mini.addSource("r", { type: "geojson", data: datos });
