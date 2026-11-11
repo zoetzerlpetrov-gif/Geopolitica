@@ -51,5 +51,20 @@
    "Solo afecta al predio y a sus propietarios; no crea obligaciones generales para empresas."
   ],
   "estado": "no aplica (acto particular de expropiación)"
+ },
+ "USA:fr:2026-22962": {
+  "resumen": "FinCEN (Departamento del Tesoro de EUA) impone una medida especial que prohíbe a las instituciones financieras de EUA transmitir fondos en los que participe la plataforma de criptoactivos MEXC Global.",
+  "afectaciones": [
+   "Instituciones financieras sujetas a la BSA: bloquear transferencias de fondos que involucren a MEXC Global y ajustar sus filtros de cumplimiento.",
+   "Empresas mexicanas con operaciones en criptoactivos o pagos con contrapartes en EUA: revisar si usan MEXC Global; sus transferencias por bancos de EUA pueden ser rechazadas (verificar fecha de entrada en vigor en el Federal Register)."
+  ],
+  "estado": "no aplica al catálogo general (medida contra una entidad concreta); relevante para servicios financieros y criptoactivos"
+ },
+ "EUR:32026R2487": {
+  "resumen": "Reglamento de Ejecución de la Comisión que desarrolla el Reglamento (UE) 2024/1689 de inteligencia artificial en lo relativo al establecimiento y funcionamiento de un mecanismo previsto en esa ley (título truncado en la bitácora; probablemente los espacios controlados de pruebas para IA: verificar en EUR-Lex).",
+  "afectaciones": [
+   "Proveedores de sistemas de IA que operen en la UE: revisar si el mecanismo les permite o les exige participar (verificar)."
+  ],
+  "estado": "pendiente: confirmar el objeto exacto en EUR-Lex antes de incorporarlo a la ficha AI Act / RIA"
  }
 }
