@@ -51,7 +51,7 @@ def test_guion_completo_con_economia_portafolio_y_descripcion():
     g = G.guion("2026-11-11", rmx, rgl, ind, port)
     tipos = [e["tipo"] for e in g["escenas"]]
     assert tipos[0] == "portada" and tipos[-1] == "cierre" and "economia" in tipos and "portafolio" in tipos
-    assert g["notas"] == 6 and g["titulo"].startswith("Noticiero DOMINUS · Miércoles 11 de noviembre de 2026")
+    assert g["notas"] == 6 and g["titulo"].startswith("Brújula Diaria · Miércoles 11 de noviembre de 2026")
     eco = next(e for e in g["escenas"] if e["tipo"] == "economia")
     assert eco["filas"][0]["valor"] == "18.67 pesos por dólar" and "18 punto 67" in eco["voz"]
     port_e = next(e for e in g["escenas"] if e["tipo"] == "portafolio")
@@ -108,3 +108,11 @@ def test_explica_los_403_de_youtube_en_espanol():
     motivo, texto = subir.explicar_error(json.dumps({"error": {"message": "x", "details": [{"reason": "SERVICE_DISABLED"}]}}))
     assert motivo == "SERVICE_DISABLED" and "Biblioteca" in texto
     assert subir.explicar_error("no es json") == ("", "")
+
+
+def test_el_video_no_menciona_dominus():
+    """El canal es independiente del proyecto: ni el guion, ni las pantallas, ni las etiquetas dicen DOMINUS."""
+    import os
+    base = os.path.join(os.path.dirname(__file__), "..", "tools", "noticiero_video")
+    for nombre in ("guion.py", "render.py", "subir.py"):
+        assert "dominus" not in open(os.path.join(base, nombre), encoding="utf-8").read().lower(), nombre

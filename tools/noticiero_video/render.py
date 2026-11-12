@@ -1,4 +1,4 @@
-"""Arma el video del Noticiero DOMINUS: una pantalla por escena (Pillow), voz con Piper y unión con ffmpeg.
+"""Arma el video de Brújula Diaria: una pantalla por escena (Pillow), voz con Piper y unión con ffmpeg.
 
 Uso:  python3 tools/noticiero_video/render.py SALIDA_DIR [--fecha AAAA-MM-DD] [--sitio URL] [--modelo voz.onnx]
 Lee los reportes y los indicadores del sitio publicado (o de archivos locales con --datos DIR) y escribe en SALIDA_DIR:
@@ -35,7 +35,7 @@ def fuente(tam, negrita=False):
 
 def leer(origen, ruta):
     if origen.startswith("http"):
-        req = urllib.request.Request(f"{origen.rstrip('/')}/{ruta}", headers={"User-Agent": "dominus-noticiero/1.0"})
+        req = urllib.request.Request(f"{origen.rstrip('/')}/{ruta}", headers={"User-Agent": "brujula-diaria/1.0"})
         with urllib.request.urlopen(req, timeout=60) as r:
             return json.load(r)
     with open(os.path.join(origen, ruta), encoding="utf-8") as f:
@@ -54,7 +54,7 @@ def pantalla(e, n, total, fecha):
     im = Image.new("RGB", (W, H), FONDO)
     d = ImageDraw.Draw(im)
     d.rectangle([0, 0, W, 10], fill=ORO)
-    d.text((96, 60), "DOMINUS OSINT · NOTICIERO", font=fuente(34, True), fill=ORO)
+    d.text((96, 60), "BRÚJULA DIARIA", font=fuente(34, True), fill=ORO)
     d.text((W - 96, 60), fecha, font=fuente(30), fill=GRIS, anchor="ra")
     if e["tipo"] in ("portada", "seccion", "cierre"):
         d.text((W // 2, H // 2 - 70), e["encabezado"], font=fuente(118, True), fill=TINTA, anchor="mm")
@@ -81,7 +81,7 @@ def pantalla(e, n, total, fecha):
             y += 82
         if e.get("medio"):
             d.text((96, H - 150), f"Fuente: {e['medio']}", font=fuente(38, True), fill=ORO)
-            d.text((96, H - 100), "Resumen propio de DOMINUS · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
+            d.text((96, H - 100), "Resumen propio · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
     d.text((W - 96, H - 60), f"{n}/{total}", font=fuente(26), fill=GRIS, anchor="ra")
     return im
 

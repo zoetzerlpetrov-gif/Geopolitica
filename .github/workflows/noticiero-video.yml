@@ -1,6 +1,6 @@
 name: Noticiero en video
 
-# Cada mañana arma el Noticiero DOMINUS en video (tools/noticiero_video): resúmenes propios de los reportes diarios de
+# Cada mañana arma Brújula Diaria (noticiero en video) (tools/noticiero_video): resúmenes propios de los reportes diarios de
 # México y global, indicadores de Economía y conteo del Portafolio; voz sintética Piper (es_MX). El video queda como
 # artefacto de la corrida (7 días) y, si existen los secretos YT_CLIENT_ID, YT_CLIENT_SECRET y YT_REFRESH_TOKEN, se
 # sube a YouTube siempre como privado: el noticiero en video es solo para administración.

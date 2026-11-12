@@ -1,4 +1,4 @@
-"""Guion del noticiero diario en video (Noticiero DOMINUS en YouTube).
+"""Guion del noticiero diario en video (Brújula Diaria en YouTube).
 
 Solo usa lo que el proyecto ya genera y puede publicarse:
   - data/reportes/mexico/<fecha>.json y data/reportes/global/<fecha>.json → «destacados»: resumen PROPIO de cada
@@ -14,7 +14,7 @@ from datetime import date
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
 
-AVISO_VOZ = "Voz sintética. Resúmenes propios de DOMINUS a partir de notas de los medios citados; consulta cada nota en su fuente."
+AVISO_VOZ = "Voz sintética. Resúmenes propios a partir de notas de los medios citados; consulta cada nota en su fuente."
 AVISO_PORTAFOLIO = "No es asesoría de inversión."
 
 
@@ -122,8 +122,8 @@ def guion(fecha, rep_mx, rep_global, indicadores=None, portafolio=None, n_mx=5, 
     vistos = []
     mx = elegir(candidatos(rep_mx), n_mx, vistos=vistos)
     mundo = elegir(candidatos(rep_global), n_mundo, excluir_pais="MEX", vistos=vistos)
-    esc = [{"tipo": "portada", "encabezado": "Noticiero DOMINUS", "texto": larga[0].upper() + larga[1:],
-            "voz": f"Buenos días. Este es el Noticiero DOMINUS del {larga}. Las noticias de México y del mundo, la economía y los mercados, en unos minutos."}]
+    esc = [{"tipo": "portada", "encabezado": "Brújula Diaria", "texto": larga[0].upper() + larga[1:],
+            "voz": f"Buenos días. Esto es Brújula Diaria, {larga}. Las noticias de México y del mundo, la economía y los mercados, en unos minutos."}]
     if mx:
         esc.append({"tipo": "seccion", "encabezado": "México", "texto": "", "voz": "Empezamos con México."})
         for x in mx:
@@ -143,13 +143,13 @@ def guion(fecha, rep_mx, rep_global, indicadores=None, portafolio=None, n_mx=5, 
                 "voz": "Las fuentes y los enlaces de cada nota están en la descripción del video. Hasta mañana."})
     notas = mx + mundo
     descripcion = "\n".join([
-        f"Noticiero DOMINUS · {larga}.",
-        "Resúmenes propios de DOMINUS OSINT; la voz es sintética.",
+        f"Brújula Diaria · {larga}.",
+        "Resúmenes propios de las noticias del día; la voz es sintética.",
         "",
         "Fuentes de las notas:",
         *[f"• {x.get('fuente', '')}: {x.get('url', '')}" for x in notas],
         "",
         "Datos económicos: Banco de México, INEGI y Reserva Federal (FRED). Los mercados se mencionan solo como información; no es asesoría de inversión.",
     ])
-    titulo = f"Noticiero DOMINUS · {larga[0].upper() + larga[1:]} · México y el mundo"
+    titulo = f"Brújula Diaria · {larga[0].upper() + larga[1:]} · México y el mundo"
     return {"fecha": fecha, "titulo": titulo[:100], "escenas": esc, "descripcion": descripcion[:4900], "notas": len(notas)}
