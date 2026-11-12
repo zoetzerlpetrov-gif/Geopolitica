@@ -16,8 +16,8 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import candidatos_seccion, guion, mercados  # noqa: E402
-from redactar import elegir_y_redactar, frases_titulares  # noqa: E402
+from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof  # noqa: E402
+from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
@@ -108,7 +108,7 @@ def pantalla(e, n, total, fecha):
             y += 82
         if e.get("medio"):
             d.text((96, H - 150), f"Fuente: {e['medio']}", font=fuente(38, True), fill=ORO)
-            d.text((96, H - 100), "Resumen propio · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
+            d.text((96, H - 100), ("Titular del medio" if e.get("titular") else "Resumen propio") + " · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
     d.text((W - 96, H - 60), f"{n}/{total}", font=fuente(26), fill=GRIS, anchor="ra")
     return im
 
@@ -303,7 +303,10 @@ def main():
     hoy = (datetime.now(timezone.utc) - timedelta(hours=6)).strftime("%Y-%m-%d")
     fecha = a.fecha or hoy
     cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"))
-    elegidas = elegir_y_redactar(cands, os.environ.get("IA_LOCAL_URL", "").strip() or None)
+    ia = os.environ.get("IA_LOCAL_URL", "").strip() or None
+    elegidas = elegir_y_redactar(cands, ia)
+    # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
+    elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha), ia))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
     portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "portfolio_data.json") if a.sitio.startswith("http") else None
     frases = frases_titulares(mercados(portafolio) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)

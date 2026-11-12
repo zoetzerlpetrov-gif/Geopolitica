@@ -96,12 +96,13 @@ def feeds_por_url(cfg):
     return por
 
 
-def notas_de_feed(items, secs, reglas):
-    """Items de F.parsear_rss → notas. Con una sola sección entran todas; con varias, según las palabras clave."""
+def notas_de_feed(items, secs, reglas, filtrar=False):
+    """Items de F.parsear_rss → notas. Con una sola sección entran todas; con varias, o si el feed es general
+    («filtrar»: true en config, p. ej. Infobae México, que trae recetas y conciertos), según las palabras clave."""
     rx = {sid: r for sid, r, _, _ in reglas}
     out = []
     for it in items:
-        s = secs if len(secs) == 1 else [sid for sid in secs if rx[sid].search(it["titulo"])]
+        s = secs if len(secs) == 1 and not filtrar else [sid for sid in secs if rx[sid].search(it["titulo"])]
         if s:
             out.append({"t": it["titulo"][:220], "u": it["url"], "m": it["fuente"], "tipo": it["tipo_fuente"], "f": it["fecha_utc"],
                         "img": it.get("imagen", ""), "s": s, "via": "rss"})
@@ -112,7 +113,7 @@ def de_rss(cfg, reglas, leer=F.rss):
     notas, errores, ok = [], [], 0
     for url, (fd, secs) in feeds_por_url(cfg).items():
         try:
-            notas += notas_de_feed(leer({**fd, "max_items": 40}), secs, reglas)
+            notas += notas_de_feed(leer({**fd, "max_items": 40}), secs, reglas, filtrar=bool(fd.get("filtrar")))
             ok += 1
         except Exception as e:  # noqa: BLE001  un medio caído no detiene a los demás
             errores.append(f"{fd['nombre']}: {e}"[:160])

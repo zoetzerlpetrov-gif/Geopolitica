@@ -66,6 +66,7 @@
     "AUD/USD": "dólar australiano dólar",
     "GBP/USD": "libra dólar",
     "USD/JPY": "dólar yen",
-    "BMV": "be eme uve"
+    "BMV": "be eme uve",
+    "FIX": "fix"
   }
 }

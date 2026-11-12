@@ -80,11 +80,18 @@ def medio_para_voz(medio):
     return pronunciar(m)
 
 
-def miles_redaccion(texto):
-    """La IA a veces escribe miles con punto (formato de España: «4.000 dólares», «7.300 millones») aunque se le pida el
-    mexicano. En una redacción en español, un número de 1 a 3 cifras seguido de grupos exactos de 3 cifras con punto es
-    un número de miles: se lleva a coma (4,000) para que la pantalla siga la norma mexicana y la voz no diga «4 punto 000»."""
-    return re.sub(r"\b[1-9]\d{0,2}(?:\.\d{3})+(?![\d,]|\.\d)", lambda m: m.group(0).replace(".", ","), str(texto or ""))
+# Secciones con precios que pueden llevar 3 decimales (1.108 dólares por euro): ahí el punto solo se toma como miles
+# cuando sigue «mil», «millones» o «billones» («14.200 millones de dólares»).
+SECCIONES_PRECIO = {"forex", "cripto", "blockchain", "cbdc"}
+_MILES = r"\b[1-9]\d{0,2}(?:\.\d{3})+(?![\d,]|\.\d)"
+
+
+def miles_redaccion(texto, seccion=None):
+    """La IA y algunos medios escriben miles con punto (formato de España: «4.000 dólares», «7.300 millones»). Un número
+    de 1 a 3 cifras seguido de grupos exactos de 3 cifras con punto es de miles: se lleva a coma (4,000) para que la
+    pantalla siga la norma mexicana y la voz no diga «4 punto 000». En divisas y cripto, solo antes de mil/millones."""
+    patron = _MILES + (r"(?=\s*(?:mil\b|millones|mill[oó]n|billones|mdd|mdp))" if seccion in SECCIONES_PRECIO else "")
+    return re.sub(patron, lambda m: m.group(0).replace(".", ","), str(texto or ""))
 
 
 def para_voz(texto):
@@ -169,7 +176,7 @@ def _ultimo(ind, id_):
 
 
 # Orden del noticiero y nombre corto de cada sección del Noticiero (data/vivos/noticiero.json).
-ORDEN = ["politica_mx", "geopolitica", "economia", "indicadores", "forex", "bonos", "oro", "metales", "energia",
+ORDEN = ["politica_mx", "politica_mx_critica", "geopolitica", "economia", "indicadores", "forex", "bonos", "oro", "metales", "energia",
          "crisis_energetica", "empresas", "sectores", "nearshoring", "inmobiliario", "cripto", "blockchain", "cbdc",
          "tecnologia", "organismos", "salud", "nutricion", "agenda2030", "clima", "eventos_impacto", "cultura",
          "espectaculos", "gastronomia_viajes", "belleza_moda", "infantil", "conspiracion"]
@@ -180,7 +187,26 @@ CORTO = {"politica_mx": "Política en México", "geopolitica": "Geopolítica", "
          "cbdc": "Monedas digitales", "tecnologia": "Tecnología", "organismos": "Organismos internacionales", "salud": "Salud",
          "nutricion": "Nutrición", "agenda2030": "Agenda 2030", "clima": "Clima y desastres", "eventos_impacto": "Clima y economía",
          "cultura": "Cultura", "espectaculos": "Espectáculos", "gastronomia_viajes": "Gastronomía y viajes",
-         "belleza_moda": "Belleza y moda", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración (verificación)"}
+         "belleza_moda": "Belleza y moda", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
+         "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación"}
+# Lo que la IA debe buscar en la sección cuando el nombre corto no basta.
+TEMA = {
+    "politica_mx_critica": "Política en México: señalamientos de corrupción, sobornos, empresas fantasma, desvíos, conflictos de "
+                           "interés, investigaciones, auditorías o críticas a funcionarios o al gobierno de México",
+    "infantil": "Niñas y niños: noticias sobre la infancia (derechos, escuela, salud, seguridad) o actividades para niñas y "
+                "niños (eventos, películas, museos, parques). Una nota de ciencia o animales que no hable de niñas o niños no es de esta sección",
+    "conspiracion": "Teorías de conspiración: qué afirmación falsa o engañosa circula y qué comprobó la verificación",
+}
+# Rendición de cuentas: además de las notas más repetidas de Política en México, una sobre lo que se le señala al gobierno.
+CRITICA = re.compile(r"corrup|soborn|moches|desv[ií]o|empresas? fantasma|factureras?|lavado de dinero|huachicol|nepotismo|"
+                     r"conflicto de inter|malversa|peculado|enriquecimiento il|auditor[ií]a superior|\bASF\b|irregularidad|"
+                     r"vinculad[oa] a proceso|orden de aprehensi|sobrecosto|opacidad|adjudicaci[oó]n directa|fraude|colusi[oó]n|"
+                     r"narcopol|esc[aá]ndalo|inhabilit|(acusan|investigan|denuncian|señalan|critican|cuestionan) a", re.I)
+GOBIERNO_MX = re.compile(r"sheinbaum|gobierno (de m[eé]xico|federal)|morena\b|secretar[ií]a de|funcionari|diputad|senador|"
+                         r"gobernador|alcald|pemex|cfe\b|imss|issste|segalmex|conagua|sedena|guardia nacional|fiscal[ií]a|\bFGR\b", re.I)
+INFANTIL = re.compile(r"ni[nñ]as?\b|ni[nñ]os?\b|infan|menores|adolescen|escuela|escolar|alumn|primaria|secundaria|kínder|"
+                      r"preescolar|unicef|juguete|kids?\b|children|child\b|students?|pupils?|schools?|toys?|teens?|"
+                      r"para ni[nñ]os|familia|family|parque|museo|zool[oó]gico|zoo\b|pel[ií]cula|teatro|disney|pixar", re.I)
 POR_SECCION = {"politica_mx": 2, "geopolitica": 2}  # las demás: solo la nota más relevante
 VACIOS = re.compile(r"no (tropical )?cyclones|no hay ciclones|sin (avisos|actividad)", re.I)
 ES = re.compile(r"\b(el|la|los|las|de|del|que|en|por|para|con|una?|se|su|sus|al)\b", re.I)
@@ -227,13 +253,23 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6):
            for i, n in enumerate(notas)]
     out = {}
     for sec in ORDEN:
-        idx = sorted((i for i, n in enumerate(notas) if sec in (n.get("s") or [])), key=lambda i: (eco[i], notas[i].get("f") or ""), reverse=True)
+        if sec == "politica_mx_critica":
+            def es(n):
+                return GOBIERNO_MX.search(n["t"]) and CRITICA.search(n["t"])  # del gobierno o sus funcionarios, no nota roja
+        elif sec == "infantil":
+            def es(n):
+                return "infantil" in (n.get("s") or []) and INFANTIL.search(n["t"])  # tortugas o planetas sin niños: fuera
+        else:
+            def es(n, sec=sec):
+                return sec in (n.get("s") or [])
+        idx = sorted((i for i, n in enumerate(notas) if es(n)), key=lambda i: (eco[i], notas[i].get("f") or ""), reverse=True)
         lista, vistos = [], set()
         for i in idx:
             if notas[i].get("u") in vistos or any(_parecidas(cl[i], x["_c"], pr[i], x["_p"]) for x in lista):
                 continue  # dentro de la sección, una sola nota por tema
             vistos.add(notas[i].get("u"))
-            lista.append({"seccion": sec, "seccion_nombre": CORTO.get(sec, sec), "titulo": notas[i]["t"].strip(), "medio": notas[i].get("m", ""),
+            lista.append({"seccion": sec, "seccion_nombre": CORTO.get(sec, sec), "tema": TEMA.get(sec, CORTO.get(sec, sec)),
+                          "titulo": notas[i]["t"].strip(), "medio": notas[i].get("m", ""),
                           "url": notas[i].get("u", ""), "fecha": notas[i].get("f", ""), "eco": eco[i], "_c": cl[i], "_p": pr[i]})
             if len(lista) >= maximo:
                 break
@@ -266,27 +302,32 @@ def notas_noticiero(noti, ahora_iso=None, horas=36):
 
 
 def con_resumen(notas, resumenes=None, datos=None):
-    """Asigna a cada nota su resumen propio (de la IA) o, sin él, la cita como titular del medio si está en español.
-    Las notas en otro idioma sin resumen se omiten (no se leen títulos en inglés). Entre la nota, el dato del día
-    (secciones con cifras) y la fuente va una pausa de medio segundo."""
+    """Asigna a cada nota su resumen propio (de la IA) o, sin él, su titular si está en español (en pantalla entre
+    comillas y marcado como titular del medio). Las notas en otro idioma sin resumen se omiten. Entre la nota y el
+    dato del día va una pausa de medio segundo. La fuente solo se muestra en pantalla y en la descripción: no se lee,
+    para ahorrar tiempo. Cada cifra se dice una sola vez en todo el noticiero (el bitcoin no se repite en tres secciones)."""
     out, usados = [], set()
     for n in notas:
         n = {k: v for k, v in n.items() if not k.startswith("_")}  # las claves internas (conjuntos) no van al guion
+        sec = n.get("seccion")
         r = (resumenes or {}).get(n["url"])
-        r = miles_redaccion(r) if r else r
-        dato = (datos or {}).get(n.get("seccion"))
-        if dato and dato["texto"] in usados:
-            dato = None  # la misma cifra (p. ej. Bitcoin en Cripto, Blockchain y Monedas digitales) se dice una sola vez
-        elif dato:
-            usados.add(dato["texto"])
+        r = miles_redaccion(r, sec) if r else r
+        d = (datos or {}).get(sec)
+        partes = [p for p in (d or {}).get("partes", []) if p[0] not in usados] if d and "partes" in d else None
+        if partes is not None:
+            usados.update(p[0] for p in partes)
+            dato = {"texto": "\n".join(p[1] for p in partes), "voz": "Dato del día: " + "; ".join(p[2] for p in partes) + "."} if partes else None
+        else:
+            dato = d if d and d["texto"] not in usados else None
+            if dato:
+                usados.add(dato["texto"])
         extra = (PAUSA + para_voz(dato["voz"])) if dato else ""
-        fuente = PAUSA + f"Fuente: {medio_para_voz(n['medio'])}."
         if r:
-            out.append({**n, "resumen": r, "dato": dato and dato["texto"], "voz": cierre_frase(para_voz(r)) + extra + fuente})
+            out.append({**n, "resumen": r, "dato": dato and dato["texto"], "voz": cierre_frase(para_voz(r)) + extra})
         elif en_espanol(n["titulo"]):
-            titulo = normalizar_numeros(n["titulo"], convencion(n.get("url") or n["medio"]))
-            out.append({**n, "resumen": f"Titular de {n['medio']}: «{n['titulo']}»", "dato": dato and dato["texto"],
-                        "voz": f"{medio_para_voz(n['medio'])} publica:{PAUSA}{cierre_frase(para_voz(titulo))}" + extra})
+            titulo = miles_redaccion(normalizar_numeros(n["titulo"], convencion(n.get("url") or n["medio"])), sec)
+            out.append({**n, "resumen": f"«{titulo}»", "titular": True, "dato": dato and dato["texto"],
+                        "voz": cierre_frase(para_voz(titulo)) + extra})
     return out
 
 
@@ -373,7 +414,7 @@ def datos_por_seccion(ind):
     por_id = {x["id"]: x for g in (ind or {}).get("grupos", []) for x in g.get("datos", []) if x.get("valor") is not None}
     out = {}
     for sec, ids in _CIFRAS.items():
-        textos, voces = [], []
+        textos, voces, partes = [], [], []
         for i in ids:
             x = por_id.get(i)
             if not x:
@@ -406,8 +447,9 @@ def datos_por_seccion(ind):
                 pass
             textos.append(f"{x.get('corto', i)}: {valor_t}{cambio_t} · {fecha}")
             voces.append(f"{_NOMBRE_VOZ.get(i, x.get('corto', i))} está en {valor_v}{cambio_v}")
+            partes.append((i, textos[-1], voces[-1]))
         if textos:
-            out[sec] = {"texto": "\n".join(textos), "voz": "Dato del día: " + "; ".join(voces) + "."}
+            out[sec] = {"texto": "\n".join(textos), "voz": "Dato del día: " + "; ".join(voces) + ".", "partes": partes}
     return out
 
 
@@ -451,7 +493,53 @@ def voz_mercados(filas, frases=None):
 _HASH_SECCION = {"politica_mx": "#PolíticaMX", "geopolitica": "#Geopolítica", "economia": "#Economía", "forex": "#TipoDeCambio",
                  "bonos": "#CETES", "cripto": "#Criptomonedas", "blockchain": "#Blockchain", "energia": "#Energía",
                  "nearshoring": "#Nearshoring", "tecnologia": "#Tecnología", "salud": "#Salud", "clima": "#Clima",
-                 "cultura": "#Cultura", "espectaculos": "#Espectáculos", "inmobiliario": "#BienesRaíces"}
+                 "cultura": "#Cultura", "espectaculos": "#Espectáculos", "inmobiliario": "#BienesRaíces",
+                 "dof": "#DOF", "politica_mx_critica": "#PolíticaMX"}
+
+
+# ------------------------------------------------------------------ Diario Oficial de la Federación
+_NIVEL = {"ley": 0, "decreto": 1, "reglamento": 2, "norma": 3, "acuerdo": 4}
+_IMPACTO = {"alto": 0, "medio": 1, "bajo": 2}
+# Actos particulares o de trámite que no cambian reglas para la población: un predio, un edicto, una convocatoria.
+_DOF_PARTICULAR = re.compile(r"ocupaci[oó]n temporal|expropia|deslinde|edicto|convocatoria|licitaci|declaratoria de (libertad|"
+                             r"desincorporaci)|se da a conocer (el|la) (nombre|domicilio)|aviso de (t[eé]rmino|cancelaci)|"
+                             r"\bfe de erratas\b|tasas? de recargos|valor de la unidad de inversi|tipo de cambio para solventar", re.I)
+
+
+def notas_dof(bitacora, fecha, dias=3, maximo=3):
+    """Hasta `maximo` publicaciones del DOF de los últimos `dias` (bitácora normativa del sitio), primero leyes y decretos
+    y las de mayor impacto; sin actos particulares y sin repetir el mismo tipo de acuerdo (p. ej. los estímulos a la
+    gasolina, que salen cada semana). Solo título, dependencia y enlace: el texto de la norma no se guarda."""
+    from datetime import date, timedelta
+    try:
+        lim = (date.fromisoformat(fecha) - timedelta(days=dias)).isoformat()
+    except ValueError:
+        return []
+    ents = [e for e in (bitacora or {}).get("entradas", []) if e.get("pais") == "MEX" and "dof" in str(e.get("id", ""))
+            and lim <= str(e.get("fecha", "")) <= fecha and e.get("titulo") and not _DOF_PARTICULAR.search(e["titulo"])]
+    ents.sort(key=lambda e: e.get("fecha", ""), reverse=True)  # la más reciente primero dentro de cada nivel (orden estable)
+    ents.sort(key=lambda e: (_NIVEL.get(e.get("nivel"), 5), _IMPACTO.get(e.get("impacto"), 3)))
+    out, vistos = [], set()
+    for e in ents:
+        clave = " ".join(e["titulo"].lower().split()[:9])
+        if clave in vistos:
+            continue
+        vistos.add(clave)
+        titulo = e["titulo"].strip()
+        if len(titulo) > 220:
+            titulo = titulo[:220].rsplit(" ", 1)[0] + "…"
+        out.append({"seccion": "dof", "seccion_nombre": CORTO["dof"], "tema": CORTO["dof"], "titulo": titulo,
+                    "emisor": re.sub(r"^PODER EJECUTIVO\s+", "", (e.get("emisor") or "").strip(), flags=re.I), "medio": "Diario Oficial de la Federación", "url": e.get("url", ""),
+                    "fecha": e.get("fecha", "")})
+        if len(out) >= maximo:
+            break
+    return out
+
+
+def con_dof(elegidas, dof):
+    """Inserta las notas del DOF después de las de Política en México (o al inicio si no hay)."""
+    pos = max((i + 1 for i, n in enumerate(elegidas) if str(n.get("seccion", "")).startswith("politica_mx")), default=0)
+    return elegidas[:pos] + list(dof) + elegidas[pos:]
 
 
 def hashtags(notas, maximo=12):
@@ -485,6 +573,10 @@ def bloque_economia(indicadores):
     return filas
 
 
+# Renglón de la pantalla de indicadores → texto del dato del día que ya lo dijo (no se repite en voz).
+_YA_DICHO = {"Tipo de cambio FIX": "FIX", "Tasa objetivo de Banxico": "Tasa objetivo", "Inflación anual en México": "INPC"}
+
+
 def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None):
     """Devuelve {fecha, titulo, escenas: [{tipo, encabezado, texto, medio, voz}], descripcion, notas}.
     elegidas: notas del Noticiero ya elegidas (redactar.py con IA, o elegir_sin_ia), con «resumen» propio si lo hay.
@@ -502,12 +594,16 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
                 bloque_c = None
             anterior = n["seccion"]
         esc.append({"tipo": "nota", "encabezado": n["seccion_nombre"], "seccion": n["seccion"], "texto": n["resumen"], "medio": n["medio"], "url": n["url"], "dato": n.get("dato"),
-                    "voz": (f"{n['seccion_nombre']}. " if not esc or esc[-1].get("seccion") != n["seccion"] else "") + n["voz"]})
+                    "titular": bool(n.get("titular")),
+                    "voz": (f"{n['seccion_nombre']}. " if not esc or esc[-1].get("encabezado") != n["seccion_nombre"] else "") + n["voz"]})
     if bloque_c:
         esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
     eco = bloque_economia(indicadores)
     if eco:
-        esc.append({"tipo": "economia", "encabezado": "Indicadores", "filas": eco, "texto": "", "voz": "Los indicadores del día. " + " ".join(para_voz(f["voz"]) for f in eco)})
+        dichos = " ".join(n.get("dato") or "" for n in notas)
+        nuevas = [f for f in eco if not (_YA_DICHO.get(f["etiqueta"]) and _YA_DICHO[f["etiqueta"]] in dichos)]
+        voz_eco = ("Los indicadores del día. " + " ".join(para_voz(f["voz"]) for f in nuevas)) if nuevas else "Los indicadores del día, en pantalla."
+        esc.append({"tipo": "economia", "encabezado": "Indicadores", "filas": eco, "texto": "", "voz": voz_eco})
     filas_m = mercados(portafolio) if isinstance(portafolio, list) else []
     if filas_m:
         esc.append({"tipo": "mercados", "encabezado": "Mercados", "seccion": "economia",

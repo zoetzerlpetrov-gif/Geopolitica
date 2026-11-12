@@ -174,7 +174,7 @@ window.escena = (e, m) => {
       ${e.dato ? `<div class="dato"><small>DATO DEL DÍA</small>${esc(e.dato)}</div>` : ""}
       <div class="texto" style="font-size:${((e.texto || "").length > 230 ? 52 : (e.texto || "").length > 160 ? 58 : 64) - (e.dato ? 8 : 0)}px">${palabras(e.texto || "")}</div>
       ${e.medio ? `<div class="zocalo"><div><div style="display:flex"><span class="tag">FUENTE</span><span class="medio">${esc(e.medio)}</span></div>
-        <div class="nota">Resumen propio · nota completa en la descripción</div></div></div>` : ""}`;
+        <div class="nota">${e.titular ? "Titular del medio" : "Resumen propio"} · nota completa en la descripción</div></div></div>` : ""}`;
   }
   document.getElementById("lienzo").innerHTML = arriba(m) + h + (e.tipo === "portada" ? "" : cinta(m)) + (m.cortina ? '<div class="cortina"></div>' : "");
   // Cintillo legible: velocidad fija (VEL px/s, unas 4 palabras por segundo) y continuo entre escenas (no vuelve a empezar).
