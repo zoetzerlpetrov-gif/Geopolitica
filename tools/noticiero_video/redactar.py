@@ -22,7 +22,10 @@ de titulares (algunos en otro idioma), cada uno con su medio. Tarea:
 1. Elige el titular que de verdad trata el tema de la sección y que sea la noticia más importante para el público
    de México. Si ninguno trata el tema de la sección, responde null.
 2. Cuenta esa noticia en UNA frase de 15 a 35 palabras, en español neutral, con tus propias palabras (no copies el
-   titular), sin opiniones, sin inventar datos que no estén en el titular, sin comillas ni enlaces.
+   titular), sin opiniones, sin comillas ni enlaces.
+3. No agregues NADA que no esté en el titular: ni cargos (no conviertas «Sheinbaum» en «la presidenta de CDMX»; si
+   el titular solo da el nombre, usa solo el nombre), ni lugares, cifras, fechas, causas o consecuencias. Si dudas,
+   di menos. Conserva los nombres propios tal como vienen.
 Responde solo JSON: {"elegida": <número o null>, "resumen": "<frase>"}"""
 
 
