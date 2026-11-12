@@ -107,9 +107,9 @@
    "nombre": "adsb.lol",
    "url": "https://adsb.lol",
    "licencia": "ODbL 1.0",
-   "uso_comercial": null,
+   "uso_comercial": true,
    "licencia_verificada": false,
-   "nota": "Por verificar: su historial se publica con ODbL, pero la API no declara licencia y anuncia que pedirá llave."
+   "nota": "Uso comercial aceptado por quien administra el proyecto bajo ODbL 1.0 (atribución a adsb.lol y compartir igual la base derivada). La API no declara licencia propia y anuncia que pedirá llave: revisar sus términos periódicamente."
   },
   "aisstream": {
    "nombre": "AISStream.io",

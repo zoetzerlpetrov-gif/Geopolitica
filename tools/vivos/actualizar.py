@@ -256,18 +256,21 @@ def fila_opensky(s, t, sanc):
             round(s[11] or 0, 1), s[14] or "", cat, "", "", ""]
 
 
-def fila_adsblol(a, sanc):
-    """Aeronave de adsb.lol → fila compacta, o None si no tiene posición o pidió privacidad (PIA/LADD)."""
+def fila_adsblol(a, sanc, militar=None):
+    """Aeronave de adsb.lol → fila compacta, o None si no tiene posición o pidió privacidad (PIA/LADD).
+    militar: True para /v2/mil; None = según la bandera militar de adsb.lol (dbFlags & 1)."""
     if a.get("lat") is None or a.get("lon") is None:
         return None
     banderas = a.get("dbFlags") or 0
+    if militar is None:
+        militar = bool(banderas & 1)
     if banderas & 4 or banderas & 8:  # PIA / LADD: se pidió privacidad → se excluye
         return None
     en_tierra = a.get("alt_baro") == "ground"
     alt = 0 if en_tierra else round((a.get("alt_geom") or a.get("alt_baro") or 0) * 0.3048)
     vs = a.get("baro_rate") if a.get("baro_rate") is not None else a.get("geom_rate")
     return [a["hex"], (a.get("flight") or "").strip(), round(a["lon"], 3), round(a["lat"], 3), alt, round(a.get("track") or 0),
-            round((a.get("gs") or 0) * 1.852), _subtipo_avion(a.get("flight"), True, en_tierra, a.get("r"), sanc), "",
+            round((a.get("gs") or 0) * 1.852), _subtipo_avion(a.get("flight"), militar, en_tierra, a.get("r"), sanc), "",
             round(a.get("seen_pos") or 0), round((vs or 0) * 0.00508, 1), a.get("squawk") or "", a.get("category") or "",
             a.get("t") or "", a.get("r") or "", ""]
 
@@ -289,7 +292,7 @@ def aeronaves():
         d = json.loads(get("https://api.adsb.lol/v2/mil", timeout=60))
         n = 0
         for a in d.get("ac") or []:
-            f = fila_adsblol(a, sanc)
+            f = fila_adsblol(a, sanc, militar=True)
             if f:
                 filas[f[0]] = f
                 n += 1
@@ -748,7 +751,7 @@ def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL, 
                     dormir(_espera_429(e, intento))
             consultas += 1
             for a in d.get("ac") or []:
-                f = fila_adsblol(a, sanc)
+                f = fila_adsblol(a, sanc, militar=u.endswith("/mil") or None)
                 if f:
                     filas[f[0]] = f
             errores = 0
