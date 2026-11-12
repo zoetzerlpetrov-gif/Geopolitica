@@ -50,7 +50,10 @@ NOTI = {"generado_utc": "2026-11-12T00:00:00Z", "notas": [
 CALOR = {"features": [
     {"properties": {"name": "Ciudad de Mexico", "serie": [["2026-11-12", 20.3, 13.8, 20.3, 30, 2.9]]}},
     {"properties": {"name": "Madrid", "onda_calor": False, "serie": [["2026-11-12", 15.2, 6.1, 15, 30, 2]]}},
-    {"properties": {"name": "Sevilla", "onda_calor": True, "calor_nivel": 2, "serie": [["2026-11-12", 33, 20, 34, 30, 2]]}},
+    {"properties": {"name": "Hermosillo", "onda_calor": True, "calor_nivel": 1, "serie": [["2026-11-12", 36, 20, 37, 30, 2]]},
+     "geometry": {"type": "Point", "coordinates": [-110.96, 29.07]}},
+    {"properties": {"name": "Wau", "onda_calor": True, "calor_nivel": 3, "serie": [["2026-11-12", 40, 25, 41, 30, 2]]},
+     "geometry": {"type": "Point", "coordinates": [28.0, 7.7]}},
 ]}
 CICLONES = {"features": [{"properties": {"storm_name": "PENA-26"}}, {"properties": {"storm_name": "PENA-26"}}]}
 
@@ -77,7 +80,7 @@ def test_guion_completo_con_noticiero_clima_economia_portafolio_y_descripcion():
     assert tipos[0] == "portada" and tipos[-1] == "cierre" and "clima" in tipos and "economia" in tipos and "portafolio" in tipos
     assert g["titulo"].startswith("Brújula Diaria · Jueves 12 de noviembre de 2026")
     clima = next(e for e in g["escenas"] if e["tipo"] == "clima")
-    assert clima["mx"] == [("Ciudad de México", 20, 14)] and clima["ciclones"] == ["Pena"] and "Sevilla" in clima["alertas"][0]
+    assert clima["mx"] == [("Ciudad de México", 20, 14)] and clima["ciclones"] == ["Pena"] and clima["alertas"] == ["Onda de calor: Hermosillo"]
     assert "no es un aviso oficial" in clima["voz"]
     secs = [e.get("seccion") for e in g["escenas"]]
     assert secs[tipos.index("clima") - 1] == "clima", "el bloque del clima va justo después de la sección Clima"
@@ -172,3 +175,15 @@ def test_el_video_no_menciona_dominus():
     base = os.path.join(os.path.dirname(__file__), "..", "tools", "noticiero_video")
     for nombre in ("guion.py", "render.py", "subir.py"):
         assert "dominus" not in open(os.path.join(base, nombre), encoding="utf-8").read().lower(), nombre
+
+
+def test_escenas_animadas_deterministas_y_sin_recursos_externos():
+    """La plantilla se graba cuadro por cuadro (aTiempo congela las animaciones) y no carga nada de internet."""
+    base = os.path.join(os.path.dirname(__file__), "..", "tools", "noticiero_video")
+    html = open(os.path.join(base, "plantilla.html"), encoding="utf-8").read()
+    assert "window.aTiempo" in html and "getAnimations" in html and "window.escena" in html
+    assert "http://" not in html and "https://" not in html and "<script src" not in html
+    js = open(os.path.join(base, "grabar.mjs"), encoding="utf-8").read()
+    assert "aTiempo" in js and "image2pipe" in js
+    wf = open(os.path.join(base, "..", "..", ".github", "workflows", "noticiero-video.yml"), encoding="utf-8").read()
+    assert "playwright@" in wf and "PLAYWRIGHT_MODULE" in wf

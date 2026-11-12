@@ -116,31 +116,84 @@ def duracion(wav):
     return float(r.stdout.strip() or 0)
 
 
+def titulares(g):
+    """Cintillo inferior: sección y el inicio del resumen de cada nota."""
+    out = []
+    for e in g["escenas"]:
+        if e["tipo"] == "nota":
+            t = e.get("texto", "")
+            out.append({"s": e["encabezado"].upper(), "t": (t[:90].rsplit(" ", 1)[0] + "…") if len(t) > 90 else t})
+    return out
+
+
+def grabar_animado(g, escenas, tmp):
+    """Escenas animadas (plantilla.html + grabar.mjs con Playwright). Devuelve True si se grabaron todas."""
+    node = shutil.which("node")
+    script = os.path.join(os.path.dirname(__file__), "grabar.mjs")
+    if not node or os.environ.get("ESTILO") == "fijo":
+        return False
+    datos = os.path.join(tmp, "escenas.json")
+    with open(datos, "w", encoding="utf-8") as f:
+        json.dump({"meta": {"fecha": g["titulo"].split(" · ")[1] if " · " in g["titulo"] else g["fecha"], "titulares": titulares(g)},
+                   "escenas": escenas}, f, ensure_ascii=False)
+    r = subprocess.run([node, script, datos, tmp])
+    return r.returncode == 0 and all(os.path.exists(os.path.join(tmp, f"{i:02d}.video.mp4")) for i in range(1, len(escenas) + 1))
+
+
+def musica(segundos, destino):
+    """Fondo musical propio (sin licencias de terceros): acorde suave de senoidales con trémolo lento, muy bajo."""
+    notas = "+".join(f"0.18*sin(2*PI*{f}*t)" for f in (110, 164.81, 220, 277.18))
+    expr = f"({notas})*(0.6+0.4*sin(2*PI*0.08*t))"
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", f"aevalsrc={expr}:s=44100:d={segundos:.1f}",
+                    "-af", "lowpass=f=900,afade=t=in:d=3,volume=0.12", "-ac", "1", destino], check=True)
+
+
 def armar(g, salida, modelo):
     os.makedirs(salida, exist_ok=True)
     tmp = os.path.join(salida, "escenas")
     os.makedirs(tmp, exist_ok=True)
-    partes = []
     total = len(g["escenas"])
     fecha_txt = g["titulo"].split(" · ")[1] if " · " in g["titulo"] else g["fecha"]
+    # 1) Voz de cada escena y su duración.
+    escenas = []
     for i, e in enumerate(g["escenas"], 1):
-        png, wav, mp4 = (os.path.join(tmp, f"{i:02d}.{x}") for x in ("png", "wav", "mp4"))
-        pantalla(e, i, total, fecha_txt).save(png)
-        if i == 1:
-            shutil.copy(png, os.path.join(salida, "miniatura.png"))
+        wav = os.path.join(tmp, f"{i:02d}.wav")
         con_voz = voz(e["voz"], wav, modelo)
-        seg = (duracion(wav) + 0.8) if con_voz else max(4.0, len(e["voz"]) / 15)
-        cmd = ["ffmpeg", "-y", "-v", "error", "-loop", "1", "-i", png]
-        cmd += ["-i", wav] if con_voz else ["-f", "lavfi", "-i", "anullsrc=r=22050:cl=mono"]
-        cmd += ["-t", f"{seg:.2f}", "-c:v", "libx264", "-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "25",
+        escenas.append({**e, "dur": round((duracion(wav) + 0.9) if con_voz else max(4.0, len(e["voz"]) / 15), 2), "_wav": wav if con_voz else None})
+    # 2) Imagen: escenas animadas o, si no se puede, pantallas fijas (Pillow).
+    animado = grabar_animado(g, [{k: v for k, v in e.items() if k != "_wav"} for e in escenas], tmp)
+    print("estilo:", "animado" if animado else "pantallas fijas")
+    partes = []
+    for i, e in enumerate(escenas, 1):
+        mp4 = os.path.join(tmp, f"{i:02d}.mp4")
+        if animado:
+            cmd = ["ffmpeg", "-y", "-v", "error", "-i", os.path.join(tmp, f"{i:02d}.video.mp4")]
+        else:
+            png = os.path.join(tmp, f"{i:02d}.png")
+            pantalla(e, i, total, fecha_txt).save(png)
+            if i == 1:
+                shutil.copy(png, os.path.join(salida, "miniatura.png"))
+            cmd = ["ffmpeg", "-y", "-v", "error", "-loop", "1", "-i", png]
+        cmd += ["-i", e["_wav"]] if e["_wav"] else ["-f", "lavfi", "-i", "anullsrc=r=22050:cl=mono"]
+        cmd += ["-t", f"{e['dur']:.2f}", "-c:v", "copy" if animado else "libx264", *([] if animado else ["-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "25"]),
                 "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-ac", "1", "-af", "apad", mp4]
         subprocess.run(cmd, check=True)
         partes.append(mp4)
     lista = os.path.join(tmp, "lista.txt")
     with open(lista, "w") as f:
         f.writelines(f"file '{os.path.abspath(p)}'\n" for p in partes)
+    sin_musica = os.path.join(tmp, "sin_musica.mp4")
+    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", lista, "-c", "copy", sin_musica], check=True)
+    # 3) Música de fondo por debajo de la voz.
     final = os.path.join(salida, "noticiero.mp4")
-    subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "concat", "-safe", "0", "-i", lista, "-c", "copy", "-movflags", "+faststart", final], check=True)
+    fondo = os.path.join(tmp, "fondo.wav")
+    try:
+        musica(duracion(sin_musica) + 1, fondo)
+        subprocess.run(["ffmpeg", "-y", "-v", "error", "-i", sin_musica, "-i", fondo, "-filter_complex",
+                        "[0:a][1:a]amix=inputs=2:duration=first:dropout_transition=0:normalize=0[a]", "-map", "0:v", "-map", "[a]",
+                        "-c:v", "copy", "-c:a", "aac", "-b:a", "160k", "-movflags", "+faststart", final], check=True)
+    except subprocess.CalledProcessError:
+        shutil.copy(sin_musica, final)
     return final
 
 

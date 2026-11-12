@@ -226,7 +226,15 @@ def _dia(props, fecha):
 
 def bloque_clima(calor, ciclones, fecha):
     """{mx: [(ciudad, máx, mín)], mundo: [...], alertas: [frases], ciclones: [nombres], voz} o None sin datos."""
-    props = {f["properties"]["name"]: f["properties"] for f in (calor or {}).get("features", []) if f.get("properties", {}).get("name")}
+    props, en_mx = {}, set()
+    for f in (calor or {}).get("features", []):
+        p = f.get("properties") or {}
+        if not p.get("name"):
+            continue
+        props[p["name"]] = p
+        lon, lat = ((f.get("geometry") or {}).get("coordinates") or [None, None])[:2]
+        if lat is not None and 14.5 <= lat <= 32.7 and -118.5 <= lon <= -86.7:  # rectángulo de México (aproximado)
+            en_mx.add(p["name"])
     def filas(lista):
         out = []
         for clave, nombre in lista:
@@ -235,18 +243,22 @@ def bloque_clima(calor, ciclones, fecha):
                 out.append((nombre, t[0], t[1]))
         return out
     mx, mundo = filas(CIUDADES_MX), filas(CIUDADES_MUNDO)
-    calor_c = sorted((p for p in props.values() if p.get("onda_calor")), key=lambda p: -(p.get("calor_nivel") or 0))
-    frio_c = sorted((p for p in props.values() if p.get("ola_frio")), key=lambda p: -(p.get("frio_nivel") or 0))
+    # Alertas solo de las ciudades del bloque o de lugares de México, para no leer pueblos lejanos poco conocidos.
+    nombres_bloque = {c for c, _ in CIUDADES_MX + CIUDADES_MUNDO}
+    visible = dict(CIUDADES_MX + CIUDADES_MUNDO)
+    relevante = lambda p, nivel: p["name"] in nombres_bloque or (p["name"] in en_mx and (p.get(nivel) or 0) >= 1)  # noqa: E731
+    calor_c = sorted((p for p in props.values() if p.get("onda_calor") and relevante(p, "calor_nivel")), key=lambda p: -(p.get("calor_nivel") or 0))
+    frio_c = sorted((p for p in props.values() if p.get("ola_frio") and relevante(p, "frio_nivel")), key=lambda p: -(p.get("frio_nivel") or 0))
     alertas = []
     if calor_c:
-        alertas.append("Onda de calor: " + ", ".join(p["name"] for p in calor_c[:5]))
+        alertas.append("Onda de calor: " + ", ".join(visible.get(p["name"], p["name"]) for p in calor_c[:4]))
     if frio_c:
-        alertas.append("Ola de frío: " + ", ".join(p["name"] for p in frio_c[:5]))
+        alertas.append("Ola de frío: " + ", ".join(visible.get(p["name"], p["name"]) for p in frio_c[:4]))
     nombres = []
     for f in (ciclones or {}).get("features", []):
         n = (f.get("properties") or {}).get("storm_name") or ""
         n = re.sub(r"-\d+$", "", n).strip().title()
-        if n and n not in nombres:
+        if n and n.lower() not in ("unnamed", "invest", "sin nombre") and n not in nombres:
             nombres.append(n)
     if not (mx or mundo or alertas or nombres):
         return None
