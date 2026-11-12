@@ -258,3 +258,19 @@ def test_frases_de_mercados_validadas():
             else '{"resumen": "Conviene comprar Apple ahora porque recomprará acciones propias"}'  # recomendación: se rechaza
     out = R.frases_titulares(filas, "http://ia", pedir_fn=pedir)
     assert list(out) == ["u1"] and R.frases_titulares(filas, None) == {}
+
+
+def test_miles_con_punto_en_la_redaccion_de_la_ia():
+    assert G.miles_redaccion("bajan de los 4.000 dólares") == "bajan de los 4,000 dólares"
+    assert G.miles_redaccion("un enlace de 7.300 millones y 1.234.567 personas") == "un enlace de 7,300 millones y 1,234,567 personas"
+    assert G.miles_redaccion("el euro en 1.1081 y el FIX en 18.62; 0.125 %") == "el euro en 1.1081 y el FIX en 18.62; 0.125 %"
+    assert "4000 dólares" in G.para_voz(G.miles_redaccion("4.000 dólares"))
+
+
+def test_la_misma_cifra_se_dice_una_sola_vez():
+    datos = {"cripto": {"texto": "Bitcoin: 71,670 USD", "voz": "Dato del día: el bitcóin está en 71670 dólares."}}
+    datos["blockchain"] = datos["cripto"]
+    notas = [{"url": f"https://x.com/{i}", "medio": "x.com", "titulo": "t", "seccion": s} for i, s in enumerate(["cripto", "blockchain"])]
+    out = G.con_resumen(notas, {n["url"]: "Resumen propio de la nota." for n in notas}, datos)
+    assert out[0]["dato"] and not out[1]["dato"]
+    assert "Dato del día" in out[0]["voz"] and "Dato del día" not in out[1]["voz"]

@@ -80,6 +80,13 @@ def medio_para_voz(medio):
     return pronunciar(m)
 
 
+def miles_redaccion(texto):
+    """La IA a veces escribe miles con punto (formato de España: «4.000 dólares», «7.300 millones») aunque se le pida el
+    mexicano. En una redacción en español, un número de 1 a 3 cifras seguido de grupos exactos de 3 cifras con punto es
+    un número de miles: se lleva a coma (4,000) para que la pantalla siga la norma mexicana y la voz no diga «4 punto 000»."""
+    return re.sub(r"\b[1-9]\d{0,2}(?:\.\d{3})+(?![\d,]|\.\d)", lambda m: m.group(0).replace(".", ","), str(texto or ""))
+
+
 def para_voz(texto):
     """Ajusta números para que el sintetizador en español los lea bien: 18.67 → «18 punto 67»; 11 000 y 3,830 → 11000 y 3830."""
     t = re.sub(r"(\d)[ \u00a0\u202f](\d{3})\b", r"\1\2", str(texto))
@@ -262,11 +269,16 @@ def con_resumen(notas, resumenes=None, datos=None):
     """Asigna a cada nota su resumen propio (de la IA) o, sin él, la cita como titular del medio si está en español.
     Las notas en otro idioma sin resumen se omiten (no se leen títulos en inglés). Entre la nota, el dato del día
     (secciones con cifras) y la fuente va una pausa de medio segundo."""
-    out = []
+    out, usados = [], set()
     for n in notas:
         n = {k: v for k, v in n.items() if not k.startswith("_")}  # las claves internas (conjuntos) no van al guion
         r = (resumenes or {}).get(n["url"])
+        r = miles_redaccion(r) if r else r
         dato = (datos or {}).get(n.get("seccion"))
+        if dato and dato["texto"] in usados:
+            dato = None  # la misma cifra (p. ej. Bitcoin en Cripto, Blockchain y Monedas digitales) se dice una sola vez
+        elif dato:
+            usados.add(dato["texto"])
         extra = (PAUSA + para_voz(dato["voz"])) if dato else ""
         fuente = PAUSA + f"Fuente: {medio_para_voz(n['medio'])}."
         if r:
@@ -388,10 +400,14 @@ def datos_por_seccion(ind):
                     cambio_t = f" ({pct:+.2f} %)"
                     cambio_v = (f", {'sube' if pct > 0 else 'baja'} {abs(pct):.2f} %" if pct else ", sin cambio") + " frente al dato anterior"
             fecha = str(x.get("fecha", ""))[:10]
+            try:
+                fecha = f"{int(fecha[8:10])} {MESES[int(fecha[5:7]) - 1][:3]}"   # 2026-11-10 → 10 nov
+            except (ValueError, IndexError):
+                pass
             textos.append(f"{x.get('corto', i)}: {valor_t}{cambio_t} · {fecha}")
             voces.append(f"{_NOMBRE_VOZ.get(i, x.get('corto', i))} está en {valor_v}{cambio_v}")
         if textos:
-            out[sec] = {"texto": "  |  ".join(textos), "voz": "Dato del día: " + "; ".join(voces) + "."}
+            out[sec] = {"texto": "\n".join(textos), "voz": "Dato del día: " + "; ".join(voces) + "."}
     return out
 
 
