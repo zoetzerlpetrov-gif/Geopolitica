@@ -23,7 +23,11 @@ de titulares (algunos en otro idioma), cada uno con su medio. Tarea:
    de México. Si ninguno trata el tema de la sección, responde null.
 2. Cuenta esa noticia en UNA frase de 15 a 35 palabras, en español neutral, con tus propias palabras (no copies el
    titular), sin opiniones, sin comillas ni enlaces.
-3. No agregues NADA que no esté en el titular: ni cargos (no conviertas «Sheinbaum» en «la presidenta de CDMX»; si
+3. Cifras en formato de México: coma para miles y punto para decimales (si el titular viene de España o Sudamérica,
+   «3.830 millones» son 3,830 millones y «2,5 %» es 2.5 %). Conserva la moneda que diga el titular.
+4. No traduzcas nombres propios ni términos que en México se usan en inglés: Dow Jones, Wall Street, Nasdaq,
+   nearshoring, stablecoin, blockchain, startup, fintech, nombres de empresas, productos y medios.
+5. No agregues NADA que no esté en el titular: ni cargos (no conviertas «Sheinbaum» en «la presidenta de CDMX»; si
    el titular solo da el nombre, usa solo el nombre), ni lugares, cifras, fechas, causas o consecuencias. Si dudas,
    di menos. Conserva los nombres propios tal como vienen.
 Responde solo JSON: {"elegida": <número o null>, "resumen": "<frase>"}"""
@@ -95,3 +99,40 @@ def elegir_y_redactar(cands, url=None, pedir_fn=pedir, presupuesto_s=900, reloj=
             stats["sin_ia"] += 1
     print(f"redacción: {stats}")
     return elegidas
+
+
+INSTRUCCIONES_TITULAR = """Eres redactor de un noticiero en español de México. Recibes un titular de noticia financiera de una
+empresa o instrumento (puede venir en inglés) y su medio. Cuéntalo en UNA frase de 8 a 25 palabras, en español neutral, con
+tus propias palabras, sin opiniones ni recomendaciones de compra o venta, sin agregar datos que no estén en el titular, con
+cifras en formato de México y sin traducir nombres propios (empresas, productos, índices, medios).
+Responde solo JSON: {"resumen": "<frase>"}"""
+
+
+def pedir_titular(url, titulo, medio, timeout=90):
+    cuerpo = {"model": "local", "temperature": 0.2, "max_tokens": 90, "response_format": {"type": "json_object"},
+              "messages": [{"role": "system", "content": INSTRUCCIONES_TITULAR}, {"role": "user", "content": f"{titulo} ({medio})"}]}
+    req = urllib.request.Request(url, data=json.dumps(cuerpo).encode(), headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=timeout) as r:
+        return json.loads(r.read())["choices"][0]["message"]["content"]
+
+
+def frases_titulares(filas, url=None, pedir_fn=pedir_titular, presupuesto_s=240, reloj=time.monotonic):
+    """{url de la nota: frase propia en español} para los instrumentos de Mercados. Sin IA o si falla: vacío (el guion
+    usa el titular solo si está en español)."""
+    if not url:
+        return {}
+    out, inicio = {}, reloj()
+    for f in filas:
+        if reloj() - inicio > presupuesto_s:
+            break
+        try:
+            texto = pedir_fn(url, f["titulo"], f["medio"])
+            d = json.loads(re.search(r"\{.*\}", texto, re.S).group(0))
+        except Exception:  # noqa: BLE001
+            continue
+        r = re.sub(r"\s+", " ", str(d.get("resumen") or "")).strip().strip('"«»“”')
+        if 6 <= len(r.split()) <= 35 and not re.search(r"https?://|www\.", r) and not re.search(r"\b(compra|vende|comprar|vender)\b", r, re.I) \
+                and difflib.SequenceMatcher(None, r.lower(), f["titulo"].lower()).ratio() < 0.85:
+            out[f["url"]] = r
+    return out
+
