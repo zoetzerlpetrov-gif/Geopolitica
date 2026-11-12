@@ -67,6 +67,14 @@ jobs:
             n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/estado-procesos.yml/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 1)
             if [ "$n" = "0" ]; then echo "Lanzando estado-procesos.yml"; gh workflow run estado-procesos.yml --ref main; fi
           fi
+          # Brújula Diaria (noticiero en video, 07:17 CDMX = 13:17 UTC): GitHub nunca activó su cron (0 corridas
+          # programadas al 12 nov 2026). De 13:20 a 17:59 UTC, si hoy no ha corrido en main desde las 13:00 UTC, se lanza.
+          hora=$(date -u +%H); minuto=$(date -u +%M)
+          if { [ "$hora" = "13" ] && [ "$minuto" -ge 20 ]; } || { [ "$hora" -ge 14 ] && [ "$hora" -le 17 ]; }; then
+            desde=$(date -u +%Y-%m-%dT13:00:00Z)
+            n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/noticiero-video.yml/runs?branch=main&created=%3E${desde}&per_page=1" --jq '.total_count' || echo 1)
+            if [ "$n" = "0" ]; then echo "Lanzando noticiero-video.yml (Brújula Diaria)"; gh workflow run noticiero-video.yml --ref main; fi
+          fi
 
       - name: Programar el siguiente tic, con reintentos (un error pasajero de la API no debe cortar la cadena)
         if: always() && steps.vivo.outputs.sigue != '1'

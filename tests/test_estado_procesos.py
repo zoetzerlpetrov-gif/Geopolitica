@@ -130,3 +130,12 @@ def test_portafolio_fecha_con_zona_y_minimo_de_noticias():
     con = E.evaluar_dato(regla, {"generated_at": "2026-10-29T09:00:00-06:00", "noticias": {"instrumentos_con_noticias": 12,
                                  "fuentes": {"https://a/rss": "100 titulares", "https://b/rss": "error: URLError"}}}, AHORA)
     assert con["estado"] == "ok" and con["errores"] == ["https://b/rss: error: URLError"]
+
+
+def test_reloj_lanza_brujula_diaria_si_el_cron_no_corre():
+    """GitHub nunca activó el cron del noticiero en video: el reloj lo lanza de 13:20 a 17:59 UTC si hoy no corrió."""
+    import json
+    reloj = open(os.path.join(ROOT, ".github", "workflows", "reloj.yml"), encoding="utf-8").read()
+    assert "noticiero-video.yml" in reloj and "T13:00:00Z" in reloj
+    ids = [w["id"] for w in json.load(open(os.path.join(ROOT, "config", "procesos.json"), encoding="utf-8"))["workflows"]]
+    assert "noticiero_video" in ids
