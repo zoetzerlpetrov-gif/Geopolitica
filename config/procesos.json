@@ -20,7 +20,15 @@
     {"id": "autoauditoria", "nombre": "Autoauditoría semanal", "workflow": "autoauditoria.yml", "cada": "7 días", "max_horas": 194,
      "afecta": "Evaluación contra ISO 27001, OWASP y demás marcos"},
     {"id": "normativa", "nombre": "Monitor normativo (diarios oficiales)", "workflow": "normativa.yml", "cada": "12 h", "max_horas": 30,
-     "afecta": "Bitácora normativa, avisos de cambios en el catálogo de normativa y en auditorías, riesgo regulatorio en la simulación de escenarios"}
+     "afecta": "Bitácora normativa, avisos de cambios en el catálogo de normativa y en auditorías, riesgo regulatorio en la simulación de escenarios"},
+  {
+   "id": "noticiero_video",
+   "nombre": "Brújula Diaria (noticiero en video)",
+   "workflow": "noticiero-video.yml",
+   "cada": "24 h",
+   "max_horas": 30,
+   "afecta": "Video diario de Brújula Diaria en YouTube (privado, solo administración)"
+  }
   ],
   "datos": [
     {"id": "d_vivos", "nombre": "Datos en movimiento publicados", "archivo": "data/vivos/estado.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "pasos"},
