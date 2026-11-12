@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -73,6 +73,12 @@ jobs:
             git archive FETCH_HEAD estado | tar -x -C /tmp && cp /tmp/estado/*.json _site/data/estado/
           else
             echo "Aún no existe la rama datos-estado"
+          fi
+          # Respuestas propuestas a comentarios de YouTube (comentarios.html, solo admin): rama "datos-comentarios".
+          # Solo borradores.json (identificadores y texto propuesto); los guiones no se publican.
+          mkdir -p _site/data/comentarios
+          if git fetch --depth 1 origin datos-comentarios 2>/dev/null; then
+            git show FETCH_HEAD:comentarios/borradores.json > /tmp/borradores.json 2>/dev/null && mv /tmp/borradores.json _site/data/comentarios/ || true
           fi
           # Bitácora normativa (Caja del analista → Bitácora normativa): rama "datos-normativa", con historial.
           mkdir -p _site/data/normativa

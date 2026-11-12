@@ -28,6 +28,14 @@
    "cada": "24 h",
    "max_horas": 30,
    "afecta": "Video diario de Brújula Diaria en YouTube (privado, solo administración)"
+  },
+  {
+   "id": "comentarios_youtube",
+   "nombre": "Comentarios de YouTube (respuestas propuestas)",
+   "workflow": "comentarios-youtube.yml",
+   "cada": "24 h",
+   "max_horas": 30,
+   "afecta": "Respuestas propuestas a comentarios de Brújula Diaria (comentarios.html, solo administración)"
   }
   ],
   "datos": [

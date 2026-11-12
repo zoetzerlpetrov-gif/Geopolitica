@@ -14,7 +14,7 @@ on:
     - cron: "17 13 * * *"  # 07:17 en Ciudad de México
 
 permissions:
-  contents: read
+  contents: write  # solo para guardar el guion del video en la rama datos-comentarios (respuestas a comentarios)
 
 concurrency:
   group: noticiero-video
@@ -105,9 +105,27 @@ jobs:
             salida/guion.json
           retention-days: 7
       - name: Subir a YouTube (solo si hay secretos)
+        id: subir
         if: github.ref == 'refs/heads/main'
         env:
           YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python3 tools/noticiero_video/subir.py salida
+      - name: Guardar el guion para responder comentarios (rama datos-comentarios; solo texto propio del noticiero)
+        if: steps.subir.outputs.video != ''
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VIDEO: ${{ steps.subir.outputs.video }}
+        run: |
+          mkdir -p /tmp/pub && cd /tmp/pub
+          if git fetch --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios 2>/dev/null; then
+            git archive FETCH_HEAD | tar -x
+          fi
+          mkdir -p guiones comentarios
+          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']]}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
+          python3 -c "import glob,json,os; fs=sorted(glob.glob('guiones/*.json'), key=lambda f: json.load(open(f)).get('fecha',''), reverse=True); [os.remove(f) for f in fs[30:]]"  # últimos 30
+          rm -rf .git && git init -q && git checkout -q -b datos-comentarios
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -q -m "guion del video $VIDEO"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-comentarios
