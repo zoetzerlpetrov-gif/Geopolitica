@@ -18,7 +18,9 @@ test("vista: solo ?vista=pago (o la versión comercial) activa la versión de pa
 
 test("fuentes: solo uso comercial confirmado; «por verificar» queda para admin", () => {
   assert.ok(fuenteComercial(cat, "wikidata") && fuenteComercial(cat, "satnogs"));
-  for (const f of ["telegeography", "opensky", "celestrak", "adsblol", "aisstream", "bitnodes", "camaras_publicas"]) assert.ok(!fuenteComercial(cat, f), f);
+  // adsb.lol: aceptado por quien administra bajo ODbL 1.0 (vuelos en vivo para clientes).
+  assert.ok(fuenteComercial(cat, "adsblol"));
+  for (const f of ["telegeography", "opensky", "celestrak", "aisstream", "bitnodes", "camaras_publicas"]) assert.ok(!fuenteComercial(cat, f), f);
 });
 
 test("riesgos: se quitan los de solo admin y botnets pasa al archivo de abuse.ch", () => {

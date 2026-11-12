@@ -60,7 +60,7 @@ def test_fila_opensky_trae_velocidad_vertical_squawk_y_categoria():
 def test_fila_adsblol_excluye_privacidad_y_convierte_unidades():
     base = {"hex": "ae1234", "flight": "RCH123 ", "lat": 30.0, "lon": -90.0, "alt_baro": 30000, "gs": 450, "track": 90,
             "baro_rate": 1000, "squawk": "1234", "category": "A5", "t": "C17", "r": "05-5140"}
-    f = v.fila_adsblol(base, set())
+    f = v.fila_adsblol(base, set(), militar=True)  # viene de /v2/mil
     d = dict(zip(v.CAMPOS_AVION, f))
     assert d["vs_ms"] == 5.1 and d["vel_kmh"] == 833 and d["tipo_av"] == "C17" and d["subtipo"] == "militar"
     assert v.fila_adsblol({**base, "dbFlags": 8}, set()) is None   # LADD
@@ -229,3 +229,26 @@ def test_aeronaves_comercial_va_antes_que_las_rutas_de_administracion():
     import actualizar as A
     pasos = list(A.PASOS)
     assert pasos.index("aeronaves_comercial") < pasos.index("aeronaves")
+
+
+def test_aeronaves_comercial_clasifica_civiles_y_militares():
+    """En las consultas por zona solo es militar lo que adsb.lol marca como tal (dbFlags & 1); /v2/mil, todo."""
+    import actualizar as A
+    civil = {"hex": "0d0001", "flight": "AMX123", "lat": 19.4, "lon": -99.1, "alt_baro": 12000}
+    ga = {"hex": "a00003", "flight": "N123AB", "lat": 19.5, "lon": -99.2, "alt_baro": 3000}
+    mil = {"hex": "ae0001", "flight": "RCH1", "lat": 30.0, "lon": -100.0, "alt_baro": 30000, "dbFlags": 1}
+    i = A.CAMPOS_AVION.index("subtipo")
+    assert A.fila_adsblol(civil, set())[i] == "civil_comercial"
+    assert A.fila_adsblol(ga, set())[i] == "aviacion_general"
+    assert A.fila_adsblol(mil, set())[i] == "militar"
+    assert A.fila_adsblol(civil, set(), militar=True)[i] == "militar"
+
+
+def test_adsblol_es_fuente_comercial_para_la_vista_de_pago():
+    """Sin uso_comercial = true la vista de pago ocultaba todos los subtipos de aeronaves menos «sancionada»."""
+    import json
+    import os
+    d = json.load(open(os.path.join(os.path.dirname(__file__), "..", "config", "entities.json"), encoding="utf-8"))
+    assert d["fuentes"]["adsblol"]["uso_comercial"] is True
+    aero = next(c for c in d["categorias"] if c.get("id") == "aeronaves")
+    assert {s["fuente"] for s in aero["subtipos"]} <= {"adsblol", "ofac"}
