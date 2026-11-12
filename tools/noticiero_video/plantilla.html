@@ -60,10 +60,27 @@
   .zocalo .nota { color: var(--gris); font-size: 22px; margin-top: 12px; }
   @keyframes sube { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
 
+  /* Cifra del día junto a la nota (divisas, tasas, inflación, bonos, cripto). */
+  .dato { position: absolute; left: 110px; right: 160px; bottom: 260px; display: inline-flex; gap: 14px; align-items: center;
+          background: rgba(255,255,255,.08); border-left: 6px solid var(--acento); padding: 14px 22px; font-size: 30px; font-weight: 700; white-space: pre-line; line-height: 1.35;
+          animation: sube .6s 1.4s cubic-bezier(.2,.8,.2,1) both; }
+  .dato small { color: var(--gris); font-weight: 600; font-size: 22px; letter-spacing: .08em; }
+
+  /* Mercados: instrumentos con su precio, % del día y su noticia. */
+  .merc { position: absolute; left: 110px; right: 110px; top: 150px; }
+  .merc h2 { font-size: 56px; margin-bottom: 16px; animation: entraIzq .6s .3s both; }
+  .instr { display: grid; grid-template-columns: 1fr auto auto; gap: 4px 30px; align-items: baseline; padding: 10px 0;
+           border-bottom: 1px solid rgba(255,255,255,.1); animation: entraIzq .5s both; }
+  .instr b { font-size: 32px; } .instr .p { font-size: 32px; font-weight: 700; text-align: right; }
+  .instr .c { font-size: 32px; font-weight: 800; min-width: 150px; text-align: right; }
+  .instr .c.up { color: #2ec478; } .instr .c.down { color: #ff6b6b; }
+  .instr .n { grid-column: 1 / -1; color: var(--gris); font-size: 22px; }
+  .merc .aviso { margin-top: 14px; color: var(--gris); font-size: 22px; }
+
   /* Cintillo inferior con los titulares del día corriendo. */
   .cinta { position: absolute; left: 0; right: 0; bottom: 0; height: 74px; background: rgba(0,0,0,.55); display: flex; align-items: center; overflow: hidden; }
   .cinta .rotulo { flex: none; height: 100%; display: flex; align-items: center; padding: 0 26px; background: var(--rojo); font-weight: 800; font-size: 24px; letter-spacing: .1em; z-index: 2; }
-  .cinta .pista { white-space: nowrap; font-size: 28px; color: #dfe6ee; animation: cinta 70s linear infinite; padding-left: 40px; }
+  .cinta .pista { white-space: nowrap; font-size: 28px; color: #dfe6ee; animation: cinta 600s linear infinite; padding-left: 40px; }
   .cinta .pista i { color: var(--oro); font-style: normal; font-weight: 700; margin: 0 14px 0 34px; }
   @keyframes cinta { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
@@ -141,6 +158,12 @@ window.escena = (e, m) => {
     const al = [...(e.alertas || []), ...((e.ciclones || []).length ? [`Ciclones activos: ${e.ciclones.join(", ")}`] : [])];
     h = `<div class="clima"><h2>${esc(e.encabezado)}</h2><div class="cols">${col("México", e.mx, 0.7)}${col("El mundo", e.mundo, 1.0)}</div>
          ${al.length ? `<div class="alertas">${al.map(esc).join(" · ")}</div>` : ""}</div>`;
+  } else if (e.tipo === "mercados") {
+    h = `<div class="merc"><h2>${esc(e.encabezado)}</h2>${(e.filas || []).slice(0, 8).map((f, i) => `<div class="instr" style="animation-delay:${(0.6 + i * 0.18).toFixed(2)}s">
+         <b>${esc(f.nombre)} <span style="color:var(--gris);font-weight:600;font-size:24px">${esc(f.ticker)}</span></b>
+         <span class="p">${Number(f.precio).toLocaleString("es-MX", { minimumFractionDigits: f.precio < 1 ? 4 : 2, maximumFractionDigits: f.precio < 1 ? 4 : 2 })} ${esc(f.moneda)}</span>
+         <span class="c ${f.pct > 0 ? "up" : f.pct < 0 ? "down" : ""}">${f.pct > 0 ? "▲" : f.pct < 0 ? "▼" : "■"} ${Math.abs(f.pct).toFixed(2)} %</span>
+         ${f.frase ? `<span class="n">${esc(f.frase)}</span>` : ""}</div>`).join("")}<div class="aviso">${esc(e.texto || "")}</div></div>`;
   } else if (e.tipo === "economia" || e.tipo === "portafolio") {
     const filas = e.filas || [{ etiqueta: e.texto || "", valor: "", fecha: "" }];
     h = `<div class="indic"><h2>${esc(e.encabezado)}</h2>${filas.map((f, i) => `<div class="fila" style="animation-delay:${(0.6 + i * 0.25).toFixed(2)}s">
@@ -148,11 +171,19 @@ window.escena = (e, m) => {
   } else {
     h = `<div class="marca">${esc(e.encabezado)}</div>
       <div class="seccion"><div class="barra"></div><b>${esc(e.encabezado)}</b></div>
-      <div class="texto" style="font-size:${(e.texto || "").length > 230 ? 52 : (e.texto || "").length > 160 ? 58 : 64}px">${palabras(e.texto || "")}</div>
+      ${e.dato ? `<div class="dato"><small>DATO DEL DÍA</small>${esc(e.dato)}</div>` : ""}
+      <div class="texto" style="font-size:${((e.texto || "").length > 230 ? 52 : (e.texto || "").length > 160 ? 58 : 64) - (e.dato ? 8 : 0)}px">${palabras(e.texto || "")}</div>
       ${e.medio ? `<div class="zocalo"><div><div style="display:flex"><span class="tag">FUENTE</span><span class="medio">${esc(e.medio)}</span></div>
-        <div class="nota">Resumen propio · nota completa en la descripción</div></div></div>` : ""}`;
+        <div class="nota">${e.titular ? "Titular del medio" : "Resumen propio"} · nota completa en la descripción</div></div></div>` : ""}`;
   }
   document.getElementById("lienzo").innerHTML = arriba(m) + h + (e.tipo === "portada" ? "" : cinta(m)) + (m.cortina ? '<div class="cortina"></div>' : "");
+  // Cintillo legible: velocidad fija (VEL px/s, unas 4 palabras por segundo) y continuo entre escenas (no vuelve a empezar).
+  const pista = document.querySelector(".cinta .pista");
+  if (pista) {
+    const VEL = 85, ciclo = Math.max(30, pista.scrollWidth / 2 / VEL);
+    pista.style.animationDuration = `${ciclo.toFixed(1)}s`;
+    pista.style.animationDelay = `${(-((m.t0 || 0) % ciclo)).toFixed(2)}s`;
+  }
 };
 
 // Congela todas las animaciones y las lleva al instante t (segundos): grabar.mjs lo llama en cada cuadro.

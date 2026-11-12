@@ -69,3 +69,14 @@ def test_unir_deduplica_conserva_72h_y_limita_por_seccion():
     muchas = [nota(f"https://c/{i}", f"Titular número {i} de la guerra", f=f"2026-10-21T{i % 10:02d}:{i:02d}:00Z") for i in range(50)]
     out = N.unir([], muchas, AHORA, maximo=5)
     assert len(out) == 5 and out[0]["f"] >= out[-1]["f"]
+
+
+def test_feed_general_de_una_sola_seccion_se_filtra_por_palabras():
+    items = [{"titulo": "Trufas de chocolate, mezcal y naranja: receta fácil para preparar en casa", "url": "https://i/1", "fuente": "Infobae México",
+              "tipo_fuente": "t", "fecha_utc": "2026-11-12T09:00:00Z"},
+             {"titulo": "ASF detecta desvío de recursos y empresas fantasma en contratos de Segalmex", "url": "https://i/2", "fuente": "Infobae México",
+              "tipo_fuente": "t", "fecha_utc": "2026-11-12T09:00:00Z"}]
+    assert [n["u"] for n in N.notas_de_feed(items, ["politica_mx"], REGLAS, filtrar=True)] == ["https://i/2"]
+    pol = next(s for s in CFG["secciones"] if s["id"] == "politica_mx")
+    assert any("contralacorrupcion.mx" in f["url"] for f in pol["feeds"])
+    assert next(f for f in pol["feeds"] if f["nombre"] == "Infobae México").get("filtrar") is True

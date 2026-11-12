@@ -590,8 +590,8 @@
   {
    "id": "politica_mx",
    "titulo": "Política en México: partidos y decisiones (pros y contras)",
-   "nota": "Junta medios de líneas editoriales distintas para comparar. Ningún medio es neutral: lee varias versiones de la misma decisión, revisa datos oficiales (DOF, Gaceta Parlamentaria) y separa hechos de opiniones.",
-   "palabras": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal",
+   "nota": "Junta medios de líneas editoriales distintas para comparar. Ningún medio es neutral: lee varias versiones de la misma decisión, revisa datos oficiales (DOF, Gaceta Parlamentaria) y separa hechos de opiniones. Incluye periodismo de investigación sobre corrupción y uso de recursos públicos (MCCI) para conocer también lo que se le señala al gobierno.",
+   "palabras": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?",
    "feeds": [
     {
      "nombre": "La Jornada (política)",
@@ -601,12 +601,14 @@
     {
      "nombre": "Infobae México",
      "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
-     "tipo": "Medio digital (Argentina) con sección México"
+     "tipo": "Medio digital (Argentina) con sección México",
+     "filtrar": true
     },
     {
      "nombre": "El Financiero",
      "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
-     "tipo": "Diario de negocios de México"
+     "tipo": "Diario de negocios de México",
+     "filtrar": true
     },
     {
      "nombre": "Expansión Política",
@@ -621,16 +623,28 @@
     {
      "nombre": "El Sol de México",
      "url": "https://www.elsoldemexico.com.mx/rss.xml",
-     "tipo": "Diario de México (Organización Editorial Mexicana)"
+     "tipo": "Diario de México (Organización Editorial Mexicana)",
+     "filtrar": true
     },
     {
      "nombre": "Letras Libres",
      "url": "https://letraslibres.com/feed/",
      "tipo": "Revista de México"
+    },
+    {
+     "nombre": "Mexicanos contra la Corrupción y la Impunidad",
+     "url": "https://contralacorrupcion.mx/feed/",
+     "tipo": "Organización de periodismo de investigación (México)"
+    },
+    {
+     "nombre": "IMCO",
+     "url": "https://imco.org.mx/feed/",
+     "tipo": "Centro de investigación en políticas públicas (México)",
+     "filtrar": true
     }
    ],
    "gkg_dominio": "\\.mx$",
-   "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal"
+   "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?"
   }
  ],
  "gkg_excluir_dominio": "prnewswire|businesswire|globenewswire|einpresswire|dailypolitical|tickerreport|pr-inside|finanznachrichten|marketscreener|openpr|newsfilecorp|accessnewswire"

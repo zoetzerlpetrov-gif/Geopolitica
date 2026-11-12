@@ -22,7 +22,7 @@ await pagina.goto(plantilla);
 
 for (const [i, e] of escenas.entries()) {
   const destino = path.join(salida, `${String(i + 1).padStart(2, "0")}.video.mp4`);
-  await pagina.evaluate(([e, m]) => window.escena(e, m), [e, { ...meta, dur: e.dur, cortina: i > 0 && e.tipo !== "cierre" }]);
+  await pagina.evaluate(([e, m]) => window.escena(e, m), [e, { ...meta, dur: e.dur, t0: e.t0 || 0, cortina: i > 0 && e.tipo !== "cierre" }]);
   await pagina.evaluate(() => document.fonts.ready);
   const ff = spawn("ffmpeg", ["-y", "-v", "error", "-f", "image2pipe", "-framerate", String(FPS), "-c:v", "mjpeg", "-i", "-",
     "-c:v", "libx264", "-preset", "veryfast", "-crf", "20", "-pix_fmt", "yuv420p", "-r", String(FPS), destino], { stdio: ["pipe", "inherit", "inherit"] });

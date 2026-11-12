@@ -227,7 +227,8 @@
    "narrativas.html": "analyst",
    "matriz.html": "analyst",
    "soporte.html": "demo",
-   "privacidad.html": "demo"
+   "privacidad.html": "demo",
+   "terminos.html": "demo"
   },
   "bloques": {
    "b-capas-ent": "recon",
@@ -257,7 +258,8 @@
    "rg-vdm-aire": "Calidad del aire en la CDMX (US AQI)",
    "camaras.html": "Cámaras públicas (catálogo y vistas previas)",
    "soporte.html": "🛟 Soporte",
-   "privacidad.html": "🔒 Aviso de privacidad"
+   "privacidad.html": "🔒 Aviso de privacidad",
+   "terminos.html": "📄 Términos y condiciones"
   }
  }
 }

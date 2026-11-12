@@ -21,7 +21,8 @@ def metadatos(g, descripcion, privacidad="private"):
     privacidad = "private"
     return {
         "snippet": {"title": g["titulo"][:100], "description": descripcion[:4900], "categoryId": "25", "defaultLanguage": "es-419",
-                    "defaultAudioLanguage": "es-419", "tags": ["noticias", "México", "mundo", "economía", "Brújula Diaria"]},
+                    "defaultAudioLanguage": "es-419", "tags": ["Brújula Diaria", "noticias", "noticias de hoy", "noticias México", "México", "mundo", "economía", "mercados",
+                             "tipo de cambio", "clima", "geopolítica", "resumen de noticias"]},
         "status": {"privacyStatus": privacidad, "selfDeclaredMadeForKids": False, "containsSyntheticMedia": True},
     }
 

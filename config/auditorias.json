@@ -189,6 +189,66 @@
      "r": "ISO 31000; ISO 22301; ISO 28000"
     }
    ]
+  },
+  {
+   "area": "Gobierno de la inteligencia artificial (si la organización desarrolla, compra o usa IA, incluida la IA generativa)",
+   "controles": [
+    {
+     "c": "¿Existe un inventario de los sistemas de IA (propios y de terceros, incluidas herramientas de IA generativa) con su propósito, dueño, datos que usan y nivel de riesgo?",
+     "e": "Inventario o registro de sistemas de IA; clasificación de riesgo por sistema",
+     "r": "ISO/IEC 42001:2023 (cláusulas 4 a 6 y Anexo A); NIST AI RMF 1.0, función «Map»; Reglamento UE de IA art. 6 y anexo III (clasificación)"
+    },
+    {
+     "c": "¿La dirección aprobó una política de IA con usos permitidos y prohibidos (por ejemplo, no ingresar datos personales o confidenciales en herramientas públicas) y responsables definidos?",
+     "e": "Política de IA firmada, matriz de roles (RACI), comité o responsable de IA",
+     "r": "ISO/IEC 42001 cláusula 5.2; NIST AI RMF, función «Govern»; Principios de IA de la OCDE"
+    },
+    {
+     "c": "¿Se hace una evaluación de impacto antes de poner en uso un sistema de IA (derechos de las personas, sesgo, seguridad, privacidad) y se actualiza ante cambios?",
+     "e": "Evaluaciones de impacto firmadas; evaluaciones de impacto en protección de datos cuando hay datos personales",
+     "r": "ISO/IEC 42005 (evaluación de impacto de sistemas de IA); ISO/IEC 23894 (gestión de riesgos de IA); Reglamento UE de IA art. 27; RGPD art. 35"
+    },
+    {
+     "c": "¿Se informa a las personas cuando interactúan con una IA o reciben contenido generado o manipulado por IA (texto, audio, imagen o video), y ese contenido se etiqueta?",
+     "e": "Avisos en interfaces, etiquetas «Generado con IA», metadatos o marcas de agua",
+     "r": "Reglamento UE de IA art. 50; Medidas de IA generativa de China (etiquetado); leyes estatales de EUA sobre divulgación de IA"
+    },
+    {
+     "c": "¿Las decisiones que afectan a personas tienen supervisión humana y una vía para impugnarlas?",
+     "e": "Procedimiento de revisión humana, registros de impugnaciones",
+     "r": "Reglamento UE de IA art. 14; RGPD art. 22; NIST AI RMF, función «Manage»"
+    },
+    {
+     "c": "¿Se documenta la calidad y representatividad de los datos y se miden el desempeño y los sesgos del modelo antes y durante su uso?",
+     "e": "Fichas de datos y de modelo, reportes de pruebas de sesgo y desempeño",
+     "r": "ISO/IEC 42001 Anexo A.7; Reglamento UE de IA art. 10; NIST SP 1270 (sesgo en IA)"
+    },
+    {
+     "c": "¿Se prueban los sistemas de IA contra ataques propios de la IA (inyección de instrucciones, fuga de datos, envenenamiento) y se hacen ejercicios de equipo rojo?",
+     "e": "Reportes de pruebas de seguridad de IA, hallazgos y su corrección",
+     "r": "OWASP Top 10 para aplicaciones con LLM; NIST AI 600-1 (perfil de IA generativa); MITRE ATLAS"
+    },
+    {
+     "c": "¿Los contratos con proveedores de modelos o servicios de IA regulan el uso de tus datos (entrenamiento, retención, ubicación), las licencias del modelo y la notificación de incidentes?",
+     "e": "Contratos y anexos de tratamiento de datos; licencias de modelos abiertos",
+     "r": "ISO/IEC 42001 Anexo A.10; ISO/IEC 27036 (seguridad con proveedores)"
+    },
+    {
+     "c": "¿Se registran y monitorean las entradas, salidas y fallas de los sistemas de IA, y existe un procedimiento para reportar incidentes graves de IA?",
+     "e": "Bitácoras, tablero de monitoreo, registro de incidentes de IA",
+     "r": "Reglamento UE de IA arts. 12, 72 y 73; ISO/IEC 42001 cláusulas 9 y 10"
+    },
+    {
+     "c": "¿Se revisan los derechos de autor y las licencias de los datos y contenidos usados para entrenar o alimentar la IA, y de lo que la IA genera?",
+     "e": "Registro de licencias de datos y modelos; política de uso de contenido generado",
+     "r": "Ley Federal del Derecho de Autor (México); Reglamento UE de IA art. 53 (política de derechos de autor de modelos de uso general)"
+    },
+    {
+     "c": "¿El personal que usa o supervisa la IA recibió capacitación suficiente (alfabetización en IA)?",
+     "e": "Plan y registros de capacitación",
+     "r": "Reglamento UE de IA art. 4 (alfabetización en IA); ISO/IEC 42001 cláusula 7.2"
+    }
+   ]
   }
  ],
  "sectores": {

@@ -16,15 +16,15 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import candidatos_seccion, guion  # noqa: E402
-from redactar import elegir_y_redactar  # noqa: E402
+from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof  # noqa: E402
+from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
 W, H = 1920, 1080
 FONDO, TINTA, ORO, GRIS, ROJO = (16, 22, 30), (236, 238, 240), (201, 162, 39), (150, 160, 170), (200, 16, 46)
 FUENTES = "/usr/share/fonts/truetype/dejavu/"
-PORTAFOLIO = "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json"
+PORTAFOLIO = "https://zoetzerlpetrov-gif.github.io/portafolio/portfolio_data.json"
 
 
 def fuente(tam, negrita=False):
@@ -79,6 +79,17 @@ def pantalla(e, n, total, fecha):
                 d.text((96, y), parte, font=fuente(32), fill=GRIS)
                 y += 44
         d.text((96, H - 100), "Máxima / mínima de hoy · pronóstico de MET Norway (CC BY 4.0), no es aviso oficial", font=fuente(26), fill=GRIS)
+    elif e["tipo"] == "mercados":
+        d.text((96, 150), e["encabezado"], font=fuente(64, True), fill=TINTA)
+        y = 260
+        for f in e.get("filas", [])[:8]:
+            color = (46, 196, 120) if f["pct"] > 0 else (230, 80, 80) if f["pct"] < 0 else GRIS
+            d.text((96, y), f"{f['nombre']} ({f['ticker']})", font=fuente(36, True), fill=TINTA)
+            d.text((W - 96, y), f"{f['precio']:,.2f} {f['moneda']}   {f['pct']:+.2f} %", font=fuente(36, True), fill=color, anchor="ra")
+            if f.get("frase"):
+                d.text((96, y + 44), textwrap.shorten(f["frase"], 110), font=fuente(26), fill=GRIS)
+            y += 90
+        d.text((96, H - 100), e.get("texto", ""), font=fuente(26), fill=GRIS)
     elif e["tipo"] == "economia":
         d.text((96, 170), e["encabezado"], font=fuente(72, True), fill=TINTA)
         y = 320
@@ -97,7 +108,7 @@ def pantalla(e, n, total, fecha):
             y += 82
         if e.get("medio"):
             d.text((96, H - 150), f"Fuente: {e['medio']}", font=fuente(38, True), fill=ORO)
-            d.text((96, H - 100), "Resumen propio · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
+            d.text((96, H - 100), ("Titular del medio" if e.get("titular") else "Resumen propio") + " · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
     d.text((W - 96, H - 60), f"{n}/{total}", font=fuente(26), fill=GRIS, anchor="ra")
     return im
 
@@ -115,11 +126,16 @@ def voz_kokoro(texto, wav, voz_id):
         return False
     if "pipe" not in _KOKORO:
         _KOKORO["pipe"] = KPipeline(lang_code="e")
-    trozos = [a for _, _, a in _KOKORO["pipe"](texto, voice=voz_id, speed=1.0)]
+    medio_s = np.zeros(int(24000 * 0.5), dtype="float32")  # «‖»: media pausa (antes de «Fuente», entre instrumentos…)
+    trozos = []
+    for i, parte in enumerate(p for p in texto.split("‖") if p.strip()):
+        if i:
+            trozos.append(medio_s)
+        trozos += [a for _, _, a in _KOKORO["pipe"](parte.strip(), voice=voz_id, speed=1.0)]
     if not trozos:
         return False
-    pausa = np.zeros(int(24000 * 0.25), dtype="float32")  # respiro corto al final de la escena
-    sf.write(wav, np.concatenate([*trozos, pausa]), 24000)
+    trozos.append(np.zeros(int(24000 * 0.25), dtype="float32"))  # respiro corto al final de la escena
+    sf.write(wav, np.concatenate(trozos), 24000)
     return os.path.exists(wav)
 
 
@@ -135,7 +151,8 @@ def voz(texto, wav, modelo):
     piper = shutil.which("piper")
     if not (piper and modelo and os.path.exists(modelo)):
         return False
-    r = subprocess.run([piper, "-m", modelo, "-f", wav, "--sentence-silence", "0.35"], input=texto.encode("utf-8"), capture_output=True)
+    texto = texto.replace("‖", ". ")  # Piper: la pausa se vuelve fin de oración (silencio de 0.5 s)
+    r = subprocess.run([piper, "-m", modelo, "-f", wav, "--sentence-silence", "0.5"], input=texto.encode("utf-8"), capture_output=True)
     return r.returncode == 0 and os.path.exists(wav)
 
 
@@ -168,6 +185,47 @@ def grabar_animado(g, escenas, tmp):
     return r.returncode == 0 and all(os.path.exists(os.path.join(tmp, f"{i:02d}.video.mp4")) for i in range(1, len(escenas) + 1))
 
 
+# Efectos de sonido propios (sintetizados con ffmpeg, sin licencias de terceros), sutiles y bajos.
+EFECTOS = {
+    # Entrada: acorde que crece y una campana suave (re–la–re).
+    "intro": "aevalsrc='0.25*(sin(2*PI*293.66*t)+sin(2*PI*440*t)+0.6*sin(2*PI*587.33*t))*min(t/0.8,1)*exp(-max(t-1.4,0)*2)"
+             "+0.35*sin(2*PI*1174.7*t)*exp(-3*max(t-1.0,0))*gte(t,1.0)':s=44100:d=2.6",
+    # Cambio de sección: dos notas de campana (mi–la), cortas.
+    "seccion": "aevalsrc='0.3*sin(2*PI*659.25*t)*exp(-6*t)+0.3*sin(2*PI*880*t)*exp(-6*max(t-0.12,0))*gte(t,0.12)':s=44100:d=0.9",
+    # Cambio de nota en la misma sección: barrido de aire muy breve.
+    "nota": "anoisesrc=color=pink:amplitude=0.25:d=0.45:r=44100",
+    # Cierre: campana descendente (la–re).
+    "cierre": "aevalsrc='0.3*sin(2*PI*880*t)*exp(-4*t)+0.3*sin(2*PI*587.33*t)*exp(-4*max(t-0.2,0))*gte(t,0.2)':s=44100:d=1.6",
+}
+FILTRO_EFECTO = {"nota": "highpass=f=600,lowpass=f=5000,afade=t=in:d=0.18,afade=t=out:st=0.2:d=0.25,volume=0.5"}
+ADELANTO_VOZ = 0.35  # s: la voz entra justo después del efecto
+
+
+def efectos(tmp):
+    """Genera los WAV de efectos una vez por corrida. Devuelve {nombre: ruta} (vacío si ffmpeg falla)."""
+    out = {}
+    for nombre, fuente in EFECTOS.items():
+        ruta = os.path.join(tmp, f"efecto_{nombre}.wav")
+        filtro = FILTRO_EFECTO.get(nombre, "afade=t=out:st=0:d=0.01,volume=1")
+        r = subprocess.run(["ffmpeg", "-y", "-v", "error", "-f", "lavfi", "-i", fuente, "-af", filtro, "-ac", "1", ruta])
+        if r.returncode == 0:
+            out[nombre] = ruta
+    return out
+
+
+def efecto_de(escenas, i):
+    """Qué efecto suena al entrar a la escena i: entrada, cambio de sección, cambio de nota o cierre."""
+    e = escenas[i]
+    if e["tipo"] == "portada":
+        return "intro"
+    if e["tipo"] == "cierre":
+        return "cierre"
+    previa = escenas[i - 1] if i else {}
+    if e["tipo"] == "nota" and previa.get("tipo") == "nota" and previa.get("seccion") == e.get("seccion"):
+        return "nota"
+    return "seccion"
+
+
 def musica(segundos, destino):
     """Fondo musical propio (sin licencias de terceros): acorde suave de senoidales con trémolo lento, muy bajo."""
     notas = "+".join(f"0.18*sin(2*PI*{f}*t)" for f in (110, 164.81, 220, 277.18))
@@ -183,11 +241,14 @@ def armar(g, salida, modelo):
     total = len(g["escenas"])
     fecha_txt = g["titulo"].split(" · ")[1] if " · " in g["titulo"] else g["fecha"]
     # 1) Voz de cada escena y su duración.
-    escenas = []
+    escenas, t0 = [], 0.0
     for i, e in enumerate(g["escenas"], 1):
         wav = os.path.join(tmp, f"{i:02d}.wav")
         con_voz = voz(e["voz"], wav, modelo)
-        escenas.append({**e, "dur": round((duracion(wav) + 0.9) if con_voz else max(4.0, len(e["voz"]) / 15), 2), "_wav": wav if con_voz else None})
+        dur = round((duracion(wav) + 0.9 + ADELANTO_VOZ) if con_voz else max(4.0, len(e["voz"]) / 15), 2)
+        escenas.append({**e, "dur": dur, "t0": round(t0, 2), "_wav": wav if con_voz else None})
+        t0 += dur
+    sfx = efectos(tmp)
     # 2) Imagen: escenas animadas o, si no se puede, pantallas fijas (Pillow).
     animado = grabar_animado(g, [{k: v for k, v in e.items() if k != "_wav"} for e in escenas], tmp)
     print("estilo:", "animado" if animado else "pantallas fijas")
@@ -203,8 +264,15 @@ def armar(g, salida, modelo):
                 shutil.copy(png, os.path.join(salida, "miniatura.png"))
             cmd = ["ffmpeg", "-y", "-v", "error", "-loop", "1", "-i", png]
         cmd += ["-i", e["_wav"]] if e["_wav"] else ["-f", "lavfi", "-i", "anullsrc=r=22050:cl=mono"]
+        ef = sfx.get(efecto_de(escenas, i - 1))
+        if ef:  # efecto al inicio y la voz un instante después
+            cmd += ["-i", ef, "-filter_complex",
+                    f"[1:a]aresample=44100,adelay={int(ADELANTO_VOZ * 1000)}:all=1[v];[2:a]aresample=44100,volume=0.55[f];"
+                    "[v][f]amix=inputs=2:duration=longest:dropout_transition=0:normalize=0,apad[a]", "-map", "0:v", "-map", "[a]"]
+        else:
+            cmd += ["-af", "apad"]
         cmd += ["-t", f"{e['dur']:.2f}", "-c:v", "copy" if animado else "libx264", *([] if animado else ["-tune", "stillimage", "-pix_fmt", "yuv420p", "-r", "25"]),
-                "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-ac", "1", "-af", "apad", mp4]
+                "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-ac", "1", mp4]
         subprocess.run(cmd, check=True)
         partes.append(mp4)
     lista = os.path.join(tmp, "lista.txt")
@@ -235,10 +303,15 @@ def main():
     hoy = (datetime.now(timezone.utc) - timedelta(hours=6)).strftime("%Y-%m-%d")
     fecha = a.fecha or hoy
     cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"))
-    elegidas = elegir_y_redactar(cands, os.environ.get("IA_LOCAL_URL", "").strip() or None)
+    ia = os.environ.get("IA_LOCAL_URL", "").strip() or None
+    elegidas = elegir_y_redactar(cands, ia)
+    # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
+    elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha), ia))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
-    portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "daily_report.json") if a.sitio.startswith("http") else None
-    g = guion(fecha, elegidas, leer_seguro(a.sitio, "data/economia/indicadores.json"), portafolio, clima)
+    portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "portfolio_data.json") if a.sitio.startswith("http") else None
+    frases = frases_titulares(mercados(portafolio) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
+    g = guion(fecha, elegidas, leer_seguro(a.sitio, "data/economia/indicadores.json"), portafolio, clima,
+              cifras=leer_seguro(a.sitio, "data/vivos/indicadores.json"), frases_mercado=frases)
     if g["notas"] < 3:
         print(f"Solo {g['notas']} nota(s): no se arma el video de hoy.", file=sys.stderr)
         sys.exit(2)
