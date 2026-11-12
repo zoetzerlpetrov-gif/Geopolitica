@@ -38,6 +38,7 @@ import asyncio
 import csv
 import io
 import json
+import math
 import os
 import re
 import sys
@@ -708,17 +709,32 @@ def _malla(lat0, lat1, lon0, lon1, paso_lat=6.5, paso_lon=8.0):
     return pts
 
 
-PUNTOS_ADSBLOL = (
-    _malla(14.5, 33.0, -117.5, -86.0, 5.5, 6.5)        # México con más detalle
-    + _malla(26.0, 52.0, -124.0, -68.0)                 # EUA y sur de Canadá
-    + _malla(8.0, 22.0, -92.0, -60.0, 7.0, 8.0)         # Centroamérica y Caribe
-    + _malla(-35.0, 6.0, -80.0, -40.0, 10.0, 11.0)      # Sudamérica
-    + _malla(36.0, 60.0, -9.0, 30.0)                    # Europa
-    + [(50.0, -40.0), (47.0, -25.0), (45.0, -50.0)]     # Atlántico norte (rutas transatlánticas)
+# México se consulta en cada corrida; el resto del mundo se reparte entre corridas (rotación) porque adsb.lol limita el
+# ritmo (~75 zonas en el tope de 6 min). Radio de cada consulta: 250 millas náuticas (~4° de latitud).
+PUNTOS_FIJOS = _malla(14.5, 33.0, -117.5, -86.0, 5.5, 6.5)        # México con más detalle
+PUNTOS_ROTATIVOS = (
+    _malla(26.0, 52.0, -124.0, -68.0)                              # EUA y sur de Canadá
+    + _malla(8.0, 22.0, -92.0, -60.0, 7.0, 8.0)                    # Centroamérica y Caribe
+    + _malla(-35.0, 6.0, -80.0, -40.0, 10.0, 11.0)                 # Sudamérica
+    + _malla(36.0, 60.0, -9.0, 30.0)                               # Europa
+    + _malla(12.0, 40.0, 32.0, 60.0, 8.0, 9.0)                     # Medio Oriente y golfo Pérsico
+    + _malla(8.0, 32.0, 68.0, 90.0, 8.0, 9.0)                      # India
+    + _malla(22.0, 44.0, 100.0, 142.0, 7.0, 9.0)                   # China, Corea y Japón
+    + _malla(-8.0, 20.0, 95.0, 125.0, 8.0, 10.0)                   # Sudeste asiático
+    + _malla(-38.0, -12.0, 115.0, 153.0, 9.0, 12.0) + [(-41.0, 174.0)]  # Australia y Nueva Zelanda
+    + _malla(-34.0, 34.0, -10.0, 40.0, 13.0, 14.0)                 # África
+    + _malla(48.0, 62.0, 30.0, 60.0, 8.0, 12.0)                    # Rusia occidental
+    + [(50.0, -40.0), (47.0, -25.0), (45.0, -50.0), (55.0, -30.0), (53.0, -15.0)]   # Atlántico norte
+    + [(5.0, -30.0), (-10.0, -25.0)]                               # Atlántico sur (Europa–Sudamérica)
+    + [(48.0, -150.0), (52.0, 170.0), (45.0, 160.0), (21.0, -157.0), (30.0, -140.0)]  # Pacífico norte y Hawái
+    + [(5.0, 75.0), (-20.0, 57.0)]                                 # Océano Índico
+    + [(60.0, -150.0), (64.0, -20.0)]                              # Alaska e Islandia
 )
+PUNTOS_ADSBLOL = PUNTOS_FIJOS + PUNTOS_ROTATIVOS
+MAX_EDAD_PREVIOS = 60 * 60  # s: aviones de corridas anteriores que se conservan (con posición estimada) mientras la rotación vuelve
 PAUSA_ADSBLOL = 1.5  # segundos entre consultas, por cortesía (sus límites son dinámicos)
 ESPERA_429_MAX = 30  # tope de espera cuando adsb.lol pide bajar el ritmo (HTTP 429)
-PRESUPUESTO_ADSBLOL = 360  # segundos máximos del paso: lo que no alcance se consulta en la siguiente corrida
+PRESUPUESTO_ADSBLOL = 480  # segundos máximos del paso: lo que no alcance se consulta en la siguiente corrida (rotación)
 
 
 def _espera_429(e, intento):
@@ -729,14 +745,36 @@ def _espera_429(e, intento):
         return min(ESPERA_429_MAX, 5 * 2 ** intento)
 
 
-def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL, dormir=time.sleep, reloj=time.monotonic,
-                        presupuesto=PRESUPUESTO_ADSBLOL):
+def _estimar(fila, dt, iLon, iLat, iVel, iRumbo, iEdad, iSt):
+    """Avanza un avión de una corrida anterior según su rumbo y velocidad (navegación a estima), con su edad."""
+    f = list(fila)
+    f[iEdad] = int((f[iEdad] or 0) + dt)
+    if f[iSt] != "en_tierra" and (f[iVel] or 0) > 100:
+        dist = f[iVel] * dt / 3600.0                      # km
+        rad = math.radians(f[iRumbo] or 0)
+        f[iLat] = round(max(-89.0, min(89.0, f[iLat] + dist * math.cos(rad) / 111.0)), 3)
+        f[iLon] = round(((f[iLon] + dist * math.sin(rad) / (111.0 * max(0.2, math.cos(math.radians(f[iLat]))))) + 540) % 360 - 180, 3)
+    return f
+
+
+def aeronaves_comercial(pedir=None, puntos=None, pausa=PAUSA_ADSBLOL, dormir=time.sleep, reloj=time.monotonic,
+                        presupuesto=PRESUPUESTO_ADSBLOL, fijos=None, rotativos=None, ahora_s=None):
     """vivos/aeronaves_comercial.json: mismas columnas que aeronaves.json, solo con datos de adsb.lol (ODbL).
-    Si adsb.lol responde 429 (demasiadas peticiones) se espera y se reintenta la misma zona hasta 3 veces."""
+    Cada corrida: militares + México (fijos) + la siguiente tanda de la rotación mundial hasta el tope de tiempo.
+    Los aviones de corridas anteriores que no se volvieron a ver se conservan hasta MAX_EDAD_PREVIOS con posición
+    estimada (rumbo y velocidad). Si adsb.lol responde 429 se espera y se reintenta la misma zona hasta 3 veces."""
     pedir = pedir or (lambda u: json.loads(get(u, timeout=40)))
     sanc = set(leer("sanciones.json", {}).get("matriculas", []))
-    filas, errores, consultas, inicio = {}, 0, 0, reloj()
-    for u in ["https://api.adsb.lol/v2/mil"] + [f"https://api.adsb.lol/v2/point/{la}/{lo}/250" for la, lo in puntos]:
+    if puntos is not None:  # compatibilidad: una sola lista, sin rotación
+        fijos, rotativos = list(puntos), []
+    fijos = PUNTOS_FIJOS if fijos is None else fijos
+    rotativos = PUNTOS_ROTATIVOS if rotativos is None else rotativos
+    previo = leer("aeronaves_comercial.json", {})
+    inicio_rot = int(previo.get("siguiente", 0) or 0) % max(1, len(rotativos)) if rotativos else 0
+    orden = rotativos[inicio_rot:] + rotativos[:inicio_rot]
+    urls = ["https://api.adsb.lol/v2/mil"] + [f"https://api.adsb.lol/v2/point/{la}/{lo}/250" for la, lo in list(fijos) + orden]
+    filas, errores, consultas, inicio, rot_hechos = {}, 0, 0, reloj(), 0
+    for n, u in enumerate(urls):
         if reloj() - inicio > presupuesto:
             print(f"  adsb.lol: tope de {presupuesto} s; se publica lo consultado")
             break
@@ -760,12 +798,30 @@ def aeronaves_comercial(pedir=None, puntos=PUNTOS_ADSBLOL, pausa=PAUSA_ADSBLOL, 
             print(f"  adsb.lol {u}: {e}")
             if errores >= 5:  # el servicio no está respondiendo: se publica lo que haya
                 break
+        if n > len(fijos):
+            rot_hechos += 1
         if pausa:
             dormir(pausa)
+    # Aviones de la corrida anterior que no se volvieron a ver: se conservan con posición estimada.
+    conservados = 0
+    gen = previo.get("generado_utc")
+    if gen and previo.get("a"):
+        t_prev = datetime.strptime(gen, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc).timestamp()
+        dt = max(0.0, (ahora_s if ahora_s is not None else time.time()) - t_prev)
+        idx = [CAMPOS_AVION.index(k) for k in ("lon", "lat", "vel_kmh", "rumbo", "edad_s", "subtipo")]
+        for f in previo["a"]:
+            if f[0] in filas or (f[idx[4]] or 0) + dt > MAX_EDAD_PREVIOS:
+                continue
+            filas[f[0]] = _estimar(f[:len(CAMPOS_AVION)], dt, *idx) + [1]
+            conservados += 1
     if not filas:
         raise RuntimeError("adsb.lol no respondió")
-    escribir("aeronaves_comercial.json", {"generado_utc": ahora(), "campos": CAMPOS_AVION,
-             "fuentes": {"adsb.lol": len(filas), "consultas": consultas},
+    siguiente = (inicio_rot + rot_hechos) % max(1, len(rotativos)) if rotativos else 0
+    filas = {k: (v if len(v) > len(CAMPOS_AVION) else v + [0]) for k, v in filas.items()}  # columna «estimado»: 0 visto, 1 estimado
+    escribir("aeronaves_comercial.json", {"generado_utc": ahora(), "campos": CAMPOS_AVION + ["estimado"],
+             "fuentes": {"adsb.lol": len(filas) - conservados, "conservados_estimados": conservados, "consultas": consultas,
+                         "zonas_rotacion": f"{rot_hechos} de {len(rotativos)}"},
+             "siguiente": siguiente,
              "licencia": "Datos de adsb.lol bajo Open Database License (ODbL) 1.0 · © colaboradores de adsb.lol",
              "a": list(filas.values())})
     return len(filas)

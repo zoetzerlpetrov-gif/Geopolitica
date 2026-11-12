@@ -273,13 +273,14 @@ export class Movimiento {
     this.visibles[tipo] = filas.length;
     this.onAviso(tipo, recortado ? `Mostrando ${MAX_OBJETOS.toLocaleString("es-MX")} de ${total.toLocaleString("es-MX")} ${tipo} en esta vista. Acerca el mapa o filtra subtipos.` : "");
     const c = d.campos;
-    const iR = c.indexOf("rumbo"), iV = c.indexOf(tipo === "aeronaves" ? "vel_kmh" : "vel_nudos"), iE = c.indexOf("edad_s");
+    const iR = c.indexOf("rumbo"), iV = c.indexOf(tipo === "aeronaves" ? "vel_kmh" : "vel_nudos"), iE = c.indexOf("edad_s"), iEst = c.indexOf("estimado");
     const iId = 0, iN = 1;
     const edadSnap = (Date.now() - new Date(d.generado).getTime()) / 1000;
     const partes = filas.map((f) => {
       let lon = f[d.idx.iLon], lat = f[d.idx.iLat];
       if (proyectar_) {
-        const seg = Math.min(PROYECCION_MAX_S, edadSnap + (f[iE] || 0));
+        // Filas «estimado» (vuelos para clientes): el servidor ya avanzó la posición; aquí solo el tiempo desde la instantánea.
+        const seg = Math.min(PROYECCION_MAX_S, edadSnap + (iEst >= 0 && f[iEst] ? 0 : (f[iE] || 0)));
         const kmh = tipo === "aeronaves" ? f[iV] : f[iV] * 1.852;
         if (kmh > 0) [lon, lat] = proyectar(lon, lat, f[iR] || 0, kmh, seg);
       }
@@ -373,6 +374,7 @@ export function htmlFichaMovil({ tipo, props, generado }, catalogo) {
       ${huecoImagen(articuloAvion(null, st))}
       <dl><dt>ICAO 24 bits</dt><dd>${esc(hex)}</dd><dt>Altitud</dt><dd>${esc(alt)} m</dd><dt>Velocidad</dt><dd>${esc(vel)} km/h</dd><dt>Rumbo</dt><dd>${esc(rumbo)}°</dd>
       <dt>Ver en</dt><dd><a href="https://globe.adsb.lol/?icao=${encodeURIComponent(hex)}" target="_blank" rel="noopener noreferrer">adsb.lol</a></dd></dl>
+      ${f[16] === 1 ? `<p class="meta">Posición estimada con su rumbo y velocidad: no se ha vuelto a ver hace ${Math.round((f[9] || 0) / 60)} min (la consulta recorre el mundo por zonas).</p>` : ""}
       <p class="meta">La posición se proyecta como máximo 5 min desde la instantánea. No se muestra propietario ni se vincula con personas.</p>`;
   }
   const [mmsi, nombre, , , rumbo, vel, st, imo] = f;
