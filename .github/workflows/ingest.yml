@@ -26,9 +26,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 35  # la IA local (resúmenes y panorama) agrega unos minutos
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: "3.12"
 
@@ -46,7 +46,7 @@ jobs:
       # llama.cpp (MIT), dentro de esta máquina. Sin llaves ni términos de terceros; ningún texto sale de GitHub.
       # Ambos archivos se verifican por su huella SHA-256 antes de usarse.
       - name: Caché del modelo abierto y de llama.cpp
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/llm
           key: llm-qwen3-4b-2507-q4km-llamacpp-b12292
@@ -75,7 +75,7 @@ jobs:
         run: python3 ingest/run.py --salida eventos
 
       - name: Caché de los polígonos de estados y provincias (Natural Earth, se generan una vez)
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         with:
           path: ~/.cache/admin1
           key: admin1-ne10m-v1
