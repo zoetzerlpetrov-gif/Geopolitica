@@ -1,19 +1,19 @@
 {
- "generado_utc": "2026-11-12T10:13:22Z",
+ "generado_utc": "2026-11-12T21:35:31Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-11"
+   "hasta": "2026-11-12"
   },
   "USA": {
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 9,
+   "nuevas": 7,
    "error": "",
    "hasta": "2026-11-12"
   },
@@ -29,7 +29,7 @@
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 3,
+   "nuevas": 1,
    "error": "",
    "hasta": "2026-11-12"
   },
@@ -45,23 +45,22 @@
    "fuente": "Portal oficial de publicación de actos jurídicos",
    "ok": true,
    "estado": "ok",
-   "nuevas": 2,
+   "nuevas": 1,
    "error": "",
    "hasta": "2026-11-12"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
-   "ok": false,
-   "estado": "error",
+   "ok": true,
+   "estado": "ok",
    "nuevas": 0,
-   "error": "URLError: <urlopen error timed out>",
-   "hasta": null
+   "error": "",
+   "hasta": "2026-11-12"
   }
  },
  "sin_fuente": {
   "CHN": "El robots.txt de la base nacional de leyes (flk.npc.gov.cn) prohíbe el acceso automatizado: revisión semanal manual.",
   "CHL": "El Diario Oficial niega el acceso a su robots.txt: revisión semanal manual en Ley Chile (bcn.cl).",
-  "ARG": "Boletín Oficial: se intenta cada día; si no responde, revisión semanal manual.",
   "BRA": "El robots.txt del Diário Oficial da União (in.gov.br) responde 403 a bots: revisión semanal manual en Planalto y el DOU.",
   "SAU": "Sin fuente automática abierta: revisión semanal manual.",
   "ARE": "Sin fuente automática abierta: revisión semanal manual.",
@@ -81,7 +80,8 @@
   "EUR": "2026-11-12",
   "JPN": "2026-11-12",
   "RUS": "2026-11-12",
-  "MEX": "2026-11-11"
+  "MEX": "2026-11-12",
+  "ARG": "2026-11-12"
  },
  "desactualizadas": [],
  "por_pais": {
@@ -91,14 +91,14 @@
    "ultimos_30d": 29
   },
   "RUS": {
-   "total": 10,
+   "total": 11,
    "alto": 0,
-   "ultimos_30d": 10
+   "ultimos_30d": 11
   },
   "MEX": {
-   "total": 536,
+   "total": 537,
    "alto": 42,
-   "ultimos_30d": 29
+   "ultimos_30d": 30
   },
   "EUR": {
    "total": 49,
@@ -106,5 +106,5 @@
    "ultimos_30d": 41
   }
  },
- "agregadas_hoy": 4
+ "agregadas_hoy": 2
 }
