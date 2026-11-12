@@ -149,6 +149,26 @@ def unir(previos, nuevos, ahora, horas=HORAS, maximo=MAX_SECCION):
     return out
 
 
+def refiltrar(previos, cfg, reglas):
+    """Aplica el filtro de palabras de los feeds generales («filtrar») también a las notas ya guardadas: sin esto, lo que
+    entró antes del filtro (recetas, conciertos) seguiría en la sección hasta que venza (72 h)."""
+    rx = {sid: r for sid, r, _, _ in reglas}
+    filtrados = {}
+    for sec in cfg["secciones"]:
+        for fd in sec.get("feeds", []):
+            if fd.get("filtrar"):
+                filtrados.setdefault(fd["nombre"], set()).add(sec["id"])
+    out = []
+    for n in previos:
+        secs = filtrados.get(n.get("m"))
+        if secs and n.get("via") == "rss":
+            n = {**n, "s": [s for s in n.get("s", []) if s not in secs or rx[s].search(n.get("t", ""))]}
+            if not n["s"]:
+                continue
+        out.append(n)
+    return out
+
+
 def main(archivos=4):
     cfg = json.load(open(CONF, encoding="utf-8"))
     reglas = reglas_de(cfg)
@@ -158,6 +178,7 @@ def main(archivos=4):
             previos = json.load(open(OUT, encoding="utf-8")).get("notas", [])
         except ValueError:
             pass
+    previos = refiltrar(previos, cfg, reglas)
     excluir = re.compile(cfg["gkg_excluir_dominio"], re.I) if cfg.get("gkg_excluir_dominio") else None
     n_gkg, e_gkg = de_gkg(reglas, archivos, excluir)
     n_rss, e_rss, ok = de_rss(cfg, reglas)
