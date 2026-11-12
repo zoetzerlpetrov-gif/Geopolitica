@@ -197,13 +197,14 @@ def test_aeronaves_comercial_solo_adsblol_sin_privados(tmp_path, monkeypatch):
     d = json.load(open(tmp_path / "aeronaves_comercial.json"))
     assert n == 2 and {f[0] for f in d["a"]} == {"ae0001", "0d0001"}
     assert all("adsb.lol" in u for u in vistos) and not any("opensky" in u for u in vistos)
-    assert "ODbL" in d["licencia"] and d["campos"] == A.CAMPOS_AVION
+    assert "ODbL" in d["licencia"] and d["campos"] == A.CAMPOS_AVION + ["estimado"]
 
 
 def test_malla_de_puntos_cubre_mexico_y_es_moderada():
     import actualizar as A
-    assert 60 <= len(A.PUNTOS_ADSBLOL) <= 140  # ~1-2 min por corrida con la pausa de cortesía
-    assert any(abs(la - 19.5) < 4 and abs(lo + 99) < 5 for la, lo in A.PUNTOS_ADSBLOL)
+    assert 15 <= len(A.PUNTOS_FIJOS) <= 30 and len(A.PUNTOS_ADSBLOL) == len(A.PUNTOS_FIJOS) + len(A.PUNTOS_ROTATIVOS)
+    assert len(A.PUNTOS_ROTATIVOS) <= 300, "la vuelta al mundo debe completarse en pocas corridas (~55-75 zonas por corrida)"
+    assert any(abs(la - 19.5) < 4 and abs(lo + 99) < 5 for la, lo in A.PUNTOS_FIJOS)
 
 
 def test_aeronaves_comercial_espera_y_reintenta_ante_429(tmp_path, monkeypatch):
@@ -252,3 +253,46 @@ def test_adsblol_es_fuente_comercial_para_la_vista_de_pago():
     assert d["fuentes"]["adsblol"]["uso_comercial"] is True
     aero = next(c for c in d["categorias"] if c.get("id") == "aeronaves")
     assert {s["fuente"] for s in aero["subtipos"]} <= {"adsblol", "ofac"}
+
+
+def test_aeronaves_comercial_rota_el_mundo_y_conserva_aviones_estimados(tmp_path, monkeypatch):
+    """México en cada corrida; el resto del mundo por tandas. Lo no visto se conserva con posición estimada."""
+    import actualizar as A
+    monkeypatch.setattr(A, "OUT", str(tmp_path))
+    pedidas = []
+    t = [0.0]
+
+    def reloj():
+        return t[0]
+
+    def pedir(u):
+        pedidas.append(u)
+        t[0] += 10  # cada consulta «tarda» 10 s
+        if "/point/50.0/10.0/" in u:
+            return {"ac": [{"hex": "3c0001", "flight": "DLH1", "lat": 50.0, "lon": 10.0, "alt_baro": 35000, "gs": 450, "track": 90}]}
+        return {"ac": []}
+
+    fijos = [(19.0, -99.0)]
+    rot = [(40.0, -100.0), (50.0, 10.0), (35.0, 139.0), (-33.0, 151.0)]
+    A.aeronaves_comercial(pedir, pausa=0, dormir=lambda s: None, reloj=reloj, presupuesto=35, fijos=fijos, rotativos=rot, ahora_s=0)
+    d1 = __import__("json").load(open(tmp_path / "aeronaves_comercial.json"))
+    assert d1["siguiente"] == 2 and "/point/19.0/-99.0/" in pedidas[1]
+    assert [f[0] for f in d1["a"]] == ["3c0001"]
+    # Segunda corrida 10 min después: sigue con Tokio y Sídney; el avión de Europa se conserva más al este.
+    pedidas.clear()
+    t[0] = 0
+    gen = A.datetime.strptime(d1["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=A.timezone.utc).timestamp()
+    A.aeronaves_comercial(pedir, pausa=0, dormir=lambda s: None, reloj=reloj, presupuesto=35, fijos=fijos, rotativos=rot, ahora_s=gen + 600)
+    d2 = __import__("json").load(open(tmp_path / "aeronaves_comercial.json"))
+    assert any("/point/35.0/139.0/" in u for u in pedidas) and d2["siguiente"] == 0
+    f = dict(zip(A.CAMPOS_AVION, d2["a"][0]))
+    assert f["hex"] == "3c0001" and f["lon"] > 11.5 and f["edad_s"] >= 600 and d2["fuentes"]["conservados_estimados"] == 1
+
+
+def test_rotacion_cubre_todos_los_continentes():
+    import actualizar as A
+    def hay(lat0, lat1, lon0, lon1):
+        return any(lat0 <= la <= lat1 and lon0 <= lo <= lon1 for la, lo in A.PUNTOS_ROTATIVOS)
+    assert hay(35, 60, -10, 30) and hay(20, 45, 100, 145) and hay(-40, -10, 110, 155) and hay(-35, 35, -10, 40)
+    assert hay(8, 32, 68, 90) and hay(40, 60, -50, -10), "Europa, Asia oriental, Oceanía, África, India y Atlántico norte"
+    assert 15 <= len(A.PUNTOS_FIJOS) <= 30

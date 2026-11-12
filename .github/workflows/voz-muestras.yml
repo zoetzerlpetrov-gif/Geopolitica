@@ -1,0 +1,74 @@
+name: Muestras de voz (Brújula Diaria)
+
+# Genera el mismo texto con varias voces abiertas de uso comercial para elegir la del noticiero.
+# Resultado: artefacto «muestras-voz» con un MP3 por voz (7 días). No publica nada.
+on:
+  workflow_dispatch:
+  push:
+    branches-ignore: [main]
+    paths: ["tools/noticiero_video/muestras_voz.py", ".github/workflows/voz-muestras.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  piper:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg && pip install -q piper-tts==1.3.0
+      - name: Voces de Piper (es_MX claude, es_MX ald)
+        run: |
+          mkdir -p voz
+          for v in claude/high/es_MX-claude-high ald/medium/es_MX-ald-medium; do
+            n=$(basename "$v")
+            for f in onnx onnx.json; do curl -sSfL -o "voz/$n.$f" "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/$v.$f"; done
+            python3 tools/noticiero_video/muestras_voz.py "piper:voz/$n.onnx" muestras
+          done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: muestras-piper
+          path: muestras/*.mp3
+          retention-days: 7
+
+  kokoro:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg espeak-ng
+      - run: pip install -q --extra-index-url https://download.pytorch.org/whl/cpu "kokoro>=0.9.4" soundfile
+      - name: Voces de Kokoro en español (ef_dora, em_alex, em_santa)
+        run: for v in ef_dora em_alex em_santa; do python3 tools/noticiero_video/muestras_voz.py "kokoro:$v" muestras || true; done
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: muestras-kokoro
+          path: muestras/*.mp3
+          retention-days: 7
+
+  chatterbox:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.11"
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: pip install -q --extra-index-url https://download.pytorch.org/whl/cpu chatterbox-tts
+      - name: Chatterbox multilingüe (español)
+        run: python3 tools/noticiero_video/muestras_voz.py chatterbox muestras
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: muestras-chatterbox
+          path: muestras/*.mp3
+          retention-days: 7

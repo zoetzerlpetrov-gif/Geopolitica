@@ -1,4 +1,4 @@
-"""Sube el video del Noticiero DOMINUS a YouTube (API de datos v3, subida reanudable). Sin dependencias externas.
+"""Sube el video de Brújula Diaria a YouTube (API de datos v3, subida reanudable). Sin dependencias externas.
 
 Uso:  python3 tools/noticiero_video/subir.py DIR   (DIR con noticiero.mp4, guion.json y descripcion.txt)
 Variables de entorno (GitHub → Settings → Secrets; nunca en el código): YT_CLIENT_ID, YT_CLIENT_SECRET, YT_REFRESH_TOKEN.
@@ -21,7 +21,7 @@ def metadatos(g, descripcion, privacidad="private"):
     privacidad = "private"
     return {
         "snippet": {"title": g["titulo"][:100], "description": descripcion[:4900], "categoryId": "25", "defaultLanguage": "es-419",
-                    "defaultAudioLanguage": "es-419", "tags": ["noticias", "México", "mundo", "economía", "DOMINUS"]},
+                    "defaultAudioLanguage": "es-419", "tags": ["noticias", "México", "mundo", "economía", "Brújula Diaria"]},
         "status": {"privacyStatus": privacidad, "selfDeclaredMadeForKids": False, "containsSyntheticMedia": True},
     }
 

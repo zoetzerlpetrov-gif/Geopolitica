@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Brújula Diaria · escena</title>
+<!-- Plantilla de una escena del noticiero. grabar.mjs la abre en Chromium, llama a escena(datos) y avanza el tiempo
+     de TODAS las animaciones CSS cuadro por cuadro (document.getAnimations): el video sale fluido y siempre igual.
+     Sin recursos externos: fuentes del sistema (Inter si está instalada) y figuras en SVG. -->
+<style>
+  @property --n { syntax: "<integer>"; inherits: false; initial-value: 0; }
+  :root { --fondo: #0b1220; --fondo2: #13233d; --tinta: #eef2f6; --gris: #9fb0c3; --oro: #d9a826; --rojo: #d7263d; --azul: #2f80ed;
+          --acento: var(--oro); --dur: 10s; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--fondo); color: var(--tinta);
+               font-family: Inter, "DejaVu Sans", system-ui, sans-serif; }
+  /* Fondo: degradado con dos brillos que se desplazan despacio (sensación de movimiento continuo). */
+  .fondo { position: absolute; inset: 0; background: radial-gradient(1200px 700px at 20% 20%, #1c3560 0%, transparent 60%),
+           radial-gradient(900px 600px at 85% 80%, #3a2a0e 0%, transparent 60%), linear-gradient(135deg, var(--fondo), var(--fondo2)); }
+  .brillo { position: absolute; width: 1400px; height: 1400px; border-radius: 50%; filter: blur(80px); opacity: .22;
+            background: radial-gradient(circle, var(--acento), transparent 65%); animation: deriva 18s ease-in-out infinite alternate; }
+  .brillo.b2 { background: radial-gradient(circle, var(--azul), transparent 65%); animation-duration: 23s; animation-direction: alternate-reverse; }
+  @keyframes deriva { from { transform: translate(-300px, -200px); } to { transform: translate(900px, 300px); } }
+  .rejilla { position: absolute; inset: 0; opacity: .06; background-image: linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px);
+             background-size: 80px 80px; animation: rejilla 30s linear infinite; }
+  @keyframes rejilla { to { background-position: 80px 80px; } }
+
+  /* Barra superior: logo, «HOY», fecha y barra de avance de la escena. */
+  .arriba { position: absolute; top: 0; left: 0; right: 0; height: 110px; display: flex; align-items: center; padding: 0 70px; gap: 22px;
+            background: linear-gradient(180deg, rgba(0,0,0,.45), transparent); }
+  .logo { display: flex; align-items: center; gap: 16px; font-weight: 800; letter-spacing: .08em; font-size: 34px; }
+  .logo svg { width: 54px; height: 54px; }
+  .aguja { transform-origin: 50% 50%; animation: aguja 6s ease-in-out infinite alternate; }
+  @keyframes aguja { from { transform: rotate(-14deg); } to { transform: rotate(10deg); } }
+  .hoy { background: var(--rojo); color: #fff; font-weight: 800; font-size: 22px; padding: 6px 14px; border-radius: 6px; letter-spacing: .1em;
+         animation: late 1.6s ease-in-out infinite; }
+  @keyframes late { 50% { opacity: .55; } }
+  .fecha { margin-left: auto; color: var(--gris); font-size: 28px; }
+  .avance { position: absolute; left: 0; bottom: 0; height: 5px; background: var(--acento); width: 100%; transform-origin: left;
+            animation: avance var(--dur) linear both; }
+  @keyframes avance { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+  /* Cortinilla al entrar a la escena (transición entre notas). */
+  .cortina { position: absolute; inset: 0; background: var(--acento); z-index: 50; animation: cortina .7s cubic-bezier(.7,0,.3,1) both; }
+  @keyframes cortina { from { transform: translateX(0); } to { transform: translateX(105%); } }
+
+  /* Nota: etiqueta de sección, texto que entra palabra por palabra, marca de agua y zócalo con el medio. */
+  .marca { position: absolute; right: -40px; top: 170px; font-size: 230px; font-weight: 900; opacity: .05; white-space: nowrap;
+           animation: marca var(--dur) linear both; }
+  @keyframes marca { from { transform: translateX(120px); } to { transform: translateX(-160px); } }
+  .seccion { position: absolute; left: 110px; top: 190px; display: flex; align-items: center; gap: 20px; animation: entraIzq .6s .35s cubic-bezier(.2,.8,.2,1) both; }
+  .seccion .barra { width: 14px; height: 74px; background: var(--acento); border-radius: 4px; }
+  .seccion b { font-size: 56px; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
+  @keyframes entraIzq { from { opacity: 0; transform: translateX(-80px); } to { opacity: 1; transform: none; } }
+  .texto { position: absolute; left: 110px; right: 160px; top: 330px; font-size: 64px; line-height: 1.32; font-weight: 600; }
+  .texto span { display: inline-block; opacity: 0; animation: palabra .45s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes palabra { from { opacity: 0; transform: translateY(26px); filter: blur(6px); } to { opacity: 1; transform: none; filter: none; } }
+  .zocalo { position: absolute; left: 110px; bottom: 150px; display: flex; align-items: stretch; animation: sube .6s .9s cubic-bezier(.2,.8,.2,1) both; }
+  .zocalo .tag { background: var(--acento); color: #111; font-weight: 800; font-size: 26px; padding: 14px 22px; letter-spacing: .06em; }
+  .zocalo .medio { background: rgba(255,255,255,.1); backdrop-filter: blur(6px); font-size: 30px; padding: 12px 26px; font-weight: 600; }
+  .zocalo .nota { color: var(--gris); font-size: 22px; margin-top: 12px; }
+  @keyframes sube { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: none; } }
+
+  /* Cintillo inferior con los titulares del día corriendo. */
+  .cinta { position: absolute; left: 0; right: 0; bottom: 0; height: 74px; background: rgba(0,0,0,.55); display: flex; align-items: center; overflow: hidden; }
+  .cinta .rotulo { flex: none; height: 100%; display: flex; align-items: center; padding: 0 26px; background: var(--rojo); font-weight: 800; font-size: 24px; letter-spacing: .1em; z-index: 2; }
+  .cinta .pista { white-space: nowrap; font-size: 28px; color: #dfe6ee; animation: cinta 70s linear infinite; padding-left: 40px; }
+  .cinta .pista i { color: var(--oro); font-style: normal; font-weight: 700; margin: 0 14px 0 34px; }
+  @keyframes cinta { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* Portada y cierre. */
+  .centro { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; }
+  .rosa { width: 260px; height: 260px; animation: rosa 2.2s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes rosa { from { transform: rotate(-200deg) scale(.3); opacity: 0; } to { transform: none; opacity: 1; } }
+  .titulo { font-size: 128px; font-weight: 900; letter-spacing: .02em; }
+  .titulo span { display: inline-block; animation: letra .6s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes letra { from { opacity: 0; transform: translateY(60px) scale(.8); } to { opacity: 1; transform: none; } }
+  .sub { font-size: 44px; color: var(--gris); animation: sube .8s 1.6s both; }
+  .linea { width: 0; height: 6px; background: var(--acento); animation: linea 1s 1.3s cubic-bezier(.2,.8,.2,1) both; }
+  @keyframes linea { to { width: 520px; } }
+
+  /* Clima: tarjetas que entran escalonadas y temperaturas que cuentan hacia arriba. */
+  .clima { position: absolute; left: 110px; right: 110px; top: 170px; }
+  .clima h2 { font-size: 60px; margin-bottom: 26px; animation: entraIzq .6s .3s both; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+  .cols h3 { color: var(--oro); font-size: 34px; margin-bottom: 14px; animation: entraIzq .5s .5s both; }
+  .tarjeta { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,.07); border-radius: 12px;
+             padding: 12px 22px; margin-bottom: 10px; font-size: 32px; animation: sube .5s both; }
+  .tarjeta .t { font-weight: 800; }
+  .tarjeta .t .mx { color: #ff9b6a; } .tarjeta .t .mn { color: #7fb6ff; }
+  .cuenta { animation: cuenta 1.4s ease-out both; counter-reset: n var(--n); }
+  .cuenta::after { content: counter(n) "°"; }
+  @keyframes cuenta { from { --n: 0; } to { --n: var(--fin); } }
+  .alertas { margin-top: 20px; font-size: 28px; color: #ffd27a; animation: sube .6s 2.5s both; }
+
+  /* Indicadores. */
+  .indic { position: absolute; left: 110px; right: 110px; top: 190px; }
+  .indic h2 { font-size: 60px; margin-bottom: 30px; animation: entraIzq .6s .3s both; }
+  .fila { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid rgba(255,255,255,.12); padding: 20px 0; animation: entraIzq .5s both; }
+  .fila .e { font-size: 40px; color: var(--gris); } .fila .v { font-size: 58px; font-weight: 800; } .fila small { display: block; color: var(--gris); font-size: 22px; text-align: right; }
+</style>
+</head>
+<body>
+<div class="fondo"></div><div class="brillo"></div><div class="brillo b2"></div><div class="rejilla"></div>
+<div id="lienzo"></div>
+<script>
+const COLORES = { politica_mx: "#d7263d", geopolitica: "#e2533b", economia: "#d9a826", indicadores: "#d9a826", forex: "#d9a826", bonos: "#d9a826",
+  oro: "#e3b341", metales: "#c0a060", energia: "#f08a24", crisis_energetica: "#f08a24", empresas: "#2f80ed", sectores: "#2f80ed",
+  nearshoring: "#2f80ed", inmobiliario: "#8a6df0", cripto: "#9b5de5", blockchain: "#9b5de5", cbdc: "#9b5de5", tecnologia: "#00b4d8",
+  organismos: "#3aa0ff", salud: "#2ec4b6", nutricion: "#2ec4b6", agenda2030: "#43aa8b", clima: "#4cc9f0", eventos_impacto: "#4cc9f0",
+  cultura: "#f15bb5", espectaculos: "#f15bb5", gastronomia_viajes: "#ff8c42", belleza_moda: "#f15bb5", infantil: "#ffd166", conspiracion: "#adb5bd" };
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ROSA = `<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4" opacity=".9"/>
+  <g class="aguja"><path d="M50 10 L58 50 L50 90 L42 50 Z" fill="#d9a826"/><path d="M50 10 L58 50 L42 50 Z" fill="#d7263d"/></g>
+  <circle cx="50" cy="50" r="5" fill="#eef2f6"/></svg>`;
+
+function arriba(m) {
+  return `<div class="arriba"><div class="logo">${ROSA}<span>BRÚJULA DIARIA</span></div><span class="hoy">HOY</span>
+    <span class="fecha">${esc(m.fecha)}</span><div class="avance"></div></div>`;
+}
+function cinta(m) {
+  const items = (m.titulares || []).map((t) => `<i>${esc(t.s)}</i>${esc(t.t)}`).join("");
+  return items ? `<div class="cinta"><div class="rotulo">TITULARES</div><div class="pista">${items}${items}</div></div>` : "";
+}
+function palabras(t, inicio = 0.8, paso = 0.07) {
+  return esc(t).split(/\s+/).map((w, i) => `<span style="animation-delay:${(inicio + i * paso).toFixed(2)}s">${w}</span>`).join(" ");
+}
+
+window.escena = (e, m) => {
+  document.documentElement.style.setProperty("--dur", `${m.dur}s`);
+  if (e.seccion && COLORES[e.seccion]) document.documentElement.style.setProperty("--acento", COLORES[e.seccion]);
+  let h = "";
+  if (e.tipo === "portada" || e.tipo === "cierre" || e.tipo === "seccion") {
+    const tit = [...(e.encabezado || "")].map((c, i) => `<span style="animation-delay:${(0.5 + i * 0.05).toFixed(2)}s">${c === " " ? "&nbsp;" : esc(c)}</span>`).join("");
+    h = `<div class="centro"><div class="rosa">${ROSA}</div><div class="titulo">${tit}</div><div class="linea"></div>
+         <div class="sub">${esc(e.texto || "").replace(/\n/g, "<br>")}</div></div>`;
+  } else if (e.tipo === "clima") {
+    const col = (titulo, filas, d0) => `<div><h3>${titulo}</h3>${(filas || []).slice(0, 8).map((f, i) =>
+      `<div class="tarjeta" style="animation-delay:${(d0 + i * 0.12).toFixed(2)}s"><span>${esc(f[0])}</span>
+       <span class="t"><span class="mx cuenta" style="--fin:${Math.max(0, Math.round(f[1]))};animation-delay:${(d0 + i * 0.12).toFixed(2)}s"></span> /
+       <span class="mn cuenta" style="--fin:${Math.max(0, Math.round(f[2]))};animation-delay:${(d0 + i * 0.12).toFixed(2)}s"></span></span></div>`).join("")}</div>`;
+    const al = [...(e.alertas || []), ...((e.ciclones || []).length ? [`Ciclones activos: ${e.ciclones.join(", ")}`] : [])];
+    h = `<div class="clima"><h2>${esc(e.encabezado)}</h2><div class="cols">${col("México", e.mx, 0.7)}${col("El mundo", e.mundo, 1.0)}</div>
+         ${al.length ? `<div class="alertas">${al.map(esc).join(" · ")}</div>` : ""}</div>`;
+  } else if (e.tipo === "economia" || e.tipo === "portafolio") {
+    const filas = e.filas || [{ etiqueta: e.texto || "", valor: "", fecha: "" }];
+    h = `<div class="indic"><h2>${esc(e.encabezado)}</h2>${filas.map((f, i) => `<div class="fila" style="animation-delay:${(0.6 + i * 0.25).toFixed(2)}s">
+         <span class="e">${esc(f.etiqueta)}</span><span><span class="v">${esc(f.valor)}</span>${f.fecha ? `<small>dato del ${esc(String(f.fecha).slice(0, 10))}</small>` : ""}</span></div>`).join("")}</div>`;
+  } else {
+    h = `<div class="marca">${esc(e.encabezado)}</div>
+      <div class="seccion"><div class="barra"></div><b>${esc(e.encabezado)}</b></div>
+      <div class="texto" style="font-size:${(e.texto || "").length > 230 ? 52 : (e.texto || "").length > 160 ? 58 : 64}px">${palabras(e.texto || "")}</div>
+      ${e.medio ? `<div class="zocalo"><div><div style="display:flex"><span class="tag">FUENTE</span><span class="medio">${esc(e.medio)}</span></div>
+        <div class="nota">Resumen propio · nota completa en la descripción</div></div></div>` : ""}`;
+  }
+  document.getElementById("lienzo").innerHTML = arriba(m) + h + (e.tipo === "portada" ? "" : cinta(m)) + (m.cortina ? '<div class="cortina"></div>' : "");
+};
+
+// Congela todas las animaciones y las lleva al instante t (segundos): grabar.mjs lo llama en cada cuadro.
+window.aTiempo = (t) => { for (const a of document.getAnimations()) { a.pause(); a.currentTime = t * 1000; } };
+</script>
+</body>
+</html>
