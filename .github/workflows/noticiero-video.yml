@@ -1,7 +1,7 @@
 name: Noticiero en video
 
-# Cada mañana arma Brújula Diaria (noticiero en video) (tools/noticiero_video): resúmenes propios de los reportes diarios de
-# México y global, indicadores de Economía y conteo del Portafolio; voz sintética Piper (es_MX). El video queda como
+# Cada mañana arma Brújula Diaria (noticiero en video) (tools/noticiero_video): lo relevante de cada sección del Noticiero,
+# elegido y redactado con palabras propias por la IA local (modelo abierto), el clima, indicadores y el Portafolio; voz sintética Piper (es_MX). El video queda como
 # artefacto de la corrida (7 días) y, si existen los secretos YT_CLIENT_ID, YT_CLIENT_SECRET y YT_REFRESH_TOKEN, se
 # sube a YouTube siempre como privado: el noticiero en video es solo para administración.
 on:
@@ -23,7 +23,7 @@ concurrency:
 jobs:
   video:
     runs-on: ubuntu-latest
-    timeout-minutes: 40
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
@@ -46,8 +46,31 @@ jobs:
           for f in onnx onnx.json; do
             curl -sSfL -o "voz/es_MX-claude-high.$f" "https://huggingface.co/rhasspy/piper-voices/resolve/main/es/es_MX/claude/high/es_MX-claude-high.$f"
           done
+      - name: Caché del modelo abierto y de llama.cpp (el mismo de la ingesta)
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/llm
+          key: llm-qwen3-4b-2507-q4km-llamacpp-b12292
+      - name: Descargar y verificar el modelo y llama.cpp (solo la primera vez)
+        continue-on-error: true
+        run: |
+          mkdir -p ~/.cache/llm && cd ~/.cache/llm
+          [ -f modelo.gguf ] || curl -sSfL -o modelo.gguf "https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
+          [ -f llama.tgz ] || curl -sSfL -o llama.tgz "https://github.com/ggml-org/llama.cpp/releases/download/b12292/llama-b12292-bin-ubuntu-x64.tar.gz"
+          printf '%s  %s\n' 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597 modelo.gguf ffaf53f17a4601493e6ffb5869c9f0c7d400bb7e124fe0096eee3b65a5862568 llama.tgz | sha256sum -c -
+          [ -x llama-b12292/llama-server ] || tar xzf llama.tgz
+      - name: Arrancar la IA local (elige y redacta lo relevante de cada sección)
+        id: ia
+        continue-on-error: true
+        run: |
+          cd ~/.cache/llm
+          printf '%s  %s\n' 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597 modelo.gguf | sha256sum -c -
+          nohup ./llama-b12292/llama-server -m modelo.gguf --host 127.0.0.1 --port 8080 -c 8192 -t "$(nproc)" --jinja > ~/llama.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:8080/health && echo "url=http://127.0.0.1:8080/v1/chat/completions" >> "$GITHUB_OUTPUT"
       - name: Armar el video
         env:
+          IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
           PIPER_MODELO: voz/es_MX-claude-high.onnx
           FECHA: ${{ github.event.inputs.fecha }}
         run: |

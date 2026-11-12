@@ -1,7 +1,7 @@
 """Arma el video de Brújula Diaria: una pantalla por escena (Pillow), voz con Piper y unión con ffmpeg.
 
 Uso:  python3 tools/noticiero_video/render.py SALIDA_DIR [--fecha AAAA-MM-DD] [--sitio URL] [--modelo voz.onnx]
-Lee los reportes y los indicadores del sitio publicado (o de archivos locales con --datos DIR) y escribe en SALIDA_DIR:
+Lee el Noticiero (las 30 secciones), el clima y los indicadores del sitio publicado (o de archivos locales con --datos DIR) y escribe en SALIDA_DIR:
   noticiero.mp4, guion.json, descripcion.txt y miniatura.png.
 Sin Piper (o sin modelo de voz) cada escena dura según su texto y el video sale sin voz: sirve para revisar el diseño.
 """
@@ -16,7 +16,8 @@ import urllib.request
 from datetime import datetime, timedelta, timezone
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import guion  # noqa: E402
+from guion import candidatos_seccion, guion  # noqa: E402
+from redactar import elegir_y_redactar  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
@@ -63,6 +64,21 @@ def pantalla(e, n, total, fecha):
             for parte in textwrap.wrap(linea, 60) or [""]:
                 d.text((W // 2, y), parte, font=fuente(40), fill=GRIS, anchor="mm")
                 y += 56
+    elif e["tipo"] == "clima":
+        d.text((96, 150), e["encabezado"], font=fuente(64, True), fill=TINTA)
+        for x0, titulo, filas in ((96, "México", e.get("mx") or []), (W // 2 + 40, "El mundo", (e.get("mundo") or [])[:8])):
+            d.text((x0, 250), titulo, font=fuente(40, True), fill=ORO)
+            y = 310
+            for c, mx, mn in filas[:8]:
+                d.text((x0, y), c, font=fuente(36), fill=TINTA)
+                d.text((x0 + 760, y), f"{mx}° / {mn}°", font=fuente(36, True), fill=TINTA, anchor="ra")
+                y += 54
+        y = 760
+        for linea in (e.get("alertas") or []) + ([f"Ciclones activos: {', '.join(e['ciclones'])}"] if e.get("ciclones") else []):
+            for parte in textwrap.wrap(linea, 80)[:2]:
+                d.text((96, y), parte, font=fuente(32), fill=GRIS)
+                y += 44
+        d.text((96, H - 100), "Máxima / mínima de hoy · pronóstico de MET Norway (CC BY 4.0), no es aviso oficial", font=fuente(26), fill=GRIS)
     elif e["tipo"] == "economia":
         d.text((96, 170), e["encabezado"], font=fuente(72, True), fill=TINTA)
         y = 320
@@ -73,7 +89,7 @@ def pantalla(e, n, total, fecha):
             d.line([96, y + 108, W - 96, y + 108], fill=(50, 58, 68), width=2)
             y += 140
     else:
-        d.rectangle([96, 160, 96 + 14, 240], fill=ROJO if e["encabezado"] == "México" else ORO)
+        d.rectangle([96, 160, 96 + 14, 240], fill=ROJO if e.get("seccion") == "politica_mx" else ORO)
         d.text((130, 166), e["encabezado"].upper(), font=fuente(56, True), fill=TINTA)
         y = 330
         for parte in textwrap.wrap(e.get("texto", ""), 46)[:9]:
@@ -137,12 +153,11 @@ def main():
     a = ap.parse_args()
     hoy = (datetime.now(timezone.utc) - timedelta(hours=6)).strftime("%Y-%m-%d")
     fecha = a.fecha or hoy
-    rep_mx = leer_seguro(a.sitio, f"data/reportes/mexico/{fecha}.json")
-    rep_gl = leer_seguro(a.sitio, f"data/reportes/global/{fecha}.json")
-    if not rep_mx and not rep_gl:  # temprano en la mañana el reporte del día puede no existir aún: se usa el de ayer
-        ayer = (datetime.fromisoformat(fecha) - timedelta(days=1)).strftime("%Y-%m-%d")
-        rep_mx, rep_gl = leer_seguro(a.sitio, f"data/reportes/mexico/{ayer}.json"), leer_seguro(a.sitio, f"data/reportes/global/{ayer}.json")
-    g = guion(fecha, rep_mx, rep_gl, leer_seguro(a.sitio, "data/economia/indicadores.json"), leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "daily_report.json") if a.sitio.startswith("http") else None)
+    cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"))
+    elegidas = elegir_y_redactar(cands, os.environ.get("IA_LOCAL_URL", "").strip() or None)
+    clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
+    portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "daily_report.json") if a.sitio.startswith("http") else None
+    g = guion(fecha, elegidas, leer_seguro(a.sitio, "data/economia/indicadores.json"), portafolio, clima)
     if g["notas"] < 3:
         print(f"Solo {g['notas']} nota(s): no se arma el video de hoy.", file=sys.stderr)
         sys.exit(2)

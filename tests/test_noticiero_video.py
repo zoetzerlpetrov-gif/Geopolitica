@@ -37,27 +37,83 @@ def test_candidatos_une_destacados_y_secciones_sin_repetir():
     assert [x["id"] for x in G.candidatos(rep)] == ["n1", "n2"]
 
 
-def test_guion_completo_con_economia_portafolio_y_descripcion():
-    mx_txt = ["Trabajadores del seguro social pidieron detener sanciones en cuatro entidades durante una protesta laboral.",
-              "La exportación de vehículos ligeros cayó en octubre frente al mismo mes del año anterior, según la industria.",
-              "Pacientes oncológicos de Tijuana denuncian cuatro meses sin medicamentos ni estudios de laboratorio."]
-    gl_txt = ["Francia aprobó su presupuesto anual tras una votación cerrada en la Asamblea Nacional.",
-              "Japón elevó su alerta por erupción en un volcán del sur y evacuó a residentes cercanos.",
-              "Brasil anunció un plan de reforestación amazónica financiado por un fondo internacional."]
-    rmx = {"destacados": [nota(i, t, area=f"m{i}") for i, t in enumerate(mx_txt)]}
-    rgl = {"destacados": [nota(10 + i, t, pais=p, area=f"a{i}") for i, (t, p) in enumerate(zip(gl_txt, ["FRA", "JPN", "BRA"]))]}
+NOTI = {"generado_utc": "2026-11-12T00:00:00Z", "notas": [
+    {"t": "Banxico recorta su tasa de interés a 6.75 por ciento", "u": "https://a.mx/1", "m": "El Economista", "f": "2026-11-11T20:00:00Z", "s": ["economia", "indicadores"]},
+    {"t": "Banxico baja la tasa de interés a 6.75 por ciento, informa el banco central", "u": "https://b.mx/1", "m": "El Financiero", "f": "2026-11-11T19:00:00Z", "s": ["economia"]},
+    {"t": "La inflación de octubre sube en Estados Unidos", "u": "https://c.mx/1", "m": "Expansión", "f": "2026-11-11T18:00:00Z", "s": ["economia"]},
+    {"t": "Nvidia Preparing To Fire Huang After Affair Report", "u": "https://d.com/1", "m": "ZeroHedge", "f": "2026-11-11T21:00:00Z", "s": ["tecnologia"]},
+    {"t": "El CEO de Nvidia, Jensen Huang, enfrenta presión de la junta", "u": "https://e.mx/1", "m": "Infobae", "f": "2026-11-11T21:30:00Z", "s": ["empresas"]},
+    {"t": "There are no tropical cyclones at this time.", "u": "https://nhc/1", "m": "NHC", "f": "2026-11-11T22:00:00Z", "s": ["clima"]},
+    {"t": "Frente frío número 12 traerá lluvias y descenso de temperatura al norte de México", "u": "https://f.mx/1", "m": "SMN", "f": "2026-11-11T22:00:00Z", "s": ["clima"]},
+    {"t": "Nota vieja de política", "u": "https://g.mx/1", "m": "X", "f": "2026-11-05T10:00:00Z", "s": ["politica_mx"]},
+]}
+CALOR = {"features": [
+    {"properties": {"name": "Ciudad de Mexico", "serie": [["2026-11-12", 20.3, 13.8, 20.3, 30, 2.9]]}},
+    {"properties": {"name": "Madrid", "onda_calor": False, "serie": [["2026-11-12", 15.2, 6.1, 15, 30, 2]]}},
+    {"properties": {"name": "Sevilla", "onda_calor": True, "calor_nivel": 2, "serie": [["2026-11-12", 33, 20, 34, 30, 2]]}},
+]}
+CICLONES = {"features": [{"properties": {"storm_name": "PENA-26"}}, {"properties": {"storm_name": "PENA-26"}}]}
+
+
+def test_candidatos_por_seccion_lo_relevante_sin_repetir_ni_vacios():
+    c = G.candidatos_seccion(NOTI)
+    assert "politica_mx" not in c, "nota de hace 6 días fuera de la ventana de 36 h"
+    assert [n["titulo"] for n in c["clima"]] == ["Frente frío número 12 traerá lluvias y descenso de temperatura al norte de México"]
+    eco = c["economia"]
+    assert eco[0]["url"] == "https://a.mx/1" and eco[0]["eco"] == 2, "la más repetida por otros medios va primero"
+    assert len(eco) == 2, "las dos notas de Banxico son el mismo tema: una sola candidata"
+    elegidas = G.elegir_sin_ia(c)
+    assert sum(1 for n in elegidas if "Nvidia" in n["titulo"]) == 1, "la historia de Nvidia no se repite en dos secciones"
+    assert all(G.en_espanol(n["titulo"]) for n in elegidas)
+
+
+def test_guion_completo_con_noticiero_clima_economia_portafolio_y_descripcion():
+    elegidas = G.elegir_sin_ia(G.candidatos_seccion(NOTI))
+    elegidas[0] = {**elegidas[0], "resumen": "El Banco de México redujo su tasa de referencia y mencionó la evolución reciente de la inflación."}
     ind = {"indicadores": [{"id": "mx_fix", "puntos": [["2026-11-10", 18.6678]]}, {"id": "mx_tasa", "puntos": [["2026-11-11", 6.25]]}]}
     port = {"noticias": {"instrumentos_con_noticias": 87}, "report": {"comprar": [{"ticker": "X"}]}}
-    g = G.guion("2026-11-11", rmx, rgl, ind, port)
+    g = G.guion("2026-11-12", elegidas, ind, port, {"calor": CALOR, "ciclones": CICLONES})
     tipos = [e["tipo"] for e in g["escenas"]]
-    assert tipos[0] == "portada" and tipos[-1] == "cierre" and "economia" in tipos and "portafolio" in tipos
-    assert g["notas"] == 6 and g["titulo"].startswith("Brújula Diaria · Miércoles 11 de noviembre de 2026")
+    assert tipos[0] == "portada" and tipos[-1] == "cierre" and "clima" in tipos and "economia" in tipos and "portafolio" in tipos
+    assert g["titulo"].startswith("Brújula Diaria · Jueves 12 de noviembre de 2026")
+    clima = next(e for e in g["escenas"] if e["tipo"] == "clima")
+    assert clima["mx"] == [("Ciudad de México", 20, 14)] and clima["ciclones"] == ["Pena"] and "Sevilla" in clima["alertas"][0]
+    assert "no es un aviso oficial" in clima["voz"]
+    secs = [e.get("seccion") for e in g["escenas"]]
+    assert secs[tipos.index("clima") - 1] == "clima", "el bloque del clima va justo después de la sección Clima"
     eco = next(e for e in g["escenas"] if e["tipo"] == "economia")
     assert eco["filas"][0]["valor"] == "18.67 pesos por dólar" and "18 punto 67" in eco["voz"]
     port_e = next(e for e in g["escenas"] if e["tipo"] == "portafolio")
-    assert "No es asesoría" in port_e["voz"] and "comprar" not in port_e["voz"].lower() and "X" not in port_e["texto"].split()
-    assert "https://ejemplo.mx/10" in g["descripcion"] and "voz es sintética" in g["descripcion"]
-    assert all(len(e["voz"]) < 1500 for e in g["escenas"])
+    assert "No es asesoría" in port_e["voz"] and "comprar" not in port_e["voz"].lower()
+    primera = next(e for e in g["escenas"] if e["tipo"] == "nota")
+    assert primera["voz"].startswith("Economía. El Banco de México redujo") and "Fuente: El Economista" in primera["voz"]
+    assert "https://a.mx/1" in g["descripcion"] and "MET Norway" in g["descripcion"] and "voz es sintética" in g["descripcion"]
+    import json
+    json.dumps(g, ensure_ascii=False)  # sin conjuntos internos
+
+
+def test_redactar_con_ia_elige_valida_y_cae_a_titulares_en_espanol():
+    import redactar as R
+    c = G.candidatos_seccion(NOTI)
+    llamadas = []
+
+    def pedir(url, seccion, lista):
+        llamadas.append(seccion)
+        if seccion == "Economía":
+            return '{"elegida": 1, "resumen": "El Banco de México redujo su tasa de interés de referencia en un cuarto de punto, hasta seis punto setenta y cinco por ciento."}'
+        if seccion == "Tecnología":
+            return '{"elegida": 1, "resumen": "Nvidia Preparing To Fire Huang After Affair Report"}'  # copia del título: se rechaza
+        if seccion == "Clima y desastres":
+            return '{"elegida": null}'  # ninguna corresponde: la sección se omite
+        return '{"elegida": 9, "resumen": "x"}'  # número inexistente
+
+    elegidas = R.elegir_y_redactar(c, "http://ia", pedir_fn=pedir)
+    por_sec = {n["seccion"]: n for n in elegidas}
+    assert por_sec["economia"]["resumen"].startswith("El Banco de México redujo")
+    assert "tecnologia" not in por_sec, "resumen inválido y título en inglés: no se lee"
+    assert "clima" not in por_sec
+    assert R.elegir_y_redactar(c, None) == G.elegir_sin_ia(c)
+    assert R.valida("Texto con enlace https://x.com y suficientes palabras para pasar el mínimo de diez palabras aquí", "t") is None
 
 
 def test_metadatos_youtube_privado_y_voz_sintetica_declarada():
