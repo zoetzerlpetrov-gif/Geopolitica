@@ -438,7 +438,7 @@ def datos_por_seccion(ind):
                     cambio_v = (f", {'sube' if d > 0 else 'baja'} {abs(d):.2f} puntos" if d else ", sin cambio") + " frente al dato anterior"
                 else:
                     pct = round((v / p - 1) * 100, 2)
-                    cambio_t = f" ({pct:+.2f} %)"
+                    cambio_t = f" ({pct:+.2f} %)" if pct else " (sin cambio)"   # nunca «-0.00 %»
                     cambio_v = (f", {'sube' if pct > 0 else 'baja'} {abs(pct):.2f} %" if pct else ", sin cambio") + " frente al dato anterior"
             fecha = str(x.get("fecha", ""))[:10]
             try:
@@ -446,7 +446,8 @@ def datos_por_seccion(ind):
             except (ValueError, IndexError):
                 pass
             textos.append(f"{x.get('corto', i)}: {valor_t}{cambio_t} · {fecha}")
-            voces.append(f"{_NOMBRE_VOZ.get(i, x.get('corto', i))} está en {valor_v}{cambio_v}")
+            nombre = _NOMBRE_VOZ.get(i, x.get('corto', i))
+            voces.append(f"{nombre} {'están' if nombre.startswith('los ') else 'está'} en {valor_v}{cambio_v}")
             partes.append((i, textos[-1], voces[-1]))
         if textos:
             out[sec] = {"texto": "\n".join(textos), "voz": "Dato del día: " + "; ".join(voces) + ".", "partes": partes}
@@ -569,7 +570,9 @@ def bloque_economia(indicadores):
             continue
         f, v = p
         valor = fmt(float(v))
-        filas.append({"etiqueta": etiqueta, "valor": valor, "fecha": f, "voz": voz.format(v=valor.split(" ")[0]) + f", dato del {fecha_larga(f[:10])}."})
+        # Series mensuales (fecha el día 1, como la inflación): «dato de octubre de 2026», no «del jueves 1 de octubre».
+        cuando = f"de {MESES[int(f[5:7]) - 1]} de {f[:4]}" if f[8:10] == "01" else f"del {fecha_larga(f[:10])}"
+        filas.append({"etiqueta": etiqueta, "valor": valor, "fecha": f, "voz": voz.format(v=valor.split(" ")[0]) + f", dato {cuando}."})
     return filas
 
 

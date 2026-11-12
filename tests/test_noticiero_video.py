@@ -329,3 +329,14 @@ def test_diario_oficial_resumen_e_implicacion():
     assert [n["seccion"] for n in G.con_dof(elegidas, r)] == ["politica_mx", "dof", "dof", "geopolitica"]
     v = G.con_resumen(r, {r[0]["url"]: r[0]["resumen"]}, {})
     assert v[1]["titular"] and "Fuente" not in v[0]["voz"]
+
+
+def test_sin_menos_cero_plural_y_fecha_mensual():
+    ind = {"grupos": [{"datos": [{"id": "SF43718", "corto": "Dólar FIX", "valor": 18.6188, "previo": 18.6189, "unidad": "MXN por USD", "fecha": "2026-11-12"},
+                                 {"id": "SF43936", "corto": "CETES 28 días", "valor": 6.2, "previo": 6.5, "unidad": "%", "fecha": "2026-11-12"}]}]}
+    d = G.datos_por_seccion(ind)
+    assert "(sin cambio)" in d["economia"]["texto"] and "-0.00" not in d["economia"]["texto"]
+    assert "los CETES a 28 días están en" in d["bonos"]["voz"]
+    filas = G.bloque_economia({"indicadores": [{"id": "mx_inflacion", "puntos": [["2026-10-01", 3.75]]}, {"id": "mx_tasa", "puntos": [["2026-11-12", 6.25]]}]})
+    voz = " ".join(f["voz"] for f in filas)
+    assert "dato de octubre de 2026" in voz and "dato del jueves 12 de noviembre de 2026" in voz

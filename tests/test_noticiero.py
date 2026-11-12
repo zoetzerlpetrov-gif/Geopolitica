@@ -80,3 +80,10 @@ def test_feed_general_de_una_sola_seccion_se_filtra_por_palabras():
     pol = next(s for s in CFG["secciones"] if s["id"] == "politica_mx")
     assert any("contralacorrupcion.mx" in f["url"] for f in pol["feeds"])
     assert next(f for f in pol["feeds"] if f["nombre"] == "Infobae México").get("filtrar") is True
+
+
+def test_notas_guardadas_de_feeds_generales_tambien_se_filtran():
+    previos = [{"t": "Trufas de chocolate: receta fácil", "u": "u1", "m": "Infobae México", "f": "2026-11-12T09:00:00Z", "s": ["politica_mx"], "via": "rss"},
+               {"t": "Sheinbaum presenta reforma electoral", "u": "u2", "m": "Infobae México", "f": "2026-11-12T09:00:00Z", "s": ["politica_mx"], "via": "rss"},
+               {"t": "Receta de pozole", "u": "u3", "m": "Otro medio", "f": "2026-11-12T09:00:00Z", "s": ["gastronomia_viajes"], "via": "rss"}]
+    assert [n["u"] for n in N.refiltrar(previos, CFG, REGLAS)] == ["u2", "u3"]
