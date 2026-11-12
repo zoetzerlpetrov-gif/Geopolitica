@@ -709,29 +709,40 @@ def _malla(lat0, lat1, lon0, lon1, paso_lat=6.5, paso_lon=8.0):
     return pts
 
 
-# México se consulta en cada corrida; el resto del mundo se reparte entre corridas (rotación) porque adsb.lol limita el
-# ritmo (~75 zonas en el tope de 6 min). Radio de cada consulta: 250 millas náuticas (~4° de latitud).
+# México se consulta en cada corrida; el resto del mundo se reparte entre corridas (rotación intercalada por región)
+# porque adsb.lol limita el ritmo (~70 zonas por corrida; la vuelta completa tarda ~2 h). Radio de cada consulta: 250 millas náuticas (~4° de latitud).
 PUNTOS_FIJOS = _malla(14.5, 33.0, -117.5, -86.0, 5.5, 6.5)        # México con más detalle
-PUNTOS_ROTATIVOS = (
-    _malla(26.0, 52.0, -124.0, -68.0)                              # EUA y sur de Canadá
-    + _malla(8.0, 22.0, -92.0, -60.0, 7.0, 8.0)                    # Centroamérica y Caribe
-    + _malla(-35.0, 6.0, -80.0, -40.0, 10.0, 11.0)                 # Sudamérica
-    + _malla(36.0, 60.0, -9.0, 30.0)                               # Europa
-    + _malla(12.0, 40.0, 32.0, 60.0, 8.0, 9.0)                     # Medio Oriente y golfo Pérsico
-    + _malla(8.0, 32.0, 68.0, 90.0, 8.0, 9.0)                      # India
-    + _malla(22.0, 44.0, 100.0, 142.0, 7.0, 9.0)                   # China, Corea y Japón
-    + _malla(-8.0, 20.0, 95.0, 125.0, 8.0, 10.0)                   # Sudeste asiático
-    + _malla(-38.0, -12.0, 115.0, 153.0, 9.0, 12.0) + [(-41.0, 174.0)]  # Australia y Nueva Zelanda
-    + _malla(-34.0, 34.0, -10.0, 40.0, 13.0, 14.0)                 # África
-    + _malla(48.0, 62.0, 30.0, 60.0, 8.0, 12.0)                    # Rusia occidental
-    + [(50.0, -40.0), (47.0, -25.0), (45.0, -50.0), (55.0, -30.0), (53.0, -15.0)]   # Atlántico norte
-    + [(5.0, -30.0), (-10.0, -25.0)]                               # Atlántico sur (Europa–Sudamérica)
-    + [(48.0, -150.0), (52.0, 170.0), (45.0, 160.0), (21.0, -157.0), (30.0, -140.0)]  # Pacífico norte y Hawái
-    + [(5.0, 75.0), (-20.0, 57.0)]                                 # Océano Índico
-    + [(60.0, -150.0), (64.0, -20.0)]                              # Alaska e Islandia
-)
+REGIONES_ROTATIVAS = [
+    _malla(26.0, 52.0, -124.0, -68.0),                             # EUA y sur de Canadá
+    _malla(8.0, 22.0, -92.0, -60.0, 7.0, 8.0),                     # Centroamérica y Caribe
+    _malla(-35.0, 6.0, -80.0, -40.0, 10.0, 11.0),                  # Sudamérica
+    _malla(36.0, 60.0, -9.0, 30.0),                                # Europa
+    _malla(12.0, 40.0, 32.0, 60.0, 8.0, 9.0),                      # Medio Oriente y golfo Pérsico
+    _malla(8.0, 32.0, 68.0, 90.0, 8.0, 9.0),                       # India
+    _malla(22.0, 44.0, 100.0, 142.0, 7.0, 9.0),                    # China, Corea y Japón
+    _malla(-8.0, 20.0, 95.0, 125.0, 8.0, 10.0),                    # Sudeste asiático
+    _malla(-38.0, -12.0, 115.0, 153.0, 9.0, 12.0) + [(-41.0, 174.0)],  # Australia y Nueva Zelanda
+    _malla(-34.0, 34.0, -10.0, 40.0, 13.0, 14.0),                  # África
+    _malla(48.0, 62.0, 30.0, 60.0, 8.0, 12.0),                     # Rusia occidental
+    [(50.0, -40.0), (47.0, -25.0), (45.0, -50.0), (55.0, -30.0), (53.0, -15.0),   # Atlántico norte
+     (5.0, -30.0), (-10.0, -25.0),                                 # Atlántico sur (Europa–Sudamérica)
+     (48.0, -150.0), (52.0, 170.0), (45.0, 160.0), (21.0, -157.0), (30.0, -140.0),  # Pacífico norte y Hawái
+     (5.0, 75.0), (-20.0, 57.0), (60.0, -150.0), (64.0, -20.0)],   # Índico, Alaska e Islandia
+]
+
+
+def _intercalar(listas):
+    """Una zona de cada región por turno: cada corrida (una tanda consecutiva) toca todos los continentes."""
+    out, i = [], 0
+    while any(i < len(x) for x in listas):
+        out += [x[i] for x in listas if i < len(x)]
+        i += 1
+    return out
+
+
+PUNTOS_ROTATIVOS = _intercalar(REGIONES_ROTATIVAS)
 PUNTOS_ADSBLOL = PUNTOS_FIJOS + PUNTOS_ROTATIVOS
-MAX_EDAD_PREVIOS = 60 * 60  # s: aviones de corridas anteriores que se conservan (con posición estimada) mientras la rotación vuelve
+MAX_EDAD_PREVIOS = 120 * 60  # s: aviones de corridas anteriores que se conservan (con posición estimada) mientras la rotación vuelve
 PAUSA_ADSBLOL = 1.5  # segundos entre consultas, por cortesía (sus límites son dinámicos)
 ESPERA_429_MAX = 30  # tope de espera cuando adsb.lol pide bajar el ritmo (HTTP 429)
 PRESUPUESTO_ADSBLOL = 480  # segundos máximos del paso: lo que no alcance se consulta en la siguiente corrida (rotación)

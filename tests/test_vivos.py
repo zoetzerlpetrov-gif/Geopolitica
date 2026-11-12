@@ -296,3 +296,13 @@ def test_rotacion_cubre_todos_los_continentes():
     assert hay(35, 60, -10, 30) and hay(20, 45, 100, 145) and hay(-40, -10, 110, 155) and hay(-35, 35, -10, 40)
     assert hay(8, 32, 68, 90) and hay(40, 60, -50, -10), "Europa, Asia oriental, Oceanía, África, India y Atlántico norte"
     assert 15 <= len(A.PUNTOS_FIJOS) <= 30
+
+
+def test_cada_tanda_de_la_rotacion_toca_todos_los_continentes():
+    """Con ~70 zonas por corrida, las primeras 70 ya deben incluir Europa, Asia, Oceanía, África y Sudamérica."""
+    import actualizar as A
+    tanda = A.PUNTOS_ROTATIVOS[:70]
+    def hay(lat0, lat1, lon0, lon1):
+        return any(lat0 <= la <= lat1 and lon0 <= lo <= lon1 for la, lo in tanda)
+    assert hay(35, 60, -10, 30) and hay(20, 45, 100, 145) and hay(-40, -10, 110, 155) and hay(-35, 35, -10, 40) and hay(-35, 6, -80, -40)
+    assert sorted(A.PUNTOS_ROTATIVOS) == sorted(p for r in A.REGIONES_ROTATIVAS for p in r)
