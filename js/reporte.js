@@ -14,7 +14,7 @@ export function htmlEvento(e) {
   return `<li id="ev-${esc(e.id)}"><span class="sev sev-${e.severidad}" title="Severidad ${e.severidad} · ${SEV[e.severidad] || ""}">${e.severidad}</span>
     <a href="${esc(safeUrl(e.url))}" target="_blank" rel="noopener noreferrer">${esc(e.titulo)}</a>
     <span class="meta">${esc(e.fuente || "")} · ${esc(hora(e.fecha_utc))}${e.automatico ? " · señal automática (GDELT, verificar)" : ""}${e.verificado ? " · 2 o más medios" : ""}</span>
-    ${e.resumen ? `<p>${esc(e.resumen)}</p>` : ""}</li>`;
+    ${e.resumen ? `<p>${esc(e.resumen)}${e.resumen_origen === "ia" ? ' <span class="chip etiqueta-ia" title="Resumen propio redactado por un modelo de lenguaje a partir del título y la descripción del medio. Puede contener errores: confirma en la fuente.">Generado con IA</span>' : ""}</p>` : ""}</li>`;
 }
 
 function htmlIA(ia, porId) {
