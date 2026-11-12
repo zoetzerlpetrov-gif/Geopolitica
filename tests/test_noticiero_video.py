@@ -187,3 +187,19 @@ def test_escenas_animadas_deterministas_y_sin_recursos_externos():
     assert "aTiempo" in js and "image2pipe" in js
     wf = open(os.path.join(base, "..", "..", ".github", "workflows", "noticiero-video.yml"), encoding="utf-8").read()
     assert "playwright@" in wf and "PLAYWRIGHT_MODULE" in wf
+
+
+def test_voz_de_brujula_es_kokoro_ef_dora_con_respaldo_piper(monkeypatch, tmp_path):
+    import render as R
+    wf = open(os.path.join(os.path.dirname(__file__), "..", ".github", "workflows", "noticiero-video.yml"), encoding="utf-8").read()
+    assert 'VOZ_MOTOR: "kokoro:ef_dora"' in wf and "kokoro==" in wf and "espeak-ng" in wf
+    usados = []
+    monkeypatch.setenv("VOZ_MOTOR", "kokoro:ef_dora")
+    monkeypatch.setattr(R, "voz_kokoro", lambda t, w, v: usados.append(v) or True)
+    assert R.voz("Hola", str(tmp_path / "a.wav"), None) and usados == ["ef_dora"]
+
+    def falla(*a):
+        raise RuntimeError("sin modelo")
+    monkeypatch.setattr(R, "voz_kokoro", falla)
+    monkeypatch.setattr(R.shutil, "which", lambda n: None)  # sin Piper tampoco: no hay voz, pero no truena
+    assert R.voz("Hola", str(tmp_path / "b.wav"), None) is False

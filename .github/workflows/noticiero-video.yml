@@ -1,7 +1,7 @@
 name: Noticiero en video
 
 # Cada mañana arma Brújula Diaria (noticiero en video) (tools/noticiero_video): lo relevante de cada sección del Noticiero,
-# elegido y redactado con palabras propias por la IA local (modelo abierto), el clima, indicadores y el Portafolio; voz sintética Piper (es_MX). El video queda como
+# elegido y redactado con palabras propias por la IA local (modelo abierto), el clima, indicadores y el Portafolio; voz sintética Kokoro (ef_dora; respaldo Piper es_MX). El video queda como
 # artefacto de la corrida (7 días) y, si existen los secretos YT_CLIENT_ID, YT_CLIENT_SECRET y YT_REFRESH_TOKEN, se
 # sube a YouTube siempre como privado: el noticiero en video es solo para administración.
 on:
@@ -31,8 +31,18 @@ jobs:
           python-version: "3.12"
       - name: ffmpeg (los servidores de GitHub ya no lo traen instalado)
         run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-dejavu-core
-      - name: Piper (voz) y Pillow (pantallas de respaldo)
+      - name: Piper (voz de respaldo) y Pillow (pantallas de respaldo)
         run: pip install piper-tts==1.3.0 pillow==11.3.0
+      - name: Voz de Brújula Diaria (Kokoro-82M, Apache-2.0, voz ef_dora)
+        continue-on-error: true  # si falla, se usa Piper
+        run: |
+          sudo apt-get install -y -qq espeak-ng
+          pip install -q --extra-index-url https://download.pytorch.org/whl/cpu "kokoro==0.9.4" soundfile==0.13.1
+      - name: Caché del modelo de voz Kokoro
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/huggingface
+          key: kokoro-82m-v1_0
       - name: Navegador para las escenas animadas (Playwright con Chromium) y fuente Inter
         continue-on-error: true  # sin navegador, el video sale con pantallas fijas
         run: |
@@ -78,6 +88,7 @@ jobs:
         env:
           IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
           PIPER_MODELO: voz/es_MX-claude-high.onnx
+          VOZ_MOTOR: "kokoro:ef_dora"
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           FECHA: ${{ github.event.inputs.fecha }}
         run: |

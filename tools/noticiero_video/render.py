@@ -1,4 +1,4 @@
-"""Arma el video de Brújula Diaria: una pantalla por escena (Pillow), voz con Piper y unión con ffmpeg.
+"""Arma el video de Brújula Diaria: escenas animadas (o pantallas fijas), voz Kokoro ef_dora (o Piper) y unión con ffmpeg.
 
 Uso:  python3 tools/noticiero_video/render.py SALIDA_DIR [--fecha AAAA-MM-DD] [--sitio URL] [--modelo voz.onnx]
 Lee el Noticiero (las 30 secciones), el clima y los indicadores del sitio publicado (o de archivos locales con --datos DIR) y escribe en SALIDA_DIR:
@@ -102,8 +102,36 @@ def pantalla(e, n, total, fecha):
     return im
 
 
+_KOKORO = {}
+
+
+def voz_kokoro(texto, wav, voz_id):
+    """Kokoro-82M (Apache-2.0), voz en español (p. ej. ef_dora). El modelo se carga una sola vez por corrida."""
+    try:
+        import numpy as np
+        import soundfile as sf
+        from kokoro import KPipeline
+    except ImportError:
+        return False
+    if "pipe" not in _KOKORO:
+        _KOKORO["pipe"] = KPipeline(lang_code="e")
+    trozos = [a for _, _, a in _KOKORO["pipe"](texto, voice=voz_id, speed=1.0)]
+    if not trozos:
+        return False
+    pausa = np.zeros(int(24000 * 0.25), dtype="float32")  # respiro corto al final de la escena
+    sf.write(wav, np.concatenate([*trozos, pausa]), 24000)
+    return os.path.exists(wav)
+
+
 def voz(texto, wav, modelo):
-    """Piper → WAV. Devuelve True si se generó."""
+    """VOZ_MOTOR=kokoro:<voz> (la de Brújula Diaria: kokoro:ef_dora) o Piper con el modelo .onnx. Si Kokoro falla, Piper."""
+    motor = os.environ.get("VOZ_MOTOR", "")
+    if motor.startswith("kokoro:"):
+        try:
+            if voz_kokoro(texto, wav, motor.split(":", 1)[1]):
+                return True
+        except Exception as e:  # noqa: BLE001
+            print(f"aviso: Kokoro falló ({type(e).__name__}); se usa Piper", file=sys.stderr)
     piper = shutil.which("piper")
     if not (piper and modelo and os.path.exists(modelo)):
         return False
