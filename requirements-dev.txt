@@ -1,13 +1,13 @@
 jsonschema==4.26.0
-pytest==8.4.2
-numpy==2.3.3
-shapely==2.1.1
-fpdf2==2.8.4
-pypdf==6.1.1
+pytest==9.2.0
+numpy==2.5.4
+shapely==2.2.0
+fpdf2==2.9.0
+pypdf==7.0.0
 
 # Contratos del monitor público en la nube
 httpx==0.28.1
 defusedxml==0.7.1
 
 # Normalización de posiciones ferroviarias abiertas GTFS-RT
-gtfs-realtime-bindings==1.0.0
+gtfs-realtime-bindings==3.0.0
