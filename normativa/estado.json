@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-11T21:32:15Z",
+ "generado_utc": "2026-11-12T10:13:22Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,9 +13,9 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 5,
+   "nuevas": 9,
    "error": "",
-   "hasta": "2026-11-11"
+   "hasta": "2026-11-12"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,7 +23,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-11"
+   "hasta": "2026-11-12"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
@@ -31,7 +31,7 @@
    "estado": "ok",
    "nuevas": 3,
    "error": "",
-   "hasta": "2026-11-11"
+   "hasta": "2026-11-12"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-11"
+   "hasta": "2026-11-12"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-11"
+   "hasta": "2026-11-12"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -76,24 +76,24 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-11",
-  "CAN": "2026-11-11",
-  "EUR": "2026-11-11",
-  "JPN": "2026-11-11",
-  "RUS": "2026-11-11",
+  "USA": "2026-11-12",
+  "CAN": "2026-11-12",
+  "EUR": "2026-11-12",
+  "JPN": "2026-11-12",
+  "RUS": "2026-11-12",
   "MEX": "2026-11-11"
  },
  "desactualizadas": [],
  "por_pais": {
+  "USA": {
+   "total": 33,
+   "alto": 0,
+   "ultimos_30d": 29
+  },
   "RUS": {
    "total": 10,
    "alto": 0,
    "ultimos_30d": 10
-  },
-  "USA": {
-   "total": 29,
-   "alto": 0,
-   "ultimos_30d": 25
   },
   "MEX": {
    "total": 536,
@@ -103,8 +103,8 @@
   "EUR": {
    "total": 49,
    "alto": 5,
-   "ultimos_30d": 46
+   "ultimos_30d": 41
   }
  },
- "agregadas_hoy": 0
+ "agregadas_hoy": 4
 }
