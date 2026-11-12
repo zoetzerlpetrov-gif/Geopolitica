@@ -7,7 +7,11 @@ Pasos:
      Te pide el ID y el secreto, abre el navegador, eliges la cuenta del canal y aceptas.
   3. Imprime un «refresh token». Cópialo en GitHub → Settings → Secrets and variables → Actions → New repository
      secret, con el nombre YT_REFRESH_TOKEN. Crea también YT_CLIENT_ID y YT_CLIENT_SECRET con los valores del paso 1.
-Solo pide permiso para SUBIR videos (scope youtube.upload): no puede leer ni borrar nada de tu cuenta.
+Pide dos permisos: SUBIR videos (youtube.upload) y ADMINISTRAR COMENTARIOS (youtube.force-ssl), para leer los
+comentarios de tus videos, proponer respuestas y retener para revisión los ofensivos. Google lo muestra como «ver,
+editar y borrar tus videos, calificaciones, comentarios y subtítulos»; el sistema no borra videos ni comentarios: las
+respuestas solo se publican cuando tú las apruebas en comentarios.html. Si ya tenías el token anterior, repite estos
+pasos y reemplaza YT_REFRESH_TOKEN.
 Sin dependencias: usa la biblioteca estándar de Python.
 """
 import getpass
@@ -20,7 +24,7 @@ import webbrowser
 
 AUTH = "https://accounts.google.com/o/oauth2/v2/auth"
 TOKEN = "https://oauth2.googleapis.com/token"
-SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+SCOPE = "https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtube.force-ssl"
 
 
 def main():

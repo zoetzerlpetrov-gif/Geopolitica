@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comentarios de Brújula Diaria</title>
+  <meta name="description" content="Solo administración: comentarios de los videos de Brújula Diaria con una respuesta propuesta por la IA para aprobar, editar o descartar.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 980px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 22px 0 6px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .ops textarea, .ops input[type=text] { font: inherit; width: 100%; box-sizing: border-box; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .ops textarea { min-height: 84px; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .barra button.si { background: #2e7d32; color: #fff; border-color: transparent; }
+    .barra button:disabled { opacity: .5; cursor: default; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .comentario { white-space: pre-wrap; background: var(--surface-2); padding: 8px 10px; border-radius: var(--radius); margin: 6px 0; }
+    .aviso { background: rgba(249,168,37,.25); padding: 8px 10px; border-radius: var(--radius); }
+    .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
+    details summary { cursor: pointer; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa (War Room)</a>
+    <h1>💬 Comentarios de Brújula Diaria (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Cada día a las 18:43 (Ciudad de México) el sistema lee los comentarios nuevos de los videos, retiene para revisión
+      los ofensivos o spam y la IA propone una respuesta para los demás (máximo 10 por video). <b>Nada se publica sin tu aprobación</b>:
+      revisa, edita si hace falta y pulsa «Publicar respuesta». La respuesta sale desde tu canal.</p>
+
+    <details class="tarjeta" id="cm-config">
+      <summary>⚙️ Conexión con YouTube (una sola vez por navegador)</summary>
+      <ol class="meta">
+        <li>En Google Cloud, en el mismo proyecto donde habilitaste YouTube Data API v3: «APIs y servicios» → «Credenciales» →
+          «Crear credenciales» → «ID de cliente de OAuth» → tipo <b>Aplicación web</b>.</li>
+        <li>En «Orígenes autorizados de JavaScript» agrega <code>https://zoetzerlpetrov-gif.github.io</code> y guarda.</li>
+        <li>Copia el «ID de cliente» (termina en <code>.apps.googleusercontent.com</code>) y pégalo aquí. No es secreto y se guarda
+          solo en este navegador; el «secreto del cliente» no se usa en esta página.</li>
+        <li>Pulsa «Conectar con YouTube» y elige la cuenta del canal. El permiso dura una hora; después vuelve a conectar.</li>
+      </ol>
+      <label>ID de cliente web <input type="text" id="cm-cliente" placeholder="123456789-abc.apps.googleusercontent.com" autocomplete="off"></label>
+      <div class="barra"><button type="button" id="cm-guardar">Guardar</button></div>
+    </details>
+
+    <div class="tarjeta">
+      <div id="cm-estado" aria-live="polite">Cargando…</div>
+      <div class="barra"><button type="button" id="cm-conectar" class="si">🔑 Conectar con YouTube</button>
+        <label><input type="checkbox" id="cm-ver-hechos"> Ver también los ya publicados o descartados</label></div>
+    </div>
+
+    <h2>Respuestas propuestas</h2>
+    <div id="cm-lista"></div>
+
+    <h2>Retenidos para revisión (ofensivos o spam)</h2>
+    <p class="meta">No se borran: quedan ocultos en YouTube hasta que decidas. «Mostrar» lo publica tal cual; «Rechazar» lo deja oculto.</p>
+    <div id="cm-retenidos"></div>
+  </main>
+  <script type="module" src="js/comentarios.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

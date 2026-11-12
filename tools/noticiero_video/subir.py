@@ -109,6 +109,9 @@ def subir(directorio):
     with urllib.request.urlopen(put, timeout=600) as r:
         res = json.load(r)
     print(f"Subido: https://youtu.be/{res.get('id')} ({res.get('status', {}).get('privacyStatus')})")
+    if os.environ.get("GITHUB_OUTPUT") and res.get("id"):
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+            f.write(f"video={res['id']}\n")  # el workflow guarda el guion para responder comentarios de este video
     return res.get("id")
 
 

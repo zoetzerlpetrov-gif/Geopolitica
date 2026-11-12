@@ -1,0 +1,78 @@
+name: Comentarios de YouTube
+
+# Una vez al día lee los comentarios nuevos de los videos de Brújula Diaria, retiene para revisión los ofensivos o
+# spam y propone con la IA local (modelo abierto) una respuesta para cada uno de los demás (máximo 10 por video).
+# Nada se publica aquí: las respuestas salen solo cuando la administración las aprueba en comentarios.html.
+# Publica comentarios/borradores.json (solo identificadores, categoría y texto propuesto; sin nombre ni texto de quien
+# comenta) en la rama datos-comentarios y vuelve a publicar el sitio.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "43 0 * * *"  # 18:43 en Ciudad de México
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: datos-comentarios
+  cancel-in-progress: false
+
+jobs:
+  proponer:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Guiones y borradores anteriores (rama datos-comentarios)
+        run: |
+          mkdir -p datos && cd datos
+          if git fetch --depth 1 origin datos-comentarios 2>/dev/null; then git archive FETCH_HEAD | tar -x; fi
+          mkdir -p guiones comentarios
+      - name: Caché del modelo abierto y de llama.cpp (el mismo de la ingesta)
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4
+        with:
+          path: ~/.cache/llm
+          key: llm-qwen3-4b-2507-q4km-llamacpp-b12292
+      - name: Descargar y verificar el modelo y llama.cpp (solo la primera vez)
+        continue-on-error: true
+        run: |
+          mkdir -p ~/.cache/llm && cd ~/.cache/llm
+          [ -f modelo.gguf ] || curl -sSfL -o modelo.gguf "https://huggingface.co/unsloth/Qwen3-4B-Instruct-2507-GGUF/resolve/main/Qwen3-4B-Instruct-2507-Q4_K_M.gguf"
+          [ -f llama.tgz ] || curl -sSfL -o llama.tgz "https://github.com/ggml-org/llama.cpp/releases/download/b12292/llama-b12292-bin-ubuntu-x64.tar.gz"
+          printf '%s  %s\n' 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597 modelo.gguf ffaf53f17a4601493e6ffb5869c9f0c7d400bb7e124fe0096eee3b65a5862568 llama.tgz | sha256sum -c -
+          [ -x llama-b12292/llama-server ] || tar xzf llama.tgz
+      - name: Arrancar la IA local
+        id: ia
+        continue-on-error: true
+        run: |
+          cd ~/.cache/llm
+          printf '%s  %s\n' 3605803b982cb64aead44f6c1b2ae36e3acdb41d8e46c8a94c6533bc4c67e597 modelo.gguf | sha256sum -c -
+          nohup ./llama-b12292/llama-server -m modelo.gguf --host 127.0.0.1 --port 8080 -c 8192 -t "$(nproc)" --jinja > ~/llama.log 2>&1 &
+          for i in $(seq 1 90); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 2; done
+          curl -sf http://127.0.0.1:8080/health && echo "url=http://127.0.0.1:8080/v1/chat/completions" >> "$GITHUB_OUTPUT"
+      - name: Leer comentarios y proponer respuestas
+        env:
+          IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python3 tools/noticiero_video/comentarios.py datos/comentarios datos/guiones
+      - name: Publicar en la rama datos-comentarios
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cd datos && rm -rf .git && git init -q && git checkout -q -b datos-comentarios
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add -A && git commit -q -m "comentarios $(date -u +'%Y-%m-%d %H:%M')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-comentarios
+  publicar:
+    needs: proponer
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit

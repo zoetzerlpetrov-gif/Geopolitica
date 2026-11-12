@@ -183,6 +183,11 @@
   },
   {
    "tipo": "pagina",
+   "href": "comentarios.html",
+   "nombre": "Comentarios de Brújula Diaria"
+  },
+  {
+   "tipo": "pagina",
    "href": "economia.html",
    "nombre": "Economía"
   },
