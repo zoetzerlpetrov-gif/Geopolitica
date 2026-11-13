@@ -21,7 +21,12 @@ export function clienteCartera(sb) {
     async pedirCodigo(correo) {
       correo = String(correo || "").trim().toLowerCase();
       if (!CORREO.test(correo) || correo.length > 254) throw new Error("Correo inválido.");
-      ok(await sb.auth.signInWithOtp({ email: correo, options: { shouldCreateUser: false } }));
+      const r = await sb.auth.signInWithOtp({ email: correo, options: { shouldCreateUser: false } });
+      // El registro libre está cerrado a propósito: solo entran correos dados de alta en Supabase.
+      if (r.error && /signups not allowed/i.test(r.error.message || "")) {
+        throw new Error("Ese correo no está dado de alta en tu proyecto de Supabase. Agrégalo en Supabase → Authentication → Users → Add user, y vuelve a pedir el código.");
+      }
+      ok(r);
     },
     async verificar(correo, codigo) {
       if (!/^\d{6,10}$/.test(String(codigo || ""))) throw new Error("El código es de 6 a 10 dígitos.");

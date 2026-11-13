@@ -94,3 +94,8 @@ test("enlace para compartir y SQL con seguridad por filas", () => {
   // INSERT … RETURNING: la lectura del dueño no puede depender de una consulta que aún no ve la fila nueva.
   assert.match(sql, /policy dominus_planes_leer[^;]*using \(owner = \(select auth\.uid\(\)\) or public\.dominus_planes_rol\(id\) is not null\);/);
 });
+
+test("correo no dado de alta: mensaje claro en español", async () => {
+  const sb = { auth: { getUser: async () => ({ data: {} }), signInWithOtp: async () => ({ error: { message: "Signups not allowed for otp" } }) } };
+  await assert.rejects(() => clienteCartera(sb).pedirCodigo("yo@x.com"), /no está dado de alta.*Add user/);
+});
