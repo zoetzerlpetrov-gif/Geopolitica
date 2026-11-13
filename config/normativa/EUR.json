@@ -1890,13 +1890,13 @@
           "tipo": "reglamento UE",
           "autoridad": "ECHA; Autoridades nacionales competentes de cada Estado miembro",
           "url": "https://eur-lex.europa.eu/eli/reg/2006/1907/oj",
-          "ultima_reforma": "verificar",
+          "ultima_reforma": "2026-11-12 (Reglamento (UE) 2026/2501, anexo XVII: plomo en aparejos de pesca)",
           "aplica": "Fabricantes e importadores de sustancias >= 1 t/año; usuarios intermedios; proveedores de artículos con SVHC > 0,1 %.",
           "obligaciones": [
             "Registrar sustancias >= 1 t/año ante la ECHA (art. 6).",
             "Fichas de datos de seguridad (art. 31).",
             "Comunicar SVHC en artículos y notificar a la base SCIP (art. 33; Directiva marco de residuos art. 9).",
-            "Cumplir restricciones del anexo XVII (p. ej., microplásticos 2023/2055) y autorizaciones del anexo XIV.",
+            "Cumplir restricciones del anexo XVII (p. ej., microplásticos 2023/2055; plomo en aparejos de pesca, Reglamento (UE) 2026/2501: verificar plazos de aplicación) y autorizaciones del anexo XIV.",
             "Clasificar, etiquetar y envasar mezclas según CLP; nuevas reglas de etiquetado aplicables por fases (verificar plazos tras 2024/2865 y el omnibus químico de 2025)."
           ],
           "tramites": [
