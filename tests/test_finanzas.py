@@ -112,3 +112,48 @@ def test_concepto_sin_unidades_no_rompe():
     f["facts"]["us-gaap"]["InventoryNet"] = {"units": {}}
     f["facts"]["us-gaap"]["CostOfGoodsAndServicesSold"] = {"units": {}}
     assert E.estados(f)["anios"] == ["2023", "2024", "2025"]
+
+
+def test_limite_de_la_sec_no_es_sin_datos(tmp_path, monkeypatch):
+    import urllib.error
+
+    class R:
+        def __init__(self, cuerpo):
+            self.cuerpo = cuerpo
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return self.cuerpo
+
+    llamadas = []
+
+    def abrir(req, timeout=60):
+        llamadas.append(req.full_url)
+        raise urllib.error.HTTPError(req.full_url, 429, "Too Many", {}, None)
+    try:
+        E.pedir("https://data.sec.gov/x", abrir=abrir, dormir=lambda s: None)
+        assert False, "debía lanzar Limite"
+    except E.Limite:
+        pass
+    assert len(llamadas) == 4
+    # en main: si hay un análisis previo de esa empresa, se conserva
+    previo = tmp_path / "AAPL.json"
+    previo.write_text(json.dumps({"ticker": "AAPL", "anios": ["2025"], "calificacion": "verde", "moneda": "USD"}))
+
+    def pedir(url, **k):
+        if url == E.PORTAFOLIO:
+            return [{"ticker": "AAPL", "name": "Apple", "sector": "Tecnología"}]
+        if url == E.TICKERS:
+            return {"0": {"ticker": "AAPL", "cik_str": 320193}}
+        raise E.Limite("HTTP 429")
+    monkeypatch.setattr(E, "pedir", pedir)
+    monkeypatch.setattr(E.time, "sleep", lambda s: None)
+    E.main(str(tmp_path))
+    ind = json.load(open(tmp_path / "indice.json"))
+    assert ind["empresas"][0]["estado"] == "ok"
+    assert "corrida anterior" in json.load(open(previo))["nota"]

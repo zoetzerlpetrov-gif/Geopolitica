@@ -1,0 +1,6 @@
+<?xml version="1.0"?><edgarSubmission xmlns="http://www.sec.gov/edgar/nport"><formData><genInfo><repPdDate>2026-06-30</repPdDate></genInfo>
+<fundInfo><netAssets>1000</netAssets></fundInfo><invstOrSecs>
+<invstOrSec><name>Apple Inc</name><pctVal>40</pctVal><invCountry>US</invCountry><assetCat>EC</assetCat></invstOrSec>
+<invstOrSec><name>Texas Instruments Inc</name><pctVal>30</pctVal><invCountry>US</invCountry><assetCat>EC</assetCat></invstOrSec>
+<invstOrSec><name>Desconocida SA</name><pctVal>30</pctVal><invCountry>FR</invCountry><assetCat>EC</assetCat></invstOrSec>
+</invstOrSecs></formData></edgarSubmission>
