@@ -93,6 +93,15 @@ def clave_de(ticker):
     return list(dict.fromkeys(x for x in out if x))
 
 
+def elegir_clave(c, resultados):
+    """Clave exacta en la búsqueda de BIVA; si no, la única que sea la misma más un número (SITES → SITES1)."""
+    claves = [x.get("clave") or "" for x in resultados or []]
+    if c in claves:
+        return c
+    con_numero = [k for k in claves if re.fullmatch(re.escape(c) + r"\d+", k)]
+    return con_numero[0] if len(con_numero) == 1 else None
+
+
 def leer_xbrl(datos):
     """{concepto: {periodo: valor}} solo con hechos sin dimensiones (totales de la emisora) en moneda o número puro.
     Periodo: «AAAA-MM-DD/AAAA-MM-DD» para flujos o «AAAA-MM-DD» para saldos. También devuelve la moneda y si es FIBRA."""
@@ -302,8 +311,8 @@ def main(salida="finanzas"):
             for c in clave_de(t):
                 r = pedir(f"{BIVA}/emisoras/empresas/busqueda/{urllib.parse.quote(c)}") or []
                 time.sleep(PAUSA)
-                if any(x.get("clave") == c for x in r):
-                    clave = c
+                clave = elegir_clave(c, r)
+                if clave:
                     break
             if not clave:
                 fila.update(estado="sin_datos", motivo="No se encontró la clave de pizarra en BIVA.")
