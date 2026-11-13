@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-11T19:21:18Z",
+ "generado_utc": "2026-11-12T22:38:20Z",
  "fuente": "Wikidata (CC0)",
  "registros": [
   {
@@ -653,13 +653,13 @@
    "nombre": "Asian Cycling Confederation",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "KOR",
+   "pais_iso3": "MYS",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1053117",
    "sede": {
-    "lat": 37.56,
-    "lon": 126.99,
-    "ciudad": "Seúl"
+    "lat": 3.7805,
+    "lon": 102.3144,
+    "ciudad": "Malasia"
    },
    "indices": [],
    "personas": [],
@@ -721,13 +721,13 @@
    "nombre": "Global Partnership on Artificial Intelligence",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "FRA",
+   "pais_iso3": "CAN",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q105730365",
    "sede": {
-    "lat": 48.8567,
-    "lon": 2.3522,
-    "ciudad": "París"
+    "lat": 45.5033,
+    "lon": -73.5868,
+    "ciudad": "Montreal"
    },
    "indices": [],
    "personas": [],
@@ -847,8 +847,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1062121",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -4713,8 +4713,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1190266",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -4839,8 +4839,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q119847985",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -4907,13 +4907,13 @@
    "nombre": "Obra Germano-Polaca de Juventud",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "DEU",
+   "pais_iso3": "POL",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1201831",
    "sede": {
-    "lat": 52.4009,
-    "lon": 13.0591,
-    "ciudad": "Potsdam"
+    "lat": 52.23,
+    "lon": 21.0111,
+    "ciudad": "Varsovia"
    },
    "indices": [],
    "personas": [],
@@ -5449,8 +5449,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q124727709",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -7701,9 +7701,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1377229",
    "sede": {
-    "lat": 48.5733,
-    "lon": 7.7522,
-    "ciudad": "Estrasburgo"
+    "lat": 48.5918,
+    "lon": 7.77,
+    "ciudad": "Hôtel Schützenberger"
    },
    "indices": [],
    "personas": [],
@@ -8259,8 +8259,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1413357",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -9729,13 +9729,13 @@
    "nombre": "Unión Geográfica Internacional",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "ZAF",
+   "pais_iso3": "IND",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1580153",
    "sede": {
-    "lat": -33.9253,
-    "lon": 18.4239,
-    "ciudad": "Ciudad del Cabo"
+    "lat": 28.6667,
+    "lon": 77.2167,
+    "ciudad": "Delhi"
    },
    "indices": [],
    "personas": [],
@@ -10685,13 +10685,13 @@
    "nombre": "Federación Internacional de Escalada Deportiva",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "CHE",
+   "pais_iso3": "ITA",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q1666542",
    "sede": {
-    "lat": 46.948,
-    "lon": 7.4474,
-    "ciudad": "Berna"
+    "lat": 45.0792,
+    "lon": 7.6761,
+    "ciudad": "Turín"
    },
    "indices": [],
    "personas": [],
@@ -12043,9 +12043,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q17495",
    "sede": {
-    "lat": 46.948,
-    "lon": 7.4474,
-    "ciudad": "Berna"
+    "lat": 46.9391,
+    "lon": 7.4728,
+    "ciudad": "Union postale universelle UPU -Bern"
    },
    "indices": [],
    "personas": [],
@@ -12631,7 +12631,7 @@
    "sede": null,
    "indices": [],
    "personas": [
-    "Q305177"
+    "Q124912278"
    ],
    "fuente": "wikidata",
    "url_fuente": null
@@ -12699,9 +12699,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q18386297",
    "sede": {
-    "lat": 40.7128,
-    "lon": -74.0061,
-    "ciudad": "Nueva York"
+    "lat": 41.8819,
+    "lon": -87.6278,
+    "ciudad": "Chicago"
    },
    "indices": [],
    "personas": [],
@@ -15678,8 +15678,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q2386780",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -19524,9 +19524,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q32874",
    "sede": {
-    "lat": -33.4375,
-    "lon": -70.65,
-    "ciudad": "Santiago de Chile"
+    "lat": -33.4017,
+    "lon": -70.6006,
+    "ciudad": "Edificio de la Cepal"
    },
    "indices": [],
    "personas": [],
@@ -22642,13 +22642,13 @@
    "nombre": "ACORN International",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "USA",
+   "pais_iso3": "CAN",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q4650748",
    "sede": {
-    "lat": 29.9761,
-    "lon": -90.0783,
-    "ciudad": "Nueva Orleans"
+    "lat": 43.6703,
+    "lon": -79.3867,
+    "ciudad": "Toronto"
    },
    "indices": [],
    "personas": [],
@@ -22718,9 +22718,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q4689766",
    "sede": {
-    "lat": 30.0444,
-    "lon": 31.2358,
-    "ciudad": "El Cairo"
+    "lat": 30.1333,
+    "lon": 31.3,
+    "ciudad": "Heliópolis"
    },
    "indices": [],
    "personas": [],
@@ -22750,13 +22750,13 @@
    "nombre": "African Wildlife Foundation",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "KEN",
+   "pais_iso3": "UGA",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q4689959",
    "sede": {
-    "lat": -1.2864,
-    "lon": 36.8172,
-    "ciudad": "Nairobi"
+    "lat": 1.28,
+    "lon": 32.39,
+    "ciudad": "Uganda"
    },
    "indices": [],
    "personas": [],
@@ -22818,13 +22818,13 @@
    "nombre": "Organización Internacional para las Migraciones",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "CHE",
+   "pais_iso3": "CZE",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q472311",
    "sede": {
-    "lat": 46.2,
-    "lon": 6.15,
-    "ciudad": "Ginebra"
+    "lat": 50.0875,
+    "lon": 14.4214,
+    "ciudad": "Praga"
    },
    "indices": [],
    "personas": [],
@@ -26534,9 +26534,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q5987345",
    "sede": {
-    "lat": 46.2,
-    "lon": 6.15,
-    "ciudad": "Ginebra"
+    "lat": 46.2197,
+    "lon": 6.1508,
+    "ciudad": "Villa Moynier"
    },
    "indices": [],
    "personas": [],
@@ -27894,13 +27894,13 @@
    "nombre": "KAICIID Dialogue Centre",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "AUT",
+   "pais_iso3": "PRT",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q6324948",
    "sede": {
-    "lat": 48.2083,
-    "lon": 16.3725,
-    "ciudad": "Viena"
+    "lat": 38.708,
+    "lon": -9.139,
+    "ciudad": "Lisboa"
    },
    "indices": [],
    "personas": [],
@@ -28934,13 +28934,13 @@
    "nombre": "Gobiernos Locales por la Sostenibilidad",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "USA",
+   "pais_iso3": "DEU",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q677691",
    "sede": {
-    "lat": 40.7128,
-    "lon": -74.0061,
-    "ciudad": "Nueva York"
+    "lat": 50.7353,
+    "lon": 7.1022,
+    "ciudad": "Bonn"
    },
    "indices": [],
    "personas": [],
@@ -29916,9 +29916,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q7100663",
    "sede": {
-    "lat": 51.5072,
-    "lon": -0.1275,
-    "ciudad": "Londres"
+    "lat": 50.4353,
+    "lon": -3.5625,
+    "ciudad": "Paignton"
    },
    "indices": [],
    "personas": [],
@@ -30002,7 +30002,7 @@
    "nombre": "Unión Africana",
    "subtipo": "organismos_internacionales",
    "sector": null,
-   "pais_iso3": "ETH",
+   "pais_iso3": "ZAF",
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q7159",
    "sede": {
@@ -30778,8 +30778,8 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q757276",
    "sede": {
-    "lat": -18.1333,
-    "lon": 178.4333,
+    "lat": -18.1267,
+    "lon": 178.44,
     "ciudad": "Suva"
    },
    "indices": [],
@@ -32184,9 +32184,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q826700",
    "sede": {
-    "lat": 48.8567,
-    "lon": 2.3522,
-    "ciudad": "París"
+    "lat": 48.8544,
+    "lon": 2.2933,
+    "ciudad": "Carré Suffren"
    },
    "indices": [],
    "personas": [],
@@ -32202,9 +32202,9 @@
    "lei": null,
    "wikidata": "https://www.wikidata.org/wiki/Q827927",
    "sede": {
-    "lat": 51.5072,
-    "lon": -0.1275,
-    "ciudad": "Londres"
+    "lat": 53.0,
+    "lon": -1.0,
+    "ciudad": "Inglaterra"
    },
    "indices": [],
    "personas": [],
