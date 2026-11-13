@@ -105,3 +105,10 @@ def test_sin_identificacion_la_sec_da_403_y_se_explica(monkeypatch, tmp_path, ca
     monkeypatch.setattr(E, "pedir", pedir)
     assert E.main(str(tmp_path)) == 1
     assert "SEC_USER_AGENT" in capsys.readouterr().out
+
+
+def test_concepto_sin_unidades_no_rompe():
+    f = json.loads(json.dumps(F))
+    f["facts"]["us-gaap"]["InventoryNet"] = {"units": {}}
+    f["facts"]["us-gaap"]["CostOfGoodsAndServicesSold"] = {"units": {}}
+    assert E.estados(f)["anios"] == ["2023", "2024", "2025"]
