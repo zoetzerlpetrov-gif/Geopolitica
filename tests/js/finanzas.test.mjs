@@ -17,3 +17,11 @@ test("buscador por nombre o clave", () => {
   assert.equal(tickerDe("apple", ind), "AAPL");
   assert.equal(tickerDe("nada", ind), null);
 });
+
+test("solo enlaces de la SEC y claves del índice", async () => {
+  const { esSec } = await import("../../js/finanzas.js");
+  assert.equal(esSec("https://www.sec.gov/Archives/edgar/data/1/2/a.htm"), true);
+  assert.equal(esSec("javascript:alert(1)"), false);
+  assert.equal(esSec("https://www.sec.gov.malo.com/x"), false);
+  assert.equal(tickerDe("../../secreto", { empresas: [{ ticker: "AAPL", nombre: "Apple", estado: "ok" }] }), null);
+});

@@ -51,6 +51,11 @@ export function opciones(indice) {
     .map((e) => ({ valor: `${e.nombre} (${e.ticker})`, ticker: e.ticker }));
 }
 
+/** Solo enlaces a documentos de la SEC (https://www.sec.gov/…). */
+export function esSec(url) {
+  try { const u = new URL(url); return u.protocol === "https:" && u.hostname === "www.sec.gov"; } catch (e) { return false; }
+}
+
 export function tickerDe(texto, indice) {
   const t = String(texto || "").trim();
   const m = t.match(/\(([^)]+)\)\s*$/);
@@ -121,7 +126,7 @@ function pintar(d) {
   caja.append(p);
 
   const docs = el("ul");
-  for (const x of d.documentos || []) docs.append(el("li", {}, el("a", { href: x.url, target: "_blank", rel: "noopener noreferrer" }, `${x.forma} · presentado ${x.fecha}${x.periodo ? ` · periodo ${x.periodo}` : ""}`)));
+  for (const x of (d.documentos || []).filter((x) => esSec(x.url))) docs.append(el("li", {}, el("a", { href: x.url, target: "_blank", rel: "noopener noreferrer" }, `${x.forma} · presentado ${x.fecha}${x.periodo ? ` · periodo ${x.periodo}` : ""}`)));
   caja.append(el("div", { class: "tarjeta" }, el("h2", {}, "Documentos originales (SEC EDGAR)"),
     el("p", { class: "meta" }, "10-K: informe anual · 10-Q: trimestral · 20-F/40-F: anual de emisoras extranjeras · 6-K/8-K: eventos relevantes · DEF 14A: asamblea y sueldos de directivos."), docs,
     el("p", { class: "meta" }, `Fuente: ${d.fuente}. No es asesoría de inversión.`)));
@@ -162,8 +167,8 @@ async function iniciar() {
     } catch (e) { $("fi-estado").textContent = "No se pudo cargar: " + e.message; }
   };
   $("fi-buscar").addEventListener("change", () => abrir(tickerDe($("fi-buscar").value, indice)));
-  const inicial = new URLSearchParams(location.search).get("t");
-  if (inicial) abrir(inicial.toUpperCase());
+  // Solo claves que existen en el índice: el parámetro ?t= nunca arma una ruta arbitraria.
+  abrir(tickerDe(new URLSearchParams(location.search).get("t"), indice));
 }
 
 if (typeof document !== "undefined" && document.getElementById("fi-empresa")) iniciar();
