@@ -76,9 +76,9 @@ export function filtrar(empresas, { tipo = "", sector = "", semaforo = "", texto
 /** Valores distintos (ordenados) para llenar un filtro. */
 export const valores = (empresas, f) => [...new Set((empresas || []).map(f))].sort((a, b) => a.localeCompare(b, "es"));
 
-/** Solo enlaces a documentos de la SEC (https://www.sec.gov/…). */
+/** Solo enlaces a documentos oficiales: SEC (https://www.sec.gov/…) o BIVA (reportes de la CNBV, https://www.biva.mx/…). */
 export function esSec(url) {
-  try { const u = new URL(url); return u.protocol === "https:" && u.hostname === "www.sec.gov"; } catch (e) { return false; }
+  try { const u = new URL(url); return u.protocol === "https:" && (u.hostname === "www.sec.gov" || u.hostname === "www.biva.mx"); } catch (e) { return false; }
 }
 
 export function tickerDe(texto, indice) {
@@ -127,6 +127,25 @@ function pintar(d) {
   caja.append(el("div", { class: "tarjeta" }, el("h2", {}, "Diagnóstico"), diag,
     el("p", { class: "meta" }, "Semáforo general: «con alertas» (🔴) si dos o más temas están en rojo; «sólida» (🟢) si no hay rojos y la mitad o más son verdes; «mixta» (🟡) en otro caso. Una alerta no significa que la empresa esté mal: indica qué revisar en sus reportes.")));
 
+  const ut = d.ultimo_trimestre;
+  if (ut) {
+    const fila = (n, v, exp) => el("tr", {}, el("td", {}, n), el("td", {}, v), el("td", { class: "exp" }, exp));
+    const m = (v) => (v === null || v === undefined ? "—" : `${formato(v)} millones de ${ut.moneda || d.moneda}`);
+    caja.append(el("div", { class: "tarjeta" }, el("h2", {}, `Último reporte trimestral: ${ut.periodo} (cierre ${ut.cierre})`),
+      el("div", { class: "desliza" }, el("table", { class: "t" },
+        fila("Ingresos de los últimos 12 meses", m(ut.ingresos_udm), "Suma de los cuatro trimestres más recientes."),
+        fila("Utilidad operativa (12 meses)", m(ut.utilidad_operativa_udm), "Antes de intereses e impuestos."),
+        fila("Utilidad neta (12 meses)", m(ut.utilidad_neta_udm), "En FIBRAs incluye la revaluación de inmuebles, que no es efectivo."),
+        fila("Activos", m(ut.activos), "Al cierre del trimestre."),
+        fila("Efectivo", m(ut.efectivo), ""),
+        fila("Créditos bancarios y bursátiles", m(ut.deuda), ""),
+        fila("Deuda / activos (LTV)", ut.ltv === null || ut.ltv === undefined ? "—" : formato(ut.ltv, "pct"), "FIBRAs: la CNBV fija un máximo de 50 %."),
+        ...(ut.icd !== null && ut.icd !== undefined ? [fila("Índice de cobertura del servicio de la deuda (ICD)", ut.icd.toFixed(2), "Reportado a la CNBV; mínimo regulatorio 1.0 para FIBRAs.")] : []))),
+      el("p", { class: "meta" }, d.perfil === "fibra"
+        ? "FIBRA: reparte al menos 95 % de su resultado fiscal (Ley del ISR), por eso se evalúa con ICD, LTV, margen, crecimiento de rentas y distribuciones frente al flujo, no con Piotroski ni Altman."
+        : "Las tablas anuales vienen de los reportes del cuarto trimestre (4D: dictaminado por el auditor externo).")));
+  }
+
   const val = (c, a) => {
     const v = d.estados[c]?.[a];
     return { texto: formato(v, c === "uxa_diluida" ? "upa" : "dinero"), negativo: typeof v === "number" && v < 0 };
@@ -153,8 +172,8 @@ function pintar(d) {
 
   const docs = el("ul");
   for (const x of (d.documentos || []).filter((x) => esSec(x.url))) docs.append(el("li", {}, el("a", { href: x.url, target: "_blank", rel: "noopener noreferrer" }, `${x.forma} · presentado ${x.fecha}${x.periodo ? ` · periodo ${x.periodo}` : ""}`)));
-  caja.append(el("div", { class: "tarjeta" }, el("h2", {}, "Documentos originales (SEC EDGAR)"),
-    el("p", { class: "meta" }, "10-K: informe anual · 10-Q: trimestral · 20-F/40-F: anual de emisoras extranjeras · 6-K/8-K: eventos relevantes · DEF 14A: asamblea y sueldos de directivos."), docs,
+  caja.append(el("div", { class: "tarjeta" }, el("h2", {}, "Documentos originales"),
+    el("p", { class: "meta" }, "SEC: 10-K informe anual · 10-Q trimestral · 20-F/40-F anual de emisoras extranjeras · 6-K/8-K eventos relevantes · DEF 14A asamblea. México: «Información trimestral» es el reporte entregado a la CNBV (4D = cuarto trimestre dictaminado)."), docs,
     el("p", { class: "meta" }, `Fuente: ${d.fuente}. No es asesoría de inversión.`)));
 }
 

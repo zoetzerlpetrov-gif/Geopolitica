@@ -44,3 +44,9 @@ test("tipo de instrumento y filtros", async () => {
   assert.deepEqual(filtrar(emp, { texto: "fibra" }).map((e) => e.ticker), ["FUNO11.MX"]);
   assert.equal(valores(emp, tipoDe).length, 6);
 });
+
+test("documentos de BIVA permitidos", async () => {
+  const { esSec } = await import("../../js/finanzas.js");
+  assert.equal(esSec("https://www.biva.mx/storage/data-rs-cnbv/ReporteTrimestral_FUNO_2026_3.pdf"), true);
+  assert.equal(esSec("http://www.biva.mx/x.pdf"), false);
+});
