@@ -119,6 +119,8 @@ def anuales(facts, etiquetas, tipo):
         if not conc:
             continue
         u, filas = _unidad(conc)
+        if not u:
+            continue  # concepto sin unidades (sin datos)
         if unidad and u != unidad and "/" not in u and u != "shares":
             continue  # no mezclar monedas entre etiquetas
         for x in filas:
