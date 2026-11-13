@@ -51,6 +51,31 @@ export function opciones(indice) {
     .map((e) => ({ valor: `${e.nombre} (${e.ticker})`, ticker: e.ticker }));
 }
 
+/** Tipo de instrumento a partir de la clave y el sector del Portafolio. */
+export function tipoDe(e) {
+  const t = String(e?.ticker || ""), s = String(e?.sector || "");
+  if (t.endsWith("-USD") || /cripto/i.test(s)) return "Criptomoneda";
+  if (/ETF|índice/i.test(s)) return "ETF o índice";
+  if (/FIBRA/i.test(s) || (t.endsWith(".MX") && /bienes raíces|REIT/i.test(s))) return "FIBRA (México)";
+  if (t.endsWith(".MX")) return "Acción de la BMV (México)";
+  if (e?.estado === "ok") return "Acción con reportes a la SEC";
+  return "ADR o extranjera sin reportes a la SEC";
+}
+
+export const SEMAFORO = { verde: "🟢 Sólida", ambar: "🟡 Mixta", rojo: "🔴 Con alertas" };
+
+/** Filtra el índice por tipo, sector, semáforo y texto (nombre o clave). Valores vacíos = sin filtro. */
+export function filtrar(empresas, { tipo = "", sector = "", semaforo = "", texto = "" } = {}) {
+  const q = String(texto || "").trim().toLowerCase();
+  return (empresas || []).filter((e) => (!tipo || tipoDe(e) === tipo) && (!sector || (e.sector || "Sin sector") === sector)
+    && (!semaforo || e.calificacion === semaforo)
+    && (!q || e.ticker.toLowerCase().includes(q) || String(e.nombre || "").toLowerCase().includes(q)))
+    .sort((a, b) => String(a.nombre).localeCompare(String(b.nombre), "es"));
+}
+
+/** Valores distintos (ordenados) para llenar un filtro. */
+export const valores = (empresas, f) => [...new Set((empresas || []).map(f))].sort((a, b) => a.localeCompare(b, "es"));
+
 /** Solo enlaces a documentos de la SEC (https://www.sec.gov/…). */
 export function esSec(url) {
   try { const u = new URL(url); return u.protocol === "https:" && u.hostname === "www.sec.gov"; } catch (e) { return false; }
@@ -59,8 +84,9 @@ export function esSec(url) {
 export function tickerDe(texto, indice) {
   const t = String(texto || "").trim();
   const m = t.match(/\(([^)]+)\)\s*$/);
+  if (!t) return null;
   const clave = (m ? m[1] : t).toUpperCase();
-  return (indice?.empresas || []).find((e) => e.ticker === clave || e.nombre.toUpperCase() === t.toUpperCase())?.ticker || null;
+  return (indice?.empresas || []).find((e) => e.ticker === clave || String(e.nombre || "").toUpperCase() === t.toUpperCase())?.ticker || null;
 }
 
 // ------------------------------------------------------------------ página
@@ -167,6 +193,32 @@ async function iniciar() {
     } catch (e) { $("fi-estado").textContent = "No se pudo cargar: " + e.message; }
   };
   $("fi-buscar").addEventListener("change", () => abrir(tickerDe($("fi-buscar").value, indice)));
+
+  // Filtros por tipo de instrumento, sector y semáforo: lista de resultados; un clic abre la empresa.
+  const emp = indice.empresas || [];
+  const llenar = (id, lista, todos) => $(id).replaceChildren(el("option", { value: "" }, todos), ...lista.map((v) => el("option", { value: v }, SEMAFORO[v] || v)));
+  llenar("fi-tipo", valores(emp, tipoDe), "Todos los tipos");
+  llenar("fi-sector", valores(emp, (e) => e.sector || "Sin sector"), "Todos los sectores");
+  llenar("fi-semaforo", ["verde", "ambar", "rojo"], "Todos");
+  const resultados = () => {
+    const f = { tipo: $("fi-tipo").value, sector: $("fi-sector").value, semaforo: $("fi-semaforo").value, texto: $("fi-texto").value };
+    const r = filtrar(emp, f);
+    const tb = $("fi-resultados");
+    tb.replaceChildren(el("tr", {}, el("th", {}, "Instrumento"), el("th", {}, "Tipo"), el("th", {}, "Sector"), el("th", {}, "Semáforo"), el("th", {}, "Último ejercicio")));
+    for (const e of r.slice(0, 300)) {
+      const nombre = e.estado === "ok"
+        ? el("button", { type: "button", class: "enlace", title: "Abrir el análisis" }, `${e.nombre} (${e.ticker})`)
+        : document.createTextNode(`${e.nombre} (${e.ticker})`);
+      if (e.estado === "ok") nombre.addEventListener("click", () => { abrir(e.ticker); $("fi-empresa").scrollIntoView({ behavior: "smooth" }); });
+      tb.append(el("tr", {}, el("td", {}, nombre), el("td", {}, tipoDe(e)), el("td", {}, e.sector || "—"),
+        el("td", {}, e.estado === "ok" ? (SEMAFORO[e.calificacion] || "—") : "Sin datos"),
+        el("td", { class: e.estado === "ok" ? "" : "exp" }, e.estado === "ok" ? (e.ultimo || "") : (e.motivo || ""))));
+    }
+    $("fi-cuenta").textContent = `${r.length} instrumento(s)` + (r.length > 300 ? " (se muestran 300; afina los filtros)" : "");
+  };
+  for (const id of ["fi-tipo", "fi-sector", "fi-semaforo"]) $(id).addEventListener("change", resultados);
+  $("fi-texto").addEventListener("input", resultados);
+  resultados();
   // Solo claves que existen en el índice: el parámetro ?t= nunca arma una ruta arbitraria.
   abrir(tickerDe(new URLSearchParams(location.search).get("t"), indice));
 }

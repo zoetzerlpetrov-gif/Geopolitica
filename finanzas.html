@@ -23,6 +23,10 @@
     .diag li { margin: 6px 0; } .chip { display: inline-block; padding: 2px 10px; border-radius: 999px; font-weight: 700; }
     .verde { background: rgba(46,125,50,.2); } .ambar { background: rgba(249,168,37,.3); } .rojo { background: rgba(183,28,28,.25); } .sin_datos { background: var(--surface-2); }
     .neg { color: #c62828; }
+    .filtros { display: flex; flex-wrap: wrap; gap: 10px; margin: 8px 0; }
+    .filtros select, .filtros input { font: inherit; padding: 5px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); max-width: 100%; }
+    .lista { max-height: 420px; overflow-y: auto; } #fi-resultados td, #fi-resultados th { text-align: left; }
+    button.enlace { font: inherit; background: none; border: 0; padding: 0; color: var(--accent, #1565c0); text-decoration: underline; cursor: pointer; text-align: left; }
   </style>
 </head>
 <body>
@@ -40,6 +44,17 @@
       <datalist id="fi-lista"></datalist>
       <p class="meta" id="fi-estado" aria-live="polite">Cargando…</p>
     </div>
+    <details class="tarjeta" id="fi-filtros" open>
+      <summary>🔎 Filtrar por tipo de instrumento, sector y semáforo</summary>
+      <div class="filtros">
+        <label>Tipo <select id="fi-tipo"></select></label>
+        <label>Sector <select id="fi-sector"></select></label>
+        <label>Semáforo <select id="fi-semaforo"></select></label>
+        <label>Nombre o clave <input type="search" id="fi-texto" placeholder="Filtrar la lista…" autocomplete="off"></label>
+      </div>
+      <p class="meta" id="fi-cuenta" aria-live="polite"></p>
+      <div class="desliza lista"><table class="t" id="fi-resultados"></table></div>
+    </details>
     <div id="fi-empresa"></div>
     <details class="tarjeta">
       <summary>📘 Cómo leer este análisis (glosario y reglas del semáforo)</summary>
