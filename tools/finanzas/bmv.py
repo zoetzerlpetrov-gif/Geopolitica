@@ -80,14 +80,16 @@ def pedir(url, binario=False, abrir=urllib.request.urlopen, intentos=3):
 
 
 def clave_de(ticker):
-    """FUNO11.MX → FUNO · FIBRAPL14.MX → FIBRAPL · GMEXICOB.MX → GMEXICO · WALMEX.MX → WALMEX (candidatas en orden)."""
-    base = re.sub(r"\.MX$", "", (ticker or "").upper())
-    sin_serie = re.sub(r"\d+$", "", base)
-    out = [base, sin_serie]
-    if re.search(r"[ABL]$", sin_serie) and len(sin_serie) > 3:
-        out.append(sin_serie[:-1])
-    if sin_serie.endswith("CPO"):
-        out.append(sin_serie[:-3])
+    """FUNO11.MX → FUNO · GMEXICOB.MX → GMEXICO · GFNORTEO.MX → GFNORTE · FEMSAUBD.MX → FEMSA · LIVEPOLC-1.MX → LIVEPOL
+    (candidatas en orden; Yahoo agrega «-1» y la serie de la acción al final de la clave de pizarra)."""
+    base = re.sub(r"(-\d+)?\.MX$", "", (ticker or "").upper())
+    out = [base]
+    actual = re.sub(r"\d+$", "", base)
+    out.append(actual)
+    # Serie en letras solo si no venía en números (FUNO11 → FUNO, no «FUN»); una sola serie: no recortar más
+    m = None if actual != base else re.search(r"(UBD|UBL|UBC|UB|CPO|BD|[ABCLO])$", actual)
+    if m and len(actual) - len(m.group(1)) >= 3:
+        out.append(actual[: -len(m.group(1))])
     return list(dict.fromkeys(x for x in out if x))
 
 
