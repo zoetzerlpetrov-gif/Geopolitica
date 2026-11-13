@@ -201,9 +201,16 @@ TEMA = {
 CRITICA = re.compile(r"corrup|soborn|moches|desv[ií]o|empresas? fantasma|factureras?|lavado de dinero|huachicol|nepotismo|"
                      r"conflicto de inter|malversa|peculado|enriquecimiento il|auditor[ií]a superior|\bASF\b|irregularidad|"
                      r"vinculad[oa] a proceso|orden de aprehensi|sobrecosto|opacidad|adjudicaci[oó]n directa|fraude|colusi[oó]n|"
-                     r"narcopol|esc[aá]ndalo|inhabilit|(acusan|investigan|denuncian|señalan|critican|cuestionan) a", re.I)
+                     r"narcopol|esc[aá]ndalo|inhabilit|(acusan|investigan|denuncian|señalan|critican|cuestionan) a|"
+                     # nombramientos sin trayectoria (p. ej. una recién egresada de 23 años al frente de una subsecretaría)
+                     r"sin experiencia|nula trayectoria|reci[eé]n egresad|apenas (termin|egres|sali)|apadrinad|amiguismo|compadrazgo|"
+                     r"(nombramiento|designaci[oó]n) pol[eé]mic|pol[eé]mic[oa] (nombramiento|designaci)|de \d{2} años (llega|asume|es nombrad|ya es|al frente)", re.I)
 GOBIERNO_MX = re.compile(r"sheinbaum|gobierno (de m[eé]xico|federal)|morena\b|secretar[ií]a de|funcionari|diputad|senador|"
-                         r"gobernador|alcald|pemex|cfe\b|imss|issste|segalmex|conagua|sedena|guardia nacional|fiscal[ií]a|\bFGR\b", re.I)
+                         r"gobernador|alcald|pemex|cfe\b|imss|issste|segalmex|conagua|sedena|guardia nacional|fiscal[ií]a|\bFGR\b|"
+                         r"subsecretar|secretari[oa] de gobierno|gobierno (estatal|del estado|de [a-záéíóú]+)|ayuntamiento|"
+                         r"presidenta? municipal|cabildo|servidor(a|es)? p[uú]blic", re.I)
+# La conferencia diaria de la Presidencia no es noticia por sí misma (es todos los días): sin señalamientos, fuera.
+RUTINA = re.compile(r"ma[ñn]anera|conferencia (de prensa )?matutina|morning (press )?conference", re.I)
 INFANTIL = re.compile(r"ni[nñ]as?\b|ni[nñ]os?\b|infan|menores|adolescen|escuela|escolar|alumn|primaria|secundaria|kínder|"
                       r"preescolar|unicef|juguete|kids?\b|children|child\b|students?|pupils?|schools?|toys?|teens?|"
                       r"para ni[nñ]os|familia|family|parque|museo|zool[oó]gico|zoo\b|pel[ií]cula|teatro|disney|pixar", re.I)
@@ -237,16 +244,18 @@ def _parecidas(a, b, pa=frozenset(), pb=frozenset()):
     return comunes >= 3 or (comunes >= 2 and comunes >= 0.5 * min(len(a), len(b))) or len(pa & pb) >= 2
 
 
-def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6):
+def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozenset()):
     """{sección: [notas]} en ORDEN: por sección, las que más medios repiten en las últimas `horas` (desempate: la más
-    reciente). Cada nota: titulo, medio, url, fecha, eco (cuántos medios cuentan lo mismo) y sus claves."""
+    reciente). Cada nota: titulo, medio, url, fecha, eco (cuántos medios cuentan lo mismo) y sus claves.
+    `usadas`: enlaces ya contados en los videos anteriores (no se repiten). La mañanera sin señalamientos queda fuera."""
     notas = (noti or {}).get("notas") or []
     corte = ahora_iso or (noti or {}).get("generado_utc") or ""
     if corte:
         from datetime import datetime, timedelta
         lim = (datetime.fromisoformat(corte.replace("Z", "+00:00")) - timedelta(hours=horas)).strftime("%Y-%m-%dT%H:%M:%SZ")
         notas = [n for n in notas if (n.get("f") or "") >= lim]
-    notas = [n for n in notas if (n.get("t") or "").strip() and not VACIOS.search(n["t"])]
+    notas = [n for n in notas if (n.get("t") or "").strip() and not VACIOS.search(n["t"]) and n.get("u") not in usadas
+             and not (RUTINA.search(n["t"]) and not CRITICA.search(n["t"]))]
     cl = [_clave(n["t"]) for n in notas]
     pr = [_propios(n["t"]) for n in notas]
     eco = [1 + sum(1 for j, o in enumerate(notas) if j != i and o.get("m") != n.get("m") and _parecidas(cl[i], cl[j], pr[i], pr[j]))
@@ -455,9 +464,10 @@ def datos_por_seccion(ind):
 
 
 # ------------------------------------------------------------------ Mercados (Portafolio de seguimiento)
-def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=48):
-    """Hasta `maximo` instrumentos del Portafolio con noticia reciente, los de mayor movimiento del día primero:
-    nombre, precio, % del día (último cierre frente al anterior) y su titular. Sin señales de compra o venta."""
+def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=24, usadas=frozenset()):
+    """Hasta `maximo` instrumentos del Portafolio con noticia de las últimas `horas`, los de mayor movimiento del día
+    primero: nombre, precio, % del día (último cierre frente al anterior) y su titular. Sin señales de compra o venta.
+    Las noticias ya contadas en videos anteriores (`usadas`) no se repiten: se toma la siguiente o no se incluye."""
     from datetime import datetime, timedelta, timezone
     ahora = datetime.fromisoformat(ahora_iso.replace("Z", "+00:00")) if ahora_iso else datetime.now(timezone.utc)
     lim = (ahora - timedelta(hours=horas)).isoformat()
@@ -465,9 +475,10 @@ def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=48):
     for x in portafolio_data or []:
         if not x.get("ok") or not x.get("news") or x.get("current_price") is None:
             continue
-        n = max(x["news"], key=lambda z: z.get("date") or "")
-        if (n.get("date") or "") < lim:
+        nuevas = [z for z in x["news"] if (z.get("date") or "") >= lim and z.get("link") not in usadas]
+        if not nuevas:
             continue
+        n = max(nuevas, key=lambda z: z.get("date") or "")
         sp = [v for v in (x.get("sparkline_12m") or []) if v]
         if len(sp) < 2:
             continue
@@ -543,13 +554,41 @@ def con_dof(elegidas, dof):
     return elegidas[:pos] + list(dof) + elegidas[pos:]
 
 
-def hashtags(notas, maximo=12):
-    """Los 3 primeros los muestra YouTube sobre el título; YouTube ignora todos si hay más de 15."""
-    base = ["#BrújulaDiaria", "#NoticiasMéxico", "#NoticiasHoy", "#México", "#Mercados", "#ClimaHoy"]
+_NO_TEMA = {"El", "La", "Los", "Las", "Un", "Una", "En", "De", "Del", "Al", "Por", "Para", "Con", "Sin", "Tras", "Ante", "Según",
+            "Este", "Esta", "Estos", "Hoy", "Ayer", "Mañana", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado",
+            "Domingo", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre",
+            "Noviembre", "Diciembre", "Gobierno", "Secretaría", "Presidenta", "Presidente", "México", "Estados", "Unidos",
+            "Brújula", "Diaria", "Fuente", "Titular", "The", "And", "For", "With", "New"}
+
+
+def temas(notas, filas_m=(), maximo=7):
+    """Hashtags de lo que trata el video: nombres propios que aparecen en las notas (Sheinbaum, Oaxaca, APEC, Nvidia),
+    los más repetidos primero, y los instrumentos de Mercados."""
+    cuenta, orden = {}, []
+    for n in notas:
+        texto = f"{n.get('titulo', '')} {n.get('resumen', '')}"
+        for w in re.findall(r"(?<![\wÁÉÍÓÚÑáéíóúñ])([A-ZÁÉÍÓÚÑ][a-záéíóúñü]{3,}|[A-Z]{3,6})(?![\wáéíóúñ])", texto):
+            if w in _NO_TEMA or w.upper() in {"FIX", "PIB", "USD", "MXN", "EUR", "CEO", "DOF"}:
+                continue
+            if w not in cuenta:
+                orden.append(w)
+            cuenta[w] = cuenta.get(w, 0) + 1
+    elegidos = sorted(orden, key=lambda w: -cuenta[w])[:maximo]
+    for f in filas_m:
+        w = re.sub(r"[^\wÁÉÍÓÚÑáéíóúñ]", "", (f.get("nombre") or "").split(" ")[0])
+        if len(w) >= 3 and w not in elegidos:
+            elegidos.append(w)
+    return ["#" + w for w in elegidos]
+
+
+def hashtags(notas, filas_m=(), maximo=15):
+    """Los 3 primeros los muestra YouTube sobre el título; YouTube ignora todos si hay más de 15. Primero la marca, luego
+    los temas del día (nombres propios de las notas y de Mercados) y al final las secciones."""
+    base = ["#BrújulaDiaria", "#NoticiasMéxico", "#NoticiasHoy"]
     extra = [_HASH_SECCION[n["seccion"]] for n in notas if n.get("seccion") in _HASH_SECCION]
     out = []
-    for h in base + extra + ["#Noticias", "#Resumen"]:
-        if h not in out:
+    for h in base + temas(notas, filas_m)[:8] + extra + ["#México", "#Mercados"]:
+        if h.lower() not in {x.lower() for x in out}:
             out.append(h)
     return " ".join(out[:maximo])
 
@@ -580,7 +619,7 @@ def bloque_economia(indicadores):
 _YA_DICHO = {"Tipo de cambio FIX": "FIX", "Tasa objetivo de Banxico": "Tasa objetivo", "Inflación anual en México": "INPC"}
 
 
-def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None):
+def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None, usadas=frozenset()):
     """Devuelve {fecha, titulo, escenas: [{tipo, encabezado, texto, medio, voz}], descripcion, notas}.
     elegidas: notas del Noticiero ya elegidas (redactar.py con IA, o elegir_sin_ia), con «resumen» propio si lo hay.
     clima: {"calor": calor_frio.geojson, "ciclones": ciclones_mundo.geojson}."""
@@ -607,7 +646,7 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         nuevas = [f for f in eco if not (_YA_DICHO.get(f["etiqueta"]) and _YA_DICHO[f["etiqueta"]] in dichos)]
         voz_eco = ("Los indicadores del día. " + " ".join(para_voz(f["voz"]) for f in nuevas)) if nuevas else "Los indicadores del día, en pantalla."
         esc.append({"tipo": "economia", "encabezado": "Indicadores", "filas": eco, "texto": "", "voz": voz_eco})
-    filas_m = mercados(portafolio) if isinstance(portafolio, list) else []
+    filas_m = mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else []
     if filas_m:
         esc.append({"tipo": "mercados", "encabezado": "Mercados", "seccion": "economia",
                     "filas": [{**f, "frase": (frases_mercado or {}).get(f["url"]) or (f["titulo"] if en_espanol(f["titulo"]) else "")} for f in filas_m],
@@ -619,6 +658,7 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
     descripcion = "\n".join([
         f"Brújula Diaria · {larga}.",
         "Resúmenes propios de las noticias del día; la voz es sintética.",
+
         "",
         "Fuentes de las notas:",
         *[f"• {x['seccion_nombre']} — {x['medio']}: {x['url']}" for x in notas],
@@ -630,7 +670,9 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         "Datos económicos: Banco de México, INEGI y Reserva Federal (FRED). Los mercados se mencionan solo como información; no es asesoría de inversión.",
         "Contenido con apoyo de inteligencia artificial: resúmenes propios redactados por un modelo de lenguaje y voz sintética.",
         "",
-        hashtags(notas),
+        hashtags(notas, filas_m),
     ])
     titulo = f"Brújula Diaria · {larga[0].upper() + larga[1:]} · México y el mundo"
-    return {"fecha": fecha, "titulo": titulo[:100], "escenas": esc, "descripcion": descripcion[:4900], "notas": len(notas)}
+    usadas_hoy = [n["url"] for n in notas if n.get("url")] + [f["url"] for f in filas_m if f.get("url")]
+    return {"fecha": fecha, "titulo": titulo[:100], "escenas": esc, "descripcion": descripcion[:4900], "notas": len(notas),
+            "usadas": usadas_hoy}
