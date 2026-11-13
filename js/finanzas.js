@@ -78,7 +78,7 @@ export const valores = (empresas, f) => [...new Set((empresas || []).map(f))].so
 
 /** Solo enlaces a documentos oficiales: SEC (https://www.sec.gov/…) o BIVA (reportes de la CNBV, https://www.biva.mx/…). */
 export function esSec(url) {
-  try { const u = new URL(url); return u.protocol === "https:" && (u.hostname === "www.sec.gov" || u.hostname === "www.biva.mx"); } catch (e) { return false; }
+  try { const u = new URL(url); return u.protocol === "https:" && ["www.sec.gov", "www.biva.mx", "filings.xbrl.org", "defillama.com"].includes(u.hostname); } catch (e) { return false; }
 }
 
 export function tickerDe(texto, indice) {
@@ -120,12 +120,26 @@ function pintar(d) {
   const ultimo = d.anios[d.anios.length - 1];
   caja.append(el("div", { class: "tarjeta" },
     el("h2", {}, `${d.nombre} (${d.ticker}) `, el("span", { class: `chip ${d.calificacion}` }, `${EMOJI[d.calificacion] || ""} ${ETIQUETA[d.calificacion] || d.calificacion}`)),
-    el("p", { class: "meta" }, `${d.empresa_sec} · ${d.sector || ""} · cifras en millones de ${d.moneda} · último ejercicio: cierre ${d.cierres?.[ultimo] || ultimo}`)));
+    el("p", { class: "meta" }, d.bloques ? `${d.empresa_sec} · ${d.sector || ""}` : `${d.empresa_sec} · ${d.sector || ""} · cifras en millones de ${d.moneda} · último ejercicio: cierre ${d.cierres?.[ultimo] || ultimo}`)));
 
   const diag = el("ul", { class: "diag" });
   for (const x of d.diagnostico) diag.append(el("li", {}, `${EMOJI[x.semaforo]} `, el("b", {}, x.tema + ": "), x.texto));
   caja.append(el("div", { class: "tarjeta" }, el("h2", {}, "Diagnóstico"), diag,
     el("p", { class: "meta" }, "Semáforo general: «con alertas» (🔴) si dos o más temas están en rojo; «sólida» (🟢) si no hay rojos y la mitad o más son verdes; «mixta» (🟡) en otro caso. Una alerta no significa que la empresa esté mal: indica qué revisar en sus reportes.")));
+
+  // ETF y criptomonedas: no tienen estados de empresa; el proceso manda «bloques» (tablas ya armadas).
+  if (d.bloques) {
+    for (const b of d.bloques) {
+      const t = el("table", { class: "t" });
+      t.append(el("tr", {}, ...b.columnas.map((c) => el("th", {}, c))));
+      for (const f of b.filas) t.append(el("tr", {}, ...f.map((v) => el("td", {}, v))));
+      caja.append(el("div", { class: "tarjeta" }, el("h2", {}, b.titulo), el("div", { class: "desliza" }, t), ...(b.nota ? [el("p", { class: "meta" }, b.nota)] : [])));
+    }
+    const docs = el("ul");
+    for (const x of (d.documentos || []).filter((x) => esSec(x.url))) docs.append(el("li", {}, el("a", { href: x.url, target: "_blank", rel: "noopener noreferrer" }, `${x.forma}${x.fecha ? " · " + x.fecha : ""}`)));
+    caja.append(el("div", { class: "tarjeta" }, el("h2", {}, "Fuentes"), docs, el("p", { class: "meta" }, `Fuente: ${d.fuente}. No es asesoría de inversión.`)));
+    return;
+  }
 
   const ut = d.ultimo_trimestre;
   if (ut) {

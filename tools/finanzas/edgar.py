@@ -27,7 +27,7 @@ TICKERS = "https://www.sec.gov/files/company_tickers.json"
 FACTS = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
 SUBS = "https://data.sec.gov/submissions/CIK{cik:010d}.json"
 AGENTE = os.environ.get("SEC_USER_AGENT", "").strip() or "DOMINUS-OSINT finanzas (github.com/zoetzerlpetrov-gif/Geopolitica)"
-PAUSA = 0.15  # ≤ 7 consultas por segundo (límite de la SEC: 10)
+PAUSA = 0.25  # ≤ 4 consultas por segundo (límite de la SEC: 10; con margen porque GitHub comparte IP)
 ANIOS = 6
 
 # Concepto → etiquetas XBRL en orden de preferencia (US GAAP e IFRS). «flujo» = periodo anual; «saldo» = al cierre.
@@ -84,7 +84,11 @@ SECTORES_SIN_ESTADOS = ("ETFs", "Criptomonedas")
 SECTORES_FINANCIEROS = ("financ", "banco", "seguro", "reit", "fibra", "bienes raíces", "pagos")
 
 
-def pedir(url, abrir=urllib.request.urlopen, intentos=3):
+class Limite(RuntimeError):
+    """La SEC siguió respondiendo 429/503 tras los reintentos (límite de consultas): no es «sin datos»."""
+
+
+def pedir(url, abrir=urllib.request.urlopen, intentos=4, dormir=time.sleep):
     for i in range(intentos):
         try:
             req = urllib.request.Request(url, headers={"User-Agent": AGENTE, "Accept-Encoding": "identity"})
@@ -93,9 +97,12 @@ def pedir(url, abrir=urllib.request.urlopen, intentos=3):
         except urllib.error.HTTPError as e:
             if e.code == 404:
                 return None
-            if e.code in (429, 503) and i < intentos - 1:
-                time.sleep(5 * (i + 1))
-                continue
+            if e.code in (429, 503):
+                if i < intentos - 1:
+                    espera = (e.headers or {}).get("Retry-After") if hasattr(e, "headers") else None
+                    dormir(int(espera) if str(espera or "").isdigit() else 10 * 2 ** i)  # 10, 20, 40 s
+                    continue
+                raise Limite(f"HTTP {e.code}") from e
             raise
     return None
 
@@ -432,8 +439,18 @@ def main(salida="finanzas", limite=None):
             time.sleep(PAUSA)
             res = analizar(inst, cik, facts or {}, subs) if facts else None
         except Exception as e:  # noqa: BLE001  una empresa con error no detiene a las demás
-            indice.append({**fila, "estado": "error", "motivo": f"{type(e).__name__}"[:80]})
-            continue
+            res = None
+            previo = os.path.join(salida, re.sub(r"[^A-Z0-9.-]", "_", t) + ".json")
+            if os.path.exists(previo):  # se conserva el análisis de la semana anterior
+                try:
+                    res = json.load(open(previo, encoding="utf-8"))
+                    res["nota"] = "Datos de la corrida anterior: la SEC no respondió esta vez."
+                except (OSError, ValueError):
+                    res = None
+            if not res:
+                motivo = "La SEC limitó las consultas; se reintenta la próxima semana." if isinstance(e, Limite) else f"{type(e).__name__}"[:80]
+                indice.append({**fila, "estado": "error", "motivo": motivo})
+                continue
         if not res:
             indice.append({**fila, "estado": "sin_datos", "motivo": motivo_sin_datos(inst)})
             continue

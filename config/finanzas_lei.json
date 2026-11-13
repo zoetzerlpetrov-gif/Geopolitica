@@ -1,0 +1,17 @@
+{
+ "_nota": "Empresas del Portafolio sin reportes a la SEC. LEI verificado en GLEIF (api.gleif.org). esef=false: no publica ESEF (fuera de la UE) o no está en filings.xbrl.org; el motivo se muestra en la página.",
+ "empresas": {
+  "IBDRY": {"lei": "5QK37QC7NWOJ8D7WVQ45", "nombre": "Iberdrola"},
+  "TEF": {"lei": "549300EEJH4FEPDBBR25", "nombre": "Telefónica"},
+  "EADSY": {"lei": "MINO79WLOO247M1IL051", "nombre": "Airbus"},
+  "ORAN": {"lei": "969500MCOONR8990S771", "nombre": "Orange"},
+  "VWAGY": {"lei": "529900NNUPAGGOMPXZ31", "nombre": "Volkswagen", "motivo": "Alemania publica su ESEF en el Bundesanzeiger, que no tiene acceso de datos abierto; no está en filings.xbrl.org."},
+  "MBGYY": {"lei": "529900R27DL06UVNT076", "nombre": "Mercedes-Benz", "motivo": "Alemania publica su ESEF en el Bundesanzeiger, que no tiene acceso de datos abierto; no está en filings.xbrl.org."},
+  "DLAKY": {"lei": "529900PH63HYJ86ASW55", "nombre": "Lufthansa", "motivo": "Alemania publica su ESEF en el Bundesanzeiger, que no tiene acceso de datos abierto; no está en filings.xbrl.org."},
+  "RHHBY": {"lei": "549300U41AUUVOAAOB37", "esef": false, "nombre": "Roche", "motivo": "Suiza no exige ESEF: su informe anual es PDF (sin datos estructurados abiertos)."},
+  "NSRGY": {"lei": "KY37LUS27QQX7BB93L28", "esef": false, "nombre": "Nestlé", "motivo": "Suiza no exige ESEF: su informe anual es PDF (sin datos estructurados abiertos)."},
+  "BYDDY": {"esef": false, "nombre": "BYD", "motivo": "Reporta en la Bolsa de Hong Kong (HKEX), sin datos XBRL abiertos."},
+  "AC.TO": {"esef": false, "nombre": "Air Canada", "motivo": "Reporta en Canadá (SEDAR+), sin datos XBRL abiertos."},
+  "SPCX": {"esef": false, "nombre": "SpaceX", "motivo": "Empresa privada: no publica estados financieros."}
+ }
+}
