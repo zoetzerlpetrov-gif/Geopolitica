@@ -13,6 +13,11 @@ def test_clave_de_pizarra():
     assert B.clave_de("FUNO11.MX")[:2] == ["FUNO11", "FUNO"]
     assert "GMEXICO" in B.clave_de("GMEXICOB.MX") and "FIBRAPL" in B.clave_de("FIBRAPL14.MX")
     assert B.clave_de("WALMEX.MX") == ["WALMEX"]
+    # Series de Yahoo: «-1» y letras de serie al final (O, UBD, UBL, UBC, C, A, B)
+    assert B.clave_de("GFNORTEO.MX")[-1] == "GFNORTE" and B.clave_de("FEMSAUBD.MX")[-1] == "FEMSA"
+    assert B.clave_de("KOFUBL.MX")[-1] == "KOF" and B.clave_de("LACOMERUBC.MX")[-1] == "LACOMER"
+    assert B.clave_de("LIVEPOLC-1.MX") == ["LIVEPOLC", "LIVEPOL"] and B.clave_de("MFRISCOA-1.MX")[-1] == "MFRISCO"
+    assert B.clave_de("FUNO11.MX") == ["FUNO11", "FUNO"]  # una sola serie: no recorta «FUNO» a «FUN»
 
 
 def test_leer_xbrl_solo_totales_sin_dimensiones():
