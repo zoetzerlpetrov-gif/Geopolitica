@@ -66,5 +66,17 @@
    "Proveedores de sistemas de IA que operen en la UE: revisar si el mecanismo les permite o les exige participar (verificar)."
   ],
   "estado": "pendiente: confirmar el objeto exacto en EUR-Lex antes de incorporarlo a la ficha AI Act / RIA"
+ },
+ "MEX:dof:5803621": {
+  "resumen": "Decreto de utilidad pública que ordena la ocupación temporal de un predio de 8,324 m²: acto particular sobre un inmueble, sin obligaciones generales nuevas.",
+  "afectaciones": [],
+  "estado": "no aplica"
+ },
+ "EUR:32026R2501": {
+  "resumen": "Reglamento de la Comisión que modifica el anexo XVII de REACH para restringir el plomo en determinados aparejos de pesca (los tipos exactos: verificar en EUR-Lex).",
+  "afectaciones": [
+   "Fabricantes, importadores y distribuidores de aparejos de pesca en la UE: sustituir el plomo según los plazos de transición del reglamento (verificar en EUR-Lex)."
+  ],
+  "estado": "incorporado al catálogo (2026-11-13)"
  }
 }
