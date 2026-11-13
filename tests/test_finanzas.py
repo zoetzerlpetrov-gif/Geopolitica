@@ -53,7 +53,7 @@ def test_altman_no_aplica_a_financieras_ni_adr_y_motivos():
     assert not E.altman(est, 20, "EUR", "Industria")["aplica"]
     assert "ETF" in E.motivo_sin_datos({"ticker": "VOO", "sector": "ETFs / Índices"})
     assert "Criptomoneda" in E.motivo_sin_datos({"ticker": "BTC-USD", "sector": "Criptomonedas"})
-    assert "BMV" in E.motivo_sin_datos({"ticker": "FUNO11.MX", "sector": "FIBRAs (bienes raíces)"})
+    assert "CNBV" in E.motivo_sin_datos({"ticker": "FUNO11.MX", "sector": "FIBRAs (bienes raíces)"})
 
 
 def test_semaforo_general_y_caja_neta():

@@ -380,7 +380,7 @@ def motivo_sin_datos(inst):
     if "ETF" in s:
         return "ETF o índice: es una canasta de empresas, no una empresa."
     if t.endswith(".MX"):
-        return "Emisora de la BMV: sus reportes trimestrales (XBRL) están en la BMV y la CNBV; pendiente de integrar."
+        return "Emisora mexicana: sus reportes trimestrales se toman de la CNBV vía BIVA (paso siguiente del proceso)."
     return "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
 
 

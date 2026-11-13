@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<xbrli:xbrl xmlns:link="http://www.xbrl.org/2003/linkbase" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xbrli="http://www.xbrl.org/2003/instance" xmlns:xbrldi="http://xbrl.org/2006/xbrldi" xmlns:ISO4217="http://www.xbrl.org/2003/iso4217" xmlns:ifrs-full="http://xbrl.ifrs.org/taxonomy/2017-03-09/ifrs-full" xmlns:mx="http://cnbv.gob.mx/ifrs_mx-cor_20160822/full_ifrs_mx-cor_2016-08-22">
+  <link:schemaRef xlink:type="simple" xlink:href="https://taxonomiasxbrl.cnbv.gob.mx/taxonomy/mx-ifrs-2019-01-01/full_ifrs_mc_mx_fibras_aa_entry_point_2019-01-01.xsd"/>
+  <xbrli:context id="A25"><xbrli:entity><xbrli:identifier scheme="http://www.bmv.com.mx/id">FIBRAX</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2025-01-01</xbrli:startDate><xbrli:endDate>2025-12-31</xbrli:endDate></xbrli:period></xbrli:context>
+  <xbrli:context id="A24"><xbrli:entity><xbrli:identifier scheme="http://www.bmv.com.mx/id">FIBRAX</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:startDate>2024-01-01</xbrli:startDate><xbrli:endDate>2024-12-31</xbrli:endDate></xbrli:period></xbrli:context>
+  <xbrli:context id="I25"><xbrli:entity><xbrli:identifier scheme="http://www.bmv.com.mx/id">FIBRAX</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2025-12-31</xbrli:instant></xbrli:period></xbrli:context>
+  <xbrli:context id="I24"><xbrli:entity><xbrli:identifier scheme="http://www.bmv.com.mx/id">FIBRAX</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2024-12-31</xbrli:instant></xbrli:period></xbrli:context>
+  <xbrli:context id="D25"><xbrli:entity><xbrli:identifier scheme="http://www.bmv.com.mx/id">FIBRAX</xbrli:identifier></xbrli:entity><xbrli:period><xbrli:instant>2025-12-31</xbrli:instant></xbrli:period><xbrli:scenario><xbrldi:explicitMember dimension="ifrs-full:ComponentsOfEquityAxis">ifrs-full:RetainedEarningsMember</xbrldi:explicitMember></xbrli:scenario></xbrli:context>
+  <xbrli:unit id="MXN"><xbrli:measure>ISO4217:MXN</xbrli:measure></xbrli:unit>
+  <xbrli:unit id="P"><xbrli:measure>xbrli:pure</xbrli:measure></xbrli:unit>
+  <ifrs-full:Revenue contextRef="A25" unitRef="MXN" decimals="-3">1100000000</ifrs-full:Revenue>
+  <ifrs-full:Revenue contextRef="A24" unitRef="MXN" decimals="-3">1000000000</ifrs-full:Revenue>
+  <ifrs-full:ProfitLossFromOperatingActivities contextRef="A25" unitRef="MXN" decimals="-3">770000000</ifrs-full:ProfitLossFromOperatingActivities>
+  <ifrs-full:ProfitLossFromOperatingActivities contextRef="A24" unitRef="MXN" decimals="-3">690000000</ifrs-full:ProfitLossFromOperatingActivities>
+  <ifrs-full:ProfitLoss contextRef="A25" unitRef="MXN" decimals="-3">900000000</ifrs-full:ProfitLoss>
+  <ifrs-full:CashFlowsFromUsedInOperatingActivities contextRef="A25" unitRef="MXN" decimals="-3">800000000</ifrs-full:CashFlowsFromUsedInOperatingActivities>
+  <ifrs-full:DividendsPaid contextRef="A25" unitRef="MXN" decimals="-3">600000000</ifrs-full:DividendsPaid>
+  <ifrs-full:Assets contextRef="I25" unitRef="MXN" decimals="-3">20000000000</ifrs-full:Assets>
+  <ifrs-full:Assets contextRef="I24" unitRef="MXN" decimals="-3">19000000000</ifrs-full:Assets>
+  <ifrs-full:Equity contextRef="I25" unitRef="MXN" decimals="-3">13000000000</ifrs-full:Equity>
+  <ifrs-full:Equity contextRef="D25" unitRef="MXN" decimals="-3">999</ifrs-full:Equity>
+  <mx:CreditosBancariosALargoPlazo contextRef="I25" unitRef="MXN" decimals="-3">4000000000</mx:CreditosBancariosALargoPlazo>
+  <mx:CreditosBursatilesALargoPlazo contextRef="I25" unitRef="MXN" decimals="-3">2000000000</mx:CreditosBursatilesALargoPlazo>
+  <mx:CreditosBancariosACortoPlazo contextRef="I25" unitRef="MXN" decimals="-3">500000000</mx:CreditosBancariosACortoPlazo>
+  <mx:CoverageRateDebtService contextRef="I25" unitRef="P" decimals="2">1.8</mx:CoverageRateDebtService>
+</xbrli:xbrl>
