@@ -223,7 +223,7 @@ def test_voz_dominios_numeros_y_pronunciacion():
     assert G.para_voz(G.normalizar_numeros("Gasto de 3.830 millones y alza de 3,5 %", "eu")) == "Gasto de 3830 millones y alza de 3 punto 5 por ciento"
     assert G.para_voz("Ingresos por 3,830 millones y FIX de 18.62") == "Ingresos por 3830 millones y fix de 18 punto 62"
     v = G.para_voz("El Dow Jones sube y el nearshoring atrae stablecoins")
-    assert "Dau Yons" in v and "nírshoring" in v and "esteibolcoins" in v
+    assert "Dau Yons" in v and "nírchoring" in v and "esteibolcoins" in v
     assert G.cierre_frase("Titular sin punto") == "Titular sin punto." and G.cierre_frase("Ya tiene.") == "Ya tiene."
 
 
@@ -236,10 +236,10 @@ def test_cifras_del_dia_junto_a_la_nota_y_pausa_antes_de_fuente():
     n = [{"seccion": "forex", "seccion_nombre": "Divisas", "titulo": "El peso cae ante el dólar por la inflación en EU", "medio": "excelsior.com.mx", "url": "https://excelsior.com.mx/1"}]
     v = G.con_resumen(n, {}, d)[0]["voz"]
     assert v.index("Titular") if "Titular" in v else True
-    assert v.startswith("El peso cae ante el dólar por la inflación en EU. ‖ Dato del día: el dólar fix está en 18 punto 62 pesos")
+    assert v.startswith("El peso cae ante el dólar por la inflación en Estados Unidos. ‖ Dato del día: el dólar fix está en 18 punto 62 pesos")
     assert "excelsior" not in v and "Fuente" not in v  # sin «medio publica» ni fuente en la voz
     r = G.con_resumen(n, {"https://excelsior.com.mx/1": "El peso perdió frente al dólar tras el dato de inflación de EUA"}, {})[0]["voz"]
-    assert r == "El peso perdió frente al dólar tras el dato de inflación de EUA."
+    assert r == "El peso perdió frente al dólar tras el dato de inflación de Estados Unidos."  # EUA se dice completo
 
 
 def test_hashtags_y_efectos():
@@ -340,3 +340,11 @@ def test_sin_menos_cero_plural_y_fecha_mensual():
     filas = G.bloque_economia({"indicadores": [{"id": "mx_inflacion", "puntos": [["2026-10-01", 3.75]]}, {"id": "mx_tasa", "puntos": [["2026-11-12", 6.25]]}]})
     voz = " ".join(f["voz"] for f in filas)
     assert "dato de octubre de 2026" in voz and "dato del jueves 12 de noviembre de 2026" in voz
+
+
+def test_estados_unidos_byd_y_nearshoring_en_voz():
+    p = G.pronunciar
+    assert p("Aranceles de EE.UU. y EE. UU. contra BYD") == "Aranceles de Estados Unidos y Estados Unidos contra bi güai di"
+    assert p("La Fed de EUA y el déficit de EU") == "La Fed de Estados Unidos y el déficit de Estados Unidos"
+    assert p("El nearshoring en México") == "El nírchoring en México"  # la voz en español no tiene «sh»: «ch» es lo más cercano
+    assert p("EUROPA y BYDX sin cambio") == "EUROPA y BYDX sin cambio"

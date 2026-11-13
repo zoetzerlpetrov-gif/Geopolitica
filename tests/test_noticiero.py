@@ -87,3 +87,12 @@ def test_notas_guardadas_de_feeds_generales_tambien_se_filtran():
                {"t": "Sheinbaum presenta reforma electoral", "u": "u2", "m": "Infobae México", "f": "2026-11-12T09:00:00Z", "s": ["politica_mx"], "via": "rss"},
                {"t": "Receta de pozole", "u": "u3", "m": "Otro medio", "f": "2026-11-12T09:00:00Z", "s": ["gastronomia_viajes"], "via": "rss"}]
     assert [n["u"] for n in N.refiltrar(previos, CFG, REGLAS)] == ["u2", "u3"]
+
+
+def test_politica_incluye_medios_de_investigacion_por_gdelt():
+    pol = next(s for s in CFG["secciones"] if s["id"] == "politica_mx")
+    import re
+    dom = re.compile(pol["gkg_dominio"], re.I)
+    assert all(dom.search(d) for d in ("latinus.us", "animalpolitico.com", "aristeguinoticias.com", "proceso.com.mx"))
+    assert not dom.search("notlatinus.us.example.com")
+    assert any("quintoelab.org" in f["url"] for f in pol["feeds"])
