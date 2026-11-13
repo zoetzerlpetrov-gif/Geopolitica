@@ -1,13 +1,13 @@
 {
-  "_nota": "Solo cambia cómo LEE la voz de Brújula Diaria (la pantalla conserva la escritura original). Palabras y nombres que se dicen como en su idioma de origen: clave = como se escribe, valor = cómo debe sonar en español. Se reemplaza la palabra completa, respetando mayúsculas; agrega o corrige libremente.",
+  "_nota": "Solo cambia cómo LEE la voz de Brújula Diaria (la pantalla conserva la escritura original). Palabras y nombres que se dicen como en su idioma de origen: clave = como se escribe, valor = cómo debe sonar en español. Se reemplaza la palabra completa, respetando mayúsculas; agrega o corrige libremente. La voz en español no tiene el sonido «sh» del inglés (lo lee como «s»): se escribe «ch», el más cercano (nearshoring → nírchoring).",
   "palabras": {
     "Dow Jones": "Dau Yons",
     "Wall Street": "Uol Strit",
     "S&P 500": "es and pi quinientos",
     "Nasdaq": "Násdak",
-    "nearshoring": "nírshoring",
-    "Nearshoring": "Nírshoring",
-    "friendshoring": "frendshoring",
+    "nearshoring": "nírchoring",
+    "Nearshoring": "Nírchoring",
+    "friendshoring": "frendchoring",
     "stablecoins": "esteibolcoins",
     "stablecoin": "esteibolcoin",
     "Stablecoins": "Esteibolcoins",
@@ -67,6 +67,14 @@
     "GBP/USD": "libra dólar",
     "USD/JPY": "dólar yen",
     "BMV": "be eme uve",
-    "FIX": "fix"
+    "FIX": "fix",
+    "EE.UU.": "Estados Unidos",
+    "EE. UU.": "Estados Unidos",
+    "EEUU": "Estados Unidos",
+    "EE UU": "Estados Unidos",
+    "EUA": "Estados Unidos",
+    "E.U.A.": "Estados Unidos",
+    "EU": "Estados Unidos",
+    "BYD": "bi güai di"
   }
 }

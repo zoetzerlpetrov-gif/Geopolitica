@@ -193,6 +193,11 @@
   },
   {
    "tipo": "pagina",
+   "href": "finanzas.html",
+   "nombre": "Análisis financiero de empresas"
+  },
+  {
+   "tipo": "pagina",
    "href": "conducta.html",
    "nombre": "Conducta y escritura (lenguaje corporal y grafología)"
   },

@@ -1,5 +1,6 @@
 """Noticiero DOMINUS (tools/noticiero/noticiero.py), sin red."""
 import json
+from urllib.parse import urlparse
 import os
 import re
 import sys
@@ -78,7 +79,7 @@ def test_feed_general_de_una_sola_seccion_se_filtra_por_palabras():
               "tipo_fuente": "t", "fecha_utc": "2026-11-12T09:00:00Z"}]
     assert [n["u"] for n in N.notas_de_feed(items, ["politica_mx"], REGLAS, filtrar=True)] == ["https://i/2"]
     pol = next(s for s in CFG["secciones"] if s["id"] == "politica_mx")
-    assert any("contralacorrupcion.mx" in f["url"] for f in pol["feeds"])
+    assert any(urlparse(f["url"]).hostname == "contralacorrupcion.mx" for f in pol["feeds"])
     assert next(f for f in pol["feeds"] if f["nombre"] == "Infobae México").get("filtrar") is True
 
 
@@ -87,3 +88,12 @@ def test_notas_guardadas_de_feeds_generales_tambien_se_filtran():
                {"t": "Sheinbaum presenta reforma electoral", "u": "u2", "m": "Infobae México", "f": "2026-11-12T09:00:00Z", "s": ["politica_mx"], "via": "rss"},
                {"t": "Receta de pozole", "u": "u3", "m": "Otro medio", "f": "2026-11-12T09:00:00Z", "s": ["gastronomia_viajes"], "via": "rss"}]
     assert [n["u"] for n in N.refiltrar(previos, CFG, REGLAS)] == ["u2", "u3"]
+
+
+def test_politica_incluye_medios_de_investigacion_por_gdelt():
+    pol = next(s for s in CFG["secciones"] if s["id"] == "politica_mx")
+    import re
+    dom = re.compile(pol["gkg_dominio"], re.I)
+    assert all(dom.search(d) for d in ("latinus.us", "animalpolitico.com", "aristeguinoticias.com", "proceso.com.mx"))
+    assert not dom.search("notlatinus.us.example.com")
+    assert any(urlparse(f["url"]).hostname == "quintoelab.org" for f in pol["feeds"])

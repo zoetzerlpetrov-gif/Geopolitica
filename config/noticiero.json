@@ -641,9 +641,14 @@
      "url": "https://imco.org.mx/feed/",
      "tipo": "Centro de investigación en políticas públicas (México)",
      "filtrar": true
+    },
+    {
+     "nombre": "Quinto Elemento Lab",
+     "url": "https://quintoelab.org/feed/",
+     "tipo": "Laboratorio de periodismo de investigación (México)"
     }
    ],
-   "gkg_dominio": "\\.mx$",
+   "gkg_dominio": "\\.mx$|(^|\\.)latinus\\.us$|(^|\\.)animalpolitico\\.com$|(^|\\.)aristeguinoticias\\.com$",
    "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?"
   }
  ],
