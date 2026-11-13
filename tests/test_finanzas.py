@@ -93,3 +93,15 @@ def test_servicios_publicos_con_umbrales_propios():
     reg = {d["tema"]: d["semaforo"] for d in E.diagnostico(est, rz, None, None, sector="Servicios públicos (luz, gas, agua)")}
     assert (gen["Liquidez"], gen["Endeudamiento"], gen["Generación de efectivo"]) == ("rojo", "rojo", "rojo")
     assert (reg["Liquidez"], reg["Endeudamiento"], reg["Generación de efectivo"]) == ("ambar", "ambar", "ambar")
+
+
+def test_sin_identificacion_la_sec_da_403_y_se_explica(monkeypatch, tmp_path, capsys):
+    import urllib.error
+
+    def pedir(url, **k):
+        if url == E.TICKERS:
+            raise urllib.error.HTTPError(url, 403, "Forbidden", {}, None)
+        return []
+    monkeypatch.setattr(E, "pedir", pedir)
+    assert E.main(str(tmp_path)) == 1
+    assert "SEC_USER_AGENT" in capsys.readouterr().out
