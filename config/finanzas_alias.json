@@ -1,0 +1,8 @@
+{
+  "_nota": "Equivalencias entre la clave del Portafolio y el registro en la SEC cuando no coinciden. cik: registro del que se toman los estados; nota: aviso que se muestra en la ficha. Verificado en data.sec.gov el 2026-11-13.",
+  "empresas": {
+    "FI": {"ticker_sec": "FISV", "nota": "Fiserv volvió a cotizar con la clave FISV; el Portafolio la lista como FI."},
+    "XOM": {"cik": 34088, "nota": "Desde julio de 2026 ExxonMobil cotiza a través de su nueva controladora (ExxonMobil Holdings Corp), que aún no presenta informe anual: los ejercicios son de Exxon Mobil Corp."},
+    "EA": {"cik": 712515, "nota": "Electronic Arts dejó de cotizar en agosto de 2026 (aviso 25-NSE a la SEC): se muestran sus últimos informes anuales."}
+  }
+}

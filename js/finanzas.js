@@ -120,7 +120,8 @@ function pintar(d) {
   const ultimo = d.anios[d.anios.length - 1];
   caja.append(el("div", { class: "tarjeta" },
     el("h2", {}, `${d.nombre} (${d.ticker}) `, el("span", { class: `chip ${d.calificacion}` }, `${EMOJI[d.calificacion] || ""} ${ETIQUETA[d.calificacion] || d.calificacion}`)),
-    el("p", { class: "meta" }, d.bloques ? `${d.empresa_sec} · ${d.sector || ""}` : `${d.empresa_sec} · ${d.sector || ""} · cifras en millones de ${d.moneda} · último ejercicio: cierre ${d.cierres?.[ultimo] || ultimo}`)));
+    el("p", { class: "meta" }, d.bloques ? `${d.empresa_sec} · ${d.sector || ""}` : `${d.empresa_sec} · ${d.sector || ""} · cifras en millones de ${d.moneda} · último ejercicio: cierre ${d.cierres?.[ultimo] || ultimo}`),
+    ...(d.nota ? [el("p", { class: "meta" }, `ℹ️ ${d.nota}`)] : [])));
 
   const diag = el("ul", { class: "diag" });
   for (const x of d.diagnostico) diag.append(el("li", {}, `${EMOJI[x.semaforo]} `, el("b", {}, x.tema + ": "), x.texto));
