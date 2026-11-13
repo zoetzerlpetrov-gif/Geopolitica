@@ -591,7 +591,7 @@
    "id": "politica_mx",
    "titulo": "Política en México: partidos y decisiones (pros y contras)",
    "nota": "Junta medios de líneas editoriales distintas para comparar. Ningún medio es neutral: lee varias versiones de la misma decisión, revisa datos oficiales (DOF, Gaceta Parlamentaria) y separa hechos de opiniones. Incluye periodismo de investigación sobre corrupción y uso de recursos públicos (MCCI) para conocer también lo que se le señala al gobierno.",
-   "palabras": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?",
+   "palabras": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?|subsecretar[ií]a|subsecretari[oa]|nombramiento|sin experiencia|nula trayectoria|reci[eé]n egresad|apadrinad|amiguismo|compadrazgo|presidenta? municipal|ayuntamiento|cabildo",
    "feeds": [
     {
      "nombre": "La Jornada (política)",
@@ -646,10 +646,28 @@
      "nombre": "Quinto Elemento Lab",
      "url": "https://quintoelab.org/feed/",
      "tipo": "Laboratorio de periodismo de investigación (México)"
+    },
+    {
+     "nombre": "Notus",
+     "url": "https://notus.com.mx/feed/",
+     "tipo": "Medio digital (México)",
+     "filtrar": true
+    },
+    {
+     "nombre": "NVI Noticias",
+     "url": "https://www.nvinoticias.com/rss.xml",
+     "tipo": "Diario de Oaxaca",
+     "filtrar": true
+    },
+    {
+     "nombre": "El Imparcial de Oaxaca",
+     "url": "https://imparcialoaxaca.mx/feed/",
+     "tipo": "Diario de Oaxaca",
+     "filtrar": true
     }
    ],
    "gkg_dominio": "\\.mx$|(^|\\.)latinus\\.us$|(^|\\.)animalpolitico\\.com$|(^|\\.)aristeguinoticias\\.com$",
-   "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?"
+   "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?|subsecretar[ií]a|subsecretari[oa]|nombramiento|sin experiencia|nula trayectoria|reci[eé]n egresad|apadrinad|amiguismo|compadrazgo|presidenta? municipal|ayuntamiento|cabildo"
   }
  ],
  "gkg_excluir_dominio": "prnewswire|businesswire|globenewswire|einpresswire|dailypolitical|tickerreport|pr-inside|finanznachrichten|marketscreener|openpr|newsfilecorp|accessnewswire"

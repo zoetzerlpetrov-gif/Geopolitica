@@ -84,6 +84,16 @@ jobs:
           nohup ./llama-b12292/llama-server -m modelo.gguf --host 127.0.0.1 --port 8080 -c 8192 -t "$(nproc)" --jinja > ~/llama.log 2>&1 &
           for i in $(seq 1 90); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 2; done
           curl -sf http://127.0.0.1:8080/health && echo "url=http://127.0.0.1:8080/v1/chat/completions" >> "$GITHUB_OUTPUT"
+      - name: Traer los guiones de los videos anteriores (para no repetir noticias ni Mercados)
+        continue-on-error: true
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/previos && cd /tmp/previos
+          if git init -q && git fetch -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios; then
+            git archive FETCH_HEAD guiones | tar -x || true
+          fi
+          ls guiones 2>/dev/null | wc -l
       - name: Armar el video
         env:
           IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
@@ -92,8 +102,8 @@ jobs:
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           FECHA: ${{ github.event.inputs.fecha }}
         run: |
-          if [[ "$FECHA" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then python3 tools/noticiero_video/render.py salida --fecha "$FECHA"
-          else python3 tools/noticiero_video/render.py salida; fi
+          if [[ "$FECHA" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones --fecha "$FECHA"
+          else python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones; fi
       - name: Guardar el video como artefacto
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
@@ -123,7 +133,7 @@ jobs:
             git archive FETCH_HEAD | tar -x
           fi
           mkdir -p guiones comentarios
-          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']]}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
+          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']], 'usadas': g.get('usadas', [])}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
           python3 -c "import glob,json,os; fs=sorted(glob.glob('guiones/*.json'), key=lambda f: json.load(open(f)).get('fecha',''), reverse=True); [os.remove(f) for f in fs[30:]]"  # últimos 30
           rm -rf .git && git init -q && git checkout -q -b datos-comentarios
           git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"

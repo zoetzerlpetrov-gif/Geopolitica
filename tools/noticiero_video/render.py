@@ -293,25 +293,44 @@ def armar(g, salida, modelo):
     return final
 
 
+def enlaces_usados(carpeta, fecha, dias=3):
+    """Enlaces (notas y Mercados) de los videos de los `dias` anteriores a `fecha`, para no repetir noticias."""
+    from datetime import date
+    out = set()
+    if not carpeta or not os.path.isdir(carpeta):
+        return frozenset()
+    for nombre in os.listdir(carpeta):
+        try:
+            g = json.load(open(os.path.join(carpeta, nombre), encoding="utf-8"))
+            dif = (date.fromisoformat(fecha) - date.fromisoformat(g.get("fecha", ""))).days
+        except (OSError, ValueError, TypeError):
+            continue
+        if 0 < dif <= dias:
+            out.update(u for u in g.get("usadas") or [] if isinstance(u, str))
+    return frozenset(out)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("salida")
     ap.add_argument("--fecha", help="Día del noticiero (por omisión, hoy en Ciudad de México)")
     ap.add_argument("--sitio", default="https://zoetzerlpetrov-gif.github.io/Geopolitica")
     ap.add_argument("--modelo", default=os.environ.get("PIPER_MODELO", ""))
+    ap.add_argument("--previos", help="Carpeta con los guiones de los videos anteriores (rama datos-comentarios/guiones)")
     a = ap.parse_args()
     hoy = (datetime.now(timezone.utc) - timedelta(hours=6)).strftime("%Y-%m-%d")
     fecha = a.fecha or hoy
-    cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"))
+    usadas = enlaces_usados(a.previos, fecha)
+    cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"), usadas=usadas)
     ia = os.environ.get("IA_LOCAL_URL", "").strip() or None
     elegidas = elegir_y_redactar(cands, ia)
     # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
     elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha), ia))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
     portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "portfolio_data.json") if a.sitio.startswith("http") else None
-    frases = frases_titulares(mercados(portafolio) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
+    frases = frases_titulares(mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
     g = guion(fecha, elegidas, leer_seguro(a.sitio, "data/economia/indicadores.json"), portafolio, clima,
-              cifras=leer_seguro(a.sitio, "data/vivos/indicadores.json"), frases_mercado=frases)
+              cifras=leer_seguro(a.sitio, "data/vivos/indicadores.json"), frases_mercado=frases, usadas=usadas)
     if g["notas"] < 3:
         print(f"Solo {g['notas']} nota(s): no se arma el video de hoy.", file=sys.stderr)
         sys.exit(2)

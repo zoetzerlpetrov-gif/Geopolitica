@@ -348,3 +348,56 @@ def test_estados_unidos_byd_y_nearshoring_en_voz():
     assert p("La Fed de EUA y el déficit de EU") == "La Fed de Estados Unidos y el déficit de Estados Unidos"
     assert p("El nearshoring en México") == "El nírchoring en México"  # la voz en español no tiene «sh»: «ch» es lo más cercano
     assert p("EUROPA y BYDX sin cambio") == "EUROPA y BYDX sin cambio"
+
+
+def test_no_repite_noticias_ni_mercados_de_videos_anteriores():
+    hoy = "2026-11-13T12:00:00Z"
+    port = [{"ok": True, "ticker": "NVDA", "name": "Nvidia", "current_price": 190, "currency": "USD", "sparkline_12m": [180, 185, 190],
+             "news": [{"title": "Nvidia ayer", "link": "https://n/ayer", "date": "2026-11-12T20:00:00Z", "publisher": "R"},
+                      {"title": "Nvidia hoy", "link": "https://n/hoy", "date": "2026-11-13T09:00:00Z", "publisher": "R"}]},
+            {"ok": True, "ticker": "AAPL", "name": "Apple", "current_price": 250, "currency": "USD", "sparkline_12m": [249, 250],
+             "news": [{"title": "Apple vieja", "link": "https://a/1", "date": "2026-11-11T09:00:00Z", "publisher": "R"}]}]
+    f = G.mercados(port, ahora_iso=hoy, usadas={"https://n/hoy"})
+    assert [x["url"] for x in f] == ["https://n/ayer"]  # la ya contada se salta; Apple (más de 24 h) no entra
+    assert G.mercados(port, ahora_iso=hoy, usadas={"https://n/hoy", "https://n/ayer"}) == []
+    noti = {"generado_utc": hoy, "notas": [
+        {"t": "Sheinbaum anuncia programa de vivienda en Oaxaca", "m": "A", "u": "https://x/1", "f": "2026-11-13T08:00:00Z", "s": ["politica_mx"]},
+        {"t": "Sheinbaum anuncia programa de vivienda", "m": "B", "u": "https://x/2", "f": "2026-11-13T08:00:00Z", "s": ["politica_mx"]}]}
+    c = G.candidatos_seccion(noti, usadas={"https://x/1"})
+    assert [n["url"] for n in c["politica_mx"]] == ["https://x/2"]
+
+
+def test_manianera_fuera_y_nombramientos_sin_trayectoria_como_senalamiento():
+    hoy = "2026-11-13T12:00:00Z"
+    noti = {"generado_utc": hoy, "notas": [
+        {"t": "Lo que dijo Sheinbaum en la mañanera de este jueves", "m": "A", "u": "https://x/1", "f": "2026-11-13T08:00:00Z", "s": ["politica_mx"]},
+        {"t": "«Apenas» terminó la licenciatura y ya es subsecretaria en el gobierno de Oaxaca", "m": "Notus", "u": "https://x/2",
+         "f": "2026-11-13T09:00:00Z", "s": ["politica_mx"]},
+        {"t": "La nula trayectoria de la nueva encargada de una subsecretaría en Oaxaca", "m": "Ovaciones", "u": "https://x/3",
+         "f": "2026-11-13T09:30:00Z", "s": ["politica_mx"]},
+        {"t": "En la mañanera, acusan a funcionarios de Segalmex por desvío de recursos", "m": "C", "u": "https://x/4",
+         "f": "2026-11-13T07:00:00Z", "s": ["politica_mx"]}]}
+    c = G.candidatos_seccion(noti)
+    urls = [n["url"] for n in c["politica_mx"]]
+    assert "https://x/1" not in urls and "https://x/4" in urls  # la mañanera sola no es noticia; con señalamiento sí
+    criticas = [n["url"] for n in c.get("politica_mx_critica", [])]
+    assert "https://x/2" in criticas or "https://x/3" in criticas
+
+
+def test_hashtags_con_los_temas_del_video():
+    notas = [{"seccion": "politica_mx", "titulo": "Polémica en Oaxaca por subsecretaria de 23 años", "resumen": "La designación en Oaxaca recibió críticas."},
+             {"seccion": "geopolitica", "titulo": "Sheinbaum viaja a la cumbre APEC", "resumen": "Sheinbaum hablará ante empresarios en APEC."}]
+    h = G.hashtags(notas, [{"nombre": "Nvidia Corp"}]).split()
+    assert h[:3] == ["#BrújulaDiaria", "#NoticiasMéxico", "#NoticiasHoy"]
+    assert {"#Oaxaca", "#Sheinbaum", "#APEC", "#Nvidia"} <= set(h) and len(h) <= 15 and len({x.lower() for x in h}) == len(h)
+
+
+def test_enlaces_usados_de_los_guiones_anteriores(tmp_path):
+    import json as J
+    import render as R
+    (tmp_path / "a.json").write_text(J.dumps({"fecha": "2026-11-12", "usadas": ["https://n/1"]}))
+    (tmp_path / "b.json").write_text(J.dumps({"fecha": "2026-11-05", "usadas": ["https://viejo"]}))
+    (tmp_path / "c.json").write_text(J.dumps({"fecha": "2026-11-13", "usadas": ["https://mismo-dia"]}))
+    (tmp_path / "d.json").write_text("no es json")
+    assert R.enlaces_usados(str(tmp_path), "2026-11-13") == {"https://n/1"}
+    assert R.enlaces_usados(None, "2026-11-13") == frozenset() and R.enlaces_usados("/no/existe", "2026-11-13") == frozenset()

@@ -47,3 +47,10 @@ def test_elegir_ultimo_y_cuartos_trimestres_dictaminados():
              [(2026, 3, False), (2026, 2, False), (2025, 4, True), (2025, 4, False), (2025, 3, False), (2024, 4, True)]]
     ultimo, q4 = B.elegir(lista)
     assert ultimo["xbrl"] == "20263False" and [r["xbrl"] for r in q4] == ["20254True", "20244True"]
+
+
+def test_elegir_clave_biva():
+    assert B.elegir_clave("FUNO", [{"clave": "FUNO"}, {"clave": "FUNO11"}]) == "FUNO"
+    assert B.elegir_clave("SITES", [{"clave": "SITES1"}]) == "SITES1"
+    assert B.elegir_clave("AB", [{"clave": "AB1"}, {"clave": "AB2"}]) is None  # ambigua: no se adivina
+    assert B.elegir_clave("GSANBOR", []) is None and B.elegir_clave("X", None) is None
