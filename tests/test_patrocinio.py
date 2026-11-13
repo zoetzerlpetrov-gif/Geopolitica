@@ -53,7 +53,8 @@ def test_escena_propia_declarada_y_fuera_de_las_notas():
     assert nota["aviso_patrocinador"] == "Café Sierra patrocina este programa"  # conflicto a la vista
     lineas = g["descripcion"].split("\n")
     assert lineas[1].startswith("Incluye promoción pagada de Café Sierra, Banco Norte")
-    assert "https://cafe.ejemplo/" in g["descripcion"] and "hoy hay notas o datos sobre Café Sierra" in g["descripcion"]
+    assert "• Café Sierra: https://cafe.ejemplo/" in lineas  # la línea completa, no una subcadena del texto
+    assert any(x.startswith("Aviso: hoy hay notas o datos sobre Café Sierra") for x in lineas)
     assert g["patrocinio"] and S.metadatos(g, g["descripcion"])["paidProductPlacementDetails"] == {"hasPaidProductPlacement": True}
     assert "paidProductPlacementDetails" not in S.metadatos({"titulo": "x"}, "d")
 
