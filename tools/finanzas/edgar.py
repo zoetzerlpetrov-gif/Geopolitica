@@ -397,10 +397,21 @@ def analizar(inst, cik, facts, subs):
             "fuente": "SEC EDGAR (datos XBRL de los reportes 10-K, 20-F y 40-F; dominio público)"}
 
 
+AVISO_403 = ("La SEC rechazó la consulta (HTTP 403): pide identificarse con nombre y correo. En GitHub → Settings → "
+             "Secrets and variables → Actions → New repository secret, crea SEC_USER_AGENT con un valor como "
+             "«DOMINUS Analisis tucorreo@dominio.com» y vuelve a correr «Estados financieros».")
+
+
 def main(salida="finanzas", limite=None):
     os.makedirs(salida, exist_ok=True)
     port = pedir(PORTAFOLIO) or []
-    mapa = {v["ticker"].upper(): int(v["cik_str"]) for v in (pedir(TICKERS) or {}).values()}
+    try:
+        mapa = {v["ticker"].upper(): int(v["cik_str"]) for v in (pedir(TICKERS) or {}).values()}
+    except urllib.error.HTTPError as e:
+        if e.code != 403:
+            raise
+        print(f"::error title=SEC EDGAR::{AVISO_403}")
+        return 1
     indice, n = [], 0
     for inst in port:
         t = (inst.get("ticker") or "").upper()
