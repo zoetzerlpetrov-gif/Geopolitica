@@ -114,6 +114,14 @@
   .indic h2 { font-size: 60px; margin-bottom: 30px; animation: entraIzq .6s .3s both; }
   .fila { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 2px solid rgba(255,255,255,.12); padding: 20px 0; animation: entraIzq .5s both; }
   .fila .e { font-size: 40px; color: var(--gris); } .fila .v { font-size: 58px; font-weight: 800; } .fila small { display: block; color: var(--gris); font-size: 22px; text-align: right; }
+  /* Patrocinio: escena propia, separada de las noticias, con la etiqueta PUBLICIDAD siempre visible. */
+  .patro { position: absolute; inset: 160px 110px 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+  .patro .etq { border: 3px solid var(--oro); color: var(--oro); font-weight: 800; letter-spacing: 6px; font-size: 30px; padding: 8px 26px; border-radius: 8px; animation: sube .5s .2s both; }
+  .patro img { max-width: 520px; max-height: 260px; margin-top: 44px; animation: sube .6s .5s both; }
+  .patro .m { font-size: 96px; font-weight: 800; margin-top: 40px; animation: sube .6s .5s both; }
+  .patro .x { font-size: 46px; color: var(--gris); margin-top: 30px; max-width: 1300px; animation: sube .6s .9s both; }
+  .patro .pie { position: absolute; bottom: 0; font-size: 26px; color: var(--gris); }
+  .avisopat { position: absolute; right: 110px; bottom: 260px; font-size: 26px; color: var(--gris); background: rgba(0,0,0,.35); padding: 6px 14px; border-radius: 8px; }
 </style>
 </head>
 <body>
@@ -163,7 +171,11 @@ window.escena = (e, m) => {
          <b>${esc(f.nombre)} <span style="color:var(--gris);font-weight:600;font-size:24px">${esc(f.ticker)}</span></b>
          <span class="p">${Number(f.precio).toLocaleString("es-MX", { minimumFractionDigits: f.precio < 1 ? 4 : 2, maximumFractionDigits: f.precio < 1 ? 4 : 2 })} ${esc(f.moneda)}</span>
          <span class="c ${f.pct > 0 ? "up" : f.pct < 0 ? "down" : ""}">${f.pct > 0 ? "▲" : f.pct < 0 ? "▼" : "■"} ${Math.abs(f.pct).toFixed(2)} %</span>
-         ${f.frase ? `<span class="n">${esc(f.frase)}</span>` : ""}</div>`).join("")}<div class="aviso">${esc(e.texto || "")}</div></div>`;
+         ${f.frase ? `<span class="n">${esc(f.frase)}</span>` : ""}${f.aviso_patrocinador ? `<span class="n">(patrocinador del programa)</span>` : ""}</div>`).join("")}<div class="aviso">${esc(e.texto || "")}</div></div>`;
+  } else if (e.tipo === "patrocinio") {
+    const logo = /^data:image\/(png|jpeg|webp|svg\+xml);base64,/.test(e.logo || "") ? `<img src="${e.logo}" alt="">` : "";
+    h = `<div class="patro"><div class="etq">PUBLICIDAD</div>${logo}<div class="m">${esc(e.marca)}</div>
+         ${e.texto ? `<div class="x">${esc(e.texto)}</div>` : ""}<div class="pie">Mensaje patrocinado · enlace en la descripción</div></div>`;
   } else if (e.tipo === "economia" || e.tipo === "portafolio") {
     const filas = e.filas || [{ etiqueta: e.texto || "", valor: "", fecha: "" }];
     h = `<div class="indic"><h2>${esc(e.encabezado)}</h2>${filas.map((f, i) => `<div class="fila" style="animation-delay:${(0.6 + i * 0.25).toFixed(2)}s">
@@ -174,7 +186,8 @@ window.escena = (e, m) => {
       ${e.dato ? `<div class="dato"><small>DATO DEL DÍA</small>${esc(e.dato)}</div>` : ""}
       <div class="texto" style="font-size:${((e.texto || "").length > 230 ? 52 : (e.texto || "").length > 160 ? 58 : 64) - (e.dato ? 8 : 0)}px">${palabras(e.texto || "")}</div>
       ${e.medio ? `<div class="zocalo"><div><div style="display:flex"><span class="tag">FUENTE</span><span class="medio">${esc(e.medio)}</span></div>
-        <div class="nota">${e.titular ? "Titular del medio" : "Resumen propio"} · nota completa en la descripción</div></div></div>` : ""}`;
+        <div class="nota">${e.titular ? "Titular del medio" : "Resumen propio"} · nota completa en la descripción</div></div></div>` : ""}
+      ${e.aviso_patrocinador ? `<div class="avisopat">${esc(e.aviso_patrocinador)}</div>` : ""}`;
   }
   document.getElementById("lienzo").innerHTML = arriba(m) + h + (e.tipo === "portada" ? "" : cinta(m)) + (m.cortina ? '<div class="cortina"></div>' : "");
   // Cintillo legible: velocidad fija (VEL px/s, unas 4 palabras por segundo) y continuo entre escenas (no vuelve a empezar).

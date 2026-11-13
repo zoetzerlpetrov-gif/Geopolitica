@@ -13,6 +13,7 @@ import urllib.request
 
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 SUBIDA_URL = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status"
+SUBIDA_URL_PATROCINIO = SUBIDA_URL + ",paidProductPlacementDetails"
 
 
 def metadatos(g, descripcion, privacidad="private"):
@@ -24,6 +25,8 @@ def metadatos(g, descripcion, privacidad="private"):
                     "defaultAudioLanguage": "es-419", "tags": ["Brújula Diaria", "noticias", "noticias de hoy", "noticias México", "México", "mundo", "economía", "mercados",
                              "tipo de cambio", "clima", "geopolítica", "resumen de noticias"]},
         "status": {"privacyStatus": privacidad, "selfDeclaredMadeForKids": False, "containsSyntheticMedia": True},
+        # Con patrocinio, YouTube muestra «Incluye promoción pagada» al inicio del video (política de promociones pagadas).
+        **({"paidProductPlacementDetails": {"hasPaidProductPlacement": True}} if g.get("patrocinio") else {}),
     }
 
 
@@ -94,7 +97,7 @@ def subir(directorio):
         print(AVISO_CADUCO)
         sys.exit(1)  # la corrida queda en rojo y GitHub avisa por correo; el artefacto ya se guardó
     cuerpo = json.dumps(metadatos(g, descripcion)).encode("utf-8")
-    ini = urllib.request.Request(SUBIDA_URL, data=cuerpo, method="POST", headers={
+    ini = urllib.request.Request(SUBIDA_URL_PATROCINIO if g.get("patrocinio") else SUBIDA_URL, data=cuerpo, method="POST", headers={
         "Authorization": f"Bearer {acceso}", "Content-Type": "application/json; charset=UTF-8",
         "X-Upload-Content-Type": "video/mp4", "X-Upload-Content-Length": str(os.path.getsize(video))})
     try:

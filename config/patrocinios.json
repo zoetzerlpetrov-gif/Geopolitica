@@ -1,0 +1,25 @@
+{
+  "_instrucciones": "Patrocinios y menciones de marca en Brújula Diaria. Sin campañas con activo=true y vigentes, el video sale igual que siempre. Para una campaña nueva: copia el ejemplo, pon activo=true, fechas, posición (apertura, pausa o cierre), el texto de la voz (máximo 320 caracteres, unos 20 s) y el de pantalla (máximo 140), el enlace https, la referencia del contrato y, si hay, el logo en assets/patrocinios/. La voz siempre empieza con «Mensaje patrocinado por <marca>» y la pantalla dice PUBLICIDAD; el video se declara a YouTube con promoción pagada. Ver docs/PATROCINIOS.md.",
+  "reglas": {
+    "max_por_video": 2,
+    "categorias_prohibidas": ["politica_electoral", "partido_politico", "gobierno_propaganda", "tabaco", "vapeadores", "apuestas", "casinos", "armas", "productos_milagro", "criptomoneda_emision_propia", "contenido_adulto"]
+  },
+  "campanias": [
+    {
+      "id": "ejemplo",
+      "activo": false,
+      "marca": "Marca de ejemplo",
+      "alias": ["Ejemplo S.A. de C.V."],
+      "categoria": "servicios",
+      "posicion": "pausa",
+      "desde": "2026-12-01",
+      "hasta": "2026-12-31",
+      "dias": ["lun", "mar", "mie", "jue", "vie"],
+      "pantalla": "Texto corto que aparece en pantalla",
+      "voz": "Texto que lee la voz después de «Mensaje patrocinado por Marca de ejemplo».",
+      "enlace": "https://ejemplo.com/?utm_source=youtube&utm_medium=video&utm_campaign=brujula_diaria",
+      "logo": "assets/patrocinios/ejemplo.png",
+      "contrato": "OI-0000 (orden de inserción firmada)"
+    }
+  ]
+}

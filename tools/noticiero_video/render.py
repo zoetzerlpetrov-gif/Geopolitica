@@ -18,6 +18,7 @@ from datetime import datetime, timedelta, timezone
 sys.path.insert(0, os.path.dirname(__file__))
 from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
+import patrocinio  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 
@@ -90,6 +91,15 @@ def pantalla(e, n, total, fecha):
                 d.text((96, y + 44), textwrap.shorten(f["frase"], 110), font=fuente(26), fill=GRIS)
             y += 90
         d.text((96, H - 100), e.get("texto", ""), font=fuente(26), fill=GRIS)
+    elif e["tipo"] == "patrocinio":
+        d.rectangle([W // 2 - 150, 200, W // 2 + 150, 252], outline=ORO, width=3)
+        d.text((W // 2, 226), "PUBLICIDAD", font=fuente(32, True), fill=ORO, anchor="mm")
+        d.text((W // 2, H // 2 - 40), e.get("marca", ""), font=fuente(96, True), fill=TINTA, anchor="mm")
+        y = H // 2 + 60
+        for parte in textwrap.wrap(e.get("texto", ""), 50)[:3]:
+            d.text((W // 2, y), parte, font=fuente(44), fill=GRIS, anchor="mm")
+            y += 60
+        d.text((W // 2, H - 110), "Mensaje patrocinado · enlace en la descripción", font=fuente(28), fill=GRIS, anchor="mm")
     elif e["tipo"] == "economia":
         d.text((96, 170), e["encabezado"], font=fuente(72, True), fill=TINTA)
         y = 320
@@ -108,6 +118,8 @@ def pantalla(e, n, total, fecha):
             y += 82
         if e.get("medio"):
             d.text((96, H - 150), f"Fuente: {e['medio']}", font=fuente(38, True), fill=ORO)
+        if e.get("aviso_patrocinador"):
+            d.text((W - 96, H - 150), e["aviso_patrocinador"], font=fuente(30), fill=GRIS, anchor="ra")
             d.text((96, H - 100), ("Titular del medio" if e.get("titular") else "Resumen propio") + " · nota completa en el enlace de la descripción", font=fuente(28), fill=GRIS)
     d.text((W - 96, H - 60), f"{n}/{total}", font=fuente(26), fill=GRIS, anchor="ra")
     return im
@@ -331,6 +343,7 @@ def main():
     frases = frases_titulares(mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
     g = guion(fecha, elegidas, leer_seguro(a.sitio, "data/economia/indicadores.json"), portafolio, clima,
               cifras=leer_seguro(a.sitio, "data/vivos/indicadores.json"), frases_mercado=frases, usadas=usadas)
+    g = patrocinio.aplicar(g)  # patrocinios vigentes de config/patrocinios.json (si no hay, el video queda igual)
     if g["notas"] < 3:
         print(f"Solo {g['notas']} nota(s): no se arma el video de hoy.", file=sys.stderr)
         sys.exit(2)
