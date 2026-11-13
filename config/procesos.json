@@ -36,6 +36,14 @@
    "cada": "24 h",
    "max_horas": 30,
    "afecta": "Respuestas propuestas a comentarios de Brújula Diaria (comentarios.html, solo administración)"
+  },
+  {
+   "id": "estados_financieros",
+   "nombre": "Estados financieros (SEC EDGAR)",
+   "workflow": "estados-financieros.yml",
+   "cada": "7 días",
+   "max_horas": 194,
+   "afecta": "Análisis financiero de empresas del Portafolio (finanzas.html, solo administración)"
   }
   ],
   "datos": [

@@ -1,0 +1,48 @@
+name: Estados financieros
+
+# Cada semana descarga de SEC EDGAR (dominio público) los estados financieros de las empresas del Portafolio que
+# reportan a la SEC, calcula razones, puntajes (Piotroski, Altman) y un diagnóstico con reglas fijas
+# (tools/finanzas/edgar.py) y los publica en la rama datos-finanzas para finanzas.html (solo admin).
+# La SEC pide identificarse: secreto opcional SEC_USER_AGENT («Nombre correo@dominio»).
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 9 * * 6"  # sábados 03:23 en Ciudad de México
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: datos-finanzas
+  cancel-in-progress: false
+
+jobs:
+  descargar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Estados financieros desde SEC EDGAR
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python3 tools/finanzas/edgar.py finanzas
+      - name: Publicar en la rama datos-finanzas
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub && cp -r finanzas /tmp/pub/ && cd /tmp/pub
+          git init -q && git checkout -q -b datos-finanzas
+          git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"
+          git add finanzas && git commit -q -m "estados financieros $(date -u +'%Y-%m-%d')"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-finanzas
+  publicar:
+    needs: descargar
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit
