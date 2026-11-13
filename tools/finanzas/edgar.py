@@ -26,6 +26,24 @@ PORTAFOLIO = "https://zoetzerlpetrov-gif.github.io/portafolio/portfolio_data.jso
 TICKERS = "https://www.sec.gov/files/company_tickers.json"
 FACTS = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
 SUBS = "https://data.sec.gov/submissions/CIK{cik:010d}.json"
+ALIAS = os.path.join(os.path.dirname(__file__), "..", "..", "config", "finanzas_alias.json")
+
+
+def alias():
+    try:
+        return json.load(open(ALIAS, encoding="utf-8")).get("empresas", {})
+    except (OSError, ValueError):
+        return {}
+
+
+def cik_de(t, mapa, equivalencias):
+    """CIK de la SEC para una clave del Portafolio: primero la tabla de equivalencias (cambios de clave, nuevas
+    controladoras, empresas que dejaron de cotizar), luego company_tickers.json."""
+    a = equivalencias.get(t) or {}
+    if a.get("cik"):
+        return int(a["cik"])
+    t = a.get("ticker_sec") or t
+    return mapa.get(t) or mapa.get(t.replace(".", "-"))
 AGENTE = os.environ.get("SEC_USER_AGENT", "").strip() or "DOMINUS-OSINT finanzas (github.com/zoetzerlpetrov-gif/Geopolitica)"
 PAUSA = 0.25  # ≤ 4 consultas por segundo (límite de la SEC: 10; con margen porque GitHub comparte IP)
 ANIOS = 6
@@ -421,11 +439,11 @@ def main(salida="finanzas", limite=None):
             raise
         print(f"::error title=SEC EDGAR::{AVISO_403}")
         return 1
-    indice, n = [], 0
+    indice, n, equivalencias = [], 0, alias()
     for inst in port:
         t = (inst.get("ticker") or "").upper()
         fila = {"ticker": t, "nombre": inst.get("name", ""), "sector": inst.get("sector")}
-        cik = mapa.get(t) or mapa.get(t.replace(".", "-"))
+        cik = cik_de(t, mapa, equivalencias)
         if not cik or t.endswith((".MX", "-USD")) or "ETF" in (inst.get("sector") or ""):
             indice.append({**fila, "estado": "sin_datos", "motivo": motivo_sin_datos(inst)})
             continue
@@ -438,6 +456,8 @@ def main(salida="finanzas", limite=None):
             subs = pedir(SUBS.format(cik=cik))
             time.sleep(PAUSA)
             res = analizar(inst, cik, facts or {}, subs) if facts else None
+            if res and (equivalencias.get(t) or {}).get("nota"):
+                res["nota"] = equivalencias[t]["nota"]
         except Exception as e:  # noqa: BLE001  una empresa con error no detiene a las demás
             res = None
             previo = os.path.join(salida, re.sub(r"[^A-Z0-9.-]", "_", t) + ".json")

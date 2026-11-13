@@ -157,3 +157,14 @@ def test_limite_de_la_sec_no_es_sin_datos(tmp_path, monkeypatch):
     ind = json.load(open(tmp_path / "indice.json"))
     assert ind["empresas"][0]["estado"] == "ok"
     assert "corrida anterior" in json.load(open(previo))["nota"]
+
+
+def test_equivalencias_de_claves_sec():
+    mapa = {"FISV": 798354, "XOM": 2115436, "AAPL": 320193, "BRK-B": 1067983}
+    eq = E.alias()
+    assert E.cik_de("FI", mapa, eq) == 798354  # Fiserv volvió a FISV
+    assert E.cik_de("XOM", mapa, eq) == 34088  # nueva controladora sin 10-K: se usa Exxon Mobil Corp
+    assert E.cik_de("EA", mapa, eq) == 712515  # dejó de cotizar: ya no está en company_tickers.json
+    assert E.cik_de("AAPL", mapa, eq) == 320193 and E.cik_de("BRK.B", mapa, eq) == 1067983
+    assert E.cik_de("NADA", mapa, eq) is None
+    assert all(v.get("nota") for v in eq.values())
