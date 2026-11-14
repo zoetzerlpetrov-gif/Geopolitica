@@ -1,0 +1,340 @@
+{
+ "generado_utc": "2026-11-14T21:18:51Z",
+ "modo": "produccion",
+ "cron": "17 * * * *",
+ "intervalo_minutos": 60,
+ "proxima_ejecucion_utc": "2026-11-14T22:17:00Z",
+ "eventos_total": 3111,
+ "eventos_nuevos": 41,
+ "candidatos": 664,
+ "descartados": {
+  "fuera_de_ventana": 123,
+  "fuera_de_tema": 15,
+  "sin_clasificar": 159,
+  "red_social_sin_pais": 3,
+  "imagenes_portada": 34
+ },
+ "historial_borrados": 0,
+ "calidad": {
+  "eventos": 3111,
+  "sin_pais": 88,
+  "confianza_baja": 274,
+  "verificados": 8,
+  "con_varias_fuentes": 624,
+  "impacto_mexico": 894,
+  "confianza_media": 0.63,
+  "por_area": {
+   "seguridad": 1701,
+   "instituciones": 323,
+   "geoeconomia": 272,
+   "tecnologia": 227,
+   "identidad": 167,
+   "geografia": 92,
+   "energia": 84,
+   "demografia": 66,
+   "clima": 60,
+   "regional": 54,
+   "riesgo": 44,
+   "salud_nrbq": 11,
+   "infraestructura": 10
+  },
+  "por_tipo_fuente": {
+   "noticia": 1243,
+   "base_datos": 1802,
+   "analisis": 5,
+   "red_social": 61
+  }
+ },
+ "ejemplos_sin_clasificar": [
+  {
+   "titulo": "Philippines wins first Eurovision Song Contest Asia",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cqrlgnx9dx6eo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Sotheby's auction of $180m Van Gogh challenged over claims it was 'sold under duress'",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cmwy05gg75lvo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Hungarian authorities uncover $20m during probe of Orbán-era minister",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/ckjwj03w4w0qo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "'We'll get home one day' - US travellers impacted by nationwide ground stop",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/c893ryz7lw33o?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Watch: Divers explore US ship sunk off Florida coast to create new reef",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/ckqx5ryx905qo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Will the Eurovision Song Contest succeed in Asia?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/videos/cxvg23n59y1ro?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Jojo the gorilla has spent his life alone. Can he finally find a companion?",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cwm2mn272nqlo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Rosenberg: Uncompromising Putin ups demands for peace with Ukraine",
+   "fuente": "BBC World",
+   "url": "https://www.bbc.co.uk/news/articles/cq39glwprknjo?at_medium=RSS&at_campaign=rss"
+  },
+  {
+   "titulo": "Eisenkot: llamado de Netanyahu a negociar “sin condiciones” es “fanfarronada”",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/eisenkot-llamado-de-netanyahu-a-negociar-sin-condiciones-es-fanfarronada/a-79950135?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "EE.UU.: miles de pasajeros siguen afectados tras caos por suspensión de vuelos",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/ee-uu-miles-de-pasajeros-siguen-afectados-tras-caos-por-suspensión-de-vuelos/a-79949266?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Premio Werner Holzer de Periodismo para Katja Gloger y Jaafar Abdul Karim, de Deutsche Welle",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/premio-werner-holzer-de-periodismo-para-katja-gloger-y-jaafar-abdul-karim-de-deutsche-welle/a-79947781?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "Alemania hace la \"reforma del siglo\" en sus servicios secretos",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/alemania-hace-la-reforma-del-siglo-en-sus-servicios-secretos/a-79941487?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "La empresa automotriz Mercedes-Benz analiza el cierre de fábricas en Alemania",
+   "fuente": "DW Español",
+   "url": "https://www.dw.com/es/la-empresa-automotriz-mercedes-benz-analiza-el-cierre-de-fábricas-en-alemania/a-79935742?maca=spa-rss-sp-all-1122-rdf"
+  },
+  {
+   "titulo": "La inédita captura de Starship: el intento de regresar la nave de SpaceX a la Tierra",
+   "fuente": "France 24 Español",
+   "url": "https://www.france24.com/es/ciencia-y-tecnolog%C3%ADas/20261114-la-in%C3%A9dita-captura-de-starship-el-intento-de-regresar-la-nave-de-spacex-a-la-tierra"
+  },
+  {
+   "titulo": "Papa León XIV oficia una multitudinaria misa en Cajamarca, su antigua diósecis",
+   "fuente": "France 24 Español",
+   "url": "https://www.france24.com/es/video/20261114-papa-le%C3%B3n-xiv-oficia-una-multitudinaria-misa-en-cajamarca-su-antigua-di%C3%B3secis"
+  }
+ ],
+ "resumen_ia": {
+  "proveedor": "local",
+  "modelo": "Qwen3-4B-Instruct-2507-Q4_K_M",
+  "resumidos": 1,
+  "rechazados": 5,
+  "motivos": {
+   "copia": 5
+  },
+  "errores": [],
+  "pendientes": 0
+ },
+ "fuentes": [
+  {
+   "id": "gdelt",
+   "nombre": "GDELT 2.0",
+   "estado": "ok",
+   "eventos": 112,
+   "segundos": 1.1,
+   "error": null
+  },
+  {
+   "id": "bbc",
+   "nombre": "BBC World",
+   "estado": "ok",
+   "eventos": 23,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "dw",
+   "nombre": "DW Español",
+   "estado": "ok",
+   "eventos": 22,
+   "segundos": 0.5,
+   "error": null
+  },
+  {
+   "id": "france24",
+   "nombre": "France 24 Español",
+   "estado": "ok",
+   "eventos": 24,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "elpais",
+   "nombre": "El País Internacional",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.1,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "aljazeera",
+   "nombre": "Al Jazeera",
+   "estado": "ok",
+   "eventos": 25,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "crisisgroup",
+   "nombre": "International Crisis Group",
+   "estado": "error",
+   "eventos": 0,
+   "segundos": 0.2,
+   "error": "PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+  },
+  {
+   "id": "cidob_bluesky",
+   "nombre": "CIDOB (Bluesky)",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "mastodon_geopolitics",
+   "nombre": "Mastodon #geopolitics",
+   "estado": "ok",
+   "eventos": 20,
+   "segundos": 0.9,
+   "error": null
+  },
+  {
+   "id": "onu_noticias",
+   "nombre": "Noticias ONU",
+   "estado": "ok",
+   "eventos": 30,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "jornada_politica",
+   "nombre": "La Jornada · Política",
+   "estado": "ok",
+   "eventos": 27,
+   "segundos": 0.4,
+   "error": null
+  },
+  {
+   "id": "jornada_economia",
+   "nombre": "La Jornada · Economía",
+   "estado": "ok",
+   "eventos": 12,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "jornada_estados",
+   "nombre": "La Jornada · Estados",
+   "estado": "ok",
+   "eventos": 9,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "infobae_mx",
+   "nombre": "Infobae México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "eleconomista",
+   "nombre": "El Economista",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "elfinanciero",
+   "nombre": "El Financiero",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.3,
+   "error": null
+  },
+  {
+   "id": "expansion",
+   "nombre": "Expansión",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.1,
+   "error": null
+  },
+  {
+   "id": "expansion_politica",
+   "nombre": "Expansión Política",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "elsoldemexico",
+   "nombre": "El Sol de México",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 0.6,
+   "error": null
+  },
+  {
+   "id": "zeta",
+   "nombre": "Zeta Tijuana",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 0.2,
+   "error": null
+  },
+  {
+   "id": "piedepagina",
+   "nombre": "Pie de Página",
+   "estado": "ok",
+   "eventos": 10,
+   "segundos": 2.0,
+   "error": null
+  },
+  {
+   "id": "oms",
+   "nombre": "OMS · brotes de enfermedades",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.2,
+   "error": null
+  },
+  {
+   "id": "ifrc",
+   "nombre": "Cruz Roja · emergencias (IFRC GO)",
+   "estado": "ok",
+   "eventos": 40,
+   "segundos": 1.8,
+   "error": null
+  }
+ ],
+ "errores": [
+  "elpais: PermissionError: el robots.txt del sitio no permite leer este feed: se omite",
+  "crisisgroup: PermissionError: el robots.txt del sitio no permite leer este feed: se omite"
+ ],
+ "reportes": {
+  "mexico": {
+   "fecha": "2026-11-14",
+   "total": 193,
+   "pdf": true,
+   "ia": false
+  },
+  "global": {
+   "fecha": "2026-11-14",
+   "total": 1022,
+   "pdf": true,
+   "ia": false
+  }
+ }
+}
