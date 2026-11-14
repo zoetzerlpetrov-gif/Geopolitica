@@ -43,7 +43,7 @@ MAX_ARCHIVO = 20000
 CATALOGO = os.path.join(ROOT, "config", "anomalias.json")
 CASOS = os.path.join(ROOT, "config", "anomalias_casos.json")
 NUFORC = "https://raw.githubusercontent.com/planetsig/ufo-reports/master/csv-data/ufo-scrubbed-geocoded-time-standardized.csv"
-CADA_H = 6
+CADA_H = 1  # cada hora (antes 6): los reportes de avistamientos se publican y se mueven rápido en blogs y redes
 NUFORC_CADA_DIAS = 30  # el archivo no cambia desde 2014: basta con recalcular una vez al mes
 DIAS_RECIENTES = 365
 
@@ -53,7 +53,7 @@ TIPOS_ANOM = {"ufo": "Objeto aéreo no identificado", "uso": "Objeto sumergido o
             "em": "Efectos electromagnéticos", "volcano": "Objetos sobre volcanes", "crop": "Figuras en cultivos"}
 # Feeds dedicados al tema: sus entradas pasan sin filtro de palabras.
 FEEDS_TEMA = {"The Black Vault", "Inexplicata (es)", "Latest UFO Sightings", "Open Minds UFO News", "UFO Evidence RSS",
-              "Planeta UFO (es)", "Espacio Misterio (es)", "Mystery Wire", "UFO Chronicles"}
+              "Planeta UFO (es)", "Espacio Misterio (es)", "Mystery Wire", "UFO Chronicles", "UFO Sightings Daily"}
 # Palabras del tema (sin acentos, minúsculas). Una nota general debe traer alguna en el título.
 TEMA = re.compile(r"\b(ovnis?|ufos?|uaps?|alienigenas?|extraterrestres?|platillos? voladores?|flying saucers?|"
                   r"(?:objetos?|fenomenos?) (?:voladores? |aereos? |anomalos? )*no identificad[oa]s?|unidentified (?:flying|aerial|anomalous)|"
@@ -187,7 +187,20 @@ FEEDS_PROPIOS = [
     ("The Debrief", "https://thedebrief.org/feed/", False),
     ("Liberation Times", "https://www.liberationtimes.com/home?format=rss", False),
     ("IranWire", "https://iranwire.com/en/feed/", False),
+    # 14-nov-2026: fuentes dedicadas con reportes diarios de testigos (robots.txt permite el feed) y dos medios
+    # generales en español que publican los videos virales (Alaska, Argentina y Uruguay, plataforma petrolera).
+    # Reddit (r/UFOs) y The Black Vault bloquean lectores automáticos en su robots.txt: no se usan.
+    ("UFO Sightings Daily", "https://www.ufosightingsdaily.com/feeds/posts/default?alt=rss", True),
+    ("MUFON", "https://www.mufon.com/feed", False),  # también publica podcasts y congresos: solo notas con palabras del tema
+    ("El Heraldo de México (tendencias)", "https://heraldodemexico.com.mx/rss/feed.html?r=8", False),
+    ("El Heraldo de México (mundo)", "https://heraldodemexico.com.mx/rss/feed.html?r=5", False),
+    ("Infobae Tendencias", "https://www.infobae.com/arc/outboundfeeds/rss/category/tendencias/", False),
 ]
+# Lo que usa la palabra pero no es un reporte: la banda de rock UFO, el rapero Ufo361, el anime «Ufo Robot Goldrake»,
+# agencias de fotos o tiendas con «UFO» en el nombre.
+RUIDO = re.compile(r"goldrake|grendizer|ufo robot|ufo361|funky taurus|phil mogg|michael schenker|\bufo (band|tour|album|concert)|"
+                   r"\bla banda ufo\b|ufo catcher|ufo tofu|dj ufo|ufo pizza|podcast|symposium|simposio|webinar|join us|tickets?\b|boletos", re.I)
+DOMINIOS_RUIDO = {"funkytaurusmedia.com"}
 GDELT_DOC = "https://api.gdeltproject.org/api/v2/doc/doc"
 # Dos consultas por corrida (GDELT pide máximo una cada 5 s): alfabeto latino y otros alfabetos.
 GDELT_CONSULTAS = [
@@ -213,7 +226,7 @@ def _id_url(url):
 def nota_propia(titulo, url, fecha, medio, ubicador, dedicado=False, pais_medio=None, origen="rss"):
     """Nota de un medio propio o de GDELT → feature de «anom_recientes», o None si no es del tema o no tiene lugar."""
     titulo = re.sub(r"\s+", " ", str(titulo or "")).strip()
-    if not titulo or not str(url).startswith("http"):
+    if not titulo or not str(url).startswith("http") or RUIDO.search(titulo) or any(d in str(url) for d in DOMINIOS_RUIDO):
         return None
     if not (dedicado or es_del_tema(titulo, [medio]) or TEMA_OTROS.search(sin_acentos(titulo))):
         return None
@@ -260,6 +273,39 @@ def de_feeds_propios(ubicador, leer=None, permitido=None, feeds=None):
         except Exception as e:  # noqa: BLE001  un medio caído no detiene a los demás
             estado[medio] = f"error: {type(e).__name__}"
     return out, estado
+
+
+def de_gkg(ubicador, archivos=4, filas_de=None, lista_de=None):
+    """GDELT GKG (los mismos archivos de 15 min que ya bajan tornados y el Noticiero, en caché): notas del tema en
+    cualquier idioma (el flujo traducido trae el título original). La API DOC responde 429 a los servidores de GitHub
+    desde el 10-nov-2026 (comparten dirección IP), por eso se dejó de usar. Devuelve (features, estado)."""
+    sys.path.insert(0, os.path.join(ROOT, "tools", "clima"))
+    import tornados as T  # noqa: E402
+    filas_de = filas_de or T.filas_gkg
+    lista_de = lista_de or T.archivos_gkg
+    out, n_arch, errores = [], 0, 0
+    for flujo, url in T.FLUJOS.items():
+        try:
+            urls = lista_de(url, archivos)
+        except Exception:  # noqa: BLE001
+            errores += 1
+            continue
+        for u in urls:
+            try:
+                for fila in filas_de(u):
+                    if len(fila) < 27 or not fila[4].startswith("http"):
+                        continue
+                    titulo = T.titulo_de(fila[26])
+                    if not titulo or not TEMA_OTROS.search(sin_acentos(titulo)) and not es_del_tema(titulo, []):
+                        continue
+                    fecha = f"{fila[1][:4]}-{fila[1][4:6]}-{fila[1][6:8]}" if len(fila[1]) >= 8 else ""
+                    f = nota_propia(titulo, fila[4], fecha, f"{fila[3] or 'GDELT'} (vía GDELT)", ubicador, origen="gdelt")
+                    if f:
+                        out.append(f)
+                n_arch += 1
+            except Exception:  # noqa: BLE001  un archivo faltante no detiene a los demás
+                errores += 1
+    return out, f"GKG: {len(out)} notas en {n_arch} archivos" + (f"; {errores} sin respuesta" if errores else "")
 
 
 def de_gdelt(ubicador, leer=None, pausa=PAUSA_GDELT_S):
@@ -446,7 +492,11 @@ def leer_archivo(previo=None):
     except (OSError, ValueError, KeyError):
         feats = [f for f in (previo or {}).get("features", []) if str(f["properties"].get("id", "")).startswith("ta:")
                  and f["properties"].get("capa") in ("anom_recientes", "anom_archivo")]
-    return [f for f in feats if "github.com/" not in str(f["properties"].get("url", "")) and "githubusercontent" not in str(f["properties"].get("url", ""))]
+    def sirve(p):
+        u = str(p.get("url", ""))
+        # Sin repositorios intermedios ni ruido (banda UFO, Goldrake, agencias con «UFO» en el nombre) guardado antes del filtro.
+        return "github.com/" not in u and "githubusercontent" not in u and not RUIDO.search(str(p.get("titulo", ""))) and not any(d in u for d in DOMINIOS_RUIDO)
+    return [f for f in feats if sirve(f["properties"])]
 
 
 def guardar_archivo(feats, ahora):
@@ -475,7 +525,7 @@ def main():
     archivo = leer_archivo(previo)
     ubicador = Ubicador()
     propios, est_feeds = de_feeds_propios(ubicador)
-    gd, estado["anom_gdelt"] = de_gdelt(ubicador)
+    gd, estado["anom_gdelt"] = de_gkg(ubicador)
     estado["anom_medios"] = est_feeds
     estado["anom_recientes"] = f"ok ({len(propios) + len(gd)} notas nuevas en esta corrida)"
     archivo = unir_archivo(archivo, propios + gd, ahora)
