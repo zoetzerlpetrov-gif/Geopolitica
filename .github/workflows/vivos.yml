@@ -341,6 +341,11 @@ jobs:
         timeout-minutes: 4
         run: python3 tools/elecciones/elecciones.py
 
+      - name: Cisnes blancos y negros (probabilidad base publicada y señales de noticias y protocolos; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/cisnes/cisnes.py
+
       - name: Desarrollos de ARA y SADASI (sitios oficiales, una vez por semana; si falla se conserva lo anterior)
         continue-on-error: true
         timeout-minutes: 6
