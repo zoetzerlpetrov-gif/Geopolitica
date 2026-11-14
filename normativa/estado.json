@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-13T20:58:44Z",
+ "generado_utc": "2026-11-14T09:21:15Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -15,7 +15,7 @@
    "estado": "ok",
    "nuevas": 5,
    "error": "",
-   "hasta": "2026-11-13"
+   "hasta": "2026-11-14"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,7 +23,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-13"
+   "hasta": "2026-11-14"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
@@ -31,7 +31,7 @@
    "estado": "ok",
    "nuevas": 2,
    "error": "",
-   "hasta": "2026-11-13"
+   "hasta": "2026-11-14"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-13"
+   "hasta": "2026-11-14"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-13"
+   "hasta": "2026-11-14"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-13"
+   "hasta": "2026-11-14"
   }
  },
  "sin_fuente": {
@@ -75,20 +75,20 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-13",
-  "CAN": "2026-11-13",
-  "EUR": "2026-11-13",
-  "JPN": "2026-11-13",
-  "RUS": "2026-11-13",
+  "USA": "2026-11-14",
+  "CAN": "2026-11-14",
+  "EUR": "2026-11-14",
+  "JPN": "2026-11-14",
+  "RUS": "2026-11-14",
   "MEX": "2026-11-13",
-  "ARG": "2026-11-13"
+  "ARG": "2026-11-14"
  },
  "desactualizadas": [],
  "por_pais": {
   "USA": {
    "total": 34,
    "alto": 0,
-   "ultimos_30d": 30
+   "ultimos_30d": 29
   },
   "RUS": {
    "total": 12,
@@ -96,14 +96,14 @@
    "ultimos_30d": 12
   },
   "MEX": {
-   "total": 541,
-   "alto": 44,
-   "ultimos_30d": 32
+   "total": 546,
+   "alto": 46,
+   "ultimos_30d": 37
   },
   "EUR": {
    "total": 51,
    "alto": 6,
-   "ultimos_30d": 39
+   "ultimos_30d": 35
   }
  },
  "agregadas_hoy": 5
