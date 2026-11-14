@@ -31,7 +31,11 @@ def pedir(url, abrir=urllib.request.urlopen):
         with abrir(urllib.request.Request(url, headers={"User-Agent": AGENTE, "Accept-Encoding": "identity"}), timeout=60) as r:
             return r.read()
     except urllib.error.HTTPError as e:
-        if e.code == 404:  # fin de semana o día feriado: no hay índice
+        # Fin de semana o día feriado: no hay índice. Para un archivo que no existe, el servidor de la SEC responde
+        # 403 (no 404); un 403 por falta de identificación también falla en los envíos de cada empresa, que sí se reporta.
+        if e.code in (403, 404) and "/daily-index/" in url:
+            return None
+        if e.code == 404:
             return None
         raise
 
@@ -88,10 +92,16 @@ def main(hoy=None, pedir_fn=pedir, dormir=time.sleep):
         if clave in vistos and k > 3:  # los últimos 3 días se releen (la SEC publica el índice al final del día)
             leidos.append(clave)
             continue
-        txt = pedir_fn(INDICE.format(y=d.year, q=(d.month - 1) // 3 + 1, d=d.strftime("%Y%m%d")))
+        try:
+            txt = pedir_fn(INDICE.format(y=d.year, q=(d.month - 1) // 3 + 1, d=d.strftime("%Y%m%d")))
+        except Exception as e:  # noqa: BLE001  un día sin respuesta no detiene a los demás (se relee en la próxima corrida)
+            print(f"  índice {clave}: {type(e).__name__}")
+            txt = None
+            clave = None
         dormir(PAUSA)
         if txt is None:
-            leidos.append(clave)
+            if clave:
+                leidos.append(clave)
             continue
         for cik, f in ocho_k(txt.decode("latin-1"), ciks):
             pendientes[cik] = max(pendientes.get(cik, ""), f)

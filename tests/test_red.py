@@ -122,3 +122,16 @@ def test_anomalias_ruido_y_gkg():
     feats, est = A.de_gkg(u, archivos=1, filas_de=lambda url: iter([fila, otra]), lista_de=lambda url, n: [url])
     assert len(feats) == 2 and all(x["properties"]["fuente"] == "tvazteca.com (vía GDELT)" for x in feats)  # un archivo por flujo (inglés y traducido)
     assert "GKG: 2 notas" in est
+
+
+def test_cambios_sec_fin_de_semana_y_dia_con_error():
+    import os, sys, io, json, urllib.error
+    from datetime import date
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "corporativo"))
+    import cambios_sec as C
+    def abrir_403(req, timeout=0):
+        raise urllib.error.HTTPError(req.full_url, 403, "Forbidden", {}, io.BytesIO(b""))
+    assert C.pedir("https://www.sec.gov/Archives/edgar/daily-index/2026/QTR4/form.20261114.idx", abrir=abrir_403) is None
+    import pytest
+    with pytest.raises(urllib.error.HTTPError):
+        C.pedir("https://data.sec.gov/submissions/CIK0001045810.json", abrir=abrir_403)  # 403 en envíos sí es error
