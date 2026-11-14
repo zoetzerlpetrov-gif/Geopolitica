@@ -1,11 +1,11 @@
 {
- "generado_utc": "2026-11-14T09:21:15Z",
+ "generado_utc": "2026-11-14T19:28:16Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 6,
+   "nuevas": 5,
    "error": "",
    "hasta": "2026-11-13"
   },
@@ -106,5 +106,5 @@
    "ultimos_30d": 35
   }
  },
- "agregadas_hoy": 5
+ "agregadas_hoy": 0
 }
