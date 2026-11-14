@@ -78,5 +78,21 @@
    "Fabricantes, importadores y distribuidores de aparejos de pesca en la UE: sustituir el plomo según los plazos de transición del reglamento (verificar en EUR-Lex)."
   ],
   "estado": "incorporado al catálogo (2026-11-13)"
+ },
+ "MEX:dof:5803838": {
+  "resumen": "Reforma al artículo 58 de la Ley General de Turismo (fracciones X Bis y X Ter, según el dictamen del Senado): los prestadores de servicios turísticos deben aplicar protocolos y acciones preventivas para detectar delitos contra niñas, niños y adolescentes, y medidas de seguridad antes de prestar el servicio. Fecha de publicación y texto final: verificar en el DOF y en la compilación de la Cámara de Diputados (aún muestra la reforma de 2025-11-14).",
+  "afectaciones": [
+   "Hoteles, plataformas de hospedaje, agencias de viajes y demás prestadores de servicios turísticos: protocolo de detección y aviso de posibles delitos contra menores y capacitación del personal (verificar plazos de los transitorios)."
+  ],
+  "estado": "verificar (sin ficha de turismo en el catálogo de México; pendiente de crear si se confirma)"
+ },
+ "MEX:dof:5803837": {
+  "resumen": "Reforma al Código Penal Federal y a la Ley Federal de Protección a la Propiedad Industrial en materia de piratería (en prensa, «ley antimemes»). Según prensa: 4 a 10 años de prisión por producir, distribuir o vender copias no autorizadas a escala comercial; 1 a 5 años por suplantar la identidad de instituciones públicas con logotipos, dominios o documentos oficiales, con engaño y fin delictivo; deroga el art. 405 del CPF; vigente desde el 14 de noviembre. Aprobada por Diputados el 21 de octubre de 2026 (dictamen del Senado del 25 de septiembre). Artículos exactos: verificar en el DOF.",
+  "afectaciones": [
+   "Comercio y plataformas de venta en línea: retirar productos apócrifos y documentar la autorización de marcas que se revenden.",
+   "TI y digital: sitios o perfiles que imiten dominios o logotipos de dependencias pueden configurar delito; revisar campañas y plantillas que usen identidad gubernamental.",
+   "Titulares de marcas: nueva vía penal contra la piratería a escala comercial (según legisladores citados en prensa, la parodia o el meme sin fin comercial no queda tipificado; verificar en el texto publicado)."
+  ],
+  "estado": "fichas LFPPI y CPF actualizadas con «verificar» (2026-11-14)"
  }
 }
