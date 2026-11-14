@@ -1,0 +1,5135 @@
+{
+"generado_utc": "2026-11-14T15:59:48Z",
+"fuente": "SEC EDGAR y reportes CNBV publicados por BIVA",
+"aviso": "Información con fines educativos; no es asesoría de inversión.",
+"empresas": [
+{
+"ticker": "VOO",
+"nombre": "Vanguard S&P 500",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-06"
+},
+{
+"ticker": "QQQ",
+"nombre": "Invesco Nasdaq-100",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-06"
+},
+{
+"ticker": "VTI",
+"nombre": "Vanguard Total US Market",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-06"
+},
+{
+"ticker": "DIA",
+"nombre": "Dow Jones 30",
+"sector": "ETFs / Índices",
+"estado": "sin_datos",
+"motivo": "ETF sin reporte N-PORT a la SEC (fondo fuera de EUA o fideicomiso de inversión)."
+},
+{
+"ticker": "IWM",
+"nombre": "Russell 2000 (small caps)",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-06"
+},
+{
+"ticker": "VEA",
+"nombre": "Desarrollados ex-EE.UU.",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-06"
+},
+{
+"ticker": "VWO",
+"nombre": "Mercados emergentes",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-07"
+},
+{
+"ticker": "VT",
+"nombre": "Acciones mundiales",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026-07"
+},
+{
+"ticker": "SCHD",
+"nombre": "Dividendos EE.UU.",
+"sector": "ETFs / Índices",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026-08"
+},
+{
+"ticker": "NAFTRACISHRS.MX",
+"nombre": "IPC México",
+"sector": "ETFs / Índices",
+"estado": "sin_datos",
+"motivo": "ETF sin reporte N-PORT a la SEC (fondo fuera de EUA o fideicomiso de inversión)."
+},
+{
+"ticker": "FUNO11.MX",
+"nombre": "Fibra Uno",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FIBRAPL14.MX",
+"nombre": "Fibra Prologis",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "DANHOS13.MX",
+"nombre": "Fibra Danhos",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FMTY14.MX",
+"nombre": "Fibra Mty",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FIBRAMQ12.MX",
+"nombre": "Fibra Macquarie",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FNOVA17.MX",
+"nombre": "Fibra Nova",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FIHO12.MX",
+"nombre": "Fibra Hotel",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FSHOP13.MX",
+"nombre": "Fibra Shop",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "FINN13.MX",
+"nombre": "Fibra Inn",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "STORAGE18.MX",
+"nombre": "Fibra Storage",
+"sector": "FIBRAs (bienes raíces)",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "BTC-USD",
+"nombre": "Bitcoin",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "ETH-USD",
+"nombre": "Ethereum",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "XRP-USD",
+"nombre": "XRP (Ripple)",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "XLM-USD",
+"nombre": "Stellar Lumens",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "HBAR-USD",
+"nombre": "Hedera",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "SOL-USD",
+"nombre": "Solana",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "ADA-USD",
+"nombre": "Cardano",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "BNB-USD",
+"nombre": "BNB (Binance)",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "DOGE-USD",
+"nombre": "Dogecoin",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "AVAX-USD",
+"nombre": "Avalanche",
+"sector": "Criptomonedas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "red"
+},
+{
+"ticker": "AAPL",
+"nombre": "Apple",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "MSFT",
+"nombre": "Microsoft",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "GOOGL",
+"nombre": "Alphabet (Google)",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AMZN",
+"nombre": "Amazon",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "META",
+"nombre": "Meta (Facebook)",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ORCL",
+"nombre": "Oracle",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CRM",
+"nombre": "Salesforce",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ADBE",
+"nombre": "Adobe",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SAP",
+"nombre": "SAP",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "IBM",
+"nombre": "IBM",
+"sector": "Tecnología / Software",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NVDA",
+"nombre": "Nvidia",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TSM",
+"nombre": "TSMC",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "TWD",
+"ultimo": "2024"
+},
+{
+"ticker": "AVGO",
+"nombre": "Broadcom",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ASML",
+"nombre": "ASML",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "AMD",
+"nombre": "AMD",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "QCOM",
+"nombre": "Qualcomm",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "INTC",
+"nombre": "Intel",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TXN",
+"nombre": "Texas Instruments",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MU",
+"nombre": "Micron",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "AMAT",
+"nombre": "Applied Materials",
+"sector": "Semiconductores",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "XOM",
+"nombre": "ExxonMobil",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CVX",
+"nombre": "Chevron",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SHEL",
+"nombre": "Shell",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TTE",
+"nombre": "TotalEnergies",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BP",
+"nombre": "BP",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "COP",
+"nombre": "ConocoPhillips",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PBR",
+"nombre": "Petrobras",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2024"
+},
+{
+"ticker": "ENB",
+"nombre": "Enbridge",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "CAD",
+"ultimo": "2025"
+},
+{
+"ticker": "SLB",
+"nombre": "Schlumberger",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EOG",
+"nombre": "EOG Resources",
+"sector": "Energía (petróleo y gas)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NEE",
+"nombre": "NextEra Energy",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FSLR",
+"nombre": "First Solar",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ENPH",
+"nombre": "Enphase Energy",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BEP",
+"nombre": "Brookfield Renewable",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DUK",
+"nombre": "Duke Energy",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SO",
+"nombre": "Southern Company",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AEP",
+"nombre": "American Electric Power",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "D",
+"nombre": "Dominion Energy",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EXC",
+"nombre": "Exelon",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IBDRY",
+"nombre": "Iberdrola",
+"sector": "Energía renovable / Utilities",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "TSLA",
+"nombre": "Tesla",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TM",
+"nombre": "Toyota",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "JPY",
+"ultimo": "2024"
+},
+{
+"ticker": "VWAGY",
+"nombre": "Volkswagen",
+"sector": "Automotriz",
+"estado": "sin_datos",
+"motivo": "Alemania publica su ESEF en el Bundesanzeiger, que no tiene acceso de datos abierto; no está en filings.xbrl.org."
+},
+{
+"ticker": "GM",
+"nombre": "General Motors",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "F",
+"nombre": "Ford",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "STLA",
+"nombre": "Stellantis",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "HMC",
+"nombre": "Honda",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "JPY",
+"ultimo": "2024"
+},
+{
+"ticker": "BYDDY",
+"nombre": "BYD",
+"sector": "Automotriz",
+"estado": "sin_datos",
+"motivo": "Reporta en la Bolsa de Hong Kong (HKEX), sin datos XBRL abiertos."
+},
+{
+"ticker": "MBGYY",
+"nombre": "Mercedes-Benz",
+"sector": "Automotriz",
+"estado": "sin_datos",
+"motivo": "Alemania publica su ESEF en el Bundesanzeiger, que no tiene acceso de datos abierto; no está en filings.xbrl.org."
+},
+{
+"ticker": "RACE",
+"nombre": "Ferrari",
+"sector": "Automotriz",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "DAL",
+"nombre": "Delta Air Lines",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "UAL",
+"nombre": "United Airlines",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AAL",
+"nombre": "American Airlines",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LUV",
+"nombre": "Southwest Airlines",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RYAAY",
+"nombre": "Ryanair",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "EUR",
+"ultimo": "2024"
+},
+{
+"ticker": "VLRS",
+"nombre": "Volaris (México)",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2021"
+},
+{
+"ticker": "CPA",
+"nombre": "Copa Airlines",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "JBLU",
+"nombre": "JetBlue",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ALK",
+"nombre": "Alaska Air",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DLAKY",
+"nombre": "Lufthansa",
+"sector": "Aviación / Aerolíneas",
+"estado": "sin_datos",
+"motivo": "Alemania publica su ESEF en el Bundesanzeiger, que no tiene acceso de datos abierto; no está en filings.xbrl.org."
+},
+{
+"ticker": "AERO.MX",
+"nombre": "Grupo Aeroméxico",
+"sector": "Aviación / Aerolíneas",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AC.TO",
+"nombre": "Air Canada",
+"sector": "Aviación / Aerolíneas",
+"estado": "sin_datos",
+"motivo": "Reporta en Canadá (SEDAR+), sin datos XBRL abiertos."
+},
+{
+"ticker": "BA",
+"nombre": "Boeing",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LMT",
+"nombre": "Lockheed Martin",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RTX",
+"nombre": "RTX / Raytheon",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NOC",
+"nombre": "Northrop Grumman",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GD",
+"nombre": "General Dynamics",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LHX",
+"nombre": "L3Harris",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2024"
+},
+{
+"ticker": "GE",
+"nombre": "GE Aerospace",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EADSY",
+"nombre": "Airbus",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "HWM",
+"nombre": "Howmet Aerospace",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TDG",
+"nombre": "TransDigm",
+"sector": "Aeroespacial y Defensa",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "SPCX",
+"nombre": "SpaceX",
+"sector": "Aeroespacial y Defensa",
+"estado": "sin_datos",
+"motivo": "Empresa privada: no publica estados financieros."
+},
+{
+"ticker": "MAR",
+"nombre": "Marriott International",
+"sector": "Turismo / Hospitalidad",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HLT",
+"nombre": "Hilton Worldwide",
+"sector": "Turismo / Hospitalidad",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BKNG",
+"nombre": "Booking Holdings",
+"sector": "Turismo / Hospitalidad",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "UNH",
+"nombre": "UnitedHealth",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ABT",
+"nombre": "Abbott Laboratories",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MDT",
+"nombre": "Medtronic",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TMO",
+"nombre": "Thermo Fisher",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DHR",
+"nombre": "Danaher",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ISRG",
+"nombre": "Intuitive Surgical",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SYK",
+"nombre": "Stryker",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BSX",
+"nombre": "Boston Scientific",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BDX",
+"nombre": "Becton Dickinson",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EW",
+"nombre": "Edwards Lifesciences",
+"sector": "Salud / Dispositivos médicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LLY",
+"nombre": "Eli Lilly",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NVO",
+"nombre": "Novo Nordisk",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "DKK",
+"ultimo": "2025"
+},
+{
+"ticker": "JNJ",
+"nombre": "Johnson & Johnson",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MRK",
+"nombre": "Merck",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ABBV",
+"nombre": "AbbVie",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PFE",
+"nombre": "Pfizer",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RHHBY",
+"nombre": "Roche",
+"sector": "Farmacéuticas",
+"estado": "sin_datos",
+"motivo": "Suiza no exige ESEF: su informe anual es PDF (sin datos estructurados abiertos)."
+},
+{
+"ticker": "NVS",
+"nombre": "Novartis",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AZN",
+"nombre": "AstraZeneca",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AMGN",
+"nombre": "Amgen",
+"sector": "Farmacéuticas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "REGN",
+"nombre": "Regeneron",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VRTX",
+"nombre": "Vertex Pharmaceuticals",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GILD",
+"nombre": "Gilead Sciences",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BIIB",
+"nombre": "Biogen",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MRNA",
+"nombre": "Moderna",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BNTX",
+"nombre": "BioNTech",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "ALNY",
+"nombre": "Alnylam",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "INCY",
+"nombre": "Incyte",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NBIX",
+"nombre": "Neurocrine",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ILMN",
+"nombre": "Illumina",
+"sector": "Biotecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NSRGY",
+"nombre": "Nestlé",
+"sector": "Alimentos",
+"estado": "sin_datos",
+"motivo": "Suiza no exige ESEF: su informe anual es PDF (sin datos estructurados abiertos)."
+},
+{
+"ticker": "MDLZ",
+"nombre": "Mondelez",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GIS",
+"nombre": "General Mills",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KHC",
+"nombre": "Kraft Heinz",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HSY",
+"nombre": "Hershey",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TSN",
+"nombre": "Tyson Foods",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CAG",
+"nombre": "Conagra",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HRL",
+"nombre": "Hormel",
+"sector": "Alimentos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GRUMAB.MX",
+"nombre": "Gruma (Maseca)",
+"sector": "Alimentos",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BIMBOA.MX",
+"nombre": "Grupo Bimbo",
+"sector": "Alimentos",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "KO",
+"nombre": "Coca-Cola",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PEP",
+"nombre": "PepsiCo",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KOF",
+"nombre": "Coca-Cola FEMSA",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2024"
+},
+{
+"ticker": "FMX",
+"nombre": "FEMSA",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2024"
+},
+{
+"ticker": "MNST",
+"nombre": "Monster Beverage",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KDP",
+"nombre": "Keurig Dr Pepper",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "STZ",
+"nombre": "Constellation Brands",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BUD",
+"nombre": "AB InBev",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DEO",
+"nombre": "Diageo",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TAP",
+"nombre": "Molson Coors",
+"sector": "Bebidas",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MCD",
+"nombre": "McDonald's",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SBUX",
+"nombre": "Starbucks",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "CMG",
+"nombre": "Chipotle",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "YUM",
+"nombre": "Yum! Brands",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "QSR",
+"nombre": "Restaurant Brands",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DRI",
+"nombre": "Darden",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DPZ",
+"nombre": "Domino's Pizza",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WEN",
+"nombre": "Wendy's",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TXRH",
+"nombre": "Texas Roadhouse",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ALSEA.MX",
+"nombre": "Alsea (México)",
+"sector": "Restaurantes / Comida rápida",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "PG",
+"nombre": "Procter & Gamble",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "UL",
+"nombre": "Unilever",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "CL",
+"nombre": "Colgate-Palmolive",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KMB",
+"nombre": "Kimberly-Clark",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CHD",
+"nombre": "Church & Dwight",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CLX",
+"nombre": "Clorox",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EL",
+"nombre": "Estée Lauder",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "KVUE",
+"nombre": "Kenvue",
+"sector": "Consumo básico / Hogar",
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "KIMBERA.MX",
+"nombre": "Kimberly-Clark México",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "COTY",
+"nombre": "Coty",
+"sector": "Consumo básico / Hogar",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "WMT",
+"nombre": "Walmart",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "COST",
+"nombre": "Costco",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "HD",
+"nombre": "Home Depot",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LOW",
+"nombre": "Lowe's",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TGT",
+"nombre": "Target",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DG",
+"nombre": "Dollar General",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ORLY",
+"nombre": "O'Reilly Automotive",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WALMEX.MX",
+"nombre": "Walmart de México",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "CHDRAUIB.MX",
+"nombre": "Chedraui",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "LIVEPOLC-1.MX",
+"nombre": "El Puerto de Liverpool",
+"sector": "Retail / Comercio",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "JPM",
+"nombre": "JPMorgan Chase",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BAC",
+"nombre": "Bank of America",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WFC",
+"nombre": "Wells Fargo",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "C",
+"nombre": "Citigroup",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GS",
+"nombre": "Goldman Sachs",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MS",
+"nombre": "Morgan Stanley",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SAN",
+"nombre": "Banco Santander",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "EUR",
+"ultimo": "2017"
+},
+{
+"ticker": "BBVA",
+"nombre": "BBVA",
+"sector": "Finanzas / Bancos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "GFNORTEO.MX",
+"nombre": "Banorte",
+"sector": "Finanzas / Bancos",
+"estado": "sin_datos",
+"motivo": "BIVA no tiene reportes trimestrales XBRL de esta emisora."
+},
+{
+"ticker": "BBAJIOO.MX",
+"nombre": "Banco del Bajío",
+"sector": "Finanzas / Bancos",
+"estado": "sin_datos",
+"motivo": "BIVA no tiene reportes trimestrales XBRL de esta emisora."
+},
+{
+"ticker": "GENTERA.MX",
+"nombre": "Gentera",
+"sector": "Finanzas / Bancos",
+"estado": "sin_datos",
+"motivo": "BIVA no tiene reportes trimestrales XBRL de esta emisora."
+},
+{
+"ticker": "BRK-B",
+"nombre": "Berkshire Hathaway",
+"sector": "Seguros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CB",
+"nombre": "Chubb Limited",
+"sector": "Seguros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "V",
+"nombre": "Visa",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "MA",
+"nombre": "Mastercard",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PYPL",
+"nombre": "PayPal",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AXP",
+"nombre": "American Express",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "COIN",
+"nombre": "Coinbase",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FI",
+"nombre": "Fiserv",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GPN",
+"nombre": "Global Payments",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SOFI",
+"nombre": "SoFi",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NU",
+"nombre": "Nu Holdings (Nubank)",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2024"
+},
+{
+"ticker": "XYZ",
+"nombre": "Block (antes SQ)",
+"sector": "Pagos / Fintech",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "T",
+"nombre": "AT&T",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VZ",
+"nombre": "Verizon",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TMUS",
+"nombre": "T-Mobile US",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CMCSA",
+"nombre": "Comcast",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CHTR",
+"nombre": "Charter Communications",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AMXB.MX",
+"nombre": "América Móvil",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "TEF",
+"nombre": "Telefónica",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "VOD",
+"nombre": "Vodafone",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "EUR",
+"ultimo": "2024"
+},
+{
+"ticker": "ORAN",
+"nombre": "Orange",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "EUR",
+"ultimo": "2024"
+},
+{
+"ticker": "TU",
+"nombre": "Telus",
+"sector": "Telecomunicaciones",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "CAD",
+"ultimo": "2025"
+},
+{
+"ticker": "NFLX",
+"nombre": "Netflix",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DIS",
+"nombre": "Walt Disney",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WBD",
+"nombre": "Warner Bros. Discovery",
+"sector": "Medios / Entretenimiento",
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "PSKY",
+"nombre": "Paramount Skydance",
+"sector": "Medios / Entretenimiento",
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "SPOT",
+"nombre": "Spotify",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "EUR",
+"ultimo": "2025"
+},
+{
+"ticker": "RBLX",
+"nombre": "Roblox",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EA",
+"nombre": "Electronic Arts",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TTWO",
+"nombre": "Take-Two Interactive",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LYV",
+"nombre": "Live Nation",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FOXA",
+"nombre": "Fox Corporation",
+"sector": "Medios / Entretenimiento",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "MELI",
+"nombre": "MercadoLibre",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BABA",
+"nombre": "Alibaba",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "CNY",
+"ultimo": "2025"
+},
+{
+"ticker": "PDD",
+"nombre": "PDD / Temu",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "CNY",
+"ultimo": "2025"
+},
+{
+"ticker": "SE",
+"nombre": "Sea Limited",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SHOP",
+"nombre": "Shopify",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EBAY",
+"nombre": "eBay",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ETSY",
+"nombre": "Etsy",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "JD",
+"nombre": "JD.com",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "CNY",
+"ultimo": "2025"
+},
+{
+"ticker": "CPNG",
+"nombre": "Coupang",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ABNB",
+"nombre": "Airbnb",
+"sector": "E-commerce / Internet",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CAT",
+"nombre": "Caterpillar",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DE",
+"nombre": "John Deere",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HON",
+"nombre": "Honeywell",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MMM",
+"nombre": "3M",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EMR",
+"nombre": "Emerson Electric",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "ETN",
+"nombre": "Eaton",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ITW",
+"nombre": "Illinois Tool Works",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PH",
+"nombre": "Parker Hannifin",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "ROK",
+"nombre": "Rockwell Automation",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "CMI",
+"nombre": "Cummins",
+"sector": "Industrial / Maquinaria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CEMEXCPO.MX",
+"nombre": "Cemex",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MLM",
+"nombre": "Martin Marietta",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VMC",
+"nombre": "Vulcan Materials",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NUE",
+"nombre": "Nucor (acero)",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DHI",
+"nombre": "D.R. Horton",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LEN",
+"nombre": "Lennar",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ORBIA.MX",
+"nombre": "Orbia",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GCARSOA1.MX",
+"nombre": "Grupo Carso",
+"sector": "Construcción / Materiales",
+"estado": "sin_datos",
+"motivo": "No se encontró la clave de pizarra en BIVA."
+},
+{
+"ticker": "MAS",
+"nombre": "Masco",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BLDR",
+"nombre": "Builders FirstSource",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VINTE.MX",
+"nombre": "Vinte Viviendas Integrales",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "CADUA.MX",
+"nombre": "Corpovael (Cadu Inmobiliaria)",
+"sector": "Construcción / Materiales",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "NEM",
+"nombre": "Newmont (oro)",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GOLD",
+"nombre": "Barrick Gold",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "FCX",
+"nombre": "Freeport-McMoRan",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SCCO",
+"nombre": "Southern Copper",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AEM",
+"nombre": "Agnico Eagle",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RIO",
+"nombre": "Rio Tinto",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BHP",
+"nombre": "BHP",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VALE",
+"nombre": "Vale",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GMEXICOB.MX",
+"nombre": "Grupo México",
+"sector": "Minería / Metales",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WPM",
+"nombre": "Wheaton Precious Metals",
+"sector": "Minería / Metales",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DOW",
+"nombre": "Dow Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LYB",
+"nombre": "LyondellBasell Industries NV",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MO",
+"nombre": "Altria Group, Inc.",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ARE",
+"nombre": "Alexandria Real Estate Equities",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DOC",
+"nombre": "Healthpeak Properties, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "UPS",
+"nombre": "United Parcel Service, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EIX",
+"nombre": "Edison International",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CCI",
+"nombre": "Crown Castle Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AES",
+"nombre": "The AES Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FMC",
+"nombre": "FMC Corporation",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "O",
+"nombre": "Realty Income Corporation",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HST",
+"nombre": "Host Hotels & Resorts, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BBY",
+"nombre": "Best Buy Co., Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IPG",
+"nombre": null,
+"sector": null,
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "VTRS",
+"nombre": "Viatris Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AMCR",
+"nombre": "Amcor plc",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "VICI",
+"nombre": "VICI Properties Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SPG",
+"nombre": "Simon Property Group, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "APA",
+"nombre": "APA Corporation",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BEN",
+"nombre": "Franklin Templeton, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "BMY",
+"nombre": "Bristol-Myers Squibb Company",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PRU",
+"nombre": "Prudential Financial, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "OKE",
+"nombre": "ONEOK, Inc.",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CPB",
+"nombre": "The Campbell's Company",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "TROW",
+"nombre": "T. Rowe Price Group, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IVZ",
+"nombre": "Invesco Ltd",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FRT",
+"nombre": "Federal Realty Investment Trust",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HPQ",
+"nombre": "HP Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KIM",
+"nombre": "Kimco Realty Corporation (HC)",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TFC",
+"nombre": "Truist Financial Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SWK",
+"nombre": "Stanley Black & Decker, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ES",
+"nombre": "Eversource Energy (D/B/A)",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KEY",
+"nombre": "KeyCorp",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EXR",
+"nombre": "Extra Space Storage Inc",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FE",
+"nombre": "FirstEnergy Corp.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "USB",
+"nombre": "U.S. Bancorp",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "UDR",
+"nombre": "UDR, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EMN",
+"nombre": "Eastman Chemical Company",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PSA",
+"nombre": "Public Storage",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SJM",
+"nombre": "The J.M. Smucker Company",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BXP",
+"nombre": "BXP, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CVS",
+"nombre": "CVS Health Corporation",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KMI",
+"nombre": "Kinder Morgan, Inc.",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EQR",
+"nombre": "Equity Residential",
+"sector": "Bienes raíces (REIT)",
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "RF",
+"nombre": "Regions Financial Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2021"
+},
+{
+"ticker": "REG",
+"nombre": "Regency Centers Corporation",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MAA",
+"nombre": "Mid-America Apartment Communiti",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PNW",
+"nombre": "Pinnacle West Capital Corporati",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EVRG",
+"nombre": "Evergy, Inc.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "OMC",
+"nombre": "Omnicom Group Inc.",
+"sector": "Comunicaciones",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CME",
+"nombre": "CME Group Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SWKS",
+"nombre": "Skyworks Solutions, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "ADM",
+"nombre": "Archer-Daniels-Midland Company",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HAS",
+"nombre": "Hasbro, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FANG",
+"nombre": "Diamondback Energy, Inc.",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PFG",
+"nombre": "Principal Financial Group Inc",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BG",
+"nombre": "Bunge Limited",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HBAN",
+"nombre": "Huntington Bancshares Incorpora",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CPT",
+"nombre": "Camden Property Trust",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PLD",
+"nombre": "Prologis, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ETR",
+"nombre": "Entergy Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PSX",
+"nombre": "Phillips 66",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IP",
+"nombre": "International Paper Company",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "INVH",
+"nombre": "Invitation Homes Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CFG",
+"nombre": "Citizens Financial Group, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ESS",
+"nombre": "Essex Property Trust, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DVN",
+"nombre": "Devon Energy Corporation",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SRE",
+"nombre": "DBA Sempra",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AVB",
+"nombre": "AvalonBay Communities, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "WEC",
+"nombre": "WEC Energy Group, Inc.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CTRA",
+"nombre": null,
+"sector": null,
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "FITB",
+"nombre": "Fifth Third Bancorp",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2023"
+},
+{
+"ticker": "SYY",
+"nombre": "Sysco Corporation",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ED",
+"nombre": "Consolidated Edison, Inc.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WMB",
+"nombre": "Williams Companies, Inc. (The)",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GPC",
+"nombre": "Genuine Parts Company",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PNC",
+"nombre": "PNC Financial Services Group, I",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "XEL",
+"nombre": "Xcel Energy Inc.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2018"
+},
+{
+"ticker": "FAST",
+"nombre": "Fastenal Company",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WY",
+"nombre": "Weyerhaeuser Company",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DTE",
+"nombre": "DTE Energy Company",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2017"
+},
+{
+"ticker": "LNT",
+"nombre": "Alliant Energy Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BF-B",
+"nombre": "Brown Forman Inc",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SW",
+"nombre": "Smurfit WestRock plc",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LKQ",
+"nombre": "LKQ Corporation",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PPL",
+"nombre": "PPL Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HAL",
+"nombre": "Halliburton Company",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IRM",
+"nombre": "Iron Mountain Incorporated (Del",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AMT",
+"nombre": "American Tower Corporation (REI",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CMS",
+"nombre": "CMS Energy Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PEG",
+"nombre": "Public Service Enterprise Group",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VLO",
+"nombre": "Valero Energy Corporation",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DLR",
+"nombre": "Digital Realty Trust, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AEE",
+"nombre": "Ameren Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "K",
+"nombre": null,
+"sector": null,
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "LW",
+"nombre": "Lamb Weston Holdings, Inc.",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VTR",
+"nombre": "Ventas, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MET",
+"nombre": "MetLife, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BAX",
+"nombre": "Baxter International Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PAYX",
+"nombre": "Paychex, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "STT",
+"nombre": "State Street Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NI",
+"nombre": "NiSource Inc",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SNA",
+"nombre": "Snap-On Incorporated",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MTB",
+"nombre": "M&T Bank Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CHRW",
+"nombre": "C.H. Robinson Worldwide, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BBWI",
+"nombre": "Bath & Body Works, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MKC",
+"nombre": "McCormick & Company, Incorporat",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HPE",
+"nombre": "Hewlett Packard Enterprise Comp",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BX",
+"nombre": "Blackstone Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MCHP",
+"nombre": "Microchip Technology Incorporat",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CE",
+"nombre": "Celanese Corporation",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "APD",
+"nombre": "Air Products and Chemicals, Inc",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CNP",
+"nombre": "CenterPoint Energy, Inc (Holdin",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PKG",
+"nombre": "Packaging Corporation of Americ",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MOS",
+"nombre": "Mosaic Company (The)",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FDX",
+"nombre": "FedEx Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NTRS",
+"nombre": "Northern Trust Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CSCO",
+"nombre": "Cisco Systems, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "EQIX",
+"nombre": "Equinix, Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PPG",
+"nombre": "PPG Industries, Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EG",
+"nombre": "Everest Group, Ltd.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TRGP",
+"nombre": "Targa Resources, Inc.",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "UNP",
+"nombre": "Union Pacific Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WRB",
+"nombre": "W.R. Berkley Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ALB",
+"nombre": "Albemarle Corporation",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AFL",
+"nombre": "AFLAC Incorporated",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CINF",
+"nombre": "Cincinnati Financial Corporatio",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PM",
+"nombre": "Philip Morris International Inc",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BKR",
+"nombre": "Baker Hughes Company",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ATO",
+"nombre": "Atmos Energy Corporation",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AWK",
+"nombre": "American Water Works Company, I",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NKE",
+"nombre": "Nike, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IFF",
+"nombre": "International Flavors & Fragran",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GLW",
+"nombre": "Corning Incorporated",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DD",
+"nombre": "DuPont de Nemours, Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ACN",
+"nombre": "Accenture plc",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "MPC",
+"nombre": "Marathon Petroleum Corporation",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HII",
+"nombre": "Huntington Ingalls Industries, ",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CF",
+"nombre": "CF Industries Holdings, Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NSC",
+"nombre": "Norfolk Southern Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "OXY",
+"nombre": "Occidental Petroleum Corporatio",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ADP",
+"nombre": "Automatic Data Processing, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "AIG",
+"nombre": "American International Group, I",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PGR",
+"nombre": "Progressive Corporation (The)",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BK",
+"nombre": null,
+"sector": null,
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "NTAP",
+"nombre": "NetApp, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AVY",
+"nombre": "Avery Dennison Corporation",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ELV",
+"nombre": "Elevance Health, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ALL",
+"nombre": "Allstate Corporation (The)",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AOS",
+"nombre": "A.O. Smith Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CI",
+"nombre": "The Cigna Group",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "STX",
+"nombre": "Seagate Technology Holdings PLC",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "FIS",
+"nombre": "Fidelity National Information S",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BLK",
+"nombre": "BlackRock, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DGX",
+"nombre": "Quest Diagnostics Incorporated",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NXPI",
+"nombre": "NXP Semiconductors N.V.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SBAC",
+"nombre": "SBA Communications Corporation",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LVS",
+"nombre": "Las Vegas Sands Corp.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KR",
+"nombre": "Kroger Company (The)",
+"sector": "Consumo básico",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WELL",
+"nombre": "Welltower Inc.",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HIG",
+"nombre": "The Hartford Insurance Group, I",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AIZ",
+"nombre": "Assurant, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GEN",
+"nombre": "Gen Digital Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TRV",
+"nombre": "The Travelers Companies, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CTSH",
+"nombre": "Cognizant Technology Solutions ",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "POOL",
+"nombre": "Pool Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "OTIS",
+"nombre": "Otis Worldwide Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ADI",
+"nombre": "Analog Devices, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TSCO",
+"nombre": "Tractor Supply Company",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HUM",
+"nombre": "Humana Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IEX",
+"nombre": "IDEX Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MMC",
+"nombre": null,
+"sector": null,
+"estado": "sin_datos",
+"motivo": "No presenta reportes a la SEC con datos XBRL (ADR fuera de bolsa u otra jurisdicción)."
+},
+{
+"ticker": "TEL",
+"nombre": "TE Connectivity plc",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "BR",
+"nombre": "Broadridge Financial Solutions,",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "SYF",
+"nombre": "Synchrony Financial",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CSX",
+"nombre": "CSX Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GRMN",
+"nombre": "Garmin Ltd.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "STLD",
+"nombre": "Steel Dynamics, Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "JCI",
+"nombre": "Johnson Controls International ",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "TPR",
+"nombre": "Tapestry, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MKTX",
+"nombre": "MarketAxess Holdings, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CDW",
+"nombre": "CDW Corporation",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BALL",
+"nombre": "Ball Corporation",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WM",
+"nombre": "Waste Management, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ALLE",
+"nombre": "Allegion plc",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EXPD",
+"nombre": "Expeditors International of Was",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "JKHY",
+"nombre": "Jack Henry & Associates, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "ZTS",
+"nombre": "Zoetis Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TJX",
+"nombre": "TJX Companies, Inc. (The)",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CAH",
+"nombre": "Cardinal Health, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "HUBB",
+"nombre": "Hubbell Inc",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "BWA",
+"nombre": "BorgWarner Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LIN",
+"nombre": "Linde plc",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RJF",
+"nombre": "Raymond James Financial, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ROL",
+"nombre": "Rollins, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ROST",
+"nombre": "Ross Stores, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MSCI",
+"nombre": "MSCI Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RL",
+"nombre": "Ralph Lauren Corporation",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TFX",
+"nombre": "Teleflex Incorporated",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "XYL",
+"nombre": "Xylem Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WTW",
+"nombre": "Willis Towers Watson Public Lim",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LH",
+"nombre": "Labcorp Holdings Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "JBHT",
+"nombre": "J.B. Hunt Transport Services, I",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NRG",
+"nombre": "NRG Energy, Inc.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CARR",
+"nombre": "Carrier Global Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SCHW",
+"nombre": "Charles Schwab Corporation (The",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AMP",
+"nombre": "Ameriprise Financial, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NDAQ",
+"nombre": "Nasdaq, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "COF",
+"nombre": "Capital One Financial Corporati",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EQT",
+"nombre": "EQT Corporation",
+"sector": "Energía",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "DOV",
+"nombre": "Dover Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NDSN",
+"nombre": "Nordson Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CBOE",
+"nombre": "Cboe Global Markets, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FOX",
+"nombre": "Fox Corporation",
+"sector": "Comunicaciones",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "MSI",
+"nombre": "Motorola Solutions, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ICE",
+"nombre": "Intercontinental Exchange Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ZBH",
+"nombre": "Zimmer Biomet Holdings, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "STE",
+"nombre": "STERIS plc (Ireland)",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PCAR",
+"nombre": "PACCAR Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CTAS",
+"nombre": "Cintas Corporation",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ECL",
+"nombre": "Ecolab Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "LDOS",
+"nombre": "Leidos Holdings, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RSG",
+"nombre": "Republic Services, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CTVA",
+"nombre": "Corteva, Inc.",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FDS",
+"nombre": "FactSet Research Systems Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "LRCX",
+"nombre": "Lam Research Corporation",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WYNN",
+"nombre": "Wynn Resorts, Limited",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PNR",
+"nombre": "Pentair plc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RCL",
+"nombre": "Royal Caribbean Cruises Ltd.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MPWR",
+"nombre": "Monolithic Power Systems, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SHW",
+"nombre": "Sherwin-Williams Company (The)",
+"sector": "Materiales básicos",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "J",
+"nombre": "Jacobs Solutions Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "URI",
+"nombre": "United Rentals, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GL",
+"nombre": "Globe Life Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RMD",
+"nombre": "ResMed Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "KLAC",
+"nombre": "KLA Corporation",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "A",
+"nombre": "Agilent Technologies, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TT",
+"nombre": "Trane Technologies plc",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GWW",
+"nombre": "W.W. Grainger, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AJG",
+"nombre": "Arthur J. Gallagher & Co.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PHM",
+"nombre": "PulteGroup, Inc.",
+"sector": "Consumo discrecional",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AON",
+"nombre": "Aon plc",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "COR",
+"nombre": "Cencora, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "HCA",
+"nombre": "HCA Healthcare, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MCO",
+"nombre": "Moody's Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "SPGI",
+"nombre": "S&P Global Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PAYC",
+"nombre": "Paycom Software, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NWSA",
+"nombre": "News Corporation",
+"sector": "Comunicaciones",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "APH",
+"nombre": "Amphenol Corporation",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "AME",
+"nombre": "AMETEK, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ODFL",
+"nombre": "Old Dominion Freight Line, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "EFX",
+"nombre": "Equifax, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "FTV",
+"nombre": "Fortive Corporation",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "ROP",
+"nombre": "Roper Technologies, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TECH",
+"nombre": "Bio-Techne Corp",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "NWS",
+"nombre": "News Corporation",
+"sector": "Comunicaciones",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "BRO",
+"nombre": "Brown & Brown, Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "INTU",
+"nombre": "Intuit Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "VRSK",
+"nombre": "Verisk Analytics, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "PCG",
+"nombre": "Pacific Gas & Electric Co.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KKR",
+"nombre": "KKR & Co. Inc.",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TER",
+"nombre": "Teradyne, Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CEG",
+"nombre": "Constellation Energy Corporatio",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VST",
+"nombre": "Vistra Corp.",
+"sector": "Servicios públicos (luz, gas, agua)",
+"estado": "ok",
+"calificacion": "rojo",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GOOG",
+"nombre": "Alphabet Inc.",
+"sector": "Comunicaciones",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "UHS",
+"nombre": "Universal Health Services, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WAB",
+"nombre": "Westinghouse Air Brake Technolo",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "VLTO",
+"nombre": "Veralto Corp",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "MCK",
+"nombre": "McKesson Corporation",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "WST",
+"nombre": "West Pharmaceutical Services, I",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "RVTY",
+"nombre": "Revvity, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "L",
+"nombre": "Loews Corporation",
+"sector": "Servicios financieros",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "GEHC",
+"nombre": "GE HealthCare Technologies Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "JBL",
+"nombre": "Jabil Inc.",
+"sector": "Tecnología",
+"estado": "ok",
+"calificacion": "ambar",
+"moneda": "USD",
+"ultimo": "2026"
+},
+{
+"ticker": "PWR",
+"nombre": "Quanta Services, Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "TXT",
+"nombre": "Textron Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "IR",
+"nombre": "Ingersoll Rand Inc.",
+"sector": "Industria",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "COO",
+"nombre": "The Cooper Companies, Inc.",
+"sector": "Salud",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "CBRE",
+"nombre": "CBRE Group Inc",
+"sector": "Bienes raíces (REIT)",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "KOFUBL.MX",
+"nombre": "Coca-Cola FEMSA",
+"sector": "Consumo básico",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "AC.MX",
+"nombre": "Arca Continental (embotelladora de Coca-Cola)",
+"sector": "Consumo básico",
+"estado": "ok",
+"motivo": "",
+"calificacion": "sin_datos",
+"moneda": "MXN",
+"ultimo": "Información trimestral 3-2026"
+},
+{
+"ticker": "FEMSAUBD.MX",
+"nombre": "FEMSA (OXXO)",
+"sector": "Consumo básico",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "LACOMERUBC.MX",
+"nombre": "La Comer",
+"sector": "Consumo básico",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "CUERVO.MX",
+"nombre": "Becle (José Cuervo)",
+"sector": "Consumo básico",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "GFINBURO.MX",
+"nombre": "Grupo Financiero Inbursa (Carlos Slim)",
+"sector": "Servicios financieros",
+"estado": "sin_datos",
+"motivo": "BIVA no tiene reportes trimestrales XBRL de esta emisora."
+},
+{
+"ticker": "MFRISCOA-1.MX",
+"nombre": "Minera Frisco (Carlos Slim)",
+"sector": "Minería / Metales",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "GSANBORB-1.MX",
+"nombre": "Grupo Sanborns (Carlos Slim)",
+"sector": "Consumo discrecional",
+"estado": "sin_datos",
+"motivo": "No se encontró la clave de pizarra en BIVA."
+},
+{
+"ticker": "SITESB-1.MX",
+"nombre": "Telesites (Carlos Slim)",
+"sector": "Comunicaciones",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "IDEALB-1.MX",
+"nombre": "IDEAL, infraestructura (Carlos Slim)",
+"sector": "Industria / Infraestructura",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "BOLSAA.MX",
+"nombre": "Bolsa Mexicana de Valores",
+"sector": "Servicios financieros",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "Q.MX",
+"nombre": "Quálitas (seguros)",
+"sector": "Servicios financieros",
+"estado": "sin_datos",
+"motivo": "BIVA no tiene reportes trimestrales XBRL de esta emisora."
+},
+{
+"ticker": "ASURB.MX",
+"nombre": "Grupo Aeroportuario del Sureste",
+"sector": "Industria / Infraestructura",
+"estado": "ok",
+"motivo": "",
+"calificacion": "ambar",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "GAPB.MX",
+"nombre": "Grupo Aeroportuario del Pacífico",
+"sector": "Industria / Infraestructura",
+"estado": "ok",
+"motivo": "",
+"calificacion": "rojo",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "OMAB.MX",
+"nombre": "Grupo Aeroportuario Centro Norte",
+"sector": "Industria / Infraestructura",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "PINFRA.MX",
+"nombre": "Pinfra (autopistas)",
+"sector": "Industria / Infraestructura",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "MEGACPO.MX",
+"nombre": "Megacable",
+"sector": "Comunicaciones",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "MXN",
+"ultimo": "2025"
+},
+{
+"ticker": "GCC.MX",
+"nombre": "GCC (cemento)",
+"sector": "Materiales básicos",
+"estado": "ok",
+"motivo": "",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+},
+{
+"ticker": "NYT",
+"nombre": "The New York Times Company (Carlos Slim es accionista)",
+"sector": "Comunicaciones",
+"estado": "ok",
+"calificacion": "verde",
+"moneda": "USD",
+"ultimo": "2025"
+}
+]
+}
