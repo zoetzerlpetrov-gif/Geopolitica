@@ -9,6 +9,33 @@ import * as V from "./corp_vivo.js";
 const URL_NOTAS = "data/vivos/corporativo_estado.json";
 const URL_EMPRESAS = "data/vivos/corporativo_empresas.json";
 const URL_MAPA = "data/vivos/corporativo.geojson";
+const URL_CAMBIOS = "config/corporativo_cambios.json";   // cambios verificados que Wikidata aún no tiene
+const URL_8K = "data/vivos/corporativo_8k.json";        // 8-K con punto 5.02 (salida o nombramiento de directivos)
+
+/**
+ * Aplica a una empresa del catálogo los cambios verificados (config/corporativo_cambios.json): reemplaza la dirección
+ * general y la presidencia del consejo, quita a quien salió de las demás cajas y deja el aviso con su fuente. También
+ * agrega los 8-K con punto 5.02 de los últimos 45 días (aviso automático; el detalle está en el documento).
+ */
+export function conCambios(e, cambios, ochoK) {
+  if (!e) return e;
+  const c = cambios?.empresas?.[e.id];
+  const k = e.cik ? ochoK?.cambios?.[String(e.cik).padStart(10, "0")] : null;
+  if (!c && !k?.length) return e;
+  const out = { ...e, avisos: [] };
+  if (c) {
+    const sale = new Set(c.salen || []);
+    for (const campo of ["ceo", "pres", "consejo", "dir"]) if (out[campo]) out[campo] = out[campo].filter((x) => !sale.has(x[1]));
+    if (c.ceo) out.ceo = c.ceo;
+    if (c.pres) out.pres = c.pres;
+    out.avisos.push({ fecha: c.fecha, texto: c.resumen, fuente: c.fuente, url: c.url, verificado: true });
+  }
+  for (const x of k || []) {
+    if (c && x.url === c.url) continue;
+    out.avisos.push({ fecha: x.fecha, texto: `La empresa reportó a la SEC un cambio de directivos o del consejo (8-K, punto 5.02). El organigrama puede estar desactualizado hasta que Wikidata lo refleje.`, fuente: `SEC EDGAR, ${x.forma || "8-K"}`, url: x.url });
+  }
+  return out;
+}
 const WD = (q) => `https://www.wikidata.org/wiki/${encodeURIComponent(q)}`;
 const MAX_LISTA = 60;
 // ISO3 → ISO2 (GLEIF usa ISO2) para elegir sola la entidad legal del país de la empresa.
@@ -88,7 +115,8 @@ export function enlacesOficiales(e) {
 const persona = (x, porId) => {
   const enCat = porId?.[x[1]];
   // Empresa del catálogo: su organigrama; otra organización: se arma en vivo desde Wikidata; persona: enlace a la fuente.
-  const nombre = enCat ? `<button type="button" class="txt-btn corp-org" data-org="${esc(x[1])}">${esc(x[0])}</button>`
+  // Sin id de Wikidata (cambio verificado que Wikidata aún no tiene): solo el nombre.
+  const nombre = !x[1] ? esc(x[0]) : enCat ? `<button type="button" class="txt-btn corp-org" data-org="${esc(x[1])}">${esc(x[0])}</button>`
     : !x[3] ? `<button type="button" class="txt-btn corp-wd" data-wd="${esc(x[1])}">${esc(x[0])}</button>`
       : `<a href="${esc(WD(x[1]))}" target="_blank" rel="noopener noreferrer">${esc(x[0])}</a>`;
   return `<li>${x[3] ? "👤 " : "🏢 "}${nombre}${x[2] ? ` <span class="meta">· ${esc(x[2])}</span>` : ""}</li>`;
@@ -107,8 +135,10 @@ export function htmlOrganigrama(e, { porId = {}, notas = [], nombrePais = (i) =>
   const niveles = [arriba, `<b>${esc(e.n)}</b>`, consejo, direccion, abajo].map((h, i) => (h ? `<div class="org-nivel${i === 1 ? " org-empresa" : ""}">${h}</div>` : "")).filter(Boolean);
   const notasE = notas.filter((n) => (n.empresas || []).some((x) => x[1] === e.id)).slice(0, 8);
   const vacio = !(e.ceo || e.pres || e.consejo || e.dir || e.duenos || e.matriz || e.filiales || e.fund);
+  const avisos = (e.avisos || []).map((a) => `<p class="aviso-org">⚠️ <b>${esc(a.fecha)}</b> · ${esc(a.texto)} <a href="${esc(safeUrl(a.url))}" target="_blank" rel="noopener noreferrer">${esc(a.fuente)}</a>${a.verificado ? " · cambio aplicado a este organigrama" : ""}</p>`).join("");
   return `<div class="organigrama">
     <h4>👔 ${esc(e.n)}</h4>
+    ${avisos}
     <p class="meta">${[e.pais ? nombrePais(e.pais) : "", e.ind, e.sede ? `sede: ${e.sede}` : "", ...(e.bolsas || []).map(([b, t]) => (t ? `${t} (${b})` : b))].filter(Boolean).map(esc).join(" · ")}</p>
     ${niveles.join(flecha)}
     ${vacio ? `<p class="meta">Wikidata no tiene cargos vigentes registrados para esta empresa. Abajo va su estructura legal según GLEIF; revisa también su informe anual o los registros oficiales.</p>` : ""}
@@ -152,10 +182,11 @@ export const FUENTES_CORP = [
 export function iniciarCorporativo({ abrirFicha } = {}) {
   const $ = (id) => document.getElementById(id);
   if (!$("g-corporativo")) return;
-  let datos = null, cat = null, mapa = null;
+  let datos = null, cat = null, mapa = null, cambiosOrg = null, ochoK = null;
   const cargar = async () => {
-    [datos, cat, mapa] = await Promise.all([getJSON(URL_NOTAS, { bust: true }).catch(() => null), cat ? cat : getJSON(URL_EMPRESAS).catch(() => null),
-      getJSON(URL_MAPA, { bust: true }).catch(() => null)]);
+    [datos, cat, mapa, cambiosOrg, ochoK] = await Promise.all([getJSON(URL_NOTAS, { bust: true }).catch(() => null), cat ? cat : getJSON(URL_EMPRESAS).catch(() => null),
+      getJSON(URL_MAPA, { bust: true }).catch(() => null), cambiosOrg ? cambiosOrg : getJSON(URL_CAMBIOS, { bust: true }).catch(() => null),
+      ochoK ? ochoK : getJSON(URL_8K, { bust: true }).catch(() => null)]);
     return datos;
   };
   const nombres = () => Object.fromEntries((mapa?.features || []).map((f) => [f.properties.iso3, f.properties.pais]));
@@ -190,7 +221,7 @@ export function iniciarCorporativo({ abrirFicha } = {}) {
   const mostrarOrg = (qid, destino) => {
     const e = porId()[qid];
     const np = nombres();
-    const html = cat ? htmlOrganigrama(e, { porId: porId(), notas: datos?.notas || [], nombrePais: (i) => np[i] || i })
+    const html = cat ? htmlOrganigrama(conCambios(e, cambiosOrg, ochoK), { porId: porId(), notas: datos?.notas || [], nombrePais: (i) => np[i] || i })
       : `<p class="meta">El catálogo de empresas aún no está disponible (se renueva cada semana).</p>`;
     mostrar(html, destino === "ficha");
   };
@@ -243,7 +274,7 @@ export function iniciarCorporativo({ abrirFicha } = {}) {
       try {
         const e = await V.organigramaWD(w.dataset.wd);
         const np = nombres();
-        mostrar(htmlOrganigrama(e, { porId: porId(), notas: datos?.notas || [], nombrePais: (i) => np[i] || i }), enFicha);
+        mostrar(htmlOrganigrama(conCambios(e, cambiosOrg, ochoK), { porId: porId(), notas: datos?.notas || [], nombrePais: (i) => np[i] || i }), enFicha);
       } catch (err) { mostrar(`<p class="meta">Wikidata no respondió (${esc(err.message)}). Intenta de nuevo en un minuto.</p>`, enFicha); }
       return;
     }

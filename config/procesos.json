@@ -44,7 +44,8 @@
    "cada": "7 días",
    "max_horas": 194,
    "afecta": "Análisis financiero de empresas del Portafolio (finanzas.html, solo administración)"
-  }
+  },
+  {"id": "e2e_roles", "nombre": "Pruebas integrales por rol (navegador real)", "workflow": "e2e-roles.yml", "cada": "12 h", "max_horas": 15, "afecta": "Revisión automática de capas, imágenes, menús y páginas para admin y cada plan (informe en la corrida de GitHub)"}
   ],
   "datos": [
     {"id": "d_vivos", "nombre": "Datos en movimiento publicados", "archivo": "data/vivos/estado.json", "campo": "generado_utc", "max_horas": 1.5, "errores": "pasos"},

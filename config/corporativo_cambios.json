@@ -1,0 +1,14 @@
+{
+  "_nota": "Cambios de directivos verificados en un documento oficial que Wikidata todavía no refleja. Se aplican al organigrama del catálogo semanal (clave: id de Wikidata de la empresa). Cada cambio necesita fecha, fuente oficial y enlace. Quitar la entrada cuando Wikidata ya lo tenga.",
+  "empresas": {
+    "Q182477": {
+      "fecha": "2026-11-12",
+      "resumen": "Jensen Huang renunció como director general; Colette Kress (directora de finanzas) es directora general interina mientras se nombra a la persona definitiva. Harvey C. Jones es el primer presidente del consejo de la empresa.",
+      "ceo": [["Colette Kress (interina)", "", "también directora de finanzas", 1]],
+      "pres": [["Harvey C. Jones", "Q116376004", "presidente del consejo", 1]],
+      "salen": ["Q305177"],
+      "fuente": "NVIDIA, Form 8-K ante la SEC (puntos 5.02 y 9.01)",
+      "url": "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda-20261111.htm"
+    }
+  }
+}

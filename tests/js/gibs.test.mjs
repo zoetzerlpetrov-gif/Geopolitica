@@ -88,3 +88,20 @@ test("Trenes: con 0 de madrugada se explica la hora local y el horario de servic
   assert.match(notaSinTrenes("renfe", new Date("2026-11-13T12:00:00Z")), /^0 ahora \(allá son las 13:00\)/);
   assert.equal(notaSinTrenes("finlandia", noche), null);  // Finlandia: carga y pasajeros las 24 h
 });
+
+test("Organigrama: cambios verificados y 8-K 5.02 se aplican sobre Wikidata (NVIDIA, nov 2026)", async () => {
+  globalThis.document ??= undefined;
+  const { conCambios, htmlOrganigrama } = await import("../../js/corp_mundo.js");
+  const nvda = { id: "Q182477", n: "Nvidia", cik: "0001045810", ceo: [["Jen-Hsun Huang", "Q305177", "", 1]],
+    consejo: [["Jen-Hsun Huang", "Q305177", "", 1], ["Harvey C. Jones", "Q116376004", "", 1]] };
+  const cambios = { empresas: { Q182477: { fecha: "2026-11-12", resumen: "Huang renunció; Kress interina.", ceo: [["Colette Kress (interina)", "", "", 1]],
+    salen: ["Q305177"], fuente: "8-K", url: "https://www.sec.gov/x.htm" } } };
+  const e = conCambios(nvda, cambios, { cambios: { "0001045810": [{ fecha: "2026-11-12", url: "https://www.sec.gov/x.htm" }, { fecha: "2026-10-01", url: "https://www.sec.gov/y.htm" }] } });
+  assert.deepEqual(e.ceo.map((x) => x[0]), ["Colette Kress (interina)"]);
+  assert.ok(!e.consejo.some((x) => x[1] === "Q305177"));
+  assert.equal(e.avisos.length, 2);                 // el verificado y el otro 8-K (el mismo documento no se repite)
+  const html = htmlOrganigrama(e);
+  assert.match(html, /Colette Kress \(interina\)/);
+  assert.doesNotMatch(html, /Jen-Hsun Huang/);
+  assert.equal(conCambios({ id: "Q1", n: "Otra" }, cambios, null).avisos, undefined);  // sin cambios: igual
+});

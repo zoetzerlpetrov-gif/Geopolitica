@@ -319,6 +319,13 @@ jobs:
         timeout-minutes: 7
         run: python3 tools/corporativo/empresas.py
 
+      - name: Cambios de directivos reportados a la SEC (8-K punto 5.02, últimos 45 días; si falla se conserva lo anterior)
+        continue-on-error: true
+        timeout-minutes: 4
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python3 tools/corporativo/cambios_sec.py
+
       - name: Mundo corporativo, noticias de empresas por categoría y país (cada hora; si falla se conservan las anteriores)
         continue-on-error: true
         timeout-minutes: 5

@@ -799,6 +799,8 @@ async function main() {
     onSelect: (id) => abrirFicha(id),
   });
   iniciarIdioma({ map: api.map });
+  // Pruebas integrales por rol (tools/e2e/roles.mjs): solo con ?e2e=1 se expone el mapa para revisar sus capas.
+  if (/[?&]e2e=1(?:&|$)/.test(location.search)) globalThis.__e2e = { map: api.map, arranque };
   if (api.map.loaded()) arranque.mapaListo = true; else api.map.once("load", () => { arranque.mapaListo = true; });
   arranque.paso = "descargando los eventos (data/events.json)";
   const [choke, runLog, regiones] = await Promise.all([pChoke, pRunLog, pRegiones, pEventos]);
