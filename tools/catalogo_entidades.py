@@ -139,9 +139,9 @@ CATEGORIAS = [
             sub("aeropuerto_regional", "Aeropuertos regionales", "Regional airports", "✈", "#6B5B3E", "ourairports", "mensual", "estatica", "estatico", 6, ["infraestructura"], familia="aeropuertos"),
             sub("aerodromo", "Aeródromos", "Airfields", "✈", "#8a7a5a", "ourairports", "mensual", "estatica", "estatico", 9, ["infraestructura"], familia="aeropuertos"),
             sub("helipuerto", "Helipuertos", "Heliports", "H", "#8a7a5a", "ourairports", "mensual", "estatica", "estatico", 11, ["infraestructura"], familia="aeropuertos"),
-            sub("puerto_grande", "Puertos grandes", "Large ports", "⚓", "#2E6F8E", "wpi", "anual", "estatica", "estatico", 2, ["infraestructura", "geografia", "geoeconomia"], familia="puertos"),
-            sub("puerto_mediano", "Puertos medianos", "Medium ports", "⚓", "#2E6F8E", "wpi", "anual", "estatica", "estatico", 5, ["infraestructura", "geografia"], familia="puertos"),
-            sub("puerto_pequeno", "Puertos pequeños", "Small ports", "⚓", "#6f97ab", "wpi", "anual", "estatica", "estatico", 8, ["infraestructura"], familia="puertos"),
+            sub("puerto_grande", "Puertos grandes", "Large ports", "⚓", "#2E6F8E", "wpi", "anual", "estatica", "estatico", 1, ["infraestructura", "geografia", "geoeconomia"], familia="puertos"),
+            sub("puerto_mediano", "Puertos medianos", "Medium ports", "⚓", "#2E6F8E", "wpi", "anual", "estatica", "estatico", 3, ["infraestructura", "geografia"], familia="puertos"),
+            sub("puerto_pequeno", "Puertos pequeños", "Small ports", "⚓", "#6f97ab", "wpi", "anual", "estatica", "estatico", 6, ["infraestructura"], familia="puertos"),
             *[sub(f"central_{c}", f"Centrales: {n}", f"Power plants: {e}", "⚡", col, "gppd", "estática (2021)", "estatica", "estatico", 7, ["energia", "infraestructura"], familia="centrales", combustible=c, zoom_min_grandes=3)
               for c, n, e, col in [
                   ("solar", "solar", "solar", "#e0b100"), ("hidro", "hidroeléctrica", "hydro", "#1f6fb2"), ("eolica", "eólica", "wind", "#62b0c9"),

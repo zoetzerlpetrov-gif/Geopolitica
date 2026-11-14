@@ -1955,9 +1955,12 @@ def desaladoras():
     # la consulta anterior (regex de «product» sobre todos los man_made=works del mundo) no terminaba en 5 de las 8
     # cajas grandes y se comía el plazo interno.
     try:
+        # Nombres en otros idiomas: «dessalement» (fr), «dessalinização» (pt), «Entsalzung» (de), «تحلية» (ar),
+        # «淡化» (zh/ja), «התפלה» (he). OSM solo tiene ~130 plantas etiquetadas como desaladoras (taginfo, nov 2026).
+        nombres = "desal|dessal|entsalz|تحلية|淡化|התפלה"
         els = overpass(['nwr["water_works"="desalination"]', 'nwr["man_made"="desalination_plant"]',
-                        'nwr["industrial"="desalination"]', 'nwr["man_made"="water_works"]["name"~"desal",i]',
-                        'nwr["man_made"="works"]["name"~"desal",i]'], "desaladoras",
+                        'nwr["industrial"="desalination"]', f'nwr["man_made"="water_works"]["name"~"{nombres}",i]',
+                        f'nwr["man_made"="works"]["name"~"{nombres}",i]'], "desaladoras",
                        cajas=[c for caja in CAJAS for c in dividir(caja)])
     except Exception as e:  # noqa: BLE001
         print(f"   OSM sin datos: {e}")

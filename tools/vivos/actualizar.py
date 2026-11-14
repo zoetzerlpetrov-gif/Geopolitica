@@ -742,7 +742,7 @@ def _intercalar(listas):
 
 PUNTOS_ROTATIVOS = _intercalar(REGIONES_ROTATIVAS)
 PUNTOS_ADSBLOL = PUNTOS_FIJOS + PUNTOS_ROTATIVOS
-MAX_EDAD_PREVIOS = 120 * 60  # s: aviones de corridas anteriores que se conservan (con posición estimada) mientras la rotación vuelve
+MAX_EDAD_PREVIOS = 180 * 60  # s (antes 120: cuando adsb.lol limita consultas la vuelta tarda más de 2 h y quedaban regiones vacías): aviones de corridas anteriores que se conservan (con posición estimada) mientras la rotación vuelve
 PAUSA_ADSBLOL = 1.5  # segundos entre consultas, por cortesía (sus límites son dinámicos)
 ESPERA_429_MAX = 30  # tope de espera cuando adsb.lol pide bajar el ritmo (HTTP 429)
 PRESUPUESTO_ADSBLOL = 480  # segundos máximos del paso: lo que no alcance se consulta en la siguiente corrida (rotación)

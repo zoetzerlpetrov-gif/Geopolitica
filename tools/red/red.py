@@ -256,7 +256,8 @@ def ips_threatfox(datos):
         for x in lista:
             if x.get("threat_type") != "botnet_cc" or x.get("ioc_type") not in ("ip:port", "url"):
                 continue
-            m = RX_IP.match(str(x.get("ioc_value", "")).strip())
+            # La exportación usa «ioc_value»; la API (get_iocs) usa «ioc». Antes solo se leía «ioc_value» y la API daba 0 IP.
+            m = RX_IP.match(str(x.get("ioc_value") or x.get("ioc") or "").strip())
             if m:
                 out.setdefault(m.group(1), x.get("malware_printable") or x.get("malware") or "desconocido")
     return out
@@ -264,7 +265,12 @@ def ips_threatfox(datos):
 
 def ips_threatfox_api(resp):
     """Respuesta de la API de ThreatFox (get_iocs) → {ip: familia}, con el mismo criterio que la exportación."""
-    return ips_threatfox({"api": (resp or {}).get("data") or []}) if (resp or {}).get("query_status") == "ok" else {}
+    estado = (resp or {}).get("query_status")
+    if estado == "no_result":
+        return {}
+    if estado != "ok":
+        raise RuntimeError(f"ThreatFox respondió {estado!r}")  # llave inválida, límite, etc.: que se vea en el estado
+    return ips_threatfox({"api": (resp or {}).get("data") or []})
 
 
 def pedir_threatfox(llave, dias=2):

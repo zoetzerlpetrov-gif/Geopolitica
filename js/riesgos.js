@@ -102,9 +102,28 @@ export const REDES_TREN = [
   ["renfe", "España: Renfe Cercanías", "Posiciones GTFS-RT publicadas por Renfe; CC BY 4.0. No abarca toda la red ferroviaria española."],
   ["ktmb", "Malasia: trenes KTMB", "Posiciones GTFS-RT publicadas por data.gov.my; CC BY 4.0. No abarca todas las redes de Malasia."],
 ];
+// Zona horaria y horario aproximado de servicio de cada red: de madrugada no circulan trenes y la capa marca 0 (medido el
+// 13 nov 2026: a mediodía de México, 64 trenes en Irlanda y 404 de Renfe; a las 03:00 de España, 0 en ambas).
+export const HORARIO_TREN = {
+  finlandia: ["Europe/Helsinki", 24, 24], noruega: ["Europe/Oslo", 5, 1], irlanda: ["Europe/Dublin", 5, 0],
+  boston: ["America/New_York", 5, 1], filadelfia: ["America/New_York", 4, 1], renfe: ["Europe/Madrid", 5, 0], ktmb: ["Asia/Kuala_Lumpur", 5, 0],
+};
+
+/** Texto para una red sin trenes ahora: la hora local y si es fuera de servicio. null si la red corre 24 h. */
+export function notaSinTrenes(red, ahora = new Date()) {
+  const h = HORARIO_TREN[red];
+  if (!h || h[1] === 24) return null;
+  const [tz, abre, cierra] = h;
+  const hora = Number(new Intl.DateTimeFormat("en-GB", { timeZone: tz, hour: "numeric", hourCycle: "h23" }).format(ahora));
+  const local = new Intl.DateTimeFormat("es-MX", { timeZone: tz, hour: "2-digit", minute: "2-digit", hourCycle: "h23" }).format(ahora);
+  const fuera = cierra < abre ? hora >= cierra && hora < abre : hora >= cierra || hora < abre;
+  return fuera ? `0 ahora: allá son las ${local} y no hay servicio (circulan de ~${abre}:00 a ~${cierra}:00)` : `0 ahora (allá son las ${local}); se revisa cada ~20 min`;
+}
+
 function capaTrenes(red, nombre, nota) {
   return {
     id: `trenes_${red}`, grupo: "Trenes", menu: "trenes", nombre, url: "data/vivos/trenes.geojson", refresco_s: 1200,
+    notaCero: () => notaSinTrenes(red),
     fuente: { finlandia: "Fintraffic / Digitraffic (CC BY 4.0)", noruega: "Entur (NLOD)", irlanda: "Irish Rail", boston: "MBTA V3 API", filadelfia: "SEPTA TrainView", renfe: "Renfe Datos Abiertos (CC BY 4.0)", ktmb: "data.gov.my / KTMB (CC BY 4.0)" }[red],
     derivar: (fc) => ({ ...fc, features: fc.features.filter((f) => f.properties.red === red) }),
     estilo: (p) => ({ c: p.categoria === "Larga distancia" ? "#1F6FB2" : p.categoria === "Carga" ? "#8D6E63" : ["Maniobras", "Maquinaria de vía", "Prueba", "Locomotora sola"].includes(p.categoria) ? C.gris : (p.retraso_min ?? 0) >= 10 ? C.naranja : "#2E9E6E", r: 5 }),
@@ -1174,7 +1193,7 @@ export const CAPAS = [
     estilo: (p) => ({ c: p.kind === "cometa" ? "#1F8A8A" : "#5B6C8F", r: p.etiqueta ? 5 : 0 }),
     etiqueta: (p) => (p.etiqueta ? `${p.kind === "cometa" ? "Cometa" : "Lluvia"} ${p.nombre}${p.kind === "lluvia" ? ` · máx ${p.maximo.slice(5)}` : ` · mag ${p.magnitud}`}` : ""),
     leyenda: [{ c: "#5B6C8F", r: 6, t: "Lluvia de estrellas activa o con máximo en 30 días" }, { c: "#1F8A8A", r: 6, t: "Cometa de magnitud 12 o más brillante" },
-      { t: "Cada franja marca las latitudes desde donde se ve (no un punto exacto). La etiqueta solo indica a qué franja pertenece. Toca una para ver fechas, Luna y el calendario de eclipses." }],
+      { t: "Las líneas horizontales son límites de latitud, no rutas: entre las dos líneas de un mismo color se ve el objeto. Si solo aparece una línea, la franja llega hasta el polo (p. ej. un cometa del hemisferio norte se ve de esa línea hacia el norte). La etiqueta solo indica a qué franja pertenece. Toca una línea para ver fechas, Luna y el calendario de eclipses." }],
     ficha: (p) => ({ titulo: p.nombre, chip: p.kind === "lluvia" ? `Lluvia de estrellas · ZHR ${p.zhr}` : `Cometa · magnitud ${p.magnitud}`, filas: K.filasCielo(p), url: p.url,
       fuente: p.kind === "lluvia" ? "Organización Internacional de Meteoros (IMO)" : "COBS y NASA/JPL Horizons" }),
     extra: (p) => K.htmlCalendario(p.calendario),

@@ -60,3 +60,31 @@ test("productos con paleta: un PNG que no es de paleta (ruido de GIBS fuera de c
   const sinFiltro = await cargarMosaico(conRespaldo(u), undefined, resp(true, "image/png", png(6)));
   assert.equal(sinFiltro.data.byteLength, 40);  // las demás capas no se filtran
 });
+
+test("Imágenes: desmarcar mientras se busca el día no deja la imagen pegada en el mapa", async () => {
+  const { Imagenes, IMAGENES } = await import("../../js/imagenes.js");
+  const capas = new Set(), fuentes = new Set();
+  const map = { getLayer: (i) => capas.has(i), getSource: (i) => fuentes.has(i), addSource: (i) => fuentes.add(i), addLayer: (l) => capas.add(l.id),
+    removeLayer: (i) => capas.delete(i), removeSource: (i) => fuentes.delete(i) };
+  globalThis.maplibregl = { addProtocol() {} };
+  const img = new Imagenes(map);
+  let soltar;
+  const lento = () => new Promise((r) => { soltar = () => r({ ok: true, tipo: "image/png", bytes: 20000 }); });
+  const p = img.activar("modis_color", undefined, lento);   // busca el día más completo (consulta lenta)
+  img.desactivar("modis_color");                          // la persona desmarca antes de que termine
+  while (true) { await new Promise((r) => setTimeout(r, 0)); if (soltar) { const s = soltar; soltar = null; s(); } if (await Promise.race([p.then(() => true), new Promise((r) => setTimeout(() => r(false), 5))])) break; }
+  assert.equal(capas.size, 0, "no debe quedar ninguna capa de imagen");
+  assert.equal(img.activas.size, 0);
+  // Las capas de aerosoles y ozono apuntan a productos que NASA sigue publicando (Suomi NPP dejó de publicar el 2 nov 2026).
+  assert.equal(IMAGENES.aerosoles.capa, "OMPS_NOAA21_NadirMapper_AerosolIndex_380");
+  assert.equal(IMAGENES.ozono_total.fecha_fija, "default");
+});
+
+test("Trenes: con 0 de madrugada se explica la hora local y el horario de servicio", async () => {
+  const { notaSinTrenes } = await import("../../js/riesgos.js");
+  const noche = new Date("2026-11-14T02:37:00Z");   // 03:37 en Madrid, 02:37 en Dublín
+  assert.match(notaSinTrenes("renfe", noche), /03:37 y no hay servicio/);
+  assert.match(notaSinTrenes("irlanda", noche), /02:37 y no hay servicio/);
+  assert.match(notaSinTrenes("renfe", new Date("2026-11-13T12:00:00Z")), /^0 ahora \(allá son las 13:00\)/);
+  assert.equal(notaSinTrenes("finlandia", noche), null);  // Finlandia: carga y pasajeros las 24 h
+});

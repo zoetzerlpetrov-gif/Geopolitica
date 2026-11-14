@@ -27,8 +27,10 @@ export const IMAGENES = {
         ["rgb(109,175,213)", "2.5 a 3.5 DU: elevado; posible fundidora, refinería o central de carbón"], ["rgb(196,217,238)", "3.5 a 4.5 DU: alto"],
         ["rgb(247,251,255)", "4.5 DU o más: muy alto; erupción volcánica o emisión industrial fuerte"]] } },
   // Índice de aerosoles: humo de incendios, polvo del Sahara y ceniza volcánica (partículas que absorben luz UV).
-  aerosoles: { nombre: "Aerosoles: humo, polvo y ceniza volcánica (OMPS)", capa: "OMPS_Aerosol_Index", matriz: "GoogleMapsCompatible_Level6", ext: "png",
-    maxzoom: 6, opacidad: 0.75, leyenda: "Índice sin unidades de NASA (paleta oficial de GIBS). Mide partículas en la columna de aire, no la calidad del aire a ras de suelo. Los tramos de interpretación son orientativos.",
+  // Desde el 2 nov 2026 GIBS ya no publica el índice de Suomi NPP (OMPS_Aerosol_Index): se usa OMPS de NOAA-21 (380 nm),
+  // diario y con la misma paleta; los huecos entre órbitas se rellenan con el día anterior.
+  aerosoles: { nombre: "Aerosoles: humo, polvo y ceniza volcánica (OMPS, NOAA-21)", capa: "OMPS_NOAA21_NadirMapper_AerosolIndex_380", matriz: "GoogleMapsCompatible_Level6", ext: "png",
+    maxzoom: 6, opacidad: 0.75, relleno: 1, leyenda: "Índice sin unidades de NASA (paleta oficial de GIBS), del sensor OMPS del satélite NOAA-21. Mide partículas en la columna de aire, no la calidad del aire a ras de suelo. Los tramos de interpretación son orientativos.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_Aerosol_Index.xml).
     escala: { colores: ["rgb(240,240,240)", "rgb(231,231,197)", "rgb(223,223,98)", "rgb(255,255,0)", "rgb(216,157,0)", "rgb(237,83,0)", "rgb(251,18,0)", "rgb(185,0,14)", "rgb(115,0,25)"],
       marcas: ["0", "1", "2", "3", "4", "≥ 5"],
@@ -54,9 +56,11 @@ export const IMAGENES = {
       tramos: [["rgb(184,0,184)", "Menos de 15 %: agua casi libre (no cuenta como «extensión de hielo»)"], ["rgb(0,90,255)", "15 a 40 %: hielo disperso"],
         ["rgb(15,175,0)", "40 a 70 %: hielo abierto"], ["rgb(255,177,0)", "70 a 90 %: hielo cerrado"], ["rgb(255,153,153)", "Más de 90 %: banquisa casi continua"]] } },
   // Columna total de ozono (OMPS): el «agujero» es donde baja de 220 unidades Dobson, sobre la Antártida de agosto a diciembre.
-  ozono_total: { nombre: "Capa de ozono: columna total (OMPS, diario)", capa: "OMPS_Ozone_Total_Column", matriz: "GoogleMapsCompatible_Level6", ext: "png",
-    maxzoom: 6, opacidad: 0.7, relleno: 1,
-    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS. Las franjas que el satélite aún no barre ese día (a menudo sobre el Pacífico, junto a la línea de cambio de fecha) se rellenan con el día anterior.",
+  // Desde el 2 nov 2026 GIBS ya no publica el ozono de OMPS (Suomi NPP). Se usa OMI (satélite Aura, misma paleta), que
+  // GIBS publica con 4 a 6 días de retraso: se muestra siempre el día más reciente publicado («default»).
+  ozono_total: { nombre: "Capa de ozono: columna total (OMI, día más reciente publicado)", capa: "OMI_Ozone_DOAS_Total_Column", matriz: "GoogleMapsCompatible_Level6", ext: "png",
+    maxzoom: 6, opacidad: 0.7, fecha_fija: "default",
+    leyenda: "Unidades Dobson (DU): cuánto ozono hay en toda la columna de aire. Menos de 220 DU es «agujero de ozono». Paleta oficial de NASA GIBS. Sensor OMI (satélite Aura): NASA lo publica con 4 a 6 días de retraso y se muestra el día más reciente disponible; el ozono cambia despacio, así que sirve para ver el agujero sobre la Antártida.",
     // Colores del mapa de color oficial (gibs.earthdata.nasa.gov/colormaps/v1.3/OMPS_Ozone_Total_Column.xml).
     escala: { colores: ["rgb(71,160,179)", "rgb(130,205,164)", "rgb(195,231,159)", "rgb(240,236,146)", "rgb(253,203,121)", "rgb(249,146,84)", "rgb(231,89,72)"],
       marcas: ["125", "200", "275", "350", "425", "≥ 500 DU"],
@@ -218,12 +222,17 @@ export function urlGIBS(def, fecha) {
 }
 
 export class Imagenes {
-  constructor(map) { this.map = map; this.activas = new Map(); }
+  constructor(map) { this.map = map; this.activas = new Map(); this.turno = new Map(); }
 
   /** Activa una capa. Devuelve la candidata usada (o null si ninguna respondió) para capas con candidatos. */
   async activar(id, fecha = ayerUTC(), pedir = pedirMosaico) {
     const def = IMAGENES[id];
     if (!def) return null;
+    // Cada activación lleva un turno: si mientras se consulta a NASA la persona desmarca la casilla (o la vuelve a
+    // marcar), esta activación ya no instala nada. Antes la imagen se dibujaba después de desmarcarla y se quedaba.
+    const turno = (this.turno.get(id) || 0) + 1;
+    this.turno.set(id, turno);
+    const vigente = () => this.turno.get(id) === turno;
     let eleccion = null;
     // Productos que tardan más en publicarse (hielo marino GHRSST: ~2 días): con la fecha por omisión se usa su último día completo.
     const porOmision = fecha === ayerUTC();
@@ -242,12 +251,14 @@ export class Imagenes {
       eleccion = await elegirCandidata(def, fecha, pedir, porOmision ? [haceDias(1), haceDias(2), haceDias(3)] : [fecha]);
       if (!eleccion) throw new Error("NASA GIBS no devolvió imagen de luces nocturnas para esa fecha ni para la referencia anual");
     }
+    if (!vigente()) return null;  // se desmarcó mientras se buscaba el día
     this.activas.set(id, { fecha, eleccion, rellenos });
     this.#instalar(id);
     return eleccion;
   }
 
   desactivar(id) {
+    this.turno.set(id, (this.turno.get(id) || 0) + 1);  // cancela una activación que siga buscando el día
     this.activas.delete(id);
     for (const sid of [`img-${id}`, ...[1, 2, 3].map((k) => `img-${id}-r${k}`)]) {
       if (this.map.getLayer(sid)) this.map.removeLayer(sid);
