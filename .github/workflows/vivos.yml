@@ -247,7 +247,7 @@ jobs:
           FIRMS_MAP_KEY: ${{ secrets.FIRMS_MAP_KEY }}
         run: python3 tools/clima_tactico/actualizar.py
 
-      - name: Fenómenos anómalos (blogs y medios propios, GDELT en 15 idiomas, NUFORC, casos y catálogo; cada 6 h; si falla se conservan los anteriores)
+      - name: Fenómenos anómalos (blogs y medios propios, GDELT GKG en todos los idiomas, NUFORC, casos y catálogo; cada hora; si falla se conservan los anteriores)
         continue-on-error: true
         timeout-minutes: 5
         run: python3 tools/anomalias/anomalias.py

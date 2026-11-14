@@ -102,3 +102,23 @@ def test_ciberataques_venta_de_datos_en_mexico():
         assert C.tipo_de(t) == "filtracion", t
     assert not C.es_incidente("Detienen a hacker que robó datos")  # detención: no es un ataque nuevo
     assert C.RX_MEXICO.search(C.normalizar("Venden datos del SAT")) and not C.RX_MEXICO.search(C.normalizar("Satellite operator hacked"))
+
+
+def test_anomalias_ruido_y_gkg():
+    import os, sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "anomalias"))
+    import anomalias as A
+    u = A.Ubicador()
+    assert A.nota_propia("Vince Tempera, da Ufo Robot a Goldrake: le colonne sonore", "https://leggo.it/x", "2026-11-06", "leggo.it", u) is None
+    assert A.nota_propia("Funky Taurus Media - UFO", "https://funkytaurusmedia.com/x", "2026-11-06", "x", u, dedicado=True) is None
+    assert A.nota_propia("The Official MUFON Podcast: UFO disclosure", "https://www.mufon.com/x", "2026-11-03", "MUFON", u) is None
+    f = A.nota_propia("Captan OVNI sobre Monterrey, Nuevo León", "https://x.mx/1", "2026-11-13", "Medio", u)
+    assert f and f["properties"]["capa"] == "anom_recientes"
+    # GKG: filas sintéticas (columna 26 = extras con el título de la página).
+    fila = [""] * 27
+    fila[1], fila[3], fila[4] = "20261113220000", "tvazteca.com", "https://www.tvazteca.com/ovni"
+    fila[26] = "<PAGE_TITLE>Captan OVNI sobre Guadalajara, Jalisco</PAGE_TITLE>"
+    otra = list(fila); otra[26] = "<PAGE_TITLE>Sube el precio de la tortilla en Jalisco</PAGE_TITLE>"; otra[4] = "https://x/2"
+    feats, est = A.de_gkg(u, archivos=1, filas_de=lambda url: iter([fila, otra]), lista_de=lambda url, n: [url])
+    assert len(feats) == 2 and all(x["properties"]["fuente"] == "tvazteca.com (vía GDELT)" for x in feats)  # un archivo por flujo (inglés y traducido)
+    assert "GKG: 2 notas" in est
