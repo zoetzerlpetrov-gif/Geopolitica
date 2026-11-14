@@ -43,3 +43,14 @@ test("cabina: estado simulado con inclinación por velocidad vertical y alabeo p
   assert.ok(Math.abs(d.km - 111.2) < 0.5 && Math.abs(d.min - 11.1) < 0.1);
   assert.equal(haciaDestino({ lon: 0, lat: 0, gs_kmh: 10 }, [1, 1]), null);  // en tierra o casi parado: sin ETA
 });
+
+test("cabina en ventana: estilo ligero con relieve y cielo, y panel reducido en ventanas angostas", async () => {
+  const { estiloCabina, escalaPanel, DEM } = await import("../../js/altura3d.js");
+  const s = estiloCabina();
+  assert.equal(s.terrain.source, "dem");
+  assert.equal(s.sources.dem.tiles[0], DEM);
+  assert.ok(s.sky && s.layers.length === 2);                  // solo fondo y satélite: nada del mapa principal
+  assert.equal(escalaPanel(560), 560 / 620);
+  assert.equal(escalaPanel(1200), 1);
+  assert.equal(escalaPanel(100), 0.4);
+});

@@ -6,8 +6,8 @@
 //  - aviones: altitud real × 25 (un avión a 10 km se dibuja a 250 km);
 //  - satélites: 150 km + 0.4 × su altitud (tope en 2,000 km de altitud real): la Estación Espacial (~420 km) queda a
 //    ~320 km y un geoestacionario (35,786 km) al tope, ~950 km; la órbita real sería demasiado alta para verse.
-// La vista de cabina coloca la cámara en la posición y altitud del avión, mirando hacia su rumbo, sobre el relieve
-// (modelos de elevación «Terrain Tiles» de Mapzen, datos abiertos en AWS). La posición avanza según la velocidad y el
+// La vista de cabina abre una ventana flotante con un mapa propio y ligero; coloca la cámara en la posición y altitud
+// del avión, mirando hacia su rumbo, sobre el relieve (modelos de elevación «Terrain Tiles» de Mapzen, datos abiertos en AWS). La posición avanza según la velocidad y el
 // rumbo de la última señal (se recalcula al llegar la siguiente instantánea), así que es una simulación aproximada.
 
 export const EXAGERA_AVION = 25;
@@ -112,35 +112,81 @@ export function adelante(lon, lat, grados, km) {
   return [((l2 * 180) / Math.PI + 540) % 360 - 180, (f2 * 180) / Math.PI];
 }
 
-export class Cabina {
-  constructor(map) { this.map = map; this.activa = false; }
+const SAT_CABINA = "https://tiles.maps.eox.at/wmts/1.0.0/s2cloudless_3857/default/g/{z}/{y}/{x}.jpg";
+const SAT_CABINA_ATRIB = 'Sentinel-2 cloudless by EOX IT Services GmbH (CC BY 4.0) · Relieve: Terrain Tiles (Mapzen, AWS)';
 
-  iniciar(v, { onSalir, datos = {} } = {}) {
-    const m = this.map;
+/** Estilo mínimo de la ventana de cabina: imagen de satélite, relieve y cielo (sin las capas del mapa principal). */
+export function estiloCabina() {
+  return {
+    version: 8,
+    sources: {
+      sat: { type: "raster", tiles: [SAT_CABINA], tileSize: 256, maxzoom: 13, attribution: SAT_CABINA_ATRIB },
+      dem: { type: "raster-dem", tiles: [DEM], tileSize: 256, encoding: "terrarium", maxzoom: 11 },
+    },
+    layers: [{ id: "fondo", type: "background", paint: { "background-color": "#6fa8dc" } },
+      { id: "sat", type: "raster", source: "sat", paint: { "raster-fade-duration": 0 } }],
+    terrain: { source: "dem", exaggeration: 1.2 },
+    sky: { "sky-color": "#6fa8dc", "horizon-color": "#d9e7f5", "sky-horizon-blend": 0.6, "fog-color": "#d9e7f5" },
+  };
+}
+
+/**
+ * Vista desde la cabina en una ventana flotante con su propio mapa ligero (solo satélite y relieve, densidad de píxel 1).
+ * El mapa principal no cambia: la ficha del avión sigue abierta y su trayectoria o modelo se quitan desde ella.
+ */
+export class Cabina {
+  constructor(map, { lib = globalThis.maplibregl, contenedor = map?.getContainer?.()?.parentElement } = {}) {
+    this.map = map; this.lib = lib; this.contenedor = contenedor; this.activa = false;
+  }
+
+  crearVentana(info) {
+    const w = document.createElement("div");
+    w.className = "cabina-pop";
+    w.setAttribute("role", "dialog");
+    w.setAttribute("aria-label", "Vista desde la cabina (simulación)");
+    w.innerHTML = `<div class="cabina-cab"><span class="cabina-info"></span>
+      <button type="button" class="cabina-ampliar" aria-pressed="false" title="Ampliar o reducir la ventana">⤢ Ampliar</button>
+      <button type="button" class="cabina-salir">✕ Salir de la cabina</button></div>
+      <div class="cabina-vista"><div class="cabina-mapa"></div></div>`;
+    w.querySelector(".cabina-info").textContent = info || "";
+    w.querySelector(".cabina-salir").addEventListener("click", () => this.detener());
+    w.querySelector(".cabina-ampliar").addEventListener("click", (e) => {
+      const grande = w.classList.toggle("grande");
+      e.currentTarget.setAttribute("aria-pressed", String(grande));
+      e.currentTarget.textContent = grande ? "⤡ Reducir" : "⤢ Ampliar";
+      this.mini?.resize();
+    });
+    w.addEventListener("keydown", (e) => { if (e.key === "Escape") this.detener(); });
+    (this.contenedor || document.body).appendChild(w);
+    return w;
+  }
+
+  iniciar(v, { onSalir, datos = {}, info = "" } = {}) {
     this.detener(false);
     this.activa = true;
     this.onSalir = onSalir;
-    this.previo = { center: m.getCenter(), zoom: m.getZoom(), pitch: m.getPitch(), bearing: m.getBearing(), maxPitch: m.getMaxPitch(), proy: m.getProjection?.()?.type };
-    if (this.previo.proy === "globe") try { m.setProjection({ type: "mercator" }); } catch { /* sin cambio */ }
-    m.setMaxPitch(85);
-    if (!m.getSource(ID_DEM)) m.addSource(ID_DEM, { type: "raster-dem", tiles: [DEM], tileSize: 256, encoding: "terrarium", maxzoom: 12,
-      attribution: "Relieve: Terrain Tiles (Mapzen, datos abiertos en AWS)" });
-    try { m.setTerrain({ source: ID_DEM, exaggeration: 1.2 }); } catch { /* sin relieve */ }
-    try { m.setSky?.({ "sky-color": "#6fa8dc", "horizon-color": "#d9e7f5", "sky-horizon-blend": 0.6, "fog-color": "#d9e7f5" }); } catch { /* sin cielo */ }
+    this.ventana = this.crearVentana(info);
+    const vista = this.ventana.querySelector(".cabina-vista");
     this.v = { lon: v.lon, lat: v.lat, alt: Math.max(300, Number(v.alt_m) || 1000), rumbo: Number(v.rumbo) || 0, kmh: Math.max(0, Number(v.vel_kmh) || 0),
       vs: Number(v.vs_ms) || 0 };
+    const m = this.mini = new this.lib.Map({
+      container: this.ventana.querySelector(".cabina-mapa"), style: estiloCabina(), center: [this.v.lon, this.v.lat], zoom: 11, pitch: 80,
+      bearing: this.v.rumbo, maxPitch: 85, interactive: false, pixelRatio: 1, fadeDuration: 0, attributionControl: { compact: true },
+    });
+    // Créditos de las imágenes plegados en el ícono «i» para no tapar la cinta de rumbo.
+    m.once("load", () => m.getContainer().querySelector(".maplibregl-ctrl-attrib")?.classList.remove("maplibregl-compact-show"));
     this.t0 = performance.now();
     this.giro = 0;
     this.datos = datos;
-    this.panel ??= new PanelCabina(m.getContainer());
+    this.panel = new PanelCabina(vista);
+    this.ventana.querySelector(".cabina-salir").focus();
     const paso = () => {
       if (!this.activa) return;
       const seg = (performance.now() - this.t0) / 1000;
       const e = estadoCabina(this.v, seg, this.giro);
       const mira = adelante(e.lon, e.lat, this.v.rumbo, 25);
       try {
-        const cam = m.calculateCameraOptionsFromTo({ lng: e.lon, lat: e.lat }, e.alt_m, { lng: mira[0], lat: mira[1] }, Math.max(0, e.alt_m - 2500));
-        m.jumpTo(cam);
+        m.jumpTo(m.calculateCameraOptionsFromTo({ lng: e.lon, lat: e.lat }, e.alt_m, { lng: mira[0], lat: mira[1] }, Math.max(0, e.alt_m - 2500)));
       } catch { /* versión sin cámara libre */ }
       this.panel?.dibujar(e, { ...this.datos, hacia: haciaDestino(e, this.datos.destinoCoord) });
       this.raf = requestAnimationFrame(paso);
@@ -163,15 +209,11 @@ export class Cabina {
     if (!this.activa) return;
     this.activa = false;
     cancelAnimationFrame(this.raf);
-    this.panel?.quitar();
     this.panel = null;
-    const m = this.map, p = this.previo;
-    try { m.setTerrain(null); } catch { /* nada */ }
-    if (p) {
-      m.jumpTo({ center: p.center, zoom: p.zoom, pitch: Math.min(p.pitch, p.maxPitch), bearing: p.bearing });
-      m.setMaxPitch(p.maxPitch);
-      if (p.proy === "globe") try { m.setProjection({ type: "globe" }); } catch { /* nada */ }
-    }
+    try { this.mini?.remove(); } catch { /* ya quitado */ }
+    this.mini = null;
+    this.ventana?.remove();
+    this.ventana = null;
     if (avisar) this.onSalir?.();
   }
 }
@@ -205,6 +247,9 @@ export function haciaDestino(e, destino) {
   return { km, min: (km / e.gs_kmh) * 60 };
 }
 
+/** Factor de reducción del panel: 1 desde 620 px de ancho; menos en ventanas angostas (teléfono). */
+export const escalaPanel = (ancho) => Math.min(1, Math.max(0.4, (Number(ancho) || 620) / 620));
+
 export class PanelCabina {
   constructor(contenedor) {
     this.c = document.createElement("canvas");
@@ -217,16 +262,19 @@ export class PanelCabina {
 
   dibujar(e, datos = {}) {
     const c = this.c, dpr = Math.min(2, window.devicePixelRatio || 1);
-    const W = c.clientWidth, H = c.clientHeight;
-    if (c.width !== Math.round(W * dpr)) { c.width = Math.round(W * dpr); c.height = Math.round(H * dpr); }
+    const W0 = c.clientWidth, H0 = c.clientHeight;
+    if (!W0 || !H0) return;
+    if (c.width !== Math.round(W0 * dpr) || c.height !== Math.round(H0 * dpr)) { c.width = Math.round(W0 * dpr); c.height = Math.round(H0 * dpr); }
+    // En una ventana angosta se dibuja sobre 620 px lógicos y se reduce, para que las cintas no se salgan.
+    const k = escalaPanel(W0), W = W0 / k, H = H0 / k, compacto = H < 450;
     const g = c.getContext("2d");
-    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.setTransform(dpr * k, 0, 0, dpr * k, 0, 0);
     g.clearRect(0, 0, W, H);
     const verde = "#7CFC9A", blanco = "#F4F7FA", ambar = "#FFC857";
     g.font = "12px ui-monospace, Menlo, monospace"; g.textBaseline = "middle"; g.lineWidth = 1.5;
 
     // Horizonte artificial (centro).
-    const R = Math.min(W, H) * 0.22, cx = W / 2, cy = H / 2;
+    const R = Math.min(W, H) * 0.22, cx = W / 2, cy = compacto ? H * 0.45 : H / 2; // ventana chica: sube para dejar ver el rumbo
     g.save();
     g.beginPath(); g.arc(cx, cy, R, 0, 2 * Math.PI); g.clip();
     g.translate(cx, cy); g.rotate((-e.bank * Math.PI) / 180);
@@ -304,8 +352,11 @@ export class PanelCabina {
       datos.destino ? `${datos.destino}${datos.hacia ? ` · ${Math.round(datos.hacia.km)} km · ${Math.round(datos.hacia.min)} min` : ""}` : "",
       `Simulado desde la última señal: ${Math.round(e.seg)} s`,
     ].filter(Boolean);
+    // Ventana pequeña: solo indicativo, destino y tiempo simulado, arriba para no tapar el horizonte.
+    const lista = compacto ? [filas[0], filas.find((t) => t.startsWith("Destino")), filas[filas.length - 1]].filter(Boolean) : filas;
+    const y0 = compacto ? 8 : 56;
     g.textAlign = "left";
-    g.fillStyle = "rgba(10,16,24,0.6)"; g.fillRect(12, 56, 300, filas.length * 17 + 12);
-    filas.forEach((t, i) => { g.fillStyle = i ? blanco : verde; g.fillText(t, 20, 68 + i * 17); });
+    g.fillStyle = "rgba(10,16,24,0.6)"; g.fillRect(12, y0, 300, lista.length * 17 + 12);
+    lista.forEach((t, i) => { g.fillStyle = i ? blanco : verde; g.fillText(t, 20, y0 + 12 + i * 17); });
   }
 }
