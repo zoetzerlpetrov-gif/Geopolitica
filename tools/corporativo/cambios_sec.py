@@ -4,7 +4,7 @@ Wikidata (fuente del organigrama) tarda días o semanas en reflejar que un CEO r
 deben avisar a la SEC en 4 días hábiles con un 8-K, punto 5.02 («salida o nombramiento de directores y directivos»).
 Cada día se leen los índices diarios de EDGAR (form.idx) de los últimos DIAS días; de los 8-K de empresas del catálogo
 (campo cik de vivos/corporativo_empresas.json) se consulta el JSON de envíos de esa empresa para ver los puntos del 8-K.
-Salida: vivos/corporativo_8k.json {cik: [{fecha, puntos, url}]} solo con los que traen 5.02. Datos de dominio público.
+Salida: vivos/corporativo_8k.json (publicado como data/vivos/) {cik: [{fecha, puntos, url}]} solo con los que traen 5.02. Datos de dominio público.
 La SEC pide identificarse con un correo en el User-Agent (secreto SEC_USER_AGENT) y no más de 10 consultas por segundo.
 """
 import json
@@ -16,7 +16,7 @@ import urllib.error
 import urllib.request
 from datetime import date, datetime, timedelta, timezone
 
-ROOT = os.path.join(os.path.dirname(__file__), "..", "..", "data")
+ROOT = os.path.join(os.path.dirname(__file__), "..", "..")  # la corrida escribe en vivos/ (se publica como data/vivos/)
 EMPRESAS = os.path.join(ROOT, "vivos", "corporativo_empresas.json")
 OUT = os.path.join(ROOT, "vivos", "corporativo_8k.json")
 AGENTE = os.environ.get("SEC_USER_AGENT", "").strip() or "DOMINUS-OSINT corporativo (github.com/zoetzerlpetrov-gif/Geopolitica)"

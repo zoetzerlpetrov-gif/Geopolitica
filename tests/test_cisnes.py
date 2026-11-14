@@ -5,6 +5,8 @@ import sys
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "cisnes"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "corporativo"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "corporativo"))
 import cisnes as C  # noqa: E402
 
 AHORA = datetime(2026, 11, 14, 4, tzinfo=timezone.utc)
