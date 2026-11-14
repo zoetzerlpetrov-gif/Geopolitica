@@ -2077,13 +2077,14 @@
           "tipo": "ley",
           "autoridad": "IMPI",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/LFPPI.pdf",
-          "ultima_reforma": "2026-04-03 (última reforma de la ley según la Cámara de Diputados)",
+          "ultima_reforma": "2026-11-13 (DOF, reforma en materia de piratería; verificar en la compilación de la Cámara de Diputados) · antes: 2026-04-03",
           "aplica": "Titulares y usuarios de marcas, patentes, diseños y secretos industriales.",
           "obligaciones": [
             "Registrar marcas y avisos comerciales; renovar cada 10 años y presentar la declaración de uso al tercer año del registro (verificar artículo).",
             "Proteger secretos industriales con medidas de confidencialidad (acuerdos, controles de acceso).",
             "Pagar anualidades de patentes para mantenerlas vigentes.",
-            "Evitar infringir derechos de terceros (búsquedas de anterioridad)."
+            "Evitar infringir derechos de terceros (búsquedas de anterioridad).",
+            "No producir, distribuir ni vender a escala comercial productos que usen sin autorización marcas registradas ni signos o documentos de instituciones públicas (reforma DOF 2026-11-13; verificar artículos)."
           ],
           "tramites": [
             {
@@ -2097,7 +2098,7 @@
               "ante": "IMPI"
             }
           ],
-          "sanciones": "Infracciones administrativas con multas en UMA, medidas provisionales y delitos (verificar artículos).",
+          "sanciones": "Infracciones administrativas con multas en UMA y medidas provisionales; con la reforma de 2026-11-13, según prensa, prisión de 4 a 10 años por piratería a escala comercial y de 1 a 5 años por suplantar la identidad de instituciones públicas (logotipos, dominios, documentos) con engaño y fin delictivo (verificar artículos en el DOF).",
           "evidencia": [
             "Portafolio de marcas con fechas",
             "Acuerdos de confidencialidad",
@@ -4984,7 +4985,7 @@
           "tipo": "ley",
           "autoridad": "FGR",
           "url": "https://www.diputados.gob.mx/LeyesBiblio/pdf/CPF.pdf",
-          "ultima_reforma": "2026-03-13 (última reforma de la ley según la Cámara de Diputados)",
+          "ultima_reforma": "2026-11-13 (DOF, reforma CPF/LFPPI en materia de piratería; deroga el art. 405 según prensa; verificar) · antes: 2026-03-13",
           "aplica": "Todas las empresas con sistemas de información.",
           "obligaciones": [
             "Políticas de uso aceptable y control de accesos para prevenir accesos ilícitos.",
