@@ -55,6 +55,13 @@ FEEDS = [
     ("DataBreaches.net", "https://databreaches.net/feed/", "en"),
     ("WeLiveSecurity (ESET)", "https://www.welivesecurity.com/es/rss/feed/", "es"),
     ("Una al Día (Hispasec)", "https://unaaldia.hispasec.com/feed", "es"),
+    # México (14-nov-2026): filtraciones y venta de bases de datos de dependencias y empresas mexicanas que la prensa
+    # especializada en inglés no siempre cubre. Son medios generales: solo entran notas con palabras de ataque.
+    ("El Financiero", "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml", "es"),
+    ("Infobae México", "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/", "es"),
+    ("Xataka México", "https://www.xataka.com.mx/feedburner.xml", "es"),
+    ("Expansión", "https://expansion.mx/rss", "es"),
+    ("El Economista", "https://www.eleconomista.com.mx/rss/ultimas-noticias", "es"),
 ]
 
 # Debe aparecer alguna para que la nota cuente como incidente (sobre el título normalizado: minúsculas, sin acentos).
@@ -62,13 +69,17 @@ RX_ATAQUE = re.compile(
     r"ciberataque|ataque (informatico|cibernetico)|hackeo|hackea|hackers?\b|hacked|\bhack\b|ransomware|ddos|denegacion de servicio|"
     r"denial of service|filtracion|brecha de (datos|seguridad)|data breach|\bbreach|\bleak|cyber ?attack|cyber-attack|ciberespionaje|"
     r"cyber ?espionage|wiper|intrusion|compromised|comprometid|extortion|extorsion|defac|secuestro de datos|robo de datos|stolen data|"
-    r"cyber incident|incidente (de ciberseguridad|cibernetico)|hacktivist|hacktivista"
+    r"cyber incident|incidente (de ciberseguridad|cibernetico)|hacktivist|hacktivista|"
+    # Venta o publicación de datos robados (dark web, foros): datos personales, biométricos, de padrones o de clientes.
+    r"dark ?web|deep ?web|foro de hackers|venden? (datos|bases? de datos|informacion)|venta de (datos|bases? de datos)|"
+    r"bases? de datos (robadas?|expuestas?|filtradas?|a la venta)|datos (robados|expuestos|filtrados|biometricos (robados|expuestos|filtrados))|"
+    r"exfiltr|vulneracion de (datos|sistemas)|hackeo masivo|guacamaya|filtran (datos|informacion)|filtraron|datos filtrados"
 )
 # Notas que hablan del tema pero no de un ataque concreto.
 RX_RUIDO = re.compile(
     r"\b(webinar|podcast|how to|como (protegerte|evitar)|tips|consejos|guia|guide|review|best|top \d+|report finds|survey|encuesta|"
     r"funding|raises \$|acquire|adquiere|hiring|job|week in review|weekly recap|resumen semanal|nuevo curso|evento|"
-    r"arrest|arrested|arresta|detiene|detenid[oa]s?|sentenced|sentencia|condena|extradit|charged|pleads|se declara culpable)\b"
+    r"arrest|arrested|arresta|detienen?|detenid[oa]s?|sentenced|sentencia|condena|extradit|charged|pleads|se declara culpable)\b"
 )
 
 TIPOS = [  # (clave, nombre, regex): gana el primero que coincide
@@ -77,7 +88,8 @@ TIPOS = [  # (clave, nombre, regex): gana el primero que coincide
     ("cripto", "Robo de criptomonedas", r"crypto|cripto|bitcoin|binance|blockchain|defi\b|wallet|billetera"),
     ("sabotaje", "Sabotaje de sistemas físicos o industriales", r"scada|\bics\b|\bot\b|industrial|refrigera|freezer|fridge|water (utility|plant)|"
      r"potabilizadora|power grid|red electrica|wiper|sabotage|sabotaje|pipeline|oleoducto|alert app|alerta"),
-    ("filtracion", "Filtración o robo de datos", r"breach|leak|filtracion|brecha|exposed|expuest|stolen data|robo de datos|datos de \d"),
+    ("filtracion", "Filtración, robo o venta de datos", r"breach|leak|filtracion|filtrad|filtran|filtraron|brecha|exposed|expuest|stolen data|robo de datos|datos de \d|"
+     r"dark ?web|deep ?web|venden?|venta de|bases? de datos|biometric|exfiltr|guacamaya"),
     ("espionaje", "Espionaje", r"espionage|espionaje|\bapt ?\d*\b|state-sponsored|nation-state|\bspy|espia"),
     ("fraude", "Phishing o fraude", r"phishing|smishing|scam|fraude|fraud|estafa"),
     ("intrusion", "Intrusión / hackeo", r"."),
@@ -163,6 +175,12 @@ def sectores_de(titulo):
     return [k for k, rx in _RX_SECT if rx.search(t)]
 
 
+# Instituciones y empresas mexicanas: un titular como «Venden en la dark web datos del SAT» no dice «México».
+RX_MEXICO = re.compile(r"\b(sat|imss|issste|infonavit|fovissste|pemex|cfe|banxico|condusef|profeco|cofepris|sedena|semar|"
+                       r"\bine\b|curp|rfc|renapo|telcel|telmex|bbva mexico|banorte|banamex|coppel|elektra|liverpool|oxxo|"
+                       r"cdmx|edomex|sheinbaum|gobierno de mexico|secretaria de (salud|hacienda|educacion publica|la defensa))\b")
+
+
 def paises_de(titulo, gaz):
     """(afectados, señalados) en ISO3. «hackers rusos», «China-aligned hackers», «Corea del Norte niega…» = señalado."""
     t = normalizar(titulo)
@@ -178,6 +196,8 @@ def paises_de(titulo, gaz):
         if i3 in afect or i3 in senal:
             continue
         (senal if acusado else afect).append(i3)
+    if not afect and RX_MEXICO.search(t):
+        afect.append("MEX")
     m = RX_PREFIJO.match(titulo or "")
     if m:
         cod = m.group(1)

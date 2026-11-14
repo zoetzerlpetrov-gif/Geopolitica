@@ -90,3 +90,15 @@ def test_cambios_de_directivos_8k_502():
               "items": ["5.02,9.01", "2.02", ""], "accessionNumber": ["0001045810-26-000082", "a-b", "c"], "primaryDocument": ["nvda.htm", "x.htm", "y.htm"]}}}
     r = C.con_502(envios, "2026-10-01")
     assert len(r) == 1 and r[0]["url"] == "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda.htm"
+
+
+def test_ciberataques_venta_de_datos_en_mexico():
+    import os, sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "red"))
+    import ciberataques as C
+    for t in ["Venden en la dark web base de datos del SAT con 10 millones de contribuyentes", "Filtran datos de pacientes del IMSS",
+              "Hackers venden datos biométricos de usuarios de bancos"]:
+        assert C.es_incidente(t), t
+        assert C.tipo_de(t) == "filtracion", t
+    assert not C.es_incidente("Detienen a hacker que robó datos")  # detención: no es un ataque nuevo
+    assert C.RX_MEXICO.search(C.normalizar("Venden datos del SAT")) and not C.RX_MEXICO.search(C.normalizar("Satellite operator hacked"))

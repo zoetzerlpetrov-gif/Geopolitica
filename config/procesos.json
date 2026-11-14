@@ -61,6 +61,7 @@
     {"id": "d_corporativo", "nombre": "Mundo corporativo (noticias de empresas)", "archivo": "data/vivos/corporativo.geojson", "campo": "generado_utc", "max_horas": 4, "errores": "fuentes"},
     {"id": "d_corp_empresas", "nombre": "Empresas y organigramas (Wikidata)", "archivo": "data/vivos/corporativo_empresas.json", "campo": "generado_utc", "max_horas": 200, "errores": "fuentes"},
     {"id": "d_elecciones", "nombre": "Elecciones (Wikidata)", "archivo": "data/vivos/elecciones.json", "campo": "generado_utc", "max_horas": 10},
+    {"id": "d_corporativo_8k", "nombre": "Cambios de directivos reportados a la SEC (8-K 5.02)", "archivo": "data/vivos/corporativo_8k.json", "campo": "generado_utc", "max_horas": 30},
     {"id": "d_satelites", "nombre": "Satélites (TLE de SatNOGS)", "archivo": "data/vivos/satelites.json", "campo": "satnogs_utc", "max_horas": 14},
     {"id": "d_normativa", "nombre": "Bitácora normativa (diarios oficiales)", "archivo": "data/normativa/estado.json", "campo": "generado_utc", "max_horas": 30, "errores": "fuentes"},
     {"id": "d_portafolio", "nombre": "Portafolio (panel propio): reporte diario y noticias", "archivo": "https://zoetzerlpetrov-gif.github.io/portafolio/daily_report.json",
