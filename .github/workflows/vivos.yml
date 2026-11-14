@@ -176,7 +176,7 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/tornados.py
 
-      - name: Noticiero DOMINUS (30 secciones; GDELT GKG ya descargado + feeds RSS; si falla se conserva el anterior)
+      - name: Noticiero DOMINUS (31 secciones; GDELT GKG ya descargado + feeds RSS; si falla se conserva el anterior)
         continue-on-error: true
         timeout-minutes: 6
         run: python3 tools/noticiero/noticiero.py

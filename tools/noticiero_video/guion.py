@@ -176,11 +176,11 @@ def _ultimo(ind, id_):
 
 
 # Orden del noticiero y nombre corto de cada sección del Noticiero (data/vivos/noticiero.json).
-ORDEN = ["politica_mx", "politica_mx_critica", "geopolitica", "economia", "indicadores", "forex", "bonos", "oro", "metales", "energia",
+ORDEN = ["politica_mx", "politica_mx_critica", "oficial_mx", "geopolitica", "economia", "indicadores", "forex", "bonos", "oro", "metales", "energia",
          "crisis_energetica", "empresas", "sectores", "nearshoring", "inmobiliario", "cripto", "blockchain", "cbdc",
          "tecnologia", "organismos", "salud", "nutricion", "agenda2030", "clima", "eventos_impacto", "cultura",
          "espectaculos", "gastronomia_viajes", "belleza_moda", "infantil", "conspiracion"]
-CORTO = {"politica_mx": "Política en México", "geopolitica": "Geopolítica", "economia": "Economía", "indicadores": "Indicadores",
+CORTO = {"politica_mx": "Política en México", "oficial_mx": "Avisos oficiales en México", "geopolitica": "Geopolítica", "economia": "Economía", "indicadores": "Indicadores",
          "forex": "Divisas", "bonos": "Bonos y CETES", "oro": "Oro y bancos centrales", "metales": "Metales y materias primas",
          "energia": "Energía", "crisis_energetica": "Crisis energética", "empresas": "Empresas", "sectores": "Sectores",
          "nearshoring": "Nearshoring", "inmobiliario": "Bienes raíces", "cripto": "Criptomonedas", "blockchain": "Blockchain",
@@ -191,6 +191,10 @@ CORTO = {"politica_mx": "Política en México", "geopolitica": "Geopolítica", "
          "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación"}
 # Lo que la IA debe buscar en la sección cuando el nombre corto no basta.
 TEMA = {
+    "oficial_mx": "Avisos y cambios oficiales en México que afectan a la gente: reformas aprobadas en el Senado o en la Cámara de "
+                  "Diputados, publicaciones del Diario Oficial, cambios del SAT, Banxico, CNBV, CONDUSEF, Profeco o Cofepris, registro "
+                  "de líneas celulares, pagos digitales, tarifas, comisiones o nuevas obligaciones. No una declaración política sin "
+                  "decisión: debe ser algo que se aprobó, se publicó o se va a aplicar, con la fecha si la nota la dice",
     "politica_mx_critica": "Política en México: señalamientos de corrupción, sobornos, empresas fantasma, desvíos, conflictos de "
                            "interés, investigaciones, auditorías o críticas a funcionarios o al gobierno de México",
     "infantil": "Niñas y niños: noticias sobre la infancia (derechos, escuela, salud, seguridad) o actividades para niñas y "
@@ -214,7 +218,7 @@ RUTINA = re.compile(r"ma[ñn]anera|conferencia (de prensa )?matutina|morning (pr
 INFANTIL = re.compile(r"ni[nñ]as?\b|ni[nñ]os?\b|infan|menores|adolescen|escuela|escolar|alumn|primaria|secundaria|kínder|"
                       r"preescolar|unicef|juguete|kids?\b|children|child\b|students?|pupils?|schools?|toys?|teens?|"
                       r"para ni[nñ]os|familia|family|parque|museo|zool[oó]gico|zoo\b|pel[ií]cula|teatro|disney|pixar", re.I)
-POR_SECCION = {"politica_mx": 2, "geopolitica": 2}  # las demás: solo la nota más relevante
+POR_SECCION = {"politica_mx": 2, "oficial_mx": 2, "geopolitica": 2}  # las demás: solo la nota más relevante
 VACIOS = re.compile(r"no (tropical )?cyclones|no hay ciclones|sin (avisos|actividad)", re.I)
 ES = re.compile(r"\b(el|la|los|las|de|del|que|en|por|para|con|una?|se|su|sus|al)\b", re.I)
 
@@ -506,7 +510,7 @@ _HASH_SECCION = {"politica_mx": "#PolíticaMX", "geopolitica": "#Geopolítica", 
                  "bonos": "#CETES", "cripto": "#Criptomonedas", "blockchain": "#Blockchain", "energia": "#Energía",
                  "nearshoring": "#Nearshoring", "tecnologia": "#Tecnología", "salud": "#Salud", "clima": "#Clima",
                  "cultura": "#Cultura", "espectaculos": "#Espectáculos", "inmobiliario": "#BienesRaíces",
-                 "dof": "#DOF", "politica_mx_critica": "#PolíticaMX"}
+                 "dof": "#DOF", "politica_mx_critica": "#PolíticaMX", "oficial_mx": "#AvisosOficiales"}
 
 
 # ------------------------------------------------------------------ Diario Oficial de la Federación
