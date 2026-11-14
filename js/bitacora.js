@@ -17,19 +17,29 @@ export function leerBitacora(store = globalThis.localStorage) {
 }
 
 /** Agrega una entrada; descarta las de más de 14 días y repetidas seguidas (cuenta «veces»). */
-export function registrar(tipo, mensaje, store = globalThis.localStorage, ahora = new Date()) {
+/** Rol con el que se usa la página: «admin» (versión completa) o «pago:<plan>». Solo eso: no se guarda la URL. */
+export function rolDe(search = globalThis.location?.search || "") {
+  const q = new URLSearchParams(String(search));
+  return /(?:^|[?&])vista=(?:[^&]*[?&])?vista=pago|(?:^|[?&])vista=pago(?:$|[&#])/i.test(String(search))
+    ? `pago:${(q.get("plan") || "").replace(/[^\w-]/g, "").slice(0, 20) || "sin_plan"}` : "admin";
+}
+
+export function registrar(tipo, mensaje, store = globalThis.localStorage, ahora = new Date(), rol = rolDe()) {
   const lista = leerBitacora(store).filter((e) => ahora - new Date(e.t) < DIAS * 864e5);
   const pagina = rutaSegura(globalThis.location?.href || "").split("/").pop() || "index.html";
   const msg = String(mensaje || "").replace(/\s+/g, " ").slice(0, 300);
   const ult = lista[lista.length - 1];
-  if (ult && ult.tipo === tipo && ult.msg === msg && ult.pagina === pagina) { ult.veces = (ult.veces || 1) + 1; ult.t = ahora.toISOString(); }
-  else lista.push({ t: ahora.toISOString(), pagina, tipo, msg });
+  if (ult && ult.tipo === tipo && ult.msg === msg && ult.pagina === pagina && (ult.rol || "admin") === rol) { ult.veces = (ult.veces || 1) + 1; ult.t = ahora.toISOString(); }
+  else lista.push({ t: ahora.toISOString(), pagina, tipo, msg, rol });
   try { store?.setItem(CLAVE, JSON.stringify(lista.slice(-MAX))); } catch { /* almacenamiento lleno o bloqueado */ }
 }
 
 export function borrarBitacora(store = globalThis.localStorage) { try { store?.removeItem(CLAVE); } catch { /* nada */ } }
 
 /** Texto del informe para soporte: datos técnicos del equipo y las entradas. */
+/** Entradas del rol pedido (las anteriores a este cambio no tienen rol y cuentan como «admin»). */
+export const delRol = (entradas, rol) => (entradas || []).filter((e) => (e.rol || "admin") === rol);
+
 export function informe(entradas, entorno = {}) {
   const e = { fecha: new Date().toISOString(), navegador: globalThis.navigator?.userAgent || "", pantalla: globalThis.screen ? `${screen.width}×${screen.height}` : "",
     idioma: globalThis.navigator?.language || "", enLinea: globalThis.navigator?.onLine, ...entorno };

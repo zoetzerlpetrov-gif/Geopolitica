@@ -668,6 +668,82 @@
    ],
    "gkg_dominio": "\\.mx$|(^|\\.)latinus\\.us$|(^|\\.)animalpolitico\\.com$|(^|\\.)aristeguinoticias\\.com$",
    "gkg": "morena|\\bpan\\b|\\bpri\\b|movimiento ciudadano|\\bpvem\\b|\\bpt\\b|sheinbaum|amlo|l[oó]pez obrador|c[aá]mara de diputados|senado de la rep[uú]blica|congreso de la uni[oó]n|reforma (judicial|electoral|constitucional)|ine\\b|suprema corte|scjn|gobernador|gobernadora|elecci[oó]n|elecciones|plurinominal|corrupci[oó]n|soborn|moches|desv[ií]o de recursos|empresas? fantasma|factureras?|huachicol|nepotismo|conflicto de inter[eé]s|peculado|enriquecimiento il[ií]cito|auditor[ií]a superior|\\bASF\\b|\\bFGR\\b|fiscal[ií]a general de la rep[uú]blica|secretar[ií]a anticorrupci[oó]n|adjudicaci[oó]n directa|sobrecosto|funcionari[oa]s?\\b|servidor(es)? p[uú]blicos?|subsecretar[ií]a|subsecretari[oa]|nombramiento|sin experiencia|nula trayectoria|reci[eé]n egresad|apadrinad|amiguismo|compadrazgo|presidenta? municipal|ayuntamiento|cabildo"
+  },
+  {
+   "id": "oficial_mx",
+   "titulo": "Avisos y cambios oficiales en México: Congreso, gobierno, reguladores, telefonía y pagos",
+   "nota": "Lo que se aprueba o se anuncia y afecta a la gente aunque no sea titular principal: reformas aprobadas en el Senado y en la Cámara de Diputados, publicaciones del Diario Oficial, cambios del SAT, Banxico, CNBV, CONDUSEF, Profeco, Cofepris y del regulador de telecomunicaciones, registro de líneas, pagos digitales, tarifas y comisiones. Se toman de medios mexicanos filtrados por palabras clave; el texto oficial siempre está en el DOF o en la Gaceta Parlamentaria. Las páginas de comunicados del Senado y de Diputados rechazan lectores automáticos, por eso no se leen directo.",
+   "palabras": "(senado|c[aá]mara de diputados|diputados|congreso).{0,40}(aprob|avala|dictamen|reforma)|aprueba(n)? (el senado|los diputados|la c[aá]mara)|(entra|entrar[aá]|entran) en vigor|publica(n|do)? en el (dof|diario oficial)|diario oficial de la federaci[oó]n|nueva ley|reforma a la ley|\\bsat\\b|servicio de administraci[oó]n tributaria|banxico|banco de m[eé]xico|\\bcnbv\\b|condusef|profeco|cofepris|\\bift\\b|\\bcrt\\b|comisi[oó]n reguladora de telecomunicaciones|agencia de transformaci[oó]n digital|\\batdt\\b|llave mx|curp biom[eé]trica|registro (de|obligatorio de) (celulares|l[ií]neas|tel[eé]fonos)|padr[oó]n (de )?(telefon|celular|l[ií]neas)|suspensi[oó]n de l[ií]neas|\\bspei\\b|\\bcodi\\b|\\bdimo\\b|pagos digitales|comisiones bancarias|cobro de comisi|retenci[oó]n|impuesto|\\bieps\\b|\\bisr\\b|\\biva\\b|tarifa(s)? (de|el[eé]ctric)|telcel|at&t m[eé]xico|movistar|totalplay|izzi|megacable|internet para todos|cfe telecom|obligatori[oa]s? (a partir|desde)|a partir del (1|primero|lunes|pr[oó]ximo)|multas? de hasta|aviso (oficial|importante)|alerta sanitaria|veda|restricci[oó]n|prohibici[oó]n|decreto",
+   "feeds": [
+    {
+     "nombre": "El Economista",
+     "url": "https://www.eleconomista.com.mx/rss/ultimas-noticias",
+     "tipo": "Diario de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "El Financiero",
+     "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+     "tipo": "Diario de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Expansión",
+     "url": "https://expansion.mx/rss",
+     "tipo": "Revista de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Expansión Política",
+     "url": "https://politica.expansion.mx/rss",
+     "tipo": "Revista de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "La Jornada (política)",
+     "url": "https://www.jornada.com.mx/rss/politica.xml?v=1",
+     "tipo": "Diario de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "El Sol de México",
+     "url": "https://www.elsoldemexico.com.mx/rss.xml",
+     "tipo": "Diario de México (Organización Editorial Mexicana)",
+     "filtrar": true
+    },
+    {
+     "nombre": "Infobae México",
+     "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
+     "tipo": "Medio digital (Argentina) con sección México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Xataka México",
+     "url": "https://www.xataka.com.mx/feedburner.xml",
+     "tipo": "Medio de tecnología",
+     "filtrar": true
+    },
+    {
+     "nombre": "Mexico News Daily",
+     "url": "https://mexiconewsdaily.com/feed/",
+     "tipo": "Medio en inglés sobre México",
+     "filtrar": true
+    },
+    {
+     "nombre": "IMCO",
+     "url": "https://imco.org.mx/feed/",
+     "tipo": "Centro de investigación en políticas públicas (México)",
+     "filtrar": true
+    },
+    {
+     "nombre": "Notus",
+     "url": "https://notus.com.mx/feed/",
+     "tipo": "Medio digital (México)",
+     "filtrar": true
+    }
+   ],
+   "gkg_dominio": "\\.mx$",
+   "gkg": "(senado|c[aá]mara de diputados|diputados|congreso).{0,40}(aprob|avala|dictamen|reforma)|aprueba(n)? (el senado|los diputados|la c[aá]mara)|(entra|entrar[aá]|entran) en vigor|publica(n|do)? en el (dof|diario oficial)|diario oficial de la federaci[oó]n|nueva ley|reforma a la ley|\\bsat\\b|servicio de administraci[oó]n tributaria|banxico|banco de m[eé]xico|\\bcnbv\\b|condusef|profeco|cofepris|\\bift\\b|\\bcrt\\b|comisi[oó]n reguladora de telecomunicaciones|agencia de transformaci[oó]n digital|\\batdt\\b|llave mx|curp biom[eé]trica|registro (de|obligatorio de) (celulares|l[ií]neas|tel[eé]fonos)|padr[oó]n (de )?(telefon|celular|l[ií]neas)|suspensi[oó]n de l[ií]neas|\\bspei\\b|\\bcodi\\b|\\bdimo\\b|pagos digitales|comisiones bancarias|cobro de comisi|retenci[oó]n|impuesto|\\bieps\\b|\\bisr\\b|\\biva\\b|tarifa(s)? (de|el[eé]ctric)|telcel|at&t m[eé]xico|movistar|totalplay|izzi|megacable|internet para todos|cfe telecom|obligatori[oa]s? (a partir|desde)|a partir del (1|primero|lunes|pr[oó]ximo)|multas? de hasta|aviso (oficial|importante)|alerta sanitaria|veda|restricci[oó]n|prohibici[oó]n|decreto"
   }
  ],
  "gkg_excluir_dominio": "prnewswire|businesswire|globenewswire|einpresswire|dailypolitical|tickerreport|pr-inside|finanznachrichten|marketscreener|openpr|newsfilecorp|accessnewswire"

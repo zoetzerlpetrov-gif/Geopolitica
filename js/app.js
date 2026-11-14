@@ -799,6 +799,8 @@ async function main() {
     onSelect: (id) => abrirFicha(id),
   });
   iniciarIdioma({ map: api.map });
+  // Pruebas integrales por rol (tools/e2e/roles.mjs): solo con ?e2e=1 se expone el mapa para revisar sus capas.
+  if (/[?&]e2e=1(?:&|$)/.test(location.search)) globalThis.__e2e = { map: api.map, arranque };
   if (api.map.loaded()) arranque.mapaListo = true; else api.map.once("load", () => { arranque.mapaListo = true; });
   arranque.paso = "descargando los eventos (data/events.json)";
   const [choke, runLog, regiones] = await Promise.all([pChoke, pRunLog, pRegiones, pEventos]);
@@ -1985,7 +1987,8 @@ async function iniciarRiesgos() {
   // Polos: atajo que enciende sus capas, pasa a la vista de globo (en el plano los polos se ven deformados) y centra el polo.
   const ATAJO_POLOS = `<div class="atajos-polos"><button type="button" class="mini" data-polo="sur">🧊 Ver la Antártida</button>
     <button type="button" class="mini" data-polo="norte">🧊 Ver Groenlandia y el Ártico</button></div>`;
-  cont.innerHTML = R.GRUPOS.map(([g, ic, color], i) => `<details class="subgrupo-d" id="sg-rg-${i}" open><summary class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}
+  // Un grupo sin capas visibles en esta vista (p. ej. «Mar» en la versión de pago, que es solo de administración) no se muestra.
+  cont.innerHTML = R.GRUPOS.map(([g, ic, color], i) => !delGrupo(g).length ? "" : `<details class="subgrupo-d" id="sg-rg-${i}" open><summary class="subgrupo" style="--c:${color}"><span class="punto"></span>${ic} ${esc(g)}
       <span class="sg-n">${delGrupo(g).length} capas</span></summary>` + (g.startsWith("Polos") ? ATAJO_POLOS : "") + delGrupo(g).map(filaCapa).join("") + `</details>`).join("");
   cont.addEventListener("click", (e) => {
     const b = e.target.closest("[data-polo]");
@@ -2121,7 +2124,11 @@ async function iniciarRiesgos() {
     if (ley) ley.hidden = !e.target.checked;
     if (!e.target.checked) { riesgos.desactivar(id); marca.textContent = ""; if (id === "volcanes") quitarCeniza(); return; }
     marca.textContent = "cargando…";
-    try { const n = await riesgos.activar(id); marca.textContent = `${n.toLocaleString("es-MX")}`; } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
+    try {
+      const n = await riesgos.activar(id);
+      // Capas que pueden estar vacías por la hora (trenes de madrugada): se explica en vez de mostrar solo «0».
+      marca.textContent = (n === 0 && R.CAPAS.find((c) => c.id === id)?.notaCero?.()) || `${n.toLocaleString("es-MX")}`;
+    } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
   };
   cont.addEventListener("change", alCambiarCapa);
   for (const idCont of ["trenes-capas", "anomalias-capas", "corporativo-capas"]) $(idCont)?.addEventListener("change", alCambiarCapa);

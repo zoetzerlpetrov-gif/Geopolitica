@@ -844,6 +844,7 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .corp-org { margin: 2px 2px 0 0; }
 .organigrama { display: flex; flex-direction: column; align-items: stretch; gap: 2px; }
 .organigrama h5 { margin: 6px 0 2px; font-size: 0.8rem; }
+.aviso-org { margin: 4px 0; padding: 6px 8px; border-left: 3px solid #E07B00; background: color-mix(in srgb, #E07B00 10%, transparent); border-radius: 4px; font-size: 0.85rem; }
 .org-nivel { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .org-caja { flex: 1 1 140px; min-width: 0; border: 1px solid var(--line); border-left: 3px solid var(--g-corporativo); border-radius: 6px; padding: 4px 8px; background: var(--surface-2); }
 /* Sin altura máxima: una lista larga (filiales, consejo) se ve completa y el panel se desplaza entero; antes quedaba cortada en una caja de 180 px. */

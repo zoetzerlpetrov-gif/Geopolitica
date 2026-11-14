@@ -45,6 +45,12 @@ def test_threatfox_api_sin_llave_y_con_respuesta():
                                          {"threat_type": "payload_delivery", "ioc_type": "url", "ioc_value": "http://5.6.7.8/x"}]}
     assert R.ips_threatfox_api(ok) == {"1.2.3.4": "Cobalt Strike"}
     assert R.ips_threatfox_api({"query_status": "no_result"}) == {}
+    # Formato real de la API get_iocs: el campo es «ioc», no «ioc_value» (por eso salía 0 IP en la versión de pago).
+    api = {"query_status": "ok", "data": [{"threat_type": "botnet_cc", "ioc_type": "ip:port", "ioc": "9.8.7.6:8080", "malware_printable": "Remcos"}]}
+    assert R.ips_threatfox_api(api) == {"9.8.7.6": "Remcos"}
+    import pytest
+    with pytest.raises(RuntimeError):
+        R.ips_threatfox_api({"query_status": "illegal_auth_key"})
 
 
 def test_c2intel_csv():

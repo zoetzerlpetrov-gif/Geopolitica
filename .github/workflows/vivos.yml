@@ -176,7 +176,7 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/clima/tornados.py
 
-      - name: Noticiero DOMINUS (30 secciones; GDELT GKG ya descargado + feeds RSS; si falla se conserva el anterior)
+      - name: Noticiero DOMINUS (31 secciones; GDELT GKG ya descargado + feeds RSS; si falla se conserva el anterior)
         continue-on-error: true
         timeout-minutes: 6
         run: python3 tools/noticiero/noticiero.py
@@ -319,6 +319,13 @@ jobs:
         timeout-minutes: 7
         run: python3 tools/corporativo/empresas.py
 
+      - name: Cambios de directivos reportados a la SEC (8-K punto 5.02, últimos 45 días; si falla se conserva lo anterior)
+        continue-on-error: true
+        timeout-minutes: 4
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python3 tools/corporativo/cambios_sec.py
+
       - name: Mundo corporativo, noticias de empresas por categoría y país (cada hora; si falla se conservan las anteriores)
         continue-on-error: true
         timeout-minutes: 5
@@ -333,6 +340,11 @@ jobs:
         continue-on-error: true
         timeout-minutes: 4
         run: python3 tools/elecciones/elecciones.py
+
+      - name: Cisnes blancos y negros (probabilidad base publicada y señales de noticias y protocolos; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/cisnes/cisnes.py
 
       - name: Desarrollos de ARA y SADASI (sitios oficiales, una vez por semana; si falla se conserva lo anterior)
         continue-on-error: true

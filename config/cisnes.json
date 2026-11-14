@@ -1,0 +1,116 @@
+{
+  "_nota": "Eventos de alto impacto para la sección de cisnes blancos y negros (cisnes.html, solo administración). base_anual: probabilidad por año tomada de una fuente publicada (o null si no existe una tasa histórica confiable: entonces solo se muestra el nivel de señales). Las señales son menciones en el Noticiero (titulares de 72 h) frente a su propio promedio de 30 días y alertas oficiales vigentes del registro de protocolos. El ajuste por señales es una heurística propia, no un modelo validado.",
+  "eventos": [
+    {
+      "id": "tormenta_solar",
+      "nombre": "Tormenta solar extrema (tipo Carrington, 1859)",
+      "tipo": "negro",
+      "impacto": "Daños a transformadores de alta tensión, satélites, GPS y comunicaciones por radio; apagones regionales de semanas en latitudes altas.",
+      "base_anual": 0.0127,
+      "base_texto": "≈12 % por década según Riley (2012); equivale a ≈1.3 % por año.",
+      "fuentes": [["Riley, P. (2012). On the probability of occurrence of extreme space weather events. Space Weather 10, S02012", "https://doi.org/10.1029/2011SW000734"]],
+      "noticias": "tormenta (solar|geomagn)|geomagnetic storm|solar storm|llamarada solar|solar flare|eyecci[oó]n de masa coronal|coronal mass ejection|\\bcme\\b|clima espacial|space weather",
+      "protocolos": "espacial|clima espacial"
+    },
+    {
+      "id": "pandemia",
+      "nombre": "Pandemia de impacto comparable a la COVID-19",
+      "tipo": "negro",
+      "impacto": "Saturación hospitalaria, cierres, caída del comercio y del empleo durante uno o más años.",
+      "base_anual": 0.02,
+      "base_texto": "≈2 % por año para una epidemia de intensidad similar a la COVID-19, según Marani et al. (2021).",
+      "fuentes": [["Marani, M. et al. (2021). Intensity and frequency of extreme novel epidemics. PNAS 118 (35)", "https://doi.org/10.1073/pnas.2105482118"]],
+      "noticias": "pandemi|emergencia de salud p[uú]blica de importancia internacional|\\bpheic\\b|h5n1|gripe aviar|bird flu|nuevo virus|novel virus|brote (de|desconocido)|outbreak|mpox|marburg|[eé]bola|nipah",
+      "protocolos": "salud|sanitari|epidemi"
+    },
+    {
+      "id": "erupcion_vei7",
+      "nombre": "Erupción volcánica de magnitud 7 (VEI 7, como Tambora 1815)",
+      "tipo": "negro",
+      "impacto": "Enfriamiento global de ~1 °C por uno a tres años, malas cosechas, hambrunas y crisis de precios de alimentos.",
+      "base_anual": 0.0018,
+      "base_texto": "«1 en 6» de probabilidad en este siglo según Cassidy y Mani (2022); equivale a ≈0.18 % por año.",
+      "fuentes": [["Cassidy, M. y Mani, L. (2022). Huge volcanic eruptions: time to prepare. Nature 608, 469-471", "https://doi.org/10.1038/d41586-022-02177-x"]],
+      "noticias": "erupci[oó]n|eruption|volc[aá]n|volcano|ceniza volc[aá]nica|volcanic ash",
+      "protocolos": "volc"
+    },
+    {
+      "id": "asteroide_1km",
+      "nombre": "Impacto de un asteroide de 1 km o más",
+      "tipo": "negro",
+      "impacto": "Efectos globales (invierno de impacto); no hay ninguno conocido en curso de colisión.",
+      "base_anual": 0.000002,
+      "base_texto": "Las estimaciones publicadas van de una vez cada ~440 000 a ~700 000 años para objetos de 1 km o más; se usa una vez cada 500 000 años. La NASA ya identificó ~95 % de los de ese tamaño y ninguno va en curso de colisión.",
+      "fuentes": [["Space.com: Earth is safe from a devastating asteroid impact for 1,000 years (probably)", "https://www.space.com/earth-probably-safe-devastating-asteroid-impact-thousand-years"], ["NASA, Planetary Defense Coordination Office", "https://science.nasa.gov/planetary-defense/"]],
+      "noticias": "asteroide|asteroid|near-earth object|objeto cercano a la tierra|defensa planetaria|planetary defense",
+      "protocolos": "asteroide|planetari"
+    },
+    {
+      "id": "sismo_cdmx",
+      "nombre": "Sismo de magnitud 7 o más con daños graves en la Ciudad de México",
+      "tipo": "blanco",
+      "impacto": "Derrumbes, cortes de agua y electricidad, interrupción de la actividad económica de la capital.",
+      "base_anual": 0.04,
+      "base_texto": "Estimación propia por frecuencia: tres sismos con daños graves en la CDMX desde 1957 (1957, 1985 y 2017) ≈ 4 % por año. Verificar con el catálogo del Servicio Sismológico Nacional.",
+      "fuentes": [["Servicio Sismológico Nacional (UNAM): catálogo de sismos", "http://www2.ssn.unam.mx:8080/catalogo/"]],
+      "noticias": "sismo|terremoto|temblor|earthquake|alerta s[ií]smica",
+      "protocolos": "s[ií]sm|terremoto"
+    },
+    {
+      "id": "crisis_bancaria",
+      "nombre": "Crisis bancaria sistémica en algún país del mundo",
+      "tipo": "blanco",
+      "impacto": "Rescates bancarios, congelamiento de crédito, contagio a monedas y bolsas de otros países.",
+      "base_anual": null,
+      "frecuencia_anual": 3.2,
+      "base_texto": "151 crisis bancarias sistémicas entre 1970 y 2017 (≈3.2 por año en el mundo) según Laeven y Valencia (2018): casi seguro que haya al menos una en 12 meses; lo que cambia es dónde.",
+      "fuentes": [["Laeven, L. y Valencia, F. (2018). Systemic Banking Crises Revisited. IMF Working Paper 18/206", "https://www.imf.org/en/Publications/WP/Issues/2018/09/14/Systemic-Banking-Crises-Revisited-46232"]],
+      "noticias": "crisis bancaria|banking crisis|quiebra (de|del) banco|bank (run|failure|collapse)|corrida bancaria|rescate bancario|bailout|corralito|default soberano|sovereign default|impago",
+      "protocolos": "financ|bancar"
+    },
+    {
+      "id": "guerra_nuclear",
+      "nombre": "Uso de armas nucleares en un conflicto",
+      "tipo": "negro",
+      "impacto": "Víctimas masivas; según la escala, efectos climáticos globales («invierno nuclear») y colapso del comercio.",
+      "base_anual": null,
+      "base_texto": "No hay tasa histórica: desde 1945 no se han usado armas nucleares en guerra, y las estimaciones publicadas varían en órdenes de magnitud. Solo se muestra el nivel de señales.",
+      "fuentes": [["Bulletin of the Atomic Scientists: Doomsday Clock (evaluación anual)", "https://thebulletin.org/doomsday-clock/"]],
+      "noticias": "nuclear (war|weapon|strike|threat)|guerra nuclear|arma(s)? nuclear(es)?|ojiva|warhead|ataque nuclear|amenaza nuclear|disuasi[oó]n nuclear|prueba nuclear|nuclear test|icbm|misil intercontinental",
+      "protocolos": "nuclear|militar"
+    },
+    {
+      "id": "apagon_continental",
+      "nombre": "Apagón de varios países o de un continente por días",
+      "tipo": "negro",
+      "impacto": "Paro de agua potable, telecomunicaciones, pagos electrónicos, hospitales y transporte.",
+      "base_anual": null,
+      "base_texto": "Hay apagones nacionales casi cada año (p. ej. España y Portugal, abril de 2025), pero no uno continental de varios días: sin tasa confiable. Solo se muestra el nivel de señales.",
+      "fuentes": [["ENTSO-E: informe del apagón ibérico del 28 de abril de 2025", "https://www.entsoe.eu/publications/blackout/28-april-2025-iberian-blackout/"]],
+      "noticias": "apag[oó]n (masivo|general|nacional|total)|blackout|power outage|corte (masivo|general) de (luz|energ[ií]a)|colapso de la red el[eé]ctrica|grid collapse",
+      "protocolos": "energ|el[eé]ctric|infraestructura cr[ií]tica"
+    },
+    {
+      "id": "reseteo_monetario",
+      "nombre": "Reordenamiento del sistema monetario internacional (como el fin de Bretton Woods, 1971)",
+      "tipo": "negro",
+      "impacto": "Cambio brusco en el valor del dólar y de las reservas, controles de capital, revaluación del oro.",
+      "base_anual": null,
+      "base_texto": "Un solo precedente moderno (1971): no hay tasa histórica. Solo se muestra el nivel de señales (desdolarización, compras de oro de bancos centrales, monedas digitales de bancos centrales).",
+      "fuentes": [["FMI: composición de las reservas internacionales (COFER)", "https://data.imf.org/?sk=e6a5f467-c14b-4aa8-9f6d-5a09ec4e62a4"]],
+      "noticias": "desdolarizaci|de-?dollari|moneda (com[uú]n )?de los brics|brics currency|patr[oó]n oro|gold standard|reinicio (global|monetario)|great reset|control(es)? de capital|capital controls|bancos? centrales? (compra|compran|buy) oro",
+      "protocolos": "monetari|financ"
+    },
+    {
+      "id": "ciberataque_infraestructura",
+      "nombre": "Ciberataque que apaga infraestructura crítica (electricidad, agua, pagos)",
+      "tipo": "blanco",
+      "impacto": "Cortes de servicios esenciales de horas a semanas; precedente: la red eléctrica de Ucrania (2015 y 2016).",
+      "base_anual": null,
+      "base_texto": "Hay ataques a infraestructura cada año, pero pocos con cortes de servicio confirmados: sin tasa confiable. Solo se muestra el nivel de señales.",
+      "fuentes": [["CISA: avisos de sistemas de control industrial", "https://www.cisa.gov/news-events/cybersecurity-advisories"]],
+      "noticias": "ciberataque|cyberattack|ransomware|scada|infraestructura cr[ií]tica|critical infrastructure|hackeo",
+      "protocolos": "ciber|infraestructura cr[ií]tica"
+    }
+  ]
+}

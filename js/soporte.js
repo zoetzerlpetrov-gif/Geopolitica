@@ -1,11 +1,15 @@
 // soporte.html: muestra el informe de errores que este navegador guardó (js/bitacora.js) para que la persona lo copie
 // o descargue y lo envíe a soporte si quiere. Nada sale del equipo sin esa acción.
-import { leerBitacora, informe, borrarBitacora } from "./bitacora.js";
+import { leerBitacora, informe, borrarBitacora, rolDe, delRol } from "./bitacora.js";
 
 const $ = (id) => document.getElementById(id);
 const q = new URLSearchParams(location.search);
-const texto = () => informe(leerBitacora(), { vista: q.get("vista") || "", plan: q.get("plan") || "" });
-const pintar = () => { $("sop-texto").textContent = texto(); $("sop-n").textContent = String(leerBitacora().length); };
+// Solo los errores del rol con el que se abrió esta página: los de la versión completa (admin) no salen en el informe de
+// un plan de pago, ni al revés, aunque se hayan usado en el mismo navegador.
+const ROL = rolDe(location.search);
+const propias = () => delRol(leerBitacora(), ROL);
+const texto = () => informe(propias(), { vista: q.get("vista") || "", plan: q.get("plan") || "" });
+const pintar = () => { $("sop-texto").textContent = texto(); $("sop-n").textContent = String(propias().length); };
 
 $("sop-copiar").addEventListener("click", async () => {
   try { await navigator.clipboard.writeText(texto()); $("sop-aviso").textContent = "Copiado. Pégalo en tu correo o mensaje a soporte."; }

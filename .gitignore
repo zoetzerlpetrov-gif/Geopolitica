@@ -17,3 +17,4 @@ node_modules/
 
 # Mapa del código con Graphify (herramienta de desarrollo; se regenera con «graphify extract . --code-only»)
 graphify-out/
+/e2e/

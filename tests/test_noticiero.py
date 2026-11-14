@@ -18,9 +18,9 @@ def nota(u, t, f="2026-10-21T10:00:00Z", s=("geopolitica",), via="gdelt"):
     return {"t": t, "u": u, "m": "medio.com", "tipo": "", "f": f, "img": "", "s": list(s), "via": via}
 
 
-def test_config_tiene_30_secciones_con_regex_valida_y_feeds_https():
-    assert len(CFG["secciones"]) == 30
-    assert len({s["id"] for s in CFG["secciones"]}) == 30
+def test_config_tiene_31_secciones_con_regex_valida_y_feeds_https():
+    assert len(CFG["secciones"]) == 31
+    assert len({s["id"] for s in CFG["secciones"]}) == 31
     for s in CFG["secciones"]:
         assert s["titulo"] and s["palabras"]
         re.compile(s["palabras"]), re.compile(s.get("gkg", ""))

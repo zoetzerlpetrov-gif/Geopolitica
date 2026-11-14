@@ -75,3 +75,30 @@ def test_c2_version_de_pago_sin_c2intelfeeds(monkeypatch, tmp_path):
     assert todo["total_ip"] == 2 and {f["properties"]["pais_iso3"] for f in todo["features"]} == {"USA", "AUS"}
     assert pago["total_ip"] == 1 and [f["properties"]["pais_iso3"] for f in pago["features"]] == ["USA"]
     assert "c2intel" not in pago["fuentes"] and "c2intel" in todo["fuentes"]
+
+
+def test_cambios_de_directivos_8k_502():
+    import os, sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "corporativo"))
+    import cambios_sec as C
+    idx = ("Form Type   Company Name    CIK   Date Filed  File Name\n"
+           "8-K         NVIDIA CORP     1045810     20261112    edgar/data/1045810/0001045810-26-000082.txt\n"
+           "10-Q        NVIDIA CORP     1045810     20261112    edgar/data/1045810/x.txt\n"
+           "8-K         OTRA SA         999         20261112    edgar/data/999/y.txt\n")
+    assert C.ocho_k(idx, {"0001045810"}) == [("0001045810", "2026-11-12")]
+    envios = {"cik": "0001045810", "filings": {"recent": {"form": ["8-K", "8-K", "10-Q"], "filingDate": ["2026-11-12", "2026-11-01", "2026-11-12"],
+              "items": ["5.02,9.01", "2.02", ""], "accessionNumber": ["0001045810-26-000082", "a-b", "c"], "primaryDocument": ["nvda.htm", "x.htm", "y.htm"]}}}
+    r = C.con_502(envios, "2026-10-01")
+    assert len(r) == 1 and r[0]["url"] == "https://www.sec.gov/Archives/edgar/data/1045810/000104581026000082/nvda.htm"
+
+
+def test_ciberataques_venta_de_datos_en_mexico():
+    import os, sys
+    sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "red"))
+    import ciberataques as C
+    for t in ["Venden en la dark web base de datos del SAT con 10 millones de contribuyentes", "Filtran datos de pacientes del IMSS",
+              "Hackers venden datos biométricos de usuarios de bancos"]:
+        assert C.es_incidente(t), t
+        assert C.tipo_de(t) == "filtracion", t
+    assert not C.es_incidente("Detienen a hacker que robó datos")  # detención: no es un ataque nuevo
+    assert C.RX_MEXICO.search(C.normalizar("Venden datos del SAT")) and not C.RX_MEXICO.search(C.normalizar("Satellite operator hacked"))
