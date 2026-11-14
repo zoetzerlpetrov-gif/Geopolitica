@@ -453,18 +453,17 @@ let alt3d = null, cabina = null, vueloAbierto = null;
 const BOTON_CABINA = `<p><button type="button" id="btn-cabina">🎮 Vista desde la cabina (simulación)</button></p>`;
 async function iniciarCabina() {
   if (!vueloAbierto || !api?.map) return;
-  const A = await import("./altura3d.js");
+  const A = await import("./altura3d.js?v=2");
   cabina ??= new A.Cabina(api.map);
   const v = vueloAbierto;
-  $("ficha").hidden = true;
-  $("cabina-info").textContent = `✈️ ${v.indicativo || v.hex} · ${Math.round(v.alt_m || 0).toLocaleString("es-MX")} m · ${Math.round(v.vel_kmh || 0)} km/h · rumbo ${Math.round(v.rumbo || 0)}° · simulación con la última señal`;
-  $("cabina-barra").hidden = false;
   const d = vueloAbierto.destino;
-  cabina.iniciar(v, { onSalir: () => { $("cabina-barra").hidden = true; },
+  // Ventana flotante con mapa propio: la ficha del avión queda abierta (desde ahí se quita del mapa) y vuelve a
+  // tener el foco al salir.
+  cabina.iniciar(v, { onSalir: () => { $("ficha").hidden = false; $("btn-cabina")?.focus(); },
+    info: `✈️ ${v.indicativo || v.hex} · ${Math.round(v.alt_m || 0).toLocaleString("es-MX")} m · ${Math.round(v.vel_kmh || 0)} km/h · rumbo ${Math.round(v.rumbo || 0)}° · simulación con la última señal`,
     datos: { indicativo: v.indicativo || v.hex, tipo: v.tipo_av || "", squawk: v.squawk || "",
       destino: d ? `Destino ${d.iata || d.icao || ""} ${d.ciudad || d.nombre || ""}`.trim() : "", destinoCoord: d && d.lon != null ? [d.lon, d.lat] : null } });
 }
-$("cabina-salir")?.addEventListener("click", () => cabina?.detener());
 $("ficha-cuerpo").addEventListener("click", (e) => { if (e.target.closest("#btn-cabina")) iniciarCabina(); });
 // Modelo 3D animado dibujado en el mapa, en el lugar del elemento al que se le dio clic (js/mapa3d.js y three.js se
 // descargan con el primero). Uno a la vez: se quita al cerrar la ficha, al abrir otra o con «Quitar del mapa».
@@ -558,7 +557,7 @@ $("chk-envivo")?.addEventListener("change", async (e) => {
 });
 $("chk-3d")?.addEventListener("change", async (e) => {
   if (!api?.map) { e.target.checked = false; return; }
-  const A = await import("./altura3d.js");
+  const A = await import("./altura3d.js?v=2");
   alt3d ??= new A.Altura3D(api.map);
   if (e.target.checked) alt3d.activar(); else alt3d.desactivar();
 });
@@ -649,6 +648,7 @@ const prepararErupcion = () => {
 };
 
 function cerrarFicha() {
+  cabina?.detener(false); // la ventana de cabina pertenece a la ficha del avión
   quitarZonaFicha();
   trayectoria?.limpiar();
   const vista = vistaFicha;

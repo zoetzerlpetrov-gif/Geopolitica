@@ -591,10 +591,18 @@ details.subgrupo-d > :not(summary) { margin-left: 6px; }
 .forense ul { padding-left: 16px; margin: 4px 0; font-size: 12px; }
 
 /* Vista de cabina */
-.cabina-barra { position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 5; background: rgba(15, 23, 32, .85); color: #fff;
-  padding: 6px 10px; border-radius: 8px; font-size: 13px; display: flex; gap: 8px; align-items: center; max-width: calc(100% - 24px); }
-.cabina-barra button { font-size: 12px; }
-.cabina-pfd { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
+/* A la izquierda de la ficha del avión (400 px a la derecha), para que siga visible y se pueda quitar el avión. */
+.cabina-pop { position: absolute; right: 420px; bottom: 34px; z-index: 6; width: min(560px, calc(100% - 440px)); background: #0F1720; color: #fff;
+  border-radius: 10px; box-shadow: 0 6px 24px rgba(0, 0, 0, .45); overflow: hidden; display: flex; flex-direction: column; }
+.cabina-pop.grande { width: min(960px, calc(100% - 440px)); }
+.cabina-cab { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px 8px; font-size: 12px; }
+.cabina-cab .cabina-info { flex: 1 1 200px; }
+.cabina-cab button { font-size: 12px; }
+.cabina-vista { position: relative; height: 340px; }
+.cabina-pop.grande .cabina-vista { height: min(560px, 62vh); }
+.cabina-mapa { position: absolute; inset: 0; }
+.cabina-pfd { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; }
+@media (max-width: 900px) { .cabina-pop, .cabina-pop.grande { right: 8px; left: 8px; bottom: 28px; width: auto; } .cabina-vista { height: 38vh; } }
 
 /* Banderas en fichas */
 img.bandera { display: inline-block; vertical-align: -2px; margin-right: 6px; border: 1px solid rgba(0, 0, 0, .15); border-radius: 2px; }
