@@ -5,6 +5,8 @@ import sys
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "cisnes"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "corporativo"))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "corporativo"))
 import cisnes as C  # noqa: E402
 
 AHORA = datetime(2026, 11, 14, 4, tzinfo=timezone.utc)
@@ -41,3 +43,11 @@ def test_sin_historial_solo_cuentan_los_llamados():
     assert C.nivel(0, 0, 1, 3)[0] == "elevado"
     assert C.nivel(0, 0, 3, 3)[0] == "alto"
     assert C.nivel(0, 10, 0, 20)[0] == "bajo"
+
+
+def test_rutas_de_la_corrida_iguales_a_las_demas_herramientas():
+    # La corrida de «Datos en movimiento» escribe en vivos/ (raíz del repositorio) y lo publica como data/vivos/.
+    import cambios_sec as S  # noqa: E402
+    for ruta in (C.OUT, C.HIST, S.OUT, S.EMPRESAS):
+        partes = os.path.normpath(ruta).split(os.sep)
+        assert partes[-2] == "vivos" and partes[-3] != "data", ruta

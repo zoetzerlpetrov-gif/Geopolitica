@@ -18,7 +18,7 @@ import sys
 from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.join(os.path.dirname(__file__), "..", "..")
-VIVOS = os.path.join(ROOT, "data", "vivos")
+VIVOS = os.path.join(ROOT, "vivos")  # la corrida escribe en vivos/ (se publica como data/vivos/)
 CONFIG = os.path.join(ROOT, "config", "cisnes.json")
 OUT = os.path.join(VIVOS, "cisnes.json")
 HIST = os.path.join(VIVOS, "cisnes_historial.json")
