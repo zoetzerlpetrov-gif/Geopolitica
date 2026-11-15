@@ -12,7 +12,8 @@ Solo usa lo que el proyecto ya genera y puede publicarse:
 Funciones puras: reciben los JSON ya leídos y devuelven escenas, título y descripción.
 """
 import re
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -329,7 +330,7 @@ def con_resumen(notas, resumenes=None, datos=None):
         partes = [p for p in (d or {}).get("partes", []) if p[0] not in usados] if d and "partes" in d else None
         if partes is not None:
             usados.update(p[0] for p in partes)
-            dato = {"texto": "\n".join(p[1] for p in partes), "voz": "Dato del día: " + "; ".join(p[2] for p in partes) + "."} if partes else None
+            dato = {"texto": "\n".join(p[1] for p in partes), "voz": "Últimos datos disponibles: " + "; ".join(p[2] for p in partes) + "."} if partes else None
         else:
             dato = d if d and d["texto"] not in usados else None
             if dato:
@@ -354,7 +355,7 @@ CIUDADES_MUNDO = [("Nueva York", "Nueva York"), ("Los Angeles", "Los Ángeles"),
 
 def _dia(props, fecha):
     serie = props.get("serie") or []
-    fila = next((x for x in serie if x[0] == fecha), serie[0] if serie else None)
+    fila = next((x for x in serie if x[0] == fecha), None)
     return (round(fila[1]), round(fila[2])) if fila and fila[1] is not None and fila[2] is not None else None
 
 
@@ -397,6 +398,12 @@ def bloque_clima(calor, ciclones, fecha):
     if not (mx or mundo or alertas or nombres):
         return None
     voz = []
+    parcial = any(p.get("parcial") for p in props.values())
+    nota_clima = ("Rangos de las horas previstas disponibles de hoy · MET Norway (CC BY 4.0)" if parcial else
+                  "Máxima / mínima de la fecha indicada · MET Norway (CC BY 4.0)")
+    if parcial:
+        voz.append("Pronóstico actualizado para la fecha de publicación, según el día local de cada ciudad. "
+                   "Donde el día ya comenzó, las máximas y mínimas corresponden a las horas previstas restantes.")
     if mx:
         voz.append("El clima en México. " + " ".join(f"{c}, máxima de {a} y mínima de {b} grados." for c, a, b in mx[:4]))
     if mundo:
@@ -405,21 +412,32 @@ def bloque_clima(calor, ciclones, fecha):
         voz.append("Según el pronóstico, que no es un aviso oficial: " + ". ".join(alertas) + ".")
     if nombres:
         voz.append("Ciclones activos: " + ", ".join(nombres[:5]) + ".")
-    return {"mx": mx, "mundo": mundo, "alertas": alertas, "ciclones": nombres[:5], "voz": " ".join(voz)}
+    return {"mx": mx, "mundo": mundo, "alertas": alertas, "ciclones": nombres[:5], "voz": " ".join(voz), "nota_clima": nota_clima}
 
 
 # ------------------------------------------------------------------ cifras del día por sección (vivos/indicadores.json)
 _CIFRAS = {  # sección → ids de indicadores (Banxico, BCE, Tesoro de EUA, Kraken) que se dicen junto a la nota
-    "forex": ["SF43718", "EURUSD"], "economia": ["SF43718"], "indicadores": ["SP30578", "SF61745"],
+    "forex": ["USD_MXN_REF", "EUR_MXN_REF", "SF43718", "EURUSD"], "economia": ["USD_MXN_REF", "SF43718"], "indicadores": ["SP30578", "SF61745"],
     "bonos": ["SF43936", "UST10Yr"], "cripto": ["XBT"], "blockchain": ["XBT"], "cbdc": ["XBT"],
 }
-_NOMBRE_VOZ = {"SF43718": "el dólar FIX", "EURUSD": "el euro", "SP30578": "la inflación anual en México",
+_NOMBRE_VOZ = {"USD_MXN_REF": "el dólar indicativo", "EUR_MXN_REF": "el euro indicativo", "SF43718": "el dólar FIX", "EURUSD": "el euro", "SP30578": "la inflación anual en México",
                "SF61745": "la tasa objetivo de Banxico", "SF43936": "los CETES a 28 días", "UST10Yr": "el bono del Tesoro de EUA a 10 años",
                "XBT": "el bitcoin"}
 
 
 def _fmt(v, dec=2):
     return f"{v:,.{dec}f}"
+
+
+def consulta_mx(fecha):
+    """Fecha de consulta en la misma zona del noticiero; conserva la fecha original si no trae hora/zona."""
+    try:
+        d = datetime.fromisoformat(str(fecha).replace("Z", "+00:00").replace(" UTC", "+00:00"))
+        if d.tzinfo is not None:
+            return d.astimezone(ZoneInfo("America/Mexico_City")).strftime("%Y-%m-%d %H:%M CDMX")
+    except ValueError:
+        pass
+    return str(fecha)
 
 
 def datos_por_seccion(ind):
@@ -453,17 +471,23 @@ def datos_por_seccion(ind):
                     pct = round((v / p - 1) * 100, 2)
                     cambio_t = f" ({pct:+.2f} %)" if pct else " (sin cambio)"   # nunca «-0.00 %»
                     cambio_v = (f", {'sube' if pct > 0 else 'baja'} {abs(pct):.2f} %" if pct else ", sin cambio") + " frente al dato anterior"
-            fecha = str(x.get("fecha", ""))[:10]
+            fecha_dato = str(x.get("fecha", ""))
+            fecha = fecha_dato[:10]
             try:
                 fecha = f"{int(fecha[8:10])} {MESES[int(fecha[5:7]) - 1][:3]}"   # 2026-11-10 → 10 nov
             except (ValueError, IndexError):
                 pass
-            textos.append(f"{x.get('corto', i)}: {valor_t}{cambio_t} · {fecha}")
+            textos.append(f"{x.get('corto', i)}: {valor_t}{cambio_t} · {consulta_mx(fecha_dato) if i in ('USD_MXN_REF', 'EUR_MXN_REF', 'XBT') else fecha}")
             nombre = _NOMBRE_VOZ.get(i, x.get('corto', i))
-            voces.append(f"{nombre} {'están' if nombre.startswith('los ') else 'está'} en {valor_v}{cambio_v}")
+            cuando = f", dato del {fecha}"
+            if i in ("USD_MXN_REF", "EUR_MXN_REF"):
+                cuando = f", referencia consultada el {consulta_mx(fecha_dato)}, no es el FIX oficial"
+            elif i == "XBT":
+                cuando = f", cotización de Kraken consultada el {consulta_mx(fecha_dato)}"
+            voces.append(f"{nombre} {'están' if nombre.startswith('los ') else 'está'} en {valor_v}{cambio_v}{cuando}")
             partes.append((i, textos[-1], voces[-1]))
         if textos:
-            out[sec] = {"texto": "\n".join(textos), "voz": "Dato del día: " + "; ".join(voces) + ".", "partes": partes}
+            out[sec] = {"texto": "\n".join(textos), "voz": "Últimos datos disponibles: " + "; ".join(voces) + ".", "partes": partes}
     return out
 
 
@@ -614,7 +638,7 @@ def bloque_economia(indicadores):
         f, v = p
         valor = fmt(float(v))
         # Series mensuales (fecha el día 1, como la inflación): «dato de octubre de 2026», no «del jueves 1 de octubre».
-        cuando = f"de {MESES[int(f[5:7]) - 1]} de {f[:4]}" if f[8:10] == "01" else f"del {fecha_larga(f[:10])}"
+        cuando = f"de {MESES[int(f[5:7]) - 1]} de {f[:4]}" if id_ in ("mx_inflacion", "us_inflacion") else f"del {fecha_larga(f[:10])}"
         filas.append({"etiqueta": etiqueta, "valor": valor, "fecha": f, "voz": voz.format(v=valor.split(" ")[0]) + f", dato {cuando}."})
     return filas
 
@@ -636,26 +660,41 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
     for n in notas:
         if n["seccion"] != anterior:
             if anterior in ("clima", "eventos_impacto") and bloque_c:
-                esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
+                esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones", "nota_clima")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
                 bloque_c = None
             anterior = n["seccion"]
         esc.append({"tipo": "nota", "encabezado": n["seccion_nombre"], "seccion": n["seccion"], "texto": n["resumen"], "medio": n["medio"], "url": n["url"], "dato": n.get("dato"),
                     "titular": bool(n.get("titular")),
                     "voz": (f"{n['seccion_nombre']}. " if not esc or esc[-1].get("encabezado") != n["seccion_nombre"] else "") + n["voz"]})
     if bloque_c:
-        esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
+        esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones", "nota_clima")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
     eco = bloque_economia(indicadores)
     if eco:
         dichos = " ".join(n.get("dato") or "" for n in notas)
         nuevas = [f for f in eco if not (_YA_DICHO.get(f["etiqueta"]) and _YA_DICHO[f["etiqueta"]] in dichos)]
-        voz_eco = ("Los indicadores del día. " + " ".join(para_voz(f["voz"]) for f in nuevas)) if nuevas else "Los indicadores del día, en pantalla."
-        esc.append({"tipo": "economia", "encabezado": "Indicadores", "filas": eco, "texto": "", "voz": voz_eco})
+        for i in range(0, len(eco), 4):
+            pagina = eco[i:i + 4]
+            voz_eco = "Los últimos indicadores publicados. " + " ".join(para_voz(f["voz"]) for f in pagina if f in nuevas)
+            esc.append({"tipo": "economia", "encabezado": "Indicadores", "filas": pagina, "texto": "", "voz": voz_eco})
+    # Las referencias actualizadas aparecen aun cuando hoy no haya una noticia de divisas.
+    refs = [x for g in (cifras or {}).get("grupos", []) if g.get("id") in ("video_divisas", "cripto")
+            for x in g.get("datos", []) if x.get("id") in ("USD_MXN_REF", "EUR_MXN_REF", "XBT") and x.get("valor") is not None]
+    if refs:
+        filas = [{"etiqueta": x["corto"], "valor": f"{float(x['valor']):,.4f} {x['unidad']}", "fecha": x["fecha"],
+                  "referencia": ("Consulta " if x["id"] != "XBT" else "Kraken · consulta ") + consulta_mx(x["fecha"])}
+                 for x in refs]
+        voz = "Últimas referencias disponibles. " + " ".join(
+            f"{x['corto']}, {float(x['valor']):.4f} " + ("dólares" if x["id"] == "XBT" else
+            "pesos por dólar" if x["id"] == "USD_MXN_REF" else "pesos por euro") + f", consulta {consulta_mx(x['fecha'])}." for x in refs)
+        voz += " Las divisas son conversiones indicativas de Coinbase, no el FIX ni una cotización garantizada de banco."
+        esc.append({"tipo": "economia", "encabezado": "Últimas cotizaciones disponibles", "filas": filas, "texto": "", "voz": para_voz(voz)})
     filas_m = mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else []
     if filas_m:
         esc.append({"tipo": "mercados", "encabezado": "Mercados", "seccion": "economia",
                     "filas": [{**f, "frase": (frases_mercado or {}).get(f["url"]) or (f["titulo"] if en_espanol(f["titulo"]) else "")} for f in filas_m],
-                    "texto": AVISO_PORTAFOLIO,
-                    "voz": "En los mercados, instrumentos del portafolio de seguimiento con noticias recientes." + PAUSA
+                    "texto": AVISO_PORTAFOLIO + " Precios del portafolio sin hora de cotización verificable.",
+                    "voz": "En los mercados, últimos datos disponibles del portafolio de seguimiento, con noticias recientes. "
+                           "La fuente no informa hora de cotización, por lo que estos precios no se presentan como precios en vivo." + PAUSA
                            + voz_mercados(filas_m, frases_mercado) + PAUSA + AVISO_PORTAFOLIO})
     esc.append({"tipo": "cierre", "encabezado": "Gracias por ver", "texto": "Fuentes y enlaces en la descripción.\n" + AVISO_VOZ,
                 "voz": "Las fuentes y los enlaces de cada nota están en la descripción del video. Hasta mañana."})
@@ -670,7 +709,7 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         *([""] + ["Mercados (precio y titular de cada instrumento):"] + [f"• {f['nombre']} ({f['ticker']}) — {f['medio']}: {f['url']}" for f in filas_m] if filas_m else []),
         "",
         "Clima: pronóstico de MET Norway (CC BY 4.0) con reglas propias, no es aviso oficial; ciclones: GDACS.",
-        "Cifras del día: Banco de México, Banco Central Europeo, Departamento del Tesoro de EUA y Kraken (cripto).",
+        "Últimas cifras disponibles: Banco de México, Banco Central Europeo, Tesoro de EUA y Kraken (cripto). Divisas indicativas: Coinbase Data API, consultadas para esta edición; no son el FIX oficial ni precios garantizados de banco. Cada dato conserva su fecha de referencia.",
         "Datos económicos: Banco de México, INEGI y Reserva Federal (FRED). Los mercados se mencionan solo como información; no es asesoría de inversión.",
         "Contenido con apoyo de inteligencia artificial: resúmenes propios redactados por un modelo de lenguaje y voz sintética.",
         "",

@@ -101,6 +101,7 @@ jobs:
           VOZ_MOTOR: "kokoro:ef_dora"
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           FECHA: ${{ github.event.inputs.fecha }}
+          BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
         run: |
           if [[ "$FECHA" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones --fecha "$FECHA"
           else python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones; fi

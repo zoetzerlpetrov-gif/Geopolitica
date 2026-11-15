@@ -14,9 +14,12 @@ import sys
 import textwrap
 import urllib.request
 from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
+
+from actualidad import actualizar_cifras, actualizar_clima, sincronizar_economia
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof  # noqa: E402
+from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 import patrocinio  # noqa: E402
 
@@ -37,7 +40,7 @@ def fuente(tam, negrita=False):
 
 def leer(origen, ruta):
     if origen.startswith("http"):
-        req = urllib.request.Request(f"{origen.rstrip('/')}/{ruta}", headers={"User-Agent": "brujula-diaria/1.0"})
+        req = urllib.request.Request(f"{origen.rstrip('/')}/{ruta}", headers={"User-Agent": "brujula-diaria/1.0", "Cache-Control": "no-cache"})
         with urllib.request.urlopen(req, timeout=60) as r:
             return json.load(r)
     with open(os.path.join(origen, ruta), encoding="utf-8") as f:
@@ -79,7 +82,7 @@ def pantalla(e, n, total, fecha):
             for parte in textwrap.wrap(linea, 80)[:2]:
                 d.text((96, y), parte, font=fuente(32), fill=GRIS)
                 y += 44
-        d.text((96, H - 100), "Máxima / mínima de hoy · pronóstico de MET Norway (CC BY 4.0), no es aviso oficial", font=fuente(26), fill=GRIS)
+        d.text((96, H - 100), e.get("nota_clima", "Máxima / mínima de hoy · MET Norway (CC BY 4.0), no es aviso oficial"), font=fuente(26), fill=GRIS)
     elif e["tipo"] == "mercados":
         d.text((96, 150), e["encabezado"], font=fuente(64, True), fill=TINTA)
         y = 260
@@ -106,7 +109,7 @@ def pantalla(e, n, total, fecha):
         for f in e["filas"]:
             d.text((96, y), f["etiqueta"], font=fuente(46), fill=GRIS)
             d.text((W - 96, y - 6), f["valor"], font=fuente(60, True), fill=TINTA, anchor="ra")
-            d.text((W - 96, y + 62), f"dato del {f['fecha'][:10]}", font=fuente(26), fill=GRIS, anchor="ra")
+            d.text((W - 96, y + 62), f.get("referencia") or f"dato del {f['fecha'][:10]}", font=fuente(26), fill=GRIS, anchor="ra")
             d.line([96, y + 108, W - 96, y + 108], fill=(50, 58, 68), width=2)
             y += 140
     else:
@@ -330,7 +333,7 @@ def main():
     ap.add_argument("--modelo", default=os.environ.get("PIPER_MODELO", ""))
     ap.add_argument("--previos", help="Carpeta con los guiones de los videos anteriores (rama datos-comentarios/guiones)")
     a = ap.parse_args()
-    hoy = (datetime.now(timezone.utc) - timedelta(hours=6)).strftime("%Y-%m-%d")
+    hoy = datetime.now(ZoneInfo("America/Mexico_City")).strftime("%Y-%m-%d")
     fecha = a.fecha or hoy
     usadas = enlaces_usados(a.previos, fecha)
     cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"), usadas=usadas)
@@ -340,9 +343,25 @@ def main():
     elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha), ia))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
     portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "portfolio_data.json") if a.sitio.startswith("http") else None
+    cifras = leer_seguro(a.sitio, "data/vivos/indicadores.json")
+    indicadores = leer_seguro(a.sitio, "data/economia/indicadores.json")
+    corte = None
+    if a.sitio.startswith("http") and fecha == hoy:
+        # Consulta durante esta generación; no depende de que Pages haya publicado la última ingesta.
+        cifras = actualizar_cifras(cifras)
+        indicadores = sincronizar_economia(indicadores, cifras)
+        clima["calor"] = actualizar_clima(fecha)
+        corte = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        for aviso in cifras.get("errores", []) + clima["calor"].get("errores", []):
+            print(f"aviso de actualización del video: {aviso}", file=sys.stderr)
     frases = frases_titulares(mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
-    g = guion(fecha, elegidas, leer_seguro(a.sitio, "data/economia/indicadores.json"), portafolio, clima,
-              cifras=leer_seguro(a.sitio, "data/vivos/indicadores.json"), frases_mercado=frases, usadas=usadas)
+    g = guion(fecha, elegidas, indicadores, portafolio, clima,
+              cifras=cifras, frases_mercado=frases, usadas=usadas)
+    if corte:
+        g["actualizacion"] = {"corte_utc": corte, "fecha_publicacion": fecha, "zona_publicacion": "America/Mexico_City",
+                              "clima": clima["calor"], "cifras": cifras}
+        g["descripcion"] = (f"Consulta de datos para esta generación: {consulta_mx(corte)} ({corte} UTC). "
+                            "Las fechas de los datos oficiales se indican por separado.\n" + g["descripcion"])[:4900]
     g = patrocinio.aplicar(g)  # patrocinios vigentes de config/patrocinios.json (si no hay, el video queda igual)
     if g["notas"] < 3:
         print(f"Solo {g['notas']} nota(s): no se arma el video de hoy.", file=sys.stderr)

@@ -161,11 +161,11 @@ window.escena = (e, m) => {
   } else if (e.tipo === "clima") {
     const col = (titulo, filas, d0) => `<div><h3>${titulo}</h3>${(filas || []).slice(0, 8).map((f, i) =>
       `<div class="tarjeta" style="animation-delay:${(d0 + i * 0.12).toFixed(2)}s"><span>${esc(f[0])}</span>
-       <span class="t"><span class="mx cuenta" style="--fin:${Math.max(0, Math.round(f[1]))};animation-delay:${(d0 + i * 0.12).toFixed(2)}s"></span> /
-       <span class="mn cuenta" style="--fin:${Math.max(0, Math.round(f[2]))};animation-delay:${(d0 + i * 0.12).toFixed(2)}s"></span></span></div>`).join("")}</div>`;
+       <span class="t"><span class="mx cuenta" style="--fin:${Math.round(f[1])};animation-delay:${(d0 + i * 0.12).toFixed(2)}s"></span> /
+       <span class="mn cuenta" style="--fin:${Math.round(f[2])};animation-delay:${(d0 + i * 0.12).toFixed(2)}s"></span></span></div>`).join("")}</div>`;
     const al = [...(e.alertas || []), ...((e.ciclones || []).length ? [`Ciclones activos: ${e.ciclones.join(", ")}`] : [])];
     h = `<div class="clima"><h2>${esc(e.encabezado)}</h2><div class="cols">${col("México", e.mx, 0.7)}${col("El mundo", e.mundo, 1.0)}</div>
-         ${al.length ? `<div class="alertas">${al.map(esc).join(" · ")}</div>` : ""}</div>`;
+         ${e.nota_clima ? `<div style="font-size:23px;color:var(--gris);margin-top:18px">${esc(e.nota_clima)}</div>` : ""}${al.length ? `<div class="alertas">${al.map(esc).join(" · ")}</div>` : ""}</div>`;
   } else if (e.tipo === "mercados") {
     h = `<div class="merc"><h2>${esc(e.encabezado)}</h2>${(e.filas || []).slice(0, 8).map((f, i) => `<div class="instr" style="animation-delay:${(0.6 + i * 0.18).toFixed(2)}s">
          <b>${esc(f.nombre)} <span style="color:var(--gris);font-weight:600;font-size:24px">${esc(f.ticker)}</span></b>
@@ -179,11 +179,11 @@ window.escena = (e, m) => {
   } else if (e.tipo === "economia" || e.tipo === "portafolio") {
     const filas = e.filas || [{ etiqueta: e.texto || "", valor: "", fecha: "" }];
     h = `<div class="indic"><h2>${esc(e.encabezado)}</h2>${filas.map((f, i) => `<div class="fila" style="animation-delay:${(0.6 + i * 0.25).toFixed(2)}s">
-         <span class="e">${esc(f.etiqueta)}</span><span><span class="v">${esc(f.valor)}</span>${f.fecha ? `<small>dato del ${esc(String(f.fecha).slice(0, 10))}</small>` : ""}</span></div>`).join("")}</div>`;
+         <span class="e">${esc(f.etiqueta)}</span><span><span class="v">${esc(f.valor)}</span>${f.referencia || f.fecha ? `<small>${esc(f.referencia || `dato del ${String(f.fecha).slice(0, 10)}`)}</small>` : ""}</span></div>`).join("")}</div>`;
   } else {
     h = `<div class="marca">${esc(e.encabezado)}</div>
       <div class="seccion"><div class="barra"></div><b>${esc(e.encabezado)}</b></div>
-      ${e.dato ? `<div class="dato"><small>DATO DEL DÍA</small>${esc(e.dato)}</div>` : ""}
+      ${e.dato ? `<div class="dato"><small>ÚLTIMO DATO DISPONIBLE</small>${esc(e.dato)}</div>` : ""}
       <div class="texto" style="font-size:${((e.texto || "").length > 230 ? 52 : (e.texto || "").length > 160 ? 58 : 64) - (e.dato ? 8 : 0)}px">${palabras(e.texto || "")}</div>
       ${e.medio ? `<div class="zocalo"><div><div style="display:flex"><span class="tag">FUENTE</span><span class="medio">${esc(e.medio)}</span></div>
         <div class="nota">${e.titular ? "Titular del medio" : "Resumen propio"} · nota completa en la descripción</div></div></div>` : ""}

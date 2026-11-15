@@ -236,7 +236,7 @@ def test_cifras_del_dia_junto_a_la_nota_y_pausa_antes_de_fuente():
     n = [{"seccion": "forex", "seccion_nombre": "Divisas", "titulo": "El peso cae ante el dólar por la inflación en EU", "medio": "excelsior.com.mx", "url": "https://excelsior.com.mx/1"}]
     v = G.con_resumen(n, {}, d)[0]["voz"]
     assert v.index("Titular") if "Titular" in v else True
-    assert v.startswith("El peso cae ante el dólar por la inflación en Estados Unidos. ‖ Dato del día: el dólar fix está en 18 punto 62 pesos")
+    assert v.startswith("El peso cae ante el dólar por la inflación en Estados Unidos. ‖ Últimos datos disponibles: el dólar fix está en 18 punto 62 pesos")
     assert "excelsior" not in v and "Fuente" not in v  # sin «medio publica» ni fuente en la voz
     r = G.con_resumen(n, {"https://excelsior.com.mx/1": "El peso perdió frente al dólar tras el dato de inflación de EUA"}, {})[0]["voz"]
     assert r == "El peso perdió frente al dólar tras el dato de inflación de Estados Unidos."  # EUA se dice completo
