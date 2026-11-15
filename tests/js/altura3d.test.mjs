@@ -54,3 +54,33 @@ test("cabina en ventana: estilo ligero con relieve y cielo, y panel reducido en 
   assert.equal(escalaPanel(1200), 1);
   assert.equal(escalaPanel(100), 0.4);
 });
+
+test("altura en globo: cámara frontal centrada, sin heredar márgenes de una ficha", async () => {
+  const { camaraAltura3D } = await import("../../js/altura3d.js");
+  const map = { getProjection: () => ({type:"globe"}), getCenter: () => ({lng:-99,lat:19}), getZoom: () => 1.6,
+    getBearing: () => 12, getPitch: () => 55 };
+  const c = camaraAltura3D(map);
+  assert.equal(c.pitch,0);
+  assert.deepEqual(c.center,{lng:-99,lat:19});
+  assert.deepEqual(c.padding,{top:0,bottom:0,left:0,right:0});
+  assert.equal(c.zoom,1.6);
+  assert.equal(camaraAltura3D({...map,getProjection:()=>({type:"mercator"}),getPitch:()=>0}).pitch,55);
+});
+
+test("activar altura y desactivar recupera la cámara previa y limpia eventos y reloj", async () => {
+  const { Altura3D } = await import("../../js/altura3d.js");
+  const llamadas=[], eventos=new Map(), padding={top:20,bottom:160,left:0,right:0};
+  const map = { getProjection:()=>({type:"globe"}), getCenter:()=>({lng:0,lat:0}), getZoom:()=>1.6, getBearing:()=>0,
+    getPitch:()=>15, getPadding:()=>padding, easeTo:c=>llamadas.push(c),
+    on:(e,fn)=>eventos.set(e,fn), off:e=>eventos.delete(e), getLayer:()=>null, getSource:()=>null,
+    addSource:()=>{},addLayer:()=>{} };
+  const altura=new Altura3D(map);
+  altura.activar();altura.activar();
+  assert.equal(llamadas.length,1);
+  assert.equal(llamadas[0].pitch,0);
+  altura.desactivar();altura.desactivar();
+  assert.equal(llamadas.length,2);
+  assert.equal(llamadas[1].pitch,15);
+  assert.deepEqual(llamadas[1].padding,padding);
+  assert.equal(eventos.size,0);
+});

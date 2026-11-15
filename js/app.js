@@ -460,7 +460,7 @@ let alt3d = null, cabina = null, vueloAbierto = null;
 const BOTON_CABINA = `<p><button type="button" id="btn-cabina">🎮 Vista desde la cabina (simulación)</button></p>`;
 async function iniciarCabina() {
   if (!vueloAbierto || !api?.map) return;
-  const A = await import("./altura3d.js?v=2");
+  const A = await import("./altura3d.js?v=3");
   cabina ??= new A.Cabina(api.map);
   const v = vueloAbierto;
   const d = vueloAbierto.destino;
@@ -564,7 +564,7 @@ $("chk-envivo")?.addEventListener("change", async (e) => {
 });
 $("chk-3d")?.addEventListener("change", async (e) => {
   if (!api?.map) { e.target.checked = false; return; }
-  const A = await import("./altura3d.js?v=2");
+  const A = await import("./altura3d.js?v=3");
   alt3d ??= new A.Altura3D(api.map);
   if (e.target.checked) alt3d.activar(); else alt3d.desactivar();
 });

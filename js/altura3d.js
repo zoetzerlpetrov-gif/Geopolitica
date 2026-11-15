@@ -41,6 +41,14 @@ export function construir(objetos, zoom) {
   return { type: "FeatureCollection", features: feats };
 }
 
+/** El globo ya representa el volumen de la Tierra: inclinarlo desplaza su disco hacia el borde inferior. */
+export function camaraAltura3D(map) {
+  const globo = map.getProjection?.()?.type === "globe";
+  return { center: map.getCenter(), zoom: map.getZoom(), bearing: map.getBearing(),
+    pitch: globo ? 0 : Math.max(30, map.getPitch() < 30 ? 55 : map.getPitch()),
+    padding: { top: 0, bottom: 0, left: 0, right: 0 }, duration: 800 };
+}
+
 export class Altura3D {
   constructor(map, { max = 1500 } = {}) {
     this.map = map;
@@ -84,23 +92,26 @@ export class Altura3D {
 
   activar() {
     if (this.activo) return;
+    this.camaraPrevia = { pitch: this.map.getPitch(), padding: { ...(this.map.getPadding?.() || { top: 0, bottom: 0, left: 0, right: 0 }) } };
     this.activo = true;
     this.map.on("moveend", this.refrescar);
     this.map.on("style.load", this.refrescar);
     this.reloj = setInterval(this.refrescar, 3000);  // los satélites se mueven cada 2 s
-    if (this.map.getPitch() < 30) this.map.easeTo({ pitch: 55, duration: 1200 });
+    this.map.easeTo(camaraAltura3D(this.map));
     this.refrescar();
   }
 
   desactivar() {
+    if (!this.activo) return;
     this.activo = false;
     clearInterval(this.reloj);
     this.map.off("moveend", this.refrescar);
     this.map.off("style.load", this.refrescar);
     for (const l of [`${FUENTE}-poste`, `${FUENTE}-cabeza`]) if (this.map.getLayer(l)) this.map.removeLayer(l);
     if (this.map.getSource(FUENTE)) this.map.removeSource(FUENTE);
-    // Se vuelve a la vista vertical que se tenía antes de activar el modo 3D.
-    if (this.map.getPitch() > 0) this.map.easeTo({ pitch: 0, duration: 800 });
+    // Recupera la inclinación y márgenes del usuario, sin deshacer sus desplazamientos por el mapa.
+    if (this.camaraPrevia) this.map.easeTo({ ...this.camaraPrevia, duration: 800 });
+    this.camaraPrevia = null;
   }
 }
 

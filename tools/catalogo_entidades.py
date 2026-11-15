@@ -119,7 +119,7 @@ CATEGORIAS = [
         "subtipos": [
             sub("estaciones", "Estaciones espaciales e ISS", "Space stations and ISS", "🛰", "#5B4A9E", "celestrak", "cada 6 h (posición calculada en el navegador)", "movimiento", "estimado", 0, ["tecnologia"], grupo="stations"),
             sub("gnss", "Navegación GNSS (GPS, Galileo, GLONASS, BeiDou)", "GNSS navigation", "🛰", "#2E6F8E", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia", "seguridad"], grupo="gnss"),
-            sub("starlink", "Starlink (≈8,000; apagado al inicio)", "Starlink", "🛰", "#8a8f94", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia", "seguridad"], grupo="starlink", inicial=False),
+            sub("starlink", "Starlink · catálogo disponible de CelesTrak", "Starlink", "🛰", "#8a8f94", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia", "seguridad"], grupo="starlink", inicial=False),
             sub("oneweb", "Internet satelital OneWeb", "OneWeb", "🛰", "#6B5BA8", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="oneweb"),
             sub("iridium", "Telefonía satelital Iridium", "Iridium", "🛰", "#8a7fb8", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["tecnologia"], grupo="iridium-NEXT"),
             sub("observacion", "Observación de la Tierra y recursos", "Earth resources", "🛰", "#2F7A4A", "celestrak", "cada 6 h", "movimiento", "estimado", 0, ["clima", "energia"], grupo="resource"),
