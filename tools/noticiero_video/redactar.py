@@ -34,6 +34,7 @@ de titulares (algunos en otro idioma), cada uno con su medio. Tarea:
    hace («según el medio», «acusa la oposición», «investiga la Fiscalía») y no las presentes como hechos probados; no las
    suavices ni las exageres. Cuenta igual lo que se le critica al gobierno que lo que anuncia.
 7. Verificación de bulos: di con claridad qué afirmación falsa circula y qué se comprobó, sin repetirla como cierta.
+8. En «Familia y parejas · noticias positivas», cuenta únicamente hechos positivos confirmados sobre familia, matrimonio, crianza o apoyo familiar. Conserva las relaciones que explicita la fuente y distingue los consejos u opiniones de los hechos.
 Responde solo JSON: {"elegida": <número o null>, "resumen": "<frase>"}"""
 
 

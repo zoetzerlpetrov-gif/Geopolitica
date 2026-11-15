@@ -96,7 +96,7 @@ def test_actualizacion_consulta_cada_fuente_y_sincroniza_las_dos_pantallas(monke
     assert 'Coinbase' in escena['voz'] and 'no el fix' in escena['voz']
     oficial = G.datos_por_seccion(out)['forex']
     assert 'dato del 13 nov' in oficial['voz']
-    assert 'referencia consultada el 2026-11-15' in oficial['voz']
+    assert 'referencia del domingo 15 de noviembre de 2026' in oficial['voz']
 
 
 def test_clima_actualizado_no_usa_snapshot_antiguo_si_falla_la_fuente():

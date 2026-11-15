@@ -1,5 +1,5 @@
 {
- "descripcion": "Noticiero DOMINUS: 30 secciones. Cada una junta titulares de dos vías: (1) feeds RSS e índices oficiales de noticias elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
+ "descripcion": "Noticiero DOMINUS: 32 secciones. Cada una junta titulares de dos vías: (1) feeds RSS e índices oficiales de noticias elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
  "secciones": [
   {
    "id": "geopolitica",
@@ -493,6 +493,33 @@
      "nombre": "Ledger Insights",
      "url": "https://www.ledgerinsights.com/feed/",
      "tipo": "Medio especializado en blockchain empresarial"
+    }
+   ]
+  },
+  {
+   "id": "familia",
+   "titulo": "Familia, matrimonio y parejas: noticias positivas",
+   "nota": "Incluye historias positivas de familias tradicionales, matrimonios, madres y padres, crianza y apoyo familiar. Las relaciones y hechos mencionados deben constar en la fuente. Se distingue información de opinión.",
+   "palabras": "(?=.*(?:familia|matrimonio|pareja|espos[oa]s?|bodas?\\b|crianza|madres?\\b|padres\\b|family|families|marriage|couples?\\b|husband|wife|parents))(?=.*(?:celebr|aniversario|bodas?\\b|reencuentr|solidari|ayuda|apoyo|bienestar|bondad|reconcilia|crianza|conciliaci[oó]n|voluntar|donaci[oó]n|reconoc|inspira|bondad|fortalec|celebrat|anniversary|wedding|reunit|support|donat|raises?|surpris|love|fosters?|kindness|help|cleaning|limpieza|limpian|passion)).+",
+   "feeds": [
+    {
+     "nombre": "Aleteia Español",
+     "url": "https://es.aleteia.org/feed/",
+     "tipo": "Medio de información y opinión católica",
+     "filtrar": true
+    },
+    {
+     "nombre": "Good News Network",
+     "url": "https://www.goodnewsnetwork.org/category/news/inspiring/feed/",
+     "tipo": "Medio especializado en noticias positivas",
+     "filtrar": true
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },

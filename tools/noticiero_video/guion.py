@@ -95,9 +95,42 @@ def miles_redaccion(texto, seccion=None):
     return re.sub(patron, lambda m: m.group(0).replace(".", ","), str(texto or ""))
 
 
-def para_voz(texto):
+_CONTEXTO_LEGAL = re.compile(r"\b(?:ley(?:es)?|decreto|constituci[oó]n|reglamento|c[oó]digo|art[ií]culos?|fracci[oó]n|fracciones|transitorios?)\b", re.I)
+_ROMANO = re.compile(r"(?<![\w-])(?=[MDCLXVI]+\b)M{0,3}(?:CM|CD|D?C{0,3})(?:XC|XL|L?X{0,3})(?:IX|IV|V?I{0,3})(?![\w-])")
+
+
+def ordinal_romano(romano):
+    valores = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
+    n = sum((-valores[c] if i + 1 < len(romano) and valores[c] < valores[romano[i + 1]] else valores[c]) for i, c in enumerate(romano))
+    if not 0 < n < 4000:
+        return romano
+    unidades = ["", "primero", "segundo", "tercero", "cuarto", "quinto", "sexto", "séptimo", "octavo", "noveno"]
+    decenas = ["", "décimo", "vigésimo", "trigésimo", "cuadragésimo", "quincuagésimo", "sexagésimo", "septuagésimo", "octogésimo", "nonagésimo"]
+    centenas = ["", "centésimo", "ducentésimo", "tricentésimo", "cuadringentésimo", "quingentésimo", "sexcentésimo", "septingentésimo", "octingentésimo", "noningentésimo"]
+    miles = ["", "milésimo", "dosmilésimo", "tresmilésimo"]
+    return " ".join(x for x in (miles[n // 1000], centenas[n % 1000 // 100], decenas[n % 100 // 10], unidades[n % 10]) if x)
+
+
+def romanos_legales(texto, legal=False):
+    if not (legal or _CONTEXTO_LEGAL.search(texto)):
+        return texto
+    def cambiar(m):
+        if not m.group():
+            return m.group()
+        antes = texto[:m.start()]
+        if re.search(r"(?:en|red|plataforma)\s+$", antes, re.I) and m.group() == "X":
+            return m.group()  # la red social conserva su nombre
+        ordinal = ordinal_romano(m.group())
+        etiquetas = re.findall(r"\b(art[ií]culos?|fracci[oó]n|fracciones|secci[oó]n|secciones|cap[ií]tulos?|t[ií]tulos?|apartados?|disposiciones?|reglas?|bases?)\b", antes[-140:], re.I)
+        if etiquetas and etiquetas[-1].lower().startswith(("fracci", "secci", "disposici", "regla", "base")):
+            ordinal = " ".join(p[:-1] + "a" if p.endswith("o") else p for p in ordinal.split())
+        return ordinal
+    return _ROMANO.sub(cambiar, texto)
+
+
+def para_voz(texto, legal=False):
     """Ajusta números para que el sintetizador en español los lea bien: 18.67 → «18 punto 67»; 11 000 y 3,830 → 11000 y 3830."""
-    t = re.sub(r"(\d)[ \u00a0\u202f](\d{3})\b", r"\1\2", str(texto))
+    t = re.sub(r"(\d)[ \u00a0\u202f](\d{3})\b", r"\1\2", romanos_legales(str(texto), legal=legal))
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)\b(?!\.\d)", lambda m: m.group(1) + m.group(2).replace(",", ""), t)
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)(\.\d+)", lambda m: m.group(1) + m.group(2).replace(",", "") + m.group(3), t)
     t = re.sub(r"(\d)\.(\d)", r"\1 punto \2", t)
@@ -180,7 +213,7 @@ def _ultimo(ind, id_):
 ORDEN = ["politica_mx", "politica_mx_critica", "oficial_mx", "geopolitica", "economia", "indicadores", "forex", "bonos", "oro", "metales", "energia",
          "crisis_energetica", "empresas", "sectores", "nearshoring", "inmobiliario", "cripto", "blockchain", "cbdc",
          "tecnologia", "organismos", "salud", "nutricion", "agenda2030", "clima", "eventos_impacto", "cultura",
-         "espectaculos", "gastronomia_viajes", "belleza_moda", "infantil", "conspiracion"]
+         "espectaculos", "gastronomia_viajes", "belleza_moda", "familia", "infantil", "conspiracion"]
 CORTO = {"politica_mx": "Política en México", "oficial_mx": "Avisos oficiales en México", "geopolitica": "Geopolítica", "economia": "Economía", "indicadores": "Indicadores",
          "forex": "Divisas", "bonos": "Bonos y CETES", "oro": "Oro y bancos centrales", "metales": "Metales y materias primas",
          "energia": "Energía", "crisis_energetica": "Crisis energética", "empresas": "Empresas", "sectores": "Sectores",
@@ -188,7 +221,7 @@ CORTO = {"politica_mx": "Política en México", "oficial_mx": "Avisos oficiales 
          "cbdc": "Monedas digitales", "tecnologia": "Tecnología", "organismos": "Organismos internacionales", "salud": "Salud",
          "nutricion": "Nutrición", "agenda2030": "Agenda 2030", "clima": "Clima y desastres", "eventos_impacto": "Clima y economía",
          "cultura": "Cultura", "espectaculos": "Espectáculos", "gastronomia_viajes": "Gastronomía y viajes",
-         "belleza_moda": "Belleza y moda", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
+         "belleza_moda": "Belleza y moda", "familia": "Familia y parejas · noticias positivas", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
          "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación"}
 # Lo que la IA debe buscar en la sección cuando el nombre corto no basta.
 TEMA = {
@@ -219,6 +252,14 @@ RUTINA = re.compile(r"ma[ñn]anera|conferencia (de prensa )?matutina|morning (pr
 INFANTIL = re.compile(r"ni[nñ]as?\b|ni[nñ]os?\b|infan|menores|adolescen|escuela|escolar|alumn|primaria|secundaria|kínder|"
                       r"preescolar|unicef|juguete|kids?\b|children|child\b|students?|pupils?|schools?|toys?|teens?|"
                       r"para ni[nñ]os|familia|family|parque|museo|zool[oó]gico|zoo\b|pel[ií]cula|teatro|disney|pixar", re.I)
+FAMILIA_TEMA = re.compile('familia|matrimonio|pareja|espos[oa]s?|bodas?\\b|crianza|madres?\\b|padres\\b|family|families|marriage|couples?\\b|husband|wife|parents', re.I)
+FAMILIA_POSITIVA = re.compile('celebr|aniversario|bodas?\\b|reencuentr|solidari|ayuda|apoyo|bienestar|bondad|reconcilia|crianza|conciliaci[oó]n|voluntar|donaci[oó]n|reconoc|inspira|bondad|fortalec|celebrat|anniversary|wedding|reunit|support|donat|raises?|surpris|love|fosters?|kindness|help|cleaning|limpieza|limpian|passion', re.I)
+FAMILIA_NEGATIVA = re.compile(r"asesin|homicid|violencia|maltrato|abuso|fraude|divorci|separaci[oó]n|killed|murder|abuse|divorce|obispo|sacerdote|pontific", re.I)
+
+def noticia_familiar_positiva(titulo):
+    return bool(FAMILIA_TEMA.search(titulo) and FAMILIA_POSITIVA.search(titulo) and not FAMILIA_NEGATIVA.search(titulo))
+
+
 POR_SECCION = {"politica_mx": 2, "oficial_mx": 2, "geopolitica": 2}  # las demás: solo la nota más relevante
 VACIOS = re.compile(r"no (tropical )?cyclones|no hay ciclones|sin (avisos|actividad)", re.I)
 ES = re.compile(r"\b(el|la|los|las|de|del|que|en|por|para|con|una?|se|su|sus|al)\b", re.I)
@@ -270,6 +311,9 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
         if sec == "politica_mx_critica":
             def es(n):
                 return GOBIERNO_MX.search(n["t"]) and CRITICA.search(n["t"])  # del gobierno o sus funcionarios, no nota roja
+        elif sec == "familia":
+            def es(n):
+                return "familia" in (n.get("s") or []) and noticia_familiar_positiva(n["t"])
         elif sec == "infantil":
             def es(n):
                 return "infantil" in (n.get("s") or []) and INFANTIL.search(n["t"])  # tortugas o planetas sin niños: fuera
@@ -337,11 +381,11 @@ def con_resumen(notas, resumenes=None, datos=None):
                 usados.add(dato["texto"])
         extra = (PAUSA + para_voz(dato["voz"])) if dato else ""
         if r:
-            out.append({**n, "resumen": r, "dato": dato and dato["texto"], "voz": cierre_frase(para_voz(r)) + extra})
+            out.append({**n, "resumen": r, "dato": dato and dato["texto"], "voz": cierre_frase(para_voz(r, legal=sec == "dof")) + extra})
         elif en_espanol(n["titulo"]):
             titulo = miles_redaccion(normalizar_numeros(n["titulo"], convencion(n.get("url") or n["medio"])), sec)
             out.append({**n, "resumen": f"«{titulo}»", "titular": True, "dato": dato and dato["texto"],
-                        "voz": cierre_frase(para_voz(titulo)) + extra})
+                        "voz": cierre_frase(para_voz(titulo, legal=sec == "dof")) + extra})
     return out
 
 
@@ -481,9 +525,9 @@ def datos_por_seccion(ind):
             nombre = _NOMBRE_VOZ.get(i, x.get('corto', i))
             cuando = f", dato del {fecha}"
             if i in ("USD_MXN_REF", "EUR_MXN_REF"):
-                cuando = f", referencia consultada el {consulta_mx(fecha_dato)}, no es el FIX oficial"
+                cuando = f", referencia del {fecha_larga(consulta_mx(fecha_dato)[:10])}, no es el FIX oficial"
             elif i == "XBT":
-                cuando = f", cotización de Kraken consultada el {consulta_mx(fecha_dato)}"
+                cuando = f", cotización de Kraken del {fecha_larga(consulta_mx(fecha_dato)[:10])}"
             voces.append(f"{nombre} {'están' if nombre.startswith('los ') else 'está'} en {valor_v}{cambio_v}{cuando}")
             partes.append((i, textos[-1], voces[-1]))
         if textos:
@@ -685,7 +729,7 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
                  for x in refs]
         voz = "Últimas referencias disponibles. " + " ".join(
             f"{x['corto']}, {float(x['valor']):.4f} " + ("dólares" if x["id"] == "XBT" else
-            "pesos por dólar" if x["id"] == "USD_MXN_REF" else "pesos por euro") + f", consulta {consulta_mx(x['fecha'])}." for x in refs)
+            "pesos por dólar" if x["id"] == "USD_MXN_REF" else "pesos por euro") + f", dato del {fecha_larga(consulta_mx(x['fecha'])[:10])}." for x in refs)
         voz += " Las divisas son conversiones indicativas de Coinbase, no el FIX ni una cotización garantizada de banco."
         esc.append({"tipo": "economia", "encabezado": "Últimas cotizaciones disponibles", "filas": filas, "texto": "", "voz": para_voz(voz)})
     filas_m = mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else []

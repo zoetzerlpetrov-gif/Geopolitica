@@ -21,7 +21,7 @@ import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
 import * as LIC from "./licencias.js?v=146";
 import { precioCorto } from "./planes.js";
-import { gruposSatelites, totalSatelites } from "./satelites-grupos.js";
+import { gruposSatelites, totalSatelites, subtiposDestacados } from "./satelites-grupos.js";
 import { conectarCoordenadasMapa, leerCoordenadas, textoCoordenadas } from "./coordenadas-mapa.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
@@ -2284,6 +2284,12 @@ async function iniciarMovimiento(catalogo) {
     const ok = p && (p.estado === "ok" || p.objetos);
     const vistos = new Set();
     const subs = (rv ? LIC.subtiposPago(cat.subtipos, rv) : cat.subtipos).filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
+    const { destacados, restantes } = subtiposDestacados(subs, tipo);
+    const filaSubtipo = (s) => {
+      const cantidad = tipo === "satelites" ? satPublicos?.grupos[s.grupo]?.length : null;
+      const starlink = s.grupo === "satnogs-starlink";
+      return `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(starlink ? "Starlink · SatNOGS" : s.nombre.es)}${cantidad != null ? ` (${cantidad.toLocaleString("es-MX")}${starlink ? " disponibles" : ""})` : ""}</label>`;
+    };
     const ic = { aeronaves: "✈️", buques: "🚢", satelites: "🛰️" }[tipo];
     return `<details class="subgrupo-d" id="sg-mov-${tipo}" open><summary class="subgrupo"><span class="punto" style="--c:${esc(cat.subtipos[0].color)}"></span>${ic} ${esc(cat.nombre.es)}
       <span class="sg-n">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos` : "sin datos"}</span></summary><div class="capa-fam ${ok ? "" : "capa-off"}">
@@ -2292,10 +2298,7 @@ async function iniciarMovimiento(catalogo) {
       <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
         : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
       ${tipo === "satelites" ? '<p class="meta">SatNOGS DB · CC BY-SA 4.0. Posiciones estimadas con SGP4. Los grupos comparten objetos y cubren solo los elementos disponibles, con hasta 30 días de antigüedad.</p>' : ""}
-      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => {
-        const cantidad = tipo === "satelites" ? satPublicos?.grupos[s.grupo]?.length : null;
-        return `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}${cantidad != null ? ` (${cantidad.toLocaleString("es-MX")})` : ""}</label>`;
-      }).join("")}</details>` : ""}
+      ${ok ? `${destacados.map(filaSubtipo).join("")}${destacados.length ? '<p class="meta">Starlink está disponible en todos los roles con los elementos orbitales recientes de SatNOGS; su cobertura es parcial. Activa «Mostrar en el mapa» y marca Starlink.</p>' : ""}<details><summary>Subtipos (${restantes.length})</summary>${restantes.map(filaSubtipo).join("")}</details>` : ""}
     </div></details>`;
   }).join("");
   cont.addEventListener("change", async (e) => {
