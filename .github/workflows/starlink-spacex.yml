@@ -1,0 +1,61 @@
+name: Órbitas públicas de SpaceX
+on:
+  push:
+    branches: [main]
+    paths: ['tools/vivos/spacex.py', '.github/workflows/starlink-spacex.yml']
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: 'Objetos a intentar por lote (máximo 256; 10 s entre peticiones)'
+        default: '128'
+  schedule:
+    - cron: '37 */3 * * *'
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: starlink-spacex
+  cancel-in-progress: false
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - run: pip install numpy==2.3.3 scipy==1.18.1 sgp4==2.27
+      - name: Recuperar modelos y cursor anteriores
+        run: |
+          mkdir -p starlink
+          cp data/starlink/*.json starlink/ 2>/dev/null || true
+          python -c 'import gzip,pathlib; p=pathlib.Path("data/starlink/omm.json.gz"); p.exists() and pathlib.Path("starlink/omm.json").write_bytes(gzip.decompress(p.read_bytes()))' 
+          if git fetch --depth 1 origin datos-starlink; then
+            git archive FETCH_HEAD starlink | tar -x
+          fi
+      - name: Descargar por lotes y validar órbitas
+        env:
+          LIMITE: ${{ inputs.limite || '128' }}
+        run: |
+          python -c 'import os; n=int(os.environ["LIMITE"]); assert 1 <= n <= 256'
+          python tools/vivos/spacex.py --salida starlink --limite "$LIMITE" --pausa 10 --horizonte 48
+      - name: Publicar instantánea independiente sin historial creciente
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir /tmp/pub-starlink
+          cp -r starlink /tmp/pub-starlink/
+          cd /tmp/pub-starlink
+          git init -q
+          git checkout -q -b datos-starlink
+          git config user.name geopolitica-bot
+          git config user.email actions@users.noreply.github.com
+          git add starlink
+          git commit -q -m "SpaceX: modelos validados"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-starlink
+  publicar:
+    needs: actualizar
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit

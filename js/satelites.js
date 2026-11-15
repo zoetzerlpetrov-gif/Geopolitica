@@ -89,6 +89,8 @@ export function geojsonOrbita(orb, actual) {
 
 /** Año de lanzamiento desde el designador internacional («98067A» → 1998, lanzamiento 067). */
 export function lanzamiento(designador) {
+  const omm = /^(\d{4})-(\d{3})([A-Z]*)$/.exec(designador || "");
+  if (omm) return {anio:Number(omm[1]),numero:Number(omm[2]),pieza:omm[3]};
   const m = /^(\d{2})(\d{3})([A-Z]*)$/.exec(designador || "");
   if (!m) return null;
   const yy = Number(m[1]);
@@ -140,7 +142,7 @@ export function htmlSatelite({ n, norad, grupo, st, alt, catalogo }, orb) {
   const edad = e ? edadTleHoras(e.epoca_jd) : null;
   const geo = tipo && (tipo.id === "geo" || tipo.id === "gso");
   return `<h3 id="ficha-titulo">${esc(n)}</h3>
-    <div class="fecha">${esc(grupo)} · NORAD ${esc(norad)}${tipo ? ` · ${esc(tipo.nombre)}` : ""}</div>
+    <div class="fecha">${esc(grupo)} · ${e?.tipo_id === "SpaceX provisional" ? "ID provisional SpaceX" : "NORAD"} ${esc(norad)}${tipo ? ` · ${esc(tipo.nombre)}` : ""}</div>
     <div class="chips"><span class="chip estado-estimado">Posición calculada (SGP4)</span></div>
     ${huecoImagen(articuloSatelite(n, st))}
     <dl>
@@ -151,12 +153,12 @@ export function htmlSatelite({ n, norad, grupo, st, alt, catalogo }, orb) {
       <dt>Perigeo / apogeo</dt><dd>${num(tipo.perigeo)} / ${num(tipo.apogeo)} km</dd>` : ""}
       ${lz ? `<dt>Lanzamiento</dt><dd>${lz.anio} (designador ${esc(e.designador)})</dd>` : ""}
       ${edad != null ? `<dt>Datos orbitales</dt><dd>de hace ${edad < 48 ? `${num(edad)} h` : `${num(edad / 24)} días`}${edad > 72 ? " · la posición puede desviarse decenas de km" : ""}</dd>` : ""}
-      <dt>Fuente</dt><dd><a href="https://celestrak.org/satcat/search.php?CATNR=${encodeURIComponent(norad)}" target="_blank" rel="noopener noreferrer">CelesTrak</a></dd>
+      ${e?.fuente === "SpaceX" ? `<dt>Fuente</dt><dd><a href="${esc(e.fuente_url)}" target="_blank" rel="noopener noreferrer">${esc(e.proveedor || "SpaceX · efeméride pública")}</a></dd><dt>Época / actualización de la fuente</dt><dd>${esc(e.efemeride_creada || "")}</dd><dt>Validación del modelo</dt><dd>${e.tipo_modelo === "supgp" ? `RMS de ajuste publicado: ${esc(e.error_rms_km)} km (no es error máximo)` : `Error máximo ${esc(e.error_max_km)} km en muestras de validación`}; uso del modelo hasta ${esc(new Date(e.valido_hasta).toLocaleString("es-MX"))}</dd>` : `<dt>Fuente</dt><dd><a href="https://celestrak.org/satcat/search.php?CATNR=${encodeURIComponent(norad)}" target="_blank" rel="noopener noreferrer">CelesTrak / SatNOGS</a></dd>`}
     </dl>
     ${htmlCatalogo(catalogo)}
     ${orb ? `<p class="leyenda-tray"><span class="lt-rec"></span>última media vuelta <span class="lt-rumbo"></span>próxima vuelta <span class="lt-dest"></span>zona desde donde se ve</p>` : `<p class="meta">Calculando la trayectoria…</p>`}
     ${geo ? `<p class="meta">Por eso se ve casi inmóvil: tarda lo mismo que la Tierra en dar una vuelta. Los cientos de puntos alineados sobre el Ecuador son satélites geoestacionarios (TV, comunicaciones, meteorología) y su posición es real.</p>` : ""}
-    <p class="meta">Calculado en tu navegador con SGP4 a partir de elementos orbitales públicos (SatNOGS DB o la última copia de CelesTrak); con datos de menos de un día el error típico es de 1 a 3 km en órbita baja.</p>`;
+    <p class="meta">${e?.fuente === "SpaceX" ? "Modelo SGP4 de efemérides de SpaceX. La ficha distingue el RMS del proveedor de la validación propia de DOMINUS. Solo se utiliza dentro de la ventana indicada. Las maniobras pueden modificar la predicción." : "Calculado en tu navegador con SGP4 a partir de elementos orbitales públicos (SatNOGS DB o la última copia de CelesTrak); con datos de menos de un día el error típico es de 1 a 3 km en órbita baja."}</p>`;
 }
 
 /**
@@ -168,7 +170,7 @@ export async function calcularPases(lat, lon, horas = 24) {
   const { getJSON } = await import("./util.js");
   const d = await getJSON("data/vivos/satelites.json", { bust: true });
   const grupos = ["stations", "visual"].filter((g) => d.grupos?.[g]);
-  const w = new Worker("js/sat-worker.js");
+  const w = new Worker("js/sat-worker.js?v=spacex1");
   try {
     return await new Promise((ok, mal) => {
       w.onmessage = (e) => { if (e.data.tipo === "pases") ok(e.data); };

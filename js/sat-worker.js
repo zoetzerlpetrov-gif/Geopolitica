@@ -9,6 +9,13 @@ let satrecs = {};        // grupo -> [{n, id, rec}]
 let activos = new Set();
 let reloj = null;
 let intervalo = 2000;
+const modeloValido = (s, t) => !s.hasta || (t.getTime() >= Date.parse(s.desde) && t.getTime() <= Date.parse(s.hasta));
+function cargarOMM(grupos) {
+  for (const [g, lista] of Object.entries(grupos || {})) {
+    satrecs[g] = lista.map(x => ({...x, n:x.omm.OBJECT_NAME, id:String(x.omm.NORAD_CAT_ID),
+      rec:satellite.json2satrec(x.omm), designador:x.omm.OBJECT_ID || ""}));
+  }
+}
 
 function calcular() {
   const ahora = new Date();
@@ -19,6 +26,7 @@ function calcular() {
     for (const s of satrecs[g] || []) {
       if (vistos.has(s.id)) continue; // un satélite puede estar en dos grupos
       vistos.add(s.id);
+      if (!modeloValido(s, ahora)) continue;
       const pv = satellite.propagate(s.rec, ahora);
       if (!pv || !pv.position || typeof pv.position === "boolean") continue;
       const geo = satellite.eciToGeodetic(pv.position, gmst);
@@ -36,6 +44,7 @@ function orbita(id) {
   let s = null;
   for (const lista of Object.values(satrecs)) { s = lista.find((x) => x.id === id); if (s) break; }
   if (!s) return { tipo: "orbita", id, error: "sin TLE" };
+  if (!modeloValido(s, new Date())) return {tipo:"orbita",id,error:"modelo fuera de su ventana validada"};
   const r = s.rec;
   const periodo = (2 * Math.PI) / r.no; // minutos
   const paso = periodo / 120;
@@ -43,6 +52,7 @@ function orbita(id) {
   const muestras = [];
   for (let m = -periodo / 2; m <= periodo + 1e-9; m += paso) {
     const t = new Date(ahora + m * 60000);
+    if (!modeloValido(s, t)) continue;
     const pv = satellite.propagate(r, t);
     if (!pv || !pv.position || typeof pv.position === "boolean") continue;
     const geo = satellite.eciToGeodetic(pv.position, satellite.gstime(t));
@@ -54,7 +64,8 @@ function orbita(id) {
   return {
     tipo: "orbita", id, n: s.n, muestras,
     elementos: { inclinacion: (r.inclo * 180) / Math.PI, excentricidad: r.ecco, periodo_min: periodo, vel_kms: v,
-      epoca_jd: r.jdsatepoch + (r.jdsatepochF || 0), designador: s.l1.slice(9, 17).trim() },
+      epoca_jd: r.jdsatepoch + (r.jdsatepochF || 0), designador: s.l1 ? s.l1.slice(9, 17).trim() : s.designador,
+      fuente: s.omm ? "SpaceX" : "TLE público", error_max_km: s.error_max_km, valido_hasta: s.hasta, fuente_url: s.fuente, lote:s.lote, reciente:s.reciente, tipo_id:s.tipo_id, efemeride_creada:s.creado, tipo_modelo:s.tipo_modelo, proveedor:s.proveedor, error_rms_km:s.error_rms_km },
   };
 }
 
@@ -81,13 +92,14 @@ function pases({ lat, lon, horas = 24, grupos, elevMin = 10, max = 40 }) {
       vistos.add(s.id);
       let pase = null;
       for (const k of tiempos) {
+        if (!modeloValido(s, k.t)) { pase=null; continue; }
         const pv = satellite.propagate(s.rec, k.t);
         if (!pv || !pv.position || typeof pv.position === "boolean") { pase = null; continue; }
         const ang = satellite.ecfToLookAngles(obs, satellite.eciToEcf(pv.position, k.gmst));
         const elev = ang.elevation * 180 / Math.PI, az = ang.azimuth * 180 / Math.PI;
         if (elev >= elevMin) {
           const p = pv.position, visible = k.oscuro && !SOL.enSombra([p.x, p.y, p.z], k.sol);
-          if (!pase) pase = { id: s.id, n: s.n, grupo: g, ini: k.t.getTime(), az_ini: az, elev_max: elev, t_max: k.t.getTime(), visible: false, vis_ini: null };
+          if (!pase) pase = { id: s.id, n: s.n, lote:s.lote, reciente:s.reciente, formacion:s.formacion, grupo: g, ini: k.t.getTime(), az_ini: az, elev_max: elev, t_max: k.t.getTime(), visible: false, vis_ini: null };
           if (elev > pase.elev_max) { pase.elev_max = elev; pase.t_max = k.t.getTime(); pase.az_max = az; }
           if (visible) { pase.visible = true; pase.vis_ini ??= k.t.getTime(); pase.vis_fin = k.t.getTime(); }
           pase.fin = k.t.getTime(); pase.az_fin = az;
@@ -108,10 +120,12 @@ onmessage = (e) => {
   const m = e.data;
   if (m.tipo === "orbita") { postMessage(orbita(m.id)); return; }
   if (m.tipo === "pases") {
+    cargarOMM(m.grupos_omm);
     if (m.grupos_tle) for (const [g, lista] of Object.entries(m.grupos_tle)) satrecs[g] ??= lista.map(([n, l1, l2]) => ({ n, l1, id: l2.slice(2, 7).trim().replace(/^0+/, ""), rec: satellite.twoline2satrec(l1, l2) }));
     postMessage(pases(m));
     return;
   }
+  if (m.tipo === "omm") cargarOMM(m.grupos);
   if (m.tipo === "tle") {
     if (!m.agregar) satrecs = {};
     for (const [g, lista] of Object.entries(m.grupos)) {

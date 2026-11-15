@@ -11,3 +11,7 @@ defusedxml==0.7.1
 
 # Normalización de posiciones ferroviarias abiertas GTFS-RT
 gtfs-realtime-bindings==1.0.0
+
+# Ajuste y validación de las efemérides públicas de SpaceX
+scipy==1.18.1
+sgp4==2.27

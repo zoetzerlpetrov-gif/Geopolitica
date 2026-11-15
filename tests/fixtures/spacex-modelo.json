@@ -1,0 +1,31 @@
+{
+ "omm": {
+  "OBJECT_NAME": "STARLINK-35000",
+  "OBJECT_ID": "",
+  "NORAD_CAT_ID": 65278,
+  "EPOCH": "2026-11-15T16:07:42",
+  "MEAN_MOTION": 15.334368560756536,
+  "ECCENTRICITY": 0.00017639711155963532,
+  "INCLINATION": 97.28586693236502,
+  "RA_OF_ASC_NODE": 6.847582547201603,
+  "ARG_OF_PERICENTER": 94.78230904508996,
+  "MEAN_ANOMALY": 276.10377440961145,
+  "BSTAR": -8.966710369155042e-06,
+  "MEAN_MOTION_DOT": 0,
+  "MEAN_MOTION_DDOT": 0,
+  "CLASSIFICATION_TYPE": "U",
+  "EPHEMERIS_TYPE": 0,
+  "ELEMENT_SET_NO": 1,
+  "REV_AT_EPOCH": 0
+ },
+ "desde": "2026-11-15T16:07:42Z",
+ "hasta": "2026-11-17T02:57:42Z",
+ "creado": "2026-11-15T14:25:15.663813Z",
+ "fuente": "https://starlink.com/public-files/ephemerides/STARLINK-35000.txt",
+ "error_max_km": 1.476,
+ "error_rms_km": 0.631,
+ "lanzamiento": "2025-08-22",
+ "lote": "2025-184",
+ "designador": "2025-184F",
+ "reciente": false
+}

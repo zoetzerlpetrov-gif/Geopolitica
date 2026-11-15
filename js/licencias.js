@@ -132,5 +132,6 @@ export function familiasPago(familias, r) {
   return out.map((f) => f.id === "camaras" ? f : { ...f, subtipos: subtiposPago(f.subtipos, r) });
 }
 
-/** Subtipos de una categoría en movimiento que se pueden mostrar (p. ej. satélites: solo grupos de SatNOGS). */
-export const subtiposPago = (subtipos, r) => subtipos.filter((s) => !s.fuente || r.fuenteOk(s.fuente));
+/** Subtipos de una categoría en movimiento que se pueden mostrar (satélites: fuentes aprobadas y acceso expreso a las efemérides públicas del operador). */
+// Acceso a los datos públicos del operador solicitado por administración; no cambia la verificación de licencia de otras fuentes.
+export const subtiposPago = (subtipos, r) => subtipos.filter((s) => !s.fuente || r.fuenteOk(s.fuente) || (s.fuente === "spacex_public" && s.acceso_publico_operador === true));

@@ -21,6 +21,8 @@ import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
 import * as LIC from "./licencias.js?v=146";
 import { precioCorto } from "./planes.js";
+import { gruposSpaceX, totalConSpaceX } from "./spacex-orbitas.js";
+import { panelSpaceX, pasesSpaceX, resultadosSpaceX, trayectoriaSpaceX } from "./spacex-ui.js";
 import { gruposSatelites, totalSatelites } from "./satelites-grupos.js";
 import { conectarCoordenadasMapa, leerCoordenadas, textoCoordenadas } from "./coordenadas-mapa.js";
 
@@ -2260,7 +2262,8 @@ async function iniciarMovimiento(catalogo) {
     onObjeto: (o) => abrirObjetoMovil(o, catalogo),
   });
   const pasoDe = { aeronaves: "aeronaves", buques: "buques", satelites: "satelites" };
-  let satPublicos = null;
+  let satPublicos = null, metaSpaceX = null;
+  try {metaSpaceX = await getJSON("data/starlink/index.json", {bust:true});} catch { /* se muestra sin cantidad si no hay instantánea */ }
   try {
     const datos = await getJSON("data/vivos/satelites.json", { bust: true });
     satPublicos = { ...datos, grupos: gruposSatelites(datos.grupos) };
@@ -2278,16 +2281,16 @@ async function iniciarMovimiento(catalogo) {
   cont.innerHTML = ["aeronaves", "buques", "satelites"].filter((t) => !rv?.movimiento.has(t)).map((tipo) => {
     const cat = catalogo.categorias.find((c) => c.id === tipo);
     const p = tipo === "satelites" && satPublicos ? {
-      estado: "ok", objetos: totalSatelites(Object.fromEntries(Object.entries(satPublicos.grupos).filter(([g]) => !rv || g === "satnogs"))),
-      actualizado_utc: satPublicos.satnogs_utc || satPublicos.generado_utc,
+      estado: "ok", objetos: totalConSpaceX(Object.fromEntries(Object.entries(satPublicos.grupos).filter(([g]) => !rv || g === "satnogs")), metaSpaceX),
+      actualizado_utc: [satPublicos.satnogs_utc || satPublicos.generado_utc, metaSpaceX?.generado_utc].filter(Boolean).sort().at(-1),
     } : estado.pasos[pasoDe[tipo]];
     const ok = p && (p.estado === "ok" || p.objetos);
     const vistos = new Set();
     const subs = (rv ? LIC.subtiposPago(cat.subtipos, rv) : cat.subtipos).filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
     const filaSubtipo = (s) => {
-      const cantidad = tipo === "satelites" ? satPublicos?.grupos[s.grupo]?.length : null;
+      const cantidad = tipo === "satelites" ? (s.grupo === "spacex-starlink" ? metaSpaceX?.validos : s.grupo === "spacex-trenes" ? metaSpaceX?.recientes : satPublicos?.grupos[s.grupo]?.length) : null;
       const starlink = s.grupo === "satnogs-starlink";
-      return `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(starlink ? "Starlink · SatNOGS" : s.nombre.es)}${cantidad != null ? ` (${cantidad.toLocaleString("es-MX")}${starlink ? " disponibles" : ""})` : ""}</label>`;
+      return `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(starlink ? "Starlink · SatNOGS" : s.nombre.es)}${cantidad != null ? ` (${cantidad.toLocaleString("es-MX")}${starlink ? " disponibles" : s.grupo?.startsWith("spacex-") ? " publicados" : ""})` : ""}</label>`;
     };
     const ic = { aeronaves: "✈️", buques: "🚢", satelites: "🛰️" }[tipo];
     return `<details class="subgrupo-d" id="sg-mov-${tipo}" open><summary class="subgrupo"><span class="punto" style="--c:${esc(cat.subtipos[0].color)}"></span>${ic} ${esc(cat.nombre.es)}
@@ -2296,10 +2299,34 @@ async function iniciarMovimiento(catalogo) {
         <span class="chip estado-${esc(cat.subtipos[0].estado_dato)}">${tipo === "satelites" ? "Estimado" : "Retrasado"}</span></label>
       <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
         : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
-      ${tipo === "satelites" ? '<p class="meta">SatNOGS DB · CC BY-SA 4.0. Posiciones estimadas con SGP4. Los grupos comparten objetos y cubren solo los elementos disponibles, con hasta 30 días de antigüedad.</p>' : ""}
-      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map(filaSubtipo).join("")}</details>` : ""}
+      ${tipo === "satelites" ? '<p class="meta">Fuentes por subtipo: SatNOGS DB (CC BY-SA 4.0), SpaceX/SupGP y catálogos anteriores. Posiciones estimadas con SGP4; cada fuente conserva su época y ventana de uso. Los grupos pueden compartir objetos.</p>' : ""}
+      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map(filaSubtipo).join("")}${tipo === "satelites" ? `<p class="meta">SpaceX/SupGP: órbitas dentro de su ventana de uso; lanzamientos GCAT (J. McDowell, CC BY 4.0); el inventario no equivale a órbitas utilizables. Publicación SpaceX: ${esc((metaSpaceX?.generado_utc || "").slice(0,16))} UTC. Se omiten automáticamente los modelos vencidos. <a href="https://docs.space-safety.starlink.com/docs/space-safety-articles/starlink_cola_conops/" target="_blank" rel="noopener noreferrer">Fuente y formato</a></p>${panelSpaceX()}` : ""}</details>` : ""}
     </div></details>`;
   }).join("");
+  cont.addEventListener("click", async (e) => {
+    const buscar=e.target.closest("[data-spacex-pases]"), traza=e.target.closest("[data-spacex-traza]");
+    if (!buscar && !traza) return;
+    const caja=cont.querySelector("[data-spacex-resultados]");
+    e.target.disabled=true;
+    try {
+      if (buscar) {
+        const centro=api.map.getCenter();
+        caja.innerHTML='<p class="meta">Calculando pases con las órbitas disponibles…</p>';
+        const r=await pasesSpaceX(centro.lat,centro.lng,{soloRecientes:buscar.dataset.spacexPases === "recientes"});
+        caja.innerHTML=resultadosSpaceX(r,`${centro.lat.toFixed(3)}, ${centro.lng.toFixed(3)}`);
+      } else {
+        const orb=await trayectoriaSpaceX(traza.dataset.spacexTraza);
+        if (orb.error) throw new Error(orb.error);
+        const [S,V]=await Promise.all([import("./satelites.js"),import("./vuelos.js")]);
+        trayectoria ??= new V.Trayectoria(api.map);
+        if (!orb.muestras?.length) throw new Error("No hay trayectoria en la ventana validada");
+        const p=orb.muestras.reduce((a,b)=>Math.abs(a[3])<Math.abs(b[3])?a:b);
+        trayectoria.mostrar(S.geojsonOrbita(orb,p));
+        api.map.easeTo({center:p.slice(0,2),zoom:Math.min(api.map.getZoom(),2.2),pitch:0,padding:{top:0,bottom:0,left:0,right:0},duration:600});
+      }
+    } catch (err) {caja.innerHTML=`<p class="meta">${esc(err.message)}</p>`;}
+    finally {e.target.disabled=false;}
+  });
   cont.addEventListener("change", async (e) => {
     const t = e.target.dataset.mov;
     if (t) {

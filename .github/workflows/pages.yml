@@ -112,6 +112,12 @@ jobs:
           else
             echo "Aún no existe la rama datos-vivos"
           fi
+          # SpaceX mantiene su instantánea en una rama independiente de la ingesta general.
+          mkdir -p _site/data/starlink
+          if git fetch --depth 1 origin datos-starlink 2>/dev/null; then
+            git archive FETCH_HEAD starlink | tar -x -C /tmp
+            cp /tmp/starlink/*.json* _site/data/starlink/
+          fi
           # Eventos reales: rama huérfana "datos-eventos" (workflow "Ingesta de eventos"). Reemplazan a los
           # datos de ejemplo.
           if git fetch --depth 1 origin datos-eventos 2>/dev/null; then

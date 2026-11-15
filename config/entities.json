@@ -318,6 +318,14 @@
    "licencia": "Descarga pública; condiciones de redistribución comercial por verificar",
    "uso_comercial": null,
    "licencia_verificada": false
+  },
+  "spacex_public": {
+   "nombre": "SpaceX: CelesTrak SupGP SpaceX-E y respaldo OCM directo",
+   "url": "https://starlink.com/public-files/ephemerides/MANIFEST.txt",
+   "licencia": "Efemérides públicas del operador. Se conserva atribución, fecha y error de validación; no se atribuye una licencia CC a SpaceX.",
+   "uso_comercial": null,
+   "licencia_verificada": false,
+   "nota": "Disponible en todos los roles por configuración expresa del administrador. Las condiciones de la fuente permanecen visibles; este permiso de interfaz no certifica una licencia comercial."
   }
  },
  "categorias": [
@@ -1812,6 +1820,48 @@
      ],
      "grupo": "amsat",
      "inicial": false
+    },
+    {
+     "id": "spacex_starlink",
+     "nombre": {
+      "es": "Starlink · efemérides SpaceX",
+      "en": "Starlink · SpaceX ephemerides"
+     },
+     "icono": "🛰",
+     "color": "#39b7dc",
+     "fuente": "spacex_public",
+     "licencia": "Efemérides públicas del operador. Se conserva atribución, fecha y error de validación; no se atribuye una licencia CC a SpaceX.",
+     "frecuencia": "cada 3 h; respaldo OCM por lotes",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "spacex-starlink",
+     "inicial": false,
+     "acceso_publico_operador": true
+    },
+    {
+     "id": "spacex_trenes",
+     "nombre": {
+      "es": "Trenes Starlink · formaciones candidatas",
+      "en": "Starlink trains · candidate formations"
+     },
+     "icono": "🛰",
+     "color": "#e8b44e",
+     "fuente": "spacex_public",
+     "licencia": "Efemérides públicas del operador. Se conserva atribución, fecha y error de validación; no se atribuye una licencia CC a SpaceX.",
+     "frecuencia": "cada 3 h; respaldo OCM por lotes",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "spacex-trenes",
+     "inicial": false,
+     "acceso_publico_operador": true
     }
    ]
   },

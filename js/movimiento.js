@@ -15,6 +15,7 @@ import { getJSON, esc, debounce, pinturaEtiqueta, layoutEtiqueta } from "./util.
 import { articuloAvion, articuloBuque, articuloSatelite, huecoImagen } from "./imagen_tipo.js";
 import { htmlBandera, paisDeHex } from "./banderas.js";
 import { INTERVALO_MS, ZOOM_MIN, consulta, filaDeVivo, fusionar } from "./envivo.js";
+import { gruposSpaceX, cargarOrbitasSpaceX } from "./spacex-orbitas.js";
 import { gruposSatelites } from "./satelites-grupos.js";
 
 export const MAX_OBJETOS = 5000;
@@ -105,7 +106,7 @@ export class Movimiento {
     const subtipos = new Set(this.cat[tipo].subtipos.filter((s) => s.inicial !== false).map((s) => (tipo === "satelites" ? s.grupo : s.id)));
     if (tipo === "satelites") {
       const d = await getJSON("data/vivos/satelites.json", { bust: true });
-      this.worker ??= new Worker("js/sat-worker.js");
+      this.worker ??= new Worker("js/sat-worker.js?v=spacex1");
       this.worker.onmessage = (e) => {
         if (e.data.tipo === "orbita") { this.#esperas.get(e.data.id)?.(e.data); this.#esperas.delete(e.data.id); return; }
         this.#pintarSatelites(e.data);
@@ -190,6 +191,14 @@ export class Movimiento {
     if (!this.activas.has(tipo)) return;
     this.activas.set(tipo, new Set(ids));
     if (tipo === "satelites") {
+      if (ids.some(g => g.startsWith("spacex-")) && !this.datos.satelites.spacexCargado) {
+        this.datos.satelites.spacexCargado = true;
+        cargarOrbitasSpaceX().then(x => {
+          const activos=this.activas.get("satelites");
+          if (activos) this.worker.postMessage({tipo:"omm",grupos:gruposSpaceX(x),activos:[...activos]});
+          if (!gruposSpaceX(x)["spacex-starlink"].length) this.onAviso?.("satelites", "SpaceX: no hay modelos dentro de su ventana validada.");
+        }).catch(e => {this.datos.satelites.spacexCargado=false;this.onAviso?.("satelites", `SpaceX no disponible: ${e.message}`);});
+      }
       // Grupos grandes en archivo propio: se descargan la primera vez que se activan.
       const d = this.datos.satelites;
       for (const g of ids.filter((x) => d.aparte.has(x) && !d.cargados.has(x))) {

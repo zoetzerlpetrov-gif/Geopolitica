@@ -49,7 +49,7 @@ test("capas y movimiento: sin fuentes no comerciales ni subtipos de CelesTrak", 
   assert.deepEqual(familiasPago(fams, r).map((f) => f.id), ["cables_osm", "aeropuertos"]);
   const sats = cat.categorias.find((c) => c.id === "satelites").subtipos;
   assert.ok(subtiposPago(sats, r).length >= 11);
-  assert.ok(subtiposPago(sats, r).every((s) => s.fuente === "satnogs"));
+  assert.ok(subtiposPago(sats, r).every((s) => s.fuente === "satnogs" || (s.fuente === "spacex_public" && s.acceso_publico_operador === true)));
   assert.ok(!subtiposPago(sats, r).some((s) => s.grupo === "amsat"));
   // Aeronaves: en la vista de pago se cambian por el archivo de adsb.lol (ODbL); buques siguen solo para admin.
   assert.ok(!r.movimiento.has("aeronaves") && r.movimientoSust.aeronaves.archivo === "aeronaves_comercial" && r.movimiento.has("buques") && !r.movimiento.has("satelites"));
