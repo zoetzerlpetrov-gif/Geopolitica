@@ -57,9 +57,3 @@ export const idSatelite = (t) => t[2].slice(2, 7).trim().replace(/^0+/, "");
 export function totalSatelites(grupos) {
   return new Set(Object.values(grupos).flat().map(idSatelite)).size;
 }
-
-/** Acceso directo al Starlink de SatNOGS después de aplicar los permisos de cada rol. */
-export function subtiposDestacados(subtipos, tipo) {
-  const destacados = tipo === "satelites" ? subtipos.filter((s) => s.grupo === "satnogs-starlink") : [];
-  return { destacados, restantes: subtipos.filter((s) => !destacados.includes(s)) };
-}

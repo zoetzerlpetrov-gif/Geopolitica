@@ -22,9 +22,8 @@ test("NORAD con ceros iniciales y sin ellos es un solo objeto", () => {
   assert.equal(totalSatelites({ a: [t1], b: [t2] }), 1);
 });
 
-test("Starlink de SatNOGS tiene acceso directo en todos los roles y conserva los demás permisos", async () => {
+test("Starlink sigue siendo un subtipo disponible en todos los roles con los mismos permisos", async () => {
   const fs = await import("node:fs");
-  const { subtiposDestacados } = await import("../../js/satelites-grupos.js");
   const L = await import("../../js/licencias.js");
   const cat = JSON.parse(fs.readFileSync(new URL("../../config/entities.json", import.meta.url)));
   const lic = JSON.parse(fs.readFileSync(new URL("../../config/comercial_licencias.json", import.meta.url)));
@@ -33,12 +32,9 @@ test("Starlink de SatNOGS tiene acceso directo en todos los roles y conserva los
   const r = L.restricciones(lic, cat, planes);
   for (const rol of ["demo", "recon", "analyst", "command", "admin"]) {
     const permitidos = rol === "admin" ? todos : L.subtiposPago(todos, r);
-    const { destacados, restantes } = subtiposDestacados(permitidos, "satelites");
-    assert.equal(destacados.length, 1, rol);
-    assert.equal(destacados[0].grupo, "satnogs-starlink", rol);
-    assert.equal(destacados[0].fuente, "satnogs", rol);
-    assert.ok(!restantes.some(s => s.grupo === "satnogs-starlink"), "sin duplicar controles");
-    assert.equal(destacados.length + restantes.length, permitidos.length, "las otras capas no cambian");
+    const starlink = permitidos.filter(s => s.grupo === "satnogs-starlink");
+    assert.equal(starlink.length, 1, rol);
+    assert.equal(starlink[0].fuente, "satnogs", rol);
     if (rol !== "admin") assert.ok(!permitidos.some(s => s.fuente === "celestrak"));
   }
   const starlink = ["STARLINK-3100", iss[1], iss[2]];
