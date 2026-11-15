@@ -17,6 +17,7 @@ import re
 GCAT_SATCAT = "https://planet4589.org/space/gcat/tsv/cat/satcat.tsv"
 GCAT_ORGS = "https://planet4589.org/space/gcat/tsv/tables/orgs.tsv"
 SATNOGS_TLE = "https://db.satnogs.org/api/tle/?format=json"
+AMSAT_TLE = "https://www.amsat.org/tle/current/nasabare.txt"
 CITA_GCAT = "GCAT (J. McDowell, planet4589.org/space/gcat), CC BY 4.0"
 
 TIPO = {"P": "Carga útil (satélite)", "R": "Etapa de cohete", "D": "Basura o fragmento", "C": "Componente desprendido", "S": "Objeto suborbital", "X": "Otro"}
@@ -91,6 +92,20 @@ def tle_satnogs(lista):
 
 def norad(tle):
     return tle[2][2:7].strip().lstrip("0")
+
+
+def tle_amsat(texto, hoy_jd):
+    lineas = [linea.strip() for linea in texto.splitlines() if linea.strip()]
+    encontrados = {}
+    for i in range(len(lineas) - 2):
+        nombre, l1, l2 = lineas[i:i + 3]
+        if not (l1.startswith("1 ") and l2.startswith("2 ") and l1[2:7] == l2[2:7]):
+            continue
+        if not -1 <= edad_dias(l1, hoy_jd) <= 30:
+            continue
+        tle = [nombre, l1, l2]
+        encontrados[norad(tle)] = tle
+    return list(encontrados.values())
 
 
 def edad_dias(l1, hoy_jd):

@@ -126,10 +126,28 @@ def satelites():
     de 30 días. Aparte, el catálogo GCAT para la ficha (una vez al día)."""
     n = satelites_celestrak() if CELESTRAK_PERMITIDO else satelites_sin_celestrak()
     try:
+        satelites_amsat()
+    except Exception as e:
+        print(f"  AMSAT: {e}")
+    try:
         catalogo_satelites()
     except Exception as e:  # noqa: BLE001  la ficha puede vivir sin catálogo un día
         print(f"  catálogo GCAT: {e}")
     return n
+
+
+def satelites_amsat():
+    """Fuente adicional pública para administración; se conserva su procedencia por separado."""
+    import satcat as SC
+    previo = leer("satelites-amsat.json", {})
+    if previo.get("generado_utc"):
+        fecha = datetime.strptime(previo["generado_utc"], "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        if (datetime.now(timezone.utc) - fecha).total_seconds() < HORAS_TLE * 3600:
+            return
+    lista = SC.tle_amsat(get(SC.AMSAT_TLE).decode("utf-8"), _jd_ahora())
+    if not lista:
+        raise RuntimeError("AMSAT no devolvió elementos orbitales recientes")
+    escribir("satelites-amsat.json", {"generado_utc": ahora(), "fuente": "AMSAT · nasabare.txt", "grupos": {"amsat": lista}})
 
 
 def _jd_ahora():
@@ -175,7 +193,7 @@ def catalogo_satelites():
     noradas = set()
     for g in d.get("grupos", {}).values():
         noradas.update(SC.norad(t) for t in g)
-    for g in d.get("aparte", []):
+    for g in [*d.get("aparte", []), "amsat"]:
         for lista in leer(f"satelites-{g}.json", {}).get("grupos", {}).values():
             noradas.update(SC.norad(t) for t in lista)
     filas = SC.leer_tsv(get(SC.GCAT_SATCAT, timeout=300).decode("utf-8", "replace"))

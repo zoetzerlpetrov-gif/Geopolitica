@@ -108,14 +108,14 @@ onmessage = (e) => {
   const m = e.data;
   if (m.tipo === "orbita") { postMessage(orbita(m.id)); return; }
   if (m.tipo === "pases") {
-    if (m.grupos_tle) for (const [g, lista] of Object.entries(m.grupos_tle)) satrecs[g] ??= lista.map(([n, l1, l2]) => ({ n, l1, id: l2.slice(2, 7).trim(), rec: satellite.twoline2satrec(l1, l2) }));
+    if (m.grupos_tle) for (const [g, lista] of Object.entries(m.grupos_tle)) satrecs[g] ??= lista.map(([n, l1, l2]) => ({ n, l1, id: l2.slice(2, 7).trim().replace(/^0+/, ""), rec: satellite.twoline2satrec(l1, l2) }));
     postMessage(pases(m));
     return;
   }
   if (m.tipo === "tle") {
     if (!m.agregar) satrecs = {};
     for (const [g, lista] of Object.entries(m.grupos)) {
-      satrecs[g] = lista.map(([n, l1, l2]) => ({ n, l1, id: l2.slice(2, 7).trim(), rec: satellite.twoline2satrec(l1, l2) }));
+      satrecs[g] = lista.map(([n, l1, l2]) => ({ n, l1, id: l2.slice(2, 7).trim().replace(/^0+/, ""), rec: satellite.twoline2satrec(l1, l2) }));
     }
   }
   if (m.tipo === "grupos" || m.activos) activos = new Set(m.activos);

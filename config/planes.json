@@ -25,6 +25,7 @@
    "resumen": "Prueba gratuita para conocer la app antes de pagar. Usa solo copias estáticas que ya genera el sitio, así que cada visita no consume llaves ni cuotas de APIs.",
    "incluye": [
     "Mapa con capas fijas",
+    "Satélites públicos de SatNOGS, con posición orbital estimada en el navegador",
     "Catálogo completo de cámaras públicas, con vistas previas según licencia y enlaces a los operadores",
     "Eventos y noticias con 24 h de retraso (copia del día anterior)",
     "Mundo corporativo: noticias de empresas en el mapa y organigramas públicos (copia del día anterior)",
@@ -219,7 +220,7 @@
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",
  "acceso_por_plan": {
-  "_nota": "Plan mínimo para cada grupo del menú izquierdo (data-grupo) y cada sección. En la versión de pago lo de un plan superior se muestra con candado, el nombre del plan y su precio; lo de solo admin no se muestra.",
+  "_nota": "Plan mínimo para cada grupo del menú izquierdo (data-grupo) y cada sección. En la versión de pago lo de un plan superior se muestra con candado, el nombre del plan y su precio; lo de solo admin no se muestra. Satélites de SatNOGS disponibles también en Demo dentro del grupo En movimiento.",
   "grupos": {
    "eventos": "demo",
    "capas": "demo",

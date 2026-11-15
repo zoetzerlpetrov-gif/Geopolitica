@@ -48,7 +48,9 @@ test("capas y movimiento: sin fuentes no comerciales ni subtipos de CelesTrak", 
   // Cables: TeleGeography (no comercial) se cambia por OpenStreetMap en el mismo lugar; Bitcoin e inmuebles: solo admin.
   assert.deepEqual(familiasPago(fams, r).map((f) => f.id), ["cables_osm", "aeropuertos"]);
   const sats = cat.categorias.find((c) => c.id === "satelites").subtipos;
-  assert.deepEqual(subtiposPago(sats, r).map((s) => s.fuente), ["satnogs"]);
+  assert.ok(subtiposPago(sats, r).length >= 11);
+  assert.ok(subtiposPago(sats, r).every((s) => s.fuente === "satnogs"));
+  assert.ok(!subtiposPago(sats, r).some((s) => s.grupo === "amsat"));
   // Aeronaves: en la vista de pago se cambian por el archivo de adsb.lol (ODbL); buques siguen solo para admin.
   assert.ok(!r.movimiento.has("aeronaves") && r.movimientoSust.aeronaves.archivo === "aeronaves_comercial" && r.movimiento.has("buques") && !r.movimiento.has("satelites"));
   assert.ok(r.paginas.has("noticiero.html") && !r.bloques.has("b-capas-ent"), "el bloque ya no es solo admin: va por plan");

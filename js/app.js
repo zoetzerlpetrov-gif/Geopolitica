@@ -21,6 +21,7 @@ import * as M3 from "./modelos3d.js";
 import * as BC from "./base_capas.js";
 import * as LIC from "./licencias.js?v=146";
 import { precioCorto } from "./planes.js";
+import { gruposSatelites, totalSatelites } from "./satelites-grupos.js";
 import { conectarCoordenadasMapa, leerCoordenadas, textoCoordenadas } from "./coordenadas-mapa.js";
 
 const MAX_LISTA = 200; // la lista lateral muestra los más recientes; el mapa muestra todos
@@ -54,11 +55,16 @@ const vistaLista = (async () => {
   // Controles del contenido bloqueado: deshabilitados también los que se dibujan después (capas, riesgos…).
   // Solo los <summary> responden: abren y cierran secciones.
   const CONTROLES = "input, select, textarea, button";
-  const apagar = (raiz) => { for (const c of raiz.querySelectorAll(CONTROLES)) if (!c.closest("summary") && !c.disabled) c.disabled = true; };
-  const soloVer = (d) => {
-    apagar(d);
-    new MutationObserver(() => apagar(d)).observe(d, { childList: true, subtree: true, attributes: true, attributeFilter: ["disabled"] });
+  const soloVer = (d, excepcion = "") => {
+    const apagarGrupo = () => {
+      for (const c of d.querySelectorAll(CONTROLES)) if (!excepcion || !c.closest(excepcion)) {
+        if (!c.closest("summary") && !c.disabled) c.disabled = true;
+      }
+    };
+    apagarGrupo();
+    new MutationObserver(apagarGrupo).observe(d, { childList: true, subtree: true, attributes: true, attributeFilter: ["disabled"] });
     for (const tipo of ["click", "keydown"]) d.addEventListener(tipo, (e) => {
+      if (excepcion && e.target.closest(excepcion)) return;
       const sum = e.target.closest("summary");
       if (sum && !e.target.closest(CONTROLES + ", a")) return;  // abrir o cerrar una sección
       if (e.target.closest(".aviso-plan")) return;  // «Ver planes»
@@ -68,11 +74,12 @@ const vistaLista = (async () => {
   };
   const bloquear = (s, req) => {
     const d = s.parentElement;
-    d.classList.add("bloqueado-plan");
-    s.insertAdjacentHTML("beforeend", `<span class="chip candado">🔒 ${esc(req.nombre)}</span>`);
+    const satelitesDemo = plan === "demo" && s.dataset.grupo === "movimiento";
+    if (!satelitesDemo) d.classList.add("bloqueado-plan");
+    s.insertAdjacentHTML("beforeend", `<span class="chip candado">${satelitesDemo ? "Satélites en Demo" : `🔒 ${esc(req.nombre)}`}</span>`);
     // Se puede desplegar y contraer todo (menús, secciones y subtipos) para ver qué incluye, pero no usarlo.
-    soloVer(d);
-    s.insertAdjacentHTML("afterend", `<p class="aviso-plan">Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. <a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
+    soloVer(d, satelitesDemo ? "#sg-mov-satelites" : "");
+    s.insertAdjacentHTML("afterend", `<p class="aviso-plan">${satelitesDemo ? "Los satélites públicos están disponibles en Demo. Las demás capas de este grupo requieren Recon. " : ""}Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). ${satelitesDemo ? "" : `Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. `}<a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
   };
   for (const s of document.querySelectorAll("summary.grupo-tit[data-grupo]")) {
     const req = LIC.planFaltante(planes, plan, "grupos", s.dataset.grupo);
@@ -2245,21 +2252,35 @@ async function iniciarMovimiento(catalogo) {
   // En LITE también (empiezan apagadas; gastan datos y batería solo si las enciendes).
   const estado = await getJSON("data/vivos/estado.json", { bust: true }).catch(() => ({ pasos: {} }));
   const avisos = {};
+  const rv = await vistaLista;
   mov = new Movimiento(api.map, {
-    catalogo,
+    catalogo: rv ? { ...catalogo, categorias: catalogo.categorias.map((c) => c.id === "satelites" ? { ...c, subtipos: LIC.subtiposPago(c.subtipos, rv) } : c) } : catalogo,
     onCambio: () => avisarPresupuesto(),
     onAviso: (tipo, texto) => { avisos[tipo] = texto; const a = $("aviso-mov"); a.textContent = Object.values(avisos).filter(Boolean).join(" "); a.hidden = !a.textContent; },
     onObjeto: (o) => abrirObjetoMovil(o, catalogo),
   });
   const pasoDe = { aeronaves: "aeronaves", buques: "buques", satelites: "satelites" };
-  const rv = await vistaLista;
+  let satPublicos = null;
+  try {
+    const datos = await getJSON("data/vivos/satelites.json", { bust: true });
+    satPublicos = { ...datos, grupos: gruposSatelites(datos.grupos) };
+    if (!rv) {
+      try {
+        const amsat = await getJSON("data/vivos/satelites-amsat.json", { bust: true });
+        Object.assign(satPublicos.grupos, { amsat: gruposSatelites(amsat.grupos).amsat });
+      } catch { /* La capa AMSAT queda disponible para reintentar al activarla. */ }
+    }
+  } catch { /* Se conserva el aviso del último estado publicado. */ }
   if (rv?.movimientoSust) {
     mov.archivos = Object.fromEntries(Object.entries(rv.movimientoSust).map(([t, x]) => [t, x.archivo]));
     for (const [t, x] of Object.entries(rv.movimientoSust)) if (x.archivo) pasoDe[t] = x.archivo;
   }
   cont.innerHTML = ["aeronaves", "buques", "satelites"].filter((t) => !rv?.movimiento.has(t)).map((tipo) => {
     const cat = catalogo.categorias.find((c) => c.id === tipo);
-    const p = estado.pasos[pasoDe[tipo]];
+    const p = tipo === "satelites" && satPublicos ? {
+      estado: "ok", objetos: totalSatelites(Object.fromEntries(Object.entries(satPublicos.grupos).filter(([g]) => !rv || g === "satnogs"))),
+      actualizado_utc: satPublicos.satnogs_utc || satPublicos.generado_utc,
+    } : estado.pasos[pasoDe[tipo]];
     const ok = p && (p.estado === "ok" || p.objetos);
     const vistos = new Set();
     const subs = (rv ? LIC.subtiposPago(cat.subtipos, rv) : cat.subtipos).filter((s) => { const k = tipo === "satelites" ? s.grupo : s.id; if (vistos.has(k)) return false; vistos.add(k); return true; });
@@ -2270,7 +2291,11 @@ async function iniciarMovimiento(catalogo) {
         <span class="chip estado-${esc(cat.subtipos[0].estado_dato)}">${tipo === "satelites" ? "Estimado" : "Retrasado"}</span></label>
       <div class="meta">${ok ? `${(p.objetos || 0).toLocaleString("es-MX")} objetos · actualizado ${esc((p.actualizado_utc || "").replace("T", " ").slice(0, 16))} UTC`
         : esc(p?.error || "Aún no hay instantánea (workflow «Datos en movimiento»)")}</div>
-      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}</label>`).join("")}</details>` : ""}
+      ${tipo === "satelites" ? '<p class="meta">SatNOGS DB · CC BY-SA 4.0. Posiciones estimadas con SGP4. Los grupos comparten objetos y cubren solo los elementos disponibles, con hasta 30 días de antigüedad.</p>' : ""}
+      ${ok ? `<details><summary>Subtipos (${subs.length})</summary>${subs.map((s) => {
+        const cantidad = tipo === "satelites" ? satPublicos?.grupos[s.grupo]?.length : null;
+        return `<label><input type="checkbox" data-mov-sub="${tipo}" value="${esc(tipo === "satelites" ? s.grupo : s.id)}" ${s.inicial === false ? "" : "checked"}><span class="swatch" style="background:${esc(s.color)}"></span>${esc(s.nombre.es)}${cantidad != null ? ` (${cantidad.toLocaleString("es-MX")})` : ""}</label>`;
+      }).join("")}</details>` : ""}
     </div></details>`;
   }).join("");
   cont.addEventListener("change", async (e) => {

@@ -15,6 +15,7 @@ import { getJSON, esc, debounce, pinturaEtiqueta, layoutEtiqueta } from "./util.
 import { articuloAvion, articuloBuque, articuloSatelite, huecoImagen } from "./imagen_tipo.js";
 import { htmlBandera, paisDeHex } from "./banderas.js";
 import { INTERVALO_MS, ZOOM_MIN, consulta, filaDeVivo, fusionar } from "./envivo.js";
+import { gruposSatelites } from "./satelites-grupos.js";
 
 export const MAX_OBJETOS = 5000;
 const PROYECCION_MAX_S = 300;
@@ -109,8 +110,8 @@ export class Movimiento {
         if (e.data.tipo === "orbita") { this.#esperas.get(e.data.id)?.(e.data); this.#esperas.delete(e.data.id); return; }
         this.#pintarSatelites(e.data);
       };
-      this.worker.postMessage({ tipo: "tle", grupos: d.grupos });
-      this.datos.satelites = { generado: d.generado_utc, aparte: new Set(d.aparte || []), cargados: new Set() };
+      this.worker.postMessage({ tipo: "tle", grupos: gruposSatelites(d.grupos) });
+      this.datos.satelites = { generado: d.satnogs_utc || d.generado_utc, aparte: new Set([...(d.aparte || []), "amsat"]), cargados: new Set() };
       this.activas.set(tipo, subtipos);
       this.#instalar(tipo);
       this.worker.postMessage({ tipo: "grupos", activos: [...subtipos], intervalo: 2000 });
@@ -194,7 +195,10 @@ export class Movimiento {
       for (const g of ids.filter((x) => d.aparte.has(x) && !d.cargados.has(x))) {
         d.cargados.add(g);
         getJSON(`data/vivos/satelites-${g}.json`, { bust: true })
-          .then((x) => this.worker.postMessage({ tipo: "tle", agregar: true, grupos: x.grupos, activos: [...this.activas.get("satelites")] }))
+          .then((x) => {
+            const activos = this.activas.get("satelites");
+            if (activos) this.worker.postMessage({ tipo: "tle", agregar: true, grupos: gruposSatelites(x.grupos), activos: [...activos] });
+          })
           .catch(() => d.cargados.delete(g));
       }
       this.worker.postMessage({ tipo: "grupos", activos: ids });

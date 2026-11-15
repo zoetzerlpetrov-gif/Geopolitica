@@ -311,6 +311,13 @@
    "licencia": "CC BY 4.0",
    "uso_comercial": true,
    "licencia_verificada": true
+  },
+  "amsat": {
+   "nombre": "AMSAT · elementos orbitales públicos",
+   "url": "https://www.amsat.org/keplerian-elements-resources/",
+   "licencia": "Descarga pública; condiciones de redistribución comercial por verificar",
+   "uso_comercial": null,
+   "licencia_verificada": false
   }
  },
  "categorias": [
@@ -1569,7 +1576,7 @@
     {
      "id": "satnogs",
      "nombre": {
-      "es": "Pequeños, universitarios y de radioaficionados (SatNOGS)",
+      "es": "Todos los objetos con órbita reciente · SatNOGS",
       "en": "Small, university and amateur (SatNOGS)"
      },
      "icono": "🛰",
@@ -1584,6 +1591,226 @@
       "tecnologia"
      ],
      "grupo": "satnogs",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_stations",
+     "nombre": {
+      "es": "Estaciones espaciales · SatNOGS",
+      "en": "satnogs-stations"
+     },
+     "icono": "🛰",
+     "color": "#5B4A9E",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-stations",
+     "inicial": true
+    },
+    {
+     "id": "satnogs_weather",
+     "nombre": {
+      "es": "Meteorológicos · SatNOGS",
+      "en": "satnogs-weather"
+     },
+     "icono": "🛰",
+     "color": "#1F8A8A",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-weather",
+     "inicial": true
+    },
+    {
+     "id": "satnogs_gnss",
+     "nombre": {
+      "es": "Navegación GNSS · SatNOGS",
+      "en": "satnogs-gnss"
+     },
+     "icono": "🛰",
+     "color": "#2E6F8E",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-gnss",
+     "inicial": true
+    },
+    {
+     "id": "satnogs_starlink",
+     "nombre": {
+      "es": "Starlink · cobertura disponible en SatNOGS",
+      "en": "satnogs-starlink"
+     },
+     "icono": "🛰",
+     "color": "#8a8f94",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-starlink",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_comms",
+     "nombre": {
+      "es": "OneWeb, Iridium y Globalstar · SatNOGS",
+      "en": "satnogs-comms"
+     },
+     "icono": "🛰",
+     "color": "#8a7fb8",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-comms",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_earth",
+     "nombre": {
+      "es": "Observación terrestre · SatNOGS",
+      "en": "satnogs-earth"
+     },
+     "icono": "🛰",
+     "color": "#2F7A4A",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-earth",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_leo",
+     "nombre": {
+      "es": "Órbita baja (LEO) · SatNOGS",
+      "en": "satnogs-leo"
+     },
+     "icono": "🛰",
+     "color": "#4F8A3A",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-leo",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_meo",
+     "nombre": {
+      "es": "Órbita media (MEO) · SatNOGS",
+      "en": "satnogs-meo"
+     },
+     "icono": "🛰",
+     "color": "#1F6FB2",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-meo",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_geo",
+     "nombre": {
+      "es": "Órbita geosíncrona · SatNOGS",
+      "en": "satnogs-geo"
+     },
+     "icono": "🛰",
+     "color": "#4A6B8A",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-geo",
+     "inicial": false
+    },
+    {
+     "id": "satnogs_heo",
+     "nombre": {
+      "es": "Órbita muy elíptica (HEO) · SatNOGS",
+      "en": "satnogs-heo"
+     },
+     "icono": "🛰",
+     "color": "#C27C1E",
+     "fuente": "satnogs",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "satnogs-heo",
+     "inicial": false
+    },
+    {
+     "id": "amsat",
+     "nombre": {
+      "es": "Radioaficionados y educativos · AMSAT",
+      "en": "Amateur and educational · AMSAT"
+     },
+     "icono": "🛰",
+     "color": "#B77922",
+     "fuente": "amsat",
+     "licencia": "CC BY-SA 4.0",
+     "frecuencia": "cada 6 h",
+     "tipo_capa": "movimiento",
+     "estado_dato": "estimado",
+     "zoom_min": 0,
+     "areas": [
+      "tecnologia"
+     ],
+     "grupo": "amsat",
      "inicial": false
     }
    ]

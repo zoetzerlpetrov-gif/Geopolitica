@@ -62,3 +62,18 @@ def test_recolector_sin_celestrak(tmp_path, monkeypatch):
     assert d["grupos"]["science"] == [] and [t[0] for t in d["grupos"]["telescopios"]] == ["HST"]
     assert "robots.txt" in d["fuente"] and d["satnogs_utc"]
     assert any("satcat.tsv" in u for u in pedidas)
+
+
+def test_amsat_elementos_recientes_y_archivo_fallido(tmp_path, monkeypatch):
+    texto = "\n".join(ISS + VIEJO)
+    assert SC.tle_amsat(texto, JD_9OCT) == [ISS]
+    monkeypatch.setattr(A, "OUT", str(tmp_path))
+    monkeypatch.setattr(A, "_jd_ahora", lambda: JD_9OCT)
+    monkeypatch.setattr(A, "get", lambda *a, **k: texto.encode())
+    A.satelites_amsat()
+    previo = (tmp_path / "satelites-amsat.json").read_text()
+    assert json.loads(previo)["grupos"]["amsat"] == [ISS]
+    # El ciclo de seis horas reutiliza la copia, sin descargar otra vez.
+    monkeypatch.setattr(A, "get", lambda *a, **k: (_ for _ in ()).throw(AssertionError("No descargar otra vez")))
+    A.satelites_amsat()
+    assert (tmp_path / "satelites-amsat.json").read_text() == previo
