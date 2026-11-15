@@ -1,0 +1,57 @@
+name: Clima e impactos futuros
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '53 12 * * *' # 06:53 Ciudad de México; GitHub puede retrasar el inicio.
+  push:
+    branches: [main]
+    paths: ['tools/clima_impactos/**', 'config/clima-impactos.json', '.github/workflows/clima-impactos.yml']
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: clima-impactos
+  cancel-in-progress: false
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+      - name: Recuperar datos y caché compartida
+        run: |
+          mkdir -p clima-impactos
+          cp data/clima-impactos/*.json clima-impactos/
+          if git fetch --depth 1 origin datos-clima-impactos 2>/dev/null; then
+            git archive FETCH_HEAD clima-impactos | tar -x
+          fi
+      - name: Consultar fuentes públicas y preservar el último dato correcto
+        run: python tools/clima_impactos/actualizar.py --salida clima-impactos
+      - name: Publicar instantánea sin historial creciente
+        if: github.ref == 'refs/heads/main'
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p /tmp/publicar-clima
+          cp -r clima-impactos /tmp/publicar-clima/
+          cd /tmp/publicar-clima
+          git init -q
+          git checkout -q -b datos-clima-impactos
+          git config user.name geopolitica-bot
+          git config user.email actions@users.noreply.github.com
+          git add clima-impactos
+          git commit -q -m "Clima e impactos: instantánea pública"
+          git push -q --force "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" HEAD:datos-clima-impactos
+  publicar:
+    needs: actualizar
+    if: github.ref == 'refs/heads/main'
+    uses: ./.github/workflows/pages.yml
+    secrets: inherit

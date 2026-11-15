@@ -216,6 +216,11 @@
    "tipo": "pagina",
    "href": "identidad.html",
    "nombre": "Protección de identidad (¿Hay líneas registradas con mi CURP?)"
+  },
+  {
+   "tipo": "pagina",
+   "href": "clima-impactos.html",
+   "nombre": "Clima e impactos futuros"
   }
  ],
  "acceso": "Por el correo con que se registra la persona. Soporte solo por correo; sin Telegram, Discord ni WhatsApp.",

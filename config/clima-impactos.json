@@ -1,0 +1,1026 @@
+{
+  "version": 1,
+  "fuentes": [
+    {
+      "id": "enso",
+      "nombre": "NOAA CPC · ENSO y probabilidades",
+      "url": "https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso/roni/probabilities/",
+      "nota": "Boletín mensual y probabilidades de fases ENSO por trimestres superpuestos. No equivalen a probabilidades de lluvia o precios locales."
+    },
+    {
+      "id": "met",
+      "nombre": "MET Norway · Locationforecast",
+      "url": "https://api.met.no/doc/Locationforecast",
+      "nota": "Pronóstico numérico mundial de hasta unos 10 días; horizonte real indicado en cada lugar. CC BY 4.0, transformado por DOMINUS."
+    },
+    {
+      "id": "smn",
+      "nombre": "SMN · pronóstico general",
+      "url": "https://smn.conagua.gob.mx/es/pronosticos/pronosticometeorologico-general",
+      "nota": "Avisos y pronósticos oficiales para México; verificar emisión, zona y vigencia."
+    },
+    {
+      "id": "sequias",
+      "nombre": "SMN · Monitor de Sequía",
+      "url": "https://wwwsmn.conagua.gob.mx/es/climatologia/monitor-de-sequia/monitor-de-sequia-en-mexico",
+      "nota": "Diagnóstico territorial de sequía; no confundir con falta de lluvia de unos días."
+    },
+    {
+      "id": "nhc",
+      "nombre": "NOAA NHC · ciclones",
+      "url": "https://www.nhc.noaa.gov/",
+      "nota": "Atlántico y Pacífico oriental/central: avisos, formación y conos. El cono representa incertidumbre del centro, no toda el área peligrosa."
+    },
+    {
+      "id": "gdacs",
+      "nombre": "GDACS · impactos globales",
+      "url": "https://www.gdacs.org/",
+      "nota": "Eventos y reportes globales; contrastar su evaluación con autoridades nacionales."
+    },
+    {
+      "id": "ncei",
+      "nombre": "NOAA NCEI · hielo marino",
+      "url": "https://www.ncei.noaa.gov/access/monitoring/sea-ice/",
+      "nota": "Series mensuales de extensión en ambos hemisferios; comparar siempre el mismo mes."
+    },
+    {
+      "id": "nsidc",
+      "nombre": "NSIDC · interpretación del hielo",
+      "url": "https://nsidc.org/sea-ice-today",
+      "nota": "Contexto y métodos del Sea Ice Index. Extensión, volumen y masa son medidas diferentes."
+    },
+    {
+      "id": "ozono",
+      "nombre": "NASA Ozone Watch",
+      "url": "https://ozonewatch.gsfc.nasa.gov/meteorology/SH.html",
+      "nota": "Área del agujero de ozono antártico y climatología; no mide el ozono que respiras en una ciudad."
+    },
+    {
+      "id": "dmi",
+      "nombre": "DMI / Polar Portal · Groenlandia",
+      "url": "https://polarportal.dk/en/greenland/surface-conditions/",
+      "nota": "Modelo de balance superficial y deshielo; el balance superficial no es el balance total del casquete."
+    },
+    {
+      "id": "usnic",
+      "nombre": "U.S. National Ice Center",
+      "url": "https://usicecenter.gov/",
+      "nota": "Cartografía de hielo y avisos de icebergs para navegación; no usar un indicador general para decidir una ruta."
+    },
+    {
+      "id": "ipcc",
+      "nombre": "IPCC · Atlas regional AR6",
+      "url": "https://interactive-atlas.ipcc.ch/",
+      "nota": "Proyecciones por región y escenarios de emisiones; no predice el tiempo de un año o domicilio concreto."
+    },
+    {
+      "id": "wmo",
+      "nombre": "OMM · actualizaciones de El Niño/La Niña",
+      "url": "https://wmo.int/activities/el-ninola-nina",
+      "nota": "Perspectivas mundiales; los impactos dependen de estación, región y otros modos climáticos."
+    },
+    {
+      "id": "c3s",
+      "nombre": "Copernicus · pronóstico estacional",
+      "url": "https://climate.copernicus.eu/seasonal-forecasts",
+      "nota": "Anomalías y probabilidades de temporada; requiere interpretar habilidad y referencia climatológica."
+    },
+    {
+      "id": "sniim",
+      "nombre": "SNIIM · mercados de México",
+      "url": "https://www.economia-sniim.gob.mx/",
+      "nota": "Precios mayoristas por producto, mercado y unidad. No son precios de supermercado ni demuestran causalidad climática."
+    },
+    {
+      "id": "siap",
+      "nombre": "SIAP · producción agropecuaria",
+      "url": "https://www.gob.mx/siap",
+      "nota": "Superficie sembrada/cosechada, producción y calendario de cultivos. Verificar región de abasto."
+    },
+    {
+      "id": "fao",
+      "nombre": "FAO · GIEWS y precios",
+      "url": "https://www.fao.org/giews/en/",
+      "nota": "Seguimiento de cultivos, disponibilidades y precios; distingue señal internacional de mercado local."
+    },
+    {
+      "id": "fpma",
+      "nombre": "FAO · FPMA",
+      "url": "https://fpma.fao.org/giews/fpmat4/",
+      "nota": "Series de precios por mercado; cobertura y frecuencia varían."
+    },
+    {
+      "id": "fews",
+      "nombre": "FEWS NET · seguridad alimentaria",
+      "url": "https://fews.net/",
+      "nota": "Análisis regional de cosechas, ingresos y seguridad alimentaria; no es un precio pronosticado por producto mexicano."
+    },
+    {
+      "id": "inegi",
+      "nombre": "INEGI · índices de precios",
+      "url": "https://www.inegi.org.mx/temas/inpc/",
+      "nota": "Inflación observada; no es una proyección de precios ni cotización por kilo."
+    },
+    {
+      "id": "conagua",
+      "nombre": "CONAGUA · agua y presas",
+      "url": "https://sinav30.conagua.gob.mx:8080/Presas/",
+      "nota": "Disponibilidad y almacenamiento; validar la presa y cuenca que abastecen el activo."
+    },
+    {
+      "id": "aire",
+      "nombre": "SINAICA · calidad del aire",
+      "url": "https://sinaica.inecc.gob.mx/",
+      "nota": "Estaciones de monitoreo; revisar contaminante, unidad, promedio y estatus de validación."
+    },
+    {
+      "id": "uv",
+      "nombre": "OMS · radiación ultravioleta",
+      "url": "https://www.who.int/news-room/questions-and-answers/item/radiation-the-ultraviolet-(uv)-index",
+      "nota": "Interpretación del índice UV y protección; no inferir el UV local solo del agujero antártico."
+    },
+    {
+      "id": "cenapred",
+      "nombre": "CENAPRED · preparación",
+      "url": "https://www.gob.mx/cenapred",
+      "nota": "Plan familiar, inundaciones, ciclones, laderas y preparación; las indicaciones de Protección Civil prevalecen."
+    },
+    {
+      "id": "atlas",
+      "nombre": "CENAPRED · Atlas Nacional de Riesgos",
+      "url": "https://www.atlasnacionalderiesgos.gob.mx/",
+      "nota": "Exposición por inundación, laderas y otros peligros; confirmar detalle y fecha del atlas local."
+    },
+    {
+      "id": "cambio",
+      "nombre": "INECC · adaptación climática",
+      "url": "https://www.gob.mx/inecc",
+      "nota": "Contexto de vulnerabilidad y adaptación para México."
+    },
+    {
+      "id": "sargazo",
+      "nombre": "USF · monitoreo de sargazo",
+      "url": "https://optics.marine.usf.edu/projects/SaWS.html",
+      "nota": "Cobertura oceánica; un cinturón grande no determina la llegada exacta a una playa."
+    },
+    {
+      "id": "noaa-coral",
+      "nombre": "NOAA Coral Reef Watch",
+      "url": "https://coralreefwatch.noaa.gov/",
+      "nota": "Estrés térmico marino y riesgo de blanqueamiento; no es mortalidad observada."
+    },
+    {
+      "id": "iso",
+      "nombre": "ISO · continuidad y adaptación",
+      "url": "https://www.iso.org/standard/75106.html",
+      "nota": "ISO 22301: marco de continuidad del negocio; comprobar edición y requisitos antes de una auditoría."
+    }
+  ],
+  "horizontes": [
+    {
+      "id": "dias",
+      "nombre": "Próximos 0–10 días",
+      "tipo": "Pronóstico meteorológico",
+      "limite": "La habilidad disminuye con el plazo; usar el horizonte realmente disponible y avisos oficiales."
+    },
+    {
+      "id": "semanas",
+      "nombre": "2–6 semanas",
+      "tipo": "Perspectiva subestacional",
+      "limite": "Son tendencias o ventanas de probabilidad; este panel no genera un pronóstico numérico local a 45 días."
+    },
+    {
+      "id": "meses",
+      "nombre": "1–9 meses",
+      "tipo": "Perspectiva estacional",
+      "limite": "ENSO se publica por trimestres superpuestos; no son nueve experimentos independientes ni precios previstos."
+    },
+    {
+      "id": "anios",
+      "nombre": "1–5 años",
+      "tipo": "Escenario de preparación",
+      "limite": "No se extrapolan diez días a cinco años; contrastar perspectivas especializadas y evaluar vulnerabilidad."
+    },
+    {
+      "id": "decadas",
+      "nombre": "5–30 años",
+      "tipo": "Proyección climática",
+      "limite": "Escenarios de emisiones y adaptación; sin fechas exactas de desastres."
+    }
+  ],
+  "sectores": [
+    {
+      "id": "hogar",
+      "nombre": "Hogar y comunidad"
+    },
+    {
+      "id": "alimentos",
+      "nombre": "Alimentos y proteínas"
+    },
+    {
+      "id": "agua",
+      "nombre": "Agua y agricultura"
+    },
+    {
+      "id": "energia",
+      "nombre": "Energía e hidrocarburos"
+    },
+    {
+      "id": "salud",
+      "nombre": "Salud y trabajo exterior"
+    },
+    {
+      "id": "logistica",
+      "nombre": "Transporte y cadenas de suministro"
+    },
+    {
+      "id": "operacion",
+      "nombre": "Empresa e infraestructura"
+    }
+  ],
+  "lugares": [
+    {
+      "id": "cdmx",
+      "nombre": "Ciudad de México",
+      "lat": 19.4326,
+      "lon": -99.1332,
+      "zona": "America/Mexico_City"
+    },
+    {
+      "id": "merida",
+      "nombre": "Mérida",
+      "lat": 20.9674,
+      "lon": -89.5926,
+      "zona": "America/Merida"
+    },
+    {
+      "id": "culiacan",
+      "nombre": "Culiacán · hortalizas",
+      "lat": 24.8091,
+      "lon": -107.394,
+      "zona": "America/Mazatlan"
+    },
+    {
+      "id": "uruapan",
+      "nombre": "Uruapan · frutales",
+      "lat": 19.4208,
+      "lon": -102.0628,
+      "zona": "America/Mexico_City"
+    },
+    {
+      "id": "veracruz",
+      "nombre": "Veracruz · costa y puerto",
+      "lat": 19.1738,
+      "lon": -96.1342,
+      "zona": "America/Mexico_City"
+    },
+    {
+      "id": "monterrey",
+      "nombre": "Monterrey",
+      "lat": 25.6866,
+      "lon": -100.3161,
+      "zona": "America/Monterrey"
+    },
+    {
+      "id": "guadalajara",
+      "nombre": "Guadalajara",
+      "lat": 20.6597,
+      "lon": -103.3496,
+      "zona": "America/Mexico_City"
+    },
+    {
+      "id": "tijuana",
+      "nombre": "Tijuana",
+      "lat": 32.5149,
+      "lon": -117.0382,
+      "zona": "America/Tijuana"
+    },
+    {
+      "id": "miami",
+      "nombre": "Miami",
+      "lat": 25.7617,
+      "lon": -80.1918,
+      "zona": "America/New_York"
+    },
+    {
+      "id": "la",
+      "nombre": "Los Ángeles",
+      "lat": 34.0522,
+      "lon": -118.2437,
+      "zona": "America/Los_Angeles"
+    },
+    {
+      "id": "bogota",
+      "nombre": "Bogotá",
+      "lat": 4.711,
+      "lon": -74.0721,
+      "zona": "America/Bogota"
+    },
+    {
+      "id": "lima",
+      "nombre": "Lima",
+      "lat": -12.0464,
+      "lon": -77.0428,
+      "zona": "America/Lima"
+    },
+    {
+      "id": "saopaulo",
+      "nombre": "São Paulo",
+      "lat": -23.5505,
+      "lon": -46.6333,
+      "zona": "America/Sao_Paulo"
+    },
+    {
+      "id": "buenosaires",
+      "nombre": "Buenos Aires",
+      "lat": -34.6037,
+      "lon": -58.3816,
+      "zona": "America/Argentina/Buenos_Aires"
+    },
+    {
+      "id": "madrid",
+      "nombre": "Madrid",
+      "lat": 40.4168,
+      "lon": -3.7038,
+      "zona": "Europe/Madrid"
+    },
+    {
+      "id": "londres",
+      "nombre": "Londres",
+      "lat": 51.5074,
+      "lon": -0.1278,
+      "zona": "Europe/London"
+    },
+    {
+      "id": "cairo",
+      "nombre": "El Cairo",
+      "lat": 30.0444,
+      "lon": 31.2357,
+      "zona": "Africa/Cairo"
+    },
+    {
+      "id": "nairobi",
+      "nombre": "Nairobi",
+      "lat": -1.2921,
+      "lon": 36.8219,
+      "zona": "Africa/Nairobi"
+    },
+    {
+      "id": "dubai",
+      "nombre": "Dubái",
+      "lat": 25.2048,
+      "lon": 55.2708,
+      "zona": "Asia/Dubai"
+    },
+    {
+      "id": "mumbai",
+      "nombre": "Mumbai",
+      "lat": 19.076,
+      "lon": 72.8777,
+      "zona": "Asia/Kolkata"
+    },
+    {
+      "id": "singapur",
+      "nombre": "Singapur",
+      "lat": 1.3521,
+      "lon": 103.8198,
+      "zona": "Asia/Singapore"
+    },
+    {
+      "id": "tokio",
+      "nombre": "Tokio",
+      "lat": 35.6762,
+      "lon": 139.6503,
+      "zona": "Asia/Tokyo"
+    },
+    {
+      "id": "sydney",
+      "nombre": "Sídney",
+      "lat": -33.8688,
+      "lon": 151.2093,
+      "zona": "Australia/Sydney"
+    },
+    {
+      "id": "cape",
+      "nombre": "Ciudad del Cabo",
+      "lat": -33.9249,
+      "lon": 18.4241,
+      "zona": "Africa/Johannesburg"
+    }
+  ],
+  "amenazas": [
+    {
+      "id": "lluvia",
+      "nombre": "Lluvia intensa e inundación",
+      "horizonte": "dias",
+      "sectores": [
+        "hogar",
+        "agua",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "smn",
+        "cenapred",
+        "atlas"
+      ],
+      "mecanismo": "Precipitación intensa sobre suelo saturado, drenaje insuficiente o una cuenca aguas arriba puede producir escurrimientos rápidos.",
+      "confirmar": "Combina pronóstico por intervalo, aviso oficial, nivel del río, acumulado antecedente y exposición del inmueble. La lluvia prevista en el centro de una ciudad no describe toda la cuenca.",
+      "efectos": "Entrada de agua, pérdida de alimentos/equipos, cortes de caminos y contaminación de fuentes de agua.",
+      "acciones": [
+        "Hoy: revisar coladeras y techos sin exponerse; localizar documentos y rutas hacia zonas seguras.",
+        "Antes de la lluvia: elevar equipos y existencias sensibles; comprobar comunicación y protección de tableros eléctricos con personal competente.",
+        "Durante: no cruzar corrientes ni calles anegadas; seguir cierres y evacuaciones oficiales."
+      ],
+      "limite": "Una cantidad de lluvia no basta para predecir la profundidad o la hora de una inundación."
+    },
+    {
+      "id": "ciclon",
+      "nombre": "Ciclones, huracanes y tifones",
+      "horizonte": "dias",
+      "sectores": [
+        "hogar",
+        "alimentos",
+        "energia",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "nhc",
+        "gdacs",
+        "cenapred"
+      ],
+      "mecanismo": "Viento, marejada, lluvia y oleaje pueden afectar simultáneamente costas e interior. La categoría describe viento, no la magnitud de todos los impactos.",
+      "confirmar": "Revisar trayectoria, avisos de viento, lluvia y marejada, ubicación del activo, autoridades portuarias y rutas de evacuación.",
+      "efectos": "Cierre de puertos, interrupción de electricidad y cadena de frío, daños a cultivos y pérdida de acceso a comunidades.",
+      "acciones": [
+        "Preparación: actualizar contactos, refugios, transporte y necesidades de niños, mayores y mascotas.",
+        "Operación: probar energía de respaldo y autonomía segura; revisar combustible, proveedores y procedimientos de paro.",
+        "Con aviso: ejecutar el plan según autoridad local; no esperar a que el centro del ciclón llegue al cono del domicilio."
+      ],
+      "limite": "El cono no delimita todos los daños ni garantiza que el centro siga su eje; no extrapolar una trayectoria a meses."
+    },
+    {
+      "id": "calor",
+      "nombre": "Calor extremo y olas de calor",
+      "horizonte": "dias",
+      "sectores": [
+        "salud",
+        "alimentos",
+        "energia",
+        "operacion"
+      ],
+      "fuentes": [
+        "smn",
+        "met",
+        "cenapred"
+      ],
+      "mecanismo": "Temperatura, humedad, radiación y falta de enfriamiento nocturno pueden elevar el estrés térmico y la demanda eléctrica.",
+      "confirmar": "Ver temperatura y humedad locales, mínimas nocturnas, duración, avisos sanitarios y condiciones interiores/de trabajo.",
+      "efectos": "Deterioro de perecederos, menor productividad, mayor demanda de refrigeración y estrés del ganado.",
+      "acciones": [
+        "Hogar: planear sombra, ventilación segura y contacto con personas vulnerables.",
+        "Empresa: revisar refrigeración, alarmas y pausas según evaluación de seguridad laboral.",
+        "Abasto: comprobar temperaturas y tiempos de entrega, sin asumir que todo producto será escaso."
+      ],
+      "limite": "El umbral de temperatura de este panel es orientativo; no calcula WBGT ni diagnostica riesgo individual."
+    },
+    {
+      "id": "helada",
+      "nombre": "Frío, heladas y nieve",
+      "horizonte": "dias",
+      "sectores": [
+        "hogar",
+        "alimentos",
+        "energia",
+        "logistica"
+      ],
+      "fuentes": [
+        "smn",
+        "met",
+        "cenapred"
+      ],
+      "mecanismo": "Temperaturas bajas pueden dañar plantas sensibles, infraestructura y rutas; la escarcha depende también de humedad, viento y microclima.",
+      "confirmar": "Pronóstico local, duración bajo cero, altura de medición, etapa del cultivo, camino y aviso oficial.",
+      "efectos": "Daño de floración o fruto, accidentes y demoras; demanda energética y rotura de instalaciones expuestas.",
+      "acciones": [
+        "Identificar especies/lotes vulnerables y consultar asesor agronómico para medidas específicas.",
+        "Proteger tuberías y revisar equipos de calefacción con ventilación y mantenimiento seguros.",
+        "Verificar el estado de carreteras antes de despachar; prever una ruta alternativa."
+      ],
+      "limite": "Una mínima muestreada del modelo no es la mínima exacta de un predio ni pronostica una helada a meses."
+    },
+    {
+      "id": "viento",
+      "nombre": "Viento fuerte, nortes y oleaje",
+      "horizonte": "dias",
+      "sectores": [
+        "energia",
+        "logistica",
+        "operacion",
+        "hogar"
+      ],
+      "fuentes": [
+        "smn",
+        "met",
+        "cenapred"
+      ],
+      "mecanismo": "Gradientes de presión y frentes pueden intensificar vientos, levantar polvo y aumentar el oleaje.",
+      "confirmar": "Velocidad sostenida, ráfagas cuando existan, avisos marítimos y de capitanía; tipo de estructura/carga.",
+      "efectos": "Caída de objetos, interrupción de maniobras, cierre de puertos y daños en redes eléctricas.",
+      "acciones": [
+        "Asegurar objetos sueltos y programar trabajos en altura según procedimientos autorizados.",
+        "Revisar límites del fabricante para grúas, paneles y equipos; no sustituirlos por el umbral de este tablero.",
+        "En mar: consultar capitanía; un pronóstico terrestre no sirve para autorizar navegación."
+      ],
+      "limite": "No convertir viento sostenido en ráfagas ni una señal de viento en categoría de huracán."
+    },
+    {
+      "id": "laderas",
+      "nombre": "Deslizamientos, granizo y tormentas severas",
+      "horizonte": "dias",
+      "sectores": [
+        "hogar",
+        "logistica",
+        "alimentos",
+        "operacion"
+      ],
+      "fuentes": [
+        "smn",
+        "atlas",
+        "cenapred"
+      ],
+      "mecanismo": "Lluvia acumulada puede desestabilizar laderas; tormentas convectivas pueden producir granizo y descargas muy localizadas.",
+      "confirmar": "Pendiente, suelo, grietas recientes, lluvias previas, radar y avisos oficiales; resolución del modelo y del atlas.",
+      "efectos": "Daño a invernaderos, vehículos y viviendas; bloqueo de caminos y peligro para personas.",
+      "acciones": [
+        "Ubicar laderas y caminos críticos en el atlas de riesgos y definir rutas alternas.",
+        "No inspeccionar una ladera inestable durante la tormenta; reportar grietas o movimientos a Protección Civil.",
+        "Programar contingencia de cosecha y cobertura física de bienes con asesoría local."
+      ],
+      "limite": "El pronóstico global de este panel no detecta todos los tornados, rayos ni eventos de granizo."
+    },
+    {
+      "id": "sequía",
+      "nombre": "Sequía meteorológica, agrícola e hidrológica",
+      "horizonte": "meses",
+      "sectores": [
+        "agua",
+        "alimentos",
+        "energia",
+        "operacion"
+      ],
+      "fuentes": [
+        "sequias",
+        "conagua",
+        "siap"
+      ],
+      "mecanismo": "Déficit de precipitación sostenido puede reducir humedad del suelo y después caudales, presas y acuíferos; cada etapa tiene tiempos diferentes.",
+      "confirmar": "Monitor de sequía, humedad del suelo, almacenamiento, derechos y disponibilidad real de suministro; no basta con días sin lluvia.",
+      "efectos": "Menor rendimiento, costos de riego/forraje, restricciones de agua y menor generación hidroeléctrica.",
+      "acciones": [
+        "Medir consumo y pérdidas por proceso antes de comprar equipos o prometer ahorros.",
+        "Diversificar proveedores por cuenca y verificar sus existencias y calendarios de cosecha.",
+        "Definir niveles de activación por disponibilidad real y un plan de continuidad del abastecimiento."
+      ],
+      "limite": "Un pronóstico seco de 10 días no demuestra sequía; un embalse bajo no implica por sí solo corte en una fecha."
+    },
+    {
+      "id": "nino",
+      "nombre": "El Niño (ENSO cálido)",
+      "horizonte": "meses",
+      "sectores": [
+        "alimentos",
+        "agua",
+        "energia",
+        "logistica"
+      ],
+      "fuentes": [
+        "enso",
+        "wmo",
+        "fao",
+        "fews"
+      ],
+      "mecanismo": "El acoplamiento océano-atmósfera del Pacífico altera probabilidades de temperatura y lluvia en regiones y estaciones; no afecta igual a todo México.",
+      "confirmar": "Boletín oficial, probabilidades trimestrales, pronóstico regional y calendario del cultivo/proveedor. La fase del océano no es un aviso local de desastre.",
+      "efectos": "Puede aumentar o reducir rendimientos según región; cambios en pesca, agua, demanda eléctrica y rutas pueden trasladarse al abasto con retraso.",
+      "acciones": [
+        "Elaborar un mapa de proveedores: producto, origen, temporada, dependencia de riego y ruta.",
+        "Contrastar perspectiva estacional con inventarios, siembra y reportes de producción; revisar cada mes.",
+        "Preparar sustitutos y acuerdos flexibles; aumentar existencias solo si vida útil y almacenamiento lo permiten."
+      ],
+      "limite": "La probabilidad de El Niño no es la probabilidad de que un precio suba. No hay un porcentaje universal de aumento."
+    },
+    {
+      "id": "nina",
+      "nombre": "La Niña (ENSO frío) y transición neutral",
+      "horizonte": "meses",
+      "sectores": [
+        "alimentos",
+        "agua",
+        "energia",
+        "logistica"
+      ],
+      "fuentes": [
+        "enso",
+        "wmo",
+        "c3s"
+      ],
+      "mecanismo": "La fase fría y las transiciones cambian patrones de circulación; no son la imagen inversa perfecta de El Niño.",
+      "confirmar": "Revisar probabilidades y su mes de emisión; transición de fase, estación, región y habilidad del pronóstico.",
+      "efectos": "Puede redistribuir riesgos de lluvia, sequía, calor y actividad ciclónica; la transición puede superponer impactos de la cosecha previa.",
+      "acciones": [
+        "Mantener escenarios cálido, neutral y frío sin dar por segura la fase de un año futuro.",
+        "Actualizar compromisos de compra tras cada boletín y comprobar recuperación de las zonas dañadas.",
+        "Conservar medidas útiles en varios escenarios: ahorro de agua, proveedores alternos y respaldo de energía."
+      ],
+      "limite": "La desaparición de una fase ENSO no elimina de inmediato las pérdidas de cosechas o inventarios."
+    },
+    {
+      "id": "otros-modos",
+      "nombre": "MJO, IOD, NAO/AO y vórtice polar",
+      "horizonte": "semanas",
+      "sectores": [
+        "alimentos",
+        "energia",
+        "logistica"
+      ],
+      "fuentes": [
+        "c3s",
+        "wmo",
+        "smn"
+      ],
+      "mecanismo": "Oscilaciones tropicales y extratropicales pueden modular lluvia, viento y entradas de aire frío durante semanas.",
+      "confirmar": "Índice actual, ensembles y teleconexiones verificadas para la región; revisar junto con pronóstico local.",
+      "efectos": "Ventanas de frío, lluvias o cambios de viento que complican transporte y operaciones.",
+      "acciones": [
+        "Tratar estos índices como contexto del pronóstico, no como órdenes de compra o evacuación.",
+        "Preparar capacidad flexible para cambios de temperatura y vigilar boletines más cercanos al evento."
+      ],
+      "limite": "El desplazamiento del vórtice o un calentamiento estratosférico no garantizan una ola de frío en México."
+    },
+    {
+      "id": "incendios",
+      "nombre": "Incendios, humo y deterioro del aire",
+      "horizonte": "semanas",
+      "sectores": [
+        "salud",
+        "alimentos",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "smn",
+        "aire",
+        "cenapred"
+      ],
+      "mecanismo": "Calor, combustible seco, viento y fuentes de ignición pueden facilitar incendios; el humo puede viajar lejos.",
+      "confirmar": "Focos activos, humedad, combustible, viento y mediciones de PM2.5/PM10 en estaciones; separar pronóstico de observación.",
+      "efectos": "Restricción de actividades, daño a predios y rutas, contaminación de productos o procesos sensibles.",
+      "acciones": [
+        "Definir acciones según alertas y calidad del aire local; revisar filtración y mantenimiento.",
+        "Revisar vegetación y materiales combustibles con personal capacitado y permisos aplicables.",
+        "Tener alternativa para entregas y trabajo exterior cuando la autoridad limite actividades."
+      ],
+      "limite": "Un modelo meteorológico no predice dónde iniciará un incendio ni sustituye mediciones de aire."
+    },
+    {
+      "id": "ozono-superficie",
+      "nombre": "Ozono superficial y contingencias urbanas",
+      "horizonte": "dias",
+      "sectores": [
+        "salud",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "aire",
+        "smn"
+      ],
+      "mecanismo": "Radiación solar, calor, contaminantes precursores y estabilidad atmosférica pueden favorecer la formación de ozono cerca del suelo.",
+      "confirmar": "Concentración en estación, unidad, promedio temporal, validación y aviso de la autoridad ambiental local.",
+      "efectos": "Cambios en actividades al aire libre y operación/transporte durante contingencias.",
+      "acciones": [
+        "Consultar las estaciones y el programa oficial vigente antes de modificar operaciones.",
+        "Planear horarios y protocolos para trabajo exterior; no usar solo temperatura para declarar contingencia."
+      ],
+      "limite": "El agujero de ozono antártico no mide ni causa directamente el ozono urbano de CDMX."
+    },
+    {
+      "id": "uv",
+      "nombre": "Radiación UV y ozono estratosférico",
+      "horizonte": "dias",
+      "sectores": [
+        "salud",
+        "alimentos",
+        "operacion"
+      ],
+      "fuentes": [
+        "uv",
+        "ozono"
+      ],
+      "mecanismo": "La columna de ozono, elevación solar, altitud, nubes y reflexión modifican la radiación UV en superficie.",
+      "confirmar": "Índice UV local y avisos; área polar del agujero como indicador distinto, con fecha y temporada.",
+      "efectos": "Necesidad de ajustar exposición exterior, materiales y protección de trabajadores.",
+      "acciones": [
+        "Organizar sombra y actividades según el índice UV local y las indicaciones sanitarias.",
+        "Separar protocolos de radiación UV de los de contaminación por ozono a nivel del suelo."
+      ],
+      "limite": "No estimar un índice UV en México a partir del tamaño del agujero antártico."
+    },
+    {
+      "id": "mar-calido",
+      "nombre": "Olas de calor marinas, pesca y coral",
+      "horizonte": "meses",
+      "sectores": [
+        "alimentos",
+        "agua",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "noaa-coral",
+        "fao"
+      ],
+      "mecanismo": "Calentamiento oceánico persistente puede alterar distribución de peces, productividad y estrés de arrecifes.",
+      "confirmar": "Temperatura y anomalía regional, duración, reportes de captura, vedas y salud del ecosistema.",
+      "efectos": "Cambios de especies y disponibilidad de pescado/marisco; efectos en turismo y protección costera.",
+      "acciones": [
+        "Revisar origen, temporada y permisos sanitarios/pesqueros del producto.",
+        "Diversificar productos y proveedores certificados sin ignorar vedas ni trazabilidad."
+      ],
+      "limite": "Una anomalía de temperatura no cuantifica por sí sola la pérdida pesquera o el precio final."
+    },
+    {
+      "id": "sargazo",
+      "nombre": "Sargazo, playas y economía costera",
+      "horizonte": "semanas",
+      "sectores": [
+        "logistica",
+        "operacion",
+        "salud"
+      ],
+      "fuentes": [
+        "sargazo",
+        "smn"
+      ],
+      "mecanismo": "Biomasa oceánica, corrientes y viento pueden favorecer arribazones de sargazo.",
+      "confirmar": "Boletín satelital, corrientes y observaciones de playa; distinguir cobertura oceánica de arribazón local.",
+      "efectos": "Costos de limpieza y cambios en actividad turística; riesgos operativos por descomposición y manejo.",
+      "acciones": [
+        "Preparar contratos y capacidad de manejo conforme a disposiciones ambientales locales.",
+        "Confirmar condiciones de playa antes de comprometer servicios y revisar seguridad laboral."
+      ],
+      "limite": "La cobertura mensual regional no anticipa la hora y cantidad que llegarán a una playa."
+    },
+    {
+      "id": "artico",
+      "nombre": "Hielo marino ártico",
+      "horizonte": "anios",
+      "sectores": [
+        "logistica",
+        "energia",
+        "operacion"
+      ],
+      "fuentes": [
+        "ncei",
+        "nsidc",
+        "usnic",
+        "ipcc"
+      ],
+      "mecanismo": "El hielo marino cambia con las estaciones y el clima; su reducción altera hábitats y condiciones marítimas.",
+      "confirmar": "Extensión del mismo mes y hemisferio, anomalía respecto a una base indicada, espesor y cartografía de navegación.",
+      "efectos": "Cambios en ventanas de navegación y riesgos de hielo, infraestructura y seguros; oportunidades no implican rutas seguras.",
+      "acciones": [
+        "Comparar el mismo mes entre años y evitar comparar el máximo ártico con el mínimo antártico.",
+        "Para logística polar, contratar planificación especializada y usar cartas/avisos actuales, no este indicador global."
+      ],
+      "limite": "La extensión no es volumen. El deshielo del hielo flotante no es la principal contribución directa al aumento del nivel del mar."
+    },
+    {
+      "id": "antartida",
+      "nombre": "Antártida: hielo marino y casquete terrestre",
+      "horizonte": "anios",
+      "sectores": [
+        "logistica",
+        "agua",
+        "operacion"
+      ],
+      "fuentes": [
+        "ncei",
+        "nsidc",
+        "ipcc"
+      ],
+      "mecanismo": "El hielo marino estacional y el hielo apoyado en tierra responden a mecanismos distintos; la pérdida de hielo terrestre contribuye al nivel del mar.",
+      "confirmar": "Identificar si la serie mide extensión marina, masa terrestre o descarga glaciar; comparar periodos homogéneos.",
+      "efectos": "Implicaciones para ecosistemas, operaciones polares y exposición costera a largo plazo.",
+      "acciones": [
+        "Separar el monitoreo operativo de navegación de las decisiones de infraestructura costera.",
+        "Usar escenarios regionales de nivel del mar y evaluar subsidencia local en proyectos duraderos."
+      ],
+      "limite": "No convertir una extensión mensual baja en una fecha de colapso o una subida del mar para la próxima semana."
+    },
+    {
+      "id": "groenlandia",
+      "nombre": "Groenlandia: deshielo y balance de masa",
+      "horizonte": "anios",
+      "sectores": [
+        "agua",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "dmi",
+        "ipcc"
+      ],
+      "mecanismo": "Acumulación de nieve, fusión superficial y descarga de glaciares determinan componentes distintos del balance de masa.",
+      "confirmar": "Fecha del año hidrológico, acumulado, área de deshielo, balance superficial y balance total de fuentes especializadas.",
+      "efectos": "Contribución al nivel del mar y alteración de entornos costeros/polares a largo plazo.",
+      "acciones": [
+        "Comparar acumulados de la misma temporada, con su periodo y unidades.",
+        "Integrar proyecciones de nivel del mar en la revisión de activos costeros y seguros."
+      ],
+      "limite": "Un balance superficial positivo no demuestra que el casquete gane masa total."
+    },
+    {
+      "id": "costa",
+      "nombre": "Nivel del mar, erosión y marejada compuesta",
+      "horizonte": "decadas",
+      "sectores": [
+        "hogar",
+        "agua",
+        "energia",
+        "operacion"
+      ],
+      "fuentes": [
+        "ipcc",
+        "atlas",
+        "nhc"
+      ],
+      "mecanismo": "Nivel medio del mar, subsidencia, oleaje, marejada y caudal fluvial pueden combinarse y aumentar inundación costera.",
+      "confirmar": "Cota del inmueble, referencia vertical, escenarios regionales, hundimiento y estudios de drenaje/oleaje.",
+      "efectos": "Daño recurrente, salinización y costos de protección/reubicación de activos.",
+      "acciones": [
+        "Antes de invertir: pedir estudio de inundación y topografía con referencia vertical trazable.",
+        "Comparar opciones de protección, adaptación y reubicación con vida útil y costos de mantenimiento.",
+        "Revisar el plan cada vez que cambien exposición, normas o evidencia."
+      ],
+      "limite": "Un escenario 2050 no indica el día de inundación; el nivel global medio no sustituye la proyección local."
+    },
+    {
+      "id": "compuestos",
+      "nombre": "Riesgos compuestos y cascadas",
+      "horizonte": "meses",
+      "sectores": [
+        "hogar",
+        "alimentos",
+        "agua",
+        "energia",
+        "salud",
+        "logistica",
+        "operacion"
+      ],
+      "fuentes": [
+        "ipcc",
+        "cenapred",
+        "fao"
+      ],
+      "mecanismo": "Sequía y calor pueden coincidir con cortes eléctricos; una tormenta puede interrumpir agua, frío, transporte y comunicaciones.",
+      "confirmar": "Cruzar los mismos lugares y periodos, dependencias y redundancias. No sumar probabilidades como si todos los eventos fueran independientes.",
+      "efectos": "Pérdidas mayores por fallas simultáneas y recuperación lenta.",
+      "acciones": [
+        "Dibujar dependencias: electricidad → bombeo → agua → operación; electricidad → frío → alimentos.",
+        "Probar un ejercicio con dos fallas a la vez, responsables y criterios claros de recuperación.",
+        "Priorizar medidas que reduzcan varias dependencias y verificar contratos de respaldo."
+      ],
+      "limite": "La coexistencia de dos señales no demuestra una cascada; hace falta exposición y vulnerabilidad."
+    },
+    {
+      "id": "cambios",
+      "nombre": "Cambio climático y decisiones de 5–30 años",
+      "horizonte": "decadas",
+      "sectores": [
+        "hogar",
+        "alimentos",
+        "agua",
+        "energia",
+        "operacion"
+      ],
+      "fuentes": [
+        "ipcc",
+        "cambio"
+      ],
+      "mecanismo": "El calentamiento cambia distribuciones de extremos y riesgos; los resultados dependen de emisiones, adaptación y vulnerabilidad.",
+      "confirmar": "Escenario, periodo de referencia, región, rango de modelos y nivel de confianza; evaluar varios futuros, no una única fecha.",
+      "efectos": "Cambios en requerimientos de refrigeración, agua, diseño, mantenimiento y localización de activos.",
+      "acciones": [
+        "Evaluar proyectos con escenarios alternativos y decisiones reversibles cuando sea posible.",
+        "Definir indicadores que disparen una revisión: daños repetidos, restricción de agua, cambios normativos o de seguro.",
+        "Incluir adaptación y continuidad desde el diseño y preservar evidencia de las hipótesis."
+      ],
+      "limite": "Estas fichas son escenarios de planificación, no una predicción meteorológica para un año concreto."
+    }
+  ],
+  "productos": [
+    {
+      "id": "hortalizas",
+      "nombre": "Hortalizas: jitomate, chile y hojas",
+      "mecanismo": "Calor, helada, granizo, exceso de agua y bloqueo de rutas pueden reducir calidad y oferta.",
+      "plazo": "Días a meses; depende de ciclo, invernadero, zona y cosecha.",
+      "amenazas": [
+        "lluvia",
+        "calor",
+        "helada",
+        "sequía"
+      ],
+      "accion": "Confirmar origen y calendario; comparar SNIIM en el mismo mercado/unidad; acordar sustitutos y entregas cortas."
+    },
+    {
+      "id": "frutas",
+      "nombre": "Frutas: limón, aguacate, plátano, mango",
+      "mecanismo": "Estrés hídrico, daño de floración/fruto, viento o inundación pueden afectar varias cosechas.",
+      "plazo": "Semanas a más de una temporada; no todas las frutas reaccionan igual.",
+      "amenazas": [
+        "ciclon",
+        "sequía",
+        "helada",
+        "nino"
+      ],
+      "accion": "Revisar proveedores por región y fechas de floración/cosecha; evitar una compra excesiva de perecederos."
+    },
+    {
+      "id": "granos",
+      "nombre": "Granos, frijol y alimentos balanceados",
+      "mecanismo": "La lluvia y temperatura en siembra/floración, inventarios y comercio determinan disponibilidad; el forraje transmite costos a proteína animal.",
+      "plazo": "Meses; cosecha e inventarios pueden amortiguar o retrasar el impacto.",
+      "amenazas": [
+        "sequía",
+        "lluvia",
+        "nino",
+        "nina"
+      ],
+      "accion": "Seguir producción SIAP/FAO y existencias; comparar proveedor alterno por origen y costo puesto en destino."
+    },
+    {
+      "id": "pollo",
+      "nombre": "Pollo y huevo",
+      "mecanismo": "Calor y agua pueden afectar consumo de alimento, mortalidad y postura; el costo del alimento y brotes sanitarios también influyen.",
+      "plazo": "Semanas a meses; costo de insumos y producción no se trasladan de forma instantánea.",
+      "amenazas": [
+        "calor",
+        "sequía",
+        "compuestos"
+      ],
+      "accion": "Revisar condiciones de entrega y cadena de frío; separar evidencia climática de alertas sanitarias y movimientos de demanda."
+    },
+    {
+      "id": "res",
+      "nombre": "Res y cerdo",
+      "mecanismo": "Forraje, agua, alimento balanceado, sanidad y refrigeración afectan costos y oferta; ventas anticipadas pueden alterar el precio en direcciones distintas.",
+      "plazo": "Meses a años según ciclo productivo y recuperación del hato.",
+      "amenazas": [
+        "sequía",
+        "calor",
+        "compuestos"
+      ],
+      "accion": "Solicitar trazabilidad y disponibilidad real; comparar cortes/proveedores y no inferir un aumento inmediato solo de ENSO."
+    },
+    {
+      "id": "lacteos",
+      "nombre": "Leche y lácteos",
+      "mecanismo": "Estrés térmico, agua y forraje pueden reducir rendimiento; fallas eléctricas afectan conservación.",
+      "plazo": "Días para interrupciones de frío; semanas/meses para producción.",
+      "amenazas": [
+        "calor",
+        "sequía",
+        "compuestos"
+      ],
+      "accion": "Verificar frío y entregas; contemplar opciones estables según necesidades sin modificar pautas médicas."
+    },
+    {
+      "id": "pescado",
+      "nombre": "Pescado y marisco",
+      "mecanismo": "Temperatura del mar, productividad, vedas, capturas y cierres de puerto influyen en oferta regional.",
+      "plazo": "Días a meses; los efectos varían por especie y región.",
+      "amenazas": [
+        "mar-calido",
+        "ciclon",
+        "nino"
+      ],
+      "accion": "Consultar especie, captura, origen, vedas y trazabilidad; prever alternativas legales y sanitariamente adecuadas."
+    },
+    {
+      "id": "procesados",
+      "nombre": "Café, cacao, azúcar y aceites",
+      "mecanismo": "Clima en países productores, inventarios, energía y transporte pueden transmitirse a mercados internacionales y después al menudeo.",
+      "plazo": "Meses; contratos, tipo de cambio y procesamiento pueden amortiguar cambios.",
+      "amenazas": [
+        "sequía",
+        "lluvia",
+        "calor",
+        "nino"
+      ],
+      "accion": "Separar materia prima, divisa y costo logístico; no usar un índice mundial como precio de una marca local."
+    }
+  ]
+}

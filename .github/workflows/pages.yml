@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html finanzas.html cisnes.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html finanzas.html cisnes.html clima-impactos.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -98,6 +98,13 @@ jobs:
             git archive FETCH_HEAD economia | tar -x -C /tmp && cp /tmp/economia/*.json _site/data/economia/
           else
             echo "Aún no existe la rama datos-economia"
+          fi
+          # Análisis climático Admin: instantánea pública y compartida, sin expedientes ni consultas privadas.
+          mkdir -p _site/data/clima-impactos
+          rm -f _site/data/clima-impactos/cache.json
+          if git fetch --depth 1 origin datos-clima-impactos 2>/dev/null; then
+            git show FETCH_HEAD:clima-impactos/panorama.json > /tmp/clima-impactos-panorama.json
+            cp /tmp/clima-impactos-panorama.json _site/data/clima-impactos/panorama.json
           fi
           # Horarios estáticos públicos: rama independiente; nunca contiene consultas privadas.
           mkdir -p _site/data/transporte
