@@ -271,7 +271,7 @@ export class Imagenes {
   /** Cambia el día de todas las capas activas (se vuelven a pedir los mosaicos de esa fecha). */
   async setFecha(fecha) {
     const res = {};
-    for (const id of [...this.activas.keys()]) { this.desactivar(id); res[id] = await this.activar(id, fecha).catch(() => null); }
+    for (const id of [...this.activas.keys()]) { if (!this.activas.has(id)) continue; this.desactivar(id); res[id] = await this.activar(id, fecha).catch(() => null); }
     return res;
   }
 

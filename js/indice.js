@@ -25,6 +25,7 @@ export class CapaIndice {
   constructor(map, { onClic } = {}) { this.map = map; this.onClic = onClic; this.datos = null; this.activa = false; }
 
   async activar() {
+    const turno = this.turno = Symbol();
     this.activa = true;
     if (!this.datos) {
       const [paises, ind] = await Promise.all([
@@ -35,11 +36,13 @@ export class CapaIndice {
       this.total = Object.keys(ind.paises).length;
       this.datos = unirIndice(paises, ind.paises);
     }
+    if (!this.activa || this.turno !== turno) return null;
     this.#instalar();
     return { paises: this.total, generado: this.generado };
   }
 
   desactivar() {
+    this.turno = null;
     this.activa = false;
     for (const l of ["indice-relleno", "indice-borde"]) if (this.map.getLayer(l)) this.map.removeLayer(l);
     if (this.map.getSource("indice")) this.map.removeSource("indice");

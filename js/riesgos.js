@@ -1657,6 +1657,7 @@ export class Riesgos {
    */
   constructor(map, { onObjeto, onCambio = () => {}, onNuevas = () => {}, ctx = {} }) {
     this.map = map; this.onObjeto = onObjeto; this.onCambio = onCambio; this.onNuevas = onNuevas; this.ctx = ctx;
+    this.turnos = new Map();
     this.activas = new Map(); this.relojes = new Map();
     this.filtro = { pais: "", tipo: "", sevMin: 1 };
     this.ocultos = new Map();  // capa → claves que no se dibujan
@@ -1708,18 +1709,27 @@ export class Riesgos {
   async activar(id) {
     const capa = CAPAS.find((c) => c.id === id);
     if (!capa || this.activas.has(id)) return 0;
-    const gj = this.#cargarEn(capa, await this.#datos(capa));
-    this.#instalar(capa);
-    if (capa.refresco_s) {
-      this.relojes.set(id, setInterval(async () => {
-        try { const n = this.#cargarEn(capa, await this.#datos(capa)); this.map.getSource(`rg-${id}`)?.setData(this.agrupadas.has(id) ? this.#filtrarDatos(id, n) : n); this.onCambio(); } catch (e) { /* siguiente ciclo */ }
-      }, capa.refresco_s * 1000));
+    const turno = Symbol(id);
+    this.turnos.set(id, turno);
+    try {
+      const datos = await this.#datos(capa);
+      if (this.turnos.get(id) !== turno) return 0;
+      const gj = this.#cargarEn(capa, datos);
+      this.#instalar(capa);
+      if (capa.refresco_s) {
+        this.relojes.set(id, setInterval(async () => {
+          try { const datos = await this.#datos(capa); if (this.turnos.get(id) !== turno) return; const n = this.#cargarEn(capa, datos); this.map.getSource(`rg-${id}`)?.setData(this.agrupadas.has(id) ? this.#filtrarDatos(id, n) : n); this.onCambio(); } catch (e) { /* siguiente ciclo */ }
+        }, capa.refresco_s * 1000));
+      }
+      this.onCambio();
+      return gj.features.length;
+    } catch (e) {
+      if (this.turnos.get(id) === turno) throw e;
     }
-    this.onCambio();
-    return gj.features.length;
   }
 
   desactivar(id) {
+    this.turnos.delete(id);
     clearInterval(this.relojes.get(id)); this.relojes.delete(id);
     this.activas.delete(id);
     for (const l of this.#capasDe(id)) if (this.map.getLayer(l)) this.map.removeLayer(l);

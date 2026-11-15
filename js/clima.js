@@ -176,7 +176,7 @@ class Particulas {
 }
 
 export class Clima {
-  constructor(map) { this.map = map; this.meta = null; this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; this.onProgreso = null; }
+  constructor(map) { this.map = map; this.meta = null; this.turnos = new Map(); this.paso = 0; this.activas = new Set(); this.particulas = null; this.extras = new Map(); this.onMomento = null; this.onProgreso = null; }
 
   async cargar() { this.meta = await getJSON(`${BASE}meta.json`, { bust: true }); return this.meta; }
 
@@ -188,23 +188,37 @@ export class Clima {
     if (this.activas.has("polar") && this.pasoActual.isotermas) this.map.getSource("clima-polar-lineas")?.setData(BASE + this.pasoActual.isotermas);
     // Las bolsas de aire frío se calculan solo para ≈ ahora y +12 h: en los demás momentos se deja la más cercana.
     if (this.activas.has("bolsas")) { const b = bolsasDe(this.meta, this.paso); if (b) this.map.getSource("clima-bolsas")?.setData(BASE + b); }
-    if (this.activas.has("viento")) this.particulas.setCampo(await cargarViento(BASE + this.pasoActual.viento, this.meta));
+    if (this.activas.has("viento")) {
+      const p = this.particulas, paso = this.paso;
+      const campo = await cargarViento(BASE + this.pasoActual.viento, this.meta);
+      if (p && p === this.particulas && paso === this.paso && this.activas.has("viento")) p.setCampo(campo);
+    }
   }
 
   async activar(tipo) {
-    if (tipo === "rayos") { const r = new Rayos(this.map); this.extras.set(tipo, r); this.activas.add(tipo); await r.cargar(); return; }
-    if (BUCLES[tipo]) { this.extras.set(tipo, new BucleSatelite(this.map, tipo, (m) => this.onMomento?.(tipo, m), (n, total) => this.onProgreso?.(tipo, n, total))); this.activas.add(tipo); return; }
-    if (!this.meta) await this.cargar();
-    this.activas.add(tipo);
-    if (tipo === "viento") {
-      this.particulas ??= new Particulas(this.map);
-      this.particulas.setCampo(await cargarViento(BASE + this.pasoActual.viento, this.meta));
-    } else {
-      try { this.#instalar(tipo); } catch (e) { this.activas.delete(tipo); throw e; }
+    if (this.activas.has(tipo)) return;
+    const turno = Symbol(tipo);
+    this.turnos.set(tipo, turno);
+    try {
+      if (tipo === "rayos") { const r = new Rayos(this.map); this.extras.set(tipo, r); this.activas.add(tipo); await r.cargar(); return; }
+      if (BUCLES[tipo]) { this.extras.set(tipo, new BucleSatelite(this.map, tipo, (m) => this.onMomento?.(tipo, m), (n, total) => this.onProgreso?.(tipo, n, total))); this.activas.add(tipo); return; }
+      if (!this.meta) await this.cargar();
+      if (this.turnos.get(tipo) !== turno) return;
+      this.activas.add(tipo);
+      if (tipo === "viento") {
+        this.particulas ??= new Particulas(this.map);
+        const campo = await cargarViento(BASE + this.pasoActual.viento, this.meta);
+        if (this.turnos.get(tipo) === turno) this.particulas?.setCampo(campo);
+      } else {
+        try { this.#instalar(tipo); } catch (e) { this.activas.delete(tipo); throw e; }
+      }
+    } catch (e) {
+      if (this.turnos.get(tipo) === turno) { this.desactivar(tipo); throw e; }
     }
   }
 
   desactivar(tipo) {
+    this.turnos.delete(tipo);
     this.activas.delete(tipo);
     if (this.extras.has(tipo)) { this.extras.get(tipo).destruir(); this.extras.delete(tipo); return; }
     if (tipo === "viento") { this.particulas?.destruir(); this.particulas = null; return; }
@@ -213,7 +227,7 @@ export class Clima {
   }
 
   reinstalar() {
-    for (const t of this.activas) {
+    for (const t of [...this.activas]) {
       if (this.extras.has(t)) { this.extras.get(t).destruir(); this.extras.delete(t); this.activas.delete(t); this.activar(t).catch(() => null); }
       else if (t !== "viento") this.#instalar(t);
     }
@@ -319,7 +333,9 @@ class Rayos {
   }
 
   async cargar() {
-    this.datos = await getJSON(`${BASE.replace("clima/", "")}rayos.json`, { bust: true });
+    const datos = await getJSON(`${BASE.replace("clima/", "")}rayos.json`, { bust: true });
+    if (!this.activo) return;
+    this.datos = datos;
     const fc = { type: "FeatureCollection", features: this.datos.celdas.map(([lon, lat, n, m]) => ({ type: "Feature", geometry: { type: "Point", coordinates: [lon, lat] },
       properties: { n, m, c: colorRayo(m) } })) };
     if (this.map.getSource("clima-rayos")) this.map.getSource("clima-rayos").setData(fc);

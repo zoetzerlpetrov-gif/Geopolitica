@@ -88,3 +88,12 @@ test('la ficha reconoce el designador internacional completo del OMM',async()=>{
  const {lanzamiento}=await import('../../js/satelites.js');
  assert.deepEqual(lanzamiento('2026-160A'),{anio:2026,numero:160,pieza:'A'});
 });
+
+test('worker: al quitar el último grupo emite una capa vacía con la revisión vigente',()=>{
+ const {c,mensajes}=worker();
+ c.onmessage({data:{tipo:'omm',grupos:{'spacex-starlink':[modelo]},activos:['spacex-starlink'],revision:8}});
+ assert.equal(JSON.parse(mensajes.at(-1).geojson).features.length,1);
+ c.onmessage({data:{tipo:'grupos',activos:[],revision:9}});
+ assert.equal(mensajes.at(-1).revision,9);
+ assert.equal(JSON.parse(mensajes.at(-1).geojson).features.length,0);
+});

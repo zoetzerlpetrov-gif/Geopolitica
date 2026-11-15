@@ -9,6 +9,7 @@ let satrecs = {};        // grupo -> [{n, id, rec}]
 let activos = new Set();
 let reloj = null;
 let intervalo = 2000;
+let revision = 0;
 const modeloValido = (s, t) => !s.hasta || (t.getTime() >= Date.parse(s.desde) && t.getTime() <= Date.parse(s.hasta));
 function cargarOMM(grupos) {
   for (const [g, lista] of Object.entries(grupos || {})) {
@@ -36,7 +37,7 @@ function calcular() {
       partes.push(`{"type":"Feature","geometry":{"type":"Point","coordinates":[${lon.toFixed(3)},${lat.toFixed(3)}]},"properties":{"id":"sat:${s.id}","n":${JSON.stringify(s.n)},"st":"${g}","alt":${Math.round(geo.height)}}}`);
     }
   }
-  postMessage({ tipo: "posiciones", geojson: `{"type":"FeatureCollection","features":[${partes.join(",")}]}`, n: partes.length, t: ahora.toISOString() });
+  postMessage({ tipo: "posiciones", revision, geojson: `{"type":"FeatureCollection","features":[${partes.join(",")}]}`, n: partes.length, t: ahora.toISOString() });
 }
 
 /** Muestras de la trayectoria (traza en tierra) de un satélite: media órbita atrás y una adelante. */
@@ -133,7 +134,9 @@ onmessage = (e) => {
     }
   }
   if (m.tipo === "grupos" || m.activos) activos = new Set(m.activos);
+  if (m.revision !== undefined) revision = m.revision;
   if (m.intervalo) intervalo = m.intervalo;
   clearInterval(reloj);
-  if (activos.size) { calcular(); reloj = setInterval(calcular, intervalo); }
+  calcular(); // Incluye una colección vacía al desmarcar el último grupo.
+  if (activos.size) reloj = setInterval(calcular, intervalo);
 };

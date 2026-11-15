@@ -90,9 +90,13 @@ export class Movimiento {
     this.onCambio = onCambio;
     this.onAviso = onAviso;
     this.cat = Object.fromEntries(catalogo.categorias.filter((c) => ["aeronaves", "buques", "satelites"].includes(c.id)).map((c) => [c.id, c]));
+    this.turnos = new Map();
+    this.cargas = new Map();
+    this.revision = 0;
     this.activas = new Map();     // tipo -> Set(subtipos)
     this.datos = {};              // tipo -> {generado, filas, campos}
     this.blob = {};
+    this.eventos = new Set();
     this.worker = null;
     this.reloj = null;
     this.vivo = null;             // vuelos en vivo (envivo.js): {url, timer, hex, t, ultimo, onEstado, sanc}
@@ -102,33 +106,43 @@ export class Movimiento {
 
   async activar(tipo) {
     if (this.activas.has(tipo)) return;
-    // Subtipos con inicial:false (p. ej. Starlink, ~8,000 satélites) empiezan apagados.
-    const subtipos = new Set(this.cat[tipo].subtipos.filter((s) => s.inicial !== false).map((s) => (tipo === "satelites" ? s.grupo : s.id)));
-    if (tipo === "satelites") {
-      const d = await getJSON("data/vivos/satelites.json", { bust: true });
-      this.worker ??= new Worker("js/sat-worker.js?v=spacex1");
-      this.worker.onmessage = (e) => {
-        if (e.data.tipo === "orbita") { this.#esperas.get(e.data.id)?.(e.data); this.#esperas.delete(e.data.id); return; }
-        this.#pintarSatelites(e.data);
-      };
-      this.worker.postMessage({ tipo: "tle", grupos: gruposSatelites(d.grupos) });
-      this.datos.satelites = { generado: d.satnogs_utc || d.generado_utc, aparte: new Set([...(d.aparte || []), "amsat"]), cargados: new Set() };
-      this.activas.set(tipo, subtipos);
-      this.#instalar(tipo);
-      this.worker.postMessage({ tipo: "grupos", activos: [...subtipos], intervalo: 2000 });
-    } else {
-      await this.#cargar(tipo);
-      this.activas.set(tipo, subtipos);
-      this.#instalar(tipo);
-      this.#redibujar(tipo);
-      this.#arrancarReloj();
+    const turno = Symbol(tipo);
+    this.turnos.set(tipo, turno);
+    try {
+      // Subtipos con inicial:false (p. ej. Starlink, ~8,000 satélites) empiezan apagados.
+      const subtipos = new Set(this.cat[tipo].subtipos.filter((s) => s.inicial !== false).map((s) => (tipo === "satelites" ? s.grupo : s.id)));
+      if (tipo === "satelites") {
+        const d = await getJSON("data/vivos/satelites.json", { bust: true });
+        if (this.turnos.get(tipo) !== turno) return;
+        this.worker ??= new Worker("js/sat-worker.js?v=seleccion2");
+        this.worker.onmessage = (e) => {
+          if (e.data.tipo === "orbita") { this.#esperas.get(e.data.id)?.(e.data); this.#esperas.delete(e.data.id); return; }
+          this.#pintarSatelites(e.data);
+        };
+        this.worker.postMessage({ tipo: "tle", grupos: gruposSatelites(d.grupos) });
+        this.datos.satelites = { generado: d.satnogs_utc || d.generado_utc, aparte: new Set([...(d.aparte || []), "amsat"]), cargados: new Set() };
+        this.activas.set(tipo, subtipos);
+        this.#instalar(tipo);
+        this.worker.postMessage({ tipo: "grupos", activos: [...subtipos], intervalo: 2000, revision: ++this.revision });
+      } else {
+        await this.#cargar(tipo);
+        if (this.turnos.get(tipo) !== turno) return;
+        this.activas.set(tipo, subtipos);
+        this.#instalar(tipo);
+        this.#redibujar(tipo);
+        this.#arrancarReloj();
+      }
+      this.onCambio(this.activas.size);
+    } catch (e) {
+      if (this.turnos.get(tipo) === turno) throw e;
     }
-    this.onCambio(this.activas.size);
   }
 
   desactivar(tipo) {
+    this.turnos.delete(tipo);
+    this.cargas.delete(tipo);
     if (!this.activas.delete(tipo)) return;
-    if (tipo === "satelites") this.worker?.postMessage({ tipo: "grupos", activos: [] });
+    if (tipo === "satelites") this.worker?.postMessage({ tipo: "grupos", activos: [], revision: ++this.revision });
     for (const l of [`mov-${tipo}`, `mov-${tipo}-texto`, `mov-${tipo}-toque`]) if (this.map.getLayer(l)) this.map.removeLayer(l);
     if (this.map.getSource(`mov-${tipo}`)) this.map.removeSource(`mov-${tipo}`);
     if (![...this.activas.keys()].some((t) => t !== "satelites")) { clearInterval(this.reloj); this.reloj = null; }
@@ -191,13 +205,20 @@ export class Movimiento {
     if (!this.activas.has(tipo)) return;
     this.activas.set(tipo, new Set(ids));
     if (tipo === "satelites") {
+      const sesion = this.datos.satelites;
+      // La GPU oculta al instante los subtipos desmarcados, incluso con un cálculo pendiente.
+      const filtro = ["in", ["get", "st"], ["literal", ids]];
+      for (const l of ["mov-satelites", "mov-satelites-texto", "mov-satelites-toque"])
+        if (this.map.getLayer(l)) this.map.setFilter(l, filtro);
+      if (!ids.length) this.#publicar("satelites", '{"type":"FeatureCollection","features":[]}');
       if (ids.some(g => g.startsWith("spacex-")) && !this.datos.satelites.spacexCargado) {
         this.datos.satelites.spacexCargado = true;
         cargarOrbitasSpaceX().then(x => {
+          if (this.datos.satelites !== sesion) return;
           const activos=this.activas.get("satelites");
-          if (activos) this.worker.postMessage({tipo:"omm",grupos:gruposSpaceX(x),activos:[...activos]});
+          if (activos) this.worker.postMessage({tipo:"omm",grupos:gruposSpaceX(x),activos:[...activos],revision:this.revision});
           if (!gruposSpaceX(x)["spacex-starlink"].length) this.onAviso?.("satelites", "SpaceX: no hay modelos dentro de su ventana validada.");
-        }).catch(e => {this.datos.satelites.spacexCargado=false;this.onAviso?.("satelites", `SpaceX no disponible: ${e.message}`);});
+        }).catch(e => {if (this.datos.satelites !== sesion) return; sesion.spacexCargado=false;this.onAviso?.("satelites", `SpaceX no disponible: ${e.message}`);});
       }
       // Grupos grandes en archivo propio: se descargan la primera vez que se activan.
       const d = this.datos.satelites;
@@ -205,22 +226,26 @@ export class Movimiento {
         d.cargados.add(g);
         getJSON(`data/vivos/satelites-${g}.json`, { bust: true })
           .then((x) => {
+            if (this.datos.satelites !== sesion) return;
             const activos = this.activas.get("satelites");
-            if (activos) this.worker.postMessage({ tipo: "tle", agregar: true, grupos: gruposSatelites(x.grupos), activos: [...activos] });
+            if (activos) this.worker.postMessage({ tipo: "tle", agregar: true, grupos: gruposSatelites(x.grupos), activos: [...activos], revision: this.revision });
           })
           .catch(() => d.cargados.delete(g));
       }
-      this.worker.postMessage({ tipo: "grupos", activos: ids });
+      this.worker.postMessage({ tipo: "grupos", activos: ids, revision: ++this.revision });
     } else this.#redibujar(tipo);
   }
 
-  reinstalar() { for (const t of this.activas.keys()) { this.#instalar(t); if (t !== "satelites") this.#redibujar(t); } }
+  reinstalar() { for (const t of this.activas.keys()) { this.#instalar(t); if (t !== "satelites") this.#redibujar(t); else this.setSubtipos(t, [...this.activas.get(t)]); } }
 
   async #cargar(tipo) {
+    const carga = Symbol(tipo);
+    this.cargas.set(tipo, carga);
     const n = Number(new URLSearchParams(location.search).get("aviones"));
     // La versión de pago puede pedir otro archivo con fuentes de uso comercial (p. ej. aeronaves_comercial).
     const archivo = this.archivos?.[tipo] || tipo;
     const d = tipo === "aeronaves" && n > 0 ? avionesSinteticos(Math.min(n, 50000)) : await getJSON(`data/vivos/${archivo}.json`, { bust: true });
+    if (this.cargas.get(tipo) !== carga) return;
     const campos = d.campos;
     this.datos[tipo] = {
       generado: d.generado_utc, campos, filas: tipo === "aeronaves" ? d.a : d.b,
@@ -261,6 +286,8 @@ export class Movimiento {
       paint: pinturaEtiqueta() });
     // Zona de toque invisible (8 px de radio): los Starlink miden 1.3 px y serían imposibles de elegir.
     this.map.addLayer({ id: `${src}-toque`, type: "circle", source: src, paint: { "circle-radius": 8, "circle-opacity": 0, "circle-stroke-width": 0 } });
+    if (this.eventos.has(tipo)) return;
+    this.eventos.add(tipo);
     this.map.on("click", `${src}-toque`, (e) => {
       // El más cercano al clic (puede haber varios dentro de la zona de toque).
       const f = e.features.reduce((a, x) => { const q = this.map.project(x.geometry.coordinates), d = (q.x - e.point.x) ** 2 + (q.y - e.point.y) ** 2; return !a || d < a.d ? { x, d } : a; }, null).x;
@@ -310,7 +337,7 @@ export class Movimiento {
   }
 
   #pintarSatelites(m) {
-    if (!this.activas.has("satelites")) return;
+    if (!this.activas.has("satelites") || m.tipo !== "posiciones" || m.revision !== this.revision) return;
     this.#publicar("satelites", m.geojson);
   }
 
@@ -318,8 +345,9 @@ export class Movimiento {
     if (this.reloj) return;
     // Proyección a 4 Hz (no a 60): suficiente para que se vea movimiento y barato para la GPU.
     let ultimo = 0;
+    const turno = this.turnoReloj = Symbol();
     const paso = (t) => {
-      if (!this.reloj) return;
+      if (!this.reloj || this.turnoReloj !== turno) return;
       const visibles = Object.values(this.visibles || {}).reduce((a, b) => a + b, 0);
       const hz = visibles > DENSO ? HZ_DENSO : HZ;
       // Mientras el usuario mueve el mapa no se proyecta: el paneo y el zoom tienen prioridad.

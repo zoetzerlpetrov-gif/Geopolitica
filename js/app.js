@@ -459,6 +459,7 @@ new MutationObserver(() => {
 let trayectoria = null;
 // Animación 3D (aviones y satélites a su altura) y vista desde la cabina (js/altura3d.js, se descarga al usarla).
 let alt3d = null, cabina = null, vueloAbierto = null;
+let revisionMovimiento = 0;
 const BOTON_CABINA = `<p><button type="button" id="btn-cabina">🎮 Vista desde la cabina (simulación)</button></p>`;
 async function iniciarCabina() {
   if (!vueloAbierto || !api?.map) return;
@@ -567,7 +568,7 @@ $("chk-envivo")?.addEventListener("change", async (e) => {
 $("chk-3d")?.addEventListener("change", async (e) => {
   if (!api?.map) { e.target.checked = false; return; }
   const A = await import("./altura3d.js?v=3");
-  alt3d ??= new A.Altura3D(api.map);
+  alt3d ??= new A.Altura3D(api.map, { visible: (src, p) => mov?.activas.get(src.replace("mov-", ""))?.has(p.st) ?? false });
   if (e.target.checked) alt3d.activar(); else alt3d.desactivar();
 });
 async function abrirObjetoMovil(o, catalogo) {
@@ -625,7 +626,9 @@ async function abrirBuque(o, catalogo) {
 }
 
 async function abrirSatelite(o, catalogo) {
+  const revision = revisionMovimiento;
   const [S, V] = await Promise.all([import("./satelites.js"), import("./vuelos.js")]);
+  if (revision !== revisionMovimiento) return;
   const cat = catalogo.categorias.find((c) => c.id === "satelites");
   const norad = String(o.props.id).replace("sat:", "");
   const base = { n: o.props.n, norad, grupo: SUB(cat, o.props.st), st: o.props.st, alt: o.props.alt };
@@ -633,7 +636,7 @@ async function abrirSatelite(o, catalogo) {
   abrirFichaHtml(S.htmlSatelite(base, null) + boton3d);
   const [orb, catalogoSat] = await Promise.all([mov.orbita(norad), S.fichaCatalogo(norad).catch(() => null)]);
   base.catalogo = catalogoSat;
-  if (!orb || orb.error || $("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(o.props.n)) return;
+  if (revision !== revisionMovimiento || !orb || orb.error || $("ficha").hidden || !$("ficha-titulo")?.textContent.startsWith(o.props.n)) return;
   $("ficha-cuerpo").innerHTML = S.htmlSatelite(base, orb) + boton3d;
   trayectoria ??= new V.Trayectoria(api.map);
   const gj = S.geojsonOrbita(orb, [...o.coords, o.props.alt]);
@@ -1422,6 +1425,7 @@ function iniciarImagenes() {
     if (id === "viirs_noche") $("img-noche-nota").textContent = "Buscando la imagen disponible más reciente…";
     try {
       const r = await img.activar(id, fecha);
+      if (!e.target.checked) return;
       if (id === "viirs_noche") notaNoche(r);
       if (id === "no2_tempo") notaTempo(e.target);
     } catch (err) { e.target.checked = false; if (id === "viirs_noche") notaNoche(null, err.message); }
@@ -1801,7 +1805,9 @@ async function alternarTimelapse(cb) {
     barra.querySelector(".tl-cerrar").onclick = () => { cb.checked = false; cb.dispatchEvent(new Event("change", { bubbles: true })); };
   }
   // Versión de pago: solo NASA (EOX 2018–2025 es de uso no comercial).
-  if ((await vistaLista)?.funciones.has("timelapse_eox")) { timelapse.setFuente("nasa"); barra.querySelector(".tl-fuente").hidden = true; }
+  const vista = await vistaLista;
+  if (!cb.checked) return;
+  if (vista?.funciones.has("timelapse_eox")) { timelapse.setFuente("nasa"); barra.querySelector(".tl-fuente").hidden = true; }
   timelapse.activar();
   registrarAnimacion({ id: "timelapse", nombre: "cambio en el tiempo (imágenes por año)", disponible: () => Boolean(timelapse?.activo),
     activa: () => Boolean(timelapse?.reloj), iniciar: () => timelapse.reproducir(), detener: () => timelapse.pausar() });
@@ -2135,6 +2141,7 @@ async function iniciarRiesgos() {
     marca.textContent = "cargando…";
     try {
       const n = await riesgos.activar(id);
+      if (!e.target.checked) return;
       // Capas que pueden estar vacías por la hora (trenes de madrugada): se explica en vez de mostrar solo «0».
       marca.textContent = (n === 0 && R.CAPAS.find((c) => c.id === id)?.notaCero?.()) || `${n.toLocaleString("es-MX")}`;
     } catch (err) { e.target.checked = false; marca.textContent = "sin datos"; }
@@ -2306,6 +2313,7 @@ async function iniciarMovimiento(catalogo) {
   cont.addEventListener("click", async (e) => {
     const buscar=e.target.closest("[data-spacex-pases]"), traza=e.target.closest("[data-spacex-traza]");
     if (!buscar && !traza) return;
+    const revision = revisionMovimiento;
     const caja=cont.querySelector("[data-spacex-resultados]");
     e.target.disabled=true;
     try {
@@ -2318,6 +2326,7 @@ async function iniciarMovimiento(catalogo) {
         const orb=await trayectoriaSpaceX(traza.dataset.spacexTraza);
         if (orb.error) throw new Error(orb.error);
         const [S,V]=await Promise.all([import("./satelites.js"),import("./vuelos.js")]);
+        if (revision !== revisionMovimiento) return;
         trayectoria ??= new V.Trayectoria(api.map);
         if (!orb.muestras?.length) throw new Error("No hay trayectoria en la ventana validada");
         const p=orb.muestras.reduce((a,b)=>Math.abs(a[3])<Math.abs(b[3])?a:b);
@@ -2328,13 +2337,14 @@ async function iniciarMovimiento(catalogo) {
     finally {e.target.disabled=false;}
   });
   cont.addEventListener("change", async (e) => {
+    if (e.target.dataset.mov || e.target.dataset.movSub) revisionMovimiento++;
     const t = e.target.dataset.mov;
     if (t) {
       try {
         if (!e.target.checked) {
           mov.desactivar(t);
           // Lo que dependía de esa capa también se va: trayectoria dibujada, columnas 3D y la cabina del avión.
-          if (t === "aeronaves" || t === "buques") trayectoria?.limpiar();
+          trayectoria?.limpiar();
           if (t === "aeronaves") { cabina?.detener(); vueloAbierto = null; }
           alt3d?.refrescar();
           return;
@@ -2346,7 +2356,11 @@ async function iniciarMovimiento(catalogo) {
       return;
     }
     const ts = e.target.dataset.movSub;
-    if (ts) mov.setSubtipos(ts, [...cont.querySelectorAll(`[data-mov-sub="${ts}"]:checked`)].map((x) => x.value));
+    if (ts) {
+      mov.setSubtipos(ts, [...cont.querySelectorAll(`[data-mov-sub="${ts}"]:checked`)].map((x) => x.value));
+      trayectoria?.limpiar();
+      alt3d?.refrescar();
+    }
   });
 }
 
@@ -2439,10 +2453,13 @@ function htmlEscalaImagen(d) {
 }
 
 // ---------- Mapa de calor por país (índice de inestabilidad) ----------
+let turnoIndice = 0;
 async function alternarIndice(activar) {
+  const turno = ++turnoIndice;
   const ley = $("leyenda-indice");
   if (!activar) { capaIndice?.desactivar(); ley.hidden = true; avisarPresupuesto(); return; }
   const { CapaIndice, ESCALA } = await import("./indice.js");
+  if (turno !== turnoIndice) return;
   capaIndice ??= new CapaIndice(api.map, {
     onClic: async (p, lngLat) => {
       if (!paises) await cargarPaises().catch(() => (paises = {}));
@@ -2452,6 +2469,7 @@ async function alternarIndice(activar) {
     },
   });
   const info = await capaIndice.activar();
+  if (!info || turno !== turnoIndice) return;
   ley.hidden = false;
   ley.innerHTML = `<div class="escala">${ESCALA.map((e) => `<span><span class="mr-muestra" style="background:${e.color}"></span>${e.etiqueta}</span>`).join("")}</div>
     <div class="meta">${info.paises ? `${info.paises} países con eventos en 30 días` : "Sin países con eventos en 30 días todavía"} · indicador propio (docs/INDICADORES.md) · clic en un país para ver su valor</div>`;

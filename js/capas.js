@@ -116,6 +116,7 @@ export class GestorCapas {
     this.onEntidad = onEntidad;
     this.onCambio = onCambio;
     this.chokepointsActivos = chokepointsActivos;
+    this.turnos = new Map();
     this.familias = new Map();      // id -> familia
     this.activas = new Map();       // id -> Set(subtipos visibles)
     this.colores = new Map();       // subtipo -> color
@@ -135,34 +136,41 @@ export class GestorCapas {
   async activar(id) {
     const f = this.familias.get(id);
     if (!f || !f.disponible || this.activas.has(id)) return;
-    if (f.manifest.formato !== "geojson") await asegurarPMTiles();
-    // Grupos por zona: se descargan antes de ocultar los puntos sueltos; si no llegan (p. ej. 404), los puntos se ven a todo zoom.
-    if (CON_GRUPOS.has(f.geometria) && f.manifest.grupos && f.grupos === undefined) {
-      f.grupos = await fetch(f.manifest.grupos).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-    }
-    // El mapa recibe la versión de cada ficha que corresponde a su fuente.
-    if (f.prepararObjeto && f.manifest.formato === "geojson" && f.datos === undefined) {
-      const d = await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-      const features = (d?.features || []).map((x) => ({ ...x, properties: f.prepararObjeto(x.properties || {}) }));
-      f.datos = { type: "FeatureCollection", features };
-    }
-    // Objetos guardados solo en este navegador (p. ej. «Mi lista» de inmuebles.html): se suman al GeoJSON publicado.
-    if (f.objetos_locales && f.manifest.formato === "geojson") {
-      const propios = objetosMiLista(leerLocal(f.objetos_locales));
-      if (propios.length) {
-        const d = f.datos ?? await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
-        const base = (d?.features || []).filter((x) => x.properties?.st !== "inm_mi_lista");
-        f.datos = { type: "FeatureCollection", features: [...base, ...propios] };
-        if (f.grupos?.features) f.grupos = { ...f.grupos, features: [...f.grupos.features.filter((x) => !x.properties?.c_inm_mi_lista), ...gruposDeObjetos(propios)] };
+    const turno = Symbol(id);
+    this.turnos.set(id, turno);
+    try {
+      if (f.manifest.formato !== "geojson") await asegurarPMTiles();
+      // Grupos por zona: se descargan antes de ocultar los puntos sueltos; si no llegan (p. ej. 404), los puntos se ven a todo zoom.
+      if (CON_GRUPOS.has(f.geometria) && f.manifest.grupos && f.grupos === undefined) {
+        f.grupos = await fetch(f.manifest.grupos).then((r) => (r.ok ? r.json() : null)).catch(() => null);
       }
+      // El mapa recibe la versión de cada ficha que corresponde a su fuente.
+      if (f.prepararObjeto && f.manifest.formato === "geojson" && f.datos === undefined) {
+        const d = await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+        const features = (d?.features || []).map((x) => ({ ...x, properties: f.prepararObjeto(x.properties || {}) }));
+        f.datos = { type: "FeatureCollection", features };
+      }
+      // Objetos guardados solo en este navegador (p. ej. «Mi lista» de inmuebles.html): se suman al GeoJSON publicado.
+      if (f.objetos_locales && f.manifest.formato === "geojson") {
+        const propios = objetosMiLista(leerLocal(f.objetos_locales));
+        if (propios.length) {
+          const d = f.datos ?? await fetch(f.manifest.archivo).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+          const base = (d?.features || []).filter((x) => x.properties?.st !== "inm_mi_lista");
+          f.datos = { type: "FeatureCollection", features: [...base, ...propios] };
+          if (f.grupos?.features) f.grupos = { ...f.grupos, features: [...f.grupos.features.filter((x) => !x.properties?.c_inm_mi_lista), ...gruposDeObjetos(propios)] };
+        }
+      }
+      if (this.turnos.get(id) !== turno || this.activas.has(id)) return;
+      this.activas.set(id, new Set(f.subtipos.map((s) => s.id)));
+      this.#instalar(f);
+      this.onCambio(this.totalActivas());
+    } catch (e) {
+      if (this.turnos.get(id) === turno) throw e;
     }
-    if (this.activas.has(id)) return;
-    this.activas.set(id, new Set(f.subtipos.map((s) => s.id)));
-    this.#instalar(f);
-    this.onCambio(this.totalActivas());
   }
 
   desactivar(id) {
+    this.turnos.delete(id);
     if (!this.activas.delete(id)) return;
     for (const capa of this.#idsCapas(id)) if (this.map.getLayer(capa)) this.map.removeLayer(capa);
     if (this.map.getSource(`cap-${id}`)) this.map.removeSource(`cap-${id}`);

@@ -50,9 +50,10 @@ export function camaraAltura3D(map) {
 }
 
 export class Altura3D {
-  constructor(map, { max = 1500 } = {}) {
+  constructor(map, { max = 1500, visible = () => true } = {}) {
     this.map = map;
     this.max = max;
+    this.visible = visible;
     this.activo = false;
     this.refrescar = this.refrescar.bind(this);
   }
@@ -72,7 +73,7 @@ export class Altura3D {
   /** Lee lo que ya dibujan las capas de aviones y satélites (solo lo visible). */
   objetos() {
     const m = this.map, out = [], vistos = new Set();
-    const leer = (src, fn) => { if (!m.getSource(src)) return; for (const f of m.querySourceFeatures(src)) { const o = fn(f); if (o && !vistos.has(o.id) && out.length < this.max) { vistos.add(o.id); out.push(o); } } };
+    const leer = (src, fn) => { if (!m.getSource(src)) return; for (const f of m.querySourceFeatures(src)) { if (!this.visible(src, f.properties)) continue; const o = fn(f); if (o && !vistos.has(o.id) && out.length < this.max) { vistos.add(o.id); out.push(o); } } };
     leer("mov-aeronaves", (f) => {
       let fila; try { fila = JSON.parse(f.properties.f); } catch { return null; }
       const [lon, lat] = f.geometry.coordinates;
