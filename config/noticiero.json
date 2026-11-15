@@ -1,5 +1,5 @@
 {
- "descripcion": "Noticiero DOMINUS: 30 secciones. Cada una junta titulares de dos vías: (1) feeds RSS elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
+ "descripcion": "Noticiero DOMINUS: 30 secciones. Cada una junta titulares de dos vías: (1) feeds RSS e índices oficiales de noticias elegidos para la sección (se leen solo si su robots.txt lo permite); (2) en las secciones con «gkg», titulares de GDELT GKG (medios de todo el mundo cada 15 min) cuyo título coincide con esa expresión, más estricta que «palabras» porque GDELT trae de todo. «palabras» reparte las notas de un feed compartido por varias secciones. «gkg_dominio» (opcional) limita GDELT a medios cuyo dominio coincida; «gkg_excluir_dominio» descarta sitios de boletines de prensa. Solo se guardan título, medio, fecha, enlace y, si el medio la declara, su imagen para compartir; nunca el texto. «tipo» describe al medio (agencia, público, estatal extranjero, independiente, verificador…), no su línea política.",
  "secciones": [
   {
    "id": "geopolitica",
@@ -56,6 +56,13 @@
      "nombre": "France 24 Español",
      "url": "https://www.france24.com/es/rss",
      "tipo": "Medio público de Francia"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -88,6 +95,13 @@
      "nombre": "Reserva Federal (comunicados)",
      "url": "https://www.federalreserve.gov/feeds/press_all.xml",
      "tipo": "Banco central de EUA (fuente oficial)"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -160,6 +174,13 @@
      "nombre": "CNBC (negocios)",
      "url": "https://www.cnbc.com/id/10001147/device/rss/rss.html",
      "tipo": "Televisora de negocios de EUA"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ],
    "gkg": "bankruptcy|quiebra|chapter 11|concurso mercantil|layoffs|despidos (masivos|de)|profit warning|shares (plunge|soar|tumble|surge|jump|sink|slump)|stock (plunges|soars|tumbles|surges|jumps|sinks|slumps)|acciones (se desploman|se disparan|caen|suben)|quarterly (results|earnings)|resultados trimestrales|initial public offering|\\bipo\\b|oferta p[uú]blica inicial|merger|fusi[oó]n|adquisici[oó]n de"
@@ -168,7 +189,15 @@
    "id": "indicadores",
    "titulo": "Indicadores: inflación, tasas, desempleo, bolsas (S&P 500, Dow, IPC, Russell 2000, VIX)",
    "palabras": "s&p ?500|dow jones|nasdaq|russell 2000|\\bvix\\b|\\bipc\\b|bmv\\b|bolsa mexicana|wall street|desempleo|unemployment|tasa de inter[eé]s|interest rate|inflaci[oó]n|inflation|inegi|banxico",
-   "feeds": [],
+   "feeds": [
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
+    }
+   ],
    "gkg": "s&p 500|dow jones|nasdaq composite|russell 2000|vix\\b|bolsa mexicana|bmv\\b|wall street (closes|cierra|sube|cae|rall)|inflaci[oó]n (anual|en m[eé]xico|en ee\\.? ?uu|subyacente)|consumer price index|cpi\\b|nonfarm payrolls|n[oó]minas no agr[ií]colas|unemployment rate|tasa de desempleo|desocupaci[oó]n"
   },
   {
@@ -226,6 +255,13 @@
      "nombre": "Mining Technology",
      "url": "https://www.mining-technology.com/feed/",
      "tipo": "Medio de la industria minera (Reino Unido)"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -243,6 +279,13 @@
      "nombre": "Splash247",
      "url": "https://splash247.com/feed/",
      "tipo": "Medio de la industria marítima y portuaria"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -255,6 +298,13 @@
      "nombre": "Mexico News Daily",
      "url": "https://mexiconewsdaily.com/feed/",
      "tipo": "Medio en inglés sobre México"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ],
    "gkg": "nearshoring|relocalizaci[oó]n de (empresas|cadenas|la producci)|friend-?shoring|reshoring|parques? industriales?|inversi[oó]n extranjera directa|t-?mec\\b|usmca\\b"
@@ -291,6 +341,13 @@
      "nombre": "Severe Weather Europe",
      "url": "https://www.severe-weather.eu/feed/",
      "tipo": "Portal meteorológico europeo"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ],
    "gkg": "hurricane|hurac[aá]n|tropical storm|tormenta tropical|typhoon|tif[oó]n|cyclone|cicl[oó]n|frente fr[ií]o|cold front|heat ?wave|ola de calor|tornado|blizzard warning|ventisca|inundaciones|flash flood|sequ[ií]a\\b|drought|storm \\w+ (warning|hits|batters|makes landfall)|amber warning|red warning|pron[oó]stico del (clima|tiempo)|conagua|servicio meteorol[oó]gico"
@@ -354,6 +411,13 @@
      "nombre": "TechCrunch",
      "url": "https://techcrunch.com/feed/",
      "tipo": "Medio de tecnología y startups de EUA"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -371,6 +435,13 @@
      "nombre": "Hyperallergic",
      "url": "https://hyperallergic.com/feed/",
      "tipo": "Revista de arte de EUA"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -393,6 +464,13 @@
      "nombre": "Food & Wine en Español",
      "url": "https://www.foodandwineespanol.com/feed/",
      "tipo": "Revista de gastronomía"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -459,6 +537,13 @@
      "nombre": "The Hollywood Reporter",
      "url": "https://www.hollywoodreporter.com/feed/",
      "tipo": "Revista de la industria del entretenimiento"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -481,6 +566,13 @@
      "nombre": "Organización Mundial del Comercio",
      "url": "https://www.wto.org/library/rss/latest_news_e.xml",
      "tipo": "Organismo internacional (fuente oficial)"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -498,6 +590,13 @@
      "nombre": "Artemis",
      "url": "https://www.artemis.bm/feed/",
      "tipo": "Medio de reaseguro y bonos catastróficos"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -520,6 +619,13 @@
      "nombre": "Energía a Debate",
      "url": "https://www.energiaadebate.com/feed/",
      "tipo": "Revista de energía de México"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ],
    "gkg": "energy crisis|crisis energ[eé]tica|(gas|fuel|power|electricity|diesel|gasoline) shortages?|escasez de (gas|combustible|gasolina|di[eé]sel|electricidad)|apag[oó]n|blackouts?\\b|power cuts?\\b|cortes? de (luz|electricidad)|racionamiento (el[eé]ctrico|de energ)|load[- ]shedding"
@@ -543,6 +649,13 @@
      "nombre": "Organización Panamericana de la Salud",
      "url": "https://www.paho.org/es/rss.xml",
      "tipo": "Organismo internacional (fuente oficial)"
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
     }
    ]
   },
@@ -663,6 +776,13 @@
      "nombre": "El Imparcial de Oaxaca",
      "url": "https://imparcialoaxaca.mx/feed/",
      "tipo": "Diario de Oaxaca",
+     "filtrar": true
+    },
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
      "filtrar": true
     }
    ],

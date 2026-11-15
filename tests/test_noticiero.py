@@ -97,3 +97,57 @@ def test_politica_incluye_medios_de_investigacion_por_gdelt():
     assert all(dom.search(d) for d in ("latinus.us", "animalpolitico.com", "aristeguinoticias.com", "proceso.com.mx"))
     assert not dom.search("notlatinus.us.example.com")
     assert any(urlparse(f["url"]).hostname == "quintoelab.org" for f in pol["feeds"])
+
+
+LATINUS_FEED = next(fd for fd, _ in N.feeds_por_url(CFG).values() if fd['nombre'] == 'Latinus')
+
+
+def sitemap_latinus(*entradas):
+    return ('<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" '
+            'xmlns:n="http://www.google.com/schemas/sitemap-news/0.9">' + ''.join(
+                f'<url><loc>{url}</loc><n:news><n:title>{titulo}</n:title>'
+                f'<n:publication_date>{fecha}</n:publication_date></n:news></url>'
+                for url, titulo, fecha in entradas) + '</urlset>').encode()
+
+
+def test_latinus_fecha_real_orden_y_descarta_metadatos_invalidos():
+    xml = sitemap_latinus(
+        ('https://latinus.us/uno.html', 'Sheinbaum presenta reforma electoral', '2026-10-21T04:00:00-06:00'),
+        ('https://latinus.us/dos.html', 'Morena debate nueva reforma electoral', '2026-10-21T05:00:00-06:00'),
+        ('https://otro.mx/nota', 'No es del medio', '2026-10-21T10:00:00Z'),
+        ('https://latinus.us/error', 'Sin fecha válida', 'error'),
+        ('https://latinus.us/sin-zona', 'Sin zona horaria', '2026-10-21T10:00:00'))
+    items = N.parsear_sitemap_noticias(xml, LATINUS_FEED)
+    assert [n['url'] for n in items] == ['https://latinus.us/dos.html', 'https://latinus.us/uno.html']
+    assert items[0]['fecha_utc'] == '2026-10-21T11:00:00Z'
+    assert items[0]['fuente'] == 'Latinus'
+    assert len(N.parsear_sitemap_noticias(xml, {**LATINUS_FEED, 'max_items': 1})) == 1
+
+
+def test_latinus_se_lee_una_vez_y_llega_a_candidatos_del_video():
+    sys.path.insert(0, os.path.join(N.ROOT, 'tools', 'noticiero_video'))
+    import guion
+    cfg = {'secciones': [{**s, 'feeds': [f for f in s.get('feeds', []) if f['nombre'] == 'Latinus']}
+                         for s in CFG['secciones']]}
+    llamadas = []
+    def leer(fd):
+        llamadas.append(fd['url'])
+        return N.parsear_sitemap_noticias(sitemap_latinus(
+            ('https://latinus.us/reforma.html', 'Morena aprueba reforma electoral en el Senado', '2026-10-21T05:00:00-06:00')),
+            fd)
+    notas, errores, ok = N.de_rss(cfg, REGLAS, leer=leer)
+    assert llamadas == [LATINUS_FEED['url']] and ok == 1 and not errores
+    candidatas = guion.candidatos_seccion({'notas': N.unir([], notas, AHORA)}, ahora_iso='2026-10-21T12:00:00Z')
+    assert candidatas['politica_mx'][0]['medio'] == 'Latinus'
+    assert candidatas['politica_mx'][0]['url'] == 'https://latinus.us/reforma.html'
+    assert not next(s for s in cfg['secciones'] if s['id'] == 'oficial_mx')['feeds']
+
+
+def test_indice_noticias_respeta_robots_y_rss_conserva_su_lector(monkeypatch):
+    import pytest
+    monkeypatch.setattr(N.F, 'permitido_por_robots', lambda url: False)
+    monkeypatch.setattr(N.F, 'get', lambda *a, **k: pytest.fail('No debe descargar si robots lo impide'))
+    with pytest.raises(PermissionError):
+        N.leer_feed(LATINUS_FEED)
+    monkeypatch.setattr(N.F, 'rss', lambda fd: ['rss original'])
+    assert N.leer_feed({'url': 'https://example.org/rss'}) == ['rss original']
