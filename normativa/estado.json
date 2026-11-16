@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-16T10:07:38Z",
+ "generado_utc": "2026-11-16T23:30:20Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -13,7 +13,7 @@
    "fuente": "Federal Register (API oficial)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 1,
+   "nuevas": 0,
    "error": "",
    "hasta": "2026-11-16"
   },
@@ -29,7 +29,7 @@
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 1,
    "error": "",
    "hasta": "2026-11-16"
   },
@@ -85,26 +85,26 @@
  },
  "desactualizadas": [],
  "por_pais": {
+  "RUS": {
+   "total": 13,
+   "alto": 0,
+   "ultimos_30d": 13
+  },
+  "EUR": {
+   "total": 52,
+   "alto": 6,
+   "ultimos_30d": 28
+  },
   "USA": {
    "total": 34,
    "alto": 0,
    "ultimos_30d": 29
   },
-  "RUS": {
-   "total": 12,
-   "alto": 0,
-   "ultimos_30d": 12
-  },
   "MEX": {
    "total": 546,
    "alto": 46,
    "ultimos_30d": 34
-  },
-  "EUR": {
-   "total": 51,
-   "alto": 6,
-   "ultimos_30d": 27
   }
  },
- "agregadas_hoy": 0
+ "agregadas_hoy": 2
 }
