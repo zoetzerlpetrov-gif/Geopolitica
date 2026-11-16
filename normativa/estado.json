@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-15T19:56:56Z",
+ "generado_utc": "2026-11-16T10:07:38Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -15,7 +15,7 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-15"
+   "hasta": "2026-11-16"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,7 +23,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-15"
+   "hasta": "2026-11-16"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
@@ -31,7 +31,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-15"
+   "hasta": "2026-11-16"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
@@ -39,7 +39,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-15"
+   "hasta": "2026-11-16"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-15"
+   "hasta": "2026-11-16"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-15"
+   "hasta": "2026-11-16"
   }
  },
  "sin_fuente": {
@@ -75,13 +75,13 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-15",
-  "CAN": "2026-11-15",
-  "EUR": "2026-11-15",
-  "JPN": "2026-11-15",
-  "RUS": "2026-11-15",
+  "USA": "2026-11-16",
+  "CAN": "2026-11-16",
+  "EUR": "2026-11-16",
+  "JPN": "2026-11-16",
+  "RUS": "2026-11-16",
   "MEX": "2026-11-13",
-  "ARG": "2026-11-15"
+  "ARG": "2026-11-16"
  },
  "desactualizadas": [],
  "por_pais": {
@@ -98,12 +98,12 @@
   "MEX": {
    "total": 546,
    "alto": 46,
-   "ultimos_30d": 37
+   "ultimos_30d": 34
   },
   "EUR": {
    "total": 51,
    "alto": 6,
-   "ultimos_30d": 30
+   "ultimos_30d": 27
   }
  },
  "agregadas_hoy": 0
