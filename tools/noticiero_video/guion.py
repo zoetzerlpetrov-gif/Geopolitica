@@ -14,6 +14,8 @@ Funciones puras: reciben los JSON ya leídos y devuelven escenas, título y desc
 import re
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
+from historial import clave_url, ya_publicada
+from fechas_voz import expandir_fechas
 
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]
 MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"]
@@ -130,7 +132,7 @@ def romanos_legales(texto, legal=False):
 
 def para_voz(texto, legal=False):
     """Ajusta números para que el sintetizador en español los lea bien: 18.67 → «18 punto 67»; 11 000 y 3,830 → 11000 y 3830."""
-    t = re.sub(r"(\d)[ \u00a0\u202f](\d{3})\b", r"\1\2", romanos_legales(str(texto), legal=legal))
+    t = re.sub(r"(\d)[ \u00a0\u202f](\d{3})\b", r"\1\2", romanos_legales(expandir_fechas(texto), legal=legal))
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)\b(?!\.\d)", lambda m: m.group(1) + m.group(2).replace(",", ""), t)
     t = re.sub(r"\b(\d{1,3})((?:,\d{3})+)(\.\d+)", lambda m: m.group(1) + m.group(2).replace(",", "") + m.group(3), t)
     t = re.sub(r"(\d)\.(\d)", r"\1 punto \2", t)
@@ -290,7 +292,7 @@ def _parecidas(a, b, pa=frozenset(), pb=frozenset()):
     return comunes >= 3 or (comunes >= 2 and comunes >= 0.5 * min(len(a), len(b))) or len(pa & pb) >= 2
 
 
-def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozenset()):
+def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozenset(), titulares_usados=frozenset()):
     """{sección: [notas]} en ORDEN: por sección, las que más medios repiten en las últimas `horas` (desempate: la más
     reciente). Cada nota: titulo, medio, url, fecha, eco (cuántos medios cuentan lo mismo) y sus claves.
     `usadas`: enlaces ya contados en los videos anteriores (no se repiten). La mañanera sin señalamientos queda fuera."""
@@ -300,7 +302,8 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
         from datetime import datetime, timedelta
         lim = (datetime.fromisoformat(corte.replace("Z", "+00:00")) - timedelta(hours=horas)).strftime("%Y-%m-%dT%H:%M:%SZ")
         notas = [n for n in notas if (n.get("f") or "") >= lim]
-    notas = [n for n in notas if (n.get("t") or "").strip() and not VACIOS.search(n["t"]) and n.get("u") not in usadas
+    urls_usadas = {clave_url(u) for u in usadas}
+    notas = [n for n in notas if (n.get("t") or "").strip() and not VACIOS.search(n["t"]) and not ya_publicada(n.get("u"), n.get("t"), urls_usadas, titulares_usados)
              and not (RUTINA.search(n["t"]) and not CRITICA.search(n["t"]))]
     cl = [_clave(n["t"]) for n in notas]
     pr = [_propios(n["t"]) for n in notas]
@@ -380,12 +383,18 @@ def con_resumen(notas, resumenes=None, datos=None):
             if dato:
                 usados.add(dato["texto"])
         extra = (PAUSA + para_voz(dato["voz"])) if dato else ""
+        publicacion = ""
+        if sec == "dof" and re.fullmatch(r"\d{4}-\d{2}-\d{2}", n.get("fecha") or ""):
+            try:
+                publicacion = f"Publicación del {fecha_larga(n['fecha'])}. "
+            except ValueError:
+                pass
         if r:
-            out.append({**n, "resumen": r, "dato": dato and dato["texto"], "voz": cierre_frase(para_voz(r, legal=sec == "dof")) + extra})
+            out.append({**n, "resumen": r, "dato": dato and dato["texto"], "voz": publicacion + cierre_frase(para_voz(r, legal=sec == "dof")) + extra})
         elif en_espanol(n["titulo"]):
             titulo = miles_redaccion(normalizar_numeros(n["titulo"], convencion(n.get("url") or n["medio"])), sec)
             out.append({**n, "resumen": f"«{titulo}»", "titular": True, "dato": dato and dato["texto"],
-                        "voz": cierre_frase(para_voz(titulo, legal=sec == "dof")) + extra})
+                        "voz": publicacion + cierre_frase(para_voz(titulo, legal=sec == "dof")) + extra})
     return out
 
 
@@ -536,7 +545,7 @@ def datos_por_seccion(ind):
 
 
 # ------------------------------------------------------------------ Mercados (Portafolio de seguimiento)
-def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=24, usadas=frozenset()):
+def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=24, usadas=frozenset(), titulares_usados=frozenset()):
     """Hasta `maximo` instrumentos del Portafolio con noticia de las últimas `horas`, los de mayor movimiento del día
     primero: nombre, precio, % del día (último cierre frente al anterior) y su titular. Sin señales de compra o venta.
     Las noticias ya contadas en videos anteriores (`usadas`) no se repiten: se toma la siguiente o no se incluye."""
@@ -544,10 +553,11 @@ def mercados(portafolio_data, ahora_iso=None, maximo=6, horas=24, usadas=frozens
     ahora = datetime.fromisoformat(ahora_iso.replace("Z", "+00:00")) if ahora_iso else datetime.now(timezone.utc)
     lim = (ahora - timedelta(hours=horas)).isoformat()
     filas = []
+    urls_usadas = {clave_url(u) for u in usadas}
     for x in portafolio_data or []:
         if not x.get("ok") or not x.get("news") or x.get("current_price") is None:
             continue
-        nuevas = [z for z in x["news"] if (z.get("date") or "") >= lim and z.get("link") not in usadas]
+        nuevas = [z for z in x["news"] if (z.get("date") or "") >= lim and not ya_publicada(z.get("link"), z.get("title"), urls_usadas, titulares_usados)]
         if not nuevas:
             continue
         n = max(nuevas, key=lambda z: z.get("date") or "")
@@ -590,7 +600,7 @@ _DOF_PARTICULAR = re.compile(r"ocupaci[oó]n temporal|expropia|deslinde|edicto|c
                              r"\bfe de erratas\b|tasas? de recargos|valor de la unidad de inversi|tipo de cambio para solventar", re.I)
 
 
-def notas_dof(bitacora, fecha, dias=3, maximo=3):
+def notas_dof(bitacora, fecha, dias=3, maximo=3, usadas=frozenset()):
     """Hasta `maximo` publicaciones del DOF de los últimos `dias` (bitácora normativa del sitio), primero leyes y decretos
     y las de mayor impacto; sin actos particulares y sin repetir el mismo tipo de acuerdo (p. ej. los estímulos a la
     gasolina, que salen cada semana). Solo título, dependencia y enlace: el texto de la norma no se guarda."""
@@ -599,8 +609,9 @@ def notas_dof(bitacora, fecha, dias=3, maximo=3):
         lim = (date.fromisoformat(fecha) - timedelta(days=dias)).isoformat()
     except ValueError:
         return []
+    urls_usadas = {clave_url(u) for u in usadas}
     ents = [e for e in (bitacora or {}).get("entradas", []) if e.get("pais") == "MEX" and "dof" in str(e.get("id", ""))
-            and lim <= str(e.get("fecha", "")) <= fecha and e.get("titulo") and not _DOF_PARTICULAR.search(e["titulo"])]
+            and lim <= str(e.get("fecha", "")) <= fecha and clave_url(e.get("url")) not in urls_usadas and e.get("titulo") and not _DOF_PARTICULAR.search(e["titulo"])]
     ents.sort(key=lambda e: e.get("fecha", ""), reverse=True)  # la más reciente primero dentro de cada nivel (orden estable)
     ents.sort(key=lambda e: (_NIVEL.get(e.get("nivel"), 5), _IMPACTO.get(e.get("impacto"), 3)))
     out, vistos = [], set()
@@ -691,7 +702,7 @@ def bloque_economia(indicadores):
 _YA_DICHO = {"Tipo de cambio FIX": "FIX", "Tasa objetivo de Banxico": "Tasa objetivo", "Inflación anual en México": "INPC"}
 
 
-def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None, usadas=frozenset()):
+def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras=None, frases_mercado=None, usadas=frozenset(), titulares_usados=frozenset()):
     """Devuelve {fecha, titulo, escenas: [{tipo, encabezado, texto, medio, voz}], descripcion, notas}.
     elegidas: notas del Noticiero ya elegidas (redactar.py con IA, o elegir_sin_ia), con «resumen» propio si lo hay.
     clima: {"calor": calor_frio.geojson, "ciclones": ciclones_mundo.geojson}."""
@@ -732,7 +743,7 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
             "pesos por dólar" if x["id"] == "USD_MXN_REF" else "pesos por euro") + f", dato del {fecha_larga(consulta_mx(x['fecha'])[:10])}." for x in refs)
         voz += " Las divisas son conversiones indicativas de Coinbase, no el FIX ni una cotización garantizada de banco."
         esc.append({"tipo": "economia", "encabezado": "Últimas cotizaciones disponibles", "filas": filas, "texto": "", "voz": para_voz(voz)})
-    filas_m = mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else []
+    filas_m = mercados(portafolio, usadas=usadas, titulares_usados=titulares_usados) if isinstance(portafolio, list) else []
     if filas_m:
         esc.append({"tipo": "mercados", "encabezado": "Mercados", "seccion": "economia",
                     "filas": [{**f, "frase": (frases_mercado or {}).get(f["url"]) or (f["titulo"] if en_espanol(f["titulo"]) else "")} for f in filas_m],
@@ -762,4 +773,6 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
     titulo = f"Brújula Diaria · {larga[0].upper() + larga[1:]} · México y el mundo"
     usadas_hoy = [n["url"] for n in notas if n.get("url")] + [f["url"] for f in filas_m if f.get("url")]
     return {"fecha": fecha, "titulo": titulo[:100], "escenas": esc, "descripcion": descripcion[:4900], "notas": len(notas),
-            "usadas": usadas_hoy}
+            "usadas": usadas_hoy,
+            "noticias": [{k: n.get(k, "") for k in ("titulo", "url", "seccion", "fecha")} for n in notas]
+                        + [{"titulo": f.get("titulo", ""), "url": f.get("url", ""), "seccion": "mercados"} for f in filas_m]}

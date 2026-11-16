@@ -31,7 +31,8 @@ jobs:
       - name: Guiones y borradores anteriores (rama datos-comentarios)
         run: |
           mkdir -p datos && cd datos
-          if git fetch --depth 1 origin datos-comentarios 2>/dev/null; then git archive FETCH_HEAD | tar -x; fi
+          git fetch --depth 1 origin datos-comentarios
+          git archive FETCH_HEAD | tar -x
           mkdir -p guiones comentarios
       - name: Caché del modelo abierto y de llama.cpp (el mismo de la ingesta)
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4

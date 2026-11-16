@@ -17,7 +17,7 @@ permissions:
   contents: write  # solo para guardar el guion del video en la rama datos-comentarios (respuestas a comentarios)
 
 concurrency:
-  group: noticiero-video
+  group: datos-comentarios
   cancel-in-progress: false
 
 jobs:
@@ -85,14 +85,13 @@ jobs:
           for i in $(seq 1 90); do curl -sf http://127.0.0.1:8080/health >/dev/null && break; sleep 2; done
           curl -sf http://127.0.0.1:8080/health && echo "url=http://127.0.0.1:8080/v1/chat/completions" >> "$GITHUB_OUTPUT"
       - name: Traer los guiones de los videos anteriores (para no repetir noticias ni Mercados)
-        continue-on-error: true
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p /tmp/previos && cd /tmp/previos
-          if git init -q && git fetch -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios; then
-            git archive FETCH_HEAD guiones | tar -x || true
-          fi
+          git init -q
+          git fetch -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios
+          git archive FETCH_HEAD guiones | tar -x
           ls guiones 2>/dev/null | wc -l
       - name: Armar el video
         env:
@@ -123,18 +122,18 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python3 tools/noticiero_video/subir.py salida
-      - name: Guardar el guion para responder comentarios (rama datos-comentarios; solo texto propio del noticiero)
+      - name: Guardar el guion para responder comentarios (rama datos-comentarios; guion y metadatos de las fuentes)
         if: steps.subir.outputs.video != ''
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
           VIDEO: ${{ steps.subir.outputs.video }}
         run: |
           mkdir -p /tmp/pub && cd /tmp/pub
-          if git fetch --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios 2>/dev/null; then
-            git archive FETCH_HEAD | tar -x
-          fi
+          git init -q
+          git fetch --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios
+          git archive FETCH_HEAD | tar -x
           mkdir -p guiones comentarios
-          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']], 'usadas': g.get('usadas', [])}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
+          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']], 'usadas': g.get('usadas', []), 'noticias': g.get('noticias', [])}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
           python3 -c "import glob,json,os; fs=sorted(glob.glob('guiones/*.json'), key=lambda f: json.load(open(f)).get('fecha',''), reverse=True); [os.remove(f) for f in fs[30:]]"  # últimos 30
           rm -rf .git && git init -q && git checkout -q -b datos-comentarios
           git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"

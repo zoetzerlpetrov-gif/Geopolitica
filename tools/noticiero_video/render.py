@@ -21,6 +21,7 @@ from actualidad import actualizar_cifras, actualizar_clima, sincronizar_economia
 sys.path.insert(0, os.path.dirname(__file__))
 from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
+from historial import titulares_anteriores
 import patrocinio  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
@@ -336,11 +337,12 @@ def main():
     hoy = datetime.now(ZoneInfo("America/Mexico_City")).strftime("%Y-%m-%d")
     fecha = a.fecha or hoy
     usadas = enlaces_usados(a.previos, fecha)
-    cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"), usadas=usadas)
+    titulares = titulares_anteriores(a.previos, fecha)
+    cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"), usadas=usadas, titulares_usados=titulares)
     ia = os.environ.get("IA_LOCAL_URL", "").strip() or None
     elegidas = elegir_y_redactar(cands, ia)
     # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
-    elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha), ia))
+    elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha, usadas=usadas | {n["url"] for n in elegidas if n.get("url")}), ia))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
     portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "portfolio_data.json") if a.sitio.startswith("http") else None
     cifras = leer_seguro(a.sitio, "data/vivos/indicadores.json")
@@ -354,9 +356,9 @@ def main():
         corte = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
         for aviso in cifras.get("errores", []) + clima["calor"].get("errores", []):
             print(f"aviso de actualización del video: {aviso}", file=sys.stderr)
-    frases = frases_titulares(mercados(portafolio, usadas=usadas) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
+    frases = frases_titulares(mercados(portafolio, usadas=usadas, titulares_usados=titulares) if isinstance(portafolio, list) else [], os.environ.get("IA_LOCAL_URL", "").strip() or None)
     g = guion(fecha, elegidas, indicadores, portafolio, clima,
-              cifras=cifras, frases_mercado=frases, usadas=usadas)
+              cifras=cifras, frases_mercado=frases, usadas=usadas, titulares_usados=titulares)
     if corte:
         g["actualizacion"] = {"corte_utc": corte, "fecha_publicacion": fecha, "zona_publicacion": "America/Mexico_City",
                               "clima": clima["calor"], "cifras": cifras}
