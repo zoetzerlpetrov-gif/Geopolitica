@@ -50,7 +50,8 @@ DIAS_RECIENTES = 365
 # Tipos de fenómeno → nombre en español.
 TIPOS_ANOM = {"ufo": "Objeto aéreo no identificado", "uso": "Objeto sumergido o marítimo", "contact": "Supuesto contacto o seres",
             "lights_sky": "Luces en el cielo", "lights_ground": "Luces a ras de suelo", "sound": "Sonidos inexplicados",
-            "em": "Efectos electromagnéticos", "volcano": "Objetos sobre volcanes", "crop": "Figuras en cultivos"}
+            "em": "Efectos electromagnéticos", "volcano": "Objetos sobre volcanes", "crop": "Figuras en cultivos",
+            "prehistoric": "Supuesto animal prehistórico", "mythical": "Supuesto animal mitológico", "cryptid": "Críptido (reporte no confirmado)"}
 # Feeds dedicados al tema: sus entradas pasan sin filtro de palabras.
 FEEDS_TEMA = {"The Black Vault", "Inexplicata (es)", "Latest UFO Sightings", "Open Minds UFO News", "UFO Evidence RSS",
               "Planeta UFO (es)", "Espacio Misterio (es)", "Mystery Wire", "UFO Chronicles", "UFO Sightings Daily"}
@@ -67,6 +68,27 @@ NIVEL_CRED = (("OFICIAL", "oficial"), ("HISTÓRICO / VERIFICADO", "oficial"), ("
 
 def sin_acentos(t):
     return "".join(c for c in unicodedata.normalize("NFD", str(t or "")) if unicodedata.category(c) != "Mn").lower()
+
+
+# Fauna extraordinaria: se exige un nombre y contexto de reporte; no basta «dinosaurio» o «dragón».
+FAUNA_TIPOS = (
+    ("prehistoric", re.compile(r"\b(pterodactil[oa]s?|pterodactyls?|pteranodon(?:tes|s)?|pterodon(?:tes|s)?|pterosauri[oa]s?|pterosaurs?|plesiosauri[oa]s?|plesiosaurs?|megalodon(?:es|s)?|dinosaurios?|dinosaurs?|mamuts?|mammoths?|animales? prehistoricos?|prehistoric (?:animals?|creatures?))\b")),
+    ("mythical", re.compile(r"\b(dragon(?:es|s)?|unicorni[oa]s?|unicorns?|pegaso|pegasus|ave fenix|phoenix bird|kraken|basilisco|basilisk|quimera|chimera|grifo mitologico|griffin creature|nahuales?|nahual|animales? mitologicos?|mythical (?:animals?|creatures?))\b")),
+    ("cryptid", re.compile(r"\b(criptidos?|cryptids?|criptozoologia|cryptozoology|chupacabras?|bigfoot|sasquatch|yeti|mothman|hombre polilla|monstruo del (?:lago ness|lago)|loch ness monster|nessie|mokele[ -]mbembe|mapinguari|ropen|thunderbird|ave del trueno|jersey devil|demonio de jersey)\b")),
+)
+CONTEXTO_FAUNA = re.compile(r"\b(avist\w*|captan|captado|captada|captaron|graban|grabado|grabada|grabaron|filman|filmado|filmada|filmaron|video|videos|visto|vista|vieron|ven|aparece|aparicion|supuesto|supuesta|presunto|presunta|testigo\w*|report\w*|sighting\w*|spotted|seen|filmed|footage|encounter\w*|hoax|debunk\w*|desmient\w*|desment\w*|descart\w*|falso|falsa|observ\w*|avistamento|apercu)\b")
+RUIDO_FAUNA = re.compile(r"\b(fosil\w*|fossils?|excavacion\w*|paleontolog\w*|esqueleto\w*|skeletons?|videojuego\w*|video games?|pelicula\w*|movies?|trailers?|estreno|netflix|jurassic|pokemon|disney|house of the dragon|casa del dragon|game of thrones|dragon ball|dragon boat|torneo\w*|mascota deportiva|equipo de futbol|cryptocurrency|criptomoneda\w*|token|kraken exchange|exchange|imagine dragons|dragonforce|dragon age|hockey|spacex|space x|capsula|capsule|crew dragon|exposicion|exhibition|animatronico\w*)\b")
+CONTRASTE_FAUNA = re.compile(r"\b(desmient\w*|desment\w*|descart\w*|debunk\w*|hoax|falso|falsa)\b")
+
+
+def tipo_fauna(titulo):
+    t = sin_acentos(titulo)
+    return next((tipo for tipo, rx in FAUNA_TIPOS if rx.search(t)), "")
+
+
+def es_reporte_fauna(titulo):
+    t = sin_acentos(titulo)
+    return bool(tipo_fauna(t) and CONTEXTO_FAUNA.search(t) and (not RUIDO_FAUNA.search(t) or CONTRASTE_FAUNA.search(t)))
 
 
 # Tipo de fenómeno deducido del título cuando la nota llega como «ufo» genérico (orden: lo más específico primero).
@@ -88,6 +110,9 @@ def tipo_por_texto(titulo, tipo_ta=""):
     if tipo_ta and tipo_ta != "ufo":
         return tipo_ta
     t = sin_acentos(titulo)
+    fauna = tipo_fauna(t)
+    if fauna:
+        return fauna
     for tipo, rx in TIPO_POR_TEXTO:
         if rx.search(t):
             return tipo
@@ -96,6 +121,8 @@ def tipo_por_texto(titulo, tipo_ta=""):
 
 def es_del_tema(titulo, fuentes):
     """True si la nota es del tema: viene de un feed dedicado o su título lo menciona."""
+    if tipo_fauna(titulo):
+        return es_reporte_fauna(titulo)
     if any(f in FEEDS_TEMA for f in fuentes):
         return True
     return bool(TEMA.search(sin_acentos(titulo)))
@@ -194,6 +221,7 @@ FEEDS_PROPIOS = [
     ("MUFON", "https://www.mufon.com/feed", False),  # también publica podcasts y congresos: solo notas con palabras del tema
     ("El Heraldo de México (tendencias)", "https://heraldodemexico.com.mx/rss/feed.html?r=8", False),
     ("El Heraldo de México (mundo)", "https://heraldodemexico.com.mx/rss/feed.html?r=5", False),
+    ("Norte Digital (Ciudad Juárez)", "https://nortedigital.mx/feed/", False),
     ("Infobae Tendencias", "https://www.infobae.com/arc/outboundfeeds/rss/category/tendencias/", False),
 ]
 # Lo que usa la palabra pero no es un reporte: la banda de rock UFO, el rapero Ufo361, el anime «Ufo Robot Goldrake»,
@@ -228,6 +256,8 @@ def nota_propia(titulo, url, fecha, medio, ubicador, dedicado=False, pais_medio=
     titulo = re.sub(r"\s+", " ", str(titulo or "")).strip()
     if not titulo or not str(url).startswith("http") or RUIDO.search(titulo) or any(d in str(url) for d in DOMINIOS_RUIDO):
         return None
+    if tipo_fauna(titulo) and not es_reporte_fauna(titulo):
+        return None
     if not (dedicado or es_del_tema(titulo, [medio]) or TEMA_OTROS.search(sin_acentos(titulo))):
         return None
     u = ubicador.ubicar(titulo, "", [medio])
@@ -243,7 +273,8 @@ def nota_propia(titulo, url, fecha, medio, ubicador, dedicado=False, pais_medio=
     return {"type": "Feature", "geometry": {"type": "Point", "coordinates": [round(lon, 4), round(lat, 4)]}, "properties": {
         "id": f"{origen}:{_id_url(url)}", "capa": "anom_recientes", "tipo": tipo, "tipo_nombre": TIPOS_ANOM.get(tipo, "Otro"),
         "titulo": titulo[:160], "fecha": (fecha or "")[:10], "nivel": "medios", "credibilidad": "", "pais": "", "lugar": lugar,
-        "precision": precision or prec, "fuente": medio, "resumen": "", "url": url}}
+        "precision": precision or prec, "fuente": medio, "resumen": "", "url": url,
+        **({"fecha_tipo": "deteccion" if origen == "gdelt" else "publicacion", "fecha_evento": "No confirmada por el monitor", "estado_reporte": "Reporte mediático sin identificación zoológica verificada"} if tipo in {"prehistoric", "mythical", "cryptid"} else {})}}
 
 
 def xml_limpio(datos):
@@ -413,6 +444,13 @@ def unir_archivo(previas, nuevas, hoy, maximo=MAX_ARCHIVO):
         por_id[f["properties"]["id"]] = f
     out = sorted(por_id.values(), key=lambda f: f["properties"].get("fecha") or "", reverse=True)[:maximo]
     for f in out:
+        p = f["properties"]
+        if es_reporte_fauna(p.get("titulo", "")):
+            p["tipo"] = tipo_por_texto(p["titulo"])
+            p["tipo_nombre"] = TIPOS_ANOM[p["tipo"]]
+            p.setdefault("fecha_tipo", "deteccion" if str(p.get("id", "")).startswith("gdelt:") else "publicacion")
+            p.setdefault("fecha_evento", "No confirmada por el monitor")
+            p.setdefault("estado_reporte", "Reporte mediático sin identificación zoológica verificada")
         f["properties"]["capa"] = "anom_recientes" if (f["properties"].get("fecha") or "") >= limite else "anom_archivo"
     return out
 
@@ -422,14 +460,15 @@ def agrupar_por_pais(feats, maximo=15):
     otras, por_pais = [], defaultdict(list)
     for f in feats:
         p = f["properties"]
-        (por_pais[(p.get("capa"), p["lugar"])] if p.get("precision") == "país" else otras).append(f)
-    for (_, lugar), fs in por_pais.items():
+        (por_pais[(p.get("capa"), p["lugar"], p.get("tipo") if p.get("tipo") in {"prehistoric", "mythical", "cryptid"} else "ufo")] if p.get("precision") == "país" else otras).append(f)
+    for (_, lugar, tipo), fs in por_pais.items():
         fs.sort(key=lambda f: f["properties"]["fecha"], reverse=True)
         p0 = fs[0]["properties"]
         otras.append({"type": "Feature", "geometry": fs[0]["geometry"], "properties": {
-            "id": f"ta_pais:{p0.get('capa', 'anom_recientes')}:{lugar}", "capa": p0.get("capa", "anom_recientes"), "tipo": "ufo", "tipo_nombre": "Notas sin ciudad identificada",
+            "id": f"ta_pais:{p0.get('capa', 'anom_recientes')}:{lugar}" + (f":{tipo}" if tipo in {"prehistoric", "mythical", "cryptid"} else ""), "capa": p0.get("capa", "anom_recientes"), "tipo": tipo, "tipo_nombre": TIPOS_ANOM.get(tipo, "Notas sin ciudad identificada") if tipo != "ufo" else "Notas sin ciudad identificada",
             "titulo": f"{len(fs)} nota{'s' if len(fs) != 1 else ''} sobre {lugar} sin ciudad identificada", "fecha": p0["fecha"], "nivel": "medios",
             "tipos": sorted({f["properties"]["tipo"] for f in fs}),
+            **({"fecha_tipo":p0.get("fecha_tipo", "publicacion"), "fecha_evento":"No confirmada por el monitor", "estado_reporte":"Reportes mediáticos sin identificación zoológica verificada"} if tipo in {"prehistoric", "mythical", "cryptid"} else {}),
             "lugar": lugar, "precision": "país", "n": len(fs), "fuente": "Varias (ver lista)", "url": p0["url"],
             "notas": [{k: f["properties"][k] for k in ("titulo", "url", "fecha", "fuente")} for f in fs[:maximo]]}})
     return otras
@@ -528,7 +567,12 @@ def main():
     gd, estado["anom_gdelt"] = de_gkg(ubicador)
     estado["anom_medios"] = est_feeds
     estado["anom_recientes"] = f"ok ({len(propios) + len(gd)} notas nuevas en esta corrida)"
-    archivo = unir_archivo(archivo, propios + gd, ahora)
+    # Respaldo curado de reportes de fauna: los mismos puntos que usa la interfaz al publicar el código.
+    try:
+        fauna = json.load(open(os.path.join(ROOT, "data", "anomalias-fauna.geojson"), encoding="utf-8")).get("features", [])
+    except (OSError, ValueError):
+        fauna = []
+    archivo = unir_archivo(archivo, fauna + propios + gd, ahora)
     guardar_archivo(archivo, ahora)
     estado["anom_archivo"] = f"{len(archivo)} notas guardadas ({sum(1 for f in archivo if f['properties']['capa'] == 'anom_archivo')} de hace más de un año)"
     feats += agrupar_por_pais(archivo)

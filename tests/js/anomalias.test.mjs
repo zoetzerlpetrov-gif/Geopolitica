@@ -34,8 +34,8 @@ test("cada capa filtra su clase y colorea por nivel de respaldo", () => {
 
 test("capas por tipo de fenómeno: noticias, históricos y catálogo que corresponde", async () => {
   const { ANOMALIAS_POR_TIPO, TIPOS_ANOM } = await import("../../js/riesgos.js");
-  assert.equal(ANOMALIAS_POR_TIPO.length, 9);
-  assert.equal(TIPOS_ANOM.length, 9);
+  assert.equal(ANOMALIAS_POR_TIPO.length, 12);
+  assert.equal(TIPOS_ANOM.length, 12);
   const f = (capa, tipo, tipos) => ({ properties: { capa, tipo, ...(tipos ? { tipos } : {}) } });
   const fc = { type: "FeatureCollection", features: [f("anom_recientes", "lights_sky"), f("anom_historicos", "ufo"), f("anom_recientes", "ufo", ["ufo", "lights_sky"]),
     f("anom_orbe", "orbe"), f("anom_cultivo", "cultivo"), f("anom_nuforc", "densidad"), f("anom_lugar", "lugar")] };
@@ -46,4 +46,44 @@ test("capas por tipo de fenómeno: noticias, históricos y catálogo que corresp
   assert.equal(n("crop"), 1);
   assert.equal(n("sound"), 0);
   assert.ok(ANOMALIAS_POR_TIPO.every((c) => c.noAmenaza && c.menu === "anomalias" && c.subgrupo.startsWith("Por tipo")));
+});
+
+test('fauna: tres subtipos del grupo existente, sin nueva capa general ni alertas de amenaza',()=>{
+  for(const t of ['prehistoric','mythical','cryptid']){
+    const c=R.ANOMALIAS_POR_TIPO.find(x=>x.id===`anom_t_${t}`);
+    assert.ok(c);assert.equal(c.menu,'anomalias');assert.equal(c.subgrupo,'Por tipo de fenómeno');assert.equal(c.noAmenaza,true);
+    assert.ok(!R.ANOMALIAS.some(x=>x.id===c.id));
+    const fc={features:[{properties:{capa:'anom_recientes',tipo:t}},{properties:{capa:'anom_recientes',tipo:'ufo'}}]};
+    assert.equal(c.derivar(fc).features.length,1);
+  }
+  assert.equal(clasificar('anom_t_prehistoric',{tipo:'prehistoric'}).ic,'🦖');
+  assert.equal(clasificar('anom_recientes',{tipo:'cryptid'}).ic,'🐾');
+  assert.equal(clasificar('anom_recientes',{tipo:'ufo'}).ic,'🛸');
+});
+
+test('respaldo de Juárez se combina una sola vez y conserva contraste/fechas en la ficha',async()=>{
+ const fs=await import('node:fs');const fc=JSON.parse(fs.readFileSync(new URL('../../data/anomalias-fauna.geojson',import.meta.url)));
+ const previo=globalThis.fetch;globalThis.fetch=async()=>({ok:true,json:async()=>fc});
+ try{
+   const c=R.ANOMALIAS_POR_TIPO.find(x=>x.id==='anom_t_prehistoric');
+   const combinado=await c.complementar(fc);assert.equal(combinado.features.length,1);
+   const datos=c.derivar(combinado);assert.equal(datos.features.length,1);
+   const p=datos.features[0].properties,ficha=c.ficha(p);
+   assert.ok(ficha.filas.some(([k,v])=>k==='Publicación de la fuente'&&v==='2026-11-09'));
+   assert.ok(ficha.filas.some(([k])=>k==='Estado del reporte'));
+   assert.match(c.extra(p),/aztecaciudadjuarez\.com/);assert.match(c.extra({...p,contraste_nota:'<script>x</script>'}),/&lt;script&gt;/);
+   assert.equal(R.ANOMALIAS_POR_TIPO.find(x=>x.id==='anom_t_mythical').derivar(combinado).features.length,0);
+ }finally{globalThis.fetch=previo;}
+});
+
+test('desmarcar fauna mientras se descarga el respaldo no deja una capa dibujada',async()=>{
+ const previo=globalThis.fetch;let resolver, avisar;
+ const solicitado=new Promise(r=>avisar=r), respaldo=new Promise(r=>resolver=r);
+ globalThis.fetch=async url=>String(url).includes('anomalias-fauna')?(avisar(),respaldo):{ok:true,json:async()=>({type:'FeatureCollection',features:[]})};
+ const m={on(){},getLayer(){return null;},getSource(){return null;}};
+ try{
+  const gestor=new R.Riesgos(m,{onObjeto(){}}), carga=gestor.activar('anom_t_prehistoric');
+  await solicitado;gestor.desactivar('anom_t_prehistoric');resolver({ok:true,json:async()=>({type:'FeatureCollection',features:[]})});await carga;
+  assert.equal(gestor.activas.size,0);assert.equal(gestor.relojes.size,0);
+ }finally{globalThis.fetch=previo;}
 });

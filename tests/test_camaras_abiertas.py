@@ -47,7 +47,9 @@ def test_511_y_wsdot_y_windy():
     assert C.camaras_windy(wy)[0]["properties"]["x"] == "https://www.windy.com/webcams/123"
 
 
-def test_errores_de_camaras_sin_llave_en_el_mensaje():
+def test_errores_de_camaras_sin_llave_en_el_mensaje(monkeypatch):
+    # El lector ya es falso: también se simula robots para no consultar el dominio ficticio.
+    monkeypatch.setattr(C, "robots_permite", lambda _: True)
     C._fuente_camaras("prueba", ["https://x.example/api/cameras?key=SECRETA"], lambda d: [], leer=lambda u: (_ for _ in ()).throw(RuntimeError("falla")))
     assert "SECRETA" not in C.CAM_FUENTES["prueba"]
 

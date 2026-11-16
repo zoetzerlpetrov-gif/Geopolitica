@@ -362,13 +362,14 @@ export const NIVELES_ANOM = {
   local: ["#E2711D", "Leyenda local, blogs o turismo; no verificado"],
   explicado: ["#6f8a82", "Hay una explicación convencional propuesta o confirmada"],
 };
-const AVISO_ANOM = "Son reportes, no hechos confirmados. El color indica qué respaldo tiene cada uno; ninguno prueba un origen extraterrestre.";
+const AVISO_ANOM = "Son reportes, no hechos confirmados. El color indica qué respaldo tiene cada uno; ninguno prueba un origen extraterrestre ni la existencia de especies prehistóricas, mitológicas o críptidos.";
 function capaAnomalia(id, nombre, nota, extra = {}) {
   const ids = extra.ids || [id];
   return {
     id, grupo: "Fenómenos anómalos", menu: "anomalias", noAmenaza: true, nombre, url: "data/vivos/anomalias.geojson", refresco_s: 21600,
     fuente: "Blogs y medios especializados, GDELT, NUFORC y catálogo propio",
     subgrupo: extra.subgrupo || "Casos, lugares y reportes",
+    ...(extra.complementar ? { complementar: extra.complementar } : {}),
     derivar: (fc) => ({ ...fc, features: fc.features.filter(extra.filtro || ((f) => ids.includes(f.properties.capa))) }),
     estilo: (p) => (id === "anom_nuforc" ? { c: NIVELES_ANOM.civil[0], r: Math.min(16, 3 + Math.sqrt(p.n || 1) / 3) } : { c: (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[0], r: 6 }),
     // Nombre visible solo en el catálogo curado (pocos puntos); las noticias y la densidad irían encimadas.
@@ -380,7 +381,7 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
     pie: AVISO_ANOM,
     ficha: (p) => ({
       titulo: p.titulo, chip: p.tipo_nombre || nombre,
-      filas: [...(p.fecha ? [["Fecha o periodo", String(p.fecha)]] : []), ...(p.desde ? [["Años con reportes", `${p.desde}–${p.hasta}`]] : []),
+      filas: [...(p.fecha ? [[p.fecha_tipo === "publicacion" ? "Publicación de la fuente" : p.fecha_tipo === "deteccion" ? "Detección en GDELT" : "Fecha o periodo", String(p.fecha)]] : []), ...(p.fecha_evento ? [["Fecha del supuesto avistamiento", p.fecha_evento]] : []), ...(p.estado_reporte ? [["Estado del reporte", p.estado_reporte]] : []), ...(p.desde ? [["Años con reportes", `${p.desde}–${p.hasta}`]] : []),
         ...(p.formas ? [["Formas más reportadas", p.formas]] : []), ...(p.resumen ? [["Qué se sabe", p.resumen]] : []),
         ["Nivel de respaldo", (NIVELES_ANOM[p.nivel] || NIVELES_ANOM.medios)[1]], ...(p.credibilidad ? [["Credibilidad del caso", p.credibilidad]] : []),
         ...(p.pais && !p.lugar ? [["País", p.pais]] : []), ...(p.lugar ? [["Lugar", p.lugar]] : []),
@@ -388,7 +389,7 @@ function capaAnomalia(id, nombre, nota, extra = {}) {
         ...(p.precision === "país" ? [["Ubicación", "Centro del país: el título no nombra una ciudad"]] : p.precision === "estado" ? [["Ubicación", "Centro del estado"]] : [])],
       url: p.url, fuente: p.fuente || "Catálogo propio", imagen: articuloWikipedia(p.url) }),
     // Notas agrupadas por país: lista con enlace a cada original.
-    extra: (p) => { const ns = lista(p.notas); return ns.length ? `<h4>Notas (${ns.length}${p.n > ns.length ? ` de ${p.n}` : ""})</h4><ul class="fuentes">${ns.map((x) => `<li><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a> <span class="meta">${esc(x.fuente)} · ${esc(x.fecha)}</span></li>`).join("")}</ul>` : ""; },
+    extra: (p) => { const ns = lista(p.notas); const contraste = p.contraste_url ? `<h4>Contraste y seguimiento</h4><p>${esc(p.contraste_nota || "Revisar la cobertura de contraste.")} <a href="${esc(safeUrl(p.contraste_url))}" target="_blank" rel="noopener noreferrer">${esc(p.contraste_fuente || "Abrir fuente de contraste")}</a></p>` : ""; return contraste + (ns.length ? `<h4>Notas (${ns.length}${p.n > ns.length ? ` de ${p.n}` : ""})</h4><ul class="fuentes">${ns.map((x) => `<li><a href="${esc(safeUrl(x.url))}" target="_blank" rel="noopener noreferrer">${esc(x.titulo)}</a> <span class="meta">${esc(x.fuente)} · ${esc(x.fecha)}</span></li>`).join("")}</ul>` : ""); },
   };
 }
 export const ANOMALIAS = [
@@ -413,11 +414,24 @@ export const TIPOS_ANOM = [
   ["sound", "Sonidos inexplicados", "Zumbidos, estruendos o «trompetas» sin fuente identificada."],
   ["em", "Efectos electromagnéticos", "Apagones, fallas de aparatos o interferencias asociadas a un avistamiento."],
   ["volcano", "Objetos sobre volcanes", "Objetos filmados cerca de cráteres (Popocatépetl, Colima…), casi siempre por cámaras de monitoreo."],
+  ["prehistoric", "Animales prehistóricos · reportes no confirmados", "Supuestos pterosaurios/pterodáctilos, pteranodones, plesiosaurios u otros animales prehistóricos vivos. No incluye hallazgos fósiles ni establece que la identificación sea correcta."],
+  ["mythical", "Animales mitológicos · reportes y relatos", "Relatos o supuestos avistamientos de dragones, unicornios, kraken y otras criaturas mitológicas; no son identificaciones zoológicas verificadas."],
+  ["cryptid", "Críptidos · reportes no confirmados", "Reportes de chupacabras, Bigfoot, yeti, Mothman, Nessie y otros críptidos. Un video o testimonio no confirma la especie."],
   ["crop", "Figuras en cultivos", "Figuras en campos de cultivo; desde 1991 se sabe que muchas son obra de personas.", ["anom_cultivo"]],
 ];
 const TIPO_ANOM_CAPAS = new Set(["anom_recientes", "anom_archivo", "anom_historicos"]);
+const TIPOS_FAUNA_ANOM = new Set(["prehistoric", "mythical", "cryptid"]);
+async function complementarFaunaAnomala(fc) {
+  // Solo los tres subtipos nuevos: respaldo inmediato hasta la siguiente ingesta general.
+  const respaldo = await getJSON("data/anomalias-fauna.geojson").catch(() => ({features:[]}));
+  const limite = new Date(Date.now() - 365 * 86400000).toISOString().slice(0,10);
+  const porId = new Map((respaldo.features || []).map(f => [f.properties.id, {...f, properties:{...f.properties, capa:(f.properties.fecha || "") >= limite ? "anom_recientes" : "anom_archivo"}}]));
+  for (const f of fc.features || []) porId.set(f.properties.id, f);
+  return {...fc, features:[...porId.values()]};
+}
 export const ANOMALIAS_POR_TIPO = TIPOS_ANOM.map(([t, nombre, nota, catalogo = []]) => capaAnomalia(`anom_t_${t}`, nombre, nota, {
   subgrupo: "Por tipo de fenómeno",
+  ...(TIPOS_FAUNA_ANOM.has(t) ? {complementar:complementarFaunaAnomala} : {}),
   filtro: (f) => { const p = f.properties; return catalogo.includes(p.capa) || (TIPO_ANOM_CAPAS.has(p.capa) && (p.tipo === t || (p.tipos || []).includes(t))); },
 }));
 

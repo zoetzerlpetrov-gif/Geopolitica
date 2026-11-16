@@ -13,6 +13,8 @@ const lim = (n) => Math.max(1, Math.min(5, Math.round(n)));
 // Fenómenos anómalos (nunca cuentan como amenaza): las noticias y los casos históricos llevan ícono; el catálogo
 // curado va en círculos con el color de su nivel de respaldo.
 export function iconoAnomalia(capaId, p = {}) {
+  const fauna = {prehistoric:"🦖", mythical:"🐉", cryptid:"🐾"}[p.tipo];
+  if (fauna && (capaId === "anom_recientes" || capaId === "anom_archivo" || capaId === "anom_historicos" || /^anom_t_(prehistoric|mythical|cryptid)$/.test(capaId))) return fauna;
   if (capaId !== "anom_recientes" && capaId !== "anom_historicos") return "";
   return p.tipo === "crop" ? "🌾" : /lights/.test(p.tipo || "") ? "✨" : "🛸";
 }

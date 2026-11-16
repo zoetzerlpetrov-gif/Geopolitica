@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "nota": "Reportes curados de fauna extraordinaria; no son identificaciones zoológicas confirmadas. La fecha corresponde a publicación cuando se indica.",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -106.42,
+          31.69
+        ]
+      },
+      "properties": {
+        "id": "fauna:juarez-anapra-202611",
+        "capa": "anom_recientes",
+        "tipo": "prehistoric",
+        "tipo_nombre": "Supuesto animal prehistórico",
+        "titulo": "Ciudad Juárez: reporte de supuesto pterosaurio en Anapra (sin confirmar)",
+        "fecha": "2026-11-09",
+        "fecha_tipo": "publicacion",
+        "fecha_evento": "No confirmada; videos difundidos en noviembre de 2026",
+        "estado_reporte": "Identificación no verificada; Protección Civil municipal lo descarta según la nota de contraste",
+        "nivel": "medios",
+        "pais": "MEX",
+        "lugar": "Ciudad Juárez, Chihuahua",
+        "precision": "ciudad",
+        "aprox": true,
+        "fuente": "Norte Digital · 9 de noviembre de 2026",
+        "url": "https://nortedigital.mx/video-un-pterodactilo-volando-sobre-anapra-esto-es-lo-que-dijo-maussan/",
+        "resumen": "Un video atribuido a Anapra fue presentado como posible pterosaurio. No hay identificación científica confirmada de la figura. Se registra la difusión del reporte, no la presencia de un animal prehistórico. Coordenadas de referencia de Ciudad Juárez, no de la cámara.",
+        "contraste_url": "https://www.aztecaciudadjuarez.com/noticias/la-verdad-sale-a-la-luz-proteccion-civil-se-pronuncia-sobre-el-pterodactilo-en-ciudad-juarez/",
+        "contraste_fuente": "Azteca Ciudad Juárez · 12 de noviembre de 2026",
+        "contraste_nota": "Azteca Ciudad Juárez recoge la postura de Protección Civil municipal: no hay elementos para confirmar el supuesto avistamiento ni evidencia de un animal prehistórico vivo."
+      }
+    }
+  ]
+}
