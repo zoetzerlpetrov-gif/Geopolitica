@@ -14,7 +14,7 @@ Funciones puras: reciben los JSON ya leídos y devuelven escenas, título y desc
 import re
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
-from historial import clave_url, ya_publicada
+from video_historial import clave_url, ya_publicada
 from fechas_voz import expandir_fechas
 
 DIAS = ["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"]

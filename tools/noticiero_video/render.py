@@ -21,7 +21,7 @@ from actualidad import actualizar_cifras, actualizar_clima, sincronizar_economia
 sys.path.insert(0, os.path.dirname(__file__))
 from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
-from historial import titulares_anteriores
+from video_historial import titulares_anteriores
 import patrocinio  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402

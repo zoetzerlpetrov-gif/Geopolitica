@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'tools/noticiero_video'))
 import guion as G
 import render as R
-from historial import clave_url, titulares_anteriores, clave_titular
+from video_historial import clave_url, titulares_anteriores, clave_titular
 
 
 def test_dof_excluye_la_publicacion_de_ayer_con_parametros_distintos():
