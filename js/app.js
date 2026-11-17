@@ -40,6 +40,11 @@ let regionDe = {};
 let porId = new Map();
 let tax, paises, api, gestor, mov, img, riesgos, clima, menu;
 let lite = false;
+// Lo que Demo puede usar dentro de un grupo de pago (selector CSS que queda activo).
+const DEMO_LIBRE = {
+  movimiento: { selector: "#sg-mov-satelites", chip: "Satélites", aviso: "Los satélites públicos están disponibles en Demo." },
+  riesgos: { selector: "#b-humedad", chip: "Humedad y CO₂", aviso: "Humedad, punto de rocío, CO₂ y agua del aire están disponibles en todos los planes." },
+};
 // Versión de pago (Fase 7): con ?vista=pago (o la versión comercial) se quita lo que viene de fuentes sin uso comercial
 // y lo que el plan reserva a quien administra. En el sitio público, null: se ve todo.
 const vistaLista = (async () => {
@@ -77,12 +82,13 @@ const vistaLista = (async () => {
   };
   const bloquear = (s, req) => {
     const d = s.parentElement;
-    const satelitesDemo = plan === "demo" && s.dataset.grupo === "movimiento";
-    if (!satelitesDemo) d.classList.add("bloqueado-plan");
-    s.insertAdjacentHTML("beforeend", `<span class="chip candado">${satelitesDemo ? "Satélites en Demo" : `🔒 ${esc(req.nombre)}`}</span>`);
+    // Partes de un grupo de pago que todos los planes pueden usar: satélites públicos y humedad, rocío y CO₂.
+    const libre = plan === "demo" ? DEMO_LIBRE[s.dataset.grupo] : null;
+    if (!libre) d.classList.add("bloqueado-plan");
+    s.insertAdjacentHTML("beforeend", `<span class="chip candado">${libre ? `${esc(libre.chip)} en Demo` : `🔒 ${esc(req.nombre)}`}</span>`);
     // Se puede desplegar y contraer todo (menús, secciones y subtipos) para ver qué incluye, pero no usarlo.
-    soloVer(d, satelitesDemo ? "#sg-mov-satelites" : "");
-    s.insertAdjacentHTML("afterend", `<p class="aviso-plan">${satelitesDemo ? "Los satélites públicos están disponibles en Demo. Las demás capas de este grupo requieren Recon. " : ""}Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). ${satelitesDemo ? "" : `Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. `}<a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
+    soloVer(d, libre ? libre.selector : "");
+    s.insertAdjacentHTML("afterend", `<p class="aviso-plan">${libre ? `${esc(libre.aviso)} Las demás capas de este grupo requieren ${esc(req.nombre)}. ` : ""}Disponible desde el plan <b>${esc(req.nombre)}</b> (${esc(precioCorto(req, fix))}). ${libre ? "" : `Puedes ver qué incluye, pero no usarlo con tu plan ${esc(nombrePlan)}. `}<a href="planes.html?plan=${esc(plan)}#${esc(req.id)}">Ver planes</a></p>`);
   };
   for (const s of document.querySelectorAll("summary.grupo-tit[data-grupo]")) {
     const req = LIC.planFaltante(planes, plan, "grupos", s.dataset.grupo);
@@ -1053,6 +1059,8 @@ async function main() {
   api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); timelapse?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); avisarPresupuesto(); });
   iniciarImagenes();
   iniciarClima();
+  import("./humedad.js?v=1").then((H) => H.iniciarHumedad({ map: api.map, cont: $("humedad-capas"), abrirFicha: abrirFichaHtml, getJSON }))
+    .catch((e) => { console.error("humedad", e); });
   iniciarRiesgos();
   iniciarHistoria();
   $("verif-form")?.addEventListener("submit", async (e) => {

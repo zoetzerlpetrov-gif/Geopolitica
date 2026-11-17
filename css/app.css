@@ -888,3 +888,10 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .admin-menu-contenido > a:hover, .admin-menu-contenido > a:focus-visible { background: var(--surface-2); }
 .admin-menu-contenido > a[hidden] { display: none; }
 @media (max-width: 760px) { .admin-menu > summary, .admin-menu-contenido > a { padding: 11px 10px; } }
+
+/* Humedad, punto de rocío, CO₂ y agua del aire (js/humedad.js) */
+.leyenda-humedad { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; margin: 4px 0; }
+.leyenda-humedad i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 4px; vertical-align: -1px; }
+.lista-co2 { padding-left: 16px; margin: 4px 0; font-size: 13px; }
+.hum-calc input[type="number"] { width: 90px; }
+#humedad-capas select { max-width: 100%; }
