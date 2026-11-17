@@ -1059,7 +1059,7 @@ async function main() {
   api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); timelapse?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); avisarPresupuesto(); });
   iniciarImagenes();
   iniciarClima();
-  import("./humedad.js?v=1").then((H) => H.iniciarHumedad({ map: api.map, cont: $("humedad-capas"), abrirFicha: abrirFichaHtml, getJSON }))
+  import("./humedad.js?v=2").then((H) => H.iniciarHumedad({ map: api.map, cont: $("humedad-capas"), abrirFicha: abrirFichaHtml, getJSON }))
     .catch((e) => { console.error("humedad", e); });
   iniciarRiesgos();
   iniciarHistoria();

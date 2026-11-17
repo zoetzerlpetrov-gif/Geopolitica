@@ -28,3 +28,16 @@ test("ficha, CO₂ y calculadora escapan texto y explican la estimación", () =>
   assert.ok(htmlCalculo(25, 0).includes("Escribe"));
   assert.ok(htmlCalculo(30, 80).includes("mL por m³"));
 });
+
+test("historial: promedio mensual, litros por mes y meses sin noches", async () => {
+  const { resumenMensual, htmlHistorial } = await import("../../js/humedad.js");
+  const [nov] = resumenMensual({ m: { "2026-11": [2, 20, 1, 300] } });
+  assert.equal(nov.ml_m3, 10);
+  assert.equal(nov.l_dia, 33.6);                 // 10 mL/m³ × 200 m³/h × 24 h × 0.7
+  assert.equal(nov.l_mes, Math.round(33.6 * 30));
+  assert.equal(nov.rocio_ml_noche, 300);
+  assert.equal(nov.rocio_l_m2_mes, 9);
+  assert.equal(resumenMensual({ m: { "2026-12": [1, 5, 0, 0] } })[0].rocio_ml_noche, null);
+  assert.ok(htmlHistorial(undefined, "2026-11-17").includes("Todavía no hay historial"));
+  assert.ok(htmlHistorial({ m: { "2026-11": [2, 20, 1, 300] } }, "2026-11-17").includes("nov 2026"));
+});

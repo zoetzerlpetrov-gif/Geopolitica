@@ -84,6 +84,8 @@ export function htmlFicha(p, ref = REF) {
   <h3>Generador eléctrico de agua atmosférica</h3>
   <p>Al enfriar el aire a ${ref.bobina_c} °C se condensan <b>${n1(p.generador_ml_m3, 2)} mL por cada m³</b> de aire.
      Un equipo de referencia que mueve ${ref.caudal_m3h} m³/h con ${Math.round(ref.eficiencia * 100)} % de eficiencia daría ≈ <b>${n1(p.generador_l_dia)} L por día</b>${p.generador_ml_m3 > 0 ? "" : " (con punto de rocío de 5 °C o menos el condensador tendría que bajar de 0 °C y se congela)"}.</p>
+  <h3>Agua posible por mes (historial de este aeropuerto)</h3>
+  <div class="hum-hist" data-id="${esc(p.id)}"><p class="meta">Cargando historial…</p></div>
   <p class="meta">Estimación física simplificada (cálculo propio), no medición. Los colectores pasivos reales registran de 0.1 a 0.6 L/m² en noches buenas; cada generador publica su propia curva de producción. Antes de beber, el agua condensada debe filtrarse y desinfectarse (en México, NOM-127-SSA1-2021).</p>
   <p class="meta">Fuente: reportes METAR (NOAA Aviation Weather Center, dominio público).</p>`;
 }
@@ -94,6 +96,27 @@ export function htmlCO2(d) {
   if (!s.mauna_loa && !s.global) return `<p class="meta">Aún no hay datos de CO₂ (se generan con «Datos en movimiento» una vez al día).</p>`;
   return `<ul class="lista-co2">${fila(s.mauna_loa, "en Mauna Loa, Hawái (promedio mensual)")}${fila(s.global, "promedio global en la superficie del mar")}</ul>
   <p class="meta">ppm = partes por millón: de cada millón de moléculas de aire seco, cuántas son de CO₂. Al aire libre varía unas pocas ppm entre lugares (sube cerca de ciudades e industrias); dentro de una oficina cerrada puede pasar de 1,000 ppm, y ahí sí conviene un sensor propio. No hay una red abierta de medición por ciudad, por eso se muestra la referencia mundial de la NOAA.</p>`;
+}
+
+const NOMBRE_MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
+const diasDelMes = (ym) => { const [a, m] = ym.split("-").map(Number); return new Date(Date.UTC(a, m, 0)).getUTCDate(); };
+
+/** Promedios mensuales de un aeropuerto: entrada = {m: {"AAAA-MM": [obs, Σ mL/m³, noches, Σ mL/m² rocío]}}. */
+export function resumenMensual(entrada, ref = REF) {
+  return Object.entries(entrada?.m || {}).sort(([a], [b]) => a.localeCompare(b)).map(([mes, [n, sumaGen, noches, sumaRocio]]) => {
+    const mlM3 = n ? sumaGen / n : 0, lDia = (mlM3 * ref.caudal_m3h * 24 * ref.eficiencia) / 1000, rocio = noches ? sumaRocio / noches : null, dias = diasDelMes(mes);
+    return { mes, obs: n, noches, ml_m3: +mlM3.toFixed(2), l_dia: +lDia.toFixed(1), l_mes: Math.round(lDia * dias),
+      rocio_ml_noche: rocio == null ? null : Math.round(rocio), rocio_l_m2_mes: rocio == null ? null : +((rocio * dias) / 1000).toFixed(1) };
+  });
+}
+
+export function htmlHistorial(entrada, desde = "", ref = REF) {
+  const filas = resumenMensual(entrada, ref);
+  if (!filas.length) return `<p class="meta">Todavía no hay historial de este aeropuerto: se acumula cada hora desde ${esc(desde || "la primera corrida")}.</p>`;
+  return `<table class="tabla-ficha"><tr><th>Mes</th><th>Generador (L/día · L/mes)</th><th>Rocío pasivo (mL/m² por noche · L/m² al mes)</th><th>Datos</th></tr>
+    ${filas.map((f) => `<tr><td>${NOMBRE_MES[Number(f.mes.slice(5)) - 1]} ${f.mes.slice(0, 4)}</td><td>${n1(f.l_dia)} · <b>${n1(f.l_mes, 0)}</b></td>
+      <td>${f.rocio_ml_noche == null ? "sin noches medidas" : `${n1(f.rocio_ml_noche, 0)} · <b>${n1(f.rocio_l_m2_mes)}</b>`}</td><td class="meta">${f.obs} obs.${f.noches ? `, ${f.noches} nocturnas` : ""}</td></tr>`).join("")}</table>
+    <p class="meta">Promedio de las observaciones horarias del mes (historial desde ${esc(desde)}). L/mes = promedio diario × días del mes; un mes con pocas observaciones es menos representativo. Generador de referencia: ${ref.caudal_m3h} m³/h, ${Math.round(ref.eficiencia * 100)} % de eficiencia.</p>`;
 }
 
 /** Calculadora: temperatura y humedad relativa → punto de rocío y agua posible. */
@@ -147,7 +170,18 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
     try { e.target.checked ? await poner() : quitar(); } catch { e.target.checked = false; quitar(); $("hum-estado").textContent = "Aún no hay datos (se generan con «Datos en movimiento» cada hora)."; }
   });
   $("hum-modo").addEventListener("change", pintar);
-  map.on("click", CAPA, (e) => { const f = e.features?.[0]; if (f) abrirFicha(htmlFicha(f.properties, ref)); });
+  let historial = null;
+  map.on("click", CAPA, async (e) => {
+    const f = e.features?.[0];
+    if (!f) return;
+    abrirFicha(htmlFicha(f.properties, ref));
+    const div = document.querySelector(`.hum-hist[data-id="${CSS.escape(f.properties.id)}"]`);
+    try {
+      historial ??= getJSON("data/vivos/humedad_historial.json", { bust: true });
+      const h = await historial;
+      if (div?.isConnected) div.innerHTML = htmlHistorial(h.estaciones?.[f.properties.id], h.desde, { ...ref, ...(h.referencia || {}) });
+    } catch { historial = null; if (div?.isConnected) div.innerHTML = `<p class="meta">El historial aún no está disponible.</p>`; }
+  });
   map.on("mouseenter", CAPA, () => { map.getCanvas().style.cursor = "pointer"; });
   map.on("mouseleave", CAPA, () => { map.getCanvas().style.cursor = ""; });
   // Al cambiar el estilo del mapa (claro/oscuro, satélite) se borran las capas propias: se vuelven a poner.

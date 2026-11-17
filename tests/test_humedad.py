@@ -61,3 +61,13 @@ def test_co2_lee_ultimo_mes_y_anio_anterior(tmp_path, monkeypatch):
     co2.main(AHORA, pedir=lambda url: HTML)
     out = json.load(open(tmp_path / "co2.json"))
     assert set(out["series"]) == {"mauna_loa", "global"} and out["errores"] == []
+
+
+def test_historial_suma_una_vez_por_hora_y_separa_noches():
+    f = lambda hora, noche: {"properties": {"id": "MMCT", "hora_utc": hora, "generador_ml_m3": 10.0, "rocio_ml_m2_noche": 200, "noche": noche}}  # noqa: E731
+    hist = {}
+    assert H.acumular(hist, [f("2026-11-17T14:11:00Z", False)], AHORA) == 1
+    assert H.acumular(hist, [f("2026-11-17T14:11:00Z", False)], AHORA) == 0          # misma observación repetida
+    assert H.acumular(hist, [f("2026-11-18T03:00:00Z", True)], AHORA) == 1
+    assert hist["estaciones"]["MMCT"]["m"]["2026-11"] == [2, 20.0, 1, 200]
+    assert hist["desde"] == "2026-11-17"
