@@ -191,7 +191,7 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/noticiero/noticiero.py
 
-      - name: Monitor México (Banxico SIE: remesas por estado y país, petróleo, comercio, turismo, inversión; una vez al día; si falla se conserva lo anterior)
+      - name: Monitor México (Banxico SIE, remesas por estado y país, petróleo, comercio, turismo, inversión; una vez al día; si falla se conserva lo anterior)
         continue-on-error: true
         timeout-minutes: 6
         env:
