@@ -401,3 +401,36 @@ def test_enlaces_usados_de_los_guiones_anteriores(tmp_path):
     (tmp_path / "d.json").write_text("no es json")
     assert R.enlaces_usados(str(tmp_path), "2026-11-13") == {"https://n/1"}
     assert R.enlaces_usados(None, "2026-11-13") == frozenset() and R.enlaces_usados("/no/existe", "2026-11-13") == frozenset()
+
+
+def test_pares_de_divisas_se_dicen_sin_barra():
+    import guion as G
+    assert G.para_voz("EUR/MXN 21.35 y USD/MXN 18.55") == "Euro Peso 21 punto 35 y Dólar Peso 18 punto 55"
+    assert G.pares_divisas("XYZ/MXN") == "XYZ/MXN"   # código desconocido: se deja igual
+
+
+def test_nombres_de_instrumentos_en_ingles_salvo_fibras_y_nombres_en_espanol():
+    import guion as G
+    assert G.nombre_para_voz("Apple") == "⟪Apple⟫"
+    assert G.nombre_para_voz("Vanguard S&P 500") == "⟪Vanguard S&P 500⟫"
+    assert G.nombre_para_voz("Fibra Uno") == "Fibra Uno"
+    assert G.nombre_para_voz("Mercados emergentes") == "Mercados emergentes"
+    assert G.nombre_para_voz("IPC México") == "IPC México"
+    v = G.voz_mercados([{"nombre": "Apple", "precio": 230.5, "moneda": "USD", "pct": 1.2, "titulo": "", "url": "u"}])
+    assert v.startswith("⟪Apple⟫: 230 punto 50 dólares")          # el diccionario no cambia «Apple» dentro de ⟪ ⟫
+    assert G.sin_marcas("⟪Apple⟫: 2 dólares") == "Ápol: 2 dólares"  # Piper: sin inglés, con el diccionario
+
+
+def test_mercados_no_menciona_portafolio():
+    import guion as G
+    filas = [{"ok": True, "ticker": "AAPL", "name": "Apple", "current_price": 230.5, "currency": "USD", "sparkline_12m": [220, 230.5],
+              "news": [{"title": "Apple presenta resultados", "link": "https://x.com/a", "publisher": "X", "date": "2099-01-01T00:00:00+00:00"}]}]
+    g = G.guion("2026-11-17", [], portafolio=filas)
+    m = [e for e in g["escenas"] if e["tipo"] == "mercados"]
+    assert m and "portafolio" not in (m[0]["voz"] + m[0]["texto"]).lower()
+
+
+def test_tramos_de_voz_en_ingles():
+    import render as R
+    assert R.tramos_voz("⟪Apple⟫: 230 dólares.") == [("Apple", True), (": 230 dólares.", False)]
+    assert R.tramos_voz("Fibra Uno: 25 pesos.") == [("Fibra Uno: 25 pesos.", False)]

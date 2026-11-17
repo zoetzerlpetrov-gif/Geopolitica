@@ -19,7 +19,7 @@ from zoneinfo import ZoneInfo
 from actualidad import actualizar_cifras, actualizar_clima, sincronizar_economia
 
 sys.path.insert(0, os.path.dirname(__file__))
-from guion import candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx  # noqa: E402
+from guion import INGLES_A, INGLES_B, candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx, sin_marcas  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 from video_historial import titulares_anteriores
 import patrocinio  # noqa: E402
@@ -132,6 +132,26 @@ def pantalla(e, n, total, fecha):
 _KOKORO = {}
 
 
+def tramos_voz(texto):
+    """«⟪Apple⟫: 230 dólares» → [("Apple", True), (": 230 dólares", False)]: los nombres entre ⟪ ⟫ se leen en inglés."""
+    out = []
+    for i, t in enumerate(texto.replace(INGLES_B, INGLES_A).split(INGLES_A)):
+        if t.strip(" :,."):
+            out.append((t.strip(), i % 2 == 1))
+    return out
+
+
+def pipeline_ingles(KPipeline):
+    """Kokoro en inglés (misma voz ef_dora: los nombres de acciones, ETF y criptos suenan en inglés). None si no carga."""
+    if "en" not in _KOKORO:
+        try:
+            _KOKORO["en"] = KPipeline(lang_code="a")
+        except Exception as e:  # noqa: BLE001
+            print(f"aviso: Kokoro en inglés no disponible ({type(e).__name__}); los nombres se leen en español", file=sys.stderr)
+            _KOKORO["en"] = None
+    return _KOKORO["en"]
+
+
 def voz_kokoro(texto, wav, voz_id):
     """Kokoro-82M (Apache-2.0), voz en español (p. ej. ef_dora). El modelo se carga una sola vez por corrida."""
     try:
@@ -147,7 +167,11 @@ def voz_kokoro(texto, wav, voz_id):
     for i, parte in enumerate(p for p in texto.split("‖") if p.strip()):
         if i:
             trozos.append(medio_s)
-        trozos += [a for _, _, a in _KOKORO["pipe"](parte.strip(), voice=voz_id, speed=1.0)]
+        for tramo, ingles in tramos_voz(parte):
+            pipe = pipeline_ingles(KPipeline) if ingles else _KOKORO["pipe"]
+            if ingles and pipe is None:  # sin voz en inglés: el nombre se lee en español con el diccionario
+                tramo, pipe = sin_marcas(tramo), _KOKORO["pipe"]
+            trozos += [a for _, _, a in pipe(tramo, voice=voz_id, speed=1.0)]
     if not trozos:
         return False
     trozos.append(np.zeros(int(24000 * 0.25), dtype="float32"))  # respiro corto al final de la escena
@@ -167,7 +191,7 @@ def voz(texto, wav, modelo):
     piper = shutil.which("piper")
     if not (piper and modelo and os.path.exists(modelo)):
         return False
-    texto = texto.replace("‖", ". ")  # Piper: la pausa se vuelve fin de oración (silencio de 0.5 s)
+    texto = sin_marcas(texto).replace("‖", ". ")  # Piper: sin voz en inglés; la pausa se vuelve fin de oración (0.5 s)
     r = subprocess.run([piper, "-m", modelo, "-f", wav, "--sentence-silence", "0.5"], input=texto.encode("utf-8"), capture_output=True)
     return r.returncode == 0 and os.path.exists(wav)
 
