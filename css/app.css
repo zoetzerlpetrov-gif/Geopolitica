@@ -895,3 +895,10 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .lista-co2 { padding-left: 16px; margin: 4px 0; font-size: 13px; }
 .hum-calc input[type="number"] { width: 90px; }
 #humedad-capas select { max-width: 100%; }
+
+/* Monitor México (js/monitor_mx.js) */
+.mx-alertas { padding-left: 16px; margin: 4px 0; font-size: 13px; }
+.mx-alertas li { margin-bottom: 4px; }
+.mx-ind th { font-weight: 500; text-align: left; }
+.mx-ind .sube { color: #2E7D32; font-size: 12px; }
+.mx-ind .baja { color: #C62828; font-size: 12px; }

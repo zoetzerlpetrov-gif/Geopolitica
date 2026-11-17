@@ -237,7 +237,8 @@
    "herramientas": "analyst",
    "investigacion": "analyst",
    "corporativo": "demo",
-   "seguimiento": "command"
+   "seguimiento": "command",
+   "mexico": "recon"
   },
   "paginas": {
    "reporte.html": "demo",
@@ -280,7 +281,8 @@
    "camaras.html": "Cámaras públicas (catálogo y vistas previas)",
    "soporte.html": "🛟 Soporte",
    "privacidad.html": "🔒 Aviso de privacidad",
-   "terminos.html": "📄 Términos y condiciones"
+   "terminos.html": "📄 Términos y condiciones",
+   "mexico": "🇲🇽 Monitor México"
   }
  }
 }

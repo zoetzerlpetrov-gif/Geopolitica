@@ -1,0 +1,4086 @@
+{
+ "_nota": "Monitor México: series del Sistema de Información Económica (SIE) de Banxico. Identificadores tomados de los cuadros públicos del SIE (CE100, CE167, CE169, CE81, CE121, CE125, CE201, CE202, CE36, CE131, CE182, CE159) el 2026-11-17. Coordenadas: config/mx_estados.json y data/base/etiquetas-paises.geojson.",
+ "remesas_estado": [
+  {
+   "id": "SE29670",
+   "nombre": "Aguascalientes",
+   "coord": [
+    -102.29,
+    21.88
+   ]
+  },
+  {
+   "id": "SE29671",
+   "nombre": "Baja California",
+   "coord": [
+    -115.45,
+    32.62
+   ]
+  },
+  {
+   "id": "SE29672",
+   "nombre": "Baja California Sur",
+   "coord": [
+    -110.31,
+    24.14
+   ]
+  },
+  {
+   "id": "SE29673",
+   "nombre": "Campeche",
+   "coord": [
+    -90.53,
+    19.85
+   ]
+  },
+  {
+   "id": "SE29674",
+   "nombre": "Coahuila",
+   "coord": [
+    -101.0,
+    25.42
+   ]
+  },
+  {
+   "id": "SE29675",
+   "nombre": "Colima",
+   "coord": [
+    -103.72,
+    19.24
+   ]
+  },
+  {
+   "id": "SE29676",
+   "nombre": "Chiapas",
+   "coord": [
+    -93.12,
+    16.75
+   ]
+  },
+  {
+   "id": "SE29677",
+   "nombre": "Chihuahua",
+   "coord": [
+    -106.09,
+    28.63
+   ]
+  },
+  {
+   "id": "SE29678",
+   "nombre": "Ciudad de México",
+   "coord": [
+    -99.13,
+    19.43
+   ]
+  },
+  {
+   "id": "SE29679",
+   "nombre": "Durango",
+   "coord": [
+    -104.66,
+    24.02
+   ]
+  },
+  {
+   "id": "SE29680",
+   "nombre": "Estado de México",
+   "coord": [
+    -99.66,
+    19.29
+   ]
+  },
+  {
+   "id": "SE29681",
+   "nombre": "Guanajuato",
+   "coord": [
+    -101.26,
+    21.02
+   ]
+  },
+  {
+   "id": "SE29682",
+   "nombre": "Guerrero",
+   "coord": [
+    -99.5,
+    17.55
+   ]
+  },
+  {
+   "id": "SE29683",
+   "nombre": "Hidalgo",
+   "coord": [
+    -98.73,
+    20.12
+   ]
+  },
+  {
+   "id": "SE29684",
+   "nombre": "Jalisco",
+   "coord": [
+    -103.35,
+    20.67
+   ]
+  },
+  {
+   "id": "SE29685",
+   "nombre": "Michoacán",
+   "coord": [
+    -101.19,
+    19.7
+   ]
+  },
+  {
+   "id": "SE29686",
+   "nombre": "Morelos",
+   "coord": [
+    -99.23,
+    18.92
+   ]
+  },
+  {
+   "id": "SE29687",
+   "nombre": "Nayarit",
+   "coord": [
+    -104.89,
+    21.5
+   ]
+  },
+  {
+   "id": "SE29688",
+   "nombre": "Nuevo León",
+   "coord": [
+    -100.32,
+    25.69
+   ]
+  },
+  {
+   "id": "SE29689",
+   "nombre": "Oaxaca",
+   "coord": [
+    -96.72,
+    17.07
+   ]
+  },
+  {
+   "id": "SE29690",
+   "nombre": "Puebla",
+   "coord": [
+    -98.21,
+    19.04
+   ]
+  },
+  {
+   "id": "SE29691",
+   "nombre": "Querétaro",
+   "coord": [
+    -100.39,
+    20.59
+   ]
+  },
+  {
+   "id": "SE29692",
+   "nombre": "Quintana Roo",
+   "coord": [
+    -88.3,
+    18.5
+   ]
+  },
+  {
+   "id": "SE29693",
+   "nombre": "San Luis Potosí",
+   "coord": [
+    -100.98,
+    22.15
+   ]
+  },
+  {
+   "id": "SE29694",
+   "nombre": "Sinaloa",
+   "coord": [
+    -107.39,
+    24.8
+   ]
+  },
+  {
+   "id": "SE29695",
+   "nombre": "Sonora",
+   "coord": [
+    -110.96,
+    29.07
+   ]
+  },
+  {
+   "id": "SE29696",
+   "nombre": "Tabasco",
+   "coord": [
+    -92.93,
+    17.99
+   ]
+  },
+  {
+   "id": "SE29697",
+   "nombre": "Tamaulipas",
+   "coord": [
+    -99.15,
+    23.74
+   ]
+  },
+  {
+   "id": "SE29698",
+   "nombre": "Tlaxcala",
+   "coord": [
+    -98.24,
+    19.32
+   ]
+  },
+  {
+   "id": "SE29699",
+   "nombre": "Veracruz",
+   "coord": [
+    -96.91,
+    19.54
+   ]
+  },
+  {
+   "id": "SE29700",
+   "nombre": "Yucatán",
+   "coord": [
+    -89.62,
+    20.97
+   ]
+  },
+  {
+   "id": "SE29701",
+   "nombre": "Zacatecas",
+   "coord": [
+    -102.58,
+    22.77
+   ]
+  }
+ ],
+ "remesas_pais_origen": [
+  {
+   "id": "SE43676",
+   "nombre": "Afganistán",
+   "iso3": "AFG",
+   "coord": [
+    66,
+    33.84
+   ]
+  },
+  {
+   "id": "SE43677",
+   "nombre": "Albania",
+   "iso3": "ALB",
+   "coord": [
+    20.05,
+    41.15
+   ]
+  },
+  {
+   "id": "SE43678",
+   "nombre": "Alemania",
+   "iso3": "DEU",
+   "coord": [
+    10.37,
+    51.09
+   ]
+  },
+  {
+   "id": "SE43679",
+   "nombre": "Angola",
+   "iso3": "AGO",
+   "coord": [
+    17.56,
+    -12.33
+   ]
+  },
+  {
+   "id": "SE43680",
+   "nombre": "Anguila",
+   "iso3": "AIA",
+   "coord": [
+    -63,
+    18.22
+   ]
+  },
+  {
+   "id": "SE43681",
+   "nombre": "Antigua y Barbuda",
+   "iso3": "ATG",
+   "coord": [
+    -61.72,
+    17.04
+   ]
+  },
+  {
+   "id": "SE43683",
+   "nombre": "Arabia Saudita",
+   "iso3": "SAU",
+   "coord": [
+    44.54,
+    24.12
+   ]
+  },
+  {
+   "id": "SE43684",
+   "nombre": "Argelia",
+   "iso3": "DZA",
+   "coord": [
+    2.62,
+    28.16
+   ]
+  },
+  {
+   "id": "SE43685",
+   "nombre": "Argentina",
+   "iso3": "ARG",
+   "coord": [
+    -65.16,
+    -35.19
+   ]
+  },
+  {
+   "id": "SE43686",
+   "nombre": "Armenia",
+   "iso3": "ARM",
+   "coord": [
+    44.92,
+    40.3
+   ]
+  },
+  {
+   "id": "SE43687",
+   "nombre": "Aruba",
+   "iso3": "ABW",
+   "coord": [
+    -69.9,
+    12.45
+   ]
+  },
+  {
+   "id": "SE43688",
+   "nombre": "Australia",
+   "iso3": "AUS",
+   "coord": [
+    134.35,
+    -25.57
+   ]
+  },
+  {
+   "id": "SE43689",
+   "nombre": "Austria",
+   "iso3": "AUT",
+   "coord": [
+    14.12,
+    47.59
+   ]
+  },
+  {
+   "id": "SE43690",
+   "nombre": "Azerbaiyán",
+   "iso3": "AZE",
+   "coord": [
+    47.67,
+    40.34
+   ]
+  },
+  {
+   "id": "SE43691",
+   "nombre": "Bahamas",
+   "iso3": "BHS",
+   "coord": [
+    -78.05,
+    24.68
+   ]
+  },
+  {
+   "id": "SE43692",
+   "nombre": "Bahrein",
+   "iso3": "BHR",
+   "coord": [
+    50.55,
+    26.03
+   ]
+  },
+  {
+   "id": "SE43693",
+   "nombre": "Bangladesh",
+   "iso3": "BGD",
+   "coord": [
+    90.22,
+    23.89
+   ]
+  },
+  {
+   "id": "SE43694",
+   "nombre": "Barbados",
+   "iso3": "BRB",
+   "coord": [
+    -59.49,
+    13.08
+   ]
+  },
+  {
+   "id": "SE43695",
+   "nombre": "Bélgica",
+   "iso3": "BEL",
+   "coord": [
+    4.64,
+    50.64
+   ]
+  },
+  {
+   "id": "SE43696",
+   "nombre": "Belice",
+   "iso3": "BLZ",
+   "coord": [
+    -88.73,
+    17.19
+   ]
+  },
+  {
+   "id": "SE43697",
+   "nombre": "Benín",
+   "iso3": "BEN",
+   "coord": [
+    2.33,
+    9.64
+   ]
+  },
+  {
+   "id": "SE43698",
+   "nombre": "Bermudas",
+   "iso3": "BMU",
+   "coord": [
+    -64.73,
+    32.29
+   ]
+  },
+  {
+   "id": "SE43699",
+   "nombre": "Bielorrusia",
+   "iso3": "BLR",
+   "coord": [
+    28.03,
+    53.53
+   ]
+  },
+  {
+   "id": "SE43700",
+   "nombre": "Bolivia",
+   "iso3": "BOL",
+   "coord": [
+    -64.68,
+    -16.71
+   ]
+  },
+  {
+   "id": "SE43702",
+   "nombre": "Bosnia-Herzegovina",
+   "iso3": "BIH",
+   "coord": [
+    17.76,
+    44.18
+   ]
+  },
+  {
+   "id": "SE43704",
+   "nombre": "Brasil",
+   "iso3": "BRA",
+   "coord": [
+    -53.12,
+    -10.84
+   ]
+  },
+  {
+   "id": "SE43705",
+   "nombre": "Brunei",
+   "iso3": "BRN",
+   "coord": [
+    114.57,
+    4.5
+   ]
+  },
+  {
+   "id": "SE43706",
+   "nombre": "Bulgaria",
+   "iso3": "BGR",
+   "coord": [
+    25.22,
+    42.78
+   ]
+  },
+  {
+   "id": "SE43707",
+   "nombre": "Burkina Faso",
+   "iso3": "BFA",
+   "coord": [
+    -1.77,
+    12.26
+   ]
+  },
+  {
+   "id": "SE43708",
+   "nombre": "Burundi",
+   "iso3": "BDI",
+   "coord": [
+    29.88,
+    -3.36
+   ]
+  },
+  {
+   "id": "SE43709",
+   "nombre": "Bután",
+   "iso3": "BTN",
+   "coord": [
+    90.41,
+    27.41
+   ]
+  },
+  {
+   "id": "SE43710",
+   "nombre": "Cabo Verde",
+   "iso3": "CPV",
+   "coord": [
+    -23.66,
+    15.14
+   ]
+  },
+  {
+   "id": "SE43711",
+   "nombre": "Camboya",
+   "iso3": "KHM",
+   "coord": [
+    104.91,
+    12.73
+   ]
+  },
+  {
+   "id": "SE43712",
+   "nombre": "Camerún",
+   "iso3": "CMR",
+   "coord": [
+    12.74,
+    5.7
+   ]
+  },
+  {
+   "id": "SE43713",
+   "nombre": "Canadá",
+   "iso3": "CAN",
+   "coord": [
+    -102.36,
+    57.93
+   ]
+  },
+  {
+   "id": "SE43714",
+   "nombre": "Chad",
+   "iso3": "TCD",
+   "coord": [
+    18.64,
+    15.33
+   ]
+  },
+  {
+   "id": "SE43715",
+   "nombre": "Chile",
+   "iso3": "CHL",
+   "coord": [
+    -71.31,
+    -35.77
+   ]
+  },
+  {
+   "id": "SE43716",
+   "nombre": "China",
+   "iso3": "CHN",
+   "coord": [
+    103.81,
+    36.62
+   ]
+  },
+  {
+   "id": "SE43717",
+   "nombre": "Chipre",
+   "iso3": "CYP",
+   "coord": [
+    33.54,
+    35.27
+   ]
+  },
+  {
+   "id": "SE43718",
+   "nombre": "Cisjordania",
+   "iso3": "PSE",
+   "coord": [
+    35.28,
+    31.97
+   ]
+  },
+  {
+   "id": "SE43719",
+   "nombre": "Colombia",
+   "iso3": "COL",
+   "coord": [
+    -73.09,
+    3.92
+   ]
+  },
+  {
+   "id": "SE43720",
+   "nombre": "Comores",
+   "iso3": "COM",
+   "coord": [
+    43.36,
+    -11.69
+   ]
+  },
+  {
+   "id": "SE43721",
+   "nombre": "Corea del Norte",
+   "iso3": "PRK",
+   "coord": [
+    127.2,
+    40.15
+   ]
+  },
+  {
+   "id": "SE43722",
+   "nombre": "Corea del Sur",
+   "iso3": "KOR",
+   "coord": [
+    127.86,
+    36.45
+   ]
+  },
+  {
+   "id": "SE43723",
+   "nombre": "Costa de Marfil",
+   "iso3": "CIV",
+   "coord": [
+    -5.57,
+    7.62
+   ]
+  },
+  {
+   "id": "SE43724",
+   "nombre": "Costa Rica",
+   "iso3": "CRI",
+   "coord": [
+    -84.19,
+    9.98
+   ]
+  },
+  {
+   "id": "SE43725",
+   "nombre": "Croacia",
+   "iso3": "HRV",
+   "coord": [
+    16.43,
+    45.16
+   ]
+  },
+  {
+   "id": "SE43726",
+   "nombre": "Cuba",
+   "iso3": "CUB",
+   "coord": [
+    -78.95,
+    21.62
+   ]
+  },
+  {
+   "id": "SE43728",
+   "nombre": "Dinamarca",
+   "iso3": "DNK",
+   "coord": [
+    9.37,
+    56.24
+   ]
+  },
+  {
+   "id": "SE43729",
+   "nombre": "Djibouti",
+   "iso3": "DJI",
+   "coord": [
+    42.55,
+    11.75
+   ]
+  },
+  {
+   "id": "SE43730",
+   "nombre": "Dominica",
+   "iso3": "DMA",
+   "coord": [
+    -61.36,
+    15.45
+   ]
+  },
+  {
+   "id": "SE43731",
+   "nombre": "Ecuador",
+   "iso3": "ECU",
+   "coord": [
+    -78.39,
+    -1.44
+   ]
+  },
+  {
+   "id": "SE43732",
+   "nombre": "Egipto",
+   "iso3": "EGY",
+   "coord": [
+    29.86,
+    26.49
+   ]
+  },
+  {
+   "id": "SE43733",
+   "nombre": "El Salvador",
+   "iso3": "SLV",
+   "coord": [
+    -88.88,
+    13.74
+   ]
+  },
+  {
+   "id": "SE43734",
+   "nombre": "Emiratos Árabes Unidos",
+   "iso3": "ARE",
+   "coord": [
+    54.3,
+    23.9
+   ]
+  },
+  {
+   "id": "SE43735",
+   "nombre": "Eslovaquia",
+   "iso3": "SVK",
+   "coord": [
+    19.48,
+    48.71
+   ]
+  },
+  {
+   "id": "SE43736",
+   "nombre": "Eslovenia",
+   "iso3": "SVN",
+   "coord": [
+    14.8,
+    46.11
+   ]
+  },
+  {
+   "id": "SE43737",
+   "nombre": "España",
+   "iso3": "ESP",
+   "coord": [
+    -3.57,
+    40.4
+   ]
+  },
+  {
+   "id": "SE43738",
+   "nombre": "Estados Unidos",
+   "iso3": "USA",
+   "coord": [
+    -99.14,
+    39.53
+   ]
+  },
+  {
+   "id": "SE43739",
+   "nombre": "Estonia",
+   "iso3": "EST",
+   "coord": [
+    25.81,
+    58.68
+   ]
+  },
+  {
+   "id": "SE43740",
+   "nombre": "Etiopía",
+   "iso3": "ETH",
+   "coord": [
+    39.61,
+    8.62
+   ]
+  },
+  {
+   "id": "SE43741",
+   "nombre": "Federación Rusa",
+   "iso3": "RUS",
+   "coord": [
+    96,
+    62
+   ]
+  },
+  {
+   "id": "SE43742",
+   "nombre": "Filipinas",
+   "iso3": "PHL",
+   "coord": [
+    121.42,
+    15.97
+   ]
+  },
+  {
+   "id": "SE43743",
+   "nombre": "Finlandia",
+   "iso3": "FIN",
+   "coord": [
+    26.29,
+    64.51
+   ]
+  },
+  {
+   "id": "SE43744",
+   "nombre": "Fiyi",
+   "iso3": "FJI",
+   "coord": [
+    -29.23,
+    -16.52
+   ]
+  },
+  {
+   "id": "SE43745",
+   "nombre": "Francia",
+   "iso3": "FRA",
+   "coord": [
+    2.46,
+    46.61
+   ]
+  },
+  {
+   "id": "SE43746",
+   "nombre": "Gabón",
+   "iso3": "GAB",
+   "coord": [
+    11.79,
+    -0.59
+   ]
+  },
+  {
+   "id": "SE43747",
+   "nombre": "Gambia",
+   "iso3": "GMB",
+   "coord": [
+    -15.4,
+    13.44
+   ]
+  },
+  {
+   "id": "SE43748",
+   "nombre": "Georgia",
+   "iso3": "GEO",
+   "coord": [
+    43.5,
+    42.17
+   ]
+  },
+  {
+   "id": "SE43749",
+   "nombre": "Ghana",
+   "iso3": "GHA",
+   "coord": [
+    -1.22,
+    7.95
+   ]
+  },
+  {
+   "id": "SE43751",
+   "nombre": "Granada",
+   "iso3": "GRD",
+   "coord": [
+    -61.72,
+    12.01
+   ]
+  },
+  {
+   "id": "SE43752",
+   "nombre": "Grecia",
+   "iso3": "GRC",
+   "coord": [
+    22.56,
+    39.49
+   ]
+  },
+  {
+   "id": "SE43754",
+   "nombre": "Guam",
+   "iso3": "GUM",
+   "coord": [
+    144.78,
+    13.42
+   ]
+  },
+  {
+   "id": "SE43755",
+   "nombre": "Guatemala",
+   "iso3": "GTM",
+   "coord": [
+    -90.36,
+    15.69
+   ]
+  },
+  {
+   "id": "SE43757",
+   "nombre": "Guinea Bisáu",
+   "iso3": "GNB",
+   "coord": [
+    -14.94,
+    12.07
+   ]
+  },
+  {
+   "id": "SE43758",
+   "nombre": "Guinea Ecuatorial",
+   "iso3": "GNQ",
+   "coord": [
+    10.48,
+    1.57
+   ]
+  },
+  {
+   "id": "SE43759",
+   "nombre": "Guyana",
+   "iso3": "GUY",
+   "coord": [
+    -58.98,
+    4.79
+   ]
+  },
+  {
+   "id": "SE43760",
+   "nombre": "Haití",
+   "iso3": "HTI",
+   "coord": [
+    -72.66,
+    18.92
+   ]
+  },
+  {
+   "id": "SE43761",
+   "nombre": "Honduras",
+   "iso3": "HND",
+   "coord": [
+    -86.62,
+    14.82
+   ]
+  },
+  {
+   "id": "SE43762",
+   "nombre": "Hong Kong",
+   "iso3": "HKG",
+   "coord": [
+    114.13,
+    22.43
+   ]
+  },
+  {
+   "id": "SE43763",
+   "nombre": "Hungría",
+   "iso3": "HUN",
+   "coord": [
+    19.4,
+    47.16
+   ]
+  },
+  {
+   "id": "SE43764",
+   "nombre": "India",
+   "iso3": "IND",
+   "coord": [
+    79.6,
+    22.91
+   ]
+  },
+  {
+   "id": "SE43765",
+   "nombre": "Indonesia",
+   "iso3": "IDN",
+   "coord": [
+    114.01,
+    -0.19
+   ]
+  },
+  {
+   "id": "SE43766",
+   "nombre": "Iraq",
+   "iso3": "IRQ",
+   "coord": [
+    43.75,
+    33.03
+   ]
+  },
+  {
+   "id": "SE43767",
+   "nombre": "Irlanda",
+   "iso3": "IRL",
+   "coord": [
+    -8.13,
+    53.17
+   ]
+  },
+  {
+   "id": "SE43768",
+   "nombre": "Isla de San Martín",
+   "iso3": "MAF",
+   "coord": [
+    -63.01,
+    18.07
+   ]
+  },
+  {
+   "id": "SE43769",
+   "nombre": "Islandia",
+   "iso3": "ISL",
+   "coord": [
+    -18.57,
+    64.99
+   ]
+  },
+  {
+   "id": "SE43770",
+   "nombre": "Islas Caimán",
+   "iso3": "CYM",
+   "coord": [
+    -81.37,
+    19.35
+   ]
+  },
+  {
+   "id": "SE43772",
+   "nombre": "Islas Cook",
+   "iso3": "COK",
+   "coord": [
+    -159.74,
+    -21.25
+   ]
+  },
+  {
+   "id": "SE43773",
+   "nombre": "Islas Marshall",
+   "iso3": "MHL",
+   "coord": [
+    169.64,
+    5.83
+   ]
+  },
+  {
+   "id": "SE43774",
+   "nombre": "Islas Salomón",
+   "iso3": "SLB",
+   "coord": [
+    160.14,
+    -9.62
+   ]
+  },
+  {
+   "id": "SE43775",
+   "nombre": "Islas Turcas y Caicos",
+   "iso3": "TCA",
+   "coord": [
+    -71.66,
+    21.76
+   ]
+  },
+  {
+   "id": "SE43776",
+   "nombre": "Islas Virgenes Americanas",
+   "iso3": "VIR",
+   "coord": [
+    -64.85,
+    18.33
+   ]
+  },
+  {
+   "id": "SE43777",
+   "nombre": "Islas Virgenes Británicas",
+   "iso3": "VGB",
+   "coord": [
+    -64.4,
+    18.46
+   ]
+  },
+  {
+   "id": "SE43778",
+   "nombre": "Israel",
+   "iso3": "ISR",
+   "coord": [
+    35.01,
+    31.47
+   ]
+  },
+  {
+   "id": "SE43779",
+   "nombre": "Italia",
+   "iso3": "ITA",
+   "coord": [
+    12.17,
+    43.53
+   ]
+  },
+  {
+   "id": "SE43780",
+   "nombre": "Jamaica",
+   "iso3": "JAM",
+   "coord": [
+    -77.31,
+    18.15
+   ]
+  },
+  {
+   "id": "SE43781",
+   "nombre": "Japón",
+   "iso3": "JPN",
+   "coord": [
+    138.01,
+    36.65
+   ]
+  },
+  {
+   "id": "SE43782",
+   "nombre": "Jordania",
+   "iso3": "JOR",
+   "coord": [
+    36.78,
+    31.25
+   ]
+  },
+  {
+   "id": "SE43783",
+   "nombre": "Kazajistán",
+   "iso3": "KAZ",
+   "coord": [
+    67.29,
+    48.16
+   ]
+  },
+  {
+   "id": "SE43784",
+   "nombre": "Kenia",
+   "iso3": "KEN",
+   "coord": [
+    37.79,
+    0.6
+   ]
+  },
+  {
+   "id": "SE43785",
+   "nombre": "Kirguistán",
+   "iso3": "KGZ",
+   "coord": [
+    74.54,
+    41.46
+   ]
+  },
+  {
+   "id": "SE43786",
+   "nombre": "Kiribati",
+   "iso3": "KIR",
+   "coord": [
+    172.97,
+    3.13
+   ]
+  },
+  {
+   "id": "SE43787",
+   "nombre": "Kosovo",
+   "iso3": "XKX",
+   "coord": [
+    20.88,
+    42.57
+   ]
+  },
+  {
+   "id": "SE43788",
+   "nombre": "Kuwait",
+   "iso3": "KWT",
+   "coord": [
+    47.57,
+    29.31
+   ]
+  },
+  {
+   "id": "SE43789",
+   "nombre": "Laos",
+   "iso3": "LAO",
+   "coord": [
+    103.72,
+    18.51
+   ]
+  },
+  {
+   "id": "SE43790",
+   "nombre": "Letonia",
+   "iso3": "LVA",
+   "coord": [
+    24.91,
+    56.85
+   ]
+  },
+  {
+   "id": "SE43791",
+   "nombre": "Líbano",
+   "iso3": "LBN",
+   "coord": [
+    35.86,
+    33.92
+   ]
+  },
+  {
+   "id": "SE43792",
+   "nombre": "Liberia",
+   "iso3": "LBR",
+   "coord": [
+    -9.32,
+    6.46
+   ]
+  },
+  {
+   "id": "SE43793",
+   "nombre": "Libia",
+   "iso3": "LBY",
+   "coord": [
+    18.01,
+    27.03
+   ]
+  },
+  {
+   "id": "SE43794",
+   "nombre": "Liechtenstein",
+   "iso3": "LIE",
+   "coord": [
+    9.58,
+    47.06
+   ]
+  },
+  {
+   "id": "SE43795",
+   "nombre": "Lituania",
+   "iso3": "LTU",
+   "coord": [
+    23.88,
+    55.33
+   ]
+  },
+  {
+   "id": "SE43796",
+   "nombre": "Luxemburgo",
+   "iso3": "LUX",
+   "coord": [
+    6.08,
+    49.77
+   ]
+  },
+  {
+   "id": "SE43797",
+   "nombre": "Macao",
+   "iso3": "MAC",
+   "coord": [
+    113.48,
+    22.2
+   ]
+  },
+  {
+   "id": "SE43798",
+   "nombre": "Macedonia",
+   "iso3": "MKD",
+   "coord": [
+    21.7,
+    41.59
+   ]
+  },
+  {
+   "id": "SE43799",
+   "nombre": "Madagascar",
+   "iso3": "MDG",
+   "coord": [
+    46.7,
+    -19.37
+   ]
+  },
+  {
+   "id": "SE43800",
+   "nombre": "Malasia",
+   "iso3": "MYS",
+   "coord": [
+    114.74,
+    3.62
+   ]
+  },
+  {
+   "id": "SE43801",
+   "nombre": "Malawi",
+   "iso3": "MWI",
+   "coord": [
+    34.28,
+    -13.22
+   ]
+  },
+  {
+   "id": "SE43802",
+   "nombre": "Maldivas",
+   "iso3": "MDV",
+   "coord": [
+    73.42,
+    3.23
+   ]
+  },
+  {
+   "id": "SE43803",
+   "nombre": "Malí",
+   "iso3": "MLI",
+   "coord": [
+    -3.54,
+    17.34
+   ]
+  },
+  {
+   "id": "SE43804",
+   "nombre": "Malta",
+   "iso3": "MLT",
+   "coord": [
+    14.57,
+    35.85
+   ]
+  },
+  {
+   "id": "SE43805",
+   "nombre": "Marianas del Norte",
+   "iso3": "MNP",
+   "coord": [
+    145.71,
+    18.76
+   ]
+  },
+  {
+   "id": "SE43806",
+   "nombre": "Marruecos",
+   "iso3": "MAR",
+   "coord": [
+    -8.46,
+    29.84
+   ]
+  },
+  {
+   "id": "SE43808",
+   "nombre": "Mauricio",
+   "iso3": "MUS",
+   "coord": [
+    57.59,
+    -20.28
+   ]
+  },
+  {
+   "id": "SE43809",
+   "nombre": "Mauritania",
+   "iso3": "MRT",
+   "coord": [
+    -10.35,
+    20.25
+   ]
+  },
+  {
+   "id": "SE43810",
+   "nombre": "Moldavia",
+   "iso3": "MDA",
+   "coord": [
+    28.46,
+    47.21
+   ]
+  },
+  {
+   "id": "SE43811",
+   "nombre": "Mónaco",
+   "iso3": "MCO",
+   "coord": [
+    7.44,
+    43.75
+   ]
+  },
+  {
+   "id": "SE43812",
+   "nombre": "Mongolia",
+   "iso3": "MNG",
+   "coord": [
+    103.05,
+    46.83
+   ]
+  },
+  {
+   "id": "SE43813",
+   "nombre": "Montenegro",
+   "iso3": "MNE",
+   "coord": [
+    19.23,
+    42.8
+   ]
+  },
+  {
+   "id": "SE43814",
+   "nombre": "Montserrat",
+   "iso3": "MSR",
+   "coord": [
+    -62.15,
+    16.74
+   ]
+  },
+  {
+   "id": "SE43815",
+   "nombre": "Mozambique",
+   "iso3": "MOZ",
+   "coord": [
+    35.53,
+    -17.28
+   ]
+  },
+  {
+   "id": "SE43816",
+   "nombre": "Myanmar, Birmania",
+   "iso3": "MMR",
+   "coord": [
+    96.49,
+    21.22
+   ]
+  },
+  {
+   "id": "SE43817",
+   "nombre": "Namibia",
+   "iso3": "NAM",
+   "coord": [
+    17.21,
+    -22.13
+   ]
+  },
+  {
+   "id": "SE43818",
+   "nombre": "Nepal",
+   "iso3": "NPL",
+   "coord": [
+    83.93,
+    28.24
+   ]
+  },
+  {
+   "id": "SE43819",
+   "nombre": "Nicaragua",
+   "iso3": "NIC",
+   "coord": [
+    -85.03,
+    12.84
+   ]
+  },
+  {
+   "id": "SE43820",
+   "nombre": "Niger",
+   "iso3": "NER",
+   "coord": [
+    9.39,
+    17.42
+   ]
+  },
+  {
+   "id": "SE43821",
+   "nombre": "Nigeria",
+   "iso3": "NGA",
+   "coord": [
+    8.08,
+    9.59
+   ]
+  },
+  {
+   "id": "SE43822",
+   "nombre": "Niue",
+   "iso3": "NIU",
+   "coord": [
+    -169.8,
+    -19.08
+   ]
+  },
+  {
+   "id": "SE43823",
+   "nombre": "Noruega",
+   "iso3": "NOR",
+   "coord": [
+    13.87,
+    64.22
+   ]
+  },
+  {
+   "id": "SE43824",
+   "nombre": "Nueva Caledonia",
+   "iso3": "NCL",
+   "coord": [
+    165.5,
+    -21.33
+   ]
+  },
+  {
+   "id": "SE43825",
+   "nombre": "Nueva Zelanda",
+   "iso3": "NZL",
+   "coord": [
+    170.52,
+    -43.98
+   ]
+  },
+  {
+   "id": "SE43826",
+   "nombre": "Omán",
+   "iso3": "OMN",
+   "coord": [
+    56.08,
+    20.58
+   ]
+  },
+  {
+   "id": "SE43827",
+   "nombre": "Países Bajos",
+   "iso3": "NLD",
+   "coord": [
+    5.64,
+    52.29
+   ]
+  },
+  {
+   "id": "SE43828",
+   "nombre": "Pakistán",
+   "iso3": "PAK",
+   "coord": [
+    69.33,
+    29.95
+   ]
+  },
+  {
+   "id": "SE43829",
+   "nombre": "Palaos",
+   "iso3": "PLW",
+   "coord": [
+    131.17,
+    3.03
+   ]
+  },
+  {
+   "id": "SE43830",
+   "nombre": "Palestina",
+   "iso3": "PSE",
+   "coord": [
+    35.28,
+    31.97
+   ]
+  },
+  {
+   "id": "SE43831",
+   "nombre": "Panamá",
+   "iso3": "PAN",
+   "coord": [
+    -80.13,
+    8.52
+   ]
+  },
+  {
+   "id": "SE43832",
+   "nombre": "Papúa-Nueva Guinea",
+   "iso3": "PNG",
+   "coord": [
+    144.24,
+    -6.61
+   ]
+  },
+  {
+   "id": "SE43833",
+   "nombre": "Paraguay",
+   "iso3": "PRY",
+   "coord": [
+    -58.4,
+    -23.23
+   ]
+  },
+  {
+   "id": "SE43834",
+   "nombre": "Perú",
+   "iso3": "PER",
+   "coord": [
+    -74.38,
+    -9.15
+   ]
+  },
+  {
+   "id": "SE43835",
+   "nombre": "Polinesia Francesa",
+   "iso3": "PYF",
+   "coord": [
+    -149.5,
+    -17.65
+   ]
+  },
+  {
+   "id": "SE43836",
+   "nombre": "Polonia",
+   "iso3": "POL",
+   "coord": [
+    19.38,
+    52.12
+   ]
+  },
+  {
+   "id": "SE43837",
+   "nombre": "Portugal",
+   "iso3": "PRT",
+   "coord": [
+    -7.99,
+    39.66
+   ]
+  },
+  {
+   "id": "SE43838",
+   "nombre": "Qatar",
+   "iso3": "QAT",
+   "coord": [
+    51.18,
+    25.31
+   ]
+  },
+  {
+   "id": "SE43839",
+   "nombre": "Reino de Lesoto",
+   "iso3": "LSO",
+   "coord": [
+    28.23,
+    -29.58
+   ]
+  },
+  {
+   "id": "SE43840",
+   "nombre": "Reino Unido",
+   "iso3": "GBR",
+   "coord": [
+    -2.52,
+    53.95
+   ]
+  },
+  {
+   "id": "SE43841",
+   "nombre": "República Centroafricana",
+   "iso3": "CAF",
+   "coord": [
+    20.47,
+    6.57
+   ]
+  },
+  {
+   "id": "SE43842",
+   "nombre": "República Checa",
+   "iso3": "CZE",
+   "coord": [
+    15.3,
+    49.73
+   ]
+  },
+  {
+   "id": "SE43844",
+   "nombre": "República del Congo",
+   "iso3": "COG",
+   "coord": [
+    15.23,
+    -0.84
+   ]
+  },
+  {
+   "id": "SE43845",
+   "nombre": "República Democrática del Congo",
+   "iso3": "COD",
+   "coord": [
+    23.64,
+    -2.88
+   ]
+  },
+  {
+   "id": "SE43846",
+   "nombre": "República Dominicana",
+   "iso3": "DOM",
+   "coord": [
+    -70.53,
+    18.9
+   ]
+  },
+  {
+   "id": "SE43847",
+   "nombre": "República Guinea",
+   "iso3": "GIN",
+   "coord": [
+    -10.93,
+    10.43
+   ]
+  },
+  {
+   "id": "SE43849",
+   "nombre": "Ruanda",
+   "iso3": "RWA",
+   "coord": [
+    29.92,
+    -1.98
+   ]
+  },
+  {
+   "id": "SE43850",
+   "nombre": "Rumanía",
+   "iso3": "ROU",
+   "coord": [
+    24.97,
+    45.86
+   ]
+  },
+  {
+   "id": "SE43851",
+   "nombre": "Samoa",
+   "iso3": "WSM",
+   "coord": [
+    -172.47,
+    -13.63
+   ]
+  },
+  {
+   "id": "SE43853",
+   "nombre": "San Marino",
+   "iso3": "SMR",
+   "coord": [
+    12.49,
+    43.9
+   ]
+  },
+  {
+   "id": "SE43854",
+   "nombre": "San Vincente y Granadinas",
+   "iso3": "VCT",
+   "coord": [
+    -61.17,
+    13.16
+   ]
+  },
+  {
+   "id": "SE43855",
+   "nombre": "Santa Lucía",
+   "iso3": "LCA",
+   "coord": [
+    -60.9,
+    13.82
+   ]
+  },
+  {
+   "id": "SE43856",
+   "nombre": "Santo Tomé y Príncipe",
+   "iso3": "STP",
+   "coord": [
+    6.6,
+    0.25
+   ]
+  },
+  {
+   "id": "SE43857",
+   "nombre": "Senegal",
+   "iso3": "SEN",
+   "coord": [
+    -14.47,
+    14.35
+   ]
+  },
+  {
+   "id": "SE43858",
+   "nombre": "Serbia",
+   "iso3": "SRB",
+   "coord": [
+    20.78,
+    44.22
+   ]
+  },
+  {
+   "id": "SE43859",
+   "nombre": "Sierra Leona",
+   "iso3": "SLE",
+   "coord": [
+    -11.79,
+    8.57
+   ]
+  },
+  {
+   "id": "SE43860",
+   "nombre": "Singapur",
+   "iso3": "SGP",
+   "coord": [
+    103.97,
+    1.33
+   ]
+  },
+  {
+   "id": "SE43861",
+   "nombre": "Siria",
+   "iso3": "SYR",
+   "coord": [
+    38.51,
+    35.02
+   ]
+  },
+  {
+   "id": "SE43862",
+   "nombre": "Sri Lanka",
+   "iso3": "LKA",
+   "coord": [
+    80.7,
+    7.62
+   ]
+  },
+  {
+   "id": "SE43863",
+   "nombre": "Sudáfrica",
+   "iso3": "ZAF",
+   "coord": [
+    25.16,
+    -29.01
+   ]
+  },
+  {
+   "id": "SE43864",
+   "nombre": "Sudán",
+   "iso3": "SDN",
+   "coord": [
+    29.94,
+    15.99
+   ]
+  },
+  {
+   "id": "SE43865",
+   "nombre": "Suecia",
+   "iso3": "SWE",
+   "coord": [
+    16.73,
+    62.82
+   ]
+  },
+  {
+   "id": "SE43866",
+   "nombre": "Suiza",
+   "iso3": "CHE",
+   "coord": [
+    8.22,
+    46.8
+   ]
+  },
+  {
+   "id": "SE43867",
+   "nombre": "Surinam",
+   "iso3": "SUR",
+   "coord": [
+    -55.91,
+    4.12
+   ]
+  },
+  {
+   "id": "SE43868",
+   "nombre": "Swazilandia",
+   "iso3": "SWZ",
+   "coord": [
+    31.49,
+    -26.55
+   ]
+  },
+  {
+   "id": "SE43869",
+   "nombre": "Tailandia",
+   "iso3": "THA",
+   "coord": [
+    101.01,
+    15.14
+   ]
+  },
+  {
+   "id": "SE43870",
+   "nombre": "Taiwan",
+   "iso3": "TWN",
+   "coord": [
+    120.96,
+    23.75
+   ]
+  },
+  {
+   "id": "SE43871",
+   "nombre": "Tanzania",
+   "iso3": "TZA",
+   "coord": [
+    34.8,
+    -6.28
+   ]
+  },
+  {
+   "id": "SE43872",
+   "nombre": "Tayikistán",
+   "iso3": "TJK",
+   "coord": [
+    71.03,
+    38.53
+   ]
+  },
+  {
+   "id": "SE43873",
+   "nombre": "Timor Oriental",
+   "iso3": "TLS",
+   "coord": [
+    125.93,
+    -8.81
+   ]
+  },
+  {
+   "id": "SE43874",
+   "nombre": "Togo",
+   "iso3": "TGO",
+   "coord": [
+    0.96,
+    8.54
+   ]
+  },
+  {
+   "id": "SE43875",
+   "nombre": "Trinidad y Tobago",
+   "iso3": "TTO",
+   "coord": [
+    -61.29,
+    10.43
+   ]
+  },
+  {
+   "id": "SE43876",
+   "nombre": "Túnez",
+   "iso3": "TUN",
+   "coord": [
+    9.55,
+    34.13
+   ]
+  },
+  {
+   "id": "SE43877",
+   "nombre": "Turkmenistán",
+   "iso3": "TKM",
+   "coord": [
+    59.36,
+    39.12
+   ]
+  },
+  {
+   "id": "SE43878",
+   "nombre": "Turquía",
+   "iso3": "TUR",
+   "coord": [
+    35.43,
+    38.99
+   ]
+  },
+  {
+   "id": "SE43880",
+   "nombre": "Ucrania",
+   "iso3": "UKR",
+   "coord": [
+    31.25,
+    49.16
+   ]
+  },
+  {
+   "id": "SE43881",
+   "nombre": "Uganda",
+   "iso3": "UGA",
+   "coord": [
+    32.37,
+    1.28
+   ]
+  },
+  {
+   "id": "SE43882",
+   "nombre": "Uruguay",
+   "iso3": "URY",
+   "coord": [
+    -56.02,
+    -32.8
+   ]
+  },
+  {
+   "id": "SE43883",
+   "nombre": "Uzbekistán",
+   "iso3": "UZB",
+   "coord": [
+    63.14,
+    41.75
+   ]
+  },
+  {
+   "id": "SE43884",
+   "nombre": "Vanuatu",
+   "iso3": "VUT",
+   "coord": [
+    166.86,
+    -15.25
+   ]
+  },
+  {
+   "id": "SE43885",
+   "nombre": "Venezuela",
+   "iso3": "VEN",
+   "coord": [
+    -66.19,
+    7.12
+   ]
+  },
+  {
+   "id": "SE43886",
+   "nombre": "Vietnam",
+   "iso3": "VNM",
+   "coord": [
+    106.31,
+    16.65
+   ]
+  },
+  {
+   "id": "SE43887",
+   "nombre": "Yemen",
+   "iso3": "YEM",
+   "coord": [
+    47.54,
+    15.94
+   ]
+  },
+  {
+   "id": "SE43888",
+   "nombre": "Zambia",
+   "iso3": "ZMB",
+   "coord": [
+    27.77,
+    -13.46
+   ]
+  },
+  {
+   "id": "SE43889",
+   "nombre": "Zimbabwe",
+   "iso3": "ZWE",
+   "coord": [
+    29.85,
+    -19
+   ]
+  }
+ ],
+ "remesas_pais_destino": [
+  {
+   "id": "SE43946",
+   "nombre": "Afganistán",
+   "iso3": "AFG",
+   "coord": [
+    66,
+    33.84
+   ]
+  },
+  {
+   "id": "SE43947",
+   "nombre": "Albania",
+   "iso3": "ALB",
+   "coord": [
+    20.05,
+    41.15
+   ]
+  },
+  {
+   "id": "SE43948",
+   "nombre": "Alemania",
+   "iso3": "DEU",
+   "coord": [
+    10.37,
+    51.09
+   ]
+  },
+  {
+   "id": "SE43949",
+   "nombre": "Angola",
+   "iso3": "AGO",
+   "coord": [
+    17.56,
+    -12.33
+   ]
+  },
+  {
+   "id": "SE43950",
+   "nombre": "Anguila",
+   "iso3": "AIA",
+   "coord": [
+    -63,
+    18.22
+   ]
+  },
+  {
+   "id": "SE43951",
+   "nombre": "Antigua y Barbuda",
+   "iso3": "ATG",
+   "coord": [
+    -61.72,
+    17.04
+   ]
+  },
+  {
+   "id": "SE43953",
+   "nombre": "Arabia Saudita",
+   "iso3": "SAU",
+   "coord": [
+    44.54,
+    24.12
+   ]
+  },
+  {
+   "id": "SE43954",
+   "nombre": "Argelia",
+   "iso3": "DZA",
+   "coord": [
+    2.62,
+    28.16
+   ]
+  },
+  {
+   "id": "SE43955",
+   "nombre": "Argentina",
+   "iso3": "ARG",
+   "coord": [
+    -65.16,
+    -35.19
+   ]
+  },
+  {
+   "id": "SE43956",
+   "nombre": "Armenia",
+   "iso3": "ARM",
+   "coord": [
+    44.92,
+    40.3
+   ]
+  },
+  {
+   "id": "SE43957",
+   "nombre": "Aruba",
+   "iso3": "ABW",
+   "coord": [
+    -69.9,
+    12.45
+   ]
+  },
+  {
+   "id": "SE43958",
+   "nombre": "Australia",
+   "iso3": "AUS",
+   "coord": [
+    134.35,
+    -25.57
+   ]
+  },
+  {
+   "id": "SE43959",
+   "nombre": "Austria",
+   "iso3": "AUT",
+   "coord": [
+    14.12,
+    47.59
+   ]
+  },
+  {
+   "id": "SE43960",
+   "nombre": "Azerbaiyán",
+   "iso3": "AZE",
+   "coord": [
+    47.67,
+    40.34
+   ]
+  },
+  {
+   "id": "SE43961",
+   "nombre": "Bahamas",
+   "iso3": "BHS",
+   "coord": [
+    -78.05,
+    24.68
+   ]
+  },
+  {
+   "id": "SE43962",
+   "nombre": "Bahrein",
+   "iso3": "BHR",
+   "coord": [
+    50.55,
+    26.03
+   ]
+  },
+  {
+   "id": "SE43963",
+   "nombre": "Bangladesh",
+   "iso3": "BGD",
+   "coord": [
+    90.22,
+    23.89
+   ]
+  },
+  {
+   "id": "SE43964",
+   "nombre": "Barbados",
+   "iso3": "BRB",
+   "coord": [
+    -59.49,
+    13.08
+   ]
+  },
+  {
+   "id": "SE43965",
+   "nombre": "Bélgica",
+   "iso3": "BEL",
+   "coord": [
+    4.64,
+    50.64
+   ]
+  },
+  {
+   "id": "SE43966",
+   "nombre": "Belice",
+   "iso3": "BLZ",
+   "coord": [
+    -88.73,
+    17.19
+   ]
+  },
+  {
+   "id": "SE43967",
+   "nombre": "Benín",
+   "iso3": "BEN",
+   "coord": [
+    2.33,
+    9.64
+   ]
+  },
+  {
+   "id": "SE43968",
+   "nombre": "Bermudas",
+   "iso3": "BMU",
+   "coord": [
+    -64.73,
+    32.29
+   ]
+  },
+  {
+   "id": "SE43969",
+   "nombre": "Bielorrusia",
+   "iso3": "BLR",
+   "coord": [
+    28.03,
+    53.53
+   ]
+  },
+  {
+   "id": "SE43970",
+   "nombre": "Bolivia",
+   "iso3": "BOL",
+   "coord": [
+    -64.68,
+    -16.71
+   ]
+  },
+  {
+   "id": "SE43972",
+   "nombre": "Bosnia-Herzegovina",
+   "iso3": "BIH",
+   "coord": [
+    17.76,
+    44.18
+   ]
+  },
+  {
+   "id": "SE43974",
+   "nombre": "Brasil",
+   "iso3": "BRA",
+   "coord": [
+    -53.12,
+    -10.84
+   ]
+  },
+  {
+   "id": "SE43975",
+   "nombre": "Brunei",
+   "iso3": "BRN",
+   "coord": [
+    114.57,
+    4.5
+   ]
+  },
+  {
+   "id": "SE43976",
+   "nombre": "Bulgaria",
+   "iso3": "BGR",
+   "coord": [
+    25.22,
+    42.78
+   ]
+  },
+  {
+   "id": "SE43977",
+   "nombre": "Burkina Faso",
+   "iso3": "BFA",
+   "coord": [
+    -1.77,
+    12.26
+   ]
+  },
+  {
+   "id": "SE43978",
+   "nombre": "Burundi",
+   "iso3": "BDI",
+   "coord": [
+    29.88,
+    -3.36
+   ]
+  },
+  {
+   "id": "SE43979",
+   "nombre": "Bután",
+   "iso3": "BTN",
+   "coord": [
+    90.41,
+    27.41
+   ]
+  },
+  {
+   "id": "SE43980",
+   "nombre": "Cabo Verde",
+   "iso3": "CPV",
+   "coord": [
+    -23.66,
+    15.14
+   ]
+  },
+  {
+   "id": "SE43981",
+   "nombre": "Camboya",
+   "iso3": "KHM",
+   "coord": [
+    104.91,
+    12.73
+   ]
+  },
+  {
+   "id": "SE43982",
+   "nombre": "Camerún",
+   "iso3": "CMR",
+   "coord": [
+    12.74,
+    5.7
+   ]
+  },
+  {
+   "id": "SE43983",
+   "nombre": "Canadá",
+   "iso3": "CAN",
+   "coord": [
+    -102.36,
+    57.93
+   ]
+  },
+  {
+   "id": "SE43984",
+   "nombre": "Chad",
+   "iso3": "TCD",
+   "coord": [
+    18.64,
+    15.33
+   ]
+  },
+  {
+   "id": "SE43985",
+   "nombre": "Chile",
+   "iso3": "CHL",
+   "coord": [
+    -71.31,
+    -35.77
+   ]
+  },
+  {
+   "id": "SE43986",
+   "nombre": "China",
+   "iso3": "CHN",
+   "coord": [
+    103.81,
+    36.62
+   ]
+  },
+  {
+   "id": "SE43987",
+   "nombre": "Chipre",
+   "iso3": "CYP",
+   "coord": [
+    33.54,
+    35.27
+   ]
+  },
+  {
+   "id": "SE43988",
+   "nombre": "Cisjordania",
+   "iso3": "PSE",
+   "coord": [
+    35.28,
+    31.97
+   ]
+  },
+  {
+   "id": "SE43989",
+   "nombre": "Colombia",
+   "iso3": "COL",
+   "coord": [
+    -73.09,
+    3.92
+   ]
+  },
+  {
+   "id": "SE43990",
+   "nombre": "Comores",
+   "iso3": "COM",
+   "coord": [
+    43.36,
+    -11.69
+   ]
+  },
+  {
+   "id": "SE43991",
+   "nombre": "Corea del Norte",
+   "iso3": "PRK",
+   "coord": [
+    127.2,
+    40.15
+   ]
+  },
+  {
+   "id": "SE43992",
+   "nombre": "Corea del Sur",
+   "iso3": "KOR",
+   "coord": [
+    127.86,
+    36.45
+   ]
+  },
+  {
+   "id": "SE43993",
+   "nombre": "Costa de Marfil",
+   "iso3": "CIV",
+   "coord": [
+    -5.57,
+    7.62
+   ]
+  },
+  {
+   "id": "SE43994",
+   "nombre": "Costa Rica",
+   "iso3": "CRI",
+   "coord": [
+    -84.19,
+    9.98
+   ]
+  },
+  {
+   "id": "SE43995",
+   "nombre": "Croacia",
+   "iso3": "HRV",
+   "coord": [
+    16.43,
+    45.16
+   ]
+  },
+  {
+   "id": "SE43996",
+   "nombre": "Cuba",
+   "iso3": "CUB",
+   "coord": [
+    -78.95,
+    21.62
+   ]
+  },
+  {
+   "id": "SE43998",
+   "nombre": "Dinamarca",
+   "iso3": "DNK",
+   "coord": [
+    9.37,
+    56.24
+   ]
+  },
+  {
+   "id": "SE43999",
+   "nombre": "Djibouti",
+   "iso3": "DJI",
+   "coord": [
+    42.55,
+    11.75
+   ]
+  },
+  {
+   "id": "SE44000",
+   "nombre": "Dominica",
+   "iso3": "DMA",
+   "coord": [
+    -61.36,
+    15.45
+   ]
+  },
+  {
+   "id": "SE44001",
+   "nombre": "Ecuador",
+   "iso3": "ECU",
+   "coord": [
+    -78.39,
+    -1.44
+   ]
+  },
+  {
+   "id": "SE44002",
+   "nombre": "Egipto",
+   "iso3": "EGY",
+   "coord": [
+    29.86,
+    26.49
+   ]
+  },
+  {
+   "id": "SE44003",
+   "nombre": "El Salvador",
+   "iso3": "SLV",
+   "coord": [
+    -88.88,
+    13.74
+   ]
+  },
+  {
+   "id": "SE44004",
+   "nombre": "Emiratos Árabes Unidos",
+   "iso3": "ARE",
+   "coord": [
+    54.3,
+    23.9
+   ]
+  },
+  {
+   "id": "SE44005",
+   "nombre": "Eslovaquia",
+   "iso3": "SVK",
+   "coord": [
+    19.48,
+    48.71
+   ]
+  },
+  {
+   "id": "SE44006",
+   "nombre": "Eslovenia",
+   "iso3": "SVN",
+   "coord": [
+    14.8,
+    46.11
+   ]
+  },
+  {
+   "id": "SE44007",
+   "nombre": "España",
+   "iso3": "ESP",
+   "coord": [
+    -3.57,
+    40.4
+   ]
+  },
+  {
+   "id": "SE44008",
+   "nombre": "Estados Unidos",
+   "iso3": "USA",
+   "coord": [
+    -99.14,
+    39.53
+   ]
+  },
+  {
+   "id": "SE44009",
+   "nombre": "Estonia",
+   "iso3": "EST",
+   "coord": [
+    25.81,
+    58.68
+   ]
+  },
+  {
+   "id": "SE44010",
+   "nombre": "Etiopía",
+   "iso3": "ETH",
+   "coord": [
+    39.61,
+    8.62
+   ]
+  },
+  {
+   "id": "SE44011",
+   "nombre": "Federación Rusa",
+   "iso3": "RUS",
+   "coord": [
+    96,
+    62
+   ]
+  },
+  {
+   "id": "SE44012",
+   "nombre": "Filipinas",
+   "iso3": "PHL",
+   "coord": [
+    121.42,
+    15.97
+   ]
+  },
+  {
+   "id": "SE44013",
+   "nombre": "Finlandia",
+   "iso3": "FIN",
+   "coord": [
+    26.29,
+    64.51
+   ]
+  },
+  {
+   "id": "SE44014",
+   "nombre": "Fiyi",
+   "iso3": "FJI",
+   "coord": [
+    -29.23,
+    -16.52
+   ]
+  },
+  {
+   "id": "SE44015",
+   "nombre": "Francia",
+   "iso3": "FRA",
+   "coord": [
+    2.46,
+    46.61
+   ]
+  },
+  {
+   "id": "SE44016",
+   "nombre": "Gabón",
+   "iso3": "GAB",
+   "coord": [
+    11.79,
+    -0.59
+   ]
+  },
+  {
+   "id": "SE44017",
+   "nombre": "Gambia",
+   "iso3": "GMB",
+   "coord": [
+    -15.4,
+    13.44
+   ]
+  },
+  {
+   "id": "SE44018",
+   "nombre": "Georgia",
+   "iso3": "GEO",
+   "coord": [
+    43.5,
+    42.17
+   ]
+  },
+  {
+   "id": "SE44019",
+   "nombre": "Ghana",
+   "iso3": "GHA",
+   "coord": [
+    -1.22,
+    7.95
+   ]
+  },
+  {
+   "id": "SE44021",
+   "nombre": "Granada",
+   "iso3": "GRD",
+   "coord": [
+    -61.72,
+    12.01
+   ]
+  },
+  {
+   "id": "SE44022",
+   "nombre": "Grecia",
+   "iso3": "GRC",
+   "coord": [
+    22.56,
+    39.49
+   ]
+  },
+  {
+   "id": "SE44024",
+   "nombre": "Guam",
+   "iso3": "GUM",
+   "coord": [
+    144.78,
+    13.42
+   ]
+  },
+  {
+   "id": "SE44025",
+   "nombre": "Guatemala",
+   "iso3": "GTM",
+   "coord": [
+    -90.36,
+    15.69
+   ]
+  },
+  {
+   "id": "SE44027",
+   "nombre": "Guinea Bisáu",
+   "iso3": "GNB",
+   "coord": [
+    -14.94,
+    12.07
+   ]
+  },
+  {
+   "id": "SE44028",
+   "nombre": "Guinea Ecuatorial",
+   "iso3": "GNQ",
+   "coord": [
+    10.48,
+    1.57
+   ]
+  },
+  {
+   "id": "SE44029",
+   "nombre": "Guyana",
+   "iso3": "GUY",
+   "coord": [
+    -58.98,
+    4.79
+   ]
+  },
+  {
+   "id": "SE44030",
+   "nombre": "Haití",
+   "iso3": "HTI",
+   "coord": [
+    -72.66,
+    18.92
+   ]
+  },
+  {
+   "id": "SE44031",
+   "nombre": "Honduras",
+   "iso3": "HND",
+   "coord": [
+    -86.62,
+    14.82
+   ]
+  },
+  {
+   "id": "SE44032",
+   "nombre": "Hong Kong",
+   "iso3": "HKG",
+   "coord": [
+    114.13,
+    22.43
+   ]
+  },
+  {
+   "id": "SE44033",
+   "nombre": "Hungría",
+   "iso3": "HUN",
+   "coord": [
+    19.4,
+    47.16
+   ]
+  },
+  {
+   "id": "SE44034",
+   "nombre": "India",
+   "iso3": "IND",
+   "coord": [
+    79.6,
+    22.91
+   ]
+  },
+  {
+   "id": "SE44035",
+   "nombre": "Indonesia",
+   "iso3": "IDN",
+   "coord": [
+    114.01,
+    -0.19
+   ]
+  },
+  {
+   "id": "SE44036",
+   "nombre": "Iraq",
+   "iso3": "IRQ",
+   "coord": [
+    43.75,
+    33.03
+   ]
+  },
+  {
+   "id": "SE44037",
+   "nombre": "Irlanda",
+   "iso3": "IRL",
+   "coord": [
+    -8.13,
+    53.17
+   ]
+  },
+  {
+   "id": "SE44038",
+   "nombre": "Isla de San Martín",
+   "iso3": "MAF",
+   "coord": [
+    -63.01,
+    18.07
+   ]
+  },
+  {
+   "id": "SE44039",
+   "nombre": "Islandia",
+   "iso3": "ISL",
+   "coord": [
+    -18.57,
+    64.99
+   ]
+  },
+  {
+   "id": "SE44040",
+   "nombre": "Islas Caimán",
+   "iso3": "CYM",
+   "coord": [
+    -81.37,
+    19.35
+   ]
+  },
+  {
+   "id": "SE44042",
+   "nombre": "Islas Cook",
+   "iso3": "COK",
+   "coord": [
+    -159.74,
+    -21.25
+   ]
+  },
+  {
+   "id": "SE44043",
+   "nombre": "Islas Marshall",
+   "iso3": "MHL",
+   "coord": [
+    169.64,
+    5.83
+   ]
+  },
+  {
+   "id": "SE44044",
+   "nombre": "Islas Salomón",
+   "iso3": "SLB",
+   "coord": [
+    160.14,
+    -9.62
+   ]
+  },
+  {
+   "id": "SE44045",
+   "nombre": "Islas Turcas y Caicos",
+   "iso3": "TCA",
+   "coord": [
+    -71.66,
+    21.76
+   ]
+  },
+  {
+   "id": "SE44046",
+   "nombre": "Islas Virgenes Americanas",
+   "iso3": "VIR",
+   "coord": [
+    -64.85,
+    18.33
+   ]
+  },
+  {
+   "id": "SE44047",
+   "nombre": "Islas Virgenes Británicas",
+   "iso3": "VGB",
+   "coord": [
+    -64.4,
+    18.46
+   ]
+  },
+  {
+   "id": "SE44048",
+   "nombre": "Israel",
+   "iso3": "ISR",
+   "coord": [
+    35.01,
+    31.47
+   ]
+  },
+  {
+   "id": "SE44049",
+   "nombre": "Italia",
+   "iso3": "ITA",
+   "coord": [
+    12.17,
+    43.53
+   ]
+  },
+  {
+   "id": "SE44050",
+   "nombre": "Jamaica",
+   "iso3": "JAM",
+   "coord": [
+    -77.31,
+    18.15
+   ]
+  },
+  {
+   "id": "SE44051",
+   "nombre": "Japón",
+   "iso3": "JPN",
+   "coord": [
+    138.01,
+    36.65
+   ]
+  },
+  {
+   "id": "SE44052",
+   "nombre": "Jordania",
+   "iso3": "JOR",
+   "coord": [
+    36.78,
+    31.25
+   ]
+  },
+  {
+   "id": "SE44053",
+   "nombre": "Kazajistán",
+   "iso3": "KAZ",
+   "coord": [
+    67.29,
+    48.16
+   ]
+  },
+  {
+   "id": "SE44054",
+   "nombre": "Kenia",
+   "iso3": "KEN",
+   "coord": [
+    37.79,
+    0.6
+   ]
+  },
+  {
+   "id": "SE44055",
+   "nombre": "Kirguistán",
+   "iso3": "KGZ",
+   "coord": [
+    74.54,
+    41.46
+   ]
+  },
+  {
+   "id": "SE44056",
+   "nombre": "Kiribati",
+   "iso3": "KIR",
+   "coord": [
+    172.97,
+    3.13
+   ]
+  },
+  {
+   "id": "SE44057",
+   "nombre": "Kosovo",
+   "iso3": "XKX",
+   "coord": [
+    20.88,
+    42.57
+   ]
+  },
+  {
+   "id": "SE44058",
+   "nombre": "Kuwait",
+   "iso3": "KWT",
+   "coord": [
+    47.57,
+    29.31
+   ]
+  },
+  {
+   "id": "SE44059",
+   "nombre": "Laos",
+   "iso3": "LAO",
+   "coord": [
+    103.72,
+    18.51
+   ]
+  },
+  {
+   "id": "SE44060",
+   "nombre": "Letonia",
+   "iso3": "LVA",
+   "coord": [
+    24.91,
+    56.85
+   ]
+  },
+  {
+   "id": "SE44061",
+   "nombre": "Líbano",
+   "iso3": "LBN",
+   "coord": [
+    35.86,
+    33.92
+   ]
+  },
+  {
+   "id": "SE44062",
+   "nombre": "Liberia",
+   "iso3": "LBR",
+   "coord": [
+    -9.32,
+    6.46
+   ]
+  },
+  {
+   "id": "SE44063",
+   "nombre": "Libia",
+   "iso3": "LBY",
+   "coord": [
+    18.01,
+    27.03
+   ]
+  },
+  {
+   "id": "SE44064",
+   "nombre": "Liechtenstein",
+   "iso3": "LIE",
+   "coord": [
+    9.58,
+    47.06
+   ]
+  },
+  {
+   "id": "SE44065",
+   "nombre": "Lituania",
+   "iso3": "LTU",
+   "coord": [
+    23.88,
+    55.33
+   ]
+  },
+  {
+   "id": "SE44066",
+   "nombre": "Luxemburgo",
+   "iso3": "LUX",
+   "coord": [
+    6.08,
+    49.77
+   ]
+  },
+  {
+   "id": "SE44067",
+   "nombre": "Macao",
+   "iso3": "MAC",
+   "coord": [
+    113.48,
+    22.2
+   ]
+  },
+  {
+   "id": "SE44068",
+   "nombre": "Macedonia",
+   "iso3": "MKD",
+   "coord": [
+    21.7,
+    41.59
+   ]
+  },
+  {
+   "id": "SE44069",
+   "nombre": "Madagascar",
+   "iso3": "MDG",
+   "coord": [
+    46.7,
+    -19.37
+   ]
+  },
+  {
+   "id": "SE44070",
+   "nombre": "Malasia",
+   "iso3": "MYS",
+   "coord": [
+    114.74,
+    3.62
+   ]
+  },
+  {
+   "id": "SE44071",
+   "nombre": "Malawi",
+   "iso3": "MWI",
+   "coord": [
+    34.28,
+    -13.22
+   ]
+  },
+  {
+   "id": "SE44072",
+   "nombre": "Maldivas",
+   "iso3": "MDV",
+   "coord": [
+    73.42,
+    3.23
+   ]
+  },
+  {
+   "id": "SE44073",
+   "nombre": "Malí",
+   "iso3": "MLI",
+   "coord": [
+    -3.54,
+    17.34
+   ]
+  },
+  {
+   "id": "SE44074",
+   "nombre": "Malta",
+   "iso3": "MLT",
+   "coord": [
+    14.57,
+    35.85
+   ]
+  },
+  {
+   "id": "SE44075",
+   "nombre": "Marianas del Norte",
+   "iso3": "MNP",
+   "coord": [
+    145.71,
+    18.76
+   ]
+  },
+  {
+   "id": "SE44076",
+   "nombre": "Marruecos",
+   "iso3": "MAR",
+   "coord": [
+    -8.46,
+    29.84
+   ]
+  },
+  {
+   "id": "SE44078",
+   "nombre": "Mauricio",
+   "iso3": "MUS",
+   "coord": [
+    57.59,
+    -20.28
+   ]
+  },
+  {
+   "id": "SE44079",
+   "nombre": "Mauritania",
+   "iso3": "MRT",
+   "coord": [
+    -10.35,
+    20.25
+   ]
+  },
+  {
+   "id": "SE44080",
+   "nombre": "Moldavia",
+   "iso3": "MDA",
+   "coord": [
+    28.46,
+    47.21
+   ]
+  },
+  {
+   "id": "SE44081",
+   "nombre": "Mónaco",
+   "iso3": "MCO",
+   "coord": [
+    7.44,
+    43.75
+   ]
+  },
+  {
+   "id": "SE44082",
+   "nombre": "Mongolia",
+   "iso3": "MNG",
+   "coord": [
+    103.05,
+    46.83
+   ]
+  },
+  {
+   "id": "SE44083",
+   "nombre": "Montenegro",
+   "iso3": "MNE",
+   "coord": [
+    19.23,
+    42.8
+   ]
+  },
+  {
+   "id": "SE44084",
+   "nombre": "Montserrat",
+   "iso3": "MSR",
+   "coord": [
+    -62.15,
+    16.74
+   ]
+  },
+  {
+   "id": "SE44085",
+   "nombre": "Mozambique",
+   "iso3": "MOZ",
+   "coord": [
+    35.53,
+    -17.28
+   ]
+  },
+  {
+   "id": "SE44086",
+   "nombre": "Myanmar, Birmania",
+   "iso3": "MMR",
+   "coord": [
+    96.49,
+    21.22
+   ]
+  },
+  {
+   "id": "SE44087",
+   "nombre": "Namibia",
+   "iso3": "NAM",
+   "coord": [
+    17.21,
+    -22.13
+   ]
+  },
+  {
+   "id": "SE44088",
+   "nombre": "Nepal",
+   "iso3": "NPL",
+   "coord": [
+    83.93,
+    28.24
+   ]
+  },
+  {
+   "id": "SE44089",
+   "nombre": "Nicaragua",
+   "iso3": "NIC",
+   "coord": [
+    -85.03,
+    12.84
+   ]
+  },
+  {
+   "id": "SE44090",
+   "nombre": "Niger",
+   "iso3": "NER",
+   "coord": [
+    9.39,
+    17.42
+   ]
+  },
+  {
+   "id": "SE44091",
+   "nombre": "Nigeria",
+   "iso3": "NGA",
+   "coord": [
+    8.08,
+    9.59
+   ]
+  },
+  {
+   "id": "SE44092",
+   "nombre": "Niue",
+   "iso3": "NIU",
+   "coord": [
+    -169.8,
+    -19.08
+   ]
+  },
+  {
+   "id": "SE44093",
+   "nombre": "Noruega",
+   "iso3": "NOR",
+   "coord": [
+    13.87,
+    64.22
+   ]
+  },
+  {
+   "id": "SE44094",
+   "nombre": "Nueva Caledonia",
+   "iso3": "NCL",
+   "coord": [
+    165.5,
+    -21.33
+   ]
+  },
+  {
+   "id": "SE44095",
+   "nombre": "Nueva Zelanda",
+   "iso3": "NZL",
+   "coord": [
+    170.52,
+    -43.98
+   ]
+  },
+  {
+   "id": "SE44096",
+   "nombre": "Omán",
+   "iso3": "OMN",
+   "coord": [
+    56.08,
+    20.58
+   ]
+  },
+  {
+   "id": "SE44097",
+   "nombre": "Países Bajos",
+   "iso3": "NLD",
+   "coord": [
+    5.64,
+    52.29
+   ]
+  },
+  {
+   "id": "SE44098",
+   "nombre": "Pakistán",
+   "iso3": "PAK",
+   "coord": [
+    69.33,
+    29.95
+   ]
+  },
+  {
+   "id": "SE44099",
+   "nombre": "Palaos",
+   "iso3": "PLW",
+   "coord": [
+    131.17,
+    3.03
+   ]
+  },
+  {
+   "id": "SE44100",
+   "nombre": "Palestina",
+   "iso3": "PSE",
+   "coord": [
+    35.28,
+    31.97
+   ]
+  },
+  {
+   "id": "SE44101",
+   "nombre": "Panamá",
+   "iso3": "PAN",
+   "coord": [
+    -80.13,
+    8.52
+   ]
+  },
+  {
+   "id": "SE44102",
+   "nombre": "Papúa-Nueva Guinea",
+   "iso3": "PNG",
+   "coord": [
+    144.24,
+    -6.61
+   ]
+  },
+  {
+   "id": "SE44103",
+   "nombre": "Paraguay",
+   "iso3": "PRY",
+   "coord": [
+    -58.4,
+    -23.23
+   ]
+  },
+  {
+   "id": "SE44104",
+   "nombre": "Perú",
+   "iso3": "PER",
+   "coord": [
+    -74.38,
+    -9.15
+   ]
+  },
+  {
+   "id": "SE44105",
+   "nombre": "Polinesia Francesa",
+   "iso3": "PYF",
+   "coord": [
+    -149.5,
+    -17.65
+   ]
+  },
+  {
+   "id": "SE44106",
+   "nombre": "Polonia",
+   "iso3": "POL",
+   "coord": [
+    19.38,
+    52.12
+   ]
+  },
+  {
+   "id": "SE44107",
+   "nombre": "Portugal",
+   "iso3": "PRT",
+   "coord": [
+    -7.99,
+    39.66
+   ]
+  },
+  {
+   "id": "SE44108",
+   "nombre": "Qatar",
+   "iso3": "QAT",
+   "coord": [
+    51.18,
+    25.31
+   ]
+  },
+  {
+   "id": "SE44109",
+   "nombre": "Reino de Lesoto",
+   "iso3": "LSO",
+   "coord": [
+    28.23,
+    -29.58
+   ]
+  },
+  {
+   "id": "SE44110",
+   "nombre": "Reino Unido",
+   "iso3": "GBR",
+   "coord": [
+    -2.52,
+    53.95
+   ]
+  },
+  {
+   "id": "SE44111",
+   "nombre": "República Centroafricana",
+   "iso3": "CAF",
+   "coord": [
+    20.47,
+    6.57
+   ]
+  },
+  {
+   "id": "SE44112",
+   "nombre": "República Checa",
+   "iso3": "CZE",
+   "coord": [
+    15.3,
+    49.73
+   ]
+  },
+  {
+   "id": "SE44114",
+   "nombre": "República del Congo",
+   "iso3": "COG",
+   "coord": [
+    15.23,
+    -0.84
+   ]
+  },
+  {
+   "id": "SE44115",
+   "nombre": "República Democrática del Congo",
+   "iso3": "COD",
+   "coord": [
+    23.64,
+    -2.88
+   ]
+  },
+  {
+   "id": "SE44116",
+   "nombre": "República Dominicana",
+   "iso3": "DOM",
+   "coord": [
+    -70.53,
+    18.9
+   ]
+  },
+  {
+   "id": "SE44117",
+   "nombre": "República Guinea",
+   "iso3": "GIN",
+   "coord": [
+    -10.93,
+    10.43
+   ]
+  },
+  {
+   "id": "SE44119",
+   "nombre": "Ruanda",
+   "iso3": "RWA",
+   "coord": [
+    29.92,
+    -1.98
+   ]
+  },
+  {
+   "id": "SE44120",
+   "nombre": "Rumanía",
+   "iso3": "ROU",
+   "coord": [
+    24.97,
+    45.86
+   ]
+  },
+  {
+   "id": "SE44121",
+   "nombre": "Samoa",
+   "iso3": "WSM",
+   "coord": [
+    -172.47,
+    -13.63
+   ]
+  },
+  {
+   "id": "SE44123",
+   "nombre": "San Marino",
+   "iso3": "SMR",
+   "coord": [
+    12.49,
+    43.9
+   ]
+  },
+  {
+   "id": "SE44124",
+   "nombre": "San Vincente y Granadinas",
+   "iso3": "VCT",
+   "coord": [
+    -61.17,
+    13.16
+   ]
+  },
+  {
+   "id": "SE44125",
+   "nombre": "Santa Lucía",
+   "iso3": "LCA",
+   "coord": [
+    -60.9,
+    13.82
+   ]
+  },
+  {
+   "id": "SE44126",
+   "nombre": "Santo Tomé y Príncipe",
+   "iso3": "STP",
+   "coord": [
+    6.6,
+    0.25
+   ]
+  },
+  {
+   "id": "SE44127",
+   "nombre": "Senegal",
+   "iso3": "SEN",
+   "coord": [
+    -14.47,
+    14.35
+   ]
+  },
+  {
+   "id": "SE44128",
+   "nombre": "Serbia",
+   "iso3": "SRB",
+   "coord": [
+    20.78,
+    44.22
+   ]
+  },
+  {
+   "id": "SE44129",
+   "nombre": "Sierra Leona",
+   "iso3": "SLE",
+   "coord": [
+    -11.79,
+    8.57
+   ]
+  },
+  {
+   "id": "SE44130",
+   "nombre": "Singapur",
+   "iso3": "SGP",
+   "coord": [
+    103.97,
+    1.33
+   ]
+  },
+  {
+   "id": "SE44131",
+   "nombre": "Siria",
+   "iso3": "SYR",
+   "coord": [
+    38.51,
+    35.02
+   ]
+  },
+  {
+   "id": "SE44132",
+   "nombre": "Sri Lanka",
+   "iso3": "LKA",
+   "coord": [
+    80.7,
+    7.62
+   ]
+  },
+  {
+   "id": "SE44133",
+   "nombre": "Sudáfrica",
+   "iso3": "ZAF",
+   "coord": [
+    25.16,
+    -29.01
+   ]
+  },
+  {
+   "id": "SE44134",
+   "nombre": "Sudán",
+   "iso3": "SDN",
+   "coord": [
+    29.94,
+    15.99
+   ]
+  },
+  {
+   "id": "SE44135",
+   "nombre": "Suecia",
+   "iso3": "SWE",
+   "coord": [
+    16.73,
+    62.82
+   ]
+  },
+  {
+   "id": "SE44136",
+   "nombre": "Suiza",
+   "iso3": "CHE",
+   "coord": [
+    8.22,
+    46.8
+   ]
+  },
+  {
+   "id": "SE44137",
+   "nombre": "Surinam",
+   "iso3": "SUR",
+   "coord": [
+    -55.91,
+    4.12
+   ]
+  },
+  {
+   "id": "SE44138",
+   "nombre": "Swazilandia",
+   "iso3": "SWZ",
+   "coord": [
+    31.49,
+    -26.55
+   ]
+  },
+  {
+   "id": "SE44139",
+   "nombre": "Tailandia",
+   "iso3": "THA",
+   "coord": [
+    101.01,
+    15.14
+   ]
+  },
+  {
+   "id": "SE44140",
+   "nombre": "Taiwan",
+   "iso3": "TWN",
+   "coord": [
+    120.96,
+    23.75
+   ]
+  },
+  {
+   "id": "SE44141",
+   "nombre": "Tanzania",
+   "iso3": "TZA",
+   "coord": [
+    34.8,
+    -6.28
+   ]
+  },
+  {
+   "id": "SE44142",
+   "nombre": "Tayikistán",
+   "iso3": "TJK",
+   "coord": [
+    71.03,
+    38.53
+   ]
+  },
+  {
+   "id": "SE44143",
+   "nombre": "Timor Oriental",
+   "iso3": "TLS",
+   "coord": [
+    125.93,
+    -8.81
+   ]
+  },
+  {
+   "id": "SE44144",
+   "nombre": "Togo",
+   "iso3": "TGO",
+   "coord": [
+    0.96,
+    8.54
+   ]
+  },
+  {
+   "id": "SE44145",
+   "nombre": "Trinidad y Tobago",
+   "iso3": "TTO",
+   "coord": [
+    -61.29,
+    10.43
+   ]
+  },
+  {
+   "id": "SE44146",
+   "nombre": "Túnez",
+   "iso3": "TUN",
+   "coord": [
+    9.55,
+    34.13
+   ]
+  },
+  {
+   "id": "SE44147",
+   "nombre": "Turkmenistán",
+   "iso3": "TKM",
+   "coord": [
+    59.36,
+    39.12
+   ]
+  },
+  {
+   "id": "SE44148",
+   "nombre": "Turquía",
+   "iso3": "TUR",
+   "coord": [
+    35.43,
+    38.99
+   ]
+  },
+  {
+   "id": "SE44150",
+   "nombre": "Ucrania",
+   "iso3": "UKR",
+   "coord": [
+    31.25,
+    49.16
+   ]
+  },
+  {
+   "id": "SE44151",
+   "nombre": "Uganda",
+   "iso3": "UGA",
+   "coord": [
+    32.37,
+    1.28
+   ]
+  },
+  {
+   "id": "SE44152",
+   "nombre": "Uruguay",
+   "iso3": "URY",
+   "coord": [
+    -56.02,
+    -32.8
+   ]
+  },
+  {
+   "id": "SE44153",
+   "nombre": "Uzbekistán",
+   "iso3": "UZB",
+   "coord": [
+    63.14,
+    41.75
+   ]
+  },
+  {
+   "id": "SE44154",
+   "nombre": "Vanuatu",
+   "iso3": "VUT",
+   "coord": [
+    166.86,
+    -15.25
+   ]
+  },
+  {
+   "id": "SE44155",
+   "nombre": "Venezuela",
+   "iso3": "VEN",
+   "coord": [
+    -66.19,
+    7.12
+   ]
+  },
+  {
+   "id": "SE44156",
+   "nombre": "Vietnam",
+   "iso3": "VNM",
+   "coord": [
+    106.31,
+    16.65
+   ]
+  },
+  {
+   "id": "SE44157",
+   "nombre": "Yemen",
+   "iso3": "YEM",
+   "coord": [
+    47.54,
+    15.94
+   ]
+  },
+  {
+   "id": "SE44158",
+   "nombre": "Zambia",
+   "iso3": "ZMB",
+   "coord": [
+    27.77,
+    -13.46
+   ]
+  },
+  {
+   "id": "SE44159",
+   "nombre": "Zimbabwe",
+   "iso3": "ZWE",
+   "coord": [
+    29.85,
+    -19
+   ]
+  }
+ ],
+ "indicadores": [
+  {
+   "id": "SF43718",
+   "nombre": "Tipo de cambio FIX (pesos por dólar)",
+   "unidad": "MXN por USD",
+   "grupo": "Mercados",
+   "periodo": "Diaria",
+   "escala": 1
+  },
+  {
+   "id": "SF61745",
+   "nombre": "Tasa objetivo de Banxico",
+   "unidad": "%",
+   "grupo": "Mercados",
+   "periodo": "Diaria",
+   "escala": 1
+  },
+  {
+   "id": "SP30578",
+   "nombre": "Inflación anual (INPC)",
+   "unidad": "%",
+   "grupo": "Mercados",
+   "periodo": "Mensual",
+   "escala": 1
+  },
+  {
+   "id": "SE40524",
+   "nombre": "Variación de la reserva internacional (suma del mes)",
+   "unidad": "millones de USD",
+   "grupo": "Reservas",
+   "periodo": "Diaria",
+   "escala": 1,
+   "agregar": "suma"
+  },
+  {
+   "id": "SE27803",
+   "nombre": "Remesas recibidas (mes)",
+   "unidad": "millones de USD",
+   "grupo": "Remesas",
+   "periodo": "Mensual",
+   "escala": 1
+  },
+  {
+   "id": "SE28647",
+   "nombre": "Remesa promedio",
+   "unidad": "USD",
+   "grupo": "Remesas",
+   "periodo": "Mensual",
+   "escala": 1
+  },
+  {
+   "id": "SE36593",
+   "nombre": "Exportaciones totales",
+   "unidad": "millones de USD",
+   "grupo": "Comercio exterior",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE36595",
+   "nombre": "Importaciones totales",
+   "unidad": "millones de USD",
+   "grupo": "Comercio exterior",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE28294",
+   "nombre": "Balanza comercial total",
+   "unidad": "millones de USD",
+   "grupo": "Comercio exterior",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE36600",
+   "nombre": "Balanza comercial petrolera",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE32150",
+   "nombre": "Exportaciones petroleras (todas)",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE36566",
+   "nombre": "Exportaciones de petróleo crudo",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE46578",
+   "nombre": "Exportaciones petroleras a Estados Unidos",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE46623",
+   "nombre": "Exportaciones petroleras a países distintos de EUA",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE46627",
+   "nombre": "Crudo y derivados a países distintos de EUA",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE46632",
+   "nombre": "Gasolina a países distintos de EUA",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE32189",
+   "nombre": "Importaciones petroleras (todas)",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE32086",
+   "nombre": "Importaciones de gasolina",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE32151",
+   "nombre": "Importaciones de gas natural",
+   "unidad": "millones de USD",
+   "grupo": "Petróleo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE5855",
+   "nombre": "Ingresos por viajeros internacionales (turismo)",
+   "unidad": "millones de USD",
+   "grupo": "Turismo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE5770",
+   "nombre": "Gasto de turistas internacionales",
+   "unidad": "millones de USD",
+   "grupo": "Turismo",
+   "periodo": "Mensual",
+   "escala": 0.001
+  },
+  {
+   "id": "SE46345",
+   "nombre": "Inversión directa (total)",
+   "unidad": "millones de USD",
+   "grupo": "Inversión",
+   "periodo": "Trimestral",
+   "escala": 1
+  },
+  {
+   "id": "SE30330",
+   "nombre": "Inversión extranjera directa en México",
+   "unidad": "millones de USD",
+   "grupo": "Inversión",
+   "periodo": "Trimestral",
+   "escala": 1
+  },
+  {
+   "id": "SE46350",
+   "nombre": "Inversión directa de México en el exterior",
+   "unidad": "millones de USD",
+   "grupo": "Inversión",
+   "periodo": "Trimestral",
+   "escala": 1
+  },
+  {
+   "id": "SE44968",
+   "nombre": "Deuda externa bruta total",
+   "unidad": "millones de USD",
+   "grupo": "Deuda",
+   "periodo": "Trimestral",
+   "escala": 1
+  }
+ ]
+}
