@@ -902,3 +902,13 @@ label.vista-pago select { font-size: 12px; border-radius: 10px; border: 0; paddi
 .mx-ind th { font-weight: 500; text-align: left; }
 .mx-ind .sube { color: #2E7D32; font-size: 12px; }
 .mx-ind .baja { color: #C62828; font-size: 12px; }
+
+/* Contraste de fuentes (js/contraste_mx.js) */
+.cx-svg { width: 100%; height: auto; color: var(--text, #333); margin: 4px 0; }
+.cx-leyenda { display: flex; flex-wrap: wrap; gap: 4px 10px; font-size: 12px; margin: 2px 0 6px; }
+.cx-leyenda i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 4px; vertical-align: -1px; }
+.cx-tabla td, .cx-tabla th { font-size: 12px; }
+.cx-tabla .sube-mal { color: #C62828; }
+.cx-tabla .baja-bien { color: #2E7D32; }
+.cx-senales { border-left: 4px solid #E65100; padding: 4px 8px; margin: 6px 0; font-size: 13px; }
+.cx-senales ul { padding-left: 16px; margin: 4px 0; }

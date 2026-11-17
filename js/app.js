@@ -1059,6 +1059,8 @@ async function main() {
   api.map.on("style.load", () => { trayectoria?.reinstalar(); capaIndice?.reinstalar(); img?.reinstalar(); timelapse?.reinstalar(); gestor?.reinstalar(); mov?.reinstalar(); riesgos?.reinstalar(); clima?.reinstalar(); avisarPresupuesto(); });
   iniciarImagenes();
   iniciarClima();
+  import("./contraste_mx.js?v=1").then((C) => C.iniciarContrasteMx({ cont: $("mexico-contraste"), getJSON }))
+    .catch((e) => { console.error("contraste México", e); });
   import("./monitor_mx.js?v=1").then((M) => M.iniciarMonitorMx({ map: api.map, cont: $("mexico-monitor"), abrirFicha: abrirFichaHtml, getJSON }))
     .catch((e) => { console.error("monitor México", e); });
   import("./humedad.js?v=2").then((H) => H.iniciarHumedad({ map: api.map, cont: $("humedad-capas"), abrirFicha: abrirFichaHtml, getJSON }))
