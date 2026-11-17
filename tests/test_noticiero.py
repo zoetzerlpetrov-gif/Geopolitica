@@ -140,7 +140,7 @@ def test_latinus_se_lee_una_vez_y_llega_a_candidatos_del_video():
     candidatas = guion.candidatos_seccion({'notas': N.unir([], notas, AHORA)}, ahora_iso='2026-10-21T12:00:00Z')
     assert candidatas['politica_mx'][0]['medio'] == 'Latinus'
     assert candidatas['politica_mx'][0]['url'] == 'https://latinus.us/reforma.html'
-    assert not next(s for s in cfg['secciones'] if s['id'] == 'oficial_mx')['feeds']
+    assert next(s for s in cfg['secciones'] if s['id'] == 'oficial_mx')['feeds']
 
 
 def test_indice_noticias_respeta_robots_y_rss_conserva_su_lector(monkeypatch):

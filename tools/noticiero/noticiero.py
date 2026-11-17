@@ -20,7 +20,6 @@ import json
 import os
 import re
 import sys
-import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
 from datetime import datetime, timedelta, timezone
 
@@ -111,34 +110,12 @@ def notas_de_feed(items, secs, reglas, filtrar=False):
     return out
 
 
-def parsear_sitemap_noticias(xml_bytes, feed):
-    """Metadatos del índice oficial de noticias, sin descargar los artículos."""
-    sm = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
-    ns = "{http://www.google.com/schemas/sitemap-news/0.9}"
-    out = []
-    for item in ET.fromstring(xml_bytes).findall(f"{sm}url"):
-        titulo = " ".join((item.findtext(f"{ns}news/{ns}title") or "").split())
-        url = (item.findtext(f"{sm}loc") or "").strip()
-        fecha_txt = item.findtext(f"{ns}news/{ns}publication_date") or ""
-        if not titulo or urlparse(url).scheme != "https" or urlparse(url).hostname != urlparse(feed["url"]).hostname:
-            continue
-        try:
-            fecha = datetime.fromisoformat(fecha_txt.replace("Z", "+00:00"))
-            if fecha.tzinfo is None:
-                continue
-        except ValueError:
-            continue
-        out.append({"titulo": titulo[:300], "url": url, "fuente": feed["nombre"], "tipo_fuente": feed["tipo"],
-                    "fecha_utc": fecha.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")})
-    return sorted(out, key=lambda n: n["fecha_utc"], reverse=True)[:feed.get("max_items", 40)]
+# Compatibilidad con los consumidores del Noticiero; el mapa usa el mismo parser.
+parsear_sitemap_noticias = F.parsear_sitemap_noticias
 
 
 def leer_feed(feed):
-    if feed.get("formato") != "sitemap_noticias":
-        return F.rss(feed)
-    if not F.permitido_por_robots(feed["url"]):
-        raise PermissionError("el robots.txt del sitio no permite leer este índice: se omite")
-    return parsear_sitemap_noticias(F.get(feed["url"], timeout=40), feed)
+    return F.rss(feed)
 
 
 def de_rss(cfg, reglas, leer=leer_feed):

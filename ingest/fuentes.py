@@ -203,6 +203,33 @@ def parsear_rss(xml_bytes, feed):
     return out
 
 
+def parsear_sitemap_noticias(xml_bytes, feed):
+    """Índice público Google News: metadatos con fecha real, sin descargar artículos."""
+    sm = "{http://www.sitemaps.org/schemas/sitemap/0.9}"
+    ns = "{http://www.google.com/schemas/sitemap-news/0.9}"
+    out = []
+    for item in ET.fromstring(xml_bytes).findall(f"{sm}url"):
+        titulo = " ".join((item.findtext(f"{ns}news/{ns}title") or "").split())
+        url = (item.findtext(f"{sm}loc") or "").strip()
+        fecha_txt = item.findtext(f"{ns}news/{ns}publication_date") or ""
+        if not titulo or urllib.parse.urlparse(url).scheme != "https" or urllib.parse.urlparse(url).hostname != urllib.parse.urlparse(feed["url"]).hostname:
+            continue
+        try:
+            fecha = datetime.fromisoformat(fecha_txt.replace("Z", "+00:00"))
+            if fecha.tzinfo is None:
+                continue
+        except ValueError:
+            continue
+        out.append({
+            "titulo": titulo[:300], "url": url, "fuente": feed["nombre"], "tipo_fuente": feed["tipo"],
+            "fecha_utc": _iso(fecha), "pais_iso3": None, "pais_defecto": feed.get("pais_defecto"),
+            "lat": None, "lon": None, "actores": [], "idioma": feed.get("idioma"),
+            "texto_clasificar": titulo, "resumen": None, "area_sugerida": None,
+            "severidad": None, "articulos": 1,
+        })
+    return sorted(out, key=lambda n: n["fecha_utc"], reverse=True)[:feed.get("max_items", 40)]
+
+
 _ROBOTS = {}
 
 
@@ -262,7 +289,8 @@ def og_imagen(url, leer=None, robots=permitido_por_robots):
 def rss(feed):
     if not permitido_por_robots(feed["url"]):
         raise PermissionError("el robots.txt del sitio no permite leer este feed: se omite")
-    return parsear_rss(get(feed["url"], timeout=40), feed)
+    parser = parsear_sitemap_noticias if feed.get("formato") == "sitemap_noticias" else parsear_rss
+    return parser(get(feed["url"], timeout=40), feed)
 
 
 # ---------------------------------------------------------------- sustitutos de ReliefWeb (sin appname)

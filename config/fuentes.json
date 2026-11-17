@@ -241,6 +241,26 @@
       "pais_defecto": "MEX",
       "max_items": 40,
       "nota": "Medio mexicano: si el título no menciona otro país, la nota se ubica en México. Solo título, enlace y fecha; el resumen es propio."
+    },
+    {
+      "id": "mvs",
+      "nombre": "MVS Noticias",
+      "url": "https://mvsnoticias.com/sitemaps/news.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "formato": "sitemap_noticias",
+      "max_items": 80,
+      "pais_defecto": "MEX"
+    },
+    {
+      "id": "latinus",
+      "nombre": "Latinus",
+      "url": "https://latinus.us/sitemaps/news.xml",
+      "idioma": "es",
+      "tipo": "noticia",
+      "formato": "sitemap_noticias",
+      "max_items": 80,
+      "pais_defecto": "MEX"
     }
   ],
   "reliefweb": {

@@ -64,7 +64,7 @@ def test_noticias_familiares_positivas_no_convierte_incidentes_o_consejos_en_hec
 def test_colector_asigna_seccion_familia_con_palabras_positivas_y_fuentes_reales():
     cfg = json.load(open(N.CONF, encoding='utf-8'))
     seccion = next(s for s in cfg['secciones'] if s['id'] == 'familia')
-    assert len(seccion['feeds']) == 3
+    assert {'Aleteia Español', 'Latinus', 'MVS Noticias'} <= {f['nombre'] for f in seccion['feeds']}
     item = {'titulo': 'Un matrimonio celebra sus bodas de oro junto a toda su familia', 'url': 'https://ejemplo.mx/1',
             'fuente': 'Medio', 'tipo_fuente': 'Medio', 'fecha_utc': '2026-11-15T12:00:00Z'}
     assert N.notas_de_feed([item], ['familia'], N.reglas_de(cfg), filtrar=True)[0]['s'] == ['familia']
