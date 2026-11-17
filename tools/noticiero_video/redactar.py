@@ -35,6 +35,7 @@ de titulares (algunos en otro idioma), cada uno con su medio. Tarea:
    suavices ni las exageres. Cuenta igual lo que se le critica al gobierno que lo que anuncia.
 7. Verificación de bulos: di con claridad qué afirmación falsa circula y qué se comprobó, sin repetirla como cierta.
 8. En «Familia y parejas · noticias positivas», cuenta únicamente hechos positivos confirmados sobre familia, matrimonio, crianza o apoyo familiar. Conserva las relaciones que explicita la fuente y distingue los consejos u opiniones de los hechos.
+9. En «Ciberseguridad», conserva la atribución de alertas y denuncias. No inventes pasos, datos robados o consecuencias. La orientación preventiva se añade aparte; tu frase describe exclusivamente lo que dice el titular.
 Responde solo JSON: {"elegida": <número o null>, "resumen": "<frase>"}"""
 
 

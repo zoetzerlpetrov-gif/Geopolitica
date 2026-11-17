@@ -12,6 +12,10 @@ Solo usa lo que el proyecto ya genera y puede publicarse:
 Funciones puras: reciben los JSON ya leídos y devuelven escenas, título y descripción.
 """
 import re
+import os
+import sys
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "red"))
+from estafas_prevencion import perfil_estafa, FUENTES as GUIAS_ESTAFAS
 from datetime import date, datetime
 from zoneinfo import ZoneInfo
 from video_historial import clave_url, ya_publicada
@@ -214,19 +218,20 @@ def _ultimo(ind, id_):
 # Orden del noticiero y nombre corto de cada sección del Noticiero (data/vivos/noticiero.json).
 ORDEN = ["politica_mx", "politica_mx_critica", "oficial_mx", "geopolitica", "economia", "indicadores", "forex", "bonos", "oro", "metales", "energia",
          "crisis_energetica", "empresas", "sectores", "nearshoring", "inmobiliario", "cripto", "blockchain", "cbdc",
-         "tecnologia", "organismos", "salud", "nutricion", "agenda2030", "clima", "eventos_impacto", "cultura",
+         "ciberseguridad", "tecnologia", "organismos", "salud", "nutricion", "agenda2030", "clima", "eventos_impacto", "cultura",
          "espectaculos", "gastronomia_viajes", "belleza_moda", "familia", "infantil", "conspiracion"]
 CORTO = {"politica_mx": "Política en México", "oficial_mx": "Avisos oficiales en México", "geopolitica": "Geopolítica", "economia": "Economía", "indicadores": "Indicadores",
          "forex": "Divisas", "bonos": "Bonos y CETES", "oro": "Oro y bancos centrales", "metales": "Metales y materias primas",
          "energia": "Energía", "crisis_energetica": "Crisis energética", "empresas": "Empresas", "sectores": "Sectores",
          "nearshoring": "Nearshoring", "inmobiliario": "Bienes raíces", "cripto": "Criptomonedas", "blockchain": "Blockchain",
-         "cbdc": "Monedas digitales", "tecnologia": "Tecnología", "organismos": "Organismos internacionales", "salud": "Salud",
+         "ciberseguridad": "Ciberseguridad", "cbdc": "Monedas digitales", "tecnologia": "Tecnología", "organismos": "Organismos internacionales", "salud": "Salud",
          "nutricion": "Nutrición", "agenda2030": "Agenda 2030", "clima": "Clima y desastres", "eventos_impacto": "Clima y economía",
          "cultura": "Cultura", "espectaculos": "Espectáculos", "gastronomia_viajes": "Gastronomía y viajes",
          "belleza_moda": "Belleza y moda", "familia": "Familia y parejas · noticias positivas", "infantil": "Niñas y niños", "conspiracion": "Teorías de conspiración",
          "politica_mx_critica": "Política en México", "dof": "Diario Oficial de la Federación"}
 # Lo que la IA debe buscar en la sección cuando el nombre corto no basta.
 TEMA = {
+    "ciberseguridad": "Alertas y estafas que afectan a usuarios: llamadas, WhatsApp, SMS, correo, redes sociales, bancos, compras e inversiones. Cuenta solamente lo que diga el titular; no inventes un modus operandi. La orientación preventiva se añade por separado",
     "oficial_mx": "Avisos y cambios oficiales en México que afectan a la gente: reformas aprobadas en el Senado o en la Cámara de "
                   "Diputados, publicaciones del Diario Oficial, cambios del SAT, Banxico, CNBV, CONDUSEF, Profeco o Cofepris, registro "
                   "de líneas celulares, pagos digitales, tarifas, comisiones o nuevas obligaciones. No una declaración política sin "
@@ -314,6 +319,9 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
         if sec == "politica_mx_critica":
             def es(n):
                 return GOBIERNO_MX.search(n["t"]) and CRITICA.search(n["t"])  # del gobierno o sus funcionarios, no nota roja
+        elif sec == "ciberseguridad":
+            def es(n):
+                return "ciberseguridad" in (n.get("s") or []) and bool(perfil_estafa(n["t"]))
         elif sec == "familia":
             def es(n):
                 return "familia" in (n.get("s") or []) and noticia_familiar_positiva(n["t"])
@@ -322,7 +330,7 @@ def candidatos_seccion(noti, ahora_iso=None, horas=36, maximo=6, usadas=frozense
                 return "infantil" in (n.get("s") or []) and INFANTIL.search(n["t"])  # tortugas o planetas sin niños: fuera
         else:
             def es(n, sec=sec):
-                return sec in (n.get("s") or [])
+                return sec in (n.get("s") or []) and not ("ciberseguridad" in (n.get("s") or []) and perfil_estafa(n["t"]))
         idx = sorted((i for i, n in enumerate(notas) if es(n)), key=lambda i: (eco[i], notas[i].get("f") or ""), reverse=True)
         lista, vistos = [], set()
         for i in idx:
@@ -721,6 +729,12 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         esc.append({"tipo": "nota", "encabezado": n["seccion_nombre"], "seccion": n["seccion"], "texto": n["resumen"], "medio": n["medio"], "url": n["url"], "dato": n.get("dato"),
                     "titular": bool(n.get("titular")),
                     "voz": (f"{n['seccion_nombre']}. " if not esc or esc[-1].get("encabezado") != n["seccion_nombre"] else "") + n["voz"]})
+        if n["seccion"] == "ciberseguridad" and (perfil := perfil_estafa(n["titulo"])):
+            for encabezado, texto in [("Modus operandi · orientación general", perfil["modus"]),
+                                      ("Cómo evitar la estafa", perfil["prevencion"])]:
+                esc.append({"tipo": "nota", "encabezado": encabezado, "seccion": "ciberseguridad",
+                            "texto": texto, "medio": "Orientación preventiva · CONDUSEF / INCIBE",
+                            "url": perfil["guia_url"], "voz": para_voz(encabezado + ". " + texto)})
     if bloque_c:
         esc.append({"tipo": "clima", "encabezado": "El clima", **{k: bloque_c[k] for k in ("mx", "mundo", "alertas", "ciclones", "nota_clima")}, "texto": "", "voz": para_voz(bloque_c["voz"])})
     eco = bloque_economia(indicadores)
@@ -758,6 +772,7 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
         "Resúmenes propios de las noticias del día; la voz es sintética.",
 
         "",
+        *(["Orientación preventiva general (no reconstrucción del caso):"] + [f"• {nombre}: {url}" for nombre, url in GUIAS_ESTAFAS] if any(n["seccion"] == "ciberseguridad" for n in notas) else []),
         "Fuentes de las notas:",
         *[f"• {x['seccion_nombre']} — {x['medio']}: {x['url']}" for x in notas],
         "",

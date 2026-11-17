@@ -28,6 +28,8 @@ sys.path.insert(0, os.path.join(ROOT, "ingest"))
 sys.path.insert(0, os.path.join(ROOT, "tools", "clima"))
 import fuentes as F  # noqa: E402
 import tornados as T  # noqa: E402
+sys.path.insert(0, os.path.join(ROOT, "tools", "red"))
+from estafas_prevencion import perfil_estafa  # noqa: E402
 
 CONF = os.path.join(ROOT, "config", "noticiero.json")
 OUT = os.path.join(ROOT, "vivos", "noticiero.json")
@@ -51,7 +53,8 @@ def secciones_de(titulo, dominio, reglas, excluir=None):
     """Secciones de GDELT para un titular y su dominio."""
     if excluir and excluir.search(dominio or ""):
         return []
-    return [sid for sid, _, gkg, dom in reglas if gkg and gkg.search(titulo) and (dom is None or dom.search(dominio or ""))]
+    return [sid for sid, _, gkg, dom in reglas if gkg and gkg.search(titulo) and (dom is None or dom.search(dominio or ""))
+            and (sid != "ciberseguridad" or perfil_estafa(titulo))]
 
 
 def fecha_gkg(v):
@@ -104,6 +107,7 @@ def notas_de_feed(items, secs, reglas, filtrar=False):
     out = []
     for it in items:
         s = secs if len(secs) == 1 and not filtrar else [sid for sid in secs if rx[sid].search(it["titulo"])]
+        s = [sid for sid in s if sid != "ciberseguridad" or perfil_estafa(it["titulo"])]
         if s:
             out.append({"t": it["titulo"][:220], "u": it["url"], "m": it["fuente"], "tipo": it["tipo_fuente"], "f": it["fecha_utc"],
                         "img": it.get("imagen", ""), "s": s, "via": "rss"})
@@ -172,6 +176,10 @@ def refiltrar(previos, cfg, reglas):
         secs = filtrados.get(n.get("m"))
         if secs and n.get("via") == "rss":
             n = {**n, "s": [s for s in n.get("s", []) if s not in secs or rx[s].search(n.get("t", ""))]}
+            if not n["s"]:
+                continue
+        if "ciberseguridad" in n.get("s", []) and not perfil_estafa(n.get("t")):
+            n = {**n, "s": [sid for sid in n["s"] if sid != "ciberseguridad"]}
             if not n["s"]:
                 continue
         out.append(n)

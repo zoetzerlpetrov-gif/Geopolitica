@@ -1127,6 +1127,27 @@ export const CAPAS = [
       <p class="meta">CVSS mide la gravedad técnica de 0 a 10. Un aviso no significa un ataque: es una vulnerabilidad publicada con su parche o mitigación.</p>`,
   },
   {
+    id: "estafas", grupo: "Red y ciberseguridad", nombre: "Estafas y fraudes: alertas y prevención (30 días)", url: "data/vivos/estafas.geojson",
+    refresco_s: 1800, noAmenaza: true,
+    fuente: "INCIBE, revista CONDUSEF y medios del Noticiero DOMINUS (MVS, Latinus, ESET, Hispasec y otros)",
+    estilo: (p) => ({ c: "#C27C1E", r: Math.min(20, 6 + Math.sqrt(p.n || 1) * 2) }),
+    etiqueta: (p) => `${p.n} ${p.n === 1 ? "reporte" : "reportes"}`,
+    leyenda: [{ c: "#C27C1E", r: 7, t: "Alertas y noticias de llamadas, WhatsApp, SMS, correo, redes, bancos, compras e inversiones" },
+      { t: "El punto representa el país citado o el ámbito de un organismo emisor; no ubica al estafador ni a una víctima. La cantidad mide notas, no víctimas ni probabilidad de fraude. Los reportes recientes sin país se consultan en el Noticiero → Ciberseguridad (72 h)." },
+      { t: "Abre un punto para ver la fuente, fecha, canal, patrón orientativo y cómo evitar el engaño. No se recopilan denuncias personales." }],
+    ficha: (p) => ({ titulo: `Estafas y prevención · ${p.pais}`, chip: `${p.n} notas · 30 días`,
+      filas: [["Canales citados", Object.entries(p.canales || {}).map(([c, n]) => `${c}: ${n}`).join(" · ") || "No especificados"],
+        ["Última publicación", fecha(p.ultimo_utc)], ["Interpretación", "Alertas y cobertura noticiosa; no un registro confirmado de incidentes ni ubicaciones personales"]],
+      fuente: "Noticiero DOMINUS · fuentes originales en cada reporte" }),
+    extra: (p) => lista(p.reportes).map((n) => `<details><summary>${esc(n.t)}</summary><p class="meta">${esc(n.f)} · ${esc(fecha(n.fecha))} · ${esc(n.ubicacion)}</p>
+      <p><b>Modalidad orientativa:</b> ${esc(n.modalidad_nombre)}. ${esc(lista(n.canales).join(" · "))}</p>
+      <p><b>Modus operandi · patrón general:</b> ${esc(n.modus)}</p><p><b>Cómo evitarlo:</b> ${esc(n.prevencion)}</p>
+      <p class="meta">${esc(n.alcance)}</p><a href="${esc(safeUrl(n.url))}" target="_blank" rel="noopener noreferrer">Leer reporte original</a> ·
+      <a href="${esc(safeUrl(n.guia_url))}" target="_blank" rel="noopener noreferrer">Guía preventiva</a></details>`).join("") +
+      `<p class="meta">Si ya compartiste datos o dinero, contacta de inmediato a tu banco o plataforma por sus canales oficiales; conserva mensajes y comprobantes. Consulta a la autoridad competente de tu país. Desconfía de quienes cobren por recuperar dinero.</p>`,
+    pie: "Orientación general. Confirma cada alerta en su fuente; no se declara culpable a ninguna persona ni se publican listas de números sospechosos.",
+  },
+  {
     id: "ciberataques", grupo: "Red y ciberseguridad", nombre: "Ciberataques reportados por la prensa, por país afectado (30 días)", url: "data/vivos/ciberataques.geojson",
     refresco_s: 1800, fuente: "Medios de ciberseguridad (The Record, BleepingComputer, SecurityWeek, The Hacker News, Dark Reading, ESET, Hispasec…) y noticias de la ingesta",
     estilo: (p) => ({ c: COLOR_CIBER[p.tipo] || "#5C6BC0", r: Math.min(22, 6 + Math.sqrt(p.n || 1) * 3) }),

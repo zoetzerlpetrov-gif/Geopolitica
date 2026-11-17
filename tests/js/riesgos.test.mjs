@@ -122,3 +122,19 @@ test("idiomas por país: color por idioma principal y ficha con la lista y sus %
   const html = c.extra(p);
   assert.match(html, /náhuatl de la Huasteca oriental/); assert.match(html, /0\.39 %/); assert.match(html, /oficial de hecho/);
 });
+
+test("estafas: ubicación aproximada, fuentes seguras y prevención en fichas desplegables", () => {
+  const c = capa("estafas");
+  assert.equal(c.grupo, "Red y ciberseguridad");
+  assert.equal(c.noAmenaza, true);
+  const p = { pais: "México", n: 1, canales: JSON.stringify({ SMS: 1 }), ultimo_utc: "2026-11-17T10:00:00Z",
+    reportes: JSON.stringify([{ t: '<script>alert(1)</script>', f: "Medio", fecha: "2026-11-17T10:00:00Z", ubicacion: "País citado",
+      modalidad_nombre: "SMS", canales: ["SMS"], modus: "Patrón general", prevencion: "Verifica por otro canal", alcance: "No reconstruye el caso",
+      url: "javascript:alert(1)", guia_url: "https://www.incibe.es/" }]) };
+  const h = htmlRiesgo(c, p);
+  assert.ok(h.includes("<details>") && h.includes("Cómo evitarlo") && h.includes("SMS: 1"));
+  assert.ok(h.includes("&lt;script&gt;") && !h.includes('<script>') && !h.includes('href="javascript:'));
+  const gj = preparar(c, { type: "FeatureCollection", features: [pt(p)] });
+  assert.equal(gj.features[0].properties._tipo, "Estafas: alertas y prevención");
+  assert.ok(c.leyenda.some((x) => /no víctimas/.test(x.t)));
+});

@@ -444,6 +444,71 @@
    ]
   },
   {
+   "id": "ciberseguridad",
+   "titulo": "Ciberseguridad: estafas y prevención",
+   "nota": "Reportes y alertas sobre llamadas, SMS, WhatsApp, correo, redes, bancos, compras e inversiones. No todos son incidentes confirmados. El modus operandi del caso requiere la fuente original; los consejos orientativos no acreditan los hechos.",
+   "palabras": "estaf|fraude|fraud|scam|phishing|smishing|vishing|quishing|suplant|robo de (cuenta|identidad)|secuestro de (cuenta|whatsapp)|sim.?swap|pig butchering|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas",
+   "feeds": [
+    {
+     "nombre": "Latinus",
+     "url": "https://latinus.us/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
+    },
+    {
+     "nombre": "MVS Noticias",
+     "url": "https://mvsnoticias.com/sitemaps/news.xml",
+     "tipo": "Medio privado mexicano",
+     "formato": "sitemap_noticias",
+     "filtrar": true
+    },
+    {
+     "nombre": "El Financiero",
+     "url": "https://www.elfinanciero.com.mx/arc/outboundfeeds/rss/?outputType=xml",
+     "tipo": "Diario de negocios de México",
+     "filtrar": true
+    },
+    {
+     "nombre": "Xataka México",
+     "url": "https://www.xataka.com.mx/feedburner.xml",
+     "tipo": "Medio de tecnología",
+     "filtrar": true
+    },
+    {
+     "nombre": "Infobae México",
+     "url": "https://www.infobae.com/arc/outboundfeeds/rss/category/mexico/",
+     "tipo": "Medio digital (Argentina) con sección México",
+     "filtrar": true
+    },
+    {
+     "nombre": "INCIBE · avisos de ciudadanía",
+     "url": "https://www.incibe.es/ciudadania/avisos/feed",
+     "tipo": "Organismo público de ciberseguridad (España)",
+     "filtrar": true
+    },
+    {
+     "nombre": "CONDUSEF · Proteja su Dinero",
+     "url": "https://revista.condusef.gob.mx/feed/",
+     "tipo": "Revista de organismo público (México)",
+     "filtrar": true
+    },
+    {
+     "nombre": "WeLiveSecurity (ESET)",
+     "url": "https://www.welivesecurity.com/es/rss/feed/",
+     "tipo": "Medio especializado en ciberseguridad",
+     "filtrar": true
+    },
+    {
+     "nombre": "Una al Día (Hispasec)",
+     "url": "https://unaaldia.hispasec.com/feed",
+     "tipo": "Medio especializado en ciberseguridad",
+     "filtrar": true
+    }
+   ],
+   "gkg": "estaf|fraude|fraud|scam|phishing|smishing|vishing|quishing|suplant|sim.?swap|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas"
+  },
+  {
    "id": "tecnologia",
    "titulo": "Tecnología y empresas de TI",
    "palabras": "inteligencia artificial|artificial intelligence|\\bia\\b|\\bai\\b|chatgpt|openai|anthropic|nvidia|apple|microsoft|google|alphabet|amazon|meta\\b|semiconductor|chip|ciberseguridad|cybersecurity|software|startup",
