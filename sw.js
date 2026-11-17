@@ -16,7 +16,9 @@ const C_MOSAICOS = `mosaicos-${VERSION}`;
 const C_DATOS = `datos-${VERSION}`;
 const MAX_MOSAICOS = 600;
 
-self.addEventListener("install", () => self.skipWaiting());
+// Una versión nueva espera a que terminen las sesiones abiertas. No usa skipWaiting:
+// la activación durante un análisis provocaba controllerchange y una recarga forzada del mapa.
+// Los datos siguen llegando por NetworkFirst con el worker que ya está activo.
 self.addEventListener("activate", (e) => {
   e.waitUntil((async () => {
     const vigentes = new Set([C_ESTATICO, C_APP, C_MOSAICOS, C_DATOS]);

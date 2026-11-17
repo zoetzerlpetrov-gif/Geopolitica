@@ -50,8 +50,10 @@ export function iniciarRefresco({ runLog, elDatos, elProxima, onNuevosDatos }) {
     try {
       const nuevo = await getJSON("data/run-log.json", { bust: true });
       if (nuevo.generado_utc !== log.generado_utc) {
-        log = nuevo;
+        // Confirmar la versión solo cuando los datos se aplicaron. Si falla la red, se reintenta
+        // sin descartar el estado ni dar la actualización por terminada.
         await onNuevosDatos();
+        log = nuevo;
       }
     } catch (e) {
       console.warn("No se pudo revisar run-log.json:", e.message);
@@ -72,4 +74,5 @@ export function iniciarRefresco({ runLog, elDatos, elProxima, onNuevosDatos }) {
     if (now - ultimaConsulta > (ventana ? 60000 : 300000)) revisar();
   }, 1000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) revisar(); });
+  return { revisar };
 }

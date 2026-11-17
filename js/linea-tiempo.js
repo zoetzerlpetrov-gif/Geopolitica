@@ -57,14 +57,17 @@ export class LineaTiempo {
 
   /** Recalcula rango e histograma cuando cambian los datos. */
   setEventos(eventos) {
-    this.eventos = eventos;
-    this.rango = rangoTiempo(eventos);
-    const horas = this.rango ? Math.ceil((this.rango.max - this.rango.min) / 3600000) : 0;
-    // Si el usuario estaba en «ahora» (extremo derecho), sigue en «ahora» al llegar datos nuevos.
+    // Guardar antes de cambiar el rango: el valor del deslizador se mide desde el extremo izquierdo,
+    // que puede desplazarse al entrar/salir eventos. El filtro elegido es «horas atrás», no ese índice.
+    const atraso = this.iniciado ? this.horasAtras : 0;
     const enAhora = !this.iniciado || this.rng.value === this.rng.max;
+    this.eventos = eventos;
+    // Una instantánea vacía no debe convertir una ventana elegida en «Todo» ni moverla a «ahora».
+    this.rango = rangoTiempo(eventos) || this.rango;
+    const horas = Math.max(atraso, this.rango ? Math.ceil((this.rango.max - this.rango.min) / 3600000) : 0);
     this.iniciado = true;
     this.rng.max = String(horas);
-    this.rng.value = String(enAhora ? horas : Math.min(Number(this.rng.value), horas));
+    this.rng.value = String(enAhora ? horas : horas - atraso);
     this.#emitir();
   }
 

@@ -6,6 +6,7 @@ import { estiloBase, crearMapa, ICONO_AREA } from "./map.js";
 import { iniciarIdioma } from "./idioma.js";
 import { htmlFicha } from "./card.js";
 import { iniciarRefresco } from "./refresh.js";
+import { iniciarCacheAplicacion, mantenerSeleccion } from "./actualizacion-app.js";
 import { GestorCapas, familiasDibujables, htmlFichaEntidad, etiquetaEstado, PRESUPUESTO_CAPAS } from "./capas.js?v=146";
 import * as seg from "./seguimiento.js";
 import { Movimiento, htmlFichaMovil, vueloDeFila, proyectar, SUB } from "./movimiento.js";
@@ -1930,7 +1931,7 @@ async function iniciarRiesgos() {
       return tipos.length ? `<optgroup label="${esc(capa.nombre)}">${tipos.map(([v, c]) => `<option value="${esc(v)}">${esc(`${v} (${c.n})${c.n && c.off === c.n ? " · se enciende al elegirlo" : ""}`)}</option>`).join("")}</optgroup>` : "";
     }).join("");
     selP.value = paisesOpc.has(prevP) ? prevP : "";
-    selT.value = [...selT.options].some((o) => o.value === prevT) ? prevT : "";
+    mantenerSeleccion(selT, prevT);
     if (!apagadas.length && !riesgos.catalogo) $("rg-filtro-nota").textContent = "Abre un filtro para ver también los países y tipos de las capas apagadas.";
     else if (prevP && cpOff.get(prevP)?.n) {
       const capasOff = [...new Set(apagadas.filter((a) => a.pais === prevP && pasa(a, { sinPais: true })).map((a) => a.capa))];
@@ -2515,13 +2516,8 @@ function pintarSeguimiento() {
 // visita no los vuelva a descargar. Los datos (events.json, run-log.json) siempre se piden a la red primero; si
 // events.json tarda más de 6 s al abrir, se muestra la copia guardada y la nueva se aplica al llegar.
 if ("serviceWorker" in navigator && location.protocol === "https:") {
-  navigator.serviceWorker.register("sw.js").catch((e) => console.warn("service worker:", e.message));
-  // Si ya había un service worker y se instala uno nuevo (se publicó una versión), se recarga una vez para que
-  // toda la página use la versión nueva y no una mezcla de archivos viejos y nuevos.
-  if (navigator.serviceWorker.controller) {
-    let recargado = false;
-    navigator.serviceWorker.addEventListener("controllerchange", () => { if (!recargado) { recargado = true; location.reload(); } });
-  }
+  // Las versiones nuevas no navegan ni reconstruyen el mapa: los gestores conservan filtros y capas.
+  iniciarCacheAplicacion(navigator.serviceWorker, (mensaje) => console.info(mensaje));
 }
 
 main().catch((e) => {

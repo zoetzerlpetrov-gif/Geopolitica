@@ -131,3 +131,23 @@ test('un error de una descarga cancelada no desmarca ni falla la activación nue
  const mov=movimiento(mapa()),viejo=mov.activar('satelites');mov.desactivar('satelites');await mov.activar('satelites');
  fallar(new Error('descarga antigua falló'));await assert.doesNotReject(viejo);assert.equal(mov.activas.has('satelites'),true);mov.desactivar('satelites');
 });
+
+test('actualizar una capa activa conserva sus filtros y conserva datos anteriores si falla la red', async t => {
+ entorno(t);
+ const interval0=globalThis.setInterval,clear0=globalThis.clearInterval;let refrescar;
+ globalThis.setInterval=f=>{refrescar=f;return 1;};globalThis.clearInterval=()=>{};
+ t.after(()=>{globalThis.setInterval=interval0;globalThis.clearInterval=clear0;});
+ let modo='inicial';
+ const nuevo={type:'FeatureCollection',features:[{type:'Feature',geometry:{type:'Point',coordinates:[-99,19]},properties:{iso3:'MEX',pais:'México',n:2}}]};
+ globalThis.fetch=async()=>{if(modo==='error')throw new Error('sin red');return respuesta(modo==='inicial'?vacio():nuevo);};
+ const m=mapa(),r=new Riesgos(m,{onObjeto(){}});
+ const filtro={pais:'MEX',tipo:'Corte de internet',sevMin:1};
+ r.setFiltro(filtro);await r.activar('cortes_internet');const actualizar=refrescar;
+ modo='nuevo';await actualizar();
+ assert.deepEqual(r.filtro,filtro);assert.equal(r.activas.has('cortes_internet'),true);
+ assert.equal(r.datos('cortes_internet').features[0].properties.n,2);
+ assert.ok(JSON.stringify(m.capas.get('rg-cortes_internet-punto').filter).includes('MEX'));
+ const anterior=r.datos('cortes_internet');modo='error';await actualizar();
+ assert.equal(r.datos('cortes_internet'),anterior);assert.deepEqual(r.filtro,filtro);
+ r.desactivar('cortes_internet');assert.equal(m.fuentes.has('rg-cortes_internet'),false);
+});
