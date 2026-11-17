@@ -198,6 +198,13 @@ jobs:
           BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
         run: python3 tools/mexico/monitor_mx.py
 
+      - name: Contraste de fuentes de México (ONU Comtrade vs Banxico cada semana, SESNSP por categoría cada 3 días; si falla se conserva lo anterior)
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          COMTRADE_API_KEY: ${{ secrets.COMTRADE_API_KEY }}
+        run: python3 tools/mexico/contraste_mx.py
+
       - name: Indicadores del noticiero (Banxico, BCE y Banco de Rusia cada hora; Tesoro de EUA cada 6 h; Kraken cada 20 min)
         continue-on-error: true
         timeout-minutes: 3
