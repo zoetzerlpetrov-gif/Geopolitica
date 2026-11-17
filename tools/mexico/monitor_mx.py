@@ -119,7 +119,9 @@ def construir(cfg, datos):
         ser = [(p, round(v * s.get("escala", 1), 3)) for p, v in serie(s, tri)]
         a = alerta(ser, 4 if tri else 12)
         indicadores.append({**{k: s[k] for k in ("id", "nombre", "unidad", "grupo", "periodo")}, "serie": ser[-24:], **(a or {})})
-        if a and a["alerta"] and s.get("periodo") != "Diaria":
+        # Montos en millones de USD: sin alerta si el promedio previo es menor a 1 millón (ruido de cifras muy pequeñas).
+        chico = "millones" in s.get("unidad", "") and abs(a["promedio_previo"] or 0) < 1 and (a or {}).get("alerta") != "reaparece" if a else False
+        if a and a["alerta"] and s.get("periodo") != "Diaria" and not chico:
             alertas.append({"que": s["nombre"], "donde": "México", "unidad": s["unidad"], **a})
 
     def capa(lista, etiqueta, unidad="millones de USD"):

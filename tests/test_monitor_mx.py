@@ -65,3 +65,12 @@ def test_config_sin_ids_repetidos_y_con_coordenadas():
         assert all(s["coord"] and len(s["coord"]) == 2 for s in cfg[k])
     ids = [s["id"] for k in ("indicadores", "remesas_estado", "remesas_pais_origen", "remesas_pais_destino") for s in cfg[k]]
     assert len(ids) == len(set(ids))
+
+
+def test_indicador_con_promedio_menor_a_un_millon_no_alerta():
+    cfg = {"indicadores": [{"id": "SE1", "nombre": "Gasolina", "unidad": "millones de USD", "grupo": "Petróleo", "periodo": "Mensual", "escala": 0.001}]}
+    datos = {"SE1": [(f"2025-{m:02d}-01", 5.0) for m in range(1, 13)] + [("2026-01-01", 0.0)]}   # 5 mil USD → 0
+    ind, _, alertas = M.construir(cfg, datos)
+    assert ind[0]["alerta"] == "a cero" and alertas == []
+    datos = {"SE1": [(f"2025-{m:02d}-01", 5000.0) for m in range(1, 13)] + [("2026-01-01", 0.0)]}  # 5 millones → 0
+    assert M.construir(cfg, datos)[2][0]["alerta"] == "a cero"
