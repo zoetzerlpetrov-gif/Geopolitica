@@ -16,7 +16,9 @@ De cada observación se toman la temperatura del aire, el punto de rocío, el vi
   * Agua posible con un generador eléctrico (condensador a 5 °C): mL por cada m³ de aire que se enfría, y litros por
     día para un equipo de referencia que mueve 200 m³/h con 70 % de eficiencia. Cada equipo publica su propia curva.
 
-Salida: vivos/humedad_estaciones.geojson (cada hora como máximo; lo llama «Datos en movimiento»).
+Salida: vivos/humedad_estaciones.geojson (cada hora como máximo; lo llama «Datos en movimiento») y
+vivos/humedad_historial.json: por aeropuerto y por mes, cuántas observaciones hubo y la suma de mL/m³ del generador y de
+mL/m² de rocío (solo observaciones nocturnas), para estimar cuánta agua se obtendría cada mes del año (13 meses).
 """
 import csv
 import gzip
@@ -30,6 +32,8 @@ from datetime import datetime, timedelta, timezone
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 OUT = os.path.join(ROOT, "vivos", "humedad_estaciones.geojson")
+HIST = os.path.join(ROOT, "vivos", "humedad_historial.json")
+MESES_HIST = 13
 FUENTE = "https://aviationweather.gov/data/cache/metars.cache.csv.gz"
 AGENTE = "DOMINUS-OSINT clima (github.com/zoetzerlpetrov-gif/Geopolitica)"
 CADA_MIN = 55
@@ -165,6 +169,33 @@ def features(obs):
     return out
 
 
+def acumular(hist, fs, ahora):
+    """Suma cada observación nueva al mes de su estación: [observaciones, Σ mL/m³ generador, noches, Σ mL/m² rocío].
+    Una estación solo suma una vez por hora de observación (el archivo METAR repite la última si no hay nueva)."""
+    est = hist.setdefault("estaciones", {})
+    hist.setdefault("desde", ahora.strftime("%Y-%m-%d"))
+    nuevas = 0
+    for f in fs:
+        p = f["properties"]
+        hora, mes = p["hora_utc"][:13], p["hora_utc"][:7]
+        e = est.setdefault(p["id"], {"u": "", "m": {}})
+        if e["u"] >= hora:
+            continue
+        e["u"] = hora
+        a = e["m"].setdefault(mes, [0, 0.0, 0, 0])
+        a[0] += 1
+        a[1] = round(a[1] + p["generador_ml_m3"], 2)
+        if p.get("noche"):
+            a[2] += 1
+            a[3] += p["rocio_ml_m2_noche"]
+        nuevas += 1
+    limite = (ahora - timedelta(days=31 * MESES_HIST)).strftime("%Y-%m")
+    for e in est.values():
+        e["m"] = {m: v for m, v in e["m"].items() if m >= limite}
+    hist["actualizado_utc"] = ahora.strftime("%Y-%m-%dT%H:%M:%SZ")
+    return nuevas
+
+
 def main(ahora=None, descargar=None):
     ahora = ahora or datetime.now(timezone.utc)
     try:
@@ -196,6 +227,15 @@ def main(ahora=None, descargar=None):
                    "referencia": {"bobina_c": BOBINA_C, "caudal_m3h": CAUDAL_M3H, "eficiencia": EFICIENCIA, "noche_h": NOCHE_H,
                                   "enfriamiento_max_c": ENFRIAMIENTO_MAX_C, "potencia_max_w": POTENCIA_MAX_W},
                    "features": fs}, f, ensure_ascii=False, separators=(",", ":"))
+    try:
+        hist = json.load(open(HIST, encoding="utf-8"))
+    except (OSError, ValueError):
+        hist = {}
+    nuevas = acumular(hist, fs, ahora)
+    hist["referencia"] = {"caudal_m3h": CAUDAL_M3H, "eficiencia": EFICIENCIA}
+    with open(HIST, "w", encoding="utf-8") as f:
+        json.dump(hist, f, ensure_ascii=False, separators=(",", ":"))
+    print(f"humedad: historial con {len(hist['estaciones'])} estaciones ({nuevas} observaciones nuevas)")
     altas = sum(1 for x in fs if x["properties"]["nivel"] == 3)
     print(f"humedad: {len(fs)} estaciones; {altas} con condensación probable alta")
     return 0
