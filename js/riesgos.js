@@ -1,3 +1,4 @@
+import { leerEstafas } from "./estafas-datos.js";
 import { edadPosicion } from "./fase1-logica.js";
 import { geometriaSegura } from "./antimeridiano.js";
 // Riesgos naturales y clima: capas generadas por este proyecto cada 6 h (tools/clima_tactico → data/vivos/ct/).
@@ -1127,7 +1128,7 @@ export const CAPAS = [
       <p class="meta">CVSS mide la gravedad técnica de 0 a 10. Un aviso no significa un ataque: es una vulnerabilidad publicada con su parche o mitigación.</p>`,
   },
   {
-    id: "estafas", grupo: "Red y ciberseguridad", nombre: "Estafas y fraudes: alertas y prevención (30 días)", url: "data/vivos/estafas.geojson",
+    id: "estafas", grupo: "Red y ciberseguridad", nombre: "Estafas y fraudes: alertas y prevención (30 días)", url: "data/vivos/estafas.geojson", generar: () => leerEstafas(),
     refresco_s: 1800, noAmenaza: true,
     fuente: "INCIBE, revista CONDUSEF y medios del Noticiero DOMINUS (MVS, Latinus, SICOM, Síntesis, El Imparcial, El Buen Tono, ESET, Hispasec y otros)",
     estilo: (p) => ({ c: "#C27C1E", r: Math.min(20, 6 + Math.sqrt(p.n || 1) * 2) }),

@@ -153,6 +153,13 @@ jobs:
           fi
           du -sh _site
 
+      - name: Conservar la publicación vigente de estafas
+        run: |
+          git fetch --depth 1 origin datos-estafas
+          mkdir -p /tmp/estafas-publicadas _site/data/vivos
+          git archive FETCH_HEAD vivos/estafas.geojson vivos/estafas_estado.json | tar -x -C /tmp/estafas-publicadas
+          cp /tmp/estafas-publicadas/vivos/estafas.geojson /tmp/estafas-publicadas/vivos/estafas_estado.json _site/data/vivos/
+
       - name: Empaquetar
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:

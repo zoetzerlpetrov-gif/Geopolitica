@@ -76,7 +76,7 @@ def construir(noticiero, eventos, anteriores, ahora, gaz=None):
                                         'canales': dict(Counter(c for n in ns for c in n['canales'])),
                                         'reportes': ns[:30], 'recursos': [r for r in recursos if r.get('pais_iso3') == iso], 'fuente': 'Noticiero DOMINUS · fuentes enlazadas'}})
     return {'type': 'FeatureCollection', 'generado_utc': ahora.strftime('%Y-%m-%dT%H:%M:%SZ'), 'ventana_dias': DIAS,
-            'total_notas': len(unicas), 'sin_ubicacion': [n for n in unicas if not n['paises']],
+            'version_esquema': 2, 'total_notas': len(unicas), 'sin_ubicacion': [n for n in unicas if not n['paises']],
             'guias': [{'nombre': n, 'url': u} for n, u in FUENTES], 'features': features}, unicas
 
 
@@ -116,7 +116,7 @@ def main():
                           leer(estado, {}).get('notas', []), ahora)
     fc['fuentes'] = fuentes
     os.makedirs(vivos, exist_ok=True)
-    for path, datos in [(out, fc), (estado, {'generado_utc': fc['generado_utc'], 'notas': notas})]:
+    for path, datos in [(out, fc), (estado, {'version_esquema': 2, 'generado_utc': fc['generado_utc'], 'notas': notas})]:
         with open(path + '.tmp', 'w', encoding='utf-8') as f:
             json.dump(datos, f, ensure_ascii=False)
         os.replace(path + '.tmp', path)

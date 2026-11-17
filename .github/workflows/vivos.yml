@@ -315,9 +315,17 @@ jobs:
         run: python3 tools/red/ciberataques.py
 
       - name: Estafas y prevención (Noticiero, ingesta y avisos oficiales; 30 días)
+        id: estafas
         continue-on-error: true
         timeout-minutes: 3
         run: python3 tools/red/estafas.py
+
+      - name: Publicar estafas sin sustituirlas por una corrida antigua
+        if: github.ref == 'refs/heads/main' && steps.estafas.outcome == 'success'
+        continue-on-error: true
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bash tools/red/publicar_estafas.sh
 
       - name: Empresas y su organigrama público (Wikidata, cada 7 días, máximo 5 min; si falla se conserva lo anterior)
         continue-on-error: true

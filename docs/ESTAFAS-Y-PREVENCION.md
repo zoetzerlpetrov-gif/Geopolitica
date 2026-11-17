@@ -38,3 +38,11 @@ Los feeds regionales declaran su ámbito editorial mexicano. Solo se propaga a e
 Las entidades bancarias se muestran como **nombres citados**, sin atribuirles responsabilidad. Los retiros/cargos no reconocidos, créditos no solicitados y denuncias de desaparición de dinero de una cuenta se incluyen como **reclamaciones por verificar**. Un titular o una reclamación no demuestran un fraude ni su causa. La fecha del RSS conserva la antigüedad de la publicación: un caso de meses anteriores no entra en la ventana de 30 días aunque vuelva a aparecer en una búsqueda.
 
 Las consultas adicionales se limitan a tres en paralelo y un tiempo de lectura acotado por fuente; registran sus fallos individualmente. Los avisos existentes se conservan mientras sigan dentro de la ventana.
+
+## Publicación protegida frente a corridas atrasadas
+
+Los dos archivos de estafas tienen una referencia propia: rama `datos-estafas`, con esquema 2. Las corridas generales siguen publicando el resto de las capas como antes. `tools/red/publicar_estafas.sh` lee la referencia vigente, fusiona el historial de noticias no vencidas y publica con una comprobación de la revisión esperada. Si otra corrida publica en medio, reintenta con su versión. Los esquemas antiguos o las fechas incoherentes se rechazan; una corrida anterior no sustituye una posterior.
+
+GitHub Pages copia esta referencia después de restaurar `datos-vivos`. El lector del mapa (`js/estafas-datos.js`) consulta la referencia dedicada del mismo repositorio y usa la copia compatible de Pages como respaldo. Un archivo antiguo sin esquema 2 no se acepta como actualización ni se convierte en una capa vacía. La referencia dedicada tiene prioridad incluso si una instantánea general parcial presenta una fecha posterior. Si ninguna copia se puede leer, el gestor mantiene los objetos ya dibujados y sus filtros.
+
+Las pruebas simulan una actualización que perdió México, fallos de la referencia remota, esquemas viejos, expiración de los 30 días y publicación real contra un repositorio Git temporal. Este cambio protege únicamente los archivos de estafas; las demás capas no cambian de rama ni de lector.
