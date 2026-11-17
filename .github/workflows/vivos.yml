@@ -127,6 +127,16 @@ jobs:
         timeout-minutes: 3
         run: python3 tools/clima/aire.py
 
+      - name: Humedad, punto de rocío y agua del aire en ~5,000 aeropuertos (METAR de la NOAA, cada hora; si falla se conservan los anteriores)
+        continue-on-error: true
+        timeout-minutes: 3
+        run: python3 tools/clima/humedad.py
+
+      - name: Dióxido de carbono (NOAA, Mauna Loa y promedio global; una vez al día; si falla se conserva el anterior)
+        continue-on-error: true
+        timeout-minutes: 2
+        run: python3 tools/clima/co2.py
+
       - name: Calidad del aire con CAMS de Copernicus (modelo global; una vez al día; solo si existe ADS_API_KEY)
         continue-on-error: true
         timeout-minutes: 15
