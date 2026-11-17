@@ -70,12 +70,49 @@ def _pronunciacion():
 PRONUNCIACION = _pronunciacion()
 
 
+# Tramos que la voz lee con pronunciación en inglés (render.py → Kokoro en inglés con la misma voz): ⟪Apple⟫.
+INGLES_A, INGLES_B = "⟪", "⟫"
+_TRAMO_INGLES = re.compile(INGLES_A + r"[^" + INGLES_B + r"]*" + INGLES_B)
+
+# Pares de divisas: «EUR/MXN» se dice «Euro Peso» (sin «barra» ni «diagonal»).
+DIVISAS = {"USD": "Dólar", "MXN": "Peso", "EUR": "Euro", "JPY": "Yen", "GBP": "Libra", "CAD": "Dólar canadiense", "AUD": "Dólar australiano",
+           "CHF": "Franco suizo", "CNY": "Yuan", "CNH": "Yuan", "BRL": "Real", "COP": "Peso colombiano", "ARS": "Peso argentino",
+           "CLP": "Peso chileno", "KRW": "Won", "INR": "Rupia", "RUB": "Rublo", "BTC": "Bitcóin", "ETH": "Íter"}
+
+
+def pares_divisas(texto):
+    return re.sub(r"\b([A-Z]{3})\s?/\s?([A-Z]{3})\b",
+                  lambda m: f"{DIVISAS[m.group(1)]} {DIVISAS[m.group(2)]}" if m.group(1) in DIVISAS and m.group(2) in DIVISAS else m.group(0), texto)
+
+
 def pronunciar(texto, dic=None):
-    """Palabras de otro idioma como suenan en su origen (config/pronunciacion.json); solo afecta la voz."""
+    """Palabras de otro idioma como suenan en su origen (config/pronunciacion.json); solo afecta la voz.
+    Lo que va entre ⟪ ⟫ se deja igual: lo lee la voz en inglés."""
     dic = PRONUNCIACION if dic is None else dic
-    for k in sorted(dic, key=len, reverse=True):
-        texto = re.sub(r"(?<![\w&])" + re.escape(k) + r"(?![\w&])", dic[k], texto)
-    return texto
+    partes = re.split("(" + _TRAMO_INGLES.pattern + ")", texto)
+    for i, parte in enumerate(partes):
+        if parte.startswith(INGLES_A):
+            continue
+        parte = pares_divisas(parte)
+        for k in sorted(dic, key=len, reverse=True):
+            parte = re.sub(r"(?<![\w&])" + re.escape(k) + r"(?![\w&])", dic[k], parte)
+        partes[i] = parte
+    return "".join(partes)
+
+
+_NOMBRE_ES = re.compile(r"^fibra\b|[áéíóúñ]|\bEE\.\s?UU\b|\b(?:de|del|ex|mercados|acciones|dividendos|desarrollados|emergentes|mundiales|bonos|oro|plata|IPC)\b", re.I)
+
+
+def nombre_para_voz(nombre):
+    """Acciones, ETF, índices y criptos se dicen en inglés (⟪…⟫); las FIBRAS y los nombres ya escritos en español
+    («Mercados emergentes», «IPC México») se dicen en español."""
+    n = (nombre or "").strip()
+    return n if not n or _NOMBRE_ES.search(n) else f"{INGLES_A}{n}{INGLES_B}"
+
+
+def sin_marcas(texto):
+    """Quita ⟪ ⟫ (motores sin voz en inglés): el nombre se lee con la pronunciación en español del diccionario."""
+    return pronunciar(texto.replace(INGLES_A, "").replace(INGLES_B, ""))
 
 
 def medio_para_voz(medio):
@@ -587,7 +624,7 @@ def voz_mercados(filas, frases=None):
         moneda = {"USD": "dólares", "MXN": "pesos", "EUR": "euros"}.get(f["moneda"], f["moneda"])
         frase = (frases or {}).get(f["url"]) or (f["titulo"] if en_espanol(f["titulo"]) else "")
         precio = f"{f['precio']:,.4f}" if f["precio"] < 1 else f"{f['precio']:,.2f}"
-        partes.append(f"{f['nombre']}: {precio} {moneda}, {mov}." + (f"{PAUSA}{cierre_frase(frase)}" if frase else ""))
+        partes.append(f"{nombre_para_voz(f['nombre'])}: {precio} {moneda}, {mov}." + (f"{PAUSA}{cierre_frase(frase)}" if frase else ""))
     return para_voz(PAUSA.join(partes))
 
 
@@ -761,8 +798,8 @@ def guion(fecha, elegidas, indicadores=None, portafolio=None, clima=None, cifras
     if filas_m:
         esc.append({"tipo": "mercados", "encabezado": "Mercados", "seccion": "economia",
                     "filas": [{**f, "frase": (frases_mercado or {}).get(f["url"]) or (f["titulo"] if en_espanol(f["titulo"]) else "")} for f in filas_m],
-                    "texto": AVISO_PORTAFOLIO + " Precios del portafolio sin hora de cotización verificable.",
-                    "voz": "En los mercados, últimos datos disponibles del portafolio de seguimiento, con noticias recientes. "
+                    "texto": AVISO_PORTAFOLIO + " Precios sin hora de cotización verificable.",
+                    "voz": "En los mercados, últimos datos disponibles de algunos instrumentos con noticias recientes. "
                            "La fuente no informa hora de cotización, por lo que estos precios no se presentan como precios en vivo." + PAUSA
                            + voz_mercados(filas_m, frases_mercado) + PAUSA + AVISO_PORTAFOLIO})
     esc.append({"tipo": "cierre", "encabezado": "Gracias por ver", "texto": "Fuentes y enlaces en la descripción.\n" + AVISO_VOZ,
