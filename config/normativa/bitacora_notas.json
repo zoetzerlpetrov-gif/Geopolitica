@@ -94,5 +94,27 @@
    "Titulares de marcas: nueva vía penal contra la piratería a escala comercial (según legisladores citados en prensa, la parodia o el meme sin fin comercial no queda tipificado; verificar en el texto publicado)."
   ],
   "estado": "fichas LFPPI y CPF actualizadas con «verificar» (2026-11-14)"
+ },
+ "EUR:32026R2530": {
+  "resumen": "Reglamento de la Comisión que modifica el anexo XVII de REACH para restringir el plomo en la munición (tipos de munición, usos y plazos de transición: verificar en EUR-Lex).",
+  "afectaciones": [
+   "Fabricantes, importadores y distribuidores de munición y perdigones en la UE: sustituir el plomo según los plazos de la restricción.",
+   "Exportadores de munición hacia la UE (incluidos los de México): revisar composición antes de los plazos de aplicación."
+  ],
+  "estado": "incorporado al catálogo (2026-11-17)"
+ },
+ "EUR:32026R2501R(01)": {
+  "resumen": "Corrección de errores del Reglamento (UE) 2026/2501 (plomo en determinados aparejos de pesca, anexo XVII de REACH). No crea obligaciones nuevas; corrige el texto publicado (qué se corrige: verificar en EUR-Lex).",
+  "afectaciones": [
+   "Las mismas que el Reglamento (UE) 2026/2501: fabricantes, importadores y distribuidores de aparejos de pesca."
+  ],
+  "estado": "incorporado al catálogo (2026-11-17)"
+ },
+ "EUR:32026R2527": {
+  "resumen": "Reglamento de la Comisión que actualiza los anexos IV, VI y VIII del Reglamento (UE) 142/2011 (subproductos animales no destinados al consumo humano) en cuanto a qué Estados miembros pueden usar determinados subproductos.",
+  "afectaciones": [
+   "Operadores de subproductos animales en los Estados miembros listados; sin efecto directo en empresas fuera de la UE salvo exportadores de esos productos (verificar)."
+  ],
+  "estado": "no aplica (sin ficha de subproductos animales en el catálogo)"
  }
 }
