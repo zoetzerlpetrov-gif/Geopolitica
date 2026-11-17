@@ -290,7 +290,16 @@ def rss(feed):
     if not permitido_por_robots(feed["url"]):
         raise PermissionError("el robots.txt del sitio no permite leer este feed: se omite")
     parser = parsear_sitemap_noticias if feed.get("formato") == "sitemap_noticias" else parsear_rss
-    return parser(get(feed["url"], timeout=40), feed)
+    items = parser(get(feed["url"], timeout=feed.get("timeout_s", 40)), feed)
+    # Ámbito editorial explícito de una sección regional, no geolocalización de personas.
+    # Solo se conserva si el enlace de la noticia pertenece al mismo editor que el feed.
+    host = (urllib.parse.urlparse(feed["url"]).hostname or "").removeprefix("www.")
+    if feed.get("ambito_iso3") and host:
+        for n in items:
+            destino = (urllib.parse.urlparse(n["url"]).hostname or "").removeprefix("www.")
+            if destino == host or destino.endswith("." + host):
+                n.update(ambito_iso3=feed["ambito_iso3"], ambito_nombre=feed.get("ambito_nombre", "Ámbito editorial del feed"))
+    return items
 
 
 # ---------------------------------------------------------------- sustitutos de ReliefWeb (sin appname)

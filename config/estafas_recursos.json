@@ -1,0 +1,17 @@
+{
+  "descripcion": "Guías de consulta: no son incidentes ni noticias nuevas. No se les asigna fecha de publicación ficticia.",
+  "recursos": [
+    {
+      "pais_iso3": "MEX",
+      "entidad": "BBVA México",
+      "titulo": "Evitar estafas por WhatsApp · Centro de Ayuda",
+      "url": "https://www.bbva.mx/personas/centro-de-ayuda/evitar-estafas-por-whatsapp.html"
+    },
+    {
+      "pais_iso3": "MEX",
+      "entidad": "BanCoppel",
+      "titulo": "Llamadas, correos y SMS no deseados · guía oficial (PDF)",
+      "url": "https://www.bancoppel.com/pdf/llamadas-correos-sms-no-deseados.pdf"
+    }
+  ]
+}

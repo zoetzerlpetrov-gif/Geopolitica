@@ -28,3 +28,13 @@ El mapa utiliza el país mencionado. Si un aviso oficial de INCIBE o la revista 
 ## Verificación
 
 `tests/test_estafas.py` recorre clasificación, fechas, exclusión de duplicados, ubicación desconocida, ámbito emisor, noticia → guion → escenas preventivas y exclusión por historial. `tests/js/riesgos.test.mjs` valida el registro de la capa, fichas desplegables, escape de HTML y enlaces seguros. No se necesita generar ni subir videos para estas pruebas.
+
+## Cobertura de México y bancos
+
+Se agregan canales temáticos y regionales: SICOM (fraudes), El Imparcial (sección México), El Buen Tono (BanCoppel, WhatsApp/fraude y BBVA/fraude) y Síntesis (WhatsApp/estafa). Se releen en el colector de 30 días y alimentan el Noticiero y sus candidatos de video según las ventanas existentes (72 h y 36 h). La búsqueda textual de un feed puede encontrar términos en el cuerpo: el filtro sigue comprobando el titular; no se declara un resultado relevante solo porque el buscador lo devuelva.
+
+Los feeds regionales declaran su ámbito editorial mexicano. Solo se propaga a enlaces del propio editor. Si el titular menciona otro país, este tiene prioridad; «BBVA» o «WhatsApp» por sí solos nunca se convierten en México. En ausencia de país explícito, se etiqueta el punto como **ámbito de cobertura del medio, no lugar confirmado del caso**, sin inventar una ciudad ni un domicilio. Los recursos educativos de BBVA México y BanCoppel se enlazan en la ficha mexicana desde `config/estafas_recursos.json`: no llevan fecha nueva ficticia ni incrementan los reportes.
+
+Las entidades bancarias se muestran como **nombres citados**, sin atribuirles responsabilidad. Los retiros/cargos no reconocidos, créditos no solicitados y denuncias de desaparición de dinero de una cuenta se incluyen como **reclamaciones por verificar**. Un titular o una reclamación no demuestran un fraude ni su causa. La fecha del RSS conserva la antigüedad de la publicación: un caso de meses anteriores no entra en la ventana de 30 días aunque vuelva a aparecer en una búsqueda.
+
+Las consultas adicionales se limitan a tres en paralelo y un tiempo de lectura acotado por fuente; registran sus fallos individualmente. Los avisos existentes se conservan mientras sigan dentro de la ventana.

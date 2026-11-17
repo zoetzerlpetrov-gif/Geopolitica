@@ -447,7 +447,7 @@
    "id": "ciberseguridad",
    "titulo": "Ciberseguridad: estafas y prevención",
    "nota": "Reportes y alertas sobre llamadas, SMS, WhatsApp, correo, redes, bancos, compras e inversiones. No todos son incidentes confirmados. El modus operandi del caso requiere la fuente original; los consejos orientativos no acreditan los hechos.",
-   "palabras": "estaf|fraude|fraud|scam|phishing|smishing|vishing|quishing|suplant|robo de (cuenta|identidad)|secuestro de (cuenta|whatsapp)|sim.?swap|pig butchering|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas",
+   "palabras": "estaf|fraude|fraud|scam|phishing|smishing|vishing|quishing|suplant|robo de (cuenta|identidad)|secuestro de (cuenta|whatsapp)|sim.?swap|pig butchering|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas|cargos? no reconocid|retiros? no reconocid|cr[eé]ditos? no solicitad|comprobantes? (fals|ap[oó]crif)|desaparici[oó]n.{0,65}cuenta",
    "feeds": [
     {
      "nombre": "Latinus",
@@ -504,9 +504,69 @@
      "url": "https://unaaldia.hispasec.com/feed",
      "tipo": "Medio especializado en ciberseguridad",
      "filtrar": true
+    },
+    {
+     "nombre": "El Imparcial · México",
+     "url": "https://www.elimparcial.com/arc/outboundfeeds/rss/category/mexico/?outputType=xml",
+     "tipo": "Medio mexicano · cobertura regional o nacional",
+     "filtrar": true,
+     "ambito_iso3": "MEX",
+     "ambito_nombre": "Sección México de El Imparcial",
+     "seguimiento_estafas": true,
+     "timeout_s": 15
+    },
+    {
+     "nombre": "SICOM Noticias · fraudes",
+     "url": "https://sicomnoticias.mx/?s=fraude&feed=rss2",
+     "tipo": "Medio mexicano · cobertura regional o nacional",
+     "filtrar": true,
+     "ambito_iso3": "MEX",
+     "ambito_nombre": "Cobertura de SICOM Noticias (Puebla, México)",
+     "seguimiento_estafas": true,
+     "timeout_s": 15
+    },
+    {
+     "nombre": "El Buen Tono · BanCoppel",
+     "url": "https://www.elbuentono.com.mx/?s=bancoppel&feed=rss2",
+     "tipo": "Medio mexicano · cobertura regional o nacional",
+     "filtrar": true,
+     "ambito_iso3": "MEX",
+     "ambito_nombre": "Cobertura de El Buen Tono (Veracruz, México)",
+     "seguimiento_estafas": true,
+     "timeout_s": 15
+    },
+    {
+     "nombre": "El Buen Tono · WhatsApp y fraudes",
+     "url": "https://www.elbuentono.com.mx/?s=whatsapp+fraude&feed=rss2",
+     "tipo": "Medio mexicano · cobertura regional o nacional",
+     "filtrar": true,
+     "ambito_iso3": "MEX",
+     "ambito_nombre": "Cobertura de El Buen Tono (Veracruz, México)",
+     "seguimiento_estafas": true,
+     "timeout_s": 15
+    },
+    {
+     "nombre": "El Buen Tono · BBVA y fraudes",
+     "url": "https://www.elbuentono.com.mx/?s=bbva+fraude&feed=rss2",
+     "tipo": "Medio mexicano · cobertura regional o nacional",
+     "filtrar": true,
+     "ambito_iso3": "MEX",
+     "ambito_nombre": "Cobertura de El Buen Tono (Veracruz, México)",
+     "seguimiento_estafas": true,
+     "timeout_s": 15
+    },
+    {
+     "nombre": "Síntesis · alertas de WhatsApp",
+     "url": "https://sintesis.mx/?s=whatsapp+estafa&feed=rss2",
+     "tipo": "Medio mexicano · cobertura regional",
+     "filtrar": true,
+     "ambito_iso3": "MEX",
+     "ambito_nombre": "Cobertura de Síntesis (México)",
+     "seguimiento_estafas": true,
+     "timeout_s": 15
     }
    ],
-   "gkg": "estaf|fraude|fraud|scam|phishing|smishing|vishing|quishing|suplant|sim.?swap|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas"
+   "gkg": "estaf|fraude|fraud|scam|phishing|smishing|vishing|quishing|suplant|sim.?swap|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas|cargos? no reconocid|retiros? no reconocid|cr[eé]ditos? no solicitad|comprobantes? (fals|ap[oó]crif)|desaparici[oó]n.{0,65}cuenta"
   },
   {
    "id": "tecnologia",

@@ -84,9 +84,52 @@ def test_avisos_oficiales_conservan_fallos_por_fuente_sin_impedir_las_demas():
             raise TimeoutError('fuente temporalmente inaccesible')
         return [{'titulo': 'Un falso concurso permite utilizar tu cuenta de WhatsApp',
                  'fuente': fd['nombre'], 'url': 'https://www.incibe.es/aviso', 'fecha_utc': '2026-11-01T10:00:00Z'}]
-    avisos, estado = E.avisos_publicos(leer)
+    feeds = next(s for s in json.loads((ROOT / 'config/noticiero.json').read_text())['secciones'] if s['id'] == 'ciberseguridad')['feeds']
+    oficiales = [fd for fd in feeds if not fd.get('seguimiento_estafas')]
+    avisos, estado = E.avisos_publicos(leer, feeds=oficiales)
     assert len(llamadas) == 2 and len(avisos) == 1
     assert len([e for e in estado.values() if e['estado'] == 'error']) == 1
     fc, _ = E.construir({'notas': avisos}, {}, [], AHORA)
     assert fc['features'][0]['properties']['iso3'] == 'ESP'
     assert not N.unir([], [{**n, 'via': 'rss'} for n in avisos], AHORA)  # fuera de 72 h; la capa conserva 30 días
+
+
+def test_contexto_mexicano_del_feed_llega_al_mapa_sin_mover_un_caso_colombiano(monkeypatch):
+    xml = b'''<rss><channel>
+    <item><title>Denuncia desaparicion de dinero de su cuenta de BanCoppel</title><link>https://regional.example/bancoppel</link><pubDate>Mon, 16 Nov 2026 17:58:59 +0000</pubDate></item>
+    <item><title>Alerta por estafa de WhatsApp y BBVA en Colombia</title><link>https://regional.example/colombia</link><pubDate>Mon, 16 Nov 2026 16:00:00 +0000</pubDate></item>
+    <item><title>Alerta por estafa en BBVA</title><link>https://otro.example/externa</link><pubDate>Mon, 16 Nov 2026 15:00:00 +0000</pubDate></item>
+    </channel></rss>'''
+    fd = {'url': 'https://regional.example/?s=fraude&feed=rss2', 'nombre': 'Regional', 'tipo': 'noticia',
+          'ambito_iso3': 'MEX', 'ambito_nombre': 'Seccion de Mexico del medio', 'timeout_s': 15}
+    monkeypatch.setattr(N.F, 'permitido_por_robots', lambda u: True)
+    monkeypatch.setattr(N.F, 'get', lambda *a, **k: xml)
+    items = N.F.rss(fd)
+    assert items[0]['ambito_iso3'] == 'MEX'
+    assert 'ambito_iso3' not in items[2]  # No se propaga el ámbito a un enlace ajeno al editor.
+    cfg = json.loads((ROOT / 'config/noticiero.json').read_text())
+    notas = N.notas_de_feed(items, ['ciberseguridad'], N.reglas_de(cfg), filtrar=True)
+    fc, ns = E.construir({'notas': notas}, {}, [], AHORA)
+    por = {f['properties']['iso3']: f['properties'] for f in fc['features']}
+    assert set(por) == {'MEX', 'COL'} and por['MEX']['n'] == 1
+    assert 'Ámbito editorial' in por['MEX']['reportes'][0]['ubicacion']
+    assert por['MEX']['reportes'][0]['modalidad'] == 'reclamacion'
+    assert 'no demuestra' in por['MEX']['reportes'][0]['modus']
+    assert por['MEX']['reportes'][0]['entidades'] == ['Coppel / BanCoppel']
+    assert por['COL']['reportes'][0]['entidades'] == ['BBVA']
+    assert len(fc['sin_ubicacion']) == 1  # BBVA, sin otro contexto, no implica México.
+    assert {r['entidad'] for r in por['MEX']['recursos']} == {'BanCoppel', 'BBVA México'}
+    assert por['MEX']['n'] == len(por['MEX']['reportes'])  # Las guías no inflan el conteo de reportes.
+
+
+def test_fuentes_tematicas_mexicanas_y_nombres_de_bancos_no_se_confunden_con_responsabilidad():
+    cfg = json.loads((ROOT / 'config/noticiero.json').read_text())
+    feeds = next(s for s in cfg['secciones'] if s['id'] == 'ciberseguridad')['feeds']
+    mexicanos = [f for f in feeds if f.get('seguimiento_estafas')]
+    assert all(f['ambito_iso3'] == 'MEX' and f['filtrar'] for f in mexicanos)
+    assert any('sicomnoticias.mx' in f['url'] for f in mexicanos)
+    assert any('bancoppel' in f['url'] for f in mexicanos)
+    assert any('bbva' in f['url'] for f in mexicanos)
+    assert perfil_estafa('Alerta por estafa en BBVA')['entidades'] == ['BBVA']
+    assert perfil_estafa('Fraude en BanCoppel')['entidades'] == ['Coppel / BanCoppel']
+    assert 'Banca' in perfil_estafa('Estafa que suplanta a BBVA')['canales']

@@ -138,3 +138,13 @@ test("estafas: ubicación aproximada, fuentes seguras y prevención en fichas de
   assert.equal(gj.features[0].properties._tipo, "Estafas: alertas y prevención");
   assert.ok(c.leyenda.some((x) => /no víctimas/.test(x.t)));
 });
+
+test("estafas en México: guías bancarias separadas de las noticias y entidades sin atribución", () => {
+  const c = capa("estafas");
+  const p = { pais: "México", n: 1, canales: {}, reportes: [{ t: "Denuncia bancaria", fecha: "2026-11-16T10:00:00Z", f: "Medio",
+    entidades: ["BBVA"], canales: [], modalidad_nombre: "Por verificar", url: "https://medio.example/nota", guia_url: "https://www.bbva.mx/" }],
+    recursos: [{ entidad: "BanCoppel", titulo: "Guía oficial", url: "https://www.bancoppel.com/pdf/guia.pdf" }] };
+  const h = htmlRiesgo(c, p);
+  assert.ok(h.includes("BBVA") && h.includes("no implica responsabilidad"));
+  assert.ok(h.includes("BanCoppel") && h.includes("no se cuenta como noticia"));
+});

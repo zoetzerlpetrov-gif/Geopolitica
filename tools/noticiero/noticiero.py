@@ -110,7 +110,8 @@ def notas_de_feed(items, secs, reglas, filtrar=False):
         s = [sid for sid in s if sid != "ciberseguridad" or perfil_estafa(it["titulo"])]
         if s:
             out.append({"t": it["titulo"][:220], "u": it["url"], "m": it["fuente"], "tipo": it["tipo_fuente"], "f": it["fecha_utc"],
-                        "img": it.get("imagen", ""), "s": s, "via": "rss"})
+                        "img": it.get("imagen", ""), "s": s, "via": "rss",
+                        **({k: it[k] for k in ("ambito_iso3", "ambito_nombre") if k in it} if it.get("ambito_iso3") else {})})
     return out
 
 

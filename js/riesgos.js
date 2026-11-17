@@ -1129,7 +1129,7 @@ export const CAPAS = [
   {
     id: "estafas", grupo: "Red y ciberseguridad", nombre: "Estafas y fraudes: alertas y prevención (30 días)", url: "data/vivos/estafas.geojson",
     refresco_s: 1800, noAmenaza: true,
-    fuente: "INCIBE, revista CONDUSEF y medios del Noticiero DOMINUS (MVS, Latinus, ESET, Hispasec y otros)",
+    fuente: "INCIBE, revista CONDUSEF y medios del Noticiero DOMINUS (MVS, Latinus, SICOM, Síntesis, El Imparcial, El Buen Tono, ESET, Hispasec y otros)",
     estilo: (p) => ({ c: "#C27C1E", r: Math.min(20, 6 + Math.sqrt(p.n || 1) * 2) }),
     etiqueta: (p) => `${p.n} ${p.n === 1 ? "reporte" : "reportes"}`,
     leyenda: [{ c: "#C27C1E", r: 7, t: "Alertas y noticias de llamadas, WhatsApp, SMS, correo, redes, bancos, compras e inversiones" },
@@ -1140,10 +1140,12 @@ export const CAPAS = [
         ["Última publicación", fecha(p.ultimo_utc)], ["Interpretación", "Alertas y cobertura noticiosa; no un registro confirmado de incidentes ni ubicaciones personales"]],
       fuente: "Noticiero DOMINUS · fuentes originales en cada reporte" }),
     extra: (p) => lista(p.reportes).map((n) => `<details><summary>${esc(n.t)}</summary><p class="meta">${esc(n.f)} · ${esc(fecha(n.fecha))} · ${esc(n.ubicacion)}</p>
+      <p><b>Entidades citadas:</b> ${esc(lista(n.entidades).join(" · ") || "No especificadas en el titular")} (no implica responsabilidad).</p>
       <p><b>Modalidad orientativa:</b> ${esc(n.modalidad_nombre)}. ${esc(lista(n.canales).join(" · "))}</p>
       <p><b>Modus operandi · patrón general:</b> ${esc(n.modus)}</p><p><b>Cómo evitarlo:</b> ${esc(n.prevencion)}</p>
       <p class="meta">${esc(n.alcance)}</p><a href="${esc(safeUrl(n.url))}" target="_blank" rel="noopener noreferrer">Leer reporte original</a> ·
       <a href="${esc(safeUrl(n.guia_url))}" target="_blank" rel="noopener noreferrer">Guía preventiva</a></details>`).join("") +
+      (lista(p.recursos).length ? `<details><summary>Guías oficiales de los bancos · recursos de consulta</summary><p class="meta">Material preventivo; no se cuenta como noticia o incidente reciente.</p><ul>${lista(p.recursos).map((r) => `<li><a href="${esc(safeUrl(r.url))}" target="_blank" rel="noopener noreferrer">${esc(r.entidad)} · ${esc(r.titulo)}</a></li>`).join("")}</ul></details>` : "") +
       `<p class="meta">Si ya compartiste datos o dinero, contacta de inmediato a tu banco o plataforma por sus canales oficiales; conserva mensajes y comprobantes. Consulta a la autoridad competente de tu país. Desconfía de quienes cobren por recuperar dinero.</p>`,
     pie: "Orientación general. Confirma cada alerta en su fuente; no se declara culpable a ninguna persona ni se publican listas de números sospechosos.",
   },

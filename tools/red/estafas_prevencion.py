@@ -11,14 +11,17 @@ def normal(t):
     return ''.join(c for c in unicodedata.normalize('NFD', str(t or '').lower()) if unicodedata.category(c) != 'Mn')
 
 
-ESTAFA = re.compile(r'estaf|fraudes?|fraud|scam|phishing|smishing|vishing|quishing|suplant|falso.{0,25}(banco|credito|premio|empleo|soporte)|robo de (cuenta|identidad)|secuestro de (cuenta|whatsapp)|sim.?swap|pig butchering|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas')
+ESTAFA = re.compile(r'estaf|fraudes?|fraud|scam|phishing|smishing|vishing|quishing|suplant|falso.{0,25}(banco|credito|premio|empleo|soporte)|robo de (cuenta|identidad)|secuestro de (cuenta|whatsapp)|sim.?swap|pig butchering|fals[oa]s?.{0,45}(concurso|sorteo|banco|credito|premio|empleo|soporte|paquete|notificaci)|ciberdelincuent.{0,70}(cuenta|dinero)|robar.{0,35}(credencial|dato|cuenta)|montadeudas|cargos? no reconocid|retiros? no reconocid|creditos? no solicitad|comprobantes? (fals|apocrif)|desaparicion.{0,65}cuenta')
 CANALES = [('WhatsApp', r'whatsapp|wasap'), ('SMS', r'\bsms\b|smishing|mensaje de texto'),
            ('Llamadas', r'llamad|telefon|vishing|robocall'), ('Correo', r'correo|email|e-mail|phishing'),
            ('Redes sociales', r'redes sociales|facebook|instagram|tiktok|telegram|\bx\.com\b'),
-           ('Banca', r'banc|tarjeta|credito|credit|token|\bnip\b'), ('Compras', r'compra|tienda|marketplace|comercio|paquet|delivery'),
+           ('Banca', r'banc|tarjeta|credito|credit|token|\bnip\b|\bbbva\b|\bbanorte\b|\bsantander\b|\bhsbc\b'), ('Compras', r'compra|tienda|marketplace|comercio|paquet|delivery'),
            ('Inversiones', r'inversi|invest(?:ment|ing|or)|cripto|crypto|bitcoin|ponzi')]
 # Patrones orientativos apoyados en las guías enlazadas, no detalles atribuidos a la fuente de la noticia.
 PATRONES = [
+    ('reclamacion', 'Reclamación bancaria por verificar', r'cargos? no reconocid|retiros? no reconocid|creditos? no solicitad|desaparicion.{0,65}cuenta',
+     'El titular comunica una reclamación bancaria; por sí solo no demuestra un fraude ni permite determinar su causa.',
+     'Consulta los movimientos desde la aplicación oficial y solicita una aclaración al banco por sus canales oficiales. Conserva comprobantes y el folio del reporte.', CONDUSEF),
     ('smishing', 'SMS / smishing', r'smishing|\bsms\b|mensaje de texto',
      'Un mensaje puede suplantar un servicio y dirigir a una página que pide datos o pagos.',
      'Abre la aplicación o escribe la dirección oficial por tu cuenta. No uses el enlace recibido ni entregues códigos.', INCIBE),
@@ -59,6 +62,10 @@ def perfil_estafa(titulo):
         modus = 'El titular no detalla el modus operandi. Consulta la fuente original; no es posible reconstruir el caso con estos datos.'
         evitar = 'Detén la operación y verifica por un canal oficial independiente antes de pagar o compartir información.'
         fuente = CONDUSEF
-    return {'modalidad': clave, 'modalidad_nombre': nombre, 'canales': canales,
+    entidades = [nombre for nombre, patron in [('Coppel / BanCoppel', r'\b(?:ban ?coppel|coppel)\b'), ('BBVA', r'\bbbva\b'),
+        ('Banorte', r'\bbanorte\b'), ('Banamex / Citibanamex', r'\b(?:citibanamex|banamex)\b'), ('Santander', r'\bsantander\b'),
+        ('HSBC', r'\bhsbc\b'), ('Banco Azteca', r'\bbanco azteca\b'), ('Scotiabank', r'\bscotiabank\b')]
+        if re.search(patron, t)]
+    return {'entidades': entidades, 'modalidad': clave, 'modalidad_nombre': nombre, 'canales': canales,
             'modus': modus, 'prevencion': evitar, 'guia_url': fuente,
             'alcance': 'Patrón general de prevención, no reconstrucción confirmada de este caso.'}
