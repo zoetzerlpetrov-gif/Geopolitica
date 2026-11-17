@@ -191,6 +191,13 @@ jobs:
         timeout-minutes: 6
         run: python3 tools/noticiero/noticiero.py
 
+      - name: Monitor México (Banxico SIE: remesas por estado y país, petróleo, comercio, turismo, inversión; una vez al día; si falla se conserva lo anterior)
+        continue-on-error: true
+        timeout-minutes: 6
+        env:
+          BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
+        run: python3 tools/mexico/monitor_mx.py
+
       - name: Indicadores del noticiero (Banxico, BCE y Banco de Rusia cada hora; Tesoro de EUA cada 6 h; Kraken cada 20 min)
         continue-on-error: true
         timeout-minutes: 3
