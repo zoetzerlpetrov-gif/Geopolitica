@@ -21,16 +21,24 @@ cat > wrangler.toml <<TOML
 name = "$PROYECTO"
 pages_build_output_dir = "./sitio"
 compatibility_date = "2026-11-01"
-
-[[r2_buckets]]
-binding = "GRANDES"
-bucket_name = "$BUCKET"
 TOML
+# R2 se activa una vez en el panel de Cloudflare (pide un método de pago aunque el uso quede en el nivel gratuito).
+r2=0
+$W r2 bucket create "$BUCKET" >/dev/null 2>&1 || true
+if $W r2 bucket list 2>/dev/null | grep -q "$BUCKET"; then
+  r2=1
+  printf '\n[[r2_buckets]]\nbinding = "GRANDES"\nbucket_name = "%s"\n' "$BUCKET" >> wrangler.toml
+else
+  echo "::warning::R2 no está activo en la cuenta de Cloudflare: los archivos de más de 25 MiB no se publican en Cloudflare (el resto del sitio sí)."
+fi
 
 # 1) Archivos grandes → R2 (solo los que cambiaron; la lista de huellas vive en el propio bucket).
 mapfile -t grandes < <(cd sitio && find . -type f -size +25M | sed 's|^\./||' | sort)
 rutas=()
-$W r2 bucket create "$BUCKET" >/dev/null 2>&1 || true   # la Function lo declara; debe existir aunque no haya archivos grandes
+if [ ${#grandes[@]} -gt 0 ] && [ "$r2" = 0 ]; then
+  for f in "${grandes[@]}"; do echo "Se omite en Cloudflare (sin R2): $f"; rm -f "sitio/$f"; done
+  grandes=()
+fi
 if [ ${#grandes[@]} -gt 0 ]; then
   $W r2 object get "$BUCKET/_huellas.txt" --remote --pipe > huellas_previas.txt 2>/dev/null || : > huellas_previas.txt
   : > huellas.txt
