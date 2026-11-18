@@ -64,6 +64,36 @@ export function htmlComercio(c) {
     <p class="meta">Millones de USD. Reservar el país de destino es una práctica de confidencialidad que usan varios países para el crudo; no prueba por sí misma que se oculte algo, pero impide verificar destinos como Cuba con la estadística oficial. Para el detalle por país está el <a href="https://www.banxico.org.mx/CuboComercioExterior/" target="_blank" rel="noopener noreferrer">Cubo de Comercio Exterior de Banxico</a> (consulta manual). Las diferencias ONU–Banxico también vienen de fechas de corte y revisiones.</p>`;
 }
 
+/** INEGI (actas de defunción) vs SESNSP (fiscalías): líneas y tabla de la brecha. */
+export function htmlInegi(i) {
+  const f = i?.filas || [];
+  if (!f.length) return "";
+  const serie = { inegi: Object.fromEntries(f.map((x) => [x.anio, x.inegi])), sesnsp: Object.fromEntries(f.map((x) => [x.anio, x.sesnsp])),
+    con_otros: Object.fromEntries(f.map((x) => [x.anio, x.sesnsp_con_otros])) };
+  const nombres = { inegi: "INEGI: homicidios (actas de defunción)", sesnsp: "SESNSP: homicidio doloso + feminicidio", con_otros: "SESNSP + «otros delitos contra la vida»" };
+  const ult = f[f.length - 1];
+  const links = Object.entries(i.enlaces || {}).map(([k, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">INEGI ${esc(k)}</a>`).join(" · ");
+  return `<h4>INEGI vs fiscalías (SESNSP): ¿cuántos homicidios hay?</h4>
+    <p>En ${esc(ult.anio)}${ult.preliminar ? " (preliminar)" : ""} el INEGI registra <b>${num(ult.inegi, 0)}</b> homicidios; las fiscalías, <b>${num(ult.sesnsp, 0)}</b> víctimas de homicidio doloso y feminicidio: una diferencia de <b>${num(ult.brecha, 0)} (${num(ult.brecha_pct)} %)</b>.</p>
+    ${svgAbsoluto(serie, ["inegi", "sesnsp", "con_otros"], nombres)}
+    <table class="tabla-ficha cx-tabla"><tr><th>Año</th><th>INEGI</th><th>SESNSP</th><th>Diferencia</th></tr>${f.slice().reverse().map((x) => `<tr><td>${esc(x.anio)}${x.preliminar ? "*" : ""}</td><td>${num(x.inegi, 0)}</td><td>${num(x.sesnsp, 0)}</td><td>${num(x.brecha, 0)} (${num(x.brecha_pct)} %)</td></tr>`).join("")}</table>
+    <p class="meta">El INEGI cuenta muertes con certificado o acta de defunción (incluye las que no llegan a una carpeta de investigación); el SESNSP cuenta víctimas en carpetas abiertas por las fiscalías. Una brecha que crece mientras las fiscalías reportan bajas indica que parte de la baja no se ve en las actas de defunción. * preliminar. ${links}</p>`;
+}
+
+/** Líneas en valores absolutos (mismo eje) para comparar fuentes del mismo fenómeno. */
+export function svgAbsoluto(series, claves, nombres) {
+  const anios = [...new Set(claves.flatMap((k) => Object.keys(series[k] || {})))].sort();
+  if (anios.length < 2) return "";
+  const W = 300, H = 140, x = (i) => 30 + (i * (W - 40)) / (anios.length - 1);
+  const vals = claves.flatMap((k) => Object.values(series[k] || {}));
+  const max = Math.max(...vals) * 1.05, min = Math.min(...vals) * 0.9, y = (v) => H - 18 - ((v - min) / (max - min)) * (H - 28);
+  return `<svg viewBox="0 0 ${W} ${H}" class="cx-svg" role="img" aria-label="Comparación de fuentes por año">
+    <text x="0" y="12" font-size="8" fill="currentColor">${esc(num(max, 0))}</text><text x="0" y="${H - 18}" font-size="8" fill="currentColor">${esc(num(min, 0))}</text>
+    ${claves.map((k, j) => `<polyline fill="none" stroke="${PALETA[j % PALETA.length]}" stroke-width="2" points="${anios.filter((a) => series[k]?.[a] != null).map((a) => `${x(anios.indexOf(a)).toFixed(1)},${y(series[k][a]).toFixed(1)}`).join(" ")}"><title>${esc(nombres[k] || k)}</title></polyline>`).join("")}
+    <text x="30" y="${H - 4}" font-size="8" fill="currentColor">${esc(anios[0])}</text><text x="${W - 30}" y="${H - 4}" font-size="8" fill="currentColor">${esc(anios[anios.length - 1])}</text>
+  </svg><div class="cx-leyenda">${claves.map((k, j) => `<span><i style="background:${PALETA[j % PALETA.length]}"></i>${esc(nombres[k] || k)}</span>`).join("")}</div>`;
+}
+
 export function htmlSeguridad(s) {
   if (!s?.anuales) return `<p class="meta">Aún no hay datos de seguridad (SESNSP; se generan cada 3 días).</p>`;
   const nombres = s.categorias || {};
@@ -76,10 +106,11 @@ export function htmlSeguridad(s) {
   };
   return `${(s.senales || []).length ? `<div class="cx-senales"><b>⚠️ Posible reclasificación (revisar):</b><ul>${s.senales.map((x) => `<li>${x.tipo === "tendencia" ? "📈 " : "🗓️ "}${esc(nombres[x.baja] || x.baja)} baja ${num(Math.abs(x.cambio_baja_pct))} % mientras ${esc(nombres[x.sube] || x.sube)} sube ${num(x.cambio_sube_pct)} % (${esc(x.periodo)}); el aumento equivale a ${num(x.absorbe_pct, 0)} % de la baja.</li>`).join("")}</ul></div>`
       : `<p class="meta">Sin señales de reclasificación en el periodo comparado.</p>`}
+    ${htmlInegi(s.inegi)}
     <h4>Víctimas por año (índice: primer año = 100)</h4>${svgIndice(s.anuales, principales, nombres)}
     <h4>Mismo periodo: enero a ${esc(MES[(s.ultimo_mes || 12) - 1])} ${esc(b)} vs ${esc(a)}</h4>
     <table class="tabla-ficha cx-tabla"><tr><th>Categoría</th><th>${esc(b)}</th><th>${esc(a)}</th><th>Cambio</th></tr>${[...principales, ...otros].map(fila).join("")}</table>
-    <p class="meta">Fuente: ${esc(s.fuente)} (${esc((s.archivos || []).join("; "))}). Una «señal» compara categorías vecinas: si una baja y la otra sube en el mismo periodo, conviene revisar si se registran de otra forma. También puede deberse a un cambio de metodología o de catálogo de delitos (p. ej., al iniciar un año): por eso se marca para revisar. No prueba manipulación por sí sola. 📈 = tendencia de varios años; 🗓️ = mismo periodo contra el año anterior. Próximamente: INEGI (defunciones por homicidio) y Registro Nacional de Personas Desaparecidas.</p>`;
+    <p class="meta">Fuente: ${esc(s.fuente)} (${esc((s.archivos || []).join("; "))}). Una «señal» compara categorías vecinas: si una baja y la otra sube en el mismo periodo, conviene revisar si se registran de otra forma. También puede deberse a un cambio de metodología o de catálogo de delitos (p. ej., al iniciar un año): por eso se marca para revisar. No prueba manipulación por sí sola. 📈 = tendencia de varios años; 🗓️ = mismo periodo contra el año anterior. Próximamente: Registro Nacional de Personas Desaparecidas.</p>`;
 }
 
 export async function iniciarContrasteMx({ cont, getJSON }) {

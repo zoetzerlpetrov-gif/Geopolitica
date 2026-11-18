@@ -204,7 +204,7 @@ def comparar(series, ultimo_mes):
     return {"anuales": tot, "mismo_periodo": periodo, "anio_actual": actual, "ultimo_mes": ultimo_mes}, senales
 
 
-VERSION_SEGURIDAD = 2  # subir al cambiar el cálculo: la siguiente corrida rehace la parte de seguridad
+VERSION_SEGURIDAD = 3  # subir al cambiar el cálculo: la siguiente corrida rehace la parte de seguridad
 BASE_TENDENCIA = "2019"  # último año completo antes de la pandemia y del cambio de gobierno de 2018-2019
 
 
@@ -226,6 +226,28 @@ def tendencias(anuales):
                             "periodo": f"{BASE_TENDENCIA} a {fin} (años completos)", "tipo": "tendencia",
                             "absorbe_pct": round(min(100, (q[fin] - q[BASE_TENDENCIA]) / max(1, serie[BASE_TENDENCIA] - serie[fin]) * 100), 0)})
     return out
+
+
+INEGI = os.path.join(ROOT, "config", "inegi_homicidios.json")
+
+
+def brecha_inegi(anuales, inegi=None):
+    """INEGI (actas de defunción) frente a SESNSP (carpetas de las fiscalías): homicidio doloso + feminicidio y, aparte,
+    sumando «otros delitos que atentan contra la vida». Brecha = cuántos homicidios cuenta el INEGI de más."""
+    if inegi is None:
+        try:
+            inegi = json.load(open(INEGI, encoding="utf-8"))
+        except (OSError, ValueError):
+            return {}
+    filas = []
+    for anio, n in sorted(inegi.get("anios", {}).items()):
+        dol, fem, otros = (anuales.get(k, {}).get(anio) for k in ("homicidio_doloso", "feminicidio", "otros_vida"))
+        if dol is None:
+            continue
+        sesnsp = dol + (fem or 0)
+        filas.append({"anio": anio, "inegi": n, "sesnsp": sesnsp, "brecha": n - sesnsp, "brecha_pct": round((n - sesnsp) / n * 100, 1),
+                      "sesnsp_con_otros": sesnsp + (otros or 0), "preliminar": anio in inegi.get("preliminares", [])})
+    return {"fuente": inegi.get("fuente", ""), "enlaces": inegi.get("enlaces", {}), "filas": filas}
 
 
 def leer_csv_zip(datos):
@@ -273,6 +295,7 @@ def seguridad(descargar=None, html=None):
         except Exception as e:  # noqa: BLE001
             errores.append(f"{nombre}: {type(e).__name__}")
     datos, senales = comparar(series, ultimo_mes)
+    datos["inegi"] = brecha_inegi(datos.get("anuales", {}))
     return {"fuente": "SESNSP, víctimas del fuero común (datos abiertos)", "pagina": S.PAGINA, "archivos": archivos,
             "categorias": {k: n for k, n, _ in CATEGORIAS}, **datos, "senales": senales, "errores": errores}
 

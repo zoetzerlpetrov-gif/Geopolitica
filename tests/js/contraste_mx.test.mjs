@@ -18,3 +18,10 @@ test("seguridad: señales, índice y mismo periodo", () => {
   assert.ok(h.includes("Posible reclasificación") && h.includes("Otros &lt;vida&gt;") && h.includes("▼ 30 %") && h.includes("<polyline"));
   assert.equal(svgIndice({ a: { 2024: 1 } }, ["a"], {}), "");
 });
+
+test("INEGI vs SESNSP: brecha del último año y gráfica", async () => {
+  const { htmlInegi } = await import("../../js/contraste_mx.js");
+  const h = htmlInegi({ filas: [{ anio: "2024", inegi: 33241, sesnsp: 30918, brecha: 2323, brecha_pct: 7, sesnsp_con_otros: 47254 }, { anio: "2025", inegi: 27989, sesnsp: 24348, brecha: 3641, brecha_pct: 13, sesnsp_con_otros: 41458, preliminar: true }], enlaces: { 2025: "https://www.inegi.org.mx/x.pdf" } });
+  assert.ok(h.includes("<b>3,641 (13 %)</b>") && h.includes("(preliminar)") && h.includes("<polyline") && h.includes("2025*"));
+  assert.equal(htmlInegi({}), "");
+});
