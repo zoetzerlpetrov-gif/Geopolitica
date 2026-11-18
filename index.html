@@ -392,6 +392,13 @@
             <button>Analizar</button> <button type="button" class="btn-limpiar" data-limpiar="verif-texto verif-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
           <div id="verif-res" aria-live="polite"></div>
         </details>
+        <details class="bloque plegable" id="b-herr-enlace" data-grupo="herramientas">
+          <summary><h2>🔗 Verificador de enlaces: ¿es seguro este link?</h2></summary>
+          <p class="nota-capas">Pega un enlace y revisa si tiene señales de fraude, phishing, suplantación de marcas o descargas peligrosas. El enlace no se abre: se analiza en tu navegador y solo se consulta la fecha de registro del dominio en el registro público (RDAP).</p>
+          <form id="enlace-form"><input type="text" id="enlace-url" inputmode="url" autocomplete="off" spellcheck="false" placeholder="Ej.: https://bbva-mx-seguridad.xyz/login" aria-label="Enlace a revisar" style="width:100%">
+            <button>Revisar enlace</button> <button type="button" class="btn-limpiar" data-limpiar="enlace-url enlace-res" title="Borrar lo escrito y el resultado">✕ Limpiar</button></form>
+          <div id="enlace-res" aria-live="polite"></div>
+        </details>
         <details class="bloque plegable" id="b-herr-ia" data-grupo="herramientas">
           <summary><h2>🤖 Preguntar a la IA sobre las noticias (con tu llave de Groq)</h2></summary>
           <p class="nota-capas" id="ia-estado">🔑 Esta función usa la llave de Groq de cada persona: el monitor no paga ni comparte una. Crear la tuya es gratis.</p>
