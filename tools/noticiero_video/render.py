@@ -22,6 +22,7 @@ sys.path.insert(0, os.path.dirname(__file__))
 from guion import INGLES_A, INGLES_B, candidatos_seccion, con_dof, guion, mercados, notas_dof, consulta_mx, sin_marcas  # noqa: E402
 from redactar import elegir_y_redactar, frases_titulares, redactar_dof  # noqa: E402
 from video_historial import titulares_anteriores
+from fecha_edicion import edicion, validar_edicion
 import patrocinio  # noqa: E402
 
 from PIL import Image, ImageDraw, ImageFont  # noqa: E402
@@ -358,8 +359,10 @@ def main():
     ap.add_argument("--modelo", default=os.environ.get("PIPER_MODELO", ""))
     ap.add_argument("--previos", help="Carpeta con los guiones de los videos anteriores (rama datos-comentarios/guiones)")
     a = ap.parse_args()
-    hoy = datetime.now(ZoneInfo("America/Mexico_City")).strftime("%Y-%m-%d")
-    fecha = a.fecha or hoy
+    fecha_meta = edicion(a.fecha)
+    hoy = fecha_meta['fecha_local_generacion']
+    fecha = fecha_meta['fecha']
+    print(f"Fecha de edición: {fecha} · {fecha_meta['zona']} · {fecha_meta['origen']}")
     usadas = enlaces_usados(a.previos, fecha)
     titulares = titulares_anteriores(a.previos, fecha)
     cands = candidatos_seccion(leer_seguro(a.sitio, "data/vivos/noticiero.json"), usadas=usadas, titulares_usados=titulares)
@@ -388,17 +391,25 @@ def main():
                               "clima": clima["calor"], "cifras": cifras}
         g["descripcion"] = (f"Consulta de datos para esta generación: {consulta_mx(corte)} ({corte} UTC). "
                             "Las fechas de los datos oficiales se indican por separado.\n" + g["descripcion"])[:4900]
+    g["edicion"] = fecha_meta
     g = patrocinio.aplicar(g)  # patrocinios vigentes de config/patrocinios.json (si no hay, el video queda igual)
     if g["notas"] < 3:
         print(f"Solo {g['notas']} nota(s): no se arma el video de hoy.", file=sys.stderr)
         sys.exit(2)
+    validar_edicion(g, g["descripcion"])
     os.makedirs(a.salida, exist_ok=True)
     with open(os.path.join(a.salida, "guion.json"), "w", encoding="utf-8") as f:
         json.dump(g, f, ensure_ascii=False, indent=1)
     with open(os.path.join(a.salida, "descripcion.txt"), "w", encoding="utf-8") as f:
         f.write(g["descripcion"])
     final = armar(g, a.salida, a.modelo)
-    print(f"{final} · {duracion(final):.0f} s · {g['notas']} notas")
+    print(f"{final} · {duracion(final):.0f} s · {g['notas']} notas · edición {fecha}")
+    if os.environ.get('GITHUB_OUTPUT'):
+        with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as f:
+            f.write(f"fecha={fecha}\n")
+    if os.environ.get('GITHUB_STEP_SUMMARY'):
+        with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as f:
+            f.write(f"### Edición del video\n\nFecha: **{fecha}** ({fecha_meta['zona']}). Origen: {fecha_meta['origen']}.\n")
 
 
 if __name__ == "__main__":

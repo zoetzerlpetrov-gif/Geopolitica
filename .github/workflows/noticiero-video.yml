@@ -87,13 +87,9 @@ jobs:
       - name: Traer los guiones de los videos anteriores (para no repetir noticias ni Mercados)
         env:
           TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          mkdir -p /tmp/previos && cd /tmp/previos
-          git init -q
-          git fetch -q --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios
-          git archive FETCH_HEAD guiones | tar -x
-          ls guiones 2>/dev/null | wc -l
+        run: bash tools/noticiero_video/restaurar_historial.sh /tmp/previos
       - name: Armar el video
+        id: render
         env:
           IA_LOCAL_URL: ${{ steps.ia.outputs.url }}
           PIPER_MODELO: voz/es_MX-claude-high.onnx
@@ -102,12 +98,12 @@ jobs:
           FECHA: ${{ github.event.inputs.fecha }}
           BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
         run: |
-          if [[ "$FECHA" =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2}$ ]]; then python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones --fecha "$FECHA"
+          if [ -n "$FECHA" ]; then python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones --fecha "$FECHA"
           else python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones; fi
       - name: Guardar el video como artefacto
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: noticiero-${{ github.run_number }}
+          name: noticiero-${{ steps.render.outputs.fecha }}-${{ github.run_number }}
           path: |
             salida/noticiero.mp4
             salida/miniatura.png
@@ -133,7 +129,7 @@ jobs:
           git fetch --depth 1 "https://x-access-token:${TOKEN}@github.com/${GITHUB_REPOSITORY}.git" datos-comentarios
           git archive FETCH_HEAD | tar -x
           mkdir -p guiones comentarios
-          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']], 'usadas': g.get('usadas', []), 'noticias': g.get('noticias', [])}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
+          python3 -c "import json,sys; g=json.load(open(sys.argv[1])); json.dump({'fecha': g['fecha'], 'edicion': g.get('edicion', {}), 'titulo': g['titulo'], 'escenas': [{'encabezado': e.get('encabezado',''), 'texto': e.get('texto','')} for e in g['escenas']], 'usadas': g.get('usadas', []), 'noticias': g.get('noticias', [])}, open('guiones/'+sys.argv[2]+'.json','w'), ensure_ascii=False)" "$GITHUB_WORKSPACE/salida/guion.json" "$VIDEO"
           python3 -c "import glob,json,os; fs=sorted(glob.glob('guiones/*.json'), key=lambda f: json.load(open(f)).get('fecha',''), reverse=True); [os.remove(f) for f in fs[30:]]"  # últimos 30
           rm -rf .git && git init -q && git checkout -q -b datos-comentarios
           git config user.name "geopolitica-bot" && git config user.email "actions@users.noreply.github.com"

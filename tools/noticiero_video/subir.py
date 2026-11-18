@@ -11,6 +11,8 @@ import urllib.error
 import urllib.parse
 import urllib.request
 
+from fecha_edicion import validar_edicion
+
 TOKEN_URL = "https://oauth2.googleapis.com/token"
 SUBIDA_URL = "https://www.googleapis.com/upload/youtube/v3/videos?uploadType=resumable&part=snippet,status"
 SUBIDA_URL_PATROCINIO = SUBIDA_URL + ",paidProductPlacementDetails"
@@ -90,6 +92,11 @@ def subir(directorio):
         g = json.load(f)
     with open(os.path.join(directorio, "descripcion.txt"), encoding="utf-8") as f:
         descripcion = f.read()
+    try:
+        validar_edicion(g, descripcion)
+    except ValueError as exc:
+        print(f"::error title=Fecha del video incoherente::{exc}")
+        raise
     video = os.path.join(directorio, "noticiero.mp4")
     try:
         acceso = token_de_acceso(cid, secreto, refresco)
