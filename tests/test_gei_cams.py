@@ -33,3 +33,11 @@ def test_features_y_resumen():
     assert f[0]["properties"]["co2_sup"] == round(6.4e-4 * G.AIRE_SECO / G.M_CO2 * 1e6, 1)
     r = G.resumen(f)
     assert r["co2_sup"]["min"] <= r["co2_sup"]["promedio"] <= r["co2_sup"]["max"]
+
+
+def test_peticion_lleva_fecha():
+    from datetime import datetime
+    for _, cuerpo in G.PETICIONES:
+        c = G.con_fecha(cuerpo, datetime(2026, 11, 17))
+        assert c["date"] == ["2026-11-17/2026-11-17"]
+        assert "date" not in cuerpo
