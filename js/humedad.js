@@ -125,7 +125,32 @@ export const GEI = {
   co2_col: { nombre: "CO₂ en toda la columna de aire (ppm)", unidad: "ppm", que: "promedio de toda la columna de aire, como lo miden los satélites" },
   ch4_sup: { nombre: "Metano cerca del suelo (ppb)", unidad: "ppb", que: "metano en el aire cercano al suelo (fugas de gas y petróleo, ganado, basureros, arrozales)" },
   ch4_col: { nombre: "Metano en toda la columna de aire (ppb)", unidad: "ppb", que: "promedio de metano en toda la columna de aire" },
+  co_sup: { nombre: "Monóxido de carbono cerca del suelo (ppb)", unidad: "ppb", que: "monóxido de carbono (CO): incendios, tráfico e industria; tóxico en concentraciones altas" },
+  nee: { nombre: "Vegetación: absorbe (−) o emite (+) CO₂ (g/m² al día)", unidad: "g/m²·día", que: "intercambio neto de CO₂ de la vegetación y el suelo alrededor de la ciudad", soloFicha: true },
 };
+
+// Flujo de CO₂ de la vegetación (malla de 2°, vivos/flujo_co2.geojson): verde = absorbe, café = emite.
+export const FLUJO = [[-3, "#1B7837"], [-1, "#5AAE61"], [-0.2, "#A6DBA0"], [0.2, "#F2F2F2"], [1, "#DFC27D"], [3, "#BF812D"], [Infinity, "#8C510A"]];
+export function colorFlujo(v) {
+  if (v == null || !Number.isFinite(Number(v))) return "#9aa5ad";
+  return FLUJO.find(([lim]) => Number(v) < lim)[1];
+}
+export function expresionFlujo() {
+  const e = ["step", ["to-number", ["get", "nee"], 0], FLUJO[0][1]];
+  FLUJO.slice(0, -1).forEach(([lim], i) => e.push(lim, FLUJO[i + 1][1]));
+  return e;
+}
+export function htmlLeyendaFlujo() {
+  const t = ["absorbe más de 3", "absorbe 1 a 3", "absorbe 0.2 a 1", "casi neutro", "emite 0.2 a 1", "emite 1 a 3", "emite más de 3"];
+  return `<div class="leyenda-humedad">${FLUJO.map(([, c], i) => `<span><i style="background:${c}"></i>${t[i]}</span>`).join("")}</div><p class="meta">g de CO₂ por m² al día.</p>`;
+}
+export function htmlFichaFlujo(p, d) {
+  const n = Number(p.nee), estado = n < -0.2 ? "🌳 absorbe CO₂" : n > 0.2 ? "🍂 emite CO₂" : "≈ neutro";
+  const fila = (t, v) => v == null ? "" : `<tr><th>${t}</th><td><b>${esc(v)}</b> g/m² al día</td></tr>`;
+  return `<h2>${estado}</h2><p class="meta">Celda de ${esc(d?.malla_grados || 2)}° alrededor de ${esc(p.lat ?? "")}${p.lat != null ? ", " : ""}${esc(p.lon ?? "")} · pronóstico de CAMS del ${esc(d?.corrida || "")}.</p>
+    <table class="tabla-ficha">${fila("Intercambio neto (NEE)", p.nee)}${fila("Fotosíntesis (absorción bruta, GPP)", p.gpp)}${fila("Respiración de plantas y suelo", p.reco)}</table>
+    <p class="meta">Intercambio neto = respiración − fotosíntesis. Negativo: la vegetación absorbe más CO₂ del que emite (bosques y cultivos en crecimiento, de día y en temporada de lluvias). Positivo: emite más (invierno, sequía, después de cosechas). No incluye emisiones de autos, industria ni incendios. Es un modelo, no una medición. ${esc(d?.atribucion || "")} (CC BY 4.0).</p>`;
+}
 const RAMPA = ["#2C7BB6", "#ABD9E9", "#FFFFBF", "#FDAE61", "#D7191C"];
 
 /** Colores por quintiles del día (p10…p90): resalta qué ciudades están por arriba o por abajo del resto. */
@@ -150,13 +175,13 @@ export function htmlLeyendaGei(clave, cortes) {
 }
 
 export function htmlFichaGei(p, d) {
-  const filas = Object.entries(GEI).filter(([k]) => p[k] != null).map(([k, g]) => {
+  const filas = Object.entries(GEI).filter(([k]) => p[k] != null && p[k] !== "").map(([k, g]) => {
     const prom = d?.resumen?.[k]?.promedio, dif = prom != null ? p[k] - prom : null;
     return `<tr><th>${esc(g.nombre)}</th><td><b>${esc(p[k])}</b>${dif != null ? ` <span class="meta">(${dif >= 0 ? "+" : ""}${Math.round(dif * 10) / 10} vs. promedio de las ciudades)</span>` : ""}</td></tr>`;
   }).join("");
-  return `<h2>🌫️ ${esc(p.name)}: CO₂ y metano</h2><p class="meta">Pronóstico de CAMS de Copernicus del ${esc(p.corrida || "")} (~40 km de resolución).</p>
+  return `<h2>🌫️ ${esc(p.name)}: CO₂, metano y CO</h2><p class="meta">Pronóstico de CAMS de Copernicus del ${esc(p.corrida || "")}.</p>
     <table class="tabla-ficha">${filas}</table>
-    <p class="meta">Es un modelo (observaciones de satélite y estaciones más física de la atmósfera), no una medición en la ciudad: indica el ambiente general, no el de una calle. Al aire libre el CO₂ varía pocas ppm; arriba de 1,000 ppm solo ocurre en interiores mal ventilados. El metano sube cerca de fugas de gas y petróleo, rellenos sanitarios, ganadería y arrozales. ${esc(d?.atribucion || "")} (CC BY 4.0).</p>`;
+    <p class="meta">Es un modelo (observaciones de satélite y estaciones más física de la atmósfera), no una medición en la ciudad: indica el ambiente general, no el de una calle. Al aire libre el CO₂ varía pocas ppm; arriba de 1,000 ppm solo ocurre en interiores mal ventilados. El metano sube cerca de fugas de gas y petróleo, rellenos sanitarios, ganadería y arrozales. El CO al aire libre suele estar entre 80 y 300 ppb; sube con incendios y tráfico. ${esc(d?.atribucion || "")} (CC BY 4.0).</p>`;
 }
 
 /** Calculadora: temperatura y humedad relativa → punto de rocío y agua posible. */
@@ -174,10 +199,12 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
     <label class="fila"><span>Colorear por</span><select id="hum-modo">${Object.entries(MODOS).map(([k, m]) => `<option value="${k}">${esc(m.nombre)}</option>`).join("")}</select></label>
     <div id="hum-leyenda" hidden></div>
     <p class="meta" id="hum-estado">Toca un punto del mapa para ver su humedad, punto de rocío y cuánta agua se podría obtener.</p>
-    <h4>🌫️ Gases de efecto invernadero: CO₂ y metano</h4><div id="hum-co2"><p class="meta">Cargando…</p></div>
-    <label class="fila"><span><input type="checkbox" id="gei-capa"> 🗺️ CO₂ y metano estimados por ciudad (CAMS de Copernicus)</span></label>
-    <label class="fila"><span>Gas</span><select id="gei-var">${Object.entries(GEI).map(([k, g]) => `<option value="${k}">${esc(g.nombre)}</option>`).join("")}</select></label>
+    <h4>🌫️ Gases y carbono: CO₂, metano, monóxido de carbono y vegetación</h4><div id="hum-co2"><p class="meta">Cargando…</p></div>
+    <label class="fila"><span><input type="checkbox" id="gei-capa"> 🗺️ CO₂, metano y CO estimados por ciudad (CAMS de Copernicus)</span></label>
+    <label class="fila"><span>Gas</span><select id="gei-var">${Object.entries(GEI).filter(([, g]) => !g.soloFicha).map(([k, g]) => `<option value="${k}">${esc(g.nombre)}</option>`).join("")}</select></label>
     <div id="gei-leyenda" hidden></div><p class="meta" id="gei-estado"></p>
+    <label class="fila"><span><input type="checkbox" id="flujo-capa"> 🌳 Vegetación: dónde absorbe o emite CO₂ (CAMS, malla de 2°)</span></label>
+    <div id="flujo-leyenda" hidden></div><p class="meta" id="flujo-estado"></p>
     <details class="hum-calc"><summary>🧮 Calculadora de agua del aire</summary>
       <label class="fila"><span>Temperatura (°C)</span><input type="number" id="hum-t" value="25" step="0.5"></label>
       <label class="fila"><span>Humedad relativa (%)</span><input type="number" id="hum-hr" value="70" min="1" max="100" step="1"></label>
@@ -248,11 +275,35 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
   };
   const quitarGei = () => { if (map.getLayer(G_CAPA)) map.removeLayer(G_CAPA); if (map.getSource(G_FUENTE)) map.removeSource(G_FUENTE); $("gei-leyenda").hidden = true; $("gei-estado").textContent = ""; };
   $("gei-capa").addEventListener("change", async (e) => {
-    try { e.target.checked ? await ponerGei() : quitarGei(); } catch { e.target.checked = false; quitarGei(); $("gei-estado").textContent = "Aún no hay datos (se generan una vez al día con «Datos en movimiento»)."; }
+    try { e.target.checked ? await ponerGei() : quitarGei(); } catch { e.target.checked = false; quitarGei(); $("gei-estado").textContent = "Aún no hay datos: se generan una vez al día con «Datos en movimiento». Vuelve a intentarlo más tarde."; }
   });
   $("gei-var").addEventListener("change", () => { pintarGei(); if (gei) $("gei-estado").textContent = `${gei.features.length} ciudades · ${GEI[$("gei-var").value].que}. Toca un punto.`; });
   map.on("click", G_CAPA, (e) => { const f = e.features?.[0]; if (f) abrirFicha(htmlFichaGei(f.properties, gei)); });
   map.on("mouseenter", G_CAPA, () => { map.getCanvas().style.cursor = "pointer"; });
   map.on("mouseleave", G_CAPA, () => { map.getCanvas().style.cursor = ""; });
-  map.on("style.load", () => { if ($("hum-capa").checked) poner().catch(() => null); if ($("gei-capa").checked) ponerGei().catch(() => null); });
+  // Flujo de CO₂ de la vegetación.
+  let flujo = null;
+  const F_FUENTE = "flujo-co2", F_CAPA = "flujo-co2-pts";
+  const ponerFlujo = async () => {
+    $("flujo-estado").textContent = "Cargando…";
+    flujo ??= await getJSON("data/vivos/flujo_co2.geojson", { bust: true });
+    if (!map.getSource(F_FUENTE)) map.addSource(F_FUENTE, { type: "geojson", data: flujo });
+    if (!map.getLayer(F_CAPA)) map.addLayer({ id: F_CAPA, type: "circle", source: F_FUENTE,
+      paint: { "circle-radius": ["interpolate", ["exponential", 2], ["zoom"], 1, 2.5, 4, 14, 6, 50], "circle-color": expresionFlujo(), "circle-opacity": 0.75, "circle-blur": 0.35 } });
+    $("flujo-leyenda").innerHTML = htmlLeyendaFlujo();
+    $("flujo-leyenda").hidden = false;
+    $("flujo-estado").textContent = `${flujo.features.length.toLocaleString("es-MX")} celdas con vegetación · pronóstico del ${flujo.corrida || ""}. Toca una celda.`;
+  };
+  const quitarFlujo = () => { if (map.getLayer(F_CAPA)) map.removeLayer(F_CAPA); if (map.getSource(F_FUENTE)) map.removeSource(F_FUENTE); $("flujo-leyenda").hidden = true; $("flujo-estado").textContent = ""; };
+  $("flujo-capa").addEventListener("change", async (e) => {
+    try { e.target.checked ? await ponerFlujo() : quitarFlujo(); } catch { quitarFlujo(); e.target.checked = false; $("flujo-estado").textContent = "Aún no hay datos: se generan una vez al día con «Datos en movimiento». Vuelve a intentarlo más tarde."; }
+  });
+  map.on("click", F_CAPA, (e) => { const f = e.features?.[0]; if (f) { const [lon, lat] = f.geometry.coordinates; abrirFicha(htmlFichaFlujo({ ...f.properties, lat, lon }, flujo)); } });
+  map.on("mouseenter", F_CAPA, () => { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", F_CAPA, () => { map.getCanvas().style.cursor = ""; });
+  map.on("style.load", () => {
+    if ($("hum-capa").checked) poner().catch(() => null);
+    if ($("gei-capa").checked) ponerGei().catch(() => null);
+    if ($("flujo-capa").checked) ponerFlujo().catch(() => null);
+  });
 }

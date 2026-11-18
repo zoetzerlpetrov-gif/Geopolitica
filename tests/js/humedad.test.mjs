@@ -53,3 +53,16 @@ test("CO₂ y metano: cortes por percentiles, expresión, leyenda y ficha", asyn
   const h = htmlFichaGei({ name: "<CDMX>", co2_sup: 430, corrida: "2026-11-18" }, { resumen, atribucion: "Copernicus" });
   assert.ok(h.includes("&lt;CDMX&gt;") && h.includes("+5 vs. promedio") && h.includes("CC BY 4.0"));
 });
+
+test("flujo de CO₂ de la vegetación: colores y ficha", async () => {
+  const { colorFlujo, expresionFlujo, htmlFichaFlujo, htmlLeyendaFlujo, GEI } = await import("../../js/humedad.js");
+  assert.equal(colorFlujo(-5), "#1B7837");
+  assert.equal(colorFlujo(0), "#F2F2F2");
+  assert.equal(colorFlujo(5), "#8C510A");
+  assert.equal(colorFlujo(null), "#9aa5ad");
+  assert.equal(expresionFlujo()[0], "step");
+  assert.match(htmlFichaFlujo({ nee: -2.1, gpp: 6, reco: 3.9, lat: 19, lon: -99 }, { corrida: "2026-11-18", malla_grados: 2 }), /absorbe CO₂/);
+  assert.match(htmlFichaFlujo({ nee: 1.5 }, null), /emite CO₂/);
+  assert.match(htmlLeyendaFlujo(), /casi neutro/);
+  assert.ok(GEI.co_sup && GEI.nee.soloFicha);
+});
