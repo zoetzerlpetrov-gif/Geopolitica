@@ -43,7 +43,7 @@ let lite = false;
 // Lo que Demo puede usar dentro de un grupo de pago (selector CSS que queda activo).
 const DEMO_LIBRE = {
   movimiento: { selector: "#sg-mov-satelites", chip: "Satélites", aviso: "Los satélites públicos están disponibles en Demo." },
-  riesgos: { selector: "#b-humedad", chip: "Humedad y CO₂", aviso: "Humedad, agua del aire, CO₂ y metano están disponibles en todos los planes." },
+  riesgos: { selector: "#b-humedad", chip: "Humedad y CO₂", aviso: "Humedad, agua del aire, CO₂, metano, monóxido de carbono y flujo de CO₂ de la vegetación están disponibles en todos los planes." },
 };
 // Versión de pago (Fase 7): con ?vista=pago (o la versión comercial) se quita lo que viene de fuentes sin uso comercial
 // y lo que el plan reserva a quien administra. En el sitio público, null: se ve todo.
