@@ -41,3 +41,15 @@ test("historial: promedio mensual, litros por mes y meses sin noches", async () 
   assert.ok(htmlHistorial(undefined, "2026-11-17").includes("Todavía no hay historial"));
   assert.ok(htmlHistorial({ m: { "2026-11": [2, 20, 1, 300] } }, "2026-11-17").includes("nov 2026"));
 });
+
+test("CO₂ y metano: cortes por percentiles, expresión, leyenda y ficha", async () => {
+  const { cortesGei, expresionGei, htmlLeyendaGei, htmlFichaGei } = await import("../../js/humedad.js");
+  const resumen = { co2_sup: { p10: 420, p90: 432, promedio: 425 } };
+  const c = cortesGei(resumen, "co2_sup");
+  assert.deepEqual(c, [420, 424, 428, 432]);
+  assert.equal(cortesGei(resumen, "ch4_sup"), null);
+  assert.equal(expresionGei("co2_sup", c)[0], "case");
+  assert.ok(htmlLeyendaGei("co2_sup", c).includes("432 o más ppm"));
+  const h = htmlFichaGei({ name: "<CDMX>", co2_sup: 430, corrida: "2026-11-18" }, { resumen, atribucion: "Copernicus" });
+  assert.ok(h.includes("&lt;CDMX&gt;") && h.includes("+5 vs. promedio") && h.includes("CC BY 4.0"));
+});

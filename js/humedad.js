@@ -119,6 +119,46 @@ export function htmlHistorial(entrada, desde = "", ref = REF) {
     <p class="meta">Promedio de las observaciones horarias del mes (historial desde ${esc(desde)}). L/mes = promedio diario × días del mes; un mes con pocas observaciones es menos representativo. Generador de referencia: ${ref.caudal_m3h} m³/h, ${Math.round(ref.eficiencia * 100)} % de eficiencia.</p>`;
 }
 
+// Gases de efecto invernadero por ciudad (tools/clima/gei_cams.py): CAMS, ppm (CO₂) y ppb (CH₄).
+export const GEI = {
+  co2_sup: { nombre: "CO₂ cerca del suelo (ppm)", unidad: "ppm", que: "dióxido de carbono en el aire que se respira (capa más baja del modelo)" },
+  co2_col: { nombre: "CO₂ en toda la columna de aire (ppm)", unidad: "ppm", que: "promedio de toda la columna de aire, como lo miden los satélites" },
+  ch4_sup: { nombre: "Metano cerca del suelo (ppb)", unidad: "ppb", que: "metano en el aire cercano al suelo (fugas de gas y petróleo, ganado, basureros, arrozales)" },
+  ch4_col: { nombre: "Metano en toda la columna de aire (ppb)", unidad: "ppb", que: "promedio de metano en toda la columna de aire" },
+};
+const RAMPA = ["#2C7BB6", "#ABD9E9", "#FFFFBF", "#FDAE61", "#D7191C"];
+
+/** Colores por quintiles del día (p10…p90): resalta qué ciudades están por arriba o por abajo del resto. */
+export function cortesGei(resumen, clave) {
+  const r = resumen?.[clave];
+  if (!r) return null;
+  const paso = (r.p90 - r.p10) / 3;
+  return [r.p10, r.p10 + paso, r.p10 + 2 * paso, r.p90].map((x) => Math.round(x * 10) / 10);
+}
+
+export function expresionGei(clave, cortes) {
+  if (!cortes) return "#9aa5ad";
+  const e = ["step", ["to-number", ["get", clave], -1], RAMPA[0]];
+  cortes.forEach((c, i) => e.push(c, RAMPA[i + 1]));
+  return ["case", ["has", clave], e, "rgba(0,0,0,0)"];
+}
+
+export function htmlLeyendaGei(clave, cortes) {
+  if (!cortes) return "";
+  const u = GEI[clave].unidad, t = [`menos de ${cortes[0]}`, ...cortes.slice(0, -1).map((c, i) => `${c} a ${cortes[i + 1]}`), `${cortes[cortes.length - 1]} o más`];
+  return `<div class="leyenda-humedad">${RAMPA.map((c, i) => `<span><i style="background:${c}"></i>${esc(t[i])} ${u}</span>`).join("")}</div>`;
+}
+
+export function htmlFichaGei(p, d) {
+  const filas = Object.entries(GEI).filter(([k]) => p[k] != null).map(([k, g]) => {
+    const prom = d?.resumen?.[k]?.promedio, dif = prom != null ? p[k] - prom : null;
+    return `<tr><th>${esc(g.nombre)}</th><td><b>${esc(p[k])}</b>${dif != null ? ` <span class="meta">(${dif >= 0 ? "+" : ""}${Math.round(dif * 10) / 10} vs. promedio de las ciudades)</span>` : ""}</td></tr>`;
+  }).join("");
+  return `<h2>🌫️ ${esc(p.name)}: CO₂ y metano</h2><p class="meta">Pronóstico de CAMS de Copernicus del ${esc(p.corrida || "")} (~40 km de resolución).</p>
+    <table class="tabla-ficha">${filas}</table>
+    <p class="meta">Es un modelo (observaciones de satélite y estaciones más física de la atmósfera), no una medición en la ciudad: indica el ambiente general, no el de una calle. Al aire libre el CO₂ varía pocas ppm; arriba de 1,000 ppm solo ocurre en interiores mal ventilados. El metano sube cerca de fugas de gas y petróleo, rellenos sanitarios, ganadería y arrozales. ${esc(d?.atribucion || "")} (CC BY 4.0).</p>`;
+}
+
 /** Calculadora: temperatura y humedad relativa → punto de rocío y agua posible. */
 export function htmlCalculo(t, hr, viento = 1, nubes = 0) {
   if (!Number.isFinite(t) || !Number.isFinite(hr) || hr <= 0 || hr > 100) return `<p class="meta">Escribe una temperatura y una humedad entre 1 y 100 %.</p>`;
@@ -134,7 +174,10 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
     <label class="fila"><span>Colorear por</span><select id="hum-modo">${Object.entries(MODOS).map(([k, m]) => `<option value="${k}">${esc(m.nombre)}</option>`).join("")}</select></label>
     <div id="hum-leyenda" hidden></div>
     <p class="meta" id="hum-estado">Toca un punto del mapa para ver su humedad, punto de rocío y cuánta agua se podría obtener.</p>
-    <h4>🌫️ Dióxido de carbono (CO₂)</h4><div id="hum-co2"><p class="meta">Cargando…</p></div>
+    <h4>🌫️ Gases de efecto invernadero: CO₂ y metano</h4><div id="hum-co2"><p class="meta">Cargando…</p></div>
+    <label class="fila"><span><input type="checkbox" id="gei-capa"> 🗺️ CO₂ y metano estimados por ciudad (CAMS de Copernicus)</span></label>
+    <label class="fila"><span>Gas</span><select id="gei-var">${Object.entries(GEI).map(([k, g]) => `<option value="${k}">${esc(g.nombre)}</option>`).join("")}</select></label>
+    <div id="gei-leyenda" hidden></div><p class="meta" id="gei-estado"></p>
     <details class="hum-calc"><summary>🧮 Calculadora de agua del aire</summary>
       <label class="fila"><span>Temperatura (°C)</span><input type="number" id="hum-t" value="25" step="0.5"></label>
       <label class="fila"><span>Humedad relativa (%)</span><input type="number" id="hum-hr" value="70" min="1" max="100" step="1"></label>
@@ -185,5 +228,31 @@ export async function iniciarHumedad({ map, cont, abrirFicha, getJSON }) {
   map.on("mouseenter", CAPA, () => { map.getCanvas().style.cursor = "pointer"; });
   map.on("mouseleave", CAPA, () => { map.getCanvas().style.cursor = ""; });
   // Al cambiar el estilo del mapa (claro/oscuro, satélite) se borran las capas propias: se vuelven a poner.
-  map.on("style.load", () => { if ($("hum-capa").checked) poner().catch(() => null); });
+  // Capa de CO₂ y metano (CAMS).
+  let gei = null;
+  const G_FUENTE = "gei", G_CAPA = "gei-pts";
+  const pintarGei = () => {
+    const k = $("gei-var").value, cortes = cortesGei(gei?.resumen, k);
+    $("gei-leyenda").innerHTML = htmlLeyendaGei(k, cortes);
+    if (map.getLayer(G_CAPA)) map.setPaintProperty(G_CAPA, "circle-color", expresionGei(k, cortes));
+  };
+  const ponerGei = async () => {
+    $("gei-estado").textContent = "Cargando…";
+    gei ??= await getJSON("data/vivos/gei_cams.geojson", { bust: true });
+    if (!map.getSource(G_FUENTE)) map.addSource(G_FUENTE, { type: "geojson", data: gei });
+    if (!map.getLayer(G_CAPA)) map.addLayer({ id: G_CAPA, type: "circle", source: G_FUENTE,
+      paint: { "circle-radius": ["interpolate", ["linear"], ["zoom"], 1, 3.5, 6, 7], "circle-stroke-width": 0.6, "circle-stroke-color": "rgba(0,0,0,.4)", "circle-color": "#9aa5ad" } });
+    $("gei-leyenda").hidden = false;
+    pintarGei();
+    $("gei-estado").textContent = `${gei.features.length} ciudades · ${GEI[$("gei-var").value].que} · ${String(gei.generado_utc || "").slice(0, 10)}. Toca un punto.`;
+  };
+  const quitarGei = () => { if (map.getLayer(G_CAPA)) map.removeLayer(G_CAPA); if (map.getSource(G_FUENTE)) map.removeSource(G_FUENTE); $("gei-leyenda").hidden = true; $("gei-estado").textContent = ""; };
+  $("gei-capa").addEventListener("change", async (e) => {
+    try { e.target.checked ? await ponerGei() : quitarGei(); } catch { e.target.checked = false; quitarGei(); $("gei-estado").textContent = "Aún no hay datos (se generan una vez al día con «Datos en movimiento»)."; }
+  });
+  $("gei-var").addEventListener("change", () => { pintarGei(); if (gei) $("gei-estado").textContent = `${gei.features.length} ciudades · ${GEI[$("gei-var").value].que}. Toca un punto.`; });
+  map.on("click", G_CAPA, (e) => { const f = e.features?.[0]; if (f) abrirFicha(htmlFichaGei(f.properties, gei)); });
+  map.on("mouseenter", G_CAPA, () => { map.getCanvas().style.cursor = "pointer"; });
+  map.on("mouseleave", G_CAPA, () => { map.getCanvas().style.cursor = ""; });
+  map.on("style.load", () => { if ($("hum-capa").checked) poner().catch(() => null); if ($("gei-capa").checked) ponerGei().catch(() => null); });
 }
