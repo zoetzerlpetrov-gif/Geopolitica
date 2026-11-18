@@ -34,7 +34,7 @@ export function analizarEnlace(texto) {
   try { u = new URL(/^[a-z][a-z0-9+.-]*:\/\//i.test(crudo) ? crudo : `http://${crudo}`); } catch { return { invalido: true, url: crudo }; }
   const host = u.hostname.toLowerCase(), dominio = dominioRegistrable(host);
   const base = revisarEnlaces(u.href)[0] || { senales: [] };
-  const senales = base.senales.map((t) => ({ t, peso: /^Imita|no es su dominio oficial|punycode|IP en vez/.test(t) ? 4 : /acortado|«@»/.test(t) ? 2 : 1 }));
+  const senales = base.senales.map((t) => ({ t, peso: /^(?:Imita|.*no es su dominio oficial|.*punycode|.*IP en vez)/.test(t) ? 4 : /acortado|«@»/.test(t) ? 2 : 1 }));
   const s = (t, peso) => senales.push({ t, peso });
   if (/^\d+(\.\d+){3}$/.test(host) || host.startsWith("[")) s("Usa una dirección IP en vez de un nombre de dominio (los sitios legítimos casi nunca lo hacen)", 4);
   if (u.port && !["80", "443"].includes(u.port)) s(`Usa un puerto poco común (:${u.port})`, 1);

@@ -32,6 +32,6 @@ test("edad del dominio con RDAP simulado", async () => {
   assert.deepEqual(await edadDominio("banco.com.mx", async () => { throw new Error("no debe consultarse"); }), { noDisponible: true });
   const viejo = conEdad(analizarEnlace("https://example.com"), { dias: 11000, creado: "1995-08-14" });
   assert.equal(viejo.nivel, "bajo");
-  assert.ok(htmlEnlace(viejo).includes("existe desde 1995-08-14") && htmlEnlace(viejo).includes("virustotal.com"));
+  assert.ok(htmlEnlace(viejo).includes("existe desde 1995-08-14") && htmlEnlace(viejo).includes('href="https://www.virustotal.com/gui/search/https%3A%2F%2Fexample.com%2F"'));
   assert.ok(htmlEnlace(analizarEnlace("")).includes("Pega primero"));
 });
