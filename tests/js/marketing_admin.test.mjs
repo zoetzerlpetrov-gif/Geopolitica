@@ -37,8 +37,8 @@ test("borradores y redes", () => {
   est.publicados.x1 = { fecha: "2026-11-18" };
   assert.match(htmlBorrador(b, est, "x"), /✅ Publicado/);
   assert.match(REDES.x.url("a b"), /^https:\/\/x\.com\/intent\/post\?text=a%20b$/);
-  assert.match(REDES.facebook.url("t https://s.mx/?u=1"), /sharer\.php\?u=https%3A%2F%2Fs\.mx/);
-  assert.match(urlEditarPlan(), /edit\/main\/config\/marketing\.json$/);
+  assert.equal(REDES.facebook.url("t https://s.mx/?u=1"), "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fs.mx%2F%3Fu%3D1");
+  assert.equal(urlEditarPlan(), "https://github.com/zoetzerlpetrov-gif/Geopolitica/edit/main/config/marketing.json");
 });
 
 test("semana tipo y fechas de revisión", () => {

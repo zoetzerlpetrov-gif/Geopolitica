@@ -36,5 +36,5 @@ test("voz completa, archivo y utilidades", () => {
   assert.match(revisarLogo({ name: "a.png", size: 600 * 1024 }), /512 KB/);
   assert.equal(revisarLogo({ name: "a.png", size: 1000 }), "");
   assert.equal(slug("Café Ñandú S.A."), "cafe-nandu-s-a");
-  assert.match(urlEditar(), /github\.com\/zoetzerlpetrov-gif\/Geopolitica\/edit\/main\/config\/patrocinios\.json/);
+  assert.equal(urlEditar(), "https://github.com/zoetzerlpetrov-gif/Geopolitica/edit/main/config/patrocinios.json");
 });

@@ -33,7 +33,8 @@ test("petróleo a Cuba según Pemex", async () => {
     { periodo: "6 meses a 2026-06", crudo_kbd: 0, petroliferos_kbd: 0.9, usd_millones: 14.7, pct_exportaciones: 0.1, forma: "6-K", presentado: "2026-09-08", fuente: "https://www.sec.gov/y.htm" }] };
   const h = htmlPemexCuba(d);
   assert.match(h, /3\.1 % del crudo exportado/);
-  assert.match(h, /href="https:\/\/www\.sec\.gov\/y\.htm"/);
+  const hrefs = [...h.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+  assert.ok(hrefs.some((u) => u === "https://www.sec.gov/y.htm"));
   assert.match(svgPemexCuba(d.periodos), /<svg/);
   assert.match(htmlPemexCuba(null), /Aún no hay datos/);
 });

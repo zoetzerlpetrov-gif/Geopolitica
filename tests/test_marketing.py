@@ -1,5 +1,6 @@
 import os
 import sys
+import urllib.parse
 from datetime import datetime, timezone
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "tools", "marketing"))
@@ -30,7 +31,8 @@ def test_borradores_con_cifra_fuente_y_limites():
         largo = len(x) - sum(len(u) - 23 for u in x.split() if u.startswith("http"))
         assert largo <= 280, (b["tema"], largo)
         assert len(b["textos"]["bluesky"]) <= 300
-        assert "utm_source=x" in x and "https://dominusosint.com/" in x
+        url = next(u for u in x.split() if u.startswith("http"))
+        assert urllib.parse.urlsplit(url).hostname == "dominusosint.com" and "utm_source=x" in url
     assert "Marani 2021" == [b for b in bs if b["tema"] == "cisne"][0]["fuente"]
     assert bs[-1]["textos"]["x"].rstrip().endswith("#Fraude") and "#b-herr-enlace" in bs[-1]["textos"]["x"]
 
