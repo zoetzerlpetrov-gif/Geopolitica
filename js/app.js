@@ -43,7 +43,7 @@ let lite = false;
 // Lo que Demo puede usar dentro de un grupo de pago (selector CSS que queda activo).
 const DEMO_LIBRE = {
   movimiento: { selector: "#sg-mov-satelites", chip: "Satélites", aviso: "Los satélites públicos están disponibles en Demo." },
-  riesgos: { selector: "#b-humedad", chip: "Humedad y CO₂", aviso: "Humedad, punto de rocío, CO₂ y agua del aire están disponibles en todos los planes." },
+  riesgos: { selector: "#b-humedad", chip: "Humedad y CO₂", aviso: "Humedad, agua del aire, CO₂ y metano están disponibles en todos los planes." },
 };
 // Versión de pago (Fase 7): con ?vista=pago (o la versión comercial) se quita lo que viene de fuentes sin uso comercial
 // y lo que el plan reserva a quien administra. En el sitio público, null: se ve todo.
@@ -1063,7 +1063,7 @@ async function main() {
     .catch((e) => { console.error("contraste México", e); });
   import("./monitor_mx.js?v=1").then((M) => M.iniciarMonitorMx({ map: api.map, cont: $("mexico-monitor"), abrirFicha: abrirFichaHtml, getJSON }))
     .catch((e) => { console.error("monitor México", e); });
-  import("./humedad.js?v=2").then((H) => H.iniciarHumedad({ map: api.map, cont: $("humedad-capas"), abrirFicha: abrirFichaHtml, getJSON }))
+  import("./humedad.js?v=3").then((H) => H.iniciarHumedad({ map: api.map, cont: $("humedad-capas"), abrirFicha: abrirFichaHtml, getJSON }))
     .catch((e) => { console.error("humedad", e); });
   iniciarRiesgos();
   iniciarHistoria();
