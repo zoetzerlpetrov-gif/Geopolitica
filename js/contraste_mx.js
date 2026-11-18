@@ -61,7 +61,7 @@ export function htmlComercio(c) {
     <div class="cx-leyenda"><span><i style="background:${COLORES.eua}"></i>Estados Unidos</span><span><i style="background:${COLORES.paises_identificados}"></i>Otros países identificados</span><span><i style="background:${COLORES.sin_pais}"></i>Sin país publicado</span></div>
     <table class="tabla-ficha cx-tabla"><tr><th>Mes</th><th>ONU: petroleras</th><th>Banxico: petroleras</th><th>Sin país</th><th>Cuba (ONU)</th></tr>
       ${ent.slice().reverse().map(([p, m]) => `<tr><td>${esc(perTxt(p))}</td><td>${num(m.total)}</td><td>${num(m.banxico_petroleras)}</td><td>${num(m.sin_pais_pct)} %</td><td>${num(m.cuba, 3)}</td></tr>`).join("")}</table>
-    <p class="meta">Millones de USD. Reservar el país de destino es una práctica de confidencialidad que usan varios países para el crudo; no prueba por sí misma que se oculte algo, pero impide verificar destinos como Cuba con la estadística oficial. Para el detalle por país está el <a href="https://www.banxico.org.mx/CuboComercioExterior/" target="_blank" rel="noopener noreferrer">Cubo de Comercio Exterior de Banxico</a> (consulta manual). Las diferencias ONU–Banxico también vienen de fechas de corte y revisiones.</p>`;
+    <p class="meta">Millones de USD. Reservar el país de destino es una práctica de confidencialidad que usan varios países para el crudo; no prueba por sí misma que se oculte algo, pero impide verificar destinos como Cuba con la estadística oficial. Para Cuba, abajo están las cifras que Pemex reporta a la SEC. Para el detalle por país está el <a href="https://www.banxico.org.mx/CuboComercioExterior/" target="_blank" rel="noopener noreferrer">Cubo de Comercio Exterior de Banxico</a> (consulta manual). Las diferencias ONU–Banxico también vienen de fechas de corte y revisiones.</p>`;
 }
 
 /** INEGI (actas de defunción) vs SESNSP (fiscalías): líneas y tabla de la brecha. */
@@ -113,6 +113,35 @@ export function htmlSeguridad(s) {
     <p class="meta">Fuente: ${esc(s.fuente)} (${esc((s.archivos || []).join("; "))}). Una «señal» compara categorías vecinas: si una baja y la otra sube en el mismo periodo, conviene revisar si se registran de otra forma. También puede deberse a un cambio de metodología o de catálogo de delitos (p. ej., al iniciar un año): por eso se marca para revisar. No prueba manipulación por sí sola. 📈 = tendencia de varios años; 🗓️ = mismo periodo contra el año anterior. Próximamente: Registro Nacional de Personas Desaparecidas.</p>`;
 }
 
+/** Barras horizontales de miles de barriles diarios (crudo + petrolíferos) por periodo reportado por Pemex. */
+export function svgPemexCuba(periodos) {
+  if (!periodos?.length) return "";
+  const max = Math.max(...periodos.map((p) => (p.crudo_kbd || 0) + (p.petroliferos_kbd || 0)), 1);
+  const W = 300, fila = 16, H = periodos.length * fila + 6, x0 = 96, ancho = W - x0 - 40;
+  const barras = periodos.map((p, i) => {
+    const y = 4 + i * fila, a = (p.crudo_kbd || 0) / max * ancho, b = (p.petroliferos_kbd || 0) / max * ancho;
+    return `<text x="${x0 - 4}" y="${y + 10}" text-anchor="end" font-size="9" fill="currentColor">${esc(p.periodo)}</text>
+      <rect x="${x0}" y="${y}" width="${a.toFixed(1)}" height="11" fill="#5D4037"><title>Crudo: ${num(p.crudo_kbd)} mil b/d</title></rect>
+      <rect x="${(x0 + a).toFixed(1)}" y="${y}" width="${b.toFixed(1)}" height="11" fill="#E65100"><title>Petrolíferos: ${num(p.petroliferos_kbd)} mil b/d</title></rect>
+      <text x="${(x0 + a + b + 3).toFixed(1)}" y="${y + 10}" font-size="9" fill="currentColor">${num((p.crudo_kbd || 0) + (p.petroliferos_kbd || 0))}</text>`;
+  }).join("");
+  return `<svg viewBox="0 0 ${W} ${H}" class="cx-svg" role="img" aria-label="Miles de barriles diarios enviados a Cuba por periodo">${barras}</svg>`;
+}
+
+export function htmlPemexCuba(d) {
+  const ps = d?.periodos || [];
+  if (!ps.length) return `<p class="meta">Aún no hay datos de los reportes de Pemex a la SEC (se actualizan cada semana con «Datos en movimiento»).</p>`;
+  const pct = (p) => [p.pct_crudo_exportado != null ? `${num(p.pct_crudo_exportado)} % del crudo exportado` : "", p.pct_petroliferos != null ? `${num(p.pct_petroliferos)} % de los petrolíferos` : "",
+    p.pct_exportaciones != null ? `${num(p.pct_exportaciones)} % de las exportaciones` : ""].filter(Boolean).join("; ");
+  return `<p>Lo que <b>Pemex</b> reporta a la SEC de EUA sobre su filial que exporta a Cuba. Es la cifra oficial disponible por país: en la ONU el destino aparece reservado.</p>
+    ${svgPemexCuba(ps)}<p class="meta"><span style="color:#5D4037">■</span> crudo · <span style="color:#E65100">■</span> petrolíferos (miles de barriles diarios)</p>
+    <table class="tabla-ficha cx-tabla"><tr><th>Periodo</th><th>Crudo (mil b/d)</th><th>Petrolíferos (mil b/d)</th><th>Monto</th><th>Peso en las ventas</th><th>Reporte</th></tr>
+      ${ps.slice().reverse().map((p) => `<tr><td>${esc(p.periodo)}</td><td>${num(p.crudo_kbd)}</td><td>${num(p.petroliferos_kbd)}</td>
+        <td>${p.usd_millones != null ? `${num(p.usd_millones)} MUSD` : "—"}${p.mxn_millones != null ? `<br><span class="meta">${num(p.mxn_millones, 0)} MDP</span>` : ""}</td>
+        <td class="meta">${esc(pct(p))}</td><td><a href="${esc(p.fuente)}" target="_blank" rel="noopener noreferrer">${esc(p.forma)} ${esc(p.presentado)}</a></td></tr>`).join("")}</table>
+    <p class="meta">Los periodos de 3, 6 y 9 meses son acumulados del año. Los montos en dólares vienen redondeados en el reporte (p. ej., «US$0.5 billion»). Son cifras de la propia empresa, no una auditoría: hay investigaciones periodísticas (p. ej., Mexicanos contra la Corrupción y la Impunidad, enero de 2026) que estiman un valor mayor; contrástalas con el reporte enlazado. Fuente: ${esc(d.fuente)}.</p>`;
+}
+
 export async function iniciarContrasteMx({ cont, getJSON }) {
   if (!cont) return;
   let d;
@@ -120,6 +149,9 @@ export async function iniciarContrasteMx({ cont, getJSON }) {
     cont.innerHTML = `<p class="meta">Aún no hay datos (se generan con «Datos en movimiento»).</p>`;
     return;
   }
+  let pc = null;
+  try { pc = await getJSON("data/vivos/pemex_cuba.json", { bust: true }); } catch { /* aún no existe */ }
   cont.innerHTML = `<h3>🛢️ Comercio: ONU vs Banxico y destinos sin país</h3>${htmlComercio(d.comercio)}
+    <h3>🇨🇺 Petróleo a Cuba según Pemex (reportes a la SEC)</h3>${htmlPemexCuba(pc)}
     <h3>🚔 Seguridad: ¿baja real o cambio de categoría?</h3>${htmlSeguridad(d.seguridad)}`;
 }

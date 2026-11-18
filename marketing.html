@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Marketing de DOMINUS</title>
+  <meta name="description" content="Solo administración: plan de marketing de DOMINUS, publicaciones listas para revisar, calendario, métricas y revisión periódica.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1150px; margin: 0 auto; padding: 16px; }
+    .ops h2 { font-size: 18px; text-transform: none; letter-spacing: 0; color: var(--text); margin: 24px 0 6px; }
+    .ops h4 { margin: 12px 0 4px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 10px; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; background: var(--surface); }
+    .kpi-v { font-size: 22px; font-weight: 800; margin: 2px 0; }
+    .dos { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .mk-svg { width: 100%; max-width: 420px; height: auto; }
+    .ops textarea, .ops select, .ops input { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); box-sizing: border-box; }
+    .mk-texto { width: 100%; min-height: 110px; margin: 6px 0; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .barra a.boton, .barra label.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
+    .barra button.si { background: #2e7d32; color: #fff; border-color: transparent; }
+    .chip { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
+    .borrador.publicado { opacity: .65; border-left: 5px solid #2e7d32; } .borrador.descartado { opacity: .5; }
+    .tarea { display: block; margin: 4px 0; }
+    .aviso { background: rgba(249,168,37,.25); padding: 8px 10px; border-radius: var(--radius); }
+    nav.indice { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+    nav.indice a { font-size: 13px; padding: 3px 10px; border: 1px solid var(--line); border-radius: 999px; text-decoration: none; color: var(--text); }
+    details summary { cursor: pointer; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa (War Room)</a>
+    <h1>📈 Marketing de DOMINUS (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Promoción del propio proyecto. Los anuncios de terceros dentro de los videos están en <a href="patrocinios.html">📣 Patrocinios</a>.
+      Presupuesto actual: orgánico. Nada se publica solo: cada botón abre la red con el texto listo para revisarlo.</p>
+    <nav class="indice"><a href="#t-tablero">1 Tablero</a><a href="#t-contenido">2 Contenido listo</a><a href="#t-semana">3 Semana tipo</a><a href="#t-plan">4 Plan</a><a href="#t-revision">5 Revisión</a><a href="#t-legal">6 Reglas</a></nav>
+
+    <h2 id="t-tablero">1 · Tablero</h2>
+    <div id="mk-tablero"><p class="meta">Cargando…</p></div>
+    <details class="tarjeta"><summary>🎬 Últimos videos de Brújula Diaria</summary><div id="mk-videos"></div></details>
+
+    <h2 id="t-contenido">2 · Contenido listo para publicar</h2>
+    <p class="meta">Se generan solos con los datos del día (cifra, fuente y enlace con UTM para medir de dónde llegan las visitas). Revisa, ajusta el texto y publica.</p>
+    <div class="barra"><label>Red <select id="mk-red"></select></label>
+      <label>Ver <select id="mk-ver"><option value="pendientes">Pendientes</option><option value="publicados">Publicados</option><option value="todos">Todos</option></select></label></div>
+    <p class="meta" id="mk-bor-estado"></p>
+    <div id="mk-borradores"></div>
+
+    <h2 id="t-semana">3 · Semana tipo</h2>
+    <div class="tarjeta" id="mk-semana"></div>
+
+    <h2 id="t-plan">4 · Plan</h2>
+    <div class="barra"><a class="boton" id="mk-editar" target="_blank" rel="noopener noreferrer">✏️ Editar el plan en GitHub</a>
+      <span class="meta">Cambia públicos, mensajes, canales, tareas o metas en <code>config/marketing.json</code> y propón el cambio con «Create a new branch… and start a pull request».</span></div>
+    <div id="mk-plan"></div>
+
+    <h2 id="t-revision">5 · Revisión periódica</h2>
+    <div class="tarjeta" id="mk-revision"></div>
+    <div class="tarjeta"><h4>Bitácora de aprendizajes</h4>
+      <textarea id="mk-nota" class="mk-texto" placeholder="Qué funcionó, qué no y qué se cambia"></textarea>
+      <div class="barra"><button id="mk-nota-agregar" class="si">➕ Agregar nota</button><button id="mk-exportar">⬇️ Exportar avance</button>
+        <label class="boton">⬆️ Importar avance <input type="file" id="mk-importar" accept=".json" hidden></label></div>
+      <ul id="mk-notas"></ul>
+      <p class="meta">Las tareas marcadas, lo publicado y estas notas se guardan en este navegador. Exporta un respaldo cada mes o para pasarlo a otra computadora.</p></div>
+
+    <h2 id="t-legal">6 · Reglas para publicar</h2>
+    <ul class="tarjeta" id="mk-legal"></ul>
+  </main>
+  <script type="module" src="js/marketing_admin.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>
