@@ -2,7 +2,7 @@
 // Fuente: OpenSky Network con cuenta gratuita (cupo diario por cuenta, no por dirección IP).
 
 /** Sitios que pueden usarlo desde el navegador. El resto recibe 403. */
-export const ORIGENES = ["https://zoetzerlpetrov-gif.github.io", "http://localhost:8766"];
+export const ORIGENES = ["https://zoetzerlpetrov-gif.github.io", "https://dominusosint.com", "https://www.dominusosint.com", "https://dominus-osint.pages.dev", "http://localhost:8766"];
 /** Radios permitidos en millas náuticas. Pocos valores = más respuestas reutilizables. */
 export const RADIOS = [25, 50, 100, 150, 250];
 // Categoría numérica de OpenSky → código ADS-B (copia de CAT_OPENSKY en tools/vivos/actualizar.py).

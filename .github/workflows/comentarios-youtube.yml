@@ -61,6 +61,13 @@ jobs:
           YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
           YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
         run: python3 tools/noticiero_video/comentarios.py datos/comentarios datos/guiones
+      - name: Métricas del canal para el tablero de marketing (solo lectura; si falla se conservan las anteriores)
+        continue-on-error: true
+        env:
+          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
+          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
+          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
+        run: python3 tools/marketing/metricas_youtube.py datos/marketing
       - name: Publicar en la rama datos-comentarios
         if: github.ref == 'refs/heads/main'
         env:

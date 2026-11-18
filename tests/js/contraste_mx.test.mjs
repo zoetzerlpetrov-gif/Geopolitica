@@ -25,3 +25,16 @@ test("INEGI vs SESNSP: brecha del último año y gráfica", async () => {
   assert.ok(h.includes("<b>3,641 (13 %)</b>") && h.includes("(preliminar)") && h.includes("<polyline") && h.includes("2025*"));
   assert.equal(htmlInegi({}), "");
 });
+
+test("petróleo a Cuba según Pemex", async () => {
+  const { htmlPemexCuba, svgPemexCuba } = await import("../../js/contraste_mx.js");
+  const d = { fuente: "Pemex SEC", periodos: [
+    { periodo: "Año 2025", crudo_kbd: 15, petroliferos_kbd: 2.2, usd_millones: 500, mxn_millones: 9500, pct_crudo_exportado: 3.1, forma: "20-F", presentado: "2026-04-30", fuente: "https://www.sec.gov/x.htm" },
+    { periodo: "6 meses a 2026-06", crudo_kbd: 0, petroliferos_kbd: 0.9, usd_millones: 14.7, pct_exportaciones: 0.1, forma: "6-K", presentado: "2026-09-08", fuente: "https://www.sec.gov/y.htm" }] };
+  const h = htmlPemexCuba(d);
+  assert.match(h, /3\.1 % del crudo exportado/);
+  const hrefs = [...h.matchAll(/href="([^"]*)"/g)].map((m) => m[1]);
+  assert.ok(hrefs.some((u) => u === "https://www.sec.gov/y.htm"));
+  assert.match(svgPemexCuba(d.periodos), /<svg/);
+  assert.match(htmlPemexCuba(null), /Aún no hay datos/);
+});

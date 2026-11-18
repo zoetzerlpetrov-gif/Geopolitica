@@ -24,7 +24,7 @@ jobs:
   publicar:
     needs: pruebas
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 30
     environment:
       name: github-pages
       url: ${{ steps.deploy.outputs.page_url }}
@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html finanzas.html cisnes.html clima-impactos.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html finanzas.html cisnes.html clima-impactos.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -84,6 +84,9 @@ jobs:
           mkdir -p _site/data/comentarios
           if git fetch --depth 1 origin datos-comentarios 2>/dev/null; then
             git show FETCH_HEAD:comentarios/borradores.json > /tmp/borradores.json 2>/dev/null && mv /tmp/borradores.json _site/data/comentarios/ || true
+            # Métricas del canal para el tablero de marketing (marketing.html, solo admin).
+            mkdir -p _site/data/marketing
+            git show FETCH_HEAD:marketing/metricas.json > /tmp/metricas.json 2>/dev/null && mv /tmp/metricas.json _site/data/marketing/ || true
           fi
           # Bitácora normativa (Caja del analista → Bitácora normativa): rama "datos-normativa", con historial.
           mkdir -p _site/data/normativa
@@ -169,3 +172,12 @@ jobs:
         id: deploy
         uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
 
+      - name: Publicar también en Cloudflare Pages (solo si existen los secretos de Cloudflare; un fallo aquí no afecta a GitHub Pages)
+        continue-on-error: true
+        timeout-minutes: 15
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CF_PROYECTO: dominus-osint
+          CF_R2: dominus-grandes
+        run: bash tools/cloudflare/publicar_pages.sh _site
