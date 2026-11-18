@@ -1,0 +1,10 @@
+{
+ "_nota": "Homicidios registrados por el INEGI (estadística de defunciones: actas y certificados de defunción del Registro Civil y del Servicio Médico Forense), nacional, por año de registro. 2015-2023: cifras definitivas de la Tabla 1 del reporte «Defunciones por homicidio 2024» (1-ago-2025). 2024: preliminar del mismo reporte. 2025: preliminar del comunicado 42/26 (3-ago-2026). Actualizar cada agosto, cuando el INEGI publica el año anterior (la tarea diaria lo revisa).",
+ "fuente": "INEGI, Estadísticas de defunciones registradas (homicidios)",
+ "anios": {"2015": 20762, "2016": 24559, "2017": 32079, "2018": 36685, "2019": 36661, "2020": 36773, "2021": 35700, "2022": 33287, "2023": 32252, "2024": 33241, "2025": 27989},
+ "preliminares": ["2024", "2025"],
+ "enlaces": {
+  "2015-2024": "https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2025/edr/DH2024_RR_Ene-dic.pdf",
+  "2025": "https://www.inegi.org.mx/contenidos/saladeprensa/boletines/2026/edr/DH2025en-jn_CP.pdf"
+ }
+}

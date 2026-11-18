@@ -79,3 +79,16 @@ def test_tendencia_de_varios_anios():
     t = C.tendencias(anuales)
     hd = [x for x in t if x["baja"] == "homicidio_doloso"]
     assert len(hd) == 1 and hd[0]["sube"] == "otros_vida" and hd[0]["tipo"] == "tendencia" and hd[0]["cambio_baja_pct"] == -32.0 and hd[0]["absorbe_pct"] == 62
+
+
+def test_brecha_inegi_vs_sesnsp():
+    anuales = {"homicidio_doloso": {"2025": 23612}, "feminicidio": {"2025": 736}, "otros_vida": {"2025": 17110}}
+    b = C.brecha_inegi(anuales, {"anios": {"2024": 33241, "2025": 27989}, "preliminares": ["2025"], "fuente": "INEGI"})
+    assert len(b["filas"]) == 1   # 2024 sin dato del SESNSP en este ejemplo
+    f = b["filas"][0]
+    assert (f["inegi"], f["sesnsp"], f["brecha"], f["brecha_pct"], f["sesnsp_con_otros"], f["preliminar"]) == (27989, 24348, 3641, 13.0, 41458, True)
+
+
+def test_config_inegi_tiene_fuente_por_anio():
+    cfg = json.load(open(C.INEGI, encoding="utf-8"))
+    assert cfg["anios"]["2019"] == 36661 and cfg["anios"]["2025"] == 27989 and all(u.startswith("https://www.inegi.org.mx/") for u in cfg["enlaces"].values())
