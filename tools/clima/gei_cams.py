@@ -29,10 +29,16 @@ CONJUNTO = "cams-global-greenhouse-gas-forecasts"
 CADA_H = 20
 ATRIBUCION = "Generado con información del Copernicus Atmosphere Monitoring Service (CAMS) [2026]"
 AIRE_SECO, M_CO2, M_CH4 = 28.9644, 44.0095, 16.0425   # g/mol
-PETICIONES = [  # (nombre, cuerpo): superficie (nivel 137) y columna, en dos peticiones (los niveles no aplican a la columna)
+PETICIONES = [  # (nombre, cuerpo sin fecha): superficie (nivel 137) y columna, en dos peticiones (los niveles no aplican a la columna)
     ("superficie", {"variable": ["carbon_dioxide", "methane"], "model_level": ["137"], "leadtime_hour": ["0"], "data_format": "netcdf_zip"}),
     ("columna", {"variable": ["co2_column_mean_molar_fraction", "ch4_column_mean_molar_fraction"], "leadtime_hour": ["0"], "data_format": "netcdf_zip"}),
 ]
+
+
+def con_fecha(cuerpo, dia):
+    """El conjunto exige «date» (rango AAAA-MM-DD/AAAA-MM-DD): se pide un solo día."""
+    f = dia.strftime("%Y-%m-%d")
+    return {**cuerpo, "date": [f"{f}/{f}"]}
 
 
 def clasificar(nombre, nombre_largo=""):
@@ -125,26 +131,33 @@ def main():
     lugares = seleccionar(json.load(open(os.path.join(ROOT, "config", "ciudades.json"), encoding="utf-8"))["ciudades"])
     cliente = cdsapi.Client(url=ADS_URL, key=llave, quiet=True)
     lats = lons = None
-    campos, errores = {}, []
+    campos, errores, corrida = {}, [], None
+    hoy = datetime.now(timezone.utc)
     with tempfile.TemporaryDirectory() as tmp:
-        for nombre, cuerpo in PETICIONES:
-            zipf = os.path.join(tmp, f"{nombre}.zip")
-            try:
-                cliente.retrieve(CONJUNTO, cuerpo, zipf)
-                with zipfile.ZipFile(zipf) as z:
-                    z.extractall(os.path.join(tmp, nombre))
-                for n in os.listdir(os.path.join(tmp, nombre)):
-                    if n.endswith(".nc"):
-                        la, lo, c = leer_netcdf(os.path.join(tmp, nombre, n))
-                        lats, lons = lats or la, lons or lo
-                        campos.update(c)
-            except Exception as e:  # noqa: BLE001  una petición con error no impide la otra
-                errores.append(f"{nombre}: {e}"[:300])
+        for dia in (hoy, hoy - timedelta(days=1)):  # el pronóstico de hoy sale unas horas tarde: si aún no está, el de ayer
+            for nombre, cuerpo in PETICIONES:
+                if any(k.endswith("_sup" if nombre == "superficie" else "_col") for k in campos):
+                    continue
+                carpeta = os.path.join(tmp, f"{nombre}_{dia:%Y%m%d}")
+                zipf = carpeta + ".zip"
+                try:
+                    cliente.retrieve(CONJUNTO, con_fecha(cuerpo, dia), zipf)
+                    with zipfile.ZipFile(zipf) as z:
+                        z.extractall(carpeta)
+                    for n in os.listdir(carpeta):
+                        if n.endswith(".nc"):
+                            la, lo, c = leer_netcdf(os.path.join(carpeta, n))
+                            lats, lons = lats or la, lons or lo
+                            campos.update(c)
+                            corrida = corrida or dia.strftime("%Y-%m-%d")
+                except Exception as e:  # noqa: BLE001  una petición con error no impide la otra
+                    errores.append(f"{nombre} {dia:%Y-%m-%d}: {e}"[:300])
+            if len(campos) >= 4:
+                break
     if not campos:
         print("GEI CAMS: sin datos; se conservan los anteriores. " + "; ".join(errores))
         return 0
-    hoy = datetime.now(timezone.utc)
-    feats = features(lugares, lats, lons, campos, hoy.strftime("%Y-%m-%d"))
+    feats = features(lugares, lats, lons, campos, corrida)
     os.makedirs(os.path.dirname(OUT), exist_ok=True)
     json.dump({"type": "FeatureCollection", "generado_utc": hoy.strftime("%Y-%m-%dT%H:%M:%SZ"), "fuente": "CAMS de Copernicus (pronóstico de gases de efecto invernadero)",
                "atribucion": ATRIBUCION, "variables": sorted(campos), "resumen": resumen(feats), "errores": errores, "features": feats},
