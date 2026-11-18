@@ -1072,6 +1072,7 @@ async function main() {
     const V = await import("./verificador.js");
     $("verif-res").innerHTML = V.htmlResultado(V.analizarMensaje($("verif-texto").value));
   });
+  import("./verif_enlace.js?v=1").then((E) => E.iniciarVerifEnlace($("enlace-form"), $("enlace-res"))).catch((e) => console.error("verificador de enlaces", e));
   iniciarInvestigacion();
   iniciarTecnologia();
   // Mundo corporativo: lista de noticias de empresas y organigrama público (las capas del mapa las monta iniciarRiesgos).
