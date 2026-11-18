@@ -74,12 +74,12 @@ export function htmlSeguridad(s) {
     const x = p[k] || {}, cambio = x[b] ? ((x[a] - x[b]) / x[b]) * 100 : null;
     return `<tr><td>${esc(nombres[k] || k)}</td><td>${num(x[b], 0)}</td><td>${num(x[a], 0)}</td><td class="${cambio > 0 ? "sube-mal" : "baja-bien"}">${cambio == null ? "—" : `${cambio > 0 ? "▲" : "▼"} ${num(Math.abs(cambio))} %`}</td></tr>`;
   };
-  return `${(s.senales || []).length ? `<div class="cx-senales"><b>⚠️ Posible reclasificación (revisar):</b><ul>${s.senales.map((x) => `<li>${esc(nombres[x.baja] || x.baja)} baja ${num(Math.abs(x.cambio_baja_pct))} % mientras ${esc(nombres[x.sube] || x.sube)} sube ${num(x.cambio_sube_pct)} % (${esc(x.periodo)}); el aumento equivale a ${num(x.absorbe_pct, 0)} % de la baja.</li>`).join("")}</ul></div>`
+  return `${(s.senales || []).length ? `<div class="cx-senales"><b>⚠️ Posible reclasificación (revisar):</b><ul>${s.senales.map((x) => `<li>${x.tipo === "tendencia" ? "📈 " : "🗓️ "}${esc(nombres[x.baja] || x.baja)} baja ${num(Math.abs(x.cambio_baja_pct))} % mientras ${esc(nombres[x.sube] || x.sube)} sube ${num(x.cambio_sube_pct)} % (${esc(x.periodo)}); el aumento equivale a ${num(x.absorbe_pct, 0)} % de la baja.</li>`).join("")}</ul></div>`
       : `<p class="meta">Sin señales de reclasificación en el periodo comparado.</p>`}
     <h4>Víctimas por año (índice: primer año = 100)</h4>${svgIndice(s.anuales, principales, nombres)}
     <h4>Mismo periodo: enero a ${esc(MES[(s.ultimo_mes || 12) - 1])} ${esc(b)} vs ${esc(a)}</h4>
     <table class="tabla-ficha cx-tabla"><tr><th>Categoría</th><th>${esc(b)}</th><th>${esc(a)}</th><th>Cambio</th></tr>${[...principales, ...otros].map(fila).join("")}</table>
-    <p class="meta">Fuente: ${esc(s.fuente)} (${esc((s.archivos || []).join("; "))}). Una «señal» compara categorías vecinas: si una baja y la otra sube en el mismo periodo, conviene revisar si se registran de otra forma. No prueba manipulación por sí sola. Próximamente: INEGI (defunciones por homicidio) y Registro Nacional de Personas Desaparecidas.</p>`;
+    <p class="meta">Fuente: ${esc(s.fuente)} (${esc((s.archivos || []).join("; "))}). Una «señal» compara categorías vecinas: si una baja y la otra sube en el mismo periodo, conviene revisar si se registran de otra forma. También puede deberse a un cambio de metodología o de catálogo de delitos (p. ej., al iniciar un año): por eso se marca para revisar. No prueba manipulación por sí sola. 📈 = tendencia de varios años; 🗓️ = mismo periodo contra el año anterior. Próximamente: INEGI (defunciones por homicidio) y Registro Nacional de Personas Desaparecidas.</p>`;
 }
 
 export async function iniciarContrasteMx({ cont, getJSON }) {
