@@ -1,5 +1,5 @@
 {
- "generado_utc": "2026-11-17T22:37:53Z",
+ "generado_utc": "2026-11-18T10:38:49Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
@@ -15,7 +15,7 @@
    "estado": "ok",
    "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-17"
+   "hasta": "2026-11-18"
   },
   "CAN": {
    "fuente": "Canada Gazette, Parte II",
@@ -23,23 +23,23 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-17"
+   "hasta": "2026-11-18"
   },
   "EUR": {
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 4,
+   "nuevas": 6,
    "error": "",
-   "hasta": "2026-11-17"
+   "hasta": "2026-11-18"
   },
   "JPN": {
    "fuente": "e-Gov, API de leyes v2",
    "ok": true,
    "estado": "ok",
-   "nuevas": 0,
+   "nuevas": 1,
    "error": "",
-   "hasta": "2026-11-17"
+   "hasta": "2026-11-18"
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
@@ -47,7 +47,7 @@
    "estado": "ok",
    "nuevas": 6,
    "error": "",
-   "hasta": "2026-11-17"
+   "hasta": "2026-11-18"
   },
   "ARG": {
    "fuente": "Boletín Oficial, primera sección",
@@ -55,7 +55,7 @@
    "estado": "ok",
    "nuevas": 0,
    "error": "",
-   "hasta": "2026-11-17"
+   "hasta": "2026-11-18"
   }
  },
  "sin_fuente": {
@@ -75,16 +75,26 @@
   "MDO": "Sanciones: revisión semanal manual en OFAC, el mapa de sanciones de la UE y la ONU."
  },
  "ultima_fecha": {
-  "USA": "2026-11-17",
-  "CAN": "2026-11-17",
-  "EUR": "2026-11-17",
-  "JPN": "2026-11-17",
-  "RUS": "2026-11-17",
+  "USA": "2026-11-18",
+  "CAN": "2026-11-18",
+  "EUR": "2026-11-18",
+  "JPN": "2026-11-18",
+  "RUS": "2026-11-18",
   "MEX": "2026-11-17",
-  "ARG": "2026-11-17"
+  "ARG": "2026-11-18"
  },
  "desactualizadas": [],
  "por_pais": {
+  "JPN": {
+   "total": 1,
+   "alto": 0,
+   "ultimos_30d": 1
+  },
+  "EUR": {
+   "total": 57,
+   "alto": 8,
+   "ultimos_30d": 33
+  },
   "USA": {
    "total": 35,
    "alto": 0,
@@ -95,16 +105,11 @@
    "alto": 4,
    "ultimos_30d": 19
   },
-  "EUR": {
-   "total": 55,
-   "alto": 8,
-   "ultimos_30d": 31
-  },
   "MEX": {
    "total": 546,
    "alto": 46,
    "ultimos_30d": 34
   }
  },
- "agregadas_hoy": 6
+ "agregadas_hoy": 3
 }
