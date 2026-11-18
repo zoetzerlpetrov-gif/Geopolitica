@@ -33,7 +33,7 @@ SOCIOS = json.load(open(os.path.join(ROOT, "config", "comtrade_socios.json"), en
 AGENTE = "DOMINUS-OSINT contraste (github.com/zoetzerlpetrov-gif/Geopolitica)"
 COMTRADE = "https://comtradeapi.un.org/{ruta}/C/M/HS?reporterCode=484&flowCode={flujo}&cmdCode={cmd}&period={per}{extra}"
 MESES_COMERCIO = 18
-PAUSA = 2.5
+PAUSA = 6  # la API pública sin llave responde 429 si se le pide rápido
 MESES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
 
 
@@ -150,6 +150,7 @@ CATEGORIAS = [
     ("rapto", "Rapto", r"\brapto\b"),
 ]
 VECINOS = {"homicidio_doloso": ["homicidio_culposo", "otros_vida", "feminicidio"], "feminicidio": ["homicidio_doloso", "otros_vida"],
+           "otros_vida": ["homicidio_doloso", "feminicidio", "homicidio_culposo"],
            "secuestro": ["extorsion", "rapto", "trafico_menores"], "lesiones_dolosas": ["otros_vida"]}
 
 
@@ -199,7 +200,32 @@ def comparar(series, ultimo_mes):
                                 "cambio_sube_pct": round((q[actual] - q[anios[-2]]) / q[anios[-2]] * 100, 1),
                                 "periodo": f"enero a {MESES[ultimo_mes - 1].lower()} {actual} vs {anios[-2]}",
                                 "absorbe_pct": round(min(100, (q[actual] - q[anios[-2]]) / max(1, p[anios[-2]] - p[actual]) * 100), 0)})
+    senales += tendencias(tot)
     return {"anuales": tot, "mismo_periodo": periodo, "anio_actual": actual, "ultimo_mes": ultimo_mes}, senales
+
+
+VERSION_SEGURIDAD = 2  # subir al cambiar el cálculo: la siguiente corrida rehace la parte de seguridad
+BASE_TENDENCIA = "2019"  # último año completo antes de la pandemia y del cambio de gobierno de 2018-2019
+
+
+def tendencias(anuales):
+    """Señales de varios años: del año base al último año completo, una categoría baja ≥10 % y su vecina sube ≥10 %."""
+    out = []
+    for c, vecinos in VECINOS.items():
+        serie = anuales.get(c, {})
+        if BASE_TENDENCIA not in serie or not serie[BASE_TENDENCIA]:
+            continue
+        fin = max(serie)
+        cambio = (serie[fin] - serie[BASE_TENDENCIA]) / serie[BASE_TENDENCIA] * 100
+        if cambio > -10:
+            continue
+        for v in vecinos:
+            q = anuales.get(v, {})
+            if q.get(BASE_TENDENCIA) and fin in q and (q[fin] - q[BASE_TENDENCIA]) / q[BASE_TENDENCIA] * 100 >= 10:
+                out.append({"baja": c, "sube": v, "cambio_baja_pct": round(cambio, 1), "cambio_sube_pct": round((q[fin] - q[BASE_TENDENCIA]) / q[BASE_TENDENCIA] * 100, 1),
+                            "periodo": f"{BASE_TENDENCIA} a {fin} (años completos)", "tipo": "tendencia",
+                            "absorbe_pct": round(min(100, (q[fin] - q[BASE_TENDENCIA]) / max(1, serie[BASE_TENDENCIA] - serie[fin]) * 100), 0)})
+    return out
 
 
 def leer_csv_zip(datos):
@@ -266,16 +292,17 @@ def main(ahora=None):
     except (OSError, ValueError):
         previo = {}
     out = dict(previo)
-    if not vigente(previo.get("comercio"), 24 * 7, ahora):
+    horas_comercio = 20 if (previo.get("comercio") or {}).get("errores") else 24 * 7  # meses pendientes: reintento diario
+    if not vigente(previo.get("comercio"), horas_comercio, ahora):
         try:
             out["comercio"] = comercio(previo.get("comercio"), ahora)
         except Exception as e:  # noqa: BLE001
             print(f"contraste: comercio falló ({type(e).__name__}); se conserva el anterior")
-    if not vigente(previo.get("seguridad"), 24 * 3, ahora):
+    if not vigente(previo.get("seguridad"), 24 * 3, ahora) or (previo.get("seguridad") or {}).get("version") != VERSION_SEGURIDAD:
         try:
             s = seguridad()
             if s.get("anuales"):
-                out["seguridad"] = {"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), **s}
+                out["seguridad"] = {"generado_utc": ahora.strftime("%Y-%m-%dT%H:%M:%SZ"), "version": VERSION_SEGURIDAD, **s}
             else:
                 print("contraste: seguridad sin datos; se conserva el anterior. " + "; ".join(s.get("errores", [])[:3]))
         except Exception as e:  # noqa: BLE001

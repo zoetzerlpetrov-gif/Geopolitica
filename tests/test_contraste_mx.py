@@ -72,3 +72,10 @@ def test_categorias_no_se_confunden():
     assert C.categoria({"Tipo de delito": "Secuestro", "Subtipo de delito": "Secuestro extorsivo"}) == "secuestro"
     assert C.categoria({"Tipo de delito": "Homicidio", "Subtipo de delito": "Homicidio culposo", "Modalidad": "En accidente de tránsito"}) == "homicidio_culposo"
     assert C.categoria({"Tipo de delito": "Robo", "Subtipo de delito": "Robo a casa habitación"}) is None
+
+
+def test_tendencia_de_varios_anios():
+    anuales = {"homicidio_doloso": {"2019": 34722, "2025": 23612}, "otros_vida": {"2019": 10269, "2025": 17110}, "feminicidio": {"2019": 972, "2025": 736}}
+    t = C.tendencias(anuales)
+    hd = [x for x in t if x["baja"] == "homicidio_doloso"]
+    assert len(hd) == 1 and hd[0]["sube"] == "otros_vida" and hd[0]["tipo"] == "tendencia" and hd[0]["cambio_baja_pct"] == -32.0 and hd[0]["absorbe_pct"] == 62
