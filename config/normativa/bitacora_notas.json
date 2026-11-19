@@ -116,5 +116,8 @@
    "Operadores de subproductos animales en los Estados miembros listados; sin efecto directo en empresas fuera de la UE salvo exportadores de esos productos (verificar)."
   ],
   "estado": "no aplica (sin ficha de subproductos animales en el catálogo)"
- }
+ },
+ "MEX:cd:lisr:2026-11-13": {"resumen": "Decreto que reforma, adiciona y deroga disposiciones de la Ley del Impuesto sobre la Renta y fija disposiciones transitorias, publicado en el DOF del 13-11-2026 (paquete económico 2027). Se actualizó la fecha de última reforma; los cambios de tasas, deducciones y retenciones quedan por verificar en el texto oficial.", "afectaciones": ["Personas morales y físicas contribuyentes del ISR", "Todos los sectores (obligación fiscal general)"], "estado": "incorporado al catálogo (2026-11-19) · pendiente: verificar cambios de fondo en el texto de la Cámara de Diputados"},
+ "MEX:cd:lfd_mineria:2026-11-13": {"resumen": "Reforma a la Ley Federal de Derechos publicada en el DOF del 13-11-2026 (paquete económico 2027). Puede cambiar la cuota por hectárea y los derechos especial y extraordinario de minería; se actualizó la fecha y los montos quedan por verificar.", "afectaciones": ["Titulares de concesiones mineras", "Sector minería"], "estado": "incorporado al catálogo (2026-11-19) · pendiente: verificar cuotas 2027"},
+ "MEX:cd:lfd_espectro:2026-11-13": {"resumen": "La misma reforma a la Ley Federal de Derechos (DOF 13-11-2026) puede ajustar los derechos por uso del espectro radioeléctrico; se actualizó la fecha y las cuotas quedan por verificar.", "afectaciones": ["Concesionarios de telecomunicaciones y radiodifusión", "Sector telecomunicaciones"], "estado": "incorporado al catálogo (2026-11-19) · pendiente: verificar cuotas 2027"}
 }
