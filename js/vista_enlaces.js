@@ -30,7 +30,13 @@ export function conVista(href, plan) {
 async function iniciar() {
   if (vistaActual() !== "pago") return;
   for (const elemento of document.querySelectorAll("[data-solo-admin]")) elemento.remove();
-  const planes = await fetch("config/planes.json", { cache: "no-cache" }).then((r) => r.json());
+  const [planes, ops] = await Promise.all([
+    fetch("config/planes.json", { cache: "no-cache" }).then((r) => r.json()),
+    fetch("config/paginas_admin.json", { cache: "no-cache" }).then((r) => r.json()).catch(() => ({ paginas: [] })),
+  ]);
+  // Páginas de administración (las que se publican en /ops/): nunca forman parte de un plan.
+  const deOps = new Set((ops.paginas || []).map((p) => `${p}.html`));
+  const soloAdmin = (pagina) => deOps.has(pagina) || paginaSoloAdmin(planes, pagina);
   const plan = planActual(planes);
   const ultimo = location.pathname.split("/").pop() || "index.html";
   const aqui = paginaDe(/\.html$/i.test(ultimo) ? ultimo : ultimo + ".html");  // Cloudflare sirve /tutorial sin «.html»
@@ -38,7 +44,7 @@ async function iniciar() {
     document.body.innerHTML = `<main style="max-width:640px;margin:15vh auto;padding:0 16px;font:16px/1.5 system-ui,sans-serif">
       <h1>${titulo}</h1><p>${texto}</p><p><a href="${conVista("./", plan)}">Volver al mapa</a> · <a href="${conVista("planes.html", plan)}">Ver planes</a></p></main>`;
   };
-  if (paginaSoloAdmin(planes, aqui)) return salir("Sección no disponible", "Esta sección no forma parte de los planes.");
+  if (location.pathname.includes("/ops/") || soloAdmin(aqui)) return salir("Sección no disponible", "Esta sección no forma parte de los planes.");
   const falta = planFaltante(planes, plan, "paginas", aqui);
   if (falta) return salir(`🔒 Disponible desde el plan ${falta.nombre}`, "Tu plan actual no incluye esta sección.");
 
@@ -47,7 +53,7 @@ async function iniciar() {
     const href = a.getAttribute("href");
     if (!esInterno(href)) return;
     const destino = paginaDe(href);
-    if (paginaSoloAdmin(planes, destino)) {
+    if (soloAdmin(destino)) {
       // Invisible para clientes: si el enlace es lo único de su renglón de lista, se quita el renglón entero.
       const li = a.closest("li");
       if (li && li.querySelectorAll("a[href]").length === 1) li.remove(); else a.remove();
