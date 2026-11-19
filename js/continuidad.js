@@ -9,7 +9,7 @@ import { descargar } from "./web-cripto.js";
 
 const CLAVE = "dominus_continuidad_v1";
 const $ = (id) => document.getElementById(id);
-const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const esc = (s) => String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
 const hoy = () => new Date().toISOString().slice(0, 10);
 const NOMBRE = { verde: "Verde", amarillo: "Amarillo", naranja: "Naranja", rojo: "Rojo" };
 
