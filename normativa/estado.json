@@ -1,13 +1,13 @@
 {
- "generado_utc": "2026-11-19T10:42:58Z",
+ "generado_utc": "2026-11-19T22:26:33Z",
  "fuentes": {
   "MEX": {
    "fuente": "Diario Oficial de la Federación y Cámara de Diputados",
    "ok": true,
    "estado": "ok",
-   "nuevas": 6,
+   "nuevas": 5,
    "error": "",
-   "hasta": "2026-11-18"
+   "hasta": "2026-11-19"
   },
   "USA": {
    "fuente": "Federal Register (API oficial)",
@@ -29,7 +29,7 @@
    "fuente": "Oficina de Publicaciones de la UE (Cellar)",
    "ok": true,
    "estado": "ok",
-   "nuevas": 6,
+   "nuevas": 3,
    "error": "",
    "hasta": "2026-11-19"
   },
@@ -43,10 +43,10 @@
   },
   "RUS": {
    "fuente": "Portal oficial de publicación de actos jurídicos",
-   "ok": true,
-   "estado": "ok",
-   "nuevas": 2,
-   "error": "",
+   "ok": false,
+   "estado": "error",
+   "nuevas": 0,
+   "error": "HTTPError: HTTP Error 500: Internal Server Error",
    "hasta": "2026-11-19"
   },
   "ARG": {
@@ -80,53 +80,25 @@
   "EUR": "2026-11-19",
   "JPN": "2026-11-19",
   "RUS": "2026-11-19",
-  "MEX": "2026-11-18",
+  "MEX": "2026-11-19",
   "ARG": "2026-11-19"
  },
- "desactualizadas": [
-  {
-   "pais": "MEX",
-   "ley_id": "lisr",
-   "sigla": "LISR",
-   "nombre": "Ley del Impuesto sobre la Renta",
-   "catalogo": "2024-04-01 (última reforma de la ley según la Cámara de Diputados)",
-   "oficial": "2026-11-13",
-   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lisr.htm"
-  },
-  {
-   "pais": "MEX",
-   "ley_id": "lfd_mineria",
-   "sigla": "LFD minera",
-   "nombre": "Ley Federal de Derechos – derechos mineros (cuota por hectárea, derecho especial y extraordinario)",
-   "catalogo": "2025-12-28 (última reforma de la ley según la Cámara de Diputados) · antes registrado: verificar (cambios 2026)",
-   "oficial": "2026-11-13",
-   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfd.htm"
-  },
-  {
-   "pais": "MEX",
-   "ley_id": "lfd_espectro",
-   "sigla": "LFD espectro",
-   "nombre": "Ley Federal de Derechos – uso del espectro radioeléctrico",
-   "catalogo": "2025-12-28 (última reforma de la ley según la Cámara de Diputados)",
-   "oficial": "2026-11-13",
-   "url": "https://www.diputados.gob.mx/LeyesBiblio/ref/lfd.htm"
-  }
- ],
+ "desactualizadas": [],
  "por_pais": {
   "USA": {
    "total": 36,
    "alto": 0,
    "ultimos_30d": 29
   },
+  "MEX": {
+   "total": 554,
+   "alto": 50,
+   "ultimos_30d": 42
+  },
   "RUS": {
    "total": 21,
    "alto": 4,
    "ultimos_30d": 21
-  },
-  "MEX": {
-   "total": 552,
-   "alto": 49,
-   "ultimos_30d": 40
   },
   "JPN": {
    "total": 1,
@@ -139,5 +111,5 @@
    "ultimos_30d": 32
   }
  },
- "agregadas_hoy": 4
+ "agregadas_hoy": 2
 }
