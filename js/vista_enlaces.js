@@ -32,7 +32,8 @@ async function iniciar() {
   for (const elemento of document.querySelectorAll("[data-solo-admin]")) elemento.remove();
   const planes = await fetch("config/planes.json", { cache: "no-cache" }).then((r) => r.json());
   const plan = planActual(planes);
-  const aqui = paginaDe(location.pathname.split("/").pop() || "index.html");
+  const ultimo = location.pathname.split("/").pop() || "index.html";
+  const aqui = paginaDe(/\.html$/i.test(ultimo) ? ultimo : ultimo + ".html");  // Cloudflare sirve /tutorial sin «.html»
   const salir = (titulo, texto) => {
     document.body.innerHTML = `<main style="max-width:640px;margin:15vh auto;padding:0 16px;font:16px/1.5 system-ui,sans-serif">
       <h1>${titulo}</h1><p>${texto}</p><p><a href="${conVista("./", plan)}">Volver al mapa</a> · <a href="${conVista("planes.html", plan)}">Ver planes</a></p></main>`;

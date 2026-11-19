@@ -1,7 +1,8 @@
 import { vistaActual } from "./licencias.js";
 
 const acceso = document.getElementById("acceso-mapa-admin");
-if (acceso && location.hostname === "zoetzerlpetrov-gif.github.io" && vistaActual() !== "pago") {
+const publico = !location.hostname.endsWith(".workers.dev");  // dominusosint.com, Pages o GitHub Pages
+if (acceso && publico && vistaActual() !== "pago") {
   acceso.hidden = false;
 }
 
@@ -12,7 +13,7 @@ let enlace;
 menu?.addEventListener("toggle", async () => {
   const turno = ++consulta;
   enlace?.remove();
-  if (!menu.open || !plantilla.isConnected || location.hostname === "zoetzerlpetrov-gif.github.io" || vistaActual() === "pago") return;
+  if (!menu.open || !plantilla.isConnected || publico || vistaActual() === "pago") return;
   try {
     const r = await fetch("admin/huella/sesion", { cache: "no-store", redirect: "error" });
     if (r.status === 204 && r.headers.get("X-Dominus-Huella") === "admin" &&

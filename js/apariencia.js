@@ -37,7 +37,8 @@ function ocultarIconos(raiz) {
     const n = [...el.childNodes].find((x) => x.nodeType === 3 && x.textContent.trim());
     if (n && EMOJI.test(n.textContent) && sinEmoji(n.textContent).trim()) n.textContent = sinEmoji(n.textContent);
     const sp = el.firstElementChild;   // emoji en su propio <span aria-hidden>
-    if (sp?.getAttribute?.("aria-hidden") === "true" && !sinEmoji(sp.textContent).trim()) sp.remove();
+    // Solo el emoji en su propio <span>: los íconos dibujados (la cruz roja de la marca, <svg> o <img>) se conservan.
+    if (sp?.tagName === "SPAN" && sp.getAttribute("aria-hidden") === "true" && sp.textContent.trim() && !sinEmoji(sp.textContent).trim()) sp.remove();
   }
 }
 

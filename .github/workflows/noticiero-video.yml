@@ -96,6 +96,7 @@ jobs:
           VOZ_MOTOR: "kokoro:ef_dora"
           PLAYWRIGHT_MODULE: /tmp/pw/node_modules/playwright
           FECHA: ${{ github.event.inputs.fecha }}
+          SITIO_DATOS: https://dominusosint.com
           BANXICO_API_KEY: ${{ secrets.BANXICO_API_KEY }}
         run: |
           if [ -n "$FECHA" ]; then python3 tools/noticiero_video/render.py salida --previos /tmp/previos/guiones --fecha "$FECHA"

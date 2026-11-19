@@ -30,7 +30,6 @@ from PIL import Image, ImageDraw, ImageFont  # noqa: E402
 W, H = 1920, 1080
 FONDO, TINTA, ORO, GRIS, ROJO = (16, 22, 30), (236, 238, 240), (201, 162, 39), (150, 160, 170), (200, 16, 46)
 FUENTES = "/usr/share/fonts/truetype/dejavu/"
-PORTAFOLIO = "https://zoetzerlpetrov-gif.github.io/portafolio/portfolio_data.json"
 
 
 def fuente(tam, negrita=False):
@@ -351,11 +350,17 @@ def enlaces_usados(carpeta, fecha, dias=3):
     return frozenset(out)
 
 
+def sitio_publicado():
+    """Dirección del sitio publicado (config/sitio.json)."""
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "config", "sitio.json"), encoding="utf-8") as f:
+        return json.load(f)["url"]
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("salida")
     ap.add_argument("--fecha", help="Día del noticiero (por omisión, hoy en Ciudad de México)")
-    ap.add_argument("--sitio", default="https://zoetzerlpetrov-gif.github.io/Geopolitica")
+    ap.add_argument("--sitio", default=os.environ.get("SITIO_DATOS") or sitio_publicado())
     ap.add_argument("--modelo", default=os.environ.get("PIPER_MODELO", ""))
     ap.add_argument("--previos", help="Carpeta con los guiones de los videos anteriores (rama datos-comentarios/guiones)")
     a = ap.parse_args()
@@ -371,7 +376,7 @@ def main():
     # Cambios recientes en el Diario Oficial de la Federación (bitácora normativa del sitio): qué se publicó y qué implica.
     elegidas = con_dof(elegidas, redactar_dof(notas_dof(leer_seguro(a.sitio, "data/normativa/bitacora.json"), fecha, usadas=usadas | {n["url"] for n in elegidas if n.get("url")}), ia))
     clima = {"calor": leer_seguro(a.sitio, "data/vivos/calor_frio.geojson"), "ciclones": leer_seguro(a.sitio, "data/vivos/ciclones_mundo.geojson")}
-    portafolio = leer_seguro(PORTAFOLIO.rsplit("/", 1)[0], "portfolio_data.json") if a.sitio.startswith("http") else None
+    portafolio = leer_seguro(a.sitio, "data/portafolio/portfolio_data.json") if a.sitio.startswith("http") else None
     cifras = leer_seguro(a.sitio, "data/vivos/indicadores.json")
     indicadores = leer_seguro(a.sitio, "data/economia/indicadores.json")
     corte = None

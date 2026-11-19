@@ -22,7 +22,7 @@ import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
-PORTAFOLIO = "https://zoetzerlpetrov-gif.github.io/portafolio/portfolio_data.json"
+PORTAFOLIO = "https://dominusosint.com/data/portafolio/portfolio_data.json"
 TICKERS = "https://www.sec.gov/files/company_tickers.json"
 FACTS = "https://data.sec.gov/api/xbrl/companyfacts/CIK{cik:010d}.json"
 SUBS = "https://data.sec.gov/submissions/CIK{cik:010d}.json"

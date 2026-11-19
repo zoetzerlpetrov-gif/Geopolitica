@@ -39,7 +39,11 @@ function actualizar() {
   if (!boton) return;
   const activa = algunaActiva();
   const texto = activa ? "⏸ Pausar" : "▶ Animar";
-  boton.textContent = traducir(texto, idiomaGuardado()) || texto;
+  const nuevo = traducir(texto, idiomaGuardado()) || texto;
+  // Solo se reescribe si cambia la palabra: con el tema sin íconos (Admin → Apariencia) se quita el ▶ y reescribirlo
+  // cada segundo hacía que el símbolo apareciera y desapareciera y moviera la barra.
+  const palabra = (t) => String(t).replace(/^[^\p{L}\p{N}]+/u, "");
+  if (palabra(boton.textContent) !== palabra(nuevo)) boton.textContent = nuevo;
   boton.setAttribute("aria-pressed", String(activa));
   boton.classList.toggle("animando", activa);
   const nombres = (activa ? partes.filter((p) => p.activa()) : disponibles()).map((p) => p.nombre);

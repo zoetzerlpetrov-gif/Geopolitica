@@ -17,14 +17,14 @@ SOURCES = {
     'usaspending': {'name': 'USAspending · contratos federales EE. UU.', 'recipient': 'api.usaspending.gov', 'key': False, 'interval': 86400, 'license': 'Datos públicos del Tesoro de EE. UU.; revisar campos y fechas', 'docs': 'https://api.usaspending.gov/docs/endpoints'},
     'epo_weekly': {'name': 'EPO EPS · publicaciones semanales europeas', 'recipient': 'data.epo.org', 'key': False, 'interval': 86400, 'license': 'Condiciones EPO; cuota local conservadora 100 MB/7 días y 60 peticiones/hora compartidas', 'docs': 'https://www.epo.org/en/searching-for-patents/data/web-services/publication-server'},
     'epo_document': {'name': 'EPO EPS · documento europeo conocido', 'recipient': 'data.epo.org', 'key': False, 'interval': 604800, 'license': 'Condiciones EPO; no prueba vigencia jurídica ni cobertura mundial', 'docs': 'https://www.epo.org/en/service-support/ordering/fair-use'},
-    'sat69b': {'name': 'SAT 69-B · copia pública existente de DOMINUS', 'recipient': 'zoetzerlpetrov-gif.github.io', 'key': False, 'interval': 604800, 'license': 'Fuente original SAT; copia del proyecto, preservar corte/fecha y estados', 'docs': 'http://omawww.sat.gob.mx/cifras_sat/Documents/Listado_Completo_69-B.csv'},
+    'sat69b': {'name': 'SAT 69-B · copia pública existente de DOMINUS', 'recipient': 'dominusosint.com', 'key': False, 'interval': 604800, 'license': 'Fuente original SAT; copia del proyecto, preservar corte/fecha y estados', 'docs': 'http://omawww.sat.gob.mx/cifras_sat/Documents/Listado_Completo_69-B.csv'},
 }
 for _id, _meta in SOURCES.items():
     _meta['query_sent'] = _id in ('usaspending', 'epo_document')
 
 BASE_EPO = 'https://data.epo.org/publication-server/rest/v1.2'
 OFAC = 'https://sanctionslistservice.ofac.treas.gov/api/PublicationPreview/exports/SDN.XML'
-SAT = 'https://zoetzerlpetrov-gif.github.io/Geopolitica/data/vivos/efos_69b.json'
+SAT = 'https://dominusosint.com/data/vivos/efos_69b.json'
 OFAC_STORAGE = 'wc2h-sls-prod-public-published.s3.us-gov-west-1.amazonaws.com'
 HOSTS = {s['recipient'] for s in SOURCES.values()} | {OFAC_STORAGE}
 
