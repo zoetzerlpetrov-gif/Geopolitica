@@ -60,5 +60,6 @@ test("por red y LinkedIn personal", async () => {
   assert.match(htmlPorRed(f, false), /Acceso administrativo/);
   const h = htmlLinkedin(plan.linkedin_personal);
   assert.match(h, /Primero decide la visibilidad/);
-  assert.equal((h.match(/Copiar borrador/g) || []).length, 12);
+  assert.equal((h.match(/Copiar publicación/g) || []).length, 12);
+  for (const x of plan.linkedin_personal.serie) assert.ok(x.texto.length < 1300 && /\?/.test(x.texto), x.id);
 });

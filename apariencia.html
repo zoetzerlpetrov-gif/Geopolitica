@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Apariencia del sitio</title>
+  <meta name="description" content="Solo administración: colores, tipografía, esquinas e íconos de todo el sitio.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <link rel="stylesheet" href="vendor/fonts/fuentes.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1300px; margin: 0 auto; padding: 16px; }
+    .ops h2 { margin: 22px 0 6px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .partes { display: grid; grid-template-columns: minmax(300px, 460px) 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 900px) { .partes { grid-template-columns: 1fr; } }
+    .preset { font: inherit; padding: 8px 12px; margin: 4px; border: 2px solid; border-radius: var(--radius); cursor: pointer; }
+    fieldset { border: 1px solid var(--line); border-radius: var(--radius); margin: 8px 0; } .color { display: flex; align-items: center; gap: 8px; margin: 4px 0; font-size: 13px; }
+    .color input { width: 42px; height: 28px; padding: 0; border: 1px solid var(--line); background: none; }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .barra label.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; }
+    .barra button.si { background: var(--accent); color: var(--surface); border-color: transparent; }
+    .muestra { display: grid; gap: 10px; } .muestra .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px; background: var(--surface); }
+    iframe { width: 100%; height: 460px; border: 1px solid var(--line); border-radius: var(--radius); }
+    .aviso { background: rgba(249,168,37,.25); padding: 8px 10px; border-radius: var(--radius); }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa (War Room)</a>
+    <h1>🎨 Apariencia del sitio (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Estandariza el diseño de todas las páginas: colores (tema claro y oscuro), tipografía, esquinas e íconos. La vista previa es esta misma página. Al publicar, todo el sitio la aplica en menos de un minuto; «DOMINUS actual» regresa al diseño de siempre.</p>
+    <p class="aviso" id="ap-aviso" hidden>Estás en la copia pública: la vista previa funciona, pero para <b>publicar</b> abre esta página desde 🔐 Acceso administrativo.</p>
+    <h2>1 · Tema base</h2><div id="ap-presets"></div>
+    <div class="partes">
+      <div>
+        <h2>2 · Ajustes</h2>
+        <div class="tarjeta">
+          <label class="color">Tipografía <select id="ap-fuente"></select></label>
+          <label class="color">Esquinas <input type="range" id="ap-radio" min="0" max="16" step="1"> <span id="ap-radio-v"></span></label>
+          <label class="color"><input type="checkbox" id="ap-iconos"> Ocultar los íconos (emoji) de menús, títulos y botones</label>
+          <label class="color"><input type="checkbox" id="ap-mayus"> Títulos principales en mayúsculas</label>
+        </div>
+        <div id="ap-colores"></div>
+        <div class="barra"><button type="button" id="ap-tema">🌓 Ver tema claro / oscuro</button><button type="button" id="ap-guardar" class="si">💾 Guardar y publicar</button>
+          <button type="button" id="ap-exportar">⬇️ Exportar</button><label class="boton">⬆️ Importar <input type="file" id="ap-importar" accept=".json" hidden></label></div>
+        <p class="meta" id="ap-estado" aria-live="polite"></p>
+        <div class="tarjeta"><b>Accesibilidad</b><div id="ap-revision"></div></div>
+      </div>
+      <div>
+        <h2>3 · Vista previa</h2>
+        <div class="muestra">
+          <div class="kpi"><span class="meta">Nivel de amenaza</span><h3>🛡️ Elevado</h3><p>Texto normal con un <a href="#">enlace</a> y <code>código 4271</code>.</p>
+            <div class="barra"><button type="button">Botón</button><button type="button" class="si">Acción principal</button></div></div>
+          <details class="tarjeta" open><summary>📊 Indicadores</summary><table class="tabla-ficha"><tr><th>Indicador</th><th>Valor</th></tr><tr><td>Tipo de cambio</td><td>18.47</td></tr><tr><td>Remesas</td><td>5,120 MUSD</td></tr></table></details>
+          <iframe id="ap-mapa" src="index.html" title="Mapa con la apariencia elegida" loading="lazy"></iframe>
+          <p class="meta">El mapa de abajo usa la apariencia publicada; la nueva se ve en él después de «Guardar y publicar».</p>
+        </div>
+      </div>
+    </div>
+    <details class="tarjeta"><summary>📘 Guía de diseño corporativo</summary>
+      <ul class="meta">
+        <li><b>Color:</b> fondos neutros oscuros o papel, un solo acento (latón, azul o verde olivo) y rojo solo para alertas. Evita más de un acento.</li>
+        <li><b>Tipografía:</b> IBM Plex Sans para el texto (legible y técnica) y Barlow Condensed para títulos cortos en mayúsculas (aire de informe operativo). Cifras y códigos en IBM Plex Mono.</li>
+        <li><b>Íconos:</b> en un estilo sobrio, los emoji se ocultan; la jerarquía la dan los títulos, el color de estado (verde, ámbar, rojo) y el espacio.</li>
+        <li><b>Esquinas:</b> 2 a 4 px se ven más institucionales que 8 px o más.</li>
+        <li><b>Accesibilidad:</b> el contraste mínimo es 4.5 para texto (WCAG 2.2 AA); esta página avisa si un color no lo cumple.</li>
+      </ul>
+    </details>
+  </main>
+  <script type="module" src="js/apariencia_admin.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+{
+  "_instrucciones": "Desvíos documentados contra programas sociales (Monitor México → Contraste de fuentes). Solo fuentes verificables: ASF, SFP/Buen Gobierno, FGR, sentencias o resoluciones y periodismo de investigación con documentos. Cada monto lleva su estado. Personas: solo con el estado que digan las fuentes; sin proceso = «señalado en prensa, sin proceso». Familiares o amigos solo si aparecen en un expediente oficial. Revisar los estados al menos cada mes.",
+  "revisado": "2026-11-19",
+  "estados": {
+    "observado_asf": "Observado por la ASF",
+    "dano_determinado": "Daño determinado por autoridad administrativa",
+    "proceso_judicial": "En proceso judicial",
+    "sentenciado": "Sentenciado o resuelto en firme",
+    "prensa_sin_proceso": "Señalado en prensa, sin proceso"
+  },
+  "programas": [
+    {"id": "pension_adultos", "nombre": "Pensión para el Bienestar de las Personas Adultas Mayores", "monto_anual_mxn": 38400, "detalle": "3,200 pesos al mes (6,400 por bimestre) en 2026", "fuente": "Reglas de operación 2026 según El Imparcial", "url": "https://www.elimparcial.com/dinero/2026/01/04/pension-bienestar-2026-este-seria-el-monto-del-pago-de-enero-para-adultos-mayores/"},
+    {"id": "beca_benito_juarez", "nombre": "Beca Universal Benito Juárez (media superior)", "monto_anual_mxn": 9500, "detalle": "1,900 pesos por bimestre, 5 pagos al año en 2026", "fuente": "Programas para el Bienestar según Uno TV", "url": "https://www.unotv.com/becas/beca-benito-juarez-2026-registro-21-30-septiembre-requisitos-9500-pesos/"}
+  ],
+  "casos": [
+    {"id": "segalmex", "nombre": "Segalmex (Seguridad Alimentaria Mexicana)", "montos": [
+      {"concepto": "Quebranto acumulado en auditorías de la ASF (no todo es desvío comprobado)", "mxn": 15000000000, "estado": "observado_asf", "fecha": "2026-05", "fuente": "El Financiero", "url": "https://www.elfinanciero.com.mx/nacional/2026/05/04/caso-segalmex-que-sabemos-del-desvio-millonario-que-detecto-la-fgr/"},
+      {"concepto": "Daño patrimonial no aclarado (cuentas 2019 y 2020), base de 156 denuncias ante la FGR", "mxn": 2700000000, "estado": "dano_determinado", "fecha": "2024-09", "fuente": "Secretaría de la Función Pública, según Expansión", "url": "https://politica.expansion.mx/presidencia/2024/09/05/corrupcion-deja-dano-de-2-700-mdp-en-segalmex-hay-156-denuncias"},
+      {"concepto": "Resarcimiento ordenado por el TFJA a tres exfuncionarios (incluido René Gavira)", "mxn": 261211579, "estado": "sentenciado", "fecha": "2026-05", "fuente": "Infobae", "url": "https://www.infobae.com/mexico/2026/05/06/caso-segalmex-tfja-ordena-a-rene-gavira-y-exfuncionarios-resarcir-261-millones-de-pesos/"}
+    ]},
+    {"id": "olan_lopez_beltran", "nombre": "Andrés Manuel López Beltrán y Jorge Amílcar Olán", "montos": [
+      {"concepto": "Denuncia presentada ante la FGR por un grupo de padres de niños con cáncer (manejo de medicamentos). La FGR informó que no hay orden de aprehensión contra Olán ni investigación contra López Beltrán.", "mxn": null, "estado": "prensa_sin_proceso", "fecha": "2026-10", "fuente": "Diario de Yucatán; Por Esto", "url": "https://www.poresto.com/mexico/2026/9/16/fgr-niega-orden-de-aprehension-contra-amilcar-olan-y-descarta-investigacion-contra-andy-lopez-beltran.html"}
+    ]}
+  ]
+}

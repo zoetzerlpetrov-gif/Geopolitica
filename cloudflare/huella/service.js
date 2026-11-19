@@ -7,6 +7,7 @@ import { avatarOrigins, declaredProfiles, markCorrelations, publicAvatar, public
 import { activePlan, servePlans } from "../planes/service.js";
 import { servirAdmin as legalAdmin, servirPublico as legalPublico } from "../legal/service.js";
 import { contar as contarVisita, resumen as resumenVisitas } from "../marketing/service.js";
+import { servirAdmin as aparienciaAdmin, servirPublico as aparienciaPublico } from "../apariencia/service.js";
 
 const ROOT = "/admin/huella/";
 const HEADERS = {
@@ -291,6 +292,7 @@ export async function serve(request, env, assets) {
   if (url.pathname.startsWith("/cuenta/")) return servePlans(request, url, env, ROOT);
   if (url.pathname === "/legal/datos.json" && request.method === "GET") return legalPublico(env);
   if (url.pathname === "/m/visita") return contarVisita(request, env);
+  if (url.pathname === "/apariencia/datos.json" && request.method === "GET") return aparienciaPublico(env);
   if (!url.pathname.startsWith(ROOT)) return await adminMap(request, url, env) || json({ error: "Ruta inexistente" }, 404);
   if (!configured(url, env)) return json({ error: "Ingreso administrativo sin configurar." }, 503);
   const route = url.pathname.slice(ROOT.length);
@@ -313,6 +315,7 @@ export async function serve(request, env, assets) {
   }
   if (route === "salir" && request.method === "POST" && request.headers.get("Origin") === url.origin) return signOut();
   if (route === "marketing/visitas" && request.method === "GET") return resumenVisitas(env, json);
+  if (route === "apariencia") return aparienciaAdmin(request, url, env, json, await sessionId(request, env));
   if (route === "legal") return legalAdmin(request, url, env, json, await sessionId(request, env));
   if (route === "sesion" && request.method === "GET") {
     return new Response(null, { status: 204, headers: { ...HEADERS, "X-Dominus-Huella": "admin" } });
