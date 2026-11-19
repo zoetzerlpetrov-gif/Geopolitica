@@ -1,3 +1,4 @@
+// DESTINOS_FIJOS: este módulo solo llama a github.com/login/oauth/access_token y api.github.com/user (URLs literales); no sigue redirecciones.
 // OAuth identifica la cuenta. El permiso se comprueba localmente por ID numérico de GitHub.
 const STATE = "__Host-dominus-huella-oauth";
 const SESSION = "__Host-dominus-huella";

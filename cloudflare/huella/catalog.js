@@ -1,3 +1,4 @@
+// DESTINOS_FIJOS: solo pide las plantillas del catálogo propio (catalog-data.js / catalog-maigret.js) con la cuenta codificada (encodeURIComponent) y sin seguir redirecciones (redirect: "manual").
 import { catalog as whatsMyNameCatalog } from "./catalog-data.js";
 import { maigretCatalog } from "./catalog-maigret.js";
 

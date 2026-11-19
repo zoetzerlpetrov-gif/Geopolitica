@@ -179,6 +179,13 @@ def youtube_nocookie(cfg):
 def csp_sitio(cfg):
     paginas = [f for f in archivos(".html") if "/" not in f]
     con = [f for f in paginas if "Content-Security-Policy" in leer(f)]
+    # Cloudflare Pages aplica _headers a todas las páginas: una CSP en «/*» cubre el sitio completo.
+    cab = leer("_headers")
+    m = re.search(r"^/\*\s*$(.*?)(?=^/|\Z)", cab, re.M | re.S)
+    bloque = m.group(1) if m else ""
+    if re.search(r"^\s+Content-Security-Policy:", bloque, re.M):
+        solo_reporte = "Content-Security-Policy-Report-Only" in bloque
+        return r("cumple", f"CSP para todo el sitio en _headers (Cloudflare Pages){'; las reglas de scripts siguen en modo de solo reporte' if solo_reporte else ''}.")
     if len(con) == len(paginas):
         return r("cumple", "Todas las páginas declaran CSP.")
     return r("no_cumple" if not con else "parcial", f"{len(con)} de {len(paginas)} páginas con CSP. GitHub Pages no permite encabezados: se resuelve en el Worker de Cloudflare.")
@@ -223,7 +230,8 @@ def worker_origenes(cfg):
     ws = [f for f in archivos(".js") if f.startswith("cloudflare/") and "fetch(" in leer(f)]
     if not ws:
         return r("no_aplica", "Sin Workers.")
-    sin = [f for f in ws if "ORIGENES" not in leer(f) and "Origin" not in leer(f)]
+    # Un Worker cumple si valida el Origin o si solo llama a destinos fijos (declarado con «DESTINOS_FIJOS»).
+    sin = [f for f in ws if "ORIGENES" not in leer(f) and "Origin" not in leer(f) and "DESTINOS_FIJOS" not in leer(f)]
     return r("cumple", f"{len(ws)} Worker(s) con lista de orígenes permitidos.") if not sin else r("parcial", f"Sin lista de orígenes: {', '.join(sin)}")
 
 
