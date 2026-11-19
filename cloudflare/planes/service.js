@@ -1,5 +1,6 @@
 import config from "../../config/planes.json" with { type: "json" };
 import { begin, configured, sessionId, signOut } from "../huella/auth.js";
+import { completarGoogle, correoSesion, googleConfigurado, iniciarGoogle, planPorCorreo, salirGoogle } from "./google.js";
 
 const ORDER = ["demo", "recon", "analyst", "command"];
 const groups = config.acceso_por_plan.grupos;
@@ -23,12 +24,12 @@ export async function activePlan(db, id) {
   return ORDER.indexOf(row?.plan) > 0 ? row.plan : null;
 }
 
-function page(plan, failed) {
+function page(plan, failed, google = false) {
   const content = plan
     ? `<p>Plan activo <strong>${plan.toUpperCase()}</strong>.</p><p>Consulta tu asignación de prueba. El mapa público conserva su vista Demo y la simulación de planes.</p>
        <form method="post" action="salir"><button type="submit">Cerrar sesión</button></form>`
     : `${failed ? '<p role="alert">No se pudo abrir una sesión con un plan activo.</p>' : ""}
-       <p>Entra con la cuenta de GitHub a la que se asignó un plan.</p><a href="ingreso">Continuar con GitHub</a>`;
+       ${google ? '<p>Entra con la cuenta de Google a la que se asignó tu plan.</p><p><a href="google">Continuar con Google</a></p><p class="meta">¿Tu plan está ligado a GitHub? <a href="ingreso">Entrar con GitHub</a></p>' : '<p>Entra con la cuenta de GitHub a la que se asignó un plan.</p><a href="ingreso">Continuar con GitHub</a>'}`;
   return new Response(`<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>Cuenta · DOMINUS</title><link rel="stylesheet" href="/admin/huella/huella.css"></head><body><header><a href="/">Mapa</a></header><main><section class="panel"><h1>Mi cuenta DOMINUS</h1>${content}</section></main></body></html>`,
     { headers: { ...headers, "Content-Type": "text/html; charset=utf-8" } });
 }
@@ -37,15 +38,19 @@ export async function servePlans(request, url, env, authRoot) {
   if (!configured(url, env) || !env.OSINT_PLANS_DB) return Response.json({ error: "Acceso a planes sin configurar." }, { status: 503, headers });
   const route = url.pathname.slice("/cuenta/".length);
   if (route === "ingreso" && request.method === "GET") return begin(url, env, authRoot, "planes");
+  if (route === "google" && request.method === "GET") return googleConfigurado(env) ? iniciarGoogle(url, env) : Response.json({ error: "Inicio con Google sin configurar." }, { status: 503, headers });
+  if (route === "google/callback" && request.method === "GET" && googleConfigurado(env)) return completarGoogle(request, url, env, (email) => planPorCorreo(env.OSINT_PLANS_DB, email, ORDER));
   if (route === "salir" && request.method === "POST" && request.headers.get("Origin") === url.origin) {
     const logout = signOut("planes");
     logout.headers.set("Location", "/cuenta/");
+    logout.headers.append("Set-Cookie", salirGoogle());
     return new Response(null, { status: 303, headers: logout.headers });
   }
   if (request.method !== "GET") return Response.json({ error: "Método inválido." }, { status: 405, headers });
   try {
-    const plan = await activePlan(env.OSINT_PLANS_DB, await sessionId(request, env, "planes"));
-    if (route === "") return page(plan, url.searchParams.get("estado") === "sin-acceso");
+    const plan = await activePlan(env.OSINT_PLANS_DB, await sessionId(request, env, "planes"))
+      || await planPorCorreo(env.OSINT_PLANS_DB, await correoSesion(request, env), ORDER);
+    if (route === "") return page(plan, url.searchParams.get("estado") === "sin-acceso", googleConfigurado(env));
     if (route === "sesion" || route === "permiso") {
       if (!plan) return Response.json({ error: "No hay un plan activo." }, { status: 403, headers });
       if (route === "sesion") return Response.json({ plan }, { headers });
