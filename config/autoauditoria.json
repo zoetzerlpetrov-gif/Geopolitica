@@ -659,6 +659,109 @@
    "check": "youtube_nocookie",
    "mejora": "Cambiar reproductores a youtube-nocookie.",
    "prioridad": "baja"
+  },
+  {
+   "id": "vig_monitoreo",
+   "marco": "iso27001",
+   "ref": "A.8.16",
+   "titulo": "Monitoreo de actividades (vigía continuo)",
+   "tipo": "auto",
+   "check": "vigia_seguridad",
+   "mejora": "Agregar CLOUDFLARE_VIGIA_TOKEN y CLOUDFLARE_ZONE_ID para que el vigía lea la analítica y pueda activar el modo de protección.",
+   "prioridad": "alta"
+  },
+  {
+   "id": "vig_nist_de",
+   "marco": "nist_csf",
+   "ref": "DE.CM-01",
+   "titulo": "Redes y servicios monitoreados para detectar eventos adversos",
+   "tipo": "auto",
+   "check": "vigia_seguridad",
+   "mejora": "Mantener el vigía y revisar los issues «🛡️ Vigía».",
+   "prioridad": "alta"
+  },
+  {
+   "id": "vig_nist_rs",
+   "marco": "nist_csf",
+   "ref": "RS.MI-01",
+   "titulo": "Contención automática de incidentes",
+   "tipo": "auto",
+   "check": "vigia_seguridad",
+   "mejora": "Dar al token del vigía el permiso Zone Settings: Edit para el modo under_attack.",
+   "prioridad": "media"
+  },
+  {
+   "id": "enc_pages",
+   "marco": "owasp_asvs",
+   "ref": "V14.4",
+   "titulo": "Encabezados de seguridad HTTP en el sitio",
+   "tipo": "auto",
+   "check": "encabezados_pages",
+   "mejora": "Tras 2 semanas sin reportes de CSP, cambiar Content-Security-Policy-Report-Only por Content-Security-Policy en _headers.",
+   "prioridad": "media"
+  },
+  {
+   "id": "pol_seg",
+   "marco": "iso27001",
+   "ref": "A.5.1 / A.6.8",
+   "titulo": "Política de seguridad y canal para reportar eventos",
+   "tipo": "auto",
+   "check": "politica_seguridad",
+   "mejora": "Publicar SECURITY.md y /.well-known/security.txt.",
+   "prioridad": "media"
+  },
+  {
+   "id": "cad_codeowners",
+   "marco": "cadena",
+   "ref": "OpenSSF Scorecard: Code-Review",
+   "titulo": "Revisión obligatoria de cambios sensibles (CODEOWNERS + protección de rama)",
+   "tipo": "auto",
+   "check": "codeowners",
+   "mejora": "Activar la protección de la rama main con revisión obligatoria de CODEOWNERS.",
+   "prioridad": "alta"
+  },
+  {
+   "id": "lfp_publico",
+   "marco": "lfpdppp",
+   "ref": "Art. 7 y 19 (seguridad de los datos)",
+   "titulo": "Sin datos personales en archivos públicos del repositorio",
+   "tipo": "auto",
+   "check": "datos_personales_publicos",
+   "mejora": "Mover cualquier dato personal a almacenamiento cifrado del navegador o a una base con control de acceso.",
+   "prioridad": "alta"
+  },
+  {
+   "id": "acc_admin",
+   "marco": "iso27001",
+   "ref": "A.8.3",
+   "titulo": "Páginas de administración protegidas con inicio de sesión en el servidor",
+   "tipo": "manual",
+   "estado": "no_cumple",
+   "evidencia": "Las páginas de Admin se publican en el sitio público y solo se ocultan en el menú del navegador.",
+   "mejora": "Con el sitio en dominusosint.com: Cloudflare Zero Trust → Access → aplicación para las rutas de Admin (correo o GitHub) y apagar GitHub Pages.",
+   "prioridad": "alta"
+  },
+  {
+   "id": "acc_2fa",
+   "marco": "cis",
+   "ref": "6.5",
+   "titulo": "Doble factor resistente a phishing en GitHub, Cloudflare, Google, Supabase y Mercado Pago",
+   "tipo": "manual",
+   "estado": "sin_evaluar",
+   "evidencia": "Se configura en cada cuenta; no se puede verificar desde el repositorio.",
+   "mejora": "Usar llaves de seguridad o passkeys en todas las cuentas y guardar los códigos de recuperación fuera de línea.",
+   "prioridad": "alta"
+  },
+  {
+   "id": "acc_rama",
+   "marco": "cadena",
+   "ref": "OpenSSF Scorecard: Branch-Protection",
+   "titulo": "Protección de la rama main (PR obligatoria, pruebas y CodeQL en verde, sin force-push)",
+   "tipo": "manual",
+   "estado": "sin_evaluar",
+   "evidencia": "El token de Actions no puede leer la protección de rama; se verifica en Settings → Branches.",
+   "mejora": "Settings → Rules → Rulesets: main con PR obligatoria, checks «pruebas» y CodeQL, sin borrado ni force-push.",
+   "prioridad": "alta"
   }
  ],
  "_nota_linea_base": "50 inserciones revisadas a mano el 2026-10-29: insertan números, constantes o HTML ya armado con esc(). Si el conteo sube, revisar las nuevas y actualizar este número. 2026-11-11: revisadas a mano 14 nuevas (grafoscopia.js, dibujo.js, conducta.js, identidad.js, herramientas.js, cartera.js, app.js): solo números, textos fijos del código o HTML ya escapado por aHTML/dictamenHTML/informeHTML.",

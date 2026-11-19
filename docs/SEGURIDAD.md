@@ -83,3 +83,36 @@ En el sitio actual, el bloqueo por plan ocurre en el navegador. Alguien con cono
 ## Cambio de alcance: edición web
 
 Se retiraron los componentes autohospedados de Fases 3/4. Sus controles anteriores no se aplican al modo navegador ni se presentan como activos. Los archivos y las declaraciones del navegador no constituyen evidencia autenticada. Los respaldos cifrados protegen la copia descargada; no el almacenamiento persistente del sitio. La revisión histórica anterior no constituye certificación ni prueba de penetración de esta edición.
+
+## 5. Blindaje ante un compromiso de GitHub o Cloudflare (noviembre de 2026)
+
+### Qué se puede y qué no se puede proteger
+
+- **El código es público.** Cualquiera puede leer las herramientas del menú Admin (DOMINUS OPS, Caja del analista…). Eso no es un riesgo por sí mismo: el valor está en los datos de los clientes, no en el código.
+- **Los datos de clientes nunca van al repositorio.** Viven en el navegador cifrados (AES-GCM, PBKDF2 de 600,000 iteraciones), en Supabase con reglas de acceso por fila (RLS) o en la D1 del Worker con sesión de administración. Si alguien toma el control de GitHub, no encuentra datos de clientes.
+- **Lo que un atacante sí podría hacer con GitHub:** cambiar el código para robar datos la próxima vez que alguien abra el sitio. Defensas:
+  1. Protección de la rama `main`: PR obligatoria, «pruebas» y CodeQL en verde, sin force-push, revisión de CODEOWNERS.
+  2. Doble factor con llave de seguridad o passkey; códigos de recuperación fuera de línea.
+  3. El vigía avisa de commits en `main` de autores no permitidos y de diferencias entre el sitio publicado y el repositorio.
+  4. CSP (`_headers`): limita a qué dominios puede mandar datos una página. Hoy está en modo de reporte; se vuelve obligatoria después de revisar los reportes.
+- **Lo que un atacante podría hacer con Cloudflare:** cambiar el DNS o el Worker. Defensas: doble factor con llave, tokens separados y de mínimo privilegio (uno para Pages y R2, otro para el vigía), notificaciones de inicio de sesión y del registro de auditoría, y bloqueo del dominio en el registrador.
+- **Admin oculto no es Admin protegido.** El menú Admin solo se oculta en el navegador. Para protegerlo de verdad: Cloudflare Zero Trust → Access con inicio de sesión para las rutas de Admin en `dominusosint.com`, y apagar GitHub Pages cuando el dominio funcione.
+
+### Vigía de seguridad (`tools/seguridad/vigia.py`, cada 10 minutos)
+
+| Revisa | Señal | Acción |
+|---|---|---|
+| Sitios publicados | Sin respuesta; index.html distinto al del repositorio en 3 corridas | Issue «🛡️ Vigía» |
+| Cloudflare (analítica) | Tráfico ≥ 5 veces el promedio y ≥ 3,000 solicitudes en 15 min; ≥ 300 eventos de firewall; ≥ 20 % de errores 5xx | **Modo de protección**: nivel de seguridad «under_attack» y issue |
+| GitHub | Commits en `main` de autores no permitidos; secretos expuestos | Issue |
+
+El modo de protección se retira solo tras 60 minutos sin señales. El estado se ve en el Centro de control. Nunca se publican direcciones IP: solo países, ASN y reglas, en totales.
+
+Secretos que necesita: `CLOUDFLARE_VIGIA_TOKEN` (Zone · Analytics · Read y Zone · Zone Settings · Edit, solo para la zona dominusosint.com) y `CLOUDFLARE_ZONE_ID`.
+
+### Otros cambios
+
+- `_headers` (Cloudflare Pages): HSTS, nosniff, `frame-ancestors 'self'`, Referrer-Policy, Permissions-Policy y CSP completa en modo de reporte.
+- `SECURITY.md` y `/.well-known/security.txt` (RFC 9116): cómo reportar vulnerabilidades.
+- `.github/CODEOWNERS`: flujos, Workers, configuración y seguridad requieren revisión de la cuenta dueña.
+- Autoauditoría: 10 controles nuevos (monitoreo, contención, encabezados, política, CODEOWNERS, datos personales en archivos públicos, Admin protegido, doble factor, protección de rama) y detección de llaves de Mercado Pago, Cloudflare y Supabase.
