@@ -9,6 +9,21 @@ const PDFJS_WORKER = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.
 const TESSERACT = "https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js";
 
 // ------------------------------------------------------------------ lectura de archivos
+/** XML de Word → texto plano para analizar (nunca se inserta como HTML). Recorre el texto carácter por carácter: todo lo
+ *  que está entre «<» y «>» se descarta, así que no puede quedar ninguna etiqueta; las entidades se decodifican al final
+ *  en una sola pasada y nunca producen «<» ni «>». */
+export function textoDeXml(xml) {
+  const conSaltos = String(xml).split("</w:p>").join("\n").split("<w:tab/>").join("\t");
+  let out = "", dentro = false;
+  for (const ch of conSaltos) {
+    if (ch === "<") dentro = true;
+    else if (ch === ">") dentro = false;
+    else if (!dentro) out += ch;
+  }
+  const ENT = { amp: "&", lt: " ", gt: " ", quot: '"', apos: "'" };
+  return out.replace(/&(amp|lt|gt|quot|apos);/g, (_, e) => ENT[e]);
+}
+
 /** Lee un .docx (ZIP) sin bibliotecas: busca word/document.xml y lo descomprime con DecompressionStream. */
 export async function textoDocx(buffer) {
   const b = new Uint8Array(buffer), dv = new DataView(b.buffer, b.byteOffset, b.byteLength);
@@ -25,10 +40,7 @@ export async function textoDocx(buffer) {
       const ini = local + 30 + dv.getUint16(local + 26, true) + dv.getUint16(local + 28, true);
       const datos = b.subarray(ini, ini + tam);
       const xml = metodo === 0 ? dec.decode(datos) : await new Response(new Blob([datos]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).text();
-      // Texto plano para analizar (nunca se inserta como HTML): se quitan las etiquetas, las entidades se decodifican en
-      // una sola pasada y se eliminan los signos < y > que pudieran quedar.
-      const ENT = { amp: "&", lt: " ", gt: " ", quot: '"', apos: "'" };
-      return xml.replace(/<w:tab\/>/g, "\t").replace(/<\/w:p>/g, "\n").replace(/<[^>]*>/g, "").replace(/&(amp|lt|gt|quot|apos);/g, (_, e) => ENT[e]).replace(/[<>]/g, " ");
+      return textoDeXml(xml);
     }
     p += 46 + lnom + lext + lcom;
   }
