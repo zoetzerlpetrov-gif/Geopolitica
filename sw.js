@@ -56,7 +56,10 @@ async function networkFirst(req, nombre, opciones) {
     const res = await (opciones ? fetch(req.url, opciones) : fetch(req));
     // Cloudflare redirige «/x.html» → «/x» (y las páginas de Admin a «/ops/x»). Una respuesta ya redirigida no se puede
     // entregar a una navegación (el navegador da ERR_FAILED): se devuelve la redirección para que el navegador la siga.
-    if (res.redirected) return Response.redirect(res.url, 302);
+    if (res.redirected) {
+      const destino = new URL(res.url);
+      return destino.origin === self.location.origin ? Response.redirect(destino.href, 302) : Response.error();
+    }
     if (res.ok) cache.put(stripQuery(req.url), res.clone());
     return res;
   } catch (e) {

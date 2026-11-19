@@ -15,7 +15,8 @@ const NOMBRE = { verde: "Verde", amarillo: "Amarillo", naranja: "Naranja", rojo:
 
 const vacio = () => ({ bitacora: [], hechos: {}, completas: {}, faseActual: "f0", escenarios: {}, perfiles: {}, integrantes: {}, perfilesPropios: [], destinos: {}, pace: {} });
 /** Perfiles de la plantilla más los que agregó la familia (estos solo viven en este navegador y en el respaldo cifrado). */
-const todosPerfiles = () => [...P.perfiles, ...(E.perfilesPropios || [])];
+const ID_SEGURO = /^propio_[a-z0-9]{1,16}$/;
+const todosPerfiles = () => [...P.perfiles, ...(E.perfilesPropios || []).filter((x) => ID_SEGURO.test(String(x?.id)) && Array.isArray(x.checklist))];
 const integrantesDe = (id) => String(E.integrantes?.[id] || "").split("\n").map((x) => x.trim()).filter(Boolean);
 function leer() { try { return { ...vacio(), ...JSON.parse(localStorage.getItem(CLAVE) || "{}") }; } catch { return vacio(); } }
 let E = leer(), P = null;
@@ -118,10 +119,10 @@ function pintarPerfiles() {
     const a = avance(p.checklist, E.hechos, `${p.id}.`), propio = !P.perfiles.includes(p), gente = integrantesDe(p.id);
     return `<details class="cf-card" open><summary>${esc(p.nombre)} <span class="meta">${a.hechos}/${a.total} · ${gente.length || E.perfiles[p.id] || 0} integrante(s)${propio ? " · perfil propio" : ""}</span></summary>
       <label class="cf-num">Integrantes de este perfil: uno por renglón, con apodo o iniciales (solo en este navegador)
-        <textarea data-integrantes="${p.id}" rows="2" maxlength="400" autocomplete="off" placeholder="Ej.: Abuela M.&#10;Abuelo J.">${esc(E.integrantes?.[p.id] || "")}</textarea></label>
+        <textarea data-integrantes="${esc(p.id)}" rows="2" maxlength="400" autocomplete="off" placeholder="Ej.: Abuela M.&#10;Abuelo J.">${esc(E.integrantes?.[p.id] || "")}</textarea></label>
       ${gente.length ? `<p class="cf-gente">${gente.map((g) => `<span class="cf-chip">${esc(g)}</span>`).join(" ")}</p>` : ""}
       ${p.checklist.map((i) => casilla(`${p.id}.${i.id}`, i.texto)).join("")}
-      ${propio ? `<p><button type="button" data-quitar-perfil="${p.id}">Quitar este perfil propio</button></p>` : ""}</details>`;
+      ${propio ? `<p><button type="button" data-quitar-perfil="${esc(p.id)}">Quitar este perfil propio</button></p>` : ""}</details>`;
   }).join("") + P.checklists_generales.map((c) => `<details class="cf-card"><summary>${esc(c.nombre)} <span class="meta">${avance(c.checklist, E.hechos, `${c.id}.`).pct} %</span></summary>${c.checklist.map((i) => casilla(`${c.id}.${i.id}`, i.texto)).join("")}</details>`).join("");
 }
 function agregarPerfil(e) {
