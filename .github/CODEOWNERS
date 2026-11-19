@@ -1,0 +1,6 @@
+# Cambios en flujos, Workers, configuración y seguridad requieren revisión de la cuenta dueña (con protección de rama).
+.github/            @zoetzerlpetrov-gif
+cloudflare/         @zoetzerlpetrov-gif
+tools/seguridad/    @zoetzerlpetrov-gif
+config/             @zoetzerlpetrov-gif
+SECURITY.md         @zoetzerlpetrov-gif

@@ -47,7 +47,7 @@ def r(estado, detalle):
 
 
 # ------------------------------------------------------------------ verificaciones automáticas
-PATRONES_SECRETO = re.compile(r"(AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|ghp_[0-9A-Za-z]{36}|github_pat_[0-9A-Za-z_]{40,}|sk-[A-Za-z0-9]{32,}"
+PATRONES_SECRETO = re.compile(r"(APP_USR-\d{10,}-|cfut_[0-9A-Za-z]{30,}|sb_secret_[0-9A-Za-z_-]{20,}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z_-]{35}|ghp_[0-9A-Za-z]{36}|github_pat_[0-9A-Za-z_]{40,}|sk-[A-Za-z0-9]{32,}"
                               r"|xox[bp]-[0-9A-Za-z-]{10,}|-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----)")
 
 
@@ -307,7 +307,58 @@ def procesos_publican(cfg):
     return r(est, f"Revisión del {str(res.get('fecha_utc'))[:10]}: " + (f"con atraso o falla: {', '.join(malos[:6])}." if malos else "todos los procesos y datos al día."))
 
 
-VERIFICACIONES = {f.__name__: f for f in (secretos, codigo_seguro, inyeccion, actions_inyeccion, acciones_fijadas, permisos_workflows, dependabot, codeql,
+def politica_seguridad(cfg):
+    falta = [f for f in ("SECURITY.md", ".well-known/security.txt") if not existe(f)]
+    if not falta:
+        return r("cumple", "SECURITY.md (cómo reportar vulnerabilidades) y /.well-known/security.txt (RFC 9116) publicados.")
+    return r("no_cumple" if len(falta) == 2 else "parcial", f"Falta: {', '.join(falta)}.")
+
+
+def encabezados_pages(cfg):
+    if not existe("_headers"):
+        return r("no_cumple", "No hay _headers para Cloudflare Pages (HSTS, nosniff, frame-ancestors, CSP).")
+    t = leer("_headers")
+    req = {"Strict-Transport-Security": "HSTS", "X-Content-Type-Options": "nosniff", "frame-ancestors": "anti-clickjacking", "Referrer-Policy": "Referrer-Policy"}
+    falta = [v for k, v in req.items() if k not in t]
+    if falta:
+        return r("parcial", f"_headers existe pero falta: {', '.join(falta)}.")
+    if "Content-Security-Policy-Report-Only" in t and "default-src" not in t.split("Content-Security-Policy-Report-Only")[0]:
+        return r("parcial", "Encabezados de seguridad en Cloudflare Pages; la CSP completa está en modo de solo reporte (falta pasarla a obligatoria tras revisar los reportes).")
+    return r("cumple", "Encabezados de seguridad y CSP obligatoria en Cloudflare Pages.")
+
+
+def vigia_seguridad(cfg):
+    if not existe(".github/workflows/vigia.yml") or not existe("tools/seguridad/vigia.py"):
+        return r("no_cumple", "No hay monitoreo continuo de seguridad.")
+    return r("cumple", "Vigía cada 10 minutos: disponibilidad e integridad, analítica de Cloudflare, commits y alertas de GitHub; modo de protección automático (under_attack) y aviso por issue.")
+
+
+def codeowners(cfg):
+    return r("cumple", "CODEOWNERS cubre flujos, Workers, configuración y seguridad.") if existe(".github/CODEOWNERS") else r("no_cumple", "Sin CODEOWNERS.")
+
+
+DATOS_PERSONALES = {"CURP": re.compile(r"\b[A-Z][AEIOUX][A-Z]{2}\d{6}[HM][A-Z]{5}[A-Z0-9]\d\b"),
+                    "teléfono": re.compile(r"(?:\+52[\s-]?\d{2}[\s-]?\d{4}[\s-]?\d{4}|(?<![\w.])\(?\d{2,3}\)?[\s-]\d{3,4}[\s-]\d{4}(?![\w.]))"),
+                    "pasaporte": re.compile(r"\b[A-Z]\d{8}\b")}
+
+
+def datos_personales_publicos(cfg):
+    """Busca datos personales en la configuración y plantillas que se publican (no en los datos de fuentes oficiales)."""
+    hall = []
+    for f in archivos(".json"):
+        if not (f.startswith("config/") or f.startswith("data/continuidad/")):
+            continue
+        t = leer(f)
+        for nombre, pat in DATOS_PERSONALES.items():
+            # Los números de ejemplo de las plantillas (6 ceros seguidos o más, p. ej. «33 0000 0001») no cuentan.
+            if any("000000" not in re.sub(r"\D", "", m.group(0)) for m in pat.finditer(t)):
+                hall.append(f"{f} ({nombre})")
+    if hall:
+        return r("no_cumple", "Posibles datos personales en archivos públicos: " + ", ".join(hall[:8]))
+    return r("cumple", "Sin CURP, teléfonos ni pasaportes en la configuración y plantillas publicadas.")
+
+
+VERIFICACIONES = {f.__name__: f for f in (politica_seguridad, encabezados_pages, vigia_seguridad, codeowners, datos_personales_publicos, secretos, codigo_seguro, inyeccion, actions_inyeccion, acciones_fijadas, permisos_workflows, dependabot, codeql,
                                           dependencias_fijadas, solo_https, rastreadores, youtube_nocookie, csp_sitio, encabezados_backend,
                                           backend_autenticacion, cookies, xml_seguro, bitacora, worker_origenes, plan_en_servidor, aviso_privacidad,
                                           plan_incidentes, respaldo, inventario_fuentes, licencias_fuentes, idioma_paginas, pruebas, procesos_publican)}

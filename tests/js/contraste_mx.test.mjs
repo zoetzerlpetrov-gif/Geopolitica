@@ -38,3 +38,16 @@ test("petróleo a Cuba según Pemex", async () => {
   assert.match(svgPemexCuba(d.periodos), /<svg/);
   assert.match(htmlPemexCuba(null), /Aún no hay datos/);
 });
+
+test("desvíos documentados vs programas sociales", async () => {
+  const { htmlDesvios, equivalencias } = await import("../../js/contraste_mx.js");
+  const { readFileSync } = await import("node:fs");
+  const cfg = JSON.parse(readFileSync(new URL("../../config/desvios_casos.json", import.meta.url)));
+  const eq = equivalencias(2700000000, cfg.programas);
+  assert.equal(eq.find((e) => e.id === "pension_adultos").n, 70312);   // 2,700 millones / 38,400 al año
+  assert.equal(eq.find((e) => e.id === "beca_benito_juarez").n, 284210);
+  const h = htmlDesvios(cfg);
+  assert.match(h, /Señalado en prensa, sin proceso/);
+  assert.match(h, /sin monto documentado/);
+  for (const c of cfg.casos) for (const m of c.montos) { assert.ok(cfg.estados[m.estado], m.estado); assert.match(m.url, /^https:\/\//); }
+});

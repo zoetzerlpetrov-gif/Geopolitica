@@ -18,6 +18,9 @@ export const REDES = {
   facebook: { nombre: "Facebook", url: (t) => `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent((t.match(/https?:\/\/\S+/) || [""])[0])}` },
   telegram: { nombre: "Telegram", url: (t) => `https://t.me/share/url?url=${encodeURIComponent((t.match(/https?:\/\/\S+/) || [""])[0])}&text=${encodeURIComponent(t.replace(/https?:\/\/\S+/, "").trim())}` },
   whatsapp: { nombre: "WhatsApp", url: (t) => `https://wa.me/?text=${encodeURIComponent(t)}` },
+  // Instagram y TikTok no aceptan texto por enlace: se copia el texto y se abre la página para subir el contenido.
+  instagram: { nombre: "Instagram", copiar: true, url: () => "https://www.instagram.com/" },
+  tiktok: { nombre: "TikTok", copiar: true, url: () => "https://www.tiktok.com/upload" },
 };
 
 /** Caracteres como los cuenta X (cada enlace vale 23). */
@@ -176,7 +179,8 @@ export function htmlLinkedin(lp) {
     ${(lp.serie || []).map((s, i) => `<details class="tarjeta"><summary>${i + 1}. ${esc(s.titulo)} <span class="chip">${esc(s.formato)}</span></summary>
       <p><b>Primera línea:</b> ${esc(s.gancho)}</p><ol>${(s.estructura || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ol>
       <p><b>Cierre:</b> ${esc(s.cierre)}</p><p class="meta">Qué mostrar: ${esc(s.muestra)}</p>
-      <div class="barra"><button class="mk-copiar" data-t="${esc(borradorSerie(s))}">📋 Copiar borrador</button></div></details>`).join("")}`;
+      ${s.texto ? `<textarea class="mk-texto" style="min-height:260px" aria-label="Publicación lista">${esc(s.texto)}</textarea><div class="meta">${s.texto.length} caracteres (LinkedIn corta en «ver más» cerca de 1,300). Revisa que el dato siga vigente antes de publicar.</div>` : ""}
+      <div class="barra"><button class="mk-copiar" data-t="${esc(s.texto || borradorSerie(s))}">📋 ${s.texto ? "Copiar publicación" : "Copiar borrador"}</button></div></details>`).join("")}`;
 }
 
 export const urlEditarPlan = () => `https://github.com/${REPO}/edit/main/config/marketing.json`;
@@ -203,7 +207,10 @@ export async function iniciar(doc = document) {
     const b = e.target.closest("button"); if (!b) return;
     const caja = b.closest(".borrador"), id = caja.dataset.id, texto = caja.querySelector("textarea").value, red = $("mk-red").value;
     if (b.dataset.acc === "copiar") { try { await navigator.clipboard.writeText(texto); b.textContent = "✔️ Copiado"; } catch { caja.querySelector("textarea").select(); } return; }
-    if (b.dataset.acc === "abrir") { window.open(REDES[red].url(texto), "_blank", "noopener"); return; }
+    if (b.dataset.acc === "abrir") {
+      if (REDES[red].copiar) { try { await navigator.clipboard.writeText(texto); } catch { /* */ } $("mk-bor-estado").textContent = `Texto copiado: pégalo como descripción en ${REDES[red].nombre} (la imagen o el video se suben desde la app).`; }
+      window.open(REDES[red].url(texto), "_blank", "noopener"); return;
+    }
     if (b.dataset.acc === "publicado") { est.publicados[id] = { fecha: new Date().toISOString().slice(0, 10), red }; delete est.descartados[id]; }
     if (b.dataset.acc === "descartar") { est.descartados[id] = { fecha: new Date().toISOString().slice(0, 10) }; delete est.publicados[id]; }
     guardar(); pintarBorradores(); pintarTablero();

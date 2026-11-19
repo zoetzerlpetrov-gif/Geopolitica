@@ -176,6 +176,37 @@ export async function iniciar(doc = document) {
   });
   $("pt-subir-logo").href = urlSubirLogo();
   $("pt-descartar").addEventListener("click", () => { try { localStorage.removeItem(CLAVE_BORRADOR); } catch { /* */ } cfg = structuredClone(original); $("pt-borrador").hidden = true; pintar(); });
+  // Contrato: borrador desde el formulario y análisis de un archivo (todo en el navegador).
+  let datosContrato = null;
+  $("pt-borrador-contrato").addEventListener("click", async () => {
+    const { borradorContrato } = await import("./contrato_patrocinio.js");
+    const html = borradorContrato(leerForm());
+    const a = doc.createElement("a"); a.href = URL.createObjectURL(new Blob([html], { type: "application/msword" })); a.download = `contrato-${slug($("pt-marca").value) || "patrocinio"}.doc`; a.click();
+    const w = window.open("", "_blank"); if (w) { w.document.write(html); w.document.close(); }
+    $("pt-contrato-estado").textContent = "Borrador descargado (.doc, se abre en Word) y abierto en otra pestaña (Ctrl+P → Guardar como PDF).";
+  });
+  $("pt-contrato-archivo").addEventListener("change", async (e) => {
+    const f = e.target.files?.[0]; if (!f) return;
+    const est = (t) => { $("pt-contrato-estado").textContent = t; };
+    est("Leyendo el contrato en este navegador…"); $("pt-contrato-resultado").innerHTML = "";
+    try {
+      const C = await import("./contrato_patrocinio.js");
+      const { texto, via } = await C.textoArchivo(f, est);
+      if (texto.replace(/\s/g, "").length < 200) { est("Casi no se pudo leer texto. Si es un escaneo de baja calidad, prueba con una foto más nítida o un PDF con texto."); return; }
+      const a = C.analizar(texto);
+      $("pt-contrato-resultado").innerHTML = C.htmlAnalisis(a, via);
+      datosContrato = a.datos; $("pt-contrato-usar").hidden = !(a.datos.desde || a.datos.contrato);
+      est(`Análisis listo: ${f.name}.`);
+    } catch (err) { est(`⛔ ${err.message}`); }
+    e.target.value = "";
+  });
+  $("pt-contrato-usar").addEventListener("click", () => {
+    if (!datosContrato) return;
+    if (datosContrato.desde) $("pt-desde").value = datosContrato.desde;
+    if (datosContrato.hasta) $("pt-hasta").value = datosContrato.hasta;
+    if (datosContrato.contrato) $("pt-contrato").value = datosContrato.contrato;
+    $("pt-form").open = true; vista();
+  });
   pintar(); llenarForm({ posicion: "pausa" });
 }
 

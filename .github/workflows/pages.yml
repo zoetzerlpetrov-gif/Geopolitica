@@ -41,7 +41,7 @@ jobs:
           ESRI_API_KEY: ${{ secrets.ESRI_API_KEY }}
         run: |
           mkdir -p _site
-          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html legal.html _redirects finanzas.html cisnes.html clima-impactos.html continuidad-familiar.html sw.js css js vendor config data schema _site/
+          cp -r index.html analista.html fase2.html fase4.html operaciones.html colaboracion.html fase5.html transporte.html laboratorio.html plataforma.html camaras.html taxonomia.html reporte.html noticiero.html marco.html narrativas.html corporativo.html herramientas.html ops.html inmuebles.html analitica.html matriz.html warroom.html cartera.html conducta.html identidad.html tutorial.html planes.html estado.html soporte.html economia.html privacidad.html terminos.html comentarios.html patrocinios.html marketing.html legal.html entidades.html apariencia.html portafolio.html demo.html assets _redirects _headers SECURITY.md .well-known finanzas.html cisnes.html clima-impactos.html continuidad-familiar.html sw.js css js vendor config data schema _site/
           cp SOURCES.md _site/ 2>/dev/null || true
           touch _site/.nojekyll
           # Llave pública de Esri para la imagen satelital nítida (restringida al dominio en ArcGIS).
@@ -78,6 +78,16 @@ jobs:
           mkdir -p _site/data/finanzas
           if git fetch --depth 1 origin datos-finanzas 2>/dev/null; then
             git archive FETCH_HEAD finanzas | tar -x -C /tmp && cp /tmp/finanzas/*.json _site/data/finanzas/
+          fi
+          # Portafolio (portafolio.html, solo admin): rama "datos-portafolio".
+          mkdir -p _site/data/portafolio
+          if git fetch --depth 1 origin datos-portafolio 2>/dev/null; then
+            git archive FETCH_HEAD portafolio | tar -x -C /tmp && cp /tmp/portafolio/*.json _site/data/portafolio/
+          fi
+          # Vigía de seguridad (estado.html, solo admin): rama "datos-vigia".
+          mkdir -p _site/data/vigia
+          if git fetch --depth 1 origin datos-vigia 2>/dev/null; then
+            git show FETCH_HEAD:vigia/estado.json > _site/data/vigia/estado.json 2>/dev/null || true
           fi
           # Respuestas propuestas a comentarios de YouTube (comentarios.html, solo admin): rama "datos-comentarios".
           # Solo borradores.json (identificadores y texto propuesto); los guiones no se publican.
@@ -176,7 +186,8 @@ jobs:
         continue-on-error: true
         timeout-minutes: 15
         env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          # Token propio y de mínimo privilegio para Pages y R2 (CLOUDFLARE_PAGES_TOKEN); si no existe, el general.
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_PAGES_TOKEN || secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           CF_PROYECTO: dominus-osint
           CF_R2: dominus-grandes

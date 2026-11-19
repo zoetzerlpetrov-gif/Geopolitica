@@ -1,0 +1,20 @@
+{
+  "_instrucciones": "Entidades que vigila el Monitor de entidades (entidades.html, solo admin). Para cada una: nombres con los que aparece en documentos oficiales (alias), LEI de GLEIF si tiene y CIK de la SEC si reporta allá. Solo personas morales y entes públicos: no se agregan personas físicas. Agrega una entidad copiando un bloque.",
+  "entidades": [
+    {"id": "pemex", "nombre": "Petróleos Mexicanos", "tipo": "Empresa pública del Estado", "alias": ["Petróleos Mexicanos", "PEMEX"], "lei": "549300CAZKPF4HKMPX17", "cik": "932782"},
+    {"id": "pemex_cuba", "nombre": "Servicios Logísticos y Recursos Estratégicos (antes Gasolinas Bienestar)", "tipo": "Filial de Pemex", "alias": ["Gasolinas Bienestar", "Servicios Logísticos Integrales Mumiya", "Servicios Logísticos y Recursos Estratégicos"], "cik": "932782"},
+    {"id": "pmi", "nombre": "P.M.I. Comercio Internacional", "tipo": "Filial de Pemex", "alias": ["P.M.I. Comercio Internacional", "PMI Comercio Internacional"], "lei": "549300THJR3UCGMG0F73"},
+    {"id": "cfe", "nombre": "Comisión Federal de Electricidad", "tipo": "Empresa pública del Estado", "alias": ["Comisión Federal de Electricidad", "CFE"], "lei": "4469000001BFPONMPF32"},
+    {"id": "cfenergia", "nombre": "CFEnergía", "tipo": "Filial de CFE", "alias": ["CFEnergía", "CFE Energía"], "lei": "4469000001BN53P6YH45"},
+    {"id": "cfe_internet", "nombre": "CFE Telecomunicaciones e Internet para Todos", "tipo": "Filial de CFE", "alias": ["CFE Telecomunicaciones e Internet para Todos", "Internet para Todos"]},
+    {"id": "segalmex", "nombre": "Seguridad Alimentaria Mexicana (Segalmex)", "tipo": "Organismo descentralizado", "alias": ["Seguridad Alimentaria Mexicana", "SEGALMEX", "Alimentación para el Bienestar"]},
+    {"id": "diconsa", "nombre": "Diconsa / Alimentación para el Bienestar", "tipo": "Empresa de participación estatal", "alias": ["Diconsa", "Liconsa", "Leche para el Bienestar"]},
+    {"id": "birmex", "nombre": "Laboratorios de Biológicos y Reactivos de México (Birmex)", "tipo": "Empresa de participación estatal", "alias": ["Laboratorios de Biológicos y Reactivos de México", "Birmex"]},
+    {"id": "tren_maya", "nombre": "Tren Maya", "tipo": "Empresa de participación estatal", "alias": ["Tren Maya"]},
+    {"id": "fit", "nombre": "Ferrocarril del Istmo de Tehuantepec", "tipo": "Empresa de participación estatal", "alias": ["Ferrocarril del Istmo de Tehuantepec", "Corredor Interoceánico"]},
+    {"id": "aifa", "nombre": "Aeropuerto Internacional Felipe Ángeles", "tipo": "Empresa de participación estatal", "alias": ["Aeropuerto Internacional Felipe Ángeles", "AIFA"]},
+    {"id": "mexicana", "nombre": "Aerolínea del Estado Mexicano (Mexicana de Aviación)", "tipo": "Empresa de participación estatal", "alias": ["Aerolínea del Estado Mexicano", "Mexicana de Aviación"]},
+    {"id": "banco_bienestar", "nombre": "Banco del Bienestar", "tipo": "Banca de desarrollo", "alias": ["Banco del Bienestar"]},
+    {"id": "nafin", "nombre": "Nacional Financiera", "tipo": "Banca de desarrollo", "alias": ["Nacional Financiera"], "lei": "549300T46KUP3OWN3O73"}
+  ]
+}

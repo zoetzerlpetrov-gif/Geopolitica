@@ -39,6 +39,7 @@
     tr.f-falla td:first-child { background: rgba(183,28,28,.18); } tr.f-atraso td:first-child, tr.f-aviso td:first-child { background: rgba(249,168,37,.25); } tr.f-ok td:first-child { background: rgba(46,125,50,.15); }
     .hist { display: flex; gap: 3px; flex-wrap: wrap; } .hist .dia { width: 16px; height: 22px; border-radius: 3px; display: inline-block; border: 1px solid var(--line); }
   </style>
+<script type="module" src="js/apariencia.js"></script>
 </head>
 <body>
   <header class="topbar">
@@ -60,6 +61,11 @@
       <div class="barra"><button type="button" id="es-vivo">🔄 Revisar ahora (en vivo)</button>
         <span class="meta">Últimos 30 días:</span><span class="hist" id="es-hist"></span></div></div>
 
+    <section class="panel" id="p-vigia">
+      <h2>🛡️ Vigía de seguridad (cada 10 minutos)</h2>
+      <div id="vigia"><p class="meta">Cargando…</p></div>
+      <style>.vg-linea{display:flex;gap:1px;margin:6px 0}.vg-linea i{flex:1;height:14px;border-radius:2px;background:#2e7d32}.vg-linea i.vg-alerta{background:#e07b00}.vg-linea i.vg-ataque{background:#c62828}</style>
+    </section>
     <section class="panel" id="p-procesos">
       <h2>Procesos automáticos (GitHub Actions)</h2>
       <p class="meta">🟢 terminó bien dentro de su límite · 🟡 pasó el límite o falló la última vez · 🔴 más del doble del límite o 3 fallas seguidas.
@@ -114,6 +120,7 @@
   <script type="module" src="js/bitacora.js"></script>
   <script type="module" src="js/estado.js"></script>
   <script type="module" src="js/autoauditoria.js"></script>
+  <script type="module" src="js/vigia_panel.js"></script>
   <script type="module" src="js/vista_enlaces.js"></script>
 </body>
 </html>
