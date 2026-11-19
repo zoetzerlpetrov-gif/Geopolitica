@@ -10,7 +10,7 @@ export function filtrar(cfg, q = "") {
     .filter((g) => g.items.length);
 }
 
-const enlace = (u) => (u === "SOURCES.md" ? "https://github.com/zoetzerlpetrov-gif/Geopolitica/blob/main/SOURCES.md" : safeUrl(u));
+const enlace = (u) => (u === "SOURCES.md" ? "fuentes.html" : safeUrl(u));
 
 export function htmlGrupos(grupos) {
   if (!grupos.length) return `<p class="mc-vacio">Nada coincide con la búsqueda.</p>`;

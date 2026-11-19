@@ -333,6 +333,774 @@
    "disparador": "Más de 2 semanas de faltas",
    "respuesta": "Educación en línea",
    "plan_b": "Inscripción local"
+  },
+  {
+   "id": "politico_eleccion_o_transicion_con_disturbios",
+   "categoria": "Político",
+   "escenario": "Elección o transición con disturbios",
+   "vigilar": "Calendario electoral, INE y medios",
+   "disparador": "Bloqueos o enfrentamientos en la ciudad durante la jornada o el conteo",
+   "respuesta": "Amarillo: reservas de agua y comida para 7 días y evitar salir",
+   "plan_b": "Naranja y traslado temporal a otra ciudad"
+  },
+  {
+   "id": "politico_estado_de_excepcion_o_suspension_de_gara",
+   "categoria": "Político",
+   "escenario": "Estado de excepción o suspensión de garantías",
+   "vigilar": "DOF y mensajes oficiales",
+   "disparador": "Decreto que restrinja tránsito, reunión o salida del país",
+   "respuesta": "Naranja: documentos listos y salida por la vía todavía abierta",
+   "plan_b": "Rojo: salida inmediata por tierra a un país vecino",
+   "referencia": "dof"
+  },
+  {
+   "id": "politico_expropiacion_o_congelamiento_de_bienes",
+   "categoria": "Político",
+   "escenario": "Expropiación o congelamiento de bienes",
+   "vigilar": "DOF, SHCP y notarías",
+   "disparador": "Iniciativa o decreto que afecte bienes o cuentas de la familia",
+   "respuesta": "Mover lo líquido a cuentas en el extranjero y respaldar escrituras",
+   "plan_b": "Asesoría legal en el destino",
+   "referencia": "dof"
+  },
+  {
+   "id": "politico_persecucion_por_opinion_o_actividad_prof",
+   "categoria": "Político",
+   "escenario": "Persecución por opinión o actividad profesional",
+   "vigilar": "Avisos de organizaciones de libertad de prensa",
+   "disparador": "Citatorio, auditoría o señalamiento público dirigido a la familia",
+   "respuesta": "Naranja: abogado y documentación de cada contacto",
+   "plan_b": "Rojo y solicitud de protección en el destino"
+  },
+  {
+   "id": "politico_cierre_de_embajadas_o_consulados",
+   "categoria": "Político",
+   "escenario": "Cierre de embajadas o consulados",
+   "vigilar": "Avisos de la SRE y de las embajadas del destino",
+   "disparador": "Suspensión de visas o de servicios consulares",
+   "respuesta": "Adelantar trámites y viajar con lo que ya está vigente",
+   "plan_b": "Ruta por un tercer país con consulado abierto",
+   "referencia": "avisos_viaje"
+  },
+  {
+   "id": "politico_sanciones_internacionales_al_pais",
+   "categoria": "Político",
+   "escenario": "Sanciones internacionales al país",
+   "vigilar": "Comunicados de EUA, UE y ONU",
+   "disparador": "Sanciones que afecten bancos, vuelos o tarjetas",
+   "respuesta": "Abrir cuentas en un banco del destino y tener tarjetas de dos redes",
+   "plan_b": "Efectivo en USD o EUR para 90 días"
+  },
+  {
+   "id": "financiero_corralito_o_limite_de_retiros",
+   "categoria": "Financiero",
+   "escenario": "Corralito o límite de retiros",
+   "vigilar": "Banxico, CNBV y medios financieros",
+   "disparador": "Límite oficial o de facto a retiros de efectivo",
+   "respuesta": "Usar cuentas en el extranjero y tarjetas internacionales",
+   "plan_b": "Efectivo guardado en dos lugares distintos",
+   "referencia": "tipo_cambio"
+  },
+  {
+   "id": "financiero_quiebra_o_intervencion_del_banco_princip",
+   "categoria": "Financiero",
+   "escenario": "Quiebra o intervención del banco principal",
+   "vigilar": "CNBV, IPAB y calificadoras",
+   "disparador": "Intervención, rebaja de calificación o retiro masivo",
+   "respuesta": "Repartir saldos bajo el límite del seguro de depósitos (IPAB)",
+   "plan_b": "Cuenta de respaldo en otro banco y otro país"
+  },
+  {
+   "id": "financiero_hiperinflacion_o_devaluacion_rapida",
+   "categoria": "Financiero",
+   "escenario": "Hiperinflación o devaluación rápida",
+   "vigilar": "Inflación mensual y tipo de cambio",
+   "disparador": "Inflación mensual mayor a 5 % o caída de 15 % del peso",
+   "respuesta": "Gastos fijos del destino cubiertos en moneda fuerte",
+   "plan_b": "Reducir gastos a lo esencial y adelantar la salida",
+   "referencia": "tipo_cambio"
+  },
+  {
+   "id": "financiero_perdida_del_ingreso_principal",
+   "categoria": "Financiero",
+   "escenario": "Pérdida del ingreso principal",
+   "vigilar": "Situación laboral de quien aporta",
+   "disparador": "Despido, cierre del negocio o incapacidad",
+   "respuesta": "Fondo de emergencia de 6 a 12 meses",
+   "plan_b": "Trabajo remoto o ingreso pasivo ya probado"
+  },
+  {
+   "id": "financiero_bloqueo_de_tarjetas_en_el_extranjero",
+   "categoria": "Financiero",
+   "escenario": "Bloqueo de tarjetas en el extranjero",
+   "vigilar": "Avisos del banco",
+   "disparador": "Tarjeta rechazada o bloqueada por fraude",
+   "respuesta": "Segunda tarjeta de otra red y otro banco",
+   "plan_b": "Transferencia internacional o efectivo de reserva"
+  },
+  {
+   "id": "financiero_fraude_o_robo_de_identidad_financiera",
+   "categoria": "Financiero",
+   "escenario": "Fraude o robo de identidad financiera",
+   "vigilar": "Alertas del banco y Buró de Crédito",
+   "disparador": "Cargo no reconocido o crédito abierto a nombre de la familia",
+   "respuesta": "Bloquear, denunciar y congelar el Buró",
+   "plan_b": "Cuenta nueva y cambio de credenciales"
+  },
+  {
+   "id": "seguridad_secuestro_virtual_o_extorsion_telefonica",
+   "categoria": "Seguridad",
+   "escenario": "Secuestro virtual o extorsión telefónica",
+   "vigilar": "Llamadas y mensajes sospechosos",
+   "disparador": "Llamada que dice tener a un familiar",
+   "respuesta": "Colgar, confirmar con la palabra clave y llamar al 089",
+   "plan_b": "Reunión en el punto acordado y denuncia"
+  },
+  {
+   "id": "seguridad_robo_con_violencia_en_casa",
+   "categoria": "Seguridad",
+   "escenario": "Robo con violencia en casa",
+   "vigilar": "Incidentes en la colonia",
+   "disparador": "Intrusión o intento de intrusión",
+   "respuesta": "Salir a la habitación segura y llamar al 911",
+   "plan_b": "Cambiar de domicilio temporalmente",
+   "referencia": "crimen"
+  },
+  {
+   "id": "seguridad_bloqueos_carreteros_o_narcobloqueos",
+   "categoria": "Seguridad",
+   "escenario": "Bloqueos carreteros o narcobloqueos",
+   "vigilar": "Redes oficiales de seguridad y Guardia Nacional",
+   "disparador": "Bloqueos en la ruta de salida",
+   "respuesta": "Permanecer en refugio y esperar la ventana segura",
+   "plan_b": "Ruta alterna o vuelo desde otra ciudad",
+   "referencia": "crimen"
+  },
+  {
+   "id": "seguridad_toque_de_queda_de_facto",
+   "categoria": "Seguridad",
+   "escenario": "Toque de queda de facto",
+   "vigilar": "Avisos de autoridades y vecinos",
+   "disparador": "Comercios y escuelas cerrados por violencia",
+   "respuesta": "Amarillo: no salir de noche y reservas para 7 días",
+   "plan_b": "Naranja y traslado",
+   "referencia": "crimen"
+  },
+  {
+   "id": "seguridad_vigilancia_o_seguimiento",
+   "categoria": "Seguridad",
+   "escenario": "Vigilancia o seguimiento",
+   "vigilar": "Personas o vehículos repetidos cerca de casa o trabajo",
+   "disparador": "Mismo vehículo visto 3 veces en una semana",
+   "respuesta": "Cambiar rutas y horarios y registrar lo observado",
+   "plan_b": "Denuncia y apoyo de seguridad privada"
+  },
+  {
+   "id": "seguridad_ataque_o_robo_en_el_destino",
+   "categoria": "Seguridad",
+   "escenario": "Ataque o robo en el destino",
+   "vigilar": "Avisos de viaje del destino",
+   "disparador": "Incidente a la familia en el destino",
+   "respuesta": "Policía local y consulado de México",
+   "plan_b": "Cambiar de ciudad dentro del destino",
+   "referencia": "avisos_viaje"
+  },
+  {
+   "id": "seguridad_desaparicion_de_un_integrante",
+   "categoria": "Seguridad",
+   "escenario": "Desaparición de un integrante",
+   "vigilar": "Contacto programado",
+   "disparador": "Sin contacto por 4 horas fuera de lo acordado",
+   "respuesta": "Activar el plan PACE y acudir al punto de reunión",
+   "plan_b": "Denuncia inmediata, sin esperar 72 horas"
+  },
+  {
+   "id": "ambiental_sismo_fuerte",
+   "categoria": "Ambiental",
+   "escenario": "Sismo fuerte",
+   "vigilar": "SASMEX y SSN",
+   "disparador": "Sismo mayor de 6 o daños en la vivienda",
+   "respuesta": "Salir, punto de reunión y revisar la casa",
+   "plan_b": "Refugio temporal y documentos de la mochila"
+  },
+  {
+   "id": "ambiental_inundacion",
+   "categoria": "Ambiental",
+   "escenario": "Inundación",
+   "vigilar": "Conagua, SMN y Protección Civil",
+   "disparador": "Alerta roja de lluvia o agua en la calle",
+   "respuesta": "Subir objetos de valor y salir antes de que crezca",
+   "plan_b": "Albergue o casa de un familiar en zona alta"
+  },
+  {
+   "id": "ambiental_incendio_forestal_o_humo",
+   "categoria": "Ambiental",
+   "escenario": "Incendio forestal o humo",
+   "vigilar": "Conafor y calidad del aire",
+   "disparador": "Fuego a menos de 10 km o aire muy dañino",
+   "respuesta": "Cubrebocas N95, cerrar ventanas y preparar la salida",
+   "plan_b": "Evacuar hacia el lado contrario al viento"
+  },
+  {
+   "id": "ambiental_erupcion_volcanica_o_ceniza",
+   "categoria": "Ambiental",
+   "escenario": "Erupción volcánica o ceniza",
+   "vigilar": "Cenapred y semáforo volcánico",
+   "disparador": "Semáforo amarillo fase 3 o caída de ceniza",
+   "respuesta": "Cubrir agua y alimentos y no conducir con ceniza",
+   "plan_b": "Salir de la zona de riesgo"
+  },
+  {
+   "id": "ambiental_sequia_y_corte_de_agua",
+   "categoria": "Ambiental",
+   "escenario": "Sequía y corte de agua",
+   "vigilar": "Conagua y organismo de agua local",
+   "disparador": "Tandeo de más de 3 días",
+   "respuesta": "Reserva de agua de 3 litros por persona por día",
+   "plan_b": "Traslado temporal a otra ciudad"
+  },
+  {
+   "id": "ambiental_frio_extremo_o_nevada",
+   "categoria": "Ambiental",
+   "escenario": "Frío extremo o nevada",
+   "vigilar": "SMN",
+   "disparador": "Temperaturas bajo cero varios días",
+   "respuesta": "Ropa térmica y calefacción segura",
+   "plan_b": "Hotel o casa con calefacción",
+   "referencia": "calor"
+  },
+  {
+   "id": "ambiental_tsunami_en_la_costa",
+   "categoria": "Ambiental",
+   "escenario": "Tsunami en la costa",
+   "vigilar": "Centro de Alerta de Tsunamis y SEMAR",
+   "disparador": "Sismo fuerte cerca de la costa o alerta oficial",
+   "respuesta": "Subir a zona alta a pie sin esperar",
+   "plan_b": "Permanecer en zona alta hasta el fin de la alerta"
+  },
+  {
+   "id": "ambiental_huracan_en_el_destino",
+   "categoria": "Ambiental",
+   "escenario": "Huracán en el destino",
+   "vigilar": "NHC y servicio meteorológico local",
+   "disparador": "Cono de pronóstico sobre el destino",
+   "respuesta": "Salir antes o refugio aprobado",
+   "plan_b": "Ciudad del interior del mismo país",
+   "referencia": "ciclones"
+  },
+  {
+   "id": "medico_infarto_o_evc_en_casa",
+   "categoria": "Médico",
+   "escenario": "Infarto o EVC en casa",
+   "vigilar": "Síntomas: dolor de pecho, cara caída, habla confusa",
+   "disparador": "Cualquier síntoma",
+   "respuesta": "Llamar al 911, aspirina solo si es infarto y el médico lo indica",
+   "plan_b": "Traslado al hospital con expediente"
+  },
+  {
+   "id": "medico_hospitalizacion_en_el_extranjero",
+   "categoria": "Médico",
+   "escenario": "Hospitalización en el extranjero",
+   "vigilar": "Póliza y red del seguro",
+   "disparador": "Ingreso hospitalario",
+   "respuesta": "Avisar a la aseguradora en 24 horas y pedir carta de garantía",
+   "plan_b": "Pago con tarjeta y reembolso posterior"
+  },
+  {
+   "id": "medico_falta_de_un_medicamento_cronico",
+   "categoria": "Médico",
+   "escenario": "Falta de un medicamento crónico",
+   "vigilar": "Inventario mensual de medicinas",
+   "disparador": "Menos de 30 días de reserva",
+   "respuesta": "Receta con nombre genérico y farmacia en el destino",
+   "plan_b": "Médico local y equivalente autorizado"
+  },
+  {
+   "id": "medico_enfermedad_contagiosa_en_la_familia",
+   "categoria": "Médico",
+   "escenario": "Enfermedad contagiosa en la familia",
+   "vigilar": "Síntomas y prueba",
+   "disparador": "Integrante con fiebre o prueba positiva",
+   "respuesta": "Aislar, cubrebocas y consulta",
+   "plan_b": "Posponer el viaje con seguro de cancelación",
+   "referencia": "salud"
+  },
+  {
+   "id": "medico_accidente_de_transito",
+   "categoria": "Médico",
+   "escenario": "Accidente de tránsito",
+   "vigilar": "Seguro del auto y de gastos médicos",
+   "disparador": "Choque con lesionados",
+   "respuesta": "911, seguro y no mover a los heridos",
+   "plan_b": "Traslado y abogado del seguro"
+  },
+  {
+   "id": "medico_crisis_de_salud_mental",
+   "categoria": "Médico",
+   "escenario": "Crisis de salud mental",
+   "vigilar": "Cambios de ánimo, insomnio, aislamiento",
+   "disparador": "Ideas de hacerse daño",
+   "respuesta": "Línea de la Vida (Secretaría de Salud) y acompañamiento",
+   "plan_b": "Atención profesional urgente"
+  },
+  {
+   "id": "medico_embarazo_con_complicacion",
+   "categoria": "Médico",
+   "escenario": "Embarazo con complicación",
+   "vigilar": "Control prenatal",
+   "disparador": "Sangrado, dolor intenso o presión alta",
+   "respuesta": "Urgencias obstétricas y expediente",
+   "plan_b": "Hospital con terapia neonatal"
+  },
+  {
+   "id": "mascotas_mascota_enferma_antes_del_viaje",
+   "categoria": "Mascotas",
+   "escenario": "Mascota enferma antes del viaje",
+   "vigilar": "Revisión veterinaria",
+   "disparador": "Diagnóstico que impide volar",
+   "respuesta": "Posponer y cuidar con veterinaria",
+   "plan_b": "Familiar o pensión de confianza"
+  },
+  {
+   "id": "mascotas_certificado_vencido",
+   "categoria": "Mascotas",
+   "escenario": "Certificado vencido",
+   "vigilar": "Fechas de vacunas y certificados",
+   "disparador": "Certificado con menos de 10 días antes del vuelo",
+   "respuesta": "Renovar con SENASICA",
+   "plan_b": "Cambiar la fecha del vuelo"
+  },
+  {
+   "id": "mascotas_mascota_extraviada_en_el_traslado",
+   "categoria": "Mascotas",
+   "escenario": "Mascota extraviada en el traslado",
+   "vigilar": "Microchip y collar con datos",
+   "disparador": "Mascota perdida en aeropuerto o carretera",
+   "respuesta": "Reporte a la aerolínea y registros de microchip",
+   "plan_b": "Carteles y veterinarias de la zona"
+  },
+  {
+   "id": "mascotas_cuarentena_en_el_destino",
+   "categoria": "Mascotas",
+   "escenario": "Cuarentena en el destino",
+   "vigilar": "Reglas sanitarias del destino",
+   "disparador": "El destino pide cuarentena",
+   "respuesta": "Reservar el lugar de cuarentena con tiempo",
+   "plan_b": "Destino alterno sin cuarentena"
+  },
+  {
+   "id": "mascotas_calor_extremo_y_prohibicion_de_bodega",
+   "categoria": "Mascotas",
+   "escenario": "Calor extremo y prohibición de bodega",
+   "vigilar": "Reglas de la aerolínea por temporada",
+   "disparador": "Temperaturas altas en la escala",
+   "respuesta": "Vuelo en cabina o en horario fresco",
+   "plan_b": "Transporte terrestre de mascotas",
+   "referencia": "calor"
+  },
+  {
+   "id": "migratorio_visa_negada_o_retrasada",
+   "categoria": "Migratorio",
+   "escenario": "Visa negada o retrasada",
+   "vigilar": "Citas consulares",
+   "disparador": "Rechazo o cita a más de 60 días",
+   "respuesta": "Destino alterno sin visa",
+   "plan_b": "Pedir cita de emergencia con justificación",
+   "referencia": "avisos_viaje"
+  },
+  {
+   "id": "migratorio_cambio_de_reglas_de_estancia",
+   "categoria": "Migratorio",
+   "escenario": "Cambio de reglas de estancia",
+   "vigilar": "Sitio oficial de migración del destino",
+   "disparador": "Reducción de días permitidos o nuevo requisito",
+   "respuesta": "Ajustar fechas y salida antes del límite",
+   "plan_b": "Residencia temporal o tercer país",
+   "referencia": "avisos_viaje"
+  },
+  {
+   "id": "migratorio_estancia_a_punto_de_vencer",
+   "categoria": "Migratorio",
+   "escenario": "Estancia a punto de vencer",
+   "vigilar": "Contador de días de la página",
+   "disparador": "Menos de 15 días para el límite",
+   "respuesta": "Salir o tramitar prórroga",
+   "plan_b": "Cambio de país dentro del plan"
+  },
+  {
+   "id": "migratorio_nino_viaja_con_un_solo_progenitor",
+   "categoria": "Migratorio",
+   "escenario": "Niño viaja con un solo progenitor",
+   "vigilar": "Requisitos de salida de menores (SAM o permiso)",
+   "disparador": "Viaje sin uno de los padres",
+   "respuesta": "Permiso notarial apostillado",
+   "plan_b": "Viajar ambos o cambiar la fecha"
+  },
+  {
+   "id": "migratorio_detencion_en_migracion",
+   "categoria": "Migratorio",
+   "escenario": "Detención en migración",
+   "vigilar": "Documentos de soporte (hotel, regreso, fondos)",
+   "disparador": "Retención o entrevista secundaria",
+   "respuesta": "Calma, documentos y llamar al consulado",
+   "plan_b": "Regreso con boleto flexible"
+  },
+  {
+   "id": "documentos_pasaporte_vencido_o_por_vencer",
+   "categoria": "Documentos",
+   "escenario": "Pasaporte vencido o por vencer",
+   "vigilar": "Fechas de vencimiento",
+   "disparador": "Menos de 6 meses de vigencia",
+   "respuesta": "Renovar en la SRE",
+   "plan_b": "Pasaporte de emergencia en el consulado"
+  },
+  {
+   "id": "documentos_perdida_de_la_cartera_con_identificacion",
+   "categoria": "Documentos",
+   "escenario": "Pérdida de la cartera con identificaciones",
+   "vigilar": "Inventario de documentos",
+   "disparador": "Robo o extravío",
+   "respuesta": "Reporte, bloqueo de tarjetas y copias cifradas",
+   "plan_b": "Reposición en el consulado"
+  },
+  {
+   "id": "documentos_actas_o_apostillas_faltantes",
+   "categoria": "Documentos",
+   "escenario": "Actas o apostillas faltantes",
+   "vigilar": "Lista de documentos por destino",
+   "disparador": "Trámite que pide un documento que no se tiene",
+   "respuesta": "Solicitar actas en línea y apostillar",
+   "plan_b": "Gestor o familiar en México"
+  },
+  {
+   "id": "documentos_dano_de_documentos_por_agua_o_fuego",
+   "categoria": "Documentos",
+   "escenario": "Daño de documentos por agua o fuego",
+   "vigilar": "Bolsa impermeable y copias",
+   "disparador": "Documentos ilegibles",
+   "respuesta": "Usar las copias cifradas y reponer",
+   "plan_b": "Constancias consulares"
+  },
+  {
+   "id": "documentos_poderes_notariales_vencidos_o_insuficien",
+   "categoria": "Documentos",
+   "escenario": "Poderes notariales vencidos o insuficientes",
+   "vigilar": "Fecha y alcance de los poderes",
+   "disparador": "Trámite bloqueado en México",
+   "respuesta": "Poder ante cónsul de México",
+   "plan_b": "Familiar con poder amplio"
+  },
+  {
+   "id": "logistica_huelga_de_transporte_o_aerolinea",
+   "categoria": "Logística",
+   "escenario": "Huelga de transporte o aerolínea",
+   "vigilar": "Noticias y avisos de las aerolíneas",
+   "disparador": "Huelga anunciada en las fechas",
+   "respuesta": "Cambiar la fecha o la aerolínea",
+   "plan_b": "Ruta terrestre o por otro aeropuerto"
+  },
+  {
+   "id": "logistica_escasez_de_gasolina",
+   "categoria": "Logística",
+   "escenario": "Escasez de gasolina",
+   "vigilar": "Precios y abasto local",
+   "disparador": "Filas o estaciones sin combustible",
+   "respuesta": "Tanque arriba de la mitad siempre",
+   "plan_b": "Viajar en autobús o vuelo"
+  },
+  {
+   "id": "logistica_escala_perdida",
+   "categoria": "Logística",
+   "escenario": "Escala perdida",
+   "vigilar": "Tiempo de conexión",
+   "disparador": "Retraso que hace perder la conexión",
+   "respuesta": "Reacomodo con la aerolínea y seguro de viaje",
+   "plan_b": "Hotel cerca del aeropuerto"
+  },
+  {
+   "id": "logistica_equipaje_perdido",
+   "categoria": "Logística",
+   "escenario": "Equipaje perdido",
+   "vigilar": "Etiquetas y AirTag",
+   "disparador": "Maleta que no llega",
+   "respuesta": "Reporte PIR y compra de lo esencial",
+   "plan_b": "Reclamo al seguro"
+  },
+  {
+   "id": "logistica_vehiculo_descompuesto_en_carretera",
+   "categoria": "Logística",
+   "escenario": "Vehículo descompuesto en carretera",
+   "vigilar": "Revisión mecánica y seguro",
+   "disparador": "Falla en ruta",
+   "respuesta": "Ángeles Verdes (078) y asistencia vial",
+   "plan_b": "Autobús a la siguiente ciudad"
+  },
+  {
+   "id": "logistica_vivienda_en_el_destino_cae",
+   "categoria": "Logística",
+   "escenario": "Vivienda en el destino cae",
+   "vigilar": "Contrato y reseñas",
+   "disparador": "Cancelación del alojamiento",
+   "respuesta": "Alojamiento temporal reservable",
+   "plan_b": "Familiar o conocido en el destino"
+  },
+  {
+   "id": "salud_publica_brote_de_dengue_o_enfermedad_por_mosquit",
+   "categoria": "Salud pública",
+   "escenario": "Brote de dengue o enfermedad por mosquito",
+   "vigilar": "Secretaría de Salud y OMS",
+   "disparador": "Brote en la ciudad o el destino",
+   "respuesta": "Repelente, mosquiteros y evitar horas de mayor actividad",
+   "plan_b": "Cambiar de ciudad",
+   "referencia": "salud"
+  },
+  {
+   "id": "salud_publica_contaminacion_del_agua",
+   "categoria": "Salud pública",
+   "escenario": "Contaminación del agua",
+   "vigilar": "Avisos del organismo de agua",
+   "disparador": "Agua no potable declarada",
+   "respuesta": "Agua embotellada y hervida",
+   "plan_b": "Traslado temporal"
+  },
+  {
+   "id": "salud_publica_saturacion_de_hospitales",
+   "categoria": "Salud pública",
+   "escenario": "Saturación de hospitales",
+   "vigilar": "Ocupación hospitalaria",
+   "disparador": "Hospitales sin camas",
+   "respuesta": "Telemedicina y seguro con red amplia",
+   "plan_b": "Atención en otra ciudad",
+   "referencia": "salud"
+  },
+  {
+   "id": "salud_publica_cierre_de_escuelas_por_emergencia_sanita",
+   "categoria": "Salud pública",
+   "escenario": "Cierre de escuelas por emergencia sanitaria",
+   "vigilar": "SEP y Salud",
+   "disparador": "Cierre de más de 2 semanas",
+   "respuesta": "Educación en línea",
+   "plan_b": "Cuidado compartido entre familias",
+   "referencia": "salud"
+  },
+  {
+   "id": "digital_hackeo_del_correo_principal",
+   "categoria": "Digital",
+   "escenario": "Hackeo del correo principal",
+   "vigilar": "Alertas de inicio de sesión",
+   "disparador": "Acceso no reconocido",
+   "respuesta": "Cambiar contraseña, cerrar sesiones y revisar reglas de reenvío",
+   "plan_b": "Correo de respaldo y códigos guardados"
+  },
+  {
+   "id": "digital_apagon_de_internet_o_de_telefonia",
+   "categoria": "Digital",
+   "escenario": "Apagón de internet o de telefonía",
+   "vigilar": "Estado del proveedor",
+   "disparador": "Sin servicio más de 6 horas",
+   "respuesta": "Radio, puntos de reunión y mensajes programados",
+   "plan_b": "Satélite o SIM de otro operador"
+  },
+  {
+   "id": "digital_perdida_de_la_laptop_con_documentos",
+   "categoria": "Digital",
+   "escenario": "Pérdida de la laptop con documentos",
+   "vigilar": "Respaldo cifrado",
+   "disparador": "Robo o falla",
+   "respuesta": "Borrado remoto y recuperación del respaldo",
+   "plan_b": "Copia en memoria cifrada fuera de casa"
+  },
+  {
+   "id": "digital_ransomware_o_secuestro_de_archivos",
+   "categoria": "Digital",
+   "escenario": "Ransomware o secuestro de archivos",
+   "vigilar": "Antivirus y respaldos",
+   "disparador": "Archivos cifrados por un tercero",
+   "respuesta": "Desconectar, no pagar y restaurar respaldo",
+   "plan_b": "Apoyo técnico profesional"
+  },
+  {
+   "id": "digital_suplantacion_en_redes_sociales",
+   "categoria": "Digital",
+   "escenario": "Suplantación en redes sociales",
+   "vigilar": "Alertas de menciones",
+   "disparador": "Perfil falso pidiendo dinero",
+   "respuesta": "Reportar, avisar a contactos y denunciar",
+   "plan_b": "Verificación de cuentas"
+  },
+  {
+   "id": "familia_divorcio_o_conflicto_por_custodia",
+   "categoria": "Familia",
+   "escenario": "Divorcio o conflicto por custodia",
+   "vigilar": "Acuerdos y permisos vigentes",
+   "disparador": "Desacuerdo sobre la salida de los hijos",
+   "respuesta": "Mediación y permiso notarial",
+   "plan_b": "Resolución de un juez"
+  },
+  {
+   "id": "familia_fallecimiento_de_un_integrante_en_mexico",
+   "categoria": "Familia",
+   "escenario": "Fallecimiento de un integrante en México",
+   "vigilar": "Testamento y seguros",
+   "disparador": "Fallecimiento",
+   "respuesta": "Funeraria, actas y seguro de vida",
+   "plan_b": "Poder a un familiar para trámites"
+  },
+  {
+   "id": "familia_integrante_que_no_quiere_salir",
+   "categoria": "Familia",
+   "escenario": "Integrante que no quiere salir",
+   "vigilar": "Conversaciones del plan",
+   "disparador": "Desacuerdo con la decisión",
+   "respuesta": "Acordar condiciones y fecha de revisión",
+   "plan_b": "Salida escalonada"
+  },
+  {
+   "id": "familia_cuidado_de_un_adulto_mayor_que_se_queda",
+   "categoria": "Familia",
+   "escenario": "Cuidado de un adulto mayor que se queda",
+   "vigilar": "Red de apoyo",
+   "disparador": "El adulto mayor no puede viajar",
+   "respuesta": "Cuidador de confianza y visitas programadas",
+   "plan_b": "Residencia con atención médica"
+  },
+  {
+   "id": "familia_adolescente_en_riesgo_en_linea",
+   "categoria": "Familia",
+   "escenario": "Adolescente en riesgo en línea",
+   "vigilar": "Uso de redes y contactos",
+   "disparador": "Contacto con extraños o acoso",
+   "respuesta": "Conversación, bloquear y denunciar en la Policía Cibernética",
+   "plan_b": "Apoyo psicológico"
+  },
+  {
+   "id": "infraestructura_apagon_prolongado",
+   "categoria": "Infraestructura",
+   "escenario": "Apagón prolongado",
+   "vigilar": "CFE y CENACE",
+   "disparador": "Sin luz más de 24 horas",
+   "respuesta": "Baterías, linternas y comida que no requiera refrigeración",
+   "plan_b": "Traslado a lugar con energía"
+  },
+  {
+   "id": "infraestructura_falla_del_sistema_de_pagos",
+   "categoria": "Infraestructura",
+   "escenario": "Falla del sistema de pagos",
+   "vigilar": "Avisos de Banxico (SPEI) y bancos",
+   "disparador": "Pagos con tarjeta o transferencias caídas",
+   "respuesta": "Efectivo para 7 días",
+   "plan_b": "Pagos en el destino con otra tarjeta"
+  },
+  {
+   "id": "infraestructura_cierre_de_puentes_o_carreteras",
+   "categoria": "Infraestructura",
+   "escenario": "Cierre de puentes o carreteras",
+   "vigilar": "Capufe y Guardia Nacional",
+   "disparador": "Carretera de salida cerrada",
+   "respuesta": "Ruta alterna planeada",
+   "plan_b": "Vuelo desde otra ciudad"
+  },
+  {
+   "id": "infraestructura_escasez_de_alimentos",
+   "categoria": "Infraestructura",
+   "escenario": "Escasez de alimentos",
+   "vigilar": "Precios y abasto en tiendas",
+   "disparador": "Anaqueles vacíos o compras de pánico",
+   "respuesta": "Despensa para 14 días rotada",
+   "plan_b": "Mercados locales y productores"
+  },
+  {
+   "id": "legal_demanda_o_embargo",
+   "categoria": "Legal",
+   "escenario": "Demanda o embargo",
+   "vigilar": "Notificaciones judiciales",
+   "disparador": "Notificación de demanda",
+   "respuesta": "Abogado y revisión de bienes",
+   "plan_b": "Acuerdo o fianza"
+  },
+  {
+   "id": "legal_cambio_de_ley_fiscal_que_afecte_a_reside",
+   "categoria": "Legal",
+   "escenario": "Cambio de ley fiscal que afecte a residentes en el extranjero",
+   "vigilar": "DOF y SAT",
+   "disparador": "Nueva obligación fiscal",
+   "respuesta": "Asesoría fiscal y cumplimiento",
+   "plan_b": "Reorganizar residencia fiscal",
+   "referencia": "dof"
+  },
+  {
+   "id": "legal_problema_migratorio_por_trabajo_no_autor",
+   "categoria": "Legal",
+   "escenario": "Problema migratorio por trabajo no autorizado",
+   "vigilar": "Condiciones de la visa",
+   "disparador": "Trabajo sin permiso",
+   "respuesta": "Detener la actividad y regularizar",
+   "plan_b": "Salir y volver con el permiso correcto"
+  },
+  {
+   "id": "laboral_cierre_de_la_empresa_o_despido_masivo",
+   "categoria": "Laboral",
+   "escenario": "Cierre de la empresa o despido masivo",
+   "vigilar": "Noticias del sector",
+   "disparador": "Anuncio de recortes",
+   "respuesta": "Actualizar CV y red de contactos",
+   "plan_b": "Trabajo remoto o consultoría"
+  },
+  {
+   "id": "laboral_trabajo_remoto_bloqueado_desde_el_extran",
+   "categoria": "Laboral",
+   "escenario": "Trabajo remoto bloqueado desde el extranjero",
+   "vigilar": "Política del empleador",
+   "disparador": "El empleador no permite trabajar fuera",
+   "respuesta": "Negociar contrato como proveedor",
+   "plan_b": "Buscar empleo en el destino"
+  },
+  {
+   "id": "vivienda_dano_grave_a_la_casa_en_mexico",
+   "categoria": "Vivienda",
+   "escenario": "Daño grave a la casa en México",
+   "vigilar": "Seguro de hogar",
+   "disparador": "Siniestro con la familia fuera",
+   "respuesta": "Familiar con llaves y aseguradora",
+   "plan_b": "Reparación a distancia con fotos"
+  },
+  {
+   "id": "vivienda_invasion_o_despojo_de_la_propiedad",
+   "categoria": "Vivienda",
+   "escenario": "Invasión o despojo de la propiedad",
+   "vigilar": "Vecinos y familiar de confianza",
+   "disparador": "Ocupación ilegal",
+   "respuesta": "Denuncia inmediata y abogado",
+   "plan_b": "Escrituras y prediales al corriente"
+  },
+  {
+   "id": "conflicto_conflicto_armado_en_la_region_del_destin",
+   "categoria": "Conflicto",
+   "escenario": "Conflicto armado en la región del destino",
+   "vigilar": "Avisos de viaje y ONU",
+   "disparador": "Combates o movilización cerca",
+   "respuesta": "Cambiar de destino",
+   "plan_b": "Evacuación con el consulado",
+   "referencia": "avisos_viaje"
+  },
+  {
+   "id": "conflicto_ataque_a_infraestructura_critica",
+   "categoria": "Conflicto",
+   "escenario": "Ataque a infraestructura crítica",
+   "vigilar": "Noticias y avisos oficiales",
+   "disparador": "Daño a energía, agua o comunicaciones",
+   "respuesta": "Reservas y radio",
+   "plan_b": "Traslado a otra región"
+  },
+  {
+   "id": "conflicto_disturbios_civiles_en_el_destino",
+   "categoria": "Conflicto",
+   "escenario": "Disturbios civiles en el destino",
+   "vigilar": "Medios locales y embajada",
+   "disparador": "Manifestaciones violentas",
+   "respuesta": "Evitar centros y permanecer en casa",
+   "plan_b": "Salida a otra ciudad",
+   "referencia": "avisos_viaje"
   }
  ],
  "destinos": [
@@ -489,6 +1257,162 @@
     {
      "id": "veterinaria",
      "texto": "Veterinaria en el destino"
+    }
+   ]
+  },
+  {
+   "id": "bebes",
+   "nombre": "Bebés (0 a 2 años)",
+   "checklist": [
+    {
+     "id": "i1",
+     "texto": "Pasaporte del bebé y acta de nacimiento"
+    },
+    {
+     "id": "i2",
+     "texto": "Cartilla de vacunación al día"
+    },
+    {
+     "id": "i3",
+     "texto": "Fórmula, pañales y medicinas para 14 días"
+    },
+    {
+     "id": "i4",
+     "texto": "Carriola y silla aprobadas para avión"
+    },
+    {
+     "id": "i5",
+     "texto": "Permiso de ambos padres si viaja con uno"
+    }
+   ]
+  },
+  {
+   "id": "adolescentes",
+   "nombre": "Adolescentes",
+   "checklist": [
+    {
+     "id": "i1",
+     "texto": "Pasaporte y credencial escolar"
+    },
+    {
+     "id": "i2",
+     "texto": "Plan de estudios en línea o inscripción en el destino"
+    },
+    {
+     "id": "i3",
+     "texto": "Teléfono con contactos PACE y localización acordada"
+    },
+    {
+     "id": "i4",
+     "texto": "Conversación sobre redes sociales y riesgos"
+    },
+    {
+     "id": "i5",
+     "texto": "Permiso notarial si viaja sin uno de los padres"
+    }
+   ]
+  },
+  {
+   "id": "cronicos",
+   "nombre": "Personas con enfermedad crónica o discapacidad",
+   "checklist": [
+    {
+     "id": "i1",
+     "texto": "Expediente clínico y resumen bilingüe"
+    },
+    {
+     "id": "i2",
+     "texto": "Medicamentos para 90 días y receta con genérico"
+    },
+    {
+     "id": "i3",
+     "texto": "Equipo médico con carta para el avión"
+    },
+    {
+     "id": "i4",
+     "texto": "Hospital con la especialidad en el destino"
+    },
+    {
+     "id": "i5",
+     "texto": "Asistencia de movilidad reservada"
+    }
+   ]
+  },
+  {
+   "id": "embarazo",
+   "nombre": "Embarazo",
+   "checklist": [
+    {
+     "id": "i1",
+     "texto": "Carta médica de aptitud para volar"
+    },
+    {
+     "id": "i2",
+     "texto": "Límite de semanas de la aerolínea"
+    },
+    {
+     "id": "i3",
+     "texto": "Seguro que cubra embarazo y parto"
+    },
+    {
+     "id": "i4",
+     "texto": "Hospital y obstetra en el destino"
+    },
+    {
+     "id": "i5",
+     "texto": "Expediente prenatal"
+    }
+   ]
+  },
+  {
+   "id": "perros",
+   "nombre": "Perros",
+   "checklist": [
+    {
+     "id": "i1",
+     "texto": "Microchip ISO"
+    },
+    {
+     "id": "i2",
+     "texto": "Vacuna antirrábica y certificado de SENASICA"
+    },
+    {
+     "id": "i3",
+     "texto": "Transportadora aprobada por talla"
+    },
+    {
+     "id": "i4",
+     "texto": "Requisitos de razas restringidas en el destino"
+    },
+    {
+     "id": "i5",
+     "texto": "Veterinaria y paseador en el destino"
+    }
+   ]
+  },
+  {
+   "id": "otras_mascotas",
+   "nombre": "Aves y otras mascotas",
+   "checklist": [
+    {
+     "id": "i1",
+     "texto": "Revisar si la especie puede entrar al destino (CITES)"
+    },
+    {
+     "id": "i2",
+     "texto": "Certificado de salud"
+    },
+    {
+     "id": "i3",
+     "texto": "Transportadora especial"
+    },
+    {
+     "id": "i4",
+     "texto": "Alimento para 14 días"
+    },
+    {
+     "id": "i5",
+     "texto": "Cuidador alterno si no puede viajar"
     }
    ]
   }
