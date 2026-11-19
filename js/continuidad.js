@@ -6,6 +6,7 @@ import {
   NIVELES, nivelActual, validarCambio, estancia, avance, completarFase, informeMarkdown, exportarCifrado, importarCifrado,
 } from "./continuidad-logica.js";
 import { descargar } from "./web-cripto.js";
+import { svgTraslado, LEYENDA } from "./continuidad-mapa.js";
 
 const CLAVE = "dominus_continuidad_v1";
 const $ = (id) => document.getElementById(id);
@@ -49,6 +50,28 @@ function pintarTablero() {
       <div class="cf-kpi"><span>Escenarios activos</span><b>${Object.values(E.escenarios).filter((e) => e.activo).length}</b><small>de ${P.escenarios.length}</small></div></div>
     <h3>Estancia</h3>${est.length ? `<ul>${est.join("")}</ul>` : `<p class="meta">Registra la fecha de llegada en «Destinos» para contar los días.</p>`}
     <h3>Avance de las listas</h3><table class="cf-tabla">${listas.map(([t, items, pref]) => `<tr><th>${esc(t)}</th><td>${barra(avance(items, E.hechos, pref).pct)}</td></tr>`).join("")}</table>`;
+}
+
+// ---------------------------------------------------------------- mapa del traslado
+let geo = null;
+async function pintarMapa() {
+  const cont = $("cf-mapa");
+  if (!cont) return;
+  if (!geo) {
+    try { geo = await (await fetch("data/base/countries-110m.geojson")).json(); } catch { cont.textContent = "No se pudo cargar el contorno de países."; return; }
+  }
+  const llegadas = {}, dias = {};
+  for (const [id, d] of Object.entries(E.destinos || {})) {
+    if (!d?.llegada) continue;
+    const dest = P.destinos.find((x) => x.id === id);
+    const e = estancia(d.llegada, dest?.estancia_dias ?? null, hoy(), { diaDecision: P.avisos_estancia.dia_decision, antes: P.avisos_estancia.dias_antes_del_limite });
+    llegadas[id] = true; dias[id] = e.transcurridos;
+  }
+  const n = nivelActual(E.bitacora);
+  const fases = P.fases.map((f, i) => `<li class="${f.id === E.faseActual ? "actual" : ""}"><b>${esc(i)}</b><span>${esc(f.nombre.replace(/^Fase \d+\s*·\s*/, ""))}</span><small>${esc(avance(f.checklist, E.hechos, `${f.id}.`).pct)} %</small></li>`).join("");
+  cont.innerHTML = svgTraslado(P, geo, { llegadas, nivel: NOMBRE[n], dias })
+    + `<p class="cm-leyenda">${LEYENDA.map(([c, t]) => `<span><i style="background:${esc(c)}"></i>${esc(t)}</span>`).join("")}</p>`
+    + `<ol class="cm-fases" aria-label="Fases del plan">${fases}</ol>`;
 }
 
 // ---------------------------------------------------------------- niveles
@@ -146,7 +169,7 @@ function pintarPace() {
   $("cf-pace").innerHTML = `<table class="cf-tabla"><tr><th>Nivel PACE</th><th>Ejemplo genérico</th><th>Valor real (solo en este navegador)</th></tr>${P.pace.map((x) => `<tr><td><b>${esc(x.nombre)}</b></td><td>${esc(x.ejemplo)}</td><td><textarea data-pace="${x.id}" maxlength="500" rows="2" autocomplete="off">${esc(E.pace[x.id] || "")}</textarea></td></tr>`).join("")}</table>`;
 }
 
-function pintarTodo() { pintarTablero(); pintarNiveles(); pintarFases(); pintarEscenarios(); pintarPerfiles(); pintarDestinos(); pintarPace(); }
+function pintarTodo() { pintarMapa(); pintarTablero(); pintarNiveles(); pintarFases(); pintarEscenarios(); pintarPerfiles(); pintarDestinos(); pintarPace(); }
 
 // ---------------------------------------------------------------- eventos
 function eventos() {
@@ -182,6 +205,7 @@ function eventos() {
     else if (d.pace) { E.pace[d.pace] = t.value.slice(0, 500); }
     else return;
     guardar(); pintarTablero();
+    if (d.llegada || d.hecho) pintarMapa();
     if (d.esc || d.llegada) { pintarEscenarios(); pintarDestinos(); }
     if (d.hecho) { pintarFases(); pintarPerfiles(); }
   });

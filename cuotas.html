@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cuotas de APIs y llaves</title>
+  <meta name="description" content="Solo administración: consumo de cada API, llave y token frente a su límite, con semáforo y qué hacer si se acerca al tope.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1300px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .kpis { display: flex; flex-wrap: wrap; gap: 10px; margin: 10px 0 16px; }
+    .kpi { border: 1px solid var(--line); border-radius: var(--radius); padding: 8px 14px; background: var(--surface); min-width: 150px; }
+    .kpi b { display: block; font-size: 24px; }
+    table { width: 100%; border-collapse: collapse; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 8px 6px; text-align: left; vertical-align: top; }
+    th { background: var(--surface-2); position: sticky; top: 0; }
+    .tabla { overflow-x: auto; border: 1px solid var(--line); border-radius: var(--radius); }
+    .barra { width: 160px; height: 10px; background: var(--surface-2); border-radius: 5px; overflow: hidden; display: inline-block; vertical-align: middle; }
+    .barra i { display: block; height: 100%; }
+    .s-verde { color: #2e7d32; } .s-amarillo { color: #b8860b; } .s-rojo { color: #C8102E; font-weight: 700; } .s-gris { color: var(--text-2); }
+    .chip { font-size: 12px; border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; }
+    details summary { cursor: pointer; }
+  </style>
+  <script type="module" src="js/apariencia.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa</a>
+    <h1>📶 Cuotas de APIs y llaves (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Cuánto consume el proyecto de cada servicio con llave o cuota frente a su límite gratuito. Se actualiza una vez al día (05:37, Ciudad de México).
+      <b>Medido</b> = dato del propio servicio; <b>estimado</b> = corridas por día de cada tarea automática × llamadas por corrida. Un límite «verificar» no se pudo confirmar en la documentación del servicio: revísalo en su panel.</p>
+    <div id="cq-kpis" class="kpis" aria-live="polite">Cargando…</div>
+    <div class="tabla"><table><thead><tr><th>Servicio</th><th>Consumo</th><th>Límite</th><th>Estado</th><th>Si se acerca al tope</th></tr></thead><tbody id="cq-filas"></tbody></table></div>
+    <h2>Topes por usuario (para cuando haya clientes)</h2>
+    <p class="meta">Si una cuota compartida se acerca al límite por el uso de clientes, conviene poner un tope diario por cuenta en lugar de comprar más de inmediato. Valores sugeridos (config/apis_cuotas.json):</p>
+    <div id="cq-usuarios"></div>
+  </main>
+  <script type="module" src="js/cuotas.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

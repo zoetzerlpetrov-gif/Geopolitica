@@ -58,3 +58,15 @@ def test_fuente_bloqueada_por_robots_se_omite_y_una_caida_no_detiene():
     items, estado = N.descargar([("A", "https://a/rss"), ("B", "https://caida/rss"), ("C", "https://bloq/rss")], pausa=0,
                                 bajar=bajar, permitido=lambda u: "bloq" not in u)
     assert len(items) == 3 and estado["https://caida/rss"].startswith("error") and "robots" in estado["https://bloq/rss"]
+
+
+def test_fibra_cfe_con_los_nombres_de_la_prensa():
+    from types import SimpleNamespace
+    import noticias as n
+    a = SimpleNamespace(ticker="FCFE18.MX", name="Fibra CFE (Fibra E de transmisión eléctrica)", sector="FIBRAs (bienes raíces)")
+    tit = [{"title": t, "link": f"https://x/{i}"} for i, t in enumerate([
+        "CFE Fibra E prepara su primera emisión de capitales en BMV",
+        "Filial de CFE solicita permiso para nueva emisión de capital de Fibra E",
+        "CFE busca que el capital privado respalde su plan de expansión"])]
+    assert n.asignar([a], tit) == 1
+    assert [x["link"] for x in a.news] == ["https://x/0", "https://x/1"]
