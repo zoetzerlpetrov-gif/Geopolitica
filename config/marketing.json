@@ -512,7 +512,8 @@
           "Qué revisaría un comité de cumplimiento antes de concluir"
         ],
         "cierre": "Cuando dos fuentes oficiales no coinciden, ¿tu equipo lo detecta o se entera por la prensa?",
-        "muestra": "Contraste de fuentes (sin logo)"
+        "muestra": "Contraste de fuentes (sin logo)",
+        "texto": "En mayo de 2026, el 82.6 % del valor de las exportaciones petroleras que México reportó a la ONU no dice a qué país fue.\n\nNo es un error de captura. En UN Comtrade, 1,962 de 2,376 millones de dólares aparecen como «otras áreas» sin país. El banco central registra casi el mismo total del mes, pero ninguna de las dos fuentes públicas dice el destino.\n\nReservar el destino del crudo es una práctica de confidencialidad que usan varios países. No prueba que se oculte algo. Sí impide responder con estadística oficial una pregunta sencilla: ¿a dónde fue el petróleo?\n\nPara un área de cumplimiento, la lección es de método: cuando dos fuentes oficiales no permiten verificar un dato, se busca una tercera (reportes a reguladores, registros de buques, contratos) antes de concluir.\n\nFuente: UN Comtrade (capítulo 27) y Banxico, SIE.\n\n¿Su equipo detecta cuándo un dato oficial no se puede verificar, o se entera por la prensa?\n\n#Cumplimiento #Inteligencia"
       },
       {
         "id": "premortem_planta",
@@ -525,7 +526,8 @@
           "Señales tempranas que se pueden monitorear desde hoy"
         ],
         "cierre": "¿Qué riesgo nadie en tu comité quiere poner por escrito?",
-        "muestra": "Matriz de riesgo de Inteligencia corporativa"
+        "muestra": "Matriz de riesgo de Inteligencia corporativa",
+        "texto": "Imagine que su nueva planta cerró a los 18 meses. Escriba por qué.\n\nEs el ejercicio de «pre-mortem» que propuso el psicólogo Gary Klein en Harvard Business Review (2007): asumir que el proyecto ya fracasó y reconstruir las causas. Funciona porque permite decir en voz alta lo que nadie quiere poner en una presentación.\n\nEn aperturas que he revisado, la lista casi siempre tiene tres bloques:\n→ Entorno: seguridad en la ruta de suministro, agua, energía y clima extremo.\n→ Permisos: trámites con plazos reales distintos a los de la ley.\n→ Personas: rotación, traslados y disponibilidad de talento técnico.\n\nLo valioso viene después: convertir cada causa en una señal que se pueda vigilar desde hoy, con un umbral y un responsable.\n\n¿Qué riesgo de su próximo proyecto nadie ha querido poner por escrito?\n\n#GestiónDeRiesgos #Operaciones"
       },
       {
         "id": "bloqueos",
@@ -538,7 +540,8 @@
           "Qué medir después para aprender"
         ],
         "cierre": "¿Cuántas horas de inventario tiene tu operación si se cierra tu ruta principal?",
-        "muestra": "Capa de carreteras y robos (sin ubicaciones del cliente)"
+        "muestra": "Capa de carreteras y robos (sin ubicaciones del cliente)",
+        "texto": "Un bloqueo carretero rara vez llega sin aviso.\n\nAntes suele haber convocatorias públicas, conflictos sin resolver en la zona y patrones que se repiten por día de la semana y por tramo. El problema no es la falta de información: es que nadie la cruza con las rutas de la empresa a tiempo.\n\nCuando lo hago para una operación, sigo tres pasos:\n→ Mapear las rutas críticas y su tiempo de tolerancia: cuántas horas aguanta el inventario.\n→ Vigilar las fuentes abiertas de la zona (avisos oficiales, medios locales, cifras de robo a transporte) con umbrales claros.\n→ Tener la ruta alterna validada antes de necesitarla, con su costo y su tiempo.\n\nDespués de cada incidente se mide: cuánto avisaron las señales y cuánto se tardó en decidir.\n\n¿Cuántas horas puede operar su planta si mañana se cierra su ruta principal?\n\n#CadenaDeSuministro #Seguridad"
       },
       {
         "id": "cisnes",
@@ -551,7 +554,8 @@
           "Cómo usarlo en el mapa de riesgos del consejo"
         ],
         "cierre": "¿Tu mapa de riesgos separa lo probable de lo ruidoso?",
-        "muestra": "Cisnes blancos y negros"
+        "muestra": "Cisnes blancos y negros",
+        "texto": "Una pandemia de intensidad comparable a la COVID-19 tiene cerca de 2 % de probabilidad por año, según un estudio publicado en PNAS (Marani et al., 2021).\n\nLas noticias de esta semana no cambian ese número. Cambian la atención que le damos.\n\nEn los comités de riesgo veo con frecuencia dos errores opuestos: sobrerreaccionar a lo que está en los titulares e ignorar lo que es poco probable pero devastador. Separarlos ayuda:\n→ Probabilidad base: la frecuencia histórica publicada, con su fuente.\n→ Señales: cuánto se habla del tema hoy frente a su promedio.\n→ Decisión: qué preparación vale la pena con esa probabilidad, no con el ruido.\n\nUna probabilidad de 2 % al año parece pequeña; en un horizonte de diez años ya es cercana a 18 %.\n\n¿Su mapa de riesgos distingue lo probable de lo ruidoso?\n\n#Riesgo #ConsejoDeAdministración"
       },
       {
         "id": "fuente_primaria",
@@ -564,7 +568,8 @@
           "Cómo contrastarlo con otras fuentes"
         ],
         "cierre": "¿Quién en tu equipo lee los reportes regulatorios de tus socios y proveedores?",
-        "muestra": "Petróleo a Cuba según Pemex (tabla con enlaces)"
+        "muestra": "Petróleo a Cuba según Pemex (tabla con enlaces)",
+        "texto": "Un párrafo en un reporte trimestral a un regulador extranjero dijo más sobre un tema público que meses de declaraciones.\n\nEn su reporte 20-F a la SEC de Estados Unidos, Pemex informó que en 2025 su filial dedicada a Cuba exportó 15 mil barriles diarios de crudo y 2.2 mil de petrolíferos, por unos 500 millones de dólares. En reportes posteriores consta que esa filial cambió de nombre dos veces en 2026.\n\nNo hace falta acceso privilegiado. Hace falta saber dónde buscar:\n→ Reportes a reguladores (20-F, 6-K, informes a bolsas).\n→ El texto literal, no el resumen de la nota de prensa.\n→ Contraste con una segunda fuente antes de concluir.\n\nFuente: Petróleos Mexicanos, formas 20-F y 6-K en SEC EDGAR.\n\n¿Quién en su equipo lee los reportes regulatorios de sus socios y proveedores?\n\n#DebidaDiligencia #Inteligencia"
       },
       {
         "id": "viaje",
@@ -577,7 +582,8 @@
           "Referencia: ISO 31030 (gestión del riesgo en viajes)"
         ],
         "cierre": "¿Tu empresa sabe dónde está su gente si hoy cierran un aeropuerto?",
-        "muestra": "Protocolos y avisos de viaje"
+        "muestra": "Protocolos y avisos de viaje",
+        "texto": "Antes de un viaje de negocios, la pregunta útil no es «¿es peligroso?». Es «¿qué haríamos si…?».\n\nLa norma ISO 31030:2021 trata el riesgo en viajes como un sistema de gestión: evaluar antes, informar a quien viaja, dar seguimiento durante el viaje y tener respuesta para incidentes.\n\nEn la práctica, eso se traduce en cuatro preguntas:\n→ ¿Qué dicen los avisos oficiales de varios gobiernos sobre el destino, lado a lado?\n→ ¿Qué pasa si se cierra el aeropuerto o se corta la comunicación?\n→ ¿Quién decide la evacuación y con qué umbral?\n→ ¿Cómo sabemos, en minutos, dónde está cada persona?\n\nSi alguna respuesta es «depende», ahí está el trabajo pendiente.\n\n¿Su organización sabría dónde está su gente si hoy cerraran un aeropuerto?\n\n#DeberDeCuidado #ISO31030"
       },
       {
         "id": "reclasificacion",
@@ -590,7 +596,8 @@
           "Qué pedir a un proveedor de seguridad antes de aceptar sus métricas"
         ],
         "cierre": "¿Tus indicadores de seguridad se revisan contra otra fuente?",
-        "muestra": "Seguridad: SESNSP vs INEGI"
+        "muestra": "Seguridad: SESNSP vs INEGI",
+        "texto": "De enero a septiembre de 2026, el homicidio doloso registrado bajó 18.6 % frente al mismo periodo de 2025. En el mismo lapso, el feminicidio registrado subió 141.6 %.\n\nLos datos son del Secretariado Ejecutivo del Sistema Nacional de Seguridad Pública. ¿Mejoró la situación o cambió la forma de registrar?\n\nCon una sola cifra no se puede saber. Por eso, cuando reviso indicadores de seguridad, no miro una categoría aislada:\n→ Comparo categorías vecinas: si una baja y otra sube en el mismo periodo, se revisa cómo se clasifican los casos.\n→ Contrasto con una fuente independiente, como las defunciones que publica el INEGI.\n→ Reviso si hubo cambios de metodología o de catálogo.\n\nNinguna de estas señales prueba manipulación por sí sola. Sí evita decidir con un dato que quizá cambió de casilla.\n\n¿Sus indicadores de seguridad se revisan contra una segunda fuente?\n\n#Seguridad #DatosAbiertos"
       },
       {
         "id": "agua_aire",
@@ -603,7 +610,8 @@
           "Cómo se integra a un análisis de riesgo hídrico"
         ],
         "cierre": "¿Qué dato de tu entorno decides hoy por intuición?",
-        "muestra": "Clima: humedad y agua del aire"
+        "muestra": "Clima: humedad y agua del aire",
+        "texto": "¿Cuántos litros de agua podría darle el aire a una instalación? Con datos públicos se puede estimar.\n\nLos reportes meteorológicos de unos 5,000 aeropuertos publican cada hora la temperatura y el punto de rocío. Con ellos se calcula la humedad absoluta, la probabilidad de condensación y cuántos mililitros por metro cúbico podría recuperar un equipo.\n\nEn una plataforma propia lo uso para una pregunta concreta de infraestructura: ¿en qué sitios y en qué meses un generador de agua atmosférica tiene sentido como respaldo, y en cuáles no?\n\nLo que aprendí: el promedio anual engaña. La diferencia entre la temporada de lluvias y la de secas puede cambiar por completo la decisión, así que hay que mirar el historial mes por mes.\n\nFuente: reportes METAR del Aviation Weather Center (NOAA).\n\n¿Qué dato de su entorno decide hoy por intuición?\n\n#Agua #Infraestructura"
       },
       {
         "id": "osint_responsable",
@@ -616,7 +624,8 @@
           "Por qué cada cifra lleva su fuente"
         ],
         "cierre": "¿Tus proveedores de inteligencia te dicen de dónde sale cada dato?",
-        "muestra": "Ninguna captura"
+        "muestra": "Ninguna captura",
+        "texto": "La inteligencia de fuentes abiertas no es «buscar todo de alguien».\n\nTiene límites legales y éticos, y respetarlos es parte de la calidad del trabajo. En México, la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (2025) fija cómo se tratan los datos de las personas.\n\nLas reglas con las que trabajo:\n→ Fuentes oficiales y abiertas, cada una con su enlace y su fecha.\n→ No se vigila a personas físicas ni se guardan datos personales.\n→ Una coincidencia de nombre es una señal para revisar, no una acusación.\n→ Lo que no se puede verificar se dice así, con su nivel de confianza.\n\nUn informe que respeta estos límites resiste una auditoría. Uno que no los respeta se vuelve un riesgo para quien lo encargó.\n\n¿Su proveedor de inteligencia le dice de dónde sale cada dato?\n\n#OSINT #Ética"
       },
       {
         "id": "comite_crisis",
@@ -629,7 +638,8 @@
           "Quién decide qué y con qué umbral"
         ],
         "cierre": "¿Cuánto tarda tu organización en tener una sola versión de los hechos?",
-        "muestra": "DOMINUS OPS (Battle Rhythm, SITREP)"
+        "muestra": "DOMINUS OPS (Battle Rhythm, SITREP)",
+        "texto": "En una crisis, el problema rara vez es la falta de datos. Es que nadie tiene la misma versión de los hechos.\n\nHe visto comités donde finanzas, operaciones y comunicación llegan con tres cifras distintas sobre el mismo incidente. La primera hora se pierde en reconciliarlas.\n\nTres prácticas que lo evitan:\n→ Un ritmo de seguimiento acordado: qué se revisa, cada cuánto y quién lo presenta.\n→ Un reporte de situación de una sola página: qué pasó, qué sabemos, qué no sabemos y qué se decide.\n→ Umbrales escritos antes de la crisis: qué nivel activa cada decisión y quién la toma.\n\nNinguna requiere tecnología costosa. Requieren disciplina y alguien que la sostenga cuando todo se acelera.\n\n¿Cuánto tarda su organización en tener una sola versión de los hechos?\n\n#GestiónDeCrisis #Continuidad"
       },
       {
         "id": "automatizar",
@@ -642,7 +652,8 @@
           "El papel del analista"
         ],
         "cierre": "¿Qué revisa tu equipo a mano que una máquina podría vigilar?",
-        "muestra": "Movimientos atípicos de Banxico"
+        "muestra": "Movimientos atípicos de Banxico",
+        "texto": "Cada día reviso 459 series oficiales del Banco de México sin abrir una sola hoja de cálculo.\n\nRemesas por estado y país, comercio, turismo, inversión y mercados. Un proceso compara cada dato nuevo con su promedio y marca lo atípico: un salto de cinco veces, una caída de más de 80 %, una serie que llega a cero o que reaparece.\n\nLo que no se automatiza es decidir qué significa. Un salto puede ser un cambio real, una revisión estadística o un cambio en cómo se registra. Esa parte sigue siendo trabajo de analista.\n\nLa regla que aplico: automatizar la vigilancia y dejar a las personas el juicio. Al revés, se obtienen alarmas que nadie atiende o decisiones que nadie entiende.\n\nFuente: Banco de México, Sistema de Información Económica (SIE).\n\n¿Qué revisa su equipo a mano que una máquina podría vigilar?\n\n#Automatización #Análisis"
       },
       {
         "id": "razon_social",
@@ -655,8 +666,10 @@
           "Cómo documentarlo sin acusar"
         ],
         "cierre": "¿Tu alta de proveedores revisa el historial de nombres?",
-        "muestra": "Ninguna o captura anonimizada"
+        "muestra": "Ninguna o captura anonimizada",
+        "texto": "Una filial cambió de razón social dos veces en dos meses. No es ilegal. Sí es una señal para revisar.\n\nSegún sus reportes a la SEC, la filial de Pemex que exporta a Cuba, antes Gasolinas Bienestar, se llamó Servicios Logísticos Integrales Mumiya desde el 31 de marzo de 2026 y Servicios Logísticos y Recursos Estratégicos desde el 22 de mayo de 2026.\n\nEn una debida diligencia de proveedores, el historial de nombres importa:\n→ Dónde se publica: registros mercantiles, reguladores, Diario Oficial de la Federación y el registro global de identificadores de entidades (LEI).\n→ Qué se cruza: listas oficiales (como la 69-B del SAT), contratos públicos y socios.\n→ Cómo se documenta: con fuente y fecha, sin calificar intenciones.\n\nFuente: Petróleos Mexicanos, formas 6-K ante la SEC (2026).\n\n¿Su alta de proveedores revisa el historial de nombres?\n\n#DebidaDiligencia #Cumplimiento"
       }
-    ]
+    ],
+    "skill_aplicada": "Pulido con la guía de contenido para LinkedIn: gancho en la primera línea, párrafos cortos, menos de 1,300 caracteres, un dato con fuente y una sola pregunta de cierre."
   }
 }

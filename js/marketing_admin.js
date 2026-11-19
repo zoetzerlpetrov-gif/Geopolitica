@@ -179,7 +179,8 @@ export function htmlLinkedin(lp) {
     ${(lp.serie || []).map((s, i) => `<details class="tarjeta"><summary>${i + 1}. ${esc(s.titulo)} <span class="chip">${esc(s.formato)}</span></summary>
       <p><b>Primera línea:</b> ${esc(s.gancho)}</p><ol>${(s.estructura || []).map((x) => `<li>${esc(x)}</li>`).join("")}</ol>
       <p><b>Cierre:</b> ${esc(s.cierre)}</p><p class="meta">Qué mostrar: ${esc(s.muestra)}</p>
-      <div class="barra"><button class="mk-copiar" data-t="${esc(borradorSerie(s))}">📋 Copiar borrador</button></div></details>`).join("")}`;
+      ${s.texto ? `<textarea class="mk-texto" style="min-height:260px" aria-label="Publicación lista">${esc(s.texto)}</textarea><div class="meta">${s.texto.length} caracteres (LinkedIn corta en «ver más» cerca de 1,300). Revisa que el dato siga vigente antes de publicar.</div>` : ""}
+      <div class="barra"><button class="mk-copiar" data-t="${esc(s.texto || borradorSerie(s))}">📋 ${s.texto ? "Copiar publicación" : "Copiar borrador"}</button></div></details>`).join("")}`;
 }
 
 export const urlEditarPlan = () => `https://github.com/${REPO}/edit/main/config/marketing.json`;
