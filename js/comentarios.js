@@ -133,6 +133,15 @@ function cargarGis() {
   });
 }
 
+/** Insignia fija con el estado de la conexión (canal y hora en que vence el permiso). */
+function mostrarConexion(texto, vence, ok) {
+  const b = $("cm-conexion");
+  if (!b) return;
+  b.hidden = false;
+  b.className = ok ? "conexion ok" : "conexion mal";
+  b.textContent = texto + (ok && vence ? ` · el permiso vence a las ${vence.toLocaleTimeString("es-MX", { hour: "2-digit", minute: "2-digit" })}` : "");
+}
+
 async function conectar() {
   const cliente = (localStorage.getItem(CLAVE_CLIENTE) || "").trim();
   if (!cliente) { $("cm-config").open = true; $("cm-estado").textContent = "Primero guarda el ID de cliente web (paso de configuración)."; return; }
@@ -142,16 +151,26 @@ async function conectar() {
     callback: async (r) => {
       if (r.error) { $("cm-estado").textContent = "Google no dio permiso: " + r.error; return; }
       token = r.access_token;
-      $("cm-estado").textContent = "Conectado. Cargando comentarios…";
-      try { await cargarTextos(); $("cm-estado").textContent = "Conectado con YouTube (el permiso dura una hora)."; }
-      catch (e) { $("cm-estado").textContent = "Conectado, pero YouTube respondió: " + e.message; }
+      const vence = new Date(Date.now() + (Number(r.expires_in) || 3600) * 1000);
+      $("cm-estado").textContent = "Conectado. Comprobando el canal…";
+      try {
+        const canal = (await yt("channels", { part: "snippet", mine: "true" })).items?.[0];
+        mostrarConexion(canal ? `✅ Conectado como «${canal.snippet?.title || canal.id}»` : "⚠️ La cuenta no tiene canal de YouTube: entra con la cuenta del canal", vence, !!canal);
+        await cargarTextos();
+        $("cm-estado").textContent = datos.borradores.length ? `Conectado. ${datos.borradores.length} comentario(s) para revisar abajo.` : "Conectado. Por ahora no hay comentarios nuevos para revisar.";
+      } catch (e) { mostrarConexion("❌ Google dio permiso, pero YouTube respondió: " + e.message, vence, false); }
       pintar();
+    },
+    error_callback: (e) => {
+      const motivo = { popup_closed: "cerraste la ventana de Google antes de terminar", popup_failed_to_open: "el navegador bloqueó la ventana emergente (permite ventanas emergentes para este sitio)" }[e?.type] || e?.type || "error desconocido";
+      mostrarConexion("❌ No se conectó: " + motivo, null, false);
     },
   }).requestAccessToken();
 }
 
 async function iniciar() {
   try { $("cm-cliente").value = localStorage.getItem(CLAVE_CLIENTE) || ""; } catch (e) { /* sin almacenamiento */ }
+  if ($("cm-origen")) $("cm-origen").textContent = location.origin;
   $("cm-guardar").addEventListener("click", () => { try { localStorage.setItem(CLAVE_CLIENTE, $("cm-cliente").value.trim()); $("cm-estado").textContent = "ID de cliente guardado en este navegador."; } catch (e) { /* */ } });
   $("cm-conectar").addEventListener("click", () => conectar().catch((e) => { $("cm-estado").textContent = e.message; }));
   $("cm-ver-hechos").addEventListener("change", pintar);

@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Datos legales</title>
+  <meta name="description" content="Solo administración: datos del responsable para el aviso de privacidad y los términos, con vista previa y publicación inmediata.">
+  <meta name="robots" content="noindex">
+  <meta name="color-scheme" content="light dark">
+  <script>try { const t = localStorage.getItem("gp_theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}</script>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath fill='%23C8102E' d='M44 44 30 4h40L56 44 96 30v40L56 56l14 40H30l14-40L4 70V30z'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="css/app.css">
+  <style>
+    body { display: block; height: auto; overflow: auto; }
+    .ops { max-width: 1400px; margin: 0 auto; padding: 16px; }
+    .meta { color: var(--text-2); font-size: 13px; }
+    .partes { display: grid; grid-template-columns: minmax(300px, 420px) 1fr; gap: 16px; align-items: start; }
+    @media (max-width: 860px) { .partes { grid-template-columns: 1fr; } }
+    .campo { display: flex; flex-direction: column; gap: 3px; font-size: 13px; margin: 0 0 10px; }
+    .campo input, .campo select, .campo textarea { font: inherit; padding: 6px 8px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); }
+    .campo textarea { min-height: 64px; }
+    .tarjeta { border: 1px solid var(--line); border-radius: var(--radius); padding: 10px 12px; margin: 10px 0; background: var(--surface); }
+    .barra { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+    .barra button, .barra a.boton { font: inherit; min-height: 36px; padding: 4px 12px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface-2); color: var(--text); cursor: pointer; text-decoration: none; }
+    .barra button.si { background: #2e7d32; color: #fff; border-color: transparent; }
+    .barra button.activo { outline: 2px solid var(--accent, #C8102E); }
+    iframe { width: 100%; height: 78vh; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+    .aviso { background: rgba(249,168,37,.25); padding: 8px 10px; border-radius: var(--radius); }
+    .vista { position: sticky; top: 8px; }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="link-btn" href="./">← Mapa (War Room)</a>
+    <h1>⚖️ Datos legales (solo admin)</h1>
+  </header>
+  <main class="ops">
+    <p class="meta">Datos del responsable que aparecen en el <a href="privacidad.html" target="_blank" rel="noopener">aviso de privacidad</a> y en los
+      <a href="terminos.html" target="_blank" rel="noopener">términos</a>. A la derecha ves las páginas reales con lo que escribes. Al guardar, se publican en la web en menos de un minuto.</p>
+    <p class="aviso" id="lg-aviso" hidden>Estás en la copia pública del sitio: puedes probar la vista previa, pero para <b>guardar</b> abre esta página desde
+      <a id="lg-ir" target="_blank" rel="noopener noreferrer">🔐 Acceso administrativo</a> (pide tu inicio de sesión de GitHub).</p>
+    <div class="partes">
+      <div>
+        <form id="lg-form" class="tarjeta" onsubmit="return false"></form>
+        <div class="barra"><button type="button" id="lg-hoy">📅 Fecha de actualización = hoy</button><button type="button" id="lg-guardar" class="si">💾 Guardar y publicar</button></div>
+        <p class="meta" id="lg-estado" aria-live="polite"></p>
+        <div class="tarjeta"><b>Revisión</b><div id="lg-revision"></div>
+          <p class="meta">Mínimos de ley: la LFPDPPP (DOF 20-03-2025) pide la identidad y el domicilio del responsable y un medio para ejercer los derechos ARCO; la LFPC (art. 76 bis) pide un domicilio físico y medios de contacto para quejas antes de cobrar en línea. Orientación, no asesoría legal.</p></div>
+      </div>
+      <div class="vista">
+        <div class="barra" id="lg-pestanas"><button type="button" data-p="privacidad" class="activo">Aviso de privacidad</button><button type="button" data-p="terminos">Términos</button></div>
+        <iframe id="lg-privacidad" src="privacidad.html" title="Vista previa del aviso de privacidad"></iframe>
+        <iframe id="lg-terminos" src="terminos.html" title="Vista previa de los términos" hidden></iframe>
+      </div>
+    </div>
+  </main>
+  <script type="module" src="js/legal_admin.js"></script>
+  <script type="module" src="js/vista_enlaces.js"></script>
+</body>
+</html>

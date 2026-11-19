@@ -1,10 +1,12 @@
 import { catalogInfo, inspectCatalog, readSignatureBody } from "./catalog.js";
 import { adminMap } from "./admin-map.js";
-import { authorized, begin, complete, configured, signOut } from "./auth.js";
+import { authorized, begin, complete, configured, sessionId, signOut } from "./auth.js";
 
 import { avatarOrigins, declaredProfiles, markCorrelations, publicAvatar, publicProfileChecks } from "./profiles.js";
 
 import { activePlan, servePlans } from "../planes/service.js";
+import { servirAdmin as legalAdmin, servirPublico as legalPublico } from "../legal/service.js";
+import { contar as contarVisita, resumen as resumenVisitas } from "../marketing/service.js";
 
 const ROOT = "/admin/huella/";
 const HEADERS = {
@@ -287,6 +289,8 @@ const LOGIN_MESSAGES = new Map([
 export async function serve(request, env, assets) {
   const url = new URL(request.url);
   if (url.pathname.startsWith("/cuenta/")) return servePlans(request, url, env, ROOT);
+  if (url.pathname === "/legal/datos.json" && request.method === "GET") return legalPublico(env);
+  if (url.pathname === "/m/visita") return contarVisita(request, env);
   if (!url.pathname.startsWith(ROOT)) return await adminMap(request, url, env) || json({ error: "Ruta inexistente" }, 404);
   if (!configured(url, env)) return json({ error: "Ingreso administrativo sin configurar." }, 503);
   const route = url.pathname.slice(ROOT.length);
@@ -308,6 +312,8 @@ export async function serve(request, env, assets) {
     return json({ error: "Acceso reservado a administradores." }, 403);
   }
   if (route === "salir" && request.method === "POST" && request.headers.get("Origin") === url.origin) return signOut();
+  if (route === "marketing/visitas" && request.method === "GET") return resumenVisitas(env, json);
+  if (route === "legal") return legalAdmin(request, url, env, json, await sessionId(request, env));
   if (route === "sesion" && request.method === "GET") {
     return new Response(null, { status: 204, headers: { ...HEADERS, "X-Dominus-Huella": "admin" } });
   }

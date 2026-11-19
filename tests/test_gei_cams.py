@@ -63,3 +63,17 @@ def test_malla_flujo():
     assert len(f) == 2                       # las celdas sin vegetación (0 o NaN) no salen
     norte = [x for x in f if x["geometry"]["coordinates"][1] > 0][0]["properties"]
     assert norte["nee"] == -3.0 and norte["gpp"] == 9.0
+
+
+def test_vigente_exige_todas_las_variables(tmp_path):
+    import json
+    from datetime import datetime, timezone
+    ahora = datetime(2026, 11, 19, 12, tzinfo=timezone.utc)
+    out, flujo = tmp_path / "g.json", tmp_path / "f.json"
+    out.write_text(json.dumps({"generado_utc": "2026-11-19T10:00:00Z", "variables": ["co2_sup", "ch4_sup", "co2_col", "ch4_col"]}))
+    assert not G.vigente(str(out), str(flujo), ahora)            # faltan CO y flujos: se vuelve a descargar
+    out.write_text(json.dumps({"generado_utc": "2026-11-19T10:00:00Z", "variables": list(G.CLAVES)}))
+    flujo.write_text("{}")
+    assert G.vigente(str(out), str(flujo), ahora)
+    assert not G.vigente(str(out), str(flujo), datetime(2026, 11, 20, 12, tzinfo=timezone.utc))
+    assert not G.vigente(str(tmp_path / "no.json"), str(flujo), ahora)

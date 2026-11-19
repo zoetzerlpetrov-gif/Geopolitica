@@ -2,6 +2,8 @@
 // Lee data/vivos/contraste_mx.json (tools/mexico/contraste_mx.py): comercio (ONU vs Banxico, destinos sin país) y
 // seguridad (SESNSP por categoría y señales de posible reclasificación). Gráficas en SVG propio (sin librerías).
 
+import { abrirVentana, botonConcepto } from "./ventana.js";
+
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = (v, d = 1) => (v == null || !Number.isFinite(Number(v)) ? "—" : Number(v).toLocaleString("es-MX", { maximumFractionDigits: d }));
 const MES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"];
@@ -151,7 +153,21 @@ export async function iniciarContrasteMx({ cont, getJSON }) {
   }
   let pc = null;
   try { pc = await getJSON("data/vivos/pemex_cuba.json", { bust: true }); } catch { /* aún no existe */ }
-  cont.innerHTML = `<h3>🛢️ Comercio: ONU vs Banxico y destinos sin país</h3>${htmlComercio(d.comercio)}
-    <h3>🇨🇺 Petróleo a Cuba según Pemex (reportes a la SEC)</h3>${htmlPemexCuba(pc)}
-    <h3>🚔 Seguridad: ¿baja real o cambio de categoría?</h3>${htmlSeguridad(d.seguridad)}`;
+  const temas = {
+    comercio: ["🛢️ Comercio: ONU vs Banxico y destinos sin país", () => htmlComercio(d.comercio)],
+    cuba: ["🇨🇺 Petróleo a Cuba según Pemex (reportes a la SEC)", () => htmlPemexCuba(pc)],
+    seguridad: ["🚔 Seguridad: ¿baja real o cambio de categoría?", () => htmlSeguridad(d.seguridad)],
+  };
+  const ultimo = (pc?.periodos || []).slice(-1)[0];
+  const extra = {
+    comercio: (() => { const m = Object.values(d.comercio?.meses || {}).slice(-1)[0]; return m?.sin_pais_pct != null ? `${num(m.sin_pais_pct)} % sin país` : ""; })(),
+    cuba: ultimo ? `${num((ultimo.crudo_kbd || 0) + (ultimo.petroliferos_kbd || 0))} mil b/d` : "sin datos",
+    seguridad: (d.seguridad?.senales || []).length ? `${d.seguridad.senales.length} señales` : "",
+  };
+  cont.innerHTML = Object.entries(temas).map(([k, [t]]) => botonConcepto(k, esc(t), esc(extra[k]))).join("")
+    + `<p class="meta">Cada tema abre una ventana con las cifras de cada institución, sus gráficas y las ligas a los documentos originales.</p>`;
+  cont.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-concepto]");
+    if (b && temas[b.dataset.concepto]) abrirVentana({ titulo: temas[b.dataset.concepto][0], html: temas[b.dataset.concepto][1]() });
+  });
 }

@@ -2,6 +2,8 @@
 // (tools/mexico/monitor_mx.py, series del SIE de Banxico): alertas de movimientos atípicos, indicadores y tres capas
 // del mapa (remesas por estado, por país de origen y envíos por país de destino).
 
+import { abrirVentana, botonConcepto } from "./ventana.js";
+
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const num = (v, d = 1) => (v == null || !Number.isFinite(Number(v)) ? "—" : Number(v).toLocaleString("es-MX", { maximumFractionDigits: d }));
 
@@ -55,11 +57,24 @@ export async function iniciarMonitorMx({ map, cont, abrirFicha, getJSON }) {
     cont.innerHTML = `<p class="meta">Aún no hay datos (se generan una vez al día con «Datos en movimiento»).</p>`;
     return;
   }
-  cont.innerHTML = `<h3>🚨 Movimientos atípicos</h3><div id="mx-alertas">${htmlAlertas(d.alertas)}</div>
-    <h3>🗺️ En el mapa</h3>${Object.entries(CAPAS).map(([k, c]) => `<label class="fila"><span><input type="checkbox" data-mx-capa="${k}"> ${esc(c.nombre)}</span></label>`).join("")}
+  // Menú compacto: las capas del mapa se activan aquí; cada concepto abre su ventana (js/ventana.js).
+  const grupos = {};
+  for (const i of d.indicadores || []) (grupos[i.grupo] ??= []).push(i);
+  const nAl = (d.alertas || []).length;
+  cont.innerHTML = `<h3>🗺️ En el mapa</h3>${Object.entries(CAPAS).map(([k, c]) => `<label class="fila"><span><input type="checkbox" data-mx-capa="${k}"> ${esc(c.nombre)}</span></label>`).join("")}
     <p class="meta">Tamaño del círculo: monto del último trimestre. Borde rojo: movimiento atípico. Toca un punto para ver su serie.</p>
-    <h3>📊 Indicadores de Banxico</h3>${htmlIndicadores(d.indicadores)}
-    <p class="meta">Fuente: ${esc(d.fuente)} · actualizado ${esc(String(d.generado_utc || "").replace("T", " ").slice(0, 16))} UTC · ${d.series_recibidas} de ${d.series_pedidas} series. ${esc(d.nota || "")}</p>`;
+    <h3>📊 Ver datos</h3>
+    ${botonConcepto("alertas", "🚨 Movimientos atípicos", nAl ? `${nAl}` : "ninguno")}
+    ${Object.entries(grupos).map(([g, l]) => botonConcepto(`g:${g}`, esc(g), `${l.length}${l.some((i) => i.alerta) ? " 🔺" : ""}`)).join("")}
+    <p class="meta">Fuente: ${esc(d.fuente)} · actualizado ${esc(String(d.generado_utc || "").replace("T", " ").slice(0, 16))} UTC · ${d.series_recibidas} de ${d.series_pedidas} series.</p>`;
+  const pie = `<p class="meta">Fuente: ${esc(d.fuente)} · actualizado ${esc(String(d.generado_utc || "").replace("T", " ").slice(0, 16))} UTC. ${esc(d.nota || "")}</p>`;
+  cont.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-concepto]");
+    if (!b) return;
+    const c = b.dataset.concepto;
+    if (c === "alertas") abrirVentana({ titulo: "🚨 Movimientos atípicos (Banxico)", html: htmlAlertas(d.alertas, 100) + pie });
+    else if (c.startsWith("g:")) abrirVentana({ titulo: `📊 ${c.slice(2)}`, html: htmlIndicadores(grupos[c.slice(2)]) + pie });
+  });
   if (!map) return;
   const id = (k) => `mx-${k}`, conEventos = new Set();
   const poner = (k) => {
