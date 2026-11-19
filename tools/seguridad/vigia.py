@@ -226,7 +226,8 @@ def main():
     historial = (previo.get("historial") or [])[-287:] + [{"hora": detalle["hora"], "nivel": est["nivel"], "solicitudes": (cf or {}).get("solicitudes_15m"), "firewall": (cf or {}).get("eventos_firewall")}]
     json.dump({**est, "generado_utc": detalle["hora"], "proteccion": proteccion, "nivel_zona_previo": nivel_previo, "motivos": motivos, "detalle": detalle, "historial": historial},
               open(ESTADO, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
-    print(f"Vigía: {est['nivel']}; protección {'ACTIVA' if proteccion else 'no'}; " + (" | ".join(motivos) or "sin señales") + (f" | avisos: {avisos}" if avisos else ""))
+    # En el registro de Actions solo totales: los detalles (que podrían citar respuestas de las API) van al issue y al JSON.
+    print(f"Vigía: nivel {est['nivel']}; protección {'ACTIVA' if proteccion else 'no'}; {len(motivos)} señal(es); {len(avisos)} aviso(s)")
     return 0
 
 
