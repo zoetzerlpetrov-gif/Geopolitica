@@ -220,6 +220,13 @@ jobs:
           SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
         run: python3 tools/mexico/pemex_cuba.py
 
+      - name: Monitor de entidades (DOF, SEC EDGAR, GLEIF y SAT 69-B; una vez al día; si falla se conserva lo anterior)
+        continue-on-error: true
+        timeout-minutes: 12
+        env:
+          SEC_USER_AGENT: ${{ secrets.SEC_USER_AGENT }}
+        run: python3 tools/mexico/entidades.py
+
       - name: Borradores de publicaciones para redes (marketing.html; plantillas con la cifra y la fuente de los datos del día)
         continue-on-error: true
         timeout-minutes: 2
