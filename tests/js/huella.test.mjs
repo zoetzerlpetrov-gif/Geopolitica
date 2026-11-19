@@ -231,6 +231,7 @@ test("la sesión de clientes se separa de Admin y cada permiso usa el plan vigen
     ...env,
     OSINT_PLANS_DB: {
       prepare(sql) {
+        if (sql.startsWith("CREATE TABLE IF NOT EXISTS dominus_memberships")) return { run: async () => ({}) };
         assert.match(sql, /active = 1.*expires_at/);
         return { bind: (id) => ({ first: async () => id === "456" && active ? { plan: active } : null }) };
       }

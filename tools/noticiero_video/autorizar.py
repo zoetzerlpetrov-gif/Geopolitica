@@ -59,6 +59,13 @@ def main():
         tok = json.load(r)
     if "refresh_token" not in tok:
         raise SystemExit("Google no entregó refresh token. Quita el acceso de la app en myaccount.google.com/permissions y repite.")
+    otorgados = set(tok.get("scope", "").split())
+    faltan = [s for s in SCOPE.split() if s not in otorgados]
+    print("\nPermisos que Google otorgó:", ", ".join(sorted(x.rsplit("/", 1)[-1] for x in otorgados)) or "(Google no los informó)")
+    if faltan and otorgados:
+        raise SystemExit("Falta el permiso " + ", ".join(x.rsplit("/", 1)[-1] for x in faltan) + ". En la pantalla de Google marca TODAS las "
+                         "casillas (o «Seleccionar todo») y repite. Si no ves casillas, revisa en Google Auth Platform → Acceso a datos que "
+                         "estén agregados youtube.upload y youtube.force-ssl.")
     print("\nCopia este valor en el secreto YT_REFRESH_TOKEN de GitHub (y no lo compartas):\n")
     print(tok["refresh_token"])
 

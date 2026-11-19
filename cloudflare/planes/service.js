@@ -10,8 +10,13 @@ const headers = {
   "X-Content-Type-Options": "nosniff"
 };
 
+// Misma definición que 001_planes.sql: el Worker crea la tabla la primera vez si aún no existe (no borra ni cambia datos).
+export const TABLA = "CREATE TABLE IF NOT EXISTS dominus_memberships ( github_id TEXT PRIMARY KEY NOT NULL CHECK ( length(github_id) BETWEEN 1 AND 20 AND github_id GLOB '[1-9]*' AND github_id NOT GLOB '*[^0-9]*' ), plan TEXT NOT NULL CHECK (plan IN ('recon', 'analyst', 'command')), active INTEGER NOT NULL DEFAULT 1 CHECK (active IN (0, 1)), expires_at INTEGER CHECK (expires_at IS NULL OR expires_at > 0), updated_at INTEGER NOT NULL DEFAULT (unixepoch()) ) STRICT;";
+let tablaLista = false;
+
 export async function activePlan(db, id) {
   if (!db || !id) return null;
+  if (!tablaLista) { await db.prepare(TABLA).run(); tablaLista = true; }
   const row = await db.prepare(
     "SELECT plan FROM dominus_memberships WHERE github_id = ? AND active = 1 AND (expires_at IS NULL OR expires_at > unixepoch())"
   ).bind(id).first();

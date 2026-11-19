@@ -1,15 +1,13 @@
 // Admin → Apariencia (apariencia.html): elige un tema o ajusta colores, tipografía, esquinas e íconos; la vista previa
 // es la propia página y el mapa en miniatura. «Guardar y publicar» escribe en el Worker (/admin/huella/apariencia, con la
 // sesión de administración) y todas las páginas lo aplican en menos de un minuto.
-import { aplicar, FUENTES } from "./apariencia.js";
+import { aplicar, FUENTES, DEFECTO } from "./apariencia.js";
 
 export const PRESETS = {
   actual: { nombre: "DOMINUS actual", fuente: "sistema", radio: 8, iconos: "mostrar", titulos_mayusculas: false,
     claro: { bg: "#f5f6f7", surface: "#ffffff", "surface-2": "#eef1f3", text: "#1c2329", "text-2": "#4f5b66", line: "#d5dbe0", accent: "#2e6f8e", focus: "#1a5fb4" },
     oscuro: { bg: "#0f1418", surface: "#161d22", "surface-2": "#1e272e", text: "#e4e9ed", "text-2": "#a3b0ba", line: "#2d3943", accent: "#6fb0cf", focus: "#8ab4f8" } },
-  tactico: { nombre: "Táctico (agencia federal)", fuente: "plex-barlow", radio: 3, iconos: "ocultar", titulos_mayusculas: true,
-    claro: { bg: "#efeee9", surface: "#fbfaf6", "surface-2": "#e4e2da", text: "#14171c", "text-2": "#4a5260", line: "#c9c6ba", accent: "#7a5c12", focus: "#1f4e8c" },
-    oscuro: { bg: "#0a0f17", surface: "#101826", "surface-2": "#172234", text: "#e3e7ee", "text-2": "#8d9ab0", line: "#243248", accent: "#c9a227", focus: "#7fb2ff" } },
+  tactico: (({ preset, ...t }) => t)(DEFECTO),
   ejecutivo: { nombre: "Ejecutivo sobrio", fuente: "plex", radio: 6, iconos: "ocultar", titulos_mayusculas: false,
     claro: { bg: "#f4f6f9", surface: "#ffffff", "surface-2": "#e9edf3", text: "#111827", "text-2": "#4b5563", line: "#d1d9e4", accent: "#1d4ed8", focus: "#1e40af" },
     oscuro: { bg: "#0b1120", surface: "#111a2e", "surface-2": "#1a2540", text: "#e5e9f2", "text-2": "#9aa6bc", line: "#273452", accent: "#60a5fa", focus: "#93c5fd" } },
@@ -41,7 +39,7 @@ export function revisar(c) {
 export async function iniciar(doc = document) {
   const $ = (id) => doc.getElementById(id);
   const enWorker = /\.workers\.dev$/.test(location.hostname);
-  let c = structuredClone(PRESETS.actual);
+  let c = structuredClone(DEFECTO);
   if (enWorker) { try { const r = await fetch("/admin/huella/apariencia", { cache: "no-store" }); if (r.ok) { const d = (await r.json()).datos; if (d?.claro) c = d; } } catch { /* */ } }
   else $("ap-aviso").hidden = false;
   $("ap-presets").innerHTML = Object.entries(PRESETS).map(([k, p]) => `<button type="button" data-preset="${k}" class="preset" style="background:${p.oscuro.bg};color:${p.oscuro.text};border-color:${p.oscuro.accent}"><b style="color:${p.oscuro.accent}">■</b> ${p.nombre}</button>`).join("");
