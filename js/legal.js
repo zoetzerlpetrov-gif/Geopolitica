@@ -36,6 +36,8 @@ export async function cargar(pedir = fetch) {
 }
 
 if (typeof document !== "undefined" && document.querySelector("[data-legal]")) {
+  // Dentro de la vista previa de legal.html (iframe), los enlaces (← Mapa, etc.) abren en la ventana completa.
+  if (window.top !== window && !document.querySelector("base")) { const b = document.createElement("base"); b.target = "_top"; document.head.prepend(b); }
   cargar().then((d) => aplicar(document, d));
   window.addEventListener("message", (e) => {
     if (e.origin === location.origin && e.data?.tipo === "legal-vista") aplicar(document, e.data.datos || {});

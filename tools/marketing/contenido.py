@@ -52,7 +52,7 @@ def textos(b, sitio):
     """Un texto por red a partir de titular, cuerpo, fuente y hashtags del borrador."""
     tags = " ".join(f"#{h}" for h in b["hashtags"])
     out = {}
-    for canal in ("x", "bluesky", "threads", "linkedin", "facebook", "telegram", "whatsapp"):
+    for canal in ("x", "bluesky", "threads", "linkedin", "facebook", "telegram", "whatsapp", "instagram", "tiktok"):
         url = enlace(sitio, b["ruta"], canal, b["tema"])
         if canal in LIMITES:
             fijo = f"\n\nFuente: {b['fuente_corta']}\n{url}"
@@ -64,6 +64,10 @@ def textos(b, sitio):
             out[canal] = cuerpo + fijo
         elif canal == "linkedin":
             out[canal] = f"{b['titular']}\n\n{b['largo']}\n\n¿Por qué importa? {b['por_que']}\n\nFuente: {b['fuente']} ({b['fuente_url']})\nVer los datos: {url}\n\n{tags}"
+        elif canal in ("instagram", "tiktok"):
+            # Sin enlaces clicables en la descripción: se manda a la biografía; más hashtags que en otras redes.
+            extra = " ".join(f"#{h}" for h in [*b["hashtags"], "OSINT", "DatosAbiertos" if "DatosAbiertos" not in b["hashtags"] else "Inteligencia"])
+            out[canal] = f"{b['titular']}\n\n{b['corto'] if canal == 'tiktok' else b['largo']}\n\nFuente: {b['fuente']}.\nDatos y mapa: enlace en la biografía.\n\n{extra}"
         elif canal == "facebook":
             out[canal] = f"{b['titular']}\n\n{b['largo']}\n\nFuente: {b['fuente']}.\n{url}"
         else:
